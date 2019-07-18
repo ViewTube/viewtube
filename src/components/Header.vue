@@ -13,7 +13,7 @@
         search
       </label>
       <a href="#" class="search-btn ripple" vt-tooltip="click or press enter to search">
-        <i class="material-icons">search</i>
+        <SearchIcon />
       </a>
       <div class="search-autocomplete-container"></div>
     </div>
@@ -38,22 +38,28 @@
         <RefreshIcon />
       </a>
       <a href="#" id="theme-change" class="ripple" vt-tooltip="change theme">
-        <i class="material-icons">invert_colors</i>
+        <InvertColorsIcon />
       </a>
       <a href="#" id="settings-btn" class="ripple" vt-tooltip="settings">
-        <RefreshIcon />
+        <SettingsIcon />
       </a>
     </div>
   </div>
 </template>
 
 <script>
-import RefreshIcon from 'vue-material-design-icons/Refresh.vue'
+import RefreshIcon from 'icons/Refresh.vue'
+import InvertColorsIcon from 'icons/InvertColors.vue'
+import SettingsIcon from 'icons/Settings.vue'
+import SearchIcon from 'icons/Magnify.vue'
 
 export default {
   name: 'Header',
   components: {
-    RefreshIcon
+    RefreshIcon,
+    InvertColorsIcon,
+    SettingsIcon,
+    SearchIcon
   }
 }
 </script>
@@ -116,7 +122,7 @@ export default {
       display: flex;
       user-select: none;
 
-      i {
+      .material-design-icon {
         margin: auto;
       }
     }
