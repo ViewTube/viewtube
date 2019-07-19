@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "core-js": "^2.6.5",
+    "nprogress": "^0.2.0",
     "register-service-worker": "^1.6.2",
     "style-resources-loader": "^1.2.1",
     "vue": "^2.6.10",

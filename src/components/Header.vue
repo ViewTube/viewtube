@@ -1,15 +1,24 @@
 <template>
   <div class="header">
-    <a class="logo-link" href>
+    <router-link class="logo-link" to="/">
       <h1 class="logo">
         <span>View</span>
         <span class="logo-colored">Tube</span>
       </h1>
-      <img class="logo-small" src="images/icon-192.jpg" alt="ViewTube" />
-    </a>
+      <img
+        class="logo-small"
+        src="images/icon-192.jpg"
+        alt="ViewTube"
+      /> </router-link
+    >
     <div class="search-box">
       <input type="search" name="search" id="search" placeholder="search" />
-      <a href="#" class="search-btn ripple" vt-tooltip="click or press enter to search">
+      <a
+        href="#"
+        v-on:click.self.prevent="search"
+        class="search-btn ripple"
+        vt-tooltip="click or press enter to search"
+      >
         <SearchIcon />
       </a>
       <div class="search-autocomplete-container"></div>
@@ -17,6 +26,7 @@
     <div class="nav">
       <a
         href="#"
+        v-on:click.self.prevent="openInYT"
         id="open-in-yt"
         class="ripple"
         vt-tooltip="view on youtube (hold alt for invidio.us)"
@@ -31,13 +41,31 @@
           </g>
         </svg>
       </a>
-      <a href="#" id="reload-btn" class="ripple" vt-tooltip="hard reload">
+      <a
+        href="#"
+        v-on:click.self.prevent="reload"
+        id="reload-btn"
+        class="ripple"
+        vt-tooltip="hard reload"
+      >
         <RefreshIcon />
       </a>
-      <a href="#" id="theme-change" class="ripple" vt-tooltip="change theme">
+      <a
+        href="#"
+        v-on:click.self.prevent="toggleTheme"
+        id="theme-change"
+        class="ripple"
+        vt-tooltip="change theme"
+      >
         <InvertColorsIcon />
       </a>
-      <a href="#" id="settings-btn" class="ripple" vt-tooltip="settings">
+      <a
+        href="#"
+        v-on:click.self.prevent="openSettings"
+        id="settings-btn"
+        class="ripple"
+        vt-tooltip="settings"
+      >
         <SettingsIcon />
       </a>
     </div>
@@ -57,8 +85,35 @@ export default {
     InvertColorsIcon,
     SettingsIcon,
     SearchIcon
+  },
+  methods: {
+    disableDrag: () => {
+      let elements = document.getElementsByClassName('ripple')
+      Array.from(elements).forEach(element => {
+        element.ondragstart = e => e.preventDefault()
+      })
+    },
+    search: () => {
+
+    },
+    openInYT: () => {
+
+    },
+    reload: () => {
+
+    },
+    toggleTheme: () => {
+
+    },
+    openSettings: () => {
+
+    }
+  },
+  mounted () {
+    this.disableDrag()
   }
 }
+
 </script>
 
 <style lang="scss">
@@ -90,6 +145,18 @@ export default {
         background-image: $theme-color-gradient;
         background-clip: text;
         -webkit-background-clip: text;
+      }
+    }
+
+    @media screen and (max-width: 500px) {
+      .logo-link {
+        .logo {
+          display: none !important;
+        }
+
+        .logo-small {
+          display: block !important;
+        }
       }
     }
 
