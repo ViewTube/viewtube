@@ -8,10 +8,7 @@
       <img class="logo-small" src="images/icon-192.jpg" alt="ViewTube" />
     </a>
     <div class="search-box">
-      <label for="search" class="invisible">
-        <input type="search" name="search" id="search" placeholder="search" />
-        search
-      </label>
+      <input type="search" name="search" id="search" placeholder="search" />
       <a href="#" class="search-btn ripple" vt-tooltip="click or press enter to search">
         <SearchIcon />
       </a>
@@ -156,31 +153,23 @@ export default {
       }
     }
 
-    label {
+    #search {
       width: 100%;
+      height: 100%;
+      border: none;
+      color: $title-color;
+      font-size: 1rem;
       margin: 0 0 0 10px;
-      padding: 0;
+      min-width: 0px;
+      visibility: visible;
       background-color: transparent;
 
-      #search {
-        width: 100%;
-        height: 100%;
-        background: none;
-        border: none;
-        color: $title-color;
-        font-size: 1rem;
-        margin: 0;
-        min-width: 0px;
-        visibility: visible;
-        background-color: transparent;
+      &:target {
+        all: unset;
+      }
 
-        &:target {
-          all: unset;
-        }
-
-        &:focus {
-          outline: none;
-        }
+      &:focus {
+        outline: none;
       }
     }
   }
