@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
-import 'nprogress/nprogress.js'
+import NProgress from 'nprogress/nprogress.js'
 import 'nprogress/nprogress.css'
 
 Vue.use(Router)
@@ -16,12 +16,9 @@ export default new Router({
       component: Home
     },
     {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
+      path: '/settings',
+      name: 'settings',
+      component: () => import('./views/Settings.vue')
     }
   ],
   beforeResolve: (to, from, next) => {

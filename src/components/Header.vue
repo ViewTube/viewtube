@@ -5,12 +5,8 @@
         <span>View</span>
         <span class="logo-colored">Tube</span>
       </h1>
-      <img
-        class="logo-small"
-        src="images/icon-192.jpg"
-        alt="ViewTube"
-      /> </router-link
-    >
+      <img class="logo-small" src="images/icon-192.jpg" alt="ViewTube" />
+    </router-link>
     <div class="search-box">
       <input type="search" name="search" id="search" placeholder="search" />
       <a
@@ -59,15 +55,15 @@
       >
         <InvertColorsIcon />
       </a>
-      <a
-        href="#"
+      <router-link
+        to="/settings"
         v-on:click.self.prevent="openSettings"
         id="settings-btn"
         class="ripple"
         vt-tooltip="settings"
       >
-        <SettingsIcon />
-      </a>
+      <SettingsIcon />
+      </router-link>
     </div>
   </div>
 </template>
