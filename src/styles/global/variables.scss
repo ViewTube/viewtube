@@ -4,6 +4,7 @@ $video-seekbar-line-height: 10px;
 $video-controls-height: $video-seekbar-height - $video-seekbar-line-height;
 
 $main-width: 1200px;
+$mobile-width: 500px;
 
 $header-font: "Righteous", "Open Sans", sans-serif;
 $default-font: Roboto, Arial, sans-serif;
@@ -46,8 +47,8 @@ $search-box-width: 800px;
 $header-bgcolor: #272727;
 
 $title-color: #ebebeb;
-$subtitle-color: #afafaf;
-$subtitle-color-light: #949494;
+$subtitle-color: #d8d8d8;
+$subtitle-color-light: #b3b3b3;
 
 $bgcolor-main: #121212;
 $bgcolor-alt: #484848;

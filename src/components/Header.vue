@@ -5,7 +5,7 @@
         <span>View</span>
         <span class="logo-colored">Tube</span>
       </h1>
-      <img class="logo-small" src="images/icon-192.jpg" alt="ViewTube" />
+      <img class="logo-small" src="@/assets/icon-192.jpg" alt="ViewTube" />
     </router-link>
     <div class="search-box">
       <input type="search" name="search" id="search" placeholder="search" />
@@ -62,7 +62,7 @@
         class="ripple"
         vt-tooltip="settings"
       >
-      <SettingsIcon />
+        <SettingsIcon />
       </router-link>
     </div>
   </div>
@@ -96,7 +96,7 @@ export default {
 
     },
     reload: () => {
-
+      window.location.reload(true)
     },
     toggleTheme: () => {
 
@@ -144,22 +144,20 @@ export default {
       }
     }
 
-    @media screen and (max-width: 500px) {
-      .logo-link {
-        .logo {
-          display: none !important;
-        }
-
-        .logo-small {
-          display: block !important;
-        }
-      }
-    }
-
     .logo-small {
       display: none;
       margin: auto;
       height: calc(#{$header-height} - 20px);
+    }
+
+    @media screen and (max-width: $mobile-width) {
+      .logo {
+        display: none;
+      }
+
+      .logo-small {
+        display: block;
+      }
     }
   }
 

@@ -1,6 +1,7 @@
 {
-  "name": "viewtube-vue",
-  "short_name": "viewtube-vue",
+  "name": "ViewTube",
+  "short_name": "ViewTube",
+  "description": "An alternative YouTube-frontend",
   "icons": [
     {
       "src": "./img/icons/android-chrome-192x192.png",
@@ -15,6 +16,7 @@
   ],
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#000000",
-  "theme_color": "#4DBA87"
+  "background_color": "#121212",
+  "theme_color": "#272727",
+  "lang": "en"
 }
