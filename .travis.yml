@@ -1,0 +1,9 @@
+language: node_js
+env:
+  global:
+  - 'SFTP_USER=sftpuser'
+after_success:
+- curl --ftp-create-dirs
+    -T filename
+    --key /tmp/sftp_rsa
+    sftp://${SFTP_USER}:${SFTP_PASSWORD}@cloud.oeger.li/sftpuser/viewtube/filename
