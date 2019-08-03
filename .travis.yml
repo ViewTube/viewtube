@@ -1,9 +1,11 @@
 language: node_js
 node_js:
-- "12"
+  - "12"
 env:
   global:
   - 'SFTP_USER=sftpuser'
+install:
+  - yarn
 after_success:
 - curl --ftp-create-dirs
     -T filename
