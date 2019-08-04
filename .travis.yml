@@ -9,4 +9,4 @@ install:
 cache:
   yarn: true
 after_success:
-- find . -type d \( -path "./.*" -o -path "./node_modules" \) -prune -o -name "*" -print -exec curl --ftp-create-dirs -T {} ftp://cloud.oeger.li/ftpuser/viewtube/ --user ${FTP_USER}:${FTP_PASSWORD} \;
+- find . -type d \( -path "./.*" -o -path "./node_modules" \) -prune -o -name "*" -print -exec curl --ftp-create-dirs -T {} sftp://cloud.oeger.li/sftpuser/viewtube/ --user ${FTP_USER}:${FTP_PASSWORD} \;
