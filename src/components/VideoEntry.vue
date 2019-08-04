@@ -1,12 +1,15 @@
 <template>
   <div class="video-entry">
-    <a class="video-entry-thmb" href="#">
+    <router-link class="video-entry-thmb" :to="{path: '/watch?v=' + video.videoId}">
       <img class="video-entry-thmb-image" alt="Thumbnail" v-bind:src="video.videoThumbnails[2].url" />
       <span class="video-entry-length">{{ getTimestampFromSeconds(video.lengthSeconds) }}</span>
-    </a>
+    </router-link>
     <div class="video-entry-info">
-      <a class="video-entry-title" href="#">{{ video.title }}</a>
-      <a class="video-entry-channel" href="#">{{ video.author }}</a>
+      <router-link
+        class="video-entry-title"
+        :to="{path: '/watch?v=' + video.videoId}"
+      >{{ video.title }}</router-link>
+      <router-link class="video-entry-channel" :to="{path: '/channel/' + video.authorId}">{{ video.author }}</router-link>
       <div class="video-entry-stats">
         <p class="video-entry-views">{{ video.viewCount.toLocaleString() }}</p>
         <p class="video-entry-timestamp">{{ video.publishedText }}</p>
@@ -16,7 +19,6 @@
 </template>
 
 <script>
-
 export default {
   name: 'VideoEntry',
   props: {
@@ -44,7 +46,6 @@ export default {
     }
   }
 }
-
 </script>
 
 <style lang="scss">

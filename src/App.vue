@@ -1,7 +1,11 @@
 <template>
   <div id="app">
     <Header />
-    <router-view class="content" />
+    <transition name="fade" mode="out-in">
+      <keep-alive include="home">
+        <router-view class="content" />
+      </keep-alive>
+    </transition>
   </div>
 </template>
 
@@ -16,6 +20,26 @@ export default {
 </script>
 
 <style lang="scss">
+.fade-enter-active,
+.fade-leave-active {
+  transition: transform 200ms $intro-easing, opacity 200ms $intro-easing;
+}
+.fade-enter {
+  transform: translateY(100px);
+  opacity: 0;
+}
+.fade-enter-to {
+  transform: translateY(0px);
+  opacity: 1;
+}
+.fade-leave {
+  transform: translateY(0px);
+  opacity: 1;
+}
+.fade-leave-to {
+  transform: translateY(-20px);
+  opacity: 0;
+}
 * {
   scrollbar-color: #ff7b3b #1e1e1e;
   scrollbar-width: thin;
