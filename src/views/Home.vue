@@ -1,28 +1,27 @@
 <template>
   <div class="home">
+    <Spinner class="centered" v-if="loading"></Spinner>
     <div class="home-videos-container">
-      <VideoEntry
-        v-for="video in videos"
-        v-bind:key="video.videoId"
-        v-bind:video="video"
-      ></VideoEntry>
+      <VideoEntry v-for="video in videos" v-bind:key="video.videoId" v-bind:video="video"></VideoEntry>
     </div>
   </div>
 </template>
 
 <script>
 import Constants from '@/const.js'
-import VideoEntry from '@/components/VideoEntry.vue'
+import VideoEntry from '@/components/VideoEntry'
+import Spinner from '@/components/Spinner'
 
 export default {
   name: 'home',
   components: {
-    VideoEntry
+    VideoEntry,
+    Spinner
   },
   data: function () {
     return {
-      videos: []
-
+      videos: [],
+      loading: true
     }
   },
   mounted: function () {
@@ -30,6 +29,7 @@ export default {
       .then(response => response.json())
       .then(data => {
         this.videos = data
+        this.loading = false
       })
       .catch((error) => {
         return error

@@ -39,15 +39,6 @@
       </a>
       <a
         href="#"
-        v-on:click.self.prevent="reload"
-        id="reload-btn"
-        class="ripple"
-        vt-tooltip="hard reload"
-      >
-        <RefreshIcon />
-      </a>
-      <a
-        href="#"
         v-on:click.self.prevent="toggleTheme"
         id="theme-change"
         class="ripple"
@@ -69,7 +60,6 @@
 </template>
 
 <script>
-import RefreshIcon from 'icons/Refresh.vue'
 import InvertColorsIcon from 'icons/InvertColors.vue'
 import SettingsIcon from 'icons/Settings.vue'
 import SearchIcon from 'icons/Magnify.vue'
@@ -77,7 +67,6 @@ import SearchIcon from 'icons/Magnify.vue'
 export default {
   name: 'Header',
   components: {
-    RefreshIcon,
     InvertColorsIcon,
     SettingsIcon,
     SearchIcon
@@ -94,9 +83,6 @@ export default {
     },
     openInYT: () => {
 
-    },
-    reload: () => {
-      window.location.reload(true)
     },
     toggleTheme: () => {
 
@@ -273,6 +259,23 @@ export default {
         }
       }
     }
+  }
+}
+
+a {
+  outline: 0;
+
+  &:hover,
+  &:focus,
+  &:target {
+    outline: 0;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    background-color: transparent;
+  }
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+
+  &:active {
+    background-color: transparent !important;
   }
 }
 </style>

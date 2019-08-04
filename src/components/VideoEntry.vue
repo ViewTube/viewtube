@@ -9,7 +9,10 @@
         class="video-entry-title"
         :to="{path: '/watch?v=' + video.videoId}"
       >{{ video.title }}</router-link>
-      <router-link class="video-entry-channel" :to="{path: '/channel/' + video.authorId}">{{ video.author }}</router-link>
+      <router-link
+        class="video-entry-channel"
+        :to="{path: '/channel/' + video.authorId}"
+      >{{ video.author }}</router-link>
       <div class="video-entry-stats">
         <p class="video-entry-views">{{ video.viewCount.toLocaleString() }}</p>
         <p class="video-entry-timestamp">{{ video.publishedText }}</p>
@@ -60,10 +63,15 @@ export default {
 
   .video-entry-thmb {
     width: 100%;
+    height: 124px;
     overflow: hidden;
     position: relative;
 
     .video-entry-thmb-image {
+      position: relative;
+      top: 50%;
+      left: 0;
+      transform: translateY(-50%);
       width: 100%;
       transition: opacity 200ms $intro-easing;
     }
@@ -126,6 +134,11 @@ export default {
   @media screen and (max-width: $mobile-width) {
     width: calc(100% - 20px);
     margin: 10px;
+
+    .video-entry-thmb {
+      width: 100%;
+      height: unset;
+    }
   }
 }
 </style>

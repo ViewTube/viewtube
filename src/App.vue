@@ -22,10 +22,10 @@ export default {
 <style lang="scss">
 .fade-enter-active,
 .fade-leave-active {
-  transition: transform 200ms $intro-easing, opacity 200ms $intro-easing;
+  transition: transform 100ms $intro-easing, opacity 100ms $intro-easing;
 }
 .fade-enter {
-  transform: translateY(100px);
+  transform: translateY(-20px);
   opacity: 0;
 }
 .fade-enter-to {
@@ -37,7 +37,7 @@ export default {
   opacity: 1;
 }
 .fade-leave-to {
-  transform: translateY(-20px);
+  transform: translateY(20px);
   opacity: 0;
 }
 * {
