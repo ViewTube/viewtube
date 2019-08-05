@@ -25,7 +25,7 @@ export default {
   transition: transform 100ms $intro-easing, opacity 100ms $intro-easing;
 }
 .fade-enter {
-  transform: translateY(-20px);
+  transform: translateY(20px);
   opacity: 0;
 }
 .fade-enter-to {
@@ -37,7 +37,7 @@ export default {
   opacity: 1;
 }
 .fade-leave-to {
-  transform: translateY(20px);
+  transform: translateY(-20px);
   opacity: 0;
 }
 * {

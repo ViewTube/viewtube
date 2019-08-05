@@ -51,7 +51,6 @@
         v-on:click.self.prevent="openSettings"
         id="settings-btn"
         class="ripple"
-        vt-tooltip="settings"
       >
         <SettingsIcon />
       </router-link>

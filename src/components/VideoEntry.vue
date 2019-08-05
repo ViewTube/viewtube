@@ -8,10 +8,12 @@
       <router-link
         class="video-entry-title"
         :to="{path: '/watch?v=' + video.videoId}"
+        v-bind:title="video.title"
       >{{ video.title }}</router-link>
       <router-link
         class="video-entry-channel"
         :to="{path: '/channel/' + video.authorId}"
+        v-bind:title="video.author"
       >{{ video.author }}</router-link>
       <div class="video-entry-stats">
         <p class="video-entry-views">{{ video.viewCount.toLocaleString() }}</p>
@@ -138,6 +140,11 @@ export default {
     .video-entry-thmb {
       width: 100%;
       height: unset;
+
+      .video-entry-thmb-image {
+        top: 0;
+        transform: translateY(0px);
+      }
     }
   }
 }

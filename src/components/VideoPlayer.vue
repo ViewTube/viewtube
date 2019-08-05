@@ -62,7 +62,7 @@ import Constants from '@/const.js'
 import Spinner from '@/components/Spinner'
 
 export default {
-  name: 'watch',
+  name: 'videoplayer',
   components: {
     Spinner
   },

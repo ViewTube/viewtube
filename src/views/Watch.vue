@@ -4,28 +4,37 @@
     <div class="video-infobox" v-if="!loading">
       <h1 class="video-infobox-title">{{ video.title }}</h1>
       <div class="video-infobox-stats">
-        <p class="infobox-views"></p>
+        <p class="infobox-views">{{ video.viewCount.toLocaleString() }} views</p>
         <div class="infobox-likes">
-          <ThumbsUp></ThumbsUp>
-          <p class="like-count"></p>
+          <ThumbsUp class="thumbs-icon"></ThumbsUp>
+          <p class="like-count">{{ video.likeCount.toLocaleString() }}</p>
         </div>
         <div class="infobox-dislikes">
-          <ThumbsDown></ThumbsDown>
-          <p class="dislike-count"></p>
+          <ThumbsDown class="thumbs-icon"></ThumbsDown>
+          <p class="dislike-count">{{ video.dislikeCount.toLocaleString() }}</p>
         </div>
       </div>
       <div class="video-infobox-channel">
         <div class="infobox-channel-image">
           <a href="#">
-            <img id="channel-img" src="#" alt="channel image" />
+            <img id="channel-img" alt="channel image" v-bind:src="video.authorThumbnails[2].url" />
           </a>
         </div>
         <div class="infobox-channel-info">
-          <a href="#" class="infobox-channel-name ripple">{{ author }}</a>
-          <p class="infobox-channel-subcount">{{ subCountText }} Subscribers</p>
+          <a href="#" class="infobox-channel-name ripple">{{ video.author }}</a>
+          <p class="infobox-channel-subcount">{{ video.subCountText }} Subscribers</p>
         </div>
       </div>
-      <div class="video-infobox-description"></div>
+      <div class="video-infobox-date">{{ video.publishedText }}</div>
+      <p>tags:</p>
+      <div class="video-infobox-tags">
+        <span
+          class="video-infobox-tag"
+          v-for="keyword in video.keywords"
+          v-bind:key="keyword"
+        >{{ keyword }}</span>
+      </div>
+      <div class="video-infobox-description" v-html="video.descriptionHtml"></div>
     </div>
   </div>
 </template>
@@ -57,7 +66,7 @@ export default {
         this.video = data
         this.loading = false
       })
-      .catch((error) => {
+      .catch(error => {
         return error
       })
   }
@@ -83,6 +92,23 @@ export default {
     margin: 20px 0 10px 0;
   }
 
+  .video-infobox-tags {
+    margin: 5px 0 0 0;
+    width: 100%;
+    height: 40px;
+    overflow: hidden;
+    overflow-x: auto;
+    white-space: nowrap;
+
+    .video-infobox-tag {
+      background-color: $bgcolor-alt;
+      padding: 3px;
+      margin: 2px;
+      border-radius: 3px;
+      display: inline-block;
+    }
+  }
+
   .video-infobox-stats {
     display: flex;
     flex-direction: row;
@@ -103,13 +129,12 @@ export default {
       flex-direction: row;
       margin: 0 30px 0 0;
 
-      p {
-        text-align: center;
+      .thumbs-icon {
+        width: 2rem;
       }
 
-      i {
-        font-size: 1.2rem;
-        margin: 0 5px 0 0;
+      p {
+        text-align: center;
       }
     }
   }
@@ -147,8 +172,12 @@ export default {
     }
   }
 
+  .video-infobox-date {
+    margin: 20px 0 10px 0;
+  }
+
   .video-infobox-description {
-    margin: 20px 0 0 0;
+    margin: 10px 0 0 0;
     color: $title-color;
     font-family: $default-font;
     line-height: 1.2rem;
