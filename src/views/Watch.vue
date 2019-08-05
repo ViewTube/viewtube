@@ -1,6 +1,7 @@
 <template>
   <div class="watch">
     <Spinner class="centered" v-if="loading"></Spinner>
+    <VideoPlayer v-bind:key="video.id"></VideoPlayer>
     <div class="video-infobox" v-if="!loading">
       <h1 class="video-infobox-title">{{ video.title }}</h1>
       <div class="video-infobox-stats">
