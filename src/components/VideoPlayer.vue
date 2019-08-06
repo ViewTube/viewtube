@@ -57,22 +57,20 @@
 </template>
 
 <script>
-import Spinner from '@/components/Spinner'
+import Spinner from "@/components/Spinner";
 
 export default {
-  name: 'videoplayer',
+  name: "videoplayer",
   components: {
     Spinner
   },
-  data: function () {
+  data: function() {
     return {
       videoSources: [],
       loading: true
-    }
-  },
-  mounted: function () {
+    };
   }
-}
+};
 </script>
 
 <style lang="scss">

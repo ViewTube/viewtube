@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <Header />
-    <transition name="fade" mode="out-in">
+    <transition name="fade" mode="out-in" v-if="windowMobileWidth">
       <keep-alive include="home">
         <router-view class="content" />
       </keep-alive>
@@ -15,6 +15,14 @@ export default {
   name: 'app',
   components: {
     Header
+  },
+  data () {
+    return {
+      windowMobileWidth: window.innerWidth > 500
+    }
+  },
+  mounted () {
+
   }
 }
 </script>
