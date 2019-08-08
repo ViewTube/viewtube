@@ -25,6 +25,13 @@ export default new Router({
   ],
   scrollBehavior (to, from, savedPosition) {
     if (savedPosition) {
+      debugger
+      if (to.name === 'home') {
+        return {
+          selector: '.home-videos-container',
+          offset: savedPosition
+        }
+      }
       return savedPosition
     } else {
       return {

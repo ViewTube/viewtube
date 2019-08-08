@@ -17,8 +17,8 @@
       <a
         href="#"
         v-on:click.self.prevent="search"
-        class="search-btn ripple"
-        vt-tooltip="click or press enter to search"
+        class="search-btn ripple tooltip"
+        data-tippy-content="click or press enter to search"
       >
         <SearchIcon />
       </a>
@@ -29,8 +29,8 @@
         href="#"
         v-on:click.self.prevent="openInYT"
         id="open-in-yt"
-        class="ripple"
-        vt-tooltip="view on youtube (hold alt for invidio.us)"
+        class="ripple tooltip"
+        data-tippy-content="view on youtube (hold alt for invidio.us)"
       >
         <svg class="yt-logo" viewBox="0 0 71.412065 50" width="24" height="24">
           <g id="g5" transform="scale(0.58823529,0.58823529)">
@@ -44,19 +44,19 @@
       </a>
       <a
         href="#"
-        v-on:click.self.prevent="toggleTheme"
-        id="theme-change"
-        class="ripple"
-        vt-tooltip="change theme"
+        v-on:click.self.prevent="share"
+        id="share"
+        class="ripple tooltip"
+        data-tippy-content="share"
       >
-        <InvertColorsIcon />
+        <ShareIcon />
       </a>
       <router-link
         to="/settings"
         v-on:click.self.prevent="openSettings"
         id="settings-btn"
-        class="ripple"
-        v-if="currentRouteName!=='settings'"
+        class="ripple tooltip"
+        data-tippy-content="open settings"
       >
         <SettingsIcon />
       </router-link>
@@ -65,14 +65,15 @@
 </template>
 
 <script>
-import InvertColorsIcon from 'icons/InvertColors.vue'
+import ShareIcon from 'icons/Share.vue'
 import SettingsIcon from 'icons/Settings.vue'
 import SearchIcon from 'icons/Magnify.vue'
+import tippy from 'tippy.js'
 
 export default {
   name: 'Header',
   components: {
-    InvertColorsIcon,
+    ShareIcon,
     SettingsIcon,
     SearchIcon
   },
@@ -81,16 +82,21 @@ export default {
       let elements = document.getElementsByClassName('ripple')
       Array.from(elements).forEach(element => {
         element.ondragstart = e => e.preventDefault()
+        element.onContextMenu = e => e.preventDefault()
       })
     },
     search: () => {
 
     },
     openInYT: () => {
-
     },
-    toggleTheme: () => {
-
+    share: () => {
+      navigator.share({
+        title: document.title,
+        text: 'Hello World',
+        url: window.location.href
+      }).then(() => console.log('Successful share'))
+        .catch(error => console.log('Error sharing:', error))
     },
     openSettings: () => {
 
@@ -98,6 +104,14 @@ export default {
   },
   mounted () {
     this.disableDrag()
+    tippy('.tooltip', {
+      animation: 'shift-away',
+      animateFill: true,
+      duration: 300,
+      arrow: false,
+      delay: [500, 100],
+      touchHold: true
+    })
   },
   computed: {
     currentRouteName () {
@@ -144,11 +158,30 @@ export default {
       display: none;
       margin: auto;
       height: calc(#{$header-height} - 20px);
-      clip-path: polygon(18% 4%, 95% 50%, 95% 50%, 18% 96%);
-      transition: clip-path 300ms $intro-easing;
+      clip-path: polygon(
+        18% 4%,
+        95% 50%,
+        95% 50%,
+        95% 50%,
+        95% 50%,
+        95% 50%,
+        18% 96%
+      );
+      transform: scale(1);
+      transition: clip-path 300ms $intro-easing,
+        transform 300ms $overshoot-easing;
 
       &.inverted {
-        clip-path: polygon(18% 50%, 95% 4%, 95% 96%, 18% 50%);
+        clip-path: polygon(
+          18% 50%,
+          95% 4%,
+          95% 29%,
+          60% 50%,
+          95% 71%,
+          95% 96%,
+          18% 50%
+        );
+        transform: scale(0.8);
       }
     }
 
