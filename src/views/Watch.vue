@@ -1,7 +1,7 @@
 <template>
   <div class="watch">
     <Spinner class="centered" v-if="loading"></Spinner>
-    <VideoPlayer v-bind:key="video.id"></VideoPlayer>
+    <VideoPlayer ref="videoPlayer" v-bind:key="video.id" v-bind:videoSources="video.formatStreams"></VideoPlayer>
     <div class="video-infobox" v-if="!loading">
       <h1 class="video-infobox-title">{{ video.title }}</h1>
       <div class="video-infobox-stats">
@@ -45,13 +45,15 @@ import Constants from '@/const.js'
 import Spinner from '@/components/Spinner'
 import ThumbsUp from 'icons/ThumbUp'
 import ThumbsDown from 'icons/ThumbDown'
+import VideoPlayer from '@/components/VideoPlayer'
 
 export default {
   name: 'watch',
   components: {
     Spinner,
     ThumbsUp,
-    ThumbsDown
+    ThumbsDown,
+    VideoPlayer
   },
   data: function () {
     return {
@@ -75,127 +77,129 @@ export default {
 </script>
 
 <style lang="scss">
-.video-infobox {
-  width: 100%;
-  max-width: $main-width;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  padding: 10px;
-  box-sizing: border-box;
-  opacity: 1;
-  transition: opacity 300ms $intro-easing;
-
-  .video-infobox-title {
-    color: $title-color;
-    font-family: $default-font;
-    font-size: 1.4rem;
-    margin: 20px 0 10px 0;
-  }
-
-  .video-infobox-tags {
-    margin: 5px 0 0 0;
+.watch {
+  .video-infobox {
     width: 100%;
-    height: 40px;
-    overflow: hidden;
-    overflow-x: auto;
-    white-space: nowrap;
-
-    .video-infobox-tag {
-      background-color: $bgcolor-alt;
-      padding: 3px;
-      margin: 2px;
-      border-radius: 3px;
-      display: inline-block;
-    }
-  }
-
-  .video-infobox-stats {
+    max-width: $main-width;
+    margin: 0 auto;
     display: flex;
-    flex-direction: row;
-    margin: 0 0 20px 0;
+    flex-direction: column;
+    padding: 10px;
+    box-sizing: border-box;
+    opacity: 1;
+    transition: opacity 300ms $intro-easing;
 
-    .infobox-views {
-      color: $subtitle-color;
+    .video-infobox-title {
+      color: $title-color;
       font-family: $default-font;
-      margin: 0 30px 0 0;
-      font-size: 1.1rem;
+      font-size: 1.4rem;
+      margin: 20px 0 10px 0;
     }
 
-    .infobox-likes,
-    .infobox-dislikes {
-      color: $subtitle-color;
-      font-family: $default-font;
+    .video-infobox-tags {
+      margin: 5px 0 0 0;
+      width: 100%;
+      height: 40px;
+      overflow: hidden;
+      overflow-x: auto;
+      white-space: nowrap;
+
+      .video-infobox-tag {
+        background-color: $bgcolor-alt;
+        padding: 3px;
+        margin: 2px;
+        border-radius: 3px;
+        display: inline-block;
+      }
+    }
+
+    .video-infobox-stats {
       display: flex;
       flex-direction: row;
-      margin: 0 30px 0 0;
+      margin: 0 0 20px 0;
 
-      .thumbs-icon {
-        width: 2rem;
-      }
-
-      p {
-        text-align: center;
-      }
-    }
-  }
-
-  .video-infobox-channel {
-    display: flex;
-    flex-direction: row;
-
-    .infobox-channel-image {
-      width: 50px;
-      height: 50px;
-      margin: 0 10px 0 0;
-
-      img {
-        width: 100%;
-        height: 100%;
-      }
-    }
-
-    .infobox-channel-info {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-evenly;
-
-      .infobox-channel-name {
-        text-decoration: none;
-        color: $title-color;
-        font-family: $default-font;
-      }
-
-      .infobox-channel-subcount {
+      .infobox-views {
         color: $subtitle-color;
         font-family: $default-font;
+        margin: 0 30px 0 0;
+        font-size: 1.1rem;
+      }
+
+      .infobox-likes,
+      .infobox-dislikes {
+        color: $subtitle-color;
+        font-family: $default-font;
+        display: flex;
+        flex-direction: row;
+        margin: 0 30px 0 0;
+
+        .thumbs-icon {
+          width: 2rem;
+        }
+
+        p {
+          text-align: center;
+        }
       }
     }
-  }
 
-  .video-infobox-date {
-    margin: 20px 0 10px 0;
-  }
+    .video-infobox-channel {
+      display: flex;
+      flex-direction: row;
 
-  .video-infobox-description {
-    margin: 10px 0 0 0;
-    color: $title-color;
-    font-family: $default-font;
-    line-height: 1.2rem;
+      .infobox-channel-image {
+        width: 50px;
+        height: 50px;
+        margin: 0 10px 0 0;
 
-    a {
-      text-decoration: underline;
+        img {
+          width: 100%;
+          height: 100%;
+        }
+      }
+
+      .infobox-channel-info {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+
+        .infobox-channel-name {
+          text-decoration: none;
+          color: $title-color;
+          font-family: $default-font;
+        }
+
+        .infobox-channel-subcount {
+          color: $subtitle-color;
+          font-family: $default-font;
+        }
+      }
+    }
+
+    .video-infobox-date {
+      margin: 20px 0 10px 0;
+    }
+
+    .video-infobox-description {
+      margin: 10px 0 0 0;
       color: $title-color;
+      font-family: $default-font;
+      line-height: 1.2rem;
+
+      a {
+        text-decoration: underline;
+        color: $title-color;
+      }
+
+      .favicon-link {
+        height: 13px;
+        margin: 0 4px;
+      }
     }
 
-    .favicon-link {
-      height: 13px;
-      margin: 0 4px;
+    &.loading {
+      opacity: 0;
     }
-  }
-
-  &.loading {
-    opacity: 0;
   }
 }
 </style>
