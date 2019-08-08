@@ -5,7 +5,12 @@
         <span>View</span>
         <span class="logo-colored">Tube</span>
       </h1>
-      <img class="logo-small" src="@/assets/icon-192.jpg" alt="ViewTube" />
+      <img
+        class="logo-small"
+        v-bind:class="{ inverted: currentRouteName!=='home' }"
+        src="@/assets/icon-background-512.jpg"
+        alt="ViewTube"
+      />
     </router-link>
     <div class="search-box">
       <input type="search" name="search" id="search" placeholder="search" />
@@ -51,6 +56,7 @@
         v-on:click.self.prevent="openSettings"
         id="settings-btn"
         class="ripple"
+        v-if="currentRouteName!=='settings'"
       >
         <SettingsIcon />
       </router-link>
@@ -92,6 +98,11 @@ export default {
   },
   mounted () {
     this.disableDrag()
+  },
+  computed: {
+    currentRouteName () {
+      return this.$route.name
+    }
   }
 }
 
@@ -133,6 +144,12 @@ export default {
       display: none;
       margin: auto;
       height: calc(#{$header-height} - 20px);
+      clip-path: polygon(18% 4%, 95% 50%, 95% 50%, 18% 96%);
+      transition: clip-path 300ms $intro-easing;
+
+      &.inverted {
+        clip-path: polygon(18% 50%, 95% 4%, 95% 96%, 18% 50%);
+      }
     }
 
     @media screen and (max-width: $mobile-width) {

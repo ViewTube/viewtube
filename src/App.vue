@@ -1,53 +1,25 @@
 <template>
   <div id="app">
     <Header />
-    <transition name="fade" mode="out-in" v-if="windowMobileWidth">
-      <keep-alive include="home">
-        <router-view class="content" />
-      </keep-alive>
-    </transition>
+    <keep-alive include="home">
+      <router-view class="content" />
+    </keep-alive>
   </div>
 </template>
 
 <script>
 import Header from '@/components/Header.vue'
+
 export default {
   name: 'app',
   components: {
     Header
   },
-  data () {
-    return {
-      windowMobileWidth: window.innerWidth > 500
-    }
-  },
-  mounted () {
-
-  }
+  mounted () { }
 }
 </script>
 
 <style lang="scss">
-.fade-enter-active,
-.fade-leave-active {
-  transition: transform 100ms $intro-easing, opacity 100ms $intro-easing;
-}
-.fade-enter {
-  transform: translateY(20px);
-  opacity: 0;
-}
-.fade-enter-to {
-  transform: translateY(0px);
-  opacity: 1;
-}
-.fade-leave {
-  transform: translateY(0px);
-  opacity: 1;
-}
-.fade-leave-to {
-  transform: translateY(-20px);
-  opacity: 0;
-}
 * {
   scrollbar-color: #ff7b3b #1e1e1e;
   scrollbar-width: thin;
