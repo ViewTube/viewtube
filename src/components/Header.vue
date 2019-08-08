@@ -82,7 +82,7 @@ export default {
       let elements = document.getElementsByClassName('ripple')
       Array.from(elements).forEach(element => {
         element.ondragstart = e => e.preventDefault()
-        element.onContextMenu = e => e.preventDefault()
+        element.oncontextmenu = e => e.preventDefault()
       })
     },
     search: () => {
