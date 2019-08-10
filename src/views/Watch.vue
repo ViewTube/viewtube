@@ -1,7 +1,7 @@
 <template>
   <div class="watch">
     <Spinner class="centered" v-if="loading"></Spinner>
-    <VideoPlayer ref="videoPlayer" v-bind:key="video.id" v-bind:videoSources="video.formatStreams"></VideoPlayer>
+    <VideoPlayer v-if="!loading" v-bind:key="video.id" v-bind:video="video"></VideoPlayer>
     <div class="video-infobox" v-if="!loading">
       <h1 class="video-infobox-title">{{ video.title }}</h1>
       <div class="video-infobox-stats">
@@ -58,7 +58,8 @@ export default {
   data: function () {
     return {
       video: [],
-      loading: true
+      loading: true,
+      test: 'asd'
     }
   },
   mounted: function () {
