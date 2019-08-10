@@ -7,11 +7,14 @@
       v-on:mouseleave="onPlayerMouseLeave"
     ></video>
     <Spinner v-if="videoBuffering"></Spinner>
-    <transition name="fade">
-      <div class="video-controls-overlay" v-if="playerOverlayVisible">
-        asd
+    <div class="video-controls-overlay" v-bind:class="{visible: playerOverlayVisible}">
+      <div class="bottom-control-overlay">
+        <div class="seekbar">
+
+        </div>
+        <div class="bottom-controls"></div>
       </div>
-    </transition>
+    </div>
   </div>
 </template>
 
@@ -39,12 +42,18 @@ export default {
       this.loading = false
     },
     onPlayerMouseMove: function (e) {
-      this.playerOverlayTimeout = setTimeout(
-        this.playerOverlayVisible = true
-        , 500)
+      this.playerOverlayVisible = true
+      if (this.playerOverlayTimeout) {
+        clearTimeout(this.playerOverlayTimeout)
+      }
+      this.playerOverlayTimeout = setTimeout(() => {
+        this.playerOverlayVisible = false
+      }, 3000)
     },
     onPlayerMouseLeave: function (e) {
-      clearTimeout(this.playerOverlayTimeout)
+      if (this.playerOverlayTimeout) {
+        clearTimeout(this.playerOverlayTimeout)
+      }
       this.playerOverlayVisible = false
     }
   }
@@ -52,19 +61,6 @@ export default {
 </script>
 
 <style lang="scss">
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 300ms $intro-easing;
-}
-.fade-enter,
-.fade-leave-to {
-  opacity: 0;
-}
-.fade-enter-to,
-.fade-leave {
-  opacity: 1;
-}
-
 .video-player {
   width: 100%;
   height: $player-height;
@@ -80,6 +76,14 @@ export default {
     height: 100%;
     width: 100%;
     opacity: 0;
+    pointer-events: none;
+
+    .bottom-control-overlay {
+      .seekbar {
+      }
+      .bottom-controls {
+      }
+    }
 
     &.visible {
       opacity: 1;
