@@ -1,7 +1,10 @@
 <template>
   <div class="video-entry">
     <router-link class="video-entry-thmb" :to="{path: '/watch?v=' + video.videoId}">
-      <img class="video-entry-thmb-image" alt="Thumbnail" v-bind:src="video.videoThumbnails[2].url" />
+      <clazy-load class="thmb-image-loader" v-bind:src="video.videoThumbnails[2].url">
+        <img class="video-entry-thmb-image" v-bind:src="video.videoThumbnails[2].url" />
+        <Spinner slot="placeholder"></Spinner>
+      </clazy-load>
       <span class="video-entry-length">{{ getTimestampFromSeconds(video.lengthSeconds) }}</span>
     </router-link>
     <div class="video-entry-info">
@@ -24,8 +27,13 @@
 </template>
 
 <script>
+import Spinner from '@/components/Spinner'
+
 export default {
   name: 'VideoEntry',
+  components: {
+    Spinner
+  },
   props: {
     video: Object
   },
@@ -69,15 +77,16 @@ export default {
     overflow: hidden;
     position: relative;
 
-    .video-entry-thmb-image {
+    .thmb-image-loader {
       position: relative;
-      top: 50%;
+      top: 0;
       left: 0;
-      transform: translateY(-50%);
-      width: 100%;
-      transition: opacity 200ms $intro-easing;
-    }
 
+      .video-entry-thmb-image {
+        width: 100%;
+        transition: opacity 200ms $intro-easing;
+      }
+    }
     .video-entry-length {
       text-decoration: none;
       color: $video-thmb-overlay-textcolor;

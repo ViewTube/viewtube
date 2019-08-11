@@ -169,7 +169,7 @@ export default {
       );
       transform: scale(1);
       transition: clip-path 300ms $intro-easing,
-        transform 300ms $overshoot-easing;
+        transform 300ms linear;
 
       &.inverted {
         clip-path: polygon(

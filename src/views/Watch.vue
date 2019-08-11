@@ -1,5 +1,6 @@
 <template>
   <div class="watch">
+    <vue-headful v-bind:title="video.title + ' - ViewTube'" />
     <Spinner class="centered" v-if="loading"></Spinner>
     <VideoPlayer v-if="!loading" v-bind:key="video.id" v-bind:video="video"></VideoPlayer>
     <div class="video-infobox" v-if="!loading">

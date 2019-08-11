@@ -1,5 +1,6 @@
 <template>
   <div class="home">
+    <vue-headful title="Home - ViewTube" />
     <Spinner class="centered" v-if="loading"></Spinner>
     <div class="home-videos-container">
       <VideoEntry v-for="video in videos" v-bind:key="video.videoId" v-bind:video="video"></VideoEntry>
