@@ -5,12 +5,18 @@
       v-bind:src="video.formatStreams[0].url"
       v-on:mousemove="onPlayerMouseMove"
       v-on:mouseleave="onPlayerMouseLeave"
+      v-on:waiting="onVideoBuffering"
+      v-on:canplay="onVideoCanplay"
+      ref="video"
     ></video>
     <Spinner v-if="videoBuffering"></Spinner>
     <div class="video-controls-overlay" v-bind:class="{visible: playerOverlayVisible}">
       <div class="bottom-control-overlay">
         <div class="seekbar">
-
+          <div class="seekbar-clickable"></div>
+          <div class="seekbar-background"></div>
+          <div class="seekbar-loading-progress"></div>
+          <div class="seekbar-playback-progress"></div>
         </div>
         <div class="bottom-controls"></div>
       </div>
@@ -31,13 +37,19 @@ export default {
   },
   data: function () {
     return {
-      videoBuffering: true,
       loading: true,
       playerOverlayVisible: false,
-      playerOverlayTimeout: undefined
+      playerOverlayTimeout: undefined,
+      videoBuffering: true
     }
   },
   methods: {
+    onVideoCanplay: function () {
+      this.videoBuffering = false
+    },
+    onVideoBuffering: function () {
+      this.videoBuffering = true
+    },
     onLoaded: function () {
       this.loading = false
     },
@@ -80,7 +92,16 @@ export default {
 
     .bottom-control-overlay {
       .seekbar {
+        .seekbar-clickable {
+        }
+        .seekbar-background {
+        }
+        .seekbar-loading-progress {
+        }
+        .seekbar-playback-progress {
+        }
       }
+
       .bottom-controls {
       }
     }
