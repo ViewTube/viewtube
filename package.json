@@ -14,7 +14,6 @@
     "register-service-worker": "^1.6.2",
     "style-resources-loader": "^1.2.1",
     "tippy.js": "^4.3.5",
-    "v-tooltip": "^2.0.2",
     "vue": "^2.6.10",
     "vue-clazy-load": "^0.4.2",
     "vue-headful": "^2.0.1",

@@ -9,7 +9,7 @@
       v-on:canplay="onVideoCanplay"
       ref="video"
     ></video>
-    <Spinner v-if="videoBuffering"></Spinner>
+    <Spinner class="video-spinner" v-if="videoBuffering"></Spinner>
     <div class="video-controls-overlay" v-bind:class="{visible: playerOverlayVisible}">
       <div class="bottom-control-overlay">
         <div class="seekbar">
@@ -80,6 +80,14 @@ export default {
   background-color: #000;
   display: flex;
   position: relative;
+
+  .video{
+
+  }
+
+  .video-spinner{
+
+  }
 
   .video-controls-overlay {
     position: absolute;

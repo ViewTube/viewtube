@@ -9,14 +9,14 @@
     </router-link>
     <div class="video-entry-info">
       <router-link
-        class="video-entry-title"
+        class="video-entry-title tooltip"
         :to="{path: '/watch?v=' + video.videoId}"
-        v-bind:title="video.title"
+        v-bind:data-tippy-content="video.title"
       >{{ video.title }}</router-link>
       <router-link
-        class="video-entry-channel"
+        class="video-entry-channel tooltip"
         :to="{path: '/channel/' + video.authorId}"
-        v-bind:title="video.author"
+        v-bind:data-tippy-content="video.author"
       >{{ video.author }}</router-link>
       <div class="video-entry-stats">
         <p class="video-entry-views">{{ video.viewCount.toLocaleString() }}</p>
@@ -28,6 +28,7 @@
 
 <script>
 import Spinner from '@/components/Spinner'
+import tippy from 'tippy.js'
 
 export default {
   name: 'VideoEntry',
@@ -36,6 +37,17 @@ export default {
   },
   props: {
     video: Object
+  },
+  mounted () {
+    tippy('.tooltip', {
+      animation: 'shift-away',
+      animateFill: false,
+      duration: 300,
+      arrow: false,
+      delay: [500, 100],
+      touchHold: true,
+      placement: 'bottom'
+    })
   },
   methods: {
     getTimestampFromSeconds: seconds => {
