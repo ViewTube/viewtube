@@ -46,6 +46,7 @@ export default {
   methods: {
     onVideoCanplay: function () {
       this.videoBuffering = false
+      this.$refs.video.play()
     },
     onVideoBuffering: function () {
       this.videoBuffering = true
@@ -82,11 +83,16 @@ export default {
   position: relative;
 
   .video{
-
+    margin: auto;
+    height: 100%;
+    width: 100%;
   }
 
   .video-spinner{
-
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
 
   .video-controls-overlay {
