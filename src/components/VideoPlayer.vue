@@ -59,7 +59,6 @@ export default {
     },
     onVideoCanplay: function () {
       this.videoBuffering = false
-      this.$refs.video.play()
     },
     onVideoBuffering: function () {
       this.videoBuffering = true
