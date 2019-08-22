@@ -1,19 +1,26 @@
 <template>
-  <div class="video-player">
+  <div
+    class="video-player"
+    v-on:touchend.stop="onPlayerTouchEnd"
+    v-on:touchstart.stop="onPlayerTouchStart"
+    v-on:mousemove="onPlayerMouseMove"
+    v-on:mouseleave="onPlayerMouseLeave"
+    v-on:click="onPlayerClicked"
+  >
     <video
       class="video"
       v-bind:src="video.formatStreams[0].url"
-      v-on:mousemove="onPlayerMouseMove"
-      v-on:mouseleave="onPlayerMouseLeave"
       v-on:waiting="onVideoBuffering"
       v-on:canplay="onVideoCanplay"
+      v-on:playing="onVideoPlaying"
+      v-on:pause="onVideoPaused"
       ref="video"
     ></video>
     <Spinner class="video-spinner" v-if="videoBuffering"></Spinner>
     <div class="video-controls-overlay" v-bind:class="{ visible: playerOverlayVisible }">
       <div class="top-control-overlay"></div>
       <div class="center-control-overlay">
-        <div class="play-btn-container">
+        <div class="play-btn-container" v-on:click="onPlayerClicked">
           <div class="play-btn" v-bind:class="{ playing: videoPlaying }"></div>
         </div>
       </div>
@@ -27,6 +34,11 @@
         <div class="bottom-controls"></div>
       </div>
     </div>
+    <div
+      class="video-thumbnail-overlay"
+      v-bind:style="{ backgroundImage: `url(${video.videoThumbnails[0].url})` }"
+      v-if="thumbnailOverlayVisible"
+    ></div>
   </div>
 </template>
 
@@ -46,6 +58,7 @@ export default {
       loading: true,
       playerOverlayVisible: false,
       playerOverlayTimeout: undefined,
+      thumbnailOverlayVisible: true,
       videoBuffering: true,
       videoPlaying: false
     }
@@ -66,7 +79,30 @@ export default {
     onLoaded: function () {
       this.loading = false
     },
+    onPlayerClicked: function () {
+      this.thumbnailOverlayVisible = false
+      if (this.videoPlaying) {
+        this.$refs.video.pause()
+      } else {
+        this.$refs.video.play()
+      }
+    },
+    onPlayerTouchStart: function (e) {
+    },
+    onPlayerTouchEnd: function (e) {
+      if (this.playerOverlayVisible) {
+        this.hidePlayerOverlay()
+      } else {
+        this.showPlayerOverlay()
+      }
+    },
     onPlayerMouseMove: function (e) {
+      this.showPlayerOverlay()
+    },
+    onPlayerMouseLeave: function (e) {
+      this.hidePlayerOverlay()
+    },
+    showPlayerOverlay: function () {
       this.playerOverlayVisible = true
       if (this.playerOverlayTimeout) {
         clearTimeout(this.playerOverlayTimeout)
@@ -75,7 +111,7 @@ export default {
         this.playerOverlayVisible = false
       }, 3000)
     },
-    onPlayerMouseLeave: function (e) {
+    hidePlayerOverlay: function () {
       if (this.playerOverlayTimeout) {
         clearTimeout(this.playerOverlayTimeout)
       }
@@ -98,6 +134,7 @@ export default {
     margin: auto;
     height: 100%;
     width: 100%;
+    z-index: 100;
   }
 
   .video-spinner {
@@ -105,10 +142,25 @@ export default {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    z-index: 200;
+  }
+
+  .video-thumbnail-overlay {
+    position: absolute;
+    margin: auto;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-repeat: no-repeat;
+    background-size: auto 100%;
+    background-position: center;
+    z-index: 120;
   }
 
   .video-controls-overlay {
     position: absolute;
+    margin: 0 auto;
     top: 0;
     left: 0;
     height: 100%;
@@ -119,6 +171,7 @@ export default {
     flex-direction: column;
     justify-content: space-between;
     transition: opacity 300ms $intro-easing;
+    z-index: 140;
 
     .top-control-overlay {
     }
@@ -127,36 +180,41 @@ export default {
       display: flex;
 
       .play-btn-container {
+        margin: auto;
+        filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.16))
+          drop-shadow(0 3px 6px rgba(0, 0, 0, 0.23));
+
         .play-btn {
           margin: auto;
-          width: 100px;
-          height: 100px;
+          width: 14vw;
+          height: 14vw;
           background-color: #fff;
+          transition: clip-path 300ms $intro-easing;
           clip-path: polygon(
-            28% 4%,
+            18% 4%,
             18% 4%,
             18% 96%,
-            28% 96%,
-            28% 4%,
-            72% 4%,
-            82% 4%,
-            82% 96%,
-            72% 96%,
-            18% 96%
+            18% 96%,
+            18% 4%,
+            18% 4%,
+            95% 50%,
+            95% 50%,
+            18% 96%,
+            18% 4%
           );
 
           &.playing {
             clip-path: polygon(
+              38% 4%,
               18% 4%,
-              95% 50%,
-              95% 50%,
-              95% 50%,
-              95% 50%,
-              95% 50%,
-              95% 50%,
-              95% 50%,
-              95% 50%,
-              18% 96%
+              18% 96%,
+              38% 96%,
+              38% 4%,
+              82% 4%,
+              82% 4%,
+              82% 96%,
+              62% 96%,
+              62% 4%
             );
           }
         }
