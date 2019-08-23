@@ -30,11 +30,13 @@
       <div class="video-infobox-date">{{ video.publishedText }}</div>
       <p>tags:</p>
       <div class="video-infobox-tags">
-        <span
+        <a
           class="video-infobox-tag"
           v-for="keyword in video.keywords"
           v-bind:key="keyword"
-        >{{ keyword }}</span>
+          v-bind:href="`results?search_query=${keyword}`"
+          target="_blank"
+        >{{ keyword }}</a>
       </div>
       <div class="video-infobox-description" v-html="video.descriptionHtml"></div>
     </div>
@@ -42,7 +44,7 @@
 </template>
 
 <script>
-import Constants from '@/const.js'
+import Commons from '@/commons.js'
 import Spinner from '@/components/Spinner'
 import ThumbsUp from 'icons/ThumbUp'
 import ThumbsDown from 'icons/ThumbDown'
@@ -63,13 +65,22 @@ export default {
       test: 'asd'
     }
   },
+  methods: {
+    cleanRedirectUrls: function () {
+      document.getElementsByClassName('video-infobox-description')[0]
+        .getElementsByTagName('a').foreach(element => {
+          console.log(element)
+        })
+    }
+  },
   mounted: function () {
     let videoId = this.$route.query.v
-    fetch(`${Constants.apiUrl}videos/${videoId}`)
+    fetch(`${Commons.apiUrl}videos/${videoId}`)
       .then(response => response.json())
       .then(data => {
         this.video = data
         this.loading = false
+        this.cleanRedirectUrls()
       })
       .catch(error => {
         return error
@@ -108,6 +119,8 @@ export default {
 
       .video-infobox-tag {
         background-color: $bgcolor-alt;
+        text-decoration: none;
+        color: $title-color;
         padding: 3px;
         margin: 2px;
         border-radius: 3px;

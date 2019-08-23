@@ -24,12 +24,15 @@
           <div class="play-btn" v-bind:class="{ playing: videoPlaying }"></div>
         </div>
       </div>
-      <div class="bottom-control-overlay">
+      <div class="bottom-control-overlay" v-bind:class="{ hidden: thumbnailOverlayVisible }">
         <div class="seekbar">
           <div class="seekbar-clickable"></div>
           <div class="seekbar-background"></div>
           <div class="seekbar-loading-progress"></div>
-          <div class="seekbar-playback-progress"></div>
+          <div
+            class="seekbar-playback-progress"
+            v-bind:style="{ width: `${videoProgressPercentage}%` }"
+          ></div>
         </div>
         <div class="bottom-controls"></div>
       </div>
@@ -37,7 +40,7 @@
     <div
       class="video-thumbnail-overlay"
       v-bind:style="{ backgroundImage: `url(${video.videoThumbnails[0].url})` }"
-      v-if="thumbnailOverlayVisible"
+      v-bind:class="{ hidden: !thumbnailOverlayVisible }"
     ></div>
   </div>
 </template>
@@ -58,12 +61,36 @@ export default {
       loading: true,
       playerOverlayVisible: false,
       playerOverlayTimeout: undefined,
+      playerOverlayUpdateInterval: undefined,
       thumbnailOverlayVisible: true,
       videoBuffering: true,
-      videoPlaying: false
+      videoPlaying: false,
+      videoProgressPercentage: 0
+    }
+  },
+  watch: {
+    playerOverlayVisible: function (newValue) {
+      if (newValue) {
+        this.playerOverlayUpdateInterval = setInterval(() =>
+          this.updateVideoOverlay()
+        , 100)
+      } else {
+        clearInterval(this.playerOverlayUpdateInterval)
+      }
+    }
+  },
+  computed: {
+    videoLength: function () {
+      if (this.$refs.video !== undefined) {
+        return this.$refs.video.duration
+      }
+      return 0
     }
   },
   methods: {
+    updateVideoOverlay: function () {
+      this.videoProgressPercentage = (this.$refs.video.currentTime / this.videoLength) * 100
+    },
     onVideoPlaying: function () {
       this.videoPlaying = true
     },
@@ -156,6 +183,14 @@ export default {
     background-size: auto 100%;
     background-position: center;
     z-index: 120;
+    pointer-events: none;
+    user-select: none;
+    opacity: 1;
+    transition: opacity 600ms $intro-easing;
+
+    &.hidden {
+      opacity: 0;
+    }
   }
 
   .video-controls-overlay {
@@ -189,7 +224,8 @@ export default {
           width: 14vw;
           height: 14vw;
           background-color: #fff;
-          transition: clip-path 300ms $intro-easing;
+          opacity: 1;
+          transition: clip-path 300ms $intro-easing, opacity 300ms $intro-easing;
           clip-path: polygon(
             18% 4%,
             18% 4%,
@@ -204,6 +240,7 @@ export default {
           );
 
           &.playing {
+            opacity: 0.6;
             clip-path: polygon(
               38% 4%,
               18% 4%,
@@ -222,18 +259,60 @@ export default {
     }
 
     .bottom-control-overlay {
+      height: $bottom-overlay-height;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      z-index: 141;
+      transition: opacity 300ms $intro-easing;
+
       .seekbar {
+        height: $video-seekbar-height;
+        width: 95%;
+        margin: 0 auto;
+        position: relative;
+        z-index: 142;
+        display: flex;
+
+        @mixin seekbar-part {
+          position: absolute;
+          left: 0;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 100%;
+        }
+
         .seekbar-clickable {
+          @include seekbar-part;
+          height: 100%;
+          z-index: 146;
+          cursor: pointer;
         }
         .seekbar-background {
+          @include seekbar-part;
+          height: $video-seekbar-line-height;
+          background-color: $line-color;
+          z-index: 142;
         }
         .seekbar-loading-progress {
+          @include seekbar-part;
+          height: $video-seekbar-line-height;
+          background-color: $line-accent-color;
+          z-index: 143;
         }
         .seekbar-playback-progress {
+          @include seekbar-part;
+          height: $video-seekbar-line-height;
+          background-color: $theme-color;
+          z-index: 144;
         }
       }
 
       .bottom-controls {
+      }
+
+      &.hidden{
+        opacity: 0;
       }
     }
 

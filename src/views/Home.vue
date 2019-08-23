@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import Constants from '@/const.js'
+import Commons from '@/commons.js'
 import VideoEntry from '@/components/VideoEntry'
 import Spinner from '@/components/Spinner'
 
@@ -26,7 +26,7 @@ export default {
     }
   },
   mounted: function () {
-    fetch(`${Constants.apiUrl}top`)
+    fetch(`${Commons.apiUrl}top`)
       .then(response => response.json())
       .then(data => {
         this.videos = data
