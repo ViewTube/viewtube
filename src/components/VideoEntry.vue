@@ -87,14 +87,15 @@ export default {
 
     .thmb-image-loader {
       position: relative;
-      top: 0;
+      top: 50%;
       left: 0;
+      transform: translateY(-50%);
 
       .video-entry-thmb-image {
         width: 100%;
       }
 
-      .video-entry-thmb-placeholder{
+      .video-entry-thmb-placeholder {
         width: 100%;
         opacity: 0.5;
       }
@@ -162,9 +163,16 @@ export default {
       width: 100%;
       height: unset;
 
-      .video-entry-thmb-image {
+      .thmb-image-loader {
+        position: relative;
         top: 0;
-        transform: translateY(0px);
+        left: 0;
+        transform: translateY(0);
+
+        .video-entry-thmb-image {
+          top: 0;
+          transform: translateY(0px);
+        }
       }
     }
   }
