@@ -1,10 +1,9 @@
 <template>
   <div class="video-entry">
     <router-link class="video-entry-thmb" :to="{path: '/watch?v=' + video.videoId}">
-      <clazy-load class="thmb-image-loader" v-bind:src="video.videoThumbnails[2].url">
+      <div class="thmb-image-loader">
         <img class="video-entry-thmb-image" v-bind:src="video.videoThumbnails[2].url" />
-        <img class="video-entry-thmb-placeholder" slot="placeholder" src="@/assets/thumbnail.jpg" />
-      </clazy-load>
+      </div>
       <span class="video-entry-length">{{ getTimestampFromSeconds(video.lengthSeconds) }}</span>
     </router-link>
     <div class="video-entry-info">
@@ -93,11 +92,6 @@ export default {
 
       .video-entry-thmb-image {
         width: 100%;
-      }
-
-      .video-entry-thmb-placeholder {
-        width: 100%;
-        opacity: 0.5;
       }
     }
     .video-entry-length {

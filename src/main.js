@@ -6,11 +6,11 @@ import './registerServiceWorker'
 import 'vue-material-design-icons/styles.css'
 import './ripple.js'
 import VueClazyLoad from 'vue-clazy-load'
-import vueHeadful from 'vue-headful'
+import VueHeadful from 'vue-headful'
 
 Vue.use(FormattingFunctions)
 Vue.use(VueClazyLoad)
-Vue.component('vue-headful', vueHeadful)
+Vue.component('vue-headful', VueHeadful)
 Vue.config.productionTip = false
 
 new Vue({

@@ -21,6 +21,11 @@ export default new Router({
     path: '/watch',
     name: 'watch',
     component: () => import('./views/Watch.vue')
+  },
+  {
+    path: '/channel/:id',
+    name: 'channel',
+    component: () => import('./views/Channel.vue')
   }
   ],
   scrollBehavior (to, from, savedPosition) {
