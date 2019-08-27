@@ -6,13 +6,15 @@
       <div class="channel-banner-image">
         <clazy-load class="banner-image-loader" v-bind:src="channel.authorBanners[0].url">
           <img class="banner-image" v-bind:src="channel.authorBanners[0].url" />
-          <img class="banner-placeholder" slot="placeholder" v-bind:src="channel.authorBanners[3].url" />
+          <img
+            class="banner-placeholder"
+            slot="placeholder"
+            v-bind:src="channel.authorBanners[3].url"
+          />
         </clazy-load>
       </div>
     </div>
-    <div class="channel-information" v-if="!loading">
-      
-    </div>
+    <div class="channel-information" v-if="!loading"></div>
     <div class="channel-videos-container">
       <VideoEntry
         v-for="video in channel.latestVideos"
