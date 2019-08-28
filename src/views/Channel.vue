@@ -181,10 +181,6 @@ export default {
         left: 50%;
         transform: translateX(-50%);
 
-        @media screen and (max-width: $mobile-width - 100) {
-          flex-direction: column;
-        }
-
         .channel-thumbnail {
           height: 100px;
           width: 120px;
