@@ -19,11 +19,11 @@ export default {
       webSocket: undefined
     }
   },
-  mounted() {
-    this.webSocket = new Kuzzle(new WebSocket('kuzzle.mcdn.ch'))
-    this.webSocket.on('networkError', error => {
-      console.error(error)
-    })
+  mounted () {
+    // this.webSocket = new Kuzzle(new WebSocket('kuzzle.mcdn.ch'))
+    // this.webSocket.on('networkError', error => {
+    //   console.error(error)
+    // })
   }
 }
 </script>
