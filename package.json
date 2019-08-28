@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "core-js": "^2.6.5",
+    "kuzzle-sdk": "^6.2.1",
     "register-service-worker": "^1.6.2",
     "style-resources-loader": "^1.2.1",
     "tippy.js": "^4.3.5",
