@@ -18,12 +18,15 @@
       </div>
       <div class="video-infobox-channel">
         <div class="infobox-channel-image">
-          <a href="#">
+          <a v-bind:href="`channel/${video.authorId}`">
             <img id="channel-img" alt="channel image" v-bind:src="video.authorThumbnails[2].url" />
           </a>
         </div>
         <div class="infobox-channel-info">
-          <a href="#" class="infobox-channel-name ripple">{{ video.author }}</a>
+          <a
+            v-bind:href="`channel/${video.authorId}`"
+            class="infobox-channel-name ripple"
+          >{{ video.author }}</a>
           <p class="infobox-channel-subcount">{{ video.subCountText }} Subscribers</p>
         </div>
       </div>

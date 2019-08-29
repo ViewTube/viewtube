@@ -56,7 +56,7 @@
               class="related-channel-thumbnail-image"
               :to="{path: '/channel/' + channelEntry.authorId}"
             >
-              <img v-bind:src="channelEntry.authorThumbnails[0].url" alt />
+              <img v-bind:src="channelEntry.authorThumbnails[5].url" alt />
             </router-link>
           </div>
           <div class="related-channel-info">
@@ -183,8 +183,8 @@ export default {
 
         .channel-thumbnail {
           height: 100px;
-          width: 120px;
-          margin: auto 10px;
+          margin: 0;
+          padding: 10px;
 
           img {
             height: 100%;
@@ -199,13 +199,14 @@ export default {
             font-size: 0.8rem;
           }
           .channel-basics {
-            margin: 10px 0;
+            margin: 0 0 10px 0;
             display: flex;
             flex-direction: row;
             flex-wrap: wrap;
 
             div {
-              margin: 0 10px 10px 0;
+              margin: 0 15px 10px 0;
+
               h2 {
                 font-family: $default-font;
                 font-size: 1rem;
@@ -225,8 +226,12 @@ export default {
               border-radius: 5px;
 
               span {
-                margin: 0 10px 0 0;
+                margin: 0 10px 0 -5px;
                 color: $theme-color;
+
+                svg {
+                  bottom: -0.1em !important;
+                }
               }
               h2 {
                 color: $theme-color;
@@ -237,15 +242,60 @@ export default {
       }
     }
     .channel-description {
+      width: 100%;
+      max-width: $main-width;
+      box-sizing: border-box;
+      z-index: 10;
+      margin: 0 auto;
+      padding: 10px;
+
+      pre {
+        font-family: unset;
+        color: unset;
+        width: unset;
+        padding: unset;
+        margin: unset;
+        white-space: pre-wrap;
+      }
     }
     .related-channels {
+      width: 100%;
+      max-width: $main-width;
+      box-sizing: border-box;
+      z-index: 10;
+      margin: 0 auto;
+      padding: 10px;
+      overflow-x: auto;
+      white-space: nowrap;
+
       .related-channel {
+        width: 90px;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        display: inline-block;
+        margin: 0 15px 0 0;
+
         .related-channel-thumbnail {
+          width: 100%;
+
           .related-channel-thumbnail-image {
+            height: 100%;
+            width: 100;
+
+            img {
+              width: 100%;
+            }
           }
         }
         .related-channel-info {
+          width: 100%;
+
           .related-channel-title {
+            color: $subtitle-color;
+            font-family: $default-font;
+            text-decoration: none;
+            white-space: normal;
           }
         }
       }
