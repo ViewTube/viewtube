@@ -1,6 +1,8 @@
 <template>
   <div class="channel" ref="channel">
-    <vue-headful v-bind:title="channel.author + ' - ViewTube'" />
+    <vue-headful
+      v-bind:title="(channel.author !== undefined ? channel.author : 'loading') + ' - ViewTube'"
+    />
     <Spinner class="centered" v-if="loading"></Spinner>
     <div class="channel-banner" v-if="!loading" ref="parallaxParent">
       <div
@@ -41,6 +43,7 @@
                 <h2>paid</h2>
               </div>
             </div>
+            <SubscribeButton />
           </div>
         </div>
       </div>
@@ -84,6 +87,7 @@ import VideoEntry from '@/components/VideoEntry'
 import Spinner from '@/components/Spinner'
 import FamilyFriendly from 'vue-material-design-icons/AccountChild'
 import Paid from 'vue-material-design-icons/CurrencyUsd'
+import SubscribeButton from '@/components/SubscribeButton'
 
 export default {
   name: 'home',
@@ -91,7 +95,8 @@ export default {
     VideoEntry,
     Spinner,
     FamilyFriendly,
-    Paid
+    Paid,
+    SubscribeButton
   },
   data: function () {
     return {
@@ -137,10 +142,14 @@ export default {
   },
   mounted: function () {
     this.loadChannelData()
-    this.$refs.channel.addEventListener('scroll', this.handleScroll)
+    if (this.$refs.channel !== undefined) {
+      this.$refs.channel.addEventListener('scroll', this.handleScroll)
+    }
   },
   destroyed () {
-    this.$refs.channel.removeEventListener('scroll', this.handleScroll)
+    if (this.$refs.channel !== undefined) {
+      this.$refs.channel.removeEventListener('scroll', this.handleScroll)
+    }
   }
 }
 </script>
@@ -199,7 +208,7 @@ export default {
             font-size: 0.8rem;
           }
           .channel-basics {
-            margin: 0 0 10px 0;
+            margin: 0;
             display: flex;
             flex-direction: row;
             flex-wrap: wrap;

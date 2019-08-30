@@ -7,7 +7,7 @@
 
 <script>
 import Header from '@/components/Header.vue'
-import Kuzzle from 'kuzzle-sdk'
+// import Kuzzle from 'kuzzle-sdk'
 
 export default {
   name: 'app',

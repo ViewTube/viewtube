@@ -316,22 +316,22 @@ export default {
       }
     }
   }
-}
 
-a {
-  outline: 0;
-
-  &:hover,
-  &:focus,
-  &:target {
+  a {
     outline: 0;
-    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-    background-color: transparent;
-  }
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 
-  &:active {
-    background-color: transparent !important;
+    &:hover,
+    &:focus,
+    &:target {
+      outline: 0;
+      -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+      background-color: transparent;
+    }
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+
+    &:active {
+      background-color: transparent !important;
+    }
   }
 }
 </style>
