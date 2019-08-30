@@ -17,7 +17,11 @@
       ref="video"
     ></video>
     <Spinner class="video-spinner" v-if="videoBuffering"></Spinner>
-    <div class="video-controls-overlay" v-bind:class="{ visible: playerOverlayVisible }">
+    <div
+      class="video-controls-overlay"
+      v-bind:class="{ visible: playerOverlayVisible }"
+      v-bind:style="{ cursor: playerOverlayVisible === true ? 'auto' : 'none' }"
+    >
       <div class="top-control-overlay"></div>
       <div class="center-control-overlay">
         <div class="play-btn-container" v-on:click="onPlayerClicked">
@@ -221,8 +225,8 @@ export default {
 
         .play-btn {
           margin: auto;
-          width: 14vw;
-          height: 14vw;
+          width: 10vw;
+          height: 10vw;
           background-color: #fff;
           opacity: 1;
           transition: clip-path 300ms $intro-easing, opacity 300ms $intro-easing;
@@ -311,7 +315,7 @@ export default {
       .bottom-controls {
       }
 
-      &.hidden{
+      &.hidden {
         opacity: 0;
       }
     }
