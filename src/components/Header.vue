@@ -60,6 +60,13 @@
       >
         <SettingsIcon />
       </router-link>
+      <a
+        href="#"
+        v-on:click.self.prevent="account"
+        id="account"
+        class="ripple tooltip"
+        data-tippy-content="account"
+      ></a>
     </div>
   </div>
 </template>
@@ -169,8 +176,7 @@ export default {
         18% 96%
       );
       transform: scale(1);
-      transition: clip-path 300ms $intro-easing,
-        transform 300ms linear;
+      transition: clip-path 300ms $intro-easing, transform 300ms linear;
 
       &.inverted {
         clip-path: polygon(
