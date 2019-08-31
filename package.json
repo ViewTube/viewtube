@@ -16,6 +16,7 @@
     "tippy.js": "^4.3.5",
     "vue": "^2.6.10",
     "vue-clazy-load": "^0.4.2",
+    "vue-clickaway": "^2.2.2",
     "vue-headful": "^2.0.1",
     "vue-material-design-icons": "^3.3.1",
     "vue-router": "^3.0.3",

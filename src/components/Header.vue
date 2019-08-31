@@ -34,11 +34,7 @@
       >
         <AccountIcon />
       </a>
-      <div
-        class="menu"
-        v-bind:class="{ visible: accountMenuVisible }"
-        v-click-outside="accountMenuVisible=false "
-      >
+      <div class="menu" v-if="accountMenuVisible" v-on-clickaway="hideAccountMenu">
         <a
           href="#"
           v-on:click.self.prevent="openInYT"
@@ -46,15 +42,7 @@
           class="ripple tooltip"
           data-tippy-content="view on youtube (hold alt for invidio.us)"
         >
-          <svg class="yt-logo" viewBox="0 0 71.412065 50" width="24" height="24">
-            <g id="g5" transform="scale(0.58823529,0.58823529)">
-              <path
-                class="st0"
-                d="M 118.9,13.3 C 117.5,8.1 113.4,4 108.2,2.6 98.7,0 60.7,0 60.7,0 60.7,0 22.7,0 13.2,2.5 8.1,3.9 3.9,8.1 2.5,13.3 0,22.8 0,42.5 0,42.5 0,42.5 0,62.3 2.5,71.7 3.9,76.9 8,81 13.2,82.4 22.8,85 60.7,85 60.7,85 c 0,0 38,0 47.5,-2.5 5.2,-1.4 9.3,-5.5 10.7,-10.7 2.5,-9.5 2.5,-29.2 2.5,-29.2 0,0 0.1,-19.8 -2.5,-29.3 z"
-              />
-              <polygon class="st1" points="80.2,42.5 48.6,24.3 48.6,60.7 " />
-            </g>
-          </svg>
+          <YoutubeIcon />open in youtube
         </a>
         <a
           href="#"
@@ -63,17 +51,17 @@
           class="ripple tooltip"
           data-tippy-content="share"
         >
-          <ShareIcon />
+          <ShareIcon />share
         </a>
-        <router-link
-          to="/settings"
+        <a
+          href="#"
           v-on:click.self.prevent="openSettings"
           id="settings-btn"
           class="ripple tooltip"
           data-tippy-content="open settings"
         >
-          <SettingsIcon />
-        </router-link>
+          <SettingsIcon />settings
+        </a>
       </div>
     </div>
   </div>
@@ -83,8 +71,10 @@
 import ShareIcon from 'icons/Share.vue'
 import SettingsIcon from 'icons/Settings.vue'
 import SearchIcon from 'icons/Magnify.vue'
-import AccountIcon from 'vue-material-design-icons/AccountCircle'
+import AccountIcon from 'icons/AccountCircle'
+import YoutubeIcon from 'icons/Youtube'
 import tippy from 'tippy.js'
+import { mixin as clickaway } from 'vue-clickaway'
 
 export default {
   name: 'Header',
@@ -92,36 +82,47 @@ export default {
     ShareIcon,
     SettingsIcon,
     SearchIcon,
-    AccountIcon
+    AccountIcon,
+    YoutubeIcon
   },
+  mixins: [clickaway],
   data: function () {
     return {
       accountMenuVisible: false
     }
   },
   methods: {
-    disableDrag: () => {
+    disableDrag: function () {
       let elements = document.getElementsByClassName('ripple')
       Array.from(elements).forEach(element => {
         element.ondragstart = e => e.preventDefault()
         element.oncontextmenu = e => e.preventDefault()
       })
     },
-    search: () => {
+    hideAccountMenu: function () {
+      if (this.accountMenuVisible) {
+        this.accountMenuVisible = false
+      }
+    },
+    search: function () {
 
     },
-    openInYT: () => {
+    openInYT: function () {
     },
-    share: () => {
-      navigator.share({
-        title: document.title,
-        text: 'Hello World',
-        url: window.location.href
-      }).then(() => console.log('Successful share'))
-        .catch(error => console.log('Error sharing:', error))
+    share: function () {
+      if (typeof navigator.share === 'function') {
+        navigator.share({
+          title: document.title,
+          text: 'Hello World',
+          url: window.location.href
+        }).then(() => console.log('Successful share'))
+          .catch(error => console.log('Error sharing:', error))
+      }
+      this.hideAccountMenu()
     },
-    openSettings: () => {
-
+    openSettings: function () {
+      this.$router.push('/settings')
+      this.hideAccountMenu()
     }
   },
   mounted () {
@@ -300,14 +301,34 @@ export default {
     justify-content: space-between;
 
     .menu {
-      display: none;
       position: fixed;
-      top: 0;
+      top: $header-height;
       right: 0;
-      background-color: $header-bgcolor;
+      background-color: $bgcolor-alt;
+      margin: -10px 20px 0 0;
+      border-radius: 3px;
+      box-shadow: $max-shadow;
+      padding: 10px 0;
 
-      &.visible {
-        display: block;
+      a {
+        width: auto;
+        border-radius: 0;
+        margin: 0;
+        padding: 6px 10px 2px 10px;
+
+        span {
+          margin: 0 20px 0 0;
+
+          svg {
+            bottom: -0.1rem !important;
+          }
+        }
+
+        &:hover,
+        &:active,
+        &:focus {
+          background-color: $bgcolor-alt-light !important;
+        }
       }
     }
 

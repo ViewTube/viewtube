@@ -14,14 +14,11 @@
       v-on:canplay="onVideoCanplay"
       v-on:playing="onVideoPlaying"
       v-on:pause="onVideoPaused"
+      v-bind:style="{ cursor: playerOverlayVisible === true ? 'auto' : 'none' }"
       ref="video"
     ></video>
     <Spinner class="video-spinner" v-if="videoBuffering"></Spinner>
-    <div
-      class="video-controls-overlay"
-      v-bind:class="{ visible: playerOverlayVisible }"
-      v-bind:style="{ cursor: playerOverlayVisible === true ? 'auto' : 'none' }"
-    >
+    <div class="video-controls-overlay" v-bind:class="{ visible: playerOverlayVisible }">
       <div class="top-control-overlay"></div>
       <div class="center-control-overlay">
         <div class="play-btn-container" v-on:click="onPlayerClicked">
