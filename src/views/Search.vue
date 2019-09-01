@@ -1,40 +1,64 @@
 <template>
   <div class="search">
-    <vue-headful title="Home - ViewTube" />
+    <vue-headful :title="`${searchQuery} - ViewTube`" />
     <Spinner class="centered" v-if="loading"></Spinner>
     <div class="search-videos-container">
-      <VideoEntry v-for="video in videos" v-bind:key="video.videoId" v-bind:video="video"></VideoEntry>
+      <component
+        v-for="result in results"
+        :is="getListEntryType(result.type)"
+        :key="result.videoId"
+        :video="result"
+        :playlist="result"
+        :channel="result"
+      ></component>
     </div>
   </div>
 </template>
 
 <script>
 import Commons from '@/commons.js'
-import VideoEntry from '@/components/VideoEntry'
+import VideoEntry from '@/components/list/VideoEntry'
+import PlaylistEntry from '@/components/list/PlaylistEntry'
+import ChannelEntry from '@/components/list/ChannelEntry'
 import Spinner from '@/components/Spinner'
 
 export default {
   name: 'search',
   components: {
     VideoEntry,
-    Spinner
+    Spinner,
+    PlaylistEntry,
+    ChannelEntry
   },
   data: function () {
     return {
-      videos: [],
-      loading: true
+      results: [],
+      loading: true,
+      searchQuery: 'loading'
     }
   },
   mounted: function () {
-    fetch(`${Commons.apiUrl}top`)
+    this.searchQuery = this.$route.query.search_query
+    fetch(`${Commons.apiUrl}search?q=${this.searchQuery}&page=1&type=all`)
       .then(response => response.json())
       .then(data => {
-        this.videos = data
+        this.results = data
         this.loading = false
       })
       .catch((error) => {
-        return error
+        console.error(error)
       })
+  },
+  methods: {
+    getListEntryType: function (type) {
+      if (type === 'video') {
+        return 'VideoEntry'
+      } else if (type === 'playlist') {
+        return 'PlaylistEntry'
+      } else if (type === 'channel') {
+        return 'ChannelEntry'
+      }
+    }
   }
 }
 </script>

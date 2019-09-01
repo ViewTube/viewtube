@@ -3,14 +3,14 @@
     <vue-headful title="Home - ViewTube" />
     <Spinner class="centered" v-if="loading"></Spinner>
     <div class="home-videos-container">
-      <VideoEntry v-for="video in videos" v-bind:key="video.videoId" v-bind:video="video"></VideoEntry>
+      <VideoEntry v-for="video in videos" :key="video.videoId" :video="video"></VideoEntry>
     </div>
   </div>
 </template>
 
 <script>
 import Commons from '@/commons.js'
-import VideoEntry from '@/components/VideoEntry'
+import VideoEntry from '@/components/list/VideoEntry'
 import Spinner from '@/components/Spinner'
 
 export default {

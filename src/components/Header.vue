@@ -7,13 +7,19 @@
       </h1>
       <img
         class="logo-small"
-        v-bind:class="{ inverted: currentRouteName!=='home' }"
+        :class="{ inverted: currentRouteName!=='home' }"
         src="@/assets/icon-background-512.jpg"
         alt="ViewTube"
       />
     </router-link>
     <div class="search-box">
-      <input type="search" name="search" id="search" placeholder="search" />
+      <input
+        type="search"
+        name="search"
+        id="search"
+        placeholder="search"
+        :value="$route.query.search_query !== undefined ? $route.query.search_query : ''"
+      />
       <a
         href="#"
         v-on:click.self.prevent="search"

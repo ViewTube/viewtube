@@ -1,13 +1,13 @@
 <template>
   <div class="channel" ref="channel">
     <vue-headful
-      v-bind:title="(channel.author !== undefined ? channel.author : 'loading') + ' - ViewTube'"
+      :title="(channel.author !== undefined ? channel.author : 'loading') + ' - ViewTube'"
     />
     <Spinner class="centered" v-if="loading"></Spinner>
     <div class="channel-banner" v-if="!loading" ref="parallaxParent">
       <div
         class="channel-banner-image"
-        v-bind:style="{
+        :style="{
           backgroundImage: `url(${channel.authorBanners[0].url})`,
           transform: `translate3d(0, ${bannerParallaxOffset}px, 0)`
         }"
@@ -18,7 +18,7 @@
       <div class="channel-title-container">
         <div class="channel-title">
           <div class="channel-thumbnail">
-            <img v-bind:src="channel.authorThumbnails[0].url" alt="Author Image" />
+            <img :src="channel.authorThumbnails[0].url" alt="Author Image" />
           </div>
           <div class="channel-info">
             <div class="channel-name">
@@ -52,14 +52,14 @@
         <div
           class="related-channel"
           v-for="channelEntry in channel.relatedChannels"
-          v-bind:key="channelEntry.authorId"
+          :key="channelEntry.authorId"
         >
           <div class="related-channel-thumbnail">
             <router-link
               class="related-channel-thumbnail-image"
               :to="{path: '/channel/' + channelEntry.authorId}"
             >
-              <img v-bind:src="channelEntry.authorThumbnails[5].url" alt />
+              <img :src="channelEntry.authorThumbnails[5].url" alt />
             </router-link>
           </div>
           <div class="related-channel-info">
@@ -74,8 +74,8 @@
     <div class="channel-videos-container" v-if="!loading">
       <VideoEntry
         v-for="video in channel.latestVideos"
-        v-bind:key="video.videoId"
-        v-bind:video="video"
+        :key="video.videoId"
+        :video="video"
       ></VideoEntry>
     </div>
   </div>
@@ -83,7 +83,7 @@
 
 <script>
 import Commons from '@/commons.js'
-import VideoEntry from '@/components/VideoEntry'
+import VideoEntry from '@/components/list/VideoEntry'
 import Spinner from '@/components/Spinner'
 import FamilyFriendly from 'vue-material-design-icons/AccountChild'
 import Paid from 'vue-material-design-icons/CurrencyUsd'

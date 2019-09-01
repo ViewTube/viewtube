@@ -26,6 +26,11 @@ export default new Router({
     path: '/channel/:id',
     name: 'channel',
     component: () => import('./views/Channel.vue')
+  },
+  {
+    path: '/results',
+    name: 'results',
+    component: () => import('./views/Search.vue')
   }
   ],
   scrollBehavior (to, from, savedPosition) {

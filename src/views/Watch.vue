@@ -1,10 +1,10 @@
 <template>
   <div class="watch">
     <vue-headful
-      v-bind:title="(video.title !== undefined ? video.title : 'loading') + ' - ViewTube'"
+      :title="(video.title !== undefined ? video.title : 'loading') + ' - ViewTube'"
     />
     <Spinner class="centered" v-if="loading"></Spinner>
-    <VideoPlayer v-if="!loading" v-bind:key="video.id" v-bind:video="video"></VideoPlayer>
+    <VideoPlayer v-if="!loading" :key="video.id" :video="video"></VideoPlayer>
     <div class="video-infobox" v-if="!loading">
       <h1 class="video-infobox-title">{{ video.title }}</h1>
       <div class="video-infobox-stats">
@@ -23,7 +23,7 @@
           <div class="like-ratio">
             <div
               class="like-ratio-bar"
-              v-bind:style="{ width: (video.likeCount / (video.dislikeCount + video.likeCount)) * 100 + '%' }"
+              :style="{ width: (video.likeCount / (video.dislikeCount + video.likeCount)) * 100 + '%' }"
             ></div>
           </div>
         </div>
@@ -31,13 +31,13 @@
       <div class="video-infobox-channel">
         <div class="infobox-channel">
           <div class="infobox-channel-image">
-            <router-link v-bind:to="`channel/${video.authorId}`">
-              <img id="channel-img" alt="channel image" v-bind:src="video.authorThumbnails[2].url" />
+            <router-link :to="`channel/${video.authorId}`">
+              <img id="channel-img" alt="channel image" :src="video.authorThumbnails[2].url" />
             </router-link>
           </div>
           <div class="infobox-channel-info">
             <router-link
-              v-bind:to="`channel/${video.authorId}`"
+              :to="`channel/${video.authorId}`"
               class="infobox-channel-name ripple"
             >{{ video.author }}</router-link>
             <p class="infobox-channel-subcount">{{ video.subCountText }} Subscribers</p>
@@ -51,8 +51,8 @@
         <router-link
           class="video-infobox-tag"
           v-for="keyword in video.keywords"
-          v-bind:key="keyword"
-          v-bind:to="`results?search_query=${keyword}`"
+          :key="keyword"
+          :to="`results?search_query=${keyword}`"
           target="_blank"
         >{{ keyword }}</router-link>
       </div>

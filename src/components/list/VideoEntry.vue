@@ -2,7 +2,7 @@
   <div class="video-entry">
     <router-link class="video-entry-thmb" :to="{path: '/watch?v=' + video.videoId}">
       <div class="thmb-image-loader">
-        <img class="video-entry-thmb-image" v-bind:src="video.videoThumbnails[2].url" />
+        <img class="video-entry-thmb-image" :src="video.videoThumbnails[2].url" />
       </div>
       <span class="video-entry-length">{{ getTimestampFromSeconds(video.lengthSeconds) }}</span>
     </router-link>
@@ -10,12 +10,12 @@
       <router-link
         class="video-entry-title tooltip"
         :to="{path: '/watch?v=' + video.videoId}"
-        v-bind:data-tippy-content="video.title"
+        :data-tippy-content="video.title"
       >{{ video.title }}</router-link>
       <router-link
         class="video-entry-channel tooltip"
         :to="{path: '/channel/' + video.authorId}"
-        v-bind:data-tippy-content="video.author"
+        :data-tippy-content="video.author"
       >{{ video.author }}</router-link>
       <div class="video-entry-stats">
         <p class="video-entry-views">{{ video.viewCount.toLocaleString() }}</p>
@@ -29,7 +29,7 @@
 import tippy from 'tippy.js'
 
 export default {
-  name: 'VideoEntry',
+  name: 'video-entry',
   props: {
     video: Object
   },

@@ -9,42 +9,36 @@
   >
     <video
       class="video"
-      v-bind:src="video.formatStreams[0].url"
+      :src="video.formatStreams[0].url"
       v-on:waiting="onVideoBuffering"
       v-on:canplay="onVideoCanplay"
       v-on:playing="onVideoPlaying"
       v-on:pause="onVideoPaused"
-      v-bind:style="{ cursor: playerOverlayVisible === true ? 'auto' : 'none' }"
+      :style="{ cursor: playerOverlayVisible === true ? 'auto' : 'none' }"
       ref="video"
     ></video>
     <Spinner class="video-spinner" v-if="videoBuffering"></Spinner>
-    <div class="video-controls-overlay" v-bind:class="{ visible: playerOverlayVisible }">
+    <div class="video-controls-overlay" :class="{ visible: playerOverlayVisible }">
       <div class="top-control-overlay"></div>
       <div class="center-control-overlay">
         <div class="play-btn-container" v-on:click="onPlayerClicked">
-          <div class="play-btn" v-bind:class="{ playing: videoPlaying }"></div>
+          <div class="play-btn" :class="{ playing: videoPlaying }"></div>
         </div>
       </div>
-      <div class="bottom-control-overlay" v-bind:class="{ hidden: thumbnailOverlayVisible }">
+      <div class="bottom-control-overlay" :class="{ hidden: thumbnailOverlayVisible }">
         <div class="seekbar">
           <div class="seekbar-clickable"></div>
           <div class="seekbar-background"></div>
-          <div
-            class="seekbar-loading-progress"
-            v-bind:style="{ width: `${videoLoadingPercentage}%` }"
-          ></div>
-          <div
-            class="seekbar-playback-progress"
-            v-bind:style="{ width: `${videoProgressPercentage}%` }"
-          ></div>
+          <div class="seekbar-loading-progress" :style="{ width: `${videoLoadingPercentage}%` }"></div>
+          <div class="seekbar-playback-progress" :style="{ width: `${videoProgressPercentage}%` }"></div>
         </div>
         <div class="bottom-controls"></div>
       </div>
     </div>
     <div
       class="video-thumbnail-overlay"
-      v-bind:style="{ backgroundImage: `url(${video.videoThumbnails[0].url})` }"
-      v-bind:class="{ hidden: !thumbnailOverlayVisible }"
+      :style="{ backgroundImage: `url(${video.videoThumbnails[0].url})` }"
+      :class="{ hidden: !thumbnailOverlayVisible }"
     ></div>
   </div>
 </template>
@@ -207,12 +201,12 @@ export default {
     left: 0;
     height: 100%;
     width: 100%;
-    opacity: 0;
     pointer-events: none;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     transition: opacity 300ms $intro-easing;
+    opacity: 0;
     z-index: 140;
 
     .top-control-overlay {
@@ -228,11 +222,12 @@ export default {
 
         .play-btn {
           margin: auto;
-          width: 10vw;
-          height: 10vw;
+          width: 14vw;
+          height: 14vw;
           background-color: #fff;
           opacity: 1;
-          transition: clip-path 300ms $intro-easing, opacity 300ms $intro-easing;
+          transition: clip-path 300ms $intro-easing, opacity 300ms $intro-easing,
+            transform 300ms $intro-easing;
           clip-path: polygon(
             18% 4%,
             18% 4%,
