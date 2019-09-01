@@ -29,7 +29,10 @@
         <div class="seekbar">
           <div class="seekbar-clickable"></div>
           <div class="seekbar-background"></div>
-          <div class="seekbar-loading-progress"></div>
+          <div
+            class="seekbar-loading-progress"
+            v-bind:style="{ width: `${videoLoadingPercentage}%` }"
+          ></div>
           <div
             class="seekbar-playback-progress"
             v-bind:style="{ width: `${videoProgressPercentage}%` }"
@@ -66,7 +69,8 @@ export default {
       thumbnailOverlayVisible: true,
       videoBuffering: true,
       videoPlaying: false,
-      videoProgressPercentage: 0
+      videoProgressPercentage: 0,
+      videoLoadingPercentage: 0
     }
   },
   watch: {
@@ -90,7 +94,9 @@ export default {
   },
   methods: {
     updateVideoOverlay: function () {
-      this.videoProgressPercentage = (this.$refs.video.currentTime / this.videoLength) * 100
+      let video = this.$refs.video
+      this.videoProgressPercentage = (video.currentTime / this.videoLength) * 100
+      this.videoLoadingPercentage = (video.buffered.end(video.buffered.length - 1) / video.duration) * 100
     },
     onVideoPlaying: function () {
       this.videoPlaying = true

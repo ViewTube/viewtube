@@ -31,15 +31,15 @@
       <div class="video-infobox-channel">
         <div class="infobox-channel">
           <div class="infobox-channel-image">
-            <a v-bind:href="`channel/${video.authorId}`">
+            <router-link v-bind:to="`channel/${video.authorId}`">
               <img id="channel-img" alt="channel image" v-bind:src="video.authorThumbnails[2].url" />
-            </a>
+            </router-link>
           </div>
           <div class="infobox-channel-info">
-            <a
-              v-bind:href="`channel/${video.authorId}`"
+            <router-link
+              v-bind:to="`channel/${video.authorId}`"
               class="infobox-channel-name ripple"
-            >{{ video.author }}</a>
+            >{{ video.author }}</router-link>
             <p class="infobox-channel-subcount">{{ video.subCountText }} Subscribers</p>
           </div>
         </div>
@@ -48,13 +48,13 @@
       <div class="video-infobox-date">{{ video.publishedText }}</div>
       <p>tags:</p>
       <div class="video-infobox-tags">
-        <a
+        <router-link
           class="video-infobox-tag"
           v-for="keyword in video.keywords"
           v-bind:key="keyword"
-          v-bind:href="`results?search_query=${keyword}`"
+          v-bind:to="`results?search_query=${keyword}`"
           target="_blank"
-        >{{ keyword }}</a>
+        >{{ keyword }}</router-link>
       </div>
       <div class="video-infobox-description" v-html="video.descriptionHtml"></div>
     </div>
