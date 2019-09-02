@@ -9,7 +9,7 @@
         class="channel-banner-image"
         :style="{
           backgroundImage: `url(${channel.authorBanners[0].url})`,
-          transform: `translate3d(0, ${bannerParallaxOffset}px, 0)`
+          transform: `translateY(${bannerParallaxOffset}px)`
         }"
         ref="parallaxImage"
       ></div>
@@ -72,11 +72,7 @@
       </div>
     </div>
     <div class="channel-videos-container" v-if="!loading">
-      <VideoEntry
-        v-for="video in channel.latestVideos"
-        :key="video.videoId"
-        :video="video"
-      ></VideoEntry>
+      <VideoEntry v-for="video in channel.latestVideos" :key="video.videoId" :video="video"></VideoEntry>
     </div>
   </div>
 </template>
@@ -111,7 +107,9 @@ export default {
       return `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`
     },
     loadChannelData: function () {
-      fetch(`${Commons.apiUrl}channels/${this.$route.params.id}`)
+      fetch(`${Commons.apiUrl}channels/${this.$route.params.id}`, {
+        cache: 'force-cache'
+      })
         .then(response => response.json())
         .then(data => {
           this.channel = data
@@ -122,7 +120,6 @@ export default {
         })
     },
     handleScroll: function () {
-      console.log('scroll')
       if (this.isVisible(this.$refs.parallaxImage)) {
         let offsetTop = this.$refs.parallaxParent.getBoundingClientRect().top - 60
         this.bannerParallaxOffset = offsetTop / -2
@@ -191,7 +188,7 @@ export default {
         transform: translateX(-50%);
 
         .channel-thumbnail {
-          height: 100px;
+          height: 110px;
           margin: 0;
           padding: 10px;
 

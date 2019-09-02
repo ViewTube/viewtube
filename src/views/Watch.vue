@@ -1,8 +1,6 @@
 <template>
   <div class="watch">
-    <vue-headful
-      :title="(video.title !== undefined ? video.title : 'loading') + ' - ViewTube'"
-    />
+    <vue-headful :title="(video.title !== undefined ? video.title : 'loading') + ' - ViewTube'" />
     <Spinner class="centered" v-if="loading"></Spinner>
     <VideoPlayer v-if="!loading" :key="video.id" :video="video"></VideoPlayer>
     <div class="video-infobox" v-if="!loading">
@@ -113,7 +111,9 @@ export default {
   },
   mounted: function () {
     let videoId = this.$route.query.v
-    fetch(`${Commons.apiUrl}videos/${videoId}`)
+    fetch(`${Commons.apiUrl}videos/${videoId}`, {
+      cache: 'force-cache'
+    })
       .then(response => response.json())
       .then(data => {
         data.descriptionHtml = this.cleanRedirectUrls(data.descriptionHtml)
@@ -237,7 +237,7 @@ export default {
         flex-direction: column;
         align-items: flex-start;
 
-        .infobox-channel{
+        .infobox-channel {
           margin: 0 0 20px 0;
           .infobox-channel-info {
             .infobox-channel-name {
@@ -267,6 +267,7 @@ export default {
           display: flex;
           flex-direction: column;
           justify-content: space-evenly;
+          flex-wrap: wrap;
           margin: 0 20px 0 0;
 
           .infobox-channel-name {
@@ -277,7 +278,7 @@ export default {
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            max-width: 50vw;
+            max-width: 45vw;
           }
 
           .infobox-channel-subcount {

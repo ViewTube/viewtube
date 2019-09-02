@@ -17,12 +17,16 @@
         type="search"
         name="search"
         id="search"
+        ref="searchField"
         placeholder="search"
+        v-on:focus="onSearchFieldFocused"
+        v-on:blur="onSearchFieldBlur"
+        v-on:keydown="onSearchFieldKeydown"
         :value="$route.query.search_query !== undefined ? $route.query.search_query : ''"
       />
       <a
         href="#"
-        v-on:click.self.prevent="search"
+        v-on:click.self.prevent="onSearchButton"
         class="search-btn ripple tooltip"
         data-tippy-content="click or press enter to search"
       >
@@ -40,35 +44,37 @@
       >
         <AccountIcon />
       </a>
-      <div class="menu" v-if="accountMenuVisible" v-on-clickaway="hideAccountMenu">
-        <a
-          href="#"
-          v-on:click.self.prevent="openInYT"
-          id="open-in-yt"
-          class="ripple tooltip"
-          data-tippy-content="view on youtube (hold alt for invidio.us)"
-        >
-          <YoutubeIcon />open in youtube
-        </a>
-        <a
-          href="#"
-          v-on:click.self.prevent="share"
-          id="share"
-          class="ripple tooltip"
-          data-tippy-content="share"
-        >
-          <ShareIcon />share
-        </a>
-        <a
-          href="#"
-          v-on:click.self.prevent="openSettings"
-          id="settings-btn"
-          class="ripple tooltip"
-          data-tippy-content="open settings"
-        >
-          <SettingsIcon />settings
-        </a>
-      </div>
+      <transition name="circle">
+        <div class="menu" v-if="accountMenuVisible" v-on-clickaway="hideAccountMenu">
+          <a
+            href="#"
+            v-on:click.self.prevent="openInYT"
+            id="open-in-yt"
+            class="ripple tooltip"
+            data-tippy-content="view on youtube (hold alt for invidio.us)"
+          >
+            <YoutubeIcon />open in youtube
+          </a>
+          <a
+            href="#"
+            v-on:click.self.prevent="share"
+            id="share"
+            class="ripple tooltip"
+            data-tippy-content="share"
+          >
+            <ShareIcon />share
+          </a>
+          <a
+            href="#"
+            v-on:click.self.prevent="openSettings"
+            id="settings-btn"
+            class="ripple tooltip"
+            data-tippy-content="open settings"
+          >
+            <SettingsIcon />settings
+          </a>
+        </div>
+      </transition>
     </div>
   </div>
 </template>
@@ -98,6 +104,24 @@ export default {
     }
   },
   methods: {
+    onSearchFieldFocused: function (e) {
+
+    },
+    onSearchFieldBlur: function (e) {
+
+    },
+    onSearchFieldKeydown: function (e) {
+      let searchValue = e.target.value
+      if (e.code === 'Enter' && searchValue !== '') {
+        this.$router.push(`/results?search_query=${searchValue}`)
+      }
+    },
+    onSearchButton: function () {
+      let searchValue = this.$refs.searchField.value
+      if (searchValue !== '') {
+        this.$router.push(`/results?search_query=${searchValue}`)
+      }
+    },
     disableDrag: function () {
       let elements = document.getElementsByClassName('ripple')
       Array.from(elements).forEach(element => {
@@ -109,9 +133,6 @@ export default {
       if (this.accountMenuVisible) {
         this.accountMenuVisible = false
       }
-    },
-    search: function () {
-
     },
     openInYT: function () {
     },
@@ -153,6 +174,21 @@ export default {
 </script>
 
 <style lang="scss">
+.circle-enter-active,
+.circle-leave-active {
+  transition: clip-path 300ms $intro-easing, transform 300ms $intro-easing;
+}
+.circle-enter-to,
+.circle-leave {
+  clip-path: circle(200% at 95% 0%);
+  transform: translateY(0);
+}
+.circle-enter,
+.circle-leave-to {
+  clip-path: circle(0 at 95% 0%);
+  transform: translateY(-20px);
+}
+
 .header {
   height: $header-height;
   width: 100%;

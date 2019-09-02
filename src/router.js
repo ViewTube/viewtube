@@ -10,7 +10,8 @@ export default new Router({
   routes: [{
     path: '/',
     name: 'home',
-    component: Home
+    component: Home,
+    meta: { scrollHeight: 0 }
   },
   {
     path: '/settings',
@@ -30,17 +31,20 @@ export default new Router({
   {
     path: '/results',
     name: 'results',
-    component: () => import('./views/Search.vue')
-  }
-  ],
+    component: () => import('./views/Search.vue'),
+    meta: { scrollHeight: 0 }
+  }],
+  beforeEach (to, from, next) {
+    console.log(to, from)
+    next(false)
+  },
   scrollBehavior (to, from, savedPosition) {
-    if (savedPosition) {
-      if (to.name === 'home') {
-        return {
-          selector: '.home-videos-container',
-          offset: savedPosition
-        }
+    if (to.hash) {
+      return {
+        selector: to.hash
       }
+    }
+    if (savedPosition) {
       return savedPosition
     } else {
       return {

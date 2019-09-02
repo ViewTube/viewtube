@@ -2,7 +2,7 @@
   <div class="home">
     <vue-headful title="Home - ViewTube" />
     <Spinner class="centered" v-if="loading"></Spinner>
-    <div class="home-videos-container">
+    <div class="home-videos-container" ref="scrollContainer">
       <VideoEntry v-for="video in videos" :key="video.videoId" :video="video"></VideoEntry>
     </div>
   </div>
@@ -26,15 +26,25 @@ export default {
     }
   },
   mounted: function () {
-    fetch(`${Commons.apiUrl}top`)
+    fetch(`${Commons.apiUrl}top`, {
+      cache: 'force-cache'
+    })
       .then(response => response.json())
       .then(data => {
         this.videos = data
         this.loading = false
+        // Just don't ask, it doesn't work without it
+        setTimeout(() => {
+          this.$refs.scrollContainer.scrollTop = this.$route.meta.scrollHeight
+        }, 0)
       })
       .catch((error) => {
         return error
       })
+  },
+  beforeRouteLeave (to, from, next) {
+    from.meta.scrollHeight = this.$refs.scrollContainer.scrollTop
+    next()
   }
 }
 </script>
@@ -43,6 +53,7 @@ export default {
 .home {
   .home-videos-container {
     width: 100%;
+    height: 100%;
     max-width: $main-width;
     margin: 0 auto;
     z-index: 10;
@@ -50,6 +61,7 @@ export default {
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-evenly;
+    overflow: auto;
 
     @media screen and (max-width: $mobile-width) {
       flex-direction: column;
