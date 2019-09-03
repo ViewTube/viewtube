@@ -48,6 +48,15 @@
         <div class="menu" v-if="accountMenuVisible" v-on-clickaway="hideAccountMenu">
           <a
             href="#"
+            v-on:click.self.prevent="login"
+            id="account-btn"
+            class="ripple tooltip"
+            data-tippy-content="login or register"
+          >
+            <AccountIcon />login
+          </a>
+          <a
+            href="#"
             v-on:click.self.prevent="openInYT"
             id="open-in-yt"
             class="ripple tooltip"
