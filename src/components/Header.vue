@@ -159,6 +159,10 @@ export default {
     openSettings: function () {
       this.$router.push('/settings')
       this.hideAccountMenu()
+    },
+    login: function () {
+      this.$router.push('/login')
+      this.hideAccountMenu()
     }
   },
   mounted () {

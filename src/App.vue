@@ -7,23 +7,11 @@
 
 <script>
 import Header from '@/components/Header.vue'
-// import Kuzzle from 'kuzzle-sdk'
 
 export default {
   name: 'app',
   components: {
     Header
-  },
-  data: function () {
-    return {
-      webSocket: undefined
-    }
-  },
-  mounted () {
-    // this.webSocket = new Kuzzle(new WebSocket('kuzzle.mcdn.ch'))
-    // this.webSocket.on('networkError', error => {
-    //   console.error(error)
-    // })
   }
 }
 </script>

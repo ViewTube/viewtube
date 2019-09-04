@@ -53,7 +53,6 @@ export default {
 .home {
   .home-videos-container {
     width: 100%;
-    height: 100%;
     max-width: $main-width;
     margin: 0 auto;
     z-index: 10;
@@ -61,7 +60,6 @@ export default {
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-evenly;
-    overflow: auto;
 
     @media screen and (max-width: $mobile-width) {
       flex-direction: column;

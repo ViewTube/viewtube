@@ -11,7 +11,9 @@ export default new Router({
     path: '/',
     name: 'home',
     component: Home,
-    meta: { scrollHeight: 0 }
+    meta: {
+      scrollHeight: 0
+    }
   },
   {
     path: '/settings',
@@ -24,6 +26,11 @@ export default new Router({
     component: () => import('./views/Watch.vue')
   },
   {
+    path: '/login',
+    name: 'login',
+    component: () => import('./views/Login.vue')
+  },
+  {
     path: '/channel/:id',
     name: 'channel',
     component: () => import('./views/Channel.vue')
@@ -32,7 +39,9 @@ export default new Router({
     path: '/results',
     name: 'results',
     component: () => import('./views/Search.vue'),
-    meta: { scrollHeight: 0 }
+    meta: {
+      scrollHeight: 0
+    }
   }],
   beforeEach (to, from, next) {
     console.log(to, from)
