@@ -7,30 +7,26 @@
     v-on:mouseleave="onPlayerMouseLeave"
     v-on:click="onPlayerClicked"
   >
-    <video
-      class="video"
-      :src="video.formatStreams[0].url"
-      v-on:waiting="onVideoBuffering"
-      v-on:canplay="onVideoCanplay"
-      v-on:playing="onVideoPlaying"
-      v-on:pause="onVideoPaused"
-      :style="{ cursor: playerOverlayVisible === true ? 'auto' : 'none' }"
-      ref="video"
-    ></video>
-    <Spinner class="video-spinner" v-if="videoBuffering"></Spinner>
-    <div class="video-controls-overlay" :class="{ visible: playerOverlayVisible }">
+    <Spinner class="video-spinner" v-if="videoElement.buffering"></Spinner>
+    <div class="video-controls-overlay" :class="{ visible: playerOverlay.visible }">
       <div class="top-control-overlay"></div>
       <div class="center-control-overlay">
         <div class="play-btn-container" v-on:click="onPlayerClicked">
-          <div class="play-btn" :class="{ playing: videoPlaying }"></div>
+          <div class="play-btn" :class="{ playing: videoElement.playing }"></div>
         </div>
       </div>
-      <div class="bottom-control-overlay" :class="{ hidden: thumbnailOverlayVisible }">
+      <div class="bottom-control-overlay" :class="{ hidden: playerOverlay.thumbnailVisible }">
         <div class="seekbar">
           <div class="seekbar-clickable"></div>
           <div class="seekbar-background"></div>
-          <div class="seekbar-loading-progress" :style="{ width: `${videoLoadingPercentage}%` }"></div>
-          <div class="seekbar-playback-progress" :style="{ width: `${videoProgressPercentage}%` }"></div>
+          <div
+            class="seekbar-loading-progress"
+            :style="{ width: `${videoElement.loadingPercentage}%` }"
+          ></div>
+          <div
+            class="seekbar-playback-progress"
+            :style="{ width: `${videoElement.progressPercentage}%` }"
+          ></div>
         </div>
         <div class="bottom-controls"></div>
       </div>
@@ -38,8 +34,18 @@
     <div
       class="video-thumbnail-overlay"
       :style="{ backgroundImage: `url(${video.videoThumbnails[0].url})` }"
-      :class="{ hidden: !thumbnailOverlayVisible }"
+      :class="{ hidden: !playerOverlay.thumbnailVisible }"
     ></div>
+    <video
+      class="video"
+      :src="video.formatStreams[0].url"
+      v-on:waiting="onVideoBuffering"
+      v-on:canplay="onVideoCanplay"
+      v-on:playing="onVideoPlaying"
+      v-on:pause="onVideoPaused"
+      :style="{ cursor: playerOverlay.visible === true ? 'auto' : 'none' }"
+      ref="video"
+    ></video>
   </div>
 </template>
 
@@ -57,59 +63,92 @@ export default {
   data: function () {
     return {
       loading: true,
-      playerOverlayVisible: false,
-      playerOverlayTimeout: undefined,
-      playerOverlayUpdateInterval: undefined,
-      thumbnailOverlayVisible: true,
-      videoBuffering: true,
-      videoPlaying: false,
-      videoProgressPercentage: 0,
-      videoLoadingPercentage: 0
+      playerOverlay: {
+        visible: false,
+        timeout: undefined,
+        updateInterval: undefined,
+        thumbnailVisible: true
+      },
+      videoElement: {
+        positionSaveInterval: undefined,
+        buffering: true,
+        playing: false,
+        progressPercentage: 0,
+        loadingPercentage: 0,
+        firstTimeBuffering: true
+      }
     }
   },
   watch: {
     playerOverlayVisible: function (newValue) {
       if (newValue) {
-        this.playerOverlayUpdateInterval = setInterval(() =>
-          this.updateVideoOverlay()
-        , 100)
+        this.playerOverlay.updateInterval = setInterval(() =>
+          this.updateVideoOverlay(), 100)
       } else {
-        clearInterval(this.playerOverlayUpdateInterval)
+        clearInterval(this.playerOverlay.updateInterval)
       }
     }
   },
   computed: {
-    videoLength: function () {
+    videoLength () {
       if (this.$refs.video !== undefined) {
         return this.$refs.video.duration
       }
       return 0
+    },
+    playerOverlayVisible () {
+      return this.playerOverlay.visible
+    },
+    savedPosition: {
+      get () {
+        if (this.video !== undefined) {
+          return parseInt(localStorage.getItem(`savedVideoPositionId${this.video.videoId}`)) || 0
+        }
+        return 0
+      },
+      set (value) {
+        if (this.video !== undefined) {
+          return localStorage.setItem(`savedVideoPositionId${this.video.videoId}`, value)
+        }
+      }
     }
+  },
+  mounted: function () {
+
   },
   methods: {
     updateVideoOverlay: function () {
       let video = this.$refs.video
-      this.videoProgressPercentage = (video.currentTime / this.videoLength) * 100
-      this.videoLoadingPercentage = (video.buffered.end(video.buffered.length - 1) / video.duration) * 100
+      this.videoElement.progressPercentage = (video.currentTime / this.videoLength) * 100
+      this.videoElement.loadingPercentage = (video.buffered.end(video.buffered.length - 1) / video.duration) * 100
+      console.log((video.buffered.end(video.buffered.length - 1) / video.duration) * 100)
     },
     onVideoPlaying: function () {
-      this.videoPlaying = true
+      this.videoElement.playing = true
+      this.videoElement.positionSaveInterval = setInterval(() =>
+        this.saveVideoPosition(), 5000)
     },
     onVideoPaused: function () {
-      this.videoPlaying = false
+      this.videoElement.playing = false
+      this.saveVideoPosition()
+      clearInterval(this.videoElement.positionSaveInterval)
     },
     onVideoCanplay: function () {
-      this.videoBuffering = false
+      if (this.videoElement.firstTimeBuffering) {
+        this.$refs.video.currentTime = this.savedPosition
+        this.videoElement.firstTimeBuffering = false
+      }
+      this.videoElement.buffering = false
     },
     onVideoBuffering: function () {
-      this.videoBuffering = true
+      this.videoElement.buffering = true
     },
     onLoaded: function () {
       this.loading = false
     },
     onPlayerClicked: function () {
-      this.thumbnailOverlayVisible = false
-      if (this.videoPlaying) {
+      this.playerOverlay.thumbnailVisible = false
+      if (this.videoElement.playing) {
         this.$refs.video.pause()
       } else {
         this.$refs.video.play()
@@ -118,11 +157,13 @@ export default {
     onPlayerTouchStart: function (e) {
     },
     onPlayerTouchEnd: function (e) {
-      if (this.playerOverlayVisible) {
+      if (this.playerOverlay.visible) {
         this.hidePlayerOverlay()
       } else {
         this.showPlayerOverlay()
       }
+      e.stopPropagation()
+      e.preventDefault()
     },
     onPlayerMouseMove: function (e) {
       this.showPlayerOverlay()
@@ -130,20 +171,26 @@ export default {
     onPlayerMouseLeave: function (e) {
       this.hidePlayerOverlay()
     },
-    showPlayerOverlay: function () {
-      this.playerOverlayVisible = true
-      if (this.playerOverlayTimeout) {
-        clearTimeout(this.playerOverlayTimeout)
+    saveVideoPosition: function () {
+      let video = this.$refs.video
+      if (video !== undefined) {
+        this.savedPosition = video.currentTime
       }
-      this.playerOverlayTimeout = setTimeout(() => {
-        this.playerOverlayVisible = false
+    },
+    showPlayerOverlay: function () {
+      this.playerOverlay.visible = true
+      if (this.playerOverlay.timeout) {
+        clearTimeout(this.playerOverlay.timeout)
+      }
+      this.playerOverlay.timeout = setTimeout(() => {
+        this.playerOverlay.visible = false
       }, 3000)
     },
     hidePlayerOverlay: function () {
-      if (this.playerOverlayTimeout) {
-        clearTimeout(this.playerOverlayTimeout)
+      if (this.playerOverlay.timeout) {
+        clearTimeout(this.playerOverlay.timeout)
       }
-      this.playerOverlayVisible = false
+      this.playerOverlay.visible = false
     }
   }
 }
@@ -201,7 +248,6 @@ export default {
     left: 0;
     height: 100%;
     width: 100%;
-    pointer-events: none;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -276,12 +322,19 @@ export default {
         z-index: 142;
         display: flex;
 
+        &:hover{
+          .seekbar-background, .seekbar-loading-progress, .seekbar-playback-progress {
+            height: $video-seekbar-line-height + 5px;
+          }
+        }
+
         @mixin seekbar-part {
           position: absolute;
           left: 0;
           top: 50%;
           transform: translateY(-50%);
           width: 100%;
+          transition: height 100ms linear;
         }
 
         .seekbar-clickable {
