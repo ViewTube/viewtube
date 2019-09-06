@@ -120,8 +120,11 @@ export default {
     updateVideoOverlay: function () {
       let video = this.$refs.video
       this.videoElement.progressPercentage = (video.currentTime / this.videoLength) * 100
-      this.videoElement.loadingPercentage = (video.buffered.end(video.buffered.length - 1) / video.duration) * 100
-      console.log((video.buffered.end(video.buffered.length - 1) / video.duration) * 100)
+      let videoBufferedMaxTimeRange = video.buffered.length - 1
+      if (videoBufferedMaxTimeRange > 0 && videoBufferedMaxTimeRange !== undefined) {
+        let loadingPercentage = (video.buffered.end(video.buffered.length - 1) / video.duration) * 100
+        this.videoElement.loadingPercentage = loadingPercentage
+      }
     },
     onVideoPlaying: function () {
       this.videoElement.playing = true
@@ -322,8 +325,10 @@ export default {
         z-index: 142;
         display: flex;
 
-        &:hover{
-          .seekbar-background, .seekbar-loading-progress, .seekbar-playback-progress {
+        &:hover {
+          .seekbar-background,
+          .seekbar-loading-progress,
+          .seekbar-playback-progress {
             height: $video-seekbar-line-height + 5px;
           }
         }

@@ -1,7 +1,7 @@
 <template>
   <div class="login">
     <vue-headful title="Login - ViewTube" />
-    <Spinner class="centered"></Spinner>
+    <Spinner class="centered" v-if="loading"></Spinner>
     <div class="login-container">
       <form id="login" method="post" @submit.prevent="login">
         <input
@@ -37,6 +37,7 @@ export default {
   },
   data: function () {
     return {
+      loading: false,
       username: null,
       password: null,
       state: UserStore.state

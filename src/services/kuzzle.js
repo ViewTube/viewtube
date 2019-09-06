@@ -3,6 +3,6 @@ import {
   WebSocket
 } from 'kuzzle-sdk'
 
-export default new Kuzzle(new WebSocket('http://kuzzle.mcdn.ch'), {
+export default new Kuzzle(new WebSocket('kuzzle.mcdn.ch'), {
   defaultIndex: 'viewtube'
 })
