@@ -14,15 +14,32 @@ export default {
         username,
         password
       })
+      return jwt
     } catch (error) {
-      console.log(error)
+      this.state.errorMessage = error.message
+      return null
     } finally {
-      window.sessionStorage.setItem('jwt', jwt)
+      if (jwt) {
+        window.sessionStorage.setItem('jwt', jwt)
+        let user = await kuzzle.auth.getCurrentUser()
+        this.state.username = user._id
+        console.log(user._id)
+      }
       kuzzle.disconnect()
     }
   },
-  isAuthenticated () {
-    return Boolean(this.state.username)
+  async isAuthenticated () {
+    if (!this.state.username) {
+      if (window.sessionStorage.getItem('jwt')) {
+        console.log(window.sessionStorage.getItem('jwt'))
+        await kuzzle.connect()
+        const token = window.sessionStorage.getItem('jwt')
+        const tokenCheck = await kuzzle.auth.checkToken(token)
+        console.log(tokenCheck)
+      }
+      return false
+    }
+    return true
   },
   getCurrentUser (callback) {
     var jwt = window.sessionStorage.getItem('jwt')

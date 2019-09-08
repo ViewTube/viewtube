@@ -2,6 +2,7 @@
   <div class="login">
     <vue-headful title="Login - ViewTube" />
     <Spinner class="centered" v-if="loading"></Spinner>
+    <p class="error-message-display">{{ state.errorMessage }}</p>
     <div class="login-container">
       <form id="login" method="post" @submit.prevent="login">
         <input
@@ -49,7 +50,7 @@ export default {
         let success = await UserStore.login(this.username, this.password)
         console.log(success)
       } catch (error) {
-        console.error(error)
+        console.error(error.message)
       }
     }
   },

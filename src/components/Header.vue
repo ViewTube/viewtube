@@ -48,18 +48,26 @@
         <div class="menu" v-if="accountMenuVisible" v-on-clickaway="hideAccountMenu">
           <a
             href="#"
+            v-if="!authenticated()"
             v-on:click.self.prevent="login"
-            id="account-btn"
-            class="ripple tooltip"
+            id="login-btn"
+            class="ripple tooltip menu-btn"
             data-tippy-content="login or register"
           >
-            <AccountIcon />login
+            <AccountIcon />Sign in
           </a>
+          <div class="account-menu" v-if="authenticated()">
+            <AccountIcon />
+            <div class="account-info">
+              <p class="account-name">{{ loginState.username }}</p>
+              <a class="logout-btn" href="#" v-on:click.prevent="logout">Sign out</a>
+            </div>
+          </div>
           <a
             href="#"
             v-on:click.self.prevent="openInYT"
             id="open-in-yt"
-            class="ripple tooltip"
+            class="ripple tooltip menu-btn"
             data-tippy-content="view on youtube (hold alt for invidio.us)"
           >
             <YoutubeIcon />open in youtube
@@ -68,7 +76,7 @@
             href="#"
             v-on:click.self.prevent="share"
             id="share"
-            class="ripple tooltip"
+            class="ripple tooltip menu-btn"
             data-tippy-content="share"
           >
             <ShareIcon />share
@@ -77,7 +85,7 @@
             href="#"
             v-on:click.self.prevent="openSettings"
             id="settings-btn"
-            class="ripple tooltip"
+            class="ripple tooltip menu-btn"
             data-tippy-content="open settings"
           >
             <SettingsIcon />settings
@@ -96,6 +104,7 @@ import AccountIcon from 'icons/AccountCircle'
 import YoutubeIcon from 'icons/Youtube'
 import tippy from 'tippy.js'
 import { mixin as clickaway } from 'vue-clickaway'
+import UserStore from '@/store/user.js'
 
 export default {
   name: 'Header',
@@ -109,10 +118,17 @@ export default {
   mixins: [clickaway],
   data: function () {
     return {
-      accountMenuVisible: false
+      accountMenuVisible: false,
+      loginState: UserStore.state,
+      userAuthenticated: false
     }
   },
   methods: {
+    authenticated: async function () {
+      let authenticated = await UserStore.isAuthenticated()
+      console.log(authenticated)
+      return authenticated
+    },
     onSearchFieldFocused: function (e) {
 
     },
@@ -122,13 +138,13 @@ export default {
     onSearchFieldKeydown: function (e) {
       let searchValue = e.target.value
       if (e.code === 'Enter' && searchValue !== '') {
-        this.$router.push(`/results?search_query=${searchValue}`)
+        this.$router.push(`results?search_query=${searchValue}`)
       }
     },
     onSearchButton: function () {
       let searchValue = this.$refs.searchField.value
       if (searchValue !== '') {
-        this.$router.push(`/results?search_query=${searchValue}`)
+        this.$router.push(`results?search_query=${searchValue}`)
       }
     },
     disableDrag: function () {
@@ -157,11 +173,11 @@ export default {
       this.hideAccountMenu()
     },
     openSettings: function () {
-      this.$router.push('/settings')
+      this.$router.push('settings')
       this.hideAccountMenu()
     },
     login: function () {
-      this.$router.push('/login')
+      this.$router.push('login')
       this.hideAccountMenu()
     }
   },
@@ -365,11 +381,43 @@ export default {
       box-shadow: $max-shadow;
       padding: 10px 0;
 
-      a {
+      .account-menu {
+        height: 50px;
+        display: flex;
+        flex-direction: row;
+        padding: 0 0 0 10px;
+        align-items: flex-start;
+
+        .account-info {
+          display: flex;
+          flex-direction: column;
+          margin: 0 0 0 10px;
+          width: 100%;
+
+          .account-name {
+            margin: 0 0 0 13px;
+            width: 100%;
+            color: $title-color;
+          }
+
+          .logout-btn {
+            font-size: 0.9rem;
+            width: 100%;
+            margin: 0 0 0 10px;
+
+            &:hover{
+              text-decoration: underline;
+            }
+          }
+        }
+      }
+
+      a.menu-btn {
         width: auto;
         border-radius: 0;
         margin: 0;
         padding: 6px 10px 2px 10px;
+        display: flex;
 
         span {
           margin: 0 20px 0 0;
@@ -377,6 +425,10 @@ export default {
           svg {
             bottom: -0.1rem !important;
           }
+        }
+
+        p.menu-subtitle {
+          font-size: 0.8rem;
         }
 
         &:hover,
