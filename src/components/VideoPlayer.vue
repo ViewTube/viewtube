@@ -8,7 +8,11 @@
     v-on:click="onPlayerClicked"
   >
     <Spinner class="video-spinner" v-if="videoElement.buffering"></Spinner>
-    <div class="video-controls-overlay" :class="{ visible: playerOverlay.visible }">
+    <div
+      class="video-controls-overlay"
+      :class="{ visible: playerOverlay.visible }"
+      :style="{ cursor: playerOverlay.visible ? 'auto' : 'none'}"
+    >
       <div class="top-control-overlay"></div>
       <div class="center-control-overlay">
         <div class="play-btn-container" v-on:click="onPlayerClicked">
@@ -43,7 +47,7 @@
       v-on:canplay="onVideoCanplay"
       v-on:playing="onVideoPlaying"
       v-on:pause="onVideoPaused"
-      :style="{ cursor: playerOverlay.visible === true ? 'auto' : 'none' }"
+      :style="{ opacity: playerOverlay.thumbnailVisible ? 0 : 1 }"
       ref="video"
     ></video>
   </div>
@@ -118,11 +122,11 @@ export default {
   },
   methods: {
     updateVideoOverlay: function () {
-      let video = this.$refs.video
-      this.videoElement.progressPercentage = (video.currentTime / this.videoLength) * 100
-      let videoBufferedMaxTimeRange = video.buffered.length - 1
+      let videoRef = this.$refs.video
+      this.videoElement.progressPercentage = (videoRef.currentTime / this.videoLength) * 100
+      let videoBufferedMaxTimeRange = videoRef.buffered.length - 1
       if (videoBufferedMaxTimeRange > 0 && videoBufferedMaxTimeRange !== undefined) {
-        let loadingPercentage = (video.buffered.end(video.buffered.length - 1) / video.duration) * 100
+        let loadingPercentage = (videoRef.buffered.end(videoRef.buffered.length - 1) / videoRef.duration) * 100
         this.videoElement.loadingPercentage = loadingPercentage
       }
     },
@@ -213,6 +217,7 @@ export default {
     height: 100%;
     width: 100%;
     z-index: 100;
+    transition: opacity 1200ms $intro-easing;
   }
 
   .video-spinner {
@@ -237,7 +242,7 @@ export default {
     pointer-events: none;
     user-select: none;
     opacity: 1;
-    transition: opacity 600ms $intro-easing;
+    transition: opacity 1200ms $intro-easing;
 
     &.hidden {
       opacity: 0;

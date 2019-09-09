@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <Header />
-    <router-view class="content" />
+    <Header :scrolledTop="scrolledTop" />
+    <router-view class="content" ref="content" />
   </div>
 </template>
 
@@ -12,6 +12,23 @@ export default {
   name: 'app',
   components: {
     Header
+  },
+  data: function () {
+    return {
+      scrolledTop: true
+    }
+  },
+  mounted: function () {
+    document.getElementsByClassName('content')[0].addEventListener('scroll', this.handleScroll)
+  },
+  watch: {
+
+  },
+  methods: {
+    handleScroll: function () {
+      let offsetTop = document.getElementsByClassName('content')[0].scrollTop
+      this.scrolledTop = offsetTop < 1
+    }
   }
 }
 </script>

@@ -5,7 +5,7 @@ export default {
     errorMessage: null,
     username: null
   },
-  async login (username, password) {
+  async login (username, password, callback) {
     this.state.errorMessage = null
     await kuzzle.connect()
     let jwt = null
@@ -23,47 +23,62 @@ export default {
         window.sessionStorage.setItem('jwt', jwt)
         let user = await kuzzle.auth.getCurrentUser()
         this.state.username = user._id
-        console.log(user._id)
+        callback()
       }
       kuzzle.disconnect()
     }
   },
-  async isAuthenticated () {
-    if (!this.state.username) {
-      if (window.sessionStorage.getItem('jwt')) {
-        console.log(window.sessionStorage.getItem('jwt'))
-        await kuzzle.connect()
-        const token = window.sessionStorage.getItem('jwt')
-        const tokenCheck = await kuzzle.auth.checkToken(token)
-        console.log(tokenCheck)
-      }
-      return false
-    }
-    return true
+  isAuthenticated () {
+    return Boolean(this.state.username)
   },
-  getCurrentUser (callback) {
+  async logout () {
+    this.state.errorMessage = null
+    if (this.isAuthenticated()) {
+      await kuzzle.connect()
+      try {
+        await kuzzle.auth.logout()
+        window.sessionStorage.removeItem('jwt')
+        this.state.username = null
+        return true
+      } catch (error) {
+        console.error(error.message)
+        this.state.errorMessage = error.message
+        return false
+      } finally {
+        kuzzle.disconnect()
+      }
+    }
+  },
+  async getCurrentUser (callback) {
+    this.state.errorMessage = null
+    await kuzzle.connect()
     var jwt = window.sessionStorage.getItem('jwt')
     if (!jwt) {
       // eslint-disable-next-line standard/no-callback-literal
       callback('No current user.')
-      kuzzle.setJwtToken(undefined)
+      kuzzle.auth.logout()
       return false
     }
-    kuzzle.setJwtToken(jwt)
-
-    kuzzle
-      .whoAmI((error, kuzzleUser) => {
-        if (error) {
-          window.sessionStorage.removeItem('jwt')
-          kuzzle.setJwtToken(undefined)
-          callback(error)
-
-          return false
+    kuzzle.auth.authenticationToken = jwt
+    if (kuzzle.auth.checkToken()) {
+      try {
+        const user = await kuzzle.auth.getCurrentUser()
+        if (user) {
+          this.state.username = user._id
+          callback(null, user._id)
+          return user._id
         }
-
-        this.state.username = kuzzleUser.id
-
-        callback(null, kuzzleUser)
-      })
+      } catch (error) {
+        window.sessionStorage.removeItem('jwt')
+        kuzzle.auth.logout()
+        callback(error)
+        return false
+      } finally {
+        kuzzle.disconnect()
+      }
+    } else {
+      kuzzle.disconnect()
+      return false
+    }
   }
 }

@@ -1,6 +1,12 @@
 <template>
   <div class="watch">
-    <vue-headful :title="(video.title !== undefined ? video.title : 'loading') + ' - ViewTube'" />
+    <vue-headful
+      :title="(video.title !== undefined ? video.title : 'loading') + ' - ViewTube'"
+      :keywords="video.keywords !== undefined ? video.keywords.toString(): ''"
+      :description="commons.description"
+      :image="(video.videoThumbnails !== undefined ? video.videoThumbnails[0].url : '#')"
+      lang="en"
+    />
     <Spinner class="centered" v-if="loading"></Spinner>
     <VideoPlayer v-if="!loading" :key="video.id" :video="video"></VideoPlayer>
     <div class="video-infobox" v-if="!loading">
@@ -80,10 +86,25 @@ export default {
     return {
       video: [],
       loading: true,
-      test: 'asd'
+      commons: Commons
     }
   },
   methods: {
+    loadData: function () {
+      let videoId = this.$route.query.v
+      fetch(`${Commons.apiUrl}videos/${videoId}`, {
+        cache: 'force-cache'
+      })
+        .then(response => response.json())
+        .then(data => {
+          data.descriptionHtml = this.cleanRedirectUrls(data.descriptionHtml)
+          this.video = data
+          this.loading = false
+        })
+        .catch(error => {
+          console.error(error)
+        })
+    },
     cleanRedirectUrls: function (html) {
       let div = document.createElement('div')
       div.innerHTML = html.trim()
@@ -110,19 +131,7 @@ export default {
     }
   },
   mounted: function () {
-    let videoId = this.$route.query.v
-    fetch(`${Commons.apiUrl}videos/${videoId}`, {
-      cache: 'force-cache'
-    })
-      .then(response => response.json())
-      .then(data => {
-        data.descriptionHtml = this.cleanRedirectUrls(data.descriptionHtml)
-        this.video = data
-        this.loading = false
-      })
-      .catch(error => {
-        console.error(error)
-      })
+    this.loadData()
   }
 }
 </script>

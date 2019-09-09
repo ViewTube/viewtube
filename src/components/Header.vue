@@ -1,5 +1,5 @@
 <template>
-  <div class="header">
+  <div class="header" :class="{ scrolled: !scrolledTop }">
     <router-link class="logo-link" to="/">
       <h1 class="logo">
         <span>View</span>
@@ -48,19 +48,19 @@
         <div class="menu" v-if="accountMenuVisible" v-on-clickaway="hideAccountMenu">
           <a
             href="#"
-            v-if="!authenticated()"
+            v-if="!userAuthenticated"
             v-on:click.self.prevent="login"
             id="login-btn"
             class="ripple tooltip menu-btn"
             data-tippy-content="login or register"
           >
-            <AccountIcon />Sign in
+            <AccountIcon />Login
           </a>
-          <div class="account-menu" v-if="authenticated()">
+          <div class="account-menu" v-if="userAuthenticated">
             <AccountIcon />
             <div class="account-info">
               <p class="account-name">{{ loginState.username }}</p>
-              <a class="logout-btn" href="#" v-on:click.prevent="logout">Sign out</a>
+              <a class="logout-btn" href="#" v-on:click.prevent="logout">Log out</a>
             </div>
           </div>
           <a
@@ -116,19 +116,16 @@ export default {
     YoutubeIcon
   },
   mixins: [clickaway],
+  props: {
+    scrolledTop: Boolean
+  },
   data: function () {
     return {
       accountMenuVisible: false,
-      loginState: UserStore.state,
-      userAuthenticated: false
+      loginState: UserStore.state
     }
   },
   methods: {
-    authenticated: async function () {
-      let authenticated = await UserStore.isAuthenticated()
-      console.log(authenticated)
-      return authenticated
-    },
     onSearchFieldFocused: function (e) {
 
     },
@@ -138,13 +135,13 @@ export default {
     onSearchFieldKeydown: function (e) {
       let searchValue = e.target.value
       if (e.code === 'Enter' && searchValue !== '') {
-        this.$router.push(`results?search_query=${searchValue}`)
+        this.$router.push(`/results?search_query=${searchValue}`)
       }
     },
     onSearchButton: function () {
       let searchValue = this.$refs.searchField.value
       if (searchValue !== '') {
-        this.$router.push(`results?search_query=${searchValue}`)
+        this.$router.push(`/results?search_query=${searchValue}`)
       }
     },
     disableDrag: function () {
@@ -173,16 +170,21 @@ export default {
       this.hideAccountMenu()
     },
     openSettings: function () {
-      this.$router.push('settings')
+      this.$router.push('/settings')
       this.hideAccountMenu()
     },
     login: function () {
-      this.$router.push('login')
+      this.$router.push('/login')
+      this.hideAccountMenu()
+    },
+    logout: function () {
+      UserStore.logout()
       this.hideAccountMenu()
     }
   },
   mounted () {
     this.disableDrag()
+
     tippy('.tooltip', {
       animation: 'shift-away',
       animateFill: false,
@@ -196,6 +198,9 @@ export default {
   computed: {
     currentRouteName () {
       return this.$route.name
+    },
+    userAuthenticated () {
+      return Boolean(this.loginState.username)
     }
   }
 }
@@ -224,12 +229,16 @@ export default {
   position: fixed;
   top: 0;
   left: 0;
-  box-shadow: $low-shadow;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   z-index: 800;
   background-color: $header-bgcolor;
+  transition: box-shadow 600ms $intro-easing;
+
+  &.scrolled{
+    box-shadow: $max-shadow;
+  }
 
   .logo-link {
     text-decoration: none;

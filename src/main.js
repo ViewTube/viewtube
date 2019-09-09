@@ -7,11 +7,16 @@ import 'vue-material-design-icons/styles.css'
 import './ripple.js'
 import VueClazyLoad from 'vue-clazy-load'
 import VueHeadful from 'vue-headful'
+import userStore from './store/user'
 
 Vue.use(FormattingFunctions)
 Vue.use(VueClazyLoad)
 Vue.component('vue-headful', VueHeadful)
 Vue.config.productionTip = false
+
+userStore.getCurrentUser(() => {
+  console.log('starting')
+})
 
 new Vue({
   router,
