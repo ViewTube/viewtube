@@ -62,7 +62,7 @@ export default {
   mounted: async function () {
     await Messages.subscribeMessages()
   },
-  beforeRouteEnter(to, from, next) {
+  beforeRouteEnter (to, from, next) {
     next(vm => {
       if (from.name) {
         vm.redirectedPage = from

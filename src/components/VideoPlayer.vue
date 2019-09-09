@@ -55,6 +55,7 @@
 
 <script>
 import Spinner from '@/components/Spinner'
+import SavedPosition from '@/store/videoProgress'
 
 export default {
   name: 'videoplayer',
@@ -102,19 +103,6 @@ export default {
     },
     playerOverlayVisible () {
       return this.playerOverlay.visible
-    },
-    savedPosition: {
-      get () {
-        if (this.video !== undefined) {
-          return parseInt(localStorage.getItem(`savedVideoPositionId${this.video.videoId}`)) || 0
-        }
-        return 0
-      },
-      set (value) {
-        if (this.video !== undefined) {
-          return localStorage.setItem(`savedVideoPositionId${this.video.videoId}`, value)
-        }
-      }
     }
   },
   mounted: function () {
@@ -142,7 +130,7 @@ export default {
     },
     onVideoCanplay: function () {
       if (this.videoElement.firstTimeBuffering) {
-        this.$refs.video.currentTime = this.savedPosition
+        this.$refs.video.currentTime = SavedPosition.getSavedPosition(this.video.videoId)
         this.videoElement.firstTimeBuffering = false
       }
       this.videoElement.buffering = false
@@ -181,7 +169,7 @@ export default {
     saveVideoPosition: function () {
       let video = this.$refs.video
       if (video !== undefined) {
-        this.savedPosition = video.currentTime
+        SavedPosition.setSavedPosition(video.currentTime, this.video.videoId)
       }
     },
     showPlayerOverlay: function () {
