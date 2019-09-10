@@ -92,16 +92,16 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: space-evenly;
 
     .login-title {
-      margin: 20px 0;
+      margin: 20px 0 0 0;
       font-size: 2rem;
       color: $theme-color;
       font-family: $default-font;
     }
 
     #login {
-      margin: auto;
       display: flex;
       flex-direction: column;
       width: 100%;

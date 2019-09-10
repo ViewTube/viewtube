@@ -167,6 +167,7 @@ export default {
     overflow: hidden;
 
     .channel-banner-image {
+      will-change: transform;
       width: 100%;
       height: 100%;
       background-size: cover;
