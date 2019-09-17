@@ -19,7 +19,7 @@ export default {
     }
   },
   mounted: function () {
-    document.getElementsByClassName('content')[0].addEventListener('scroll', this.handleScroll)
+    // document.getElementsByClassName('content')[0].addEventListener('scroll', this.handleScroll)
   },
   watch: {
 

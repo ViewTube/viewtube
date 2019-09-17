@@ -119,6 +119,7 @@ export default {
       }
     },
     onVideoPlaying: function () {
+      this.playerOverlay.thumbnailVisible = false
       this.videoElement.playing = true
       this.videoElement.positionSaveInterval = setInterval(() =>
         this.saveVideoPosition(), 5000)
@@ -132,6 +133,7 @@ export default {
       if (this.videoElement.firstTimeBuffering) {
         this.$refs.video.currentTime = SavedPosition.getSavedPosition(this.video.videoId)
         this.videoElement.firstTimeBuffering = false
+        this.$refs.video.play()
       }
       this.videoElement.buffering = false
     },

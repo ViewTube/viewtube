@@ -90,20 +90,26 @@ export default {
     }
   },
   methods: {
-    loadData: function () {
+    loadData: async function () {
       let videoId = this.$route.query.v
-      fetch(`${Commons.apiUrl}videos/${videoId}`, {
-        cache: 'force-cache'
-      })
-        .then(response => response.json())
-        .then(data => {
-          data.descriptionHtml = this.cleanRedirectUrls(data.descriptionHtml)
-          this.video = data
-          this.loading = false
+      if (await this.$localforage.getItem(videoId)) {
+        this.video = await this.$localforage.getItem(videoId)
+        this.loading = false
+        console.log('loaded save', this.video)
+      } else {
+        fetch(`${Commons.apiUrl}videos/${videoId}`, {
+          cache: 'force-cache'
         })
-        .catch(error => {
-          console.error(error)
-        })
+          .then(response => response.json())
+          .then(data => {
+            data.descriptionHtml = this.cleanRedirectUrls(data.descriptionHtml)
+            this.video = data
+            this.loading = false
+          })
+          .catch(error => {
+            console.error(error)
+          })
+      }
     },
     cleanRedirectUrls: function (html) {
       let div = document.createElement('div')
