@@ -244,11 +244,17 @@ export default {
     text-decoration: none;
     margin: auto 10px auto 10px;
     box-sizing: border-box;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
 
     .logo {
       font-family: $header-font;
       font-size: 1.5rem;
       color: $subtitle-color;
+      width: 110px;
+      overflow: hidden;
+      transition: width 300ms linear;
 
       .logo-colored {
         color: transparent;
@@ -259,7 +265,6 @@ export default {
     }
 
     .logo-small {
-      display: none;
       margin: auto;
       height: calc(#{$header-height} - 20px);
       clip-path: polygon(
@@ -271,7 +276,7 @@ export default {
         95% 50%,
         18% 96%
       );
-      transform: scale(1);
+      transform: scale(0.6) translateY(-2px);
       transition: clip-path 300ms $intro-easing, transform 300ms linear;
 
       &.inverted {
@@ -290,11 +295,12 @@ export default {
 
     @media screen and (max-width: $mobile-width) {
       .logo {
-        display: none;
+        width: 0;
       }
 
       .logo-small {
         display: block;
+        transform: scale(1);
       }
     }
   }
