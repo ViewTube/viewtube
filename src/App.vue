@@ -1,12 +1,13 @@
 <template>
   <div id="app">
     <Header :scrolledTop="scrolledTop" />
-    <router-view class="content" ref="content" />
+    <router-view class="content" ref="content" @scrolled="handleScroll" />
   </div>
 </template>
 
 <script>
 import Header from '@/components/Header.vue'
+import DynamicValues from '@/store/dynamicValues'
 
 export default {
   name: 'app',
@@ -15,19 +16,16 @@ export default {
   },
   data: function () {
     return {
-      scrolledTop: true
+      scrolledTop: DynamicValues.scroll.atTop
     }
-  },
-  mounted: function () {
-    // document.getElementsByClassName('content')[0].addEventListener('scroll', this.handleScroll)
   },
   watch: {
 
   },
   methods: {
-    handleScroll: function () {
-      let offsetTop = document.getElementsByClassName('content')[0].scrollTop
-      this.scrolledTop = offsetTop < 1
+    handleScroll: function (e) {
+      console.log('asd', e)
+      // DynamicValues.scroll.atTop = offsetTop < 1
     }
   }
 }

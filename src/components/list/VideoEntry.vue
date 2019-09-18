@@ -77,7 +77,6 @@ export default {
       }
     },
     async onMouseEnter (e) {
-      console.log('mouseEnter')
       if (!await this.$localforage.getItem(this.video.videoId)) {
         fetch(`${Commons.apiUrl}videos/${this.video.videoId}`, {
           cache: 'force-cache'
@@ -90,7 +89,6 @@ export default {
             console.error(error)
           })
       } else {
-        console.log('already saved')
       }
     }
   }
