@@ -1,8 +1,9 @@
-import {
-  Kuzzle,
-  WebSocket
-} from 'kuzzle-sdk'
+// import {
+//   Kuzzle,
+//   WebSocket
+// } from 'kuzzle-sdk'
 
-export default new Kuzzle(new WebSocket('kuzzle.mcdn.ch'), {
-  defaultIndex: 'viewtube'
-})
+export default null
+// new Kuzzle(new WebSocket('kuzzle.mcdn.ch'), {
+//   defaultIndex: 'viewtube'
+// })

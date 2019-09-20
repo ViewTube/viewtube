@@ -1,5 +1,5 @@
 <template>
-  <div class="header">
+  <div class="header" :class="{ scrolled: !scrolledTop }">
     <router-link class="logo-link" to="/">
       <h1 class="logo">
         <span>View</span>
@@ -48,18 +48,26 @@
         <div class="menu" v-if="accountMenuVisible" v-on-clickaway="hideAccountMenu">
           <a
             href="#"
+            v-if="!userAuthenticated"
             v-on:click.self.prevent="login"
-            id="account-btn"
-            class="ripple tooltip"
+            id="login-btn"
+            class="ripple tooltip menu-btn"
             data-tippy-content="login or register"
           >
-            <AccountIcon />login
+            <AccountIcon />Login
           </a>
+          <div class="account-menu" v-if="userAuthenticated">
+            <AccountIcon />
+            <div class="account-info">
+              <p class="account-name">{{ loginState.username }}</p>
+              <a class="logout-btn" href="#" v-on:click.prevent="logout">Log out</a>
+            </div>
+          </div>
           <a
             href="#"
             v-on:click.self.prevent="openInYT"
             id="open-in-yt"
-            class="ripple tooltip"
+            class="ripple tooltip menu-btn"
             data-tippy-content="view on youtube (hold alt for invidio.us)"
           >
             <YoutubeIcon />open in youtube
@@ -68,7 +76,7 @@
             href="#"
             v-on:click.self.prevent="share"
             id="share"
-            class="ripple tooltip"
+            class="ripple tooltip menu-btn"
             data-tippy-content="share"
           >
             <ShareIcon />share
@@ -77,7 +85,7 @@
             href="#"
             v-on:click.self.prevent="openSettings"
             id="settings-btn"
-            class="ripple tooltip"
+            class="ripple tooltip menu-btn"
             data-tippy-content="open settings"
           >
             <SettingsIcon />settings
@@ -96,6 +104,7 @@ import AccountIcon from 'icons/AccountCircle'
 import YoutubeIcon from 'icons/Youtube'
 import tippy from 'tippy.js'
 import { mixin as clickaway } from 'vue-clickaway'
+import UserStore from '@/store/user.js'
 
 export default {
   name: 'Header',
@@ -107,9 +116,13 @@ export default {
     YoutubeIcon
   },
   mixins: [clickaway],
+  props: {
+    scrolledTop: Boolean
+  },
   data: function () {
     return {
-      accountMenuVisible: false
+      accountMenuVisible: false,
+      loginState: UserStore.state
     }
   },
   methods: {
@@ -163,10 +176,15 @@ export default {
     login: function () {
       this.$router.push('/login')
       this.hideAccountMenu()
+    },
+    logout: function () {
+      UserStore.logout()
+      this.hideAccountMenu()
     }
   },
   mounted () {
     this.disableDrag()
+
     tippy('.tooltip', {
       animation: 'shift-away',
       animateFill: false,
@@ -180,6 +198,9 @@ export default {
   computed: {
     currentRouteName () {
       return this.$route.name
+    },
+    userAuthenticated () {
+      return Boolean(this.loginState.username)
     }
   }
 }
@@ -208,22 +229,32 @@ export default {
   position: fixed;
   top: 0;
   left: 0;
-  box-shadow: $low-shadow;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   z-index: 800;
   background-color: $header-bgcolor;
+  transition: box-shadow 600ms $intro-easing;
+
+  &.scrolled{
+    box-shadow: $max-shadow;
+  }
 
   .logo-link {
     text-decoration: none;
     margin: auto 10px auto 10px;
     box-sizing: border-box;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
 
     .logo {
       font-family: $header-font;
       font-size: 1.5rem;
       color: $subtitle-color;
+      width: 110px;
+      overflow: hidden;
+      transition: width 300ms linear;
 
       .logo-colored {
         color: transparent;
@@ -234,7 +265,6 @@ export default {
     }
 
     .logo-small {
-      display: none;
       margin: auto;
       height: calc(#{$header-height} - 20px);
       clip-path: polygon(
@@ -246,7 +276,7 @@ export default {
         95% 50%,
         18% 96%
       );
-      transform: scale(1);
+      transform: scale(0.6) translateY(-2px);
       transition: clip-path 300ms $intro-easing, transform 300ms linear;
 
       &.inverted {
@@ -265,11 +295,12 @@ export default {
 
     @media screen and (max-width: $mobile-width) {
       .logo {
-        display: none;
+        width: 0;
       }
 
       .logo-small {
         display: block;
+        transform: scale(1);
       }
     }
   }
@@ -365,11 +396,43 @@ export default {
       box-shadow: $max-shadow;
       padding: 10px 0;
 
-      a {
+      .account-menu {
+        height: 50px;
+        display: flex;
+        flex-direction: row;
+        padding: 0 0 0 10px;
+        align-items: flex-start;
+
+        .account-info {
+          display: flex;
+          flex-direction: column;
+          margin: 0 0 0 10px;
+          width: 100%;
+
+          .account-name {
+            margin: 0 0 0 13px;
+            width: 100%;
+            color: $title-color;
+          }
+
+          .logout-btn {
+            font-size: 0.9rem;
+            width: 100%;
+            margin: 0 0 0 10px;
+
+            &:hover{
+              text-decoration: underline;
+            }
+          }
+        }
+      }
+
+      a.menu-btn {
         width: auto;
         border-radius: 0;
         margin: 0;
         padding: 6px 10px 2px 10px;
+        display: flex;
 
         span {
           margin: 0 20px 0 0;
@@ -377,6 +440,10 @@ export default {
           svg {
             bottom: -0.1rem !important;
           }
+        }
+
+        p.menu-subtitle {
+          font-size: 0.8rem;
         }
 
         &:hover,

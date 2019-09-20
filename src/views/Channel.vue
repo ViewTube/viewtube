@@ -2,6 +2,9 @@
   <div class="channel" ref="channel">
     <vue-headful
       :title="(channel.author !== undefined ? channel.author : 'loading') + ' - ViewTube'"
+      :description="commons.description"
+      :image="(channel.authorThumbnails !== undefined ? channel.authorThumbnails[0].url : '#')"
+      lang='en'
     />
     <Spinner class="centered" v-if="loading"></Spinner>
     <div class="channel-banner" v-if="!loading" ref="parallaxParent">
@@ -98,7 +101,8 @@ export default {
     return {
       channel: [],
       loading: true,
-      bannerParallaxOffset: 0
+      bannerParallaxOffset: 0,
+      commons: Commons
     }
   },
   methods: {
@@ -163,6 +167,7 @@ export default {
     overflow: hidden;
 
     .channel-banner-image {
+      will-change: transform;
       width: 100%;
       height: 100%;
       background-size: cover;

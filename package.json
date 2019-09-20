@@ -15,6 +15,7 @@
     "register-service-worker": "^1.6.2",
     "style-resources-loader": "^1.2.1",
     "tippy.js": "^4.3.5",
+    "v-localforage": "^2.0.0",
     "vue": "^2.6.10",
     "vue-clazy-load": "^0.4.2",
     "vue-clickaway": "^2.2.2",

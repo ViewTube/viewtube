@@ -28,7 +28,8 @@ export default new Router({
   {
     path: '/login',
     name: 'login',
-    component: () => import('./views/Login.vue')
+    component: () => import('./views/Login.vue'),
+    accessWithAuth: false
   },
   {
     path: '/channel/:id',
@@ -42,11 +43,8 @@ export default new Router({
     meta: {
       scrollHeight: 0
     }
-  }],
-  beforeEach (to, from, next) {
-    console.log(to, from)
-    next(false)
-  },
+  }
+  ],
   scrollBehavior (to, from, savedPosition) {
     if (to.hash) {
       return {

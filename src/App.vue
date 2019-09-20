@@ -1,17 +1,32 @@
 <template>
   <div id="app">
-    <Header />
-    <router-view class="content" />
+    <Header :scrolledTop="scrolledTop" />
+    <router-view class="content" ref="content" @scrolled="handleScroll" />
   </div>
 </template>
 
 <script>
 import Header from '@/components/Header.vue'
+import DynamicValues from '@/store/dynamicValues'
 
 export default {
   name: 'app',
   components: {
     Header
+  },
+  data: function () {
+    return {
+      scrolledTop: DynamicValues.scroll.atTop
+    }
+  },
+  watch: {
+
+  },
+  methods: {
+    handleScroll: function (e) {
+      console.log('asd', e)
+      // DynamicValues.scroll.atTop = offsetTop < 1
+    }
   }
 }
 </script>

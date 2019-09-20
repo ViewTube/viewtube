@@ -95,10 +95,9 @@ export default {
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-evenly;
-    overflow: auto;
 
     @media screen and (max-width: $mobile-width) {
-      flex-direction: column;
+      flex-direction: row;
     }
   }
 }

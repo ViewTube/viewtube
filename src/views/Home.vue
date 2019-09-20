@@ -1,8 +1,13 @@
 <template>
   <div class="home">
-    <vue-headful title="Home - ViewTube" />
+    <vue-headful
+      title="Home - ViewTube"
+      :description="commons.description"
+      image="https://viewtube.eu/images/icon-256.png"
+      lang="en"
+    />
     <Spinner class="centered" v-if="loading"></Spinner>
-    <div class="home-videos-container" ref="scrollContainer">
+    <div class="home-videos-container" ref="scrollContainer" v-on:scroll="this.$emit('scrolled')">
       <VideoEntry v-for="video in videos" :key="video.videoId" :video="video"></VideoEntry>
     </div>
   </div>
@@ -22,7 +27,8 @@ export default {
   data: function () {
     return {
       videos: [],
-      loading: true
+      loading: true,
+      commons: Commons
     }
   },
   mounted: function () {

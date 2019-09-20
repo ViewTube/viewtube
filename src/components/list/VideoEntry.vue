@@ -1,9 +1,14 @@
 <template>
-  <div class="video-entry">
+  <div class="video-entry" v-on:mouseenter="onMouseEnter">
     <router-link class="video-entry-thmb" :to="{path: '/watch?v=' + video.videoId}">
       <div class="thmb-image-loader">
-        <img class="video-entry-thmb-image" :src="video.videoThumbnails[2].url" />
+        <img
+          class="video-entry-thmb-image"
+          :src="video.videoThumbnails[2].url"
+          :alt="`${video.title} thumbnail`"
+        />
       </div>
+      <div class="video-saved-progress" :style="{ width: `${videoProgressPercentage}%` }"></div>
       <span class="video-entry-length">{{ getTimestampFromSeconds(video.lengthSeconds) }}</span>
     </router-link>
     <div class="video-entry-info">
@@ -27,11 +32,18 @@
 
 <script>
 import tippy from 'tippy.js'
+import SavedPosition from '@/store/videoProgress'
+import Commons from '@/commons.js'
 
 export default {
   name: 'video-entry',
   props: {
     video: Object
+  },
+  data: function () {
+    return {
+      videoProgressPercentage: SavedPosition.getSavedPosition(this.video.videoId) / this.video.lengthSeconds * 100
+    }
   },
   mounted () {
     tippy('.tooltip', {
@@ -62,6 +74,21 @@ export default {
           i = '0' + i
         }
         return i
+      }
+    },
+    async onMouseEnter (e) {
+      if (!await this.$localforage.getItem(this.video.videoId)) {
+        fetch(`${Commons.apiUrl}videos/${this.video.videoId}`, {
+          cache: 'force-cache'
+        })
+          .then(response => response.json())
+          .then(data => {
+            this.$localforage.setItem(this.video.videoId, data)
+          })
+          .catch(error => {
+            console.error(error)
+          })
+      } else {
       }
     }
   }
@@ -94,6 +121,15 @@ export default {
         width: 100%;
       }
     }
+
+    .video-saved-progress {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 3px;
+      background-color: $theme-color;
+    }
+
     .video-entry-length {
       text-decoration: none;
       color: $video-thmb-overlay-textcolor;
