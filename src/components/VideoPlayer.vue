@@ -15,7 +15,7 @@
     >
       <div class="top-control-overlay"></div>
       <div class="center-control-overlay">
-        <div class="play-btn-container" v-on:click="onPlayerClicked">
+        <div class="play-btn-container" v-on:touchend="onPlayBtnTouchEnd">
           <div class="play-btn" :class="{ playing: videoElement.playing }"></div>
         </div>
       </div>
@@ -142,6 +142,13 @@ export default {
     },
     onLoaded: function () {
       this.loading = false
+    },
+    onPlayBtnTouchEnd: function () {
+      if (this.videoElement.playing) {
+        this.$refs.video.pause()
+      } else {
+        this.$refs.video.play()
+      }
     },
     onPlayerClicked: function () {
       this.playerOverlay.thumbnailVisible = false
