@@ -32,7 +32,9 @@
             :style="{ width: `${videoElement.progressPercentage}%` }"
           ></div>
         </div>
-        <div class="bottom-controls"></div>
+        <div class="bottom-controls">
+
+        </div>
       </div>
     </div>
     <div
@@ -56,11 +58,19 @@
 <script>
 import Spinner from '@/components/Spinner'
 import SavedPosition from '@/store/videoProgress'
+import PauseIcon from 'vue-material-design-icons/Pause'
+import PlayIcon from 'vue-material-design-icons/Play'
+import VolumeHighIcon from 'vue-material-design-icons/VolumeHigh'
+import VolumeMediumIcon from 'vue-material-design-icons/VolumeMedium'
+import VolumeLowIcon from 'vue-material-design-icons/VolumeLow'
+import VolumeOffIcon from 'vue-material-design-icons/VolumeOff'
 
 export default {
   name: 'videoplayer',
   components: {
-    Spinner
+    Spinner,
+    PauseIcon,
+    PlayIcon
   },
   props: {
     video: Object
