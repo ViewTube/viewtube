@@ -425,7 +425,12 @@ export default {
         }
       }
 
-      .bottom-controls {
+      .bottom-controls{
+        width: 100%;
+
+         .left-bottom-controls{
+
+         }
       }
 
       &.hidden {
