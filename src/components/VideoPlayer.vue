@@ -7,7 +7,20 @@
     v-on:mouseleave="onPlayerMouseLeave"
     v-on:click="onPlayerClicked"
   >
-    <Spinner class="video-spinner" v-if="videoElement.buffering"></Spinner>
+    <video
+      class="video"
+      :src="video.formatStreams[0].url"
+      v-on:waiting="onVideoBuffering"
+      v-on:canplay="onVideoCanplay"
+      v-on:playing="onVideoPlaying"
+      v-on:pause="onVideoPaused"
+      v-on:volumechange="onVolumeChange"
+      v-on:timeupdate="onPlaybackProgress"
+      v-on:progress="onLoadingProgress"
+      :style="{ opacity: playerOverlay.thumbnailVisible ? 0 : 1 }"
+      ref="video"
+    ></video>
+    <Spinner class="video-spinner" v-if="videoElement.buffering" />
     <div
       class="video-controls-overlay"
       :class="{ visible: playerOverlay.visible }"
@@ -33,7 +46,18 @@
           ></div>
         </div>
         <div class="bottom-controls">
-
+          <div class="left-bottom-controls">
+            <PauseIcon v-if="videoElement.playing" />
+            <PlayIcon v-if="!videoElement.playing" />
+            <VolumeHighIcon v-if="volumeCategory == 3" />
+            <VolumeMediumIcon v-if="volumeCategory == 2" />
+            <VolumeLowIcon v-if="volumeCategory == 1" />
+            <VolumeOffIcon v-if="volumeCategory == 0" />
+          </div>
+          <div class="right-bottom-controls">
+            <FullscreenIcon />
+            <FullscreenExitIcon />
+          </div>
         </div>
       </div>
     </div>
@@ -42,35 +66,33 @@
       :style="{ backgroundImage: `url(${video.videoThumbnails[0].url})` }"
       :class="{ hidden: !playerOverlay.thumbnailVisible }"
     ></div>
-    <video
-      class="video"
-      :src="video.formatStreams[0].url"
-      v-on:waiting="onVideoBuffering"
-      v-on:canplay="onVideoCanplay"
-      v-on:playing="onVideoPlaying"
-      v-on:pause="onVideoPaused"
-      :style="{ opacity: playerOverlay.thumbnailVisible ? 0 : 1 }"
-      ref="video"
-    ></video>
   </div>
 </template>
 
 <script>
 import Spinner from '@/components/Spinner'
 import SavedPosition from '@/store/videoProgress'
-import PauseIcon from 'vue-material-design-icons/Pause'
-import PlayIcon from 'vue-material-design-icons/Play'
-import VolumeHighIcon from 'vue-material-design-icons/VolumeHigh'
-import VolumeMediumIcon from 'vue-material-design-icons/VolumeMedium'
-import VolumeLowIcon from 'vue-material-design-icons/VolumeLow'
-import VolumeOffIcon from 'vue-material-design-icons/VolumeOff'
+import PauseIcon from 'icons/Pause'
+import PlayIcon from 'icons/Play'
+import VolumeHighIcon from 'icons/VolumeHigh'
+import VolumeMediumIcon from 'icons/VolumeMedium'
+import VolumeLowIcon from 'icons/VolumeLow'
+import VolumeOffIcon from 'icons/VolumeOff'
+import FullscreenIcon from 'icons/Fullscreen'
+import FullscreenExitIcon from 'icons/FullscreenExit'
 
 export default {
   name: 'videoplayer',
   components: {
     Spinner,
     PauseIcon,
-    PlayIcon
+    PlayIcon,
+    VolumeHighIcon,
+    VolumeMediumIcon,
+    VolumeLowIcon,
+    VolumeOffIcon,
+    FullscreenIcon,
+    FullscreenExitIcon
   },
   props: {
     video: Object
@@ -78,6 +100,7 @@ export default {
   data: function () {
     return {
       loading: true,
+      fullscreen: false,
       playerOverlay: {
         visible: false,
         timeout: undefined,
@@ -90,49 +113,67 @@ export default {
         playing: false,
         progressPercentage: 0,
         loadingPercentage: 0,
-        firstTimeBuffering: true
+        firstTimeBuffering: true,
+        volume: 1
       }
     }
   },
   watch: {
-    playerOverlayVisible: function (newValue) {
-      if (newValue) {
-        this.playerOverlay.updateInterval = setInterval(() =>
-          this.updateVideoOverlay(), 100)
-      } else {
-        clearInterval(this.playerOverlay.updateInterval)
-      }
-    }
   },
   computed: {
-    videoLength () {
+    videoLength() {
       if (this.$refs.video !== undefined) {
         return this.$refs.video.duration
       }
       return 0
     },
-    playerOverlayVisible () {
+    playerOverlayVisible() {
       return this.playerOverlay.visible
+    },
+    volumeCategory() {
+      if (this.videoElement.volume >= 1) {
+        return 3
+      } else if (this.videoElement.volume < 1 && this.videoElement.volume >= 0.5) {
+        return 2
+      } else if (this.videoElement.volume < 0.5 && this.videoElement.volume > 0) {
+        return 1
+      } else if (this.videoElement.volume <= 0) {
+        return 0
+      }
+      return 0
     }
   },
-  mounted: function () {
-
-  },
+  mounted: function () { },
   methods: {
-    updateVideoOverlay: function () {
+    onPlaybackProgress: function () {
       let videoRef = this.$refs.video
-      this.videoElement.progressPercentage = (videoRef.currentTime / this.videoLength) * 100
-      let videoBufferedMaxTimeRange = videoRef.buffered.length - 1
-      if (videoBufferedMaxTimeRange > 0 && videoBufferedMaxTimeRange !== undefined) {
-        let loadingPercentage = (videoRef.buffered.end(videoRef.buffered.length - 1) / videoRef.duration) * 100
-        this.videoElement.loadingPercentage = loadingPercentage
+      if (videoRef) {
+        this.videoElement.progressPercentage = (videoRef.currentTime / this.videoLength) * 100
+      }
+    },
+    onLoadingProgress: function () {
+      let videoRef = this.$refs.video
+      if (videoRef) {
+        let videoBufferedMaxTimeRange = videoRef.buffered.length - 1
+        if (videoBufferedMaxTimeRange > 0 && videoBufferedMaxTimeRange !== undefined) {
+          let loadingPercentage = (videoRef.buffered.end(videoRef.buffered.length - 1) / videoRef.duration) * 100
+          this.videoElement.loadingPercentage = loadingPercentage
+        }
+      }
+    },
+    onVolumeChange: function () {
+      if (this.$refs.video) {
+        this.videoElement.volume = this.$refs.video.volume
+        console.log(this.videoElement.volume)
       }
     },
     onVideoPlaying: function () {
       this.playerOverlay.thumbnailVisible = false
       this.videoElement.playing = true
-      this.videoElement.positionSaveInterval = setInterval(() =>
-        this.saveVideoPosition(), 5000)
+      this.videoElement.positionSaveInterval = setInterval(
+        () => this.saveVideoPosition(),
+        5000
+      )
     },
     onVideoPaused: function () {
       this.videoElement.playing = false
@@ -141,7 +182,9 @@ export default {
     },
     onVideoCanplay: function () {
       if (this.videoElement.firstTimeBuffering) {
-        this.$refs.video.currentTime = SavedPosition.getSavedPosition(this.video.videoId)
+        this.$refs.video.currentTime = SavedPosition.getSavedPosition(
+          this.video.videoId
+        )
         this.videoElement.firstTimeBuffering = false
         this.$refs.video.play()
       }
@@ -168,8 +211,7 @@ export default {
         this.$refs.video.play()
       }
     },
-    onPlayerTouchStart: function (e) {
-    },
+    onPlayerTouchStart: function (e) { },
     onPlayerTouchEnd: function (e) {
       if (this.playerOverlay.visible) {
         this.hidePlayerOverlay()
@@ -269,6 +311,7 @@ export default {
     transition: opacity 300ms $intro-easing;
     opacity: 0;
     z-index: 140;
+    pointer-events: none;
 
     .top-control-overlay {
     }
@@ -277,6 +320,7 @@ export default {
       display: flex;
 
       .play-btn-container {
+        pointer-events: all;
         margin: auto;
         filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.16))
           drop-shadow(0 3px 6px rgba(0, 0, 0, 0.23));
@@ -322,6 +366,7 @@ export default {
     }
 
     .bottom-control-overlay {
+      pointer-events: all;
       height: $bottom-overlay-height;
       width: 100%;
       display: flex;

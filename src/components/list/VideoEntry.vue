@@ -1,10 +1,15 @@
 <template>
   <div class="video-entry" v-on:mouseenter="onMouseEnter">
-    <router-link class="video-entry-thmb" :to="{path: '/watch?v=' + video.videoId}">
+    <router-link
+      class="video-entry-thmb"
+      :to="{path: '/watch?v=' + video.videoId}"
+      :data-tippy-content="videoProgressTooltip"
+      :class="{ tooltip: videoProgressPercentage > 0 }"
+    >
       <div class="thmb-image-loader">
         <img
           class="video-entry-thmb-image"
-          :src="video.videoThumbnails[2].url"
+          :src="video.videoThumbnails[3].url"
           :alt="`${video.title} thumbnail`"
         />
       </div>
@@ -42,10 +47,11 @@ export default {
   },
   data: function () {
     return {
-      videoProgressPercentage: SavedPosition.getSavedPosition(this.video.videoId) / this.video.lengthSeconds * 100
+      videoProgressPercentage: SavedPosition.getSavedPosition(this.video.videoId) / this.video.lengthSeconds * 100,
+      videoProgressTooltip: `${this.getTimestampFromSeconds(SavedPosition.getSavedPosition(this.video.videoId))} of ${this.getTimestampFromSeconds(this.video.lengthSeconds)}`
     }
   },
-  mounted () {
+  mounted() {
     tippy('.tooltip', {
       animation: 'shift-away',
       animateFill: false,
@@ -69,14 +75,14 @@ export default {
         return `${timestampMinutes}:${timestampSeconds}`
       }
 
-      function toDoubleDigit (i) {
+      function toDoubleDigit(i) {
         if (i < 10) {
           i = '0' + i
         }
         return i
       }
     },
-    async onMouseEnter (e) {
+    async onMouseEnter(e) {
       if (!await this.$localforage.getItem(this.video.videoId)) {
         fetch(`${Commons.apiUrl}videos/${this.video.videoId}`, {
           cache: 'force-cache'
