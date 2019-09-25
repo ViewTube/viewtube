@@ -6,8 +6,8 @@ Current status: alpha
 ViewTube is an alternative YouTube frontend using the [invidious](https://github.com/omarroth/invidious) API.
 
 ## Screenshots
-![Screenshot-Homepage](images/screenshots/Screenshot-Homepage.png)
-![Screenshot-Video](images/screenshots/Screenshot-Video.png)
+![Screenshot-Homepage](images/screenshots/lxt1y0mk.bmp)
+![Screenshot-Video](images/screenshots/g2ejf7wf.bmp)
 
 ## Project setup
 ```cmd
