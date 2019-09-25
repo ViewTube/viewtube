@@ -1,29 +1,20 @@
-# viewtube-vue
+# ViewTube
+
+Current status: alpha
+
+## Description
+ViewTube is an alternative YouTube frontend using the [invidious](https://github.com/omarroth/invidious) API.
+
+## Screenshots
+![Screenshot-Homepage](images/screenshots/lxt1y0mk.bmp)
+![Screenshot-Video](images/screenshots/g2ejf7wf.bmp)
 
 ## Project setup
-```
+```cmd
 yarn install
 ```
 
-### Compiles and hot-reloads for development
+### Build for deployment
+```cmd
+yarn build
 ```
-yarn run serve
-```
-
-### Compiles and minifies for production
-```
-yarn run build
-```
-
-### Run your tests
-```
-yarn run test
-```
-
-### Lints and fixes files
-```
-yarn run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).

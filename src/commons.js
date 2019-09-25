@@ -1,5 +1,5 @@
 export default {
-  apiUrl: 'https://invidious.snopyta.org/api/v1/',
+  apiUrl: 'https://invidio.us/api/v1/',
   description: 'An alternative YouTube frontend using the invidio.us API.',
   language: 'en-US',
   cleanRedirectUrl: function (string) {
