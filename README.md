@@ -1,5 +1,5 @@
 # ViewTube
-
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/3c74d1eff3fe47609a4f889ec1acbdd5)](https://www.codacy.com/manual/mauriceoegerli/viewtube-vue?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=mauriceoegerli/viewtube-vue&amp;utm_campaign=Badge_Grade)
 Current status: alpha
 
 ## Description
