@@ -37,6 +37,10 @@ export default new Router({
     component: () => import('./views/Channel.vue')
   },
   {
+    path: '/c/:id',
+    redurect: '/channel/:id'
+  },
+  {
     path: '/results',
     name: 'results',
     component: () => import('./views/Search.vue'),

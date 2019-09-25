@@ -60,7 +60,12 @@
           target="_blank"
         >{{ keyword }}</router-link>
       </div>
-      <div class="video-infobox-description" v-html="video.descriptionHtml"></div>
+      <div class="comments-description">
+        <div class="video-infobox-description" v-html="video.descriptionHtml"></div>
+        <div class="comments-container">
+          
+        </div>
+      </div>
     </div>
   </div>
 </template>
