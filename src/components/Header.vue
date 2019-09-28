@@ -182,7 +182,7 @@ export default {
       this.hideAccountMenu()
     }
   },
-  mounted () {
+  mounted() {
     this.disableDrag()
 
     tippy('.tooltip', {
@@ -196,10 +196,10 @@ export default {
     })
   },
   computed: {
-    currentRouteName () {
+    currentRouteName() {
       return this.$route.name
     },
-    userAuthenticated () {
+    userAuthenticated() {
       return Boolean(this.loginState.username)
     }
   }
@@ -236,7 +236,7 @@ export default {
   background-color: $header-bgcolor;
   transition: box-shadow 600ms $intro-easing;
 
-  &.scrolled{
+  &.scrolled {
     box-shadow: $max-shadow;
   }
 
@@ -278,19 +278,6 @@ export default {
       );
       transform: scale(0.6) translateY(-2px);
       transition: clip-path 300ms $intro-easing, transform 300ms linear;
-
-      &.inverted {
-        clip-path: polygon(
-          18% 50%,
-          95% 4%,
-          95% 29%,
-          60% 50%,
-          95% 71%,
-          95% 96%,
-          18% 50%
-        );
-        transform: scale(0.8);
-      }
     }
 
     @media screen and (max-width: $mobile-width) {
@@ -301,6 +288,19 @@ export default {
       .logo-small {
         display: block;
         transform: scale(1);
+
+        &.inverted {
+          clip-path: polygon(
+            18% 50%,
+            95% 4%,
+            95% 29%,
+            60% 50%,
+            95% 71%,
+            95% 96%,
+            18% 50%
+          );
+          transform: scale(0.8);
+        }
       }
     }
   }
@@ -420,7 +420,7 @@ export default {
             width: 100%;
             margin: 0 0 0 10px;
 
-            &:hover{
+            &:hover {
               text-decoration: underline;
             }
           }

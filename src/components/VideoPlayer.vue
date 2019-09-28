@@ -6,6 +6,7 @@
     v-on:mousemove="onPlayerMouseMove"
     v-on:mouseleave="onPlayerMouseLeave"
     v-on:click="onPlayerClicked"
+    ref="videoPlayer"
   >
     <video
       class="video"
@@ -55,8 +56,8 @@
             <VolumeOffIcon v-if="volumeCategory == 0" />
           </div>
           <div class="right-bottom-controls">
-            <FullscreenIcon />
-            <FullscreenExitIcon />
+            <FullscreenIcon v-if="!fullscreen" v-on:click="onEnterFullscreen" />
+            <FullscreenExitIcon v-if="fullscreen" v-on:click="onLeaveFullscreen" />
           </div>
         </div>
       </div>
@@ -145,6 +146,7 @@ export default {
   },
   mounted: function () { },
   methods: {
+    // Video events
     onPlaybackProgress: function () {
       let videoRef = this.$refs.video
       if (videoRef) {
@@ -196,12 +198,30 @@ export default {
     onLoaded: function () {
       this.loading = false
     },
-    onPlayBtnTouchEnd: function () {
+    // Interaction events
+    onEnterFullscreen: function (e) {
+      var elem = this.$refs.videoPlayer
+      if (elem.requestFullscreen) {
+        elem.requestFullscreen()
+      } else if (elem.mozRequestFullScreen) { /* Firefox */
+        elem.mozRequestFullScreen()
+      } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
+        elem.webkitRequestFullscreen()
+      } else if (elem.msRequestFullscreen) { /* IE/Edge */
+        elem.msRequestFullscreen()
+      }
+      e.stopPropagation()
+    },
+    onLeaveFullscreen: function (e) {
+
+    },
+    onPlayBtnTouchEnd: function (e) {
       if (this.videoElement.playing) {
         this.$refs.video.pause()
       } else {
         this.$refs.video.play()
       }
+      // e.stopPropagation()
     },
     onPlayerClicked: function () {
       this.playerOverlay.thumbnailVisible = false
@@ -314,6 +334,18 @@ export default {
     pointer-events: none;
 
     .top-control-overlay {
+      position: relative;
+
+      &:before {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: $bottom-overlay-height;
+        top: 0;
+        left: 0;
+        z-index: -1;
+        background-image: $video-player-gradient;
+      }
     }
 
     .center-control-overlay {
@@ -373,14 +405,28 @@ export default {
       flex-direction: column;
       z-index: 141;
       transition: opacity 300ms $intro-easing;
+      position: relative;
+
+      &:before {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: $bottom-overlay-height;
+        top: 0;
+        left: 0;
+        z-index: -1;
+        background-image: $video-player-gradient;
+        transform: rotate(180deg);
+      }
 
       .seekbar {
         height: $video-seekbar-height;
-        width: 95%;
+        width: calc(100% - 20px);
         margin: 0 auto;
         position: relative;
         z-index: 142;
         display: flex;
+        box-sizing: border-box;
 
         &:hover {
           .seekbar-background,
@@ -425,12 +471,35 @@ export default {
         }
       }
 
-      .bottom-controls{
-        width: 100%;
+      .bottom-controls {
+        $bottom-controls-height: $bottom-overlay-height - $video-seekbar-height;
+        width: calc(100% - 20px);
+        margin: 0 auto;
+        height: $bottom-controls-height;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        box-sizing: border-box;
 
-         .left-bottom-controls{
+        .left-bottom-controls,
+        .right-bottom-controls {
+          display: flex;
+          flex-direction: row;
 
-         }
+          .material-design-icon {
+            width: $bottom-controls-height;
+            height: $bottom-controls-height;
+            cursor: pointer;
+
+            svg {
+              height: 30px !important;
+              width: 30px !important;
+              margin: auto;
+              bottom: 0 !important;
+              position: initial !important;
+            }
+          }
+        }
       }
 
       &.hidden {

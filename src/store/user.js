@@ -86,7 +86,7 @@ export default {
         return false
       }
     } else {
-      console.error('kuzzle not defined')
+      console.debug('kuzzle not defined')
     }
   }
 }

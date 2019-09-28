@@ -1,5 +1,5 @@
 <template>
-  <div class="video-entry" v-on:mouseenter="onMouseEnter">
+  <div class="video-entry">
     <router-link
       class="video-entry-thmb"
       :to="{path: '/watch?v=' + video.videoId}"
@@ -38,7 +38,6 @@
 <script>
 import tippy from 'tippy.js'
 import SavedPosition from '@/store/videoProgress'
-import Commons from '@/commons.js'
 
 export default {
   name: 'video-entry',
@@ -80,21 +79,6 @@ export default {
           i = '0' + i
         }
         return i
-      }
-    },
-    async onMouseEnter(e) {
-      if (!await this.$localforage.getItem(this.video.videoId)) {
-        fetch(`${Commons.apiUrl}videos/${this.video.videoId}`, {
-          cache: 'force-cache'
-        })
-          .then(response => response.json())
-          .then(data => {
-            this.$localforage.setItem(this.video.videoId, data)
-          })
-          .catch(error => {
-            console.error(error)
-          })
-      } else {
       }
     }
   }

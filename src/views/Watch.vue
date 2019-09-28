@@ -62,9 +62,7 @@
       </div>
       <div class="comments-description">
         <div class="video-infobox-description" v-html="video.descriptionHtml"></div>
-        <div class="comments-container">
-          
-        </div>
+        <div class="comments-container"></div>
       </div>
     </div>
   </div>
@@ -97,24 +95,18 @@ export default {
   methods: {
     loadData: async function () {
       let videoId = this.$route.query.v
-      if (await this.$localforage.getItem(videoId)) {
-        this.video = await this.$localforage.getItem(videoId)
-        this.loading = false
-        console.log('loaded save', this.video)
-      } else {
-        fetch(`${Commons.apiUrl}videos/${videoId}`, {
-          cache: 'force-cache'
+      fetch(`${Commons.apiUrl}videos/${videoId}`, {
+        cache: 'force-cache'
+      })
+        .then(response => response.json())
+        .then(data => {
+          data.descriptionHtml = this.cleanRedirectUrls(data.descriptionHtml)
+          this.video = data
+          this.loading = false
         })
-          .then(response => response.json())
-          .then(data => {
-            data.descriptionHtml = this.cleanRedirectUrls(data.descriptionHtml)
-            this.video = data
-            this.loading = false
-          })
-          .catch(error => {
-            console.error(error)
-          })
-      }
+        .catch(error => {
+          console.error(error)
+        })
     },
     cleanRedirectUrls: function (html) {
       let div = document.createElement('div')
