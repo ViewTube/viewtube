@@ -9,6 +9,7 @@
         <h4>{{ comment.content }}</h4>
       </div>
     </div>
+    <div class="comment-properties"></div>
     <div class="comment-actions"></div>
   </div>
 </template>
