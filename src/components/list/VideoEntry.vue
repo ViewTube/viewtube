@@ -14,7 +14,7 @@
         />
       </div>
       <div class="video-saved-progress" :style="{ width: `${videoProgressPercentage}%` }"></div>
-      <span class="video-entry-length">{{ getTimestampFromSeconds(video.lengthSeconds) }}</span>
+      <span class="video-entry-length">{{ commons.getTimestampFromSeconds(video.lengthSeconds) }}</span>
     </router-link>
     <div class="video-entry-info">
       <router-link
@@ -38,6 +38,7 @@
 <script>
 import tippy from 'tippy.js'
 import SavedPosition from '@/store/videoProgress'
+import Commons from '@/commons.js'
 
 export default {
   name: 'video-entry',
@@ -46,8 +47,9 @@ export default {
   },
   data: function () {
     return {
+      commons: Commons,
       videoProgressPercentage: SavedPosition.getSavedPosition(this.video.videoId) / this.video.lengthSeconds * 100,
-      videoProgressTooltip: `${this.getTimestampFromSeconds(SavedPosition.getSavedPosition(this.video.videoId))} of ${this.getTimestampFromSeconds(this.video.lengthSeconds)}`
+      videoProgressTooltip: `${Commons.getTimestampFromSeconds(SavedPosition.getSavedPosition(this.video.videoId))} of ${Commons.getTimestampFromSeconds(this.video.lengthSeconds)}`
     }
   },
   mounted() {
@@ -62,25 +64,7 @@ export default {
     })
   },
   methods: {
-    getTimestampFromSeconds: seconds => {
-      let ms = seconds * 1000
-      let date = new Date(ms)
-      let timestampHours = toDoubleDigit(date.getHours() - 1)
-      let timestampMinutes = toDoubleDigit(date.getMinutes())
-      let timestampSeconds = toDoubleDigit(date.getSeconds())
-      if (date.getHours() < 1) {
-        return `${timestampHours}:${timestampMinutes}:${timestampSeconds}`
-      } else {
-        return `${timestampMinutes}:${timestampSeconds}`
-      }
 
-      function toDoubleDigit(i) {
-        if (i < 10) {
-          i = '0' + i
-        }
-        return i
-      }
-    }
   }
 }
 </script>

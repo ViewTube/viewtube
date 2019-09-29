@@ -7,7 +7,7 @@
       lang="en"
     />
     <Spinner class="centered" v-if="loading"></Spinner>
-    <div class="home-videos-container" ref="scrollContainer" v-on:scroll="this.$emit('scrolled')">
+    <div class="home-videos-container" ref="scrollContainer" @scroll="this.$emit('scrolled')">
       <VideoEntry v-for="video in videos" :key="video.videoId" :video="video"></VideoEntry>
     </div>
   </div>

@@ -1,23 +1,23 @@
 <template>
   <div
     class="video-player"
-    v-on:touchend.stop="onPlayerTouchEnd"
-    v-on:touchstart.stop="onPlayerTouchStart"
-    v-on:mousemove="onPlayerMouseMove"
-    v-on:mouseleave="onPlayerMouseLeave"
-    v-on:click="onPlayerClicked"
+    @touchend.stop="onPlayerTouchEnd"
+    @touchstart.stop="onPlayerTouchStart"
+    @mousemove="onPlayerMouseMove"
+    @mouseleave="onPlayerMouseLeave"
+    @click="onPlayerClicked"
     ref="videoPlayer"
   >
     <video
       class="video"
       :src="video.formatStreams[0].url"
-      v-on:waiting="onVideoBuffering"
-      v-on:canplay="onVideoCanplay"
-      v-on:playing="onVideoPlaying"
-      v-on:pause="onVideoPaused"
-      v-on:volumechange="onVolumeChange"
-      v-on:timeupdate="onPlaybackProgress"
-      v-on:progress="onLoadingProgress"
+      @waiting="onVideoBuffering"
+      @canplay="onVideoCanplay"
+      @playing="onVideoPlaying"
+      @pause="onVideoPaused"
+      @volumechange="onVolumeChange"
+      @timeupdate="onPlaybackProgress"
+      @progress="onLoadingProgress"
       :style="{ opacity: playerOverlay.thumbnailVisible ? 0 : 1 }"
       ref="video"
     ></video>
@@ -29,7 +29,7 @@
     >
       <div class="top-control-overlay"></div>
       <div class="center-control-overlay">
-        <div class="play-btn-container" v-on:touchend="onPlayBtnTouchEnd">
+        <div class="play-btn-container" @touchend="onPlayBtnTouchEnd">
           <div class="play-btn" :class="{ playing: videoElement.playing }"></div>
         </div>
       </div>
@@ -45,6 +45,7 @@
             class="seekbar-playback-progress"
             :style="{ width: `${videoElement.progressPercentage}%` }"
           ></div>
+          <div class="seekbar-circle" :style="{ left: `${videoElement.progressPercentage}%` }"></div>
         </div>
         <div class="bottom-controls">
           <div class="left-bottom-controls">
@@ -54,10 +55,15 @@
             <VolumeMediumIcon v-if="volumeCategory == 2" />
             <VolumeLowIcon v-if="volumeCategory == 1" />
             <VolumeOffIcon v-if="volumeCategory == 0" />
+            <div class="video-time-progress">
+              <span
+                class="video-time-current-progress"
+              >{{ commons.getTimestampFromSeconds(videoElement.progress) }} / {{ commons.getTimestampFromSeconds(videoLength) }}</span>
+            </div>
           </div>
           <div class="right-bottom-controls">
-            <FullscreenIcon v-if="!fullscreen" v-on:click="onEnterFullscreen" />
-            <FullscreenExitIcon v-if="fullscreen" v-on:click="onLeaveFullscreen" />
+            <FullscreenIcon v-if="!fullscreen" @click="onEnterFullscreen" />
+            <FullscreenExitIcon v-if="fullscreen" @click="onLeaveFullscreen" />
           </div>
         </div>
       </div>
@@ -81,6 +87,7 @@ import VolumeLowIcon from 'icons/VolumeLow'
 import VolumeOffIcon from 'icons/VolumeOff'
 import FullscreenIcon from 'icons/Fullscreen'
 import FullscreenExitIcon from 'icons/FullscreenExit'
+import Commons from '@/commons.js'
 
 export default {
   name: 'videoplayer',
@@ -102,6 +109,7 @@ export default {
     return {
       loading: true,
       fullscreen: false,
+      commons: Commons,
       playerOverlay: {
         visible: false,
         timeout: undefined,
@@ -112,6 +120,7 @@ export default {
         positionSaveInterval: undefined,
         buffering: true,
         playing: false,
+        progress: 0,
         progressPercentage: 0,
         loadingPercentage: 0,
         firstTimeBuffering: true,
@@ -123,8 +132,8 @@ export default {
   },
   computed: {
     videoLength() {
-      if (this.$refs.video !== undefined) {
-        return this.$refs.video.duration
+      if (this.video !== undefined) {
+        return this.video.lengthSeconds
       }
       return 0
     },
@@ -151,6 +160,7 @@ export default {
       let videoRef = this.$refs.video
       if (videoRef) {
         this.videoElement.progressPercentage = (videoRef.currentTime / this.videoLength) * 100
+        this.videoElement.progress = videoRef.currentTime
       }
     },
     onLoadingProgress: function () {
@@ -166,7 +176,6 @@ export default {
     onVolumeChange: function () {
       if (this.$refs.video) {
         this.videoElement.volume = this.$refs.video.volume
-        console.log(this.videoElement.volume)
       }
     },
     onVideoPlaying: function () {
@@ -211,9 +220,20 @@ export default {
         elem.msRequestFullscreen()
       }
       e.stopPropagation()
+      this.fullscreen = true
     },
     onLeaveFullscreen: function (e) {
-
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      } else if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
+      } else if (document.mozCancelFullScreen) {
+        document.mozCancelFullScreen();
+      } else if (document.msExitFullscreen) {
+        document.msExitFullscreen();
+      }
+      e.stopPropagation()
+      this.fullscreen = false
     },
     onPlayBtnTouchEnd: function (e) {
       if (this.videoElement.playing) {
@@ -432,7 +452,11 @@ export default {
           .seekbar-background,
           .seekbar-loading-progress,
           .seekbar-playback-progress {
-            height: $video-seekbar-line-height + 5px;
+            height: $video-seekbar-line-height + 4px;
+          }
+
+          .seekbar-circle {
+            transform: translate(-50%, 2.5px) scale(1);
           }
         }
 
@@ -443,6 +467,17 @@ export default {
           transform: translateY(-50%);
           width: 100%;
           transition: height 100ms linear;
+        }
+
+        .seekbar-circle {
+          width: 15px;
+          height: 15px;
+          background-color: $theme-color;
+          border-radius: 50%;
+          position: relative;
+          transform: translate(-50%, 2.5px) scale(0);
+          transition: transform 100ms linear;
+          z-index: 147;
         }
 
         .seekbar-clickable {
@@ -475,7 +510,7 @@ export default {
         $bottom-controls-height: $bottom-overlay-height - $video-seekbar-height;
         width: calc(100% - 20px);
         margin: 0 auto;
-        height: $bottom-controls-height;
+        height: $bottom-controls-height - 5px;
         display: flex;
         flex-direction: row;
         justify-content: space-between;
@@ -485,6 +520,18 @@ export default {
         .right-bottom-controls {
           display: flex;
           flex-direction: row;
+
+          .video-time-progress {
+            height: 100%;
+            display: flex;
+            margin: 0 0 0 10px;
+
+            .video-time-current-progress {
+              margin: auto;
+              font-family: $default-font;
+              font-size: 1.1rem;
+            }
+          }
 
           .material-design-icon {
             width: $bottom-controls-height;

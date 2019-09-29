@@ -19,14 +19,14 @@
         id="search"
         ref="searchField"
         placeholder="search"
-        v-on:focus="onSearchFieldFocused"
-        v-on:blur="onSearchFieldBlur"
-        v-on:keydown="onSearchFieldKeydown"
+        @focus="onSearchFieldFocused"
+        @blur="onSearchFieldBlur"
+        @keydown="onSearchFieldKeydown"
         :value="$route.query.search_query !== undefined ? $route.query.search_query : ''"
       />
       <a
         href="#"
-        v-on:click.self.prevent="onSearchButton"
+        @click.self.prevent="onSearchButton"
         class="search-btn ripple tooltip"
         data-tippy-content="click or press enter to search"
       >
@@ -37,7 +37,7 @@
     <div class="nav">
       <a
         href="#"
-        v-on:click.self.prevent="accountMenuVisible = !accountMenuVisible"
+        @click.self.prevent="accountMenuVisible = !accountMenuVisible"
         id="account"
         class="ripple tooltip"
         data-tippy-content="account"
@@ -49,7 +49,7 @@
           <a
             href="#"
             v-if="!userAuthenticated"
-            v-on:click.self.prevent="login"
+            @click.self.prevent="login"
             id="login-btn"
             class="ripple tooltip menu-btn"
             data-tippy-content="login or register"
@@ -60,12 +60,12 @@
             <AccountIcon />
             <div class="account-info">
               <p class="account-name">{{ loginState.username }}</p>
-              <a class="logout-btn" href="#" v-on:click.prevent="logout">Log out</a>
+              <a class="logout-btn" href="#" @click.prevent="logout">Log out</a>
             </div>
           </div>
           <a
             href="#"
-            v-on:click.self.prevent="openInYT"
+            @click.self.prevent="openInYT"
             id="open-in-yt"
             class="ripple tooltip menu-btn"
             data-tippy-content="view on youtube (hold alt for invidio.us)"
@@ -74,7 +74,7 @@
           </a>
           <a
             href="#"
-            v-on:click.self.prevent="share"
+            @click.self.prevent="share"
             id="share"
             class="ripple tooltip menu-btn"
             data-tippy-content="share"
@@ -83,7 +83,7 @@
           </a>
           <a
             href="#"
-            v-on:click.self.prevent="openSettings"
+            @click.self.prevent="openSettings"
             id="settings-btn"
             class="ripple tooltip menu-btn"
             data-tippy-content="open settings"
@@ -252,7 +252,7 @@ export default {
       font-family: $header-font;
       font-size: 1.5rem;
       color: $subtitle-color;
-      width: 110px;
+      width: auto;
       overflow: hidden;
       transition: width 300ms linear;
 

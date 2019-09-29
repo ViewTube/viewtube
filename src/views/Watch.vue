@@ -62,7 +62,13 @@
       </div>
       <div class="comments-description">
         <div class="video-infobox-description" v-html="video.descriptionHtml"></div>
-        <div class="comments-container"></div>
+        <Spinner v-if="commentsLoading"></Spinner>
+        <div class="comments-container" v-if="!commentsLoading">
+          <div class="comments-count">
+            <p>{{ comment.commentCount.toLocaleString() }} comments</p>
+          </div>
+          <Comment v-for="(comment, i) in comment.comments" :comment="comment" :key="i" />
+        </div>
       </div>
     </div>
   </div>
@@ -75,6 +81,7 @@ import ThumbsUp from 'icons/ThumbUp'
 import ThumbsDown from 'icons/ThumbDown'
 import VideoPlayer from '@/components/VideoPlayer'
 import SubscribeButton from '@/components/SubscribeButton'
+import Comment from '@/components/Comment'
 
 export default {
   name: 'watch',
@@ -83,12 +90,15 @@ export default {
     ThumbsUp,
     ThumbsDown,
     VideoPlayer,
-    SubscribeButton
+    SubscribeButton,
+    Comment
   },
   data: function () {
     return {
       video: [],
+      comment: null,
       loading: true,
+      commentsLoading: true,
       commons: Commons
     }
   },
@@ -103,6 +113,21 @@ export default {
           data.descriptionHtml = this.cleanRedirectUrls(data.descriptionHtml)
           this.video = data
           this.loading = false
+          this.loadComments()
+        })
+        .catch(error => {
+          console.error(error)
+        })
+    },
+    loadComments: async function () {
+      let videoId = this.$route.query.v
+      fetch(`${Commons.apiUrl}comments/${videoId}`, {
+        cache: 'force-cache'
+      })
+        .then(response => response.json())
+        .then(data => {
+          this.comment = data
+          this.commentsLoading = false
         })
         .catch(error => {
           console.error(error)
@@ -119,6 +144,9 @@ export default {
           let cleanUrl = urlParams.get('q')
           newHrefUrl = cleanUrl
           div.getElementsByTagName('a')[index].text = newHrefUrl
+        } else if (urlParams.get('search_query') !== null) {
+          let cleanUrl = urlParams.get('search_query').replace('#', '')
+          newHrefUrl = `/results?search_query=${cleanUrl}`
         } else {
           newHrefUrl = hrefUrl
         }
