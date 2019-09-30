@@ -53,7 +53,7 @@
       <p>tags:</p>
       <div class="video-infobox-tags">
         <router-link
-          class="video-infobox-tag"
+          class="video-infobox-tag badge-btn"
           v-for="keyword in video.keywords"
           :key="keyword"
           :to="`results?search_query=${keyword}`"
@@ -68,6 +68,12 @@
             <p>{{ comment.commentCount.toLocaleString() }} comments</p>
           </div>
           <Comment v-for="(comment, i) in comment.comments" :comment="comment" :key="i" />
+          <a
+            href="#"
+            @click.prevent="loadMoreComments"
+            v-if="commentsContinuationLink && !commentsContinuationLoading"
+          >show more</a>
+          <Spinner v-if="commentsContinuationLoading"></Spinner>
         </div>
       </div>
     </div>
@@ -99,6 +105,8 @@ export default {
       comment: null,
       loading: true,
       commentsLoading: true,
+      commentsContinuationLink: null,
+      commentsContinuationLoading: false,
       commons: Commons
     }
   },
@@ -128,6 +136,23 @@ export default {
         .then(data => {
           this.comment = data
           this.commentsLoading = false
+          this.commentsContinuationLink = data.continuation || null
+        })
+        .catch(error => {
+          console.error(error)
+        })
+    },
+    loadMoreComments: function () {
+      this.commentsContinuationLoading = true
+      let videoId = this.$route.query.v
+      fetch(`${Commons.apiUrl}comments/${videoId}?continuation=${this.commentsContinuationLink}`, {
+        cache: 'force-cache'
+      })
+        .then(response => response.json())
+        .then(data => {
+          this.comment.comments = this.comment.comments.concat(data.comments)
+          this.commentsContinuationLoading = false
+          this.commentsContinuationLink = data.continuation || null
         })
         .catch(error => {
           console.error(error)
@@ -168,6 +193,21 @@ export default {
 </script>
 
 <style lang="scss">
+.badge-btn {
+  background-color: $bgcolor-alt-light;
+  text-decoration: none;
+  color: $title-color;
+  padding: 3px 5px;
+  margin: 2px 5px 2px 0;
+  border-radius: 3px;
+  display: inline-block;
+  transition: background-color 200ms $intro-easing;
+
+  &:hover {
+    background-color: $bgcolor-alt;
+  }
+}
+
 .watch {
   .video-infobox {
     width: 100%;
@@ -194,21 +234,6 @@ export default {
       overflow: hidden;
       overflow-x: auto;
       white-space: nowrap;
-
-      .video-infobox-tag {
-        background-color: $bgcolor-alt-light;
-        text-decoration: none;
-        color: $title-color;
-        padding: 3px 5px;
-        margin: 2px 5px 2px 0;
-        border-radius: 3px;
-        display: inline-block;
-        transition: background-color 200ms $intro-easing;
-
-        &:hover {
-          background-color: $bgcolor-alt;
-        }
-      }
     }
 
     .video-infobox-stats {
