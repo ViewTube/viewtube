@@ -5,7 +5,8 @@ install:
   - yarn
 cache:
   yarn: true
-script: bundle exec yarn build
+script:
+- yarn build
 before_install:
 - sudo apt-get install lftp
 after_success:
