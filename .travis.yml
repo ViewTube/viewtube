@@ -10,7 +10,7 @@ script:
 - yarn build
 before_install:
 - sudo apt-get install lftp
+- sudo sysctl net.ipv6.conf.all.disable_ipv6=0
 after_success:
 - ls ./dist
-- ping sl261.web.hostpoint.ch
 - sudo lftp -e "mirror -R --delete ./dist /www/viewtube.eu" -u ${FTP_USER},${FTP_PASSWORD} sl261.web.hostpoint.ch
