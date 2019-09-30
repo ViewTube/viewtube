@@ -12,5 +12,4 @@ before_install:
 - sudo apt-get install lftp
 - sudo sysctl net.ipv6.conf.all.disable_ipv6=0
 after_success:
-- ls ./dist
-- sudo lftp -e "mirror -R --delete --verbose=3 ./dist /www/viewtube.eu" -u ${FTP_USER},${FTP_PASSWORD} sl261.web.hostpoint.ch && exit
+- lftp -c "open -u ${FTP_USER},${FTP_PASSWORD} sl261.web.hostpoint.ch; mirror -R --delete --verbose=3 --transfer-all ./dist /www/viewtube.eu"
