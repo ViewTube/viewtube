@@ -10,5 +10,5 @@ script:
 before_install:
 - sudo apt-get install lftp
 after_success:
-- ls
+- ls ./dist
 - lftp -e "mirror -R --delete ./dist /www/viewtube.eu" -u ${FTP_USER},${FTP_PASSWORD} sl261.web.hostpoint.ch
