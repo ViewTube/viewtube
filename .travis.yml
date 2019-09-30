@@ -1,8 +1,12 @@
-    stage: deploy
-    only:
-        - master
-        deploy:
-  script:
-   script:
-    - apt-get update -qq && apt-get install -y -qq lftp
-    - lftp -c "set sftp:ssl-allow yes; open -u $USERNAME,$PASSWORD $HOST; mirror -Rev dist/ ./sftpuser/viewtube/  --ignore-time --parallel=10 --exclude-glob .git* --exclude .git/"
+language: node_js
+node_js:
+  - "12"
+env:
+  global:
+  - 'FTP_USER=ftpuser'
+install:
+  - yarn
+cache:
+  yarn: true
+after_success:
+- find . -type d \( -path "./.*" -o -path "./node_modules" \) -prune -o -name "*" -print -exec curl -k sftp://cloud.oeger.li/sftpuser/viewtube/ -T {} --user ${FTP_USER}:${FTP_PASSWORD} --ftp-create-dirs \;
