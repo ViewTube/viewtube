@@ -8,4 +8,4 @@ cache:
 before_install:
 - sudo apt-get install lftp
 after_success:
-- lftp -u ${FTP_USER}:${FTP_PASSWORD} sl261.web.hostpoint.ch << EOF && cd /www/ && rm -rf viewtube.eu && mkdir viewtube.eu && mirror -R ./dist viewtube.eu && bye && EOF \;
+- lftp -e "mirror -R --delete ./dist /www/viewtube.eu" -u ${FTP_USER},${FTP_PASSWORD} sl261.web.hostpoint.ch
