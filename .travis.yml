@@ -6,4 +6,4 @@ install:
 cache:
   yarn: true
 after_success:
-- find . -type d \( -path "./dist/.*" -o -path "./node_modules" \) -prune -o -name "*" -print -exec curl -k ftp://sl261.web.hostpoint.ch/www/viewtube.eu/ -T {} --user ${FTP_USER}:${FTP_PASSWORD} --ftp-create-dirs \;
+- find . -type d \( -path "./dist/.*" -o -path "./node_modules" \) -prune -o -name "*" -print -exec curl -k --ftp-create-dirs -T {} ftp://sl261.web.hostpoint.ch/www/viewtube.eu/ --user ${FTP_USER}:${FTP_PASSWORD} \;
