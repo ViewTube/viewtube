@@ -1,4 +1,4 @@
-![Logo-Banner](images/35917900-e391-11e9-87f2-b101960e39b0.png)
+![Logo-Banner](images/logo.png)
 
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/3c74d1eff3fe47609a4f889ec1acbdd5)](https://www.codacy.com/manual/mauriceoegerli/viewtube-vue?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=mauriceoegerli/viewtube-vue&amp;utm_campaign=Badge_Grade)
