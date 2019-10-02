@@ -186,12 +186,10 @@ export default {
     this.disableDrag()
 
     tippy('.tooltip', {
-      animation: 'shift-away',
-      animateFill: false,
       duration: 300,
       arrow: false,
       delay: [500, 100],
-      touchHold: true,
+      touch: 'hold',
       placement: 'bottom'
     })
   },

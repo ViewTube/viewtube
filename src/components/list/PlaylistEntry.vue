@@ -23,6 +23,7 @@
 
 <script>
 import tippy from 'tippy.js'
+import 'tippy.js/dist/tippy.css'
 
 export default {
   name: 'playlist-entry',
@@ -31,12 +32,10 @@ export default {
   },
   mounted () {
     tippy('.tooltip', {
-      animation: 'shift-away',
-      animateFill: false,
       duration: 300,
       arrow: false,
       delay: [500, 100],
-      touchHold: true,
+      touch: 'hold',
       placement: 'bottom'
     })
   }
