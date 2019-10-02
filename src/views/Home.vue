@@ -39,6 +39,7 @@ export default {
       .then(data => {
         this.videos = data
         this.loading = false
+        this.$Progress.finish()
         // Just don't ask, it doesn't work without it
         setTimeout(() => {
           this.$refs.scrollContainer.scrollTop = this.$route.meta.scrollHeight
@@ -48,7 +49,7 @@ export default {
         return error
       })
   },
-  beforeRouteLeave (to, from, next) {
+  beforeRouteLeave(to, from, next) {
     from.meta.scrollHeight = this.$refs.scrollContainer.scrollTop
     next()
   }

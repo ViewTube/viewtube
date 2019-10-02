@@ -7,7 +7,6 @@
       :image="(video.videoThumbnails !== undefined ? video.videoThumbnails[0].url : '#')"
       lang="en"
     />
-    <Spinner class="centered" v-if="loading"></Spinner>
     <VideoPlayer v-if="!loading" :key="video.id" :video="video"></VideoPlayer>
     <div class="video-infobox" v-if="!loading">
       <h1 class="video-infobox-title">{{ video.title }}</h1>
@@ -103,29 +102,49 @@ export default {
     return {
       video: [],
       comment: null,
-      loading: true,
+      loading: false,
       commentsLoading: true,
       commentsContinuationLink: null,
       commentsContinuationLoading: false,
       commons: Commons
     }
   },
-  methods: {
-    loadData: async function () {
-      let videoId = this.$route.query.v
-      fetch(`${Commons.apiUrl}videos/${videoId}`, {
-        cache: 'force-cache'
+  beforeRouteEnter: function (to, from, next) {
+    let videoId = to.query.v
+    fetch(`${Commons.apiUrl}videos/${videoId}`, {
+      cache: 'force-cache'
+    })
+      .then(response => response.json())
+      .then(data => {
+        next(vm => vm.loadData(data))
       })
-        .then(response => response.json())
-        .then(data => {
-          data.descriptionHtml = this.cleanRedirectUrls(data.descriptionHtml)
-          this.video = data
-          this.loading = false
-          this.loadComments()
-        })
-        .catch(error => {
-          console.error(error)
-        })
+      .catch(error => {
+        console.error(error)
+        next(vm => vm.$Progress.finish())
+      })
+  },
+  beforeRouteUpdate: function (to, from, next) {
+    this.$Progress.start()
+    let videoId = to.query.v
+    fetch(`${Commons.apiUrl}videos/${videoId}`, {
+      cache: 'force-cache'
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.loadData(data)
+        next()
+      })
+      .catch(error => {
+        console.error(error)
+        next(vm => vm.$Progress.finish())
+      })
+  },
+  methods: {
+    loadData: function (data) {
+      data.descriptionHtml = this.cleanRedirectUrls(data.descriptionHtml)
+      this.video = data
+      this.loadComments()
+      this.$Progress.finish()
     },
     loadComments: async function () {
       let videoId = this.$route.query.v
@@ -185,9 +204,6 @@ export default {
       })
       return div.outerHTML
     }
-  },
-  mounted: function () {
-    this.loadData()
   }
 }
 </script>

@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <Header :scrolledTop="scrolledTop" />
+    <vue-progress-bar></vue-progress-bar>
     <router-view class="content" ref="content" @scrolled="handleScroll" />
   </div>
 </template>
@@ -21,6 +22,20 @@ export default {
   },
   watch: {
 
+  },
+  created: function () {
+    this.$Progress.start()
+
+    this.$router.beforeEach((to, from, next) => {
+      if (to.meta.progress !== undefined) {
+        let meta = to.meta.progress
+        this.$Progress.parseMeta(meta)
+      }
+
+      this.$Progress.start()
+
+      next()
+    })
   },
   methods: {
     handleScroll: function (e) {

@@ -42,8 +42,16 @@ $theme-color-gradient: linear-gradient(
   rgba(89, 193, 186, 1) 78%,
   rgba(0, 212, 255, 1) 100%
 );
-$theme-color-gradient-vertical: linear-gradient(to top, $theme-color-light, $theme-color-dark);
-$theme-color-primary-gradient: linear-gradient(to right, $theme-color-light, $theme-color-dark);
+$theme-color-gradient-vertical: linear-gradient(
+  to top,
+  $theme-color-light,
+  $theme-color-dark
+);
+$theme-color-primary-gradient: linear-gradient(
+  to right,
+  $theme-color-light,
+  $theme-color-dark
+);
 
 $bgcolor-gradient: linear-gradient(to right, $bgcolor-alt, $bgcolor-alt-light);
 
@@ -63,4 +71,8 @@ $title-color: #ebebeb;
 $subtitle-color: #d8d8d8;
 $subtitle-color-light: #b3b3b3;
 
-$title-color-fake-gradient: linear-gradient(to right, $title-color, $title-color);
+$title-color-fake-gradient: linear-gradient(
+  to right,
+  $title-color,
+  $title-color
+);

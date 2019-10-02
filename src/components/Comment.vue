@@ -7,18 +7,18 @@
       </router-link>
       <div class="comment-content" v-html="comment.content"></div>
       <div class="comment-properties">
-        <div class="edited" v-if="comment.isEdited">
+        <div class="edited comment-property" v-if="comment.isEdited">
           <PenIcon />
           <span>edited</span>
         </div>
-        <div class="published">
+        <div class="published comment-property">
           <span>{{ comment.publishedText }}</span>
         </div>
-        <div class="likes">
+        <div class="likes comment-property">
           <ThumbsUpIcon />
           <span>{{ comment.likeCount.toLocaleString() }}</span>
         </div>
-        <div class="creatorHeart" v-if="comment.creatorHeart !== undefined">
+        <div class="creatorHeart comment-property" v-if="comment.creatorHeart !== undefined">
           <HeartIcon />
         </div>
       </div>
@@ -115,12 +115,14 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .comment {
   width: 100%;
-  margin: 20px 0 10px 0;
+  margin: 30px 0 20px 0;
   display: flex;
   flex-direction: row;
+  font-family: $default-font;
+  justify-content: flex-start;
 
   .comment-author-image {
     width: 55px;
@@ -128,22 +130,52 @@ export default {
   }
 
   .comment-container {
+    padding: 0 10px;
     .comment-author {
       display: flex;
       flex-direction: row;
-      margin: 10px 0;
-      align-items: center;
+      margin: 0;
+      align-items: flex-start;
+      font-weight: 700;
     }
 
     .comment-content {
-      font-size: 1.1rem;
+      font-size: 1rem;
+      margin: 5px 0;
     }
     .comment-properties {
+      display: flex;
+      flex-direction: row;
+      color: $subtitle-color-light;
+
+      .comment-property{
+        span.material-design-icon {
+          svg.material-design-icon__svg{
+            height: 1.2em !important;
+            width: 1.2em !important;
+          }
+        }
+      }
+
       .edited {
+        color: $theme-color;
+        margin: 0 5px 0 0;
+
+        span {
+          margin: 0 5px 0 5px;
+          color: $theme-color;
+        }
       }
       .published {
+        margin: 0 5px 0 0;
       }
       .likes {
+        color: $subtitle-color-light;
+
+        span {
+          margin: 0 0 0 10px;
+          color: $subtitle-color-light;
+        }
       }
       .creatorHeart {
       }

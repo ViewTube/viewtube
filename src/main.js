@@ -8,15 +8,15 @@ import './ripple.js'
 import VueClazyLoad from 'vue-clazy-load'
 import VueHeadful from 'vue-headful'
 import userStore from './store/user'
-import VueLocalforage from 'v-localforage'
+import VueProgressBar from 'vue-progressbar'
 
-let date = new Date()
-let dbCacheVersion = `${date.getFullYear()}${date.getMonth()}${date.getDay()}${date.getHours()}`
+const progressOptions = {
+  color: '#ff7b3b',
+  failedColor: '#874b4b',
+  thickness: '2px'
+}
 
-Vue.use(VueLocalforage, {
-  name: 'ViewTube',
-  version: dbCacheVersion
-})
+Vue.use(VueProgressBar, progressOptions)
 Vue.use(FormattingFunctions)
 Vue.use(VueClazyLoad)
 
