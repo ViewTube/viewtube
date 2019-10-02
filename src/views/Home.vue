@@ -46,7 +46,8 @@ export default {
         }, 0)
       })
       .catch((error) => {
-        return error
+        console.error(error)
+        this.$Progress.fail()
       })
   },
   beforeRouteLeave(to, from, next) {

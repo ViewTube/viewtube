@@ -4,9 +4,8 @@
       :title="(channel.author !== undefined ? channel.author : 'loading') + ' - ViewTube'"
       :description="commons.description"
       :image="(channel.authorThumbnails !== undefined ? channel.authorThumbnails[0].url : '#')"
-      lang='en'
+      lang="en"
     />
-    <Spinner class="centered" v-if="loading"></Spinner>
     <div class="channel-banner" v-if="!loading" ref="parallaxParent">
       <div
         class="channel-banner-image"
@@ -83,7 +82,7 @@
 <script>
 import Commons from '@/commons.js'
 import VideoEntry from '@/components/list/VideoEntry'
-import Spinner from '@/components/Spinner'
+// import Spinner from '@/components/Spinner'
 import FamilyFriendly from 'vue-material-design-icons/AccountChild'
 import Paid from 'vue-material-design-icons/CurrencyUsd'
 import SubscribeButton from '@/components/SubscribeButton'
@@ -92,7 +91,7 @@ export default {
   name: 'home',
   components: {
     VideoEntry,
-    Spinner,
+    // Spinner,
     FamilyFriendly,
     Paid,
     SubscribeButton
@@ -105,23 +104,48 @@ export default {
       commons: Commons
     }
   },
+  beforeRouteEnter: function (to, from, next) {
+    fetch(`${Commons.apiUrl}channels/${to.params.id}`, {
+      cache: 'force-cache'
+    })
+      .then(response => response.json())
+      .then(data => {
+        next(vm => vm.loadData(data))
+      })
+      .catch(error => {
+        console.error(error)
+        next(false, vm => vm.$Progress.fail())
+      })
+  },
+  beforeRouteUpdate: function (to, from, next) {
+    this.$Progress.start()
+    this.loading = true
+    this.channel = []
+    let me = this
+    fetch(`${Commons.apiUrl}channels/${to.params.id}`, {
+      cache: 'force-cache'
+    })
+      .then(response => response.json())
+      .then(data => {
+        me.channel = data
+        me.loading = false
+        me.$Progress.finish()
+        next()
+      })
+      .catch(error => {
+        console.error(error)
+        next(vm => vm.$Progress.fail())
+      })
+  },
   methods: {
+    loadData: function (data) {
+      this.channel = data
+      this.loading = false
+      this.$Progress.finish()
+    },
     getFormattedDate: rawDate => {
       let date = new Date(rawDate)
       return `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`
-    },
-    loadChannelData: function () {
-      fetch(`${Commons.apiUrl}channels/${this.$route.params.id}`, {
-        cache: 'force-cache'
-      })
-        .then(response => response.json())
-        .then(data => {
-          this.channel = data
-          this.loading = false
-        })
-        .catch((error) => {
-          return error
-        })
     },
     handleScroll: function () {
       if (this.isVisible(this.$refs.parallaxImage)) {
@@ -136,18 +160,18 @@ export default {
     }
   },
   watch: {
-    '$route' (to, from) {
+    '$route'(to, from) {
       this.loading = true
-      this.loadChannelData()
+      // this.loadChannelData()
     }
   },
   mounted: function () {
-    this.loadChannelData()
+    // this.loadChannelData()
     if (this.$refs.channel !== undefined) {
       this.$refs.channel.addEventListener('scroll', this.handleScroll)
     }
   },
-  destroyed () {
+  destroyed() {
     if (this.$refs.channel !== undefined) {
       this.$refs.channel.removeEventListener('scroll', this.handleScroll)
     }

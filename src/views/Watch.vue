@@ -120,7 +120,7 @@ export default {
       })
       .catch(error => {
         console.error(error)
-        next(vm => vm.$Progress.finish())
+        next(vm => vm.$Progress.fail())
       })
   },
   beforeRouteUpdate: function (to, from, next) {
@@ -136,7 +136,8 @@ export default {
       })
       .catch(error => {
         console.error(error)
-        next(vm => vm.$Progress.finish())
+        this.$Progress.fail()
+        next()
       })
   },
   methods: {
