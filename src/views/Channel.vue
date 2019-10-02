@@ -12,7 +12,7 @@
         class="channel-banner-image"
         :style="{
           backgroundImage: `url(${channel.authorBanners[0].url})`,
-          transform: `translateY(${bannerParallaxOffset}px)`
+          transform: `translate3d(0,${bannerParallaxOffset}px,0)`
         }"
         ref="parallaxImage"
       ></div>
