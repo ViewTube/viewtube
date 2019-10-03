@@ -48,8 +48,8 @@
           </div>
         </div>
       </div>
-      <div class="channel-description" v-html="channel.descriptionHtml"></div>
-      <div class="related-channels">
+      <div class="channel-description" v-if="channel.description.length > 0" v-html="channel.descriptionHtml"></div>
+      <div class="related-channels" v-if="channel.relatedChannels.length > 0">
         <router-link
           class="related-channel"
           v-for="channelEntry in channel.relatedChannels"
@@ -286,8 +286,8 @@ export default {
       max-width: $main-width;
       box-sizing: border-box;
       z-index: 10;
-      margin: 10px auto;
-      padding: 10px;
+      margin: 0 auto;
+      padding: 20px 10px;
       z-index: 9;
 
       pre {
@@ -321,7 +321,6 @@ export default {
         display: inline-block;
         margin: 0 15px 0 0;
         padding: 10px;
-        // background-color: $bgcolor-alt-light;
         box-shadow: 0 0 0 2px $theme-color;
         border-radius: 3px;
         transition: background-color 300ms $intro-easing;
