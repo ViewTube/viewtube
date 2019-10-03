@@ -10,13 +10,13 @@
       <div
         class="channel-banner-image"
         :style="{
-          backgroundImage: `url(${channel.authorBanners[0].url})`,
+          backgroundImage: `url(${channel.authorBanners[0].url})`
         }"
         ref="parallaxImage"
       ></div>
     </div>
-    <div class="channel-information" v-if="!loading">
-      <div class="channel-title-container">
+    <div class="channel-information" v-if="!loading" ref="channelInformation">
+      <div class="channel-title-container" ref="channelTitle">
         <div class="channel-title">
           <div class="channel-thumbnail">
             <img :src="channel.authorThumbnails[0].url" alt="Author Image" />
@@ -50,18 +50,16 @@
       </div>
       <div class="channel-description" v-html="channel.descriptionHtml"></div>
       <div class="related-channels">
-        <div
+        <router-link
           class="related-channel"
           v-for="channelEntry in channel.relatedChannels"
           :key="channelEntry.authorId"
+          :to="{path: '/channel/' + channelEntry.authorId}"
         >
           <div class="related-channel-thumbnail">
-            <router-link
-              class="related-channel-thumbnail-image"
-              :to="{path: '/channel/' + channelEntry.authorId}"
-            >
+            <div class="related-channel-thumbnail-image">
               <img :src="channelEntry.authorThumbnails[5].url" alt />
-            </router-link>
+            </div>
           </div>
           <div class="related-channel-info">
             <router-link
@@ -69,11 +67,21 @@
               :to="{path: '/channel/' + channelEntry.authorId}"
             >{{ channelEntry.author }}</router-link>
           </div>
-        </div>
+        </router-link>
       </div>
     </div>
     <div class="channel-videos-container" v-if="!loading">
-      <VideoEntry v-for="video in channel.latestVideos" :key="video.videoId" :video="video"></VideoEntry>
+      <div class="channel-title-sticky">
+        <div class="channel-sticky-thumbnail">
+          <img :src="channel.authorThumbnails[0].url" alt="Author Image" />
+        </div>
+        <div class="channel-sticky-name">
+          <h1>{{ channel.author }}</h1>
+        </div>
+      </div>
+      <div class="channel-videos">
+        <VideoEntry v-for="video in channel.latestVideos" :key="video.videoId" :video="video"></VideoEntry>
+      </div>
     </div>
   </div>
 </template>
@@ -117,8 +125,6 @@ export default {
   },
   beforeRouteUpdate: function (to, from, next) {
     this.$Progress.start()
-    this.loading = true
-    this.channel = []
     let me = this
     fetch(`${Commons.apiUrl}channels/${to.params.id}`, {
       cache: 'force-cache'
@@ -161,7 +167,6 @@ export default {
     }
   },
   mounted: function () {
-    // this.loadChannelData()
     if (this.$refs.channel !== undefined) {
       this.$refs.channel.addEventListener('scroll', this.handleScroll)
     }
@@ -202,6 +207,10 @@ export default {
 
     .channel-title-container {
       background-color: $bgcolor-alt;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      padding: 0 0 10px 0;
 
       .channel-title {
         display: flex;
@@ -272,12 +281,14 @@ export default {
       }
     }
     .channel-description {
+      background-color: $bgcolor-main;
       width: 100%;
       max-width: $main-width;
       box-sizing: border-box;
       z-index: 10;
-      margin: 0 auto;
+      margin: 10px auto;
       padding: 10px;
+      z-index: 9;
 
       pre {
         font-family: unset;
@@ -289,6 +300,7 @@ export default {
       }
     }
     .related-channels {
+      background-color: $bgcolor-main;
       width: 100%;
       max-width: $main-width;
       box-sizing: border-box;
@@ -296,15 +308,27 @@ export default {
       margin: 0 auto;
       padding: 10px;
       overflow-x: auto;
+      scrollbar-width: none;
       white-space: nowrap;
+      z-index: 9;
 
       .related-channel {
         width: 90px;
+        height: 140px;
         display: flex;
         flex-direction: column;
         overflow: hidden;
         display: inline-block;
         margin: 0 15px 0 0;
+        padding: 10px;
+        // background-color: $bgcolor-alt-light;
+        box-shadow: 0 0 0 2px $theme-color;
+        border-radius: 3px;
+        transition: background-color 300ms $intro-easing;
+
+        &:hover {
+          background-color: $bgcolor-alt;
+        }
 
         .related-channel-thumbnail {
           width: 100%;
@@ -322,9 +346,13 @@ export default {
           width: 100%;
 
           .related-channel-title {
+            display: inline-block;
+            width: 100%;
             color: $subtitle-color;
             font-family: $default-font;
+            overflow: hidden;
             text-decoration: none;
+            text-overflow: ellipsis;
             white-space: normal;
           }
         }
@@ -333,16 +361,55 @@ export default {
   }
   .channel-videos-container {
     width: 100%;
+    z-index: 9;
     max-width: $main-width;
-    margin: 0 auto;
-    z-index: 10;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
+    margin: 20px auto;
+    display: block;
 
-    @media screen and (max-width: $mobile-width) {
-      flex-direction: column;
+    .channel-title-sticky {
+      background-color: $bgcolor-main;
+      position: sticky;
+      top: $header-height + 20px;
+      transform: translateY(-$header-height - 20px);
+      height: $header-height;
+      overflow: hidden;
+      z-index: 10;
+      display: flex;
+      flex-direction: row;
+      margin: 5px;
+
+      .channel-sticky-thumbnail {
+        height: $header-height - 20px;
+        margin: 0;
+        padding: 10px;
+
+        img {
+          height: 100%;
+        }
+      }
+      .channel-sticky-name {
+        color: $title-color;
+        font-family: $default-font;
+        margin: 10px 0 10px 0;
+        font-size: 0.8rem;
+        margin: auto 0;
+      }
+    }
+    .channel-videos {
+      width: 100%;
+      max-width: $main-width;
+      margin: 0 auto;
+      z-index: 10;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: space-evenly;
+      z-index: 9;
+      transform: translateY(-80px);
+
+      @media screen and (max-width: $mobile-width) {
+        flex-direction: column;
+      }
     }
   }
 }

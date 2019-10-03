@@ -1,7 +1,7 @@
 <template>
   <div class="channel-entry">
     <router-link class="channel-entry-thmb" :to="{path: '/channel/' + channel.authorId}">
-      <div class="thmb-image-loader">
+      <div class="thmb-image-container">
         <img class="channel-entry-thmb-image" :src="channel.authorThumbnails[2].url" />
       </div>
     </router-link>
@@ -57,7 +57,7 @@ export default {
     position: relative;
     margin: 0 auto;
 
-    .thmb-image-loader {
+    .thmb-image-container {
       height: 100%;
       display: flex;
 
@@ -110,7 +110,7 @@ export default {
       width: 100%;
       height: unset;
 
-      .thmb-image-loader {
+      .thmb-image-container {
         position: relative;
         top: 0;
         left: 0;

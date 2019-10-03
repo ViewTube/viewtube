@@ -6,12 +6,15 @@
       :data-tippy-content="videoProgressTooltip"
       :class="{ tooltip: videoProgressPercentage > 0 }"
     >
-      <div class="thmb-image-loader">
+      <div class="thmb-image-container">
         <img
           class="video-entry-thmb-image"
           :src="video.videoThumbnails[3].url"
           :alt="`${video.title} thumbnail`"
         />
+        <div class="video-description-overlay">
+          <p>{{ video.description }}</p>
+        </div>
       </div>
       <div class="video-saved-progress" :style="{ width: `${videoProgressPercentage}%` }"></div>
       <span class="video-entry-length">{{ commons.getTimestampFromSeconds(video.lengthSeconds) }}</span>
@@ -84,7 +87,7 @@ export default {
     overflow: hidden;
     position: relative;
 
-    .thmb-image-loader {
+    .thmb-image-container {
       position: relative;
       top: 50%;
       left: 0;
@@ -92,6 +95,37 @@ export default {
 
       .video-entry-thmb-image {
         width: 100%;
+      }
+
+      .video-description-overlay {
+        pointer-events: none;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #000000c0;
+        padding: 25px 5px 5px 5px;
+        overflow: hidden;
+        box-sizing: border-box;
+        font-size: 0.9rem;
+        opacity: 0;
+        transition: opacity 300ms $intro-easing;
+
+        p {
+          width: 100%;
+          height: 100%;
+          overflow: hidden;
+        }
+      }
+    }
+
+    &:hover {
+      .thmb-image-container {
+        .video-description-overlay {
+          opacity: 1;
+          transition: opacity 300ms 300ms $intro-easing;
+        }
       }
     }
 
@@ -166,7 +200,7 @@ export default {
       width: 100%;
       height: unset;
 
-      .thmb-image-loader {
+      .thmb-image-container {
         position: relative;
         top: 0;
         left: 0;

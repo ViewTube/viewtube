@@ -1,7 +1,7 @@
 <template>
   <div class="playlist-entry">
     <router-link class="playlist-entry-thmb" :to="{path: '/watch?v=' + playlist.videos[0].videoId}">
-      <div class="thmb-image-loader">
+      <div class="thmb-image-container">
         <img class="playlist-entry-thmb-image" :src="playlist.videos[0].videoThumbnails[2].url" />
       </div>
       <span class="playlist-entry-count">{{ playlist.videoCount }} videos</span>
@@ -58,7 +58,7 @@ export default {
     overflow: hidden;
     position: relative;
 
-    .thmb-image-loader {
+    .thmb-image-container {
       position: relative;
       top: 50%;
       left: 0;
@@ -121,7 +121,7 @@ export default {
       width: 100%;
       height: unset;
 
-      .thmb-image-loader {
+      .thmb-image-container {
         position: relative;
         top: 0;
         left: 0;
