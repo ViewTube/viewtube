@@ -6,9 +6,15 @@
       :image="(channel.authorThumbnails !== undefined ? channel.authorThumbnails[0].url : '#')"
       lang="en"
     />
-    <parallax :sectionHeight="40">
-      <img :src="(channel.authorBanners !== undefined ? channel.authorBanners[0].url : '#')" alt="Channel Banner">
-    </parallax>
+    <div class="channel-banner" v-if="!loading" ref="parallaxParent">
+      <div
+        class="channel-banner-image"
+        :style="{
+          backgroundImage: `url(${channel.authorBanners[0].url})`,
+        }"
+        ref="parallaxImage"
+      ></div>
+    </div>
     <div class="channel-information" v-if="!loading">
       <div class="channel-title-container">
         <div class="channel-title">
@@ -79,7 +85,6 @@ import VideoEntry from '@/components/list/VideoEntry'
 import FamilyFriendly from 'vue-material-design-icons/AccountChild'
 import Paid from 'vue-material-design-icons/CurrencyUsd'
 import SubscribeButton from '@/components/SubscribeButton'
-import Parallax from 'vue-parallaxy'
 
 export default {
   name: 'home',
@@ -88,18 +93,16 @@ export default {
     // Spinner,
     FamilyFriendly,
     Paid,
-    SubscribeButton,
-    Parallax
+    SubscribeButton
   },
-  data: function() {
+  data: function () {
     return {
       channel: [],
       loading: true,
-      bannerParallaxOffset: 0,
       commons: Commons
     }
   },
-  beforeRouteEnter: function(to, from, next) {
+  beforeRouteEnter: function (to, from, next) {
     fetch(`${Commons.apiUrl}channels/${to.params.id}`, {
       cache: 'force-cache'
     })
@@ -112,15 +115,19 @@ export default {
         next(false, vm => vm.$Progress.fail())
       })
   },
-  beforeRouteUpdate: function(to, from, next) {
+  beforeRouteUpdate: function (to, from, next) {
     this.$Progress.start()
+    this.loading = true
+    this.channel = []
     let me = this
     fetch(`${Commons.apiUrl}channels/${to.params.id}`, {
       cache: 'force-cache'
     })
       .then(response => response.json())
       .then(data => {
-        me.loadData(data)
+        me.channel = data
+        me.loading = false
+        me.$Progress.finish()
         next()
       })
       .catch(error => {
@@ -129,7 +136,7 @@ export default {
       })
   },
   methods: {
-    loadData: function(data) {
+    loadData: function (data) {
       this.channel = data
       this.loading = false
       this.$Progress.finish()
@@ -138,17 +145,32 @@ export default {
       let date = new Date(rawDate)
       return `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`
     },
-    isVisible: function(element) {
+    handleScroll: function () {
+      if (this.isVisible(this.$refs.parallaxImage)) {
+        let offsetTop = this.$refs.parallaxParent.getBoundingClientRect().top - 60
+        let bannerParallaxOffset = offsetTop / -1.5
+        if (document.getElementsByClassName('channel-banner-image')) {
+          document.getElementsByClassName('channel-banner-image')[0].style.transform = `translate3d(0,${bannerParallaxOffset}px,0)`
+        }
+      }
+    },
+    isVisible: function (element) {
       let rect = element.getBoundingClientRect()
-      let viewHeight = Math.max(
-        document.documentElement.clientHeight,
-        window.innerHeight
-      )
+      let viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight)
       return !(rect.bottom < 0 || rect.top - viewHeight >= 0)
     }
   },
-  mounted: function() {},
-  destroyed() {}
+  mounted: function () {
+    // this.loadChannelData()
+    if (this.$refs.channel !== undefined) {
+      this.$refs.channel.addEventListener('scroll', this.handleScroll)
+    }
+  },
+  destroyed() {
+    if (this.$refs.channel !== undefined) {
+      this.$refs.channel.removeEventListener('scroll', this.handleScroll)
+    }
+  }
 }
 </script>
 

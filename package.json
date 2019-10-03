@@ -20,7 +20,7 @@
     "vue-clickaway": "^2.2.2",
     "vue-headful": "^2.0.1",
     "vue-material-design-icons": "^4.1.0",
-    "vue-parallaxy": "^1.1.1",
+    "vue-parallax": "^1.1.1",
     "vue-progressbar": "^0.7.5",
     "vue-router": "^3.0.3",
     "webpack": "^4.39.1"
