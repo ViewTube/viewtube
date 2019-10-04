@@ -1,13 +1,13 @@
 <template>
-  <div class="login">
-    <vue-headful title="Login - ViewTube" />
-    <div class="login-container">
-      <h2 class="login-title">Login - ViewTube</h2>
+  <div class="register">
+    <vue-headful title="register - ViewTube" />
+    <div class="register-container">
+      <h2 class="register-title">register - ViewTube</h2>
       <p class="error-message-display">{{ state.errorMessage }}</p>
-      <form id="login" method="post" @submit.prevent="login">
+      <form id="register" method="post" @submit.prevent="register">
         <input
           id="username"
-          class="login-input"
+          class="register-input"
           type="text"
           placeholder="username"
           v-model="username"
@@ -16,14 +16,14 @@
         />
         <input
           id="password"
-          class="login-input"
+          class="register-input"
           type="password"
           placeholder="password"
           v-model="password"
           required
           :disabled="loading"
         />
-        <button type="submit" class="login-btn ripple">Login</button>
+        <button type="submit" class="register-btn ripple">register</button>
       </form>
     </div>
   </div>
@@ -33,7 +33,7 @@
 import UserStore from '@/store/user.js'
 
 export default {
-  name: 'login',
+  name: 'register',
   data: function () {
     return {
       loading: false,
@@ -44,21 +44,17 @@ export default {
     }
   },
   methods: {
-    login: async function () {
+    register: async function () {
       this.loading = true
-      try {
-        let me = this
-        let success = await UserStore.login(this.username, this.password, function () {
-          me.$router.push(me.redirectedPage.path)
-        })
+      let me = this
+      UserStore.register(this.username, this.password, function () {
+        me.$router.push(me.redirectedPage.path)
         this.loading = false
-        console.log(success)
-      } catch (error) {
-        console.error(error.message)
-      }
+      })
     }
   },
   mounted: function () {
+
   },
   beforeRouteEnter(to, from, next) {
     next(vm => {
@@ -75,11 +71,12 @@ export default {
 </script>
 
 <style lang="scss">
-.login {
+.register {
   width: 100%;
   height: 100%;
   display: flex;
-  .login-container {
+
+  .register-container {
     margin: auto;
     height: 100%;
     max-height: 500px;
@@ -92,14 +89,14 @@ export default {
     align-items: center;
     justify-content: space-evenly;
 
-    .login-title {
+    .register-title {
       margin: 20px 0 0 0;
       font-size: 2rem;
       color: $theme-color;
       font-family: $default-font;
     }
 
-    #login {
+    #register {
       display: flex;
       flex-direction: column;
       width: 100%;
@@ -107,7 +104,7 @@ export default {
       padding: 10px;
       box-sizing: border-box;
 
-      .login-input {
+      .register-input {
         font-size: 1.1rem;
         background-color: transparent;
         border-style: none;
@@ -119,7 +116,7 @@ export default {
         font-family: $default-font;
       }
 
-      .login-btn {
+      .register-btn {
         font-size: 1rem;
         border-style: none;
         width: calc(100% - 40px);

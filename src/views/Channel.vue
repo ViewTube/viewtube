@@ -48,7 +48,11 @@
           </div>
         </div>
       </div>
-      <div class="channel-description" v-if="channel.description.length > 0" v-html="channel.descriptionHtml"></div>
+      <div
+        class="channel-description"
+        v-if="channel.description.length > 0"
+        v-html="channel.descriptionHtml"
+      ></div>
       <div class="related-channels" v-if="channel.relatedChannels.length > 0">
         <router-link
           class="related-channel"
@@ -112,7 +116,8 @@ export default {
   },
   beforeRouteEnter: function (to, from, next) {
     fetch(`${Commons.apiUrl}channels/${to.params.id}`, {
-      cache: 'force-cache'
+      cache: 'force-cache',
+      method: 'GET'
     })
       .then(response => response.json())
       .then(data => {
@@ -127,7 +132,8 @@ export default {
     this.$Progress.start()
     let me = this
     fetch(`${Commons.apiUrl}channels/${to.params.id}`, {
-      cache: 'force-cache'
+      cache: 'force-cache',
+      method: 'GET'
     })
       .then(response => response.json())
       .then(data => {

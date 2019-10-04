@@ -32,6 +32,12 @@ export default new Router({
     accessWithAuth: false
   },
   {
+    path: '/register',
+    name: 'register',
+    component: () => import('./views/Register.vue'),
+    accessWithAuth: false
+  },
+  {
     path: '/channel/:id',
     name: 'channel',
     component: () => import('./views/Channel.vue')

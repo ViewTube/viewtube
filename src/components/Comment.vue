@@ -82,7 +82,8 @@ export default {
       let repliesId = this.comment.replies.continuation
       let videoId = this.$route.query.v
       fetch(`${Commons.apiUrl}comments/${videoId}?continuation=${repliesId}`, {
-        cache: 'force-cache'
+        cache: 'force-cache',
+        method: 'GET'
       })
         .then(response => response.json())
         .then(data => {
@@ -99,7 +100,8 @@ export default {
       this.repliesContinuationLoading = true
       let videoId = this.$route.query.v
       fetch(`${Commons.apiUrl}comments/${videoId}?continuation=${this.repliesContinuationLink}`, {
-        cache: 'force-cache'
+        cache: 'force-cache',
+        method: 'GET'
       })
         .then(response => response.json())
         .then(data => {
@@ -148,9 +150,9 @@ export default {
       flex-direction: row;
       color: $subtitle-color-light;
 
-      .comment-property{
+      .comment-property {
         span.material-design-icon {
-          svg.material-design-icon__svg{
+          svg.material-design-icon__svg {
             height: 1.2em !important;
             width: 1.2em !important;
           }

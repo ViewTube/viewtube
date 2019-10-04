@@ -44,7 +44,8 @@ export default {
     loadSearchData: function () {
       this.searchQuery = this.$route.query.search_query
       fetch(`${Commons.apiUrl}search?q=${this.searchQuery}&page=1&type=all`, {
-        cache: 'force-cache'
+        cache: 'force-cache',
+        method: 'GET'
       })
         .then(response => response.json())
         .then(data => {
@@ -70,13 +71,13 @@ export default {
     }
   },
   watch: {
-    '$route' (to, from) {
+    '$route'(to, from) {
       this.loading = true
       this.$route.meta.scrollHeight = 0
       this.loadSearchData()
     }
   },
-  beforeRouteLeave (to, from, next) {
+  beforeRouteLeave(to, from, next) {
     from.meta.scrollHeight = this.$refs.scrollContainer.scrollTop
     next()
   }

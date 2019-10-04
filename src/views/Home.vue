@@ -33,7 +33,8 @@ export default {
   },
   mounted: function () {
     fetch(`${Commons.apiUrl}top`, {
-      cache: 'force-cache'
+      cache: 'force-cache',
+      method: 'GET'
     })
       .then(response => response.json())
       .then(data => {
