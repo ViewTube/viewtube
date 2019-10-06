@@ -19,8 +19,13 @@ p {
 }
 
 a,
-div {
-  outline: 0;
+div,
+input {
+  outline: none;
+}
+
+textarea:focus, input:focus{
+  outline: none;
 }
 
 a {

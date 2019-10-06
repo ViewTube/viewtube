@@ -12,7 +12,7 @@
         alt="ViewTube"
       />
     </router-link>
-    <div class="search-box">
+    <div class="search-box" :class="{ focused: searchFieldFocused }">
       <input
         type="search"
         name="search"
@@ -32,9 +32,25 @@
       >
         <SearchIcon />
       </a>
+      <span class="search-line-bottom line"></span>
       <div class="search-autocomplete-container"></div>
     </div>
     <div class="nav">
+      <router-link
+        to="login"
+        id="login"
+        class="ripple tooltip nav-btn main"
+        data-tippy-content="login"
+        v-if="!userAuthenticated && !isRegisterOrLoginPage"
+        v-html="'Login'"
+      >Login</router-link>
+      <router-link
+        to="/register"
+        id="register"
+        class="ripple tooltip nav-btn"
+        data-tippy-content="register"
+        v-if="!userAuthenticated && !isRegisterOrLoginPage"
+      >Register</router-link>
       <a
         href="#"
         @click.self.prevent="accountMenuVisible = !accountMenuVisible"
@@ -51,10 +67,20 @@
             v-if="!userAuthenticated"
             @click.self.prevent="login"
             id="login-btn"
-            class="ripple tooltip menu-btn"
-            data-tippy-content="login or register"
+            class="ripple tooltip menu-btn account-btn"
+            data-tippy-content="login"
           >
             <AccountIcon />Login
+          </a>
+          <a
+            href="#"
+            v-if="!userAuthenticated"
+            @click.self.prevent="register"
+            id="login-btn"
+            class="ripple tooltip menu-btn account-btn"
+            data-tippy-content="register"
+          >
+            <AccountPlusIcon />Register
           </a>
           <div class="account-menu" v-if="userAuthenticated">
             <AccountIcon />
@@ -101,6 +127,7 @@ import ShareIcon from 'icons/Share.vue'
 import SettingsIcon from 'icons/Settings.vue'
 import SearchIcon from 'icons/Magnify.vue'
 import AccountIcon from 'icons/AccountCircle'
+import AccountPlusIcon from 'vue-material-design-icons/AccountPlus'
 import YoutubeIcon from 'icons/Youtube'
 import tippy from 'tippy.js'
 import { mixin as clickaway } from 'vue-clickaway'
@@ -113,24 +140,28 @@ export default {
     SettingsIcon,
     SearchIcon,
     AccountIcon,
-    YoutubeIcon
+    YoutubeIcon,
+    AccountPlusIcon
   },
-  mixins: [clickaway],
+  mixins: [
+    clickaway
+  ],
   props: {
     scrolledTop: Boolean
   },
   data: function () {
     return {
       accountMenuVisible: false,
-      loginState: UserStore.state
+      loginState: UserStore.state,
+      searchFieldFocused: false
     }
   },
   methods: {
     onSearchFieldFocused: function (e) {
-
+      this.searchFieldFocused = true
     },
     onSearchFieldBlur: function (e) {
-
+      this.searchFieldFocused = false
     },
     onSearchFieldKeydown: function (e) {
       let searchValue = e.target.value
@@ -177,12 +208,16 @@ export default {
       this.$router.push('/login')
       this.hideAccountMenu()
     },
+    register: function () {
+      this.$router.push('/register')
+      this.hideAccountMenu()
+    },
     logout: function () {
       UserStore.logout()
       this.hideAccountMenu()
     }
   },
-  mounted() {
+  mounted () {
     this.disableDrag()
 
     tippy('.tooltip', {
@@ -194,11 +229,14 @@ export default {
     })
   },
   computed: {
-    currentRouteName() {
+    currentRouteName () {
       return this.$route.name
     },
-    userAuthenticated() {
+    userAuthenticated () {
       return Boolean(this.loginState.username)
+    },
+    isRegisterOrLoginPage () {
+      return this.$route.name === 'register' | this.$route.name === 'login'
     }
   }
 }
@@ -366,6 +404,7 @@ export default {
       min-width: 0px;
       visibility: visible;
       background-color: transparent;
+      position: relative;
 
       &:target {
         all: unset;
@@ -374,6 +413,28 @@ export default {
       &:focus {
         outline: none;
       }
+    }
+
+    &.focused {
+      .line {
+        transform: scale(1);
+      }
+    }
+
+    .line {
+      position: absolute;
+      background-color: $theme-color;
+      height: 1.5px;
+      width: 1.5px;
+      transform: scale(0);
+      transition: transform 300ms $intro-easing;
+    }
+
+    .search-line-bottom {
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      transform-origin: left;
     }
   }
 
@@ -449,10 +510,18 @@ export default {
         &:focus {
           background-color: $bgcolor-alt-light !important;
         }
+
+        &.account-btn {
+          display: none;
+
+          @media screen and (max-width: $mobile-width) {
+            display: block;
+          }
+        }
       }
     }
 
-    a {
+    a:not(.nav-btn) {
       text-decoration: none;
       color: $theme-color;
       margin: 0 6px;
@@ -467,6 +536,28 @@ export default {
         margin: auto;
         height: 100%;
       }
+    }
+
+    .nav-btn {
+      text-decoration: none;
+      color: $theme-color;
+      margin: 0 5px;
+      display: flex;
+      user-select: none;
+      border-radius: 3px;
+      line-height: 100%;
+      text-align: center;
+      padding: 5px 10px;
+      box-sizing: border-box;
+      border: solid 2px transparent;
+
+      @media screen and (max-width: $mobile-width) {
+        display: none;
+      }
+    }
+
+    .nav-btn.main {
+      border: solid 2px $theme-color;
     }
 
     #open-in-yt {

@@ -124,7 +124,7 @@ export default {
       .thmb-image-container {
         .video-description-overlay {
           opacity: 1;
-          transition: opacity 300ms 300ms $intro-easing;
+          transition: opacity 300ms 500ms $intro-easing;
         }
       }
     }

@@ -2,28 +2,49 @@
   <div class="register">
     <vue-headful title="register - ViewTube" />
     <div class="register-container">
-      <h2 class="register-title">register - ViewTube</h2>
+      <h2 class="register-title">Register</h2>
       <p class="error-message-display">{{ state.errorMessage }}</p>
-      <form id="register" method="post" @submit.prevent="register">
-        <input
-          id="username"
-          class="register-input"
-          type="text"
-          placeholder="username"
-          v-model="username"
-          required
-          :disabled="loading"
-        />
-        <input
-          id="password"
-          class="register-input"
-          type="password"
-          placeholder="password"
-          v-model="password"
-          required
-          :disabled="loading"
-        />
-        <button type="submit" class="register-btn ripple">register</button>
+      <p class="status-message-display">{{ statusMessage }}</p>
+      <form id="register" method="post" @submit.prevent="register" :class="{ loading: loading }">
+        <div class="register-input-container">
+          <input
+            id="username"
+            class="register-input"
+            :class="{ 'focus-content': usernameHasText }"
+            type="text"
+            v-model="username"
+            required
+            :disabled="loading"
+          />
+          <label for="username" class="input-label">username</label>
+        </div>
+        <div class="register-input-container">
+          <input
+            id="password"
+            class="register-input"
+            :class="{ 'focus-content': passwordHasText }"
+            type="password"
+            v-model="password"
+            required
+            :disabled="loading"
+          />
+          <label for="password" class="input-label">password</label>
+        </div>
+        <div class="register-input-container">
+          <input
+            id="repeat-password"
+            class="register-input"
+            :class="{ 'focus-content': repeatPasswordHasText }"
+            type="password"
+            v-model="repeatPassword"
+            ref="repeatPassword"
+            required
+            :disabled="loading"
+          />
+          <label for="password" class="input-label">repeat password</label>
+        </div>
+        <div class="captcheck_container"></div>
+        <input type="submit" class="register-btn ripple" :disabled="loading" value="register" />
       </form>
     </div>
   </div>
@@ -31,6 +52,7 @@
 
 <script>
 import UserStore from '@/store/user.js'
+import Captcheck from '@/services/captcheck.js'
 
 export default {
   name: 'register',
@@ -39,7 +61,9 @@ export default {
       loading: false,
       username: null,
       password: null,
+      repeatPassword: null,
       state: UserStore.state,
+      statusMessage: '',
       redirectedPage: 'home'
     }
   },
@@ -48,15 +72,42 @@ export default {
       this.loading = true
       let me = this
       UserStore.register(this.username, this.password, function () {
-        me.$router.push(me.redirectedPage.path)
-        this.loading = false
+        me.statusMessage = 'registration successful. redirecting...'
+        // me.$router.push(me.redirectedPage.path)
       })
+    },
+    checkRepeatPasswords: function () {
+      if (this.password !== this.repeatPassword) {
+        this.$refs.repeatPassword.setCustomValidity('passwords do not match')
+      } else {
+        this.$refs.repeatPassword.setCustomValidity('')
+      }
+    }
+  },
+  watch: {
+    password: function () {
+      this.checkRepeatPasswords()
+    },
+    repeatPassword: function () {
+      this.checkRepeatPasswords()
     }
   },
   mounted: function () {
-
+    this.$Progress.finish()
+    Captcheck.initCaptcheck()
   },
-  beforeRouteEnter(to, from, next) {
+  computed: {
+    usernameHasText () {
+      return this.username && this.username.length > 0
+    },
+    passwordHasText () {
+      return this.password && this.password.length > 0
+    },
+    repeatPasswordHasText () {
+      return this.repeatPassword && this.repeatPassword.length > 0
+    }
+  },
+  beforeRouteEnter (to, from, next) {
     next(vm => {
       if (from.name) {
         vm.redirectedPage = from
@@ -78,16 +129,19 @@ export default {
 
   .register-container {
     margin: auto;
-    height: 100%;
-    max-height: 500px;
     width: 100%;
-    max-width: 600px;
+    max-width: 500px;
     background-color: $bgcolor-alt;
     box-shadow: $medium-shadow;
+    border-radius: 3px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: flex-start;
+
+    @media screen and (max-width: $mobile-width) {
+      height: 100%;
+    }
 
     .register-title {
       margin: 20px 0 0 0;
@@ -104,16 +158,68 @@ export default {
       padding: 10px;
       box-sizing: border-box;
 
-      .register-input {
-        font-size: 1.1rem;
-        background-color: transparent;
-        border-style: none;
-        color: $title-color;
-        margin: 20px 20px;
-        width: calc(100% - 40px);
-        border-bottom: 2px solid $theme-color;
-        line-height: 30px;
-        font-family: $default-font;
+      &.loading {
+        filter: opacity(0.5);
+      }
+
+      .register-input-container {
+        position: relative;
+        $input-line-height: 50px;
+
+        .register-input {
+          margin: 20px 20px;
+          padding: 12px 12px;
+          line-height: 30px;
+          border-radius: 4px;
+          width: calc(100% - 40px);
+          height: $input-line-height;
+
+          font-size: 1rem;
+          border-style: none;
+          color: $title-color;
+          box-sizing: border-box;
+          font-family: $default-font;
+          background-color: transparent;
+          border: 2px solid $bgcolor-alt-light;
+          transition: border 300ms $intro-easing;
+
+          &:focus {
+            border-color: $theme-color;
+          }
+
+          &:focus,
+          &.focus-content {
+            padding: 20px 12px 4px 12px;
+          }
+
+          &:not(:valid) {
+            box-shadow: none;
+            border-color: $error-color-red;
+          }
+        }
+
+        .input-label {
+          position: absolute;
+          left: 34px;
+          top: 20px;
+          height: $input-line-height;
+          line-height: $input-line-height;
+          text-align: center;
+          margin: auto;
+          pointer-events: none;
+          transition: transform 300ms $intro-easing, color 300ms $intro-easing;
+          transform-origin: left top;
+          color: $subtitle-color-light;
+        }
+
+        .focus-content ~ .input-label,
+        .register-input:focus ~ .input-label {
+          transform: scale(0.8) translateY(-10px);
+        }
+
+        .register-input:focus ~ .input-label {
+          color: $theme-color;
+        }
       }
 
       .register-btn {
