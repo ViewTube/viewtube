@@ -94,6 +94,9 @@ export default {
   width: 100%;
   height: 100%;
   display: flex;
+  background-image: url("/img/blur-bg-medium-dark.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
 
   .login-container {
     margin: auto;

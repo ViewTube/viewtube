@@ -13,7 +13,9 @@ export default {
           this.state.username = result.username
           callback(result)
         }, error => {
+          debugger
           this.state.errorMessage = error.message
+          console.log(error.message)
         })
     } else {
       this.state.errorMessage = 'You are already logged in'

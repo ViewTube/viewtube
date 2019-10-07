@@ -37,28 +37,16 @@ export default {
       searchQuery: 'loading'
     }
   },
-  mounted: function () {
-    this.loadSearchData()
-  },
   methods: {
-    loadSearchData: function () {
+    loadData: function (data) {
       this.searchQuery = this.$route.query.search_query
-      fetch(`${Commons.apiUrl}search?q=${this.searchQuery}&page=1&type=all`, {
-        cache: 'force-cache',
-        method: 'GET'
-      })
-        .then(response => response.json())
-        .then(data => {
-          this.results = data
-          this.loading = false
-          // Just don't ask, it doesn't work without it
-          setTimeout(() => {
-            this.$refs.scrollContainer.scrollTop = this.$route.meta.scrollHeight
-          }, 0)
-        })
-        .catch((error) => {
-          console.error(error)
-        })
+      this.results = data
+      this.loading = false
+      this.$Progress.finish()
+      // Just don't ask, it doesn't work without it
+      setTimeout(() => {
+        this.$refs.scrollContainer.scrollTop = this.$route.meta.scrollHeight
+      }, 0)
     },
     getListEntryType: function (type) {
       if (type === 'video') {
@@ -70,11 +58,45 @@ export default {
       }
     }
   },
-  watch: {
-    '$route'(to, from) {
-      this.loading = true
-      this.$route.meta.scrollHeight = 0
-      this.loadSearchData()
+  beforeRouteEnter: function (to, from, next) {
+    let searchQuery = to.query.search_query
+    if (searchQuery.length > 0) {
+      fetch(`${Commons.apiUrl}search?q=${searchQuery}&page=1&type=all`, {
+        cache: 'force-cache',
+        method: 'GET'
+      })
+        .then(response => response.json())
+        .then(data => {
+          next(vm => vm.loadData(data))
+        })
+        .catch(error => {
+          console.error(error)
+          next(vm => vm.$Progress.fail())
+        })
+    } else {
+      next('/')
+    }
+  },
+  beforeRouteUpdate: function (to, from, next) {
+    this.$Progress.start()
+    let searchQuery = to.query.search_query
+    if (searchQuery.length > 0) {
+      fetch(`${Commons.apiUrl}search?q=${searchQuery}&page=1&type=all`, {
+        cache: 'force-cache',
+        method: 'GET'
+      })
+        .then(response => response.json())
+        .then(data => {
+          this.loadData(data)
+          next()
+        })
+        .catch(error => {
+          console.error(error)
+          this.$Progress.fail()
+          next()
+        })
+    } else {
+      next('/')
     }
   },
   beforeRouteLeave(to, from, next) {

@@ -32,29 +32,49 @@ export default {
     }
   },
   mounted: function () {
+  },
+  methods: {
+    loadData: function (data) {
+      this.videos = data
+      this.loading = false
+      this.$Progress.finish()
+      // Just don't ask, it doesn't work without it
+      setTimeout(() => {
+        this.$refs.scrollContainer.scrollTop = this.$route.meta.scrollHeight
+      }, 0)
+    }
+  },
+  beforeRouteEnter: function (to, from, next) {
     fetch(`${Commons.apiUrl}top`, {
       cache: 'force-cache',
       method: 'GET'
     })
       .then(response => response.json())
       .then(data => {
-        this.videos = data
-        this.loading = false
-        this.$Progress.finish()
-        // Just don't ask, it doesn't work without it
-        setTimeout(() => {
-          this.$refs.scrollContainer.scrollTop = this.$route.meta.scrollHeight
-        }, 0)
+        next(vm => vm.loadData(data))
       })
-      .catch((error) => {
+      .catch(error => {
         console.error(error)
-        this.$Progress.fail()
+        next(vm => vm.$Progress.fail())
       })
   },
-  beforeRouteLeave(to, from, next) {
-    from.meta.scrollHeight = this.$refs.scrollContainer.scrollTop
-    next()
-  }
+  beforeRouteUpdate: function (to, from, next) {
+    this.$Progress.start()
+    fetch(`${Commons.apiUrl}top`, {
+      cache: 'force-cache',
+      method: 'GET'
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.loadData(data)
+        next()
+      })
+      .catch(error => {
+        console.error(error)
+        this.$Progress.fail()
+        next()
+      })
+  },
 }
 </script>
 

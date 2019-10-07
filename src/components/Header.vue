@@ -41,7 +41,7 @@
         id="login"
         class="ripple tooltip nav-btn main"
         data-tippy-content="login"
-        v-if="!userAuthenticated && !isRegisterOrLoginPage"
+        v-show="!userAuthenticated && this.$route.name !== 'login'"
         v-html="'Login'"
       >Login</router-link>
       <router-link
@@ -49,7 +49,7 @@
         id="register"
         class="ripple tooltip nav-btn"
         data-tippy-content="register"
-        v-if="!userAuthenticated && !isRegisterOrLoginPage"
+        :class="{ visible: !userAuthenticated && this.$route.name !== 'register' ? 'visible' : 'hidden' }"
       >Register</router-link>
       <a
         href="#"
@@ -217,7 +217,7 @@ export default {
       this.hideAccountMenu()
     }
   },
-  mounted () {
+  mounted() {
     this.disableDrag()
 
     tippy('.tooltip', {
@@ -229,13 +229,13 @@ export default {
     })
   },
   computed: {
-    currentRouteName () {
+    currentRouteName() {
       return this.$route.name
     },
-    userAuthenticated () {
+    userAuthenticated() {
       return Boolean(this.loginState.username)
     },
-    isRegisterOrLoginPage () {
+    isRegisterOrLoginPage() {
       return this.$route.name === 'register' | this.$route.name === 'login'
     }
   }

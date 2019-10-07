@@ -72,7 +72,7 @@ export default {
       this.loading = true
       let me = this
       UserStore.register(this.username, this.password, function () {
-        me.statusMessage = 'registration successful. redirecting...'
+        me.statusMessage = 'Registration successful. redirecting...'
         // me.$router.push(me.redirectedPage.path)
       })
     },
@@ -97,17 +97,17 @@ export default {
     Captcheck.initCaptcheck()
   },
   computed: {
-    usernameHasText () {
+    usernameHasText() {
       return this.username && this.username.length > 0
     },
-    passwordHasText () {
+    passwordHasText() {
       return this.password && this.password.length > 0
     },
-    repeatPasswordHasText () {
+    repeatPasswordHasText() {
       return this.repeatPassword && this.repeatPassword.length > 0
     }
   },
-  beforeRouteEnter (to, from, next) {
+  beforeRouteEnter(to, from, next) {
     next(vm => {
       if (from.name) {
         vm.redirectedPage = from
@@ -126,13 +126,16 @@ export default {
   width: 100%;
   height: 100%;
   display: flex;
+  background-image: url("/img/blur-bg-medium-dark.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
 
   .register-container {
     margin: auto;
     width: 100%;
     max-width: 500px;
     background-color: $bgcolor-alt;
-    box-shadow: $medium-shadow;
+    box-shadow: $max-shadow;
     border-radius: 3px;
     display: flex;
     flex-direction: column;
