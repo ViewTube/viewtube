@@ -44,7 +44,15 @@ export default new Router({
   },
   {
     path: '/c/:id',
-    redurect: '/channel/:id'
+    redirect: '/channel/:id'
+  },
+  {
+    path: '/u/:id',
+    redirect: '/channel/:id'
+  },
+  {
+    path: '/user/:id',
+    redirect: '/channel/:id'
   },
   {
     path: '/results',
@@ -55,7 +63,7 @@ export default new Router({
     }
   }
   ],
-  scrollBehavior (to, from, savedPosition) {
+  scrollBehavior(to, from, savedPosition) {
     if (to.hash) {
       return {
         selector: to.hash
