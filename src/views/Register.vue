@@ -4,8 +4,15 @@
     <div class="register-container">
       <h2 class="register-title">Register</h2>
       <p class="error-message-display">{{ state.errorMessage }}</p>
-      <p class="status-message-display">{{ statusMessage }}</p>
-      <form id="register" method="post" @submit.prevent="register" :class="{ loading: loading }">
+      <span class="status-message-display">{{ statusMessage }}</span>
+      <span v-if="countDownVisible">in {{ countDownCounter }}s</span>
+      <form
+        id="register"
+        method="post"
+        @submit.prevent="register"
+        :class="{ loading: loading }"
+        ref="registerForm"
+      >
         <div class="register-input-container">
           <input
             id="username"
@@ -16,7 +23,7 @@
             required
             :disabled="loading"
           />
-          <label for="username" class="input-label">username</label>
+          <label for="username" class="input-label">Username</label>
         </div>
         <div class="register-input-container">
           <input
@@ -24,11 +31,13 @@
             class="register-input"
             :class="{ 'focus-content': passwordHasText }"
             type="password"
+            pattern=".{6,}"
+            title="At least 6 characters"
             v-model="password"
             required
             :disabled="loading"
           />
-          <label for="password" class="input-label">password</label>
+          <label for="password" class="input-label">Password</label>
         </div>
         <div class="register-input-container">
           <input
@@ -36,12 +45,14 @@
             class="register-input"
             :class="{ 'focus-content': repeatPasswordHasText }"
             type="password"
+            pattern=".{6,}"
+            title="At least 6 characters"
             v-model="repeatPassword"
             ref="repeatPassword"
             required
             :disabled="loading"
           />
-          <label for="password" class="input-label">repeat password</label>
+          <label for="password" class="input-label">Repeat password</label>
         </div>
         <div class="captcheck_container"></div>
         <input type="submit" class="register-btn ripple" :disabled="loading" value="register" />
@@ -64,16 +75,45 @@ export default {
       repeatPassword: null,
       state: UserStore.state,
       statusMessage: '',
-      redirectedPage: 'home'
+      redirectedPage: 'home',
+      countDownInterval: null,
+      countDownCounter: 3,
+      countDownVisible: false
     }
   },
   methods: {
-    register: async function () {
+    register: function (e) {
       this.loading = true
       let me = this
-      UserStore.register(this.username, this.password, function () {
-        me.statusMessage = 'Registration successful. redirecting...'
-        // me.$router.push(me.redirectedPage.path)
+
+      let formData = this.$refs.registerForm.elements
+      let captcheckSessionCode = formData['captcheck_session_code'].value
+      let captcheckSelectedAnswer = formData['captcheck_selected_answer'].value
+
+      Captcheck.reloadCaptcheck()
+
+      UserStore.register({
+        username: me.username,
+        password: me.password,
+
+        captcheckSessionCode: captcheckSessionCode,
+        captcheckSelectedAnswer: captcheckSelectedAnswer,
+
+        callback: function () {
+          me.statusMessage = 'Registration successful. Redirecting'
+          me.countDownVisible = true
+          me.countDownInterval = setInterval(() => {
+            if (me.countDownCounter > 0) {
+              me.countDownCounter -= 1
+            } else {
+              clearInterval(me.countDownInterval)
+              me.$router.push(me.redirectedPage)
+            }
+          }, 1000)
+        },
+        failure: function () {
+          me.loading = false
+        }
       })
     },
     checkRepeatPasswords: function () {
@@ -197,7 +237,7 @@ export default {
 
           &:not(:valid) {
             box-shadow: none;
-            border-color: $error-color-red;
+            // border-color: $error-color-red;
           }
         }
 
@@ -222,6 +262,55 @@ export default {
 
         .register-input:focus ~ .input-label {
           color: $theme-color;
+        }
+      }
+
+      .captcheck_container {
+        width: calc(100% - 40px);
+        display: flex;
+        margin: 20px 20px;
+        border-radius: 4px;
+
+        .captcheck_box {
+          padding: 12px 12px;
+          margin: auto;
+          border: 2px solid $bgcolor-alt-light;
+          width: 100%;
+          background-color: transparent;
+          color: $subtitle-color-light;
+
+          .captcheck_label_message,
+          .captcheck_label_message b {
+            color: $subtitle-color-light;
+            font-family: $default-font;
+            margin: 0 0 10px 0;
+          }
+
+          .captcheck_answer_images {
+            width: 100%;
+            height: 70px;
+
+            flex-direction: row;
+            justify-content: space-between;
+
+            &:not([style="display: none;"]) {
+              display: flex !important;
+            }
+
+            .captcheck_answer_label {
+              input + img {
+                width: 100%;
+                filter: invert(100) opacity(1);
+                transition: border 300ms $intro-easing;
+              }
+
+              input:checked + img {
+                cursor: pointer;
+                border: 2px solid $bgcolor-alt-light;
+                border-radius: 4px;
+              }
+            }
+          }
         }
       }
 

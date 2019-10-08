@@ -5,20 +5,27 @@ export default {
     errorMessage: null,
     username: null
   },
-  register(username, password, callback) {
+  register(args) {
     this.state.errorMessage = null
     if (!this.isAuthenticated()) {
-      Authentication.register(username, password)
+      Authentication.register(args.username, args.password, args.captcheckSessionCode, args.captcheckSelectedAnswer)
         .then(result => {
           this.state.username = result.username
-          callback(result)
+          args.callback(result)
         }, error => {
-          debugger
-          this.state.errorMessage = error.message
-          console.log(error.message)
+          let me = this
+          if (error.message !== undefined) {
+            me.state.errorMessage = error.message
+          } else {
+            error.then((e) => {
+              me.state.errorMessage = e.message
+            })
+          }
+          args.failure()
         })
     } else {
       this.state.errorMessage = 'You are already logged in'
+      args.failure()
     }
   },
   login(username, password, callback) {

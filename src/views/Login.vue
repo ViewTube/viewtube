@@ -29,7 +29,7 @@
           />
           <label for="password" class="input-label">password</label>
         </div>
-        <button type="submit" class="login-btn ripple">Login</button>
+        <button type="submit" class="login-btn ripple" :disabled="loading">Login</button>
       </form>
     </div>
   </div>
@@ -65,17 +65,17 @@ export default {
     }
   },
   computed: {
-    usernameHasText () {
+    usernameHasText() {
       return this.username && this.username.length > 0
     },
-    passwordHasText () {
+    passwordHasText() {
       return this.password && this.password.length > 0
     }
   },
   mounted: function () {
     this.$Progress.finish()
   },
-  beforeRouteEnter (to, from, next) {
+  beforeRouteEnter(to, from, next) {
     next(vm => {
       if (from.name) {
         vm.redirectedPage = from

@@ -74,7 +74,7 @@ export default {
         this.$Progress.fail()
         next()
       })
-  },
+  }
 }
 </script>
 

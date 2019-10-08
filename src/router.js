@@ -40,19 +40,12 @@ export default new Router({
   {
     path: '/channel/:id',
     name: 'channel',
-    component: () => import('./views/Channel.vue')
-  },
-  {
-    path: '/c/:id',
-    redirect: '/channel/:id'
-  },
-  {
-    path: '/u/:id',
-    redirect: '/channel/:id'
-  },
-  {
-    path: '/user/:id',
-    redirect: '/channel/:id'
+    component: () => import('./views/Channel.vue'),
+    alias: [
+      '/c/:id',
+      '/u/:id',
+      '/user/:id'
+    ]
   },
   {
     path: '/results',

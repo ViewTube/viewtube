@@ -41,7 +41,7 @@
         id="login"
         class="ripple tooltip nav-btn main"
         data-tippy-content="login"
-        v-show="!userAuthenticated && this.$route.name !== 'login'"
+        :class="{ visible: !userAuthenticated && this.$route.name !== 'login' }"
         v-html="'Login'"
       >Login</router-link>
       <router-link
@@ -49,7 +49,7 @@
         id="register"
         class="ripple tooltip nav-btn"
         data-tippy-content="register"
-        :class="{ visible: !userAuthenticated && this.$route.name !== 'register' ? 'visible' : 'hidden' }"
+        :class="{ visible: !userAuthenticated && this.$route.name !== 'register' }"
       >Register</router-link>
       <a
         href="#"
@@ -531,6 +531,7 @@ export default {
       padding: 3px;
       width: 24px;
       height: 24px;
+      order: 99;
 
       i {
         margin: auto;
@@ -544,20 +545,27 @@ export default {
       margin: 0 5px;
       display: flex;
       user-select: none;
-      border-radius: 3px;
+      border-radius: 5px;
       line-height: 100%;
       text-align: center;
       padding: 5px 10px;
       box-sizing: border-box;
       border: solid 2px transparent;
+      visibility: hidden;
 
       @media screen and (max-width: $mobile-width) {
         display: none;
+      }
+
+      &.visible {
+        visibility: visible;
+        order: 2;
       }
     }
 
     .nav-btn.main {
       border: solid 2px $theme-color;
+      border-radius: 3px;
     }
 
     #open-in-yt {

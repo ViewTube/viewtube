@@ -2,13 +2,17 @@
 /* eslint-disable eqeqeq */
 /* eslint-disable no-unused-expressions */
 export default {
+  reloadCaptcheck: function () {
+    document.getElementsByClassName('captcheck_container')[0].innerHTML = ''
+    this.initCaptcheck()
+  },
   initCaptcheck: function () {
-    function m (c, g) {
+    function m(c, g) {
       document.getElementById('captcheck_' + c + '_answer_' + g).checked = !0
       return !1
     }
 
-    function n (c) {
+    function n(c) {
       var g = document.getElementById('captcheck_' + c + '_alt_question_button')
       var b = document.getElementById('captcheck_' + c + '_question_image')
       var d = document.getElementById('captcheck_' + c + '_question_access')
