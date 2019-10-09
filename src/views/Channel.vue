@@ -7,13 +7,11 @@
       lang="en"
     />
     <div class="channel-banner" v-if="!loading" ref="parallaxParent">
-      <div
+      <img
         class="channel-banner-image"
-        :style="{
-          backgroundImage: `url(${channel.authorBanners[0].url})`
-        }"
+        :src="`${channel.authorBanners[0].url}`"
         ref="parallaxImage"
-      ></div>
+      />
     </div>
     <div class="channel-information" v-if="!loading" ref="channelInformation">
       <div class="channel-title-container" ref="channelTitle">
@@ -111,7 +109,8 @@ export default {
     return {
       channel: [],
       loading: true,
-      commons: Commons
+      commons: Commons,
+      parallaxImageOffset: 0
     }
   },
   beforeRouteEnter: function (to, from, next) {
@@ -160,10 +159,14 @@ export default {
     handleScroll: function () {
       if (this.isVisible(this.$refs.parallaxImage)) {
         let offsetTop = this.$refs.parallaxParent.getBoundingClientRect().top - 60
-        let bannerParallaxOffset = offsetTop / -1.5
-        if (document.getElementsByClassName('channel-banner-image')) {
-          document.getElementsByClassName('channel-banner-image')[0].style.transform = `translate3d(0,${bannerParallaxOffset}px,0)`
-        }
+        this.parallaxImageOffset = (offsetTop / -1.5).toFixed(2)
+        window.requestAnimationFrame(this.animateStep)
+      }
+    },
+    animateStep: function (timestamp) {
+      if (document.getElementsByClassName('channel-banner-image')) {
+        document.getElementsByClassName('channel-banner-image')[0].style.transform = `translate3d(0,${this.parallaxImageOffset}px,0)`
+        window.requestAnimationFrame(this.animateStep)
       }
     },
     isVisible: function (element) {
@@ -177,7 +180,7 @@ export default {
       this.$refs.channel.addEventListener('scroll', this.handleScroll)
     }
   },
-  destroyed() {
+  destroyed () {
     if (this.$refs.channel !== undefined) {
       this.$refs.channel.removeEventListener('scroll', this.handleScroll)
     }
@@ -195,13 +198,13 @@ export default {
     min-height: 180px;
     width: 100%;
     overflow: hidden;
+    position: relative;
 
     .channel-banner-image {
+      position: absolute;
       will-change: transform;
+      // transition: transform 50ms cubic-bezier(0, 0, 0, 1) 0s;
       width: 100%;
-      height: 100%;
-      background-size: cover;
-      background-position: center;
     }
   }
   .channel-information {
