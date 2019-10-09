@@ -28,13 +28,13 @@ export default new Router({
   {
     path: '/login',
     name: 'login',
-    component: () => import('./views/Login.vue'),
+    component: () => import('./views/authentication/Login.vue'),
     accessWithAuth: false
   },
   {
     path: '/register',
     name: 'register',
-    component: () => import('./views/Register.vue'),
+    component: () => import('./views/authentication/Register.vue'),
     accessWithAuth: false
   },
   {

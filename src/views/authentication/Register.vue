@@ -1,6 +1,6 @@
 <template>
   <div class="register">
-    <vue-headful title="register - ViewTube" />
+    <vue-headful title="Register - ViewTube" />
     <div class="register-container">
       <h2 class="register-title">Register</h2>
       <p class="error-message-display">{{ state.errorMessage }}</p>
