@@ -6,6 +6,8 @@
     @mousemove="onPlayerMouseMove"
     @mouseleave="onPlayerMouseLeave"
     @click="onPlayerClicked"
+    @mousemove.prevent="onSeekbarMouseMove"
+    @mouseup.prevent="onSeekbarMouseUp"
     ref="videoPlayer"
   >
     <video
@@ -35,7 +37,13 @@
       </div>
       <div class="bottom-control-overlay" :class="{ hidden: playerOverlay.thumbnailVisible }">
         <div class="seekbar">
-          <div class="seekbar-clickable"></div>
+          <div
+            class="seekbar-clickable"
+            @mousedown.prevent="onSeekbarMouseDown"
+            @mouseleave.prevent="onSeekbarMouseLeave"
+            @mouseenter.prevent="onSeekbarMouseEnter"
+            @click.prevent="onSeekBarClick"
+          ></div>
           <div class="seekbar-background"></div>
           <div
             class="seekbar-loading-progress"
@@ -125,6 +133,10 @@ export default {
         loadingPercentage: 0,
         firstTimeBuffering: true,
         volume: 1
+      },
+      seekbar: {
+        seeking: false,
+        seekPercentage: 0
       }
     }
   },
@@ -158,7 +170,7 @@ export default {
     // Video events
     onPlaybackProgress: function () {
       let videoRef = this.$refs.video
-      if (videoRef) {
+      if (videoRef && !this.seekbar.seeking) {
         this.videoElement.progressPercentage = (videoRef.currentTime / this.videoLength) * 100
         this.videoElement.progress = videoRef.currentTime
       }
@@ -206,6 +218,51 @@ export default {
     },
     onLoaded: function () {
       this.loading = false
+    },
+    // Seekbar events
+    onSeekbarMouseDown: function (e) {
+      this.seekbar.seeking = true
+      e.stopPropagation()
+    },
+    onSeekbarMouseMove: function (e) {
+      if (this.seekbar.seeking) {
+        this.seekbar.seekPercentage = this.calculateSeekPercentage(e.pageX)
+        this.matchSeekProgressPercentage()
+      }
+    },
+    onSeekbarMouseUp: function (e) {
+      this.seekbar.seeking = false
+      this.matchSeekProgressPercentage(true)
+      e.stopPropagation()
+    },
+    onSeekbarMouseLeave: function (e) {
+      e.stopPropagation()
+    },
+    onSeekbarMouseEnter: function (e) {
+      console.log(e)
+      e.stopPropagation()
+    },
+    onSeekBarClick: function (e) {
+      this.seekbar.seekPercentage = this.calculateSeekPercentage(e.pageX)
+      this.matchSeekProgressPercentage(true)
+      e.stopPropagation()
+    },
+    matchSeekProgressPercentage: function (vid) {
+      this.videoElement.progressPercentage = this.seekbar.seekPercentage
+      if (vid) {
+        let currentTime = (this.$refs.video.duration / 100) * this.seekbar.seekPercentage
+        this.$refs.video.currentTime = currentTime
+      }
+    },
+    calculateSeekPercentage: function (pageX) {
+      let seekPercentage = ((pageX - 10) / (Commons.getPageWidth() - 27.5)) * 100
+      if (seekPercentage > 0 && seekPercentage < 100) {
+        return seekPercentage
+      } else if (seekPercentage > 100) {
+        return 100
+      } else {
+        return 0
+      }
     },
     // Interaction events
     onEnterFullscreen: function (e) {
@@ -478,6 +535,8 @@ export default {
           transform: translate(-50%, 2.5px) scale(0);
           transition: transform 100ms linear;
           z-index: 147;
+          pointer-events: none;
+          cursor: pointer;
         }
 
         .seekbar-clickable {
