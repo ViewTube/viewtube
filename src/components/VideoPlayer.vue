@@ -42,6 +42,8 @@
             @mouseleave.prevent="onSeekbarMouseLeave"
             @mouseenter.prevent="onSeekbarMouseEnter"
             @touchstart.prevent="onSeekbarTouchStart"
+            @mousemove.prevent="onSeekbarMouseMove"
+            @touchmove.prevent="onSeekbarTouchMove"
             @click.prevent="onSeekBarClick"
           ></div>
           <div class="seekbar-background"></div>
@@ -54,6 +56,10 @@
             :style="{ width: `${videoElement.progressPercentage}%` }"
           ></div>
           <div class="seekbar-circle" :style="{ left: `${videoElement.progressPercentage}%` }"></div>
+          <div
+            class="seekbar-hover-timestamp"
+            :style="{ left: `${seekbar.hoverPercentage}%` }"
+          >{{ seekbarHoverTime }}</div>
         </div>
         <div class="bottom-controls">
           <div class="left-bottom-controls">
@@ -144,7 +150,8 @@ export default {
       },
       seekbar: {
         seeking: false,
-        seekPercentage: 0
+        seekPercentage: 0,
+        hoverPercentage: 0
       }
     }
   },
@@ -171,6 +178,11 @@ export default {
         return 0
       }
       return 0
+    },
+    seekbarHoverTime: function () {
+      if (this.video !== undefined) {
+        return Commons.getTimestampFromSeconds((this.$refs.video.duration / 100) * this.seekbar.hoverPercentage)
+      }
     }
   },
   mounted: function () { },
@@ -234,6 +246,9 @@ export default {
       this.seekbar.seekPercentage = this.calculateSeekPercentage(touchX)
       this.matchSeekProgressPercentage()
       e.stopPropagation()
+    },
+    onSeekbarMouseMove: function (e) {
+      this.seekbar.hoverPercentage = this.calculateSeekPercentage(e.pageX)
     },
     onPlayerTouchMove: function (e) {
       if (this.seekbar.seeking) {
@@ -564,6 +579,10 @@ export default {
           .seekbar-circle {
             transform: translate(-50%, 2.5px) scale(1);
           }
+
+          .seekbar-hover-timestamp {
+            opacity: 1;
+          }
         }
 
         @mixin seekbar-part {
@@ -586,6 +605,15 @@ export default {
           z-index: 147;
           pointer-events: none;
           cursor: pointer;
+        }
+
+        .seekbar-hover-timestamp {
+          position: relative;
+          bottom: 20px;
+          background-color: $video-thmb-overlay-bgcolor;
+          padding: 4px 6px;
+          opacity: 0;
+          transform: translateX(-50%);
         }
 
         .seekbar-clickable {
