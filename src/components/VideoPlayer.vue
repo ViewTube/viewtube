@@ -56,10 +56,11 @@
             :style="{ width: `${videoElement.progressPercentage}%` }"
           ></div>
           <div class="seekbar-circle" :style="{ left: `${videoElement.progressPercentage}%` }"></div>
-          <div
+          <!-- <div
             class="seekbar-hover-timestamp"
-            :style="{ left: `${seekbar.hoverPercentage}%` }"
-          >{{ seekbarHoverTime }}</div>
+            ref="seekbarHoverTimestamp"
+            :style="{ left: seekHoverAdjustedLeft }"
+          >{{ seekbar.hoverTime }}</div>-->
         </div>
         <div class="bottom-controls">
           <div class="left-bottom-controls">
@@ -151,7 +152,8 @@ export default {
       seekbar: {
         seeking: false,
         seekPercentage: 0,
-        hoverPercentage: 0
+        hoverPercentage: 0,
+        hoverTime: '00:00'
       }
     }
   },
@@ -179,10 +181,11 @@ export default {
       }
       return 0
     },
-    seekbarHoverTime: function () {
-      if (this.video !== undefined) {
-        return Commons.getTimestampFromSeconds((this.$refs.video.duration / 100) * this.seekbar.hoverPercentage)
-      }
+    seekHoverAdjustedLeft: function () {
+      let percentage = this.seekbar.hoverPercentage
+      let leftPx = (Commons.getPageWidth() / 100) * percentage
+
+      return `${leftPx}px`
     }
   },
   mounted: function () { },
@@ -249,6 +252,7 @@ export default {
     },
     onSeekbarMouseMove: function (e) {
       this.seekbar.hoverPercentage = this.calculateSeekPercentage(e.pageX)
+      this.seekbar.hoverTime = Commons.getTimestampFromSeconds((this.$refs.video.duration / 100) * this.seekbar.hoverPercentage)
     },
     onPlayerTouchMove: function (e) {
       if (this.seekbar.seeking) {
@@ -609,11 +613,14 @@ export default {
 
         .seekbar-hover-timestamp {
           position: relative;
-          bottom: 20px;
+          bottom: 25px;
           background-color: $video-thmb-overlay-bgcolor;
           padding: 4px 6px;
+          height: 25px;
           opacity: 0;
           transform: translateX(-50%);
+          box-sizing: border-box;
+          border-radius: 3px;
         }
 
         .seekbar-clickable {
