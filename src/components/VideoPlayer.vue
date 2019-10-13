@@ -56,11 +56,11 @@
             :style="{ width: `${videoElement.progressPercentage}%` }"
           ></div>
           <div class="seekbar-circle" :style="{ left: `${videoElement.progressPercentage}%` }"></div>
-          <!-- <div
+          <div
             class="seekbar-hover-timestamp"
             ref="seekbarHoverTimestamp"
             :style="{ left: seekHoverAdjustedLeft }"
-          >{{ seekbar.hoverTime }}</div>-->
+          >{{ seekbar.hoverTime }}</div>
         </div>
         <div class="bottom-controls">
           <div class="left-bottom-controls">
@@ -183,7 +183,19 @@ export default {
     },
     seekHoverAdjustedLeft: function () {
       let percentage = this.seekbar.hoverPercentage
-      let leftPx = (Commons.getPageWidth() / 100) * percentage
+      let leftPx = 0
+      if (this.$refs.seekbarHoverTimestamp) {
+        let elWidth = this.$refs.seekbarHoverTimestamp.offsetWidth
+        let pageWidth = Commons.getPageWidth()
+        leftPx = ((pageWidth - 27.5) / 100) * percentage - ((elWidth / 2) - 12)
+
+        if (leftPx < 10) {
+          leftPx = 10
+        }
+        if (leftPx > pageWidth - elWidth - 17) {
+          leftPx = pageWidth - elWidth - 17
+        }
+      }
 
       return `${leftPx}px`
     }
@@ -248,10 +260,17 @@ export default {
       let touchX = e.touches[0].clientX
       this.seekbar.seekPercentage = this.calculateSeekPercentage(touchX)
       this.matchSeekProgressPercentage()
+      this.seekbar.hoverPercentage = this.calculateSeekPercentage(touchX)
+      this.seekbar.hoverTime = Commons.getTimestampFromSeconds((this.$refs.video.duration / 100) * this.seekbar.hoverPercentage)
       e.stopPropagation()
     },
     onSeekbarMouseMove: function (e) {
       this.seekbar.hoverPercentage = this.calculateSeekPercentage(e.pageX)
+      this.seekbar.hoverTime = Commons.getTimestampFromSeconds((this.$refs.video.duration / 100) * this.seekbar.hoverPercentage)
+    },
+    onSeekbarTouchMove: function (e) {
+      let touchX = e.touches[0].clientX
+      this.seekbar.hoverPercentage = this.calculateSeekPercentage(touchX)
       this.seekbar.hoverTime = Commons.getTimestampFromSeconds((this.$refs.video.duration / 100) * this.seekbar.hoverPercentage)
     },
     onPlayerTouchMove: function (e) {
@@ -613,14 +632,17 @@ export default {
 
         .seekbar-hover-timestamp {
           position: relative;
-          bottom: 25px;
+          bottom: 30px;
           background-color: $video-thmb-overlay-bgcolor;
           padding: 4px 6px;
           height: 25px;
+          line-height: 17px;
           opacity: 0;
           transform: translateX(-50%);
           box-sizing: border-box;
           border-radius: 3px;
+          pointer-events: none;
+          transition: opacity 300ms $intro-easing;
         }
 
         .seekbar-clickable {
