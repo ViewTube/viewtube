@@ -5,12 +5,36 @@ export default {
     errorMessage: null,
     username: null
   },
-  register(args) {
+  register (args) {
     this.state.errorMessage = null
+    let me = this
     if (!this.isAuthenticated()) {
       Authentication.register(args.username, args.password, args.captcheckSessionCode, args.captcheckSelectedAnswer)
         .then(result => {
-          this.state.username = result.username
+          args.callback(result)
+        }, error => {
+          if (error.message !== undefined) {
+            me.state.errorMessage = error.message
+          } else {
+            error.then((e) => {
+              me.state.errorMessage = e.message
+            })
+          }
+          args.failure()
+        })
+    } else {
+      this.state.errorMessage = 'You are already logged in'
+      args.failure()
+    }
+  },
+  login (args) {
+    this.state.errorMessage = null
+    let me = this
+    if (!this.isAuthenticated()) {
+      Authentication.login(args.username, args.password)
+        .then(result => {
+          window.sessionStorage.setItem('jwt', result.jwt)
+          me.state.username = result.username
           args.callback(result)
         }, error => {
           let me = this
@@ -28,33 +52,10 @@ export default {
       args.failure()
     }
   },
-  login(username, password, callback) {
-    // this.state.errorMessage = null
-    // await kuzzle.connect()
-    // let jwt = null
-    // try {
-    //   jwt = await kuzzle.auth.login('local', {
-    //     username,
-    //     password
-    //   })
-    //   return jwt
-    // } catch (error) {
-    //   this.state.errorMessage = error.message
-    //   return null
-    // } finally {
-    //   if (jwt) {
-    //     window.sessionStorage.setItem('jwt', jwt)
-    //     let user = await kuzzle.auth.getCurrentUser()
-    //     this.state.username = user._id
-    //     callback()
-    //   }
-    //   kuzzle.disconnect()
-    // }
-  },
-  isAuthenticated() {
+  isAuthenticated () {
     return Boolean(this.state.username)
   },
-  async logout() {
+  async logout () {
     // this.state.errorMessage = null
     // if (this.isAuthenticated()) {
     //   await kuzzle.connect()
@@ -72,40 +73,29 @@ export default {
     //   }
     // }
   },
-  async getCurrentUser(callback) {
-    // if (kuzzle) {
-    //   this.state.errorMessage = null
-    //   await kuzzle.connect()
-    //   var jwt = window.sessionStorage.getItem('jwt')
-    //   if (!jwt) {
-    //     // eslint-disable-next-line standard/no-callback-literal
-    //     callback('No current user.')
-    //     kuzzle.auth.logout()
-    //     return false
-    //   }
-    //   kuzzle.auth.authenticationToken = jwt
-    //   if (kuzzle.auth.checkToken()) {
-    //     try {
-    //       const user = await kuzzle.auth.getCurrentUser()
-    //       if (user) {
-    //         this.state.username = user._id
-    //         callback(null, user._id)
-    //         return user._id
-    //       }
-    //     } catch (error) {
-    //       window.sessionStorage.removeItem('jwt')
-    //       kuzzle.auth.logout()
-    //       callback(error)
-    //       return false
-    //     } finally {
-    //       kuzzle.disconnect()
-    //     }
-    //   } else {
-    //     kuzzle.disconnect()
-    //     return false
-    //   }
-    // } else {
-    //   console.debug('kuzzle not defined')
-    // }
+  getCurrentUser (args) {
+    this.state.errorMessage = null
+    let me = this
+    if (window.sessionStorage.getItem('jwt')) {
+      Authentication.getUser(window.sessionStorage.getItem('jwt'))
+        .then(result => {
+          me.state.username = result.username
+          args.callback(result)
+        }, error => {
+          let errorMsg = ''
+          if (error.message !== undefined) {
+            errorMsg = error.message
+            window.sessionStorage.removeItem('jwt')
+          } else {
+            error.then((e) => {
+              errorMsg = e.message
+              window.sessionStorage.removeItem('jwt')
+            })
+          }
+          args.failure(errorMsg)
+        })
+    } else {
+      args.failure('User not logged in')
+    }
   }
 }

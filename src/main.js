@@ -7,7 +7,7 @@ import 'vue-material-design-icons/styles.css'
 import './ripple.js'
 import VueClazyLoad from 'vue-clazy-load'
 import VueHeadful from 'vue-headful'
-import userStore from './store/user'
+import UserStore from './store/user'
 import VueProgressBar from 'vue-progressbar'
 
 const progressOptions = {
@@ -23,8 +23,13 @@ Vue.use(VueClazyLoad)
 Vue.component('vue-headful', VueHeadful)
 Vue.config.productionTip = false
 
-userStore.getCurrentUser(() => {
-  console.log('starting')
+UserStore.getCurrentUser({
+  callback: () => {
+    console.log('User logged in')
+  },
+  failure: (errorMsg) => {
+    console.log('Not logged in: ' + errorMsg)
+  }
 })
 
 new Vue({

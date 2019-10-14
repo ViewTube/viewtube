@@ -4,6 +4,7 @@
     <div class="login-container">
       <h2 class="login-title">Login</h2>
       <p class="error-message-display">{{ state.errorMessage }}</p>
+      <span class="status-message-display">{{ statusMessage }}</span>
       <form id="login" method="post" @submit.prevent="login">
         <div class="login-input-container">
           <input
@@ -46,36 +47,39 @@ export default {
       username: null,
       password: null,
       state: UserStore.state,
+      statusMessage: '',
       redirectedPage: 'home'
     }
   },
   methods: {
-    login: async function () {
+    login: function () {
       this.loading = true
-      try {
-        let me = this
-        let success = await UserStore.login(this.username, this.password, function () {
+      let me = this
+      UserStore.login({
+        username: me.username,
+        password: me.password,
+        callback: function () {
           me.$router.push(me.redirectedPage.path)
-        })
-        this.loading = false
-        console.log(success)
-      } catch (error) {
-        console.error(error.message)
-      }
+        },
+        failure: function () {
+
+        }
+      })
+      this.loading = false
     }
   },
   computed: {
-    usernameHasText() {
+    usernameHasText () {
       return this.username && this.username.length > 0
     },
-    passwordHasText() {
+    passwordHasText () {
       return this.password && this.password.length > 0
     }
   },
   mounted: function () {
     this.$Progress.finish()
   },
-  beforeRouteEnter(to, from, next) {
+  beforeRouteEnter (to, from, next) {
     next(vm => {
       if (from.name) {
         vm.redirectedPage = from
