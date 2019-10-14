@@ -102,7 +102,7 @@ export default {
     return {
       video: [],
       comment: null,
-      loading: false,
+      loading: true,
       commentsLoading: true,
       commentsContinuationLink: null,
       commentsContinuationLoading: false,
@@ -146,6 +146,7 @@ export default {
     loadData: function (data) {
       data.descriptionHtml = this.cleanRedirectUrls(data.descriptionHtml)
       this.video = data
+      this.loading = false
       this.loadComments()
       this.$Progress.finish()
     },

@@ -156,33 +156,10 @@ export default {
       let date = new Date(rawDate)
       return `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`
     },
-    handleScroll: function () {
-      if (this.isVisible(this.$refs.parallaxImage)) {
-        let offsetTop = this.$refs.parallaxParent.getBoundingClientRect().top - 60
-        this.parallaxImageOffset = (offsetTop / -1.5).toFixed(2)
-        window.requestAnimationFrame(this.animateStep)
-      }
-    },
-    animateStep: function (timestamp) {
-      if (document.getElementsByClassName('channel-banner-image')) {
-        document.getElementsByClassName('channel-banner-image')[0].style.transform = `translate3d(0,${this.parallaxImageOffset}px,0)`
-        window.requestAnimationFrame(this.animateStep)
-      }
-    },
     isVisible: function (element) {
       let rect = element.getBoundingClientRect()
       let viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight)
       return !(rect.bottom < 0 || rect.top - viewHeight >= 0)
-    }
-  },
-  mounted: function () {
-    if (this.$refs.channel !== undefined) {
-      this.$refs.channel.addEventListener('scroll', this.handleScroll)
-    }
-  },
-  destroyed () {
-    if (this.$refs.channel !== undefined) {
-      this.$refs.channel.removeEventListener('scroll', this.handleScroll)
     }
   }
 }
@@ -194,17 +171,27 @@ export default {
   flex-direction: column;
 
   .channel-banner {
-    height: calc(100vw / 3.5);
-    min-height: 180px;
     width: 100%;
-    overflow: hidden;
-    position: relative;
+    height: auto;
 
     .channel-banner-image {
-      position: absolute;
-      will-change: transform;
-      // transition: transform 50ms cubic-bezier(0, 0, 0, 1) 0s;
       width: 100%;
+      position: relative;
+
+      @media screen and (max-width: 900px) {
+        width: 130%;
+        left: calc(100vw - 115%);
+      }
+
+      @media screen and (max-width: 700px) {
+        width: 160%;
+        left: calc(100vw - 130%);
+      }
+
+      @media screen and (max-width: 500px) {
+        width: 190%;
+        left: calc(100vw - 145%);
+      }
     }
   }
   .channel-information {
