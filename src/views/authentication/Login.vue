@@ -11,6 +11,7 @@
             id="username"
             class="login-input"
             :class="{ 'focus-content': usernameHasText }"
+            autocomplete="username"
             type="text"
             v-model="username"
             required
@@ -23,6 +24,7 @@
             id="password"
             class="login-input"
             :class="{ 'focus-content': passwordHasText }"
+            autocomplete="current-password"
             type="password"
             v-model="password"
             required

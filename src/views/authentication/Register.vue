@@ -18,6 +18,7 @@
             id="username"
             class="register-input"
             :class="{ 'focus-content': usernameHasText }"
+            autocomplete="username"
             type="text"
             v-model="username"
             required
@@ -30,6 +31,7 @@
             id="password"
             class="register-input"
             :class="{ 'focus-content': passwordHasText }"
+            autocomplete="new-password"
             type="password"
             pattern=".{6,}"
             title="At least 6 characters"
