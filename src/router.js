@@ -48,6 +48,14 @@ export default new Router({
     ]
   },
   {
+    path: '/subscriptions',
+    name: 'subscriptions',
+    component: () => import('./views/Subscriptions.vue'),
+    alias: [
+      '/feed/subscriptions'
+    ]
+  },
+  {
     path: '/results',
     name: 'results',
     component: () => import('./views/Search.vue'),
