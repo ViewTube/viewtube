@@ -13,7 +13,7 @@ import VueProgressBar from 'vue-progressbar'
 const progressOptions = {
   color: '#ff7b3b',
   failedColor: '#874b4b',
-  thickness: '2px'
+  thickness: '3px'
 }
 
 Vue.use(VueProgressBar, progressOptions)

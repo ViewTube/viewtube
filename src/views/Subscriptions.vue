@@ -19,14 +19,11 @@
 <script>
 import Commons from '@/commons.js'
 import VideoEntry from '@/components/list/VideoEntry'
-import Spinner from '@/components/Spinner'
-import Mapper from '@/services/mapper.js'
 
 export default {
   name: 'home',
   components: {
-    VideoEntry,
-    Spinner
+    VideoEntry
   },
   data: function () {
     return {
@@ -39,8 +36,7 @@ export default {
   },
   methods: {
     loadData: function (data) {
-      let mappedData = Mapper.mapSubscriptionVideoFeed(data)
-      this.videos = mappedData
+      this.videos = data.subscriptions
       this.loading = false
       this.$Progress.finish()
       // Just don't ask, it doesn't work without it
@@ -50,7 +46,7 @@ export default {
     }
   },
   beforeRouteEnter: function (to, from, next) {
-    let jwt = window.sessionStorage.getItem('jwt');
+    let jwt = window.sessionStorage.getItem('jwt')
     fetch(`${Commons.ownApiUrl}subscriptions/getSubscriptionFeed.php`, {
       cache: 'force-cache',
       method: 'GET',
@@ -71,7 +67,7 @@ export default {
   },
   beforeRouteUpdate: function (to, from, next) {
     this.$Progress.start()
-    let jwt = window.sessionStorage.getItem('jwt');
+    let jwt = window.sessionStorage.getItem('jwt')
     fetch(`${Commons.apiUrl}top`, {
       cache: 'force-cache',
       method: 'GET',
@@ -97,7 +93,7 @@ export default {
 
 <style lang="scss">
 .subscriptions {
-  .subscriptions-videos-container {
+  .subscription-videos-container {
     width: 100%;
     max-width: $main-width;
     margin: 0 auto;

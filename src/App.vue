@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <Header :scrolledTop="scrolledTop" />
-    <vue-progress-bar></vue-progress-bar>
+    <vue-progress-bar class="progress-bar"></vue-progress-bar>
     <router-view class="content" ref="content" @scrolled="handleScroll" />
   </div>
 </template>
@@ -31,7 +31,6 @@ export default {
         let meta = to.meta.progress
         this.$Progress.parseMeta(meta)
       }
-
       this.$Progress.start()
 
       next()
@@ -79,6 +78,10 @@ body {
     background-color: $bgcolor-main;
     height: 100%;
     width: 100%;
+
+    .progress-bar {
+      top: $header-height !important;
+    }
 
     .content {
       padding-top: $header-height;

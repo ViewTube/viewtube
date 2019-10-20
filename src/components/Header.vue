@@ -19,7 +19,7 @@
         id="login"
         class="ripple tooltip nav-btn main"
         data-tippy-content="login"
-        :class="{ visible: !userAuthenticated && this.$route.name !== 'login' }"
+        v-if="!userAuthenticated"
         v-html="'Login'"
       >Login</router-link>
       <router-link
@@ -27,8 +27,15 @@
         id="register"
         class="ripple tooltip nav-btn"
         data-tippy-content="register"
-        :class="{ visible: !userAuthenticated && this.$route.name !== 'register' }"
+        v-if="!userAuthenticated"
       >Register</router-link>
+      <router-link
+        to="/subscriptions"
+        id="subscriptions"
+        class="tooltip nav-btn main"
+        data-tippy-content="view your subscriptions"
+        v-show="userAuthenticated"
+      >Subscriptions</router-link>
       <a
         href="#"
         @click.self.prevent="accountMenuVisible = !accountMenuVisible"
@@ -59,6 +66,16 @@
             data-tippy-content="register"
           >
             <AccountPlusIcon />Register
+          </a>
+          <a
+            href="#"
+            v-if="this.$route.name !== 'subscriptions' && userAuthenticated"
+            @click.self.prevent="openSubscriptions"
+            id="subscriptions-btn"
+            class="ripple tooltip menu-btn"
+            data-tippy-content="view your subscriptions"
+          >
+            <AccountPlusIcon />Subscriptions
           </a>
           <div class="account-menu" v-if="userAuthenticated">
             <AccountIcon />
@@ -163,6 +180,10 @@ export default {
       this.$router.push('/settings')
       this.hideAccountMenu()
     },
+    openSubscriptions: function () {
+      this.$router.push('/subscriptions')
+      this.hideAccountMenu()
+    },
     login: function () {
       this.$router.push('/login')
       this.hideAccountMenu()
@@ -176,7 +197,7 @@ export default {
       this.hideAccountMenu()
     }
   },
-  mounted() {
+  mounted () {
     this.disableDrag()
 
     tippy('.tooltip', {
@@ -188,14 +209,11 @@ export default {
     })
   },
   computed: {
-    currentRouteName() {
+    currentRouteName () {
       return this.$route.name
     },
-    userAuthenticated() {
+    userAuthenticated () {
       return Boolean(this.loginState.username)
-    },
-    isRegisterOrLoginPage() {
-      return this.$route.name === 'register' | this.$route.name === 'login'
     }
   }
 }
@@ -413,15 +431,9 @@ export default {
       padding: 5px 10px;
       box-sizing: border-box;
       border: solid 2px transparent;
-      visibility: hidden;
 
       @media screen and (max-width: $mobile-width) {
         display: none;
-      }
-
-      &.visible {
-        visibility: visible;
-        order: 2;
       }
     }
 

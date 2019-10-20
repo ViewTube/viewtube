@@ -1,5 +1,5 @@
 export default {
-  apiUrl: 'https://invidio.us/api/v1/',
+  apiUrl: 'https://invidious.snopyta.org/api/v1/',
   authUrl: 'http://localhost:1842/api/',
   // authUrl: 'https://auth.viewtube.eu/api/',
   ownApiUrl: 'http://localhost:1842/api/',
