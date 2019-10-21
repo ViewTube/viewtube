@@ -45,7 +45,7 @@ export default {
     }
   },
   beforeRouteEnter: function (to, from, next) {
-    fetch(`${Commons.apiUrl}top`, {
+    fetch(`${Commons.apiUrl}popular`, {
       cache: 'force-cache',
       method: 'GET'
     })
