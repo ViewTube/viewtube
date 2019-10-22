@@ -1,7 +1,19 @@
 <template>
   <div class="subscribe-button-container" :class="{ disabled: disabled }">
-    <div class="unsubscribe-button" v-if="isSubscribed" @click="unsubscribe"></div>
-    <div class="subscribe-button" v-if="!isSubscribed" @click="subscribe"></div>
+    <div
+      class="unsubscribe-button"
+      :class="{ hidden: !isSubscribed }"
+      @click="unsubscribe"
+      tabindex="0"
+      data-tippy-content="unsubscribe from this channel"
+    ></div>
+    <div
+      class="subscribe-button"
+      :class="{ hidden: isSubscribed }"
+      @click="subscribe"
+      tabindex="0"
+      data-tippy-content="subscribe to this channel"
+    ></div>
   </div>
 </template>
 
@@ -91,8 +103,8 @@ export default {
 
 <style lang="scss">
 .subscribe-button-container {
+  position: relative;
   &.disabled {
-    filter: opacity(0.8) grayscale(100);
     pointer-events: none;
   }
 
@@ -101,10 +113,24 @@ export default {
     width: 120px;
     height: 32px;
     border-radius: 5px;
-    position: relative;
+    position: absolute;
+    top: 0;
+    left: 0;
     background: transparent;
     cursor: pointer;
     line-height: 12px;
+    opacity: 1;
+    transition: opacity 300ms $intro-easing, transform 300ms $intro-easing;
+
+    &:focus {
+      transform: scale(0.9);
+    }
+
+    &.hidden {
+      opacity: 0;
+      transform: scale(0);
+      pointer-events: none;
+    }
 
     &:before {
       content: "";

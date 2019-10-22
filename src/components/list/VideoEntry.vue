@@ -12,7 +12,7 @@
           :src="video.videoThumbnails[3].url"
           :alt="`${video.title} thumbnail`"
         />
-        <div class="video-description-overlay">
+        <div class="video-description-overlay" v-if="video.description">
           <p>{{ video.description }}</p>
         </div>
       </div>
@@ -31,7 +31,10 @@
         :data-tippy-content="video.author"
       >{{ video.author }}</router-link>
       <div class="video-entry-stats">
-        <p class="video-entry-views">{{ video.viewCount.toLocaleString() }}</p>
+        <p
+          class="video-entry-views"
+          v-if="video.viewCount"
+        >{{ video.viewCount.toLocaleString() }}</p>
         <p class="video-entry-timestamp">{{ video.publishedText }}</p>
       </div>
     </div>
@@ -56,7 +59,7 @@ export default {
       videoProgressTooltip: `${Commons.getTimestampFromSeconds(SavedPosition.getSavedPosition(this.video.videoId))} of ${Commons.getTimestampFromSeconds(this.video.lengthSeconds)}`
     }
   },
-  mounted() {
+  mounted () {
     tippy('.tooltip', {
       duration: 300,
       arrow: false,
