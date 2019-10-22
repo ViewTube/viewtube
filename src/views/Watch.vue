@@ -46,7 +46,7 @@
             <p class="infobox-channel-subcount">{{ video.subCountText }} Subscribers</p>
           </div>
         </div>
-        <SubscribeButton class="subscribe-button-watch" />
+        <SubscribeButton class="subscribe-button-watch" :channelId="video.authorId" />
       </div>
       <div class="video-infobox-date">{{ video.publishedText }}</div>
       <p>tags:</p>

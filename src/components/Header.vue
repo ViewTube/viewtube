@@ -15,7 +15,7 @@
     <MainSearchBox />
     <div class="nav">
       <router-link
-        to="login"
+        to="/login"
         id="login"
         class="ripple tooltip nav-btn main"
         data-tippy-content="login"

@@ -42,7 +42,7 @@
                 <h2>paid</h2>
               </div>
             </div>
-            <SubscribeButton />
+            <SubscribeButton :channelId="channel.authorId" />
           </div>
         </div>
       </div>
