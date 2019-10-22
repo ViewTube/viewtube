@@ -1,9 +1,9 @@
 export default {
   apiUrl: 'https://invidious.snopyta.org/api/v1/',
-  authUrl: 'http://localhost:1842/api/',
-  // authUrl: 'https://auth.viewtube.eu/api/',
-  ownApiUrl: 'http://localhost:1842/api/',
-  // ownApiUrl: 'https://auth.viewtube.eu/api/',
+  // authUrl: 'http://localhost:1842/api/',
+  authUrl: 'https://auth.viewtube.eu/api/',
+  // ownApiUrl: 'http://localhost:1842/api/',
+  ownApiUrl: 'https://auth.viewtube.eu/api/',
   description: 'An alternative YouTube frontend using the invidio.us API.',
   language: 'en-US',
   cleanRedirectUrl: function (string) {
