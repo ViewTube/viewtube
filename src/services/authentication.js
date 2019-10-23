@@ -5,7 +5,7 @@ export default {
     return new Promise((resolve, reject) => {
       if (username && password) {
         if (username !== '' && password !== '') {
-          fetch(`${Commons.authUrl}register.php`, {
+          fetch(`${Commons.getOwnApiUrl()}register.php`, {
             method: 'POST',
             headers: {
               'Accept': 'application/json',
@@ -42,7 +42,7 @@ export default {
     return new Promise((resolve, reject) => {
       if (username && password) {
         if (username !== '' && password !== '') {
-          fetch(`${Commons.authUrl}login.php`, {
+          fetch(`${Commons.getOwnApiUrl()}login.php`, {
             method: 'POST',
             headers: {
               'Accept': 'application/json',
@@ -75,7 +75,7 @@ export default {
     return new Promise((resolve, reject) => {
       if (jwt) {
         if (jwt !== '') {
-          fetch(`${Commons.authUrl}getUser.php`, {
+          fetch(`${Commons.getOwnApiUrl()}getUser.php`, {
             method: 'POST',
             headers: {
               'Accept': 'application/json',

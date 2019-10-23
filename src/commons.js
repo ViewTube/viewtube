@@ -1,15 +1,20 @@
 export default {
   apiUrl: 'https://invidio.us/api/v1/',
-  // authUrl: 'http://localhost:1842/api/',
-  authUrl: 'https://auth.viewtube.eu/api/',
-  // ownApiUrl: 'http://localhost:1842/api/',
-  ownApiUrl: 'https://auth.viewtube.eu/api/',
   description: 'An alternative YouTube frontend using the invidio.us API.',
   language: 'en-US',
+
   cleanRedirectUrl: function (string) {
     let urlParams = new URLSearchParams(string.split('?')[1])
     return urlParams.get('q')
   },
+
+  getOwnApiUrl: function () {
+    if (window.location.href.toLowerCase().indexOf('localhost') !== -1) {
+      return 'http://localhost:1842/api/'
+    }
+    return 'https://auth.viewtube.eu/api/'
+  },
+
   getTimestampFromSeconds: seconds => {
     let ms = seconds * 1000
     let date = new Date(ms)
@@ -29,6 +34,7 @@ export default {
       return i
     }
   },
+
   getPageWidth: function () {
     return Math.max(
       document.body.scrollWidth,

@@ -34,7 +34,7 @@
         <p
           class="video-entry-views"
           v-if="video.viewCount"
-        >{{ video.viewCount.toLocaleString() }}</p>
+        >{{ video.viewCount.toLocaleString() }} {{ video.viewCount === 1 ? 'view' : 'views' }}</p>
         <p class="video-entry-timestamp">{{ video.publishedText }}</p>
       </div>
     </div>
@@ -59,7 +59,7 @@ export default {
       videoProgressTooltip: `${Commons.getTimestampFromSeconds(SavedPosition.getSavedPosition(this.video.videoId))} of ${Commons.getTimestampFromSeconds(this.video.lengthSeconds)}`
     }
   },
-  mounted () {
+  mounted() {
     tippy('.tooltip', {
       duration: 300,
       arrow: false,

@@ -4842,11 +4842,6 @@ isstream@~0.1.2:
   resolved "https://registry.yarnpkg.com/isstream/-/isstream-0.1.2.tgz#47e63f7af55afa6f92e1500e690eb8b8529c099a"
   integrity sha1-R+Y/evVa+m+S4VAOaQ64uFKcCZo=
 
-javascript-detect-element-resize@^0.5.3:
-  version "0.5.3"
-  resolved "https://registry.yarnpkg.com/javascript-detect-element-resize/-/javascript-detect-element-resize-0.5.3.tgz#1a71cd51dfe565907f299012fe73a294104025de"
-  integrity sha1-GnHNUd/lZZB/KZAS/nOilBBAJd4=
-
 javascript-stringify@^1.6.0:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/javascript-stringify/-/javascript-stringify-1.6.0.tgz#142d111f3a6e3dae8f4a9afd77d45855b5a9cce3"
@@ -5166,7 +5161,7 @@ lodash.uniq@^4.5.0:
   resolved "https://registry.yarnpkg.com/lodash.uniq/-/lodash.uniq-4.5.0.tgz#d0225373aeb652adc1bc82e4945339a842754773"
   integrity sha1-0CJTc662Uq3BvILklFM5qEJ1R3M=
 
-lodash@^4.16.1, lodash@^4.17.11, lodash@^4.17.12, lodash@^4.17.13, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.3, lodash@^4.17.4, lodash@^4.3.0:
+lodash@^4.17.11, lodash@^4.17.12, lodash@^4.17.13, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.3, lodash@^4.17.4, lodash@^4.3.0:
   version "4.17.15"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.15.tgz#b447f6670a0455bbfeedd11392eff330ea097548"
   integrity sha512-8xOcRHvCjnocdS5cpwXQXVzmmh5e5+saE2QGoeQmbKmRS6J3VQppPOIt0MnmE+4xlZoumy0GPG0D0MVIQbNA1A==
@@ -8394,11 +8389,6 @@ vm-browserify@^1.0.1:
   resolved "https://registry.yarnpkg.com/vm-browserify/-/vm-browserify-1.1.0.tgz#bd76d6a23323e2ca8ffa12028dc04559c75f9019"
   integrity sha512-iq+S7vZJE60yejDYM0ek6zg308+UZsdtPExWP9VZoCFCz1zkJoXFnAX7aZfd/ZwrkidzdUZL0C/ryW+JwAiIGw==
 
-vue-clazy-load@^0.4.2:
-  version "0.4.2"
-  resolved "https://registry.yarnpkg.com/vue-clazy-load/-/vue-clazy-load-0.4.2.tgz#8a83c8bc3bae291cedbde72baa52fdbf8938c766"
-  integrity sha512-p60BlFuCaKbCNKOafyGO3ArswrpEdg5kpS8zUBDg2UON6GqAehoBxUiTPNulYNHAbPIxNyiwHmHE6HZwdsozoQ==
-
 vue-cli-plugin-style-resources-loader@^0.1.3:
   version "0.1.3"
   resolved "https://registry.yarnpkg.com/vue-cli-plugin-style-resources-loader/-/vue-cli-plugin-style-resources-loader-0.1.3.tgz#0fed01f429ba4af2f4265161dbeab9e9d233e810"
@@ -8462,21 +8452,6 @@ vue-material-design-icons@^4.1.0:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/vue-material-design-icons/-/vue-material-design-icons-4.1.0.tgz#4caef9571c9c83a2a73d84c131e137e784689ba1"
   integrity sha512-WP7EA5dY/Gtapw4G9iT7xHTKU4eB75/DKDNC8OkiCziJ32A9SbhOvN52R9wI66I3HLxsABZ/fVYt+J0Wu1fdAw==
-
-vue-mixins@^0.3.0:
-  version "0.3.6"
-  resolved "https://registry.yarnpkg.com/vue-mixins/-/vue-mixins-0.3.6.tgz#49e19cf52c8dbc2c65c919ec67a7d8e25e2e9a86"
-  integrity sha1-SeGc9SyNvCxlyRnsZ6fY4l4umoY=
-  dependencies:
-    javascript-detect-element-resize "^0.5.3"
-    lodash "^4.16.1"
-
-vue-parallax@^1.1.1:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/vue-parallax/-/vue-parallax-1.1.1.tgz#54682835c18e350d9f8692fc457ab9ced44a40a3"
-  integrity sha1-VGgoNcGONQ2fhpL8RXq5ztRKQKM=
-  dependencies:
-    vue-mixins "^0.3.0"
 
 vue-progressbar@^0.7.5:
   version "0.7.5"

@@ -20,17 +20,19 @@
       <SearchIcon />
     </a>
     <span class="search-line-bottom line"></span>
-    <div class="search-autocomplete-container"></div>
+    <SearchAutoComplete :searchValue="searchValue" />
   </div>
 </template>
 
 <script>
 import SearchIcon from 'icons/Magnify.vue'
+import SearchAutoComplete from '@/components/SearchAutoComplete'
 
 export default {
   name: 'main-search-box',
   components: {
-    SearchIcon
+    SearchIcon,
+    SearchAutoComplete
   },
   data: function () {
     return {
@@ -98,35 +100,7 @@ export default {
 
     .material-design-icon {
       margin: auto;
-    }
-  }
-
-  .search-autocomplete-container {
-    width: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    margin-top: $header-height / 2;
-    background-color: $header-bgcolor;
-    display: flex;
-    flex-direction: column;
-    box-shadow: $medium-shadow;
-
-    .search-autocomplete-entry {
-      padding: 5px 0 5px 10px;
-      cursor: default;
-      color: $title-color;
-      text-decoration: none;
-      font-family: $default-font;
-
-      &:hover,
-      &.selected {
-        background-color: $bgcolor-alt;
-      }
-    }
-
-    &.hidden {
-      display: none;
+      left: -3px !important;
     }
   }
 

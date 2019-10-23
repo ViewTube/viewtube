@@ -47,7 +47,7 @@ export default {
   },
   beforeRouteEnter: function (to, from, next) {
     let jwt = window.sessionStorage.getItem('jwt')
-    fetch(`${Commons.ownApiUrl}subscriptions/getSubscriptionFeed.php`, {
+    fetch(`${Commons.getOwnApiUrl()}subscriptions/getSubscriptionFeed.php`, {
       method: 'GET',
       headers: {
         'Accept': 'application/json',

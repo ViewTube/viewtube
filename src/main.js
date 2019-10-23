@@ -5,7 +5,6 @@ import FormattingFunctions from './formattingFunctions'
 import './registerServiceWorker'
 import 'vue-material-design-icons/styles.css'
 import './ripple.js'
-import VueClazyLoad from 'vue-clazy-load'
 import VueHeadful from 'vue-headful'
 import UserStore from './store/user'
 import VueProgressBar from 'vue-progressbar'
@@ -18,7 +17,6 @@ const progressOptions = {
 
 Vue.use(VueProgressBar, progressOptions)
 Vue.use(FormattingFunctions)
-Vue.use(VueClazyLoad)
 
 Vue.component('vue-headful', VueHeadful)
 Vue.config.productionTip = false

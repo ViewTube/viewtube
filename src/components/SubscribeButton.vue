@@ -39,7 +39,7 @@ export default {
       if (this.channelId && window.sessionStorage.getItem('jwt')) {
         let jwt = window.sessionStorage.getItem('jwt')
         let me = this
-        fetch(`${Commons.ownApiUrl}subscriptions/getSubscriptionChannels.php?channelId=${this.channelId}`, {
+        fetch(`${Commons.getOwnApiUrl()}subscriptions/getSubscriptionChannels.php?channelId=${this.channelId}`, {
           method: 'GET',
           headers: {
             'Accept': 'application/json',
@@ -74,7 +74,7 @@ export default {
         this.disabled = true
         let jwt = window.sessionStorage.getItem('jwt')
         let me = this
-        fetch(`${Commons.ownApiUrl}subscriptions/getSubscriptionChannels.php`, {
+        fetch(`${Commons.getOwnApiUrl()}subscriptions/getSubscriptionChannels.php`, {
           method: action,
           headers: {
             'Accept': 'application/json',
