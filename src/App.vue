@@ -8,20 +8,11 @@
 
 <script>
 import Header from '@/components/Header.vue'
-import DynamicValues from '@/store/dynamicValues'
 
 export default {
   name: 'app',
   components: {
     Header
-  },
-  data: function () {
-    return {
-      scrolledTop: DynamicValues.scroll.atTop
-    }
-  },
-  watch: {
-
   },
   created: function () {
     this.$Progress.start()
@@ -35,12 +26,6 @@ export default {
 
       next()
     })
-  },
-  methods: {
-    handleScroll: function (e) {
-      console.log('asd', e)
-      // DynamicValues.scroll.atTop = offsetTop < 1
-    }
   }
 }
 </script>

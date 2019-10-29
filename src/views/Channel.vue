@@ -94,7 +94,7 @@ import VideoEntry from '@/components/list/VideoEntry'
 // import Spinner from '@/components/Spinner'
 import FamilyFriendly from 'vue-material-design-icons/AccountChild'
 import Paid from 'vue-material-design-icons/CurrencyUsd'
-import SubscribeButton from '@/components/SubscribeButton'
+import SubscribeButton from '@/components/buttons/SubscribeButton'
 
 export default {
   name: 'home',

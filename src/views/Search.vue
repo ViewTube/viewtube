@@ -12,6 +12,7 @@
         :channel="result"
       ></component>
     </div>
+    <BottomNavigation />
   </div>
 </template>
 
@@ -21,6 +22,7 @@ import VideoEntry from '@/components/list/VideoEntry'
 import PlaylistEntry from '@/components/list/PlaylistEntry'
 import ChannelEntry from '@/components/list/ChannelEntry'
 import Spinner from '@/components/Spinner'
+import BottomNavigation from '@/components/BottomNavigation'
 
 export default {
   name: 'search',
@@ -28,7 +30,8 @@ export default {
     VideoEntry,
     Spinner,
     PlaylistEntry,
-    ChannelEntry
+    ChannelEntry,
+    BottomNavigation
   },
   data: function () {
     return {

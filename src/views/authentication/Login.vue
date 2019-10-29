@@ -1,38 +1,15 @@
 <template>
   <div class="login">
     <vue-headful title="Login - ViewTube" />
-    <div class="login-container">
+    <div class="login-container" :class="{ loading: loading }">
       <h2 class="login-title">Login</h2>
-      <p class="error-message-display">{{ state.errorMessage }}</p>
-      <span class="status-message-display">{{ statusMessage }}</span>
+      <p class="error-message-display message-display">{{ state.errorMessage }}</p>
+      <span class="status-message-display message-display">{{ statusMessage }}</span>
+      <Spinner />
       <form id="login" method="post" @submit.prevent="login">
-        <div class="login-input-container">
-          <input
-            id="username"
-            class="login-input"
-            :class="{ 'focus-content': usernameHasText }"
-            autocomplete="username"
-            type="text"
-            v-model="username"
-            required
-            :disabled="loading"
-          />
-          <label for="username" class="input-label">username</label>
-        </div>
-        <div class="login-input-container">
-          <input
-            id="password"
-            class="login-input"
-            :class="{ 'focus-content': passwordHasText }"
-            autocomplete="current-password"
-            type="password"
-            v-model="password"
-            required
-            :disabled="loading"
-          />
-          <label for="password" class="input-label">password</label>
-        </div>
-        <button type="submit" class="login-btn ripple" :disabled="loading">Login</button>
+        <FormInput :id="'username'" v-model="username" :label="'username'" :type="'username'" />
+        <FormInput :id="'password'" v-model="password" :label="'password'" :type="'password'" />
+        <SubmitButton :label="'Register'" />
       </form>
     </div>
   </div>
@@ -40,9 +17,17 @@
 
 <script>
 import UserStore from '@/store/user.js'
+import FormInput from '@/components/form/FormInput'
+import SubmitButton from '@/components/form/SubmitButton'
+import Spinner from '@/components/Spinner'
 
 export default {
   name: 'login',
+  components: {
+    FormInput,
+    SubmitButton,
+    Spinner
+  },
   data: function () {
     return {
       loading: false,
@@ -64,18 +49,9 @@ export default {
           me.$router.push(me.redirectedPage.path)
         },
         failure: function () {
-
+          me.loading = false
         }
       })
-      this.loading = false
-    }
-  },
-  computed: {
-    usernameHasText () {
-      return this.username && this.username.length > 0
-    },
-    passwordHasText () {
-      return this.password && this.password.length > 0
     }
   },
   mounted: function () {
@@ -100,9 +76,13 @@ export default {
   width: 100%;
   height: 100%;
   display: flex;
-  background-image: url("/img/blur-bg-medium-dark.jpg");
   background-size: cover;
   background-repeat: no-repeat;
+  background-color: $bgcolor-alt;
+
+  @media screen and (min-width: $mobile-width) {
+    background-image: url("/img/blur-bg-medium-dark.jpg");
+  }
 
   .login-container {
     margin: auto;
@@ -115,6 +95,7 @@ export default {
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
+    position: relative;
 
     @media screen and (max-width: $mobile-width) {
       height: 100%;
@@ -127,6 +108,34 @@ export default {
       font-family: $default-font;
     }
 
+    .message-display {
+      height: 20px;
+      line-height: 20px;
+
+      &.error-message-display {
+        color: $error-color-red;
+      }
+    }
+
+    &.loading {
+      #login {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .spinner {
+        opacity: 1;
+      }
+    }
+
+    .spinner {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      opacity: 0;
+      transition: opacity 300ms $intro-easing;
+    }
+
     #login {
       display: flex;
       flex-direction: column;
@@ -134,87 +143,7 @@ export default {
       max-width: 500px;
       padding: 10px;
       box-sizing: border-box;
-
-      .login-input-container {
-        position: relative;
-        $input-line-height: 50px;
-
-        .login-input {
-          margin: 20px 20px;
-          padding: 12px 12px;
-          line-height: 30px;
-          border-radius: 4px;
-          width: calc(100% - 40px);
-          height: $input-line-height;
-
-          font-size: 1rem;
-          border-style: none;
-          color: $title-color;
-          box-sizing: border-box;
-          font-family: $default-font;
-          background-color: transparent;
-          border: 2px solid $bgcolor-alt-light;
-          transition: border 300ms $intro-easing;
-
-          &:focus {
-            border-color: $theme-color;
-          }
-
-          &:focus,
-          &.focus-content {
-            padding: 20px 12px 4px 12px;
-          }
-
-          &:not(:valid) {
-            box-shadow: none;
-            border-color: $error-color-red;
-          }
-        }
-
-        .input-label {
-          position: absolute;
-          left: 34px;
-          top: 20px;
-          height: $input-line-height;
-          line-height: $input-line-height;
-          text-align: center;
-          margin: auto;
-          pointer-events: none;
-          transition: transform 300ms $intro-easing, color 300ms $intro-easing;
-          transform-origin: left top;
-          color: $subtitle-color-light;
-        }
-
-        .focus-content ~ .input-label,
-        .login-input:focus ~ .input-label {
-          transform: scale(0.8) translateY(-10px);
-        }
-
-        .login-input:focus ~ .input-label {
-          color: $theme-color;
-        }
-      }
-
-      .login-btn {
-        font-size: 1rem;
-        border-style: none;
-        width: calc(100% - 40px);
-        text-align: center;
-        cursor: pointer;
-        user-select: none;
-        margin: 20px 20px;
-        background: $theme-color-primary-gradient;
-        padding: 8px 0;
-        border-radius: 5px;
-        box-sizing: border-box;
-        color: $title-color;
-        box-shadow: $low-shadow;
-        transition: box-shadow 300ms $intro-easing;
-
-        &:hover {
-          box-shadow: $max-shadow;
-        }
-      }
+      transition: opacity 300ms $intro-easing;
     }
   }
 }

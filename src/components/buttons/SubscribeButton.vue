@@ -103,7 +103,10 @@ export default {
 
 <style lang="scss">
 .subscribe-button-container {
+  width: 120px;
+  height: 32px;
   position: relative;
+
   &.disabled {
     pointer-events: none;
   }

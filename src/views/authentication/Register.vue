@@ -1,63 +1,22 @@
 <template>
   <div class="register">
     <vue-headful title="Register - ViewTube" />
-    <div class="register-container">
+    <div class="register-container" :class="{ loading: loading }">
       <h2 class="register-title">Register</h2>
-      <p class="error-message-display">{{ state.errorMessage }}</p>
-      <span class="status-message-display">{{ statusMessage }}</span>
-      <span v-if="countDownVisible">in {{ countDownCounter }}s</span>
-      <form
-        id="register"
-        method="post"
-        @submit.prevent="register"
-        :class="{ loading: loading }"
-        ref="registerForm"
-      >
-        <div class="register-input-container">
-          <input
-            id="username"
-            class="register-input"
-            :class="{ 'focus-content': usernameHasText }"
-            autocomplete="username"
-            type="text"
-            v-model="username"
-            required
-            :disabled="loading"
-          />
-          <label for="username" class="input-label">Username</label>
-        </div>
-        <div class="register-input-container">
-          <input
-            id="password"
-            class="register-input"
-            :class="{ 'focus-content': passwordHasText }"
-            autocomplete="new-password"
-            type="password"
-            pattern=".{6,}"
-            title="At least 6 characters"
-            v-model="password"
-            required
-            :disabled="loading"
-          />
-          <label for="password" class="input-label">Password</label>
-        </div>
-        <div class="register-input-container">
-          <input
-            id="repeat-password"
-            class="register-input"
-            :class="{ 'focus-content': repeatPasswordHasText }"
-            type="password"
-            pattern=".{6,}"
-            title="At least 6 characters"
-            v-model="repeatPassword"
-            ref="repeatPassword"
-            required
-            :disabled="loading"
-          />
-          <label for="password" class="input-label">Repeat password</label>
-        </div>
+      <p class="error-message-display message-display">{{ state.errorMessage }}</p>
+      <span class="status-message-display message-display">{{ statusMessage }}</span>
+      <Spinner />
+      <form id="register" method="post" @submit.prevent="register" ref="registerForm">
+        <FormInput :id="'username'" v-model="username" :label="'username'" :type="'Username'" />
+        <FormInput :id="'password'" v-model="password" :label="'password'" :type="'Password'" />
+        <FormInput
+          :id="'repeat-password'"
+          v-model="repeatPassword"
+          :label="'Repeat password'"
+          :type="'password'"
+        />
         <div class="captcheck_container"></div>
-        <input type="submit" class="register-btn ripple" :disabled="loading" value="register" />
+        <SubmitButton :label="'Register'" />
       </form>
     </div>
   </div>
@@ -66,9 +25,17 @@
 <script>
 import UserStore from '@/store/user.js'
 import Captcheck from '@/services/captcheck.js'
+import FormInput from '@/components/form/FormInput'
+import SubmitButton from '@/components/form/SubmitButton'
+import Spinner from '@/components/Spinner'
 
 export default {
   name: 'register',
+  components: {
+    FormInput,
+    SubmitButton,
+    Spinner
+  },
   data: function () {
     return {
       loading: false,
@@ -77,10 +44,7 @@ export default {
       repeatPassword: null,
       state: UserStore.state,
       statusMessage: '',
-      redirectedPage: 'home',
-      countDownInterval: null,
-      countDownCounter: 3,
-      countDownVisible: false
+      redirectedPage: 'home'
     }
   },
   methods: {
@@ -103,15 +67,6 @@ export default {
 
         callback: function () {
           me.statusMessage = 'Registration successful. Redirecting'
-          me.countDownVisible = true
-          me.countDownInterval = setInterval(() => {
-            if (me.countDownCounter > 0) {
-              me.countDownCounter -= 1
-            } else {
-              clearInterval(me.countDownInterval)
-              me.$router.push(me.redirectedPage)
-            }
-          }, 1000)
         },
         failure: function () {
           me.loading = false
@@ -120,9 +75,9 @@ export default {
     },
     checkRepeatPasswords: function () {
       if (this.password !== this.repeatPassword) {
-        this.$refs.repeatPassword.setCustomValidity('passwords do not match')
+        this.statusMessage = 'passwords do not match'
       } else {
-        this.$refs.repeatPassword.setCustomValidity('')
+        this.statusMessage = ''
       }
     }
   },
@@ -138,18 +93,7 @@ export default {
     this.$Progress.finish()
     Captcheck.initCaptcheck()
   },
-  computed: {
-    usernameHasText() {
-      return this.username && this.username.length > 0
-    },
-    passwordHasText() {
-      return this.password && this.password.length > 0
-    },
-    repeatPasswordHasText() {
-      return this.repeatPassword && this.repeatPassword.length > 0
-    }
-  },
-  beforeRouteEnter(to, from, next) {
+  beforeRouteEnter (to, from, next) {
     next(vm => {
       if (from.name) {
         vm.redirectedPage = from
@@ -168,9 +112,14 @@ export default {
   width: 100%;
   height: 100%;
   display: flex;
-  background-image: url("/img/blur-bg-medium-dark.jpg");
   background-size: cover;
   background-repeat: no-repeat;
+  position: relative;
+  background-color: $bgcolor-alt;
+
+  @media screen and (min-width: $mobile-width) {
+    background-image: url("/img/blur-bg-medium-dark.jpg");
+  }
 
   .register-container {
     margin: auto;
@@ -183,6 +132,7 @@ export default {
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
+    position: relative;
 
     @media screen and (max-width: $mobile-width) {
       height: 100%;
@@ -195,83 +145,50 @@ export default {
       font-family: $default-font;
     }
 
+    .message-display {
+      height: 20px;
+      line-height: 20px;
+
+      &.error-message-display {
+        color: $error-color-red;
+      }
+    }
+
+    &.loading {
+      #register {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .spinner {
+        opacity: 1;
+      }
+    }
+
+    .spinner {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      opacity: 0;
+      transition: opacity 300ms $intro-easing;
+    }
+
     #register {
       display: flex;
       flex-direction: column;
       width: 100%;
+      max-height: 10000px;
       max-width: 500px;
       padding: 10px;
       box-sizing: border-box;
-
-      &.loading {
-        filter: opacity(0.5);
-      }
-
-      .register-input-container {
-        position: relative;
-        $input-line-height: 50px;
-
-        .register-input {
-          margin: 20px 20px;
-          padding: 12px 12px;
-          line-height: 30px;
-          border-radius: 4px;
-          width: calc(100% - 40px);
-          height: $input-line-height;
-
-          font-size: 1rem;
-          border-style: none;
-          color: $title-color;
-          box-sizing: border-box;
-          font-family: $default-font;
-          background-color: transparent;
-          border: 2px solid $bgcolor-alt-light;
-          transition: border 300ms $intro-easing;
-
-          &:focus {
-            border-color: $theme-color;
-          }
-
-          &:focus,
-          &.focus-content {
-            padding: 20px 12px 4px 12px;
-          }
-
-          &:not(:valid) {
-            box-shadow: none;
-            // border-color: $error-color-red;
-          }
-        }
-
-        .input-label {
-          position: absolute;
-          left: 34px;
-          top: 20px;
-          height: $input-line-height;
-          line-height: $input-line-height;
-          text-align: center;
-          margin: auto;
-          pointer-events: none;
-          transition: transform 300ms $intro-easing, color 300ms $intro-easing;
-          transform-origin: left top;
-          color: $subtitle-color-light;
-        }
-
-        .focus-content ~ .input-label,
-        .register-input:focus ~ .input-label {
-          transform: scale(0.8) translateY(-10px);
-        }
-
-        .register-input:focus ~ .input-label {
-          color: $theme-color;
-        }
-      }
+      transition: opacity 300ms $intro-easing;
 
       .captcheck_container {
         width: calc(100% - 40px);
         display: flex;
         margin: 20px 20px;
         border-radius: 4px;
+        height: 125px;
 
         .captcheck_box {
           padding: 12px 12px;
@@ -313,27 +230,6 @@ export default {
               }
             }
           }
-        }
-      }
-
-      .register-btn {
-        font-size: 1rem;
-        border-style: none;
-        width: calc(100% - 40px);
-        text-align: center;
-        cursor: pointer;
-        user-select: none;
-        margin: 20px 20px;
-        background: $theme-color-primary-gradient;
-        padding: 8px 0;
-        border-radius: 5px;
-        box-sizing: border-box;
-        color: $title-color;
-        box-shadow: $low-shadow;
-        transition: box-shadow 300ms $intro-easing;
-
-        &:hover {
-          box-shadow: $max-shadow;
         }
       }
     }

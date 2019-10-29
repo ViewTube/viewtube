@@ -1,5 +1,5 @@
 <template>
-  <div class="header" :class="{ scrolled: !scrolledTop }">
+  <div class="header">
     <router-link class="logo-link" to="/">
       <h1 class="logo">
         <span>View</span>
@@ -248,10 +248,7 @@ export default {
   z-index: 800;
   background-color: $header-bgcolor;
   transition: box-shadow 600ms $intro-easing;
-
-  &.scrolled {
-    box-shadow: $max-shadow;
-  }
+  box-shadow: $medium-shadow;
 
   .logo-link {
     text-decoration: none;

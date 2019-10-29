@@ -85,7 +85,7 @@ import Spinner from '@/components/Spinner'
 import ThumbsUp from 'icons/ThumbUp'
 import ThumbsDown from 'icons/ThumbDown'
 import VideoPlayer from '@/components/VideoPlayer'
-import SubscribeButton from '@/components/SubscribeButton'
+import SubscribeButton from '@/components/buttons/SubscribeButton'
 import Comment from '@/components/Comment'
 
 export default {

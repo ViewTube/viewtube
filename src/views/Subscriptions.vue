@@ -13,17 +13,20 @@
     >
       <VideoEntry v-for="video in videos" :key="video.videoId" :video="video"></VideoEntry>
     </div>
+    <BottomNavigation />
   </div>
 </template>
 
 <script>
 import Commons from '@/commons.js'
 import VideoEntry from '@/components/list/VideoEntry'
+import BottomNavigation from '@/components/BottomNavigation'
 
 export default {
   name: 'home',
   components: {
-    VideoEntry
+    VideoEntry,
+    BottomNavigation
   },
   data: function () {
     return {
