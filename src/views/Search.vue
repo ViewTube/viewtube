@@ -2,7 +2,7 @@
   <div class="search">
     <vue-headful :title="`${searchQuery} - ViewTube`" />
     <Spinner class="centered" v-if="loading"></Spinner>
-    <div v-if="!loading" class="search-videos-container" ref="scrollContainer">
+    <div v-if="!loading" class="search-videos-container">
       <component
         v-for="result in results"
         :is="getListEntryType(result.type)"
@@ -46,10 +46,6 @@ export default {
       this.results = data
       this.loading = false
       this.$Progress.finish()
-      // Just don't ask, it doesn't work without it
-      setTimeout(() => {
-        this.$refs.scrollContainer.scrollTop = this.$route.meta.scrollHeight
-      }, 0)
     },
     getListEntryType: function (type) {
       if (type === 'video') {
@@ -102,8 +98,7 @@ export default {
       next('/')
     }
   },
-  beforeRouteLeave(to, from, next) {
-    from.meta.scrollHeight = this.$refs.scrollContainer.scrollTop
+  beforeRouteLeave (to, from, next) {
     next()
   }
 }

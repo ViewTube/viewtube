@@ -7,7 +7,7 @@
       lang="en"
     />
     <Spinner class="centered" v-if="loading"></Spinner>
-    <div class="home-videos-container" ref="scrollContainer" @scroll="this.$emit('scrolled')">
+    <div class="home-videos-container">
       <VideoEntry v-for="video in videos" :key="video.videoId" :video="video"></VideoEntry>
     </div>
     <BottomNavigation />
@@ -41,10 +41,6 @@ export default {
       this.videos = data
       this.loading = false
       this.$Progress.finish()
-      // Just don't ask, it doesn't work without it
-      setTimeout(() => {
-        this.$refs.scrollContainer.scrollTop = this.$route.meta.scrollHeight
-      }, 0)
     }
   },
   beforeRouteEnter: function (to, from, next) {

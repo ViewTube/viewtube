@@ -33,7 +33,7 @@
       <div class="video-entry-stats">
         <p
           class="video-entry-views"
-          v-if="video.viewCount"
+          v-if="video.viewCount !== null"
         >{{ video.viewCount.toLocaleString() }} {{ video.viewCount === 1 ? 'view' : 'views' }}</p>
         <p class="video-entry-timestamp">{{ video.publishedText }}</p>
       </div>

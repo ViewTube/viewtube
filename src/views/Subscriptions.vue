@@ -6,11 +6,7 @@
       image="https://viewtube.eu/images/icon-256.png"
       lang="en"
     />
-    <div
-      class="subscription-videos-container"
-      ref="scrollContainer"
-      @scroll="this.$emit('scrolled')"
-    >
+    <div class="subscription-videos-container">
       <VideoEntry v-for="video in videos" :key="video.videoId" :video="video"></VideoEntry>
     </div>
     <BottomNavigation />
@@ -42,10 +38,6 @@ export default {
       this.videos = data.subscriptions
       this.loading = false
       this.$Progress.finish()
-      // Just don't ask, it doesn't work without it
-      setTimeout(() => {
-        this.$refs.scrollContainer.scrollTop = this.$route.meta.scrollHeight
-      }, 0)
     }
   },
   beforeRouteEnter: function (to, from, next) {

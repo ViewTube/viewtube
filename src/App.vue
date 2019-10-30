@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <Header :scrolledTop="scrolledTop" />
+    <Header />
     <vue-progress-bar class="progress-bar"></vue-progress-bar>
-    <router-view class="content" ref="content" @scrolled="handleScroll" />
+    <router-view class="content" ref="content" />
   </div>
 </template>
 

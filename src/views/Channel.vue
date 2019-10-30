@@ -304,7 +304,7 @@ export default {
       margin: 0 auto;
       padding: 10px;
       overflow-x: auto;
-      scrollbar-width: none;
+      scrollbar-width: thin;
       white-space: nowrap;
       z-index: 9;
 

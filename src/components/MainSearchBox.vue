@@ -71,7 +71,7 @@ export default {
     }
   },
   watch: {
-    '$route'(to, from) {
+    '$route' (to, from) {
       this.updateSearchValueFromUrl()
     }
   }
@@ -82,13 +82,14 @@ export default {
 .search-box {
   display: flex;
   flex-direction: row;
-  height: 50%;
+  height: 32px;
   margin: auto;
   width: 100%;
   max-width: $search-box-width;
   justify-content: flex-end;
-  background-color: rgba(128, 128, 128, 0.37);
+  background-color: $bgcolor-alt-light;
   position: relative;
+  border-radius: 3px;
 
   .search-btn {
     text-decoration: none;
