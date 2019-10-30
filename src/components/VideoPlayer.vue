@@ -19,7 +19,10 @@
       @volumechange="onVolumeChange"
       @timeupdate="onPlaybackProgress"
       @progress="onLoadingProgress"
-      :style="{ opacity: playerOverlay.thumbnailVisible ? 0 : 1 }"
+      :style="{
+        opacity: playerOverlay.thumbnailVisible ? 0 : 1,
+        cursor: playerOverlay.visible ? 'auto' : 'none'
+      }"
       ref="video"
     ></video>
     <Spinner class="video-spinner" v-if="videoElement.buffering" />
@@ -160,16 +163,16 @@ export default {
   watch: {
   },
   computed: {
-    videoLength() {
+    videoLength () {
       if (this.video !== undefined) {
         return this.video.lengthSeconds
       }
       return 0
     },
-    playerOverlayVisible() {
+    playerOverlayVisible () {
       return this.playerOverlay.visible
     },
-    volumeCategory() {
+    volumeCategory () {
       if (this.videoElement.volume >= 1) {
         return 3
       } else if (this.videoElement.volume < 1 && this.videoElement.volume >= 0.5) {
