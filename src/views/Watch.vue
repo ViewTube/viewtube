@@ -84,7 +84,7 @@ import Commons from '@/commons.js'
 import Spinner from '@/components/Spinner'
 import ThumbsUp from 'icons/ThumbUp'
 import ThumbsDown from 'icons/ThumbDown'
-import VideoPlayer from '@/components/VideoPlayer'
+import VideoPlayer from '@/components/videoplayer/VideoPlayer'
 import SubscribeButton from '@/components/buttons/SubscribeButton'
 import Comment from '@/components/Comment'
 

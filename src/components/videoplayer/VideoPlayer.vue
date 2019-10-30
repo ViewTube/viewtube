@@ -25,6 +25,11 @@
       }"
       ref="video"
     ></video>
+    <VideoEndscreen
+      :videoId="video.videoId"
+      :videoProgress="videoElement.progress"
+      :videoElement="$refs.video"
+    />
     <Spinner class="video-spinner" v-if="videoElement.buffering" />
     <div
       class="video-controls-overlay"
@@ -83,11 +88,13 @@
             <FullscreenIcon
               v-if="!fullscreen"
               @click="onEnterFullscreen"
+              @mouseup="onEnterFullscreen"
               @touchend.stop="onEnterFullscreen"
             />
             <FullscreenExitIcon
               v-if="fullscreen"
               @click="onLeaveFullscreen"
+              @mouseup="onLeaveFullscreen"
               @touchend.stop="onLeaveFullscreen"
             />
           </div>
@@ -114,6 +121,7 @@ import VolumeOffIcon from 'icons/VolumeOff'
 import FullscreenIcon from 'icons/Fullscreen'
 import FullscreenExitIcon from 'icons/FullscreenExit'
 import Commons from '@/commons.js'
+import VideoEndscreen from '@/components/videoplayer/VideoEndscreen'
 
 export default {
   name: 'videoplayer',
@@ -126,7 +134,8 @@ export default {
     VolumeLowIcon,
     VolumeOffIcon,
     FullscreenIcon,
-    FullscreenExitIcon
+    FullscreenExitIcon,
+    VideoEndscreen
   },
   props: {
     video: Object
@@ -247,7 +256,7 @@ export default {
           this.video.videoId
         )
         this.videoElement.firstTimeBuffering = false
-        this.$refs.video.play()
+        // this.$refs.video.play()
       }
       this.videoElement.buffering = false
     },
@@ -446,11 +455,11 @@ export default {
   background-color: #000;
   display: flex;
   position: relative;
+  overflow: hidden;
 
   .video {
     margin: auto;
-    height: 100%;
-    width: 100%;
+    max-height: calc(100vh - 169px);
     z-index: 100;
     transition: opacity 1200ms $intro-easing;
   }
