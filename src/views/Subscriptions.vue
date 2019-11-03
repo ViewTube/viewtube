@@ -41,7 +41,7 @@ export default {
     }
   },
   beforeRouteEnter: function (to, from, next) {
-    let jwt = window.sessionStorage.getItem('jwt')
+    let jwt = this.$cookie.get('jwt')
     fetch(`${Commons.getOwnApiUrl()}subscriptions/getSubscriptionFeed.php`, {
       method: 'GET',
       headers: {
@@ -61,7 +61,7 @@ export default {
   },
   beforeRouteUpdate: function (to, from, next) {
     this.$Progress.start()
-    let jwt = window.sessionStorage.getItem('jwt')
+    let jwt = this.$cookie.get('jwt')
     fetch(`${Commons.apiUrl}top`, {
       cache: 'force-cache',
       method: 'GET',

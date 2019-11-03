@@ -21,7 +21,11 @@
   >
     <div
       class="video-element-container"
-      :style="{ 'height': `calc(100vw * ${videoElement.aspectRatio})` }"
+      :class="{ zoom: videoElement.zoomed }"
+      :style="{
+        'height': `calc(100vw * ${videoElement.aspectRatio})`,
+        'max-height': videoElement.zoomed ? `calc(100vw * ${videoElement.aspectRatio})` : ''
+      }"
     >
       <video
         class="video"
@@ -52,7 +56,23 @@
       :class="{ visible: playerOverlay.visible }"
       :style="{ cursor: playerOverlay.visible ? 'auto' : 'none'}"
     >
-      <div class="top-control-overlay" :class="{ hidden: playerOverlay.thumbnailVisible }"></div>
+      <div class="top-control-overlay" :class="{ hidden: playerOverlay.thumbnailVisible }">
+        <div class="left-top-controls"></div>
+        <div class="right-top-controls">
+          <ArrowExpandIcon
+            v-if="!videoElement.zoomed"
+            @click="onVideoExpand"
+            @mouseup="onVideoExpandMouseUp"
+            @touchend.stop="onVideoExpand"
+          />
+          <ArrowCollapseIcon
+            v-if="videoElement.zoomed"
+            @click="onVideoCollapse"
+            @mouseup="onVideoCollapseMouseUp"
+            @touchend.stop="onVideoCollapse"
+          />
+        </div>
+      </div>
       <div class="center-control-overlay">
         <div class="left-action-container"></div>
         <div class="play-btn-container" @touchend="onPlayBtnTouchEnd" @click="onPlayBtnClick">
@@ -107,13 +127,13 @@
               v-if="!fullscreen"
               @click="onEnterFullscreen"
               @mouseup="onEnterFullscreenMouseUp"
-              @touchend.stop="onEnterFullscreenMouseUp"
+              @touchend.stop="onEnterFullscreen"
             />
             <FullscreenExitIcon
               v-if="fullscreen"
               @click="onLeaveFullscreen"
               @mouseup="onLeaveFullscreenMouseUp"
-              @touchend.stop="onLeaveFullscreenMouseUp"
+              @touchend.stop="onLeaveFullscreen"
             />
           </div>
         </div>
@@ -138,6 +158,8 @@ import VolumeLowIcon from 'icons/VolumeLow'
 import VolumeOffIcon from 'icons/VolumeOff'
 import FullscreenIcon from 'icons/Fullscreen'
 import FullscreenExitIcon from 'icons/FullscreenExit'
+import ArrowExpandIcon from 'icons/ArrowExpand'
+import ArrowCollapseIcon from 'icons/ArrowCollapse'
 import Commons from '@/commons.js'
 import VideoEndscreen from '@/components/videoplayer/VideoEndscreen'
 
@@ -153,7 +175,9 @@ export default {
     VolumeOffIcon,
     FullscreenIcon,
     FullscreenExitIcon,
-    VideoEndscreen
+    VideoEndscreen,
+    ArrowExpandIcon,
+    ArrowCollapseIcon
   },
   props: {
     video: Object
@@ -178,7 +202,8 @@ export default {
         loadingPercentage: 0,
         firstTimeBuffering: true,
         volume: 1,
-        aspectRatio: 16 / 9
+        aspectRatio: 16 / 9,
+        zoomed: false
       },
       seekbar: {
         seeking: false,
@@ -382,6 +407,24 @@ export default {
       return (pageX > Commons.getPageWidth() || pageX < 0 || pageY < 0)
     },
     // Interaction events
+    onVideoExpand: function (e) {
+      this.videoElement.zoomed = true
+      e.stopPropagation()
+      e.preventDefault()
+    },
+    onVideoExpandMouseUp: function (e) {
+      e.stopPropagation()
+      e.preventDefault()
+    },
+    onVideoCollapse: function (e) {
+      this.videoElement.zoomed = false
+      e.stopPropagation()
+      e.preventDefault()
+    },
+    onVideoCollapseMouseUp: function (e) {
+      e.stopPropagation()
+      e.preventDefault()
+    },
     onEnterFullscreen: function (e) {
       var elem = this.$refs.videoPlayer
       if (elem.requestFullscreen) {
@@ -513,14 +556,25 @@ export default {
   &.fullscreen {
     .video-element-container {
       max-height: 100vh;
+
+      &.zoom {
+
+        .video {
+          // width: 100vw !important;
+        }
+      }
     }
   }
 
   .video-element-container {
     height: $player-height;
     position: relative;
+    transform: translate(-50%, -50%);
     max-height: calc(100vh - 170px);
-    margin: 0 auto;
+    top: 50%;
+    left: 50%;
+    margin: 0;
+    transition: max-height 300ms $dynamic-easing, height 300ms $dynamic-easing;
 
     .video {
       height: 100%;
@@ -575,6 +629,25 @@ export default {
 
     .top-control-overlay {
       position: relative;
+      width: 100%;
+      margin: 0 auto;
+      height: $bottom-overlay-height - 5px;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      box-sizing: border-box;
+
+      .left-top-controls {
+      }
+
+      .right-top-controls {
+        .material-design-icon {
+          width: 40px;
+          height: 40px;
+          cursor: pointer;
+          pointer-events: all;
+        }
+      }
 
       &.hidden {
         opacity: 0;

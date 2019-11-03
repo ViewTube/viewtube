@@ -1,4 +1,6 @@
 import Authentication from '@/services/authentication.js'
+import VueCookie from 'vue-cookie'
+import Commons from '@/commons.js'
 
 export default {
   state: {
@@ -33,7 +35,9 @@ export default {
     if (!this.isAuthenticated()) {
       Authentication.login(args.username, args.password)
         .then(result => {
-          window.sessionStorage.setItem('jwt', result.jwt)
+          VueCookie.set('jwt', result.jwt, {
+            expires: 1, domain: Commons.getDomain()
+          })
           me.state.username = result.username
           args.callback(result)
         }, error => {
@@ -76,8 +80,8 @@ export default {
   getCurrentUser (args) {
     this.state.errorMessage = null
     let me = this
-    if (window.sessionStorage.getItem('jwt')) {
-      Authentication.getUser(window.sessionStorage.getItem('jwt'))
+    if (VueCookie.get('jwt')) {
+      Authentication.getUser(VueCookie.get('jwt'))
         .then(result => {
           me.state.username = result.username
           args.callback(result)
@@ -85,11 +89,11 @@ export default {
           let errorMsg = ''
           if (error.message !== undefined) {
             errorMsg = error.message
-            window.sessionStorage.removeItem('jwt')
+            VueCookie.delete('jwt', { domain: Commons.getDomain() })
           } else {
             error.then((e) => {
               errorMsg = e.message
-              window.sessionStorage.removeItem('jwt')
+              VueCookie.delete('jwt', { domain: Commons.getDomain() })
             })
           }
           args.failure(errorMsg)

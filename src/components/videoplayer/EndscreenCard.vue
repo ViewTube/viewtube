@@ -118,7 +118,6 @@ export default {
   position: absolute;
   overflow: hidden;
   box-sizing: border-box;
-  border: 1px solid $bgcolor-alt-light;
   background-color: $bgcolor-alt-light;
   box-shadow: $low-shadow;
   cursor: pointer;
@@ -136,8 +135,7 @@ export default {
   }
 
   &:hover {
-    border: 1px solid $theme-color;
-    box-shadow: $medium-shadow;
+    box-shadow: $max-shadow;
   }
 
   .card-background-container {

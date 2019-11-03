@@ -36,8 +36,8 @@ export default {
   },
   methods: {
     loadSubscriptionStatus: function () {
-      if (this.channelId && window.sessionStorage.getItem('jwt')) {
-        let jwt = window.sessionStorage.getItem('jwt')
+      if (this.channelId && this.$cookie.get('jwt')) {
+        let jwt = this.$cookie.get('jwt')
         let me = this
         fetch(`${Commons.getOwnApiUrl()}subscriptions/getSubscriptionChannels.php?channelId=${this.channelId}`, {
           method: 'GET',
@@ -70,9 +70,9 @@ export default {
       this.setSubscriptionStatus('DELETE')
     },
     setSubscriptionStatus: function (action) {
-      if (this.channelId && window.sessionStorage.getItem('jwt')) {
+      if (this.channelId && this.$cookie.get('jwt')) {
         this.disabled = true
-        let jwt = window.sessionStorage.getItem('jwt')
+        let jwt = this.$cookie.get('jwt')
         let me = this
         fetch(`${Commons.getOwnApiUrl()}subscriptions/getSubscriptionChannels.php`, {
           method: action,

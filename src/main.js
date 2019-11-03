@@ -8,6 +8,7 @@ import './ripple.js'
 import VueHeadful from 'vue-headful'
 import UserStore from './store/user'
 import VueProgressBar from 'vue-progressbar'
+import VueCookie from 'vue-cookie'
 
 const progressOptions = {
   color: '#ff7b3b',
@@ -17,6 +18,7 @@ const progressOptions = {
 
 Vue.use(VueProgressBar, progressOptions)
 Vue.use(FormattingFunctions)
+Vue.use(VueCookie)
 
 Vue.component('vue-headful', VueHeadful)
 Vue.config.productionTip = false

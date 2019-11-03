@@ -8,6 +8,13 @@ export default {
     return urlParams.get('q')
   },
 
+  getDomain: function () {
+    if (window.location.href.toLowerCase().indexOf('localhost') !== -1) {
+      return 'localhost'
+    }
+    return 'viewtube.eu'
+  },
+
   getOwnApiUrl: function () {
     if (window.location.href.toLowerCase().indexOf('localhost') !== -1) {
       return 'http://localhost:1842/api/'
@@ -27,7 +34,7 @@ export default {
       return `${timestampMinutes}:${timestampSeconds}`
     }
 
-    function toDoubleDigit(i) {
+    function toDoubleDigit (i) {
       if (i < 10) {
         i = '0' + i
       }

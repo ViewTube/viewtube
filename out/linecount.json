@@ -1,0 +1,888 @@
+{
+    "extension": "linecount",
+    "version": "0.1.7",
+    "workspace": "c:\\Projects\\viewtube-vue",
+    "linecount": [
+        {
+            "version": "0.1.7",
+            "counttime": "2019-11-03 14:23:05",
+            "filesum": 138,
+            "codesum": 5552,
+            "commentsum": 93,
+            "blanksum": 418,
+            "filelist": [
+                {
+                    "blank": 0,
+                    "code": 2,
+                    "comment": 0,
+                    "filename": ".browserslistrc"
+                },
+                {
+                    "blank": 9,
+                    "code": 25,
+                    "comment": 10,
+                    "filename": ".editorconfig"
+                },
+                {
+                    "blank": 1,
+                    "code": 17,
+                    "comment": 0,
+                    "filename": ".eslintrc.js"
+                },
+                {
+                    "blank": 3,
+                    "code": 18,
+                    "comment": 0,
+                    "filename": ".gitignore"
+                },
+                {
+                    "blank": 0,
+                    "code": 6,
+                    "comment": 0,
+                    "filename": ".idea\\misc.xml"
+                },
+                {
+                    "blank": 0,
+                    "code": 8,
+                    "comment": 0,
+                    "filename": ".idea\\modules.xml"
+                },
+                {
+                    "blank": 0,
+                    "code": 6,
+                    "comment": 0,
+                    "filename": ".idea\\vcs.xml"
+                },
+                {
+                    "blank": 0,
+                    "code": 12,
+                    "comment": 0,
+                    "filename": ".idea\\viewtube-vue.iml"
+                },
+                {
+                    "blank": 0,
+                    "code": 51,
+                    "comment": 0,
+                    "filename": ".idea\\workspace.xml"
+                },
+                {
+                    "blank": 0,
+                    "code": 15,
+                    "comment": 0,
+                    "filename": ".travis.yml"
+                },
+                {
+                    "blank": 1,
+                    "code": 4,
+                    "comment": 0,
+                    "filename": "babel.config.js"
+                },
+                {
+                    "blank": 1,
+                    "code": 18,
+                    "comment": 0,
+                    "filename": "dist\\.htaccess"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": "dist\\css\\app.b23fa6fd.css"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": "dist\\css\\chunk-062d28b8.c984fec5.css"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": "dist\\css\\chunk-087e2df6.fb073a5a.css"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": "dist\\css\\chunk-2fcf7d0e.bc2b0653.css"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": "dist\\css\\chunk-45be078a.12ecffaf.css"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": "dist\\css\\chunk-569e0fe3.47e2ddb1.css"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": "dist\\css\\chunk-a009f350.c82c7add.css"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": "dist\\css\\chunk-e67391ae.049dee6f.css"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": "dist\\css\\chunk-vendors.db820385.css"
+                },
+                {
+                    "filename": "dist\\favicon.ico",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "dist\\img\\blur-bg-medium-dark.jpg",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "dist\\img\\blur-bg-original.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "dist\\img\\icon-background-512.304d7080.jpg",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "dist\\img\\icons\\android-chrome-192x192.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "dist\\img\\icons\\android-chrome-512x512.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "dist\\img\\icons\\apple-touch-icon-120x120.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "dist\\img\\icons\\apple-touch-icon-152x152.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "dist\\img\\icons\\apple-touch-icon-180x180.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "dist\\img\\icons\\apple-touch-icon-60x60.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "dist\\img\\icons\\apple-touch-icon-76x76.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "dist\\img\\icons\\apple-touch-icon.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "dist\\img\\icons\\favicon-16x16.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "dist\\img\\icons\\favicon-32x32.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "dist\\img\\icons\\msapplication-icon-144x144.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "dist\\img\\icons\\mstile-150x150.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 0,
+                    "code": 11,
+                    "comment": 0,
+                    "filename": "dist\\img\\icons\\safari-pinned-tab.svg"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": "dist\\index.html"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 1,
+                    "filename": "dist\\js\\app.04419085.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": "dist\\js\\app.04419085.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 1,
+                    "filename": "dist\\js\\chunk-062d28b8.f17e2ae2.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": "dist\\js\\chunk-062d28b8.f17e2ae2.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 1,
+                    "filename": "dist\\js\\chunk-087e2df6.fafd8c0d.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": "dist\\js\\chunk-087e2df6.fafd8c0d.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 1,
+                    "filename": "dist\\js\\chunk-2fcf7d0e.eb27f787.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": "dist\\js\\chunk-2fcf7d0e.eb27f787.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 1,
+                    "filename": "dist\\js\\chunk-45be078a.327f0de4.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": "dist\\js\\chunk-45be078a.327f0de4.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 1,
+                    "filename": "dist\\js\\chunk-569e0fe3.9acc8ca3.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": "dist\\js\\chunk-569e0fe3.9acc8ca3.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 1,
+                    "filename": "dist\\js\\chunk-a009f350.84eb5671.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": "dist\\js\\chunk-a009f350.84eb5671.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 1,
+                    "filename": "dist\\js\\chunk-e67391ae.f3bbec6c.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": "dist\\js\\chunk-e67391ae.f3bbec6c.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 3,
+                    "comment": 10,
+                    "filename": "dist\\js\\chunk-vendors.19b106bb.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": "dist\\js\\chunk-vendors.19b106bb.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 22,
+                    "comment": 0,
+                    "filename": "dist\\manifest.json"
+                },
+                {
+                    "blank": 0,
+                    "code": 98,
+                    "comment": 0,
+                    "filename": "dist\\precache-manifest.7bc2ca884bbf996c5733b2d4d02c8813.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 2,
+                    "comment": 0,
+                    "filename": "dist\\robots.txt"
+                },
+                {
+                    "blank": 5,
+                    "code": 7,
+                    "comment": 17,
+                    "filename": "dist\\service-worker.js"
+                },
+                {
+                    "filename": "images\\logo.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "images\\screenshots\\g2ejf7wf.bmp",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "images\\screenshots\\lxt1y0mk.bmp",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 4,
+                    "code": 17,
+                    "comment": 0,
+                    "filename": "LICENSE"
+                },
+                {
+                    "blank": 0,
+                    "code": 41,
+                    "comment": 0,
+                    "filename": "package.json"
+                },
+                {
+                    "blank": 0,
+                    "code": 5,
+                    "comment": 0,
+                    "filename": "postcss.config.js"
+                },
+                {
+                    "blank": 1,
+                    "code": 18,
+                    "comment": 0,
+                    "filename": "public\\.htaccess"
+                },
+                {
+                    "filename": "public\\favicon.ico",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "public\\img\\blur-bg-medium-dark.jpg",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "public\\img\\blur-bg-original.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "public\\img\\icons\\android-chrome-192x192.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "public\\img\\icons\\android-chrome-512x512.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "public\\img\\icons\\apple-touch-icon-120x120.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "public\\img\\icons\\apple-touch-icon-152x152.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "public\\img\\icons\\apple-touch-icon-180x180.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "public\\img\\icons\\apple-touch-icon-60x60.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "public\\img\\icons\\apple-touch-icon-76x76.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "public\\img\\icons\\apple-touch-icon.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "public\\img\\icons\\favicon-16x16.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "public\\img\\icons\\favicon-32x32.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "public\\img\\icons\\msapplication-icon-144x144.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "public\\img\\icons\\mstile-150x150.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 0,
+                    "code": 11,
+                    "comment": 0,
+                    "filename": "public\\img\\icons\\safari-pinned-tab.svg"
+                },
+                {
+                    "blank": 2,
+                    "code": 20,
+                    "comment": 0,
+                    "filename": "public\\index.html"
+                },
+                {
+                    "blank": 0,
+                    "code": 22,
+                    "comment": 0,
+                    "filename": "public\\manifest.json"
+                },
+                {
+                    "blank": 0,
+                    "code": 2,
+                    "comment": 0,
+                    "filename": "public\\robots.txt"
+                },
+                {
+                    "blank": 6,
+                    "code": 21,
+                    "comment": 6,
+                    "filename": "README.md"
+                },
+                {
+                    "blank": 11,
+                    "code": 85,
+                    "comment": 0,
+                    "filename": "src\\App.vue"
+                },
+                {
+                    "filename": "src\\assets\\icon-192.jpg",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "src\\assets\\icon-192.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "src\\assets\\icon-256.jpg",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "src\\assets\\icon-256.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "src\\assets\\icon-512.jpg",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "src\\assets\\icon-512.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "src\\assets\\icon-background-512.jpg",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "src\\assets\\icon-background-512.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "src\\assets\\thumbnail.jpg",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 6,
+                    "code": 51,
+                    "comment": 0,
+                    "filename": "src\\commons.js"
+                },
+                {
+                    "blank": 3,
+                    "code": 24,
+                    "comment": 0,
+                    "filename": "src\\components\\BottomNavigation.vue"
+                },
+                {
+                    "blank": 15,
+                    "code": 190,
+                    "comment": 0,
+                    "filename": "src\\components\\buttons\\SubscribeButton.vue"
+                },
+                {
+                    "blank": 13,
+                    "code": 211,
+                    "comment": 0,
+                    "filename": "src\\components\\Comment.vue"
+                },
+                {
+                    "blank": 11,
+                    "code": 99,
+                    "comment": 0,
+                    "filename": "src\\components\\form\\FormInput.vue"
+                },
+                {
+                    "blank": 3,
+                    "code": 32,
+                    "comment": 0,
+                    "filename": "src\\components\\form\\SubmitButton.vue"
+                },
+                {
+                    "blank": 38,
+                    "code": 437,
+                    "comment": 0,
+                    "filename": "src\\components\\Header.vue"
+                },
+                {
+                    "blank": 14,
+                    "code": 113,
+                    "comment": 0,
+                    "filename": "src\\components\\list\\ChannelEntry.vue"
+                },
+                {
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0,
+                    "filename": "src\\components\\list\\ListEntry.vue"
+                },
+                {
+                    "blank": 13,
+                    "code": 125,
+                    "comment": 0,
+                    "filename": "src\\components\\list\\PlaylistEntry.vue"
+                },
+                {
+                    "blank": 20,
+                    "code": 200,
+                    "comment": 0,
+                    "filename": "src\\components\\list\\VideoEntry.vue"
+                },
+                {
+                    "blank": 11,
+                    "code": 141,
+                    "comment": 0,
+                    "filename": "src\\components\\MainSearchBox.vue"
+                },
+                {
+                    "blank": 5,
+                    "code": 64,
+                    "comment": 1,
+                    "filename": "src\\components\\SearchAutoComplete.vue"
+                },
+                {
+                    "blank": 9,
+                    "code": 64,
+                    "comment": 0,
+                    "filename": "src\\components\\Spinner.vue"
+                },
+                {
+                    "blank": 12,
+                    "code": 169,
+                    "comment": 0,
+                    "filename": "src\\components\\videoplayer\\EndscreenCard.vue"
+                },
+                {
+                    "blank": 4,
+                    "code": 76,
+                    "comment": 0,
+                    "filename": "src\\components\\videoplayer\\VideoEndscreen.vue"
+                },
+                {
+                    "blank": 43,
+                    "code": 823,
+                    "comment": 6,
+                    "filename": "src\\components\\videoplayer\\VideoPlayer.vue"
+                },
+                {
+                    "blank": 2,
+                    "code": 23,
+                    "comment": 0,
+                    "filename": "src\\formattingFunctions.js"
+                },
+                {
+                    "blank": 5,
+                    "code": 31,
+                    "comment": 0,
+                    "filename": "src\\main.js"
+                },
+                {
+                    "blank": 3,
+                    "code": 28,
+                    "comment": 1,
+                    "filename": "src\\registerServiceWorker.js"
+                },
+                {
+                    "blank": 3,
+                    "code": 134,
+                    "comment": 11,
+                    "filename": "src\\ripple.js"
+                },
+                {
+                    "blank": 4,
+                    "code": 78,
+                    "comment": 0,
+                    "filename": "src\\router.js"
+                },
+                {
+                    "blank": 1,
+                    "code": 103,
+                    "comment": 0,
+                    "filename": "src\\services\\authentication.js"
+                },
+                {
+                    "blank": 1,
+                    "code": 82,
+                    "comment": 3,
+                    "filename": "src\\services\\captcheck.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0,
+                    "filename": "src\\store\\notifications.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0,
+                    "filename": "src\\store\\persistentValues.js"
+                },
+                {
+                    "blank": 1,
+                    "code": 84,
+                    "comment": 16,
+                    "filename": "src\\store\\user.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 14,
+                    "comment": 2,
+                    "filename": "src\\store\\videoProgress.js"
+                },
+                {
+                    "blank": 5,
+                    "code": 29,
+                    "comment": 0,
+                    "filename": "src\\styles\\global\\rules.scss"
+                },
+                {
+                    "blank": 18,
+                    "code": 63,
+                    "comment": 0,
+                    "filename": "src\\styles\\global\\variables.scss"
+                },
+                {
+                    "blank": 13,
+                    "code": 137,
+                    "comment": 0,
+                    "filename": "src\\views\\authentication\\Login.vue"
+                },
+                {
+                    "blank": 26,
+                    "code": 212,
+                    "comment": 0,
+                    "filename": "src\\views\\authentication\\Register.vue"
+                },
+                {
+                    "blank": 28,
+                    "code": 382,
+                    "comment": 2,
+                    "filename": "src\\views\\Channel.vue"
+                },
+                {
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0,
+                    "filename": "src\\views\\Embed.vue"
+                },
+                {
+                    "blank": 4,
+                    "code": 93,
+                    "comment": 0,
+                    "filename": "src\\views\\Home.vue"
+                },
+                {
+                    "blank": 4,
+                    "code": 121,
+                    "comment": 0,
+                    "filename": "src\\views\\Search.vue"
+                },
+                {
+                    "blank": 1,
+                    "code": 11,
+                    "comment": 0,
+                    "filename": "src\\views\\Settings.vue"
+                },
+                {
+                    "blank": 4,
+                    "code": 101,
+                    "comment": 0,
+                    "filename": "src\\views\\Subscriptions.vue"
+                },
+                {
+                    "blank": 30,
+                    "code": 393,
+                    "comment": 0,
+                    "filename": "src\\views\\Watch.vue"
+                },
+                {
+                    "blank": 1,
+                    "code": 20,
+                    "comment": 0,
+                    "filename": "vue.config.js"
+                }
+            ]
+        }
+    ]
+}

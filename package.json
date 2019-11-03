@@ -16,6 +16,7 @@
     "tippy.js": "^5.0.1",
     "vue": "^2.6.10",
     "vue-clickaway": "^2.2.2",
+    "vue-cookie": "^1.1.4",
     "vue-headful": "^2.0.1",
     "vue-material-design-icons": "^4.1.0",
     "vue-progressbar": "^0.7.5",

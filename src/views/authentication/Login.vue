@@ -9,7 +9,7 @@
       <form id="login" method="post" @submit.prevent="login">
         <FormInput :id="'username'" v-model="username" :label="'username'" :type="'username'" />
         <FormInput :id="'password'" v-model="password" :label="'password'" :type="'password'" />
-        <SubmitButton :label="'Register'" />
+        <SubmitButton :label="'Login'" />
       </form>
     </div>
   </div>
