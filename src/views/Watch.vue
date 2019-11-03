@@ -66,8 +66,14 @@
           <div class="comments-count">
             <p>{{ comment.commentCount.toLocaleString() }} comments</p>
           </div>
-          <Comment v-for="(comment, i) in comment.comments" :comment="comment" :key="i" />
+          <Comment
+            v-for="(comment, i) in comment.comments"
+            :comment="comment"
+            :key="i"
+            :creatorName="video.author"
+          />
           <a
+            class="badge-btn"
             href="#"
             @click.prevent="loadMoreComments"
             v-if="commentsContinuationLink && !commentsContinuationLoading"
@@ -216,7 +222,7 @@ export default {
 
 <style lang="scss">
 .badge-btn {
-  background-color: $bgcolor-alt-light;
+  background-color: $theme-color-translucent;
   text-decoration: none;
   color: $title-color;
   padding: 3px 5px;

@@ -12,7 +12,7 @@
       v-model="searchValue"
     />
     <a
-      href="#"
+      :href="`/results?search_query=${this.searchValue}`"
       @click.self.prevent="onSearchButton"
       class="search-btn ripple tooltip"
       data-tippy-content="click or press enter to search"
@@ -61,6 +61,7 @@ export default {
       if (e.key === 'Enter' && this.searchValue !== '') {
         this.$router.push(`/results?search_query=${this.searchValue}`)
       }
+      e.stopPropagation()
       return true
     },
     onSearchButton: function () {

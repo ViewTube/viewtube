@@ -1,19 +1,30 @@
 <template>
-  <div
+  <a
+    :href="linkUrl"
+    target="_blank"
     class="endscreen-card"
+    ref="endscreenCard"
     :class="{ visible: visible }"
     :style="{
-      top: `${positionTop}px`,
-      left: `${positionLeft}px`,
-      width: `${cardWidth}px`,
-      height: `${cardHeight}px`
+      top: `${positionTop}%`,
+      left: `${positionLeft}%`,
+      width: `${cardWidth}%`,
+      height: `${cardHeight}%`
     }"
+    @mouseenter="onMouseEnter"
+    @mouseleave="onMouseLeave"
+    @click.stop="onClick"
+    @mouseup.stop="onMouseUp"
   >
     <div class="card-background-container">
+      <div class="card-background-overlay"></div>
       <img class="card-background" :src="backgroundImage" alt="Thumbnail Image" />
     </div>
-    <p class="card-title">{{ card.title }}</p>
-  </div>
+    <div class="card-info-container">
+      <p class="card-title">{{ card.title }}</p>
+      <p class="card-views" v-if="card.viewCountText">{{ card.viewCountText }}</p>
+    </div>
+  </a>
 </template>
 
 <script>
@@ -23,11 +34,45 @@ export default {
     card: Object,
     videoProgress: Number,
     videoHeight: Number,
-    videoWidth: Number,
-    videoOffsetTop: Number,
-    videoOffsetLeft: Number
+    videoWidth: Number
+  },
+  methods: {
+    onMouseEnter: function () {
+      this.$emit('cardenter')
+    },
+    onMouseLeave: function () {
+      this.$emit('cardleave')
+    },
+    onClick: function (e) {
+      if (this.card.type !== 'website') {
+        this.$router.push(this.linkUrl)
+        e.preventDefault()
+      }
+      e.stopPropagation()
+    },
+    onMouseUp: function (e) {
+      e.stopPropagation()
+      e.preventDefault()
+    }
   },
   computed: {
+    elementType: function () {
+      if (this.card.type === 'website') {
+        return 'a'
+      }
+      return 'router-link'
+    },
+    linkUrl: function () {
+      if (this.card.type === 'website') {
+        return this.card.websiteUrl
+      } else if (this.card.type === 'channel') {
+        return `/channel/${this.card.authorId}`
+      } else if (this.card.type === 'playlist') {
+        return this.card.playlistUrl
+      } else {
+        return `/watch/?v=${this.card.videoId}`
+      }
+    },
     visible: function () {
       let startTime = this.card.timing.start
       let endTime = this.card.timing.end
@@ -36,16 +81,19 @@ export default {
       return videoProgressMs > startTime && videoProgressMs < endTime
     },
     positionTop: function () {
-      return (this.videoHeight * this.card.dimensions.top) + this.videoOffsetTop
+      return this.card.dimensions.top * 100
     },
     positionLeft: function () {
-      return (this.videoWidth * this.card.dimensions.left) + this.videoOffsetLeft
+      return this.card.dimensions.left * 100
     },
     cardWidth: function () {
-      return this.videoWidth * this.card.dimensions.width
+      return this.card.dimensions.width * 100
     },
     cardHeight: function () {
-      return (this.videoWidth * this.card.dimensions.width) / this.card.dimensions.aspectRatio
+      return this.card.dimensions.width * 100 / this.card.dimensions.aspectRatio * this.videoAspectRatio
+    },
+    videoAspectRatio: function () {
+      return this.videoWidth / this.videoHeight
     },
     backgroundImage: function () {
       switch (this.card.type) {
@@ -55,6 +103,8 @@ export default {
           return this.card.authorThumbnails[1].url
         case 'website':
           return this.card.websiteThumbnails[1].url
+        case 'playlist':
+          return this.card.playlistThumbnails[1].url
         default:
           return this.card.videoThumbnails[1].url
       }
@@ -66,24 +116,72 @@ export default {
 <style lang="scss" scoped>
 .endscreen-card {
   position: absolute;
-  background-color: $bgcolor-main;
   overflow: hidden;
+  box-sizing: border-box;
+  border: 1px solid $bgcolor-alt-light;
+  background-color: $bgcolor-alt-light;
+  box-shadow: $low-shadow;
+  cursor: pointer;
+  transition-duration: 300ms;
+  transition-timing-function: $intro-easing;
+  transition-property: opacity, transform, border, box-shadow;
+
   opacity: 0;
   transform: scale(0.9);
-  transition: opacity 300ms $intro-easing, transform 300ms $intro-easing;
 
   &.visible {
     opacity: 1;
     transform: scale(1);
+    pointer-events: all;
+  }
+
+  &:hover {
+    border: 1px solid $theme-color;
+    box-shadow: $medium-shadow;
   }
 
   .card-background-container {
     height: 100%;
-    .card-background {
+    position: relative;
+
+    .card-background-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
       width: 100%;
+      background-image: linear-gradient(to bottom, #000, #00000000, #00000000);
+      z-index: 138;
+    }
+
+    .card-background {
+      width: 101%;
       position: relative;
       top: 50%;
       transform: translateY(-50%);
+      z-index: 137;
+    }
+  }
+
+  .card-info-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 139;
+    height: 100%;
+    width: 100%;
+
+    .card-title {
+      line-height: 20px;
+      margin: 10px;
+      font-family: $default-font;
+      color: $title-color;
+    }
+
+    .card-views {
+      margin: 5px 10px;
+      line-height: 20px;
+      color: $subtitle-color;
     }
   }
 }

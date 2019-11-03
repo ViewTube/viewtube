@@ -1,5 +1,5 @@
 <template>
-  <div class="video-endscreen" v-if="videoElement">
+  <div class="video-endscreen" v-if="videoElement" :class="{ 'card-hover': hover }">
     <EndscreenCard
       v-for="(card, index) in endscreenData"
       :key="index"
@@ -7,8 +7,8 @@
       :videoProgress="videoProgress"
       :videoHeight="videoElement.clientHeight"
       :videoWidth="videoElement.clientWidth"
-      :videoOffsetTop="videoElement.offsetTop"
-      :videoOffsetLeft="videoElement.offsetLeft"
+      @cardenter="onCardEnter"
+      @cardleave="onCardLeave"
     />
   </div>
 </template>
@@ -29,7 +29,8 @@ export default {
   },
   data: function () {
     return {
-      endscreenData: []
+      endscreenData: [],
+      hover: false
     }
   },
   mounted: function () {
@@ -37,13 +38,25 @@ export default {
       cache: 'force-cache',
       method: 'GET'
     })
-      .then(response => response.json())
+      .then(response => {
+        if (response.ok) {
+          return response.json()
+        }
+      })
       .then(data => {
         this.endscreenData = data
       })
       .catch(error => {
         console.error(error)
       })
+  },
+  methods: {
+    onCardEnter: function () {
+      this.hover = true
+    },
+    onCardLeave: function () {
+      this.hover = false
+    }
   }
 }
 </script>
@@ -58,5 +71,10 @@ export default {
   left: 0;
   z-index: 139;
   pointer-events: none;
+  transition: background-color 300ms $intro-easing;
+
+  &.card-hover {
+    background-color: #00000062;
+  }
 }
 </style>

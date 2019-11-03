@@ -2,24 +2,32 @@
   <div class="comment">
     <img class="comment-author-image" :src="comment.authorThumbnails[2].url" :alt="comment.author" />
     <div class="comment-container">
-      <router-link class="comment-author" :to="{path: '/channel/' + comment.authorId}">
+      <router-link
+        class="comment-author"
+        :to="{path: '/channel/' + comment.authorId}"
+        :class="{ owner: comment.authorIsChannelOwner }"
+      >
         <p>{{ comment.author }}</p>
       </router-link>
       <div class="comment-content" v-html="comment.content"></div>
       <div class="comment-properties">
+        <div class="published comment-property">
+          <span>{{ comment.publishedText }}</span>
+        </div>
         <div class="edited comment-property" v-if="comment.isEdited">
           <PenIcon />
           <span>edited</span>
-        </div>
-        <div class="published comment-property">
-          <span>{{ comment.publishedText }}</span>
         </div>
         <div class="likes comment-property">
           <ThumbsUpIcon />
           <span>{{ comment.likeCount.toLocaleString() }}</span>
         </div>
-        <div class="creatorHeart comment-property" v-if="comment.creatorHeart !== undefined">
-          <HeartIcon />
+        <div
+          class="creatorHeart comment-property tooltip"
+          v-if="comment.creatorHeart !== undefined"
+          :data-tippy-content="`❤ by ${creatorName}`"
+        >
+          <HeartIcon title />
         </div>
       </div>
       <div class="comment-replies" v-if="comment.replies !== undefined">
@@ -51,6 +59,8 @@ import ThumbsUpIcon from 'icons/ThumbUp'
 import HeartIcon from 'icons/Heart'
 import Commons from '@/commons.js'
 import Spinner from '@/components/Spinner'
+import tippy from 'tippy.js'
+import 'tippy.js/dist/tippy.css'
 
 export default {
   name: 'comment',
@@ -62,7 +72,8 @@ export default {
     Comment: () => import('@/components/Comment')
   },
   props: {
-    comment: null
+    comment: null,
+    creatorName: String
   },
   data: function () {
     return {
@@ -74,7 +85,13 @@ export default {
     }
   },
   mounted: function () {
-
+    tippy('.tooltip', {
+      duration: 300,
+      arrow: false,
+      delay: [500, 100],
+      touch: 'hold',
+      placement: 'bottom'
+    })
   },
   methods: {
     loadReplies: function () {
@@ -133,12 +150,18 @@ export default {
 
   .comment-container {
     padding: 0 10px;
+    width: 90%;
+
     .comment-author {
       display: flex;
       flex-direction: row;
       margin: 0;
       align-items: flex-start;
       font-weight: 700;
+
+      &.owner {
+        color: $theme-color;
+      }
     }
 
     .comment-content {
@@ -161,11 +184,12 @@ export default {
 
       .edited {
         color: $theme-color;
-        margin: 0 5px 0 0;
+        margin: 0 10px 0 0;
 
         span {
-          margin: 0 5px 0 5px;
+          margin: 0 2px;
           color: $theme-color;
+          height: unset !important;
         }
       }
       .published {
@@ -180,6 +204,11 @@ export default {
         }
       }
       .creatorHeart {
+        margin: 0 10px;
+
+        span {
+          color: $theme-color;
+        }
       }
     }
     .comment-replies {

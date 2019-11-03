@@ -7,40 +7,58 @@
     @touchend="onPlayerTouchEnd"
     @touchstart="onPlayerTouchStart"
     @touchmove="onPlayerTouchMove"
+    @click="onPlayerClick"
+    @fullscreenchange="onFullscreenChange"
+    @webkitfullscreenchange="onFullscreenChange"
+    @mozfullscreenchange="onFullscreenChange"
+    @msfullscreenchange="onFullscreenChange"
     ref="videoPlayer"
+    :style="{
+      cursor: playerOverlay.visible ? 'auto' : 'none',
+      'height': `calc(100vw * ${videoElement.aspectRatio})`
+    }"
+    :class="{ fullscreen: fullscreen }"
   >
-    <video
-      class="video"
-      :src="video.formatStreams[0].url"
-      @waiting="onVideoBuffering"
-      @canplay="onVideoCanplay"
-      @playing="onVideoPlaying"
-      @pause="onVideoPaused"
-      @volumechange="onVolumeChange"
-      @timeupdate="onPlaybackProgress"
-      @progress="onLoadingProgress"
-      :style="{
-        opacity: playerOverlay.thumbnailVisible ? 0 : 1,
-        cursor: playerOverlay.visible ? 'auto' : 'none'
-      }"
-      ref="video"
-    ></video>
-    <VideoEndscreen
-      :videoId="video.videoId"
-      :videoProgress="videoElement.progress"
-      :videoElement="$refs.video"
-    />
+    <div
+      class="video-element-container"
+      :style="{ 'height': `calc(100vw * ${videoElement.aspectRatio})` }"
+    >
+      <video
+        class="video"
+        :src="video.formatStreams[0].url"
+        @waiting="onVideoBuffering"
+        @canplay="onVideoCanplay"
+        @playing="onVideoPlaying"
+        @pause="onVideoPaused"
+        @volumechange="onVolumeChange"
+        @timeupdate="onPlaybackProgress"
+        @progress="onLoadingProgress"
+        @loadedmetadata="onLoadedMetadata"
+        :style="{
+          opacity: playerOverlay.thumbnailVisible ? 0 : 1
+        }"
+        ref="video"
+      ></video>
+      <VideoEndscreen
+        :videoId="video.videoId"
+        :videoProgress="videoElement.progress"
+        :videoElement="$refs.video"
+      />
+    </div>
+
     <Spinner class="video-spinner" v-if="videoElement.buffering" />
     <div
       class="video-controls-overlay"
       :class="{ visible: playerOverlay.visible }"
       :style="{ cursor: playerOverlay.visible ? 'auto' : 'none'}"
     >
-      <div class="top-control-overlay"></div>
+      <div class="top-control-overlay" :class="{ hidden: playerOverlay.thumbnailVisible }"></div>
       <div class="center-control-overlay">
+        <div class="left-action-container"></div>
         <div class="play-btn-container" @touchend="onPlayBtnTouchEnd" @click="onPlayBtnClick">
           <div class="play-btn" :class="{ playing: videoElement.playing }"></div>
         </div>
+        <div class="right-action-container"></div>
       </div>
       <div class="bottom-control-overlay" :class="{ hidden: playerOverlay.thumbnailVisible }">
         <div class="seekbar" :class="{ dragging: seekbar.seeking }">
@@ -88,14 +106,14 @@
             <FullscreenIcon
               v-if="!fullscreen"
               @click="onEnterFullscreen"
-              @mouseup="onEnterFullscreen"
-              @touchend.stop="onEnterFullscreen"
+              @mouseup="onEnterFullscreenMouseUp"
+              @touchend.stop="onEnterFullscreenMouseUp"
             />
             <FullscreenExitIcon
               v-if="fullscreen"
               @click="onLeaveFullscreen"
-              @mouseup="onLeaveFullscreen"
-              @touchend.stop="onLeaveFullscreen"
+              @mouseup="onLeaveFullscreenMouseUp"
+              @touchend.stop="onLeaveFullscreenMouseUp"
             />
           </div>
         </div>
@@ -159,7 +177,8 @@ export default {
         progressPercentage: 0,
         loadingPercentage: 0,
         firstTimeBuffering: true,
-        volume: 1
+        volume: 1,
+        aspectRatio: 16 / 9
       },
       seekbar: {
         seeking: false,
@@ -212,9 +231,28 @@ export default {
       return `${leftPx}px`
     }
   },
-  mounted: function () { },
+  mounted: function () {
+    document.addEventListener('keydown', this.onWindowKeyDown)
+    console.log(this.videoElement.aspectRatio)
+  },
+  beforeDestroy: function () {
+    document.removeEventListener('keydown', this.onWindowKeyDown)
+  },
   methods: {
+    // Window events
+    onWindowKeyDown: function (e) {
+      if (this.$refs.video) {
+        if (e.key === ' ') {
+          this.toggleVideoPlayback()
+          e.preventDefault()
+        }
+      }
+    },
+
     // Video events
+    onLoadedMetadata: function (e) {
+      this.videoElement.aspectRatio = e.target.videoHeight / e.target.videoWidth
+    },
     onPlaybackProgress: function () {
       let videoRef = this.$refs.video
       if (videoRef && !this.seekbar.seeking) {
@@ -297,12 +335,17 @@ export default {
       this.seekbar.seeking = true
       e.stopPropagation()
     },
+    onPlayerClick: function (e) {
+      this.toggleVideoPlayback()
+      e.stopPropagation()
+      e.preventDefault()
+    },
     onPlayerMouseUp: function (e) {
       if (this.seekbar.seeking) {
         this.seekbar.seeking = false
         this.matchSeekProgressPercentage(true)
       } else {
-        this.toggleVideoPlayback()
+        // this.toggleVideoPlayback()
       }
       e.stopPropagation()
       e.preventDefault()
@@ -311,7 +354,6 @@ export default {
       e.stopPropagation()
     },
     onSeekbarMouseEnter: function (e) {
-      console.log(e)
       e.stopPropagation()
     },
     onSeekBarClick: function (e) {
@@ -351,9 +393,13 @@ export default {
       } else if (elem.msRequestFullscreen) {
         elem.msRequestFullscreen()
       }
+      this.fullscreen = true
       e.stopPropagation()
       e.preventDefault()
-      this.fullscreen = true
+    },
+    onEnterFullscreenMouseUp: function (e) {
+      e.preventDefault()
+      e.stopPropagation()
     },
     onLeaveFullscreen: function (e) {
       if (document.exitFullscreen) {
@@ -365,20 +411,28 @@ export default {
       } else if (document.msExitFullscreen) {
         document.msExitFullscreen()
       }
+      this.fullscreen = false
       e.stopPropagation()
       e.preventDefault()
-      this.fullscreen = false
+    },
+    onFullscreenChange: function (e) {
+      if (document.fullscreenElement) {
+        this.fullscreen = true
+      } else {
+        this.fullscreen = false
+      }
+    },
+    onLeaveFullscreenMouseUp: function (e) {
+      e.preventDefault()
+      e.stopPropagation()
     },
     onPlayBtnTouchEnd: function (e) {
-      if (this.videoElement.playing) {
-        this.$refs.video.pause()
-      } else {
-        this.$refs.video.play()
-      }
+      this.toggleVideoPlayback()
       e.stopPropagation()
       e.preventDefault()
     },
     onPlayBtnClick: function (e) {
+      this.toggleVideoPlayback()
       e.stopPropagation()
       e.preventDefault()
     },
@@ -450,18 +504,29 @@ export default {
 <style lang="scss">
 .video-player {
   width: 100%;
-  height: $player-height;
-  max-height: calc(100vh - 169px);
   background-color: #000;
   display: flex;
   position: relative;
   overflow: hidden;
+  max-height: calc(100vh - 170px);
 
-  .video {
-    margin: auto;
-    max-height: calc(100vh - 169px);
-    z-index: 100;
-    transition: opacity 1200ms $intro-easing;
+  &.fullscreen {
+    .video-element-container {
+      max-height: 100vh;
+    }
+  }
+
+  .video-element-container {
+    height: $player-height;
+    position: relative;
+    max-height: calc(100vh - 170px);
+    margin: 0 auto;
+
+    .video {
+      height: 100%;
+      z-index: 100;
+      transition: opacity 1200ms $intro-easing;
+    }
   }
 
   .video-spinner {
@@ -510,6 +575,10 @@ export default {
 
     .top-control-overlay {
       position: relative;
+
+      &.hidden {
+        opacity: 0;
+      }
 
       &:before {
         content: "";

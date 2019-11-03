@@ -34,6 +34,22 @@ export default {
 * {
   scrollbar-color: #ff7b3b #1e1e1e;
   scrollbar-width: thin;
+
+  &::-webkit-scrollbar {
+    height: 6px;
+    width: 6px;
+    background: #1e1e1e;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #ff7b3b;
+    border-radius: 0;
+    -webkit-border-radius: 0;
+  }
+
+  &::-webkit-scrollbar-corner {
+    background: #1e1e1e;
+  }
 }
 p,
 h1,

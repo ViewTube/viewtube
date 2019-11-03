@@ -169,6 +169,7 @@ export default {
 .channel {
   display: flex;
   flex-direction: column;
+  overflow-x: hidden !important;
 
   .channel-banner {
     width: 100%;
