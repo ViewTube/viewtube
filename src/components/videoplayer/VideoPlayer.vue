@@ -112,10 +112,11 @@
           <div class="left-bottom-controls">
             <PauseIcon v-if="videoElement.playing" />
             <PlayIcon v-if="!videoElement.playing" />
-            <VolumeHighIcon v-if="volumeCategory == 3" />
-            <VolumeMediumIcon v-if="volumeCategory == 2" />
-            <VolumeLowIcon v-if="volumeCategory == 1" />
-            <VolumeOffIcon v-if="volumeCategory == 0" />
+            <VolumeControl
+              v-model.number="videoElement.playerVolume"
+              @mouseup.stop="onVolumeInteraction"
+              @click.stop="onVolumeInteraction"
+            />
             <div class="video-time-progress">
               <span
                 class="video-time-current-progress"
@@ -152,16 +153,13 @@ import Spinner from '@/components/Spinner'
 import SavedPosition from '@/store/videoProgress'
 import PauseIcon from 'icons/Pause'
 import PlayIcon from 'icons/Play'
-import VolumeHighIcon from 'icons/VolumeHigh'
-import VolumeMediumIcon from 'icons/VolumeMedium'
-import VolumeLowIcon from 'icons/VolumeLow'
-import VolumeOffIcon from 'icons/VolumeOff'
 import FullscreenIcon from 'icons/Fullscreen'
 import FullscreenExitIcon from 'icons/FullscreenExit'
 import ArrowExpandIcon from 'icons/ArrowExpand'
 import ArrowCollapseIcon from 'icons/ArrowCollapse'
 import Commons from '@/commons.js'
 import VideoEndscreen from '@/components/videoplayer/VideoEndscreen'
+import VolumeControl from '@/components/videoplayer/VolumeControl'
 
 export default {
   name: 'videoplayer',
@@ -169,15 +167,12 @@ export default {
     Spinner,
     PauseIcon,
     PlayIcon,
-    VolumeHighIcon,
-    VolumeMediumIcon,
-    VolumeLowIcon,
-    VolumeOffIcon,
     FullscreenIcon,
     FullscreenExitIcon,
     VideoEndscreen,
     ArrowExpandIcon,
-    ArrowCollapseIcon
+    ArrowCollapseIcon,
+    VolumeControl
   },
   props: {
     video: Object
@@ -201,8 +196,8 @@ export default {
         progressPercentage: 0,
         loadingPercentage: 0,
         firstTimeBuffering: true,
-        volume: 1,
         aspectRatio: 16 / 9,
+        playerVolume: 1,
         zoomed: false
       },
       seekbar: {
@@ -214,8 +209,16 @@ export default {
     }
   },
   watch: {
+    videoVolume (newValue) {
+      if (newValue <= 1 && newValue >= 0 && this.$refs.video) {
+        this.$refs.video.volume = newValue
+      }
+    }
   },
   computed: {
+    videoVolume () {
+      return this.videoElement.playerVolume
+    },
     videoLength () {
       if (this.video !== undefined) {
         return this.video.lengthSeconds
@@ -224,18 +227,6 @@ export default {
     },
     playerOverlayVisible () {
       return this.playerOverlay.visible
-    },
-    volumeCategory () {
-      if (this.videoElement.volume >= 1) {
-        return 3
-      } else if (this.videoElement.volume < 1 && this.videoElement.volume >= 0.5) {
-        return 2
-      } else if (this.videoElement.volume < 0.5 && this.videoElement.volume > 0) {
-        return 1
-      } else if (this.videoElement.volume <= 0) {
-        return 0
-      }
-      return 0
     },
     seekHoverAdjustedLeft: function () {
       let percentage = this.seekbar.hoverPercentage
@@ -297,7 +288,7 @@ export default {
     },
     onVolumeChange: function () {
       if (this.$refs.video) {
-        this.videoElement.volume = this.$refs.video.volume
+        this.videoElement.playerVolume = this.$refs.video.volume
       }
     },
     onVideoPlaying: function () {
@@ -407,6 +398,9 @@ export default {
       return (pageX > Commons.getPageWidth() || pageX < 0 || pageY < 0)
     },
     // Interaction events
+    onVolumeInteraction: function (e) {
+
+    },
     onVideoExpand: function (e) {
       this.videoElement.zoomed = true
       e.stopPropagation()
@@ -558,7 +552,6 @@ export default {
       max-height: 100vh;
 
       &.zoom {
-
         .video {
           // width: 100vw !important;
         }

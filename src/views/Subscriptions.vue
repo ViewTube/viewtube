@@ -17,6 +17,7 @@
 import Commons from '@/commons.js'
 import VideoEntry from '@/components/list/VideoEntry'
 import BottomNavigation from '@/components/BottomNavigation'
+import VueCookie from 'vue-cookie'
 
 export default {
   name: 'home',
@@ -41,7 +42,7 @@ export default {
     }
   },
   beforeRouteEnter: function (to, from, next) {
-    let jwt = this.$cookie.get('jwt')
+    let jwt = VueCookie.get('jwt')
     fetch(`${Commons.getOwnApiUrl()}subscriptions/getSubscriptionFeed.php`, {
       method: 'GET',
       headers: {
