@@ -13,7 +13,10 @@ export default new Router({
     component: Home,
     meta: {
       scrollHeight: 0
-    }
+    },
+    alias: [
+      '/index.html'
+    ]
   },
   {
     path: '/settings',
@@ -64,7 +67,7 @@ export default new Router({
     }
   }
   ],
-  scrollBehavior(to, from, savedPosition) {
+  scrollBehavior (to, from, savedPosition) {
     if (to.hash) {
       return {
         selector: to.hash
