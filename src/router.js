@@ -65,8 +65,12 @@ export default new Router({
     meta: {
       scrollHeight: 0
     }
-  }
-  ],
+  },
+  {
+    path: '*',
+    name: 'errorPage',
+    component: () => import('./views/ErrorPage.vue')
+  }],
   scrollBehavior (to, from, savedPosition) {
     if (to.hash) {
       return {
