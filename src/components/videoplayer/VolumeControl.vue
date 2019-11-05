@@ -1,9 +1,30 @@
 <template>
-  <div class="volume-control" @mouseup.stop="onVolumeInteraction" @click.stop="onVolumeInteraction">
-    <VolumeHighIcon v-if="volumeCategory == 3" @click.stop="popupVisible = !popupVisible" />
-    <VolumeMediumIcon v-if="volumeCategory == 2" @click.stop="popupVisible = !popupVisible" />
-    <VolumeLowIcon v-if="volumeCategory == 1" @click.stop="popupVisible = !popupVisible" />
-    <VolumeOffIcon v-if="volumeCategory == 0" @click.stop="popupVisible = !popupVisible" />
+  <div
+    class="volume-control"
+    @mouseup.stop="onVolumeInteraction"
+    @click.stop="onVolumeInteraction"
+    @touchend.stop="onVolumeInteraction"
+  >
+    <VolumeHighIcon
+      v-if="volumeCategory == 3"
+      @click.stop="popupVisible = !popupVisible"
+      @touchend.stop="onVolumeTouchInteraction"
+    />
+    <VolumeMediumIcon
+      v-if="volumeCategory == 2"
+      @click.stop="popupVisible = !popupVisible"
+      @touchend.stop="onVolumeTouchInteraction"
+    />
+    <VolumeLowIcon
+      v-if="volumeCategory == 1"
+      @click.stop="popupVisible = !popupVisible"
+      @touchend.stop="onVolumeTouchInteraction"
+    />
+    <VolumeOffIcon
+      v-if="volumeCategory == 0"
+      @click.stop="popupVisible = !popupVisible"
+      @touchend.stop="onVolumeTouchInteraction"
+    />
     <div class="volume-control-popup" :class="{ hidden: !popupVisible }">
       <input
         type="range"
@@ -58,7 +79,15 @@ export default {
     }
   },
   methods: {
-    onVolumeInteraction: function (e) { }
+    onVolumeInteraction: function (e) {
+      e.preventDefault()
+      e.stopPropagation()
+    },
+    onVolumeTouchInteraction: function (e) {
+      this.popupVisible = !this.popupVisible
+      e.preventDefault()
+      e.stopPropagation()
+    }
   }
 }
 </script>
@@ -72,7 +101,7 @@ export default {
   .volume-control-popup {
     position: relative;
     height: 100%;
-    width: 200px;
+    width: 80px;
     transition: width 200ms $intro-easing, opacity 200ms $intro-easing;
 
     &.hidden {
