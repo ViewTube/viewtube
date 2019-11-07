@@ -46,7 +46,7 @@ export default {
         username: me.username,
         password: me.password,
         callback: function () {
-          me.$router.push(me.redirectedPage.path)
+          me.$router.push(me.redirectedPage.fullPath)
         },
         failure: function () {
           me.loading = false
@@ -63,7 +63,7 @@ export default {
         vm.redirectedPage = from
       } else {
         vm.redirectedPage = {
-          path: '/'
+          fullPath: '/'
         }
       }
     })

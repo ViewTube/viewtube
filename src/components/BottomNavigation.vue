@@ -21,7 +21,7 @@ export default {
   box-shadow: $max-shadow;
 
   @media screen and (max-width: $mobile-width) {
-    display: block;
+    // display: block;
   }
 }
 </style>

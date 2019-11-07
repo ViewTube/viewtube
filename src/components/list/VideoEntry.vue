@@ -83,6 +83,7 @@ export default {
   justify-content: flex-start;
   overflow: hidden;
   box-sizing: border-box;
+  z-index: 11;
 
   .video-entry-thmb {
     width: 100%;

@@ -7,6 +7,7 @@
       lang="en"
     />
     <Spinner class="centered" v-if="loading"></Spinner>
+    <SectionTitle :title="'Popular videos'" />
     <div class="home-videos-container">
       <VideoEntry v-for="video in videos" :key="video.videoId" :video="video"></VideoEntry>
     </div>
@@ -19,13 +20,15 @@ import Commons from '@/commons.js'
 import VideoEntry from '@/components/list/VideoEntry'
 import Spinner from '@/components/Spinner'
 import BottomNavigation from '@/components/BottomNavigation'
+import SectionTitle from '@/components/SectionTitle.vue'
 
 export default {
   name: 'home',
   components: {
     VideoEntry,
     Spinner,
-    BottomNavigation
+    BottomNavigation,
+    SectionTitle
   },
   data: function () {
     return {

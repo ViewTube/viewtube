@@ -67,6 +67,7 @@ export default {
 
         callback: function () {
           me.statusMessage = 'Registration successful. Redirecting'
+          me.$router.push(me.redirectedPage.fullPath)
         },
         failure: function () {
           me.loading = false
@@ -96,10 +97,11 @@ export default {
   beforeRouteEnter (to, from, next) {
     next(vm => {
       if (from.name) {
+        debugger
         vm.redirectedPage = from
       } else {
         vm.redirectedPage = {
-          path: '/'
+          fullPath: '/'
         }
       }
     })
