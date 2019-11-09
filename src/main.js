@@ -9,13 +9,15 @@ import VueHeadful from 'vue-headful'
 import UserStore from './store/user'
 import VueProgressBar from 'vue-progressbar'
 import VueCookie from 'vue-cookie'
+import { Tabs, Tab } from 'vue-tabs-component'
 
 const progressOptions = {
   color: '#ff7b3b',
   failedColor: '#874b4b',
   thickness: '3px'
 }
-
+Vue.component('tabs', Tabs)
+Vue.component('tab', Tab)
 Vue.use(VueProgressBar, progressOptions)
 Vue.use(FormattingFunctions)
 Vue.use(VueCookie)
