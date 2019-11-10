@@ -1,5 +1,5 @@
 <template>
-  <div class="header">
+  <div class="header" :class="{ scrolled: scrollTop }">
     <router-link class="logo-link" to="/">
       <h1 class="logo">
         <span>View</span>
@@ -12,7 +12,7 @@
         alt="ViewTube"
       />
     </router-link>
-    <MainSearchBox />
+    <MainSearchBox :scrollTop="scrollTop" />
     <div class="nav">
       <router-link
         to="/login"
@@ -142,7 +142,7 @@ export default {
     clickaway
   ],
   props: {
-    scrolledTop: Boolean
+    scrollTop: Boolean
   },
   data: function () {
     return {
@@ -246,9 +246,34 @@ export default {
   flex-direction: row;
   justify-content: space-between;
   z-index: 800;
-  background-color: $header-bgcolor;
-  transition: box-shadow 600ms $intro-easing;
-  box-shadow: $medium-shadow;
+
+  transition: box-shadow 300ms $intro-easing,
+    background-color 300ms $intro-easing;
+
+  &.scrolled {
+    box-shadow: $medium-shadow;
+    background-color: $header-bgcolor;
+
+    .logo-link {
+      filter: drop-shadow(0 2px 6px $header-bgcolor);
+    }
+
+    .nav {
+      color: $title-color;
+
+      a:not(.nav-btn) {
+        color: $theme-color;
+      }
+
+      .nav-btn {
+        color: $theme-color;
+
+        &.main {
+          border: solid 2px $theme-color;
+        }
+      }
+    }
+  }
 
   .logo-link {
     text-decoration: none;
@@ -257,6 +282,7 @@ export default {
     display: flex;
     flex-direction: row-reverse;
     align-items: center;
+    filter: drop-shadow(0 2px 6px $header-bgcolor);
 
     .logo {
       font-family: $header-font;
@@ -400,7 +426,8 @@ export default {
 
     a:not(.nav-btn) {
       text-decoration: none;
-      color: $theme-color;
+      color: $subtitle-color;
+      transition: color 300ms $intro-easing;
       margin: 0 6px;
       display: flex;
       user-select: none;
@@ -418,7 +445,8 @@ export default {
 
     .nav-btn {
       text-decoration: none;
-      color: $theme-color;
+      color: $subtitle-color;
+      transition: color 300ms $intro-easing;
       margin: 0 5px;
       display: flex;
       user-select: none;
@@ -435,7 +463,7 @@ export default {
     }
 
     .nav-btn.main {
-      border: solid 2px $theme-color;
+      border: solid 2px $subtitle-color;
       border-radius: 3px;
     }
 

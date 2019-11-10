@@ -59,7 +59,7 @@ export default {
       videoProgressTooltip: `${Commons.getTimestampFromSeconds(SavedPosition.getSavedPosition(this.video.videoId))} of ${Commons.getTimestampFromSeconds(this.video.lengthSeconds)}`
     }
   },
-  mounted() {
+  mounted () {
     tippy('.tooltip', {
       duration: 300,
       arrow: false,
@@ -76,20 +76,20 @@ export default {
 
 <style lang="scss">
 .video-entry {
-  width: 220px;
+  width: 320px;
   display: flex;
   flex-direction: column;
   margin: 10px;
   justify-content: flex-start;
-  overflow: hidden;
   box-sizing: border-box;
   z-index: 11;
 
   .video-entry-thmb {
     width: 100%;
-    height: 124px;
+    height: 180px;
     overflow: hidden;
     position: relative;
+    box-shadow: $max-shadow;
 
     .thmb-image-container {
       position: relative;

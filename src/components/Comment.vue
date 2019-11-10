@@ -167,7 +167,11 @@ export default {
     .comment-content {
       font-size: 1rem;
       margin: 5px 0;
+      overflow: hidden;
+      white-space: pre-wrap;
+      overflow-wrap: break-word;
     }
+
     .comment-properties {
       display: flex;
       flex-direction: row;

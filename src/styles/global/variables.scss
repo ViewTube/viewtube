@@ -5,8 +5,10 @@ $video-seekbar-line-height: 3px;
 $video-controls-height: $video-seekbar-height - $video-seekbar-line-height;
 $video-player-gradient: linear-gradient(to bottom, #000000da, #00000000);
 
-$main-width: 1200px;
-$mobile-width: 500px;
+$home-offset: 200px;
+
+$main-width: 1400px;
+$mobile-width: 700px;
 $watch-break-width: 380px;
 
 $header-font: "Righteous", "Open Sans", sans-serif;
@@ -25,12 +27,14 @@ $outro-easing: cubic-bezier(0.71, 0.21, 1, 0.46);
 $dynamic-easing: cubic-bezier(0.76, 0.09, 0.3, 0.89);
 $overshoot-easing: cubic-bezier(0.31, 0.65, 0.27, 4);
 
+$alt-easing: cubic-bezier(.08,.75,.31,.96);
+
 $error-color-green: #4CAF50;
 $error-color-red: #d93025;
 
 $theme-color: #ff7b3b;
-$theme-color-light: #ff7b3b;
-$theme-color-dark: #bb3500;
+$theme-color-light: #f5af19;
+$theme-color-dark: #f12711;
 $theme-color-alt: #108dc7;
 
 $theme-color-translucent: #ff6d246c;
@@ -52,7 +56,7 @@ $theme-color-gradient-vertical: linear-gradient(
 );
 $theme-color-primary-gradient: linear-gradient(
   to right,
-  $theme-color-light,
+  $theme-color,
   $theme-color-dark
 );
 

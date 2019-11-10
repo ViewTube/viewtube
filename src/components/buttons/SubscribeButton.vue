@@ -103,7 +103,7 @@ export default {
 
 <style lang="scss">
 .subscribe-button-container {
-  width: 120px;
+  width: 140px;
   height: 32px;
   position: relative;
 
@@ -113,7 +113,7 @@ export default {
 
   .subscribe-button,
   .unsubscribe-button {
-    width: 120px;
+    width: 140px;
     height: 32px;
     border-radius: 5px;
     position: absolute;

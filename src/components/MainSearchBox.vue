@@ -1,5 +1,5 @@
 <template>
-  <div class="search-box" :class="{ focused: searchFieldFocused }">
+  <div class="search-box" :class="{ focused: searchFieldFocused, scrolled: scrollTop }">
     <input
       type="text"
       name="search"
@@ -33,6 +33,9 @@ export default {
   components: {
     SearchIcon,
     SearchAutoComplete
+  },
+  props: {
+    scrollTop: Boolean
   },
   data: function () {
     return {
@@ -88,13 +91,23 @@ export default {
   width: 100%;
   max-width: $search-box-width;
   justify-content: flex-end;
-  background-color: $bgcolor-alt-light;
   position: relative;
   border-radius: 3px;
+  background-color: #0000006e;
+  transition: background-color 300ms $intro-easing;
+
+  &.scrolled {
+    background-color: $bgcolor-alt-light;
+
+    .search-btn {
+      color: $theme-color;
+    }
+  }
 
   .search-btn {
     text-decoration: none;
-    color: $theme-color;
+    color: $subtitle-color;
+    transition: color 300ms $intro-easing;
     width: 50px;
     text-align: center;
     display: flex;

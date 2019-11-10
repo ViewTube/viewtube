@@ -237,6 +237,8 @@ export default {
 }
 
 .watch {
+  overflow-y: scroll;
+
   .video-infobox {
     width: 100%;
     max-width: $main-width;
@@ -391,6 +393,9 @@ export default {
       color: $title-color;
       font-family: $default-font;
       line-height: 1.2rem;
+      overflow: hidden;
+      white-space: pre-wrap;
+      overflow-wrap: break-word;
 
       a {
         text-decoration: none;

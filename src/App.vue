@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <Header />
+    <Header :scrollTop="scrolledTop" />
     <vue-progress-bar class="progress-bar"></vue-progress-bar>
-    <router-view class="content" ref="content" />
+    <router-view class="content" ref="content" @scroll="handleScroll" />
   </div>
 </template>
 
@@ -13,6 +13,11 @@ export default {
   name: 'app',
   components: {
     Header
+  },
+  data: function () {
+    return {
+      scrolledTop: false
+    }
   },
   created: function () {
     this.$Progress.start()
@@ -26,6 +31,11 @@ export default {
 
       next()
     })
+  },
+  methods: {
+    handleScroll (e) {
+      this.scrolledTop = e.target.scrollTop > 5
+    }
   }
 }
 </script>
@@ -85,10 +95,8 @@ body {
     }
 
     .content {
-      padding-top: $header-height;
       height: 100%;
       width: 100%;
-      overflow-x: auto;
       box-sizing: border-box;
     }
   }

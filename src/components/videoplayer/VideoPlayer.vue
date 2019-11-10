@@ -502,6 +502,7 @@ export default {
       this.showPlayerOverlay()
       if (this.seekbar.seeking) {
         this.seekbar.seekPercentage = this.calculateSeekPercentage(e.pageX)
+        this.seekbar.hoverPercentage = this.calculateSeekPercentage(e.pageX)
         this.matchSeekProgressPercentage()
         if (this.isMouseOufOfBoundary(e.pageX, e.pageY)) {
           this.seekbar.seeking = false
@@ -752,6 +753,7 @@ export default {
 
           .seekbar-hover-timestamp {
             opacity: 1;
+            transform: translateX(-50%) scale(1);
           }
         }
 
@@ -785,11 +787,11 @@ export default {
           height: 25px;
           line-height: 17px;
           opacity: 0;
-          transform: translateX(-50%);
+          transform: translateX(-50%) scale(0.9);
           box-sizing: border-box;
           border-radius: 3px;
           pointer-events: none;
-          transition: opacity 300ms $intro-easing;
+          transition: opacity 300ms $intro-easing, transform 100ms $intro-easing;
         }
 
         .seekbar-clickable {

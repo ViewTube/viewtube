@@ -4,7 +4,7 @@
       :id="id"
       class="input"
       :class="{ 'focus-content': hasText }"
-      autocomplete="current-password"
+      :autocomplete="autocompleteTag"
       :type="type"
       required
       :value="value"

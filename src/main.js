@@ -9,15 +9,24 @@ import VueHeadful from 'vue-headful'
 import UserStore from './store/user'
 import VueProgressBar from 'vue-progressbar'
 import VueCookie from 'vue-cookie'
-import { Tabs, Tab } from 'vue-tabs-component'
 
 const progressOptions = {
   color: '#ff7b3b',
   failedColor: '#874b4b',
   thickness: '3px'
 }
-Vue.component('tabs', Tabs)
-Vue.component('tab', Tab)
+
+Vue.directive('scroll', {
+  inserted: function (el, binding) {
+    let f = function (evt) {
+      if (binding.value(evt, el)) {
+        el.removeEventListener('scroll', f)
+      }
+    }
+    el.addEventListener('scroll', f)
+  }
+})
+
 Vue.use(VueProgressBar, progressOptions)
 Vue.use(FormattingFunctions)
 Vue.use(VueCookie)

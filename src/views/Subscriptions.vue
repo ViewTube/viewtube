@@ -63,7 +63,7 @@ export default {
   beforeRouteUpdate: function (to, from, next) {
     this.$Progress.start()
     let jwt = this.$cookie.get('jwt')
-    fetch(`${Commons.apiUrl}top`, {
+    fetch(`${Commons.getOwnApiUrl()}subscriptions/getSubscriptionFeed.php`, {
       cache: 'force-cache',
       method: 'GET',
       headers: {
