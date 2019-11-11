@@ -8,15 +8,27 @@
       :type="type"
       required
       :value="value"
-      v-on:input="$emit('input', $event.target.value)"
+      @input="$emit('input', $event.target.value)"
     />
+    <AccountIcon v-if="type == 'username'" />
+    <KeyIcon v-if="type == 'password'" />
+    <MailIcon v-if="type == 'email'" />
     <label :for="id" class="input-label">{{ label }}</label>
   </div>
 </template>
 
 <script>
+import AccountIcon from 'vue-material-design-icons/AccountOutline'
+import KeyIcon from 'vue-material-design-icons/KeyOutline'
+import MailIcon from 'vue-material-design-icons/At'
+
 export default {
   name: 'form-input',
+  components: {
+    AccountIcon,
+    KeyIcon,
+    MailIcon
+  },
   props: {
     type: String,
     value: null,
@@ -38,7 +50,8 @@ export default {
       return this.value && this.value.length > 0
     },
     autocompleteTag () {
-      let tagId = Object.keys(this.autocompleteTags).find(this.type)
+      console.log(Object.keys(this.autocompleteTags))
+      let tagId = Object.keys(this.autocompleteTags).find(type => type === this.type)
       let tag = tagId !== undefined ? tagId : 'all'
 
       return this.autocompleteTags[tag]
@@ -51,6 +64,17 @@ export default {
 .form-input {
   position: relative;
   $input-line-height: 50px;
+
+  .material-design-icon {
+    position: absolute;
+    right: 40px;
+    top: 35px;
+    color: $title-color;
+  }
+
+  .input:not(:valid) + .material-design-icon {
+    color: $error-color-red;
+  }
 
   .input {
     margin: 20px 20px;
@@ -80,7 +104,7 @@ export default {
 
     &:not(:valid) {
       box-shadow: none;
-      border-color: $error-color-red;
+      // border-color: $error-color-red;
     }
   }
 

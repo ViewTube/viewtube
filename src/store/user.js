@@ -44,6 +44,7 @@ export default {
           let me = this
           if (error.message !== undefined) {
             me.state.errorMessage = error.message
+            debugger
           } else {
             error.then((e) => {
               me.state.errorMessage = e.message

@@ -1,5 +1,6 @@
 <template>
   <div class="video-entry">
+    <div class="video-entry-background"></div>
     <router-link
       class="video-entry-thmb"
       :to="{path: '/watch?v=' + video.videoId}"
@@ -9,8 +10,8 @@
       <div class="thmb-image-container">
         <img
           class="video-entry-thmb-image"
-          :src="video.videoThumbnails[3].url"
-          :alt="`${video.title} thumbnail`"
+          v-lazy="video.videoThumbnails[4].url"
+          :alt="`${video.title}`"
         />
         <div class="video-description-overlay" v-if="video.description">
           <p>{{ video.description }}</p>
@@ -79,17 +80,32 @@ export default {
   width: 320px;
   display: flex;
   flex-direction: column;
-  margin: 10px;
+  padding: 10px;
   justify-content: flex-start;
-  box-sizing: border-box;
+  // box-sizing: border-box;
   z-index: 11;
+  position: relative;
+
+  .video-entry-background {
+    position: absolute;
+    height: 175px;
+    top: 10px;
+    left: 10px;
+    width: calc(100% - 20px);
+    background-color: #34363b;
+    z-index: 10;
+    transition-duration: 300ms;
+    transition-timing-function: $intro-easing;
+    transition-property: box-shadow;
+  }
 
   .video-entry-thmb {
     width: 100%;
-    height: 180px;
+    height: 175px;
     overflow: hidden;
     position: relative;
     box-shadow: $max-shadow;
+    z-index: 11;
 
     .thmb-image-container {
       position: relative;
@@ -157,12 +173,13 @@ export default {
   }
 
   .video-entry-info {
-    padding: 0 0 10px 0;
+    padding: 10px 0 10px 0;
     font-family: $default-font;
     overflow: hidden;
     display: flex;
     flex-direction: column;
     align-items: left;
+    z-index: 11;
 
     .video-entry-title {
       text-decoration: none;
@@ -178,7 +195,8 @@ export default {
     .video-entry-channel {
       text-decoration: none;
       padding: 3px 0 4px 0;
-      font-size: 0.8rem;
+      font-size: 0.9rem;
+      font-weight: bold;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
@@ -198,7 +216,7 @@ export default {
 
   @media screen and (max-width: $mobile-width) {
     width: calc(100% - 20px);
-    margin: 10px;
+    padding: 10px;
 
     .video-entry-thmb {
       width: 100%;

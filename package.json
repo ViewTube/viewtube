@@ -19,6 +19,7 @@
     "vue-cookie": "^1.1.4",
     "vue-global-var": "^1.0.0",
     "vue-headful": "^2.0.1",
+    "vue-lazyload": "^1.3.3",
     "vue-material-design-icons": "^4.1.0",
     "vue-progressbar": "^0.7.5",
     "vue-router": "^3.0.3",

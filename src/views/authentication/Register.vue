@@ -7,8 +7,8 @@
       <span class="status-message-display message-display">{{ statusMessage }}</span>
       <Spinner />
       <form id="register" method="post" @submit.prevent="register" ref="registerForm">
-        <FormInput :id="'username'" v-model="username" :label="'username'" :type="'Username'" />
-        <FormInput :id="'password'" v-model="password" :label="'password'" :type="'Password'" />
+        <FormInput :id="'username'" v-model="username" :label="'username'" :type="'username'" />
+        <FormInput :id="'password'" v-model="password" :label="'password'" :type="'password'" />
         <FormInput
           :id="'repeat-password'"
           v-model="repeatPassword"

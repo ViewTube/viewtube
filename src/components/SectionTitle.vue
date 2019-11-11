@@ -1,13 +1,13 @@
 <template>
-  <element class="section-title" is="router-link" :to="link">
+  <div class="section-title">
     <div class="background" :class="{ gradient: gradient }">
       <span class="background-shadow"></span>
     </div>
-    <h2 class="title">
+    <h2 class="title" is="router-link" :to="link">
       {{ title }}
       <ChevronRightIcon v-if="link !== undefined" />
     </h2>
-  </element>
+  </div>
 </template>
 
 <script>

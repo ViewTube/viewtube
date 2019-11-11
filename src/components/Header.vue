@@ -255,7 +255,7 @@ export default {
     background-color: $header-bgcolor;
 
     .logo-link {
-      filter: drop-shadow(0 2px 6px $header-bgcolor);
+      // filter: drop-shadow(0 2px 6px $header-bgcolor);
     }
 
     .nav {
@@ -282,7 +282,7 @@ export default {
     display: flex;
     flex-direction: row-reverse;
     align-items: center;
-    filter: drop-shadow(0 2px 6px $header-bgcolor);
+    // filter: drop-shadow(0 2px 6px $header-bgcolor);
 
     .logo {
       font-family: $header-font;

@@ -9,27 +9,33 @@ import VueHeadful from 'vue-headful'
 import UserStore from './store/user'
 import VueProgressBar from 'vue-progressbar'
 import VueCookie from 'vue-cookie'
+import VueLazyload from 'vue-lazyload'
+import ScrollDirective from './directives/scrollDirective'
 
 const progressOptions = {
   color: '#ff7b3b',
   failedColor: '#874b4b',
-  thickness: '3px'
+  thickness: '3px',
+  transition: {
+    speed: '0.2s',
+    opacity: '0.6s',
+    termination: 300
+  }
 }
 
-Vue.directive('scroll', {
-  inserted: function (el, binding) {
-    let f = function (evt) {
-      if (binding.value(evt, el)) {
-        el.removeEventListener('scroll', f)
-      }
-    }
-    el.addEventListener('scroll', f)
-  }
-})
+Vue.directive('scroll', ScrollDirective)
 
 Vue.use(VueProgressBar, progressOptions)
 Vue.use(FormattingFunctions)
 Vue.use(VueCookie)
+Vue.use(VueLazyload, {
+  observer: true,
+
+  observerOptions: {
+    rootMargin: '0px',
+    threshold: 0.1
+  }
+})
 
 Vue.component('vue-headful', VueHeadful)
 Vue.config.productionTip = false

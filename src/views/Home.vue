@@ -15,7 +15,7 @@
     <div class="home-videos-container small" v-if="userAuthenticated">
       <VideoEntry v-for="video in subscriptions.subscriptions" :key="video.videoId" :video="video"></VideoEntry>
     </div>
-    <SectionTitle :title="'Popular videos'" :gradient="!userAuthenticated" :link="'popular'" />
+    <SectionTitle :title="'Popular videos'" :gradient="!userAuthenticated" :link="'#popular'" />
     <div class="home-videos-container small">
       <VideoEntry v-for="video in videos" :key="video.videoId" :video="video"></VideoEntry>
     </div>
@@ -58,6 +58,8 @@ export default {
       this.videos = data
       if (this.userAuthenticated) {
         this.getSubscriptions()
+      } else {
+        this.$Progress.finish()
       }
     },
     getSubscriptions () {
