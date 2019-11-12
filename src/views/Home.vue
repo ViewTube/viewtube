@@ -15,7 +15,7 @@
     <div class="home-videos-container small" v-if="userAuthenticated">
       <VideoEntry v-for="video in subscriptions.subscriptions" :key="video.videoId" :video="video"></VideoEntry>
     </div>
-    <SectionTitle :title="'Popular videos'" :gradient="!userAuthenticated" :link="'#popular'" />
+    <SectionTitle :title="'Popular videos'" :gradient="!userAuthenticated" />
     <div class="home-videos-container small">
       <VideoEntry v-for="video in videos" :key="video.videoId" :video="video"></VideoEntry>
     </div>
@@ -49,7 +49,7 @@ export default {
   mounted: function () {
   },
   computed: {
-    userAuthenticated () {
+    userAuthenticated() {
       return Boolean(this.loginState.username)
     }
   },
@@ -62,7 +62,7 @@ export default {
         this.$Progress.finish()
       }
     },
-    getSubscriptions () {
+    getSubscriptions() {
       let jwt = this.$cookie.get('jwt')
       let me = this
       fetch(`${Commons.getOwnApiUrl()}subscriptions/getSubscriptionFeed.php?limit=4`, {
@@ -84,10 +84,10 @@ export default {
           console.error(error)
         })
     },
-    showMoreVideos () {
+    showMoreVideos() {
 
     },
-    handleScroll (e) {
+    handleScroll(e) {
       this.$emit('scroll', e)
     }
   },

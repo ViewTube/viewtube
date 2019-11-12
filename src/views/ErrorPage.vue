@@ -1,8 +1,13 @@
 <template>
-  <div class="error-page">
+  <div class="error-page" @scroll="$emit('scroll', $event)">
     <div class="error-container">
       <h1 class="error-1">404</h1>
-      <h1 class="error-2">404</h1>
+    </div>
+    <div class="error-popup">
+      <div class="error-message">
+        <h2>{{ possibleSearch }} not found</h2>
+        <router-link :to="`/results?search_query=${possibleSearch}`">Search for {{ possibleSearch }}</router-link>
+      </div>
     </div>
   </div>
 </template>
@@ -11,12 +16,22 @@
 export default {
   name: 'error-page',
   methods: {
-    retry () {
+    retry() {
       window.location.reload()
+    }
+  },
+  data: function () {
+    return {
+      possibleSearch: ''
     }
   },
   mounted: function () {
     this.$Progress.fail()
+    let path = this.$route.path
+    this.possibleSearch = path.replace('/', '')
+  },
+  beforeCreate: function () {
+
   }
 }
 </script>
@@ -28,6 +43,45 @@ export default {
   height: 100%;
   overflow: hidden;
 
+  .error-popup {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 3;
+    width: 500px;
+
+    .error-message {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-color: $bgcolor-main;
+
+      a {
+        font-size: 1rem;
+        border-style: none;
+        width: 300px;
+        text-align: center;
+        cursor: pointer;
+        user-select: none;
+        margin: 20px 20px;
+        background-color: $bgcolor-main;
+        padding: 8px 0;
+        border-radius: 5px;
+        box-sizing: border-box;
+        color: $title-color;
+        box-shadow: $low-shadow;
+        transition: box-shadow 300ms $intro-easing;
+        border: 2px solid $theme-color;
+        user-select: none;
+
+        &:hover {
+          box-shadow: $max-shadow;
+        }
+      }
+    }
+  }
+
   .error-container {
     margin: auto;
     width: 100%;
@@ -38,24 +92,16 @@ export default {
     h1 {
       position: absolute;
       left: 0;
-      top: 50%;
+      top: 30%;
       transform: translateY(-50%);
-      font-size: 50vw;
+      font-size: 200px;
       width: 100%;
       overflow: hidden;
       text-overflow: wrap;
-      color: transparent;
-      background-image: url("/img/blur-bg-medium-dark.jpg");
-      background-repeat: repeat;
-      background-size: 100% 100%;
-      background-clip: text;
-      -webkit-background-clip: text;
+      color: $bgcolor-main;
 
       &.error-1 {
         text-shadow: 0 0 5px $theme-color;
-      }
-
-      &.error-2 {
       }
     }
   }

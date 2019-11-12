@@ -3,7 +3,7 @@
     <div class="background" :class="{ gradient: gradient }">
       <span class="background-shadow"></span>
     </div>
-    <h2 class="title" is="router-link" :to="link">
+    <h2 class="title" :is="link ? 'router-link' : 'h2'" :to="link">
       {{ title }}
       <ChevronRightIcon v-if="link !== undefined" />
     </h2>
@@ -76,7 +76,6 @@ export default {
     color: $title-color;
     box-sizing: border-box;
     z-index: 9;
-    cursor: pointer;
 
     &:hover {
       .material-design-icon .material-design-icon__svg {

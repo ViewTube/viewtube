@@ -1,5 +1,5 @@
 <template>
-  <div class="search">
+  <div class="search" @scroll="$emit('scroll', $event)">
     <vue-headful :title="`${searchQuery} - ViewTube`" />
     <Spinner class="centered" v-if="loading"></Spinner>
     <div v-if="!loading" class="search-videos-container">
@@ -98,7 +98,7 @@ export default {
       next('/')
     }
   },
-  beforeRouteLeave (to, from, next) {
+  beforeRouteLeave(to, from, next) {
     next()
   }
 }
@@ -106,6 +106,9 @@ export default {
 
 <style lang="scss">
 .search {
+  padding-top: $header-height;
+  overflow-x: hidden;
+
   .search-videos-container {
     width: 100%;
     height: 100%;

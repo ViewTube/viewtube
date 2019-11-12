@@ -1,5 +1,5 @@
 <template>
-  <div class="channel" ref="channel">
+  <div class="channel" ref="channel" @scroll="handleScroll">
     <vue-headful
       :title="(channel.author !== undefined ? channel.author : 'loading') + ' - ViewTube'"
       :description="commons.description"
@@ -91,7 +91,6 @@
 <script>
 import Commons from '@/commons.js'
 import VideoEntry from '@/components/list/VideoEntry'
-// import Spinner from '@/components/Spinner'
 import FamilyFriendly from 'vue-material-design-icons/AccountChild'
 import Paid from 'vue-material-design-icons/CurrencyUsd'
 import SubscribeButton from '@/components/buttons/SubscribeButton'
@@ -100,7 +99,6 @@ export default {
   name: 'home',
   components: {
     VideoEntry,
-    // Spinner,
     FamilyFriendly,
     Paid,
     SubscribeButton
@@ -110,7 +108,8 @@ export default {
       channel: [],
       loading: true,
       commons: Commons,
-      parallaxImageOffset: 0
+      parallaxScroll: 0,
+      parallaxTicking: false
     }
   },
   beforeRouteEnter: function (to, from, next) {
@@ -147,6 +146,24 @@ export default {
       })
   },
   methods: {
+    handleScroll: function (e) {
+      this.$emit('scroll', e)
+      // if (this.$refs.parallaxImage) {
+      //   this.parallaxScroll = e.target.scrollTop
+      //   this.requestParallaxTick()
+      // }
+    },
+    requestParallaxTick: function () {
+      if (!this.parallaxTicking) {
+        requestAnimationFrame(this.updateParallax)
+      }
+      this.parallaxTicking = true
+    },
+    updateParallax: function () {
+      this.parallaxTicking = false
+      let scrollHeight = this.parallaxScroll
+      this.$refs.parallaxImage.style.transform = `translate3d(0,${scrollHeight / 2}px,0)`
+    },
     loadData: function (data) {
       this.channel = data
       this.loading = false
@@ -169,30 +186,36 @@ export default {
 .channel {
   display: flex;
   flex-direction: column;
-  overflow-x: hidden !important;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  perspective: 1px;
+  perspective-origin: 0 0;
+  padding-top: $header-height;
 
   .channel-banner {
     width: 100%;
-    height: auto;
+    transform-origin: 0 0;
+    transform: translateZ(-1px) scale(3);
 
     .channel-banner-image {
       width: 100%;
-      position: relative;
+      // position: relative;
+      transition: transform 100ms linear;
 
-      @media screen and (max-width: 900px) {
-        width: 130%;
-        left: calc(100vw - 115%);
-      }
+      // @media screen and (max-width: 900px) {
+      //   width: 130%;
+      //   left: calc(100vw - 115%);
+      // }
 
-      @media screen and (max-width: 700px) {
-        width: 160%;
-        left: calc(100vw - 130%);
-      }
+      // @media screen and (max-width: 700px) {
+      //   width: 160%;
+      //   left: calc(100vw - 130%);
+      // }
 
-      @media screen and (max-width: 500px) {
-        width: 190%;
-        left: calc(100vw - 145%);
-      }
+      // @media screen and (max-width: 500px) {
+      //   width: 190%;
+      //   left: calc(100vw - 145%);
+      // }
     }
   }
   .channel-information {

@@ -33,7 +33,7 @@ export default {
     })
   },
   methods: {
-    handleScroll (e) {
+    handleScroll(e) {
       this.scrolledTop = e.target.scrollTop > 5
     }
   }

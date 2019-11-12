@@ -1,5 +1,5 @@
 <template>
-  <div class="register">
+  <div class="register" @scroll="$emit('scroll', $event)">
     <vue-headful title="Register - ViewTube" />
     <div class="register-container" :class="{ loading: loading }">
       <h2 class="register-title">Register</h2>
