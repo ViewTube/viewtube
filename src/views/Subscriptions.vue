@@ -88,6 +88,9 @@ export default {
 
 <style lang="scss">
 .subscriptions {
+  overflow-y: scroll;
+  margin-top: $header-height;
+
   .subscription-videos-container {
     width: 100%;
     max-width: $main-width;
