@@ -6,6 +6,7 @@
       :class="{ 'focus-content': hasText }"
       :autocomplete="autocompleteTag"
       :type="type"
+      :name="autocompleteTag"
       required
       :value="value"
       @input="$emit('input', $event.target.value)"
