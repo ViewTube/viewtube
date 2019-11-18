@@ -30,17 +30,11 @@ jobs:
     - name: List output files
       run: ls
       
-    - name: FTP Deploy
-      uses: SamKirkland/FTP-Deploy-Action@2.0.0
+    - name: Upload ftp
+      uses: sebastianpopp/ftp-action@releases/v1
       with:
-        # FTP server name (you may need to specify a port)
-        FTP_SERVER: www.sl261.web.hostpoint.ch
-        # FTP account username
-        FTP_USERNAME: admin@oeger.li
-        # FTP account password
-        FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
-        # The local folder to copy, defaults to root project folder
-        LOCAL_DIR: dist
-        # The remote folder to copy to, deafults to root FTP folder (I recommend you configure this on your server side instead of here)
-        REMOTE_DIR: /www/viewtube.eu/
-        ARGS: --delete
+        host: ${{ secrets.FTP_SERVER }}
+        user: ${{ secrets.FTP_USERNAME }}
+        password: ${{ secrets.FTP_PASSWORD }}
+        localDir: "dist"
+        remoteDir: "www/viewtube.eu"
