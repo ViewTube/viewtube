@@ -1,8 +1,5 @@
 <template>
-  <div class="section-title">
-    <div class="background" :class="{ gradient: gradient }">
-      <span class="background-shadow"></span>
-    </div>
+  <div class="section-title" :class="{ gradient: gradient }">
     <h2 class="title" :is="link ? 'router-link' : 'h2'" :to="link">
       {{ title }}
       <ChevronRightIcon v-if="link !== undefined" />
@@ -12,15 +9,16 @@
 
 <script>
 import ChevronRightIcon from 'vue-material-design-icons/ChevronRight'
+import GradientBackground from '@/components/GradientBackground.vue'
 
 export default {
   name: 'section-title',
   components: {
-    ChevronRightIcon
+    ChevronRightIcon,
+    GradientBackground
   },
   props: {
     title: String,
-    gradient: Boolean,
     link: String
   }
 }
@@ -28,42 +26,16 @@ export default {
 
 <style lang="scss" scoped>
 .section-title {
-  height: 80px + $header-height;
+  height: 80px;
   overflow: visible;
   position: relative;
   z-index: 9;
   display: block;
-
-  .background {
-    height: 700px + $header-height;
-    position: relative;
-    z-index: 9;
-    opacity: 0;
-    animation: gradient-flow 2s 400ms $intro-easing forwards;
-
-    &.gradient {
-      background: linear-gradient(
-        165deg,
-        rgba(226, 113, 59, 1) 0%,
-        rgba(116, 20, 10, 1) 28%,
-        rgba(18, 18, 18, 1) 69%,
-        rgba(18, 18, 18, 1) 100%
-      );
-    }
-
-    .background-shadow {
-      position: absolute;
-      left: 0;
-      bottom: 0;
-      height: 700px + $header-height;
-      width: 100%;
-      background: linear-gradient(to bottom, transparent, $bgcolor-main);
-    }
-  }
+  width: 100%;
 
   .title {
     position: absolute;
-    top: $header-height;
+    top: 0;
     left: 50%;
     transform: translateX(-50%);
     width: 100%;
@@ -76,6 +48,7 @@ export default {
     color: $title-color;
     box-sizing: border-box;
     z-index: 9;
+    font-weight: bold;
 
     &:hover {
       .material-design-icon .material-design-icon__svg {
@@ -95,15 +68,6 @@ export default {
         transition: left 300ms $dynamic-easing;
       }
     }
-  }
-}
-
-@keyframes gradient-flow {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
   }
 }
 </style>

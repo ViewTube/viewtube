@@ -82,7 +82,6 @@ export default {
   flex-direction: column;
   padding: 10px;
   justify-content: flex-start;
-  // box-sizing: border-box;
   z-index: 11;
   position: relative;
 
@@ -119,6 +118,7 @@ export default {
 
       .video-description-overlay {
         pointer-events: none;
+        color: $video-thmb-overlay-textcolor;
         position: absolute;
         left: 0;
         top: 0;

@@ -2,6 +2,7 @@
   <div class="search" @scroll="$emit('scroll', $event)">
     <vue-headful :title="`${searchQuery} - ViewTube`" />
     <Spinner class="centered" v-if="loading"></Spinner>
+    <GradientBackground :color="'blue'" />
     <div v-if="!loading" class="search-videos-container">
       <component
         v-for="result in results"
@@ -23,6 +24,7 @@ import PlaylistEntry from '@/components/list/PlaylistEntry'
 import ChannelEntry from '@/components/list/ChannelEntry'
 import Spinner from '@/components/Spinner'
 import BottomNavigation from '@/components/BottomNavigation'
+import GradientBackground from '@/components/GradientBackground.vue'
 
 export default {
   name: 'search',
@@ -31,7 +33,8 @@ export default {
     Spinner,
     PlaylistEntry,
     ChannelEntry,
-    BottomNavigation
+    BottomNavigation,
+    GradientBackground
   },
   data: function () {
     return {
@@ -98,7 +101,7 @@ export default {
       next('/')
     }
   },
-  beforeRouteLeave(to, from, next) {
+  beforeRouteLeave (to, from, next) {
     next()
   }
 }
@@ -106,8 +109,10 @@ export default {
 
 <style lang="scss">
 .search {
-  padding-top: $header-height;
+  overflow-y: scroll;
   overflow-x: hidden;
+  perspective: 4px;
+  perspective-origin: 0 0;
 
   .search-videos-container {
     width: 100%;

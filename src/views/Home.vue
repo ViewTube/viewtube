@@ -6,12 +6,8 @@
       image="https://viewtube.eu/images/icon-256.png"
       lang="en"
     />
-    <SectionTitle
-      :title="'Subscriptions'"
-      :gradient="true"
-      v-if="userAuthenticated"
-      :link="'subscriptions'"
-    />
+    <GradientBackground :color="'theme'" />
+    <SectionTitle :title="'Subscriptions'" v-if="userAuthenticated" :link="'subscriptions'" />
     <div class="home-videos-container small" v-if="userAuthenticated">
       <VideoEntry v-for="video in subscriptions.subscriptions" :key="video.videoId" :video="video"></VideoEntry>
     </div>
@@ -29,13 +25,15 @@ import VideoEntry from '@/components/list/VideoEntry'
 import BottomNavigation from '@/components/BottomNavigation'
 import SectionTitle from '@/components/SectionTitle.vue'
 import UserStore from '@/store/user.js'
+import GradientBackground from '@/components/GradientBackground.vue'
 
 export default {
   name: 'home',
   components: {
     VideoEntry,
     BottomNavigation,
-    SectionTitle
+    SectionTitle,
+    GradientBackground
   },
   data: function () {
     return {
@@ -49,7 +47,7 @@ export default {
   mounted: function () {
   },
   computed: {
-    userAuthenticated() {
+    userAuthenticated () {
       return Boolean(this.loginState.username)
     }
   },
@@ -62,7 +60,7 @@ export default {
         this.$Progress.finish()
       }
     },
-    getSubscriptions() {
+    getSubscriptions () {
       let jwt = this.$cookie.get('jwt')
       let me = this
       fetch(`${Commons.getOwnApiUrl()}subscriptions/getSubscriptionFeed.php?limit=4`, {
@@ -84,10 +82,10 @@ export default {
           console.error(error)
         })
     },
-    showMoreVideos() {
+    showMoreVideos () {
 
     },
-    handleScroll(e) {
+    handleScroll (e) {
       this.$emit('scroll', e)
     }
   },
@@ -128,6 +126,9 @@ export default {
 <style lang="scss">
 .home {
   overflow-y: scroll;
+  overflow-x: hidden;
+  perspective: 4px;
+  perspective-origin: 0 0;
 
   .home-videos-container {
     width: 100%;

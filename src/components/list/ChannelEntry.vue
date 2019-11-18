@@ -1,5 +1,6 @@
 <template>
   <div class="channel-entry">
+    <div class="channel-entry-background"></div>
     <router-link class="channel-entry-thmb" :to="{path: '/channel/' + channel.authorId}">
       <div class="thmb-image-container">
         <img class="channel-entry-thmb-image" :src="channel.authorThumbnails[2].url" />
@@ -42,39 +43,58 @@ export default {
 
 <style lang="scss">
 .channel-entry {
-  width: 220px;
+  width: 175px;
   display: flex;
   flex-direction: column;
-  margin: 10px;
+  padding: 10px;
   justify-content: flex-start;
-  overflow: hidden;
-  box-sizing: border-box;
+  z-index: 11;
+  position: relative;
+
+  .channel-entry-background {
+    position: absolute;
+    height: 175px;
+    top: 10px;
+    width: 175px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #34363b;
+    z-index: 10;
+    transition-duration: 300ms;
+    transition-timing-function: $intro-easing;
+    transition-property: box-shadow;
+    z-index: 10;
+  }
 
   .channel-entry-thmb {
-    width: 100%;
-    height: calc((220px * 9) / 16);
+    width: 175px;
+    height: 175px;
     overflow: hidden;
     position: relative;
+    box-shadow: $max-shadow;
     margin: 0 auto;
+    z-index: 11;
 
     .thmb-image-container {
-      height: 100%;
-      display: flex;
+      position: relative;
+      top: 50%;
+      left: 0;
+      transform: translateY(-50%);
 
       .channel-entry-thmb-image {
-        height: 100%;
-        margin: auto;
+        width: 100%;
       }
     }
   }
 
   .channel-entry-info {
-    padding: 0 0 10px 0;
+    padding: 10px 0 10px 0;
     font-family: $default-font;
     overflow: hidden;
     display: flex;
     flex-direction: column;
     align-items: left;
+    z-index: 11;
 
     .channel-entry-title {
       text-decoration: none;
@@ -85,6 +105,7 @@ export default {
       white-space: nowrap;
       color: $title-color;
       padding: 6px 0 4px 0;
+      font-weight: bold;
     }
 
     .channel-entry-stats {
@@ -94,10 +115,10 @@ export default {
       justify-content: space-between;
       flex-direction: column;
       font-size: 0.8rem;
-      margin: 5px 0 0 0;
+      margin: 3px 0 0 0;
 
       p {
-        margin: 0 0 5px 0;
+        margin: 3px 0 5px 0;
       }
     }
   }

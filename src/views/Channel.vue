@@ -188,34 +188,34 @@ export default {
   flex-direction: column;
   overflow-x: hidden;
   overflow-y: scroll;
-  perspective: 1px;
+  perspective: 4px;
   perspective-origin: 0 0;
-  padding-top: $header-height;
+  margin-top: $header-height;
 
   .channel-banner {
     width: 100%;
     transform-origin: 0 0;
-    transform: translateZ(-1px) scale(3);
+    transform: translateZ(-4px) scale(2);
 
     .channel-banner-image {
       width: 100%;
-      // position: relative;
+      position: relative;
       transition: transform 100ms linear;
 
-      // @media screen and (max-width: 900px) {
-      //   width: 130%;
-      //   left: calc(100vw - 115%);
-      // }
+      @media screen and (max-width: 900px) {
+        width: 130%;
+        left: calc(100vw - 115%);
+      }
 
-      // @media screen and (max-width: 700px) {
-      //   width: 160%;
-      //   left: calc(100vw - 130%);
-      // }
+      @media screen and (max-width: 700px) {
+        width: 160%;
+        left: calc(100vw - 130%);
+      }
 
-      // @media screen and (max-width: 500px) {
-      //   width: 190%;
-      //   left: calc(100vw - 145%);
-      // }
+      @media screen and (max-width: 500px) {
+        width: 190%;
+        left: calc(100vw - 145%);
+      }
     }
   }
   .channel-information {
@@ -227,8 +227,6 @@ export default {
 
     .channel-title-container {
       background-color: $bgcolor-alt;
-      position: sticky;
-      top: 0;
       z-index: 10;
       padding: 0 0 10px 0;
 
