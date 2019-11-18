@@ -9,7 +9,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [8.x, 10.x, 12.x]
+        node-version: 10.x
 
     steps:
     - uses: actions/checkout@v1
@@ -34,13 +34,13 @@ jobs:
       uses: SamKirkland/FTP-Deploy-Action@2.0.0
       with:
         # FTP server name (you may need to specify a port)
-        ftp_server: www.sl261.web.hostpoint.ch
+        FTP_SERVER: www.sl261.web.hostpoint.ch
         # FTP account username
-        ftp_username: admin@oeger.li
+        FTP_USERNAME: admin@oeger.li
         # FTP account password
-        ftp_password: ${{ secrets.FTP_PASSWORD }}
+        FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
         # The local folder to copy, defaults to root project folder
-        local_dir: dist
+        LOCAL_DIR: dist
         # The remote folder to copy to, deafults to root FTP folder (I recommend you configure this on your server side instead of here)
-        remote_dir: /www/viewtube.eu/
+        REMOTE_DIR: /www/viewtube.eu/
         ARGS: --delete
