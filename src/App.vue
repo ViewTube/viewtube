@@ -44,6 +44,7 @@ export default {
 * {
   scrollbar-color: #ff7b3b #1e1e1e;
   scrollbar-width: thin;
+  touch-action: manipulation;
 
   &::-webkit-scrollbar {
     height: 6px;
