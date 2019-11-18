@@ -29,12 +29,13 @@ jobs:
         
     - name: List output files
       run: ls dist
-      
-    - name: Upload ftp
-      uses: sebastianpopp/ftp-action@releases/v1
-      with:
-        host: ${{ secrets.FTP_SERVER }}
-        user: ${{ secrets.FTP_USERNAME }}
-        password: ${{ secrets.FTP_PASSWORD }}
-        localDir: "dist"
-        remoteDir: "www/viewtube.eu"
+        
+    - name: FTP-Deploy-Action
+      uses: SamKirkland/FTP-Deploy-Action@2.0.0
+      env:
+        FTP_SERVER: ${{ secrets.FTP_SERVER }}
+        FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+        FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+        LOCAL_DIR: dist
+        REMOTE_DIR: www/viewtube.eu
+        ARGS: --delete
