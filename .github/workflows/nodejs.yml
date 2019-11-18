@@ -28,7 +28,7 @@ jobs:
         yarn build --if-present
         
     - name: List output files
-      run: ls
+      run: ls dist
       
     - name: Upload ftp
       uses: sebastianpopp/ftp-action@releases/v1
