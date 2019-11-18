@@ -1,5 +1,5 @@
 <template>
-  <div class="section-title" :class="{ gradient: gradient }">
+  <div class="section-title">
     <h2 class="title" :is="link ? 'router-link' : 'h2'" :to="link">
       {{ title }}
       <ChevronRightIcon v-if="link !== undefined" />

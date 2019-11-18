@@ -9,7 +9,8 @@
       @focus="onSearchFieldFocused"
       @blur="onSearchFieldBlur"
       @keydown="onSearchFieldKeydown"
-      v-model="searchValue"
+      @input="onSearchFieldChange"
+      :value="localSearchValue"
     />
     <a
       :href="`/results?search_query=${this.searchValue}`"
@@ -20,7 +21,12 @@
       <SearchIcon />
     </a>
     <span class="search-line-bottom line"></span>
-    <SearchAutoComplete :searchValue="searchValue" />
+    <SearchAutoComplete
+      :searchValue="searchValue"
+      ref="autocomplete"
+      @searchValueUpdate="onAutocompleteUpdate"
+      @autocompleteEnter="onAutocompleteEnter"
+    />
   </div>
 </template>
 
@@ -40,6 +46,7 @@ export default {
   data: function () {
     return {
       searchFieldFocused: false,
+      localSearchValue: '',
       searchValue: ''
     }
   },
@@ -54,29 +61,58 @@ export default {
         this.searchValue = ''
       }
     },
+    onAutocompleteUpdate: function (value) {
+      this.searchValue = value
+    },
+    onSearchFieldChange: function (e) {
+      this.searchValue = e.target.value
+    },
     onSearchFieldFocused: function () {
+      this.$refs.autocomplete.visible = true
       this.searchFieldFocused = true
     },
     onSearchFieldBlur: function () {
+      this.$refs.autocomplete.visible = false
       this.searchFieldFocused = false
     },
+    onAutocompleteEnter: function () {
+      this.searchRedirect(this.searchValue)
+    },
     onSearchFieldKeydown: function (e) {
+      let autocomplete = this.$refs.autocomplete
       if (e.key === 'Enter' && this.searchValue !== '') {
-        this.$router.push(`/results?search_query=${this.searchValue}`)
+        this.searchValue = this.localSearchValue
+        this.searchRedirect(this.searchValue)
+      } else if (e.key === 'ArrowDown') {
+        if (autocomplete.selectedValue + 2 <= autocomplete.autocompleteValues.length) {
+          autocomplete.selectedValue += 1
+          this.localSearchValue = autocomplete.autocompleteValues[autocomplete.selectedValue]
+        }
+      } else if (e.key === 'ArrowUp') {
+        if (autocomplete.selectedValue - 1 >= 0) {
+          autocomplete.selectedValue -= 1
+          this.localSearchValue = autocomplete.autocompleteValues[autocomplete.selectedValue]
+        }
       }
       e.stopPropagation()
       return true
     },
     onSearchButton: function () {
-      let searchValue = this.$refs.searchField.value
-      if (searchValue !== '') {
-        this.$router.push(`/results?search_query=${searchValue}`)
+      if (this.searchValue) {
+        this.searchRedirect(this.searchValue)
       }
+    },
+    searchRedirect: function (searchValue) {
+      this.$router.push(`/results?search_query=${searchValue}`)
+      this.$refs.searchField.blur()
     }
   },
   watch: {
     '$route' (to, from) {
       this.updateSearchValueFromUrl()
+    },
+    searchValue: function (newValue) {
+      this.localSearchValue = newValue
     }
   }
 }

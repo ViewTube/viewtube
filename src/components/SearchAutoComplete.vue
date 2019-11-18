@@ -1,14 +1,22 @@
 <template>
-  <div class="search-autocomplete" v-if="searchValue">
+  <div class="search-autocomplete" v-if="visible && searchValue">
     <div
       class="search-autocomplete-entry"
+      :class="{ selected: selectedValue == key }"
       v-for="(value, key) in autocompleteValues"
       :key="key"
+      :value="value"
+      :number="key"
+      @mousedown.prevent="onAutocompleteMouseDown"
+      @keydown.stop="onKeyDown"
+      @mouseover.prevent="onMouseOver"
     >{{ value }}</div>
   </div>
 </template>
 
 <script>
+import Commons from '@/commons.js'
+
 export default {
   name: 'search-autocomplete',
   props: {
@@ -16,13 +24,24 @@ export default {
   },
   data: function () {
     return {
-      autocompleteValues: []
+      autocompleteValues: [],
+      visible: false,
+      selectedValue: 0
+    }
+  },
+  methods: {
+    onAutocompleteMouseDown: function (e) {
+      this.$emit('searchValueUpdate', e.target.getAttribute('value'))
+      this.$emit('autocompleteEnter')
+    },
+    onMouseOver: function (e) {
+      this.selectedValue = parseInt(e.target.getAttribute('number'))
     }
   },
   watch: {
     searchValue: function () {
       let me = this
-      fetch(`https://autocomplete.mcdn.ch/?q=${me.searchValue}&cl=youtube`, {
+      fetch(`${Commons.autocompleteUrl}?q=${me.searchValue}&cl=youtube`, {
         method: 'GET'
       })
         .then(response => response.json())
@@ -56,7 +75,6 @@ export default {
     text-decoration: none;
     font-family: $default-font;
 
-    &:hover,
     &.selected {
       background-color: $bgcolor-alt;
     }

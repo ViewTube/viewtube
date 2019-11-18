@@ -1,5 +1,6 @@
 export default {
   apiUrl: 'https://invidio.us/api/v1/',
+  autocompleteUrl: 'https://autocomplete.viewtube.eu/',
   description: 'An alternative YouTube frontend using the invidio.us API.',
   language: 'en-US',
 
