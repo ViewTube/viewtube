@@ -2,6 +2,7 @@
   <div class="search" @scroll="$emit('scroll', $event)">
     <vue-headful :title="`${searchQuery} - ViewTube`" />
     <Spinner class="centered" v-if="loading"></Spinner>
+    <GradientBackground :color="'blue'" />
     <div class="filter-options"></div>
     <div v-if="!loading" class="search-videos-container">
       <component
