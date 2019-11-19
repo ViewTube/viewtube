@@ -8,6 +8,7 @@
 
 <script>
 import Header from '@/components/Header.vue'
+import CaviarFont from '@/fonts/caviar-dreams.css'
 
 export default {
   name: 'app',
@@ -45,6 +46,14 @@ export default {
   scrollbar-color: #ff7b3b #1e1e1e;
   scrollbar-width: thin;
   touch-action: manipulation;
+
+  &::selection {
+    background: $theme-color;
+  }
+
+  &::-moz-selection {
+    background: $theme-color;
+  }
 
   &::-webkit-scrollbar {
     height: 6px;

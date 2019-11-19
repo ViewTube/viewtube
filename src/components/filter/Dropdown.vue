@@ -1,7 +1,16 @@
 <template>
   <div class="dropdown">
-    <div class="dropdown-btn"></div>
-    <div class="dropdown-list"></div>
+    <div class="dropdown-btn">
+      <p class="dropdown-title">{{ values[selected] }}</p>
+    </div>
+    <div class="dropdown-list">
+      <span
+        class="list-entry"
+        v-for="(item, id) in values"
+        :key="id"
+        @click="select"
+      >{{ item.value }}</span>
+    </div>
   </div>
 </template>
 
@@ -9,7 +18,12 @@
 export default {
   name: 'submit-button',
   props: {
-    values: []
+    values: Array
+  },
+  data: function () {
+    return {
+      selected: 0
+    }
   }
 }
 </script>

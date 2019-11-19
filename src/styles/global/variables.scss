@@ -11,7 +11,7 @@ $main-width: 1400px;
 $mobile-width: 700px;
 $watch-break-width: 380px;
 
-$header-font: "Righteous", "Open Sans", sans-serif;
+$header-font: serif, "Open Sans", sans-serif;
 $default-font: Roboto, Arial, sans-serif;
 
 $bgcolor-main: #121212;
@@ -27,9 +27,9 @@ $outro-easing: cubic-bezier(0.71, 0.21, 1, 0.46);
 $dynamic-easing: cubic-bezier(0.76, 0.09, 0.3, 0.89);
 $overshoot-easing: cubic-bezier(0.31, 0.65, 0.27, 4);
 
-$alt-easing: cubic-bezier(.08,.75,.31,.96);
+$alt-easing: cubic-bezier(0.08, 0.75, 0.31, 0.96);
 
-$error-color-green: #4CAF50;
+$error-color-green: #4caf50;
 $error-color-red: #d93025;
 
 $theme-color: #ff7b3b;
