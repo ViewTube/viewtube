@@ -8,7 +8,7 @@
 
 <script>
 import Header from '@/components/Header.vue'
-import CaviarFont from '@/fonts/caviar-dreams.css'
+import '@/fonts/forque.css'
 
 export default {
   name: 'app',
@@ -34,7 +34,7 @@ export default {
     })
   },
   methods: {
-    handleScroll(e) {
+    handleScroll (e) {
       this.scrolledTop = e.target.scrollTop > 5
     }
   }
