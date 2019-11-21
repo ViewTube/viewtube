@@ -8,7 +8,7 @@
 
 <script>
 import Header from '@/components/Header.vue'
-import '@/fonts/forque.css'
+import '@/fonts/expletus.css'
 
 export default {
   name: 'app',

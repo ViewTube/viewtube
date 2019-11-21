@@ -547,6 +547,7 @@ export default {
   position: relative;
   overflow: hidden;
   max-height: calc(100vh - 170px);
+  z-index: 12;
 
   &.fullscreen {
     .video-element-container {

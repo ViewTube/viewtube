@@ -7,7 +7,10 @@
       :image="(video.videoThumbnails !== undefined ? video.videoThumbnails[0].url : '#')"
       lang="en"
     />
-    <VideoPlayer v-if="!loading" :key="video.id" :video="video"></VideoPlayer>
+    <VideoPlayer v-if="!loading" :key="video.id" :video="video" class="video-player-p"></VideoPlayer>
+    <div class="gradient-dark-background-container">
+      <div class="gradient-dark-background"></div>
+    </div>
     <div class="video-infobox" v-if="!loading">
       <h1 class="video-infobox-title">{{ video.title }}</h1>
       <div class="video-infobox-stats">
@@ -239,6 +242,37 @@ export default {
 .watch {
   overflow-y: scroll;
   margin-top: $header-height;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  perspective: 4px;
+  perspective-origin: 0 0;
+  margin-top: $header-height;
+
+  .video-player-p {
+    transform-origin: 0 0;
+    transform: translateZ(-4px) scale(2);
+    z-index: 11;
+  }
+
+  .gradient-dark-background-container {
+    position: relative;
+    height: 1px;
+    width: 100%;
+    z-index: 400;
+    overflow: visible;
+    top: -40px;
+
+    transform-origin: 0 0;
+    transform: translateZ(1px) scale(1);
+
+    .gradient-dark-background {
+      position: relative;
+      height: 1000px;
+      width: 100%;
+      z-index: 400;
+      background: linear-gradient(to bottom, transparent 0%, $bgcolor-main 20%);
+    }
+  }
 
   .video-infobox {
     width: 100%;
@@ -250,6 +284,8 @@ export default {
     box-sizing: border-box;
     opacity: 1;
     transition: opacity 300ms $intro-easing;
+    z-index: 400;
+    position: relative;
 
     .video-infobox-title {
       color: $title-color;

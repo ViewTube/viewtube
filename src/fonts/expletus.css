@@ -1,0 +1,12 @@
+@font-face {
+  font-family: "expletus-bold";
+  src: url("ExpletusSans-Bold.eot");
+  src: url("ExpletusSans-Bold.eot?#iefix") format("embedded-opentype"),
+    url("ExpletusSans-Bold.otf") format("opentype"),
+    url("ExpletusSans-Bold.svg") format("svg"),
+    url("ExpletusSans-Bold.ttf") format("truetype"),
+    url("ExpletusSans-Bold.woff") format("woff"),
+    url("ExpletusSans-Bold.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
