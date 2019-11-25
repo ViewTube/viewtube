@@ -120,7 +120,7 @@ export default {
   },
   beforeRouteEnter: function (to, from, next) {
     let videoId = to.query.v
-    fetch(`${Commons.apiUrl}videos/${videoId}`, {
+    fetch(`${Commons.getApiUrl()}videos/${videoId}`, {
       cache: 'force-cache',
       method: 'GET'
     })
@@ -136,7 +136,7 @@ export default {
   beforeRouteUpdate: function (to, from, next) {
     this.$Progress.start()
     let videoId = to.query.v
-    fetch(`${Commons.apiUrl}videos/${videoId}`, {
+    fetch(`${Commons.getApiUrl()}videos/${videoId}`, {
       cache: 'force-cache',
       method: 'GET'
     })
@@ -161,7 +161,7 @@ export default {
     },
     loadComments: async function () {
       let videoId = this.$route.query.v
-      fetch(`${Commons.apiUrl}comments/${videoId}`, {
+      fetch(`${Commons.getApiUrl()}comments/${videoId}`, {
         cache: 'force-cache',
         method: 'GET'
       })
@@ -178,7 +178,7 @@ export default {
     loadMoreComments: function () {
       this.commentsContinuationLoading = true
       let videoId = this.$route.query.v
-      fetch(`${Commons.apiUrl}comments/${videoId}?continuation=${this.commentsContinuationLink}`, {
+      fetch(`${Commons.getApiUrl()}comments/${videoId}?continuation=${this.commentsContinuationLink}`, {
         cache: 'force-cache',
         method: 'GET'
       })

@@ -1,5 +1,5 @@
 export default {
-  currentInstance: 'https://invidiou.sh',
+  currentInstance: 'https://invidio.us',
   instances: [
     'https://invidio.us',
     'https://invidious.snopyta.org',

@@ -1,8 +1,13 @@
+import InstanceStore from '@/store/instances'
+
 export default {
-  apiUrl: 'https://invidious.snopyta.org/api/v1/',
   autocompleteUrl: 'https://autocomplete.viewtube.eu/',
   description: 'An alternative YouTube frontend using the invidio.us API.',
   language: 'en-US',
+
+  getApiUrl: function () {
+    return `${InstanceStore.currentInstance}/api/v1/`
+  },
 
   cleanRedirectUrl: function (string) {
     let urlParams = new URLSearchParams(string.split('?')[1])
@@ -35,7 +40,7 @@ export default {
       return `${timestampMinutes}:${timestampSeconds}`
     }
 
-    function toDoubleDigit (i) {
+    function toDoubleDigit(i) {
       if (i < 10) {
         i = '0' + i
       }

@@ -28,6 +28,11 @@ export default {
   directives: {
     clickaway: onClickaway
   },
+  mounted() {
+    let me = this
+    debugger
+    this.selected = this.entries.findIndex(e => e.value === me.value)
+  },
   computed: {
     entries() {
       if (this.values[0].value && this.values[0].name) {

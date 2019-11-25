@@ -90,7 +90,7 @@ export default {
     }
   },
   beforeRouteEnter: function (to, from, next) {
-    fetch(`${Commons.apiUrl}popular`, {
+    fetch(`${Commons.getApiUrl()}popular`, {
       cache: 'force-cache',
       method: 'GET'
     })
@@ -105,7 +105,7 @@ export default {
   },
   beforeRouteUpdate: function (to, from, next) {
     this.$Progress.start()
-    fetch(`${Commons.apiUrl}popular`, {
+    fetch(`${Commons.getApiUrl()}popular`, {
       cache: 'force-cache',
       method: 'GET'
     })

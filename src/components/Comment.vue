@@ -98,7 +98,7 @@ export default {
       this.loadingReplies = true
       let repliesId = this.comment.replies.continuation
       let videoId = this.$route.query.v
-      fetch(`${Commons.apiUrl}comments/${videoId}?continuation=${repliesId}`, {
+      fetch(`${Commons.getApiUrl()}comments/${videoId}?continuation=${repliesId}`, {
         cache: 'force-cache',
         method: 'GET'
       })
@@ -116,7 +116,7 @@ export default {
     loadMoreReplies: function () {
       this.repliesContinuationLoading = true
       let videoId = this.$route.query.v
-      fetch(`${Commons.apiUrl}comments/${videoId}?continuation=${this.repliesContinuationLink}`, {
+      fetch(`${Commons.getApiUrl()}comments/${videoId}?continuation=${this.repliesContinuationLink}`, {
         cache: 'force-cache',
         method: 'GET'
       })

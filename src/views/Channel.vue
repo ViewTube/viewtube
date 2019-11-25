@@ -113,7 +113,7 @@ export default {
     }
   },
   beforeRouteEnter: function (to, from, next) {
-    fetch(`${Commons.apiUrl}channels/${to.params.id}`, {
+    fetch(`${Commons.getApiUrl()}channels/${to.params.id}`, {
       cache: 'force-cache',
       method: 'GET'
     })
@@ -129,7 +129,7 @@ export default {
   beforeRouteUpdate: function (to, from, next) {
     this.$Progress.start()
     let me = this
-    fetch(`${Commons.apiUrl}channels/${to.params.id}`, {
+    fetch(`${Commons.getApiUrl()}channels/${to.params.id}`, {
       cache: 'force-cache',
       method: 'GET'
     })

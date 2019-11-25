@@ -76,7 +76,7 @@ export default {
   beforeRouteEnter: function (to, from, next) {
     let searchQuery = to.query.search_query
     if (searchQuery.length > 0) {
-      fetch(`${Commons.apiUrl}search?q=${searchQuery}&page=1&type=all`, {
+      fetch(`${Commons.getApiUrl()}search?q=${searchQuery}&page=1&type=all`, {
         cache: 'force-cache',
         method: 'GET'
       })
@@ -96,7 +96,7 @@ export default {
     this.$Progress.start()
     let searchQuery = to.query.search_query
     if (searchQuery.length > 0) {
-      fetch(`${Commons.apiUrl}search?q=${searchQuery}&page=1&type=all`, {
+      fetch(`${Commons.getApiUrl()}search?q=${searchQuery}&page=1&type=all`, {
         cache: 'force-cache',
         method: 'GET'
       })

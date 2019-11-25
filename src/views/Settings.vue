@@ -4,7 +4,7 @@
       <vue-headful title="Settings - ViewTube" />
       <h1>Settings</h1>
       <h2>Invidio.us instance</h2>
-      <Dropdown :values="instances" @valuechange="onInstanceChange" />
+      <Dropdown :values="instances" :value="currentInstance" @valuechange="onInstanceChange" />
     </div>
   </div>
 </template>
@@ -20,16 +20,19 @@ export default {
   },
   data() {
     return {
-      instances: InstanceStore.instances
+      instances: InstanceStore.instances,
+      currentInstance: InstanceStore.currentInstance
     }
   },
   methods: {
     onInstanceChange(element, index) {
       InstanceStore.setInstance(element.value)
+      console.log(InstanceStore.currentInstance)
     }
   },
   mounted() {
     this.$Progress.finish()
+    console.log(InstanceStore.currentInstance)
   }
 }
 </script>
