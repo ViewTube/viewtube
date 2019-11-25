@@ -1,15 +1,16 @@
 <template>
   <div class="dropdown">
-    <div class="dropdown-btn">
-      <p class="dropdown-title">{{ values[selected] }}</p>
+    <div class="dropdown-btn" @click.prevent="onDropdownBtnClick">
+      <p class="dropdown-title">{{ entries[selected].name }}</p>
     </div>
-    <div class="dropdown-list">
+    <div class="dropdown-list" :class="{ open: open }">
       <span
         class="list-entry"
-        v-for="(item, id) in values"
+        v-for="(item, id) in entries"
         :key="id"
+        :value="item.value"
         @click="select"
-      >{{ item.value }}</span>
+      >{{ item.name }}</span>
     </div>
   </div>
 </template>
@@ -18,35 +19,66 @@
 export default {
   name: 'submit-button',
   props: {
-    values: Array
+    values: Array,
+    value: String
+  },
+  computed: {
+    entries () {
+      if (this.values[0].value && this.values[0].name) {
+        return this.values
+      } else {
+        return this.values.map((value, index) => {
+          return { name: value, value: value }
+        })
+      }
+    }
   },
   data: function () {
     return {
-      selected: 0
+      selected: 0,
+      open: false
+    }
+  },
+  methods: {
+    select (e) {
+      this.selected = e.target.getAttribute('key')
+    },
+    onDropdownBtnClick (e) {
+      this.open = !this.open
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.submit-button {
-  font-size: 1rem;
-  border-style: none;
-  width: calc(100% - 40px);
-  text-align: center;
-  cursor: pointer;
-  user-select: none;
-  margin: 20px 20px;
-  background: $theme-color-primary-gradient;
-  padding: 8px 0;
-  border-radius: 5px;
-  box-sizing: border-box;
-  color: $title-color;
-  box-shadow: $low-shadow;
-  transition: box-shadow 300ms $intro-easing;
+.dropdown {
+  height: 50px;
+  width: auto;
+  display: flex;
+  position: relative;
 
-  &:hover {
-    box-shadow: $max-shadow;
+  .dropdown-btn {
+    cursor: pointer;
+
+    .dropdown-title {
+    }
+  }
+
+  .dropdown-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    transform: scale(0);
+    transition: transform 300ms $intro-easing;
+    transform-origin: top;
+    background-color: $
+
+    .list-entry {
+    }
+
+    &.open {
+      transform: scale(1);
+    }
   }
 }
 </style>

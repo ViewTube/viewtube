@@ -3,7 +3,7 @@
     <vue-headful :title="`${searchQuery} - ViewTube`" />
     <Spinner class="centered" v-if="loading"></Spinner>
     <GradientBackground :color="'blue'" />
-    <div class="filter-options"></div>
+    <Dropdown :values="parameters.sort_by" />
     <div v-if="!loading" class="search-videos-container">
       <component
         v-for="result in results"
@@ -41,7 +41,19 @@ export default {
     return {
       results: [],
       loading: true,
-      searchQuery: 'loading'
+      searchQuery: 'loading',
+      parameters: {
+        sort_by: [
+          { name: 'Relevance', value: 'relevance' },
+          { name: 'Rating', value: 'rating' },
+          { name: 'Upload date', value: 'upload_date' },
+          { name: 'View count', value: 'view_count' }
+        ],
+        date: ['hour', 'today', 'week', 'month', 'year'],
+        duration: ['short', 'long'],
+        type: ['video', 'playlist', 'channel', 'all'],
+        features: ['hd', 'subtitles', 'creative_commons', '3d', 'live', 'purchased', '4k', '360', 'location', 'hdr']
+      }
     }
   },
   methods: {
