@@ -260,7 +260,7 @@ export default {
     width: 100%;
     z-index: 400;
     overflow: visible;
-    top: -40px;
+    top: -60px;
 
     transform-origin: 0 0;
     transform: translateZ(1px) scale(1);
@@ -270,7 +270,7 @@ export default {
       height: 1000px;
       width: 100%;
       z-index: 400;
-      background: linear-gradient(to bottom, transparent 0%, $bgcolor-main 20%);
+      background: linear-gradient(to bottom, transparent 0%, $bgcolor-main 12%);
     }
   }
 
