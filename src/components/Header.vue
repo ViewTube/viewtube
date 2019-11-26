@@ -114,7 +114,9 @@
         </div>
       </transition>
     </div>
-    <Settings v-if="settingsOpen" />
+    <transition name="fade-down">
+      <Settings v-if="settingsOpen" @close="closeSettings" />
+    </transition>
   </div>
 </template>
 
@@ -200,7 +202,7 @@ export default {
       this.hideAccountMenu()
     }
   },
-  mounted() {
+  mounted () {
     this.disableDrag()
 
     tippy('.tooltip', {
@@ -212,10 +214,10 @@ export default {
     })
   },
   computed: {
-    currentRouteName() {
+    currentRouteName () {
       return this.$route.name
     },
-    userAuthenticated() {
+    userAuthenticated () {
       return Boolean(this.loginState.username)
     }
   }
@@ -237,6 +239,21 @@ export default {
 .circle-leave-to {
   clip-path: circle(0 at 95% 0%);
   transform: translateY(-20px);
+}
+
+.fade-down-enter-active,
+.fade-down-leave-active {
+  transition: transform 200ms $intro-easing, opacity 200ms $intro-easing;
+}
+.fade-down-enter-to,
+.fade-down-leave {
+  transform: scale(1);
+  opacity: 1;
+}
+.fade-down-enter,
+.fade-down-leave-to {
+  transform: scale(1.1);
+  opacity: 0;
 }
 
 .header {
@@ -285,6 +302,7 @@ export default {
     display: flex;
     flex-direction: row-reverse;
     align-items: center;
+    z-index: 800;
     // filter: drop-shadow(0 2px 6px $header-bgcolor);
 
     .logo {
@@ -350,6 +368,7 @@ export default {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    z-index: 800;
 
     .menu {
       position: fixed;

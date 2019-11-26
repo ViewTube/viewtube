@@ -131,6 +131,7 @@ export default {
   border-radius: 3px;
   background-color: #0000006e;
   transition: background-color 300ms $intro-easing;
+  z-index: 800;
 
   &.scrolled {
     background-color: $bgcolor-alt-light;

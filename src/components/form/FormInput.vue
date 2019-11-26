@@ -51,7 +51,6 @@ export default {
       return this.value && this.value.length > 0
     },
     autocompleteTag () {
-      console.log(Object.keys(this.autocompleteTags))
       let tagId = Object.keys(this.autocompleteTags).find(type => type === this.type)
       let tag = tagId !== undefined ? tagId : 'all'
 

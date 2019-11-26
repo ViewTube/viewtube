@@ -4,7 +4,6 @@ export default {
       if (binding.value(evt, el)) {
         document.body.removeEventListener('click', click)
       }
-      console.log('asd')
     }
     document.body.addEventListener('click', click, true)
   }

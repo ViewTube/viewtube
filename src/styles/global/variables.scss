@@ -18,6 +18,8 @@ $bgcolor-main: #121212;
 $bgcolor-alt: #1a1a1a;
 $bgcolor-alt-light: #484848;
 
+$bgcolor-translucent: #0000007c;
+
 $max-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
 $medium-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 $low-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
@@ -25,7 +27,7 @@ $low-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 $intro-easing: cubic-bezier(0.31, 0.65, 0.26, 0.97);
 $outro-easing: cubic-bezier(0.71, 0.21, 1, 0.46);
 $dynamic-easing: cubic-bezier(0.76, 0.09, 0.3, 0.89);
-$overshoot-easing: cubic-bezier(0.31, 0.65, 0.27, 4);
+$overshoot-easing: cubic-bezier(0.31, 0.56, 0.28, 1.5);
 
 $alt-easing: cubic-bezier(0.08, 0.75, 0.31, 0.96);
 

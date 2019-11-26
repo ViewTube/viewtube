@@ -1,48 +1,58 @@
 <template>
-  <div class="settings" @scroll="$emit('scroll', $event)">
+  <div class="settings">
     <div class="settings-container">
-      <vue-headful title="Settings - ViewTube" />
+      <CloseIcon class="close-icon" @click.stop="$emit('close')" />
       <h1>Settings</h1>
       <h2>Invidio.us instance</h2>
       <Dropdown :values="instances" :value="currentInstance" @valuechange="onInstanceChange" />
     </div>
+    <div class="settings-overlay" @click.stop="$emit('close')"></div>
   </div>
 </template>
 
 <script>
 import Dropdown from '@/components/filter/Dropdown'
 import InstanceStore from '@/store/instances'
+import CloseIcon from 'vue-material-design-icons/Close'
 
 export default {
   name: 'settings',
   components: {
-    Dropdown
+    Dropdown,
+    CloseIcon
   },
-  data() {
+  data () {
     return {
       instances: InstanceStore.instances,
       currentInstance: InstanceStore.currentInstance
     }
   },
   methods: {
-    onInstanceChange(element, index) {
+    onInstanceChange (element, index) {
       InstanceStore.setInstance(element.value)
-      console.log(InstanceStore.currentInstance)
     }
   },
-  mounted() {
+  mounted () {
     this.$Progress.finish()
-    console.log(InstanceStore.currentInstance)
   }
 }
 </script>
 
 <style lang="scss">
+.settings-overlay {
+  position: fixed;
+  background-color: $bgcolor-translucent;
+  width: 100%;
+  height: 100%;
+  z-index: 8;
+}
+
 .settings {
-  margin-top: $header-height;
   width: 100%;
   height: 100%;
   display: flex;
+  z-index: 8;
+  position: fixed;
 
   .settings-container {
     width: 100%;
@@ -55,10 +65,26 @@ export default {
     border-radius: 3px;
     display: flex;
     flex-direction: column;
-    align-items: start;
+    align-items: flex-start;
     justify-content: flex-start;
     position: relative;
     padding: 20px;
+
+    .close-icon {
+      position: absolute;
+      right: 0;
+      top: 0;
+      margin: 20px 20px 0 0;
+      height: 38px;
+      width: 38px;
+      cursor: pointer;
+
+      .material-design-icon__svg {
+        height: 38px !important;
+        width: 38px !important;
+        position: unset !important;
+      }
+    }
 
     h1 {
       margin: 0 auto;
@@ -69,6 +95,12 @@ export default {
 
     @media screen and (max-width: $mobile-width) {
       height: 100%;
+      max-width: 100%;
+      padding-top: $header-height;
+
+      .close-icon {
+        margin: 60px 20px 0 0;
+      }
     }
   }
 }
