@@ -1,6 +1,6 @@
 <template>
-  <div class="dropdown" @clickaway="hideDropdown">
-    <div class="dropdown-btn" @click.prevent="onDropdownBtnClick">
+  <div class="dropdown" v-clickaway="hideDropdown">
+    <div class="dropdown-btn" @click.stop="onDropdownBtnClick">
       <p class="dropdown-title">{{ entries[selected].name }}</p>
     </div>
     <div class="dropdown-list" :class="{ open: open }">
@@ -11,26 +11,21 @@
         :index="id"
         :value="item.value"
         @click="select"
+        :class="{ selected: selected == id }"
       >{{ item.name }}</span>
     </div>
   </div>
 </template>
 
 <script>
-import { directive as onClickaway } from 'vue-clickaway'
-
 export default {
   name: 'dropdown',
   props: {
     values: Array,
     value: String
   },
-  directives: {
-    clickaway: onClickaway
-  },
   mounted() {
     let me = this
-    debugger
     this.selected = this.entries.findIndex(e => e.value === me.value)
   },
   computed: {
@@ -99,30 +94,36 @@ export default {
     position: absolute;
     top: 100%;
     left: 0;
-    transform-origin: top;
+    transform-origin: top left;
     background-color: $bgcolor-alt;
     display: flex;
     flex-direction: column;
-    box-shadow: $max-shadow;
     border-radius: 5px;
-    transition: transform 300ms $intro-easing, clip-path 300ms $intro-easing;
+    transition-property: transform, clip-path, box-shadow;
+    transition-duration: 300ms;
+    transition-timing-function: $intro-easing;
     overflow: hidden;
     padding: 5px 0;
 
-    transform: scale(0.8);
+    transform: scale(1.2);
     clip-path: polygon(0% 0%, 60% 0%, 60% 0%, 0% 0%);
 
     &.open {
-      clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+      clip-path: polygon(-50% -50%, 150% -50%, 150% 150%, -50% 150%);
       transform: scale(1);
+      box-shadow: $max-shadow;
     }
 
     .list-entry {
       padding: 6px 10px 6px 10px;
       cursor: pointer;
+      white-space: nowrap;
 
       &:hover {
         background-color: $bgcolor-alt-light;
+      }
+      &.selected {
+        color: $theme-color;
       }
     }
   }

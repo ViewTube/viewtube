@@ -7,7 +7,7 @@ export default {
     errorMessage: null,
     username: null
   },
-  register (args) {
+  register(args) {
     this.state.errorMessage = null
     let me = this
     if (!this.isAuthenticated()) {
@@ -29,7 +29,7 @@ export default {
       args.failure()
     }
   },
-  login (args) {
+  login(args) {
     this.state.errorMessage = null
     let me = this
     if (!this.isAuthenticated()) {
@@ -44,7 +44,6 @@ export default {
           let me = this
           if (error.message !== undefined) {
             me.state.errorMessage = error.message
-            debugger
           } else {
             error.then((e) => {
               me.state.errorMessage = e.message
@@ -57,10 +56,10 @@ export default {
       args.failure()
     }
   },
-  isAuthenticated () {
+  isAuthenticated() {
     return Boolean(this.state.username)
   },
-  async logout () {
+  async logout() {
     // this.state.errorMessage = null
     // if (this.isAuthenticated()) {
     //   await kuzzle.connect()
@@ -78,7 +77,7 @@ export default {
     //   }
     // }
   },
-  getCurrentUser (args) {
+  getCurrentUser(args) {
     this.state.errorMessage = null
     let me = this
     if (VueCookie.get('jwt')) {

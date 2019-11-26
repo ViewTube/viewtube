@@ -97,7 +97,6 @@ export default {
   beforeRouteEnter (to, from, next) {
     next(vm => {
       if (from.name) {
-        debugger
         vm.redirectedPage = from
       } else {
         vm.redirectedPage = {
@@ -118,6 +117,7 @@ export default {
   background-repeat: no-repeat;
   position: relative;
   background-color: $bgcolor-alt;
+  padding-top: $header-height;
 
   @media screen and (min-width: $mobile-width) {
     background-image: url("/img/blur-bg-medium-dark.jpg");

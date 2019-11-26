@@ -40,13 +40,36 @@ export default {
 <style lang="scss">
 .settings {
   margin-top: $header-height;
+  width: 100%;
+  height: 100%;
   display: flex;
 
   .settings-container {
     width: 100%;
-    max-width: $main-width;
-    margin: 0 auto;
     z-index: 10;
+    margin: auto;
+    width: 100%;
+    max-width: 500px;
+    background-color: $bgcolor-alt;
+    box-shadow: $medium-shadow;
+    border-radius: 3px;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: flex-start;
+    position: relative;
+    padding: 20px;
+
+    h1 {
+      margin: 0 auto;
+      font-size: 2rem;
+      color: $theme-color;
+      font-family: $default-font;
+    }
+
+    @media screen and (max-width: $mobile-width) {
+      height: 100%;
+    }
   }
 }
 </style>

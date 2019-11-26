@@ -46,7 +46,7 @@
         <AccountIcon />
       </a>
       <transition name="circle">
-        <div class="menu" v-if="accountMenuVisible" v-on-clickaway="hideAccountMenu">
+        <div class="menu" v-if="accountMenuVisible" v-clickaway="hideAccountMenu">
           <a
             href="#"
             v-if="!userAuthenticated"
@@ -114,6 +114,7 @@
         </div>
       </transition>
     </div>
+    <Settings v-if="settingsOpen" />
   </div>
 </template>
 
@@ -125,8 +126,8 @@ import AccountIcon from 'icons/AccountCircle'
 import AccountPlusIcon from 'vue-material-design-icons/AccountPlus'
 import YoutubeIcon from 'icons/Youtube'
 import tippy from 'tippy.js'
-import { mixin as clickaway } from 'vue-clickaway'
 import UserStore from '@/store/user.js'
+import Settings from '@/components/Settings'
 
 export default {
   name: 'Header',
@@ -136,18 +137,17 @@ export default {
     AccountIcon,
     YoutubeIcon,
     AccountPlusIcon,
-    MainSearchBox
+    MainSearchBox,
+    Settings
   },
-  mixins: [
-    clickaway
-  ],
   props: {
     scrollTop: Boolean
   },
   data: function () {
     return {
       accountMenuVisible: false,
-      loginState: UserStore.state
+      loginState: UserStore.state,
+      settingsOpen: false
     }
   },
   methods: {
@@ -177,8 +177,11 @@ export default {
       this.hideAccountMenu()
     },
     openSettings: function () {
-      this.$router.push('/settings')
       this.hideAccountMenu()
+      this.settingsOpen = true
+    },
+    closeSettings: function () {
+      this.settingsOpen = false
     },
     openSubscriptions: function () {
       this.$router.push('/subscriptions')
@@ -197,7 +200,7 @@ export default {
       this.hideAccountMenu()
     }
   },
-  mounted () {
+  mounted() {
     this.disableDrag()
 
     tippy('.tooltip', {
@@ -209,10 +212,10 @@ export default {
     })
   },
   computed: {
-    currentRouteName () {
+    currentRouteName() {
       return this.$route.name
     },
-    userAuthenticated () {
+    userAuthenticated() {
       return Boolean(this.loginState.username)
     }
   }

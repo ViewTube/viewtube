@@ -79,6 +79,7 @@ export default {
   background-size: cover;
   background-repeat: no-repeat;
   background-color: $bgcolor-alt;
+  padding-top: $header-height;
 
   @media screen and (min-width: $mobile-width) {
     background-image: url("/img/blur-bg-medium-dark.jpg");

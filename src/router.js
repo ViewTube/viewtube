@@ -19,11 +19,6 @@ export default new Router({
     ]
   },
   {
-    path: '/settings',
-    name: 'settings',
-    component: () => import('./views/Settings.vue')
-  },
-  {
     path: '/watch',
     name: 'watch',
     component: () => import('./views/Watch.vue')

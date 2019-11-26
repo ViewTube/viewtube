@@ -6,7 +6,7 @@
     <div class="error-popup">
       <div class="error-message">
         <h2>{{ possibleSearch }} not found</h2>
-        <router-link :to="`/results?search_query=${possibleSearch}`">Search for {{ possibleSearch }}</router-link>
+        <router-link class="rippe" :to="`/results?search_query=${possibleSearch}`">Search for {{ possibleSearch }}</router-link>
       </div>
     </div>
   </div>
