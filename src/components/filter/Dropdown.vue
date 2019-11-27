@@ -26,7 +26,8 @@ export default {
   },
   mounted() {
     let me = this
-    this.selected = this.entries.findIndex(e => e.value === me.value)
+    let selectedEntry = this.entries.findIndex(e => e.value === me.value)
+    this.selected = selectedEntry !== -1 ? selectedEntry : 0
   },
   computed: {
     entries() {
