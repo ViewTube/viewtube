@@ -94,7 +94,7 @@ export default {
     position: absolute;
     top: 100%;
     left: 0;
-    transform-origin: top left;
+    transform-origin: top;
     background-color: $bgcolor-alt;
     display: flex;
     flex-direction: column;
@@ -105,7 +105,7 @@ export default {
     overflow: hidden;
     padding: 5px 0;
 
-    transform: scale(1.2);
+    transform: scale(0.8);
     clip-path: polygon(0% 0%, 60% 0%, 60% 0%, 0% 0%);
 
     &.open {
@@ -115,7 +115,7 @@ export default {
     }
 
     .list-entry {
-      padding: 6px 10px 6px 10px;
+      padding: 8px 10px 8px 10px;
       cursor: pointer;
       white-space: nowrap;
 
