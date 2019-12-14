@@ -8,9 +8,6 @@
       lang="en"
     />
     <VideoPlayer v-if="!loading" :key="video.id" :video="video" class="video-player-p"></VideoPlayer>
-    <div class="gradient-dark-background-container">
-      <div class="gradient-dark-background"></div>
-    </div>
     <div class="video-infobox" v-if="!loading">
       <h1 class="video-infobox-title">{{ video.title }}</h1>
       <div class="video-infobox-stats">
@@ -230,26 +227,6 @@ export default {
     z-index: 11;
   }
 
-  .gradient-dark-background-container {
-    position: relative;
-    height: 1px;
-    width: 100%;
-    z-index: 400;
-    overflow: visible;
-    top: -60px;
-
-    transform-origin: 0 0;
-    transform: translateZ(1px) scale(1);
-
-    .gradient-dark-background {
-      position: relative;
-      height: 1000px;
-      width: 100%;
-      z-index: 400;
-      background: linear-gradient(to bottom, transparent 0%, $bgcolor-main 12%);
-    }
-  }
-
   .video-infobox {
     width: 100%;
     max-width: $main-width;
@@ -262,6 +239,7 @@ export default {
     transition: opacity 300ms $intro-easing;
     z-index: 400;
     position: relative;
+    background-color: $bgcolor-main;
 
     .video-infobox-title {
       color: $title-color;

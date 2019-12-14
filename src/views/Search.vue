@@ -3,7 +3,14 @@
     <vue-headful :title="`${searchQuery} - ViewTube`" />
     <Spinner class="centered" v-if="loading"></Spinner>
     <GradientBackground :color="'blue'" />
-    <Dropdown :values="parameters.sort_by" />
+    <div class="filters">
+      <Dropdown
+        :values="parameters.defaults.sort_by"
+        :value="parameters.sort_by"
+        class="dropdown-btn"
+        @valuechange="onSearchSortChange"
+      />
+    </div>
     <div v-if="!loading" class="search-videos-container">
       <component
         v-for="result in results"
@@ -26,6 +33,8 @@ import ChannelEntry from '@/components/list/ChannelEntry'
 import Spinner from '@/components/Spinner'
 import BottomNavigation from '@/components/BottomNavigation'
 import GradientBackground from '@/components/GradientBackground.vue'
+import Dropdown from '@/components/filter/Dropdown'
+import SearchParams from '@/services/searchParams'
 
 export default {
   name: 'search',
@@ -35,35 +44,25 @@ export default {
     PlaylistEntry,
     ChannelEntry,
     BottomNavigation,
-    GradientBackground
+    GradientBackground,
+    Dropdown
   },
   data: function () {
     return {
       results: [],
       loading: true,
       searchQuery: 'loading',
-      parameters: {
-        sort_by: [
-          { name: 'Relevance', value: 'relevance' },
-          { name: 'Rating', value: 'rating' },
-          { name: 'Upload date', value: 'upload_date' },
-          { name: 'View count', value: 'view_count' }
-        ],
-        date: ['hour', 'today', 'week', 'month', 'year'],
-        duration: ['short', 'long'],
-        type: ['video', 'playlist', 'channel', 'all'],
-        features: ['hd', 'subtitles', 'creative_commons', '3d', 'live', 'purchased', '4k', '360', 'location', 'hdr']
-      }
+      parameters: SearchParams
     }
   },
   methods: {
-    loadData: function (data) {
+    loadData(data) {
       this.searchQuery = this.$route.query.search_query
       this.results = data
       this.loading = false
       this.$Progress.finish()
     },
-    getListEntryType: function (type) {
+    getListEntryType(type) {
       if (type === 'video') {
         return 'VideoEntry'
       } else if (type === 'playlist') {
@@ -71,12 +70,18 @@ export default {
       } else if (type === 'channel') {
         return 'ChannelEntry'
       }
+    },
+    onSearchSortChange(element, index) {
+      SearchParams.sort_by = element.value
+      let searchParams = SearchParams.getParamsString()
+      this.$router.push(`/results?search_query=${this.searchQuery}${searchParams}`)
     }
   },
-  beforeRouteEnter: function (to, from, next) {
+  beforeRouteEnter(to, from, next) {
     let searchQuery = to.query.search_query
+    let searchParams = SearchParams.parseQuery(to.query)
     if (searchQuery.length > 0) {
-      fetch(`${Commons.getApiUrl()}search?q=${searchQuery}&page=1&type=all`, {
+      fetch(`${Commons.getApiUrl()}search?q=${searchQuery}&page=1&type=all${searchParams}`, {
         cache: 'force-cache',
         method: 'GET'
       })
@@ -92,11 +97,12 @@ export default {
       next('/')
     }
   },
-  beforeRouteUpdate: function (to, from, next) {
+  beforeRouteUpdate(to, from, next) {
     this.$Progress.start()
     let searchQuery = to.query.search_query
+    let searchParams = SearchParams.parseQuery(to.query)
     if (searchQuery.length > 0) {
-      fetch(`${Commons.getApiUrl()}search?q=${searchQuery}&page=1&type=all`, {
+      fetch(`${Commons.getApiUrl()}search?q=${searchQuery}&page=1&type=all${searchParams}`, {
         cache: 'force-cache',
         method: 'GET'
       })
@@ -114,7 +120,7 @@ export default {
       next('/')
     }
   },
-  beforeRouteLeave (to, from, next) {
+  beforeRouteLeave(to, from, next) {
     next()
   }
 }
@@ -126,6 +132,16 @@ export default {
   overflow-x: hidden;
   perspective: 4px;
   perspective-origin: 0 0;
+
+  .filters {
+    width: 100%;
+    max-width: $main-width;
+    padding: 10px;
+
+    .dropdown-btn {
+      z-index: 20;
+    }
+  }
 
   .search-videos-container {
     width: 100%;
