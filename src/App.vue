@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <Header :scrollTop="scrolledTop" />
-    <vue-progress-bar class="progress-bar"></vue-progress-bar>
+    <Header :scrollTop="scrolledTop" v-if="!headless" />
+    <vue-progress-bar :class="{ 'progress-bar-margin': !headless }"></vue-progress-bar>
     <router-view class="content" ref="content" @scroll="handleScroll" />
   </div>
 </template>
@@ -20,6 +20,11 @@ export default {
       scrolledTop: false
     }
   },
+  computed: {
+    headless() {
+      return this.$route.meta.headless
+    }
+  },
   created: function () {
     this.$Progress.start()
 
@@ -34,7 +39,7 @@ export default {
     })
   },
   methods: {
-    handleScroll (e) {
+    handleScroll(e) {
       this.scrolledTop = e.target.scrollTop > 5
     }
   }
@@ -100,7 +105,7 @@ body {
     height: 100%;
     width: 100%;
 
-    .progress-bar {
+    .progress-bar-margin {
       top: $header-height !important;
     }
 

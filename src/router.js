@@ -19,6 +19,14 @@ export default new Router({
     ]
   },
   {
+    path: '/embed/:id',
+    name: 'embed',
+    component: () => import('./views/Embed.vue'),
+    meta: {
+      headless: true
+    }
+  },
+  {
     path: '/watch',
     name: 'watch',
     component: () => import('./views/Watch.vue')
@@ -66,7 +74,7 @@ export default new Router({
     name: 'errorPage',
     component: () => import('./views/ErrorPage.vue')
   }],
-  scrollBehavior (to, from, savedPosition) {
+  scrollBehavior(to, from, savedPosition) {
     if (to.hash) {
       return {
         selector: to.hash

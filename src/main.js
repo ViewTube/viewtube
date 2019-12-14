@@ -12,6 +12,7 @@ import VueCookie from 'vue-cookie'
 import VueLazyload from 'vue-lazyload'
 import ScrollDirective from './directives/scrollDirective'
 import ClickawayDirective from './directives/clickawayDirective'
+import CleanlinksDirective from './directives/cleanlinksDirective'
 import InstanceStore from '@/store/instances'
 
 const progressOptions = {
@@ -27,6 +28,7 @@ const progressOptions = {
 
 Vue.directive('scroll', ScrollDirective)
 Vue.directive('clickaway', ClickawayDirective)
+Vue.directive('clean-links', CleanlinksDirective)
 
 Vue.use(VueProgressBar, progressOptions)
 Vue.use(FormattingFunctions)

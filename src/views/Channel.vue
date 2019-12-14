@@ -6,72 +6,8 @@
       :image="(channel.authorThumbnails !== undefined ? channel.authorThumbnails[0].url : '#')"
       lang="en"
     />
-    <div class="channel-banner" v-if="!loading" ref="parallaxParent">
-      <img
-        class="channel-banner-image"
-        :src="`${channel.authorBanners[0].url}`"
-        ref="parallaxImage"
-      />
-    </div>
-    <div class="channel-information" v-if="!loading" ref="channelInformation">
-      <div class="channel-title-container" ref="channelTitle">
-        <div class="channel-title">
-          <div class="channel-thumbnail">
-            <img :src="channel.authorThumbnails[0].url" alt="Author Image" />
-          </div>
-          <div class="channel-info">
-            <div class="channel-name">
-              <h1>{{ channel.author }}</h1>
-            </div>
-            <div class="channel-basics">
-              <div class="channel-subcount">
-                <h2>{{ channel.subCount.toLocaleString() }} subscribers</h2>
-              </div>
-              <div class="channel-totalviews">
-                <h2>{{ channel.totalViews.toLocaleString() }} total views</h2>
-              </div>
-              <div class="channel-joined-on">
-                <h2>joined {{ getFormattedDate(new Date(channel.joined*1000)) }}</h2>
-              </div>
-              <div class="channel-family-friendly" v-if="channel.isFamilyFriendly">
-                <FamilyFriendly />
-                <h2>family friendly</h2>
-              </div>
-              <div class="channel-paid" v-if="channel.paid">
-                <Paid />
-                <h2>paid</h2>
-              </div>
-            </div>
-            <SubscribeButton :channelId="channel.authorId" />
-          </div>
-        </div>
-      </div>
-      <div
-        class="channel-description"
-        v-if="channel.description.length > 0"
-        v-html="channel.descriptionHtml"
-      ></div>
-      <div class="related-channels" v-if="channel.relatedChannels.length > 0">
-        <router-link
-          class="related-channel"
-          v-for="channelEntry in channel.relatedChannels"
-          :key="channelEntry.authorId"
-          :to="{path: '/channel/' + channelEntry.authorId}"
-        >
-          <div class="related-channel-thumbnail">
-            <div class="related-channel-thumbnail-image">
-              <img :src="channelEntry.authorThumbnails[5].url" alt />
-            </div>
-          </div>
-          <div class="related-channel-info">
-            <router-link
-              class="related-channel-title"
-              :to="{path: '/channel/' + channelEntry.authorId}"
-            >{{ channelEntry.author }}</router-link>
-          </div>
-        </router-link>
-      </div>
-    </div>
+    <Banner :src="channel.authorBanners[0].url" v-if="channel.authorBanners" />
+    <Overview :channel="channel" v-if="!loading" />
     <div class="channel-videos-container" v-if="!loading">
       <div class="channel-title-sticky">
         <div class="channel-sticky-thumbnail">
@@ -91,17 +27,15 @@
 <script>
 import Commons from '@/commons.js'
 import VideoEntry from '@/components/list/VideoEntry'
-import FamilyFriendly from 'vue-material-design-icons/AccountChild'
-import Paid from 'vue-material-design-icons/CurrencyUsd'
-import SubscribeButton from '@/components/buttons/SubscribeButton'
+import Banner from '@/components/channel/Banner'
+import Overview from '@/components/channel/Overview'
 
 export default {
   name: 'home',
   components: {
     VideoEntry,
-    FamilyFriendly,
-    Paid,
-    SubscribeButton
+    Banner,
+    Overview
   },
   data: function () {
     return {
@@ -148,10 +82,6 @@ export default {
   methods: {
     handleScroll: function (e) {
       this.$emit('scroll', e)
-      // if (this.$refs.parallaxImage) {
-      //   this.parallaxScroll = e.target.scrollTop
-      //   this.requestParallaxTick()
-      // }
     },
     requestParallaxTick: function () {
       if (!this.parallaxTicking) {
@@ -168,15 +98,6 @@ export default {
       this.channel = data
       this.loading = false
       this.$Progress.finish()
-    },
-    getFormattedDate: rawDate => {
-      let date = new Date(rawDate)
-      return `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`
-    },
-    isVisible: function (element) {
-      let rect = element.getBoundingClientRect()
-      let viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight)
-      return !(rect.bottom < 0 || rect.top - viewHeight >= 0)
     }
   }
 }
@@ -192,190 +113,6 @@ export default {
   perspective-origin: 0 0;
   margin-top: $header-height;
 
-  .channel-banner {
-    width: 100%;
-    transform-origin: 0 0;
-    transform: translateZ(-4px) scale(2);
-
-    .channel-banner-image {
-      width: 100%;
-      position: relative;
-      transition: transform 100ms linear;
-
-      @media screen and (max-width: 900px) {
-        width: 130%;
-        left: calc(100vw - 115%);
-      }
-
-      @media screen and (max-width: 700px) {
-        width: 160%;
-        left: calc(100vw - 130%);
-      }
-
-      @media screen and (max-width: 500px) {
-        width: 190%;
-        left: calc(100vw - 145%);
-      }
-    }
-  }
-  .channel-information {
-    width: 100%;
-    box-sizing: border-box;
-    z-index: 10;
-    display: flex;
-    flex-direction: column;
-
-    .channel-title-container {
-      background-color: $bgcolor-alt;
-      z-index: 10;
-      padding: 0 0 10px 0;
-
-      .channel-title {
-        display: flex;
-        flex-direction: row;
-        max-width: $main-width;
-        position: relative;
-        left: 50%;
-        transform: translateX(-50%);
-
-        .channel-thumbnail {
-          height: 110px;
-          margin: 0;
-          padding: 10px;
-
-          img {
-            height: 100%;
-          }
-        }
-        .channel-info {
-          display: flex;
-          flex-direction: column;
-
-          .channel-name {
-            margin: 10px 0 10px 0;
-            font-size: 0.8rem;
-          }
-          .channel-basics {
-            margin: 0;
-            display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
-
-            div {
-              margin: 0 15px 10px 0;
-
-              h2 {
-                font-family: $default-font;
-                font-size: 1rem;
-                color: $subtitle-color;
-              }
-            }
-            .channel-subcount {
-            }
-            .channel-totalviews {
-            }
-            .channel-joined-on {
-            }
-            .channel-family-friendly,
-            .channel-paid {
-              display: flex;
-              flex-direction: row;
-              border-radius: 5px;
-
-              span {
-                margin: 0 10px 0 -5px;
-                color: $theme-color;
-
-                svg {
-                  bottom: -0.1em !important;
-                }
-              }
-              h2 {
-                color: $theme-color;
-              }
-            }
-          }
-        }
-      }
-    }
-    .channel-description {
-      background-color: $bgcolor-main;
-      width: 100%;
-      max-width: $main-width;
-      box-sizing: border-box;
-      z-index: 10;
-      margin: 0 auto;
-      padding: 20px 10px;
-      z-index: 9;
-
-      pre {
-        font-family: unset;
-        color: unset;
-        width: unset;
-        padding: unset;
-        margin: unset;
-        white-space: pre-wrap;
-      }
-    }
-    .related-channels {
-      background-color: $bgcolor-main;
-      width: 100%;
-      max-width: $main-width;
-      box-sizing: border-box;
-      z-index: 10;
-      margin: 0 auto;
-      padding: 10px;
-      overflow-x: auto;
-      scrollbar-width: thin;
-      white-space: nowrap;
-      z-index: 9;
-
-      .related-channel {
-        width: 90px;
-        height: 140px;
-        display: flex;
-        flex-direction: column;
-        overflow: hidden;
-        display: inline-block;
-        margin: 0 15px 0 0;
-        padding: 10px;
-        box-shadow: 0 0 0 2px $theme-color;
-        border-radius: 3px;
-        transition: background-color 300ms $intro-easing;
-
-        &:hover {
-          background-color: $bgcolor-alt;
-        }
-
-        .related-channel-thumbnail {
-          width: 100%;
-
-          .related-channel-thumbnail-image {
-            height: 100%;
-            width: 100;
-
-            img {
-              width: 100%;
-            }
-          }
-        }
-        .related-channel-info {
-          width: 100%;
-
-          .related-channel-title {
-            display: inline-block;
-            width: 100%;
-            color: $subtitle-color;
-            font-family: $default-font;
-            overflow: hidden;
-            text-decoration: none;
-            text-overflow: ellipsis;
-            white-space: normal;
-          }
-        }
-      }
-    }
-  }
   .channel-videos-container {
     width: 100%;
     z-index: 9;

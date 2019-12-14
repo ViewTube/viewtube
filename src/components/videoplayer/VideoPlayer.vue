@@ -17,7 +17,7 @@
       cursor: playerOverlay.visible ? 'auto' : 'none',
       'height': `calc(100vw * ${videoElement.aspectRatio})`
     }"
-    :class="{ fullscreen: fullscreen }"
+    :class="{ fullscreen: fullscreen, embedded: embedded }"
   >
     <div
       class="video-element-container"
@@ -175,7 +175,8 @@ export default {
     VolumeControl
   },
   props: {
-    video: Object
+    video: Object,
+    embedded: Boolean
   },
   data: function () {
     return {
@@ -209,23 +210,23 @@ export default {
     }
   },
   watch: {
-    videoVolume (newValue) {
+    videoVolume(newValue) {
       if (newValue <= 1 && newValue >= 0 && this.$refs.video) {
         this.$refs.video.volume = newValue
       }
     }
   },
   computed: {
-    videoVolume () {
+    videoVolume() {
       return this.videoElement.playerVolume
     },
-    videoLength () {
+    videoLength() {
       if (this.video !== undefined) {
         return this.video.lengthSeconds
       }
       return 0
     },
-    playerOverlayVisible () {
+    playerOverlayVisible() {
       return this.playerOverlay.visible
     },
     seekHoverAdjustedLeft: function () {
@@ -548,6 +549,15 @@ export default {
   overflow: hidden;
   max-height: calc(100vh - 170px);
   z-index: 12;
+
+  &.embedded {
+    max-height: 100vh;
+    height: 100vh !important;
+
+    .video-element-container {
+      max-height: 100vh;
+    }
+  }
 
   &.fullscreen {
     .video-element-container {
