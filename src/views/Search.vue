@@ -7,8 +7,16 @@
       <Dropdown
         :values="parameters.defaults.sort_by"
         :value="parameters.sort_by"
+        :label="'Sort by'"
         class="dropdown-btn"
         @valuechange="onSearchSortChange"
+      />
+      <Dropdown
+        :values="parameters.defaults.date"
+        :value="parameters.date"
+        :label="'Date'"
+        class="dropdown-btn"
+        @valuechange="onSearchDateChange"
       />
     </div>
     <div v-if="!loading" class="search-videos-container">
@@ -71,10 +79,17 @@ export default {
         return 'ChannelEntry'
       }
     },
-    onSearchSortChange(element, index) {
-      SearchParams.sort_by = element.value
+    reloadSearchWithParams() {
       let searchParams = SearchParams.getParamsString()
       this.$router.push(`/results?search_query=${this.searchQuery}${searchParams}`)
+    },
+    onSearchSortChange(element, index) {
+      SearchParams.sort_by = element.value
+      this.reloadSearchWithParams()
+    },
+    onSearchDateChange(element, index) {
+      SearchParams.date = element.value
+      this.reloadSearchWithParams()
     }
   },
   beforeRouteEnter(to, from, next) {
@@ -132,14 +147,20 @@ export default {
   overflow-x: hidden;
   perspective: 4px;
   perspective-origin: 0 0;
+  display: flex;
+  flex-direction: column;
 
   .filters {
     width: 100%;
     max-width: $main-width;
-    padding: 10px;
+    padding: 10px 15px;
+    margin: 0 auto;
+    box-sizing: border-box;
+    display: flex;
 
     .dropdown-btn {
       z-index: 20;
+      margin: 0 10px 0 0;
     }
   }
 
@@ -152,7 +173,7 @@ export default {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: space-evenly;
+    justify-content: space-around;
 
     @media screen and (max-width: $mobile-width) {
       flex-direction: row;

@@ -2,6 +2,7 @@
   <div class="dropdown" v-clickaway="hideDropdown">
     <div class="dropdown-btn" @click.stop="onDropdownBtnClick">
       <p class="dropdown-title">{{ entries[selected].name }}</p>
+      <label class="dropdown-label" v-if="label">{{ label }}</label>
     </div>
     <div class="dropdown-list" :class="{ open: open }">
       <span
@@ -22,8 +23,13 @@ export default {
   name: 'dropdown',
   props: {
     values: Array,
-    value: String
+    value: String,
+    label: String
   },
+  data: () => ({
+    selected: 0,
+    open: false
+  }),
   mounted() {
     let me = this
     let selectedEntry = this.entries.findIndex(e => e.value === me.value)
@@ -38,12 +44,6 @@ export default {
           return { name: value, value: value }
         })
       }
-    }
-  },
-  data: function () {
-    return {
-      selected: 0,
-      open: false
     }
   },
   methods: {
@@ -73,13 +73,22 @@ export default {
     cursor: pointer;
     position: relative;
 
+    .dropdown-label {
+      color: $theme-color;
+      position: absolute;
+      top: 0;
+      left: 0;
+      font-size: 0.8rem;
+    }
+
     .dropdown-title {
-      line-height: 50px;
+      line-height: 40px;
       background-image: $theme-color-primary-gradient;
       background-size: 0% 2px;
       background-position: 0 100%;
       background-repeat: no-repeat;
       background-size: 100% 2px;
+      padding-top: 10px;
 
       &:after {
         content: "▼";
@@ -107,7 +116,7 @@ export default {
     padding: 5px 0;
 
     transform: scale(0.8);
-    clip-path: polygon(0% 0%, 60% 0%, 60% 0%, 0% 0%);
+    clip-path: polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%);
 
     &.open {
       clip-path: polygon(-50% -50%, 150% -50%, 150% 150%, -50% 150%);
