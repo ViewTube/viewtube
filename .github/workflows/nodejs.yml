@@ -13,7 +13,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-      
+     
     - name: Use Node.js 10.x
       uses: actions/setup-node@v1
       with:
@@ -39,3 +39,13 @@ jobs:
         LOCAL_DIR: dist
         REMOTE_DIR: www/viewtube.eu
         ARGS: --delete
+        
+    - name: Notifier
+      uses: GokulDas027/TelegramBridge@master
+      if: always()
+      with:
+        chat: ${{ secrets.TELEGRAM_TO }}
+        token: ${{ secrets.TELEGRAM_TOKEN }}
+        status: ${{ job.status }} # don't change
+        event: ${{ github.event_name }} # don't change
+        actor: ${{ github.actor }} # don't change
