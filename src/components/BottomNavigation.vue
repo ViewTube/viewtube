@@ -16,7 +16,7 @@ export default {
   height: $header-height;
   width: 100%;
   z-index: 800;
-  background-color: $header-bgcolor;
+  background-color: var(--header-bgcolor);
   display: none;
   box-shadow: $max-shadow;
 

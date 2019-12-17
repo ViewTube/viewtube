@@ -115,7 +115,7 @@ export default {
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
-      color: $title-color;
+      color: var(--title-color);
       padding: 6px 0 4px 0;
     }
 
@@ -127,7 +127,7 @@ export default {
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
-      color: $subtitle-color;
+      color: var(--subtitle-color);
     }
   }
 
@@ -137,7 +137,7 @@ export default {
 
     .playlist-entry-thmb {
       width: 100%;
-      height: unset;
+      height: 53vw;;
 
       .thmb-image-container {
         position: relative;

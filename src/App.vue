@@ -1,5 +1,11 @@
 <template>
-  <div id="app">
+  <div
+    id="app"
+    :class="{
+      'theme--light': settings.getTheme() === 'light',
+      'theme--default': settings.getTheme() === 'default'
+    }"
+  >
     <Header :scrollTop="scrolledTop" v-if="!headless" />
     <vue-progress-bar :class="{ 'progress-bar-margin': !headless }"></vue-progress-bar>
     <router-view class="content" ref="content" @scroll="handleScroll" />
@@ -7,8 +13,9 @@
 </template>
 
 <script>
-import Header from '@/components/Header.vue'
+import Header from '@/components/Header'
 import '@/fonts/expletus.css'
+import SettingsStore from '@/store/settings'
 
 export default {
   name: 'app',
@@ -17,7 +24,9 @@ export default {
   },
   data: function () {
     return {
-      scrolledTop: false
+      scrolledTop: false,
+      settings: SettingsStore,
+      theme: SettingsStore.theme
     }
   },
   computed: {
@@ -53,11 +62,11 @@ export default {
   touch-action: manipulation;
 
   &::selection {
-    background: $theme-color;
+    background: var(--theme-color);
   }
 
   &::-moz-selection {
-    background: $theme-color;
+    background: var(--theme-color);
   }
 
   &::-webkit-scrollbar {
@@ -88,22 +97,22 @@ a {
 }
 html,
 body {
-  background-color: $bgcolor-main;
   overflow: hidden;
   overscroll-behavior: none;
   height: 100%;
   width: 100%;
   margin: 0;
   padding: 0;
+  background-color: var(--bgcolor-main);
 
   #app {
     font-family: "Roboto", Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    color: $title-color;
-    background-color: $bgcolor-main;
+    color: var(--title-color);
     height: 100%;
     width: 100%;
+    background-color: var(--bgcolor-main);
 
     .progress-bar-margin {
       top: $header-height !important;

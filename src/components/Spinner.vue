@@ -25,7 +25,7 @@ export default {
   user-select: none;
 
   .rect {
-    background-image: $theme-color-gradient;
+    background-image: var(--theme-color-gradient);
     background-size: $rectangle-width * 5;
     background-position: 0;
     height: 100%;

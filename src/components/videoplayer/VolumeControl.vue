@@ -131,7 +131,7 @@ export default {
         -webkit-appearance: none;
         appearance: none;
 
-        background: $theme-color;
+        background: var(--theme-color);
         height: $video-seekbar-line-height;
         border-radius: 50%;
         width: 15px;
@@ -161,11 +161,11 @@ export default {
     }
 
     .slider-progress {
-      background-color: $theme-color;
+      background-color: var(--theme-color);
     }
 
     .slider-background {
-      background-color: $line-color;
+      background-color: var(--line-color);
       width: 100%;
     }
 

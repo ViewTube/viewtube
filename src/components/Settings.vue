@@ -5,6 +5,8 @@
       <h1>Settings</h1>
       <h2>Invidio.us instance</h2>
       <Dropdown :values="instances" :value="currentInstance" @valuechange="onInstanceChange" />
+      <h2>Theme</h2>
+      <Dropdown :values="themes" :value="currentTheme" @valuechange="onThemeChange" />
     </div>
     <div class="settings-overlay" @click.stop="$emit('close')"></div>
   </div>
@@ -14,6 +16,7 @@
 import Dropdown from '@/components/filter/Dropdown'
 import InstanceStore from '@/store/instances'
 import CloseIcon from 'vue-material-design-icons/Close'
+import SettingsStore from '@/store/settings'
 
 export default {
   name: 'settings',
@@ -21,18 +24,23 @@ export default {
     Dropdown,
     CloseIcon
   },
-  data () {
+  data() {
     return {
       instances: InstanceStore.instances,
-      currentInstance: InstanceStore.currentInstance
+      currentInstance: InstanceStore.currentInstance,
+      themes: SettingsStore.defaults.theme,
+      currentTheme: SettingsStore.theme
     }
   },
   methods: {
-    onInstanceChange (element, index) {
+    onInstanceChange(element, index) {
       InstanceStore.setInstance(element.value)
+    },
+    onThemeChange(element, index) {
+      SettingsStore.setTheme(element.value)
     }
   },
-  mounted () {
+  mounted() {
     this.$Progress.finish()
   }
 }
@@ -41,7 +49,7 @@ export default {
 <style lang="scss">
 .settings-overlay {
   position: fixed;
-  background-color: $bgcolor-translucent;
+  background-color: var(--bgcolor-translucent);
   width: 100%;
   height: 100%;
   z-index: 8;
@@ -60,7 +68,7 @@ export default {
     margin: auto;
     width: 100%;
     max-width: 500px;
-    background-color: $bgcolor-alt;
+    background-color: var(--bgcolor-alt);
     box-shadow: $medium-shadow;
     border-radius: 3px;
     display: flex;
@@ -89,7 +97,7 @@ export default {
     h1 {
       margin: 0 auto;
       font-size: 2rem;
-      color: $theme-color;
+      color: var(--theme-color);
       font-family: $default-font;
     }
 

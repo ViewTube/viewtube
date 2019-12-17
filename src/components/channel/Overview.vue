@@ -93,7 +93,7 @@ export default {
   flex-direction: column;
 
   .channel-title-container {
-    background-color: $bgcolor-alt;
+    background-color: var(--bgcolor-alt);
     z-index: 10;
     padding: 0 0 10px 0;
 
@@ -134,14 +134,8 @@ export default {
             h2 {
               font-family: $default-font;
               font-size: 1rem;
-              color: $subtitle-color;
+              color: var(--subtitle-color);
             }
-          }
-          .channel-subcount {
-          }
-          .channel-totalviews {
-          }
-          .channel-joined-on {
           }
           .channel-family-friendly,
           .channel-paid {
@@ -151,14 +145,14 @@ export default {
 
             span {
               margin: 0 10px 0 -5px;
-              color: $theme-color;
+              color: var(--theme-color);
 
               svg {
                 bottom: -0.1em !important;
               }
             }
             h2 {
-              color: $theme-color;
+              color: var(--theme-color);
             }
           }
         }
@@ -166,7 +160,7 @@ export default {
     }
   }
   .channel-description {
-    background-color: $bgcolor-main;
+    background-color: var(--bgcolor-main);
     width: 100%;
     max-width: $main-width;
     box-sizing: border-box;
@@ -185,7 +179,7 @@ export default {
     }
   }
   .related-channels {
-    background-color: $bgcolor-main;
+    background-color: var(--bgcolor-main);
     width: 100%;
     max-width: $main-width;
     box-sizing: border-box;
@@ -206,12 +200,12 @@ export default {
       display: inline-block;
       margin: 0 15px 0 0;
       padding: 10px;
-      box-shadow: 0 0 0 2px $theme-color;
+      box-shadow: 0 0 0 2px var(--theme-color);
       border-radius: 3px;
       transition: background-color 300ms $intro-easing;
 
       &:hover {
-        background-color: $bgcolor-alt;
+        background-color: var(--bgcolor-alt)
       }
 
       .related-channel-thumbnail {
@@ -232,7 +226,7 @@ export default {
         .related-channel-title {
           display: inline-block;
           width: 100%;
-          color: $subtitle-color;
+          color: var(--subtitle-color);
           font-family: $default-font;
           overflow: hidden;
           text-decoration: none;

@@ -147,14 +147,14 @@ export default {
       transition: 0.3s opacity ease-in-out;
       filter: blur(20px);
       opacity: 0;
-      background: $theme-color-primary-gradient;
+      background: var(--theme-color-primary-gradient);
     }
 
     &:hover:before {
       opacity: 1;
       transition: 0.3s opacity ease-in-out;
       filter: blur(20px);
-      background: $theme-color-primary-gradient;
+      background: var(--theme-color-primary-gradient);
     }
 
     &:after {
@@ -172,7 +172,7 @@ export default {
       height: 100%;
       top: 0%;
       left: 0%;
-      background: $theme-color-primary-gradient;
+      background: var(--theme-color-primary-gradient);
     }
   }
 
@@ -198,7 +198,7 @@ export default {
 
     &:after {
       content: "UNSUBSCRIBE";
-      background: $bgcolor-alt-light;
+      background: var(--bgcolor-alt-light)
     }
   }
 }

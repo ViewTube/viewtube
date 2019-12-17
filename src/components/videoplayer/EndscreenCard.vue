@@ -118,7 +118,7 @@ export default {
   position: absolute;
   overflow: hidden;
   box-sizing: border-box;
-  background-color: $bgcolor-alt-light;
+  background-color: var(--bgcolor-alt-light);
   box-shadow: $low-shadow;
   cursor: pointer;
   transition-duration: 300ms;
@@ -173,13 +173,13 @@ export default {
       line-height: 20px;
       margin: 10px;
       font-family: $default-font;
-      color: $title-color;
+      color: var(--title-color);
     }
 
     .card-views {
       margin: 5px 10px;
       line-height: 20px;
-      color: $subtitle-color;
+      color: var(--subtitle-color);
     }
   }
 }

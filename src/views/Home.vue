@@ -139,7 +139,7 @@ export default {
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-evenly;
-    background-color: $bgcolor-main;
+    background-color: var(--bgcolor-main);
 
     @media screen and (max-width: $mobile-width) {
       flex-direction: column;

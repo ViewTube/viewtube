@@ -1,17 +1,22 @@
 <template>
   <div class="gradient-container">
-    <div class="gradient-background" :class="color">
+    <div class="gradient-background" :class="{ color, hidden: settings.getTheme() !== 'default' }">
       <span class="background-shadow"></span>
     </div>
   </div>
 </template>
 
 <script>
+import SettingsStore from '@/store/settings'
+
 export default {
   name: 'gradient-background',
   props: {
     color: String
-  }
+  },
+  data: () => ({
+    settings: SettingsStore
+  })
 }
 </script>
 
@@ -30,6 +35,10 @@ export default {
     height: 700px + $header-height;
     position: relative;
     z-index: 9;
+
+    &.hidden{
+      opacity: 0;
+    }
 
     &.theme {
       background: linear-gradient(
@@ -57,7 +66,7 @@ export default {
       bottom: 0;
       height: 700px + $header-height;
       width: 100%;
-      background: linear-gradient(to bottom, transparent, $bgcolor-main);
+      background: linear-gradient(to bottom, transparent, var(--bgcolor-main));
     }
   }
 }

@@ -20,11 +20,11 @@ export default {
   cursor: pointer;
   user-select: none;
   margin: 20px 20px;
-  background: $theme-color-primary-gradient;
+  background: var(--theme-color-primary-gradient);
   padding: 8px 0;
   border-radius: 5px;
   box-sizing: border-box;
-  color: $title-color;
+  color: var(--title-color);
   box-shadow: $low-shadow;
   transition: box-shadow 300ms $intro-easing;
 

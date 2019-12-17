@@ -198,9 +198,9 @@ export default {
 
 <style lang="scss">
 .badge-btn {
-  background-color: $theme-color-translucent;
+  background-color: var(--theme-color-translucent);
   text-decoration: none;
-  color: $title-color;
+  color: var(--title-color);
   padding: 3px 5px;
   margin: 2px 5px 2px 0;
   border-radius: 3px;
@@ -208,7 +208,7 @@ export default {
   transition: background-color 200ms $intro-easing;
 
   &:hover {
-    background-color: $bgcolor-alt;
+    background-color: var(--bgcolor-alt)
   }
 }
 
@@ -239,10 +239,10 @@ export default {
     transition: opacity 300ms $intro-easing;
     z-index: 400;
     position: relative;
-    background-color: $bgcolor-main;
+    background-color: var(--bgcolor-main);
 
     .video-infobox-title {
-      color: $title-color;
+      color: var(--title-color);
       font-family: $default-font;
       font-size: 1.4rem;
       margin: 20px 0 10px 0;
@@ -265,7 +265,7 @@ export default {
       margin: 0 0 20px 0;
 
       .infobox-views {
-        color: $subtitle-color;
+        color: var(--subtitle-color);
         font-family: $default-font;
         margin: 0 30px 0 0;
         font-size: 1.1rem;
@@ -281,7 +281,7 @@ export default {
 
           .infobox-likes,
           .infobox-dislikes {
-            color: $subtitle-color;
+            color: var(--subtitle-color);
             font-family: $default-font;
             display: flex;
             flex-direction: row;
@@ -300,13 +300,13 @@ export default {
         .like-ratio {
           width: 100%;
           height: 2px;
-          background-color: $theme-color-alt;
+          background-color: var(--theme-color-alt);
           position: relative;
           margin: 10px 0 0 0;
 
           .like-ratio-bar {
             position: absolute;
-            background-image: $theme-color-primary-gradient;
+            background-image: var(--theme-color-primary-gradient);
             height: 100%;
           }
         }
@@ -358,7 +358,7 @@ export default {
 
           .infobox-channel-name {
             text-decoration: none;
-            color: $title-color;
+            color: var(--title-color);
             font-family: $default-font;
             font-size: 1.2rem;
             white-space: nowrap;
@@ -368,7 +368,7 @@ export default {
           }
 
           .infobox-channel-subcount {
-            color: $subtitle-color;
+            color: var(--subtitle-color);
             font-family: $default-font;
           }
         }
@@ -381,7 +381,7 @@ export default {
 
     .video-infobox-description {
       margin: 10px 0 0 0;
-      color: $title-color;
+      color: var(--title-color);
       font-family: $default-font;
       line-height: 1.2rem;
       overflow: hidden;
@@ -390,17 +390,17 @@ export default {
 
       a {
         text-decoration: none;
-        color: $theme-color-alt;
+        color: var(--theme-color-alt);
         position: relative;
         transition: background-size 300ms $dynamic-easing,
           color 300ms $intro-easing;
-        background-image: $theme-color-primary-gradient;
+        background-image: var(--theme-color-primary-gradient);
         background-size: 0% 2px;
         background-position: 0 100%;
         background-repeat: no-repeat;
 
         &:hover {
-          color: $theme-color;
+          color: var(--theme-color);
           background-size: 100% 2px;
         }
       }

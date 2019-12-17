@@ -129,21 +129,21 @@ export default {
   justify-content: flex-end;
   position: relative;
   border-radius: 3px;
-  background-color: #0000006e;
+  background-color: var(--bgcolor-translucent);
   transition: background-color 300ms $intro-easing;
   z-index: 800;
 
   &.scrolled {
-    background-color: $bgcolor-alt-light;
+    background-color: var(--bgcolor-alt-light);
 
     .search-btn {
-      color: $theme-color;
+      color: var(--theme-color);
     }
   }
 
   .search-btn {
     text-decoration: none;
-    color: $subtitle-color;
+    color: var(--subtitle-color);
     transition: color 300ms $intro-easing;
     width: 50px;
     text-align: center;
@@ -160,7 +160,7 @@ export default {
     width: 100%;
     height: 100%;
     border: none;
-    color: $title-color;
+    color: var(--title-color);
     font-size: 1rem;
     margin: 0 0 0 10px;
     min-width: 0px;
@@ -185,7 +185,7 @@ export default {
 
   .line {
     position: absolute;
-    background-color: $theme-color;
+    background-color: var(--theme-color);
     height: 1.5px;
     width: 1.5px;
     transform: scale(0);

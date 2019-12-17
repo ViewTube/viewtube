@@ -780,7 +780,7 @@ export default {
         .seekbar-circle {
           width: 15px;
           height: 15px;
-          background-color: $theme-color;
+          background-color: var(--theme-color);
           border-radius: 50%;
           position: relative;
           transform: translate(-50%, 2.5px) scale(0);
@@ -814,19 +814,19 @@ export default {
         .seekbar-background {
           @include seekbar-part;
           height: $video-seekbar-line-height;
-          background-color: $line-color;
+          background-color: var(--line-color);
           z-index: 142;
         }
         .seekbar-loading-progress {
           @include seekbar-part;
           height: $video-seekbar-line-height;
-          background-color: $line-accent-color;
+          background-color: var(--line-accent-color);
           z-index: 143;
         }
         .seekbar-playback-progress {
           @include seekbar-part;
           height: $video-seekbar-line-height;
-          background-color: $theme-color;
+          background-color: var(--theme-color);
           z-index: 144;
         }
       }

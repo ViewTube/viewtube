@@ -57,7 +57,7 @@ export default {
   mounted: function () {
     this.$Progress.finish()
   },
-  beforeRouteEnter (to, from, next) {
+  beforeRouteEnter(to, from, next) {
     next(vm => {
       if (from.name) {
         vm.redirectedPage = from
@@ -78,7 +78,7 @@ export default {
   display: flex;
   background-size: cover;
   background-repeat: no-repeat;
-  background-color: $bgcolor-alt;
+  background-color: var(--bgcolor-alt);
   padding-top: $header-height;
 
   @media screen and (min-width: $mobile-width) {
@@ -89,7 +89,7 @@ export default {
     margin: auto;
     width: 100%;
     max-width: 500px;
-    background-color: $bgcolor-alt;
+    background-color: var(--bgcolor-alt);
     box-shadow: $medium-shadow;
     border-radius: 3px;
     display: flex;
@@ -105,7 +105,7 @@ export default {
     .login-title {
       margin: 20px 0 0 0;
       font-size: 2rem;
-      color: $theme-color;
+      color: var(--theme-color);
       font-family: $default-font;
     }
 
@@ -114,7 +114,7 @@ export default {
       line-height: 20px;
 
       &.error-message-display {
-        color: $error-color-red;
+        color: var(--error-color-red)
       }
     }
 

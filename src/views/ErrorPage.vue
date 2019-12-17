@@ -55,7 +55,7 @@ export default {
       display: flex;
       flex-direction: column;
       align-items: center;
-      background-color: $bgcolor-main;
+      background-color: var(--bgcolor-main);
 
       a {
         font-size: 1rem;
@@ -65,14 +65,14 @@ export default {
         cursor: pointer;
         user-select: none;
         margin: 20px 20px;
-        background-color: $bgcolor-main;
+        background-color: var(--bgcolor-main);
         padding: 8px 0;
         border-radius: 5px;
         box-sizing: border-box;
-        color: $title-color;
+        color: var(--title-color);
         box-shadow: $low-shadow;
         transition: box-shadow 300ms $intro-easing;
-        border: 2px solid $theme-color;
+        border: 2px solid var(--theme-color);
         user-select: none;
 
         &:hover {
@@ -98,10 +98,10 @@ export default {
       width: 100%;
       overflow: hidden;
       text-overflow: wrap;
-      color: $bgcolor-main;
+      color: var(--bgcolor-main);
 
       &.error-1 {
-        text-shadow: 0 0 5px $theme-color;
+        text-shadow: 0 0 5px var(--theme-color);
       }
     }
   }

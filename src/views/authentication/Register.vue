@@ -94,7 +94,7 @@ export default {
     this.$Progress.finish()
     Captcheck.initCaptcheck()
   },
-  beforeRouteEnter (to, from, next) {
+  beforeRouteEnter(to, from, next) {
     next(vm => {
       if (from.name) {
         vm.redirectedPage = from
@@ -116,7 +116,7 @@ export default {
   background-size: cover;
   background-repeat: no-repeat;
   position: relative;
-  background-color: $bgcolor-alt;
+  background-color: var(--bgcolor-alt);
   padding-top: $header-height;
 
   @media screen and (min-width: $mobile-width) {
@@ -127,7 +127,7 @@ export default {
     margin: auto;
     width: 100%;
     max-width: 500px;
-    background-color: $bgcolor-alt;
+    background-color: var(--bgcolor-alt);
     box-shadow: $max-shadow;
     border-radius: 3px;
     display: flex;
@@ -143,7 +143,7 @@ export default {
     .register-title {
       margin: 20px 0 0 0;
       font-size: 2rem;
-      color: $theme-color;
+      color: var(--theme-color);
       font-family: $default-font;
     }
 
@@ -152,7 +152,7 @@ export default {
       line-height: 20px;
 
       &.error-message-display {
-        color: $error-color-red;
+        color: var(--error-color-red)
       }
     }
 
@@ -195,14 +195,14 @@ export default {
         .captcheck_box {
           padding: 12px 12px;
           margin: auto;
-          border: 2px solid $bgcolor-alt-light;
+          border: 2px solid var(--bgcolor-alt-light);
           width: 100%;
           background-color: transparent;
-          color: $subtitle-color-light;
+          color: var(--subtitle-color-light);
 
           .captcheck_label_message,
           .captcheck_label_message b {
-            color: $subtitle-color-light;
+            color: var(--subtitle-color-light);
             font-family: $default-font;
             margin: 0 0 10px 0;
           }
@@ -227,7 +227,7 @@ export default {
 
               input:checked + img {
                 cursor: pointer;
-                border: 2px solid $bgcolor-alt-light;
+                border: 2px solid var(--bgcolor-alt-light);
                 border-radius: 4px;
               }
             }
