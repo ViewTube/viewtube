@@ -46,4 +46,3 @@ jobs:
         to: ${{ secrets.TELEGRAM_TO }}
         token: ${{ secrets.TELEGRAM_TOKEN }}
         message: ViewTube Deployment successful
-        photo: images/logo.png
