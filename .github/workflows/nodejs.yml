@@ -45,4 +45,5 @@ jobs:
       with:
         to: ${{ secrets.TELEGRAM_TO }}
         token: ${{ secrets.TELEGRAM_TOKEN }}
-        args: The ${{ commit.ref }} event triggered first step.
+        message: ViewTube Deployment for commit ${{ commit.ref }} successful
+        photo: images/logo.png
