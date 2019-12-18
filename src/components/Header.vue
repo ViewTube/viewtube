@@ -162,7 +162,9 @@ export default {
     },
     hideAccountMenu: function () {
       if (this.accountMenuVisible) {
-        this.accountMenuVisible = false
+        setTimeout(() => {
+          this.accountMenuVisible = false
+        }, 200)
       }
     },
     openInYT: function () {
@@ -202,7 +204,7 @@ export default {
       this.hideAccountMenu()
     }
   },
-  mounted () {
+  mounted() {
     this.disableDrag()
 
     tippy('.tooltip', {
@@ -214,10 +216,10 @@ export default {
     })
   },
   computed: {
-    currentRouteName () {
+    currentRouteName() {
       return this.$route.name
     },
-    userAuthenticated () {
+    userAuthenticated() {
       return Boolean(this.loginState.username)
     }
   }

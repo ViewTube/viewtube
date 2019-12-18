@@ -306,7 +306,7 @@ export default {
 
           .like-ratio-bar {
             position: absolute;
-            background-image: var(--theme-color-primary-gradient);
+            background-image: $theme-color-primary-gradient;
             height: 100%;
           }
         }
@@ -394,7 +394,7 @@ export default {
         position: relative;
         transition: background-size 300ms $dynamic-easing,
           color 300ms $intro-easing;
-        background-image: var(--theme-color-primary-gradient);
+        background-image: $theme-color-primary-gradient;
         background-size: 0% 2px;
         background-position: 0 100%;
         background-repeat: no-repeat;

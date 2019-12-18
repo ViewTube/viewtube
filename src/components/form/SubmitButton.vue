@@ -20,7 +20,7 @@ export default {
   cursor: pointer;
   user-select: none;
   margin: 20px 20px;
-  background: var(--theme-color-primary-gradient);
+  background: $theme-color-primary-gradient;
   padding: 8px 0;
   border-radius: 5px;
   box-sizing: border-box;
