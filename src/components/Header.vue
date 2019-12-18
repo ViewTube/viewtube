@@ -8,7 +8,7 @@
       <img
         class="logo-small"
         :class="{ inverted: currentRouteName!=='home' }"
-        src="@/assets/icon-background-512.jpg"
+        src="@/assets/icon-background-192.jpg"
         alt="ViewTube"
       />
     </router-link>

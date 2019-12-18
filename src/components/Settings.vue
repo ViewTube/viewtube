@@ -37,7 +37,13 @@ export default {
       InstanceStore.setInstance(element.value)
     },
     onThemeChange(element, index) {
-      SettingsStore.setTheme(element.value)
+      setTimeout(() => {
+        document.body.classList.add('transition-all')
+        SettingsStore.setTheme(element.value)
+        setTimeout(() => {
+          document.body.classList.remove('transition-all')
+        }, 300)
+      }, 300)
     }
   },
   mounted() {

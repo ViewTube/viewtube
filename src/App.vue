@@ -85,6 +85,9 @@ export default {
     background: #1e1e1e;
   }
 }
+body.transition-all * {
+  transition: background-color 300ms ease, color 300ms ease, opacity 300ms ease;
+}
 p,
 h1,
 h2,
