@@ -10,6 +10,10 @@ export default {
   init() {
     if (localStorage.getItem('theme')) {
       this.theme = localStorage.getItem('theme')
+    } else {
+      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches === false) {
+        this.setTheme('light')
+      }
     }
   },
 
