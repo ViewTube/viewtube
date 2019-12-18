@@ -1,4 +1,3 @@
-<p align="center"><a href="https://viewtube.eu" target="_blank" rel="noopener noreferrer"><img width="200" src="images/logo.png" alt="ViewTube logo"></a></p>
 <h1 align="center">ViewTube<img src="images/logo.png" alt="" width="90" height="90" align="right"></h1>
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/3c74d1eff3fe47609a4f889ec1acbdd5)](https://www.codacy.com/manual/mauriceoegerli/viewtube-vue?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=mauriceoegerli/viewtube-vue&amp;utm_campaign=Badge_Grade)
