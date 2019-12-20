@@ -198,7 +198,7 @@ export default {
 
     &:after {
       content: "UNSUBSCRIBE";
-      background: $bgcolor-alt-light;
+      background: var(--bgcolor-alt-light)
     }
   }
 }

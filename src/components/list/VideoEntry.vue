@@ -154,7 +154,7 @@ export default {
       bottom: 0;
       left: 0;
       height: 3px;
-      background-color: $theme-color;
+      background-color: var(--theme-color);
     }
 
     .video-entry-length {
@@ -188,7 +188,7 @@ export default {
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
-      color: $title-color;
+      color: var(--title-color);
       padding: 6px 0 4px 0;
     }
 
@@ -200,11 +200,11 @@ export default {
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
-      color: $subtitle-color;
+      color: var(--subtitle-color);
     }
 
     .video-entry-stats {
-      color: $subtitle-color-light;
+      color: var(--subtitle-color-light);
       display: flex;
       width: 100%;
       justify-content: space-between;
@@ -220,7 +220,7 @@ export default {
 
     .video-entry-thmb {
       width: 100%;
-      height: unset;
+      height: 53vw;;
 
       .thmb-image-container {
         position: relative;

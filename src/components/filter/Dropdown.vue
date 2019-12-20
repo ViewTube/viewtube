@@ -80,6 +80,7 @@ export default {
   width: auto;
   display: flex;
   position: relative;
+  z-index: 10;
 
   .dropdown-btn {
     cursor: pointer;
@@ -102,7 +103,7 @@ export default {
     }
 
     .dropdown-label {
-      color: $theme-color;
+      color: var(--theme-color);
       position: absolute;
       top: 0;
       left: 0;
@@ -140,7 +141,7 @@ export default {
     top: 100%;
     left: 0;
     transform-origin: top;
-    background-color: $bgcolor-alt;
+    background-color: var(--bgcolor-alt);
     display: flex;
     flex-direction: column;
     border-radius: 5px;
@@ -149,6 +150,7 @@ export default {
     transition-timing-function: $intro-easing;
     overflow: hidden;
     padding: 5px 0;
+    z-index: 11;
 
     transform: scale(0.8);
     clip-path: polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%);
@@ -165,10 +167,10 @@ export default {
       white-space: nowrap;
 
       &:hover {
-        background-color: $bgcolor-alt-light;
+        background-color: var(--bgcolor-alt-light)
       }
       &.selected {
-        color: $theme-color;
+        color: var(--theme-color);
       }
     }
   }

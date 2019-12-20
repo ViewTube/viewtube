@@ -45,7 +45,7 @@ export default {
     font-size: 1.7rem;
     text-align: start;
     padding: 0 0 0 20px;
-    color: $title-color;
+    color: var(--title-color);
     box-sizing: border-box;
     z-index: 9;
     font-weight: bold;

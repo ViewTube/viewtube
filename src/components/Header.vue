@@ -8,7 +8,7 @@
       <img
         class="logo-small"
         :class="{ inverted: currentRouteName!=='home' }"
-        src="@/assets/icon-background-512.jpg"
+        src="@/assets/icon-background-192.jpg"
         alt="ViewTube"
       />
     </router-link>
@@ -162,7 +162,9 @@ export default {
     },
     hideAccountMenu: function () {
       if (this.accountMenuVisible) {
-        this.accountMenuVisible = false
+        setTimeout(() => {
+          this.accountMenuVisible = false
+        }, 200)
       }
     },
     openInYT: function () {
@@ -202,7 +204,7 @@ export default {
       this.hideAccountMenu()
     }
   },
-  mounted () {
+  mounted() {
     this.disableDrag()
 
     tippy('.tooltip', {
@@ -214,10 +216,10 @@ export default {
     })
   },
   computed: {
-    currentRouteName () {
+    currentRouteName() {
       return this.$route.name
     },
-    userAuthenticated () {
+    userAuthenticated() {
       return Boolean(this.loginState.username)
     }
   }
@@ -272,24 +274,20 @@ export default {
 
   &.scrolled {
     box-shadow: $medium-shadow;
-    background-color: $header-bgcolor;
-
-    .logo-link {
-      // filter: drop-shadow(0 2px 6px $header-bgcolor);
-    }
+    background-color: var(--header-bgcolor);
 
     .nav {
-      color: $title-color;
+      color: var(--title-color);
 
       a:not(.nav-btn) {
-        color: $theme-color;
+        color: var(--theme-color);
       }
 
       .nav-btn {
-        color: $theme-color;
+        color: var(--theme-color);
 
         &.main {
-          border: solid 2px $theme-color;
+          border: solid 2px var(--theme-color);
         }
       }
     }
@@ -303,19 +301,18 @@ export default {
     flex-direction: row-reverse;
     align-items: center;
     z-index: 800;
-    // filter: drop-shadow(0 2px 6px $header-bgcolor);
 
     .logo {
       font-family: $header-font;
       font-size: 1.5rem;
-      color: $subtitle-color;
+      color: var(--subtitle-color);
       width: auto;
       overflow: hidden;
       transition: width 300ms linear;
 
       .logo-colored {
         color: transparent;
-        background-image: $theme-color-gradient;
+        background-image: var(--theme-color-gradient);
         background-clip: text;
         -webkit-background-clip: text;
       }
@@ -364,7 +361,7 @@ export default {
 
   .nav {
     margin: auto 10px auto 5px;
-    color: $theme-color;
+    color: var(--theme-color);
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -374,7 +371,7 @@ export default {
       position: fixed;
       top: $header-height;
       right: 0;
-      background-color: $bgcolor-alt;
+      background-color: var(--bgcolor-alt);
       margin: -10px 20px 0 0;
       border-radius: 3px;
       box-shadow: $max-shadow;
@@ -396,7 +393,7 @@ export default {
           .account-name {
             margin: 0 0 0 13px;
             width: 100%;
-            color: $title-color;
+            color: var(--title-color);
           }
 
           .logout-btn {
@@ -433,7 +430,7 @@ export default {
         &:hover,
         &:active,
         &:focus {
-          background-color: $bgcolor-alt-light !important;
+          background-color: var(--bgcolor-alt-light) !important;
         }
 
         &.account-btn {
@@ -448,7 +445,7 @@ export default {
 
     a:not(.nav-btn) {
       text-decoration: none;
-      color: $subtitle-color;
+      color: var(--subtitle-color);
       transition: color 300ms $intro-easing;
       margin: 0 6px;
       display: flex;
@@ -467,7 +464,7 @@ export default {
 
     .nav-btn {
       text-decoration: none;
-      color: $subtitle-color;
+      color: var(--subtitle-color);
       transition: color 300ms $intro-easing;
       margin: 0 5px;
       display: flex;
@@ -485,7 +482,7 @@ export default {
     }
 
     .nav-btn.main {
-      border: solid 2px $subtitle-color;
+      border: solid 2px var(--subtitle-color);
       border-radius: 3px;
     }
 
@@ -495,11 +492,11 @@ export default {
         fill: #fff;
 
         .st0 {
-          fill: $theme-color;
+          fill: var(--theme-color);
         }
 
         .st1 {
-          fill: $header-bgcolor;
+          fill: var(--header-bgcolor);
         }
       }
     }

@@ -14,6 +14,7 @@ import ScrollDirective from './directives/scrollDirective'
 import ClickawayDirective from './directives/clickawayDirective'
 import CleanlinksDirective from './directives/cleanlinksDirective'
 import InstanceStore from '@/store/instances'
+import SettingsStore from '@/store/settings'
 
 const progressOptions = {
   color: '#ff7b3b',
@@ -55,6 +56,7 @@ UserStore.getCurrentUser({
 })
 
 InstanceStore.init()
+SettingsStore.init()
 
 new Vue({
   router,

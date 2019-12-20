@@ -103,13 +103,13 @@ export default {
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
-      color: $title-color;
+      color: var(--title-color);
       padding: 6px 0 4px 0;
       font-weight: bold;
     }
 
     .channel-entry-stats {
-      color: $subtitle-color;
+      color: var(--subtitle-color);
       display: flex;
       width: 100%;
       justify-content: space-between;
@@ -129,7 +129,7 @@ export default {
 
     .channel-entry-thmb {
       width: 100%;
-      height: unset;
+      height: 53vw;;
 
       .thmb-image-container {
         position: relative;

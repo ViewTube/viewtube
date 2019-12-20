@@ -121,7 +121,7 @@ export default {
     display: block;
 
     .channel-title-sticky {
-      background-color: $bgcolor-main;
+      background-color: var(--bgcolor-main);
       position: sticky;
       top: $header-height + 20px;
       transform: translateY(-$header-height - 20px);
@@ -142,7 +142,7 @@ export default {
         }
       }
       .channel-sticky-name {
-        color: $title-color;
+        color: var(--title-color);
         font-family: $default-font;
         margin: 10px 0 10px 0;
         font-size: 0.8rem;

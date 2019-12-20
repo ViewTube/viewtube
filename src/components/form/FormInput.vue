@@ -69,11 +69,11 @@ export default {
     position: absolute;
     right: 40px;
     top: 35px;
-    color: $title-color;
+    color: var(--title-color);
   }
 
   .input:not(:valid) + .material-design-icon {
-    color: $error-color-red;
+    color: var(--error-color-red)
   }
 
   .input {
@@ -86,15 +86,15 @@ export default {
 
     font-size: 1rem;
     border-style: none;
-    color: $title-color;
+    color: var(--title-color);
     box-sizing: border-box;
     font-family: $default-font;
     background-color: transparent;
-    border: 2px solid $bgcolor-alt-light;
+    border: 2px solid var(--bgcolor-alt-light);
     transition: border 300ms $intro-easing;
 
     &:focus {
-      border-color: $theme-color;
+      border-color: var(--theme-color);
     }
 
     &:focus,
@@ -104,7 +104,7 @@ export default {
 
     &:not(:valid) {
       box-shadow: none;
-      // border-color: $error-color-red;
+      // border-color: var(--error-color-red)
     }
   }
 
@@ -119,7 +119,7 @@ export default {
     pointer-events: none;
     transition: transform 300ms $intro-easing, color 300ms $intro-easing;
     transform-origin: left top;
-    color: $subtitle-color-light;
+    color: var(--subtitle-color-light);
   }
 
   .focus-content ~ .input-label,
@@ -128,7 +128,7 @@ export default {
   }
 
   .input:focus ~ .input-label {
-    color: $theme-color;
+    color: var(--theme-color);
   }
 }
 </style>

@@ -63,7 +63,7 @@ export default {
   top: 0;
   left: 0;
   margin-top: $header-height / 2;
-  background-color: $header-bgcolor;
+  background-color: var(--header-bgcolor);
   display: flex;
   flex-direction: column;
   box-shadow: $medium-shadow;
@@ -71,12 +71,12 @@ export default {
   .search-autocomplete-entry {
     padding: 5px 0 5px 10px;
     cursor: default;
-    color: $title-color;
+    color: var(--title-color);
     text-decoration: none;
     font-family: $default-font;
 
     &.selected {
-      background-color: $bgcolor-alt;
+      background-color: var(--bgcolor-alt)
     }
   }
 

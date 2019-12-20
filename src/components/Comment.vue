@@ -160,7 +160,7 @@ export default {
       font-weight: 700;
 
       &.owner {
-        color: $theme-color;
+        color: var(--theme-color);
       }
     }
 
@@ -175,7 +175,7 @@ export default {
     .comment-properties {
       display: flex;
       flex-direction: row;
-      color: $subtitle-color-light;
+      color: var(--subtitle-color-light);
 
       .comment-property {
         span.material-design-icon {
@@ -187,12 +187,12 @@ export default {
       }
 
       .edited {
-        color: $theme-color;
+        color: var(--theme-color);
         margin: 0 10px 0 0;
 
         span {
           margin: 0 2px;
-          color: $theme-color;
+          color: var(--theme-color);
           height: unset !important;
         }
       }
@@ -200,18 +200,18 @@ export default {
         margin: 0 5px 0 0;
       }
       .likes {
-        color: $subtitle-color-light;
+        color: var(--subtitle-color-light);
 
         span {
           margin: 0 0 0 10px;
-          color: $subtitle-color-light;
+          color: var(--subtitle-color-light);
         }
       }
       .creatorHeart {
         margin: 0 10px;
 
         span {
-          color: $theme-color;
+          color: var(--theme-color);
         }
       }
     }
