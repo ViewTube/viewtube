@@ -15,8 +15,24 @@
         :values="parameters.defaults.date"
         :value="parameters.date"
         :label="'Date'"
+        :noDefault="true"
         class="dropdown-btn"
         @valuechange="onSearchDateChange"
+      />
+      <Dropdown
+        :values="parameters.defaults.duration"
+        :value="parameters.duration"
+        :label="'Duration'"
+        :noDefault="true"
+        class="dropdown-btn"
+        @valuechange="onSearchDurationChange"
+      />
+      <Dropdown
+        :values="parameters.defaults.type"
+        :value="parameters.type"
+        :label="'Type'"
+        class="dropdown-btn"
+        @valuechange="onSearchTypeChange"
       />
     </div>
     <div v-if="!loading" class="search-videos-container">
@@ -90,13 +106,21 @@ export default {
     onSearchDateChange(element, index) {
       SearchParams.date = element.value
       this.reloadSearchWithParams()
+    },
+    onSearchDurationChange(element, index) {
+      SearchParams.duration = element.value
+      this.reloadSearchWithParams()
+    },
+    onSearchTypeChange(element, index) {
+      SearchParams.type = element.value
+      this.reloadSearchWithParams()
     }
   },
   beforeRouteEnter(to, from, next) {
     let searchQuery = to.query.search_query
     let searchParams = SearchParams.parseQuery(to.query)
     if (searchQuery.length > 0) {
-      fetch(`${Commons.getApiUrl()}search?q=${searchQuery}&page=1&type=all${searchParams}`, {
+      fetch(`${Commons.getApiUrl()}search?q=${searchQuery}&page=1${searchParams}`, {
         cache: 'force-cache',
         method: 'GET'
       })
@@ -117,7 +141,7 @@ export default {
     let searchQuery = to.query.search_query
     let searchParams = SearchParams.parseQuery(to.query)
     if (searchQuery.length > 0) {
-      fetch(`${Commons.getApiUrl()}search?q=${searchQuery}&page=1&type=all${searchParams}`, {
+      fetch(`${Commons.getApiUrl()}search?q=${searchQuery}&page=1${searchParams}`, {
         cache: 'force-cache',
         method: 'GET'
       })

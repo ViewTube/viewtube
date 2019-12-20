@@ -1,7 +1,8 @@
 export default {
   sort_by: 'relevance',
   date: null,
-  type: null,
+  type: 'video',
+  duration: null,
   features: null,
   defaults: {
     sort_by: [
@@ -32,6 +33,7 @@ export default {
     return queryString
   },
   getParamsString() {
+    console.log(this.parseQuery(this))
     return this.parseQuery(this)
   }
 }

@@ -1,7 +1,14 @@
 <template>
   <div class="dropdown" v-clickaway="hideDropdown">
-    <div class="dropdown-btn" @click.stop="onDropdownBtnClick">
-      <p class="dropdown-title">{{ entries[selected].name }}</p>
+    <div
+      class="dropdown-btn"
+      @click.stop="onDropdownBtnClick"
+      :class="{ 'label-unselected': selected === null }"
+    >
+      <div class="dropdown-title">
+        <p v-if="selected !== null">{{ entries[selected].name }}</p>
+        <p v-if="selected === null">{{ label }}</p>
+      </div>
       <label class="dropdown-label" v-if="label">{{ label }}</label>
     </div>
     <div class="dropdown-list" :class="{ open: open }">
@@ -24,7 +31,8 @@ export default {
   props: {
     values: Array,
     value: String,
-    label: String
+    label: String,
+    noDefault: Boolean
   },
   data: () => ({
     selected: 0,
@@ -33,7 +41,11 @@ export default {
   mounted() {
     let me = this
     let selectedEntry = this.entries.findIndex(e => e.value === me.value)
-    this.selected = selectedEntry !== -1 ? selectedEntry : 0
+    if (this.noDefault && this.value === null) {
+      this.selected = selectedEntry !== -1 ? selectedEntry : null
+    } else {
+      this.selected = selectedEntry !== -1 ? selectedEntry : 0
+    }
   },
   computed: {
     entries() {
@@ -73,22 +85,45 @@ export default {
     cursor: pointer;
     position: relative;
 
+    &.label-unselected {
+      .dropdown-label {
+        display: none;
+      }
+
+      .dropdown-title {
+        p {
+          // color: $theme-color;
+        }
+
+        &:after{
+          color: $theme-color;
+        }
+      }
+    }
+
     .dropdown-label {
       color: $theme-color;
       position: absolute;
       top: 0;
       left: 0;
       font-size: 0.8rem;
+      font-weight: bold;
     }
 
     .dropdown-title {
-      line-height: 40px;
+      line-height: 30px;
       background-image: $theme-color-primary-gradient;
       background-size: 0% 2px;
       background-position: 0 100%;
       background-repeat: no-repeat;
       background-size: 100% 2px;
       padding-top: 10px;
+      display: flex;
+      flex-direction: row;
+
+      p {
+        line-height: 40px;
+      }
 
       &:after {
         content: "▼";
