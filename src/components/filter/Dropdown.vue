@@ -97,7 +97,7 @@ export default {
         }
 
         &:after{
-          color: $theme-color;
+          color: var(--theme-color);
         }
       }
     }
