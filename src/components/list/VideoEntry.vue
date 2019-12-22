@@ -5,14 +5,16 @@
       class="video-entry-thmb"
       :to="{path: '/watch?v=' + video.videoId}"
       :data-tippy-content="videoProgressTooltip"
-      :class="{ tooltip: videoProgressPercentage > 0 }"
+      :class="{ tooltip: videoProgressPercentage > 0, 'has-description': video.description }"
     >
       <div class="thmb-image-container">
-        <img
-          class="video-entry-thmb-image"
-          v-lazy="video.videoThumbnails[4].url"
-          :alt="`${video.title}`"
-        />
+        <div class="thmb-clip">
+          <img
+            class="video-entry-thmb-image"
+            v-lazy="video.videoThumbnails[4].url"
+            :alt="`${video.title}`"
+          />
+        </div>
         <div class="video-description-overlay" v-if="video.description">
           <p>{{ video.description }}</p>
         </div>
@@ -60,7 +62,7 @@ export default {
       videoProgressTooltip: `${Commons.getTimestampFromSeconds(SavedPosition.getSavedPosition(this.video.videoId))} of ${Commons.getTimestampFromSeconds(this.video.lengthSeconds)}`
     }
   },
-  mounted () {
+  mounted() {
     tippy('.tooltip', {
       duration: 300,
       arrow: false,
@@ -91,7 +93,7 @@ export default {
     top: 10px;
     left: 10px;
     width: calc(100% - 20px);
-    background-color: #34363b;
+    // background-color: #34363b;
     z-index: 10;
     transition-duration: 300ms;
     transition-timing-function: $intro-easing;
@@ -101,19 +103,30 @@ export default {
   .video-entry-thmb {
     width: 100%;
     height: 175px;
-    overflow: hidden;
+    // overflow: hidden;
     position: relative;
-    box-shadow: $max-shadow;
     z-index: 11;
+    perspective: 1000px;
 
     .thmb-image-container {
       position: relative;
       top: 50%;
       left: 0;
       transform: translateY(-50%);
+      transition: transform 800ms 100ms $intro-easing;
+      transform-style: preserve-3d;
+      box-shadow: $max-shadow;
 
-      .video-entry-thmb-image {
+      .thmb-clip {
+        overflow: hidden;
         width: 100%;
+        height: 175px;
+        backface-visibility: hidden;
+
+        .video-entry-thmb-image {
+          width: 100%;
+          transition: filter 0ms 300ms $intro-easing;
+        }
       }
 
       .video-description-overlay {
@@ -124,13 +137,13 @@ export default {
         top: 0;
         width: 100%;
         height: 100%;
-        background-color: #000000c0;
-        padding: 25px 5px 5px 5px;
+        background-color: #0000009f;
+        padding: 10px;
         overflow: hidden;
         box-sizing: border-box;
-        font-size: 0.9rem;
-        opacity: 0;
-        transition: opacity 300ms $intro-easing;
+        font-size: 1rem;
+        backface-visibility: hidden;
+        transform: rotateY(180deg);
 
         p {
           width: 100%;
@@ -140,12 +153,17 @@ export default {
       }
     }
 
-    &:hover {
+    &:hover.has-description {
       .thmb-image-container {
-        .video-description-overlay {
-          opacity: 1;
-          transition: opacity 300ms 500ms $intro-easing;
+        transform: rotateY(180deg) translateY(-50%);
+        .thmb-clip {
+          .video-entry-thmb-image {
+            filter: blur(5px);
+          }
         }
+      }
+      .video-entry-length {
+        transform: scale(0);
       }
     }
 
@@ -169,6 +187,7 @@ export default {
       box-sizing: border-box;
       border-radius: 2px;
       font-family: $default-font;
+      transition: transform 300ms 200ms $intro-easing;
     }
   }
 
@@ -220,7 +239,21 @@ export default {
 
     .video-entry-thmb {
       width: 100%;
-      height: 53vw;;
+      height: 53vw;
+
+      &:hover.has-description {
+        .thmb-image-container {
+          transform: rotateY(180deg) translateY(0);
+          .thmb-clip {
+            .video-entry-thmb-image {
+              filter: blur(5px);
+            }
+          }
+        }
+        .video-entry-length {
+          transform: scale(0);
+        }
+      }
 
       .thmb-image-container {
         position: relative;
@@ -228,9 +261,13 @@ export default {
         left: 0;
         transform: translateY(0);
 
-        .video-entry-thmb-image {
-          top: 0;
-          transform: translateY(0px);
+        .thmb-clip {
+          height: 53vw;
+
+          .video-entry-thmb-image {
+            top: 0;
+            transform: translateY(0px);
+          }
         }
       }
     }
