@@ -1,6 +1,6 @@
 <template>
   <div class="gradient-container">
-    <div class="gradient-background" :class="color" :hidden="settings.getTheme() !== 'default'">
+    <div class="gradient-background" :class="color" :hide="settings.getTheme() !== 'default'">
       <span class="background-shadow"></span>
     </div>
   </div>
@@ -37,7 +37,7 @@ export default {
     z-index: 9;
     opacity: 1;
 
-    &[hidden="true"] {
+    &[hide="true"] {
       opacity: 0;
     }
 

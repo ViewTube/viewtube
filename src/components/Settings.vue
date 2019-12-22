@@ -3,9 +3,13 @@
     <div class="settings-container">
       <CloseIcon class="close-icon" @click.stop="$emit('close')" />
       <h1>Settings</h1>
-      <h2>Invidio.us instance</h2>
+      <h2>
+        <InstanceIcon />Invidio.us instance
+      </h2>
       <Dropdown :values="instances" :value="currentInstance" @valuechange="onInstanceChange" />
-      <h2>Theme</h2>
+      <h2>
+        <ThemeIcon />Theme
+      </h2>
       <Dropdown :values="themes" :value="currentTheme" @valuechange="onThemeChange" />
     </div>
     <div class="settings-overlay" @click.stop="$emit('close')"></div>
@@ -15,14 +19,18 @@
 <script>
 import Dropdown from '@/components/filter/Dropdown'
 import InstanceStore from '@/store/instances'
-import CloseIcon from 'vue-material-design-icons/Close'
+import CloseIcon from 'icons/Close'
 import SettingsStore from '@/store/settings'
+import ThemeIcon from 'icons/Brightness4'
+import InstanceIcon from 'icons/ServerNetwork'
 
 export default {
   name: 'settings',
   components: {
     Dropdown,
-    CloseIcon
+    CloseIcon,
+    ThemeIcon,
+    InstanceIcon
   },
   data() {
     return {
@@ -105,6 +113,24 @@ export default {
       font-size: 2rem;
       color: var(--theme-color);
       font-family: $default-font;
+    }
+
+    h2 {
+      padding: 40px 0 0 0;
+
+      span {
+        margin: 0 10px 0 0;
+
+        svg {
+          bottom: -0.2rem !important;
+          height: 1em !important;
+          width: 1em !important;
+        }
+      }
+    }
+
+    div {
+      margin: 0 0 0 12px;
     }
 
     @media screen and (max-width: $mobile-width) {

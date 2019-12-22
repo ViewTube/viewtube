@@ -77,7 +77,7 @@ export default {
     font-family: $default-font;
 
     &.selected {
-      background-color: var(--bgcolor-alt);
+      background-color: var(--bgcolor-alt-light);
     }
   }
 

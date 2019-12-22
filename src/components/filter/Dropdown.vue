@@ -1,5 +1,5 @@
 <template>
-  <div class="dropdown" v-clickaway="hideDropdown">
+  <div class="dropdown" v-clickaway="hideDropdown" ref="dropdownBtn" :class="{ open: open }">
     <div
       class="dropdown-btn"
       @click.stop="onDropdownBtnClick"
@@ -11,17 +11,23 @@
       </div>
       <label class="dropdown-label" v-if="label">{{ label }}</label>
     </div>
-    <div class="dropdown-list" :class="{ open: open }">
-      <span
-        class="list-entry"
-        v-for="(item, id) in entries"
-        :key="id"
-        :index="id"
-        :value="item.value"
-        @click="select"
-        :class="{ selected: selected == id }"
-      >{{ item.name }}</span>
-    </div>
+    <portal to="dropdown" v-if="visible">
+      <div
+        class="dropdown-list"
+        :class="{ open: open }"
+        :style="{ top: `${offsetTop}px`, left: `${offsetLeft}px` }"
+      >
+        <span
+          class="list-entry"
+          v-for="(item, id) in entries"
+          :key="id"
+          :index="id"
+          :value="item.value"
+          @click="select"
+          :class="{ selected: selected == id }"
+        >{{ item.name }}</span>
+      </div>
+    </portal>
   </div>
 </template>
 
@@ -34,10 +40,15 @@ export default {
     label: String,
     noDefault: Boolean
   },
-  data: () => ({
-    selected: 0,
-    open: false
-  }),
+  data: function () {
+    return {
+      selected: 0,
+      open: false,
+      offsetTop: null,
+      offsetLeft: null,
+      visible: false
+    }
+  },
   mounted() {
     let me = this
     let selectedEntry = this.entries.findIndex(e => e.value === me.value)
@@ -46,6 +57,8 @@ export default {
     } else {
       this.selected = selectedEntry !== -1 ? selectedEntry : 0
     }
+    this.calculateOffset()
+    this.visible = true
   },
   computed: {
     entries() {
@@ -59,16 +72,27 @@ export default {
     }
   },
   methods: {
+    calculateOffset() {
+      if (this.$refs.dropdownBtn) {
+        let dropdownDimens = this.$refs.dropdownBtn.getBoundingClientRect()
+        this.offsetTop = dropdownDimens.top + 50
+        this.offsetLeft = dropdownDimens.left
+      }
+    },
     select(e) {
       this.selected = e.target.getAttribute('index')
       this.open = false
       this.$emit('valuechange', this.entries[this.selected], this.selected)
     },
     onDropdownBtnClick(e) {
+      this.calculateOffset()
       this.open = !this.open
+      window.addEventListener('resize', this.calculateOffset)
     },
     hideDropdown() {
+      this.calculateOffset()
       this.open = false
+      window.removeEventListener('resize', this.calculateOffset)
     }
   }
 }
@@ -81,6 +105,27 @@ export default {
   display: flex;
   position: relative;
   z-index: 10;
+
+  &:after {
+    content: "";
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    position: fixed;
+    display: block;
+    pointer-events: none;
+    background-color: transparent;
+    z-index: 400;
+    transition: background-color 300ms $intro-easing;
+  }
+
+  @media screen and (max-width: $mobile-width) {
+    &.open:after {
+      background-color: var(--bgcolor-translucent);
+      pointer-events: auto;
+    }
+  }
 
   .dropdown-btn {
     cursor: pointer;
@@ -96,7 +141,7 @@ export default {
           // color: $theme-color;
         }
 
-        &:after{
+        &:after {
           color: var(--theme-color);
         }
       }
@@ -135,43 +180,71 @@ export default {
       }
     }
   }
+}
 
-  .dropdown-list {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    transform-origin: top;
-    background-color: var(--bgcolor-alt);
-    display: flex;
-    flex-direction: column;
-    border-radius: 5px;
-    transition-property: transform, clip-path, box-shadow;
-    transition-duration: 300ms;
-    transition-timing-function: $intro-easing;
-    overflow: hidden;
-    padding: 5px 0;
-    z-index: 11;
+.dropdown-list {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform-origin: top;
+  background-color: var(--bgcolor-alt);
+  display: flex;
+  flex-direction: column;
+  border-radius: 5px;
+  transition-property: transform, clip-path, box-shadow;
+  transition-duration: 300ms;
+  transition-timing-function: $intro-easing;
+  overflow: hidden;
+  padding: 5px 0;
+  z-index: 800;
+  margin: 0;
 
-    transform: scale(0.8);
-    clip-path: polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%);
+  @media screen and (max-width: $mobile-width) {
+    width: calc(100% - 28px) !important;
+    top: 50% !important;
+    left: 0 !important;
+    margin: 0 10px !important;
+    box-sizing: border-box;
+    position: fixed;
+    transform: scale(0) translateY(-50%) !important;
+    clip-path: none !important;
+    transform-origin: center top !important;
+    transition: opacity 300ms 0ms $intro-easing, transform 600ms $outro-easing,
+      box-shadow 300ms !important;
+      opacity: 0;
 
     &.open {
-      clip-path: polygon(-50% -50%, 150% -50%, 150% 150%, -50% 150%);
-      transform: scale(1);
-      box-shadow: $max-shadow;
+      clip-path: none !important;
+      transform: scale(1) translateY(-50%) !important;
+      transition: opacity 200ms 100ms $intro-easing,
+        transform 300ms cubic-bezier(0,.98,.21,.98), box-shadow 300ms !important;
+        opacity: 1;
+    }
+  }
+
+  transform: scale(0.8);
+  clip-path: polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%);
+
+  &.open {
+    clip-path: polygon(-50% -50%, 150% -50%, 150% 150%, -50% 150%);
+    transform: scale(1);
+    box-shadow: $max-shadow;
+  }
+
+  .list-entry {
+    padding: 8px 10px 8px 10px;
+    cursor: pointer;
+    white-space: nowrap;
+
+    @media screen and (max-width: $mobile-width) {
+      padding: 14px 10px 14px 10px;
     }
 
-    .list-entry {
-      padding: 8px 10px 8px 10px;
-      cursor: pointer;
-      white-space: nowrap;
-
-      &:hover {
-        background-color: var(--bgcolor-alt-light)
-      }
-      &.selected {
-        color: var(--theme-color);
-      }
+    &:hover {
+      background-color: var(--bgcolor-alt-light);
+    }
+    &.selected {
+      color: var(--theme-color);
     }
   }
 }

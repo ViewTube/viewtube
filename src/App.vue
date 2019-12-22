@@ -9,6 +9,7 @@
     <Header :scrollTop="scrolledTop" v-if="!headless" />
     <vue-progress-bar :class="{ 'progress-bar-margin': !headless }"></vue-progress-bar>
     <router-view class="content" ref="content" @scroll="handleScroll" />
+    <portal-target class="dropdown-portal" name="dropdown" multiple></portal-target>
   </div>
 </template>
 
@@ -116,6 +117,21 @@ body {
     height: 100%;
     width: 100%;
     background-color: var(--bgcolor-main);
+
+    .dropdown-portal {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      pointer-events: none;
+      user-select: none;
+
+      > * {
+        user-select: auto;
+        pointer-events: auto;
+      }
+    }
 
     .progress-bar-margin {
       top: $header-height !important;

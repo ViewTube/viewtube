@@ -86,15 +86,6 @@
           </div>
           <a
             href="#"
-            @click.self.prevent="openInYT"
-            id="open-in-yt"
-            class="ripple tooltip menu-btn"
-            data-tippy-content="view on youtube (hold alt for invidio.us)"
-          >
-            <YoutubeIcon />open in youtube
-          </a>
-          <a
-            href="#"
             @click.self.prevent="share"
             id="share"
             class="ripple tooltip menu-btn"
@@ -126,7 +117,6 @@ import SettingsIcon from 'icons/Settings.vue'
 import MainSearchBox from '@/components/MainSearchBox'
 import AccountIcon from 'icons/AccountCircle'
 import AccountPlusIcon from 'vue-material-design-icons/AccountPlus'
-import YoutubeIcon from 'icons/Youtube'
 import tippy from 'tippy.js'
 import UserStore from '@/store/user.js'
 import Settings from '@/components/Settings'
@@ -137,7 +127,6 @@ export default {
     ShareIcon,
     SettingsIcon,
     AccountIcon,
-    YoutubeIcon,
     AccountPlusIcon,
     MainSearchBox,
     Settings
@@ -166,8 +155,6 @@ export default {
           this.accountMenuVisible = false
         }, 200)
       }
-    },
-    openInYT: function () {
     },
     share: function () {
       if (typeof navigator.share === 'function') {
