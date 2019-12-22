@@ -33,7 +33,7 @@ $theme-color-gradient-vertical: linear-gradient(
 $theme-color-primary-gradient: linear-gradient(
   to right,
   var(--theme-color),
-  var(--theme-color)
+  var(--theme-color-dark)
 );
 
 $bgcolor-gradient: linear-gradient(to right, var(--bgcolor-alt), var(--bgcolor-alt-light));

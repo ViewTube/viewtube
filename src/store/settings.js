@@ -2,7 +2,7 @@ export default {
   theme: 'default',
   defaults: {
     theme: [
-      { value: 'default', name: 'Default - Dark Theme' },
+      { value: 'default', name: 'Dark Theme' },
       { value: 'light', name: 'Light Theme' }
     ]
   },

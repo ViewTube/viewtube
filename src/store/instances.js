@@ -4,7 +4,8 @@ export default {
     'https://invidio.us',
     'https://invidious.snopyta.org',
     'https://invidiou.sh',
-    'https://invidious.ggc-project.de'
+    'https://invidious.ggc-project.de',
+    'https://yewtu.be'
   ],
 
   init() {

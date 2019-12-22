@@ -268,6 +268,7 @@ export default {
   flex-direction: row;
   justify-content: space-between;
   z-index: 800;
+  background-color: var(--header-transparent);
 
   transition: box-shadow 300ms $intro-easing,
     background-color 300ms $intro-easing;

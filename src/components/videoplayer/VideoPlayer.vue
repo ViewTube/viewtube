@@ -29,7 +29,7 @@
     >
       <video
         class="video"
-        :src="video.formatStreams[0].url"
+        :src="highestVideoQuality"
         @waiting="onVideoBuffering"
         @canplay="onVideoCanplay"
         @playing="onVideoPlaying"
@@ -217,6 +217,10 @@ export default {
     }
   },
   computed: {
+    highestVideoQuality() {
+      let streams = this.video.formatStreams
+      return streams[streams.length - 1].url
+    },
     videoVolume() {
       return this.videoElement.playerVolume
     },

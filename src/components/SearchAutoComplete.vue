@@ -46,7 +46,8 @@ export default {
       })
         .then(response => response.json())
         .then(data => {
-          me.autocompleteValues = data
+          me.autocompleteValues = [me.searchValue]
+          me.autocompleteValues = me.autocompleteValues.concat(data)
         })
         .catch(error => {
           console.error(error)
@@ -76,7 +77,7 @@ export default {
     font-family: $default-font;
 
     &.selected {
-      background-color: var(--bgcolor-alt)
+      background-color: var(--bgcolor-alt);
     }
   }
 

@@ -6,7 +6,10 @@
       :image="(channel.authorThumbnails !== undefined ? channel.authorThumbnails[0].url : '#')"
       lang="en"
     />
-    <Banner :src="channel.authorBanners[0].url" v-if="channel.authorBanners" />
+    <Banner
+      v-if="channel.authorBanners && channel.authorBanners.length > 0"
+      :src="channel.authorBanners[0].url"
+    />
     <Overview :channel="channel" v-if="!loading" />
     <div class="channel-videos-container" v-if="!loading">
       <div class="channel-title-sticky">
