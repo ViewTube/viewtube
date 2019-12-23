@@ -1,6 +1,6 @@
 <template>
-  <div class="settings">
-    <div class="settings-container">
+  <div class="settings popup">
+    <div class="settings-container popup-container">
       <CloseIcon class="close-icon" @click.stop="$emit('close')" />
       <h1>Settings</h1>
       <h2>
@@ -12,7 +12,7 @@
       </h2>
       <Dropdown :values="themes" :value="currentTheme" @valuechange="onThemeChange" />
     </div>
-    <div class="settings-overlay" @click.stop="$emit('close')"></div>
+    <div class="settings-overlay popup-overlay" @click.stop="$emit('close')"></div>
   </div>
 </template>
 
@@ -23,6 +23,7 @@ import CloseIcon from 'icons/Close'
 import SettingsStore from '@/store/settings'
 import ThemeIcon from 'icons/Brightness4'
 import InstanceIcon from 'icons/ServerNetwork'
+import '@/styles/popup.scss'
 
 export default {
   name: 'settings',
@@ -53,95 +54,9 @@ export default {
         }, 300)
       }, 300)
     }
-  },
-  mounted() {
-    this.$Progress.finish()
   }
 }
 </script>
 
 <style lang="scss">
-.settings-overlay {
-  position: fixed;
-  background-color: var(--bgcolor-translucent);
-  width: 100%;
-  height: 100%;
-  z-index: 8;
-}
-
-.settings {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  z-index: 8;
-  position: fixed;
-
-  .settings-container {
-    width: 100%;
-    z-index: 10;
-    margin: auto;
-    width: 100%;
-    max-width: 500px;
-    background-color: var(--bgcolor-alt);
-    box-shadow: $medium-shadow;
-    border-radius: 3px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-    position: relative;
-    padding: 20px;
-
-    .close-icon {
-      position: absolute;
-      right: 0;
-      top: 0;
-      margin: 20px 20px 0 0;
-      height: 38px;
-      width: 38px;
-      cursor: pointer;
-
-      .material-design-icon__svg {
-        height: 38px !important;
-        width: 38px !important;
-        position: unset !important;
-      }
-    }
-
-    h1 {
-      margin: 0 auto;
-      font-size: 2rem;
-      color: var(--theme-color);
-      font-family: $default-font;
-    }
-
-    h2 {
-      padding: 40px 0 0 0;
-
-      span {
-        margin: 0 10px 0 0;
-
-        svg {
-          bottom: -0.2rem !important;
-          height: 1em !important;
-          width: 1em !important;
-        }
-      }
-    }
-
-    div {
-      margin: 0 0 0 12px;
-    }
-
-    @media screen and (max-width: $mobile-width) {
-      height: 100%;
-      max-width: 100%;
-      padding-top: $header-height;
-
-      .close-icon {
-        margin: 60px 20px 0 0;
-      }
-    }
-  }
-}
 </style>

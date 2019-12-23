@@ -1,11 +1,5 @@
 <template>
-  <div
-    id="app"
-    :class="{
-      'theme--light': settings.getTheme() === 'light',
-      'theme--default': settings.getTheme() === 'default'
-    }"
-  >
+  <div id="app" :class="`theme--${settings.getTheme()}`">
     <Header :scrollTop="scrolledTop" v-if="!headless" />
     <vue-progress-bar :class="{ 'progress-bar-margin': !headless }"></vue-progress-bar>
     <router-view class="content" ref="content" @scroll="handleScroll" />

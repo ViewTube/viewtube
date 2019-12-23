@@ -3,7 +3,9 @@ export default {
   defaults: {
     theme: [
       { value: 'default', name: 'Dark Theme' },
-      { value: 'light', name: 'Light Theme' }
+      { value: 'light', name: 'Light Theme' },
+      { value: 'dark-no-gradient', name: 'Dark Theme without background gradients' },
+      { value: 'black', name: 'Black Theme' }
     ]
   },
 
@@ -21,6 +23,7 @@ export default {
     localStorage.setItem('theme', theme)
     this.theme = theme
   },
+
   getTheme() {
     return this.theme
   }

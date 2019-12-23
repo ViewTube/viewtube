@@ -102,11 +102,21 @@
           >
             <SettingsIcon />settings
           </a>
+          <a
+            href="#"
+            @click.self.prevent="openAbout"
+            id="about-btn"
+            class="ripple tooltip menu-btn"
+            data-tippy-content="open about"
+          >
+            <SettingsIcon />about
+          </a>
         </div>
       </transition>
     </div>
     <transition name="fade-down">
       <Settings v-if="settingsOpen" @close="closeSettings" />
+      <About v-if="aboutOpen" @close="closeAbout" />
     </transition>
   </div>
 </template>
@@ -120,6 +130,7 @@ import AccountPlusIcon from 'vue-material-design-icons/AccountPlus'
 import tippy from 'tippy.js'
 import UserStore from '@/store/user.js'
 import Settings from '@/components/Settings'
+import About from '@/components/About'
 
 export default {
   name: 'Header',
@@ -129,7 +140,8 @@ export default {
     AccountIcon,
     AccountPlusIcon,
     MainSearchBox,
-    Settings
+    Settings,
+    About
   },
   props: {
     scrollTop: Boolean
@@ -138,7 +150,8 @@ export default {
     return {
       accountMenuVisible: false,
       loginState: UserStore.state,
-      settingsOpen: false
+      settingsOpen: false,
+      aboutOpen: false
     }
   },
   methods: {
@@ -166,6 +179,13 @@ export default {
           .catch(error => console.log('Error sharing:', error))
       }
       this.hideAccountMenu()
+    },
+    openAbout() {
+      this.hideAccountMenu()
+      this.aboutOpen = true
+    },
+    closeAbout() {
+      this.aboutOpen = false
     },
     openSettings: function () {
       this.hideAccountMenu()
