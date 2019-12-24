@@ -219,7 +219,7 @@ export default {
   computed: {
     highestVideoQuality() {
       let streams = this.video.formatStreams
-      return streams[streams.length - 1].url
+      return streams[0].url
     },
     videoVolume() {
       return this.videoElement.playerVolume
