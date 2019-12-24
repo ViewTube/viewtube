@@ -109,7 +109,7 @@
             class="ripple tooltip menu-btn"
             data-tippy-content="open about"
           >
-            <SettingsIcon />about
+            <AboutIcon />about
           </a>
         </div>
       </transition>
@@ -122,13 +122,14 @@
 </template>
 
 <script>
-import ShareIcon from 'icons/Share.vue'
-import SettingsIcon from 'icons/Settings.vue'
+import ShareIcon from 'icons/Share'
+import SettingsIcon from 'icons/Settings'
+import AboutIcon from 'vue-material-design-icons/InformationOutline'
 import MainSearchBox from '@/components/MainSearchBox'
 import AccountIcon from 'icons/AccountCircle'
 import AccountPlusIcon from 'vue-material-design-icons/AccountPlus'
 import tippy from 'tippy.js'
-import UserStore from '@/store/user.js'
+import UserStore from '@/store/user'
 import Settings from '@/components/Settings'
 import About from '@/components/About'
 
@@ -137,6 +138,7 @@ export default {
   components: {
     ShareIcon,
     SettingsIcon,
+    AboutIcon,
     AccountIcon,
     AccountPlusIcon,
     MainSearchBox,

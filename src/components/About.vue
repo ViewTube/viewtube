@@ -2,7 +2,39 @@
   <div class="about popup">
     <div class="about-container popup-container">
       <CloseIcon class="close-icon" @click.stop="$emit('close')" />
-      <h1>About</h1>
+      <h1>About ViewTube</h1>
+      <div class="logo-about">
+        <img class="logo-about-img" src="@/assets/icon-background-192.jpg" alt="ViewTube" />
+      </div>
+      <h2>ViewTube by Maurice Oegerli</h2>
+      <h3>{{ description }}</h3>
+      <div class="links-about">
+        <a class="badge-btn" target="_blank" href="https://github.com/mauriceoegerli/viewtube-vue">
+          <GithubIcon />ViewTube
+        </a>
+        <a class="badge-btn" target="_blank" href="https://github.com/omarroth/invidious">
+          <GithubIcon />Invidious
+        </a>
+        <a class="badge-btn" target="_blank" href="https://invidio.us">
+          <ExternalIcon />Invidious
+        </a>
+      </div>
+      <div class="invidious-stats" v-if="invidousStats">
+        <table>
+          <tr>
+            <td>Invidious instance</td>
+            <td>{{ currentInstance }}</td>
+          </tr>
+          <tr>
+            <td>Version</td>
+            <td>{{ invidousStats.software.version }}</td>
+          </tr>
+          <tr>
+            <td>Last update</td>
+            <td>{{ new Date(invidousStats.metadata.updatedAt).toUTCString() }}</td>
+          </tr>
+        </table>
+      </div>
     </div>
     <div class="about-overlay popup-overlay" @click.stop="$emit('close')"></div>
   </div>
@@ -10,14 +42,101 @@
 
 <script>
 import CloseIcon from 'icons/Close'
+import Commons from '@/commons.js'
+import InstanceStore from '@/store/instances'
+import GithubIcon from 'vue-material-design-icons/GithubCircle'
+import ExternalIcon from 'vue-material-design-icons/OpenInNew'
+
 export default {
   name: 'about',
   components: {
-    CloseIcon
+    CloseIcon,
+    GithubIcon,
+    ExternalIcon
+  },
+  data: () => ({
+    description: Commons.description,
+    invidousStats: null,
+    currentInstance: InstanceStore.currentInstance
+  }),
+  mounted() {
+    let me = this
+    fetch(`${Commons.getApiUrl()}stats`, {
+      cache: 'force-cache',
+      method: 'GET'
+    })
+      .then(response => response.json())
+      .then(data => {
+        me.invidousStats = data
+      })
+      .catch(error => {
+        console.error(error)
+      })
   }
-
 }
 </script>
 
-<style>
+<style lang="scss">
+.invidious-stats {
+  margin: 0 !important;
+
+  table {
+    border-collapse: collapse;
+    table-layout: auto;
+    width: 100%;
+    margin: 10px 0 0 0;
+
+    tr {
+      td {
+        padding: 5px 10px 5px 0;
+        &:nth-of-type(1) {
+          color: var(--theme-color);
+        }
+      }
+    }
+  }
+}
+.links-about {
+  margin: 10px 0 0 0 !important;
+
+  a {
+    line-height: 24px;
+    span {
+      margin: -1px 10px 0 0;
+    }
+  }
+}
+
+.logo-about {
+  margin: 20px auto 0 auto !important;
+  clip-path: polygon(
+    18% 4%,
+    95% 50%,
+    95% 50%,
+    95% 50%,
+    95% 50%,
+    95% 50%,
+    18% 96%
+  );
+  width: 200px;
+  height: 200px;
+
+  .logo-about-img {
+    transform-origin: top left;
+    animation: float-around 10s $dynamic-easing infinite;
+    width: 100%;
+  }
+}
+
+@keyframes float-around {
+  0% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(-30%, -30%) scale(1.5) rotate(5deg);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
 </style>
