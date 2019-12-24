@@ -2,7 +2,7 @@ import InstanceStore from '@/store/instances'
 
 export default {
   autocompleteUrl: 'https://autocomplete.viewtube.eu/',
-  description: 'An alternative YouTube frontend using the invidio.us API.',
+  description: 'An alternative YouTube frontend using the Invidious API.',
   language: 'en-US',
 
   getApiUrl: function () {
