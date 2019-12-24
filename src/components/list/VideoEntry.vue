@@ -56,10 +56,18 @@ export default {
     video: Object
   },
   data: () => ({
-    commons: Commons,
-    videoProgressPercentage: SavedPosition.getSavedPosition(this.video.videoId) / this.video.lengthSeconds * 100,
-    videoProgressTooltip: `${Commons.getTimestampFromSeconds(SavedPosition.getSavedPosition(this.video.videoId))} of ${Commons.getTimestampFromSeconds(this.video.lengthSeconds)}`
+    commons: Commons
   }),
+  computed: {
+    videoProgressPercentage() {
+      return SavedPosition.getSavedPosition(this.video.videoId) / this.video.lengthSeconds * 100
+    },
+    videoProgressTooltip() {
+      let watchTime = Commons.getTimestampFromSeconds(SavedPosition.getSavedPosition(this.video.videoId))
+      let totalTime = Commons.getTimestampFromSeconds(this.video.lengthSeconds)
+      return `${watchTime} of ${totalTime}`
+    }
+  },
   mounted() {
     tippy('.tooltip', {
       duration: 300,
@@ -68,9 +76,6 @@ export default {
       touch: 'hold',
       placement: 'bottom'
     })
-  },
-  methods: {
-
   }
 }
 </script>
