@@ -59,13 +59,11 @@ export default {
   props: {
     value: null
   },
-  data: function () {
-    return {
-      popupVisible: false
-    }
-  },
+  data: () => ({
+    popupVisible: false
+  }),
   computed: {
-    volumeCategory () {
+    volumeCategory() {
       if (this.value >= 1) {
         return 3
       } else if (this.value < 1 && this.value >= 0.5) {
@@ -79,11 +77,11 @@ export default {
     }
   },
   methods: {
-    onVolumeInteraction: function (e) {
+    onVolumeInteraction(e) {
       e.preventDefault()
       e.stopPropagation()
     },
-    onVolumeTouchInteraction: function (e) {
+    onVolumeTouchInteraction(e) {
       this.popupVisible = !this.popupVisible
       e.preventDefault()
       e.stopPropagation()

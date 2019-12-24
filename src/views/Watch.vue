@@ -104,18 +104,16 @@ export default {
     SubscribeButton,
     Comment
   },
-  data: function () {
-    return {
-      video: [],
-      comment: null,
-      loading: true,
-      commentsLoading: true,
-      commentsContinuationLink: null,
-      commentsContinuationLoading: false,
-      commons: Commons
-    }
-  },
-  beforeRouteEnter: function (to, from, next) {
+  data: () => ({
+    video: [],
+    comment: null,
+    loading: true,
+    commentsLoading: true,
+    commentsContinuationLink: null,
+    commentsContinuationLoading: false,
+    commons: Commons
+  }),
+  beforeRouteEnter(to, from, next) {
     let videoId = to.query.v
     fetch(`${Commons.getApiUrl()}videos/${videoId}`, {
       cache: 'force-cache',
@@ -130,7 +128,7 @@ export default {
         next(vm => vm.$Progress.fail())
       })
   },
-  beforeRouteUpdate: function (to, from, next) {
+  beforeRouteUpdate(to, from, next) {
     this.$Progress.start()
     let videoId = to.query.v
     fetch(`${Commons.getApiUrl()}videos/${videoId}`, {
@@ -149,14 +147,14 @@ export default {
       })
   },
   methods: {
-    loadData: function (data) {
+    loadData(data) {
       data.descriptionHtml = this.cleanRedirectUrls(data.descriptionHtml)
       this.video = data
       this.loading = false
       this.loadComments()
       this.$Progress.finish()
     },
-    loadComments: async function () {
+    async loadComments() {
       let videoId = this.$route.query.v
       fetch(`${Commons.getApiUrl()}comments/${videoId}`, {
         cache: 'force-cache',
@@ -172,7 +170,7 @@ export default {
           console.error(error)
         })
     },
-    loadMoreComments: function () {
+    loadMoreComments() {
       this.commentsContinuationLoading = true
       let videoId = this.$route.query.v
       fetch(`${Commons.getApiUrl()}comments/${videoId}?continuation=${this.commentsContinuationLink}`, {
@@ -189,7 +187,7 @@ export default {
           console.error(error)
         })
     },
-    cleanRedirectUrls: function (html) {
+    cleanRedirectUrls(html) {
       return html
     }
   }
@@ -208,7 +206,7 @@ export default {
   transition: background-color 200ms $intro-easing;
 
   &:hover {
-    background-color: var(--bgcolor-alt)
+    background-color: var(--bgcolor-alt);
   }
 }
 

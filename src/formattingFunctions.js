@@ -1,5 +1,5 @@
 const FormattingFunctions = {
-  install (Vue, options) {
+  install(Vue, options) {
     Vue.getTimestampFromSeconds = seconds => {
       let ms = seconds * 1000
       let date = new Date(ms)
@@ -12,7 +12,7 @@ const FormattingFunctions = {
         return `${timestampMinutes}:${timestampSeconds}`
       }
 
-      function toDoubleDigit (i) {
+      function toDoubleDigit(i) {
         if (i < 10) {
           i = '0' + i
         }

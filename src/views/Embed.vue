@@ -25,7 +25,7 @@ export default {
   components: {
     VideoPlayer
   },
-  beforeRouteEnter: function (to, from, next) {
+  beforeRouteEnter(to, from, next) {
     let videoId = to.params.id
     fetch(`${Commons.getApiUrl()}videos/${videoId}`, {
       cache: 'force-cache',
@@ -40,7 +40,7 @@ export default {
         next(vm => vm.$Progress.fail())
       })
   },
-  beforeRouteUpdate: function (to, from, next) {
+  beforeRouteUpdate(to, from, next) {
     this.$Progress.start()
     let videoId = to.params.id
     fetch(`${Commons.getApiUrl()}videos/${videoId}`, {
@@ -59,7 +59,7 @@ export default {
       })
   },
   methods: {
-    loadData: function (data) {
+    loadData(data) {
       this.video = data
       this.loading = false
       this.$Progress.finish()

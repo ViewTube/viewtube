@@ -35,19 +35,16 @@ export default {
     SectionTitle,
     GradientBackground
   },
-  data: function () {
-    return {
-      videos: [],
-      subscriptions: [],
-      loading: true,
-      commons: Commons,
-      loginState: UserStore.state
-    }
-  },
-  mounted: function () {
-  },
+  data: () => ({
+    videos: [],
+    subscriptions: [],
+    loading: true,
+    commons: Commons,
+    loginState: UserStore.state
+
+  }),
   computed: {
-    userAuthenticated () {
+    userAuthenticated() {
       return Boolean(this.loginState.username)
     }
   },
@@ -60,7 +57,7 @@ export default {
         this.$Progress.finish()
       }
     },
-    getSubscriptions () {
+    getSubscriptions() {
       let jwt = this.$cookie.get('jwt')
       let me = this
       fetch(`${Commons.getOwnApiUrl()}subscriptions/getSubscriptionFeed.php?limit=4`, {
@@ -82,14 +79,14 @@ export default {
           console.error(error)
         })
     },
-    showMoreVideos () {
+    showMoreVideos() {
 
     },
-    handleScroll (e) {
+    handleScroll(e) {
       this.$emit('scroll', e)
     }
   },
-  beforeRouteEnter: function (to, from, next) {
+  beforeRouteEnter(to, from, next) {
     fetch(`${Commons.getApiUrl()}popular`, {
       cache: 'force-cache',
       method: 'GET'
@@ -103,7 +100,7 @@ export default {
         next(vm => vm.$Progress.fail())
       })
   },
-  beforeRouteUpdate: function (to, from, next) {
+  beforeRouteUpdate(to, from, next) {
     this.$Progress.start()
     fetch(`${Commons.getApiUrl()}popular`, {
       cache: 'force-cache',

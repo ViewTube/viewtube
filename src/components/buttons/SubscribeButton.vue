@@ -25,17 +25,15 @@ export default {
   props: {
     channelId: null
   },
-  data: function () {
-    return {
-      isSubscribed: false,
-      disabled: true
-    }
-  },
-  mounted: function () {
+  data: () => ({
+    isSubscribed: false,
+    disabled: true
+  }),
+  mounted() {
     this.loadSubscriptionStatus()
   },
   methods: {
-    loadSubscriptionStatus: function () {
+    loadSubscriptionStatus() {
       if (this.channelId && this.$cookie.get('jwt')) {
         let jwt = this.$cookie.get('jwt')
         let me = this
@@ -63,13 +61,13 @@ export default {
           })
       }
     },
-    subscribe: function () {
+    subscribe() {
       this.setSubscriptionStatus('PUT')
     },
-    unsubscribe: function () {
+    unsubscribe() {
       this.setSubscriptionStatus('DELETE')
     },
-    setSubscriptionStatus: function (action) {
+    setSubscriptionStatus(action) {
       if (this.channelId && this.$cookie.get('jwt')) {
         this.disabled = true
         let jwt = this.$cookie.get('jwt')
@@ -198,7 +196,7 @@ export default {
 
     &:after {
       content: "UNSUBSCRIBE";
-      background: var(--bgcolor-alt-light)
+      background: var(--bgcolor-alt-light);
     }
   }
 }

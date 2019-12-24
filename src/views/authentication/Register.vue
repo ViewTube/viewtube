@@ -36,19 +36,17 @@ export default {
     SubmitButton,
     Spinner
   },
-  data: function () {
-    return {
-      loading: false,
-      username: null,
-      password: null,
-      repeatPassword: null,
-      state: UserStore.state,
-      statusMessage: '',
-      redirectedPage: 'home'
-    }
-  },
+  data: () => ({
+    loading: false,
+    username: null,
+    password: null,
+    repeatPassword: null,
+    state: UserStore.state,
+    statusMessage: '',
+    redirectedPage: 'home'
+  }),
   methods: {
-    register: function (e) {
+    register(e) {
       this.loading = true
       let me = this
 
@@ -65,16 +63,16 @@ export default {
         captcheckSessionCode: captcheckSessionCode,
         captcheckSelectedAnswer: captcheckSelectedAnswer,
 
-        callback: function () {
+        callback() {
           me.statusMessage = 'Registration successful. Redirecting'
           me.$router.push(me.redirectedPage.fullPath)
         },
-        failure: function () {
+        failure() {
           me.loading = false
         }
       })
     },
-    checkRepeatPasswords: function () {
+    checkRepeatPasswords() {
       if (this.password !== this.repeatPassword) {
         this.statusMessage = 'passwords do not match'
       } else {
@@ -83,14 +81,14 @@ export default {
     }
   },
   watch: {
-    password: function () {
+    password() {
       this.checkRepeatPasswords()
     },
-    repeatPassword: function () {
+    repeatPassword() {
       this.checkRepeatPasswords()
     }
   },
-  mounted: function () {
+  mounted() {
     this.$Progress.finish()
     Captcheck.initCaptcheck()
   },
@@ -152,7 +150,7 @@ export default {
       line-height: 20px;
 
       &.error-message-display {
-        color: var(--error-color-red)
+        color: var(--error-color-red);
       }
     }
 

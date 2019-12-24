@@ -5,30 +5,30 @@ export default {
   description: 'An alternative YouTube frontend using the Invidious API.',
   language: 'en-US',
 
-  getApiUrl: function () {
+  getApiUrl() {
     return `${InstanceStore.currentInstance}/api/v1/`
   },
 
-  cleanRedirectUrl: function (string) {
+  cleanRedirectUrl(string) {
     let urlParams = new URLSearchParams(string.split('?')[1])
     return urlParams.get('q')
   },
 
-  getDomain: function () {
+  getDomain() {
     if (window.location.href.toLowerCase().indexOf('localhost') !== -1) {
       return 'localhost'
     }
     return 'viewtube.eu'
   },
 
-  getOwnApiUrl: function () {
+  getOwnApiUrl() {
     if (window.location.href.toLowerCase().indexOf('localhost') !== -1) {
       return 'http://localhost:1842/api/'
     }
     return 'https://auth.viewtube.eu/api/'
   },
 
-  getTimestampFromSeconds: seconds => {
+  getTimestampFromSeconds(seconds) {
     let ms = seconds * 1000
     let date = new Date(ms)
     let timestampHours = toDoubleDigit(date.getHours() - 1)
@@ -48,7 +48,7 @@ export default {
     }
   },
 
-  getPageWidth: function () {
+  getPageWidth () {
     return Math.max(
       document.body.scrollWidth,
       document.documentElement.scrollWidth,

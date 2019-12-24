@@ -40,16 +40,14 @@ export default {
     Banner,
     Overview
   },
-  data: function () {
-    return {
-      channel: [],
-      loading: true,
-      commons: Commons,
-      parallaxScroll: 0,
-      parallaxTicking: false
-    }
-  },
-  beforeRouteEnter: function (to, from, next) {
+  data: () => ({
+    channel: [],
+    loading: true,
+    commons: Commons,
+    parallaxScroll: 0,
+    parallaxTicking: false
+  }),
+  beforeRouteEnter(to, from, next) {
     fetch(`${Commons.getApiUrl()}channels/${to.params.id}`, {
       cache: 'force-cache',
       method: 'GET'
@@ -63,7 +61,7 @@ export default {
         next(false, vm => vm.$Progress.fail())
       })
   },
-  beforeRouteUpdate: function (to, from, next) {
+  beforeRouteUpdate(to, from, next) {
     this.$Progress.start()
     let me = this
     fetch(`${Commons.getApiUrl()}channels/${to.params.id}`, {
@@ -83,21 +81,10 @@ export default {
       })
   },
   methods: {
-    handleScroll: function (e) {
+    handleScroll(e) {
       this.$emit('scroll', e)
     },
-    requestParallaxTick: function () {
-      if (!this.parallaxTicking) {
-        requestAnimationFrame(this.updateParallax)
-      }
-      this.parallaxTicking = true
-    },
-    updateParallax: function () {
-      this.parallaxTicking = false
-      let scrollHeight = this.parallaxScroll
-      this.$refs.parallaxImage.style.transform = `translate3d(0,${scrollHeight / 2}px,0)`
-    },
-    loadData: function (data) {
+    loadData (data) {
       this.channel = data
       this.loading = false
       this.$Progress.finish()

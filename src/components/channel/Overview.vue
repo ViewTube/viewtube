@@ -76,7 +76,7 @@ export default {
     channel: Object
   },
   methods: {
-    getFormattedDate: rawDate => {
+    getFormattedDate(rawDate) {
       let date = new Date(rawDate)
       return `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`
     }
@@ -205,7 +205,7 @@ export default {
       transition: background-color 300ms $intro-easing;
 
       &:hover {
-        background-color: var(--bgcolor-alt)
+        background-color: var(--bgcolor-alt);
       }
 
       .related-channel-thumbnail {

@@ -43,42 +43,40 @@ export default {
   props: {
     scrollTop: Boolean
   },
-  data: function () {
-    return {
-      searchFieldFocused: false,
-      localSearchValue: '',
-      searchValue: ''
-    }
-  },
-  mounted: function () {
+  data: () => ({
+    searchFieldFocused: false,
+    localSearchValue: '',
+    searchValue: ''
+  }),
+  mounted() {
     this.updateSearchValueFromUrl()
   },
   methods: {
-    updateSearchValueFromUrl: function () {
+    updateSearchValueFromUrl() {
       if (this.$route.query.search_query !== undefined) {
         this.searchValue = this.$route.query.search_query
       } else {
         this.searchValue = ''
       }
     },
-    onAutocompleteUpdate: function (value) {
+    onAutocompleteUpdate(value) {
       this.searchValue = value
     },
-    onSearchFieldChange: function (e) {
+    onSearchFieldChange(e) {
       this.searchValue = e.target.value
     },
-    onSearchFieldFocused: function () {
+    onSearchFieldFocused() {
       this.$refs.autocomplete.visible = true
       this.searchFieldFocused = true
     },
-    onSearchFieldBlur: function () {
+    onSearchFieldBlur() {
       this.$refs.autocomplete.visible = false
       this.searchFieldFocused = false
     },
-    onAutocompleteEnter: function () {
+    onAutocompleteEnter() {
       this.searchRedirect(this.searchValue)
     },
-    onSearchFieldKeydown: function (e) {
+    onSearchFieldKeydown(e) {
       let autocomplete = this.$refs.autocomplete
       if (e.key === 'Enter' && this.searchValue !== '') {
         this.searchValue = this.localSearchValue
@@ -97,21 +95,21 @@ export default {
       e.stopPropagation()
       return true
     },
-    onSearchButton: function () {
+    onSearchButton() {
       if (this.searchValue) {
         this.searchRedirect(this.searchValue)
       }
     },
-    searchRedirect: function (searchValue) {
+    searchRedirect(searchValue) {
       this.$router.push(`/results?search_query=${searchValue}`)
       this.$refs.searchField.blur()
     }
   },
   watch: {
-    '$route' (to, from) {
+    '$route'(to, from) {
       this.updateSearchValueFromUrl()
     },
-    searchValue: function (newValue) {
+    searchValue(newValue) {
       this.localSearchValue = newValue
     }
   }

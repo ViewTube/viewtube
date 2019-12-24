@@ -28,33 +28,31 @@ export default {
     SubmitButton,
     Spinner
   },
-  data: function () {
-    return {
-      loading: false,
-      username: null,
-      password: null,
-      state: UserStore.state,
-      statusMessage: '',
-      redirectedPage: 'home'
-    }
-  },
+  data: () => ({
+    loading: false,
+    username: null,
+    password: null,
+    state: UserStore.state,
+    statusMessage: '',
+    redirectedPage: 'home'
+  }),
   methods: {
-    login: function () {
+    login() {
       this.loading = true
       let me = this
       UserStore.login({
         username: me.username,
         password: me.password,
-        callback: function () {
+        callback() {
           me.$router.push(me.redirectedPage.fullPath)
         },
-        failure: function () {
+        failure() {
           me.loading = false
         }
       })
     }
   },
-  mounted: function () {
+  mounted() {
     this.$Progress.finish()
   },
   beforeRouteEnter(to, from, next) {
@@ -114,7 +112,7 @@ export default {
       line-height: 20px;
 
       &.error-message-display {
-        color: var(--error-color-red)
+        color: var(--error-color-red);
       }
     }
 

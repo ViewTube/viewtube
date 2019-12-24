@@ -17,19 +17,17 @@ export default {
   components: {
     Header
   },
-  data: function () {
-    return {
-      scrolledTop: false,
-      settings: SettingsStore,
-      theme: SettingsStore.theme
-    }
-  },
+  data: () => ({
+    scrolledTop: false,
+    settings: SettingsStore,
+    theme: SettingsStore.theme
+  }),
   computed: {
     headless() {
       return this.$route.meta.headless
     }
   },
-  created: function () {
+  created() {
     this.$Progress.start()
 
     this.$router.beforeEach((to, from, next) => {

@@ -27,13 +27,11 @@ export default {
     videoProgress: Number,
     videoElement: null
   },
-  data: function () {
-    return {
-      endscreenData: [],
-      hover: false
-    }
-  },
-  mounted: function () {
+  data: () => ({
+    endscreenData: [],
+    hover: false
+  }),
+  mounted() {
     fetch(`${Commons.getOwnApiUrl()}video/getEndscreen.php?videoId=${this.videoId}`, {
       cache: 'force-cache',
       method: 'GET'
@@ -51,10 +49,10 @@ export default {
       })
   },
   methods: {
-    onCardEnter: function () {
+    onCardEnter() {
       this.hover = true
     },
-    onCardLeave: function () {
+    onCardLeave() {
       this.hover = false
     }
   }

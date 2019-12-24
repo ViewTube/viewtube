@@ -36,21 +36,19 @@ export default {
     label: String,
     id: String
   },
-  data: function () {
-    return {
-      autocompleteTags: {
-        email: 'email',
-        username: 'username',
-        password: 'current-password',
-        all: 'on'
-      }
+  data: () => ({
+    autocompleteTags: {
+      email: 'email',
+      username: 'username',
+      password: 'current-password',
+      all: 'on'
     }
-  },
+  }),
   computed: {
-    hasText () {
+    hasText() {
       return this.value && this.value.length > 0
     },
-    autocompleteTag () {
+    autocompleteTag() {
       let tagId = Object.keys(this.autocompleteTags).find(type => type === this.type)
       let tag = tagId !== undefined ? tagId : 'all'
 
@@ -73,7 +71,7 @@ export default {
   }
 
   .input:not(:valid) + .material-design-icon {
-    color: var(--error-color-red)
+    color: var(--error-color-red);
   }
 
   .input {

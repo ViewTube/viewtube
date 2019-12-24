@@ -22,24 +22,22 @@ export default {
   props: {
     searchValue: null
   },
-  data: function () {
-    return {
-      autocompleteValues: [],
-      visible: false,
-      selectedValue: 0
-    }
-  },
+  data: () => ({
+    autocompleteValues: [],
+    visible: false,
+    selectedValue: 0
+  }),
   methods: {
-    onAutocompleteMouseDown: function (e) {
+    onAutocompleteMouseDown(e) {
       this.$emit('searchValueUpdate', e.target.getAttribute('value'))
       this.$emit('autocompleteEnter')
     },
-    onMouseOver: function (e) {
+    onMouseOver(e) {
       this.selectedValue = parseInt(e.target.getAttribute('number'))
     }
   },
   watch: {
-    searchValue: function () {
+    searchValue() {
       let me = this
       fetch(`${Commons.autocompleteUrl}?q=${me.searchValue}&cl=youtube`, {
         method: 'GET'

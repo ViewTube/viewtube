@@ -33,14 +33,12 @@ export default {
     ThemeIcon,
     InstanceIcon
   },
-  data() {
-    return {
-      instances: InstanceStore.instances,
-      currentInstance: InstanceStore.currentInstance,
-      themes: SettingsStore.defaults.theme,
-      currentTheme: SettingsStore.theme
-    }
-  },
+  data: () => ({
+    instances: InstanceStore.instances,
+    currentInstance: InstanceStore.currentInstance,
+    themes: SettingsStore.defaults.theme,
+    currentTheme: SettingsStore.theme
+  }),
   methods: {
     onInstanceChange(element, index) {
       InstanceStore.setInstance(element.value)

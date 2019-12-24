@@ -71,14 +71,12 @@ export default {
     GradientBackground,
     Dropdown
   },
-  data: function () {
-    return {
-      results: [],
-      loading: true,
-      searchQuery: 'loading',
-      parameters: SearchParams
-    }
-  },
+  data: () => ({
+    results: [],
+    loading: true,
+    searchQuery: 'loading',
+    parameters: SearchParams
+  }),
   methods: {
     loadData(data) {
       this.searchQuery = this.$route.query.search_query

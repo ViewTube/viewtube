@@ -55,13 +55,11 @@ export default {
   props: {
     video: Object
   },
-  data: function () {
-    return {
-      commons: Commons,
-      videoProgressPercentage: SavedPosition.getSavedPosition(this.video.videoId) / this.video.lengthSeconds * 100,
-      videoProgressTooltip: `${Commons.getTimestampFromSeconds(SavedPosition.getSavedPosition(this.video.videoId))} of ${Commons.getTimestampFromSeconds(this.video.lengthSeconds)}`
-    }
-  },
+  data: () => ({
+    commons: Commons,
+    videoProgressPercentage: SavedPosition.getSavedPosition(this.video.videoId) / this.video.lengthSeconds * 100,
+    videoProgressTooltip: `${Commons.getTimestampFromSeconds(SavedPosition.getSavedPosition(this.video.videoId))} of ${Commons.getTimestampFromSeconds(this.video.lengthSeconds)}`
+  }),
   mounted() {
     tippy('.tooltip', {
       duration: 300,

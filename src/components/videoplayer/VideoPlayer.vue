@@ -178,37 +178,35 @@ export default {
     video: Object,
     embedded: Boolean
   },
-  data: function () {
-    return {
-      loading: true,
-      fullscreen: false,
-      commons: Commons,
-      playerOverlay: {
-        visible: false,
-        timeout: undefined,
-        updateInterval: undefined,
-        thumbnailVisible: true
-      },
-      videoElement: {
-        positionSaveInterval: undefined,
-        buffering: true,
-        playing: false,
-        progress: 0,
-        progressPercentage: 0,
-        loadingPercentage: 0,
-        firstTimeBuffering: true,
-        aspectRatio: 16 / 9,
-        playerVolume: 1,
-        zoomed: false
-      },
-      seekbar: {
-        seeking: false,
-        seekPercentage: 0,
-        hoverPercentage: 0,
-        hoverTime: '00:00'
-      }
+  data: () => ({
+    loading: true,
+    fullscreen: false,
+    commons: Commons,
+    playerOverlay: {
+      visible: false,
+      timeout: undefined,
+      updateInterval: undefined,
+      thumbnailVisible: true
+    },
+    videoElement: {
+      positionSaveInterval: undefined,
+      buffering: true,
+      playing: false,
+      progress: 0,
+      progressPercentage: 0,
+      loadingPercentage: 0,
+      firstTimeBuffering: true,
+      aspectRatio: 16 / 9,
+      playerVolume: 1,
+      zoomed: false
+    },
+    seekbar: {
+      seeking: false,
+      seekPercentage: 0,
+      hoverPercentage: 0,
+      hoverTime: '00:00'
     }
-  },
+  }),
   watch: {
     videoVolume(newValue) {
       if (newValue <= 1 && newValue >= 0 && this.$refs.video) {
@@ -233,7 +231,7 @@ export default {
     playerOverlayVisible() {
       return this.playerOverlay.visible
     },
-    seekHoverAdjustedLeft: function () {
+    seekHoverAdjustedLeft() {
       let percentage = this.seekbar.hoverPercentage
       let leftPx = 0
       if (this.$refs.seekbarHoverTimestamp) {
@@ -252,16 +250,16 @@ export default {
       return `${leftPx}px`
     }
   },
-  mounted: function () {
+  mounted() {
     document.addEventListener('keydown', this.onWindowKeyDown)
     console.log(this.videoElement.aspectRatio)
   },
-  beforeDestroy: function () {
+  beforeDestroy() {
     document.removeEventListener('keydown', this.onWindowKeyDown)
   },
   methods: {
     // Window events
-    onWindowKeyDown: function (e) {
+    onWindowKeyDown(e) {
       if (this.$refs.video) {
         if (e.key === ' ') {
           this.toggleVideoPlayback()
@@ -271,17 +269,17 @@ export default {
     },
 
     // Video events
-    onLoadedMetadata: function (e) {
+    onLoadedMetadata(e) {
       this.videoElement.aspectRatio = e.target.videoHeight / e.target.videoWidth
     },
-    onPlaybackProgress: function () {
+    onPlaybackProgress() {
       let videoRef = this.$refs.video
       if (videoRef && !this.seekbar.seeking) {
         this.videoElement.progressPercentage = (videoRef.currentTime / this.videoLength) * 100
         this.videoElement.progress = videoRef.currentTime
       }
     },
-    onLoadingProgress: function () {
+    onLoadingProgress() {
       let videoRef = this.$refs.video
       if (videoRef) {
         let videoBufferedMaxTimeRange = videoRef.buffered.length - 1
@@ -291,12 +289,12 @@ export default {
         }
       }
     },
-    onVolumeChange: function () {
+    onVolumeChange() {
       if (this.$refs.video) {
         this.videoElement.playerVolume = this.$refs.video.volume
       }
     },
-    onVideoPlaying: function () {
+    onVideoPlaying() {
       this.playerOverlay.thumbnailVisible = false
       this.videoElement.playing = true
       this.videoElement.positionSaveInterval = setInterval(
@@ -304,12 +302,12 @@ export default {
         5000
       )
     },
-    onVideoPaused: function () {
+    onVideoPaused() {
       this.videoElement.playing = false
       this.saveVideoPosition()
       clearInterval(this.videoElement.positionSaveInterval)
     },
-    onVideoCanplay: function () {
+    onVideoCanplay() {
       if (this.videoElement.firstTimeBuffering) {
         this.$refs.video.currentTime = SavedPosition.getSavedPosition(
           this.video.videoId
@@ -319,14 +317,14 @@ export default {
       }
       this.videoElement.buffering = false
     },
-    onVideoBuffering: function () {
+    onVideoBuffering() {
       this.videoElement.buffering = true
     },
-    onLoaded: function () {
+    onLoaded() {
       this.loading = false
     },
     // Seekbar events
-    onSeekbarTouchStart: function (e) {
+    onSeekbarTouchStart(e) {
       this.seekbar.seeking = true
       let touchX = e.touches[0].clientX
       this.seekbar.seekPercentage = this.calculateSeekPercentage(touchX)
@@ -335,16 +333,16 @@ export default {
       this.seekbar.hoverTime = Commons.getTimestampFromSeconds((this.$refs.video.duration / 100) * this.seekbar.hoverPercentage)
       e.stopPropagation()
     },
-    onSeekbarMouseMove: function (e) {
+    onSeekbarMouseMove(e) {
       this.seekbar.hoverPercentage = this.calculateSeekPercentage(e.pageX)
       this.seekbar.hoverTime = Commons.getTimestampFromSeconds((this.$refs.video.duration / 100) * this.seekbar.hoverPercentage)
     },
-    onSeekbarTouchMove: function (e) {
+    onSeekbarTouchMove(e) {
       let touchX = e.touches[0].clientX
       this.seekbar.hoverPercentage = this.calculateSeekPercentage(touchX)
       this.seekbar.hoverTime = Commons.getTimestampFromSeconds((this.$refs.video.duration / 100) * this.seekbar.hoverPercentage)
     },
-    onPlayerTouchMove: function (e) {
+    onPlayerTouchMove(e) {
       if (this.seekbar.seeking) {
         let touchX = e.touches[0].clientX
         this.seekbar.seekPercentage = this.calculateSeekPercentage(touchX)
@@ -352,16 +350,16 @@ export default {
       }
       e.stopPropagation()
     },
-    onSeekbarMouseDown: function (e) {
+    onSeekbarMouseDown(e) {
       this.seekbar.seeking = true
       e.stopPropagation()
     },
-    onPlayerClick: function (e) {
+    onPlayerClick(e) {
       this.toggleVideoPlayback()
       e.stopPropagation()
       e.preventDefault()
     },
-    onPlayerMouseUp: function (e) {
+    onPlayerMouseUp(e) {
       if (this.seekbar.seeking) {
         this.seekbar.seeking = false
         this.matchSeekProgressPercentage(true)
@@ -371,25 +369,25 @@ export default {
       e.stopPropagation()
       e.preventDefault()
     },
-    onSeekbarMouseLeave: function (e) {
+    onSeekbarMouseLeave(e) {
       e.stopPropagation()
     },
-    onSeekbarMouseEnter: function (e) {
+    onSeekbarMouseEnter(e) {
       e.stopPropagation()
     },
-    onSeekBarClick: function (e) {
+    onSeekBarClick(e) {
       this.seekbar.seekPercentage = this.calculateSeekPercentage(e.pageX)
       this.matchSeekProgressPercentage(true)
       e.stopPropagation()
     },
-    matchSeekProgressPercentage: function (adjustVideo) {
+    matchSeekProgressPercentage(adjustVideo) {
       this.videoElement.progressPercentage = this.seekbar.seekPercentage
       if (adjustVideo) {
         let currentTime = (this.$refs.video.duration / 100) * this.seekbar.seekPercentage
         this.$refs.video.currentTime = currentTime
       }
     },
-    calculateSeekPercentage: function (pageX) {
+    calculateSeekPercentage(pageX) {
       let seekPercentage = ((pageX - 10) / (Commons.getPageWidth() - 27.5)) * 100
       if (seekPercentage > 0 && seekPercentage < 100) {
         return seekPercentage
@@ -399,32 +397,32 @@ export default {
         return 0
       }
     },
-    isMouseOufOfBoundary: function (pageX, pageY) {
+    isMouseOufOfBoundary(pageX, pageY) {
       return (pageX > Commons.getPageWidth() || pageX < 0 || pageY < 0)
     },
     // Interaction events
-    onVolumeInteraction: function (e) {
+    onVolumeInteraction(e) {
 
     },
-    onVideoExpand: function (e) {
+    onVideoExpand(e) {
       this.videoElement.zoomed = true
       e.stopPropagation()
       e.preventDefault()
     },
-    onVideoExpandMouseUp: function (e) {
+    onVideoExpandMouseUp(e) {
       e.stopPropagation()
       e.preventDefault()
     },
-    onVideoCollapse: function (e) {
+    onVideoCollapse(e) {
       this.videoElement.zoomed = false
       e.stopPropagation()
       e.preventDefault()
     },
-    onVideoCollapseMouseUp: function (e) {
+    onVideoCollapseMouseUp(e) {
       e.stopPropagation()
       e.preventDefault()
     },
-    onEnterFullscreen: function (e) {
+    onEnterFullscreen(e) {
       var elem = this.$refs.videoPlayer
       if (elem.requestFullscreen) {
         elem.requestFullscreen()
@@ -439,11 +437,11 @@ export default {
       e.stopPropagation()
       e.preventDefault()
     },
-    onEnterFullscreenMouseUp: function (e) {
+    onEnterFullscreenMouseUp(e) {
       e.preventDefault()
       e.stopPropagation()
     },
-    onLeaveFullscreen: function (e) {
+    onLeaveFullscreen(e) {
       if (document.exitFullscreen) {
         document.exitFullscreen()
       } else if (document.webkitExitFullscreen) {
@@ -457,28 +455,28 @@ export default {
       e.stopPropagation()
       e.preventDefault()
     },
-    onFullscreenChange: function (e) {
+    onFullscreenChange(e) {
       if (document.fullscreenElement) {
         this.fullscreen = true
       } else {
         this.fullscreen = false
       }
     },
-    onLeaveFullscreenMouseUp: function (e) {
+    onLeaveFullscreenMouseUp(e) {
       e.preventDefault()
       e.stopPropagation()
     },
-    onPlayBtnTouchEnd: function (e) {
+    onPlayBtnTouchEnd(e) {
       this.toggleVideoPlayback()
       e.stopPropagation()
       e.preventDefault()
     },
-    onPlayBtnClick: function (e) {
+    onPlayBtnClick(e) {
       this.toggleVideoPlayback()
       e.stopPropagation()
       e.preventDefault()
     },
-    toggleVideoPlayback: function () {
+    toggleVideoPlayback() {
       if (!this.seekbar.seeking) {
         this.playerOverlay.thumbnailVisible = false
         if (this.videoElement.playing) {
@@ -488,8 +486,8 @@ export default {
         }
       }
     },
-    onPlayerTouchStart: function (e) { },
-    onPlayerTouchEnd: function (e) {
+    onPlayerTouchStart(e) { },
+    onPlayerTouchEnd(e) {
       if (this.seekbar.seeking) {
         this.seekbar.seeking = false
         this.matchSeekProgressPercentage(true)
@@ -503,7 +501,7 @@ export default {
       e.stopPropagation()
       e.preventDefault()
     },
-    onPlayerMouseMove: function (e) {
+    onPlayerMouseMove(e) {
       this.showPlayerOverlay()
       if (this.seekbar.seeking) {
         this.seekbar.seekPercentage = this.calculateSeekPercentage(e.pageX)
@@ -514,16 +512,16 @@ export default {
         }
       }
     },
-    onPlayerMouseLeave: function (e) {
+    onPlayerMouseLeave(e) {
       this.hidePlayerOverlay()
     },
-    saveVideoPosition: function () {
+    saveVideoPosition() {
       let video = this.$refs.video
       if (video !== undefined) {
         SavedPosition.setSavedPosition(video.currentTime, this.video.videoId)
       }
     },
-    showPlayerOverlay: function (noTimeout) {
+    showPlayerOverlay(noTimeout) {
       this.playerOverlay.visible = true
       if (this.playerOverlay.timeout) {
         clearTimeout(this.playerOverlay.timeout)
@@ -534,7 +532,7 @@ export default {
         }, 3000)
       }
     },
-    hidePlayerOverlay: function () {
+    hidePlayerOverlay() {
       if (this.playerOverlay.timeout) {
         clearTimeout(this.playerOverlay.timeout)
       }

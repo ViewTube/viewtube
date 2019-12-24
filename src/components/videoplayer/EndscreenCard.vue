@@ -37,32 +37,32 @@ export default {
     videoWidth: Number
   },
   methods: {
-    onMouseEnter: function () {
+    onMouseEnter() {
       this.$emit('cardenter')
     },
-    onMouseLeave: function () {
+    onMouseLeave() {
       this.$emit('cardleave')
     },
-    onClick: function (e) {
+    onClick(e) {
       if (this.card.type !== 'website') {
         this.$router.push(this.linkUrl)
         e.preventDefault()
       }
       e.stopPropagation()
     },
-    onMouseUp: function (e) {
+    onMouseUp(e) {
       e.stopPropagation()
       e.preventDefault()
     }
   },
   computed: {
-    elementType: function () {
+    elementType() {
       if (this.card.type === 'website') {
         return 'a'
       }
       return 'router-link'
     },
-    linkUrl: function () {
+    linkUrl() {
       if (this.card.type === 'website') {
         return this.card.websiteUrl
       } else if (this.card.type === 'channel') {
@@ -73,29 +73,29 @@ export default {
         return `/watch/?v=${this.card.videoId}`
       }
     },
-    visible: function () {
+    visible() {
       let startTime = this.card.timing.start
       let endTime = this.card.timing.end
       let videoProgressMs = this.videoProgress * 1000
 
       return videoProgressMs > startTime && videoProgressMs < endTime
     },
-    positionTop: function () {
+    positionTop() {
       return this.card.dimensions.top * 100
     },
-    positionLeft: function () {
+    positionLeft() {
       return this.card.dimensions.left * 100
     },
-    cardWidth: function () {
+    cardWidth() {
       return this.card.dimensions.width * 100
     },
-    cardHeight: function () {
+    cardHeight() {
       return this.card.dimensions.width * 100 / this.card.dimensions.aspectRatio * this.videoAspectRatio
     },
-    videoAspectRatio: function () {
+    videoAspectRatio() {
       return this.videoWidth / this.videoHeight
     },
-    backgroundImage: function () {
+    backgroundImage() {
       switch (this.card.type) {
         case 'video':
           return this.card.videoThumbnails[1].url

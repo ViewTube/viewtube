@@ -1,6 +1,6 @@
 export default {
-  inserted: function (el, binding) {
-    let f = function (evt) {
+  inserted(el, binding) {
+    let f = (evt) => {
       if (binding.value(evt, el)) {
         el.removeEventListener('scroll', f)
       }

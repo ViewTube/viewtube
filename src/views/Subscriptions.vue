@@ -25,23 +25,21 @@ export default {
     VideoEntry,
     BottomNavigation
   },
-  data: function () {
-    return {
-      videos: [],
-      loading: true,
-      commons: Commons
-    }
-  },
-  mounted: function () {
+  data: () => ({
+    videos: [],
+    loading: true,
+    commons: Commons
+  }),
+  mounted() {
   },
   methods: {
-    loadData: function (data) {
+    loadData(data) {
       this.videos = data.subscriptions
       this.loading = false
       this.$Progress.finish()
     }
   },
-  beforeRouteEnter: function (to, from, next) {
+  beforeRouteEnter(to, from, next) {
     let jwt = VueCookie.get('jwt')
     fetch(`${Commons.getOwnApiUrl()}subscriptions/getSubscriptionFeed.php`, {
       method: 'GET',
@@ -60,7 +58,7 @@ export default {
         next(vm => vm.$Progress.fail())
       })
   },
-  beforeRouteUpdate: function (to, from, next) {
+  beforeRouteUpdate(to, from, next) {
     this.$Progress.start()
     let jwt = this.$cookie.get('jwt')
     fetch(`${Commons.getOwnApiUrl()}subscriptions/getSubscriptionFeed.php`, {

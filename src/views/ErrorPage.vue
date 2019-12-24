@@ -6,7 +6,10 @@
     <div class="error-popup">
       <div class="error-message">
         <h2>{{ possibleSearch }} not found</h2>
-        <router-link class="rippe" :to="`/results?search_query=${possibleSearch}`">Search for {{ possibleSearch }}</router-link>
+        <router-link
+          class="rippe"
+          :to="`/results?search_query=${possibleSearch}`"
+        >Search for {{ possibleSearch }}</router-link>
       </div>
     </div>
   </div>
@@ -20,17 +23,15 @@ export default {
       window.location.reload()
     }
   },
-  data: function () {
-    return {
-      possibleSearch: ''
-    }
-  },
-  mounted: function () {
+  data: () => ({
+    possibleSearch: ''
+  }),
+  mounted() {
     this.$Progress.fail()
     let path = this.$route.path
     this.possibleSearch = path.replace('/', '')
   },
-  beforeCreate: function () {
+  beforeCreate() {
 
   }
 }

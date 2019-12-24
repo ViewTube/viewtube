@@ -2,11 +2,11 @@
 /* eslint-disable eqeqeq */
 /* eslint-disable no-unused-expressions */
 export default {
-  reloadCaptcheck: function () {
+  reloadCaptcheck() {
     document.getElementsByClassName('captcheck_container')[0].innerHTML = ''
     this.initCaptcheck()
   },
-  initCaptcheck: function () {
+  initCaptcheck() {
     function m(c, g) {
       document.getElementById('captcheck_' + c + '_answer_' + g).checked = !0
       return !1

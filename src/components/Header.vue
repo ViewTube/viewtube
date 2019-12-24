@@ -148,30 +148,28 @@ export default {
   props: {
     scrollTop: Boolean
   },
-  data: function () {
-    return {
-      accountMenuVisible: false,
-      loginState: UserStore.state,
-      settingsOpen: false,
-      aboutOpen: false
-    }
-  },
+  data: () => ({
+    accountMenuVisible: false,
+    loginState: UserStore.state,
+    settingsOpen: false,
+    aboutOpen: false
+  }),
   methods: {
-    disableDrag: function () {
+    disableDrag() {
       let elements = document.getElementsByClassName('ripple')
       Array.from(elements).forEach(element => {
         element.ondragstart = e => e.preventDefault()
         element.oncontextmenu = e => e.preventDefault()
       })
     },
-    hideAccountMenu: function () {
+    hideAccountMenu() {
       if (this.accountMenuVisible) {
         setTimeout(() => {
           this.accountMenuVisible = false
         }, 200)
       }
     },
-    share: function () {
+    share() {
       if (typeof navigator.share === 'function') {
         navigator.share({
           title: document.title,
@@ -189,26 +187,26 @@ export default {
     closeAbout() {
       this.aboutOpen = false
     },
-    openSettings: function () {
+    openSettings() {
       this.hideAccountMenu()
       this.settingsOpen = true
     },
-    closeSettings: function () {
+    closeSettings() {
       this.settingsOpen = false
     },
-    openSubscriptions: function () {
+    openSubscriptions() {
       this.$router.push('/subscriptions')
       this.hideAccountMenu()
     },
-    login: function () {
+    login() {
       this.$router.push('/login')
       this.hideAccountMenu()
     },
-    register: function () {
+    register() {
       this.$router.push('/register')
       this.hideAccountMenu()
     },
-    logout: function () {
+    logout() {
       UserStore.logout()
       this.hideAccountMenu()
     }

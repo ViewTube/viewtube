@@ -40,15 +40,13 @@ export default {
     label: String,
     noDefault: Boolean
   },
-  data: function () {
-    return {
-      selected: 0,
-      open: false,
-      offsetTop: null,
-      offsetLeft: null,
-      visible: false
-    }
-  },
+  data: () => ({
+    selected: 0,
+    open: false,
+    offsetTop: null,
+    offsetLeft: null,
+    visible: false
+  }),
   mounted() {
     let me = this
     let selectedEntry = this.entries.findIndex(e => e.value === me.value)
@@ -211,14 +209,14 @@ export default {
     transform-origin: center top !important;
     transition: opacity 300ms 0ms $intro-easing, transform 600ms $outro-easing,
       box-shadow 300ms !important;
-      opacity: 0;
+    opacity: 0;
 
     &.open {
       clip-path: none !important;
       transform: scale(1) translateY(-50%) !important;
       transition: opacity 200ms 100ms $intro-easing,
-        transform 300ms cubic-bezier(0,.98,.21,.98), box-shadow 300ms !important;
-        opacity: 1;
+        transform 300ms cubic-bezier(0, 0.98, 0.21, 0.98), box-shadow 300ms !important;
+      opacity: 1;
     }
   }
 

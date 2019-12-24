@@ -75,16 +75,15 @@ export default {
     comment: null,
     creatorName: String
   },
-  data: function () {
-    return {
-      replies: [],
-      loadingReplies: false,
-      repliesLoaded: false,
-      repliesContinuationLink: null,
-      repliesContinuationLoading: false
-    }
-  },
-  mounted: function () {
+  data: () => ({
+    replies: [],
+    loadingReplies: false,
+    repliesLoaded: false,
+    repliesContinuationLink: null,
+    repliesContinuationLoading: false
+
+  }),
+  mounted() {
     tippy('.tooltip', {
       duration: 300,
       arrow: false,
@@ -94,7 +93,7 @@ export default {
     })
   },
   methods: {
-    loadReplies: function () {
+    loadReplies() {
       this.loadingReplies = true
       let repliesId = this.comment.replies.continuation
       let videoId = this.$route.query.v
@@ -113,7 +112,7 @@ export default {
           console.error(error)
         })
     },
-    loadMoreReplies: function () {
+    loadMoreReplies() {
       this.repliesContinuationLoading = true
       let videoId = this.$route.query.v
       fetch(`${Commons.getApiUrl()}comments/${videoId}?continuation=${this.repliesContinuationLink}`, {

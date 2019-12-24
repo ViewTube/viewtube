@@ -12,7 +12,7 @@ var ripple = (function () {
     ripple.registerRipples()
   })
 
-  function rippleStart (e) {
+  function rippleStart(e) {
     rippleContainer = getRippleContainer(e.target)
     if ((rippleContainer.getAttribute('animating') == '0' || !rippleContainer.hasAttribute('animating')) && e.target.className.indexOf('ripple') > -1) {
       rippleContainer.setAttribute('animating', '1')
@@ -31,7 +31,7 @@ var ripple = (function () {
     }
   }
 
-  function rippleEnd (e) {
+  function rippleEnd(e) {
     rippleContainer = getRippleContainer(e.target)
     if (rippleContainer.getAttribute('animating') == '1') {
       rippleContainer.setAttribute('animating', '2')
@@ -52,7 +52,7 @@ var ripple = (function () {
     }
   }
 
-  function rippleRetrieve (e) {
+  function rippleRetrieve(e) {
     rippleContainer = getRippleContainer(e.target)
     if (rippleContainer.style.transform == 'translate(-50%, -50%) scale(0)') {
       rippleContainer.setAttribute('animating', '0')
@@ -66,14 +66,14 @@ var ripple = (function () {
     }
   }
   // returns the ripple div by scanning all children. If not found, return the argument
-  function getRippleContainer (el) {
+  function getRippleContainer(el) {
     childs = el.childNodes
     for (ii = 0; ii < childs.length; ii++) {
       try {
         if (childs[ii].className.indexOf('rippleContainer') > -1) {
           return childs[ii]
         }
-      } catch (err) {}
+      } catch (err) { }
     }
     return el
   }
