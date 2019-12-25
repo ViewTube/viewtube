@@ -1,7 +1,7 @@
 export default {
   sort_by: 'relevance',
   date: null,
-  type: 'video',
+  type: 'all',
   duration: null,
   features: null,
   defaults: {
