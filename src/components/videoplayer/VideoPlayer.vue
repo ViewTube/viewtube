@@ -124,6 +124,10 @@
             </div>
           </div>
           <div class="right-bottom-controls">
+            <QualitySelection
+              :formatStreams="video.formatStreams"
+              :adaptiveFormats="video.adaptiveFormats"
+            />
             <FullscreenIcon
               v-if="!fullscreen"
               @click="onEnterFullscreen"
@@ -160,6 +164,7 @@ import ArrowCollapseIcon from 'icons/ArrowCollapse'
 import Commons from '@/commons.js'
 import VideoEndscreen from '@/components/videoplayer/VideoEndscreen'
 import VolumeControl from '@/components/videoplayer/VolumeControl'
+import QualitySelection from '@/components/videoplayer/QualitySelection'
 
 export default {
   name: 'videoplayer',
@@ -172,7 +177,8 @@ export default {
     VideoEndscreen,
     ArrowExpandIcon,
     ArrowCollapseIcon,
-    VolumeControl
+    VolumeControl,
+    QualitySelection
   },
   props: {
     video: Object,
