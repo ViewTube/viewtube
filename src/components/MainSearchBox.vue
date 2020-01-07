@@ -84,13 +84,17 @@ export default {
       } else if (e.key === 'ArrowDown') {
         if (autocomplete.selectedValue + 2 <= autocomplete.autocompleteValues.length) {
           autocomplete.selectedValue += 1
-          this.localSearchValue = autocomplete.autocompleteValues[autocomplete.selectedValue]
+        } else {
+          autocomplete.selectedValue = 0
         }
+        this.localSearchValue = autocomplete.autocompleteValues[autocomplete.selectedValue]
       } else if (e.key === 'ArrowUp') {
         if (autocomplete.selectedValue - 1 >= 0) {
           autocomplete.selectedValue -= 1
-          this.localSearchValue = autocomplete.autocompleteValues[autocomplete.selectedValue]
+        } else {
+          autocomplete.selectedValue = autocomplete.autocompleteValues.length - 1
         }
+        this.localSearchValue = autocomplete.autocompleteValues[autocomplete.selectedValue]
       }
       e.stopPropagation()
       return true

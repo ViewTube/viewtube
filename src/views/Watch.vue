@@ -49,7 +49,7 @@
         <SubscribeButton class="subscribe-button-watch" :channelId="video.authorId" />
       </div>
       <div class="video-infobox-date">{{ video.publishedText }}</div>
-      <p>tags:</p>
+      <p class="video-infobox-text">tags:</p>
       <div class="video-infobox-tags">
         <router-link
           class="video-infobox-tag badge-btn"
@@ -162,9 +162,11 @@ export default {
       })
         .then(response => response.json())
         .then(data => {
-          this.comment = data
-          this.commentsLoading = false
-          this.commentsContinuationLink = data.continuation || null
+          if (data.comments && data.comments.length > 0) {
+            this.comment = data
+            this.commentsLoading = false
+            this.commentsContinuationLink = data.continuation || null
+          }
         })
         .catch(error => {
           console.error(error)
@@ -217,6 +219,7 @@ export default {
   overflow-y: scroll;
   perspective: 4px;
   perspective-origin: 0 0;
+  height: calc(100% - #{$header-height});
   margin-top: $header-height;
 
   .video-player-p {
@@ -227,8 +230,6 @@ export default {
 
   .video-infobox {
     width: 100%;
-    max-width: $main-width;
-    margin: 0 auto;
     display: flex;
     flex-direction: column;
     padding: 10px;
@@ -243,16 +244,26 @@ export default {
       color: var(--title-color);
       font-family: $default-font;
       font-size: 1.4rem;
-      margin: 20px 0 10px 0;
+      max-width: $main-width;
+      width: 100%;
+      margin: 20px auto 10px auto;
     }
 
     .video-infobox-tags {
-      margin: 5px 0 0 0;
+      $tag-padding-left: calc((100% - #{$main-width}) / 2);
+      margin: 5px auto 0 auto;
       width: 100%;
       height: 40px;
       overflow: hidden;
       overflow-x: auto;
       white-space: nowrap;
+      padding: 0 0 0 $tag-padding-left;
+      scrollbar-width: none;
+      box-sizing: border-box;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
     }
 
     .video-infobox-stats {
@@ -260,7 +271,9 @@ export default {
       flex-direction: row;
       justify-content: space-between;
       align-items: center;
-      margin: 0 0 20px 0;
+      width: 100%;
+      margin: 0 auto 20px auto;
+      max-width: $main-width;
 
       .infobox-views {
         color: var(--subtitle-color);
@@ -268,6 +281,7 @@ export default {
         margin: 0 30px 0 0;
         font-size: 1.1rem;
       }
+
       .infobox-rating {
         .infobox-likecount {
           display: flex;
@@ -316,6 +330,9 @@ export default {
       flex-direction: row;
       align-items: center;
       justify-content: space-between;
+      max-width: $main-width;
+      width: 100%;
+      margin: 0 auto;
 
       @media screen and (max-width: $watch-break-width) {
         flex-direction: column;
@@ -374,17 +391,27 @@ export default {
     }
 
     .video-infobox-date {
-      margin: 20px 0 10px 0;
+      margin: 20px auto 10px auto;
+      max-width: $main-width;
+      width: 100%;
+    }
+
+    .video-infobox-text {
+      margin: 0 auto;
+      max-width: $main-width;
+      width: 100%;
     }
 
     .video-infobox-description {
-      margin: 10px 0 0 0;
+      margin: 10px auto 0 auto;
       color: var(--title-color);
       font-family: $default-font;
       line-height: 1.2rem;
       overflow: hidden;
       white-space: pre-wrap;
       overflow-wrap: break-word;
+      max-width: $main-width;
+      width: 100%;
 
       a {
         text-decoration: none;
@@ -407,6 +434,12 @@ export default {
         height: 13px;
         margin: 0 4px;
       }
+    }
+
+    .comments-container {
+      max-width: $main-width;
+      width: 100%;
+      margin: 20px auto 0 auto;
     }
 
     &.loading {

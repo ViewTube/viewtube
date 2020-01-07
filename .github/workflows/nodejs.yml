@@ -46,6 +46,6 @@ jobs:
       with:
         chat: ${{ secrets.TELEGRAM_TO }}
         token: ${{ secrets.TELEGRAM_TOKEN }}
-        status: ${{ job.status }} # don't change
-        event: ${{ github.event_name }} # don't change
-        actor: ${{ github.actor }} # don't change
+        status: ${{ job.status }}
+        event: ${{ github.event_name }}
+        actor: ${{ github.actor }}

@@ -102,6 +102,7 @@ export default {
   perspective: 4px;
   perspective-origin: 0 0;
   margin-top: $header-height;
+  height: 100%;
 
   .channel-videos-container {
     width: 100%;

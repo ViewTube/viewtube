@@ -167,10 +167,9 @@ export default {
 .search {
   overflow-y: scroll;
   overflow-x: hidden;
-  perspective: 4px;
-  perspective-origin: 0 0;
   display: flex;
   flex-direction: column;
+  height: 100%;
 
   .filters {
     width: 100%;

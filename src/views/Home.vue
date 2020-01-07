@@ -124,8 +124,7 @@ export default {
 .home {
   overflow-y: scroll;
   overflow-x: hidden;
-  perspective: 4px;
-  perspective-origin: 0 0;
+  height: 100%;
 
   .home-videos-container {
     width: 100%;
