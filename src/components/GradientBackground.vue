@@ -28,8 +28,6 @@ export default {
   z-index: 9;
   display: block;
   width: 100%;
-  transform-origin: 0 0;
-  transform: translateZ(-4px) scale(2);
 
   .gradient-background {
     height: 700px + $header-height;
