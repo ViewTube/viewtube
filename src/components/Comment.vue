@@ -1,6 +1,10 @@
 <template>
   <div class="comment">
-    <img class="comment-author-image" :src="comment.authorThumbnails[2].url" :alt="comment.author" />
+    <img
+      class="comment-author-image"
+      :src="comment.authorThumbnails[2].url"
+      :alt="comment.author"
+    />
     <div class="comment-container">
       <router-link
         class="comment-author"
@@ -9,12 +13,18 @@
       >
         <p>{{ comment.author }}</p>
       </router-link>
-      <div class="comment-content" v-html="comment.content"></div>
+      <div
+        class="comment-content"
+        v-html="comment.content"
+      ></div>
       <div class="comment-properties">
         <div class="published comment-property">
           <span>{{ comment.publishedText }}</span>
         </div>
-        <div class="edited comment-property" v-if="comment.isEdited">
+        <div
+          class="edited comment-property"
+          v-if="comment.isEdited"
+        >
           <PenIcon />
           <span>edited</span>
         </div>
@@ -30,7 +40,10 @@
           <HeartIcon title />
         </div>
       </div>
-      <div class="comment-replies" v-if="comment.replies !== undefined">
+      <div
+        class="comment-replies"
+        v-if="comment.replies !== undefined"
+      >
         <a
           href="#"
           class="comment-reply-count badge-btn"
@@ -38,8 +51,15 @@
           v-if="!loadingReplies && !repliesLoaded"
         >show {{ comment.replies.replyCount.toLocaleString() }} replies</a>
         <Spinner v-if="loadingReplies"></Spinner>
-        <div class="comment-replies-list" v-if="repliesLoaded">
-          <Comment v-for="subComment in replies" :key="subComment.commentId" :comment="subComment" />
+        <div
+          class="comment-replies-list"
+          v-if="repliesLoaded"
+        >
+          <Comment
+            v-for="subComment in replies"
+            :key="subComment.commentId"
+            :comment="subComment"
+          />
           <a
             href="#"
             class="show-more-replies badge-btn"
@@ -81,7 +101,6 @@ export default {
     repliesLoaded: false,
     repliesContinuationLink: null,
     repliesContinuationLoading: false
-
   }),
   mounted() {
     tippy('.tooltip', {
@@ -97,10 +116,13 @@ export default {
       this.loadingReplies = true
       let repliesId = this.comment.replies.continuation
       let videoId = this.$route.query.v
-      fetch(`${Commons.getApiUrl()}comments/${videoId}?continuation=${repliesId}`, {
-        cache: 'force-cache',
-        method: 'GET'
-      })
+      fetch(
+        `${Commons.getApiUrl()}comments/${videoId}?continuation=${repliesId}`,
+        {
+          cache: 'force-cache',
+          method: 'GET'
+        }
+      )
         .then(response => response.json())
         .then(data => {
           this.replies = data.comments
@@ -115,10 +137,15 @@ export default {
     loadMoreReplies() {
       this.repliesContinuationLoading = true
       let videoId = this.$route.query.v
-      fetch(`${Commons.getApiUrl()}comments/${videoId}?continuation=${this.repliesContinuationLink}`, {
-        cache: 'force-cache',
-        method: 'GET'
-      })
+      fetch(
+        `${Commons.getApiUrl()}comments/${videoId}?continuation=${
+          this.repliesContinuationLink
+        }`,
+        {
+          cache: 'force-cache',
+          method: 'GET'
+        }
+      )
         .then(response => response.json())
         .then(data => {
           this.replies = this.replies.concat(data.comments)
@@ -133,7 +160,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang='scss'>
 .comment {
   width: 100%;
   margin: 30px 0 20px 0;

@@ -1,7 +1,13 @@
 <template>
-  <div class="search" @scroll="$emit('scroll', $event)">
+  <div
+    class="search"
+    @scroll="$emit('scroll', $event)"
+  >
     <vue-headful :title="`${searchQuery} - ViewTube`" />
-    <Spinner class="centered" v-if="loading"></Spinner>
+    <Spinner
+      class="centered"
+      v-if="loading"
+    ></Spinner>
     <GradientBackground :color="'blue'" />
     <div class="filters">
       <Dropdown
@@ -35,7 +41,10 @@
         @valuechange="onSearchTypeChange"
       />
     </div>
-    <div v-if="!loading" class="search-videos-container">
+    <div
+      v-if="!loading"
+      class="search-videos-container"
+    >
       <component
         v-for="result in results"
         :is="getListEntryType(result.type)"
@@ -44,8 +53,13 @@
         :playlist="result"
         :channel="result"
       />
+      <a
+        class="badge-btn"
+        href="#"
+        @click.prevent="loadMoreVideos"
+        v-if="commentsContinuationLink && !commentsContinuationLoading"
+      >show more</a>
     </div>
-    <BottomNavigation />
   </div>
 </template>
 
@@ -95,7 +109,9 @@ export default {
     },
     reloadSearchWithParams() {
       let searchParams = SearchParams.getParamsString()
-      this.$router.push(`/results?search_query=${this.searchQuery}${searchParams}`)
+      this.$router.push(
+        `/results?search_query=${this.searchQuery}${searchParams}`
+      )
     },
     onSearchSortChange(element, index) {
       SearchParams.sort_by = element.value
@@ -118,10 +134,13 @@ export default {
     let searchQuery = to.query.search_query
     let searchParams = SearchParams.parseQuery(to.query)
     if (searchQuery.length > 0) {
-      fetch(`${Commons.getApiUrl()}search?q=${searchQuery}&page=1${searchParams}`, {
-        cache: 'force-cache',
-        method: 'GET'
-      })
+      fetch(
+        `${Commons.getApiUrl()}search?q=${searchQuery}&page=1${searchParams}`,
+        {
+          cache: 'force-cache',
+          method: 'GET'
+        }
+      )
         .then(response => response.json())
         .then(data => {
           next(vm => vm.loadData(data))
@@ -139,10 +158,13 @@ export default {
     let searchQuery = to.query.search_query
     let searchParams = SearchParams.parseQuery(to.query)
     if (searchQuery.length > 0) {
-      fetch(`${Commons.getApiUrl()}search?q=${searchQuery}&page=1${searchParams}`, {
-        cache: 'force-cache',
-        method: 'GET'
-      })
+      fetch(
+        `${Commons.getApiUrl()}search?q=${searchQuery}&page=1${searchParams}`,
+        {
+          cache: 'force-cache',
+          method: 'GET'
+        }
+      )
         .then(response => response.json())
         .then(data => {
           this.loadData(data)

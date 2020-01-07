@@ -10,6 +10,7 @@
 <script>
 import Header from '@/components/Header'
 import '@/fonts/expletus.css'
+import '@/fonts/notosans.css'
 import SettingsStore from '@/store/settings'
 
 export default {
@@ -102,7 +103,7 @@ body {
   background-color: var(--bgcolor-main);
 
   #app {
-    font-family: "Roboto", Helvetica, Arial, sans-serif;
+    font-family: "noto-sans", Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     color: var(--title-color);
