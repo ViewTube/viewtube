@@ -9,6 +9,12 @@
     "test": "echo testing? not for me",
     "lint": "vue-cli-service lint"
   },
+  "browserslist": [
+    "last 1 version",
+    "not IE 11",
+    "not IE_Mob 11",
+    "not Edge 18"
+  ],
   "dependencies": {
     "core-js": "^2.6.9",
     "portal-vue": "^2.1.6",
