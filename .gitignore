@@ -21,4 +21,5 @@ yarn-error.log*
 *.sw?
 
 # LineCount files
+out/
 out/*
