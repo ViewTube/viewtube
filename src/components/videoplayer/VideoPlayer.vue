@@ -8,6 +8,7 @@
     @touchstart="onPlayerTouchStart"
     @touchmove="onPlayerTouchMove"
     @click="onPlayerClick"
+    @dblclick="onSwitchFullscreen"
     @fullscreenchange="onFullscreenChange"
     @webkitfullscreenchange="onFullscreenChange"
     @mozfullscreenchange="onFullscreenChange"
@@ -50,14 +51,25 @@
       />
     </div>
 
-    <Spinner class="video-spinner" v-if="videoElement.buffering" />
+    <Spinner
+      class="video-spinner"
+      v-if="videoElement.buffering"
+    />
     <div
       class="video-controls-overlay"
       :class="{ visible: playerOverlay.visible }"
       :style="{ cursor: playerOverlay.visible ? 'auto' : 'none'}"
     >
-      <div class="top-control-overlay" :class="{ hidden: playerOverlay.thumbnailVisible }">
-        <div class="left-top-controls"></div>
+      <div
+        class="top-control-overlay"
+        :class="{ hidden: playerOverlay.thumbnailVisible }"
+      >
+        <div class="left-top-controls">
+          <h1
+            class="video-fullscreen-title"
+            v-if="fullscreen || embedded"
+          >{{ video.title }}</h1>
+        </div>
         <div class="right-top-controls">
           <ArrowExpandIcon
             v-if="!videoElement.zoomed"
@@ -75,13 +87,26 @@
       </div>
       <div class="center-control-overlay">
         <div class="left-action-container"></div>
-        <div class="play-btn-container" @touchend="onPlayBtnTouchEnd" @click="onPlayBtnClick">
-          <div class="play-btn" :class="{ playing: videoElement.playing }"></div>
+        <div
+          class="play-btn-container"
+          @touchend="onPlayBtnTouchEnd"
+          @click="onPlayBtnClick"
+        >
+          <div
+            class="play-btn"
+            :class="{ playing: videoElement.playing }"
+          ></div>
         </div>
         <div class="right-action-container"></div>
       </div>
-      <div class="bottom-control-overlay" :class="{ hidden: playerOverlay.thumbnailVisible }">
-        <div class="seekbar" :class="{ dragging: seekbar.seeking }">
+      <div
+        class="bottom-control-overlay"
+        :class="{ hidden: playerOverlay.thumbnailVisible }"
+      >
+        <div
+          class="seekbar"
+          :class="{ dragging: seekbar.seeking }"
+        >
           <div
             class="seekbar-clickable"
             @mousedown.prevent="onSeekbarMouseDown"
@@ -101,7 +126,10 @@
             class="seekbar-playback-progress"
             :style="{ width: `${videoElement.progressPercentage}%` }"
           ></div>
-          <div class="seekbar-circle" :style="{ left: `${videoElement.progressPercentage}%` }"></div>
+          <div
+            class="seekbar-circle"
+            :style="{ left: `${videoElement.progressPercentage}%` }"
+          ></div>
           <div
             class="seekbar-hover-timestamp"
             ref="seekbarHoverTimestamp"
@@ -118,9 +146,7 @@
               @click.stop="onVolumeInteraction"
             />
             <div class="video-time-progress">
-              <span
-                class="video-time-current-progress"
-              >{{ commons.getTimestampFromSeconds(videoElement.progress) }} / {{ commons.getTimestampFromSeconds(videoLength) }}</span>
+              <span class="video-time-current-progress">{{ commons.getTimestampFromSeconds(videoElement.progress) }} / {{ commons.getTimestampFromSeconds(videoLength) }}</span>
             </div>
           </div>
           <div class="right-bottom-controls">
@@ -428,6 +454,13 @@ export default {
       e.stopPropagation()
       e.preventDefault()
     },
+    onSwitchFullscreen(e) {
+      if (this.fullscreen) {
+        this.onLeaveFullscreen()
+      } else {
+        this.onEnterFullscreen()
+      }
+    },
     onEnterFullscreen(e) {
       var elem = this.$refs.videoPlayer
       if (elem.requestFullscreen) {
@@ -651,6 +684,17 @@ export default {
       box-sizing: border-box;
 
       .left-top-controls {
+        .video-fullscreen-title {
+          margin: 10px;
+          font-size: 1.6rem;
+          height: 40px;
+          line-height: 40px;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          width: 80%;
+          position: absolute;
+        }
       }
 
       .right-top-controls {

@@ -1,9 +1,24 @@
 <template>
-  <div id="app" :class="`theme--${settings.getTheme()}`">
-    <Header :scrollTop="scrolledTop" v-if="!headless" />
+  <div
+    id="app"
+    :class="`theme--${settings.getTheme()}`"
+  >
+    <Header
+      :scrollTop="scrolledTop"
+      v-if="!headless"
+    />
     <vue-progress-bar :class="{ 'progress-bar-margin': !headless }"></vue-progress-bar>
-    <router-view class="content" ref="content" @scroll="handleScroll" />
-    <portal-target class="dropdown-portal" name="dropdown" multiple></portal-target>
+    <Miniplayer></Miniplayer>
+    <router-view
+      class="content"
+      ref="content"
+      @scroll="handleScroll"
+    />
+    <portal-target
+      class="dropdown-portal"
+      name="dropdown"
+      multiple
+    ></portal-target>
   </div>
 </template>
 
@@ -12,11 +27,13 @@ import Header from '@/components/Header'
 import '@/fonts/expletus.css'
 import '@/fonts/notosans.css'
 import SettingsStore from '@/store/settings'
+import Miniplayer from '@/components/miniplayer/Miniplayer'
 
 export default {
   name: 'app',
   components: {
-    Header
+    Header,
+    Miniplayer
   },
   data: () => ({
     scrolledTop: false,
