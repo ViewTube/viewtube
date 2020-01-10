@@ -1,7 +1,7 @@
 <template>
   <div
     id="app"
-    :class="`theme--${settings.getTheme()}`"
+    :class="`theme--${$store.getters.theme}`"
   >
     <Header
       :scrollTop="scrolledTop"
@@ -26,7 +26,6 @@
 import Header from '@/components/Header'
 import '@/fonts/expletus.css'
 import '@/fonts/notosans.css'
-import SettingsStore from '@/store/settings'
 import Miniplayer from '@/components/miniplayer/Miniplayer'
 
 export default {
@@ -36,9 +35,7 @@ export default {
     Miniplayer
   },
   data: () => ({
-    scrolledTop: false,
-    settings: SettingsStore,
-    theme: SettingsStore.theme
+    scrolledTop: false
   }),
   computed: {
     headless() {

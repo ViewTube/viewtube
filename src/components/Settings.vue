@@ -1,26 +1,38 @@
 <template>
   <div class="settings popup">
     <div class="settings-container popup-container">
-      <CloseIcon class="close-icon" @click.stop="$emit('close')" />
+      <CloseIcon
+        class="close-icon"
+        @click.stop="$emit('close')"
+      />
       <h1>Settings</h1>
       <h2>
         <InstanceIcon />Invidio.us instance
       </h2>
-      <Dropdown :values="instances" :value="currentInstance" @valuechange="onInstanceChange" />
+      <Dropdown
+        :values="instances"
+        :value="currentInstance"
+        @valuechange="onInstanceChange"
+      />
       <h2>
         <ThemeIcon />Theme
       </h2>
-      <Dropdown :values="themes" :value="currentTheme" @valuechange="onThemeChange" />
+      <Dropdown
+        :values="themes"
+        :value="currentTheme"
+        @valuechange="onThemeChange"
+      />
     </div>
-    <div class="settings-overlay popup-overlay" @click.stop="$emit('close')"></div>
+    <div
+      class="settings-overlay popup-overlay"
+      @click.stop="$emit('close')"
+    ></div>
   </div>
 </template>
 
 <script>
 import Dropdown from '@/components/filter/Dropdown'
-import InstanceStore from '@/store/instances'
 import CloseIcon from 'icons/Close'
-import SettingsStore from '@/store/settings'
 import ThemeIcon from 'icons/Brightness4'
 import InstanceIcon from 'icons/ServerNetwork'
 import '@/styles/popup.scss'
@@ -33,20 +45,22 @@ export default {
     ThemeIcon,
     InstanceIcon
   },
-  data: () => ({
-    instances: InstanceStore.instances,
-    currentInstance: InstanceStore.currentInstance,
-    themes: SettingsStore.defaults.theme,
-    currentTheme: SettingsStore.theme
-  }),
+  data() {
+    return {
+      instances: this.$store.getters.instances,
+      currentInstance: this.$store.getters.currentInstance,
+      themes: this.$store.getters.defaultThemes,
+      currentTheme: this.$store.getters.theme
+    }
+  },
   methods: {
     onInstanceChange(element, index) {
-      InstanceStore.setInstance(element.value)
+      this.$store.commit('changeInstance', element.value)
     },
     onThemeChange(element, index) {
       setTimeout(() => {
         document.body.classList.add('transition-all')
-        SettingsStore.setTheme(element.value)
+        this.$store.commit('setTheme', element.value)
         setTimeout(() => {
           document.body.classList.remove('transition-all')
         }, 300)

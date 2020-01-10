@@ -1,21 +1,22 @@
 <template>
   <div class="gradient-container">
-    <div class="gradient-background" :class="color" :hide="settings.getTheme() !== 'default'">
+    <div
+      class="gradient-background"
+      :class="color"
+      :hide="$store.getters.theme !== 'default'"
+    >
       <span class="background-shadow"></span>
     </div>
   </div>
 </template>
 
 <script>
-import SettingsStore from '@/store/settings'
-
 export default {
   name: 'gradient-background',
   props: {
     color: String
   },
   data: () => ({
-    settings: SettingsStore
   })
 }
 </script>

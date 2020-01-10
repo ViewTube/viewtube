@@ -1,25 +1,47 @@
 <template>
   <div class="about popup">
     <div class="about-container popup-container">
-      <CloseIcon class="close-icon" @click.stop="$emit('close')" />
+      <CloseIcon
+        class="close-icon"
+        @click.stop="$emit('close')"
+      />
       <h1>About ViewTube</h1>
       <div class="logo-about">
-        <img class="logo-about-img" src="@/assets/icon-background-192.jpg" alt="ViewTube" />
+        <img
+          class="logo-about-img"
+          src="@/assets/icon-background-192.jpg"
+          alt="ViewTube"
+        />
       </div>
       <h2>ViewTube by Maurice Oegerli</h2>
       <h3>{{ description }}</h3>
       <div class="links-about">
-        <a class="badge-btn" target="_blank" href="https://github.com/mauriceoegerli/viewtube-vue">
+        <a
+          class="badge-btn"
+          target="_blank"
+          href="https://github.com/mauriceoegerli/viewtube-vue"
+        >
           <GithubIcon />ViewTube
         </a>
-        <a class="badge-btn" target="_blank" href="https://github.com/omarroth/invidious">
+        <a
+          class="badge-btn"
+          target="_blank"
+          href="https://github.com/omarroth/invidious"
+        >
           <GithubIcon />Invidious
         </a>
-        <a class="badge-btn" target="_blank" href="https://invidio.us">
+        <a
+          class="badge-btn"
+          target="_blank"
+          href="https://invidio.us"
+        >
           <ExternalIcon />Invidious
         </a>
       </div>
-      <div class="invidious-stats" v-if="invidousStats">
+      <div
+        class="invidious-stats"
+        v-if="invidousStats"
+      >
         <table>
           <tr>
             <td>Invidious instance</td>
@@ -36,14 +58,16 @@
         </table>
       </div>
     </div>
-    <div class="about-overlay popup-overlay" @click.stop="$emit('close')"></div>
+    <div
+      class="about-overlay popup-overlay"
+      @click.stop="$emit('close')"
+    ></div>
   </div>
 </template>
 
 <script>
 import CloseIcon from 'icons/Close'
 import Commons from '@/commons.js'
-import InstanceStore from '@/store/instances'
 import GithubIcon from 'vue-material-design-icons/GithubCircle'
 import ExternalIcon from 'vue-material-design-icons/OpenInNew'
 
@@ -57,7 +81,7 @@ export default {
   data: () => ({
     description: Commons.description,
     invidousStats: null,
-    currentInstance: InstanceStore.currentInstance
+    currentInstance: this.$store.getters.currentInstance
   }),
   mounted() {
     let me = this

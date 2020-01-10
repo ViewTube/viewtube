@@ -296,6 +296,10 @@ export default {
         if (e.key === ' ') {
           this.toggleVideoPlayback()
           e.preventDefault()
+        } else if (e.key === 'ArrowRight'){
+          this.$refs.video.currentTime += 5
+        } else if (e.key === 'ArrowLeft'){
+          this.$refs.video.currentTime -= 5
         }
       }
     },

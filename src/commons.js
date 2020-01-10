@@ -1,17 +1,12 @@
-import InstanceStore from '@/store/instances'
-
+import { store } from '@/store/store'
+ 
 export default {
   autocompleteUrl: 'https://autocomplete.viewtube.eu/',
   description: 'An alternative YouTube frontend using the Invidious API.',
   language: 'en-US',
 
   getApiUrl() {
-    return `${InstanceStore.currentInstance}/api/v1/`
-  },
-
-  cleanRedirectUrl(string) {
-    let urlParams = new URLSearchParams(string.split('?')[1])
-    return urlParams.get('q')
+    return `${store.getters.currentInstance}/api/v1/`
   },
 
   getDomain() {
@@ -48,7 +43,7 @@ export default {
     }
   },
 
-  getPageWidth () {
+  getPageWidth() {
     return Math.max(
       document.body.scrollWidth,
       document.documentElement.scrollWidth,

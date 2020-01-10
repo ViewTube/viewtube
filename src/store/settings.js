@@ -1,30 +1,28 @@
 export default {
-  theme: 'default',
-  defaults: {
-    theme: [
-      { value: 'default', name: 'Dark Theme' },
-      { value: 'light', name: 'Light Theme' },
-      { value: 'dark-no-gradient', name: 'Dark Theme without background gradients' },
-      { value: 'black', name: 'Black Theme' }
-    ]
-  },
-
-  init() {
-    if (localStorage.getItem('theme')) {
-      this.theme = localStorage.getItem('theme')
-    } else {
-      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches === false) {
-        this.setTheme('light')
-      }
+  state: {
+    theme: 'default',
+    defaults: {
+      theme: [
+        { value: 'default', name: 'Dark Theme' },
+        { value: 'light', name: 'Light Theme' },
+        { value: 'dark-no-gradient', name: 'Dark Theme without background gradients' },
+        { value: 'black', name: 'Black Theme' }
+      ]
     }
   },
-
-  setTheme(theme) {
-    localStorage.setItem('theme', theme)
-    this.theme = theme
+  getters: {
+    theme(state) {
+      return state.theme
+    },
+    defaultThemes(state){
+      return state.defaults.theme
+    }
   },
-
-  getTheme() {
-    return this.theme
+  mutations: {
+    setTheme(state, theme) {
+      if (state.defaults.theme.find(e => e.value === theme)) {
+        state.theme = theme
+      }
+    }
   }
 }
