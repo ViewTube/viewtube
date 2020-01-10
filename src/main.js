@@ -7,7 +7,6 @@ import 'vue-material-design-icons/styles.css'
 import './ripple.js'
 import VueHeadful from 'vue-headful'
 import PortalVue from 'portal-vue'
-import Vuex from 'vuex'
 import UserStore from './store/user'
 import VueProgressBar from 'vue-progressbar'
 import VueCookie from 'vue-cookie'
@@ -15,8 +14,7 @@ import VueLazyload from 'vue-lazyload'
 import ScrollDirective from './directives/scrollDirective'
 import ClickawayDirective from './directives/clickawayDirective'
 import CleanlinksDirective from './directives/cleanlinksDirective'
-import InstanceStore from '@/store/instances'
-import SettingsStore from '@/store/settings'
+import { store } from '@/store/store'
 
 const progressOptions = {
   color: '#ff7b3b',
@@ -37,7 +35,6 @@ Vue.use(VueProgressBar, progressOptions)
 Vue.use(FormattingFunctions)
 Vue.use(VueCookie)
 Vue.use(PortalVue)
-Vue.use(Vuex)
 Vue.use(VueLazyload, {
   observer: true,
 
@@ -59,10 +56,8 @@ UserStore.getCurrentUser({
   }
 })
 
-InstanceStore.init()
-SettingsStore.init()
-
 new Vue({
   router,
+  store,
   render: h => h(App)
 }).$mount('#app')
