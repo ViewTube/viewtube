@@ -19,8 +19,8 @@ jobs:
       with:
         node-version: '10.x'
       
-    - name: action-yarn
-      uses: comchangs/action-yarn@v0.1-beta
+    - name: GitHub Action for Yarn
+      uses: Borales/actions-yarn@v2.1.0
       
     - name: build
       run: |
