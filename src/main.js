@@ -7,6 +7,7 @@ import 'vue-material-design-icons/styles.css'
 import './ripple.js'
 import VueHeadful from 'vue-headful'
 import PortalVue from 'portal-vue'
+import Vuex from 'vuex'
 import UserStore from './store/user'
 import VueProgressBar from 'vue-progressbar'
 import VueCookie from 'vue-cookie'
@@ -36,6 +37,7 @@ Vue.use(VueProgressBar, progressOptions)
 Vue.use(FormattingFunctions)
 Vue.use(VueCookie)
 Vue.use(PortalVue)
+Vue.use(Vuex)
 Vue.use(VueLazyload, {
   observer: true,
 
