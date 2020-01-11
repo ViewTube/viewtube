@@ -24,8 +24,8 @@ jobs:
       
     - name: build
       run: |
-        yarn install
-        yarn build --if-present
+        sudo yarn install
+        sudo yarn build --if-present
         
     - name: List output files
       run: ls dist
