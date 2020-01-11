@@ -1,6 +1,9 @@
 <template>
-  <div class="header" :class="{ scrolled: scrollTop }">
-    <router-link class="logo-link" to="/">
+  <div class="header">
+    <router-link
+      class="logo-link"
+      to="/"
+    >
       <h1 class="logo">
         <span>View</span>
         <span class="logo-colored">Tube</span>
@@ -12,7 +15,7 @@
         alt="ViewTube"
       />
     </router-link>
-    <MainSearchBox :scrollTop="scrollTop" />
+    <MainSearchBox />
     <div class="nav">
       <router-link
         to="/login"
@@ -46,7 +49,11 @@
         <AccountIcon />
       </a>
       <transition name="circle">
-        <div class="menu" v-if="accountMenuVisible" v-clickaway="hideAccountMenu">
+        <div
+          class="menu"
+          v-if="accountMenuVisible"
+          v-clickaway="hideAccountMenu"
+        >
           <a
             href="#"
             v-if="!userAuthenticated"
@@ -77,11 +84,18 @@
           >
             <AccountPlusIcon />Subscriptions
           </a>
-          <div class="account-menu" v-if="userAuthenticated">
+          <div
+            class="account-menu"
+            v-if="userAuthenticated"
+          >
             <AccountIcon />
             <div class="account-info">
               <p class="account-name">{{ loginState.username }}</p>
-              <a class="logout-btn" href="#" @click.prevent="logout">Log out</a>
+              <a
+                class="logout-btn"
+                href="#"
+                @click.prevent="logout"
+              >Log out</a>
             </div>
           </div>
           <a
@@ -115,8 +129,14 @@
       </transition>
     </div>
     <transition name="fade-down">
-      <Settings v-if="settingsOpen" @close="closeSettings" />
-      <About v-if="aboutOpen" @close="closeAbout" />
+      <Settings
+        v-if="settingsOpen"
+        @close="closeSettings"
+      />
+      <About
+        v-if="aboutOpen"
+        @close="closeAbout"
+      />
     </transition>
   </div>
 </template>
@@ -275,31 +295,11 @@ export default {
   flex-direction: row;
   justify-content: space-between;
   z-index: 800;
-  background-color: var(--header-transparent);
+  box-shadow: $medium-shadow;
+  background-color: var(--header-bgcolor);
 
   transition: box-shadow 300ms $intro-easing,
     background-color 300ms $intro-easing;
-
-  &.scrolled {
-    box-shadow: $medium-shadow;
-    background-color: var(--header-bgcolor);
-
-    .nav {
-      color: var(--title-color);
-
-      a:not(.nav-btn) {
-        color: var(--theme-color);
-      }
-
-      .nav-btn {
-        color: var(--theme-color);
-
-        &.main {
-          border: solid 2px var(--theme-color);
-        }
-      }
-    }
-  }
 
   .logo-link {
     text-decoration: none;
@@ -313,7 +313,7 @@ export default {
     .logo {
       font-family: $header-font;
       font-size: 1.5rem;
-      color: var(--subtitle-color);
+      color: var(--title-color);
       width: auto;
       overflow: hidden;
       transition: width 300ms linear;
@@ -453,7 +453,7 @@ export default {
 
     a:not(.nav-btn) {
       text-decoration: none;
-      color: var(--subtitle-color);
+      color: var(--theme-color);
       transition: color 300ms $intro-easing;
       margin: 0 6px;
       display: flex;
@@ -472,7 +472,7 @@ export default {
 
     .nav-btn {
       text-decoration: none;
-      color: var(--subtitle-color);
+      color: var(--theme-color);
       transition: color 300ms $intro-easing;
       margin: 0 5px;
       display: flex;
@@ -490,7 +490,7 @@ export default {
     }
 
     .nav-btn.main {
-      border: solid 2px var(--subtitle-color);
+      border: solid 2px var(--theme-color);
       border-radius: 3px;
     }
 

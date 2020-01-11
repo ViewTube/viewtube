@@ -1,7 +1,6 @@
 <template>
   <div
     class="search"
-    @scroll="$emit('scroll', $event)"
   >
     <vue-headful :title="`${searchQuery} - ViewTube`" />
     <Spinner

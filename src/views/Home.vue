@@ -1,5 +1,5 @@
 <template>
-  <div class="home" v-scroll="handleScroll">
+  <div class="home">
     <vue-headful
       title="Home - ViewTube"
       :description="commons.description"
@@ -7,13 +7,31 @@
       lang="en"
     />
     <GradientBackground :color="'theme'" />
-    <SectionTitle :title="'Subscriptions'" v-if="userAuthenticated" :link="'subscriptions'" />
-    <div class="home-videos-container small" v-if="userAuthenticated">
-      <VideoEntry v-for="video in subscriptions.subscriptions" :key="video.videoId" :video="video"></VideoEntry>
+    <SectionTitle
+      :title="'Subscriptions'"
+      v-if="userAuthenticated"
+      :link="'subscriptions'"
+    />
+    <div
+      class="home-videos-container small"
+      v-if="userAuthenticated"
+    >
+      <VideoEntry
+        v-for="video in subscriptions.subscriptions"
+        :key="video.videoId"
+        :video="video"
+      ></VideoEntry>
     </div>
-    <SectionTitle :title="'Popular videos'" :gradient="!userAuthenticated" />
+    <SectionTitle
+      :title="'Popular videos'"
+      :gradient="!userAuthenticated"
+    />
     <div class="home-videos-container small">
-      <VideoEntry v-for="video in videos" :key="video.videoId" :video="video"></VideoEntry>
+      <VideoEntry
+        v-for="video in videos"
+        :key="video.videoId"
+        :video="video"
+      ></VideoEntry>
     </div>
     <BottomNavigation />
   </div>

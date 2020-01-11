@@ -1,5 +1,5 @@
 <template>
-  <div class="subscriptions" @scroll="$emit('scroll', $event)">
+  <div class="subscriptions">
     <vue-headful
       title="Subscriptions - ViewTube"
       :description="commons.description"

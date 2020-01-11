@@ -1,5 +1,5 @@
 <template>
-  <div class="login" @scroll="$emit('scroll', $event)">
+  <div class="login">
     <vue-headful title="Login - ViewTube" />
     <div class="login-container" :class="{ loading: loading }">
       <h2 class="login-title">Login</h2>

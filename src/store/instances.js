@@ -8,7 +8,7 @@ export default {
       'https://invidious.ggc-project.de',
       'https://yewtu.be',
       'https://invidious.toot.koeln'
-    ],
+    ]
   },
   getters: {
     currentInstance(state) {

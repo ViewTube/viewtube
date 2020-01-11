@@ -1,5 +1,5 @@
 <template>
-  <div class="channel" ref="channel" @scroll="handleScroll">
+  <div class="channel" ref="channel">
     <vue-headful
       :title="(channel.author !== undefined ? channel.author : 'loading') + ' - ViewTube'"
       :description="commons.description"

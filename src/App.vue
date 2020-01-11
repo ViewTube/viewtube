@@ -4,7 +4,6 @@
     :class="`theme--${$store.getters.theme}`"
   >
     <Header
-      :scrollTop="scrolledTop"
       v-if="!headless"
     />
     <vue-progress-bar :class="{ 'progress-bar-margin': !headless }"></vue-progress-bar>
@@ -12,7 +11,6 @@
     <router-view
       class="content"
       ref="content"
-      @scroll="handleScroll"
     />
     <portal-target
       class="dropdown-portal"
@@ -35,7 +33,6 @@ export default {
     Miniplayer
   },
   data: () => ({
-    scrolledTop: false
   }),
   computed: {
     headless() {
@@ -54,11 +51,6 @@ export default {
 
       next()
     })
-  },
-  methods: {
-    handleScroll(e) {
-      this.scrolledTop = e.target.scrollTop > 5
-    }
   }
 }
 </script>

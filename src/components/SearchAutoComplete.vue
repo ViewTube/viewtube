@@ -1,17 +1,22 @@
 <template>
-  <div class="search-autocomplete" v-if="visible && searchValue">
+  <transition name="clip">
     <div
-      class="search-autocomplete-entry"
-      :class="{ selected: selectedValue == key }"
-      v-for="(value, key) in autocompleteValues"
-      :key="key"
-      :value="value"
-      :number="key"
-      @mousedown.prevent="onAutocompleteMouseDown"
-      @keydown.stop="onKeyDown"
-      @mouseover.prevent="onMouseOver"
-    >{{ value }}</div>
-  </div>
+      class="search-autocomplete"
+      v-if="visible && searchValue"
+    >
+      <div
+        class="search-autocomplete-entry"
+        :class="{ selected: selectedValue == key }"
+        v-for="(value, key) in autocompleteValues"
+        :key="key"
+        :value="value"
+        :number="key"
+        @mousedown.prevent="onAutocompleteMouseDown"
+        @keydown.stop="onKeyDown"
+        @mouseover.prevent="onMouseOver"
+      >{{ value }}</div>
+    </div>
+  </transition>
 </template>
 
 <script>
@@ -56,6 +61,19 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.clip-enter-active,
+.clip-leave-active {
+  transition: clip-path 200ms $intro-easing;
+}
+.clip-enter-to,
+.clip-leave {
+  clip-path: polygon(-50% -50%, 150% -50%, 150% 150%, -50% 150%);
+}
+.clip-enter,
+.clip-leave-to {
+  clip-path: polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%);
+}
+
 .search-autocomplete {
   width: 100%;
   position: absolute;

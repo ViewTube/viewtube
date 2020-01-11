@@ -1,7 +1,6 @@
 <template>
   <div
     class="watch"
-    @scroll="$emit('scroll', $event)"
   >
     <vue-headful
       :title="(video.title !== undefined ? video.title : 'loading') + ' - ViewTube'"

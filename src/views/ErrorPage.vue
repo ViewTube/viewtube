@@ -1,5 +1,5 @@
 <template>
-  <div class="error-page" @scroll="$emit('scroll', $event)">
+  <div class="error-page">
     <div class="error-container">
       <h1 class="error-1">404</h1>
     </div>
