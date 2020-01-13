@@ -5,10 +5,14 @@ export default {
     startTime: 0
   },
   getters: {
-    currentVideo(state, video) {
+    currentVideo: (state) => state.currentVideo,
+    startTime: (state) => state.startTime
+  },
+  mutations: {
+    setCurrentVideo(state, video) {
       state.currentVideo = video
     },
-    startTime(state, startTime) {
+    setStartTime(state, startTime) {
       state.startTime = startTime
     }
   }

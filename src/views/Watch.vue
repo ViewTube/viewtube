@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="watch"
-  >
+  <div class="watch">
     <vue-headful
       :title="(video.title !== undefined ? video.title : 'loading') + ' - ViewTube'"
       :keywords="video.keywords !== undefined ? video.keywords.toString(): ''"
@@ -170,12 +168,16 @@ export default {
         next()
       })
   },
+  beforeRouteLeave(to, from, next) {
+    next()
+  },
   methods: {
     loadData(data) {
       this.video = data
       this.loading = false
       this.loadComments()
       this.$Progress.finish()
+      this.$store.commit('miniplayer/setCurrentVideo', this.video)
     },
     async loadComments() {
       let videoId = this.$route.query.v

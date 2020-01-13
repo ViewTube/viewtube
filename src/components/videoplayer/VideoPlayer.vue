@@ -71,6 +71,12 @@
           >{{ video.title }}</h1>
         </div>
         <div class="right-top-controls">
+          <OpenInPlayerIcon
+            v-if="embedded"
+            @click="onOpenInPlayer"
+            @mouseup="onOpenInPlayerMouseUp"
+            @touchend.stop="onOpenInPlayer"
+          />
           <ArrowExpandIcon
             v-if="!videoElement.zoomed"
             @click="onVideoExpand"
@@ -187,6 +193,7 @@ import FullscreenIcon from 'icons/Fullscreen'
 import FullscreenExitIcon from 'icons/FullscreenExit'
 import ArrowExpandIcon from 'icons/ArrowExpand'
 import ArrowCollapseIcon from 'icons/ArrowCollapse'
+import OpenInPlayerIcon from 'icons/OpenInNew'
 import Commons from '@/commons.js'
 import VideoEndscreen from '@/components/videoplayer/VideoEndscreen'
 import VolumeControl from '@/components/videoplayer/VolumeControl'
@@ -203,12 +210,14 @@ export default {
     VideoEndscreen,
     ArrowExpandIcon,
     ArrowCollapseIcon,
+    OpenInPlayerIcon,
     VolumeControl,
     QualitySelection
   },
   props: {
     video: Object,
-    embedded: Boolean
+    embedded: Boolean,
+    autoplay: Boolean
   },
   data: () => ({
     loading: true,
@@ -260,6 +269,12 @@ export default {
       }
       return 0
     },
+    videoUrl() {
+      if (this.video !== undefined) {
+        return `/watch?v=${this.video.videoId}`
+      }
+      return ''
+    },
     playerOverlayVisible() {
       return this.playerOverlay.visible
     },
@@ -287,6 +302,7 @@ export default {
     console.log(this.videoElement.aspectRatio)
   },
   beforeDestroy() {
+    this.saveVideoPosition()
     document.removeEventListener('keydown', this.onWindowKeyDown)
   },
   methods: {
@@ -296,9 +312,9 @@ export default {
         if (e.key === ' ') {
           this.toggleVideoPlayback()
           e.preventDefault()
-        } else if (e.key === 'ArrowRight'){
+        } else if (e.key === 'ArrowRight') {
           this.$refs.video.currentTime += 5
-        } else if (e.key === 'ArrowLeft'){
+        } else if (e.key === 'ArrowLeft') {
           this.$refs.video.currentTime -= 5
         }
       }
@@ -349,7 +365,9 @@ export default {
           this.video.videoId
         )
         this.videoElement.firstTimeBuffering = false
-        // this.$refs.video.play()
+        if (this.autoplay) {
+          this.$refs.video.play()
+        }
       }
       this.videoElement.buffering = false
     },
@@ -439,6 +457,15 @@ export default {
     // Interaction events
     onVolumeInteraction(e) {
 
+    },
+    onOpenInPlayer(e) {
+      this.$router.push(this.videoUrl)
+      e.stopPropagation()
+      e.preventDefault()
+    },
+    onOpenInPlayerMouseUp(e) {
+      e.stopPropagation()
+      e.preventDefault()
     },
     onVideoExpand(e) {
       this.videoElement.zoomed = true
@@ -597,7 +624,7 @@ export default {
 
   &.embedded {
     max-height: 100vh;
-    height: 100vh !important;
+    height: 100% !important;
 
     .video-element-container {
       max-height: 100vh;
@@ -617,7 +644,7 @@ export default {
   }
 
   .video-element-container {
-    height: $player-height;
+    height: 100%;
     position: relative;
     transform: translate(-50%, -50%);
     max-height: calc(100vh - 170px);
@@ -696,7 +723,7 @@ export default {
           overflow: hidden;
           white-space: nowrap;
           text-overflow: ellipsis;
-          width: 80%;
+          width: 75%;
           position: absolute;
         }
       }
@@ -737,8 +764,8 @@ export default {
 
         .play-btn {
           margin: auto;
-          width: 14vw;
-          height: 14vw;
+          width: 100px;
+          height: 100px;
           background-color: #fff;
           opacity: 1;
           transition: clip-path 300ms $intro-easing, opacity 300ms $intro-easing,
