@@ -20,7 +20,10 @@
     }"
     :class="{ fullscreen: fullscreen, embedded: embedded || mini }"
   >
-    <div class="video-element-container" :class="{ zoom: videoElement.zoomed }">
+    <div
+      class="video-element-container"
+      :class="{ zoom: videoElement.zoomed }"
+    >
       <video
         class="video"
         :src="highestVideoQuality"
@@ -44,47 +47,75 @@
       />
     </div>
 
-    <Spinner class="video-spinner" v-if="videoElement.buffering" />
+    <Spinner
+      class="video-spinner"
+      v-if="videoElement.buffering"
+    />
     <div
       class="video-controls-overlay"
       :class="{ visible: playerOverlay.visible }"
       :style="{ cursor: playerOverlay.visible ? 'auto' : 'none'}"
     >
-      <div class="top-control-overlay" :class="{ hidden: playerOverlay.thumbnailVisible }">
+      <div
+        class="top-control-overlay"
+        :class="{ hidden: playerOverlay.thumbnailVisible }"
+      >
         <div class="left-top-controls">
-          <h1 class="video-fullscreen-title" v-if="fullscreen || embedded || mini">{{ video.title }}</h1>
+          <h1
+            class="video-fullscreen-title"
+            v-if="fullscreen || embedded || mini"
+          >{{ video.title }}</h1>
         </div>
         <div class="right-top-controls">
           <OpenInPlayerIcon
+            class="tooltip"
             v-if="embedded || mini"
             @click="onOpenInPlayer"
             @mouseup="onOpenInPlayerMouseUp"
             @touchend.stop="onOpenInPlayer"
+            :title="null"
+            :data-tippy-content="'Open in full player'"
           />
           <ArrowExpandIcon
+            class="tooltip"
             v-if="!videoElement.zoomed"
             @click="onVideoExpand"
             @mouseup="onVideoExpandMouseUp"
             @touchend.stop="onVideoExpand"
+            :title="null"
+            :data-tippy-content="'Zoom video'"
           />
           <ArrowCollapseIcon
+            class="tooltip"
             v-if="videoElement.zoomed"
             @click="onVideoCollapse"
             @mouseup="onVideoCollapseMouseUp"
             @touchend.stop="onVideoCollapse"
+            :title="null"
+            :data-tippy-content="'Revert zoom'"
           />
           <CloseIcon
+            class="tooltip"
             v-if="mini"
             @click.stop="$emit('close')"
             @mouseup.stop="$emit('close')"
             @touchend.stop="$emit('close')"
+            :title="null"
+            :data-tippy-content="'Close'"
           ></CloseIcon>
         </div>
       </div>
       <div class="center-control-overlay">
         <div class="left-action-container"></div>
-        <div class="play-btn-container" @touchend="onPlayBtnTouchEnd" @click="onPlayBtnClick">
-          <div class="play-btn" :class="{ playing: videoElement.playing }"></div>
+        <div
+          class="play-btn-container"
+          @touchend="onPlayBtnTouchEnd"
+          @click="onPlayBtnClick"
+        >
+          <div
+            class="play-btn"
+            :class="{ playing: videoElement.playing }"
+          ></div>
         </div>
         <div class="right-action-container"></div>
       </div>
@@ -93,7 +124,10 @@
         :class="{ hidden: playerOverlay.thumbnailVisible }"
         v-if="!mini"
       >
-        <div class="seekbar" :class="{ dragging: seekbar.seeking }">
+        <div
+          class="seekbar"
+          :class="{ dragging: seekbar.seeking }"
+        >
           <div
             class="seekbar-clickable"
             @mousedown.prevent="onSeekbarMouseDown"
@@ -113,7 +147,10 @@
             class="seekbar-playback-progress"
             :style="{ width: `${videoElement.progressPercentage}%` }"
           ></div>
-          <div class="seekbar-circle" :style="{ left: `${videoElement.progressPercentage}%` }"></div>
+          <div
+            class="seekbar-circle"
+            :style="{ left: `${videoElement.progressPercentage}%` }"
+          ></div>
           <div
             class="seekbar-hover-timestamp"
             ref="seekbarHoverTimestamp"
@@ -125,14 +162,14 @@
             <PauseIcon v-if="videoElement.playing" />
             <PlayIcon v-if="!videoElement.playing" />
             <VolumeControl
+              class="tooltip"
               v-model.number="videoElement.playerVolume"
               @mouseup.stop="onVolumeInteraction"
               @click.stop="onVolumeInteraction"
+              :data-tippy-content="'Change volume'"
             />
             <div class="video-time-progress">
-              <span
-                class="video-time-current-progress"
-              >{{ commons.getTimestampFromSeconds(videoElement.progress) }} / {{ commons.getTimestampFromSeconds(videoLength) }}</span>
+              <span class="video-time-current-progress">{{ commons.getTimestampFromSeconds(videoElement.progress) }} / {{ commons.getTimestampFromSeconds(videoLength) }}</span>
             </div>
           </div>
           <div class="right-bottom-controls">
@@ -141,16 +178,20 @@
               :adaptiveFormats="video.adaptiveFormats"
             />
             <FullscreenIcon
+              class="tooltip"
               v-if="!fullscreen"
               @click="onEnterFullscreen"
               @mouseup="onEnterFullscreenMouseUp"
               @touchend.stop="onEnterFullscreen"
+              :data-tippy-content="'Enter Fullscreen'"
             />
             <FullscreenExitIcon
+              class="tooltip"
               v-if="fullscreen"
               @click="onLeaveFullscreen"
               @mouseup="onLeaveFullscreenMouseUp"
               @touchend.stop="onLeaveFullscreen"
+              :data-tippy-content="'Leave fullscreen'"
             />
           </div>
         </div>
@@ -165,6 +206,8 @@
 </template>
 
 <script>
+import tippy from 'tippy.js'
+import 'tippy.js/dist/tippy.css'
 import Spinner from '@/components/Spinner'
 import SavedPosition from '@/store/videoProgress'
 import PauseIcon from 'icons/Pause'
@@ -282,7 +325,13 @@ export default {
   },
   mounted() {
     document.addEventListener('keydown', this.onWindowKeyDown)
-    console.log(this.videoElement.aspectRatio)
+    tippy('.tooltip', {
+      duration: 300,
+      arrow: false,
+      delay: [500, 100],
+      touch: 'hold',
+      placement: 'top'
+    })
   },
   beforeDestroy() {
     this.saveVideoPosition()
@@ -706,7 +755,7 @@ export default {
           overflow: hidden;
           white-space: nowrap;
           text-overflow: ellipsis;
-          width: 75%;
+          width: 70%;
           position: absolute;
         }
       }
