@@ -1,5 +1,5 @@
 import { store } from '@/store/store'
- 
+
 export default {
   autocompleteUrl: 'https://autocomplete.viewtube.eu/',
   description: 'An alternative YouTube frontend using the Invidious API.',

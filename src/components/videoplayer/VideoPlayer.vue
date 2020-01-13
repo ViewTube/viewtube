@@ -18,16 +18,9 @@
       cursor: playerOverlay.visible ? 'auto' : 'none',
       'height': `calc(100vw * ${videoElement.aspectRatio})`
     }"
-    :class="{ fullscreen: fullscreen, embedded: embedded }"
+    :class="{ fullscreen: fullscreen, embedded: embedded || mini }"
   >
-    <div
-      class="video-element-container"
-      :class="{ zoom: videoElement.zoomed }"
-      :style="{
-        'height': `calc(100vw * ${videoElement.aspectRatio})`,
-        'max-height': videoElement.zoomed ? `calc(100vw * ${videoElement.aspectRatio})` : ''
-      }"
-    >
+    <div class="video-element-container" :class="{ zoom: videoElement.zoomed }">
       <video
         class="video"
         :src="highestVideoQuality"
@@ -51,28 +44,19 @@
       />
     </div>
 
-    <Spinner
-      class="video-spinner"
-      v-if="videoElement.buffering"
-    />
+    <Spinner class="video-spinner" v-if="videoElement.buffering" />
     <div
       class="video-controls-overlay"
       :class="{ visible: playerOverlay.visible }"
       :style="{ cursor: playerOverlay.visible ? 'auto' : 'none'}"
     >
-      <div
-        class="top-control-overlay"
-        :class="{ hidden: playerOverlay.thumbnailVisible }"
-      >
+      <div class="top-control-overlay" :class="{ hidden: playerOverlay.thumbnailVisible }">
         <div class="left-top-controls">
-          <h1
-            class="video-fullscreen-title"
-            v-if="fullscreen || embedded"
-          >{{ video.title }}</h1>
+          <h1 class="video-fullscreen-title" v-if="fullscreen || embedded || mini">{{ video.title }}</h1>
         </div>
         <div class="right-top-controls">
           <OpenInPlayerIcon
-            v-if="embedded"
+            v-if="embedded || mini"
             @click="onOpenInPlayer"
             @mouseup="onOpenInPlayerMouseUp"
             @touchend.stop="onOpenInPlayer"
@@ -89,30 +73,27 @@
             @mouseup="onVideoCollapseMouseUp"
             @touchend.stop="onVideoCollapse"
           />
+          <CloseIcon
+            v-if="mini"
+            @click.stop="$emit('close')"
+            @mouseup.stop="$emit('close')"
+            @touchend.stop="$emit('close')"
+          ></CloseIcon>
         </div>
       </div>
       <div class="center-control-overlay">
         <div class="left-action-container"></div>
-        <div
-          class="play-btn-container"
-          @touchend="onPlayBtnTouchEnd"
-          @click="onPlayBtnClick"
-        >
-          <div
-            class="play-btn"
-            :class="{ playing: videoElement.playing }"
-          ></div>
+        <div class="play-btn-container" @touchend="onPlayBtnTouchEnd" @click="onPlayBtnClick">
+          <div class="play-btn" :class="{ playing: videoElement.playing }"></div>
         </div>
         <div class="right-action-container"></div>
       </div>
       <div
         class="bottom-control-overlay"
         :class="{ hidden: playerOverlay.thumbnailVisible }"
+        v-if="!mini"
       >
-        <div
-          class="seekbar"
-          :class="{ dragging: seekbar.seeking }"
-        >
+        <div class="seekbar" :class="{ dragging: seekbar.seeking }">
           <div
             class="seekbar-clickable"
             @mousedown.prevent="onSeekbarMouseDown"
@@ -132,10 +113,7 @@
             class="seekbar-playback-progress"
             :style="{ width: `${videoElement.progressPercentage}%` }"
           ></div>
-          <div
-            class="seekbar-circle"
-            :style="{ left: `${videoElement.progressPercentage}%` }"
-          ></div>
+          <div class="seekbar-circle" :style="{ left: `${videoElement.progressPercentage}%` }"></div>
           <div
             class="seekbar-hover-timestamp"
             ref="seekbarHoverTimestamp"
@@ -152,7 +130,9 @@
               @click.stop="onVolumeInteraction"
             />
             <div class="video-time-progress">
-              <span class="video-time-current-progress">{{ commons.getTimestampFromSeconds(videoElement.progress) }} / {{ commons.getTimestampFromSeconds(videoLength) }}</span>
+              <span
+                class="video-time-current-progress"
+              >{{ commons.getTimestampFromSeconds(videoElement.progress) }} / {{ commons.getTimestampFromSeconds(videoLength) }}</span>
             </div>
           </div>
           <div class="right-bottom-controls">
@@ -194,6 +174,7 @@ import FullscreenExitIcon from 'icons/FullscreenExit'
 import ArrowExpandIcon from 'icons/ArrowExpand'
 import ArrowCollapseIcon from 'icons/ArrowCollapse'
 import OpenInPlayerIcon from 'icons/OpenInNew'
+import CloseIcon from 'icons/Close'
 import Commons from '@/commons.js'
 import VideoEndscreen from '@/components/videoplayer/VideoEndscreen'
 import VolumeControl from '@/components/videoplayer/VolumeControl'
@@ -211,12 +192,14 @@ export default {
     ArrowExpandIcon,
     ArrowCollapseIcon,
     OpenInPlayerIcon,
+    CloseIcon,
     VolumeControl,
     QualitySelection
   },
   props: {
     video: Object,
     embedded: Boolean,
+    mini: Boolean,
     autoplay: Boolean
   },
   data: () => ({
@@ -717,7 +700,7 @@ export default {
       .left-top-controls {
         .video-fullscreen-title {
           margin: 10px;
-          font-size: 1.6rem;
+          font-size: 1.2rem;
           height: 40px;
           line-height: 40px;
           overflow: hidden;
@@ -755,6 +738,10 @@ export default {
 
     .center-control-overlay {
       display: flex;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
 
       .play-btn-container {
         pointer-events: all;

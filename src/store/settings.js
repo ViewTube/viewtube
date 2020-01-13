@@ -14,7 +14,7 @@ export default {
     theme(state) {
       return state.theme
     },
-    defaultThemes(state){
+    defaultThemes(state) {
       return state.defaults.theme
     }
   },
