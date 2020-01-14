@@ -7,7 +7,7 @@
       v-if="!headless"
     />
     <vue-progress-bar :class="{ 'progress-bar-margin': !headless }"></vue-progress-bar>
-    <Miniplayer></Miniplayer>
+    <Miniplayer v-if="$store.getters.miniplayer"></Miniplayer>
     <router-view
       class="content"
       ref="content"

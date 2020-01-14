@@ -22,6 +22,14 @@
         :value="currentTheme"
         @valuechange="onThemeChange"
       />
+      <h2>
+        <MiniplayerIcon />Miniplayer
+      </h2>
+      <SwitchButton
+        :value="$store.getters.miniplayer"
+        :label="'Enable miniplayer'"
+        @valuechange="val => $store.commit('setMiniplayer', val)"
+      />
     </div>
     <div
       class="settings-overlay popup-overlay"
@@ -32,9 +40,11 @@
 
 <script>
 import Dropdown from '@/components/filter/Dropdown'
+import SwitchButton from '@/components/buttons/SwitchButton'
 import CloseIcon from 'icons/Close'
 import ThemeIcon from 'icons/Brightness4'
 import InstanceIcon from 'icons/ServerNetwork'
+import MiniplayerIcon from 'icons/WindowRestore'
 import '@/styles/popup.scss'
 
 export default {
@@ -43,7 +53,9 @@ export default {
     Dropdown,
     CloseIcon,
     ThemeIcon,
-    InstanceIcon
+    InstanceIcon,
+    MiniplayerIcon,
+    SwitchButton
   },
   data() {
     return {
