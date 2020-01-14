@@ -14,6 +14,7 @@ ViewTube is an alternative YouTube frontend using the [invidious](https://github
 ## Screenshots
 ![Screenshot-Homepage](images/screenshots/lxt1y0mk.bmp)
 ![Screenshot-Video](images/screenshots/g2ejf7wf.bmp)
+![Screenshot-Channel](images/screenshots/6j45ao5r.bmp)
 
 ## Project setup
 ```cmd
