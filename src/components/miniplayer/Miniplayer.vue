@@ -83,9 +83,10 @@ export default {
       this.dragging = false
 
       document.removeEventListener('touchmove', this.onDragSpaceMouseMove)
-      document.addEventListener('touchend', this.onDragSpaceTouchEnd)
+      document.removeEventListener('touchend', this.onDragSpaceTouchEnd)
     },
     onDragSpaceMouseUp(e) {
+      console.log(e)
       this.calculateFinish(e.pageX, e.pageY)
       this.dragging = false
       document.removeEventListener('mousemove', this.onDragSpaceMouseMove)
