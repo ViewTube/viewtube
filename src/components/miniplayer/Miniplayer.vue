@@ -225,6 +225,8 @@ export default {
     &:hover {
       opacity: 1;
       transition: opacity 300ms 300ms $intro-easing;
+      height: 100%;
+      width: 100%;
 
       &:before {
         content: "Click and drag...";
