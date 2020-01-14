@@ -112,13 +112,13 @@ export default {
       }
     },
     calculateDrag(posX, posY) {
-      let halfElementWidth = this.$refs.miniplayer.clientWidth / 2
-      let tenthElementHeight = this.$refs.miniplayer.clientHeight / 10
-
-      let positionLeft = 0
-      let positionTop = 0
-
       if (this.dragging) {
+        let halfElementWidth = this.$refs.miniplayer.clientWidth / 2
+        let tenthElementHeight = this.$refs.miniplayer.clientHeight / 10
+
+        let positionLeft = 0
+        let positionTop = 0
+
         if (posX - halfElementWidth < 0) {
           positionLeft = posX - (0 - (posX - halfElementWidth)) / -1.5
         } else if (posX + halfElementWidth > Commons.getPageWidth()) {
@@ -255,6 +255,11 @@ export default {
   @media screen and (max-width: 700px) {
     width: 300px;
     height: 170px;
+  }
+
+  @media screen and (max-width: 500px) {
+    width: 250px;
+    height: 140px;
   }
 }
 </style>
