@@ -5,7 +5,8 @@
       v-if="$store.state.miniplayer.currentVideo && visible && !dismissed"
       :style="{
       top: `${Math.floor(positionTop)}px`,
-      left: `${Math.floor(positionLeft)}px`
+      left: `${Math.floor(positionLeft)}px`,
+      transform: `translate3d(calc(-50% + ${Math.floor(dragOffsetLeft)}px), calc(-10% + ${Math.floor(dragOffsetTop)}px), 0)`
     }"
       :class="{animated: transition}"
       ref="miniplayer"
@@ -43,6 +44,10 @@ export default {
       dragging: false,
       positionTop: 200,
       positionLeft: 200,
+      startPositionTop: 0,
+      startPositionLeft: 0,
+      dragOffsetTop: 0,
+      dragOffsetLeft: 0,
       transition: false
     }
   },
@@ -60,11 +65,15 @@ export default {
     },
     onDragSpaceMouseDown(e) {
       this.dragging = true
+      this.startPositionTop = e.pageY
+      this.startPositionLeft = e.pageX
       document.addEventListener('mousemove', this.onDragSpaceMouseMove)
       document.addEventListener('mouseup', this.onDragSpaceMouseUp)
     },
     onDragSpaceTouchStart(e) {
       this.dragging = true
+      this.startPositionTop = e.touches[0].pageY
+      this.startPositionLeft = e.touches[0].pageX
       document.addEventListener('touchmove', this.onDragSpaceTouchMove)
       document.addEventListener('touchend', this.onDragSpaceTouchEnd)
     },
@@ -106,22 +115,28 @@ export default {
       let halfElementWidth = this.$refs.miniplayer.clientWidth / 2
       let tenthElementHeight = this.$refs.miniplayer.clientHeight / 10
 
+      let positionLeft = 0
+      let positionTop = 0
+
       if (this.dragging) {
         if (posX - halfElementWidth < 0) {
-          this.positionLeft = posX - (0 - (posX - halfElementWidth)) / -1.5
+          positionLeft = posX - (0 - (posX - halfElementWidth)) / -1.5
         } else if (posX + halfElementWidth > Commons.getPageWidth()) {
-          this.positionLeft = posX - (Commons.getPageWidth() - (posX + halfElementWidth)) / -1.5
+          positionLeft = posX - (Commons.getPageWidth() - (posX + halfElementWidth)) / -1.5
         } else {
-          this.positionLeft = posX
+          positionLeft = posX
         }
 
         if (posY - tenthElementHeight < 0) {
-          this.positionTop = posY - (0 - (posY - tenthElementHeight)) / -1.5
+          positionTop = posY - (0 - (posY - tenthElementHeight)) / -1.5
         } else if (posY + (tenthElementHeight * 9) > Commons.getPageHeight()) {
-          this.positionTop = posY - (Commons.getPageHeight() - (posY + (tenthElementHeight * 9))) / -1.5
+          positionTop = posY - (Commons.getPageHeight() - (posY + (tenthElementHeight * 9))) / -1.5
         } else {
-          this.positionTop = posY
+          positionTop = posY
         }
+
+        this.dragOffsetTop = positionTop - this.startPositionTop
+        this.dragOffsetLeft = positionLeft - this.startPositionLeft
       }
     },
     calculateFinish(posX, posY) {
@@ -152,6 +167,9 @@ export default {
         this.positionTop = pageHeight - tenthElementHeight * 9
         this.positionLeft = halfElementWidth
       }
+
+      this.dragOffsetTop = 0
+      this.dragOffsetLeft = 0
     }
   },
   watch: {
@@ -183,7 +201,6 @@ export default {
   width: 500px;
   height: 280px;
   z-index: 800;
-  transform: translate(-50%, -10%);
   cursor: grab;
   box-shadow: $max-shadow;
 
