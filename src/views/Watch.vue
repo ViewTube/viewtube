@@ -76,7 +76,7 @@
       </div>
       <div class="comments-description">
         <div
-          class="video-infobox-description"
+          class="video-infobox-description links"
           v-html="video.descriptionHtml"
           v-clean-links
         ></div>
@@ -434,23 +434,6 @@ export default {
       overflow-wrap: break-word;
       max-width: $main-width;
       width: 100%;
-
-      a {
-        text-decoration: none;
-        color: var(--theme-color-alt);
-        position: relative;
-        transition: background-size 300ms $dynamic-easing,
-          color 300ms $intro-easing;
-        background-image: $theme-color-primary-gradient;
-        background-size: 0% 2px;
-        background-position: 0 100%;
-        background-repeat: no-repeat;
-
-        &:hover {
-          color: var(--theme-color);
-          background-size: 100% 2px;
-        }
-      }
 
       .favicon-link {
         height: 13px;

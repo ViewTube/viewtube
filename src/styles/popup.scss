@@ -12,6 +12,8 @@
   display: flex;
   z-index: 8;
   position: fixed;
+  overflow-y: scroll;
+  padding-top: 60px;
 
   .popup-container {
     width: 100%;

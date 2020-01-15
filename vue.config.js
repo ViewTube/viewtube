@@ -9,6 +9,18 @@ module.exports = {
       extensions: [
         '.vue'
       ]
+    },
+    module: {
+      rules: [
+        {
+          test: /\.txt$/i,
+          use: 'raw-loader'
+        },
+        {
+          test: /\.html$/i,
+          use: 'raw-loader'
+        }
+      ]
     }
   },
   pluginOptions: {

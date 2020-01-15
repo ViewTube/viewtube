@@ -1,47 +1,25 @@
 <template>
   <div class="about popup">
     <div class="about-container popup-container">
-      <CloseIcon
-        class="close-icon"
-        @click.stop="$emit('close')"
-      />
+      <CloseIcon class="close-icon" @click.stop="$emit('close')" />
       <h1>About ViewTube</h1>
       <div class="logo-about">
-        <img
-          class="logo-about-img"
-          src="@/assets/icon-background-192.jpg"
-          alt="ViewTube"
-        />
+        <img class="logo-about-img" src="@/assets/icon-background-192.jpg" alt="ViewTube" />
       </div>
       <h2>ViewTube by Maurice Oegerli</h2>
       <h3>{{ description }}</h3>
       <div class="links-about">
-        <a
-          class="badge-btn"
-          target="_blank"
-          href="https://github.com/mauriceoegerli/viewtube-vue"
-        >
+        <a class="badge-btn" target="_blank" href="https://github.com/mauriceoegerli/viewtube-vue">
           <GithubIcon />ViewTube
         </a>
-        <a
-          class="badge-btn"
-          target="_blank"
-          href="https://github.com/omarroth/invidious"
-        >
+        <a class="badge-btn" target="_blank" href="https://github.com/omarroth/invidious">
           <GithubIcon />Invidious
         </a>
-        <a
-          class="badge-btn"
-          target="_blank"
-          href="https://invidio.us"
-        >
+        <a class="badge-btn" target="_blank" href="https://invidio.us">
           <ExternalIcon />Invidious
         </a>
       </div>
-      <div
-        class="invidious-stats"
-        v-if="invidousStats"
-      >
+      <div class="invidious-stats" v-if="invidousStats">
         <table>
           <tr>
             <td>Invidious instance</td>
@@ -57,11 +35,11 @@
           </tr>
         </table>
       </div>
+      <div class="invidious-license links" v-if="invidiousLicense" v-html="invidiousLicense">
+        <!-- <p>{{ invidiousLicense }}</p> -->
+      </div>
     </div>
-    <div
-      class="about-overlay popup-overlay"
-      @click.stop="$emit('close')"
-    ></div>
+    <div class="about-overlay popup-overlay" @click.stop="$emit('close')"></div>
   </div>
 </template>
 
@@ -70,6 +48,7 @@ import CloseIcon from 'icons/Close'
 import Commons from '@/commons.js'
 import GithubIcon from 'vue-material-design-icons/GithubCircle'
 import ExternalIcon from 'vue-material-design-icons/OpenInNew'
+import InvidiousLicense from '@/licenses/invidious.html'
 
 export default {
   name: 'about',
@@ -78,11 +57,14 @@ export default {
     GithubIcon,
     ExternalIcon
   },
-  data: () => ({
-    description: Commons.description,
-    invidousStats: null,
-    currentInstance: this.$store.getters.currentInstance
-  }),
+  data() {
+    return {
+      description: Commons.description,
+      invidousStats: null,
+      currentInstance: this.$store.getters.currentInstance,
+      invidiousLicense: InvidiousLicense
+    }
+  },
   mounted() {
     let me = this
     fetch(`${Commons.getApiUrl()}stats`, {
@@ -119,6 +101,13 @@ export default {
       }
     }
   }
+}
+.invidious-license{
+  width: 100%;
+  margin: 10px 0 !important;
+  height: 400px;
+  overflow-y: scroll;
+  background-color: var(--bgcolor-main);
 }
 .links-about {
   margin: 10px 0 0 0 !important;

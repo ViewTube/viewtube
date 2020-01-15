@@ -1,22 +1,10 @@
 <template>
-  <div
-    id="app"
-    :class="`theme--${$store.getters.theme}`"
-  >
-    <Header
-      v-if="!headless"
-    />
+  <div id="app" :class="`theme--${$store.getters.theme}`">
+    <Header v-if="!headless" />
     <vue-progress-bar :class="{ 'progress-bar-margin': !headless }"></vue-progress-bar>
     <Miniplayer v-if="$store.getters.miniplayer"></Miniplayer>
-    <router-view
-      class="content"
-      ref="content"
-    />
-    <portal-target
-      class="dropdown-portal"
-      name="dropdown"
-      multiple
-    ></portal-target>
+    <router-view class="content" ref="content" />
+    <portal-target class="dropdown-portal" name="dropdown" multiple></portal-target>
   </div>
 </template>
 
@@ -97,6 +85,23 @@ h5,
 h6,
 a {
   margin: 0;
+}
+div.links {
+  a {
+    text-decoration: none;
+    color: var(--theme-color-alt);
+    position: relative;
+    transition: background-size 300ms $dynamic-easing, color 300ms $intro-easing;
+    background-image: $theme-color-primary-gradient;
+    background-size: 0% 2px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+
+    &:hover {
+      color: var(--theme-color);
+      background-size: 100% 2px;
+    }
+  }
 }
 html,
 body {
