@@ -17,6 +17,7 @@
   ],
   "dependencies": {
     "core-js": "^2.6.9",
+    "dashjs": "^3.0.1",
     "portal-vue": "^2.1.6",
     "raw-loader": "^4.0.0",
     "register-service-worker": "^1.6.2",

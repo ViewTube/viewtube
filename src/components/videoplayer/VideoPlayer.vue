@@ -223,6 +223,7 @@ import VideoEndscreen from '@/components/videoplayer/VideoEndscreen'
 import VolumeControl from '@/components/videoplayer/VolumeControl'
 import QualitySelection from '@/components/videoplayer/QualitySelection'
 
+
 export default {
   name: 'videoplayer',
   components: {
