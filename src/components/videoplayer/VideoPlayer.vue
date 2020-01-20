@@ -24,7 +24,6 @@
       <video
         class="video"
         src="#"
-        data-dashjs-player
         @waiting="onVideoBuffering"
         @canplay="onVideoCanplay"
         @playing="onVideoPlaying"
@@ -200,7 +199,7 @@ import Commons from '@/commons.js'
 import VideoEndscreen from '@/components/videoplayer/VideoEndscreen'
 import VolumeControl from '@/components/videoplayer/VolumeControl'
 import QualitySelection from '@/components/videoplayer/QualitySelection'
-import 'dashjs'
+import dashjs from 'dashjs'
 
 export default {
   name: 'videoplayer',
@@ -228,6 +227,7 @@ export default {
     loading: true,
     fullscreen: false,
     commons: Commons,
+    dashPlayer: null,
     playerOverlay: {
       visible: false,
       timeout: undefined,
@@ -311,12 +311,21 @@ export default {
       touch: 'hold',
       placement: 'top'
     })
+    this.loadDashVideo()
   },
   beforeDestroy() {
     this.saveVideoPosition()
     document.removeEventListener('keydown', this.onWindowKeyDown)
   },
   methods: {
+    loadDashVideo() {
+      if (this.$refs.video) {
+        let url = `${Commons.getApiUrlNoVersion()}manifest/dash/id/${this.video.videoId}?local=true`
+        console.log(url)
+        this.dashPlayer = dashjs.MediaPlayer().create()
+        this.dashPlayer.initialize(this.$refs.video, url, false)
+      }
+    },
     // Window events
     onWindowKeyDown(e) {
       if (this.$refs.video) {
@@ -340,6 +349,7 @@ export default {
       if (videoRef && !this.seekbar.seeking) {
         this.videoElement.progressPercentage = (videoRef.currentTime / this.videoLength) * 100
         this.videoElement.progress = videoRef.currentTime
+        console.log(this.dashPlayer.getTracksFor('video'))
       }
     },
     onLoadingProgress() {

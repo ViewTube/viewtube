@@ -9,6 +9,10 @@ export default {
     return `${store.getters.currentInstance}/api/v1/`
   },
 
+  getApiUrlNoVersion() {
+    return `${store.getters.currentInstance}/api/`
+  },
+
   getDomain() {
     if (window.location.href.toLowerCase().indexOf('localhost') !== -1) {
       return 'localhost'
