@@ -15,8 +15,9 @@
     <a
       :href="`/results?search_query=${this.searchValue}`"
       @click.self.prevent="onSearchButton"
-      class="search-btn ripple tooltip"
+      class="search-btn tooltip"
       data-tippy-content="click or press enter to search"
+      v-ripple
     >
       <SearchIcon />
     </a>

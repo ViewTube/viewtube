@@ -1,30 +1,26 @@
 <template>
-  <div class="comment">
-    <img
-      class="comment-author-image"
-      :src="comment.authorThumbnails[2].url"
-      :alt="comment.author"
-    />
+  <div class="comment" :class="{ open: repliesLoaded }">
+    <router-link :to="{path: '/channel/' + comment.authorId}">
+      <img
+        class="comment-author-image"
+        :src="comment.authorThumbnails[2].url"
+        :alt="comment.author"
+      />
+    </router-link>
     <div class="comment-container">
-      <router-link
-        class="comment-author"
-        :to="{path: '/channel/' + comment.authorId}"
-        :class="{ owner: comment.authorIsChannelOwner }"
-      >
-        <p>{{ comment.author }}</p>
-      </router-link>
-      <div
-        class="comment-content"
-        v-html="comment.content"
-      ></div>
+      <div class="comment-author">
+        <router-link
+          class="comment-author-link"
+          :to="{path: '/channel/' + comment.authorId}"
+          :class="{ owner: comment.authorIsChannelOwner }"
+        >{{ comment.author }}</router-link>
+      </div>
+      <div class="comment-content" v-html="comment.content"></div>
       <div class="comment-properties">
         <div class="published comment-property">
           <span>{{ comment.publishedText }}</span>
         </div>
-        <div
-          class="edited comment-property"
-          v-if="comment.isEdited"
-        >
+        <div class="edited comment-property" v-if="comment.isEdited">
           <PenIcon />
           <span>edited</span>
         </div>
@@ -40,31 +36,41 @@
           <HeartIcon title />
         </div>
       </div>
-      <div
-        class="comment-replies"
-        v-if="comment.replies !== undefined"
-      >
+      <div class="comment-replies" v-if="comment.replies !== undefined">
         <a
           href="#"
           class="comment-reply-count badge-btn"
           @click.prevent="loadReplies"
           v-if="!loadingReplies && !repliesLoaded"
+          v-ripple
         >show {{ comment.replies.replyCount.toLocaleString() }} replies</a>
+        <a
+          href="#"
+          class="comment-reply-count badge-btn"
+          @click.prevent="hideReplies"
+          v-if="repliesLoaded"
+          v-ripple
+        >hide replies</a>
         <Spinner v-if="loadingReplies"></Spinner>
         <div
           class="comment-replies-list"
           v-if="repliesLoaded"
+          :style="{ height: `${getRepliesContainerHeight()}px` }"
         >
-          <Comment
-            v-for="subComment in replies"
-            :key="subComment.commentId"
-            :comment="subComment"
-          />
+          <div class="comment-replies-list-height" ref="commentRepliesListHeight">
+            <Comment
+              class="subcomment"
+              v-for="subComment in replies"
+              :key="subComment.commentId"
+              :comment="subComment"
+            />
+          </div>
           <a
             href="#"
             class="show-more-replies badge-btn"
             @click.prevent="loadMoreReplies"
             v-if="repliesContinuationLink && !repliesContinuationLoading"
+            v-ripple
           >show more</a>
           <Spinner v-if="repliesContinuationLoading"></Spinner>
         </div>
@@ -100,7 +106,8 @@ export default {
     loadingReplies: false,
     repliesLoaded: false,
     repliesContinuationLink: null,
-    repliesContinuationLoading: false
+    repliesContinuationLoading: false,
+    repliesContainerHeight: 0
   }),
   mounted() {
     tippy('.tooltip', {
@@ -112,6 +119,16 @@ export default {
     })
   },
   methods: {
+    getRepliesContainerHeight() {
+      if (this.$refs.commentRepliesListHeight) {
+        return this.$refs.commentRepliesListHeight.clientHeight
+      } else {
+        return 0
+      }
+    },
+    hideReplies() {
+      this.repliesLoaded = false
+    },
     loadReplies() {
       this.loadingReplies = true
       let repliesId = this.comment.replies.continuation
@@ -168,6 +185,20 @@ export default {
   flex-direction: row;
   font-family: $default-font;
   justify-content: flex-start;
+  background-color: var(--bgcolor-alt);
+  padding: 10px;
+  box-sizing: border-box;
+  border-radius: 4px;
+  border: 2px solid var(--bgcolor-alt);
+  transition: border 300ms $intro-easing;
+
+  &.open {
+    border: 2px solid var(--theme-color);
+  }
+
+  &.subcomment {
+    padding: 0;
+  }
 
   .comment-author-image {
     width: 55px;
@@ -184,6 +215,10 @@ export default {
       margin: 0;
       align-items: flex-start;
       font-weight: 700;
+
+      p {
+        width: auto;
+      }
 
       &.owner {
         color: var(--theme-color);
@@ -243,8 +278,11 @@ export default {
     }
     .comment-replies {
       .comment-reply-count {
+        margin: 10px 0 5px 0;
       }
       .comment-replies-list {
+        height: 0px;
+        overflow: hidden;
       }
       .show-more-replies {
       }

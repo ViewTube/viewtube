@@ -1,22 +1,14 @@
 <template>
   <div class="watch">
     <vue-headful
-      :title="(video.title !== undefined ? video.title : 'loading') + ' - ViewTube'"
+      :title="(video.title !== undefined ? `${video.title} - ${video.author}` : 'loading') + ' - ViewTube'"
       :keywords="video.keywords !== undefined ? video.keywords.toString(): ''"
       :description="commons.description"
       :image="(video.videoThumbnails !== undefined ? video.videoThumbnails[0].url : '#')"
       lang="en"
     />
-    <VideoPlayer
-      v-if="!loading"
-      :key="video.id"
-      :video="video"
-      class="video-player-p"
-    ></VideoPlayer>
-    <div
-      class="video-infobox"
-      v-if="!loading"
-    >
+    <VideoPlayer v-if="!loading" :key="video.id" :video="video" class="video-player-p"></VideoPlayer>
+    <div class="video-infobox" v-if="!loading">
       <h1 class="video-infobox-title">{{ video.title }}</h1>
       <div class="video-infobox-stats">
         <p class="infobox-views">{{ video.viewCount.toLocaleString() }} views</p>
@@ -43,11 +35,7 @@
         <div class="infobox-channel">
           <div class="infobox-channel-image">
             <router-link :to="`channel/${video.authorId}`">
-              <img
-                id="channel-img"
-                alt="channel image"
-                :src="video.authorThumbnails[2].url"
-              />
+              <img id="channel-img" alt="channel image" :src="video.authorThumbnails[2].url" />
             </router-link>
           </div>
           <div class="infobox-channel-info">
@@ -58,10 +46,7 @@
             <p class="infobox-channel-subcount">{{ video.subCountText }} Subscribers</p>
           </div>
         </div>
-        <SubscribeButton
-          class="subscribe-button-watch"
-          :channelId="video.authorId"
-        />
+        <SubscribeButton class="subscribe-button-watch" :channelId="video.authorId" />
       </div>
       <div class="video-infobox-date">{{ video.publishedText }}</div>
       <p class="video-infobox-text">tags:</p>
@@ -72,19 +57,13 @@
           :key="keyword"
           :to="`results?search_query=${keyword}`"
           target="_blank"
+          v-ripple
         >{{ keyword }}</router-link>
       </div>
       <div class="comments-description">
-        <div
-          class="video-infobox-description links"
-          v-html="video.descriptionHtml"
-          v-clean-links
-        ></div>
+        <div class="video-infobox-description links" v-html="video.descriptionHtml" v-clean-links></div>
         <Spinner v-if="commentsLoading"></Spinner>
-        <div
-          class="comments-container"
-          v-if="!commentsLoading"
-        >
+        <div class="comments-container" v-if="!commentsLoading">
           <div class="comments-count">
             <p>{{ comment.commentCount.toLocaleString() }} comments</p>
           </div>
@@ -219,21 +198,6 @@ export default {
 </script>
 
 <style lang="scss">
-.badge-btn {
-  background-color: var(--theme-color-translucent);
-  text-decoration: none;
-  color: var(--title-color);
-  padding: 3px 5px;
-  margin: 2px 5px 2px 0;
-  border-radius: 3px;
-  display: inline-block;
-  transition: background-color 200ms $intro-easing;
-
-  &:hover {
-    background-color: var(--bgcolor-alt);
-  }
-}
-
 .watch {
   overflow-y: scroll;
   margin-top: $header-height;

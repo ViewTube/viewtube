@@ -9,7 +9,7 @@
       <h2>ViewTube by Maurice Oegerli</h2>
       <h3>{{ description }}</h3>
       <div class="links-about">
-        <a class="badge-btn" target="_blank" href="https://github.com/mauriceoegerli/viewtube-vue">
+        <a v-ripple target="_blank" href="https://github.com/mauriceoegerli/viewtube-vue">
           <GithubIcon />ViewTube
         </a>
         <a class="badge-btn" target="_blank" href="https://github.com/omarroth/invidious">

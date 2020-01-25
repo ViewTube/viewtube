@@ -47,7 +47,7 @@
     <Spinner class="video-spinner" v-if="videoElement.buffering" />
     <div
       class="video-controls-overlay"
-      :class="{ visible: playerOverlay.visible }"
+      :class="{ visible: playerOverlay.visible || !videoElement.playing }"
       :style="{ cursor: playerOverlay.visible ? 'auto' : 'none'}"
     >
       <div class="top-control-overlay" :class="{ hidden: playerOverlay.thumbnailVisible }">
@@ -321,9 +321,12 @@ export default {
     loadDashVideo() {
       if (this.$refs.video) {
         let url = `${Commons.getApiUrlNoVersion()}manifest/dash/id/${this.video.videoId}?local=true`
-        console.log(url)
+        if (this.video.dashUrl) {
+          url = `${this.video.dashUrl}?local=true`
+        }
         this.dashPlayer = dashjs.MediaPlayer().create()
         this.dashPlayer.initialize(this.$refs.video, url, false)
+        this.dashBitrates = this.dashPlayer.getBitrateInfoListFor('video')
       }
     },
     // Window events
@@ -349,7 +352,7 @@ export default {
       if (videoRef && !this.seekbar.seeking) {
         this.videoElement.progressPercentage = (videoRef.currentTime / this.videoLength) * 100
         this.videoElement.progress = videoRef.currentTime
-        console.log(this.dashPlayer.getTracksFor('video'))
+        console.log(this.dashPlayer.getBitrateInfoListFor('video'))
       }
     },
     onLoadingProgress() {
@@ -724,6 +727,7 @@ export default {
     opacity: 0;
     z-index: 140;
     pointer-events: none;
+    color: #fff;
 
     .top-control-overlay {
       position: relative;

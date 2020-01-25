@@ -1,9 +1,6 @@
 <template>
   <div class="header">
-    <router-link
-      class="logo-link"
-      to="/"
-    >
+    <router-link class="logo-link" to="/">
       <h1 class="logo">
         <span>View</span>
         <span class="logo-colored">Tube</span>
@@ -20,17 +17,19 @@
       <router-link
         to="/login"
         id="login"
-        class="ripple tooltip nav-btn main"
+        class="tooltip nav-btn main"
         data-tippy-content="login"
         v-if="!userAuthenticated"
         v-html="'Login'"
+        v-ripple
       >Login</router-link>
       <router-link
         to="/register"
         id="register"
-        class="ripple tooltip nav-btn"
+        class="tooltip nav-btn"
         data-tippy-content="register"
         v-if="!userAuthenticated"
+        v-ripple
       >Register</router-link>
       <router-link
         to="/subscriptions"
@@ -38,22 +37,20 @@
         class="tooltip nav-btn main"
         data-tippy-content="view your subscriptions"
         v-show="userAuthenticated"
+        v-ripple
       >Subscriptions</router-link>
       <a
         href="#"
-        @click.self.prevent="accountMenuVisible = !accountMenuVisible"
+        @click="showAccountMenu"
         id="account"
-        class="ripple tooltip"
+        class="tooltip"
         data-tippy-content="account"
+        v-ripple
       >
         <AccountIcon />
       </a>
       <transition name="circle">
-        <div
-          class="menu"
-          v-if="accountMenuVisible"
-          v-clickaway="hideAccountMenu"
-        >
+        <div class="menu" v-if="accountMenuVisible" v-clickaway="hideAccountMenu">
           <a
             href="#"
             v-if="!userAuthenticated"
@@ -84,18 +81,11 @@
           >
             <AccountPlusIcon />Subscriptions
           </a>
-          <div
-            class="account-menu"
-            v-if="userAuthenticated"
-          >
+          <div class="account-menu" v-if="userAuthenticated">
             <AccountIcon />
             <div class="account-info">
               <p class="account-name">{{ loginState.username }}</p>
-              <a
-                class="logout-btn"
-                href="#"
-                @click.prevent="logout"
-              >Log out</a>
+              <a class="logout-btn" href="#" @click.prevent="logout">Log out</a>
             </div>
           </div>
           <a
@@ -129,14 +119,8 @@
       </transition>
     </div>
     <transition name="fade-down">
-      <Settings
-        v-if="settingsOpen"
-        @close="closeSettings"
-      />
-      <About
-        v-if="aboutOpen"
-        @close="closeAbout"
-      />
+      <Settings v-if="settingsOpen" @close="closeSettings" />
+      <About v-if="aboutOpen" @close="closeAbout" />
     </transition>
   </div>
 </template>
@@ -175,13 +159,6 @@ export default {
     aboutOpen: false
   }),
   methods: {
-    disableDrag() {
-      let elements = document.getElementsByClassName('ripple')
-      Array.from(elements).forEach(element => {
-        element.ondragstart = e => e.preventDefault()
-        element.oncontextmenu = e => e.preventDefault()
-      })
-    },
     hideAccountMenu() {
       if (this.accountMenuVisible) {
         setTimeout(() => {
@@ -199,6 +176,9 @@ export default {
           .catch(error => console.log('Error sharing:', error))
       }
       this.hideAccountMenu()
+    },
+    showAccountMenu() {
+      this.accountMenuVisible = !this.accountMenuVisible
     },
     openAbout() {
       this.hideAccountMenu()
@@ -232,8 +212,6 @@ export default {
     }
   },
   mounted() {
-    this.disableDrag()
-
     tippy('.tooltip', {
       duration: 300,
       arrow: false,

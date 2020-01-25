@@ -7,7 +7,12 @@
           <span class="quality-title">
             <MagicIcon />Automatic quality
           </span>
-          <div class="qualities-info" :class="{ selected: selectedQuality === 0 }">
+          <div
+            class="qualities-info"
+            :class="{ selected: selectedQuality === 0 }"
+            @click.stop="setAutoQuality"
+            @touchend.stop="onQualityTouchInteraction"
+          >
             <p>Max: {{ maxAdaptiveQuality.qualityLabel }}</p>
             <p>Min: {{ minAdaptiveQuality.qualityLabel }}</p>
           </div>
@@ -19,8 +24,10 @@
           <div
             class="format-quality-entry"
             v-for="(quality, id) in formatStreams"
-            :key="id+1"
-            :class="{ selected: selectedQuality === id+1 }"
+            :key="id + 1"
+            :class="{ selected: selectedQuality === id + 1 }"
+            @click.stop="setFormatQuality(id + 1)"
+            @touchend.stop="onQualityTouchInteraction"
           >{{ quality.qualityLabel }}</div>
         </div>
       </div>
@@ -71,6 +78,12 @@ export default {
     onQualityMouseup() {
     },
     onQualityTouchInteraction() {
+
+    },
+    setFormatQuality() {
+
+    },
+    setAutoQuality() {
 
     }
   }
@@ -150,6 +163,10 @@ export default {
 
         &.selected {
           background-color: var(--theme-color-translucent);
+        }
+
+        p {
+          margin: 0 2px;
         }
       }
 

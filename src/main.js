@@ -4,7 +4,6 @@ import router from './router'
 import FormattingFunctions from './formattingFunctions'
 import './registerServiceWorker'
 import 'vue-material-design-icons/styles.css'
-import './ripple.js'
 import VueHeadful from 'vue-headful'
 import PortalVue from 'portal-vue'
 import UserStore from './store/user'
@@ -13,6 +12,7 @@ import VueCookie from 'vue-cookie'
 import VueLazyload from 'vue-lazyload'
 import ClickawayDirective from './directives/clickawayDirective'
 import CleanlinksDirective from './directives/cleanlinksDirective'
+import Ripple from './directives/rippleDirective'
 import { store } from '@/store/store'
 
 const progressOptions = {
@@ -28,6 +28,7 @@ const progressOptions = {
 
 Vue.directive('clickaway', ClickawayDirective)
 Vue.directive('clean-links', CleanlinksDirective)
+Vue.directive('ripple', Ripple)
 
 Vue.use(VueProgressBar, progressOptions)
 Vue.use(FormattingFunctions)
