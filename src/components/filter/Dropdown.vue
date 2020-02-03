@@ -4,6 +4,7 @@
       class="dropdown-btn"
       @click.stop="onDropdownBtnClick"
       :class="{ 'label-unselected': selected === null }"
+      v-ripple
     >
       <div class="dropdown-title">
         <p v-if="selected !== null">{{ entries[selected].name }}</p>

@@ -134,7 +134,7 @@ export default {
   border-radius: 3px;
   background-color: var(--bgcolor-translucent);
   transition: background-color 300ms $intro-easing;
-  z-index: 800;
+  z-index: +1;
 
   &.scrolled {
     background-color: var(--bgcolor-alt-light);

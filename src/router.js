@@ -44,13 +44,13 @@ export default new Router({
     accessWithAuth: false
   },
   {
-    path: '/channel/:id',
+    path: '/channel/:id/',
     name: 'channel',
     component: () => import('./views/Channel.vue'),
     alias: [
-      '/c/:id',
-      '/u/:id',
-      '/user/:id'
+      '/c/:id/',
+      '/u/:id/',
+      '/user/:id/'
     ]
   },
   {

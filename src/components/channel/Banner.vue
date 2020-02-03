@@ -22,6 +22,7 @@ export default {
   .channel-banner-image {
     width: 100%;
     position: relative;
+    max-height: 500px;
     transition: transform 100ms linear;
 
     @media screen and (max-width: 900px) {

@@ -1,29 +1,8 @@
 // Written by Aaron Längert
 // Adapted to Vue.js directive by Maurice Oegerli
 var Ripple = {
-  css: `.ripple { 
-          overflow: hidden !important;
-          position: relative; 
-        } 
-        .ripple .rippleContainer { 
-          display: block; 
-          height: 200px !important; 
-          width: 200px !important; 
-          padding: 0px 0px 0px 0px; 
-          border-radius: 50%; 
-          position: absolute !important; 
-          top: 0px; 
-          left: 0px; 
-          transform: translate(-50%, -50%) scale(0); 
-          -webkit-transform: translate(-50%, -50%) scale(0); 
-          -ms-transform: translate(-50%, -50%) scale(0); 
-          background-color: transparent; 
-        } 
-        .ripple * {
-          pointer-events: none !important;
-        }`,
 
-  bind (el, binding) {
+  bind(el, binding) {
     let me = binding.def
     el.style.overflow = 'hidden'
     el.style.position = 'relative'
@@ -91,7 +70,7 @@ var Ripple = {
       function (e) {
         if (e.target.getAttribute('animating') === '2' || e.target.getAttribute('animating') === '3') {
           e.target.style.transition = 'none'
-          e.target.style.transform = 'translate(-50%, -50%) scale(0)'
+          e.target.style.transform = 'translate(-50%, -50%) scale(0.15)'
           e.target.style.boxShadow = 'none'
           e.target.setAttribute('animating', '0')
         }
@@ -110,14 +89,15 @@ var Ripple = {
       rippleContainer.style.position = 'absolute'
       rippleContainer.style.top = '0px'
       rippleContainer.style.left = '0px'
-      rippleContainer.style.transform = 'translate(-50%, -50%) scale(0)'
+      rippleContainer.style.opacity = 0
+      rippleContainer.style.transform = 'translate(-50%, -50%) scale(0.15)'
       rippleContainer.style.backgroundColor = 'transparent'
 
       el.appendChild(rippleContainer)
     }
   },
 
-  rippleStart (e) {
+  rippleStart(e) {
     let rippleContainer = this.getRippleContainer(e.target)
     if (
       (rippleContainer.getAttribute('animating') === '0' || !rippleContainer.hasAttribute('animating')) &&
@@ -135,8 +115,8 @@ var Ripple = {
         Math.sqrt(Math.pow(offsetX, 2) + Math.pow(e.target.clientHeight - offsetY, 2)),
         Math.sqrt(Math.pow(offsetY, 2) + Math.pow(e.target.clientWidth - offsetX, 2))
       )
-      let expandTime = e.target.getAttribute('ripple-press-expand-time') || 0.2
-      rippleContainer.style.transition = 'transform ' + expandTime + 's ease-out, box-shadow 0.1s linear'
+      let expandTime = e.target.getAttribute('ripple-press-expand-time') || 0.4
+      rippleContainer.style.transition = 'transform ' + expandTime + 's ease-out, box-shadow 0.1s linear, opacity 0.1s'
       rippleContainer.style.background = e.target.getAttribute('ripple-color') || '#ff7b3b'
       rippleContainer.style.opacity = e.target.getAttribute('ripple-opacity') || '0.5'
       rippleContainer.style.boxShadow = e.target.getAttribute('ripple-shadow') || 'none'
@@ -146,7 +126,7 @@ var Ripple = {
     }
   },
 
-  rippleEnd (e) {
+  rippleEnd(e) {
     let rippleContainer = this.getRippleContainer(e.target)
     if (rippleContainer.getAttribute('animating') === '1') {
       rippleContainer.setAttribute('animating', '2')
@@ -174,29 +154,30 @@ var Ripple = {
     }
   },
 
-  rippleRetrieve (e) {
+  rippleRetrieve(e) {
     let rippleContainer = this.getRippleContainer(e.target)
-    if (rippleContainer.style.transform === 'translate(-50%, -50%) scale(0)') {
+    if (rippleContainer.style.transform === 'translate(-50%, -50%) scale(0.15)') {
       rippleContainer.setAttribute('animating', '0')
     }
     if (rippleContainer.getAttribute('animating') === '1') {
       rippleContainer.setAttribute('animating', '3')
-      let collapseTime = e.target.getAttribute('ripple-leave-collapse-time') || 0.4
+      let collapseTime = e.target.getAttribute('ripple-leave-collapse-time') || 0.2
       rippleContainer.style.transition =
-        'transform ' + collapseTime + 's linear, box-shadow ' + collapseTime + 's linear'
+        'box-shadow ' + collapseTime + 's linear, opacity 0.2s'
       rippleContainer.style.boxShadow = 'none'
-      rippleContainer.style.transform = 'translate(-50%, -50%) scale(0)'
+      // rippleContainer.style.transform = 'translate(-50%, -50%) scale(0.15)'
+      rippleContainer.style.opacity = '0'
     }
   },
   // returns the ripple div by scanning all children. If not found, return the argument
-  getRippleContainer (el) {
+  getRippleContainer(el) {
     let children = el.childNodes
     for (let i = 0; i < children.length; i++) {
       try {
         if (children[i].className.indexOf('rippleContainer') > -1) {
           return children[i]
         }
-      } catch (err) {}
+      } catch (err) { }
     }
     return el
   }

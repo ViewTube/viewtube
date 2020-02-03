@@ -1,5 +1,5 @@
 <template>
-  <input type="submit" :value="label" class="submit-button ripple" />
+  <input type="submit" :value="label" class="submit-button" v-ripple />
 </template>
 
 <script>

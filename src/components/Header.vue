@@ -286,7 +286,8 @@ export default {
     display: flex;
     flex-direction: row-reverse;
     align-items: center;
-    z-index: 800;
+    position: relative;
+    z-index: +1;
 
     .logo {
       font-family: $header-font;
@@ -351,7 +352,8 @@ export default {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    z-index: 800;
+    position: relative;
+    z-index: +1;
 
     .menu {
       position: fixed;

@@ -2,6 +2,7 @@ import { store } from '@/store/store'
 
 export default {
   autocompleteUrl: 'https://autocomplete.viewtube.eu/',
+  proxyUrl: 'https://proxy.mcdn.ch/index.php?',
   description: 'An alternative YouTube frontend using the Invidious API.',
   language: 'en-US',
 

@@ -73,6 +73,9 @@ export default {
     background: #1e1e1e;
   }
 }
+.ripple * {
+  pointer-events: none !important;
+}
 body.transition-all * {
   transition: background-color 300ms ease, color 300ms ease, opacity 300ms ease;
 }
@@ -156,7 +159,7 @@ body {
     }
 
     .progress-bar-margin {
-      top: $header-height !important;
+      top: $header-height - 3px !important;
     }
 
     .content {

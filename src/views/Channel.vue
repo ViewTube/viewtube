@@ -8,22 +8,43 @@
     />
     <Banner
       v-if="channel.authorBanners && channel.authorBanners.length > 0"
-      :src="channel.authorBanners[0].url"
+      :src="commons.proxyUrl + channel.authorBanners[0].url"
     />
     <Overview :channel="channel" v-if="!loading" />
-    <div class="channel-videos-container" v-if="!loading">
-      <div class="channel-title-sticky">
-        <div class="channel-sticky-thumbnail">
-          <img :src="channel.authorThumbnails[0].url" alt="Author Image" />
+    <TabMenu :tabNames="channelTabNames" v-if="!loading">
+      <template v-slot:overview>
+        <ChannelDescription :descriptionHtml="channel.descriptionHtml" />
+        <RelatedChannels :channel="channel" />
+        <div class="channel-videos-container" v-if="!loading">
+          <div class="channel-title-sticky">
+            <div class="channel-sticky-thumbnail">
+              <img :src="commons.proxyUrl + channel.authorThumbnails[0].url" alt="Author Image" />
+            </div>
+            <div class="channel-sticky-name">
+              <h1>{{ channel.author }}</h1>
+            </div>
+          </div>
+          <div class="channel-videos">
+            <VideoEntry v-for="video in channel.latestVideos" :key="video.videoId" :video="video"></VideoEntry>
+          </div>
         </div>
-        <div class="channel-sticky-name">
-          <h1>{{ channel.author }}</h1>
+      </template>
+      <template v-slot:videos>
+        <div class="channel-videos-container" v-if="!loading">
+          <div class="channel-title-sticky">
+            <div class="channel-sticky-thumbnail">
+              <img :src="channel.authorThumbnails[0].url" alt="Author Image" />
+            </div>
+            <div class="channel-sticky-name">
+              <h1>{{ channel.author }}</h1>
+            </div>
+          </div>
+          <div class="channel-videos">
+            <VideoEntry v-for="video in channel.latestVideos" :key="video.videoId" :video="video"></VideoEntry>
+          </div>
         </div>
-      </div>
-      <div class="channel-videos">
-        <VideoEntry v-for="video in channel.latestVideos" :key="video.videoId" :video="video"></VideoEntry>
-      </div>
-    </div>
+      </template>
+    </TabMenu>
   </div>
 </template>
 
@@ -32,20 +53,30 @@ import Commons from '@/commons.js'
 import VideoEntry from '@/components/list/VideoEntry'
 import Banner from '@/components/channel/Banner'
 import Overview from '@/components/channel/Overview'
+import TabMenu from '@/components/tabs/TabMenu'
+import RelatedChannels from '@/components/channel/RelatedChannels'
+import ChannelDescription from '@/components/channel/ChannelDescription'
 
 export default {
   name: 'home',
   components: {
     VideoEntry,
     Banner,
-    Overview
+    Overview,
+    TabMenu,
+    RelatedChannels,
+    ChannelDescription
   },
   data: () => ({
     channel: [],
     loading: true,
     commons: Commons,
     parallaxScroll: 0,
-    parallaxTicking: false
+    parallaxTicking: false,
+    channelTabNames: [
+      'overview',
+      'videos'
+    ]
   }),
   beforeRouteEnter(to, from, next) {
     fetch(`${Commons.getApiUrl()}channels/${to.params.id}`, {
@@ -84,7 +115,7 @@ export default {
     handleScroll(e) {
       this.$emit('scroll', e)
     },
-    loadData (data) {
+    loadData(data) {
       this.channel = data
       this.loading = false
       this.$Progress.finish()
@@ -118,10 +149,11 @@ export default {
       transform: translateY(-$header-height - 20px);
       height: $header-height;
       overflow: hidden;
-      z-index: 10;
+      z-index: +1;
       display: flex;
       flex-direction: row;
       margin: 5px;
+      display: none;
 
       .channel-sticky-thumbnail {
         height: $header-height - 20px;
@@ -132,6 +164,7 @@ export default {
           height: 100%;
         }
       }
+
       .channel-sticky-name {
         color: var(--title-color);
         font-family: $default-font;
@@ -143,7 +176,7 @@ export default {
     .channel-videos {
       width: 100%;
       max-width: $main-width;
-      margin: 0 auto;
+      margin: 80px auto 0 auto;
       z-index: 10;
       display: flex;
       flex-direction: row;

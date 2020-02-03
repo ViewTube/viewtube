@@ -35,6 +35,7 @@
           </tr>
         </table>
       </div>
+      <h2>Invidious License</h2>
       <div class="invidious-license links" v-if="invidiousLicense" v-html="invidiousLicense">
         <!-- <p>{{ invidiousLicense }}</p> -->
       </div>
