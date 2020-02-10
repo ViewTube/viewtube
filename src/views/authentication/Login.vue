@@ -3,7 +3,6 @@
     <vue-headful title="Login - ViewTube" />
     <div class="login-container" :class="{ loading: loading }">
       <h2 class="login-title">Login</h2>
-      <p class="error-message-display message-display">{{ state.errorMessage }}</p>
       <span class="status-message-display message-display">{{ statusMessage }}</span>
       <Spinner />
       <form id="login" method="post" @submit.prevent="login">
@@ -48,6 +47,11 @@ export default {
         },
         failure() {
           me.loading = false
+          me.$store.dispatch('createMessage', {
+            type: 'error',
+            title: 'Login failed',
+            message: me.state.errorMessage
+          })
         }
       })
     }
@@ -110,10 +114,6 @@ export default {
     .message-display {
       height: 20px;
       line-height: 20px;
-
-      &.error-message-display {
-        color: var(--error-color-red);
-      }
     }
 
     &.loading {

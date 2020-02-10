@@ -90,7 +90,7 @@
           </div>
           <a
             href="#"
-            @click.self.prevent="share"
+            @mousedown.self.prevent="share"
             id="share"
             class="ripple tooltip menu-btn"
             data-tippy-content="share"
@@ -99,7 +99,7 @@
           </a>
           <a
             href="#"
-            @click.self.prevent="openSettings"
+            @mousedown.self.prevent="openSettings"
             id="settings-btn"
             class="ripple tooltip menu-btn"
             data-tippy-content="open settings"
@@ -108,7 +108,7 @@
           </a>
           <a
             href="#"
-            @click.self.prevent="openAbout"
+            @mousedown.self.prevent="openAbout"
             id="about-btn"
             class="ripple tooltip menu-btn"
             data-tippy-content="open about"

@@ -4,6 +4,7 @@ import VuexPersistence from 'vuex-persist'
 import settingsModule from '@/store/settings'
 import instancesModule from '@/store/instances'
 import miniplayerModule from '@/store/miniplayer'
+import messagesModule from '@/store/messages'
 
 const vuexLocal = new VuexPersistence({
   storage: window.localStorage,
@@ -16,7 +17,8 @@ export const store = new Vuex.Store({
   modules: {
     settings: settingsModule,
     instances: instancesModule,
-    miniplayer: miniplayerModule
+    miniplayer: miniplayerModule,
+    messages: messagesModule
   },
   plugins: [vuexLocal.plugin]
 })

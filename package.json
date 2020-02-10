@@ -16,6 +16,7 @@
     "not Edge 18"
   ],
   "dependencies": {
+    "axios": "^0.19.2",
     "core-js": "^2.6.9",
     "dashjs": "^3.0.1",
     "portal-vue": "^2.1.6",

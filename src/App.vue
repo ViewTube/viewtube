@@ -5,6 +5,7 @@
     <Miniplayer v-if="$store.getters.miniplayer"></Miniplayer>
     <router-view class="content" ref="content" />
     <portal-target class="dropdown-portal" name="dropdown" multiple></portal-target>
+    <MessageBoxContainer />
   </div>
 </template>
 
@@ -13,12 +14,14 @@ import Header from '@/components/Header'
 import '@/fonts/expletus.css'
 import '@/fonts/notosans.css'
 import Miniplayer from '@/components/miniplayer/Miniplayer'
+import MessageBoxContainer from '@/components/message/MessageBoxContainer'
 
 export default {
   name: 'app',
   components: {
     Header,
-    Miniplayer
+    Miniplayer,
+    MessageBoxContainer
   },
   data: () => ({
   }),
@@ -51,6 +54,7 @@ export default {
 
   &::selection {
     background: var(--theme-color);
+    color: var(--title-color);
   }
 
   &::-moz-selection {

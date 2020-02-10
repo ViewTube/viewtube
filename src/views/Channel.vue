@@ -89,7 +89,14 @@ export default {
       })
       .catch(error => {
         console.error(error)
-        next(false, vm => vm.$Progress.fail())
+        next(false, vm => {
+          vm.$Progress.fail()
+          vm.$store.dispatch('createMessage', {
+            type: 'error',
+            title: 'Error loading Channel',
+            message: 'Try switching to another instance in settings'
+          })
+        })
       })
   },
   beforeRouteUpdate(to, from, next) {
@@ -108,7 +115,14 @@ export default {
       })
       .catch(error => {
         console.error(error)
-        next(vm => vm.$Progress.fail())
+        next(vm => {
+          vm.$Progress.fail()
+          vm.$store.dispatch('createMessage', {
+            type: 'error',
+            title: 'Error loading Channel',
+            message: 'Try switching to another instance in settings'
+          })
+        })
       })
   },
   methods: {

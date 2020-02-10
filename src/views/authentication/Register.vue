@@ -3,7 +3,6 @@
     <vue-headful title="Register - ViewTube" />
     <div class="register-container" :class="{ loading: loading }">
       <h2 class="register-title">Register</h2>
-      <p class="error-message-display message-display">{{ state.errorMessage }}</p>
       <span class="status-message-display message-display">{{ statusMessage }}</span>
       <Spinner />
       <form id="register" method="post" @submit.prevent="register" ref="registerForm">
@@ -64,11 +63,20 @@ export default {
         captcheckSelectedAnswer: captcheckSelectedAnswer,
 
         callback() {
-          me.statusMessage = 'Registration successful. Redirecting'
+          me.$store.dispatch('createMessage', {
+            type: 'info',
+            title: 'Registration successful',
+            message: 'Redirecting...'
+          })
           me.$router.push(me.redirectedPage.fullPath)
         },
         failure() {
           me.loading = false
+          me.$store.dispatch('createMessage', {
+            type: 'error',
+            title: 'Registration failed',
+            message: me.state.errorMessage
+          })
         }
       })
     },
