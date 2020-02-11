@@ -7,31 +7,13 @@
       lang="en"
     />
     <GradientBackground :color="'theme'" />
-    <SectionTitle
-      :title="'Subscriptions'"
-      v-if="userAuthenticated"
-      :link="'subscriptions'"
-    />
-    <div
-      class="home-videos-container small"
-      v-if="userAuthenticated"
-    >
-      <VideoEntry
-        v-for="video in subscriptions.subscriptions"
-        :key="video.videoId"
-        :video="video"
-      ></VideoEntry>
+    <SectionTitle :title="'Subscriptions'" v-if="userAuthenticated" :link="'subscriptions'" />
+    <div class="home-videos-container small" v-if="userAuthenticated">
+      <VideoEntry v-for="video in subscriptions.subscriptions" :key="video.videoId" :video="video"></VideoEntry>
     </div>
-    <SectionTitle
-      :title="'Popular videos'"
-      :gradient="!userAuthenticated"
-    />
+    <SectionTitle :title="'Popular videos'" :gradient="!userAuthenticated" />
     <div class="home-videos-container small">
-      <VideoEntry
-        v-for="video in videos"
-        :key="video.videoId"
-        :video="video"
-      ></VideoEntry>
+      <VideoEntry v-for="video in videos" :key="video.videoId" :video="video"></VideoEntry>
     </div>
     <BottomNavigation />
   </div>
@@ -76,15 +58,15 @@ export default {
       }
     },
     getSubscriptions() {
-      let jwt = this.$cookie.get('jwt')
-      let me = this
+      const jwt = this.$cookie.get('jwt')
+      const me = this
       fetch(`${Commons.getOwnApiUrl()}subscriptions/getSubscriptionFeed.php?limit=4`, {
         cache: 'force-cache',
         method: 'GET',
         headers: {
-          'Accept': 'application/json',
+          Accept: 'application/json',
           'Content-Type': 'application/json',
-          'Authorization': `Basic ${jwt}`
+          Authorization: `Basic ${jwt}`
         }
       })
         .then(response => response.json())
@@ -105,13 +87,9 @@ export default {
     }
   },
   beforeRouteEnter(to, from, next) {
-    fetch(`${Commons.getApiUrl()}popular`, {
-      cache: 'force-cache',
-      method: 'GET'
-    })
-      .then(response => response.json())
-      .then(data => {
-        next(vm => vm.loadData(data))
+    window.invidious.api.popular()
+      .then(response => {
+        next(vm => vm.loadData(response.data))
       })
       .catch(error => {
         console.error(error)

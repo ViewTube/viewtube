@@ -4,7 +4,7 @@ module.exports = {
   configureWebpack: {
     resolve: {
       alias: {
-        'icons': path.resolve(__dirname, 'node_modules/vue-material-design-icons')
+        icons: path.resolve(__dirname, 'node_modules/vue-material-design-icons')
       },
       extensions: [
         '.vue'
@@ -25,10 +25,10 @@ module.exports = {
   },
   pluginOptions: {
     'style-resources-loader': {
-      'patterns': [
+      patterns: [
         path.resolve(__dirname, 'src/styles/global/*.scss')
       ],
-      'preProcessor': 'scss'
+      preProcessor: 'scss'
     }
   }
 }

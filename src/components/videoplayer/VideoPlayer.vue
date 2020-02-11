@@ -262,7 +262,7 @@ export default {
   },
   computed: {
     highestVideoQuality() {
-      let streams = this.video.formatStreams
+      const streams = this.video.formatStreams
       return streams[0].url
     },
     videoVolume() {
@@ -284,11 +284,11 @@ export default {
       return this.playerOverlay.visible
     },
     seekHoverAdjustedLeft() {
-      let percentage = this.seekbar.hoverPercentage
+      const percentage = this.seekbar.hoverPercentage
       let leftPx = 0
       if (this.$refs.seekbarHoverTimestamp) {
-        let elWidth = this.$refs.seekbarHoverTimestamp.offsetWidth
-        let pageWidth = Commons.getPageWidth()
+        const elWidth = this.$refs.seekbarHoverTimestamp.offsetWidth
+        const pageWidth = Commons.getPageWidth()
         leftPx = ((pageWidth - 27.5) / 100) * percentage - ((elWidth / 2) - 12)
 
         if (leftPx < 10) {
@@ -348,7 +348,7 @@ export default {
       this.videoElement.aspectRatio = e.target.videoHeight / e.target.videoWidth
     },
     onPlaybackProgress() {
-      let videoRef = this.$refs.video
+      const videoRef = this.$refs.video
       if (videoRef && !this.seekbar.seeking) {
         this.videoElement.progressPercentage = (videoRef.currentTime / this.videoLength) * 100
         this.videoElement.progress = videoRef.currentTime
@@ -356,11 +356,11 @@ export default {
       }
     },
     onLoadingProgress() {
-      let videoRef = this.$refs.video
+      const videoRef = this.$refs.video
       if (videoRef) {
-        let videoBufferedMaxTimeRange = videoRef.buffered.length - 1
+        const videoBufferedMaxTimeRange = videoRef.buffered.length - 1
         if (videoBufferedMaxTimeRange > 0 && videoBufferedMaxTimeRange !== undefined) {
-          let loadingPercentage = (videoRef.buffered.end(videoRef.buffered.length - 1) / videoRef.duration) * 100
+          const loadingPercentage = (videoRef.buffered.end(videoRef.buffered.length - 1) / videoRef.duration) * 100
           this.videoElement.loadingPercentage = loadingPercentage
         }
       }
@@ -384,7 +384,7 @@ export default {
       clearInterval(this.videoElement.positionSaveInterval)
     },
     onVideoCanplay() {
-      if (this.videoElement.firstTimeBuffering) {
+      if (this.$refs.video && this.videoElement.firstTimeBuffering) {
         this.$refs.video.currentTime = SavedPosition.getSavedPosition(
           this.video.videoId
         )
@@ -404,7 +404,7 @@ export default {
     // Seekbar events
     onSeekbarTouchStart(e) {
       this.seekbar.seeking = true
-      let touchX = e.touches[0].clientX
+      const touchX = e.touches[0].clientX
       this.seekbar.seekPercentage = this.calculateSeekPercentage(touchX)
       this.matchSeekProgressPercentage()
       this.seekbar.hoverPercentage = this.calculateSeekPercentage(touchX)
@@ -416,13 +416,13 @@ export default {
       this.seekbar.hoverTime = Commons.getTimestampFromSeconds((this.$refs.video.duration / 100) * this.seekbar.hoverPercentage)
     },
     onSeekbarTouchMove(e) {
-      let touchX = e.touches[0].clientX
+      const touchX = e.touches[0].clientX
       this.seekbar.hoverPercentage = this.calculateSeekPercentage(touchX)
       this.seekbar.hoverTime = Commons.getTimestampFromSeconds((this.$refs.video.duration / 100) * this.seekbar.hoverPercentage)
     },
     onPlayerTouchMove(e) {
       if (this.seekbar.seeking) {
-        let touchX = e.touches[0].clientX
+        const touchX = e.touches[0].clientX
         this.seekbar.seekPercentage = this.calculateSeekPercentage(touchX)
         this.matchSeekProgressPercentage()
       }
@@ -460,13 +460,13 @@ export default {
     },
     matchSeekProgressPercentage(adjustVideo) {
       this.videoElement.progressPercentage = this.seekbar.seekPercentage
-      if (adjustVideo) {
-        let currentTime = (this.$refs.video.duration / 100) * this.seekbar.seekPercentage
+      if (adjustVideo && this.$refs.video) {
+        const currentTime = (this.$refs.video.duration / 100) * this.seekbar.seekPercentage
         this.$refs.video.currentTime = currentTime
       }
     },
     calculateSeekPercentage(pageX) {
-      let seekPercentage = ((pageX - 10) / (Commons.getPageWidth() - 27.5)) * 100
+      const seekPercentage = ((pageX - 10) / (Commons.getPageWidth() - 27.5)) * 100
       if (seekPercentage > 0 && seekPercentage < 100) {
         return seekPercentage
       } else if (seekPercentage > 100) {
@@ -610,7 +610,7 @@ export default {
       this.hidePlayerOverlay()
     },
     saveVideoPosition() {
-      let video = this.$refs.video
+      const video = this.$refs.video
       if (video !== undefined) {
         SavedPosition.setSavedPosition(video.currentTime, this.video.videoId)
       }
