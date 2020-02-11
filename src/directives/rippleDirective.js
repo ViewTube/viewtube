@@ -3,7 +3,7 @@
 var Ripple = {
 
   bind(el, binding) {
-    let me = binding.def
+    const me = binding.def
     el.style.overflow = 'hidden'
     el.style.position = 'relative'
     el.classList.add('ripple')
@@ -79,7 +79,7 @@ var Ripple = {
     )
     // if not there, create a ripple div inside the element
     if (me.getRippleContainer(el) === el) {
-      let rippleContainer = document.createElement('div')
+      const rippleContainer = document.createElement('div')
       rippleContainer.classList.add('rippleContainer')
       rippleContainer.style.display = 'block'
       rippleContainer.style.height = '200px'
@@ -98,24 +98,24 @@ var Ripple = {
   },
 
   rippleStart(e) {
-    let rippleContainer = this.getRippleContainer(e.target)
+    const rippleContainer = this.getRippleContainer(e.target)
     if (
       (rippleContainer.getAttribute('animating') === '0' || !rippleContainer.hasAttribute('animating')) &&
       e.target.className.indexOf('ripple') > -1
     ) {
       rippleContainer.setAttribute('animating', '1')
-      let offsetX =
+      const offsetX =
         typeof e.offsetX === 'number' ? e.offsetX : e.touches[0].clientX - e.target.getBoundingClientRect().left
-      let offsetY =
+      const offsetY =
         typeof e.offsetY === 'number' ? e.offsetY : e.touches[0].clientY - e.target.getBoundingClientRect().top
       // fullCoverRadius is the longest distance between the touch and the corners of the element where the event fired
-      let fullCoverRadius = Math.max(
+      const fullCoverRadius = Math.max(
         Math.sqrt(Math.pow(offsetX, 2) + Math.pow(offsetY, 2)),
         Math.sqrt(Math.pow(e.target.clientWidth - offsetX, 2) + Math.pow(e.target.clientHeight - offsetY, 2)),
         Math.sqrt(Math.pow(offsetX, 2) + Math.pow(e.target.clientHeight - offsetY, 2)),
         Math.sqrt(Math.pow(offsetY, 2) + Math.pow(e.target.clientWidth - offsetX, 2))
       )
-      let expandTime = e.target.getAttribute('ripple-press-expand-time') || 0.4
+      const expandTime = e.target.getAttribute('ripple-press-expand-time') || 0.4
       rippleContainer.style.transition = 'transform ' + expandTime + 's ease-out, box-shadow 0.1s linear, opacity 0.1s'
       rippleContainer.style.background = e.target.getAttribute('ripple-color') || '#ff7b3b'
       rippleContainer.style.opacity = e.target.getAttribute('ripple-opacity') || '0.5'
@@ -127,13 +127,13 @@ var Ripple = {
   },
 
   rippleEnd(e) {
-    let rippleContainer = this.getRippleContainer(e.target)
+    const rippleContainer = this.getRippleContainer(e.target)
     if (rippleContainer.getAttribute('animating') === '1') {
       rippleContainer.setAttribute('animating', '2')
-      let background = window.getComputedStyle(rippleContainer, null).getPropertyValue('background')
-      let destinationRadius = e.target.clientWidth + e.target.clientHeight
+      const background = window.getComputedStyle(rippleContainer, null).getPropertyValue('background')
+      const destinationRadius = e.target.clientWidth + e.target.clientHeight
       rippleContainer.style.transition = 'none'
-      let expandTime = e.target.getAttribute('ripple-release-expand-time') || 0.4
+      const expandTime = e.target.getAttribute('ripple-release-expand-time') || 0.4
       rippleContainer.style.transition =
         'transform ' +
         expandTime +
@@ -155,13 +155,13 @@ var Ripple = {
   },
 
   rippleRetrieve(e) {
-    let rippleContainer = this.getRippleContainer(e.target)
+    const rippleContainer = this.getRippleContainer(e.target)
     if (rippleContainer.style.transform === 'translate(-50%, -50%) scale(0.15)') {
       rippleContainer.setAttribute('animating', '0')
     }
     if (rippleContainer.getAttribute('animating') === '1') {
       rippleContainer.setAttribute('animating', '3')
-      let collapseTime = e.target.getAttribute('ripple-leave-collapse-time') || 0.2
+      const collapseTime = e.target.getAttribute('ripple-leave-collapse-time') || 0.2
       rippleContainer.style.transition =
         'box-shadow ' + collapseTime + 's linear, opacity 0.2s'
       rippleContainer.style.boxShadow = 'none'
@@ -171,7 +171,7 @@ var Ripple = {
   },
   // returns the ripple div by scanning all children. If not found, return the argument
   getRippleContainer(el) {
-    let children = el.childNodes
+    const children = el.childNodes
     for (let i = 0; i < children.length; i++) {
       try {
         if (children[i].className.indexOf('rippleContainer') > -1) {

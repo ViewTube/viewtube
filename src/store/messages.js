@@ -7,8 +7,8 @@ export default {
     visibleMessages: (state) => state.messages.filter(el => el.dismissed === false)
   },
   actions: {
-    createMessage(context, { type = 'info', title, message, clickAction = null }) {
-      let id = context.getters.allMessages.length + 1
+    createMessage(context, { type = 'info', title, message, clickAction = null, dismissDelay = 5000 }) {
+      const id = context.getters.allMessages.length + 1
       context.commit('addMessage', {
         id: id,
         type: type,
@@ -16,7 +16,8 @@ export default {
         message: message,
         clickAction: clickAction,
         dismissed: false,
-        dismiss: () => context.commit('dismissMessage', id)
+        dismiss: () => context.commit('dismissMessage', id),
+        dismissDelay: dismissDelay
       })
     }
   },

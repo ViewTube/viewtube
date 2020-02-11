@@ -38,7 +38,7 @@ export default {
   methods: {
     login() {
       this.loading = true
-      let me = this
+      const me = this
       UserStore.login({
         username: me.username,
         password: me.password,

@@ -52,7 +52,7 @@ export default {
   },
   methods: {
     getFormattedDate(rawDate) {
-      let date = new Date(rawDate)
+      const date = new Date(rawDate)
       return `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`
     }
   }

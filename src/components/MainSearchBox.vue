@@ -78,7 +78,7 @@ export default {
       this.searchRedirect(this.searchValue)
     },
     onSearchFieldKeydown(e) {
-      let autocomplete = this.$refs.autocomplete
+      const autocomplete = this.$refs.autocomplete
       if (e.key === 'Enter' && this.searchValue !== '') {
         this.searchValue = this.localSearchValue
         this.searchRedirect(this.searchValue)

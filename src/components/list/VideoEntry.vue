@@ -63,8 +63,8 @@ export default {
       return SavedPosition.getSavedPosition(this.video.videoId) / this.video.lengthSeconds * 100
     },
     videoProgressTooltip() {
-      let watchTime = Commons.getTimestampFromSeconds(SavedPosition.getSavedPosition(this.video.videoId))
-      let totalTime = Commons.getTimestampFromSeconds(this.video.lengthSeconds)
+      const watchTime = Commons.getTimestampFromSeconds(SavedPosition.getSavedPosition(this.video.videoId))
+      const totalTime = Commons.getTimestampFromSeconds(this.video.lengthSeconds)
       return `${watchTime} of ${totalTime}`
     }
   },

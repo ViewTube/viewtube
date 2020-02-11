@@ -8,7 +8,7 @@ export default {
           fetch(`${Commons.getOwnApiUrl()}register.php`, {
             method: 'POST',
             headers: {
-              'Accept': 'application/json',
+              Accept: 'application/json',
               'Content-Type': 'application/json'
             },
             body: JSON.stringify({
@@ -45,7 +45,7 @@ export default {
           fetch(`${Commons.getOwnApiUrl()}login.php`, {
             method: 'POST',
             headers: {
-              'Accept': 'application/json',
+              Accept: 'application/json',
               'Content-Type': 'application/json'
             },
             body: JSON.stringify({
@@ -78,9 +78,9 @@ export default {
           fetch(`${Commons.getOwnApiUrl()}getUser.php`, {
             method: 'POST',
             headers: {
-              'Accept': 'application/json',
+              Accept: 'application/json',
               'Content-Type': 'application/json',
-              'Authorization': `Basic ${jwt}`
+              Authorization: `Basic ${jwt}`
             }
           })
             .then(response => {

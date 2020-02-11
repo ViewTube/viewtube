@@ -78,8 +78,8 @@ export default {
       document.addEventListener('touchend', this.onDragSpaceTouchEnd)
     },
     onDragSpaceTouchMove(e) {
-      let mouseOutOfScreenY = Boolean(e.touches[0].pageY < 0 || e.touches[0].pageY > Commons.getPageHeight())
-      let mouseOutOfScreenX = Boolean(e.touches[0].pageX < 0 || e.touches[0].pageX > Commons.getPageWidth())
+      const mouseOutOfScreenY = Boolean(e.touches[0].pageY < 0 || e.touches[0].pageY > Commons.getPageHeight())
+      const mouseOutOfScreenX = Boolean(e.touches[0].pageX < 0 || e.touches[0].pageX > Commons.getPageWidth())
       if (mouseOutOfScreenY || mouseOutOfScreenX) {
         this.dragging = false
       } else {
@@ -102,8 +102,8 @@ export default {
       document.removeEventListener('mouseup', this.onDragSpaceMouseUp)
     },
     onDragSpaceMouseMove(e) {
-      let mouseOutOfScreenY = Boolean(e.pageY < 0 || e.pageY > Commons.getPageHeight())
-      let mouseOutOfScreenX = Boolean(e.pageX < 0 || e.pageX > Commons.getPageWidth())
+      const mouseOutOfScreenY = Boolean(e.pageY < 0 || e.pageY > Commons.getPageHeight())
+      const mouseOutOfScreenX = Boolean(e.pageX < 0 || e.pageX > Commons.getPageWidth())
       if (mouseOutOfScreenY || mouseOutOfScreenX) {
         this.calculateFinish(e.pageX, e.pageY)
         this.dragging = false
@@ -113,8 +113,8 @@ export default {
     },
     calculateDrag(posX, posY) {
       if (this.dragging) {
-        let halfElementWidth = this.$refs.miniplayer.clientWidth / 2
-        let tenthElementHeight = this.$refs.miniplayer.clientHeight / 10
+        const halfElementWidth = this.$refs.miniplayer.clientWidth / 2
+        const tenthElementHeight = this.$refs.miniplayer.clientHeight / 10
 
         let positionLeft = 0
         let positionTop = 0
@@ -141,14 +141,14 @@ export default {
     },
     calculateFinish(posX, posY) {
       this.transition = true
-      let me = this
+      const me = this
       setTimeout(() => {
         me.transition = false
       }, 600)
-      let pageWidth = Commons.getPageWidth()
-      let pageHeight = Commons.getPageHeight()
-      let halfElementWidth = this.$refs.miniplayer.clientWidth / 2
-      let tenthElementHeight = this.$refs.miniplayer.clientHeight / 10
+      const pageWidth = Commons.getPageWidth()
+      const pageHeight = Commons.getPageHeight()
+      const halfElementWidth = this.$refs.miniplayer.clientWidth / 2
+      const tenthElementHeight = this.$refs.miniplayer.clientHeight / 10
 
       // Top left
       if (posX < pageWidth / 2 && posY < pageHeight / 2) {

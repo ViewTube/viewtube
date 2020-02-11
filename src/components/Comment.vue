@@ -131,8 +131,8 @@ export default {
     },
     loadReplies() {
       this.loadingReplies = true
-      let repliesId = this.comment.replies.continuation
-      let videoId = this.$route.query.v
+      const repliesId = this.comment.replies.continuation
+      const videoId = this.$route.query.v
       fetch(
         `${Commons.getApiUrl()}comments/${videoId}?continuation=${repliesId}`,
         {
@@ -153,7 +153,7 @@ export default {
     },
     loadMoreReplies() {
       this.repliesContinuationLoading = true
-      let videoId = this.$route.query.v
+      const videoId = this.$route.query.v
       fetch(
         `${Commons.getApiUrl()}comments/${videoId}?continuation=${
           this.repliesContinuationLink

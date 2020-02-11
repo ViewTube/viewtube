@@ -40,13 +40,13 @@ export default {
     }
   },
   beforeRouteEnter(to, from, next) {
-    let jwt = VueCookie.get('jwt')
+    const jwt = VueCookie.get('jwt')
     fetch(`${Commons.getOwnApiUrl()}subscriptions/getSubscriptionFeed.php`, {
       method: 'GET',
       headers: {
-        'Accept': 'application/json',
+        Accept: 'application/json',
         'Content-Type': 'application/json',
-        'Authorization': `Basic ${jwt}`
+        Authorization: `Basic ${jwt}`
       }
     })
       .then(response => response.json())
@@ -60,14 +60,14 @@ export default {
   },
   beforeRouteUpdate(to, from, next) {
     this.$Progress.start()
-    let jwt = this.$cookie.get('jwt')
+    const jwt = this.$cookie.get('jwt')
     fetch(`${Commons.getOwnApiUrl()}subscriptions/getSubscriptionFeed.php`, {
       cache: 'force-cache',
       method: 'GET',
       headers: {
-        'Accept': 'application/json',
+        Accept: 'application/json',
         'Content-Type': 'application/json',
-        'Authorization': `Basic ${jwt}`
+        Authorization: `Basic ${jwt}`
       }
     })
       .then(response => response.json())

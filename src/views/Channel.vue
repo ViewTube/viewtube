@@ -101,7 +101,7 @@ export default {
   },
   beforeRouteUpdate(to, from, next) {
     this.$Progress.start()
-    let me = this
+    const me = this
     fetch(`${Commons.getApiUrl()}channels/${to.params.id}`, {
       cache: 'force-cache',
       method: 'GET'

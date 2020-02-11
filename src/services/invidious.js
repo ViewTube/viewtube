@@ -1,5 +1,6 @@
 import Commons from '@/commons.js'
 import axios from 'axios'
+import { store } from '@/store/store'
 
 const invidious = {
   request: axios.create({
@@ -77,6 +78,14 @@ Object.entries(invidious.requests).forEach(el => {
           resolve(response)
         })
         .catch((error) => {
+          store.dispatch('createMessage', {
+            type: 'error',
+            title: 'Error loading page',
+            message: `Try<br/>
+                      <ul><li>Checking your internet connection</li>
+                      <li>Switching to another instance in settings</li></ul>`,
+            dismissDelay: 0
+          })
           reject(error)
         })
     })

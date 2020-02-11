@@ -35,14 +35,14 @@ export default {
   methods: {
     loadSubscriptionStatus() {
       if (this.channelId && this.$cookie.get('jwt')) {
-        let jwt = this.$cookie.get('jwt')
-        let me = this
+        const jwt = this.$cookie.get('jwt')
+        const me = this
         fetch(`${Commons.getOwnApiUrl()}subscriptions/getSubscriptionChannels.php?channelId=${this.channelId}`, {
           method: 'GET',
           headers: {
-            'Accept': 'application/json',
+            Accept: 'application/json',
             'Content-Type': 'application/json',
-            'Authorization': `Basic ${jwt}`
+            Authorization: `Basic ${jwt}`
           }
         })
           .then(response => response.json())
@@ -70,14 +70,14 @@ export default {
     setSubscriptionStatus(action) {
       if (this.channelId && this.$cookie.get('jwt')) {
         this.disabled = true
-        let jwt = this.$cookie.get('jwt')
-        let me = this
+        const jwt = this.$cookie.get('jwt')
+        const me = this
         fetch(`${Commons.getOwnApiUrl()}subscriptions/getSubscriptionChannels.php`, {
           method: action,
           headers: {
-            'Accept': 'application/json',
+            Accept: 'application/json',
             'Content-Type': 'application/json',
-            'Authorization': `Basic ${jwt}`
+            Authorization: `Basic ${jwt}`
           },
           body: JSON.stringify({
             channelId: this.channelId

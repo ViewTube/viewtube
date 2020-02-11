@@ -115,7 +115,7 @@ export default {
     commons: Commons
   }),
   beforeRouteEnter(to, from, next) {
-    let videoId = to.query.v
+    const videoId = to.query.v
     fetch(`${Commons.getApiUrl()}videos/${videoId}`, {
       cache: 'force-cache',
       method: 'GET'
@@ -131,7 +131,7 @@ export default {
   },
   beforeRouteUpdate(to, from, next) {
     this.$Progress.start()
-    let videoId = to.query.v
+    const videoId = to.query.v
     fetch(`${Commons.getApiUrl()}videos/${videoId}`, {
       cache: 'force-cache',
       method: 'GET'
@@ -159,7 +159,7 @@ export default {
       this.$store.commit('miniplayer/setCurrentVideo', this.video)
     },
     async loadComments() {
-      let videoId = this.$route.query.v
+      const videoId = this.$route.query.v
       fetch(`${Commons.getApiUrl()}comments/${videoId}`, {
         cache: 'force-cache',
         method: 'GET'
@@ -178,7 +178,7 @@ export default {
     },
     loadMoreComments() {
       this.commentsContinuationLoading = true
-      let videoId = this.$route.query.v
+      const videoId = this.$route.query.v
       fetch(`${Commons.getApiUrl()}comments/${videoId}?continuation=${this.commentsContinuationLink}`, {
         cache: 'force-cache',
         method: 'GET'

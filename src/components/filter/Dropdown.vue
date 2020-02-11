@@ -49,8 +49,8 @@ export default {
     visible: false
   }),
   mounted() {
-    let me = this
-    let selectedEntry = this.entries.findIndex(e => e.value === me.value)
+    const me = this
+    const selectedEntry = this.entries.findIndex(e => e.value === me.value)
     if (this.noDefault && this.value === null) {
       this.selected = selectedEntry !== -1 ? selectedEntry : null
     } else {
@@ -73,7 +73,7 @@ export default {
   methods: {
     calculateOffset() {
       if (this.$refs.dropdownBtn) {
-        let dropdownDimens = this.$refs.dropdownBtn.getBoundingClientRect()
+        const dropdownDimens = this.$refs.dropdownBtn.getBoundingClientRect()
         this.offsetTop = dropdownDimens.top + 50
         this.offsetLeft = dropdownDimens.left
       }

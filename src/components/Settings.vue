@@ -1,27 +1,16 @@
 <template>
   <div class="settings popup">
     <div class="settings-container popup-container">
-      <CloseIcon
-        class="close-icon"
-        @click.stop="$emit('close')"
-      />
+      <CloseIcon class="close-icon" @click.stop="$emit('close')" />
       <h1>Settings</h1>
       <h2>
         <InstanceIcon />Invidio.us instance
       </h2>
-      <Dropdown
-        :values="instances"
-        :value="currentInstance"
-        @valuechange="onInstanceChange"
-      />
+      <Dropdown :values="instances" :value="currentInstance" @valuechange="onInstanceChange" />
       <h2>
         <ThemeIcon />Theme
       </h2>
-      <Dropdown
-        :values="themes"
-        :value="currentTheme"
-        @valuechange="onThemeChange"
-      />
+      <Dropdown :values="themes" :value="currentTheme" @valuechange="onThemeChange" />
       <h2>
         <MiniplayerIcon />Miniplayer
       </h2>
@@ -31,10 +20,7 @@
         @valuechange="val => $store.commit('setMiniplayer', val)"
       />
     </div>
-    <div
-      class="settings-overlay popup-overlay"
-      @click.stop="$emit('close')"
-    ></div>
+    <div class="settings-overlay popup-overlay" @click.stop="$emit('close')"></div>
   </div>
 </template>
 

@@ -74,9 +74,9 @@ export default {
       }
     },
     visible() {
-      let startTime = this.card.timing.start
-      let endTime = this.card.timing.end
-      let videoProgressMs = this.videoProgress * 1000
+      const startTime = this.card.timing.start
+      const endTime = this.card.timing.end
+      const videoProgressMs = this.videoProgress * 1000
 
       return videoProgressMs > startTime && videoProgressMs < endTime
     },

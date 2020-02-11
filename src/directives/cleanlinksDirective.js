@@ -1,18 +1,18 @@
 export default {
   inserted(el, binding) {
-    let html = el.innerHTML
-    let div = document.createElement('div')
+    const html = el.innerHTML
+    const div = document.createElement('div')
     div.innerHTML = html.trim()
     Array.from(div.getElementsByTagName('a')).forEach((element, index) => {
-      let hrefUrl = element.href
-      let urlParams = new URLSearchParams(hrefUrl.split('?')[1])
+      const hrefUrl = element.href
+      const urlParams = new URLSearchParams(hrefUrl.split('?')[1])
       let newHrefUrl = ''
       if (urlParams.get('q') !== null) {
-        let cleanUrl = urlParams.get('q')
+        const cleanUrl = urlParams.get('q')
         newHrefUrl = cleanUrl
         div.getElementsByTagName('a')[index].text = newHrefUrl
       } else if (urlParams.get('search_query') !== null) {
-        let cleanUrl = urlParams.get('search_query').replace('#', '')
+        const cleanUrl = urlParams.get('search_query').replace('#', '')
         newHrefUrl = `/results?search_query=${cleanUrl}`
       } else {
         newHrefUrl = hrefUrl

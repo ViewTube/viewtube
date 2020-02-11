@@ -37,7 +37,6 @@ Vue.use(VueCookie)
 Vue.use(PortalVue)
 Vue.use(VueLazyload, {
   observer: true,
-
   observerOptions: {
     rootMargin: '0px',
     threshold: 0.1

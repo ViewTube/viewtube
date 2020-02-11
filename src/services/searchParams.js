@@ -17,7 +17,7 @@ export default {
     features: ['hd', 'subtitles', 'creative_commons', '3d', 'live', 'purchased', '4k', '360', 'location', 'hdr']
   },
   parseQuery(query) {
-    let me = this
+    const me = this
     let queryString = ''
     Object.keys(query).forEach((val, i) => {
       if (me.defaults[val]) {

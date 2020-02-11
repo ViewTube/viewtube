@@ -26,7 +26,7 @@ export default {
     VideoPlayer
   },
   beforeRouteEnter(to, from, next) {
-    let videoId = to.params.id
+    const videoId = to.params.id
     fetch(`${Commons.getApiUrl()}videos/${videoId}`, {
       cache: 'force-cache',
       method: 'GET'
@@ -42,7 +42,7 @@ export default {
   },
   beforeRouteUpdate(to, from, next) {
     this.$Progress.start()
-    let videoId = to.params.id
+    const videoId = to.params.id
     fetch(`${Commons.getApiUrl()}videos/${videoId}`, {
       cache: 'force-cache',
       method: 'GET'

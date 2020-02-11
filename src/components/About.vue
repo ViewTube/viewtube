@@ -67,7 +67,7 @@ export default {
     }
   },
   mounted() {
-    let me = this
+    const me = this
     fetch(`${Commons.getApiUrl()}stats`, {
       cache: 'force-cache',
       method: 'GET'

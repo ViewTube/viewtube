@@ -29,11 +29,11 @@ export default {
   },
 
   getTimestampFromSeconds(seconds) {
-    let ms = seconds * 1000
-    let date = new Date(ms)
-    let timestampHours = toDoubleDigit(date.getHours() - 1)
-    let timestampMinutes = toDoubleDigit(date.getMinutes())
-    let timestampSeconds = toDoubleDigit(date.getSeconds())
+    const ms = seconds * 1000
+    const date = new Date(ms)
+    const timestampHours = toDoubleDigit(date.getHours() - 1)
+    const timestampMinutes = toDoubleDigit(date.getMinutes())
+    const timestampSeconds = toDoubleDigit(date.getSeconds())
     if (date.getHours() < 1) {
       return `${timestampHours}:${timestampMinutes}:${timestampSeconds}`
     } else {

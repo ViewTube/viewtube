@@ -47,11 +47,11 @@ export default {
   methods: {
     register(e) {
       this.loading = true
-      let me = this
+      const me = this
 
-      let formData = this.$refs.registerForm.elements
-      let captcheckSessionCode = formData['captcheck_session_code'].value
-      let captcheckSelectedAnswer = formData['captcheck_selected_answer'].value
+      const formData = this.$refs.registerForm.elements
+      const captcheckSessionCode = formData.captcheck_session_code.value
+      const captcheckSelectedAnswer = formData.captcheck_selected_answer.value
 
       Captcheck.reloadCaptcheck()
 

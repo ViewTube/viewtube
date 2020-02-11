@@ -43,7 +43,7 @@ export default {
   },
   watch: {
     searchValue() {
-      let me = this
+      const me = this
       fetch(`${Commons.autocompleteUrl}?q=${me.searchValue}&cl=youtube`, {
         method: 'GET'
       })

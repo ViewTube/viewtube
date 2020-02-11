@@ -1,6 +1,6 @@
 export default {
   inserted(el, binding) {
-    let click = (evt) => {
+    const click = (evt) => {
       if (binding.value(evt, el)) {
         document.body.removeEventListener('click', click)
       }

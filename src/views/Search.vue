@@ -107,7 +107,7 @@ export default {
       }
     },
     reloadSearchWithParams() {
-      let searchParams = SearchParams.getParamsString()
+      const searchParams = SearchParams.getParamsString()
       this.$router.push(
         `/results?search_query=${this.searchQuery}${searchParams}`
       )
@@ -130,8 +130,8 @@ export default {
     }
   },
   beforeRouteEnter(to, from, next) {
-    let searchQuery = to.query.search_query
-    let searchParams = SearchParams.parseQuery(to.query)
+    const searchQuery = to.query.search_query
+    const searchParams = SearchParams.parseQuery(to.query)
     if (searchQuery.length > 0) {
       fetch(
         `${Commons.getApiUrl()}search?q=${searchQuery}&page=1${searchParams}`,
@@ -154,8 +154,8 @@ export default {
   },
   beforeRouteUpdate(to, from, next) {
     this.$Progress.start()
-    let searchQuery = to.query.search_query
-    let searchParams = SearchParams.parseQuery(to.query)
+    const searchQuery = to.query.search_query
+    const searchParams = SearchParams.parseQuery(to.query)
     if (searchQuery.length > 0) {
       fetch(
         `${Commons.getApiUrl()}search?q=${searchQuery}&page=1${searchParams}`,

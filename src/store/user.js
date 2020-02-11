@@ -9,7 +9,7 @@ export default {
   },
   register(args) {
     this.state.errorMessage = null
-    let me = this
+    const me = this
     if (!this.isAuthenticated()) {
       Authentication.register(args.username, args.password, args.captcheckSessionCode, args.captcheckSelectedAnswer)
         .then(result => {
@@ -31,7 +31,7 @@ export default {
   },
   login(args) {
     this.state.errorMessage = null
-    let me = this
+    const me = this
     if (!this.isAuthenticated()) {
       Authentication.login(args.username, args.password)
         .then(result => {
@@ -41,7 +41,7 @@ export default {
           me.state.username = result.username
           args.callback(result)
         }, error => {
-          let me = this
+          const me = this
           if (error.message !== undefined) {
             me.state.errorMessage = error.message
           } else {
@@ -79,7 +79,7 @@ export default {
   },
   getCurrentUser(args) {
     this.state.errorMessage = null
-    let me = this
+    const me = this
     if (VueCookie.get('jwt')) {
       Authentication.getUser(VueCookie.get('jwt'))
         .then(result => {
