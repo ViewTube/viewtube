@@ -1,28 +1,41 @@
 <template>
   <div
     class="message-box"
+    ref="interactElement"
     @mouseover="onMessageMouseover"
-    :class="{ 'dismissed-right': dismissedRight, 'dismissed-left': dismissedLeft }"
+    :class="{ 'dismissed-right': dismissedRight, 'dismissed-left': dismissedLeft, 'is-animating': isInteractAnimating }"
+    :style="{ transform: transformString, opacity: swipeOpacity }"
   >
-    <div class="close" @click="dismissMessage" v-ripple>
-      <span class="progress-circle"></span>
-      <span class="progress-circle-1"></span>
+    <div
+      class="close"
+      @click="dismissMessage"
+      v-ripple
+      :style="{ transition: `transform ${dismissTimeout}ms linear` }"
+    >
       <CloseIcon />
     </div>
     <h3 class="title" :class="message.type">{{ message.title }}</h3>
-    <p class="message">{{ message.message }}</p>
+    <p class="message" v-html="message.message"></p>
   </div>
 </template>
 
 <script>
 import CloseIcon from 'icons/Close'
+import interact from 'interactjs'
 
 export default {
   name: 'message-box',
   data: () => ({
     dismissedRight: false,
     dismissedLeft: false,
-    dismissTimeout: null
+    dismissTimeout: null,
+    isInteractAnimating: true,
+    interactPosition: {
+      x: 0,
+      y: 0
+    },
+    interactXThreshold: 100,
+    swipeOpacity: 1
   }),
   props: {
     message: {
@@ -30,20 +43,69 @@ export default {
     }
   },
   mounted() {
-    this.dismissTimeout = setTimeout(this.dismissMessage, 5000)
+    if (this.message.dismissDelay > 0) {
+      this.dismissTimeout = setTimeout(this.dismissMessage, this.message.dismissDelay)
+    }
+    const element = this.$refs.interactElement
+    interact(element).draggable({
+      onstart: () => {
+        this.isInteractAnimating = false
+      },
+      onmove: e => {
+        const x = this.interactPosition.x + e.dx
+        const opacity = 1 - Math.abs(this.interactPosition.x / 300)
+        this.interactSetPosition({ x }, opacity)
+      },
+      onend: () => {
+        const x = this.interactPosition.x
+        const iXThr = this.interactXThreshold
+        this.isInteractAnimating = true
+
+        if (x > iXThr) {
+          this.dismissMessage()
+        } else if (x < -iXThr) {
+          this.dismissMessageLeft()
+        } else {
+          this.resetCardPosition()
+        }
+      }
+    })
   },
   components: {
     CloseIcon
   },
+  computed: {
+    transformString() {
+      if (!this.isInteractAnimating) {
+        const { x, y } = this.interactPosition
+        return `translate3D(${x}px, ${y}px, 0)`
+      }
+      return null
+    }
+  },
   methods: {
     dismissMessage() {
       this.dismissedRight = true
+      this.swipeOpacity = 0
+      setTimeout(() => this.message.dismiss(), 600)
+    },
+    dismissMessageLeft() {
+      this.dismissedLeft = true
+      this.swipeOpacity = 0
       setTimeout(() => this.message.dismiss(), 600)
     },
     onMessageMouseover() {
       if (this.dismissTimeout) {
         clearTimeout(this.dismissTimeout)
       }
+    },
+    interactSetPosition(coordinates, distance) {
+      const { x = 0, y = 0 } = coordinates
+      this.interactPosition = { x, y }
+      this.swipeOpacity = distance
+    },
+    resetCardPosition() {
+      this.interactSetPosition({ x: 0, y: 0 }, 1)
     }
   }
 }
@@ -60,10 +122,15 @@ export default {
   border-radius: 3px;
   box-shadow: $max-shadow;
   animation: blob-in-notif 300ms $intro-easing;
+  user-select: none;
+
+  &.is-animating {
+    transition: transform 300ms, opacity 600ms;
+  }
 
   &.dismissed-right {
     transition: transform 300ms, font-size 300ms 300ms, margin 300ms 300ms,
-      padding 300ms 300ms;
+      padding 300ms 300ms, opacity 300ms !important;
     transition-timing-function: $dynamic-easing;
     transform: translateX(140%);
     margin: 0;
@@ -73,7 +140,7 @@ export default {
 
   &.dismissed-left {
     transition: transform 300ms, font-size 300ms 300ms, margin 300ms 300ms,
-      padding 300ms 300ms;
+      padding 300ms 300ms, opacity 300ms !important;
     transition-timing-function: $dynamic-easing;
     transform: translateX(-140%);
     margin: 0;
@@ -104,29 +171,6 @@ export default {
     position: absolute !important;
     cursor: pointer;
     border-radius: 50%;
-
-    .progress-circle {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: var(--theme-color);
-      border-radius: 50%;
-      clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 50% 40%);
-
-      &:after {
-        content: "";
-        top: 10%;
-        left: 10%;
-        width: 80%;
-        height: 80%;
-        border-radius: 50%;
-        position: absolute;
-        display: block;
-        background-color: var(--bgcolor-alt);
-      }
-    }
   }
 
   .title {
