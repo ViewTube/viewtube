@@ -14,6 +14,7 @@ import ClickawayDirective from './directives/clickawayDirective'
 import CleanlinksDirective from './directives/cleanlinksDirective'
 import Ripple from './directives/rippleDirective'
 import { store } from '@/store/store'
+import invidious from '@/services/invidious'
 
 const progressOptions = {
   color: '#ff7b3b',
@@ -42,6 +43,8 @@ Vue.use(VueLazyload, {
     threshold: 0.1
   }
 })
+
+window.invidious = invidious
 
 Vue.component('vue-headful', VueHeadful)
 Vue.config.productionTip = false
