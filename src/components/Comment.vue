@@ -55,7 +55,6 @@
         <div
           class="comment-replies-list"
           v-if="repliesLoaded"
-          :style="{ height: `${getRepliesContainerHeight()}px` }"
         >
           <div class="comment-replies-list-height" ref="commentRepliesListHeight">
             <Comment
@@ -106,8 +105,7 @@ export default {
     loadingReplies: false,
     repliesLoaded: false,
     repliesContinuationLink: null,
-    repliesContinuationLoading: false,
-    repliesContainerHeight: 0
+    repliesContinuationLoading: false
   }),
   mounted() {
     tippy('.tooltip', {
@@ -119,13 +117,6 @@ export default {
     })
   },
   methods: {
-    getRepliesContainerHeight() {
-      if (this.$refs.commentRepliesListHeight) {
-        return this.$refs.commentRepliesListHeight.clientHeight
-      } else {
-        return 0
-      }
-    },
     hideReplies() {
       this.repliesLoaded = false
     },
@@ -156,7 +147,7 @@ export default {
       const videoId = this.$route.query.v
       fetch(
         `${Commons.getApiUrl()}comments/${videoId}?continuation=${
-          this.repliesContinuationLink
+        this.repliesContinuationLink
         }`,
         {
           cache: 'force-cache',
@@ -281,7 +272,6 @@ export default {
         margin: 10px 0 5px 0;
       }
       .comment-replies-list {
-        height: 0px;
         overflow: hidden;
       }
       .show-more-replies {
