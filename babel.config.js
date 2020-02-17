@@ -1,6 +1,5 @@
 module.exports = {
   presets: [
-    '@vue/app',
-    'minify'
+    '@vue/app'
   ]
 }
