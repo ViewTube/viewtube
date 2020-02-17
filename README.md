@@ -4,7 +4,6 @@
 [![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fmauriceoegerli%2Fviewtube-vue%2Fbadge&style=flat)](https://actions-badge.atrox.dev/mauriceoegerli/viewtube-vue/goto)
 [![vue2](https://img.shields.io/badge/vue-2.x-brightgreen.svg)](https://vuejs.org/)
 [![GitHub](https://img.shields.io/github/license/mauriceoegerli/viewtube-vue)](https://github.com/mauriceoegerli/viewtube-vue)
-![GitHub commit activity](https://img.shields.io/github/commit-activity/m/mauriceoegerli/viewtube-vue)
 
 Current status: alpha
 
