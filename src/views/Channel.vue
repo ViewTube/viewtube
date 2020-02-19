@@ -1,5 +1,8 @@
 <template>
-  <div class="channel" ref="channel">
+  <div
+    class="channel"
+    ref="channel"
+  >
     <vue-headful
       :title="(channel.author !== undefined ? channel.author : 'loading') + ' - ViewTube'"
       :description="commons.description"
@@ -10,41 +13,35 @@
       v-if="channel.authorBanners && channel.authorBanners.length > 0"
       :src="commons.proxyUrl + channel.authorBanners[0].url"
     />
-    <Overview :channel="channel" v-if="!loading" />
-    <TabMenu :tabNames="channelTabNames" v-if="!loading">
-      <template v-slot:overview>
-        <ChannelDescription :descriptionHtml="channel.descriptionHtml" />
-        <RelatedChannels :channel="channel" />
-        <div class="channel-videos-container" v-if="!loading">
-          <div class="channel-title-sticky">
-            <div class="channel-sticky-thumbnail">
-              <img :src="commons.proxyUrl + channel.authorThumbnails[0].url" alt="Author Image" />
-            </div>
-            <div class="channel-sticky-name">
-              <h1>{{ channel.author }}</h1>
-            </div>
-          </div>
-          <div class="channel-videos">
-            <VideoEntry v-for="video in channel.latestVideos" :key="video.videoId" :video="video"></VideoEntry>
-          </div>
+    <Overview
+      :channel="channel"
+      v-if="!loading"
+    />
+    <ChannelDescription :descriptionHtml="channel.descriptionHtml" />
+    <RelatedChannels :channel="channel" />
+    <div
+      class="channel-videos-container"
+      v-if="!loading"
+    >
+      <div class="channel-title-sticky">
+        <div class="channel-sticky-thumbnail">
+          <img
+            :src="commons.proxyUrl + channel.authorThumbnails[0].url"
+            alt="Author Image"
+          />
         </div>
-      </template>
-      <template v-slot:videos>
-        <div class="channel-videos-container" v-if="!loading">
-          <div class="channel-title-sticky">
-            <div class="channel-sticky-thumbnail">
-              <img :src="channel.authorThumbnails[0].url" alt="Author Image" />
-            </div>
-            <div class="channel-sticky-name">
-              <h1>{{ channel.author }}</h1>
-            </div>
-          </div>
-          <div class="channel-videos">
-            <VideoEntry v-for="video in channel.latestVideos" :key="video.videoId" :video="video"></VideoEntry>
-          </div>
+        <div class="channel-sticky-name">
+          <h1>{{ channel.author }}</h1>
         </div>
-      </template>
-    </TabMenu>
+      </div>
+      <div class="channel-videos">
+        <VideoEntry
+          v-for="video in channel.latestVideos"
+          :key="video.videoId"
+          :video="video"
+        ></VideoEntry>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -53,7 +50,6 @@ import Commons from '@/commons.js'
 import VideoEntry from '@/components/list/VideoEntry'
 import Banner from '@/components/channel/Banner'
 import Overview from '@/components/channel/Overview'
-import TabMenu from '@/components/tabs/TabMenu'
 import RelatedChannels from '@/components/channel/RelatedChannels'
 import ChannelDescription from '@/components/channel/ChannelDescription'
 
@@ -63,7 +59,6 @@ export default {
     VideoEntry,
     Banner,
     Overview,
-    TabMenu,
     RelatedChannels,
     ChannelDescription
   },
