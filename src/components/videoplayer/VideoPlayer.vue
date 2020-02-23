@@ -23,7 +23,7 @@
     <div class="video-element-container" :class="{ zoom: videoElement.zoomed }">
       <video
         class="video"
-        src="#"
+        :src="highestVideoQuality"
         @waiting="onVideoBuffering"
         @canplay="onVideoCanplay"
         @playing="onVideoPlaying"
@@ -311,7 +311,7 @@ export default {
       touch: 'hold',
       placement: 'top'
     })
-    this.loadDashVideo()
+    // this.loadDashVideo()
   },
   beforeDestroy() {
     this.saveVideoPosition()
