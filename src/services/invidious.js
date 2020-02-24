@@ -41,13 +41,43 @@ const invidious = {
     channels: {
       url: 'v1/channels',
       fields: [
-        'title'
+        'author',
+        'authorId',
+        'authorBanners',
+        'authorThumbnails',
+        'subCount',
+        'totalViews',
+        'joined',
+        'paid',
+        'isFamilyFriendly',
+        'description',
+        'latestVideos',
+        'relatedChannels'
       ]
     },
     videos: {
       url: 'v1/videos',
       fields: [
-        'title'
+        'type',
+        'title',
+        'videoId',
+        'videoThumbnails',
+        'storyboards',
+        'descriptionHtml',
+        'publishedText',
+        'viewCount',
+        'likeCount',
+        'dislikeCount',
+        'paid',
+        'premium',
+        'isFamilyFriendly',
+        'author',
+        'authorId',
+        'authorThumbnails',
+        'subCountText',
+        'lengthSeconds',
+        'rating',
+        'formatStreams'
       ]
     },
     search: {
@@ -55,12 +85,15 @@ const invidious = {
       fields: [
         'title'
       ]
+    },
+    storyboards: {
+      url: 'v1/storyboards'
     }
   }
 }
 
 Object.entries(invidious.requests).forEach(el => {
-  invidious.api[el[0]] = function (args = {}) {
+  invidious.api[el[0]] = async function (args = {}) {
     let url = el[1].url
     if (args.id) {
       url += `/${args.id}`
@@ -72,23 +105,19 @@ Object.entries(invidious.requests).forEach(el => {
       }
       args.params.fields = el[1].fields.toString()
     }
-    return new Promise((resolve, reject) => {
-      invidious.request.get(url, args)
-        .then((response) => {
-          resolve(response)
-        })
-        .catch((error) => {
-          store.dispatch('createMessage', {
-            type: 'error',
-            title: 'Error loading page',
-            message: `Try<br/>
+    try {
+      return invidious.request.get(url, args)
+    } catch (error) {
+      store.dispatch('createMessage', {
+        type: 'error',
+        title: 'Error loading page',
+        message: `Try<br/>
                       <ul><li>Checking your internet connection</li>
                       <li>Switching to another instance in settings</li></ul>`,
-            dismissDelay: 0
-          })
-          reject(error)
-        })
-    })
+        dismissDelay: 0
+      })
+      throw error
+    }
   }
 })
 

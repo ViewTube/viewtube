@@ -115,15 +115,9 @@ export default {
     commons: Commons
   }),
   beforeRouteEnter(to, from, next) {
-    const videoId = to.query.v
-    fetch(`${Commons.getApiUrl()}videos/${videoId}`, {
-      cache: 'force-cache',
-      method: 'GET'
-    })
-      .then(response => response.json())
-      .then(data => {
-        next(vm => vm.loadData(data))
-      })
+    window.invidious.api.videos({
+      id: to.query.v
+    }).then(response => next(vm => vm.loadData(response.data)))
       .catch(error => {
         console.error(error)
         next(vm => vm.$Progress.fail())

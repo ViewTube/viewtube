@@ -35,12 +35,12 @@ export default {
 .related-channels {
   background-color: var(--bgcolor-main);
   width: 100%;
+  min-height: 200px;
   max-width: $main-width;
   box-sizing: border-box;
-  z-index: 10;
   margin: 0 auto;
   padding: 10px;
-  overflow-x: auto;
+  overflow: auto hidden;
   scrollbar-width: thin;
   white-space: nowrap;
   z-index: 9;

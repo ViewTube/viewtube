@@ -126,10 +126,17 @@
             :style="{ width: `${videoElement.progressPercentage}%` }"
           ></div>
           <div class="seekbar-circle" :style="{ left: `${videoElement.progressPercentage}%` }"></div>
+          <SeekbarPreview
+            :storyboards="video.storyboards"
+            :time="seekbar.hoverTimeStamp"
+            :videoId="video.videoId"
+            ref="seekbarHoverPreview"
+            :style="{ transform: `translate3d(${seekHoverAdjustedLeft(this.$refs.seekbarHoverPreview)},0,0)` }"
+          />
           <div
             class="seekbar-hover-timestamp"
             ref="seekbarHoverTimestamp"
-            :style="{ left: seekHoverAdjustedLeft }"
+            :style="{ left: seekHoverAdjustedLeft(this.$refs.seekbarHoverTimestamp) }"
           >{{ seekbar.hoverTime }}</div>
         </div>
         <div class="bottom-controls">
@@ -199,7 +206,8 @@ import Commons from '@/commons.js'
 import VideoEndscreen from '@/components/videoplayer/VideoEndscreen'
 import VolumeControl from '@/components/videoplayer/VolumeControl'
 import QualitySelection from '@/components/videoplayer/QualitySelection'
-import dashjs from 'dashjs'
+import SeekbarPreview from '@/components/videoplayer/SeekbarPreview'
+// import dashjs from 'dashjs'
 
 export default {
   name: 'videoplayer',
@@ -215,7 +223,8 @@ export default {
     OpenInPlayerIcon,
     CloseIcon,
     VolumeControl,
-    QualitySelection
+    QualitySelection,
+    SeekbarPreview
   },
   props: {
     video: Object,
@@ -250,7 +259,8 @@ export default {
       seeking: false,
       seekPercentage: 0,
       hoverPercentage: 0,
-      hoverTime: '00:00'
+      hoverTime: '00:00',
+      hoverTimeStamp: 0
     }
   }),
   watch: {
@@ -282,24 +292,6 @@ export default {
     },
     playerOverlayVisible() {
       return this.playerOverlay.visible
-    },
-    seekHoverAdjustedLeft() {
-      const percentage = this.seekbar.hoverPercentage
-      let leftPx = 0
-      if (this.$refs.seekbarHoverTimestamp) {
-        const elWidth = this.$refs.seekbarHoverTimestamp.offsetWidth
-        const pageWidth = Commons.getPageWidth()
-        leftPx = ((pageWidth - 27.5) / 100) * percentage - ((elWidth / 2) - 12)
-
-        if (leftPx < 10) {
-          leftPx = 10
-        }
-        if (leftPx > pageWidth - elWidth - 17) {
-          leftPx = pageWidth - elWidth - 17
-        }
-      }
-
-      return `${leftPx}px`
     }
   },
   mounted() {
@@ -324,7 +316,7 @@ export default {
         if (this.video.dashUrl) {
           url = `${this.video.dashUrl}?local=true`
         }
-        this.dashPlayer = dashjs.MediaPlayer().create()
+        // this.dashPlayer = dashjs.MediaPlayer().create()
         this.dashPlayer.initialize(this.$refs.video, url, false)
         this.dashBitrates = this.dashPlayer.getBitrateInfoListFor('video')
       }
@@ -352,7 +344,6 @@ export default {
       if (videoRef && !this.seekbar.seeking) {
         this.videoElement.progressPercentage = (videoRef.currentTime / this.videoLength) * 100
         this.videoElement.progress = videoRef.currentTime
-        console.log(this.dashPlayer.getBitrateInfoListFor('video'))
       }
     },
     onLoadingProgress() {
@@ -409,16 +400,19 @@ export default {
       this.matchSeekProgressPercentage()
       this.seekbar.hoverPercentage = this.calculateSeekPercentage(touchX)
       this.seekbar.hoverTime = Commons.getTimestampFromSeconds((this.$refs.video.duration / 100) * this.seekbar.hoverPercentage)
+      this.seekbar.hoverTimeStamp = (this.$refs.video.duration / 100) * this.seekbar.hoverPercentage
       e.stopPropagation()
     },
     onSeekbarMouseMove(e) {
       this.seekbar.hoverPercentage = this.calculateSeekPercentage(e.pageX)
       this.seekbar.hoverTime = Commons.getTimestampFromSeconds((this.$refs.video.duration / 100) * this.seekbar.hoverPercentage)
+      this.seekbar.hoverTimeStamp = (this.$refs.video.duration / 100) * this.seekbar.hoverPercentage
     },
     onSeekbarTouchMove(e) {
       const touchX = e.touches[0].clientX
       this.seekbar.hoverPercentage = this.calculateSeekPercentage(touchX)
       this.seekbar.hoverTime = Commons.getTimestampFromSeconds((this.$refs.video.duration / 100) * this.seekbar.hoverPercentage)
+      this.seekbar.hoverTimeStamp = (this.$refs.video.duration / 100) * this.seekbar.hoverPercentage
     },
     onPlayerTouchMove(e) {
       if (this.seekbar.seeking) {
@@ -597,9 +591,11 @@ export default {
     },
     onPlayerMouseMove(e) {
       this.showPlayerOverlay()
-      if (this.seekbar.seeking) {
+      if (this.seekbar.seeking && this.$refs.video) {
         this.seekbar.seekPercentage = this.calculateSeekPercentage(e.pageX)
         this.seekbar.hoverPercentage = this.calculateSeekPercentage(e.pageX)
+        this.seekbar.hoverTime = Commons.getTimestampFromSeconds((this.$refs.video.duration / 100) * this.seekbar.hoverPercentage)
+        this.seekbar.hoverTimeStamp = (this.$refs.video.duration / 100) * this.seekbar.hoverPercentage
         this.matchSeekProgressPercentage()
         if (this.isMouseOufOfBoundary(e.pageX, e.pageY)) {
           this.seekbar.seeking = false
@@ -631,6 +627,24 @@ export default {
         clearTimeout(this.playerOverlay.timeout)
       }
       this.playerOverlay.visible = false
+    },
+    seekHoverAdjustedLeft(element) {
+      const percentage = this.seekbar.hoverPercentage
+      let leftPx = 0
+      if (element) {
+        const elWidth = element.offsetWidth ? element.offsetWidth : element.$el.offsetWidth
+        const pageWidth = Commons.getPageWidth()
+        leftPx = ((pageWidth - 27.5) / 100) * percentage - ((elWidth / 2) - 12)
+
+        if (leftPx < 10) {
+          leftPx = 10
+        }
+        if (leftPx > pageWidth - elWidth - 17) {
+          leftPx = pageWidth - elWidth - 17
+        }
+      }
+
+      return `${leftPx}px`
     }
   }
 }
@@ -877,6 +891,10 @@ export default {
           .seekbar-hover-timestamp {
             opacity: 1;
             transform: translateX(-50%) scale(1);
+          }
+
+          .seekbar-preview {
+            opacity: 1;
           }
         }
 

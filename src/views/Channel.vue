@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="channel"
-    ref="channel"
-  >
+  <div class="channel" ref="channel">
     <vue-headful
       :title="(channel.author !== undefined ? channel.author : 'loading') + ' - ViewTube'"
       :description="commons.description"
@@ -13,33 +10,20 @@
       v-if="channel.authorBanners && channel.authorBanners.length > 0"
       :src="commons.proxyUrl + channel.authorBanners[0].url"
     />
-    <Overview
-      :channel="channel"
-      v-if="!loading"
-    />
-    <ChannelDescription :descriptionHtml="channel.descriptionHtml" />
-    <RelatedChannels :channel="channel" />
-    <div
-      class="channel-videos-container"
-      v-if="!loading"
-    >
+    <Overview :channel="channel" v-if="!loading" />
+    <ChannelDescription :descriptionHtml="channel.descriptionHtml" v-if="!loading" />
+    <RelatedChannels :channel="channel" v-if="!loading" />
+    <div class="channel-videos-container" v-if="!loading">
       <div class="channel-title-sticky">
         <div class="channel-sticky-thumbnail">
-          <img
-            :src="commons.proxyUrl + channel.authorThumbnails[0].url"
-            alt="Author Image"
-          />
+          <img :src="commons.proxyUrl + channel.authorThumbnails[0].url" alt="Author Image" />
         </div>
         <div class="channel-sticky-name">
           <h1>{{ channel.author }}</h1>
         </div>
       </div>
       <div class="channel-videos">
-        <VideoEntry
-          v-for="video in channel.latestVideos"
-          :key="video.videoId"
-          :video="video"
-        ></VideoEntry>
+        <VideoEntry v-for="video in channel.latestVideos" :key="video.videoId" :video="video"></VideoEntry>
       </div>
     </div>
   </div>
@@ -65,58 +49,29 @@ export default {
   data: () => ({
     channel: [],
     loading: true,
-    commons: Commons,
-    parallaxScroll: 0,
-    parallaxTicking: false,
-    channelTabNames: [
-      'overview',
-      'videos'
-    ]
+    commons: Commons
   }),
   beforeRouteEnter(to, from, next) {
-    fetch(`${Commons.getApiUrl()}channels/${to.params.id}`, {
-      cache: 'force-cache',
-      method: 'GET'
-    })
-      .then(response => response.json())
-      .then(data => {
-        next(vm => vm.loadData(data))
-      })
+    window.invidious.api.channels({
+      id: to.params.id
+    }).then(response => next(vm => vm.loadData(response.data)))
       .catch(error => {
         console.error(error)
         next(false, vm => {
           vm.$Progress.fail()
-          vm.$store.dispatch('createMessage', {
-            type: 'error',
-            title: 'Error loading Channel',
-            message: 'Try switching to another instance in settings'
-          })
         })
       })
   },
   beforeRouteUpdate(to, from, next) {
     this.$Progress.start()
     const me = this
-    fetch(`${Commons.getApiUrl()}channels/${to.params.id}`, {
-      cache: 'force-cache',
-      method: 'GET'
-    })
-      .then(response => response.json())
-      .then(data => {
-        me.channel = data
-        me.loading = false
-        me.$Progress.finish()
-        next()
-      })
+    window.invidious.api.channels({
+      id: to.params.id
+    }).then(response => next(me.loadData(response.data)))
       .catch(error => {
         console.error(error)
-        next(vm => {
+        next(false, vm => {
           vm.$Progress.fail()
-          vm.$store.dispatch('createMessage', {
-            type: 'error',
-            title: 'Error loading Channel',
-            message: 'Try switching to another instance in settings'
-          })
         })
       })
   },
