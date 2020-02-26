@@ -105,19 +105,17 @@ Object.entries(invidious.requests).forEach(el => {
       }
       args.params.fields = el[1].fields.toString()
     }
-    try {
-      return invidious.request.get(url, args)
-    } catch (error) {
+    return invidious.request.get(url, args).catch((error) => {
       store.dispatch('createMessage', {
         type: 'error',
         title: 'Error loading page',
         message: `Try<br/>
-                      <ul><li>Checking your internet connection</li>
-                      <li>Switching to another instance in settings</li></ul>`,
+                        <ul><li>Checking your internet connection</li>
+                        <li>Switching to another instance in settings</li></ul>`,
         dismissDelay: 0
       })
-      throw error
-    }
+      console.error(error)
+    })
   }
 })
 

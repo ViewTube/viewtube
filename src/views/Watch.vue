@@ -49,6 +49,11 @@
         <SubscribeButton class="subscribe-button-watch" :channelId="video.authorId" />
       </div>
       <div class="video-infobox-date">{{ video.publishedText }}</div>
+      <div class="video-actions">
+        <a :href="`https://getpocket.com/save?url=${encodedUrl}`" target="_blank" style="color: #EF4056;">
+          <img src="@/assets/icons/pocket.svg" />Save to pocket
+        </a>
+      </div>
       <p class="video-infobox-text">tags:</p>
       <div class="video-infobox-tags">
         <router-link
@@ -114,6 +119,11 @@ export default {
     commentsContinuationLoading: false,
     commons: Commons
   }),
+  computed: {
+    encodedUrl() {
+      return encodeURIComponent(window.location.href)
+    }
+  },
   beforeRouteEnter(to, from, next) {
     window.invidious.api.videos({
       id: to.query.v
@@ -374,6 +384,14 @@ export default {
       margin: 20px auto 10px auto;
       max-width: $main-width;
       width: 100%;
+    }
+
+    .video-actions{
+      img{
+        position: relative;
+        top: 6px;
+        left: 2px;
+      }
     }
 
     .video-infobox-text {
