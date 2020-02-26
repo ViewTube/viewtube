@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve --port 8081",
-    "start": "vue-cli-service serve --port 8081",
-    "build": "vue-cli-service build",
+    "serve": "nuxt",
+    "start": "nuxt start",
+    "build": "nuxt build",
     "test": "echo testing? not for me",
     "lint": "vue-cli-service lint"
   },
@@ -19,6 +19,7 @@
     "axios": "^0.19.2",
     "dashjs": "^3.0.2",
     "interactjs": "^1.8.4",
+    "nuxt": "^2.11.0",
     "portal-vue": "^2.1.7",
     "raw-loader": "^4.0.0",
     "register-service-worker": "^1.6.2",
@@ -36,6 +37,7 @@
     "webpack": "^4.41.5"
   },
   "devDependencies": {
+    "@nuxtjs/style-resources": "^1.0.0",
     "@vue/cli-plugin-babel": "^4.2.2",
     "@vue/cli-plugin-eslint": "^4.2.2",
     "@vue/cli-plugin-pwa": "^4.2.2",
