@@ -2,7 +2,6 @@
   <div
     class="search"
   >
-    <vue-headful :title="`${searchQuery} - ViewTube`" />
     <Spinner
       class="centered"
       v-if="loading"

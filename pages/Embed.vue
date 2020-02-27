@@ -1,12 +1,5 @@
 <template>
   <div class="embed">
-    <vue-headful
-      :title="(video.title !== undefined ? video.title : 'loading') + ' - ViewTube'"
-      :keywords="video.keywords !== undefined ? video.keywords.toString(): ''"
-      :description="commons.description"
-      :image="(video.videoThumbnails !== undefined ? video.videoThumbnails[0].url : '#')"
-      lang="en"
-    />
     <VideoPlayer v-if="!loading" :video="video" :embedded="true" class="video-player-p"></VideoPlayer>
   </div>
 </template>

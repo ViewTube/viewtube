@@ -1,11 +1,5 @@
 <template>
   <div class="channel" ref="channel">
-    <vue-headful
-      :title="(channel.author !== undefined ? channel.author : 'loading') + ' - ViewTube'"
-      :description="commons.description"
-      :image="(channel.authorThumbnails !== undefined ? channel.authorThumbnails[0].url : '#')"
-      lang="en"
-    />
     <Banner
       v-if="channel.authorBanners && channel.authorBanners.length > 0"
       :src="commons.proxyUrl + channel.authorBanners[0].url"

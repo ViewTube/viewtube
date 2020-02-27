@@ -1,12 +1,5 @@
 <template>
   <div class="watch">
-    <vue-headful
-      :title="(video.title !== undefined ? `${video.title} - ${video.author}` : 'loading') + ' - ViewTube'"
-      :keywords="video.keywords !== undefined ? video.keywords.toString(): ''"
-      :description="commons.description"
-      :image="(video.videoThumbnails !== undefined ? video.videoThumbnails[0].url : '#')"
-      lang="en"
-    />
     <VideoPlayer v-if="!loading" :key="video.id" :video="video" class="video-player-p"></VideoPlayer>
     <div class="video-infobox" v-if="!loading">
       <h1 class="video-infobox-title">{{ video.title }}</h1>
@@ -94,8 +87,8 @@
 <script>
 import Commons from '@/plugins/commons.js'
 import Spinner from '@/components/Spinner'
-import ThumbsUp from 'icons/ThumbUp'
-import ThumbsDown from 'icons/ThumbDown'
+import ThumbsUp from 'vue-material-design-icons/ThumbUp'
+import ThumbsDown from 'vue-material-design-icons/ThumbDown'
 import VideoPlayer from '@/components/videoplayer/VideoPlayer'
 import SubscribeButton from '@/components/buttons/SubscribeButton'
 import Comment from '@/components/Comment'

@@ -6,10 +6,14 @@ import instancesModule from '@/store/instances'
 import miniplayerModule from '@/store/miniplayer'
 import messagesModule from '@/store/messages'
 
-const vuexLocal = new VuexPersistence({
-  storage: window.localStorage,
-  modules: ['settings', 'instances']
-})
+let vuexLocal = null
+
+if (process.browser) {
+  vuexLocal = new VuexPersistence({
+    storage: window.localStorage,
+    modules: ['settings', 'instances']
+  })
+}
 
 Vue.use(Vuex)
 
@@ -20,5 +24,5 @@ export const store = new Vuex.Store({
     miniplayer: miniplayerModule,
     messages: messagesModule
   },
-  plugins: [vuexLocal.plugin]
+  plugins: process.browser ? [vuexLocal.plugin] : []
 })

@@ -1,4 +1,3 @@
-
 export default {
   mode: 'universal',
   /*
@@ -18,7 +17,7 @@ export default {
   /*
   ** Customize the progress-bar color
   */
-  loading: { color: '#fff' },
+  loading: { color: '#1e1e1e' },
   /*
   ** Global CSS
   */
@@ -34,6 +33,7 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
+    '@/plugins/directives/index'
   ],
   /*
   ** Nuxt.js dev-modules
@@ -41,9 +41,13 @@ export default {
   buildModules: [
     // Doc: https://github.com/nuxt-community/eslint-module
   ],
-  /*
-  ** Nuxt.js modules
-  */
+
+  render: {
+    bundleRenderer: {
+      directives: {
+      }
+    }
+  },
   modules: [
     '@nuxtjs/style-resources'
     // Doc: https://axios.nuxtjs.org/usage'
@@ -61,7 +65,20 @@ export default {
     /*
     ** You can extend webpack config here
     */
-    transpile: ['vue-material-design-icons'],
+    transpile: [
+      'vue-material-design-icons',
+      '/plugins',
+      'dashjs',
+      // 'interactjs',
+      'portal-vue',
+      'raw-loader',
+      'register-service-worker',
+      'tippy.js',
+      'vue-cookie',
+      'vue-global-var',
+      'vue-lazyload',
+      'vuex-persist'
+    ],
     extend(config, ctx) {
     }
   }

@@ -1,11 +1,5 @@
 <template>
   <div class="subscriptions">
-    <vue-headful
-      title="Subscriptions - ViewTube"
-      :description="commons.description"
-      image="https://viewtube.eu/images/icon-256.png"
-      lang="en"
-    />
     <div class="subscription-videos-container">
       <VideoEntry v-for="video in videos" :key="video.videoId" :video="video"></VideoEntry>
     </div>
@@ -17,7 +11,7 @@
 import Commons from '@/plugins/commons.js'
 import VideoEntry from '@/components/list/VideoEntry'
 import BottomNavigation from '@/components/BottomNavigation'
-import VueCookie from 'vue-cookie'
+import 'vue-cookie'
 
 export default {
   name: 'home',

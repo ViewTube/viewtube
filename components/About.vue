@@ -36,20 +36,16 @@
         </table>
       </div>
       <h2>Invidious License</h2>
-      <div class="invidious-license links" v-if="invidiousLicense" v-html="invidiousLicense">
-        <!-- <p>{{ invidiousLicense }}</p> -->
-      </div>
     </div>
     <div class="about-overlay popup-overlay" @click.stop="$emit('close')"></div>
   </div>
 </template>
 
 <script>
-import CloseIcon from 'icons/Close'
+import CloseIcon from 'vue-material-design-icons//Close'
 import Commons from '@/plugins/commons.js'
 import GithubIcon from 'vue-material-design-icons/GithubCircle'
 import ExternalIcon from 'vue-material-design-icons/OpenInNew'
-import InvidiousLicense from '@/assets/licenses/invidious.html'
 
 export default {
   name: 'about',
@@ -62,8 +58,7 @@ export default {
     return {
       description: Commons.description,
       invidousStats: null,
-      currentInstance: this.$store.getters.currentInstance,
-      invidiousLicense: InvidiousLicense
+      currentInstance: this.$store.getters.currentInstance
     }
   },
   mounted() {

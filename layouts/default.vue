@@ -1,9 +1,8 @@
 <template>
   <div id="app" :class="`theme--${$store.getters.theme}`">
     <Header v-if="!headless" />
-    <vue-progress-bar :class="{ 'progress-bar-margin': !headless }"></vue-progress-bar>
     <Miniplayer v-if="$store.getters.miniplayer"></Miniplayer>
-    <router-view class="content" ref="content" />
+    <nuxt />
     <portal-target class="dropdown-portal" name="dropdown" multiple></portal-target>
     <MessageBoxContainer />
   </div>
@@ -17,7 +16,7 @@ import Miniplayer from '@/components/miniplayer/Miniplayer'
 import MessageBoxContainer from '@/components/message/MessageBoxContainer'
 
 export default {
-  name: 'app',
+  name: 'index',
   components: {
     Header,
     Miniplayer,
@@ -31,17 +30,17 @@ export default {
     }
   },
   created() {
-    this.$Progress.start()
+    // this.$Progress.start()
 
-    this.$router.beforeEach((to, from, next) => {
-      if (to.meta.progress !== undefined) {
-        const meta = to.meta.progress
-        this.$Progress.parseMeta(meta)
-      }
-      this.$Progress.start()
+    // this.$router.beforeEach((to, from, next) => {
+    //   if (to.meta.progress !== undefined) {
+    //     const meta = to.meta.progress
+    //     this.$Progress.parseMeta(meta)
+    //   }
+    //   this.$Progress.start()
 
-      next()
-    })
+    //   next()
+    // })
   }
 }
 </script>

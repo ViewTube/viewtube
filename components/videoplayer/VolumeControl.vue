@@ -43,10 +43,10 @@
 </template>
 
 <script>
-import VolumeHighIcon from 'icons/VolumeHigh'
-import VolumeMediumIcon from 'icons/VolumeMedium'
-import VolumeLowIcon from 'icons/VolumeLow'
-import VolumeOffIcon from 'icons/VolumeOff'
+import VolumeHighIcon from 'vue-material-design-icons/VolumeHigh'
+import VolumeMediumIcon from 'vue-material-design-icons/VolumeMedium'
+import VolumeLowIcon from 'vue-material-design-icons/VolumeLow'
+import VolumeOffIcon from 'vue-material-design-icons/VolumeOff'
 
 export default {
   name: 'volume-control',

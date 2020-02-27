@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import CloseIcon from 'icons/Close'
+import CloseIcon from 'vue-material-design-icons/Close'
 import interact from 'interactjs'
 
 export default {

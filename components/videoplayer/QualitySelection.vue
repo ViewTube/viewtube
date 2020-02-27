@@ -36,9 +36,9 @@
 </template>
 
 <script>
-import SettingsIcon from 'icons/Settings'
-import HighDefinitionIcon from 'icons/HighDefinition'
-import MagicIcon from 'icons/AutoFix'
+import SettingsIcon from 'vue-material-design-icons/Settings'
+import HighDefinitionIcon from 'vue-material-design-icons/HighDefinition'
+import MagicIcon from 'vue-material-design-icons/AutoFix'
 
 export default {
   name: 'quality-selection',

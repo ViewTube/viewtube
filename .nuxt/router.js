@@ -3,16 +3,15 @@ import Router from 'vue-router'
 import { interopDefault } from './utils'
 import scrollBehavior from './router.scrollBehavior.js'
 
-const _7749ed1e = () => interopDefault(import('..\\pages\\App.vue' /* webpackChunkName: "pages_App" */))
-const _741a9700 = () => interopDefault(import('..\\pages\\Channel.vue' /* webpackChunkName: "pages_Channel" */))
-const _5e170096 = () => interopDefault(import('..\\pages\\Embed.vue' /* webpackChunkName: "pages_Embed" */))
-const _091ec618 = () => interopDefault(import('..\\pages\\ErrorPage.vue' /* webpackChunkName: "pages_ErrorPage" */))
-const _11fd83b2 = () => interopDefault(import('..\\pages\\Home.vue' /* webpackChunkName: "pages_Home" */))
-const _67d5653b = () => interopDefault(import('..\\pages\\Search.vue' /* webpackChunkName: "pages_Search" */))
-const _67c69d9a = () => interopDefault(import('..\\pages\\Subscriptions.vue' /* webpackChunkName: "pages_Subscriptions" */))
-const _bd50e8e8 = () => interopDefault(import('..\\pages\\Watch.vue' /* webpackChunkName: "pages_Watch" */))
-const _1fdaf62e = () => interopDefault(import('..\\pages\\authentication\\Login.vue' /* webpackChunkName: "pages_authentication_Login" */))
-const _6fc16824 = () => interopDefault(import('..\\pages\\authentication\\Register.vue' /* webpackChunkName: "pages_authentication_Register" */))
+const _1b8b7fcc = () => interopDefault(import('../pages/Channel.vue' /* webpackChunkName: "pages/Channel" */))
+const _1c7ba23c = () => interopDefault(import('../pages/Embed.vue' /* webpackChunkName: "pages/Embed" */))
+const _4e03c540 = () => interopDefault(import('../pages/ErrorPage.vue' /* webpackChunkName: "pages/ErrorPage" */))
+const _4990006f = () => interopDefault(import('../pages/Search.vue' /* webpackChunkName: "pages/Search" */))
+const _55ea5902 = () => interopDefault(import('../pages/Subscriptions.vue' /* webpackChunkName: "pages/Subscriptions" */))
+const _3502b9d8 = () => interopDefault(import('../pages/Watch.vue' /* webpackChunkName: "pages/Watch" */))
+const _ced19f4e = () => interopDefault(import('../pages/authentication/Login.vue' /* webpackChunkName: "pages/authentication/Login" */))
+const _3f57443a = () => interopDefault(import('../pages/authentication/Register.vue' /* webpackChunkName: "pages/authentication/Register" */))
+const _c3ad770a = () => interopDefault(import('../pages/index.vue' /* webpackChunkName: "pages/index" */))
 
 // TODO: remove in Nuxt 3
 const emptyFn = () => {}
@@ -31,45 +30,41 @@ export const routerOptions = {
   scrollBehavior,
 
   routes: [{
-    path: "/App",
-    component: _7749ed1e,
-    name: "App"
-  }, {
     path: "/Channel",
-    component: _741a9700,
+    component: _1b8b7fcc,
     name: "Channel"
   }, {
     path: "/Embed",
-    component: _5e170096,
+    component: _1c7ba23c,
     name: "Embed"
   }, {
     path: "/ErrorPage",
-    component: _091ec618,
+    component: _4e03c540,
     name: "ErrorPage"
   }, {
-    path: "/Home",
-    component: _11fd83b2,
-    name: "Home"
-  }, {
     path: "/Search",
-    component: _67d5653b,
+    component: _4990006f,
     name: "Search"
   }, {
     path: "/Subscriptions",
-    component: _67c69d9a,
+    component: _55ea5902,
     name: "Subscriptions"
   }, {
     path: "/Watch",
-    component: _bd50e8e8,
+    component: _3502b9d8,
     name: "Watch"
   }, {
     path: "/authentication/Login",
-    component: _1fdaf62e,
+    component: _ced19f4e,
     name: "authentication-Login"
   }, {
     path: "/authentication/Register",
-    component: _6fc16824,
+    component: _3f57443a,
     name: "authentication-Register"
+  }, {
+    path: "/",
+    component: _c3ad770a,
+    name: "index"
   }],
 
   fallback: false

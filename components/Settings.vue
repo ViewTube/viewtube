@@ -27,11 +27,11 @@
 <script>
 import Dropdown from '@/components/filter/Dropdown'
 import SwitchButton from '@/components/buttons/SwitchButton'
-import CloseIcon from 'icons/Close'
-import ThemeIcon from 'icons/Brightness4'
-import InstanceIcon from 'icons/ServerNetwork'
-import MiniplayerIcon from 'icons/WindowRestore'
-import '@/styles/popup.scss'
+import CloseIcon from 'vue-material-design-icons/Close'
+import ThemeIcon from 'vue-material-design-icons/Brightness4'
+import InstanceIcon from 'vue-material-design-icons/ServerNetwork'
+import MiniplayerIcon from 'vue-material-design-icons/WindowRestore'
+import '@/assets/styles/popup.scss'
 
 export default {
   name: 'settings',

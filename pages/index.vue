@@ -1,19 +1,31 @@
 <template>
   <div class="home">
-    <vue-headful
-      title="Home - ViewTube"
-      :description="commons.description"
-      image="https://viewtube.eu/images/icon-256.png"
-      lang="en"
-    />
     <GradientBackground :color="'theme'" />
-    <SectionTitle :title="'Subscriptions'" v-if="userAuthenticated" :link="'subscriptions'" />
-    <div class="home-videos-container small" v-if="userAuthenticated">
-      <VideoEntry v-for="video in subscriptions.subscriptions" :key="video.videoId" :video="video"></VideoEntry>
+    <SectionTitle
+      :title="'Subscriptions'"
+      v-if="userAuthenticated"
+      :link="'subscriptions'"
+    />
+    <div
+      class="home-videos-container small"
+      v-if="userAuthenticated"
+    >
+      <VideoEntry
+        v-for="video in subscriptions.subscriptions"
+        :key="video.videoId"
+        :video="video"
+      ></VideoEntry>
     </div>
-    <SectionTitle :title="'Popular videos'" :gradient="!userAuthenticated" />
+    <SectionTitle
+      :title="'Popular videos'"
+      :gradient="!userAuthenticated"
+    />
     <div class="home-videos-container small">
-      <VideoEntry v-for="video in videos" :key="video.videoId" :video="video"></VideoEntry>
+      <VideoEntry
+        v-for="video in videos"
+        :key="video.videoId"
+        :video="video"
+      ></VideoEntry>
     </div>
     <BottomNavigation />
   </div>
@@ -86,33 +98,33 @@ export default {
       this.$emit('scroll', e)
     }
   },
-  beforeRouteEnter(to, from, next) {
-    window.invidious.api.popular()
-      .then(response => {
-        next(vm => vm.loadData(response.data))
-      })
-      .catch(error => {
-        console.error(error)
-        next(vm => vm.$Progress.fail())
-      })
-  },
-  beforeRouteUpdate(to, from, next) {
-    this.$Progress.start()
-    fetch(`${Commons.getApiUrl()}popular`, {
-      cache: 'force-cache',
-      method: 'GET'
-    })
-      .then(response => response.json())
-      .then(data => {
-        this.loadData(data)
-        next()
-      })
-      .catch(error => {
-        console.error(error)
-        this.$Progress.fail()
-        next()
-      })
-  }
+  // beforeRouteEnter(to, from, next) {
+  //   window.invidious.api.popular()
+  //     .then(response => {
+  //       next(vm => vm.loadData(response.data))
+  //     })
+  //     .catch(error => {
+  //       console.error(error)
+  //       next(vm => vm.$Progress.fail())
+  //     })
+  // },
+  // beforeRouteUpdate(to, from, next) {
+  //   this.$Progress.start()
+  //   fetch(`${Commons.getApiUrl()}popular`, {
+  //     cache: 'force-cache',
+  //     method: 'GET'
+  //   })
+  //     .then(response => response.json())
+  //     .then(data => {
+  //       this.loadData(data)
+  //       next()
+  //     })
+  //     .catch(error => {
+  //       console.error(error)
+  //       this.$Progress.fail()
+  //       next()
+  //     })
+  // }
 }
 </script>
 

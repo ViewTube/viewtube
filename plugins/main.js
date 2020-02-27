@@ -8,11 +8,9 @@ import VueHeadful from 'vue-headful'
 import PortalVue from 'portal-vue'
 import UserStore from '../store/user'
 import VueProgressBar from 'vue-progressbar'
-import VueCookie from 'vue-cookie'
+import 'vue-cookie'
 import VueLazyload from 'vue-lazyload'
-import ClickawayDirective from './directives/clickawayDirective'
-import CleanlinksDirective from './directives/cleanlinksDirective'
-import Ripple from './directives/rippleDirective'
+
 import { store } from '@/store/store'
 import invidious from '@/plugins/services/invidious'
 
@@ -26,10 +24,6 @@ const progressOptions = {
     termination: 300
   }
 }
-
-Vue.directive('clickaway', ClickawayDirective)
-Vue.directive('clean-links', CleanlinksDirective)
-Vue.directive('ripple', Ripple)
 
 Vue.use(VueProgressBar, progressOptions)
 Vue.use(FormattingFunctions)

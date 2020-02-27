@@ -79,9 +79,9 @@
 </template>
 
 <script>
-import PenIcon from 'icons/Pencil'
-import ThumbsUpIcon from 'icons/ThumbUp'
-import HeartIcon from 'icons/Heart'
+import PenIcon from 'vue-material-design-icons/Pencil'
+import ThumbsUpIcon from 'vue-material-design-icons/ThumbUp'
+import HeartIcon from 'vue-material-design-icons/Heart'
 import Commons from '@/plugins/commons.js'
 import Spinner from '@/components/Spinner'
 import tippy from 'tippy.js'

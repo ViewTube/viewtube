@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { WebVTTParser } from '@/plugins/services/webVTTParser'
+import '@/plugins/services/webVTTParser'
 
 export default {
   name: 'seekbar-preview',

@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import SearchIcon from 'icons/Magnify.vue'
+import SearchIcon from 'vue-material-design-icons/Magnify.vue'
 import SearchAutoComplete from '@/components/SearchAutoComplete'
 
 export default {

@@ -1,6 +1,5 @@
 <template>
   <div class="register">
-    <vue-headful title="Register - ViewTube" />
     <div class="register-container" :class="{ loading: loading }">
       <h2 class="register-title">Register</h2>
       <span class="status-message-display message-display">{{ statusMessage }}</span>

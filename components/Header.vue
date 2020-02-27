@@ -126,11 +126,11 @@
 </template>
 
 <script>
-import ShareIcon from 'icons/Share'
-import SettingsIcon from 'icons/Settings'
+import ShareIcon from 'vue-material-design-icons/Share'
+import SettingsIcon from 'vue-material-design-icons/Settings'
 import AboutIcon from 'vue-material-design-icons/InformationOutline'
 import MainSearchBox from '@/components/MainSearchBox'
-import AccountIcon from 'icons/AccountCircle'
+import AccountIcon from 'vue-material-design-icons/AccountCircle'
 import AccountPlusIcon from 'vue-material-design-icons/AccountPlus'
 import tippy from 'tippy.js'
 import UserStore from '@/store/user'

@@ -17,26 +17,26 @@ let store = {};
   // Enforce store modules
   store.modules = store.modules || {}
 
-  resolveStoreModules(require('..\\store\\instances.js'), 'instances.js')
-  resolveStoreModules(require('..\\store\\messages.js'), 'messages.js')
-  resolveStoreModules(require('..\\store\\miniplayer.js'), 'miniplayer.js')
-  resolveStoreModules(require('..\\store\\settings.js'), 'settings.js')
-  resolveStoreModules(require('..\\store\\store.js'), 'store.js')
-  resolveStoreModules(require('..\\store\\user.js'), 'user.js')
-  resolveStoreModules(require('..\\store\\videoProgress.js'), 'videoProgress.js')
+  resolveStoreModules(require('../store/instances.js'), 'instances.js')
+  resolveStoreModules(require('../store/messages.js'), 'messages.js')
+  resolveStoreModules(require('../store/miniplayer.js'), 'miniplayer.js')
+  resolveStoreModules(require('../store/settings.js'), 'settings.js')
+  resolveStoreModules(require('../store/store.js'), 'store.js')
+  resolveStoreModules(require('../store/user.js'), 'user.js')
+  resolveStoreModules(require('../store/videoProgress.js'), 'videoProgress.js')
 
   // If the environment supports hot reloading...
 
   if (process.client && module.hot) {
     // Whenever any Vuex module is updated...
     module.hot.accept([
-      '..\\store\\instances.js',
-      '..\\store\\messages.js',
-      '..\\store\\miniplayer.js',
-      '..\\store\\settings.js',
-      '..\\store\\store.js',
-      '..\\store\\user.js',
-      '..\\store\\videoProgress.js',
+      '../store/instances.js',
+      '../store/messages.js',
+      '../store/miniplayer.js',
+      '../store/settings.js',
+      '../store/store.js',
+      '../store/user.js',
+      '../store/videoProgress.js',
     ], () => {
       // Update `root.modules` with the latest definitions.
       updateModules()
