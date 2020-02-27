@@ -1,7 +1,7 @@
 export default {
-  state: {
+  state: () => ({
     messages: []
-  },
+  }),
   getters: {
     allMessages: (state) => state.messages,
     visibleMessages: (state) => state.messages.filter(el => el.dismissed === false)

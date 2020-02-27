@@ -1,6 +1,5 @@
 import Commons from '@/plugins/commons.js'
 import axios from 'axios'
-import { store } from '@/store/store'
 
 const invidious = {
   request: axios.create({
@@ -106,19 +105,17 @@ Object.entries(invidious.requests).forEach(el => {
       args.params.fields = el[1].fields.toString()
     }
     return invidious.request.get(url, args).catch((error) => {
-      store.dispatch('createMessage', {
-        type: 'error',
-        title: 'Error loading page',
-        message: `Try<br/>
-                        <ul><li>Checking your internet connection</li>
-                        <li>Switching to another instance in settings</li></ul>`,
-        dismissDelay: 0
-      })
+      // store.dispatch('createMessage', {
+      //   type: 'error',
+      //   title: 'Error loading page',
+      //   message: `Try<br/>
+      //                   <ul><li>Checking your internet connection</li>
+      //                   <li>Switching to another instance in settings</li></ul>`,
+      //   dismissDelay: 0
+      // })
       console.error(error)
     })
   }
 })
-
-console.log(invidious)
 
 export default invidious

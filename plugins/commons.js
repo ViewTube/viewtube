@@ -1,5 +1,3 @@
-import { store } from '@/store/store'
-
 export default {
   autocompleteUrl: 'https://autocomplete.viewtube.eu/',
   proxyUrl: 'https://proxy.mcdn.ch/index.php?',
@@ -7,11 +5,13 @@ export default {
   language: 'en-US',
 
   getApiUrl() {
-    return `${store.getters.currentInstance}/api/v1/`
+    // return `${this.$store.getters.currentInstance}/api/v1/`
+    return `https://invidio.us/api/v1/`
   },
 
   getApiUrlNoVersion() {
-    return `${store.getters.currentInstance}/api/`
+    // return `${this.$store.getters.currentInstance}/api/`
+    return `https://invidio.us/api/`
   },
 
   getDomain() {

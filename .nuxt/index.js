@@ -12,6 +12,9 @@ import { createStore } from './store.js'
 
 /* Plugins */
 
+import nuxt_plugin_workbox_5f1c541f from 'nuxt_plugin_workbox_5f1c541f' // Source: ./workbox.js (mode: 'client')
+import nuxt_plugin_nuxticons_101f7136 from 'nuxt_plugin_nuxticons_101f7136' // Source: ./nuxt-icons.js (mode: 'all')
+import nuxt_plugin_portalvue_62b80a70 from 'nuxt_plugin_portalvue_62b80a70' // Source: ./portal-vue.js (mode: 'all')
 import nuxt_plugin_index_0c6aaa0a from 'nuxt_plugin_index_0c6aaa0a' // Source: ../plugins/directives/index (mode: 'all')
 
 // Component: <ClientOnly>
@@ -168,6 +171,18 @@ async function createApp (ssrContext) {
   }
 
   // Plugin execution
+
+  if (process.client && typeof nuxt_plugin_workbox_5f1c541f === 'function') {
+    await nuxt_plugin_workbox_5f1c541f(app.context, inject)
+  }
+
+  if (typeof nuxt_plugin_nuxticons_101f7136 === 'function') {
+    await nuxt_plugin_nuxticons_101f7136(app.context, inject)
+  }
+
+  if (typeof nuxt_plugin_portalvue_62b80a70 === 'function') {
+    await nuxt_plugin_portalvue_62b80a70(app.context, inject)
+  }
 
   if (typeof nuxt_plugin_index_0c6aaa0a === 'function') {
     await nuxt_plugin_index_0c6aaa0a(app.context, inject)

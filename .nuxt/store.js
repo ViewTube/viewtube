@@ -21,7 +21,6 @@ let store = {};
   resolveStoreModules(require('../store/messages.js'), 'messages.js')
   resolveStoreModules(require('../store/miniplayer.js'), 'miniplayer.js')
   resolveStoreModules(require('../store/settings.js'), 'settings.js')
-  resolveStoreModules(require('../store/store.js'), 'store.js')
   resolveStoreModules(require('../store/user.js'), 'user.js')
   resolveStoreModules(require('../store/videoProgress.js'), 'videoProgress.js')
 
@@ -34,7 +33,6 @@ let store = {};
       '../store/messages.js',
       '../store/miniplayer.js',
       '../store/settings.js',
-      '../store/store.js',
       '../store/user.js',
       '../store/videoProgress.js',
     ], () => {

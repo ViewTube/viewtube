@@ -4,20 +4,21 @@ export default {
   ** Headers of the page
   */
   head: {
-    title: process.env.npm_package_name || '',
+    title: 'ViewTube',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: process.env.npm_package_description || '' }
+      { hid: 'description', name: 'description', content: 'An alternative YouTube frontend using the invidio.us API.' },
+      { name: "theme-color", content: "#121212" }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/public/favicon.ico' }
     ]
   },
   /*
   ** Customize the progress-bar color
   */
-  loading: { color: '#1e1e1e' },
+  loading: { color: '#ff7b3b' },
   /*
   ** Global CSS
   */
@@ -49,7 +50,9 @@ export default {
     }
   },
   modules: [
-    '@nuxtjs/style-resources'
+    '@nuxtjs/style-resources',
+    '@nuxtjs/pwa',
+    'portal-vue/nuxt',
     // Doc: https://axios.nuxtjs.org/usage'
   ],
   /*
@@ -62,15 +65,19 @@ export default {
   ** Build configuration
   */
   build: {
-    /*
-    ** You can extend webpack config here
-    */
+    postcss: {
+      plugins: [
+        require('autoprefixer'),
+        require('cssnano')({
+          preset: 'default'
+        })
+      ]
+    },
     transpile: [
       'vue-material-design-icons',
       '/plugins',
       'dashjs',
       // 'interactjs',
-      'portal-vue',
       'raw-loader',
       'register-service-worker',
       'tippy.js',

@@ -3,10 +3,10 @@ import 'vue-cookie'
 import Commons from '@/plugins/commons.js'
 
 export default {
-  state: {
+  state: () => ({
     errorMessage: null,
     username: null
-  },
+  }),
   register(args) {
     this.state.errorMessage = null
     const me = this

@@ -2,6 +2,13 @@
 node_modules
 /dist
 
+# nuxt.js build output
+.nuxt
+
+# Nuxt generate
+dist
+
+
 # local env files
 .env.local
 .env.*.local
@@ -19,6 +26,7 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw?
+sw.*
 
 # LineCount files
 out/

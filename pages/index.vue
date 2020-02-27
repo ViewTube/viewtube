@@ -38,6 +38,7 @@ import BottomNavigation from '@/components/BottomNavigation'
 import SectionTitle from '@/components/SectionTitle.vue'
 import UserStore from '@/store/user.js'
 import GradientBackground from '@/components/GradientBackground.vue'
+import Invidious from '@/plugins/services/invidious'
 
 export default {
   name: 'home',
@@ -59,6 +60,15 @@ export default {
     userAuthenticated() {
       return Boolean(this.loginState.username)
     }
+  },
+  asyncData({ params }) {
+    return Invidious.api.popular()
+      .then(response => {
+        return { videos: response.data }
+      })
+      .catch(error => {
+        console.error(error)
+      })
   },
   methods: {
     loadData: function (data) {
