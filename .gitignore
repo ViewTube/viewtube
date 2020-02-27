@@ -3,7 +3,7 @@ node_modules
 /dist
 
 # nuxt.js build output
-
+.nuxt
 
 # Nuxt generate
 dist
