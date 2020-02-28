@@ -82,7 +82,18 @@ const invidious = {
     search: {
       url: 'v1/search',
       fields: [
-        'title'
+        'type',
+        'title',
+        'videoId',
+        'videoThumbnails',
+        'lengthSeconds',
+        'viewCount',
+        'author',
+        'authorId',
+        'publishedText',
+        'videos',
+        'videoCount',
+        'description'
       ]
     },
     storyboards: {

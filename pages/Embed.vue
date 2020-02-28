@@ -30,11 +30,9 @@ export default {
       })
       .catch(error => {
         console.error(error)
-        next(vm => vm.$Progress.fail())
       })
   },
   beforeRouteUpdate(to, from, next) {
-    this.$Progress.start()
     const videoId = to.params.id
     fetch(`${Commons.getApiUrl()}videos/${videoId}`, {
       cache: 'force-cache',
@@ -47,7 +45,6 @@ export default {
       })
       .catch(error => {
         console.error(error)
-        this.$Progress.fail()
         next()
       })
   },
@@ -55,7 +52,6 @@ export default {
     loadData(data) {
       this.video = data
       this.loading = false
-      this.$Progress.finish()
     }
   }
 }

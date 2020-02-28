@@ -123,11 +123,9 @@ export default {
     }).then(response => next(vm => vm.loadData(response.data)))
       .catch(error => {
         console.error(error)
-        next(vm => vm.$Progress.fail())
       })
   },
   beforeRouteUpdate(to, from, next) {
-    this.$Progress.start()
     const videoId = to.query.v
     fetch(`${Commons.getApiUrl()}videos/${videoId}`, {
       cache: 'force-cache',
@@ -140,7 +138,6 @@ export default {
       })
       .catch(error => {
         console.error(error)
-        this.$Progress.fail()
         next()
       })
   },
@@ -152,7 +149,6 @@ export default {
       this.video = data
       this.loading = false
       this.loadComments()
-      this.$Progress.finish()
       this.$store.commit('miniplayer/setCurrentVideo', this.video)
     },
     async loadComments() {

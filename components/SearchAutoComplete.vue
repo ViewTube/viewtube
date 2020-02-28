@@ -1,22 +1,20 @@
 <template>
-  <transition name="clip">
+  <div
+    class="search-autocomplete"
+    v-if="visible && searchValue"
+  >
     <div
-      class="search-autocomplete"
-      v-if="visible && searchValue"
-    >
-      <div
-        class="search-autocomplete-entry"
-        :class="{ selected: selectedValue == key }"
-        v-for="(value, key) in autocompleteValues"
-        :key="key"
-        :value="value"
-        :number="key"
-        @mousedown.prevent="onAutocompleteMouseDown"
-        @keydown.stop="onKeyDown"
-        @mouseover.prevent="onMouseOver"
-      >{{ value }}</div>
-    </div>
-  </transition>
+      class="search-autocomplete-entry"
+      :class="{ selected: selectedValue == key }"
+      v-for="(value, key) in autocompleteValues"
+      :key="key"
+      :value="value"
+      :number="key"
+      @mousedown.prevent="onAutocompleteMouseDown"
+      @keydown.stop="onKeyDown"
+      @mouseover.prevent="onMouseOver"
+    >{{ value }}</div>
+  </div>
 </template>
 
 <script>

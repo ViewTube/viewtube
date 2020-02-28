@@ -1,26 +1,40 @@
 <template>
   <div class="settings popup">
     <div class="settings-container popup-container">
-      <CloseIcon class="close-icon" @click.stop="$emit('close')" />
+      <CloseIcon
+        class="close-icon"
+        @click.stop="$emit('close')"
+      />
       <h1>Settings</h1>
       <h2>
         <InstanceIcon />Invidio.us instance
       </h2>
-      <Dropdown :values="instances" :value="currentInstance" @valuechange="onInstanceChange" />
+      <Dropdown
+        :values="instances"
+        :value="currentInstance"
+        @valuechange="onInstanceChange"
+      />
       <h2>
         <ThemeIcon />Theme
       </h2>
-      <Dropdown :values="themes" :value="currentTheme" @valuechange="onThemeChange" />
+      <Dropdown
+        :values="themes"
+        :value="currentTheme"
+        @valuechange="onThemeChange"
+      />
       <h2>
         <MiniplayerIcon />Miniplayer
       </h2>
       <SwitchButton
-        :value="$store.getters.miniplayer"
+        :value="$store.getters['settings/miniplayer']"
         :label="'Enable miniplayer'"
-        @valuechange="val => $store.commit('setMiniplayer', val)"
+        @valuechange="val => $store.commit('settings/setMiniplayer', val)"
       />
     </div>
-    <div class="settings-overlay popup-overlay" @click.stop="$emit('close')"></div>
+    <div
+      class="settings-overlay popup-overlay"
+      @click.stop="$emit('close')"
+    ></div>
   </div>
 </template>
 
@@ -45,20 +59,20 @@ export default {
   },
   data() {
     return {
-      instances: this.$store.getters.instances,
-      currentInstance: this.$store.getters.currentInstance,
-      themes: this.$store.getters.defaultThemes,
-      currentTheme: this.$store.getters.theme
+      instances: this.$store.getters['instances/instances'],
+      currentInstance: this.$store.getters['instances/currentInstance'],
+      themes: this.$store.getters['settings/defaultThemes'],
+      currentTheme: this.$store.getters['settings/theme']
     }
   },
   methods: {
     onInstanceChange(element, index) {
-      this.$store.commit('changeInstance', element.value)
+      this.$store.commit('instances/changeInstance', element.value)
     },
     onThemeChange(element, index) {
       setTimeout(() => {
         document.body.classList.add('transition-all')
-        this.$store.commit('setTheme', element.value)
+        this.$store.commit('settings/setTheme', element.value)
         setTimeout(() => {
           document.body.classList.remove('transition-all')
         }, 300)

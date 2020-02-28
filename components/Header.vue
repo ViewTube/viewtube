@@ -295,7 +295,14 @@ export default {
       color: var(--title-color);
       width: auto;
       overflow: hidden;
+      white-space: nowrap;
       transition: width 300ms linear;
+      display: flex;
+      margin: 4px 0 0 0;
+
+      span{
+        display: block;
+      }
 
       .logo-colored {
         color: transparent;

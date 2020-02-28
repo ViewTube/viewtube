@@ -156,6 +156,7 @@ export default {
     .material-design-icon {
       margin: auto;
       left: -3px !important;
+      display: flex;
     }
   }
 

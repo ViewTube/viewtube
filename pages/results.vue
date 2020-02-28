@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="search"
-  >
+  <div class="search">
     <Spinner
       class="centered"
       v-if="loading"
@@ -55,7 +53,6 @@
         class="badge-btn"
         href="#"
         @click.prevent="loadMoreVideos"
-        v-if="commentsContinuationLink && !commentsContinuationLoading"
       >show more</a>
     </div>
   </div>
@@ -71,6 +68,7 @@ import BottomNavigation from '@/components/BottomNavigation'
 import GradientBackground from '@/components/GradientBackground.vue'
 import Dropdown from '@/components/filter/Dropdown'
 import SearchParams from '@/plugins/services/searchParams'
+import Invidious from '@/plugins/services/invidious'
 
 export default {
   name: 'search',
@@ -83,19 +81,15 @@ export default {
     GradientBackground,
     Dropdown
   },
+  watchQuery: true,
   data: () => ({
     results: [],
-    loading: true,
-    searchQuery: 'loading',
-    parameters: SearchParams
+    loading: false,
+    searchQuery: null,
+    parameters: SearchParams,
+    page: 1
   }),
   methods: {
-    loadData(data) {
-      this.searchQuery = this.$route.query.search_query
-      this.results = data
-      this.loading = false
-      this.$Progress.finish()
-    },
     getListEntryType(type) {
       if (type === 'video') {
         return 'VideoEntry'
@@ -126,56 +120,30 @@ export default {
     onSearchTypeChange(element, index) {
       SearchParams.type = element.value
       this.reloadSearchWithParams()
-    }
-  },
-  beforeRouteEnter(to, from, next) {
-    const searchQuery = to.query.search_query
-    const searchParams = SearchParams.parseQuery(to.query)
-    if (searchQuery.length > 0) {
-      fetch(
-        `${Commons.getApiUrl()}search?q=${searchQuery}&page=1${searchParams}`,
-        {
-          cache: 'force-cache',
-          method: 'GET'
-        }
-      )
-        .then(response => response.json())
-        .then(data => {
-          next(vm => vm.loadData(data))
+    },
+    loadMoreVideos() {
+      let me = this
+      this.page += 1
+      SearchParams.page = this.page
+      const searchParams = SearchParams.getParamsJson(this.searchQuery)
+      Invidious.api.search({ params: searchParams })
+        .then(response => {
+          me.results = me.results.concat(response.data)
         })
         .catch(error => {
           console.error(error)
-          next(vm => vm.$Progress.fail())
         })
-    } else {
-      next('/')
     }
   },
-  beforeRouteUpdate(to, from, next) {
-    this.$Progress.start()
-    const searchQuery = to.query.search_query
-    const searchParams = SearchParams.parseQuery(to.query)
-    if (searchQuery.length > 0) {
-      fetch(
-        `${Commons.getApiUrl()}search?q=${searchQuery}&page=1${searchParams}`,
-        {
-          cache: 'force-cache',
-          method: 'GET'
-        }
-      )
-        .then(response => response.json())
-        .then(data => {
-          this.loadData(data)
-          next()
-        })
-        .catch(error => {
-          console.error(error)
-          this.$Progress.fail()
-          next()
-        })
-    } else {
-      next('/')
-    }
+  asyncData({ query }) {
+    const searchParams = SearchParams.parseQueryJson(query, query.search_query)
+    return Invidious.api.search({ params: searchParams })
+      .then(response => {
+        return { results: response.data, searchQuery: query.search_query }
+      })
+      .catch(error => {
+        console.error(error)
+      })
   },
   beforeRouteLeave(to, from, next) {
     next()

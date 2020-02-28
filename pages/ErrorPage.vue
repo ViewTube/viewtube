@@ -27,7 +27,6 @@ export default {
     possibleSearch: ''
   }),
   mounted() {
-    this.$Progress.fail()
     const path = this.$route.path
     this.possibleSearch = path.replace('/', '')
   },

@@ -30,7 +30,6 @@ export default {
     loadData(data) {
       this.videos = data.subscriptions
       this.loading = false
-      this.$Progress.finish()
     }
   },
   beforeRouteEnter(to, from, next) {
@@ -49,11 +48,9 @@ export default {
       })
       .catch(error => {
         console.error(error)
-        next(vm => vm.$Progress.fail())
       })
   },
   beforeRouteUpdate(to, from, next) {
-    this.$Progress.start()
     const jwt = this.$cookie.get('jwt')
     fetch(`${Commons.getOwnApiUrl()}subscriptions/getSubscriptionFeed.php`, {
       cache: 'force-cache',
@@ -71,7 +68,6 @@ export default {
       })
       .catch(error => {
         console.error(error)
-        this.$Progress.fail()
         next()
       })
   }

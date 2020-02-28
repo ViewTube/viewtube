@@ -23,6 +23,7 @@ export default {
   font-size: 10px;
   $rectangle-width: 6px;
   user-select: none;
+  display: flex;
 
   .rect {
     background-image: var(--theme-color-gradient);
@@ -30,7 +31,7 @@ export default {
     background-position: 0;
     height: 100%;
     width: $rectangle-width;
-    display: inline-block;
+    display: block;
     animation: spinner 1.2s infinite ease-in-out;
     margin: 0 1px;
   }

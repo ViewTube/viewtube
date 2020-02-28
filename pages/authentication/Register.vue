@@ -96,7 +96,6 @@ export default {
     }
   },
   mounted() {
-    this.$Progress.finish()
     Captcheck.initCaptcheck()
   },
   beforeRouteEnter(to, from, next) {

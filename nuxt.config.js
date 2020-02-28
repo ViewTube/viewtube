@@ -12,7 +12,7 @@ export default {
       { name: "theme-color", content: "#121212" }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/public/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: 'favicon.ico' }
     ]
   },
   /*

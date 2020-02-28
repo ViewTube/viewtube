@@ -76,7 +76,6 @@ export default {
       if (this.userAuthenticated) {
         this.getSubscriptions()
       } else {
-        this.$Progress.finish()
       }
     },
     getSubscriptions() {
@@ -95,7 +94,6 @@ export default {
         .then(data => {
           me.subscriptions = data
           me.loading = false
-          this.$Progress.finish()
         })
         .catch(error => {
           console.error(error)

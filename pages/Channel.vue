@@ -52,12 +52,10 @@ export default {
       .catch(error => {
         console.error(error)
         next(false, vm => {
-          vm.$Progress.fail()
         })
       })
   },
   beforeRouteUpdate(to, from, next) {
-    this.$Progress.start()
     const me = this
     window.invidious.api.channels({
       id: to.params.id
@@ -65,7 +63,6 @@ export default {
       .catch(error => {
         console.error(error)
         next(false, vm => {
-          vm.$Progress.fail()
         })
       })
   },
@@ -76,7 +73,6 @@ export default {
     loadData(data) {
       this.channel = data
       this.loading = false
-      this.$Progress.finish()
     }
   }
 }

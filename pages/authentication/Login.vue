@@ -56,7 +56,6 @@ export default {
     }
   },
   mounted() {
-    this.$Progress.finish()
   },
   beforeRouteEnter(to, from, next) {
     next(vm => {
