@@ -1,13 +1,6 @@
 <template>
-  <div
-    class="seekbar-preview"
-    v-if="storyboardImages"
-  >
-    <div
-      class="preview-image"
-      v-for="(imgSrc, id) in storyboardBaseImages"
-      :key="id"
-    >
+  <div class="seekbar-preview" v-if="storyboardImages">
+    <div class="preview-image" v-for="(imgSrc, id) in storyboardBaseImages" :key="id">
       <img
         :src="imgSrc"
         v-if="currentImg.imgId === id"
@@ -61,7 +54,7 @@ export default {
         const currentImg = this.storyboardImages.find((element) => {
           return element.startTime < this.time && element.endTime > this.time
         })
-        this.currentImg = currentImg ? currentImg : { imgId: 0 }
+        this.currentImg = currentImg || { imgId: 0 }
       }
     }
   },

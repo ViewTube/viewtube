@@ -1,10 +1,6 @@
 <template>
   <div class="watch">
-    <VideoPlayer
-      :key="video.id"
-      :video="video"
-      class="video-player-p"
-    ></VideoPlayer>
+    <VideoPlayer :key="video.id" :video="video" class="video-player-p"></VideoPlayer>
     <div class="video-infobox">
       <h1 class="video-infobox-title">{{ video.title }}</h1>
       <div class="video-infobox-stats">
@@ -32,11 +28,7 @@
         <div class="infobox-channel">
           <div class="infobox-channel-image">
             <nuxt-link :to="`channel/${video.authorId}`">
-              <img
-                id="channel-img"
-                alt="channel image"
-                :src="video.authorThumbnails[2].url"
-              />
+              <img id="channel-img" alt="channel image" :src="video.authorThumbnails[2].url" />
             </nuxt-link>
           </div>
           <div class="infobox-channel-info">
@@ -47,10 +39,7 @@
             <p class="infobox-channel-subcount">{{ video.subCountText }} Subscribers</p>
           </div>
         </div>
-        <SubscribeButton
-          class="subscribe-button-watch"
-          :channelId="video.authorId"
-        />
+        <SubscribeButton class="subscribe-button-watch" :channelId="video.authorId" />
       </div>
       <div class="video-infobox-date">{{ video.publishedText }}</div>
       <div class="video-actions">
@@ -58,6 +47,7 @@
           :href="`https://getpocket.com/save?url=${encodedUrl}`"
           target="_blank"
           style="color: #EF4056;"
+          v-if="browser"
         >
           <img src="@/assets/icons/pocket.svg" />Save to pocket
         </a>
@@ -74,16 +64,9 @@
         >{{ keyword }}</nuxt-link>
       </div>
       <div class="comments-description">
-        <div
-          class="video-infobox-description links"
-          v-html="video.descriptionHtml"
-          v-clean-links
-        ></div>
+        <div class="video-infobox-description links" v-html="video.descriptionHtml" v-clean-links></div>
         <Spinner v-if="commentsLoading"></Spinner>
-        <div
-          class="comments-container"
-          v-if="!commentsLoading"
-        >
+        <div class="comments-container" v-if="!commentsLoading">
           <div class="comments-count">
             <p>{{ comment.commentCount.toLocaleString() }} comments</p>
           </div>
@@ -134,7 +117,14 @@ export default {
     commentsContinuationLoading: false,
     commons: Commons
   }),
+  mounted() {
+    this.loadComments()
+    this.$store.commit('miniplayer/setCurrentVideo', this.video)
+  },
   computed: {
+    browser() {
+      return process.browser
+    },
     encodedUrl() {
       if (process.browser) {
         return encodeURIComponent(window.location.href)
@@ -152,12 +142,6 @@ export default {
       })
   },
   methods: {
-    loadData(data) {
-      this.video = data
-      this.loading = false
-      this.loadComments()
-      this.$store.commit('miniplayer/setCurrentVideo', this.video)
-    },
     async loadComments() {
       const videoId = this.$route.query.v
       fetch(`${Commons.getApiUrl()}comments/${videoId}`, {
