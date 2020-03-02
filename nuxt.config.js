@@ -53,6 +53,7 @@ export default {
     '@nuxtjs/style-resources',
     '@nuxtjs/pwa',
     'portal-vue/nuxt',
+    'cookie-universal-nuxt'
     // Doc: https://axios.nuxtjs.org/usage'
   ],
   /*
@@ -81,7 +82,6 @@ export default {
       'raw-loader',
       'register-service-worker',
       'tippy.js',
-      'vue-cookie',
       'vue-global-var',
       'vue-lazyload',
       'vuex-persist'

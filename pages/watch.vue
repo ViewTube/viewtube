@@ -1,7 +1,11 @@
 <template>
   <div class="watch">
-    <VideoPlayer v-if="!loading" :key="video.id" :video="video" class="video-player-p"></VideoPlayer>
-    <div class="video-infobox" v-if="!loading">
+    <VideoPlayer
+      :key="video.id"
+      :video="video"
+      class="video-player-p"
+    ></VideoPlayer>
+    <div class="video-infobox">
       <h1 class="video-infobox-title">{{ video.title }}</h1>
       <div class="video-infobox-stats">
         <p class="infobox-views">{{ video.viewCount.toLocaleString() }} views</p>
@@ -27,41 +31,59 @@
       <div class="video-infobox-channel">
         <div class="infobox-channel">
           <div class="infobox-channel-image">
-            <router-link :to="`channel/${video.authorId}`">
-              <img id="channel-img" alt="channel image" :src="video.authorThumbnails[2].url" />
-            </router-link>
+            <nuxt-link :to="`channel/${video.authorId}`">
+              <img
+                id="channel-img"
+                alt="channel image"
+                :src="video.authorThumbnails[2].url"
+              />
+            </nuxt-link>
           </div>
           <div class="infobox-channel-info">
-            <router-link
+            <nuxt-link
               :to="`channel/${video.authorId}`"
               class="infobox-channel-name ripple"
-            >{{ video.author }}</router-link>
+            >{{ video.author }}</nuxt-link>
             <p class="infobox-channel-subcount">{{ video.subCountText }} Subscribers</p>
           </div>
         </div>
-        <SubscribeButton class="subscribe-button-watch" :channelId="video.authorId" />
+        <SubscribeButton
+          class="subscribe-button-watch"
+          :channelId="video.authorId"
+        />
       </div>
       <div class="video-infobox-date">{{ video.publishedText }}</div>
       <div class="video-actions">
-        <a :href="`https://getpocket.com/save?url=${encodedUrl}`" target="_blank" style="color: #EF4056;">
+        <a
+          :href="`https://getpocket.com/save?url=${encodedUrl}`"
+          target="_blank"
+          style="color: #EF4056;"
+        >
           <img src="@/assets/icons/pocket.svg" />Save to pocket
         </a>
       </div>
       <p class="video-infobox-text">tags:</p>
       <div class="video-infobox-tags">
-        <router-link
+        <nuxt-link
           class="video-infobox-tag badge-btn"
           v-for="keyword in video.keywords"
           :key="keyword"
           :to="`results?search_query=${keyword}`"
           target="_blank"
           v-ripple
-        >{{ keyword }}</router-link>
+        >{{ keyword }}</nuxt-link>
       </div>
       <div class="comments-description">
-        <div class="video-infobox-description links" v-html="video.descriptionHtml" v-clean-links></div>
+        <div
+          class="video-infobox-description links"
+          v-html="video.descriptionHtml"
+          v-clean-links
+        ></div>
         <Spinner v-if="commentsLoading"></Spinner>
-        <div class="comments-container" v-if="!commentsLoading">
+        <div
+          class="comments-container"
+          v-if="!commentsLoading"
+        >
           <div class="comments-count">
             <p>{{ comment.commentCount.toLocaleString() }} comments</p>
           </div>
@@ -92,6 +114,7 @@ import ThumbsDown from 'vue-material-design-icons/ThumbDown'
 import VideoPlayer from '@/components/videoplayer/VideoPlayer'
 import SubscribeButton from '@/components/buttons/SubscribeButton'
 import Comment from '@/components/Comment'
+import Invidious from '@/plugins/services/invidious'
 
 export default {
   name: 'watch',
@@ -106,7 +129,6 @@ export default {
   data: () => ({
     video: [],
     comment: null,
-    loading: true,
     commentsLoading: true,
     commentsContinuationLink: null,
     commentsContinuationLoading: false,
@@ -114,35 +136,20 @@ export default {
   }),
   computed: {
     encodedUrl() {
-      return encodeURIComponent(window.location.href)
+      if (process.browser) {
+        return encodeURIComponent(window.location.href)
+      } else {
+        return ''
+      }
     }
   },
-  beforeRouteEnter(to, from, next) {
-    window.invidious.api.videos({
-      id: to.query.v
-    }).then(response => next(vm => vm.loadData(response.data)))
+  asyncData({ query }) {
+    return Invidious.api.videos({
+      id: query.v
+    }).then(response => ({ video: response.data }))
       .catch(error => {
         console.error(error)
       })
-  },
-  beforeRouteUpdate(to, from, next) {
-    const videoId = to.query.v
-    fetch(`${Commons.getApiUrl()}videos/${videoId}`, {
-      cache: 'force-cache',
-      method: 'GET'
-    })
-      .then(response => response.json())
-      .then(data => {
-        this.loadData(data)
-        next()
-      })
-      .catch(error => {
-        console.error(error)
-        next()
-      })
-  },
-  beforeRouteLeave(to, from, next) {
-    next()
   },
   methods: {
     loadData(data) {
@@ -375,8 +382,8 @@ export default {
       width: 100%;
     }
 
-    .video-actions{
-      img{
+    .video-actions {
+      img {
         position: relative;
         top: 6px;
         left: 2px;

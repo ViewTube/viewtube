@@ -60,7 +60,7 @@ export default {
       if (this.card.type === 'website') {
         return 'a'
       }
-      return 'router-link'
+      return 'nuxt-link'
     },
     linkUrl() {
       if (this.card.type === 'website') {

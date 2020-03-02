@@ -1,17 +1,17 @@
 <template>
   <div class="channel-entry">
     <div class="channel-entry-background"></div>
-    <router-link class="channel-entry-thmb" :to="{path: '/channel/' + channel.authorId}">
+    <nuxt-link class="channel-entry-thmb" :to="{path: '/channel/' + channel.authorId}">
       <div class="thmb-image-container">
         <img class="channel-entry-thmb-image" :src="channel.authorThumbnails[2].url" />
       </div>
-    </router-link>
+    </nuxt-link>
     <div class="channel-entry-info">
-      <router-link
+      <nuxt-link
         class="channel-entry-title tooltip"
         :to="{path: '/channel/' + channel.authorId}"
         :data-tippy-content="channel.author"
-      >{{ channel.author }}</router-link>
+      >{{ channel.author }}</nuxt-link>
       <div class="channel-entry-stats">
         <p class="channel-entry-videocount">{{ channel.videoCount }} videos</p>
         <p class="channel-entry-subcount">{{ channel.subCount.toLocaleString() }} subscribers</p>

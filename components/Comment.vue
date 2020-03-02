@@ -1,19 +1,19 @@
 <template>
   <div class="comment" :class="{ open: repliesLoaded }">
-    <router-link :to="{path: '/channel/' + comment.authorId}">
+    <nuxt-link :to="{path: '/channel/' + comment.authorId}">
       <img
         class="comment-author-image"
         :src="comment.authorThumbnails[2].url"
         :alt="comment.author"
       />
-    </router-link>
+    </nuxt-link>
     <div class="comment-container">
       <div class="comment-author">
-        <router-link
+        <nuxt-link
           class="comment-author-link"
           :to="{path: '/channel/' + comment.authorId}"
           :class="{ owner: comment.authorIsChannelOwner }"
-        >{{ comment.author }}</router-link>
+        >{{ comment.author }}</nuxt-link>
       </div>
       <div class="comment-content" v-html="comment.content"></div>
       <div class="comment-properties">

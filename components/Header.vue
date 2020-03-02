@@ -1,6 +1,6 @@
 <template>
   <div class="header">
-    <router-link class="logo-link" to="/">
+    <nuxt-link class="logo-link" to="/">
       <h1 class="logo">
         <span>View</span>
         <span class="logo-colored">Tube</span>
@@ -11,10 +11,10 @@
         src="@/assets/icon-background-192.jpg"
         alt="ViewTube"
       />
-    </router-link>
+    </nuxt-link>
     <MainSearchBox />
     <div class="nav">
-      <router-link
+      <nuxt-link
         to="/login"
         id="login"
         class="tooltip nav-btn main"
@@ -22,23 +22,23 @@
         v-if="!userAuthenticated"
         v-html="'Login'"
         v-ripple
-      >Login</router-link>
-      <router-link
+      >Login</nuxt-link>
+      <nuxt-link
         to="/register"
         id="register"
         class="tooltip nav-btn"
         data-tippy-content="register"
         v-if="!userAuthenticated"
         v-ripple
-      >Register</router-link>
-      <router-link
+      >Register</nuxt-link>
+      <nuxt-link
         to="/subscriptions"
         id="subscriptions"
         class="tooltip nav-btn main"
         data-tippy-content="view your subscriptions"
         v-show="userAuthenticated"
         v-ripple
-      >Subscriptions</router-link>
+      >Subscriptions</nuxt-link>
       <a
         href="#"
         @click="showAccountMenu"

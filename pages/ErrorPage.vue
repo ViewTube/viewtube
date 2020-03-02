@@ -6,10 +6,10 @@
     <div class="error-popup">
       <div class="error-message">
         <h2>{{ possibleSearch }} not found</h2>
-        <router-link
+        <nuxt-link
           class="rippe"
           :to="`/results?search_query=${possibleSearch}`"
-        >Search for {{ possibleSearch }}</router-link>
+        >Search for {{ possibleSearch }}</nuxt-link>
       </div>
     </div>
   </div>

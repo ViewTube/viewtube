@@ -1,7 +1,7 @@
 <template>
   <div class="video-entry">
     <div class="video-entry-background"></div>
-    <router-link
+    <nuxt-link
       class="video-entry-thmb"
       :to="{path: '/watch?v=' + video.videoId}"
       :data-tippy-content="videoProgressTooltip"
@@ -21,18 +21,18 @@
       </div>
       <div class="video-saved-progress" :style="{ width: `${videoProgressPercentage}%` }"></div>
       <span class="video-entry-length">{{ commons.getTimestampFromSeconds(video.lengthSeconds) }}</span>
-    </router-link>
+    </nuxt-link>
     <div class="video-entry-info">
-      <router-link
+      <nuxt-link
         class="video-entry-title tooltip"
         :to="{path: '/watch?v=' + video.videoId}"
         :data-tippy-content="video.title"
-      >{{ video.title }}</router-link>
-      <router-link
+      >{{ video.title }}</nuxt-link>
+      <nuxt-link
         class="video-entry-channel tooltip"
         :to="{path: '/channel/' + video.authorId}"
         :data-tippy-content="video.author"
-      >{{ video.author }}</router-link>
+      >{{ video.author }}</nuxt-link>
       <div class="video-entry-stats">
         <p
           class="video-entry-views"

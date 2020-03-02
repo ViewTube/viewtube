@@ -1,23 +1,23 @@
 <template>
   <div class="playlist-entry">
     <div class="playlist-entry-background"></div>
-    <router-link class="playlist-entry-thmb" :to="{path: '/watch?v=' + playlist.videos[0].videoId}">
+    <nuxt-link class="playlist-entry-thmb" :to="{path: '/watch?v=' + playlist.videos[0].videoId}">
       <div class="thmb-image-container">
         <img class="playlist-entry-thmb-image" :src="playlist.videos[0].videoThumbnails[2].url" />
       </div>
       <span class="playlist-entry-count">{{ playlist.videoCount }} videos</span>
-    </router-link>
+    </nuxt-link>
     <div class="playlist-entry-info">
-      <router-link
+      <nuxt-link
         class="playlist-entry-title tooltip"
         :to="{path: '/watch?v=' + playlist.videos[0].videoId}"
         :data-tippy-content="playlist.title"
-      >{{ playlist.title }}</router-link>
-      <router-link
+      >{{ playlist.title }}</nuxt-link>
+      <nuxt-link
         class="playlist-entry-channel tooltip"
         :to="{path: '/channel/' + playlist.authorId}"
         :data-tippy-content="playlist.author"
-      >{{ playlist.author }}</router-link>
+      >{{ playlist.author }}</nuxt-link>
     </div>
   </div>
 </template>

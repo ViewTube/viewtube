@@ -1,6 +1,13 @@
 <template>
-  <div class="seekbar-preview" v-if="storyboardImages">
-    <div class="preview-image" v-for="(imgSrc, id) in storyboardBaseImages" :key="id">
+  <div
+    class="seekbar-preview"
+    v-if="storyboardImages"
+  >
+    <div
+      class="preview-image"
+      v-for="(imgSrc, id) in storyboardBaseImages"
+      :key="id"
+    >
       <img
         :src="imgSrc"
         v-if="currentImg.imgId === id"
@@ -12,6 +19,7 @@
 
 <script>
 import '@/plugins/services/webVTTParser'
+import Invidious from '@/plugins/services/invidious'
 
 export default {
   name: 'seekbar-preview',
@@ -30,10 +38,12 @@ export default {
     storyboardVTT: null,
     storyboardImages: null,
     storyboardBaseImages: [],
-    currentImg: 0
+    currentImg: {
+      imgId: 0
+    }
   }),
   mounted() {
-    window.invidious.api.storyboards({
+    Invidious.api.storyboards({
       id: this.videoId,
       params: {
         width: 160,
@@ -48,9 +58,10 @@ export default {
   watch: {
     time(newValue) {
       if (this.storyboardImages) {
-        this.currentImg = this.storyboardImages.find((element) => {
+        const currentImg = this.storyboardImages.find((element) => {
           return element.startTime < this.time && element.endTime > this.time
         })
+        this.currentImg = currentImg ? currentImg : { imgId: 0 }
       }
     }
   },

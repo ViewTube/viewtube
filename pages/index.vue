@@ -79,7 +79,7 @@ export default {
       }
     },
     getSubscriptions() {
-      const jwt = this.$cookie.get('jwt')
+      const jwt = this.$cookies.get('jwt')
       const me = this
       fetch(`${Commons.getOwnApiUrl()}subscriptions/getSubscriptionFeed.php?limit=4`, {
         cache: 'force-cache',

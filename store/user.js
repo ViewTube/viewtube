@@ -1,5 +1,4 @@
 import Authentication from '@/plugins/services/authentication.js'
-import 'vue-cookie'
 import Commons from '@/plugins/commons.js'
 
 export default {

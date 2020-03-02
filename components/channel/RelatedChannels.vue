@@ -1,6 +1,6 @@
 <template>
   <div class="related-channels" v-if="channel.relatedChannels.length > 0">
-    <router-link
+    <nuxt-link
       class="related-channel"
       v-ripple
       v-for="channelEntry in channel.relatedChannels"
@@ -13,12 +13,12 @@
         </div>
       </div>
       <div class="related-channel-info">
-        <router-link
+        <nuxt-link
           class="related-channel-title"
           :to="{path: '/channel/' + channelEntry.authorId}"
-        >{{ channelEntry.author }}</router-link>
+        >{{ channelEntry.author }}</nuxt-link>
       </div>
-    </router-link>
+    </nuxt-link>
   </div>
 </template>
 

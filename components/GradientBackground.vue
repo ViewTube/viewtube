@@ -3,7 +3,7 @@
     <div
       class="gradient-background"
       :class="color"
-      :hide="$store.getters.theme !== 'default'"
+      :hide="$store.getters['settings/theme'] !== 'default'"
     >
       <span class="background-shadow"></span>
     </div>
