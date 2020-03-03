@@ -62,6 +62,7 @@ const invidious = {
         'videoId',
         'videoThumbnails',
         'storyboards',
+        'description',
         'descriptionHtml',
         'publishedText',
         'viewCount',

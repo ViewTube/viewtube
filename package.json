@@ -16,7 +16,6 @@
     "not Edge 18"
   ],
   "dependencies": {
-    "@nuxtjs/pwa": "^3.0.0-beta.20",
     "axios": "^0.19.2",
     "cookie-universal-nuxt": "^2.1.2",
     "core-js": "2",

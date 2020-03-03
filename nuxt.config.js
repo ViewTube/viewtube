@@ -1,27 +1,26 @@
 export default {
   mode: 'universal',
-  /*
-  ** Headers of the page
-  */
+
   head: {
     title: 'ViewTube',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: 'An alternative YouTube frontend using the invidio.us API.' },
-      { name: "theme-color", content: "#121212" }
+      { name: 'theme-color', content: '#121212' },
+      { hid: 'ogTitle', property: 'og:title', content: 'ViewTube' },
+      { property: 'og:type', content: 'website' },
+      { hid: 'ogImage', property: 'og:image', itemprop: 'image', content: 'https://viewtube.eu/icon-256.png' },
+      { hid: 'ogDescription', property: 'og:description', content: 'An alternative YouTube frontend using the invidio.us API.' },
+      { property: 'og:locale', content: 'en_US' }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: 'favicon.ico' }
     ]
   },
-  /*
-  ** Customize the progress-bar color
-  */
+
   loading: { color: '#ff7b3b' },
-  /*
-  ** Global CSS
-  */
+
   css: [
   ],
 
@@ -30,17 +29,12 @@ export default {
       '~/assets/styles/global/*.scss'
     ]
   },
-  /*
-  ** Plugins to load before mounting the App
-  */
+
   plugins: [
     '@/plugins/directives/index'
   ],
-  /*
-  ** Nuxt.js dev-modules
-  */
+
   buildModules: [
-    // Doc: https://github.com/nuxt-community/eslint-module
   ],
 
   render: {
@@ -51,20 +45,13 @@ export default {
   },
   modules: [
     '@nuxtjs/style-resources',
-    '@nuxtjs/pwa',
     'portal-vue/nuxt',
     'cookie-universal-nuxt'
-    // Doc: https://axios.nuxtjs.org/usage'
   ],
-  /*
-  ** Axios module configuration
-  ** See https://axios.nuxtjs.org/options
-  */
+
   axios: {
   },
-  /*
-  ** Build configuration
-  */
+
   build: {
     postcss: {
       plugins: [
@@ -78,7 +65,6 @@ export default {
       'vue-material-design-icons',
       '/plugins',
       'dashjs',
-      // 'interactjs',
       'raw-loader',
       'register-service-worker',
       'tippy.js',
