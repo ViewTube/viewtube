@@ -1,6 +1,10 @@
 export default {
   mode: 'universal',
 
+  server: {
+    port: 8069
+  },
+
   head: {
     title: 'ViewTube',
     meta: [
