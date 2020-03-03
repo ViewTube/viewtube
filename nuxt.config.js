@@ -16,7 +16,8 @@ export default {
       { property: 'og:type', content: 'website' },
       { hid: 'ogImage', property: 'og:image', itemprop: 'image', content: 'https://viewtube.eu/icon-256.png' },
       { hid: 'ogDescription', property: 'og:description', content: 'An alternative YouTube frontend using the invidio.us API.' },
-      { property: 'og:locale', content: 'en_US' }
+      { property: 'og:locale', content: 'en_US' },
+      { property: 'og:site_name', content: 'ViewTube' }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: 'favicon.ico' }

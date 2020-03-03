@@ -124,7 +124,8 @@ export default {
         { hid: 'description', vmid: 'descriptionMeta', name: 'description', content: this.video.description.substring(0, 100) },
         { hid: 'ogTitle', property: 'og:title', content: `${this.video.title} - ${this.video.author} - ViewTube` },
         { hid: 'ogImage', property: 'og:image', itemprop: 'image', content: this.video.videoThumbnails[2].url },
-        { hid: 'ogDescription', property: 'og:description', content: this.video.description.substring(0, 100) }
+        { hid: 'ogDescription', property: 'og:description', content: this.video.description.substring(0, 100) },
+        { property: 'og:video', content: this.video.formatStreams[0].url }
       ]
     }
   },
