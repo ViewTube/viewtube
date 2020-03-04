@@ -3,7 +3,7 @@ name: FTP Deploy
 on: 
   push:
     branches: 
-      - master
+      - nuxt-migration
 
 jobs:
   build:
