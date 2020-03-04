@@ -8,7 +8,7 @@ on:
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     strategy:
       matrix:
@@ -27,21 +27,13 @@ jobs:
       
     - name: build
       run: |
+        sudo cd ../viewtube-vue
         sudo yarn install
         sudo yarn build --if-present
+        sudo pm2 restart viewtube-pm2.json
         
     - name: List output files
       run: ls dist
-        
-    - name: FTP-Deploy-Action
-      uses: SamKirkland/FTP-Deploy-Action@2.0.0
-      env:
-        FTP_SERVER: ${{ secrets.FTP_SERVER }}
-        FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
-        FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
-        LOCAL_DIR: dist
-        REMOTE_DIR: www/viewtube.eu
-        ARGS: --delete
         
     - name: Notifier
       uses: GokulDas027/TelegramBridge@master
