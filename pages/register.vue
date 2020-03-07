@@ -1,19 +1,51 @@
 <template>
   <div class="register">
-    <div class="register-container" :class="{ loading: loading }">
+    <div
+      class="register-container"
+      :class="{ loading: loading }"
+    >
       <h2 class="register-title">Register</h2>
       <span class="status-message-display message-display">{{ statusMessage }}</span>
       <Spinner />
-      <form id="register" method="post" @submit.prevent="register" ref="registerForm">
-        <FormInput :id="'username'" v-model="username" :label="'username'" :type="'username'" />
-        <FormInput :id="'password'" v-model="password" :label="'password'" :type="'password'" />
+      <form
+        id="register"
+        method="post"
+        @submit.prevent="register"
+        ref="registerForm"
+      >
+        <FormInput
+          :id="'username'"
+          v-model="username"
+          :label="'username'"
+          :type="'username'"
+        />
+        <FormInput
+          :id="'password'"
+          v-model="password"
+          :label="'password'"
+          :type="'password'"
+        />
         <FormInput
           :id="'repeat-password'"
           v-model="repeatPassword"
           :label="'Repeat password'"
           :type="'password'"
         />
-        <div class="captcheck_container"></div>
+        <div class="captcha-container">
+          <div class="captcha-box">
+            <img
+              class="captcha-image"
+              :src="captchaImage"
+              alt="Captcha image"
+            >
+          </div>
+        </div>
+        <FormInput
+          :id="'image-captcha'"
+          v-model="captchaSolution"
+          :label="'Captcha'"
+          :type="'text'"
+        />
         <SubmitButton :label="'Register'" />
       </form>
     </div>
@@ -21,8 +53,6 @@
 </template>
 
 <script>
-import UserStore from '@/store/user.js'
-import Captcheck from '@/plugins/services/captcheck.js'
 import FormInput from '@/components/form/FormInput'
 import SubmitButton from '@/components/form/SubmitButton'
 import Spinner from '@/components/Spinner'
@@ -39,45 +69,42 @@ export default {
     username: null,
     password: null,
     repeatPassword: null,
-    state: UserStore.state,
+    captchaSolution: null,
     statusMessage: '',
+    errorMessage: '',
     redirectedPage: 'home'
   }),
+  computed: {
+    captchaImage() {
+      return this.$store.getters['captcha/image']
+    }
+  },
+  mounted() {
+    this.$store.dispatch('captcha/getCaptcha')
+  },
   methods: {
     register(e) {
       this.loading = true
       const me = this
 
-      const formData = this.$refs.registerForm.elements
-      const captcheckSessionCode = formData.captcheck_session_code.value
-      const captcheckSelectedAnswer = formData.captcheck_selected_answer.value
-
-      Captcheck.reloadCaptcheck()
-
-      UserStore.register({
-        username: me.username,
-        password: me.password,
-
-        captcheckSessionCode: captcheckSessionCode,
-        captcheckSelectedAnswer: captcheckSelectedAnswer,
-
-        callback() {
-          me.$store.dispatch('createMessage', {
+      this.$store.dispatch('user/register', this.username, this.password, this.captchaSolution)
+        .then((result) => {
+          me.$store.dispatch('messages/createMessage', {
             type: 'info',
             title: 'Registration successful',
             message: 'Redirecting...'
           })
           me.$router.push(me.redirectedPage.fullPath)
-        },
-        failure() {
+        })
+        .catch((err) => {
+          console.error(err)
           me.loading = false
-          me.$store.dispatch('createMessage', {
+          me.$store.dispatch('messages/createMessage', {
             type: 'error',
             title: 'Registration failed',
-            message: me.state.errorMessage
+            message: me.errorMessage
           })
-        }
-      })
+        })
     },
     checkRepeatPasswords() {
       if (this.password !== this.repeatPassword) {
@@ -94,9 +121,6 @@ export default {
     repeatPassword() {
       this.checkRepeatPasswords()
     }
-  },
-  mounted() {
-    Captcheck.initCaptcheck()
   },
   beforeRouteEnter(to, from, next) {
     next(vm => {
@@ -115,13 +139,14 @@ export default {
 <style lang="scss">
 .register {
   width: 100%;
-  height: 100%;
+  height: calc(100% - #{$header-height});
   display: flex;
   background-size: cover;
   background-repeat: no-repeat;
   position: relative;
   background-color: var(--bgcolor-alt);
   padding-top: $header-height;
+  overflow-y: scroll;
 
   @media screen and (min-width: $mobile-width) {
     background-image: url("/img/blur-bg-medium-dark.jpg");
@@ -189,52 +214,25 @@ export default {
       box-sizing: border-box;
       transition: opacity 300ms $intro-easing;
 
-      .captcheck_container {
+      .captcha-container {
         width: calc(100% - 40px);
         display: flex;
         margin: 20px 20px;
-        border-radius: 4px;
-        height: 125px;
+        height: auto;
 
-        .captcheck_box {
-          padding: 12px 12px;
-          margin: auto;
+        .captcha-box {
+          // margin: auto;
           border: 2px solid var(--bgcolor-alt-light);
           width: 100%;
           background-color: transparent;
           color: var(--subtitle-color-light);
+          border-radius: 4px;
+          overflow: hidden;
 
-          .captcheck_label_message,
-          .captcheck_label_message b {
-            color: var(--subtitle-color-light);
-            font-family: $default-font;
-            margin: 0 0 10px 0;
-          }
-
-          .captcheck_answer_images {
+          .captcha-image {
             width: 100%;
-            height: 70px;
-
-            flex-direction: row;
-            justify-content: space-between;
-
-            &:not([style="display: none;"]) {
-              display: flex !important;
-            }
-
-            .captcheck_answer_label {
-              input + img {
-                width: 100%;
-                filter: invert(100) opacity(1);
-                transition: border 300ms $intro-easing;
-              }
-
-              input:checked + img {
-                cursor: pointer;
-                border: 2px solid var(--bgcolor-alt-light);
-                border-radius: 4px;
-              }
-            }
+            filter: invert(90%);
+            margin: -20px 0 -20px 0;
           }
         }
       }

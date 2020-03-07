@@ -6,7 +6,6 @@ import './registerServiceWorker'
 import 'vue-material-design-icons/styles.css'
 import VueHeadful from 'vue-headful'
 import PortalVue from 'portal-vue'
-import UserStore from '../store/user'
 import VueProgressBar from 'vue-progressbar'
 import 'vue-cookie'
 import VueLazyload from 'vue-lazyload'
@@ -27,7 +26,6 @@ const progressOptions = {
 
 Vue.use(VueProgressBar, progressOptions)
 Vue.use(FormattingFunctions)
-Vue.use(VueCookie)
 Vue.use(PortalVue)
 Vue.use(VueLazyload, {
   observer: true,
@@ -41,15 +39,6 @@ window.invidious = invidious
 
 Vue.component('vue-headful', VueHeadful)
 Vue.config.productionTip = false
-
-UserStore.getCurrentUser({
-  callback: () => {
-    console.log('User logged in')
-  },
-  failure: (errorMsg) => {
-    console.log('Not logged in: ' + errorMsg)
-  }
-})
 
 new Vue({
   router,

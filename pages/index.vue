@@ -36,7 +36,6 @@ import Commons from '@/plugins/commons.js'
 import VideoEntry from '@/components/list/VideoEntry'
 import BottomNavigation from '@/components/BottomNavigation'
 import SectionTitle from '@/components/SectionTitle.vue'
-import UserStore from '@/store/user.js'
 import GradientBackground from '@/components/GradientBackground.vue'
 import Invidious from '@/plugins/services/invidious'
 
@@ -52,13 +51,11 @@ export default {
     videos: [],
     subscriptions: [],
     loading: true,
-    commons: Commons,
-    loginState: UserStore.state
-
+    commons: Commons
   }),
   computed: {
     userAuthenticated() {
-      return Boolean(this.loginState.username)
+      return this.$store.getters['user/isLoggedIn']
     }
   },
   asyncData({ params }) {

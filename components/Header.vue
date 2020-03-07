@@ -1,6 +1,9 @@
 <template>
   <div class="header">
-    <nuxt-link class="logo-link" to="/">
+    <nuxt-link
+      class="logo-link"
+      to="/"
+    >
       <h1 class="logo">
         <span>View</span>
         <span class="logo-colored">Tube</span>
@@ -50,7 +53,11 @@
         <AccountIcon />
       </a>
       <transition name="circle">
-        <div class="menu" v-if="accountMenuVisible" v-clickaway="hideAccountMenu">
+        <div
+          class="menu"
+          v-if="accountMenuVisible"
+          v-clickaway="hideAccountMenu"
+        >
           <a
             href="#"
             v-if="!userAuthenticated"
@@ -81,11 +88,18 @@
           >
             <AccountPlusIcon />Subscriptions
           </a>
-          <div class="account-menu" v-if="userAuthenticated">
+          <div
+            class="account-menu"
+            v-if="userAuthenticated"
+          >
             <AccountIcon />
             <div class="account-info">
-              <p class="account-name">{{ loginState.username }}</p>
-              <a class="logout-btn" href="#" @click.prevent="logout">Log out</a>
+              <p class="account-name">{{ $store.getters['user/username'] }}</p>
+              <a
+                class="logout-btn"
+                href="#"
+                @click.prevent="logout"
+              >Log out</a>
             </div>
           </div>
           <a
@@ -119,8 +133,14 @@
       </transition>
     </div>
     <transition name="fade-down">
-      <Settings v-if="settingsOpen" @close="closeSettings" />
-      <About v-if="aboutOpen" @close="closeAbout" />
+      <Settings
+        v-if="settingsOpen"
+        @close="closeSettings"
+      />
+      <About
+        v-if="aboutOpen"
+        @close="closeAbout"
+      />
     </transition>
   </div>
 </template>
@@ -133,7 +153,6 @@ import MainSearchBox from '@/components/MainSearchBox'
 import AccountIcon from 'vue-material-design-icons/AccountCircle'
 import AccountPlusIcon from 'vue-material-design-icons/AccountPlus'
 import tippy from 'tippy.js'
-import UserStore from '@/store/user'
 import Settings from '@/components/Settings'
 import About from '@/components/About'
 
@@ -154,7 +173,6 @@ export default {
   },
   data: () => ({
     accountMenuVisible: false,
-    loginState: UserStore.state,
     settingsOpen: false,
     aboutOpen: false
   }),
@@ -207,7 +225,7 @@ export default {
       this.hideAccountMenu()
     },
     logout() {
-      UserStore.logout()
+      this.$store.dispatch('user/logout')
       this.hideAccountMenu()
     }
   },
@@ -225,7 +243,7 @@ export default {
       return this.$route.name
     },
     userAuthenticated() {
-      return Boolean(this.loginState.username)
+      return this.$store.getters['user/isLoggedIn']
     }
   }
 }
@@ -300,7 +318,7 @@ export default {
       display: flex;
       margin: 4px 0 0 0;
 
-      span{
+      span {
         display: block;
       }
 
