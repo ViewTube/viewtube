@@ -1,90 +1,114 @@
 <template>
   <div class="watch">
-    <VideoPlayer :key="video.id" :video="video" class="video-player-p"></VideoPlayer>
-    <div class="video-infobox">
-      <h1 class="video-infobox-title">{{ video.title }}</h1>
-      <div class="video-infobox-stats">
-        <p class="infobox-views">{{ video.viewCount.toLocaleString() }} views</p>
-        <div class="infobox-rating">
-          <div class="infobox-likecount">
-            <div class="infobox-likes">
-              <ThumbsUp class="thumbs-icon"></ThumbsUp>
-              <p class="like-count">{{ video.likeCount.toLocaleString() }}</p>
+    <VideoPlayer
+      :key="video.id"
+      :video="video"
+      class="video-player-p"
+    ></VideoPlayer>
+    <div class="video-meta">
+      <div class="video-infobox">
+        <h1 class="video-infobox-title">{{ video.title }}</h1>
+        <div class="video-infobox-stats">
+          <p class="infobox-views">{{ video.viewCount.toLocaleString() }} views</p>
+          <div class="infobox-rating">
+            <div class="infobox-likecount">
+              <div class="infobox-likes">
+                <ThumbsUp class="thumbs-icon"></ThumbsUp>
+                <p class="like-count">{{ video.likeCount.toLocaleString() }}</p>
+              </div>
+              <div class="infobox-dislikes">
+                <ThumbsDown class="thumbs-icon"></ThumbsDown>
+                <p class="dislike-count">{{ video.dislikeCount.toLocaleString() }}</p>
+              </div>
             </div>
-            <div class="infobox-dislikes">
-              <ThumbsDown class="thumbs-icon"></ThumbsDown>
-              <p class="dislike-count">{{ video.dislikeCount.toLocaleString() }}</p>
+            <div class="like-ratio">
+              <div
+                class="like-ratio-bar"
+                :style="{ width: (video.likeCount / (video.dislikeCount + video.likeCount)) * 100 + '%' }"
+              ></div>
             </div>
-          </div>
-          <div class="like-ratio">
-            <div
-              class="like-ratio-bar"
-              :style="{ width: (video.likeCount / (video.dislikeCount + video.likeCount)) * 100 + '%' }"
-            ></div>
           </div>
         </div>
-      </div>
-      <div class="video-infobox-channel">
-        <div class="infobox-channel">
-          <div class="infobox-channel-image">
-            <nuxt-link :to="`channel/${video.authorId}`">
-              <img id="channel-img" alt="channel image" :src="video.authorThumbnails[2].url" />
-            </nuxt-link>
+        <div class="video-infobox-channel">
+          <div class="infobox-channel">
+            <div class="infobox-channel-image">
+              <nuxt-link :to="`channel/${video.authorId}`">
+                <img
+                  id="channel-img"
+                  alt="channel image"
+                  :src="video.authorThumbnails[2].url"
+                />
+              </nuxt-link>
+            </div>
+            <div class="infobox-channel-info">
+              <nuxt-link
+                :to="`channel/${video.authorId}`"
+                class="infobox-channel-name ripple"
+              >{{ video.author }}</nuxt-link>
+              <p class="infobox-channel-subcount">{{ video.subCountText }} Subscribers</p>
+            </div>
           </div>
-          <div class="infobox-channel-info">
-            <nuxt-link
-              :to="`channel/${video.authorId}`"
-              class="infobox-channel-name ripple"
-            >{{ video.author }}</nuxt-link>
-            <p class="infobox-channel-subcount">{{ video.subCountText }} Subscribers</p>
-          </div>
-        </div>
-        <SubscribeButton class="subscribe-button-watch" :channelId="video.authorId" />
-      </div>
-      <div class="video-infobox-date">{{ video.publishedText }}</div>
-      <div class="video-actions">
-        <a
-          :href="`https://getpocket.com/save?url=${encodedUrl}`"
-          target="_blank"
-          style="color: #EF4056;"
-          v-if="browser"
-        >
-          <img src="@/assets/icons/pocket.svg" />Save to pocket
-        </a>
-      </div>
-      <p class="video-infobox-text">tags:</p>
-      <div class="video-infobox-tags">
-        <nuxt-link
-          class="video-infobox-tag badge-btn"
-          v-for="keyword in video.keywords"
-          :key="keyword"
-          :to="`results?search_query=${keyword}`"
-          target="_blank"
-          v-ripple
-        >{{ keyword }}</nuxt-link>
-      </div>
-      <div class="comments-description">
-        <div class="video-infobox-description links" v-html="video.descriptionHtml" v-clean-links></div>
-        <Spinner v-if="commentsLoading"></Spinner>
-        <div class="comments-container" v-if="!commentsLoading">
-          <div class="comments-count">
-            <p>{{ comment.commentCount.toLocaleString() }} comments</p>
-          </div>
-          <Comment
-            v-for="(comment, i) in comment.comments"
-            :comment="comment"
-            :key="i"
-            :creatorName="video.author"
+          <SubscribeButton
+            class="subscribe-button-watch"
+            :channelId="video.authorId"
           />
+        </div>
+        <div class="video-infobox-date">{{ video.publishedText }}</div>
+        <div class="video-actions">
           <a
-            class="badge-btn"
-            href="#"
-            @click.prevent="loadMoreComments"
-            v-if="commentsContinuationLink && !commentsContinuationLoading"
-          >show more</a>
-          <Spinner v-if="commentsContinuationLoading"></Spinner>
+            :href="`https://getpocket.com/save?url=${encodedUrl}`"
+            target="_blank"
+            style="color: #EF4056;"
+          >
+            <img src="@/assets/icons/pocket.svg">
+            Save to pocket
+          </a>
+        </div>
+        <p class="video-infobox-text">tags:</p>
+        <div class="video-infobox-tags">
+          <nuxt-link
+            class="video-infobox-tag badge-btn"
+            v-for="keyword in video.keywords"
+            :key="keyword"
+            :to="`results?search_query=${keyword}`"
+            target="_blank"
+            v-ripple
+          >{{ keyword }}</nuxt-link>
+        </div>
+        <div class="comments-description">
+          <div
+            class="video-infobox-description links"
+            v-html="video.descriptionHtml"
+            v-clean-links
+          ></div>
+          <Spinner v-if="commentsLoading"></Spinner>
+          <div
+            class="comments-container"
+            v-if="!commentsLoading"
+          >
+            <div class="comments-count">
+              <p>{{ comment.commentCount.toLocaleString() }} comments</p>
+            </div>
+            <Comment
+              v-for="(comment, i) in comment.comments"
+              :comment="comment"
+              :key="i"
+              :creatorName="video.author"
+            />
+            <a
+              class="badge-btn"
+              href="#"
+              @click.prevent="loadMoreComments"
+              v-if="commentsContinuationLink && !commentsContinuationLoading"
+            >show more</a>
+            <Spinner v-if="commentsContinuationLoading"></Spinner>
+          </div>
         </div>
       </div>
+      <RecommendedVideos
+        :recommendedVideos="video.recommendedVideos"
+        class="recommended-videos"
+      />
     </div>
   </div>
 </template>
@@ -98,6 +122,7 @@ import VideoPlayer from '@/components/videoplayer/VideoPlayer'
 import SubscribeButton from '@/components/buttons/SubscribeButton'
 import Comment from '@/components/Comment'
 import Invidious from '@/plugins/services/invidious'
+import RecommendedVideos from '@/components/watch/RecommendedVideos'
 
 export default {
   name: 'watch',
@@ -107,7 +132,15 @@ export default {
     ThumbsDown,
     VideoPlayer,
     SubscribeButton,
-    Comment
+    Comment,
+    RecommendedVideos
+  },
+  watchQuery(newQuery, oldQuery) {
+    console.log(newQuery)
+    const videoId = newQuery.v
+    this.loadComments(videoId)
+    this.$store.commit('miniplayer/setCurrentVideo', this.video)
+    return true
   },
   data: () => ({
     video: [],
@@ -154,8 +187,8 @@ export default {
       })
   },
   methods: {
-    async loadComments() {
-      const videoId = this.$route.query.v
+    async loadComments(evtVideoId) {
+      const videoId = evtVideoId || this.$route.query.v
       fetch(`${Commons.getApiUrl()}comments/${videoId}`, {
         cache: 'force-cache',
         method: 'GET'
@@ -196,9 +229,8 @@ export default {
 <style lang="scss">
 .watch {
   overflow-y: scroll;
-  margin-top: $header-height;
   overflow-x: hidden;
-  overflow-y: scroll;
+  margin-top: $header-height;
   perspective: 4px;
   perspective-origin: 0 0;
   height: calc(100% - #{$header-height});
@@ -210,213 +242,232 @@ export default {
     z-index: 11;
   }
 
-  .video-infobox {
-    width: 100%;
+  .video-meta {
     display: flex;
-    flex-direction: column;
-    padding: 10px;
-    box-sizing: border-box;
-    opacity: 1;
-    transition: opacity 300ms $intro-easing;
-    z-index: 400;
-    position: relative;
-    background-color: var(--bgcolor-main);
+    flex-direction: row;
+    width: 100%;
+    max-width: $main-width;
+    margin: 0 auto;
 
-    .video-infobox-title {
-      color: var(--title-color);
-      font-family: $default-font;
-      font-size: 1.4rem;
-      max-width: $main-width;
+    &::before {
+      content: "";
+      position: absolute;
       width: 100%;
-      margin: 20px auto 10px auto;
+      left: 0;
+      background-color: var(--bgcolor-main);
+      height: 100%;
+      z-index: 400;
     }
 
-    .video-infobox-tags {
-      $tag-padding-left: calc((100% - #{$main-width}) / 2);
-      margin: 5px auto 0 auto;
-      width: 100%;
-      height: 40px;
-      overflow: hidden;
-      overflow-x: auto;
-      white-space: nowrap;
-      padding: 0 0 0 $tag-padding-left;
-      scrollbar-width: none;
-      box-sizing: border-box;
-
-      &::-webkit-scrollbar {
-        display: none;
-      }
+    .recommended-videos {
+      background-color: var(--bgcolor-main);
+      z-index: 400;
     }
 
-    .video-infobox-stats {
+    .video-infobox {
+      width: 100%;
       display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      align-items: center;
+      flex-direction: column;
+      padding: 10px;
+      box-sizing: border-box;
+      opacity: 1;
+      transition: opacity 300ms $intro-easing;
+      z-index: 400;
+      position: relative;
+      background-color: var(--bgcolor-main);
       width: 100%;
-      margin: 0 auto 20px auto;
-      max-width: $main-width;
 
-      .infobox-views {
-        color: var(--subtitle-color);
+      .video-infobox-title {
+        color: var(--title-color);
         font-family: $default-font;
-        margin: 0 30px 0 0;
-        font-size: 1.1rem;
+        font-size: 1.4rem;
+        margin: 10px 0 10px 0;
       }
 
-      .infobox-rating {
-        .infobox-likecount {
-          display: flex;
-          flex-direction: row;
+      .video-infobox-tags {
+        $tag-padding-left: calc((100% - #{$main-width}) / 2);
+        margin: 5px auto 0 auto;
+        width: 100%;
+        height: 40px;
+        overflow: hidden;
+        overflow-x: auto;
+        white-space: nowrap;
+        padding: 0 0 0 $tag-padding-left;
+        scrollbar-width: none;
+        box-sizing: border-box;
 
-          .infobox-likes {
-            margin: 0 30px 0 0;
-          }
+        &::-webkit-scrollbar {
+          display: none;
+        }
+      }
 
-          .infobox-likes,
-          .infobox-dislikes {
-            color: var(--subtitle-color);
-            font-family: $default-font;
+      .video-infobox-stats {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        margin: 0 auto 20px auto;
+
+        .infobox-views {
+          color: var(--subtitle-color);
+          font-family: $default-font;
+          margin: 0 30px 0 0;
+          font-size: 1.1rem;
+        }
+
+        .infobox-rating {
+          .infobox-likecount {
             display: flex;
             flex-direction: row;
 
-            .thumbs-icon {
-              width: 2rem;
-              height: 0.8rem;
+            .infobox-likes {
+              margin: 0 30px 0 0;
             }
 
-            p {
-              text-align: center;
+            .infobox-likes,
+            .infobox-dislikes {
+              color: var(--subtitle-color);
+              font-family: $default-font;
+              display: flex;
+              flex-direction: row;
+
+              .thumbs-icon {
+                width: 2rem;
+                height: 0.8rem;
+              }
+
+              p {
+                text-align: center;
+              }
             }
           }
-        }
 
-        .like-ratio {
-          width: 100%;
-          height: 2px;
-          background-color: var(--theme-color-alt);
-          position: relative;
-          margin: 10px 0 0 0;
+          .like-ratio {
+            width: 100%;
+            height: 2px;
+            background-color: var(--theme-color-alt);
+            position: relative;
+            margin: 10px 0 0 0;
 
-          .like-ratio-bar {
-            position: absolute;
-            background-image: $theme-color-primary-gradient;
-            height: 100%;
-          }
-        }
-      }
-    }
-
-    .video-infobox-channel {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: space-between;
-      max-width: $main-width;
-      width: 100%;
-      margin: 0 auto;
-
-      @media screen and (max-width: $watch-break-width) {
-        flex-direction: column;
-        align-items: flex-start;
-
-        .infobox-channel {
-          margin: 0 0 20px 0;
-          .infobox-channel-info {
-            .infobox-channel-name {
-              max-width: 65vw !important;
+            .like-ratio-bar {
+              position: absolute;
+              background-image: $theme-color-primary-gradient;
+              height: 100%;
             }
           }
         }
       }
 
-      .infobox-channel {
+      .video-infobox-channel {
         display: flex;
         flex-direction: row;
         align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        margin: 0 auto;
 
-        .infobox-channel-image {
-          width: 50px;
-          height: 50px;
-          margin: 0 10px 0 0;
-
-          img {
-            width: 100%;
-            height: 100%;
-          }
-        }
-
-        .infobox-channel-info {
-          display: flex;
+        @media screen and (max-width: $watch-break-width) {
           flex-direction: column;
-          justify-content: space-evenly;
-          flex-wrap: wrap;
-          margin: 0 20px 0 0;
+          align-items: flex-start;
 
-          .infobox-channel-name {
-            text-decoration: none;
-            color: var(--title-color);
-            font-family: $default-font;
-            font-size: 1.2rem;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            max-width: 45vw;
+          .infobox-channel {
+            margin: 0 0 20px 0;
+            .infobox-channel-info {
+              .infobox-channel-name {
+                max-width: 65vw !important;
+              }
+            }
+          }
+        }
+
+        .infobox-channel {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+
+          .infobox-channel-image {
+            width: 50px;
+            height: 50px;
+            margin: 0 10px 0 0;
+
+            img {
+              width: 100%;
+              height: 100%;
+            }
           }
 
-          .infobox-channel-subcount {
-            color: var(--subtitle-color);
-            font-family: $default-font;
+          .infobox-channel-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            flex-wrap: wrap;
+            margin: 0 20px 0 0;
+
+            .infobox-channel-name {
+              text-decoration: none;
+              color: var(--title-color);
+              font-family: $default-font;
+              font-size: 1.2rem;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              max-width: 45vw;
+            }
+
+            .infobox-channel-subcount {
+              color: var(--subtitle-color);
+              font-family: $default-font;
+            }
           }
         }
       }
-    }
 
-    .video-infobox-date {
-      margin: 20px auto 10px auto;
-      max-width: $main-width;
-      width: 100%;
-    }
-
-    .video-actions {
-      img {
-        position: relative;
-        top: 6px;
-        left: 2px;
+      .video-infobox-date {
+        margin: 20px auto 10px auto;
+        width: 100%;
       }
-    }
 
-    .video-infobox-text {
-      margin: 0 auto;
-      max-width: $main-width;
-      width: 100%;
-    }
+      .video-actions {
+        margin: 0 auto;
+        width: 100%;
 
-    .video-infobox-description {
-      margin: 10px auto 0 auto;
-      color: var(--title-color);
-      font-family: $default-font;
-      line-height: 1.2rem;
-      overflow: hidden;
-      white-space: pre-wrap;
-      overflow-wrap: break-word;
-      max-width: $main-width;
-      width: 100%;
-
-      .favicon-link {
-        height: 13px;
-        margin: 0 4px;
+        img {
+          position: relative;
+          top: 6px;
+          left: 2px;
+        }
       }
-    }
 
-    .comments-container {
-      max-width: $main-width;
-      width: 100%;
-      margin: 20px auto 0 auto;
-    }
+      .video-infobox-text {
+        margin: 0 auto;
+        width: 100%;
+      }
 
-    &.loading {
-      opacity: 0;
+      .video-infobox-description {
+        margin: 10px auto 0 auto;
+        color: var(--title-color);
+        font-family: $default-font;
+        line-height: 1.2rem;
+        overflow: hidden;
+        white-space: pre-wrap;
+        overflow-wrap: break-word;
+        width: 100%;
+
+        .favicon-link {
+          height: 13px;
+          margin: 0 4px;
+        }
+      }
+
+      .comments-container {
+        width: 100%;
+        margin: 20px auto 0 auto;
+      }
+
+      &.loading {
+        opacity: 0;
+      }
     }
   }
 }

@@ -87,7 +87,11 @@ export default {
       this.loading = true
       const me = this
 
-      this.$store.dispatch('user/register', this.username, this.password, this.captchaSolution)
+      this.$store.dispatch('user/register', {
+        username: this.username,
+        password: this.password,
+        captchaSolution: this.captchaSolution
+      })
         .then((result) => {
           me.$store.dispatch('messages/createMessage', {
             type: 'info',
@@ -102,7 +106,7 @@ export default {
           me.$store.dispatch('messages/createMessage', {
             type: 'error',
             title: 'Registration failed',
-            message: me.errorMessage
+            message: err.message
           })
         })
     },
@@ -221,7 +225,6 @@ export default {
         height: auto;
 
         .captcha-box {
-          // margin: auto;
           border: 2px solid var(--bgcolor-alt-light);
           width: 100%;
           background-color: transparent;
@@ -231,7 +234,7 @@ export default {
 
           .captcha-image {
             width: 100%;
-            filter: invert(90%);
+            filter: var(--darkness);
             margin: -20px 0 -20px 0;
           }
         }

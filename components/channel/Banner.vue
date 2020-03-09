@@ -18,6 +18,7 @@ export default {
   width: 100%;
   transform-origin: 0 0;
   transform: translateZ(-4px) scale(2);
+  z-index: 12;
 
   .channel-banner-image {
     width: 100%;

@@ -1,23 +1,36 @@
 <template>
-  <div class="channel" ref="channel">
+  <div
+    class="channel"
+    ref="channel"
+  >
     <Banner
       v-if="channel.authorBanners && channel.authorBanners.length > 0"
       :src="commons.proxyUrl + channel.authorBanners[0].url"
     />
-    <Overview :channel="channel" v-if="!loading" />
-    <ChannelDescription :descriptionHtml="channel.descriptionHtml" v-if="!loading" />
-    <RelatedChannels :channel="channel" v-if="!loading" />
-    <div class="channel-videos-container" v-if="!loading">
+    <Overview :channel="channel" />
+    <div class="backdrop-image">
+      <ChannelDescription :descriptionHtml="channel.descriptionHtml" />
+    </div>
+
+    <RelatedChannels :channel="channel" />
+    <div class="channel-videos-container">
       <div class="channel-title-sticky">
         <div class="channel-sticky-thumbnail">
-          <img :src="commons.proxyUrl + channel.authorThumbnails[0].url" alt="Author Image" />
+          <img
+            :src="commons.proxyUrl + channel.authorThumbnails[0].url"
+            alt="Author Image"
+          />
         </div>
         <div class="channel-sticky-name">
           <h1>{{ channel.author }}</h1>
         </div>
       </div>
       <div class="channel-videos">
-        <VideoEntry v-for="video in channel.latestVideos" :key="video.videoId" :video="video"></VideoEntry>
+        <VideoEntry
+          v-for="video in channel.latestVideosShort"
+          :key="video.videoId"
+          :video="video"
+        ></VideoEntry>
       </div>
     </div>
   </div>
@@ -30,6 +43,7 @@ import Banner from '@/components/channel/Banner'
 import Overview from '@/components/channel/Overview'
 import RelatedChannels from '@/components/channel/RelatedChannels'
 import ChannelDescription from '@/components/channel/ChannelDescription'
+import Invidious from '@/plugins/services/invidious'
 
 export default {
   name: 'home',
@@ -40,39 +54,31 @@ export default {
     RelatedChannels,
     ChannelDescription
   },
+  head() {
+    return {
+      link: [
+        { rel: 'icon', type: 'image/x-icon', href: this.channel.authorThumbnails[0].url }
+      ]
+    }
+  },
   data: () => ({
     channel: [],
-    loading: true,
     commons: Commons
   }),
-  beforeRouteEnter(to, from, next) {
-    window.invidious.api.channels({
-      id: to.params.id
-    }).then(response => next(vm => vm.loadData(response.data)))
-      .catch(error => {
-        console.error(error)
-        next(false, vm => {
-        })
+  asyncData({ params }) {
+    return Invidious.api.channels({ id: params.id })
+      .then(response => {
+        const channel = response.data
+        channel.latestVideosShort = channel.latestVideos.slice(0, 20)
+        return { channel: response.data }
       })
-  },
-  beforeRouteUpdate(to, from, next) {
-    const me = this
-    window.invidious.api.channels({
-      id: to.params.id
-    }).then(response => next(me.loadData(response.data)))
       .catch(error => {
         console.error(error)
-        next(false, vm => {
-        })
       })
   },
   methods: {
     handleScroll(e) {
       this.$emit('scroll', e)
-    },
-    loadData(data) {
-      this.channel = data
-      this.loading = false
     }
   }
 }
@@ -88,6 +94,13 @@ export default {
   perspective-origin: 0 0;
   margin-top: $header-height;
   height: 100%;
+
+  .backdrop-image {
+    height: 100%;
+    width: 100%;
+    background-color: var(--bgcolor-main);
+    z-index: 13;
+  }
 
   .channel-videos-container {
     width: 100%;

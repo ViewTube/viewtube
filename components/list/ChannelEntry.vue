@@ -1,9 +1,18 @@
 <template>
   <div class="channel-entry">
     <div class="channel-entry-background"></div>
-    <nuxt-link class="channel-entry-thmb" :to="{path: '/channel/' + channel.authorId}">
-      <div class="thmb-image-container">
-        <img class="channel-entry-thmb-image" :src="channel.authorThumbnails[2].url" />
+    <nuxt-link
+      class="channel-entry-thmb"
+      :to="{path: '/channel/' + channel.authorId}"
+    >
+      <div
+        class="thmb-image-container"
+        v-if="channel.authorThumbnails"
+      >
+        <img
+          class="channel-entry-thmb-image"
+          :src="channel.authorThumbnails[2].url"
+        />
       </div>
     </nuxt-link>
     <div class="channel-entry-info">
@@ -14,7 +23,7 @@
       >{{ channel.author }}</nuxt-link>
       <div class="channel-entry-stats">
         <p class="channel-entry-videocount">{{ channel.videoCount }} videos</p>
-        <p class="channel-entry-subcount">{{ channel.subCount.toLocaleString() }} subscribers</p>
+        <p class="channel-entry-subcount" v-if="channel.subCount">{{ channel.subCount.toLocaleString() }} subscribers</p>
       </div>
     </div>
   </div>
@@ -29,7 +38,7 @@ export default {
   props: {
     channel: Object
   },
-  mounted () {
+  mounted() {
     tippy('.tooltip', {
       duration: 300,
       arrow: false,
@@ -129,7 +138,7 @@ export default {
 
     .channel-entry-thmb {
       width: 100%;
-      height: 53vw;;
+      height: 53vw;
 
       .thmb-image-container {
         position: relative;

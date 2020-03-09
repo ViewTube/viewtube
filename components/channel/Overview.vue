@@ -63,7 +63,7 @@ export default {
 .overwiew {
   width: 100%;
   box-sizing: border-box;
-  z-index: 10;
+  z-index: 14;
   display: flex;
   flex-direction: column;
 

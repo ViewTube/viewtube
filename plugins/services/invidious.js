@@ -49,7 +49,7 @@ const invidious = {
         'joined',
         'paid',
         'isFamilyFriendly',
-        'description',
+        'descriptionHtml',
         'latestVideos',
         'relatedChannels'
       ]
@@ -77,7 +77,8 @@ const invidious = {
         'subCountText',
         'lengthSeconds',
         'rating',
-        'formatStreams'
+        'formatStreams',
+        'recommendedVideos'
       ]
     },
     search: {

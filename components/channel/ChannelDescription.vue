@@ -1,7 +1,7 @@
 <template>
   <div
     class="channel-description"
-    v-if="descriptionHtml"
+    v-show="descriptionHtml"
     v-html="descriptionHtml"
   ></div>
 </template>
@@ -17,14 +17,13 @@ export default {
 
 <style lang="scss">
 .channel-description {
-  background-color: var(--bgcolor-main);
   width: 100%;
   max-width: $main-width;
   box-sizing: border-box;
   z-index: 10;
   margin: 0 auto;
   padding: 20px 10px;
-  z-index: 9;
+  z-index: 14;
 
   pre {
     font-family: unset;

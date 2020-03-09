@@ -1,7 +1,7 @@
 <template>
   <div class="messages-container">
     <MessageBox
-      v-for="message in $store.getters.visibleMessages"
+      v-for="message in $store.getters['messages/visibleMessages']"
       :key="message.id"
       :message="message"
     ></MessageBox>
@@ -17,7 +17,7 @@ export default {
   },
   data() {
     return {
-      messages: this.$store.getters.visibleMessages
+      messages: this.$store.getters['messages/visibleMessages']
     }
   }
 }

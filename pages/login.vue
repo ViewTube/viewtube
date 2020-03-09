@@ -1,12 +1,29 @@
 <template>
   <div class="login">
-    <div class="login-container" :class="{ loading: loading }">
+    <div
+      class="login-container"
+      :class="{ loading: loading }"
+    >
       <h2 class="login-title">Login</h2>
       <span class="status-message-display message-display">{{ statusMessage }}</span>
       <Spinner />
-      <form id="login" method="post" @submit.prevent="login">
-        <FormInput :id="'username'" v-model="username" :label="'username'" :type="'username'" />
-        <FormInput :id="'password'" v-model="password" :label="'password'" :type="'password'" />
+      <form
+        id="login"
+        method="post"
+        @submit.prevent="login"
+      >
+        <FormInput
+          :id="'username'"
+          v-model="username"
+          :label="'username'"
+          :type="'username'"
+        />
+        <FormInput
+          :id="'password'"
+          v-model="password"
+          :label="'password'"
+          :type="'password'"
+        />
         <SubmitButton :label="'Login'" />
       </form>
     </div>
@@ -14,7 +31,6 @@
 </template>
 
 <script>
-import UserStore from '@/store/user.js'
 import FormInput from '@/components/form/FormInput'
 import SubmitButton from '@/components/form/SubmitButton'
 import Spinner from '@/components/Spinner'
@@ -30,7 +46,6 @@ export default {
     loading: false,
     username: null,
     password: null,
-    state: UserStore.state,
     statusMessage: '',
     redirectedPage: 'home'
   }),
@@ -38,21 +53,28 @@ export default {
     login() {
       this.loading = true
       const me = this
-      UserStore.login({
-        username: me.username,
-        password: me.password,
-        callback() {
+
+      this.$store.dispatch('user/login', {
+        username: this.username,
+        password: this.password
+      })
+        .then((result) => {
+          me.$store.dispatch('messages/createMessage', {
+            type: 'info',
+            title: 'Login successful',
+            message: 'Redirecting...'
+          })
           me.$router.push(me.redirectedPage.fullPath)
-        },
-        failure() {
+        })
+        .catch((err) => {
+          console.error(err)
           me.loading = false
-          me.$store.dispatch('createMessage', {
+          me.$store.dispatch('messages/createMessage', {
             type: 'error',
             title: 'Login failed',
-            message: me.state.errorMessage
+            message: err.message
           })
-        }
-      })
+        })
     }
   },
   mounted() {

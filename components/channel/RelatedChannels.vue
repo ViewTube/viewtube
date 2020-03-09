@@ -1,5 +1,8 @@
 <template>
-  <div class="related-channels" v-if="channel.relatedChannels.length > 0">
+  <div
+    class="related-channels"
+    v-show="channel.relatedChannels.length > 0"
+  >
     <nuxt-link
       class="related-channel"
       v-ripple
@@ -9,14 +12,11 @@
     >
       <div class="related-channel-thumbnail">
         <div class="related-channel-thumbnail-image">
-          <img :src="channelEntry.authorThumbnails[5].url" alt />
+          <img :src="channelEntry.authorThumbnails[5].url" />
         </div>
       </div>
       <div class="related-channel-info">
-        <nuxt-link
-          class="related-channel-title"
-          :to="{path: '/channel/' + channelEntry.authorId}"
-        >{{ channelEntry.author }}</nuxt-link>
+        <p class="related-channel-title">{{ channelEntry.author }}</p>
       </div>
     </nuxt-link>
   </div>
@@ -33,7 +33,6 @@ export default {
 
 <style lang="scss" scoped>
 .related-channels {
-  background-color: var(--bgcolor-main);
   width: 100%;
   min-height: 200px;
   max-width: $main-width;
@@ -43,7 +42,7 @@ export default {
   overflow: auto hidden;
   scrollbar-width: thin;
   white-space: nowrap;
-  z-index: 9;
+  z-index: 14;
 
   .related-channel {
     width: 90px;

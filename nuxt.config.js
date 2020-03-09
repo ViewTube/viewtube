@@ -5,6 +5,10 @@ export default {
     port: 8069
   },
 
+  env: {
+    API_URL: process.env.API_URL || 'http://localhost:3030'
+  },
+
   head: {
     title: 'ViewTube',
     meta: [
@@ -36,7 +40,8 @@ export default {
   },
 
   plugins: [
-    '@/plugins/directives/index'
+    '@/plugins/directives/index',
+    '@plugins/feathers-vuex.js'
   ],
 
   buildModules: [
@@ -75,7 +80,8 @@ export default {
       'tippy.js',
       'vue-global-var',
       'vue-lazyload',
-      'vuex-persist'
+      'vuex-persist',
+      'feathers-vuex'
     ],
     extend(config, ctx) {
     }
