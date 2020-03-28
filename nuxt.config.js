@@ -2,7 +2,7 @@ export default {
   mode: 'universal',
 
   server: {
-    port: 8069
+    port: 8066
   },
 
   env: {
