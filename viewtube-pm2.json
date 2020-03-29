@@ -1,0 +1,10 @@
+{
+  "apps": [
+    {
+      "name": "viewtube",
+      "script": "yarn",
+      "args": "start",
+      "interpreter": "/bin/bash"
+    }
+  ]
+}

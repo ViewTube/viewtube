@@ -31,4 +31,3 @@ sw.*
 # LineCount files
 out/
 out/*
-viewtube-pm2.json
