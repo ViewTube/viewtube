@@ -19,5 +19,9 @@ COPY . $HOME
 RUN chown -R app $HOME/*
 
 EXPOSE 8066
+
+ENV NUXT_HOST=0.0.0.0
+ENV NUXT_PORT=8066
+
 USER app
 CMD ["npm", "start"]
