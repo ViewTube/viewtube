@@ -6,12 +6,12 @@ export default {
 
   getApiUrl() {
     // return `${this.$store.getters.currentInstance}/api/v1/`
-    return `https://invidio.us/api/v1/`
+    return 'https://invidio.us/api/v1/'
   },
 
   getApiUrlNoVersion() {
     // return `${this.$store.getters.currentInstance}/api/`
-    return `https://invidio.us/api/`
+    return 'https://invidio.us/api/'
   },
 
   getDomain() {
@@ -22,9 +22,9 @@ export default {
   },
 
   getOwnApiUrl() {
-    if (window.location.href.toLowerCase().indexOf('localhost') !== -1) {
-      return 'http://localhost:3030/'
-    }
+    // if (window.location.href.toLowerCase().indexOf('localhost') !== -1) {
+    return 'http://localhost:3030/'
+    // }
     return 'https://api.viewtube.eu/'
   },
 

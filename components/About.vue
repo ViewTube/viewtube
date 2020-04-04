@@ -1,25 +1,41 @@
 <template>
   <div class="about popup">
     <div class="about-container popup-container">
-      <CloseIcon class="close-icon" @click.stop="$emit('close')" />
+      <CloseIcon
+        class="close-icon"
+        @click.stop="$emit('close')"
+      />
       <h1>About ViewTube</h1>
       <div class="logo-about">
-        <img class="logo-about-img" src="@/assets/icon-background-192.jpg" alt="ViewTube" />
+        <img
+          class="logo-about-img"
+          src="@/assets/icon-background-192.jpg"
+          alt="ViewTube"
+        />
       </div>
       <h2>ViewTube by Maurice Oegerli</h2>
       <h3>{{ description }}</h3>
       <div class="links-about">
-        <a v-ripple target="_blank" href="https://github.com/mauriceoegerli/viewtube-vue">
+        <a
+          v-ripple
+          target="_blank"
+          href="https://github.com/mauriceoegerli/viewtube-vue"
+        >
           <GithubIcon />ViewTube
         </a>
-        <a class="badge-btn" target="_blank" href="https://github.com/omarroth/invidious">
-          <GithubIcon />Invidious
-        </a>
-        <a class="badge-btn" target="_blank" href="https://invidio.us">
-          <ExternalIcon />Invidious
-        </a>
+        <BadgeButton :href="'https://github.com/omarroth/invidious'">
+          <GithubIcon />
+          <p>Invidious</p>
+        </BadgeButton>
+        <BadgeButton :href="'https://invidio.us'">
+          <ExternalIcon />
+          <p>Invidious</p>
+        </BadgeButton>
       </div>
-      <div class="invidious-stats" v-if="invidousStats">
+      <div
+        class="invidious-stats"
+        v-if="invidousStats"
+      >
         <table>
           <tr>
             <td>Invidious instance</td>
@@ -37,7 +53,10 @@
       </div>
       <h2>Invidious License</h2>
     </div>
-    <div class="about-overlay popup-overlay" @click.stop="$emit('close')"></div>
+    <div
+      class="about-overlay popup-overlay"
+      @click.stop="$emit('close')"
+    ></div>
   </div>
 </template>
 
@@ -46,13 +65,15 @@ import CloseIcon from 'vue-material-design-icons//Close'
 import Commons from '@/plugins/commons.js'
 import GithubIcon from 'vue-material-design-icons/GithubCircle'
 import ExternalIcon from 'vue-material-design-icons/OpenInNew'
+import BadgeButton from '@/components/buttons/BadgeButton'
 
 export default {
   name: 'about',
   components: {
     CloseIcon,
     GithubIcon,
-    ExternalIcon
+    ExternalIcon,
+    BadgeButton
   },
   data() {
     return {
@@ -98,7 +119,7 @@ export default {
     }
   }
 }
-.invidious-license{
+.invidious-license {
   width: 100%;
   margin: 10px 0 !important;
   height: 400px;

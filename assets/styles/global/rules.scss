@@ -1,8 +1,10 @@
 .material-design-icon {
+  position: relative;
+  width: 24px;
+  height: 24px;
+  display: inline-block;
+  
   .material-design-icon__svg {
-    height: 1.5em !important;
-    width: 1.5em !important;
-    bottom: -0.28em !important;
   }
 }
 
@@ -24,7 +26,8 @@ input {
   outline: none;
 }
 
-textarea:focus, input:focus{
+textarea:focus,
+input:focus {
   outline: none;
 }
 

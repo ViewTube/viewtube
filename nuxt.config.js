@@ -41,7 +41,8 @@ export default {
 
   plugins: [
     '@/plugins/directives/index',
-    '@plugins/feathers-vuex.js'
+    '@plugins/feathers-vuex.js',
+    '@/plugins/scroll'
   ],
 
   buildModules: [
@@ -81,7 +82,9 @@ export default {
       'vue-global-var',
       'vue-lazyload',
       'vuex-persist',
-      'feathers-vuex'
+      'feathers-vuex',
+      'interactjs',
+      'vue-scroll'
     ],
     extend(config, ctx) {
     }

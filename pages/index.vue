@@ -102,34 +102,7 @@ export default {
     handleScroll(e) {
       this.$emit('scroll', e)
     }
-  },
-  // beforeRouteEnter(to, from, next) {
-  //   window.invidious.api.popular()
-  //     .then(response => {
-  //       next(vm => vm.loadData(response.data))
-  //     })
-  //     .catch(error => {
-  //       console.error(error)
-  //       next(vm => vm.$Progress.fail())
-  //     })
-  // },
-  // beforeRouteUpdate(to, from, next) {
-  //   this.$Progress.start()
-  //   fetch(`${Commons.getApiUrl()}popular`, {
-  //     cache: 'force-cache',
-  //     method: 'GET'
-  //   })
-  //     .then(response => response.json())
-  //     .then(data => {
-  //       this.loadData(data)
-  //       next()
-  //     })
-  //     .catch(error => {
-  //       console.error(error)
-  //       this.$Progress.fail()
-  //       next()
-  //     })
-  // }
+  }
 }
 </script>
 

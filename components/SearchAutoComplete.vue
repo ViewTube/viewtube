@@ -83,6 +83,12 @@ export default {
   flex-direction: column;
   box-shadow: $medium-shadow;
 
+  @media screen and (max-width: $mobile-width) {
+    top: $header-height / 2;
+    position: fixed;
+    width: 100%;
+  }
+
   .search-autocomplete-entry {
     padding: 5px 0 5px 10px;
     cursor: default;

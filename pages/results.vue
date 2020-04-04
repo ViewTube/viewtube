@@ -49,17 +49,21 @@
         :playlist="result"
         :channel="result"
       />
-      <a
-        class="badge-btn"
-        href="#"
-        @click.prevent="loadMoreVideos"
-      >show more</a>
+      <BadgeButton
+        :click="loadMoreVideos"
+        :loading="moreVideosLoading"
+        v-if="!videosExpanded"
+      >
+        <LoadMoreIcon />
+        <p>show more</p>
+      </BadgeButton>
     </div>
   </div>
 </template>
 
 <script>
-import Commons from '@/plugins/commons.js'
+// import Commons from '@/plugins/commons.js'
+import LoadMoreIcon from 'vue-material-design-icons/Reload'
 import VideoEntry from '@/components/list/VideoEntry'
 import PlaylistEntry from '@/components/list/PlaylistEntry'
 import ChannelEntry from '@/components/list/ChannelEntry'
@@ -69,17 +73,20 @@ import GradientBackground from '@/components/GradientBackground.vue'
 import Dropdown from '@/components/filter/Dropdown'
 import SearchParams from '@/plugins/services/searchParams'
 import Invidious from '@/plugins/services/invidious'
+import BadgeButton from '@/components/buttons/BadgeButton'
 
 export default {
   name: 'search',
   components: {
+    LoadMoreIcon,
     VideoEntry,
     Spinner,
     PlaylistEntry,
     ChannelEntry,
     BottomNavigation,
     GradientBackground,
-    Dropdown
+    Dropdown,
+    BadgeButton
   },
   watchQuery: true,
   data: () => ({
@@ -87,7 +94,8 @@ export default {
     loading: false,
     searchQuery: null,
     parameters: SearchParams,
-    page: 1
+    page: 1,
+    moreVideosLoading: false
   }),
   methods: {
     getListEntryType(type) {
@@ -122,13 +130,15 @@ export default {
       this.reloadSearchWithParams()
     },
     loadMoreVideos() {
-      let me = this
+      this.moreVideosLoading = true
+      const me = this
       this.page += 1
       SearchParams.page = this.page
       const searchParams = SearchParams.getParamsJson(this.searchQuery)
       Invidious.api.search({ params: searchParams })
         .then(response => {
           me.results = me.results.concat(response.data)
+          me.moreVideosLoading = false
         })
         .catch(error => {
           console.error(error)

@@ -4,10 +4,14 @@
     ref="channel"
   >
     <Banner
+      class="banner"
       v-if="channel.authorBanners && channel.authorBanners.length > 0"
-      :src="commons.proxyUrl + channel.authorBanners[0].url"
+      :src="channel.authorBanners[0].url"
     />
-    <Overview :channel="channel" />
+    <Overview
+      :channel="channel"
+      class="overview"
+    />
     <div class="backdrop-image">
       <ChannelDescription :descriptionHtml="channel.descriptionHtml" />
     </div>
@@ -56,14 +60,22 @@ export default {
   },
   head() {
     return {
+      title: `${this.channel.author} - ViewTube`,
       link: [
         { rel: 'icon', type: 'image/x-icon', href: this.channel.authorThumbnails[0].url }
+      ],
+      meta: [
+        { hid: 'description', vmid: 'descriptionMeta', name: 'description', content: this.channel.description.substring(0, 100) },
+        { hid: 'ogTitle', property: 'og:title', content: `${this.channel.author} - ViewTube` },
+        { hid: 'ogImage', property: 'og:image', itemprop: 'image', content: this.channel.authorThumbnails[0].url },
+        { hid: 'ogDescription', property: 'og:description', content: this.channel.description.substring(0, 100) }
       ]
     }
   },
   data: () => ({
     channel: [],
-    commons: Commons
+    commons: Commons,
+    overviewColor: 0
   }),
   asyncData({ params }) {
     return Invidious.api.channels({ id: params.id })
@@ -92,8 +104,16 @@ export default {
   overflow-y: scroll;
   perspective: 4px;
   perspective-origin: 0 0;
-  margin-top: $header-height;
   height: 100%;
+
+  .banner {
+    position: relative;
+    margin-top: $header-height * 2;
+  }
+
+  .overview {
+    margin-top: -$header-height - 10px;
+  }
 
   .backdrop-image {
     height: 100%;

@@ -1,6 +1,6 @@
 <template>
   <div class="channel-banner" ref="parallaxParent">
-    <img class="channel-banner-image" :src="src" ref="parallaxImage" />
+    <img class="channel-banner-image" :src="src" ref="bannerImage" />
   </div>
 </template>
 

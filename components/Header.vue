@@ -1,5 +1,8 @@
 <template>
-  <div class="header">
+  <div
+    class="header"
+    :class="{ hidden: $store.state.scroll.scrollDown }"
+  >
     <nuxt-link
       class="logo-link"
       to="/"
@@ -295,7 +298,12 @@ export default {
   background-color: var(--header-bgcolor);
 
   transition: box-shadow 300ms $intro-easing,
-    background-color 300ms $intro-easing;
+    background-color 300ms $intro-easing,
+    transform 300ms $dynamic-easing;
+
+  &.hidden {
+    transform: translate3d(0, -$header-height - 20px, 0);
+  }
 
   .logo-link {
     text-decoration: none;

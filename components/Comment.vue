@@ -1,5 +1,8 @@
 <template>
-  <div class="comment" :class="{ open: repliesLoaded }">
+  <div
+    class="comment"
+    :class="{ open: repliesLoaded }"
+  >
     <nuxt-link :to="{path: '/channel/' + comment.authorId}">
       <img
         class="comment-author-image"
@@ -15,12 +18,18 @@
           :class="{ owner: comment.authorIsChannelOwner }"
         >{{ comment.author }}</nuxt-link>
       </div>
-      <div class="comment-content" v-html="comment.content"></div>
+      <div
+        class="comment-content"
+        v-html="comment.content"
+      ></div>
       <div class="comment-properties">
         <div class="published comment-property">
           <span>{{ comment.publishedText }}</span>
         </div>
-        <div class="edited comment-property" v-if="comment.isEdited">
+        <div
+          class="edited comment-property"
+          v-if="comment.isEdited"
+        >
           <PenIcon />
           <span>edited</span>
         </div>
@@ -36,27 +45,35 @@
           <HeartIcon title />
         </div>
       </div>
-      <div class="comment-replies" v-if="comment.replies !== undefined">
-        <a
-          href="#"
-          class="comment-reply-count badge-btn"
-          @click.prevent="loadReplies"
-          v-if="!loadingReplies && !repliesLoaded"
-          v-ripple
-        >show {{ comment.replies.replyCount.toLocaleString() }} replies</a>
-        <a
-          href="#"
-          class="comment-reply-count badge-btn"
-          @click.prevent="hideReplies"
+      <div
+        class="comment-replies"
+        v-if="comment.replies !== undefined"
+      >
+        <BadgeButton
+          class="comment-reply-count"
+          :click="loadReplies"
+          :loading="loadingReplies"
+          v-if="!repliesLoaded"
+        >
+          <CommentIcon />
+          <p>show {{ comment.replies.replyCount.toLocaleString() }} replies</p>
+        </BadgeButton>
+        <BadgeButton
+          class="comment-reply-count"
+          :click="hideReplies"
           v-if="repliesLoaded"
-          v-ripple
-        >hide replies</a>
-        <Spinner v-if="loadingReplies"></Spinner>
+        >
+          <CommentHideIcon />
+          <p>hide replies</p>
+        </BadgeButton>
         <div
           class="comment-replies-list"
           v-if="repliesLoaded"
         >
-          <div class="comment-replies-list-height" ref="commentRepliesListHeight">
+          <div
+            class="comment-replies-list-height"
+            ref="commentRepliesListHeight"
+          >
             <Comment
               class="subcomment"
               v-for="subComment in replies"
@@ -64,14 +81,15 @@
               :comment="subComment"
             />
           </div>
-          <a
-            href="#"
-            class="show-more-replies badge-btn"
-            @click.prevent="loadMoreReplies"
-            v-if="repliesContinuationLink && !repliesContinuationLoading"
-            v-ripple
-          >show more</a>
-          <Spinner v-if="repliesContinuationLoading"></Spinner>
+          <BadgeButton
+            class="show-more-replies"
+            :click="loadMoreReplies"
+            :loading="repliesContinuationLink"
+            v-if="!loadingReplies && !repliesLoaded"
+          >
+            <LoadMoreIcon />
+            <p>show more</p>
+          </BadgeButton>
         </div>
       </div>
     </div>
@@ -82,9 +100,13 @@
 import PenIcon from 'vue-material-design-icons/Pencil'
 import ThumbsUpIcon from 'vue-material-design-icons/ThumbUp'
 import HeartIcon from 'vue-material-design-icons/Heart'
+import CommentIcon from 'vue-material-design-icons/CommentOutline'
+import CommentHideIcon from 'vue-material-design-icons/CommentRemoveOutline'
+import LoadMoreIcon from 'vue-material-design-icons/Reload'
 import Commons from '@/plugins/commons.js'
-import Spinner from '@/components/Spinner'
+// import Spinner from '@/components/Spinner'
 import tippy from 'tippy.js'
+import BadgeButton from '@/components/buttons/BadgeButton'
 import 'tippy.js/dist/tippy.css'
 
 export default {
@@ -93,8 +115,11 @@ export default {
     PenIcon,
     ThumbsUpIcon,
     HeartIcon,
-    Spinner,
-    Comment: () => import('@/components/Comment')
+    CommentIcon,
+    CommentHideIcon,
+    LoadMoreIcon,
+    Comment: () => import('@/components/Comment'),
+    BadgeButton
   },
   props: {
     comment: null,

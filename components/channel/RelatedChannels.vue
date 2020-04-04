@@ -4,9 +4,10 @@
     v-show="channel.relatedChannels.length > 0"
   >
     <nuxt-link
-      class="related-channel"
+      class="related-channel tooltip"
       v-ripple
       v-for="channelEntry in channel.relatedChannels"
+      :data-tippy-content="channelEntry.author"
       :key="channelEntry.authorId"
       :to="{path: '/channel/' + channelEntry.authorId}"
     >
@@ -16,7 +17,9 @@
         </div>
       </div>
       <div class="related-channel-info">
-        <p class="related-channel-title">{{ channelEntry.author }}</p>
+        <p
+          class="related-channel-title"
+        >{{ channelEntry.author }}</p>
       </div>
     </nuxt-link>
   </div>

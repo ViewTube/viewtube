@@ -1,7 +1,8 @@
 import Commons from '@/plugins/commons.js'
 import axios from 'axios'
+import { createApi } from '@/plugins/apiCreator'
 
-const invidious = {
+const invidiousPrototype = {
   request: axios.create({
     baseURL: Commons.getApiUrlNoVersion(),
     timeout: 10000
@@ -50,6 +51,7 @@ const invidious = {
         'paid',
         'isFamilyFriendly',
         'descriptionHtml',
+        'description',
         'latestVideos',
         'relatedChannels'
       ]
@@ -104,31 +106,6 @@ const invidious = {
   }
 }
 
-Object.entries(invidious.requests).forEach(el => {
-  invidious.api[el[0]] = async function (args = {}) {
-    let url = el[1].url
-    if (args.id) {
-      url += `/${args.id}`
-      delete args.id
-    }
-    if (el[1].fields) {
-      if (!args.params) {
-        args.params = {}
-      }
-      args.params.fields = el[1].fields.toString()
-    }
-    return invidious.request.get(url, args).catch((error) => {
-      // store.dispatch('createMessage', {
-      //   type: 'error',
-      //   title: 'Error loading page',
-      //   message: `Try<br/>
-      //                   <ul><li>Checking your internet connection</li>
-      //                   <li>Switching to another instance in settings</li></ul>`,
-      //   dismissDelay: 0
-      // })
-      console.error(error)
-    })
-  }
-})
+const invidious = createApi(invidiousPrototype)
 
 export default invidious

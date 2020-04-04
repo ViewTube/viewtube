@@ -4,9 +4,12 @@
     class="layout"
     :class="`theme--${theme}`"
   >
-    <Header v-if="!headless" />
+    <Header
+      v-if="!headless"
+      class="main-header"
+    />
     <Miniplayer v-if="$store.getters.miniplayer"></Miniplayer>
-    <nuxt />
+    <nuxt v-scroll="handleScroll" />
     <portal-target
       class="dropdown-portal"
       name="dropdown"
@@ -45,6 +48,11 @@ export default {
   },
   created() {
 
+  },
+  methods: {
+    handleScroll(e, position) {
+      this.$store.commit('scroll/setScrollPosition', position.scrollTop)
+    }
   }
 }
 </script>
@@ -144,24 +152,6 @@ div.links {
       color: var(--theme-color);
       background-size: 100% 2px;
     }
-  }
-}
-.badge-btn {
-  background-color: var(--bgcolor-alt);
-  text-decoration: none;
-  color: var(--title-color);
-  padding: 2px 4px;
-  margin: 2px 5px 2px 0;
-  border-radius: 3px;
-  display: inline-block;
-  transition: background-color 200ms $intro-easing, border 200ms $intro-easing;
-  border: 2px solid var(--theme-color-translucent);
-
-  &:hover {
-  }
-
-  &:active {
-    // border: 2px solid transparent;
   }
 }
 html,

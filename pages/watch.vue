@@ -6,19 +6,28 @@
       class="video-player-p"
     ></VideoPlayer>
     <div class="video-meta">
+      <CollapsibleSection
+        class="recommended-videos mobile"
+        :label="'Recommended videos'"
+      >
+        <RecommendedVideos
+          class="recommended-videos-list"
+          :recommendedVideos="video.recommendedVideos"
+        />
+      </CollapsibleSection>
       <div class="video-infobox">
         <h1 class="video-infobox-title">{{ video.title }}</h1>
         <div class="video-infobox-stats">
-          <p class="infobox-views">{{ video.viewCount.toLocaleString() }} views</p>
+          <p class="infobox-views">{{ video.viewCount && video.viewCount.toLocaleString() }} views</p>
           <div class="infobox-rating">
             <div class="infobox-likecount">
               <div class="infobox-likes">
                 <ThumbsUp class="thumbs-icon"></ThumbsUp>
-                <p class="like-count">{{ video.likeCount.toLocaleString() }}</p>
+                <p class="like-count">{{ video.likeCount && video.likeCount.toLocaleString() }}</p>
               </div>
               <div class="infobox-dislikes">
                 <ThumbsDown class="thumbs-icon"></ThumbsDown>
-                <p class="dislike-count">{{ video.dislikeCount.toLocaleString() }}</p>
+                <p class="dislike-count">{{ video.dislikeCount && video.dislikeCount.toLocaleString() }}</p>
               </div>
             </div>
             <div class="like-ratio">
@@ -36,6 +45,7 @@
                 <img
                   id="channel-img"
                   alt="channel image"
+                  v-if="video.authorThumbnails"
                   :src="video.authorThumbnails[2].url"
                 />
               </nuxt-link>
@@ -66,14 +76,14 @@
         </div>
         <p class="video-infobox-text">tags:</p>
         <div class="video-infobox-tags">
-          <nuxt-link
-            class="video-infobox-tag badge-btn"
+          <BadgeButton
+            class="video-infobox-tag"
+            :href="`results?search_query=${keyword}`"
             v-for="keyword in video.keywords"
             :key="keyword"
-            :to="`results?search_query=${keyword}`"
-            target="_blank"
-            v-ripple
-          >{{ keyword }}</nuxt-link>
+          >
+            <p>{{ keyword }}</p>
+          </BadgeButton>
         </div>
         <div class="comments-description">
           <div
@@ -87,7 +97,7 @@
             v-if="!commentsLoading"
           >
             <div class="comments-count">
-              <p>{{ comment.commentCount.toLocaleString() }} comments</p>
+              <p>{{ comment.commentCount && comment.commentCount.toLocaleString() }} comments</p>
             </div>
             <Comment
               v-for="(comment, i) in comment.comments"
@@ -95,20 +105,18 @@
               :key="i"
               :creatorName="video.author"
             />
-            <a
-              class="badge-btn"
-              href="#"
-              @click.prevent="loadMoreComments"
-              v-if="commentsContinuationLink && !commentsContinuationLoading"
-            >show more</a>
-            <Spinner v-if="commentsContinuationLoading"></Spinner>
+            <BadgeButton
+              :click="loadMoreComments"
+              :key="keyword"
+              :loading="commentsContinuationLoading"
+              v-if="commentsContinuationLink"
+            >
+              <LoadMoreIcon />
+              <p>show more</p>
+            </BadgeButton>
           </div>
         </div>
       </div>
-      <RecommendedVideos
-        :recommendedVideos="video.recommendedVideos"
-        class="recommended-videos"
-      />
     </div>
   </div>
 </template>
@@ -118,11 +126,15 @@ import Commons from '@/plugins/commons.js'
 import Spinner from '@/components/Spinner'
 import ThumbsUp from 'vue-material-design-icons/ThumbUp'
 import ThumbsDown from 'vue-material-design-icons/ThumbDown'
+import LoadMoreIcon from 'vue-material-design-icons/Reload'
 import VideoPlayer from '@/components/videoplayer/VideoPlayer'
 import SubscribeButton from '@/components/buttons/SubscribeButton'
 import Comment from '@/components/Comment'
-import Invidious from '@/plugins/services/invidious'
+// import Invidious from '@/plugins/services/invidious'
+import ViewtubeApi from '@/plugins/services/viewtubeApi'
 import RecommendedVideos from '@/components/watch/RecommendedVideos'
+import CollapsibleSection from '@/components/list/CollapsibleSection'
+import BadgeButton from '@/components/buttons/BadgeButton'
 
 export default {
   name: 'watch',
@@ -130,16 +142,21 @@ export default {
     Spinner,
     ThumbsUp,
     ThumbsDown,
+    LoadMoreIcon,
     VideoPlayer,
     SubscribeButton,
     Comment,
-    RecommendedVideos
+    RecommendedVideos,
+    CollapsibleSection,
+    BadgeButton
   },
   watchQuery(newQuery, oldQuery) {
     console.log(newQuery)
     const videoId = newQuery.v
-    this.loadComments(videoId)
-    this.$store.commit('miniplayer/setCurrentVideo', this.video)
+    if (this) {
+      this.loadComments(videoId)
+      this.$store.commit('miniplayer/setCurrentVideo', this.video)
+    }
     return true
   },
   data: () => ({
@@ -179,9 +196,17 @@ export default {
     }
   },
   asyncData({ query }) {
-    return Invidious.api.videos({
-      id: query.v
-    }).then(response => ({ video: response.data }))
+    return ViewtubeApi.api.videos({
+      params: {
+        id: query.v
+      }
+    }).then(response => {
+      if (response) {
+        return { video: response.data }
+      } else {
+        throw new Error('Error loading video')
+      }
+    })
       .catch(error => {
         console.error(error)
       })
@@ -235,6 +260,7 @@ export default {
   perspective-origin: 0 0;
   height: calc(100% - #{$header-height});
   margin-top: $header-height;
+  position: relative;
 
   .video-player-p {
     transform-origin: 0 0;
@@ -244,10 +270,14 @@ export default {
 
   .video-meta {
     display: flex;
-    flex-direction: row;
+    flex-direction: row-reverse;
     width: 100%;
     max-width: $main-width;
     margin: 0 auto;
+
+    @media screen and (max-width: $mobile-width) {
+      flex-direction: column;
+    }
 
     &::before {
       content: "";
@@ -262,6 +292,12 @@ export default {
     .recommended-videos {
       background-color: var(--bgcolor-main);
       z-index: 400;
+      padding: 10px 0 0 0;
+      width: 100%;
+
+      @media screen and (min-width: $mobile-width) {
+        width: 340px;
+      }
     }
 
     .video-infobox {

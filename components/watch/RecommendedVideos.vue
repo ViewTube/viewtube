@@ -7,13 +7,13 @@
         :video="video"
       />
       <div class="show-more-container">
-        <span
-          class="badge-btn"
-          style="cursor: pointer"
-          v-ripple
-          @click.prevent="expand"
+        <BadgeButton
+          :click="expand"
           v-if="!videosExpanded"
-        >show more</span>
+        >
+          <LoadMoreIcon />
+          <p>show more</p>
+        </BadgeButton>
       </div>
     </div>
   </div>
@@ -21,11 +21,15 @@
 
 <script>
 import VideoEntry from '@/components/list/VideoEntry'
+import BadgeButton from '@/components/buttons/BadgeButton'
+import LoadMoreIcon from 'vue-material-design-icons/Reload'
 
 export default {
   name: 'recommended-videos',
   components: {
-    VideoEntry
+    VideoEntry,
+    BadgeButton,
+    LoadMoreIcon
   },
   props: {
     recommendedVideos: {
@@ -58,17 +62,15 @@ export default {
 
 <style lang="scss">
 .recommended-videos {
-  display: flex;
-  padding: 10px;
-  flex-direction: row;
-
   .recommended-videos-container {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
 
     .show-more-container {
       display: flex;
-      
+
       .badge-btn {
         margin: 0 auto;
       }

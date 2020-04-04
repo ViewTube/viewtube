@@ -21,7 +21,7 @@
 
 <script>
 import CloseIcon from 'vue-material-design-icons/Close'
-import interact from 'interactjs'
+// import Interact from 'interactjs'
 
 export default {
   name: 'message-box',
@@ -46,30 +46,30 @@ export default {
     if (this.message.dismissDelay > 0) {
       this.dismissTimeout = setTimeout(this.dismissMessage, this.message.dismissDelay)
     }
-    const element = this.$refs.interactElement
-    interact(element).draggable({
-      onstart: () => {
-        this.isInteractAnimating = false
-      },
-      onmove: e => {
-        const x = this.interactPosition.x + e.dx
-        const opacity = 1 - Math.abs(this.interactPosition.x / 300)
-        this.interactSetPosition({ x }, opacity)
-      },
-      onend: () => {
-        const x = this.interactPosition.x
-        const iXThr = this.interactXThreshold
-        this.isInteractAnimating = true
+    // const element = this.$refs.interactElement
+    // Interact(element).draggable({
+    //   onstart: () => {
+    //     this.isInteractAnimating = false
+    //   },
+    //   onmove: e => {
+    //     const x = this.interactPosition.x + e.dx
+    //     const opacity = 1 - Math.abs(this.interactPosition.x / 300)
+    //     this.interactSetPosition({ x }, opacity)
+    //   },
+    //   onend: () => {
+    //     const x = this.interactPosition.x
+    //     const iXThr = this.interactXThreshold
+    //     this.isInteractAnimating = true
 
-        if (x > iXThr) {
-          this.dismissMessage()
-        } else if (x < -iXThr) {
-          this.dismissMessageLeft()
-        } else {
-          this.resetCardPosition()
-        }
-      }
-    })
+    //     if (x > iXThr) {
+    //       this.dismissMessage()
+    //     } else if (x < -iXThr) {
+    //       this.dismissMessageLeft()
+    //     } else {
+    //       this.resetCardPosition()
+    //     }
+    //   }
+    // })
   },
   components: {
     CloseIcon

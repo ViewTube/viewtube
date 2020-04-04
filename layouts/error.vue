@@ -1,13 +1,14 @@
 <template>
   <div class="error-page">
     <div class="error-container">
-      <h1 class="error-1">404</h1>
+      <h1 class="error-1">{{error.statusCode}}</h1>
     </div>
     <div class="error-popup">
       <div class="error-message">
-        <h2>{{ possibleSearch }} not found</h2>
+        <h2>{{error.message}}</h2>
         <nuxt-link
-          class="rippe"
+          v-if="possibleSearch"
+          class="ripple"
           :to="`/results?search_query=${possibleSearch}`"
         >Search for {{ possibleSearch }}</nuxt-link>
       </div>
@@ -18,17 +19,22 @@
 <script>
 export default {
   name: 'error-page',
+  props: {
+    error: Object
+  },
   methods: {
     retry() {
       window.location.reload()
     }
   },
   data: () => ({
-    possibleSearch: ''
+    possibleSearch: null
   }),
   mounted() {
-    const path = this.$route.path
-    this.possibleSearch = path.replace('/', '')
+    if (this.error.statusCode === 404) {
+      const path = this.$route.path
+      this.possibleSearch = path.replace('/', '')
+    }
   },
   beforeCreate() {
 
