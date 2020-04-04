@@ -11,11 +11,11 @@ RUN chown -R app $HOME/*
 
 USER app
 WORKDIR $HOME
-RUN yarn install
-RUN yarn build
 
 USER root
 COPY . $HOME
+RUN yarn install
+RUN yarn build
 RUN chown -R app $HOME/*
 
 EXPOSE 8066
