@@ -6,6 +6,7 @@ RUN useradd --user-group --create-home --shell /bin/false app
 ENV PATH=/root/.yarn/bin:$PATH
 ENV HOME=/home/app/
 
+COPY package.json yarn.lock $HOME
 RUN chown -R app $HOME/*
 
 USER app
