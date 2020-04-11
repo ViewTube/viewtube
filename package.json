@@ -20,6 +20,8 @@
     "@feathersjs/feathers": "^4.5.2",
     "@feathersjs/rest-client": "^4.5.2",
     "@feathersjs/socketio-client": "^4.5.2",
+    "@nuxtjs/manifest": "^3.0.0-beta.16",
+    "@nuxtjs/workbox": "^3.0.0-beta.16",
     "@vue/composition-api": "^0.4.0",
     "axios": "^0.19.2",
     "cookie-storage": "^6.0.0",

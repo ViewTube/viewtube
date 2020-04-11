@@ -57,7 +57,9 @@ export default {
   modules: [
     '@nuxtjs/style-resources',
     'portal-vue/nuxt',
-    'cookie-universal-nuxt'
+    'cookie-universal-nuxt',
+    '@nuxtjs/workbox',
+    '@nuxtjs/manifest'
   ],
 
   axios: {
