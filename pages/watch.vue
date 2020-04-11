@@ -197,9 +197,7 @@ export default {
   },
   asyncData({ query }) {
     return ViewtubeApi.api.videos({
-      params: {
-        id: query.v
-      }
+      id: query.v
     }).then(response => {
       if (response) {
         return { video: response.data }
@@ -255,11 +253,10 @@ export default {
 .watch {
   overflow-y: scroll;
   overflow-x: hidden;
-  margin-top: $header-height;
+  padding-top: $header-height;
   perspective: 4px;
   perspective-origin: 0 0;
   height: calc(100% - #{$header-height});
-  margin-top: $header-height;
   position: relative;
 
   .video-player-p {
@@ -310,7 +307,6 @@ export default {
       transition: opacity 300ms $intro-easing;
       z-index: 400;
       position: relative;
-      background-color: var(--bgcolor-main);
       width: 100%;
 
       .video-infobox-title {
