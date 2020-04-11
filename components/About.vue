@@ -9,20 +9,16 @@
       <div class="logo-about">
         <img
           class="logo-about-img"
-          src="@/assets/icon-background-192.jpg"
+          src="@/assets/icon.svg"
           alt="ViewTube"
         />
       </div>
       <h2>ViewTube by Maurice Oegerli</h2>
       <h3>{{ description }}</h3>
       <div class="links-about">
-        <a
-          v-ripple
-          target="_blank"
-          href="https://github.com/mauriceoegerli/viewtube-vue"
-        >
+        <BadgeButton :href="'https://github.com/mauriceoegerli/viewtube-vue'">
           <GithubIcon />ViewTube
-        </a>
+        </BadgeButton>
         <BadgeButton :href="'https://github.com/omarroth/invidious'">
           <GithubIcon />
           <p>Invidious</p>

@@ -1,9 +1,14 @@
 <template>
   <div class="watch">
+    <video
+      v-if="!jsEnabled"
+      :src="video.formatStreams[0].url"
+    ></video>
     <VideoPlayer
       :key="video.id"
       :video="video"
       class="video-player-p"
+      v-if="jsEnabled"
     ></VideoPlayer>
     <div class="video-meta">
       <CollapsibleSection
@@ -160,6 +165,7 @@ export default {
     return true
   },
   data: () => ({
+    jsEnabled: false,
     video: [],
     comment: null,
     commentsLoading: true,
