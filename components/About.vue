@@ -61,9 +61,9 @@
 </template>
 
 <script>
-import CloseIcon from 'vue-material-design-icons//Close'
+import CloseIcon from 'vue-material-design-icons/Close'
 import Commons from '@/plugins/commons.js'
-import GithubIcon from 'vue-material-design-icons/GithubCircle'
+import GithubIcon from 'vue-material-design-icons/Github'
 import ExternalIcon from 'vue-material-design-icons/OpenInNew'
 import BadgeButton from '@/components/buttons/BadgeButton'
 

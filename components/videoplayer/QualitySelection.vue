@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import SettingsIcon from 'vue-material-design-icons/Settings'
+import SettingsIcon from 'vue-material-design-icons/Cog'
 import HighDefinitionIcon from 'vue-material-design-icons/HighDefinition'
 import MagicIcon from 'vue-material-design-icons/AutoFix'
 

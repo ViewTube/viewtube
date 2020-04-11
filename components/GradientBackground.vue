@@ -43,8 +43,8 @@ export default {
     &.theme {
       background: linear-gradient(
         165deg,
-        rgba(226, 113, 59, 1) 0%,
-        rgba(116, 20, 10, 1) 28%,
+        rgba(241, 87, 10, 0.705) 0%,
+        rgba(116, 21, 10, 0.801) 28%,
         rgba(18, 18, 18, 1) 69%,
         rgba(18, 18, 18, 1) 100%
       );

@@ -14,7 +14,7 @@
       <img
         class="logo-small"
         :class="{ inverted: currentRouteName!=='home' }"
-        src="@/assets/icon-background-192.jpg"
+        src="@/assets/icon.svg"
         alt="ViewTube"
       />
     </nuxt-link>
@@ -150,7 +150,7 @@
 
 <script>
 import ShareIcon from 'vue-material-design-icons/Share'
-import SettingsIcon from 'vue-material-design-icons/Settings'
+import SettingsIcon from 'vue-material-design-icons/Cog'
 import AboutIcon from 'vue-material-design-icons/InformationOutline'
 import MainSearchBox from '@/components/MainSearchBox'
 import AccountIcon from 'vue-material-design-icons/AccountCircle'
@@ -298,8 +298,7 @@ export default {
   background-color: var(--header-bgcolor);
 
   transition: box-shadow 300ms $intro-easing,
-    background-color 300ms $intro-easing,
-    transform 300ms $dynamic-easing;
+    background-color 300ms $intro-easing, transform 300ms $dynamic-easing;
 
   &.hidden {
     transform: translate3d(0, -$header-height - 20px, 0);
@@ -341,16 +340,7 @@ export default {
     .logo-small {
       margin: auto;
       height: calc(#{$header-height} - 20px);
-      clip-path: polygon(
-        18% 4%,
-        95% 50%,
-        95% 50%,
-        95% 50%,
-        95% 50%,
-        95% 50%,
-        18% 96%
-      );
-      transform: scale(0.6) translateY(-2px);
+      transform: scale(0.8) translateY(-2px);
       transition: clip-path 300ms $intro-easing, transform 300ms linear;
     }
 
@@ -362,19 +352,6 @@ export default {
       .logo-small {
         display: block;
         transform: scale(1);
-
-        &.inverted {
-          clip-path: polygon(
-            18% 50%,
-            95% 4%,
-            95% 29%,
-            60% 50%,
-            95% 71%,
-            95% 96%,
-            18% 50%
-          );
-          transform: scale(0.8);
-        }
       }
     }
   }
