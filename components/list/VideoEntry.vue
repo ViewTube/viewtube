@@ -11,34 +11,48 @@
         <div class="thmb-clip">
           <img
             class="video-entry-thmb-image"
-            v-lazy="video.videoThumbnails[4].url"
+            v-lazy="commons.proxyUrl + video.videoThumbnails[4].url"
             :alt="`${video.title}`"
           />
         </div>
-        <div class="video-description-overlay" v-if="video.description">
+        <div
+          class="video-description-overlay"
+          v-if="video.description"
+        >
           <p>{{ video.description }}</p>
         </div>
       </div>
-      <div class="video-saved-progress" :style="{ width: `${videoProgressPercentage}%` }"></div>
+      <div
+        class="video-saved-progress"
+        :style="{ width: `${videoProgressPercentage}%` }"
+      ></div>
       <span class="video-entry-length">{{ commons.getTimestampFromSeconds(video.lengthSeconds) }}</span>
     </nuxt-link>
     <div class="video-entry-info">
-      <nuxt-link
-        class="video-entry-title tooltip"
-        :to="{path: '/watch?v=' + video.videoId}"
-        :data-tippy-content="video.title"
-      >{{ video.title }}</nuxt-link>
-      <nuxt-link
-        class="video-entry-channel tooltip"
-        :to="{path: '/channel/' + video.authorId}"
-        :data-tippy-content="video.author"
-      >{{ video.author }}</nuxt-link>
-      <div class="video-entry-stats">
-        <p
-          class="video-entry-views"
-          v-if="video.viewCount !== null"
-        >{{ video.viewCount.toLocaleString() }} {{ video.viewCount === 1 ? 'view' : 'views' }}</p>
-        <p class="video-entry-timestamp">{{ video.publishedText }}</p>
+      <img
+        class="author-thumbnail"
+        v-if="video.authorThumbnails"
+        :src="commons.proxyUrl + video.authorThumbnails[1].url"
+        alt="Author thumbnail"
+      >
+      <div class="video-info-text">
+        <nuxt-link
+          class="video-entry-title tooltip"
+          :to="{path: '/watch?v=' + video.videoId}"
+          :data-tippy-content="video.title"
+        >{{ video.title }}</nuxt-link>
+        <nuxt-link
+          class="video-entry-channel tooltip"
+          :to="{path: '/channel/' + video.authorId}"
+          :data-tippy-content="video.author"
+        >{{ video.author }}</nuxt-link>
+        <div class="video-entry-stats">
+          <p
+            class="video-entry-views"
+            v-if="video.viewCount !== null"
+          >{{ video.viewCount.toLocaleString() }} {{ video.viewCount === 1 ? 'view' : 'views' }}</p>
+          <p class="video-entry-timestamp">{{ video.publishedText }}</p>
+        </div>
       </div>
     </div>
   </div>
@@ -195,44 +209,58 @@ export default {
   }
 
   .video-entry-info {
-    padding: 10px 0 10px 0;
+    padding: 15px 0 10px 0;
     font-family: $default-font;
     overflow: hidden;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: left;
     z-index: 11;
 
-    .video-entry-title {
-      text-decoration: none;
-      margin: 0;
-      font-size: 0.9rem;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      color: var(--title-color);
-      padding: 6px 0 4px 0;
+    .author-thumbnail {
+      width: 48px;
+      height: 48px;
+      margin: 0 10px 0 0;
     }
 
-    .video-entry-channel {
-      text-decoration: none;
-      padding: 3px 0 4px 0;
-      font-size: 0.9rem;
-      font-weight: bold;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      color: var(--subtitle-color);
-    }
-
-    .video-entry-stats {
-      color: var(--subtitle-color-light);
+    .video-info-text {
       display: flex;
-      width: 100%;
-      justify-content: space-between;
-      flex-direction: row;
-      font-size: 0.8rem;
-      margin: 5px 0 0 0;
+      flex-direction: column;
+      overflow: hidden;
+
+      .video-entry-title {
+        text-decoration: none;
+        margin: 0;
+        font-size: 0.9rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        color: var(--title-color);
+        padding: 0 0 4px 0;
+        width: calc(100% - 8px);
+        box-sizing: border-box;
+      }
+
+      .video-entry-channel {
+        text-decoration: none;
+        padding: 3px 0 4px 0;
+        font-size: 0.8rem;
+        font-weight: bold;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        color: var(--subtitle-color);
+      }
+
+      .video-entry-stats {
+        color: var(--subtitle-color-light);
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        flex-direction: row;
+        font-size: 0.8rem;
+        margin: 5px 0 0 0;
+      }
     }
   }
 

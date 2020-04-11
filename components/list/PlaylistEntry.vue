@@ -1,9 +1,15 @@
 <template>
   <div class="playlist-entry">
     <div class="playlist-entry-background"></div>
-    <nuxt-link class="playlist-entry-thmb" :to="{path: '/watch?v=' + playlist.videos[0].videoId}">
+    <nuxt-link
+      class="playlist-entry-thmb"
+      :to="{path: '/watch?v=' + playlist.videos[0].videoId}"
+    >
       <div class="thmb-image-container">
-        <img class="playlist-entry-thmb-image" :src="playlist.videos[0].videoThumbnails[2].url" />
+        <img
+          class="playlist-entry-thmb-image"
+          :src="commons.proxyUrl + playlist.videos[0].videoThumbnails[2].url"
+        />
       </div>
       <span class="playlist-entry-count">{{ playlist.videoCount }} videos</span>
     </nuxt-link>
@@ -23,6 +29,7 @@
 </template>
 
 <script>
+import Commons from '@/plugins/commons.js'
 import tippy from 'tippy.js'
 import 'tippy.js/dist/tippy.css'
 
@@ -31,7 +38,10 @@ export default {
   props: {
     playlist: Object
   },
-  mounted () {
+  data: () => ({
+    commons: Commons
+  }),
+  mounted() {
     tippy('.tooltip', {
       duration: 300,
       arrow: false,
@@ -137,7 +147,7 @@ export default {
 
     .playlist-entry-thmb {
       width: 100%;
-      height: 53vw;;
+      height: 53vw;
 
       .thmb-image-container {
         position: relative;

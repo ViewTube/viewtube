@@ -92,7 +92,7 @@ export default {
   }
 }
 * {
-  scrollbar-color: #ff7b3b #1e1e1e;
+  scrollbar-color: #f1570a #1e1e1e;
   scrollbar-width: thin;
   touch-action: manipulation;
 
@@ -112,7 +112,7 @@ export default {
   }
 
   &::-webkit-scrollbar-thumb {
-    background: #ff7b3b;
+    background: #f1570a;
     border-radius: 0;
     -webkit-border-radius: 0;
   }

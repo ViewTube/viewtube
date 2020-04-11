@@ -11,7 +11,7 @@
       >
         <img
           class="channel-entry-thmb-image"
-          :src="channel.authorThumbnails[2].url"
+          :src="commons.proxyUrl + channel.authorThumbnails[2].url"
         />
       </div>
     </nuxt-link>
@@ -23,13 +23,17 @@
       >{{ channel.author }}</nuxt-link>
       <div class="channel-entry-stats">
         <p class="channel-entry-videocount">{{ channel.videoCount }} videos</p>
-        <p class="channel-entry-subcount" v-if="channel.subCount">{{ channel.subCount.toLocaleString() }} subscribers</p>
+        <p
+          class="channel-entry-subcount"
+          v-if="channel.subCount"
+        >{{ channel.subCount.toLocaleString() }} subscribers</p>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import Commons from '@/plugins/commons.js'
 import tippy from 'tippy.js'
 import 'tippy.js/dist/tippy.css'
 
@@ -38,6 +42,9 @@ export default {
   props: {
     channel: Object
   },
+  data: () => ({
+    commons: Commons
+  }),
   mounted() {
     tippy('.tooltip', {
       duration: 300,
