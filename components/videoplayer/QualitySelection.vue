@@ -1,8 +1,18 @@
 <template>
-  <div class="quality" @mouseup.stop="onQualityMouseup">
-    <SettingsIcon @click.stop="onQualityInteraction" @touchend.stop="onQualityTouchInteraction" />
+  <div
+    class="quality"
+    @mouseup.stop="onQualityMouseup"
+  >
+    <SettingsIcon
+      @click.stop="onQualityInteraction"
+      @touchend.stop="onQualityTouchInteraction"
+    />
     <transition name="circle-bottom">
-      <div class="quality-popup" v-if="popup" ref="qualityPopup">
+      <div
+        class="quality-popup"
+        v-if="popup"
+        ref="qualityPopup"
+      >
         <div class="quality-submenu adaptive">
           <span class="quality-title">
             <MagicIcon />Automatic quality
@@ -68,7 +78,11 @@ export default {
       return this.adaptiveVideos.slice().sort((a, b) => parseInt(a.bitrate) - parseInt(b.bitrate))
     },
     adaptiveVideos() {
-      return this.adaptiveFormats.filter(value => value.type.match(/.*video.*/))
+      return this.adaptiveFormats.filter(value => {
+        if (value.type) {
+          return value.type.match(/.*video.*/)
+        }
+      })
     }
   },
   methods: {

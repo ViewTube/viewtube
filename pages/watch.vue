@@ -1,8 +1,10 @@
 <template>
   <div class="watch">
     <video
+      controls
       v-if="!jsEnabled"
-      :src="video.formatStreams[0].url"
+      :src="getHDUrl()"
+      class="nojs-player"
     ></video>
     <VideoPlayer
       :key="video.id"
@@ -70,25 +72,29 @@
         </div>
         <div class="video-infobox-date">{{ video.publishedText }}</div>
         <div class="video-actions">
-          <a
+          <BadgeButton
             :href="`https://getpocket.com/save?url=${encodedUrl}`"
-            target="_blank"
             style="color: #EF4056;"
           >
             <img src="@/assets/icons/pocket.svg">
             Save to pocket
-          </a>
+          </BadgeButton>
         </div>
         <p class="video-infobox-text">tags:</p>
         <div class="video-infobox-tags">
-          <BadgeButton
-            class="video-infobox-tag"
-            :href="`results?search_query=${keyword}`"
-            v-for="keyword in video.keywords"
-            :key="keyword"
+          <div
+            class="tags-container"
+            v-if="video.keywords"
           >
-            <p>{{ keyword }}</p>
-          </BadgeButton>
+            <BadgeButton
+              class="video-infobox-tag"
+              :href="`results?search_query=${keyword}`"
+              v-for="keyword in video.keywords"
+              :key="keyword"
+            >
+              <p>{{ keyword }}</p>
+            </BadgeButton>
+          </div>
         </div>
         <div class="comments-description">
           <div
@@ -186,6 +192,9 @@ export default {
     }
   },
   mounted() {
+    if (process.browser) {
+      this.jsEnabled = true
+    }
     this.loadComments()
     this.$store.commit('miniplayer/setCurrentVideo', this.video)
   },
@@ -216,6 +225,12 @@ export default {
       })
   },
   methods: {
+    getHDUrl() {
+      const { url } = this.video.formatStreams.find(e => {
+        return e.qualityLabel && e.qualityLabel === '720p'
+      })
+      return url ?? this.video.formatStreams[0].src
+    },
     async loadComments(evtVideoId) {
       const videoId = evtVideoId || this.$route.query.v
       fetch(`${Commons.getApiUrl()}comments/${videoId}`, {
@@ -265,9 +280,17 @@ export default {
   height: calc(100% - #{$header-height});
   position: relative;
 
+  .nojs-player {
+    transform-origin: 0 0;
+    max-height: calc(100vh - 170px);
+    transform: translate3d(0, $header-height, -4px) scale(2);
+    z-index: 11;
+    width: 100%;
+  }
+
   .video-player-p {
     transform-origin: 0 0;
-    transform: translateZ(-4px) scale(2);
+    transform: translate3d(0, $header-height, -4px) scale(2);
     z-index: 11;
   }
 
@@ -327,12 +350,24 @@ export default {
         margin: 5px auto 0 auto;
         width: 100%;
         height: 40px;
-        overflow: hidden;
-        overflow-x: auto;
-        white-space: nowrap;
+        overflow-x: scroll;
         padding: 0 0 0 $tag-padding-left;
         scrollbar-width: none;
         box-sizing: border-box;
+        position: relative;
+
+        .tags-container {
+          display: flex;
+          flex-direction: row;
+          width: auto;
+          position: absolute;
+
+          .video-infobox-tag {
+            display: inline-block;
+            overflow: hidden;
+            white-space: nowrap;
+          }
+        }
 
         &::-webkit-scrollbar {
           display: none;

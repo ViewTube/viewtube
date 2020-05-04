@@ -45,6 +45,7 @@ export default {
   transition: background-color 200ms $intro-easing, border 200ms $intro-easing;
   border: 2px solid var(--theme-color-translucent);
   width: auto;
+  white-space: nowrap;
 
   .content {
     display: flex;

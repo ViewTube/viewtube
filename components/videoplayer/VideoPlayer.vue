@@ -40,11 +40,6 @@
         }"
         ref="video"
       ></video>
-      <video
-        class="no-js-player"
-        :src="highestVideoQuality"
-        v-if="jsEnabled"
-      ></video>
       <VideoEndscreen
         :videoId="video.videoId"
         :videoProgress="videoElement.progress"
@@ -300,8 +295,10 @@ export default {
   },
   computed: {
     highestVideoQuality() {
-      const streams = this.video.formatStreams
-      return streams[0].url
+      const { url } = this.video.formatStreams.find(e => {
+        return e.qualityLabel && e.qualityLabel === '720p'
+      })
+      return url ?? this.video.formatStreams[0].src
     },
     videoVolume() {
       return this.videoElement.playerVolume
