@@ -507,8 +507,10 @@ export default {
 
         img {
           position: relative;
-          top: 6px;
-          left: 2px;
+          top: 0;
+          left: 4px;
+          width: 24px;
+          height: 24px;
         }
       }
 
