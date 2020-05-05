@@ -350,9 +350,9 @@ export default {
         margin: 5px auto 0 auto;
         width: 100%;
         height: 40px;
-        overflow-x: scroll;
+        overflow: scroll hidden;
         padding: 0 0 0 $tag-padding-left;
-        scrollbar-width: none;
+        scrollbar-width: thin;
         box-sizing: border-box;
         position: relative;
 
