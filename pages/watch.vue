@@ -62,7 +62,7 @@
                 :to="`channel/${video.authorId}`"
                 class="infobox-channel-name ripple"
               >{{ video.author }}</nuxt-link>
-              <p class="infobox-channel-subcount">{{ video.subCountText }} Subscribers</p>
+              <p class="infobox-channel-subcount">{{ video.subCount.toLocaleString() }} subscribers</p>
             </div>
           </div>
           <SubscribeButton
