@@ -227,6 +227,7 @@ export default {
       display: flex;
       flex-direction: column;
       overflow: hidden;
+      width: 100%;
 
       .video-entry-title {
         text-decoration: none;
@@ -237,7 +238,7 @@ export default {
         white-space: nowrap;
         color: var(--title-color);
         padding: 0 0 4px 0;
-        width: calc(100% - 8px);
+        width: 100%;
         box-sizing: border-box;
       }
 
