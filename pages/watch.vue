@@ -25,16 +25,16 @@
       <div class="video-infobox">
         <h1 class="video-infobox-title">{{ video.title }}</h1>
         <div class="video-infobox-stats">
-          <p class="infobox-views">{{ video.viewCount && video.viewCount.toLocaleString() }} views</p>
+          <p class="infobox-views">{{ parseFloat(video.viewCount).toLocaleString() }} views</p>
           <div class="infobox-rating">
             <div class="infobox-likecount">
               <div class="infobox-likes">
                 <ThumbsUp class="thumbs-icon"></ThumbsUp>
-                <p class="like-count">{{ video.likeCount && video.likeCount.toLocaleString() }}</p>
+                <p class="like-count">{{ parseFloat(video.likeCount).toLocaleString() }}</p>
               </div>
               <div class="infobox-dislikes">
                 <ThumbsDown class="thumbs-icon"></ThumbsDown>
-                <p class="dislike-count">{{ video.dislikeCount && video.dislikeCount.toLocaleString() }}</p>
+                <p class="dislike-count">{{ parseFloat(video.dislikeCount).toLocaleString() }}</p>
               </div>
             </div>
             <div class="like-ratio">
