@@ -16,6 +16,7 @@
       <CollapsibleSection
         class="recommended-videos mobile"
         :label="'Recommended videos'"
+        :opened="recommendedOpen"
       >
         <RecommendedVideos
           class="recommended-videos-list"
@@ -99,9 +100,8 @@
         <div class="comments-description">
           <div
             class="video-infobox-description links"
-            v-html="video.descriptionHtml"
-            v-clean-links
-          ></div>
+            v-create-links
+          >{{ video.description }}</div>
           <Spinner v-if="commentsLoading"></Spinner>
           <div
             class="comments-container"
@@ -118,7 +118,6 @@
             />
             <BadgeButton
               :click="loadMoreComments"
-              :key="keyword"
               :loading="commentsContinuationLoading"
               v-if="commentsContinuationLink"
             >
@@ -177,7 +176,8 @@ export default {
     commentsLoading: true,
     commentsContinuationLink: null,
     commentsContinuationLoading: false,
-    commons: Commons
+    commons: Commons,
+    recommendedOpen: false
   }),
   head() {
     return {
@@ -191,9 +191,22 @@ export default {
       ]
     }
   },
+  beforeCreate() {
+    if (process.browser) {
+      this.jsEnabled = true
+    }
+  },
+  updated() {
+    if (process.browser) {
+      this.jsEnabled = true
+    }
+  },
   mounted() {
     if (process.browser) {
       this.jsEnabled = true
+    }
+    if (window && window.innerWidth > 700) {
+      this.recommendedOpen = true
     }
     this.loadComments()
     this.$store.commit('miniplayer/setCurrentVideo', this.video)
