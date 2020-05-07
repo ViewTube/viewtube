@@ -17,6 +17,9 @@ export const mutations = {
     } else {
       state.scrollDown = true
     }
+    if (state.scrollPosition < 5) {
+      state.scrollDown = false
+    }
     state.prevScrollPosition = state.scrollPosition
   }
 }
