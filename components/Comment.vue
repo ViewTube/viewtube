@@ -3,7 +3,10 @@
     class="comment"
     :class="{ open: repliesLoaded }"
   >
-    <nuxt-link :to="{path: '/channel/' + comment.authorId}">
+    <nuxt-link
+      :to="{path: '/channel/' + comment.authorId}"
+      class="comment-author-image-link"
+    >
       <img
         class="comment-author-image"
         :src="comment.authorThumbnails[2].url"
@@ -84,8 +87,8 @@
           <BadgeButton
             class="show-more-replies"
             :click="loadMoreReplies"
-            :loading="repliesContinuationLink"
-            v-if="!loadingReplies && !repliesLoaded"
+            :loading="repliesContinuationLoading"
+            v-if="!loadingReplies && repliesContinuationLink"
           >
             <LoadMoreIcon />
             <p>show more</p>
@@ -216,9 +219,15 @@ export default {
     padding: 0;
   }
 
-  .comment-author-image {
-    width: 55px;
+  .comment-author-image-link {
     height: 55px;
+    width: 55px;
+    overflow: hidden;
+    box-shadow: 0 0 0 1px var(--theme-color);
+
+    .comment-author-image {
+      width: 55px;
+    }
   }
 
   .comment-container {
