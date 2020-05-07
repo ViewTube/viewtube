@@ -3,7 +3,7 @@
     <div class="channel-title-container" ref="channelTitle">
       <div class="channel-title">
         <div class="channel-thumbnail">
-          <img :src="channel.authorThumbnails[0].url" alt="Author Image" />
+          <img :src="channel.authorThumbnails[3].url" alt="Author Image" />
         </div>
         <div class="channel-info">
           <div class="channel-name">
