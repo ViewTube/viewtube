@@ -1,8 +1,9 @@
 <template>
   <div
-    class="channel-description"
+    class="channel-description links"
     v-show="descriptionHtml"
     v-html="descriptionHtml"
+    v-create-links
   ></div>
 </template>
 
