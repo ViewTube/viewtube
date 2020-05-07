@@ -46,6 +46,7 @@ export default {
   scrollbar-width: thin;
   white-space: nowrap;
   z-index: 14;
+  background-color: var(--bgcolor-main);
 
   .related-channel {
     width: 90px;
