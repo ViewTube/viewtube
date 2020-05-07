@@ -33,7 +33,20 @@ export default {
     open: false
   }),
   props: {
-    label: String
+    label: String,
+    opened: Boolean
+  },
+  mounted() {
+    if (this.opened) {
+      this.open = this.opened
+    }
+  },
+  watch: {
+    opened(newValue, oldValue) {
+      if (newValue !== oldValue) {
+        this.open = Boolean(newValue)
+      }
+    }
   },
   methods: {
     toggleSection() {
