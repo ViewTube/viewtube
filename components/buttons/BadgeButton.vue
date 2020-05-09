@@ -4,7 +4,7 @@
     target="_blank"
     v-ripple
     :href="href || '#'"
-    @click.prevent="clickFunction"
+    @click="clickFunction"
   >
     <div
       class="content"
