@@ -1,5 +1,10 @@
 <template>
-  <div class="dropdown" v-clickaway="hideDropdown" ref="dropdownBtn" :class="{ open: open }">
+  <div
+    class="dropdown"
+    v-clickaway="hideDropdown"
+    ref="dropdownBtn"
+    :class="{ open: open }"
+  >
     <div
       class="dropdown-btn"
       @click.stop="onDropdownBtnClick"
@@ -10,9 +15,15 @@
         <p v-if="selected !== null">{{ entries[selected].name }}</p>
         <p v-if="selected === null">{{ label }}</p>
       </div>
-      <label class="dropdown-label" v-if="label">{{ label }}</label>
+      <label
+        class="dropdown-label"
+        v-if="label"
+      >{{ label }}</label>
     </div>
-    <portal to="dropdown" v-if="visible">
+    <portal
+      to="dropdown"
+      v-if="visible"
+    >
       <div
         class="dropdown-list"
         :class="{ open: open }"
@@ -209,8 +220,9 @@ export default {
     clip-path: none !important;
     transform-origin: center top !important;
     transition: opacity 300ms 0ms $intro-easing, transform 600ms $outro-easing,
-      box-shadow 300ms !important;
+      box-shadow 300ms, pointer-events 0ms !important;
     opacity: 0;
+    pointer-events: none !important;
 
     &.open {
       clip-path: none !important;
@@ -218,6 +230,7 @@ export default {
       transition: opacity 200ms 100ms $intro-easing,
         transform 300ms cubic-bezier(0, 0.98, 0.21, 0.98), box-shadow 300ms !important;
       opacity: 1;
+      pointer-events: auto !important;
     }
   }
 
