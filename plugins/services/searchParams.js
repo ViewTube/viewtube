@@ -36,8 +36,8 @@ export default {
   },
   parseQueryJson(query, q) {
     const me = this
-    let queryObj = {
-      q: q ? q : query.search_query
+    const queryObj = {
+      q: q || query.search_query
     }
     Object.keys(query).forEach((val, i) => {
       if (me.defaults[val]) {

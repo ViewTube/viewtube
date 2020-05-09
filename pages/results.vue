@@ -49,10 +49,11 @@
         :playlist="result"
         :channel="result"
       />
+    </div>
+    <div class="show-more-btn-container">
       <BadgeButton
         :click="loadMoreVideos"
         :loading="moreVideosLoading"
-        v-if="!videosExpanded"
       >
         <LoadMoreIcon />
         <p>show more</p>
@@ -146,7 +147,9 @@ export default {
     }
   },
   asyncData({ query }) {
+    query.type = 'all'
     const searchParams = SearchParams.parseQueryJson(query, query.search_query)
+    console.log(searchParams)
     return Invidious.api.search({ params: searchParams })
       .then(response => {
         return { results: response.data, searchQuery: query.search_query }
@@ -154,9 +157,6 @@ export default {
       .catch(error => {
         console.error(error)
       })
-  },
-  beforeRouteLeave(to, from, next) {
-    next()
   }
 }
 </script>
@@ -185,7 +185,6 @@ export default {
 
   .search-videos-container {
     width: 100%;
-    height: 100%;
     max-width: $main-width;
     margin: 0 auto;
     z-index: 10;
@@ -196,6 +195,16 @@ export default {
 
     @media screen and (max-width: $mobile-width) {
       flex-direction: row;
+    }
+  }
+
+  .show-more-btn-container {
+    display: flex;
+    width: 100%;
+    padding: 0 0 20px 0;
+
+    > a {
+      margin: 0 auto;
     }
   }
 }
