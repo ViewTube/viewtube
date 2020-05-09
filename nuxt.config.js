@@ -41,8 +41,8 @@ export default {
 
   plugins: [
     '@/plugins/directives/index',
-    '@plugins/feathers-vuex.js',
-    '@/plugins/scroll'
+    '@/plugins/scroll',
+    { src: '@/plugins/localStorage', ssr: false }
   ],
 
   buildModules: [
