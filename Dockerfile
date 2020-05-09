@@ -1,27 +1,13 @@
-FROM node:13
+FROM node:14.2-alpine3.11
+WORKDIR /home/app
 
-RUN curl -o- -L https://yarnpkg.com/install.sh | bash
-RUN useradd --user-group --create-home --shell /bin/false app
-
-ENV PATH=/root/.yarn/bin:$PATH
-ENV HOME=/home/app/
-
-COPY package.json yarn.lock $HOME
-RUN chown -R app $HOME/*
-
-USER app
-WORKDIR $HOME
-
-USER root
-COPY . $HOME
-RUN yarn install
-RUN yarn build
-RUN chown -R app $HOME/*
+COPY . .
+RUN \
+  apk add yarn && \
+  yarn install && \
+  yarn build
 
 EXPOSE 8066
-
 ENV NUXT_HOST=0.0.0.0
 ENV NUXT_PORT=8066
-
-USER app
 CMD ["npm", "start"]
