@@ -50,7 +50,7 @@
           <p
             class="video-entry-views"
             v-if="video.viewCount !== null"
-          >{{ video.viewCount.toLocaleString() }} {{ video.viewCount === 1 ? 'view' : 'views' }}</p>
+          >{{ video.viewCount.toLocaleString('en-US') }} {{ video.viewCount === 1 ? 'view' : 'views' }}</p>
           <p class="video-entry-timestamp">{{ video.publishedText }}</p>
         </div>
       </div>
@@ -190,6 +190,7 @@ export default {
       left: 0;
       height: 3px;
       background-color: var(--theme-color);
+      max-width: 100%;
     }
 
     .video-entry-length {

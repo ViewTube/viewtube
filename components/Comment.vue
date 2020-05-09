@@ -38,7 +38,7 @@
         </div>
         <div class="likes comment-property">
           <ThumbsUpIcon />
-          <span>{{ comment.likeCount.toLocaleString() }}</span>
+          <span>{{ comment.likeCount.toLocaleString('en-US') }}</span>
         </div>
         <div
           class="creatorHeart comment-property tooltip"
@@ -59,7 +59,7 @@
           v-if="!repliesLoaded"
         >
           <CommentIcon />
-          <p>show {{ comment.replies.replyCount.toLocaleString() }} replies</p>
+          <p>show {{ comment.replies.replyCount.toLocaleString('en-US') }} replies</p>
         </BadgeButton>
         <BadgeButton
           class="comment-reply-count"

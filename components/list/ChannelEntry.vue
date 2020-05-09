@@ -6,6 +6,12 @@
       :to="{path: '/channel/' + channel.authorId}"
     >
       <div
+        class="fake-thmb"
+        v-if="!channel.authorThumbnails"
+      >
+        <h3>{{ channelNameToImgString() }}</h3>
+      </div>
+      <div
         class="thmb-image-container"
         v-if="channel.authorThumbnails"
       >
@@ -26,7 +32,7 @@
         <p
           class="channel-entry-subcount"
           v-if="channel.subCount"
-        >{{ channel.subCount.toLocaleString() }} subscribers</p>
+        >{{ channel.subCount.toLocaleString('en-US') }} subscribers</p>
       </div>
     </div>
   </div>
@@ -53,6 +59,15 @@ export default {
       touch: 'hold',
       placement: 'bottom'
     })
+  },
+  methods: {
+    channelNameToImgString() {
+      let initials = ''
+      this.channel.author.split(' ').forEach(e => {
+        initials += e.charAt(0)
+      })
+      return initials
+    }
   }
 }
 </script>
@@ -90,6 +105,21 @@ export default {
     box-shadow: $max-shadow;
     margin: 0 auto;
     z-index: 11;
+
+    .fake-thmb {
+      overflow: hidden;
+      background-color: var(--theme-color);
+      height: 100%;
+      width: 100%;
+      display: flex;
+
+      h3 {
+        font-size: 6rem;
+        white-space: normal;
+        text-align: center;
+        margin: auto;
+      }
+    }
 
     .thmb-image-container {
       position: relative;

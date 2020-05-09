@@ -26,16 +26,16 @@
       <div class="video-infobox">
         <h1 class="video-infobox-title">{{ video.title }}</h1>
         <div class="video-infobox-stats">
-          <p class="infobox-views">{{ parseFloat(video.viewCount).toLocaleString() }} views</p>
+          <p class="infobox-views">{{ parseFloat(video.viewCount).toLocaleString('en-US') }} views</p>
           <div class="infobox-rating">
             <div class="infobox-likecount">
               <div class="infobox-likes">
                 <ThumbsUp class="thumbs-icon"></ThumbsUp>
-                <p class="like-count">{{ parseFloat(video.likeCount).toLocaleString() }}</p>
+                <p class="like-count">{{ parseFloat(video.likeCount).toLocaleString('en-US') }}</p>
               </div>
               <div class="infobox-dislikes">
                 <ThumbsDown class="thumbs-icon"></ThumbsDown>
-                <p class="dislike-count">{{ parseFloat(video.dislikeCount).toLocaleString() }}</p>
+                <p class="dislike-count">{{ parseFloat(video.dislikeCount).toLocaleString('en-US') }}</p>
               </div>
             </div>
             <div class="like-ratio">
@@ -63,7 +63,7 @@
                 :to="`channel/${video.authorId}`"
                 class="infobox-channel-name ripple"
               >{{ video.author }}</nuxt-link>
-              <p class="infobox-channel-subcount">{{ video.subCount.toLocaleString() }} subscribers</p>
+              <p class="infobox-channel-subcount">{{ video.subCount.toLocaleString('en-US') }} subscribers</p>
             </div>
           </div>
           <SubscribeButton
@@ -72,6 +72,9 @@
           />
         </div>
         <div class="video-infobox-date">{{ video.publishedText }}</div>
+        <div class="video-exact-date">
+          {{new Date(video.published).toLocaleString('en-US')}}
+        </div>
         <div class="video-actions">
           <BadgeButton
             :href="`https://getpocket.com/save?url=${encodedUrl}`"
@@ -108,7 +111,7 @@
             v-if="!commentsLoading"
           >
             <div class="comments-count">
-              <p>{{ comment.commentCount && comment.commentCount.toLocaleString() }} comments</p>
+              <p>{{ comment.commentCount && comment.commentCount.toLocaleString('en-US') }} comments</p>
             </div>
             <Comment
               v-for="(comment, i) in comment.comments"
@@ -363,7 +366,7 @@ export default {
         margin: 5px auto 0 auto;
         width: 100%;
         height: 40px;
-        overflow: scroll hidden;
+        overflow: auto hidden;
         padding: 0 0 0 $tag-padding-left;
         scrollbar-width: thin;
         box-sizing: border-box;
@@ -510,8 +513,13 @@ export default {
       }
 
       .video-infobox-date {
-        margin: 20px auto 10px auto;
+        margin: 20px 0 0 0;
         width: 100%;
+      }
+
+      .video-exact-date {
+        margin: 0 0 10px 0;
+        color: var(--subtitle-color-light);
       }
 
       .video-actions {

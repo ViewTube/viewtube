@@ -11,10 +11,10 @@
           </div>
           <div class="channel-basics">
             <div class="channel-subcount">
-              <h2>{{ channel.subCount.toLocaleString() }} subscribers</h2>
+              <h2>{{ channel.subCount.toLocaleString('en-US') }} subscribers</h2>
             </div>
             <div class="channel-totalviews">
-              <h2>{{ channel.totalViews.toLocaleString() }} total views</h2>
+              <h2>{{ channel.totalViews.toLocaleString('en-US') }} total views</h2>
             </div>
             <div class="channel-joined-on">
               <h2>joined {{ getFormattedDate(new Date(channel.joined*1000)) }}</h2>
