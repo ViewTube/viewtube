@@ -3,7 +3,6 @@
     <div
       class="gradient-background"
       :class="color"
-      :hide="$store.getters['settings/theme'] !== 'default'"
     >
       <span class="background-shadow"></span>
     </div>
@@ -29,6 +28,7 @@ export default {
   z-index: 9;
   display: block;
   width: 100%;
+  opacity: var(--gradient-opacity);
 
   .gradient-background {
     height: 700px + $header-height;

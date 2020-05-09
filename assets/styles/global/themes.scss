@@ -27,6 +27,7 @@ $default: (
   subtitle-color: #d8d8d8,
   subtitle-color-light: #b3b3b3,
   darkness: invert(90%),
+  gradient-opacity: 1
 );
 $light: (
   bgcolor-main: #ffffff,
@@ -57,6 +58,7 @@ $light: (
   subtitle-color: #333333,
   subtitle-color-light: #4e4e4e,
   darkness: invert(0%),
+  gradient-opacity: 0
 );
 $dark-no-gradient: (
   bgcolor-main: #121212,
@@ -87,6 +89,7 @@ $dark-no-gradient: (
   subtitle-color: #d8d8d8,
   subtitle-color-light: #b3b3b3,
   darkness: invert(90%),
+  gradient-opacity: 0
 );
 $black: (
   bgcolor-main: #000000,
@@ -117,6 +120,7 @@ $black: (
   subtitle-color: #d8d8d8,
   subtitle-color-light: #b3b3b3,
   darkness: invert(100%),
+  gradient-opacity: 1
 );
 #app.theme--default {
   @each $name, $color in $default {

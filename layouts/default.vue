@@ -2,7 +2,8 @@
   <div
     id="app"
     class="layout"
-    :class="`theme--${theme}`"
+    ref="app"
+    :class="getThemeClass()"
   >
     <Header
       v-if="!headless"
@@ -35,23 +36,32 @@ export default {
   },
   data() {
     return {
-
+    }
+  },
+  watch: {
+    browser(oldVal, newVal) {
+      console.log(newVal)
     }
   },
   computed: {
     headless() {
       return this.$route.meta.headless
-    },
-    theme() {
-      return this.$store.state.settings.theme
     }
   },
-  created() {
-
+  mounted() {
+    console.log('mounted')
+    this.$refs.app.classList += ` ${this.getThemeClass()}`
   },
   methods: {
     handleScroll(e, position) {
       this.$store.commit('scroll/setScrollPosition', position.scrollTop)
+    },
+    getThemeClass() {
+      if (process.browser) {
+        return `theme--${this.$store.getters['settings/theme']}`
+      } else {
+        return 'theme--default'
+      }
     }
   }
 }
