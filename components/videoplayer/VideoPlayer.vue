@@ -828,8 +828,8 @@ export default {
       .play-btn-container {
         pointer-events: all;
         margin: auto;
-        filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.16))
-          drop-shadow(0 3px 6px rgba(0, 0, 0, 0.23));
+        // filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.16))
+          // drop-shadow(0 3px 6px rgba(0, 0, 0, 0.23));
 
         .play-btn {
           margin: auto;
