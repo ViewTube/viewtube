@@ -90,6 +90,7 @@ var Ripple = {
       rippleContainer.style.top = '0px'
       rippleContainer.style.left = '0px'
       rippleContainer.style.opacity = 0
+      rippleContainer.style.zIndex = 999999
       rippleContainer.style.transform = 'translate(-50%, -50%) scale(0.15)'
       rippleContainer.style.backgroundColor = 'transparent'
 
