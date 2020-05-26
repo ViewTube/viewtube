@@ -118,8 +118,8 @@ var Ripple = {
       )
       const expandTime = e.target.getAttribute('ripple-press-expand-time') || 0.4
       rippleContainer.style.transition = 'transform ' + expandTime + 's ease-out, box-shadow 0.1s linear, opacity 0.1s'
-      rippleContainer.style.background = e.target.getAttribute('ripple-color') || '#ff7b3b'
-      rippleContainer.style.opacity = e.target.getAttribute('ripple-opacity') || '0.5'
+      rippleContainer.style.background = e.target.getAttribute('ripple-color') || '#efefef'
+      rippleContainer.style.opacity = e.target.getAttribute('ripple-opacity') || '0.2'
       rippleContainer.style.boxShadow = e.target.getAttribute('ripple-shadow') || 'none'
       rippleContainer.style.top = offsetY + 'px'
       rippleContainer.style.left = offsetX + 'px'
