@@ -102,7 +102,7 @@ export default {
   }
 }
 * {
-  scrollbar-color: #f1570a #1e1e1e;
+  scrollbar-color: var(--theme-color) var(--bgcolor-main);
   scrollbar-width: thin;
   touch-action: manipulation;
 
@@ -118,17 +118,17 @@ export default {
   &::-webkit-scrollbar {
     height: 6px;
     width: 6px;
-    background: #1e1e1e;
+    background: var(--bgcolor-main);
   }
 
   &::-webkit-scrollbar-thumb {
-    background: #f1570a;
+    background: var(--theme-color);
     border-radius: 0;
     -webkit-border-radius: 0;
   }
 
   &::-webkit-scrollbar-corner {
-    background: #1e1e1e;
+    background: var(--bgcolor-main);
   }
 }
 .ripple * {

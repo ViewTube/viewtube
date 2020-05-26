@@ -17,11 +17,7 @@
       <h2>
         <ThemeIcon />Theme
       </h2>
-      <Dropdown
-        :values="themes"
-        :value="currentTheme"
-        @valuechange="onThemeChange"
-      />
+      <ThemeSelector />
       <h2>
         <MiniplayerIcon />Miniplayer
       </h2>
@@ -41,6 +37,7 @@
 <script>
 import Dropdown from '@/components/filter/Dropdown'
 import SwitchButton from '@/components/buttons/SwitchButton'
+import ThemeSelector from '@/components/themes/ThemeSelector'
 import CloseIcon from 'vue-material-design-icons/Close'
 import ThemeIcon from 'vue-material-design-icons/Brightness4'
 import InstanceIcon from 'vue-material-design-icons/ServerNetwork'
@@ -55,7 +52,8 @@ export default {
     ThemeIcon,
     InstanceIcon,
     MiniplayerIcon,
-    SwitchButton
+    SwitchButton,
+    ThemeSelector
   },
   data() {
     return {
