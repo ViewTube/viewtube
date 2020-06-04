@@ -20,10 +20,7 @@
     }"
     :class="{ fullscreen: fullscreen, embedded: embedded || mini }"
   >
-    <div
-      class="video-element-container"
-      :class="{ zoom: videoElement.zoomed }"
-    >
+    <div class="video-element-container" :class="{ zoom: videoElement.zoomed }">
       <video
         class="video"
         :src="highestVideoQuality"
@@ -47,24 +44,15 @@
       />
     </div>
 
-    <Spinner
-      class="video-spinner"
-      v-if="videoElement.buffering"
-    />
+    <Spinner class="video-spinner" v-if="videoElement.buffering" />
     <div
       class="video-controls-overlay"
       :class="{ visible: playerOverlay.visible || !videoElement.playing }"
       :style="{ cursor: playerOverlay.visible ? 'auto' : 'none'}"
     >
-      <div
-        class="top-control-overlay"
-        :class="{ hidden: playerOverlay.thumbnailVisible }"
-      >
+      <div class="top-control-overlay" :class="{ hidden: playerOverlay.thumbnailVisible }">
         <div class="left-top-controls">
-          <h1
-            class="video-fullscreen-title"
-            v-if="fullscreen || embedded || mini"
-          >{{ video.title }}</h1>
+          <h1 class="video-fullscreen-title" v-if="fullscreen || embedded || mini">{{ video.title }}</h1>
         </div>
         <div class="right-top-controls">
           <OpenInPlayerIcon
@@ -107,15 +95,8 @@
       </div>
       <div class="center-control-overlay">
         <div class="left-action-container"></div>
-        <div
-          class="play-btn-container"
-          @touchend="onPlayBtnTouchEnd"
-          @click="onPlayBtnClick"
-        >
-          <div
-            class="play-btn"
-            :class="{ playing: videoElement.playing }"
-          ></div>
+        <div class="play-btn-container" @touchend="onPlayBtnTouchEnd" @click="onPlayBtnClick">
+          <div class="play-btn" :class="{ playing: videoElement.playing }"></div>
         </div>
         <div class="right-action-container"></div>
       </div>
@@ -124,10 +105,7 @@
         :class="{ hidden: playerOverlay.thumbnailVisible }"
         v-if="!mini"
       >
-        <div
-          class="seekbar"
-          :class="{ dragging: seekbar.seeking }"
-        >
+        <div class="seekbar" :class="{ dragging: seekbar.seeking }">
           <div
             class="seekbar-clickable"
             @mousedown.prevent="onSeekbarMouseDown"
@@ -147,10 +125,7 @@
             class="seekbar-playback-progress"
             :style="{ width: `${videoElement.progressPercentage}%` }"
           ></div>
-          <div
-            class="seekbar-circle"
-            :style="{ left: `${videoElement.progressPercentage}%` }"
-          ></div>
+          <div class="seekbar-circle" :style="{ left: `${videoElement.progressPercentage}%` }"></div>
           <SeekbarPreview
             :storyboards="video.storyboards"
             :time="seekbar.hoverTimeStamp"
@@ -176,14 +151,16 @@
               :data-tippy-content="'Change volume'"
             />
             <div class="video-time-progress">
-              <span class="video-time-current-progress">{{ commons.getTimestampFromSeconds(videoElement.progress) }} / {{ commons.getTimestampFromSeconds(videoLength) }}</span>
+              <span
+                class="video-time-current-progress"
+              >{{ commons.getTimestampFromSeconds(videoElement.progress) }} / {{ commons.getTimestampFromSeconds(videoLength) }}</span>
             </div>
           </div>
           <div class="right-bottom-controls">
-            <QualitySelection
+            <!-- <QualitySelection
               :formatStreams="video.formatStreams"
               :adaptiveFormats="video.adaptiveFormats"
-            />
+            />-->
             <FullscreenIcon
               class="tooltip"
               v-if="!fullscreen"
@@ -228,7 +205,7 @@ import CloseIcon from 'vue-material-design-icons/Close'
 import Commons from '@/plugins/commons.js'
 import VideoEndscreen from '@/components/videoplayer/VideoEndscreen'
 import VolumeControl from '@/components/videoplayer/VolumeControl'
-import QualitySelection from '@/components/videoplayer/QualitySelection'
+// import QualitySelection from '@/components/videoplayer/QualitySelection'
 import SeekbarPreview from '@/components/videoplayer/SeekbarPreview'
 // import dashjs from 'dashjs'
 
@@ -246,7 +223,7 @@ export default {
     OpenInPlayerIcon,
     CloseIcon,
     VolumeControl,
-    QualitySelection,
+    // QualitySelection,
     SeekbarPreview
   },
   props: {
@@ -295,10 +272,17 @@ export default {
   },
   computed: {
     highestVideoQuality() {
-      const { url } = this.video.formatStreams.find(e => {
-        return e.qualityLabel && e.qualityLabel === '720p'
-      })
-      return url ?? this.video.formatStreams[0].src
+      if (this.video.formatStreams) {
+        const video = this.video.formatStreams.find(e => {
+          return e.qualityLabel && e.qualityLabel === '720p'
+        })
+        if (video) {
+          return video.url
+        } else {
+          return this.video.formatStreams[0].url
+        }
+      }
+      return '#'
     },
     videoVolume() {
       return this.videoElement.playerVolume
@@ -829,7 +813,7 @@ export default {
         pointer-events: all;
         margin: auto;
         // filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.16))
-          // drop-shadow(0 3px 6px rgba(0, 0, 0, 0.23));
+        // drop-shadow(0 3px 6px rgba(0, 0, 0, 0.23));
 
         .play-btn {
           margin: auto;

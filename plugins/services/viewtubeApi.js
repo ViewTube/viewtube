@@ -40,6 +40,6 @@ const apiPrototype = {
   }
 }
 
-const viewtubeApi = createApi(apiPrototype)
+const ViewtubeApi = createApi(apiPrototype)
 
-export default viewtubeApi
+export default ViewtubeApi

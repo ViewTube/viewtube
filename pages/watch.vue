@@ -1,17 +1,7 @@
 <template>
   <div class="watch">
-    <video
-      controls
-      v-if="!jsEnabled"
-      :src="getHDUrl()"
-      class="nojs-player"
-    ></video>
-    <VideoPlayer
-      :key="video.id"
-      :video="video"
-      class="video-player-p"
-      v-if="jsEnabled"
-    ></VideoPlayer>
+    <video controls v-if="!jsEnabled" :src="getHDUrl()" class="nojs-player"></video>
+    <VideoPlayer :key="video.id" :video="video" class="video-player-p" v-if="jsEnabled"></VideoPlayer>
     <div class="video-meta">
       <CollapsibleSection
         class="recommended-videos mobile"
@@ -35,7 +25,9 @@
               </div>
               <div class="infobox-dislikes">
                 <ThumbsDown class="thumbs-icon"></ThumbsDown>
-                <p class="dislike-count">{{ parseFloat(video.dislikeCount).toLocaleString('en-US') }}</p>
+                <p
+                  class="dislike-count"
+                >{{ parseFloat(video.dislikeCount).toLocaleString('en-US') }}</p>
               </div>
             </div>
             <div class="like-ratio">
@@ -63,33 +55,27 @@
                 :to="`channel/${video.authorId}`"
                 class="infobox-channel-name ripple"
               >{{ video.author }}</nuxt-link>
-              <p class="infobox-channel-subcount">{{ video.subCount.toLocaleString('en-US') }} subscribers</p>
+              <p
+                class="infobox-channel-subcount"
+              >{{ video.subCount.toLocaleString('en-US') }} subscribers</p>
             </div>
           </div>
-          <SubscribeButton
-            class="subscribe-button-watch"
-            :channelId="video.authorId"
-          />
+          <SubscribeButton class="subscribe-button-watch" :channelId="video.authorId" />
         </div>
         <div class="video-infobox-date">{{ video.publishedText }}</div>
-        <div class="video-exact-date">
-          {{new Date(video.published).toLocaleString('en-US')}}
-        </div>
+        <div class="video-exact-date">{{new Date(video.published).toLocaleString('en-US')}}</div>
         <div class="video-actions">
           <BadgeButton
             :href="`https://getpocket.com/save?url=${encodedUrl}`"
             style="color: #EF4056;"
           >
-            <img src="@/assets/icons/pocket.svg">
+            <img src="@/assets/icons/pocket.svg" />
             Save to pocket
           </BadgeButton>
         </div>
         <p class="video-infobox-text">tags:</p>
         <div class="video-infobox-tags">
-          <div
-            class="tags-container"
-            v-if="video.keywords"
-          >
+          <div class="tags-container" v-if="video.keywords">
             <BadgeButton
               class="video-infobox-tag"
               :href="`results?search_query=${keyword}`"
@@ -101,15 +87,9 @@
           </div>
         </div>
         <div class="comments-description">
-          <div
-            class="video-infobox-description links"
-            v-create-links
-          >{{ video.description }}</div>
+          <div class="video-infobox-description links" v-create-links>{{ video.description }}</div>
           <Spinner v-if="commentsLoading"></Spinner>
-          <div
-            class="comments-container"
-            v-if="!commentsLoading"
-          >
+          <div class="comments-container" v-if="!commentsLoading">
             <div class="comments-count">
               <p>{{ comment.commentCount && comment.commentCount.toLocaleString('en-US') }} comments</p>
             </div>
@@ -226,26 +206,37 @@ export default {
       }
     }
   },
-  asyncData({ query }) {
+  asyncData({ query, error }) {
     return ViewtubeApi.api.videos({
       id: query.v
     }).then(response => {
       if (response) {
         return { video: response.data }
       } else {
-        throw new Error('Error loading video')
+        // throw new Error('Error loading video')
       }
     })
-      .catch(error => {
-        console.error(error)
+      .catch(err => {
+        if (err.response) {
+          error({ statusCode: err.statusCode, message: err.response.data.message })
+        } else {
+          error({ statusCode: '500', message: 'Error loading video' })
+        }
       })
   },
   methods: {
     getHDUrl() {
-      const { url } = this.video.formatStreams.find(e => {
-        return e.qualityLabel && e.qualityLabel === '720p'
-      })
-      return url ?? this.video.formatStreams[0].src
+      if (this.video.formatStreams) {
+        const video = this.video.formatStreams.find(e => {
+          return e.qualityLabel && e.qualityLabel === '720p'
+        })
+        if (video) {
+          return video.url
+        } else {
+          return this.video.formatStreams[0].url
+        }
+      }
+      return '#'
     },
     async loadComments(evtVideoId) {
       const videoId = evtVideoId || this.$route.query.v

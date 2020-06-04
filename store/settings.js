@@ -11,11 +11,11 @@ export const state = () => ({
         'bgcolor-translucent': '#0000007c',
         'error-color-green': '#4caf50',
         'error-color-red': '#d93025',
-        'theme-color': '#f1570a',
+        'theme-color': '#ff7b3a',
         'theme-color-light': '#f5af19',
         'theme-color-dark': '#f12711',
         'theme-color-alt': '#108dc7',
-        'theme-color-translucent': '#f1570a80',
+        'theme-color-translucent': '#ff7b3a80',
         'line-color': 'rgba(255, 255, 255, 0.2)',
         'line-accent-color': 'rgba(255, 255, 255, 0.4)',
         'theme-color-gradient':
@@ -44,11 +44,11 @@ export const state = () => ({
         'bgcolor-translucent': '#ffffff7c',
         'error-color-green': '#4caf50',
         'error-color-red': '#d93025',
-        'theme-color': '#f1570a',
+        'theme-color': '#ff7b3a',
         'theme-color-light': '#f5af19',
         'theme-color-dark': '#f12711',
         'theme-color-alt': '#108dc7',
-        'theme-color-translucent': '#f1570a80',
+        'theme-color-translucent': '#ff7b3a80',
         'line-color': 'rgba(255, 255, 255, 0.2)',
         'line-accent-color': 'rgba(255, 255, 255, 0.4)',
         'theme-color-gradient':
@@ -77,11 +77,11 @@ export const state = () => ({
         'bgcolor-translucent': '#0000007c',
         'error-color-green': '#4caf50',
         'error-color-red': '#d93025',
-        'theme-color': '#f1570a',
+        'theme-color': '#ff7b3a',
         'theme-color-light': '#f5af19',
         'theme-color-dark': '#f12711',
         'theme-color-alt': '#108dc7',
-        'theme-color-translucent': '#f1570a80',
+        'theme-color-translucent': '#ff7b3a80',
         'line-color': 'rgba(255, 255, 255, 0.2)',
         'line-accent-color': 'rgba(255, 255, 255, 0.4)',
         'theme-color-gradient':
@@ -110,11 +110,11 @@ export const state = () => ({
         'bgcolor-translucent': '#0000007c',
         'error-color-green': '#4caf50',
         'error-color-red': '#d93025',
-        'theme-color': '#f1570a',
+        'theme-color': '#ff7b3a',
         'theme-color-light': '#f5af19',
         'theme-color-dark': '#f12711',
         'theme-color-alt': '#108dc7',
-        'theme-color-translucent': '#f1570a80',
+        'theme-color-translucent': '#ff7b3a80',
         'line-color': 'rgba(255, 255, 255, 0.2)',
         'line-accent-color': 'rgba(255, 255, 255, 0.4)',
         'theme-color-gradient':
@@ -147,7 +147,7 @@ export const state = () => ({
         'theme-color-light': '#60c25c',
         'theme-color-dark': '#1da019',
         'theme-color-alt': '#108dc7',
-        'theme-color-translucent': '#f1570a80',
+        'theme-color-translucent': '#ff7b3a80',
         'line-color': 'rgba(255, 255, 255, 0.2)',
         'line-accent-color': 'rgba(255, 255, 255, 0.4)',
         'theme-color-gradient':
@@ -174,7 +174,8 @@ export const state = () => ({
 export const getters = {
   theme: (state) => state.theme,
   defaultThemes: (state) => state.defaults.theme,
-  miniplayer: (state) => state.miniplayer
+  miniplayer: (state) => state.miniplayer,
+  themeVariables: (state) => state.defaults.theme.find((el) => state.theme === el.value)
 }
 export const mutations = {
   setTheme(state, theme) {

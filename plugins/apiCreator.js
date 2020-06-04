@@ -12,17 +12,7 @@ export function createApi(api) {
         }
         args.params.fields = el[1].fields.toString()
       }
-      return api.request.get(url, args).catch((error) => {
-        // store.dispatch('createMessage', {
-        //   type: 'error',
-        //   title: 'Error loading page',
-        //   message: `Try<br/>
-        //                   <ul><li>Checking your internet connection</li>
-        //                   <li>Switching to another instance in settings</li></ul>`,
-        //   dismissDelay: 0
-        // })
-        console.error(error)
-      })
+      return api.request.get(url, args)
     }
   })
   return api

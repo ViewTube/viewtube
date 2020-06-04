@@ -1,21 +1,10 @@
 <template>
-  <div
-    id="app"
-    class="layout"
-    ref="app"
-    :class="getThemeClass()"
-  >
-    <Header
-      v-if="!headless"
-      class="main-header"
-    />
+  <div id="app" class="layout" ref="app" :class="getThemeClass()">
+    <ThemeStyling />
+    <Header v-if="!headless" class="main-header" />
     <Miniplayer v-if="$store.getters.miniplayer"></Miniplayer>
     <nuxt v-scroll="handleScroll" />
-    <portal-target
-      class="dropdown-portal"
-      name="dropdown"
-      multiple
-    ></portal-target>
+    <portal-target class="dropdown-portal" name="dropdown" multiple></portal-target>
     <MessageBoxContainer />
   </div>
 </template>
@@ -26,13 +15,15 @@ import '@/assets/fonts/expletus.css'
 import '@/assets/fonts/notosans.css'
 import Miniplayer from '@/components/miniplayer/Miniplayer'
 import MessageBoxContainer from '@/components/message/MessageBoxContainer'
+import ThemeStyling from '@/components/themes/ThemeStyling'
 
 export default {
   name: 'index',
   components: {
     Header,
     Miniplayer,
-    MessageBoxContainer
+    MessageBoxContainer,
+    ThemeStyling
   },
   data() {
     return {
