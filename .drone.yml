@@ -1,0 +1,27 @@
+kind: pipeline
+type: docker
+name: default
+
+steps:
+- name: publish
+  image: plugins/docker
+  settings:
+    repo: mauriceo/viewtube
+    tags:
+      - latest
+    username: 
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
+  when:
+    branch:
+      - nuxt_migration
+    event:
+      - push
+
+- name: send telegram notification
+  image: appleboy/drone-telegram
+  settings:
+    token: 
+      from_secret: tg_bot_token
+    to: -1001411660806
