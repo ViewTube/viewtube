@@ -15,7 +15,7 @@ steps:
       from_secret: docker_password
   when:
     branch:
-      - nuxt_migration
+      - master
     event:
       - push
 
