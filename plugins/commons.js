@@ -32,8 +32,11 @@ export default {
     if (Array.isArray(imgArray)) {
       let srcSetString = ''
 
-      imgArray.sort((a, b) => a.width - b.width).forEach(element => {
-        srcSetString += `${this.proxyUrl}${element.url} ${element.width}w, `
+      imgArray.slice().sort((a, b) => a.width - b.width).forEach((element, i) => {
+        srcSetString += `${this.proxyUrl}${element.url} ${element.width}w`
+        if ((i + 1) < imgArray.length) {
+          srcSetString += ', '
+        }
       })
       return srcSetString
     }
@@ -41,11 +44,11 @@ export default {
 
   getProxyImageSizes(imgArray) {
     if (Array.isArray(imgArray)) {
-      const sortedArray = imgArray.sort((a, b) => a.width - b.width)
-      const largestImg = sortedArray[sortedArray.length - 1]
+      const sortedArray = imgArray.slice().sort((a, b) => a.width - b.width)
+      const largerImg = sortedArray[sortedArray.length - 2]
       const desktopImg = sortedArray[3]
       // console.log(largestImg.width)
-      return `(max-width: 700px) ${largestImg.width}px, ${desktopImg.width}px`
+      return `(max-width: 700px) ${largerImg.width}px, ${desktopImg.width}px`
     }
   },
 

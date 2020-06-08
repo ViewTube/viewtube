@@ -76,7 +76,7 @@ export default {
     },
     transpile: [
       'vue-material-design-icons',
-      '/plugins',
+      // '/plugins',
       'dashjs',
       'raw-loader',
       'tippy.js',
