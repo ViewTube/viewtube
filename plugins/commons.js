@@ -45,7 +45,7 @@ export default {
   getProxyImageSizes(imgArray) {
     if (Array.isArray(imgArray)) {
       const sortedArray = imgArray.slice().sort((a, b) => a.width - b.width)
-      const largerImg = sortedArray[sortedArray.length - 2]
+      const largerImg = sortedArray[sortedArray.length - 3]
       const desktopImg = sortedArray[3]
       // console.log(largestImg.width)
       return `(max-width: 700px) ${largerImg.width}px, ${desktopImg.width}px`

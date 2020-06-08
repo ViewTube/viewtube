@@ -6,7 +6,7 @@
     <Banner
       class="banner"
       v-if="channel.authorBanners && channel.authorBanners.length > 0"
-      :src="commons.proxyUrl + channel.authorBanners[0].url"
+      :src="channel.authorBanners[1].url"
     />
     <Overview
       :channel="channel"

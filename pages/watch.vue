@@ -45,7 +45,7 @@
                 <img
                   id="channel-img"
                   alt="channel image"
-                  v-if="video.authorThumbnails"
+                  v-if="video.authorThumbnails && video.authorThumbnails.length > 0"
                   :src="video.authorThumbnails[2].url"
                 />
               </nuxt-link>
