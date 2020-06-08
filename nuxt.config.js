@@ -79,11 +79,7 @@ export default {
       '/plugins',
       'dashjs',
       'raw-loader',
-      'register-service-worker',
       'tippy.js',
-      'vue-global-var',
-      'vue-lazyload',
-      'vuex-persist',
       'feathers-vuex',
       'interactjs',
       'vue-scroll'
