@@ -108,7 +108,6 @@ import CommentHideIcon from 'vue-material-design-icons/CommentRemoveOutline'
 import LoadMoreIcon from 'vue-material-design-icons/Reload'
 import Commons from '@/plugins/commons.js'
 // import Spinner from '@/components/Spinner'
-import tippy from 'tippy.js'
 import BadgeButton from '@/components/buttons/BadgeButton'
 import 'tippy.js/dist/tippy.css'
 
@@ -136,13 +135,6 @@ export default {
     repliesContinuationLoading: false
   }),
   mounted() {
-    tippy('.tooltip', {
-      duration: 300,
-      arrow: false,
-      delay: [500, 100],
-      touch: 'hold',
-      placement: 'bottom'
-    })
   },
   methods: {
     hideReplies() {

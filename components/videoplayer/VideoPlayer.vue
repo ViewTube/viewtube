@@ -190,8 +190,6 @@
 </template>
 
 <script>
-import tippy from 'tippy.js'
-import 'tippy.js/dist/tippy.css'
 import Spinner from '@/components/Spinner'
 import SavedPosition from '@/store/videoProgress'
 import PauseIcon from 'vue-material-design-icons/Pause'
@@ -305,13 +303,6 @@ export default {
   },
   mounted() {
     document.addEventListener('keydown', this.onWindowKeyDown)
-    tippy('.tooltip', {
-      duration: 300,
-      arrow: false,
-      delay: [500, 100],
-      touch: 'hold',
-      placement: 'top'
-    })
     // this.loadDashVideo()
   },
   beforeDestroy() {

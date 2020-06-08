@@ -16,6 +16,7 @@ import '@/assets/fonts/notosans.css'
 import Miniplayer from '@/components/miniplayer/Miniplayer'
 import MessageBoxContainer from '@/components/message/MessageBoxContainer'
 import ThemeStyling from '@/components/themes/ThemeStyling'
+import tippy from 'tippy.js'
 
 export default {
   name: 'index',
@@ -31,7 +32,6 @@ export default {
   },
   watch: {
     browser(oldVal, newVal) {
-      console.log(newVal)
     }
   },
   computed: {
@@ -40,8 +40,14 @@ export default {
     }
   },
   mounted() {
-    console.log('mounted')
     this.$refs.app.classList += ` ${this.getThemeClass()}`
+    tippy('.tooltip', {
+      duration: 300,
+      arrow: false,
+      delay: [500, 100],
+      touch: 'hold',
+      placement: 'bottom'
+    })
   },
   methods: {
     handleScroll(e, position) {

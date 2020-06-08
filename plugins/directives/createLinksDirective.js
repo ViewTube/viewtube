@@ -5,7 +5,7 @@ export default {
   inserted(el, binding) {
     const text = el.innerText
     const htmlText = text.replace(urlRegex, (match) => {
-      console.log(match)
+      // console.log(match)
       return `<a href="${match}" target="_blank">${match}</a>`
     })
     el.innerHTML = htmlText

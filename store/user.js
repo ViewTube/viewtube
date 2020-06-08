@@ -30,11 +30,11 @@ export const actions = {
             return result.data.username
           }
         }, (reason) => {
-          console.log(reason)
+          // console.log(reason)
           throw new Error('Registration failed: ' + reason)
         })
         .catch((err) => {
-          console.log(err)
+          // console.log(err)
           throw new Error('Registration failed: ' + err.message)
         })
     }

@@ -155,7 +155,6 @@ import AboutIcon from 'vue-material-design-icons/InformationOutline'
 import MainSearchBox from '@/components/MainSearchBox'
 import AccountIcon from 'vue-material-design-icons/AccountCircle'
 import AccountPlusIcon from 'vue-material-design-icons/AccountPlus'
-import tippy from 'tippy.js'
 import Settings from '@/components/Settings'
 import About from '@/components/About'
 
@@ -233,13 +232,6 @@ export default {
     }
   },
   mounted() {
-    tippy('.tooltip', {
-      duration: 300,
-      arrow: false,
-      delay: [500, 100],
-      touch: 'hold',
-      placement: 'bottom'
-    })
   },
   computed: {
     currentRouteName() {

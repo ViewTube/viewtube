@@ -144,7 +144,6 @@ export default {
     BadgeButton
   },
   watchQuery(newQuery, oldQuery) {
-    console.log(newQuery)
     const videoId = newQuery.v
     if (this) {
       this.loadComments(videoId)

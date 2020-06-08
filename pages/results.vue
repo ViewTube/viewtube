@@ -149,7 +149,6 @@ export default {
   asyncData({ query }) {
     query.type = 'all'
     const searchParams = SearchParams.parseQueryJson(query, query.search_query)
-    console.log(searchParams)
     return Invidious.api.search({ params: searchParams })
       .then(response => {
         return { results: response.data, searchQuery: query.search_query }

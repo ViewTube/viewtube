@@ -53,7 +53,7 @@ export default {
     return queryObj
   },
   getParamsString() {
-    console.log(this.parseQuery(this))
+    // console.log(this.parseQuery(this))
     return this.parseQuery(this)
   },
   getParamsJson(q) {

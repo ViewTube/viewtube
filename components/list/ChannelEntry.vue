@@ -40,8 +40,6 @@
 
 <script>
 import Commons from '@/plugins/commons.js'
-import tippy from 'tippy.js'
-import 'tippy.js/dist/tippy.css'
 
 export default {
   name: 'channel-entry',
@@ -52,13 +50,6 @@ export default {
     commons: Commons
   }),
   mounted() {
-    tippy('.tooltip', {
-      duration: 300,
-      arrow: false,
-      delay: [500, 100],
-      touch: 'hold',
-      placement: 'bottom'
-    })
   },
   methods: {
     channelNameToImgString() {
