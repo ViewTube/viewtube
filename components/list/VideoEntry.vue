@@ -11,21 +11,17 @@
         <div class="thmb-clip">
           <img
             class="video-entry-thmb-image"
-            v-lazy="commons.proxyUrl + video.videoThumbnails[4].url"
+            :srcset="commons.getProxySrcSet(video.videoThumbnails)"
+            :sizes="commons.getProxyImageSizes(video.videoThumbnails)"
+            :src="commons.proxyUrl + video.videoThumbnails[4].url"
             :alt="`${video.title}`"
           />
         </div>
-        <div
-          class="video-description-overlay"
-          v-if="video.description"
-        >
+        <div class="video-description-overlay" v-if="video.description">
           <p>{{ video.description }}</p>
         </div>
       </div>
-      <div
-        class="video-saved-progress"
-        :style="{ width: `${videoProgressPercentage}%` }"
-      ></div>
+      <div class="video-saved-progress" :style="{ width: `${videoProgressPercentage}%` }"></div>
       <span class="video-entry-length">{{ commons.getTimestampFromSeconds(video.lengthSeconds) }}</span>
     </nuxt-link>
     <div class="video-entry-info">
@@ -34,7 +30,7 @@
         v-if="video.authorThumbnails"
         :src="commons.proxyUrl + video.authorThumbnails[1].url"
         alt="Author thumbnail"
-      >
+      />
       <div class="video-info-text">
         <nuxt-link
           class="video-entry-title tooltip"
@@ -59,7 +55,6 @@
 </template>
 
 <script>
-import tippy from 'tippy.js'
 import 'tippy.js/dist/tippy.css'
 import SavedPosition from '@/store/videoProgress'
 import Commons from '@/plugins/commons.js'
@@ -83,13 +78,6 @@ export default {
     }
   },
   mounted() {
-    tippy('.tooltip', {
-      duration: 300,
-      arrow: false,
-      delay: [500, 100],
-      touch: 'hold',
-      placement: 'bottom'
-    })
   }
 }
 </script>

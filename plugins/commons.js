@@ -28,6 +28,27 @@ export default {
     return 'https://api.viewtube.eu/'
   },
 
+  getProxySrcSet(imgArray) {
+    if (Array.isArray(imgArray)) {
+      let srcSetString = ''
+
+      imgArray.sort((a, b) => a.width - b.width).forEach(element => {
+        srcSetString += `${this.proxyUrl}${element.url} ${element.width}w, `
+      })
+      return srcSetString
+    }
+  },
+
+  getProxyImageSizes(imgArray) {
+    if (Array.isArray(imgArray)) {
+      const sortedArray = imgArray.sort((a, b) => a.width - b.width)
+      const largestImg = sortedArray[sortedArray.length - 1]
+      const desktopImg = sortedArray[3]
+      // console.log(largestImg.width)
+      return `(max-width: 700px) ${largestImg.width}px, ${desktopImg.width}px`
+    }
+  },
+
   getTimestampFromSeconds(seconds) {
     const ms = seconds * 1000
     const date = new Date(ms)
