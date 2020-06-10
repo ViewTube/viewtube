@@ -1,4 +1,4 @@
-<h1 align="left">ViewTube<img src=".github/images/logo.svg" alt="" width="90" height="90" align="left" /></h1>
+<h1 align="left">ViewTube<img src=".github/images/logo.png" alt="" width="90" height="90" align="left" /></h1>
 
 ViewTube is an alternative YouTube frontend using the ![invidio.us](https://github.com/omarroth/invidious) API.
 
