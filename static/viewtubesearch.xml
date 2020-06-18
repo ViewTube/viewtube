@@ -7,7 +7,7 @@
   <Url type="text/html" template="https://beta.viewtube.eu/results">
     <Param name="search_query" value="{searchTerms}"/>
   </Url>
-  <Url type="application/x-suggestions+json" template="https://autocomplete.viewtube.eu/?q={searchTerms}&cl=youtube">
+  <Url type="application/x-suggestions+json" template="https://autocomplete.viewtube.eu/">
     <Param name="q" value="{searchTerms}"/>
     <Param name="cl" value="youtube"/>
   </Url>
