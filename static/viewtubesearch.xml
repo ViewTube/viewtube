@@ -1,0 +1,12 @@
+<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/"
+                       xmlns:moz="http://www.mozilla.org/2006/browser/search/">
+  <ShortName>ViewTube</ShortName>
+  <Description>An alternative YouTube-frontend</Description>
+  <InputEncoding>utf-8</InputEncoding>
+  <Image width="16" height="16" type="image/x-icon">https://beta.viewtube.eu/favicon.ico</Image>
+  <Url type="text/html" template="https://beta.viewtube.eu/results?search_query={searchTerms}">
+    <Param name="SearchTerms" value="{searchTerms}"/>
+  </Url>
+  <Url type="application/x-suggestions+json" template="https://autocomplete.viewtube.eu/?q={searchTerms}&cl=youtube"/>
+  <moz:SearchForm>https://beta.viewtube.eu</moz:SearchForm>
+</OpenSearchDescription>

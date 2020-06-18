@@ -24,6 +24,10 @@ export default {
       { property: 'og:site_name', content: 'ViewTube' }
     ],
     link: [
+      {
+        rel: 'search', type: 'application/opensearchdescription+xml',
+        title: 'Search ViewTube', href: 'https://beta.viewtube.eu/viewtubesearch.xml'
+      },
       { rel: 'icon', type: 'image/x-icon', href: 'favicon.ico' }
     ]
   },
@@ -84,7 +88,7 @@ export default {
       'interactjs',
       'vue-scroll'
     ],
-    extend(config, ctx) {
+    extend (config, ctx) {
     }
   }
 }
