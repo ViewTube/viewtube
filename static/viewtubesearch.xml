@@ -7,6 +7,6 @@
   <Url type="text/html" template="https://beta.viewtube.eu/results?search_query={searchTerms}">
     <Param name="SearchTerms" value="{searchTerms}"/>
   </Url>
-  <Url type="application/x-suggestions+json" template="https://autocomplete.viewtube.eu/?q={searchTerms}&cl=youtube"/>
+  <Url type="application/x-suggestions+json" template="https://autocomplete.viewtube.eu/?q={searchTerms}"/>
   <moz:SearchForm>https://beta.viewtube.eu</moz:SearchForm>
 </OpenSearchDescription>
