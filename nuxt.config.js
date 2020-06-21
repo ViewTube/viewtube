@@ -46,6 +46,7 @@ export default {
   plugins: [
     '@/plugins/directives/index',
     '@/plugins/scroll',
+    '@/plugins/formatting',
     { src: '@/plugins/localStorage', ssr: false }
   ],
 
@@ -80,7 +81,6 @@ export default {
     },
     transpile: [
       'vue-material-design-icons',
-      // '/plugins',
       'dashjs',
       'raw-loader',
       'tippy.js',

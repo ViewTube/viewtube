@@ -1,6 +1,6 @@
-const FormattingFunctions = {
-  install(Vue, options) {
-    Vue.getTimestampFromSeconds = seconds => {
+export default (inject) => {
+  const formatting = {
+    getTimestampFromSeconds: seconds => {
       const ms = seconds * 1000
       const date = new Date(ms)
       const timestampHours = toDoubleDigit(date.getHours() - 1)
@@ -12,7 +12,7 @@ const FormattingFunctions = {
         return `${timestampMinutes}:${timestampSeconds}`
       }
 
-      function toDoubleDigit(i) {
+      function toDoubleDigit (i) {
         if (i < 10) {
           i = '0' + i
         }
@@ -20,6 +20,6 @@ const FormattingFunctions = {
       }
     }
   }
-}
 
-export default FormattingFunctions
+  inject('formatting', formatting)
+}
