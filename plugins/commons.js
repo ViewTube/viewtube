@@ -4,31 +4,31 @@ export default {
   description: 'An alternative YouTube frontend using the Invidious API.',
   language: 'en-US',
 
-  getApiUrl() {
+  getApiUrl () {
     // return `${this.$store.getters.currentInstance}/api/v1/`
     return 'https://invidio.us/api/v1/'
   },
 
-  getApiUrlNoVersion() {
+  getApiUrlNoVersion () {
     // return `${this.$store.getters.currentInstance}/api/`
     return 'https://invidio.us/api/'
   },
 
-  getDomain() {
+  getDomain () {
     if (window.location.href.toLowerCase().indexOf('localhost') !== -1) {
       return 'localhost'
     }
     return 'viewtube.eu'
   },
 
-  getOwnApiUrl() {
+  getOwnApiUrl () {
     // if (window.location.href.toLowerCase().indexOf('localhost') !== -1) {
     // return 'http://localhost:3030/'
     // }
     return 'https://api.viewtube.eu/'
   },
 
-  getProxySrcSet(imgArray) {
+  getProxySrcSet (imgArray) {
     if (Array.isArray(imgArray)) {
       let srcSetString = ''
 
@@ -42,7 +42,7 @@ export default {
     }
   },
 
-  getProxyImageSizes(imgArray) {
+  getProxyImageSizes (imgArray) {
     if (Array.isArray(imgArray)) {
       const sortedArray = imgArray.slice().sort((a, b) => a.width - b.width)
       const largerImg = sortedArray[sortedArray.length - 3]
@@ -52,27 +52,7 @@ export default {
     }
   },
 
-  getTimestampFromSeconds(seconds) {
-    const ms = seconds * 1000
-    const date = new Date(ms)
-    const timestampHours = toDoubleDigit(date.getHours() - 1)
-    const timestampMinutes = toDoubleDigit(date.getMinutes())
-    const timestampSeconds = toDoubleDigit(date.getSeconds())
-    if (date.getHours() < 1) {
-      return `${timestampHours}:${timestampMinutes}:${timestampSeconds}`
-    } else {
-      return `${timestampMinutes}:${timestampSeconds}`
-    }
-
-    function toDoubleDigit(i) {
-      if (i < 10) {
-        i = '0' + i
-      }
-      return i
-    }
-  },
-
-  getPageWidth() {
+  getPageWidth () {
     return Math.max(
       document.documentElement.scrollWidth,
       document.body.offsetWidth,

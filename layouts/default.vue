@@ -41,7 +41,7 @@ export default {
   },
   mounted() {
     this.$refs.app.classList += ` ${this.getThemeClass()}`
-    tippy('.tooltip', {
+    tippy('[data-tippy-content]', {
       duration: 300,
       arrow: false,
       delay: [500, 100],

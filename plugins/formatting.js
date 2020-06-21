@@ -1,4 +1,4 @@
-export default (inject) => {
+export default (context, inject) => {
   const formatting = {
     getTimestampFromSeconds: seconds => {
       const ms = seconds * 1000

@@ -22,7 +22,7 @@
         </div>
       </div>
       <div class="video-saved-progress" :style="{ width: `${videoProgressPercentage}%` }"></div>
-      <span class="video-entry-length">{{ commons.getTimestampFromSeconds(video.lengthSeconds) }}</span>
+      <span class="video-entry-length">{{ $formatting.getTimestampFromSeconds(video.lengthSeconds) }}</span>
     </nuxt-link>
     <div class="video-entry-info">
       <img
@@ -72,8 +72,8 @@ export default {
       return SavedPosition.getSavedPosition(this.video.videoId) / this.video.lengthSeconds * 100
     },
     videoProgressTooltip() {
-      const watchTime = Commons.getTimestampFromSeconds(SavedPosition.getSavedPosition(this.video.videoId))
-      const totalTime = Commons.getTimestampFromSeconds(this.video.lengthSeconds)
+      const watchTime = this.$formatting.getTimestampFromSeconds(SavedPosition.getSavedPosition(this.video.videoId))
+      const totalTime = this.$formatting.getTimestampFromSeconds(this.video.lengthSeconds)
       return `${watchTime} of ${totalTime}`
     }
   },
