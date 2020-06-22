@@ -157,10 +157,10 @@
             </div>
           </div>
           <div class="right-bottom-controls">
-            <QualitySelection
+            <!-- <QualitySelection
               :formatStreams="video.formatStreams"
               :adaptiveFormats="video.adaptiveFormats"
-            />
+            /> -->
             <FullscreenIcon
               class="tooltip"
               v-if="!fullscreen"
