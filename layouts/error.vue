@@ -6,6 +6,10 @@
     <div class="error-popup">
       <div class="error-message">
         <h2>{{error.message}}</h2>
+        <details v-if="error.detail">
+          <summary>Full error</summary>
+          <p>{{error.detail}}</p>
+        </details>
         <nuxt-link
           v-if="possibleSearch"
           class="ripple"
