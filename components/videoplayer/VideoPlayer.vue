@@ -37,11 +37,11 @@
         }"
         ref="video"
       ></video>
-      <VideoEndscreen
+      <!-- <VideoEndscreen
         :videoId="video.videoId"
         :videoProgress="videoElement.progress"
         :videoElement="$refs.video"
-      />
+      /> -->
     </div>
 
     <Spinner class="video-spinner" v-if="videoElement.buffering" />
@@ -201,7 +201,7 @@ import ArrowCollapseIcon from 'vue-material-design-icons/ArrowCollapse'
 import OpenInPlayerIcon from 'vue-material-design-icons/OpenInNew'
 import CloseIcon from 'vue-material-design-icons/Close'
 import Commons from '@/plugins/commons.js'
-import VideoEndscreen from '@/components/videoplayer/VideoEndscreen'
+// import VideoEndscreen from '@/components/videoplayer/VideoEndscreen'
 import VolumeControl from '@/components/videoplayer/VolumeControl'
 // import QualitySelection from '@/components/videoplayer/QualitySelection'
 import SeekbarPreview from '@/components/videoplayer/SeekbarPreview'
@@ -215,7 +215,7 @@ export default {
     PlayIcon,
     FullscreenIcon,
     FullscreenExitIcon,
-    VideoEndscreen,
+    // VideoEndscreen,
     ArrowExpandIcon,
     ArrowCollapseIcon,
     OpenInPlayerIcon,
