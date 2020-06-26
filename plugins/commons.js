@@ -25,7 +25,7 @@ export default {
     // if (window.location.href.toLowerCase().indexOf('localhost') !== -1) {
     // return 'http://localhost:3030/'
     // }
-    return 'https://api.viewtube.eu/'
+    return 'https://proxy.mcdn.ch/index.php?https://api.viewtube.eu/'
   },
 
   getProxySrcSet (imgArray) {
