@@ -219,7 +219,7 @@ export default {
         if (err.response) {
           error({ statusCode: err.statusCode, message: err.response.data.message })
         } else {
-          error({ statusCode: '500', message: 'Error loading video' })
+          error({ statusCode: '500', message: 'Error loading video test test' })
         }
       })
   },
