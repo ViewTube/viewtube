@@ -23,7 +23,7 @@ export default {
 
   getOwnApiUrl () {
     // if (window.location.href.toLowerCase().indexOf('localhost') !== -1) {
-    return 'viewtube-api/'
+    return 'http://viewtube-api/'
     // }
     return 'https://api.viewtube.eu/'
   },
