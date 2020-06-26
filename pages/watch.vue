@@ -218,9 +218,9 @@ export default {
       .catch(err => {
         if (err.response) {
           error({ statusCode: err.statusCode, message: err.response.data.message })
-        } else {
-          console.log(err)
-          error({ statusCode: '500', message: 'Error loading video test test' + JSON.stringify(err) })
+        } else if(err.message){
+          console.log(err.message)
+          // error({ statusCode: '500', message: 'Error loading video' + err.message})
         }
       })
   },
