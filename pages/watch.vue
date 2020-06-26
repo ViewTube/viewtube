@@ -220,7 +220,7 @@ export default {
           error({ statusCode: err.statusCode, message: err.response.data.message })
         } else if(err.message){
           console.log(err.message)
-          // error({ statusCode: '500', message: 'Error loading video' + err.message})
+          error({ statusCode: '500', message: 'Error loading video' + err.message})
         }
       })
   },
