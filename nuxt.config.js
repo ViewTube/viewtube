@@ -6,7 +6,7 @@ export default {
   },
 
   env: {
-    API_URL: process.env.VIEWTUBE_API_URL || 'http://localhost:3030/'
+    API_URL: process.env.VIEWTUBE_API_URL
   },
 
   head: {
