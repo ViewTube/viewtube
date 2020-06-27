@@ -6,7 +6,7 @@
     <div class="error-popup">
       <div class="error-message">
         <h2>{{error.message}}</h2>
-        <p>Api-url: {{process.env.API_URL}}</p>
+        <p>Api-url: {{apiUrl}}</p>
         <details v-if="error.detail" class="error-details">
           <summary>Full error</summary>
           <p>{{error.detail}}</p>
@@ -33,7 +33,8 @@ export default {
     }
   },
   data: () => ({
-    possibleSearch: null
+    possibleSearch: null,
+    apiUrl: proces.env.API_URL
   }),
   mounted() {
     if (this.error.statusCode === 404) {
@@ -68,7 +69,7 @@ export default {
       align-items: center;
       background-color: var(--bgcolor-main);
 
-      .error-details{
+      .error-details {
         max-width: 80%;
       }
 
