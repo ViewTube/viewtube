@@ -6,6 +6,7 @@
     <div class="error-popup">
       <div class="error-message">
         <h2>{{error.message}}</h2>
+        <p>Api-url: {{process.env.API_URL}}</p>
         <details v-if="error.detail" class="error-details">
           <summary>Full error</summary>
           <p>{{error.detail}}</p>
