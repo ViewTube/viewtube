@@ -1,11 +1,13 @@
 FROM node:14.2-alpine3.11
-WORKDIR /home/app
+WORKDIR /home/app/web
 
-COPY . .
+COPY package.json yarn.lock ./
 RUN \
   apk add yarn && \
-  yarn install && \
-  yarn build
+  yarn install
+
+COPY . .
+RUN yarn build
 
 EXPOSE 8066
 ENV NUXT_HOST=0.0.0.0
