@@ -4,38 +4,38 @@ export default {
   description: 'An alternative YouTube frontend using the Invidious API.',
   language: 'en-US',
 
-  getApiUrl () {
+  getApiUrl() {
     // return `${this.$store.getters.currentInstance}/api/v1/`
     return 'https://invidio.us/api/v1/'
   },
 
-  getApiUrlNoVersion () {
+  getApiUrlNoVersion() {
     // return `${this.$store.getters.currentInstance}/api/`
     return 'https://invidio.us/api/'
   },
 
-  getDomain () {
+  getDomain() {
     if (window.location.href.toLowerCase().indexOf('localhost') !== -1) {
       return 'localhost'
     }
     return 'viewtube.eu'
   },
 
-  getOwnApiUrl () {
+  getOwnApiUrl() {
     // if (window.location.href.toLowerCase().indexOf('localhost') !== -1) {
     // return 'http://localhost:3030/'
     // }
     console.log(process.env.API_URL, process.env.VIEWTUBE_API_URL)
-    return process.env.VIEWTUBE_API_URL
+    return process.env.VIEWTUBE_API_URL || 'https://api.viewtube.eu/'
     // return 'https://proxy.mcdn.ch/index.php?https://api.viewtube.eu/'
   },
 
-  getProxySrcSet (imgArray) {
+  getProxySrcSet(imgArray) {
     if (Array.isArray(imgArray)) {
       let srcSetString = ''
 
       imgArray.slice().sort((a, b) => a.width - b.width).forEach((element, i) => {
-        srcSetString += `${this.proxyUrl}${element.url} ${element.width}w`
+        srcSetString += `${element.url} ${element.width}w`
         if ((i + 1) < imgArray.length) {
           srcSetString += ', '
         }
@@ -44,7 +44,7 @@ export default {
     }
   },
 
-  getProxyImageSizes (imgArray) {
+  getProxyImageSizes(imgArray) {
     if (Array.isArray(imgArray)) {
       const sortedArray = imgArray.slice().sort((a, b) => a.width - b.width)
       const largerImg = sortedArray[sortedArray.length - 3]
@@ -54,7 +54,7 @@ export default {
     }
   },
 
-  getPageWidth () {
+  getPageWidth() {
     return Math.max(
       document.documentElement.scrollWidth,
       document.body.offsetWidth,
