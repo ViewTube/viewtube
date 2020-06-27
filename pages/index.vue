@@ -78,7 +78,7 @@ export default {
     getSubscriptions() {
       const jwt = this.$cookies.get('jwt')
       const me = this
-      fetch(`${Commons.getOwnApiUrl()}subscriptions/getSubscriptionFeed.php?limit=4`, {
+      fetch(`${process.env.API_URL}subscriptions/getSubscriptionFeed.php?limit=4`, {
         cache: 'force-cache',
         method: 'GET',
         headers: {

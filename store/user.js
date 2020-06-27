@@ -18,7 +18,7 @@ export const actions = {
   register({ commit, rootState }, { username, password, captchaSolution }) {
     const captchaToken = rootState.captcha.token
     if (captchaToken) {
-      return Axios.post(Commons.getOwnApiUrl() + 'user', {
+      return Axios.post(process.env.API_URL + 'user', {
         username,
         password,
         captchaToken,
