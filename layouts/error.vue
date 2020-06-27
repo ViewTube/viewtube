@@ -6,7 +6,7 @@
     <div class="error-popup">
       <div class="error-message">
         <h2>{{error.message}}</h2>
-        <details v-if="error.detail">
+        <details v-if="error.detail" class="error-details">
           <summary>Full error</summary>
           <p>{{error.detail}}</p>
         </details>
@@ -66,6 +66,10 @@ export default {
       flex-direction: column;
       align-items: center;
       background-color: var(--bgcolor-main);
+
+      .error-details{
+        max-width: 80%;
+      }
 
       a {
         font-size: 1rem;
