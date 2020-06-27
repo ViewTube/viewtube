@@ -5,7 +5,7 @@ import { createApi } from '@/plugins/apiCreator'
 
 const apiPrototype = {
   request: axios.create({
-    baseURL: process.env.API_URL,
+    baseURL: Commons.getOwnApiUrl(),
     timeout: 10000
   }),
   api: {},
