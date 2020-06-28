@@ -14,19 +14,34 @@ export default {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: 'An alternative YouTube frontend using the invidio.us API.' },
+      {
+        hid: 'description',
+        name: 'description',
+        content: 'An alternative YouTube frontend using the invidio.us API.'
+      },
       { name: 'theme-color', content: '#121212' },
       { hid: 'ogTitle', property: 'og:title', content: 'ViewTube' },
       { property: 'og:type', content: 'website' },
-      { hid: 'ogImage', property: 'og:image', itemprop: 'image', content: 'https://viewtube.eu/icon-256.png' },
-      { hid: 'ogDescription', property: 'og:description', content: 'An alternative YouTube frontend using the invidio.us API.' },
+      {
+        hid: 'ogImage',
+        property: 'og:image',
+        itemprop: 'image',
+        content: 'https://viewtube.eu/icon-256.png'
+      },
+      {
+        hid: 'ogDescription',
+        property: 'og:description',
+        content: 'An alternative YouTube frontend using the invidio.us API.'
+      },
       { property: 'og:locale', content: 'en_US' },
       { property: 'og:site_name', content: 'ViewTube' }
     ],
     link: [
       {
-        rel: 'search', type: 'application/opensearchdescription+xml',
-        title: 'Search ViewTube', href: 'https://beta.viewtube.eu/viewtubesearch.xml'
+        rel: 'search',
+        type: 'application/opensearchdescription+xml',
+        title: 'Search ViewTube',
+        href: 'https://beta.viewtube.eu/viewtubesearch.xml'
       },
       { rel: 'icon', type: 'image/x-icon', href: 'favicon.ico' }
     ]
@@ -34,13 +49,10 @@ export default {
 
   loading: { color: '#ff7b3b' },
 
-  css: [
-  ],
+  css: [],
 
   styleResources: {
-    scss: [
-      '~/assets/styles/global/*.scss'
-    ]
+    scss: ['~/assets/styles/global/*.scss']
   },
 
   plugins: [
@@ -50,13 +62,11 @@ export default {
     { src: '@/plugins/localStorage', ssr: false }
   ],
 
-  buildModules: [
-  ],
+  buildModules: [],
 
   render: {
     bundleRenderer: {
-      directives: {
-      }
+      directives: {}
     }
   },
   modules: [
@@ -67,8 +77,7 @@ export default {
     '@nuxtjs/manifest'
   ],
 
-  axios: {
-  },
+  axios: {},
 
   build: {
     postcss: {
@@ -88,7 +97,6 @@ export default {
       'interactjs',
       'vue-scroll'
     ],
-    extend (config, ctx) {
-    }
+    extend(config, ctx) {}
   }
 }
