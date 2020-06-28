@@ -1,13 +1,12 @@
 export const state = () => ({
-  resolutions: null
+  qualitySources: null
 })
 
 export const getters = {
-  resolutions: (state) => state.resolutions,
+  resolutions: state => state.qualitySources
 }
 
 export const mutations = {
-  setResolutions(state, resolutions) {
-    state.resolutions = resolutions
-  }
+  setResolutions: (state, qualitySources) =>
+    (state.resolutions = qualitySources)
 }

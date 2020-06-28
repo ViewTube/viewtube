@@ -41,7 +41,7 @@
         :videoId="video.videoId"
         :videoProgress="videoElement.progress"
         :videoElement="$refs.video"
-      /> -->
+      />-->
     </div>
 
     <Spinner class="video-spinner" v-if="videoElement.buffering" />
@@ -160,7 +160,7 @@
             <!-- <QualitySelection
               :formatStreams="video.formatStreams"
               :adaptiveFormats="video.adaptiveFormats"
-            /> -->
+            />-->
             <FullscreenIcon
               class="tooltip"
               v-if="!fullscreen"
@@ -205,7 +205,7 @@ import Commons from '@/plugins/commons.js'
 import VolumeControl from '@/components/videoplayer/VolumeControl'
 // import QualitySelection from '@/components/videoplayer/QualitySelection'
 import SeekbarPreview from '@/components/videoplayer/SeekbarPreview'
-// import dashjs from 'dashjs'
+import dashjs from 'dashjs'
 
 export default {
   name: 'videoplayer',
@@ -313,10 +313,11 @@ export default {
     loadDashVideo() {
       if (this.$refs.video) {
         let url = `${Commons.getApiUrlNoVersion()}manifest/dash/id/${this.video.videoId}?local=true`
+        console.log(url)
         if (this.video.dashUrl) {
           url = `${this.video.dashUrl}?local=true`
         }
-        // this.dashPlayer = dashjs.MediaPlayer().create()
+        this.dashPlayer = dashjs.MediaPlayer().create()
         this.dashPlayer.initialize(this.$refs.video, url, false)
         this.dashBitrates = this.dashPlayer.getBitrateInfoListFor('video')
       }
