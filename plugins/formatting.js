@@ -1,6 +1,6 @@
 export default (context, inject) => {
   const formatting = {
-    getTimestampFromSeconds: seconds => {
+    getTimestampFromSeconds: (seconds) => {
       const ms = seconds * 1000
       const date = new Date(ms)
       const timestampHours = toDoubleDigit(date.getHours() - 1)
@@ -12,7 +12,7 @@ export default (context, inject) => {
         return `${timestampMinutes}:${timestampSeconds}`
       }
 
-      function toDoubleDigit (i) {
+      function toDoubleDigit(i) {
         if (i < 10) {
           i = '0' + i
         }

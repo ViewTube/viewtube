@@ -1,6 +1,12 @@
 <template>
   <div
+    ref="videoPlayer"
     class="video-player"
+    :style="{
+      cursor: playerOverlay.visible ? 'auto' : 'none',
+      'height': `calc(100vw * ${videoElement.aspectRatio})`
+    }"
+    :class="{ fullscreen: fullscreen, embedded: embedded || mini }"
     @mousemove="onPlayerMouseMove"
     @mouseleave="onPlayerMouseLeave"
     @mouseup="onPlayerMouseUp"
@@ -13,17 +19,15 @@
     @webkitfullscreenchange="onFullscreenChange"
     @mozfullscreenchange="onFullscreenChange"
     @msfullscreenchange="onFullscreenChange"
-    ref="videoPlayer"
-    :style="{
-      cursor: playerOverlay.visible ? 'auto' : 'none',
-      'height': `calc(100vw * ${videoElement.aspectRatio})`
-    }"
-    :class="{ fullscreen: fullscreen, embedded: embedded || mini }"
   >
     <div class="video-element-container" :class="{ zoom: videoElement.zoomed }">
       <video
+        ref="video"
         class="video"
         :src="highestVideoQuality"
+        :style="{
+          opacity: playerOverlay.thumbnailVisible ? 0 : 1
+        }"
         @waiting="onVideoBuffering"
         @canplay="onVideoCanplay"
         @playing="onVideoPlaying"
@@ -32,11 +36,7 @@
         @timeupdate="onPlaybackProgress"
         @progress="onLoadingProgress"
         @loadedmetadata="onLoadedMetadata"
-        :style="{
-          opacity: playerOverlay.thumbnailVisible ? 0 : 1
-        }"
-        ref="video"
-      ></video>
+      />
       <!-- <VideoEndscreen
         :videoId="video.videoId"
         :videoProgress="videoElement.progress"
@@ -44,7 +44,7 @@
       />-->
     </div>
 
-    <Spinner class="video-spinner" v-if="videoElement.buffering" />
+    <Spinner v-if="videoElement.buffering" class="video-spinner" />
     <div
       class="video-controls-overlay"
       :class="{ visible: playerOverlay.visible || !videoElement.playing }"
@@ -52,58 +52,58 @@
     >
       <div class="top-control-overlay" :class="{ hidden: playerOverlay.thumbnailVisible }">
         <div class="left-top-controls">
-          <h1 class="video-fullscreen-title" v-if="fullscreen || embedded || mini">{{ video.title }}</h1>
+          <h1 v-if="fullscreen || embedded || mini" class="video-fullscreen-title">{{ video.title }}</h1>
         </div>
         <div class="right-top-controls">
           <OpenInPlayerIcon
-            class="tooltip"
             v-if="embedded || mini"
+            class="tooltip"
+            :title="null"
+            :data-tippy-content="'Open in full player'"
             @click="onOpenInPlayer"
             @mouseup="onOpenInPlayerMouseUp"
             @touchend.stop="onOpenInPlayer"
-            :title="null"
-            :data-tippy-content="'Open in full player'"
           />
           <ArrowExpandIcon
-            class="tooltip"
             v-if="!videoElement.zoomed"
+            class="tooltip"
+            :title="null"
+            :data-tippy-content="'Zoom video'"
             @click="onVideoExpand"
             @mouseup="onVideoExpandMouseUp"
             @touchend.stop="onVideoExpand"
-            :title="null"
-            :data-tippy-content="'Zoom video'"
           />
           <ArrowCollapseIcon
-            class="tooltip"
             v-if="videoElement.zoomed"
+            class="tooltip"
+            :title="null"
+            :data-tippy-content="'Revert zoom'"
             @click="onVideoCollapse"
             @mouseup="onVideoCollapseMouseUp"
             @touchend.stop="onVideoCollapse"
-            :title="null"
-            :data-tippy-content="'Revert zoom'"
           />
           <CloseIcon
-            class="tooltip"
             v-if="mini"
+            class="tooltip"
+            :title="null"
+            :data-tippy-content="'Close'"
             @click.stop="$emit('close')"
             @mouseup.stop="$emit('close')"
             @touchend.stop="$emit('close')"
-            :title="null"
-            :data-tippy-content="'Close'"
-          ></CloseIcon>
+          />
         </div>
       </div>
       <div class="center-control-overlay">
-        <div class="left-action-container"></div>
+        <div class="left-action-container" />
         <div class="play-btn-container" @touchend="onPlayBtnTouchEnd" @click="onPlayBtnClick">
-          <div class="play-btn" :class="{ playing: videoElement.playing }"></div>
+          <div class="play-btn" :class="{ playing: videoElement.playing }" />
         </div>
-        <div class="right-action-container"></div>
+        <div class="right-action-container" />
       </div>
       <div
+        v-if="!mini"
         class="bottom-control-overlay"
         :class="{ hidden: playerOverlay.thumbnailVisible }"
-        v-if="!mini"
       >
         <div class="seekbar" :class="{ dragging: seekbar.seeking }">
           <div
@@ -115,27 +115,27 @@
             @mousemove.prevent="onSeekbarMouseMove"
             @touchmove.prevent="onSeekbarTouchMove"
             @click.prevent="onSeekBarClick"
-          ></div>
-          <div class="seekbar-background"></div>
+          />
+          <div class="seekbar-background" />
           <div
             class="seekbar-loading-progress"
             :style="{ width: `${videoElement.loadingPercentage}%` }"
-          ></div>
+          />
           <div
             class="seekbar-playback-progress"
             :style="{ width: `${videoElement.progressPercentage}%` }"
-          ></div>
-          <div class="seekbar-circle" :style="{ left: `${videoElement.progressPercentage}%` }"></div>
+          />
+          <div class="seekbar-circle" :style="{ left: `${videoElement.progressPercentage}%` }" />
           <SeekbarPreview
+            ref="seekbarHoverPreview"
             :storyboards="video.storyboards"
             :time="seekbar.hoverTimeStamp"
-            :videoId="video.videoId"
-            ref="seekbarHoverPreview"
+            :video-id="video.videoId"
             :style="{ transform: `translate3d(${seekHoverAdjustedLeft(this.$refs.seekbarHoverPreview)},0,0)` }"
           />
           <div
-            class="seekbar-hover-timestamp"
             ref="seekbarHoverTimestamp"
+            class="seekbar-hover-timestamp"
             :style="{ left: seekHoverAdjustedLeft(this.$refs.seekbarHoverTimestamp) }"
           >{{ seekbar.hoverTime }}</div>
         </div>
@@ -144,11 +144,11 @@
             <PauseIcon v-if="videoElement.playing" />
             <PlayIcon v-if="!videoElement.playing" />
             <VolumeControl
-              class="tooltip"
               v-model.number="videoElement.playerVolume"
+              class="tooltip"
+              :data-tippy-content="'Change volume'"
               @mouseup.stop="onVolumeInteraction"
               @click.stop="onVolumeInteraction"
-              :data-tippy-content="'Change volume'"
             />
             <div class="video-time-progress">
               <span
@@ -162,20 +162,20 @@
               :adaptiveFormats="video.adaptiveFormats"
             />-->
             <FullscreenIcon
-              class="tooltip"
               v-if="!fullscreen"
+              class="tooltip"
+              :data-tippy-content="'Enter Fullscreen'"
               @click="onEnterFullscreen"
               @mouseup="onEnterFullscreenMouseUp"
               @touchend.stop="onEnterFullscreen"
-              :data-tippy-content="'Enter Fullscreen'"
             />
             <FullscreenExitIcon
-              class="tooltip"
               v-if="fullscreen"
+              class="tooltip"
+              :data-tippy-content="'Leave fullscreen'"
               @click="onLeaveFullscreen"
               @mouseup="onLeaveFullscreenMouseUp"
               @touchend.stop="onLeaveFullscreen"
-              :data-tippy-content="'Leave fullscreen'"
             />
           </div>
         </div>
@@ -185,13 +185,12 @@
       class="video-thumbnail-overlay"
       :style="{ backgroundImage: `url(${video.videoThumbnails[0].url})` }"
       :class="{ hidden: !playerOverlay.thumbnailVisible }"
-    ></div>
+    />
   </div>
 </template>
 
 <script>
-import Spinner from '@/components/Spinner'
-import SavedPosition from '@/store/videoProgress'
+import dashjs from 'dashjs'
 import PauseIcon from 'vue-material-design-icons/Pause'
 import PlayIcon from 'vue-material-design-icons/Play'
 import FullscreenIcon from 'vue-material-design-icons/Fullscreen'
@@ -200,15 +199,16 @@ import ArrowExpandIcon from 'vue-material-design-icons/ArrowExpand'
 import ArrowCollapseIcon from 'vue-material-design-icons/ArrowCollapse'
 import OpenInPlayerIcon from 'vue-material-design-icons/OpenInNew'
 import CloseIcon from 'vue-material-design-icons/Close'
-import Commons from '@/plugins/commons.js'
+import Spinner from '@/components/Spinner'
+import SavedPosition from '@/store/videoProgress'
 // import VideoEndscreen from '@/components/videoplayer/VideoEndscreen'
 import VolumeControl from '@/components/videoplayer/VolumeControl'
 // import QualitySelection from '@/components/videoplayer/QualitySelection'
 import SeekbarPreview from '@/components/videoplayer/SeekbarPreview'
-import dashjs from 'dashjs'
+import Commons from '@/plugins/commons.js'
 
 export default {
-  name: 'videoplayer',
+  name: 'Videoplayer',
   components: {
     Spinner,
     PauseIcon,
@@ -225,7 +225,10 @@ export default {
     SeekbarPreview
   },
   props: {
-    video: Object,
+    video: {
+      required: true,
+      type: Object
+    },
     embedded: Boolean,
     mini: Boolean,
     autoplay: Boolean
@@ -261,17 +264,10 @@ export default {
       hoverTimeStamp: 0
     }
   }),
-  watch: {
-    videoVolume(newValue) {
-      if (newValue <= 1 && newValue >= 0 && this.$refs.video) {
-        this.$refs.video.volume = newValue
-      }
-    }
-  },
   computed: {
     highestVideoQuality() {
       if (this.video.formatStreams) {
-        const video = this.video.formatStreams.find(e => {
+        const video = this.video.formatStreams.find((e) => {
           return e.qualityLabel && e.qualityLabel === '720p'
         })
         if (video) {
@@ -299,6 +295,13 @@ export default {
     },
     playerOverlayVisible() {
       return this.playerOverlay.visible
+    }
+  },
+  watch: {
+    videoVolume(newValue) {
+      if (newValue <= 1 && newValue >= 0 && this.$refs.video) {
+        this.$refs.video.volume = newValue
+      }
     }
   },
   mounted() {
@@ -512,7 +515,7 @@ export default {
       }
     },
     onEnterFullscreen(e) {
-      var elem = this.$refs.videoPlayer
+      const elem = this.$refs.videoPlayer
       if (elem.requestFullscreen) {
         elem.requestFullscreen()
       } else if (elem.mozRequestFullScreen) {
@@ -580,12 +583,10 @@ export default {
       if (this.seekbar.seeking) {
         this.seekbar.seeking = false
         this.matchSeekProgressPercentage(true)
+      } else if (this.playerOverlay.visible) {
+        this.hidePlayerOverlay()
       } else {
-        if (this.playerOverlay.visible) {
-          this.hidePlayerOverlay()
-        } else {
-          this.showPlayerOverlay(true)
-        }
+        this.showPlayerOverlay(true)
       }
       e.stopPropagation()
       e.preventDefault()
@@ -675,11 +676,11 @@ export default {
     .video-element-container {
       max-height: 100vh;
 
-      &.zoom {
-        .video {
-          // width: 100vw !important;
-        }
-      }
+      // &.zoom {
+      //   .video {
+      //     // width: 100vw !important;
+      //   }
+      // }
     }
   }
 
