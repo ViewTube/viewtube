@@ -1,7 +1,17 @@
 <template>
   <div class="watch">
-    <video controls v-if="!jsEnabled" :src="getHDUrl()" class="nojs-player"></video>
-    <VideoPlayer :key="video.id" :video="video" class="video-player-p" v-if="jsEnabled"></VideoPlayer>
+    <video
+      v-if="!jsEnabled"
+      controls
+      :src="getHDUrl()"
+      class="nojs-player"
+    />
+    <VideoPlayer
+      v-if="jsEnabled"
+      :key="video.id"
+      :video="video"
+      class="video-player-p"
+    />
     <div class="video-meta">
       <CollapsibleSection
         class="recommended-videos mobile"
@@ -10,7 +20,7 @@
       >
         <RecommendedVideos
           class="recommended-videos-list"
-          :recommendedVideos="video.recommendedVideos"
+          :recommended-videos="video.recommendedVideos"
         />
       </CollapsibleSection>
       <div class="video-infobox">
@@ -20,21 +30,19 @@
           <div class="infobox-rating">
             <div class="infobox-likecount">
               <div class="infobox-likes">
-                <ThumbsUp class="thumbs-icon"></ThumbsUp>
+                <ThumbsUp class="thumbs-icon" />
                 <p class="like-count">{{ parseFloat(video.likeCount).toLocaleString('en-US') }}</p>
               </div>
               <div class="infobox-dislikes">
-                <ThumbsDown class="thumbs-icon"></ThumbsDown>
-                <p
-                  class="dislike-count"
-                >{{ parseFloat(video.dislikeCount).toLocaleString('en-US') }}</p>
+                <ThumbsDown class="thumbs-icon" />
+                <p class="dislike-count">{{ parseFloat(video.dislikeCount).toLocaleString('en-US') }}</p>
               </div>
             </div>
             <div class="like-ratio">
               <div
                 class="like-ratio-bar"
                 :style="{ width: (video.likeCount / (video.dislikeCount + video.likeCount)) * 100 + '%' }"
-              ></div>
+              />
             </div>
           </div>
         </div>
@@ -43,11 +51,11 @@
             <div class="infobox-channel-image">
               <nuxt-link :to="`channel/${video.authorId}`">
                 <img
+                  v-if="video.authorThumbnails && video.authorThumbnails.length > 0"
                   id="channel-img"
                   alt="channel image"
-                  v-if="video.authorThumbnails && video.authorThumbnails.length > 0"
                   :src="video.authorThumbnails[2].url"
-                />
+                >
               </nuxt-link>
             </div>
             <div class="infobox-channel-info">
@@ -55,54 +63,64 @@
                 :to="`channel/${video.authorId}`"
                 class="infobox-channel-name ripple"
               >{{ video.author }}</nuxt-link>
-              <p
-                class="infobox-channel-subcount"
-              >{{ video.subCount.toLocaleString('en-US') }} subscribers</p>
+              <p class="infobox-channel-subcount">{{ video.subCount.toLocaleString('en-US') }} subscribers</p>
             </div>
           </div>
-          <SubscribeButton class="subscribe-button-watch" :channelId="video.authorId" />
+          <SubscribeButton
+            class="subscribe-button-watch"
+            :channel-id="video.authorId"
+          />
         </div>
         <div class="video-infobox-date">{{ video.publishedText }}</div>
-        <div class="video-exact-date">{{new Date(video.published).toLocaleString('en-US')}}</div>
+        <div class="video-exact-date">{{ new Date(video.published).toLocaleString('en-US') }}</div>
         <div class="video-actions">
           <BadgeButton
             :href="`https://getpocket.com/save?url=${encodedUrl}`"
             style="color: #EF4056;"
           >
-            <img src="@/assets/icons/pocket.svg" />
+            <img src="@/assets/icons/pocket.svg">
             Save to pocket
           </BadgeButton>
         </div>
         <p class="video-infobox-text">tags:</p>
         <div class="video-infobox-tags">
-          <div class="tags-container" v-if="video.keywords">
+          <div
+            v-if="video.keywords"
+            class="tags-container"
+          >
             <BadgeButton
-              class="video-infobox-tag"
-              :href="`results?search_query=${keyword}`"
               v-for="keyword in video.keywords"
               :key="keyword"
+              class="video-infobox-tag"
+              :href="`results?search_query=${keyword}`"
             >
               <p>{{ keyword }}</p>
             </BadgeButton>
           </div>
         </div>
         <div class="comments-description">
-          <div class="video-infobox-description links" v-create-links>{{ video.description }}</div>
-          <Spinner v-if="commentsLoading"></Spinner>
-          <div class="comments-container" v-if="!commentsLoading">
+          <div
+            v-create-links
+            class="video-infobox-description links"
+          >{{ video.description }}</div>
+          <Spinner v-if="commentsLoading" />
+          <div
+            v-if="!commentsLoading"
+            class="comments-container"
+          >
             <div class="comments-count">
               <p>{{ comment.commentCount && comment.commentCount.toLocaleString('en-US') }} comments</p>
             </div>
             <Comment
               v-for="(comment, i) in comment.comments"
-              :comment="comment"
               :key="i"
-              :creatorName="video.author"
+              :comment="comment"
+              :creator-name="video.author"
             />
             <BadgeButton
+              v-if="commentsContinuationLink"
               :click="loadMoreComments"
               :loading="commentsContinuationLoading"
-              v-if="commentsContinuationLink"
             >
               <LoadMoreIcon />
               <p>show more</p>
@@ -115,11 +133,11 @@
 </template>
 
 <script>
-import Commons from '@/plugins/commons.js'
-import Spinner from '@/components/Spinner'
 import ThumbsUp from 'vue-material-design-icons/ThumbUp'
 import ThumbsDown from 'vue-material-design-icons/ThumbDown'
 import LoadMoreIcon from 'vue-material-design-icons/Reload'
+import Spinner from '@/components/Spinner'
+import Commons from '@/plugins/commons.js'
 import VideoPlayer from '@/components/videoplayer/VideoPlayer'
 import SubscribeButton from '@/components/buttons/SubscribeButton'
 import Comment from '@/components/Comment'
@@ -130,7 +148,7 @@ import CollapsibleSection from '@/components/list/CollapsibleSection'
 import BadgeButton from '@/components/buttons/BadgeButton'
 
 export default {
-  name: 'watch',
+  name: 'Watch',
   components: {
     Spinner,
     ThumbsUp,
@@ -151,6 +169,25 @@ export default {
     }
     return true
   },
+  asyncData({ query, error }) {
+    return ViewtubeApi.api.videos({
+      id: query.v
+    }).then((response) => {
+      if (response) {
+        return { video: response.data }
+      } else {
+        // throw new Error('Error loading video')
+      }
+    })
+      .catch((err) => {
+        if (err.response) {
+          error({ statusCode: err.statusCode, message: err.response.data.message })
+        } else if (err.message) {
+          console.log(err.message)
+          error({ statusCode: '500', message: 'Error loading video' + err.message, detail: JSON.stringify(err) })
+        }
+      })
+  },
   data: () => ({
     jsEnabled: false,
     video: [],
@@ -161,16 +198,16 @@ export default {
     commons: Commons,
     recommendedOpen: false
   }),
-  head() {
-    return {
-      title: `${this.video.title} - ${this.video.author} - ViewTube`,
-      meta: [
-        { hid: 'description', vmid: 'descriptionMeta', name: 'description', content: this.video.description.substring(0, 100) },
-        { hid: 'ogTitle', property: 'og:title', content: `${this.video.title} - ${this.video.author} - ViewTube` },
-        { hid: 'ogImage', property: 'og:image', itemprop: 'image', content: this.video.videoThumbnails[2].url },
-        { hid: 'ogDescription', property: 'og:description', content: this.video.description.substring(0, 100) },
-        { property: 'og:video', content: this.video.formatStreams[0].url }
-      ]
+  computed: {
+    browser() {
+      return process.browser
+    },
+    encodedUrl() {
+      if (process.browser) {
+        return encodeURIComponent(window.location.href)
+      } else {
+        return ''
+      }
     }
   },
   beforeCreate() {
@@ -193,41 +230,10 @@ export default {
     this.loadComments()
     this.$store.commit('miniplayer/setCurrentVideo', this.video)
   },
-  computed: {
-    browser() {
-      return process.browser
-    },
-    encodedUrl() {
-      if (process.browser) {
-        return encodeURIComponent(window.location.href)
-      } else {
-        return ''
-      }
-    }
-  },
-  asyncData({ query, error }) {
-    return ViewtubeApi.api.videos({
-      id: query.v
-    }).then(response => {
-      if (response) {
-        return { video: response.data }
-      } else {
-        // throw new Error('Error loading video')
-      }
-    })
-      .catch(err => {
-        if (err.response) {
-          error({ statusCode: err.statusCode, message: err.response.data.message })
-        } else if (err.message) {
-          console.log(err.message)
-          error({ statusCode: '500', message: 'Error loading video' + err.message, detail: JSON.stringify(err) })
-        }
-      })
-  },
   methods: {
     getHDUrl() {
       if (this.video.formatStreams) {
-        const video = this.video.formatStreams.find(e => {
+        const video = this.video.formatStreams.find((e) => {
           return e.qualityLabel && e.qualityLabel === '720p'
         })
         if (video) {
@@ -238,21 +244,21 @@ export default {
       }
       return '#'
     },
-    async loadComments(evtVideoId) {
+    loadComments(evtVideoId) {
       const videoId = evtVideoId || this.$route.query.v
       fetch(`${Commons.getApiUrl()}comments/${videoId}`, {
         cache: 'force-cache',
         method: 'GET'
       })
         .then(response => response.json())
-        .then(data => {
+        .then((data) => {
           if (data.comments && data.comments.length > 0) {
             this.comment = data
             this.commentsLoading = false
             this.commentsContinuationLink = data.continuation || null
           }
         })
-        .catch(error => {
+        .catch((error) => {
           console.error(error)
         })
     },
@@ -264,14 +270,26 @@ export default {
         method: 'GET'
       })
         .then(response => response.json())
-        .then(data => {
+        .then((data) => {
           this.comment.comments = this.comment.comments.concat(data.comments)
           this.commentsContinuationLoading = false
           this.commentsContinuationLink = data.continuation || null
         })
-        .catch(error => {
+        .catch((error) => {
           console.error(error)
         })
+    }
+  },
+  head() {
+    return {
+      title: `${this.video.title} - ${this.video.author} - ViewTube`,
+      meta: [
+        { hid: 'description', vmid: 'descriptionMeta', name: 'description', content: this.video.description.substring(0, 100) },
+        { hid: 'ogTitle', property: 'og:title', content: `${this.video.title} - ${this.video.author} - ViewTube` },
+        { hid: 'ogImage', property: 'og:image', itemprop: 'image', content: this.video.videoThumbnails[2].url },
+        { hid: 'ogDescription', property: 'og:description', content: this.video.description.substring(0, 100) },
+        { property: 'og:video', content: this.video.formatStreams[0].url }
+      ]
     }
   }
 }

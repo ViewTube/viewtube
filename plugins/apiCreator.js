@@ -1,6 +1,6 @@
 export function createApi(api) {
-  Object.entries(api.requests).forEach(el => {
-    api.api[el[0]] = async function (args = {}) {
+  Object.entries(api.requests).forEach((el) => {
+    api.api[el[0]] = function (args = {}) {
       let url = el[1].url
       if (args.id) {
         url += `/${args.id}`

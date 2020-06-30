@@ -1,13 +1,13 @@
 <template>
   <div
-    class="search-autocomplete"
     v-if="visible && searchValue"
+    class="search-autocomplete"
   >
     <div
-      class="search-autocomplete-entry"
-      :class="{ selected: selectedValue == key }"
       v-for="(value, key) in autocompleteValues"
       :key="key"
+      class="search-autocomplete-entry"
+      :class="{ selected: selectedValue == key }"
       :value="value"
       :number="key"
       @mousedown.prevent="onAutocompleteMouseDown"
@@ -18,18 +18,34 @@
 </template>
 
 <script>
+import Axios from 'axios'
 import Commons from '@/plugins/commons.js'
 
 export default {
-  name: 'search-autocomplete',
+  name: 'SearchAutocomplete',
   props: {
-    searchValue: null
+    searchValue: { type: String, default: null }
   },
   data: () => ({
     autocompleteValues: [],
     visible: false,
     selectedValue: 0
   }),
+  watch: {
+    searchValue() {
+      Axios.get(`${Commons.getOwnApiUrl()}autocomplete`, {
+        params: {
+          q: this.searchValue
+        }
+      })
+        .then((response) => {
+          this.autocompleteValues = [this.searchValue].concat(response.data)
+        })
+        .catch((error) => {
+          console.error(error)
+        })
+    }
+  },
   methods: {
     onAutocompleteMouseDown(e) {
       this.$emit('searchValueUpdate', e.target.getAttribute('value'))
@@ -37,22 +53,6 @@ export default {
     },
     onMouseOver(e) {
       this.selectedValue = parseInt(e.target.getAttribute('number'))
-    }
-  },
-  watch: {
-    searchValue() {
-      const me = this
-      fetch(`${Commons.autocompleteUrl}?q=${me.searchValue}&cl=youtube`, {
-        method: 'GET'
-      })
-        .then(response => response.json())
-        .then(data => {
-          me.autocompleteValues = [me.searchValue]
-          me.autocompleteValues = me.autocompleteValues.concat(data)
-        })
-        .catch(error => {
-          console.error(error)
-        })
     }
   }
 }

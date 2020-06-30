@@ -1,6 +1,6 @@
 // https://api.viewtube.eu/videos?id=mQLzOuwDu_8
-import Commons from '@/plugins/commons.js'
 import axios from 'axios'
+import Commons from '@/plugins/commons.js'
 import { createApi } from '@/plugins/apiCreator'
 
 const apiPrototype = {
