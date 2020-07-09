@@ -1,20 +1,35 @@
 import Axios from 'axios'
+import Cookie from 'universal-cookie'
 import Commons from '@/plugins/commons'
+
+const cookie = new Cookie()
 
 export const state = () => ({
   username: null
 })
 export const getters = {
   username: state => state.username,
-  isLoggedIn: state => Boolean(state.username)
+  isLoggedIn: state => Boolean(state.username),
+  jwt: () => cookie.get('jwt') || undefined
 }
 export const mutations = {
   setUsername(state, username) {
     state.username = username
+  },
+  setJwt(state, jwt) {
+    cookie.set('jwt', jwt)
   }
 }
 export const actions = {
-  login({ commit }, user, password) { },
+  login({ commit }, { username, password }) {
+    Axios.post(Commons.getOwnApiUrl() + 'auth/login', {
+      username,
+      password
+    })
+      .then((result) => {
+        commit('setJwt', result.data.accessToken)
+      })
+  },
   register({ commit, rootState }, { username, password, captchaSolution }) {
     const captchaToken = rootState.captcha.token
     if (captchaToken) {

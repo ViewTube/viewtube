@@ -74,7 +74,8 @@ export default {
     'portal-vue/nuxt',
     'cookie-universal-nuxt',
     '@nuxtjs/workbox',
-    '@nuxtjs/manifest'
+    '@nuxtjs/manifest',
+    ['cookie-universal-nuxt', { alias: 'cookies' }]
   ],
 
   axios: {},
@@ -97,6 +98,6 @@ export default {
       'interactjs',
       'vue-scroll'
     ],
-    extend(config, ctx) {}
+    extend(config, ctx) { }
   }
 }

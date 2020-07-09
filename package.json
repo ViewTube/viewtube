@@ -24,6 +24,7 @@
     "nuxt": "^2.13.0",
     "portal-vue": "^2.1.7",
     "tippy.js": "^6.2.3",
+    "universal-cookie": "^4.0.3",
     "vue-material-design-icons": "^4.7.1",
     "vue-scroll": "^2.1.13",
     "vuex-persistedstate": "^3.0.1"
