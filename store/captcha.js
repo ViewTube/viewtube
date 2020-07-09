@@ -1,5 +1,5 @@
-import Commons from '@/plugins/commons'
 import Axios from 'axios'
+import Commons from '@/plugins/commons'
 
 export const state = () => ({
   token: null,
@@ -7,7 +7,7 @@ export const state = () => ({
   image: null
 })
 export const getters = {
-  image: (state) => state.image
+  image: state => state.image
 }
 export const mutations = {
   setToken(state, token) {
@@ -19,11 +19,11 @@ export const mutations = {
 }
 export const actions = {
   getCaptcha({ commit }) {
-    Axios.get(process.env.API_URL + 'captcha')
+    Axios.get(Commons.getOwnApiUrl() + 'captcha')
       .then((response) => {
         commit('setToken', response.data.token)
         commit('setImage', response.data.captchaImage)
       })
-      .catch((err) => console.error(err))
+      .catch(err => console.error(err))
   }
 }

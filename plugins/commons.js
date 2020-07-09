@@ -15,7 +15,7 @@ export default {
   },
 
   getDomain() {
-    if (window.location.href.toLowerCase().indexOf('localhost') !== -1) {
+    if (window.location.href.toLowerCase().includes('localhost')) {
       return 'localhost'
     }
     return 'viewtube.eu'
@@ -25,8 +25,8 @@ export default {
     // if (window.location.href.toLowerCase().indexOf('localhost') !== -1) {
     // return 'http://localhost:3030/'
     // }
-    console.log(process.env.API_URL, process.env.VIEWTUBE_API_URL)
-    return process.env.VIEWTUBE_API_URL || 'https://api.viewtube.eu/'
+    // console.log(process.env.API_URL, process.env.VIEWTUBE_API_URL)
+    return process.env.VIEWTUBE_API_URL || 'https://api.viewtube.io/'
     // return 'https://proxy.mcdn.ch/index.php?https://api.viewtube.eu/'
   },
 
@@ -63,7 +63,7 @@ export default {
     )
   },
 
-  getPageHeight: function () {
+  getPageHeight() {
     return Math.max(
       document.documentElement.scrollHeight,
       document.body.offsetHeight,

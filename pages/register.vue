@@ -1,30 +1,12 @@
 <template>
   <div class="register">
-    <div
-      class="register-container"
-      :class="{ loading: loading }"
-    >
+    <div class="register-container" :class="{ loading: loading, wiggle: formWiggle }">
       <h2 class="register-title">Register</h2>
       <span class="status-message-display message-display">{{ statusMessage }}</span>
       <Spinner />
-      <form
-        id="register"
-        method="post"
-        @submit.prevent="register"
-        ref="registerForm"
-      >
-        <FormInput
-          :id="'username'"
-          v-model="username"
-          :label="'username'"
-          :type="'username'"
-        />
-        <FormInput
-          :id="'password'"
-          v-model="password"
-          :label="'password'"
-          :type="'password'"
-        />
+      <form id="register" ref="registerForm" method="post" @submit.prevent="register">
+        <FormInput :id="'username'" v-model="username" :label="'username'" :type="'username'" />
+        <FormInput :id="'password'" v-model="password" :label="'password'" :type="'password'" />
         <FormInput
           :id="'repeat-password'"
           v-model="repeatPassword"
@@ -33,11 +15,7 @@
         />
         <div class="captcha-container">
           <div class="captcha-box">
-            <img
-              class="captcha-image"
-              :src="captchaImage"
-              alt="Captcha image"
-            >
+            <img class="captcha-image" :src="captchaImage" alt="Captcha image" />
           </div>
         </div>
         <FormInput
@@ -58,7 +36,7 @@ import SubmitButton from '@/components/form/SubmitButton'
 import Spinner from '@/components/Spinner'
 
 export default {
-  name: 'register',
+  name: 'Register',
   components: {
     FormInput,
     SubmitButton,
@@ -72,11 +50,20 @@ export default {
     captchaSolution: null,
     statusMessage: '',
     errorMessage: '',
-    redirectedPage: 'home'
+    redirectedPage: 'home',
+    formWiggle: false
   }),
   computed: {
     captchaImage() {
       return this.$store.getters['captcha/image']
+    }
+  },
+  watch: {
+    password() {
+      this.checkRepeatPasswords()
+    },
+    repeatPassword() {
+      this.checkRepeatPasswords()
     }
   },
   mounted() {
@@ -108,7 +95,15 @@ export default {
             title: 'Registration failed',
             message: err.message
           })
+          this.wiggleRegisterForm()
+          this.$store.dispatch('captcha/getCaptcha')
         })
+    },
+    wiggleRegisterForm() {
+      this.formWiggle = true
+      setTimeout(() => {
+        this.formWiggle = false
+      }, 600)
     },
     checkRepeatPasswords() {
       if (this.password !== this.repeatPassword) {
@@ -118,16 +113,8 @@ export default {
       }
     }
   },
-  watch: {
-    password() {
-      this.checkRepeatPasswords()
-    },
-    repeatPassword() {
-      this.checkRepeatPasswords()
-    }
-  },
   beforeRouteEnter(to, from, next) {
-    next(vm => {
+    next((vm) => {
       if (from.name) {
         vm.redirectedPage = from
       } else {
@@ -171,6 +158,10 @@ export default {
 
     @media screen and (max-width: $mobile-width) {
       height: 100%;
+    }
+
+    &.wiggle {
+      animation: wiggle 600ms;
     }
 
     .register-title {
@@ -240,6 +231,15 @@ export default {
         }
       }
     }
+  }
+}
+
+@keyframes wiggle {
+  20%, 60%{
+    transform: translateX(-10px);
+  }
+  40%, 80%{
+    transform: translate(10px);
   }
 }
 </style>

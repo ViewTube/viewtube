@@ -1,12 +1,12 @@
-import Commons from '@/plugins/commons'
 import Axios from 'axios'
+import Commons from '@/plugins/commons'
 
 export const state = () => ({
   username: null
 })
 export const getters = {
-  username: (state) => state.username,
-  isLoggedIn: (state) => Boolean(state.username)
+  username: state => state.username,
+  isLoggedIn: state => Boolean(state.username)
 }
 export const mutations = {
   setUsername(state, username) {
@@ -18,7 +18,7 @@ export const actions = {
   register({ commit, rootState }, { username, password, captchaSolution }) {
     const captchaToken = rootState.captcha.token
     if (captchaToken) {
-      return Axios.post(process.env.API_URL + 'user', {
+      return Axios.post(Commons.getOwnApiUrl() + 'register', {
         username,
         password,
         captchaToken,
@@ -34,7 +34,7 @@ export const actions = {
           throw new Error('Registration failed: ' + reason)
         })
         .catch((err) => {
-          // console.log(err)
+          console.log(err.message)
           throw new Error('Registration failed: ' + err.message)
         })
     }
