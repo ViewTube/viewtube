@@ -226,7 +226,7 @@ export default {
           .captcha-image {
             width: 100%;
             filter: var(--darkness);
-            margin: -20px 0 -20px 0;
+            margin:  -10px 0;
           }
         }
       }
