@@ -36,6 +36,9 @@ export default {
       { property: 'og:locale', content: 'en_US' },
       { property: 'og:site_name', content: 'ViewTube' }
     ],
+    htmlAttrs: {
+      lang: 'en'
+    },
     link: [
       {
         rel: 'search',
@@ -47,7 +50,12 @@ export default {
     ]
   },
 
-  loading: { color: '#ff7b3b' },
+  loading: {
+    color: '#ff7b3b',
+    height: '2px',
+    throttle: 400,
+    duration: 8000
+  },
 
   css: [
     '~/assets/fonts/expletus.css',
