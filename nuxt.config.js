@@ -46,6 +46,7 @@ export default {
         title: 'Search ViewTube',
         href: 'https://viewtube.io/viewtubesearch.xml'
       },
+      { rel: 'manifest', href: 'manifest.json' },
       { rel: 'apple-touch-icon', href: 'apple-touch-icon.png' },
       { rel: 'icon', type: 'image/x-icon', href: 'favicon.ico' }
     ]
@@ -86,34 +87,8 @@ export default {
     'portal-vue/nuxt',
     'cookie-universal-nuxt',
     '@nuxtjs/workbox',
-    '@nuxtjs/manifest',
     ['cookie-universal-nuxt', { alias: 'cookies' }]
   ],
-
-  pwa: {
-    manifest: {
-      name: 'ViewTube',
-      short_name: 'ViewTube',
-      description: 'An alternative YouTube-frontend',
-      icons: [
-        {
-          src: '~/assets/icon-192.png',
-          sizes: '192x192',
-          type: 'image/png'
-        },
-        {
-          src: '~/assets/icon-512.png',
-          sizes: '512x512',
-          type: 'image/png'
-        }
-      ],
-      start_url: '/',
-      display: 'standalone',
-      background_color: '#121212',
-      theme_color: '#272727',
-      lang: 'en'
-    }
-  },
 
   axios: {},
 

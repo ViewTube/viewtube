@@ -1,22 +1,27 @@
 {
   "name": "ViewTube",
   "short_name": "ViewTube",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#121212",
   "description": "An alternative YouTube-frontend",
+  "lang": "en",
+  "theme_color": "#272727",
   "icons": [
     {
-      "src": "./img/icons/android-chrome-192x192.png",
+      "src": "icon-192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "./img/icons/android-chrome-512x512.png",
+      "src": "icon-256.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",
       "sizes": "512x512",
       "type": "image/png"
     }
-  ],
-  "start_url": "/",
-  "display": "standalone",
-  "background_color": "#121212",
-  "theme_color": "#272727",
-  "lang": "en"
+  ]
 }
