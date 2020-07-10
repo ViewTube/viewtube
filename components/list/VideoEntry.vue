@@ -1,6 +1,6 @@
 <template>
   <div class="video-entry">
-    <div class="video-entry-background"></div>
+    <div class="video-entry-background" />
     <nuxt-link
       class="video-entry-thmb"
       :to="{path: '/watch?v=' + video.videoId}"
@@ -11,26 +11,25 @@
         <div class="thmb-clip">
           <img
             class="video-entry-thmb-image"
-            :srcset="commons.getProxySrcSet(video.videoThumbnails)"
-            :sizes="commons.getProxyImageSizes(video.videoThumbnails)"
+            loading="lazy"
             :src="commons.proxyUrl + video.videoThumbnails[4].url"
             :alt="`${video.title}`"
-          />
+          >
         </div>
-        <div class="video-description-overlay" v-if="video.description">
+        <div v-if="video.description" class="video-description-overlay">
           <p>{{ video.description }}</p>
         </div>
       </div>
-      <div class="video-saved-progress" :style="{ width: `${videoProgressPercentage}%` }"></div>
+      <div class="video-saved-progress" :style="{ width: `${videoProgressPercentage}%` }" />
       <span class="video-entry-length">{{ $formatting.getTimestampFromSeconds(video.lengthSeconds) }}</span>
     </nuxt-link>
     <div class="video-entry-info">
       <img
-        class="author-thumbnail"
         v-if="video.authorThumbnails"
+        class="author-thumbnail"
         :src="commons.proxyUrl + video.authorThumbnails[1].url"
         alt="Author thumbnail"
-      />
+      >
       <div class="video-info-text">
         <nuxt-link
           class="video-entry-title tooltip"
@@ -44,8 +43,8 @@
         >{{ video.author }}</nuxt-link>
         <div class="video-entry-stats">
           <p
-            class="video-entry-views"
             v-if="video.viewCount !== null"
+            class="video-entry-views"
           >{{ video.viewCount.toLocaleString('en-US') }} {{ video.viewCount === 1 ? 'view' : 'views' }}</p>
           <p class="video-entry-timestamp">{{ video.publishedText }}</p>
         </div>
@@ -60,7 +59,7 @@ import SavedPosition from '@/store/videoProgress'
 import Commons from '@/plugins/commons.js'
 
 export default {
-  name: 'video-entry',
+  name: 'VideoEntry',
   props: {
     video: Object
   },

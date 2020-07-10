@@ -1,12 +1,6 @@
 <template>
-  <div
-    class="header"
-    :class="{ hidden: $store.state.scroll.scrollDown }"
-  >
-    <nuxt-link
-      class="logo-link"
-      to="/"
-    >
+  <div class="header" :class="{ hidden: $store.state.scroll.scrollDown }">
+    <nuxt-link class="logo-link" to="/">
       <h1 class="logo">
         <span>View</span>
         <span class="logo-colored">Tube</span>
@@ -16,119 +10,107 @@
         :class="{ inverted: currentRouteName!=='home' }"
         src="@/assets/icon.svg"
         alt="ViewTube"
-      />
+      >
     </nuxt-link>
     <MainSearchBox />
     <div class="nav">
       <nuxt-link
-        to="/login"
+        v-if="!userAuthenticated"
         id="login"
+        v-ripple
+        to="/login"
         class="tooltip nav-btn main"
         data-tippy-content="login"
-        v-if="!userAuthenticated"
-        v-html="'Login'"
-        v-ripple
       >Login</nuxt-link>
       <nuxt-link
-        to="/register"
+        v-if="!userAuthenticated"
         id="register"
+        v-ripple
+        to="/register"
         class="tooltip nav-btn"
         data-tippy-content="register"
-        v-if="!userAuthenticated"
-        v-ripple
       >Register</nuxt-link>
       <nuxt-link
-        to="/subscriptions"
+        v-show="userAuthenticated"
         id="subscriptions"
+        v-ripple
+        to="/subscriptions"
         class="tooltip nav-btn main"
         data-tippy-content="view your subscriptions"
-        v-show="userAuthenticated"
-        v-ripple
       >Subscriptions</nuxt-link>
       <a
-        href="#"
-        @click="showAccountMenu"
         id="account"
+        v-ripple
+        href="#"
         class="tooltip"
         data-tippy-content="account"
-        v-ripple
+        @click="showAccountMenu"
       >
         <AccountIcon />
       </a>
       <transition name="circle">
-        <div
-          class="menu"
-          v-if="accountMenuVisible"
-          v-clickaway="hideAccountMenu"
-        >
+        <div v-if="accountMenuVisible" v-clickaway="hideAccountMenu" class="menu">
           <a
-            href="#"
             v-if="!userAuthenticated"
-            @click.self.prevent="login"
             id="login-btn"
+            href="#"
             class="ripple tooltip menu-btn account-btn"
             data-tippy-content="login"
+            @click.self.prevent="login"
           >
             <AccountIcon />Login
           </a>
           <a
-            href="#"
             v-if="!userAuthenticated"
-            @click.self.prevent="register"
             id="login-btn"
+            href="#"
             class="ripple tooltip menu-btn account-btn"
             data-tippy-content="register"
+            @click.self.prevent="register"
           >
             <AccountPlusIcon />Register
           </a>
           <a
-            href="#"
             v-if="this.$route.name !== 'subscriptions' && userAuthenticated"
-            @click.self.prevent="openSubscriptions"
             id="subscriptions-btn"
+            href="#"
             class="ripple tooltip menu-btn"
             data-tippy-content="view your subscriptions"
+            @click.self.prevent="openSubscriptions"
           >
             <AccountPlusIcon />Subscriptions
           </a>
-          <div
-            class="account-menu"
-            v-if="userAuthenticated"
-          >
+          <div v-if="userAuthenticated" class="account-menu">
             <AccountIcon />
             <div class="account-info">
               <p class="account-name">{{ $store.getters['user/username'] }}</p>
-              <a
-                class="logout-btn"
-                href="#"
-                @click.prevent="logout"
-              >Log out</a>
+              <a class="logout-btn" href="#" @click.prevent="logout">Log out</a>
             </div>
           </div>
           <a
-            href="#"
-            @mousedown.self.prevent="share"
             id="share"
+            href="#"
             class="ripple tooltip menu-btn"
             data-tippy-content="share"
+            @mousedown.self.prevent="share"
           >
             <ShareIcon />share
           </a>
           <a
-            href="#"
-            @mousedown.self.prevent="openSettings"
             id="settings-btn"
+            href="#"
             class="ripple tooltip menu-btn"
             data-tippy-content="open settings"
+            @mousedown.self.prevent="openSettings"
           >
             <SettingsIcon />settings
           </a>
           <a
-            href="#"
-            @mousedown.self.prevent="openAbout"
             id="about-btn"
+            href="#"
             class="ripple tooltip menu-btn"
             data-tippy-content="open about"
+            @mousedown.self.prevent="openAbout"
           >
             <AboutIcon />about
           </a>
@@ -136,14 +118,8 @@
       </transition>
     </div>
     <transition name="fade-down">
-      <Settings
-        v-if="settingsOpen"
-        @close="closeSettings"
-      />
-      <About
-        v-if="aboutOpen"
-        @close="closeAbout"
-      />
+      <Settings v-if="settingsOpen" @close="closeSettings" />
+      <About v-if="aboutOpen" @close="closeAbout" />
     </transition>
   </div>
 </template>
@@ -152,9 +128,9 @@
 import ShareIcon from 'vue-material-design-icons/Share'
 import SettingsIcon from 'vue-material-design-icons/Cog'
 import AboutIcon from 'vue-material-design-icons/InformationOutline'
-import MainSearchBox from '@/components/MainSearchBox'
 import AccountIcon from 'vue-material-design-icons/AccountCircle'
 import AccountPlusIcon from 'vue-material-design-icons/AccountPlus'
+import MainSearchBox from '@/components/MainSearchBox'
 import Settings from '@/components/Settings'
 import About from '@/components/About'
 
@@ -178,6 +154,16 @@ export default {
     settingsOpen: false,
     aboutOpen: false
   }),
+  computed: {
+    currentRouteName() {
+      return this.$route.name
+    },
+    userAuthenticated() {
+      return this.$store.getters['user/isLoggedIn']
+    }
+  },
+  mounted() {
+  },
   methods: {
     hideAccountMenu() {
       if (this.accountMenuVisible) {
@@ -229,16 +215,6 @@ export default {
     logout() {
       this.$store.dispatch('user/logout')
       this.hideAccountMenu()
-    }
-  },
-  mounted() {
-  },
-  computed: {
-    currentRouteName() {
-      return this.$route.name
-    },
-    userAuthenticated() {
-      return this.$store.getters['user/isLoggedIn']
     }
   }
 }

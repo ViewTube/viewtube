@@ -36,7 +36,7 @@ import SubmitButton from '@/components/form/SubmitButton'
 import Spinner from '@/components/Spinner'
 
 export default {
-  name: 'login',
+  name: 'Login',
   components: {
     FormInput,
     SubmitButton,
@@ -49,6 +49,8 @@ export default {
     statusMessage: '',
     redirectedPage: 'home'
   }),
+  mounted() {
+  },
   methods: {
     login() {
       this.loading = true
@@ -77,10 +79,8 @@ export default {
         })
     }
   },
-  mounted() {
-  },
   beforeRouteEnter(to, from, next) {
-    next(vm => {
+    next((vm) => {
       if (from.name) {
         vm.redirectedPage = from
       } else {

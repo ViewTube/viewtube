@@ -2,8 +2,9 @@
   font-family: "noto-sans";
   src: url("notosans-regular.woff2") format("woff2"),
     url("notosans-regular.woff") format("woff"),
-    url("ExpletusSans-Bold.svg") format("svg"),
-    url("ExpletusSans-Bold.ttf") format("truetype");
+    url("notosans-regular.svg") format("svg"),
+    url("notosans-regular.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
+  font-display: swap;
 }

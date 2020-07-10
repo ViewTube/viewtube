@@ -49,7 +49,10 @@ export default {
 
   loading: { color: '#ff7b3b' },
 
-  css: [],
+  css: [
+    '~/assets/fonts/expletus.css',
+    '~/assets/fonts/notosans.css'
+  ],
 
   styleResources: {
     scss: ['~/assets/styles/global/*.scss']

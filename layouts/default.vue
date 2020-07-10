@@ -2,24 +2,22 @@
   <div id="app" class="layout" ref="app" :class="getThemeClass()">
     <ThemeStyling />
     <Header v-if="!headless" class="main-header" />
-    <Miniplayer v-if="$store.getters.miniplayer"></Miniplayer>
+    <Miniplayer v-if="$store.getters.miniplayer" />
     <nuxt v-scroll="handleScroll" />
-    <portal-target class="dropdown-portal" name="dropdown" multiple></portal-target>
+    <portal-target class="dropdown-portal" name="dropdown" multiple />
     <MessageBoxContainer />
   </div>
 </template>
 
 <script>
+import tippy from 'tippy.js'
 import Header from '@/components/Header'
-import '@/assets/fonts/expletus.css'
-import '@/assets/fonts/notosans.css'
 import Miniplayer from '@/components/miniplayer/Miniplayer'
 import MessageBoxContainer from '@/components/message/MessageBoxContainer'
 import ThemeStyling from '@/components/themes/ThemeStyling'
-import tippy from 'tippy.js'
 
 export default {
-  name: 'index',
+  name: 'Index',
   components: {
     Header,
     Miniplayer,
