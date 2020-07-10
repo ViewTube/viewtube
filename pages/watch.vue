@@ -2,12 +2,13 @@
   <div class="watch">
     <noscript>
       <video
-        controls
-        :src="getHDUrl()"
-        class="nojs-player"
+      controls
+      :src="getHDUrl()"
+      class="nojs-player"
       />
     </noscript>
     <VideoPlayer
+      v-if="jsEnabled"
       :key="video.id"
       :video="video"
       class="video-player-p"
@@ -84,7 +85,10 @@
             :href="`https://getpocket.com/save?url=${encodedUrl}`"
             style="color: #EF4056;"
           >
-            <img src="@/assets/icons/pocket.svg" alt="Save to pocket icon">
+            <img
+              src="@/assets/icons/pocket.svg"
+              alt="Save to pocket icon"
+            >
             Save to pocket
           </BadgeButton>
         </div>
