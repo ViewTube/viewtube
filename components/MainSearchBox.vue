@@ -1,30 +1,36 @@
 <template>
-  <div class="search-box" :class="{ focused: searchFieldFocused, scrolled: scrollTop }">
+  <div
+    class="search-box"
+    :class="{ focused: searchFieldFocused, scrolled: scrollTop, 'has-text': localSearchValue.length > 0 }"
+  >
+    <label
+      class="search-label"
+      for="search"
+    >search</label>
     <input
-      type="text"
-      name="search"
       id="search"
       ref="searchField"
-      placeholder="search"
+      type="text"
+      name="search"
+      :value="localSearchValue"
       @focus="onSearchFieldFocused"
       @blur="onSearchFieldBlur"
       @keydown="onSearchFieldKeydown"
       @input="onSearchFieldChange"
-      :value="localSearchValue"
-    />
+    >
     <a
-      :href="`/results?search_query=${this.searchValue}`"
-      @click.self.prevent="onSearchButton"
+      v-ripple
+      :href="`/results?search_query=${searchValue}`"
       class="search-btn tooltip"
       data-tippy-content="click or press enter to search"
-      v-ripple
+      @click.self.prevent="onSearchButton"
     >
       <SearchIcon />
     </a>
-    <span class="search-line-bottom line"></span>
+    <span class="search-line-bottom line" />
     <SearchAutoComplete
-      :searchValue="searchValue"
       ref="autocomplete"
+      :search-value="searchValue"
       @searchValueUpdate="onAutocompleteUpdate"
       @autocompleteEnter="onAutocompleteEnter"
     />
@@ -36,7 +42,7 @@ import SearchIcon from 'vue-material-design-icons/Magnify.vue'
 import SearchAutoComplete from '@/components/SearchAutoComplete'
 
 export default {
-  name: 'main-search-box',
+  name: 'MainSearchBox',
   components: {
     SearchIcon,
     SearchAutoComplete
@@ -49,6 +55,14 @@ export default {
     localSearchValue: '',
     searchValue: ''
   }),
+  watch: {
+    '$route'(to, from) {
+      this.updateSearchValueFromUrl()
+    },
+    searchValue(newValue) {
+      this.localSearchValue = newValue
+    }
+  },
   mounted() {
     this.updateSearchValueFromUrl()
   },
@@ -109,14 +123,6 @@ export default {
       this.$router.push(`/results?search_query=${searchValue}`)
       this.$refs.searchField.blur()
     }
-  },
-  watch: {
-    '$route'(to, from) {
-      this.updateSearchValueFromUrl()
-    },
-    searchValue(newValue) {
-      this.localSearchValue = newValue
-    }
   }
 }
 </script>
@@ -160,6 +166,19 @@ export default {
     }
   }
 
+  .search-label {
+    position: absolute;
+    left: 0;
+    top: 0;
+    line-height: 32px;
+    text-align: center;
+    pointer-events: none;
+    user-select: none;
+    transition: opacity 300ms $intro-easing, transform 300ms $intro-easing;
+    margin: 0 0 0 10px;
+    color: var(--subtitle-color-light);
+  }
+
   #search {
     width: 100%;
     height: 100%;
@@ -181,6 +200,13 @@ export default {
     }
   }
 
+  &.focused,
+  &.has-text {
+    .search-label {
+      opacity: 0;
+      transform: translateX(10px);
+    }
+  }
   &.focused {
     .line {
       transform: scale(1);
