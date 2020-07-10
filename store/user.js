@@ -17,7 +17,11 @@ export const mutations = {
     state.username = username
   },
   setJwt(state, jwt) {
-    cookie.set('jwt', jwt)
+    cookie.set('jwt', jwt, {
+      domain: 'https://viewtube.io',
+      secure: true,
+      sameSite: 'strict'
+    })
   }
 }
 export const actions = {
