@@ -1,5 +1,5 @@
 export default {
-  autocompleteUrl: 'https://autocomplete.viewtube.eu/',
+  autocompleteUrl: 'https://api.viewtube.io/autocomplete/',
   proxyUrl: 'https://proxy.mcdn.ch/index.php?',
   description: 'An alternative YouTube frontend using the Invidious API.',
   language: 'en-US',
@@ -18,7 +18,7 @@ export default {
     if (window.location.href.toLowerCase().includes('localhost')) {
       return 'localhost'
     }
-    return 'viewtube.eu'
+    return 'viewtube.io'
   },
 
   getOwnApiUrl() {
@@ -27,7 +27,7 @@ export default {
     // }
     // console.log(process.env.API_URL, process.env.VIEWTUBE_API_URL)
     return process.env.VIEWTUBE_API_URL || 'https://api.viewtube.io/'
-    // return 'https://proxy.mcdn.ch/index.php?https://api.viewtube.eu/'
+    // return 'https://proxy.mcdn.ch/index.php?https://api.viewtube.io/'
   },
 
   getProxySrcSet(imgArray) {

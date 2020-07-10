@@ -26,7 +26,7 @@ export default {
         hid: 'ogImage',
         property: 'og:image',
         itemprop: 'image',
-        content: 'https://viewtube.eu/icon-256.png'
+        content: 'https://viewtube.io/icon-192.png'
       },
       {
         hid: 'ogDescription',
@@ -44,8 +44,9 @@ export default {
         rel: 'search',
         type: 'application/opensearchdescription+xml',
         title: 'Search ViewTube',
-        href: 'https://beta.viewtube.eu/viewtubesearch.xml'
+        href: 'https://viewtube.io/viewtubesearch.xml'
       },
+      { rel: 'apple-touch-icon', href: 'apple-touch-icon.png' },
       { rel: 'icon', type: 'image/x-icon', href: 'favicon.ico' }
     ]
   },
