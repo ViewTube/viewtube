@@ -24,14 +24,14 @@
       <div
         class="comment-content"
         v-html="comment.content"
-      ></div>
+      />
       <div class="comment-properties">
         <div class="published comment-property">
           <span>{{ comment.publishedText }}</span>
         </div>
         <div
-          class="edited comment-property"
           v-if="comment.isEdited"
+          class="edited comment-property"
         >
           <PenIcon />
           <span>edited</span>
@@ -41,54 +41,54 @@
           <span>{{ comment.likeCount.toLocaleString('en-US') }}</span>
         </div>
         <div
-          class="creatorHeart comment-property tooltip"
           v-if="comment.creatorHeart !== undefined"
+          class="creatorHeart comment-property tooltip"
           :data-tippy-content="`❤ by ${creatorName}`"
         >
           <HeartIcon title />
         </div>
       </div>
       <div
-        class="comment-replies"
         v-if="comment.replies !== undefined"
+        class="comment-replies"
       >
         <BadgeButton
+          v-if="!repliesLoaded"
           class="comment-reply-count"
           :click="loadReplies"
           :loading="loadingReplies"
-          v-if="!repliesLoaded"
         >
           <CommentIcon />
           <p>show {{ comment.replies.replyCount.toLocaleString('en-US') }} replies</p>
         </BadgeButton>
         <BadgeButton
+          v-if="repliesLoaded"
           class="comment-reply-count"
           :click="hideReplies"
-          v-if="repliesLoaded"
         >
           <CommentHideIcon />
           <p>hide replies</p>
         </BadgeButton>
         <div
-          class="comment-replies-list"
           v-if="repliesLoaded"
+          class="comment-replies-list"
         >
           <div
-            class="comment-replies-list-height"
             ref="commentRepliesListHeight"
+            class="comment-replies-list-height"
           >
             <Comment
-              class="subcomment"
               v-for="subComment in replies"
               :key="subComment.commentId"
+              class="subcomment"
               :comment="subComment"
             />
           </div>
           <BadgeButton
+            v-if="!loadingReplies && repliesContinuationLink"
             class="show-more-replies"
             :click="loadMoreReplies"
             :loading="repliesContinuationLoading"
-            v-if="!loadingReplies && repliesContinuationLink"
           >
             <LoadMoreIcon />
             <p>show more</p>
@@ -112,7 +112,7 @@ import BadgeButton from '@/components/buttons/BadgeButton'
 import 'tippy.js/dist/tippy.css'
 
 export default {
-  name: 'comment',
+  name: 'Comment',
   components: {
     PenIcon,
     ThumbsUpIcon,
@@ -152,13 +152,13 @@ export default {
         }
       )
         .then(response => response.json())
-        .then(data => {
+        .then((data) => {
           this.replies = data.comments
           this.repliesContinuationLink = data.continuation || null
           this.repliesLoaded = true
           this.loadingReplies = false
         })
-        .catch(error => {
+        .catch((error) => {
           console.error(error)
         })
     },
@@ -175,12 +175,12 @@ export default {
         }
       )
         .then(response => response.json())
-        .then(data => {
+        .then((data) => {
           this.replies = this.replies.concat(data.comments)
           this.repliesContinuationLink = data.continuation || null
           this.repliesContinuationLoading = false
         })
-        .catch(error => {
+        .catch((error) => {
           console.error(error)
         })
     }

@@ -1,12 +1,12 @@
 <template>
-  <div class="seekbar-preview" v-if="storyboardImages">
-    <div class="preview-image" v-for="(imgSrc, id) in storyboardBaseImages" :key="id">
+  <div v-if="storyboardImages" class="seekbar-preview">
+    <div v-for="(imgSrc, id) in storyboardBaseImages" :key="id" class="preview-image">
       <img
-        :src="imgSrc"
         v-if="currentImg.imgId === id"
+        :src="imgSrc"
         :style="{ transform: `translate3d(-${currentImg.posX}px,-${currentImg.posY}px,0)` }"
         alt="Seekbar preview"
-      />
+      >
     </div>
   </div>
 </template>
@@ -16,7 +16,7 @@ import '@/plugins/services/webVTTParser'
 import Invidious from '@/plugins/services/invidious'
 
 export default {
-  name: 'seekbar-preview',
+  name: 'SeekbarPreview',
   props: {
     time: {
       type: Number
@@ -36,19 +36,6 @@ export default {
       imgId: 0
     }
   }),
-  mounted() {
-    Invidious.api.storyboards({
-      id: this.videoId,
-      params: {
-        width: 160,
-        height: 90
-      }
-    })
-      .then(response => {
-        this.storyboardVTT = response.data
-        this.parseVTTData()
-      })
-  },
   watch: {
     time(newValue) {
       if (this.storyboardImages) {
@@ -59,12 +46,26 @@ export default {
       }
     }
   },
+  mounted() {
+    Invidious.api.storyboards({
+      id: this.videoId,
+      params: {
+        width: 160,
+        height: 90
+      }
+    })
+      .then((response) => {
+        this.storyboardVTT = response.data
+        this.parseVTTData()
+      })
+  },
   methods: {
     parseVTTData() {
+      // eslint-disable-next-line no-undef
       const parser = new WebVTTParser()
       const tree = parser.parse(this.storyboardVTT, 'metadata')
       let baseImgCounter = -1
-      this.storyboardImages = tree.cues.map(el => {
+      this.storyboardImages = tree.cues.map((el) => {
         const src = el.text.split('#')[0]
         const pos = el.text.split('#')[1].replace('xywh=', '')
         const posX = pos.split(',')[0]

@@ -1,6 +1,6 @@
 <template>
   <div class="overwiew">
-    <div class="channel-title-container" ref="channelTitle">
+    <div ref="channelTitle" class="channel-title-container">
       <div class="channel-title">
         <div class="channel-thumbnail">
           <img :src="channel.authorThumbnails[3].url" alt="Author Image">
@@ -19,16 +19,16 @@
             <div class="channel-joined-on">
               <h2>joined {{ getFormattedDate(new Date(channel.joined*1000)) }}</h2>
             </div>
-            <div class="channel-family-friendly" v-if="channel.isFamilyFriendly">
+            <div v-if="channel.isFamilyFriendly" class="channel-family-friendly">
               <FamilyFriendly />
               <h2>family friendly</h2>
             </div>
-            <div class="channel-paid" v-if="channel.paid">
+            <div v-if="channel.paid" class="channel-paid">
               <Paid />
               <h2>paid</h2>
             </div>
           </div>
-          <SubscribeButton :channelId="channel.authorId" />
+          <SubscribeButton :channel-id="channel.authorId" />
         </div>
       </div>
     </div>
@@ -36,12 +36,12 @@
 </template>
 
 <script>
-import SubscribeButton from '@/components/buttons/SubscribeButton'
 import FamilyFriendly from 'vue-material-design-icons/AccountChild'
 import Paid from 'vue-material-design-icons/CurrencyUsd'
+import SubscribeButton from '@/components/buttons/SubscribeButton'
 
 export default {
-  name: 'channel-overview',
+  name: 'ChannelOverview',
   components: {
     SubscribeButton,
     FamilyFriendly,

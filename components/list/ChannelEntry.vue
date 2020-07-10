@@ -1,25 +1,25 @@
 <template>
   <div class="channel-entry">
-    <div class="channel-entry-background"></div>
+    <div class="channel-entry-background" />
     <nuxt-link
       class="channel-entry-thmb"
       :to="{path: '/channel/' + channel.authorId}"
     >
       <div
-        class="fake-thmb"
         v-if="!channel.authorThumbnails"
+        class="fake-thmb"
       >
         <h3>{{ channelNameToImgString() }}</h3>
       </div>
       <div
-        class="thmb-image-container"
         v-if="channel.authorThumbnails"
+        class="thmb-image-container"
       >
         <img
           class="channel-entry-thmb-image"
           :src="commons.proxyUrl + channel.authorThumbnails[2].url"
           :alt="channel.author"
-        />
+        >
       </div>
     </nuxt-link>
     <div class="channel-entry-info">
@@ -31,8 +31,8 @@
       <div class="channel-entry-stats">
         <p class="channel-entry-videocount">{{ channel.videoCount }} videos</p>
         <p
-          class="channel-entry-subcount"
           v-if="channel.subCount"
+          class="channel-entry-subcount"
         >{{ channel.subCount.toLocaleString('en-US') }} subscribers</p>
       </div>
     </div>
@@ -43,7 +43,7 @@
 import Commons from '@/plugins/commons.js'
 
 export default {
-  name: 'channel-entry',
+  name: 'ChannelEntry',
   props: {
     channel: Object
   },
@@ -55,7 +55,7 @@ export default {
   methods: {
     channelNameToImgString() {
       let initials = ''
-      this.channel.author.split(' ').forEach(e => {
+      this.channel.author.split(' ').forEach((e) => {
         initials += e.charAt(0)
       })
       return initials

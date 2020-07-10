@@ -29,8 +29,8 @@
         </BadgeButton>
       </div>
       <div
-        class="invidious-stats"
         v-if="invidousStats"
+        class="invidious-stats"
       >
         <table>
           <tr>
@@ -52,19 +52,19 @@
     <div
       class="about-overlay popup-overlay"
       @click.stop="$emit('close')"
-    ></div>
+    />
   </div>
 </template>
 
 <script>
 import CloseIcon from 'vue-material-design-icons/Close'
-import Commons from '@/plugins/commons.js'
 import GithubIcon from 'vue-material-design-icons/Github'
 import ExternalIcon from 'vue-material-design-icons/OpenInNew'
+import Commons from '@/plugins/commons.js'
 import BadgeButton from '@/components/buttons/BadgeButton'
 
 export default {
-  name: 'about',
+  name: 'About',
   components: {
     CloseIcon,
     GithubIcon,
@@ -85,10 +85,10 @@ export default {
       method: 'GET'
     })
       .then(response => response.json())
-      .then(data => {
+      .then((data) => {
         me.invidousStats = data
       })
-      .catch(error => {
+      .catch((error) => {
         console.error(error)
       })
   }
