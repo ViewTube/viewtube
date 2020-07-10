@@ -172,10 +172,10 @@ export const state = () => ({
   miniplayer: true
 })
 export const getters = {
-  theme: (state) => state.theme,
-  defaultThemes: (state) => state.defaults.theme,
-  miniplayer: (state) => state.miniplayer,
-  themeVariables: (state) => state.defaults.theme.find((el) => state.theme === el.value)
+  theme: state => state.theme,
+  defaultThemes: state => state.defaults.theme,
+  miniplayer: state => state.miniplayer,
+  themeVariables: state => state.defaults.theme.find(el => state.theme === el.value)
 }
 export const mutations = {
   setTheme(state, theme) {
