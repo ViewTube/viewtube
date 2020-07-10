@@ -3,13 +3,12 @@
   <ShortName>ViewTube</ShortName>
   <Description>An alternative YouTube-frontend</Description>
   <InputEncoding>utf-8</InputEncoding>
-  <Image width="16" height="16" type="image/x-icon">https://beta.viewtube.eu/favicon.ico</Image>
-  <Url type="text/html" template="https://beta.viewtube.eu/results">
+  <Image width="16" height="16" type="image/x-icon">https://viewtube.io/favicon.ico</Image>
+  <Url type="text/html" template="https://viewtube.io/results">
     <Param name="search_query" value="{searchTerms}"/>
   </Url>
-  <Url type="application/x-suggestions+json" template="https://autocomplete.viewtube.eu/">
+  <Url type="application/x-suggestions+json" template="https://api.viewtube.io/autocomplete">
     <Param name="q" value="{searchTerms}"/>
-    <Param name="cl" value="youtube"/>
   </Url>
-  <moz:SearchForm>https://beta.viewtube.eu</moz:SearchForm>
+  <moz:SearchForm>https://viewtube.io</moz:SearchForm>
 </OpenSearchDescription>
