@@ -6,7 +6,7 @@ export default {
     const text = el.innerText
     const htmlText = text.replace(urlRegex, (match) => {
       // console.log(match)
-      return `<a href="${match}" target="_blank">${match}</a>`
+      return `<a href="${match}" target="_blank" rel="noreferrer">${match}</a>`
     })
     el.innerHTML = htmlText
   }

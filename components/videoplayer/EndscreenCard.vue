@@ -1,9 +1,10 @@
 <template>
   <a
+    ref="endscreenCard"
     :href="linkUrl"
     target="_blank"
+    rel="noreferrer"
     class="endscreen-card"
-    ref="endscreenCard"
     :class="{ visible: visible }"
     :style="{
       top: `${positionTop}%`,

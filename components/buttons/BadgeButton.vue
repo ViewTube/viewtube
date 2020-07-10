@@ -1,8 +1,9 @@
 <template>
   <a
+    v-ripple
     class="badge-btn"
     target="_blank"
-    v-ripple
+    rel="noreferrer"
     :href="href || '#'"
     @click="clickFunction"
   >
