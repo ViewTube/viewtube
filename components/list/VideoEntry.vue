@@ -13,7 +13,7 @@
             class="video-entry-thmb-image"
             loading="lazy"
             :src="commons.proxyUrl + video.videoThumbnails[4].url"
-            :alt="`${video.title}`"
+            :alt="video.title"
           >
         </div>
         <div v-if="video.description" class="video-description-overlay">

@@ -11,7 +11,7 @@
         class="comment-author-image"
         :src="comment.authorThumbnails[2].url"
         :alt="comment.author"
-      />
+      >
     </nuxt-link>
     <div class="comment-container">
       <div class="comment-author">

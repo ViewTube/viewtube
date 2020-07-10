@@ -15,7 +15,7 @@
         />
         <div class="captcha-container">
           <div class="captcha-box">
-            <img class="captcha-image" :src="captchaImage" alt="Captcha image" />
+            <img class="captcha-image" :src="captchaImage" alt="Captcha image">
           </div>
         </div>
         <FormInput

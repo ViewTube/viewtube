@@ -18,6 +18,7 @@
         <img
           class="channel-entry-thmb-image"
           :src="commons.proxyUrl + channel.authorThumbnails[2].url"
+          :alt="channel.author"
         />
       </div>
     </nuxt-link>

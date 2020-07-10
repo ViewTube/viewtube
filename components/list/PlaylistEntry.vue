@@ -9,6 +9,7 @@
         <img
           class="playlist-entry-thmb-image"
           :src="commons.proxyUrl + playlist.videos[0].videoThumbnails[2].url"
+          :alt="playlist.title"
         />
       </div>
       <span class="playlist-entry-count">{{ playlist.videoCount }} videos</span>

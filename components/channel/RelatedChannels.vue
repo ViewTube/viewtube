@@ -1,25 +1,26 @@
 <template>
   <div
-    class="related-channels"
     v-show="channel.relatedChannels.length > 0"
+    class="related-channels"
   >
     <nuxt-link
-      class="related-channel tooltip"
-      v-ripple
       v-for="channelEntry in channel.relatedChannels"
-      :data-tippy-content="channelEntry.author"
       :key="channelEntry.authorId"
+      v-ripple
+      class="related-channel tooltip"
+      :data-tippy-content="channelEntry.author"
       :to="{path: '/channel/' + channelEntry.authorId}"
     >
       <div class="related-channel-thumbnail">
         <div class="related-channel-thumbnail-image">
-          <img :src="channelEntry.authorThumbnails[5].url" />
+          <img
+            :src="channelEntry.authorThumbnails[5].url"
+            :alt="channelEntry.author"
+          >
         </div>
       </div>
       <div class="related-channel-info">
-        <p
-          class="related-channel-title"
-        >{{ channelEntry.author }}</p>
+        <p class="related-channel-title">{{ channelEntry.author }}</p>
       </div>
     </nuxt-link>
   </div>

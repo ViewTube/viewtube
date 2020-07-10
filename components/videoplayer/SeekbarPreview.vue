@@ -5,6 +5,7 @@
         :src="imgSrc"
         v-if="currentImg.imgId === id"
         :style="{ transform: `translate3d(-${currentImg.posX}px,-${currentImg.posY}px,0)` }"
+        alt="Seekbar preview"
       />
     </div>
   </div>

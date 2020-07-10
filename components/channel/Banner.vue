@@ -1,12 +1,12 @@
 <template>
-  <div class="channel-banner" ref="parallaxParent">
-    <img class="channel-banner-image" :src="src" ref="bannerImage" />
+  <div ref="parallaxParent" class="channel-banner">
+    <img ref="bannerImage" class="channel-banner-image" :src="src" alt="Channel banner">
   </div>
 </template>
 
 <script>
 export default {
-  name: 'channel-banner',
+  name: 'ChannelBanner',
   props: {
     src: String
   }

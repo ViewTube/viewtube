@@ -56,7 +56,7 @@
                 <img
                   v-if="video.authorThumbnails && video.authorThumbnails.length > 0"
                   id="channel-img"
-                  alt="channel image"
+                  alt="Channel image"
                   :src="video.authorThumbnails[2].url"
                 >
               </nuxt-link>
@@ -84,7 +84,7 @@
             :href="`https://getpocket.com/save?url=${encodedUrl}`"
             style="color: #EF4056;"
           >
-            <img src="@/assets/icons/pocket.svg">
+            <img src="@/assets/icons/pocket.svg" alt="Save to pocket icon">
             Save to pocket
           </BadgeButton>
         </div>
