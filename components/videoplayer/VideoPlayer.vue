@@ -20,7 +20,10 @@
     @mozfullscreenchange="onFullscreenChange"
     @msfullscreenchange="onFullscreenChange"
   >
-    <div class="video-element-container" :class="{ zoom: videoElement.zoomed }">
+    <div
+      class="video-element-container"
+      :class="{ zoom: videoElement.zoomed }"
+    >
       <video
         ref="video"
         class="video"
@@ -44,15 +47,24 @@
       />-->
     </div>
 
-    <Spinner v-if="videoElement.buffering" class="video-spinner" />
+    <Spinner
+      v-if="videoElement.buffering"
+      class="video-spinner"
+    />
     <div
       class="video-controls-overlay"
       :class="{ visible: playerOverlay.visible || !videoElement.playing }"
       :style="{ cursor: playerOverlay.visible ? 'auto' : 'none'}"
     >
-      <div class="top-control-overlay" :class="{ hidden: playerOverlay.thumbnailVisible }">
+      <div
+        class="top-control-overlay"
+        :class="{ hidden: playerOverlay.thumbnailVisible }"
+      >
         <div class="left-top-controls">
-          <h1 v-if="fullscreen || embedded || mini" class="video-fullscreen-title">{{ video.title }}</h1>
+          <h1
+            v-if="fullscreen || embedded || mini"
+            class="video-fullscreen-title"
+          >{{ video.title }}</h1>
         </div>
         <div class="right-top-controls">
           <OpenInPlayerIcon
@@ -95,8 +107,15 @@
       </div>
       <div class="center-control-overlay">
         <div class="left-action-container" />
-        <div class="play-btn-container" @touchend="onPlayBtnTouchEnd" @click="onPlayBtnClick">
-          <div class="play-btn" :class="{ playing: videoElement.playing }" />
+        <div
+          class="play-btn-container"
+          @touchend="onPlayBtnTouchEnd"
+          @click="onPlayBtnClick"
+        >
+          <div
+            class="play-btn"
+            :class="{ playing: videoElement.playing }"
+          />
         </div>
         <div class="right-action-container" />
       </div>
@@ -105,7 +124,10 @@
         class="bottom-control-overlay"
         :class="{ hidden: playerOverlay.thumbnailVisible }"
       >
-        <div class="seekbar" :class="{ dragging: seekbar.seeking }">
+        <div
+          class="seekbar"
+          :class="{ dragging: seekbar.seeking }"
+        >
           <div
             class="seekbar-clickable"
             @mousedown.prevent="onSeekbarMouseDown"
@@ -125,7 +147,10 @@
             class="seekbar-playback-progress"
             :style="{ width: `${videoElement.progressPercentage}%` }"
           />
-          <div class="seekbar-circle" :style="{ left: `${videoElement.progressPercentage}%` }" />
+          <div
+            class="seekbar-circle"
+            :style="{ left: `${videoElement.progressPercentage}%` }"
+          />
           <SeekbarPreview
             ref="seekbarHoverPreview"
             :storyboards="video.storyboards"
@@ -151,9 +176,7 @@
               @click.stop="onVolumeInteraction"
             />
             <div class="video-time-progress">
-              <span
-                class="video-time-current-progress"
-              >{{ $formatting.getTimestampFromSeconds(videoElement.progress) }} / {{ $formatting.getTimestampFromSeconds(videoLength) }}</span>
+              <span class="video-time-current-progress">{{ $formatting.getTimestampFromSeconds(videoElement.progress) }} / {{ $formatting.getTimestampFromSeconds(videoLength) }}</span>
             </div>
           </div>
           <div class="right-bottom-controls">
@@ -182,6 +205,7 @@
       </div>
     </div>
     <div
+      v-if="video.videoThumbnails && video.videoThumbnails.length > 0"
       class="video-thumbnail-overlay"
       :style="{ backgroundImage: `url(${video.videoThumbnails[0].url})` }"
       :class="{ hidden: !playerOverlay.thumbnailVisible }"
@@ -270,9 +294,9 @@ export default {
         const video = this.video.formatStreams.find((e) => {
           return e.qualityLabel && e.qualityLabel === '720p'
         })
-        if (video) {
+        if (video && video.url) {
           return video.url
-        } else {
+        } else if (this.video.formatStreams.length > 0) {
           return this.video.formatStreams[0].url
         }
       }

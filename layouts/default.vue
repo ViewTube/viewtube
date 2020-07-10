@@ -1,10 +1,22 @@
 <template>
-  <div id="app" class="layout" ref="app" :class="getThemeClass()">
+  <div
+    id="app"
+    class="layout"
+    ref="app"
+    :class="getThemeClass()"
+  >
     <ThemeStyling />
-    <Header v-if="!headless" class="main-header" />
+    <Header
+      v-if="!headless"
+      class="main-header"
+    />
     <Miniplayer v-if="$store.getters.miniplayer" />
     <nuxt v-scroll="handleScroll" />
-    <portal-target class="dropdown-portal" name="dropdown" multiple />
+    <portal-target
+      class="dropdown-portal"
+      name="dropdown"
+      multiple
+    />
     <MessageBoxContainer />
   </div>
 </template>
@@ -170,5 +182,42 @@ body,
   margin: 0;
   padding: 0;
   background-color: var(--bgcolor-main);
+}
+.material-design-icon {
+  position: relative;
+  width: 24px;
+  height: 24px;
+  display: inline-block;
+
+  .material-design-icon__svg {
+  }
+}
+
+div,
+p {
+  font-family: noto-sans, Arial, sans-serif;
+}
+
+.centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+a,
+div,
+input {
+  outline: none;
+}
+
+textarea:focus,
+input:focus {
+  outline: none;
+}
+
+a {
+  text-decoration: none;
+  color: unset;
 }
 </style>

@@ -1,13 +1,13 @@
 <template>
   <div class="watch">
-    <video
-      v-if="!jsEnabled"
-      controls
-      :src="getHDUrl()"
-      class="nojs-player"
-    />
+    <noscript>
+      <video
+        controls
+        :src="getHDUrl()"
+        class="nojs-player"
+      />
+    </noscript>
     <VideoPlayer
-      v-if="jsEnabled"
       :key="video.id"
       :video="video"
       class="video-player-p"
@@ -25,7 +25,10 @@
       </CollapsibleSection>
       <div class="video-infobox">
         <h1 class="video-infobox-title">{{ video.title }}</h1>
-        <div class="video-infobox-stats">
+        <div
+          v-if="video.viewCount && video.likeCount && video.dislikeCount"
+          class="video-infobox-stats"
+        >
           <p class="infobox-views">{{ parseFloat(video.viewCount).toLocaleString('en-US') }} views</p>
           <div class="infobox-rating">
             <div class="infobox-likecount">
@@ -63,7 +66,10 @@
                 :to="`channel/${video.authorId}`"
                 class="infobox-channel-name ripple"
               >{{ video.author }}</nuxt-link>
-              <p class="infobox-channel-subcount">{{ video.subCount.toLocaleString('en-US') }} subscribers</p>
+              <p
+                v-if="video.subCount"
+                class="infobox-channel-subcount"
+              >{{ video.subCount.toLocaleString('en-US') }} subscribers</p>
             </div>
           </div>
           <SubscribeButton
@@ -238,7 +244,8 @@ export default {
         })
         if (video) {
           return video.url
-        } else {
+        } else if (this.video.formatStreams.length > 0) {
+          console.log('brudi, is you dumb')
           return this.video.formatStreams[0].url
         }
       }
@@ -288,7 +295,7 @@ export default {
         { hid: 'ogTitle', property: 'og:title', content: `${this.video.title} - ${this.video.author} - ViewTube` },
         { hid: 'ogImage', property: 'og:image', itemprop: 'image', content: this.video.videoThumbnails[2].url },
         { hid: 'ogDescription', property: 'og:description', content: this.video.description.substring(0, 100) },
-        { property: 'og:video', content: this.video.formatStreams[0].url }
+        { property: 'og:video', content: this.video.formatStreams ? this.video.formatStreams[0].url : '#' }
       ]
     }
   }
@@ -362,6 +369,10 @@ export default {
       z-index: 400;
       position: relative;
       width: 100%;
+
+      @media screen and (min-width: $mobile-width) {
+        width: calc(100% - 340px);
+      }
 
       .video-infobox-title {
         color: var(--title-color);
