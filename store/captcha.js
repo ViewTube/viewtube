@@ -19,7 +19,7 @@ export const mutations = {
 }
 export const actions = {
   getCaptcha({ commit }) {
-    Axios.get(Commons.getOwnApiUrl() + 'captcha')
+    Axios.get(Commons.getOwnApiUrl() + 'auth/captcha')
       .then((response) => {
         commit('setToken', response.data.token)
         commit('setImage', response.data.captchaImage)
