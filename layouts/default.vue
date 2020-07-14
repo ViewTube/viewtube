@@ -40,16 +40,17 @@ export default {
     return {
     }
   },
-  watch: {
-    browser(oldVal, newVal) {
-    }
-  },
   computed: {
     headless() {
       return this.$route.meta.headless
     }
   },
+  watch: {
+    browser(oldVal, newVal) {
+    }
+  },
   mounted() {
+    this.$store.dispatch('user/getUser')
     this.$refs.app.classList += ` ${this.getThemeClass()}`
     tippy('[data-tippy-content]', {
       duration: 300,

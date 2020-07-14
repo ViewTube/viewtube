@@ -1,7 +1,11 @@
 <template>
   <div class="subscriptions">
     <div class="subscription-videos-container">
-      <VideoEntry v-for="video in videos" :key="video.videoId" :video="video"></VideoEntry>
+      <VideoEntry
+        v-for="video in videos"
+        :key="video.videoId"
+        :video="video"
+      />
     </div>
     <BottomNavigation />
   </div>
@@ -13,7 +17,7 @@ import VideoEntry from '@/components/list/VideoEntry'
 import BottomNavigation from '@/components/BottomNavigation'
 
 export default {
-  name: 'home',
+  name: 'Home',
   components: {
     VideoEntry,
     BottomNavigation
@@ -24,51 +28,26 @@ export default {
     commons: Commons
   }),
   mounted() {
-  },
-  methods: {
-    loadData(data) {
-      this.videos = data.subscriptions
-      this.loading = false
+    const jwt = this.$store.getters['user/jwt']
+    if (jwt) {
+      fetch(`${Commons.getOwnApiUrl()}user/subscriptions/videos`, {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${jwt}`
+        }
+      })
+        .then(response => response.json())
+        .then((data) => {
+          console.log(data)
+          this.videos = data
+          this.loading = false
+        })
+        .catch((error) => {
+          console.error(error)
+        })
     }
-  },
-  beforeRouteEnter(to, from, next) {
-    const jwt = VueCookie.get('jwt')
-    fetch(`${Commons.getOwnApiUrl()}subscriptions/getSubscriptionFeed.php`, {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        Authorization: `Basic ${jwt}`
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        next(vm => vm.loadData(data))
-      })
-      .catch(error => {
-        console.error(error)
-      })
-  },
-  beforeRouteUpdate(to, from, next) {
-    const jwt = this.$cookies.get('jwt')
-    fetch(`${Commons.getOwnApiUrl()}subscriptions/getSubscriptionFeed.php`, {
-      cache: 'force-cache',
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        Authorization: `Basic ${jwt}`
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        this.loadData(data)
-        next()
-      })
-      .catch(error => {
-        console.error(error)
-        next()
-      })
   }
 }
 </script>
@@ -76,7 +55,9 @@ export default {
 <style lang="scss">
 .subscriptions {
   overflow-y: scroll;
-  margin-top: $header-height;
+  overflow-x: hidden;
+  padding-top: $header-height;
+  height: calc(100% - #{$header-height});
 
   .subscription-videos-container {
     width: 100%;

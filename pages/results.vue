@@ -1,9 +1,9 @@
 <template>
   <div class="search">
     <Spinner
-      class="centered"
       v-if="loading"
-    ></Spinner>
+      class="centered"
+    />
     <GradientBackground :color="'blue'" />
     <div class="filters">
       <Dropdown
@@ -17,7 +17,7 @@
         :values="parameters.defaults.date"
         :value="parameters.date"
         :label="'Date'"
-        :noDefault="true"
+        :no-default="true"
         class="dropdown-btn"
         @valuechange="onSearchDateChange"
       />
@@ -25,7 +25,7 @@
         :values="parameters.defaults.duration"
         :value="parameters.duration"
         :label="'Duration'"
-        :noDefault="true"
+        :no-default="true"
         class="dropdown-btn"
         @valuechange="onSearchDurationChange"
       />
@@ -42,8 +42,8 @@
       class="search-videos-container"
     >
       <component
-        v-for="result in results"
         :is="getListEntryType(result.type)"
+        v-for="result in results"
         :key="result.videoId"
         :video="result"
         :playlist="result"
@@ -77,7 +77,7 @@ import Invidious from '@/plugins/services/invidious'
 import BadgeButton from '@/components/buttons/BadgeButton'
 
 export default {
-  name: 'search',
+  name: 'Search',
   components: {
     LoadMoreIcon,
     VideoEntry,
@@ -90,6 +90,17 @@ export default {
     BadgeButton
   },
   watchQuery: true,
+  asyncData({ query }) {
+    query.type = 'all'
+    const searchParams = SearchParams.parseQueryJson(query, query.search_query)
+    return Invidious.api.search({ params: searchParams })
+      .then((response) => {
+        return { results: response.data, searchQuery: query.search_query }
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+  },
   data: () => ({
     results: [],
     loading: false,
@@ -137,25 +148,14 @@ export default {
       SearchParams.page = this.page
       const searchParams = SearchParams.getParamsJson(this.searchQuery)
       Invidious.api.search({ params: searchParams })
-        .then(response => {
+        .then((response) => {
           me.results = me.results.concat(response.data)
           me.moreVideosLoading = false
         })
-        .catch(error => {
+        .catch((error) => {
           console.error(error)
         })
     }
-  },
-  asyncData({ query }) {
-    query.type = 'all'
-    const searchParams = SearchParams.parseQueryJson(query, query.search_query)
-    return Invidious.api.search({ params: searchParams })
-      .then(response => {
-        return { results: response.data, searchQuery: query.search_query }
-      })
-      .catch(error => {
-        console.error(error)
-      })
   }
 }
 </script>

@@ -1,19 +1,22 @@
 <template>
-  <div class="subscribe-button-container" :class="{ disabled: disabled }">
+  <div
+    class="subscribe-button-container"
+    :class="{ disabled: disabled }"
+  >
     <div
       class="unsubscribe-button"
       :class="{ hidden: !isSubscribed }"
-      @click="unsubscribe"
       tabindex="0"
       data-tippy-content="unsubscribe from this channel"
-    ></div>
+      @click="unsubscribe"
+    />
     <div
       class="subscribe-button"
       :class="{ hidden: isSubscribed }"
-      @click="subscribe"
       tabindex="0"
       data-tippy-content="subscribe to this channel"
-    ></div>
+      @click="subscribe"
+    />
   </div>
 </template>
 
@@ -21,7 +24,7 @@
 import Commons from '@/plugins/commons.js'
 
 export default {
-  name: 'subscribe-button',
+  name: 'SubscribeButton',
   props: {
     channelId: null
   },
@@ -37,16 +40,16 @@ export default {
       if (this.channelId && this.$cookies.get('jwt')) {
         const jwt = this.$cookies.get('jwt')
         const me = this
-        fetch(`${Commons.getOwnApiUrl()}subscriptions/getSubscriptionChannels.php?channelId=${this.channelId}`, {
+        fetch(`${Commons.getOwnApiUrl()}user/subscriptions/${this.channelId}`, {
           method: 'GET',
           headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
-            Authorization: `Basic ${jwt}`
+            Authorization: `Bearer ${jwt}`
           }
         })
           .then(response => response.json())
-          .then(data => {
+          .then((data) => {
             if (data.isSubscribed) {
               me.isSubscribed = true
             } else {
@@ -54,7 +57,7 @@ export default {
             }
             me.disabled = false
           })
-          .catch(error => {
+          .catch((error) => {
             console.error(error)
             me.isSubscribed = false
             me.disabled = false
@@ -62,36 +65,52 @@ export default {
       }
     },
     subscribe() {
-      this.setSubscriptionStatus('PUT')
-    },
-    unsubscribe() {
-      this.setSubscriptionStatus('DELETE')
-    },
-    setSubscriptionStatus(action) {
       if (this.channelId && this.$cookies.get('jwt')) {
         this.disabled = true
         const jwt = this.$cookies.get('jwt')
-        const me = this
-        fetch(`${Commons.getOwnApiUrl()}subscriptions/getSubscriptionChannels.php`, {
-          method: action,
+        fetch(`${Commons.getOwnApiUrl()}user/subscriptions/${this.channelId}`, {
+          method: 'PUT',
           headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
-            Authorization: `Basic ${jwt}`
-          },
-          body: JSON.stringify({
-            channelId: this.channelId
-          })
+            Authorization: `Bearer ${jwt}`
+          }
         })
           .then(response => response.json())
-          .then(data => {
-            me.loadSubscriptionStatus()
-            me.disabled = false
+          .then((data) => {
+            if (data.isSubscribed) {
+              this.isSubscribed = true
+            }
+            this.disabled = false
           })
-          .catch(error => {
+          .catch((error) => {
             console.error(error)
-            me.loadSubscriptionStatus()
-            me.disabled = false
+            this.disabled = false
+          })
+      }
+    },
+    unsubscribe() {
+      if (this.channelId && this.$cookies.get('jwt')) {
+        this.disabled = true
+        const jwt = this.$cookies.get('jwt')
+        fetch(`${Commons.getOwnApiUrl()}user/subscriptions/${this.channelId}`, {
+          method: 'DELETE',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${jwt}`
+          }
+        })
+          .then(response => response.json())
+          .then((data) => {
+            if (!data.isSubscribed) {
+              this.isSubscribed = false
+            }
+            this.disabled = false
+          })
+          .catch((error) => {
+            console.error(error)
+            this.disabled = false
           })
       }
     }
