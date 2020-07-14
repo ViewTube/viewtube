@@ -1,12 +1,11 @@
 <template>
   <div class="watch">
-    <noscript>
-      <video
+    <video
+      v-if="!jsEnabled"
       controls
       :src="getHDUrl()"
       class="nojs-player"
-      />
-    </noscript>
+    />
     <VideoPlayer
       v-if="jsEnabled"
       :key="video.id"
@@ -218,16 +217,6 @@ export default {
       } else {
         return ''
       }
-    }
-  },
-  beforeCreate() {
-    if (process.browser) {
-      this.jsEnabled = true
-    }
-  },
-  updated() {
-    if (process.browser) {
-      this.jsEnabled = true
     }
   },
   mounted() {
