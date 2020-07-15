@@ -12,6 +12,7 @@
 </template>
 
 <script>
+import Axios from 'axios'
 import Commons from '@/plugins/commons.js'
 import VideoEntry from '@/components/list/VideoEntry'
 import BottomNavigation from '@/components/BottomNavigation'
@@ -28,26 +29,17 @@ export default {
     commons: Commons
   }),
   mounted() {
-    const jwt = this.$store.getters['user/jwt']
-    if (jwt) {
-      fetch(`${Commons.getOwnApiUrl()}user/subscriptions/videos`, {
-        method: 'GET',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${jwt}`
-        }
+    this.$axios.get(`${Commons.getOwnApiUrl()}user/subscriptions/videos`, {
+      withCredentials: true
+    })
+      .then((response) => {
+        console.log(response.data)
+        this.videos = response.data
+        this.loading = false
       })
-        .then(response => response.json())
-        .then((data) => {
-          console.log(data)
-          this.videos = data
-          this.loading = false
-        })
-        .catch((error) => {
-          console.error(error)
-        })
-    }
+      .catch((error) => {
+        console.error(error)
+      })
   }
 }
 </script>

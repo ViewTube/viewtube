@@ -22,9 +22,9 @@ export default {
   },
 
   getOwnApiUrl() {
-    // if (window.location.href.toLowerCase().indexOf('localhost') !== -1) {
-    // return 'http://localhost:3030/'
-    // }
+    if (window.location.href.toLowerCase().includes('localhost')) {
+      return 'http://localhost:3030/'
+    }
     // console.log(process.env.API_URL, process.env.VIEWTUBE_API_URL)
     return process.env.VIEWTUBE_API_URL || 'https://api.viewtube.io/'
     // return 'https://proxy.mcdn.ch/index.php?https://api.viewtube.io/'

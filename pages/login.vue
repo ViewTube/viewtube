@@ -61,12 +61,14 @@ export default {
         password: this.password
       })
         .then((result) => {
-          me.$store.dispatch('messages/createMessage', {
-            type: 'info',
-            title: 'Login successful',
-            message: 'Redirecting...'
-          })
-          me.$router.push(me.redirectedPage.fullPath)
+          if (result) {
+            me.$store.dispatch('messages/createMessage', {
+              type: 'info',
+              title: 'Login successful',
+              message: 'Redirecting...'
+            })
+            me.$router.push(me.redirectedPage.fullPath)
+          }
         })
         .catch((err) => {
           console.error(err)

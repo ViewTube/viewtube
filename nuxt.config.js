@@ -87,10 +87,13 @@ export default {
     'portal-vue/nuxt',
     'cookie-universal-nuxt',
     '@nuxtjs/workbox',
+    '@nuxtjs/axios',
     ['cookie-universal-nuxt', { alias: 'cookies' }]
   ],
 
-  axios: {},
+  axios: {
+    credentials: true
+  },
 
   build: {
     postcss: {

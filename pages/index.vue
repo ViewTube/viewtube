@@ -2,19 +2,19 @@
   <div class="home">
     <GradientBackground :color="'theme'" />
     <SectionTitle
-      :title="'Subscriptions'"
       v-if="userAuthenticated"
+      :title="'Subscriptions'"
       :link="'subscriptions'"
     />
     <div
-      class="home-videos-container small"
       v-if="userAuthenticated"
+      class="home-videos-container small"
     >
       <VideoEntry
         v-for="video in subscriptions.subscriptions"
         :key="video.videoId"
         :video="video"
-      ></VideoEntry>
+      />
     </div>
     <SectionTitle
       :title="'Popular videos'"
@@ -25,7 +25,7 @@
         v-for="video in videos"
         :key="video.videoId"
         :video="video"
-      ></VideoEntry>
+      />
     </div>
     <BottomNavigation />
   </div>
@@ -40,12 +40,21 @@ import GradientBackground from '@/components/GradientBackground.vue'
 import Invidious from '@/plugins/services/invidious'
 
 export default {
-  name: 'home',
+  name: 'Home',
   components: {
     VideoEntry,
     BottomNavigation,
     SectionTitle,
     GradientBackground
+  },
+  asyncData({ params }) {
+    return Invidious.api.popular()
+      .then((response) => {
+        return { videos: response.data }
+      })
+      .catch((error) => {
+        console.error(error)
+      })
   },
   data: () => ({
     videos: [],
@@ -58,27 +67,20 @@ export default {
       return this.$store.getters['user/isLoggedIn']
     }
   },
-  asyncData({ params }) {
-    return Invidious.api.popular()
-      .then(response => {
-        return { videos: response.data }
-      })
-      .catch(error => {
-        console.error(error)
-      })
+  mounted(){
+    
   },
   methods: {
-    loadData: function (data) {
+    loadData (data) {
       this.videos = data
       if (this.userAuthenticated) {
         this.getSubscriptions()
-      } else {
       }
     },
     getSubscriptions() {
       const jwt = this.$cookies.get('jwt')
       const me = this
-      fetch(`${process.env.API_URL}subscriptions/getSubscriptionFeed.php?limit=4`, {
+      fetch(`${process.env.API_URL}subscriptions/videos?limit=4`, {
         cache: 'force-cache',
         method: 'GET',
         headers: {
@@ -88,11 +90,11 @@ export default {
         }
       })
         .then(response => response.json())
-        .then(data => {
+        .then((data) => {
           me.subscriptions = data
           me.loading = false
         })
-        .catch(error => {
+        .catch((error) => {
           console.error(error)
         })
     },

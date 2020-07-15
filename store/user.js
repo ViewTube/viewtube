@@ -30,7 +30,7 @@ export const actions = {
   getUser({ getters, commit }) {
     console.log('getting user...')
     if (getters.jwt) {
-      Axios.get(Commons.getOwnApiUrl() + 'user/profile', {
+      this.$axios.get(Commons.getOwnApiUrl() + 'user/profile', {
         headers: {
           Authorization: `Bearer ${getters.jwt}`
         }
@@ -41,20 +41,21 @@ export const actions = {
     }
   },
   login({ commit, dispatch, getters }, { username, password }) {
-    return Axios.post(Commons.getOwnApiUrl() + 'auth/login', {
+    return this.$axios.post(Commons.getOwnApiUrl() + 'auth/login', {
       username,
       password
-    })
+    }, { withCredentials: true })
       .then((result) => {
-        commit('setJwt', result.data.accessToken)
+        // commit('setJwt', result.data.accessToken)
         console.log(result.data.accessToken)
         dispatch('getUser')
+        return result
       })
   },
   register({ commit, rootState }, { username, password, captchaSolution }) {
     const captchaToken = rootState.captcha.token
     if (captchaToken) {
-      return Axios.post(Commons.getOwnApiUrl() + 'register', {
+      return Axios.post(Commons.getOwnApiUrl() + 'auth/register', {
         username,
         password,
         captchaToken,

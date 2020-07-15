@@ -16,7 +16,7 @@
     "not Edge 18"
   ],
   "dependencies": {
-    "@nuxtjs/axios": "^5.11.0",
+    "@nuxtjs/axios": "^5.12.0",
     "@nuxtjs/workbox": "^3.0.0-beta.16",
     "cookie-universal-nuxt": "^2.1.4",
     "dashjs": "^3.1.1",

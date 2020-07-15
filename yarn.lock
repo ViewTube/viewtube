@@ -1157,16 +1157,16 @@
     webpack-node-externals "^1.7.2"
     webpackbar "^4.0.0"
 
-"@nuxtjs/axios@^5.11.0":
-  version "5.11.0"
-  resolved "https://registry.yarnpkg.com/@nuxtjs/axios/-/axios-5.11.0.tgz#27d7297a69e11c39039b9cacac61e2e0d0e00f1f"
-  integrity sha512-6M87KUXWWlAjRIwqBTXoollTwsUDnf8bdOR3qY1cVggvUP4hYgb2Oby7/Jr0u7bWGyb+/GuagwBBtubGTLsoyA==
+"@nuxtjs/axios@^5.12.0":
+  version "5.12.0"
+  resolved "https://registry.yarnpkg.com/@nuxtjs/axios/-/axios-5.12.0.tgz#50692340e64ec838f167d292d59b1cc2a0e2dbef"
+  integrity sha512-VQI9Nnf12jWknldrgCNGzCQxnWO3/CvMwrkWKNUr3WtGYuOKryUOd1XXxDbaJmopfX4SGjKvDL1G6qTkWLiPew==
   dependencies:
     "@nuxtjs/proxy" "^2.0.0"
     axios "^0.19.2"
     axios-retry "^3.1.8"
-    consola "^2.11.3"
-    defu "^2.0.2"
+    consola "^2.14.0"
+    defu "^2.0.4"
 
 "@nuxtjs/eslint-config@^3.0.0":
   version "3.0.0"
@@ -2715,6 +2715,11 @@ consola@^2.10.0, consola@^2.10.1, consola@^2.11.3, consola@^2.13.0, consola@^2.4
   resolved "https://registry.yarnpkg.com/consola/-/consola-2.13.0.tgz#5a4dc75e1b1fddbd8b10728e7790a2e54efeeeb7"
   integrity sha512-Jw+8qpL0yrpfqH9m90fWoDRQyn8TYU6Aegpl4UofoP81VYvQLoOWMpFw2vQ3U/cyLRRzTc/CyNC6YYVzZFU8Eg==
 
+consola@^2.14.0:
+  version "2.14.0"
+  resolved "https://registry.yarnpkg.com/consola/-/consola-2.14.0.tgz#162ee903b6c9c4de25077d93f34ab902ebcb4dac"
+  integrity sha512-A2j1x4u8d6SIVikhZROfpFJxQZie+cZOfQMyI/tu2+hWXe8iAv7R6FW6s6x04/7zBCst94lPddztot/d6GJiuQ==
+
 console-browserify@^1.1.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/console-browserify/-/console-browserify-1.2.0.tgz#67063cef57ceb6cf4993a2ab3a55840ae8c49336"
@@ -3224,7 +3229,7 @@ defu@^1.0.0:
   resolved "https://registry.yarnpkg.com/defu/-/defu-1.0.0.tgz#43acb09dfcf81866fa3b0fc047ece18e5c30df71"
   integrity sha512-1Y1KRFxiiq+LYsZ3iP7xYSR8bHfmHFOUpDunZCN1ld1fGfDJWJIvkUBtjl3apnBwPuJtL/H7cwwlLYX8xPkraQ==
 
-defu@^2.0.2, defu@^2.0.4:
+defu@^2.0.4:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/defu/-/defu-2.0.4.tgz#09659a6e87a8fd7178be13bd43e9357ebf6d1c46"
   integrity sha512-G9pEH1UUMxShy6syWk01VQSRVs3CDWtlxtZu7A+NyqjxaCA4gSlWAKDBx6QiUEKezqS8+DUlXLI14Fp05Hmpwg==

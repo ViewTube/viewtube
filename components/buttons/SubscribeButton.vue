@@ -38,15 +38,11 @@ export default {
   methods: {
     loadSubscriptionStatus() {
       if (this.channelId && this.$cookies.get('jwt')) {
-        const jwt = this.$cookies.get('jwt')
+        // const jwt = this.$cookies.get('jwt')
         const me = this
         fetch(`${Commons.getOwnApiUrl()}user/subscriptions/${this.channelId}`, {
           method: 'GET',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${jwt}`
-          }
+          credentials: 'include'
         })
           .then(response => response.json())
           .then((data) => {
@@ -67,14 +63,9 @@ export default {
     subscribe() {
       if (this.channelId && this.$cookies.get('jwt')) {
         this.disabled = true
-        const jwt = this.$cookies.get('jwt')
         fetch(`${Commons.getOwnApiUrl()}user/subscriptions/${this.channelId}`, {
           method: 'PUT',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${jwt}`
-          }
+          credentials: 'include'
         })
           .then(response => response.json())
           .then((data) => {
@@ -92,14 +83,9 @@ export default {
     unsubscribe() {
       if (this.channelId && this.$cookies.get('jwt')) {
         this.disabled = true
-        const jwt = this.$cookies.get('jwt')
         fetch(`${Commons.getOwnApiUrl()}user/subscriptions/${this.channelId}`, {
           method: 'DELETE',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${jwt}`
-          }
+          credentials: 'include'
         })
           .then(response => response.json())
           .then((data) => {
