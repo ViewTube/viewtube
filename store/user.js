@@ -23,6 +23,14 @@ export const actions = {
         commit('setUsername', result.data.username)
       })
   },
+  logout({ commit }) {
+    return this.$axios.post(Commons.getOwnApiUrl() + 'auth/logout', {},
+      { withCredentials: true })
+      .then((result) => {
+        commit('setUsername', null)
+        return result
+      })
+  },
   login({ commit, dispatch, getters }, { username, password }) {
     return this.$axios.post(Commons.getOwnApiUrl() + 'auth/login', {
       username,
