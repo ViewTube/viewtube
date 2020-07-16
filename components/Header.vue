@@ -1,6 +1,12 @@
 <template>
-  <div class="header" :class="{ hidden: $store.state.scroll.scrollDown }">
-    <nuxt-link class="logo-link" to="/">
+  <div
+    class="header"
+    :class="{ hidden: $store.state.scroll.scrollDown }"
+  >
+    <nuxt-link
+      class="logo-link"
+      to="/"
+    >
       <h1 class="logo">
         <span>View</span>
         <span class="logo-colored">Tube</span>
@@ -49,7 +55,11 @@
         <AccountIcon />
       </a>
       <transition name="circle">
-        <div v-if="accountMenuVisible" v-clickaway="hideAccountMenu" class="menu">
+        <div
+          v-if="accountMenuVisible"
+          v-clickaway="hideAccountMenu"
+          class="menu"
+        >
           <a
             v-if="!userAuthenticated"
             id="login-btn"
@@ -80,11 +90,18 @@
           >
             <AccountPlusIcon />Subscriptions
           </a>
-          <div v-if="userAuthenticated" class="account-menu">
+          <div
+            v-if="userAuthenticated"
+            class="account-menu"
+          >
             <AccountIcon />
             <div class="account-info">
               <p class="account-name">{{ $store.getters['user/username'] }}</p>
-              <a class="logout-btn" href="#" @click.prevent="logout">Log out</a>
+              <a
+                class="logout-btn"
+                href="#"
+                @click.prevent="logout"
+              >Log out</a>
             </div>
           </div>
           <a
@@ -118,8 +135,14 @@
       </transition>
     </div>
     <transition name="fade-down">
-      <Settings v-if="settingsOpen" @close="closeSettings" />
-      <About v-if="aboutOpen" @close="closeAbout" />
+      <Settings
+        v-if="settingsOpen"
+        @close="closeSettings"
+      />
+      <About
+        v-if="aboutOpen"
+        @close="closeAbout"
+      />
     </transition>
   </div>
 </template>

@@ -12,7 +12,6 @@
 </template>
 
 <script>
-import Axios from 'axios'
 import Commons from '@/plugins/commons.js'
 import VideoEntry from '@/components/list/VideoEntry'
 import BottomNavigation from '@/components/BottomNavigation'

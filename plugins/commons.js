@@ -22,24 +22,32 @@ export default {
   },
 
   getOwnApiUrl() {
-    if (window.location.href.toLowerCase().includes('localhost')) {
-      return 'http://localhost:3030/'
+    if (this.isProduction()) {
+      return process.env.VIEWTUBE_API_URL || 'https://api.viewtube.io/'
     }
-    // console.log(process.env.API_URL, process.env.VIEWTUBE_API_URL)
-    return process.env.VIEWTUBE_API_URL || 'https://api.viewtube.io/'
-    // return 'https://proxy.mcdn.ch/index.php?https://api.viewtube.io/'
+    return 'http://localhost:3030/'
+  },
+
+  isProduction() {
+    return (
+      process.env.NODE_ENV === 'production' &&
+      !window.location.href.toLowerCase().includes('localhost')
+    )
   },
 
   getProxySrcSet(imgArray) {
     if (Array.isArray(imgArray)) {
       let srcSetString = ''
 
-      imgArray.slice().sort((a, b) => a.width - b.width).forEach((element, i) => {
-        srcSetString += `${element.url} ${element.width}w`
-        if ((i + 1) < imgArray.length) {
-          srcSetString += ', '
-        }
-      })
+      imgArray
+        .slice()
+        .sort((a, b) => a.width - b.width)
+        .forEach((element, i) => {
+          srcSetString += `${element.url} ${element.width}w`
+          if (i + 1 < imgArray.length) {
+            srcSetString += ', '
+          }
+        })
       return srcSetString
     }
   },

@@ -1,5 +1,4 @@
 import Axios from 'axios'
-import Cookie from 'universal-cookie'
 import Commons from '@/plugins/commons'
 
 export const state = () => ({
@@ -7,38 +6,22 @@ export const state = () => ({
 })
 export const getters = {
   username: state => state.username,
-  isLoggedIn: state => Boolean(state.username),
-  jwt: () => {
-    const cookie = new Cookie()
-    return cookie.get('jwt') || undefined
-  }
+  isLoggedIn: state => Boolean(state.username)
 }
 export const mutations = {
   setUsername(state, username) {
     state.username = username
-  },
-  setJwt(state, jwt) {
-    const cookie = new Cookie()
-    cookie.set('jwt', jwt, {
-      domain: window.location.hostname,
-      secure: true,
-      sameSite: 'strict'
-    })
   }
 }
 export const actions = {
   getUser({ getters, commit }) {
     console.log('getting user...')
-    if (getters.jwt) {
-      this.$axios.get(Commons.getOwnApiUrl() + 'user/profile', {
-        headers: {
-          Authorization: `Bearer ${getters.jwt}`
-        }
+    this.$axios.get(Commons.getOwnApiUrl() + 'user/profile', {
+      withCredentials: true
+    })
+      .then((result) => {
+        commit('setUsername', result.data.username)
       })
-        .then((result) => {
-          commit('setUsername', result.data.username)
-        })
-    }
   },
   login({ commit, dispatch, getters }, { username, password }) {
     return this.$axios.post(Commons.getOwnApiUrl() + 'auth/login', {
@@ -46,7 +29,6 @@ export const actions = {
       password
     }, { withCredentials: true })
       .then((result) => {
-        // commit('setJwt', result.data.accessToken)
         console.log(result.data.accessToken)
         dispatch('getUser')
         return result
