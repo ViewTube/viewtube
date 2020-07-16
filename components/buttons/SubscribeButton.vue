@@ -37,16 +37,13 @@ export default {
   },
   methods: {
     loadSubscriptionStatus() {
-      if (this.channelId && this.$cookies.get('jwt')) {
-        // const jwt = this.$cookies.get('jwt')
+      if (this.channelId) {
         const me = this
-        fetch(`${Commons.getOwnApiUrl()}user/subscriptions/${this.channelId}`, {
-          method: 'GET',
-          credentials: 'include'
+        this.$axios.get(`${Commons.getOwnApiUrl()}user/subscriptions/${this.channelId}`, {
+          withCredentials: true
         })
-          .then(response => response.json())
-          .then((data) => {
-            if (data.isSubscribed) {
+          .then((response) => {
+            if (response.data.isSubscribed) {
               me.isSubscribed = true
             } else {
               me.isSubscribed = false
@@ -54,22 +51,20 @@ export default {
             me.disabled = false
           })
           .catch((error) => {
-            console.error(error)
+            console.log(error)
             me.isSubscribed = false
-            me.disabled = false
+            me.disabled = true
           })
       }
     },
     subscribe() {
-      if (this.channelId && this.$cookies.get('jwt')) {
+      if (this.channelId) {
         this.disabled = true
-        fetch(`${Commons.getOwnApiUrl()}user/subscriptions/${this.channelId}`, {
-          method: 'PUT',
-          credentials: 'include'
+        this.$axios.put(`${Commons.getOwnApiUrl()}user/subscriptions/${this.channelId}`, {}, {
+          withCredentials: true
         })
-          .then(response => response.json())
-          .then((data) => {
-            if (data.isSubscribed) {
+          .then((response) => {
+            if (response.data.isSubscribed) {
               this.isSubscribed = true
             }
             this.disabled = false
@@ -81,15 +76,13 @@ export default {
       }
     },
     unsubscribe() {
-      if (this.channelId && this.$cookies.get('jwt')) {
+      if (this.channelId) {
         this.disabled = true
-        fetch(`${Commons.getOwnApiUrl()}user/subscriptions/${this.channelId}`, {
-          method: 'DELETE',
-          credentials: 'include'
+        this.$axios.delete(`${Commons.getOwnApiUrl()}user/subscriptions/${this.channelId}`, {
+          withCredentials: true
         })
-          .then(response => response.json())
-          .then((data) => {
-            if (!data.isSubscribed) {
+          .then((response) => {
+            if (!response.data.isSubscribed) {
               this.isSubscribed = false
             }
             this.disabled = false
