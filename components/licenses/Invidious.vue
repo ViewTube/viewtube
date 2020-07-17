@@ -680,8 +680,15 @@
   </div>
 </template>
 
+<script>
+
+export default {
+  name: 'InvidiousLicense'
+}
+</script>
+
 <style lang="scss" scoped>
-.license{
+.license {
   width: 100%;
   margin: 0 !important;
   height: 500px;
