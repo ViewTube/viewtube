@@ -42,8 +42,8 @@
         </div>
         <div
           v-if="comment.creatorHeart !== undefined"
+          v-tippy="`❤ by ${creatorName}`"
           class="creatorHeart comment-property tooltip"
-          :data-tippy-content="`❤ by ${creatorName}`"
         >
           <HeartIcon title />
         </div>

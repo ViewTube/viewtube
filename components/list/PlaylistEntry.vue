@@ -1,6 +1,6 @@
 <template>
   <div class="playlist-entry">
-    <div class="playlist-entry-background"></div>
+    <div class="playlist-entry-background" />
     <nuxt-link
       class="playlist-entry-thmb"
       :to="{path: '/watch?v=' + playlist.videos[0].videoId}"
@@ -10,20 +10,20 @@
           class="playlist-entry-thmb-image"
           :src="commons.proxyUrl + playlist.videos[0].videoThumbnails[2].url"
           :alt="playlist.title"
-        />
+        >
       </div>
       <span class="playlist-entry-count">{{ playlist.videoCount }} videos</span>
     </nuxt-link>
     <div class="playlist-entry-info">
       <nuxt-link
+        v-tippy="playlist.title"
         class="playlist-entry-title tooltip"
         :to="{path: '/watch?v=' + playlist.videos[0].videoId}"
-        :data-tippy-content="playlist.title"
       >{{ playlist.title }}</nuxt-link>
       <nuxt-link
+        v-tippy="playlist.author"
         class="playlist-entry-channel tooltip"
         :to="{path: '/channel/' + playlist.authorId}"
-        :data-tippy-content="playlist.author"
       >{{ playlist.author }}</nuxt-link>
     </div>
   </div>
@@ -34,7 +34,7 @@ import Commons from '@/plugins/commons.js'
 import 'tippy.js/dist/tippy.css'
 
 export default {
-  name: 'playlist-entry',
+  name: 'PlaylistEntry',
   props: {
     playlist: Object
   },

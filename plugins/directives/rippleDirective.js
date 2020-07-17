@@ -1,7 +1,6 @@
 // Written by Aaron Längert
 // Adapted to Vue.js directive by Maurice Oegerli
-var Ripple = {
-
+const Ripple = {
   bind(el, binding) {
     const me = binding.def
     el.style.overflow = 'hidden'
@@ -22,7 +21,7 @@ var Ripple = {
           me.rippleRetrieve(e)
           return
         }
-        if (document.elementFromPoint(e.touches[0].clientX, e.touches[0].clientY).className.indexOf('ripple') < 0) {
+        if (!document.elementFromPoint(e.touches[0].clientX, e.touches[0].clientY).className.includes('ripple')) {
           me.rippleRetrieve(e)
         }
       },
@@ -102,7 +101,7 @@ var Ripple = {
     const rippleContainer = this.getRippleContainer(e.target)
     if (
       (rippleContainer.getAttribute('animating') === '0' || !rippleContainer.hasAttribute('animating')) &&
-      e.target.className.indexOf('ripple') > -1
+      e.target.className.includes('ripple')
     ) {
       rippleContainer.setAttribute('animating', '1')
       const offsetX =
@@ -175,7 +174,7 @@ var Ripple = {
     const children = el.childNodes
     for (let i = 0; i < children.length; i++) {
       try {
-        if (children[i].className.indexOf('rippleContainer') > -1) {
+        if (children[i].className.includes('rippleContainer')) {
           return children[i]
         }
       } catch (err) { }

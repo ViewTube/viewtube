@@ -1,8 +1,8 @@
 <template>
   <div
     id="app"
-    class="layout"
     ref="app"
+    class="layout"
     :class="getThemeClass()"
   >
     <ThemeStyling />
@@ -22,7 +22,6 @@
 </template>
 
 <script>
-import tippy from 'tippy.js'
 import Header from '@/components/Header'
 import Miniplayer from '@/components/miniplayer/Miniplayer'
 import MessageBoxContainer from '@/components/message/MessageBoxContainer'
@@ -52,13 +51,6 @@ export default {
   mounted() {
     this.$store.dispatch('user/getUser')
     this.$refs.app.classList += ` ${this.getThemeClass()}`
-    tippy('[data-tippy-content]', {
-      duration: 300,
-      arrow: false,
-      delay: [500, 100],
-      touch: 'hold',
-      placement: 'bottom'
-    })
   },
   methods: {
     handleScroll(e, position) {

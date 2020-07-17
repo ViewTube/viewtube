@@ -24,9 +24,9 @@
     </nuxt-link>
     <div class="channel-entry-info">
       <nuxt-link
+        v-tippy="channel.author"
         class="channel-entry-title tooltip"
         :to="{path: '/channel/' + channel.authorId}"
-        :data-tippy-content="channel.author"
       >{{ channel.author }}</nuxt-link>
       <div class="channel-entry-stats">
         <p class="channel-entry-videocount">{{ channel.videoCount }} videos</p>

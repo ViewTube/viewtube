@@ -4,17 +4,17 @@
     :class="{ disabled: disabled }"
   >
     <div
+      v-tippy="'Unsubscribe from this channel'"
       class="unsubscribe-button"
       :class="{ hidden: !isSubscribed }"
       tabindex="0"
-      data-tippy-content="unsubscribe from this channel"
       @click="unsubscribe"
     />
     <div
+      v-tippy="'Subscribe to this channel'"
       class="subscribe-button"
       :class="{ hidden: isSubscribed }"
       tabindex="0"
-      data-tippy-content="subscribe to this channel"
       @click="subscribe"
     />
   </div>

@@ -2,10 +2,10 @@
   <div class="video-entry">
     <div class="video-entry-background" />
     <nuxt-link
+      v-tippy="videoProgressTooltip"
       class="video-entry-thmb"
       :to="{path: '/watch?v=' + video.videoId}"
-      :data-tippy-content="videoProgressTooltip"
-      :class="{ tooltip: videoProgressPercentage > 0, 'has-description': video.description }"
+      :class="{ 'has-description': video.description }"
     >
       <div class="thmb-image-container">
         <div class="thmb-clip">
@@ -32,14 +32,14 @@
       >
       <div class="video-info-text">
         <nuxt-link
-          class="video-entry-title tooltip"
+          v-tippy="video.title"
+          class="video-entry-title"
           :to="{path: '/watch?v=' + video.videoId}"
-          :data-tippy-content="video.title"
         >{{ video.title }}</nuxt-link>
         <nuxt-link
-          class="video-entry-channel tooltip"
+          v-tippy="video.author"
+          class="video-entry-channel"
           :to="{path: '/channel/' + video.authorId}"
-          :data-tippy-content="video.author"
         >{{ video.author }}</nuxt-link>
         <div class="video-entry-stats">
           <p

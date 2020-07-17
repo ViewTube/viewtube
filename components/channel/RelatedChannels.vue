@@ -7,8 +7,8 @@
       v-for="channelEntry in channel.relatedChannels"
       :key="channelEntry.authorId"
       v-ripple
+      v-tippy="channelEntry.author"
       class="related-channel tooltip"
-      :data-tippy-content="channelEntry.author"
       :to="{path: '/channel/' + channelEntry.authorId}"
     >
       <div class="related-channel-thumbnail">
@@ -28,7 +28,7 @@
 
 <script>
 export default {
-  name: 'related-channels',
+  name: 'RelatedChannels',
   props: {
     channel: Object
   }

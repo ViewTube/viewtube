@@ -20,9 +20,9 @@
     >
     <a
       v-ripple
+      v-tippy="'Click or press enter to search'"
       :href="`/results?search_query=${searchValue}`"
       class="search-btn tooltip"
-      data-tippy-content="click or press enter to search"
       @click.self.prevent="onSearchButton"
     >
       <SearchIcon />

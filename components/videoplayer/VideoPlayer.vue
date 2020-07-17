@@ -69,36 +69,36 @@
         <div class="right-top-controls">
           <OpenInPlayerIcon
             v-if="embedded || mini"
+            v-tippy="'Open in full player'"
             class="tooltip"
             :title="null"
-            :data-tippy-content="'Open in full player'"
             @click="onOpenInPlayer"
             @mouseup="onOpenInPlayerMouseUp"
             @touchend.stop="onOpenInPlayer"
           />
           <ArrowExpandIcon
             v-if="!videoElement.zoomed"
+            v-tippy="'Zoom video'"
             class="tooltip"
             :title="null"
-            :data-tippy-content="'Zoom video'"
             @click="onVideoExpand"
             @mouseup="onVideoExpandMouseUp"
             @touchend.stop="onVideoExpand"
           />
           <ArrowCollapseIcon
             v-if="videoElement.zoomed"
+            v-tippy="'Revert zoom'"
             class="tooltip"
             :title="null"
-            :data-tippy-content="'Revert zoom'"
             @click="onVideoCollapse"
             @mouseup="onVideoCollapseMouseUp"
             @touchend.stop="onVideoCollapse"
           />
           <CloseIcon
             v-if="mini"
+            v-tippy="'Close'"
             class="tooltip"
             :title="null"
-            :data-tippy-content="'Close'"
             @click.stop="$emit('close')"
             @mouseup.stop="$emit('close')"
             @touchend.stop="$emit('close')"
@@ -170,8 +170,8 @@
             <PlayIcon v-if="!videoElement.playing" />
             <VolumeControl
               v-model.number="videoElement.playerVolume"
+              v-tippy="'Change volume'"
               class="tooltip"
-              :data-tippy-content="'Change volume'"
               @mouseup.stop="onVolumeInteraction"
               @click.stop="onVolumeInteraction"
             />
@@ -186,16 +186,16 @@
             />-->
             <FullscreenIcon
               v-if="!fullscreen"
+              v-tippy="'Enter Fullscreen'"
               class="tooltip"
-              :data-tippy-content="'Enter Fullscreen'"
               @click="onEnterFullscreen"
               @mouseup="onEnterFullscreenMouseUp"
               @touchend.stop="onEnterFullscreen"
             />
             <FullscreenExitIcon
               v-if="fullscreen"
+              v-tippy="'Leave fullscreen'"
               class="tooltip"
-              :data-tippy-content="'Leave fullscreen'"
               @click="onLeaveFullscreen"
               @mouseup="onLeaveFullscreenMouseUp"
               @touchend.stop="onLeaveFullscreen"

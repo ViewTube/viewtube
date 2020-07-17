@@ -24,32 +24,33 @@
         v-if="!userAuthenticated"
         id="login"
         v-ripple
+        v-tippy="'Login'"
         to="/login"
         class="tooltip nav-btn main"
-        data-tippy-content="login"
       >Login</nuxt-link>
       <nuxt-link
         v-if="!userAuthenticated"
         id="register"
         v-ripple
+        v-tippy="'Register'"
         to="/register"
         class="tooltip nav-btn"
-        data-tippy-content="register"
       >Register</nuxt-link>
       <nuxt-link
         v-show="userAuthenticated"
         id="subscriptions"
         v-ripple
+        v-tippy="'View your subscriptions'"
         to="/subscriptions"
         class="tooltip nav-btn main"
-        data-tippy-content="view your subscriptions"
       >Subscriptions</nuxt-link>
       <a
         id="account"
         v-ripple
+        v-tippy="'Account'"
+        :class="{ authenticated: userAuthenticated }"
         href="#"
         class="tooltip"
-        data-tippy-content="account"
         @click="showAccountMenu"
       >
         <AccountIcon />
@@ -63,9 +64,9 @@
           <a
             v-if="!userAuthenticated"
             id="login-btn"
+            v-tippy="'Login'"
             href="#"
             class="ripple tooltip menu-btn account-btn"
-            data-tippy-content="login"
             @click.self.prevent="login"
           >
             <AccountIcon />Login
@@ -73,9 +74,9 @@
           <a
             v-if="!userAuthenticated"
             id="login-btn"
+            v-tippy="'Register'"
             href="#"
             class="ripple tooltip menu-btn account-btn"
-            data-tippy-content="register"
             @click.self.prevent="register"
           >
             <AccountPlusIcon />Register
@@ -83,9 +84,9 @@
           <a
             v-if="this.$route.name !== 'subscriptions' && userAuthenticated"
             id="subscriptions-btn"
+            v-tippy="'View your subscriptions'"
             href="#"
             class="ripple tooltip menu-btn"
-            data-tippy-content="view your subscriptions"
             @click.self.prevent="openSubscriptions"
           >
             <AccountPlusIcon />Subscriptions
@@ -106,27 +107,27 @@
           </div>
           <a
             id="share"
+            v-tippy="'Share'"
             href="#"
             class="ripple tooltip menu-btn"
-            data-tippy-content="share"
             @mousedown.self.prevent="share"
           >
             <ShareIcon />share
           </a>
           <a
             id="settings-btn"
+            v-tippy="'Open settings'"
             href="#"
             class="ripple tooltip menu-btn"
-            data-tippy-content="open settings"
             @mousedown.self.prevent="openSettings"
           >
             <SettingsIcon />settings
           </a>
           <a
             id="about-btn"
+            v-tippy="'Open about'"
             href="#"
             class="ripple tooltip menu-btn"
-            data-tippy-content="open about"
             @mousedown.self.prevent="openAbout"
           >
             <AboutIcon />about
@@ -355,6 +356,14 @@ export default {
     justify-content: space-between;
     position: relative;
     z-index: +1;
+
+    #account {
+      color: var(--subtitle-color-light);
+
+      &.authenticated {
+        color: var(--theme-color);
+      }
+    }
 
     .menu {
       position: fixed;
