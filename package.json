@@ -21,6 +21,7 @@
     "cookie-universal-nuxt": "^2.1.4",
     "dashjs": "^3.1.1",
     "nuxt": "^2.13.0",
+    "nuxt-matomo": "^1.2.3",
     "portal-vue": "^2.1.7",
     "tippy.js": "^6.2.3",
     "universal-cookie": "^4.0.3",

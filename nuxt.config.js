@@ -88,7 +88,8 @@ export default {
     'cookie-universal-nuxt',
     '@nuxtjs/workbox',
     '@nuxtjs/axios',
-    ['cookie-universal-nuxt', { alias: 'cookies' }]
+    ['cookie-universal-nuxt', { alias: 'cookies' }],
+    ['nuxt-matomo', { matomoUrl: '//matomo.m-o.dev/', siteId: 1 }]
   ],
 
   axios: {
