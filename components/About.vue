@@ -63,7 +63,7 @@ import GithubIcon from 'vue-material-design-icons/Github'
 import ExternalIcon from 'vue-material-design-icons/OpenInNew'
 import Commons from '@/plugins/commons.js'
 import BadgeButton from '@/components/buttons/BadgeButton'
-import InvidiousLicense from '@/components/licenses/invidious'
+import InvidiousLicense from '@/components/licenses/Invidious'
 
 export default {
   name: 'About',
