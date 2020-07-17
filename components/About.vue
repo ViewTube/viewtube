@@ -48,6 +48,7 @@
         </table>
       </div>
       <h2>Invidious License</h2>
+      <InvidiousLicense />
     </div>
     <div
       class="about-overlay popup-overlay"
@@ -62,6 +63,7 @@ import GithubIcon from 'vue-material-design-icons/Github'
 import ExternalIcon from 'vue-material-design-icons/OpenInNew'
 import Commons from '@/plugins/commons.js'
 import BadgeButton from '@/components/buttons/BadgeButton'
+import InvidiousLicense from '@/components/licenses/invidious'
 
 export default {
   name: 'About',
@@ -69,7 +71,8 @@ export default {
     CloseIcon,
     GithubIcon,
     ExternalIcon,
-    BadgeButton
+    BadgeButton,
+    InvidiousLicense
   },
   data() {
     return {

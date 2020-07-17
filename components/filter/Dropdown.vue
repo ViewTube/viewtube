@@ -1,28 +1,28 @@
 <template>
   <div
-    class="dropdown"
-    v-clickaway="hideDropdown"
     ref="dropdownBtn"
+    v-clickaway="hideDropdown"
+    class="dropdown"
     :class="{ open: open }"
   >
     <div
-      class="dropdown-btn"
-      @click.stop="onDropdownBtnClick"
-      :class="{ 'label-unselected': selected === null }"
       v-ripple
+      class="dropdown-btn"
+      :class="{ 'label-unselected': selected === null }"
+      @click.stop="onDropdownBtnClick"
     >
       <div class="dropdown-title">
         <p v-if="selected !== null">{{ entries[selected].name }}</p>
         <p v-if="selected === null">{{ label }}</p>
       </div>
       <label
-        class="dropdown-label"
         v-if="label"
+        class="dropdown-label"
       >{{ label }}</label>
     </div>
     <portal
-      to="dropdown"
       v-if="visible"
+      to="dropdown"
     >
       <div
         class="dropdown-list"
@@ -30,13 +30,13 @@
         :style="{ top: `${offsetTop}px`, left: `${offsetLeft}px` }"
       >
         <span
-          class="list-entry"
           v-for="(item, id) in entries"
           :key="id"
+          class="list-entry"
           :index="id"
           :value="item.value"
-          @click="select"
           :class="{ selected: selected == id }"
+          @click="select"
         >{{ item.name }}</span>
       </div>
     </portal>
@@ -45,7 +45,7 @@
 
 <script>
 export default {
-  name: 'dropdown',
+  name: 'Dropdown',
   props: {
     values: Array,
     value: String,
@@ -59,6 +59,17 @@ export default {
     offsetLeft: null,
     visible: false
   }),
+  computed: {
+    entries() {
+      if (this.values[0].value && this.values[0].name) {
+        return this.values
+      } else {
+        return this.values.map((value, index) => {
+          return { name: value, value }
+        })
+      }
+    }
+  },
   mounted() {
     const me = this
     const selectedEntry = this.entries.findIndex(e => e.value === me.value)
@@ -69,17 +80,6 @@ export default {
     }
     this.calculateOffset()
     this.visible = true
-  },
-  computed: {
-    entries() {
-      if (this.values[0].value && this.values[0].name) {
-        return this.values
-      } else {
-        return this.values.map((value, index) => {
-          return { name: value, value: value }
-        })
-      }
-    }
   },
   methods: {
     calculateOffset() {

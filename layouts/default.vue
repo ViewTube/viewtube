@@ -17,12 +17,17 @@
       name="dropdown"
       multiple
     />
+    <portal-target
+      class="popup-portal"
+      name="popup"
+      multiple
+    />
     <MessageBoxContainer />
   </div>
 </template>
 
 <script>
-import Header from '@/components/Header'
+import Header from '@/components/header/MainHeader'
 import Miniplayer from '@/components/miniplayer/Miniplayer'
 import MessageBoxContainer from '@/components/message/MessageBoxContainer'
 import ThemeStyling from '@/components/themes/ThemeStyling'
@@ -77,14 +82,14 @@ export default {
   width: 100%;
   background-color: var(--bgcolor-main);
 
-  .dropdown-portal {
+  .dropdown-portal, .popup-portal {
     position: absolute;
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
     pointer-events: none;
-    user-select: none;
+    z-index: 901;
 
     > * {
       user-select: auto;

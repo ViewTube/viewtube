@@ -73,7 +73,7 @@ export default {
   flex-direction: row;
   flex-wrap: wrap;
   padding: 20px 0 0 0;
-  justify-content: space-between;
+  justify-content: space-evenly;
 
   .theme-preview {
     width: 200px;

@@ -13,13 +13,15 @@
   z-index: 8;
   position: fixed;
   overflow-y: scroll;
+  left: 0;
+  top: 0;
 
   .popup-container {
     width: 100%;
     height: auto;
     z-index: 10;
     margin: auto;
-    max-width: 500px;
+    max-width: 720px;
     background-color: var(--bgcolor-alt);
     box-shadow: $medium-shadow;
     border-radius: 3px;
@@ -81,7 +83,6 @@
     }
 
     @media screen and (max-width: $mobile-width) {
-      height: 120%;
       max-width: 100%;
       padding-top: $header-height;
 
