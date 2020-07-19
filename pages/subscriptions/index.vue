@@ -1,5 +1,18 @@
 <template>
   <div class="subscriptions">
+    <GradientBackground :color="'green'" />
+    <SectionTitle :title="'Subscriptions'">
+      <div class="manage-btn-container">
+        <BadgeButton
+          class="manage-subscriptions-btn"
+          :href="'subscriptions/manage'"
+          :internalLink="true"
+        >
+          <EditIcon />
+          <p>Manage</p>
+        </BadgeButton>
+      </div>
+    </SectionTitle>
     <div class="subscription-videos-container">
       <VideoEntry
         v-for="video in videos"
@@ -15,12 +28,20 @@
 import Commons from '@/plugins/commons.js'
 import VideoEntry from '@/components/list/VideoEntry'
 import BottomNavigation from '@/components/BottomNavigation'
+import GradientBackground from '@/components/GradientBackground'
+import SectionTitle from '@/components/SectionTitle'
+import BadgeButton from '@/components/buttons/BadgeButton'
+import EditIcon from 'vue-material-design-icons/PencilBoxMultipleOutline'
 
 export default {
   name: 'Home',
   components: {
     VideoEntry,
-    BottomNavigation
+    BottomNavigation,
+    GradientBackground,
+    SectionTitle,
+    BadgeButton,
+    EditIcon
   },
   data: () => ({
     videos: [],
@@ -47,8 +68,21 @@ export default {
 .subscriptions {
   overflow-y: scroll;
   overflow-x: hidden;
-  padding-top: $header-height;
-  height: calc(100% - #{$header-height});
+  height: 100%;
+
+  .manage-btn-container {
+    width: auto;
+    position: absolute;
+    right: 0;
+    z-index: 11;
+    height: 80px;
+    display: grid;
+    padding: 0 20px 0 0;
+
+    .badge-btn {
+      margin: auto;
+    }
+  }
 
   .subscription-videos-container {
     width: 100%;

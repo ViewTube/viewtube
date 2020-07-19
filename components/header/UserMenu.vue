@@ -17,7 +17,7 @@
       class="tooltip nav-btn"
     >Register</nuxt-link>
     <nuxt-link
-      v-show="userAuthenticated"
+      v-show="this.$route.name !== 'subscriptions' && userAuthenticated"
       id="subscriptions"
       v-ripple
       v-tippy="'View your subscriptions'"

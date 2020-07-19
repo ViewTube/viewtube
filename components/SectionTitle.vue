@@ -1,9 +1,14 @@
 <template>
   <div class="section-title">
-    <h2 class="title" :is="link ? 'nuxt-link' : 'h2'" :to="link">
+    <h2
+      :is="link ? 'nuxt-link' : 'h2'"
+      class="title"
+      :to="link"
+    >
       {{ title }}
       <ChevronRightIcon v-if="link !== undefined" />
     </h2>
+    <slot />
   </div>
 </template>
 
@@ -12,7 +17,7 @@ import ChevronRightIcon from 'vue-material-design-icons/ChevronRight'
 import GradientBackground from '@/components/GradientBackground.vue'
 
 export default {
-  name: 'section-title',
+  name: 'SectionTitle',
   components: {
     ChevronRightIcon,
     GradientBackground

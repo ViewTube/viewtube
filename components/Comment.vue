@@ -107,7 +107,6 @@ import CommentIcon from 'vue-material-design-icons/CommentOutline'
 import CommentHideIcon from 'vue-material-design-icons/CommentRemoveOutline'
 import LoadMoreIcon from 'vue-material-design-icons/Reload'
 import Commons from '@/plugins/commons.js'
-// import Spinner from '@/components/Spinner'
 import BadgeButton from '@/components/buttons/BadgeButton'
 import 'tippy.js/dist/tippy.css'
 
