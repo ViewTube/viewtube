@@ -17,11 +17,12 @@
         </nuxt-link>
         <nuxt-link
           :to="`/channel/${channel.authorId}`"
-          class="channel-image"
-          v-if="channel.authorThumbnails && channel.authorThumbnails.length > 0"
+          class="channel-image-container"
+          v-if="channel.authorThumbnailUrl || (channel.authorThumbnails && channel.authorThumbnails.length > 0)"
         >
           <img
-            :src="channel.authorThumbnails[4].src"
+            :src="channel.authorThumbnailUrl ? `${commons.getOwnApiUrl()}${channel.authorThumbnailUrl}` : channel.authorThumbnails[2].url"
+            class="channel-image"
             alt="Channel profile image"
           >
         </nuxt-link>
@@ -54,6 +55,7 @@ export default {
   },
   data() {
     return {
+      commons: Commons,
       subscriptionChannels: []
     }
   },
@@ -110,9 +112,14 @@ export default {
       position: relative;
       align-items: center;
 
-      .channel-image {
+      .channel-image-container {
         width: 36px;
+        height: 36px;
         box-shadow: $low-shadow;
+
+        .channel-image {
+          width: 100%;
+        }
       }
 
       .fake-thmb {
