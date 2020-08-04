@@ -70,6 +70,10 @@
                 v-if="video.subCount"
                 class="infobox-channel-subcount"
               >{{ video.subCount.toLocaleString('en-US') }} subscribers</p>
+              <p
+                v-if="!video.subCount && video.subCountText"
+                class="infobox-channel-subcount"
+              >{{ video.subCountText }} subscribers</p>
             </div>
           </div>
           <SubscribeButton
@@ -77,8 +81,14 @@
             :channel-id="video.authorId"
           />
         </div>
-        <div class="video-infobox-date">{{ video.publishedText }}</div>
-        <div class="video-exact-date">{{ new Date(video.published).toLocaleString('en-US') }}</div>
+        <div
+          class="video-infobox-date"
+          v-if="video.publishedText"
+        >{{ video.publishedText }}</div>
+        <div
+          class="video-exact-date"
+          v-if="!video.publishedText"
+        >{{ new Date(video.published).toLocaleString('en-US') }}</div>
         <div class="video-actions">
           <BadgeButton
             :href="`https://getpocket.com/save?url=${encodedUrl}`"
@@ -152,6 +162,7 @@ import SubscribeButton from '@/components/buttons/SubscribeButton'
 import Comment from '@/components/Comment'
 // import Invidious from '@/plugins/services/invidious'
 import ViewtubeApi from '@/plugins/services/viewtubeApi'
+import Invidious from '@/plugins/services/invidious'
 import RecommendedVideos from '@/components/watch/RecommendedVideos'
 import CollapsibleSection from '@/components/list/CollapsibleSection'
 import BadgeButton from '@/components/buttons/BadgeButton'
@@ -179,7 +190,7 @@ export default {
     return true
   },
   asyncData({ query, error }) {
-    return ViewtubeApi.api.videos({
+    return Invidious.api.videos({
       id: query.v
     }).then((response) => {
       if (response) {
