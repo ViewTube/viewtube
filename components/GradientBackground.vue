@@ -4,16 +4,19 @@
       class="gradient-background"
       :class="color"
     >
-      <span class="background-shadow"></span>
+      <span class="background-shadow" />
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'gradient-background',
+  name: 'GradientBackground',
   props: {
-    color: String
+    color: {
+      type: String,
+      default: 'theme'
+    }
   },
   data: () => ({
   })
@@ -31,7 +34,7 @@ export default {
   opacity: var(--gradient-opacity);
 
   .gradient-background {
-    height: 700px + $header-height;
+    height: 600px + $header-height;
     position: relative;
     z-index: 9;
     opacity: 1;
@@ -55,6 +58,16 @@ export default {
         165deg,
         rgb(16, 141, 199) 0%,
         rgb(9, 74, 104) 28%,
+        rgba(18, 18, 18, 1) 69%,
+        rgba(18, 18, 18, 1) 100%
+      );
+    }
+
+    &.green {
+      background: linear-gradient(
+        165deg,
+        rgb(12, 129, 61) 0%,
+        rgb(6, 71, 6) 28%,
         rgba(18, 18, 18, 1) 69%,
         rgba(18, 18, 18, 1) 100%
       );

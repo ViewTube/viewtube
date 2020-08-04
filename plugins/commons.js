@@ -14,13 +14,6 @@ export default {
     return 'https://invidio.us/api/'
   },
 
-  getDomain() {
-    if (window.location.href.toLowerCase().includes('localhost')) {
-      return 'localhost'
-    }
-    return 'viewtube.io'
-  },
-
   getOwnApiUrl() {
     if (this.isProduction()) {
       return process.env.VIEWTUBE_API_URL || 'https://api.viewtube.io/'
@@ -29,16 +22,12 @@ export default {
   },
 
   isProduction() {
-    return (
-      process.env.NODE_ENV === 'production' &&
-      !window.location.href.toLowerCase().includes('localhost')
-    )
+    return process.env.NODE_ENV === 'production'
   },
 
   getProxySrcSet(imgArray) {
     if (Array.isArray(imgArray)) {
       let srcSetString = ''
-
       imgArray
         .slice()
         .sort((a, b) => a.width - b.width)

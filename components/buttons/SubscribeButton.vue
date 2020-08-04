@@ -26,14 +26,20 @@ import Commons from '@/plugins/commons.js'
 export default {
   name: 'SubscribeButton',
   props: {
-    channelId: null
+    channelId: null,
+    isInitiallySubscribed: Boolean
   },
   data: () => ({
     isSubscribed: false,
     disabled: true
   }),
   mounted() {
-    this.loadSubscriptionStatus()
+    if (this.isInitiallySubscribed) {
+      this.isSubscribed = true
+      this.disabled = false
+    } else {
+      this.loadSubscriptionStatus()
+    }
   },
   methods: {
     loadSubscriptionStatus() {
@@ -156,9 +162,8 @@ export default {
     &:after {
       text-align: center;
       line-height: 32px;
-      font-size: 15px;
+      font-size: 16px;
       color: rgba(235, 235, 235, 1);
-      font-family: "Verdana";
       font-weight: bold;
       z-index: 5;
       position: absolute;
@@ -175,6 +180,7 @@ export default {
   .subscribe-button {
     &:after {
       content: "SUBSCRIBE";
+      font-family: $default-font;
     }
   }
 
@@ -194,6 +200,7 @@ export default {
 
     &:after {
       content: "UNSUBSCRIBE";
+      font-family: $default-font;
       background: var(--bgcolor-alt-light);
     }
   }

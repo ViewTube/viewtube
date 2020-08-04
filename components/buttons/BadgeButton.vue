@@ -1,8 +1,10 @@
 <template>
-  <a
+  <element
+    :is="internalLink ? 'nuxt-link' : 'a'"
     v-ripple
+    :to="(internalLink && href) ? href : '#'"
     class="badge-btn"
-    target="_blank"
+    :target="internalLink ? '' : '_blank'"
     rel="noreferrer"
     :href="href || '#'"
     @click="clickFunction"
@@ -13,16 +15,17 @@
     >
       <slot />
     </div>
-  </a>
+  </element>
 </template>
 
 <script>
 export default {
-  name: 'badge-btn',
+  name: 'BadgeBtn',
   props: {
     href: String,
     click: Function,
-    loading: Boolean
+    loading: Boolean,
+    internalLink: Boolean
   },
   methods: {
     clickFunction(e) {
