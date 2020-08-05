@@ -3,11 +3,7 @@
     <GradientBackground :color="'green'" />
     <SectionTitle :title="'Manage subscriptions'" />
     <div class="channels-container">
-      <div
-        class="channel-entry"
-        v-for="channel in subscriptionChannels"
-        :key="channel.authorId"
-      >
+      <div class="channel-entry" v-for="channel in subscriptionChannels" :key="channel.authorId">
         <nuxt-link
           :to="`/channel/${channel.authorId}`"
           v-if="!channel.authorThumbnails || channel.authorThumbnails.length == 0"
@@ -24,7 +20,7 @@
             :src="channel.authorThumbnailUrl ? `${commons.getOwnApiUrl()}${channel.authorThumbnailUrl}` : channel.authorThumbnails[2].url"
             class="channel-image"
             alt="Channel profile image"
-          >
+          />
         </nuxt-link>
         <div class="channel-title">
           <nuxt-link :to="`/channel/${channel.authorId}`">{{channel.author}}</nuxt-link>
@@ -33,6 +29,7 @@
           <SubscribeButton
             :isInitiallySubscribed="true"
             :channelId="channel.authorId"
+            :small="true"
           />
         </div>
       </div>
