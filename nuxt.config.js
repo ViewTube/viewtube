@@ -75,6 +75,14 @@ export default {
     { src: '@/plugins/localStorage', ssr: false }
   ],
 
+  // pwa: {
+  workbox: {
+    importScripts: [
+      'notifications-sw.js'
+    ]
+  },
+  // },
+
   buildModules: [],
 
   render: {
