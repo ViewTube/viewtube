@@ -15,9 +15,9 @@ export default {
   },
 
   getOwnApiUrl() {
-    // if (this.isProduction()) {
-      // return process.env.VIEWTUBE_API_URL || 'https://api.viewtube.io/'
-    // }
+    if (this.isProduction()) {
+      return process.env.VIEWTUBE_API_URL || 'https://api.viewtube.io/'
+    }
     return 'http://localhost:3030/'
   },
 
