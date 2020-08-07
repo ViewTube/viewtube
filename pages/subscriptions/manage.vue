@@ -1,17 +1,7 @@
 <template>
   <div class="manage-subscriptions">
     <GradientBackground :color="'green'" />
-    <SectionTitle :title="'Manage subscriptions'">
-      <div class="subscribe-btn-container">
-        <BadgeButton
-          class="manage-subscriptions-btn"
-          :click="subscribeToNotifications"
-        >
-          <!-- <EditIcon /> -->
-          <p>Enable push notifications</p>
-        </BadgeButton>
-      </div>
-    </SectionTitle>
+    <SectionTitle :title="'Manage subscriptions'" />
     <div class="channels-container">
       <div
         class="channel-entry"
@@ -91,40 +81,6 @@ export default {
         initials += e.charAt(0)
       })
       return initials
-    },
-    subscribeToNotifications() {
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.getRegistrations().then(async (registrations) => {
-          console.log(registrations)
-          const worker = registrations[0]
-          worker.pushManager.subscribe({
-            userVisibleOnly: true,
-            applicationServerKey: this.urlBase64ToUint8Array('BGVr0ZXSAkSL3JGl8IDylvLaD9B_cisWqESJ3_mrBOk0xZ1axMNbIYF5DF1IWi2Htuzj3Hu34WfNwBx210fkmHE')
-          })
-            .then(subscription => {
-              this.$axios.post(`${Commons.getOwnApiUrl()}user/notifications/subscribe`, subscription, {
-                withCredentials: true
-              })
-            })
-            .catch(err => {
-              console.log(err)
-            })
-        })
-      }
-    },
-    urlBase64ToUint8Array(base64String) {
-      const padding = '='.repeat((4 - base64String.length % 4) % 4);
-      const base64 = (base64String + padding)
-        .replace(/-/g, '+')
-        .replace(/_/g, '/');
-
-      const rawData = window.atob(base64);
-      const outputArray = new Uint8Array(rawData.length);
-
-      for (let i = 0; i < rawData.length; ++i) {
-        outputArray[i] = rawData.charCodeAt(i);
-      }
-      return outputArray;
     }
   }
 }
@@ -136,20 +92,6 @@ export default {
   overflow-x: hidden;
   height: 100%;
   width: 100%;
-
-  .subscribe-btn-container {
-    width: auto;
-    position: absolute;
-    right: 0;
-    z-index: 11;
-    height: 80px;
-    display: grid;
-    padding: 0 20px 0 0;
-
-    .badge-btn {
-      margin: auto;
-    }
-  }
 
   .channels-container {
     width: 100%;

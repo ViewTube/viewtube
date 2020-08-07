@@ -30,22 +30,22 @@
     <div
       class="settings-overlay popup-overlay"
       @click.stop="$emit('close')"
-    ></div>
+    />
   </div>
 </template>
 
 <script>
-import Dropdown from '@/components/filter/Dropdown'
-import SwitchButton from '@/components/buttons/SwitchButton'
-import ThemeSelector from '@/components/themes/ThemeSelector'
 import CloseIcon from 'vue-material-design-icons/Close'
 import ThemeIcon from 'vue-material-design-icons/Brightness4'
 import InstanceIcon from 'vue-material-design-icons/ServerNetwork'
 import MiniplayerIcon from 'vue-material-design-icons/WindowRestore'
+import ThemeSelector from '@/components/themes/ThemeSelector'
+import SwitchButton from '@/components/buttons/SwitchButton'
+import Dropdown from '@/components/filter/Dropdown'
 import '@/assets/styles/popup.scss'
 
 export default {
-  name: 'settings',
+  name: 'Settings',
   components: {
     Dropdown,
     CloseIcon,

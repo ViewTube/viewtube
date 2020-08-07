@@ -1,7 +1,7 @@
 <template>
   <div
     class="switch"
-    :class="{ on: value }"
+    :class="{ on: value, disabled }"
     @click="$emit('valuechange', !value)"
   >
     <div class="switch-body">
@@ -21,7 +21,8 @@ export default {
   name: 'switch-button',
   props: {
     value: Boolean,
-    label: String
+    label: String,
+    disabled: Boolean
   }
 }
 </script>
@@ -34,6 +35,13 @@ export default {
   cursor: pointer;
   user-select: none;
   margin-top: 20px !important;
+
+  &.disabled{
+    opacity: 0.8;
+    filter: grayscale(100%);
+    pointer-events: none;
+    user-select: none;
+  }
 
   &.on {
     .switch-body {
