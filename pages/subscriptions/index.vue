@@ -121,7 +121,7 @@ export default {
                 })
                 .catch((err) => {
                   this.notificationsEnabled = false
-                  this.notificationsBtnDisabled = false
+                  this.notificationsBtnDisabled = true
                   console.log(err)
                 })
             } else {
