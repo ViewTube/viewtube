@@ -83,7 +83,7 @@ export default {
               this.notificationsEnabled = true
             } else if (permissionState === 'denied') {
               this.notificationsEnabled = false
-              this.notificationsBtnDisabled = false
+              this.notificationsBtnDisabled = true
             }
           })
         })
@@ -121,7 +121,7 @@ export default {
                 })
                 .catch((err) => {
                   this.notificationsEnabled = false
-                  this.notificationsBtnDisabled = false
+                  this.notificationsBtnDisabled = true
                   console.log(err)
                 })
             } else {
