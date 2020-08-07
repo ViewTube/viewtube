@@ -6337,11 +6337,6 @@ number-is-nan@^1.0.0:
   resolved "https://registry.yarnpkg.com/number-is-nan/-/number-is-nan-1.0.1.tgz#097b602b53422a522c1afb8790318336941a011d"
   integrity sha1-CXtgK1NCKlIsGvuHkDGDNpQaAR0=
 
-nuxt-matomo@^1.2.3:
-  version "1.2.3"
-  resolved "https://registry.yarnpkg.com/nuxt-matomo/-/nuxt-matomo-1.2.3.tgz#9814b19b8898872d7d4535ac472097bf021e8edc"
-  integrity sha512-jaA8u5XjBi1KJ/MAymzMexNvJO6meoMLMRH4M7AsVpnw4F5Dm+ahsvp2xKaFqtcKtknVi6x/n2IBd8FqVWSXBw==
-
 nuxt@^2.13.0:
   version "2.13.3"
   resolved "https://registry.yarnpkg.com/nuxt/-/nuxt-2.13.3.tgz#494f0df34851dfcdbdf4fd092112fa1d4bed1b02"
