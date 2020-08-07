@@ -249,7 +249,6 @@ export default {
         if (video) {
           return video.url
         } else if (this.video.formatStreams.length > 0) {
-          console.log('brudi, is you dumb')
           return this.video.formatStreams[0].url
         }
       }
