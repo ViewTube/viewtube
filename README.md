@@ -44,14 +44,31 @@ Example docker command
 
 ```docker
 $ docker create \
-  --name=bookstack
+  --name=viewtube
   -p 8066:8066
   -v /path/to/data:/data \
+  -e VIEWTUBE_API_URL=https://api.viewtube.io/
   --restart unless-stopped \
   mauriceo/viewtube:latest
 ```
 
 Docker-compose
+```yml
+version: "3"
+
+services:
+  viewtube:
+    container_name: viewtube
+    restart: unless-stopped
+    image: mauriceo/viewtube:latest
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./data:/data
+    environment:
+      - VIEWTUBE_API_URL=https://api.viewtube.io/
+    ports:
+      - 8066:8066
+```
 
 ### Linux/Windows/MacOS
 
