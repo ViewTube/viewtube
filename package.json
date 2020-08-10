@@ -16,26 +16,26 @@
     "not Edge 18"
   ],
   "dependencies": {
-    "@nuxtjs/axios": "^5.12.0",
+    "@nuxtjs/axios": "^5.12.1",
     "@nuxtjs/workbox": "^3.0.0-beta.16",
     "cookie-universal-nuxt": "^2.1.4",
-    "dashjs": "^3.1.1",
-    "nuxt": "^2.13.0",
+    "dashjs": "^3.1.2",
+    "nuxt": "^2.14.1",
     "portal-vue": "^2.1.7",
-    "tippy.js": "^6.2.3",
+    "tippy.js": "^6.2.6",
     "universal-cookie": "^4.0.3",
-    "vue-material-design-icons": "^4.7.1",
+    "vue-material-design-icons": "^4.8.0",
     "vue-scroll": "^2.1.13",
-    "vuex-persistedstate": "^3.0.1"
+    "vuex-persistedstate": "^3.1.0"
   },
   "devDependencies": {
-    "@nuxtjs/eslint-config": "^3.0.0",
+    "@nuxtjs/eslint-config": "^3.1.0",
     "@nuxtjs/eslint-module": "^2.0.0",
     "@nuxtjs/style-resources": "^1.0.0",
     "babel-eslint": "^10.1.0",
-    "eslint": "^7.2.0",
+    "eslint": "^7.6.0",
     "eslint-plugin-nuxt": "^1.0.0",
     "node-sass": "^4.14.1",
-    "sass-loader": "^8.0.2"
+    "sass-loader": "^9.0.3"
   }
 }
