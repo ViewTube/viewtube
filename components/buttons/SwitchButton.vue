@@ -18,7 +18,7 @@
 
 <script>
 export default {
-  name: 'switch-button',
+  name: 'SwitchButton',
   props: {
     value: Boolean,
     label: String,
