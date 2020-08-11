@@ -97,13 +97,11 @@ export default {
 
 <style lang="scss">
 .login {
-  width: 100%;
-  height: 100%;
   display: flex;
   background-size: cover;
   background-repeat: no-repeat;
   background-color: var(--bgcolor-alt);
-  padding-top: $header-height;
+  height: 100vh;
 
   @media screen and (min-width: $mobile-width) {
     background-image: url("/img/blur-bg-medium-dark.jpg");

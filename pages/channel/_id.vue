@@ -100,19 +100,11 @@ export default {
 .channel {
   display: flex;
   flex-direction: column;
-  overflow-x: hidden;
-  overflow-y: scroll;
-  perspective: 4px;
-  perspective-origin: 0 0;
-  height: 100%;
+  overflow: hidden;
 
   .banner {
     position: relative;
-    margin-top: $header-height * 2;
-  }
-
-  .overview {
-    margin-top: -$header-height - 10px;
+    margin-top: $header-height;
   }
 
   .backdrop-image {

@@ -307,25 +307,17 @@ export default {
 
 <style lang="scss">
 .watch {
-  overflow-y: scroll;
-  overflow-x: hidden;
-  padding-top: $header-height;
-  perspective: 4px;
-  perspective-origin: 0 0;
-  height: calc(100% - #{$header-height});
   position: relative;
+  width: 100%;
+  margin-top: $header-height;
 
   .nojs-player {
-    transform-origin: 0 0;
     max-height: calc(100vh - 170px);
-    transform: translate3d(0, $header-height, -4px) scale(2);
     z-index: 11;
     width: 100%;
   }
 
   .video-player-p {
-    transform-origin: 0 0;
-    transform: translate3d(0, $header-height, -4px) scale(2);
     z-index: 11;
   }
 

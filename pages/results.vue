@@ -162,11 +162,8 @@ export default {
 
 <style lang="scss">
 .search {
-  overflow-y: scroll;
-  overflow-x: hidden;
   display: flex;
   flex-direction: column;
-  height: 100%;
 
   .filters {
     width: 100%;

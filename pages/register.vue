@@ -129,15 +129,11 @@ export default {
 
 <style lang="scss">
 .register {
-  width: 100%;
-  height: calc(100% - #{$header-height});
   display: flex;
   background-size: cover;
   background-repeat: no-repeat;
-  position: relative;
   background-color: var(--bgcolor-alt);
-  padding-top: $header-height;
-  overflow-y: scroll;
+  height: 100vh;
 
   @media screen and (min-width: $mobile-width) {
     background-image: url("/img/blur-bg-medium-dark.jpg");

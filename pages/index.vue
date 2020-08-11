@@ -110,10 +110,6 @@ export default {
 
 <style lang="scss">
 .home {
-  overflow-y: scroll;
-  overflow-x: hidden;
-  height: 100%;
-
   .home-videos-container {
     width: 100%;
     max-width: $main-width;

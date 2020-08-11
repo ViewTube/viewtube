@@ -25,7 +25,6 @@
     "tippy.js": "^6.2.6",
     "universal-cookie": "^4.0.3",
     "vue-material-design-icons": "^4.8.0",
-    "vue-scroll": "^2.1.13",
     "vuex-persistedstate": "^3.1.0"
   },
   "devDependencies": {

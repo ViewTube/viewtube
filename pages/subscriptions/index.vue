@@ -164,10 +164,6 @@ export default {
 
 <style lang="scss">
 .subscriptions {
-  overflow-y: scroll;
-  overflow-x: hidden;
-  height: 100%;
-
   .manage-btn-container {
     width: auto;
     position: absolute;

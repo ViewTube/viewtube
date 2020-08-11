@@ -63,14 +63,12 @@ export default {
     '~/assets/fonts/expletus.css',
     '~/assets/fonts/notosans.css'
   ],
-
   styleResources: {
     scss: ['~/assets/styles/global/*.scss']
   },
 
   plugins: [
     '@/plugins/directives/index',
-    '@/plugins/scroll',
     '@/plugins/formatting',
     { src: '@/plugins/localStorage', ssr: false }
   ],
@@ -115,8 +113,7 @@ export default {
     transpile: [
       'vue-material-design-icons',
       'dashjs',
-      'tippy.js',
-      'vue-scroll'
+      'tippy.js'
     ],
     extend(config, ctx) { }
   }

@@ -3,7 +3,7 @@
     <ThemeStyling />
     <Header v-if="!headless" class="main-header" />
     <Miniplayer v-if="$store.getters.miniplayer" />
-    <nuxt v-scroll="handleScroll" />
+    <nuxt />
     <portal-target class="dropdown-portal" name="dropdown" multiple />
     <portal-target class="popup-portal" name="popup" multiple />
     <MessageBoxContainer />
@@ -40,10 +40,13 @@ export default {
   mounted() {
     this.$store.dispatch('user/getUser')
     this.$refs.app.classList += ` ${this.getThemeClass()}`
+    if (process.browser) {
+      window.addEventListener('scroll', this.handleScroll, { passive: true })
+    }
   },
   methods: {
     handleScroll(e, position) {
-      this.$store.commit('scroll/setScrollPosition', position.scrollTop)
+      this.$store.commit('scroll/setScrollPosition', window.pageYOffset)
     },
     getThemeClass() {
       if (process.browser) {
@@ -62,8 +65,6 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: var(--title-color);
-  height: 100%;
-  width: 100%;
   background-color: var(--bgcolor-main);
 
   .dropdown-portal,
@@ -158,10 +159,6 @@ html,
 body,
 #__layout,
 #__nuxt {
-  overflow: hidden;
-  overscroll-behavior: none;
-  height: 100%;
-  width: 100%;
   margin: 0;
   padding: 0;
   background-color: var(--bgcolor-main);
@@ -187,7 +184,6 @@ p {
   left: 50%;
   transform: translate(-50%, -50%);
 }
-
 
 a,
 button {
