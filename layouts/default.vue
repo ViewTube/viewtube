@@ -1,27 +1,11 @@
 <template>
-  <div
-    id="app"
-    ref="app"
-    class="layout"
-    :class="getThemeClass()"
-  >
+  <div id="app" ref="app" class="layout" :class="getThemeClass()">
     <ThemeStyling />
-    <Header
-      v-if="!headless"
-      class="main-header"
-    />
+    <Header v-if="!headless" class="main-header" />
     <Miniplayer v-if="$store.getters.miniplayer" />
     <nuxt v-scroll="handleScroll" />
-    <portal-target
-      class="dropdown-portal"
-      name="dropdown"
-      multiple
-    />
-    <portal-target
-      class="popup-portal"
-      name="popup"
-      multiple
-    />
+    <portal-target class="dropdown-portal" name="dropdown" multiple />
+    <portal-target class="popup-portal" name="popup" multiple />
     <MessageBoxContainer />
   </div>
 </template>
@@ -82,7 +66,8 @@ export default {
   width: 100%;
   background-color: var(--bgcolor-main);
 
-  .dropdown-portal, .popup-portal {
+  .dropdown-portal,
+  .popup-portal {
     position: absolute;
     top: 0;
     bottom: 0;
@@ -203,14 +188,38 @@ p {
   transform: translate(-50%, -50%);
 }
 
+
 a,
-div,
-input {
-  outline: none;
+button {
+  position: relative;
+  &::after {
+    box-shadow: 0 0 0 2px transparent;
+    transition: box-shadow 100ms linear;
+    content: "";
+    position: absolute;
+    left: 2px;
+    top: 2px;
+    width: calc(100% - 4px);
+    height: calc(100% - 4px);
+    pointer-events: none;
+    user-select: none;
+    z-index: +1;
+    border-radius: inherit;
+  }
+
+  &:focus {
+    &::after {
+      box-shadow: 0 0 0 2px var(--theme-color);
+    }
+    outline: none;
+  }
 }
 
-textarea:focus,
 input:focus {
+  outline: solid 2px var(--theme-color);
+}
+
+textarea:focus {
   outline: none;
 }
 

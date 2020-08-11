@@ -1,18 +1,19 @@
 <template>
-  <div
-    class="switch"
-    :class="{ on: value, disabled }"
-    @click="$emit('valuechange', !value)"
-  >
+  <div class="switch">
+    <input
+      type="checkbox"
+      :name="label"
+      id="switch-button"
+      @change="onChange"
+      :checked="value"
+      :disabled="disabled"
+    />
     <div class="switch-body">
       <span class="switch-circle">
         <span class="switch-circle-inner"></span>
       </span>
     </div>
-    <p
-      class="label"
-      v-if="label"
-    >{{ label }}</p>
+    <label for="switch-button" class="label" v-if="label">{{ label }}</label>
   </div>
 </template>
 
@@ -23,6 +24,11 @@ export default {
     value: Boolean,
     label: String,
     disabled: Boolean
+  },
+  methods: {
+    onChange(e) {
+      this.$emit('valuechange', e.target.checked)
+    }
   }
 }
 </script>
@@ -32,41 +38,55 @@ export default {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
-  cursor: pointer;
   user-select: none;
   margin-top: 20px !important;
+  position: relative;
 
-  &.disabled{
-    opacity: 0.8;
-    filter: grayscale(100%);
-    pointer-events: none;
-    user-select: none;
+  #switch-button {
+    all: unset;
+    width: 50px;
+    height: 24px;
+    background-image: $theme-color-primary-gradient;
+    border-radius: 15px;
+    background-repeat: no-repeat;
+
+    &:focus {
+      outline: solid 2px var(--theme-color) !important;
+    }
   }
 
-  &.on {
-    .switch-body {
-      .switch-circle {
-        background-color: transparent;
-        .switch-circle-inner {
-          background-color: var(--bgcolor-alt);
-          left: 26px;
-        }
+  input:checked + .switch-body {
+    .switch-circle {
+      background-color: transparent;
+      .switch-circle-inner {
+        background-color: var(--bgcolor-alt);
+        left: 26px;
       }
     }
   }
 
-  .label{
-    line-height: 24px;
-    text-align: center;
-    margin: 0 0 0 10px;
+  input:disabled {
+    filter: grayscale(100%) !important;
+    opacity: 0.8 !important;
+    pointer-events: none !important;
+    user-select: none !important;
+
+    + .switch-body {
+      opacity: 0.8 !important;
+      filter: grayscale(100%) !important;
+      pointer-events: none !important;
+      user-select: none !important;
+    }
   }
 
   .switch-body {
-    background-image: $theme-color-primary-gradient;
+    position: absolute;
+    left: 0;
     height: 24px;
     width: 50px;
     border-radius: 15px;
     background-repeat: no-repeat;
+    pointer-events: none;
 
     .switch-circle {
       width: 44px;
@@ -87,9 +107,16 @@ export default {
         background-color: var(--theme-color);
         display: block;
         position: absolute;
-        transition: background-color 300ms $intro-easing, left 300ms $overshoot-easing;
+        transition: background-color 300ms $intro-easing,
+          left 300ms $overshoot-easing;
       }
     }
+  }
+
+  .label {
+    line-height: 24px;
+    text-align: center;
+    margin: 0 0 0 10px;
   }
 }
 </style>
