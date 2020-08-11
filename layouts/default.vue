@@ -1,5 +1,15 @@
 <template>
-  <div id="app" ref="app" class="layout" :class="getThemeClass()">
+  <div
+    id="app"
+    ref="app"
+    class="layout"
+    :class="getAppClass()"
+    @touchstart.passive="onTouchStart"
+    @touchmove.passive="onTouchMove"
+    @touchend.passive="onTouchEnd"
+    :style="{ transform: `translate3d(0,${reloadElDistance}px,0)` }"
+  >
+    <span class="reload-element"></span>
     <ThemeStyling />
     <Header v-if="!headless" class="main-header" />
     <Miniplayer v-if="$store.getters.miniplayer" />
@@ -17,7 +27,7 @@ import MessageBoxContainer from '@/components/message/MessageBoxContainer'
 import ThemeStyling from '@/components/themes/ThemeStyling'
 
 export default {
-  name: 'Index',
+  name: 'Default',
   components: {
     Header,
     Miniplayer,
@@ -26,6 +36,9 @@ export default {
   },
   data() {
     return {
+      touchTopY: 0,
+      reloadElDistance: 0,
+      reloadAnimating: false
     }
   },
   computed: {
@@ -54,6 +67,38 @@ export default {
       } else {
         return 'theme--default'
       }
+    },
+    getAppClass() {
+      let appClass = this.getThemeClass()
+
+      if (this.reloadAnimating) {
+        appClass += ' animating'
+      }
+      return appClass
+    },
+    onTouchStart(e) {
+      this.touchTopY = e.touches[0].pageY
+    },
+    onTouchMove(e) {
+      const topY = e.touches[0].pageY
+      const topDistance = topY - this.touchTopY
+      if (window.pageYOffset === 0 && topY > this.touchTopY) {
+        this.reloadAnimating = false
+        this.reloadElDistance = Math.sqrt(topDistance * 50) - 20
+      } else {
+        this.reloadElDistance = 0
+        this.reloadAnimating = true
+      }
+    },
+    onTouchEnd(e) {
+      if (this.reloadElDistance > 100) {
+        this.reloadElDistance = 100
+        this.reloadAnimating = true
+        window.location.reload()
+      } else {
+        this.reloadElDistance = 0
+        this.reloadAnimating = true
+      }
     }
   }
 }
@@ -66,6 +111,20 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   color: var(--title-color);
   background-color: var(--bgcolor-main);
+
+  &.animating {
+    transition: transform 300ms $intro-easing;
+  }
+
+  .reload-element {
+    position: fixed;
+    top: -50px;
+    height: 50px;
+    width: 50px;
+    left: calc(50% - 50px);
+    background-color: var(--theme-color);
+    z-index: 1001;
+  }
 
   .dropdown-portal,
   .popup-portal {
