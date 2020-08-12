@@ -133,7 +133,8 @@ export default {
   background-size: cover;
   background-repeat: no-repeat;
   background-color: var(--bgcolor-alt);
-  height: 100vh;
+  height: calc(100vh - #{$header-height});
+  padding: $header-height 0 0 0;
 
   @media screen and (min-width: $mobile-width) {
     background-image: url("/img/blur-bg-medium-dark.jpg");
@@ -153,7 +154,8 @@ export default {
     position: relative;
 
     @media screen and (max-width: $mobile-width) {
-      height: 100%;
+      height: auto;
+      box-shadow: none;
     }
 
     &.wiggle {

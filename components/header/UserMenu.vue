@@ -296,7 +296,7 @@ export default {
     box-sizing: border-box;
 
     @media screen and (max-width: $mobile-width) {
-      top: 100vh;
+      top: 100%;
       right: 0;
       left: 0;
       width: 100%;

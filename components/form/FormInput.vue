@@ -92,6 +92,7 @@ export default {
     transition: border 300ms $intro-easing;
 
     &:focus {
+      outline: none;
       border-color: var(--theme-color);
     }
 

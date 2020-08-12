@@ -1,29 +1,12 @@
 <template>
   <div class="login">
-    <div
-      class="login-container"
-      :class="{ loading: loading }"
-    >
+    <div class="login-container" :class="{ loading: loading }">
       <h2 class="login-title">Login</h2>
       <span class="status-message-display message-display">{{ statusMessage }}</span>
       <Spinner />
-      <form
-        id="login"
-        method="post"
-        @submit.prevent="login"
-      >
-        <FormInput
-          :id="'username'"
-          v-model="username"
-          :label="'username'"
-          :type="'username'"
-        />
-        <FormInput
-          :id="'password'"
-          v-model="password"
-          :label="'password'"
-          :type="'password'"
-        />
+      <form id="login" method="post" @submit.prevent="login">
+        <FormInput :id="'username'" v-model="username" :label="'username'" :type="'username'" />
+        <FormInput :id="'password'" v-model="password" :label="'password'" :type="'password'" />
         <SubmitButton :label="'Login'" />
       </form>
     </div>
@@ -101,7 +84,8 @@ export default {
   background-size: cover;
   background-repeat: no-repeat;
   background-color: var(--bgcolor-alt);
-  height: 100vh;
+  height: calc(100vh - #{$header-height});
+  padding: $header-height 0 0 0;
 
   @media screen and (min-width: $mobile-width) {
     background-image: url("/img/blur-bg-medium-dark.jpg");
@@ -121,7 +105,8 @@ export default {
     position: relative;
 
     @media screen and (max-width: $mobile-width) {
-      height: 100%;
+      height: auto;
+      box-shadow: none;
     }
 
     .login-title {
