@@ -7,9 +7,8 @@
     @touchstart.passive="onTouchStart"
     @touchmove.passive="onTouchMove"
     @touchend.passive="onTouchEnd"
-    :style="{ transform: `translate3d(0,${reloadElDistance}px,0)` }"
   >
-    <span class="reload-element"></span>
+    <span class="reload-element" :style="{ transform: `translate3d(0,${reloadElDistance}px,0)` }"></span>
     <ThemeStyling />
     <Header v-if="!headless" class="main-header" />
     <Miniplayer v-if="$store.getters.miniplayer" />
@@ -128,9 +127,9 @@ export default {
 
   .dropdown-portal,
   .popup-portal {
-    position: absolute;
+    position: fixed;
     top: 0;
-    bottom: 0;
+    height: 100vh;
     left: 0;
     right: 0;
     pointer-events: none;
@@ -140,6 +139,10 @@ export default {
       user-select: auto;
       pointer-events: auto;
     }
+  }
+
+  .dropdown-portal {
+    z-index: 902;
   }
 
   .progress-bar-margin {
@@ -220,6 +223,7 @@ body,
 #__nuxt {
   margin: 0;
   padding: 0;
+  overflow-x: hidden;
   background-color: var(--bgcolor-main);
 }
 .material-design-icon {

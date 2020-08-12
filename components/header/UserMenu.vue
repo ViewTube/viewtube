@@ -35,29 +35,15 @@
       <AccountIcon />
     </a>
     <transition name="fade-up">
-      <div
-        v-if="accountMenuVisible"
-        v-clickaway="hideAccountMenu"
-        class="menu"
-      >
-        <div
-          v-if="userAuthenticated"
-          class="account-menu"
-        >
+      <div v-if="accountMenuVisible" v-clickaway="hideAccountMenu" class="menu">
+        <div v-if="userAuthenticated" class="account-menu">
           <AccountIcon />
           <div class="account-info">
             <p class="account-name">Logged in as {{ $store.getters['user/username'] }}</p>
-            <a
-              class="logout-btn"
-              href="#"
-              @click.prevent="logout"
-            >Log out</a>
+            <a class="logout-btn" href="#" @click.prevent="logout">Log out</a>
           </div>
         </div>
-        <div
-          class="menu-buttons"
-          :class="{ authenticated: userAuthenticated }"
-        >
+        <div class="menu-buttons" :class="{ authenticated: userAuthenticated }">
           <a
             v-if="!userAuthenticated"
             id="login-btn"
@@ -132,20 +118,11 @@
     </transition>
     <portal to="popup">
       <transition name="fade-down">
-        <Settings
-          v-if="settingsOpen"
-          @close="closeSettings"
-        />
-        <About
-          v-if="aboutOpen"
-          @close="closeAbout"
-        />
+        <Settings v-if="settingsOpen" @close="closeSettings" />
+        <About v-if="aboutOpen" @close="closeAbout" />
       </transition>
     </portal>
-    <div
-      :class="{ visible: accountMenuVisible }"
-      class="clickaway-div"
-    />
+    <div :class="{ visible: accountMenuVisible }" class="clickaway-div" />
   </div>
 </template>
 
@@ -249,7 +226,7 @@ export default {
 .fade-up-enter,
 .fade-up-leave-to {
   opacity: 0;
-  transform: translateY(100px);
+  transform: translateY(50px);
 }
 
 .fade-down-enter-active,
@@ -310,7 +287,7 @@ export default {
     right: 0;
     background-color: var(--bgcolor-alt);
     backdrop-filter: blur(15px);
-    margin: -10px 20px 0 0;
+    margin: 0 20px 0 0;
     border-radius: 3px;
     box-shadow: $max-shadow;
     padding: 10px 0 20px 0;
@@ -319,11 +296,11 @@ export default {
     box-sizing: border-box;
 
     @media screen and (max-width: $mobile-width) {
-      top: unset;
-      bottom: 0;
+      top: 100vh;
       right: 0;
       left: 0;
       width: 100%;
+      transform: translate(0, -100%);
     }
 
     .menu-buttons {

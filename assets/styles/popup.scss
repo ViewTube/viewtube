@@ -2,19 +2,20 @@
   position: fixed;
   background-color: var(--bgcolor-translucent);
   width: 100%;
-  height: 100%;
+  height: 100vh;
   z-index: 8;
 }
 
 .popup {
   width: 100%;
-  height: 100%;
+  height: 100vh;
   display: flex;
   z-index: 8;
   position: fixed;
-  overflow-y: scroll;
+  overflow: hidden;
   left: 0;
   top: 0;
+  overscroll-behavior: contain;
 
   .popup-container {
     width: 100%;
@@ -31,6 +32,7 @@
     justify-content: flex-start;
     position: relative;
     padding: 0 20px 20px 20px;
+    overflow-y: scroll;
 
     .close-icon {
       position: absolute;

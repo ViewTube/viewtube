@@ -120,13 +120,14 @@ export default {
     content: "";
     top: 0;
     left: 0;
-    bottom: 0;
     right: 0;
+    height: 100vh;
     position: fixed;
     display: block;
     pointer-events: none;
     background-color: transparent;
     z-index: 400;
+    overscroll-behavior: contain;
     transition: background-color 300ms $intro-easing;
   }
 
@@ -211,7 +212,7 @@ export default {
 
   @media screen and (max-width: $mobile-width) {
     width: calc(100% - 28px) !important;
-    top: 50% !important;
+    top: 50vh !important;
     left: 0 !important;
     margin: 0 10px !important;
     box-sizing: border-box;

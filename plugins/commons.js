@@ -6,12 +6,12 @@ export default {
 
   getApiUrl() {
     // return `${this.$store.getters.currentInstance}/api/v1/`
-    return 'https://invidio.us/api/v1/'
+    return 'https://invidious.snopyta.org/api/v1/'
   },
 
   getApiUrlNoVersion() {
     // return `${this.$store.getters.currentInstance}/api/`
-    return 'https://invidio.us/api/'
+    return 'https://invidious.snopyta.org/api/'
   },
 
   getOwnApiUrl() {
