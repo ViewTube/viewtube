@@ -190,7 +190,7 @@ export default {
     return true
   },
   asyncData({ query, error }) {
-    return Invidious.api.videos({
+    return ViewtubeApi.api.videos({
       id: query.v
     }).then((response) => {
       if (response) {
@@ -307,7 +307,6 @@ export default {
 
 <style lang="scss">
 .watch {
-  position: relative;
   width: 100%;
   margin-top: $header-height;
 
