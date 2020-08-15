@@ -16,9 +16,31 @@ export default {
 
   getOwnApiUrl() {
     if (this.isProduction()) {
-      return process.env.VIEWTUBE_API_URL || 'https://api.viewtube.io/'
+      // return process.env.VIEWTUBE_API_URL || 'https://api.viewtube.io/'
     }
     return 'http://localhost:3030/'
+  },
+
+  getVAPIDKey() {
+    const key = process.env.VIEWTUBE_VAPID
+    if (key) {
+      this.urlBase64ToUint8Array()
+    }
+  },
+
+  urlBase64ToUint8Array(base64String) {
+    const padding = '='.repeat((4 - (base64String.length % 4)) % 4)
+    const base64 = (base64String + padding)
+      .replace(/-/g, '+')
+      .replace(/_/g, '/')
+
+    const rawData = window.atob(base64)
+    const outputArray = new Uint8Array(rawData.length)
+
+    for (let i = 0; i < rawData.length; ++i) {
+      outputArray[i] = rawData.charCodeAt(i)
+    }
+    return outputArray
   },
 
   isProduction() {

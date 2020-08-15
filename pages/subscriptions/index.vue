@@ -79,9 +79,7 @@ export default {
           const worker = registrations[0]
           worker.pushManager.permissionState({
             userVisibleOnly: true,
-            applicationServerKey: this.urlBase64ToUint8Array(
-              'BGVr0ZXSAkSL3JGl8IDylvLaD9B_cisWqESJ3_mrBOk0xZ1axMNbIYF5DF1IWi2Htuzj3Hu34WfNwBx210fkmHE'
-            )
+            applicationServerKey: Commons.getVAPIDKey()
           }).then(permissionState => {
             console.log(permissionState)
             if (permissionState === 'granted') {
@@ -112,9 +110,7 @@ export default {
               worker.pushManager
                 .subscribe({
                   userVisibleOnly: true,
-                  applicationServerKey: this.urlBase64ToUint8Array(
-                    'BGVr0ZXSAkSL3JGl8IDylvLaD9B_cisWqESJ3_mrBOk0xZ1axMNbIYF5DF1IWi2Htuzj3Hu34WfNwBx210fkmHE'
-                  ),
+                  applicationServerKey: Commons.getVAPIDKey()
                 })
                 .then((subscription) => {
                   this.$axios.post(
@@ -151,20 +147,6 @@ export default {
       } else if (!notificationsBtnDisabled && !notificationsEnabled) {
         return 'Notifications are disabled'
       }
-    },
-    urlBase64ToUint8Array(base64String) {
-      const padding = '='.repeat((4 - (base64String.length % 4)) % 4)
-      const base64 = (base64String + padding)
-        .replace(/-/g, '+')
-        .replace(/_/g, '/')
-
-      const rawData = window.atob(base64)
-      const outputArray = new Uint8Array(rawData.length)
-
-      for (let i = 0; i < rawData.length; ++i) {
-        outputArray[i] = rawData.charCodeAt(i)
-      }
-      return outputArray
     }
   }
 }
