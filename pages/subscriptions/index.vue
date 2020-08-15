@@ -77,7 +77,12 @@ export default {
         .getRegistrations()
         .then(async (registrations) => {
           const worker = registrations[0]
-          worker.pushManager.permissionState().then(permissionState => {
+          worker.pushManager.permissionState({
+            userVisibleOnly: true,
+            applicationServerKey: this.urlBase64ToUint8Array(
+              'BGVr0ZXSAkSL3JGl8IDylvLaD9B_cisWqESJ3_mrBOk0xZ1axMNbIYF5DF1IWi2Htuzj3Hu34WfNwBx210fkmHE'
+            )
+          }).then(permissionState => {
             console.log(permissionState)
             if (permissionState === 'granted') {
               this.notificationsEnabled = true
@@ -86,6 +91,9 @@ export default {
               this.notificationsBtnDisabled = true
             }
           })
+        })
+        .catch(err => {
+          console.log(err)
         })
     } else {
       this.notificationsSupported = false
