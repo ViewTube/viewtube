@@ -2,7 +2,7 @@
   <div
     class="message-box"
     ref="interactElement"
-    @mouseover="onMessageMouseover"
+    @click="onMessageClick"
     :class="{ 'dismissed-right': dismissedRight, 'dismissed-left': dismissedLeft, 'is-animating': isInteractAnimating }"
     :style="{ transform: transformString, opacity: swipeOpacity }"
   >
@@ -94,7 +94,7 @@ export default {
       this.swipeOpacity = 0
       setTimeout(() => this.message.dismiss(), 600)
     },
-    onMessageMouseover() {
+    onMessageClick() {
       if (this.dismissTimeout) {
         clearTimeout(this.dismissTimeout)
       }
