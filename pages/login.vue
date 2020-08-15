@@ -1,6 +1,6 @@
 <template>
   <div class="login">
-    <div class="login-container" :class="{ loading: loading }">
+    <div class="login-container" :class="{ loading: loading, wiggle: formWiggle }">
       <h2 class="login-title">Login</h2>
       <span class="status-message-display message-display">{{ statusMessage }}</span>
       <Spinner />
@@ -30,7 +30,8 @@ export default {
     username: null,
     password: null,
     statusMessage: '',
-    redirectedPage: 'home'
+    redirectedPage: 'home',
+    formWiggle: false
   }),
   mounted() {
   },
@@ -56,13 +57,20 @@ export default {
         .catch((err) => {
           console.error(err)
           me.loading = false
+          this.wiggleLoginForm()
           me.$store.dispatch('messages/createMessage', {
             type: 'error',
             title: 'Login failed',
-            message: err.message
+            message: err.response.data.message
           })
         })
-    }
+    },
+    wiggleLoginForm() {
+      this.formWiggle = true
+      setTimeout(() => {
+        this.formWiggle = false
+      }, 600)
+    },
   },
   beforeRouteEnter(to, from, next) {
     next((vm) => {
@@ -109,6 +117,10 @@ export default {
       box-shadow: none;
     }
 
+    &.wiggle {
+      animation: wiggle 600ms;
+    }
+
     .login-title {
       margin: 20px 0 0 0;
       font-size: 2rem;
@@ -149,6 +161,15 @@ export default {
       box-sizing: border-box;
       transition: opacity 300ms $intro-easing;
     }
+  }
+}
+
+@keyframes wiggle {
+  20%, 60%{
+    transform: translateX(-10px);
+  }
+  40%, 80%{
+    transform: translate(10px);
   }
 }
 </style>
