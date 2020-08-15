@@ -25,14 +25,18 @@
     <div class="subscription-videos-container">
       <VideoEntry v-for="video in videos" :key="video.videoId" :video="video" />
     </div>
-    <BottomNavigation />
+    <portal to="popup">
+      <transition name="fade-down">
+        <SubscriptionImport v-if="subscriptionImportOpen" @close="closeSubscriptionImport" />
+        <About v-if="aboutOpen" @close="closeAbout" />
+      </transition>
+    </portal>
   </div>
 </template>
 
 <script>
 import Commons from '@/plugins/commons.js'
 import VideoEntry from '@/components/list/VideoEntry'
-import BottomNavigation from '@/components/BottomNavigation'
 import GradientBackground from '@/components/GradientBackground'
 import SectionTitle from '@/components/SectionTitle'
 import SwitchButton from '@/components/buttons/SwitchButton'
@@ -43,7 +47,6 @@ export default {
   name: 'Home',
   components: {
     VideoEntry,
-    BottomNavigation,
     GradientBackground,
     SectionTitle,
     SwitchButton,
@@ -56,8 +59,15 @@ export default {
     commons: Commons,
     notificationsEnabled: false,
     notificationsBtnDisabled: false,
-    notificationsSupported: true
+    notificationsSupported: true,
+    subscriptionImportOpen: false,
+    vapidKey: null
   }),
+  created() {
+    if (this.vapidKey) {
+      this.vapidKey = Commons.getVAPIDKey()
+    }
+  },
   mounted() {
     this.$axios
       .get(`${Commons.getOwnApiUrl()}user/subscriptions/videos`, {
@@ -79,7 +89,7 @@ export default {
           const worker = registrations[0]
           worker.pushManager.permissionState({
             userVisibleOnly: true,
-            applicationServerKey: Commons.getVAPIDKey()
+            applicationServerKey: this.vapidKey
           }).then(permissionState => {
             console.log(permissionState)
             if (permissionState === 'granted') {
@@ -99,6 +109,9 @@ export default {
     }
   },
   methods: {
+    closeSubscriptionImport() {
+      this.subscriptionImportOpen = false
+    },
     subscribeToNotifications(val) {
       if ('serviceWorker' in navigator) {
         navigator.serviceWorker
@@ -110,7 +123,7 @@ export default {
               worker.pushManager
                 .subscribe({
                   userVisibleOnly: true,
-                  applicationServerKey: Commons.getVAPIDKey()
+                  applicationServerKey: this.vapidKey
                 })
                 .then((subscription) => {
                   this.$axios.post(
