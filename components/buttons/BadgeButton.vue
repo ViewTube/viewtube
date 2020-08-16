@@ -1,12 +1,13 @@
 <template>
   <element
     :is="internalLink ? 'nuxt-link' : 'a'"
-    v-ripple
     :to="(internalLink && href) ? href : '#'"
-    class="badge-btn"
     :target="internalLink ? '' : '_blank'"
-    rel="noreferrer"
     :href="href || '#'"
+    :class="{ disabled }"
+    v-ripple
+    class="badge-btn"
+    rel="noreferrer"
     @click="clickFunction"
   >
     <div
@@ -25,7 +26,8 @@ export default {
     href: String,
     click: Function,
     loading: Boolean,
-    internalLink: Boolean
+    internalLink: Boolean,
+    disabled: Boolean
   },
   methods: {
     clickFunction(e) {
@@ -50,6 +52,13 @@ export default {
   border: 2px solid var(--theme-color-translucent);
   width: auto;
   white-space: nowrap;
+
+  &.disabled{
+    filter: grayscale(100%);
+    opacity: 0.8;
+    user-select: none;
+    pointer-events: none;
+  }
 
   .content {
     display: flex;

@@ -3,6 +3,10 @@
     <GradientBackground :color="'green'" />
     <SectionTitle :title="'Subscriptions'">
       <div class="manage-btn-container">
+        <BadgeButton class="import-subscriptions-btn" :click="() => subscriptionImportOpen = true">
+          <ImportIcon />
+          <p>Import subscriptions</p>
+        </BadgeButton>
         <BadgeButton
           class="manage-subscriptions-btn"
           :href="'subscriptions/manage'"
@@ -28,7 +32,6 @@
     <portal to="popup">
       <transition name="fade-down">
         <SubscriptionImport v-if="subscriptionImportOpen" @close="closeSubscriptionImport" />
-        <About v-if="aboutOpen" @close="closeAbout" />
       </transition>
     </portal>
   </div>
@@ -36,22 +39,26 @@
 
 <script>
 import Commons from '@/plugins/commons.js'
+import SubscriptionImport from '@/components/popup/SubscriptionImport'
 import VideoEntry from '@/components/list/VideoEntry'
 import GradientBackground from '@/components/GradientBackground'
 import SectionTitle from '@/components/SectionTitle'
 import SwitchButton from '@/components/buttons/SwitchButton'
 import BadgeButton from '@/components/buttons/BadgeButton'
 import EditIcon from 'vue-material-design-icons/PencilBoxMultipleOutline'
+import ImportIcon from 'vue-material-design-icons/Import'
 
 export default {
   name: 'Home',
   components: {
     VideoEntry,
+    SubscriptionImport,
     GradientBackground,
     SectionTitle,
     SwitchButton,
     BadgeButton,
     EditIcon,
+    ImportIcon
   },
   data: () => ({
     videos: [],
@@ -167,31 +174,42 @@ export default {
 
 <style lang="scss">
 .subscriptions {
-  .manage-btn-container {
-    width: auto;
-    position: absolute;
-    right: 0;
-    z-index: 11;
-    height: 80px;
-    display: grid;
-    padding: 0 20px 0 0;
+  .section-title {
+    width: 100%;
+    max-width: $main-width;
+    margin: 0 auto;
 
-    .badge-btn {
-      margin: auto;
+    .manage-btn-container {
+      width: auto;
+      position: absolute;
+      right: 0;
+      z-index: 11;
+      height: 80px;
+      display: grid;
+      padding: 0 20px 0 0;
+      display: flex;
+      flex-direction: row;
+
+      .badge-btn {
+        margin: auto auto auto 10px;
+      }
     }
   }
 
   .subscribe-btn-container {
-    width: auto;
     position: relative;
     left: 0;
+    width: 100%;
+    max-width: $main-width;
+    margin: 0 auto;
     z-index: 11;
-    height: 80px;
+    height: 40px;
     display: flex;
     padding: 0 20px 0 20px;
+    box-sizing: border-box;
 
-    .badge-btn {
-      margin: auto;
+    .switch {
+      margin: 0 !important;
     }
   }
 
