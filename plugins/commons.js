@@ -22,9 +22,11 @@ export default {
   },
 
   getVAPIDKey() {
-    const key = process.env.VIEWTUBE_VAPID
+    const key = process.env.VAPID_KEY
     if (key) {
       this.urlBase64ToUint8Array()
+    } else {
+      console.log('no VAPID public key found')
     }
   },
 

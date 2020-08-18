@@ -6,7 +6,8 @@ export default {
   },
 
   env: {
-    API_URL: process.env.VIEWTUBE_API_URL
+    API_URL: process.env.VIEWTUBE_API_URL,
+    VAPID_KEY: process.env.VIEWTUBE_VAPID
   },
 
   head: {
