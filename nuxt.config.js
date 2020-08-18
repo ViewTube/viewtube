@@ -10,6 +10,10 @@ export default {
     VAPID_KEY: process.env.VIEWTUBE_VAPID
   },
 
+  publicRuntimeConfig: {
+    vapidKey: process.env.VIEWTUBE_VAPID
+  },
+
   head: {
     title: 'ViewTube',
     meta: [

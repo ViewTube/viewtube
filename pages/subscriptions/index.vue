@@ -68,9 +68,10 @@ export default {
     notificationsBtnDisabled: false,
     notificationsSupported: true,
     subscriptionImportOpen: false,
-    vapidKey: process.env.VAPID_KEY
+    vapidKey: null
   }),
   mounted() {
+    this.vapidKey = this.$config.vapidKey
     this.$axios
       .get(`${Commons.getOwnApiUrl()}user/subscriptions/videos`, {
         withCredentials: true,
