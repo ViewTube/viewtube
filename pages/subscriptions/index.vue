@@ -68,7 +68,7 @@ export default {
     notificationsBtnDisabled: false,
     notificationsSupported: true,
     subscriptionImportOpen: false,
-    vapidKey: Commons.getVAPIDKey()
+    vapidKey: process.env.VAPID_KEY
   }),
   mounted() {
     this.$axios
