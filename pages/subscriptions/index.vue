@@ -68,13 +68,8 @@ export default {
     notificationsBtnDisabled: false,
     notificationsSupported: true,
     subscriptionImportOpen: false,
-    vapidKey: null
+    vapidKey: Commons.getVAPIDKey()
   }),
-  created() {
-    if (this.vapidKey) {
-      this.vapidKey = Commons.getVAPIDKey()
-    }
-  },
   mounted() {
     this.$axios
       .get(`${Commons.getOwnApiUrl()}user/subscriptions/videos`, {
