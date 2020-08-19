@@ -20,6 +20,7 @@ steps:
       - master
     event:
       - push
+      - pull_request
 
 - name: send telegram notification
   image: appleboy/drone-telegram
