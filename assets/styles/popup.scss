@@ -61,6 +61,7 @@
       font-family: $default-font;
       background-color: var(--bgcolor-alt);
       z-index: +1;
+      
       @media screen and (min-width: $mobile-width) {
         padding: 20px 0 0 0;
       }
