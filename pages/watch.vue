@@ -190,7 +190,7 @@ export default {
     return true
   },
   asyncData({ query, error }) {
-    return ViewtubeApi.api.videos({
+    return Invidious.api.videos({
       id: query.v
     }).then((response) => {
       if (response) {

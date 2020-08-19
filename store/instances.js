@@ -1,8 +1,8 @@
 export const state = () => ({
-  currentInstance: 'https://invidio.us',
+  currentInstance: 'https://invidious.snopyta.org',
   instances: [
-    'https://invidio.us',
     'https://invidious.snopyta.org',
+    'https://invidio.us',
     'https://invidiou.sh',
     'https://invidious.ggc-project.de',
     'https://yewtu.be',
