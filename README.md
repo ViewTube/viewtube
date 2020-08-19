@@ -22,19 +22,15 @@ Invidious instances can easily get rate-limited by Google. With ViewTube, you ca
 
 ## Screenshots
 
-<table>
-  <tr>
-    <td>
-      ![Screenshot-Homepage](.github/images/screenshots/lxt1y0mk.bmp)
-      ![Screenshot-Video](.github/images/screenshots/g2ejf7wf.bmp)
-    </td>
-  </tr>
-  <tr>
-    <td>
-     ![Screenshot-Channel](.github/images/screenshots/6j45ao5r.bmp)
-    </td>
-  </tr>
-<table>
+### Homepage
+![Screenshot-Homepage](.github/images/screenshots/lxt1y0mk.bmp)
+
+### Video
+![Screenshot-Video](.github/images/screenshots/g2ejf7wf.bmp)
+
+### Channel
+![Screenshot-Channel](.github/images/screenshots/6j45ao5r.bmp)
+
 
 ## Host it yourself
 
