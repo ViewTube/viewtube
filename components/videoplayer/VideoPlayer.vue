@@ -7,23 +7,20 @@
       'height': `calc(100vw * ${videoElement.aspectRatio})`
     }"
     :class="{ fullscreen: fullscreen, embedded: embedded || mini }"
-    @mousemove="onPlayerMouseMove"
-    @mouseleave="onPlayerMouseLeave"
-    @mouseup="onPlayerMouseUp"
-    @touchend="onPlayerTouchEnd"
-    @touchstart="onPlayerTouchStart"
-    @touchmove="onPlayerTouchMove"
-    @click="onPlayerClick"
-    @dblclick="onSwitchFullscreen"
-    @fullscreenchange="onFullscreenChange"
-    @webkitfullscreenchange="onFullscreenChange"
-    @mozfullscreenchange="onFullscreenChange"
-    @msfullscreenchange="onFullscreenChange"
+    @mousemove.stop="onPlayerMouseMove"
+    @mouseleave.prevent.stop="onPlayerMouseLeave"
+    @mouseup.prevent.stop="onPlayerMouseUp"
+    @touchend.prevent.stop="onPlayerTouchEnd"
+    @touchstart.stop="onPlayerTouchStart"
+    @touchmove.stop="onPlayerTouchMove"
+    @click.prevent.stop="onPlayerClick"
+    @dblclick.prevent.stop="onSwitchFullscreen"
+    @fullscreenchange.prevent.stop="onFullscreenChange"
+    @webkitfullscreenchange.prevent.stop="onFullscreenChange"
+    @mozfullscreenchange.prevent.stop="onFullscreenChange"
+    @msfullscreenchange.prevent.stop="onFullscreenChange"
   >
-    <div
-      class="video-element-container"
-      :class="{ zoom: videoElement.zoomed }"
-    >
+    <div class="video-element-container" :class="{ zoom: videoElement.zoomed }">
       <video
         ref="video"
         class="video"
@@ -47,24 +44,15 @@
       />-->
     </div>
 
-    <Spinner
-      v-if="videoElement.buffering"
-      class="video-spinner"
-    />
+    <Spinner v-if="videoElement.buffering" class="video-spinner" />
     <div
       class="video-controls-overlay"
-      :class="{ visible: playerOverlay.visible || !videoElement.playing }"
-      :style="{ cursor: playerOverlay.visible ? 'auto' : 'none'}"
+      :class="{ visible: playerOverlayVisible }"
+      :style="{ cursor: playerOverlay.visible ? 'auto' : 'none' }"
     >
-      <div
-        class="top-control-overlay"
-        :class="{ hidden: playerOverlay.thumbnailVisible }"
-      >
+      <div class="top-control-overlay" :class="{ hidden: playerOverlay.thumbnailVisible }">
         <div class="left-top-controls">
-          <h1
-            v-if="fullscreen || embedded || mini"
-            class="video-fullscreen-title"
-          >{{ video.title }}</h1>
+          <h1 v-if="fullscreen || embedded || mini" class="video-fullscreen-title">{{ video.title }}</h1>
         </div>
         <div class="right-top-controls">
           <OpenInPlayerIcon
@@ -72,11 +60,11 @@
             v-tippy="'Open in full player'"
             class="tooltip"
             :title="null"
-            @click="onOpenInPlayer"
-            @mouseup="onOpenInPlayerMouseUp"
-            @touchend.stop="onOpenInPlayer"
+            @click.prevent.stop="onOpenInPlayer"
+            @mouseup.prevent.stop="onOpenInPlayerMouseUp"
+            @touchend.prevent.stop="onOpenInPlayer"
           />
-          <ArrowExpandIcon
+          <!-- <ArrowExpandIcon
             v-if="!videoElement.zoomed"
             v-tippy="'Zoom video'"
             class="tooltip"
@@ -93,15 +81,15 @@
             @click="onVideoCollapse"
             @mouseup="onVideoCollapseMouseUp"
             @touchend.stop="onVideoCollapse"
-          />
+          />-->
           <CloseIcon
             v-if="mini"
             v-tippy="'Close'"
             class="tooltip"
             :title="null"
-            @click.stop="$emit('close')"
-            @mouseup.stop="$emit('close')"
-            @touchend.stop="$emit('close')"
+            @click.prevent.stop="$emit('close')"
+            @mouseup.prevent.stop="$emit('close')"
+            @touchend.prevent.stop="$emit('close')"
           />
         </div>
       </div>
@@ -109,13 +97,11 @@
         <div class="left-action-container" />
         <div
           class="play-btn-container"
+          v-if="!videoElement.buffering"
           @touchend="onPlayBtnTouchEnd"
           @click="onPlayBtnClick"
         >
-          <div
-            class="play-btn"
-            :class="{ playing: videoElement.playing }"
-          />
+          <div class="play-btn" :class="{ playing: videoElement.playing }" />
         </div>
         <div class="right-action-container" />
       </div>
@@ -124,19 +110,16 @@
         class="bottom-control-overlay"
         :class="{ hidden: playerOverlay.thumbnailVisible }"
       >
-        <div
-          class="seekbar"
-          :class="{ dragging: seekbar.seeking }"
-        >
+        <div class="seekbar" :class="{ dragging: seekbar.seeking }">
           <div
             class="seekbar-clickable"
-            @mousedown.prevent="onSeekbarMouseDown"
-            @mouseleave.prevent="onSeekbarMouseLeave"
-            @mouseenter.prevent="onSeekbarMouseEnter"
-            @touchstart.prevent="onSeekbarTouchStart"
+            @mousedown.prevent.stop="onSeekbarMouseDown"
+            @mouseleave.prevent.stop="onSeekbarMouseLeave"
+            @mouseenter.prevent.stop="onSeekbarMouseEnter"
+            @touchstart.prevent.stop="onSeekbarTouchStart"
             @mousemove.prevent="onSeekbarMouseMove"
             @touchmove.prevent="onSeekbarTouchMove"
-            @click.prevent="onSeekBarClick"
+            @click.prevent.stop="onSeekBarClick"
           />
           <div class="seekbar-background" />
           <div
@@ -147,10 +130,7 @@
             class="seekbar-playback-progress"
             :style="{ width: `${videoElement.progressPercentage}%` }"
           />
-          <div
-            class="seekbar-circle"
-            :style="{ left: `${videoElement.progressPercentage}%` }"
-          />
+          <div class="seekbar-circle" :style="{ left: `${videoElement.progressPercentage}%` }" />
           <SeekbarPreview
             ref="seekbarHoverPreview"
             :storyboards="video.storyboards"
@@ -172,11 +152,13 @@
               v-model.number="videoElement.playerVolume"
               v-tippy="'Change volume'"
               class="tooltip"
-              @mouseup.stop="onVolumeInteraction"
-              @click.stop="onVolumeInteraction"
+              @mouseup.prevent.stop="onVolumeInteraction"
+              @click.prevent.stop="onVolumeInteraction"
             />
             <div class="video-time-progress">
-              <span class="video-time-current-progress">{{ $formatting.getTimestampFromSeconds(videoElement.progress) }} / {{ $formatting.getTimestampFromSeconds(videoLength) }}</span>
+              <span
+                class="video-time-current-progress"
+              >{{ $formatting.getTimestampFromSeconds(videoElement.progress) }} / {{ $formatting.getTimestampFromSeconds(videoLength) }}</span>
             </div>
           </div>
           <div class="right-bottom-controls">
@@ -188,17 +170,17 @@
               v-if="!fullscreen"
               v-tippy="'Enter Fullscreen'"
               class="tooltip"
-              @click="onEnterFullscreen"
-              @mouseup="onEnterFullscreenMouseUp"
-              @touchend.stop="onEnterFullscreen"
+              @click.prevent.stop="onEnterFullscreen"
+              @mouseup.prevent.stop="onEnterFullscreenMouseUp"
+              @touchend.prevent.stop="onEnterFullscreen"
             />
             <FullscreenExitIcon
               v-if="fullscreen"
               v-tippy="'Leave fullscreen'"
               class="tooltip"
-              @click="onLeaveFullscreen"
-              @mouseup="onLeaveFullscreenMouseUp"
-              @touchend.stop="onLeaveFullscreen"
+              @click.prevent.stop="onLeaveFullscreen"
+              @mouseup.prevent.stop="onLeaveFullscreenMouseUp"
+              @touchend.prevent.stop="onLeaveFullscreen"
             />
           </div>
         </div>
@@ -318,7 +300,7 @@ export default {
       return ''
     },
     playerOverlayVisible() {
-      return this.playerOverlay.visible
+      return this.playerOverlay.visible || !this.videoElement.playing
     }
   },
   watch: {
@@ -422,14 +404,15 @@ export default {
     },
     // Seekbar events
     onSeekbarTouchStart(e) {
-      this.seekbar.seeking = true
-      const touchX = e.touches[0].clientX
-      this.seekbar.seekPercentage = this.calculateSeekPercentage(touchX)
-      this.matchSeekProgressPercentage()
-      this.seekbar.hoverPercentage = this.calculateSeekPercentage(touchX)
-      this.seekbar.hoverTime = this.$formatting.getTimestampFromSeconds((this.$refs.video.duration / 100) * this.seekbar.hoverPercentage)
-      this.seekbar.hoverTimeStamp = (this.$refs.video.duration / 100) * this.seekbar.hoverPercentage
-      e.stopPropagation()
+      if (this.playerOverlayVisible) {
+        this.seekbar.seeking = true
+        const touchX = e.touches[0].clientX
+        this.seekbar.seekPercentage = this.calculateSeekPercentage(touchX)
+        this.matchSeekProgressPercentage()
+        this.seekbar.hoverPercentage = this.calculateSeekPercentage(touchX)
+        this.seekbar.hoverTime = this.$formatting.getTimestampFromSeconds((this.$refs.video.duration / 100) * this.seekbar.hoverPercentage)
+        this.seekbar.hoverTimeStamp = (this.$refs.video.duration / 100) * this.seekbar.hoverPercentage
+      }
     },
     onSeekbarMouseMove(e) {
       this.seekbar.hoverPercentage = this.calculateSeekPercentage(e.pageX)
@@ -437,10 +420,12 @@ export default {
       this.seekbar.hoverTimeStamp = (this.$refs.video.duration / 100) * this.seekbar.hoverPercentage
     },
     onSeekbarTouchMove(e) {
-      const touchX = e.touches[0].clientX
-      this.seekbar.hoverPercentage = this.calculateSeekPercentage(touchX)
-      this.seekbar.hoverTime = this.$formatting.getTimestampFromSeconds((this.$refs.video.duration / 100) * this.seekbar.hoverPercentage)
-      this.seekbar.hoverTimeStamp = (this.$refs.video.duration / 100) * this.seekbar.hoverPercentage
+      if (this.playerOverlayVisible) {
+        const touchX = e.touches[0].clientX
+        this.seekbar.hoverPercentage = this.calculateSeekPercentage(touchX)
+        this.seekbar.hoverTime = this.$formatting.getTimestampFromSeconds((this.$refs.video.duration / 100) * this.seekbar.hoverPercentage)
+        this.seekbar.hoverTimeStamp = (this.$refs.video.duration / 100) * this.seekbar.hoverPercentage
+      }
     },
     onPlayerTouchMove(e) {
       if (this.seekbar.seeking) {
@@ -448,16 +433,14 @@ export default {
         this.seekbar.seekPercentage = this.calculateSeekPercentage(touchX)
         this.matchSeekProgressPercentage()
       }
-      e.stopPropagation()
+
     },
     onSeekbarMouseDown(e) {
       this.seekbar.seeking = true
-      e.stopPropagation()
+
     },
     onPlayerClick(e) {
       this.toggleVideoPlayback()
-      e.stopPropagation()
-      e.preventDefault()
     },
     onPlayerMouseUp(e) {
       if (this.seekbar.seeking) {
@@ -466,19 +449,14 @@ export default {
       } else {
         // this.toggleVideoPlayback()
       }
-      e.stopPropagation()
-      e.preventDefault()
     },
     onSeekbarMouseLeave(e) {
-      e.stopPropagation()
     },
     onSeekbarMouseEnter(e) {
-      e.stopPropagation()
     },
     onSeekBarClick(e) {
       this.seekbar.seekPercentage = this.calculateSeekPercentage(e.pageX)
       this.matchSeekProgressPercentage(true)
-      e.stopPropagation()
     },
     matchSeekProgressPercentage(adjustVideo) {
       this.videoElement.progressPercentage = this.seekbar.seekPercentage
@@ -502,60 +480,45 @@ export default {
     },
     // Interaction events
     onVolumeInteraction(e) {
-
     },
     onOpenInPlayer(e) {
       window.open(this.videoUrl, '_blank')
-      e.stopPropagation()
-      e.preventDefault()
     },
     onOpenInPlayerMouseUp(e) {
-      e.stopPropagation()
-      e.preventDefault()
     },
     onVideoExpand(e) {
       this.videoElement.zoomed = true
-      e.stopPropagation()
-      e.preventDefault()
     },
     onVideoExpandMouseUp(e) {
-      e.stopPropagation()
-      e.preventDefault()
     },
     onVideoCollapse(e) {
       this.videoElement.zoomed = false
-      e.stopPropagation()
-      e.preventDefault()
     },
     onVideoCollapseMouseUp(e) {
-      e.stopPropagation()
-      e.preventDefault()
     },
     onSwitchFullscreen(e) {
       if (this.fullscreen) {
         this.onLeaveFullscreen()
       } else {
-        this.onEnterFullscreen()
+        this.onEnterFullscreen(true)
       }
     },
-    onEnterFullscreen(e) {
-      const elem = this.$refs.videoPlayer
-      if (elem.requestFullscreen) {
-        elem.requestFullscreen()
-      } else if (elem.mozRequestFullScreen) {
-        elem.mozRequestFullScreen()
-      } else if (elem.webkitRequestFullscreen) {
-        elem.webkitRequestFullscreen()
-      } else if (elem.msRequestFullscreen) {
-        elem.msRequestFullscreen()
+    onEnterFullscreen(force) {
+      if (this.playerOverlayVisible || force === true) {
+        const elem = this.$refs.videoPlayer
+        if (elem.requestFullscreen) {
+          elem.requestFullscreen()
+        } else if (elem.mozRequestFullScreen) {
+          elem.mozRequestFullScreen()
+        } else if (elem.webkitRequestFullscreen) {
+          elem.webkitRequestFullscreen()
+        } else if (elem.msRequestFullscreen) {
+          elem.msRequestFullscreen()
+        }
+        this.fullscreen = true
       }
-      this.fullscreen = true
-      e.stopPropagation()
-      e.preventDefault()
     },
     onEnterFullscreenMouseUp(e) {
-      e.preventDefault()
-      e.stopPropagation()
     },
     onLeaveFullscreen(e) {
       if (document.exitFullscreen) {
@@ -568,8 +531,6 @@ export default {
         document.msExitFullscreen()
       }
       this.fullscreen = false
-      e.stopPropagation()
-      e.preventDefault()
     },
     onFullscreenChange(e) {
       if (document.fullscreenElement) {
@@ -579,18 +540,12 @@ export default {
       }
     },
     onLeaveFullscreenMouseUp(e) {
-      e.preventDefault()
-      e.stopPropagation()
     },
     onPlayBtnTouchEnd(e) {
       this.toggleVideoPlayback()
-      e.stopPropagation()
-      e.preventDefault()
     },
     onPlayBtnClick(e) {
       this.toggleVideoPlayback()
-      e.stopPropagation()
-      e.preventDefault()
     },
     toggleVideoPlayback() {
       if (!this.seekbar.seeking) {
@@ -612,8 +567,8 @@ export default {
       } else {
         this.showPlayerOverlay(true)
       }
-      e.stopPropagation()
-      e.preventDefault()
+
+
     },
     onPlayerMouseMove(e) {
       this.showPlayerOverlay()
@@ -699,6 +654,11 @@ export default {
   &.fullscreen {
     .video-element-container {
       max-height: 100vh;
+      max-width: 100vw;
+
+      .video {
+        max-width: 100%;
+      }
 
       // &.zoom {
       //   .video {
@@ -716,7 +676,7 @@ export default {
     top: 50%;
     left: 50%;
     margin: 0;
-    transition: max-height 300ms $dynamic-easing, height 300ms $dynamic-easing;
+    // transition: max-height 300ms $dynamic-easing, height 300ms $dynamic-easing;
 
     .video {
       height: 100%;
@@ -769,6 +729,11 @@ export default {
     z-index: 140;
     pointer-events: none;
     color: #fff;
+
+    &:not(.visible) {
+      pointer-events: none !important;
+      touch-action: none !important;
+    }
 
     .top-control-overlay {
       position: relative;
@@ -925,6 +890,12 @@ export default {
           }
         }
 
+        .seekbar-preview {
+          &:hover {
+            opacity: 1;
+          }
+        }
+
         @mixin seekbar-part {
           position: absolute;
           left: 0;
@@ -1016,16 +987,27 @@ export default {
           }
 
           .material-design-icon {
-            width: $bottom-controls-height;
-            height: $bottom-controls-height;
+            width: 28px;
+            height: 28px;
+            margin: 2px 5px;
             cursor: pointer;
 
             svg {
-              height: 30px !important;
-              width: 30px !important;
+              height: 28px;
+              width: 28px;
               margin: auto;
               bottom: 0 !important;
               position: initial !important;
+            }
+          }
+
+          .play-icon {
+            margin: -1px 10px 0 0;
+            height: 32px;
+
+            svg {
+              width: 32px;
+              height: 32px;
             }
           }
         }

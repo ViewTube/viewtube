@@ -91,8 +91,8 @@ export default {
 
 <style lang="scss" scoped>
 .seekbar-preview {
-  width: 160px;
-  height: 90px;
+  width: 220px;
+  height: 120px;
   margin: 0 0 0 -11px;
   position: absolute;
   bottom: 24px;

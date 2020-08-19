@@ -21,7 +21,7 @@
 
 <script>
 export default {
-  name: 'BadgeBtn',
+  name: 'BadgeButton',
   props: {
     href: String,
     click: Function,

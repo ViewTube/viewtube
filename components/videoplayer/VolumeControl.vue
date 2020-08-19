@@ -1,43 +1,25 @@
 <template>
-  <div
-    class="volume-control"
-    @mouseup.stop="onVolumeInteraction"
-    @click.stop="onVolumeInteraction"
-    @touchend.stop="onVolumeInteraction"
-  >
-    <VolumeHighIcon
-      v-if="volumeCategory == 3"
-      @click.stop="popupVisible = !popupVisible"
-      @touchend.stop="onVolumeTouchInteraction"
-    />
-    <VolumeMediumIcon
-      v-if="volumeCategory == 2"
-      @click.stop="popupVisible = !popupVisible"
-      @touchend.stop="onVolumeTouchInteraction"
-    />
-    <VolumeLowIcon
-      v-if="volumeCategory == 1"
-      @click.stop="popupVisible = !popupVisible"
-      @touchend.stop="onVolumeTouchInteraction"
-    />
-    <VolumeOffIcon
-      v-if="volumeCategory == 0"
-      @click.stop="popupVisible = !popupVisible"
-      @touchend.stop="onVolumeTouchInteraction"
-    />
-    <div class="volume-control-popup" :class="{ hidden: !popupVisible }">
+  <div class="volume-control" @mouseup.stop="stopEvent" @click.stop="stopEvent">
+    <VolumeHighIcon v-if="volumeCategory == 3" />
+    <VolumeMediumIcon v-if="volumeCategory == 2" />
+    <VolumeLowIcon v-if="volumeCategory == 1" />
+    <VolumeOffIcon v-if="volumeCategory == 0" />
+    <div class="volume-control-popup">
       <input
         type="range"
         name="volume"
         min="0"
         max="1"
-        step="0.1"
+        step="0.05"
         id="volume"
         :value="value"
-        v-on:input="$emit('input', $event.target.value)"
+        @input="$emit('input', $event.target.value)"
       />
       <span class="slider-progress" :style="{ width: `${value * 100}%` }"></span>
       <span class="slider-background"></span>
+    </div>
+    <div class="volume-percentage">
+      <span class="percentage">{{ Math.floor(value * 100) }}%</span>
     </div>
   </div>
 </template>
@@ -60,7 +42,6 @@ export default {
     value: null
   },
   data: () => ({
-    popupVisible: false
   }),
   computed: {
     volumeCategory() {
@@ -77,15 +58,7 @@ export default {
     }
   },
   methods: {
-    onVolumeInteraction(e) {
-      e.preventDefault()
-      e.stopPropagation()
-    },
-    onVolumeTouchInteraction(e) {
-      this.popupVisible = !this.popupVisible
-      e.preventDefault()
-      e.stopPropagation()
-    }
+    stopEvent() { }
   }
 }
 </script>
@@ -95,18 +68,45 @@ export default {
   position: relative;
   display: flex;
   flex-direction: row;
+  padding: 0 10px 0 0;
+  border-radius: 5px;
+  background-color: var(--bgcolor-alt);
+
+  &:hover {
+    .volume-percentage {
+      margin: auto 0 auto 10px;
+    }
+
+    .volume-control-popup {
+      width: 120px;
+      opacity: 1;
+      pointer-events: auto;
+    }
+  }
+
+  .volume-percentage {
+    height: 80%;
+    transition: margin 200ms $intro-easing;
+    overflow: hidden;
+    display: flex;
+    pointer-events: none;
+    margin: auto 0;
+
+    .percentage {
+      font-size: 1.1rem;
+      margin: auto;
+    }
+  }
 
   .volume-control-popup {
     position: relative;
     height: 100%;
-    width: 80px;
+
     transition: width 200ms $intro-easing, opacity 200ms $intro-easing;
 
-    &.hidden {
-      opacity: 0;
-      pointer-events: none;
-      width: 0;
-    }
+    opacity: 0;
+    pointer-events: none;
+    width: 0;
 
     #volume {
       all: unset;
