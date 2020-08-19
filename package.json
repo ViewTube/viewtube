@@ -20,11 +20,11 @@
     "@nuxtjs/workbox": "^3.0.0-beta.16",
     "cookie-universal-nuxt": "^2.1.4",
     "dashjs": "^3.1.2",
-    "nuxt": "^2.14.1",
+    "nuxt": "^2.14.3",
     "portal-vue": "^2.1.7",
     "tippy.js": "^6.2.6",
     "universal-cookie": "^4.0.3",
-    "vue-material-design-icons": "^4.8.0",
+    "vue-material-design-icons": "^4.9.0",
     "vuex-persistedstate": "^3.1.0",
     "xml-js": "^1.6.11"
   },
@@ -33,7 +33,7 @@
     "@nuxtjs/eslint-module": "^2.0.0",
     "@nuxtjs/style-resources": "^1.0.0",
     "babel-eslint": "^10.1.0",
-    "eslint": "^7.6.0",
+    "eslint": "^7.7.0",
     "eslint-plugin-nuxt": "^1.0.0",
     "node-sass": "^4.14.1",
     "sass-loader": "^9.0.3"
