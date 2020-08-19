@@ -20,6 +20,14 @@ Invidious instances can easily get rate-limited by Google. With ViewTube, you ca
  </tr>
 </table>
 
+## Features
+- Watch videos without ads or tracking
+- Read comments
+- Search for videos
+- Subscribe to channels and see their latest uploads
+- Receive push notifications for subscribed channels
+- Responsive: mobile and desktop friendly
+
 ## Screenshots
 
 ### Homepage
