@@ -74,7 +74,7 @@ services:
       - 8066:8066
 ```
 
-### Linux/Windows/MacOS
+### ~Linux/Windows/MacOS~ OUTDATED
 
 Prerequisites
 
