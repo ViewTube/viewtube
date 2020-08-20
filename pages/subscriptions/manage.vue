@@ -10,7 +10,7 @@
       >
         <nuxt-link
           :to="`/channel/${channel.authorId}`"
-          v-if="!channel.authorThumbnails || channel.authorThumbnails.length == 0"
+          v-if="(!channel.authorThumbnails || channel.authorThumbnails.length == 0) && !channel.authorThumbnailUrl"
           class="fake-thmb"
         >
           <h3>{{ channelNameToImgString(channel.author) }}</h3>
