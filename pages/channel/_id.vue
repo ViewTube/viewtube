@@ -61,9 +61,6 @@ export default {
   head() {
     return {
       title: `${this.channel.author} - ViewTube`,
-      link: [
-        { rel: 'icon', type: 'image/x-icon', href: this.channel.authorThumbnails[0].url }
-      ],
       meta: [
         { hid: 'description', vmid: 'descriptionMeta', name: 'description', content: this.channel.description.substring(0, 100) },
         { hid: 'ogTitle', property: 'og:title', content: `${this.channel.author} - ViewTube` },

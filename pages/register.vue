@@ -66,6 +66,16 @@ export default {
       this.checkRepeatPasswords()
     }
   },
+  head() {
+    return {
+      title: `Register - ViewTube`,
+      meta: [
+        { hid: 'description', vmid: 'descriptionMeta', name: 'description', content: 'Create a ViewTube account' },
+        { hid: 'ogTitle', property: 'og:title', content: 'Register - ViewTube' },
+        { hid: 'ogDescription', property: 'og:description', content: 'Create a ViewTube account' }
+      ]
+    }
+  },
   mounted() {
     this.$store.dispatch('captcha/getCaptcha')
   },

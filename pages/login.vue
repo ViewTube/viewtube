@@ -33,6 +33,16 @@ export default {
     redirectedPage: 'home',
     formWiggle: false
   }),
+  head() {
+    return {
+      title: `Login - ViewTube`,
+      meta: [
+        { hid: 'description', vmid: 'descriptionMeta', name: 'description', content: 'Login to access your ViewTube account' },
+        { hid: 'ogTitle', property: 'og:title', content: 'Login - ViewTube' },
+        { hid: 'ogDescription', property: 'og:description', content: 'Login to access your ViewTube account' }
+      ]
+    }
+  },
   mounted() {
   },
   methods: {

@@ -70,6 +70,16 @@ export default {
     subscriptionImportOpen: false,
     vapidKey: null
   }),
+  head() {
+    return {
+      title: `Subscriptions - ViewTube`,
+      meta: [
+        { hid: 'description', vmid: 'descriptionMeta', name: 'description', content: 'See your subscription feed' },
+        { hid: 'ogTitle', property: 'og:title', content: 'Subscriptions - ViewTube' },
+        { hid: 'ogDescription', property: 'og:description', content: 'See your subscription feed' }
+      ]
+    }
+  },
   mounted() {
     this.vapidKey = this.$config.vapidKey
     this.$axios

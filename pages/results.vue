@@ -1,9 +1,6 @@
 <template>
   <div class="search">
-    <Spinner
-      v-if="loading"
-      class="centered"
-    />
+    <Spinner v-if="loading" class="centered" />
     <GradientBackground :color="'blue'" />
     <div class="filters">
       <Dropdown
@@ -37,10 +34,7 @@
         @valuechange="onSearchTypeChange"
       />
     </div>
-    <div
-      v-if="!loading"
-      class="search-videos-container"
-    >
+    <div v-if="!loading" class="search-videos-container">
       <component
         :is="getListEntryType(result.type)"
         v-for="result in results"
@@ -51,10 +45,7 @@
       />
     </div>
     <div class="show-more-btn-container">
-      <BadgeButton
-        :click="loadMoreVideos"
-        :loading="moreVideosLoading"
-      >
+      <BadgeButton :click="loadMoreVideos" :loading="moreVideosLoading">
         <LoadMoreIcon />
         <p>show more</p>
       </BadgeButton>
@@ -109,6 +100,16 @@ export default {
     page: 1,
     moreVideosLoading: false
   }),
+  head() {
+    return {
+      title: `${this.searchQuery ? this.searchQuery + ' - ' : ''}Search - ViewTube`,
+      meta: [
+        { hid: 'description', vmid: 'descriptionMeta', name: 'description', content: 'Search for videos, channels and playlists' },
+        { hid: 'ogTitle', property: 'og:title', content: 'Search - ViewTube' },
+        { hid: 'ogDescription', property: 'og:description', content: 'Search for videos, channels and playlists' }
+      ]
+    }
+  },
   methods: {
     getListEntryType(type) {
       if (type === 'video') {

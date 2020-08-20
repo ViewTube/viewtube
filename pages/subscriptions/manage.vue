@@ -62,6 +62,16 @@ export default {
       subscriptionChannels: []
     }
   },
+  head() {
+    return {
+      title: `Manage subscriptions - ViewTube`,
+      meta: [
+        { hid: 'description', vmid: 'descriptionMeta', name: 'description', content: 'Manage your subscriptions' },
+        { hid: 'ogTitle', property: 'og:title', content: 'Manage subscriptions - ViewTube' },
+        { hid: 'ogDescription', property: 'og:description', content: 'Manage your subscriptions' }
+      ]
+    }
+  },
   mounted() {
     return this.$axios.get(`${Commons.getOwnApiUrl()}user/subscriptions/channels`, {
       withCredentials: true
