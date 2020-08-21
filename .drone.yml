@@ -20,7 +20,6 @@ steps:
       - master
     event:
       - push
-      - pull_request
 
 - name: send telegram notification
   image: appleboy/drone-telegram
@@ -28,3 +27,8 @@ steps:
     token: 
       from_secret: tg_bot_token
     to: -1001411660806
+  when:
+    branch:
+      - master
+    event:
+      - push
