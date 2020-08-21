@@ -1,0 +1,24 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "cyacedev",
+      "name": "cyacedev",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/46712905?v=4",
+      "profile": "https://github.com/cyacedev",
+      "contributions": [
+        "code"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "viewtube-vue",
+  "projectOwner": "ViewTube",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}
