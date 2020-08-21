@@ -1,18 +1,18 @@
 <h1 align="left">ViewTube<img src=".github/images/logo.png" alt="" width="90" height="90" align="left" /></h1>
-<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
-<!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 ViewTube is an alternative YouTube frontend using the [invidio.us](https://github.com/omarroth/invidious) API.
 
 It can recommend, play and search for videos. It saves your watch progress and you can subscribe to channels for them to appear in your subscription feed.
 
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg)](#-contributors)
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/3c74d1eff3fe47609a4f889ec1acbdd5)](https://www.codacy.com/manual/mauriceoegerli/viewtube-vue?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=mauriceoegerli/viewtube-vue&amp;utm_campaign=Badge_Grade)
 [![Build Status](https://drone.oeger.li/api/badges/ViewTube/viewtube-vue/status.svg)](https://drone.oeger.li/ViewTube/viewtube-vue)
 [![vue2](https://img.shields.io/badge/vue-2.x-brightgreen.svg)](https://vuejs.org/)
 [![GitHub](https://img.shields.io/github/license/mauriceoegerli/viewtube-vue)](https://github.com/mauriceoegerli/viewtube-vue)
 
-## ![Screenshot-Homepage](.github/images/icons/question.svg) Why not just use invidio.us\?
+## ![Screenshot-Homepage](.github/icons/question.svg) Why not just use invidio.us\?
 
 Invidious instances can easily get rate-limited by Google. With ViewTube, you can <b>switch between instances</b>. Your subscriptions, settings, etc. are stored on your <b>ViewTube account</b>.
 
@@ -23,7 +23,7 @@ Invidious instances can easily get rate-limited by Google. With ViewTube, you ca
  </tr>
 </table>
 
-## ![Screenshot-Homepage](.github/images/icons/star.svg) Features
+## ![Screenshot-Homepage](.github/icons/star.svg) Features
 - Watch videos without ads or tracking
 - Read comments
 - Search for videos
@@ -31,7 +31,7 @@ Invidious instances can easily get rate-limited by Google. With ViewTube, you ca
 - Receive push notifications for subscribed channels
 - Responsive: mobile and desktop friendly
 
-## ![Screenshot-Homepage](.github/images/icons/screenshot.svg) Screenshots
+## ![Screenshot-Homepage](.github/icons/screenshot.svg) Screenshots
 
 ### Homepage
 ![Screenshot-Homepage](.github/images/screenshots/lxt1y0mk.bmp)
@@ -43,9 +43,9 @@ Invidious instances can easily get rate-limited by Google. With ViewTube, you ca
 ![Screenshot-Channel](.github/images/screenshots/6j45ao5r.bmp)
 
 
-## ![Screenshot-Homepage](.github/images/icons/home.svg) Host it yourself
+## ![Screenshot-Homepage](.github/icons/home.svg) Host it yourself
 
-### ![Screenshot-Homepage](.github/images/icons/docker.svg) Docker
+### ![Screenshot-Homepage](.github/icons/docker.svg) Docker
 
 Example docker command
 
@@ -110,7 +110,7 @@ $ pm2 start viewtube-pm2.json
 
  5. Visit a browser on [http://localhost:8066](http://localhost:8066)
 
-## ![Screenshot-Homepage](.github/images/icons/people.svg) Contributors
+## ![Screenshot-Homepage](.github/icons/people.svg) Contributors
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
 
