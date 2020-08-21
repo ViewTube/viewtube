@@ -10,7 +10,7 @@ It can recommend, play and search for videos. It saves your watch progress and y
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/3c74d1eff3fe47609a4f889ec1acbdd5)](https://www.codacy.com/manual/mauriceoegerli/viewtube-vue?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=mauriceoegerli/viewtube-vue&amp;utm_campaign=Badge_Grade)
 [![Build Status](https://drone.oeger.li/api/badges/ViewTube/viewtube-vue/status.svg)](https://drone.oeger.li/ViewTube/viewtube-vue)
 [![vue2](https://img.shields.io/badge/vue-2.x-brightgreen.svg)](https://vuejs.org/)
-[![GitHub](https://img.shields.io/github/license/mauriceoegerli/viewtube-vue)](https://github.com/mauriceoegerli/viewtube-vue)
+[![GitHub](https://img.shields.io/github/license/mauriceoegerli/viewtube-vue)](https://github.com/ViewTube/viewtube-vue/blob/master/LICENSE)
 
 ## ![Screenshot-Homepage](.github/icons/question.svg) Why not just use invidio.us\?
 
@@ -18,7 +18,13 @@ Invidious instances can easily get rate-limited by Google. With ViewTube, you ca
 
 <table>
  <tr>
-   <td valign="top">Your selected instance is slow or doesn't work? Just go to settings > instance and choose a different one!</td>
+   <td valign="top">
+     Your selected instance is slow or doesn't work?
+     <br>
+     Just go to settings > instance and choose a different one!
+     <br>
+     Instances are fetched from the <a href="https://github.com/iv-org/invidious/wiki/Invidious-Instances">invidious wiki</a>.
+   </td>
    <td><img src=".github/images/switch_instance.gif" /></td>
  </tr>
 </table>
