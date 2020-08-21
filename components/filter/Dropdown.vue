@@ -205,7 +205,7 @@ export default {
   transition-property: transform, clip-path, box-shadow;
   transition-duration: 300ms;
   transition-timing-function: $intro-easing;
-  overflow: hidden;
+  overflow: auto;
   padding: 5px 0;
   z-index: 800;
   margin: 0;

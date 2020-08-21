@@ -81,4 +81,12 @@ export default {
 </script>
 
 <style lang="scss">
+  .dropdown-list{
+    min-width: 600px;
+    max-height: 40vh;
+    @media screen and (max-width: $mobile-width) {
+      min-width: 80vw;
+      max-height: 80vh;
+    }
+  }
 </style>
