@@ -12,7 +12,7 @@ It can recommend, play and search for videos. It saves your watch progress and y
 [![vue2](https://img.shields.io/badge/vue-2.x-brightgreen.svg)](https://vuejs.org/)
 [![GitHub](https://img.shields.io/github/license/mauriceoegerli/viewtube-vue)](https://github.com/mauriceoegerli/viewtube-vue)
 
-## ❓ Why not just use invidio.us\?
+## ![Screenshot-Homepage](.github/images/icons/question.svg) Why not just use invidio.us\?
 
 Invidious instances can easily get rate-limited by Google. With ViewTube, you can <b>switch between instances</b>. Your subscriptions, settings, etc. are stored on your <b>ViewTube account</b>.
 
@@ -23,7 +23,7 @@ Invidious instances can easily get rate-limited by Google. With ViewTube, you ca
  </tr>
 </table>
 
-## ✨ Features
+## ![Screenshot-Homepage](.github/images/icons/star.svg) Features
 - Watch videos without ads or tracking
 - Read comments
 - Search for videos
@@ -31,7 +31,7 @@ Invidious instances can easily get rate-limited by Google. With ViewTube, you ca
 - Receive push notifications for subscribed channels
 - Responsive: mobile and desktop friendly
 
-## 📸 Screenshots
+## ![Screenshot-Homepage](.github/images/icons/screenshot.svg) Screenshots
 
 ### Homepage
 ![Screenshot-Homepage](.github/images/screenshots/lxt1y0mk.bmp)
@@ -43,9 +43,9 @@ Invidious instances can easily get rate-limited by Google. With ViewTube, you ca
 ![Screenshot-Channel](.github/images/screenshots/6j45ao5r.bmp)
 
 
-## 🏡 Host it yourself
+## ![Screenshot-Homepage](.github/images/icons/home.svg) Host it yourself
 
-### Docker
+### ![Screenshot-Homepage](.github/images/icons/docker.svg) Docker
 
 Example docker command
 
@@ -110,7 +110,7 @@ $ pm2 start viewtube-pm2.json
 
  5. Visit a browser on [http://localhost:8066](http://localhost:8066)
 
-## 👨‍💻 Contributors
+## ![Screenshot-Homepage](.github/images/icons/people.svg) Contributors
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
 
