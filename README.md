@@ -9,7 +9,7 @@ It can recommend, play and search for videos. It saves your watch progress and y
 [![vue2](https://img.shields.io/badge/vue-2.x-brightgreen.svg)](https://vuejs.org/)
 [![GitHub](https://img.shields.io/github/license/mauriceoegerli/viewtube-vue)](https://github.com/mauriceoegerli/viewtube-vue)
 
-## Why not just use invidio.us\?
+## ❓ Why not just use invidio.us\?
 
 Invidious instances can easily get rate-limited by Google. With ViewTube, you can <b>switch between instances</b>. Your subscriptions, settings, etc. are stored on your <b>ViewTube account</b>.
 
@@ -20,7 +20,7 @@ Invidious instances can easily get rate-limited by Google. With ViewTube, you ca
  </tr>
 </table>
 
-## Features
+## ✨ Features
 - Watch videos without ads or tracking
 - Read comments
 - Search for videos
@@ -28,7 +28,7 @@ Invidious instances can easily get rate-limited by Google. With ViewTube, you ca
 - Receive push notifications for subscribed channels
 - Responsive: mobile and desktop friendly
 
-## Screenshots
+## 📸 Screenshots
 
 ### Homepage
 ![Screenshot-Homepage](.github/images/screenshots/lxt1y0mk.bmp)
@@ -40,7 +40,7 @@ Invidious instances can easily get rate-limited by Google. With ViewTube, you ca
 ![Screenshot-Channel](.github/images/screenshots/6j45ao5r.bmp)
 
 
-## Host it yourself
+## 🏡 Host it yourself
 
 ### Docker
 
