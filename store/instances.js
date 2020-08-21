@@ -16,10 +16,14 @@ export const mutations = {
   },
   addInstance(state, instance) {
     state.instances.push(instance);
+  },
+  clearInstances(state){
+    state.instances.length = 0;
   }
 }
 export const actions = {
   fetchInstances({ commit }) {
+    commit('clearInstances');
     this.$axios
       .get('https://raw.githubusercontent.com/wiki/iv-org/invidious/Invidious-Instances.md')
       .then(response => {
