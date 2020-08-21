@@ -110,7 +110,7 @@ $ pm2 start viewtube-pm2.json
 
  5. Visit a browser on [http://localhost:8066](http://localhost:8066)
 
-## Contributors ✨
+## 👨‍💻 Contributors
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
 
