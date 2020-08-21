@@ -18,7 +18,13 @@ Invidious instances can easily get rate-limited by Google. With ViewTube, you ca
 
 <table>
  <tr>
-   <td valign="top">Your selected instance is slow or doesn't work? Just go to settings > instance and choose a different one!</td>
+   <td valign="top">
+     Your selected instance is slow or doesn't work?
+     <br>
+     Just go to settings > instance and choose a different one!
+     <br>
+     Instances are fetched from the <a href="https://github.com/iv-org/invidious/wiki/Invidious-Instances">invidious wiki</a>.
+   </td>
    <td><img src=".github/images/switch_instance.gif" /></td>
  </tr>
 </table>
