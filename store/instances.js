@@ -1,3 +1,5 @@
+import Commons from '@/plugins/commons'
+
 export const state = () => ({
   currentInstance: '',
   instances: []
@@ -25,7 +27,7 @@ export const actions = {
   fetchInstances({ commit, state }) {
     commit('clearInstances')
     this.$axios
-      .get('https://raw.githubusercontent.com/wiki/iv-org/invidious/Invidious-Instances.md')
+      .get(`${Commons.proxyUrl}https://raw.githubusercontent.com/wiki/iv-org/invidious/Invidious-Instances.md`)
       .then((response) => {
         const fetchData = response.data.split('### Blocked:')[0]
         const regex = /\[(?<host>[^ \]]+)\]\((?<uri>[^)]+)\)(?! - offline)/g
