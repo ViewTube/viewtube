@@ -77,38 +77,25 @@ services:
       - 8066:8066
 ```
 
-### ~Linux/Windows/MacOS~ OUTDATED
+## ![Screenshot-Homepage](.github/icons/dev.svg) Development setup
 
 Prerequisites
+- Nodejs v14.x
+- Yarn 1.22
 
- - [Node JS](https://nodejs.org) >13.x
- - [Yarn](https://yarnpkg.com)
- - [PM2](https://pm2.keymetrics.io)
-
- 1. Clone this repository
-
-```bash
-$ git clone https://github.com/mauriceoegerli/viewtube-vue.git
-
-$ cd viewtube-vue
-```
-
+ 1. Clone this repo
+ 
+ `git clone https://github.com/ViewTube/viewtube-vue`
+ 
  2. Install dependencies
-```bash
-$ yarn install
-```
-
- 3. Build the application
-```bash
-$ yarn build
-```
-
- 4. Run with PM2
-```bash
-$ pm2 start viewtube-pm2.json
-```
-
- 5. Visit a browser on [http://localhost:8066](http://localhost:8066)
+ 
+ `yarn install`
+ 
+ 3. Start the dev server
+ 
+ `yarn serve`
+ 
+ 4. Visit [localhost:8066](http://localhost:8066) with a browser
 
 ## ![Screenshot-Homepage](.github/icons/people.svg) Contributors
 
