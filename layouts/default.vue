@@ -51,6 +51,7 @@ export default {
   },
   mounted() {
     this.$store.dispatch('user/getUser')
+    this.$store.dispatch('instances/fetchInstances')
     this.$refs.app.classList += ` ${this.getThemeClass()}`
     if (process.browser) {
       window.addEventListener('scroll', this.handleScroll, { passive: true })
