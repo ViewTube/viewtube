@@ -16,11 +16,11 @@ export const mutations = {
   changeInstance(state, instance) {
     state.currentInstance = instance
   },
-  addInstance(state, instance) {
-    state.instances.push(instance)
+  addInstance(state, { url, health }) {
+    state.instances.push({ url, health })
   },
   clearInstances(state) {
-    state.instances.length = 0
+    state.instances = []
   }
 }
 export const actions = {
@@ -35,9 +35,14 @@ export const actions = {
         for (const match of matches) {
           if (!match[2].includes('.onion') && !match[2].includes('.i2p')) {
             if (match[2].endsWith('/')) {
-              commit('addInstance', match[2].substring(0, match[2].length - 1))
+              commit('addInstance', {
+                url: match[2].substring(0, match[2].length - 1),
+                health: null
+              })
             } else {
-              commit('addInstance', match[2])
+              commit('addInstance', {
+                url: match[2], health: null
+              })
             }
           }
         }

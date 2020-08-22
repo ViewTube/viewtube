@@ -1,12 +1,12 @@
 export const state = () => ({
   scrollPosition: 0,
   prevScrollPosition: 0,
-  scrollDown: false
+  scrollDown: false,
 })
 
 export const getters = {
-  scrollPosition: (state) => state.scrollPosition,
-  scrolledTop: (state) => state.scrollPosition <= 0
+  scrollPosition: state => state.scrollPosition,
+  scrolledTop: state => state.scrollPosition <= 0,
 }
 
 export const mutations = {
@@ -21,5 +21,5 @@ export const mutations = {
       state.scrollDown = false
     }
     state.prevScrollPosition = state.scrollPosition
-  }
+  },
 }
