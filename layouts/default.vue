@@ -51,7 +51,7 @@ export default {
   },
   mounted() {
     this.$store.dispatch('user/getUser')
-    if (this.$store.getters('instances/instances').length === 0){
+    if (this.$store.getters['instances/instances'].length === 0){
       this.$store.dispatch('instances/fetchInstances')
     }
     this.$refs.app.classList += ` ${this.getThemeClass()}`
