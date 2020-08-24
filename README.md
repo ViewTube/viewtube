@@ -51,6 +51,8 @@ Invidious instances can easily get rate-limited by Google. With ViewTube, you ca
 
 ## ![Screenshot-Homepage](.github/icons/home.svg) Host it yourself
 
+A more comprehensive installation guide is available in the [wiki](https://github.com/ViewTube/viewtube-vue/wiki/Installation)
+
 ### ![Screenshot-Homepage](.github/icons/docker.svg) Docker
 
 Example docker command
