@@ -83,11 +83,7 @@ export default {
       fetch(`${process.env.API_URL}subscriptions/videos?limit=4`, {
         cache: 'force-cache',
         method: 'GET',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: `Basic ${jwt}`
-        }
+        credentials: "include"
       })
         .then(response => response.json())
         .then((data) => {
