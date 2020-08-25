@@ -1,9 +1,15 @@
 <template>
   <div class="subscriptions-import popup">
     <div class="popup-container subscriptions-import-container">
-      <CloseIcon class="close-icon" @click.stop="$emit('close')" />
+      <CloseIcon
+        class="close-icon"
+        @click.stop="$emit('close')"
+      />
       <h1>Import subscriptions</h1>
-      <div class="pages-container" :class="{ 'page-2': page2 }">
+      <div
+        class="pages-container"
+        :class="{ 'page-2': page2 }"
+      >
         <div class="page-container page-1-container">
           <h2>
             <YoutubeIcon />Import from Youtube
@@ -46,7 +52,10 @@
               </BadgeButton>
             </div>
             <div class="right">
-              <BadgeButton :click="importSelected" :disabled="anySelectedChannel">
+              <BadgeButton
+                :click="importSelected"
+                :disabled="anySelectedChannel"
+              >
                 <ImportIcon />
                 <p>Import</p>
               </BadgeButton>
@@ -66,12 +75,18 @@
             </div>
           </div>
         </div>
-        <div class="loading-overlay" :class="{ loading }">
+        <div
+          class="loading-overlay"
+          :class="{ loading }"
+        >
           <Spinner />
         </div>
       </div>
     </div>
-    <div class="settings-overlay popup-overlay" @click.stop="$emit('close')" />
+    <div
+      class="settings-overlay popup-overlay"
+      @click.stop="$emit('close')"
+    />
   </div>
 </template>
 
@@ -151,21 +166,21 @@ export default {
     importSelected() {
       this.loading = true
       const subscriptions = this.selectedChannels
-      const subscriptionRequests = subscriptions.map(el => {
-        return this.$axios.put(`${Commons.getOwnApiUrl()}user/subscriptions/${el.authorId}`, {}, {
-          withCredentials: true
-        })
+      const subscriptionIds = subscriptions.map(e => e.authorId)
+      this.$axios.post(`${Commons.getOwnApiUrl()}user/subscriptions/multiple`, {
+        channels: subscriptionIds
+      }, {
+        withCredentials: true
       })
-
-      Promise.all(subscriptionRequests).then(response => {
-        this.loading = false
-        this.$store.dispatch('messages/createMessage', {
-          type: 'info',
-          title: 'Import successful',
-          message: 'Imported your subscriptions'
+        .then(response => {
+          this.loading = false
+          this.$store.dispatch('messages/createMessage', {
+            type: 'info',
+            title: 'Import successful',
+            message: 'Imported your subscriptions'
+          })
+          this.$emit('close')
         })
-        this.$emit('close')
-      })
     }
   },
   computed: {

@@ -11,6 +11,5 @@ self.addEventListener('push', (event) => {
       resolve(true)
     })
   })
-
   )
 })
