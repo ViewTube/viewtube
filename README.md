@@ -1,5 +1,4 @@
-<h1 align="left">ViewTube<img src=".github/images/logo.png" alt="" width="90" height="90" align="left" /></h1>
-
+<h1 align="center"><img src=".github/images/logo.png" width="90" height="90" alt="viewtube-logo"><br>ViewTube</i></h1>
 ViewTube is an alternative YouTube frontend using the [invidio.us](https://github.com/omarroth/invidious) API.
 
 It can recommend, play and search for videos. It saves your watch progress and you can subscribe to channels for them to appear in your subscription feed.
@@ -12,7 +11,7 @@ It can recommend, play and search for videos. It saves your watch progress and y
 [![vue2](https://img.shields.io/badge/vue-2.x-brightgreen.svg)](https://vuejs.org/)
 [![GitHub](https://img.shields.io/github/license/mauriceoegerli/viewtube-vue)](https://github.com/ViewTube/viewtube-vue/blob/master/LICENSE)
 
-## ![Screenshot-Homepage](.github/icons/question.svg) Why not just use invidio.us\?
+<h2 align="center"><img src=".github/icons/question.svg" alt="" width="32" height="32" align="left" /> Why not just use invidio.us?</h2>
 
 Invidious instances can easily get rate-limited by Google. With ViewTube, you can <b>switch between instances</b>. Your subscriptions, settings, etc. are stored on your <b>ViewTube account</b>.
 
