@@ -71,16 +71,19 @@ Screenshots
 <h3 align="center">
 Homepage
 </h3>
+
 ![Screenshot-Homepage](.github/images/screenshots/lxt1y0mk.bmp)
 
 <h3 align="center">
 Video
 </h3>
+
 ![Screenshot-Video](.github/images/screenshots/g2ejf7wf.bmp)
 
 <h3 align="center">
 Channel
 </h3>
+
 ![Screenshot-Channel](.github/images/screenshots/6j45ao5r.bmp)
 
 <h2 align="center">
