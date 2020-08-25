@@ -21,6 +21,22 @@ It can recommend, play and search for videos. It saves your watch progress and y
 
 <h2 align="center">
 <sub>
+<img  src=".github/icons/star.svg"
+      height="30"
+      width="30">
+</sub>
+Features
+</h2>
+
+- Watch videos without ads or tracking
+- Read comments
+- Search for videos
+- Subscribe to channels and see their latest uploads
+- Receive push notifications for subscribed channels
+- Responsive: mobile and desktop friendly
+
+<h2 align="center">
+<sub>
 <img  src=".github/icons/question.svg"
       height="30"
       width="30">
@@ -43,22 +59,6 @@ Invidious instances can easily get rate-limited by Google. With ViewTube, you ca
    <td><img src=".github/images/switch_instance.gif" /></td>
  </tr>
 </table>
-
-<h2 align="center">
-<sub>
-<img  src=".github/icons/star.svg"
-      height="30"
-      width="30">
-</sub>
-Features
-</h2>
-
-- Watch videos without ads or tracking
-- Read comments
-- Search for videos
-- Subscribe to channels and see their latest uploads
-- Receive push notifications for subscribed channels
-- Responsive: mobile and desktop friendly
 
 <h2 align="center">
 <sub>
