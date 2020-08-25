@@ -1,8 +1,8 @@
 <h1 align="center">
 <sub>
 <img  src="https://raw.githubusercontent.com/ViewTube/viewtube-vue/master/.github/images/logo.png"
-      height="38"
-      width="38">
+      height="50"
+      width="50">
 </sub>
 ViewTube
 </h1>
