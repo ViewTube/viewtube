@@ -19,7 +19,15 @@ It can recommend, play and search for videos. It saves your watch progress and y
 [![vue2](https://img.shields.io/badge/vue-2.x-brightgreen.svg)](https://vuejs.org/)
 [![GitHub](https://img.shields.io/github/license/mauriceoegerli/viewtube-vue)](https://github.com/ViewTube/viewtube-vue/blob/master/LICENSE)
 
-<h2 align="center"><img src=".github/icons/question.svg" alt="" width="32" height="32" align="left" /> Why not just use invidio.us?</h2>
+<h2 align="center">
+<sub>
+<img  src=".github/icons/question.svg"
+      height="30"
+      width="30">
+</sub>
+Why not just use invidio.us?
+</h2>
+
 
 Invidious instances can easily get rate-limited by Google. With ViewTube, you can <b>switch between instances</b>. Your subscriptions, settings, etc. are stored on your <b>ViewTube account</b>.
 
@@ -36,7 +44,14 @@ Invidious instances can easily get rate-limited by Google. With ViewTube, you ca
  </tr>
 </table>
 
-## ![Screenshot-Homepage](.github/icons/star.svg) Features
+<h2 align="center">
+<sub>
+<img  src=".github/icons/star.svg"
+      height="30"
+      width="30">
+</sub>
+Features
+</h2>
 - Watch videos without ads or tracking
 - Read comments
 - Search for videos
@@ -44,23 +59,49 @@ Invidious instances can easily get rate-limited by Google. With ViewTube, you ca
 - Receive push notifications for subscribed channels
 - Responsive: mobile and desktop friendly
 
-## ![Screenshot-Homepage](.github/icons/screenshot.svg) Screenshots
+<h2 align="center">
+<sub>
+<img  src=".github/icons/screenshot.svg"
+      height="30"
+      width="30">
+</sub>
+Screenshots
+</h2>
 
-### Homepage
+<h3 align="center">
+Homepage
+</h3>
 ![Screenshot-Homepage](.github/images/screenshots/lxt1y0mk.bmp)
 
-### Video
+<h3 align="center">
+Video
+</h3>
 ![Screenshot-Video](.github/images/screenshots/g2ejf7wf.bmp)
 
-### Channel
+<h3 align="center">
+Channel
+</h3>
 ![Screenshot-Channel](.github/images/screenshots/6j45ao5r.bmp)
 
-
-## ![Screenshot-Homepage](.github/icons/home.svg) Host it yourself
+<h2 align="center">
+<sub>
+<img  src=".github/icons/home.svg"
+      height="30"
+      width="30">
+</sub>
+Host it yourself
+</h2>
 
 A more comprehensive installation guide is available in the [wiki](https://github.com/ViewTube/viewtube-vue/wiki/Installation)
 
-### ![Screenshot-Homepage](.github/icons/docker.svg) Docker
+<h3 align="center">
+<sub>
+<img  src=".github/icons/docker.svg"
+      height="30"
+      width="30">
+</sub>
+Docker
+</h3>
 
 Example docker command
 
@@ -92,7 +133,14 @@ services:
       - 8066:8066
 ```
 
-## ![Screenshot-Homepage](.github/icons/dev.svg) Development setup
+<h2 align="center">
+<sub>
+<img  src=".github/icons/dev.svg"
+      height="30"
+      width="30">
+</sub>
+Development setup
+</h2>
 
 Prerequisites
 - Nodejs v14.x
@@ -114,7 +162,14 @@ Prerequisites
  
 Pull requests welcome!
 
-## ![Screenshot-Homepage](.github/icons/people.svg) Contributors
+<h2 align="center">
+<sub>
+<img  src=".github/icons/people.svg"
+      height="30"
+      width="30">
+</sub>
+Contributors
+</h2>
 
 Thanks goes to these wonderful people
 
