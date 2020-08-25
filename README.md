@@ -52,6 +52,7 @@ Invidious instances can easily get rate-limited by Google. With ViewTube, you ca
 </sub>
 Features
 </h2>
+
 - Watch videos without ads or tracking
 - Read comments
 - Search for videos
