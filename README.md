@@ -1,4 +1,12 @@
-<h1 align="center"><img src=".github/images/logo.png" width="90" height="90" alt="viewtube-logo"><br>ViewTube</i></h1>
+<h1 align="center">
+<sub>
+<img  src="https://raw.githubusercontent.com/ViewTube/viewtube-vue/master/.github/images/logo.png"
+      height="38"
+      width="38">
+</sub>
+ViewTube
+</h1>
+
 ViewTube is an alternative YouTube frontend using the [invidio.us](https://github.com/omarroth/invidious) API.
 
 It can recommend, play and search for videos. It saves your watch progress and you can subscribe to channels for them to appear in your subscription feed.
