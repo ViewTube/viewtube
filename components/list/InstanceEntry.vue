@@ -28,8 +28,8 @@
 </template>
 
 <script>
-import CheckBoxBlank from 'vue-material-design-icons/checkboxblankoutline'
-import CheckBoxMarked from 'vue-material-design-icons/checkboxmarkedoutline'
+import CheckBoxBlank from 'vue-material-design-icons/CheckboxBlankOutline'
+import CheckBoxMarked from 'vue-material-design-icons/CheckboxMarkedOutline'
 export default {
   name: 'InstanceEntry',
   components: {
@@ -39,7 +39,7 @@ export default {
   props: {
     instance: {
       type: Object,
-      default () {
+      default() {
         return { url: '', health: null }
       }
     }
