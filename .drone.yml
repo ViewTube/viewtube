@@ -5,7 +5,6 @@ name: default
 steps:
 - name: publish
   image: plugins/docker
-  failure: ignore
   settings:
     repo: mauriceo/viewtube
     tags:
