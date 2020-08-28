@@ -28,12 +28,12 @@ It can recommend, play and search for videos. It saves your watch progress and y
 Features
 </h2>
 
-  - Watch videos without ads or tracking
-  - Read comments
-  - Search for videos
-  - Subscribe to channels and see their latest uploads
-  - Receive push notifications for subscribed channels
-  - Responsive: mobile and desktop friendly
+- Watch videos without ads or tracking
+- Read comments
+- Search for videos
+- Subscribe to channels and see their latest uploads
+- Receive push notifications for subscribed channels
+- Responsive: mobile and desktop friendly
 
 <h2 align="center">
 <sub>
@@ -146,24 +146,24 @@ Development setup
 </h2>
 
 Prerequisites
-  - Nodejs v14.x
-  - Yarn 1.22
+- Nodejs v14.x
+- Yarn 1.22
 
 Instructions
 
-1. Clone this repo
+ 1. Clone this repo
 
     `git clone https://github.com/ViewTube/viewtube-vue`
  
-2. Install dependencies
+ 2. Install dependencies
  
     `yarn install`
  
-3. Start the dev server
+ 3. Start the dev server
  
     `yarn serve`
  
-4. Visit [localhost:8066](http://localhost:8066) with a browser
+ 4. Visit [localhost:8066](http://localhost:8066) with a browser
  
 Pull requests welcome!
 
