@@ -44,7 +44,6 @@ Features
 Why not just use invidio.us?
 </h2>
 
-
 Invidious instances can easily get rate-limited by Google. With ViewTube, you can <b>switch between instances</b>. Your subscriptions, settings, etc. are stored on your <b>ViewTube account</b>.
 
 <table>
@@ -150,17 +149,19 @@ Prerequisites
 - Nodejs v14.x
 - Yarn 1.22
 
+Instructions
+
  1. Clone this repo
- 
- `git clone https://github.com/ViewTube/viewtube-vue`
+
+    `git clone https://github.com/ViewTube/viewtube-vue`
  
  2. Install dependencies
  
- `yarn install`
+    `yarn install`
  
  3. Start the dev server
  
- `yarn serve`
+    `yarn serve`
  
  4. Visit [localhost:8066](http://localhost:8066) with a browser
  
