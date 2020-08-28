@@ -7,7 +7,7 @@
 ViewTube
 </h1>
 
-ViewTube is an alternative YouTube frontend using the [invidio.us](https://github.com/omarroth/invidious) API.
+ViewTube is an alternative YouTube frontend using the [invidio.us](https://github.com/iv-org/invidious) API.
 
 It can recommend, play and search for videos. It saves your watch progress and you can subscribe to channels for them to appear in your subscription feed.
 
