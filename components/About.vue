@@ -33,7 +33,9 @@
           </tr>
           <tr>
             <td>Last update</td>
-            <td>{{ new Date(invidousStats.metadata.updatedAt).toUTCString() }}</td>
+            <td>
+              {{ new Date(invidousStats.metadata.updatedAt).toUTCString() }}
+            </td>
           </tr>
         </table>
       </div>
@@ -75,10 +77,10 @@ export default {
       method: 'GET'
     })
       .then(response => response.json())
-      .then((data) => {
+      .then(data => {
         me.invidousStats = data
       })
-      .catch((error) => {
+      .catch(error => {
         console.error(error)
       })
   }
@@ -121,7 +123,7 @@ export default {
 }
 
 .logo-about {
-  padding: 40px 0 0 0 ;
+  padding: 40px 0 0 0;
   margin: 0 auto 0 auto !important;
   width: 150px;
   height: 150px;
