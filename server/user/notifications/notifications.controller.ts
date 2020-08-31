@@ -1,6 +1,6 @@
 import { Controller, UseGuards, Post, Body, Req } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
-import { JwtAuthGuard } from '@server/auth/guards/jwt.guard';
+import { JwtAuthGuard } from 'server/auth/guards/jwt.guard';
 import webPush from "web-push";
 import { ConfigService } from '@nestjs/config';
 import { NotificationsService } from './notifications.service';

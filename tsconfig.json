@@ -13,7 +13,7 @@
     "baseUrl": "./",
     "incremental": true,
     "paths": {
-      "@server/*": ["server/*"]
+      "server/*": ["server/*"]
     }
   },
   "exclude": [

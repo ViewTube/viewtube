@@ -4,7 +4,7 @@ import { NotificationsSubscription } from './schemas/notifications-subscription.
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Cron, CronExpression } from '@nestjs/schedule';
-import { VideoBasicInfoDto } from '@server/core/videos/dto/video-basic-info.dto';
+import { VideoBasicInfoDto } from 'server/core/videos/dto/video-basic-info.dto';
 import { PushNotification } from './schemas/push-notification.schema';
 
 @Injectable()

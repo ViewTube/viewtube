@@ -1,6 +1,6 @@
 import { Document } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { VideoThumbnailDto } from '@server/core/videos/dto/video-thumbnail.dto';
+import { VideoThumbnailDto } from 'server/core/videos/dto/video-thumbnail.dto';
 import { VideoBasicInfoDto } from '../dto/video-basic-info.dto';
 
 @Schema({ timestamps: true })

@@ -2,10 +2,10 @@ import { Controller, Get, Put, Param, Delete, Req, UseGuards, Query, Post, Body 
 import { ApiTags, ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
 import { SubscriptionsService } from './subscriptions.service';
 import { SubscriptionStatusDto } from './dto/subscription-status.dto';
-import { JwtAuthGuard } from '@server/auth/guards/jwt.guard';
-import { VideoBasicInfoDto } from '@server/core/videos/dto/video-basic-info.dto';
-import { ChannelBasicInfoDto } from '@server/core/channels/dto/channel-basic-info.dto';
-import { Sorting } from '@server/common/sorting.type';
+import { JwtAuthGuard } from 'server/auth/guards/jwt.guard';
+import { VideoBasicInfoDto } from 'server/core/videos/dto/video-basic-info.dto';
+import { ChannelBasicInfoDto } from 'server/core/channels/dto/channel-basic-info.dto';
+import { Sorting } from 'server/common/sorting.type';
 
 @ApiTags('User')
 @UseGuards(JwtAuthGuard)
