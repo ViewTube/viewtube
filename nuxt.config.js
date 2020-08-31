@@ -1,5 +1,11 @@
-export default {
+const isDev = !(process.env.NODE_ENV === 'production')
+
+module.exports = {
   mode: 'universal',
+
+  srcDir: 'client',
+
+  dev: isDev,
 
   server: {
     port: 8066

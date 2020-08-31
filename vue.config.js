@@ -26,7 +26,7 @@ module.exports = {
   pluginOptions: {
     'style-resources-loader': {
       patterns: [
-        path.resolve(__dirname, 'src/styles/global/*.scss')
+        path.resolve(__dirname, '../styles/global/*.scss')
       ],
       preProcessor: 'scss'
     }
