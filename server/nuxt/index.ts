@@ -1,6 +1,5 @@
-import { Nuxt } from '@nuxt/core';
+import { Nuxt, Builder } from 'nuxt';
 import { BundleBuilder } from '@nuxt/webpack';
-import { Builder } from '@nuxt/builder';
 import config from '../../nuxt.config.js';
 
 export default class NuxtServer {
@@ -8,16 +7,20 @@ export default class NuxtServer {
   public nuxt: Nuxt;
 
   public async run(shouldBuild = true): Nuxt {
-    const nuxt = new Nuxt(config);
+    const dev = process.env.NODE_ENV !== 'production';
+    const nuxt = new Nuxt({...config, dev });
 
     // Build only in dev mode
-    if (config.dev && shouldBuild) {
+    if (dev && shouldBuild) {
+      console.log('Building nuxt')
       const builder = new Builder(nuxt, BundleBuilder);
       const res = await builder.build();
 
       this.nuxt = res.nuxt;
 
       return res.nuxt;
+    } else {
+      console.log('Not building nuxt ' + dev);
     }
 
     if (this.nuxt) {

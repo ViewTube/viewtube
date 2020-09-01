@@ -8,13 +8,17 @@
   "license": "AGPLv3",
   "private": true,
   "scripts": {
-    "serve": "cross-env NODE_ENV=development webpack --config webpack.config.js",
-    "start": "cross-env NODE_ENV=production node dist/server/main.js",
+    "start": "cross-env NODE_ENV=production node -r module-alias/register dist/server/main.js",
     "build": "cross-env NODE_ENV=production npm run clean && nuxt build && tsc",
+    "serve": "cross-env NODE_ENV=development webpack --config webpack.config.js",
+    "copy:client": "copyfiles -a \"client/**/*\" dist",
     "lint": "vue-cli-service lint",
     "clean": "rimraf dist",
     "nest": "nest",
     "nuxt": "nuxt"
+  },
+  "_moduleAliases": {
+    "server": "dist/server"
   },
   "browserslist": [
     "last 1 version",
@@ -44,10 +48,13 @@
     "fluent-ffmpeg": "^2.1.2",
     "https-proxy-agent": "^5.0.0",
     "humanize-duration": "^3.22.0",
+    "jsdom": "^16.4.0",
+    "module-alias": "^2.2.2",
     "mongoose": "^5.9.28",
     "mysql": "^2.18.1",
     "node-fetch": "^2.6.0",
     "nuxt": "^2.14.4",
+    "nuxt-start": "^2.14.4",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
@@ -79,6 +86,7 @@
     "@types/fluent-ffmpeg": "^2.1.14",
     "@types/humanize-duration": "^3.18.0",
     "@types/jest": "26.0.10",
+    "@types/module-alias": "^2.0.0",
     "@types/mongoose": "^5.7.36",
     "@types/node": "^14.0.27",
     "@types/node-fetch": "^2.5.7",

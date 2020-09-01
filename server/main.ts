@@ -14,13 +14,16 @@ import config from '../nuxt.config.js';
 declare const module: any;
 
 async function bootstrap() {
+  const dev = process.env.NODE_ENV !== 'production';
   // NUXT
   const nuxt = await NuxtServer.getInstance().run(
-    config.dev ? !module.hot._main : true
+    dev ? !module.hot._main : true
   );
 
   // NEST
   const server = await NestFactory.create<NestExpressApplication>(AppModule);
+
+  server.use(nuxt.render);
 
   server.useGlobalFilters(new NuxtFilter(nuxt));
 
@@ -71,7 +74,7 @@ async function bootstrap() {
   // START
   await server.listen(port);
 
-  if (config.dev && module.hot) {
+  if (dev && module.hot) {
     module.hot.accept();
     module.hot.dispose(() => server.close());
   }

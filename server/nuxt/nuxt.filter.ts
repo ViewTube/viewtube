@@ -22,7 +22,8 @@ export class NuxtFilter implements ExceptionFilter {
 
     if (status === 404) {
       if (!res.headersSent) {
-        await this.nuxt.render(req, res);
+        console.log('rendering nuxt');
+        console.log(await this.nuxt.render(req, res));
       }
     } else {
       res.status(status).json({

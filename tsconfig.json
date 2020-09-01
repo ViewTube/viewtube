@@ -1,23 +1,24 @@
 {
   "compilerOptions": {
     "module": "commonjs",
-    "declaration": true,
+    "declaration": false,
     "removeComments": true,
+    "noLib": false,
+    "allowSyntheticDefaultImports": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "allowJs": true,
+    "target": "ES2020",
     "resolveJsonModule": true,
     "esModuleInterop": true,
-    "target": "ES2020",
     "sourceMap": true,
-    "outDir": "./dist",
+    "moduleResolution": "node",
     "baseUrl": "./",
-    "incremental": true,
     "paths": {
-      "server/*": ["server/*"]
-    }
+      "~/*": ["client/*"]
+    },
+    "types": ["@types/node", "@nuxt/vue-app"]
   },
-  "exclude": [
-    "node_modules",
-    "dist"
-  ]
+  "include": ["server/**/*", "client/**/*"],
+  "exclude": ["node_modules"]
 }

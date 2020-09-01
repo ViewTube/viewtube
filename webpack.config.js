@@ -2,7 +2,6 @@ const webpack = require('webpack');
 const path = require('path');
 const nodeExternals = require('webpack-node-externals');
 const WebpackShellPluginNext = require('webpack-shell-plugin-next');
-const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin');
 
 module.exports = {
   entry: ['webpack/hot/poll?1000', './server/main.ts'],
@@ -26,13 +25,17 @@ module.exports = {
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
     alias: {
-      '@server': path.resolve(__dirname, 'server/')
+      'server': path.resolve(__dirname, 'server/')
     }
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-    new FriendlyErrorsPlugin(),
     new WebpackShellPluginNext({
+      onBuildStart: {
+        scripts: ['echo ▶ Starting ViewTube in development mode'],
+        blocking: false,
+        parallel: true
+      },
       onBuildEnd: {
         scripts: ['node dist/main.js'],
         blocking: false,

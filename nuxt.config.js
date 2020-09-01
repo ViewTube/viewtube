@@ -1,19 +1,14 @@
-const isDev = !(process.env.NODE_ENV === 'production')
-
 module.exports = {
   mode: 'universal',
 
-  srcDir: 'client',
-
-  dev: isDev,
-
-  server: {
-    port: 8066
-  },
+  srcDir: './client',
 
   env: {
     API_URL: process.env.VIEWTUBE_API_URL,
-    VAPID_KEY: process.env.VIEWTUBE_VAPID
+    VAPID_KEY: process.env.VIEWTUBE_VAPID,
+    host: 'localhost',
+    port: '3100',
+    baseUrl: process.env.BASE_URL || 'http://localhost:3100'
   },
 
   publicRuntimeConfig: {
