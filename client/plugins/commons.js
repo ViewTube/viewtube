@@ -1,5 +1,5 @@
 export default {
-  autocompleteUrl: 'https://api.viewtube.io/autocomplete/',
+  autocompleteUrl: 'https://viewtube.io/api/autocomplete/',
   proxyUrl: 'https://proxy.mcdn.ch/index.php?',
   description: 'An alternative YouTube frontend using the Invidious API.',
   language: 'en-US',
@@ -16,9 +16,9 @@ export default {
 
   getOwnApiUrl() {
     if (this.isProduction()) {
-      return process.env.VIEWTUBE_API_URL || 'https://api.viewtube.io/'
+      return process.env.VIEWTUBE_API_URL || 'https://viewtube.io/api'
     }
-    return 'http://localhost:3030/'
+    return 'http://localhost:3030/api'
   },
 
   getVAPIDKey() {

@@ -10,10 +10,11 @@ export default class NuxtServer {
 
   public async run(shouldBuild = true): Nuxt {
     const dev = process.env.NODE_ENV !== 'production';
-    const nuxt = new Nuxt(config);
+    let nuxt: Nuxt;
 
     // Build only in dev mode
     if (dev && shouldBuild) {
+      nuxt = await loadNuxt('dev');
       const builder = new Builder(nuxt, BundleBuilder);
       const res = await builder.build();
 
@@ -21,7 +22,7 @@ export default class NuxtServer {
 
       return res.nuxt;
     } else {
-      this.nuxt = loadNuxt('start');
+      nuxt = await loadNuxt('start');
     }
 
     if (this.nuxt) {

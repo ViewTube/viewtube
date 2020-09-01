@@ -27,6 +27,8 @@ async function bootstrap() {
   // NEST
   server.useGlobalFilters(new NuxtFilter(nuxt));
 
+  server.setGlobalPrefix('api');
+
   // CORS
   const configService = server.get(ConfigService);
   const port = configService.get('PORT');
