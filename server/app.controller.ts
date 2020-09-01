@@ -8,7 +8,7 @@ import { ApiTags } from '@nestjs/swagger';
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @Get('status')
+  @Get('/status')
   getStatus(): StatusDto {
     return this.appService.getStatus();
   }

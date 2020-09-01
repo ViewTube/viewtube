@@ -14,7 +14,8 @@ export class NuxtFilter implements ExceptionFilter {
     this.nuxt = nuxt;
   }
 
-  public async catch(exception: HttpException, host: ArgumentsHost): Promise<void> {
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  public async catch(exception: HttpException, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const res = ctx.getResponse();
     const req = ctx.getRequest();
@@ -22,8 +23,7 @@ export class NuxtFilter implements ExceptionFilter {
 
     if (status === 404) {
       if (!res.headersSent) {
-        console.log('rendering nuxt');
-        console.log(await this.nuxt.render(req, res));
+        await this.nuxt.render(req, res);
       }
     } else {
       res.status(status).json({

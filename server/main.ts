@@ -10,10 +10,14 @@ import fs from 'fs';
 import { NuxtFilter } from './nuxt/nuxt.filter';
 import NuxtServer from './nuxt/';
 import config from '../nuxt.config.js';
+import { loadNuxt } from 'nuxt'
+import Consola from 'consola';
 
 declare const module: any;
 
 async function bootstrap() {
+  const server = await NestFactory.create<NestExpressApplication>(AppModule);
+
   const dev = process.env.NODE_ENV !== 'production';
   // NUXT
   const nuxt = await NuxtServer.getInstance().run(
@@ -21,10 +25,6 @@ async function bootstrap() {
   );
 
   // NEST
-  const server = await NestFactory.create<NestExpressApplication>(AppModule);
-
-  server.use(nuxt.render);
-
   server.useGlobalFilters(new NuxtFilter(nuxt));
 
   // CORS
@@ -35,10 +35,7 @@ async function bootstrap() {
     corsDomains.push('http://localhost:8066');
   }
 
-  server.enableCors({
-    origin: corsDomains,
-    credentials: true
-  });
+  server.enableCors();
 
   // PUSH NOTIFICATIONS
   webPush.setVapidDetails(
@@ -72,7 +69,12 @@ async function bootstrap() {
   server.use(cookieParser());
 
   // START
-  await server.listen(port);
+  await server.listen(port, 'localhost', () => {
+    Consola.ready({
+      message: `Server listening on http://localhost:${port}`,
+      badge: true,
+    });
+  });
 
   if (dev && module.hot) {
     module.hot.accept();

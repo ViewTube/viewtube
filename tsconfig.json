@@ -10,8 +10,9 @@
     "allowJs": true,
     "target": "ES2020",
     "resolveJsonModule": true,
-    "esModuleInterop": true,
     "sourceMap": true,
+    "outDir": "./dist",
+    "esModuleInterop": true,
     "moduleResolution": "node",
     "baseUrl": "./",
     "paths": {
@@ -20,5 +21,5 @@
     "types": ["@types/node", "@nuxt/vue-app"]
   },
   "include": ["server/**/*", "client/**/*"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "server/**/*.spec.ts"]
 }

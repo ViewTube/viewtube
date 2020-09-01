@@ -42,6 +42,7 @@
     "bcryptjs": "^2.4.3",
     "cache-manager": "^3.2.1",
     "class-transformer": "^0.3.1",
+    "consola": "^2.15.0",
     "cookie-parser": "^1.4.5",
     "cookie-universal-nuxt": "^2.1.4",
     "dashjs": "^3.1.2",
