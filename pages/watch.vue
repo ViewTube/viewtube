@@ -105,23 +105,19 @@
             <img src="@/assets/icons/pocket.svg" alt="Save to pocket icon" />
             Save to pocket
           </BadgeButton>
-
-          <BadgeButton
-          style="color: #EFBB00">
-            <Share
-              class="share-icon"
-              />
+          <BadgeButton 
+            style="color: #EFBB00"
+            :click="() => shareOpen = !shareOpen">
+            <Share class="share-icon" />
             Share
           </BadgeButton>
         </div>
-        <transition>
+        <transition name="share-fade-down">
           <div v-show="shareOpen">
-          <div>
-            <ShareOptions
-                class="share-options-display">
-            </ShareOptions>
+            <div>
+              <ShareOptions class="share-options-display"> </ShareOptions>
+            </div>
           </div>
-        </div>
         </transition>
         <p class="video-infobox-text">tags:</p>
         <div class="video-infobox-tags">
@@ -251,7 +247,7 @@ export default {
     commentsContinuationLoading: false,
     commons: Commons,
     recommendedOpen: false,
-    shareOpen: true
+    shareOpen: false
   }),
   computed: {
     browser() {
@@ -369,6 +365,21 @@ export default {
 </script>
 
 <style lang="scss">
+.share-fade-down-enter-active,
+.share-fade-down-leave-active {
+  transition: transform 200ms $intro-easing, opacity 200ms $intro-easing;
+}
+.share-fade-down-enter-to,
+.share-fade-down-leave {
+  transform: scale(1);
+  opacity: 1;
+}
+.share-fade-down-enter,
+.share-fade-down-leave-to {
+  transform: scale(1.1);
+  opacity: 0;
+}
+
 .watch {
   width: 100%;
   margin-top: $header-height;
