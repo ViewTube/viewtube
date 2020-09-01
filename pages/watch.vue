@@ -1,11 +1,6 @@
 <template>
   <div class="watch">
-    <video
-      v-if="!jsEnabled"
-      controls
-      :src="getHDUrl()"
-      class="nojs-player"
-    />
+    <video v-if="!jsEnabled" controls :src="getHDUrl()" class="nojs-player" />
     <VideoPlayer
       v-if="jsEnabled"
       :key="video.id"
@@ -29,22 +24,33 @@
           v-if="video.viewCount && video.likeCount && video.dislikeCount"
           class="video-infobox-stats"
         >
-          <p class="infobox-views">{{ parseFloat(video.viewCount).toLocaleString('en-US') }} views</p>
+          <p class="infobox-views">
+            {{ parseFloat(video.viewCount).toLocaleString('en-US') }} views
+          </p>
           <div class="infobox-rating">
             <div class="infobox-likecount">
               <div class="infobox-likes">
                 <ThumbsUp class="thumbs-icon" />
-                <p class="like-count">{{ parseFloat(video.likeCount).toLocaleString('en-US') }}</p>
+                <p class="like-count">
+                  {{ parseFloat(video.likeCount).toLocaleString('en-US') }}
+                </p>
               </div>
               <div class="infobox-dislikes">
                 <ThumbsDown class="thumbs-icon" />
-                <p class="dislike-count">{{ parseFloat(video.dislikeCount).toLocaleString('en-US') }}</p>
+                <p class="dislike-count">
+                  {{ parseFloat(video.dislikeCount).toLocaleString('en-US') }}
+                </p>
               </div>
             </div>
             <div class="like-ratio">
               <div
                 class="like-ratio-bar"
-                :style="{ width: (video.likeCount / (video.dislikeCount + video.likeCount)) * 100 + '%' }"
+                :style="{
+                  width:
+                    (video.likeCount / (video.dislikeCount + video.likeCount)) *
+                      100 +
+                    '%'
+                }"
               />
             </div>
           </div>
@@ -54,26 +60,30 @@
             <div class="infobox-channel-image">
               <nuxt-link :to="`channel/${video.authorId}`">
                 <img
-                  v-if="video.authorThumbnails && video.authorThumbnails.length > 0"
+                  v-if="
+                    video.authorThumbnails && video.authorThumbnails.length > 0
+                  "
                   id="channel-img"
                   alt="Channel image"
                   :src="video.authorThumbnails[2].url"
-                >
+                />
               </nuxt-link>
             </div>
             <div class="infobox-channel-info">
               <nuxt-link
                 :to="`channel/${video.authorId}`"
                 class="infobox-channel-name ripple"
-              >{{ video.author }}</nuxt-link>
-              <p
-                v-if="video.subCount"
-                class="infobox-channel-subcount"
-              >{{ video.subCount.toLocaleString('en-US') }} subscribers</p>
+                >{{ video.author }}</nuxt-link
+              >
+              <p v-if="video.subCount" class="infobox-channel-subcount">
+                {{ video.subCount.toLocaleString('en-US') }} subscribers
+              </p>
               <p
                 v-if="!video.subCount && video.subCountText"
                 class="infobox-channel-subcount"
-              >{{ video.subCountText }} subscribers</p>
+              >
+                {{ video.subCountText }} subscribers
+              </p>
             </div>
           </div>
           <SubscribeButton
@@ -81,32 +91,41 @@
             :channel-id="video.authorId"
           />
         </div>
-        <div
-          class="video-infobox-date"
-          v-if="video.publishedText"
-        >{{ video.publishedText }}</div>
-        <div
-          class="video-exact-date"
-          v-if="!video.publishedText"
-        >{{ new Date(video.published).toLocaleString('en-US') }}</div>
+        <div class="video-infobox-date" v-if="video.publishedText">
+          {{ video.publishedText }}
+        </div>
+        <div class="video-exact-date" v-if="!video.publishedText">
+          {{ new Date(video.published).toLocaleString('en-US') }}
+        </div>
         <div class="video-actions">
           <BadgeButton
             :href="`https://getpocket.com/save?url=${encodedUrl}`"
             style="color: #EF4056;"
           >
-            <img
-              src="@/assets/icons/pocket.svg"
-              alt="Save to pocket icon"
-            >
+            <img src="@/assets/icons/pocket.svg" alt="Save to pocket icon" />
             Save to pocket
           </BadgeButton>
+
+          <BadgeButton
+          style="color: #EFBB00">
+            <Share
+              class="share-icon"
+              />
+            Share
+          </BadgeButton>
         </div>
+        <transition>
+          <div v-show="shareOpen">
+          <div>
+            <ShareOptions
+                class="share-options-display">
+            </ShareOptions>
+          </div>
+        </div>
+        </transition>
         <p class="video-infobox-text">tags:</p>
         <div class="video-infobox-tags">
-          <div
-            v-if="video.keywords"
-            class="tags-container"
-          >
+          <div v-if="video.keywords" class="tags-container">
             <BadgeButton
               v-for="keyword in video.keywords"
               :key="keyword"
@@ -118,17 +137,19 @@
           </div>
         </div>
         <div class="comments-description">
-          <div
-            v-create-links
-            class="video-infobox-description links"
-          >{{ video.description }}</div>
+          <div v-create-links class="video-infobox-description links">
+            {{ video.description }}
+          </div>
           <Spinner v-if="commentsLoading" />
-          <div
-            v-if="!commentsLoading"
-            class="comments-container"
-          >
+          <div v-if="!commentsLoading" class="comments-container">
             <div class="comments-count">
-              <p>{{ comment.commentCount && comment.commentCount.toLocaleString('en-US') }} comments</p>
+              <p>
+                {{
+                  comment.commentCount &&
+                    comment.commentCount.toLocaleString('en-US')
+                }}
+                comments
+              </p>
             </div>
             <Comment
               v-for="(comment, i) in comment.comments"
@@ -154,6 +175,7 @@
 <script>
 import ThumbsUp from 'vue-material-design-icons/ThumbUp'
 import ThumbsDown from 'vue-material-design-icons/ThumbDown'
+import Share from 'vue-material-design-icons/Share'
 import LoadMoreIcon from 'vue-material-design-icons/Reload'
 import Spinner from '@/components/Spinner'
 import Commons from '@/plugins/commons.js'
@@ -164,6 +186,7 @@ import Comment from '@/components/Comment'
 import ViewtubeApi from '@/plugins/services/viewtubeApi'
 import Invidious from '@/plugins/services/invidious'
 import RecommendedVideos from '@/components/watch/RecommendedVideos'
+import ShareOptions from '@/components/watch/ShareOptions'
 import CollapsibleSection from '@/components/list/CollapsibleSection'
 import BadgeButton from '@/components/buttons/BadgeButton'
 
@@ -173,11 +196,13 @@ export default {
     Spinner,
     ThumbsUp,
     ThumbsDown,
+    Share,
     LoadMoreIcon,
     VideoPlayer,
     SubscribeButton,
     Comment,
     RecommendedVideos,
+    ShareOptions,
     CollapsibleSection,
     BadgeButton
   },
@@ -190,21 +215,30 @@ export default {
     return true
   },
   asyncData({ query, error }) {
-    return Invidious.api.videos({
-      id: query.v
-    }).then((response) => {
-      if (response) {
-        return { video: response.data }
-      } else {
-        // throw new Error('Error loading video')
-      }
-    })
-      .catch((err) => {
+    return Invidious.api
+      .videos({
+        id: query.v
+      })
+      .then(response => {
+        if (response) {
+          return { video: response.data }
+        } else {
+          // throw new Error('Error loading video')
+        }
+      })
+      .catch(err => {
         if (err.response) {
-          error({ statusCode: err.statusCode, message: err.response.data.message })
+          error({
+            statusCode: err.statusCode,
+            message: err.response.data.message
+          })
         } else if (err.message) {
           console.log(err.message)
-          error({ statusCode: '500', message: 'Error loading video' + err.message, detail: JSON.stringify(err) })
+          error({
+            statusCode: '500',
+            message: 'Error loading video' + err.message,
+            detail: JSON.stringify(err)
+          })
         }
       })
   },
@@ -216,7 +250,8 @@ export default {
     commentsContinuationLink: null,
     commentsContinuationLoading: false,
     commons: Commons,
-    recommendedOpen: false
+    recommendedOpen: false,
+    shareOpen: true
   }),
   computed: {
     browser() {
@@ -243,7 +278,7 @@ export default {
   methods: {
     getHDUrl() {
       if (this.video.formatStreams) {
-        const video = this.video.formatStreams.find((e) => {
+        const video = this.video.formatStreams.find(e => {
           return e.qualityLabel && e.qualityLabel === '720p'
         })
         if (video) {
@@ -261,31 +296,36 @@ export default {
         method: 'GET'
       })
         .then(response => response.json())
-        .then((data) => {
+        .then(data => {
           if (data.comments && data.comments.length > 0) {
             this.comment = data
             this.commentsLoading = false
             this.commentsContinuationLink = data.continuation || null
           }
         })
-        .catch((error) => {
+        .catch(error => {
           console.error(error)
         })
     },
     loadMoreComments() {
       this.commentsContinuationLoading = true
       const videoId = this.$route.query.v
-      fetch(`${Commons.getApiUrl()}comments/${videoId}?continuation=${this.commentsContinuationLink}`, {
-        cache: 'force-cache',
-        method: 'GET'
-      })
+      fetch(
+        `${Commons.getApiUrl()}comments/${videoId}?continuation=${
+          this.commentsContinuationLink
+        }`,
+        {
+          cache: 'force-cache',
+          method: 'GET'
+        }
+      )
         .then(response => response.json())
-        .then((data) => {
+        .then(data => {
           this.comment.comments = this.comment.comments.concat(data.comments)
           this.commentsContinuationLoading = false
           this.commentsContinuationLink = data.continuation || null
         })
-        .catch((error) => {
+        .catch(error => {
           console.error(error)
         })
     }
@@ -294,11 +334,34 @@ export default {
     return {
       title: `${this.video.title} - ${this.video.author} - ViewTube`,
       meta: [
-        { hid: 'description', vmid: 'descriptionMeta', name: 'description', content: this.video.description.substring(0, 100) },
-        { hid: 'ogTitle', property: 'og:title', content: `${this.video.title} - ${this.video.author} - ViewTube` },
-        { hid: 'ogImage', property: 'og:image', itemprop: 'image', content: this.video.videoThumbnails[2].url },
-        { hid: 'ogDescription', property: 'og:description', content: this.video.description.substring(0, 100) },
-        { property: 'og:video', content: this.video.formatStreams ? this.video.formatStreams[0].url : '#' }
+        {
+          hid: 'description',
+          vmid: 'descriptionMeta',
+          name: 'description',
+          content: this.video.description.substring(0, 100)
+        },
+        {
+          hid: 'ogTitle',
+          property: 'og:title',
+          content: `${this.video.title} - ${this.video.author} - ViewTube`
+        },
+        {
+          hid: 'ogImage',
+          property: 'og:image',
+          itemprop: 'image',
+          content: this.video.videoThumbnails[2].url
+        },
+        {
+          hid: 'ogDescription',
+          property: 'og:description',
+          content: this.video.description.substring(0, 100)
+        },
+        {
+          property: 'og:video',
+          content: this.video.formatStreams
+            ? this.video.formatStreams[0].url
+            : '#'
+        }
       ]
     }
   }
@@ -332,7 +395,7 @@ export default {
     }
 
     &::before {
-      content: "";
+      content: '';
       position: absolute;
       width: 100%;
       left: 0;
@@ -539,6 +602,8 @@ export default {
       .video-actions {
         margin: 0 auto;
         width: 100%;
+        display: flex;
+        flex-direction: row;
 
         img {
           position: relative;
