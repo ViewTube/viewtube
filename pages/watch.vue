@@ -106,10 +106,10 @@
             Save to pocket
           </BadgeButton>
         </div>
-        <p class="video-infobox-text">tags:</p>
+        <p class="video-infobox-text" v-if="video.keywords">tags:</p>
         <div
           class="video-infobox-tags"
-          v-if="video.keywords && video.keywords.length > 0"
+          v-if="video.keywords"
         >
           <div v-if="video.keywords" class="tags-container">
             <BadgeButton
@@ -203,6 +203,7 @@ export default {
       })
       .then((response) => {
         if (response) {
+          console.log(response.description)
           return { video: response.data }
         } else {
           // throw new Error('Error loading video')
