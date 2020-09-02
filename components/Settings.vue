@@ -1,28 +1,18 @@
 <template>
   <div class="settings popup">
     <div class="settings-container popup-container">
-      <CloseIcon
-        class="close-icon"
-        @click.stop="$emit('close')"
-      />
+      <CloseIcon class="close-icon" @click.stop="$emit('close')" />
       <h1>Settings</h1>
-      <h2>
-        <ThemeIcon />Theme
-      </h2>
+      <h2><ThemeIcon />Theme</h2>
       <ThemeSelector />
-      <h2>
-        <MiniplayerIcon />Miniplayer
-      </h2>
+      <h2><MiniplayerIcon />Miniplayer</h2>
       <SwitchButton
         :value="$store.getters['settings/miniplayer']"
         :label="'Enable miniplayer'"
         @valuechange="val => $store.commit('settings/setMiniplayer', val)"
       />
     </div>
-    <div
-      class="settings-overlay popup-overlay"
-      @click.stop="$emit('close')"
-    />
+    <div class="settings-overlay popup-overlay" @click.stop="$emit('close')" />
   </div>
 </template>
 
@@ -63,5 +53,4 @@ export default {
 }
 </script>
 
-<style lang="scss">
-</style>
+<style lang="scss"></style>
