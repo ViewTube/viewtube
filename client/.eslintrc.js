@@ -15,6 +15,11 @@ module.exports = {
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'space-before-function-paren': 'off',
     'vue/singleline-html-element-content-newline': 'off',
-    'vue/multiline-html-element-content-newline': 'off'
+    'vue/multiline-html-element-content-newline': 'off',
+    'vue/html-self-closing': ['error', {
+      html: {
+        void: 'always'
+      }
+    }]
   }
 }

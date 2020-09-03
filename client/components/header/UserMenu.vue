@@ -103,6 +103,17 @@
             </div>
           </a>
           <a
+            id="instances-btn"
+            v-tippy="'View instances'"
+            href="#"
+            class="ripple tooltip menu-btn"
+            @mousedown.self.prevent="openInstances"
+          >
+            <div class="menu-btn-content">
+              <InstanceIcon />instances
+            </div>
+          </a>
+          <a
             id="about-btn"
             v-tippy="'Open about'"
             href="#"
@@ -119,6 +130,7 @@
     <portal to="popup">
       <transition name="fade-down">
         <Settings v-if="settingsOpen" @close="closeSettings" />
+        <Instances v-if="instancesOpen" @close="closeInstances" />
         <About v-if="aboutOpen" @close="closeAbout" />
       </transition>
     </portal>
@@ -129,10 +141,12 @@
 <script>
 import ShareIcon from 'vue-material-design-icons/Share'
 import SettingsIcon from 'vue-material-design-icons/Cog'
+import InstanceIcon from 'vue-material-design-icons/ServerNetwork'
 import AboutIcon from 'vue-material-design-icons/InformationOutline'
 import AccountIcon from 'vue-material-design-icons/AccountCircle'
 import AccountPlusIcon from 'vue-material-design-icons/AccountPlus'
 import Settings from '@/components/Settings'
+import Instances from '@/components/Instances'
 import About from '@/components/About'
 
 export default {
@@ -140,15 +154,18 @@ export default {
   components: {
     ShareIcon,
     SettingsIcon,
+    InstanceIcon,
     AboutIcon,
     AccountIcon,
     AccountPlusIcon,
     Settings,
+    Instances,
     About
   },
   data: () => ({
     accountMenuVisible: false,
     settingsOpen: false,
+    instancesOpen: false,
     aboutOpen: false
   }),
   computed: {
@@ -192,6 +209,13 @@ export default {
     },
     closeSettings() {
       this.settingsOpen = false
+    },
+    openInstances() {
+      this.hideAccountMenu()
+      this.instancesOpen = true
+    },
+    closeInstances() {
+      this.instancesOpen = false
     },
     openSubscriptions() {
       this.$router.push('/subscriptions')

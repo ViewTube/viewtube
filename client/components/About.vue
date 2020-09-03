@@ -1,17 +1,10 @@
 <template>
   <div class="about popup">
     <div class="about-container popup-container">
-      <CloseIcon
-        class="close-icon"
-        @click.stop="$emit('close')"
-      />
+      <CloseIcon class="close-icon" @click.stop="$emit('close')" />
       <h1>About ViewTube</h1>
       <div class="logo-about">
-        <img
-          class="logo-about-img"
-          src="@/assets/icon.svg"
-          alt="ViewTube"
-        >
+        <img class="logo-about-img" src="@/assets/icon.svg" alt="ViewTube" />
       </div>
       <h2>ViewTube by Maurice Oegerli</h2>
       <h3>{{ description }}</h3>
@@ -19,7 +12,7 @@
         <BadgeButton :href="'https://github.com/mauriceoegerli/viewtube-vue'">
           <GithubIcon />ViewTube
         </BadgeButton>
-        <BadgeButton :href="'https://github.com/omarroth/invidious'">
+        <BadgeButton :href="'https://github.com/iv-org/invidious'">
           <GithubIcon />
           <p>Invidious</p>
         </BadgeButton>
@@ -28,10 +21,7 @@
           <p>Invidious</p>
         </BadgeButton>
       </div>
-      <div
-        v-if="invidousStats"
-        class="invidious-stats"
-      >
+      <div v-if="invidousStats" class="invidious-stats">
         <table>
           <tr>
             <td>Invidious instance</td>
@@ -43,17 +33,16 @@
           </tr>
           <tr>
             <td>Last update</td>
-            <td>{{ new Date(invidousStats.metadata.updatedAt).toUTCString() }}</td>
+            <td>
+              {{ new Date(invidousStats.metadata.updatedAt).toUTCString() }}
+            </td>
           </tr>
         </table>
       </div>
       <h2>Invidious License</h2>
       <InvidiousLicense />
     </div>
-    <div
-      class="about-overlay popup-overlay"
-      @click.stop="$emit('close')"
-    />
+    <div class="about-overlay popup-overlay" @click.stop="$emit('close')" />
   </div>
 </template>
 
@@ -88,10 +77,10 @@ export default {
       method: 'GET'
     })
       .then(response => response.json())
-      .then((data) => {
+      .then(data => {
         me.invidousStats = data
       })
-      .catch((error) => {
+      .catch(error => {
         console.error(error)
       })
   }
@@ -118,13 +107,6 @@ export default {
     }
   }
 }
-.invidious-license {
-  width: 100%;
-  margin: 10px 0 !important;
-  height: 400px;
-  overflow-y: scroll;
-  background-color: var(--bgcolor-main);
-}
 .links-about {
   margin: 10px 0 0 0 !important;
 
@@ -136,36 +118,31 @@ export default {
   }
 }
 
-.logo-about {
-  margin: 20px auto 0 auto !important;
-  clip-path: polygon(
-    18% 4%,
-    95% 50%,
-    95% 50%,
-    95% 50%,
-    95% 50%,
-    95% 50%,
-    18% 96%
-  );
-  width: 200px;
-  height: 200px;
-
-  .logo-about-img {
-    transform-origin: top left;
-    animation: float-around 10s $dynamic-easing infinite;
-    width: 100%;
-  }
+.about-container {
+  overflow-y: auto;
 }
 
-@keyframes float-around {
-  0% {
-    transform: translate(0, 0);
-  }
-  50% {
-    transform: translate(-30%, -30%) scale(1.5) rotate(5deg);
-  }
-  100% {
-    transform: translate(0, 0);
+.logo-about {
+  padding: 40px 0 0 0;
+  margin: 0 auto 0 auto !important;
+  width: 150px;
+  height: 150px;
+
+  .logo-about-img {
+    width: 100%;
+    transform-origin: top left;
+    animation: float-around 10s $dynamic-easing infinite;
+    @keyframes float-around {
+      0% {
+        transform: translate(0, 0);
+      }
+      50% {
+        transform: translate(-10%, -10%) scale(1.2);
+      }
+      100% {
+        transform: translate(0, 0);
+      }
+    }
   }
 }
 </style>
