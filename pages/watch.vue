@@ -100,7 +100,7 @@
         <div class="video-actions">
           <BadgeButton
             :href="`https://getpocket.com/save?url=${encodedUrl}`"
-            style="color: #EF4056;"
+            style="color: #ef4056;"
           >
             <img src="@/assets/icons/pocket.svg" alt="Save to pocket icon" />
             Save to pocket
@@ -119,8 +119,11 @@
             </div>
           </div>
         </transition>
-        <p class="video-infobox-text">tags:</p>
-        <div class="video-infobox-tags">
+        <p class="video-infobox-text" v-if="video.keywords">tags:</p>
+        <div
+          class="video-infobox-tags"
+          v-if="video.keywords"
+        >
           <div v-if="video.keywords" class="tags-container">
             <BadgeButton
               v-for="keyword in video.keywords"
@@ -141,8 +144,7 @@
             <div class="comments-count">
               <p>
                 {{
-                  comment.commentCount &&
-                    comment.commentCount.toLocaleString('en-US')
+                  comment.commentCount && comment.commentCount.toLocaleString('en-US')
                 }}
                 comments
               </p>
@@ -215,14 +217,14 @@ export default {
       .videos({
         id: query.v
       })
-      .then(response => {
+      .then((response) => {
         if (response) {
           return { video: response.data }
         } else {
           // throw new Error('Error loading video')
         }
       })
-      .catch(err => {
+      .catch((err) => {
         if (err.response) {
           error({
             statusCode: err.statusCode,
@@ -239,7 +241,7 @@ export default {
       })
   },
   data: () => ({
-    jsEnabled: false,
+      jsEnabled: false,
     video: [],
     comment: null,
     commentsLoading: true,
@@ -291,8 +293,8 @@ export default {
         cache: 'force-cache',
         method: 'GET'
       })
-        .then(response => response.json())
-        .then(data => {
+        .then((response) => response.json())
+        .then((data) => {
           if (data.comments && data.comments.length > 0) {
             this.comment = data
             this.commentsLoading = false
@@ -315,8 +317,8 @@ export default {
           method: 'GET'
         }
       )
-        .then(response => response.json())
-        .then(data => {
+        .then((response) => response.json())
+        .then((data) => {
           this.comment.comments = this.comment.comments.concat(data.comments)
           this.commentsContinuationLoading = false
           this.commentsContinuationLink = data.continuation || null
