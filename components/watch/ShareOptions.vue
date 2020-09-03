@@ -1,13 +1,18 @@
 <template>
   <div class="share-options">
     <div class="share-options-container">
-      <ShareOptionEntry optionName="Reddit">
-        <Reddit class="reddit-icon" />
-      </ShareOptionEntry>
-      <ShareOptionEntry optionName="Copy Link" :click="shareCopyLink">
+      <ShareOptionEntry
+        class="share-option"
+        optionName="Copy Link"
+        :click="shareCopyLink"
+      >
         <Copy class="copy-icon" />
       </ShareOptionEntry>
-      <ShareOptionEntry optionName="Open QR-Code" :click="qrOpen">
+      <ShareOptionEntry
+        class="share-option"
+        optionName="Open QR-Code"
+        :click="qrOpen"
+      >
         <QrCode class="qrcode-icon" />
       </ShareOptionEntry>
     </div>
@@ -21,7 +26,6 @@
 
 <script>
 import ShareOptionEntry from '@/components/list/ShareOptionEntry'
-import Reddit from 'vue-material-design-icons/Reddit'
 import Copy from 'vue-material-design-icons/ContentCopy'
 import QrCode from 'vue-material-design-icons/Qrcode'
 import QrPopUp from '@/components/popup/QrPopUp'
@@ -30,16 +34,12 @@ export default {
   name: 'ShareOptions',
   components: {
     ShareOptionEntry,
-    Reddit,
     Copy,
     QrCode,
     QrPopUp
   },
   data() {
     return { qrPopUpOpen: false }
-  },
-  props: {
-    shareOptions: Array
   },
   methods: {
     url() {
@@ -69,7 +69,21 @@ export default {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: space-evenly;
+    justify-content: flex-start;
+
+    .share-option {
+
+        height: 46px;
+        width: 46px;
+        margin: 4px 4px 4px 0;
+
+      .material-design-icon__svg {
+        margin: 4px;
+        height: 38px !important;
+        width: 38px !important;
+        position: unset !important;
+      }
+    }
   }
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="share-option" v-tippy="optionName" @click="onClick">
+  <div class="share-option" v-ripple v-tippy="optionName" @click="onClick">
     <slot />
   </div>
 </template>
