@@ -105,7 +105,20 @@
             <img src="@/assets/icons/pocket.svg" alt="Save to pocket icon" />
             Save to pocket
           </BadgeButton>
+          <BadgeButton 
+            style="color: #EFBB00"
+            :click="() => shareOpen = !shareOpen">
+            <Share class="share-icon" />
+            Share
+          </BadgeButton>
         </div>
+        <transition name="share-fade-down">
+          <div v-show="shareOpen">
+            <div>
+              <ShareOptions class="share-options-display"> </ShareOptions>
+            </div>
+          </div>
+        </transition>
         <p class="video-infobox-text" v-if="video.keywords">tags:</p>
         <div
           class="video-infobox-tags"
@@ -131,8 +144,7 @@
             <div class="comments-count">
               <p>
                 {{
-                  comment.commentCount &&
-                  comment.commentCount.toLocaleString('en-US')
+                  comment.commentCount && comment.commentCount.toLocaleString('en-US')
                 }}
                 comments
               </p>
@@ -161,6 +173,7 @@
 <script>
 import ThumbsUp from 'vue-material-design-icons/ThumbUp'
 import ThumbsDown from 'vue-material-design-icons/ThumbDown'
+import Share from 'vue-material-design-icons/Share'
 import LoadMoreIcon from 'vue-material-design-icons/Reload'
 import Spinner from '@/components/Spinner'
 import Commons from '@/plugins/commons.js'
@@ -171,6 +184,7 @@ import Comment from '@/components/Comment'
 import ViewtubeApi from '@/plugins/services/viewtubeApi'
 import Invidious from '@/plugins/services/invidious'
 import RecommendedVideos from '@/components/watch/RecommendedVideos'
+import ShareOptions from '@/components/watch/ShareOptions'
 import CollapsibleSection from '@/components/list/CollapsibleSection'
 import BadgeButton from '@/components/buttons/BadgeButton'
 
@@ -180,11 +194,13 @@ export default {
     Spinner,
     ThumbsUp,
     ThumbsDown,
+    Share,
     LoadMoreIcon,
     VideoPlayer,
     SubscribeButton,
     Comment,
     RecommendedVideos,
+    ShareOptions,
     CollapsibleSection,
     BadgeButton
   },
@@ -203,7 +219,6 @@ export default {
       })
       .then((response) => {
         if (response) {
-          console.log(response.description)
           return { video: response.data }
         } else {
           // throw new Error('Error loading video')
@@ -226,14 +241,15 @@ export default {
       })
   },
   data: () => ({
-    jsEnabled: false,
+      jsEnabled: false,
     video: [],
     comment: null,
     commentsLoading: true,
     commentsContinuationLink: null,
     commentsContinuationLoading: false,
     commons: Commons,
-    recommendedOpen: false
+    recommendedOpen: false,
+    shareOpen: false
   }),
   computed: {
     browser() {
@@ -260,7 +276,7 @@ export default {
   methods: {
     getHDUrl() {
       if (this.video.formatStreams) {
-        const video = this.video.formatStreams.find((e) => {
+        const video = this.video.formatStreams.find(e => {
           return e.qualityLabel && e.qualityLabel === '720p'
         })
         if (video) {
@@ -285,7 +301,7 @@ export default {
             this.commentsContinuationLink = data.continuation || null
           }
         })
-        .catch((error) => {
+        .catch(error => {
           console.error(error)
         })
     },
@@ -307,7 +323,7 @@ export default {
           this.commentsContinuationLoading = false
           this.commentsContinuationLink = data.continuation || null
         })
-        .catch((error) => {
+        .catch(error => {
           console.error(error)
         })
     }
@@ -351,6 +367,21 @@ export default {
 </script>
 
 <style lang="scss">
+.share-fade-down-enter-active,
+.share-fade-down-leave-active {
+  transition: transform 200ms $intro-easing, opacity 200ms $intro-easing;
+}
+.share-fade-down-enter-to,
+.share-fade-down-leave {
+  transform: scale(1);
+  opacity: 1;
+}
+.share-fade-down-enter,
+.share-fade-down-leave-to {
+  transform: scale(1.1);
+  opacity: 0;
+}
+
 .watch {
   width: 100%;
   margin-top: $header-height;
@@ -584,6 +615,8 @@ export default {
       .video-actions {
         margin: 0 auto;
         width: 100%;
+        display: flex;
+        flex-direction: row;
 
         img {
           position: relative;

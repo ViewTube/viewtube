@@ -1,22 +1,16 @@
 <template>
-  <div
-    class="header"
-    :class="{ hidden: $store.state.scroll.scrollDown }"
-  >
-    <nuxt-link
-      class="logo-link"
-      to="/"
-    >
+  <div class="header" :class="{ hidden: $store.state.scroll.scrollDown }">
+    <nuxt-link class="logo-link" to="/">
       <h1 class="logo">
         <span>View</span>
         <span class="logo-colored">Tube</span>
       </h1>
       <img
         class="logo-small"
-        :class="{ inverted: currentRouteName!=='home' }"
+        :class="{ inverted: currentRouteName !== 'home' }"
         src="@/assets/icon.svg"
         alt="ViewTube"
-      >
+      />
     </nuxt-link>
     <MainSearchBox />
     <UserMenu />
@@ -36,9 +30,7 @@ export default {
   props: {
     scrollTop: Boolean
   },
-  data: () => ({
-
-  }),
+  data: () => ({}),
   computed: {
     currentRouteName() {
       return this.$route.name
@@ -47,16 +39,12 @@ export default {
       return this.$store.getters['user/isLoggedIn']
     }
   },
-  mounted() {
-  },
-  methods: {
-  }
+  mounted() {},
+  methods: {}
 }
-
 </script>
 
 <style lang="scss">
-
 .header {
   height: $header-height;
   width: 100%;
