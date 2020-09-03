@@ -6,7 +6,8 @@
       "@/*": ["./*"],
       "~~/*": ["./*"],
       "@@/*": ["./*"]
-    }
+    },
+    "experimentalDecorators": true
   },
-  "exclude": ["node_modules", ".vscode", ".nuxt", "dist"]
+  "exclude": ["node_modules", ".vscode", ".nuxt", "dist"],
 }

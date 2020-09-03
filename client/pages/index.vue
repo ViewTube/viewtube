@@ -48,7 +48,8 @@ export default {
     GradientBackground
   },
   asyncData({ params }) {
-    return Invidious.api.popular()
+    return Invidious.api
+      .popular()
       .then((response) => {
         return { videos: response.data }
       })
@@ -67,11 +68,9 @@ export default {
       return this.$store.getters['user/isLoggedIn']
     }
   },
-  mounted(){
-    
-  },
+  mounted() {},
   methods: {
-    loadData (data) {
+    loadData(data) {
       this.videos = data
       if (this.userAuthenticated) {
         this.getSubscriptions()
@@ -83,9 +82,9 @@ export default {
       fetch(`${process.env.API_URL}subscriptions/videos?limit=4`, {
         cache: 'force-cache',
         method: 'GET',
-        credentials: "include"
+        credentials: 'include'
       })
-        .then(response => response.json())
+        .then((response) => response.json())
         .then((data) => {
           me.subscriptions = data
           me.loading = false
@@ -94,9 +93,7 @@ export default {
           console.error(error)
         })
     },
-    showMoreVideos() {
-
-    },
+    showMoreVideos() {},
     handleScroll(e) {
       this.$emit('scroll', e)
     }

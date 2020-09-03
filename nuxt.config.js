@@ -1,18 +1,21 @@
-export default {
+module.exports = {
   mode: 'universal',
 
-  server: {
-    port: 8066
-  },
+  srcDir: './client',
 
   env: {
     API_URL: process.env.VIEWTUBE_API_URL,
-    VAPID_KEY: process.env.VIEWTUBE_VAPID
+    VAPID_KEY: process.env.VIEWTUBE_VAPID,
+    host: 'localhost',
+    port: '3100',
+    baseUrl: process.env.BASE_URL || 'http://localhost:3100'
   },
 
   publicRuntimeConfig: {
     vapidKey: process.env.VIEWTUBE_VAPID
   },
+
+  modern: true,
 
   head: {
     title: 'ViewTube',

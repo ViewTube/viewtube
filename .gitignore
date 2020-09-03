@@ -31,3 +31,6 @@ sw.*
 # LineCount files
 out/
 out/*
+
+data/*
+output/*
