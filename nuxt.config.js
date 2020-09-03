@@ -15,6 +15,8 @@ module.exports = {
     vapidKey: process.env.VIEWTUBE_VAPID
   },
 
+  modern: true,
+
   head: {
     title: 'ViewTube',
     meta: [
