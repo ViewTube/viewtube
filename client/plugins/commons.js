@@ -18,7 +18,7 @@ export default {
     if (this.isProduction()) {
       return process.env.VIEWTUBE_API_URL || 'https://viewtube.io/api'
     }
-    return 'http://localhost:3030/api'
+    return 'http://localhost:8066/api'
   },
 
   getVAPIDKey() {
