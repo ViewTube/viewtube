@@ -11,6 +11,7 @@
     "start": "cross-env NODE_ENV=production node -r module-alias/register dist/server/main.js",
     "build": "cross-env NODE_ENV=production npm run clean && nuxt build && tsc",
     "serve": "cross-env NODE_ENV=development webpack --config webpack.config.js",
+    "db": "mongod --dbpath data",
     "lint": "vue-cli-service lint",
     "clean": "rimraf dist",
     "nest": "nest",

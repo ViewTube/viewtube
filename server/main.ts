@@ -54,10 +54,10 @@ async function bootstrap() {
   if (configService.get('VIEWTUBE_DATA_DIRECTORY')) {
     global['__basedir'] = configService.get('VIEWTUBE_DATA_DIRECTORY');
   }
-  const channelsDir = `${global['__basedir']}channels`;
+  const channelsDir = `${global['__basedir']}/channels`;
   if (!fs.existsSync(channelsDir)) {
     console.log(channelsDir, 'basedir: ' + __dirname);
-    fs.mkdirSync('./' + channelsDir);
+    fs.mkdirSync(channelsDir);
   }
 
   // SWAGGER DOCS
