@@ -50,14 +50,17 @@ async function bootstrap() {
   );
 
   // DATA STORAGE CONFIG
+
   global['__basedir'] = __dirname;
   if (configService.get('VIEWTUBE_DATA_DIRECTORY')) {
     global['__basedir'] = configService.get('VIEWTUBE_DATA_DIRECTORY');
   }
-  const channelsDir = `${global['__basedir']}/channels`;
-  if (!fs.existsSync(channelsDir)) {
-    console.log(channelsDir, 'basedir: ' + __dirname);
-    fs.mkdirSync(channelsDir);
+  if (!dev) {
+    const channelsDir = `${global['__basedir']}/channels`;
+    if (!fs.existsSync(channelsDir)) {
+      console.log(channelsDir, 'basedir: ' + __dirname);
+      fs.mkdirSync(channelsDir);
+    }
   }
 
   // SWAGGER DOCS
