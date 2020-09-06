@@ -18,7 +18,7 @@
     "paths": {
       "~/*": ["client/*"]
     },
-    "types": ["@types/node", "@nuxt/vue-app"]
+    "types": ["@types/node", "@nuxt/vue-app", "@types/jest"]
   },
   "include": ["server/**/*", "client/**/*"],
   "exclude": ["node_modules", "server/**/*.spec.ts"]
