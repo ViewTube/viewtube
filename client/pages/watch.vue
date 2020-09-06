@@ -213,7 +213,7 @@ export default {
     return true
   },
   asyncData({ query, error }) {
-    return Invidious.api
+    return ViewtubeApi.api
       .videos({
         id: query.v
       })
