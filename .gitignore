@@ -35,3 +35,4 @@ out/*
 data/*
 output/*
 docker-compose.yml
+.vs/*
