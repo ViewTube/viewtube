@@ -78,7 +78,7 @@ async function bootstrap() {
   server.use(cookieParser());
 
   // START
-  await server.listen(port, 'localhost', () => {
+  await server.listen(port, () => {
     Consola.ready({
       message: `Server listening on http://localhost:${port}`,
       badge: true,
