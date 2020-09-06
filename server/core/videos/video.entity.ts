@@ -5,11 +5,12 @@ import { Expose, Exclude } from 'class-transformer';
 import humanizeDuration from 'humanize-duration';
 import { AuthorThumbnailDto } from './dto/author-thumbnail.dto';
 import { VideoThumbnailDto } from './dto/video-thumbnail.dto';
+import { RecommendedVideoDto } from './dto/recommended-video.dto';
 
 export class VideoEntity implements VideoDto {
-  constructor(private _source: Partial<videoInfo>) { }
+  constructor(private _source: Partial<videoInfo>) {}
 
-  private _videoDetails = this._source.videoDetails
+  private _videoDetails = this._source.videoDetails;
 
   @Exclude()
   playerResponse = this._source.player_response;
@@ -26,7 +27,9 @@ export class VideoEntity implements VideoDto {
 
   videoId: string = this._videoDetails.videoId;
 
-  videoThumbnails: Array<VideoThumbnailDto> = Common.getVideoThumbnails(this._videoDetails.videoId);
+  videoThumbnails: Array<VideoThumbnailDto> = Common.getVideoThumbnails(
+    this._videoDetails.videoId,
+  );
 
   storyboards: Array<any> = [];
 
@@ -39,7 +42,8 @@ export class VideoEntity implements VideoDto {
   @Expose()
   get publishedText(): string {
     const durationString = humanizeDuration(
-      new Date().valueOf() - Date.parse(this._videoDetails.publishDate).valueOf(),
+      new Date().valueOf() -
+        Date.parse(this._videoDetails.publishDate).valueOf(),
       { largest: 1 },
     );
     return `${durationString} ago`;
@@ -141,23 +145,32 @@ export class VideoEntity implements VideoDto {
       });
   }
 
-  captionTracks: Array<any> = this.playerResponse.captions
-    .playerCaptionsTracklistRenderer.captionTracks;
+  @Expose()
+  get captionTracks(): Array<any> {
+    if (
+      this.playerResponse.captions &&
+      this.playerResponse.captions.playerCaptionsTracklistRenderer
+    ) {
+      return this.playerResponse.captions.playerCaptionsTracklistRenderer
+        .captionTracks;
+    }
+    return [];
+  }
 
   captions: Array<any> = this.captionTracks
     ? this.captionTracks.map((value) => {
-      return {
-        label: value.name.simpleText,
-        languageCode: value.languageCode,
-        url: `/api/v1/captions/${
-          this._videoDetails.videoId
+        return {
+          label: value.name.simpleText,
+          languageCode: value.languageCode,
+          url: `/api/v1/captions/${
+            this._videoDetails.videoId
           }?label=${encodeURIComponent(value.name.simpleText)}`,
-      };
-    })
+        };
+      })
     : [];
 
   @Expose()
-  get recommendedVideos() {
+  get recommendedVideos(): Array<RecommendedVideoDto> {
     return this._source.related_videos.map((vid) => {
       const video = vid as any;
       return {
