@@ -67,10 +67,7 @@ module.exports = {
     duration: 8000
   },
 
-  css: [
-    '~/assets/fonts/expletus.css',
-    '~/assets/fonts/notosans.css'
-  ],
+  css: ['~/assets/fonts/expletus.css', '~/assets/fonts/notosans.css'],
   styleResources: {
     scss: ['~/assets/styles/global/*.scss']
   },
@@ -78,24 +75,17 @@ module.exports = {
   plugins: [
     '@/plugins/directives/index',
     '@/plugins/formatting',
-    { src: '@/plugins/localStorage', ssr: false }
+    { src: '@/plugins/localStorage', mode: 'client' }
   ],
 
   // pwa: {
   workbox: {
-    importScripts: [
-      'notifications-sw.js'
-    ]
+    importScripts: ['notifications-sw.js']
   },
   // },
 
   buildModules: [],
 
-  render: {
-    bundleRenderer: {
-      directives: {}
-    }
-  },
   modules: [
     '@nuxtjs/style-resources',
     'portal-vue/nuxt',
@@ -118,11 +108,7 @@ module.exports = {
         })
       ]
     },
-    transpile: [
-      'vue-material-design-icons',
-      'dashjs',
-      'tippy.js'
-    ],
-    extend(config, ctx) { }
+    transpile: ['vue-material-design-icons', 'dashjs', 'tippy.js'],
+    extend(config, ctx) {}
   }
 }
