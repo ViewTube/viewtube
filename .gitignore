@@ -34,3 +34,4 @@ out/*
 
 data/*
 output/*
+docker-compose.yml

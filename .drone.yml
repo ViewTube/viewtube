@@ -3,6 +3,12 @@ type: docker
 name: default
 
 steps:
+- name: build
+  image: node
+  commands:
+    - yarn install
+    - yarn build
+
 - name: publish
   image: plugins/docker
   settings:
