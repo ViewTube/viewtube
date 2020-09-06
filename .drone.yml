@@ -3,14 +3,14 @@ type: docker
 name: default
 
 steps:
-- name: build
+- name: ✅ Test
   image: node
   commands:
     - yarn install
     - yarn build
     - yarn test
 
-- name: publish
+- name: 📦 Publish
   image: plugins/docker
   settings:
     repo: mauriceo/viewtube
@@ -27,7 +27,7 @@ steps:
     event:
       - push
 
-- name: send telegram notification
+- name: 🔔 Notify
   image: appleboy/drone-telegram
   settings:
     token: 
