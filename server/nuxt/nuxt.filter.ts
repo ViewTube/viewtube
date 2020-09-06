@@ -5,6 +5,7 @@ import {
   Catch,
 } from '@nestjs/common';
 import { Nuxt } from 'nuxt';
+import { Response } from 'express';
 
 @Catch()
 export class NuxtFilter implements ExceptionFilter {
@@ -17,20 +18,20 @@ export class NuxtFilter implements ExceptionFilter {
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   public async catch(exception: HttpException, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
-    const res = ctx.getResponse();
+    const res: Response = ctx.getResponse();
     const req = ctx.getRequest();
     const status = exception.getStatus();
 
-    if (status === 404) {
-      if (!res.headersSent) {
-        await this.nuxt.render(req, res);
-      }
+    if (
+      status === 404 &&
+      !res.headersSent &&
+      !exception.getResponse()['ignoreFilter']
+    ) {
+      await this.nuxt.render(req, res);
     } else {
-      res.status(status).json({
-        statusCode: status,
-        timestamp: new Date().toISOString(),
-        path: req.url,
-      });
+      const response = exception.getResponse();
+      delete response['ignoreFilter'];
+      res.status(status).json(response);
     }
   }
 }

@@ -1,4 +1,4 @@
-import { Injectable, HttpException } from '@nestjs/common';
+import { Injectable, HttpException, NotFoundException } from '@nestjs/common';
 import { SubscriptionStatusDto } from './dto/subscription-status.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { VideoBasicInfo } from 'server/core/videos/schemas/video-basic-info.schema';
@@ -28,7 +28,7 @@ export class SubscriptionsService {
     @InjectModel(Subscription.name)
     private readonly subscriptionModel: Model<Subscription>,
     private notificationsService: NotificationsService,
-  ) { }
+  ) {}
 
   private feedUrl = 'https://www.youtube.com/feeds/videos.xml?channel_id=';
 
@@ -231,8 +231,8 @@ export class SubscriptionsService {
     const user = await this.subscriptionModel
       .findOne({ username })
       .exec()
-      .catch(() => {
-        throw new HttpException('No subscriptions', 404);
+      .catch((err) => {
+        console.log(err);
       });
     if (user) {
       const userChannelIds = user.subscriptions.map((e) => e.channelId);
@@ -248,7 +248,7 @@ export class SubscriptionsService {
           });
       }
     }
-    throw new HttpException('No subscriptions', 404);
+    return [];
   }
 
   async getSubscriptionFeed(
@@ -281,10 +281,7 @@ export class SubscriptionsService {
           );
         });
     }
-    throw new HttpException(
-      `Error fetching subscription feed, found no subscriptions`,
-      404,
-    );
+    return [];
   }
 
   async getSubscription(
@@ -353,7 +350,7 @@ export class SubscriptionsService {
               existing.push({
                 channelId: channel.authorId,
                 isSubscribed: true,
-              })
+              });
             }
           }
         } else {
@@ -454,6 +451,9 @@ export class SubscriptionsService {
         isSubscribed: false,
       };
     }
-    throw new HttpException('User or subscription not found', 404);
+    throw new NotFoundException({
+      message: 'User or subscription not found',
+      ignoreFilter: true,
+    });
   }
 }
