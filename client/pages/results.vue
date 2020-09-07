@@ -67,8 +67,8 @@ import BottomNavigation from '@/components/BottomNavigation';
 import GradientBackground from '@/components/GradientBackground.vue';
 import Dropdown from '@/components/filter/Dropdown';
 import SearchParams from '@/plugins/services/searchParams';
-import Invidious from '@/plugins/services/invidious';
 import BadgeButton from '@/components/buttons/BadgeButton';
+import Invidious from '@/plugins/services/invidious';
 
 export default {
   name: 'Search',
