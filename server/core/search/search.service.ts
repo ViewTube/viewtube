@@ -1,34 +1,29 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { SearchQueryDto } from './dto/search-query.dto';
-import { SearchResponseDto } from './dto/search-response.dto';
-import ytsr from 'ytsr';
+import ytsr, { Result, Filter } from 'ytsr';
+import { SearchMapper } from './search.mapper';
+import { ISearchResponse } from './interface/search-response.interface';
+import { response } from 'express';
 
 @Injectable()
 export class SearchService {
-  async doSearch(searchQuery: SearchQueryDto): Promise<SearchResponseDto> {
-    if (Object.keys(searchQuery).length <= 1) {
-      return ytsr(searchQuery.q, {
-        limit: 10
-      })
-        .then(result => {
-          return result;
-        })
-        .catch(err => {
-          throw new InternalServerErrorException(
-            `Error searching for ${searchQuery.q}`
-          );
-        });
-    } else {
-      return ytsr
-        .getFilters(searchQuery.q)
-        .then(result => {
-          return result as any;
-        })
-        .catch(err => {
-          throw new InternalServerErrorException(
-            `Error searching for ${searchQuery.q}`
-          );
-        });
+  async getFilters(searchString: string): Promise<Array<any>> {
+    try {
+      const filters = await ytsr.getFilters(searchString);
+      return Array.from(filters);
+    } catch (err) {
+      console.log(err);
+      throw new InternalServerErrorException(`Error getting filters for ${searchString}`);
     }
+  }
+  async doSearch(searchQuery: SearchQueryDto): Promise<ISearchResponse> {
+    return ytsr(searchQuery.q, searchQuery)
+      .then(result => {
+        return SearchMapper.ytsrToDto(result);
+      })
+      .catch(err => {
+        console.log(err);
+        throw new InternalServerErrorException(`Error searching for ${searchQuery.q}`);
+      });
   }
 }

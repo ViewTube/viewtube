@@ -86,7 +86,7 @@
     "xml-js": "^1.6.11",
     "xml2json": "^0.12.0",
     "ytdl-core": "^3.2.1",
-    "ytsr": "git://github.com/mauriceoegerli/node-ytsr.git#patch-1"
+    "ytsr": "^1.0.1"
   },
   "devDependencies": {
     "@nestjs/cli": "^7.0.0",

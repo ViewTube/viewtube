@@ -1,0 +1,22 @@
+import {
+  Mix,
+  Playlist,
+  Channel,
+  Video,
+  Movie,
+  RelatedSearches,
+  ShelfCompact,
+  ShelfVertical
+} from 'ytsr';
+import { ChannelBasicInfoDto } from 'server/core/channels/dto/channel-basic-info.dto';
+import { VideoBasicInfoDto } from 'server/core/videos/dto/video-basic-info.dto';
+
+export type SearchItem =
+  | Mix
+  | Playlist
+  | ChannelBasicInfoDto
+  | VideoBasicInfoDto
+  | Movie
+  | RelatedSearches
+  | ShelfCompact
+  | ShelfVertical;

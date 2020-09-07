@@ -2,8 +2,7 @@ import { AuthorThumbnailDto } from './videos/dto/author-thumbnail.dto';
 import { VideoThumbnailDto } from './videos/dto/video-thumbnail.dto';
 
 export class Common {
-  public static readonly youtubeVideoUrl: string =
-    'https://youtube.com/watch?v=';
+  public static readonly youtubeVideoUrl: string = 'https://youtube.com/watch?v=';
 
   public static removeYoutubeFromUrl(url: string): string {
     if (url) {
@@ -17,9 +16,18 @@ export class Common {
     }
   }
 
-  public static getVideoThumbnails(
-    id: string
-  ): Array<VideoThumbnailDto> {
+  public static getChannelIdFromUrl(channelUrl: string): string {
+    return channelUrl
+      .replace('https://www.youtube.com/user/', '')
+      .replace('https://www.youtube.com/channel/', '')
+      .replace('/', '');
+  }
+
+  public static getVideoIdFromUrl(videoUrl: string): string {
+    return videoUrl.replace('https://www.youtube.com/watch?v=', '');
+  }
+
+  public static getVideoThumbnails(id: string): Array<VideoThumbnailDto> {
     return [
       {
         quality: 'maxres',
@@ -78,34 +86,21 @@ export class Common {
     ];
   }
 
-  public static getAuthorThumbnails(
-    url: string
-  ): Array<AuthorThumbnailDto> {
+  public static getAuthorThumbnails(url: string): Array<AuthorThumbnailDto> {
     const regex = /(.*=s)(.*)(-c-k-c.*)/;
     return this.createThumbnailUrls(url, (res: number) => {
-      return url.replace(
-        regex,
-        (_, p1, p2, p3) => `${p1}${res}${p3}`
-      );
+      return url.replace(regex, (_, p1, p2, p3) => `${p1}${res}${p3}`);
     });
   }
 
-  public static getAuthorThumbnailsForRecommended(
-    url: string
-  ): Array<AuthorThumbnailDto> {
+  public static getAuthorThumbnailsForRecommended(url: string): Array<AuthorThumbnailDto> {
     const regex = /(.*\/s)(.*)(-c-k-no.*)/;
     return this.createThumbnailUrls(url, (res: number) => {
-      return url.replace(
-        regex,
-        (_, p1, p2, p3) => `${p1}${res}${p3}`
-      );
+      return url.replace(regex, (_, p1, p2, p3) => `${p1}${res}${p3}`);
     });
   }
 
-  public static createThumbnailUrls(
-    baseUrl: string,
-    replaceFn: Function
-  ) {
+  public static createThumbnailUrls(baseUrl: string, replaceFn: Function) {
     if (baseUrl) {
       return [
         {

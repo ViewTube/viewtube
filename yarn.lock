@@ -13746,17 +13746,10 @@ ytdl-core@^3.2.1:
     miniget "^2.0.1"
     sax "^1.1.3"
 
-ytsr@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/ytsr/-/ytsr-1.0.0.tgz#292d1e28a47a47a5bd1326300bb129e4dda07aa3"
-  integrity sha512-dkDprorGev8QyKI6lo53M2QyB4RWyRD7k8bMEcEvS+0Sz4CbNo3+L2NAdV2vBJBwz/lD8YPfXzZmkVc7UZSvaA==
-  dependencies:
-    html-entities "^1.3.1"
-    miniget "^2.0.1"
-
-"ytsr@git://github.com/mauriceoegerli/node-ytsr.git#patch-1":
-  version "1.0.0"
-  resolved "git://github.com/mauriceoegerli/node-ytsr.git#4f948045bdde2d2b5c548936590f37aec0385265"
+ytsr@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/ytsr/-/ytsr-1.0.1.tgz#d108d4a8161fd14ce0a20654297c6fa4251a4731"
+  integrity sha512-oZgv3nA6ks0ODOs41CFujAE80LC1XmzUnmIfgb1y3HKPlubc+ypKSXAATjT6p2DQe/sjGuN4Ium13HAbrZ4TAg==
   dependencies:
     html-entities "^1.3.1"
     miniget "^2.0.1"

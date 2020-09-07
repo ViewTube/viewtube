@@ -7,4 +7,7 @@ export class ChannelBasicInfoDto {
   authorThumbnails?: Array<AuthorThumbnailDto>;
   authorThumbnailUrl?: string;
   authorVerified?: boolean;
+  subCount?: number;
+  videoCount?: number;
+  description?: string;
 }
