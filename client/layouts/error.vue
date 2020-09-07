@@ -1,21 +1,22 @@
 <template>
   <div class="error-page">
     <div class="error-container">
-      <h1 class="error-1">{{error.statusCode}}</h1>
+      <h1 class="error-1">{{ error.statusCode }}</h1>
     </div>
     <div class="error-popup">
       <div class="error-message">
-        <h2>{{error.message}}</h2>
-        <p>Api-url: {{apiUrl}}</p>
+        <h2>{{ error.message }}</h2>
+        <p>Api-url: {{ apiUrl }}</p>
         <details v-if="error.detail" class="error-details">
           <summary>Full error</summary>
-          <p>{{error.detail}}</p>
+          <p>{{ error.detail }}</p>
         </details>
         <nuxt-link
           v-if="possibleSearch"
           class="ripple"
           :to="`/results?search_query=${possibleSearch}`"
-        >Search for {{ possibleSearch }}</nuxt-link>
+          >Search for {{ possibleSearch }}</nuxt-link
+        >
       </div>
     </div>
   </div>
@@ -29,7 +30,7 @@ export default {
   },
   methods: {
     retry() {
-      window.location.reload()
+      window.location.reload();
     }
   },
   data: () => ({
@@ -38,14 +39,12 @@ export default {
   }),
   mounted() {
     if (this.error.statusCode === 404) {
-      const path = this.$route.path
-      this.possibleSearch = path.replace('/', '')
+      const path = this.$route.path;
+      this.possibleSearch = path.replace('/', '');
     }
   },
-  beforeCreate() {
-
-  }
-}
+  beforeCreate() {}
+};
 </script>
 
 <style lang="scss" scoped>

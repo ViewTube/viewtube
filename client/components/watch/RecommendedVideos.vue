@@ -7,10 +7,7 @@
         :video="video"
       />
       <div class="show-more-container">
-        <BadgeButton
-          :click="expand"
-          v-if="!videosExpanded"
-        >
+        <BadgeButton :click="expand" v-if="!videosExpanded">
           <LoadMoreIcon />
           <p>show more</p>
         </BadgeButton>
@@ -20,9 +17,9 @@
 </template>
 
 <script>
-import VideoEntry from '@/components/list/VideoEntry'
-import BadgeButton from '@/components/buttons/BadgeButton'
-import LoadMoreIcon from 'vue-material-design-icons/Reload'
+import VideoEntry from '@/components/list/VideoEntry';
+import BadgeButton from '@/components/buttons/BadgeButton';
+import LoadMoreIcon from 'vue-material-design-icons/Reload';
 
 export default {
   name: 'recommended-videos',
@@ -42,22 +39,28 @@ export default {
     videosExpanded: false
   }),
   mounted() {
-    this.recommendedVideosShort = this.recommendedVideos.slice(0, 4)
+    this.recommendedVideosShort = this.recommendedVideos.slice(
+      0,
+      4
+    );
   },
   watch: {
     recommendedVideos(newValue, oldValue) {
       if (newValue !== oldValue) {
-        this.recommendedVideosShort = this.recommendedVideos.slice(0, 4)
+        this.recommendedVideosShort = this.recommendedVideos.slice(
+          0,
+          4
+        );
       }
     }
   },
   methods: {
     expand() {
-      this.recommendedVideosShort = this.recommendedVideos
-      this.videosExpanded = true
+      this.recommendedVideosShort = this.recommendedVideos;
+      this.videosExpanded = true;
     }
   }
-}
+};
 </script>
 
 <style lang="scss">

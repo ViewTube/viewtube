@@ -1,9 +1,6 @@
 <template>
   <div class="gradient-container">
-    <div
-      class="gradient-background"
-      :class="color"
-    >
+    <div class="gradient-background" :class="color">
       <span class="background-shadow" />
     </div>
   </div>
@@ -18,9 +15,8 @@ export default {
       default: 'theme'
     }
   },
-  data: () => ({
-  })
-}
+  data: () => ({})
+};
 </script>
 
 <style lang="scss" scoped>
@@ -39,7 +35,7 @@ export default {
     z-index: 9;
     opacity: 1;
 
-    &[hide="true"] {
+    &[hide='true'] {
       opacity: 0;
     }
 
@@ -79,7 +75,11 @@ export default {
       bottom: 0;
       height: 700px + $header-height;
       width: 100%;
-      background: linear-gradient(to bottom, transparent, var(--bgcolor-main));
+      background: linear-gradient(
+        to bottom,
+        transparent,
+        var(--bgcolor-main)
+      );
     }
   }
 }

@@ -14,12 +14,14 @@
         <span class="checkbox-circle-inner"></span>
       </span>
     </div>
-    <label :for="id" class="label" v-if="label">{{ label }}</label>
+    <label :for="id" class="label" v-if="label">{{
+      label
+    }}</label>
   </div>
 </template>
 
 <script>
-import Commons from '@/plugins/commons'
+import Commons from '@/plugins/commons';
 
 export default {
   name: 'CheckBox',
@@ -31,14 +33,14 @@ export default {
   data() {
     return {
       id: Commons.uuidv4()
-    }
+    };
   },
   methods: {
     onChange(e) {
-      this.$emit('valuechange', e.target.checked)
+      this.$emit('valuechange', e.target.checked);
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -64,7 +66,14 @@ export default {
 
   input:checked + .checkbox-body {
     background-color: var(--theme-color);
-    clip-path: polygon(3px 9px, 8px 13px, 17px 1px, 20px 4px, 9px 19px, 1px 12px);
+    clip-path: polygon(
+      3px 9px,
+      8px 13px,
+      17px 1px,
+      20px 4px,
+      9px 19px,
+      1px 12px
+    );
   }
 
   input:disabled {
@@ -90,7 +99,14 @@ export default {
     background-repeat: no-repeat;
     pointer-events: none;
     margin: 2px;
-    clip-path: polygon(0 0, 0 0, 20px 0, 20px 20px, 0 20px, 0 0);
+    clip-path: polygon(
+      0 0,
+      0 0,
+      20px 0,
+      20px 20px,
+      0 20px,
+      0 0
+    );
     background-color: var(--bgcolor-alt);
     display: block;
     transition: background-color 300ms $intro-easing,

@@ -2,7 +2,10 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { ConfigService } from '@nestjs/config';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import {
+  DocumentBuilder,
+  SwaggerModule
+} from '@nestjs/swagger';
 import packageJson from '../package.json';
 import cookieParser from 'cookie-parser';
 import webPush from 'web-push';
@@ -16,12 +19,14 @@ import path from 'path';
 declare const module: any;
 
 async function bootstrap() {
-  const server = await NestFactory.create<NestExpressApplication>(AppModule);
+  const server = await NestFactory.create<
+    NestExpressApplication
+  >(AppModule);
 
   const dev = process.env.NODE_ENV !== 'production';
   // NUXT
   const nuxt = await NuxtServer.getInstance().run(
-    dev ? !module.hot._main : true,
+    dev ? !module.hot._main : true
   );
 
   // NEST
@@ -46,14 +51,16 @@ async function bootstrap() {
   webPush.setVapidDetails(
     `mailto:${packageJson.email}`,
     configService.get('VIEWTUBE_PUBLIC_VAPID'),
-    configService.get('VIEWTUBE_PRIVATE_VAPID'),
+    configService.get('VIEWTUBE_PRIVATE_VAPID')
   );
 
   // DATA STORAGE CONFIG
 
   global['__basedir'] = __dirname;
   if (configService.get('VIEWTUBE_DATA_DIRECTORY')) {
-    global['__basedir'] = configService.get('VIEWTUBE_DATA_DIRECTORY');
+    global['__basedir'] = configService.get(
+      'VIEWTUBE_DATA_DIRECTORY'
+    );
   }
   if (!dev) {
     const channelsDir = `${global['__basedir']}/channels`;
@@ -70,12 +77,15 @@ async function bootstrap() {
     .setVersion(packageJson.version)
     .setLicense(
       packageJson.license,
-      'https://raw.githubusercontent.com/mauriceoegerli/viewtube-api/master/LICENSE',
+      'https://raw.githubusercontent.com/mauriceoegerli/viewtube-api/master/LICENSE'
     )
     .addBearerAuth()
     .build();
 
-  const swaggerDocument = SwaggerModule.createDocument(server, documentOptions);
+  const swaggerDocument = SwaggerModule.createDocument(
+    server,
+    documentOptions
+  );
   SwaggerModule.setup('/api', server, swaggerDocument);
 
   server.use(cookieParser());
@@ -84,7 +94,7 @@ async function bootstrap() {
   await server.listen(port, () => {
     Consola.ready({
       message: `Server listening on http://localhost:${port}`,
-      badge: true,
+      badge: true
     });
   });
 

@@ -1,13 +1,13 @@
 @font-face {
-  font-family: "expletus-bold";
-  src: url("ExpletusSans-Bold.eot");
-  src:
-    url("ExpletusSans-Bold.eot?#iefix") format("embedded-opentype"),
-    url("ExpletusSans-Bold.woff2") format("woff2"),
-    url("ExpletusSans-Bold.woff") format("woff"),
-    url("ExpletusSans-Bold.otf") format("opentype"),
-    url("ExpletusSans-Bold.ttf") format("truetype"),
-    url("ExpletusSans-Bold.svg") format("svg");
+  font-family: 'expletus-bold';
+  src: url('ExpletusSans-Bold.eot');
+  src: url('ExpletusSans-Bold.eot?#iefix')
+      format('embedded-opentype'),
+    url('ExpletusSans-Bold.woff2') format('woff2'),
+    url('ExpletusSans-Bold.woff') format('woff'),
+    url('ExpletusSans-Bold.otf') format('opentype'),
+    url('ExpletusSans-Bold.ttf') format('truetype'),
+    url('ExpletusSans-Bold.svg') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: swap;

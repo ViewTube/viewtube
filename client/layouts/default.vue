@@ -8,22 +8,35 @@
     @touchmove.passive="onTouchMove"
     @touchend.passive="onTouchEnd"
   >
-    <span class="reload-element" :style="{ transform: `translate3d(0,${reloadElDistance}px,0)` }"></span>
+    <span
+      class="reload-element"
+      :style="{
+        transform: `translate3d(0,${reloadElDistance}px,0)`
+      }"
+    ></span>
     <ThemeStyling />
     <Header v-if="!headless" class="main-header" />
     <Miniplayer v-if="$store.getters.miniplayer" />
     <nuxt />
-    <portal-target class="dropdown-portal" name="dropdown" multiple />
-    <portal-target class="popup-portal" name="popup" multiple />
+    <portal-target
+      class="dropdown-portal"
+      name="dropdown"
+      multiple
+    />
+    <portal-target
+      class="popup-portal"
+      name="popup"
+      multiple
+    />
     <MessageBoxContainer />
   </div>
 </template>
 
 <script>
-import Header from '@/components/header/MainHeader'
-import Miniplayer from '@/components/miniplayer/Miniplayer'
-import MessageBoxContainer from '@/components/message/MessageBoxContainer'
-import ThemeStyling from '@/components/themes/ThemeStyling'
+import Header from '@/components/header/MainHeader';
+import Miniplayer from '@/components/miniplayer/Miniplayer';
+import MessageBoxContainer from '@/components/message/MessageBoxContainer';
+import ThemeStyling from '@/components/themes/ThemeStyling';
 
 export default {
   name: 'Default',
@@ -38,77 +51,88 @@ export default {
       touchTopY: 0,
       reloadElDistance: 0,
       reloadAnimating: false
-    }
+    };
   },
   computed: {
     headless() {
-      return this.$route.meta.headless
+      return this.$route.meta.headless;
     }
   },
   watch: {
-    browser(oldVal, newVal) {
-    }
+    browser(oldVal, newVal) {}
   },
   mounted() {
-    this.$store.dispatch('user/getUser')
-    if (this.$store.getters['instances/instances'].length === 0){
-      this.$store.dispatch('instances/fetchInstances')
+    this.$store.dispatch('user/getUser');
+    if (
+      this.$store.getters['instances/instances'].length ===
+      0
+    ) {
+      this.$store.dispatch('instances/fetchInstances');
     }
-    this.$refs.app.classList += ` ${this.getThemeClass()}`
+    this.$refs.app.classList += ` ${this.getThemeClass()}`;
     if (process.browser) {
-      window.addEventListener('scroll', this.handleScroll, { passive: true })
+      window.addEventListener('scroll', this.handleScroll, {
+        passive: true
+      });
     }
   },
   methods: {
     handleScroll(e, position) {
-      this.$store.commit('scroll/setScrollPosition', window.pageYOffset)
+      this.$store.commit(
+        'scroll/setScrollPosition',
+        window.pageYOffset
+      );
     },
     getThemeClass() {
       if (process.browser) {
-        return `theme--${this.$store.getters['settings/theme']}`
+        return `theme--${this.$store.getters['settings/theme']}`;
       } else {
-        return 'theme--default'
+        return 'theme--default';
       }
     },
     getAppClass() {
-      let appClass = this.getThemeClass()
+      let appClass = this.getThemeClass();
 
       if (this.reloadAnimating) {
-        appClass += ' animating'
+        appClass += ' animating';
       }
-      return appClass
+      return appClass;
     },
     onTouchStart(e) {
-      this.touchTopY = e.touches[0].pageY
+      this.touchTopY = e.touches[0].pageY;
     },
     onTouchMove(e) {
-      const topY = e.touches[0].pageY
-      const topDistance = topY - this.touchTopY
-      if (window.pageYOffset === 0 && topY > this.touchTopY) {
-        this.reloadAnimating = false
-        this.reloadElDistance = Math.sqrt(topDistance * 50) - 20
+      const topY = e.touches[0].pageY;
+      const topDistance = topY - this.touchTopY;
+      if (
+        window.pageYOffset === 0 &&
+        topY > this.touchTopY
+      ) {
+        this.reloadAnimating = false;
+        this.reloadElDistance =
+          Math.sqrt(topDistance * 50) - 20;
       } else {
-        this.reloadElDistance = 0
-        this.reloadAnimating = true
+        this.reloadElDistance = 0;
+        this.reloadAnimating = true;
       }
     },
     onTouchEnd(e) {
       if (this.reloadElDistance > 100) {
-        this.reloadElDistance = 100
-        this.reloadAnimating = true
-        window.location.reload()
+        this.reloadElDistance = 100;
+        this.reloadAnimating = true;
+        window.location.reload();
       } else {
-        this.reloadElDistance = 0
-        this.reloadAnimating = true
+        this.reloadElDistance = 0;
+        this.reloadAnimating = true;
       }
     }
   }
-}
+};
 </script>
 
 <style lang="scss">
 #app {
-  font-family: "noto-sans", Helvetica, Arial, sans-serif;
+  font-family: 'noto-sans', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: var(--title-color);
@@ -191,7 +215,8 @@ export default {
   pointer-events: none !important;
 }
 body.transition-all * {
-  transition: background-color 300ms ease, color 300ms ease, opacity 300ms ease;
+  transition: background-color 300ms ease, color 300ms ease,
+    opacity 300ms ease;
 }
 p,
 h1,
@@ -208,7 +233,8 @@ div.links {
     text-decoration: none;
     color: var(--theme-color-alt);
     position: relative;
-    transition: background-size 300ms $dynamic-easing, color 300ms $intro-easing;
+    transition: background-size 300ms $dynamic-easing,
+      color 300ms $intro-easing;
     background-image: $theme-color-primary-gradient;
     background-size: 0% 2px;
     background-position: 0 100%;
@@ -257,7 +283,7 @@ button {
   &::after {
     box-shadow: 0 0 0 2px transparent;
     transition: box-shadow 100ms linear;
-    content: "";
+    content: '';
     position: absolute;
     left: 2px;
     top: 2px;

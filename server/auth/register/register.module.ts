@@ -10,4 +10,4 @@ import { UserModule } from '../../user/user.module';
   imports: [CaptchaModule, UserModule],
   exports: [RegisterService]
 })
-export class RegisterModule { }
+export class RegisterModule {}

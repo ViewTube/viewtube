@@ -1,7 +1,9 @@
 <template>
   <div class="messages-container">
     <MessageBox
-      v-for="message in $store.getters['messages/visibleMessages']"
+      v-for="message in $store.getters[
+        'messages/visibleMessages'
+      ]"
       :key="message.id"
       :message="message"
     ></MessageBox>
@@ -9,7 +11,7 @@
 </template>
 
 <script>
-import MessageBox from '@/components/message/MessageBox'
+import MessageBox from '@/components/message/MessageBox';
 export default {
   name: 'message-box-container',
   components: {
@@ -17,10 +19,12 @@ export default {
   },
   data() {
     return {
-      messages: this.$store.getters['messages/visibleMessages']
-    }
+      messages: this.$store.getters[
+        'messages/visibleMessages'
+      ]
+    };
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>

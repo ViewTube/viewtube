@@ -3,35 +3,46 @@
     <div class="playlist-entry-background" />
     <nuxt-link
       class="playlist-entry-thmb"
-      :to="{path: '/watch?v=' + playlist.videos[0].videoId}"
+      :to="{
+        path: '/watch?v=' + playlist.videos[0].videoId
+      }"
     >
       <div class="thmb-image-container">
         <img
           class="playlist-entry-thmb-image"
-          :src="commons.proxyUrl + playlist.videos[0].videoThumbnails[2].url"
+          :src="
+            commons.proxyUrl +
+            playlist.videos[0].videoThumbnails[2].url
+          "
           :alt="playlist.title"
-        >
+        />
       </div>
-      <span class="playlist-entry-count">{{ playlist.videoCount }} videos</span>
+      <span class="playlist-entry-count"
+        >{{ playlist.videoCount }} videos</span
+      >
     </nuxt-link>
     <div class="playlist-entry-info">
       <nuxt-link
         v-tippy="playlist.title"
         class="playlist-entry-title tooltip"
-        :to="{path: '/watch?v=' + playlist.videos[0].videoId}"
-      >{{ playlist.title }}</nuxt-link>
+        :to="{
+          path: '/watch?v=' + playlist.videos[0].videoId
+        }"
+        >{{ playlist.title }}</nuxt-link
+      >
       <nuxt-link
         v-tippy="playlist.author"
         class="playlist-entry-channel tooltip"
-        :to="{path: '/channel/' + playlist.authorId}"
-      >{{ playlist.author }}</nuxt-link>
+        :to="{ path: '/channel/' + playlist.authorId }"
+        >{{ playlist.author }}</nuxt-link
+      >
     </div>
   </div>
 </template>
 
 <script>
-import Commons from '@/plugins/commons.js'
-import 'tippy.js/dist/tippy.css'
+import Commons from '@/plugins/commons.js';
+import 'tippy.js/dist/tippy.css';
 
 export default {
   name: 'PlaylistEntry',
@@ -41,9 +52,8 @@ export default {
   data: () => ({
     commons: Commons
   }),
-  mounted() {
-  }
-}
+  mounted() {}
+};
 </script>
 
 <style lang="scss">

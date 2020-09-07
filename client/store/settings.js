@@ -18,8 +18,7 @@ export const state = () => ({
         'theme-color-translucent': '#ff7b3a80',
         'line-color': 'rgba(255, 255, 255, 0.2)',
         'line-accent-color': 'rgba(255, 255, 255, 0.4)',
-        'theme-color-gradient':
-          `linear-gradient(
+        'theme-color-gradient': `linear-gradient(
             53deg,
             rgba(241, 87, 10, 1) 0%,
             rgba(224, 140, 112, 1) 33%,
@@ -51,8 +50,7 @@ export const state = () => ({
         'theme-color-translucent': '#ff7b3a80',
         'line-color': 'rgba(255, 255, 255, 0.2)',
         'line-accent-color': 'rgba(255, 255, 255, 0.4)',
-        'theme-color-gradient':
-          `linear-gradient(
+        'theme-color-gradient': `linear-gradient(
             53deg,
             rgba(241, 87, 10, 1) 0%,
             rgba(224, 140, 112, 1) 33%,
@@ -84,8 +82,7 @@ export const state = () => ({
         'theme-color-translucent': '#ff7b3a80',
         'line-color': 'rgba(255, 255, 255, 0.2)',
         'line-accent-color': 'rgba(255, 255, 255, 0.4)',
-        'theme-color-gradient':
-          `linear-gradient(
+        'theme-color-gradient': `linear-gradient(
           53deg,
           rgba(241, 87, 10, 1) 0%,
           rgba(224, 140, 112, 1) 33%,
@@ -117,8 +114,7 @@ export const state = () => ({
         'theme-color-translucent': '#ff7b3a80',
         'line-color': 'rgba(255, 255, 255, 0.2)',
         'line-accent-color': 'rgba(255, 255, 255, 0.4)',
-        'theme-color-gradient':
-          `linear-gradient(
+        'theme-color-gradient': `linear-gradient(
           53deg,
           rgba(241, 87, 10, 1) 0%,
           rgba(224, 140, 112, 1) 33%,
@@ -150,8 +146,7 @@ export const state = () => ({
         'theme-color-translucent': '#06b30080',
         'line-color': 'rgba(255, 255, 255, 0.2)',
         'line-accent-color': 'rgba(255, 255, 255, 0.4)',
-        'theme-color-gradient':
-          `linear-gradient(
+        'theme-color-gradient': `linear-gradient(
             53deg,
             rgba(6, 179, 0, 1) 0%,
             rgb(104, 207, 101) 33%,
@@ -170,20 +165,23 @@ export const state = () => ({
     ]
   },
   miniplayer: true
-})
+});
 export const getters = {
   theme: state => state.theme,
   defaultThemes: state => state.defaults.theme,
   miniplayer: state => state.miniplayer,
-  themeVariables: state => state.defaults.theme.find(el => state.theme === el.value)
-}
+  themeVariables: state =>
+    state.defaults.theme.find(
+      el => state.theme === el.value
+    )
+};
 export const mutations = {
   setTheme(state, theme) {
     if (state.defaults.theme.find(e => e.value === theme)) {
-      state.theme = theme
+      state.theme = theme;
     }
   },
   setMiniplayer(state, enabled) {
-    state.miniplayer = enabled
+    state.miniplayer = enabled;
   }
-}
+};

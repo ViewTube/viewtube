@@ -1,5 +1,5 @@
-import { VideoThumbnailDto } from "./video-thumbnail.dto";
-import { AuthorThumbnailDto } from "./author-thumbnail.dto";
+import { VideoThumbnailDto } from './video-thumbnail.dto';
+import { AuthorThumbnailDto } from './author-thumbnail.dto';
 
 export class RecommendedVideoDto {
   videoId: string;

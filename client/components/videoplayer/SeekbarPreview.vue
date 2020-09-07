@@ -1,19 +1,25 @@
 <template>
   <div v-if="storyboardImages" class="seekbar-preview">
-    <div v-for="(imgSrc, id) in storyboardBaseImages" :key="id" class="preview-image">
+    <div
+      v-for="(imgSrc, id) in storyboardBaseImages"
+      :key="id"
+      class="preview-image"
+    >
       <img
         v-if="currentImg.imgId === id"
         :src="imgSrc"
-        :style="{ transform: `translate3d(-${currentImg.posX}px,-${currentImg.posY}px,0)` }"
+        :style="{
+          transform: `translate3d(-${currentImg.posX}px,-${currentImg.posY}px,0)`
+        }"
         alt="Seekbar preview"
-      >
+      />
     </div>
   </div>
 </template>
 
 <script>
-import '@/plugins/services/webVTTParser'
-import Invidious from '@/plugins/services/invidious'
+import '@/plugins/services/webVTTParser';
+import Invidious from '@/plugins/services/invidious';
 
 export default {
   name: 'SeekbarPreview',
@@ -39,41 +45,54 @@ export default {
   watch: {
     time(newValue) {
       if (this.storyboardImages) {
-        const currentImg = this.storyboardImages.find((element) => {
-          return element.startTime < this.time && element.endTime > this.time
-        })
-        this.currentImg = currentImg || { imgId: 0 }
+        const currentImg = this.storyboardImages.find(
+          element => {
+            return (
+              element.startTime < this.time &&
+              element.endTime > this.time
+            );
+          }
+        );
+        this.currentImg = currentImg || { imgId: 0 };
       }
     }
   },
   mounted() {
-    Invidious.api.storyboards({
-      id: this.videoId,
-      params: {
-        width: 160,
-        height: 90
-      }
-    })
-      .then((response) => {
-        this.storyboardVTT = response.data
-        this.parseVTTData()
+    Invidious.api
+      .storyboards({
+        id: this.videoId,
+        params: {
+          width: 160,
+          height: 90
+        }
       })
+      .then(response => {
+        this.storyboardVTT = response.data;
+        this.parseVTTData();
+      });
   },
   methods: {
     parseVTTData() {
       // eslint-disable-next-line no-undef
-      const parser = new WebVTTParser()
-      const tree = parser.parse(this.storyboardVTT, 'metadata')
-      let baseImgCounter = -1
-      this.storyboardImages = tree.cues.map((el) => {
-        const src = el.text.split('#')[0]
-        const pos = el.text.split('#')[1].replace('xywh=', '')
-        const posX = pos.split(',')[0]
-        const posY = pos.split(',')[1]
+      const parser = new WebVTTParser();
+      const tree = parser.parse(
+        this.storyboardVTT,
+        'metadata'
+      );
+      let baseImgCounter = -1;
+      this.storyboardImages = tree.cues.map(el => {
+        const src = el.text.split('#')[0];
+        const pos = el.text
+          .split('#')[1]
+          .replace('xywh=', '');
+        const posX = pos.split(',')[0];
+        const posY = pos.split(',')[1];
 
-        if (!this.storyboardBaseImages.find(el => el === src)) {
-          this.storyboardBaseImages.push(src)
-          baseImgCounter++
+        if (
+          !this.storyboardBaseImages.find(el => el === src)
+        ) {
+          this.storyboardBaseImages.push(src);
+          baseImgCounter++;
         }
 
         return {
@@ -82,11 +101,11 @@ export default {
           imgId: baseImgCounter,
           posX,
           posY
-        }
-      })
+        };
+      });
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>

@@ -3,24 +3,35 @@
     class="message-box"
     ref="interactElement"
     @click="onMessageClick"
-    :class="{ 'dismissed-right': dismissedRight, 'dismissed-left': dismissedLeft, 'is-animating': isInteractAnimating }"
-    :style="{ transform: transformString, opacity: swipeOpacity }"
+    :class="{
+      'dismissed-right': dismissedRight,
+      'dismissed-left': dismissedLeft,
+      'is-animating': isInteractAnimating
+    }"
+    :style="{
+      transform: transformString,
+      opacity: swipeOpacity
+    }"
   >
     <div
       class="close"
       @click="dismissMessage"
       v-ripple
-      :style="{ transition: `transform ${dismissTimeout}ms linear` }"
+      :style="{
+        transition: `transform ${dismissTimeout}ms linear`
+      }"
     >
       <CloseIcon />
     </div>
-    <h3 class="title" :class="message.type">{{ message.title }}</h3>
+    <h3 class="title" :class="message.type">
+      {{ message.title }}
+    </h3>
     <p class="message" v-html="message.message"></p>
   </div>
 </template>
 
 <script>
-import CloseIcon from 'vue-material-design-icons/Close'
+import CloseIcon from 'vue-material-design-icons/Close';
 // import Interact from 'interactjs'
 
 export default {
@@ -44,7 +55,10 @@ export default {
   },
   mounted() {
     if (this.message.dismissDelay > 0) {
-      this.dismissTimeout = setTimeout(this.dismissMessage, this.message.dismissDelay)
+      this.dismissTimeout = setTimeout(
+        this.dismissMessage,
+        this.message.dismissDelay
+      );
     }
     // const element = this.$refs.interactElement
     // Interact(element).draggable({
@@ -77,38 +91,38 @@ export default {
   computed: {
     transformString() {
       if (!this.isInteractAnimating) {
-        const { x, y } = this.interactPosition
-        return `translate3D(${x}px, ${y}px, 0)`
+        const { x, y } = this.interactPosition;
+        return `translate3D(${x}px, ${y}px, 0)`;
       }
-      return null
+      return null;
     }
   },
   methods: {
     dismissMessage() {
-      this.dismissedRight = true
-      this.swipeOpacity = 0
-      setTimeout(() => this.message.dismiss(), 600)
+      this.dismissedRight = true;
+      this.swipeOpacity = 0;
+      setTimeout(() => this.message.dismiss(), 600);
     },
     dismissMessageLeft() {
-      this.dismissedLeft = true
-      this.swipeOpacity = 0
-      setTimeout(() => this.message.dismiss(), 600)
+      this.dismissedLeft = true;
+      this.swipeOpacity = 0;
+      setTimeout(() => this.message.dismiss(), 600);
     },
     onMessageClick() {
       if (this.dismissTimeout) {
-        clearTimeout(this.dismissTimeout)
+        clearTimeout(this.dismissTimeout);
       }
     },
     interactSetPosition(coordinates, distance) {
-      const { x = 0, y = 0 } = coordinates
-      this.interactPosition = { x, y }
-      this.swipeOpacity = distance
+      const { x = 0, y = 0 } = coordinates;
+      this.interactPosition = { x, y };
+      this.swipeOpacity = distance;
     },
     resetCardPosition() {
-      this.interactSetPosition({ x: 0, y: 0 }, 1)
+      this.interactSetPosition({ x: 0, y: 0 }, 1);
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -129,8 +143,8 @@ export default {
   }
 
   &.dismissed-right {
-    transition: transform 300ms, font-size 300ms 300ms, margin 300ms 300ms,
-      padding 300ms 300ms, opacity 300ms !important;
+    transition: transform 300ms, font-size 300ms 300ms,
+      margin 300ms 300ms, padding 300ms 300ms, opacity 300ms !important;
     transition-timing-function: $dynamic-easing;
     transform: translateX(140%);
     margin: 0;
@@ -139,8 +153,8 @@ export default {
   }
 
   &.dismissed-left {
-    transition: transform 300ms, font-size 300ms 300ms, margin 300ms 300ms,
-      padding 300ms 300ms, opacity 300ms !important;
+    transition: transform 300ms, font-size 300ms 300ms,
+      margin 300ms 300ms, padding 300ms 300ms, opacity 300ms !important;
     transition-timing-function: $dynamic-easing;
     transform: translateX(-140%);
     margin: 0;

@@ -9,18 +9,20 @@
       v-ripple
       v-tippy="channelEntry.author"
       class="related-channel tooltip"
-      :to="{path: '/channel/' + channelEntry.authorId}"
+      :to="{ path: '/channel/' + channelEntry.authorId }"
     >
       <div class="related-channel-thumbnail">
         <div class="related-channel-thumbnail-image">
           <img
             :src="channelEntry.authorThumbnails[5].url"
             :alt="channelEntry.author"
-          >
+          />
         </div>
       </div>
       <div class="related-channel-info">
-        <p class="related-channel-title">{{ channelEntry.author }}</p>
+        <p class="related-channel-title">
+          {{ channelEntry.author }}
+        </p>
       </div>
     </nuxt-link>
   </div>
@@ -32,7 +34,7 @@ export default {
   props: {
     channel: Object
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>

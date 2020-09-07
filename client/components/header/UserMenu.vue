@@ -7,7 +7,8 @@
       v-tippy="'Login'"
       to="/login"
       class="tooltip nav-btn main"
-    >Login</nuxt-link>
+      >Login</nuxt-link
+    >
     <nuxt-link
       v-if="!userAuthenticated"
       id="register"
@@ -15,15 +16,20 @@
       v-tippy="'Register'"
       to="/register"
       class="tooltip nav-btn"
-    >Register</nuxt-link>
+      >Register</nuxt-link
+    >
     <nuxt-link
-      v-show="this.$route.name !== 'subscriptions' && userAuthenticated"
+      v-show="
+        this.$route.name !== 'subscriptions' &&
+        userAuthenticated
+      "
       id="subscriptions"
       v-ripple
       v-tippy="'View your subscriptions'"
       to="/subscriptions"
       class="tooltip nav-btn main"
-    >Subscriptions</nuxt-link>
+      >Subscriptions</nuxt-link
+    >
     <a
       id="account"
       v-ripple
@@ -35,15 +41,30 @@
       <AccountIcon />
     </a>
     <transition name="fade-up">
-      <div v-if="accountMenuVisible" v-clickaway="hideAccountMenu" class="menu">
+      <div
+        v-if="accountMenuVisible"
+        v-clickaway="hideAccountMenu"
+        class="menu"
+      >
         <div v-if="userAuthenticated" class="account-menu">
           <AccountIcon />
           <div class="account-info">
-            <p class="account-name">Logged in as {{ $store.getters['user/username'] }}</p>
-            <a class="logout-btn" href="#" @click.prevent="logout">Log out</a>
+            <p class="account-name">
+              Logged in as
+              {{ $store.getters['user/username'] }}
+            </p>
+            <a
+              class="logout-btn"
+              href="#"
+              @click.prevent="logout"
+              >Log out</a
+            >
           </div>
         </div>
-        <div class="menu-buttons" :class="{ authenticated: userAuthenticated }">
+        <div
+          class="menu-buttons"
+          :class="{ authenticated: userAuthenticated }"
+        >
           <a
             v-if="!userAuthenticated"
             id="login-btn"
@@ -69,7 +90,10 @@
             </div>
           </a>
           <a
-            v-if="this.$route.name !== 'subscriptions' && userAuthenticated"
+            v-if="
+              this.$route.name !== 'subscriptions' &&
+              userAuthenticated
+            "
             id="subscriptions-btn"
             v-tippy="'View your subscriptions'"
             href="#"
@@ -129,25 +153,34 @@
     </transition>
     <portal to="popup">
       <transition name="fade-down">
-        <Settings v-if="settingsOpen" @close="closeSettings" />
-        <Instances v-if="instancesOpen" @close="closeInstances" />
+        <Settings
+          v-if="settingsOpen"
+          @close="closeSettings"
+        />
+        <Instances
+          v-if="instancesOpen"
+          @close="closeInstances"
+        />
         <About v-if="aboutOpen" @close="closeAbout" />
       </transition>
     </portal>
-    <div :class="{ visible: accountMenuVisible }" class="clickaway-div" />
+    <div
+      :class="{ visible: accountMenuVisible }"
+      class="clickaway-div"
+    />
   </div>
 </template>
 
 <script>
-import ShareIcon from 'vue-material-design-icons/Share'
-import SettingsIcon from 'vue-material-design-icons/Cog'
-import InstanceIcon from 'vue-material-design-icons/ServerNetwork'
-import AboutIcon from 'vue-material-design-icons/InformationOutline'
-import AccountIcon from 'vue-material-design-icons/AccountCircle'
-import AccountPlusIcon from 'vue-material-design-icons/AccountPlus'
-import Settings from '@/components/Settings'
-import Instances from '@/components/Instances'
-import About from '@/components/About'
+import ShareIcon from 'vue-material-design-icons/Share';
+import SettingsIcon from 'vue-material-design-icons/Cog';
+import InstanceIcon from 'vue-material-design-icons/ServerNetwork';
+import AboutIcon from 'vue-material-design-icons/InformationOutline';
+import AccountIcon from 'vue-material-design-icons/AccountCircle';
+import AccountPlusIcon from 'vue-material-design-icons/AccountPlus';
+import Settings from '@/components/Settings';
+import Instances from '@/components/Instances';
+import About from '@/components/About';
 
 export default {
   name: 'UserMenu',
@@ -170,77 +203,82 @@ export default {
   }),
   computed: {
     currentRouteName() {
-      return this.$route.name
+      return this.$route.name;
     },
     userAuthenticated() {
-      return this.$store.getters['user/isLoggedIn']
+      return this.$store.getters['user/isLoggedIn'];
     }
   },
   methods: {
     hideAccountMenu() {
       if (this.accountMenuVisible) {
-        this.accountMenuVisible = false
+        this.accountMenuVisible = false;
       }
     },
     share() {
       if (typeof navigator.share === 'function') {
-        navigator.share({
-          title: document.title,
-          text: 'Hello World',
-          url: window.location.href
-        }).then(() => console.log('Successful share'))
-          .catch(error => console.log('Error sharing:', error))
+        navigator
+          .share({
+            title: document.title,
+            text: 'Hello World',
+            url: window.location.href
+          })
+          .then(() => console.log('Successful share'))
+          .catch(error =>
+            console.log('Error sharing:', error)
+          );
       }
-      this.hideAccountMenu()
+      this.hideAccountMenu();
     },
     showAccountMenu() {
-      this.accountMenuVisible = !this.accountMenuVisible
+      this.accountMenuVisible = !this.accountMenuVisible;
     },
     openAbout() {
-      this.hideAccountMenu()
-      this.aboutOpen = true
+      this.hideAccountMenu();
+      this.aboutOpen = true;
     },
     closeAbout() {
-      this.aboutOpen = false
+      this.aboutOpen = false;
     },
     openSettings() {
-      this.hideAccountMenu()
-      this.settingsOpen = true
+      this.hideAccountMenu();
+      this.settingsOpen = true;
     },
     closeSettings() {
-      this.settingsOpen = false
+      this.settingsOpen = false;
     },
     openInstances() {
-      this.hideAccountMenu()
-      this.instancesOpen = true
+      this.hideAccountMenu();
+      this.instancesOpen = true;
     },
     closeInstances() {
-      this.instancesOpen = false
+      this.instancesOpen = false;
     },
     openSubscriptions() {
-      this.$router.push('/subscriptions')
-      this.hideAccountMenu()
+      this.$router.push('/subscriptions');
+      this.hideAccountMenu();
     },
     login() {
-      this.$router.push('/login')
-      this.hideAccountMenu()
+      this.$router.push('/login');
+      this.hideAccountMenu();
     },
     register() {
-      this.$router.push('/register')
-      this.hideAccountMenu()
+      this.$router.push('/register');
+      this.hideAccountMenu();
     },
     logout() {
-      this.$store.dispatch('user/logout')
-      this.hideAccountMenu()
+      this.$store.dispatch('user/logout');
+      this.hideAccountMenu();
     }
   }
-}
+};
 </script>
 
 <style lang="scss">
 .fade-up-enter-active,
 .fade-up-leave-active {
-  transition: opacity 300ms $intro-easing, transform 300ms $intro-easing;
+  transition: opacity 300ms $intro-easing,
+    transform 300ms $intro-easing;
 }
 .fade-up-enter-to,
 .fade-up-leave {
@@ -255,7 +293,8 @@ export default {
 
 .fade-down-enter-active,
 .fade-down-leave-active {
-  transition: transform 200ms $intro-easing, opacity 200ms $intro-easing;
+  transition: transform 200ms $intro-easing,
+    opacity 200ms $intro-easing;
 }
 .fade-down-enter-to,
 .fade-down-leave {
@@ -361,7 +400,8 @@ export default {
         height: 50px;
         display: flex;
         border-radius: 5px;
-        transition: box-shadow 300ms $intro-easing, border 300ms $intro-easing;
+        transition: box-shadow 300ms $intro-easing,
+          border 300ms $intro-easing;
         border: 2px solid transparent;
 
         &:hover,

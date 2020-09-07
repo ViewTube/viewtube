@@ -1,11 +1,11 @@
 <template>
-  <div class="bottom-navigation"></div>
+  <div class="bottom-navigation" />
 </template>
 
 <script>
 export default {
-  name: 'bottom-navigation'
-}
+  name: 'BottomNavigation'
+};
 </script>
 
 <style lang="scss" scoped>

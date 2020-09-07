@@ -3,38 +3,38 @@ type: docker
 name: default
 
 steps:
-- name: ✅ Test
-  image: node
-  commands:
-    - yarn install
-    - yarn build
-    - yarn test
+  - name: ✅ Test
+    image: node
+    commands:
+      - yarn install
+      - yarn build
+      - yarn test
 
-- name: 📦 Publish
-  image: plugins/docker
-  settings:
-    repo: mauriceo/viewtube
-    tags:
-      - latest
-      - '1.0'
-    username: 
-      from_secret: docker_username
-    password:
-      from_secret: docker_password
-  when:
-    branch:
-      - master
-    event:
-      - push
+  - name: 📦 Publish
+    image: plugins/docker
+    settings:
+      repo: mauriceo/viewtube
+      tags:
+        - latest
+        - '1.0'
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
+    when:
+      branch:
+        - master
+      event:
+        - push
 
-- name: 🔔 Notify
-  image: appleboy/drone-telegram
-  settings:
-    token: 
-      from_secret: tg_bot_token
-    to: -1001411660806
-  when:
-    branch:
-      - master
-    event:
-      - push
+  - name: 🔔 Notify
+    image: appleboy/drone-telegram
+    settings:
+      token:
+        from_secret: tg_bot_token
+      to: -1001411660806
+    when:
+      branch:
+        - master
+      event:
+        - push

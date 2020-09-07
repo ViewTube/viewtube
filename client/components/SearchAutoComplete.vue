@@ -13,13 +13,15 @@
       @mousedown.prevent="onAutocompleteMouseDown"
       @keydown.stop="onKeyDown"
       @mouseover.prevent="onMouseOver"
-    >{{ value }}</div>
+    >
+      {{ value }}
+    </div>
   </div>
 </template>
 
 <script>
-import Axios from 'axios'
-import Commons from '@/plugins/commons.js'
+import Axios from 'axios';
+import Commons from '@/plugins/commons.js';
 
 export default {
   name: 'SearchAutocomplete',
@@ -38,24 +40,31 @@ export default {
           q: this.searchValue
         }
       })
-        .then((response) => {
-          this.autocompleteValues = [this.searchValue].concat(response.data)
+        .then(response => {
+          this.autocompleteValues = [
+            this.searchValue
+          ].concat(response.data);
         })
-        .catch((error) => {
-          console.error(error)
-        })
+        .catch(error => {
+          console.error(error);
+        });
     }
   },
   methods: {
     onAutocompleteMouseDown(e) {
-      this.$emit('searchValueUpdate', e.target.getAttribute('value'))
-      this.$emit('autocompleteEnter')
+      this.$emit(
+        'searchValueUpdate',
+        e.target.getAttribute('value')
+      );
+      this.$emit('autocompleteEnter');
     },
     onMouseOver(e) {
-      this.selectedValue = parseInt(e.target.getAttribute('number'))
+      this.selectedValue = parseInt(
+        e.target.getAttribute('number')
+      );
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -65,7 +74,12 @@ export default {
 }
 .clip-enter-to,
 .clip-leave {
-  clip-path: polygon(-50% -50%, 150% -50%, 150% 150%, -50% 150%);
+  clip-path: polygon(
+    -50% -50%,
+    150% -50%,
+    150% 150%,
+    -50% 150%
+  );
 }
 .clip-enter,
 .clip-leave-to {

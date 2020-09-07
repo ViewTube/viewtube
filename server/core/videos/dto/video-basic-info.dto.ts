@@ -1,6 +1,6 @@
-import { VideoThumbnailDto } from "./video-thumbnail.dto";
+import { VideoThumbnailDto } from './video-thumbnail.dto';
 
-export class VideoBasicInfoDto{
+export class VideoBasicInfoDto {
   videoId: string;
   title: string;
   published: number;

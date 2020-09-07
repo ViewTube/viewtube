@@ -19,11 +19,17 @@
   >
     <div class="card-background-container">
       <div class="card-background-overlay"></div>
-      <img class="card-background" :src="backgroundImage" alt="Thumbnail Image" />
+      <img
+        class="card-background"
+        :src="backgroundImage"
+        alt="Thumbnail Image"
+      />
     </div>
     <div class="card-info-container">
       <p class="card-title">{{ card.title }}</p>
-      <p class="card-views" v-if="card.viewCountText">{{ card.viewCountText }}</p>
+      <p class="card-views" v-if="card.viewCountText">
+        {{ card.viewCountText }}
+      </p>
     </div>
   </a>
 </template>
@@ -39,79 +45,86 @@ export default {
   },
   methods: {
     onMouseEnter() {
-      this.$emit('cardenter')
+      this.$emit('cardenter');
     },
     onMouseLeave() {
-      this.$emit('cardleave')
+      this.$emit('cardleave');
     },
     onClick(e) {
       if (this.card.type !== 'website') {
-        this.$router.push(this.linkUrl)
-        e.preventDefault()
+        this.$router.push(this.linkUrl);
+        e.preventDefault();
       }
-      e.stopPropagation()
+      e.stopPropagation();
     },
     onMouseUp(e) {
-      e.stopPropagation()
-      e.preventDefault()
+      e.stopPropagation();
+      e.preventDefault();
     }
   },
   computed: {
     elementType() {
       if (this.card.type === 'website') {
-        return 'a'
+        return 'a';
       }
-      return 'nuxt-link'
+      return 'nuxt-link';
     },
     linkUrl() {
       if (this.card.type === 'website') {
-        return this.card.websiteUrl
+        return this.card.websiteUrl;
       } else if (this.card.type === 'channel') {
-        return `/channel/${this.card.authorId}`
+        return `/channel/${this.card.authorId}`;
       } else if (this.card.type === 'playlist') {
-        return this.card.playlistUrl
+        return this.card.playlistUrl;
       } else {
-        return `/watch/?v=${this.card.videoId}`
+        return `/watch/?v=${this.card.videoId}`;
       }
     },
     visible() {
-      const startTime = this.card.timing.start
-      const endTime = this.card.timing.end
-      const videoProgressMs = this.videoProgress * 1000
+      const startTime = this.card.timing.start;
+      const endTime = this.card.timing.end;
+      const videoProgressMs = this.videoProgress * 1000;
 
-      return videoProgressMs > startTime && videoProgressMs < endTime
+      return (
+        videoProgressMs > startTime &&
+        videoProgressMs < endTime
+      );
     },
     positionTop() {
-      return this.card.dimensions.top * 100
+      return this.card.dimensions.top * 100;
     },
     positionLeft() {
-      return this.card.dimensions.left * 100
+      return this.card.dimensions.left * 100;
     },
     cardWidth() {
-      return this.card.dimensions.width * 100
+      return this.card.dimensions.width * 100;
     },
     cardHeight() {
-      return this.card.dimensions.width * 100 / this.card.dimensions.aspectRatio * this.videoAspectRatio
+      return (
+        ((this.card.dimensions.width * 100) /
+          this.card.dimensions.aspectRatio) *
+        this.videoAspectRatio
+      );
     },
     videoAspectRatio() {
-      return this.videoWidth / this.videoHeight
+      return this.videoWidth / this.videoHeight;
     },
     backgroundImage() {
       switch (this.card.type) {
         case 'video':
-          return this.card.videoThumbnails[1].url
+          return this.card.videoThumbnails[1].url;
         case 'channel':
-          return this.card.authorThumbnails[1].url
+          return this.card.authorThumbnails[1].url;
         case 'website':
-          return this.card.websiteThumbnails[1].url
+          return this.card.websiteThumbnails[1].url;
         case 'playlist':
-          return this.card.playlistThumbnails[1].url
+          return this.card.playlistThumbnails[1].url;
         default:
-          return this.card.videoThumbnails[1].url
+          return this.card.videoThumbnails[1].url;
       }
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -124,7 +137,8 @@ export default {
   cursor: pointer;
   transition-duration: 300ms;
   transition-timing-function: $intro-easing;
-  transition-property: opacity, transform, border, box-shadow;
+  transition-property: opacity, transform, border,
+    box-shadow;
 
   opacity: 0;
   transform: scale(0.9);
@@ -149,7 +163,12 @@ export default {
       left: 0;
       height: 100%;
       width: 100%;
-      background-image: linear-gradient(to bottom, #000, #00000000, #00000000);
+      background-image: linear-gradient(
+        to bottom,
+        #000,
+        #00000000,
+        #00000000
+      );
       z-index: 138;
     }
 

@@ -1,12 +1,13 @@
 <template>
   <div
     class="search-box"
-    :class="{ focused: searchFieldFocused, scrolled: scrollTop, 'has-text': localSearchValue.length > 0 }"
+    :class="{
+      focused: searchFieldFocused,
+      scrolled: scrollTop,
+      'has-text': localSearchValue.length > 0
+    }"
   >
-    <label
-      class="search-label"
-      for="search"
-    >search</label>
+    <label class="search-label" for="search">search</label>
     <input
       id="search"
       ref="searchField"
@@ -17,7 +18,7 @@
       @blur="onSearchFieldBlur"
       @keydown="onSearchFieldKeydown"
       @input="onSearchFieldChange"
-    >
+    />
     <a
       v-ripple
       v-tippy="'Click or press enter to search'"
@@ -38,8 +39,8 @@
 </template>
 
 <script>
-import SearchIcon from 'vue-material-design-icons/Magnify.vue'
-import SearchAutoComplete from '@/components/SearchAutoComplete'
+import SearchIcon from 'vue-material-design-icons/Magnify.vue';
+import SearchAutoComplete from '@/components/SearchAutoComplete';
 
 export default {
   name: 'MainSearchBox',
@@ -56,75 +57,87 @@ export default {
     searchValue: ''
   }),
   watch: {
-    '$route'(to, from) {
-      this.updateSearchValueFromUrl()
+    $route(to, from) {
+      this.updateSearchValueFromUrl();
     },
     searchValue(newValue) {
-      this.localSearchValue = newValue
+      this.localSearchValue = newValue;
     }
   },
   mounted() {
-    this.updateSearchValueFromUrl()
+    this.updateSearchValueFromUrl();
   },
   methods: {
     updateSearchValueFromUrl() {
       if (this.$route.query.search_query !== undefined) {
-        this.searchValue = this.$route.query.search_query
+        this.searchValue = this.$route.query.search_query;
       } else {
-        this.searchValue = ''
+        this.searchValue = '';
       }
     },
     onAutocompleteUpdate(value) {
-      this.searchValue = value
+      this.searchValue = value;
     },
     onSearchFieldChange(e) {
-      this.searchValue = e.target.value
+      this.searchValue = e.target.value;
     },
     onSearchFieldFocused() {
-      this.$refs.autocomplete.visible = true
-      this.searchFieldFocused = true
+      this.$refs.autocomplete.visible = true;
+      this.searchFieldFocused = true;
     },
     onSearchFieldBlur() {
-      this.$refs.autocomplete.visible = false
-      this.searchFieldFocused = false
+      this.$refs.autocomplete.visible = false;
+      this.searchFieldFocused = false;
     },
     onAutocompleteEnter() {
-      this.searchRedirect(this.searchValue)
+      this.searchRedirect(this.searchValue);
     },
     onSearchFieldKeydown(e) {
-      const autocomplete = this.$refs.autocomplete
+      const autocomplete = this.$refs.autocomplete;
       if (e.key === 'Enter' && this.searchValue !== '') {
-        this.searchValue = this.localSearchValue
-        this.searchRedirect(this.searchValue)
+        this.searchValue = this.localSearchValue;
+        this.searchRedirect(this.searchValue);
       } else if (e.key === 'ArrowDown') {
-        if (autocomplete.selectedValue + 2 <= autocomplete.autocompleteValues.length) {
-          autocomplete.selectedValue += 1
+        if (
+          autocomplete.selectedValue + 2 <=
+          autocomplete.autocompleteValues.length
+        ) {
+          autocomplete.selectedValue += 1;
         } else {
-          autocomplete.selectedValue = 0
+          autocomplete.selectedValue = 0;
         }
-        this.localSearchValue = autocomplete.autocompleteValues[autocomplete.selectedValue]
+        this.localSearchValue =
+          autocomplete.autocompleteValues[
+            autocomplete.selectedValue
+          ];
       } else if (e.key === 'ArrowUp') {
         if (autocomplete.selectedValue - 1 >= 0) {
-          autocomplete.selectedValue -= 1
+          autocomplete.selectedValue -= 1;
         } else {
-          autocomplete.selectedValue = autocomplete.autocompleteValues.length - 1
+          autocomplete.selectedValue =
+            autocomplete.autocompleteValues.length - 1;
         }
-        this.localSearchValue = autocomplete.autocompleteValues[autocomplete.selectedValue]
+        this.localSearchValue =
+          autocomplete.autocompleteValues[
+            autocomplete.selectedValue
+          ];
       }
-      e.stopPropagation()
-      return true
+      e.stopPropagation();
+      return true;
     },
     onSearchButton() {
       if (this.searchValue) {
-        this.searchRedirect(this.searchValue)
+        this.searchRedirect(this.searchValue);
       }
     },
     searchRedirect(searchValue) {
-      this.$router.push(`/results?search_query=${searchValue}`)
-      this.$refs.searchField.blur()
+      this.$router.push(
+        `/results?search_query=${searchValue}`
+      );
+      this.$refs.searchField.blur();
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -174,7 +187,8 @@ export default {
     text-align: center;
     pointer-events: none;
     user-select: none;
-    transition: opacity 300ms $intro-easing, transform 300ms $intro-easing;
+    transition: opacity 300ms $intro-easing,
+      transform 300ms $intro-easing;
     margin: 0 0 0 10px;
     color: var(--subtitle-color-light);
   }

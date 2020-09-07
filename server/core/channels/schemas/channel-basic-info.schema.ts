@@ -1,10 +1,16 @@
 import { Document } from 'mongoose';
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import {
+  Prop,
+  Schema,
+  SchemaFactory
+} from '@nestjs/mongoose';
 import { AuthorThumbnailDto } from 'server/core/videos/dto/author-thumbnail.dto';
 import { ChannelBasicInfoDto } from '../dto/channel-basic-info.dto';
 
 @Schema({ timestamps: true })
-export class ChannelBasicInfo extends Document implements ChannelBasicInfoDto {
+export class ChannelBasicInfo
+  extends Document
+  implements ChannelBasicInfoDto {
   @Prop({ index: { unique: true } })
   authorId: string;
 
@@ -15,7 +21,7 @@ export class ChannelBasicInfo extends Document implements ChannelBasicInfoDto {
   authorUrl?: string;
 
   @Prop()
-  authorThumbnails?: Array<AuthorThumbnailDto>
+  authorThumbnails?: Array<AuthorThumbnailDto>;
 
   @Prop()
   authorThumbnailUrl?: string;
@@ -24,4 +30,6 @@ export class ChannelBasicInfo extends Document implements ChannelBasicInfoDto {
   authorVerified?: boolean;
 }
 
-export const ChannelBasicInfoSchema = SchemaFactory.createForClass(ChannelBasicInfo);
+export const ChannelBasicInfoSchema = SchemaFactory.createForClass(
+  ChannelBasicInfo
+);

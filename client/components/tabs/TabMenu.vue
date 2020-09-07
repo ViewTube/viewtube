@@ -6,17 +6,29 @@
           class="tab"
           v-for="(tabName, id) in tabNames"
           :key="`tab-${id}`"
-          @click="(e) => onTabSelected(id, e)"
+          @click="e => onTabSelected(id, e)"
           :class="{ selected: selectedTab === id }"
           :ref="`tab-${id}`"
-        >{{ tabName }}</div>
+        >
+          {{ tabName }}
+        </div>
         <span
           class="tab-underline"
-          :style="{ width: `${tabUnderlineWidth}px`, left: `${tabUnderlineLeft}px` }"
+          :style="{
+            width: `${tabUnderlineWidth}px`,
+            left: `${tabUnderlineLeft}px`
+          }"
         ></span>
       </div>
-      <div class="tab-content" v-for="(tabName, id) in tabNames" :key="`tab-content-${id}`">
-        <div class="tab-content-inner" v-if="selectedTab === id">
+      <div
+        class="tab-content"
+        v-for="(tabName, id) in tabNames"
+        :key="`tab-content-${id}`"
+      >
+        <div
+          class="tab-content-inner"
+          v-if="selectedTab === id"
+        >
           <slot :name="tabName"></slot>
         </div>
       </div>
@@ -40,24 +52,27 @@ export default {
   },
   mounted() {
     if (this.$route.query.tab) {
-      this.selectedTab = this.tabNames.findIndex((el, id) => id === this.$route.query.tab)
+      this.selectedTab = this.tabNames.findIndex(
+        (el, id) => id === this.$route.query.tab
+      );
     }
   },
   methods: {
     onTabSelected(tabId, e) {
-      this.tabUnderlineWidth = e.target.clientWidth
-      this.tabUnderlineLeft = e.target.offsetLeft
+      this.tabUnderlineWidth = e.target.clientWidth;
+      this.tabUnderlineLeft = e.target.offsetLeft;
 
-      this.selectedTab = tabId
+      this.selectedTab = tabId;
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
 .fade-tabs-enter-active,
 .fade-tabs-leave-active {
-  transition: transform 300ms $intro-easing, opacity 300ms $intro-easing;
+  transition: transform 300ms $intro-easing,
+    opacity 300ms $intro-easing;
 }
 .fade-tabs-enter-to,
 .fade-tabs-leave {
@@ -86,7 +101,8 @@ export default {
         bottom: 0;
         height: 2px;
         background-color: var(--title-color);
-        transition: width 300ms $intro-easing, left 300ms $intro-easing;
+        transition: width 300ms $intro-easing,
+          left 300ms $intro-easing;
       }
 
       .tab {

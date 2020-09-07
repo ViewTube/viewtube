@@ -21,14 +21,22 @@ module.exports = {
     title: 'ViewTube',
     meta: [
       { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      {
+        name: 'viewport',
+        content: 'width=device-width, initial-scale=1'
+      },
       {
         hid: 'description',
         name: 'description',
-        content: 'An alternative YouTube frontend using the invidio.us API.'
+        content:
+          'An alternative YouTube frontend using the invidio.us API.'
       },
       { name: 'theme-color', content: '#121212' },
-      { hid: 'ogTitle', property: 'og:title', content: 'ViewTube' },
+      {
+        hid: 'ogTitle',
+        property: 'og:title',
+        content: 'ViewTube'
+      },
       { property: 'og:type', content: 'website' },
       {
         hid: 'ogImage',
@@ -39,7 +47,8 @@ module.exports = {
       {
         hid: 'ogDescription',
         property: 'og:description',
-        content: 'An alternative YouTube frontend using the invidio.us API.'
+        content:
+          'An alternative YouTube frontend using the invidio.us API.'
       },
       { property: 'og:locale', content: 'en_US' },
       { property: 'og:site_name', content: 'ViewTube' }
@@ -55,8 +64,15 @@ module.exports = {
         href: 'https://viewtube.io/viewtubesearch.xml'
       },
       { rel: 'manifest', href: '/manifest.json' },
-      { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' },
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      {
+        rel: 'apple-touch-icon',
+        href: '/apple-touch-icon.png'
+      },
+      {
+        rel: 'icon',
+        type: 'image/x-icon',
+        href: '/favicon.ico'
+      }
     ]
   },
 
@@ -67,7 +83,10 @@ module.exports = {
     duration: 8000
   },
 
-  css: ['~/assets/fonts/expletus.css', '~/assets/fonts/notosans.css'],
+  css: [
+    '~/assets/fonts/expletus.css',
+    '~/assets/fonts/notosans.css'
+  ],
   styleResources: {
     scss: ['~/assets/styles/global/*.scss']
   },
@@ -108,7 +127,11 @@ module.exports = {
         })
       ]
     },
-    transpile: ['vue-material-design-icons', 'dashjs', 'tippy.js'],
+    transpile: [
+      'vue-material-design-icons',
+      'dashjs',
+      'tippy.js'
+    ],
     extend(config, ctx) {}
   }
-}
+};

@@ -1,5 +1,10 @@
 <template>
-  <div class="share-option" v-ripple v-tippy="optionName" @click="onClick">
+  <div
+    class="share-option"
+    v-ripple
+    v-tippy="optionName"
+    @click="onClick"
+  >
     <slot />
   </div>
 </template>
@@ -13,10 +18,10 @@ export default {
   },
   methods: {
     onClick() {
-      this.click()
+      this.click();
     }
   }
-}
+};
 </script>
 
 <style lang="scss">
@@ -27,7 +32,8 @@ export default {
   margin: 2px 5px 2px 0;
   border-radius: 3px;
   display: inline-block;
-  transition: background-color 200ms $intro-easing, border 200ms $intro-easing;
+  transition: background-color 200ms $intro-easing,
+    border 200ms $intro-easing;
   border: 2px solid var(--theme-color-translucent);
   width: auto;
   white-space: nowrap;

@@ -3,21 +3,28 @@ import { PassportStrategy } from '@nestjs/passport';
 import { Strategy, ExtractJwt } from 'passport-jwt';
 
 @Injectable()
-export class JwtStrategy extends PassportStrategy(Strategy) {
+export class JwtStrategy extends PassportStrategy(
+  Strategy
+) {
   constructor() {
     super({
       jwtFromRequest: ExtractJwt.fromExtractors([
-        (request) => (request.cookies ? request.cookies.Authentication : null),
-        ExtractJwt.fromAuthHeaderAsBearerToken(),
+        request =>
+          request.cookies
+            ? request.cookies.Authentication
+            : null,
+        ExtractJwt.fromAuthHeaderAsBearerToken()
       ]),
       ignoreExpiration: false,
       secretOrKey: process.env.VIEWTUBE_JWT_SECRET,
       issuer: 'viewtube-api',
-      audience: 'viewtube-web',
+      audience: 'viewtube-web'
     });
   }
 
-  async validate(payload: any): Promise<{ username: string }> {
+  async validate(
+    payload: any
+  ): Promise<{ username: string }> {
     return { username: payload.username };
   }
 }

@@ -1,25 +1,23 @@
 <template>
-  <div
-    class="comment"
-    :class="{ open: repliesLoaded }"
-  >
+  <div class="comment" :class="{ open: repliesLoaded }">
     <nuxt-link
-      :to="{path: '/channel/' + comment.authorId}"
+      :to="{ path: '/channel/' + comment.authorId }"
       class="comment-author-image-link"
     >
       <img
         class="comment-author-image"
         :src="comment.authorThumbnails[2].url"
         :alt="comment.author"
-      >
+      />
     </nuxt-link>
     <div class="comment-container">
       <div class="comment-author">
         <nuxt-link
           class="comment-author-link"
-          :to="{path: '/channel/' + comment.authorId}"
+          :to="{ path: '/channel/' + comment.authorId }"
           :class="{ owner: comment.authorIsChannelOwner }"
-        >{{ comment.author }}</nuxt-link>
+          >{{ comment.author }}</nuxt-link
+        >
       </div>
       <div
         class="comment-content"
@@ -38,7 +36,9 @@
         </div>
         <div class="likes comment-property">
           <ThumbsUpIcon />
-          <span>{{ comment.likeCount.toLocaleString('en-US') }}</span>
+          <span>{{
+            comment.likeCount.toLocaleString('en-US')
+          }}</span>
         </div>
         <div
           v-if="comment.creatorHeart !== undefined"
@@ -59,7 +59,15 @@
           :loading="loadingReplies"
         >
           <CommentIcon />
-          <p>show {{ comment.replies.replyCount.toLocaleString('en-US') }} replies</p>
+          <p>
+            show
+            {{
+              comment.replies.replyCount.toLocaleString(
+                'en-US'
+              )
+            }}
+            replies
+          </p>
         </BadgeButton>
         <BadgeButton
           v-if="repliesLoaded"
@@ -85,7 +93,9 @@
             />
           </div>
           <BadgeButton
-            v-if="!loadingReplies && repliesContinuationLink"
+            v-if="
+              !loadingReplies && repliesContinuationLink
+            "
             class="show-more-replies"
             :click="loadMoreReplies"
             :loading="repliesContinuationLoading"
@@ -100,15 +110,15 @@
 </template>
 
 <script>
-import PenIcon from 'vue-material-design-icons/Pencil'
-import ThumbsUpIcon from 'vue-material-design-icons/ThumbUp'
-import HeartIcon from 'vue-material-design-icons/Heart'
-import CommentIcon from 'vue-material-design-icons/CommentOutline'
-import CommentHideIcon from 'vue-material-design-icons/CommentRemoveOutline'
-import LoadMoreIcon from 'vue-material-design-icons/Reload'
-import Commons from '@/plugins/commons.js'
-import BadgeButton from '@/components/buttons/BadgeButton'
-import 'tippy.js/dist/tippy.css'
+import PenIcon from 'vue-material-design-icons/Pencil';
+import ThumbsUpIcon from 'vue-material-design-icons/ThumbUp';
+import HeartIcon from 'vue-material-design-icons/Heart';
+import CommentIcon from 'vue-material-design-icons/CommentOutline';
+import CommentHideIcon from 'vue-material-design-icons/CommentRemoveOutline';
+import LoadMoreIcon from 'vue-material-design-icons/Reload';
+import Commons from '@/plugins/commons.js';
+import BadgeButton from '@/components/buttons/BadgeButton';
+import 'tippy.js/dist/tippy.css';
 
 export default {
   name: 'Comment',
@@ -133,16 +143,15 @@ export default {
     repliesContinuationLink: null,
     repliesContinuationLoading: false
   }),
-  mounted() {
-  },
+  mounted() {},
   methods: {
     hideReplies() {
-      this.repliesLoaded = false
+      this.repliesLoaded = false;
     },
     loadReplies() {
-      this.loadingReplies = true
-      const repliesId = this.comment.replies.continuation
-      const videoId = this.$route.query.v
+      this.loadingReplies = true;
+      const repliesId = this.comment.replies.continuation;
+      const videoId = this.$route.query.v;
       fetch(
         `${Commons.getApiUrl()}comments/${videoId}?continuation=${repliesId}`,
         {
@@ -151,22 +160,23 @@ export default {
         }
       )
         .then(response => response.json())
-        .then((data) => {
-          this.replies = data.comments
-          this.repliesContinuationLink = data.continuation || null
-          this.repliesLoaded = true
-          this.loadingReplies = false
+        .then(data => {
+          this.replies = data.comments;
+          this.repliesContinuationLink =
+            data.continuation || null;
+          this.repliesLoaded = true;
+          this.loadingReplies = false;
         })
-        .catch((error) => {
-          console.error(error)
-        })
+        .catch(error => {
+          console.error(error);
+        });
     },
     loadMoreReplies() {
-      this.repliesContinuationLoading = true
-      const videoId = this.$route.query.v
+      this.repliesContinuationLoading = true;
+      const videoId = this.$route.query.v;
       fetch(
         `${Commons.getApiUrl()}comments/${videoId}?continuation=${
-        this.repliesContinuationLink
+          this.repliesContinuationLink
         }`,
         {
           cache: 'force-cache',
@@ -174,20 +184,21 @@ export default {
         }
       )
         .then(response => response.json())
-        .then((data) => {
-          this.replies = this.replies.concat(data.comments)
-          this.repliesContinuationLink = data.continuation || null
-          this.repliesContinuationLoading = false
+        .then(data => {
+          this.replies = this.replies.concat(data.comments);
+          this.repliesContinuationLink =
+            data.continuation || null;
+          this.repliesContinuationLoading = false;
         })
-        .catch((error) => {
-          console.error(error)
-        })
+        .catch(error => {
+          console.error(error);
+        });
     }
   }
-}
+};
 </script>
 
-<style lang='scss'>
+<style lang="scss">
 .comment {
   width: 100%;
   margin: 30px 0 20px 0;

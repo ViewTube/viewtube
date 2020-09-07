@@ -45,7 +45,10 @@
       />
     </div>
     <div class="show-more-btn-container">
-      <BadgeButton :click="loadMoreVideos" :loading="moreVideosLoading">
+      <BadgeButton
+        :click="loadMoreVideos"
+        :loading="moreVideosLoading"
+      >
         <LoadMoreIcon />
         <p>show more</p>
       </BadgeButton>
@@ -55,17 +58,17 @@
 
 <script>
 // import Commons from '@/plugins/commons.js'
-import LoadMoreIcon from 'vue-material-design-icons/Reload'
-import VideoEntry from '@/components/list/VideoEntry'
-import PlaylistEntry from '@/components/list/PlaylistEntry'
-import ChannelEntry from '@/components/list/ChannelEntry'
-import Spinner from '@/components/Spinner'
-import BottomNavigation from '@/components/BottomNavigation'
-import GradientBackground from '@/components/GradientBackground.vue'
-import Dropdown from '@/components/filter/Dropdown'
-import SearchParams from '@/plugins/services/searchParams'
-import Invidious from '@/plugins/services/invidious'
-import BadgeButton from '@/components/buttons/BadgeButton'
+import LoadMoreIcon from 'vue-material-design-icons/Reload';
+import VideoEntry from '@/components/list/VideoEntry';
+import PlaylistEntry from '@/components/list/PlaylistEntry';
+import ChannelEntry from '@/components/list/ChannelEntry';
+import Spinner from '@/components/Spinner';
+import BottomNavigation from '@/components/BottomNavigation';
+import GradientBackground from '@/components/GradientBackground.vue';
+import Dropdown from '@/components/filter/Dropdown';
+import SearchParams from '@/plugins/services/searchParams';
+import Invidious from '@/plugins/services/invidious';
+import BadgeButton from '@/components/buttons/BadgeButton';
 
 export default {
   name: 'Search',
@@ -82,15 +85,22 @@ export default {
   },
   watchQuery: true,
   asyncData({ query }) {
-    query.type = 'all'
-    const searchParams = SearchParams.parseQueryJson(query, query.search_query)
-    return Invidious.api.search({ params: searchParams })
-      .then((response) => {
-        return { results: response.data, searchQuery: query.search_query }
+    query.type = 'all';
+    const searchParams = SearchParams.parseQueryJson(
+      query,
+      query.search_query
+    );
+    return Invidious.api
+      .search({ params: searchParams })
+      .then(response => {
+        return {
+          results: response.data,
+          searchQuery: query.search_query
+        };
       })
-      .catch((error) => {
-        console.error(error)
-      })
+      .catch(error => {
+        console.error(error);
+      });
   },
   data: () => ({
     results: [],
@@ -102,63 +112,83 @@ export default {
   }),
   head() {
     return {
-      title: `${this.searchQuery ? this.searchQuery + ' - ' : ''}Search - ViewTube`,
+      title: `${
+        this.searchQuery ? this.searchQuery + ' - ' : ''
+      }Search - ViewTube`,
       meta: [
-        { hid: 'description', vmid: 'descriptionMeta', name: 'description', content: 'Search for videos, channels and playlists' },
-        { hid: 'ogTitle', property: 'og:title', content: 'Search - ViewTube' },
-        { hid: 'ogDescription', property: 'og:description', content: 'Search for videos, channels and playlists' }
+        {
+          hid: 'description',
+          vmid: 'descriptionMeta',
+          name: 'description',
+          content:
+            'Search for videos, channels and playlists'
+        },
+        {
+          hid: 'ogTitle',
+          property: 'og:title',
+          content: 'Search - ViewTube'
+        },
+        {
+          hid: 'ogDescription',
+          property: 'og:description',
+          content:
+            'Search for videos, channels and playlists'
+        }
       ]
-    }
+    };
   },
   methods: {
     getListEntryType(type) {
       if (type === 'video') {
-        return 'VideoEntry'
+        return 'VideoEntry';
       } else if (type === 'playlist') {
-        return 'PlaylistEntry'
+        return 'PlaylistEntry';
       } else if (type === 'channel') {
-        return 'ChannelEntry'
+        return 'ChannelEntry';
       }
     },
     reloadSearchWithParams() {
-      const searchParams = SearchParams.getParamsString()
+      const searchParams = SearchParams.getParamsString();
       this.$router.push(
         `/results?search_query=${this.searchQuery}${searchParams}`
-      )
+      );
     },
     onSearchSortChange(element, index) {
-      SearchParams.sort_by = element.value
-      this.reloadSearchWithParams()
+      SearchParams.sort_by = element.value;
+      this.reloadSearchWithParams();
     },
     onSearchDateChange(element, index) {
-      SearchParams.date = element.value
-      this.reloadSearchWithParams()
+      SearchParams.date = element.value;
+      this.reloadSearchWithParams();
     },
     onSearchDurationChange(element, index) {
-      SearchParams.duration = element.value
-      this.reloadSearchWithParams()
+      SearchParams.duration = element.value;
+      this.reloadSearchWithParams();
     },
     onSearchTypeChange(element, index) {
-      SearchParams.type = element.value
-      this.reloadSearchWithParams()
+      SearchParams.type = element.value;
+      this.reloadSearchWithParams();
     },
     loadMoreVideos() {
-      this.moreVideosLoading = true
-      const me = this
-      this.page += 1
-      SearchParams.page = this.page
-      const searchParams = SearchParams.getParamsJson(this.searchQuery)
-      Invidious.api.search({ params: searchParams })
-        .then((response) => {
-          me.results = me.results.concat(response.data)
-          me.moreVideosLoading = false
+      this.moreVideosLoading = true;
+      const me = this;
+      this.page += 1;
+      SearchParams.page = this.page;
+      const searchParams = SearchParams.getParamsJson(
+        this.searchQuery
+      );
+      Invidious.api
+        .search({ params: searchParams })
+        .then(response => {
+          me.results = me.results.concat(response.data);
+          me.moreVideosLoading = false;
         })
-        .catch((error) => {
-          console.error(error)
-        })
+        .catch(error => {
+          console.error(error);
+        });
     }
   }
-}
+};
 </script>
 
 <style lang="scss">

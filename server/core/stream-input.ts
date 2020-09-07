@@ -15,7 +15,7 @@ class UnixStream {
       fs.unlinkSync(sockPath);
     } catch (err) {}
     const server = net.createServer(onSocket);
-    stream.on('error', console.error)
+    stream.on('error', console.error);
     stream.on('finish', () => {
       server.close();
     });
@@ -24,9 +24,13 @@ class UnixStream {
 }
 
 export function StreamInput(stream) {
-  return new UnixStream(stream, (socket) => stream.pipe(socket));
+  return new UnixStream(stream, socket =>
+    stream.pipe(socket)
+  );
 }
 
 export function StreamOutput(stream) {
-  return new UnixStream(stream, (socket) => socket.pipe(stream));
+  return new UnixStream(stream, socket =>
+    socket.pipe(stream)
+  );
 }

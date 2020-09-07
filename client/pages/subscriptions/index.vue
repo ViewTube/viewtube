@@ -3,7 +3,10 @@
     <GradientBackground :color="'green'" />
     <SectionTitle :title="'Subscriptions'">
       <div class="manage-btn-container">
-        <BadgeButton class="import-subscriptions-btn" :click="() => subscriptionImportOpen = true">
+        <BadgeButton
+          class="import-subscriptions-btn"
+          :click="() => (subscriptionImportOpen = true)"
+        >
           <ImportIcon />
           <p>Import subscriptions</p>
         </BadgeButton>
@@ -27,26 +30,33 @@
       />
     </div>
     <div class="subscription-videos-container">
-      <VideoEntry v-for="video in videos" :key="video.videoId" :video="video" />
+      <VideoEntry
+        v-for="video in videos"
+        :key="video.videoId"
+        :video="video"
+      />
     </div>
     <portal to="popup">
       <transition name="fade-down">
-        <SubscriptionImport v-if="subscriptionImportOpen" @close="closeSubscriptionImport" />
+        <SubscriptionImport
+          v-if="subscriptionImportOpen"
+          @close="closeSubscriptionImport"
+        />
       </transition>
     </portal>
   </div>
 </template>
 
 <script>
-import Commons from '@/plugins/commons.js'
-import SubscriptionImport from '@/components/popup/SubscriptionImport'
-import VideoEntry from '@/components/list/VideoEntry'
-import GradientBackground from '@/components/GradientBackground'
-import SectionTitle from '@/components/SectionTitle'
-import SwitchButton from '@/components/buttons/SwitchButton'
-import BadgeButton from '@/components/buttons/BadgeButton'
-import EditIcon from 'vue-material-design-icons/PencilBoxMultipleOutline'
-import ImportIcon from 'vue-material-design-icons/Import'
+import Commons from '@/plugins/commons.js';
+import SubscriptionImport from '@/components/popup/SubscriptionImport';
+import VideoEntry from '@/components/list/VideoEntry';
+import GradientBackground from '@/components/GradientBackground';
+import SectionTitle from '@/components/SectionTitle';
+import SwitchButton from '@/components/buttons/SwitchButton';
+import BadgeButton from '@/components/buttons/BadgeButton';
+import EditIcon from 'vue-material-design-icons/PencilBoxMultipleOutline';
+import ImportIcon from 'vue-material-design-icons/Import';
 
 export default {
   name: 'Home',
@@ -74,63 +84,81 @@ export default {
     return {
       title: `Subscriptions - ViewTube`,
       meta: [
-        { hid: 'description', vmid: 'descriptionMeta', name: 'description', content: 'See your subscription feed' },
-        { hid: 'ogTitle', property: 'og:title', content: 'Subscriptions - ViewTube' },
-        { hid: 'ogDescription', property: 'og:description', content: 'See your subscription feed' }
+        {
+          hid: 'description',
+          vmid: 'descriptionMeta',
+          name: 'description',
+          content: 'See your subscription feed'
+        },
+        {
+          hid: 'ogTitle',
+          property: 'og:title',
+          content: 'Subscriptions - ViewTube'
+        },
+        {
+          hid: 'ogDescription',
+          property: 'og:description',
+          content: 'See your subscription feed'
+        }
       ]
-    }
+    };
   },
   mounted() {
-    this.vapidKey = this.$config.vapidKey
+    this.vapidKey = this.$config.vapidKey;
     this.$axios
-      .get(`${Commons.getOwnApiUrl()}user/subscriptions/videos`, {
-        withCredentials: true,
+      .get(
+        `${Commons.getOwnApiUrl()}user/subscriptions/videos`,
+        {
+          withCredentials: true
+        }
+      )
+      .then(response => {
+        console.log(response.data);
+        this.videos = response.data;
+        this.loading = false;
       })
-      .then((response) => {
-        console.log(response.data)
-        this.videos = response.data
-        this.loading = false
-      })
-      .catch((error) => {
-        console.error(error)
-      })
+      .catch(error => {
+        console.error(error);
+      });
 
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker
         .getRegistrations()
-        .then(async (registrations) => {
-          const worker = registrations[0]
-          worker.pushManager.permissionState({
-            userVisibleOnly: true,
-            applicationServerKey: this.vapidKey
-          }).then(permissionState => {
-            console.log(permissionState)
-            if (permissionState === 'granted') {
-              this.notificationsEnabled = true
-            } else if (permissionState === 'denied') {
-              this.notificationsEnabled = false
-              this.notificationsBtnDisabled = true
-            }
-          })
+        .then(async registrations => {
+          const worker = registrations[0];
+          worker.pushManager
+            .permissionState({
+              userVisibleOnly: true,
+              applicationServerKey: this.vapidKey
+            })
+            .then(permissionState => {
+              console.log(permissionState);
+              if (permissionState === 'granted') {
+                this.notificationsEnabled = true;
+              } else if (permissionState === 'denied') {
+                this.notificationsEnabled = false;
+                this.notificationsBtnDisabled = true;
+              }
+            });
         })
         .catch(err => {
-          console.log(err)
-        })
+          console.log(err);
+        });
     } else {
-      this.notificationsSupported = false
-      this.notificationsBtnDisabled = true
+      this.notificationsSupported = false;
+      this.notificationsBtnDisabled = true;
     }
   },
   methods: {
     closeSubscriptionImport() {
-      this.subscriptionImportOpen = false
+      this.subscriptionImportOpen = false;
     },
     subscribeToNotifications(val) {
       if ('serviceWorker' in navigator) {
         navigator.serviceWorker
           .getRegistrations()
-          .then(async (registrations) => {
-            const worker = registrations[0]
+          .then(async registrations => {
+            const worker = registrations[0];
 
             if (val) {
               worker.pushManager
@@ -138,44 +166,54 @@ export default {
                   userVisibleOnly: true,
                   applicationServerKey: this.vapidKey
                 })
-                .then((subscription) => {
-                  this.$axios.post(
-                    `${Commons.getOwnApiUrl()}user/notifications/subscribe`,
-                    subscription,
-                    {
-                      withCredentials: true,
-                    }
-                  ).then(result => {
-                    this.notificationsEnabled = true
-                  })
+                .then(subscription => {
+                  this.$axios
+                    .post(
+                      `${Commons.getOwnApiUrl()}user/notifications/subscribe`,
+                      subscription,
+                      {
+                        withCredentials: true
+                      }
+                    )
+                    .then(result => {
+                      this.notificationsEnabled = true;
+                    });
                 })
-                .catch((err) => {
-                  this.notificationsEnabled = false
-                  this.notificationsBtnDisabled = true
-                  console.log(err)
-                })
+                .catch(err => {
+                  this.notificationsEnabled = false;
+                  this.notificationsBtnDisabled = true;
+                  console.log(err);
+                });
             } else {
-              worker.pushManager.getSubscription().then(subscription => {
-                if (subscription) {
-                  subscription.unsubscribe()
-                }
-                this.notificationsEnabled = false
-              })
+              worker.pushManager
+                .getSubscription()
+                .then(subscription => {
+                  if (subscription) {
+                    subscription.unsubscribe();
+                  }
+                  this.notificationsEnabled = false;
+                });
             }
-          })
+          });
       }
     },
     getNotificationStatus() {
-      if (notificationsBtnDisabled && notificationsEnabled) {
-        return 'Notifications are enabled'
+      if (
+        notificationsBtnDisabled &&
+        notificationsEnabled
+      ) {
+        return 'Notifications are enabled';
       } else if (notificationsSupported) {
-        return 'Notifications are not supported'
-      } else if (!notificationsBtnDisabled && !notificationsEnabled) {
-        return 'Notifications are disabled'
+        return 'Notifications are not supported';
+      } else if (
+        !notificationsBtnDisabled &&
+        !notificationsEnabled
+      ) {
+        return 'Notifications are disabled';
       }
     }
   }
-}
+};
 </script>
 
 <style lang="scss">

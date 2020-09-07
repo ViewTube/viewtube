@@ -1,6 +1,6 @@
-import axios from 'axios'
-import Commons from '@/plugins/commons.js'
-import { createApi } from '@/plugins/apiCreator'
+import axios from 'axios';
+import Commons from '@/plugins/commons.js';
+import { createApi } from '@/plugins/apiCreator';
 
 const apiPrototype = {
   request: axios.create({
@@ -37,8 +37,8 @@ const apiPrototype = {
       ]
     }
   }
-}
+};
 
-const ViewtubeApi = createApi(apiPrototype)
+const ViewtubeApi = createApi(apiPrototype);
 
-export default ViewtubeApi
+export default ViewtubeApi;

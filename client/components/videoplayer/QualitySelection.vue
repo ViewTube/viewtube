@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="quality"
-    @mouseup.stop="onQualityMouseup"
-  >
+  <div class="quality" @mouseup.stop="onQualityMouseup">
     <SettingsIcon
       @click.stop="onQualityInteraction"
       @touchend.stop="onQualityTouchInteraction"
@@ -23,8 +20,12 @@
             @click.stop="setAutoQuality"
             @touchend.stop="onQualityTouchInteraction"
           >
-            <p>Max: {{ maxAdaptiveQuality.qualityLabel }}</p>
-            <p>Min: {{ minAdaptiveQuality.qualityLabel }}</p>
+            <p>
+              Max: {{ maxAdaptiveQuality.qualityLabel }}
+            </p>
+            <p>
+              Min: {{ minAdaptiveQuality.qualityLabel }}
+            </p>
           </div>
         </div>
         <div class="quality-submenu">
@@ -35,10 +36,14 @@
             class="format-quality-entry"
             v-for="(quality, id) in formatStreams"
             :key="id + 1"
-            :class="{ selected: selectedQuality === id + 1 }"
+            :class="{
+              selected: selectedQuality === id + 1
+            }"
             @click.stop="setFormatQuality(id + 1)"
             @touchend.stop="onQualityTouchInteraction"
-          >{{ quality.qualityLabel }}</div>
+          >
+            {{ quality.qualityLabel }}
+          </div>
         </div>
       </div>
     </transition>
@@ -46,9 +51,9 @@
 </template>
 
 <script>
-import SettingsIcon from 'vue-material-design-icons/Cog'
-import HighDefinitionIcon from 'vue-material-design-icons/HighDefinition'
-import MagicIcon from 'vue-material-design-icons/AutoFix'
+import SettingsIcon from 'vue-material-design-icons/Cog';
+import HighDefinitionIcon from 'vue-material-design-icons/HighDefinition';
+import MagicIcon from 'vue-material-design-icons/AutoFix';
 
 export default {
   name: 'quality-selection',
@@ -69,45 +74,46 @@ export default {
   }),
   computed: {
     maxAdaptiveQuality() {
-      return this.sortedAdaptiveQualities.slice().reverse()[0]
+      return this.sortedAdaptiveQualities
+        .slice()
+        .reverse()[0];
     },
     minAdaptiveQuality() {
-      return this.sortedAdaptiveQualities[0]
+      return this.sortedAdaptiveQualities[0];
     },
     sortedAdaptiveQualities() {
-      return this.adaptiveVideos.slice().sort((a, b) => parseInt(a.bitrate) - parseInt(b.bitrate))
+      return this.adaptiveVideos
+        .slice()
+        .sort(
+          (a, b) =>
+            parseInt(a.bitrate) - parseInt(b.bitrate)
+        );
     },
     adaptiveVideos() {
       return this.adaptiveFormats.filter(value => {
         if (value.type) {
-          return value.type.match(/.*video.*/)
+          return value.type.match(/.*video.*/);
         }
-      })
+      });
     }
   },
   methods: {
     onQualityInteraction() {
-      this.popup = !this.popup
+      this.popup = !this.popup;
     },
-    onQualityMouseup() {
-    },
-    onQualityTouchInteraction() {
-
-    },
-    setFormatQuality() {
-
-    },
-    setAutoQuality() {
-
-    }
+    onQualityMouseup() {},
+    onQualityTouchInteraction() {},
+    setFormatQuality() {},
+    setAutoQuality() {}
   }
-}
+};
 </script>
 
 <style lang="scss">
 .circle-bottom-enter-active,
 .circle-bottom-leave-active {
-  transition: clip-path 300ms $intro-easing, transform 300ms $intro-easing;
+  transition: clip-path 300ms $intro-easing,
+    transform 300ms $intro-easing;
 }
 .circle-bottom-enter-to,
 .circle-bottom-leave {
@@ -126,7 +132,8 @@ export default {
   margin: 0;
   align-self: center;
   position: relative;
-  $bottom-controls-height: $bottom-overlay-height - $video-seekbar-height;
+  $bottom-controls-height: $bottom-overlay-height -
+    $video-seekbar-height;
 
   .quality-popup {
     position: absolute;
@@ -172,7 +179,9 @@ export default {
         &:hover,
         &:active,
         &:focus {
-          background-color: var(--bgcolor-alt-light) !important;
+          background-color: var(
+            --bgcolor-alt-light
+          ) !important;
         }
 
         &.selected {
@@ -199,7 +208,9 @@ export default {
         &:hover:not(.selected),
         &:active,
         &:focus {
-          background-color: var(--bgcolor-alt-light) !important;
+          background-color: var(
+            --bgcolor-alt-light
+          ) !important;
         }
 
         &.selected {

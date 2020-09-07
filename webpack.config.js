@@ -9,30 +9,32 @@ module.exports = {
   target: 'node',
   externals: [
     nodeExternals({
-      allowlist: ['webpack/hot/poll?1000'],
-    }),
+      allowlist: ['webpack/hot/poll?1000']
+    })
   ],
   module: {
     rules: [
       {
         test: /\.tsx?$/,
         use: 'ts-loader',
-        exclude: /node_modules/,
-      },
-    ],
+        exclude: /node_modules/
+      }
+    ]
   },
   mode: 'development',
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
     alias: {
-      'server': path.resolve(__dirname, 'server/')
+      server: path.resolve(__dirname, 'server/')
     }
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new WebpackShellPluginNext({
       onBuildStart: {
-        scripts: ['echo ▶ Starting ViewTube in development mode'],
+        scripts: [
+          'echo ▶ Starting ViewTube in development mode'
+        ],
         blocking: false,
         parallel: true
       },
@@ -41,10 +43,10 @@ module.exports = {
         blocking: false,
         parallel: false
       }
-    }),
+    })
   ],
   output: {
     path: `${__dirname}/dist`,
-    publicPath: '/',
-  },
+    publicPath: '/'
+  }
 };

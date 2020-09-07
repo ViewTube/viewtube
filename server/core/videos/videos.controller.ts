@@ -5,7 +5,7 @@ import {
   UseInterceptors,
   ClassSerializerInterceptor,
   SerializeOptions,
-  CacheInterceptor,
+  CacheInterceptor
 } from '@nestjs/common';
 import { VideosService } from './videos.service';
 import { VideoDto } from './dto/video.dto';
@@ -15,11 +15,13 @@ import { ApiTags } from '@nestjs/swagger';
 @UseInterceptors(CacheInterceptor)
 @Controller('videos')
 export class VideosController {
-  constructor(private readonly videosService: VideosService) {}
+  constructor(
+    private readonly videosService: VideosService
+  ) {}
 
   @UseInterceptors(ClassSerializerInterceptor)
   @SerializeOptions({
-    excludePrefixes: ['_'],
+    excludePrefixes: ['_']
   })
   @Get(':id')
   getVideos(@Param('id') id: string): Promise<VideoDto> {

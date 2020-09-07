@@ -1,6 +1,6 @@
-import tippy from 'tippy.js'
+import tippy from 'tippy.js';
 
-let tippyInstance = null
+let tippyInstance = null;
 
 export default {
   bind(el, binding) {
@@ -12,19 +12,22 @@ export default {
         delay: [500, 100],
         touch: 'hold',
         placement: 'bottom'
-      })
+      });
     }
   },
 
   update(el, binding) {
-    if (tippyInstance && binding.value !== binding.oldValue) {
-      tippyInstance.setProps({ content: binding.value })
+    if (
+      tippyInstance &&
+      binding.value !== binding.oldValue
+    ) {
+      tippyInstance.setProps({ content: binding.value });
     }
   },
 
   unbind() {
     if (tippyInstance) {
-      tippyInstance.destroy()
+      tippyInstance.destroy();
     }
   }
-}
+};

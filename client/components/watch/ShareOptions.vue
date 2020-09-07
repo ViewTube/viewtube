@@ -25,10 +25,10 @@
 </template>
 
 <script>
-import ShareOptionEntry from '@/components/list/ShareOptionEntry'
-import Copy from 'vue-material-design-icons/ContentCopy'
-import QrCode from 'vue-material-design-icons/Qrcode'
-import QrPopUp from '@/components/popup/QrPopUp'
+import ShareOptionEntry from '@/components/list/ShareOptionEntry';
+import Copy from 'vue-material-design-icons/ContentCopy';
+import QrCode from 'vue-material-design-icons/Qrcode';
+import QrPopUp from '@/components/popup/QrPopUp';
 
 export default {
   name: 'ShareOptions',
@@ -39,28 +39,28 @@ export default {
     QrPopUp
   },
   data() {
-    return { qrPopUpOpen: false }
+    return { qrPopUpOpen: false };
   },
   methods: {
     url() {
-      return process.browser ? window.location.href : ''
+      return process.browser ? window.location.href : '';
     },
     // shareReddit() {},
     shareCopyLink() {
       if (process.browser) {
-        navigator.clipboard.writeText(this.url())
+        navigator.clipboard.writeText(this.url());
       }
     },
     shareCreateQR() {},
 
     qrOpen() {
-      this.qrPopUpOpen = true
+      this.qrPopUpOpen = true;
     },
     qrClose() {
-      this.qrPopUpOpen = false
+      this.qrPopUpOpen = false;
     }
   }
-}
+};
 </script>
 
 <style lang="scss">
@@ -72,10 +72,9 @@ export default {
     justify-content: flex-start;
 
     .share-option {
-
-        height: 46px;
-        width: 46px;
-        margin: 4px 4px 4px 0;
+      height: 46px;
+      width: 46px;
+      margin: 4px 4px 4px 0;
 
       .material-design-icon__svg {
         margin: 4px;

@@ -3,7 +3,10 @@
     <div ref="channelTitle" class="channel-title-container">
       <div class="channel-title">
         <div class="channel-thumbnail">
-          <img :src="channel.authorThumbnails[3].url" alt="Author Image">
+          <img
+            :src="channel.authorThumbnails[3].url"
+            alt="Author Image"
+          />
         </div>
         <div class="channel-info">
           <div class="channel-name">
@@ -11,15 +14,35 @@
           </div>
           <div class="channel-basics">
             <div class="channel-subcount">
-              <h2>{{ channel.subCount.toLocaleString('en-US') }} subscribers</h2>
+              <h2>
+                {{
+                  channel.subCount.toLocaleString('en-US')
+                }}
+                subscribers
+              </h2>
             </div>
             <div class="channel-totalviews">
-              <h2>{{ channel.totalViews.toLocaleString('en-US') }} total views</h2>
+              <h2>
+                {{
+                  channel.totalViews.toLocaleString('en-US')
+                }}
+                total views
+              </h2>
             </div>
             <div class="channel-joined-on">
-              <h2>joined {{ getFormattedDate(new Date(channel.joined*1000)) }}</h2>
+              <h2>
+                joined
+                {{
+                  getFormattedDate(
+                    new Date(channel.joined * 1000)
+                  )
+                }}
+              </h2>
             </div>
-            <div v-if="channel.isFamilyFriendly" class="channel-family-friendly">
+            <div
+              v-if="channel.isFamilyFriendly"
+              class="channel-family-friendly"
+            >
               <FamilyFriendly />
               <h2>family friendly</h2>
             </div>
@@ -36,9 +59,9 @@
 </template>
 
 <script>
-import FamilyFriendly from 'vue-material-design-icons/AccountChild'
-import Paid from 'vue-material-design-icons/CurrencyUsd'
-import SubscribeButton from '@/components/buttons/SubscribeButton'
+import FamilyFriendly from 'vue-material-design-icons/AccountChild';
+import Paid from 'vue-material-design-icons/CurrencyUsd';
+import SubscribeButton from '@/components/buttons/SubscribeButton';
 
 export default {
   name: 'ChannelOverview',
@@ -52,11 +75,13 @@ export default {
   },
   methods: {
     getFormattedDate(rawDate) {
-      const date = new Date(rawDate)
-      return `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`
+      const date = new Date(rawDate);
+      return `${date.getDate()}.${
+        date.getMonth() + 1
+      }.${date.getFullYear()}`;
     }
   }
-}
+};
 </script>
 
 <style lang="scss">

@@ -13,7 +13,7 @@ export default {
   props: {
     descriptionHtml: String
   }
-}
+};
 </script>
 
 <style lang="scss">

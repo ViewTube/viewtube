@@ -1,5 +1,9 @@
 <template>
-  <div class="video-endscreen" v-if="videoElement" :class="{ 'card-hover': hover }">
+  <div
+    class="video-endscreen"
+    v-if="videoElement"
+    :class="{ 'card-hover': hover }"
+  >
     <EndscreenCard
       v-for="(card, index) in endscreenData"
       :key="index"
@@ -14,8 +18,8 @@
 </template>
 
 <script>
-import Commons from '@/plugins/commons.js'
-import EndscreenCard from '@/components/videoplayer/EndscreenCard'
+import Commons from '@/plugins/commons.js';
+import EndscreenCard from '@/components/videoplayer/EndscreenCard';
 
 export default {
   name: 'video-endscreen',
@@ -32,31 +36,36 @@ export default {
     hover: false
   }),
   mounted() {
-    fetch(`${Commons.getOwnApiUrl()}video/getEndscreen.php?videoId=${this.videoId}`, {
-      cache: 'force-cache',
-      method: 'GET'
-    })
+    fetch(
+      `${Commons.getOwnApiUrl()}video/getEndscreen.php?videoId=${
+        this.videoId
+      }`,
+      {
+        cache: 'force-cache',
+        method: 'GET'
+      }
+    )
       .then(response => {
         if (response.ok) {
-          return response.json()
+          return response.json();
         }
       })
       .then(data => {
-        this.endscreenData = data
+        this.endscreenData = data;
       })
       .catch(error => {
-        console.error(error)
-      })
+        console.error(error);
+      });
   },
   methods: {
     onCardEnter() {
-      this.hover = true
+      this.hover = true;
     },
     onCardLeave() {
-      this.hover = false
+      this.hover = false;
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>

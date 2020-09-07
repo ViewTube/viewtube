@@ -1,5 +1,10 @@
 <template>
-  <input type="submit" :value="label" class="submit-button" v-ripple />
+  <input
+    type="submit"
+    :value="label"
+    class="submit-button"
+    v-ripple
+  />
 </template>
 
 <script>
@@ -8,7 +13,7 @@ export default {
   props: {
     label: String
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>

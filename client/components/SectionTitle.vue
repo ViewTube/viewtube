@@ -13,8 +13,8 @@
 </template>
 
 <script>
-import ChevronRightIcon from 'vue-material-design-icons/ChevronRight'
-import GradientBackground from '@/components/GradientBackground.vue'
+import ChevronRightIcon from 'vue-material-design-icons/ChevronRight';
+import GradientBackground from '@/components/GradientBackground.vue';
 
 export default {
   name: 'SectionTitle',
@@ -26,7 +26,7 @@ export default {
     title: String,
     link: String
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>

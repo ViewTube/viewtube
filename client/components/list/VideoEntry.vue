@@ -4,7 +4,7 @@
     <nuxt-link
       v-tippy="videoProgressTooltip"
       class="video-entry-thmb"
-      :to="{path: '/watch?v=' + video.videoId}"
+      :to="{ path: '/watch?v=' + video.videoId }"
       :class="{ 'has-description': video.description }"
     >
       <div class="thmb-image-container">
@@ -12,41 +12,63 @@
           <img
             class="video-entry-thmb-image"
             loading="lazy"
-            :src="commons.proxyUrl + video.videoThumbnails[4].url"
+            :src="
+              commons.proxyUrl +
+              video.videoThumbnails[4].url
+            "
             :alt="video.title"
-          >
+          />
         </div>
-        <div v-if="video.description" class="video-description-overlay">
+        <div
+          v-if="video.description"
+          class="video-description-overlay"
+        >
           <p>{{ video.description }}</p>
         </div>
       </div>
-      <div class="video-saved-progress" :style="{ width: `${videoProgressPercentage}%` }" />
-      <span class="video-entry-length">{{ $formatting.getTimestampFromSeconds(video.lengthSeconds) }}</span>
+      <div
+        class="video-saved-progress"
+        :style="{ width: `${videoProgressPercentage}%` }"
+      />
+      <span class="video-entry-length">{{
+        $formatting.getTimestampFromSeconds(
+          video.lengthSeconds
+        )
+      }}</span>
     </nuxt-link>
     <div class="video-entry-info">
       <img
         v-if="video.authorThumbnails"
         class="author-thumbnail"
-        :src="commons.proxyUrl + video.authorThumbnails[1].url"
+        :src="
+          commons.proxyUrl + video.authorThumbnails[1].url
+        "
         alt="Author thumbnail"
-      >
+      />
       <div class="video-info-text">
         <nuxt-link
           v-tippy="video.title"
           class="video-entry-title"
-          :to="{path: '/watch?v=' + video.videoId}"
-        >{{ video.title }}</nuxt-link>
+          :to="{ path: '/watch?v=' + video.videoId }"
+          >{{ video.title }}</nuxt-link
+        >
         <nuxt-link
           v-tippy="video.author"
           class="video-entry-channel"
-          :to="{path: '/channel/' + video.authorId}"
-        >{{ video.author }}</nuxt-link>
+          :to="{ path: '/channel/' + video.authorId }"
+          >{{ video.author }}</nuxt-link
+        >
         <div class="video-entry-stats">
           <p
             v-if="video.viewCount !== null"
             class="video-entry-views"
-          >{{ video.viewCount.toLocaleString('en-US') }} {{ video.viewCount === 1 ? 'view' : 'views' }}</p>
-          <p class="video-entry-timestamp">{{ video.publishedText }}</p>
+          >
+            {{ video.viewCount.toLocaleString('en-US') }}
+            {{ video.viewCount === 1 ? 'view' : 'views' }}
+          </p>
+          <p class="video-entry-timestamp">
+            {{ video.publishedText }}
+          </p>
         </div>
       </div>
     </div>
@@ -54,9 +76,9 @@
 </template>
 
 <script>
-import 'tippy.js/dist/tippy.css'
-import SavedPosition from '@/store/videoProgress'
-import Commons from '@/plugins/commons.js'
+import 'tippy.js/dist/tippy.css';
+import SavedPosition from '@/store/videoProgress';
+import Commons from '@/plugins/commons.js';
 
 export default {
   name: 'VideoEntry',
@@ -68,17 +90,26 @@ export default {
   }),
   computed: {
     videoProgressPercentage() {
-      return SavedPosition.getSavedPosition(this.video.videoId) / this.video.lengthSeconds * 100
+      return (
+        (SavedPosition.getSavedPosition(
+          this.video.videoId
+        ) /
+          this.video.lengthSeconds) *
+        100
+      );
     },
     videoProgressTooltip() {
-      const watchTime = this.$formatting.getTimestampFromSeconds(SavedPosition.getSavedPosition(this.video.videoId))
-      const totalTime = this.$formatting.getTimestampFromSeconds(this.video.lengthSeconds)
-      return `${watchTime} of ${totalTime}`
+      const watchTime = this.$formatting.getTimestampFromSeconds(
+        SavedPosition.getSavedPosition(this.video.videoId)
+      );
+      const totalTime = this.$formatting.getTimestampFromSeconds(
+        this.video.lengthSeconds
+      );
+      return `${watchTime} of ${totalTime}`;
     }
   },
-  mounted() {
-  }
-}
+  mounted() {}
+};
 </script>
 
 <style lang="scss">

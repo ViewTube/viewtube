@@ -1,19 +1,18 @@
 <template>
-  <div
-    class="channel"
-    ref="channel"
-  >
+  <div class="channel" ref="channel">
     <Banner
       class="banner"
-      v-if="channel.authorBanners && channel.authorBanners.length > 0"
+      v-if="
+        channel.authorBanners &&
+        channel.authorBanners.length > 0
+      "
       :src="channel.authorBanners[1].url"
     />
-    <Overview
-      :channel="channel"
-      class="overview"
-    />
+    <Overview :channel="channel" class="overview" />
     <div class="backdrop-image">
-      <ChannelDescription :descriptionHtml="channel.descriptionHtml" />
+      <ChannelDescription
+        :descriptionHtml="channel.descriptionHtml"
+      />
     </div>
 
     <RelatedChannels :channel="channel" />
@@ -21,7 +20,10 @@
       <div class="channel-title-sticky">
         <div class="channel-sticky-thumbnail">
           <img
-            :src="commons.proxyUrl + channel.authorThumbnails[0].url"
+            :src="
+              commons.proxyUrl +
+              channel.authorThumbnails[0].url
+            "
             alt="Author Image"
           />
         </div>
@@ -41,13 +43,13 @@
 </template>
 
 <script>
-import Commons from '@/plugins/commons.js'
-import VideoEntry from '@/components/list/VideoEntry'
-import Banner from '@/components/channel/Banner'
-import Overview from '@/components/channel/Overview'
-import RelatedChannels from '@/components/channel/RelatedChannels'
-import ChannelDescription from '@/components/channel/ChannelDescription'
-import Invidious from '@/plugins/services/invidious'
+import Commons from '@/plugins/commons.js';
+import VideoEntry from '@/components/list/VideoEntry';
+import Banner from '@/components/channel/Banner';
+import Overview from '@/components/channel/Overview';
+import RelatedChannels from '@/components/channel/RelatedChannels';
+import ChannelDescription from '@/components/channel/ChannelDescription';
+import Invidious from '@/plugins/services/invidious';
 
 export default {
   name: 'home',
@@ -62,12 +64,36 @@ export default {
     return {
       title: `${this.channel.author} - ViewTube`,
       meta: [
-        { hid: 'description', vmid: 'descriptionMeta', name: 'description', content: this.channel.description.substring(0, 100) },
-        { hid: 'ogTitle', property: 'og:title', content: `${this.channel.author} - ViewTube` },
-        { hid: 'ogImage', property: 'og:image', itemprop: 'image', content: this.channel.authorThumbnails[0].url },
-        { hid: 'ogDescription', property: 'og:description', content: this.channel.description.substring(0, 100) }
+        {
+          hid: 'description',
+          vmid: 'descriptionMeta',
+          name: 'description',
+          content: this.channel.description.substring(
+            0,
+            100
+          )
+        },
+        {
+          hid: 'ogTitle',
+          property: 'og:title',
+          content: `${this.channel.author} - ViewTube`
+        },
+        {
+          hid: 'ogImage',
+          property: 'og:image',
+          itemprop: 'image',
+          content: this.channel.authorThumbnails[0].url
+        },
+        {
+          hid: 'ogDescription',
+          property: 'og:description',
+          content: this.channel.description.substring(
+            0,
+            100
+          )
+        }
       ]
-    }
+    };
   },
   data: () => ({
     channel: [],
@@ -75,22 +101,26 @@ export default {
     overviewColor: 0
   }),
   asyncData({ params }) {
-    return Invidious.api.channels({ id: params.id })
+    return Invidious.api
+      .channels({ id: params.id })
       .then(response => {
-        const channel = response.data
-        channel.latestVideosShort = channel.latestVideos.slice(0, 20)
-        return { channel: response.data }
+        const channel = response.data;
+        channel.latestVideosShort = channel.latestVideos.slice(
+          0,
+          20
+        );
+        return { channel: response.data };
       })
       .catch(error => {
-        console.error(error)
-      })
+        console.error(error);
+      });
   },
   methods: {
     handleScroll(e) {
-      this.$emit('scroll', e)
+      this.$emit('scroll', e);
     }
   }
-}
+};
 </script>
 
 <style lang="scss">

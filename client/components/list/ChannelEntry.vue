@@ -3,7 +3,7 @@
     <div class="channel-entry-background" />
     <nuxt-link
       class="channel-entry-thmb"
-      :to="{path: '/channel/' + channel.authorId}"
+      :to="{ path: '/channel/' + channel.authorId }"
     >
       <div
         v-if="!channel.authorThumbnails"
@@ -17,30 +17,39 @@
       >
         <img
           class="channel-entry-thmb-image"
-          :src="commons.proxyUrl + channel.authorThumbnails[2].url"
+          :src="
+            commons.proxyUrl +
+            channel.authorThumbnails[2].url
+          "
           :alt="channel.author"
-        >
+        />
       </div>
     </nuxt-link>
     <div class="channel-entry-info">
       <nuxt-link
         v-tippy="channel.author"
         class="channel-entry-title tooltip"
-        :to="{path: '/channel/' + channel.authorId}"
-      >{{ channel.author }}</nuxt-link>
+        :to="{ path: '/channel/' + channel.authorId }"
+        >{{ channel.author }}</nuxt-link
+      >
       <div class="channel-entry-stats">
-        <p class="channel-entry-videocount">{{ channel.videoCount }} videos</p>
+        <p class="channel-entry-videocount">
+          {{ channel.videoCount }} videos
+        </p>
         <p
           v-if="channel.subCount"
           class="channel-entry-subcount"
-        >{{ channel.subCount.toLocaleString('en-US') }} subscribers</p>
+        >
+          {{ channel.subCount.toLocaleString('en-US') }}
+          subscribers
+        </p>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import Commons from '@/plugins/commons.js'
+import Commons from '@/plugins/commons.js';
 
 export default {
   name: 'ChannelEntry',
@@ -50,18 +59,17 @@ export default {
   data: () => ({
     commons: Commons
   }),
-  mounted() {
-  },
+  mounted() {},
   methods: {
     channelNameToImgString() {
-      let initials = ''
-      this.channel.author.split(' ').forEach((e) => {
-        initials += e.charAt(0)
-      })
-      return initials
+      let initials = '';
+      this.channel.author.split(' ').forEach(e => {
+        initials += e.charAt(0);
+      });
+      return initials;
     }
   }
-}
+};
 </script>
 
 <style lang="scss">

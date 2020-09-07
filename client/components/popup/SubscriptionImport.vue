@@ -1,6 +1,8 @@
 <template>
   <div class="subscriptions-import popup">
-    <div class="popup-container subscriptions-import-container">
+    <div
+      class="popup-container subscriptions-import-container"
+    >
       <CloseIcon
         class="close-icon"
         @click.stop="$emit('close')"
@@ -11,9 +13,7 @@
         :class="{ 'page-2': page2 }"
       >
         <div class="page-container page-1-container">
-          <h2>
-            <YoutubeIcon />Import from Youtube
-          </h2>
+          <h2><YoutubeIcon />Import from Youtube</h2>
           <ol>
             <li class="links">
               Go to
@@ -21,10 +21,14 @@
                 target="_blank"
                 rel="noreferrer"
                 :href="youtubeSubscriptionUrl"
-              >{{ youtubeSubscriptionUrl }}</a>.
+                >{{ youtubeSubscriptionUrl }}</a
+              >.
             </li>
             <li>You may be asked to login.</li>
-            <li>Download the file with the name "subscription_manager".</li>
+            <li>
+              Download the file with the name
+              "subscription_manager".
+            </li>
             <li>Upload it here.</li>
           </ol>
           <input
@@ -37,7 +41,10 @@
         </div>
         <div
           class="page-container page-2-container"
-          v-if="subscriptionsToImport && subscriptionsToImport.length > 0"
+          v-if="
+            subscriptionsToImport &&
+            subscriptionsToImport.length > 0
+          "
         >
           <h2>Select subscriptions to import</h2>
           <div class="list-actions">
@@ -70,15 +77,18 @@
               <CheckBox
                 :value="channel.selected"
                 :label="channel.author"
-                @valuechange="(e) => channelCheckBoxChanged(e, channel.authorId)"
+                @valuechange="
+                  e =>
+                    channelCheckBoxChanged(
+                      e,
+                      channel.authorId
+                    )
+                "
               />
             </div>
           </div>
         </div>
-        <div
-          class="loading-overlay"
-          :class="{ loading }"
-        >
+        <div class="loading-overlay" :class="{ loading }">
           <Spinner />
         </div>
       </div>
@@ -91,23 +101,23 @@
 </template>
 
 <script>
-import CloseIcon from 'vue-material-design-icons/Close'
-import ThemeIcon from 'vue-material-design-icons/Brightness4'
-import InstanceIcon from 'vue-material-design-icons/ServerNetwork'
-import MiniplayerIcon from 'vue-material-design-icons/WindowRestore'
-import YoutubeIcon from 'vue-material-design-icons/Youtube'
-import ImportIcon from 'vue-material-design-icons/Import'
-import SelectAllIcon from 'vue-material-design-icons/SelectAll'
-import UnselectAllIcon from "vue-material-design-icons/Select";
-import ThemeSelector from '@/components/themes/ThemeSelector'
-import SwitchButton from '@/components/buttons/SwitchButton'
-import Dropdown from '@/components/filter/Dropdown'
-import CheckBox from '@/components/form/CheckBox'
-import BadgeButton from '@/components/buttons/BadgeButton'
-import SubscriptionConverter from '@/plugins/services/subscriptionConverter'
-import Spinner from '@/components/Spinner'
-import Commons from '@/plugins/commons'
-import '@/assets/styles/popup.scss'
+import CloseIcon from 'vue-material-design-icons/Close';
+import ThemeIcon from 'vue-material-design-icons/Brightness4';
+import InstanceIcon from 'vue-material-design-icons/ServerNetwork';
+import MiniplayerIcon from 'vue-material-design-icons/WindowRestore';
+import YoutubeIcon from 'vue-material-design-icons/Youtube';
+import ImportIcon from 'vue-material-design-icons/Import';
+import SelectAllIcon from 'vue-material-design-icons/SelectAll';
+import UnselectAllIcon from 'vue-material-design-icons/Select';
+import ThemeSelector from '@/components/themes/ThemeSelector';
+import SwitchButton from '@/components/buttons/SwitchButton';
+import Dropdown from '@/components/filter/Dropdown';
+import CheckBox from '@/components/form/CheckBox';
+import BadgeButton from '@/components/buttons/BadgeButton';
+import SubscriptionConverter from '@/plugins/services/subscriptionConverter';
+import Spinner from '@/components/Spinner';
+import Commons from '@/plugins/commons';
+import '@/assets/styles/popup.scss';
 
 export default {
   name: 'SubscriptionsImport',
@@ -129,69 +139,84 @@ export default {
   },
   data() {
     return {
-      youtubeSubscriptionUrl: 'https://www.youtube.com/subscription_manager?action_takeout=1',
+      youtubeSubscriptionUrl:
+        'https://www.youtube.com/subscription_manager?action_takeout=1',
       page2: false,
       subscriptionsToImport: null,
       commons: Commons,
       loading: false
-    }
+    };
   },
   methods: {
     onYoutubeSubscriptionFileChange(e) {
-      const fileReader = new FileReader()
+      const fileReader = new FileReader();
       fileReader.onload = () => {
-        this.subscriptionsToImport = SubscriptionConverter
-          .convertFromYoutubeOPMLToJson(fileReader.result)
+        this.subscriptionsToImport = SubscriptionConverter.convertFromYoutubeOPMLToJson(
+          fileReader.result
+        )
           .sort((a, b) => a.author.localeCompare(b.author))
           .map(({ author, authorId }) => ({
-            author, authorId, selected: true
-          }))
-        this.page2 = true
-      }
-      fileReader.readAsText(e.target.files[0])
+            author,
+            authorId,
+            selected: true
+          }));
+        this.page2 = true;
+      };
+      fileReader.readAsText(e.target.files[0]);
     },
     channelCheckBoxChanged(newValue, channelId) {
-      this.subscriptionsToImport.find(e => e.authorId === channelId).selected = newValue
+      this.subscriptionsToImport.find(
+        e => e.authorId === channelId
+      ).selected = newValue;
     },
     selectAll() {
       this.subscriptionsToImport.forEach(el => {
-        el.selected = true
-      })
+        el.selected = true;
+      });
     },
     unselectAll() {
       this.subscriptionsToImport.forEach(el => {
-        el.selected = false
-      })
+        el.selected = false;
+      });
     },
     importSelected() {
-      this.loading = true
-      const subscriptions = this.selectedChannels
-      const subscriptionIds = subscriptions.map(e => e.authorId)
-      this.$axios.post(`${Commons.getOwnApiUrl()}user/subscriptions/multiple`, {
-        channels: subscriptionIds
-      }, {
-        withCredentials: true
-      })
+      this.loading = true;
+      const subscriptions = this.selectedChannels;
+      const subscriptionIds = subscriptions.map(
+        e => e.authorId
+      );
+      this.$axios
+        .post(
+          `${Commons.getOwnApiUrl()}user/subscriptions/multiple`,
+          {
+            channels: subscriptionIds
+          },
+          {
+            withCredentials: true
+          }
+        )
         .then(response => {
-          this.loading = false
+          this.loading = false;
           this.$store.dispatch('messages/createMessage', {
             type: 'info',
             title: 'Import successful',
             message: 'Imported your subscriptions'
-          })
-          this.$emit('close')
-        })
+          });
+          this.$emit('close');
+        });
     }
   },
   computed: {
     selectedChannels() {
-      return this.subscriptionsToImport.filter(e => e.selected)
+      return this.subscriptionsToImport.filter(
+        e => e.selected
+      );
     },
     anySelectedChannel() {
-      return !(this.selectedChannels.length > 0)
+      return !(this.selectedChannels.length > 0);
     }
   }
-}
+};
 </script>
 
 <style lang="scss">

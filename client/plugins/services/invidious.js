@@ -1,6 +1,6 @@
-import Commons from '@/plugins/commons.js'
-import axios from 'axios'
-import { createApi } from '@/plugins/apiCreator'
+import Commons from '@/plugins/commons.js';
+import axios from 'axios';
+import { createApi } from '@/plugins/apiCreator';
 
 const invidiousPrototype = {
   request: axios.create({
@@ -28,15 +28,11 @@ const invidiousPrototype = {
     },
     comments: {
       url: 'v1/comments',
-      fields: [
-        'title'
-      ]
+      fields: ['title']
     },
     manifest: {
       url: 'manifest/dash/id',
-      fields: [
-        'title'
-      ]
+      fields: ['title']
     },
     channels: {
       url: 'v1/channels',
@@ -104,8 +100,8 @@ const invidiousPrototype = {
       url: 'v1/storyboards'
     }
   }
-}
+};
 
-const invidious = createApi(invidiousPrototype)
+const invidious = createApi(invidiousPrototype);
 
-export default invidious
+export default invidious;

@@ -12,9 +12,12 @@ ViewTube is an alternative YouTube frontend using the [invidio.us](https://githu
 It can recommend, play and search for videos. It saves your watch progress and you can subscribe to channels for them to appear in your subscription feed.
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+
 [![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg)](#contributors-)
+
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/3c74d1eff3fe47609a4f889ec1acbdd5)](https://www.codacy.com/manual/mauriceoegerli/viewtube-vue?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=mauriceoegerli/viewtube-vue&amp;utm_campaign=Badge_Grade)
+
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/3c74d1eff3fe47609a4f889ec1acbdd5)](https://www.codacy.com/manual/mauriceoegerli/viewtube-vue?utm_source=github.com&utm_medium=referral&utm_content=mauriceoegerli/viewtube-vue&utm_campaign=Badge_Grade)
 [![Build Status](https://drone.oeger.li/api/badges/ViewTube/viewtube-vue/status.svg)](https://drone.oeger.li/ViewTube/viewtube-vue)
 [![vue2](https://img.shields.io/badge/vue-2.x-brightgreen.svg)](https://vuejs.org/)
 [![GitHub](https://img.shields.io/github/license/mauriceoegerli/viewtube-vue)](https://github.com/ViewTube/viewtube-vue/blob/master/LICENSE)
@@ -120,8 +123,9 @@ $ docker create \
 ```
 
 Docker-compose
+
 ```yml
-version: "3"
+version: '3'
 
 services:
   viewtube:
@@ -147,26 +151,27 @@ Development setup
 </h2>
 
 Prerequisites
+
 - Nodejs v14.x
 - Yarn 1.22
 - MongoDB 4.4.x
 
 Instructions
 
- 1. Clone this repo
+1.  Clone this repo
 
     `git clone https://github.com/ViewTube/viewtube-vue`
- 
- 2. Install dependencies
- 
+
+2.  Install dependencies
+
     `yarn install`
- 
- 3. Start the dev server
- 
+
+3.  Start the dev server
+
     `yarn serve`
- 
- 4. Visit [localhost:8066](http://localhost:8066) with a browser
- 
+
+4.  Visit [localhost:8066](http://localhost:8066) with a browser
+
 Pull requests welcome!
 
 <h2 align="center">
@@ -194,4 +199,5 @@ Thanks goes to these wonderful people
 
 <!-- markdownlint-enable -->
 <!-- prettier-ignore-end -->
+
 <!-- ALL-CONTRIBUTORS-LIST:END -->

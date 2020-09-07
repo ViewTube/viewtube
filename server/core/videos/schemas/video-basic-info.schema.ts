@@ -1,10 +1,16 @@
 import { Document } from 'mongoose';
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import {
+  Prop,
+  Schema,
+  SchemaFactory
+} from '@nestjs/mongoose';
 import { VideoThumbnailDto } from 'server/core/videos/dto/video-thumbnail.dto';
 import { VideoBasicInfoDto } from '../dto/video-basic-info.dto';
 
 @Schema({ timestamps: true })
-export class VideoBasicInfo extends Document implements VideoBasicInfoDto {
+export class VideoBasicInfo
+  extends Document
+  implements VideoBasicInfoDto {
   @Prop({ index: { unique: true } })
   videoId: string;
 
@@ -42,4 +48,6 @@ export class VideoBasicInfo extends Document implements VideoBasicInfoDto {
   lengthSeconds?: number;
 }
 
-export const VideoBasicInfoSchema = SchemaFactory.createForClass(VideoBasicInfo);
+export const VideoBasicInfoSchema = SchemaFactory.createForClass(
+  VideoBasicInfo
+);

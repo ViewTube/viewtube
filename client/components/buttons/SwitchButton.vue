@@ -13,7 +13,9 @@
         <span class="switch-circle-inner"></span>
       </span>
     </div>
-    <label for="switch-button" class="label" v-if="label">{{ label }}</label>
+    <label for="switch-button" class="label" v-if="label">{{
+      label
+    }}</label>
   </div>
 </template>
 
@@ -27,10 +29,10 @@ export default {
   },
   methods: {
     onChange(e) {
-      this.$emit('valuechange', e.target.checked)
+      this.$emit('valuechange', e.target.checked);
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>

@@ -29,12 +29,12 @@ export default {
   methods: {
     clickFunction(e) {
       if (this.click instanceof Function) {
-        e.preventDefault()
-        this.click()
+        e.preventDefault();
+        this.click();
       }
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -45,7 +45,8 @@ export default {
   margin: 2px 5px 2px 0;
   border-radius: 3px;
   display: inline-block;
-  transition: background-color 200ms $intro-easing, border 200ms $intro-easing;
+  transition: background-color 200ms $intro-easing,
+    border 200ms $intro-easing;
   border: 2px solid var(--theme-color-translucent);
   width: auto;
   white-space: nowrap;
@@ -93,7 +94,8 @@ export default {
         rgba(0, 0, 0, 0) 100%
       );
       background-size: 200%;
-      animation: background-load 2000ms $intro-easing infinite;
+      animation: background-load 2000ms $intro-easing
+        infinite;
       display: none;
     }
     p {

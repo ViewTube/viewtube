@@ -12,22 +12,23 @@
       @click.stop="onDropdownBtnClick"
     >
       <div class="dropdown-title">
-        <p v-if="selected !== null">{{ entries[selected].name }}</p>
+        <p v-if="selected !== null">
+          {{ entries[selected].name }}
+        </p>
         <p v-if="selected === null">{{ label }}</p>
       </div>
-      <label
-        v-if="label"
-        class="dropdown-label"
-      >{{ label }}</label>
+      <label v-if="label" class="dropdown-label">{{
+        label
+      }}</label>
     </div>
-    <portal
-      v-if="visible"
-      to="dropdown"
-    >
+    <portal v-if="visible" to="dropdown">
       <div
         class="dropdown-list"
         :class="{ open: open }"
-        :style="{ top: `${offsetTop}px`, left: `${offsetLeft}px` }"
+        :style="{
+          top: `${offsetTop}px`,
+          left: `${offsetLeft}px`
+        }"
       >
         <span
           v-for="(item, id) in entries"
@@ -37,7 +38,8 @@
           :value="item.value"
           :class="{ selected: selected == id }"
           @click="select"
-        >{{ item.name }}</span>
+          >{{ item.name }}</span
+        >
       </div>
     </portal>
   </div>
@@ -62,50 +64,64 @@ export default {
   computed: {
     entries() {
       if (this.values[0].value && this.values[0].name) {
-        return this.values
+        return this.values;
       } else {
         return this.values.map((value, index) => {
-          return { name: value, value }
-        })
+          return { name: value, value };
+        });
       }
     }
   },
   mounted() {
-    const me = this
-    const selectedEntry = this.entries.findIndex(e => e.value === me.value)
+    const me = this;
+    const selectedEntry = this.entries.findIndex(
+      e => e.value === me.value
+    );
     if (this.noDefault && this.value === null) {
-      this.selected = selectedEntry !== -1 ? selectedEntry : null
+      this.selected =
+        selectedEntry !== -1 ? selectedEntry : null;
     } else {
-      this.selected = selectedEntry !== -1 ? selectedEntry : 0
+      this.selected =
+        selectedEntry !== -1 ? selectedEntry : 0;
     }
-    this.calculateOffset()
-    this.visible = true
+    this.calculateOffset();
+    this.visible = true;
   },
   methods: {
     calculateOffset() {
       if (this.$refs.dropdownBtn) {
-        const dropdownDimens = this.$refs.dropdownBtn.getBoundingClientRect()
-        this.offsetTop = dropdownDimens.top + 50
-        this.offsetLeft = dropdownDimens.left
+        const dropdownDimens = this.$refs.dropdownBtn.getBoundingClientRect();
+        this.offsetTop = dropdownDimens.top + 50;
+        this.offsetLeft = dropdownDimens.left;
       }
     },
     select(e) {
-      this.selected = e.target.getAttribute('index')
-      this.open = false
-      this.$emit('valuechange', this.entries[this.selected], this.selected)
+      this.selected = e.target.getAttribute('index');
+      this.open = false;
+      this.$emit(
+        'valuechange',
+        this.entries[this.selected],
+        this.selected
+      );
     },
     onDropdownBtnClick(e) {
-      this.calculateOffset()
-      this.open = !this.open
-      window.addEventListener('resize', this.calculateOffset)
+      this.calculateOffset();
+      this.open = !this.open;
+      window.addEventListener(
+        'resize',
+        this.calculateOffset
+      );
     },
     hideDropdown() {
-      this.calculateOffset()
-      this.open = false
-      window.removeEventListener('resize', this.calculateOffset)
+      this.calculateOffset();
+      this.open = false;
+      window.removeEventListener(
+        'resize',
+        this.calculateOffset
+      );
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -117,7 +133,7 @@ export default {
   z-index: 10;
 
   &:after {
-    content: "";
+    content: '';
     top: 0;
     left: 0;
     right: 0;
@@ -183,7 +199,7 @@ export default {
       }
 
       &:after {
-        content: "▼";
+        content: '▼';
         position: relative;
         top: 0;
         right: 0;
@@ -220,8 +236,9 @@ export default {
     transform: scale(0) translateY(-50%) !important;
     clip-path: none !important;
     transform-origin: center top !important;
-    transition: opacity 300ms 0ms $intro-easing, transform 600ms $outro-easing,
-      box-shadow 300ms, pointer-events 0ms !important;
+    transition: opacity 300ms 0ms $intro-easing,
+      transform 600ms $outro-easing, box-shadow 300ms,
+      pointer-events 0ms !important;
     opacity: 0;
     pointer-events: none !important;
 
@@ -229,7 +246,8 @@ export default {
       clip-path: none !important;
       transform: scale(1) translateY(-50%) !important;
       transition: opacity 200ms 100ms $intro-easing,
-        transform 300ms cubic-bezier(0, 0.98, 0.21, 0.98), box-shadow 300ms !important;
+        transform 300ms cubic-bezier(0, 0.98, 0.21, 0.98),
+        box-shadow 300ms !important;
       opacity: 1;
       pointer-events: auto !important;
     }
@@ -239,7 +257,12 @@ export default {
   clip-path: polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%);
 
   &.open {
-    clip-path: polygon(-50% -50%, 150% -50%, 150% 150%, -50% 150%);
+    clip-path: polygon(
+      -50% -50%,
+      150% -50%,
+      150% 150%,
+      -50% 150%
+    );
     transform: scale(1);
     box-shadow: $max-shadow;
   }

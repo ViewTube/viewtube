@@ -4,39 +4,51 @@
       class="theme-preview"
       href="#"
       @click.prevent="onThemeChange(theme)"
-      :style="{ 'border-color': getBorderThemeColor(theme) }"
+      :style="{
+        'border-color': getBorderThemeColor(theme)
+      }"
       v-for="(theme, id) in themes"
       :key="id"
       v-ripple
     >
       <div
         class="preview-graphic"
-        :style="{ 'background-color': theme['bgcolor-main'] }"
+        :style="{
+          'background-color': theme['bgcolor-main']
+        }"
       >
         <span
           class="prev-header"
-          :style="{ 'background-color': theme['header-bgcolor'] }"
+          :style="{
+            'background-color': theme['header-bgcolor']
+          }"
         >
           <span
             class="prev-logo"
-            :style="{ 'background-color': theme['theme-color'] }"
+            :style="{
+              'background-color': theme['theme-color']
+            }"
           ></span>
           <span
             class="prev-searchbar"
-            :style="{ 'background-color': theme['theme-color'] }"
+            :style="{
+              'background-color': theme['theme-color']
+            }"
           ></span>
         </span>
         <div class="prev-thmbs">
           <span
             class="prev-thmb"
-            :style="{ 'background-color': theme['theme-color'] }"
+            :style="{
+              'background-color': theme['theme-color']
+            }"
             v-for="(i, n) in 6"
             :key="n"
           ></span>
         </div>
         <span
           class="prev-gradient"
-          :style="{ 'opacity': theme['gradient-opacity'] }"
+          :style="{ opacity: theme['gradient-opacity'] }"
         ></span>
       </div>
       <span class="theme-title">{{ theme.name }}</span>
@@ -49,21 +61,27 @@ export default {
   data() {
     return {
       themes: this.$store.getters['settings/defaultThemes']
-    }
+    };
   },
   methods: {
     onThemeChange(element) {
-      document.body.classList.add('transition-all')
-      this.$store.commit('settings/setTheme', element.value)
+      document.body.classList.add('transition-all');
+      this.$store.commit(
+        'settings/setTheme',
+        element.value
+      );
       setTimeout(() => {
-        document.body.classList.remove('transition-all')
-      }, 300)
+        document.body.classList.remove('transition-all');
+      }, 300);
     },
     getBorderThemeColor(theme) {
-      return theme.value === this.$store.getters['settings/theme'] ? theme['theme-color'] : 'transparent'
+      return theme.value ===
+        this.$store.getters['settings/theme']
+        ? theme['theme-color']
+        : 'transparent';
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -86,7 +104,8 @@ export default {
     border-radius: 4px;
     overflow: hidden;
     position: relative;
-    transition: box-shadow 200ms $intro-easing, border-color 200ms $intro-easing;
+    transition: box-shadow 200ms $intro-easing,
+      border-color 200ms $intro-easing;
     box-sizing: border-box;
     box-shadow: $low-shadow;
     cursor: pointer;
@@ -165,7 +184,11 @@ export default {
       position: absolute;
       bottom: 0;
       color: #fff;
-      background: linear-gradient(to bottom, #00000000 -0%, #000 80%);
+      background: linear-gradient(
+        to bottom,
+        #00000000 -0%,
+        #000 80%
+      );
       width: 100%;
       padding: 2px 5px;
       z-index: 10;

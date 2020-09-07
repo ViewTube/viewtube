@@ -10,24 +10,42 @@
       >
         <nuxt-link
           :to="`/channel/${channel.authorId}`"
-          v-if="(!channel.authorThumbnails || channel.authorThumbnails.length == 0) && !channel.authorThumbnailUrl"
+          v-if="
+            (!channel.authorThumbnails ||
+              channel.authorThumbnails.length == 0) &&
+            !channel.authorThumbnailUrl
+          "
           class="fake-thmb"
         >
-          <h3>{{ channelNameToImgString(channel.author) }}</h3>
+          <h3>
+            {{ channelNameToImgString(channel.author) }}
+          </h3>
         </nuxt-link>
         <nuxt-link
           :to="`/channel/${channel.authorId}`"
           class="channel-image-container"
-          v-if="channel.authorThumbnailUrl || (channel.authorThumbnails && channel.authorThumbnails.length > 0)"
+          v-if="
+            channel.authorThumbnailUrl ||
+            (channel.authorThumbnails &&
+              channel.authorThumbnails.length > 0)
+          "
         >
           <img
-            :src="channel.authorThumbnailUrl ? `${commons.getOwnApiUrl()}${channel.authorThumbnailUrl}` : channel.authorThumbnails[2].url"
+            :src="
+              channel.authorThumbnailUrl
+                ? `${commons.getOwnApiUrl()}${
+                    channel.authorThumbnailUrl
+                  }`
+                : channel.authorThumbnails[2].url
+            "
             class="channel-image"
             alt="Channel profile image"
           />
         </nuxt-link>
         <div class="channel-title">
-          <nuxt-link :to="`/channel/${channel.authorId}`">{{channel.author}}</nuxt-link>
+          <nuxt-link :to="`/channel/${channel.authorId}`">{{
+            channel.author
+          }}</nuxt-link>
         </div>
         <div class="channel-subscribe-btn">
           <SubscribeButton
@@ -42,11 +60,11 @@
 </template>
 
 <script>
-import GradientBackground from '@/components/GradientBackground'
-import SectionTitle from '@/components/SectionTitle'
-import Commons from '@/plugins/commons'
-import SubscribeButton from '@/components/buttons/SubscribeButton'
-import BadgeButton from '@/components/buttons/BadgeButton'
+import GradientBackground from '@/components/GradientBackground';
+import SectionTitle from '@/components/SectionTitle';
+import Commons from '@/plugins/commons';
+import SubscribeButton from '@/components/buttons/SubscribeButton';
+import BadgeButton from '@/components/buttons/BadgeButton';
 
 export default {
   name: 'ManageSubscriptions',
@@ -60,40 +78,57 @@ export default {
     return {
       commons: Commons,
       subscriptionChannels: []
-    }
+    };
   },
   head() {
     return {
       title: `Manage subscriptions - ViewTube`,
       meta: [
-        { hid: 'description', vmid: 'descriptionMeta', name: 'description', content: 'Manage your subscriptions' },
-        { hid: 'ogTitle', property: 'og:title', content: 'Manage subscriptions - ViewTube' },
-        { hid: 'ogDescription', property: 'og:description', content: 'Manage your subscriptions' }
+        {
+          hid: 'description',
+          vmid: 'descriptionMeta',
+          name: 'description',
+          content: 'Manage your subscriptions'
+        },
+        {
+          hid: 'ogTitle',
+          property: 'og:title',
+          content: 'Manage subscriptions - ViewTube'
+        },
+        {
+          hid: 'ogDescription',
+          property: 'og:description',
+          content: 'Manage your subscriptions'
+        }
       ]
-    }
+    };
   },
   mounted() {
-    return this.$axios.get(`${Commons.getOwnApiUrl()}user/subscriptions/channels`, {
-      withCredentials: true
-    })
-      .then((response) => {
-        this.subscriptionChannels = response.data
-        this.loading = false
+    return this.$axios
+      .get(
+        `${Commons.getOwnApiUrl()}user/subscriptions/channels`,
+        {
+          withCredentials: true
+        }
+      )
+      .then(response => {
+        this.subscriptionChannels = response.data;
+        this.loading = false;
       })
-      .catch((error) => {
-        console.error(error)
-      })
+      .catch(error => {
+        console.error(error);
+      });
   },
   methods: {
     channelNameToImgString(name) {
-      let initials = ''
-      name.split(' ').forEach((e) => {
-        initials += e.charAt(0)
-      })
-      return initials
+      let initials = '';
+      name.split(' ').forEach(e => {
+        initials += e.charAt(0);
+      });
+      return initials;
     }
   }
-}
+};
 </script>
 
 <style lang="scss">

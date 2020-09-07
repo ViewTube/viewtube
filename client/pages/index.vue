@@ -32,12 +32,12 @@
 </template>
 
 <script>
-import Commons from '@/plugins/commons.js'
-import VideoEntry from '@/components/list/VideoEntry'
-import BottomNavigation from '@/components/BottomNavigation'
-import SectionTitle from '@/components/SectionTitle.vue'
-import GradientBackground from '@/components/GradientBackground.vue'
-import Invidious from '@/plugins/services/invidious'
+import Commons from '@/plugins/commons.js';
+import VideoEntry from '@/components/list/VideoEntry';
+import BottomNavigation from '@/components/BottomNavigation';
+import SectionTitle from '@/components/SectionTitle.vue';
+import GradientBackground from '@/components/GradientBackground.vue';
+import Invidious from '@/plugins/services/invidious';
 
 export default {
   name: 'Home',
@@ -50,12 +50,12 @@ export default {
   asyncData({ params }) {
     return Invidious.api
       .popular()
-      .then((response) => {
-        return { videos: response.data }
+      .then(response => {
+        return { videos: response.data };
       })
-      .catch((error) => {
-        console.error(error)
-      })
+      .catch(error => {
+        console.error(error);
+      });
   },
   data: () => ({
     videos: [],
@@ -65,40 +65,43 @@ export default {
   }),
   computed: {
     userAuthenticated() {
-      return this.$store.getters['user/isLoggedIn']
+      return this.$store.getters['user/isLoggedIn'];
     }
   },
   mounted() {},
   methods: {
     loadData(data) {
-      this.videos = data
+      this.videos = data;
       if (this.userAuthenticated) {
-        this.getSubscriptions()
+        this.getSubscriptions();
       }
     },
     getSubscriptions() {
-      const jwt = this.$cookies.get('jwt')
-      const me = this
-      fetch(`${process.env.API_URL}subscriptions/videos?limit=4`, {
-        cache: 'force-cache',
-        method: 'GET',
-        credentials: 'include'
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          me.subscriptions = data
-          me.loading = false
+      const jwt = this.$cookies.get('jwt');
+      const me = this;
+      fetch(
+        `${process.env.API_URL}subscriptions/videos?limit=4`,
+        {
+          cache: 'force-cache',
+          method: 'GET',
+          credentials: 'include'
+        }
+      )
+        .then(response => response.json())
+        .then(data => {
+          me.subscriptions = data;
+          me.loading = false;
         })
-        .catch((error) => {
-          console.error(error)
-        })
+        .catch(error => {
+          console.error(error);
+        });
     },
     showMoreVideos() {},
     handleScroll(e) {
-      this.$emit('scroll', e)
+      this.$emit('scroll', e);
     }
   }
-}
+};
 </script>
 
 <style lang="scss">

@@ -7,19 +7,34 @@ module.exports = {
   parserOptions: {
     parser: 'babel-eslint'
   },
-  extends: ['@nuxtjs', 'plugin:nuxt/recommended'],
+  extends: [
+    '@nuxtjs',
+    'plugin:nuxt/recommended',
+    'prettier',
+    'prettier/vue'
+  ],
   plugins: [],
   // add your custom rules here
   rules: {
-    'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    'no-console':
+      process.env.NODE_ENV === 'production'
+        ? 'warn'
+        : 'off',
+    'no-debugger':
+      process.env.NODE_ENV === 'production'
+        ? 'warn'
+        : 'off',
     'space-before-function-paren': 'off',
     'vue/singleline-html-element-content-newline': 'off',
     'vue/multiline-html-element-content-newline': 'off',
-    'vue/html-self-closing': ['error', {
-      html: {
-        void: 'always'
+    semi: 'off',
+    'vue/html-self-closing': [
+      'error',
+      {
+        html: {
+          void: 'any'
+        }
       }
-    }]
+    ]
   }
-}
+};

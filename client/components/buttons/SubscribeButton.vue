@@ -1,9 +1,20 @@
 <template>
-  <div class="subscribe-button-container" :class="{ disabled: disabled }">
-    <div class="mini-btn" v-if="small" :class="{ expanded }" @click="expanded = !expanded">
+  <div
+    class="subscribe-button-container"
+    :class="{ disabled: disabled }"
+  >
+    <div
+      class="mini-btn"
+      v-if="small"
+      :class="{ expanded }"
+      @click="expanded = !expanded"
+    >
       <span class="minus" />
     </div>
-    <div class="clip-container" :class="{ expanded, small }">
+    <div
+      class="clip-container"
+      :class="{ expanded, small }"
+    >
       <div
         v-tippy="'Unsubscribe from this channel'"
         class="unsubscribe-button"
@@ -23,7 +34,7 @@
 </template>
 
 <script>
-import Commons from '@/plugins/commons.js'
+import Commons from '@/plugins/commons.js';
 
 export default {
   name: 'SubscribeButton',
@@ -39,82 +50,101 @@ export default {
   }),
   mounted() {
     if (this.isInitiallySubscribed) {
-      this.isSubscribed = true
-      this.disabled = false
+      this.isSubscribed = true;
+      this.disabled = false;
     } else {
-      this.loadSubscriptionStatus()
+      this.loadSubscriptionStatus();
     }
 
     if (this.small) {
-      this.expanded = false
+      this.expanded = false;
     }
   },
   methods: {
     loadSubscriptionStatus() {
       if (this.channelId) {
-        const me = this
-        this.$axios.get(`${Commons.getOwnApiUrl()}user/subscriptions/${this.channelId}`, {
-          withCredentials: true
-        })
-          .then((response) => {
-            if (response.data.isSubscribed) {
-              me.isSubscribed = true
-            } else {
-              me.isSubscribed = false
+        const me = this;
+        this.$axios
+          .get(
+            `${Commons.getOwnApiUrl()}user/subscriptions/${
+              this.channelId
+            }`,
+            {
+              withCredentials: true
             }
-            me.disabled = false
+          )
+          .then(response => {
+            if (response.data.isSubscribed) {
+              me.isSubscribed = true;
+            } else {
+              me.isSubscribed = false;
+            }
+            me.disabled = false;
           })
-          .catch((error) => {
-            console.log(error)
-            me.isSubscribed = false
-            me.disabled = true
-          })
+          .catch(error => {
+            console.log(error);
+            me.isSubscribed = false;
+            me.disabled = true;
+          });
       }
     },
     subscribe() {
       if (this.channelId) {
-        this.disabled = true
-        this.$axios.put(`${Commons.getOwnApiUrl()}user/subscriptions/${this.channelId}`, {}, {
-          withCredentials: true
-        })
-          .then((response) => {
+        this.disabled = true;
+        this.$axios
+          .put(
+            `${Commons.getOwnApiUrl()}user/subscriptions/${
+              this.channelId
+            }`,
+            {},
+            {
+              withCredentials: true
+            }
+          )
+          .then(response => {
             if (response.data.isSubscribed) {
-              this.isSubscribed = true
+              this.isSubscribed = true;
             }
-            this.disabled = false
+            this.disabled = false;
             if (this.small) {
-              this.expanded = false
+              this.expanded = false;
             }
           })
-          .catch((error) => {
-            console.error(error)
-            this.disabled = false
-          })
+          .catch(error => {
+            console.error(error);
+            this.disabled = false;
+          });
       }
     },
     unsubscribe() {
       if (this.channelId) {
-        this.disabled = true
-        this.$axios.delete(`${Commons.getOwnApiUrl()}user/subscriptions/${this.channelId}`, {
-          withCredentials: true
-        })
-          .then((response) => {
+        this.disabled = true;
+        this.$axios
+          .delete(
+            `${Commons.getOwnApiUrl()}user/subscriptions/${
+              this.channelId
+            }`,
+            {
+              withCredentials: true
+            }
+          )
+          .then(response => {
             if (!response.data.isSubscribed) {
-              this.isSubscribed = false
+              this.isSubscribed = false;
             }
-            this.disabled = false
+            this.disabled = false;
             if (this.small) {
-              this.expanded = false
+              this.expanded = false;
             }
           })
-          .catch((error) => {
-            console.error(error)
-            this.disabled = false
-          })
+          .catch(error => {
+            console.error(error);
+            this.disabled = false;
+          });
       }
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -196,7 +226,8 @@ export default {
       cursor: pointer;
       line-height: 12px;
       opacity: 1;
-      transition: opacity 300ms $intro-easing, transform 300ms $intro-easing;
+      transition: opacity 300ms $intro-easing,
+        transform 300ms $intro-easing;
 
       &:focus {
         transform: scale(0.9);
@@ -209,7 +240,7 @@ export default {
       }
 
       &:before {
-        content: "";
+        content: '';
         z-index: 1;
         position: absolute;
         display: block;
@@ -250,7 +281,7 @@ export default {
 
     .subscribe-button {
       &:after {
-        content: "SUBSCRIBE";
+        content: 'SUBSCRIBE';
         font-family: $default-font;
       }
     }
@@ -270,7 +301,7 @@ export default {
       }
 
       &:after {
-        content: "UNSUBSCRIBE";
+        content: 'UNSUBSCRIBE';
         font-family: $default-font;
         background: var(--bgcolor-alt-light);
       }

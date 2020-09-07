@@ -1,5 +1,8 @@
 <template>
-  <div class="header" :class="{ hidden: $store.state.scroll.scrollDown }">
+  <div
+    class="header"
+    :class="{ hidden: $store.state.scroll.scrollDown }"
+  >
     <nuxt-link class="logo-link" to="/">
       <h1 class="logo">
         <span>View</span>
@@ -18,8 +21,8 @@
 </template>
 
 <script>
-import MainSearchBox from '@/components/MainSearchBox'
-import UserMenu from '@/components/header/UserMenu'
+import MainSearchBox from '@/components/MainSearchBox';
+import UserMenu from '@/components/header/UserMenu';
 
 export default {
   name: 'MainHeader',
@@ -33,15 +36,15 @@ export default {
   data: () => ({}),
   computed: {
     currentRouteName() {
-      return this.$route.name
+      return this.$route.name;
     },
     userAuthenticated() {
-      return this.$store.getters['user/isLoggedIn']
+      return this.$store.getters['user/isLoggedIn'];
     }
   },
   mounted() {},
   methods: {}
-}
+};
 </script>
 
 <style lang="scss">
@@ -59,7 +62,8 @@ export default {
   background-color: var(--header-bgcolor);
 
   transition: box-shadow 300ms $intro-easing,
-    background-color 300ms $intro-easing, transform 300ms $dynamic-easing;
+    background-color 300ms $intro-easing,
+    transform 300ms $dynamic-easing;
 
   &.hidden {
     transform: translate3d(0, -$header-height - 20px, 0);
@@ -102,7 +106,8 @@ export default {
       margin: auto;
       height: calc(#{$header-height} - 20px);
       transform: scale(0.8) translateY(-2px);
-      transition: clip-path 300ms $intro-easing, transform 300ms linear;
+      transition: clip-path 300ms $intro-easing,
+        transform 300ms linear;
     }
 
     @media screen and (max-width: $mobile-width) {

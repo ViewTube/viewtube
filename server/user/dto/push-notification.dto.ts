@@ -1,5 +1,5 @@
 export class PushNotificationDto {
-  id: string
+  id: string;
   username: string;
   content: any;
   sentAt: Date;

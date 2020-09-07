@@ -21,10 +21,10 @@ import { RegisterModule } from './register/register.module';
       signOptions: {
         expiresIn: '12h',
         issuer: 'viewtube-api',
-        audience: 'viewtube-web',
-      },
-    }),
+        audience: 'viewtube-web'
+      }
+    })
   ],
-  controllers: [AuthController],
+  controllers: [AuthController]
 })
 export class AuthModule {}

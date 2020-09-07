@@ -3,7 +3,7 @@ import {
   Get,
   Query,
   CacheInterceptor,
-  UseInterceptors,
+  UseInterceptors
 } from '@nestjs/common';
 import { AutocompleteService } from './autocomplete.service';
 import { ApiTags } from '@nestjs/swagger';
@@ -12,10 +12,16 @@ import { ApiTags } from '@nestjs/swagger';
 @UseInterceptors(CacheInterceptor)
 @Controller('autocomplete')
 export class AutocompleteController {
-  constructor(private autocompleteService: AutocompleteService) {}
+  constructor(
+    private autocompleteService: AutocompleteService
+  ) {}
 
   @Get()
-  async getQuery(@Query('q') query: string): Promise<Array<string>> {
-    return this.autocompleteService.getAutocompleteResult(query);
+  async getQuery(
+    @Query('q') query: string
+  ): Promise<Array<string>> {
+    return this.autocompleteService.getAutocompleteResult(
+      query
+    );
   }
 }

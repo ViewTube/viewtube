@@ -1,12 +1,32 @@
 <template>
   <div class="login">
-    <div class="login-container" :class="{ loading: loading, wiggle: formWiggle }">
+    <div
+      class="login-container"
+      :class="{ loading: loading, wiggle: formWiggle }"
+    >
       <h2 class="login-title">Login</h2>
-      <span class="status-message-display message-display">{{ statusMessage }}</span>
+      <span
+        class="status-message-display message-display"
+        >{{ statusMessage }}</span
+      >
       <Spinner />
-      <form id="login" method="post" @submit.prevent="login">
-        <FormInput :id="'username'" v-model="username" :label="'username'" :type="'username'" />
-        <FormInput :id="'password'" v-model="password" :label="'password'" :type="'password'" />
+      <form
+        id="login"
+        method="post"
+        @submit.prevent="login"
+      >
+        <FormInput
+          :id="'username'"
+          v-model="username"
+          :label="'username'"
+          :type="'username'"
+        />
+        <FormInput
+          :id="'password'"
+          v-model="password"
+          :label="'password'"
+          :type="'password'"
+        />
         <SubmitButton :label="'Login'" />
       </form>
     </div>
@@ -14,9 +34,9 @@
 </template>
 
 <script>
-import FormInput from '@/components/form/FormInput'
-import SubmitButton from '@/components/form/SubmitButton'
-import Spinner from '@/components/Spinner'
+import FormInput from '@/components/form/FormInput';
+import SubmitButton from '@/components/form/SubmitButton';
+import Spinner from '@/components/Spinner';
 
 export default {
   name: 'Login',
@@ -37,63 +57,76 @@ export default {
     return {
       title: `Login - ViewTube`,
       meta: [
-        { hid: 'description', vmid: 'descriptionMeta', name: 'description', content: 'Login to access your ViewTube account' },
-        { hid: 'ogTitle', property: 'og:title', content: 'Login - ViewTube' },
-        { hid: 'ogDescription', property: 'og:description', content: 'Login to access your ViewTube account' }
+        {
+          hid: 'description',
+          vmid: 'descriptionMeta',
+          name: 'description',
+          content: 'Login to access your ViewTube account'
+        },
+        {
+          hid: 'ogTitle',
+          property: 'og:title',
+          content: 'Login - ViewTube'
+        },
+        {
+          hid: 'ogDescription',
+          property: 'og:description',
+          content: 'Login to access your ViewTube account'
+        }
       ]
-    }
+    };
   },
-  mounted() {
-  },
+  mounted() {},
   methods: {
     login() {
-      this.loading = true
-      const me = this
+      this.loading = true;
+      const me = this;
 
-      this.$store.dispatch('user/login', {
-        username: this.username,
-        password: this.password
-      })
-        .then((result) => {
+      this.$store
+        .dispatch('user/login', {
+          username: this.username,
+          password: this.password
+        })
+        .then(result => {
           if (result) {
             me.$store.dispatch('messages/createMessage', {
               type: 'info',
               title: 'Login successful',
               message: 'Redirecting...'
-            })
-            me.$router.push(me.redirectedPage.fullPath)
+            });
+            me.$router.push(me.redirectedPage.fullPath);
           }
         })
-        .catch((err) => {
-          console.error(err)
-          me.loading = false
-          this.wiggleLoginForm()
+        .catch(err => {
+          console.error(err);
+          me.loading = false;
+          this.wiggleLoginForm();
           me.$store.dispatch('messages/createMessage', {
             type: 'error',
             title: 'Login failed',
             message: err.response.data.message
-          })
-        })
+          });
+        });
     },
     wiggleLoginForm() {
-      this.formWiggle = true
+      this.formWiggle = true;
       setTimeout(() => {
-        this.formWiggle = false
-      }, 600)
-    },
+        this.formWiggle = false;
+      }, 600);
+    }
   },
   beforeRouteEnter(to, from, next) {
-    next((vm) => {
+    next(vm => {
       if (from.name) {
-        vm.redirectedPage = from
+        vm.redirectedPage = from;
       } else {
         vm.redirectedPage = {
           fullPath: '/'
-        }
+        };
       }
-    })
+    });
   }
-}
+};
 </script>
 
 <style lang="scss">
@@ -106,7 +139,7 @@ export default {
   padding: $header-height 0 0 0;
 
   @media screen and (min-width: $mobile-width) {
-    background-image: url("/img/blur-bg-medium-dark.jpg");
+    background-image: url('/img/blur-bg-medium-dark.jpg');
   }
 
   .login-container {
@@ -175,10 +208,12 @@ export default {
 }
 
 @keyframes wiggle {
-  20%, 60%{
+  20%,
+  60% {
     transform: translateX(-10px);
   }
-  40%, 80%{
+  40%,
+  80% {
     transform: translate(10px);
   }
 }

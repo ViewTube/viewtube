@@ -1,4 +1,8 @@
-import { Injectable, HttpException, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  HttpException,
+  NotFoundException
+} from '@nestjs/common';
 import { SubscriptionStatusDto } from './dto/subscription-status.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { VideoBasicInfo } from 'server/core/videos/schemas/video-basic-info.schema';
@@ -27,24 +31,28 @@ export class SubscriptionsService {
     private readonly channelModel: Model<ChannelBasicInfo>,
     @InjectModel(Subscription.name)
     private readonly subscriptionModel: Model<Subscription>,
-    private notificationsService: NotificationsService,
+    private notificationsService: NotificationsService
   ) {}
 
-  private feedUrl = 'https://www.youtube.com/feeds/videos.xml?channel_id=';
+  private feedUrl =
+    'https://www.youtube.com/feeds/videos.xml?channel_id=';
 
   @Cron(CronExpression.EVERY_5_MINUTES)
   async collectSubscriptionsJob(): Promise<void> {
-    const users = await this.subscriptionModel.find().lean(true).exec();
+    const users = await this.subscriptionModel
+      .find()
+      .lean(true)
+      .exec();
     const channelIds = users.reduce(
       (val, { subscriptions }) => [
         ...val,
-        ...subscriptions.map((e) => e.channelId),
+        ...subscriptions.map(e => e.channelId)
       ],
-      [],
+      []
     );
     const uniqueChannelIds = [...new Set(channelIds)];
 
-    const feedRequests = uniqueChannelIds.map(async (id) => {
+    const feedRequests = uniqueChannelIds.map(async id => {
       const channelFeed = await this.getChannelFeed(id);
       if (channelFeed) {
         const { videos, channel } = channelFeed;
@@ -53,19 +61,32 @@ export class SubscriptionsService {
       }
     });
 
-    const promiseResults = await Promise.allSettled(feedRequests);
-    if (promiseResults.find((promiseResult: any) => promiseResult.value)) {
+    const promiseResults = await Promise.allSettled(
+      feedRequests
+    );
+    if (
+      promiseResults.find(
+        (promiseResult: any) => promiseResult.value
+      )
+    ) {
       const videoValues = promiseResults.filter(
-        (promiseResult: any) => promiseResult.value,
+        (promiseResult: any) => promiseResult.value
       );
       const videos: Array<VideoBasicInfoDto> = videoValues.reduce(
-        (promiseResult: any, { value }: any) => [...promiseResult, ...value],
-        [],
+        (promiseResult: any, { value }: any) => [
+          ...promiseResult,
+          ...value
+        ],
+        []
       );
 
       await Promise.allSettled(
-        videos.map(async (element) => {
-          if (!(await this.videoModel.exists({ videoId: element.videoId }))) {
+        videos.map(async element => {
+          if (
+            !(await this.videoModel.exists({
+              videoId: element.videoId
+            }))
+          ) {
             this.sendUserNotifications(element);
           }
           try {
@@ -74,56 +95,62 @@ export class SubscriptionsService {
             console.log(err);
             console.log(element);
           }
-        }),
+        })
       );
     }
   }
 
   async saveChannelBasicInfo(
-    channel: ChannelBasicInfoDto,
+    channel: ChannelBasicInfoDto
   ): Promise<ChannelBasicInfoDto | null> {
     const savedChannel = await this.channelModel
-      .findOneAndUpdate({ authorId: channel.authorId }, channel, {
-        upsert: true,
-        omitUndefined: true,
-        new: true,
-      })
+      .findOneAndUpdate(
+        { authorId: channel.authorId },
+        channel,
+        {
+          upsert: true,
+          omitUndefined: true,
+          new: true
+        }
+      )
       .exec()
       .catch(console.log);
     return savedChannel || null;
   }
 
   async saveVideoBasicInfo(
-    video: VideoBasicInfoDto,
+    video: VideoBasicInfoDto
   ): Promise<VideoBasicInfoDto | null> {
     const savedVideo = await this.videoModel
-      .findOneAndUpdate({ videoId: video.videoId }, video, { upsert: true })
+      .findOneAndUpdate({ videoId: video.videoId }, video, {
+        upsert: true
+      })
       .exec();
     return savedVideo || null;
   }
 
   async getChannelFeed(
-    channelId: string,
+    channelId: string
   ): Promise<void | {
     channel: ChannelBasicInfoDto;
     videos: Array<VideoBasicInfoDto>;
   }> {
     return fetch(this.feedUrl + channelId)
-      .then((response) => {
+      .then(response => {
         if (response.ok) {
           return response.text();
         }
         return null;
       })
-      .then((data) => {
+      .then(data => {
         if (data) {
           const jsonData = xmlParser.toJson(data, {
             coerce: true,
-            object: true,
+            object: true
           }) as any;
           if (jsonData.feed.entry) {
             const videos: Array<VideoBasicInfoDto> = jsonData.feed.entry.map(
-              (video: any) => this.convertRssVideo(video),
+              (video: any) => this.convertRssVideo(video)
             );
 
             const authorId = jsonData.feed['yt:channelId'];
@@ -131,12 +158,12 @@ export class SubscriptionsService {
             const channel: ChannelBasicInfoDto = {
               authorId,
               author: jsonData.feed.author.name,
-              authorUrl: jsonData.feed.author.uri,
+              authorUrl: jsonData.feed.author.uri
             };
 
             const cachedChannelThmbPath = path.join(
               global['__basedir'],
-              `channels/${authorId}.jpg`,
+              `channels/${authorId}.jpg`
             );
             if (fs.existsSync(cachedChannelThmbPath)) {
               channel.authorThumbnailUrl = `channels/${authorId}/thumbnail/tiny.jpg`;
@@ -150,48 +177,68 @@ export class SubscriptionsService {
           return null;
         }
       })
-      .catch((err) =>
+      .catch(err =>
         console.log(
-          `Could not find channel, the following error can be safely ignored:\n${err}`,
-        ),
+          `Could not find channel, the following error can be safely ignored:\n${err}`
+        )
       );
   }
 
-  async sendUserNotifications(video: VideoBasicInfoDto): Promise<void> {
-    const users = await this.subscriptionModel.find().lean().exec();
-    const subscribedUsers = users.filter((u) =>
-      u.subscriptions.find((sub) => sub.channelId === video.authorId),
+  async sendUserNotifications(
+    video: VideoBasicInfoDto
+  ): Promise<void> {
+    const users = await this.subscriptionModel
+      .find()
+      .lean()
+      .exec();
+    const subscribedUsers = users.filter(u =>
+      u.subscriptions.find(
+        sub => sub.channelId === video.authorId
+      )
     );
     if (subscribedUsers) {
       subscribedUsers.forEach((user: Subscription) => {
         const channelSubscription = user.subscriptions.find(
-          (e) => e.channelId === video.authorId,
+          e => e.channelId === video.authorId
         );
         if (
           channelSubscription.createdAt &&
-          channelSubscription.createdAt.valueOf() < video.published
+          channelSubscription.createdAt.valueOf() <
+            video.published
         ) {
           console.log('notification for ' + user.username);
-          this.notificationsService.sendVideoNotification(user.username, video);
+          this.notificationsService.sendVideoNotification(
+            user.username,
+            video
+          );
         }
       });
     }
   }
 
   convertRssVideo(video: any): VideoBasicInfoDto {
-    const rating = video['media:group']['media:community']['media:starRating'];
-    const { likes, dislikes } = this.convertStarsToLikesDislikes({
+    const rating =
+      video['media:group']['media:community'][
+        'media:starRating'
+      ];
+    const {
+      likes,
+      dislikes
+    } = this.convertStarsToLikesDislikes({
       totalRatings: rating.count,
-      avgStarRatings: rating.average,
+      avgStarRatings: rating.average
     });
 
     const durationString = humanizeDuration(
-      new Date().valueOf() - Date.parse(video.published).valueOf(),
-      { largest: 1 },
+      new Date().valueOf() -
+        Date.parse(video.published).valueOf(),
+      { largest: 1 }
     );
 
-    const description = video['media:group']['media:description'];
-    const descriptionText = typeof description === 'string' ? description : '';
+    const description =
+      video['media:group']['media:description'];
+    const descriptionText =
+      typeof description === 'string' ? description : '';
 
     return {
       videoId: video['yt:videoId'],
@@ -201,24 +248,30 @@ export class SubscriptionsService {
       description: descriptionText,
       published: Date.parse(video.published),
       publishedText: durationString,
-      videoThumbnails: Common.getVideoThumbnails(video['yt:videoId']),
+      videoThumbnails: Common.getVideoThumbnails(
+        video['yt:videoId']
+      ),
       viewCount:
-        video['media:group']['media:community']['media:statistics'].views,
+        video['media:group']['media:community'][
+          'media:statistics'
+        ].views,
       likeCount: likes,
-      dislikeCount: dislikes,
+      dislikeCount: dislikes
     };
   }
 
   convertStarsToLikesDislikes({
     totalRatings,
-    avgStarRatings,
+    avgStarRatings
   }: {
     totalRatings: number;
     avgStarRatings: number;
   }): { likes: number; dislikes: number } {
     const likeRatio = (avgStarRatings - 1) / 4;
     const likes = Math.round(totalRatings * likeRatio);
-    const dislikes = Math.round(totalRatings * (1 - likeRatio));
+    const dislikes = Math.round(
+      totalRatings * (1 - likeRatio)
+    );
     return { likes, dislikes };
   }
 
@@ -226,16 +279,18 @@ export class SubscriptionsService {
     username: string,
     limit: number,
     start: number,
-    sort: Sorting<ChannelBasicInfoDto>,
+    sort: Sorting<ChannelBasicInfoDto>
   ): Promise<Array<ChannelBasicInfoDto> | void> {
     const user = await this.subscriptionModel
       .findOne({ username })
       .exec()
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
       });
     if (user) {
-      const userChannelIds = user.subscriptions.map((e) => e.channelId);
+      const userChannelIds = user.subscriptions.map(
+        e => e.channelId
+      );
       console.log(sort);
       if (userChannelIds) {
         return this.channelModel
@@ -243,7 +298,7 @@ export class SubscriptionsService {
           .sort(sort)
           .limit(parseInt(limit as any))
           .skip(parseInt(start as any))
-          .catch((err) => {
+          .catch(err => {
             console.log(err);
           });
       }
@@ -254,7 +309,7 @@ export class SubscriptionsService {
   async getSubscriptionFeed(
     username: string,
     limit: number,
-    start: number,
+    start: number
   ): Promise<Array<VideoBasicInfoDto>> {
     const userSubscriptions = await this.subscriptionModel
       .findOne({ username })
@@ -262,7 +317,7 @@ export class SubscriptionsService {
       .exec();
     if (userSubscriptions) {
       const userSubscriptionIds = userSubscriptions.subscriptions.map(
-        (e) => e.channelId,
+        e => e.channelId
       );
       return this.videoModel
         .find({ authorId: { $in: userSubscriptionIds } })
@@ -274,10 +329,10 @@ export class SubscriptionsService {
           delete el.__v;
           return el;
         })
-        .catch((err) => {
+        .catch(err => {
           throw new HttpException(
             `Error fetching subscription feed: ${err}`,
-            500,
+            500
           );
         });
     }
@@ -286,29 +341,31 @@ export class SubscriptionsService {
 
   async getSubscription(
     username: string,
-    channelId: string,
+    channelId: string
   ): Promise<SubscriptionStatusDto> {
-    const user = await this.subscriptionModel.findOne({ username }).exec();
+    const user = await this.subscriptionModel
+      .findOne({ username })
+      .exec();
     if (user && user.subscriptions.length > 0) {
       const subscription = user.subscriptions.find(
-        (e) => e.channelId === channelId,
+        e => e.channelId === channelId
       );
       if (subscription) {
         return {
           channelId,
-          isSubscribed: true,
+          isSubscribed: true
         };
       }
     }
     return {
       channelId,
-      isSubscribed: false,
+      isSubscribed: false
     };
   }
 
   async subscribeToMultipleChannels(
     username: string,
-    channelIds: Array<string>,
+    channelIds: Array<string>
   ): Promise<{
     successful: Array<SubscriptionStatusDto>;
     failed: Array<SubscriptionStatusDto>;
@@ -317,8 +374,11 @@ export class SubscriptionsService {
     const successful = [];
     const failed = [];
     const existing = [];
-    const user = await this.subscriptionModel.findOne({ username }).exec();
-    const subscriptions = user !== null ? user.subscriptions : [];
+    const user = await this.subscriptionModel
+      .findOne({ username })
+      .exec();
+    const subscriptions =
+      user !== null ? user.subscriptions : [];
 
     await Promise.allSettled(
       channelIds.map(async (id: string) => {
@@ -326,50 +386,62 @@ export class SubscriptionsService {
         if (channelFeed) {
           let channel: ChannelBasicInfoDto;
           try {
-            channel = await this.saveChannelBasicInfo(channelFeed.channel);
+            channel = await this.saveChannelBasicInfo(
+              channelFeed.channel
+            );
             await Promise.all(
-              channelFeed.videos.map((vid) => {
+              channelFeed.videos.map(vid => {
                 return this.saveVideoBasicInfo(vid);
-              }),
+              })
             );
           } catch (err) {
-            failed.push({ channelId: id, isSubscribed: false });
+            failed.push({
+              channelId: id,
+              isSubscribed: false
+            });
           }
           if (channel) {
-            if (!subscriptions.find((e) => e.channelId === channel.authorId)) {
+            if (
+              !subscriptions.find(
+                e => e.channelId === channel.authorId
+              )
+            ) {
               subscriptions.push({
                 channelId: channel.authorId,
-                createdAt: new Date(),
+                createdAt: new Date()
               });
 
               successful.push({
                 channelId: channel.authorId,
-                isSubscribed: true,
+                isSubscribed: true
               });
             } else {
               existing.push({
                 channelId: channel.authorId,
-                isSubscribed: true,
+                isSubscribed: true
               });
             }
           }
         } else {
-          failed.push({ channelId: id, isSubscribed: false });
+          failed.push({
+            channelId: id,
+            isSubscribed: false
+          });
         }
-      }),
+      })
     ).then(() => {
       console.log(`subscriptions: ${subscriptions.length}`);
       return this.subscriptionModel
         .findOneAndUpdate(
           { username },
           { username, subscriptions },
-          { upsert: true },
+          { upsert: true }
         )
         .exec()
-        .then((result) => {
+        .then(result => {
           console.log(result);
         }, console.log)
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
         });
     });
@@ -385,20 +457,26 @@ export class SubscriptionsService {
    */
   async subscribeToChannel(
     username: string,
-    channelId: string,
+    channelId: string
   ): Promise<SubscriptionStatusDto> {
-    const user = await this.subscriptionModel.findOne({ username }).exec();
+    const user = await this.subscriptionModel
+      .findOne({ username })
+      .exec();
 
-    const channelFeed = await this.getChannelFeed(channelId);
+    const channelFeed = await this.getChannelFeed(
+      channelId
+    );
     if (channelFeed) {
       let channel: ChannelBasicInfoDto;
 
       try {
-        channel = await this.saveChannelBasicInfo(channelFeed.channel);
+        channel = await this.saveChannelBasicInfo(
+          channelFeed.channel
+        );
         await Promise.all(
-          channelFeed.videos.map((vid) => {
+          channelFeed.videos.map(vid => {
             return this.saveVideoBasicInfo(vid);
-          }),
+          })
         );
       } catch (err) {
         console.log(err);
@@ -406,54 +484,58 @@ export class SubscriptionsService {
       const subscriptions = user ? user.subscriptions : [];
       subscriptions.push({
         channelId: channel.authorId,
-        createdAt: new Date(),
+        createdAt: new Date()
       });
 
       await this.subscriptionModel
         .findOneAndUpdate(
           { username },
           { username, subscriptions },
-          { upsert: true },
+          { upsert: true }
         )
         .exec()
-        .then((result) => {
+        .then(result => {
           console.log(result);
         }, console.log)
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
         });
 
       return {
         channelId,
-        isSubscribed: true,
+        isSubscribed: true
       };
     }
   }
 
   async unsubscribeFromChannel(
     username: string,
-    channelId: string,
+    channelId: string
   ): Promise<SubscriptionStatusDto> {
-    const user = await this.subscriptionModel.findOne({ username }).exec();
+    const user = await this.subscriptionModel
+      .findOne({ username })
+      .exec();
     if (
       user &&
       user.subscriptions &&
       user.subscriptions.length > 0 &&
-      user.subscriptions.find((e) => e.channelId === channelId)
+      user.subscriptions.find(
+        e => e.channelId === channelId
+      )
     ) {
       user.subscriptions = user.subscriptions.filter(
-        (e) => e.channelId !== channelId,
+        e => e.channelId !== channelId
       );
       await user.save();
 
       return {
         channelId,
-        isSubscribed: false,
+        isSubscribed: false
       };
     }
     throw new NotFoundException({
       message: 'User or subscription not found',
-      ignoreFilter: true,
+      ignoreFilter: true
     });
   }
 }
