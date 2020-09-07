@@ -147,7 +147,7 @@ export const state = () => ({
         'theme-color-light': '#60c25c',
         'theme-color-dark': '#1da019',
         'theme-color-alt': '#108dc7',
-        'theme-color-translucent': '#ff7b3a80',
+        'theme-color-translucent': '#06b30080',
         'line-color': 'rgba(255, 255, 255, 0.2)',
         'line-accent-color': 'rgba(255, 255, 255, 0.4)',
         'theme-color-gradient':
