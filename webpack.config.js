@@ -33,7 +33,7 @@ module.exports = {
     new WebpackShellPluginNext({
       onBuildStart: {
         scripts: [
-          'echo ▶ Starting ViewTube in development mode'
+          'echo > Starting ViewTube in development mode'
         ],
         blocking: false,
         parallel: true
