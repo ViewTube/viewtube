@@ -1,7 +1,7 @@
 <template>
   <element
     :is="internalLink ? 'nuxt-link' : 'a'"
-    :to="(internalLink && href) ? href : '#'"
+    :to="internalLink && href ? href : '#'"
     :target="internalLink ? '' : '_blank'"
     :href="href || '#'"
     :class="{ disabled }"
@@ -10,10 +10,7 @@
     rel="noreferrer"
     @click="clickFunction"
   >
-    <div
-      class="content"
-      :class="{loading: loading}"
-    >
+    <div class="content" :class="{ loading: loading }">
       <slot />
     </div>
   </element>
@@ -53,7 +50,15 @@ export default {
   width: auto;
   white-space: nowrap;
 
-  &.disabled{
+  &:focus {
+    border: 2px solid var(--theme-color);
+
+    &::after {
+      display: none !important;
+    }
+  }
+
+  &.disabled {
     filter: grayscale(100%);
     opacity: 0.8;
     user-select: none;
@@ -73,7 +78,7 @@ export default {
     }
 
     &:before {
-      content: "";
+      content: '';
       position: absolute;
       width: 100%;
       height: 100%;
