@@ -5,7 +5,7 @@ module.exports = {
 
   env: {
     API_URL: process.env.VIEWTUBE_API_URL,
-    VAPID_KEY: process.env.VIEWTUBE_VAPID,
+    VAPID_KEY: process.env.VIEWTUBE_PUBLIC_VAPID,
     host: 'localhost',
     port: '3100',
     baseUrl: process.env.BASE_URL || 'http://localhost:3100'
