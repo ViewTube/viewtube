@@ -85,7 +85,8 @@
     "web-push": "^3.4.4",
     "xml-js": "^1.6.11",
     "xml2json": "^0.12.0",
-    "ytdl-core": "^3.2.1"
+    "ytdl-core": "^3.2.1",
+    "ytsr": "^1.0.0"
   },
   "devDependencies": {
     "@nestjs/cli": "^7.0.0",

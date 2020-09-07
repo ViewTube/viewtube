@@ -18,7 +18,6 @@ module.exports = {
   modern: true,
 
   head: {
-    title: 'ViewTube',
     meta: [
       { charset: 'utf-8' },
       {
@@ -28,8 +27,7 @@ module.exports = {
       {
         hid: 'description',
         name: 'description',
-        content:
-          'An alternative YouTube frontend using the invidio.us API.'
+        content: 'An alternative YouTube frontend using the invidio.us API.'
       },
       { name: 'theme-color', content: '#121212' },
       {
@@ -47,8 +45,7 @@ module.exports = {
       {
         hid: 'ogDescription',
         property: 'og:description',
-        content:
-          'An alternative YouTube frontend using the invidio.us API.'
+        content: 'An alternative YouTube frontend using the invidio.us API.'
       },
       { property: 'og:locale', content: 'en_US' },
       { property: 'og:site_name', content: 'ViewTube' }
@@ -83,10 +80,7 @@ module.exports = {
     duration: 8000
   },
 
-  css: [
-    '~/assets/fonts/expletus.css',
-    '~/assets/fonts/notosans.css'
-  ],
+  css: ['~/assets/fonts/expletus.css', '~/assets/fonts/notosans.css'],
   styleResources: {
     scss: ['~/assets/styles/global/*.scss']
   },
@@ -127,11 +121,7 @@ module.exports = {
         })
       ]
     },
-    transpile: [
-      'vue-material-design-icons',
-      'dashjs',
-      'tippy.js'
-    ],
+    transpile: ['vue-material-design-icons', 'dashjs', 'tippy.js'],
     extend(config, ctx) {}
   }
 };

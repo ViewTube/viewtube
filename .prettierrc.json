@@ -7,7 +7,7 @@
   "bracketSpacing": true,
   "embeddedLanguageFormatting": "auto",
   "endOfLine": "lf",
-  "printWidth": 60,
+  "printWidth": 80,
   "vueIndentScriptAndStyle": false,
   "quoteProps": "as-needed"
 }
