@@ -63,7 +63,7 @@ export default {
   justify-content: flex-start;
   z-index: 11;
   position: relative;
-  flex-grow: 1;
+  grid-column: 1 / span 2;
 
   .movie-entry-background {
     position: absolute;

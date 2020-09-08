@@ -12,37 +12,24 @@
           <img
             class="video-entry-thmb-image"
             loading="lazy"
-            :src="
-              commons.proxyUrl +
-              video.videoThumbnails[4].url
-            "
+            :src="commons.proxyUrl + video.videoThumbnails[4].url"
             :alt="video.title"
           />
         </div>
-        <div
-          v-if="video.description"
-          class="video-description-overlay"
-        >
+        <div v-if="video.description" class="video-description-overlay">
           <p>{{ video.description }}</p>
         </div>
       </div>
-      <div
-        class="video-saved-progress"
-        :style="{ width: `${videoProgressPercentage}%` }"
-      />
+      <div class="video-saved-progress" :style="{ width: `${videoProgressPercentage}%` }" />
       <span class="video-entry-length">{{
-        $formatting.getTimestampFromSeconds(
-          video.lengthSeconds
-        )
+        $formatting.getTimestampFromSeconds(video.lengthSeconds)
       }}</span>
     </nuxt-link>
     <div class="video-entry-info">
       <img
         v-if="video.authorThumbnails"
         class="author-thumbnail"
-        :src="
-          commons.proxyUrl + video.authorThumbnails[1].url
-        "
+        :src="commons.proxyUrl + video.authorThumbnails[1].url"
         alt="Author thumbnail"
       />
       <div class="video-info-text">
@@ -59,10 +46,7 @@
           >{{ video.author }}</nuxt-link
         >
         <div class="video-entry-stats">
-          <p
-            v-if="video.viewCount !== null"
-            class="video-entry-views"
-          >
+          <p v-if="video.viewCount !== null" class="video-entry-views">
             {{ video.viewCount.toLocaleString('en-US') }}
             {{ video.viewCount === 1 ? 'view' : 'views' }}
           </p>
@@ -90,21 +74,13 @@ export default {
   }),
   computed: {
     videoProgressPercentage() {
-      return (
-        (SavedPosition.getSavedPosition(
-          this.video.videoId
-        ) /
-          this.video.lengthSeconds) *
-        100
-      );
+      return (SavedPosition.getSavedPosition(this.video.videoId) / this.video.lengthSeconds) * 100;
     },
     videoProgressTooltip() {
       const watchTime = this.$formatting.getTimestampFromSeconds(
         SavedPosition.getSavedPosition(this.video.videoId)
       );
-      const totalTime = this.$formatting.getTimestampFromSeconds(
-        this.video.lengthSeconds
-      );
+      const totalTime = this.$formatting.getTimestampFromSeconds(this.video.lengthSeconds);
       return `${watchTime} of ${totalTime}`;
     }
   },
@@ -114,7 +90,6 @@ export default {
 
 <style lang="scss">
 .video-entry {
-  width: 320px;
   display: flex;
   flex-direction: column;
   padding: 10px;
@@ -124,10 +99,8 @@ export default {
 
   .video-entry-background {
     position: absolute;
-    height: 175px;
     top: 10px;
     left: 10px;
-    width: calc(100% - 20px);
     // background-color: #34363b;
     z-index: 10;
     transition-duration: 300ms;
@@ -136,8 +109,6 @@ export default {
   }
 
   .video-entry-thmb {
-    width: 100%;
-    height: 175px;
     // overflow: hidden;
     position: relative;
     z-index: 11;
@@ -154,11 +125,10 @@ export default {
 
       .thmb-clip {
         overflow: hidden;
-        width: 100%;
-        height: 175px;
         backface-visibility: hidden;
 
         .video-entry-thmb-image {
+          display: block;
           width: 100%;
           transition: filter 0ms 300ms $intro-easing;
         }
@@ -284,44 +254,44 @@ export default {
     }
   }
 
-  @media screen and (max-width: $mobile-width) {
-    width: calc(100% - 20px);
-    padding: 10px;
+  // @media screen and (max-width: $mobile-width) {
+  //   width: calc(100% - 20px);
+  //   padding: 10px;
 
-    .video-entry-thmb {
-      width: 100%;
-      height: 53vw;
+  //   .video-entry-thmb {
+  //     width: 100%;
+  //     height: 53vw;
 
-      &:hover.has-description {
-        .thmb-image-container {
-          transform: rotateY(180deg) translateY(0);
-          .thmb-clip {
-            .video-entry-thmb-image {
-              filter: blur(5px);
-            }
-          }
-        }
-        .video-entry-length {
-          transform: scale(0);
-        }
-      }
+  //     &:hover.has-description {
+  //       .thmb-image-container {
+  //         transform: rotateY(180deg) translateY(0);
+  //         .thmb-clip {
+  //           .video-entry-thmb-image {
+  //             filter: blur(5px);
+  //           }
+  //         }
+  //       }
+  //       .video-entry-length {
+  //         transform: scale(0);
+  //       }
+  //     }
 
-      .thmb-image-container {
-        position: relative;
-        top: 0;
-        left: 0;
-        transform: translateY(0);
+  //     .thmb-image-container {
+  //       position: relative;
+  //       top: 0;
+  //       left: 0;
+  //       transform: translateY(0);
 
-        .thmb-clip {
-          height: 53vw;
+  //       .thmb-clip {
+  //         height: 53vw;
 
-          .video-entry-thmb-image {
-            top: 0;
-            transform: translateY(0px);
-          }
-        }
-      }
-    }
-  }
+  //         .video-entry-thmb-image {
+  //           top: 0;
+  //           transform: translateY(0px);
+  //         }
+  //       }
+  //     }
+  //   }
+  // }
 }
 </style>

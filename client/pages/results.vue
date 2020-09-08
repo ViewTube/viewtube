@@ -223,10 +223,25 @@ export default {
     max-width: $main-width;
     margin: 0 auto;
     z-index: 10;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-around;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-auto-rows: minmax(250px, auto);
+    grid-gap: 1em;
+
+    // @media screen and (max-width: 1400px) {
+    //   width: 130%;
+    //   left: calc(100vw - 115%);
+    // }
+
+    // @media screen and (max-width: 700px) {
+    //   width: 160%;
+    //   left: calc(100vw - 130%);
+    // }
+
+    // @media screen and (max-width: 500px) {
+    //   width: 190%;
+    //   left: calc(100vw - 145%);
+    // }
 
     @media screen and (max-width: $mobile-width) {
       flex-direction: row;
