@@ -104,7 +104,10 @@ export class Common {
     });
   }
 
-  public static createThumbnailUrls(baseUrl: string, replaceFn: (number) => string) {
+  public static createThumbnailUrls(
+    baseUrl: string,
+    replaceFn: (arg0: number) => string
+  ): Array<any> {
     if (baseUrl) {
       return [
         {

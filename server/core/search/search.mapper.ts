@@ -1,7 +1,6 @@
-import { Result } from 'ytsr';
+import { Result, Video } from 'ytsr';
 import { ISearchResponse } from './interface/search-response.interface';
 import { Common } from '../common';
-import { basename } from 'path';
 
 export class SearchMapper {
   static ytsrToDto(ytsrResult: Result): ISearchResponse {
@@ -59,7 +58,7 @@ export class SearchMapper {
     return resultDto;
   }
 
-  static mapVideo(source) {
+  static mapVideo(source: Video): any {
     const video = {
       type: 'video',
       title: source.title,
