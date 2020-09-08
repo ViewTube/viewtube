@@ -7,7 +7,7 @@ export default {
   inserted(el, binding) {
     const text = el.textContent.trim();
     const htmlText = text.replace(urlRegex, match => {
-      return `<a href="${match}" target="_blank" rel="noreferrer">${match}</a>`;
+      return `<a href="${match}" target="_blank" rel="noreferrer noopener">${match}</a>`;
     });
     el.innerHTML = htmlText;
   }

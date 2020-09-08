@@ -9,6 +9,9 @@ const apiPrototype = {
   }),
   api: {},
   requests: {
+    search: {
+      url: 'search'
+    },
     videos: {
       url: 'videos',
       fields: [

@@ -16,6 +16,10 @@ export class Common {
     }
   }
 
+  public static getPlaylistIdFromUrl(playlistUrl: string): string {
+    return playlistUrl.replace('PL4o29bINVT4EG_y-k5jGoOu3-Am8Nvi10', '');
+  }
+
   public static getChannelIdFromUrl(channelUrl: string): string {
     return channelUrl
       .replace('https://www.youtube.com/user/', '')
@@ -100,7 +104,7 @@ export class Common {
     });
   }
 
-  public static createThumbnailUrls(baseUrl: string, replaceFn: Function) {
+  public static createThumbnailUrls(baseUrl: string, replaceFn: (number) => string) {
     if (baseUrl) {
       return [
         {

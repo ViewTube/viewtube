@@ -5,6 +5,7 @@ export default {
   duration: null,
   features: null,
   page: 1,
+  limit: 10,
   defaults: {
     sort_by: [
       { name: 'Relevance', value: 'relevance' },
@@ -12,6 +13,7 @@ export default {
       { name: 'Upload date', value: 'upload_date' },
       { name: 'View count', value: 'view_count' }
     ],
+    limit: [10, 30, 100],
     date: ['hour', 'today', 'week', 'month', 'year'],
     duration: ['short', 'long'],
     type: ['video', 'playlist', 'channel', 'all'],
@@ -37,11 +39,7 @@ export default {
         if (me.defaults[val].includes(query[val])) {
           queryString += `&${val}=${query[val]}`;
           me[val] = query[val];
-        } else if (
-          me.defaults[val].find(
-            el => el.value === query[val]
-          )
-        ) {
+        } else if (me.defaults[val].find(el => el.value === query[val])) {
           queryString += `&${val}=${query[val]}`;
           me[val] = query[val];
         }
@@ -59,11 +57,7 @@ export default {
         if (me.defaults[val].includes(query[val])) {
           queryObj[val] = query[val];
           me[val] = query[val];
-        } else if (
-          me.defaults[val].find(
-            el => el.value === query[val]
-          )
-        ) {
+        } else if (me.defaults[val].find(el => el.value === query[val])) {
           queryObj[val] = query[val];
           me[val] = query[val];
         }

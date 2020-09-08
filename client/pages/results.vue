@@ -34,21 +34,19 @@
         @valuechange="onSearchTypeChange"
       />
     </div>
-    <div v-if="!loading" class="search-videos-container">
+    <div v-if="searchResults && searchResults.items" class="search-videos-container">
       <component
         :is="getListEntryType(result.type)"
-        v-for="result in results"
+        v-for="result in searchResults.items"
         :key="result.videoId"
         :video="result"
         :playlist="result"
         :channel="result"
+        :data="result"
       />
     </div>
     <div class="show-more-btn-container">
-      <BadgeButton
-        :click="loadMoreVideos"
-        :loading="moreVideosLoading"
-      >
+      <BadgeButton :click="loadMoreVideos" :loading="moreVideosLoading">
         <LoadMoreIcon />
         <p>show more</p>
       </BadgeButton>
@@ -62,13 +60,18 @@ import LoadMoreIcon from 'vue-material-design-icons/Reload';
 import VideoEntry from '@/components/list/VideoEntry';
 import PlaylistEntry from '@/components/list/PlaylistEntry';
 import ChannelEntry from '@/components/list/ChannelEntry';
+import MovieEntry from '@/components/list/MovieEntry';
+import RelatedSearches from '@/components/search/RelatedSearches';
+import CompactShelf from '@/components/search/CompactShelf';
+import VerticalShelf from '@/components/search/VerticalShelf';
 import Spinner from '@/components/Spinner';
 import BottomNavigation from '@/components/BottomNavigation';
 import GradientBackground from '@/components/GradientBackground.vue';
 import Dropdown from '@/components/filter/Dropdown';
 import SearchParams from '@/plugins/services/searchParams';
 import BadgeButton from '@/components/buttons/BadgeButton';
-import Invidious from '@/plugins/services/invidious';
+// import Invidious from '@/plugins/services/invidious';
+import ViewtubeApi from '~/plugins/services/viewtubeApi';
 
 export default {
   name: 'Search',
@@ -81,20 +84,22 @@ export default {
     BottomNavigation,
     GradientBackground,
     Dropdown,
-    BadgeButton
+    BadgeButton,
+    MovieEntry,
+    RelatedSearches,
+    CompactShelf,
+    VerticalShelf
   },
   watchQuery: true,
   asyncData({ query }) {
     query.type = 'all';
-    const searchParams = SearchParams.parseQueryJson(
-      query,
-      query.search_query
-    );
-    return Invidious.api
+    query.limit = 10;
+    const searchParams = SearchParams.parseQueryJson(query, query.search_query);
+    return ViewtubeApi.api
       .search({ params: searchParams })
       .then(response => {
         return {
-          results: response.data,
+          searchResults: response.data,
           searchQuery: query.search_query
         };
       })
@@ -103,55 +108,37 @@ export default {
       });
   },
   data: () => ({
-    results: [],
+    searchResults: null,
     loading: false,
     searchQuery: null,
     parameters: SearchParams,
     page: 1,
     moreVideosLoading: false
   }),
-  head() {
-    return {
-      title: `${
-        this.searchQuery ? this.searchQuery + ' - ' : ''
-      }Search - ViewTube`,
-      meta: [
-        {
-          hid: 'description',
-          vmid: 'descriptionMeta',
-          name: 'description',
-          content:
-            'Search for videos, channels and playlists'
-        },
-        {
-          hid: 'ogTitle',
-          property: 'og:title',
-          content: 'Search - ViewTube'
-        },
-        {
-          hid: 'ogDescription',
-          property: 'og:description',
-          content:
-            'Search for videos, channels and playlists'
-        }
-      ]
-    };
-  },
   methods: {
     getListEntryType(type) {
-      if (type === 'video') {
-        return 'VideoEntry';
-      } else if (type === 'playlist') {
-        return 'PlaylistEntry';
-      } else if (type === 'channel') {
-        return 'ChannelEntry';
+      switch (type) {
+        case 'video':
+          return 'VideoEntry';
+        case 'playlist':
+          return 'PlaylistEntry';
+        case 'channel':
+          return 'ChannelEntry';
+        // case 'mix':
+        //   return 'MixEntry';
+        case 'movie':
+          return 'MovieEntry';
+        case 'search-refinements':
+          return 'RelatedSearches';
+        case 'shelf-compact':
+          return 'CompactShelf';
+        case 'shelf-vertical':
+          return 'VerticalShelf';
       }
     },
     reloadSearchWithParams() {
       const searchParams = SearchParams.getParamsString();
-      this.$router.push(
-        `/results?search_query=${this.searchQuery}${searchParams}`
-      );
+      this.$router.push(`/results?search_query=${this.searchQuery}${searchParams}`);
     },
     onSearchSortChange(element, index) {
       SearchParams.sort_by = element.value;
@@ -171,22 +158,43 @@ export default {
     },
     loadMoreVideos() {
       this.moreVideosLoading = true;
-      const me = this;
-      this.page += 1;
-      SearchParams.page = this.page;
-      const searchParams = SearchParams.getParamsJson(
-        this.searchQuery
-      );
-      Invidious.api
+      // this.page += 1;
+      // SearchParams.page = this.page;
+      const searchParams = SearchParams.getParamsJson(this.searchQuery);
+      searchParams.nextpageRef = this.searchResults.nextpageRef;
+      ViewtubeApi.api
         .search({ params: searchParams })
         .then(response => {
-          me.results = me.results.concat(response.data);
-          me.moreVideosLoading = false;
+          this.searchResults.items = this.searchResults.items.concat(response.data.items);
+          this.moreVideosLoading = false;
         })
         .catch(error => {
           console.error(error);
         });
     }
+  },
+  head() {
+    return {
+      title: `${this.searchQuery ? this.searchQuery + ' - ' : ''}Search - ViewTube`,
+      meta: [
+        {
+          hid: 'description',
+          vmid: 'descriptionMeta',
+          name: 'description',
+          content: 'Search for videos, channels and playlists'
+        },
+        {
+          hid: 'ogTitle',
+          property: 'og:title',
+          content: 'Search - ViewTube'
+        },
+        {
+          hid: 'ogDescription',
+          property: 'og:description',
+          content: 'Search for videos, channels and playlists'
+        }
+      ]
+    };
   }
 };
 </script>

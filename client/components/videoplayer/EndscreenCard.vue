@@ -3,7 +3,7 @@
     ref="endscreenCard"
     :href="linkUrl"
     target="_blank"
-    rel="noreferrer"
+    rel="noreferrer noopener"
     class="endscreen-card"
     :class="{ visible: visible }"
     :style="{
@@ -19,11 +19,7 @@
   >
     <div class="card-background-container">
       <div class="card-background-overlay"></div>
-      <img
-        class="card-background"
-        :src="backgroundImage"
-        alt="Thumbnail Image"
-      />
+      <img class="card-background" :src="backgroundImage" alt="Thumbnail Image" />
     </div>
     <div class="card-info-container">
       <p class="card-title">{{ card.title }}</p>
@@ -85,10 +81,7 @@ export default {
       const endTime = this.card.timing.end;
       const videoProgressMs = this.videoProgress * 1000;
 
-      return (
-        videoProgressMs > startTime &&
-        videoProgressMs < endTime
-      );
+      return videoProgressMs > startTime && videoProgressMs < endTime;
     },
     positionTop() {
       return this.card.dimensions.top * 100;
@@ -101,8 +94,7 @@ export default {
     },
     cardHeight() {
       return (
-        ((this.card.dimensions.width * 100) /
-          this.card.dimensions.aspectRatio) *
+        ((this.card.dimensions.width * 100) / this.card.dimensions.aspectRatio) *
         this.videoAspectRatio
       );
     },
@@ -137,8 +129,7 @@ export default {
   cursor: pointer;
   transition-duration: 300ms;
   transition-timing-function: $intro-easing;
-  transition-property: opacity, transform, border,
-    box-shadow;
+  transition-property: opacity, transform, border, box-shadow;
 
   opacity: 0;
   transform: scale(0.9);
@@ -163,12 +154,7 @@ export default {
       left: 0;
       height: 100%;
       width: 100%;
-      background-image: linear-gradient(
-        to bottom,
-        #000,
-        #00000000,
-        #00000000
-      );
+      background-image: linear-gradient(to bottom, #000, #00000000, #00000000);
       z-index: 138;
     }
 

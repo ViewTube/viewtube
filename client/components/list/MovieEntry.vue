@@ -1,36 +1,39 @@
 <template>
-  <div class="playlist-entry">
-    <div class="playlist-entry-background" />
-    <nuxt-link
-      class="playlist-entry-thmb"
-      :to="{
-        path: '/playlist?list=' + playlist.playlistId
-      }"
-    >
+  <div class="movie-entry">
+    <div class="movie-entry-background" />
+    <a class="movie-entry-thmb" :href="data.link" target="_blank" rel="noreferrer noopener">
       <div class="thmb-image-container">
         <img
-          class="playlist-entry-thmb-image"
-          :src="commons.proxyUrl + playlist.thumbnail"
-          :alt="playlist.title"
+          class="movie-entry-thmb-image"
+          :src="commons.proxyUrl + data.thumbnail"
+          :alt="data.title"
         />
       </div>
-      <span class="playlist-entry-count">{{ playlist.videoCountString }}</span>
-    </nuxt-link>
-    <div class="playlist-entry-info">
+      <span class="movie-entry-count">{{ data.duration }}</span>
+    </a>
+    <div class="movie-entry-info">
+      <a
+        v-tippy="data.title"
+        class="movie-entry-title tooltip"
+        :href="data.link"
+        target="_blank"
+        rel="noreferrer noopener"
+        >{{ data.title }}
+      </a>
       <nuxt-link
-        v-tippy="playlist.title"
-        class="playlist-entry-title tooltip"
-        :to="{
-          path: '/playlist?list=' + playlist.playlistId
-        }"
-        >{{ playlist.title }}</nuxt-link
+        v-tippy="data.author.name"
+        class="movie-entry-channel tooltip"
+        :to="{ path: '/channel/' + data.author.name }"
+        >{{ data.author.name }}</nuxt-link
       >
-      <nuxt-link
-        v-tippy="playlist.author"
-        class="playlist-entry-channel tooltip"
-        :to="{ path: '/channel/' + playlist.authorId }"
-        >{{ playlist.author }}</nuxt-link
-      >
+      <p>{{ data.description }}</p>
+      <div class="movie-tags">
+        <span v-for="(tag, index) in data.meta" :key="index">{{ tag }}</span>
+      </div>
+      <div class="movie-actors">
+        <span v-for="(actor, index) in data.actors" :key="index">{{ actor }}</span>
+      </div>
+      <p class="movie-director">{{ data.director }}</p>
     </div>
   </div>
 </template>
@@ -40,9 +43,9 @@ import Commons from '@/plugins/commons.js';
 import 'tippy.js/dist/tippy.css';
 
 export default {
-  name: 'PlaylistEntry',
+  name: 'MovieEntry',
   props: {
-    playlist: Object
+    data: Object
   },
   data: () => ({
     commons: Commons
@@ -52,31 +55,31 @@ export default {
 </script>
 
 <style lang="scss">
-.playlist-entry {
-  width: 320px;
+.movie-entry {
+  max-width: 800px;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   padding: 10px;
   justify-content: flex-start;
   z-index: 11;
   position: relative;
+  flex-grow: 1;
 
-  .playlist-entry-background {
+  .movie-entry-background {
     position: absolute;
     height: 175px;
     top: 10px;
     left: 10px;
     width: calc(100% - 20px);
-    background-color: #34363b;
     z-index: 10;
     transition-duration: 300ms;
     transition-timing-function: $intro-easing;
     transition-property: box-shadow;
   }
 
-  .playlist-entry-thmb {
-    width: 100%;
-    height: 175px;
+  .movie-entry-thmb {
+    height: 265px;
+    width: 300px;
     overflow: hidden;
     position: relative;
     box-shadow: $max-shadow;
@@ -84,15 +87,15 @@ export default {
 
     .thmb-image-container {
       position: relative;
-      top: 50%;
+      top: 0;
       left: 0;
-      transform: translateY(-50%);
 
-      .playlist-entry-thmb-image {
+      .movie-entry-thmb-image {
         width: 100%;
+        display: block;
       }
     }
-    .playlist-entry-count {
+    .movie-entry-count {
       text-decoration: none;
       color: $video-thmb-overlay-textcolor;
       position: absolute;
@@ -107,7 +110,7 @@ export default {
     }
   }
 
-  .playlist-entry-info {
+  .movie-entry-info {
     padding: 10px 0 10px 0;
     font-family: $default-font;
     overflow: hidden;
@@ -116,7 +119,7 @@ export default {
     align-items: left;
     z-index: 11;
 
-    .playlist-entry-title {
+    .movie-entry-title {
       text-decoration: none;
       margin: 0;
       font-size: 0.9rem;
@@ -127,7 +130,7 @@ export default {
       padding: 6px 0 4px 0;
     }
 
-    .playlist-entry-channel {
+    .movie-entry-channel {
       text-decoration: none;
       padding: 3px 0 4px 0;
       font-size: 0.9rem;
@@ -143,7 +146,7 @@ export default {
     width: calc(100% - 20px);
     margin: 10px;
 
-    .playlist-entry-thmb {
+    .movie-entry-thmb {
       width: 100%;
       height: 53vw;
 
@@ -153,7 +156,7 @@ export default {
         left: 0;
         transform: translateY(0);
 
-        .playlist-entry-thmb-image {
+        .movie-entry-thmb-image {
           top: 0;
           transform: translateY(0px);
         }

@@ -1,8 +1,7 @@
 export default {
   autocompleteUrl: 'https://viewtube.io/api/autocomplete/',
   proxyUrl: 'https://proxy.mcdn.ch/index.php?',
-  description:
-    'An alternative YouTube frontend using the Invidious API.',
+  description: 'An alternative YouTube frontend using the Invidious API.',
   language: 'en-US',
 
   getApiUrl() {
@@ -17,12 +16,13 @@ export default {
 
   getOwnApiUrl() {
     if (this.isProduction()) {
-      return (
-        process.env.VIEWTUBE_API_URL ||
-        'https://viewtube.io/api/'
-      );
+      return process.env.VIEWTUBE_API_URL || 'https://viewtube.io/api/';
     }
     return 'http://localhost:8066/api/';
+  },
+
+  getVideoIdFromUrl(videoUrl) {
+    return videoUrl.replace('https://www.youtube.com/watch?v=', '');
   },
 
   getVAPIDKey() {
@@ -35,12 +35,8 @@ export default {
   },
 
   urlBase64ToUint8Array(base64String) {
-    const padding = '='.repeat(
-      (4 - (base64String.length % 4)) % 4
-    );
-    const base64 = (base64String + padding)
-      .replace(/-/g, '+')
-      .replace(/_/g, '/');
+    const padding = '='.repeat((4 - (base64String.length % 4)) % 4);
+    const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
 
     const rawData = window.atob(base64);
     const outputArray = new Uint8Array(rawData.length);
@@ -52,14 +48,11 @@ export default {
   },
 
   uuidv4() {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(
-      /[xy]/g,
-      function (c) {
-        var r = (Math.random() * 16) | 0,
-          v = c == 'x' ? r : (r & 0x3) | 0x8;
-        return v.toString(16);
-      }
-    );
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+      var r = (Math.random() * 16) | 0,
+        v = c == 'x' ? r : (r & 0x3) | 0x8;
+      return v.toString(16);
+    });
   },
 
   isProduction() {
@@ -84,9 +77,7 @@ export default {
 
   getProxyImageSizes(imgArray) {
     if (Array.isArray(imgArray)) {
-      const sortedArray = imgArray
-        .slice()
-        .sort((a, b) => a.width - b.width);
+      const sortedArray = imgArray.slice().sort((a, b) => a.width - b.width);
       const largerImg = sortedArray[sortedArray.length - 3];
       const desktopImg = sortedArray[3];
       // console.log(largestImg.width)

@@ -1,34 +1,21 @@
 <template>
   <div class="subscriptions-import popup">
-    <div
-      class="popup-container subscriptions-import-container"
-    >
-      <CloseIcon
-        class="close-icon"
-        @click.stop="$emit('close')"
-      />
+    <div class="popup-container subscriptions-import-container">
+      <CloseIcon class="close-icon" @click.stop="$emit('close')" />
       <h1>Import subscriptions</h1>
-      <div
-        class="pages-container"
-        :class="{ 'page-2': page2 }"
-      >
+      <div class="pages-container" :class="{ 'page-2': page2 }">
         <div class="page-container page-1-container">
           <h2><YoutubeIcon />Import from Youtube</h2>
           <ol>
             <li class="links">
               Go to
-              <a
-                target="_blank"
-                rel="noreferrer"
-                :href="youtubeSubscriptionUrl"
-                >{{ youtubeSubscriptionUrl }}</a
+              <a target="_blank" rel="noreferrer noopener" :href="youtubeSubscriptionUrl">{{
+                youtubeSubscriptionUrl
+              }}</a
               >.
             </li>
             <li>You may be asked to login.</li>
-            <li>
-              Download the file with the name
-              "subscription_manager".
-            </li>
+            <li>Download the file with the name "subscription_manager".</li>
             <li>Upload it here.</li>
           </ol>
           <input
@@ -41,10 +28,7 @@
         </div>
         <div
           class="page-container page-2-container"
-          v-if="
-            subscriptionsToImport &&
-            subscriptionsToImport.length > 0
-          "
+          v-if="subscriptionsToImport && subscriptionsToImport.length > 0"
         >
           <h2>Select subscriptions to import</h2>
           <div class="list-actions">
@@ -59,10 +43,7 @@
               </BadgeButton>
             </div>
             <div class="right">
-              <BadgeButton
-                :click="importSelected"
-                :disabled="anySelectedChannel"
-              >
+              <BadgeButton :click="importSelected" :disabled="anySelectedChannel">
                 <ImportIcon />
                 <p>Import</p>
               </BadgeButton>
@@ -77,13 +58,7 @@
               <CheckBox
                 :value="channel.selected"
                 :label="channel.author"
-                @valuechange="
-                  e =>
-                    channelCheckBoxChanged(
-                      e,
-                      channel.authorId
-                    )
-                "
+                @valuechange="e => channelCheckBoxChanged(e, channel.authorId)"
               />
             </div>
           </div>
@@ -93,10 +68,7 @@
         </div>
       </div>
     </div>
-    <div
-      class="settings-overlay popup-overlay"
-      @click.stop="$emit('close')"
-    />
+    <div class="settings-overlay popup-overlay" @click.stop="$emit('close')" />
   </div>
 </template>
 
@@ -139,8 +111,7 @@ export default {
   },
   data() {
     return {
-      youtubeSubscriptionUrl:
-        'https://www.youtube.com/subscription_manager?action_takeout=1',
+      youtubeSubscriptionUrl: 'https://www.youtube.com/subscription_manager?action_takeout=1',
       page2: false,
       subscriptionsToImport: null,
       commons: Commons,
@@ -165,9 +136,7 @@ export default {
       fileReader.readAsText(e.target.files[0]);
     },
     channelCheckBoxChanged(newValue, channelId) {
-      this.subscriptionsToImport.find(
-        e => e.authorId === channelId
-      ).selected = newValue;
+      this.subscriptionsToImport.find(e => e.authorId === channelId).selected = newValue;
     },
     selectAll() {
       this.subscriptionsToImport.forEach(el => {
@@ -182,9 +151,7 @@ export default {
     importSelected() {
       this.loading = true;
       const subscriptions = this.selectedChannels;
-      const subscriptionIds = subscriptions.map(
-        e => e.authorId
-      );
+      const subscriptionIds = subscriptions.map(e => e.authorId);
       this.$axios
         .post(
           `${Commons.getOwnApiUrl()}user/subscriptions/multiple`,
@@ -208,9 +175,7 @@ export default {
   },
   computed: {
     selectedChannels() {
-      return this.subscriptionsToImport.filter(
-        e => e.selected
-      );
+      return this.subscriptionsToImport.filter(e => e.selected);
     },
     anySelectedChannel() {
       return !(this.selectedChannels.length > 0);
@@ -272,8 +237,7 @@ export default {
         user-select: none;
         opacity: 0;
         transform: translateX(10px);
-        transition: transform 300ms $overshoot-easing,
-          opacity 300ms $intro-easing;
+        transition: transform 300ms $overshoot-easing, opacity 300ms $intro-easing;
 
         .list-actions {
           display: flex;

@@ -16,7 +16,8 @@
     "moduleResolution": "node",
     "baseUrl": "./",
     "paths": {
-      "~/*": ["client/*"]
+      "~/*": ["client/*"],
+      "@/*": ["client/*"]
     },
     "types": ["@types/node", "@nuxt/vue-app", "@types/jest"]
   },

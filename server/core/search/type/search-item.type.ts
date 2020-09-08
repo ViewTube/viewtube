@@ -1,13 +1,4 @@
-import {
-  Mix,
-  Playlist,
-  Channel,
-  Video,
-  Movie,
-  RelatedSearches,
-  ShelfCompact,
-  ShelfVertical
-} from 'ytsr';
+import { Mix, Playlist, Movie, RelatedSearches, ShelfCompact, ShelfVertical } from 'ytsr';
 import { ChannelBasicInfoDto } from 'server/core/channels/dto/channel-basic-info.dto';
 import { VideoBasicInfoDto } from 'server/core/videos/dto/video-basic-info.dto';
 
