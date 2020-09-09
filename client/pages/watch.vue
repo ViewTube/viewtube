@@ -1,17 +1,7 @@
 <template>
   <div class="watch">
-    <video
-      v-if="!jsEnabled"
-      controls
-      :src="getHDUrl()"
-      class="nojs-player"
-    />
-    <VideoPlayer
-      v-if="jsEnabled"
-      :key="video.id"
-      :video="video"
-      class="video-player-p"
-    />
+    <video v-if="!jsEnabled" controls :src="getHDUrl()" class="nojs-player" />
+    <VideoPlayer v-if="jsEnabled" :key="video.id" :video="video" class="video-player-p" />
     <div class="video-meta">
       <CollapsibleSection
         class="recommended-videos mobile"
@@ -28,19 +18,11 @@
           {{ video.title }}
         </h1>
         <div
-          v-if="
-            video.viewCount &&
-            video.likeCount &&
-            video.dislikeCount
-          "
+          v-if="video.viewCount && video.likeCount && video.dislikeCount"
           class="video-infobox-stats"
         >
           <p class="infobox-views">
-            {{
-              parseFloat(video.viewCount).toLocaleString(
-                'en-US'
-              )
-            }}
+            {{ parseFloat(video.viewCount).toLocaleString('en-US') }}
             views
           </p>
           <div class="infobox-rating">
@@ -48,21 +30,13 @@
               <div class="infobox-likes">
                 <ThumbsUp class="thumbs-icon" />
                 <p class="like-count">
-                  {{
-                    parseFloat(
-                      video.likeCount
-                    ).toLocaleString('en-US')
-                  }}
+                  {{ parseFloat(video.likeCount).toLocaleString('en-US') }}
                 </p>
               </div>
               <div class="infobox-dislikes">
                 <ThumbsDown class="thumbs-icon" />
                 <p class="dislike-count">
-                  {{
-                    parseFloat(
-                      video.dislikeCount
-                    ).toLocaleString('en-US')
-                  }}
+                  {{ parseFloat(video.dislikeCount).toLocaleString('en-US') }}
                 </p>
               </div>
             </div>
@@ -70,12 +44,7 @@
               <div
                 class="like-ratio-bar"
                 :style="{
-                  width:
-                    (video.likeCount /
-                      (video.dislikeCount +
-                        video.likeCount)) *
-                      100 +
-                    '%'
+                  width: (video.likeCount / (video.dislikeCount + video.likeCount)) * 100 + '%'
                 }"
               />
             </div>
@@ -86,10 +55,7 @@
             <div class="infobox-channel-image">
               <nuxt-link :to="`channel/${video.authorId}`">
                 <img
-                  v-if="
-                    video.authorThumbnails &&
-                    video.authorThumbnails.length > 0
-                  "
+                  v-if="video.authorThumbnails && video.authorThumbnails.length > 0"
                   id="channel-img"
                   alt="Channel image"
                   :src="video.authorThumbnails[2].url"
@@ -97,62 +63,35 @@
               </nuxt-link>
             </div>
             <div class="infobox-channel-info">
-              <nuxt-link
-                :to="`channel/${video.authorId}`"
-                class="infobox-channel-name ripple"
-                >{{ video.author }}</nuxt-link
-              >
-              <p
-                v-if="video.subCount"
-                class="infobox-channel-subcount"
-              >
+              <nuxt-link :to="`channel/${video.authorId}`" class="infobox-channel-name ripple">{{
+                video.author
+              }}</nuxt-link>
+              <p v-if="video.subCount" class="infobox-channel-subcount">
                 {{ video.subCount.toLocaleString('en-US') }}
                 subscribers
               </p>
-              <p
-                v-if="!video.subCount && video.subCountText"
-                class="infobox-channel-subcount"
-              >
+              <p v-if="!video.subCount && video.subCountText" class="infobox-channel-subcount">
                 {{ video.subCountText }} subscribers
               </p>
             </div>
           </div>
-          <SubscribeButton
-            class="subscribe-button-watch"
-            :channel-id="video.authorId"
-          />
+          <SubscribeButton class="subscribe-button-watch" :channel-id="video.authorId" />
         </div>
-        <div
-          class="video-infobox-date"
-          v-if="video.publishedText"
-        >
+        <div class="video-infobox-date" v-if="video.publishedText">
           {{ video.publishedText }}
         </div>
-        <div
-          class="video-exact-date"
-          v-if="!video.publishedText"
-        >
-          {{
-            new Date(video.published).toLocaleString(
-              'en-US'
-            )
-          }}
+        <div class="video-exact-date" v-if="!video.publishedText">
+          {{ new Date(video.published).toLocaleString('en-US') }}
         </div>
         <div class="video-actions">
           <BadgeButton
             :href="`https://getpocket.com/save?url=${encodedUrl}`"
             style="color: #ef4056"
           >
-            <img
-              src="@/assets/icons/pocket.svg"
-              alt="Save to pocket icon"
-            />
+            <img src="@/assets/icons/pocket.svg" alt="Save to pocket icon" />
             Save to pocket
           </BadgeButton>
-          <BadgeButton
-            style="color: #efbb00"
-            :click="() => (shareOpen = !shareOpen)"
-          >
+          <BadgeButton style="color: #efbb00" :click="() => (shareOpen = !shareOpen)">
             <Share class="share-icon" />
             Share
           </BadgeButton>
@@ -160,18 +99,12 @@
         <transition name="share-fade-down">
           <div v-show="shareOpen">
             <div>
-              <ShareOptions class="share-options-display">
-              </ShareOptions>
+              <ShareOptions class="share-options-display"> </ShareOptions>
             </div>
           </div>
         </transition>
-        <p class="video-infobox-text" v-if="video.keywords">
-          tags:
-        </p>
-        <div
-          class="video-infobox-tags"
-          v-if="video.keywords"
-        >
+        <p class="video-infobox-text" v-if="video.keywords">tags:</p>
+        <div class="video-infobox-tags" v-if="video.keywords">
           <div v-if="video.keywords" class="tags-container">
             <BadgeButton
               v-for="keyword in video.keywords"
@@ -184,25 +117,14 @@
           </div>
         </div>
         <div class="comments-description">
-          <div
-            v-create-links
-            class="video-infobox-description links"
-          >
+          <div v-create-links class="video-infobox-description links">
             {{ video.description }}
           </div>
           <Spinner v-if="commentsLoading" />
-          <div
-            v-if="!commentsLoading"
-            class="comments-container"
-          >
+          <div v-if="!commentsLoading" class="comments-container">
             <div class="comments-count">
               <p>
-                {{
-                  comment.commentCount &&
-                  comment.commentCount.toLocaleString(
-                    'en-US'
-                  )
-                }}
+                {{ comment.commentCount && comment.commentCount.toLocaleString('en-US') }}
                 comments
               </p>
             </div>
@@ -244,6 +166,7 @@ import RecommendedVideos from '@/components/watch/RecommendedVideos';
 import ShareOptions from '@/components/watch/ShareOptions';
 import CollapsibleSection from '@/components/list/CollapsibleSection';
 import BadgeButton from '@/components/buttons/BadgeButton';
+import invidious from '~/plugins/services/invidious';
 
 export default {
   name: 'Watch',
@@ -265,10 +188,7 @@ export default {
     const videoId = newQuery.v;
     if (this) {
       this.loadComments(videoId);
-      this.$store.commit(
-        'miniplayer/setCurrentVideo',
-        this.video
-      );
+      this.$store.commit('miniplayer/setCurrentVideo', this.video);
     }
     return true;
   },
@@ -285,19 +205,27 @@ export default {
         }
       })
       .catch(err => {
-        if (err.response) {
-          error({
-            statusCode: err.statusCode,
-            message: err.response.data.message
+        console.log(err);
+        return Invidious.api
+          .videos({ id: query.v })
+          .then(response => {
+            return { video: response.data };
+          })
+          .catch(err => {
+            if (err.response) {
+              error({
+                statusCode: err.statusCode,
+                message: err.response.data.message
+              });
+            } else if (err.message) {
+              console.log(err.message);
+              error({
+                statusCode: '500',
+                message: 'Error loading video' + err.message,
+                detail: JSON.stringify(err)
+              });
+            }
           });
-        } else if (err.message) {
-          console.log(err.message);
-          error({
-            statusCode: '500',
-            message: 'Error loading video' + err.message,
-            detail: JSON.stringify(err)
-          });
-        }
       });
   },
   data: () => ({
@@ -331,18 +259,13 @@ export default {
       this.recommendedOpen = true;
     }
     this.loadComments();
-    this.$store.commit(
-      'miniplayer/setCurrentVideo',
-      this.video
-    );
+    this.$store.commit('miniplayer/setCurrentVideo', this.video);
   },
   methods: {
     getHDUrl() {
       if (this.video.formatStreams) {
         const video = this.video.formatStreams.find(e => {
-          return (
-            e.qualityLabel && e.qualityLabel === '720p'
-          );
+          return e.qualityLabel && e.qualityLabel === '720p';
         });
         if (video) {
           return video.url;
@@ -363,8 +286,7 @@ export default {
           if (data.comments && data.comments.length > 0) {
             this.comment = data;
             this.commentsLoading = false;
-            this.commentsContinuationLink =
-              data.continuation || null;
+            this.commentsContinuationLink = data.continuation || null;
           }
         })
         .catch(error => {
@@ -375,9 +297,7 @@ export default {
       this.commentsContinuationLoading = true;
       const videoId = this.$route.query.v;
       fetch(
-        `${Commons.getApiUrl()}comments/${videoId}?continuation=${
-          this.commentsContinuationLink
-        }`,
+        `${Commons.getApiUrl()}comments/${videoId}?continuation=${this.commentsContinuationLink}`,
         {
           cache: 'force-cache',
           method: 'GET'
@@ -385,12 +305,9 @@ export default {
       )
         .then(response => response.json())
         .then(data => {
-          this.comment.comments = this.comment.comments.concat(
-            data.comments
-          );
+          this.comment.comments = this.comment.comments.concat(data.comments);
           this.commentsContinuationLoading = false;
-          this.commentsContinuationLink =
-            data.continuation || null;
+          this.commentsContinuationLink = data.continuation || null;
         })
         .catch(error => {
           console.error(error);
@@ -425,9 +342,7 @@ export default {
         },
         {
           property: 'og:video',
-          content: this.video.formatStreams
-            ? this.video.formatStreams[0].url
-            : '#'
+          content: this.video.formatStreams ? this.video.formatStreams[0].url : '#'
         }
       ]
     };
@@ -438,8 +353,7 @@ export default {
 <style lang="scss">
 .share-fade-down-enter-active,
 .share-fade-down-leave-active {
-  transition: transform 200ms $intro-easing,
-    opacity 200ms $intro-easing;
+  transition: transform 200ms $intro-easing, opacity 200ms $intro-easing;
 }
 .share-fade-down-enter-to,
 .share-fade-down-leave {
@@ -522,9 +436,7 @@ export default {
       }
 
       .video-infobox-tags {
-        $tag-padding-left: calc(
-          (100% - #{$main-width}) / 2
-        );
+        $tag-padding-left: calc((100% - #{$main-width}) / 2);
         margin: 5px auto 0 auto;
         width: 100%;
         height: 40px;

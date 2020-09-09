@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import captcha from 'trek-captcha';
+import captcha from 'svg-captcha';
+import miniSVG from 'mini-svg-data-uri';
 import { InjectModel } from '@nestjs/mongoose';
 import { Captcha } from './schemas/captcha.schema';
 import { CaptchaDto } from './dto/captcha.dto';
@@ -14,29 +15,25 @@ export class CaptchaService {
   ) {}
 
   async getCaptcha(): Promise<CaptchaDto> {
-    const { token, buffer } = await captcha({ size: 6 });
+    const { data, text } = captcha.create({ size: 6, noise: 2, color: true });
 
     const clientToken = randomBytes(32).toString('hex');
-    const captchaImage = buffer.toString('base64');
 
     const createdCaptcha = new this.captchaModel({
       clientToken,
-      solution: token
+      solution: text
     });
     await createdCaptcha.save();
 
     const captchaResponse: CaptchaDto = {
       token: clientToken,
-      captchaImage: `data:image/gif;base64,${captchaImage}`
+      captchaImage: miniSVG(data)
     };
 
     return captchaResponse;
   }
 
-  validateCaptcha(
-    token: string,
-    solution: string
-  ): Promise<boolean> {
+  validateCaptcha(token: string, solution: string): Promise<boolean> {
     return this.captchaModel
       .findOne({ clientToken: token })
       .exec()
@@ -55,9 +52,6 @@ export class CaptchaService {
   }
 
   deleteCaptcha(token: string): void {
-    this.captchaModel
-      .deleteOne({ clientToken: token })
-      .exec()
-      .then(console.log, console.error);
+    this.captchaModel.deleteOne({ clientToken: token }).exec().then(console.log, console.error);
   }
 }
