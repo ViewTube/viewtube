@@ -166,6 +166,7 @@ export default {
         .search({ params: searchParams })
         .then(response => {
           this.searchResults.items = this.searchResults.items.concat(response.data.items);
+          this.searchResults.nextpageRef = response.data.nextpageRef;
           this.moreVideosLoading = false;
         })
         .catch(error => {
