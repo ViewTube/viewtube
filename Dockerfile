@@ -1,19 +1,15 @@
-FROM node:14.8 AS build
-WORKDIR /build
+FROM node:14.8-alpine
+WORKDIR /home/app
 
 COPY package.json yarn.lock ./
 RUN yarn install
 
 COPY . .
-RUN yarn build
 
-FROM node:14.8-alpine
-WORKDIR /home/app
+RUN yarn build
 
 ARG NODE_ENV=production
 ENV NODE_ENV=${NODE_ENV}
-
-COPY --from=build /build ./
 
 EXPOSE 8066
 ARG NODE_ENV=production
