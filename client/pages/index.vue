@@ -1,31 +1,17 @@
 <template>
   <div class="home">
     <GradientBackground :color="'theme'" />
-    <SectionTitle
-      v-if="userAuthenticated"
-      :title="'Subscriptions'"
-      :link="'subscriptions'"
-    />
-    <div
-      v-if="userAuthenticated"
-      class="home-videos-container small"
-    >
+    <SectionTitle v-if="userAuthenticated" :title="'Subscriptions'" :link="'subscriptions'" />
+    <div v-if="userAuthenticated" class="home-videos-container small">
       <VideoEntry
         v-for="video in subscriptions.subscriptions"
         :key="video.videoId"
         :video="video"
       />
     </div>
-    <SectionTitle
-      :title="'Popular videos'"
-      :gradient="!userAuthenticated"
-    />
+    <SectionTitle :title="'Popular videos'" :gradient="!userAuthenticated" />
     <div class="home-videos-container small">
-      <VideoEntry
-        v-for="video in videos"
-        :key="video.videoId"
-        :video="video"
-      />
+      <VideoEntry v-for="video in videos" :key="video.videoId" :video="video" />
     </div>
     <BottomNavigation />
   </div>
@@ -79,14 +65,11 @@ export default {
     getSubscriptions() {
       const jwt = this.$cookies.get('jwt');
       const me = this;
-      fetch(
-        `${process.env.API_URL}subscriptions/videos?limit=4`,
-        {
-          cache: 'force-cache',
-          method: 'GET',
-          credentials: 'include'
-        }
-      )
+      fetch(`${process.env.API_URL}subscriptions/videos?limit=4`, {
+        cache: 'force-cache',
+        method: 'GET',
+        credentials: 'include'
+      })
         .then(response => response.json())
         .then(data => {
           me.subscriptions = data;
@@ -111,15 +94,8 @@ export default {
     max-width: $main-width;
     margin: 0 auto;
     z-index: 10;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
     background-color: var(--bgcolor-main);
-
-    @media screen and (max-width: $mobile-width) {
-      flex-direction: column;
-    }
+    @include viewtube-grid;
   }
 }
 </style>

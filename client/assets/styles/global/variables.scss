@@ -2,13 +2,8 @@ $header-height: 60px;
 $bottom-overlay-height: 60px;
 $video-seekbar-height: 20px;
 $video-seekbar-line-height: 3px;
-$video-controls-height: $video-seekbar-height -
-  $video-seekbar-line-height;
-$video-player-gradient: linear-gradient(
-  to bottom,
-  #000000da,
-  #0000
-);
+$video-controls-height: $video-seekbar-height - $video-seekbar-line-height;
+$video-player-gradient: linear-gradient(to bottom, #000000da, #0000);
 
 $home-offset: 200px;
 
@@ -19,12 +14,9 @@ $watch-break-width: 380px;
 $header-font: 'expletus-bold', 'Open Sans', sans-serif;
 $default-font: 'noto-sans', Arial, sans-serif;
 
-$max-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
-  0 10px 10px rgba(0, 0, 0, 0.22);
-$medium-shadow: 0 3px 6px rgba(0, 0, 0, 0.16),
-  0 3px 6px rgba(0, 0, 0, 0.23);
-$low-shadow: 0 1px 3px rgba(0, 0, 0, 0.12),
-  0 1px 2px rgba(0, 0, 0, 0.24);
+$max-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+$medium-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+$low-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 
 $intro-easing: cubic-bezier(0.31, 0.65, 0.26, 0.97);
 $outro-easing: cubic-bezier(0.71, 0.21, 1, 0.46);
@@ -44,11 +36,7 @@ $theme-color-primary-gradient: linear-gradient(
   var(--theme-color-dark)
 );
 
-$bgcolor-gradient: linear-gradient(
-  to right,
-  var(--bgcolor-alt),
-  var(--bgcolor-alt-light)
-);
+$bgcolor-gradient: linear-gradient(to right, var(--bgcolor-alt), var(--bgcolor-alt-light));
 
 $video-thmb-overlay-bgcolor: rgba(0, 0, 0, 0.714);
 $video-thmb-overlay-textcolor: #fff;
@@ -58,8 +46,11 @@ $player-max-height: calc(100vh - 169px);
 
 $search-box-width: 800px;
 
-$title-color-fake-gradient: linear-gradient(
-  to right,
-  var(--title-color),
-  var(--title-color)
-);
+$title-color-fake-gradient: linear-gradient(to right, var(--title-color), var(--title-color));
+
+@mixin viewtube-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  // grid-auto-rows: minmax(300px, auto);
+  grid-gap: 1em;
+}
