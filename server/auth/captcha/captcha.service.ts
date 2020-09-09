@@ -15,7 +15,7 @@ export class CaptchaService {
   ) {}
 
   async getCaptcha(): Promise<CaptchaDto> {
-    const { data, text } = captcha.create({ size: 6, noise: 2 });
+    const { data, text } = captcha.create({ size: 6, noise: 2, color: true });
 
     const clientToken = randomBytes(32).toString('hex');
 
