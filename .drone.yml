@@ -27,6 +27,22 @@ steps:
       event:
         - push
 
+  - name: 🧪 Publish dev
+    image: plugins/docker
+    settings:
+      repo: mauriceo/viewtube
+      tags:
+        - dev
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
+    when:
+      branch:
+        - dev
+      event:
+        - push
+
   - name: 🔔 Notify
     image: appleboy/drone-telegram
     settings:
