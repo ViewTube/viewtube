@@ -67,7 +67,7 @@ export class SearchMapper {
       description: source.description,
       publishedText: source.uploaded_at,
       videoId: Common.getVideoIdFromUrl(source.link),
-      videoThumbnails: Common.getVideoThumbnails(source.thumbnail),
+      videoThumbnails: Common.getVideoThumbnails(Common.getVideoIdFromUrl(source.link)),
       viewCount: source.views,
       live: source.live,
       lengthString: source.duration
