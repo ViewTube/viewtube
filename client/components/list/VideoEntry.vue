@@ -21,9 +21,10 @@
         </div>
       </div>
       <div class="video-saved-progress" :style="{ width: `${videoProgressPercentage}%` }" />
-      <span class="video-entry-length">{{
+      <span v-if="video.lengthSeconds" class="video-entry-length">{{
         $formatting.getTimestampFromSeconds(video.lengthSeconds)
       }}</span>
+      <span v-if="video.lengthString" class="video-entry-length">{{ video.lengthString }}</span>
     </nuxt-link>
     <div class="video-entry-info">
       <img
