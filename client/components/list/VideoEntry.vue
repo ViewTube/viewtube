@@ -116,9 +116,8 @@ export default {
 
     .thmb-image-container {
       position: relative;
-      top: 50%;
+      top: 0;
       left: 0;
-      transform: translateY(-50%);
       transition: transform 800ms 100ms $intro-easing;
       transform-style: preserve-3d;
       box-shadow: $max-shadow;
@@ -160,7 +159,7 @@ export default {
 
     &:hover.has-description {
       .thmb-image-container {
-        transform: rotateY(180deg) translateY(-50%);
+        transform: rotateY(180deg);
         .thmb-clip {
           .video-entry-thmb-image {
             filter: blur(5px);
