@@ -90,7 +90,7 @@
   },
   "devDependencies": {
     "@nestjs/cli": "^7.0.0",
-    "@nestjs/schematics": "^7.0.0",
+    "@nestjs/schematics": "^7.1.2",
     "@nestjs/testing": "^7.4.4",
     "@nuxtjs/eslint-config": "^3.1.0",
     "@nuxtjs/eslint-module": "^2.0.0",
