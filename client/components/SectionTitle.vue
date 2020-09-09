@@ -1,10 +1,6 @@
 <template>
   <div class="section-title">
-    <h2
-      :is="link ? 'nuxt-link' : 'h2'"
-      class="title"
-      :to="link"
-    >
+    <h2 :is="link ? 'nuxt-link' : 'h2'" class="title" :to="link">
       {{ title }}
       <ChevronRightIcon v-if="link !== undefined" />
     </h2>
@@ -56,7 +52,7 @@ export default {
     font-weight: bold;
 
     &:hover {
-      .material-design-icon .material-design-icon__svg {
+      .material-design-icon {
         left: -10px !important;
       }
     }
@@ -64,13 +60,16 @@ export default {
     .material-design-icon {
       height: 0.8em;
       width: 0.8em;
+      top: 9px !important;
+      height: 1.2em !important;
+      width: 1.2em !important;
+      left: 0;
+      transition: left 300ms $intro-easing;
 
       .material-design-icon__svg {
         height: 1.2em !important;
         width: 1.2em !important;
         bottom: -9px !important;
-        left: -5px !important;
-        transition: left 300ms $dynamic-easing;
       }
     }
   }

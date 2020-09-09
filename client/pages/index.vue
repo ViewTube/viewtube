@@ -3,11 +3,7 @@
     <GradientBackground :color="'theme'" />
     <SectionTitle v-if="userAuthenticated" :title="'Subscriptions'" :link="'subscriptions'" />
     <div v-if="userAuthenticated" class="home-videos-container small">
-      <VideoEntry
-        v-for="video in subscriptions.subscriptions"
-        :key="video.videoId"
-        :video="video"
-      />
+      <VideoEntry v-for="video in subscriptions" :key="video.videoId" :video="video" />
     </div>
     <SectionTitle :title="'Popular videos'" :gradient="!userAuthenticated" />
     <div class="home-videos-container small">
@@ -54,29 +50,21 @@ export default {
       return this.$store.getters['user/isLoggedIn'];
     }
   },
-  mounted() {},
+  mounted() {
+    this.getSubscriptions();
+  },
   methods: {
-    loadData(data) {
-      this.videos = data;
-      if (this.userAuthenticated) {
-        this.getSubscriptions();
-      }
-    },
     getSubscriptions() {
-      const jwt = this.$cookies.get('jwt');
-      const me = this;
-      fetch(`${process.env.API_URL}subscriptions/videos?limit=4`, {
-        cache: 'force-cache',
-        method: 'GET',
-        credentials: 'include'
-      })
-        .then(response => response.json())
-        .then(data => {
-          me.subscriptions = data;
-          me.loading = false;
+      this.$axios
+        .get(`${Commons.getOwnApiUrl()}user/subscriptions/videos`, {
+          withCredentials: true
+        })
+        .then(response => {
+          this.subscriptions = response.data.slice(0, 4);
+          this.loading = false;
         })
         .catch(error => {
-          console.error(error);
+          console.log(error);
         });
     },
     showMoreVideos() {},
