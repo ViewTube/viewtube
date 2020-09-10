@@ -63,7 +63,7 @@
     "jsdom": "^16.4.0",
     "mini-svg-data-uri": "^1.2.3",
     "module-alias": "^2.2.2",
-    "mongoose": "^5.10.3",
+    "mongoose": "^5.10.4",
     "mysql": "^2.18.1",
     "node-fetch": "^2.6.1",
     "nuxt": "^2.14.4",
