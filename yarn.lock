@@ -8730,9 +8730,9 @@ mongoose-legacy-pluralize@1.0.2:
   integrity sha512-Yo/7qQU4/EyIS8YDFSeenIvXxZN+ld7YdV9LqFVQJzTLye8unujAWPZ4NWKfFA+RNjh+wvTWKY9Z3E5XM6ZZiQ==
 
 mongoose@^5.10.3:
-  version "5.10.3"
-  resolved "https://registry.yarnpkg.com/mongoose/-/mongoose-5.10.3.tgz#ef28cda3f11e5bf75a309a25e9899f856a5a5370"
-  integrity sha512-FLemltuzcsCHlFpEZ3bYOiNhJfHful+GoS+3uRgdEWGlY0HKfOjm9xsISM/tql8vRvhjr7qveuRfoBBGO3xNtw==
+  version "5.10.4"
+  resolved "https://registry.yarnpkg.com/mongoose/-/mongoose-5.10.4.tgz#09519261998243de47ed72ed28dc8c3adbf6a910"
+  integrity sha512-GnN03Dw3Bf4FYL5bRU8rEv6Hh2NuODj6Em+52pm92YRdQFit3jqJn1aBzg6hOPJfgBaB5cfdjKXRjacrD4jhsA==
   dependencies:
     bson "^1.1.4"
     kareem "2.3.1"
@@ -12770,10 +12770,15 @@ typedarray@^0.0.6:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
-typescript@^3.6.4, typescript@^3.9.7:
+typescript@^3.6.4:
   version "3.9.7"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.9.7.tgz#98d600a5ebdc38f40cb277522f12dc800e9e25fa"
   integrity sha512-BLbiRkiBzAwsjut4x/dsibSTB6yWpwT5qWmC2OfuCg3GgVQCSgMs4vEctYPhsaGtd0AeuuHMkjZ2h2WG8MSzRw==
+
+typescript@^4.0.2:
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.0.2.tgz#7ea7c88777c723c681e33bf7988be5d008d05ac2"
+  integrity sha512-e4ERvRV2wb+rRZ/IQeb3jm2VxBsirQLpQhdxplZ2MEzGvDkkMmPglecnNDfSUBivMjP93vRbngYYDQqQ/78bcQ==
 
 ua-parser-js@^0.7.21:
   version "0.7.21"
