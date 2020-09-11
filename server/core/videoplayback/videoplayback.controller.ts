@@ -3,8 +3,8 @@ import { VideoplaybackService } from './videoplayback.service';
 import { Response } from 'express';
 import { ApiTags } from '@nestjs/swagger';
 
-// @ApiTags('Core')
-// @Controller('videoplayback')
+@ApiTags('Core')
+@Controller('videoplayback')
 export class VideoplaybackController {
   constructor(private videoplaybackService: VideoplaybackService) {}
 
