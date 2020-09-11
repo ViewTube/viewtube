@@ -28,7 +28,7 @@ export class VideosService {
 
   async getById(id: string): Promise<VideoDto> {
     const url: string = Common.youtubeVideoUrl + id;
-    let proxyAgent: HttpsProxyAgent;
+    let proxyAgent;
 
     if (this.configService.get('VIEWTUBE_PROXY_URL')) {
       const proxy = this.configService.get('VIEWTUBE_PROXY_URL');
