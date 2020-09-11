@@ -224,10 +224,18 @@ export default {
     max-width: $main-width;
     margin: 0 auto;
     z-index: 10;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    grid-auto-rows: minmax(250px, auto);
-    grid-gap: 1em;
+    display: flex;
+
+    .channel-entry {
+      grid-column: 1;
+      grid-row: 1;
+      grid-row-start: 1;
+      grid-row-end: span auto;
+      justify-self: right;
+    }
+
+    .video-entry {
+    }
 
     // @media screen and (max-width: 1400px) {
     //   width: 130%;
