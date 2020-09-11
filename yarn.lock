@@ -9293,15 +9293,15 @@ number-is-nan@^1.0.0:
   resolved "https://registry.yarnpkg.com/number-is-nan/-/number-is-nan-1.0.1.tgz#097b602b53422a522c1afb8790318336941a011d"
   integrity sha1-CXtgK1NCKlIsGvuHkDGDNpQaAR0=
 
-nuxt-start@^2.14.4:
-  version "2.14.4"
-  resolved "https://registry.yarnpkg.com/nuxt-start/-/nuxt-start-2.14.4.tgz#8a07478f92f23ede6a2ae80608402ebf91406497"
-  integrity sha512-yPPDoF5CnS73nmJOPreE0rIvVSQSPHfVcc6LawZDrs+E4ji0EcEdRmKBml8WdrUo2MO9ZBDKnHnebyhijtv4fQ==
+nuxt-start@^2.14.5:
+  version "2.14.5"
+  resolved "https://registry.yarnpkg.com/nuxt-start/-/nuxt-start-2.14.5.tgz#9903b4c37d832a0bc1137f30b6071663bf4197b5"
+  integrity sha512-fExW0UtMzpiKkbuIL97P5rSxI1MfwyWsF3DbbE/XeYYHr8LQ/DvmIP0b0aPJ7JI9FGR9aHuyaGJ7yeInkqf9pA==
   dependencies:
-    "@nuxt/cli" "2.14.4"
-    "@nuxt/core" "2.14.4"
+    "@nuxt/cli" "2.14.5"
+    "@nuxt/core" "2.14.5"
     "@nuxt/telemetry" "^1.2.3"
-    node-fetch "^2.6.0"
+    node-fetch "^2.6.1"
     vue "^2.6.12"
     vue-client-only "^2.0.0"
     vue-meta "^2.4.0"
