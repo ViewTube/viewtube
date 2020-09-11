@@ -18,16 +18,8 @@
     <Header v-if="!headless" class="main-header" />
     <Miniplayer v-if="$store.getters.miniplayer" />
     <nuxt />
-    <portal-target
-      class="dropdown-portal"
-      name="dropdown"
-      multiple
-    />
-    <portal-target
-      class="popup-portal"
-      name="popup"
-      multiple
-    />
+    <portal-target class="dropdown-portal" name="dropdown" multiple />
+    <portal-target class="popup-portal" name="popup" multiple />
     <MessageBoxContainer />
   </div>
 </template>
@@ -63,10 +55,7 @@ export default {
   },
   mounted() {
     this.$store.dispatch('user/getUser');
-    if (
-      this.$store.getters['instances/instances'].length ===
-      0
-    ) {
+    if (this.$store.getters['instances/instances'].length === 0) {
       this.$store.dispatch('instances/fetchInstances');
     }
     this.$refs.app.classList += ` ${this.getThemeClass()}`;
@@ -78,10 +67,7 @@ export default {
   },
   methods: {
     handleScroll(e, position) {
-      this.$store.commit(
-        'scroll/setScrollPosition',
-        window.pageYOffset
-      );
+      this.$store.commit('scroll/setScrollPosition', window.pageYOffset);
     },
     getThemeClass() {
       if (process.browser) {
@@ -104,13 +90,9 @@ export default {
     onTouchMove(e) {
       const topY = e.touches[0].pageY;
       const topDistance = topY - this.touchTopY;
-      if (
-        window.pageYOffset === 0 &&
-        topY > this.touchTopY
-      ) {
+      if (window.pageYOffset === 0 && topY > this.touchTopY) {
         this.reloadAnimating = false;
-        this.reloadElDistance =
-          Math.sqrt(topDistance * 50) - 20;
+        this.reloadElDistance = Math.sqrt(topDistance * 50) - 20;
       } else {
         this.reloadElDistance = 0;
         this.reloadAnimating = true;
@@ -182,7 +164,7 @@ export default {
   }
 }
 * {
-  scrollbar-color: var(--theme-color) var(--bgcolor-main);
+  scrollbar-color: var(--theme-color) transparent;
   scrollbar-width: thin;
   touch-action: manipulation;
 
@@ -215,8 +197,7 @@ export default {
   pointer-events: none !important;
 }
 body.transition-all * {
-  transition: background-color 300ms ease, color 300ms ease,
-    opacity 300ms ease;
+  transition: background-color 300ms ease, color 300ms ease, opacity 300ms ease;
 }
 p,
 h1,
@@ -233,8 +214,7 @@ div.links {
     text-decoration: none;
     color: var(--theme-color-alt);
     position: relative;
-    transition: background-size 300ms $dynamic-easing,
-      color 300ms $intro-easing;
+    transition: background-size 300ms $dynamic-easing, color 300ms $intro-easing;
     background-image: $theme-color-primary-gradient;
     background-size: 0% 2px;
     background-position: 0 100%;

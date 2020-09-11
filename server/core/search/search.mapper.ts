@@ -30,15 +30,15 @@ export class SearchMapper {
     source.forEach((source: Item, index: number) => {
       switch (source.type) {
         case 'channel':
-          const channel = { ...source, ...{ position: index } };
+          const channel = { ...this.mapChannel(source), ...{ position: index } };
           result.channels.push(channel);
           break;
         case 'video':
-          const video = { ...source, ...{ position: index } };
+          const video = { ...this.mapVideo(source), ...{ position: index } };
           result.videos.push(video);
           break;
         case 'playlist':
-          const playlist = { ...source, ...{ position: index } };
+          const playlist = { ...this.mapPlaylist(source), ...{ position: index } };
           result.playlists.push(playlist);
           break;
         case 'shelf-vertical':

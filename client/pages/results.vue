@@ -34,16 +34,36 @@
         @valuechange="onSearchTypeChange"
       />
     </div>
-    <div v-if="searchResults && searchResults.items" class="search-videos-container">
-      <component
-        :is="getListEntryType(result.type)"
-        v-for="result in searchResults.items"
-        :key="result.videoId"
-        :video="result"
-        :playlist="result"
-        :channel="result"
-        :data="result"
-      />
+    <div v-for="(results, i) in searchResults" :key="i" class="search-videos-container">
+      <div v-if="results.searchRefinements" class="related-searches-container">
+        <RelatedSearches
+          v-for="(item, index) in results.searchRefinements"
+          :key="index"
+          :data="item"
+        />
+      </div>
+      <div v-if="results.channels" class="channels">
+        <ChannelEntry
+          v-for="(channel, index) in results.channels"
+          :key="index"
+          :channel="channel"
+        />
+      </div>
+      <div v-if="results.verticalShelf" class="vertical-shelf">
+        <VerticalShelf v-for="(item, index) in results.verticalShelf" :key="index" :data="item" />
+      </div>
+      <div v-if="results.compactShelf" class="compact-shelf">
+        <CompactShelf v-for="(item, index) in results.compactShelf" :key="index" :data="item" />
+      </div>
+      <div v-if="results.playlists" class="playlists">
+        <PlaylistEntry v-for="(item, index) in results.playlists" :key="index" :playlist="item" />
+      </div>
+      <div v-if="results.movies" class="movies">
+        <MovieEntry v-for="(item, index) in results.movies" :key="index" :data="item" />
+      </div>
+      <div v-if="results.videos" class="videos">
+        <VideoEntry v-for="(video, index) in results.videos" :key="index" :video="video" />
+      </div>
     </div>
     <div class="show-more-btn-container">
       <BadgeButton :click="loadMoreVideos" :loading="moreVideosLoading">
@@ -65,7 +85,6 @@ import RelatedSearches from '@/components/search/RelatedSearches';
 import CompactShelf from '@/components/search/CompactShelf';
 import VerticalShelf from '@/components/search/VerticalShelf';
 import Spinner from '@/components/Spinner';
-import BottomNavigation from '@/components/BottomNavigation';
 import GradientBackground from '@/components/GradientBackground.vue';
 import Dropdown from '@/components/filter/Dropdown';
 import SearchParams from '@/plugins/services/searchParams';
@@ -81,7 +100,6 @@ export default {
     Spinner,
     PlaylistEntry,
     ChannelEntry,
-    BottomNavigation,
     GradientBackground,
     Dropdown,
     BadgeButton,
@@ -93,13 +111,17 @@ export default {
   watchQuery: true,
   asyncData({ query }) {
     query.type = 'all';
-    query.limit = 10;
+    query.limit = 30;
     const searchParams = SearchParams.parseQueryJson(query, query.search_query);
     return ViewtubeApi.api
       .search({ params: searchParams })
       .then(response => {
+        const results = [];
+        results.push(response.data.items);
+        delete response.data.items;
         return {
-          searchResults: response.data,
+          searchResults: results,
+          searchInformation: response.data,
           searchQuery: query.search_query
         };
       })
@@ -109,6 +131,7 @@ export default {
   },
   data: () => ({
     searchResults: null,
+    searchInformation: null,
     loading: false,
     searchQuery: null,
     parameters: SearchParams,
@@ -161,12 +184,12 @@ export default {
       // this.page += 1;
       // SearchParams.page = this.page;
       const searchParams = SearchParams.getParamsJson(this.searchQuery);
-      searchParams.nextpageRef = this.searchResults.nextpageRef;
+      searchParams.nextpageRef = this.searchInformation.nextpageRef;
       ViewtubeApi.api
         .search({ params: searchParams })
         .then(response => {
-          this.searchResults.items = this.searchResults.items.concat(response.data.items);
-          this.searchResults.nextpageRef = response.data.nextpageRef;
+          this.searchResults.push(response.data.items);
+          this.searchInformation.nextpageRef = response.data.nextpageRef;
           this.moreVideosLoading = false;
         })
         .catch(error => {
@@ -224,36 +247,47 @@ export default {
     max-width: $main-width;
     margin: 0 auto;
     z-index: 10;
-    display: flex;
+    display: grid;
+    @include viewtube-grid;
 
-    .channel-entry {
-      grid-column: 1;
+    .related-searches-container {
       grid-row: 1;
-      grid-row-start: 1;
-      grid-row-end: span auto;
-      justify-self: right;
+      grid-column: 1 / span 4;
+      overflow: auto hidden;
+      scrollbar-width: thin;
+      box-sizing: border-box;
+      height: 45px;
+      width: 100%;
+      position: relative;
+      margin: 0 15px;
+
+      .related-searches {
+        display: flex;
+        flex-direction: row;
+        width: auto;
+        position: absolute;
+
+        .related-search-tag {
+          display: inline-block;
+          overflow: hidden;
+          white-space: nowrap;
+        }
+      }
     }
-
-    .video-entry {
+    .channels {
     }
-
-    // @media screen and (max-width: 1400px) {
-    //   width: 130%;
-    //   left: calc(100vw - 115%);
-    // }
-
-    // @media screen and (max-width: 700px) {
-    //   width: 160%;
-    //   left: calc(100vw - 130%);
-    // }
-
-    // @media screen and (max-width: 500px) {
-    //   width: 190%;
-    //   left: calc(100vw - 145%);
-    // }
+    .vertical-shelf {
+    }
+    .compact-shelf {
+    }
+    .playlists {
+    }
+    .movies {
+    }
+    .videos {
+    }
 
     @media screen and (max-width: $mobile-width) {
-      flex-direction: row;
     }
   }
 
