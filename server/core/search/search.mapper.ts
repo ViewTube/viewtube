@@ -1,4 +1,4 @@
-import { Result, Video, Channel, Playlist } from 'ytsr';
+import { Result, Video, Channel, Playlist, Item } from 'ytsr';
 import { ISearchResponse } from './interface/search-response.interface';
 import { Common } from '../common';
 
@@ -22,30 +22,47 @@ export class SearchMapper {
       channels: [],
       videos: [],
       movies: [],
+      playlists: [],
       verticalShelf: [],
+      compactShelf: [],
       searchRefinements: []
     };
-    source.forEach((source: Item, index) => {
+    source.forEach((source: Item, index: number) => {
       switch (source.type) {
         case 'channel':
-          return this.mapChannel(source);
+          const channel = { ...source, ...{ position: index } };
+          result.channels.push(channel);
+          break;
         case 'video':
-          return this.mapVideo(source);
+          const video = { ...source, ...{ position: index } };
+          result.videos.push(video);
+          break;
         case 'playlist':
-          return this.mapPlaylist(source);
+          const playlist = { ...source, ...{ position: index } };
+          result.playlists.push(playlist);
+          break;
         case 'shelf-vertical':
           result.verticalShelf.push({
             type: 'shelf-vertical',
             title: source.title,
-            items: source.items.map(this.mapVideo)
+            items: source.items.map(this.mapVideo),
+            position: index
           });
           break;
         case 'search-refinements':
           result.searchRefinements.push({
-            entries: source.entries
+            entries: (source as any).entries,
+            position: index
           });
-        default:
-          return source;
+          break;
+        case 'shelf-compact':
+          const compactShelf = { ...source, ...{ position: index } };
+          result.compactShelf.push(compactShelf);
+          break;
+        case 'movie':
+          const movie = { ...source, ...{ position: index } };
+          result.movies.push(movie);
+          break;
       }
     });
     return result;
