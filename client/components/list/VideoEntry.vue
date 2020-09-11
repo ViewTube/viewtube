@@ -93,7 +93,6 @@ export default {
 .video-entry {
   display: flex;
   flex-direction: column;
-  padding: 10px;
   justify-content: flex-start;
   z-index: 11;
   position: relative;
