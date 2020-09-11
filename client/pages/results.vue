@@ -111,7 +111,7 @@ export default {
   watchQuery: true,
   asyncData({ query }) {
     query.type = 'all';
-    query.limit = 30;
+    query.limit = 20;
     const searchParams = SearchParams.parseQueryJson(query, query.search_query);
     return ViewtubeApi.api
       .search({ params: searchParams })
@@ -246,20 +246,21 @@ export default {
     width: 100%;
     max-width: $main-width;
     margin: 0 auto;
+    padding: 0 15px;
     z-index: 10;
     display: grid;
+    box-sizing: border-box;
     @include viewtube-grid;
 
     .related-searches-container {
       grid-row: 1;
-      grid-column: 1 / span 4;
+      grid-column: 1 / -1;
       overflow: auto hidden;
       scrollbar-width: thin;
       box-sizing: border-box;
       height: 45px;
       width: 100%;
       position: relative;
-      margin: 0 15px;
 
       .related-searches {
         display: flex;
@@ -277,8 +278,11 @@ export default {
     .channels {
     }
     .vertical-shelf {
+      grid-column-start: 2;
+      grid-column-end: -1;
     }
     .compact-shelf {
+      grid-column: 1 / -1;
     }
     .playlists {
     }
