@@ -31,9 +31,10 @@
         <span v-for="(tag, index) in data.meta" :key="index">{{ tag }}</span>
       </div>
       <div class="movie-actors">
-        <span v-for="(actor, index) in data.actors" :key="index">{{ actor }}</span>
+        <span class="title">Actors: </span>
+        <span v-for="(actor, index) in data.actors" :key="index" class="tag">{{ actor }}</span>
       </div>
-      <p class="movie-director">{{ data.director }}</p>
+      <p class="movie-director">Director: {{ data.director }}</p>
     </div>
   </div>
 </template>
@@ -59,11 +60,10 @@ export default {
   max-width: 800px;
   display: flex;
   flex-direction: row;
-  padding: 10px;
   justify-content: flex-start;
   z-index: 11;
   position: relative;
-  grid-column: 1 / span 2;
+  grid-column: 1 / span 4;
 
   .movie-entry-background {
     position: absolute;
@@ -84,6 +84,7 @@ export default {
     position: relative;
     box-shadow: $max-shadow;
     z-index: 11;
+    margin: 0 10px 0 0;
 
     .thmb-image-container {
       position: relative;
@@ -122,23 +123,47 @@ export default {
     .movie-entry-title {
       text-decoration: none;
       margin: 0;
-      font-size: 0.9rem;
+      font-size: 1.1rem;
+      font-weight: bold;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
       color: var(--title-color);
-      padding: 6px 0 4px 0;
+      padding: 0 0 4px 0;
+      width: 100%;
+      box-sizing: border-box;
     }
 
     .movie-entry-channel {
       text-decoration: none;
       padding: 3px 0 4px 0;
-      font-size: 0.9rem;
+      font-size: 1rem;
       font-weight: bold;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
       color: var(--subtitle-color);
+    }
+
+    .movie-tags {
+      margin: 10px 0;
+      span {
+        border: 2px solid var(--theme-color-translucent);
+        margin: 0 10px 0 0;
+        border-radius: 5px;
+        padding: 1px 4px;
+      }
+    }
+
+    .movie-actors {
+      color: var(--subtitle-color-light);
+      .tag {
+        margin: 0 5pt 0 0;
+      }
+    }
+
+    .movie-director {
+      color: var(--subtitle-color-light);
     }
   }
 

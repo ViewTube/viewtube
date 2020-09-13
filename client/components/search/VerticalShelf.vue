@@ -21,4 +21,13 @@ export default {
 };
 </script>
 
-<style></style>
+<style lang="scss">
+.vertical-shelf {
+  display: flex;
+  flex-direction: column;
+
+  .vertical-shelf-container {
+    @include viewtube-grid;
+  }
+}
+</style>
