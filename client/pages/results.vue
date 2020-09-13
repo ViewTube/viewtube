@@ -111,7 +111,7 @@ export default {
   watchQuery: true,
   asyncData({ query }) {
     query.type = 'all';
-    query.limit = 20;
+    query.limit = 10;
     const searchParams = SearchParams.parseQueryJson(query, query.search_query);
     return ViewtubeApi.api
       .search({ params: searchParams })
@@ -250,32 +250,31 @@ export default {
     z-index: 10;
     display: grid;
     box-sizing: border-box;
-    @include viewtube-grid;
+    display: grid;
+    grid-template-columns: 200px repeat(auto-fill, minmax(300px, 1fr));
+    // grid-auto-rows: minmax(300px, auto);
+    grid-gap: 1em 2em;
+
+    @media screen and (max-width: $mobile-width) {
+      grid-template-columns: 1fr;
+
+      > div {
+        grid-column: unset !important;
+      }
+    }
 
     .related-searches-container {
       grid-row: 1;
       grid-column: 1 / -1;
-      overflow: auto hidden;
-      scrollbar-width: thin;
-      box-sizing: border-box;
-      height: 45px;
-      width: 100%;
-      position: relative;
-
-      .related-searches {
-        display: flex;
-        flex-direction: row;
-        width: auto;
-        position: absolute;
-
-        .related-search-tag {
-          display: inline-block;
-          overflow: hidden;
-          white-space: nowrap;
-        }
-      }
     }
     .channels {
+      height: 100%;
+      position: sticky;
+      top: 0;
+      .channel-entry {
+        // position: sticky;
+        // top: 0;
+      }
     }
     .vertical-shelf {
       grid-column-start: 2;
@@ -289,9 +288,9 @@ export default {
     .movies {
     }
     .videos {
-    }
-
-    @media screen and (max-width: $mobile-width) {
+      grid-column-start: 2;
+      grid-column-end: -1;
+      @include viewtube-grid;
     }
   }
 

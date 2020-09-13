@@ -1,26 +1,14 @@
 <template>
   <div class="channel-entry">
     <div class="channel-entry-background" />
-    <nuxt-link
-      class="channel-entry-thmb"
-      :to="{ path: '/channel/' + channel.authorId }"
-    >
-      <div
-        v-if="!channel.authorThumbnails"
-        class="fake-thmb"
-      >
+    <nuxt-link class="channel-entry-thmb" :to="{ path: '/channel/' + channel.authorId }">
+      <div v-if="!channel.authorThumbnails" class="fake-thmb">
         <h3>{{ channelNameToImgString() }}</h3>
       </div>
-      <div
-        v-if="channel.authorThumbnails"
-        class="thmb-image-container"
-      >
+      <div v-if="channel.authorThumbnails" class="thmb-image-container">
         <img
           class="channel-entry-thmb-image"
-          :src="
-            commons.proxyUrl +
-            channel.authorThumbnails[2].url
-          "
+          :src="commons.proxyUrl + channel.authorThumbnails[2].url"
           :alt="channel.author"
         />
       </div>
@@ -33,13 +21,8 @@
         >{{ channel.author }}</nuxt-link
       >
       <div class="channel-entry-stats">
-        <p class="channel-entry-videocount">
-          {{ channel.videoCount }} videos
-        </p>
-        <p
-          v-if="channel.subCount"
-          class="channel-entry-subcount"
-        >
+        <p class="channel-entry-videocount">{{ channel.videoCount }} videos</p>
+        <p v-if="channel.subCount" class="channel-entry-subcount">
           {{ channel.subCount.toLocaleString('en-US') }}
           subscribers
         </p>
@@ -169,26 +152,26 @@ export default {
     }
   }
 
-  @media screen and (max-width: $mobile-width) {
-    width: calc(100% - 20px);
-    margin: 10px;
+  // @media screen and (max-width: $mobile-width) {
+  //   width: calc(100% - 20px);
+  //   margin: 10px;
 
-    .channel-entry-thmb {
-      width: 100%;
-      height: 53vw;
+  //   .channel-entry-thmb {
+  //     width: 100%;
+  //     height: 53vw;
 
-      .thmb-image-container {
-        position: relative;
-        top: 0;
-        left: 0;
-        transform: translateY(0);
+  //     .thmb-image-container {
+  //       position: relative;
+  //       top: 0;
+  //       left: 0;
+  //       transform: translateY(0);
 
-        .channel-entry-thmb-image {
-          top: 0;
-          transform: translateY(0px);
-        }
-      }
-    }
-  }
+  //       .channel-entry-thmb-image {
+  //         top: 0;
+  //         transform: translateY(0px);
+  //       }
+  //     }
+  //   }
+  // }
 }
 </style>
