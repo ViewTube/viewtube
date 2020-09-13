@@ -30,18 +30,11 @@
       />
     </div>
     <div class="subscription-videos-container">
-      <VideoEntry
-        v-for="video in videos"
-        :key="video.videoId"
-        :video="video"
-      />
+      <VideoEntry v-for="video in videos" :key="video.videoId" :video="video" />
     </div>
     <portal to="popup">
       <transition name="fade-down">
-        <SubscriptionImport
-          v-if="subscriptionImportOpen"
-          @close="closeSubscriptionImport"
-        />
+        <SubscriptionImport v-if="subscriptionImportOpen" @close="closeSubscriptionImport" />
       </transition>
     </portal>
   </div>
@@ -106,14 +99,10 @@ export default {
   mounted() {
     this.vapidKey = this.$config.vapidKey;
     this.$axios
-      .get(
-        `${Commons.getOwnApiUrl()}user/subscriptions/videos`,
-        {
-          withCredentials: true
-        }
-      )
+      .get(`${Commons.getOwnApiUrl()}user/subscriptions/videos`, {
+        withCredentials: true
+      })
       .then(response => {
-        console.log(response.data);
         this.videos = response.data;
         this.loading = false;
       })
@@ -155,60 +144,46 @@ export default {
     },
     subscribeToNotifications(val) {
       if ('serviceWorker' in navigator) {
-        navigator.serviceWorker
-          .getRegistrations()
-          .then(async registrations => {
-            const worker = registrations[0];
+        navigator.serviceWorker.getRegistrations().then(async registrations => {
+          const worker = registrations[0];
 
-            if (val) {
-              worker.pushManager
-                .subscribe({
-                  userVisibleOnly: true,
-                  applicationServerKey: this.vapidKey
-                })
-                .then(subscription => {
-                  this.$axios
-                    .post(
-                      `${Commons.getOwnApiUrl()}user/notifications/subscribe`,
-                      subscription,
-                      {
-                        withCredentials: true
-                      }
-                    )
-                    .then(result => {
-                      this.notificationsEnabled = true;
-                    });
-                })
-                .catch(err => {
-                  this.notificationsEnabled = false;
-                  this.notificationsBtnDisabled = true;
-                  console.log(err);
-                });
-            } else {
-              worker.pushManager
-                .getSubscription()
-                .then(subscription => {
-                  if (subscription) {
-                    subscription.unsubscribe();
-                  }
-                  this.notificationsEnabled = false;
-                });
-            }
-          });
+          if (val) {
+            worker.pushManager
+              .subscribe({
+                userVisibleOnly: true,
+                applicationServerKey: this.vapidKey
+              })
+              .then(subscription => {
+                this.$axios
+                  .post(`${Commons.getOwnApiUrl()}user/notifications/subscribe`, subscription, {
+                    withCredentials: true
+                  })
+                  .then(result => {
+                    this.notificationsEnabled = true;
+                  });
+              })
+              .catch(err => {
+                this.notificationsEnabled = false;
+                this.notificationsBtnDisabled = true;
+                console.log(err);
+              });
+          } else {
+            worker.pushManager.getSubscription().then(subscription => {
+              if (subscription) {
+                subscription.unsubscribe();
+              }
+              this.notificationsEnabled = false;
+            });
+          }
+        });
       }
     },
     getNotificationStatus() {
-      if (
-        notificationsBtnDisabled &&
-        notificationsEnabled
-      ) {
+      if (notificationsBtnDisabled && notificationsEnabled) {
         return 'Notifications are enabled';
       } else if (notificationsSupported) {
         return 'Notifications are not supported';
-      } else if (
-        !notificationsBtnDisabled &&
-        !notificationsEnabled
-      ) {
+      } else if (!notificationsBtnDisabled && !notificationsEnabled) {
         return 'Notifications are disabled';
       }
     }

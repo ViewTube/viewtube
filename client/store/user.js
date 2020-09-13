@@ -26,20 +26,13 @@ export const actions = {
   },
   logout({ commit }) {
     return this.$axios
-      .post(
-        Commons.getOwnApiUrl() + 'auth/logout',
-        {},
-        { withCredentials: true }
-      )
+      .post(Commons.getOwnApiUrl() + 'auth/logout', {}, { withCredentials: true })
       .then(result => {
         commit('setUsername', null);
         return result;
       });
   },
-  login(
-    { commit, dispatch, getters },
-    { username, password }
-  ) {
+  login({ commit, dispatch, getters }, { username, password }) {
     return this.$axios
       .post(
         Commons.getOwnApiUrl() + 'auth/login',
@@ -50,26 +43,19 @@ export const actions = {
         { withCredentials: true }
       )
       .then(result => {
-        console.log(result.data.accessToken);
         dispatch('getUser');
         return result;
       });
   },
-  register(
-    { commit, rootState },
-    { username, password, captchaSolution }
-  ) {
+  register({ commit, rootState }, { username, password, captchaSolution }) {
     const captchaToken = rootState.captcha.token;
     if (captchaToken) {
-      return Axios.post(
-        Commons.getOwnApiUrl() + 'auth/register',
-        {
-          username,
-          password,
-          captchaToken,
-          captchaSolution
-        }
-      )
+      return Axios.post(Commons.getOwnApiUrl() + 'auth/register', {
+        username,
+        password,
+        captchaToken,
+        captchaSolution
+      })
         .then(
           result => {
             if (result.data.success) {
@@ -79,16 +65,12 @@ export const actions = {
           },
           reason => {
             // console.log(reason)
-            throw new Error(
-              'Registration failed: ' + reason
-            );
+            throw new Error('Registration failed: ' + reason);
           }
         )
         .catch(err => {
           console.log(err.message);
-          throw new Error(
-            'Registration failed: ' + err.message
-          );
+          throw new Error('Registration failed: ' + err.message);
         });
     }
   }
