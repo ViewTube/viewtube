@@ -13,7 +13,7 @@
         <BadgeButton
           class="manage-subscriptions-btn"
           :href="'subscriptions/manage'"
-          :internalLink="true"
+          :internal-link="true"
         >
           <EditIcon />
           <p>Manage</p>
@@ -22,11 +22,11 @@
     </SectionTitle>
     <div class="subscribe-btn-container">
       <SwitchButton
+        v-tippy="getNotificationStatus"
         :value="notificationsEnabled"
         :label="'Enable notifications'"
         :disabled="notificationsBtnDisabled"
         @valuechange="subscribeToNotifications"
-        v-tippy="getNotificationStatus"
       />
     </div>
     <div class="subscription-videos-container">
@@ -73,29 +73,6 @@ export default {
     subscriptionImportOpen: false,
     vapidKey: null
   }),
-  head() {
-    return {
-      title: `Subscriptions - ViewTube`,
-      meta: [
-        {
-          hid: 'description',
-          vmid: 'descriptionMeta',
-          name: 'description',
-          content: 'See your subscription feed'
-        },
-        {
-          hid: 'ogTitle',
-          property: 'og:title',
-          content: 'Subscriptions - ViewTube'
-        },
-        {
-          hid: 'ogDescription',
-          property: 'og:description',
-          content: 'See your subscription feed'
-        }
-      ]
-    };
-  },
   mounted() {
     this.vapidKey = this.$config.vapidKey;
     this.$axios
@@ -113,7 +90,7 @@ export default {
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker
         .getRegistrations()
-        .then(async registrations => {
+        .then(registrations => {
           const worker = registrations[0];
           worker.pushManager
             .permissionState({
@@ -144,7 +121,7 @@ export default {
     },
     subscribeToNotifications(val) {
       if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.getRegistrations().then(async registrations => {
+        navigator.serviceWorker.getRegistrations().then(registrations => {
           const worker = registrations[0];
 
           if (val) {
@@ -179,14 +156,37 @@ export default {
       }
     },
     getNotificationStatus() {
-      if (notificationsBtnDisabled && notificationsEnabled) {
+      if (this.notificationsBtnDisabled && this.notificationsEnabled) {
         return 'Notifications are enabled';
-      } else if (notificationsSupported) {
+      } else if (this.notificationsSupported) {
         return 'Notifications are not supported';
-      } else if (!notificationsBtnDisabled && !notificationsEnabled) {
+      } else if (!this.notificationsBtnDisabled && !this.notificationsEnabled) {
         return 'Notifications are disabled';
       }
     }
+  },
+  head() {
+    return {
+      title: `Subscriptions - ViewTube`,
+      meta: [
+        {
+          hid: 'description',
+          vmid: 'descriptionMeta',
+          name: 'description',
+          content: 'See your subscription feed'
+        },
+        {
+          hid: 'ogTitle',
+          property: 'og:title',
+          content: 'Subscriptions - ViewTube'
+        },
+        {
+          hid: 'ogDescription',
+          property: 'og:description',
+          content: 'See your subscription feed'
+        }
+      ]
+    };
   }
 };
 </script>
