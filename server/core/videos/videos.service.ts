@@ -48,6 +48,7 @@ export class VideosService {
     if (proxyAgent) {
       ytdlOptions.requestOptions['agent'] = proxyAgent;
     }
+
     console.log(ytdlOptions);
     try {
       const result: videoInfo = await getBasicInfo(url, ytdlOptions);
