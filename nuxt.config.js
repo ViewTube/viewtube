@@ -1,6 +1,4 @@
 module.exports = {
-  mode: 'universal',
-
   srcDir: './client',
 
   env: {

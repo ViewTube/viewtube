@@ -1,3 +1,4 @@
 node_modules
 .nuxt
 npm-debug.log
+.github
