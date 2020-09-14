@@ -77,10 +77,17 @@ export default {
 
 <style lang="scss">
 .home {
+  .section-title {
+    .title {
+      margin: 0 0 0 15px;
+    }
+  }
   .home-videos-container {
     width: 100%;
     max-width: $main-width;
     margin: 0 auto;
+    padding: 0 15px;
+    box-sizing: border-box;
     z-index: 10;
     background-color: var(--bgcolor-main);
     @include viewtube-grid;

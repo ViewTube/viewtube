@@ -67,7 +67,6 @@ export default {
 
   .channel-entry-background {
     position: absolute;
-    height: 175px;
     top: 10px;
     width: 175px;
     left: 50%;
@@ -85,7 +84,7 @@ export default {
     height: 175px;
     overflow: hidden;
     position: relative;
-    box-shadow: $max-shadow;
+    box-shadow: $medium-shadow;
     margin: 0 auto;
     z-index: 11;
 
@@ -112,6 +111,7 @@ export default {
 
       .channel-entry-thmb-image {
         width: 100%;
+        display: block;
       }
     }
   }

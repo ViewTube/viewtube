@@ -1,18 +1,11 @@
 <template>
   <div class="collapsible-section">
-    <div
-      class="title"
-      v-ripple
-      @click.prevent="toggleSection()"
-    >
+    <div v-ripple class="title" @click.prevent="toggleSection()">
       <h3 class="title-text">{{ label }}</h3>
-      <ArrowDownIcon
-        class="icon"
-        :class="{ inverted: open }"
-      />
+      <ArrowDownIcon class="icon" :class="{ inverted: open }" />
     </div>
     <transition name="section-collapse">
-      <div class="section-container" v-show="open">
+      <div v-show="open" class="section-container">
         <slot />
       </div>
     </transition>
@@ -22,27 +15,27 @@
 <script>
 import ArrowDownIcon from 'vue-material-design-icons/ChevronDown';
 export default {
-  name: 'collapsible-section',
+  name: 'CollapsibleSection',
   components: {
     ArrowDownIcon
   },
-  data: () => ({
-    open: false
-  }),
   props: {
     label: String,
     opened: Boolean
   },
-  mounted() {
-    if (this.opened) {
-      this.open = this.opened;
-    }
-  },
+  data: () => ({
+    open: false
+  }),
   watch: {
     opened(newValue, oldValue) {
       if (newValue !== oldValue) {
         this.open = Boolean(newValue);
       }
+    }
+  },
+  mounted() {
+    if (this.opened) {
+      this.open = this.opened;
     }
   },
   methods: {
@@ -78,7 +71,7 @@ export default {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    padding: 10px 10px 0 10px;
+    padding: 20px 10px 15px 10px;
     position: sticky;
     top: 0;
 

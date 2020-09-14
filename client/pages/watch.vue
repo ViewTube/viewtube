@@ -404,7 +404,6 @@ export default {
     .recommended-videos {
       background-color: var(--bgcolor-main);
       z-index: 400;
-      padding: 10px 0 0 0;
       width: 100%;
 
       @media screen and (min-width: $mobile-width) {
@@ -416,7 +415,7 @@ export default {
       width: 100%;
       display: flex;
       flex-direction: column;
-      padding: 10px;
+      padding: 0 10px;
       box-sizing: border-box;
       opacity: 1;
       transition: opacity 300ms $intro-easing;
@@ -426,6 +425,7 @@ export default {
 
       @media screen and (min-width: $mobile-width) {
         width: calc(100% - 340px);
+        padding: 10px;
       }
 
       .video-infobox-title {

@@ -1,31 +1,20 @@
 <template>
-  <div class="channel" ref="channel">
+  <div ref="channel" class="channel">
     <Banner
+      v-if="channel.authorBanners && channel.authorBanners.length > 0"
       class="banner"
-      v-if="
-        channel.authorBanners &&
-        channel.authorBanners.length > 0
-      "
       :src="channel.authorBanners[1].url"
     />
     <Overview :channel="channel" class="overview" />
     <div class="backdrop-image">
-      <ChannelDescription
-        :descriptionHtml="channel.descriptionHtml"
-      />
+      <ChannelDescription :description-html="channel.descriptionHtml" />
     </div>
 
     <RelatedChannels :channel="channel" />
     <div class="channel-videos-container">
       <div class="channel-title-sticky">
-        <div class="channel-sticky-thumbnail">
-          <img
-            :src="
-              commons.proxyUrl +
-              channel.authorThumbnails[0].url
-            "
-            alt="Author Image"
-          />
+        <div v-if="channel.authorThumbnails" class="channel-sticky-thumbnail">
+          <img :src="commons.proxyUrl + channel.authorThumbnails[0].url" alt="Author Image" />
         </div>
         <div class="channel-sticky-name">
           <h1>{{ channel.author }}</h1>
@@ -36,7 +25,7 @@
           v-for="video in channel.latestVideosShort"
           :key="video.videoId"
           :video="video"
-        ></VideoEntry>
+        />
       </div>
     </div>
   </div>
@@ -52,13 +41,35 @@ import ChannelDescription from '@/components/channel/ChannelDescription';
 import Invidious from '@/plugins/services/invidious';
 
 export default {
-  name: 'home',
+  name: 'Home',
   components: {
     VideoEntry,
     Banner,
     Overview,
     RelatedChannels,
     ChannelDescription
+  },
+  asyncData({ params }) {
+    return Invidious.api
+      .channels({ id: params.id })
+      .then(response => {
+        const channel = response.data;
+        channel.latestVideosShort = channel.latestVideos.slice(0, 20);
+        return { channel: response.data };
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  },
+  data: () => ({
+    channel: [],
+    commons: Commons,
+    overviewColor: 0
+  }),
+  methods: {
+    handleScroll(e) {
+      this.$emit('scroll', e);
+    }
   },
   head() {
     return {
@@ -68,10 +79,7 @@ export default {
           hid: 'description',
           vmid: 'descriptionMeta',
           name: 'description',
-          content: this.channel.description.substring(
-            0,
-            100
-          )
+          content: this.channel.description.substring(0, 100)
         },
         {
           hid: 'ogTitle',
@@ -87,38 +95,10 @@ export default {
         {
           hid: 'ogDescription',
           property: 'og:description',
-          content: this.channel.description.substring(
-            0,
-            100
-          )
+          content: this.channel.description.substring(0, 100)
         }
       ]
     };
-  },
-  data: () => ({
-    channel: [],
-    commons: Commons,
-    overviewColor: 0
-  }),
-  asyncData({ params }) {
-    return Invidious.api
-      .channels({ id: params.id })
-      .then(response => {
-        const channel = response.data;
-        channel.latestVideosShort = channel.latestVideos.slice(
-          0,
-          20
-        );
-        return { channel: response.data };
-      })
-      .catch(error => {
-        console.error(error);
-      });
-  },
-  methods: {
-    handleScroll(e) {
-      this.$emit('scroll', e);
-    }
   }
 };
 </script>

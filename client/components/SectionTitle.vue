@@ -4,6 +4,7 @@
       {{ title }}
       <ChevronRightIcon v-if="link !== undefined" />
     </h2>
+    <span class="line" />
     <slot />
   </div>
 </template>
@@ -33,19 +34,18 @@ export default {
   z-index: 9;
   display: block;
   width: 100%;
+  display: flex;
+  flex-direction: row;
 
   .title {
-    position: absolute;
+    position: relative;
     top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100%;
     max-width: $main-width;
-    margin: 0 auto;
+    margin: 0;
     line-height: 80px;
     font-size: 1.7rem;
     text-align: start;
-    padding: 0 0 0 20px;
+    padding: 0;
     color: var(--title-color);
     box-sizing: border-box;
     z-index: 9;
@@ -72,6 +72,14 @@ export default {
         bottom: -9px !important;
       }
     }
+  }
+  .line {
+    height: 2px;
+    flex-grow: 1;
+    background: linear-gradient(to right, transparent 5%, var(--theme-color-translucent) 15%);
+    position: relative;
+    top: 50%;
+    display: block;
   }
 }
 </style>

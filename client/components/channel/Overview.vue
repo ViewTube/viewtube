@@ -2,11 +2,8 @@
   <div class="overwiew">
     <div ref="channelTitle" class="channel-title-container">
       <div class="channel-title">
-        <div class="channel-thumbnail">
-          <img
-            :src="channel.authorThumbnails[3].url"
-            alt="Author Image"
-          />
+        <div v-if="channel.authorThumbnails" class="channel-thumbnail">
+          <img :src="channel.authorThumbnails[3].url" alt="Author Image" />
         </div>
         <div class="channel-info">
           <div class="channel-name">
@@ -15,34 +12,23 @@
           <div class="channel-basics">
             <div class="channel-subcount">
               <h2>
-                {{
-                  channel.subCount.toLocaleString('en-US')
-                }}
+                {{ channel.subCount.toLocaleString('en-US') }}
                 subscribers
               </h2>
             </div>
             <div class="channel-totalviews">
               <h2>
-                {{
-                  channel.totalViews.toLocaleString('en-US')
-                }}
+                {{ channel.totalViews.toLocaleString('en-US') }}
                 total views
               </h2>
             </div>
             <div class="channel-joined-on">
               <h2>
                 joined
-                {{
-                  getFormattedDate(
-                    new Date(channel.joined * 1000)
-                  )
-                }}
+                {{ getFormattedDate(new Date(channel.joined * 1000)) }}
               </h2>
             </div>
-            <div
-              v-if="channel.isFamilyFriendly"
-              class="channel-family-friendly"
-            >
+            <div v-if="channel.isFamilyFriendly" class="channel-family-friendly">
               <FamilyFriendly />
               <h2>family friendly</h2>
             </div>
@@ -76,9 +62,7 @@ export default {
   methods: {
     getFormattedDate(rawDate) {
       const date = new Date(rawDate);
-      return `${date.getDate()}.${
-        date.getMonth() + 1
-      }.${date.getFullYear()}`;
+      return `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`;
     }
   }
 };

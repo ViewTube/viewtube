@@ -1,6 +1,6 @@
 <template>
   <div class="compact-shelf">
-    <p class="shelf-title">{{ data.title }}</p>
+    <SectionTitle :title="data.title" />
     <div class="compact-shelf-elements">
       <div v-for="(element, index) in data.items" :key="index" class="shelf-element">
         <nuxt-link
@@ -26,9 +26,13 @@
 
 <script>
 import Commons from '@/plugins/commons.js';
+import SectionTitle from '@/components/SectionTitle';
 
 export default {
   name: 'CompactShelf',
+  components: {
+    SectionTitle
+  },
   props: {
     data: Object
   },

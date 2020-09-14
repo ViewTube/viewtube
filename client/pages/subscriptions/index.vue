@@ -198,6 +198,10 @@ export default {
     max-width: $main-width;
     margin: 0 auto;
 
+    .title {
+      margin: 0 0 0 15px;
+    }
+
     .manage-btn-container {
       width: auto;
       position: absolute;
@@ -205,7 +209,7 @@ export default {
       z-index: 11;
       height: 80px;
       display: grid;
-      padding: 0 20px 0 0;
+      padding: 0 15px 0 0;
       display: flex;
       flex-direction: row;
 
@@ -224,7 +228,7 @@ export default {
     z-index: 11;
     height: 40px;
     display: flex;
-    padding: 0 20px 0 20px;
+    padding: 0 15px 0 15px;
     box-sizing: border-box;
 
     .switch {
@@ -236,11 +240,10 @@ export default {
     width: 100%;
     max-width: $main-width;
     margin: 0 auto;
+    padding: 0 10px;
+    box-sizing: border-box;
     z-index: 10;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
+    @include viewtube-grid;
 
     @media screen and (max-width: $mobile-width) {
       flex-direction: column;

@@ -35,33 +35,43 @@
       />
     </div>
     <div v-for="(results, i) in searchResults" :key="i" class="search-videos-container">
-      <div v-if="results.searchRefinements" class="related-searches-container">
+      <div
+        v-if="results.searchRefinements && results.searchRefinements.length"
+        class="related-searches-container"
+      >
         <RelatedSearches
           v-for="(item, index) in results.searchRefinements"
           :key="index"
           :data="item"
         />
       </div>
-      <div v-if="results.channels" class="channels">
+      <div v-if="results.channels && results.channels.length" class="channels">
         <ChannelEntry
           v-for="(channel, index) in results.channels"
           :key="index"
           :channel="channel"
         />
       </div>
-      <div v-if="results.verticalShelf" class="vertical-shelf">
-        <VerticalShelf v-for="(item, index) in results.verticalShelf" :key="index" :data="item" />
-      </div>
-      <div v-if="results.compactShelf" class="compact-shelf">
+      <VerticalShelf
+        v-for="(item, index) in results.verticalShelf"
+        :key="index"
+        :class="item.shelfType"
+        :data="item"
+      />
+      <div v-if="results.compactShelf && results.compactShelf.length" class="compact-shelf">
         <CompactShelf v-for="(item, index) in results.compactShelf" :key="index" :data="item" />
       </div>
-      <div v-if="results.playlists" class="playlists">
-        <PlaylistEntry v-for="(item, index) in results.playlists" :key="index" :playlist="item" />
+      <div v-if="results.playlists && results.playlists.length" class="playlists-container">
+        <SectionTitle :title="'Playlists'" />
+        <div class="playlists">
+          <PlaylistEntry v-for="(item, index) in results.playlists" :key="index" :playlist="item" />
+        </div>
       </div>
-      <div v-if="results.movies" class="movies">
+      <SectionTitle v-if="results.movies && results.movies.length" :title="'Movies'" />
+      <div v-if="results.movies && results.movies.length" class="movies">
         <MovieEntry v-for="(item, index) in results.movies" :key="index" :data="item" />
       </div>
-      <div v-if="results.videos" class="videos">
+      <div v-if="results.videos && results.videos.length" class="videos">
         <VideoEntry v-for="(video, index) in results.videos" :key="index" :video="video" />
       </div>
     </div>
@@ -87,6 +97,7 @@ import VerticalShelf from '@/components/search/VerticalShelf';
 import Spinner from '@/components/Spinner';
 import GradientBackground from '@/components/GradientBackground.vue';
 import Dropdown from '@/components/filter/Dropdown';
+import SectionTitle from '@/components/SectionTitle';
 import SearchParams from '@/plugins/services/searchParams';
 import BadgeButton from '@/components/buttons/BadgeButton';
 // import Invidious from '@/plugins/services/invidious';
@@ -106,7 +117,8 @@ export default {
     MovieEntry,
     RelatedSearches,
     CompactShelf,
-    VerticalShelf
+    VerticalShelf,
+    SectionTitle
   },
   watchQuery: true,
   asyncData({ query }) {
@@ -253,7 +265,7 @@ export default {
     display: grid;
     grid-template-columns: 200px repeat(auto-fill, minmax(300px, 1fr));
     // grid-auto-rows: minmax(300px, auto);
-    grid-gap: 1em 2em;
+    gap: 1em 2em;
 
     @media screen and (max-width: $mobile-width) {
       grid-template-columns: 1fr;
@@ -263,32 +275,56 @@ export default {
       }
     }
 
+    .section-title {
+      grid-column: 1 / -1;
+      gap: 0;
+    }
     .related-searches-container {
       grid-row: 1;
       grid-column: 1 / -1;
     }
     .channels {
       height: 100%;
+      grid-column: 1;
       position: sticky;
       top: 0;
+
+      margin: 80px 0 0 0;
+
       .channel-entry {
-        // position: sticky;
-        // top: 0;
+        padding: 0;
       }
     }
     .vertical-shelf {
-      grid-column-start: 2;
+      &.channel {
+        grid-column-start: 2;
+      }
+
+      &.general {
+        grid-column-start: 1;
+      }
       grid-column-end: -1;
     }
     .compact-shelf {
       grid-column: 1 / -1;
     }
-    .playlists {
+    .playlists-container {
+      grid-column: 1 / -1;
+
+      .playlists {
+        grid-column: 1 / -1;
+        @include viewtube-grid;
+
+        .playlist-entry {
+          padding: 0;
+        }
+      }
     }
     .movies {
+      grid-column: 1 / -1;
     }
     .videos {
-      grid-column-start: 2;
+      grid-column-start: 1;
       grid-column-end: -1;
       @include viewtube-grid;
     }

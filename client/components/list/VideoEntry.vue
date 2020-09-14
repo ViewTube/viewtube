@@ -120,7 +120,7 @@ export default {
       left: 0;
       transition: transform 800ms 100ms $intro-easing;
       transform-style: preserve-3d;
-      box-shadow: $max-shadow;
+      box-shadow: $medium-shadow;
 
       .thmb-clip {
         overflow: hidden;
