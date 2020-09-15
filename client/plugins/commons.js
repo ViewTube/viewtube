@@ -16,7 +16,7 @@ export default {
 
   getOwnApiUrl() {
     if (this.isProduction()) {
-      return process.env.VIEWTUBE_API_URL || 'https://viewtube.io/api/';
+      return process.env.apiUrl || '/api/';
     }
     return 'http://localhost:8066/api/';
   },

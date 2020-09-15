@@ -10,7 +10,8 @@ module.exports = {
   },
 
   publicRuntimeConfig: {
-    vapidKey: process.env.VIEWTUBE_VAPID
+    vapidKey: process.env.VIEWTUBE_VAPID,
+    apiUrl: process.env.VIEWTUBE_API_URL
   },
 
   modern: true,

@@ -35,7 +35,7 @@ export default {
   },
   data: () => ({
     possibleSearch: null,
-    apiUrl: process.env.API_URL
+    apiUrl: process.env.apiUrl
   }),
   mounted() {
     if (this.error.statusCode === 404) {
