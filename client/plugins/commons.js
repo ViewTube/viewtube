@@ -18,6 +18,7 @@ export default {
     if (this.isProduction()) {
       return process.env.apiUrl || '/api/';
     }
+    console.log('local api');
     return 'http://localhost:8066/api/';
   },
 

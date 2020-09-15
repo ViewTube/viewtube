@@ -33,6 +33,7 @@ export const actions = {
       });
   },
   login({ commit, dispatch, getters }, { username, password }) {
+    console.log(Commons.getOwnApiUrl());
     return this.$axios
       .post(
         Commons.getOwnApiUrl() + 'auth/login',
