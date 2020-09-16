@@ -94,7 +94,7 @@ module.exports = {
   },
   // },
 
-  buildModules: [],
+  buildModules: ['@nuxtjs/router'],
 
   modules: [
     '@nuxtjs/style-resources',
@@ -132,7 +132,7 @@ module.exports = {
     transpile: ['vue-material-design-icons', 'dashjs', 'tippy.js'],
     extend(config, { isClient }) {
       if (isClient) {
-        config.optimization.splitChunks.maxSize = 200000;
+        config.optimization.splitChunks.maxSize = 1000000;
       }
     }
   }
