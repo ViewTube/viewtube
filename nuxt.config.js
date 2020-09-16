@@ -14,8 +14,6 @@ module.exports = {
     apiUrl: process.env.VIEWTUBE_API_URL
   },
 
-  modern: true,
-
   head: {
     meta: [
       { charset: 'utf-8' },
@@ -120,7 +118,22 @@ module.exports = {
         })
       ]
     },
+    terser: {
+      parallel: true,
+      cache: false,
+      sourceMap: false,
+      extractComments: false,
+      terserOptions: {
+        ecma: 2020,
+        mangle: true
+      }
+    },
+    indicator: true,
     transpile: ['vue-material-design-icons', 'dashjs', 'tippy.js'],
-    extend(config, ctx) {}
+    extend(config, { isClient }) {
+      if (isClient) {
+        config.optimization.splitChunks.maxSize = 200000;
+      }
+    }
   }
 };
