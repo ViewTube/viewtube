@@ -17,7 +17,7 @@ export const actions = {
   getUser({ getters, commit }) {
     console.log('getting user...');
     this.$axios
-      .get(Commons.getOwnApiUrl() + 'user/profile', {
+      .get('/api/user/profile', {
         withCredentials: true
       })
       .then(result => {
@@ -25,18 +25,15 @@ export const actions = {
       });
   },
   logout({ commit }) {
-    return this.$axios
-      .post(Commons.getOwnApiUrl() + 'auth/logout', {}, { withCredentials: true })
-      .then(result => {
-        commit('setUsername', null);
-        return result;
-      });
+    return this.$axios.post('/api/auth/logout', {}, { withCredentials: true }).then(result => {
+      commit('setUsername', null);
+      return result;
+    });
   },
   login({ commit, dispatch, getters }, { username, password }) {
-    console.log(Commons.getOwnApiUrl());
     return this.$axios
       .post(
-        Commons.getOwnApiUrl() + 'auth/login',
+        '/api/auth/login',
         {
           username,
           password
