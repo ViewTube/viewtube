@@ -56,7 +56,7 @@
     "@nuxtjs/style-resources": "^1.0.0",
     "@nuxtjs/workbox": "^3.0.0-beta.16",
     "@types/bcryptjs": "^2.4.2",
-    "@types/jest": "^26.0.13",
+    "@types/jest": "^26.0.14",
     "bcryptjs": "^2.4.3",
     "cache-manager": "^3.4.0",
     "class-transformer": "^0.3.1",
