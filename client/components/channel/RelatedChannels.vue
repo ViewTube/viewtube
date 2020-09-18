@@ -1,5 +1,6 @@
 <template>
   <div
+    v-if="channel.relatedChannels"
     v-show="channel.relatedChannels.length > 0"
     class="related-channels"
   >
@@ -13,10 +14,7 @@
     >
       <div class="related-channel-thumbnail">
         <div class="related-channel-thumbnail-image">
-          <img
-            :src="channelEntry.authorThumbnails[5].url"
-            :alt="channelEntry.author"
-          />
+          <img :src="channelEntry.authorThumbnails[5].url" :alt="channelEntry.author" />
         </div>
       </div>
       <div class="related-channel-info">

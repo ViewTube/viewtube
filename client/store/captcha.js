@@ -1,5 +1,5 @@
 import Axios from 'axios';
-import Commons from '@/plugins/commons';
+// import Commons from '@/plugins/commons';
 
 export const state = () => ({
   token: null,
@@ -18,8 +18,8 @@ export const mutations = {
   }
 };
 export const actions = {
-  getCaptcha({ commit }) {
-    Axios.get(Commons.getOwnApiUrl() + 'auth/captcha')
+  getCaptcha({ commit, rootState }) {
+    Axios.get(rootState.environment.env.apiUrl + 'auth/captcha')
       .then(response => {
         commit('setToken', response.data.token);
         commit('setImage', response.data.captchaImage);

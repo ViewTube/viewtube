@@ -13,7 +13,7 @@
         <BadgeButton
           class="manage-subscriptions-btn"
           :href="'subscriptions/manage'"
-          :internalLink="true"
+          :internal-link="true"
         >
           <EditIcon />
           <p>Manage</p>
@@ -22,26 +22,19 @@
     </SectionTitle>
     <div class="subscribe-btn-container">
       <SwitchButton
+        v-tippy="getNotificationStatus"
         :value="notificationsEnabled"
         :label="'Enable notifications'"
         :disabled="notificationsBtnDisabled"
         @valuechange="subscribeToNotifications"
-        v-tippy="getNotificationStatus"
       />
     </div>
     <div class="subscription-videos-container">
-      <VideoEntry
-        v-for="video in videos"
-        :key="video.videoId"
-        :video="video"
-      />
+      <VideoEntry v-for="video in videos" :key="video.videoId" :video="video" />
     </div>
     <portal to="popup">
       <transition name="fade-down">
-        <SubscriptionImport
-          v-if="subscriptionImportOpen"
-          @close="closeSubscriptionImport"
-        />
+        <SubscriptionImport v-if="subscriptionImportOpen" @close="closeSubscriptionImport" />
       </transition>
     </portal>
   </div>
@@ -70,6 +63,19 @@ export default {
     EditIcon,
     ImportIcon
   },
+  async fetch() {
+    await this.$axios
+      .get(`${this.$store.getters['environment/apiUrl']}user/subscriptions/videos`, {
+        withCredentials: true
+      })
+      .then(response => {
+        this.videos = response.data;
+        this.loading = false;
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  },
   data: () => ({
     videos: [],
     loading: true,
@@ -80,51 +86,13 @@ export default {
     subscriptionImportOpen: false,
     vapidKey: null
   }),
-  head() {
-    return {
-      title: `Subscriptions - ViewTube`,
-      meta: [
-        {
-          hid: 'description',
-          vmid: 'descriptionMeta',
-          name: 'description',
-          content: 'See your subscription feed'
-        },
-        {
-          hid: 'ogTitle',
-          property: 'og:title',
-          content: 'Subscriptions - ViewTube'
-        },
-        {
-          hid: 'ogDescription',
-          property: 'og:description',
-          content: 'See your subscription feed'
-        }
-      ]
-    };
-  },
   mounted() {
     this.vapidKey = this.$config.vapidKey;
-    this.$axios
-      .get(
-        `${Commons.getOwnApiUrl()}user/subscriptions/videos`,
-        {
-          withCredentials: true
-        }
-      )
-      .then(response => {
-        console.log(response.data);
-        this.videos = response.data;
-        this.loading = false;
-      })
-      .catch(error => {
-        console.error(error);
-      });
 
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker
         .getRegistrations()
-        .then(async registrations => {
+        .then(registrations => {
           const worker = registrations[0];
           worker.pushManager
             .permissionState({
@@ -155,63 +123,76 @@ export default {
     },
     subscribeToNotifications(val) {
       if ('serviceWorker' in navigator) {
-        navigator.serviceWorker
-          .getRegistrations()
-          .then(async registrations => {
-            const worker = registrations[0];
+        navigator.serviceWorker.getRegistrations().then(registrations => {
+          const worker = registrations[0];
 
-            if (val) {
-              worker.pushManager
-                .subscribe({
-                  userVisibleOnly: true,
-                  applicationServerKey: this.vapidKey
-                })
-                .then(subscription => {
-                  this.$axios
-                    .post(
-                      `${Commons.getOwnApiUrl()}user/notifications/subscribe`,
-                      subscription,
-                      {
-                        withCredentials: true
-                      }
-                    )
-                    .then(result => {
-                      this.notificationsEnabled = true;
-                    });
-                })
-                .catch(err => {
-                  this.notificationsEnabled = false;
-                  this.notificationsBtnDisabled = true;
-                  console.log(err);
-                });
-            } else {
-              worker.pushManager
-                .getSubscription()
-                .then(subscription => {
-                  if (subscription) {
-                    subscription.unsubscribe();
-                  }
-                  this.notificationsEnabled = false;
-                });
-            }
-          });
+          if (val) {
+            worker.pushManager
+              .subscribe({
+                userVisibleOnly: true,
+                applicationServerKey: this.vapidKey
+              })
+              .then(subscription => {
+                this.$axios
+                  .post(
+                    `${this.$store.getters['environment/apiUrl']}user/notifications/subscribe`,
+                    subscription,
+                    {
+                      withCredentials: true
+                    }
+                  )
+                  .then(result => {
+                    this.notificationsEnabled = true;
+                  });
+              })
+              .catch(err => {
+                this.notificationsEnabled = false;
+                this.notificationsBtnDisabled = true;
+                console.log(err);
+              });
+          } else {
+            worker.pushManager.getSubscription().then(subscription => {
+              if (subscription) {
+                subscription.unsubscribe();
+              }
+              this.notificationsEnabled = false;
+            });
+          }
+        });
       }
     },
     getNotificationStatus() {
-      if (
-        notificationsBtnDisabled &&
-        notificationsEnabled
-      ) {
+      if (this.notificationsBtnDisabled && this.notificationsEnabled) {
         return 'Notifications are enabled';
-      } else if (notificationsSupported) {
+      } else if (this.notificationsSupported) {
         return 'Notifications are not supported';
-      } else if (
-        !notificationsBtnDisabled &&
-        !notificationsEnabled
-      ) {
+      } else if (!this.notificationsBtnDisabled && !this.notificationsEnabled) {
         return 'Notifications are disabled';
       }
     }
+  },
+  head() {
+    return {
+      title: `Subscriptions :: ViewTube`,
+      meta: [
+        {
+          hid: 'description',
+          vmid: 'descriptionMeta',
+          name: 'description',
+          content: 'See your subscription feed'
+        },
+        {
+          hid: 'ogTitle',
+          property: 'og:title',
+          content: 'Subscriptions - ViewTube'
+        },
+        {
+          hid: 'ogDescription',
+          property: 'og:description',
+          content: 'See your subscription feed'
+        }
+      ]
+    };
   }
 };
 </script>
@@ -223,6 +204,10 @@ export default {
     max-width: $main-width;
     margin: 0 auto;
 
+    .title {
+      margin: 0 0 0 15px;
+    }
+
     .manage-btn-container {
       width: auto;
       position: absolute;
@@ -230,7 +215,7 @@ export default {
       z-index: 11;
       height: 80px;
       display: grid;
-      padding: 0 20px 0 0;
+      padding: 0 15px 0 0;
       display: flex;
       flex-direction: row;
 
@@ -249,7 +234,7 @@ export default {
     z-index: 11;
     height: 40px;
     display: flex;
-    padding: 0 20px 0 20px;
+    padding: 0 15px 0 15px;
     box-sizing: border-box;
 
     .switch {
@@ -261,11 +246,10 @@ export default {
     width: 100%;
     max-width: $main-width;
     margin: 0 auto;
+    padding: 0 10px;
+    box-sizing: border-box;
     z-index: 10;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
+    @include viewtube-grid;
 
     @media screen and (max-width: $mobile-width) {
       flex-direction: column;

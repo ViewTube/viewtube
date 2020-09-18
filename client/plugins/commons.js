@@ -1,37 +1,10 @@
 export default {
-  autocompleteUrl: 'https://viewtube.io/api/autocomplete/',
   proxyUrl: 'https://proxy.mcdn.ch/index.php?',
   description: 'An alternative YouTube frontend using the Invidious API.',
   language: 'en-US',
 
-  getApiUrl() {
-    // return `${this.$store.getters.currentInstance}/api/v1/`
-    return 'https://invidious.snopyta.org/api/v1/';
-  },
-
-  getApiUrlNoVersion() {
-    // return `${this.$store.getters.currentInstance}/api/`
-    return 'https://invidious.snopyta.org/api/';
-  },
-
-  getOwnApiUrl() {
-    if (this.isProduction()) {
-      return process.env.VIEWTUBE_API_URL || 'https://viewtube.io/api/';
-    }
-    return 'http://localhost:8066/api/';
-  },
-
   getVideoIdFromUrl(videoUrl) {
     return videoUrl.replace('https://www.youtube.com/watch?v=', '');
-  },
-
-  getVAPIDKey() {
-    const key = process.env.VAPID_KEY;
-    if (key) {
-      this.urlBase64ToUint8Array();
-    } else {
-      console.log('no VAPID public key found');
-    }
   },
 
   urlBase64ToUint8Array(base64String) {

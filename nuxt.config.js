@@ -1,21 +1,14 @@
 module.exports = {
-  mode: 'universal',
-
   srcDir: './client',
 
   env: {
-    API_URL: process.env.VIEWTUBE_API_URL,
-    VAPID_KEY: process.env.VIEWTUBE_PUBLIC_VAPID,
+    apiUrl: process.env.VIEWTUBE_API_URL,
+    vapidKey: process.env.VIEWTUBE_PUBLIC_VAPID,
+    nodeEnv: process.env.NODE_ENV,
     host: 'localhost',
     port: '3100',
     baseUrl: process.env.BASE_URL || 'http://localhost:3100'
   },
-
-  publicRuntimeConfig: {
-    vapidKey: process.env.VIEWTUBE_VAPID
-  },
-
-  modern: true,
 
   head: {
     meta: [
@@ -97,7 +90,7 @@ module.exports = {
   },
   // },
 
-  buildModules: [],
+  buildModules: ['@nuxtjs/router'],
 
   modules: [
     '@nuxtjs/style-resources',
@@ -121,7 +114,22 @@ module.exports = {
         })
       ]
     },
+    terser: {
+      parallel: true,
+      cache: false,
+      sourceMap: false,
+      extractComments: false,
+      terserOptions: {
+        ecma: 2020,
+        mangle: true
+      }
+    },
+    indicator: true,
     transpile: ['vue-material-design-icons', 'dashjs', 'tippy.js'],
-    extend(config, ctx) {}
+    extend(config, { isClient }) {
+      if (isClient) {
+        config.optimization.splitChunks.maxSize = 1000000;
+      }
+    }
   }
 };

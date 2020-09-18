@@ -35,33 +35,56 @@
       />
     </div>
     <div v-for="(results, i) in searchResults" :key="i" class="search-videos-container">
-      <div v-if="results.searchRefinements" class="related-searches-container">
+      <!-- <SectionTitle v-if="page > 0" :title="`Page ${page}`" /> -->
+      <div
+        v-if="results.searchRefinements && results.searchRefinements.length"
+        class="related-searches-container"
+      >
         <RelatedSearches
           v-for="(item, index) in results.searchRefinements"
           :key="index"
           :data="item"
         />
       </div>
-      <div v-if="results.channels" class="channels">
+      <div v-if="results.channels && results.channels.length" class="channels">
         <ChannelEntry
           v-for="(channel, index) in results.channels"
           :key="index"
           :channel="channel"
         />
       </div>
-      <div v-if="results.verticalShelf" class="vertical-shelf">
-        <VerticalShelf v-for="(item, index) in results.verticalShelf" :key="index" :data="item" />
-      </div>
-      <div v-if="results.compactShelf" class="compact-shelf">
+      <VerticalShelf
+        v-for="(item, index) in results.verticalShelf"
+        :key="index"
+        :class="item.shelfType"
+        :data="item"
+      />
+      <div v-if="results.compactShelf && results.compactShelf.length" class="compact-shelf">
         <CompactShelf v-for="(item, index) in results.compactShelf" :key="index" :data="item" />
       </div>
-      <div v-if="results.playlists" class="playlists">
-        <PlaylistEntry v-for="(item, index) in results.playlists" :key="index" :playlist="item" />
+      <div v-if="results.playlists && results.playlists.length" class="playlists-container">
+        <SectionTitle :title="'Playlists'" />
+        <div class="playlists">
+          <PlaylistEntry v-for="(item, index) in results.playlists" :key="index" :playlist="item" />
+        </div>
       </div>
-      <div v-if="results.movies" class="movies">
+      <SectionTitle v-if="results.movies && results.movies.length" :title="'Movies'" />
+      <div v-if="results.movies && results.movies.length" class="movies">
         <MovieEntry v-for="(item, index) in results.movies" :key="index" :data="item" />
       </div>
-      <div v-if="results.videos" class="videos">
+      <SectionTitle
+        v-if="
+          !(
+            (results.channels && results.channels.length) ||
+            (results.verticalShelf && results.verticalShelf.length) ||
+            (results.compactShelf && results.compactShelf.length) ||
+            (results.playlists && results.playlists.length) ||
+            (results.movies && results.movies.length)
+          )
+        "
+        :title="`More videos`"
+      />
+      <div v-if="results.videos && results.videos.length" class="videos">
         <VideoEntry v-for="(video, index) in results.videos" :key="index" :video="video" />
       </div>
     </div>
@@ -87,10 +110,11 @@ import VerticalShelf from '@/components/search/VerticalShelf';
 import Spinner from '@/components/Spinner';
 import GradientBackground from '@/components/GradientBackground.vue';
 import Dropdown from '@/components/filter/Dropdown';
+import SectionTitle from '@/components/SectionTitle';
 import SearchParams from '@/plugins/services/searchParams';
 import BadgeButton from '@/components/buttons/BadgeButton';
 // import Invidious from '@/plugins/services/invidious';
-import ViewtubeApi from '~/plugins/services/viewtubeApi';
+import ViewTubeApi from '~/plugins/services/viewTubeApi';
 
 export default {
   name: 'Search',
@@ -106,24 +130,25 @@ export default {
     MovieEntry,
     RelatedSearches,
     CompactShelf,
-    VerticalShelf
+    VerticalShelf,
+    SectionTitle
   },
   watchQuery: true,
-  asyncData({ query }) {
-    query.type = 'all';
-    query.limit = 20;
-    const searchParams = SearchParams.parseQueryJson(query, query.search_query);
-    return ViewtubeApi.api
+  async fetch() {
+    const inputQuery = this.$nuxt.context.query;
+    inputQuery.type = 'all';
+    inputQuery.limit = 10;
+    const searchParams = SearchParams.parseQueryJson(inputQuery, inputQuery.search_query);
+    const viewTubeApi = new ViewTubeApi(this.$store.getters['environment/apiUrl']);
+    await viewTubeApi.api
       .search({ params: searchParams })
       .then(response => {
         const results = [];
         results.push(response.data.items);
         delete response.data.items;
-        return {
-          searchResults: results,
-          searchInformation: response.data,
-          searchQuery: query.search_query
-        };
+        this.searchResults = results;
+        this.searchInformation = response.data;
+        this.searchQuery = inputQuery.search_query;
       })
       .catch(error => {
         console.error(error);
@@ -135,7 +160,7 @@ export default {
     loading: false,
     searchQuery: null,
     parameters: SearchParams,
-    page: 1,
+    page: 0,
     moreVideosLoading: false
   }),
   methods: {
@@ -162,6 +187,7 @@ export default {
     reloadSearchWithParams() {
       const searchParams = SearchParams.getParamsString();
       this.$router.push(`/results?search_query=${this.searchQuery}${searchParams}`);
+      this.$fetch();
     },
     onSearchSortChange(element, index) {
       SearchParams.sort_by = element.value;
@@ -181,11 +207,12 @@ export default {
     },
     loadMoreVideos() {
       this.moreVideosLoading = true;
-      // this.page += 1;
+      this.page += 1;
       // SearchParams.page = this.page;
       const searchParams = SearchParams.getParamsJson(this.searchQuery);
       searchParams.nextpageRef = this.searchInformation.nextpageRef;
-      ViewtubeApi.api
+      const viewTubeApi = new ViewTubeApi(this.$store.getters['environment/apiUrl']);
+      viewTubeApi.api
         .search({ params: searchParams })
         .then(response => {
           this.searchResults.push(response.data.items);
@@ -199,7 +226,7 @@ export default {
   },
   head() {
     return {
-      title: `${this.searchQuery ? this.searchQuery + ' - ' : ''}Search - ViewTube`,
+      title: `${this.searchQuery ? this.searchQuery + ' :: ' : ''}Search :: ViewTube`,
       meta: [
         {
           hid: 'description',
@@ -250,48 +277,71 @@ export default {
     z-index: 10;
     display: grid;
     box-sizing: border-box;
-    @include viewtube-grid;
+    display: grid;
+    grid-template-columns: 200px repeat(auto-fill, minmax(300px, 1fr));
+    // grid-auto-rows: minmax(300px, auto);
+    gap: 1em 2em;
 
+    @media screen and (max-width: $mobile-width) {
+      grid-template-columns: 1fr;
+
+      > div {
+        grid-column: unset !important;
+      }
+    }
+
+    .section-title {
+      grid-column: 1 / -1;
+      gap: 0;
+    }
     .related-searches-container {
       grid-row: 1;
       grid-column: 1 / -1;
-      overflow: auto hidden;
-      scrollbar-width: thin;
-      box-sizing: border-box;
-      height: 45px;
-      width: 100%;
-      position: relative;
-
-      .related-searches {
-        display: flex;
-        flex-direction: row;
-        width: auto;
-        position: absolute;
-
-        .related-search-tag {
-          display: inline-block;
-          overflow: hidden;
-          white-space: nowrap;
-        }
-      }
     }
     .channels {
+      height: 100%;
+      grid-column: 1;
+      position: sticky;
+      top: 0;
+
+      margin: 80px 0 0 0;
+
+      .channel-entry {
+        padding: 0;
+      }
     }
     .vertical-shelf {
-      grid-column-start: 2;
+      &.channel {
+        grid-column-start: 2;
+      }
+
+      &.general {
+        grid-column-start: 1;
+      }
       grid-column-end: -1;
     }
     .compact-shelf {
       grid-column: 1 / -1;
     }
-    .playlists {
+    .playlists-container {
+      grid-column: 1 / -1;
+
+      .playlists {
+        grid-column: 1 / -1;
+        @include viewtube-grid;
+
+        .playlist-entry {
+          padding: 0;
+        }
+      }
     }
     .movies {
+      grid-column: 1 / -1;
     }
     .videos {
-    }
-
-    @media screen and (max-width: $mobile-width) {
+      grid-column-start: 1;
+      grid-column-end: -1;
+      @include viewtube-grid;
     }
   }
 

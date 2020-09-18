@@ -1,11 +1,6 @@
 <template>
   <div class="embed">
-    <VideoPlayer
-      v-if="!loading"
-      :video="video"
-      :embedded="true"
-      class="video-player-p"
-    ></VideoPlayer>
+    <VideoPlayer v-if="!loading" :video="video" :embedded="true" class="video-player-p" />
   </div>
 </template>
 
@@ -14,15 +9,15 @@ import Commons from '@/plugins/commons.js';
 import VideoPlayer from '@/components/videoplayer/VideoPlayer';
 
 export default {
-  name: 'embed-video',
+  name: 'EmbedVideo',
+  components: {
+    VideoPlayer
+  },
   data: () => ({
     loading: true,
     video: {},
     commons: Commons
   }),
-  components: {
-    VideoPlayer
-  },
   beforeRouteEnter(to, from, next) {
     const videoId = to.params.id;
     fetch(`${Commons.getApiUrl()}videos/${videoId}`, {

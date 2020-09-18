@@ -3,18 +3,13 @@
     <GradientBackground :color="'green'" />
     <SectionTitle :title="'Manage subscriptions'" />
     <div class="channels-container">
-      <div
-        class="channel-entry"
-        v-for="channel in subscriptionChannels"
-        :key="channel.authorId"
-      >
+      <div v-for="channel in subscriptionChannels" :key="channel.authorId" class="channel-entry">
         <nuxt-link
-          :to="`/channel/${channel.authorId}`"
           v-if="
-            (!channel.authorThumbnails ||
-              channel.authorThumbnails.length == 0) &&
+            (!channel.authorThumbnails || channel.authorThumbnails.length == 0) &&
             !channel.authorThumbnailUrl
           "
+          :to="`/channel/${channel.authorId}`"
           class="fake-thmb"
         >
           <h3>
@@ -22,38 +17,35 @@
           </h3>
         </nuxt-link>
         <nuxt-link
-          :to="`/channel/${channel.authorId}`"
-          class="channel-image-container"
           v-if="
             channel.authorThumbnailUrl ||
-            (channel.authorThumbnails &&
-              channel.authorThumbnails.length > 0)
+            (channel.authorThumbnails && channel.authorThumbnails.length > 0)
           "
+          :to="`/channel/${channel.authorId}`"
+          class="channel-image-container"
         >
           <img
             :src="
               channel.authorThumbnailUrl
-                ? `${commons.getOwnApiUrl()}${
-                    channel.authorThumbnailUrl
-                  }`
+                ? `${$store.getters['environment/apiUrl']}${channel.authorThumbnailUrl}`
                 : channel.authorThumbnails[2].url
             "
             class="channel-image"
             alt="Channel profile image"
           />
         </nuxt-link>
-        <div class="channel-title">
-          <nuxt-link :to="`/channel/${channel.authorId}`">{{
-            channel.author
-          }}</nuxt-link>
+        <div v-tippy="channel.author" class="channel-title">
+          <nuxt-link :to="`/channel/${channel.authorId}`">{{ channel.author }}</nuxt-link>
         </div>
-        <div class="channel-subscribe-btn">
-          <SubscribeButton
-            :isInitiallySubscribed="true"
-            :channelId="channel.authorId"
-            :small="true"
-          />
-        </div>
+        <a
+          v-tippy="`Unsubscribe from ${channel.author}`"
+          v-ripple
+          href="#"
+          class="channel-unsubscribe-btn"
+          @click.prevent="() => unsubscribe(channel)"
+        >
+          ✕
+        </a>
       </div>
     </div>
   </div>
@@ -63,16 +55,26 @@
 import GradientBackground from '@/components/GradientBackground';
 import SectionTitle from '@/components/SectionTitle';
 import Commons from '@/plugins/commons';
-import SubscribeButton from '@/components/buttons/SubscribeButton';
-import BadgeButton from '@/components/buttons/BadgeButton';
+// import BadgeButton from '@/components/buttons/BadgeButton';
 
 export default {
   name: 'ManageSubscriptions',
   components: {
     GradientBackground,
-    SectionTitle,
-    SubscribeButton,
-    BadgeButton
+    SectionTitle
+  },
+  async fetch() {
+    const apiUrl = this.$store.getters['environment/apiUrl'];
+    await this.$axios
+      .get(`${apiUrl}user/subscriptions/channels`, {
+        withCredentials: true
+      })
+      .then(response => {
+        this.subscriptionChannels = response.data;
+      })
+      .catch(error => {
+        console.log(error);
+      });
   },
   data() {
     return {
@@ -80,9 +82,50 @@ export default {
       subscriptionChannels: []
     };
   },
+  methods: {
+    channelNameToImgString(name) {
+      let initials = '';
+      name.split(' ').forEach(e => {
+        initials += e.charAt(0);
+      });
+      return initials;
+    },
+    unsubscribe(channel) {
+      this.$axios
+        .delete(
+          `${this.$store.getters['environment/apiUrl']}user/subscriptions/${channel.authorId}`,
+          {
+            withCredentials: true
+          }
+        )
+        .then(response => {
+          if (!response.data.isSubscribed) {
+            this.$fetch();
+            this.$store.dispatch('messages/createMessage', {
+              type: 'error',
+              title: `Unsubscribed from ${channel.author}`,
+              message: 'Click to undo',
+              clickAction: () => {
+                this.$axios
+                  .put(
+                    `${this.$store.getters['environment/apiUrl']}user/subscriptions/${channel.authorId}`,
+                    {},
+                    {
+                      withCredentials: true
+                    }
+                  )
+                  .then(response => {
+                    this.$fetch();
+                  });
+              }
+            });
+          }
+        });
+    }
+  },
   head() {
     return {
-      title: `Manage subscriptions - ViewTube`,
+      title: `Manage subscriptions :: ViewTube`,
       meta: [
         {
           hid: 'description',
@@ -102,31 +145,6 @@ export default {
         }
       ]
     };
-  },
-  mounted() {
-    return this.$axios
-      .get(
-        `${Commons.getOwnApiUrl()}user/subscriptions/channels`,
-        {
-          withCredentials: true
-        }
-      )
-      .then(response => {
-        this.subscriptionChannels = response.data;
-        this.loading = false;
-      })
-      .catch(error => {
-        console.error(error);
-      });
-  },
-  methods: {
-    channelNameToImgString(name) {
-      let initials = '';
-      name.split(' ').forEach(e => {
-        initials += e.charAt(0);
-      });
-      return initials;
-    }
   }
 };
 </script>
@@ -137,6 +155,14 @@ export default {
   overflow-x: hidden;
   height: 100%;
   width: 100%;
+
+  .section-title {
+    max-width: $main-width;
+    margin: 0 auto;
+    .title {
+      margin: 0 0 0 15px;
+    }
+  }
 
   .channels-container {
     width: 100%;
@@ -152,7 +178,7 @@ export default {
       flex-direction: row;
       width: calc(100% - 20px);
       justify-content: space-between;
-      padding: 0 10px;
+      padding: 0 5px;
       margin: 0 10px;
       box-sizing: border-box;
       height: 50px;
@@ -191,10 +217,19 @@ export default {
         line-height: 36px;
         margin: 0 0 0 10px;
         font-size: 1.2rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
 
-      .channel-subscribe-btn {
-        width: 140px;
+      .channel-unsubscribe-btn {
+        width: 30px;
+        height: 30px;
+        line-height: 30px;
+        border-radius: 25px;
+        text-align: center;
+        user-select: none;
+        cursor: pointer;
       }
     }
   }

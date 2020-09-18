@@ -17,16 +17,13 @@ export default {
   },
 
   update(el, binding) {
-    if (
-      tippyInstance &&
-      binding.value !== binding.oldValue
-    ) {
+    if (tippyInstance && binding.value !== binding.oldValue) {
       tippyInstance.setProps({ content: binding.value });
     }
   },
 
   unbind() {
-    if (tippyInstance) {
+    if (!tippyInstance.state.isDestroyed) {
       tippyInstance.destroy();
     }
   }

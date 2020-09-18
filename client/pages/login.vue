@@ -1,32 +1,12 @@
 <template>
   <div class="login">
-    <div
-      class="login-container"
-      :class="{ loading: loading, wiggle: formWiggle }"
-    >
+    <div class="login-container" :class="{ loading: loading, wiggle: formWiggle }">
       <h2 class="login-title">Login</h2>
-      <span
-        class="status-message-display message-display"
-        >{{ statusMessage }}</span
-      >
+      <span class="status-message-display message-display">{{ statusMessage }}</span>
       <Spinner />
-      <form
-        id="login"
-        method="post"
-        @submit.prevent="login"
-      >
-        <FormInput
-          :id="'username'"
-          v-model="username"
-          :label="'username'"
-          :type="'username'"
-        />
-        <FormInput
-          :id="'password'"
-          v-model="password"
-          :label="'password'"
-          :type="'password'"
-        />
+      <form id="login" method="post" @submit.prevent="login">
+        <FormInput :id="'username'" v-model="username" :label="'username'" :type="'username'" />
+        <FormInput :id="'password'" v-model="password" :label="'password'" :type="'password'" />
         <SubmitButton :label="'Login'" />
       </form>
     </div>
@@ -53,29 +33,6 @@ export default {
     redirectedPage: 'home',
     formWiggle: false
   }),
-  head() {
-    return {
-      title: `Login - ViewTube`,
-      meta: [
-        {
-          hid: 'description',
-          vmid: 'descriptionMeta',
-          name: 'description',
-          content: 'Login to access your ViewTube account'
-        },
-        {
-          hid: 'ogTitle',
-          property: 'og:title',
-          content: 'Login - ViewTube'
-        },
-        {
-          hid: 'ogDescription',
-          property: 'og:description',
-          content: 'Login to access your ViewTube account'
-        }
-      ]
-    };
-  },
   mounted() {},
   methods: {
     login() {
@@ -114,6 +71,29 @@ export default {
         this.formWiggle = false;
       }, 600);
     }
+  },
+  head() {
+    return {
+      title: `Login :: ViewTube`,
+      meta: [
+        {
+          hid: 'description',
+          vmid: 'descriptionMeta',
+          name: 'description',
+          content: 'Login to access your ViewTube account'
+        },
+        {
+          hid: 'ogTitle',
+          property: 'og:title',
+          content: 'Login - ViewTube'
+        },
+        {
+          hid: 'ogDescription',
+          property: 'og:description',
+          content: 'Login to access your ViewTube account'
+        }
+      ]
+    };
   },
   beforeRouteEnter(to, from, next) {
     next(vm => {

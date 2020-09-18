@@ -77,10 +77,10 @@
           </div>
           <SubscribeButton class="subscribe-button-watch" :channel-id="video.authorId" />
         </div>
-        <div class="video-infobox-date" v-if="video.publishedText">
+        <div v-if="video.publishedText" class="video-infobox-date">
           {{ video.publishedText }}
         </div>
-        <div class="video-exact-date" v-if="!video.publishedText">
+        <div v-if="!video.publishedText" class="video-exact-date">
           {{ new Date(video.published).toLocaleString('en-US') }}
         </div>
         <div class="video-actions">
@@ -99,12 +99,12 @@
         <transition name="share-fade-down">
           <div v-show="shareOpen">
             <div>
-              <ShareOptions class="share-options-display"> </ShareOptions>
+              <ShareOptions class="share-options-display" />
             </div>
           </div>
         </transition>
-        <p class="video-infobox-text" v-if="video.keywords">tags:</p>
-        <div class="video-infobox-tags" v-if="video.keywords">
+        <p v-if="video.keywords" class="video-infobox-text">tags:</p>
+        <div v-if="video.keywords" class="video-infobox-tags">
           <div v-if="video.keywords" class="tags-container">
             <BadgeButton
               v-for="keyword in video.keywords"
@@ -140,7 +140,7 @@
               :loading="commentsContinuationLoading"
             >
               <LoadMoreIcon />
-              <p>show more</p>
+              <p>Show more</p>
             </BadgeButton>
           </div>
         </div>
@@ -160,13 +160,13 @@ import VideoPlayer from '@/components/videoplayer/VideoPlayer';
 import SubscribeButton from '@/components/buttons/SubscribeButton';
 import Comment from '@/components/Comment';
 // import Invidious from '@/plugins/services/invidious'
-import ViewtubeApi from '@/plugins/services/viewtubeApi';
 import Invidious from '@/plugins/services/invidious';
 import RecommendedVideos from '@/components/watch/RecommendedVideos';
 import ShareOptions from '@/components/watch/ShareOptions';
 import CollapsibleSection from '@/components/list/CollapsibleSection';
 import BadgeButton from '@/components/buttons/BadgeButton';
-import invidious from '~/plugins/services/invidious';
+import ViewTubeApi from '~/plugins/services/viewTubeApi';
+// import invidious from '~/plugins/services/invidious';
 
 export default {
   name: 'Watch',
@@ -192,21 +192,24 @@ export default {
     }
     return true;
   },
-  asyncData({ query, error }) {
-    return ViewtubeApi.api
+  asyncData({ store, query, error }) {
+    const viewTubeApi = new ViewTubeApi(store.getters['environment/apiUrl']);
+    return viewTubeApi.api
       .videos({
         id: query.v
       })
       .then(response => {
         if (response) {
           return { video: response.data };
+          // console.log(this.video.description)
         } else {
           // throw new Error('Error loading video')
         }
       })
-      .catch(err => {
+      .catch(async err => {
         console.log(err);
-        return Invidious.api
+        const invidious = new Invidious(store.getters['instances/currentInstance']);
+        await invidious.api
           .videos({ id: query.v })
           .then(response => {
             return { video: response.data };
@@ -277,7 +280,7 @@ export default {
     },
     loadComments(evtVideoId) {
       const videoId = evtVideoId || this.$route.query.v;
-      fetch(`${Commons.getApiUrl()}comments/${videoId}`, {
+      fetch(`${this.$store.getters['instances/currentInstanceApi']}comments/${videoId}`, {
         cache: 'force-cache',
         method: 'GET'
       })
@@ -297,7 +300,7 @@ export default {
       this.commentsContinuationLoading = true;
       const videoId = this.$route.query.v;
       fetch(
-        `${Commons.getApiUrl()}comments/${videoId}?continuation=${this.commentsContinuationLink}`,
+        `${this.$store.getters['instances/currentInstanceApi']}comments/${videoId}?continuation=${this.commentsContinuationLink}`,
         {
           cache: 'force-cache',
           method: 'GET'
@@ -316,7 +319,7 @@ export default {
   },
   head() {
     return {
-      title: `${this.video.title} - ${this.video.author} - ViewTube`,
+      title: `${this.video.title} :: ${this.video.author} :: ViewTube`,
       meta: [
         {
           hid: 'description',
@@ -404,7 +407,6 @@ export default {
     .recommended-videos {
       background-color: var(--bgcolor-main);
       z-index: 400;
-      padding: 10px 0 0 0;
       width: 100%;
 
       @media screen and (min-width: $mobile-width) {
@@ -416,7 +418,7 @@ export default {
       width: 100%;
       display: flex;
       flex-direction: column;
-      padding: 10px;
+      padding: 0 10px;
       box-sizing: border-box;
       opacity: 1;
       transition: opacity 300ms $intro-easing;
@@ -426,6 +428,7 @@ export default {
 
       @media screen and (min-width: $mobile-width) {
         width: calc(100% - 340px);
+        padding: 10px;
       }
 
       .video-infobox-title {

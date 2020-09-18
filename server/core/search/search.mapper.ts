@@ -1,4 +1,4 @@
-import { Result, Video, Channel, Playlist, Item } from 'ytsr';
+import { Result, Video, Channel, Playlist, Item, ShelfVertical } from 'ytsr';
 import { ISearchResponse } from './interface/search-response.interface';
 import { Common } from '../common';
 
@@ -42,12 +42,8 @@ export class SearchMapper {
           result.playlists.push(playlist);
           break;
         case 'shelf-vertical':
-          result.verticalShelf.push({
-            type: 'shelf-vertical',
-            title: source.title,
-            items: source.items.map(this.mapVideo),
-            position: index
-          });
+          const verticalShelf = { ...this.mapVerticalShelf(source), ...{ position: index } };
+          result.verticalShelf.push(verticalShelf);
           break;
         case 'search-refinements':
           result.searchRefinements.push({
@@ -66,6 +62,19 @@ export class SearchMapper {
       }
     });
     return result;
+  }
+
+  static mapVerticalShelf(source: ShelfVertical): any {
+    let shelfType = 'general';
+    if (source.title.match(/latest from/gi)) {
+      shelfType = 'channel';
+    }
+    return {
+      type: 'shelf-vertical',
+      shelfType,
+      title: source.title,
+      items: source.items.map(this.mapVideo)
+    };
   }
 
   static mapPlaylist(source: Playlist): any {
@@ -102,7 +111,7 @@ export class SearchMapper {
       type: 'video',
       title: source.title,
       author: source.author.name,
-      authorId: source.author.ref,
+      authorId: Common.getChannelIdFromUrl(source.author.ref),
       description: source.description,
       publishedText: source.uploaded_at,
       videoId: Common.getVideoIdFromUrl(source.link),

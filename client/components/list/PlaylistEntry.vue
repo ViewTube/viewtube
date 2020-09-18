@@ -1,6 +1,5 @@
 <template>
   <div class="playlist-entry">
-    <div class="playlist-entry-background" />
     <nuxt-link
       class="playlist-entry-thmb"
       :to="{
@@ -53,33 +52,17 @@ export default {
 
 <style lang="scss">
 .playlist-entry {
-  width: 320px;
   display: flex;
   flex-direction: column;
-  padding: 10px;
   justify-content: flex-start;
   z-index: 11;
   position: relative;
 
-  .playlist-entry-background {
-    position: absolute;
-    height: 175px;
-    top: 10px;
-    left: 10px;
-    width: calc(100% - 20px);
-    background-color: #34363b;
-    z-index: 10;
-    transition-duration: 300ms;
-    transition-timing-function: $intro-easing;
-    transition-property: box-shadow;
-  }
-
   .playlist-entry-thmb {
     width: 100%;
-    height: 175px;
     overflow: hidden;
     position: relative;
-    box-shadow: $max-shadow;
+    box-shadow: $medium-shadow;
     z-index: 11;
 
     .thmb-image-container {
@@ -90,6 +73,7 @@ export default {
 
       .playlist-entry-thmb-image {
         width: 100%;
+        display: block;
       }
     }
     .playlist-entry-count {

@@ -70,7 +70,6 @@ export class SubscriptionsService {
             return this.saveVideoBasicInfo(element);
           } catch (err) {
             console.log(err);
-            console.log(element);
           }
         })
       );
@@ -122,7 +121,6 @@ export class SubscriptionsService {
             );
 
             const authorId = jsonData.feed.channelId.toString();
-            console.log(authorId);
 
             const channel: ChannelBasicInfoDto = {
               authorId,
@@ -227,7 +225,6 @@ export class SubscriptionsService {
       });
     if (user) {
       const userChannelIds = user.subscriptions.map(e => e.channelId);
-      console.log(sort);
       if (userChannelIds) {
         return this.channelModel
           .find({ authorId: { $in: userChannelIds } })
@@ -346,7 +343,7 @@ export class SubscriptionsService {
       return this.subscriptionModel
         .findOneAndUpdate({ username }, { username, subscriptions }, { upsert: true })
         .exec()
-        .then(() => console.log('subscriptions updated'), console.log)
+        .then(() => console.log('subscriptions updated'))
         .catch(err => {
           console.log(err);
         });
@@ -387,9 +384,7 @@ export class SubscriptionsService {
       await this.subscriptionModel
         .findOneAndUpdate({ username }, { username, subscriptions }, { upsert: true })
         .exec()
-        .then(result => {
-          console.log(result);
-        }, console.log)
+        .then()
         .catch(err => {
           console.log(err);
         });

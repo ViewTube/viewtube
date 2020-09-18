@@ -1,9 +1,5 @@
 <template>
-  <div
-    class="video-endscreen"
-    v-if="videoElement"
-    :class="{ 'card-hover': hover }"
-  >
+  <div class="video-endscreen" v-if="videoElement" :class="{ 'card-hover': hover }">
     <EndscreenCard
       v-for="(card, index) in endscreenData"
       :key="index"
@@ -37,9 +33,7 @@ export default {
   }),
   mounted() {
     fetch(
-      `${Commons.getOwnApiUrl()}video/getEndscreen.php?videoId=${
-        this.videoId
-      }`,
+      `${this.$store.getters['environment/apiUrl']}video/getEndscreen.php?videoId=${this.videoId}`,
       {
         cache: 'force-cache',
         method: 'GET'

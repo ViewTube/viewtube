@@ -1,11 +1,6 @@
 <template>
   <div ref="parallaxParent" class="channel-banner">
-    <img
-      ref="bannerImage"
-      class="channel-banner-image"
-      :src="src"
-      alt="Channel banner"
-    />
+    <img ref="bannerImage" class="channel-banner-image" :src="src" alt="Channel banner" />
   </div>
 </template>
 
@@ -28,6 +23,7 @@ export default {
     position: relative;
     max-height: 500px;
     transition: transform 100ms linear;
+    display: block;
 
     @media screen and (max-width: 900px) {
       width: 130%;
