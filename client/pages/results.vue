@@ -72,18 +72,18 @@
       <div v-if="results.movies && results.movies.length" class="movies">
         <MovieEntry v-for="(item, index) in results.movies" :key="index" :data="item" />
       </div>
-      <!-- <SectionTitle
+      <SectionTitle
         v-if="
           !(
-            results.channels && results.channels.length ||
-            results.verticalShelf && results.verticalShelf.length ||
-            results.compactShelf && results.compactShelf.length ||
-            results.playlists && results.playlists.length ||
-            results.movies && results.movies.length
+            (results.channels && results.channels.length) ||
+            (results.verticalShelf && results.verticalShelf.length) ||
+            (results.compactShelf && results.compactShelf.length) ||
+            (results.playlists && results.playlists.length) ||
+            (results.movies && results.movies.length)
           )
         "
         :title="`More videos`"
-      /> -->
+      />
       <div v-if="results.videos && results.videos.length" class="videos">
         <VideoEntry v-for="(video, index) in results.videos" :key="index" :video="video" />
       </div>
