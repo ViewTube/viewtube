@@ -7,30 +7,36 @@
     </div>
     <SectionTitle :title="'Popular videos'" :gradient="!userAuthenticated" />
     <div class="home-videos-container small">
-      <VideoEntry v-for="video in videos" :key="video.videoId" :video="video" />
+      <VideoEntry v-for="video in displayedVideos" :key="video.videoId" :video="video" />
     </div>
-    <BottomNavigation />
+    <BadgeButton v-if="displayedVideos.length !== videos.length" :click="showMoreVideos">
+      <LoadMoreIcon />
+      <p>Show more</p>
+    </BadgeButton>
   </div>
 </template>
 
 <script>
 import Commons from '@/plugins/commons.js';
 import VideoEntry from '@/components/list/VideoEntry';
-import BottomNavigation from '@/components/BottomNavigation';
 import SectionTitle from '@/components/SectionTitle.vue';
 import GradientBackground from '@/components/GradientBackground.vue';
+import LoadMoreIcon from 'vue-material-design-icons/Reload';
 import Invidious from '@/plugins/services/invidious';
+import BadgeButton from '@/components/buttons/BadgeButton';
 
 export default {
   name: 'Home',
   components: {
     VideoEntry,
-    BottomNavigation,
     SectionTitle,
-    GradientBackground
+    GradientBackground,
+    LoadMoreIcon,
+    BadgeButton
   },
   data: () => ({
     videos: [],
+    displayedVideos: [],
     subscriptions: [],
     loading: true,
     commons: Commons
@@ -44,12 +50,16 @@ export default {
     this.loadHomepage();
   },
   methods: {
+    showMoreVideos() {
+      this.displayedVideos = this.videos;
+    },
     async loadHomepage() {
       const invidious = new Invidious(this.$store.getters['instances/currentInstanceApi']);
       await invidious.api
         .popular()
         .then(response => {
           this.videos = response.data;
+          this.displayedVideos = response.data.slice(0, 8);
         })
         .catch(error => {
           console.error(error);

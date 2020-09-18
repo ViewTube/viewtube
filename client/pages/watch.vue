@@ -140,7 +140,7 @@
               :loading="commentsContinuationLoading"
             >
               <LoadMoreIcon />
-              <p>show more</p>
+              <p>Show more</p>
             </BadgeButton>
           </div>
         </div>
