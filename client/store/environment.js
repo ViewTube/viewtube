@@ -1,12 +1,8 @@
 export const state = () => ({
-  apiUrl: process.env.apiUrl,
-  vapidKey: process.env.vapidKey,
-  nodeEnv: process.env.NODE_ENV
+  env: {}
 });
 export const getters = {
   apiUrl(state) {
-    return state.apiUrl;
+    return state.env.apiUrl;
   }
 };
-export const mutations = {};
-export const actions = {};
