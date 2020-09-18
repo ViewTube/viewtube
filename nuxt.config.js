@@ -2,16 +2,12 @@ module.exports = {
   srcDir: './client',
 
   env: {
-    API_URL: process.env.VIEWTUBE_API_URL,
-    VAPID_KEY: process.env.VIEWTUBE_PUBLIC_VAPID,
+    apiUrl: process.env.VIEWTUBE_API_URL,
+    vapidKey: process.env.VIEWTUBE_PUBLIC_VAPID,
+    nodeEnv: process.env.NODE_ENV,
     host: 'localhost',
     port: '3100',
     baseUrl: process.env.BASE_URL || 'http://localhost:3100'
-  },
-
-  publicRuntimeConfig: {
-    vapidKey: process.env.VIEWTUBE_VAPID,
-    apiUrl: process.env.VIEWTUBE_API_URL
   },
 
   head: {

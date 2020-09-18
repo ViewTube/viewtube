@@ -56,7 +56,7 @@ export default {
   methods: {
     getSubscriptions() {
       this.$axios
-        .get(`${Commons.getOwnApiUrl()}user/subscriptions/videos`, {
+        .get(`${this.$store.getters['environment/apiUrl']}user/subscriptions/videos`, {
           withCredentials: true
         })
         .then(response => {

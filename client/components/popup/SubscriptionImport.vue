@@ -154,7 +154,7 @@ export default {
       const subscriptionIds = subscriptions.map(e => e.authorId);
       this.$axios
         .post(
-          `${Commons.getOwnApiUrl()}user/subscriptions/multiple`,
+          `${this.$store.getters['environment/apiUrl']}user/subscriptions/multiple`,
           {
             channels: subscriptionIds
           },

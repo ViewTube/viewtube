@@ -1,5 +1,5 @@
 import Axios from 'axios';
-import Commons from '@/plugins/commons';
+// import Commons from '@/plugins/commons';
 
 export const state = () => ({
   username: null
@@ -48,7 +48,7 @@ export const actions = {
   register({ commit, rootState }, { username, password, captchaSolution }) {
     const captchaToken = rootState.captcha.token;
     if (captchaToken) {
-      return Axios.post(Commons.getOwnApiUrl() + 'auth/register', {
+      return Axios.post(this.$store.getters['environment/apiUrl'] + 'auth/register', {
         username,
         password,
         captchaToken,

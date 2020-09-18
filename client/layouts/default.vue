@@ -13,7 +13,7 @@
       :style="{
         transform: `translate3d(0,${reloadElDistance}px,0)`
       }"
-    ></span>
+    />
     <ThemeStyling />
     <Header v-if="!headless" class="main-header" />
     <Miniplayer v-if="$store.getters.miniplayer" />

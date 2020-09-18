@@ -24,26 +24,28 @@
 
 <script>
 export default {
-  name: 'error-page',
+  name: 'ErrorPage',
   props: {
     error: Object
   },
-  methods: {
-    retry() {
-      window.location.reload();
-    }
+  data() {
+    return {
+      possibleSearch: null,
+      apiUrl: this.$store.getters['environment/apiUrl']
+    };
   },
-  data: () => ({
-    possibleSearch: null,
-    apiUrl: process.env.apiUrl
-  }),
   mounted() {
     if (this.error.statusCode === 404) {
       const path = this.$route.path;
       this.possibleSearch = path.replace('/', '');
     }
   },
-  beforeCreate() {}
+  beforeCreate() {},
+  methods: {
+    retry() {
+      window.location.reload();
+    }
+  }
 };
 </script>
 

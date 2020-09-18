@@ -63,6 +63,19 @@ export default {
     EditIcon,
     ImportIcon
   },
+  async fetch() {
+    await this.$axios
+      .get(`${this.$store.getters['environment/apiUrl']}user/subscriptions/videos`, {
+        withCredentials: true
+      })
+      .then(response => {
+        this.videos = response.data;
+        this.loading = false;
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  },
   data: () => ({
     videos: [],
     loading: true,
@@ -75,17 +88,6 @@ export default {
   }),
   mounted() {
     this.vapidKey = this.$config.vapidKey;
-    this.$axios
-      .get(`${Commons.getOwnApiUrl()}user/subscriptions/videos`, {
-        withCredentials: true
-      })
-      .then(response => {
-        this.videos = response.data;
-        this.loading = false;
-      })
-      .catch(error => {
-        console.error(error);
-      });
 
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker
@@ -132,9 +134,13 @@ export default {
               })
               .then(subscription => {
                 this.$axios
-                  .post(`${Commons.getOwnApiUrl()}user/notifications/subscribe`, subscription, {
-                    withCredentials: true
-                  })
+                  .post(
+                    `${this.$store.getters['environment/apiUrl']}user/notifications/subscribe`,
+                    subscription,
+                    {
+                      withCredentials: true
+                    }
+                  )
                   .then(result => {
                     this.notificationsEnabled = true;
                   });

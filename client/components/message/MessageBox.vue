@@ -1,8 +1,7 @@
 <template>
   <div
-    class="message-box"
     ref="interactElement"
-    @click="onMessageClick"
+    class="message-box"
     :class="{
       'dismissed-right': dismissedRight,
       'dismissed-left': dismissedLeft,
@@ -10,23 +9,26 @@
     }"
     :style="{
       transform: transformString,
-      opacity: swipeOpacity
+      opacity: swipeOpacity,
+      cursor: message.clickAction ? 'pointer' : 'auto'
     }"
+    @click="onMessageClick"
   >
+    <span class="progress-line" />
     <div
-      class="close"
-      @click="dismissMessage"
       v-ripple
+      class="close"
       :style="{
         transition: `transform ${dismissTimeout}ms linear`
       }"
+      @click="dismissMessage"
     >
       <CloseIcon />
     </div>
     <h3 class="title" :class="message.type">
       {{ message.title }}
     </h3>
-    <p class="message" v-html="message.message"></p>
+    <p class="message" v-html="message.message" />
   </div>
 </template>
 
@@ -35,7 +37,15 @@ import CloseIcon from 'vue-material-design-icons/Close';
 // import Interact from 'interactjs'
 
 export default {
-  name: 'message-box',
+  name: 'MessageBox',
+  components: {
+    CloseIcon
+  },
+  props: {
+    message: {
+      type: Object
+    }
+  },
   data: () => ({
     dismissedRight: false,
     dismissedLeft: false,
@@ -48,17 +58,18 @@ export default {
     interactXThreshold: 100,
     swipeOpacity: 1
   }),
-  props: {
-    message: {
-      type: Object
+  computed: {
+    transformString() {
+      if (!this.isInteractAnimating) {
+        const { x, y } = this.interactPosition;
+        return `translate3D(${x}px, ${y}px, 0)`;
+      }
+      return null;
     }
   },
   mounted() {
     if (this.message.dismissDelay > 0) {
-      this.dismissTimeout = setTimeout(
-        this.dismissMessage,
-        this.message.dismissDelay
-      );
+      this.dismissTimeout = setTimeout(this.dismissMessage, this.message.dismissDelay);
     }
     // const element = this.$refs.interactElement
     // Interact(element).draggable({
@@ -85,18 +96,6 @@ export default {
     //   }
     // })
   },
-  components: {
-    CloseIcon
-  },
-  computed: {
-    transformString() {
-      if (!this.isInteractAnimating) {
-        const { x, y } = this.interactPosition;
-        return `translate3D(${x}px, ${y}px, 0)`;
-      }
-      return null;
-    }
-  },
   methods: {
     dismissMessage() {
       this.dismissedRight = true;
@@ -111,6 +110,10 @@ export default {
     onMessageClick() {
       if (this.dismissTimeout) {
         clearTimeout(this.dismissTimeout);
+      }
+      if (this.message.clickAction) {
+        this.message.clickAction();
+        this.dismissMessage();
       }
     },
     interactSetPosition(coordinates, distance) {
@@ -136,15 +139,15 @@ export default {
   border-radius: 3px;
   box-shadow: $max-shadow;
   animation: blob-in-notif 300ms $intro-easing;
-  user-select: none;
+  overflow: hidden;
 
   &.is-animating {
     transition: transform 300ms, opacity 600ms;
   }
 
   &.dismissed-right {
-    transition: transform 300ms, font-size 300ms 300ms,
-      margin 300ms 300ms, padding 300ms 300ms, opacity 300ms !important;
+    transition: transform 300ms, font-size 300ms 300ms, margin 300ms 300ms, padding 300ms 300ms,
+      opacity 300ms !important;
     transition-timing-function: $dynamic-easing;
     transform: translateX(140%);
     margin: 0;
@@ -153,8 +156,8 @@ export default {
   }
 
   &.dismissed-left {
-    transition: transform 300ms, font-size 300ms 300ms,
-      margin 300ms 300ms, padding 300ms 300ms, opacity 300ms !important;
+    transition: transform 300ms, font-size 300ms 300ms, margin 300ms 300ms, padding 300ms 300ms,
+      opacity 300ms !important;
     transition-timing-function: $dynamic-easing;
     transform: translateX(-140%);
     margin: 0;
@@ -174,6 +177,15 @@ export default {
       transform: scale(1.3) translateY(-25%);
       top: 50% !important;
     }
+  }
+
+  .progress-line {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--theme-color);
   }
 
   .close {

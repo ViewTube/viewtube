@@ -1,10 +1,10 @@
 import axios from 'axios';
-import Commons from '@/plugins/commons.js';
+// import Commons from '@/plugins/commons.js';
 import { createApi } from '@/plugins/apiCreator';
 
 const apiPrototype = {
   request: axios.create({
-    baseURL: Commons.getOwnApiUrl(),
+    baseURL: this.$store.getters['environment/apiUrl'],
     timeout: 10000
   }),
   api: {},
