@@ -1,10 +1,6 @@
 <template>
   <div v-if="storyboardImages" class="seekbar-preview">
-    <div
-      v-for="(imgSrc, id) in storyboardBaseImages"
-      :key="id"
-      class="preview-image"
-    >
+    <div v-for="(imgSrc, id) in storyboardBaseImages" :key="id" class="preview-image">
       <img
         v-if="currentImg.imgId === id"
         :src="imgSrc"
@@ -45,14 +41,9 @@ export default {
   watch: {
     time(newValue) {
       if (this.storyboardImages) {
-        const currentImg = this.storyboardImages.find(
-          element => {
-            return (
-              element.startTime < this.time &&
-              element.endTime > this.time
-            );
-          }
-        );
+        const currentImg = this.storyboardImages.find(element => {
+          return element.startTime < this.time && element.endTime > this.time;
+        });
         this.currentImg = currentImg || { imgId: 0 };
       }
     }
@@ -62,7 +53,7 @@ export default {
       .storyboards({
         id: this.videoId,
         params: {
-          width: 160,
+          width: 179,
           height: 90
         }
       })
@@ -75,22 +66,15 @@ export default {
     parseVTTData() {
       // eslint-disable-next-line no-undef
       const parser = new WebVTTParser();
-      const tree = parser.parse(
-        this.storyboardVTT,
-        'metadata'
-      );
+      const tree = parser.parse(this.storyboardVTT, 'metadata');
       let baseImgCounter = -1;
       this.storyboardImages = tree.cues.map(el => {
         const src = el.text.split('#')[0];
-        const pos = el.text
-          .split('#')[1]
-          .replace('xywh=', '');
+        const pos = el.text.split('#')[1].replace('xywh=', '');
         const posX = pos.split(',')[0];
         const posY = pos.split(',')[1];
 
-        if (
-          !this.storyboardBaseImages.find(el => el === src)
-        ) {
+        if (!this.storyboardBaseImages.find(el => el === src)) {
           this.storyboardBaseImages.push(src);
           baseImgCounter++;
         }
@@ -110,8 +94,8 @@ export default {
 
 <style lang="scss" scoped>
 .seekbar-preview {
-  width: 220px;
-  height: 120px;
+  width: 176px;
+  height: 90px;
   margin: 0 0 0 -11px;
   position: absolute;
   bottom: 24px;
