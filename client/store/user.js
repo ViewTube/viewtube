@@ -35,7 +35,7 @@ export const actions = {
   login({ commit, dispatch, getters, rootState }, { username, password }) {
     return this.$axios
       .post(
-        `${rootState.environment.env.apiUrl}/api/auth/login`,
+        `${rootState.environment.env.apiUrl}auth/login`,
         {
           username,
           password
