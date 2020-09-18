@@ -7,7 +7,6 @@ steps:
     image: node
     commands:
       - yarn install
-      - yarn build
       - yarn test
 
   - name: 📦 Publish
