@@ -202,7 +202,7 @@ export default {
       })
       .then(response => {
         if (response) {
-          return { video: response.data };
+          this.video = response.data;
         } else {
           // throw new Error('Error loading video')
         }
