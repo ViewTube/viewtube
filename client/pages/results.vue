@@ -139,7 +139,6 @@ export default {
     inputQuery.type = 'all';
     inputQuery.limit = 10;
     const searchParams = SearchParams.parseQueryJson(inputQuery, inputQuery.search_query);
-    console.log(this.$store.getters['environment/apiUrl']);
     const viewTubeApi = new ViewTubeApi(this.$store.getters['environment/apiUrl']);
     await viewTubeApi.api
       .search({ params: searchParams })
@@ -188,6 +187,7 @@ export default {
     reloadSearchWithParams() {
       const searchParams = SearchParams.getParamsString();
       this.$router.push(`/results?search_query=${this.searchQuery}${searchParams}`);
+      this.$fetch();
     },
     onSearchSortChange(element, index) {
       SearchParams.sort_by = element.value;
@@ -226,7 +226,7 @@ export default {
   },
   head() {
     return {
-      title: `${this.searchQuery ? this.searchQuery + ' - ' : ''}Search - ViewTube`,
+      title: `${this.searchQuery ? this.searchQuery + ' :: ' : ''}Search :: ViewTube`,
       meta: [
         {
           hid: 'description',

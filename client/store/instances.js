@@ -13,7 +13,7 @@ export const getters = {
     return state.currentInstance;
   },
   currentInstanceApi(state, getters) {
-    return getters.currentInstance + 'api/';
+    return getters.currentInstance + 'api/v1/';
   },
   instances(state) {
     return state.instances;

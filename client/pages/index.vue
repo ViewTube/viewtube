@@ -54,7 +54,7 @@ export default {
       this.displayedVideos = this.videos;
     },
     async loadHomepage() {
-      const invidious = new Invidious(this.$store.getters['instances/currentInstanceApi']);
+      const invidious = new Invidious(this.$store.getters['instances/currentInstance']);
       await invidious.api
         .popular()
         .then(response => {
@@ -75,10 +75,14 @@ export default {
           console.log(error);
         });
     },
-    showMoreVideos() {},
     handleScroll(e) {
       this.$emit('scroll', e);
     }
+  },
+  head() {
+    return {
+      title: `ViewTube :: An alternative YouTube frontend`
+    };
   }
 };
 </script>

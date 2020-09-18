@@ -192,28 +192,27 @@ export default {
     }
     return true;
   },
-  async fetch() {
-    const query = this.$nuxt.context.query;
-    const error = this.$nuxt.context.error;
-    const viewTubeApi = new ViewTubeApi(this.$store.getters['environment/apiUrl']);
-    await viewTubeApi.api
+  asyncData({ store, query, error }) {
+    const viewTubeApi = new ViewTubeApi(store.getters['environment/apiUrl']);
+    return viewTubeApi.api
       .videos({
         id: query.v
       })
       .then(response => {
         if (response) {
-          this.video = response.data;
+          return { video: response.data };
+          // console.log(this.video.description)
         } else {
           // throw new Error('Error loading video')
         }
       })
       .catch(async err => {
         console.log(err);
-        const invidious = new Invidious(this.$store.getters['instances/currentInstanceApi']);
+        const invidious = new Invidious(store.getters['instances/currentInstance']);
         await invidious.api
           .videos({ id: query.v })
           .then(response => {
-            this.video = response.data;
+            return { video: response.data };
           })
           .catch(err => {
             if (err.response) {
@@ -281,7 +280,7 @@ export default {
     },
     loadComments(evtVideoId) {
       const videoId = evtVideoId || this.$route.query.v;
-      fetch(`${Commons.getApiUrl()}comments/${videoId}`, {
+      fetch(`${this.$store.getters['instances/currentInstanceApi']}comments/${videoId}`, {
         cache: 'force-cache',
         method: 'GET'
       })
@@ -301,7 +300,7 @@ export default {
       this.commentsContinuationLoading = true;
       const videoId = this.$route.query.v;
       fetch(
-        `${Commons.getApiUrl()}comments/${videoId}?continuation=${this.commentsContinuationLink}`,
+        `${this.$store.getters['instances/currentInstanceApi']}comments/${videoId}?continuation=${this.commentsContinuationLink}`,
         {
           cache: 'force-cache',
           method: 'GET'
@@ -320,7 +319,7 @@ export default {
   },
   head() {
     return {
-      title: `${this.video.title} - ${this.video.author} - ViewTube`,
+      title: `${this.video.title} :: ${this.video.author} :: ViewTube`,
       meta: [
         {
           hid: 'description',

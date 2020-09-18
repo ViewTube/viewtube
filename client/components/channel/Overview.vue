@@ -1,5 +1,5 @@
 <template>
-  <div class="overwiew">
+  <div v-if="channel" class="overwiew">
     <div ref="channelTitle" class="channel-title-container">
       <div class="channel-title">
         <div v-if="channel.authorThumbnails" class="channel-thumbnail">
@@ -10,13 +10,13 @@
             <h1>{{ channel.author }}</h1>
           </div>
           <div class="channel-basics">
-            <div class="channel-subcount">
+            <div v-if="channel.subCount" class="channel-subcount">
               <h2>
                 {{ channel.subCount.toLocaleString('en-US') }}
                 subscribers
               </h2>
             </div>
-            <div class="channel-totalviews">
+            <div v-if="channel.totalViews" class="channel-totalviews">
               <h2>
                 {{ channel.totalViews.toLocaleString('en-US') }}
                 total views

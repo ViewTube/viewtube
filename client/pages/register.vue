@@ -1,33 +1,12 @@
 <template>
   <div class="register">
-    <div
-      class="register-container"
-      :class="{ loading: loading, wiggle: formWiggle }"
-    >
+    <div class="register-container" :class="{ loading: loading, wiggle: formWiggle }">
       <h2 class="register-title">Register</h2>
-      <span
-        class="status-message-display message-display"
-        >{{ statusMessage }}</span
-      >
+      <span class="status-message-display message-display">{{ statusMessage }}</span>
       <Spinner />
-      <form
-        id="register"
-        ref="registerForm"
-        method="post"
-        @submit.prevent="register"
-      >
-        <FormInput
-          :id="'username'"
-          v-model="username"
-          :label="'username'"
-          :type="'username'"
-        />
-        <FormInput
-          :id="'password'"
-          v-model="password"
-          :label="'password'"
-          :type="'password'"
-        />
+      <form id="register" ref="registerForm" method="post" @submit.prevent="register">
+        <FormInput :id="'username'" v-model="username" :label="'username'" :type="'username'" />
+        <FormInput :id="'password'" v-model="password" :label="'password'" :type="'password'" />
         <FormInput
           :id="'repeat-password'"
           v-model="repeatPassword"
@@ -36,11 +15,7 @@
         />
         <div class="captcha-container">
           <div class="captcha-box">
-            <img
-              class="captcha-image"
-              :src="captchaImage"
-              alt="Captcha image"
-            />
+            <img class="captcha-image" :src="captchaImage" alt="Captcha image" />
           </div>
         </div>
         <FormInput
@@ -93,7 +68,7 @@ export default {
   },
   head() {
     return {
-      title: `Register - ViewTube`,
+      title: `Register :: ViewTube`,
       meta: [
         {
           hid: 'description',

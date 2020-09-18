@@ -65,8 +65,9 @@ export default {
             }
             me.disabled = false;
           })
+          // eslint-disable-next-line handle-callback-err
           .catch(error => {
-            console.log(error);
+            // console.log(error);
             me.isSubscribed = false;
             me.disabled = true;
           });

@@ -173,7 +173,7 @@ export default {
   },
   head() {
     return {
-      title: `Subscriptions - ViewTube`,
+      title: `Subscriptions :: ViewTube`,
       meta: [
         {
           hid: 'description',

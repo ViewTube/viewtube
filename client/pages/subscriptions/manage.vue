@@ -125,7 +125,7 @@ export default {
   },
   head() {
     return {
-      title: `Manage subscriptions - ViewTube`,
+      title: `Manage subscriptions :: ViewTube`,
       meta: [
         {
           hid: 'description',

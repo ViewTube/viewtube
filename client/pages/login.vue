@@ -74,7 +74,7 @@ export default {
   },
   head() {
     return {
-      title: `Login - ViewTube`,
+      title: `Login :: ViewTube`,
       meta: [
         {
           hid: 'description',
