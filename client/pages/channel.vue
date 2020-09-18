@@ -50,7 +50,8 @@ export default {
     ChannelDescription
   },
   asyncData({ params }) {
-    return Invidious.api
+    const invidious = new Invidious(this.$store.getters['instances/currentInstanceApi']);
+    return invidious.api
       .channels({ id: params.id })
       .then(response => {
         const channel = response.data;

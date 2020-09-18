@@ -29,16 +29,6 @@ export default {
     SectionTitle,
     GradientBackground
   },
-  asyncData({ params }) {
-    return Invidious.api
-      .popular()
-      .then(response => {
-        return { videos: response.data };
-      })
-      .catch(error => {
-        console.error(error);
-      });
-  },
   data: () => ({
     videos: [],
     subscriptions: [],
@@ -51,17 +41,25 @@ export default {
     }
   },
   mounted() {
-    this.getSubscriptions();
+    this.loadHomepage();
   },
   methods: {
-    getSubscriptions() {
-      this.$axios
+    async loadHomepage() {
+      const invidious = new Invidious(this.$store.getters['instances/currentInstanceApi']);
+      await invidious.api
+        .popular()
+        .then(response => {
+          this.videos = response.data;
+        })
+        .catch(error => {
+          console.error(error);
+        });
+      await this.$axios
         .get(`${this.$store.getters['environment/apiUrl']}user/subscriptions/videos`, {
           withCredentials: true
         })
         .then(response => {
           this.subscriptions = response.data.slice(0, 4);
-          this.loading = false;
         })
         .catch(error => {
           console.log(error);
@@ -78,6 +76,8 @@ export default {
 <style lang="scss">
 .home {
   .section-title {
+    max-width: $main-width;
+    margin: 0 auto;
     .title {
       margin: 0 0 0 15px;
     }

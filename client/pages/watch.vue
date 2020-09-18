@@ -77,10 +77,10 @@
           </div>
           <SubscribeButton class="subscribe-button-watch" :channel-id="video.authorId" />
         </div>
-        <div class="video-infobox-date" v-if="video.publishedText">
+        <div v-if="video.publishedText" class="video-infobox-date">
           {{ video.publishedText }}
         </div>
-        <div class="video-exact-date" v-if="!video.publishedText">
+        <div v-if="!video.publishedText" class="video-exact-date">
           {{ new Date(video.published).toLocaleString('en-US') }}
         </div>
         <div class="video-actions">
@@ -99,12 +99,12 @@
         <transition name="share-fade-down">
           <div v-show="shareOpen">
             <div>
-              <ShareOptions class="share-options-display"> </ShareOptions>
+              <ShareOptions class="share-options-display" />
             </div>
           </div>
         </transition>
-        <p class="video-infobox-text" v-if="video.keywords">tags:</p>
-        <div class="video-infobox-tags" v-if="video.keywords">
+        <p v-if="video.keywords" class="video-infobox-text">tags:</p>
+        <div v-if="video.keywords" class="video-infobox-tags">
           <div v-if="video.keywords" class="tags-container">
             <BadgeButton
               v-for="keyword in video.keywords"
@@ -160,13 +160,13 @@ import VideoPlayer from '@/components/videoplayer/VideoPlayer';
 import SubscribeButton from '@/components/buttons/SubscribeButton';
 import Comment from '@/components/Comment';
 // import Invidious from '@/plugins/services/invidious'
-import ViewtubeApi from '@/plugins/services/viewtubeApi';
 import Invidious from '@/plugins/services/invidious';
 import RecommendedVideos from '@/components/watch/RecommendedVideos';
 import ShareOptions from '@/components/watch/ShareOptions';
 import CollapsibleSection from '@/components/list/CollapsibleSection';
 import BadgeButton from '@/components/buttons/BadgeButton';
-import invidious from '~/plugins/services/invidious';
+import ViewTubeApi from '~/plugins/services/viewTubeApi';
+// import invidious from '~/plugins/services/invidious';
 
 export default {
   name: 'Watch',
@@ -192,8 +192,11 @@ export default {
     }
     return true;
   },
-  asyncData({ query, error }) {
-    return ViewtubeApi.api
+  async fetch() {
+    const query = this.$nuxt.context.query;
+    const error = this.$nuxt.context.error;
+    const viewTubeApi = new ViewTubeApi(this.$store.getters['environment/apiUrl']);
+    await viewTubeApi.api
       .videos({
         id: query.v
       })
@@ -204,12 +207,13 @@ export default {
           // throw new Error('Error loading video')
         }
       })
-      .catch(err => {
+      .catch(async err => {
         console.log(err);
-        return Invidious.api
+        const invidious = new Invidious(this.$store.getters['instances/currentInstanceApi']);
+        await invidious.api
           .videos({ id: query.v })
           .then(response => {
-            return { video: response.data };
+            this.video = response.data;
           })
           .catch(err => {
             if (err.response) {

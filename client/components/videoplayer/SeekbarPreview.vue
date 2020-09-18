@@ -49,7 +49,8 @@ export default {
     }
   },
   mounted() {
-    Invidious.api
+    const invidious = new Invidious(this.$store.getters['instances/currentInstanceApi']);
+    invidious.api
       .storyboards({
         id: this.videoId,
         params: {

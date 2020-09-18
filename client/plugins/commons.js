@@ -3,11 +3,6 @@ export default {
   description: 'An alternative YouTube frontend using the Invidious API.',
   language: 'en-US',
 
-  getApiUrlNoVersion() {
-    // return `${this.$store.getters.currentInstance}/api/`
-    return 'https://invidious.snopyta.org/api/';
-  },
-
   getVideoIdFromUrl(videoUrl) {
     return videoUrl.replace('https://www.youtube.com/watch?v=', '');
   },

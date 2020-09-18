@@ -35,6 +35,7 @@
       />
     </div>
     <div v-for="(results, i) in searchResults" :key="i" class="search-videos-container">
+      <!-- <SectionTitle v-if="page > 0" :title="`Page ${page}`" /> -->
       <div
         v-if="results.searchRefinements && results.searchRefinements.length"
         class="related-searches-container"
@@ -71,6 +72,18 @@
       <div v-if="results.movies && results.movies.length" class="movies">
         <MovieEntry v-for="(item, index) in results.movies" :key="index" :data="item" />
       </div>
+      <!-- <SectionTitle
+        v-if="
+          !(
+            results.channels && results.channels.length ||
+            results.verticalShelf && results.verticalShelf.length ||
+            results.compactShelf && results.compactShelf.length ||
+            results.playlists && results.playlists.length ||
+            results.movies && results.movies.length
+          )
+        "
+        :title="`More videos`"
+      /> -->
       <div v-if="results.videos && results.videos.length" class="videos">
         <VideoEntry v-for="(video, index) in results.videos" :key="index" :video="video" />
       </div>
@@ -101,7 +114,7 @@ import SectionTitle from '@/components/SectionTitle';
 import SearchParams from '@/plugins/services/searchParams';
 import BadgeButton from '@/components/buttons/BadgeButton';
 // import Invidious from '@/plugins/services/invidious';
-import ViewtubeApi from '~/plugins/services/viewtubeApi';
+import ViewTubeApi from '~/plugins/services/viewTubeApi';
 
 export default {
   name: 'Search',
@@ -121,21 +134,22 @@ export default {
     SectionTitle
   },
   watchQuery: true,
-  asyncData({ query }) {
-    query.type = 'all';
-    query.limit = 10;
-    const searchParams = SearchParams.parseQueryJson(query, query.search_query);
-    return ViewtubeApi.api
+  async fetch() {
+    const inputQuery = this.$nuxt.context.query;
+    inputQuery.type = 'all';
+    inputQuery.limit = 10;
+    const searchParams = SearchParams.parseQueryJson(inputQuery, inputQuery.search_query);
+    console.log(this.$store.getters['environment/apiUrl']);
+    const viewTubeApi = new ViewTubeApi(this.$store.getters['environment/apiUrl']);
+    await viewTubeApi.api
       .search({ params: searchParams })
       .then(response => {
         const results = [];
         results.push(response.data.items);
         delete response.data.items;
-        return {
-          searchResults: results,
-          searchInformation: response.data,
-          searchQuery: query.search_query
-        };
+        this.searchResults = results;
+        this.searchInformation = response.data;
+        this.searchQuery = inputQuery.search_query;
       })
       .catch(error => {
         console.error(error);
@@ -147,7 +161,7 @@ export default {
     loading: false,
     searchQuery: null,
     parameters: SearchParams,
-    page: 1,
+    page: 0,
     moreVideosLoading: false
   }),
   methods: {
@@ -193,11 +207,12 @@ export default {
     },
     loadMoreVideos() {
       this.moreVideosLoading = true;
-      // this.page += 1;
+      this.page += 1;
       // SearchParams.page = this.page;
       const searchParams = SearchParams.getParamsJson(this.searchQuery);
       searchParams.nextpageRef = this.searchInformation.nextpageRef;
-      ViewtubeApi.api
+      const viewTubeApi = new ViewTubeApi(this.$store.getters['environment/apiUrl']);
+      viewTubeApi.api
         .search({ params: searchParams })
         .then(response => {
           this.searchResults.push(response.data.items);

@@ -156,6 +156,14 @@ export default {
   height: 100%;
   width: 100%;
 
+  .section-title {
+    max-width: $main-width;
+    margin: 0 auto;
+    .title {
+      margin: 0 0 0 15px;
+    }
+  }
+
   .channels-container {
     width: 100%;
     max-width: $main-width;
@@ -170,7 +178,7 @@ export default {
       flex-direction: row;
       width: calc(100% - 20px);
       justify-content: space-between;
-      padding: 0 10px;
+      padding: 0 5px;
       margin: 0 10px;
       box-sizing: border-box;
       height: 50px;
