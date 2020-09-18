@@ -14,7 +14,11 @@
     }"
     @click="onMessageClick"
   >
-    <span class="progress-line" />
+    <span
+      class="progress-line"
+      :class="{ persist: !dismissTimeout }"
+      :style="{ 'animation-duration': `${message.dismissDelay}ms` }"
+    />
     <div
       v-ripple
       class="close"
@@ -110,6 +114,7 @@ export default {
     onMessageClick() {
       if (this.dismissTimeout) {
         clearTimeout(this.dismissTimeout);
+        this.dismissTimeout = null;
       }
       if (this.message.clickAction) {
         this.message.clickAction();
@@ -186,6 +191,17 @@ export default {
     width: 100%;
     height: 2px;
     background-color: var(--theme-color);
+    animation-delay: 0;
+    animation-name: reduce-width;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+    transform-origin: right;
+    transition: opacity 200ms linear;
+    opacity: 1;
+
+    &.persist {
+      opacity: 0;
+    }
   }
 
   .close {
@@ -213,6 +229,15 @@ export default {
 
   .message {
     word-break: break-all;
+  }
+
+  @keyframes reduce-width {
+    0% {
+      transform: scale3d(1, 1, 1);
+    }
+    100% {
+      transform: scale3d(0, 1, 1);
+    }
   }
 
   @keyframes blob-in-notif {
