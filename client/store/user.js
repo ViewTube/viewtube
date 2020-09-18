@@ -17,7 +17,7 @@ export const actions = {
   getUser({ getters, commit }) {
     console.log('getting user...');
     this.$axios
-      .get('/api/user/profile', {
+      .get(`${this.$store.getters['environment/apiUrl']}user/profile`, {
         withCredentials: true
       })
       .then(result => {
@@ -25,10 +25,16 @@ export const actions = {
       });
   },
   logout({ commit }) {
-    return this.$axios.post('/api/auth/logout', {}, { withCredentials: true }).then(result => {
-      commit('setUsername', null);
-      return result;
-    });
+    return this.$axios
+      .post(
+        `${this.$store.getters['environment/apiUrl']}auth/logout`,
+        {},
+        { withCredentials: true }
+      )
+      .then(result => {
+        commit('setUsername', null);
+        return result;
+      });
   },
   login({ commit, dispatch, getters }, { username, password }) {
     return this.$axios
@@ -48,7 +54,7 @@ export const actions = {
   register({ commit, rootState }, { username, password, captchaSolution }) {
     const captchaToken = rootState.captcha.token;
     if (captchaToken) {
-      return Axios.post(this.$store.getters['environment/apiUrl'] + 'auth/register', {
+      return Axios.post(`${this.$store.getters['environment/apiUrl']}auth/register`, {
         username,
         password,
         captchaToken,
