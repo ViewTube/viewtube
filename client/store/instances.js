@@ -6,14 +6,20 @@ export const state = () => ({
 });
 export const getters = {
   currentInstance(state) {
-    // Workaround for serverside instance
-    if (process.server) {
-      return 'https://invidious.snopyta.org';
-    }
     return state.currentInstance;
   },
   currentInstanceApi(state, getters) {
-    return getters.currentInstance + 'api/v1/';
+    let instance = getters.currentInstance;
+
+    // Workaround for serverside instance
+    if (process.server) {
+      instance = 'https://invidious.snopyta.org';
+    }
+    if (!instance.endsWith('/')) instance += '/';
+    return instance + 'api/';
+  },
+  currentInstanceApiV1(state, getters) {
+    return getters.currentInstanceApi + 'v1/';
   },
   instances(state) {
     return state.instances;

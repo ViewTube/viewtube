@@ -65,7 +65,7 @@ export default {
   }),
   mounted() {
     const { params, store } = this.$nuxt.context;
-    const invidious = new Invidious(store.getters['instances/currentInstance']);
+    const invidious = new Invidious(store.getters['instances/currentInstanceApi']);
     invidious.api
       .channels({ id: params.id })
       .then(response => {

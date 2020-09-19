@@ -54,7 +54,7 @@ export default {
       this.displayedVideos = this.videos;
     },
     async loadHomepage() {
-      const invidious = new Invidious(this.$store.getters['instances/currentInstance']);
+      const invidious = new Invidious(this.$store.getters['instances/currentInstanceApi']);
       await invidious.api
         .popular()
         .then(response => {

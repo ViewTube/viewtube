@@ -208,7 +208,7 @@ export default {
       })
       .catch(async err => {
         console.log(err);
-        const invidious = new Invidious(store.getters['instances/currentInstance']);
+        const invidious = new Invidious(store.getters['instances/currentInstanceApi']);
         await invidious.api
           .videos({ id: query.v })
           .then(response => {
@@ -280,7 +280,7 @@ export default {
     },
     loadComments(evtVideoId) {
       const videoId = evtVideoId || this.$route.query.v;
-      fetch(`${this.$store.getters['instances/currentInstanceApi']}comments/${videoId}`, {
+      fetch(`${this.$store.getters['instances/currentInstanceApiV1']}comments/${videoId}`, {
         cache: 'force-cache',
         method: 'GET'
       })
@@ -300,7 +300,7 @@ export default {
       this.commentsContinuationLoading = true;
       const videoId = this.$route.query.v;
       fetch(
-        `${this.$store.getters['instances/currentInstanceApi']}comments/${videoId}?continuation=${this.commentsContinuationLink}`,
+        `${this.$store.getters['instances/currentInstanceApiV1']}comments/${videoId}?continuation=${this.commentsContinuationLink}`,
         {
           cache: 'force-cache',
           method: 'GET'
