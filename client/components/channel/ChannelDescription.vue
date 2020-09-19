@@ -1,15 +1,15 @@
 <template>
   <div
-    class="channel-description links"
     v-show="descriptionHtml"
-    v-html="descriptionHtml"
     v-create-links
-  ></div>
+    class="channel-description links"
+    v-html="descriptionHtml"
+  />
 </template>
 
 <script>
 export default {
-  name: 'channel-description',
+  name: 'ChannelDescription',
   props: {
     descriptionHtml: String
   }

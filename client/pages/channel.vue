@@ -14,9 +14,8 @@
       <Overview :channel="channel" class="overview" />
       <div class="backdrop-image">
         <ChannelDescription :description-html="channel.descriptionHtml" />
+        <RelatedChannels :channel="channel" />
       </div>
-
-      <RelatedChannels :channel="channel" />
       <div class="channel-title-sticky" :class="{ top: $store.state.scroll.scrollDown }">
         <div v-if="channel.authorThumbnails" class="channel-sticky-thumbnail">
           <img :src="commons.proxyUrl + channel.authorThumbnails[0].url" alt="Author Image" />
@@ -174,6 +173,11 @@ export default {
       margin: 10px 0 10px 0;
       font-size: 0.8rem;
       margin: auto 0;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      flex-grow: 1;
+      padding: 0 15px 0 0;
     }
   }
 
