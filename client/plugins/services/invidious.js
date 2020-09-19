@@ -4,8 +4,9 @@ import { createApi } from '@/plugins/apiCreator';
 
 export default class {
   constructor(invidiousUrl) {
+    if (!invidiousUrl.endsWith('/')) invidiousUrl += '/';
     this.apiPrototype.request = axios.create({
-      baseURL: `${invidiousUrl}api/`,
+      baseURL: `${invidiousUrl}`,
       timeout: 30000
     });
     this.api = createApi(this.apiPrototype);
