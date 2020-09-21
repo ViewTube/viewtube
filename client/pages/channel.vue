@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="loading" class="loading">
+    <div v-if="loading" class="loading-channel">
       <Spinner />
       <h2>Loading channel...</h2>
       <p>This can take up to 20 seconds</p>
@@ -115,7 +115,7 @@ export default {
 </script>
 
 <style lang="scss">
-.loading {
+.loading-channel {
   position: absolute;
   left: 50%;
   top: 50%;
