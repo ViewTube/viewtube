@@ -19,16 +19,17 @@
             <li>Upload it here.</li>
           </ol>
           <input
+            id="youtube-file-upload"
             type="file"
             name="file-upload"
-            id="youtube-file-upload"
             multiple="false"
             @change="onYoutubeSubscriptionFileChange"
           />
+          <p>Also supports invidious opml exports.</p>
         </div>
         <div
-          class="page-container page-2-container"
           v-if="subscriptionsToImport && subscriptionsToImport.length > 0"
+          class="page-container page-2-container"
         >
           <h2>Select subscriptions to import</h2>
           <div class="list-actions">
@@ -51,9 +52,9 @@
           </div>
           <div class="subscription-channels-container">
             <div
-              class="subscription"
               v-for="channel in subscriptionsToImport"
               :key="channel.authorId"
+              class="subscription"
             >
               <CheckBox
                 :value="channel.selected"
@@ -68,22 +69,16 @@
         </div>
       </div>
     </div>
-    <div class="settings-overlay popup-overlay" @click.stop="$emit('close')" />
+    <div class="settings-overlay popup-overlay" @click.stop="onTryClosePopup" />
   </div>
 </template>
 
 <script>
 import CloseIcon from 'vue-material-design-icons/Close';
-import ThemeIcon from 'vue-material-design-icons/Brightness4';
-import InstanceIcon from 'vue-material-design-icons/ServerNetwork';
-import MiniplayerIcon from 'vue-material-design-icons/WindowRestore';
 import YoutubeIcon from 'vue-material-design-icons/Youtube';
 import ImportIcon from 'vue-material-design-icons/Import';
 import SelectAllIcon from 'vue-material-design-icons/SelectAll';
 import UnselectAllIcon from 'vue-material-design-icons/Select';
-import ThemeSelector from '@/components/themes/ThemeSelector';
-import SwitchButton from '@/components/buttons/SwitchButton';
-import Dropdown from '@/components/filter/Dropdown';
 import CheckBox from '@/components/form/CheckBox';
 import BadgeButton from '@/components/buttons/BadgeButton';
 import SubscriptionConverter from '@/plugins/services/subscriptionConverter';
@@ -94,14 +89,8 @@ import '@/assets/styles/popup.scss';
 export default {
   name: 'SubscriptionsImport',
   components: {
-    Dropdown,
     CloseIcon,
-    ThemeIcon,
-    InstanceIcon,
-    MiniplayerIcon,
     YoutubeIcon,
-    SwitchButton,
-    ThemeSelector,
     CheckBox,
     BadgeButton,
     ImportIcon,
@@ -118,7 +107,21 @@ export default {
       loading: false
     };
   },
+  computed: {
+    selectedChannels() {
+      return this.subscriptionsToImport.filter(e => e.selected);
+    },
+    anySelectedChannel() {
+      return !(this.selectedChannels.length > 0);
+    }
+  },
   methods: {
+    onTryClosePopup() {
+      if (this.page2) {
+      } else {
+        this.$emit('close');
+      }
+    },
     onYoutubeSubscriptionFileChange(e) {
       const fileReader = new FileReader();
       fileReader.onload = () => {
@@ -171,14 +174,6 @@ export default {
           });
           this.$emit('close');
         });
-    }
-  },
-  computed: {
-    selectedChannels() {
-      return this.subscriptionsToImport.filter(e => e.selected);
-    },
-    anySelectedChannel() {
-      return !(this.selectedChannels.length > 0);
     }
   }
 };
