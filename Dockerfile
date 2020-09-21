@@ -4,7 +4,8 @@ ENV NODE_ENV=production
 
 COPY package.json yarn.lock ./
 RUN yarn install --production --link-duplicates --ignore-optional && \
-    yarn modclean -n default:safe -r
+    yarn modclean -n default:safe -r && \
+    yarn cache clean
 
 COPY . .
 
