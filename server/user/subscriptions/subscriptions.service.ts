@@ -33,12 +33,15 @@ export class SubscriptionsService {
 
   @Cron(CronExpression.EVERY_30_MINUTES)
   async collectSubscriptionsJob(): Promise<void> {
+    console.time('subscription-job');
     const users = await this.subscriptionModel.find().lean(true).exec();
     const channelIds = users.reduce(
       (val, { subscriptions }) => [...val, ...subscriptions.map(e => e.channelId)],
       []
     );
     const uniqueChannelIds = [...new Set(channelIds)];
+
+    console.log(uniqueChannelIds.length + ' unique channels');
 
     const feedRequests = uniqueChannelIds.map(async id => {
       const channelFeed = await this.getChannelFeed(id);
@@ -73,6 +76,7 @@ export class SubscriptionsService {
           }
         })
       );
+      console.timeEnd('subscription-job');
     }
   }
 
@@ -116,7 +120,6 @@ export class SubscriptionsService {
           const jsonData = x2js.xml2js(data) as any;
           // console.log(jsonData);
           if (jsonData.feed.entry) {
-            console.log(jsonData.feed.entry.length);
             let videos: Array<VideoBasicInfoDto> = [];
             // For channels that have no videos
             if (jsonData.feed.entry.length) {
