@@ -2,7 +2,15 @@
   <div class="subscriptions-import popup">
     <div class="popup-container subscriptions-import-container">
       <CloseIcon class="close-icon" @click.stop="$emit('close')" />
-      <h1>Import subscriptions</h1>
+      <h1>
+        {{
+          loading
+            ? 'Importing subscriptions'
+            : page3
+            ? 'Imported subscriptions'
+            : 'Import subscriptions'
+        }}
+      </h1>
       <div class="pages-container" :class="{ 'page-2': page2 }">
         <div class="page-container page-1-container">
           <h2><YoutubeIcon />Import from Youtube</h2>
@@ -64,8 +72,52 @@
             </div>
           </div>
         </div>
+        <div v-if="importedSubscriptions" class="page-container page-3-container">
+          <h2>Import results</h2>
+          <h3 v-if="successfulMergedImports.length > 0">
+            {{ successfulMergedImports.length }} successful import{{
+              successfulMergedImports.length !== 1 ? 's' : ''
+            }}
+          </h3>
+          <div v-if="successfulMergedImports.length > 0" class="import-area">
+            <div class="import-list">
+              <p v-for="subscription in successfulMergedImports" :key="subscription.authorId">
+                {{ subscription.author }}
+              </p>
+            </div>
+          </div>
+          <h3 v-if="existingMergedImports.length > 0">
+            {{ existingMergedImports.length }} already existing subscription{{
+              existingMergedImports.length !== 1 ? 's' : ''
+            }}
+          </h3>
+          <div v-if="existingMergedImports.length > 0" class="import-area">
+            <div class="import-list">
+              <p v-for="subscription in existingMergedImports" :key="subscription.authorId">
+                {{ subscription.author }}
+              </p>
+            </div>
+          </div>
+          <h3 v-if="failedMergedImports.length > 0">
+            {{ failedMergedImports.length }} failed import{{
+              failedMergedImports.length !== 1 ? 's' : ''
+            }}
+          </h3>
+          <div v-if="failedMergedImports.length > 0" class="import-area">
+            <div class="import-list">
+              <a
+                v-for="subscription in failedMergedImports"
+                :key="subscription.authorId"
+                :href="`/channel/${subscription.authorId}`"
+                target="_blank"
+                ><ExternalIcon />{{ subscription.author }}</a
+              >
+            </div>
+          </div>
+        </div>
         <div class="loading-overlay" :class="{ loading }">
           <Spinner />
+          <p class="loading-text">This can take a while</p>
         </div>
       </div>
     </div>
@@ -78,6 +130,7 @@ import CloseIcon from 'vue-material-design-icons/Close';
 import YoutubeIcon from 'vue-material-design-icons/Youtube';
 import ImportIcon from 'vue-material-design-icons/Import';
 import SelectAllIcon from 'vue-material-design-icons/SelectAll';
+import ExternalIcon from 'vue-material-design-icons/OpenInNew';
 import UnselectAllIcon from 'vue-material-design-icons/Select';
 import CheckBox from '@/components/form/CheckBox';
 import BadgeButton from '@/components/buttons/BadgeButton';
@@ -96,7 +149,8 @@ export default {
     ImportIcon,
     SelectAllIcon,
     UnselectAllIcon,
-    Spinner
+    Spinner,
+    ExternalIcon
   },
   data() {
     return {
@@ -104,7 +158,8 @@ export default {
       page2: false,
       subscriptionsToImport: null,
       commons: Commons,
-      loading: false
+      loading: false,
+      importedSubscriptions: null
     };
   },
   computed: {
@@ -113,6 +168,43 @@ export default {
     },
     anySelectedChannel() {
       return !(this.selectedChannels.length > 0);
+    },
+    successfulMergedImports() {
+      if (this.importedSubscriptions && this.importedSubscriptions.successful) {
+        return this.importedSubscriptions.successful.map(el => {
+          const authorObj = this.subscriptionsToImport.find(val => val.authorId === el.channelId);
+          return {
+            authorId: el.channelId,
+            author: authorObj ? authorObj.author : null
+          };
+        });
+      }
+      return [];
+    },
+    existingMergedImports() {
+      if (this.importedSubscriptions && this.importedSubscriptions.existing) {
+        return this.importedSubscriptions.existing.map(el => {
+          const authorObj = this.subscriptionsToImport.find(val => val.authorId === el.channelId);
+          return {
+            authorId: el.channelId,
+            author: authorObj ? authorObj.author : null
+          };
+        });
+      }
+      return [];
+    },
+    failedMergedImports() {
+      if (this.importedSubscriptions && this.importedSubscriptions.failed) {
+        return this.importedSubscriptions.failed.map(el => {
+          const authorObj = this.subscriptionsToImport.find(val => val.authorId === el.channelId);
+          console.log(authorObj);
+          return {
+            authorId: el.channelId,
+            author: authorObj ? authorObj.author : null
+          };
+        });
+      }
+      return [];
     }
   },
   methods: {
@@ -166,14 +258,17 @@ export default {
           }
         )
         .then(response => {
+          this.page2 = false;
+          this.page3 = true;
           this.loading = false;
-          this.$store.dispatch('messages/createMessage', {
-            type: 'info',
-            title: 'Import successful',
-            message: 'Imported your subscriptions'
-          });
-          this.$emit('done');
-          this.$emit('close');
+          this.importedSubscriptions = response.data;
+          // this.$store.dispatch('messages/createMessage', {
+          //   type: 'info',
+          //   title: 'Import successful',
+          //   message: 'Imported your subscriptions'
+          // });
+          // this.$emit('done');
+          // this.$emit('close');
         });
     }
   }
@@ -204,9 +299,16 @@ export default {
         pointer-events: none;
         transition: opacity 300ms $intro-easing;
 
+        .loading-text {
+          position: absolute;
+          top: 55%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+        }
+
         .spinner {
           position: absolute;
-          top: 50%;
+          top: 40%;
           left: 50%;
           transform: translate(-50%, -50%);
         }
@@ -260,6 +362,35 @@ export default {
               .label {
                 flex-grow: 1;
                 text-align: start;
+              }
+            }
+          }
+        }
+      }
+
+      .page-3-container {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+
+        .import-area {
+          flex-grow: 1;
+          height: 100%;
+          overflow: hidden auto;
+          background-color: var(--bgcolor-main);
+
+          .import-list {
+            font-size: 0.9rem;
+
+            a {
+              display: block;
+              span {
+                width: 16px;
+                height: 16px;
+                svg {
+                  width: 16px;
+                  height: 16px;
+                }
               }
             }
           }
