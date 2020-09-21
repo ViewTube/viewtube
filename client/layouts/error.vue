@@ -5,6 +5,9 @@
     </div>
     <div class="error-popup">
       <div class="error-message">
+        <div class="error-logo">
+          <img src="@/assets/icon-error.svg" alt="Viewtube broken logo" />
+        </div>
         <h2>{{ error.message }}</h2>
         <p>Api-url: {{ apiUrl }}</p>
         <details v-if="error.detail" class="error-details">
@@ -66,6 +69,27 @@ export default {
       flex-direction: column;
       align-items: center;
       background-color: var(--bgcolor-main);
+
+      .error-logo {
+        width: 300px;
+        height: 300px;
+        position: relative;
+
+        img {
+          width: 100%;
+          height: 100%;
+        }
+
+        &::after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: 100%;
+          height: 100px;
+          background: linear-gradient(to bottom, transparent, var(--bgcolor-main));
+        }
+      }
 
       .error-details {
         max-width: 80%;
