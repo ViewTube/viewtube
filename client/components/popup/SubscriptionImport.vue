@@ -172,6 +172,7 @@ export default {
             title: 'Import successful',
             message: 'Imported your subscriptions'
           });
+          this.$emit('done');
           this.$emit('close');
         });
     }

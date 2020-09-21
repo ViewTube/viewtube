@@ -34,7 +34,11 @@
     </div>
     <portal to="popup">
       <transition name="fade-down">
-        <SubscriptionImport v-if="subscriptionImportOpen" @close="closeSubscriptionImport" />
+        <SubscriptionImport
+          v-if="subscriptionImportOpen"
+          @close="closeSubscriptionImport"
+          @done="onSubscriptionImportDone"
+        />
       </transition>
     </portal>
   </div>
@@ -120,6 +124,9 @@ export default {
   methods: {
     closeSubscriptionImport() {
       this.subscriptionImportOpen = false;
+    },
+    onSubscriptionImportDone() {
+      this.$fetch();
     },
     subscribeToNotifications(val) {
       if ('serviceWorker' in navigator) {
