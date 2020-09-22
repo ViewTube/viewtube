@@ -7,18 +7,20 @@
       'has-text': localSearchValue.length > 0
     }"
   >
-    <label class="search-label" for="search">search</label>
-    <input
-      id="search"
-      ref="searchField"
-      type="text"
-      name="search"
-      :value="localSearchValue"
-      @focus="onSearchFieldFocused"
-      @blur="onSearchFieldBlur"
-      @keydown="onSearchFieldKeydown"
-      @input="onSearchFieldChange"
-    />
+    <form action="/results" method="get" class="search-form">
+      <input
+        id="search"
+        ref="searchField"
+        type="text"
+        name="search"
+        :value="localSearchValue"
+        @focus="onSearchFieldFocused"
+        @blur="onSearchFieldBlur"
+        @keydown="onSearchFieldKeydown"
+        @input="onSearchFieldChange"
+      />
+      <label class="search-label" for="search">search</label>
+    </form>
     <a
       v-ripple
       v-tippy="'Click or press enter to search'"
@@ -98,29 +100,19 @@ export default {
         this.searchValue = this.localSearchValue;
         this.searchRedirect(this.searchValue);
       } else if (e.key === 'ArrowDown') {
-        if (
-          autocomplete.selectedValue + 2 <=
-          autocomplete.autocompleteValues.length
-        ) {
+        if (autocomplete.selectedValue + 2 <= autocomplete.autocompleteValues.length) {
           autocomplete.selectedValue += 1;
         } else {
           autocomplete.selectedValue = 0;
         }
-        this.localSearchValue =
-          autocomplete.autocompleteValues[
-            autocomplete.selectedValue
-          ];
+        this.localSearchValue = autocomplete.autocompleteValues[autocomplete.selectedValue];
       } else if (e.key === 'ArrowUp') {
         if (autocomplete.selectedValue - 1 >= 0) {
           autocomplete.selectedValue -= 1;
         } else {
-          autocomplete.selectedValue =
-            autocomplete.autocompleteValues.length - 1;
+          autocomplete.selectedValue = autocomplete.autocompleteValues.length - 1;
         }
-        this.localSearchValue =
-          autocomplete.autocompleteValues[
-            autocomplete.selectedValue
-          ];
+        this.localSearchValue = autocomplete.autocompleteValues[autocomplete.selectedValue];
       }
       e.stopPropagation();
       return true;
@@ -131,9 +123,7 @@ export default {
       }
     },
     searchRedirect(searchValue) {
-      this.$router.push(
-        `/results?search_query=${searchValue}`
-      );
+      this.$router.push(`/results?search_query=${searchValue}`);
       this.$refs.searchField.blur();
     }
   }
@@ -179,38 +169,47 @@ export default {
     }
   }
 
-  .search-label {
-    position: absolute;
-    left: 0;
-    top: 0;
-    line-height: 32px;
-    text-align: center;
-    pointer-events: none;
-    user-select: none;
-    transition: opacity 300ms $intro-easing,
-      transform 300ms $intro-easing;
-    margin: 0 0 0 10px;
-    color: var(--subtitle-color-light);
-  }
-
-  #search {
-    width: 100%;
-    height: 100%;
-    border: none;
-    color: var(--title-color);
-    font-size: 1rem;
-    margin: 0 0 0 10px;
-    min-width: 0px;
-    visibility: visible;
-    background-color: transparent;
+  .search-form {
     position: relative;
+    left: 0;
+    width: 100%;
 
-    &:target {
-      all: unset;
+    .search-label {
+      position: absolute;
+      left: 0;
+      top: 0;
+      line-height: 32px;
+      text-align: center;
+      pointer-events: none;
+      user-select: none;
+      transition: opacity 300ms $intro-easing, transform 300ms $intro-easing;
+      margin: 0 0 0 10px;
+      color: var(--subtitle-color-light);
     }
 
-    &:focus {
-      outline: none;
+    #search {
+      width: 100%;
+      height: 100%;
+      border: none;
+      color: var(--title-color);
+      font-size: 1rem;
+      margin: 0 0 0 10px;
+      min-width: 0px;
+      visibility: visible;
+      background-color: transparent;
+      position: relative;
+
+      &:target {
+        all: unset;
+      }
+
+      &:focus {
+        outline: none;
+      }
+    }
+    #search:focus + .search-label {
+      opacity: 0;
+      transform: translateX(10px);
     }
   }
 
