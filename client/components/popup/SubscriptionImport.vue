@@ -262,13 +262,7 @@ export default {
           this.page3 = true;
           this.loading = false;
           this.importedSubscriptions = response.data;
-          // this.$store.dispatch('messages/createMessage', {
-          //   type: 'info',
-          //   title: 'Import successful',
-          //   message: 'Imported your subscriptions'
-          // });
-          // this.$emit('done');
-          // this.$emit('close');
+          this.$emit('done');
         });
     }
   }
