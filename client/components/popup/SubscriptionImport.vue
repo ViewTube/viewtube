@@ -315,6 +315,7 @@ export default {
 
         &.loading {
           opacity: 1;
+          pointer-events: all;
         }
       }
 
