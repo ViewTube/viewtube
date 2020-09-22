@@ -1,19 +1,11 @@
 <template>
-  <div
-    id="app"
-    ref="app"
-    class="layout"
-    :class="getAppClass()"
-    @touchstart.passive="onTouchStart"
-    @touchmove.passive="onTouchMove"
-    @touchend.passive="onTouchEnd"
-  >
-    <span
+  <div id="app" ref="app" class="layout" :class="getAppClass()">
+    <!-- <span
       class="reload-element"
       :style="{
         transform: `translate3d(0,${reloadElDistance}px,0)`
       }"
-    />
+    /> -->
     <ThemeStyling />
     <Header v-if="!headless" class="main-header" />
     <Miniplayer v-if="$store.getters.miniplayer" />

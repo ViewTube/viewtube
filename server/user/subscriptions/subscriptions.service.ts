@@ -31,14 +31,17 @@ export class SubscriptionsService {
 
   private feedUrl = 'https://www.youtube.com/feeds/videos.xml?channel_id=';
 
-  @Cron(CronExpression.EVERY_5_MINUTES)
+  @Cron(CronExpression.EVERY_30_MINUTES)
   async collectSubscriptionsJob(): Promise<void> {
+    console.time('subscription-job');
     const users = await this.subscriptionModel.find().lean(true).exec();
     const channelIds = users.reduce(
       (val, { subscriptions }) => [...val, ...subscriptions.map(e => e.channelId)],
       []
     );
     const uniqueChannelIds = [...new Set(channelIds)];
+
+    console.log(uniqueChannelIds.length + ' unique channels');
 
     const feedRequests = uniqueChannelIds.map(async id => {
       const channelFeed = await this.getChannelFeed(id);
@@ -73,6 +76,7 @@ export class SubscriptionsService {
           }
         })
       );
+      console.timeEnd('subscription-job');
     }
   }
 
@@ -116,9 +120,11 @@ export class SubscriptionsService {
           const jsonData = x2js.xml2js(data) as any;
           // console.log(jsonData);
           if (jsonData.feed.entry) {
-            const videos: Array<VideoBasicInfoDto> = jsonData.feed.entry.map((video: any) =>
-              this.convertRssVideo(video)
-            );
+            let videos: Array<VideoBasicInfoDto> = [];
+            // For channels that have no videos
+            if (jsonData.feed.entry.length) {
+              videos = jsonData.feed.entry.map((video: any) => this.convertRssVideo(video));
+            }
 
             const authorId = jsonData.feed.channelId.toString();
 
@@ -296,50 +302,57 @@ export class SubscriptionsService {
     const subscriptions = user !== null ? user.subscriptions : [];
 
     await Promise.allSettled(
-      channelIds.map(async (id: string) => {
-        const channelFeed = await this.getChannelFeed(id);
-        if (channelFeed) {
-          let channel: ChannelBasicInfoDto;
-          try {
-            channel = await this.saveChannelBasicInfo(channelFeed.channel);
-            await Promise.all(
-              channelFeed.videos.map(vid => {
-                return this.saveVideoBasicInfo(vid);
-              })
-            );
-          } catch (err) {
+      channelIds
+        .filter(channelId => {
+          if (subscriptions.find(e => e.channelId === channelId)) {
+            existing.push({ channelId, isSubscribed: true });
+            return false;
+          }
+          return true;
+        })
+        .map(async (id: string) => {
+          const channelFeed = await this.getChannelFeed(id);
+          if (channelFeed) {
+            let channel: ChannelBasicInfoDto;
+            try {
+              channel = await this.saveChannelBasicInfo(channelFeed.channel);
+              await Promise.all(
+                channelFeed.videos.map(vid => {
+                  return this.saveVideoBasicInfo(vid);
+                })
+              );
+            } catch (err) {
+              failed.push({
+                channelId: id,
+                isSubscribed: false
+              });
+            }
+            if (channel) {
+              if (!subscriptions.find(e => e.channelId === channel.authorId)) {
+                subscriptions.push({
+                  channelId: channel.authorId,
+                  createdAt: new Date()
+                });
+
+                successful.push({
+                  channelId: channel.authorId,
+                  isSubscribed: true
+                });
+              } else {
+                existing.push({
+                  channelId: channel.authorId,
+                  isSubscribed: true
+                });
+              }
+            }
+          } else {
             failed.push({
               channelId: id,
               isSubscribed: false
             });
           }
-          if (channel) {
-            if (!subscriptions.find(e => e.channelId === channel.authorId)) {
-              subscriptions.push({
-                channelId: channel.authorId,
-                createdAt: new Date()
-              });
-
-              successful.push({
-                channelId: channel.authorId,
-                isSubscribed: true
-              });
-            } else {
-              existing.push({
-                channelId: channel.authorId,
-                isSubscribed: true
-              });
-            }
-          }
-        } else {
-          failed.push({
-            channelId: id,
-            isSubscribed: false
-          });
-        }
-      })
+        })
     ).then(() => {
-      console.log(`subscriptions: ${subscriptions.length}`);
       return this.subscriptionModel
         .findOneAndUpdate({ username }, { username, subscriptions }, { upsert: true })
         .exec()
