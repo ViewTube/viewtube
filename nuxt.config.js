@@ -102,7 +102,8 @@ module.exports = {
   ],
 
   axios: {
-    credentials: true
+    credentials: true,
+    progress: false
   },
 
   build: {
