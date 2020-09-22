@@ -185,7 +185,7 @@ export const mutations = {
   cloneTheme(state, parentThemeName, newThemeName) {
     let parentTheme;
     if (!state.themes.find(e => newThemeName === e.value)) {
-      if ((parentTheme = state.themes.find(e => parentThemeName === e.value)) != undefined) {
+      if ((parentTheme = state.themes.find(e => parentThemeName === e.value)) !== undefined) {
         parentTheme.value = newThemeName;
         parentTheme.default = false;
         state.themes.push(parentTheme);
@@ -194,7 +194,7 @@ export const mutations = {
   },
   editTheme(state, theme) {
     let themeInArray;
-    if ((themeInArray = state.themes.find(e => theme.value === e.value)) != undefined) {
+    if ((themeInArray = state.themes.find(e => theme.value === e.value)) !== undefined) {
       if (themeInArray.default === false) {
         let themeIndex = state.themes.find(e => theme.value === e.value);
         theme.default = false;
@@ -204,7 +204,7 @@ export const mutations = {
   },
   deleteTheme(state, themeName) {
     let themeInArray;
-    if ((themeInArray = state.themes.find(e => themeName === e.value)) != undefined) {
+    if ((themeInArray = state.themes.find(e => themeName === e.value)) !== undefined) {
       if (themeInArray.default === false) {
         let themeIndex = state.themes.find(e => theme.value === e.value);
         state.themes.splice(themeIndex);
