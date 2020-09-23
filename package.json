@@ -91,7 +91,7 @@
     "swagger-ui-express": "^4.1.4",
     "tippy.js": "^6.2.6",
     "typescript": "^4.0.3",
-    "universal-cookie": "^4.0.3",
+    "universal-cookie": "^4.0.4",
     "vue": "^2.6.12",
     "vue-material-design-icons": "^4.9.0",
     "vuex-persistedstate": "^3.1.0",
