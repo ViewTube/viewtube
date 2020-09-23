@@ -77,7 +77,7 @@
     "node-fetch": "^2.6.1",
     "node-sass": "^4.14.1",
     "nuxt": "^2.14.6",
-    "nuxt-start": "^2.14.5",
+    "nuxt-start": "^2.14.6",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
