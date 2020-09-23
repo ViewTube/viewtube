@@ -2,8 +2,7 @@
   <div class="popup">
     <div class="popup-container">
       <CloseIcon class="close-icon" @click.stop="$emit('close')" />
-      <h1>Settings</h1>
-      <h2><ThemeIcon />Themes</h2>
+      <h1>Themes</h1>
       <ThemeSelector />
     </div>
     <div class="popup-overlay" @click.stop="$emit('close')" />
@@ -12,7 +11,6 @@
 
 <script>
 import CloseIcon from 'vue-material-design-icons/Close';
-import ThemeIcon from 'vue-material-design-icons/Brightness4';
 import ThemeSelector from '@/components/themes/ThemeSelector';
 import '@/assets/styles/popup.scss';
 
@@ -20,7 +18,6 @@ export default {
   name: 'Themes',
   components: {
     CloseIcon,
-    ThemeIcon,
     ThemeSelector
   },
   data() {
