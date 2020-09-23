@@ -91,7 +91,7 @@ export default {
     vapidKey: null
   }),
   mounted() {
-    this.vapidKey = this.$config.vapidKey;
+    this.vapidKey = this.$store.getters['environment/vapidKey'];
 
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker
