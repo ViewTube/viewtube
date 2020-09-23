@@ -196,7 +196,7 @@ export const mutations = {
     let themeInArray;
     if ((themeInArray = state.themes.find(e => theme.value === e.value)) !== undefined) {
       if (themeInArray.default === false) {
-        let themeIndex = state.themes.find(e => theme.value === e.value);
+        const themeIndex = state.themes.find(e => theme.value === e.value);
         theme.default = false;
         state.themes[themeIndex] = theme;
       }
@@ -206,7 +206,7 @@ export const mutations = {
     let themeInArray;
     if ((themeInArray = state.themes.find(e => themeName === e.value)) !== undefined) {
       if (themeInArray.default === false) {
-        let themeIndex = state.themes.find(e => theme.value === e.value);
+        const themeIndex = state.themes.find(e => themeName === e.value);
         state.themes.splice(themeIndex);
       }
     }
