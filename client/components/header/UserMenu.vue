@@ -99,6 +99,15 @@
             <div class="menu-btn-content"><InstanceIcon />instances</div>
           </a>
           <a
+            id="themes-btn"
+            v-tippy="'Select Theme'"
+            href="#"
+            class="ripple tooltip menu-btn"
+            @mousedown.self.prevent="openThemes"
+          >
+            <div class="menu-btn-content"><ThemeIcon />theme</div>
+          </a>
+          <a
             id="about-btn"
             v-tippy="'Open about'"
             href="#"
@@ -114,6 +123,7 @@
       <transition name="fade-down">
         <Settings v-if="settingsOpen" @close="closeSettings" />
         <Instances v-if="instancesOpen" @close="closeInstances" />
+        <Themes v-if="themesOpen" @close="closeThemes" />
         <About v-if="aboutOpen" @close="closeAbout" />
       </transition>
     </portal>
@@ -124,11 +134,13 @@
 <script>
 import SettingsIcon from 'vue-material-design-icons/Cog';
 import InstanceIcon from 'vue-material-design-icons/ServerNetwork';
+import ThemeIcon from 'vue-material-design-icons/Palette';
 import AboutIcon from 'vue-material-design-icons/InformationOutline';
 import AccountIcon from 'vue-material-design-icons/AccountCircle';
 import AccountPlusIcon from 'vue-material-design-icons/AccountPlus';
 import Settings from '@/components/Settings';
 import Instances from '@/components/Instances';
+import Themes from '@/components/Themes';
 import About from '@/components/About';
 
 export default {
@@ -136,17 +148,20 @@ export default {
   components: {
     SettingsIcon,
     InstanceIcon,
+    ThemeIcon,
     AboutIcon,
     AccountIcon,
     AccountPlusIcon,
     Settings,
     Instances,
+    Themes,
     About
   },
   data: () => ({
     accountMenuVisible: false,
     settingsOpen: false,
     instancesOpen: false,
+    themesOpen: false,
     aboutOpen: false
   }),
   computed: {
@@ -199,6 +214,13 @@ export default {
     },
     closeInstances() {
       this.instancesOpen = false;
+    },
+    openThemes() {
+      this.hideAccountMenu();
+      this.themesOpen = true;
+    },
+    closeThemes() {
+      this.themesOpen = false;
     },
     openSubscriptions() {
       this.$router.push('/subscriptions');

@@ -3,8 +3,6 @@
     <div class="settings-container popup-container">
       <CloseIcon class="close-icon" @click.stop="$emit('close')" />
       <h1>Settings</h1>
-      <h2><ThemeIcon />Theme</h2>
-      <ThemeSelector />
       <h2><MiniplayerIcon />Miniplayer</h2>
       <SwitchButton
         :value="$store.getters['settings/miniplayer']"
@@ -18,9 +16,7 @@
 
 <script>
 import CloseIcon from 'vue-material-design-icons/Close';
-import ThemeIcon from 'vue-material-design-icons/Brightness4';
 import MiniplayerIcon from 'vue-material-design-icons/WindowRestore';
-import ThemeSelector from '@/components/themes/ThemeSelector';
 import SwitchButton from '@/components/buttons/SwitchButton';
 import '@/assets/styles/popup.scss';
 
@@ -28,10 +24,8 @@ export default {
   name: 'Settings',
   components: {
     CloseIcon,
-    ThemeIcon,
     MiniplayerIcon,
-    SwitchButton,
-    ThemeSelector
+    SwitchButton
   },
   data() {
     return {
@@ -39,17 +33,7 @@ export default {
       currentTheme: this.$store.getters['theme/theme']
     };
   },
-  methods: {
-    onThemeChange(element) {
-      setTimeout(() => {
-        document.body.classList.add('transition-all');
-        this.$store.commit('theme/setTheme', element.value);
-        setTimeout(() => {
-          document.body.classList.remove('transition-all');
-        }, 300);
-      }, 300);
-    }
-  }
+  methods: {}
 };
 </script>
 
