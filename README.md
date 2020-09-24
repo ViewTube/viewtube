@@ -18,7 +18,7 @@ It can recommend, play and search for videos. It saves your watch progress and y
 
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/3c74d1eff3fe47609a4f889ec1acbdd5)](https://www.codacy.com/manual/mauriceoegerli/viewtube-vue?utm_source=github.com&utm_medium=referral&utm_content=mauriceoegerli/viewtube-vue&utm_campaign=Badge_Grade)
+[![DeepScan grade](https://deepscan.io/api/teams/11044/projects/13967/branches/248909/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=11044&pid=13967&bid=248909)
 [![Build Status](https://drone.oeger.li/api/badges/ViewTube/viewtube-vue/status.svg)](https://drone.oeger.li/ViewTube/viewtube-vue)
 [![vue2](https://img.shields.io/badge/vue-2.x-brightgreen.svg)](https://vuejs.org/)
 [![GitHub](https://img.shields.io/github/license/mauriceoegerli/viewtube-vue)](https://github.com/ViewTube/viewtube-vue/blob/master/LICENSE)
