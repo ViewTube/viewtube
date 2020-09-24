@@ -24,7 +24,10 @@ const SubscriptionManage = () =>
   import(/* webpackChunkName: "group-subscription" */ '@/pages/subscriptions/manage.vue').then(
     m => m.default || m
   );
-
+const ThemesManage = () =>
+  import(/* webpackChunkName: "group-theme" */ '@/pages/themeManager.vue').then(
+    m => m.default || m
+  );
 Vue.use(Router);
 
 export function createRouter() {
@@ -67,6 +70,10 @@ export function createRouter() {
       {
         path: '/subscriptions/manage',
         component: SubscriptionManage
+      },
+      {
+        path: '/themeManager',
+        component: ThemesManage
       }
     ]
   });
