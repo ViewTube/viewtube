@@ -14,15 +14,15 @@ export const mutations = {
   }
 };
 export const actions = {
-  getUser({ getters, commit, rootState }) {
-    console.log('getting user...');
-    this.$axios
+  getUser({ commit, rootState }) {
+    return this.$axios
       .get(`${rootState.environment.env.apiUrl}user/profile`, {
         withCredentials: true
       })
       .then(result => {
         commit('setUsername', result.data.username);
-      });
+      })
+      .catch(() => {});
   },
   logout({ commit, rootState }) {
     return this.$axios

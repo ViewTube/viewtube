@@ -1,5 +1,5 @@
 export const actions = {
-  nuxtServerInit({ rootState }) {
+  nuxtServerInit({ rootState, dispatch }) {
     if (process.server) {
       rootState.environment.env = {
         apiUrl: process.env.VIEWTUBE_API_URL,
@@ -9,6 +9,7 @@ export const actions = {
         port: process.env.PORT || 8066,
         baseUrl: process.env.BASE_URL || 'http://localhost:8066'
       };
+      dispatch('user/getUser');
     }
   }
 };
