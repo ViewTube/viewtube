@@ -44,6 +44,10 @@ export default Vue.extend({
     }
   },
   mounted() {
+    this.$store.dispatch('user/getUser');
+    if (this.$store.getters['user/isLoggedIn']) {
+      // TODO: fetch themes from DB
+    }
     if (this.$store.getters['instances/instances'].length === 0) {
       this.$store.dispatch('instances/fetchInstances');
     }
