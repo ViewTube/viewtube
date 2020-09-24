@@ -46,7 +46,6 @@ export default {
     browser(oldVal, newVal) {}
   },
   mounted() {
-    this.$store.dispatch('user/getUser');
     if (this.$store.getters['instances/instances'].length === 0) {
       this.$store.dispatch('instances/fetchInstances');
     }

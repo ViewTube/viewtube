@@ -46,8 +46,8 @@ export default {
       return this.$store.getters['user/isLoggedIn'];
     }
   },
-  mounted() {
-    this.loadHomepage();
+  async fetch() {
+    await this.loadHomepage();
   },
   methods: {
     showMoreVideos() {
@@ -64,16 +64,16 @@ export default {
         .catch(error => {
           console.error(error);
         });
-      await this.$axios
-        .get(`${this.$store.getters['environment/apiUrl']}user/subscriptions/videos`, {
-          withCredentials: true
-        })
-        .then(response => {
-          this.subscriptions = response.data.slice(0, 4);
-        })
-        .catch(error => {
-          console.log(error);
-        });
+      if (this.$store.getters['user/isLoggedIn']) {
+        await this.$axios
+          .get(`${this.$store.getters['environment/apiUrl']}user/subscriptions/videos`, {
+            withCredentials: true
+          })
+          .then(response => {
+            this.subscriptions = response.data.slice(0, 4);
+          })
+          .catch(error => {});
+      }
     },
     handleScroll(e) {
       this.$emit('scroll', e);
