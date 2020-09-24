@@ -1,24 +1,22 @@
 <template>
-  <div class="collapsible-section">
-    <div v-ripple class="title" @click.prevent="toggleSection()">
-      <h3 class="title-text">{{ label }}</h3>
-      <ArrowDownIcon class="icon" :class="{ inverted: open }" />
-    </div>
+  <details class="collapsible-section">
+    <summary v-ripple class="collapsible-summary">
+      <div class="title">
+        <h3 class="title-text">{{ label }}</h3>
+      </div>
+    </summary>
     <transition name="section-collapse">
       <div v-show="open" class="section-container">
         <slot />
       </div>
     </transition>
-  </div>
+  </details>
 </template>
 
 <script>
-import ArrowDownIcon from 'vue-material-design-icons/ChevronDown';
 export default {
   name: 'CollapsibleSection',
-  components: {
-    ArrowDownIcon
-  },
+  components: {},
   props: {
     label: String,
     opened: Boolean
@@ -36,11 +34,6 @@ export default {
   mounted() {
     if (this.opened) {
       this.open = this.opened;
-    }
-  },
-  methods: {
-    toggleSection() {
-      this.open = !this.open;
     }
   }
 };
@@ -66,21 +59,22 @@ export default {
   min-width: 340px;
   position: relative;
 
-  .title {
+  .collapsible-summary {
     cursor: pointer;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    padding: 20px 10px 15px 10px;
-    position: sticky;
-    top: 0;
+    .title {
+      cursor: pointer;
+      display: inline-flex;
+      flex-direction: row;
+      justify-content: space-between;
+      padding: 20px 10px 15px 0;
 
-    .icon {
-      transition: transform 300ms $intro-easing;
-      transform-origin: 50% 40%;
+      .icon {
+        transition: transform 300ms $intro-easing;
+        transform-origin: 50% 40%;
 
-      &.inverted {
-        transform: rotate(180deg);
+        &.inverted {
+          transform: rotate(180deg);
+        }
       }
     }
   }

@@ -1,6 +1,12 @@
 <template>
   <div class="video-entry">
     <div class="video-entry-background" />
+    <div class="description-btn-container">
+      <div v-ripple v-tippy="'Show description'" class="description-btn">
+        <InfoIcon />
+      </div>
+    </div>
+    <input id="show-description" type="checkbox" name="show-description" />
     <nuxt-link
       v-tippy="videoProgressTooltip"
       class="video-entry-thmb"
@@ -26,6 +32,7 @@
       }}</span>
       <span v-if="video.lengthString" class="video-entry-length">{{ video.lengthString }}</span>
     </nuxt-link>
+
     <div class="video-entry-info">
       <img
         v-if="video.authorThumbnails"
@@ -62,11 +69,15 @@
 
 <script>
 import 'tippy.js/dist/tippy.css';
+import InfoIcon from 'vue-material-design-icons/Information';
 import SavedPosition from '@/store/videoProgress';
 import Commons from '@/plugins/commons.js';
 
 export default {
   name: 'VideoEntry',
+  components: {
+    InfoIcon
+  },
   props: {
     video: Object
   },
@@ -108,8 +119,51 @@ export default {
     transition-property: box-shadow;
   }
 
+  &:hover {
+    .description-btn-container {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  .description-btn-container {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 12;
+    width: 44px;
+    height: 44px;
+    padding: 10px;
+    margin: 5px;
+    opacity: 0;
+    transform: scale(0.8);
+    background-color: $video-thmb-overlay-bgcolor;
+    border-radius: 5px;
+    box-sizing: border-box;
+    cursor: pointer;
+    transition: opacity 200ms $intro-easing, transform 200ms $intro-easing;
+  }
+
+  #show-description {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    z-index: 13;
+    opacity: 0;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+  }
+
+  #show-description:checked + .video-entry-thmb .video-entry-length {
+    transform: scale(0);
+  }
+
+  #show-description:checked + .video-entry-thmb .thmb-image-container .video-description-overlay {
+    opacity: 1;
+  }
+
   .video-entry-thmb {
-    // overflow: hidden;
     position: relative;
     z-index: 11;
     perspective: 1000px;
@@ -146,28 +200,14 @@ export default {
         overflow: hidden;
         box-sizing: border-box;
         font-size: 1rem;
-        backface-visibility: hidden;
-        transform: rotateY(180deg);
+        opacity: 0;
+        transition: opacity 200ms $intro-easing;
 
         p {
           width: 100%;
           height: 100%;
           overflow: hidden;
         }
-      }
-    }
-
-    &:hover.has-description {
-      .thmb-image-container {
-        transform: rotateY(180deg);
-        .thmb-clip {
-          .video-entry-thmb-image {
-            filter: blur(5px);
-          }
-        }
-      }
-      .video-entry-length {
-        transform: scale(0);
       }
     }
 
@@ -192,7 +232,7 @@ export default {
       box-sizing: border-box;
       border-radius: 2px;
       font-family: $default-font;
-      transition: transform 300ms 200ms $intro-easing;
+      transition: transform 200ms $intro-easing;
     }
   }
 
