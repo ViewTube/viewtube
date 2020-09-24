@@ -11,13 +11,11 @@ ViewTube is an alternative YouTube frontend using the [invidio.us](https://githu
 
 It can recommend, play and search for videos. It saves your watch progress and you can subscribe to channels for them to appear in your subscription feed.
 
-<p align="center">
 [![DeepScan grade](https://deepscan.io/api/teams/11044/projects/13967/branches/248909/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=11044&pid=13967&bid=248909)
 [![Build Status](https://drone.oeger.li/api/badges/ViewTube/viewtube-vue/status.svg)](https://drone.oeger.li/ViewTube/viewtube-vue)
 [![vue2](https://img.shields.io/badge/vue-2.x-brightgreen.svg)](https://vuejs.org/)
 [![GitHub](https://img.shields.io/github/license/mauriceoegerli/viewtube-vue)](https://github.com/ViewTube/viewtube-vue/blob/master/LICENSE)
 [![Docker Image Size (latest by date)](https://img.shields.io/docker/image-size/mauriceo/viewtube?label=docker%20image%20size)](https://hub.docker.com/r/mauriceo/viewtube)
-</p>
 
 <h2 align="center">
 <sub>
