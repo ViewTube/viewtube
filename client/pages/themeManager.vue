@@ -1,19 +1,40 @@
 <template>
   <div>
-    <GradientBackground :color="'theme'" />
-    <SectionTitle v-if="userAuthenticated" :title="'Subscriptions'" :link="'subscriptions'" />
+    <h1>Dummy</h1>
   </div>
 </template>
 
 <script>
-import SectionTitle from '@/components/SectionTitle.vue';
-import GradientBackground from '@/components/GradientBackground.vue';
-
 export default {
   name: 'ThemeManager',
-  components: {
-    SectionTitle,
-    GradientBackground
+  components: {},
+  async fetch() {
+    await this.$axios
+      .get(`${this.$store.getters['environment/apiUrl']}user/themes`, {
+        withCredentials: true
+      })
+      .then(response => {
+        this.themes = response.data;
+        this.loading = false;
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  },
+  data: () => ({
+    themes: [],
+    loading: true
+  }),
+  computed: {
+    userAuthenticated() {
+      return this.$store.getters['user/isLoggedIn'];
+    }
+  },
+  head() {
+    return {
+      title: `Theme Manager :: ViewTube`,
+      meta: [] // TODO: find out what would be needed
+    };
   }
 };
 </script>
