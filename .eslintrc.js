@@ -13,10 +13,6 @@ module.exports = {
     'plugin:nuxt/recommended',
     'prettier',
     'prettier/vue',
-    'plugin:@typescript-eslint/eslint-recommended',
-    'plugin:@typescript-eslint/recommended',
-    'plugin:vue/base',
-    'prettier',
     'prettier/@typescript-eslint'
   ],
   plugins: ['@typescript-eslint/eslint-plugin'],
@@ -27,9 +23,6 @@ module.exports = {
     'space-before-function-paren': 'off',
     'vue/singleline-html-element-content-newline': 'off',
     'vue/multiline-html-element-content-newline': 'off',
-    '@typescript-eslint/interface-name-prefix': 'off',
-    '@typescript-eslint/explicit-function-return-type': 'off',
-    '@typescript-eslint/no-explicit-any': 'off',
     'vue/require-default-prop': 'off',
     'vue/html-self-closing': [
       'error',
