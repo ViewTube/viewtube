@@ -5,6 +5,7 @@ import { UserService } from './user.service';
 import { UserController } from './user.controller';
 import { SubscriptionsModule } from './subscriptions/subscriptions.module';
 import { NotificationsModule } from './notifications/notifications.module';
+import { ThemesModule } from './themes/themes.module';
 
 @Module({
   imports: [
@@ -16,7 +17,8 @@ import { NotificationsModule } from './notifications/notifications.module';
       }
     ]),
     SubscriptionsModule,
-    NotificationsModule
+    NotificationsModule,
+    ThemesModule
   ],
   providers: [UserService],
   controllers: [UserController],

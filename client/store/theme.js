@@ -212,3 +212,26 @@ export const mutations = {
     }
   }
 };
+
+export const actions = {
+  fetchThemes({ rootState }) {
+    return this.$axios
+      .get(`${rootState.environment.env.apiUrl}user/theme/allThemes`, {
+        withCredentials: true
+      })
+      .then(result => {
+        console.log(result);
+      })
+      .catch(console.log);
+  },
+  addThemeDummy({ rootState }) {
+    return this.$axios
+      .put(`${rootState.environment.env.apiUrl}user/theme/insertTheme`, {
+        withCredentials: true
+      })
+      .then(result => {
+        console.log(result);
+      })
+      .catch(console.log);
+  }
+};
