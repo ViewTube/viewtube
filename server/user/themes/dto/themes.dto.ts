@@ -1,6 +1,6 @@
 export class ThemesDto {
-  value: string;
-  default: boolean;
+  username: string;
+  key: string;
   name: string;
   variables: Array<[string, string]>;
 }
