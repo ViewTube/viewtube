@@ -1,14 +1,11 @@
 import { Injectable, HttpException } from '@nestjs/common';
-import { RegistrationDto } from './dto/registration.dto';
 import { CaptchaService } from '../captcha/captcha.service';
 import { UserService } from '../../user/user.service';
+import { RegistrationDto } from './dto/registration.dto';
 
 @Injectable()
 export class RegisterService {
-  constructor(
-    private captchaService: CaptchaService,
-    private userService: UserService
-  ) {}
+  constructor(private captchaService: CaptchaService, private userService: UserService) {}
 
   async registerUser(userRegistration: RegistrationDto) {
     const captchaVerified: boolean = await this.captchaService.validateCaptcha(
@@ -16,9 +13,7 @@ export class RegisterService {
       userRegistration.captchaSolution
     );
     if (captchaVerified) {
-      this.captchaService.deleteCaptcha(
-        userRegistration.captchaToken
-      );
+      this.captchaService.deleteCaptcha(userRegistration.captchaToken);
       return this.userService.create({
         username: userRegistration.username,
         password: userRegistration.password

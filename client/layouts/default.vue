@@ -16,11 +16,11 @@
   </div>
 </template>
 
-<script>
-import Header from '@/components/header/MainHeader';
-import Miniplayer from '@/components/miniplayer/Miniplayer';
-import MessageBoxContainer from '@/components/message/MessageBoxContainer';
-import ThemeStyling from '@/components/themes/ThemeStyling';
+<script lang="ts">
+import Header from '@/components/header/MainHeader.vue';
+import Miniplayer from '@/components/miniplayer/Miniplayer.vue';
+import MessageBoxContainer from '@/components/message/MessageBoxContainer.vue';
+import ThemeStyling from '@/components/themes/ThemeStyling.vue';
 
 export default {
   name: 'Default',
@@ -42,9 +42,6 @@ export default {
       return this.$route.meta.headless;
     }
   },
-  watch: {
-    browser(oldVal, newVal) {}
-  },
   mounted() {
     if (this.$store.getters['instances/instances'].length === 0) {
       this.$store.dispatch('instances/fetchInstances');
@@ -57,7 +54,7 @@ export default {
     }
   },
   methods: {
-    handleScroll(e, position) {
+    handleScroll() {
       this.$store.commit('scroll/setScrollPosition', window.pageYOffset);
     },
     getThemeClass() {
@@ -89,7 +86,7 @@ export default {
         this.reloadAnimating = true;
       }
     },
-    onTouchEnd(e) {
+    onTouchEnd() {
       if (this.reloadElDistance > 100) {
         this.reloadElDistance = 100;
         this.reloadAnimating = true;
@@ -231,9 +228,6 @@ body,
   width: 24px;
   height: 24px;
   display: inline-block;
-
-  .material-design-icon__svg {
-  }
 }
 
 div,

@@ -1,5 +1,5 @@
 export const actions = {
-  nuxtServerInit({ rootState, dispatch }) {
+  nuxtServerInit({ rootState, dispatch, getters }) {
     if (process.server) {
       rootState.environment.env = {
         apiUrl: process.env.VIEWTUBE_API_URL,
@@ -10,6 +10,9 @@ export const actions = {
         baseUrl: process.env.BASE_URL || 'http://localhost:8066'
       };
       dispatch('user/getUser');
+      if (getters['instances/instances'].length === 0) {
+        dispatch('instances/fetchInstances');
+      }
     }
   }
 };

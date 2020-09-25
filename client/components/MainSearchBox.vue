@@ -59,7 +59,7 @@ export default {
     searchValue: ''
   }),
   watch: {
-    $route(to, from) {
+    $route() {
       this.updateSearchValueFromUrl();
     },
     searchValue(newValue) {

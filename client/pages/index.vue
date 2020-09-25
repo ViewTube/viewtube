@@ -34,6 +34,9 @@ export default {
     LoadMoreIcon,
     BadgeButton
   },
+  async fetch() {
+    await this.loadHomepage();
+  },
   data: () => ({
     videos: [],
     displayedVideos: [],
@@ -45,9 +48,6 @@ export default {
     userAuthenticated() {
       return this.$store.getters['user/isLoggedIn'];
     }
-  },
-  async fetch() {
-    await this.loadHomepage();
   },
   methods: {
     showMoreVideos() {
@@ -72,7 +72,7 @@ export default {
           .then(response => {
             this.subscriptions = response.data.slice(0, 4);
           })
-          .catch(error => {});
+          .catch(() => {});
       }
     },
     handleScroll(e) {

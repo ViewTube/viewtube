@@ -1,7 +1,6 @@
-import { Controller, Get, Param, Res } from '@nestjs/common';
-import { VideoplaybackService } from './videoplayback.service';
-import { Response } from 'express';
+import { Controller } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { VideoplaybackService } from './videoplayback.service';
 
 @ApiTags('Core')
 @Controller('videoplayback')

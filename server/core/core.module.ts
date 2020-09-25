@@ -1,16 +1,13 @@
 import { Module, CacheModule } from '@nestjs/common';
+import { MongooseModule } from '@nestjs/mongoose';
+import { ConfigModule } from '@nestjs/config';
 import { VideosController } from './videos/videos.controller';
 import { VideosService } from './videos/videos.service';
 import { VideoplaybackController } from './videoplayback/videoplayback.controller';
 import { VideoplaybackService } from './videoplayback/videoplayback.service';
 import { AutocompleteModule } from './autocomplete/autocomplete.module';
-import { MongooseModule } from '@nestjs/mongoose';
 import { Video, VideoSchema } from './videos/schemas/video.schema';
-import { ConfigModule } from '@nestjs/config';
-import {
-  VideoBasicInfo,
-  VideoBasicInfoSchema
-} from './videos/schemas/video-basic-info.schema';
+import { VideoBasicInfo, VideoBasicInfoSchema } from './videos/schemas/video-basic-info.schema';
 import {
   ChannelBasicInfo,
   ChannelBasicInfoSchema

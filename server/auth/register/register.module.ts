@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { RegisterService } from './register.service';
-import { RegisterController } from './register.controller';
 import { CaptchaModule } from '../captcha/captcha.module';
 import { UserModule } from '../../user/user.module';
+import { RegisterService } from './register.service';
+import { RegisterController } from './register.controller';
 
 @Module({
   providers: [RegisterService],

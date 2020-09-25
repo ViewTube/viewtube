@@ -1,4 +1,4 @@
-export default (context, inject) => {
+export default (_, inject) => {
   const formatting = {
     getTimestampFromSeconds: seconds => {
       const hours = Math.floor(seconds / 3600);
@@ -6,13 +6,9 @@ export default (context, inject) => {
       const minutes = Math.floor(seconds / 60);
       const timestampMinutes = toDoubleDigit(minutes);
       seconds -= minutes * 60;
-      const timestampSeconds = toDoubleDigit(
-        Math.floor(seconds)
-      );
+      const timestampSeconds = toDoubleDigit(Math.floor(seconds));
       if (hours >= 1) {
-        const timestampHours = toDoubleDigit(
-          Math.floor(hours)
-        );
+        const timestampHours = toDoubleDigit(Math.floor(hours));
         return `${timestampHours}:${timestampMinutes}:${timestampSeconds}`;
       } else {
         return `${timestampMinutes}:${timestampSeconds}`;

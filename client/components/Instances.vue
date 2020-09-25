@@ -1,10 +1,7 @@
 <template>
   <div class="popup">
     <div class="popup-container">
-      <CloseIcon
-        class="close-icon"
-        @click.stop="$emit('close')"
-      />
+      <CloseIcon class="close-icon" @click.stop="$emit('close')" />
       <h1><InstanceIcon />Invidious Instances</h1>
       <table class="instances-table">
         <thead>
@@ -14,18 +11,11 @@
           </tr>
         </thead>
         <tbody>
-          <InstanceEntry
-            v-for="instance in instances"
-            :key="instance.url"
-            :instance="instance"
-          />
+          <InstanceEntry v-for="instance in instances" :key="instance.url" :instance="instance" />
         </tbody>
       </table>
     </div>
-    <div
-      class="popup-overlay"
-      @click.stop="$emit('close')"
-    />
+    <div class="popup-overlay" @click.stop="$emit('close')" />
   </div>
 </template>
 
@@ -45,17 +35,12 @@ export default {
   data() {
     return {
       instances: this.$store.getters['instances/instances'],
-      currentInstance: this.$store.getters[
-        'instances/currentInstance'
-      ]
+      currentInstance: this.$store.getters['instances/currentInstance']
     };
   },
   methods: {
-    onInstanceChange(element, index) {
-      this.$store.commit(
-        'instances/changeInstance',
-        element.value
-      );
+    onInstanceChange(element) {
+      this.$store.commit('instances/changeInstance', element.value);
     }
   }
 };

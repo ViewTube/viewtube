@@ -1,3 +1,4 @@
+// eslint-disable-next-line nuxt/no-cjs-in-config
 module.exports = {
   srcDir: './client',
 
@@ -78,9 +79,18 @@ module.exports = {
     scss: ['~/assets/styles/global/*.scss']
   },
 
+  typescript: {
+    typeCheck: {
+      eslint: {
+        files: './**/*.{ts,js,vue}'
+      }
+    }
+  },
+
   plugins: [
     '@/plugins/directives/index',
     '@/plugins/formatting',
+    '@/plugins/composition-api',
     { src: '@/plugins/localStorage', mode: 'client' }
   ],
 
@@ -90,7 +100,7 @@ module.exports = {
   },
   // },
 
-  buildModules: ['@nuxtjs/router'],
+  buildModules: ['@nuxtjs/router', '@nuxt/typescript-build'],
 
   modules: [
     '@nuxtjs/style-resources',

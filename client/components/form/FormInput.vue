@@ -24,7 +24,7 @@ import KeyIcon from 'vue-material-design-icons/KeyOutline';
 import MailIcon from 'vue-material-design-icons/At';
 
 export default {
-  name: 'form-input',
+  name: 'FormInput',
   components: {
     AccountIcon,
     KeyIcon,
@@ -49,9 +49,7 @@ export default {
       return this.value && this.value.length > 0;
     },
     autocompleteTag() {
-      const tagId = Object.keys(this.autocompleteTags).find(
-        type => type === this.type
-      );
+      const tagId = Object.keys(this.autocompleteTags).find(type => type === this.type);
       const tag = tagId !== undefined ? tagId : 'all';
 
       return this.autocompleteTags[tag];
@@ -118,8 +116,7 @@ export default {
     text-align: center;
     margin: auto;
     pointer-events: none;
-    transition: transform 300ms $intro-easing,
-      color 300ms $intro-easing;
+    transition: transform 300ms $intro-easing, color 300ms $intro-easing;
     transform-origin: left top;
     color: var(--subtitle-color-light);
   }

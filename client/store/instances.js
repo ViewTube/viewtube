@@ -8,7 +8,7 @@ export const getters = {
   currentInstance(state) {
     return state.currentInstance;
   },
-  currentInstanceApi(state, getters) {
+  currentInstanceApi(getters) {
     let instance = getters.currentInstance;
 
     // Workaround for serverside instance
@@ -18,7 +18,7 @@ export const getters = {
     if (!instance.endsWith('/')) instance += '/';
     return instance + 'api/';
   },
-  currentInstanceApiV1(state, getters) {
+  currentInstanceApiV1(getters) {
     return getters.currentInstanceApi + 'v1/';
   },
   instances(state) {
