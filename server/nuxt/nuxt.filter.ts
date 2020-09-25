@@ -1,9 +1,4 @@
-import {
-  ExceptionFilter,
-  HttpException,
-  ArgumentsHost,
-  Catch
-} from '@nestjs/common';
+import { ExceptionFilter, HttpException, ArgumentsHost, Catch } from '@nestjs/common';
 import { Nuxt } from 'nuxt';
 import { Response } from 'express';
 
@@ -16,20 +11,14 @@ export class NuxtFilter implements ExceptionFilter {
   }
 
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  public async catch(
-    exception: HttpException,
-    host: ArgumentsHost
-  ) {
+  public async catch(exception: HttpException, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const res: Response = ctx.getResponse();
     const req = ctx.getRequest();
+    console.log(exception);
     const status = exception.getStatus();
 
-    if (
-      status === 404 &&
-      !res.headersSent &&
-      !exception.getResponse()['ignoreFilter']
-    ) {
+    if (status === 404 && !res.headersSent && !exception.getResponse()['ignoreFilter']) {
       await this.nuxt.render(req, res);
     } else {
       const response = exception.getResponse();
