@@ -50,16 +50,8 @@ export default {
       this.$store.dispatch('instances/fetchInstances');
     }
     this.$refs.app.classList += ` ${this.getThemeClass()}`;
-    if (process.browser) {
-      window.addEventListener('scroll', this.handleScroll, {
-        passive: true
-      });
-    }
   },
   methods: {
-    handleScroll(e, position) {
-      this.$store.commit('scroll/setScrollPosition', window.pageYOffset);
-    },
     getThemeClass() {
       if (process.browser) {
         return `theme--${this.$store.getters['settings/theme']}`;
