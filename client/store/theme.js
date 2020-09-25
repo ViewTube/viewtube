@@ -181,56 +181,36 @@ export const mutations = {
       state.theme = theme;
     }
   },
-  // TODO: implement Error Handling
-  cloneTheme(state, parentThemeName, newThemeName) {
-    let parentTheme;
-    if (!state.themes.find(e => newThemeName === e.value)) {
-      if ((parentTheme = state.themes.find(e => parentThemeName === e.value)) !== undefined) {
-        parentTheme.value = newThemeName;
-        parentTheme.default = false;
-        state.themes.push(parentTheme);
-      }
-    }
+  addTheme(state, theme) {
+    state.themes.push(theme);
   },
-  editTheme(state, theme) {
-    let themeInArray;
-    if ((themeInArray = state.themes.find(e => theme.value === e.value)) !== undefined) {
-      if (themeInArray.default === false) {
-        const themeIndex = state.themes.find(e => theme.value === e.value);
-        theme.default = false;
-        state.themes[themeIndex] = theme;
-      }
-    }
-  },
-  deleteTheme(state, themeName) {
-    let themeInArray;
-    if ((themeInArray = state.themes.find(e => themeName === e.value)) !== undefined) {
-      if (themeInArray.default === false) {
-        const themeIndex = state.themes.find(e => themeName === e.value);
-        state.themes.splice(themeIndex);
+  resetThemes(state) {
+    for (let i = state.themes.length - 1; i >= 0; i -= 1) {
+      if (!state.themes[i].default) {
+        state.themes.splice(i);
       }
     }
   }
 };
 
 export const actions = {
-  fetchThemes({ rootState }) {
-    return this.$axios
-      .get(`${rootState.environment.env.apiUrl}user/theme/allThemes`, {
+  fetchThemes({ rootState, commit }) {
+    this.$axios
+      .get(`${rootState.environment.env.apiUrl}user/themes`, {
         withCredentials: true
       })
       .then(result => {
-        console.log(result);
-      })
-      .catch(console.log);
-  },
-  addThemeDummy({ rootState }) {
-    return this.$axios
-      .put(`${rootState.environment.env.apiUrl}user/theme/insertTheme`, {
-        withCredentials: true
-      })
-      .then(result => {
-        console.log(result);
+        let data = result.data;
+        let theme = {};
+        data.forEach(element => {
+          theme.value = element.key;
+          theme.default = false;
+          theme.name = element.name;
+          element.variables.forEach(variable => {
+            theme[variable[0]] = variable[1];
+          });
+          commit('addTheme', theme);
+        });
       })
       .catch(console.log);
   }
