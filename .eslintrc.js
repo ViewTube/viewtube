@@ -24,6 +24,9 @@ module.exports = {
     'vue/singleline-html-element-content-newline': 'off',
     'vue/multiline-html-element-content-newline': 'off',
     'vue/require-default-prop': 'off',
+    'vue/attribute-hyphenation': ['off', { ignore: ['custom-prop'] }],
+    'vue/no-v-html': 'off',
+    semi: 'off',
     'vue/html-self-closing': [
       'error',
       {
