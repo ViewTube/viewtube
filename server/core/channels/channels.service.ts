@@ -41,43 +41,43 @@ export class ChannelsService {
       apiKey = generalRecord.innertubeApiKey;
     }
     if (apiKey) {
-      // try {
-      const rawChannelData = await fetch(`${this.channelApiUrl}?key=${apiKey}`, {
-        method: 'POST',
-        headers: {
-          Accept: 'text/html, application/xhtml+xml, application/xml;q=0.9, */*;q=0.8',
-          'Content-Type': 'text/html; charset=UTF-8',
-          'User-Agent': this.youtubeClientParams.userAgent
-        },
-        body: JSON.stringify({
-          context: {
-            client: this.youtubeClientParams
+      try {
+        const rawChannelData = await fetch(`${this.channelApiUrl}?key=${apiKey}`, {
+          method: 'POST',
+          headers: {
+            Accept: 'text/html, application/xhtml+xml, application/xml;q=0.9, */*;q=0.8',
+            'Content-Type': 'text/html; charset=UTF-8',
+            'User-Agent': this.youtubeClientParams.userAgent
           },
-          browseId: channelId,
-          params: this.featuredParam
-        })
-      }).then(response => response.json());
+          body: JSON.stringify({
+            context: {
+              client: this.youtubeClientParams
+            },
+            browseId: channelId,
+            params: this.featuredParam
+          })
+        }).then(response => response.json());
 
-      const rawAboutData = await fetch(`${this.channelApiUrl}?key=${apiKey}`, {
-        method: 'POST',
-        headers: {
-          Accept: 'text/html, application/xhtml+xml, application/xml;q=0.9, */*;q=0.8',
-          'Content-Type': 'text/html; charset=UTF-8',
-          'User-Agent': this.youtubeClientParams.userAgent
-        },
-        body: JSON.stringify({
-          context: {
-            client: this.youtubeClientParams
+        const rawAboutData = await fetch(`${this.channelApiUrl}?key=${apiKey}`, {
+          method: 'POST',
+          headers: {
+            Accept: 'text/html, application/xhtml+xml, application/xml;q=0.9, */*;q=0.8',
+            'Content-Type': 'text/html; charset=UTF-8',
+            'User-Agent': this.youtubeClientParams.userAgent
           },
-          browseId: channelId,
-          params: this.aboutParam
-        })
-      }).then(response => response.json());
+          body: JSON.stringify({
+            context: {
+              client: this.youtubeClientParams
+            },
+            browseId: channelId,
+            params: this.aboutParam
+          })
+        }).then(response => response.json());
 
-      return ChannelMapper.mapChannel(rawChannelData, rawAboutData);
-      // } catch (error) {
-      //   throw new InternalServerErrorException(error);
-      // }
+        return ChannelMapper.mapChannel(rawChannelData, rawAboutData);
+      } catch (error) {
+        throw new InternalServerErrorException(error);
+      }
     } else {
       throw new InternalServerErrorException('Error fetching channel');
     }

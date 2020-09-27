@@ -56,9 +56,12 @@ export class ChannelMapper {
       homeTabData.tabRenderer.content.sectionListRenderer.contents,
       { author, authorId }
     );
-    const channelSection =
-      source.contents.twoColumnBrowseResultsRenderer.secondaryContents
-        .browseSecondaryContentsRenderer.contents;
+    let channelSection = null;
+    if (source.contents.twoColumnBrowseResultsRenderer.secondaryContents) {
+      channelSection =
+        source.contents.twoColumnBrowseResultsRenderer.secondaryContents
+          .browseSecondaryContentsRenderer.contents;
+    }
     let relatedChannels = [];
     if (channelSection) {
       relatedChannels = this.mapRelatedChannels(channelSection);
@@ -233,7 +236,14 @@ export class ChannelMapper {
 
   static mapSectionVideo(source: any, channel: any): VideoBasicInfoDto {
     const title = source.title.simpleText;
-    let altPublishedText = source.publishedTimeText.simpleText;
+    let altPublishedText = null;
+    if (source.publishedTimeText) {
+      altPublishedText = source.publishedTimeText.simpleText;
+    }
+    let published = null;
+    if (source.upcomingEventData) {
+      published = source.upcomingEventData.startTime;
+    }
     const videoId = source.navigationEndpoint.watchEndpoint.videoId;
     const videoThumbnails = Common.getVideoThumbnails(videoId);
     const { viewCount, author, lengthSeconds, publishedText } = this.parseAccessibilityText(
@@ -261,7 +271,7 @@ export class ChannelMapper {
     text: string,
     videoName: string
   ): { author: string; lengthSeconds: number; publishedText: string; viewCount: number } {
-    const viewCountRegex = /(\d+|\d{1,3}(,\d{3})*)(\.\d+)?\sviews/i;
+    const viewCountRegex = /(\d+|\d{1,3}(,\d{3})*)(\.\d+)?\sviews?/i;
     const secondsRegex = /(\d{1,2})\sseconds?/i;
     const minutesRegex = /(\d{1,2})\sminutes?/i;
     const hoursRegex = /(\d{1,2})\shours?/i;
@@ -300,13 +310,16 @@ export class ChannelMapper {
   }
 
   static mapChannelLinks(source: Array<any>): Array<ChannelLinkDto> {
-    return source.map(el => {
-      return {
-        title: el.title.simpleText,
-        url: this.cleanTrackingRedirect(el.navigationEndpoint.urlEndpoint.url),
-        linkThumbnails: el.icon.thumbnails.map(thmb => ({ url: `https://${thmb.url}` }))
-      };
-    });
+    if (source) {
+      return source.map(el => {
+        return {
+          title: el.title.simpleText,
+          url: this.cleanTrackingRedirect(el.navigationEndpoint.urlEndpoint.url),
+          linkThumbnails: el.icon.thumbnails.map(thmb => ({ url: `https://${thmb.url}` }))
+        };
+      });
+    }
+    return [];
   }
 
   static cleanTrackingRedirect(source: string): string {
