@@ -2,10 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { ConfigService } from '@nestjs/config';
-import {
-  DocumentBuilder,
-  SwaggerModule
-} from '@nestjs/swagger';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import packageJson from '../package.json';
 import cookieParser from 'cookie-parser';
 import webPush from 'web-push';
@@ -16,18 +13,12 @@ import config from '../nuxt.config.js';
 import Consola from 'consola';
 import path from 'path';
 
-declare const module: any;
-
 async function bootstrap() {
-  const server = await NestFactory.create<
-    NestExpressApplication
-  >(AppModule);
+  const server = await NestFactory.create<NestExpressApplication>(AppModule);
 
   const dev = process.env.NODE_ENV !== 'production';
   // NUXT
-  const nuxt = await NuxtServer.getInstance().run(
-    dev ? !module.hot._main : true
-  );
+  const nuxt = await NuxtServer.getInstance().run(dev);
 
   // NEST
   server.useGlobalFilters(new NuxtFilter(nuxt));
@@ -37,10 +28,7 @@ async function bootstrap() {
   // CORS
   const configService = server.get(ConfigService);
   const port = configService.get('PORT');
-  const corsDomains = configService
-    .get('VIEWTUBE_ALLOWED_DOMAINS')
-    .trim()
-    .split(',');
+  const corsDomains = configService.get('VIEWTUBE_ALLOWED_DOMAINS').trim().split(',');
   if (configService.get('NODE_ENV') !== 'production') {
     corsDomains.push('http://localhost:8066');
   }
@@ -58,9 +46,7 @@ async function bootstrap() {
 
   global['__basedir'] = __dirname;
   if (configService.get('VIEWTUBE_DATA_DIRECTORY')) {
-    global['__basedir'] = configService.get(
-      'VIEWTUBE_DATA_DIRECTORY'
-    );
+    global['__basedir'] = configService.get('VIEWTUBE_DATA_DIRECTORY');
   }
   if (!dev) {
     const channelsDir = `${global['__basedir']}/channels`;
@@ -82,10 +68,7 @@ async function bootstrap() {
     .addBearerAuth()
     .build();
 
-  const swaggerDocument = SwaggerModule.createDocument(
-    server,
-    documentOptions
-  );
+  const swaggerDocument = SwaggerModule.createDocument(server, documentOptions);
   SwaggerModule.setup('/api', server, swaggerDocument);
 
   server.use(cookieParser());
@@ -97,10 +80,5 @@ async function bootstrap() {
       badge: true
     });
   });
-
-  if (dev && module.hot) {
-    module.hot.accept();
-    module.hot.dispose(() => server.close());
-  }
 }
 bootstrap();
