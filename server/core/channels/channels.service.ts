@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import fetch from 'node-fetch';
 import { General } from 'server/common/general.schema';
+import { ChannelMapper } from './channel.mapper';
 import { ChannelDto } from './dto/channel.dto';
 
 @Injectable()
@@ -25,6 +26,10 @@ export class ChannelsService {
     screenWidthPoints: 1536
   };
 
+  private featuredParam = 'EghmZWF0dXJlZA%3D%3D';
+  private videosParam = 'EgZ2aWRlb3M%3D';
+  private aboutParam = 'EgVhYm91dA%3D%3D';
+
   private channelApiUrl = 'https://www.youtube.com/youtubei/v1/browse';
 
   async getChannel(channelId: string): Promise<any> {
@@ -36,25 +41,43 @@ export class ChannelsService {
       apiKey = generalRecord.innertubeApiKey;
     }
     if (apiKey) {
-      try {
-        const rawChannelData = fetch(`${this.channelApiUrl}?key=${apiKey}`, {
-          method: 'POST',
-          headers: {
-            Accept: 'text/html, application/xhtml+xml, application/xml;q=0.9, */*;q=0.8',
-            'Content-Type': 'text/html; charset=UTF-8',
-            'User-Agent': this.youtubeClientParams.userAgent
+      // try {
+      const rawChannelData = await fetch(`${this.channelApiUrl}?key=${apiKey}`, {
+        method: 'POST',
+        headers: {
+          Accept: 'text/html, application/xhtml+xml, application/xml;q=0.9, */*;q=0.8',
+          'Content-Type': 'text/html; charset=UTF-8',
+          'User-Agent': this.youtubeClientParams.userAgent
+        },
+        body: JSON.stringify({
+          context: {
+            client: this.youtubeClientParams
           },
-          body: JSON.stringify({
-            context: {
-              client: this.youtubeClientParams
-            },
-            browseId: channelId
-          })
-        }).then(response => response.json());
-        return rawChannelData;
-      } catch (error) {
-        throw new InternalServerErrorException(error);
-      }
+          browseId: channelId,
+          params: this.featuredParam
+        })
+      }).then(response => response.json());
+
+      const rawAboutData = await fetch(`${this.channelApiUrl}?key=${apiKey}`, {
+        method: 'POST',
+        headers: {
+          Accept: 'text/html, application/xhtml+xml, application/xml;q=0.9, */*;q=0.8',
+          'Content-Type': 'text/html; charset=UTF-8',
+          'User-Agent': this.youtubeClientParams.userAgent
+        },
+        body: JSON.stringify({
+          context: {
+            client: this.youtubeClientParams
+          },
+          browseId: channelId,
+          params: this.aboutParam
+        })
+      }).then(response => response.json());
+
+      return ChannelMapper.mapChannel(rawChannelData, rawAboutData);
+      // } catch (error) {
+      //   throw new InternalServerErrorException(error);
+      // }
     } else {
       throw new InternalServerErrorException('Error fetching channel');
     }

@@ -1,6 +1,7 @@
 import { AuthorThumbnailDto } from 'server/core/videos/dto/author-thumbnail.dto';
-import { VideoDto } from 'server/core/videos/dto/video.dto';
+import { VideoBasicInfoDto } from 'server/core/videos/dto/video-basic-info.dto';
 import { ChannelBasicInfoDto } from './channel-basic-info.dto';
+import { ChannelLinkDto } from './channel-link.dto';
 
 export class ChannelDto {
   author: string;
@@ -25,6 +26,12 @@ export class ChannelDto {
   descriptionHtml: string;
   allowedRegions: Array<string>;
 
-  latestVideos: Array<VideoDto>;
-  relatedChannels: Array<ChannelBasicInfoDto>;
+  videoSections: Array<{
+    title?: string;
+    type: 'single' | 'multi';
+    videos?: Array<VideoBasicInfoDto>;
+    video?: VideoBasicInfoDto;
+  }>;
+  relatedChannels: Array<{ title: 'string'; channels: Array<ChannelBasicInfoDto> }>;
+  channelLinks?: Array<ChannelLinkDto>;
 }
