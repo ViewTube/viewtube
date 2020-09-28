@@ -172,7 +172,16 @@ export const state = () => ({
 export const getters = {
   theme: state => state.theme,
   themes: state => state.themes,
-  themeVariables: state => state.themes.find(el => state.theme === el.value)
+  themeVariables: state => state.themes.find(el => state.theme === el.value),
+  defaultThemes(state) {
+    const defaultThemes = [];
+    state.themes.forEach(element => {
+      if (element.default) {
+        defaultThemes.push(element);
+      }
+    });
+    return defaultThemes;
+  }
 };
 
 export const mutations = {
@@ -200,16 +209,16 @@ export const actions = {
         withCredentials: true
       })
       .then(result => {
-        let data = result.data;
-        let theme = {};
+        const data = result.data;
         data.forEach(element => {
-          theme.value = element.key;
-          theme.default = false;
-          theme.name = element.name;
+          const themeTemplate = {};
+          themeTemplate.value = element.key;
+          themeTemplate.default = false;
+          themeTemplate.name = element.name;
           element.variables.forEach(variable => {
-            theme[variable[0]] = variable[1];
+            themeTemplate[variable[0]] = variable[1];
           });
-          commit('addTheme', theme);
+          commit('addTheme', themeTemplate);
         });
       })
       .catch(console.log);
