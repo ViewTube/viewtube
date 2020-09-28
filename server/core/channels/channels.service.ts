@@ -32,7 +32,7 @@ export class ChannelsService {
 
   private channelApiUrl = 'https://www.youtube.com/youtubei/v1/browse';
 
-  async getChannel(channelId: string): Promise<any> {
+  async getChannel(channelId: string): Promise<ChannelDto> {
     const generalRecord = await this.generalModel.findOne({ version: 1 }).exec();
     let apiKey: string | void;
     if (!(generalRecord && generalRecord.innertubeApiKey)) {

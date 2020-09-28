@@ -1,17 +1,48 @@
 <template>
-  <div
-    v-show="descriptionHtml"
-    v-create-links
-    class="channel-description links"
-    v-html="descriptionHtml"
-  />
+  <div v-if="description" class="channel-description">
+    <div v-show="isSmall" v-create-links class="description-container links">
+      {{ smallDescription }}
+    </div>
+    <div v-show="!isSmall" v-create-links class="description-container links">
+      {{ description }}
+    </div>
+    <BadgeButton v-if="isSmall" class="desc-show-more" :click="onShowFullDescription"
+      >Show more</BadgeButton
+    >
+  </div>
 </template>
 
 <script>
+import BadgeButton from '@/components/buttons/BadgeButton';
 export default {
   name: 'ChannelDescription',
+  components: {
+    BadgeButton
+  },
   props: {
-    descriptionHtml: String
+    description: String
+  },
+  data() {
+    return {
+      smallDescription: '',
+      isSmall: true
+    };
+  },
+  created() {
+    if (this.description.length > 300) {
+      let smallDescription = this.description.split('\n')[0];
+      if (smallDescription.length > 300) {
+        smallDescription = `${this.description.substr(0, 300)}...`;
+      }
+      this.smallDescription = smallDescription;
+    } else {
+      this.isSmall = false;
+    }
+  },
+  methods: {
+    onShowFullDescription() {
+      this.isSmall = false;
+    }
   }
 };
 </script>
@@ -26,13 +57,13 @@ export default {
   padding: 20px 10px;
   z-index: 14;
 
-  pre {
-    font-family: unset;
-    color: unset;
-    width: unset;
-    padding: unset;
-    margin: unset;
+  .description-container {
     white-space: pre-wrap;
+  }
+
+  .desc-show-more {
+    left: 50%;
+    transform: translateX(-50%);
   }
 }
 </style>

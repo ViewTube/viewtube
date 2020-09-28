@@ -20,7 +20,7 @@ export class NuxtFilter implements ExceptionFilter {
     if (status === 404 && !res.headersSent && !exception.getResponse()['ignoreFilter']) {
       await this.nuxt.render(req, res);
     } else {
-      res.send(exception);
+      res.status(status).send(exception);
     }
   }
 }

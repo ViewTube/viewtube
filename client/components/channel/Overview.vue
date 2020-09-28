@@ -3,7 +3,7 @@
     <div ref="channelTitle" class="channel-title-container">
       <div class="channel-title">
         <div v-if="channel.authorThumbnails" class="channel-thumbnail">
-          <img :src="channel.authorThumbnails[3].url" alt="Author Image" />
+          <img :src="channel.authorThumbnails[2].url" alt="Author Image" />
         </div>
         <div class="channel-info">
           <div class="channel-name">
@@ -25,7 +25,7 @@
             <div class="channel-joined-on">
               <h2>
                 joined
-                {{ getFormattedDate(new Date(channel.joined * 1000)) }}
+                {{ channel.joined }}
               </h2>
             </div>
             <div v-if="channel.isFamilyFriendly" class="channel-family-friendly">

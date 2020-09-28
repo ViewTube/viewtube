@@ -56,8 +56,9 @@ export class ChannelMapper {
         description = fullMetadata.description.simpleText;
         totalViews = fullMetadata.viewCountText.simpleText
           .replace('views', '')
-          .replace(',', '')
+          .replace(/,/g, '')
           .trim();
+        totalViews = parseInt(totalViews);
       } catch (_) {}
     }
     const videoSections = this.mapVideoSections(
@@ -146,7 +147,7 @@ export class ChannelMapper {
 
   static parseAbbreviatedNumber(string: any) {
     const match = string
-      .replace(',', '.')
+      .replace(/,/g, '.')
       .replace(' ', '')
       .match(/([\d,.]+)([MK]?)/);
     if (match) {
@@ -280,7 +281,8 @@ export class ChannelMapper {
       videoId,
       videoThumbnails,
       viewCount,
-      lengthSeconds
+      lengthSeconds,
+      published
     };
   }
 
@@ -299,8 +301,8 @@ export class ChannelMapper {
 
     const viewCountMatch = stringwithoutName.match(viewCountRegex);
     const viewCountString = viewCountMatch ? viewCountMatch[1] : '';
-    const viewCount = parseInt(viewCountString.replace(',', ''));
-    let stringWithoutViews = stringwithoutName.replace(viewCountRegex, '').replace(',', '').trim();
+    const viewCount = parseInt(viewCountString.replace(/,/g, ''));
+    let stringWithoutViews = stringwithoutName.replace(viewCountRegex, '').replace(/,/g, '').trim();
 
     const secondsMatch = stringWithoutViews.match(secondsRegex);
     const seconds = secondsMatch ? parseInt(secondsMatch[1]) : 0;
@@ -332,7 +334,7 @@ export class ChannelMapper {
         return {
           title: el.title.simpleText,
           url: this.cleanTrackingRedirect(el.navigationEndpoint.urlEndpoint.url),
-          linkThumbnails: el.icon.thumbnails.map(thmb => ({ url: `https://${thmb.url}` }))
+          linkThumbnails: el.icon.thumbnails.map(thmb => ({ url: `https:${thmb.url}` }))
         };
       });
     }

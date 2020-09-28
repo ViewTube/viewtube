@@ -1,4 +1,12 @@
-import { Controller, Get, Param, Res, NotFoundException } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Param,
+  Res,
+  NotFoundException,
+  CacheInterceptor,
+  UseInterceptors
+} from '@nestjs/common';
 import fs from 'fs';
 import path from 'path';
 import { Response } from 'express';
@@ -23,7 +31,8 @@ export class ChannelsController {
   }
 
   @Get(':id')
-  async getChannel(@Param('id') channelId: string): Promise<ChannelDto> {
+  @UseInterceptors(CacheInterceptor)
+  getChannel(@Param('id') channelId: string): Promise<ChannelDto> {
     return this.channelsService.getChannel(channelId);
   }
 }

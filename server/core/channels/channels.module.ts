@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { CacheModule, Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { General, GeneralSchema } from 'server/common/general.schema';
 import { ChannelsController } from './channels.controller';
@@ -9,6 +9,10 @@ import { ChannelBasicInfo, ChannelBasicInfoSchema } from './schemas/channel-basi
   providers: [ChannelsService],
   controllers: [ChannelsController],
   imports: [
+    CacheModule.register({
+      ttl: 1200,
+      max: 200
+    }),
     MongooseModule.forFeature([
       {
         name: ChannelBasicInfo.name,

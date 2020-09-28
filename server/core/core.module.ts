@@ -12,7 +12,6 @@ import {
   ChannelBasicInfo,
   ChannelBasicInfoSchema
 } from './channels/schemas/channel-basic-info.schema';
-import { ChannelsController } from './channels/channels.controller';
 import { SearchModule } from './search/search.module';
 import { ChannelsModule } from './channels/channels.module';
 import { General, GeneralSchema } from 'server/common/general.schema';
@@ -20,7 +19,7 @@ import { General, GeneralSchema } from 'server/common/general.schema';
 @Module({
   imports: [
     CacheModule.register({
-      ttl: 300,
+      ttl: 1200,
       max: 200
     }),
     MongooseModule.forFeature([
