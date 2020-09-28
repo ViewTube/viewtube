@@ -1,6 +1,11 @@
 <template>
   <div class="themeManagerContainer">
-    <SectionTitle :title="'Theme-Manager'" />
+    <SectionTitle :title="'Theme-Manager'">
+      <BadgeButton class="cloneThemeButton" :click="() => (cloneModalOpen = true)">
+        <ImportIcon />
+        <p>Import subscriptions</p>
+      </BadgeButton>
+    </SectionTitle>
     <div class="defaultThemesRow">
       <ThemePreview
         v-for="theme in defaultThemes"
@@ -11,15 +16,22 @@
       />
     </div>
     <!-- <ThemePreview v-for="theme in themes" :key="theme.value" :theme="theme" /> -->
+    <portal to="popup">
+      <transition name="fade-down">
+        <ThemeCloner v-if="cloneModalOpen" @close="closeCloneTheme" />
+      </transition>
+    </portal>
   </div>
 </template>
 
 <script>
 import ThemePreview from '@/components/themes/ThemePreview';
 import SectionTitle from '@/components/SectionTitle.vue';
+import BadgeButton from '@/components/buttons/BadgeButton';
+import ThemeCloner from '@/components/popup/ThemeCloner';
 export default {
   name: 'ThemeManager',
-  components: { ThemePreview, SectionTitle },
+  components: { ThemePreview, SectionTitle, BadgeButton },
   async fetch() {
     await this.$axios
       .get(`${this.$store.getters['environment/apiUrl']}user/themes`, {
@@ -36,7 +48,8 @@ export default {
   data: () => ({
     themes: [],
     defaultThemes: [],
-    loading: true
+    loading: true,
+    cloneModalOpen: false
   }),
   computed: {
     userAuthenticated() {
@@ -47,7 +60,10 @@ export default {
     this.defaultThemes = this.$store.getters['theme/defaultThemes'];
   },
   methods: {
-    editTheme(value) {}
+    editTheme(value) {},
+    closeCloneTheme() {
+      this.cloneModalOpen = false;
+    }
   },
   head() {
     return {

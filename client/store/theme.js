@@ -1,4 +1,5 @@
 export const state = () => ({
+  // TODO: Use ThemeDTO
   theme: 'default',
   themes: [
     {
