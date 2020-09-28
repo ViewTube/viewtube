@@ -48,16 +48,8 @@ export default Vue.extend({
       this.$store.dispatch('instances/fetchInstances');
     }
     this.$refs.app.classList += ` ${this.getThemeClass()}`;
-    if ((process as any).browser) {
-      window.addEventListener('scroll', this.handleScroll, {
-        passive: true
-      });
-    }
   },
   methods: {
-    handleScroll(): void {
-      this.$store.commit('scroll/setScrollPosition', window.pageYOffset);
-    },
     getThemeClass(): string {
       if ((process as any).browser) {
         return `theme--${this.$store.getters['settings/theme']}`;
