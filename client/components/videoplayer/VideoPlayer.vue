@@ -388,7 +388,7 @@ export default {
       const videoRef = this.$refs.video;
       if (videoRef) {
         const videoBufferedMaxTimeRange = videoRef.buffered.length - 1;
-        if (videoBufferedMaxTimeRange > 0 && videoBufferedMaxTimeRange !== undefined) {
+        if (videoBufferedMaxTimeRange && videoBufferedMaxTimeRange > 0) {
           const loadingPercentage =
             (videoRef.buffered.end(videoRef.buffered.length - 1) / videoRef.duration) * 100;
           this.videoElement.loadingPercentage = loadingPercentage;
