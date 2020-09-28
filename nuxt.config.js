@@ -90,7 +90,6 @@ module.exports = {
   plugins: [
     '@/plugins/directives/index',
     '@/plugins/formatting',
-    '@/plugins/composition-api',
     { src: '@/plugins/localStorage', mode: 'client' }
   ],
 
