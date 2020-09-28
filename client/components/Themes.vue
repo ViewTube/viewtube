@@ -10,9 +10,12 @@
         v-tippy="'Manage your themes'"
         to="/themeManager"
         class="tooltip btn"
+        @click.stop="$emit('close')"
         ><ThemeManagerIcon />Manage</nuxt-link
       >
-      <ThemeSelector />
+      <div class="themes-container">
+        <ThemePreview v-for="theme in themes" :key="theme.value" :theme="theme" />
+      </div>
     </div>
     <div class="popup-overlay" @click.stop="$emit('close')" />
   </div>
@@ -20,7 +23,7 @@
 
 <script>
 import CloseIcon from 'vue-material-design-icons/Close';
-import ThemeSelector from '@/components/themes/ThemeSelector';
+import ThemePreview from '@/components/themes/ThemePreview';
 import ThemeManagerIcon from 'vue-material-design-icons/OpenInNew';
 import '@/assets/styles/popup.scss';
 
@@ -28,7 +31,7 @@ export default {
   name: 'Themes',
   components: {
     CloseIcon,
-    ThemeSelector,
+    ThemePreview,
     ThemeManagerIcon
   },
   data() {
@@ -57,7 +60,7 @@ export default {
 </script>
 
 <style lang="scss">
-.btn-content {
+.btn {
   margin: auto;
   display: flex;
   flex-direction: row;
@@ -67,13 +70,10 @@ export default {
     width: 28px;
     height: 28px;
   }
-}
-.btn {
   text-decoration: none;
   color: var(--theme-color);
   transition: color 300ms $intro-easing;
   margin: 0 5px;
-  display: flex;
   user-select: none;
   border-radius: 5px;
   line-height: 100%;
@@ -81,5 +81,15 @@ export default {
   padding: 5px 10px;
   box-sizing: border-box;
   border: solid 2px transparent;
+}
+
+.themes-container {
+  padding-top: 10px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  margin: 0 !important;
 }
 </style>

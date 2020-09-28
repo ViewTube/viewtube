@@ -1,11 +1,18 @@
 <template>
   <div class="theme-selector">
+    <div
+      v-if="themeEditable"
+      class="edit-btn-container"
+      @click.stop="$emit('edit-theme', theme.value)"
+    >
+      <div v-ripple v-tippy="'Edit Theme'" class="edit-btn">
+        <EditIcon />
+      </div>
+    </div>
+    <!-- <input v-if="themeEditable" id="edit-theme" type="checkbox" name="edit-theme" /> -->
     <a
-      v-for="(theme, id) in themes"
-      :key="id"
       v-ripple
       class="theme-preview"
-      href="#"
       :style="{
         'border-color': getBorderThemeColor(theme)
       }"
@@ -48,17 +55,20 @@
         </div>
         <span class="prev-gradient" :style="{ opacity: theme['gradient-opacity'] }" />
       </div>
-      <span class="theme-title">{{ theme.name }}</span>
     </a>
+    <span class="theme-title">{{ theme.name }}</span>
   </div>
 </template>
 
 <script>
+import EditIcon from 'vue-material-design-icons/Pencil';
 export default {
-  data() {
-    return {
-      themes: this.$store.getters['theme/themes']
-    };
+  components: {
+    EditIcon
+  },
+  props: {
+    theme: Object,
+    themeEditable: Boolean
   },
   methods: {
     onThemeChange(element) {
@@ -78,22 +88,66 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.edit-btn {
+  color: white;
+}
 .theme-selector {
-  width: calc(100% - 56px);
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  padding: 20px 0 0 0;
-  justify-content: space-evenly;
+  flex-direction: column;
+  width: 200px;
+  margin: 0 15px 20px 0;
+  position: relative;
+
+  &:hover {
+    .edit-btn-container {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  .edit-btn-container {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 12;
+    width: 44px;
+    height: 44px;
+    padding: 10px;
+    margin: 5px;
+    opacity: 0;
+    transform: scale(0.8);
+    background-color: $video-thmb-overlay-bgcolor;
+    border-radius: 5px;
+    box-sizing: border-box;
+    cursor: pointer;
+    transition: opacity 200ms $intro-easing, transform 200ms $intro-easing;
+  }
+
+  #edit-theme {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    z-index: 13;
+    opacity: 0;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+  }
+
+  #edit-theme:checked + .video-entry-thmb .video-entry-length {
+    transform: scale(0);
+  }
+
+  #edit-theme:checked + .video-entry-thmb .thmb-image-container .video-description-overlay {
+    opacity: 1;
+  }
 
   .theme-preview {
-    width: 200px;
     height: 120px;
     display: flex;
     flex-direction: column;
     border-style: solid;
     border-width: 2px;
-    margin: 0 15px 20px 0;
     border-radius: 4px;
     overflow: hidden;
     position: relative;
@@ -172,16 +226,9 @@ export default {
         }
       }
     }
-    .theme-title {
-      position: absolute;
-      bottom: 0;
-      color: #fff;
-      background: linear-gradient(to bottom, #00000000 -0%, #000 80%);
-      width: 100%;
-      padding: 2px 5px;
-      z-index: 10;
-      box-sizing: border-box;
-    }
+  }
+  .theme-title {
+    color: var(--theme-color);
   }
 }
 </style>
