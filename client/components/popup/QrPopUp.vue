@@ -1,10 +1,7 @@
 <template>
   <div class="popup">
     <div class="popup-container">
-      <CloseIcon
-        class="close-icon"
-        @click.stop="$emit('close')"
-      />
+      <CloseIcon class="close-icon" @click.stop="$emit('close')" />
       <h1>QR-Code</h1>
       <div class="qr-container">
         <VueQrcode
@@ -20,10 +17,7 @@
         />
       </div>
     </div>
-    <div
-      class="settings-overlay popup-overlay"
-      @click.stop="$emit('close')"
-    />
+    <div class="settings-overlay popup-overlay" @click.stop="$emit('close')" />
   </div>
 </template>
 
@@ -43,14 +37,10 @@ export default {
       return process.browser ? window.location.href : '';
     },
     getThemePrimaryColor() {
-      return this.$store.getters['settings/themeVariables'][
-        'theme-color'
-      ];
+      return this.$store.getters['theme/themeVariables']['theme-color'];
     },
     getThemeBackgroundColor() {
-      return this.$store.getters['settings/themeVariables'][
-        'bgcolor-alt'
-      ];
+      return this.$store.getters['theme/themeVariables']['bgcolor-alt'];
     }
   }
 };

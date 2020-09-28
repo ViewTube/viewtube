@@ -1,7 +1,9 @@
 export const state = () => ({
+  theme: 'default',
   themes: [
     {
       value: 'default',
+      default: true,
       name: 'Dark theme',
       'bgcolor-main': '#121212',
       'bgcolor-alt': '#1a1a1a',
@@ -34,6 +36,7 @@ export const state = () => ({
     },
     {
       value: 'default_light',
+      default: true,
       name: 'Light theme',
       'bgcolor-main': '#ffffff',
       'bgcolor-alt': '#ffffff',
@@ -66,6 +69,7 @@ export const state = () => ({
     },
     {
       value: 'default_dark-no-gradient',
+      default: true,
       name: 'Dark theme without background gradients',
       'bgcolor-main': '#121212',
       'bgcolor-alt': '#1a1a1a',
@@ -98,6 +102,7 @@ export const state = () => ({
     },
     {
       value: 'default_black',
+      default: true,
       name: 'Black theme',
       'bgcolor-main': '#000000',
       'bgcolor-alt': '#1a1a1a',
@@ -130,6 +135,7 @@ export const state = () => ({
     },
     {
       value: 'default_green',
+      default: true,
       name: 'Dark green theme',
       'bgcolor-main': '#121212',
       'bgcolor-alt': '#1a1a1a',
@@ -164,20 +170,44 @@ export const state = () => ({
 });
 
 export const getters = {
+  theme: state => state.theme,
   themes: state => state.themes,
-  themeVariables: (state, value) => {
-    state.themes.find(el => value === el.value);
-  }
+  themeVariables: state => state.themes.find(el => state.theme === el.value)
 };
 
 export const mutations = {
+  setTheme(state, theme) {
+    if (state.themes.find(e => e.value === theme)) {
+      state.theme = theme;
+    }
+  },
+  // TODO: implement Error Handling
   cloneTheme(state, parentThemeName, newThemeName) {
     let parentTheme;
     if (!state.themes.find(e => newThemeName === e.value)) {
-      if ((parentTheme = state.themes.find(e => parentThemeName === e.value))) {
+      if ((parentTheme = state.themes.find(e => parentThemeName === e.value)) != undefined) {
         parentTheme.value = newThemeName;
+        parentTheme.default = false;
         state.themes.push(parentTheme);
-        // TODO: verify if this if is legit
+      }
+    }
+  },
+  editTheme(state, theme) {
+    let themeInArray;
+    if ((themeInArray = state.themes.find(e => theme.value === e.value)) != undefined) {
+      if (themeInArray.default === false) {
+        let themeIndex = state.themes.find(e => theme.value === e.value);
+        theme.default = false;
+        state.themes[themeIndex] = theme;
+      }
+    }
+  },
+  deleteTheme(state, themeName) {
+    let themeInArray;
+    if ((themeInArray = state.themes.find(e => themeName === e.value)) != undefined) {
+      if (themeInArray.default === false) {
+        let themeIndex = state.themes.find(e => theme.value === e.value);
+        state.themes.splice(themeIndex);
       }
     }
   }

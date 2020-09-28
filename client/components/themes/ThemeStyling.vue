@@ -31,12 +31,12 @@
 export default {
   data() {
     return {
-      theme: this.$store.getters['settings/themeVariables']
+      theme: this.$store.getters['theme/themeVariables']
     };
   },
   methods: {
     getTheme() {
-      return this.$store.getters['settings/themeVariables'];
+      return this.$store.getters['theme/themeVariables'];
     }
   }
 };
