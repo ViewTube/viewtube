@@ -209,8 +209,7 @@ export default {
   },
   methods: {
     onTryClosePopup() {
-      if (this.page2) {
-      } else {
+      if (!this.page2) {
         this.$emit('close');
       }
     },
