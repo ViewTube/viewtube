@@ -38,8 +38,8 @@ export class AuthService {
     return `Authentication=; HttpOnly=true; Secure=true; Path=/; ${domainString}Max-Age=${expiration}`;
   }
 
-  async getJwtCookie(username: string) {
-    const { accessToken } = await this.login(username);
+  getJwtCookie(username: string) {
+    const { accessToken } = this.login(username);
     let domainString = '';
     let secureString = '';
     if (this.configService.get('NODE_ENV') === 'production') {

@@ -12,10 +12,10 @@ export class AuthController {
 
   @UseGuards(LocalAuthGuard)
   @Post('login')
-  async login(@Res() response: Response, @Body() user: UserDto) {
-    const cookie = await this.authService.getJwtCookie(user.username);
+  login(@Res() response: Response, @Body() user: UserDto) {
+    const cookie = this.authService.getJwtCookie(user.username);
     response.setHeader('Set-Cookie', cookie);
-    response.send(await this.authService.login(user.username));
+    response.send(this.authService.login(user.username));
     // return this.authService.login(user.username);
   }
 
