@@ -95,7 +95,7 @@ export default {
       ]
     };
   },
-  beforeRouteEnter(to, from, next) {
+  beforeRouteEnter(_, from, next) {
     next(vm => {
       if (from.name) {
         vm.redirectedPage = from;

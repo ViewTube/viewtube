@@ -1,10 +1,10 @@
+import fs from 'fs';
+import path from 'path';
 import { Injectable, HttpException, NotFoundException } from '@nestjs/common';
-import { SubscriptionStatusDto } from './dto/subscription-status.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { VideoBasicInfo } from 'server/core/videos/schemas/video-basic-info.schema';
 import { ChannelBasicInfo } from 'server/core/channels/schemas/channel-basic-info.schema';
 import { Model } from 'mongoose';
-import { Subscription } from './schemas/subscription.schema';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import X2js from 'x2js';
 import fetch from 'node-fetch';
@@ -13,9 +13,9 @@ import { Common } from 'server/core/common';
 import humanizeDuration from 'humanize-duration';
 import { Sorting } from 'server/common/sorting.type';
 import { ChannelBasicInfoDto } from 'server/core/channels/dto/channel-basic-info.dto';
-import fs from 'fs';
-import path from 'path';
 import { NotificationsService } from '../notifications/notifications.service';
+import { Subscription } from './schemas/subscription.schema';
+import { SubscriptionStatusDto } from './dto/subscription-status.dto';
 
 @Injectable()
 export class SubscriptionsService {
@@ -101,7 +101,7 @@ export class SubscriptionsService {
     return savedVideo || null;
   }
 
-  async getChannelFeed(
+  getChannelFeed(
     channelId: string
   ): Promise<void | {
     channel: ChannelBasicInfoDto;
@@ -135,7 +135,7 @@ export class SubscriptionsService {
             };
 
             const cachedChannelThmbPath = path.join(
-              global['__basedir'],
+              (global as any).__basedir,
               `channels/${authorId}.jpg`
             );
             if (fs.existsSync(cachedChannelThmbPath)) {

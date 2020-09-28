@@ -34,7 +34,7 @@ export default {
   parseQuery(query) {
     const me = this;
     let queryString = '';
-    Object.keys(query).forEach((val, i) => {
+    Object.keys(query).forEach(val => {
       if (me.defaults[val]) {
         if (me.defaults[val].includes(query[val])) {
           queryString += `&${val}=${query[val]}`;
@@ -52,7 +52,7 @@ export default {
     const queryObj = {
       q: q || query.search_query
     };
-    Object.keys(query).forEach((val, i) => {
+    Object.keys(query).forEach(val => {
       if (me.defaults[val]) {
         if (me.defaults[val].includes(query[val])) {
           queryObj[val] = query[val];

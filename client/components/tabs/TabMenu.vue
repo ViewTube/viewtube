@@ -3,12 +3,12 @@
     <div class="tab-menu-inner">
       <div class="tabs">
         <div
-          class="tab"
           v-for="(tabName, id) in tabNames"
           :key="`tab-${id}`"
-          @click="e => onTabSelected(id, e)"
-          :class="{ selected: selectedTab === id }"
           :ref="`tab-${id}`"
+          class="tab"
+          :class="{ selected: selectedTab === id }"
+          @click="e => onTabSelected(id, e)"
         >
           {{ tabName }}
         </div>
@@ -18,18 +18,11 @@
             width: `${tabUnderlineWidth}px`,
             left: `${tabUnderlineLeft}px`
           }"
-        ></span>
+        />
       </div>
-      <div
-        class="tab-content"
-        v-for="(tabName, id) in tabNames"
-        :key="`tab-content-${id}`"
-      >
-        <div
-          class="tab-content-inner"
-          v-if="selectedTab === id"
-        >
-          <slot :name="tabName"></slot>
+      <div v-for="(tabName, id) in tabNames" :key="`tab-content-${id}`" class="tab-content">
+        <div v-if="selectedTab === id" class="tab-content-inner">
+          <slot :name="tabName" />
         </div>
       </div>
     </div>
@@ -38,23 +31,21 @@
 
 <script>
 export default {
-  name: 'tab-menu',
-  data: () => ({
-    selectedTab: 0,
-    tabUnderlineWidth: 0,
-    tabUnderlineLeft: 0
-  }),
+  name: 'TabMenu',
   props: {
     tabNames: {
       type: Array,
       required: true
     }
   },
+  data: () => ({
+    selectedTab: 0,
+    tabUnderlineWidth: 0,
+    tabUnderlineLeft: 0
+  }),
   mounted() {
     if (this.$route.query.tab) {
-      this.selectedTab = this.tabNames.findIndex(
-        (el, id) => id === this.$route.query.tab
-      );
+      this.selectedTab = this.tabNames.findIndex((_, id) => id === this.$route.query.tab);
     }
   },
   methods: {
@@ -71,8 +62,7 @@ export default {
 <style lang="scss" scoped>
 .fade-tabs-enter-active,
 .fade-tabs-leave-active {
-  transition: transform 300ms $intro-easing,
-    opacity 300ms $intro-easing;
+  transition: transform 300ms $intro-easing, opacity 300ms $intro-easing;
 }
 .fade-tabs-enter-to,
 .fade-tabs-leave {
@@ -101,8 +91,7 @@ export default {
         bottom: 0;
         height: 2px;
         background-color: var(--title-color);
-        transition: width 300ms $intro-easing,
-          left 300ms $intro-easing;
+        transition: width 300ms $intro-easing, left 300ms $intro-easing;
       }
 
       .tab {

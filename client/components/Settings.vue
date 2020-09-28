@@ -1,10 +1,7 @@
 <template>
   <div class="settings popup">
     <div class="settings-container popup-container">
-      <CloseIcon
-        class="close-icon"
-        @click.stop="$emit('close')"
-      />
+      <CloseIcon class="close-icon" @click.stop="$emit('close')" />
       <h1>Settings</h1>
       <h2><ThemeIcon />Theme</h2>
       <ThemeSelector />
@@ -12,16 +9,10 @@
       <SwitchButton
         :value="$store.getters['settings/miniplayer']"
         :label="'Enable miniplayer'"
-        @valuechange="
-          val =>
-            $store.commit('settings/setMiniplayer', val)
-        "
+        @valuechange="val => $store.commit('settings/setMiniplayer', val)"
       />
     </div>
-    <div
-      class="settings-overlay popup-overlay"
-      @click.stop="$emit('close')"
-    />
+    <div class="settings-overlay popup-overlay" @click.stop="$emit('close')" />
   </div>
 </template>
 
@@ -49,13 +40,10 @@ export default {
     };
   },
   methods: {
-    onThemeChange(element, index) {
+    onThemeChange(element) {
       setTimeout(() => {
         document.body.classList.add('transition-all');
-        this.$store.commit(
-          'settings/setTheme',
-          element.value
-        );
+        this.$store.commit('settings/setTheme', element.value);
         setTimeout(() => {
           document.body.classList.remove('transition-all');
         }, 300);

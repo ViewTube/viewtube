@@ -32,7 +32,7 @@ export const actions = {
         return result;
       });
   },
-  login({ commit, dispatch, getters, rootState }, { username, password }) {
+  login({ dispatch, rootState }, { username, password }) {
     return this.$axios
       .post(
         `${rootState.environment.env.apiUrl}auth/login`,

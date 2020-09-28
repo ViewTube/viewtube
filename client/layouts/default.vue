@@ -16,13 +16,14 @@
   </div>
 </template>
 
-<script>
-import Header from '@/components/header/MainHeader';
-import Miniplayer from '@/components/miniplayer/Miniplayer';
-import MessageBoxContainer from '@/components/message/MessageBoxContainer';
-import ThemeStyling from '@/components/themes/ThemeStyling';
+<script lang="ts">
+import Header from '@/components/header/MainHeader.vue';
+import Miniplayer from '@/components/miniplayer/Miniplayer.vue';
+import MessageBoxContainer from '@/components/message/MessageBoxContainer.vue';
+import ThemeStyling from '@/components/themes/ThemeStyling.vue';
+import Vue from 'vue';
 
-export default {
+export default Vue.extend({
   name: 'Default',
   components: {
     Header,
@@ -38,12 +39,9 @@ export default {
     };
   },
   computed: {
-    headless() {
+    headless(): boolean {
       return this.$route.meta.headless;
     }
-  },
-  watch: {
-    browser(oldVal, newVal) {}
   },
   mounted() {
     if (this.$store.getters['instances/instances'].length === 0) {
@@ -52,14 +50,14 @@ export default {
     this.$refs.app.classList += ` ${this.getThemeClass()}`;
   },
   methods: {
-    getThemeClass() {
-      if (process.browser) {
+    getThemeClass(): string {
+      if ((process as any).browser) {
         return `theme--${this.$store.getters['settings/theme']}`;
       } else {
         return 'theme--default';
       }
     },
-    getAppClass() {
+    getAppClass(): string {
       let appClass = this.getThemeClass();
 
       if (this.reloadAnimating) {
@@ -67,10 +65,10 @@ export default {
       }
       return appClass;
     },
-    onTouchStart(e) {
+    onTouchStart(e): void {
       this.touchTopY = e.touches[0].pageY;
     },
-    onTouchMove(e) {
+    onTouchMove(e): void {
       const topY = e.touches[0].pageY;
       const topDistance = topY - this.touchTopY;
       if (window.pageYOffset === 0 && topY > this.touchTopY) {
@@ -81,7 +79,7 @@ export default {
         this.reloadAnimating = true;
       }
     },
-    onTouchEnd(e) {
+    onTouchEnd(): void {
       if (this.reloadElDistance > 100) {
         this.reloadElDistance = 100;
         this.reloadAnimating = true;
@@ -92,7 +90,7 @@ export default {
       }
     }
   }
-};
+});
 </script>
 
 <style lang="scss">
@@ -223,9 +221,6 @@ body,
   width: 24px;
   height: 24px;
   display: inline-block;
-
-  .material-design-icon__svg {
-  }
 }
 
 div,

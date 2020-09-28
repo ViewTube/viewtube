@@ -1,6 +1,6 @@
 <template>
   <div class="subscribe-button-container" :class="{ disabled: disabled }">
-    <div class="mini-btn" v-if="small" :class="{ expanded }" @click="expanded = !expanded">
+    <div v-if="small" class="mini-btn" :class="{ expanded }" @click="expanded = !expanded">
       <span class="minus" />
     </div>
     <div class="clip-container" :class="{ expanded, small }">
@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import Commons from '@/plugins/commons.js';
+// import Commons from '@/plugins/commons.js';
 
 export default {
   name: 'SubscribeButton',
@@ -66,7 +66,7 @@ export default {
             me.disabled = false;
           })
           // eslint-disable-next-line handle-callback-err
-          .catch(error => {
+          .catch(() => {
             // console.log(error);
             me.isSubscribed = false;
             me.disabled = true;

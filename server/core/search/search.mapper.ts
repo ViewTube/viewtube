@@ -1,6 +1,7 @@
+/* eslint-disable no-case-declarations */
 import { Result, Video, Channel, Playlist, Item, ShelfVertical } from 'ytsr';
-import { ISearchResponse } from './interface/search-response.interface';
 import { Common } from '../common';
+import { ISearchResponse } from './interface/search-response.interface';
 
 export class SearchMapper {
   static ytsrToDto(ytsrResult: Result): ISearchResponse {

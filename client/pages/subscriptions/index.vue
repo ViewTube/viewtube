@@ -148,7 +148,7 @@ export default {
                       withCredentials: true
                     }
                   )
-                  .then(result => {
+                  .then(() => {
                     this.notificationsEnabled = true;
                   });
               })

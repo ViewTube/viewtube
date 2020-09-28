@@ -16,7 +16,7 @@ export default {
     }
   },
 
-  update(el, binding) {
+  update(_, binding) {
     if (tippyInstance && binding.value !== binding.oldValue) {
       tippyInstance.setProps({ content: binding.value });
     }
