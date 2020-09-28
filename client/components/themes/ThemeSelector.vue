@@ -57,19 +57,19 @@
 export default {
   data() {
     return {
-      themes: this.$store.getters['settings/defaultThemes']
+      themes: this.$store.getters['theme/themes']
     };
   },
   methods: {
     onThemeChange(element) {
       document.body.classList.add('transition-all');
-      this.$store.commit('settings/setTheme', element.value);
+      this.$store.commit('theme/setTheme', element.value);
       setTimeout(() => {
         document.body.classList.remove('transition-all');
       }, 300);
     },
     getBorderThemeColor(theme) {
-      return theme.value === this.$store.getters['settings/theme']
+      return theme.value === this.$store.getters['theme/theme']
         ? theme['theme-color']
         : 'transparent';
     }

@@ -170,18 +170,10 @@ export const state = () => ({
 });
 
 export const getters = getterTree(state, {
-  theme: state => state.theme,
-  defaultThemes: state => state.defaults.theme,
-  miniplayer: state => state.miniplayer,
-  themeVariables: state => state.defaults.theme.find(el => state.theme === el.value)
+  miniplayer: state => state.miniplayer
 });
 
 export const mutations = mutationTree(state, {
-  setTheme(state, theme) {
-    if (state.defaults.theme.find(e => e.value === theme)) {
-      state.theme = theme;
-    }
-  },
   setMiniplayer(state, enabled) {
     state.miniplayer = enabled;
   }

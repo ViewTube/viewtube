@@ -35,15 +35,15 @@ export default {
   },
   data() {
     return {
-      themes: this.$store.getters['settings/defaultThemes'],
-      currentTheme: this.$store.getters['settings/theme']
+      themes: this.$store.getters['theme/themes'],
+      currentTheme: this.$store.getters['theme/theme']
     };
   },
   methods: {
     onThemeChange(element) {
       setTimeout(() => {
         document.body.classList.add('transition-all');
-        this.$store.commit('settings/setTheme', element.value);
+        this.$store.commit('theme/setTheme', element.value);
         setTimeout(() => {
           document.body.classList.remove('transition-all');
         }, 300);
