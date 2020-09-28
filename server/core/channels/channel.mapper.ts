@@ -3,6 +3,8 @@ import { ChannelDto } from './dto/channel.dto';
 import { VideoBasicInfoDto } from '../videos/dto/video-basic-info.dto';
 import { Common } from '../common';
 import { ChannelBasicInfoDto } from './dto/channel-basic-info.dto';
+import { PlaylistBasicInfoDto } from '../playlists/dto/playlist-basic-info.dto';
+import fs from 'fs';
 
 export class ChannelMapper {
   static mapChannel(source: any, aboutSource: any): ChannelDto {
@@ -17,7 +19,7 @@ export class ChannelMapper {
     const author = this.multiValue([metadata.title, header.title]);
     const authorId = this.multiValue([header.channelId, metadata.externalId]);
     const authorUsername = this.multiValue([
-      metadata.ownerUrls[0],
+      metadata.title,
       header.navigationEndpoint.commandMetadata.webCommandMetadata.url
         .replace('/c/', '')
         .replace('/u/', '')
@@ -166,6 +168,7 @@ export class ChannelMapper {
     type: 'single' | 'multi';
     videos?: Array<VideoBasicInfoDto>;
     video?: VideoBasicInfoDto;
+    playlists?: Array<PlaylistBasicInfoDto>;
   }> {
     return source
       .filter(
@@ -181,15 +184,14 @@ export class ChannelMapper {
           (el: any) => el.channelVideoPlayerRenderer
         );
         if (shelfRendererSource && shelfRendererSource.shelfRenderer) {
-          console.log(shelfRendererSource.shelfRenderer.title);
           const title = shelfRendererSource.shelfRenderer.title.runs[0].text;
-          const videos = this.mapSingleSectionVideos(
+          const elements = this.mapSingleSectionContent(
             shelfRendererSource.shelfRenderer.content.horizontalListRenderer.items,
             channel
           );
           return {
             type: 'multi',
-            videos,
+            elements,
             title
           };
         } else if (videoPlayerSource && videoPlayerSource.channelVideoPlayerRenderer) {
@@ -233,8 +235,10 @@ export class ChannelMapper {
   static concatDescriptionRuns(descriptionRuns: Array<any>): string {
     let descriptionString = '';
     descriptionRuns.forEach(run => {
-      if (run.navigationEndpoint) {
+      if (run.navigationEndpoint && run.navigationEndpoint.urlEndpoint) {
         descriptionString += this.cleanTrackingRedirect(run.navigationEndpoint.urlEndpoint.url);
+      } else if (run.navigationEndpoint && run.navigationEndpoint.watchEndpoint) {
+        descriptionString += `https://youtube.com/watch?v=${run.navigationEndpoint.watchEndpoint.videoId}`;
       } else {
         descriptionString += run.text;
       }
@@ -242,14 +246,65 @@ export class ChannelMapper {
     return descriptionString;
   }
 
-  static mapSingleSectionVideos(source: Array<any>, channel: any): Array<VideoBasicInfoDto> {
+  static mapSingleSectionContent(
+    source: Array<any>,
+    channel: any
+  ): Array<VideoBasicInfoDto | PlaylistBasicInfoDto> {
     return source.map(video => {
       if (video.gridVideoRenderer) {
         const vidRenderer = video.gridVideoRenderer;
-        return this.mapSectionVideo(vidRenderer, channel);
+        return { type: 'video', ...this.mapSectionVideo(vidRenderer, channel) };
+      } else if (video.gridPlaylistRenderer) {
+        const playlistRenderer = video.gridPlaylistRenderer;
+        return { type: 'playlist', ...this.mapSectionPlaylist(playlistRenderer, channel) };
       }
       return null;
     });
+  }
+
+  static mapSectionPlaylist(source: any, channel: any): PlaylistBasicInfoDto {
+    const author = channel.author;
+    const authorId = channel.authorId;
+    const playlistId = source.playlistId;
+    const firstVideoId = source.title.runs[0].navigationEndpoint.watchEndpoint.videoId;
+    const playlistVideoLink = `/watch?v=${firstVideoId}&list=${playlistId}`;
+    const playlistLink = `/playlist?list=${playlistId}`;
+    const title = source.title.runs[0].text;
+    const videoCountText = source.videoCountText.runs[0].text.replace(/videos?/gi, '').trim();
+    const videoCount = parseInt(videoCountText);
+    const playlistThumbnails = Common.getVideoThumbnails(firstVideoId);
+    let previewVideos = [];
+    if (source.sidebarThumbnails) {
+      previewVideos = source.sidebarThumbnails.map(thumb => {
+        const videoIdMatch = thumb.thumbnails[0].url.match(/\/vi\/(.*?)\//i);
+        let videoThumbnails = thumb.thumbnails.map(el => ({
+          url: `https:${el.url}`,
+          width: el.width,
+          height: el.height
+        }));
+        let videoId = null;
+        if (videoIdMatch) {
+          videoId = videoIdMatch[1];
+          videoThumbnails = Common.getVideoThumbnails(videoId).concat(videoThumbnails);
+        }
+        return {
+          videoId,
+          videoThumbnails
+        };
+      });
+    }
+    return {
+      author,
+      authorId,
+      playlistId,
+      playlistLink,
+      playlistVideoLink,
+      playlistThumbnails,
+      title,
+      videoCount,
+      firstVideoId,
+      previewVideos
+    };
   }
 
   static mapSectionVideo(source: any, channel: any): VideoBasicInfoDto {

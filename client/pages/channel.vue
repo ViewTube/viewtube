@@ -33,6 +33,7 @@
           :key="index"
           class="video-section-container"
         >
+          <SectionTitle :title="section.title" />
           <div v-if="section.type === 'single'" class="single-video-section" />
           <div v-if="section.type === 'multi'" class="multi-video-section">
             <VideoEntry v-for="video in section.videos" :key="video.videoId" :video="video" />
@@ -52,6 +53,7 @@ import RelatedChannels from '@/components/channel/RelatedChannels';
 import ChannelDescription from '@/components/channel/ChannelDescription';
 import Spinner from '@/components/Spinner';
 import SubscribeButton from '@/components/buttons/SubscribeButton';
+import SectionTitle from '@/components/SectionTitle.vue';
 import ViewTubeApi from '~/plugins/services/viewTubeApi';
 
 export default {
@@ -63,7 +65,8 @@ export default {
     RelatedChannels,
     ChannelDescription,
     Spinner,
-    SubscribeButton
+    SubscribeButton,
+    SectionTitle
   },
   data: () => ({
     channel: null,

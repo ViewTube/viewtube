@@ -17,7 +17,7 @@
         <div class="thmb-clip">
           <img
             class="video-entry-thmb-image"
-            loading="lazy"
+            :loading="lazy ? 'lazy' : 'eager'"
             :src="commons.proxyUrl + video.videoThumbnails[4].url"
             :alt="video.title"
           />
@@ -79,7 +79,8 @@ export default {
     InfoIcon
   },
   props: {
-    video: Object
+    video: Object,
+    lazy: Boolean
   },
   data: () => ({
     commons: Commons

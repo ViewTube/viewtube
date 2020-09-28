@@ -7,7 +7,12 @@
     </div>
     <SectionTitle :title="'Popular videos'" :gradient="!userAuthenticated" />
     <div class="home-videos-container small">
-      <VideoEntry v-for="video in displayedVideos" :key="video.videoId" :video="video" />
+      <VideoEntry
+        v-for="(video, index) in displayedVideos"
+        :key="index"
+        :lazy="index < 4 ? false : true"
+        :video="video"
+      />
     </div>
     <BadgeButton v-if="displayedVideos.length !== videos.length" :click="showMoreVideos">
       <LoadMoreIcon />
@@ -18,12 +23,12 @@
 
 <script>
 import Commons from '@/plugins/commons.js';
-import VideoEntry from '@/components/list/VideoEntry';
+import VideoEntry from '@/components/list/VideoEntry.vue';
 import SectionTitle from '@/components/SectionTitle.vue';
 import GradientBackground from '@/components/GradientBackground.vue';
 import LoadMoreIcon from 'vue-material-design-icons/Reload';
 import Invidious from '@/plugins/services/invidious';
-import BadgeButton from '@/components/buttons/BadgeButton';
+import BadgeButton from '@/components/buttons/BadgeButton.vue';
 
 export default {
   name: 'Home',
@@ -33,6 +38,9 @@ export default {
     GradientBackground,
     LoadMoreIcon,
     BadgeButton
+  },
+  async fetch() {
+    await this.loadHomepage();
   },
   data: () => ({
     videos: [],
@@ -45,9 +53,6 @@ export default {
     userAuthenticated() {
       return this.$store.getters['user/isLoggedIn'];
     }
-  },
-  async fetch() {
-    await this.loadHomepage();
   },
   methods: {
     showMoreVideos() {
@@ -72,7 +77,7 @@ export default {
           .then(response => {
             this.subscriptions = response.data.slice(0, 4);
           })
-          .catch(error => {});
+          .catch(_ => {});
       }
     },
     handleScroll(e) {
