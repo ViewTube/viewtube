@@ -4,7 +4,7 @@
       <SectionTitle :title="'Theme-Manager'">
         <BadgeButton class="badgeBtn" :click="() => (cloneModalOpen = true)">
           <CloneIcon />
-          <p>Import subscriptions</p>
+          <p>Clone Theme</p>
         </BadgeButton>
       </SectionTitle>
       <div class="themes">
@@ -62,7 +62,7 @@ export default {
     themesKeyArray() {
       const themesKeys = [];
       this.themes.forEach(element => {
-        themesKeys.push(element.value);
+        themesKeys.push(element.key);
       });
       this.defaultThemes.forEach(element => {
         themesKeys.push(element.value);
