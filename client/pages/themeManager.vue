@@ -1,26 +1,28 @@
 <template>
-  <div class="themeManagerContainer">
-    <SectionTitle :title="'Theme-Manager'">
-      <BadgeButton class="cloneThemeButton" :click="() => (cloneModalOpen = true)">
-        <ImportIcon />
-        <p>Import subscriptions</p>
-      </BadgeButton>
-    </SectionTitle>
-    <div class="defaultThemesRow">
-      <ThemePreview
-        v-for="theme in defaultThemes"
-        :key="theme.value"
-        :theme="theme"
-        :themeEditable="true"
-        @editTheme.stop="editTheme($event)"
-      />
+  <div>
+    <div class="themeManagerContainer">
+      <SectionTitle :title="'Theme-Manager'">
+        <BadgeButton class="badgeBtn" :click="() => (cloneModalOpen = true)">
+          <CloneIcon />
+          <p>Import subscriptions</p>
+        </BadgeButton>
+      </SectionTitle>
+      <div class="themes">
+        <ThemePreview
+          v-for="theme in defaultThemes"
+          :key="theme.value"
+          :theme="theme"
+          :themeEditable="true"
+          @editTheme.stop="editTheme($event)"
+        />
+        <!-- <ThemePreview v-for="theme in themes" :key="theme.value" :theme="theme" /> -->
+      </div>
+      <portal to="popup">
+        <transition v-if="cloneModalOpen" name="fade-down">
+          <ThemeCloner :themes="themesKeyArray" @close="closeCloneTheme" />
+        </transition>
+      </portal>
     </div>
-    <!-- <ThemePreview v-for="theme in themes" :key="theme.value" :theme="theme" /> -->
-    <portal to="popup">
-      <transition name="fade-down">
-        <ThemeCloner v-if="cloneModalOpen" @close="closeCloneTheme" />
-      </transition>
-    </portal>
   </div>
 </template>
 
@@ -29,9 +31,11 @@ import ThemePreview from '@/components/themes/ThemePreview';
 import SectionTitle from '@/components/SectionTitle.vue';
 import BadgeButton from '@/components/buttons/BadgeButton';
 import ThemeCloner from '@/components/popup/ThemeCloner';
+import CloneIcon from 'vue-material-design-icons/contentCopy';
+
 export default {
   name: 'ThemeManager',
-  components: { ThemePreview, SectionTitle, BadgeButton },
+  components: { ThemePreview, SectionTitle, BadgeButton, CloneIcon, ThemeCloner },
   async fetch() {
     await this.$axios
       .get(`${this.$store.getters['environment/apiUrl']}user/themes`, {
@@ -54,6 +58,16 @@ export default {
   computed: {
     userAuthenticated() {
       return this.$store.getters['user/isLoggedIn'];
+    },
+    themesKeyArray() {
+      const themesKeys = [];
+      this.themes.forEach(element => {
+        themesKeys.push(element.value);
+      });
+      this.defaultThemes.forEach(element => {
+        themesKeys.push(element.value);
+      });
+      return themesKeys;
     }
   },
   mounted() {
@@ -76,10 +90,12 @@ export default {
 
 <style lang="scss">
 .themeManagerContainer {
-  margin: $header-height 0 0 10px;
   width: 100%;
+  max-width: $main-width;
+  margin: $header-height auto 0 auto;
 }
-.defaultThemesRow {
+
+.themes {
   display: flex;
   flex-direction: row;
 
@@ -87,9 +103,7 @@ export default {
     flex-direction: column;
   }
 }
-.section-title {
-  .title {
-    margin: 0 0 0 15px;
-  }
+.badgeBtn {
+  margin: auto !important;
 }
 </style>
