@@ -33,11 +33,11 @@ export default {
   data: () => ({
     selectedTheme: null
   }),
-  methods: () => ({
+  methods: {
     valueChange(entry) {
       this.selectedTheme = entry;
     }
-  })
+  }
 };
 </script>
 
