@@ -9,7 +9,7 @@
         :label="'Parent Theme'"
         :noDefault="false"
         class="themeDropdown"
-        @valuechange="valueChange(entry)"
+        @valuechange="valueChange"
       />
     </div>
     <div class="popup-overlay" @click.stop="$emit('close')" />
@@ -31,18 +31,14 @@ export default {
     themes: Array
   },
   data: () => ({
-    selectedTheme: null
+    selectedTheme: String
   }),
   methods: {
-    valueChange(entry) {
-      this.selectedTheme = entry;
+    valueChange(element) {
+      this.selectedTheme = element.value;
     }
   }
 };
 </script>
 
-<style lang="scss">
-.themeDropdown {
-  min-width: 10vw;
-}
-</style>
+<style lang="scss"></style>
