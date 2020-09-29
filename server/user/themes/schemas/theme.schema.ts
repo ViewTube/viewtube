@@ -1,11 +1,12 @@
-import { Document } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { ThemesDto } from '../dto/themes.dto';
+import { Document } from 'mongoose';
+import { ThemesDto, ThemeVariableType } from '../dto/themes.dto';
 
 @Schema({ timestamps: true })
 export class Theme extends Document implements ThemesDto {
   @Prop({ unique: false, required: true })
   username: string;
+
   @Prop({ unique: false, required: true })
   key: string;
 
@@ -13,7 +14,7 @@ export class Theme extends Document implements ThemesDto {
   name: string;
 
   @Prop({ required: true })
-  variables: [string, string][];
+  variables: ThemeVariableType[];
 }
 
 export const ThemeSchema = SchemaFactory.createForClass(Theme);
