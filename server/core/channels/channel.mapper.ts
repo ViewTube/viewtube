@@ -68,10 +68,7 @@ export class ChannelMapper {
       { author, authorId }
     );
     let channelSection = null;
-    if (
-      source.contents.twoColumnBrowseResultsRenderer &&
-      source.contents.twoColumnBrowseResultsRenderer.secondaryContents
-    ) {
+    if (source.contents.twoColumnBrowseResultsRenderer.secondaryContents) {
       channelSection =
         source.contents.twoColumnBrowseResultsRenderer.secondaryContents
           .browseSecondaryContentsRenderer.contents;

@@ -9,7 +9,6 @@ import {
 } from '@nestjs/common';
 import fs from 'fs';
 import path from 'path';
-import { Controller, Get, Param, Res, NotFoundException } from '@nestjs/common';
 import { Response } from 'express';
 import { ApiTags } from '@nestjs/swagger';
 import { ChannelsService } from './channels.service';

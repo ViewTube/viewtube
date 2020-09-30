@@ -7,7 +7,6 @@ import { VideoplaybackController } from './videoplayback/videoplayback.controlle
 import { VideoplaybackService } from './videoplayback/videoplayback.service';
 import { AutocompleteModule } from './autocomplete/autocomplete.module';
 import { Video, VideoSchema } from './videos/schemas/video.schema';
-import { ConfigModule } from '@nestjs/config';
 import { VideoBasicInfo, VideoBasicInfoSchema } from './videos/schemas/video-basic-info.schema';
 import {
   ChannelBasicInfo,
