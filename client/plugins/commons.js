@@ -1,5 +1,5 @@
 export default {
-  proxyUrl: 'https://proxy.mcdn.ch/index.php?',
+  proxyUrl: '',
   description: 'An alternative YouTube frontend using the Invidious API.',
   language: 'en-US',
 
@@ -22,40 +22,10 @@ export default {
 
   uuidv4() {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-      var r = (Math.random() * 16) | 0,
-        v = c == 'x' ? r : (r & 0x3) | 0x8;
+      const r = (Math.random() * 16) | 0;
+      const v = c === 'x' ? r : (r & 0x3) | 0x8;
       return v.toString(16);
     });
-  },
-
-  isProduction() {
-    return process.env.NODE_ENV === 'production';
-  },
-
-  getProxySrcSet(imgArray) {
-    if (Array.isArray(imgArray)) {
-      let srcSetString = '';
-      imgArray
-        .slice()
-        .sort((a, b) => a.width - b.width)
-        .forEach((element, i) => {
-          srcSetString += `${element.url} ${element.width}w`;
-          if (i + 1 < imgArray.length) {
-            srcSetString += ', ';
-          }
-        });
-      return srcSetString;
-    }
-  },
-
-  getProxyImageSizes(imgArray) {
-    if (Array.isArray(imgArray)) {
-      const sortedArray = imgArray.slice().sort((a, b) => a.width - b.width);
-      const largerImg = sortedArray[sortedArray.length - 3];
-      const desktopImg = sortedArray[3];
-      // console.log(largestImg.width)
-      return `(max-width: 700px) ${largerImg.width}px, ${desktopImg.width}px`;
-    }
   },
 
   getPageWidth() {

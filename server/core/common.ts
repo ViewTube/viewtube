@@ -34,12 +34,6 @@ export class Common {
   public static getVideoThumbnails(id: string): Array<VideoThumbnailDto> {
     return [
       {
-        quality: 'maxres',
-        url: `https://invidio.us/vi/${id}/maxres.jpg`,
-        width: 1280,
-        height: 720
-      },
-      {
         quality: 'maxresdefault',
         url: `https://i.ytimg.com/vi/${id}/maxresdefault.jpg`,
         width: 1280,

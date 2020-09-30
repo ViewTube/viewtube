@@ -1,11 +1,6 @@
 <template>
   <div>
-    <div v-if="loading" class="loading-channel">
-      <Spinner />
-      <h2>Loading channel...</h2>
-      <p>This can take up to 20 seconds</p>
-    </div>
-    <div v-if="!loading && channel" ref="channel" class="channel">
+    <div ref="channel" class="channel">
       <Banner
         v-if="channel && channel.authorBanners && channel.authorBanners.length > 0"
         class="banner"
@@ -33,10 +28,18 @@
           :key="index"
           class="video-section-container"
         >
-          <SectionTitle :title="section.title" />
-          <div v-if="section.type === 'single'" class="single-video-section" />
+          <SectionTitle v-if="section.title" :title="section.title" />
+          <div v-if="section.type === 'single'" class="single-video-section">
+            <InlineVideo :video="section.video" />
+          </div>
           <div v-if="section.type === 'multi'" class="multi-video-section">
-            <VideoEntry v-for="video in section.videos" :key="video.videoId" :video="video" />
+            <component
+              :is="element.type === 'video' ? 'VideoEntry' : 'PlaylistEntry'"
+              v-for="(element, i) in section.elements"
+              :key="i"
+              :video="element"
+              :playlist="element"
+            />
           </div>
         </div>
       </div>
@@ -47,6 +50,7 @@
 <script>
 import Commons from '@/plugins/commons.js';
 import VideoEntry from '@/components/list/VideoEntry';
+import PlaylistEntry from '@/components/list/PlaylistEntry';
 import Banner from '@/components/channel/Banner';
 import Overview from '@/components/channel/Overview';
 import RelatedChannels from '@/components/channel/RelatedChannels';
@@ -54,6 +58,7 @@ import ChannelDescription from '@/components/channel/ChannelDescription';
 import Spinner from '@/components/Spinner';
 import SubscribeButton from '@/components/buttons/SubscribeButton';
 import SectionTitle from '@/components/SectionTitle.vue';
+import InlineVideo from '@/components/list/InlineVideo';
 import ViewTubeApi from '~/plugins/services/viewTubeApi';
 
 export default {
@@ -66,40 +71,41 @@ export default {
     ChannelDescription,
     Spinner,
     SubscribeButton,
-    SectionTitle
+    SectionTitle,
+    PlaylistEntry,
+    InlineVideo
   },
-  data: () => ({
-    channel: null,
-    commons: Commons,
-    overviewColor: 0,
-    loading: true
-  }),
-  mounted() {
-    const { params, store } = this.$nuxt.context;
+  asyncData({ params, store }) {
     const viewTubeApi = new ViewTubeApi(store.getters['environment/apiUrl']);
-    viewTubeApi.api
+    return viewTubeApi.api
       .channels({ id: params.id })
       .then(response => {
-        this.channel = response.data;
-        this.loading = false;
-        document.title = `${this.channel.author} :: ViewTube`;
+        return {
+          channel: response.data
+        };
       })
       .catch(error => {
-        this.$store.dispatch('messages/createMessage', {
+        let errorMessage = '';
+        if (error.response && error.response.data) {
+          errorMessage = error.response.data.message;
+        }
+        store.dispatch('messages/createMessage', {
           type: 'error',
           title: 'Loading the channel failed',
-          message: error.response.data.message
+          message: errorMessage
         });
       });
   },
-  methods: {
-    handleScroll(e) {
-      this.$emit('scroll', e);
-    }
+  data() {
+    return {
+      channel: null,
+      commons: Commons,
+      overviewColor: 0
+    };
   },
   head() {
     return {
-      title: `loading channel :: ViewTube`
+      title: `${this.channel.author} :: ViewTube`
       //   meta: [
       //     {
       //       hid: 'description',

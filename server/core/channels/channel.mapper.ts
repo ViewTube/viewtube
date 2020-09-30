@@ -68,7 +68,10 @@ export class ChannelMapper {
       { author, authorId }
     );
     let channelSection = null;
-    if (source.contents.twoColumnBrowseResultsRenderer.secondaryContents) {
+    if (
+      source.contents.twoColumnBrowseResultsRenderer &&
+      source.contents.twoColumnBrowseResultsRenderer.secondaryContents
+    ) {
       channelSection =
         source.contents.twoColumnBrowseResultsRenderer.secondaryContents
           .browseSecondaryContentsRenderer.contents;
@@ -217,7 +220,10 @@ export class ChannelMapper {
       title
     );
     const videoThumbnails = Common.getVideoThumbnails(videoId);
-    const description = this.concatDescriptionRuns(source.description.runs);
+    let description = '';
+    if (source.description) {
+      description = this.concatDescriptionRuns(source.description.runs);
+    }
 
     return {
       author,

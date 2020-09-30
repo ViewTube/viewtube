@@ -42,45 +42,96 @@ export class ChannelsService {
     }
     if (apiKey) {
       try {
-        const rawChannelData = await fetch(`${this.channelApiUrl}?key=${apiKey}`, {
-          method: 'POST',
-          headers: {
-            Accept: 'text/html, application/xhtml+xml, application/xml;q=0.9, */*;q=0.8',
-            'Content-Type': 'text/html; charset=UTF-8',
-            'User-Agent': this.youtubeClientParams.userAgent
-          },
-          body: JSON.stringify({
-            context: {
-              client: this.youtubeClientParams
-            },
-            browseId: channelId,
-            params: this.featuredParam
-          })
-        }).then(response => response.json());
+        let rawChannelData = await this.fetchRawChannelData(channelId, apiKey);
+        let aboutChannelId = channelId;
 
-        const rawAboutData = await fetch(`${this.channelApiUrl}?key=${apiKey}`, {
-          method: 'POST',
-          headers: {
-            Accept: 'text/html, application/xhtml+xml, application/xml;q=0.9, */*;q=0.8',
-            'Content-Type': 'text/html; charset=UTF-8',
-            'User-Agent': this.youtubeClientParams.userAgent
-          },
-          body: JSON.stringify({
-            context: {
-              client: this.youtubeClientParams
-            },
-            browseId: channelId,
-            params: this.aboutParam
-          })
-        }).then(response => response.json());
+        if (!rawChannelData) {
+          const trueChannelId = await this.getChannelIdFromUsername(channelId);
+          if (trueChannelId) {
+            rawChannelData = await this.fetchRawChannelData(trueChannelId, apiKey);
+            aboutChannelId = trueChannelId;
+          }
+        }
 
-        return ChannelMapper.mapChannel(rawChannelData, rawAboutData);
+        if (rawChannelData) {
+          const rawAboutData = await fetch(`${this.channelApiUrl}?key=${apiKey}`, {
+            method: 'POST',
+            headers: {
+              Accept: 'text/html, application/xhtml+xml, application/xml;q=0.9, */*;q=0.8',
+              'Content-Type': 'text/html; charset=UTF-8',
+              'User-Agent': this.youtubeClientParams.userAgent
+            },
+            body: JSON.stringify({
+              context: {
+                client: this.youtubeClientParams
+              },
+              browseId: aboutChannelId,
+              params: this.aboutParam
+            })
+          }).then(response => response.json());
+
+          return ChannelMapper.mapChannel(rawChannelData, rawAboutData);
+        }
       } catch (error) {
+        console.log(error);
         throw new InternalServerErrorException(error);
       }
-    } else {
-      throw new InternalServerErrorException('Error fetching channel');
     }
+    throw new InternalServerErrorException('Error fetching channel');
+  }
+
+  async fetchRawChannelData(channelId: string, apiKey: string): Promise<any> {
+    let response = null;
+    try {
+      response = await fetch(`${this.channelApiUrl}?key=${apiKey}`, {
+        method: 'POST',
+        headers: {
+          Accept: 'text/html, application/xhtml+xml, application/xml;q=0.9, */*;q=0.8',
+          'Content-Type': 'text/html; charset=UTF-8',
+          'User-Agent': this.youtubeClientParams.userAgent
+        },
+        body: JSON.stringify({
+          context: {
+            client: this.youtubeClientParams
+          },
+          browseId: channelId,
+          params: this.featuredParam
+        })
+      });
+    } catch (err) {}
+    if (response && response.ok) {
+      return response.json();
+    }
+    // channelId might be a username
+    return null;
+  }
+
+  async getChannelIdFromUsername(username: string): Promise<string> {
+    const url = `https://www.youtube.com/user/${username}`;
+    const rawSite = await fetch(url, {
+      headers: {
+        Accept: 'text/html, application/xhtml+xml, application/xml;q=0.9, */*;q=0.8',
+        'Content-Type': 'text/html; charset=UTF-8',
+        'User-Agent': this.youtubeClientParams.userAgent
+      }
+    })
+      .then(response => {
+        if (response.ok) {
+          return response.text();
+        }
+        return null;
+      })
+      .catch(err => {
+        console.log(err);
+      });
+
+    if (rawSite) {
+      const channelId = rawSite.match(
+        /.*?og:url.*?content="https:\/\/www\.youtube\.com\/channel\/(.*)".*/im
+      )[1];
+      return channelId;
+    }
+    return null;
   }
 
   async refreshApiKey(): Promise<string | void> {

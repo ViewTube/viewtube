@@ -1,12 +1,12 @@
 <template>
   <div class="video-entry">
     <div class="video-entry-background" />
-    <div class="description-btn-container">
+    <div v-if="video.description" class="description-btn-container">
       <div v-ripple v-tippy="'Show description'" class="description-btn">
         <InfoIcon />
       </div>
     </div>
-    <input id="show-description" type="checkbox" name="show-description" />
+    <input v-if="video.description" id="show-description" type="checkbox" name="show-description" />
     <nuxt-link
       v-tippy="videoProgressTooltip"
       class="video-entry-thmb"
@@ -18,7 +18,7 @@
           <img
             class="video-entry-thmb-image"
             :loading="lazy ? 'lazy' : 'eager'"
-            :src="commons.proxyUrl + video.videoThumbnails[4].url"
+            :src="commons.proxyUrl + video.videoThumbnails[3].url"
             :alt="video.title"
           />
         </div>
