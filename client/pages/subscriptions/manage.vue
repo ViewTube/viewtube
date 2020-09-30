@@ -114,7 +114,7 @@ export default {
                       withCredentials: true
                     }
                   )
-                  .then(response => {
+                  .then(() => {
                     this.$fetch();
                   });
               }

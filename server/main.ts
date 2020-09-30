@@ -1,12 +1,13 @@
+import fs from 'fs';
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { ConfigService } from '@nestjs/config';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import packageJson from '../package.json';
 import cookieParser from 'cookie-parser';
 import webPush from 'web-push';
-import fs from 'fs';
+import Consola from 'consola';
+import packageJson from '../package.json';
 import { NuxtFilter } from './nuxt/nuxt.filter';
 import NuxtServer from './nuxt/';
 import config from '../nuxt.config.js';
@@ -15,8 +16,9 @@ import path from 'path';
 
 async function bootstrap() {
   const server = await NestFactory.create<NestExpressApplication>(AppModule);
+  const configService = server.get(ConfigService);
 
-  const dev = process.env.NODE_ENV !== 'production';
+  const dev = configService.get('NODE_ENV') !== 'production';
   // NUXT
   const nuxt = await NuxtServer.getInstance().run(dev);
 
@@ -26,7 +28,6 @@ async function bootstrap() {
   server.setGlobalPrefix('api');
 
   // CORS
-  const configService = server.get(ConfigService);
   const port = configService.get('PORT');
   const corsDomains = configService.get('VIEWTUBE_ALLOWED_DOMAINS').trim().split(',');
   if (configService.get('NODE_ENV') !== 'production') {
@@ -38,20 +39,19 @@ async function bootstrap() {
   // PUSH NOTIFICATIONS
   webPush.setVapidDetails(
     `mailto:${packageJson.email}`,
-    configService.get('VIEWTUBE_PUBLIC_VAPID'),
-    configService.get('VIEWTUBE_PRIVATE_VAPID')
+    configService.get('VIEWTUBE_PUBLIC_VAPID') || '',
+    configService.get('VIEWTUBE_PRIVATE_VAPID') || ''
   );
 
   // DATA STORAGE CONFIG
 
-  global['__basedir'] = __dirname;
+  (global as any).__basedir = __dirname;
   if (configService.get('VIEWTUBE_DATA_DIRECTORY')) {
-    global['__basedir'] = configService.get('VIEWTUBE_DATA_DIRECTORY');
+    (global as any).__basedir = configService.get('VIEWTUBE_DATA_DIRECTORY');
   }
   if (!dev) {
-    const channelsDir = `${global['__basedir']}/channels`;
+    const channelsDir = `${(global as any).__basedir}/channels`;
     if (!fs.existsSync(channelsDir)) {
-      console.log(channelsDir, 'basedir: ' + __dirname);
       fs.mkdirSync(channelsDir);
     }
   }

@@ -66,34 +66,11 @@ export default {
       this.checkRepeatPasswords();
     }
   },
-  head() {
-    return {
-      title: `Register :: ViewTube`,
-      meta: [
-        {
-          hid: 'description',
-          vmid: 'descriptionMeta',
-          name: 'description',
-          content: 'Create a ViewTube account'
-        },
-        {
-          hid: 'ogTitle',
-          property: 'og:title',
-          content: 'Register - ViewTube'
-        },
-        {
-          hid: 'ogDescription',
-          property: 'og:description',
-          content: 'Create a ViewTube account'
-        }
-      ]
-    };
-  },
   mounted() {
     this.$store.dispatch('captcha/getCaptcha');
   },
   methods: {
-    register(e) {
+    register() {
       this.loading = true;
       const me = this;
 
@@ -104,12 +81,14 @@ export default {
           captchaSolution: this.captchaSolution
         })
         .then(result => {
-          me.$store.dispatch('messages/createMessage', {
-            type: 'info',
-            title: 'Registration successful',
-            message: 'Redirecting...'
-          });
-          me.$router.push(me.redirectedPage.fullPath);
+          if (result.data) {
+            me.$store.dispatch('messages/createMessage', {
+              type: 'info',
+              title: 'Registration successful',
+              message: 'Redirecting...'
+            });
+            me.$router.push(me.redirectedPage.fullPath);
+          }
         })
         .catch(err => {
           console.error(err);
@@ -137,7 +116,30 @@ export default {
       }
     }
   },
-  beforeRouteEnter(to, from, next) {
+  head() {
+    return {
+      title: `Register :: ViewTube`,
+      meta: [
+        {
+          hid: 'description',
+          vmid: 'descriptionMeta',
+          name: 'description',
+          content: 'Create a ViewTube account'
+        },
+        {
+          hid: 'ogTitle',
+          property: 'og:title',
+          content: 'Register - ViewTube'
+        },
+        {
+          hid: 'ogDescription',
+          property: 'og:description',
+          content: 'Create a ViewTube account'
+        }
+      ]
+    };
+  },
+  beforeRouteEnter(_, from, next) {
     next(vm => {
       if (from.name) {
         vm.redirectedPage = from;

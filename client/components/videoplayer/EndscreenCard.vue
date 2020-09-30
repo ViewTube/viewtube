@@ -18,12 +18,12 @@
     @mouseup.stop="onMouseUp"
   >
     <div class="card-background-container">
-      <div class="card-background-overlay"></div>
+      <div class="card-background-overlay" />
       <img class="card-background" :src="backgroundImage" alt="Thumbnail Image" />
     </div>
     <div class="card-info-container">
       <p class="card-title">{{ card.title }}</p>
-      <p class="card-views" v-if="card.viewCountText">
+      <p v-if="card.viewCountText" class="card-views">
         {{ card.viewCountText }}
       </p>
     </div>
@@ -32,31 +32,12 @@
 
 <script>
 export default {
-  name: 'endscreen-card',
+  name: 'EndscreenCard',
   props: {
     card: Object,
     videoProgress: Number,
     videoHeight: Number,
     videoWidth: Number
-  },
-  methods: {
-    onMouseEnter() {
-      this.$emit('cardenter');
-    },
-    onMouseLeave() {
-      this.$emit('cardleave');
-    },
-    onClick(e) {
-      if (this.card.type !== 'website') {
-        this.$router.push(this.linkUrl);
-        e.preventDefault();
-      }
-      e.stopPropagation();
-    },
-    onMouseUp(e) {
-      e.stopPropagation();
-      e.preventDefault();
-    }
   },
   computed: {
     elementType() {
@@ -114,6 +95,25 @@ export default {
         default:
           return this.card.videoThumbnails[1].url;
       }
+    }
+  },
+  methods: {
+    onMouseEnter() {
+      this.$emit('cardenter');
+    },
+    onMouseLeave() {
+      this.$emit('cardleave');
+    },
+    onClick(e) {
+      if (this.card.type !== 'website') {
+        this.$router.push(this.linkUrl);
+        e.preventDefault();
+      }
+      e.stopPropagation();
+    },
+    onMouseUp(e) {
+      e.stopPropagation();
+      e.preventDefault();
     }
   }
 };

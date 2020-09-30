@@ -189,19 +189,19 @@ export default {
       this.$router.push(`/results?search_query=${this.searchQuery}${searchParams}`);
       this.$fetch();
     },
-    onSearchSortChange(element, index) {
+    onSearchSortChange(element) {
       SearchParams.sort_by = element.value;
       this.reloadSearchWithParams();
     },
-    onSearchDateChange(element, index) {
+    onSearchDateChange(element) {
       SearchParams.date = element.value;
       this.reloadSearchWithParams();
     },
-    onSearchDurationChange(element, index) {
+    onSearchDurationChange(element) {
       SearchParams.duration = element.value;
       this.reloadSearchWithParams();
     },
-    onSearchTypeChange(element, index) {
+    onSearchTypeChange(element) {
       SearchParams.type = element.value;
       this.reloadSearchWithParams();
     },

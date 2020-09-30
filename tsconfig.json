@@ -4,6 +4,7 @@
     "declaration": false,
     "removeComments": true,
     "noLib": false,
+    "lib": ["ESNext", "ES2020", "ESNext.AsyncIterable", "DOM"],
     "allowSyntheticDefaultImports": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
@@ -12,6 +13,8 @@
     "resolveJsonModule": true,
     "sourceMap": true,
     "outDir": "./dist",
+    "noEmit": false,
+    "strict": false,
     "esModuleInterop": true,
     "moduleResolution": "node",
     "baseUrl": "./",
@@ -19,8 +22,9 @@
       "~/*": ["client/*"],
       "@/*": ["client/*"]
     },
-    "types": ["@types/node", "@nuxt/vue-app", "@types/jest"]
+    "typeRoots": ["./node_modules/@types"],
+    "types": ["@types/node", "@nuxt/types", "@types/jest"]
   },
-  "include": ["server/**/*", "client/**/*"],
-  "exclude": ["node_modules", "server/**/*.spec.ts"]
+  "include": ["server/**/*", "client/**/*", "types/**/*"],
+  "exclude": ["server/**/*.spec.ts"]
 }

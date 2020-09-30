@@ -103,8 +103,8 @@
       <div class="center-control-overlay">
         <div class="left-action-container" />
         <div
-          class="play-btn-container"
           v-if="!videoElement.buffering"
+          class="play-btn-container"
           @touchend="onPlayBtnTouchEnd"
           @click="onPlayBtnClick"
         >
@@ -388,7 +388,7 @@ export default {
       const videoRef = this.$refs.video;
       if (videoRef) {
         const videoBufferedMaxTimeRange = videoRef.buffered.length - 1;
-        if (videoBufferedMaxTimeRange > 0 && videoBufferedMaxTimeRange !== undefined) {
+        if (videoBufferedMaxTimeRange && videoBufferedMaxTimeRange > 0) {
           const loadingPercentage =
             (videoRef.buffered.end(videoRef.buffered.length - 1) / videoRef.duration) * 100;
           this.videoElement.loadingPercentage = loadingPercentage;
@@ -467,13 +467,13 @@ export default {
         this.matchSeekProgressPercentage();
       }
     },
-    onSeekbarMouseDown(e) {
+    onSeekbarMouseDown() {
       this.seekbar.seeking = true;
     },
-    onPlayerClick(e) {
+    onPlayerClick() {
       this.toggleVideoPlayback();
     },
-    onPlayerMouseUp(e) {
+    onPlayerMouseUp() {
       if (this.seekbar.seeking) {
         this.seekbar.seeking = false;
         this.matchSeekProgressPercentage(true);
@@ -481,8 +481,8 @@ export default {
         // this.toggleVideoPlayback()
       }
     },
-    onSeekbarMouseLeave(e) {},
-    onSeekbarMouseEnter(e) {},
+    onSeekbarMouseLeave() {},
+    onSeekbarMouseEnter() {},
     onSeekBarClick(e) {
       this.seekbar.seekPercentage = this.calculateSeekPercentage(e.pageX);
       this.matchSeekProgressPercentage(true);
@@ -508,20 +508,20 @@ export default {
       return pageX > Commons.getPageWidth() || pageX < 0 || pageY < 0;
     },
     // Interaction events
-    onVolumeInteraction(e) {},
-    onOpenInPlayer(e) {
+    onVolumeInteraction() {},
+    onOpenInPlayer() {
       window.open(this.videoUrl, '_blank');
     },
-    onOpenInPlayerMouseUp(e) {},
-    onVideoExpand(e) {
+    onOpenInPlayerMouseUp() {},
+    onVideoExpand() {
       this.videoElement.zoomed = true;
     },
-    onVideoExpandMouseUp(e) {},
-    onVideoCollapse(e) {
+    onVideoExpandMouseUp() {},
+    onVideoCollapse() {
       this.videoElement.zoomed = false;
     },
-    onVideoCollapseMouseUp(e) {},
-    onSwitchFullscreen(e) {
+    onVideoCollapseMouseUp() {},
+    onSwitchFullscreen() {
       if (this.fullscreen) {
         this.onLeaveFullscreen();
       } else {
@@ -543,8 +543,8 @@ export default {
         this.fullscreen = true;
       }
     },
-    onEnterFullscreenMouseUp(e) {},
-    onLeaveFullscreen(e) {
+    onEnterFullscreenMouseUp() {},
+    onLeaveFullscreen() {
       if (document.exitFullscreen) {
         document.exitFullscreen();
       } else if (document.webkitExitFullscreen) {
@@ -556,18 +556,18 @@ export default {
       }
       this.fullscreen = false;
     },
-    onFullscreenChange(e) {
+    onFullscreenChange() {
       if (document.fullscreenElement) {
         this.fullscreen = true;
       } else {
         this.fullscreen = false;
       }
     },
-    onLeaveFullscreenMouseUp(e) {},
-    onPlayBtnTouchEnd(e) {
+    onLeaveFullscreenMouseUp() {},
+    onPlayBtnTouchEnd() {
       this.toggleVideoPlayback();
     },
-    onPlayBtnClick(e) {
+    onPlayBtnClick() {
       this.toggleVideoPlayback();
     },
     toggleVideoPlayback() {
@@ -580,8 +580,8 @@ export default {
         }
       }
     },
-    onPlayerTouchStart(e) {},
-    onPlayerTouchEnd(e) {
+    onPlayerTouchStart() {},
+    onPlayerTouchEnd() {
       if (this.seekbar.seeking) {
         this.seekbar.seeking = false;
         this.matchSeekProgressPercentage(true);
@@ -607,7 +607,7 @@ export default {
         }
       }
     },
-    onPlayerMouseLeave(e) {
+    onPlayerMouseLeave() {
       this.hidePlayerOverlay();
     },
     saveVideoPosition() {

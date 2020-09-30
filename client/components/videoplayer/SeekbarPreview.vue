@@ -39,7 +39,7 @@ export default {
     }
   }),
   watch: {
-    time(newValue) {
+    time() {
       if (this.storyboardImages) {
         const currentImg = this.storyboardImages.find(element => {
           return element.startTime < this.time && element.endTime > this.time;

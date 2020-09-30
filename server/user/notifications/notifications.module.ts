@@ -1,16 +1,13 @@
 import { Module } from '@nestjs/common';
-import { NotificationsController } from './notifications.controller';
-import { NotificationsService } from './notifications.service';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
+import { NotificationsController } from './notifications.controller';
+import { NotificationsService } from './notifications.service';
 import {
   NotificationsSubscription,
   NotificationsSubscriptionSchema
 } from './schemas/notifications-subscription.schema';
-import {
-  PushNotification,
-  PushNotificationSchema
-} from './schemas/push-notification.schema';
+import { PushNotification, PushNotificationSchema } from './schemas/push-notification.schema';
 
 @Module({
   imports: [

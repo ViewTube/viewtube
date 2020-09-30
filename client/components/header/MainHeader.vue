@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="header"
-    :class="{ hidden: $store.state.scroll.scrollDown }"
-  >
+  <div class="header" :class="{ absolute: posAbsolute }" :style="{ top: `${topPosition}px` }">
     <nuxt-link class="logo-link" to="/">
       <h1 class="logo">
         <span>View</span>
@@ -17,12 +14,14 @@
     </nuxt-link>
     <MainSearchBox />
     <UserMenu />
+    <portal-target class="header-portal" name="header" :class="{ visible: !posAbsolute }" />
   </div>
 </template>
 
 <script>
 import MainSearchBox from '@/components/MainSearchBox';
 import UserMenu from '@/components/header/UserMenu';
+import { Scroll } from '@/plugins/scroll';
 
 export default {
   name: 'MainHeader',
@@ -33,7 +32,10 @@ export default {
   props: {
     scrollTop: Boolean
   },
-  data: () => ({}),
+  data: () => ({
+    posAbsolute: false,
+    topPosition: 0
+  }),
   computed: {
     currentRouteName() {
       return this.$route.name;
@@ -42,8 +44,23 @@ export default {
       return this.$store.getters['user/isLoggedIn'];
     }
   },
-  mounted() {},
-  methods: {}
+  mounted() {
+    if (process.browser) {
+      window.addEventListener('scroll', this.handleScroll, {
+        passive: true
+      });
+    }
+  },
+  beforeDestroy() {
+    window.removeEventListener('scroll', this.handleScroll, { passive: true });
+  },
+  methods: {
+    handleScroll() {
+      const { posAbsolute, topPosition } = Scroll.setScrollPosition(window.pageYOffset);
+      this.posAbsolute = posAbsolute;
+      this.topPosition = topPosition;
+    }
+  }
 };
 </script>
 
@@ -61,12 +78,21 @@ export default {
   box-shadow: $medium-shadow;
   background-color: var(--header-bgcolor);
 
-  transition: box-shadow 300ms $intro-easing,
-    background-color 300ms $intro-easing,
+  transition: box-shadow 300ms $intro-easing, background-color 300ms $intro-easing,
     transform 300ms $dynamic-easing;
 
-  &.hidden {
-    transform: translate3d(0, -$header-height - 20px, 0);
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: -100%;
+    height: $header-height;
+    width: 100%;
+    background-color: var(--header-bgcolor);
+  }
+
+  &.absolute {
+    position: absolute;
   }
 
   .logo-link {
@@ -106,8 +132,7 @@ export default {
       margin: auto;
       height: calc(#{$header-height} - 20px);
       transform: scale(0.8) translateY(-2px);
-      transition: clip-path 300ms $intro-easing,
-        transform 300ms linear;
+      transition: clip-path 300ms $intro-easing, transform 300ms linear;
     }
 
     @media screen and (max-width: $mobile-width) {

@@ -1,15 +1,10 @@
 <template>
-  <input
-    type="submit"
-    :value="label"
-    class="submit-button"
-    v-ripple
-  />
+  <input v-ripple type="submit" :value="label" class="submit-button" />
 </template>
 
 <script>
 export default {
-  name: 'submit-button',
+  name: 'SubmitButton',
   props: {
     label: String
   }

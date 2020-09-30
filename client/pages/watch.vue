@@ -184,7 +184,7 @@ export default {
     CollapsibleSection,
     BadgeButton
   },
-  watchQuery(newQuery, oldQuery) {
+  watchQuery(newQuery) {
     const videoId = newQuery.v;
     if (this) {
       this.loadComments(videoId);

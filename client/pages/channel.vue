@@ -13,15 +13,6 @@
         <ChannelDescription :description="channel.description" />
         <RelatedChannels :channel="channel" />
       </div>
-      <div class="channel-title-sticky" :class="{ top: $store.state.scroll.scrollDown }">
-        <div v-if="channel.authorThumbnails" class="channel-sticky-thumbnail">
-          <img :src="commons.proxyUrl + channel.authorThumbnails[2].url" alt="Author Image" />
-        </div>
-        <div class="channel-sticky-name">
-          <h1>{{ channel.author }}</h1>
-          <SubscribeButton :channel-id="channel.authorId" />
-        </div>
-      </div>
       <div class="video-sections-container">
         <div
           v-for="(section, index) in channel.videoSections"
@@ -42,7 +33,18 @@
             />
           </div>
         </div>
+       </div>
+      <portal to="header">
+      <div class="channel-title-sticky">
+        <div v-if="channel.authorThumbnails" class="channel-sticky-thumbnail">
+          <img :src="commons.proxyUrl + channel.authorThumbnails[0].url" alt="Author Image" />
+        </div>
+        <div class="channel-sticky-name">
+          <h1>{{ channel.author }}</h1>
+          <BadgeButton class="scroll-top-btn" :click="onScrollTop"><UpIcon /></BadgeButton>
+        </div>
       </div>
+    </portal>
     </div>
   </div>
 </template>
@@ -60,6 +62,8 @@ import SubscribeButton from '@/components/buttons/SubscribeButton';
 import SectionTitle from '@/components/SectionTitle.vue';
 import InlineVideo from '@/components/list/InlineVideo';
 import ViewTubeApi from '~/plugins/services/viewTubeApi';
+import BadgeButton from '@/components/buttons/BadgeButton';
+import UpIcon from 'vue-material-design-icons/ArrowUp';
 
 export default {
   name: 'Home',
@@ -74,6 +78,8 @@ export default {
     SectionTitle,
     PlaylistEntry,
     InlineVideo
+    BadgeButton,
+    UpIcon
   },
   asyncData({ params, store }) {
     const viewTubeApi = new ViewTubeApi(store.getters['environment/apiUrl']);
@@ -102,6 +108,11 @@ export default {
       commons: Commons,
       overviewColor: 0
     };
+  },
+  methods: {
+    onScrollTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   },
   head() {
     return {
@@ -136,6 +147,51 @@ export default {
 </script>
 
 <style lang="scss">
+.visible {
+  .channel-title-sticky {
+    transform: translate3d(0, $header-height, 0);
+  }
+}
+
+.channel-title-sticky {
+  background-color: var(--bgcolor-main);
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: $header-height;
+  overflow: hidden;
+  z-index: 11;
+  display: flex;
+  flex-direction: row;
+  transform: translate3d(0, 0, 0);
+  transition: transform 300ms $dynamic-easing;
+  box-shadow: $low-shadow;
+
+  .channel-sticky-thumbnail {
+    height: $header-height;
+    margin: 0;
+    padding: 0;
+
+    img {
+      height: 100%;
+    }
+  }
+
+  .channel-sticky-name {
+    color: var(--title-color);
+    font-family: $default-font;
+    margin: 10px 0 10px 0;
+    font-size: 0.8rem;
+    margin: auto 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-grow: 1;
+    padding: 0 15px;
+  }
+}
+
 .loading-channel {
   position: absolute;
   left: 50%;

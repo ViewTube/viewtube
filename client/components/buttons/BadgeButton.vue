@@ -1,11 +1,11 @@
 <template>
   <element
     :is="internalLink ? 'nuxt-link' : 'a'"
+    v-ripple
     :to="internalLink && href ? href : '#'"
     :target="internalLink ? '' : '_blank'"
     :href="href || '#'"
     :class="{ disabled }"
-    v-ripple
     class="badge-btn"
     rel="noreferrer noopener"
     @click="clickFunction"

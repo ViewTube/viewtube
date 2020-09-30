@@ -1,27 +1,23 @@
 <template>
   <div class="messages-container">
     <MessageBox
-      v-for="message in $store.getters[
-        'messages/visibleMessages'
-      ]"
+      v-for="message in $store.getters['messages/visibleMessages']"
       :key="message.id"
       :message="message"
-    ></MessageBox>
+    />
   </div>
 </template>
 
 <script>
 import MessageBox from '@/components/message/MessageBox';
 export default {
-  name: 'message-box-container',
+  name: 'MessageBoxContainer',
   components: {
     MessageBox
   },
   data() {
     return {
-      messages: this.$store.getters[
-        'messages/visibleMessages'
-      ]
+      messages: this.$store.getters['messages/visibleMessages']
     };
   }
 };
