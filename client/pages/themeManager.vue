@@ -19,7 +19,7 @@
       </div>
       <portal to="popup">
         <transition v-if="cloneModalOpen" name="fade-down">
-          <ThemeCloner :themes="themesKeyArray" @close="closeCloneTheme" />
+          <ThemeCloner :themes="themesArray" @close="closeCloneTheme" />
         </transition>
       </portal>
     </div>
@@ -59,13 +59,13 @@ export default {
     userAuthenticated() {
       return this.$store.getters['user/isLoggedIn'];
     },
-    themesKeyArray() {
+    themesArray() {
       const themesKeys = [];
       this.themes.forEach(element => {
-        themesKeys.push(element.key);
+        themesKeys.push({ key: element.key, name: element.name });
       });
       this.defaultThemes.forEach(element => {
-        themesKeys.push(element.value);
+        themesKeys.push({ key: element.value, name: element.name });
       });
       return themesKeys;
     }
