@@ -33,7 +33,7 @@ export default {
     video: {},
     commons: Commons
   }),
-  beforeRouteUpdate(to, from, next) {
+  beforeRouteUpdate(to, _, next) {
     const videoId = to.params.id;
     fetch(`${Commons.getApiUrl()}videos/${videoId}`, {
       cache: 'force-cache',

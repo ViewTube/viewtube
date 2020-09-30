@@ -1,4 +1,5 @@
 import { VideoThumbnailDto } from 'server/core/videos/dto/video-thumbnail.dto';
+import { PreviewVideoDto } from './preview-video.dto';
 
 export class PlaylistBasicInfoDto {
   title: string;
@@ -11,13 +12,5 @@ export class PlaylistBasicInfoDto {
   videoCount: number;
   firstVideoId?: string;
   playlistThumbnails?: Array<VideoThumbnailDto>;
-  previewVideos?: Array<{
-    title?: string;
-    videoId?: string;
-    videoThumbnails: Array<{
-      url: string;
-      width: number;
-      height: number;
-    }>;
-  }>;
+  previewVideos?: Array<PreviewVideoDto>;
 }

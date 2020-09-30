@@ -1,10 +1,10 @@
-import { ChannelLinkDto } from './dto/channel-link.dto';
-import { ChannelDto } from './dto/channel.dto';
 import { VideoBasicInfoDto } from '../videos/dto/video-basic-info.dto';
 import { Common } from '../common';
-import { ChannelBasicInfoDto } from './dto/channel-basic-info.dto';
 import { PlaylistBasicInfoDto } from '../playlists/dto/playlist-basic-info.dto';
-import fs from 'fs';
+import { ChannelLinkDto } from './dto/channel-link.dto';
+import { ChannelDto } from './dto/channel.dto';
+import { ChannelBasicInfoDto } from './dto/channel-basic-info.dto';
+import { VideoSectionDto } from './dto/video-section.dto';
 
 export class ChannelMapper {
   static mapChannel(source: any, aboutSource: any): ChannelDto {
@@ -156,6 +156,7 @@ export class ChannelMapper {
       .replace(' ', '')
       .match(/([\d,.]+)([MK]?)/);
     if (match) {
+      // eslint-disable-next-line prefer-const
       let [, num, multi] = match;
       num = parseFloat(num);
       return multi === 'M' ? num * 1000000 : multi === 'K' ? num * 1000 : num;
@@ -163,16 +164,7 @@ export class ChannelMapper {
     return null;
   }
 
-  static mapVideoSections(
-    source: Array<any>,
-    channel: any
-  ): Array<{
-    title?: string;
-    type: 'single' | 'multi';
-    videos?: Array<VideoBasicInfoDto>;
-    video?: VideoBasicInfoDto;
-    playlists?: Array<PlaylistBasicInfoDto>;
-  }> {
+  static mapVideoSections(source: Array<any>, channel: any): Array<VideoSectionDto> {
     return source
       .filter(
         section =>

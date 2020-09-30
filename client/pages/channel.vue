@@ -33,8 +33,9 @@
             />
           </div>
         </div>
-       </div>
-      <portal to="header">
+      </div>
+    </div>
+    <portal to="header">
       <div class="channel-title-sticky">
         <div v-if="channel.authorThumbnails" class="channel-sticky-thumbnail">
           <img :src="commons.proxyUrl + channel.authorThumbnails[0].url" alt="Author Image" />
@@ -45,7 +46,6 @@
         </div>
       </div>
     </portal>
-    </div>
   </div>
 </template>
 
@@ -61,9 +61,9 @@ import Spinner from '@/components/Spinner';
 import SubscribeButton from '@/components/buttons/SubscribeButton';
 import SectionTitle from '@/components/SectionTitle.vue';
 import InlineVideo from '@/components/list/InlineVideo';
-import ViewTubeApi from '~/plugins/services/viewTubeApi';
 import BadgeButton from '@/components/buttons/BadgeButton';
 import UpIcon from 'vue-material-design-icons/ArrowUp';
+import ViewTubeApi from '~/plugins/services/viewTubeApi';
 
 export default {
   name: 'Home',
@@ -77,7 +77,7 @@ export default {
     SubscribeButton,
     SectionTitle,
     PlaylistEntry,
-    InlineVideo
+    InlineVideo,
     BadgeButton,
     UpIcon
   },

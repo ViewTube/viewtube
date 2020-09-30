@@ -3,16 +3,13 @@ import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { ConfigService } from '@nestjs/config';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import packageJson from '../package.json';
 import cookieParser from 'cookie-parser';
 import webPush from 'web-push';
 import Consola from 'consola';
 import packageJson from '../package.json';
+import { AppModule } from './app.module';
 import { NuxtFilter } from './nuxt/nuxt.filter';
 import NuxtServer from './nuxt/';
-import config from '../nuxt.config.js';
-import Consola from 'consola';
-import path from 'path';
 
 async function bootstrap() {
   const server = await NestFactory.create<NestExpressApplication>(AppModule);
