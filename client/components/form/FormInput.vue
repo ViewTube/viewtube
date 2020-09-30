@@ -65,8 +65,8 @@ export default {
 
   .material-design-icon {
     position: absolute;
-    right: 40px;
-    top: 30px;
+    right: 12px;
+    top: 12px;
     color: var(--title-color);
   }
 
@@ -75,11 +75,10 @@ export default {
   }
 
   .input {
-    margin: 15px 20px;
     padding: 12px 12px;
     line-height: 30px;
     border-radius: 4px;
-    width: calc(100% - 40px);
+    width: 100%;
     height: $input-line-height;
 
     font-size: 1rem;
@@ -109,8 +108,7 @@ export default {
 
   .input-label {
     position: absolute;
-    left: 34px;
-    top: 15px;
+    left: 10px;
     height: $input-line-height;
     line-height: $input-line-height;
     text-align: center;

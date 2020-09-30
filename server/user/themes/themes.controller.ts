@@ -11,10 +11,10 @@ import {
   NotFoundException,
   Delete
 } from '@nestjs/common';
-import { ThemesDto } from './dto/themes.dto';
-import { ThemesService } from './themes.service';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'server/auth/guards/jwt.guard';
+import { ThemesDto } from './dto/themes.dto';
+import { ThemesService } from './themes.service';
 
 @ApiTags('User')
 @Controller('user/themes')
@@ -31,7 +31,7 @@ export class ThemesController {
   @Post()
   async insertTheme(@Req() req: any, @Body() theme: ThemesDto) {
     if (theme.username === req.user.username) {
-      this.themesService.insertTheme(theme);
+      return await this.themesService.insertTheme(theme);
     } else {
       throw new UnauthorizedException();
     }
@@ -40,7 +40,7 @@ export class ThemesController {
   @Put()
   async updateTheme(@Req() req: any, @Body() theme: ThemesDto) {
     if (theme.username === req.user.username) {
-      this.themesService.updateTheme(theme);
+      return await this.themesService.updateTheme(theme);
     } else {
       throw new UnauthorizedException();
     }
@@ -48,8 +48,6 @@ export class ThemesController {
 
   @Delete()
   async deleteTheme(@Req() req: any, @Param('key') key: string) {
-    if (!this.themesService.deleteTheme(key, req.user.username)) {
-      throw new NotFoundException();
-    }
+    return await this.themesService.deleteTheme(key, req.user.username);
   }
 }

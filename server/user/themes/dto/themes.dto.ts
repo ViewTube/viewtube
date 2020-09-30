@@ -1,7 +1,8 @@
 export type ThemeVariableType = [string, string];
 
 export class ThemesDto {
-  username: string;
+  username?: string;
+  default?: boolean;
   key: string;
   name: string;
   variables: ThemeVariableType[];
