@@ -7,9 +7,9 @@ import cookieParser from 'cookie-parser';
 import webPush from 'web-push';
 import Consola from 'consola';
 import packageJson from '../package.json';
+import { AppModule } from './app.module';
 import { NuxtFilter } from './nuxt/nuxt.filter';
 import NuxtServer from './nuxt/';
-import { AppModule } from './app.module';
 
 async function bootstrap() {
   const server = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -17,7 +17,6 @@ async function bootstrap() {
 
   const dev = configService.get('NODE_ENV') !== 'production';
   // NUXT
-  console.log(configService.get('NODE_ENV'));
   const nuxt = await NuxtServer.getInstance().run(dev);
 
   // NEST
@@ -78,10 +77,5 @@ async function bootstrap() {
       badge: true
     });
   });
-
-  // if (dev && module.hot) {
-  //   module.hot.accept();
-  //   module.hot.dispose(() => server.close());
-  // }
 }
 bootstrap();

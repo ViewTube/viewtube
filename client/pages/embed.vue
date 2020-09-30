@@ -1,37 +1,38 @@
 <template>
   <div class="embed">
-    <VideoPlayer v-if="!loading" :video="video" :embedded="true" class="video-player-p" />
+    <VideoPlayer :video="video" :embedded="true" class="video-player-p" />
   </div>
 </template>
 
 <script>
 import Commons from '@/plugins/commons.js';
-import VideoPlayer from '@/components/videoplayer/VideoPlayer';
+import VideoPlayer from '@/components/videoplayer/VideoPlayer.vue';
+import ViewTubeApi from '@/plugins/services/viewTubeApi';
 
 export default {
   name: 'EmbedVideo',
   components: {
     VideoPlayer
   },
+  asyncData({ params, store }) {
+    const viewTubeApi = new ViewTubeApi(store.getters['environment/apiUrl']);
+    return viewTubeApi.api
+      .videos({
+        id: params.id
+      })
+      .then(response => {
+        return {
+          video: response.data
+        };
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  },
   data: () => ({
-    loading: true,
     video: {},
     commons: Commons
   }),
-  beforeRouteEnter(to, _, next) {
-    const videoId = to.params.id;
-    fetch(`${Commons.getApiUrl()}videos/${videoId}`, {
-      cache: 'force-cache',
-      method: 'GET'
-    })
-      .then(response => response.json())
-      .then(data => {
-        next(vm => vm.loadData(data));
-      })
-      .catch(error => {
-        console.error(error);
-      });
-  },
   beforeRouteUpdate(to, _, next) {
     const videoId = to.params.id;
     fetch(`${Commons.getApiUrl()}videos/${videoId}`, {
@@ -59,7 +60,7 @@ export default {
 
 <style lang="scss" scoped>
 .embed {
-  height: 100%;
-  width: 100%;
+  height: 100vh;
+  width: 100vw;
 }
 </style>

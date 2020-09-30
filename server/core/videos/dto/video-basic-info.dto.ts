@@ -8,7 +8,7 @@ export class VideoBasicInfoDto {
   author: string;
   authorId: string;
   videoThumbnails: Array<VideoThumbnailDto>;
-  description: string;
+  description?: string;
   viewCount: number;
   likeCount?: number;
   dislikeCount?: number;

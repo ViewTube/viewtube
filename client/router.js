@@ -53,7 +53,8 @@ export function createRouter() {
       },
       {
         path: '/embed/:id',
-        component: Embed
+        component: Embed,
+        meta: { headless: true }
       },
       {
         path: '/channel/:id',

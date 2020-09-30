@@ -8,12 +8,24 @@
     >
       <div class="thmb-image-container">
         <img
+          v-if="playlist.thumbnail"
           class="playlist-entry-thmb-image"
           :src="commons.proxyUrl + playlist.thumbnail"
           :alt="playlist.title"
         />
+        <img
+          v-if="playlist.playlistThumbnails"
+          class="playlist-entry-thmb-image"
+          :src="commons.proxyUrl + playlist.playlistThumbnails[3].url"
+          :alt="playlist.title"
+        />
       </div>
-      <span class="playlist-entry-count">{{ playlist.videoCountString }}</span>
+      <span v-if="playlist.videoCountString" class="playlist-entry-count">{{
+        playlist.videoCountString
+      }}</span>
+      <span v-if="playlist.videoCount" class="playlist-entry-count"
+        >{{ playlist.videoCount }} videos</span
+      >
     </nuxt-link>
     <div class="playlist-entry-info">
       <nuxt-link

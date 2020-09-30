@@ -1,52 +1,69 @@
 <template>
   <div>
-    <div v-if="loading" class="loading-channel">
-      <Spinner />
-      <h2>Loading channel...</h2>
-      <p>This can take up to 20 seconds</p>
-    </div>
-    <div v-if="!loading && channel" ref="channel" class="channel">
+    <div ref="channel" class="channel">
       <Banner
         v-if="channel && channel.authorBanners && channel.authorBanners.length > 0"
         class="banner"
         :src="channel.authorBanners[1].url"
+        :banner-links="channel.channelLinks"
+        :banner-hq-src="channel.authorBanners[channel.authorBanners.length - 1].url"
       />
       <Overview :channel="channel" class="overview" />
       <div class="backdrop-image">
-        <ChannelDescription :description-html="channel.descriptionHtml" />
+        <ChannelDescription :description="channel.description" />
         <RelatedChannels :channel="channel" />
       </div>
-      <portal to="header">
-        <div class="channel-title-sticky">
-          <div v-if="channel.authorThumbnails" class="channel-sticky-thumbnail">
-            <img :src="commons.proxyUrl + channel.authorThumbnails[0].url" alt="Author Image" />
+      <div class="video-sections-container">
+        <div
+          v-for="(section, index) in channel.videoSections"
+          :key="index"
+          class="video-section-container"
+        >
+          <SectionTitle v-if="section.title" :title="section.title" />
+          <div v-if="section.type === 'single'" class="single-video-section">
+            <InlineVideo :video="section.video" />
           </div>
-          <div class="channel-sticky-name">
-            <h1>{{ channel.author }}</h1>
-            <BadgeButton class="scroll-top-btn" :click="onScrollTop"><UpIcon /></BadgeButton>
+          <div v-if="section.type === 'multi'" class="multi-video-section">
+            <component
+              :is="element.type === 'video' ? 'VideoEntry' : 'PlaylistEntry'"
+              v-for="(element, i) in section.elements"
+              :key="i"
+              :video="element"
+              :playlist="element"
+            />
           </div>
-        </div>
-      </portal>
-      <div class="channel-videos-container">
-        <div class="channel-videos">
-          <VideoEntry v-for="(video, index) in channel.latestVideos" :key="index" :video="video" />
         </div>
       </div>
     </div>
+    <portal to="header">
+      <div class="channel-title-sticky">
+        <div v-if="channel.authorThumbnails" class="channel-sticky-thumbnail">
+          <img :src="commons.proxyUrl + channel.authorThumbnails[0].url" alt="Author Image" />
+        </div>
+        <div class="channel-sticky-name">
+          <h1>{{ channel.author }}</h1>
+          <BadgeButton class="scroll-top-btn" :click="onScrollTop"><UpIcon /></BadgeButton>
+        </div>
+      </div>
+    </portal>
   </div>
 </template>
 
 <script>
 import Commons from '@/plugins/commons.js';
 import VideoEntry from '@/components/list/VideoEntry';
+import PlaylistEntry from '@/components/list/PlaylistEntry';
 import Banner from '@/components/channel/Banner';
 import Overview from '@/components/channel/Overview';
 import RelatedChannels from '@/components/channel/RelatedChannels';
 import ChannelDescription from '@/components/channel/ChannelDescription';
 import Spinner from '@/components/Spinner';
-import Invidious from '@/plugins/services/invidious';
+import SubscribeButton from '@/components/buttons/SubscribeButton';
+import SectionTitle from '@/components/SectionTitle.vue';
+import InlineVideo from '@/components/list/InlineVideo';
 import BadgeButton from '@/components/buttons/BadgeButton';
 import UpIcon from 'vue-material-design-icons/ArrowUp';
+import ViewTubeApi from '~/plugins/services/viewTubeApi';
 
 export default {
   name: 'Home',
@@ -57,28 +74,40 @@ export default {
     RelatedChannels,
     ChannelDescription,
     Spinner,
+    SubscribeButton,
+    SectionTitle,
+    PlaylistEntry,
+    InlineVideo,
     BadgeButton,
     UpIcon
   },
-  data: () => ({
-    channel: null,
-    commons: Commons,
-    overviewColor: 0,
-    loading: true
-  }),
-  mounted() {
-    const { params, store } = this.$nuxt.context;
-    const invidious = new Invidious(store.getters['instances/currentInstanceApi']);
-    invidious.api
+  asyncData({ params, store }) {
+    const viewTubeApi = new ViewTubeApi(store.getters['environment/apiUrl']);
+    return viewTubeApi.api
       .channels({ id: params.id })
       .then(response => {
-        this.channel = response.data;
-        this.loading = false;
-        document.title = `${this.channel.author} :: ViewTube`;
+        return {
+          channel: response.data
+        };
       })
       .catch(error => {
-        console.error(error);
+        let errorMessage = '';
+        if (error.response && error.response.data) {
+          errorMessage = error.response.data.message;
+        }
+        store.dispatch('messages/createMessage', {
+          type: 'error',
+          title: 'Loading the channel failed',
+          message: errorMessage
+        });
       });
+  },
+  data() {
+    return {
+      channel: null,
+      commons: Commons,
+      overviewColor: 0
+    };
   },
   methods: {
     onScrollTop() {
@@ -87,7 +116,7 @@ export default {
   },
   head() {
     return {
-      title: `loading channel :: ViewTube`
+      title: `${this.channel.author} :: ViewTube`
       //   meta: [
       //     {
       //       hid: 'description',
@@ -187,7 +216,49 @@ export default {
     z-index: 13;
   }
 
-  .channel-videos-container {
+  .channel-title-sticky {
+    background-color: var(--bgcolor-main);
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: $header-height;
+    overflow: hidden;
+    z-index: 11;
+    display: flex;
+    flex-direction: row;
+    transform: translate3d(0, $header-height, 0);
+    transition: transform 300ms $dynamic-easing;
+    box-shadow: $low-shadow;
+
+    &.top {
+      transform: translate3d(0, 0, 0);
+    }
+
+    .channel-sticky-thumbnail {
+      height: $header-height - 20px;
+      margin: 0;
+      padding: 10px;
+
+      img {
+        height: 100%;
+      }
+    }
+
+    .channel-sticky-name {
+      color: var(--title-color);
+      font-family: $default-font;
+      margin: 10px 0 10px 0;
+      font-size: 0.8rem;
+      margin: auto 0;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      flex-grow: 1;
+      padding: 0 15px 0 0;
+    }
+  }
+
+  .video-sections-container {
     width: 100%;
     z-index: 9;
     max-width: $main-width;
@@ -196,15 +267,17 @@ export default {
     padding: 15px;
     box-sizing: border-box;
 
-    .channel-videos {
-      width: 100%;
-      max-width: $main-width;
-      margin: 0 auto;
-      z-index: 10;
-      @include viewtube-grid;
+    .video-section-container {
+      .multi-video-section {
+        width: 100%;
+        max-width: $main-width;
+        margin: 0 auto;
+        z-index: 10;
+        @include viewtube-grid;
 
-      @media screen and (max-width: $mobile-width) {
-        flex-direction: column;
+        @media screen and (max-width: $mobile-width) {
+          flex-direction: column;
+        }
       }
     }
   }

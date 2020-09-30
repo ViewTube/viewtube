@@ -16,7 +16,7 @@ export class NuxtFilter implements ExceptionFilter {
     const res: Response = ctx.getResponse();
     const req = ctx.getRequest();
     const status = exception.getStatus();
-
+    
     if (status === 404 && !res.headersSent && !(exception.getResponse() as any).ignoreFilter) {
       await this.nuxt.render(req, res);
     } else {

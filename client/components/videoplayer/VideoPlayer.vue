@@ -667,11 +667,15 @@ export default {
   z-index: 12;
 
   &.embedded {
-    max-height: 100vh;
-    height: 100% !important;
-
+    height: 100vh !important;
+    max-height: 100% !important;
     .video-element-container {
       max-height: 100vh;
+      max-width: 100vw;
+
+      .video {
+        max-width: 100%;
+      }
     }
   }
 
