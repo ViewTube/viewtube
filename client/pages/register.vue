@@ -229,9 +229,8 @@ export default {
       transition: opacity 300ms $intro-easing;
 
       .captcha-container {
-        width: calc(100% - 40px);
+        width: 100%;
         display: flex;
-        margin: 20px 20px;
         height: auto;
 
         .captcha-box {
@@ -241,6 +240,7 @@ export default {
           color: var(--subtitle-color-light);
           border-radius: 4px;
           overflow: hidden;
+          padding: 20px 20px;
 
           .captcha-image {
             width: 100%;
@@ -250,6 +250,10 @@ export default {
         }
       }
     }
+  }
+
+  .form-input {
+    margin: 10px 0;
   }
 }
 

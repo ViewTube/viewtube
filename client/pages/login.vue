@@ -180,6 +180,9 @@ export default {
       transition: opacity 300ms $intro-easing;
     }
   }
+  .form-input {
+    margin: 10px 0;
+  }
 }
 
 @keyframes wiggle {

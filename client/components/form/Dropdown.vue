@@ -14,15 +14,15 @@
 import VSelect from 'vue-select';
 import 'vue-select/dist/vue-select.css';
 export default {
+  components: {
+    VSelect
+  },
   props: {
     placeholder: String,
     options: Array,
     label: String,
     value: Object,
     clearable: Boolean
-  },
-  components: {
-    VSelect
   }
 };
 </script>
