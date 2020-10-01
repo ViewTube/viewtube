@@ -1,4 +1,5 @@
 import { getAccessorType, actionTree } from 'nuxt-typed-vuex';
+import { Context } from '@nuxt/types';
 import * as captcha from '~/store/captcha';
 import * as environment from '~/store/environment';
 import * as instances from '~/store/instances';
@@ -16,9 +17,9 @@ export type RootState = ReturnType<typeof state>;
 export const actions = actionTree(
   { state },
   {
-    nuxtServerInit({ dispatch, getters }) {
+    nuxtServerInit(_vuexContext, nuxtContext: Context) {
       if (process.server) {
-        this.app.$accessor.environment.setEnv({
+        _vuexContext.commit('environment/setEnv', {
           apiUrl: process.env.VIEWTUBE_API_URL,
           vapidKey: process.env.VIEWTUBE_PUBLIC_VAPID,
           nodeEnv: process.env.NODE_ENV,
@@ -26,9 +27,9 @@ export const actions = actionTree(
           port: process.env.PORT || 8066,
           baseUrl: process.env.BASE_URL || 'http://localhost:8066'
         });
-        dispatch('user/getUser');
-        if (getters['instances/instances'].length === 0) {
-          dispatch('instances/fetchInstances');
+        nuxtContext.app.$accessor.user.getUser();
+        if (_vuexContext.getters['instances/instances'].length === 0) {
+          nuxtContext.app.$accessor.instances.fetchInstances();
         }
       }
     }
