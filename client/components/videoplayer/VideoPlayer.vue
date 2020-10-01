@@ -232,7 +232,6 @@ import FullscreenExitIcon from 'vue-material-design-icons/FullscreenExit';
 import OpenInPlayerIcon from 'vue-material-design-icons/OpenInNew';
 import CloseIcon from 'vue-material-design-icons/Close';
 import Spinner from '@/components/Spinner';
-import SavedPosition from '@/store/videoProgress';
 // import VideoEndscreen from '@/components/videoplayer/VideoEndscreen'
 import VolumeControl from '@/components/videoplayer/VolumeControl';
 // import QualitySelection from '@/components/videoplayer/QualitySelection'
@@ -412,7 +411,9 @@ export default {
     },
     onVideoCanplay() {
       if (this.$refs.video && this.videoElement.firstTimeBuffering) {
-        this.$refs.video.currentTime = SavedPosition.getSavedPosition(this.video.videoId);
+        this.$refs.video.currentTime = this.$accessor.videoProgress.getSavedPositionForId(
+          this.video.videoId
+        );
         this.videoElement.firstTimeBuffering = false;
         if (this.autoplay) {
           this.$refs.video.play();
@@ -613,7 +614,11 @@ export default {
     saveVideoPosition() {
       const video = this.$refs.video;
       if (video !== undefined) {
-        SavedPosition.setSavedPosition(video.currentTime, this.video.videoId);
+        this.$accessor.videoProgress.addVideoProgress({
+          videoId: this.video.videoId,
+          value: video.currentTime
+        });
+        // return this.$localforage.setItem(`savedVideoPositionId${videoId}`, value)
       }
     },
     showPlayerOverlay(noTimeout) {

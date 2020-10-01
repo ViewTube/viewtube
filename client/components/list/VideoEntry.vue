@@ -70,7 +70,6 @@
 <script>
 import 'tippy.js/dist/tippy.css';
 import InfoIcon from 'vue-material-design-icons/Information';
-import SavedPosition from '@/store/videoProgress';
 import Commons from '@/plugins/commons.js';
 
 export default {
@@ -87,11 +86,15 @@ export default {
   }),
   computed: {
     videoProgressPercentage() {
-      return (SavedPosition.getSavedPosition(this.video.videoId) / this.video.lengthSeconds) * 100;
+      return (
+        (this.$accessor.videoProgress.getSavedPositionForId(this.video.videoId) /
+          this.video.lengthSeconds) *
+        100
+      );
     },
     videoProgressTooltip() {
       const watchTime = this.$formatting.getTimestampFromSeconds(
-        SavedPosition.getSavedPosition(this.video.videoId)
+        this.$accessor.videoProgress.getSavedPositionForId(this.video.videoId)
       );
       const totalTime = this.$formatting.getTimestampFromSeconds(this.video.lengthSeconds);
       return `${watchTime} of ${totalTime}`;
