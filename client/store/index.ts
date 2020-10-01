@@ -17,7 +17,7 @@ export type RootState = ReturnType<typeof state>;
 export const actions = actionTree(
   { state },
   {
-    nuxtServerInit(_vuexContext, nuxtContext: Context) {
+    nuxtServerInit(_vuexContext, nuxtContext: Context): Promise<void> {
       if (process.server) {
         _vuexContext.commit('environment/setEnv', {
           apiUrl: process.env.VIEWTUBE_API_URL,
@@ -32,6 +32,7 @@ export const actions = actionTree(
           nuxtContext.app.$accessor.instances.fetchInstances();
         }
       }
+      return undefined;
     }
   }
 );
