@@ -1,7 +1,7 @@
 import { getterTree, mutationTree } from 'nuxt-typed-vuex';
 
 export const state = () => ({
-  env: {} as {
+  env: { apiUrl: '', vapidKey: '', nodeEnv: '', host: '', port: '', baseUrl: '' } as {
     apiUrl: string;
     vapidKey: string;
     nodeEnv: string;
