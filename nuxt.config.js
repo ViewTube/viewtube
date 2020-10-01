@@ -99,7 +99,7 @@ module.exports = {
   },
   // },
 
-  buildModules: ['@nuxtjs/router', '@nuxt/typescript-build'],
+  buildModules: ['@nuxtjs/router', '@nuxt/typescript-build', 'nuxt-typed-vuex'],
 
   modules: [
     '@nuxtjs/style-resources',

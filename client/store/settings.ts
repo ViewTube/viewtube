@@ -1,5 +1,7 @@
+import { getterTree, mutationTree } from 'nuxt-typed-vuex';
+
 export const state = () => ({
-  theme: 'default',
+  theme: 'default' as string,
   defaults: {
     theme: [
       {
@@ -164,18 +166,17 @@ export const state = () => ({
       }
     ]
   },
-  miniplayer: true
+  miniplayer: true as boolean
 });
-export const getters = {
+
+export const getters = getterTree(state, {
   theme: state => state.theme,
   defaultThemes: state => state.defaults.theme,
   miniplayer: state => state.miniplayer,
-  themeVariables: state =>
-    state.defaults.theme.find(
-      el => state.theme === el.value
-    )
-};
-export const mutations = {
+  themeVariables: state => state.defaults.theme.find(el => state.theme === el.value)
+});
+
+export const mutations = mutationTree(state, {
   setTheme(state, theme) {
     if (state.defaults.theme.find(e => e.value === theme)) {
       state.theme = theme;
@@ -184,4 +185,4 @@ export const mutations = {
   setMiniplayer(state, enabled) {
     state.miniplayer = enabled;
   }
-};
+});
