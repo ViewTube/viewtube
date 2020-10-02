@@ -6742,10 +6742,10 @@ human-signals@^1.1.1:
   resolved "https://registry.yarnpkg.com/human-signals/-/human-signals-1.1.1.tgz#c5b1cd14f50aeae09ab6c59fe63ba3395fe4dfa3"
   integrity sha512-SEQu7vl8KjNL2eoGBLF3+wAjpsNfA9XMlXAYj/3EdaNfAlxKthD1xjEQfGOUhllCGGJVNY34bRr6lPINhNjyZw==
 
-humanize-duration@^3.22.0:
-  version "3.23.1"
-  resolved "https://registry.yarnpkg.com/humanize-duration/-/humanize-duration-3.23.1.tgz#59cb8d01287479c1aa7cd5b1efc260d799bef89b"
-  integrity sha512-aoOEkomAETmVuQyBx4E7/LfPlC9s8pAA/USl7vFRQpDjepo3aiyvFfOhtXSDqPowdBVPFUZ7onG/KyuolX0qPg==
+humanize-duration@^3.24.0:
+  version "3.24.0"
+  resolved "https://registry.yarnpkg.com/humanize-duration/-/humanize-duration-3.24.0.tgz#d851ca6fb93277e30ad789e88bd2019655f514c1"
+  integrity sha512-B3udnqisaDeRsvUSb+5n2hjxhABI9jotB+i1IEhgHhguTeM5LxIUKoVIu7UpeyaPOygr/Fnv7UhOi45kYYG+tg==
 
 husky@^4.3.0:
   version "4.3.0"
