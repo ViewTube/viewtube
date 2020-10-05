@@ -103,7 +103,7 @@
     "universal-cookie": "^4.0.4",
     "vue": "^2.6.12",
     "vue-material-design-icons": "^4.9.0",
-    "vue-property-decorator": "^9.0.0",
+    "vue-property-decorator": "^9.0.2",
     "vuex-persistedstate": "^3.1.0",
     "web-push": "^3.4.4",
     "x2js": "^3.4.0",
