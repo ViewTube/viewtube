@@ -13263,10 +13263,10 @@ vue-no-ssr@^1.1.1:
   resolved "https://registry.yarnpkg.com/vue-no-ssr/-/vue-no-ssr-1.1.1.tgz#875f3be6fb0ae41568a837f3ac1a80eaa137b998"
   integrity sha512-ZMjqRpWabMPqPc7gIrG0Nw6vRf1+itwf0Itft7LbMXs2g3Zs/NFmevjZGN1x7K3Q95GmIjWbQZTVerxiBxI+0g==
 
-vue-property-decorator@^9.0.0:
-  version "9.0.0"
-  resolved "https://registry.yarnpkg.com/vue-property-decorator/-/vue-property-decorator-9.0.0.tgz#0a5f6d47d33ca62a8876108ccfa65c2c4fb7325a"
-  integrity sha512-oegTNPItuHOkW0AP1MnbdNwkmyhfsUIIXvIRHpgC18tVoEo21/i6kItyeekjMs8JgZJeuHzsaTc/DZaJFH4IWQ==
+vue-property-decorator@^9.0.2:
+  version "9.0.2"
+  resolved "https://registry.yarnpkg.com/vue-property-decorator/-/vue-property-decorator-9.0.2.tgz#118459d77b4d5613ab2bbccba2edd5d7af685d30"
+  integrity sha512-mxuJHfUGs/3rUyFj2vykDIvYXCUKBrzhemm7mT8dE9QYTbNA/4qVQ5gwhNCIkKyQc8RQIXQ+0jriqinUDuuU9w==
 
 vue-router@^3.4.3:
   version "3.4.3"
