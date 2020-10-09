@@ -35,35 +35,30 @@ export default {
   }),
   mounted() {},
   methods: {
-    login() {
+    async login() {
       this.loading = true;
       const me = this;
 
-      this.$store
-        .dispatch('user/login', {
-          username: this.username,
-          password: this.password
-        })
-        .then(result => {
-          if (result) {
-            me.$store.dispatch('messages/createMessage', {
-              type: 'info',
-              title: 'Login successful',
-              message: 'Redirecting...'
-            });
-            me.$router.push(me.redirectedPage.fullPath);
-          }
-        })
-        .catch(err => {
-          console.error(err);
-          me.loading = false;
-          this.wiggleLoginForm();
-          me.$store.dispatch('messages/createMessage', {
-            type: 'error',
-            title: 'Login failed',
-            message: err.response.data.message
-          });
+      const user = await this.$store.dispatch('user/login', {
+        username: this.username,
+        password: this.password
+      });
+      if (user) {
+        me.$store.dispatch('messages/createMessage', {
+          type: 'info',
+          title: 'Login successful',
+          message: 'Redirecting...'
         });
+        me.$router.push(me.redirectedPage.fullPath);
+      } else {
+        me.loading = false;
+        this.wiggleLoginForm();
+        me.$store.dispatch('messages/createMessage', {
+          type: 'error',
+          title: 'Login failed',
+          message: user.error
+        });
+      }
     },
     wiggleLoginForm() {
       this.formWiggle = true;
