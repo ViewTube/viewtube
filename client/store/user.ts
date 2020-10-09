@@ -51,7 +51,7 @@ export const actions = actionTree(
         );
         dispatch('getUser');
 
-        loggedInUsername = result.data.username;
+        loggedInUsername = { username: result.data.username };
       } catch (err) {
         if (err.response.data.message) {
           return {
@@ -77,15 +77,19 @@ export const actions = actionTree(
               captchaSolution
             }
           );
-          if (result.data.success) {
-            commit('setUsername', result.data.username);
-            registeredUsername = result.data.username;
-          }
+          commit('setUsername', result.data.username);
+          registeredUsername = result.data.username;
         } catch (err) {
-          console.log(err.message);
-          throw new Error('Registration failed: ' + err.message);
+          if (err.response.data) {
+            return {
+              error: err.response.data
+            };
+          }
+          return {
+            error: 'Registration failed'
+          };
         }
-        return registeredUsername;
+        return { username: registeredUsername };
       }
     }
   }
