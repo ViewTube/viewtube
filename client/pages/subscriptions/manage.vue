@@ -48,6 +48,7 @@
         </a>
       </div>
     </div>
+    <Pagination :page="1" />
   </div>
 </template>
 
@@ -55,13 +56,15 @@
 import GradientBackground from '@/components/GradientBackground';
 import SectionTitle from '@/components/SectionTitle';
 import Commons from '@/plugins/commons';
+import Pagination from '@/components/pagination/Pagination';
 // import BadgeButton from '@/components/buttons/BadgeButton';
 
 export default {
   name: 'ManageSubscriptions',
   components: {
     GradientBackground,
-    SectionTitle
+    SectionTitle,
+    Pagination
   },
   async fetch() {
     const apiUrl = this.$store.getters['environment/apiUrl'];
