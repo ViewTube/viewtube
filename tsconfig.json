@@ -23,7 +23,7 @@
       "@/*": ["client/*"]
     },
     "typeRoots": ["./node_modules/@types"],
-    "types": ["@types/node", "@nuxt/types", "@types/jest"],
+    "types": ["@types/node", "@nuxt/types", "@nuxtjs/axios", "@types/jest"],
     "importHelpers": true
   },
   "include": ["server/**/*", "client/**/*", "types/**/*"],

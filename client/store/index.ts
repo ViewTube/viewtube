@@ -1,5 +1,5 @@
-import { getAccessorType, actionTree } from 'nuxt-typed-vuex';
 import { Context } from '@nuxt/types';
+import { actionTree, getAccessorType } from 'nuxt-typed-vuex';
 import * as captcha from '~/store/captcha';
 import * as environment from '~/store/environment';
 import * as instances from '~/store/instances';
