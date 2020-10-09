@@ -48,7 +48,9 @@
         </a>
       </div>
     </div>
-    <Pagination :page="1" />
+    <div class="manage-pagination">
+      <Pagination :page="1" />
+    </div>
   </div>
 </template>
 
@@ -154,9 +156,8 @@ export default {
 
 <style lang="scss">
 .manage-subscriptions {
-  overflow-y: scroll;
-  overflow-x: hidden;
-  height: 100%;
+  // overflow-y: scroll;
+  overflow: hidden;
   width: 100%;
 
   .section-title {
@@ -235,6 +236,11 @@ export default {
         cursor: pointer;
       }
     }
+  }
+  .manage-pagination {
+    display: block;
+    position: relative;
+    z-index: 11;
   }
 }
 </style>
