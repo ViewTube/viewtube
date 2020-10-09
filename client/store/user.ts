@@ -39,9 +39,9 @@ export const actions = actionTree(
       return true;
     },
     async login({ dispatch }, { username, password }) {
-      let loggedInUsername = null;
+      let success = null;
       try {
-        const result = await this.$axios.post(
+        await this.$axios.post(
           `${this.app.$accessor.environment.env.apiUrl}auth/login`,
           {
             username,
@@ -51,7 +51,7 @@ export const actions = actionTree(
         );
         dispatch('getUser');
 
-        loggedInUsername = { username: result.data.username };
+        success = true;
       } catch (err) {
         if (err.response.data.message) {
           return {
@@ -62,7 +62,7 @@ export const actions = actionTree(
           error: 'Login failed'
         };
       }
-      return loggedInUsername;
+      return { success };
     },
     async register({ commit }, { username, password, captchaSolution }) {
       if (this.app.$accessor.captcha.token) {

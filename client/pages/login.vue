@@ -43,7 +43,7 @@ export default {
         username: this.username,
         password: this.password
       });
-      if (user && user.username) {
+      if (user && user.success) {
         me.$store.dispatch('messages/createMessage', {
           type: 'info',
           title: 'Login successful',
