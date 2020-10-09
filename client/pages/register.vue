@@ -70,37 +70,32 @@ export default {
     this.$store.dispatch('captcha/getCaptcha');
   },
   methods: {
-    register() {
+    async register() {
       this.loading = true;
       const me = this;
 
-      this.$store
-        .dispatch('user/register', {
-          username: this.username,
-          password: this.password,
-          captchaSolution: this.captchaSolution
-        })
-        .then(result => {
-          if (result.data) {
-            me.$store.dispatch('messages/createMessage', {
-              type: 'info',
-              title: 'Registration successful',
-              message: 'Redirecting...'
-            });
-            me.$router.push(me.redirectedPage.fullPath);
-          }
-        })
-        .catch(err => {
-          console.error(err);
-          me.loading = false;
-          me.$store.dispatch('messages/createMessage', {
-            type: 'error',
-            title: 'Registration failed',
-            message: err.message
-          });
-          this.wiggleRegisterForm();
-          this.$store.dispatch('captcha/getCaptcha');
+      const user = await this.$store.dispatch('user/register', {
+        username: this.username,
+        password: this.password,
+        captchaSolution: this.captchaSolution
+      });
+      if (user && user.username) {
+        me.$store.dispatch('messages/createMessage', {
+          type: 'info',
+          title: 'Registration successful',
+          message: `Welcome, ${user.username}`
         });
+        me.$router.push(me.redirectedPage.fullPath);
+      } else {
+        me.$store.dispatch('messages/createMessage', {
+          type: 'error',
+          title: 'Registration failed',
+          message: user.error
+        });
+        me.loading = false;
+        this.wiggleRegisterForm();
+        this.$store.dispatch('captcha/getCaptcha');
+      }
     },
     wiggleRegisterForm() {
       this.formWiggle = true;
