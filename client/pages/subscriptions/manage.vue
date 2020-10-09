@@ -49,7 +49,7 @@
       </div>
     </div>
     <div class="manage-pagination">
-      <Pagination :page="1" />
+      <Pagination :currentPage="currentPage" :pageCount="pageCount" :pageCountKnown="true" />
     </div>
   </div>
 </template>
@@ -69,13 +69,22 @@ export default {
     Pagination
   },
   async fetch() {
+    if (process.browser) {
+      // window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
     const apiUrl = this.$store.getters['environment/apiUrl'];
+    const limit = 30;
+    if (this.$route.query && this.$route.query.page) {
+      this.currentPage = parseInt(this.$route.query.page);
+    }
+    const start = (this.currentPage - 1) * 30;
     await this.$axios
-      .get(`${apiUrl}user/subscriptions/channels`, {
+      .get(`${apiUrl}user/subscriptions/channels?limit=${limit}&start=${start}&sort=author:1`, {
         withCredentials: true
       })
       .then(response => {
-        this.subscriptionChannels = response.data;
+        this.subscriptionChannels = response.data.channels;
+        this.pageCount = Math.ceil(response.data.channelCount / 30);
       })
       .catch(error => {
         console.log(error);
@@ -84,10 +93,19 @@ export default {
   data() {
     return {
       commons: Commons,
-      subscriptionChannels: []
+      subscriptionChannels: [],
+      currentPage: 1,
+      pageCount: 0
     };
   },
+  watch: {
+    '$route.query': '$fetch'
+  },
   methods: {
+    changePage(page) {
+      this.$router.push(`/subscriptions/manage?page=${page}`);
+      this.currentPage = page;
+    },
     channelNameToImgString(name) {
       let initials = '';
       name.split(' ').forEach(e => {
@@ -237,10 +255,12 @@ export default {
       }
     }
   }
+
   .manage-pagination {
     display: block;
     position: relative;
     z-index: 11;
+    margin: 0 0 30px 0;
   }
 }
 </style>

@@ -15,7 +15,7 @@ import { ApiTags, ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'server/auth/guards/jwt.guard';
 import { VideoBasicInfoDto } from 'server/core/videos/dto/video-basic-info.dto';
 import { ChannelBasicInfoDto } from 'server/core/channels/dto/channel-basic-info.dto';
-import { Sorting } from 'server/common/sorting.type';
+import { Common } from 'server/core/common';
 import { SubscriptionStatusDto } from './dto/subscription-status.dto';
 import { SubscriptionsService } from './subscriptions.service';
 
@@ -27,21 +27,27 @@ export class SubscriptionsController {
   constructor(private subscriptionsService: SubscriptionsService) {}
 
   @Get('channels')
-  @ApiQuery({ name: 'limit', required: false })
-  @ApiQuery({ name: 'start', required: false })
+  @ApiQuery({ name: 'limit', required: false, example: 30 })
+  @ApiQuery({ name: 'start', required: false, example: 0 })
   @ApiQuery({
     name: 'sort',
-    type: Object,
-    example: '{ "sort": { "author": "ASC", "authorVerified": "DESC" } }',
+    type: String,
+    example: 'author:1,authorVerified:-1',
     required: false
   })
   getSubscribedChannels(
     @Req() req: any,
     @Query('limit') limit = 30,
     @Query('start') start = 0,
-    @Query('sort') sort: Sorting<ChannelBasicInfoDto> = {}
-  ): Promise<Array<ChannelBasicInfoDto> | void> {
-    return this.subscriptionsService.getSubscribedChannels(req.user.username, limit, start, sort);
+    @Query('sort') sort: string
+  ): Promise<{ channels: Array<ChannelBasicInfoDto>; channelCount: number } | void> {
+    const sortObj = Common.convertSortParams<ChannelBasicInfoDto>(sort);
+    return this.subscriptionsService.getSubscribedChannels(
+      req.user.username,
+      limit,
+      start,
+      sortObj
+    );
   }
 
   @Get('videos')

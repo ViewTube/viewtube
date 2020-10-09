@@ -90,6 +90,9 @@ export default {
     subscriptionImportOpen: false,
     vapidKey: null
   }),
+  watch: {
+    '$route.query': '$fetch'
+  },
   mounted() {
     this.vapidKey = this.$store.getters['environment/vapidKey'];
 
