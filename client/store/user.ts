@@ -18,64 +18,74 @@ export const mutations = mutationTree(state, {
 export const actions = actionTree(
   { state, getters, mutations },
   {
-    getUser({ commit }) {
-      return this.$axios
-        .get(`${this.app.$accessor.environment.env.apiUrl}user/profile`, {
-          withCredentials: true
-        })
-        .then(result => {
-          commit('setUsername', result.data.username);
-        })
-        .catch(() => {});
+    async getUser({ commit }) {
+      try {
+        const result = await this.$axios.get(
+          `${this.app.$accessor.environment.env.apiUrl}user/profile`,
+          {
+            withCredentials: true
+          }
+        );
+        commit('setUsername', result.data.username);
+      } catch (e) {}
     },
-    logout({ commit }) {
-      return this.$axios
-        .post(
-          `${this.app.$accessor.environment.env.apiUrl}auth/logout`,
-          {},
-          { withCredentials: true }
-        )
-        .then(result => {
-          commit('setUsername', null);
-          return result;
-        });
+    async logout({ commit }) {
+      await this.$axios.post(
+        `${this.app.$accessor.environment.env.apiUrl}auth/logout`,
+        {},
+        { withCredentials: true }
+      );
+      commit('setUsername', null);
+      return true;
     },
-    login({ dispatch }, { username, password }) {
-      return this.$axios
-        .post(
+    async login({ dispatch }, { username, password }) {
+      let loggedInUsername = null;
+      try {
+        const result = await this.$axios.post(
           `${this.app.$accessor.environment.env.apiUrl}auth/login`,
           {
             username,
             password
           },
           { withCredentials: true }
-        )
-        .then(result => {
-          dispatch('getUser');
-          return result;
-        });
+        );
+        dispatch('getUser');
+
+        loggedInUsername = result.data.username;
+      } catch (err) {
+        if (err.response.data.message) {
+          return {
+            error: err.response.data.message
+          };
+        }
+        return {
+          error: 'Login failed'
+        };
+      }
+      return loggedInUsername;
     },
     async register({ commit }, { username, password, captchaSolution }) {
-      const captchaToken = this.app.$accessor.captcha.token;
-      if (captchaToken) {
+      if (this.app.$accessor.captcha.token) {
+        let registeredUsername = null;
         try {
           const result = await this.$axios.post(
             `${this.app.$accessor.environment.env.apiUrl}auth/register`,
             {
               username,
               password,
-              captchaToken,
+              captchaToken: this.app.$accessor.captcha.token,
               captchaSolution
             }
           );
           if (result.data.success) {
             commit('setUsername', result.data.username);
-            return result.data.username;
+            registeredUsername = result.data.username;
           }
         } catch (err) {
           console.log(err.message);
           throw new Error('Registration failed: ' + err.message);
         }
+        return registeredUsername;
       }
     }
   }

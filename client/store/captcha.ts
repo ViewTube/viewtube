@@ -24,7 +24,7 @@ export const actions = actionTree(
   {
     getCaptcha({ commit }) {
       this.$axios
-        .get(this.app.$accessor.environment.env + 'auth/captcha')
+        .get(this.app.$accessor.environment.env.apiUrl + 'auth/captcha')
         .then(response => {
           commit('setToken', response.data.token);
           commit('setImage', response.data.captchaImage);
