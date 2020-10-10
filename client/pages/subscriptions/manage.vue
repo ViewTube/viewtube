@@ -3,49 +3,52 @@
     <GradientBackground :color="'green'" />
     <SectionTitle :title="'Manage subscriptions'" />
     <div class="channels-container">
-      <div v-for="channel in subscriptionChannels" :key="channel.authorId" class="channel-entry">
-        <nuxt-link
-          v-if="
-            (!channel.authorThumbnails || channel.authorThumbnails.length == 0) &&
-            !channel.authorThumbnailUrl
-          "
-          :to="`/channel/${channel.authorId}`"
-          class="fake-thmb"
-        >
-          <h3>
-            {{ channelNameToImgString(channel.author) }}
-          </h3>
-        </nuxt-link>
-        <nuxt-link
-          v-if="
-            channel.authorThumbnailUrl ||
-            (channel.authorThumbnails && channel.authorThumbnails.length > 0)
-          "
-          :to="`/channel/${channel.authorId}`"
-          class="channel-image-container"
-        >
-          <img
-            :src="
-              channel.authorThumbnailUrl
-                ? `${$store.getters['environment/apiUrl']}${channel.authorThumbnailUrl}`
-                : channel.authorThumbnails[2].url
+      <div v-for="(channelGroup, i) in orderedChannels" :key="i" class="channel-group">
+        <SectionTitle :title="channelGroup.letter" />
+        <div v-for="channel in channelGroup.channels" :key="channel.authorId" class="channel-entry">
+          <nuxt-link
+            v-if="
+              (!channel.authorThumbnails || channel.authorThumbnails.length == 0) &&
+              !channel.authorThumbnailUrl
             "
-            class="channel-image"
-            alt="Channel profile image"
-          />
-        </nuxt-link>
-        <div v-tippy="channel.author" class="channel-title">
-          <nuxt-link :to="`/channel/${channel.authorId}`">{{ channel.author }}</nuxt-link>
+            :to="`/channel/${channel.authorId}`"
+            class="fake-thmb"
+          >
+            <h3>
+              {{ channelNameToImgString(channel.author) }}
+            </h3>
+          </nuxt-link>
+          <nuxt-link
+            v-if="
+              channel.authorThumbnailUrl ||
+              (channel.authorThumbnails && channel.authorThumbnails.length > 0)
+            "
+            :to="`/channel/${channel.authorId}`"
+            class="channel-image-container"
+          >
+            <img
+              :src="
+                channel.authorThumbnailUrl
+                  ? `${$store.getters['environment/apiUrl']}${channel.authorThumbnailUrl}`
+                  : channel.authorThumbnails[2].url
+              "
+              class="channel-image"
+              alt="Channel profile image"
+            />
+          </nuxt-link>
+          <div v-tippy="channel.author" class="channel-title">
+            <nuxt-link :to="`/channel/${channel.authorId}`">{{ channel.author }}</nuxt-link>
+          </div>
+          <a
+            v-tippy="`Unsubscribe from ${channel.author}`"
+            v-ripple
+            href="#"
+            class="channel-unsubscribe-btn"
+            @click.prevent="() => unsubscribe(channel)"
+          >
+            ✕
+          </a>
         </div>
-        <a
-          v-tippy="`Unsubscribe from ${channel.author}`"
-          v-ripple
-          href="#"
-          class="channel-unsubscribe-btn"
-          @click.prevent="() => unsubscribe(channel)"
-        >
-          ✕
-        </a>
       </div>
     </div>
     <div class="manage-pagination">
@@ -89,6 +92,22 @@ export default {
       .catch(error => {
         console.log(error);
       });
+  },
+  computed: {
+    orderedChannels() {
+      const lettersArray = [];
+      let i = 0;
+      this.subscriptionChannels.forEach(channel => {
+        const channelLetter = channel.author.charAt(0);
+        const possibleIndex = lettersArray.findIndex(el => el.letter === channelLetter);
+        if (possibleIndex !== -1) {
+          lettersArray[possibleIndex].channels.push(channel);
+        } else {
+          lettersArray.push({ letter: channelLetter, channels: [channel], id: i++ });
+        }
+      });
+      return lettersArray;
+    }
   },
   data() {
     return {
