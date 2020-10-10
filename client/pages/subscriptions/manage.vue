@@ -73,7 +73,7 @@ export default {
   },
   async fetch() {
     if (process.browser) {
-      // window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
     const apiUrl = this.$store.getters['environment/apiUrl'];
     const limit = 30;
@@ -93,6 +93,14 @@ export default {
         console.log(error);
       });
   },
+  data() {
+    return {
+      commons: Commons,
+      subscriptionChannels: [],
+      currentPage: 1,
+      pageCount: 0
+    };
+  },
   computed: {
     orderedChannels() {
       const lettersArray = [];
@@ -108,14 +116,6 @@ export default {
       });
       return lettersArray;
     }
-  },
-  data() {
-    return {
-      commons: Commons,
-      subscriptionChannels: [],
-      currentPage: 1,
-      pageCount: 0
-    };
   },
   watch: {
     '$route.query': '$fetch'

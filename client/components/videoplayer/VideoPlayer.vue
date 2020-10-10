@@ -662,6 +662,10 @@ export default {
 </script>
 
 <style lang="scss">
+button.pictureInPictureToggleButton {
+  border-radius: 15px !important;
+}
+
 .video-player {
   width: 100%;
   background-color: #000;

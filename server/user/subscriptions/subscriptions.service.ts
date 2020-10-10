@@ -260,15 +260,18 @@ export class SubscriptionsService {
     username: string,
     limit: number,
     start: number
-  ): Promise<Array<VideoBasicInfoDto>> {
+  ): Promise<{ videoCount: number; videos: Array<VideoBasicInfoDto> }> {
     const userSubscriptions = await this.subscriptionModel.findOne({ username }).lean().exec();
     if (userSubscriptions) {
       const userSubscriptionIds = userSubscriptions.subscriptions.map(e => e.channelId);
-      return this.videoModel
+      const videoCount = await this.videoModel.countDocuments({
+        authorId: { $in: userSubscriptionIds }
+      });
+      const videos = await this.videoModel
         .find({ authorId: { $in: userSubscriptionIds } })
         .sort({ published: -1 })
-        .limit(limit)
-        .skip(start)
+        .limit(parseInt(limit as any))
+        .skip(parseInt(start as any))
         .map((el: any) => {
           delete el._id;
           delete el.__v;
@@ -277,8 +280,11 @@ export class SubscriptionsService {
         .catch(err => {
           throw new HttpException(`Error fetching subscription feed: ${err}`, 500);
         });
+      if (videos) {
+        return { videos, videoCount };
+      }
     }
-    return [];
+    return { videos: [], videoCount: 0 };
   }
 
   async getSubscription(username: string, channelId: string): Promise<SubscriptionStatusDto> {

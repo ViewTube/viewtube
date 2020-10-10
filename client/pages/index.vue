@@ -71,11 +71,11 @@ export default {
         });
       if (this.$store.getters['user/isLoggedIn']) {
         await this.$axios
-          .get(`${this.$store.getters['environment/apiUrl']}user/subscriptions/videos`, {
+          .get(`${this.$store.getters['environment/apiUrl']}user/subscriptions/videos?limit=4`, {
             withCredentials: true
           })
           .then(response => {
-            this.subscriptions = response.data.slice(0, 4);
+            this.subscriptions = response.data.videos;
           })
           .catch(_ => {});
       }

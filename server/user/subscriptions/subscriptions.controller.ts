@@ -39,7 +39,7 @@ export class SubscriptionsController {
     @Req() req: any,
     @Query('limit') limit = 30,
     @Query('start') start = 0,
-    @Query('sort') sort: string
+    @Query('sort') sort: string = ''
   ): Promise<{ channels: Array<ChannelBasicInfoDto>; channelCount: number } | void> {
     const sortObj = Common.convertSortParams<ChannelBasicInfoDto>(sort);
     return this.subscriptionsService.getSubscribedChannels(
@@ -57,7 +57,7 @@ export class SubscriptionsController {
     @Req() req: any,
     @Query('limit') limit = 30,
     @Query('start') start = 0
-  ): Promise<Array<VideoBasicInfoDto>> {
+  ): Promise<{ videoCount: number; videos: Array<VideoBasicInfoDto> }> {
     return this.subscriptionsService.getSubscriptionFeed(req.user.username, limit, start);
   }
 

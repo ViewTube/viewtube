@@ -2,21 +2,23 @@
   <div class="pagination">
     <div class="pagination-container">
       <BadgeButton
-        v-tippy="'Go to the first page'"
-        :href="'?page=1'"
-        :internalLink="true"
-        :disabled="currentPage <= 1"
-        ><DoubleChevronLeftIcon
-      /></BadgeButton>
-      <BadgeButton
         v-tippy="'Go to the previous page'"
         :href="`?page=${currentPage - 1}`"
         :internalLink="true"
         :disabled="currentPage <= 1"
-        ><ChevronLeftIcon
-      /></BadgeButton>
+      >
+        <ChevronLeftIcon />
+      </BadgeButton>
       <div class="number-buttons">
-        <div v-if="displayDots" class="dots"><p>...</p></div>
+        <BadgeButton
+          v-tippy="`Go to page 1`"
+          :href="`?page=1`"
+          :internalLink="true"
+          :selected="currentPage === 1"
+          class="number-btn"
+          >1</BadgeButton
+        >
+        <div v-if="displayFirstDots" class="dots"><p>...</p></div>
         <BadgeButton
           v-for="number in pageCountDisplay"
           :key="number"
@@ -28,12 +30,12 @@
         >
           {{ number }}
         </BadgeButton>
-        <div v-if="displayDots" class="dots"><p>...</p></div>
+        <div v-if="displaySecondDots" class="dots"><p>...</p></div>
         <BadgeButton
-          v-if="displayDots"
           v-tippy="`Go to page ${largestNumber}`"
           :href="`?page=${largestNumber}`"
           :internalLink="true"
+          :selected="currentPage === pageCount"
           class="number-btn"
         >
           {{ largestNumber }}
@@ -44,15 +46,9 @@
         :href="`?page=${currentPage + 1}`"
         :internalLink="true"
         :disabled="currentPage >= pageCount"
-        ><ChevronRightIcon
-      /></BadgeButton>
-      <BadgeButton
-        v-tippy="'Go to the last page'"
-        :href="`?page=${largestNumber}`"
-        :internalLink="true"
-        :disabled="!pageCountKnown || currentPage >= pageCount"
-        ><DoubleChevronRightIcon
-      /></BadgeButton>
+      >
+        <ChevronRightIcon />
+      </BadgeButton>
     </div>
   </div>
 </template>
@@ -60,8 +56,6 @@
 <script lang="ts">
 import ChevronLeftIcon from 'vue-material-design-icons/ChevronLeft.vue';
 import ChevronRightIcon from 'vue-material-design-icons/ChevronRight.vue';
-import DoubleChevronLeftIcon from 'vue-material-design-icons/ChevronDoubleLeft.vue';
-import DoubleChevronRightIcon from 'vue-material-design-icons/ChevronDoubleRight.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 
 import Vue from 'vue';
@@ -71,8 +65,6 @@ export default Vue.extend({
   components: {
     ChevronLeftIcon,
     ChevronRightIcon,
-    DoubleChevronLeftIcon,
-    DoubleChevronRightIcon,
     BadgeButton
   },
   props: {
@@ -97,21 +89,31 @@ export default Vue.extend({
       const halfMaxNum = Math.floor(this.maxNumber / 2);
       let numStart = this.currentPage - halfMaxNum;
       let numStop = this.currentPage + (halfMaxNum - 1);
-      if (numStart < 1) {
-        numStart = 1;
+      if (numStart < 2) {
+        numStart = 2;
         numStop = this.maxNumber;
       }
-      if (numStop > this.maxNumber) {
-        numStart -= numStop - this.maxNumber;
-        numStop = this.maxNumber;
+      if (numStop > this.pageCount) {
+        numStart -= numStop - this.pageCount;
+        numStop = this.pageCount;
       }
-      for (let index = numStart; index <= numStop; index++) {
+      for (let index = numStart; index < numStop; index++) {
         numArray.push(index);
       }
       return numArray;
     },
-    displayDots() {
-      return this.pageCount > this.maxNumber;
+    displayFirstDots() {
+      if (this.pageCountDisplay[0] > 2) {
+        return true;
+      }
+      return false;
+    },
+    displaySecondDots() {
+      // debugger;
+      if (this.pageCountDisplay[this.maxNumber - 2] >= this.pageCount - 1) {
+        return false;
+      }
+      return true;
     }
   }
 });
