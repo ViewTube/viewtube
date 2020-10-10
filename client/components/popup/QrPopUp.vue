@@ -37,10 +37,14 @@ export default {
       return process.browser ? window.location.href : '';
     },
     getThemePrimaryColor() {
-      return this.$store.getters['theme/themeVariables']['theme-color'];
+      return this.$store.getters['theme/themeVariables'].find(
+        element => element.variableKey === 'theme-color'
+      );
     },
     getThemeBackgroundColor() {
-      return this.$store.getters['theme/themeVariables']['bgcolor-alt'];
+      return this.$store.getters['theme/themeVariables'].find(
+        element => element.variableKey === 'bgcolor-alt'
+      );
     }
   }
 };
