@@ -3,7 +3,7 @@
     <div
       v-if="themeEditable"
       class="edit-btn-container"
-      @click.stop="$emit('edit-theme', theme.value)"
+      @click.stop="$emit('edit-theme', theme.key)"
     >
       <div v-ripple v-tippy="'Edit Theme'" class="edit-btn">
         <EditIcon />
@@ -21,25 +21,33 @@
       <div
         class="preview-graphic"
         :style="{
-          'background-color': theme['bgcolor-main']
+          'background-color': theme.variables.find(
+            element => element.variableKey === 'bgcolor-main'
+          ).variableValue
         }"
       >
         <span
           class="prev-header"
           :style="{
-            'background-color': theme['header-bgcolor']
+            'background-color': theme.variables.find(
+              element => element.variableKey === 'header-bgcolor'
+            ).variableValue
           }"
         >
           <span
             class="prev-logo"
             :style="{
-              'background-color': theme['theme-color']
+              'background-color': theme.variables.find(
+                element => element.variableKey === 'theme-color'
+              ).variableValue
             }"
           />
           <span
             class="prev-searchbar"
             :style="{
-              'background-color': theme['theme-color']
+              'background-color': theme.variables.find(
+                element => element.variableKey === 'theme-color'
+              ).variableValue
             }"
           />
         </span>
@@ -49,11 +57,19 @@
             :key="n"
             class="prev-thmb"
             :style="{
-              'background-color': theme['theme-color']
+              'background-color': theme.variables.find(
+                element => element.variableKey === 'theme-color'
+              ).variableValue
             }"
           />
         </div>
-        <span class="prev-gradient" :style="{ opacity: theme['gradient-opacity'] }" />
+        <span
+          class="prev-gradient"
+          :style="{
+            opacity: theme.variables.find(element => element.variableKey === 'gradient-opacity')
+              .variableValue
+          }"
+        />
       </div>
     </a>
     <span class="theme-title">{{ theme.name }}</span>
@@ -73,14 +89,14 @@ export default {
   methods: {
     onThemeChange(element) {
       document.body.classList.add('transition-all');
-      this.$store.commit('theme/setTheme', element.value);
+      this.$store.commit('theme/setTheme', element.key);
       setTimeout(() => {
         document.body.classList.remove('transition-all');
       }, 300);
     },
     getBorderThemeColor(theme) {
-      return theme.value === this.$store.getters['theme/theme']
-        ? theme['theme-color']
+      return theme.key === this.$store.getters['theme/currentTheme'] //highlight if active theme
+        ? theme.variables.find(element => element.variableKey === 'theme-color').variableValue
         : 'transparent';
     }
   }

@@ -1,45 +1,40 @@
-import { ThemesDto } from 'server/user/themes/dto/themes.dto';
-import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators';
 import Axios from 'axios';
+import { actionTree, getterTree, mutationTree } from 'nuxt-typed-vuex';
+import { ThemesDto } from '../../server/user/themes/dto/themes.dto';
 
-@Module({
-  name: 'theme',
-  stateFactory: true,
-  namespaced: true
-})
-class Theme extends VuexModule {
-  currentTheme = 'default';
-  allThemes: ThemesDto[] = [
+export const state = () => ({
+  currentTheme: 'default' as string,
+  allThemes: [
     {
       key: 'default',
       name: 'Dark Theme',
       default: true,
       variables: [
-        ['bgcolor-main', '#121212'],
-        ['bgcolor-alt', '#1a1a1a'],
-        ['bgcolor-alt-light', '#484848'],
-        ['bgcolor-translucent', '#0000007c'],
-        ['error-color-green', '#4caf50'],
-        ['error-color-red', '#d93025'],
-        ['theme-color', '#ff7b3a'],
-        ['theme-color-light', '#f5af19'],
-        ['theme-color-dark', '#f12711'],
-        ['theme-color-alt', '#108dc7'],
-        ['theme-color-translucent', '#ff7b3a80'],
-        ['line-color', 'rgba(255, 255, 255, 0.2)'],
-        ['line-accent-color', 'rgba(255, 255, 255, 0.4)'],
-        [
-          'theme-color-gradient',
-          `linear-gradient(53deg,rgba(241, 87, 10, 1) 0%,rgba(224, 140, 112, 1) 33%,rgba(89, 193, 186, 1) 78%,rgba(0, 212, 255, 1) 100%)`
-        ],
-        ['shadow-load-color', '#535353b6'],
-        ['header-bgcolor', '#272727'],
-        ['header-transparent', '#00000000'],
-        ['title-color', '#ebebeb'],
-        ['subtitle-color', '#d8d8d8'],
-        ['subtitle-color-light', '#b3b3b3'],
-        ['darkness', 'invert(90%)'],
-        ['gradient-opacity', '1']
+        { variableKey: 'bgcolor-main', variableValue: '#121212' },
+        { variableKey: 'bgcolor-alt', variableValue: '#1a1a1a' },
+        { variableKey: 'bgcolor-alt-light', variableValue: '#484848' },
+        { variableKey: 'bgcolor-translucent', variableValue: '#0000007c' },
+        { variableKey: 'error-color-green', variableValue: '#4caf50' },
+        { variableKey: 'error-color-red', variableValue: '#d93025' },
+        { variableKey: 'theme-color', variableValue: '#ff7b3a' },
+        { variableKey: 'theme-color-light', variableValue: '#f5af19' },
+        { variableKey: 'theme-color-dark', variableValue: '#f12711' },
+        { variableKey: 'theme-color-alt', variableValue: '#108dc7' },
+        { variableKey: 'theme-color-translucent', variableValue: '#ff7b3a80' },
+        { variableKey: 'line-color', variableValue: 'rgba(255, 255, 255, 0.2)' },
+        { variableKey: 'line-accent-color', variableValue: 'rgba(255, 255, 255, 0.4)' },
+        {
+          variableKey: 'theme-color-gradient',
+          variableValue: `linear-gradient(53deg,rgba(241, 87, 10, 1) 0%,rgba(224, 140, 112, 1) 33%,rgba(89, 193, 186, 1) 78%,rgba(0, 212, 255, 1) 100%)`
+        },
+        { variableKey: 'shadow-load-color', variableValue: '#535353b6' },
+        { variableKey: 'header-bgcolor', variableValue: '#272727' },
+        { variableKey: 'header-transparent', variableValue: '#00000000' },
+        { variableKey: 'title-color', variableValue: '#ebebeb' },
+        { variableKey: 'subtitle-color', variableValue: '#d8d8d8' },
+        { variableKey: 'subtitle-color-light', variableValue: '#b3b3b3' },
+        { variableKey: 'darkness', variableValue: 'invert(90%)' },
+        { variableKey: 'gradient-opacity', variableValue: '1' }
       ]
     },
     {
@@ -47,31 +42,31 @@ class Theme extends VuexModule {
       name: 'Light Theme',
       default: true,
       variables: [
-        ['bgcolor-main', '#ffffff'],
-        ['bgcolor-alt', '#ffffff'],
-        ['bgcolor-alt-light', '#dadada'],
-        ['bgcolor-translucent', '#ffffff7c'],
-        ['error-color-green', '#4caf50'],
-        ['error-color-red', '#d93025'],
-        ['theme-color', '#ff7b3a'],
-        ['theme-color-light', '#f5af19'],
-        ['theme-color-dark', '#f12711'],
-        ['theme-color-alt', '#108dc7'],
-        ['theme-color-translucent', '#ff7b3a80'],
-        ['line-color', 'rgba(255, 255, 255, 0.2)'],
-        ['line-accent-color', 'rgba(255, 255, 255, 0.4)'],
-        [
-          'theme-color-gradient',
-          `linear-gradient(53deg,rgba(241, 87, 10, 1) 0%,rgba(224, 140, 112, 1) 33%,rgba(89, 193, 186, 1) 78%,rgba(0, 212, 255, 1) 100%)`
-        ],
-        ['shadow-load-color', '#535353b6'],
-        ['header-bgcolor', '#ffffff'],
-        ['header-transparent', '#ffffff'],
-        ['title-color', '#080808'],
-        ['subtitle-color', '#333333'],
-        ['subtitle-color-light', '#4e4e4e'],
-        ['darkness', 'invert(0%)'],
-        ['gradient-opacity', '0']
+        { variableKey: 'bgcolor-main', variableValue: '#ffffff' },
+        { variableKey: 'bgcolor-alt', variableValue: '#ffffff' },
+        { variableKey: 'bgcolor-alt-light', variableValue: '#dadada' },
+        { variableKey: 'bgcolor-translucent', variableValue: '#ffffff7c' },
+        { variableKey: 'error-color-green', variableValue: '#4caf50' },
+        { variableKey: 'error-color-red', variableValue: '#d93025' },
+        { variableKey: 'theme-color', variableValue: '#ff7b3a' },
+        { variableKey: 'theme-color-light', variableValue: '#f5af19' },
+        { variableKey: 'theme-color-dark', variableValue: '#f12711' },
+        { variableKey: 'theme-color-alt', variableValue: '#108dc7' },
+        { variableKey: 'theme-color-translucent', variableValue: '#ff7b3a80' },
+        { variableKey: 'line-color', variableValue: 'rgba(255, 255, 255, 0.2)' },
+        { variableKey: 'line-accent-color', variableValue: 'rgba(255, 255, 255, 0.4)' },
+        {
+          variableKey: 'theme-color-gradient',
+          variableValue: `linear-gradient(53deg,rgba(241, 87, 10, 1) 0%,rgba(224, 140, 112, 1) 33%,rgba(89, 193, 186, 1) 78%,rgba(0, 212, 255, 1) 100%)`
+        },
+        { variableKey: 'shadow-load-color', variableValue: '#535353b6' },
+        { variableKey: 'header-bgcolor', variableValue: '#ffffff' },
+        { variableKey: 'header-transparent', variableValue: '#ffffff' },
+        { variableKey: 'title-color', variableValue: '#080808' },
+        { variableKey: 'subtitle-color', variableValue: '#333333' },
+        { variableKey: 'subtitle-color-light', variableValue: '#4e4e4e' },
+        { variableKey: 'darkness', variableValue: 'invert(0%)' },
+        { variableKey: 'gradient-opacity', variableValue: '0' }
       ]
     },
     {
@@ -79,31 +74,31 @@ class Theme extends VuexModule {
       name: 'Dark theme without background gradients',
       default: true,
       variables: [
-        ['bgcolor-main', '#121212'],
-        ['bgcolor-alt', '#1a1a1a'],
-        ['bgcolor-alt-light', '#484848'],
-        ['bgcolor-translucent', '#0000007c'],
-        ['error-color-green', '#4caf50'],
-        ['error-color-red', '#d93025'],
-        ['theme-color', '#ff7b3a'],
-        ['theme-color-light', '#f5af19'],
-        ['theme-color-dark', '#f12711'],
-        ['theme-color-alt', '#108dc7'],
-        ['theme-color-translucent', '#ff7b3a80'],
-        ['line-color', 'rgba(255, 255, 255, 0.2)'],
-        ['line-accent-color', 'rgba(255, 255, 255, 0.4)'],
-        [
-          'theme-color-gradient',
-          `linear-gradient(53deg,rgba(241, 87, 10, 1) 0%,rgba(224, 140, 112, 1) 33%,rgba(89, 193, 186, 1) 78%,rgba(0, 212, 255, 1) 100%)`
-        ],
-        ['shadow-load-color', '#535353b6'],
-        ['header-bgcolor', '#272727'],
-        ['header-transparent', '#00000000'],
-        ['title-color', '#ebebeb'],
-        ['subtitle-color', '#d8d8d8'],
-        ['subtitle-color-light', '#b3b3b3'],
-        ['darkness', 'invert(90%)'],
-        ['gradient-opacity', '0']
+        { variableKey: 'bgcolor-main', variableValue: '#121212' },
+        { variableKey: 'bgcolor-alt', variableValue: '#1a1a1a' },
+        { variableKey: 'bgcolor-alt-light', variableValue: '#484848' },
+        { variableKey: 'bgcolor-translucent', variableValue: '#0000007c' },
+        { variableKey: 'error-color-green', variableValue: '#4caf50' },
+        { variableKey: 'error-color-red', variableValue: '#d93025' },
+        { variableKey: 'theme-color', variableValue: '#ff7b3a' },
+        { variableKey: 'theme-color-light', variableValue: '#f5af19' },
+        { variableKey: 'theme-color-dark', variableValue: '#f12711' },
+        { variableKey: 'theme-color-alt', variableValue: '#108dc7' },
+        { variableKey: 'theme-color-translucent', variableValue: '#ff7b3a80' },
+        { variableKey: 'line-color', variableValue: 'rgba(255, 255, 255, 0.2)' },
+        { variableKey: 'line-accent-color', variableValue: 'rgba(255, 255, 255, 0.4)' },
+        {
+          variableKey: 'theme-color-gradient',
+          variableValue: `linear-gradient(53deg,rgba(241, 87, 10, 1) 0%,rgba(224, 140, 112, 1) 33%,rgba(89, 193, 186, 1) 78%,rgba(0, 212, 255, 1) 100%)`
+        },
+        { variableKey: 'shadow-load-color', variableValue: '#535353b6' },
+        { variableKey: 'header-bgcolor', variableValue: '#272727' },
+        { variableKey: 'header-transparent', variableValue: '#00000000' },
+        { variableKey: 'title-color', variableValue: '#ebebeb' },
+        { variableKey: 'subtitle-color', variableValue: '#d8d8d8' },
+        { variableKey: 'subtitle-color-light', variableValue: '#b3b3b3' },
+        { variableKey: 'darkness', variableValue: 'invert(90%)' },
+        { variableKey: 'gradient-opacity', variableValue: '0' }
       ]
     },
     {
@@ -111,31 +106,31 @@ class Theme extends VuexModule {
       name: 'Black theme',
       default: true,
       variables: [
-        ['bgcolor-main', '#000000'],
-        ['bgcolor-alt', '#1a1a1a'],
-        ['bgcolor-alt-light', '#484848'],
-        ['bgcolor-translucent', '#0000007c'],
-        ['error-color-green', '#4caf50'],
-        ['error-color-red', '#d93025'],
-        ['theme-color', '#ff7b3a'],
-        ['theme-color-light', '#f5af19'],
-        ['theme-color-dark', '#f12711'],
-        ['theme-color-alt', '#108dc7'],
-        ['theme-color-translucent', '#ff7b3a80'],
-        ['line-color', 'rgba(255, 255, 255, 0.2)'],
-        ['line-accent-color', 'rgba(255, 255, 255, 0.4)'],
-        [
-          'theme-color-gradient',
-          `linear-gradient(53deg,rgba(241, 87, 10, 1) 0%,rgba(224, 140, 112, 1) 33%,rgba(89, 193, 186, 1) 78%,rgba(0, 212, 255, 1) 100%)`
-        ],
-        ['shadow-load-color', '#535353b6'],
-        ['header-bgcolor', '#272727'],
-        ['header-transparent', '#00000000'],
-        ['title-color', '#ebebeb'],
-        ['subtitle-color', '#d8d8d8'],
-        ['subtitle-color-light', '#b3b3b3'],
-        ['darkness', 'invert(100%)'],
-        ['gradient-opacity', '1']
+        { variableKey: 'bgcolor-main', variableValue: '#000000' },
+        { variableKey: 'bgcolor-alt', variableValue: '#1a1a1a' },
+        { variableKey: 'bgcolor-alt-light', variableValue: '#484848' },
+        { variableKey: 'bgcolor-translucent', variableValue: '#0000007c' },
+        { variableKey: 'error-color-green', variableValue: '#4caf50' },
+        { variableKey: 'error-color-red', variableValue: '#d93025' },
+        { variableKey: 'theme-color', variableValue: '#ff7b3a' },
+        { variableKey: 'theme-color-light', variableValue: '#f5af19' },
+        { variableKey: 'theme-color-dark', variableValue: '#f12711' },
+        { variableKey: 'theme-color-alt', variableValue: '#108dc7' },
+        { variableKey: 'theme-color-translucent', variableValue: '#ff7b3a80' },
+        { variableKey: 'line-color', variableValue: 'rgba(255, 255, 255, 0.2)' },
+        { variableKey: 'line-accent-color', variableValue: 'rgba(255, 255, 255, 0.4)' },
+        {
+          variableKey: 'theme-color-gradient',
+          variableValue: `linear-gradient(53deg,rgba(241, 87, 10, 1) 0%,rgba(224, 140, 112, 1) 33%,rgba(89, 193, 186, 1) 78%,rgba(0, 212, 255, 1) 100%)`
+        },
+        { variableKey: 'shadow-load-color', variableValue: '#535353b6' },
+        { variableKey: 'header-bgcolor', variableValue: '#272727' },
+        { variableKey: 'header-transparent', variableValue: '#00000000' },
+        { variableKey: 'title-color', variableValue: '#ebebeb' },
+        { variableKey: 'subtitle-color', variableValue: '#d8d8d8' },
+        { variableKey: 'subtitle-color-light', variableValue: '#b3b3b3' },
+        { variableKey: 'darkness', variableValue: 'invert(100%)' },
+        { variableKey: 'gradient-opacity', variableValue: '1' }
       ]
     },
     {
@@ -143,88 +138,91 @@ class Theme extends VuexModule {
       name: 'Dark green theme',
       default: true,
       variables: [
-        ['bgcolor-main', '#121212'],
-        ['bgcolor-alt', '#1a1a1a'],
-        ['bgcolor-alt-light', '#484848'],
-        ['bgcolor-translucent', '#0000007c'],
-        ['error-color-green', '#4caf50'],
-        ['error-color-red', '#d93025'],
-        ['theme-color', '#06b300'],
-        ['theme-color-light', '#60c25c'],
-        ['theme-color-dark', '#1da019'],
-        ['theme-color-alt', '#108dc7'],
-        ['theme-color-translucent', '#06b30080'],
-        ['line-color', 'rgba(255, 255, 255, 0.2)'],
-        ['line-accent-color', 'rgba(255, 255, 255, 0.4)'],
-        [
-          'theme-color-gradient',
-          `linear-gradient(53deg,rgba(6, 179, 0, 1) 0%,rgb(104, 207, 101) 33%,rgba(89, 193, 186, 1) 78%,rgba(0, 212, 255, 1) 100% )`
-        ],
-        ['shadow-load-color', '#535353b6'],
-        ['header-bgcolor', '#272727'],
-        ['header-transparent', '#00000000'],
-        ['title-color', '#ebebeb'],
-        ['subtitle-color', '#d8d8d8'],
-        ['subtitle-color-light', '#b3b3b3'],
-        ['darkness', 'invert(100%)'],
-        ['gradient-opacity', '0']
+        { variableKey: 'bgcolor-main', variableValue: '#121212' },
+        { variableKey: 'bgcolor-alt', variableValue: '#1a1a1a' },
+        { variableKey: 'bgcolor-alt-light', variableValue: '#484848' },
+        { variableKey: 'bgcolor-translucent', variableValue: '#0000007c' },
+        { variableKey: 'error-color-green', variableValue: '#4caf50' },
+        { variableKey: 'error-color-red', variableValue: '#d93025' },
+        { variableKey: 'theme-color', variableValue: '#06b300' },
+        { variableKey: 'theme-color-light', variableValue: '#60c25c' },
+        { variableKey: 'theme-color-dark', variableValue: '#1da019' },
+        { variableKey: 'theme-color-alt', variableValue: '#108dc7' },
+        { variableKey: 'theme-color-translucent', variableValue: '#06b30080' },
+        { variableKey: 'line-color', variableValue: 'rgba(255, 255, 255, 0.2)' },
+        { variableKey: 'line-accent-color', variableValue: 'rgba(255, 255, 255, 0.4)' },
+        {
+          variableKey: 'theme-color-gradient',
+          variableValue: `linear-gradient(53deg,rgba(6, 179, 0, 1) 0%,rgb(104, 207, 101) 33%,rgba(89, 193, 186, 1) 78%,rgba(0, 212, 255, 1) 100% )`
+        },
+        { variableKey: 'shadow-load-color', variableValue: '#535353b6' },
+        { variableKey: 'header-bgcolor', variableValue: '#272727' },
+        { variableKey: 'header-transparent', variableValue: '#00000000' },
+        { variableKey: 'title-color', variableValue: '#ebebeb' },
+        { variableKey: 'subtitle-color', variableValue: '#d8d8d8' },
+        { variableKey: 'subtitle-color-light', variableValue: '#b3b3b3' },
+        { variableKey: 'darkness', variableValue: 'invert(100%)' },
+        { variableKey: 'gradient-opacity', variableValue: '0' }
       ]
     }
-  ];
+  ] as ThemesDto[]
+});
 
-  get theme() {
-    return this.currentTheme;
-  }
-
-  get themes() {
-    return this.allThemes;
-  }
-
-  get themeVariables() {
-    return this.allThemes.find(el => this.currentTheme === el.key);
-  }
-
-  get defaultThemes() {
+export const getters = getterTree(state, {
+  currentTheme(state) {
+    return state.currentTheme;
+  },
+  themes(state) {
+    return state.allThemes;
+  },
+  themeVariables(state) {
+    return state.allThemes.find(el => state.currentTheme === el.key).variables;
+  },
+  defaultThemes(state) {
     const defaultThemes = [];
-    this.allThemes.forEach(element => {
+    state.allThemes.forEach(element => {
       if (element.default) {
         defaultThemes.push(element);
       }
     });
     return defaultThemes;
   }
+});
 
-  @Mutation
-  setTheme(themeKey: string) {
-    if (this.themes.find(e => e.key === themeKey)) {
-      this.currentTheme = themeKey;
+export const mutations = mutationTree(state, {
+  setTheme(state, themeKey: string) {
+    if (state.allThemes.find(e => e.key === themeKey)) {
+      state.currentTheme = themeKey;
     }
-  }
-
-  @Mutation
-  addTheme(theme: ThemesDto) {
-    this.allThemes.push(theme);
-  }
-
-  @Mutation
-  resetThemes() {
-    for (let i = this.allThemes.length - 1; i >= 0; i -= 1) {
-      if (!this.allThemes[i].default) {
-        this.allThemes.splice(i);
+  },
+  addTheme(state, theme: ThemesDto) {
+    state.allThemes.push(theme);
+  },
+  resetThemes(state) {
+    for (let i = state.allThemes.length - 1; i >= 0; i -= 1) {
+      if (!state.allThemes[i].default) {
+        state.allThemes.splice(i);
       }
     }
   }
+});
 
-  @Action
-  async fetchThemes() {
-    await Axios.get(`${this.context.rootState.env.apiUrl}user/themes`, {
-      withCredentials: true
-    })
-      .then(result => {
-        result.data.forEach(element => {
-          this.context.commit('addTheme', element);
-        });
+export const actions = actionTree(
+  {
+    state,
+    mutations
+  },
+  {
+    async fetchThemes({ commit, rootState }) {
+      await Axios.get(`${rootState.env.apiUrl}user/themes`, {
+        withCredentials: true
       })
-      .catch(console.log);
+        .then(result => {
+          result.data.forEach(element => {
+            commit('addTheme', element);
+          });
+        })
+        .catch(console.log);
+    }
   }
-}
+);

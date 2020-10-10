@@ -27,12 +27,6 @@ export default {
     MiniplayerIcon,
     SwitchButton
   },
-  data() {
-    return {
-      themes: this.$store.getters['theme/themes'],
-      currentTheme: this.$store.getters['theme/theme']
-    };
-  },
   methods: {}
 };
 </script>

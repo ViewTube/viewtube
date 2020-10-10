@@ -37,7 +37,7 @@ export default {
   data() {
     return {
       themes: this.$store.getters['theme/themes'],
-      currentTheme: this.$store.getters['theme/theme']
+      currentTheme: this.$store.getters['theme/currentTheme']
     };
   },
   computed: {

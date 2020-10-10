@@ -57,7 +57,7 @@ export default Vue.extend({
   methods: {
     getThemeClass(): string {
       if ((process as any).browser) {
-        return `theme--${this.$store.getters['theme/theme']}`;
+        return `theme--${this.$store.getters['theme/currentTheme']}`;
       } else {
         return 'theme--default';
       }
