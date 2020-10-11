@@ -1,33 +1,38 @@
 <template>
   <div class="subscriptions">
     <GradientBackground :color="'green'" />
-    <SectionTitle :title="'Subscriptions'">
-      <div class="manage-btn-container">
-        <BadgeButton
-          class="import-subscriptions-btn"
-          :click="() => (subscriptionImportOpen = true)"
-        >
-          <ImportIcon />
-          <p>Import subscriptions</p>
-        </BadgeButton>
-        <BadgeButton
-          class="manage-subscriptions-btn"
-          :href="'subscriptions/manage'"
-          :internal-link="true"
-        >
-          <EditIcon />
-          <p>Manage</p>
-        </BadgeButton>
+    <div class="subscribe-info-container">
+      <div class="subscribe-info">
+        <div class="info">
+          <h2>Subscription feed for {{ $store.getters['user/username'] }}</h2>
+          <p>Last refresh: {{ lastRefreshTime }}</p>
+          <p>Next refresh: {{ nextRefreshTime }}</p>
+        </div>
+        <div class="actions">
+          <BadgeButton
+            class="import-subscriptions-btn"
+            :click="() => (subscriptionImportOpen = true)"
+          >
+            <ImportIcon />
+            <p>Import subscriptions</p>
+          </BadgeButton>
+          <BadgeButton
+            class="manage-subscriptions-btn"
+            :href="'subscriptions/manage'"
+            :internal-link="true"
+          >
+            <EditIcon />
+            <p>Manage</p>
+          </BadgeButton>
+          <SwitchButton
+            v-tippy="getNotificationStatus"
+            :value="notificationsEnabled"
+            :label="'Enable notifications'"
+            :disabled="notificationsBtnDisabled"
+            @valuechange="subscribeToNotifications"
+          />
+        </div>
       </div>
-    </SectionTitle>
-    <div class="subscribe-btn-container">
-      <SwitchButton
-        v-tippy="getNotificationStatus"
-        :value="notificationsEnabled"
-        :label="'Enable notifications'"
-        :disabled="notificationsBtnDisabled"
-        @valuechange="subscribeToNotifications"
-      />
     </div>
     <div class="subscription-videos-container">
       <div
@@ -144,6 +149,18 @@ export default {
         }
       });
       return orderedArray;
+    },
+    lastRefreshTime() {
+      const now = new Date();
+      now.setMinutes(Math.floor(now.getMinutes() / 30) * 30);
+      now.setSeconds(0);
+      return now.toLocaleString();
+    },
+    nextRefreshTime() {
+      const now = new Date();
+      now.setMinutes(Math.ceil(now.getMinutes() / 30) * 30);
+      now.setSeconds(0);
+      return now.toLocaleString();
     }
   },
   watch: {
@@ -269,9 +286,10 @@ export default {
     width: 100%;
     max-width: $main-width;
     margin: 0 auto;
+    padding: 0 10px;
+    box-sizing: border-box;
 
     .title {
-      margin: 0 0 0 15px;
     }
 
     .manage-btn-container {
@@ -291,20 +309,48 @@ export default {
     }
   }
 
-  .subscribe-btn-container {
+  .subscribe-info-container {
     position: relative;
-    left: 0;
     width: 100%;
     max-width: $main-width;
-    margin: 0 auto;
+    margin: 30px auto 0 auto;
+    padding: 0 10px;
     z-index: 11;
-    height: 40px;
-    display: flex;
-    padding: 0 15px 0 15px;
     box-sizing: border-box;
 
-    .switch {
-      margin: 0 !important;
+    .subscribe-info {
+      display: flex;
+      flex-direction: row;
+      padding: 15px;
+      box-sizing: border-box;
+      background: var(--bgcolor-alt);
+      justify-content: space-between;
+      border-radius: 5px;
+      box-shadow: $medium-shadow;
+      box-sizing: border-box;
+
+      @media screen and (max-width: 1000px) {
+        flex-direction: column;
+
+        .actions {
+          margin: 10px 0 0 0;
+        }
+      }
+
+      .info {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .actions {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+
+        .switch {
+          margin: 5px 0 0 0 !important;
+        }
+      }
     }
   }
 

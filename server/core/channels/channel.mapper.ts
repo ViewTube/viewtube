@@ -104,7 +104,6 @@ export class ChannelMapper {
       totalViews,
       channelLinks
     };
-
     return channel;
   }
 
@@ -137,9 +136,13 @@ export class ChannelMapper {
           .filter(item => item.miniChannelRenderer)
           .map((element: any) => {
             const rawChannel = element.miniChannelRenderer;
-            const authorTitle = this.tryGet(() =>
-              this.multiValue([rawChannel.title.simpleText, rawChannel.title.runs[0].text])
-            );
+            let authorTitle = null;
+            if (rawChannel.title) {
+              authorTitle = this.multiValue([
+                rawChannel.title.simpleText,
+                rawChannel.title.runs ? rawChannel.title.runs[0].text : null
+              ]);
+            }
             const mappedChannel: ChannelBasicInfoDto = {
               authorId: rawChannel.channelId,
               author: authorTitle,
