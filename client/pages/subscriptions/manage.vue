@@ -1,7 +1,17 @@
 <template>
   <div class="manage-subscriptions">
     <GradientBackground :color="'green'" />
-    <SectionTitle :title="'Manage subscriptions'" />
+    <SectionTitle class="page-title" :title="'Manage subscriptions'" :line="false" />
+    <div class="channel-search" :class="{ value: searchTerm && searchTerm.length > 0 }">
+      <label for="channel-search-box">Filter</label>
+      <input
+        id="channel-search-box"
+        v-model="searchTerm"
+        class="channel-search-box"
+        name="channel-search-box"
+        type="text"
+      />
+    </div>
     <div class="channels-container">
       <div v-for="(channelGroup, i) in orderedChannels" :key="i" class="channel-group">
         <SectionTitle :title="channelGroup.letter" />
@@ -80,11 +90,18 @@ export default {
     if (this.$route.query && this.$route.query.page) {
       this.currentPage = parseInt(this.$route.query.page);
     }
+    let filterString = '';
+    if (this.searchTerm) {
+      filterString = `&filter=${this.searchTerm}`;
+    }
     const start = (this.currentPage - 1) * 30;
     await this.$axios
-      .get(`${apiUrl}user/subscriptions/channels?limit=${limit}&start=${start}&sort=author:1`, {
-        withCredentials: true
-      })
+      .get(
+        `${apiUrl}user/subscriptions/channels?limit=${limit}&start=${start}&sort=author:1${filterString}`,
+        {
+          withCredentials: true
+        }
+      )
       .then(response => {
         this.subscriptionChannels = response.data.channels;
         this.pageCount = Math.ceil(response.data.channelCount / 30);
@@ -98,7 +115,9 @@ export default {
       commons: Commons,
       subscriptionChannels: [],
       currentPage: 1,
-      pageCount: 0
+      pageCount: 0,
+      searchTerm: null,
+      searchTimeout: null
     };
   },
   computed: {
@@ -118,7 +137,15 @@ export default {
     }
   },
   watch: {
-    '$route.query': '$fetch'
+    '$route.query': '$fetch',
+    searchTerm(newVal, oldVal) {
+      if (this.searchTimeout) clearTimeout(this.searchTimeout);
+      this.searchTimeout = setTimeout(() => {
+        if (newVal !== null && newVal !== oldVal) {
+          this.$fetch();
+        }
+      }, 400);
+    }
   },
   methods: {
     changePage(page) {
@@ -200,8 +227,52 @@ export default {
   .section-title {
     max-width: $main-width;
     margin: 0 auto;
+  }
+
+  .page-title {
     .title {
       margin: 0 0 0 15px;
+    }
+  }
+
+  .channel-search {
+    width: 100%;
+    display: flex;
+    max-width: $main-width;
+    margin: 0 auto;
+    z-index: 11;
+    position: relative;
+    padding: 0 15px;
+    box-sizing: border-box;
+
+    &.value {
+      .channel-search-box {
+        border-color: var(--theme-color);
+      }
+
+      label {
+        opacity: 0;
+      }
+    }
+
+    label {
+      font-size: 1rem;
+      padding: 4px 5px;
+      position: absolute;
+      user-select: none;
+      transition: opacity 300ms $intro-easing;
+    }
+    .channel-search-box {
+      all: unset;
+      border-bottom: solid 3px var(--theme-color-translucent);
+      padding: 4px 5px;
+      width: 100%;
+      max-width: $mobile-width;
+      transition: border 300ms $intro-easing;
+
+      &:focus {
+        border-color: var(--theme-color);
+      }
     }
   }
 
@@ -213,14 +284,15 @@ export default {
     display: flex;
     flex-direction: column;
     position: relative;
+    padding: 15px;
+    box-sizing: border-box;
 
     .channel-entry {
       display: flex;
       flex-direction: row;
       width: calc(100% - 20px);
       justify-content: space-between;
-      padding: 0 5px;
-      margin: 0 10px;
+      margin: 0;
       box-sizing: border-box;
       height: 50px;
       text-align: start;

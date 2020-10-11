@@ -35,18 +35,26 @@ export class SubscriptionsController {
     example: 'author:1,authorVerified:-1',
     required: false
   })
+  @ApiQuery({
+    name: 'filter',
+    type: String,
+    example: 'linu',
+    required: false
+  })
   getSubscribedChannels(
     @Req() req: any,
     @Query('limit') limit = 30,
     @Query('start') start = 0,
-    @Query('sort') sort: string = ''
+    @Query('sort') sort: string = '',
+    @Query('filter') filter: string = ''
   ): Promise<{ channels: Array<ChannelBasicInfoDto>; channelCount: number } | void> {
     const sortObj = Common.convertSortParams<ChannelBasicInfoDto>(sort);
     return this.subscriptionsService.getSubscribedChannels(
       req.user.username,
       limit,
       start,
-      sortObj
+      sortObj,
+      filter
     );
   }
 

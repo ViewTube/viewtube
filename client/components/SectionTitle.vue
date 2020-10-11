@@ -4,7 +4,7 @@
       {{ title }}
       <ChevronRightIcon v-if="link !== undefined" />
     </h2>
-    <span class="line" />
+    <span v-if="line" class="line" />
     <slot />
   </div>
 </template>
@@ -21,7 +21,14 @@ export default {
   },
   props: {
     title: String,
-    link: String
+    link: String,
+    line: {
+      type: Boolean,
+      required: false,
+      default() {
+        return true;
+      }
+    }
   }
 };
 </script>

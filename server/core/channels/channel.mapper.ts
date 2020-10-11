@@ -143,11 +143,15 @@ export class ChannelMapper {
                 rawChannel.title.runs ? rawChannel.title.runs[0].text : null
               ]);
             }
+            let subCount = 0;
+            if (rawChannel.subscriberCountText) {
+              subCount = this.parseAbbreviatedNumber(rawChannel.subscriberCountText.simpleText);
+            }
             const mappedChannel: ChannelBasicInfoDto = {
               authorId: rawChannel.channelId,
               author: authorTitle,
               authorThumbnails: rawChannel.thumbnail.thumbnails,
-              subCount: this.parseAbbreviatedNumber(rawChannel.subscriberCountText.simpleText),
+              subCount,
               videoCount: parseInt(
                 rawChannel.videoCountText.runs[0].text.replace('videos', '').trim()
               )

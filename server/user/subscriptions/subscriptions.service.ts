@@ -221,7 +221,8 @@ export class SubscriptionsService {
     username: string,
     limit: number,
     start: number,
-    sort: Sorting<ChannelBasicInfoDto>
+    sort: Sorting<ChannelBasicInfoDto>,
+    filter: string
   ): Promise<{ channels: Array<ChannelBasicInfoDto>; channelCount: number }> {
     const user = await this.subscriptionModel
       .findOne({ username })
@@ -233,10 +234,14 @@ export class SubscriptionsService {
       const userChannelIds = user.subscriptions.map(e => e.channelId);
       if (userChannelIds) {
         const channelCount = await this.channelModel.countDocuments({
-          authorId: { $in: userChannelIds }
+          authorId: { $in: userChannelIds },
+          author: { $regex: `.*${filter}.*`, $options: 'i' }
         });
         const channels = await this.channelModel
-          .find({ authorId: { $in: userChannelIds } })
+          .find({
+            authorId: { $in: userChannelIds },
+            author: { $regex: `.*${filter}.*`, $options: 'i' }
+          })
           .sort(sort)
           .skip(parseInt(start as any))
           .limit(parseInt(limit as any))
