@@ -32,6 +32,7 @@
         </BadgeButton>
         <div v-if="displaySecondDots" class="dots"><p>...</p></div>
         <BadgeButton
+          v-if="displaySecondNum"
           v-tippy="`Go to page ${largestNumber}`"
           :href="`?page=${largestNumber}`"
           :internalLink="true"
@@ -82,7 +83,7 @@ export default Vue.extend({
       if (this.pageCountKnown) {
         return this.pageCount;
       }
-      return null;
+      return 1;
     },
     pageCountDisplay() {
       const numArray = [];
@@ -97,10 +98,16 @@ export default Vue.extend({
         numStart -= numStop - this.pageCount;
         numStop = this.pageCount;
       }
+      if (numStart < 1) {
+        numStart = 1;
+      }
       for (let index = numStart; index < numStop; index++) {
         numArray.push(index);
       }
       return numArray;
+    },
+    displaySecondNum() {
+      return this.pageCountDisplay < this.maxNumber;
     },
     displayFirstDots() {
       if (this.pageCountDisplay[0] > 2) {
@@ -110,7 +117,10 @@ export default Vue.extend({
     },
     displaySecondDots() {
       // debugger;
-      if (this.pageCountDisplay[this.maxNumber - 2] >= this.pageCount - 1) {
+      if (
+        this.pageCountDisplay < this.maxNumber ||
+        this.pageCountDisplay[this.maxNumber - 2] >= this.pageCount - 1
+      ) {
         return false;
       }
       return true;

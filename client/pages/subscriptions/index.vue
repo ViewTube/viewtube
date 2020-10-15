@@ -47,8 +47,15 @@
       </div>
     </div>
     <div class="feed-pagination">
-      <Pagination :currentPage="currentPage" :pageCount="pageCount" :pageCountKnown="true" />
+      <!-- <Pagination :currentPage="currentPage" :pageCount="pageCount" :pageCountKnown="true" /> -->
+      <Pagination
+        :currentPage="currentPageTest"
+        :pageCount="pageCountTest"
+        :pageCountKnown="true"
+      />
+      <input id="number" v-model="pageCountTest" type="number" name="number" />
     </div>
+
     <portal to="popup">
       <transition name="fade-down">
         <SubscriptionImport
@@ -123,7 +130,9 @@ export default {
     subscriptionImportOpen: false,
     vapidKey: null,
     currentPage: 1,
-    pageCount: 0
+    currentPageTest: 1,
+    pageCount: 1,
+    pageCountTest: 1
   }),
   computed: {
     orderedVideoSections() {
@@ -288,9 +297,6 @@ export default {
     margin: 0 auto;
     padding: 0 10px;
     box-sizing: border-box;
-
-    .title {
-    }
 
     .manage-btn-container {
       width: auto;
