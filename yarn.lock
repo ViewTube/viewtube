@@ -14945,10 +14945,10 @@ yn@3.1.1:
   resolved "https://registry.yarnpkg.com/yn/-/yn-3.1.1.tgz#1e87401a09d767c1d5eab26a6e4c185182d2eb50"
   integrity sha512-Ux4ygGWsu2c7isFWe8Yu1YluJmqVhxqK2cLXNQA5AcC3QfbGNpM7fu0Y8b/z16pXLnFxZYvWhd3fhBY9DLmC6Q==
 
-ytdl-core@^3.3.0:
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/ytdl-core/-/ytdl-core-3.3.0.tgz#ed6d3e793961c211804715261e7d0e1d34065ac0"
-  integrity sha512-jesZn1BCKanWEtVymezoJTMUF0B0Z6OQuf8M61zy0QUoNQprR2SYwzwI6dTOZHURz7wk1ffPgbYLu6BZq0vUsQ==
+ytdl-core@^3.4.0:
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/ytdl-core/-/ytdl-core-3.4.0.tgz#0e48d9484f473911b2503a9c2817257855325203"
+  integrity sha512-qk1catzoCF/KXfZy/Z8RLA48PYKH76jt9NZ91nIQOtM97Zxjl5jYetcP17seKj9JOTTREPVf4DtHGs4NXURgiQ==
   dependencies:
     html-entities "^1.3.1"
     m3u8stream "^0.7.1"
