@@ -18,7 +18,7 @@
           class="number-btn"
           >1</BadgeButton
         >
-        <div v-if="displayFirstDots" class="dots"><p>...</p></div>
+        <div :class="{ display: displayFirstDots }" class="dots"><p>...</p></div>
         <BadgeButton
           v-for="number in pageCountDisplay"
           :key="number"
@@ -30,9 +30,9 @@
         >
           {{ number }}
         </BadgeButton>
-        <div v-if="displaySecondDots" class="dots"><p>...</p></div>
+        <div :class="{ display: displaySecondDots }" class="dots"><p>...</p></div>
         <BadgeButton
-          v-if="displaySecondNum"
+          v-if="pageCount > 1"
           v-tippy="`Go to page ${largestNumber}`"
           :href="`?page=${largestNumber}`"
           :internalLink="true"
@@ -86,28 +86,42 @@ export default Vue.extend({
       return 1;
     },
     pageCountDisplay() {
-      const numArray = [];
-      const halfMaxNum = Math.floor(this.maxNumber / 2);
-      let numStart = this.currentPage - halfMaxNum;
-      let numStop = this.currentPage + (halfMaxNum - 1);
-      if (numStart < 2) {
-        numStart = 2;
-        numStop = this.maxNumber;
+      if (this.pageCountKnown && this.pageCount > 1) {
+        const numArray = [];
+        const halfMaxNum = Math.floor(this.maxNumber / 2);
+        let numStart = null;
+        let numStop = null;
+        // debugger;
+        if (this.currentPage > 0 && this.currentPage <= halfMaxNum) {
+          // If the selected page is smaller than half the shown numbers, it always starts at 2
+          // [1] (2) (3) (4) (5)
+          numStart = 2;
+        } else if (this.currentPage + halfMaxNum > this.pageCount) {
+          numStart = this.pageCount - this.maxNumber;
+          console.log(numStart, numStop);
+        } else {
+          numStart = this.currentPage - halfMaxNum;
+        }
+        numStart = numStart <= 1 ? 2 : numStart;
+
+        if (
+          this.currentPage > this.pageCount - this.maxNumber &&
+          this.pageCount <= this.maxNumber
+        ) {
+          numStop = this.pageCount;
+        } else if (this.currentPage - numStart < halfMaxNum) {
+          numStop = this.currentPage + this.maxNumber - (this.currentPage - numStart);
+        } else {
+          numStop = this.currentPage + halfMaxNum;
+        }
+        numStop = numStop >= this.pageCount ? this.pageCount : numStop;
+
+        for (let index = numStart; index < numStop; index++) {
+          numArray.push(index);
+        }
+        return numArray;
       }
-      if (numStop > this.pageCount) {
-        numStart -= numStop - this.pageCount;
-        numStop = this.pageCount;
-      }
-      if (numStart < 1) {
-        numStart = 1;
-      }
-      for (let index = numStart; index < numStop; index++) {
-        numArray.push(index);
-      }
-      return numArray;
-    },
-    displaySecondNum() {
-      return this.pageCountDisplay < this.maxNumber;
+      return [];
     },
     displayFirstDots() {
       if (this.pageCountDisplay[0] > 2) {
@@ -117,13 +131,7 @@ export default Vue.extend({
     },
     displaySecondDots() {
       // debugger;
-      if (
-        this.pageCountDisplay < this.maxNumber ||
-        this.pageCountDisplay[this.maxNumber - 2] >= this.pageCount - 1
-      ) {
-        return false;
-      }
-      return true;
+      return this.pageCountDisplay[this.pageCountDisplay.length - 1] !== this.largestNumber - 1;
     }
   }
 });
@@ -146,8 +154,16 @@ export default Vue.extend({
 
       .dots {
         display: block;
-        margin: 0 10px 0 5px;
+        margin: 0;
+        width: 0;
+        overflow: hidden;
         text-align: center;
+        transition: width 300ms $intro-easing, margin 300ms $intro-easing;
+
+        &.display {
+          width: 12px;
+          margin: 0 10px 0 5px;
+        }
 
         p {
           line-height: 30px;

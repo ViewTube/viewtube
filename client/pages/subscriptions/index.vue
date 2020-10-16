@@ -53,7 +53,8 @@
         :pageCount="pageCountTest"
         :pageCountKnown="true"
       />
-      <input id="number" v-model="pageCountTest" type="number" name="number" />
+      <input id="number" v-model.number="pageCountTest" type="number" name="number" />
+      <input id="number" v-model.number="currentPageTest" type="number" name="number" />
     </div>
 
     <portal to="popup">
