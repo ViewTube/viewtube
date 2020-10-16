@@ -47,14 +47,7 @@
       </div>
     </div>
     <div class="feed-pagination">
-      <!-- <Pagination :currentPage="currentPage" :pageCount="pageCount" :pageCountKnown="true" /> -->
-      <Pagination
-        :currentPage="currentPageTest"
-        :pageCount="pageCountTest"
-        :pageCountKnown="true"
-      />
-      <input id="number" v-model.number="pageCountTest" type="number" name="number" />
-      <input id="number" v-model.number="currentPageTest" type="number" name="number" />
+      <Pagination :currentPage="currentPage" :pageCount="pageCount" />
     </div>
 
     <portal to="popup">

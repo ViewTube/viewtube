@@ -62,7 +62,7 @@
       </div>
     </div>
     <div class="manage-pagination">
-      <Pagination :currentPage="currentPage" :pageCount="pageCount" :pageCountKnown="true" />
+      <Pagination :currentPage="currentPage" :pageCount="pageCount" />
     </div>
   </div>
 </template>
