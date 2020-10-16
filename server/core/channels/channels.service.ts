@@ -12,6 +12,7 @@ export class ChannelsService {
     @InjectModel(General.name)
     private readonly generalModel: Model<General>
   ) {}
+
   private youtubeClientParams = {
     hl: 'en',
     userAgent:

@@ -156,6 +156,7 @@ export default {
     return {
       youtubeSubscriptionUrl: 'https://www.youtube.com/subscription_manager?action_takeout=1',
       page2: false,
+      page3: false,
       subscriptionsToImport: null,
       commons: Commons,
       loading: false,

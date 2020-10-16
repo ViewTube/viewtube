@@ -6,6 +6,7 @@ export default {
     const jsonString = x2js.xml2js(opmlString);
 
     const channelArray = jsonString.opml.body.outline.outline;
+    debugger;
     const mappedChannelArray = this.mapYTChannelArray(channelArray);
     return mappedChannelArray;
   },

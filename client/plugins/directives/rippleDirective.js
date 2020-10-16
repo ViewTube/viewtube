@@ -17,18 +17,13 @@ const Ripple = {
     el.addEventListener(
       'touchmove',
       function (e) {
-        if (
-          e.target.hasAttribute('ripple-cancel-on-move')
-        ) {
+        if (e.target.hasAttribute('ripple-cancel-on-move')) {
           me.rippleRetrieve(e);
           return;
         }
         if (
           !document
-            .elementFromPoint(
-              e.touches[0].clientX,
-              e.touches[0].clientY
-            )
+            .elementFromPoint(e.touches[0].clientX, e.touches[0].clientY)
             .className.includes('ripple')
         ) {
           me.rippleRetrieve(e);
@@ -84,8 +79,7 @@ const Ripple = {
           e.target.getAttribute('animating') === '3'
         ) {
           e.target.style.transition = 'none';
-          e.target.style.transform =
-            'translate(-50%, -50%) scale(0.15)';
+          e.target.style.transform = 'translate(-50%, -50%) scale(0.15)';
           e.target.style.boxShadow = 'none';
           e.target.setAttribute('animating', '0');
         }
@@ -106,8 +100,7 @@ const Ripple = {
       rippleContainer.style.left = '0px';
       rippleContainer.style.opacity = 0;
       rippleContainer.style.zIndex = 999999;
-      rippleContainer.style.transform =
-        'translate(-50%, -50%) scale(0.15)';
+      rippleContainer.style.transform = 'translate(-50%, -50%) scale(0.15)';
       rippleContainer.style.backgroundColor = 'transparent';
 
       el.appendChild(rippleContainer);
@@ -115,81 +108,54 @@ const Ripple = {
   },
 
   rippleStart(e) {
-    const rippleContainer = this.getRippleContainer(
-      e.target
-    );
+    const rippleContainer = this.getRippleContainer(e.target);
     if (
       (rippleContainer.getAttribute('animating') === '0' ||
         !rippleContainer.hasAttribute('animating')) &&
+      e.target.className.includes &&
       e.target.className.includes('ripple')
     ) {
       rippleContainer.setAttribute('animating', '1');
       const offsetX =
         typeof e.offsetX === 'number'
           ? e.offsetX
-          : e.touches[0].clientX -
-            e.target.getBoundingClientRect().left;
+          : e.touches[0].clientX - e.target.getBoundingClientRect().left;
       const offsetY =
         typeof e.offsetY === 'number'
           ? e.offsetY
-          : e.touches[0].clientY -
-            e.target.getBoundingClientRect().top;
+          : e.touches[0].clientY - e.target.getBoundingClientRect().top;
       // fullCoverRadius is the longest distance between the touch and the corners of the element where the event fired
       const fullCoverRadius = Math.max(
+        Math.sqrt(Math.pow(offsetX, 2) + Math.pow(offsetY, 2)),
         Math.sqrt(
-          Math.pow(offsetX, 2) + Math.pow(offsetY, 2)
+          Math.pow(e.target.clientWidth - offsetX, 2) + Math.pow(e.target.clientHeight - offsetY, 2)
         ),
-        Math.sqrt(
-          Math.pow(e.target.clientWidth - offsetX, 2) +
-            Math.pow(e.target.clientHeight - offsetY, 2)
-        ),
-        Math.sqrt(
-          Math.pow(offsetX, 2) +
-            Math.pow(e.target.clientHeight - offsetY, 2)
-        ),
-        Math.sqrt(
-          Math.pow(offsetY, 2) +
-            Math.pow(e.target.clientWidth - offsetX, 2)
-        )
+        Math.sqrt(Math.pow(offsetX, 2) + Math.pow(e.target.clientHeight - offsetY, 2)),
+        Math.sqrt(Math.pow(offsetY, 2) + Math.pow(e.target.clientWidth - offsetX, 2))
       );
-      const expandTime =
-        e.target.getAttribute('ripple-press-expand-time') ||
-        0.4;
+      const expandTime = e.target.getAttribute('ripple-press-expand-time') || 0.4;
       rippleContainer.style.transition =
-        'transform ' +
-        expandTime +
-        's ease-out, box-shadow 0.1s linear, opacity 0.1s';
-      rippleContainer.style.background =
-        e.target.getAttribute('ripple-color') || '#efefef';
-      rippleContainer.style.opacity =
-        e.target.getAttribute('ripple-opacity') || '0.2';
-      rippleContainer.style.boxShadow =
-        e.target.getAttribute('ripple-shadow') || 'none';
+        'transform ' + expandTime + 's ease-out, box-shadow 0.1s linear, opacity 0.1s';
+      rippleContainer.style.background = e.target.getAttribute('ripple-color') || '#efefef';
+      rippleContainer.style.opacity = e.target.getAttribute('ripple-opacity') || '0.2';
+      rippleContainer.style.boxShadow = e.target.getAttribute('ripple-shadow') || 'none';
       rippleContainer.style.top = offsetY + 'px';
       rippleContainer.style.left = offsetX + 'px';
       rippleContainer.style.transform =
-        'translate(-50%, -50%) scale(' +
-        fullCoverRadius / 100 +
-        ')';
+        'translate(-50%, -50%) scale(' + fullCoverRadius / 100 + ')';
     }
   },
 
   rippleEnd(e) {
-    const rippleContainer = this.getRippleContainer(
-      e.target
-    );
+    const rippleContainer = this.getRippleContainer(e.target);
     if (rippleContainer.getAttribute('animating') === '1') {
       rippleContainer.setAttribute('animating', '2');
       const background = window
         .getComputedStyle(rippleContainer, null)
         .getPropertyValue('background');
-      const destinationRadius =
-        e.target.clientWidth + e.target.clientHeight;
+      const destinationRadius = e.target.clientWidth + e.target.clientHeight;
       rippleContainer.style.transition = 'none';
-      const expandTime =
-        e.target.getAttribute(
-          'ripple-release-expand-time'
-        ) || 0.4;
+      const expandTime = e.target.getAttribute('ripple-release-expand-time') || 0.4;
       rippleContainer.style.transition =
         'transform ' +
         expandTime +
@@ -199,13 +165,8 @@ const Ripple = {
         expandTime +
         's ease-in-out';
       rippleContainer.style.transform =
-        'translate(-50%, -50%) scale(' +
-        destinationRadius / 100 +
-        ')';
-      rippleContainer.style.background =
-        'radial-gradient(transparent 10%, ' +
-        background +
-        ' 40%)';
+        'translate(-50%, -50%) scale(' + destinationRadius / 100 + ')';
+      rippleContainer.style.background = 'radial-gradient(transparent 10%, ' + background + ' 40%)';
       rippleContainer.style.opacity = '0';
       // fire custom event and execute js given in onrippleclick attribute
       e.target.dispatchEvent(
@@ -217,25 +178,14 @@ const Ripple = {
   },
 
   rippleRetrieve(e) {
-    const rippleContainer = this.getRippleContainer(
-      e.target
-    );
-    if (
-      rippleContainer.style.transform ===
-      'translate(-50%, -50%) scale(0.15)'
-    ) {
+    const rippleContainer = this.getRippleContainer(e.target);
+    if (rippleContainer.style.transform === 'translate(-50%, -50%) scale(0.15)') {
       rippleContainer.setAttribute('animating', '0');
     }
     if (rippleContainer.getAttribute('animating') === '1') {
       rippleContainer.setAttribute('animating', '3');
-      const collapseTime =
-        e.target.getAttribute(
-          'ripple-leave-collapse-time'
-        ) || 0.2;
-      rippleContainer.style.transition =
-        'box-shadow ' +
-        collapseTime +
-        's linear, opacity 0.2s';
+      const collapseTime = e.target.getAttribute('ripple-leave-collapse-time') || 0.2;
+      rippleContainer.style.transition = 'box-shadow ' + collapseTime + 's linear, opacity 0.2s';
       rippleContainer.style.boxShadow = 'none';
       // rippleContainer.style.transform = 'translate(-50%, -50%) scale(0.15)'
       rippleContainer.style.opacity = '0';
@@ -246,9 +196,7 @@ const Ripple = {
     const children = el.childNodes;
     for (let i = 0; i < children.length; i++) {
       try {
-        if (
-          children[i].className.includes('rippleContainer')
-        ) {
+        if (children[i].className.includes('rippleContainer')) {
           return children[i];
         }
       } catch (err) {}

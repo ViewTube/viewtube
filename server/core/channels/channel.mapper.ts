@@ -104,7 +104,6 @@ export class ChannelMapper {
       totalViews,
       channelLinks
     };
-
     return channel;
   }
 
@@ -118,6 +117,14 @@ export class ChannelMapper {
     return definedValue;
   }
 
+  static tryGet(value: Function): any {
+    try {
+      return value();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   static mapRelatedChannels(
     source: any
   ): Array<{ title: string; channels: Array<ChannelBasicInfoDto> }> {
@@ -129,11 +136,22 @@ export class ChannelMapper {
           .filter(item => item.miniChannelRenderer)
           .map((element: any) => {
             const rawChannel = element.miniChannelRenderer;
+            let authorTitle = null;
+            if (rawChannel.title) {
+              authorTitle = this.multiValue([
+                rawChannel.title.simpleText,
+                rawChannel.title.runs ? rawChannel.title.runs[0].text : null
+              ]);
+            }
+            let subCount = 0;
+            if (rawChannel.subscriberCountText) {
+              subCount = this.parseAbbreviatedNumber(rawChannel.subscriberCountText.simpleText);
+            }
             const mappedChannel: ChannelBasicInfoDto = {
               authorId: rawChannel.channelId,
-              author: rawChannel.title.runs[0].text,
+              author: authorTitle,
               authorThumbnails: rawChannel.thumbnail.thumbnails,
-              subCount: this.parseAbbreviatedNumber(rawChannel.subscriberCountText.simpleText),
+              subCount,
               videoCount: parseInt(
                 rawChannel.videoCountText.runs[0].text.replace('videos', '').trim()
               )

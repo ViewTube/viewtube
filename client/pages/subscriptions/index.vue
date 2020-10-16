@@ -1,37 +1,55 @@
 <template>
   <div class="subscriptions">
     <GradientBackground :color="'green'" />
-    <SectionTitle :title="'Subscriptions'">
-      <div class="manage-btn-container">
-        <BadgeButton
-          class="import-subscriptions-btn"
-          :click="() => (subscriptionImportOpen = true)"
-        >
-          <ImportIcon />
-          <p>Import subscriptions</p>
-        </BadgeButton>
-        <BadgeButton
-          class="manage-subscriptions-btn"
-          :href="'subscriptions/manage'"
-          :internal-link="true"
-        >
-          <EditIcon />
-          <p>Manage</p>
-        </BadgeButton>
+    <div class="subscribe-info-container">
+      <div class="subscribe-info">
+        <div class="info">
+          <h2>Subscription feed for {{ $store.getters['user/username'] }}</h2>
+          <p>Last refresh: {{ lastRefreshTime }}</p>
+          <p>Next refresh: {{ nextRefreshTime }}</p>
+        </div>
+        <div class="actions">
+          <BadgeButton
+            class="import-subscriptions-btn"
+            :click="() => (subscriptionImportOpen = true)"
+          >
+            <ImportIcon />
+            <p>Import subscriptions</p>
+          </BadgeButton>
+          <BadgeButton
+            class="manage-subscriptions-btn"
+            :href="'subscriptions/manage'"
+            :internal-link="true"
+          >
+            <EditIcon />
+            <p>Manage</p>
+          </BadgeButton>
+          <SwitchButton
+            v-tippy="getNotificationStatus"
+            :value="notificationsEnabled"
+            :label="'Enable notifications'"
+            :disabled="notificationsBtnDisabled"
+            @valuechange="subscribeToNotifications"
+          />
+        </div>
       </div>
-    </SectionTitle>
-    <div class="subscribe-btn-container">
-      <SwitchButton
-        v-tippy="getNotificationStatus"
-        :value="notificationsEnabled"
-        :label="'Enable notifications'"
-        :disabled="notificationsBtnDisabled"
-        @valuechange="subscribeToNotifications"
-      />
     </div>
     <div class="subscription-videos-container">
-      <VideoEntry v-for="video in videos" :key="video.videoId" :video="video" />
+      <div
+        v-for="(videoSection, index) in orderedVideoSections"
+        :key="index"
+        class="subscription-section"
+      >
+        <SectionTitle :title="videoSection.sectionMessage" />
+        <div class="section-videos-container">
+          <VideoEntry v-for="video in videoSection.videos" :key="video.videoId" :video="video" />
+        </div>
+      </div>
     </div>
+    <div class="feed-pagination">
+      <Pagination :currentPage="currentPage" :pageCount="pageCount" />
+    </div>
+
     <portal to="popup">
       <transition name="fade-down">
         <SubscriptionImport
@@ -54,6 +72,7 @@ import SwitchButton from '@/components/buttons/SwitchButton';
 import BadgeButton from '@/components/buttons/BadgeButton';
 import EditIcon from 'vue-material-design-icons/PencilBoxMultipleOutline';
 import ImportIcon from 'vue-material-design-icons/Import';
+import Pagination from '@/components/pagination/Pagination';
 
 export default {
   name: 'Home',
@@ -65,19 +84,34 @@ export default {
     SwitchButton,
     BadgeButton,
     EditIcon,
-    ImportIcon
+    ImportIcon,
+    Pagination
   },
   async fetch() {
+    if (process.browser) {
+      // window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    const apiUrl = this.$store.getters['environment/apiUrl'];
+    const limit = 20;
+    if (this.$route.query && this.$route.query.page) {
+      this.currentPage = parseInt(this.$route.query.page);
+    }
+    const start = (this.currentPage - 1) * 30;
     await this.$axios
-      .get(`${this.$store.getters['environment/apiUrl']}user/subscriptions/videos`, {
+      .get(`${apiUrl}user/subscriptions/videos?limit=${limit}&start=${start}`, {
         withCredentials: true
       })
       .then(response => {
-        this.videos = response.data;
+        this.videos = response.data.videos;
+        this.pageCount = Math.ceil(response.data.videoCount / 30);
         this.loading = false;
       })
-      .catch(error => {
-        console.log(error);
+      .catch(_ => {
+        this.$store.dispatch('messages/createMessage', {
+          type: 'error',
+          title: 'Error loading subscription feed',
+          message: 'Error loading subscription feed'
+        });
       });
   },
   data: () => ({
@@ -88,8 +122,53 @@ export default {
     notificationsBtnDisabled: false,
     notificationsSupported: true,
     subscriptionImportOpen: false,
-    vapidKey: null
+    vapidKey: null,
+    currentPage: 1,
+    currentPageTest: 1,
+    pageCount: 1,
+    pageCountTest: 1
   }),
+  computed: {
+    orderedVideoSections() {
+      const orderedArray = [];
+      let i = 0;
+      this.videos.forEach(video => {
+        let sectionMessage = 'Older videos';
+        const now = new Date();
+        if (video.published > now.valueOf() - 604800000) {
+          sectionMessage = 'Last 7 days';
+        }
+        if (video.published > now.valueOf() - 172800000) {
+          sectionMessage = 'Yesterday';
+        }
+        if (video.published > now.valueOf() - 86400000) {
+          sectionMessage = 'Today';
+        }
+        const possibleIndex = orderedArray.findIndex(el => el.sectionMessage === sectionMessage);
+        if (possibleIndex !== -1) {
+          orderedArray[possibleIndex].videos.push(video);
+        } else {
+          orderedArray.push({ sectionMessage, videos: [video], id: i++ });
+        }
+      });
+      return orderedArray;
+    },
+    lastRefreshTime() {
+      const now = new Date();
+      now.setMinutes(Math.floor(now.getMinutes() / 30) * 30);
+      now.setSeconds(0);
+      return now.toLocaleString();
+    },
+    nextRefreshTime() {
+      const now = new Date();
+      now.setMinutes(Math.ceil(now.getMinutes() / 30) * 30);
+      now.setSeconds(0);
+      return now.toLocaleString();
+    }
+  },
+  watch: {
+    '$route.query': '$fetch'
+  },
   mounted() {
     this.vapidKey = this.$store.getters['environment/vapidKey'];
 
@@ -210,10 +289,8 @@ export default {
     width: 100%;
     max-width: $main-width;
     margin: 0 auto;
-
-    .title {
-      margin: 0 0 0 15px;
-    }
+    padding: 0 10px;
+    box-sizing: border-box;
 
     .manage-btn-container {
       width: auto;
@@ -232,35 +309,74 @@ export default {
     }
   }
 
-  .subscribe-btn-container {
+  .subscribe-info-container {
     position: relative;
-    left: 0;
     width: 100%;
     max-width: $main-width;
-    margin: 0 auto;
+    margin: 30px auto 0 auto;
+    padding: 0 10px;
     z-index: 11;
-    height: 40px;
-    display: flex;
-    padding: 0 15px 0 15px;
     box-sizing: border-box;
 
-    .switch {
-      margin: 0 !important;
+    .subscribe-info {
+      display: flex;
+      flex-direction: row;
+      padding: 15px;
+      box-sizing: border-box;
+      background: var(--bgcolor-alt);
+      justify-content: space-between;
+      border-radius: 5px;
+      box-shadow: $medium-shadow;
+      box-sizing: border-box;
+
+      @media screen and (max-width: 1000px) {
+        flex-direction: column;
+
+        .actions {
+          margin: 10px 0 0 0;
+        }
+      }
+
+      .info {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .actions {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+
+        .switch {
+          margin: 5px 0 0 0 !important;
+        }
+      }
     }
   }
 
   .subscription-videos-container {
-    width: 100%;
-    max-width: $main-width;
-    margin: 0 auto;
-    padding: 0 10px;
-    box-sizing: border-box;
-    z-index: 10;
-    @include viewtube-grid;
+    .subscription-section {
+      .section-videos-container {
+        width: 100%;
+        max-width: $main-width;
+        margin: 0 auto;
+        padding: 0 10px;
+        box-sizing: border-box;
+        z-index: 10;
+        @include viewtube-grid;
 
-    @media screen and (max-width: $mobile-width) {
-      flex-direction: column;
+        @media screen and (max-width: $mobile-width) {
+          flex-direction: column;
+        }
+      }
     }
+  }
+
+  .feed-pagination {
+    display: block;
+    position: relative;
+    z-index: 11;
+    margin: 0 0 30px 0;
   }
 }
 </style>

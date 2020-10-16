@@ -1,8 +1,25 @@
+import { Sorting } from 'server/common/sorting.type';
 import { AuthorThumbnailDto } from './videos/dto/author-thumbnail.dto';
 import { VideoThumbnailDto } from './videos/dto/video-thumbnail.dto';
 
 export class Common {
   public static readonly youtubeVideoUrl: string = 'https://youtube.com/watch?v=';
+
+  public static convertSortParams<T>(sort: string): Sorting<T> {
+    if (sort.match(/.*:.*.,?/gi)) {
+      const sortArray = sort.split(',');
+      const sorting: Sorting<T> = {};
+      sortArray.forEach(el => {
+        if (el.match(/.*:.*./gi)) {
+          const [prop, val] = el.split(':');
+          const propVal = parseInt(val);
+          sorting[prop] = propVal;
+        }
+      });
+      return sorting;
+    }
+    return {};
+  }
 
   public static removeYoutubeFromUrl(url: string): string {
     if (url) {

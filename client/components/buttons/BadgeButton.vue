@@ -5,7 +5,7 @@
     :to="internalLink && href ? href : '#'"
     :target="internalLink ? '' : '_blank'"
     :href="href || '#'"
-    :class="{ disabled }"
+    :class="{ disabled, selected }"
     class="badge-btn"
     rel="noreferrer noopener"
     @click="clickFunction"
@@ -24,7 +24,8 @@ export default {
     click: Function,
     loading: Boolean,
     internalLink: Boolean,
-    disabled: Boolean
+    disabled: Boolean,
+    selected: Boolean
   },
   methods: {
     clickFunction(e) {
@@ -63,6 +64,10 @@ export default {
     opacity: 0.8;
     user-select: none;
     pointer-events: none;
+  }
+
+  &.selected {
+    background-color: var(--theme-color-translucent);
   }
 
   .content {
