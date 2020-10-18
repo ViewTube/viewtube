@@ -56,7 +56,7 @@ export default {
         me.$store.dispatch('messages/createMessage', {
           type: 'error',
           title: 'Login failed',
-          message: user.error
+          message: user ? user.error : ''
         });
       }
     },

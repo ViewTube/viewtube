@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import Commons from '@/plugins/commons.js';
+import Commons from '@/plugins/commons.ts';
 import SectionTitle from '@/components/SectionTitle';
 
 export default {

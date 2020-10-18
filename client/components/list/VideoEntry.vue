@@ -70,7 +70,7 @@
 <script>
 import 'tippy.js/dist/tippy.css';
 import InfoIcon from 'vue-material-design-icons/Information';
-import Commons from '@/plugins/commons.js';
+import Commons from '@/plugins/commons.ts';
 
 export default {
   name: 'VideoEntry',

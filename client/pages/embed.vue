@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import Commons from '@/plugins/commons.js';
+import Commons from '@/plugins/commons.ts';
 import VideoPlayer from '@/components/videoplayer/VideoPlayer.vue';
 import ViewTubeApi from '@/plugins/services/viewTubeApi';
 

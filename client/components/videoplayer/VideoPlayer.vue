@@ -236,7 +236,7 @@ import Spinner from '@/components/Spinner';
 import VolumeControl from '@/components/videoplayer/VolumeControl';
 // import QualitySelection from '@/components/videoplayer/QualitySelection'
 import SeekbarPreview from '@/components/videoplayer/SeekbarPreview';
-import Commons from '@/plugins/commons.js';
+import Commons from '@/plugins/commons.ts';
 
 export default {
   name: 'Videoplayer',

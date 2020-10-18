@@ -155,7 +155,7 @@ import ThumbsDown from 'vue-material-design-icons/ThumbDown';
 import Share from 'vue-material-design-icons/Share';
 import LoadMoreIcon from 'vue-material-design-icons/Reload';
 import Spinner from '@/components/Spinner';
-import Commons from '@/plugins/commons.js';
+import Commons from '@/plugins/commons.ts';
 import VideoPlayer from '@/components/videoplayer/VideoPlayer';
 import SubscribeButton from '@/components/buttons/SubscribeButton';
 import Comment from '@/components/Comment';

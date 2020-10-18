@@ -98,7 +98,7 @@
 </template>
 
 <script>
-// import Commons from '@/plugins/commons.js'
+// import Commons from '@/plugins/commons.ts'
 import LoadMoreIcon from 'vue-material-design-icons/Reload';
 import VideoEntry from '@/components/list/VideoEntry';
 import PlaylistEntry from '@/components/list/PlaylistEntry';

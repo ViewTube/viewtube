@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import Commons from '@/plugins/commons.js';
+import Commons from '@/plugins/commons.ts';
 import VideoEntry from '@/components/list/VideoEntry.vue';
 import SectionTitle from '@/components/SectionTitle.vue';
 import GradientBackground from '@/components/GradientBackground.vue';

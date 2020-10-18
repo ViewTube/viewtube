@@ -90,7 +90,7 @@ export default {
         me.$store.dispatch('messages/createMessage', {
           type: 'error',
           title: 'Registration failed',
-          message: user.error
+          message: user ? user.error : ''
         });
         me.loading = false;
         this.wiggleRegisterForm();

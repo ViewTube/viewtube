@@ -50,7 +50,7 @@
 </template>
 
 <script>
-import Commons from '@/plugins/commons.js';
+import Commons from '@/plugins/commons.ts';
 import VideoEntry from '@/components/list/VideoEntry';
 import PlaylistEntry from '@/components/list/PlaylistEntry';
 import Banner from '@/components/channel/Banner';

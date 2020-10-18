@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import Commons from '@/plugins/commons.js';
+import Commons from '@/plugins/commons.ts';
 import 'tippy.js/dist/tippy.css';
 
 export default {

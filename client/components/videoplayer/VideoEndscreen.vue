@@ -14,7 +14,7 @@
 </template>
 
 <script>
-// import Commons from '@/plugins/commons.js';
+// import Commons from '@/plugins/commons.ts';
 import EndscreenCard from '@/components/videoplayer/EndscreenCard';
 
 export default {

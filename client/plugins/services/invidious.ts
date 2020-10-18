@@ -1,9 +1,9 @@
-// import Commons from '@/plugins/commons.js';
+// import Commons from '@/plugins/commons.ts';
 import axios from 'axios';
 import { createApi } from '@/plugins/apiCreator';
 
 export default class {
-  constructor(invidiousUrl) {
+  constructor(invidiousUrl: string) {
     if (!invidiousUrl.endsWith('/')) invidiousUrl += '/';
     this.apiPrototype.request = axios.create({
       baseURL: `${invidiousUrl}`,
@@ -12,7 +12,7 @@ export default class {
     this.api = createApi(this.apiPrototype);
   }
 
-  api = {};
+  api: any = {};
 
   apiPrototype = {
     request: {},

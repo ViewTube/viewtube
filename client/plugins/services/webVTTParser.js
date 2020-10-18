@@ -4,6 +4,8 @@
 
 // Not intended to be fast, but if you can make it faster, please help out!
 
+// This file is supposed to be replaced by a library, so making it typescript would be a waste of time
+
 (function () {
   var WebVTTParser = function () {
     this.parse = function (input, mode) {
@@ -42,18 +44,13 @@
           line[signature_length] !== ' ' &&
           line[signature_length] !== '\t')
       ) {
-        err(
-          'No valid signature. (File needs to start with "WEBVTT".)'
-        );
+        err('No valid signature. (File needs to start with "WEBVTT".)');
       }
 
       linePos++;
 
       /* HEADER */
-      while (
-        lines[linePos] != '' &&
-        lines[linePos] != undefined
-      ) {
+      while (lines[linePos] != '' && lines[linePos] != undefined) {
         err('No blank line after the signature.');
         if (lines[linePos].indexOf('-->') != -1) {
           alreadyCollected = true;
@@ -68,10 +65,7 @@
         while (!alreadyCollected && lines[linePos] == '') {
           linePos++;
         }
-        if (
-          !alreadyCollected &&
-          lines[linePos] == undefined
-        ) {
+        if (!alreadyCollected && lines[linePos] == undefined) {
           break;
         }
 
@@ -103,10 +97,7 @@
           if (/^NOTE($|[ \t])/.test(cue.id)) {
             // .startsWith fails in Chrome
             linePos++;
-            while (
-              lines[linePos] != '' &&
-              lines[linePos] != undefined
-            ) {
+            while (lines[linePos] != '' && lines[linePos] != undefined) {
               if (lines[linePos].indexOf('-->') != -1) {
                 err('Cannot have timestamp in a comment.');
               }
@@ -117,47 +108,32 @@
 
           linePos++;
 
-          if (
-            lines[linePos] == '' ||
-            lines[linePos] == undefined
-          ) {
+          if (lines[linePos] == '' || lines[linePos] == undefined) {
             err('Cue identifier cannot be standalone.');
             continue;
           }
 
           if (lines[linePos].indexOf('-->') == -1) {
             parseTimings = false;
-            err(
-              'Cue identifier needs to be followed by timestamp.'
-            );
+            err('Cue identifier needs to be followed by timestamp.');
           }
         }
 
         /* TIMINGS */
         alreadyCollected = false;
-        var timings = new WebVTTCueTimingsAndSettingsParser(
-          lines[linePos],
-          err
-        );
+        var timings = new WebVTTCueTimingsAndSettingsParser(lines[linePos], err);
         var previousCueStart = 0;
         if (cues.length > 0) {
-          previousCueStart =
-            cues[cues.length - 1].startTime;
+          previousCueStart = cues[cues.length - 1].startTime;
         }
-        if (
-          parseTimings &&
-          !timings.parse(cue, previousCueStart)
-        ) {
+        if (parseTimings && !timings.parse(cue, previousCueStart)) {
           /* BAD CUE */
 
           cue = null;
           linePos++;
 
           /* BAD CUE LOOP */
-          while (
-            lines[linePos] != '' &&
-            lines[linePos] != undefined
-          ) {
+          while (lines[linePos] != '' && lines[linePos] != undefined) {
             if (lines[linePos].indexOf('-->') != -1) {
               alreadyCollected = true;
               break;
@@ -169,10 +145,7 @@
         linePos++;
 
         /* CUE TEXT LOOP */
-        while (
-          lines[linePos] != '' &&
-          lines[linePos] != undefined
-        ) {
+        while (lines[linePos] != '' && lines[linePos] != undefined) {
           if (lines[linePos].indexOf('-->') != -1) {
             err('Blank line missing before cue.');
             alreadyCollected = true;
@@ -186,15 +159,8 @@
         }
 
         /* CUE TEXT PROCESSING */
-        var cuetextparser = new WebVTTCueTextParser(
-          cue.text,
-          err,
-          mode
-        );
-        cue.tree = cuetextparser.parse(
-          cue.startTime,
-          cue.endTime
-        );
+        var cuetextparser = new WebVTTCueTextParser(cue.text, err, mode);
+        cue.tree = cuetextparser.parse(cue.startTime, cue.endTime);
         cues.push(cue);
       }
       cues.sort(function (a, b) {
@@ -221,10 +187,7 @@
     };
   };
 
-  var WebVTTCueTimingsAndSettingsParser = function (
-    line,
-    errorHandler
-  ) {
+  var WebVTTCueTimingsAndSettingsParser = function (line, errorHandler) {
     var SPACE = /[\u0020\t\f]/;
     var NOSPACE = /[^\u0020\t\f]/;
     var line = line;
@@ -234,19 +197,13 @@
     };
     var spaceBeforeSetting = true;
     function skip(pattern) {
-      while (
-        line[pos] != undefined &&
-        pattern.test(line[pos])
-      ) {
+      while (line[pos] != undefined && pattern.test(line[pos])) {
         pos++;
       }
     }
     function collect(pattern) {
       var str = '';
-      while (
-        line[pos] != undefined &&
-        pattern.test(line[pos])
-      ) {
+      while (line[pos] != undefined && pattern.test(line[pos])) {
         str += line[pos];
         pos++;
       }
@@ -266,9 +223,7 @@
       }
       // 4
       if (!/\d/.test(line[pos])) {
-        err(
-          'Timestamp must start with a character in the range 0-9.'
-        );
+        err('Timestamp must start with a character in the range 0-9.');
         return;
       }
       // 5-7
@@ -291,9 +246,7 @@
       // 12
       if (units == 'hours' || line[pos] == ':') {
         if (line[pos] != ':') {
-          err(
-            'No seconds found or minutes is greater than 59.'
-          );
+          err('No seconds found or minutes is greater than 59.');
           return;
         }
         pos++;
@@ -362,42 +315,26 @@
         if (setting == 'vertical') {
           // writing direction
           if (value != 'rl' && value != 'lr') {
-            err(
-              "Writing direction can only be set to 'rl' or 'rl'."
-            );
+            err("Writing direction can only be set to 'rl' or 'rl'.");
             continue;
           }
           cue.direction = value;
         } else if (setting == 'line') {
           // line position
           if (!/\d/.test(value)) {
-            err(
-              'Line position takes a number or percentage.'
-            );
+            err('Line position takes a number or percentage.');
             continue;
           }
           if (value.indexOf('-', 1) != -1) {
-            err(
-              "Line position can only have '-' at the start."
-            );
+            err("Line position can only have '-' at the start.");
             continue;
           }
-          if (
-            value.indexOf('%') != -1 &&
-            value.indexOf('%') != value.length - 1
-          ) {
-            err(
-              "Line position can only have '%' at the end."
-            );
+          if (value.indexOf('%') != -1 && value.indexOf('%') != value.length - 1) {
+            err("Line position can only have '%' at the end.");
             continue;
           }
-          if (
-            value[0] == '-' &&
-            value[value.length - 1] == '%'
-          ) {
-            err(
-              'Line position cannot be a negative percentage.'
-            );
+          if (value[0] == '-' && value[value.length - 1] == '%') {
+            err('Line position cannot be a negative percentage.');
             continue;
           }
           if (value[value.length - 1] == '%') {
@@ -432,19 +369,9 @@
           cue.size = parseInt(value, 10);
         } else if (setting == 'align') {
           // alignment
-          var alignValues = [
-            'start',
-            'middle',
-            'end',
-            'left',
-            'right'
-          ];
+          var alignValues = ['start', 'middle', 'end', 'left', 'right'];
           if (alignValues.indexOf(value) == -1) {
-            err(
-              'Alignment can only be set to one of ' +
-                alignValues.join(', ') +
-                '.'
-            );
+            err('Alignment can only be set to one of ' + alignValues.join(', ') + '.');
             continue;
           }
           cue.alignment = value;
@@ -461,14 +388,10 @@
         return;
       }
       if (cue.startTime < previousCueStart) {
-        err(
-          'Start timestamp is not greater than or equal to start timestamp of previous cue.'
-        );
+        err('Start timestamp is not greater than or equal to start timestamp of previous cue.');
       }
       if (NOSPACE.test(line[pos])) {
-        err(
-          "Timestamp not separated from '-->' by whitespace."
-        );
+        err("Timestamp not separated from '-->' by whitespace.");
       }
       skip(SPACE);
       // 6-8
@@ -488,9 +411,7 @@
       }
       pos++;
       if (NOSPACE.test(line[pos])) {
-        err(
-          "'-->' not separated from timestamp by whitespace."
-        );
+        err("'-->' not separated from timestamp by whitespace.");
       }
       skip(SPACE);
       cue.endTime = timestamp();
@@ -498,9 +419,7 @@
         return;
       }
       if (cue.endTime <= cue.startTime) {
-        err(
-          'End timestamp is not greater than start timestamp.'
-        );
+        err('End timestamp is not greater than start timestamp.');
       }
 
       if (NOSPACE.test(line[pos])) {
@@ -520,11 +439,7 @@
     };
   };
 
-  var WebVTTCueTextParser = function (
-    line,
-    errorHandler,
-    mode
-  ) {
+  var WebVTTCueTextParser = function (line, errorHandler, mode) {
     var line = line;
     var pos = 0;
     var err = function (message) {
@@ -547,8 +462,7 @@
           children: [],
           parent: current
         });
-        current =
-          current.children[current.children.length - 1];
+        current = current.children[current.children.length - 1];
       }
       function inScope(name) {
         var node = current;
@@ -570,32 +484,15 @@
           });
         } else if (token[0] == 'start tag') {
           if (mode == 'chapters') {
-            err(
-              'Start tags not allowed in chapter title text.'
-            );
+            err('Start tags not allowed in chapter title text.');
           }
           var name = token[1];
-          if (
-            name != 'v' &&
-            name != 'lang' &&
-            token[3] != ''
-          ) {
-            err(
-              'Only <v> and <lang> can have an annotation.'
-            );
+          if (name != 'v' && name != 'lang' && token[3] != '') {
+            err('Only <v> and <lang> can have an annotation.');
           }
-          if (
-            name == 'c' ||
-            name == 'i' ||
-            name == 'b' ||
-            name == 'u' ||
-            name == 'ruby'
-          ) {
+          if (name == 'c' || name == 'i' || name == 'b' || name == 'u' || name == 'ruby') {
             attach(token);
-          } else if (
-            name == 'rt' &&
-            current.name == 'ruby'
-          ) {
+          } else if (name == 'rt' && current.name == 'ruby') {
             attach(token);
           } else if (name == 'v') {
             if (inScope('v')) {
@@ -614,48 +511,28 @@
           }
         } else if (token[0] == 'end tag') {
           if (mode == 'chapters') {
-            err(
-              'End tags not allowed in chapter title text.'
-            );
+            err('End tags not allowed in chapter title text.');
           }
           // XXX check <ruby> content
           if (token[1] == current.name) {
             current = current.parent;
-          } else if (
-            token[1] == 'ruby' &&
-            current.name == 'rt'
-          ) {
+          } else if (token[1] == 'ruby' && current.name == 'rt') {
             current = current.parent.parent;
           } else {
             err('Incorrect end tag.');
           }
         } else if (token[0] == 'timestamp') {
           if (mode == 'chapters') {
-            err(
-              'Timestamp not allowed in chapter title text.'
-            );
+            err('Timestamp not allowed in chapter title text.');
           }
-          var timings = new WebVTTCueTimingsAndSettingsParser(
-            token[1],
-            err
-          );
+          var timings = new WebVTTCueTimingsAndSettingsParser(token[1], err);
           var timestamp = timings.parseTimestamp();
           if (timestamp != undefined) {
-            if (
-              timestamp <= cueStart ||
-              timestamp >= cueEnd
-            ) {
-              err(
-                'Timestamp must be between start timestamp and end timestamp.'
-              );
+            if (timestamp <= cueStart || timestamp >= cueEnd) {
+              err('Timestamp must be between start timestamp and end timestamp.');
             }
-            if (
-              timestamps.length > 0 &&
-              timestamps[timestamps.length - 1] >= timestamp
-            ) {
-              err(
-                'Timestamp must be greater than any previous timestamp.'
-              );
+            if (timestamps.length > 0 && timestamps[timestamps.length - 1] >= timestamp) {
+              err('Timestamp must be greater than any previous timestamp.');
             }
             current.children.push({
               type: 'timestamp',
@@ -728,12 +605,7 @@
             state = 'data';
           }
         } else if (state == 'tag') {
-          if (
-            c == '\t' ||
-            c == '\n' ||
-            c == '\f' ||
-            c == ' '
-          ) {
+          if (c == '\t' || c == '\n' || c == '\f' || c == ' ') {
             state = 'start tag annotation';
           } else if (c == '.') {
             state = 'start tag class';
@@ -859,14 +731,7 @@
       return result;
     }
     function serializeCue(cue) {
-      return (
-        cue.startTime +
-        ' ' +
-        cue.endTime +
-        '\n' +
-        serializeTree(cue.tree.children) +
-        '\n\n'
-      );
+      return cue.startTime + ' ' + cue.endTime + '\n' + serializeTree(cue.tree.children) + '\n\n';
     }
     this.serialize = function (cues) {
       var result = '';

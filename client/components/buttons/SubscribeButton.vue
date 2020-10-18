@@ -23,7 +23,7 @@
 </template>
 
 <script>
-// import Commons from '@/plugins/commons.js';
+// import Commons from '@/plugins/commons.ts';
 
 export default {
   name: 'SubscribeButton',
