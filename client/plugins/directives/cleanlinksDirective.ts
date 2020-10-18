@@ -1,5 +1,5 @@
 export default {
-  inserted(el) {
+  inserted(el: HTMLElement) {
     const html = el.innerHTML;
     const div = document.createElement('div');
     div.innerHTML = html.trim();

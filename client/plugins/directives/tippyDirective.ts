@@ -3,7 +3,7 @@ import tippy from 'tippy.js';
 let tippyInstance = null;
 
 export default {
-  bind(el, binding) {
+  bind(el: HTMLElement, binding: any) {
     if (binding.value && binding.value.length > 0) {
       tippyInstance = tippy(el, {
         duration: 300,
@@ -16,8 +16,8 @@ export default {
     }
   },
 
-  update(_, binding) {
-    if (tippyInstance && binding.value !== binding.oldValue) {
+  update(_: any, binding: any) {
+    if (tippyInstance && !tippyInstance.state.isDestroyed && binding.value !== binding.oldValue) {
       tippyInstance.setProps({ content: binding.value });
     }
   },

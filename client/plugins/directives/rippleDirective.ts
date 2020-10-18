@@ -1,7 +1,8 @@
 // Written by Aaron Längert
 // Adapted to Vue.js directive by Maurice Oegerli
+
 const Ripple = {
-  bind(el, binding) {
+  bind(el: HTMLElement, binding: any) {
     const me = binding.def;
     el.style.overflow = 'hidden';
     el.style.position = 'relative';
@@ -16,8 +17,8 @@ const Ripple = {
     );
     el.addEventListener(
       'touchmove',
-      function (e) {
-        if (e.target.hasAttribute('ripple-cancel-on-move')) {
+      function (e: any) {
+        if ((e.target as any).hasAttribute('ripple-cancel-on-move')) {
           me.rippleRetrieve(e);
           return;
         }
@@ -56,7 +57,7 @@ const Ripple = {
       'mousemove',
       function (e) {
         if (
-          e.target.hasAttribute('ripple-cancel-on-move') &&
+          (e.target as any).hasAttribute('ripple-cancel-on-move') &&
           (e.movementX !== 0 || e.movementY !== 0)
         ) {
           me.rippleRetrieve(e);
@@ -74,14 +75,12 @@ const Ripple = {
     el.addEventListener(
       'transitionend',
       function (e) {
-        if (
-          e.target.getAttribute('animating') === '2' ||
-          e.target.getAttribute('animating') === '3'
-        ) {
-          e.target.style.transition = 'none';
-          e.target.style.transform = 'translate(-50%, -50%) scale(0.15)';
-          e.target.style.boxShadow = 'none';
-          e.target.setAttribute('animating', '0');
+        const target = e.target as any;
+        if (target.getAttribute('animating') === '2' || target.getAttribute('animating') === '3') {
+          target.style.transition = 'none';
+          target.style.transform = 'translate(-50%, -50%) scale(0.15)';
+          target.style.boxShadow = 'none';
+          target.setAttribute('animating', '0');
         }
       },
       { passive: true }
@@ -98,8 +97,8 @@ const Ripple = {
       rippleContainer.style.position = 'absolute';
       rippleContainer.style.top = '0px';
       rippleContainer.style.left = '0px';
-      rippleContainer.style.opacity = 0;
-      rippleContainer.style.zIndex = 999999;
+      rippleContainer.style.opacity = 0 as any;
+      rippleContainer.style.zIndex = 999999 as any;
       rippleContainer.style.transform = 'translate(-50%, -50%) scale(0.15)';
       rippleContainer.style.backgroundColor = 'transparent';
 
@@ -172,7 +171,7 @@ const Ripple = {
       e.target.dispatchEvent(
         new CustomEvent('ripple-button-click', {
           target: e.target
-        })
+        } as any)
       );
     }
   },

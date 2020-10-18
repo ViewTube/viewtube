@@ -4,7 +4,7 @@ const urlRegex = new RegExp(
 );
 
 export default {
-  inserted(el) {
+  inserted(el: HTMLElement) {
     const text = el.textContent.trim();
     const htmlText = text.replace(urlRegex, match => {
       return `<a href="${match}" target="_blank" rel="noreferrer noopener">${match}</a>`;
