@@ -67,14 +67,15 @@
   </div>
 </template>
 
-<script>
-import GradientBackground from '@/components/GradientBackground';
-import SectionTitle from '@/components/SectionTitle';
-import Commons from '@/plugins/commons';
-import Pagination from '@/components/pagination/Pagination';
+<script lang="ts">
+import GradientBackground from '@/components/GradientBackground.vue';
+import SectionTitle from '@/components/SectionTitle.vue';
+import Commons from '@/plugins/commons.ts';
+import Pagination from '@/components/pagination/Pagination.vue';
 // import BadgeButton from '@/components/buttons/BadgeButton';
+import Vue from 'vue';
 
-export default {
+export default Vue.extend({
   name: 'ManageSubscriptions',
   components: {
     GradientBackground,
@@ -121,7 +122,7 @@ export default {
     };
   },
   computed: {
-    orderedChannels() {
+    orderedChannels(): Array<string> {
       const lettersArray = [];
       let i = 0;
       this.subscriptionChannels.forEach(channel => {
@@ -138,7 +139,7 @@ export default {
   },
   watch: {
     '$route.query': '$fetch',
-    searchTerm(newVal, oldVal) {
+    searchTerm(newVal, oldVal): void {
       if (this.searchTimeout) clearTimeout(this.searchTimeout);
       this.searchTimeout = setTimeout(() => {
         if (newVal !== null && newVal !== oldVal) {
@@ -148,18 +149,18 @@ export default {
     }
   },
   methods: {
-    changePage(page) {
+    changePage(page): void {
       this.$router.push(`/subscriptions/manage?page=${page}`);
       this.currentPage = page;
     },
-    channelNameToImgString(name) {
+    channelNameToImgString(name): string {
       let initials = '';
       name.split(' ').forEach(e => {
         initials += e.charAt(0);
       });
       return initials;
     },
-    unsubscribe(channel) {
+    unsubscribe(channel): void {
       this.$axios
         .delete(
           `${this.$store.getters['environment/apiUrl']}user/subscriptions/${channel.authorId}`,
@@ -215,7 +216,7 @@ export default {
       ]
     };
   }
-};
+});
 </script>
 
 <style lang="scss">

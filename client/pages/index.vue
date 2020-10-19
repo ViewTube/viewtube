@@ -21,16 +21,17 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import Commons from '@/plugins/commons.ts';
 import VideoEntry from '@/components/list/VideoEntry.vue';
 import SectionTitle from '@/components/SectionTitle.vue';
 import GradientBackground from '@/components/GradientBackground.vue';
-import LoadMoreIcon from 'vue-material-design-icons/Reload';
-import Invidious from '@/plugins/services/invidious';
+import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
+import Invidious from '@/plugins/services/invidious.ts';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
+import Vue from 'vue';
 
-export default {
+export default Vue.extend({
   name: 'Home',
   components: {
     VideoEntry,
@@ -50,15 +51,15 @@ export default {
     commons: Commons
   }),
   computed: {
-    userAuthenticated() {
+    userAuthenticated(): boolean {
       return this.$store.getters['user/isLoggedIn'];
     }
   },
   methods: {
-    showMoreVideos() {
+    showMoreVideos(): void {
       this.displayedVideos = this.videos;
     },
-    async loadHomepage() {
+    async loadHomepage(): Promise<void> {
       const invidious = new Invidious(this.$store.getters['instances/currentInstanceApi']);
       await invidious.api
         .popular()
@@ -80,7 +81,7 @@ export default {
           .catch(_ => {});
       }
     },
-    handleScroll(e) {
+    handleScroll(e: Event): void {
       this.$emit('scroll', e);
     }
   },
@@ -89,7 +90,7 @@ export default {
       title: `ViewTube :: An alternative YouTube frontend`
     };
   }
-};
+});
 </script>
 
 <style lang="scss">

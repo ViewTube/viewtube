@@ -129,9 +129,9 @@
               </p>
             </div>
             <Comment
-              v-for="(comment, i) in comment.comments"
+              v-for="(subComment, i) in comment.comments"
               :key="i"
-              :comment="comment"
+              :comment="subComment"
               :creator-name="video.author"
             />
             <BadgeButton
@@ -149,26 +149,27 @@
   </div>
 </template>
 
-<script>
-import ThumbsUp from 'vue-material-design-icons/ThumbUp';
-import ThumbsDown from 'vue-material-design-icons/ThumbDown';
-import Share from 'vue-material-design-icons/Share';
-import LoadMoreIcon from 'vue-material-design-icons/Reload';
-import Spinner from '@/components/Spinner';
+<script lang="ts">
+import ThumbsUp from 'vue-material-design-icons/ThumbUp.vue';
+import ThumbsDown from 'vue-material-design-icons/ThumbDown.vue';
+import Share from 'vue-material-design-icons/Share.vue';
+import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
+import Spinner from '@/components/Spinner.vue';
 import Commons from '@/plugins/commons.ts';
-import VideoPlayer from '@/components/videoplayer/VideoPlayer';
-import SubscribeButton from '@/components/buttons/SubscribeButton';
-import Comment from '@/components/Comment';
+import VideoPlayer from '@/components/videoplayer/VideoPlayer.vue';
+import SubscribeButton from '@/components/buttons/SubscribeButton.vue';
+import Comment from '@/components/Comment.vue';
 // import Invidious from '@/plugins/services/invidious'
-import Invidious from '@/plugins/services/invidious';
-import RecommendedVideos from '@/components/watch/RecommendedVideos';
-import ShareOptions from '@/components/watch/ShareOptions';
-import CollapsibleSection from '@/components/list/CollapsibleSection';
-import BadgeButton from '@/components/buttons/BadgeButton';
-import ViewTubeApi from '~/plugins/services/viewTubeApi';
+import Invidious from '@/plugins/services/invidious.ts';
+import RecommendedVideos from '@/components/watch/RecommendedVideos.vue';
+import ShareOptions from '@/components/watch/ShareOptions.vue';
+import CollapsibleSection from '@/components/list/CollapsibleSection.vue';
+import BadgeButton from '@/components/buttons/BadgeButton.vue';
+import Vue from 'vue';
+import ViewTubeApi from '@/plugins/services/viewTubeApi.ts';
 // import invidious from '~/plugins/services/invidious';
 
-export default {
+export default Vue.extend({
   name: 'Watch',
   components: {
     Spinner,
@@ -184,7 +185,7 @@ export default {
     CollapsibleSection,
     BadgeButton
   },
-  watchQuery(newQuery) {
+  watchQuery(newQuery: any) {
     const videoId = newQuery.v;
     if (this) {
       this.loadComments(videoId);
@@ -223,25 +224,27 @@ export default {
             } else if (err.message) {
               console.log(err.message);
               error({
-                statusCode: '500',
+                statusCode: 500,
                 message: 'Error loading video' + err.message,
                 detail: JSON.stringify(err)
-              });
+              } as any);
             }
           });
       });
   },
-  data: () => ({
-    jsEnabled: false,
-    video: [],
-    comment: null,
-    commentsLoading: true,
-    commentsContinuationLink: null,
-    commentsContinuationLoading: false,
-    commons: Commons,
-    recommendedOpen: false,
-    shareOpen: false
-  }),
+  data() {
+    return {
+      jsEnabled: false,
+      video: [],
+      comment: null,
+      commentsLoading: true,
+      commentsContinuationLink: null,
+      commentsContinuationLoading: false,
+      commons: Commons,
+      recommendedOpen: false,
+      shareOpen: false
+    };
+  },
   computed: {
     browser() {
       return process.browser;
@@ -278,7 +281,7 @@ export default {
       }
       return '#';
     },
-    loadComments(evtVideoId) {
+    loadComments(evtVideoId: string) {
       const videoId = evtVideoId || this.$route.query.v;
       fetch(`${this.$store.getters['instances/currentInstanceApiV1']}comments/${videoId}`, {
         cache: 'force-cache',
@@ -350,7 +353,7 @@ export default {
       ]
     };
   }
-};
+});
 </script>
 
 <style lang="scss">

@@ -62,19 +62,20 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import Commons from '@/plugins/commons.ts';
-import SubscriptionImport from '@/components/popup/SubscriptionImport';
-import VideoEntry from '@/components/list/VideoEntry';
-import GradientBackground from '@/components/GradientBackground';
-import SectionTitle from '@/components/SectionTitle';
-import SwitchButton from '@/components/buttons/SwitchButton';
-import BadgeButton from '@/components/buttons/BadgeButton';
-import EditIcon from 'vue-material-design-icons/PencilBoxMultipleOutline';
-import ImportIcon from 'vue-material-design-icons/Import';
-import Pagination from '@/components/pagination/Pagination';
+import SubscriptionImport from '@/components/popup/SubscriptionImport.vue';
+import VideoEntry from '@/components/list/VideoEntry.vue';
+import GradientBackground from '@/components/GradientBackground.vue';
+import SectionTitle from '@/components/SectionTitle.vue';
+import SwitchButton from '@/components/buttons/SwitchButton.vue';
+import BadgeButton from '@/components/buttons/BadgeButton.vue';
+import EditIcon from 'vue-material-design-icons/PencilBoxMultipleOutline.vue';
+import ImportIcon from 'vue-material-design-icons/Import.vue';
+import Pagination from '@/components/pagination/Pagination.vue';
+import Vue from 'vue';
 
-export default {
+export default Vue.extend({
   name: 'Home',
   components: {
     VideoEntry,
@@ -280,7 +281,7 @@ export default {
       ]
     };
   }
-};
+});
 </script>
 
 <style lang="scss">
