@@ -4,19 +4,21 @@
   </div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import Vue from 'vue';
+
+export default Vue.extend({
   name: 'ShareOptionEntry',
   props: {
-    optionName: String,
-    click: Function
+    optionName: { type: String, required: true },
+    click: { type: Function, required: true }
   },
   methods: {
     onClick() {
       this.click();
     }
   }
-};
+});
 </script>
 
 <style lang="scss">

@@ -24,17 +24,20 @@
         :video="$store.state.miniplayer.currentVideo"
         :mini="true"
         :autoplay="true"
+        :embedded="false"
         @close="hide"
       />
     </div>
   </transition>
 </template>
 
-<script>
+<script lang="ts">
 import VideoPlayer from '@/components/videoplayer/VideoPlayer.vue';
 import Commons from '@/plugins/commons.ts';
 
-export default {
+import Vue from 'vue';
+
+export default Vue.extend({
   name: 'Miniplayer',
   components: {
     VideoPlayer
@@ -54,7 +57,7 @@ export default {
     };
   },
   computed: {
-    visible() {
+    visible(): boolean {
       return this.$route.name !== 'watch';
     }
   },
@@ -183,7 +186,7 @@ export default {
       this.dragOffsetLeft = 0;
     }
   }
-};
+});
 </script>
 
 <style lang="scss" scoped>

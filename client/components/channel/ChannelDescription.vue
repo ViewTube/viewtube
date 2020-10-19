@@ -7,14 +7,16 @@
       {{ description }}
     </div>
     <BadgeButton v-if="isSmall" class="desc-show-more" :click="onShowFullDescription"
-      >Show more</BadgeButton
-    >
+      >Show more
+    </BadgeButton>
   </div>
 </template>
 
-<script>
-import BadgeButton from '@/components/buttons/BadgeButton';
-export default {
+<script lang="ts">
+import BadgeButton from '@/components/buttons/BadgeButton.vue';
+import Vue from 'vue';
+
+export default Vue.extend({
   name: 'ChannelDescription',
   components: {
     BadgeButton
@@ -40,11 +42,11 @@ export default {
     }
   },
   methods: {
-    onShowFullDescription() {
+    onShowFullDescription(): void {
       this.isSmall = false;
     }
   }
-};
+});
 </script>
 
 <style lang="scss">

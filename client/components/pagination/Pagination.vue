@@ -78,10 +78,10 @@ export default Vue.extend({
     };
   },
   computed: {
-    largestNumber() {
+    largestNumber(): number {
       return this.pageCount;
     },
-    pageCountDisplay() {
+    pageCountDisplay(): Array<number> {
       if (this.pageCount > 1) {
         const numArray = [];
         const halfMaxNum = Math.floor(this.maxNumber / 2);
@@ -119,13 +119,13 @@ export default Vue.extend({
       }
       return [];
     },
-    displayFirstDots() {
+    displayFirstDots(): boolean {
       if (this.pageCountDisplay[0] > 2) {
         return true;
       }
       return false;
     },
-    displaySecondDots() {
+    displaySecondDots(): boolean {
       // debugger;
       return (
         this.pageCountDisplay[this.pageCountDisplay.length - 1] !== this.largestNumber - 1 &&

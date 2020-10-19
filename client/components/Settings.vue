@@ -16,15 +16,16 @@
   </div>
 </template>
 
-<script>
-import CloseIcon from 'vue-material-design-icons/Close';
-import ThemeIcon from 'vue-material-design-icons/Brightness4';
-import MiniplayerIcon from 'vue-material-design-icons/WindowRestore';
-import ThemeSelector from '@/components/themes/ThemeSelector';
-import SwitchButton from '@/components/buttons/SwitchButton';
+<script lang="ts">
+import CloseIcon from 'vue-material-design-icons/Close.vue';
+import ThemeIcon from 'vue-material-design-icons/Brightness4.vue';
+import MiniplayerIcon from 'vue-material-design-icons/WindowRestore.vue';
+import ThemeSelector from '@/components/themes/ThemeSelector.vue';
+import SwitchButton from '@/components/buttons/SwitchButton.vue';
 import '@/assets/styles/popup.scss';
+import Vue from 'vue';
 
-export default {
+export default Vue.extend({
   name: 'Settings',
   components: {
     CloseIcon,
@@ -50,7 +51,7 @@ export default {
       }, 300);
     }
   }
-};
+});
 </script>
 
 <style lang="scss"></style>

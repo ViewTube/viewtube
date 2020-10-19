@@ -8,9 +8,11 @@
   </div>
 </template>
 
-<script>
-import MessageBox from '@/components/message/MessageBox';
-export default {
+<script lang="ts">
+import MessageBox from '@/components/message/MessageBox.vue';
+import Vue from 'vue';
+
+export default Vue.extend({
   name: 'MessageBoxContainer',
   components: {
     MessageBox
@@ -20,7 +22,7 @@ export default {
       messages: this.$store.getters['messages/visibleMessages']
     };
   }
-};
+});
 </script>
 
 <style lang="scss" scoped>

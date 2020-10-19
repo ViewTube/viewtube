@@ -18,10 +18,12 @@
   </div>
 </template>
 
-<script>
-import Commons from '@/plugins/commons';
+<script lang="ts">
+import Commons from '@/plugins/commons.ts';
 
-export default {
+import Vue from 'vue';
+
+export default Vue.extend({
   name: 'CheckBox',
   props: {
     value: Boolean,
@@ -38,7 +40,7 @@ export default {
       this.$emit('valuechange', e.target.checked);
     }
   }
-};
+});
 </script>
 
 <style lang="scss" scoped>

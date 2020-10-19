@@ -30,8 +30,10 @@
   </a>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import Vue from 'vue';
+
+export default Vue.extend({
   name: 'EndscreenCard',
   props: {
     card: Object,
@@ -40,13 +42,13 @@ export default {
     videoWidth: Number
   },
   computed: {
-    elementType() {
+    elementType(): string {
       if (this.card.type === 'website') {
         return 'a';
       }
       return 'nuxt-link';
     },
-    linkUrl() {
+    linkUrl(): string {
       if (this.card.type === 'website') {
         return this.card.websiteUrl;
       } else if (this.card.type === 'channel') {
@@ -57,32 +59,32 @@ export default {
         return `/watch/?v=${this.card.videoId}`;
       }
     },
-    visible() {
+    visible(): boolean {
       const startTime = this.card.timing.start;
       const endTime = this.card.timing.end;
       const videoProgressMs = this.videoProgress * 1000;
 
       return videoProgressMs > startTime && videoProgressMs < endTime;
     },
-    positionTop() {
+    positionTop(): number {
       return this.card.dimensions.top * 100;
     },
-    positionLeft() {
+    positionLeft(): number {
       return this.card.dimensions.left * 100;
     },
-    cardWidth() {
+    cardWidth(): number {
       return this.card.dimensions.width * 100;
     },
-    cardHeight() {
+    cardHeight(): number {
       return (
         ((this.card.dimensions.width * 100) / this.card.dimensions.aspectRatio) *
         this.videoAspectRatio
       );
     },
-    videoAspectRatio() {
+    videoAspectRatio(): number {
       return this.videoWidth / this.videoHeight;
     },
-    backgroundImage() {
+    backgroundImage(): string {
       switch (this.card.type) {
         case 'video':
           return this.card.videoThumbnails[1].url;
@@ -116,7 +118,7 @@ export default {
       e.preventDefault();
     }
   }
-};
+});
 </script>
 
 <style lang="scss" scoped>

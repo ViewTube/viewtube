@@ -24,11 +24,13 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import Commons from '@/plugins/commons.ts';
-import SectionTitle from '@/components/SectionTitle';
+import SectionTitle from '@/components/SectionTitle.vue';
 
-export default {
+import Vue from 'vue';
+
+export default Vue.extend({
   name: 'CompactShelf',
   components: {
     SectionTitle
@@ -41,7 +43,7 @@ export default {
       commons: Commons
     };
   }
-};
+});
 </script>
 
 <style></style>

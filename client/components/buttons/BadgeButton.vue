@@ -16,26 +16,28 @@
   </element>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import Vue from 'vue';
+
+export default Vue.extend({
   name: 'BadgeButton',
   props: {
-    href: String,
-    click: Function,
-    loading: Boolean,
-    internalLink: Boolean,
-    disabled: Boolean,
-    selected: Boolean
+    href: { type: String, required: false },
+    click: { type: Function, required: false },
+    loading: { type: Boolean, required: false },
+    internalLink: { type: Boolean, required: false },
+    disabled: { type: Boolean, required: false },
+    selected: { type: Boolean, required: false }
   },
   methods: {
-    clickFunction(e) {
+    clickFunction(e: Event): void {
       if (this.click instanceof Function) {
         e.preventDefault();
         this.click();
       }
     }
   }
-};
+});
 </script>
 
 <style lang="scss" scoped>

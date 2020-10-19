@@ -35,11 +35,13 @@
   </div>
 </template>
 
-<script>
-import EyeIcon from 'vue-material-design-icons/Eye';
-import Commons from '@/plugins/commons';
+<script lang="ts">
+import EyeIcon from 'vue-material-design-icons/Eye.vue';
+import Commons from '@/plugins/commons.ts';
 
-export default {
+import Vue from 'vue';
+
+export default Vue.extend({
   name: 'ChannelBanner',
   components: {
     EyeIcon
@@ -54,7 +56,7 @@ export default {
       proxyUrl: Commons.proxyUrl
     };
   }
-};
+});
 </script>
 
 <style lang="scss" scoped>

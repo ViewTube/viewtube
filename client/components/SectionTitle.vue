@@ -9,11 +9,12 @@
   </div>
 </template>
 
-<script>
-import ChevronRightIcon from 'vue-material-design-icons/ChevronRight';
+<script lang="ts">
+import ChevronRightIcon from 'vue-material-design-icons/ChevronRight.vue';
 import GradientBackground from '@/components/GradientBackground.vue';
+import Vue from 'vue';
 
-export default {
+export default Vue.extend({
   name: 'SectionTitle',
   components: {
     ChevronRightIcon,
@@ -21,7 +22,7 @@ export default {
   },
   props: {
     title: String,
-    link: String,
+    link: { type: String, required: false },
     line: {
       type: Boolean,
       required: false,
@@ -30,7 +31,7 @@ export default {
       }
     }
   }
-};
+});
 </script>
 
 <style lang="scss" scoped>

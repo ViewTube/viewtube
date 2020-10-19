@@ -39,11 +39,13 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import Commons from '@/plugins/commons.ts';
 import 'tippy.js/dist/tippy.css';
 
-export default {
+import Vue from 'vue';
+
+export default Vue.extend({
   name: 'MovieEntry',
   props: {
     data: Object
@@ -52,7 +54,7 @@ export default {
     commons: Commons
   }),
   mounted() {}
-};
+});
 </script>
 
 <style lang="scss">

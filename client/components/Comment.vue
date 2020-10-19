@@ -79,18 +79,19 @@
   </div>
 </template>
 
-<script>
-import PenIcon from 'vue-material-design-icons/Pencil';
-import ThumbsUpIcon from 'vue-material-design-icons/ThumbUp';
-import HeartIcon from 'vue-material-design-icons/Heart';
-import CommentIcon from 'vue-material-design-icons/CommentOutline';
-import CommentHideIcon from 'vue-material-design-icons/CommentRemoveOutline';
-import LoadMoreIcon from 'vue-material-design-icons/Reload';
+<script lang="ts">
+import PenIcon from 'vue-material-design-icons/Pencil.vue';
+import ThumbsUpIcon from 'vue-material-design-icons/ThumbUp.vue';
+import HeartIcon from 'vue-material-design-icons/Heart.vue';
+import CommentIcon from 'vue-material-design-icons/CommentOutline.vue';
+import CommentHideIcon from 'vue-material-design-icons/CommentRemoveOutline.vue';
+import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
 import Commons from '@/plugins/commons.ts';
-import BadgeButton from '@/components/buttons/BadgeButton';
+import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import 'tippy.js/dist/tippy.css';
+import Vue from 'vue';
 
-export default {
+export default Vue.extend({
   name: 'Comment',
   components: {
     PenIcon,
@@ -158,7 +159,7 @@ export default {
         });
     }
   }
-};
+});
 </script>
 
 <style lang="scss">

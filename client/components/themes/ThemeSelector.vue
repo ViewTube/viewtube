@@ -53,8 +53,10 @@
   </div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import Vue from 'vue';
+
+export default Vue.extend({
   data() {
     return {
       themes: this.$store.getters['settings/defaultThemes']
@@ -68,13 +70,13 @@ export default {
         document.body.classList.remove('transition-all');
       }, 300);
     },
-    getBorderThemeColor(theme) {
+    getBorderThemeColor(theme): string {
       return theme.value === this.$store.getters['settings/theme']
         ? theme['theme-color']
         : 'transparent';
     }
   }
-};
+});
 </script>
 
 <style lang="scss" scoped>

@@ -117,7 +117,7 @@ export default Vue.extend({
   },
   head() {
     return {
-      title: `${this.channel.author} :: ViewTube`,
+      title: this.channel ? `${this.channel.author} :: ViewTube` : 'ViewTube',
       meta: [
         {
           hid: 'description',

@@ -40,18 +40,19 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import SearchIcon from 'vue-material-design-icons/Magnify.vue';
-import SearchAutoComplete from '@/components/SearchAutoComplete';
+import SearchAutoComplete from '@/components/SearchAutoComplete.vue';
+import Vue from 'vue';
 
-export default {
+export default Vue.extend({
   name: 'MainSearchBox',
   components: {
     SearchIcon,
     SearchAutoComplete
   },
   props: {
-    scrollTop: Boolean
+    scrollTop: { type: Boolean, required: false }
   },
   data: () => ({
     searchFieldFocused: false,
@@ -127,7 +128,7 @@ export default {
       this.$refs.searchField.blur();
     }
   }
-};
+});
 </script>
 
 <style lang="scss" scoped>

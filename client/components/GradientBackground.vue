@@ -6,8 +6,10 @@
   </div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import Vue from 'vue';
+
+export default Vue.extend({
   name: 'GradientBackground',
   props: {
     color: {
@@ -16,7 +18,7 @@ export default {
     }
   },
   data: () => ({})
-};
+});
 </script>
 
 <style lang="scss" scoped>
@@ -75,11 +77,7 @@ export default {
       bottom: 0;
       height: 700px + $header-height;
       width: 100%;
-      background: linear-gradient(
-        to bottom,
-        transparent,
-        var(--bgcolor-main)
-      );
+      background: linear-gradient(to bottom, transparent, var(--bgcolor-main));
     }
   }
 }

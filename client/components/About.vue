@@ -46,15 +46,16 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import CloseIcon from 'vue-material-design-icons/Close';
-import GithubIcon from 'vue-material-design-icons/Github';
-import ExternalIcon from 'vue-material-design-icons/OpenInNew';
+import GithubIcon from 'vue-material-design-icons/Github.vue';
+import ExternalIcon from 'vue-material-design-icons/OpenInNew.vue';
 import Commons from '@/plugins/commons.ts';
 import BadgeButton from '@/components/buttons/BadgeButton';
 import InvidiousLicense from '@/components/licenses/Invidious';
+import Vue from 'vue';
 
-export default {
+export default Vue.extend({
   name: 'About',
   components: {
     CloseIcon,
@@ -84,7 +85,7 @@ export default {
         console.error(error);
       });
   }
-};
+});
 </script>
 
 <style lang="scss">

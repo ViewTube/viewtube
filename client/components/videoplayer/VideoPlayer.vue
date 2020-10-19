@@ -221,24 +221,25 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import dashjs from 'dashjs';
-import PauseIcon from 'vue-material-design-icons/Pause';
-import PlayIcon from 'vue-material-design-icons/Play';
-import FullscreenIcon from 'vue-material-design-icons/Fullscreen';
-import FullscreenExitIcon from 'vue-material-design-icons/FullscreenExit';
-// import ArrowExpandIcon from 'vue-material-design-icons/ArrowExpand';
+import PauseIcon from 'vue-material-design-icons/Pause.vue';
+import PlayIcon from 'vue-material-design-icons/Play.vue';
+import FullscreenIcon from 'vue-material-design-icons/Fullscreen.vue';
+import FullscreenExitIcon from 'vue-material-design-icons/FullscreenExit.vue';
+// import ArrowExpandIcon from 'vue-material-design-icons/ArrowExpand.vue';
 // import ArrowCollapseIcon from 'vue-material-design-icons/ArrowCollapse';
-import OpenInPlayerIcon from 'vue-material-design-icons/OpenInNew';
-import CloseIcon from 'vue-material-design-icons/Close';
-import Spinner from '@/components/Spinner';
+import OpenInPlayerIcon from 'vue-material-design-icons/OpenInNew.vue';
+import CloseIcon from 'vue-material-design-icons/Close.vue';
+import Spinner from '@/components/Spinner.vue';
 // import VideoEndscreen from '@/components/videoplayer/VideoEndscreen'
-import VolumeControl from '@/components/videoplayer/VolumeControl';
+import VolumeControl from '@/components/videoplayer/VolumeControl.vue';
 // import QualitySelection from '@/components/videoplayer/QualitySelection'
-import SeekbarPreview from '@/components/videoplayer/SeekbarPreview';
+import SeekbarPreview from '@/components/videoplayer/SeekbarPreview.vue';
 import Commons from '@/plugins/commons.ts';
+import Vue from 'vue';
 
-export default {
+export default Vue.extend({
   name: 'Videoplayer',
   components: {
     Spinner,
@@ -658,7 +659,7 @@ export default {
       return `${leftPx}px`;
     }
   }
-};
+});
 </script>
 
 <style lang="scss">
