@@ -16,11 +16,12 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import Axios from 'axios';
-import Commons from '@/plugins/commons.js';
+// import Commons from '@/plugins/commons.ts';
+import Vue from 'vue';
 
-export default {
+export default Vue.extend({
   name: 'SearchAutocomplete',
   props: {
     searchValue: { type: String, default: null }
@@ -54,7 +55,7 @@ export default {
       this.selectedValue = parseInt(e.target.getAttribute('number'));
     }
   }
-};
+});
 </script>
 
 <style lang="scss" scoped>

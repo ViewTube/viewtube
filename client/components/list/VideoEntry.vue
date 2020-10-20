@@ -1,12 +1,12 @@
 <template>
   <div class="video-entry">
     <div class="video-entry-background" />
-    <div class="description-btn-container">
+    <div v-if="video.description" class="description-btn-container">
       <div v-ripple v-tippy="'Show description'" class="description-btn">
         <InfoIcon />
       </div>
     </div>
-    <input id="show-description" type="checkbox" name="show-description" />
+    <input v-if="video.description" id="show-description" type="checkbox" name="show-description" />
     <nuxt-link
       v-tippy="videoProgressTooltip"
       class="video-entry-thmb"
@@ -17,8 +17,8 @@
         <div class="thmb-clip">
           <img
             class="video-entry-thmb-image"
-            loading="lazy"
-            :src="commons.proxyUrl + video.videoThumbnails[4].url"
+            :loading="lazy ? 'lazy' : 'eager'"
+            :src="commons.proxyUrl + video.videoThumbnails[3].url"
             :alt="video.title"
           />
         </div>
@@ -67,37 +67,42 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import 'tippy.js/dist/tippy.css';
-import InfoIcon from 'vue-material-design-icons/Information';
-import SavedPosition from '@/store/videoProgress';
-import Commons from '@/plugins/commons.js';
+import InfoIcon from 'vue-material-design-icons/Information.vue';
+import Commons from '@/plugins/commons.ts';
 
-export default {
+import Vue from 'vue';
+
+export default Vue.extend({
   name: 'VideoEntry',
   components: {
     InfoIcon
   },
   props: {
-    video: Object
+    video: Object,
+    lazy: Boolean
   },
   data: () => ({
     commons: Commons
   }),
   computed: {
-    videoProgressPercentage() {
-      return (SavedPosition.getSavedPosition(this.video.videoId) / this.video.lengthSeconds) * 100;
+    videoProgressPercentage(): number {
+      return (
+        (this.$accessor.videoProgress.getSavedPositionForId(this.video.videoId) /
+          this.video.lengthSeconds) *
+        100
+      );
     },
-    videoProgressTooltip() {
+    videoProgressTooltip(): string {
       const watchTime = this.$formatting.getTimestampFromSeconds(
-        SavedPosition.getSavedPosition(this.video.videoId)
+        this.$accessor.videoProgress.getSavedPositionForId(this.video.videoId)
       );
       const totalTime = this.$formatting.getTimestampFromSeconds(this.video.lengthSeconds);
       return `${watchTime} of ${totalTime}`;
     }
-  },
-  mounted() {}
-};
+  }
+});
 </script>
 
 <style lang="scss">

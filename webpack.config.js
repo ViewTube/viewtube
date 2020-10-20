@@ -1,5 +1,5 @@
-const webpack = require('webpack');
 const path = require('path');
+const webpack = require('webpack');
 const nodeExternals = require('webpack-node-externals');
 const WebpackShellPluginNext = require('webpack-shell-plugin-next');
 
@@ -16,7 +16,14 @@ module.exports = {
     rules: [
       {
         test: /\.tsx?$/,
-        use: 'ts-loader',
+        use: {
+          loader: 'ts-loader',
+          options: {
+            getCustomTransformers: program => ({
+              before: [require('@nestjs/swagger/plugin').before({}, program)]
+            })
+          }
+        },
         exclude: /node_modules/
       }
     ]

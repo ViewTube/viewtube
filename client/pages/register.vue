@@ -30,12 +30,13 @@
   </div>
 </template>
 
-<script>
-import FormInput from '@/components/form/FormInput';
-import SubmitButton from '@/components/form/SubmitButton';
-import Spinner from '@/components/Spinner';
+<script lang="ts">
+import FormInput from '@/components/form/FormInput.vue';
+import SubmitButton from '@/components/form/SubmitButton.vue';
+import Spinner from '@/components/Spinner.vue';
+import Vue from 'vue';
 
-export default {
+export default Vue.extend({
   name: 'Register',
   components: {
     FormInput,
@@ -66,6 +67,51 @@ export default {
       this.checkRepeatPasswords();
     }
   },
+  mounted() {
+    this.$store.dispatch('captcha/getCaptcha');
+  },
+  methods: {
+    async register() {
+      this.loading = true;
+      const me = this;
+
+      const user = await this.$store.dispatch('user/register', {
+        username: this.username,
+        password: this.password,
+        captchaSolution: this.captchaSolution
+      });
+      if (user && user.username) {
+        me.$store.dispatch('messages/createMessage', {
+          type: 'info',
+          title: 'Registration successful',
+          message: `Welcome, ${user.username}`
+        });
+        me.$router.push(me.redirectedPage.fullPath);
+      } else {
+        me.$store.dispatch('messages/createMessage', {
+          type: 'error',
+          title: 'Registration failed',
+          message: user ? user.error : ''
+        });
+        me.loading = false;
+        this.wiggleRegisterForm();
+        this.$store.dispatch('captcha/getCaptcha');
+      }
+    },
+    wiggleRegisterForm() {
+      this.formWiggle = true;
+      setTimeout(() => {
+        this.formWiggle = false;
+      }, 600);
+    },
+    checkRepeatPasswords() {
+      if (this.password !== this.repeatPassword) {
+        this.statusMessage = 'passwords do not match';
+      } else {
+        this.statusMessage = '';
+      }
+    }
+  },
   head() {
     return {
       title: `Register :: ViewTube`,
@@ -89,56 +135,8 @@ export default {
       ]
     };
   },
-  mounted() {
-    this.$store.dispatch('captcha/getCaptcha');
-  },
-  methods: {
-    register(e) {
-      this.loading = true;
-      const me = this;
-
-      this.$store
-        .dispatch('user/register', {
-          username: this.username,
-          password: this.password,
-          captchaSolution: this.captchaSolution
-        })
-        .then(result => {
-          me.$store.dispatch('messages/createMessage', {
-            type: 'info',
-            title: 'Registration successful',
-            message: 'Redirecting...'
-          });
-          me.$router.push(me.redirectedPage.fullPath);
-        })
-        .catch(err => {
-          console.error(err);
-          me.loading = false;
-          me.$store.dispatch('messages/createMessage', {
-            type: 'error',
-            title: 'Registration failed',
-            message: err.message
-          });
-          this.wiggleRegisterForm();
-          this.$store.dispatch('captcha/getCaptcha');
-        });
-    },
-    wiggleRegisterForm() {
-      this.formWiggle = true;
-      setTimeout(() => {
-        this.formWiggle = false;
-      }, 600);
-    },
-    checkRepeatPasswords() {
-      if (this.password !== this.repeatPassword) {
-        this.statusMessage = 'passwords do not match';
-      } else {
-        this.statusMessage = '';
-      }
-    }
-  },
-  beforeRouteEnter(to, from, next) {
-    next(vm => {
+  beforeRouteEnter(_, from, next) {
+    next((vm: any) => {
       if (from.name) {
         vm.redirectedPage = from;
       } else {
@@ -148,7 +146,7 @@ export default {
       }
     });
   }
-};
+});
 </script>
 
 <style lang="scss">

@@ -1,47 +1,44 @@
 <template>
   <transition name="fade-up">
     <div
+      v-if="$store.state.miniplayer.currentVideo && visible && !dismissed"
+      ref="miniplayer"
       class="miniplayer"
-      v-if="
-        $store.state.miniplayer.currentVideo &&
-        visible &&
-        !dismissed
-      "
       :style="{
         top: `${Math.floor(positionTop)}px`,
         left: `${Math.floor(positionLeft)}px`,
         transform: `translate3d(calc(-50% + ${Math.floor(
           dragOffsetLeft
-        )}px), calc(-10% + ${Math.floor(
-          dragOffsetTop
-        )}px), 0)`
+        )}px), calc(-10% + ${Math.floor(dragOffsetTop)}px), 0)`
       }"
       :class="{ animated: transition }"
-      ref="miniplayer"
     >
       <div
         class="drag-space"
-        @mousedown.prevent="onDragSpaceMouseDown"
-        @touchstart.prevent="onDragSpaceTouchStart"
         tabindex="0"
         :style="{ cursor: dragging ? 'grabbing' : 'grab' }"
-      ></div>
+        @mousedown.prevent="onDragSpaceMouseDown"
+        @touchstart.prevent="onDragSpaceTouchStart"
+      />
       <VideoPlayer
         :video="$store.state.miniplayer.currentVideo"
         :mini="true"
         :autoplay="true"
+        :embedded="false"
         @close="hide"
       />
     </div>
   </transition>
 </template>
 
-<script>
+<script lang="ts">
 import VideoPlayer from '@/components/videoplayer/VideoPlayer.vue';
-import Commons from '@/plugins/commons.js';
+import Commons from '@/plugins/commons.ts';
 
-export default {
-  name: 'miniplayer',
+import Vue from 'vue';
+
+export default Vue.extend({
+  name: 'Miniplayer',
   components: {
     VideoPlayer
   },
@@ -59,13 +56,20 @@ export default {
       transition: false
     };
   },
-  mounted() {
-    this.dismissed = false;
-  },
   computed: {
-    visible() {
+    visible(): boolean {
       return this.$route.name !== 'watch';
     }
+  },
+  watch: {
+    visible(newValue, oldValue) {
+      if (newValue !== oldValue) {
+        this.dismissed = false;
+      }
+    }
+  },
+  mounted() {
+    this.dismissed = false;
   },
   methods: {
     hide() {
@@ -75,81 +79,45 @@ export default {
       this.dragging = true;
       this.startPositionTop = e.pageY;
       this.startPositionLeft = e.pageX;
-      document.addEventListener(
-        'mousemove',
-        this.onDragSpaceMouseMove
-      );
-      document.addEventListener(
-        'mouseup',
-        this.onDragSpaceMouseUp
-      );
+      document.addEventListener('mousemove', this.onDragSpaceMouseMove);
+      document.addEventListener('mouseup', this.onDragSpaceMouseUp);
     },
     onDragSpaceTouchStart(e) {
       this.dragging = true;
       this.startPositionTop = e.touches[0].pageY;
       this.startPositionLeft = e.touches[0].pageX;
-      document.addEventListener(
-        'touchmove',
-        this.onDragSpaceTouchMove
-      );
-      document.addEventListener(
-        'touchend',
-        this.onDragSpaceTouchEnd
-      );
+      document.addEventListener('touchmove', this.onDragSpaceTouchMove);
+      document.addEventListener('touchend', this.onDragSpaceTouchEnd);
     },
     onDragSpaceTouchMove(e) {
       const mouseOutOfScreenY = Boolean(
-        e.touches[0].pageY < 0 ||
-          e.touches[0].pageY > Commons.getPageHeight()
+        e.touches[0].pageY < 0 || e.touches[0].pageY > Commons.getPageHeight()
       );
       const mouseOutOfScreenX = Boolean(
-        e.touches[0].pageX < 0 ||
-          e.touches[0].pageX > Commons.getPageWidth()
+        e.touches[0].pageX < 0 || e.touches[0].pageX > Commons.getPageWidth()
       );
       if (mouseOutOfScreenY || mouseOutOfScreenX) {
         this.dragging = false;
       } else {
-        this.calculateDrag(
-          e.touches[0].pageX,
-          e.touches[0].pageY
-        );
+        this.calculateDrag(e.touches[0].pageX, e.touches[0].pageY);
       }
     },
     onDragSpaceTouchEnd(e) {
-      this.calculateFinish(
-        e.changedTouches[0].pageX,
-        e.changedTouches[0].pageY
-      );
+      this.calculateFinish(e.changedTouches[0].pageX, e.changedTouches[0].pageY);
       this.dragging = false;
 
-      document.removeEventListener(
-        'touchmove',
-        this.onDragSpaceMouseMove
-      );
-      document.removeEventListener(
-        'touchend',
-        this.onDragSpaceTouchEnd
-      );
+      document.removeEventListener('touchmove', this.onDragSpaceMouseMove);
+      document.removeEventListener('touchend', this.onDragSpaceTouchEnd);
     },
     onDragSpaceMouseUp(e) {
       this.calculateFinish(e.pageX, e.pageY);
       this.dragging = false;
-      document.removeEventListener(
-        'mousemove',
-        this.onDragSpaceMouseMove
-      );
-      document.removeEventListener(
-        'mouseup',
-        this.onDragSpaceMouseUp
-      );
+      document.removeEventListener('mousemove', this.onDragSpaceMouseMove);
+      document.removeEventListener('mouseup', this.onDragSpaceMouseUp);
     },
     onDragSpaceMouseMove(e) {
-      const mouseOutOfScreenY = Boolean(
-        e.pageY < 0 || e.pageY > Commons.getPageHeight()
-      );
-      const mouseOutOfScreenX = Boolean(
-        e.pageX < 0 || e.pageX > Commons.getPageWidth()
-      );
+      const mouseOutOfScreenY = Boolean(e.pageY < 0 || e.pageY > Commons.getPageHeight());
+      const mouseOutOfScreenX = Boolean(e.pageX < 0 || e.pageX > Commons.getPageWidth());
       if (mouseOutOfScreenY || mouseOutOfScreenX) {
         this.calculateFinish(e.pageX, e.pageY);
         this.dragging = false;
@@ -159,50 +127,30 @@ export default {
     },
     calculateDrag(posX, posY) {
       if (this.dragging) {
-        const halfElementWidth =
-          this.$refs.miniplayer.clientWidth / 2;
-        const tenthElementHeight =
-          this.$refs.miniplayer.clientHeight / 10;
+        const halfElementWidth = this.$refs.miniplayer.clientWidth / 2;
+        const tenthElementHeight = this.$refs.miniplayer.clientHeight / 10;
 
         let positionLeft = 0;
         let positionTop = 0;
 
         if (posX - halfElementWidth < 0) {
-          positionLeft =
-            posX - (0 - (posX - halfElementWidth)) / -1.5;
-        } else if (
-          posX + halfElementWidth >
-          Commons.getPageWidth()
-        ) {
-          positionLeft =
-            posX -
-            (Commons.getPageWidth() -
-              (posX + halfElementWidth)) /
-              -1.5;
+          positionLeft = posX - (0 - (posX - halfElementWidth)) / -1.5;
+        } else if (posX + halfElementWidth > Commons.getPageWidth()) {
+          positionLeft = posX - (Commons.getPageWidth() - (posX + halfElementWidth)) / -1.5;
         } else {
           positionLeft = posX;
         }
 
         if (posY - tenthElementHeight < 0) {
-          positionTop =
-            posY - (0 - (posY - tenthElementHeight)) / -1.5;
-        } else if (
-          posY + tenthElementHeight * 9 >
-          Commons.getPageHeight()
-        ) {
-          positionTop =
-            posY -
-            (Commons.getPageHeight() -
-              (posY + tenthElementHeight * 9)) /
-              -1.5;
+          positionTop = posY - (0 - (posY - tenthElementHeight)) / -1.5;
+        } else if (posY + tenthElementHeight * 9 > Commons.getPageHeight()) {
+          positionTop = posY - (Commons.getPageHeight() - (posY + tenthElementHeight * 9)) / -1.5;
         } else {
           positionTop = posY;
         }
 
-        this.dragOffsetTop =
-          positionTop - this.startPositionTop;
-        this.dragOffsetLeft =
-          positionLeft - this.startPositionLeft;
+        this.dragOffsetTop = positionTop - this.startPositionTop;
+        this.dragOffsetLeft = positionLeft - this.startPositionLeft;
       }
     },
     calculateFinish(posX, posY) {
@@ -213,52 +161,32 @@ export default {
       }, 600);
       const pageWidth = Commons.getPageWidth();
       const pageHeight = Commons.getPageHeight();
-      const halfElementWidth =
-        this.$refs.miniplayer.clientWidth / 2;
-      const tenthElementHeight =
-        this.$refs.miniplayer.clientHeight / 10;
+      const halfElementWidth = this.$refs.miniplayer.clientWidth / 2;
+      const tenthElementHeight = this.$refs.miniplayer.clientHeight / 10;
 
       // Top left
       if (posX < pageWidth / 2 && posY < pageHeight / 2) {
         this.positionTop = tenthElementHeight + 60;
         this.positionLeft = halfElementWidth;
         // Top right
-      } else if (
-        posX > pageWidth / 2 &&
-        posY < pageHeight / 2
-      ) {
+      } else if (posX > pageWidth / 2 && posY < pageHeight / 2) {
         this.positionTop = tenthElementHeight + 60;
         this.positionLeft = pageWidth - halfElementWidth;
         // Bottom right
-      } else if (
-        posX > pageWidth / 2 &&
-        posY > pageHeight / 2
-      ) {
-        this.positionTop =
-          pageHeight - tenthElementHeight * 9;
+      } else if (posX > pageWidth / 2 && posY > pageHeight / 2) {
+        this.positionTop = pageHeight - tenthElementHeight * 9;
         this.positionLeft = pageWidth - halfElementWidth;
         // Bottom left
-      } else if (
-        posX < pageWidth / 2 &&
-        posY > pageHeight / 2
-      ) {
-        this.positionTop =
-          pageHeight - tenthElementHeight * 9;
+      } else if (posX < pageWidth / 2 && posY > pageHeight / 2) {
+        this.positionTop = pageHeight - tenthElementHeight * 9;
         this.positionLeft = halfElementWidth;
       }
 
       this.dragOffsetTop = 0;
       this.dragOffsetLeft = 0;
     }
-  },
-  watch: {
-    visible(newValue, oldValue) {
-      if (newValue !== oldValue) {
-        this.dismissed = false;
-      }
-    }
   }
-};
+});
 </script>
 
 <style lang="scss" scoped>

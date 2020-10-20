@@ -1,10 +1,5 @@
 <template>
-  <div
-    ref="dropdownBtn"
-    v-clickaway="hideDropdown"
-    class="dropdown"
-    :class="{ open: open }"
-  >
+  <div ref="dropdownBtn" v-clickaway="hideDropdown" class="dropdown" :class="{ open: open }">
     <div
       v-ripple
       class="dropdown-btn"
@@ -17,9 +12,7 @@
         </p>
         <p v-if="selected === null">{{ label }}</p>
       </div>
-      <label v-if="label" class="dropdown-label">{{
-        label
-      }}</label>
+      <label v-if="label" class="dropdown-label">{{ label }}</label>
     </div>
     <portal v-if="visible" to="dropdown">
       <div
@@ -45,8 +38,10 @@
   </div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import Vue from 'vue';
+
+export default Vue.extend({
   name: 'Dropdown',
   props: {
     values: Array,
@@ -62,11 +57,11 @@ export default {
     visible: false
   }),
   computed: {
-    entries() {
+    entries(): Array<{ name: string; value: string }> {
       if (this.values[0].value && this.values[0].name) {
         return this.values;
       } else {
-        return this.values.map((value, index) => {
+        return this.values.map(value => {
           return { name: value, value };
         });
       }
@@ -74,54 +69,40 @@ export default {
   },
   mounted() {
     const me = this;
-    const selectedEntry = this.entries.findIndex(
-      e => e.value === me.value
-    );
+    const selectedEntry = this.entries.findIndex(e => e.value === me.value);
     if (this.noDefault && this.value === null) {
-      this.selected =
-        selectedEntry !== -1 ? selectedEntry : null;
+      this.selected = selectedEntry !== -1 ? selectedEntry : null;
     } else {
-      this.selected =
-        selectedEntry !== -1 ? selectedEntry : 0;
+      this.selected = selectedEntry !== -1 ? selectedEntry : 0;
     }
     this.calculateOffset();
     this.visible = true;
   },
   methods: {
-    calculateOffset() {
+    calculateOffset(): void {
       if (this.$refs.dropdownBtn) {
         const dropdownDimens = this.$refs.dropdownBtn.getBoundingClientRect();
         this.offsetTop = dropdownDimens.top + 50;
         this.offsetLeft = dropdownDimens.left;
       }
     },
-    select(e) {
+    select(e): void {
       this.selected = e.target.getAttribute('index');
       this.open = false;
-      this.$emit(
-        'valuechange',
-        this.entries[this.selected],
-        this.selected
-      );
+      this.$emit('valuechange', this.entries[this.selected], this.selected);
     },
-    onDropdownBtnClick(e) {
+    onDropdownBtnClick(): void {
       this.calculateOffset();
       this.open = !this.open;
-      window.addEventListener(
-        'resize',
-        this.calculateOffset
-      );
+      window.addEventListener('resize', this.calculateOffset);
     },
-    hideDropdown() {
+    hideDropdown(): void {
       this.calculateOffset();
       this.open = false;
-      window.removeEventListener(
-        'resize',
-        this.calculateOffset
-      );
+      window.removeEventListener('resize', this.calculateOffset);
     }
   }
-};
+});
 </script>
 
 <style lang="scss" scoped>
@@ -164,10 +145,6 @@ export default {
       }
 
       .dropdown-title {
-        p {
-          // color: $theme-color;
-        }
-
         &:after {
           color: var(--theme-color);
         }
@@ -236,8 +213,7 @@ export default {
     transform: scale(0) translateY(-50%) !important;
     clip-path: none !important;
     transform-origin: center top !important;
-    transition: opacity 300ms 0ms $intro-easing,
-      transform 600ms $outro-easing, box-shadow 300ms,
+    transition: opacity 300ms 0ms $intro-easing, transform 600ms $outro-easing, box-shadow 300ms,
       pointer-events 0ms !important;
     opacity: 0;
     pointer-events: none !important;
@@ -246,8 +222,7 @@ export default {
       clip-path: none !important;
       transform: scale(1) translateY(-50%) !important;
       transition: opacity 200ms 100ms $intro-easing,
-        transform 300ms cubic-bezier(0, 0.98, 0.21, 0.98),
-        box-shadow 300ms !important;
+        transform 300ms cubic-bezier(0, 0.98, 0.21, 0.98), box-shadow 300ms !important;
       opacity: 1;
       pointer-events: auto !important;
     }
@@ -257,12 +232,7 @@ export default {
   clip-path: polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%);
 
   &.open {
-    clip-path: polygon(
-      -50% -50%,
-      150% -50%,
-      150% 150%,
-      -50% 150%
-    );
+    clip-path: polygon(-50% -50%, 150% -50%, 150% 150%, -50% 150%);
     transform: scale(1);
     box-shadow: $max-shadow;
   }

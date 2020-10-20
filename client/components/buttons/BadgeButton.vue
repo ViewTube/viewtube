@@ -1,11 +1,11 @@
 <template>
   <element
     :is="internalLink ? 'nuxt-link' : 'a'"
+    v-ripple
     :to="internalLink && href ? href : '#'"
     :target="internalLink ? '' : '_blank'"
     :href="href || '#'"
-    :class="{ disabled }"
-    v-ripple
+    :class="{ disabled, selected }"
     class="badge-btn"
     rel="noreferrer noopener"
     @click="clickFunction"
@@ -16,25 +16,28 @@
   </element>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import Vue from 'vue';
+
+export default Vue.extend({
   name: 'BadgeButton',
   props: {
-    href: String,
-    click: Function,
-    loading: Boolean,
-    internalLink: Boolean,
-    disabled: Boolean
+    href: { type: String, required: false },
+    click: { type: Function, required: false },
+    loading: { type: Boolean, required: false },
+    internalLink: { type: Boolean, required: false },
+    disabled: { type: Boolean, required: false },
+    selected: { type: Boolean, required: false }
   },
   methods: {
-    clickFunction(e) {
+    clickFunction(e: Event): void {
       if (this.click instanceof Function) {
         e.preventDefault();
         this.click();
       }
     }
   }
-};
+});
 </script>
 
 <style lang="scss" scoped>
@@ -63,6 +66,10 @@ export default {
     opacity: 0.8;
     user-select: none;
     pointer-events: none;
+  }
+
+  &.selected {
+    background-color: var(--theme-color-translucent);
   }
 
   .content {

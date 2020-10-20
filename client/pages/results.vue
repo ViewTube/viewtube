@@ -97,26 +97,27 @@
   </div>
 </template>
 
-<script>
-// import Commons from '@/plugins/commons.js'
-import LoadMoreIcon from 'vue-material-design-icons/Reload';
-import VideoEntry from '@/components/list/VideoEntry';
-import PlaylistEntry from '@/components/list/PlaylistEntry';
-import ChannelEntry from '@/components/list/ChannelEntry';
-import MovieEntry from '@/components/list/MovieEntry';
-import RelatedSearches from '@/components/search/RelatedSearches';
-import CompactShelf from '@/components/search/CompactShelf';
-import VerticalShelf from '@/components/search/VerticalShelf';
-import Spinner from '@/components/Spinner';
+<script lang="ts">
+// import Commons from '@/plugins/commons.ts'
+import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
+import VideoEntry from '@/components/list/VideoEntry.vue';
+import PlaylistEntry from '@/components/list/PlaylistEntry.vue';
+import ChannelEntry from '@/components/list/ChannelEntry.vue';
+import MovieEntry from '@/components/list/MovieEntry.vue';
+import RelatedSearches from '@/components/search/RelatedSearches.vue';
+import CompactShelf from '@/components/search/CompactShelf.vue';
+import VerticalShelf from '@/components/search/VerticalShelf.vue';
+import Spinner from '@/components/Spinner.vue';
 import GradientBackground from '@/components/GradientBackground.vue';
-import Dropdown from '@/components/filter/Dropdown';
-import SectionTitle from '@/components/SectionTitle';
-import SearchParams from '@/plugins/services/searchParams';
-import BadgeButton from '@/components/buttons/BadgeButton';
+import Dropdown from '@/components/filter/Dropdown.vue';
+import SectionTitle from '@/components/SectionTitle.vue';
+import SearchParams from '@/plugins/services/searchParams.ts';
+import BadgeButton from '@/components/buttons/BadgeButton.vue';
 // import Invidious from '@/plugins/services/invidious';
-import ViewTubeApi from '~/plugins/services/viewTubeApi';
+import Vue from 'vue';
+import ViewTubeApi from '~/plugins/services/viewTubeApi.ts';
 
-export default {
+export default Vue.extend({
   name: 'Search',
   components: {
     LoadMoreIcon,
@@ -164,7 +165,7 @@ export default {
     moreVideosLoading: false
   }),
   methods: {
-    getListEntryType(type) {
+    getListEntryType(type: string): string {
       switch (type) {
         case 'video':
           return 'VideoEntry';
@@ -189,23 +190,23 @@ export default {
       this.$router.push(`/results?search_query=${this.searchQuery}${searchParams}`);
       this.$fetch();
     },
-    onSearchSortChange(element, index) {
+    onSearchSortChange(element: any) {
       SearchParams.sort_by = element.value;
       this.reloadSearchWithParams();
     },
-    onSearchDateChange(element, index) {
+    onSearchDateChange(element: any) {
       SearchParams.date = element.value;
       this.reloadSearchWithParams();
     },
-    onSearchDurationChange(element, index) {
+    onSearchDurationChange(element: any) {
       SearchParams.duration = element.value;
       this.reloadSearchWithParams();
     },
-    onSearchTypeChange(element, index) {
+    onSearchTypeChange(element: any) {
       SearchParams.type = element.value;
       this.reloadSearchWithParams();
     },
-    loadMoreVideos() {
+    loadMoreVideos(): void {
       this.moreVideosLoading = true;
       this.page += 1;
       // SearchParams.page = this.page;
@@ -247,7 +248,7 @@ export default {
       ]
     };
   }
-};
+});
 </script>
 
 <style lang="scss">

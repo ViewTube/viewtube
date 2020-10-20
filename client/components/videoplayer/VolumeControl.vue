@@ -1,46 +1,38 @@
 <template>
-  <div
-    class="volume-control"
-    @mouseup.stop="stopEvent"
-    @click.stop="stopEvent"
-  >
+  <div class="volume-control" @mouseup.stop="stopEvent" @click.stop="stopEvent">
     <VolumeHighIcon v-if="volumeCategory == 3" />
     <VolumeMediumIcon v-if="volumeCategory == 2" />
     <VolumeLowIcon v-if="volumeCategory == 1" />
     <VolumeOffIcon v-if="volumeCategory == 0" />
     <div class="volume-control-popup">
       <input
+        id="volume"
         type="range"
         name="volume"
         min="0"
         max="1"
         step="0.05"
-        id="volume"
         :value="value"
         @input="$emit('input', $event.target.value)"
       />
-      <span
-        class="slider-progress"
-        :style="{ width: `${value * 100}%` }"
-      ></span>
-      <span class="slider-background"></span>
+      <span class="slider-progress" :style="{ width: `${value * 100}%` }" />
+      <span class="slider-background" />
     </div>
     <div class="volume-percentage">
-      <span class="percentage"
-        >{{ Math.floor(value * 100) }}%</span
-      >
+      <span class="percentage">{{ Math.floor(value * 100) }}%</span>
     </div>
   </div>
 </template>
 
-<script>
-import VolumeHighIcon from 'vue-material-design-icons/VolumeHigh';
-import VolumeMediumIcon from 'vue-material-design-icons/VolumeMedium';
-import VolumeLowIcon from 'vue-material-design-icons/VolumeLow';
-import VolumeOffIcon from 'vue-material-design-icons/VolumeOff';
+<script lang="ts">
+import VolumeHighIcon from 'vue-material-design-icons/VolumeHigh.vue';
+import VolumeMediumIcon from 'vue-material-design-icons/VolumeMedium.vue';
+import VolumeLowIcon from 'vue-material-design-icons/VolumeLow.vue';
+import VolumeOffIcon from 'vue-material-design-icons/VolumeOff.vue';
+import Vue from 'vue';
 
-export default {
-  name: 'volume-control',
+export default Vue.extend({
+  name: 'VolumeControl',
   components: {
     VolumeHighIcon,
     VolumeMediumIcon,
@@ -52,7 +44,7 @@ export default {
   },
   data: () => ({}),
   computed: {
-    volumeCategory() {
+    volumeCategory(): number {
       if (this.value >= 1) {
         return 3;
       } else if (this.value < 1 && this.value >= 0.5) {
@@ -68,7 +60,7 @@ export default {
   methods: {
     stopEvent() {}
   }
-};
+});
 </script>
 
 <style lang="scss" scoped>
@@ -110,8 +102,7 @@ export default {
     position: relative;
     height: 100%;
 
-    transition: width 200ms $intro-easing,
-      opacity 200ms $intro-easing;
+    transition: width 200ms $intro-easing, opacity 200ms $intro-easing;
 
     opacity: 0;
     pointer-events: none;

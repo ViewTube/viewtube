@@ -1,6 +1,6 @@
 <template>
   <div class="subscribe-button-container" :class="{ disabled: disabled }">
-    <div class="mini-btn" v-if="small" :class="{ expanded }" @click="expanded = !expanded">
+    <div v-if="small" class="mini-btn" :class="{ expanded }" @click="expanded = !expanded">
       <span class="minus" />
     </div>
     <div class="clip-container" :class="{ expanded, small }">
@@ -22,15 +22,21 @@
   </div>
 </template>
 
-<script>
-import Commons from '@/plugins/commons.js';
+<script lang="ts">
+// import Commons from '@/plugins/commons.ts';
 
-export default {
+import Vue from 'vue';
+
+export default Vue.extend({
   name: 'SubscribeButton',
   props: {
-    channelId: null,
-    isInitiallySubscribed: Boolean,
-    small: Boolean
+    channelId: {
+      type: String,
+      required: true,
+      default: null
+    },
+    isInitiallySubscribed: { type: Boolean, required: false },
+    small: { type: Boolean, required: false }
   },
   data: () => ({
     isSubscribed: false,
@@ -50,7 +56,7 @@ export default {
     }
   },
   methods: {
-    loadSubscriptionStatus() {
+    loadSubscriptionStatus(): void {
       if (this.channelId) {
         const me = this;
         this.$axios
@@ -66,14 +72,14 @@ export default {
             me.disabled = false;
           })
           // eslint-disable-next-line handle-callback-err
-          .catch(error => {
+          .catch(() => {
             // console.log(error);
             me.isSubscribed = false;
             me.disabled = true;
           });
       }
     },
-    subscribe() {
+    subscribe(): void {
       if (this.channelId) {
         this.disabled = true;
         this.$axios
@@ -99,7 +105,7 @@ export default {
           });
       }
     },
-    unsubscribe() {
+    unsubscribe(): void {
       if (this.channelId) {
         this.disabled = true;
         this.$axios
@@ -125,7 +131,7 @@ export default {
       }
     }
   }
-};
+});
 </script>
 
 <style lang="scss" scoped>

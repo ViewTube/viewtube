@@ -18,26 +18,86 @@
     @mouseup.stop="onMouseUp"
   >
     <div class="card-background-container">
-      <div class="card-background-overlay"></div>
+      <div class="card-background-overlay" />
       <img class="card-background" :src="backgroundImage" alt="Thumbnail Image" />
     </div>
     <div class="card-info-container">
       <p class="card-title">{{ card.title }}</p>
-      <p class="card-views" v-if="card.viewCountText">
+      <p v-if="card.viewCountText" class="card-views">
         {{ card.viewCountText }}
       </p>
     </div>
   </a>
 </template>
 
-<script>
-export default {
-  name: 'endscreen-card',
+<script lang="ts">
+import Vue from 'vue';
+
+export default Vue.extend({
+  name: 'EndscreenCard',
   props: {
     card: Object,
     videoProgress: Number,
     videoHeight: Number,
     videoWidth: Number
+  },
+  computed: {
+    elementType(): string {
+      if (this.card.type === 'website') {
+        return 'a';
+      }
+      return 'nuxt-link';
+    },
+    linkUrl(): string {
+      if (this.card.type === 'website') {
+        return this.card.websiteUrl;
+      } else if (this.card.type === 'channel') {
+        return `/channel/${this.card.authorId}`;
+      } else if (this.card.type === 'playlist') {
+        return this.card.playlistUrl;
+      } else {
+        return `/watch/?v=${this.card.videoId}`;
+      }
+    },
+    visible(): boolean {
+      const startTime = this.card.timing.start;
+      const endTime = this.card.timing.end;
+      const videoProgressMs = this.videoProgress * 1000;
+
+      return videoProgressMs > startTime && videoProgressMs < endTime;
+    },
+    positionTop(): number {
+      return this.card.dimensions.top * 100;
+    },
+    positionLeft(): number {
+      return this.card.dimensions.left * 100;
+    },
+    cardWidth(): number {
+      return this.card.dimensions.width * 100;
+    },
+    cardHeight(): number {
+      return (
+        ((this.card.dimensions.width * 100) / this.card.dimensions.aspectRatio) *
+        this.videoAspectRatio
+      );
+    },
+    videoAspectRatio(): number {
+      return this.videoWidth / this.videoHeight;
+    },
+    backgroundImage(): string {
+      switch (this.card.type) {
+        case 'video':
+          return this.card.videoThumbnails[1].url;
+        case 'channel':
+          return this.card.authorThumbnails[1].url;
+        case 'website':
+          return this.card.websiteThumbnails[1].url;
+        case 'playlist':
+          return this.card.playlistThumbnails[1].url;
+        default:
+          return this.card.videoThumbnails[1].url;
+      }
+    }
   },
   methods: {
     onMouseEnter() {
@@ -57,66 +117,8 @@ export default {
       e.stopPropagation();
       e.preventDefault();
     }
-  },
-  computed: {
-    elementType() {
-      if (this.card.type === 'website') {
-        return 'a';
-      }
-      return 'nuxt-link';
-    },
-    linkUrl() {
-      if (this.card.type === 'website') {
-        return this.card.websiteUrl;
-      } else if (this.card.type === 'channel') {
-        return `/channel/${this.card.authorId}`;
-      } else if (this.card.type === 'playlist') {
-        return this.card.playlistUrl;
-      } else {
-        return `/watch/?v=${this.card.videoId}`;
-      }
-    },
-    visible() {
-      const startTime = this.card.timing.start;
-      const endTime = this.card.timing.end;
-      const videoProgressMs = this.videoProgress * 1000;
-
-      return videoProgressMs > startTime && videoProgressMs < endTime;
-    },
-    positionTop() {
-      return this.card.dimensions.top * 100;
-    },
-    positionLeft() {
-      return this.card.dimensions.left * 100;
-    },
-    cardWidth() {
-      return this.card.dimensions.width * 100;
-    },
-    cardHeight() {
-      return (
-        ((this.card.dimensions.width * 100) / this.card.dimensions.aspectRatio) *
-        this.videoAspectRatio
-      );
-    },
-    videoAspectRatio() {
-      return this.videoWidth / this.videoHeight;
-    },
-    backgroundImage() {
-      switch (this.card.type) {
-        case 'video':
-          return this.card.videoThumbnails[1].url;
-        case 'channel':
-          return this.card.authorThumbnails[1].url;
-        case 'website':
-          return this.card.websiteThumbnails[1].url;
-        case 'playlist':
-          return this.card.playlistThumbnails[1].url;
-        default:
-          return this.card.videoThumbnails[1].url;
-      }
-    }
   }
-};
+});
 </script>
 
 <style lang="scss" scoped>

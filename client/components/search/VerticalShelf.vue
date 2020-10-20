@@ -2,16 +2,17 @@
   <div class="vertical-shelf">
     <SectionTitle :title="data.title" />
     <div class="vertical-shelf-container">
-      <VideoEntry v-for="video in data.items" :key="video.videoId" :video="video" />
+      <VideoEntry v-for="video in data.items" :key="video.videoId" :video="video" :lazy="true" />
     </div>
   </div>
 </template>
 
-<script>
-import VideoEntry from '@/components/list/VideoEntry';
-import SectionTitle from '@/components/SectionTitle';
+<script lang="ts">
+import VideoEntry from '@/components/list/VideoEntry.vue';
+import SectionTitle from '@/components/SectionTitle.vue';
+import Vue from 'vue';
 
-export default {
+export default Vue.extend({
   name: 'VerticalShelf',
   components: {
     VideoEntry,
@@ -20,7 +21,7 @@ export default {
   props: {
     data: Object
   }
-};
+});
 </script>
 
 <style lang="scss">

@@ -7,7 +7,12 @@
     </div>
     <SectionTitle :title="'Popular videos'" :gradient="!userAuthenticated" />
     <div class="home-videos-container small">
-      <VideoEntry v-for="video in displayedVideos" :key="video.videoId" :video="video" />
+      <VideoEntry
+        v-for="(video, index) in displayedVideos"
+        :key="index"
+        :lazy="index < 4 ? false : true"
+        :video="video"
+      />
     </div>
     <BadgeButton v-if="displayedVideos.length !== videos.length" :click="showMoreVideos">
       <LoadMoreIcon />
@@ -16,16 +21,17 @@
   </div>
 </template>
 
-<script>
-import Commons from '@/plugins/commons.js';
-import VideoEntry from '@/components/list/VideoEntry';
+<script lang="ts">
+import Commons from '@/plugins/commons.ts';
+import VideoEntry from '@/components/list/VideoEntry.vue';
 import SectionTitle from '@/components/SectionTitle.vue';
 import GradientBackground from '@/components/GradientBackground.vue';
-import LoadMoreIcon from 'vue-material-design-icons/Reload';
-import Invidious from '@/plugins/services/invidious';
-import BadgeButton from '@/components/buttons/BadgeButton';
+import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
+import Invidious from '@/plugins/services/invidious.ts';
+import BadgeButton from '@/components/buttons/BadgeButton.vue';
+import Vue from 'vue';
 
-export default {
+export default Vue.extend({
   name: 'Home',
   components: {
     VideoEntry,
@@ -33,6 +39,9 @@ export default {
     GradientBackground,
     LoadMoreIcon,
     BadgeButton
+  },
+  async fetch() {
+    await this.loadHomepage();
   },
   data: () => ({
     videos: [],
@@ -42,18 +51,15 @@ export default {
     commons: Commons
   }),
   computed: {
-    userAuthenticated() {
+    userAuthenticated(): boolean {
       return this.$store.getters['user/isLoggedIn'];
     }
   },
-  mounted() {
-    this.loadHomepage();
-  },
   methods: {
-    showMoreVideos() {
+    showMoreVideos(): void {
       this.displayedVideos = this.videos;
     },
-    async loadHomepage() {
+    async loadHomepage(): Promise<void> {
       const invidious = new Invidious(this.$store.getters['instances/currentInstanceApi']);
       await invidious.api
         .popular()
@@ -64,18 +70,18 @@ export default {
         .catch(error => {
           console.error(error);
         });
-      await this.$axios
-        .get(`${this.$store.getters['environment/apiUrl']}user/subscriptions/videos`, {
-          withCredentials: true
-        })
-        .then(response => {
-          this.subscriptions = response.data.slice(0, 4);
-        })
-        .catch(error => {
-          console.log(error);
-        });
+      if (this.$store.getters['user/isLoggedIn']) {
+        await this.$axios
+          .get(`${this.$store.getters['environment/apiUrl']}user/subscriptions/videos?limit=4`, {
+            withCredentials: true
+          })
+          .then(response => {
+            this.subscriptions = response.data.videos;
+          })
+          .catch(_ => {});
+      }
     },
-    handleScroll(e) {
+    handleScroll(e: Event): void {
       this.$emit('scroll', e);
     }
   },
@@ -84,7 +90,7 @@ export default {
       title: `ViewTube :: An alternative YouTube frontend`
     };
   }
-};
+});
 </script>
 
 <style lang="scss">

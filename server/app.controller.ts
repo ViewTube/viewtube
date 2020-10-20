@@ -1,7 +1,7 @@
 import { Controller, Get } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { AppService } from './app.service';
 import { StatusDto } from './status.dto';
-import { ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Core')
 @Controller()

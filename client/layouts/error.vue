@@ -25,8 +25,10 @@
   </div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import Vue from 'vue';
+
+export default Vue.extend({
   name: 'ErrorPage',
   props: {
     error: Object
@@ -43,13 +45,12 @@ export default {
       this.possibleSearch = path.replace('/', '');
     }
   },
-  beforeCreate() {},
   methods: {
-    retry() {
+    retry(): void {
       window.location.reload();
     }
   }
-};
+});
 </script>
 
 <style lang="scss" scoped>

@@ -1,7 +1,7 @@
 import { Test } from '@nestjs/testing';
+import { name, version, author, country } from '../package.json';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { name, version, author, country } from '../package.json';
 
 describe('AppController', () => {
   let appController: AppController;
@@ -18,7 +18,7 @@ describe('AppController', () => {
   });
 
   describe('status', () => {
-    it('should return some stats about the instance', async () => {
+    it('should return some stats about the instance', () => {
       const result = { name, version, country, author };
       jest.spyOn(appService, 'getStatus').mockImplementation(() => result);
 
