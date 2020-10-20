@@ -186,10 +186,7 @@
             </div>
           </div>
           <div class="right-bottom-controls">
-            <!-- <QualitySelection
-              :formatStreams="video.formatStreams"
-              :adaptiveFormats="video.adaptiveFormats"
-            />-->
+            <QualitySelection :formatStreams="video.formatStreams" />
             <FullscreenIcon
               v-if="!fullscreen"
               v-tippy="'Enter Fullscreen'"
@@ -234,7 +231,7 @@ import CloseIcon from 'vue-material-design-icons/Close.vue';
 import Spinner from '@/components/Spinner.vue';
 // import VideoEndscreen from '@/components/videoplayer/VideoEndscreen'
 import VolumeControl from '@/components/videoplayer/VolumeControl.vue';
-// import QualitySelection from '@/components/videoplayer/QualitySelection'
+import QualitySelection from '@/components/videoplayer/QualitySelection.vue';
 import SeekbarPreview from '@/components/videoplayer/SeekbarPreview.vue';
 import Commons from '@/plugins/commons.ts';
 import Vue from 'vue';
@@ -253,7 +250,7 @@ export default Vue.extend({
     OpenInPlayerIcon,
     CloseIcon,
     VolumeControl,
-    // QualitySelection,
+    QualitySelection,
     SeekbarPreview
   },
   props: {

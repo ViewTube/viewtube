@@ -3,7 +3,7 @@
     <SettingsIcon @click.stop="onQualityInteraction" @touchend.stop="onQualityTouchInteraction" />
     <transition name="circle-bottom">
       <div v-if="popup" ref="qualityPopup" class="quality-popup">
-        <div class="quality-submenu adaptive">
+        <div v-if="adaptiveFormats" class="quality-submenu adaptive">
           <span class="quality-title"> <MagicIcon />Automatic quality </span>
           <div
             class="qualities-info"
@@ -16,15 +16,15 @@
           </div>
         </div>
         <div class="quality-submenu">
-          <span class="quality-title"> <HighDefinitionIcon />Legacy format </span>
+          <span class="quality-title"> <HighDefinitionIcon />Video Quality</span>
           <div
-            v-for="(quality, id) in formatStreams"
-            :key="id + 1"
+            v-for="(quality, id) in formatQualities"
+            :key="id"
             class="format-quality-entry"
             :class="{
-              selected: selectedQuality === id + 1
+              selected: selectedQuality === id
             }"
-            @click.stop="setFormatQuality(id + 1)"
+            @click.stop="setFormatQuality(id)"
             @touchend.stop="onQualityTouchInteraction"
           >
             {{ quality.qualityLabel }}
@@ -51,7 +51,7 @@ export default Vue.extend({
   },
   props: {
     formatStreams: Array,
-    adaptiveFormats: Array
+    adaptiveFormats: { type: Array, required: false, default: null }
   },
   data: () => ({
     qualityUrl: null,
@@ -65,6 +65,9 @@ export default Vue.extend({
     },
     minAdaptiveQuality(): any {
       return this.sortedAdaptiveQualities[0];
+    },
+    formatQualities(): any {
+      return this.formatStreams.filter(el => el.qualityLabel);
     },
     sortedAdaptiveQualities(): any {
       return this.adaptiveVideos.slice().sort((a, b) => parseInt(a.bitrate) - parseInt(b.bitrate));
@@ -127,6 +130,25 @@ export default Vue.extend({
     border-radius: 3px;
     box-shadow: $max-shadow;
     padding: 10px 0;
+
+    @media screen and (max-width: $mobile-width) {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 100%;
+      max-height: 220px;
+
+      &::after {
+        content: '';
+        display: block;
+        position: fixed;
+        background-color: #000;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+      }
+    }
 
     .quality-submenu {
       width: 240px;
