@@ -23,7 +23,7 @@ steps:
         from_secret: docker_password
     when:
       branch:
-        - master
+        - stable
       event:
         - push
 
@@ -39,7 +39,7 @@ steps:
         from_secret: docker_password
     when:
       branch:
-        - dev
+        - main
       event:
         - push
 
@@ -51,7 +51,7 @@ steps:
       to: -1001411660806
     when:
       branch:
-        - master
+        - stable
       event:
         - push
       status:
@@ -60,5 +60,5 @@ steps:
 
 trigger:
   branch:
-    - master
-    - dev
+    - stable
+    - main
