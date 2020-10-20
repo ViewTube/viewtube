@@ -1,6 +1,6 @@
 <h1 align="center">
 <sub>
-<img  src="https://raw.githubusercontent.com/ViewTube/viewtube-vue/master/.github/images/logo.png"
+<img  src="https://raw.githubusercontent.com/ViewTube/viewtube-vue/stable/.github/images/logo.png"
       height="50"
       width="50">
 </sub>
@@ -14,7 +14,7 @@ It can recommend, play and search for videos. It saves your watch progress and y
 [![DeepScan grade](https://deepscan.io/api/teams/11097/projects/14017/branches/262917/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=11097&pid=14017&bid=262917)
 [![Build Status](https://drone.oeger.li/api/badges/ViewTube/viewtube-vue/status.svg)](https://drone.oeger.li/ViewTube/viewtube-vue)
 [![vue2](https://img.shields.io/badge/vue-2.x-brightgreen.svg)](https://vuejs.org/)
-[![GitHub](https://img.shields.io/github/license/mauriceoegerli/viewtube-vue)](https://github.com/ViewTube/viewtube-vue/blob/master/LICENSE)
+[![GitHub](https://img.shields.io/github/license/mauriceoegerli/viewtube-vue)](https://github.com/ViewTube/viewtube-vue/blob/stable/LICENSE)
 ![Docker Image Size (tag)](https://img.shields.io/docker/image-size/mauriceo/viewtube/latest?label=docker%20image)
 
 <h2 align="center">
