@@ -35,8 +35,7 @@ export default class {
         url: 'v1/stats'
       },
       comments: {
-        url: 'v1/comments',
-        fields: ['title']
+        url: 'v1/comments'
       },
       manifest: {
         url: 'manifest/dash/id',

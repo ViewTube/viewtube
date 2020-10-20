@@ -87,7 +87,7 @@ import CommentIcon from 'vue-material-design-icons/CommentOutline.vue';
 import CommentHideIcon from 'vue-material-design-icons/CommentRemoveOutline.vue';
 import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
-import 'tippy.js/dist/tippy.css';
+import Invidious from '@/plugins/services/invidious.ts';
 import Vue from 'vue';
 
 export default Vue.extend({
@@ -122,25 +122,25 @@ export default Vue.extend({
       this.loadingReplies = true;
       const repliesId = this.comment.replies.continuation;
       const videoId = this.$route.query.v;
-      fetch(
-        `${this.$store.getters['environment/apiUrl']}comments/${videoId}?continuation=${repliesId}`,
-        {
-          cache: 'force-cache',
-          method: 'GET'
-        }
-      )
-        .then(response => response.json())
-        .then(data => {
-          this.replies = data.comments;
-          this.repliesContinuationLink = data.continuation || null;
+      const invidious = new Invidious(this.$store.getters['instances/currentInstanceApi']);
+      invidious.api
+        .comments({
+          id: videoId,
+          params: {
+            continuation: repliesId
+          }
+        })
+        .then(response => {
+          this.replies = response.comments;
+          this.repliesContinuationLink = response.continuation || null;
           this.repliesLoaded = true;
           this.loadingReplies = false;
         })
-        .catch(error => {
+        .catch(err => {
           this.$store.dispatch('messages/createMessage', {
             type: 'error',
             title: 'Loading comments failed',
-            message: error
+            message: err
           });
           this.loadingReplies = false;
         });
@@ -148,17 +148,17 @@ export default Vue.extend({
     loadMoreReplies() {
       this.repliesContinuationLoading = true;
       const videoId = this.$route.query.v;
-      fetch(
-        `${this.$store.getters['environment/apiUrl']}comments/${videoId}?continuation=${this.repliesContinuationLink}`,
-        {
-          cache: 'force-cache',
-          method: 'GET'
-        }
-      )
-        .then(response => response.json())
-        .then(data => {
-          this.replies = this.replies.concat(data.comments);
-          this.repliesContinuationLink = data.continuation || null;
+      const invidious = new Invidious(this.$store.getters['instances/currentInstanceApi']);
+      invidious.api
+        .comments({
+          id: videoId,
+          params: {
+            continuation: this.repliesContinuationLink
+          }
+        })
+        .then(response => {
+          this.replies = this.replies.concat(response.comments);
+          this.repliesContinuationLink = response.continuation || null;
           this.repliesContinuationLoading = false;
         })
         .catch(error => {
