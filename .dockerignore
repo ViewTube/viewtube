@@ -6,6 +6,7 @@ data
 dist
 out
 channels
+scripts
 
 npm-debug.log
 .all-contributorsrc

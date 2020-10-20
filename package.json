@@ -32,7 +32,7 @@
   ],
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged && ./no-master.sh"
+      "pre-commit": "lint-staged && ./scripts/no-master.sh"
     }
   },
   "lint-staged": {
