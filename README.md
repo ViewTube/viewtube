@@ -11,17 +11,11 @@ ViewTube is an alternative YouTube frontend using the [invidio.us](https://githu
 
 It can recommend, play and search for videos. It saves your watch progress and you can subscribe to channels for them to appear in your subscription feed.
 
-<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-
-[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg)](#contributors-)
-
-<!-- ALL-CONTRIBUTORS-BADGE:END -->
-
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/3c74d1eff3fe47609a4f889ec1acbdd5)](https://www.codacy.com/manual/mauriceoegerli/viewtube-vue?utm_source=github.com&utm_medium=referral&utm_content=mauriceoegerli/viewtube-vue&utm_campaign=Badge_Grade)
+[![DeepScan grade](https://deepscan.io/api/teams/11097/projects/14017/branches/250433/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=11097&pid=14017&bid=250433)
 [![Build Status](https://drone.oeger.li/api/badges/ViewTube/viewtube-vue/status.svg)](https://drone.oeger.li/ViewTube/viewtube-vue)
 [![vue2](https://img.shields.io/badge/vue-2.x-brightgreen.svg)](https://vuejs.org/)
 [![GitHub](https://img.shields.io/github/license/mauriceoegerli/viewtube-vue)](https://github.com/ViewTube/viewtube-vue/blob/master/LICENSE)
-[![Docker Image Size (latest by date)](https://img.shields.io/docker/image-size/mauriceo/viewtube?label=docker%20image%20size)](https://hub.docker.com/r/mauriceo/viewtube)
+![Docker Image Size (tag)](https://img.shields.io/docker/image-size/mauriceo/viewtube/latest?label=docker%20image)
 
 <h2 align="center">
 <sub>
