@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Improved subscriptions interface with pagination and search [#151](https://github.com/ViewTube/viewtube-vue/pull/151)
 - Standardized changelog file [#158](https://github.com/ViewTube/viewtube-vue/pull/158)
+- Migrate client to typescript [#164](https://github.com/ViewTube/viewtube-vue/pull/164)
 
 ## [0.3.1] - 2020-09-24
 ### Fixed
