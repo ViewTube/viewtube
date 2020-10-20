@@ -13,11 +13,13 @@
   </div>
 </template>
 
-<script>
-// import Commons from '@/plugins/commons.js';
-import EndscreenCard from '@/components/videoplayer/EndscreenCard';
+<script lang="ts">
+// import Commons from '@/plugins/commons.ts';
+import EndscreenCard from '@/components/videoplayer/EndscreenCard.vue';
 
-export default {
+import Vue from 'vue';
+
+export default Vue.extend({
   name: 'VideoEndscreen',
   components: {
     EndscreenCard
@@ -59,7 +61,7 @@ export default {
       this.hover = false;
     }
   }
-};
+});
 </script>
 
 <style lang="scss" scoped>

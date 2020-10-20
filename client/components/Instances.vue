@@ -19,13 +19,14 @@
   </div>
 </template>
 
-<script>
-import CloseIcon from 'vue-material-design-icons/Close';
-import InstanceIcon from 'vue-material-design-icons/ServerNetwork';
+<script lang="ts">
+import CloseIcon from 'vue-material-design-icons/Close.vue';
+import InstanceIcon from 'vue-material-design-icons/ServerNetwork.vue';
 import '@/assets/styles/popup.scss';
-import InstanceEntry from '@/components/list/InstanceEntry';
+import InstanceEntry from '@/components/list/InstanceEntry.vue';
+import Vue from 'vue';
 
-export default {
+export default Vue.extend({
   name: 'Instances',
   components: {
     CloseIcon,
@@ -39,11 +40,11 @@ export default {
     };
   },
   methods: {
-    onInstanceChange(element) {
+    onInstanceChange(element: any) {
       this.$store.commit('instances/changeInstance', element.value);
     }
   }
-};
+});
 </script>
 
 <style lang="scss">

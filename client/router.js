@@ -1,3 +1,5 @@
+// Unfortunately, @nuxt/router doesn't support typescript at the moment
+
 import Vue from 'vue';
 import Router from 'vue-router';
 

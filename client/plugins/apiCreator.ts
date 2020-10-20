@@ -1,6 +1,6 @@
-export function createApi(api) {
-  Object.entries(api.requests).forEach(el => {
-    api[el[0]] = function (args = {}) {
+export function createApi(api: any) {
+  Object.entries(api.requests).forEach((el: any) => {
+    api[el[0]] = function (args: any = {}) {
       let url = el[1].url;
       if (args.id) {
         url += `/${args.id}`;

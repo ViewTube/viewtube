@@ -13,8 +13,10 @@
   </details>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import Vue from 'vue';
+
+export default Vue.extend({
   name: 'CollapsibleSection',
   components: {},
   props: {
@@ -36,7 +38,7 @@ export default {
       this.open = this.opened;
     }
   }
-};
+});
 </script>
 
 <style lang="scss" scoped>

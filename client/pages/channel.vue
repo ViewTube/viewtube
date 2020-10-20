@@ -49,23 +49,24 @@
   </div>
 </template>
 
-<script>
-import Commons from '@/plugins/commons.js';
-import VideoEntry from '@/components/list/VideoEntry';
-import PlaylistEntry from '@/components/list/PlaylistEntry';
-import Banner from '@/components/channel/Banner';
-import Overview from '@/components/channel/Overview';
-import RelatedChannels from '@/components/channel/RelatedChannels';
-import ChannelDescription from '@/components/channel/ChannelDescription';
-import Spinner from '@/components/Spinner';
-import SubscribeButton from '@/components/buttons/SubscribeButton';
+<script lang="ts">
+import Commons from '@/plugins/commons.ts';
+import VideoEntry from '@/components/list/VideoEntry.vue';
+import PlaylistEntry from '@/components/list/PlaylistEntry.vue';
+import Banner from '@/components/channel/Banner.vue';
+import Overview from '@/components/channel/Overview.vue';
+import RelatedChannels from '@/components/channel/RelatedChannels.vue';
+import ChannelDescription from '@/components/channel/ChannelDescription.vue';
+import Spinner from '@/components/Spinner.vue';
+import SubscribeButton from '@/components/buttons/SubscribeButton.vue';
 import SectionTitle from '@/components/SectionTitle.vue';
-import InlineVideo from '@/components/list/InlineVideo';
-import BadgeButton from '@/components/buttons/BadgeButton';
-import UpIcon from 'vue-material-design-icons/ArrowUp';
-import ViewTubeApi from '~/plugins/services/viewTubeApi';
+import InlineVideo from '@/components/list/InlineVideo.vue';
+import BadgeButton from '@/components/buttons/BadgeButton.vue';
+import UpIcon from 'vue-material-design-icons/ArrowUp.vue';
+import ViewTubeApi from '@/plugins/services/viewTubeApi.ts';
+import Vue from 'vue';
 
-export default {
+export default Vue.extend({
   name: 'Home',
   components: {
     VideoEntry,
@@ -110,40 +111,40 @@ export default {
     };
   },
   methods: {
-    onScrollTop() {
+    onScrollTop(): void {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   },
   head() {
     return {
-      title: `${this.channel.author} :: ViewTube`
-      //   meta: [
-      //     {
-      //       hid: 'description',
-      //       vmid: 'descriptionMeta',
-      //       name: 'description',
-      //       content: this.channel.description.substring(0, 100)
-      //     },
-      //     {
-      //       hid: 'ogTitle',
-      //       property: 'og:title',
-      //       content: `${this.channel.author} - ViewTube`
-      //     },
-      //     {
-      //       hid: 'ogImage',
-      //       property: 'og:image',
-      //       itemprop: 'image',
-      //       content: this.channel.authorThumbnails[0].url
-      //     },
-      //     {
-      //       hid: 'ogDescription',
-      //       property: 'og:description',
-      //       content: this.channel.description.substring(0, 100)
-      //     }
-      //   ]
+      title: this.channel ? `${this.channel.author} :: ViewTube` : 'ViewTube',
+      meta: [
+        {
+          hid: 'description',
+          vmid: 'descriptionMeta',
+          name: 'description',
+          content: this.channel ? this.channel.description.substring(0, 100) : ''
+        },
+        {
+          hid: 'ogTitle',
+          property: 'og:title',
+          content: this.channel ? `${this.channel.author} - ViewTube` : 'ViewTube'
+        },
+        {
+          hid: 'ogImage',
+          property: 'og:image',
+          itemprop: 'image',
+          content: this.channel ? this.channel.authorThumbnails[0].url : ''
+        },
+        {
+          hid: 'ogDescription',
+          property: 'og:description',
+          content: this.channel ? this.channel.description.substring(0, 100) : ''
+        }
+      ]
     };
   }
-};
+});
 </script>
 
 <style lang="scss">

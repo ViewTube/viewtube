@@ -31,7 +31,7 @@ export default {
       'hdr'
     ]
   },
-  parseQuery(query) {
+  parseQuery(query: { [x: string]: any }) {
     const me = this;
     let queryString = '';
     Object.keys(query).forEach(val => {
@@ -39,7 +39,7 @@ export default {
         if (me.defaults[val].includes(query[val])) {
           queryString += `&${val}=${query[val]}`;
           me[val] = query[val];
-        } else if (me.defaults[val].find(el => el.value === query[val])) {
+        } else if (me.defaults[val].find((el: { value: any }) => el.value === query[val])) {
           queryString += `&${val}=${query[val]}`;
           me[val] = query[val];
         }
@@ -47,7 +47,8 @@ export default {
     });
     return queryString;
   },
-  parseQueryJson(query, q) {
+  // eslint-disable-next-line camelcase
+  parseQueryJson(query: { [x: string]: any; search_query?: string }, q: string) {
     const me = this;
     const queryObj = {
       q: q || query.search_query
@@ -57,7 +58,7 @@ export default {
         if (me.defaults[val].includes(query[val])) {
           queryObj[val] = query[val];
           me[val] = query[val];
-        } else if (me.defaults[val].find(el => el.value === query[val])) {
+        } else if (me.defaults[val].find((el: { value: any }) => el.value === query[val])) {
           queryObj[val] = query[val];
           me[val] = query[val];
         }
@@ -69,7 +70,7 @@ export default {
     // console.log(this.parseQuery(this))
     return this.parseQuery(this);
   },
-  getParamsJson(q) {
+  getParamsJson(q: any) {
     return this.parseQueryJson(this, q);
   }
 };

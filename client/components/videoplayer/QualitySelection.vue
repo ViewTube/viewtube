@@ -35,12 +35,14 @@
   </div>
 </template>
 
-<script>
-import SettingsIcon from 'vue-material-design-icons/Cog';
-import HighDefinitionIcon from 'vue-material-design-icons/HighDefinition';
-import MagicIcon from 'vue-material-design-icons/AutoFix';
+<script lang="ts">
+import SettingsIcon from 'vue-material-design-icons/Cog.vue';
+import HighDefinitionIcon from 'vue-material-design-icons/HighDefinition.vue';
+import MagicIcon from 'vue-material-design-icons/AutoFix.vue';
 
-export default {
+import Vue from 'vue';
+
+export default Vue.extend({
   name: 'QualitySelection',
   components: {
     SettingsIcon,
@@ -58,16 +60,16 @@ export default {
     elementHeight: 0
   }),
   computed: {
-    maxAdaptiveQuality() {
+    maxAdaptiveQuality(): any {
       return this.sortedAdaptiveQualities.slice().reverse()[0];
     },
-    minAdaptiveQuality() {
+    minAdaptiveQuality(): any {
       return this.sortedAdaptiveQualities[0];
     },
-    sortedAdaptiveQualities() {
+    sortedAdaptiveQualities(): any {
       return this.adaptiveVideos.slice().sort((a, b) => parseInt(a.bitrate) - parseInt(b.bitrate));
     },
-    adaptiveVideos() {
+    adaptiveVideos(): any {
       return this.adaptiveFormats.filter(value => {
         if (value.type) {
           return value.type.match(/.*video.*/);
@@ -84,7 +86,7 @@ export default {
     setFormatQuality() {},
     setAutoQuality() {}
   }
-};
+});
 </script>
 
 <style lang="scss">

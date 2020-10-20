@@ -31,11 +31,13 @@
   </div>
 </template>
 
-<script>
-import PlayIcon from 'vue-material-design-icons/Play';
-import BadgeButton from '@/components/buttons/BadgeButton';
+<script lang="ts">
+import PlayIcon from 'vue-material-design-icons/Play.vue';
+import BadgeButton from '@/components/buttons/BadgeButton.vue';
 
-export default {
+import Vue from 'vue';
+
+export default Vue.extend({
   name: 'InlineVideo',
   components: {
     PlayIcon,
@@ -70,7 +72,7 @@ export default {
       this.isSmall = false;
     }
   }
-};
+});
 </script>
 
 <style lang="scss">

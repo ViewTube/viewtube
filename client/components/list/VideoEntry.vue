@@ -67,12 +67,14 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import 'tippy.js/dist/tippy.css';
-import InfoIcon from 'vue-material-design-icons/Information';
-import Commons from '@/plugins/commons.js';
+import InfoIcon from 'vue-material-design-icons/Information.vue';
+import Commons from '@/plugins/commons.ts';
 
-export default {
+import Vue from 'vue';
+
+export default Vue.extend({
   name: 'VideoEntry',
   components: {
     InfoIcon
@@ -85,23 +87,22 @@ export default {
     commons: Commons
   }),
   computed: {
-    videoProgressPercentage() {
+    videoProgressPercentage(): number {
       return (
         (this.$accessor.videoProgress.getSavedPositionForId(this.video.videoId) /
           this.video.lengthSeconds) *
         100
       );
     },
-    videoProgressTooltip() {
+    videoProgressTooltip(): string {
       const watchTime = this.$formatting.getTimestampFromSeconds(
         this.$accessor.videoProgress.getSavedPositionForId(this.video.videoId)
       );
       const totalTime = this.$formatting.getTimestampFromSeconds(this.video.lengthSeconds);
       return `${watchTime} of ${totalTime}`;
     }
-  },
-  mounted() {}
-};
+  }
+});
 </script>
 
 <style lang="scss">

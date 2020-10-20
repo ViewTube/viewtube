@@ -79,9 +79,15 @@ export class ChannelMapper {
     }
     let subCount = null;
     if (header.subscriberCountText) {
-      subCount = this.parseAbbreviatedNumber(
-        header.subscriberCountText.runs[0].text.replace('subscribers', '').trim()
-      );
+      if (header.subscriberCountText.runs) {
+        subCount = this.parseAbbreviatedNumber(
+          header.subscriberCountText.runs[0].text.replace('subscribers', '').trim()
+        );
+      } else if (header.subscriberCountText.simpleText) {
+        subCount = this.parseAbbreviatedNumber(
+          header.subscriberCountText.simpleText.replace('subscribers', '').trim()
+        );
+      }
     }
 
     const channel: ChannelDto = {
@@ -195,10 +201,20 @@ export class ChannelMapper {
         );
         if (shelfRendererSource && shelfRendererSource.shelfRenderer) {
           const title = shelfRendererSource.shelfRenderer.title.runs[0].text;
-          const elements = this.mapSingleSectionContent(
-            shelfRendererSource.shelfRenderer.content.horizontalListRenderer.items,
-            channel
-          );
+          let elements = [];
+          if (shelfRendererSource.shelfRenderer.content) {
+            if (shelfRendererSource.shelfRenderer.content.horizontalListRenderer) {
+              elements = this.mapSingleSectionContent(
+                shelfRendererSource.shelfRenderer.content.horizontalListRenderer.items,
+                channel
+              );
+            } else if (shelfRendererSource.shelfRenderer.content.expandedShelfContentsRenderer) {
+              elements = this.mapSingleSectionContent(
+                shelfRendererSource.shelfRenderer.content.expandedShelfContentsRenderer.items,
+                channel
+              );
+            }
+          }
           return {
             type: 'multi',
             elements,
@@ -263,16 +279,18 @@ export class ChannelMapper {
     source: Array<any>,
     channel: any
   ): Array<VideoBasicInfoDto | PlaylistBasicInfoDto> {
-    return source.map(video => {
-      if (video.gridVideoRenderer) {
-        const vidRenderer = video.gridVideoRenderer;
-        return { type: 'video', ...this.mapSectionVideo(vidRenderer, channel) };
-      } else if (video.gridPlaylistRenderer) {
-        const playlistRenderer = video.gridPlaylistRenderer;
-        return { type: 'playlist', ...this.mapSectionPlaylist(playlistRenderer, channel) };
-      }
-      return null;
-    });
+    return source
+      .map(video => {
+        if (video.gridVideoRenderer) {
+          const vidRenderer = video.gridVideoRenderer;
+          return { type: 'video', ...this.mapSectionVideo(vidRenderer, channel) };
+        } else if (video.gridPlaylistRenderer) {
+          const playlistRenderer = video.gridPlaylistRenderer;
+          return { type: 'playlist', ...this.mapSectionPlaylist(playlistRenderer, channel) };
+        }
+        return null;
+      })
+      .filter(e => e);
   }
 
   static mapSectionPlaylist(source: any, channel: any): PlaylistBasicInfoDto {
@@ -418,8 +436,9 @@ export class ChannelMapper {
     source: Array<{ url: string; width: number; height: number }>
   ): Array<{ url: string; width: number; height: number }> {
     return source.map(el => {
+      const url = el.url.match(/https?:\/\/.*/) ? el.url : `https:${el.url}`;
       return {
-        url: `https:${el.url}`,
+        url,
         height: el.height,
         width: el.width
       };

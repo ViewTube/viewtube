@@ -29,8 +29,10 @@
   </div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import Vue from 'vue';
+
+export default Vue.extend({
   name: 'TabMenu',
   props: {
     tabNames: {
@@ -56,7 +58,7 @@ export default {
       this.selectedTab = tabId;
     }
   }
-};
+});
 </script>
 
 <style lang="scss" scoped>

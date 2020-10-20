@@ -121,17 +121,19 @@
   </div>
 </template>
 
-<script>
-import SettingsIcon from 'vue-material-design-icons/Cog';
-import InstanceIcon from 'vue-material-design-icons/ServerNetwork';
-import AboutIcon from 'vue-material-design-icons/InformationOutline';
-import AccountIcon from 'vue-material-design-icons/AccountCircle';
-import AccountPlusIcon from 'vue-material-design-icons/AccountPlus';
-import Settings from '@/components/Settings';
-import Instances from '@/components/Instances';
-import About from '@/components/About';
+<script lang="ts">
+import SettingsIcon from 'vue-material-design-icons/Cog.vue';
+import InstanceIcon from 'vue-material-design-icons/ServerNetwork.vue';
+import AboutIcon from 'vue-material-design-icons/InformationOutline.vue';
+import AccountIcon from 'vue-material-design-icons/AccountCircle.vue';
+import AccountPlusIcon from 'vue-material-design-icons/AccountPlus.vue';
+import Settings from '@/components/Settings.vue';
+import Instances from '@/components/Instances.vue';
+import About from '@/components/About.vue';
 
-export default {
+import Vue from 'vue';
+
+export default Vue.extend({
   name: 'UserMenu',
   components: {
     SettingsIcon,
@@ -150,10 +152,10 @@ export default {
     aboutOpen: false
   }),
   computed: {
-    currentRouteName() {
+    currentRouteName(): string {
       return this.$route.name;
     },
-    userAuthenticated() {
+    userAuthenticated(): boolean {
       return this.$store.getters['user/isLoggedIn'];
     }
   },
@@ -217,7 +219,7 @@ export default {
       this.hideAccountMenu();
     }
   }
-};
+});
 </script>
 
 <style lang="scss">

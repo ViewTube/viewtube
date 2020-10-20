@@ -1,5 +1,5 @@
-import Commons from '@/plugins/commons';
 import { getterTree, mutationTree, actionTree } from 'nuxt-typed-vuex';
+import Commons from '~/plugins/commons';
 
 export const state = () => ({
   currentInstance: '' as string,

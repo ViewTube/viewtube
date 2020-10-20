@@ -14,10 +14,11 @@
   </div>
 </template>
 
-<script>
-import BadgeButton from '@/components/buttons/BadgeButton';
+<script lang="ts">
+import BadgeButton from '@/components/buttons/BadgeButton.vue';
+import Vue from 'vue';
 
-export default {
+export default Vue.extend({
   name: 'RelatedSearches',
   components: {
     BadgeButton
@@ -25,7 +26,7 @@ export default {
   props: {
     data: Object
   }
-};
+});
 </script>
 
 <style lang="scss">

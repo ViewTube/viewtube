@@ -27,10 +27,12 @@
   </tr>
 </template>
 
-<script>
-import CheckBoxBlank from 'vue-material-design-icons/CheckboxBlankOutline';
-import CheckBoxMarked from 'vue-material-design-icons/CheckboxMarkedOutline';
-export default {
+<script lang="ts">
+import CheckBoxBlank from 'vue-material-design-icons/CheckboxBlankOutline.vue';
+import CheckBoxMarked from 'vue-material-design-icons/CheckboxMarkedOutline.vue';
+import Vue from 'vue';
+
+export default Vue.extend({
   name: 'InstanceEntry',
   components: {
     CheckBoxBlank,
@@ -46,10 +48,7 @@ export default {
   },
   computed: {
     selected() {
-      if (
-        this.$store.getters['instances/currentInstance'] ===
-        this.instance.url
-      ) {
+      if (this.$store.getters['instances/currentInstance'] === this.instance.url) {
         return true;
       } else {
         return false;
@@ -58,13 +57,10 @@ export default {
   },
   methods: {
     chooseInstance() {
-      this.$store.commit(
-        'instances/changeInstance',
-        this.instance.url
-      );
+      this.$store.commit('instances/changeInstance', this.instance.url);
     }
   }
-};
+});
 </script>
 
 <style lang="scss">
@@ -76,8 +72,7 @@ a.btn {
   align-self: stretch;
   display: flex;
   border-radius: 5px;
-  transition: box-shadow 300ms $intro-easing,
-    border 300ms $intro-easing;
+  transition: box-shadow 300ms $intro-easing, border 300ms $intro-easing;
   border: 2px solid transparent;
   flex-direction: row;
   align-items: center;

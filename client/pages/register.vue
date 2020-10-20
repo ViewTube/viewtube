@@ -30,12 +30,13 @@
   </div>
 </template>
 
-<script>
-import FormInput from '@/components/form/FormInput';
-import SubmitButton from '@/components/form/SubmitButton';
-import Spinner from '@/components/Spinner';
+<script lang="ts">
+import FormInput from '@/components/form/FormInput.vue';
+import SubmitButton from '@/components/form/SubmitButton.vue';
+import Spinner from '@/components/Spinner.vue';
+import Vue from 'vue';
 
-export default {
+export default Vue.extend({
   name: 'Register',
   components: {
     FormInput,
@@ -90,7 +91,7 @@ export default {
         me.$store.dispatch('messages/createMessage', {
           type: 'error',
           title: 'Registration failed',
-          message: user.error
+          message: user ? user.error : ''
         });
         me.loading = false;
         this.wiggleRegisterForm();
@@ -135,7 +136,7 @@ export default {
     };
   },
   beforeRouteEnter(_, from, next) {
-    next(vm => {
+    next((vm: any) => {
       if (from.name) {
         vm.redirectedPage = from;
       } else {
@@ -145,7 +146,7 @@ export default {
       }
     });
   }
-};
+});
 </script>
 
 <style lang="scss">

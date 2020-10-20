@@ -1,4 +1,5 @@
 /* eslint-disable no-undef */
+// This file is directly included, without transpiling
 self.addEventListener('push', event => {
   event.waitUntil(
     new Promise(resolve => {

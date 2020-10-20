@@ -4,12 +4,13 @@
   </div>
 </template>
 
-<script>
-import Commons from '@/plugins/commons.js';
+<script lang="ts">
+import Commons from '@/plugins/commons.ts';
 import VideoPlayer from '@/components/videoplayer/VideoPlayer.vue';
-import ViewTubeApi from '@/plugins/services/viewTubeApi';
+import ViewTubeApi from '@/plugins/services/viewTubeApi.ts';
+import Vue from 'vue';
 
-export default {
+export default Vue.extend({
   name: 'EmbedVideo',
   components: {
     VideoPlayer
@@ -33,29 +34,13 @@ export default {
     video: {},
     commons: Commons
   }),
-  beforeRouteUpdate(to, _, next) {
-    const videoId = to.params.id;
-    fetch(`${Commons.getApiUrl()}videos/${videoId}`, {
-      cache: 'force-cache',
-      method: 'GET'
-    })
-      .then(response => response.json())
-      .then(data => {
-        this.loadData(data);
-        next();
-      })
-      .catch(error => {
-        console.error(error);
-        next();
-      });
-  },
   methods: {
-    loadData(data) {
+    loadData(data: any): void {
       this.video = data;
       this.loading = false;
     }
   }
-};
+});
 </script>
 
 <style lang="scss" scoped>

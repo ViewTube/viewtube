@@ -17,8 +17,10 @@
   </div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import Vue from 'vue';
+
+export default Vue.extend({
   name: 'SwitchButton',
   props: {
     value: Boolean,
@@ -26,11 +28,11 @@ export default {
     disabled: Boolean
   },
   methods: {
-    onChange(e) {
+    onChange(e: any): void {
       this.$emit('valuechange', e.target.checked);
     }
   }
-};
+});
 </script>
 
 <style lang="scss" scoped>

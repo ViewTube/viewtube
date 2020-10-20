@@ -221,24 +221,25 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import dashjs from 'dashjs';
-import PauseIcon from 'vue-material-design-icons/Pause';
-import PlayIcon from 'vue-material-design-icons/Play';
-import FullscreenIcon from 'vue-material-design-icons/Fullscreen';
-import FullscreenExitIcon from 'vue-material-design-icons/FullscreenExit';
-// import ArrowExpandIcon from 'vue-material-design-icons/ArrowExpand';
+import PauseIcon from 'vue-material-design-icons/Pause.vue';
+import PlayIcon from 'vue-material-design-icons/Play.vue';
+import FullscreenIcon from 'vue-material-design-icons/Fullscreen.vue';
+import FullscreenExitIcon from 'vue-material-design-icons/FullscreenExit.vue';
+// import ArrowExpandIcon from 'vue-material-design-icons/ArrowExpand.vue';
 // import ArrowCollapseIcon from 'vue-material-design-icons/ArrowCollapse';
-import OpenInPlayerIcon from 'vue-material-design-icons/OpenInNew';
-import CloseIcon from 'vue-material-design-icons/Close';
-import Spinner from '@/components/Spinner';
+import OpenInPlayerIcon from 'vue-material-design-icons/OpenInNew.vue';
+import CloseIcon from 'vue-material-design-icons/Close.vue';
+import Spinner from '@/components/Spinner.vue';
 // import VideoEndscreen from '@/components/videoplayer/VideoEndscreen'
-import VolumeControl from '@/components/videoplayer/VolumeControl';
+import VolumeControl from '@/components/videoplayer/VolumeControl.vue';
 // import QualitySelection from '@/components/videoplayer/QualitySelection'
-import SeekbarPreview from '@/components/videoplayer/SeekbarPreview';
-import Commons from '@/plugins/commons.js';
+import SeekbarPreview from '@/components/videoplayer/SeekbarPreview.vue';
+import Commons from '@/plugins/commons.ts';
+import Vue from 'vue';
 
-export default {
+export default Vue.extend({
   name: 'Videoplayer',
   components: {
     Spinner,
@@ -296,7 +297,7 @@ export default {
     }
   }),
   computed: {
-    highestVideoQuality() {
+    highestVideoQuality(): string {
       if (this.video.formatStreams) {
         const video = this.video.formatStreams.find(e => {
           return e.qualityLabel && e.qualityLabel === '720p';
@@ -309,27 +310,27 @@ export default {
       }
       return '#';
     },
-    videoVolume() {
+    videoVolume(): number {
       return this.videoElement.playerVolume;
     },
-    videoLength() {
+    videoLength(): number {
       if (this.video !== undefined) {
         return this.video.lengthSeconds;
       }
       return 0;
     },
-    videoUrl() {
+    videoUrl(): string {
       if (this.video !== undefined) {
         return `/watch?v=${this.video.videoId}`;
       }
       return '';
     },
-    playerOverlayVisible() {
+    playerOverlayVisible(): boolean {
       return this.playerOverlay.visible || !this.videoElement.playing;
     }
   },
   watch: {
-    videoVolume(newValue) {
+    videoVolume(newValue: number) {
       if (newValue <= 1 && newValue >= 0 && this.$refs.video) {
         this.$refs.video.volume = newValue;
       }
@@ -346,9 +347,7 @@ export default {
   methods: {
     loadDashVideo() {
       if (this.$refs.video) {
-        let url = `${Commons.getApiUrlNoVersion()}manifest/dash/id/${
-          this.video.videoId
-        }?local=true`;
+        let url = `${this.$store.getters['instances/currentInstanceApi']}manifest/dash/id/${this.video.videoId}?local=true`;
         console.log(url);
         if (this.video.dashUrl) {
           url = `${this.video.dashUrl}?local=true`;
@@ -488,14 +487,14 @@ export default {
       this.seekbar.seekPercentage = this.calculateSeekPercentage(e.pageX);
       this.matchSeekProgressPercentage(true);
     },
-    matchSeekProgressPercentage(adjustVideo) {
+    matchSeekProgressPercentage(adjustVideo: boolean) {
       this.videoElement.progressPercentage = this.seekbar.seekPercentage;
       if (adjustVideo && this.$refs.video) {
         const currentTime = (this.$refs.video.duration / 100) * this.seekbar.seekPercentage;
         this.$refs.video.currentTime = currentTime;
       }
     },
-    calculateSeekPercentage(pageX) {
+    calculateSeekPercentage(pageX: number) {
       const seekPercentage = ((pageX - 10) / (Commons.getPageWidth() - 27.5)) * 100;
       if (seekPercentage > 0 && seekPercentage < 100) {
         return seekPercentage;
@@ -505,7 +504,7 @@ export default {
         return 0;
       }
     },
-    isMouseOufOfBoundary(pageX, pageY) {
+    isMouseOufOfBoundary(pageX: number, pageY: number) {
       return pageX > Commons.getPageWidth() || pageX < 0 || pageY < 0;
     },
     // Interaction events
@@ -529,7 +528,7 @@ export default {
         this.onEnterFullscreen(true);
       }
     },
-    onEnterFullscreen(force) {
+    onEnterFullscreen(force: boolean) {
       if (this.playerOverlayVisible || force === true) {
         const elem = this.$refs.videoPlayer;
         if (elem.requestFullscreen) {
@@ -546,14 +545,15 @@ export default {
     },
     onEnterFullscreenMouseUp() {},
     onLeaveFullscreen() {
-      if (document.exitFullscreen) {
-        document.exitFullscreen();
-      } else if (document.webkitExitFullscreen) {
-        document.webkitExitFullscreen();
-      } else if (document.mozCancelFullScreen) {
-        document.mozCancelFullScreen();
-      } else if (document.msExitFullscreen) {
-        document.msExitFullscreen();
+      const doc = document as any;
+      if (doc.exitFullscreen) {
+        doc.exitFullscreen();
+      } else if (doc.webkitExitFullscreen) {
+        doc.webkitExitFullscreen();
+      } else if (doc.mozCancelFullScreen) {
+        doc.mozCancelFullScreen();
+      } else if (doc.msExitFullscreen) {
+        doc.msExitFullscreen();
       }
       this.fullscreen = false;
     },
@@ -621,7 +621,7 @@ export default {
         // return this.$localforage.setItem(`savedVideoPositionId${videoId}`, value)
       }
     },
-    showPlayerOverlay(noTimeout) {
+    showPlayerOverlay(noTimeout: boolean) {
       this.playerOverlay.visible = true;
       if (this.playerOverlay.timeout) {
         clearTimeout(this.playerOverlay.timeout);
@@ -638,7 +638,7 @@ export default {
       }
       this.playerOverlay.visible = false;
     },
-    seekHoverAdjustedLeft(element) {
+    seekHoverAdjustedLeft(element: any): string {
       const percentage = this.seekbar.hoverPercentage;
       let leftPx = 0;
       if (element) {
@@ -658,7 +658,7 @@ export default {
       return `${leftPx}px`;
     }
   }
-};
+});
 </script>
 
 <style lang="scss">

@@ -1,18 +1,10 @@
 <template>
   <div class="share-options">
     <div class="share-options-container">
-      <ShareOptionEntry
-        class="share-option"
-        optionName="Copy Link"
-        :click="shareCopyLink"
-      >
+      <ShareOptionEntry class="share-option" optionName="Copy Link" :click="shareCopyLink">
         <Copy class="copy-icon" />
       </ShareOptionEntry>
-      <ShareOptionEntry
-        class="share-option"
-        optionName="Open QR-Code"
-        :click="qrOpen"
-      >
+      <ShareOptionEntry class="share-option" optionName="Open QR-Code" :click="qrOpen">
         <QrCode class="qrcode-icon" />
       </ShareOptionEntry>
     </div>
@@ -24,13 +16,14 @@
   </div>
 </template>
 
-<script>
-import ShareOptionEntry from '@/components/list/ShareOptionEntry';
-import Copy from 'vue-material-design-icons/ContentCopy';
-import QrCode from 'vue-material-design-icons/Qrcode';
-import QrPopUp from '@/components/popup/QrPopUp';
+<script lang="ts">
+import ShareOptionEntry from '@/components/list/ShareOptionEntry.vue';
+import Copy from 'vue-material-design-icons/ContentCopy.vue';
+import QrCode from 'vue-material-design-icons/Qrcode.vue';
+import QrPopUp from '@/components/popup/QrPopUp.vue';
+import Vue from 'vue';
 
-export default {
+export default Vue.extend({
   name: 'ShareOptions',
   components: {
     ShareOptionEntry,
@@ -42,7 +35,7 @@ export default {
     return { qrPopUpOpen: false };
   },
   methods: {
-    url() {
+    url(): string {
       return process.browser ? window.location.href : '';
     },
     // shareReddit() {},
@@ -60,7 +53,7 @@ export default {
       this.qrPopUpOpen = false;
     }
   }
-};
+});
 </script>
 
 <style lang="scss">

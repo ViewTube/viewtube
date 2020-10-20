@@ -1,10 +1,10 @@
-export const Scroll = {
-  scrollPosition: 0,
-  prevScrollPosition: 0,
-  absoluteStartPosition: 0,
-  posAbsolute: false,
+export class Scroll {
+  static scrollPosition: number = 0;
+  static prevScrollPosition: number = 0;
+  static absoluteStartPosition: number = 0;
+  static posAbsolute: boolean = false;
 
-  setScrollPosition(pos) {
+  static setScrollPosition(pos: number) {
     this.scrollPosition = pos;
     if (this.scrollPosition > this.prevScrollPosition && this.posAbsolute === false) {
       this.absoluteStartPosition = this.scrollPosition;
@@ -26,4 +26,4 @@ export const Scroll = {
       posAbsolute: this.posAbsolute
     };
   }
-};
+}

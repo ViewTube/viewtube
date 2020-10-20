@@ -44,12 +44,14 @@
   </div>
 </template>
 
-<script>
-import FamilyFriendly from 'vue-material-design-icons/AccountChild';
-import Paid from 'vue-material-design-icons/CurrencyUsd';
-import SubscribeButton from '@/components/buttons/SubscribeButton';
+<script lang="ts">
+import FamilyFriendly from 'vue-material-design-icons/AccountChild.vue';
+import Paid from 'vue-material-design-icons/CurrencyUsd.vue';
+import SubscribeButton from '@/components/buttons/SubscribeButton.vue';
 
-export default {
+import Vue from 'vue';
+
+export default Vue.extend({
   name: 'ChannelOverview',
   components: {
     SubscribeButton,
@@ -58,14 +60,8 @@ export default {
   },
   props: {
     channel: Object
-  },
-  methods: {
-    getFormattedDate(rawDate) {
-      const date = new Date(rawDate);
-      return `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`;
-    }
   }
-};
+});
 </script>
 
 <style lang="scss">

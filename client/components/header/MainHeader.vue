@@ -18,12 +18,14 @@
   </div>
 </template>
 
-<script>
-import MainSearchBox from '@/components/MainSearchBox';
-import UserMenu from '@/components/header/UserMenu';
-import { Scroll } from '@/plugins/scroll';
+<script lang="ts">
+import MainSearchBox from '@/components/MainSearchBox.vue';
+import UserMenu from '@/components/header/UserMenu.vue';
+import { Scroll } from '@/plugins/scroll.ts';
 
-export default {
+import Vue from 'vue';
+
+export default Vue.extend({
   name: 'MainHeader',
   components: {
     MainSearchBox,
@@ -52,7 +54,7 @@ export default {
     }
   },
   beforeDestroy() {
-    window.removeEventListener('scroll', this.handleScroll, { passive: true });
+    window.removeEventListener('scroll', this.handleScroll, { passive: true } as any);
   },
   methods: {
     handleScroll() {
@@ -61,7 +63,7 @@ export default {
       this.topPosition = topPosition;
     }
   }
-};
+});
 </script>
 
 <style lang="scss">

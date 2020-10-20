@@ -43,9 +43,11 @@
   </div>
 </template>
 
-<script>
-import SectionTitle from '@/components/SectionTitle';
-export default {
+<script lang="ts">
+import SectionTitle from '@/components/SectionTitle.vue';
+import Vue from 'vue';
+
+export default Vue.extend({
   name: 'RelatedChannels',
   components: {
     SectionTitle
@@ -53,7 +55,7 @@ export default {
   props: {
     channel: Object
   }
-};
+});
 </script>
 
 <style lang="scss" scoped>

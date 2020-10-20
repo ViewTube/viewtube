@@ -46,20 +46,21 @@
   </div>
 </template>
 
-<script>
-import Commons from '@/plugins/commons.js';
+<script lang="ts">
+import Commons from '@/plugins/commons.ts';
 import 'tippy.js/dist/tippy.css';
 
-export default {
+import Vue from 'vue';
+
+export default Vue.extend({
   name: 'PlaylistEntry',
   props: {
     playlist: Object
   },
   data: () => ({
     commons: Commons
-  }),
-  mounted() {}
-};
+  })
+});
 </script>
 
 <style lang="scss">

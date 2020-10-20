@@ -1,9 +1,6 @@
 <template>
   <div class="comment" :class="{ open: repliesLoaded }">
-    <nuxt-link
-      :to="{ path: '/channel/' + comment.authorId }"
-      class="comment-author-image-link"
-    >
+    <nuxt-link :to="{ path: '/channel/' + comment.authorId }" class="comment-author-image-link">
       <img
         class="comment-author-image"
         :src="comment.authorThumbnails[2].url"
@@ -19,26 +16,18 @@
           >{{ comment.author }}</nuxt-link
         >
       </div>
-      <div
-        class="comment-content"
-        v-html="comment.content"
-      />
+      <div class="comment-content" v-html="comment.content" />
       <div class="comment-properties">
         <div class="published comment-property">
           <span>{{ comment.publishedText }}</span>
         </div>
-        <div
-          v-if="comment.isEdited"
-          class="edited comment-property"
-        >
+        <div v-if="comment.isEdited" class="edited comment-property">
           <PenIcon />
           <span>edited</span>
         </div>
         <div class="likes comment-property">
           <ThumbsUpIcon />
-          <span>{{
-            comment.likeCount.toLocaleString('en-US')
-          }}</span>
+          <span>{{ comment.likeCount.toLocaleString('en-US') }}</span>
         </div>
         <div
           v-if="comment.creatorHeart !== undefined"
@@ -48,10 +37,7 @@
           <HeartIcon title />
         </div>
       </div>
-      <div
-        v-if="comment.replies !== undefined"
-        class="comment-replies"
-      >
+      <div v-if="comment.replies !== undefined" class="comment-replies">
         <BadgeButton
           v-if="!repliesLoaded"
           class="comment-reply-count"
@@ -61,30 +47,16 @@
           <CommentIcon />
           <p>
             show
-            {{
-              comment.replies.replyCount.toLocaleString(
-                'en-US'
-              )
-            }}
+            {{ comment.replies.replyCount.toLocaleString('en-US') }}
             replies
           </p>
         </BadgeButton>
-        <BadgeButton
-          v-if="repliesLoaded"
-          class="comment-reply-count"
-          :click="hideReplies"
-        >
+        <BadgeButton v-if="repliesLoaded" class="comment-reply-count" :click="hideReplies">
           <CommentHideIcon />
           <p>hide replies</p>
         </BadgeButton>
-        <div
-          v-if="repliesLoaded"
-          class="comment-replies-list"
-        >
-          <div
-            ref="commentRepliesListHeight"
-            class="comment-replies-list-height"
-          >
+        <div v-if="repliesLoaded" class="comment-replies-list">
+          <div ref="commentRepliesListHeight" class="comment-replies-list-height">
             <Comment
               v-for="subComment in replies"
               :key="subComment.commentId"
@@ -93,9 +65,7 @@
             />
           </div>
           <BadgeButton
-            v-if="
-              !loadingReplies && repliesContinuationLink
-            "
+            v-if="!loadingReplies && repliesContinuationLink"
             class="show-more-replies"
             :click="loadMoreReplies"
             :loading="repliesContinuationLoading"
@@ -109,18 +79,18 @@
   </div>
 </template>
 
-<script>
-import PenIcon from 'vue-material-design-icons/Pencil';
-import ThumbsUpIcon from 'vue-material-design-icons/ThumbUp';
-import HeartIcon from 'vue-material-design-icons/Heart';
-import CommentIcon from 'vue-material-design-icons/CommentOutline';
-import CommentHideIcon from 'vue-material-design-icons/CommentRemoveOutline';
-import LoadMoreIcon from 'vue-material-design-icons/Reload';
-import Commons from '@/plugins/commons.js';
-import BadgeButton from '@/components/buttons/BadgeButton';
-import 'tippy.js/dist/tippy.css';
+<script lang="ts">
+import PenIcon from 'vue-material-design-icons/Pencil.vue';
+import ThumbsUpIcon from 'vue-material-design-icons/ThumbUp.vue';
+import HeartIcon from 'vue-material-design-icons/Heart.vue';
+import CommentIcon from 'vue-material-design-icons/CommentOutline.vue';
+import CommentHideIcon from 'vue-material-design-icons/CommentRemoveOutline.vue';
+import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
+import BadgeButton from '@/components/buttons/BadgeButton.vue';
+import Invidious from '@/plugins/services/invidious.ts';
+import Vue from 'vue';
 
-export default {
+export default Vue.extend({
   name: 'Comment',
   components: {
     PenIcon,
@@ -129,7 +99,7 @@ export default {
     CommentIcon,
     CommentHideIcon,
     LoadMoreIcon,
-    Comment: () => import('@/components/Comment'),
+    Comment: () => import('@/components/Comment.vue'),
     BadgeButton
   },
   props: {
@@ -152,50 +122,56 @@ export default {
       this.loadingReplies = true;
       const repliesId = this.comment.replies.continuation;
       const videoId = this.$route.query.v;
-      fetch(
-        `${Commons.getApiUrl()}comments/${videoId}?continuation=${repliesId}`,
-        {
-          cache: 'force-cache',
-          method: 'GET'
-        }
-      )
-        .then(response => response.json())
-        .then(data => {
-          this.replies = data.comments;
-          this.repliesContinuationLink =
-            data.continuation || null;
+      const invidious = new Invidious(this.$store.getters['instances/currentInstanceApi']);
+      invidious.api
+        .comments({
+          id: videoId,
+          params: {
+            continuation: repliesId
+          }
+        })
+        .then(response => {
+          this.replies = response.comments;
+          this.repliesContinuationLink = response.continuation || null;
           this.repliesLoaded = true;
           this.loadingReplies = false;
         })
-        .catch(error => {
-          console.error(error);
+        .catch(err => {
+          this.$store.dispatch('messages/createMessage', {
+            type: 'error',
+            title: 'Loading comments failed',
+            message: err
+          });
+          this.loadingReplies = false;
         });
     },
     loadMoreReplies() {
       this.repliesContinuationLoading = true;
       const videoId = this.$route.query.v;
-      fetch(
-        `${Commons.getApiUrl()}comments/${videoId}?continuation=${
-          this.repliesContinuationLink
-        }`,
-        {
-          cache: 'force-cache',
-          method: 'GET'
-        }
-      )
-        .then(response => response.json())
-        .then(data => {
-          this.replies = this.replies.concat(data.comments);
-          this.repliesContinuationLink =
-            data.continuation || null;
+      const invidious = new Invidious(this.$store.getters['instances/currentInstanceApi']);
+      invidious.api
+        .comments({
+          id: videoId,
+          params: {
+            continuation: this.repliesContinuationLink
+          }
+        })
+        .then(response => {
+          this.replies = this.replies.concat(response.comments);
+          this.repliesContinuationLink = response.continuation || null;
           this.repliesContinuationLoading = false;
         })
         .catch(error => {
-          console.error(error);
+          this.$store.dispatch('messages/createMessage', {
+            type: 'error',
+            title: 'Loading comments failed',
+            message: error
+          });
+          this.repliesContinuationLoading = false;
         });
     }
   }
-};
+});
 </script>
 
 <style lang="scss">
@@ -309,8 +285,6 @@ export default {
       }
       .comment-replies-list {
         overflow: hidden;
-      }
-      .show-more-replies {
       }
     }
   }

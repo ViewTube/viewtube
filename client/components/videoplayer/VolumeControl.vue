@@ -24,13 +24,14 @@
   </div>
 </template>
 
-<script>
-import VolumeHighIcon from 'vue-material-design-icons/VolumeHigh';
-import VolumeMediumIcon from 'vue-material-design-icons/VolumeMedium';
-import VolumeLowIcon from 'vue-material-design-icons/VolumeLow';
-import VolumeOffIcon from 'vue-material-design-icons/VolumeOff';
+<script lang="ts">
+import VolumeHighIcon from 'vue-material-design-icons/VolumeHigh.vue';
+import VolumeMediumIcon from 'vue-material-design-icons/VolumeMedium.vue';
+import VolumeLowIcon from 'vue-material-design-icons/VolumeLow.vue';
+import VolumeOffIcon from 'vue-material-design-icons/VolumeOff.vue';
+import Vue from 'vue';
 
-export default {
+export default Vue.extend({
   name: 'VolumeControl',
   components: {
     VolumeHighIcon,
@@ -43,7 +44,7 @@ export default {
   },
   data: () => ({}),
   computed: {
-    volumeCategory() {
+    volumeCategory(): number {
       if (this.value >= 1) {
         return 3;
       } else if (this.value < 1 && this.value >= 0.5) {
@@ -59,7 +60,7 @@ export default {
   methods: {
     stopEvent() {}
   }
-};
+});
 </script>
 
 <style lang="scss" scoped>

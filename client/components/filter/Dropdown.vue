@@ -38,8 +38,10 @@
   </div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import Vue from 'vue';
+
+export default Vue.extend({
   name: 'Dropdown',
   props: {
     values: Array,
@@ -55,7 +57,7 @@ export default {
     visible: false
   }),
   computed: {
-    entries() {
+    entries(): Array<{ name: string; value: string }> {
       if (this.values[0].value && this.values[0].name) {
         return this.values;
       } else {
@@ -77,30 +79,30 @@ export default {
     this.visible = true;
   },
   methods: {
-    calculateOffset() {
+    calculateOffset(): void {
       if (this.$refs.dropdownBtn) {
         const dropdownDimens = this.$refs.dropdownBtn.getBoundingClientRect();
         this.offsetTop = dropdownDimens.top + 50;
         this.offsetLeft = dropdownDimens.left;
       }
     },
-    select(e) {
+    select(e): void {
       this.selected = e.target.getAttribute('index');
       this.open = false;
       this.$emit('valuechange', this.entries[this.selected], this.selected);
     },
-    onDropdownBtnClick() {
+    onDropdownBtnClick(): void {
       this.calculateOffset();
       this.open = !this.open;
       window.addEventListener('resize', this.calculateOffset);
     },
-    hideDropdown() {
+    hideDropdown(): void {
       this.calculateOffset();
       this.open = false;
       window.removeEventListener('resize', this.calculateOffset);
     }
   }
-};
+});
 </script>
 
 <style lang="scss" scoped>
@@ -143,10 +145,6 @@ export default {
       }
 
       .dropdown-title {
-        p {
-          // color: $theme-color;
-        }
-
         &:after {
           color: var(--theme-color);
         }

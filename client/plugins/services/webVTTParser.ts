@@ -4,9 +4,11 @@
 
 // Not intended to be fast, but if you can make it faster, please help out!
 
-(function () {
-  var WebVTTParser = function () {
-    this.parse = function (input, mode) {
+// This file is supposed to be replaced by a library, so making it typescript would be a waste of time
+
+export class WebVTTParser {
+  constructor() {
+    this.parse = function (input: string, mode: any) {
       // XXX need global search and replace for \0
       var NEWLINE = /\r\n|\r|\n/;
       var startTime = Date.now();
@@ -15,7 +17,7 @@
       var alreadyCollected = false;
       var cues = [];
       var errors = [];
-      function err(message, col) {
+      function err(message: string, col = undefined) {
         errors.push({
           message: message,
           line: linePos + 1,
@@ -42,18 +44,13 @@
           line[signature_length] !== ' ' &&
           line[signature_length] !== '\t')
       ) {
-        err(
-          'No valid signature. (File needs to start with "WEBVTT".)'
-        );
+        err('No valid signature. (File needs to start with "WEBVTT".)');
       }
 
       linePos++;
 
       /* HEADER */
-      while (
-        lines[linePos] != '' &&
-        lines[linePos] != undefined
-      ) {
+      while (lines[linePos] != '' && lines[linePos] != undefined) {
         err('No blank line after the signature.');
         if (lines[linePos].indexOf('-->') != -1) {
           alreadyCollected = true;
@@ -64,14 +61,24 @@
 
       /* CUE LOOP */
       while (lines[linePos] != undefined) {
-        var cue;
+        var cue: {
+          id: any;
+          text: any;
+          tree: any;
+          startTime: any;
+          endTime: any;
+          pauseOnExit?: boolean;
+          direction?: string;
+          snapToLines?: boolean;
+          linePosition?: string;
+          textPosition?: number;
+          size?: number;
+          alignment?: string;
+        };
         while (!alreadyCollected && lines[linePos] == '') {
           linePos++;
         }
-        if (
-          !alreadyCollected &&
-          lines[linePos] == undefined
-        ) {
+        if (!alreadyCollected && lines[linePos] == undefined) {
           break;
         }
 
@@ -97,16 +104,13 @@
           cue.id = lines[linePos];
 
           /* COMMENTS
-             Not part of the specification's parser as these would just be ignored. However,
-             we want them to be conforming and not get "Cue identifier cannot be standalone".
-           */
+               Not part of the specification's parser as these would just be ignored. However,
+               we want them to be conforming and not get "Cue identifier cannot be standalone".
+             */
           if (/^NOTE($|[ \t])/.test(cue.id)) {
             // .startsWith fails in Chrome
             linePos++;
-            while (
-              lines[linePos] != '' &&
-              lines[linePos] != undefined
-            ) {
+            while (lines[linePos] != '' && lines[linePos] != undefined) {
               if (lines[linePos].indexOf('-->') != -1) {
                 err('Cannot have timestamp in a comment.');
               }
@@ -117,47 +121,31 @@
 
           linePos++;
 
-          if (
-            lines[linePos] == '' ||
-            lines[linePos] == undefined
-          ) {
+          if (lines[linePos] == '' || lines[linePos] == undefined) {
             err('Cue identifier cannot be standalone.');
             continue;
           }
 
           if (lines[linePos].indexOf('-->') == -1) {
             parseTimings = false;
-            err(
-              'Cue identifier needs to be followed by timestamp.'
-            );
+            err('Cue identifier needs to be followed by timestamp.');
           }
         }
 
         /* TIMINGS */
         alreadyCollected = false;
-        var timings = new WebVTTCueTimingsAndSettingsParser(
-          lines[linePos],
-          err
-        );
+        var timings = new WebVTTCueTimingsAndSettingsParser(lines[linePos], err);
         var previousCueStart = 0;
         if (cues.length > 0) {
-          previousCueStart =
-            cues[cues.length - 1].startTime;
+          previousCueStart = cues[cues.length - 1].startTime;
         }
-        if (
-          parseTimings &&
-          !timings.parse(cue, previousCueStart)
-        ) {
+        if (parseTimings && !timings.parse(cue, previousCueStart)) {
           /* BAD CUE */
-
           cue = null;
           linePos++;
 
           /* BAD CUE LOOP */
-          while (
-            lines[linePos] != '' &&
-            lines[linePos] != undefined
-          ) {
+          while (lines[linePos] != '' && lines[linePos] != undefined) {
             if (lines[linePos].indexOf('-->') != -1) {
               alreadyCollected = true;
               break;
@@ -169,10 +157,7 @@
         linePos++;
 
         /* CUE TEXT LOOP */
-        while (
-          lines[linePos] != '' &&
-          lines[linePos] != undefined
-        ) {
+        while (lines[linePos] != '' && lines[linePos] != undefined) {
           if (lines[linePos].indexOf('-->') != -1) {
             err('Blank line missing before cue.');
             alreadyCollected = true;
@@ -186,15 +171,8 @@
         }
 
         /* CUE TEXT PROCESSING */
-        var cuetextparser = new WebVTTCueTextParser(
-          cue.text,
-          err,
-          mode
-        );
-        cue.tree = cuetextparser.parse(
-          cue.startTime,
-          cue.endTime
-        );
+        var cuetextparser = new WebVTTCueTextParser(cue.text, err, mode);
+        cue.tree = cuetextparser.parse(cue.startTime, cue.endTime);
         cues.push(cue);
       }
       cues.sort(function (a, b) {
@@ -219,34 +197,36 @@
         time: Date.now() - startTime
       };
     };
-  };
+  }
 
-  var WebVTTCueTimingsAndSettingsParser = function (
-    line,
-    errorHandler
+  parse: Function;
+}
+
+export class WebVTTCueTimingsAndSettingsParser {
+  constructor(
+    line: any,
+    errorHandler: {
+      (message: any, col?: any): void;
+      (message: any): void;
+      (arg0: any, arg1: number): void;
+    }
   ) {
     var SPACE = /[\u0020\t\f]/;
     var NOSPACE = /[^\u0020\t\f]/;
     var line = line;
     var pos = 0;
-    var err = function (message) {
+    var err = function (message: string) {
       errorHandler(message, pos + 1);
     };
     var spaceBeforeSetting = true;
-    function skip(pattern) {
-      while (
-        line[pos] != undefined &&
-        pattern.test(line[pos])
-      ) {
+    function skip(pattern: RegExp) {
+      while (line[pos] != undefined && pattern.test(line[pos])) {
         pos++;
       }
     }
-    function collect(pattern) {
+    function collect(pattern: RegExp) {
       var str = '';
-      while (
-        line[pos] != undefined &&
-        pattern.test(line[pos])
-      ) {
+      while (line[pos] != undefined && pattern.test(line[pos])) {
         str += line[pos];
         pos++;
       }
@@ -255,10 +235,10 @@
     /* http://dev.w3.org/html5/webvtt/#collect-a-webvtt-timestamp */
     function timestamp() {
       var units = 'minutes';
-      var val1;
-      var val2;
-      var val3;
-      var val4;
+      var val1: string | any[];
+      var val2: string | any[];
+      var val3: string | any[];
+      var val4: string | any[];
       // 3
       if (line[pos] == undefined) {
         err('No timestamp found.');
@@ -266,9 +246,7 @@
       }
       // 4
       if (!/\d/.test(line[pos])) {
-        err(
-          'Timestamp must start with a character in the range 0-9.'
-        );
+        err('Timestamp must start with a character in the range 0-9.');
         return;
       }
       // 5-7
@@ -291,9 +269,7 @@
       // 12
       if (units == 'hours' || line[pos] == ':') {
         if (line[pos] != ':') {
-          err(
-            'No seconds found or minutes is greater than 59.'
-          );
+          err('No seconds found or minutes is greater than 59.');
           return;
         }
         pos++;
@@ -337,7 +313,17 @@
     }
 
     /* http://dev.w3.org/html5/webvtt/#parse-the-webvtt-settings */
-    function parseSettings(input, cue) {
+    function parseSettings(
+      input: string,
+      cue: {
+        direction: any;
+        snapToLines: boolean;
+        linePosition: number;
+        textPosition: number;
+        size: number;
+        alignment: any;
+      }
+    ) {
       var settings = input.split(SPACE);
       var seen = [];
       for (var i = 0; i < settings.length; i++) {
@@ -362,42 +348,26 @@
         if (setting == 'vertical') {
           // writing direction
           if (value != 'rl' && value != 'lr') {
-            err(
-              "Writing direction can only be set to 'rl' or 'rl'."
-            );
+            err("Writing direction can only be set to 'rl' or 'rl'.");
             continue;
           }
           cue.direction = value;
         } else if (setting == 'line') {
           // line position
           if (!/\d/.test(value)) {
-            err(
-              'Line position takes a number or percentage.'
-            );
+            err('Line position takes a number or percentage.');
             continue;
           }
           if (value.indexOf('-', 1) != -1) {
-            err(
-              "Line position can only have '-' at the start."
-            );
+            err("Line position can only have '-' at the start.");
             continue;
           }
-          if (
-            value.indexOf('%') != -1 &&
-            value.indexOf('%') != value.length - 1
-          ) {
-            err(
-              "Line position can only have '%' at the end."
-            );
+          if (value.indexOf('%') != -1 && value.indexOf('%') != value.length - 1) {
+            err("Line position can only have '%' at the end.");
             continue;
           }
-          if (
-            value[0] == '-' &&
-            value[value.length - 1] == '%'
-          ) {
-            err(
-              'Line position cannot be a negative percentage.'
-            );
+          if (value[0] == '-' && value[value.length - 1] == '%') {
+            err('Line position cannot be a negative percentage.');
             continue;
           }
           if (value[value.length - 1] == '%') {
@@ -432,19 +402,9 @@
           cue.size = parseInt(value, 10);
         } else if (setting == 'align') {
           // alignment
-          var alignValues = [
-            'start',
-            'middle',
-            'end',
-            'left',
-            'right'
-          ];
+          var alignValues = ['start', 'middle', 'end', 'left', 'right'];
           if (alignValues.indexOf(value) == -1) {
-            err(
-              'Alignment can only be set to one of ' +
-                alignValues.join(', ') +
-                '.'
-            );
+            err('Alignment can only be set to one of ' + alignValues.join(', ') + '.');
             continue;
           }
           cue.alignment = value;
@@ -454,21 +414,17 @@
       }
     }
 
-    this.parse = function (cue, previousCueStart) {
+    this.parse = function (cue: any, previousCueStart: number) {
       skip(SPACE);
       cue.startTime = timestamp();
       if (cue.startTime == undefined) {
         return;
       }
       if (cue.startTime < previousCueStart) {
-        err(
-          'Start timestamp is not greater than or equal to start timestamp of previous cue.'
-        );
+        err('Start timestamp is not greater than or equal to start timestamp of previous cue.');
       }
       if (NOSPACE.test(line[pos])) {
-        err(
-          "Timestamp not separated from '-->' by whitespace."
-        );
+        err("Timestamp not separated from '-->' by whitespace.");
       }
       skip(SPACE);
       // 6-8
@@ -488,9 +444,7 @@
       }
       pos++;
       if (NOSPACE.test(line[pos])) {
-        err(
-          "'-->' not separated from timestamp by whitespace."
-        );
+        err("'-->' not separated from timestamp by whitespace.");
       }
       skip(SPACE);
       cue.endTime = timestamp();
@@ -498,9 +452,7 @@
         return;
       }
       if (cue.endTime <= cue.startTime) {
-        err(
-          'End timestamp is not greater than start timestamp.'
-        );
+        err('End timestamp is not greater than start timestamp.');
       }
 
       if (NOSPACE.test(line[pos])) {
@@ -518,28 +470,34 @@
       }
       return ts;
     };
-  };
+  }
 
-  var WebVTTCueTextParser = function (
-    line,
-    errorHandler,
-    mode
+  parse: Function;
+
+  parseTimestamp: Function;
+}
+
+export class WebVTTCueTextParser {
+  constructor(
+    line: any[],
+    errorHandler: { (message: any, col?: any): void; (arg0: any, arg1: number): void },
+    mode: string
   ) {
     var line = line;
     var pos = 0;
-    var err = function (message) {
+    var err = function (message: string) {
       if (mode == 'metadata') {
         return;
       }
       errorHandler(message, pos + 1);
     };
 
-    this.parse = function (cueStart, cueEnd) {
-      var result = { children: [] };
+    this.parse = function (cueStart: number, cueEnd: number) {
+      var result: any = { children: [] };
       var current = result;
       var timestamps = [];
 
-      function attach(token) {
+      function attach(token: any[]) {
         current.children.push({
           type: 'object',
           name: token[1],
@@ -547,10 +505,9 @@
           children: [],
           parent: current
         });
-        current =
-          current.children[current.children.length - 1];
+        current = current.children[current.children.length - 1];
       }
-      function inScope(name) {
+      function inScope(name: string) {
         var node = current;
         while (node) {
           if (node.name == name) {
@@ -570,32 +527,15 @@
           });
         } else if (token[0] == 'start tag') {
           if (mode == 'chapters') {
-            err(
-              'Start tags not allowed in chapter title text.'
-            );
+            err('Start tags not allowed in chapter title text.');
           }
           var name = token[1];
-          if (
-            name != 'v' &&
-            name != 'lang' &&
-            token[3] != ''
-          ) {
-            err(
-              'Only <v> and <lang> can have an annotation.'
-            );
+          if (name != 'v' && name != 'lang' && token[3] != '') {
+            err('Only <v> and <lang> can have an annotation.');
           }
-          if (
-            name == 'c' ||
-            name == 'i' ||
-            name == 'b' ||
-            name == 'u' ||
-            name == 'ruby'
-          ) {
+          if (name == 'c' || name == 'i' || name == 'b' || name == 'u' || name == 'ruby') {
             attach(token);
-          } else if (
-            name == 'rt' &&
-            current.name == 'ruby'
-          ) {
+          } else if (name == 'rt' && current.name == 'ruby') {
             attach(token);
           } else if (name == 'v') {
             if (inScope('v')) {
@@ -614,48 +554,28 @@
           }
         } else if (token[0] == 'end tag') {
           if (mode == 'chapters') {
-            err(
-              'End tags not allowed in chapter title text.'
-            );
+            err('End tags not allowed in chapter title text.');
           }
           // XXX check <ruby> content
           if (token[1] == current.name) {
             current = current.parent;
-          } else if (
-            token[1] == 'ruby' &&
-            current.name == 'rt'
-          ) {
+          } else if (token[1] == 'ruby' && current.name == 'rt') {
             current = current.parent.parent;
           } else {
             err('Incorrect end tag.');
           }
         } else if (token[0] == 'timestamp') {
           if (mode == 'chapters') {
-            err(
-              'Timestamp not allowed in chapter title text.'
-            );
+            err('Timestamp not allowed in chapter title text.');
           }
-          var timings = new WebVTTCueTimingsAndSettingsParser(
-            token[1],
-            err
-          );
+          var timings = new WebVTTCueTimingsAndSettingsParser(token[1], err);
           var timestamp = timings.parseTimestamp();
           if (timestamp != undefined) {
-            if (
-              timestamp <= cueStart ||
-              timestamp >= cueEnd
-            ) {
-              err(
-                'Timestamp must be between start timestamp and end timestamp.'
-              );
+            if (timestamp <= cueStart || timestamp >= cueEnd) {
+              err('Timestamp must be between start timestamp and end timestamp.');
             }
-            if (
-              timestamps.length > 0 &&
-              timestamps[timestamps.length - 1] >= timestamp
-            ) {
-              err(
-                'Timestamp must be greater than any previous timestamp.'
-              );
+            if (timestamps.length > 0 && timestamps[timestamps.length - 1] >= timestamp) {
+              err('Timestamp must be greater than any previous timestamp.');
             }
             current.children.push({
               type: 'timestamp',
@@ -728,12 +648,7 @@
             state = 'data';
           }
         } else if (state == 'tag') {
-          if (
-            c == '\t' ||
-            c == '\n' ||
-            c == '\f' ||
-            c == ' '
-          ) {
+          if (c == '\t' || c == '\n' || c == '\f' || c == ' ') {
             state = 'start tag annotation';
           } else if (c == '.') {
             state = 'start tag class';
@@ -828,10 +743,14 @@
         pos++;
       }
     }
-  };
+  }
 
-  var WebVTTSerializer = function () {
-    function serializeTree(tree) {
+  parse: Function;
+}
+
+export class WebVTTSerializer {
+  constructor() {
+    function serializeTree(tree: string | any[]) {
       var result = '';
       for (var i = 0; i < tree.length; i++) {
         var node = tree[i];
@@ -858,31 +777,17 @@
       }
       return result;
     }
-    function serializeCue(cue) {
-      return (
-        cue.startTime +
-        ' ' +
-        cue.endTime +
-        '\n' +
-        serializeTree(cue.tree.children) +
-        '\n\n'
-      );
+    function serializeCue(cue: { startTime: string; endTime: string; tree: { children: any } }) {
+      return cue.startTime + ' ' + cue.endTime + '\n' + serializeTree(cue.tree.children) + '\n\n';
     }
-    this.serialize = function (cues) {
+    this.serialize = function (cues: string | any[]) {
       var result = '';
       for (var i = 0; i < cues.length; i++) {
         result += serializeCue(cues[i]);
       }
       return result;
     };
-  };
-
-  function exportify(object) {
-    object.WebVTTParser = WebVTTParser;
-    object.WebVTTCueTimingsAndSettingsParser = WebVTTCueTimingsAndSettingsParser;
-    object.WebVTTCueTextParser = WebVTTCueTextParser;
-    object.WebVTTSerializer = WebVTTSerializer;
   }
-  if (typeof window !== 'undefined') exportify(window);
-  if (typeof exports !== 'undefined') exportify(exports);
-})();
+
+  serialize: Function;
+}
