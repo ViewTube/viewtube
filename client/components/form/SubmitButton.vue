@@ -1,19 +1,16 @@
 <template>
-  <input
-    type="submit"
-    :value="label"
-    class="submit-button"
-    v-ripple
-  />
+  <input v-ripple type="submit" :value="label" class="submit-button" />
 </template>
 
-<script>
-export default {
-  name: 'submit-button',
+<script lang="ts">
+import Vue from 'vue';
+
+export default Vue.extend({
+  name: 'SubmitButton',
   props: {
     label: String
   }
-};
+});
 </script>
 
 <style lang="scss" scoped>

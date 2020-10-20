@@ -1,10 +1,10 @@
+import fs from 'fs';
+import path from 'path';
 import { Injectable, HttpException, NotFoundException } from '@nestjs/common';
-import { SubscriptionStatusDto } from './dto/subscription-status.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { VideoBasicInfo } from 'server/core/videos/schemas/video-basic-info.schema';
 import { ChannelBasicInfo } from 'server/core/channels/schemas/channel-basic-info.schema';
 import { Model } from 'mongoose';
-import { Subscription } from './schemas/subscription.schema';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import X2js from 'x2js';
 import fetch from 'node-fetch';
@@ -13,9 +13,9 @@ import { Common } from 'server/core/common';
 import humanizeDuration from 'humanize-duration';
 import { Sorting } from 'server/common/sorting.type';
 import { ChannelBasicInfoDto } from 'server/core/channels/dto/channel-basic-info.dto';
-import fs from 'fs';
-import path from 'path';
 import { NotificationsService } from '../notifications/notifications.service';
+import { Subscription } from './schemas/subscription.schema';
+import { SubscriptionStatusDto } from './dto/subscription-status.dto';
 
 @Injectable()
 export class SubscriptionsService {
@@ -101,7 +101,7 @@ export class SubscriptionsService {
     return savedVideo || null;
   }
 
-  async getChannelFeed(
+  getChannelFeed(
     channelId: string
   ): Promise<void | {
     channel: ChannelBasicInfoDto;
@@ -135,7 +135,7 @@ export class SubscriptionsService {
             };
 
             const cachedChannelThmbPath = path.join(
-              global['__basedir'],
+              (global as any).__basedir,
               `channels/${authorId}.jpg`
             );
             if (fs.existsSync(cachedChannelThmbPath)) {
@@ -221,8 +221,9 @@ export class SubscriptionsService {
     username: string,
     limit: number,
     start: number,
-    sort: Sorting<ChannelBasicInfoDto>
-  ): Promise<Array<ChannelBasicInfoDto> | void> {
+    sort: Sorting<ChannelBasicInfoDto>,
+    filter: string
+  ): Promise<{ channels: Array<ChannelBasicInfoDto>; channelCount: number }> {
     const user = await this.subscriptionModel
       .findOne({ username })
       .exec()
@@ -232,32 +233,50 @@ export class SubscriptionsService {
     if (user) {
       const userChannelIds = user.subscriptions.map(e => e.channelId);
       if (userChannelIds) {
-        return this.channelModel
-          .find({ authorId: { $in: userChannelIds } })
+        const channelCount = await this.channelModel.countDocuments({
+          authorId: { $in: userChannelIds },
+          author: { $regex: `.*${filter}.*`, $options: 'i' }
+        });
+        const channels = await this.channelModel
+          .find({
+            authorId: { $in: userChannelIds },
+            author: { $regex: `.*${filter}.*`, $options: 'i' }
+          })
           .sort(sort)
-          .limit(parseInt(limit as any))
           .skip(parseInt(start as any))
+          .limit(parseInt(limit as any))
           .catch(err => {
             console.log(err);
+            return null;
           });
+
+        if (channels) {
+          return {
+            channels,
+            channelCount
+          };
+        }
       }
     }
-    return [];
+    return { channels: [], channelCount: 0 };
   }
 
   async getSubscriptionFeed(
     username: string,
     limit: number,
     start: number
-  ): Promise<Array<VideoBasicInfoDto>> {
+  ): Promise<{ videoCount: number; videos: Array<VideoBasicInfoDto> }> {
     const userSubscriptions = await this.subscriptionModel.findOne({ username }).lean().exec();
     if (userSubscriptions) {
       const userSubscriptionIds = userSubscriptions.subscriptions.map(e => e.channelId);
-      return this.videoModel
+      const videoCount = await this.videoModel.countDocuments({
+        authorId: { $in: userSubscriptionIds }
+      });
+      const videos = await this.videoModel
         .find({ authorId: { $in: userSubscriptionIds } })
         .sort({ published: -1 })
-        .limit(limit)
-        .skip(start)
+        .limit(parseInt(limit as any))
+        .skip(parseInt(start as any))
         .map((el: any) => {
           delete el._id;
           delete el.__v;
@@ -266,8 +285,11 @@ export class SubscriptionsService {
         .catch(err => {
           throw new HttpException(`Error fetching subscription feed: ${err}`, 500);
         });
+      if (videos) {
+        return { videos, videoCount };
+      }
     }
-    return [];
+    return { videos: [], videoCount: 0 };
   }
 
   async getSubscription(username: string, channelId: string): Promise<SubscriptionStatusDto> {

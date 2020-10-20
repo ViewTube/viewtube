@@ -3,7 +3,7 @@
     <div ref="channelTitle" class="channel-title-container">
       <div class="channel-title">
         <div v-if="channel.authorThumbnails" class="channel-thumbnail">
-          <img :src="channel.authorThumbnails[3].url" alt="Author Image" />
+          <img :src="channel.authorThumbnails[2].url" alt="Author Image" />
         </div>
         <div class="channel-info">
           <div class="channel-name">
@@ -25,7 +25,7 @@
             <div class="channel-joined-on">
               <h2>
                 joined
-                {{ getFormattedDate(new Date(channel.joined * 1000)) }}
+                {{ channel.joined }}
               </h2>
             </div>
             <div v-if="channel.isFamilyFriendly" class="channel-family-friendly">
@@ -44,12 +44,14 @@
   </div>
 </template>
 
-<script>
-import FamilyFriendly from 'vue-material-design-icons/AccountChild';
-import Paid from 'vue-material-design-icons/CurrencyUsd';
-import SubscribeButton from '@/components/buttons/SubscribeButton';
+<script lang="ts">
+import FamilyFriendly from 'vue-material-design-icons/AccountChild.vue';
+import Paid from 'vue-material-design-icons/CurrencyUsd.vue';
+import SubscribeButton from '@/components/buttons/SubscribeButton.vue';
 
-export default {
+import Vue from 'vue';
+
+export default Vue.extend({
   name: 'ChannelOverview',
   components: {
     SubscribeButton,
@@ -58,14 +60,8 @@ export default {
   },
   props: {
     channel: Object
-  },
-  methods: {
-    getFormattedDate(rawDate) {
-      const date = new Date(rawDate);
-      return `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`;
-    }
   }
-};
+});
 </script>
 
 <style lang="scss">

@@ -18,13 +18,15 @@
   </div>
 </template>
 
-<script>
-import AccountIcon from 'vue-material-design-icons/AccountOutline';
-import KeyIcon from 'vue-material-design-icons/KeyOutline';
-import MailIcon from 'vue-material-design-icons/At';
+<script lang="ts">
+import AccountIcon from 'vue-material-design-icons/AccountOutline.vue';
+import KeyIcon from 'vue-material-design-icons/KeyOutline.vue';
+import MailIcon from 'vue-material-design-icons/At.vue';
 
-export default {
-  name: 'form-input',
+import Vue from 'vue';
+
+export default Vue.extend({
+  name: 'FormInput',
   components: {
     AccountIcon,
     KeyIcon,
@@ -45,19 +47,17 @@ export default {
     }
   }),
   computed: {
-    hasText() {
+    hasText(): boolean {
       return this.value && this.value.length > 0;
     },
-    autocompleteTag() {
-      const tagId = Object.keys(this.autocompleteTags).find(
-        type => type === this.type
-      );
+    autocompleteTag(): string {
+      const tagId = Object.keys(this.autocompleteTags).find(type => type === this.type);
       const tag = tagId !== undefined ? tagId : 'all';
 
       return this.autocompleteTags[tag];
     }
   }
-};
+});
 </script>
 
 <style lang="scss" scoped>
@@ -118,8 +118,7 @@ export default {
     text-align: center;
     margin: auto;
     pointer-events: none;
-    transition: transform 300ms $intro-easing,
-      color 300ms $intro-easing;
+    transition: transform 300ms $intro-easing, color 300ms $intro-easing;
     transform-origin: left top;
     color: var(--subtitle-color-light);
   }

@@ -1,7 +1,7 @@
 <template>
   <div class="nav">
     <nuxt-link
-      v-if="!userAuthenticated"
+      v-show="!userAuthenticated"
       id="login"
       v-ripple
       v-tippy="'Login'"
@@ -10,7 +10,7 @@
       >Login</nuxt-link
     >
     <nuxt-link
-      v-if="!userAuthenticated"
+      v-show="!userAuthenticated"
       id="register"
       v-ripple
       v-tippy="'Register'"
@@ -19,10 +19,7 @@
       >Register</nuxt-link
     >
     <nuxt-link
-      v-show="
-        this.$route.name !== 'subscriptions' &&
-        userAuthenticated
-      "
+      v-show="this.$route.name !== 'subscriptions' && userAuthenticated"
       id="subscriptions"
       v-ripple
       v-tippy="'View your subscriptions'"
@@ -41,79 +38,47 @@
       <AccountIcon />
     </a>
     <transition name="fade-up">
-      <div
-        v-if="accountMenuVisible"
-        v-clickaway="hideAccountMenu"
-        class="menu"
-      >
-        <div v-if="userAuthenticated" class="account-menu">
+      <div v-if="accountMenuVisible" v-clickaway="hideAccountMenu" class="menu">
+        <div v-show="userAuthenticated" class="account-menu">
           <AccountIcon />
           <div class="account-info">
             <p class="account-name">
               Logged in as
               {{ $store.getters['user/username'] }}
             </p>
-            <a
-              class="logout-btn"
-              href="#"
-              @click.prevent="logout"
-              >Log out</a
-            >
+            <a class="logout-btn" href="#" @click.prevent="logout">Log out</a>
           </div>
         </div>
-        <div
-          class="menu-buttons"
-          :class="{ authenticated: userAuthenticated }"
-        >
+        <div class="menu-buttons" :class="{ authenticated: userAuthenticated }">
           <a
-            v-if="!userAuthenticated"
+            v-show="!userAuthenticated"
             id="login-btn"
             v-tippy="'Login'"
             href="#"
             class="ripple tooltip menu-btn account-btn"
             @click.self.prevent="login"
           >
-            <div class="menu-btn-content">
-              <AccountIcon />Login
-            </div>
+            <div class="menu-btn-content"><AccountIcon />Login</div>
           </a>
           <a
-            v-if="!userAuthenticated"
+            v-show="!userAuthenticated"
             id="login-btn"
             v-tippy="'Register'"
             href="#"
             class="ripple tooltip menu-btn account-btn"
             @click.self.prevent="register"
           >
-            <div class="menu-btn-content">
-              <AccountPlusIcon />Register
-            </div>
+            <div class="menu-btn-content"><AccountPlusIcon />Register</div>
           </a>
           <a
-            v-if="
-              this.$route.name !== 'subscriptions' &&
-              userAuthenticated
-            "
+            v-if="this.$route.name !== 'subscriptions' && userAuthenticated"
             id="subscriptions-btn"
             v-tippy="'View your subscriptions'"
             href="#"
             class="ripple tooltip menu-btn"
             @click.self.prevent="openSubscriptions"
           >
-            <div class="menu-btn-content">
-              <AccountPlusIcon />Subscriptions
-            </div>
-          </a>
-          <a
-            id="share"
-            v-tippy="'Share'"
-            href="#"
-            class="ripple tooltip menu-btn"
-            @mousedown.self.prevent="share"
-          >
-            <div class="menu-btn-content">
-              <ShareIcon />share
-            </div>
+            <div class="menu-btn-content"><AccountPlusIcon />Subscriptions</div>
           </a>
           <a
             id="settings-btn"
@@ -122,9 +87,7 @@
             class="ripple tooltip menu-btn"
             @mousedown.self.prevent="openSettings"
           >
-            <div class="menu-btn-content">
-              <SettingsIcon />settings
-            </div>
+            <div class="menu-btn-content"><SettingsIcon />settings</div>
           </a>
           <a
             id="instances-btn"
@@ -133,9 +96,7 @@
             class="ripple tooltip menu-btn"
             @mousedown.self.prevent="openInstances"
           >
-            <div class="menu-btn-content">
-              <InstanceIcon />instances
-            </div>
+            <div class="menu-btn-content"><InstanceIcon />instances</div>
           </a>
           <a
             id="about-btn"
@@ -144,48 +105,37 @@
             class="ripple tooltip menu-btn"
             @mousedown.self.prevent="openAbout"
           >
-            <div class="menu-btn-content">
-              <AboutIcon />about
-            </div>
+            <div class="menu-btn-content"><AboutIcon />about</div>
           </a>
         </div>
       </div>
     </transition>
     <portal to="popup">
       <transition name="fade-down">
-        <Settings
-          v-if="settingsOpen"
-          @close="closeSettings"
-        />
-        <Instances
-          v-if="instancesOpen"
-          @close="closeInstances"
-        />
+        <Settings v-if="settingsOpen" @close="closeSettings" />
+        <Instances v-if="instancesOpen" @close="closeInstances" />
         <About v-if="aboutOpen" @close="closeAbout" />
       </transition>
     </portal>
-    <div
-      :class="{ visible: accountMenuVisible }"
-      class="clickaway-div"
-    />
+    <div :class="{ visible: accountMenuVisible }" class="clickaway-div" />
   </div>
 </template>
 
-<script>
-import ShareIcon from 'vue-material-design-icons/Share';
-import SettingsIcon from 'vue-material-design-icons/Cog';
-import InstanceIcon from 'vue-material-design-icons/ServerNetwork';
-import AboutIcon from 'vue-material-design-icons/InformationOutline';
-import AccountIcon from 'vue-material-design-icons/AccountCircle';
-import AccountPlusIcon from 'vue-material-design-icons/AccountPlus';
-import Settings from '@/components/Settings';
-import Instances from '@/components/Instances';
-import About from '@/components/About';
+<script lang="ts">
+import SettingsIcon from 'vue-material-design-icons/Cog.vue';
+import InstanceIcon from 'vue-material-design-icons/ServerNetwork.vue';
+import AboutIcon from 'vue-material-design-icons/InformationOutline.vue';
+import AccountIcon from 'vue-material-design-icons/AccountCircle.vue';
+import AccountPlusIcon from 'vue-material-design-icons/AccountPlus.vue';
+import Settings from '@/components/Settings.vue';
+import Instances from '@/components/Instances.vue';
+import About from '@/components/About.vue';
 
-export default {
+import Vue from 'vue';
+
+export default Vue.extend({
   name: 'UserMenu',
   components: {
-    ShareIcon,
     SettingsIcon,
     InstanceIcon,
     AboutIcon,
@@ -202,10 +152,10 @@ export default {
     aboutOpen: false
   }),
   computed: {
-    currentRouteName() {
+    currentRouteName(): string {
       return this.$route.name;
     },
-    userAuthenticated() {
+    userAuthenticated(): boolean {
       return this.$store.getters['user/isLoggedIn'];
     }
   },
@@ -224,9 +174,7 @@ export default {
             url: window.location.href
           })
           .then(() => console.log('Successful share'))
-          .catch(error =>
-            console.log('Error sharing:', error)
-          );
+          .catch(error => console.log('Error sharing:', error));
       }
       this.hideAccountMenu();
     },
@@ -271,14 +219,13 @@ export default {
       this.hideAccountMenu();
     }
   }
-};
+});
 </script>
 
 <style lang="scss">
 .fade-up-enter-active,
 .fade-up-leave-active {
-  transition: opacity 300ms $intro-easing,
-    transform 300ms $intro-easing;
+  transition: opacity 300ms $intro-easing, transform 300ms $intro-easing;
 }
 .fade-up-enter-to,
 .fade-up-leave {
@@ -293,8 +240,7 @@ export default {
 
 .fade-down-enter-active,
 .fade-down-leave-active {
-  transition: transform 200ms $intro-easing,
-    opacity 200ms $intro-easing;
+  transition: transform 200ms $intro-easing, opacity 200ms $intro-easing;
 }
 .fade-down-enter-to,
 .fade-down-leave {
@@ -400,8 +346,7 @@ export default {
         height: 50px;
         display: flex;
         border-radius: 5px;
-        transition: box-shadow 300ms $intro-easing,
-          border 300ms $intro-easing;
+        transition: box-shadow 300ms $intro-easing, border 300ms $intro-easing;
         border: 2px solid transparent;
 
         &:hover,

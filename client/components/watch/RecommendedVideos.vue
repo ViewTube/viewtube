@@ -12,12 +12,13 @@
   </div>
 </template>
 
-<script>
-import VideoEntry from '@/components/list/VideoEntry';
-import BadgeButton from '@/components/buttons/BadgeButton';
-import LoadMoreIcon from 'vue-material-design-icons/Reload';
+<script lang="ts">
+import VideoEntry from '@/components/list/VideoEntry.vue';
+import BadgeButton from '@/components/buttons/BadgeButton.vue';
+import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
+import Vue from 'vue';
 
-export default {
+export default Vue.extend({
   name: 'RecommendedVideos',
   components: {
     VideoEntry,
@@ -35,7 +36,7 @@ export default {
     videosExpanded: false
   }),
   watch: {
-    recommendedVideos(newValue, oldValue) {
+    recommendedVideos(newValue: any, oldValue: any) {
       if (newValue !== oldValue) {
         this.recommendedVideosShort = this.recommendedVideos.slice(0, 4);
       }
@@ -50,7 +51,7 @@ export default {
       this.videosExpanded = true;
     }
   }
-};
+});
 </script>
 
 <style lang="scss">

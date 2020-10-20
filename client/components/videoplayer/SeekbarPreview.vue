@@ -13,21 +13,26 @@
   </div>
 </template>
 
-<script>
-import '@/plugins/services/webVTTParser';
-import Invidious from '@/plugins/services/invidious';
+<script lang="ts">
+import { WebVTTParser } from '@/plugins/services/webVTTParser.ts';
+import Invidious from '@/plugins/services/invidious.ts';
 
-export default {
+import Vue from 'vue';
+
+export default Vue.extend({
   name: 'SeekbarPreview',
   props: {
     time: {
-      type: Number
+      type: Number,
+      required: true
     },
     storyboards: {
-      type: Array
+      type: Array,
+      required: true
     },
     videoId: {
-      type: String
+      type: String,
+      required: true
     }
   },
   data: () => ({
@@ -39,7 +44,7 @@ export default {
     }
   }),
   watch: {
-    time(newValue) {
+    time() {
       if (this.storyboardImages) {
         const currentImg = this.storyboardImages.find(element => {
           return element.startTime < this.time && element.endTime > this.time;
@@ -54,7 +59,7 @@ export default {
       .storyboards({
         id: this.videoId,
         params: {
-          width: 179,
+          width: 160,
           height: 90
         }
       })
@@ -90,12 +95,12 @@ export default {
       });
     }
   }
-};
+});
 </script>
 
 <style lang="scss" scoped>
 .seekbar-preview {
-  width: 176px;
+  width: 160px;
   height: 90px;
   margin: 0 0 0 -11px;
   position: absolute;

@@ -1,41 +1,26 @@
 <template>
   <div class="quality" @mouseup.stop="onQualityMouseup">
-    <SettingsIcon
-      @click.stop="onQualityInteraction"
-      @touchend.stop="onQualityTouchInteraction"
-    />
+    <SettingsIcon @click.stop="onQualityInteraction" @touchend.stop="onQualityTouchInteraction" />
     <transition name="circle-bottom">
-      <div
-        class="quality-popup"
-        v-if="popup"
-        ref="qualityPopup"
-      >
+      <div v-if="popup" ref="qualityPopup" class="quality-popup">
         <div class="quality-submenu adaptive">
-          <span class="quality-title">
-            <MagicIcon />Automatic quality
-          </span>
+          <span class="quality-title"> <MagicIcon />Automatic quality </span>
           <div
             class="qualities-info"
             :class="{ selected: selectedQuality === 0 }"
             @click.stop="setAutoQuality"
             @touchend.stop="onQualityTouchInteraction"
           >
-            <p>
-              Max: {{ maxAdaptiveQuality.qualityLabel }}
-            </p>
-            <p>
-              Min: {{ minAdaptiveQuality.qualityLabel }}
-            </p>
+            <p>Max: {{ maxAdaptiveQuality.qualityLabel }}</p>
+            <p>Min: {{ minAdaptiveQuality.qualityLabel }}</p>
           </div>
         </div>
         <div class="quality-submenu">
-          <span class="quality-title">
-            <HighDefinitionIcon />Legacy format
-          </span>
+          <span class="quality-title"> <HighDefinitionIcon />Legacy format </span>
           <div
-            class="format-quality-entry"
             v-for="(quality, id) in formatStreams"
             :key="id + 1"
+            class="format-quality-entry"
             :class="{
               selected: selectedQuality === id + 1
             }"
@@ -50,13 +35,15 @@
   </div>
 </template>
 
-<script>
-import SettingsIcon from 'vue-material-design-icons/Cog';
-import HighDefinitionIcon from 'vue-material-design-icons/HighDefinition';
-import MagicIcon from 'vue-material-design-icons/AutoFix';
+<script lang="ts">
+import SettingsIcon from 'vue-material-design-icons/Cog.vue';
+import HighDefinitionIcon from 'vue-material-design-icons/HighDefinition.vue';
+import MagicIcon from 'vue-material-design-icons/AutoFix.vue';
 
-export default {
-  name: 'quality-selection',
+import Vue from 'vue';
+
+export default Vue.extend({
+  name: 'QualitySelection',
   components: {
     SettingsIcon,
     HighDefinitionIcon,
@@ -73,23 +60,16 @@ export default {
     elementHeight: 0
   }),
   computed: {
-    maxAdaptiveQuality() {
-      return this.sortedAdaptiveQualities
-        .slice()
-        .reverse()[0];
+    maxAdaptiveQuality(): any {
+      return this.sortedAdaptiveQualities.slice().reverse()[0];
     },
-    minAdaptiveQuality() {
+    minAdaptiveQuality(): any {
       return this.sortedAdaptiveQualities[0];
     },
-    sortedAdaptiveQualities() {
-      return this.adaptiveVideos
-        .slice()
-        .sort(
-          (a, b) =>
-            parseInt(a.bitrate) - parseInt(b.bitrate)
-        );
+    sortedAdaptiveQualities(): any {
+      return this.adaptiveVideos.slice().sort((a, b) => parseInt(a.bitrate) - parseInt(b.bitrate));
     },
-    adaptiveVideos() {
+    adaptiveVideos(): any {
       return this.adaptiveFormats.filter(value => {
         if (value.type) {
           return value.type.match(/.*video.*/);
@@ -106,14 +86,13 @@ export default {
     setFormatQuality() {},
     setAutoQuality() {}
   }
-};
+});
 </script>
 
 <style lang="scss">
 .circle-bottom-enter-active,
 .circle-bottom-leave-active {
-  transition: clip-path 300ms $intro-easing,
-    transform 300ms $intro-easing;
+  transition: clip-path 300ms $intro-easing, transform 300ms $intro-easing;
 }
 .circle-bottom-enter-to,
 .circle-bottom-leave {
@@ -132,8 +111,7 @@ export default {
   margin: 0;
   align-self: center;
   position: relative;
-  $bottom-controls-height: $bottom-overlay-height -
-    $video-seekbar-height;
+  $bottom-controls-height: $bottom-overlay-height - $video-seekbar-height;
 
   .quality-popup {
     position: absolute;
@@ -179,9 +157,7 @@ export default {
         &:hover,
         &:active,
         &:focus {
-          background-color: var(
-            --bgcolor-alt-light
-          ) !important;
+          background-color: var(--bgcolor-alt-light) !important;
         }
 
         &.selected {
@@ -208,9 +184,7 @@ export default {
         &:hover:not(.selected),
         &:active,
         &:focus {
-          background-color: var(
-            --bgcolor-alt-light
-          ) !important;
+          background-color: var(--bgcolor-alt-light) !important;
         }
 
         &.selected {

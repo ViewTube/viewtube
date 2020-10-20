@@ -1,5 +1,5 @@
 <template>
-  <div class="video-endscreen" v-if="videoElement" :class="{ 'card-hover': hover }">
+  <div v-if="videoElement" class="video-endscreen" :class="{ 'card-hover': hover }">
     <EndscreenCard
       v-for="(card, index) in endscreenData"
       :key="index"
@@ -13,12 +13,14 @@
   </div>
 </template>
 
-<script>
-import Commons from '@/plugins/commons.js';
-import EndscreenCard from '@/components/videoplayer/EndscreenCard';
+<script lang="ts">
+// import Commons from '@/plugins/commons.ts';
+import EndscreenCard from '@/components/videoplayer/EndscreenCard.vue';
 
-export default {
-  name: 'video-endscreen',
+import Vue from 'vue';
+
+export default Vue.extend({
+  name: 'VideoEndscreen',
   components: {
     EndscreenCard
   },
@@ -59,7 +61,7 @@ export default {
       this.hover = false;
     }
   }
-};
+});
 </script>
 
 <style lang="scss" scoped>

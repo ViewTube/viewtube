@@ -27,17 +27,19 @@
   </style>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import Vue from 'vue';
+
+export default Vue.extend({
   data() {
     return {
       theme: this.$store.getters['settings/themeVariables']
     };
   },
   methods: {
-    getTheme() {
+    getTheme(): any {
       return this.$store.getters['settings/themeVariables'];
     }
   }
-};
+});
 </script>

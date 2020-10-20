@@ -1,15 +1,15 @@
 <template>
   <div class="theme-selector">
     <a
-      class="theme-preview"
-      href="#"
-      @click.prevent="onThemeChange(theme)"
-      :style="{
-        'border-color': getBorderThemeColor(theme)
-      }"
       v-for="(theme, id) in themes"
       :key="id"
       v-ripple
+      class="theme-preview"
+      href="#"
+      :style="{
+        'border-color': getBorderThemeColor(theme)
+      }"
+      @click.prevent="onThemeChange(theme)"
     >
       <div
         class="preview-graphic"
@@ -28,36 +28,35 @@
             :style="{
               'background-color': theme['theme-color']
             }"
-          ></span>
+          />
           <span
             class="prev-searchbar"
             :style="{
               'background-color': theme['theme-color']
             }"
-          ></span>
+          />
         </span>
         <div class="prev-thmbs">
           <span
+            v-for="(i, n) in 6"
+            :key="n"
             class="prev-thmb"
             :style="{
               'background-color': theme['theme-color']
             }"
-            v-for="(i, n) in 6"
-            :key="n"
-          ></span>
+          />
         </div>
-        <span
-          class="prev-gradient"
-          :style="{ opacity: theme['gradient-opacity'] }"
-        ></span>
+        <span class="prev-gradient" :style="{ opacity: theme['gradient-opacity'] }" />
       </div>
       <span class="theme-title">{{ theme.name }}</span>
     </a>
   </div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import Vue from 'vue';
+
+export default Vue.extend({
   data() {
     return {
       themes: this.$store.getters['settings/defaultThemes']
@@ -66,22 +65,18 @@ export default {
   methods: {
     onThemeChange(element) {
       document.body.classList.add('transition-all');
-      this.$store.commit(
-        'settings/setTheme',
-        element.value
-      );
+      this.$store.commit('settings/setTheme', element.value);
       setTimeout(() => {
         document.body.classList.remove('transition-all');
       }, 300);
     },
-    getBorderThemeColor(theme) {
-      return theme.value ===
-        this.$store.getters['settings/theme']
+    getBorderThemeColor(theme): string {
+      return theme.value === this.$store.getters['settings/theme']
         ? theme['theme-color']
         : 'transparent';
     }
   }
-};
+});
 </script>
 
 <style lang="scss" scoped>
@@ -104,8 +99,7 @@ export default {
     border-radius: 4px;
     overflow: hidden;
     position: relative;
-    transition: box-shadow 200ms $intro-easing,
-      border-color 200ms $intro-easing;
+    transition: box-shadow 200ms $intro-easing, border-color 200ms $intro-easing;
     box-sizing: border-box;
     box-shadow: $low-shadow;
     cursor: pointer;
@@ -184,11 +178,7 @@ export default {
       position: absolute;
       bottom: 0;
       color: #fff;
-      background: linear-gradient(
-        to bottom,
-        #00000000 -0%,
-        #000 80%
-      );
+      background: linear-gradient(to bottom, #00000000 -0%, #000 80%);
       width: 100%;
       padding: 2px 5px;
       z-index: 10;

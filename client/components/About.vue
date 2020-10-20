@@ -1,29 +1,18 @@
 <template>
   <div class="about popup">
     <div class="about-container popup-container">
-      <CloseIcon
-        class="close-icon"
-        @click.stop="$emit('close')"
-      />
+      <CloseIcon class="close-icon" @click.stop="$emit('close')" />
       <h1>About ViewTube</h1>
       <div class="logo-about">
-        <img
-          class="logo-about-img"
-          src="@/assets/icon.svg"
-          alt="ViewTube"
-        />
+        <img class="logo-about-img" src="@/assets/icon.svg" alt="ViewTube" />
       </div>
       <h2>ViewTube by Maurice Oegerli</h2>
       <h3>{{ description }}</h3>
       <div class="links-about">
-        <BadgeButton
-          :href="'https://github.com/mauriceoegerli/viewtube-vue'"
-        >
+        <BadgeButton :href="'https://github.com/mauriceoegerli/viewtube-vue'">
           <GithubIcon />ViewTube
         </BadgeButton>
-        <BadgeButton
-          :href="'https://github.com/iv-org/invidious'"
-        >
+        <BadgeButton :href="'https://github.com/iv-org/invidious'">
           <GithubIcon />
           <p>Invidious</p>
         </BadgeButton>
@@ -45,11 +34,7 @@
           <tr>
             <td>Last update</td>
             <td>
-              {{
-                new Date(
-                  invidousStats.metadata.updatedAt
-                ).toUTCString()
-              }}
+              {{ new Date(invidousStats.metadata.updatedAt).toUTCString() }}
             </td>
           </tr>
         </table>
@@ -57,22 +42,20 @@
       <h2>Invidious License</h2>
       <InvidiousLicense />
     </div>
-    <div
-      class="about-overlay popup-overlay"
-      @click.stop="$emit('close')"
-    />
+    <div class="about-overlay popup-overlay" @click.stop="$emit('close')" />
   </div>
 </template>
 
-<script>
-import CloseIcon from 'vue-material-design-icons/Close';
-import GithubIcon from 'vue-material-design-icons/Github';
-import ExternalIcon from 'vue-material-design-icons/OpenInNew';
-import Commons from '@/plugins/commons.js';
-import BadgeButton from '@/components/buttons/BadgeButton';
-import InvidiousLicense from '@/components/licenses/Invidious';
+<script lang="ts">
+import CloseIcon from 'vue-material-design-icons/Close.vue';
+import GithubIcon from 'vue-material-design-icons/Github.vue';
+import ExternalIcon from 'vue-material-design-icons/OpenInNew.vue';
+import Commons from '@/plugins/commons.ts';
+import BadgeButton from '@/components/buttons/BadgeButton.vue';
+import InvidiousLicense from '@/components/licenses/Invidious.vue';
+import Vue from 'vue';
 
-export default {
+export default Vue.extend({
   name: 'About',
   components: {
     CloseIcon,
@@ -90,7 +73,7 @@ export default {
   },
   mounted() {
     const me = this;
-    fetch(`${Commons.getApiUrl()}stats`, {
+    fetch(`${this.$store.getters['environment/apiUrl']}stats`, {
       cache: 'force-cache',
       method: 'GET'
     })
@@ -102,7 +85,7 @@ export default {
         console.error(error);
       });
   }
-};
+});
 </script>
 
 <style lang="scss">

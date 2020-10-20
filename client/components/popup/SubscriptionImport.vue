@@ -125,21 +125,29 @@
   </div>
 </template>
 
-<script>
-import CloseIcon from 'vue-material-design-icons/Close';
-import YoutubeIcon from 'vue-material-design-icons/Youtube';
-import ImportIcon from 'vue-material-design-icons/Import';
-import SelectAllIcon from 'vue-material-design-icons/SelectAll';
-import ExternalIcon from 'vue-material-design-icons/OpenInNew';
-import UnselectAllIcon from 'vue-material-design-icons/Select';
-import CheckBox from '@/components/form/CheckBox';
-import BadgeButton from '@/components/buttons/BadgeButton';
+<script lang="ts">
+import CloseIcon from 'vue-material-design-icons/Close.vue';
+import YoutubeIcon from 'vue-material-design-icons/Youtube.vue';
+import ImportIcon from 'vue-material-design-icons/Import.vue';
+import SelectAllIcon from 'vue-material-design-icons/SelectAll.vue';
+import ExternalIcon from 'vue-material-design-icons/OpenInNew.vue';
+import UnselectAllIcon from 'vue-material-design-icons/Select.vue';
+import CheckBox from '@/components/form/CheckBox.vue';
+import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import SubscriptionConverter from '@/plugins/services/subscriptionConverter';
-import Spinner from '@/components/Spinner';
-import Commons from '@/plugins/commons';
+import Spinner from '@/components/Spinner.vue';
+import Commons from '@/plugins/commons.ts';
 import '@/assets/styles/popup.scss';
 
-export default {
+import Vue from 'vue';
+
+class ChannelDto {
+  author: string;
+  authorId: string;
+  selected?: boolean;
+}
+
+export default Vue.extend({
   name: 'SubscriptionsImport',
   components: {
     CloseIcon,
@@ -156,6 +164,7 @@ export default {
     return {
       youtubeSubscriptionUrl: 'https://www.youtube.com/subscription_manager?action_takeout=1',
       page2: false,
+      page3: false,
       subscriptionsToImport: null,
       commons: Commons,
       loading: false,
@@ -163,13 +172,13 @@ export default {
     };
   },
   computed: {
-    selectedChannels() {
+    selectedChannels(): Array<ChannelDto> {
       return this.subscriptionsToImport.filter(e => e.selected);
     },
-    anySelectedChannel() {
+    anySelectedChannel(): boolean {
       return !(this.selectedChannels.length > 0);
     },
-    successfulMergedImports() {
+    successfulMergedImports(): Array<ChannelDto> {
       if (this.importedSubscriptions && this.importedSubscriptions.successful) {
         return this.importedSubscriptions.successful.map(el => {
           const authorObj = this.subscriptionsToImport.find(val => val.authorId === el.channelId);
@@ -181,7 +190,7 @@ export default {
       }
       return [];
     },
-    existingMergedImports() {
+    existingMergedImports(): Array<ChannelDto> {
       if (this.importedSubscriptions && this.importedSubscriptions.existing) {
         return this.importedSubscriptions.existing.map(el => {
           const authorObj = this.subscriptionsToImport.find(val => val.authorId === el.channelId);
@@ -193,7 +202,7 @@ export default {
       }
       return [];
     },
-    failedMergedImports() {
+    failedMergedImports(): Array<ChannelDto> {
       if (this.importedSubscriptions && this.importedSubscriptions.failed) {
         return this.importedSubscriptions.failed.map(el => {
           const authorObj = this.subscriptionsToImport.find(val => val.authorId === el.channelId);
@@ -209,13 +218,12 @@ export default {
   },
   methods: {
     onTryClosePopup() {
-      if (this.page2) {
-      } else {
+      if (!(this.page2 || this.page2)) {
         this.$emit('close');
       }
     },
-    onYoutubeSubscriptionFileChange(e) {
-      const fileReader = new FileReader();
+    onYoutubeSubscriptionFileChange(e: any) {
+      const fileReader: any = new FileReader();
       fileReader.onload = () => {
         this.subscriptionsToImport = SubscriptionConverter.convertFromYoutubeOPMLToJson(
           fileReader.result
@@ -266,7 +274,7 @@ export default {
         });
     }
   }
-};
+});
 </script>
 
 <style lang="scss">

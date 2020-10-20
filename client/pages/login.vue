@@ -13,12 +13,13 @@
   </div>
 </template>
 
-<script>
-import FormInput from '@/components/form/FormInput';
-import SubmitButton from '@/components/form/SubmitButton';
-import Spinner from '@/components/Spinner';
+<script lang="ts">
+import FormInput from '@/components/form/FormInput.vue';
+import SubmitButton from '@/components/form/SubmitButton.vue';
+import Spinner from '@/components/Spinner.vue';
+import Vue from 'vue';
 
-export default {
+export default Vue.extend({
   name: 'Login',
   components: {
     FormInput,
@@ -33,39 +34,33 @@ export default {
     redirectedPage: 'home',
     formWiggle: false
   }),
-  mounted() {},
   methods: {
-    login() {
+    async login(): Promise<void> {
       this.loading = true;
       const me = this;
 
-      this.$store
-        .dispatch('user/login', {
-          username: this.username,
-          password: this.password
-        })
-        .then(result => {
-          if (result) {
-            me.$store.dispatch('messages/createMessage', {
-              type: 'info',
-              title: 'Login successful',
-              message: 'Redirecting...'
-            });
-            me.$router.push(me.redirectedPage.fullPath);
-          }
-        })
-        .catch(err => {
-          console.error(err);
-          me.loading = false;
-          this.wiggleLoginForm();
-          me.$store.dispatch('messages/createMessage', {
-            type: 'error',
-            title: 'Login failed',
-            message: err.response.data.message
-          });
+      const user = await this.$store.dispatch('user/login', {
+        username: this.username,
+        password: this.password
+      });
+      if (user && user.success) {
+        me.$store.dispatch('messages/createMessage', {
+          type: 'info',
+          title: 'Login successful',
+          message: 'Redirecting...'
         });
+        me.$router.push(me.redirectedPage.fullPath);
+      } else {
+        me.loading = false;
+        this.wiggleLoginForm();
+        me.$store.dispatch('messages/createMessage', {
+          type: 'error',
+          title: 'Login failed',
+          message: user ? user.error : ''
+        });
+      }
     },
-    wiggleLoginForm() {
+    wiggleLoginForm(): void {
       this.formWiggle = true;
       setTimeout(() => {
         this.formWiggle = false;
@@ -95,8 +90,8 @@ export default {
       ]
     };
   },
-  beforeRouteEnter(to, from, next) {
-    next(vm => {
+  beforeRouteEnter(_, from, next) {
+    next((vm: any) => {
       if (from.name) {
         vm.redirectedPage = from;
       } else {
@@ -106,7 +101,7 @@ export default {
       }
     });
   }
-};
+});
 </script>
 
 <style lang="scss">

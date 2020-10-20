@@ -1,10 +1,7 @@
 <template>
   <div class="popup">
     <div class="popup-container">
-      <CloseIcon
-        class="close-icon"
-        @click.stop="$emit('close')"
-      />
+      <CloseIcon class="close-icon" @click.stop="$emit('close')" />
       <h1>QR-Code</h1>
       <div class="qr-container">
         <VueQrcode
@@ -20,40 +17,35 @@
         />
       </div>
     </div>
-    <div
-      class="settings-overlay popup-overlay"
-      @click.stop="$emit('close')"
-    />
+    <div class="settings-overlay popup-overlay" @click.stop="$emit('close')" />
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import VueQrcode from '@chenfengyuan/vue-qrcode';
-import CloseIcon from 'vue-material-design-icons/Close';
+import CloseIcon from 'vue-material-design-icons/Close.vue';
 import '@/assets/styles/popup.scss';
 
-export default {
+import Vue from 'vue';
+
+export default Vue.extend({
   name: 'QrPopUp',
   components: {
     VueQrcode,
     CloseIcon
   },
   methods: {
-    url() {
+    url(): string {
       return process.browser ? window.location.href : '';
     },
-    getThemePrimaryColor() {
-      return this.$store.getters['settings/themeVariables'][
-        'theme-color'
-      ];
+    getThemePrimaryColor(): string {
+      return this.$store.getters['settings/themeVariables']['theme-color'];
     },
-    getThemeBackgroundColor() {
-      return this.$store.getters['settings/themeVariables'][
-        'bgcolor-alt'
-      ];
+    getThemeBackgroundColor(): string {
+      return this.$store.getters['settings/themeVariables']['bgcolor-alt'];
     }
   }
-};
+});
 </script>
 
 <style lang="scss" scoped>

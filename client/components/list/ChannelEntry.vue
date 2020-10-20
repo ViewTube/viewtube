@@ -31,10 +31,12 @@
   </div>
 </template>
 
-<script>
-import Commons from '@/plugins/commons.js';
+<script lang="ts">
+import Commons from '@/plugins/commons.ts';
 
-export default {
+import Vue from 'vue';
+
+export default Vue.extend({
   name: 'ChannelEntry',
   props: {
     channel: Object
@@ -44,7 +46,7 @@ export default {
   }),
   mounted() {},
   methods: {
-    channelNameToImgString() {
+    channelNameToImgString(): string {
       let initials = '';
       this.channel.author.split(' ').forEach(e => {
         initials += e.charAt(0);
@@ -52,7 +54,7 @@ export default {
       return initials;
     }
   }
-};
+});
 </script>
 
 <style lang="scss">

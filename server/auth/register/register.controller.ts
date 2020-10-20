@@ -1,7 +1,7 @@
 import { Controller, Post, Body } from '@nestjs/common';
+import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { RegisterService } from './register.service';
 import { RegistrationDto } from './dto/registration.dto';
-import { ApiTags, ApiOperation } from '@nestjs/swagger';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -14,9 +14,7 @@ export class RegisterController {
     and pass its token and solution alongside the new user's credentials.`
   })
   @Post('register')
-  async registerUser(
-    @Body() user: RegistrationDto
-  ): Promise<any> {
+  registerUser(@Body() user: RegistrationDto): Promise<any> {
     return this.registerService.registerUser(user);
   }
 }

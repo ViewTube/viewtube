@@ -1,3 +1,4 @@
+/* eslint-disable  @typescript-eslint/no-unused-vars */
 import {
   Controller,
   Get,
@@ -6,94 +7,86 @@ import {
   Delete,
   Req,
   UseGuards,
-  Query,
   Post,
-  Body
+  Body,
+  Query
 } from '@nestjs/common';
-import {
-  ApiTags,
-  ApiBearerAuth,
-  ApiQuery
-} from '@nestjs/swagger';
-import { SubscriptionsService } from './subscriptions.service';
-import { SubscriptionStatusDto } from './dto/subscription-status.dto';
+import { ApiTags, ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'server/auth/guards/jwt.guard';
 import { VideoBasicInfoDto } from 'server/core/videos/dto/video-basic-info.dto';
 import { ChannelBasicInfoDto } from 'server/core/channels/dto/channel-basic-info.dto';
-import { Sorting } from 'server/common/sorting.type';
+import { Common } from 'server/core/common';
+import { SubscriptionStatusDto } from './dto/subscription-status.dto';
+import { SubscriptionsService } from './subscriptions.service';
 
 @ApiTags('User')
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth()
 @Controller('user/subscriptions')
 export class SubscriptionsController {
-  constructor(
-    private subscriptionsService: SubscriptionsService
-  ) {}
+  constructor(private subscriptionsService: SubscriptionsService) {}
 
   @Get('channels')
-  @ApiQuery({ name: 'limit', required: false })
-  @ApiQuery({ name: 'start', required: false })
+  @ApiQuery({ name: 'limit', required: false, example: 30 })
+  @ApiQuery({ name: 'start', required: false, example: 0 })
   @ApiQuery({
     name: 'sort',
-    type: Object,
-    example:
-      '{ "sort": { "author": "ASC", "authorVerified": "DESC" } }',
+    type: String,
+    example: 'author:1,authorVerified:-1',
     required: false
   })
-  async getSubscribedChannels(
+  @ApiQuery({
+    name: 'filter',
+    type: String,
+    example: 'linu',
+    required: false
+  })
+  getSubscribedChannels(
     @Req() req: any,
     @Query('limit') limit = 30,
     @Query('start') start = 0,
-    @Query('sort') sort: Sorting<ChannelBasicInfoDto> = {}
-  ): Promise<Array<ChannelBasicInfoDto> | void> {
+    @Query('sort') sort: string = '',
+    @Query('filter') filter: string = ''
+  ): Promise<{ channels: Array<ChannelBasicInfoDto>; channelCount: number } | void> {
+    const sortObj = Common.convertSortParams<ChannelBasicInfoDto>(sort);
     return this.subscriptionsService.getSubscribedChannels(
       req.user.username,
       limit,
       start,
-      sort
+      sortObj,
+      filter
     );
   }
 
   @Get('videos')
   @ApiQuery({ name: 'limit', required: false })
   @ApiQuery({ name: 'start', required: false })
-  async getSubscriptionVideos(
+  getSubscriptionVideos(
     @Req() req: any,
     @Query('limit') limit = 30,
     @Query('start') start = 0
-  ): Promise<Array<VideoBasicInfoDto>> {
-    return this.subscriptionsService.getSubscriptionFeed(
-      req.user.username,
-      limit,
-      start
-    );
+  ): Promise<{ videoCount: number; videos: Array<VideoBasicInfoDto> }> {
+    return this.subscriptionsService.getSubscriptionFeed(req.user.username, limit, start);
   }
 
   @Get(':channelId')
-  async getSubscription(
+  getSubscription(
     @Req() req: any,
     @Param('channelId') channelId: string
   ): Promise<SubscriptionStatusDto> {
-    return this.subscriptionsService.getSubscription(
-      req.user.username,
-      channelId
-    );
+    return this.subscriptionsService.getSubscription(req.user.username, channelId);
   }
 
   @Put(':channelId')
-  async createSubscription(
+  createSubscription(
     @Req() req: any,
     @Param('channelId') channelId: string
   ): Promise<SubscriptionStatusDto> {
-    return this.subscriptionsService.subscribeToChannel(
-      req.user.username,
-      channelId
-    );
+    return this.subscriptionsService.subscribeToChannel(req.user.username, channelId);
   }
 
   @Post('multiple')
-  async createMultipleSubscriptions(
+  createMultipleSubscriptions(
     @Req() req: any,
     @Body('channels') channels: Array<string>
   ): Promise<{
@@ -102,20 +95,14 @@ export class SubscriptionsController {
     existing: Array<SubscriptionStatusDto>;
   }> {
     console.log(channels);
-    return this.subscriptionsService.subscribeToMultipleChannels(
-      req.user.username,
-      channels
-    );
+    return this.subscriptionsService.subscribeToMultipleChannels(req.user.username, channels);
   }
 
   @Delete(':channelId')
-  async deleteSubscription(
+  deleteSubscription(
     @Req() req: any,
     @Param('channelId') channelId: string
   ): Promise<SubscriptionStatusDto> {
-    return this.subscriptionsService.unsubscribeFromChannel(
-      req.user.username,
-      channelId
-    );
+    return this.subscriptionsService.unsubscribeFromChannel(req.user.username, channelId);
   }
 }

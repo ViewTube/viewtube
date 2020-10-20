@@ -1,3 +1,5 @@
+// Unfortunately, @nuxt/router doesn't support typescript at the moment
+
 import Vue from 'vue';
 import Router from 'vue-router';
 
@@ -53,7 +55,8 @@ export function createRouter() {
       },
       {
         path: '/embed/:id',
-        component: Embed
+        component: Embed,
+        meta: { headless: true }
       },
       {
         path: '/channel/:id',

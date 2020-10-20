@@ -1,26 +1,26 @@
 <template>
   <div class="switch">
     <input
+      id="switch-button"
       type="checkbox"
       :name="label"
-      id="switch-button"
-      @change="onChange"
       :checked="value"
       :disabled="disabled"
+      @change="onChange"
     />
     <div class="switch-body">
       <span class="switch-circle">
-        <span class="switch-circle-inner"></span>
+        <span class="switch-circle-inner" />
       </span>
     </div>
-    <label for="switch-button" class="label" v-if="label">{{
-      label
-    }}</label>
+    <label v-if="label" for="switch-button" class="label">{{ label }}</label>
   </div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import Vue from 'vue';
+
+export default Vue.extend({
   name: 'SwitchButton',
   props: {
     value: Boolean,
@@ -28,11 +28,11 @@ export default {
     disabled: Boolean
   },
   methods: {
-    onChange(e) {
+    onChange(e: any): void {
       this.$emit('valuechange', e.target.checked);
     }
   }
-};
+});
 </script>
 
 <style lang="scss" scoped>
@@ -109,8 +109,7 @@ export default {
         background-color: var(--theme-color);
         display: block;
         position: absolute;
-        transition: background-color 300ms $intro-easing,
-          left 300ms $overshoot-easing;
+        transition: background-color 300ms $intro-easing, left 300ms $overshoot-easing;
       }
     }
   }

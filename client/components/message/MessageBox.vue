@@ -36,11 +36,13 @@
   </div>
 </template>
 
-<script>
-import CloseIcon from 'vue-material-design-icons/Close';
+<script lang="ts">
+import CloseIcon from 'vue-material-design-icons/Close.vue';
 // import Interact from 'interactjs'
 
-export default {
+import Vue from 'vue';
+
+export default Vue.extend({
   name: 'MessageBox',
   components: {
     CloseIcon
@@ -63,7 +65,7 @@ export default {
     swipeOpacity: 1
   }),
   computed: {
-    transformString() {
+    transformString(): string | void {
       if (!this.isInteractAnimating) {
         const { x, y } = this.interactPosition;
         return `translate3D(${x}px, ${y}px, 0)`;
@@ -130,7 +132,7 @@ export default {
       this.interactSetPosition({ x: 0, y: 0 }, 1);
     }
   }
-};
+});
 </script>
 
 <style lang="scss" scoped>
