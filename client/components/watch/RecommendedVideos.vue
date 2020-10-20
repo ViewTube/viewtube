@@ -36,7 +36,7 @@ export default Vue.extend({
     videosExpanded: false
   }),
   watch: {
-    recommendedVideos(newValue, oldValue) {
+    recommendedVideos(newValue: any, oldValue: any) {
       if (newValue !== oldValue) {
         this.recommendedVideosShort = this.recommendedVideos.slice(0, 4);
       }

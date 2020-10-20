@@ -44,7 +44,7 @@ export default Vue.extend({
   },
   data: () => ({}),
   computed: {
-    volumeCategory() {
+    volumeCategory(): number {
       if (this.value >= 1) {
         return 3;
       } else if (this.value < 1 && this.value >= 0.5) {

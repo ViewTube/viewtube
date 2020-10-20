@@ -35,7 +35,7 @@ export default Vue.extend({
     return { qrPopUpOpen: false };
   },
   methods: {
-    url() {
+    url(): string {
       return process.browser ? window.location.href : '';
     },
     // shareReddit() {},

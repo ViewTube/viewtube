@@ -40,7 +40,7 @@ export default Vue.extend({
     };
   },
   methods: {
-    onInstanceChange(element) {
+    onInstanceChange(element: any) {
       this.$store.commit('instances/changeInstance', element.value);
     }
   }

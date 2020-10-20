@@ -297,7 +297,7 @@ export default Vue.extend({
     }
   }),
   computed: {
-    highestVideoQuality() {
+    highestVideoQuality(): string {
       if (this.video.formatStreams) {
         const video = this.video.formatStreams.find(e => {
           return e.qualityLabel && e.qualityLabel === '720p';
@@ -310,27 +310,27 @@ export default Vue.extend({
       }
       return '#';
     },
-    videoVolume() {
+    videoVolume(): number {
       return this.videoElement.playerVolume;
     },
-    videoLength() {
+    videoLength(): number {
       if (this.video !== undefined) {
         return this.video.lengthSeconds;
       }
       return 0;
     },
-    videoUrl() {
+    videoUrl(): string {
       if (this.video !== undefined) {
         return `/watch?v=${this.video.videoId}`;
       }
       return '';
     },
-    playerOverlayVisible() {
+    playerOverlayVisible(): boolean {
       return this.playerOverlay.visible || !this.videoElement.playing;
     }
   },
   watch: {
-    videoVolume(newValue) {
+    videoVolume(newValue: number) {
       if (newValue <= 1 && newValue >= 0 && this.$refs.video) {
         this.$refs.video.volume = newValue;
       }
@@ -347,9 +347,7 @@ export default Vue.extend({
   methods: {
     loadDashVideo() {
       if (this.$refs.video) {
-        let url = `${Commons.getApiUrlNoVersion()}manifest/dash/id/${
-          this.video.videoId
-        }?local=true`;
+        let url = `${this.$store.getters['instances/currentInstanceApi']}manifest/dash/id/${this.video.videoId}?local=true`;
         console.log(url);
         if (this.video.dashUrl) {
           url = `${this.video.dashUrl}?local=true`;
@@ -489,14 +487,14 @@ export default Vue.extend({
       this.seekbar.seekPercentage = this.calculateSeekPercentage(e.pageX);
       this.matchSeekProgressPercentage(true);
     },
-    matchSeekProgressPercentage(adjustVideo) {
+    matchSeekProgressPercentage(adjustVideo: boolean) {
       this.videoElement.progressPercentage = this.seekbar.seekPercentage;
       if (adjustVideo && this.$refs.video) {
         const currentTime = (this.$refs.video.duration / 100) * this.seekbar.seekPercentage;
         this.$refs.video.currentTime = currentTime;
       }
     },
-    calculateSeekPercentage(pageX) {
+    calculateSeekPercentage(pageX: number) {
       const seekPercentage = ((pageX - 10) / (Commons.getPageWidth() - 27.5)) * 100;
       if (seekPercentage > 0 && seekPercentage < 100) {
         return seekPercentage;
@@ -506,7 +504,7 @@ export default Vue.extend({
         return 0;
       }
     },
-    isMouseOufOfBoundary(pageX, pageY) {
+    isMouseOufOfBoundary(pageX: number, pageY: number) {
       return pageX > Commons.getPageWidth() || pageX < 0 || pageY < 0;
     },
     // Interaction events
@@ -530,7 +528,7 @@ export default Vue.extend({
         this.onEnterFullscreen(true);
       }
     },
-    onEnterFullscreen(force) {
+    onEnterFullscreen(force: boolean) {
       if (this.playerOverlayVisible || force === true) {
         const elem = this.$refs.videoPlayer;
         if (elem.requestFullscreen) {
@@ -547,14 +545,15 @@ export default Vue.extend({
     },
     onEnterFullscreenMouseUp() {},
     onLeaveFullscreen() {
-      if (document.exitFullscreen) {
-        document.exitFullscreen();
-      } else if (document.webkitExitFullscreen) {
-        document.webkitExitFullscreen();
-      } else if (document.mozCancelFullScreen) {
-        document.mozCancelFullScreen();
-      } else if (document.msExitFullscreen) {
-        document.msExitFullscreen();
+      const doc = document as any;
+      if (doc.exitFullscreen) {
+        doc.exitFullscreen();
+      } else if (doc.webkitExitFullscreen) {
+        doc.webkitExitFullscreen();
+      } else if (doc.mozCancelFullScreen) {
+        doc.mozCancelFullScreen();
+      } else if (doc.msExitFullscreen) {
+        doc.msExitFullscreen();
       }
       this.fullscreen = false;
     },
@@ -622,7 +621,7 @@ export default Vue.extend({
         // return this.$localforage.setItem(`savedVideoPositionId${videoId}`, value)
       }
     },
-    showPlayerOverlay(noTimeout) {
+    showPlayerOverlay(noTimeout: boolean) {
       this.playerOverlay.visible = true;
       if (this.playerOverlay.timeout) {
         clearTimeout(this.playerOverlay.timeout);
@@ -639,7 +638,7 @@ export default Vue.extend({
       }
       this.playerOverlay.visible = false;
     },
-    seekHoverAdjustedLeft(element) {
+    seekHoverAdjustedLeft(element: any): string {
       const percentage = this.seekbar.hoverPercentage;
       let leftPx = 0;
       if (element) {

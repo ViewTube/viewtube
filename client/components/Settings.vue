@@ -9,6 +9,7 @@
       <SwitchButton
         :value="$store.getters['settings/miniplayer']"
         :label="'Enable miniplayer'"
+        :disabled="false"
         @valuechange="val => $store.commit('settings/setMiniplayer', val)"
       />
     </div>
@@ -41,7 +42,7 @@ export default Vue.extend({
     };
   },
   methods: {
-    onThemeChange(element) {
+    onThemeChange(element: any) {
       setTimeout(() => {
         document.body.classList.add('transition-all');
         this.$store.commit('settings/setTheme', element.value);

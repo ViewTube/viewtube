@@ -47,12 +47,12 @@
 </template>
 
 <script lang="ts">
-import CloseIcon from 'vue-material-design-icons/Close';
+import CloseIcon from 'vue-material-design-icons/Close.vue';
 import GithubIcon from 'vue-material-design-icons/Github.vue';
 import ExternalIcon from 'vue-material-design-icons/OpenInNew.vue';
 import Commons from '@/plugins/commons.ts';
-import BadgeButton from '@/components/buttons/BadgeButton';
-import InvidiousLicense from '@/components/licenses/Invidious';
+import BadgeButton from '@/components/buttons/BadgeButton.vue';
+import InvidiousLicense from '@/components/licenses/Invidious.vue';
 import Vue from 'vue';
 
 export default Vue.extend({
@@ -73,7 +73,7 @@ export default Vue.extend({
   },
   mounted() {
     const me = this;
-    fetch(`${Commons.getApiUrl()}stats`, {
+    fetch(`${this.$store.getters['environment/apiUrl']}stats`, {
       cache: 'force-cache',
       method: 'GET'
     })

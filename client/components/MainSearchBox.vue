@@ -63,7 +63,7 @@ export default Vue.extend({
     $route() {
       this.updateSearchValueFromUrl();
     },
-    searchValue(newValue) {
+    searchValue(newValue: string) {
       this.localSearchValue = newValue;
     }
   },
@@ -78,10 +78,10 @@ export default Vue.extend({
         this.searchValue = '';
       }
     },
-    onAutocompleteUpdate(value) {
+    onAutocompleteUpdate(value: string) {
       this.searchValue = value;
     },
-    onSearchFieldChange(e) {
+    onSearchFieldChange(e: any) {
       this.searchValue = e.target.value;
     },
     onSearchFieldFocused() {
@@ -95,7 +95,7 @@ export default Vue.extend({
     onAutocompleteEnter() {
       this.searchRedirect(this.searchValue);
     },
-    onSearchFieldKeydown(e) {
+    onSearchFieldKeydown(e: any) {
       const autocomplete = this.$refs.autocomplete;
       if (e.key === 'Enter' && this.searchValue !== '') {
         this.searchValue = this.localSearchValue;
@@ -123,7 +123,7 @@ export default Vue.extend({
         this.searchRedirect(this.searchValue);
       }
     },
-    searchRedirect(searchValue) {
+    searchRedirect(searchValue: string) {
       this.$router.push(`/results?search_query=${searchValue}`);
       this.$refs.searchField.blur();
     }

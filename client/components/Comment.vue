@@ -86,7 +86,6 @@ import HeartIcon from 'vue-material-design-icons/Heart.vue';
 import CommentIcon from 'vue-material-design-icons/CommentOutline.vue';
 import CommentHideIcon from 'vue-material-design-icons/CommentRemoveOutline.vue';
 import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
-import Commons from '@/plugins/commons.ts';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import 'tippy.js/dist/tippy.css';
 import Vue from 'vue';
@@ -100,7 +99,7 @@ export default Vue.extend({
     CommentIcon,
     CommentHideIcon,
     LoadMoreIcon,
-    Comment: () => import('@/components/Comment'),
+    Comment: () => import('@/components/Comment.vue'),
     BadgeButton
   },
   props: {
@@ -123,10 +122,13 @@ export default Vue.extend({
       this.loadingReplies = true;
       const repliesId = this.comment.replies.continuation;
       const videoId = this.$route.query.v;
-      fetch(`${Commons.getApiUrl()}comments/${videoId}?continuation=${repliesId}`, {
-        cache: 'force-cache',
-        method: 'GET'
-      })
+      fetch(
+        `${this.$store.getters['environment/apiUrl']}comments/${videoId}?continuation=${repliesId}`,
+        {
+          cache: 'force-cache',
+          method: 'GET'
+        }
+      )
         .then(response => response.json())
         .then(data => {
           this.replies = data.comments;
@@ -135,14 +137,19 @@ export default Vue.extend({
           this.loadingReplies = false;
         })
         .catch(error => {
-          console.error(error);
+          this.$store.dispatch('messages/createMessage', {
+            type: 'error',
+            title: 'Loading comments failed',
+            message: error
+          });
+          this.loadingReplies = false;
         });
     },
     loadMoreReplies() {
       this.repliesContinuationLoading = true;
       const videoId = this.$route.query.v;
       fetch(
-        `${Commons.getApiUrl()}comments/${videoId}?continuation=${this.repliesContinuationLink}`,
+        `${this.$store.getters['environment/apiUrl']}comments/${videoId}?continuation=${this.repliesContinuationLink}`,
         {
           cache: 'force-cache',
           method: 'GET'
@@ -155,7 +162,12 @@ export default Vue.extend({
           this.repliesContinuationLoading = false;
         })
         .catch(error => {
-          console.error(error);
+          this.$store.dispatch('messages/createMessage', {
+            type: 'error',
+            title: 'Loading comments failed',
+            message: error
+          });
+          this.repliesContinuationLoading = false;
         });
     }
   }
@@ -273,8 +285,6 @@ export default Vue.extend({
       }
       .comment-replies-list {
         overflow: hidden;
-      }
-      .show-more-replies {
       }
     }
   }

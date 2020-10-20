@@ -16,8 +16,7 @@ export default Vue.extend({
       type: String,
       default: 'theme'
     }
-  },
-  data: () => ({})
+  }
 });
 </script>
 
