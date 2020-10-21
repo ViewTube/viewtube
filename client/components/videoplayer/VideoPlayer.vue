@@ -235,6 +235,7 @@ import QualitySelection from '@/components/videoplayer/QualitySelection.vue';
 import SeekbarPreview from '@/components/videoplayer/SeekbarPreview.vue';
 import Commons from '@/plugins/commons.ts';
 import Vue from 'vue';
+import { VideoPlayerHelper } from './videoPlayerHelper';
 
 export default Vue.extend({
   name: 'Videoplayer',
@@ -262,37 +263,40 @@ export default Vue.extend({
     mini: Boolean,
     autoplay: Boolean
   },
-  data: () => ({
-    loading: true,
-    fullscreen: false,
-    commons: Commons,
-    dashPlayer: null,
-    playerOverlay: {
-      visible: false,
-      timeout: undefined,
-      updateInterval: undefined,
-      thumbnailVisible: true
-    },
-    videoElement: {
-      positionSaveInterval: undefined,
-      buffering: true,
-      playing: false,
-      progress: 0,
-      progressPercentage: 0,
-      loadingPercentage: 0,
-      firstTimeBuffering: true,
-      aspectRatio: 16 / 9,
-      playerVolume: 1,
-      zoomed: false
-    },
-    seekbar: {
-      seeking: false,
-      seekPercentage: 0,
-      hoverPercentage: 0,
-      hoverTime: '00:00',
-      hoverTimeStamp: 0
-    }
-  }),
+  data() {
+    return {
+      loading: true,
+      fullscreen: false,
+      commons: Commons,
+      dashPlayer: null,
+      playerOverlay: {
+        visible: false,
+        timeout: undefined,
+        updateInterval: undefined,
+        thumbnailVisible: true
+      },
+      videoElement: {
+        positionSaveInterval: undefined,
+        buffering: true,
+        playing: false,
+        progress: 0,
+        progressPercentage: 0,
+        loadingPercentage: 0,
+        firstTimeBuffering: true,
+        aspectRatio: 16 / 9,
+        playerVolume: 1,
+        zoomed: false
+      },
+      seekbar: {
+        seeking: false,
+        seekPercentage: 0,
+        hoverPercentage: 0,
+        hoverTime: '00:00',
+        hoverTimeStamp: 0
+      },
+      videoPlayerHelper: new VideoPlayerHelper(this.video)
+    };
+  },
   computed: {
     highestVideoQuality(): string {
       if (this.video.formatStreams) {
@@ -399,11 +403,17 @@ export default Vue.extend({
       this.playerOverlay.thumbnailVisible = false;
       this.videoElement.playing = true;
       this.videoElement.positionSaveInterval = setInterval(() => this.saveVideoPosition(), 5000);
+      if ('mediaSession' in navigator) {
+        (navigator as any).mediaSession.playbackState = 'playing';
+      }
     },
     onVideoPaused() {
       this.videoElement.playing = false;
       this.saveVideoPosition();
       clearInterval(this.videoElement.positionSaveInterval);
+      if ('mediaSession' in navigator) {
+        (navigator as any).mediaSession.playbackState = 'paused';
+      }
     },
     onVideoCanplay() {
       if (this.$refs.video && this.videoElement.firstTimeBuffering) {
@@ -413,6 +423,10 @@ export default Vue.extend({
         this.videoElement.firstTimeBuffering = false;
         if (this.autoplay) {
           this.$refs.video.play();
+        }
+        if ('mediaSession' in navigator && process.browser) {
+          const metadata = this.videoPlayerHelper.createMediaMetadata();
+          (navigator as any).mediaSession.metadata = metadata;
         }
       }
       this.videoElement.buffering = false;
