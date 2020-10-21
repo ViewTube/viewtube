@@ -1,4 +1,4 @@
-import { VideoThumbnailDto } from 'server/core/videos/dto/video-thumbnail.dto';
+import { VideoThumbnailDto } from 'shared/dto/video/video-thumbnail.dto';
 
 export class PreviewVideoDto {
   title?: string;

@@ -1,6 +1,6 @@
 import { Sorting } from 'server/common/sorting.type';
-import { AuthorThumbnailDto } from './videos/dto/author-thumbnail.dto';
-import { VideoThumbnailDto } from './videos/dto/video-thumbnail.dto';
+import { VideoThumbnailDto } from 'shared/dto/video/video-thumbnail.dto';
+import { AuthorThumbnailDto } from '../../shared/dto/video/author-thumbnail.dto';
 
 export class Common {
   public static readonly youtubeVideoUrl: string = 'https://youtube.com/watch?v=';

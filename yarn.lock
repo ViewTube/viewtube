@@ -2171,6 +2171,15 @@
     consola "^2.15.0"
     defu "^3.1.0"
 
+"@nuxtjs/composition-api@^0.13.5":
+  version "0.13.5"
+  resolved "https://registry.yarnpkg.com/@nuxtjs/composition-api/-/composition-api-0.13.5.tgz#7fb1f6229d2c19bd1428590aea58e5395e008393"
+  integrity sha512-G1H1c5xKAQB6Zxfstc/g+cNSWoies6t+yZv14+K4bOH+CEXH/D3pgmx1J2zTzJM5YSJNC0Z0BBIKhi2EiYqGcA==
+  dependencies:
+    "@vue/composition-api" "1.0.0-beta.17"
+    defu "^3.1.0"
+    normalize-path "^3.0.0"
+
 "@nuxtjs/eslint-config-typescript@^3.0.0":
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/@nuxtjs/eslint-config-typescript/-/eslint-config-typescript-3.0.0.tgz#4c307ba1d7038d3d4a6aa40ebd4e0bd80a9af512"
@@ -2975,7 +2984,7 @@
   optionalDependencies:
     prettier "^1.18.2"
 
-"@vue/composition-api@^1.0.0-beta.17":
+"@vue/composition-api@1.0.0-beta.17":
   version "1.0.0-beta.17"
   resolved "https://registry.yarnpkg.com/@vue/composition-api/-/composition-api-1.0.0-beta.17.tgz#63b65b3ed7cab649c53e4459fb0c5d3d1c545a96"
   integrity sha512-TXa3162xQXeEoT8ar2aLPdSVGUy4phD8b3bytRORJQMvplQxi++QKXKAgYUTH0lwP0t0Dw2ddWtIyTTrOhta5w==

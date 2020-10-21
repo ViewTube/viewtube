@@ -1,13 +1,15 @@
-export class VideoPlayerHelper {
+import { VideoThumbnailDto, VideoDto } from 'shared';
+
+declare const MediaMetadata: new (arg0: any) => any;
+
+export class MediaMetadataHelper {
   constructor(video: any) {
     this.video = video;
   }
 
-  video: any;
+  video: VideoDto;
 
   createMediaMetadata() {
-    // @ts-ignore
-    // eslint-disable-next-line no-undef
     return new MediaMetadata({
       title: this.video.title,
       artist: this.video.author,
@@ -16,7 +18,7 @@ export class VideoPlayerHelper {
   }
 
   generateArtworkUrl() {
-    return this.video.videoThumbnails.map((el: { url: string; height: number; width: number }) => {
+    return this.video.videoThumbnails.map((el: VideoThumbnailDto) => {
       return {
         src: el.url,
         sizes: `${el.height}x${el.width}`,

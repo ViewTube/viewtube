@@ -90,6 +90,7 @@ module.exports = {
   plugins: [
     '@/plugins/directives/index',
     '@/plugins/formatting',
+    '@/plugins/shared',
     { src: '@/plugins/localStorage', mode: 'client' }
   ],
 
@@ -99,7 +100,12 @@ module.exports = {
   },
   // },
 
-  buildModules: ['@nuxtjs/router', '@nuxt/typescript-build', 'nuxt-typed-vuex'],
+  buildModules: [
+    '@nuxtjs/router',
+    '@nuxt/typescript-build',
+    'nuxt-typed-vuex',
+    '@nuxtjs/composition-api'
+  ],
 
   modules: [
     '@nuxtjs/style-resources',

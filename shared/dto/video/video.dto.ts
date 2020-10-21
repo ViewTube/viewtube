@@ -35,8 +35,8 @@ export class VideoDto {
   liveNow: boolean;
   isUpcoming: boolean;
   dashUrl: string;
-  adaptiveFormats: Array<object>;
-  formatStreams: Array<object>;
+  adaptiveFormats: Array<any>;
+  formatStreams: Array<any>;
   captions: object;
   recommendedVideos: Array<RecommendedVideoDto>;
 }

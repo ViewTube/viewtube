@@ -5,7 +5,7 @@ export const state = () => ({
 });
 
 export const getters = getterTree(state, {
-  getSavedPositionForId: state => (videoId: number) => {
+  getSavedPositionForId: state => (videoId: string) => {
     if (videoId && process.browser && state.savedVideoProgress[videoId]) {
       return parseInt(state.savedVideoProgress[videoId]);
       // return await this.$localforage.getItem(`savedVideoPositionId${videoId}`) || 0

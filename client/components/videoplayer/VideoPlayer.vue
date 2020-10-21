@@ -1,6 +1,6 @@
 <template>
   <div
-    ref="videoPlayer"
+    ref="videoPlayerRef"
     class="video-player"
     :style="{
       cursor: playerOverlay.visible ? 'auto' : 'none',
@@ -25,7 +25,7 @@
   >
     <div class="video-element-container" :class="{ zoom: videoElement.zoomed }">
       <video
-        ref="video"
+        ref="videoRef"
         class="video"
         :src="highestVideoQuality"
         :style="{
@@ -148,7 +148,7 @@
             }"
           />
           <SeekbarPreview
-            ref="seekbarHoverPreview"
+            ref="seekbarHoverPreviewRef"
             :storyboards="video.storyboards"
             :time="seekbar.hoverTimeStamp"
             :video-id="video.videoId"
@@ -157,7 +157,7 @@
             }"
           />
           <div
-            ref="seekbarHoverTimestamp"
+            ref="seekbarHoverTimestampRef"
             class="seekbar-hover-timestamp"
             :style="{
               left: seekHoverAdjustedLeft(this.$refs.seekbarHoverTimestamp)
@@ -235,9 +235,230 @@ import QualitySelection from '@/components/videoplayer/QualitySelection.vue';
 import SeekbarPreview from '@/components/videoplayer/SeekbarPreview.vue';
 import Commons from '@/plugins/commons.ts';
 import Vue from 'vue';
-import { VideoPlayerHelper } from './videoPlayerHelper';
+import { VideoDto } from '@/plugins/shared';
+import { VideoPlayerHelper } from './helpers/index';
+import {
+  computed,
+  reactive,
+  ref,
+  defineComponent,
+  watch,
+  onMounted
+} from '@nuxtjs/composition-api';
 
-export default Vue.extend({
+export default defineComponent({
+  props: {
+    video: {
+      type: VideoDto,
+      required: true
+    },
+    embedded: Boolean,
+    mini: Boolean,
+    autoplay: Boolean
+  },
+  setup(props, { root }) {
+    const loading = ref(true);
+    const fullscreen = ref(false);
+    const dashPlayer = ref(null);
+
+    const playerOverlay = reactive({
+      visible: false,
+      timeout: undefined,
+      updateInterval: undefined,
+      thumbnailVisible: true
+    });
+
+    const videoElement = reactive({
+      positionSaveInterval: undefined,
+      buffering: true,
+      playing: false,
+      progress: 0,
+      progressPercentage: 0,
+      loadingPercentage: 0,
+      firstTimeBuffering: true,
+      aspectRatio: 16 / 9,
+      playerVolume: 1,
+      zoomed: false
+    });
+
+    const seekbar = reactive({
+      seeking: false,
+      seekPercentage: 0,
+      hoverPercentage: 0,
+      hoverTime: '00:00',
+      hoverTimeStamp: 0
+    });
+
+    const commons = Commons;
+
+    const highestVideoQuality = computed(() => {
+      if (props.video.formatStreams) {
+        const videoFormat = props.video.formatStreams.find((e: any) => {
+          return e.qualityLabel && e.qualityLabel === '720p';
+        });
+        if (videoFormat && videoFormat.url) {
+          return videoFormat.url;
+        } else if (props.video.formatStreams.length > 0) {
+          return props.video.formatStreams[0].url;
+        }
+      }
+      return '#';
+    });
+    const videoVolume = computed(() => {
+      return videoElement.playerVolume;
+    });
+    const videoLength = computed(() => {
+      if (props.video !== undefined) {
+        return props.video.lengthSeconds;
+      }
+      return 0;
+    });
+    const videoUrl = computed(() => {
+      if (props.video !== undefined) {
+        return `/watch?v=${props.video.videoId}`;
+      }
+      return '';
+    });
+    const playerOverlayVisible = computed(() => {
+      return playerOverlay.visible || !videoElement.playing;
+    });
+
+    const videoPlayerRef = ref(null);
+    const seekbarHoverPreviewRef = ref(null);
+    const seekbarHoverTimestampRef = ref(null);
+    const videoRef = ref(null);
+
+    const videoPlayerHelper = new VideoPlayerHelper(props.video);
+
+    watch(videoVolume, (val: number, prevVal: number) => {
+      if (videoRef && val <= 1 && val >= 0 && val !== prevVal) {
+        videoRef.volume = val;
+      }
+    });
+
+    const toggleVideoPlayback = () => {
+      if (!seekbar.seeking && videoRef) {
+        playerOverlay.thumbnailVisible = false;
+        if (videoElement.playing) {
+          videoRef.pause();
+        } else {
+          videoRef.play();
+        }
+      }
+    };
+
+    const onWindowKeyDown = e => {
+      if (videoRef) {
+        if (e.key === ' ') {
+          toggleVideoPlayback();
+          e.preventDefault();
+        } else if (e.key === 'ArrowRight') {
+          videoRef.currentTime += 5;
+        } else if (e.key === 'ArrowLeft') {
+          videoRef.currentTime -= 5;
+        }
+      }
+    };
+
+    const onLoadedMetadata = e => {
+      videoElement.aspectRatio = e.target.videoHeight / e.target.videoWidth;
+    };
+
+    const onPlaybackProgress = () => {
+      if (videoRef && !seekbar.seeking) {
+        videoElement.progressPercentage = (videoRef.currentTime / videoLength.value) * 100;
+        videoElement.progress = videoRef.currentTime;
+      }
+    };
+
+    const onLoadingProgress = () => {
+      if (videoRef) {
+        const videoBufferedMaxTimeRange = videoRef.buffered.length - 1;
+        if (videoBufferedMaxTimeRange && videoBufferedMaxTimeRange > 0) {
+          const loadingPercentage =
+            (videoRef.buffered.end(videoRef.buffered.length - 1) / videoRef.duration) * 100;
+          videoElement.loadingPercentage = loadingPercentage;
+        }
+      }
+    };
+
+    const onVolumeChange = () => {
+      if (videoRef) {
+        videoElement.playerVolume = videoRef.volume;
+      }
+    };
+
+    const onVideoPlaying = () => {
+      playerOverlay.thumbnailVisible = false;
+      videoElement.playing = true;
+      videoElement.positionSaveInterval = setInterval(
+        () =>
+          videoPlayerHelper.saveVideoPosition(videoRef.currentTime, root.$accessor.videoProgress),
+        5000
+      );
+      if ('mediaSession' in navigator) {
+        (navigator as any).mediaSession.playbackState = 'playing';
+      }
+    };
+
+    const onVideoPaused = () => {
+      videoElement.playing = false;
+      videoPlayerHelper.saveVideoPosition(videoRef.currentTime, root.$accessor.videoProgress);
+      clearInterval(videoElement.positionSaveInterval);
+      if ('mediaSession' in navigator) {
+        (navigator as any).mediaSession.playbackState = 'paused';
+      }
+    };
+
+    const onVideoCanplay = () => {
+      if (videoRef && videoElement.firstTimeBuffering) {
+        videoRef.currentTime = root.$accessor.videoProgress.getSavedPositionForId(
+          props.video.videoId
+        );
+        videoElement.firstTimeBuffering = false;
+        if (props.autoplay) {
+          videoRef.play();
+        }
+        if ('mediaSession' in navigator && process.browser) {
+          const metadata = videoPlayerHelper.createMediaMetadata();
+          (navigator as any).mediaSession.metadata = metadata;
+        }
+      }
+      videoElement.buffering = false;
+    };
+
+    const onVideoBuffering = () => {
+      videoElement.buffering = true;
+    };
+
+    const onLoaded = () => {
+      loading.value = false;
+    };
+
+    onMounted(() => {
+      document.addEventListener('keydown', onWindowKeyDown);
+    });
+
+    return {
+      loading,
+      fullscreen,
+      dashPlayer,
+      playerOverlay,
+      videoElement,
+      seekbar,
+      commons,
+      videoPlayerHelper,
+      highestVideoQuality,
+      videoVolume,
+      videoLength,
+      videoUrl,
+      playerOverlayVisible,
+      videoPlayerRef,
+      seekbarHoverPreviewRef,
+      seekbarHoverTimestampRef,
+      videoRef
+    };
+  },
   name: 'Videoplayer',
   components: {
     Spinner,
@@ -253,93 +474,6 @@ export default Vue.extend({
     VolumeControl,
     QualitySelection,
     SeekbarPreview
-  },
-  props: {
-    video: {
-      required: true,
-      type: Object
-    },
-    embedded: Boolean,
-    mini: Boolean,
-    autoplay: Boolean
-  },
-  data() {
-    return {
-      loading: true,
-      fullscreen: false,
-      commons: Commons,
-      dashPlayer: null,
-      playerOverlay: {
-        visible: false,
-        timeout: undefined,
-        updateInterval: undefined,
-        thumbnailVisible: true
-      },
-      videoElement: {
-        positionSaveInterval: undefined,
-        buffering: true,
-        playing: false,
-        progress: 0,
-        progressPercentage: 0,
-        loadingPercentage: 0,
-        firstTimeBuffering: true,
-        aspectRatio: 16 / 9,
-        playerVolume: 1,
-        zoomed: false
-      },
-      seekbar: {
-        seeking: false,
-        seekPercentage: 0,
-        hoverPercentage: 0,
-        hoverTime: '00:00',
-        hoverTimeStamp: 0
-      },
-      videoPlayerHelper: new VideoPlayerHelper(this.video)
-    };
-  },
-  computed: {
-    highestVideoQuality(): string {
-      if (this.video.formatStreams) {
-        const video = this.video.formatStreams.find(e => {
-          return e.qualityLabel && e.qualityLabel === '720p';
-        });
-        if (video && video.url) {
-          return video.url;
-        } else if (this.video.formatStreams.length > 0) {
-          return this.video.formatStreams[0].url;
-        }
-      }
-      return '#';
-    },
-    videoVolume(): number {
-      return this.videoElement.playerVolume;
-    },
-    videoLength(): number {
-      if (this.video !== undefined) {
-        return this.video.lengthSeconds;
-      }
-      return 0;
-    },
-    videoUrl(): string {
-      if (this.video !== undefined) {
-        return `/watch?v=${this.video.videoId}`;
-      }
-      return '';
-    },
-    playerOverlayVisible(): boolean {
-      return this.playerOverlay.visible || !this.videoElement.playing;
-    }
-  },
-  watch: {
-    videoVolume(newValue: number) {
-      if (newValue <= 1 && newValue >= 0 && this.$refs.video) {
-        this.$refs.video.volume = newValue;
-      }
-    }
-  },
-  mounted() {
-    document.addEventListener('keydown', this.onWindowKeyDown);
-    // this.loadDashVideo()
   },
   beforeDestroy() {
     this.saveVideoPosition();
@@ -357,85 +491,6 @@ export default Vue.extend({
         this.dashPlayer.initialize(this.$refs.video, url, false);
         this.dashBitrates = this.dashPlayer.getBitrateInfoListFor('video');
       }
-    },
-    // Window events
-    onWindowKeyDown(e) {
-      if (this.$refs.video) {
-        if (e.key === ' ') {
-          this.toggleVideoPlayback();
-          e.preventDefault();
-        } else if (e.key === 'ArrowRight') {
-          this.$refs.video.currentTime += 5;
-        } else if (e.key === 'ArrowLeft') {
-          this.$refs.video.currentTime -= 5;
-        }
-      }
-    },
-
-    // Video events
-    onLoadedMetadata(e) {
-      this.videoElement.aspectRatio = e.target.videoHeight / e.target.videoWidth;
-    },
-    onPlaybackProgress() {
-      const videoRef = this.$refs.video;
-      if (videoRef && !this.seekbar.seeking) {
-        this.videoElement.progressPercentage = (videoRef.currentTime / this.videoLength) * 100;
-        this.videoElement.progress = videoRef.currentTime;
-      }
-    },
-    onLoadingProgress() {
-      const videoRef = this.$refs.video;
-      if (videoRef) {
-        const videoBufferedMaxTimeRange = videoRef.buffered.length - 1;
-        if (videoBufferedMaxTimeRange && videoBufferedMaxTimeRange > 0) {
-          const loadingPercentage =
-            (videoRef.buffered.end(videoRef.buffered.length - 1) / videoRef.duration) * 100;
-          this.videoElement.loadingPercentage = loadingPercentage;
-        }
-      }
-    },
-    onVolumeChange() {
-      if (this.$refs.video) {
-        this.videoElement.playerVolume = this.$refs.video.volume;
-      }
-    },
-    onVideoPlaying() {
-      this.playerOverlay.thumbnailVisible = false;
-      this.videoElement.playing = true;
-      this.videoElement.positionSaveInterval = setInterval(() => this.saveVideoPosition(), 5000);
-      if ('mediaSession' in navigator) {
-        (navigator as any).mediaSession.playbackState = 'playing';
-      }
-    },
-    onVideoPaused() {
-      this.videoElement.playing = false;
-      this.saveVideoPosition();
-      clearInterval(this.videoElement.positionSaveInterval);
-      if ('mediaSession' in navigator) {
-        (navigator as any).mediaSession.playbackState = 'paused';
-      }
-    },
-    onVideoCanplay() {
-      if (this.$refs.video && this.videoElement.firstTimeBuffering) {
-        this.$refs.video.currentTime = this.$accessor.videoProgress.getSavedPositionForId(
-          this.video.videoId
-        );
-        this.videoElement.firstTimeBuffering = false;
-        if (this.autoplay) {
-          this.$refs.video.play();
-        }
-        if ('mediaSession' in navigator && process.browser) {
-          const metadata = this.videoPlayerHelper.createMediaMetadata();
-          (navigator as any).mediaSession.metadata = metadata;
-        }
-      }
-      this.videoElement.buffering = false;
-    },
-    onVideoBuffering() {
-      this.videoElement.buffering = true;
-    },
-    onLoaded() {
-      this.loading = false;
     },
     // Seekbar events
     onSeekbarTouchStart(e) {
@@ -582,16 +637,6 @@ export default Vue.extend({
     onPlayBtnClick() {
       this.toggleVideoPlayback();
     },
-    toggleVideoPlayback() {
-      if (!this.seekbar.seeking) {
-        this.playerOverlay.thumbnailVisible = false;
-        if (this.videoElement.playing) {
-          this.$refs.video.pause();
-        } else {
-          this.$refs.video.play();
-        }
-      }
-    },
     onPlayerTouchStart() {},
     onPlayerTouchEnd() {
       if (this.seekbar.seeking) {
@@ -621,16 +666,6 @@ export default Vue.extend({
     },
     onPlayerMouseLeave() {
       this.hidePlayerOverlay();
-    },
-    saveVideoPosition() {
-      const video = this.$refs.video;
-      if (video !== undefined) {
-        this.$accessor.videoProgress.addVideoProgress({
-          videoId: this.video.videoId,
-          value: video.currentTime
-        });
-        // return this.$localforage.setItem(`savedVideoPositionId${videoId}`, value)
-      }
     },
     showPlayerOverlay(noTimeout: boolean) {
       this.playerOverlay.visible = true;

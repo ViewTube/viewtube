@@ -8,13 +8,13 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import fetch from 'node-fetch';
 import HttpsProxyAgent from 'https-proxy-agent';
+import { VideoDto } from 'shared/dto/video/video.dto';
 import { ChannelBasicInfoDto } from '../channels/dto/channel-basic-info.dto';
 import { ChannelBasicInfo } from '../channels/schemas/channel-basic-info.schema';
 import { Common } from '../common';
 import { VideoBasicInfoDto } from './dto/video-basic-info.dto';
 import { VideoBasicInfo } from './schemas/video-basic-info.schema';
 import { VideoEntity } from './video.entity';
-import { VideoDto } from './dto/video.dto';
 
 @Injectable()
 export class VideosService {
