@@ -437,7 +437,7 @@ export default defineComponent({
 
     const loadDashVideo = () => {
       if (videoRef) {
-        let url = `${root.$store.getters['instances/currentInstanceApi']}manifest/dash/id/${this.video.videoId}?local=true`;
+        let url = `${root.$store.getters['instances/currentInstanceApi']}manifest/dash/id/${props.video.videoId}?local=true`;
         console.log(url);
         if (props.video.dashUrl) {
           url = `${props.video.dashUrl}?local=true`;
