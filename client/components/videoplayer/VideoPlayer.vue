@@ -439,13 +439,17 @@ export default defineComponent({
       if (videoRef) {
         let url = `${root.$store.getters['instances/currentInstanceApi']}manifest/dash/id/${this.video.videoId}?local=true`;
         console.log(url);
-        if (video.dashUrl) {
-          url = `${video.dashUrl}?local=true`;
+        if (props.video.dashUrl) {
+          url = `${props.video.dashUrl}?local=true`;
         }
         dashPlayer.value = dashjs.MediaPlayer().create();
         dashPlayer.initialize(videoRef, url, false);
-        dashBitrates.value = this.dashPlayer.getBitrateInfoListFor('video');
+        dashBitrates.value = dashPlayer.getBitrateInfoListFor('video');
       }
+    };
+
+    const onPlayerClick = () => {
+      toggleVideoPlayback();
     };
 
     onMounted(() => {
@@ -478,7 +482,8 @@ export default defineComponent({
       onVideoPaused,
       onVideoCanplay,
       onVideoBuffering,
-      onLoaded
+      onLoaded,
+      loadDashVideo
     };
   },
   name: 'Videoplayer',
@@ -502,87 +507,6 @@ export default defineComponent({
     document.removeEventListener('keydown', this.onWindowKeyDown);
   },
   methods: {
-    // Seekbar events
-    onSeekbarTouchStart(e) {
-      if (this.playerOverlayVisible) {
-        this.seekbar.seeking = true;
-        const touchX = e.touches[0].clientX;
-        this.seekbar.seekPercentage = this.calculateSeekPercentage(touchX);
-        this.matchSeekProgressPercentage();
-        this.seekbar.hoverPercentage = this.calculateSeekPercentage(touchX);
-        this.seekbar.hoverTime = this.$formatting.getTimestampFromSeconds(
-          (this.$refs.video.duration / 100) * this.seekbar.hoverPercentage
-        );
-        this.seekbar.hoverTimeStamp =
-          (this.$refs.video.duration / 100) * this.seekbar.hoverPercentage;
-      }
-    },
-    onSeekbarMouseMove(e) {
-      this.seekbar.hoverPercentage = this.calculateSeekPercentage(e.pageX);
-      this.seekbar.hoverTime = this.$formatting.getTimestampFromSeconds(
-        (this.$refs.video.duration / 100) * this.seekbar.hoverPercentage
-      );
-      this.seekbar.hoverTimeStamp =
-        (this.$refs.video.duration / 100) * this.seekbar.hoverPercentage;
-    },
-    onSeekbarTouchMove(e) {
-      if (this.playerOverlayVisible) {
-        const touchX = e.touches[0].clientX;
-        this.seekbar.hoverPercentage = this.calculateSeekPercentage(touchX);
-        this.seekbar.hoverTime = this.$formatting.getTimestampFromSeconds(
-          (this.$refs.video.duration / 100) * this.seekbar.hoverPercentage
-        );
-        this.seekbar.hoverTimeStamp =
-          (this.$refs.video.duration / 100) * this.seekbar.hoverPercentage;
-      }
-    },
-    onPlayerTouchMove(e) {
-      if (this.seekbar.seeking) {
-        const touchX = e.touches[0].clientX;
-        this.seekbar.seekPercentage = this.calculateSeekPercentage(touchX);
-        this.matchSeekProgressPercentage();
-      }
-    },
-    onSeekbarMouseDown() {
-      this.seekbar.seeking = true;
-    },
-    onPlayerClick() {
-      this.toggleVideoPlayback();
-    },
-    onPlayerMouseUp() {
-      if (this.seekbar.seeking) {
-        this.seekbar.seeking = false;
-        this.matchSeekProgressPercentage(true);
-      } else {
-        // this.toggleVideoPlayback()
-      }
-    },
-    onSeekbarMouseLeave() {},
-    onSeekbarMouseEnter() {},
-    onSeekBarClick(e) {
-      this.seekbar.seekPercentage = this.calculateSeekPercentage(e.pageX);
-      this.matchSeekProgressPercentage(true);
-    },
-    matchSeekProgressPercentage(adjustVideo: boolean) {
-      this.videoElement.progressPercentage = this.seekbar.seekPercentage;
-      if (adjustVideo && this.$refs.video) {
-        const currentTime = (this.$refs.video.duration / 100) * this.seekbar.seekPercentage;
-        this.$refs.video.currentTime = currentTime;
-      }
-    },
-    calculateSeekPercentage(pageX: number) {
-      const seekPercentage = ((pageX - 10) / (Commons.getPageWidth() - 27.5)) * 100;
-      if (seekPercentage > 0 && seekPercentage < 100) {
-        return seekPercentage;
-      } else if (seekPercentage > 100) {
-        return 100;
-      } else {
-        return 0;
-      }
-    },
-    isMouseOufOfBoundary(pageX: number, pageY: number) {
-      return pageX > Commons.getPageWidth() || pageX < 0 || pageY < 0;
-    },
     // Interaction events
     onVolumeInteraction() {},
     onOpenInPlayer() {
