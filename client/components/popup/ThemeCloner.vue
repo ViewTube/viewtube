@@ -10,10 +10,10 @@
             id="parentThemeDropdown"
             placeholder="Choose a Parent Theme"
             :options="themes"
-            :value="themes[0]"
+            :value="selectedElement"
             label="name"
             aria-required="true"
-            @input="keyChange"
+            @input="valueChange"
           />
           <FormInput :id="'newThemeName'" v-model="newThemeName" :label="'Name for new Theme'" />
           <SubmitButton />
@@ -30,6 +30,7 @@ import Dropdown from '@/components/form/Dropdown';
 import FormInput from '@/components/form/FormInput';
 import SubmitButton from '@/components/form/SubmitButton';
 import '@/assets/styles/popup.scss';
+import _ from 'lodash';
 
 export default {
   name: 'ThemeCloner',
@@ -43,55 +44,43 @@ export default {
     themes: Array
   },
   data: () => ({
-    selectedTheme: String,
+    selectedElement: Object,
     newThemeName: String
   }),
   mounted() {
-    this.selectedTheme = this.themes[0].key;
+    this.selectedElement = this.themes[0];
     this.newThemeName = '';
   },
   methods: {
-    keyChange(element) {
-      this.selectedTheme = element.key;
+    valueChange(element) {
+      this.selectedElement = element;
     },
     copyTheme() {
-      const data = this.$store.getters['theme/themes'];
-      const themeUnconverted = data.find(el => this.selectedTheme === el.value);
-      const themeTemplate = {};
-      themeUnconverted.forEach(row => {
-        switch (row[0]) {
-          case 'key':
-          case 'name':
-            themeTemplate[row[0]] = row[1];
-            break;
-          case 'default':
-            break;
-          default:
-            themeTemplate.variable[row[0]] = row[1];
-        }
-      });
-      // TODO: remove
-      console.log(themeTemplate);
+      const themes = this.$accessor.theme.themes;
+      const copiedTheme = _.cloneDeep(themes.find(el => this.selectedElement.key === el.key));
+      copiedTheme.key = this.newThemeName.replace(/\s+/g, '-').toLowerCase();
+      copiedTheme.name = this.newThemeName;
+      copiedTheme.default = false;
+      copiedTheme.username = this.$accessor.user.username;
       this.$axios
-        .post(
-          `${this.$store.getters['environment/apiUrl']}user/themes`,
-          {
-            theme: themeTemplate
-          },
-          {
-            withCredentials: true
-          }
-        )
-        .then(console.log)
-        .catch(console.log);
-      // if  {
-      // } else {
-      //   this.$store.dispatch('messages/createMessage', {
-      //     type: 'error',
-      //     title: 'Theme cloning failed',
-      //     message: ''
-      //   });
-      // }
+        .post(`${this.$accessor.environment.apiUrl}user/themes`, copiedTheme, {
+          withCredentials: true
+        })
+        .then(() => {
+          this.$accessor.messages.createMessage({
+            type: 'info',
+            title: 'Theme cloning succeeded',
+            message: 'Reloading Themes...'
+          });
+          this.$emit('clonedTheme');
+        })
+        .catch(error => {
+          this.$accessor.messages.createMessage({
+            type: 'error',
+            title: 'Theme cloning failed',
+            message: error.message
+          });
+        });
     }
   }
 };

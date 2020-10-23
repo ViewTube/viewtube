@@ -1,5 +1,6 @@
 import Axios from 'axios';
 import { actionTree, getterTree, mutationTree } from 'nuxt-typed-vuex';
+import { ThemeVariableType } from '../../server/user/themes/dto/theme-variables.dto';
 import { ThemesDto } from '../../server/user/themes/dto/themes.dto';
 
 export const state = () => ({
@@ -9,6 +10,7 @@ export const state = () => ({
       key: 'default',
       name: 'Dark Theme',
       default: true,
+      username: '',
       variables: [
         { variableKey: 'bgcolor-main', variableValue: '#121212' },
         { variableKey: 'bgcolor-alt', variableValue: '#1a1a1a' },
@@ -41,6 +43,7 @@ export const state = () => ({
       key: 'default_light',
       name: 'Light Theme',
       default: true,
+      username: '',
       variables: [
         { variableKey: 'bgcolor-main', variableValue: '#ffffff' },
         { variableKey: 'bgcolor-alt', variableValue: '#ffffff' },
@@ -73,6 +76,7 @@ export const state = () => ({
       key: 'default_dark_no_gradient',
       name: 'Dark theme without background gradients',
       default: true,
+      username: '',
       variables: [
         { variableKey: 'bgcolor-main', variableValue: '#121212' },
         { variableKey: 'bgcolor-alt', variableValue: '#1a1a1a' },
@@ -105,6 +109,7 @@ export const state = () => ({
       key: 'default_black',
       name: 'Black theme',
       default: true,
+      username: '',
       variables: [
         { variableKey: 'bgcolor-main', variableValue: '#000000' },
         { variableKey: 'bgcolor-alt', variableValue: '#1a1a1a' },
@@ -137,6 +142,7 @@ export const state = () => ({
       key: 'default_dark_green',
       name: 'Dark green theme',
       default: true,
+      username: '',
       variables: [
         { variableKey: 'bgcolor-main', variableValue: '#121212' },
         { variableKey: 'bgcolor-alt', variableValue: '#1a1a1a' },
@@ -169,16 +175,16 @@ export const state = () => ({
 });
 
 export const getters = getterTree(state, {
-  currentTheme(state) {
+  currentTheme(state): string {
     return state.currentTheme;
   },
-  themes(state) {
+  themes(state): ThemesDto[] {
     return state.allThemes;
   },
-  themeVariables(state) {
+  themeVariables(state): ThemeVariableType[] {
     return state.allThemes.find(el => state.currentTheme === el.key).variables;
   },
-  defaultThemes(state) {
+  defaultThemes(state): ThemesDto[] {
     const defaultThemes = [];
     state.allThemes.forEach(element => {
       if (element.default) {
@@ -197,13 +203,6 @@ export const mutations = mutationTree(state, {
   },
   addTheme(state, theme: ThemesDto) {
     state.allThemes.push(theme);
-  },
-  resetThemes(state) {
-    for (let i = state.allThemes.length - 1; i >= 0; i -= 1) {
-      if (!state.allThemes[i].default) {
-        state.allThemes.splice(i);
-      }
-    }
   }
 });
 
@@ -213,16 +212,24 @@ export const actions = actionTree(
     mutations
   },
   {
-    async fetchThemes({ commit, rootState }) {
-      await Axios.get(`${rootState.env.apiUrl}user/themes`, {
+    async fetchThemes() {
+      await Axios.get(`${this.app.$accessor.environment.apiUrl}user/themes`, {
         withCredentials: true
       })
         .then(result => {
-          result.data.forEach(element => {
-            commit('addTheme', element);
+          console.log(result);
+          result.data.forEach((element: ThemesDto) => {
+            this.app.$accessor.theme.addTheme(element);
           });
         })
         .catch(console.log);
+    },
+    resetThemes(rootState) {
+      for (let i = rootState.state.allThemes.length - 1; i >= 0; i -= 1) {
+        if (!rootState.state.allThemes[i].default) {
+          rootState.state.allThemes.splice(i);
+        }
+      }
     }
   }
 );

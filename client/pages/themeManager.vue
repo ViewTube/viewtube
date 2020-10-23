@@ -9,17 +9,15 @@
       </SectionTitle>
       <div class="themes">
         <ThemePreview
-          v-for="theme in defaultThemes"
-          :key="theme.value"
+          v-for="theme in this.$accessor.theme.allThemes"
+          :key="theme.key"
           :theme="theme"
-          :themeEditable="true"
-          @editTheme.stop="editTheme($event)"
+          :themeEditable="false"
         />
-        <!-- <ThemePreview v-for="theme in themes" :key="theme.value" :theme="theme" /> -->
       </div>
       <portal to="popup">
         <transition v-if="cloneModalOpen" name="fade-down">
-          <ThemeCloner :themes="themesArray" @close="closeCloneTheme" />
+          <ThemeCloner :themes="themesArray" @close="closeCloneTheme" @clonedTheme="clonedTheme" />
         </transition>
       </portal>
     </div>
@@ -36,45 +34,27 @@ import CloneIcon from 'vue-material-design-icons/contentCopy';
 export default {
   name: 'ThemeManager',
   components: { ThemePreview, SectionTitle, BadgeButton, CloneIcon, ThemeCloner },
-  async fetch() {
-    await this.$axios
-      .get(`${this.$store.getters['environment/apiUrl']}user/themes`, {
-        withCredentials: true
-      })
-      .then(response => {
-        this.themes = response.data;
-        this.loading = false;
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  },
   data: () => ({
-    themes: [],
-    defaultThemes: [],
     loading: true,
     cloneModalOpen: false
   }),
   computed: {
-    userAuthenticated() {
-      return this.$store.getters['user/isLoggedIn'];
-    },
     themesArray() {
       const themesKeys = [];
-      this.themes.forEach(element => {
+      this.$accessor.theme.allThemes.forEach(element => {
         themesKeys.push({ key: element.key, name: element.name });
-      });
-      this.defaultThemes.forEach(element => {
-        themesKeys.push({ key: element.value, name: element.name });
       });
       return themesKeys;
     }
   },
-  mounted() {
-    this.defaultThemes = this.$store.getters['theme/defaultThemes'];
-  },
   methods: {
     editTheme(value) {},
+    clonedTheme() {
+      console.log('STOP');
+      this.closeCloneTheme();
+      this.$accessor.theme.resetThemes();
+      this.$accessor.theme.fetchThemes();
+    },
     closeCloneTheme() {
       this.cloneModalOpen = false;
     }

@@ -7,6 +7,9 @@ export class Theme extends Document implements ThemesDto {
   @Prop({ unique: false, required: true })
   username: string;
 
+  @Prop({ unique: false, required: true, default: false })
+  default: boolean;
+
   @Prop({ unique: false, required: true })
   key: string;
 

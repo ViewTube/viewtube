@@ -44,13 +44,13 @@ export default Vue.extend({
     }
   },
   mounted() {
-    this.$store.dispatch('user/getUser');
-    if (this.$store.getters['user/isLoggedIn']) {
-      this.$store.commit('theme/resetThemes');
-      this.$store.dispatch('theme/fetchThemes');
+    this.$accessor.user.getUser();
+    if (this.$accessor.user.isLoggedIn) {
+      this.$accessor.theme.resetThemes();
+      this.$accessor.theme.fetchThemes();
     }
-    if (this.$store.getters['instances/instances'].length === 0) {
-      this.$store.dispatch('instances/fetchInstances');
+    if (this.$accessor.instances.instances.length === 0) {
+      this.$accessor.instances.fetchInstances();
     }
     this.$refs.app.classList += ` ${this.getThemeClass()}`;
   },

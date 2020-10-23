@@ -8,8 +8,8 @@ import {
   Post,
   UnauthorizedException,
   Param,
-  NotFoundException,
-  Delete
+  Delete,
+  ForbiddenException
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'server/auth/guards/jwt.guard';
@@ -25,13 +25,22 @@ export class ThemesController {
 
   @Get()
   async getAllThemes(@Req() req: any): Promise<Array<ThemesDto> | void> {
-    return await this.themesService.getAllThemes(req.user.username);
+    if (req.user.username) {
+      return await this.themesService.getAllThemes(req.user.username);
+    } else {
+      throw new UnauthorizedException();
+    }
   }
 
   @Post()
   async insertTheme(@Req() req: any, @Body() theme: ThemesDto) {
-    if (theme.username === req.user.username) {
-      return await this.themesService.insertTheme(theme);
+    if (req.user.username) {
+      if (theme.username === req.user.username) {
+        theme.default = false;
+        return await this.themesService.insertTheme(theme);
+      } else {
+        throw new ForbiddenException();
+      }
     } else {
       throw new UnauthorizedException();
     }
@@ -39,8 +48,13 @@ export class ThemesController {
 
   @Put()
   async updateTheme(@Req() req: any, @Body() theme: ThemesDto) {
-    if (theme.username === req.user.username) {
-      return await this.themesService.updateTheme(theme);
+    if (req.user.username) {
+      if (theme.username === req.user.username) {
+        theme.default = false;
+        return await this.themesService.updateTheme(theme);
+      } else {
+        throw new ForbiddenException();
+      }
     } else {
       throw new UnauthorizedException();
     }
@@ -48,6 +62,10 @@ export class ThemesController {
 
   @Delete()
   async deleteTheme(@Req() req: any, @Param('key') key: string) {
-    return await this.themesService.deleteTheme(key, req.user.username);
+    if (req.user.username) {
+      return await this.themesService.deleteTheme(key, req.user.username);
+    } else {
+      throw new UnauthorizedException();
+    }
   }
 }
