@@ -236,7 +236,6 @@ import SeekbarPreview from '@/components/videoplayer/SeekbarPreview.vue';
 import Commons from '@/plugins/commons.ts';
 import Vue from 'vue';
 import { VideoDto } from '@/plugins/shared';
-import { VideoPlayerHelper } from './helpers/index';
 import {
   computed,
   reactive,
@@ -245,6 +244,7 @@ import {
   watch,
   onMounted
 } from '@nuxtjs/composition-api';
+import { VideoPlayerHelper } from './helpers/index';
 
 export default defineComponent({
   props: {
@@ -260,6 +260,7 @@ export default defineComponent({
     const loading = ref(true);
     const fullscreen = ref(false);
     const dashPlayer = ref(null);
+    const dashBitrates = ref(null);
 
     const playerOverlay = reactive({
       visible: false,
@@ -435,6 +436,19 @@ export default defineComponent({
       loading.value = false;
     };
 
+    const loadDashVideo = () => {
+      if (videoRef) {
+        let url = `${root.$store.getters['instances/currentInstanceApi']}manifest/dash/id/${this.video.videoId}?local=true`;
+        console.log(url);
+        if (video.dashUrl) {
+          url = `${video.dashUrl}?local=true`;
+        }
+        dashPlayer.value = dashjs.MediaPlayer().create();
+        dashPlayer.initialize(videoRef, url, false);
+        dashBitrates.value = this.dashPlayer.getBitrateInfoListFor('video');
+      }
+    };
+
     onMounted(() => {
       document.addEventListener('keydown', onWindowKeyDown);
     });
@@ -480,18 +494,6 @@ export default defineComponent({
     document.removeEventListener('keydown', this.onWindowKeyDown);
   },
   methods: {
-    loadDashVideo() {
-      if (this.$refs.video) {
-        let url = `${this.$store.getters['instances/currentInstanceApi']}manifest/dash/id/${this.video.videoId}?local=true`;
-        console.log(url);
-        if (this.video.dashUrl) {
-          url = `${this.video.dashUrl}?local=true`;
-        }
-        this.dashPlayer = dashjs.MediaPlayer().create();
-        this.dashPlayer.initialize(this.$refs.video, url, false);
-        this.dashBitrates = this.dashPlayer.getBitrateInfoListFor('video');
-      }
-    },
     // Seekbar events
     onSeekbarTouchStart(e) {
       if (this.playerOverlayVisible) {
