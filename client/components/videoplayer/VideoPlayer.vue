@@ -234,9 +234,7 @@ import VolumeControl from '@/components/videoplayer/VolumeControl.vue';
 import QualitySelection from '@/components/videoplayer/QualitySelection.vue';
 import SeekbarPreview from '@/components/videoplayer/SeekbarPreview.vue';
 import Commons from '@/plugins/commons.ts';
-import Vue from 'vue';
 import { VideoDto } from '@/plugins/shared';
-import { VideoPlayerHelper } from './helpers/index';
 import {
   computed,
   reactive,
@@ -245,6 +243,7 @@ import {
   watch,
   onMounted
 } from '@nuxtjs/composition-api';
+import { VideoPlayerHelper } from './helpers/index';
 
 export default defineComponent({
   props: {
@@ -328,7 +327,7 @@ export default defineComponent({
     const seekbarHoverTimestampRef = ref(null);
     const videoRef = ref(null);
 
-    const videoPlayerHelper = new VideoPlayerHelper(props.video);
+    const videoPlayerHelper = new VideoPlayerHelper(props.video, videoRef);
 
     watch(videoVolume, (val: number, prevVal: number) => {
       if (videoRef && val <= 1 && val >= 0 && val !== prevVal) {
@@ -456,7 +455,16 @@ export default defineComponent({
       videoPlayerRef,
       seekbarHoverPreviewRef,
       seekbarHoverTimestampRef,
-      videoRef
+      videoRef,
+      onLoadedMetadata,
+      onPlaybackProgress,
+      onLoadingProgress,
+      onVolumeChange,
+      onVideoPlaying,
+      onVideoPaused,
+      onVideoCanplay,
+      onVideoBuffering,
+      onLoaded
     };
   },
   name: 'Videoplayer',

@@ -2,11 +2,14 @@ import { VideoDto } from 'shared';
 import { MediaMetadataHelper } from './mediaMetadata';
 
 export class VideoPlayerHelper {
-  constructor(video: any) {
+  constructor(video: any, videoRef: any) {
     this.video = video;
+    this.videoRef = videoRef;
   }
 
   video: VideoDto;
+
+  videoRef: any;
 
   mediaMetadataHelper: MediaMetadataHelper = null;
 
@@ -18,7 +21,7 @@ export class VideoPlayerHelper {
   }
 
   public saveVideoPosition(currentTime: number, store: any) {
-    const video = this.$refs.video;
+    const video = this.videoRef.video;
     if (video !== undefined) {
       store.addVideoProgress({
         videoId: this.video.videoId,
@@ -26,5 +29,5 @@ export class VideoPlayerHelper {
       });
       // return this.$localforage.setItem(`savedVideoPositionId${videoId}`, value)
     }
-  },
+  }
 }
