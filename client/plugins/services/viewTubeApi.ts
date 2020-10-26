@@ -6,7 +6,7 @@ export default class {
   constructor(apiUrl: string) {
     this.apiPrototype.request = axios.create({
       baseURL: apiUrl,
-      timeout: 10000
+      timeout: 30000
     });
     this.api = createApi(this.apiPrototype);
   }
