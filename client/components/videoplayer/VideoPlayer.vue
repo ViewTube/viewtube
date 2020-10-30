@@ -12,10 +12,10 @@
     }"
     @mousemove.stop="onPlayerMouseMove"
     @mouseleave.prevent.stop="onPlayerMouseLeave"
-    @mouseup.prevent.stop="onPlayerMouseUp"
+    @mouseup.prevent.stop="e => seekbarHelper.onPlayerMouseUp(e)"
     @touchend.prevent.stop="onPlayerTouchEnd"
     @touchstart.stop="onPlayerTouchStart"
-    @touchmove.stop="onPlayerTouchMove"
+    @touchmove.stop="e => seekbarHelper.onPlayerTouchMove(e)"
     @click.prevent.stop="onPlayerClick"
     @dblclick.prevent.stop="onSwitchFullscreen"
     @fullscreenchange.prevent.stop="onFullscreenChange"
@@ -23,7 +23,7 @@
     @mozfullscreenchange.prevent.stop="onFullscreenChange"
     @msfullscreenchange.prevent.stop="onFullscreenChange"
   >
-    <div class="video-element-container" :class="{ zoom: videoElement.zoomed }">
+    <!-- <div class="video-element-container" :class="{ zoom: videoElement.zoomed }">
       <video
         ref="videoRef"
         class="video"
@@ -40,12 +40,12 @@
         @progress="onLoadingProgress"
         @loadedmetadata="onLoadedMetadata"
       />
-      <!-- <VideoEndscreen
+      <VideoEndscreen
         :videoId="video.videoId"
         :videoProgress="videoElement.progress"
         :videoElement="$refs.video"
-      />-->
-    </div>
+      />
+    </div> -->
 
     <Spinner v-if="videoElement.buffering" class="video-spinner" />
     <div
@@ -120,13 +120,13 @@
         <div class="seekbar" :class="{ dragging: seekbar.seeking }">
           <div
             class="seekbar-clickable"
-            @mousedown.prevent.stop="onSeekbarMouseDown"
-            @mouseleave.prevent.stop="onSeekbarMouseLeave"
-            @mouseenter.prevent.stop="onSeekbarMouseEnter"
-            @touchstart.prevent.stop="onSeekbarTouchStart"
-            @mousemove.prevent="onSeekbarMouseMove"
-            @touchmove.prevent="onSeekbarTouchMove"
-            @click.prevent.stop="onSeekBarClick"
+            @mousedown.prevent.stop="e => seekbarHelper.onSeekbarMouseDown(e)"
+            @mouseleave.prevent.stop="e => seekbarHelper.onSeekbarMouseLeave(e)"
+            @mouseenter.prevent.stop="e => seekbarHelper.onSeekbarMouseEnter(e)"
+            @touchstart.prevent.stop="e => seekbarHelper.onSeekbarTouchStart(e)"
+            @mousemove.prevent="e => seekbarHelper.onSeekbarMouseMove(e)"
+            @touchmove.prevent="e => seekbarHelper.onSeekbarTouchMove(e)"
+            @click.prevent.stop="e => seekbarHelper.onSeekBarClick(e)"
           />
           <div class="seekbar-background" />
           <div
@@ -153,14 +153,14 @@
             :time="seekbar.hoverTimeStamp"
             :video-id="video.videoId"
             :style="{
-              transform: `translate3d(${seekHoverAdjustedLeft(this.$refs.seekbarHoverPreview)},0,0)`
+              transform: `translate3d(${seekHoverAdjustedLeft(seekbarHoverPreviewRef)},0,0)`
             }"
           />
           <div
             ref="seekbarHoverTimestampRef"
             class="seekbar-hover-timestamp"
             :style="{
-              left: seekHoverAdjustedLeft(this.$refs.seekbarHoverTimestamp)
+              left: seekHoverAdjustedLeft(seekbarHoverTimestampRef)
             }"
           >
             {{ seekbar.hoverTime }}
@@ -234,21 +234,24 @@ import VolumeControl from '@/components/videoplayer/VolumeControl.vue';
 import QualitySelection from '@/components/videoplayer/QualitySelection.vue';
 import SeekbarPreview from '@/components/videoplayer/SeekbarPreview.vue';
 import Commons from '@/plugins/commons.ts';
-import { VideoDto } from '@/plugins/shared';
 import {
   computed,
   reactive,
   ref,
   defineComponent,
   watch,
-  onMounted
+  onMounted,
+  onBeforeUnmount,
+  useContext
 } from '@nuxtjs/composition-api';
+import { NuxtError } from '@nuxt/types';
+import { SeekbarHelper } from './helpers/seekbar';
 import { VideoPlayerHelper } from './helpers/index';
 
 export default defineComponent({
   props: {
     video: {
-      type: VideoDto,
+      type: Object,
       required: true
     },
     embedded: Boolean,
@@ -256,6 +259,17 @@ export default defineComponent({
     autoplay: Boolean
   },
   setup(props, { root }) {
+    const { error, route } = useContext();
+
+    if (!props.video) {
+      const videoError: NuxtError = {
+        message: 'Error loading video',
+        path: route.value.path,
+        statusCode: 500
+      };
+      error(videoError);
+    }
+
     const loading = ref(true);
     const fullscreen = ref(false);
     const dashPlayer = ref(null);
@@ -330,32 +344,40 @@ export default defineComponent({
 
     const videoPlayerHelper = new VideoPlayerHelper(props.video, videoRef);
 
+    const seekbarHelper = new SeekbarHelper({
+      seekbar,
+      playerOverlayVisible,
+      videoElement,
+      videoRef,
+      root
+    });
+
     watch(videoVolume, (val: number, prevVal: number) => {
-      if (videoRef && val <= 1 && val >= 0 && val !== prevVal) {
-        videoRef.volume = val;
+      if (videoRef.value && val <= 1 && val >= 0 && val !== prevVal) {
+        videoRef.value.volume = val;
       }
     });
 
     const toggleVideoPlayback = () => {
-      if (!seekbar.seeking && videoRef) {
+      if (!seekbar.seeking && videoRef.value) {
         playerOverlay.thumbnailVisible = false;
         if (videoElement.playing) {
-          videoRef.pause();
+          videoRef.value.pause();
         } else {
-          videoRef.play();
+          videoRef.value.play();
         }
       }
     };
 
     const onWindowKeyDown = e => {
-      if (videoRef) {
+      if (videoRef.value) {
         if (e.key === ' ') {
           toggleVideoPlayback();
           e.preventDefault();
         } else if (e.key === 'ArrowRight') {
-          videoRef.currentTime += 5;
+          videoRef.value.currentTime += 5;
         } else if (e.key === 'ArrowLeft') {
-          videoRef.currentTime -= 5;
+          videoRef.value.currentTime -= 5;
         }
       }
     };
@@ -365,26 +387,28 @@ export default defineComponent({
     };
 
     const onPlaybackProgress = () => {
-      if (videoRef && !seekbar.seeking) {
-        videoElement.progressPercentage = (videoRef.currentTime / videoLength.value) * 100;
-        videoElement.progress = videoRef.currentTime;
+      if (videoRef.value && !seekbar.seeking) {
+        videoElement.progressPercentage = (videoRef.value.currentTime / videoLength.value) * 100;
+        videoElement.progress = videoRef.value.currentTime;
       }
     };
 
     const onLoadingProgress = () => {
-      if (videoRef) {
-        const videoBufferedMaxTimeRange = videoRef.buffered.length - 1;
+      if (videoRef.value) {
+        const videoBufferedMaxTimeRange = videoRef.value.buffered.length - 1;
         if (videoBufferedMaxTimeRange && videoBufferedMaxTimeRange > 0) {
           const loadingPercentage =
-            (videoRef.buffered.end(videoRef.buffered.length - 1) / videoRef.duration) * 100;
+            (videoRef.value.buffered.end(videoRef.value.buffered.length - 1) /
+              videoRef.value.duration) *
+            100;
           videoElement.loadingPercentage = loadingPercentage;
         }
       }
     };
 
     const onVolumeChange = () => {
-      if (videoRef) {
-        videoElement.playerVolume = videoRef.volume;
+      if (videoRef.value) {
+        videoElement.playerVolume = videoRef.value.volume;
       }
     };
 
@@ -393,7 +417,10 @@ export default defineComponent({
       videoElement.playing = true;
       videoElement.positionSaveInterval = setInterval(
         () =>
-          videoPlayerHelper.saveVideoPosition(videoRef.currentTime, root.$accessor.videoProgress),
+          videoPlayerHelper.saveVideoPosition(
+            videoRef.value.currentTime,
+            root.$accessor.videoProgress
+          ),
         5000
       );
       if ('mediaSession' in navigator) {
@@ -403,7 +430,7 @@ export default defineComponent({
 
     const onVideoPaused = () => {
       videoElement.playing = false;
-      videoPlayerHelper.saveVideoPosition(videoRef.currentTime, root.$accessor.videoProgress);
+      videoPlayerHelper.saveVideoPosition(videoRef.value.currentTime, root.$accessor.videoProgress);
       clearInterval(videoElement.positionSaveInterval);
       if ('mediaSession' in navigator) {
         (navigator as any).mediaSession.playbackState = 'paused';
@@ -411,13 +438,13 @@ export default defineComponent({
     };
 
     const onVideoCanplay = () => {
-      if (videoRef && videoElement.firstTimeBuffering) {
-        videoRef.currentTime = root.$accessor.videoProgress.getSavedPositionForId(
+      if (videoRef.value && videoElement.firstTimeBuffering) {
+        videoRef.value.currentTime = root.$accessor.videoProgress.getSavedPositionForId(
           props.video.videoId
         );
         videoElement.firstTimeBuffering = false;
         if (props.autoplay) {
-          videoRef.play();
+          videoRef.value.play();
         }
         if ('mediaSession' in navigator && process.browser) {
           const metadata = videoPlayerHelper.createMediaMetadata();
@@ -436,16 +463,146 @@ export default defineComponent({
     };
 
     const loadDashVideo = () => {
-      if (videoRef) {
+      if (videoRef.value) {
         let url = `${root.$store.getters['instances/currentInstanceApi']}manifest/dash/id/${props.video.videoId}?local=true`;
         console.log(url);
         if (props.video.dashUrl) {
           url = `${props.video.dashUrl}?local=true`;
         }
         dashPlayer.value = dashjs.MediaPlayer().create();
-        dashPlayer.initialize(videoRef, url, false);
+        dashPlayer.initialize(videoRef.value, url, false);
         dashBitrates.value = dashPlayer.getBitrateInfoListFor('video');
       }
+    };
+
+    // Interaction events
+    const onVolumeInteraction = () => {};
+    const onOpenInPlayer = () => {
+      window.open(videoUrl.value, '_blank');
+    };
+    const onOpenInPlayerMouseUp = () => {};
+    const onVideoExpand = () => {
+      videoElement.zoomed = true;
+    };
+    const onVideoExpandMouseUp = () => {};
+    const onVideoCollapse = () => {
+      videoElement.zoomed = false;
+    };
+    const onVideoCollapseMouseUp = () => {};
+    const onSwitchFullscreen = () => {
+      if (fullscreen.value) {
+        onLeaveFullscreen();
+      } else {
+        onEnterFullscreen(true);
+      }
+    };
+    const onEnterFullscreen = (force: boolean) => {
+      if (playerOverlayVisible.value || force === true) {
+        const elem = videoPlayerRef;
+        if (elem.requestFullscreen) {
+          elem.requestFullscreen();
+        } else if (elem.mozRequestFullScreen) {
+          elem.mozRequestFullScreen();
+        } else if (elem.webkitRequestFullscreen) {
+          elem.webkitRequestFullscreen();
+        } else if (elem.msRequestFullscreen) {
+          elem.msRequestFullscreen();
+        }
+        fullscreen.value = true;
+      }
+    };
+    const onEnterFullscreenMouseUp = () => {};
+    const onLeaveFullscreen = () => {
+      const doc = document as any;
+      if (doc.exitFullscreen) {
+        doc.exitFullscreen();
+      } else if (doc.webkitExitFullscreen) {
+        doc.webkitExitFullscreen();
+      } else if (doc.mozCancelFullScreen) {
+        doc.mozCancelFullScreen();
+      } else if (doc.msExitFullscreen) {
+        doc.msExitFullscreen();
+      }
+      fullscreen.value = false;
+    };
+    const onFullscreenChange = () => {
+      if (document.fullscreenElement) {
+        fullscreen.value = true;
+      } else {
+        fullscreen.value = false;
+      }
+    };
+    const onLeaveFullscreenMouseUp = () => {};
+    const onPlayBtnTouchEnd = () => {
+      toggleVideoPlayback();
+    };
+    const onPlayBtnClick = () => {
+      toggleVideoPlayback();
+    };
+    const onPlayerTouchStart = () => {};
+    const onPlayerTouchEnd = () => {
+      if (seekbar.seeking) {
+        seekbar.seeking = false;
+        seekbarHelper.matchSeekProgressPercentage(true);
+      } else if (playerOverlay.visible) {
+        hidePlayerOverlay();
+      } else {
+        showPlayerOverlay(true);
+      }
+    };
+    const onPlayerMouseMove = e => {
+      showPlayerOverlay(false);
+      if (seekbar.seeking && videoRef.value) {
+        seekbar.seekPercentage = seekbarHelper.calculateSeekPercentage(e.pageX);
+        seekbar.hoverPercentage = seekbarHelper.calculateSeekPercentage(e.pageX);
+        seekbar.hoverTime = root.$formatting.getTimestampFromSeconds(
+          (videoRef.value.duration / 100) * seekbar.hoverPercentage
+        );
+        seekbar.hoverTimeStamp = (videoRef.value.duration / 100) * seekbar.hoverPercentage;
+        seekbarHelper.matchSeekProgressPercentage();
+        if (seekbarHelper.isMouseOufOfBoundary(e.pageX, e.pageY)) {
+          seekbar.seeking = false;
+        }
+      }
+    };
+    const onPlayerMouseLeave = () => {
+      hidePlayerOverlay();
+    };
+    const showPlayerOverlay = (noTimeout: boolean) => {
+      playerOverlay.visible = true;
+      if (playerOverlay.timeout) {
+        clearTimeout(playerOverlay.timeout);
+      }
+      if (!noTimeout) {
+        playerOverlay.timeout = setTimeout(() => {
+          playerOverlay.visible = false;
+        }, 3000);
+      }
+    };
+    const hidePlayerOverlay = () => {
+      if (playerOverlay.timeout) {
+        clearTimeout(playerOverlay.timeout);
+      }
+      playerOverlay.visible = false;
+    };
+    const seekHoverAdjustedLeft = (element: any): string => {
+      const percentage = seekbar.hoverPercentage;
+      let leftPx = 0;
+      if (element) {
+        const elOffsetWidth = element.$el ? element.$el.offsetWidth : 0;
+        const elWidth = element.offsetWidth || elOffsetWidth;
+        const pageWidth = Commons.getPageWidth();
+        leftPx = ((pageWidth - 27.5) / 100) * percentage - (elWidth / 2 - 12);
+
+        if (leftPx < 10) {
+          leftPx = 10;
+        }
+        if (leftPx > pageWidth - elWidth - 17) {
+          leftPx = pageWidth - elWidth - 17;
+        }
+      }
+
+      return `${leftPx}px`;
     };
 
     const onPlayerClick = () => {
@@ -456,6 +613,10 @@ export default defineComponent({
       document.addEventListener('keydown', onWindowKeyDown);
     });
 
+    onBeforeUnmount(() => {
+      videoPlayerHelper.saveVideoPosition(videoRef.value.currentTime, root.$accessor.videoProgress);
+      document.removeEventListener('keydown', onWindowKeyDown);
+    });
     return {
       loading,
       fullscreen,
@@ -483,6 +644,29 @@ export default defineComponent({
       onVideoCanplay,
       onVideoBuffering,
       onLoaded,
+      onVolumeInteraction,
+      onOpenInPlayer,
+      onOpenInPlayerMouseUp,
+      onVideoExpand,
+      onVideoExpandMouseUp,
+      onVideoCollapse,
+      onVideoCollapseMouseUp,
+      onSwitchFullscreen,
+      onEnterFullscreen,
+      onEnterFullscreenMouseUp,
+      onLeaveFullscreen,
+      onFullscreenChange,
+      onLeaveFullscreenMouseUp,
+      onPlayBtnTouchEnd,
+      onPlayBtnClick,
+      onPlayerTouchStart,
+      onPlayerTouchEnd,
+      onPlayerMouseMove,
+      onPlayerMouseLeave,
+      showPlayerOverlay,
+      hidePlayerOverlay,
+      seekHoverAdjustedLeft,
+      onPlayerClick,
       loadDashVideo
     };
   },
@@ -501,142 +685,6 @@ export default defineComponent({
     VolumeControl,
     QualitySelection,
     SeekbarPreview
-  },
-  beforeDestroy() {
-    this.saveVideoPosition();
-    document.removeEventListener('keydown', this.onWindowKeyDown);
-  },
-  methods: {
-    // Interaction events
-    onVolumeInteraction() {},
-    onOpenInPlayer() {
-      window.open(this.videoUrl, '_blank');
-    },
-    onOpenInPlayerMouseUp() {},
-    onVideoExpand() {
-      this.videoElement.zoomed = true;
-    },
-    onVideoExpandMouseUp() {},
-    onVideoCollapse() {
-      this.videoElement.zoomed = false;
-    },
-    onVideoCollapseMouseUp() {},
-    onSwitchFullscreen() {
-      if (this.fullscreen) {
-        this.onLeaveFullscreen();
-      } else {
-        this.onEnterFullscreen(true);
-      }
-    },
-    onEnterFullscreen(force: boolean) {
-      if (this.playerOverlayVisible || force === true) {
-        const elem = this.$refs.videoPlayer;
-        if (elem.requestFullscreen) {
-          elem.requestFullscreen();
-        } else if (elem.mozRequestFullScreen) {
-          elem.mozRequestFullScreen();
-        } else if (elem.webkitRequestFullscreen) {
-          elem.webkitRequestFullscreen();
-        } else if (elem.msRequestFullscreen) {
-          elem.msRequestFullscreen();
-        }
-        this.fullscreen = true;
-      }
-    },
-    onEnterFullscreenMouseUp() {},
-    onLeaveFullscreen() {
-      const doc = document as any;
-      if (doc.exitFullscreen) {
-        doc.exitFullscreen();
-      } else if (doc.webkitExitFullscreen) {
-        doc.webkitExitFullscreen();
-      } else if (doc.mozCancelFullScreen) {
-        doc.mozCancelFullScreen();
-      } else if (doc.msExitFullscreen) {
-        doc.msExitFullscreen();
-      }
-      this.fullscreen = false;
-    },
-    onFullscreenChange() {
-      if (document.fullscreenElement) {
-        this.fullscreen = true;
-      } else {
-        this.fullscreen = false;
-      }
-    },
-    onLeaveFullscreenMouseUp() {},
-    onPlayBtnTouchEnd() {
-      this.toggleVideoPlayback();
-    },
-    onPlayBtnClick() {
-      this.toggleVideoPlayback();
-    },
-    onPlayerTouchStart() {},
-    onPlayerTouchEnd() {
-      if (this.seekbar.seeking) {
-        this.seekbar.seeking = false;
-        this.matchSeekProgressPercentage(true);
-      } else if (this.playerOverlay.visible) {
-        this.hidePlayerOverlay();
-      } else {
-        this.showPlayerOverlay(true);
-      }
-    },
-    onPlayerMouseMove(e) {
-      this.showPlayerOverlay();
-      if (this.seekbar.seeking && this.$refs.video) {
-        this.seekbar.seekPercentage = this.calculateSeekPercentage(e.pageX);
-        this.seekbar.hoverPercentage = this.calculateSeekPercentage(e.pageX);
-        this.seekbar.hoverTime = this.$formatting.getTimestampFromSeconds(
-          (this.$refs.video.duration / 100) * this.seekbar.hoverPercentage
-        );
-        this.seekbar.hoverTimeStamp =
-          (this.$refs.video.duration / 100) * this.seekbar.hoverPercentage;
-        this.matchSeekProgressPercentage();
-        if (this.isMouseOufOfBoundary(e.pageX, e.pageY)) {
-          this.seekbar.seeking = false;
-        }
-      }
-    },
-    onPlayerMouseLeave() {
-      this.hidePlayerOverlay();
-    },
-    showPlayerOverlay(noTimeout: boolean) {
-      this.playerOverlay.visible = true;
-      if (this.playerOverlay.timeout) {
-        clearTimeout(this.playerOverlay.timeout);
-      }
-      if (!noTimeout) {
-        this.playerOverlay.timeout = setTimeout(() => {
-          this.playerOverlay.visible = false;
-        }, 3000);
-      }
-    },
-    hidePlayerOverlay() {
-      if (this.playerOverlay.timeout) {
-        clearTimeout(this.playerOverlay.timeout);
-      }
-      this.playerOverlay.visible = false;
-    },
-    seekHoverAdjustedLeft(element: any): string {
-      const percentage = this.seekbar.hoverPercentage;
-      let leftPx = 0;
-      if (element) {
-        const elOffsetWidth = element.$el ? element.$el.offsetWidth : 0;
-        const elWidth = element.offsetWidth || elOffsetWidth;
-        const pageWidth = Commons.getPageWidth();
-        leftPx = ((pageWidth - 27.5) / 100) * percentage - (elWidth / 2 - 12);
-
-        if (leftPx < 10) {
-          leftPx = 10;
-        }
-        if (leftPx > pageWidth - elWidth - 17) {
-          leftPx = pageWidth - elWidth - 17;
-        }
-      }
-
-      return `${leftPx}px`;
-    }
   }
 });
 </script>

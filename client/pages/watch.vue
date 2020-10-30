@@ -1,7 +1,7 @@
 <template>
   <div class="watch">
-    <video v-if="!jsEnabled" controls :src="getHDUrl()" class="nojs-player" />
-    <VideoPlayer v-if="jsEnabled" :key="video.id" :video="video" class="video-player-p" />
+    <!-- <video v-if="!jsEnabled" controls :src="getHDUrl()" class="nojs-player" /> -->
+    <VideoPlayer :key="video.id" :video="video" class="video-player-p" />
     <div class="video-meta">
       <CollapsibleSection
         class="recommended-videos mobile"

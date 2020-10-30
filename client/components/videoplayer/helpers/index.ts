@@ -21,7 +21,7 @@ export class VideoPlayerHelper {
   }
 
   public saveVideoPosition(currentTime: number, store: any) {
-    const video = this.videoRef.video;
+    const video = this.videoRef.value.video;
     if (video !== undefined) {
       store.addVideoProgress({
         videoId: this.video.videoId,
