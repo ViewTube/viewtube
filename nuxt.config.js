@@ -101,10 +101,10 @@ module.exports = {
   // },
 
   buildModules: [
+    '@nuxtjs/composition-api',
     '@nuxtjs/router',
     '@nuxt/typescript-build',
-    'nuxt-typed-vuex',
-    '@nuxtjs/composition-api'
+    'nuxt-typed-vuex'
   ],
 
   modules: [
