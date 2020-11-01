@@ -194,7 +194,6 @@ export const videoPlayerSetup = ({ root, props }) => {
   const loadDashVideo = () => {
     if (videoRef.value) {
       let url = `${root.$store.getters['instances/currentInstanceApi']}manifest/dash/id/${props.video.videoId}?local=true`;
-      console.log(url);
       if (props.video.dashUrl) {
         url = `${props.video.dashUrl}?local=true`;
       }
@@ -227,7 +226,7 @@ export const videoPlayerSetup = ({ root, props }) => {
   };
   const onEnterFullscreen = (force: boolean) => {
     if (playerOverlayVisible.value || force === true) {
-      const elem = videoPlayerRef;
+      const elem = videoPlayerRef.value;
       if (elem.requestFullscreen) {
         elem.requestFullscreen();
       } else if (elem.mozRequestFullScreen) {
@@ -243,8 +242,8 @@ export const videoPlayerSetup = ({ root, props }) => {
   const onEnterFullscreenMouseUp = () => {};
   const onLeaveFullscreen = () => {
     const doc = document as any;
-    if (doc.exitFullscreen) {
-      doc.exitFullscreen();
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
     } else if (doc.webkitExitFullscreen) {
       doc.webkitExitFullscreen();
     } else if (doc.mozCancelFullScreen) {
@@ -309,6 +308,7 @@ export const videoPlayerSetup = ({ root, props }) => {
     }
   };
   const hidePlayerOverlay = () => {
+    console.log('hide');
     if (playerOverlay.timeout) {
       clearTimeout(playerOverlay.timeout);
     }
