@@ -28,32 +28,32 @@ export const seekbarFunctions = {
     }
   },
 
-  onPlayerTouchMove(e: any, { seekbar }) {
+  onPlayerTouchMove(e: any, { seekbar, videoRef, seekPercentage, videoElement }) {
     if (seekbar.seeking) {
       const touchX = e.touches[0].clientX;
       seekbar.seekPercentage = calculateSeekPercentage(touchX);
-      matchSeekProgressPercentage();
+      matchSeekProgressPercentage(videoRef, seekPercentage, videoElement);
     }
   },
 
-  onSeekbarMouseDown(_: any) {
+  onSeekbarMouseDown({ seekbar }) {
     seekbar.seeking = true;
   },
 
-  onPlayerMouseUp(_: any) {
+  onPlayerMouseUp({ seekbar, videoRef, seekPercentage, videoElement }) {
     if (seekbar.seeking) {
       seekbar.seeking = false;
-      matchSeekProgressPercentage(true);
+      matchSeekProgressPercentage(videoRef, seekPercentage, videoElement, true);
     } else {
       // toggleVideoPlayback()
     }
   },
 
-  onSeekbarMouseLeave(_: any) {},
-  onSeekbarMouseEnter(_: any) {},
-  onSeekBarClick(e) {
+  onSeekbarMouseLeave() {},
+  onSeekbarMouseEnter() {},
+  onSeekBarClick(e: any, { seekbar, videoRef, videoElement }) {
     seekbar.seekPercentage = calculateSeekPercentage(e.pageX);
-    matchSeekProgressPercentage(true);
+    matchSeekProgressPercentage(videoRef, seekbar.seekPercentage, videoElement, true);
   },
 
   isMouseOufOfBoundary(pageX: number, pageY: number) {

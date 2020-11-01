@@ -12,10 +12,10 @@
     }"
     @mousemove.stop="onPlayerMouseMove"
     @mouseleave.prevent.stop="onPlayerMouseLeave"
-    @mouseup.prevent.stop="e => seekbarHelper.onPlayerMouseUp(e)"
+    @mouseup.prevent.stop="onPlayerMouseUp"
     @touchend.prevent.stop="onPlayerTouchEnd"
     @touchstart.stop="onPlayerTouchStart"
-    @touchmove.stop="e => seekbarHelper.onPlayerTouchMove(e)"
+    @touchmove.stop="onPlayerTouchMove"
     @click.prevent.stop="onPlayerClick"
     @dblclick.prevent.stop="onSwitchFullscreen"
     @fullscreenchange.prevent.stop="onFullscreenChange"
@@ -115,13 +115,13 @@
         <div class="seekbar" :class="{ dragging: seekbar.seeking }">
           <div
             class="seekbar-clickable"
-            @mousedown.prevent.stop="e => seekbarHelper.onSeekbarMouseDown(e)"
-            @mouseleave.prevent.stop="e => seekbarHelper.onSeekbarMouseLeave(e)"
-            @mouseenter.prevent.stop="e => seekbarHelper.onSeekbarMouseEnter(e)"
-            @touchstart.prevent.stop="e => seekbarHelper.onSeekbarTouchStart(e)"
-            @mousemove.prevent="e => seekbarHelper.onSeekbarMouseMove(e)"
-            @touchmove.prevent="e => seekbarHelper.onSeekbarTouchMove(e)"
-            @click.prevent.stop="e => seekbarHelper.onSeekBarClick(e)"
+            @mousedown.prevent.stop="onSeekbarMouseDown"
+            @mouseleave.prevent.stop="onSeekbarMouseLeave"
+            @mouseenter.prevent.stop="onSeekbarMouseEnter"
+            @touchstart.prevent.stop="onSeekbarTouchStart"
+            @mousemove.prevent="onSeekbarMouseMove"
+            @touchmove.prevent="onSeekbarTouchMove"
+            @click.prevent.stop="onSeekbarClick"
           />
           <div class="seekbar-background" />
           <div
@@ -214,17 +214,7 @@
 </template>
 
 <script lang="ts">
-import {
-  computed,
-  reactive,
-  ref,
-  defineComponent,
-  watch,
-  onMounted,
-  onBeforeUnmount,
-  useContext
-} from '@nuxtjs/composition-api';
-import dashjs from 'dashjs';
+import { defineComponent, useContext } from '@nuxtjs/composition-api';
 import PauseIcon from 'vue-material-design-icons/Pause.vue';
 import PlayIcon from 'vue-material-design-icons/Play.vue';
 import FullscreenIcon from 'vue-material-design-icons/Fullscreen.vue';
@@ -237,7 +227,6 @@ import Spinner from '@/components/Spinner.vue';
 import VolumeControl from '@/components/videoplayer/VolumeControl.vue';
 import QualitySelection from '@/components/videoplayer/QualitySelection.vue';
 import SeekbarPreview from '@/components/videoplayer/SeekbarPreview.vue';
-import Commons from '@/plugins/commons.ts';
 import { NuxtError } from '@nuxt/types';
 import { videoPlayerSetup } from './helpers/index';
 

@@ -355,19 +355,42 @@ export const videoPlayerSetup = ({ root, props }) => {
       formatFn: root.$formatting.getTimestampFromSeconds
     });
 
-  const onSeekbarTouchMove;
+  const onSeekbarTouchMove = (e: any) =>
+    seekbarFunctions.onSeekbarTouchMove(e, {
+      playerOverlayVisible,
+      seekbar,
+      videoDuration: videoRef.value.duration,
+      formatFn: root.$formatting.getTimestampFromSeconds
+    });
 
-  const onPlayerTouchMove;
+  const onPlayerTouchMove = (e: any) =>
+    seekbarFunctions.onPlayerTouchMove(e, {
+      seekbar,
+      videoRef,
+      seekPercentage: seekbar.seekPercentage,
+      videoElement
+    });
 
-  const onSeekbarMouseDown;
+  const onSeekbarMouseDown = () => seekbarFunctions.onSeekbarMouseDown({ seekbar });
 
-  const onPlayerMouseUp;
+  const onPlayerMouseUp = () =>
+    seekbarFunctions.onPlayerMouseUp({
+      seekbar,
+      videoRef,
+      seekPercentage: seekbar.seekPercentage,
+      videoElement
+    });
 
-  const onSeekbarMouseLeave;
+  const onSeekbarMouseLeave = () => seekbarFunctions.onSeekbarMouseLeave();
 
-  const onSeekbarMouseEnter;
+  const onSeekbarMouseEnter = () => seekbarFunctions.onSeekbarMouseEnter();
 
-  const onSeekbarClick;
+  const onSeekbarClick = (e: any) =>
+    seekbarFunctions.onSeekBarClick(e, {
+      seekbar,
+      videoRef,
+      videoElement
+    });
 
   const createMediaMetadata = () => {
     return mediaMetadataHelper.createMediaMetadata();
@@ -440,6 +463,14 @@ export const videoPlayerSetup = ({ root, props }) => {
     hidePlayerOverlay,
     seekHoverAdjustedLeft,
     onSeekbarMouseMove,
+    onSeekbarTouchStart,
+    onSeekbarTouchMove,
+    onPlayerTouchMove,
+    onSeekbarMouseDown,
+    onPlayerMouseUp,
+    onSeekbarMouseLeave,
+    onSeekbarMouseEnter,
+    onSeekbarClick,
     onPlayerClick,
     loadDashVideo
   };
