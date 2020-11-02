@@ -308,7 +308,6 @@ export const videoPlayerSetup = ({ root, props }) => {
     }
   };
   const hidePlayerOverlay = () => {
-    console.log('hide');
     if (playerOverlay.timeout) {
       clearTimeout(playerOverlay.timeout);
     }

@@ -132,7 +132,7 @@ export default Vue.extend({
     padding: 10px 0;
 
     @media screen and (max-width: $mobile-width) {
-      position: fixed;
+      position: absolute;
       left: 0;
       top: 0;
       width: 100%;
@@ -142,7 +142,7 @@ export default Vue.extend({
         content: '';
         display: block;
         position: fixed;
-        background-color: #000;
+        background-color: #0000002d;
         top: 0;
         left: 0;
         right: 0;
