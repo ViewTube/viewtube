@@ -181,7 +181,11 @@
             </div>
           </div>
           <div class="right-bottom-controls">
-            <QualitySelection :formatStreams="video.formatStreams" />
+            <QualitySelection
+              :formatStreams="video.formatStreams"
+              :selectedQuality="selectedQuality"
+              @qualityselect="onChangeQuality"
+            />
             <FullscreenIcon
               v-if="!fullscreen"
               v-tippy="'Enter Fullscreen'"
@@ -202,6 +206,7 @@
         </div>
       </div>
     </div>
+    <portal-target name="video-player" />
     <div
       v-if="video.videoThumbnails && video.videoThumbnails.length > 0"
       class="video-thumbnail-overlay"

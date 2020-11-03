@@ -17,6 +17,8 @@ export const videoPlayerSetup = ({ root, props }) => {
   const dashPlayer = ref(null);
   const dashBitrates = ref(null);
 
+  const selectedQuality = ref(1);
+
   const playerOverlay = reactive({
     visible: false,
     timeout: undefined,
@@ -45,22 +47,26 @@ export const videoPlayerSetup = ({ root, props }) => {
     hoverTimeStamp: 0
   });
 
+  const highestVideoQuality = ref(null);
+
   const commons = Commons;
   const mediaMetadataHelper = new MediaMetadataHelper(props.video);
 
-  const highestVideoQuality = computed(() => {
-    if (props.video.formatStreams) {
-      const videoFormat = props.video.formatStreams.find((e: any) => {
-        return e.qualityLabel && e.qualityLabel === '720p';
-      });
-      if (videoFormat && videoFormat.url) {
-        return videoFormat.url;
-      } else if (props.video.formatStreams.length > 0) {
-        return props.video.formatStreams[0].url;
-      }
+  highestVideoQuality.value = '#';
+  if (props.video.formatStreams) {
+    let qualityIndex = 0;
+    const videoFormat = props.video.formatStreams.find((e: any, index: number) => {
+      qualityIndex = index;
+      return e.qualityLabel && e.qualityLabel === '720p';
+    });
+    if (videoFormat && videoFormat.url) {
+      highestVideoQuality.value = videoFormat.url;
+    } else if (props.video.formatStreams.length > 0) {
+      highestVideoQuality.value = props.video.formatStreams[0].url;
     }
-    return '#';
-  });
+    selectedQuality.value = qualityIndex;
+  }
+
   const videoVolume = computed(() => {
     return videoElement.playerVolume;
   });
@@ -391,6 +397,16 @@ export const videoPlayerSetup = ({ root, props }) => {
       videoElement
     });
 
+  const onChangeQuality = (index: number) => {
+    videoRef.value.pause();
+    const currentTime = videoRef.value.currentTime;
+    saveVideoPosition(currentTime, root.$accessor.videoProgress);
+    videoRef.value.src = props.video.formatStreams[index].url;
+    videoRef.value.currentTime = currentTime;
+    videoRef.value.play();
+    selectedQuality.value = index;
+  };
+
   const createMediaMetadata = () => {
     return mediaMetadataHelper.createMediaMetadata();
   };
@@ -421,6 +437,7 @@ export const videoPlayerSetup = ({ root, props }) => {
     videoElement,
     seekbar,
     commons,
+    selectedQuality,
     highestVideoQuality,
     videoVolume,
     videoLength,
@@ -471,6 +488,7 @@ export const videoPlayerSetup = ({ root, props }) => {
     onSeekbarMouseEnter,
     onSeekbarClick,
     onPlayerClick,
+    onChangeQuality,
     loadDashVideo
   };
 };
