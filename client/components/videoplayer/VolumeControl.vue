@@ -1,5 +1,11 @@
 <template>
-  <div class="volume-control" @mouseup.stop="stopEvent" @click.stop="stopEvent">
+  <div
+    class="volume-control"
+    :class="{ visible }"
+    @mouseup.stop="stopEvent"
+    @click.stop="stopEvent"
+    @touchend.stop="onTouch"
+  >
     <VolumeHighIcon v-if="volumeCategory == 3" />
     <VolumeMediumIcon v-if="volumeCategory == 2" />
     <VolumeLowIcon v-if="volumeCategory == 1" />
@@ -42,7 +48,9 @@ export default Vue.extend({
   props: {
     value: null
   },
-  data: () => ({}),
+  data: () => ({
+    visible: false
+  }),
   computed: {
     volumeCategory(): number {
       if (this.value >= 1) {
@@ -58,7 +66,10 @@ export default Vue.extend({
     }
   },
   methods: {
-    stopEvent() {}
+    stopEvent() {},
+    onTouch() {
+      this.visible = !this.visible;
+    }
   }
 });
 </script>
@@ -72,7 +83,8 @@ export default Vue.extend({
   border-radius: 5px;
   background-color: var(--bgcolor-alt);
 
-  &:hover {
+  &:hover,
+  &.visible {
     .volume-percentage {
       margin: auto 0 auto 10px;
     }
