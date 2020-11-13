@@ -131,11 +131,16 @@ export const videoPlayerSetup = ({ root, props }) => {
       videoElement.progress = videoRef.value.currentTime;
 
       if (process.browser && 'mediaSession' in navigator) {
-        (navigator as any).mediaSession.setPositionState({
-          duration: videoRef.value.duration,
-          playbackRate: videoRef.value.playbackRate,
-          position: videoRef.value.currentTime
-        });
+        const duration = parseFloat(videoRef.value.duration);
+        const playbackRate = parseFloat(videoRef.value.playbackRate);
+        const position = parseFloat(videoRef.value.currentTime);
+        if (duration && playbackRate && position) {
+          (navigator as any).mediaSession.setPositionState({
+            duration,
+            playbackRate,
+            position
+          });
+        }
       }
     }
   };
