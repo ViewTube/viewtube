@@ -137,7 +137,6 @@ export const videoPlayerSetup = ({ root, props }) => {
           const duration = parseFloat(videoRef.value.duration);
           const playbackRate = parseFloat(videoRef.value.playbackRate);
           const position = parseFloat(videoRef.value.currentTime);
-          debugger;
           if (duration && playbackRate && position) {
             (navigator as any).mediaSession.setPositionState({
               duration,
