@@ -125,11 +125,23 @@ export const videoPlayerSetup = ({ root, props }) => {
     videoElement.aspectRatio = e.target.videoHeight / e.target.videoWidth;
   };
 
-  const onPlaybackProgress = () => {
+  const updatePlaybackProgress = () => {
     if (videoRef.value && !seekbar.seeking) {
       videoElement.progressPercentage = (videoRef.value.currentTime / videoLength.value) * 100;
       videoElement.progress = videoRef.value.currentTime;
+
+      if (process.browser && 'mediaSession' in navigator) {
+        (navigator as any).mediaSession.setPositionState({
+          duration: videoRef.value.duration,
+          playbackRate: videoRef.value.playbackRate,
+          position: videoRef.value.currentTime
+        });
+      }
     }
+  };
+
+  const onPlaybackProgress = () => {
+    updatePlaybackProgress();
   };
 
   const onLoadingProgress = () => {
@@ -437,6 +449,7 @@ export const videoPlayerSetup = ({ root, props }) => {
     (navigator as any).mediaSession.setActionHandler('seekbackward', () => {
       if (videoRef.value) {
         videoRef.value.currentTime = Math.min(videoRef.value.currentTime - 5, 0);
+        updatePlaybackProgress();
       }
     });
     (navigator as any).mediaSession.setActionHandler('seekforward', () => {
@@ -445,11 +458,13 @@ export const videoPlayerSetup = ({ root, props }) => {
           videoRef.value.currentTime + 5,
           videoRef.value.duration
         );
+        updatePlaybackProgress();
       }
     });
     (navigator as any).mediaSession.setActionHandler('seekto', (details: any) => {
       if (videoRef.value && details.seekTime) {
         videoRef.value.currentTime = details.seekTime;
+        updatePlaybackProgress();
       }
     });
   }
