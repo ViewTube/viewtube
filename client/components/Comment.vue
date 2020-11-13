@@ -131,8 +131,8 @@ export default Vue.extend({
           }
         })
         .then(response => {
-          this.replies = response.comments;
-          this.repliesContinuationLink = response.continuation || null;
+          this.replies = response.data.comments;
+          this.repliesContinuationLink = response.data.continuation || null;
           this.repliesLoaded = true;
           this.loadingReplies = false;
         })
@@ -157,8 +157,8 @@ export default Vue.extend({
           }
         })
         .then(response => {
-          this.replies = this.replies.concat(response.comments);
-          this.repliesContinuationLink = response.continuation || null;
+          this.replies = this.replies.concat(response.data.comments);
+          this.repliesContinuationLink = response.data.continuation || null;
           this.repliesContinuationLoading = false;
         })
         .catch(error => {

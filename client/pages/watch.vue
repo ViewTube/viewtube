@@ -17,15 +17,12 @@
         <h1 class="video-infobox-title">
           {{ video.title }}
         </h1>
-        <div
-          v-if="video.viewCount && video.likeCount && video.dislikeCount"
-          class="video-infobox-stats"
-        >
-          <p class="infobox-views">
+        <div class="video-infobox-stats">
+          <p v-if="video.viewCount" class="infobox-views">
             {{ parseFloat(video.viewCount).toLocaleString('en-US') }}
             views
           </p>
-          <div class="infobox-rating">
+          <div v-if="video.likeCount && video.dislikeCount" class="infobox-rating">
             <div class="infobox-likecount">
               <div class="infobox-likes">
                 <ThumbsUp class="thumbs-icon" />
