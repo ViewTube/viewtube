@@ -129,14 +129,15 @@ export const videoPlayerSetup = ({ root, props }) => {
 
   const updatePlaybackProgress = (force = false) => {
     if (videoRef.value && !seekbar.seeking) {
-      videoElement.progressPercentage = (videoRef.value.currentTime / videoLength.value) * 100;
-      videoElement.progress = videoRef.value.currentTime;
+      if (Math.abs(playbackTimeBeforeUpdate.value - videoRef.value.currentTime) > 1 || force) {
+        videoElement.progressPercentage = (videoRef.value.currentTime / videoLength.value) * 100;
+        videoElement.progress = videoRef.value.currentTime;
 
-      if (process.browser && 'mediaSession' in navigator) {
-        if (Math.abs(playbackTimeBeforeUpdate.value - videoRef.value.currentTime) > 1 || force) {
+        if (process.browser && 'mediaSession' in navigator) {
           const duration = parseFloat(videoRef.value.duration);
           const playbackRate = parseFloat(videoRef.value.playbackRate);
           const position = parseFloat(videoRef.value.currentTime);
+          debugger;
           if (duration && playbackRate && position) {
             (navigator as any).mediaSession.setPositionState({
               duration,
@@ -144,8 +145,9 @@ export const videoPlayerSetup = ({ root, props }) => {
               position
             });
           }
-          playbackTimeBeforeUpdate.value = Math.floor(videoRef.value.currentTime);
         }
+
+        playbackTimeBeforeUpdate.value = Math.floor(videoRef.value.currentTime);
       }
     }
   };
