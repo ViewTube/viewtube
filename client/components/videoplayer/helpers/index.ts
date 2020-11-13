@@ -125,21 +125,26 @@ export const videoPlayerSetup = ({ root, props }) => {
     videoElement.aspectRatio = e.target.videoHeight / e.target.videoWidth;
   };
 
-  const updatePlaybackProgress = () => {
+  const playbackTimeBeforeUpdate = ref(0);
+
+  const updatePlaybackProgress = (force = false) => {
     if (videoRef.value && !seekbar.seeking) {
       videoElement.progressPercentage = (videoRef.value.currentTime / videoLength.value) * 100;
       videoElement.progress = videoRef.value.currentTime;
 
       if (process.browser && 'mediaSession' in navigator) {
-        const duration = parseFloat(videoRef.value.duration);
-        const playbackRate = parseFloat(videoRef.value.playbackRate);
-        const position = parseFloat(videoRef.value.currentTime);
-        if (duration && playbackRate && position) {
-          (navigator as any).mediaSession.setPositionState({
-            duration,
-            playbackRate,
-            position
-          });
+        if (Math.abs(playbackTimeBeforeUpdate.value - videoRef.value.currentTime) > 1 || force) {
+          const duration = parseFloat(videoRef.value.duration);
+          const playbackRate = parseFloat(videoRef.value.playbackRate);
+          const position = parseFloat(videoRef.value.currentTime);
+          if (duration && playbackRate && position) {
+            (navigator as any).mediaSession.setPositionState({
+              duration,
+              playbackRate,
+              position
+            });
+          }
+          playbackTimeBeforeUpdate.value = Math.floor(videoRef.value.currentTime);
         }
       }
     }
@@ -453,8 +458,8 @@ export const videoPlayerSetup = ({ root, props }) => {
     });
     (navigator as any).mediaSession.setActionHandler('seekbackward', () => {
       if (videoRef.value) {
-        videoRef.value.currentTime = Math.min(videoRef.value.currentTime - 5, 0);
-        updatePlaybackProgress();
+        videoRef.value.currentTime = Math.max(videoRef.value.currentTime - 5, 0);
+        updatePlaybackProgress(true);
       }
     });
     (navigator as any).mediaSession.setActionHandler('seekforward', () => {
@@ -463,13 +468,13 @@ export const videoPlayerSetup = ({ root, props }) => {
           videoRef.value.currentTime + 5,
           videoRef.value.duration
         );
-        updatePlaybackProgress();
+        updatePlaybackProgress(true);
       }
     });
     (navigator as any).mediaSession.setActionHandler('seekto', (details: any) => {
       if (videoRef.value && details.seekTime) {
         videoRef.value.currentTime = details.seekTime;
-        updatePlaybackProgress();
+        updatePlaybackProgress(true);
       }
     });
   }
