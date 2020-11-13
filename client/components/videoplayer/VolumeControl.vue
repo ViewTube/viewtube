@@ -68,7 +68,10 @@ export default Vue.extend({
   methods: {
     stopEvent() {},
     onTouch() {
-      this.visible = !this.visible;
+      this.visible = true;
+      setTimeout(() => {
+        this.visible = false;
+      }, 1000);
     }
   }
 });
