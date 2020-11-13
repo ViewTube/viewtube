@@ -421,6 +421,39 @@ export const videoPlayerSetup = ({ root, props }) => {
     }
   };
 
+  if (process.browser && 'mediaSession' in navigator) {
+    (navigator as any).mediaSession.setActionHandler('play', () => {
+      if (videoRef.value) {
+        playerOverlay.thumbnailVisible = false;
+        videoRef.value.play();
+      }
+    });
+    (navigator as any).mediaSession.setActionHandler('pause', () => {
+      if (videoRef.value) {
+        playerOverlay.thumbnailVisible = false;
+        videoRef.value.pause();
+      }
+    });
+    (navigator as any).mediaSession.setActionHandler('seekbackward', () => {
+      if (videoRef.value) {
+        videoRef.value.currentTime = Math.min(videoRef.value.currentTime - 5, 0);
+      }
+    });
+    (navigator as any).mediaSession.setActionHandler('seekforward', () => {
+      if (videoRef.value) {
+        videoRef.value.currentTime = Math.min(
+          videoRef.value.currentTime + 5,
+          videoRef.value.duration
+        );
+      }
+    });
+    (navigator as any).mediaSession.setActionHandler('seekto', (details: any) => {
+      if (videoRef.value && details.seekTime) {
+        videoRef.value.currentTime = details.seekTime;
+      }
+    });
+  }
+
   onMounted(() => {
     document.addEventListener('keydown', onWindowKeyDown);
   });
