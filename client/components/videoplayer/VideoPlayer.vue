@@ -207,6 +207,7 @@
       </div>
     </div>
     <portal-target name="video-player" />
+    <VideoPlayerAnimations :animations="animations" />
     <div
       v-if="video.videoThumbnails && video.videoThumbnails.length > 0"
       class="video-thumbnail-overlay"
@@ -222,6 +223,7 @@
 import { defineComponent, useContext } from '@nuxtjs/composition-api';
 import PauseIcon from 'vue-material-design-icons/Pause.vue';
 import PlayIcon from 'vue-material-design-icons/Play.vue';
+import VideoPlayerAnimations from '@/components/videoplayer/VideoPlayerAnimations.vue';
 import FullscreenIcon from 'vue-material-design-icons/Fullscreen.vue';
 import FullscreenExitIcon from 'vue-material-design-icons/FullscreenExit.vue';
 // import ArrowExpandIcon from 'vue-material-design-icons/ArrowExpand.vue';
@@ -274,7 +276,8 @@ export default defineComponent({
     CloseIcon,
     VolumeControl,
     QualitySelection,
-    SeekbarPreview
+    SeekbarPreview,
+    VideoPlayerAnimations
   }
 });
 </script>

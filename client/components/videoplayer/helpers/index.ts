@@ -26,6 +26,13 @@ export const videoPlayerSetup = ({ root, props }) => {
     thumbnailVisible: true
   });
 
+  const animations = reactive({
+    skipForward: false,
+    skipBackward: false,
+    volumeUp: false,
+    volumeDown: false
+  });
+
   const videoElement = reactive({
     positionSaveInterval: undefined,
     buffering: true,
@@ -114,9 +121,15 @@ export const videoPlayerSetup = ({ root, props }) => {
         toggleVideoPlayback();
         e.preventDefault();
       } else if (e.key === 'ArrowRight') {
-        videoRef.value.currentTime += 5;
+        seekForward(5);
       } else if (e.key === 'ArrowLeft') {
-        videoRef.value.currentTime -= 5;
+        seekBackward(5);
+      } else if (e.key === 'ArrowUp') {
+        increaseVolume(0.1);
+        e.preventDefault();
+      } else if (e.key === 'ArrowDown') {
+        decreaseVolume(0.1);
+        e.preventDefault();
       }
     }
   };
@@ -296,15 +309,46 @@ export const videoPlayerSetup = ({ root, props }) => {
   const onPlayBtnClick = () => {
     toggleVideoPlayback();
   };
-  const onPlayerTouchStart = () => {};
-  const onPlayerTouchEnd = () => {
-    if (seekbar.seeking) {
-      seekbar.seeking = false;
-      matchSeekProgressPercentage(videoRef, seekbar.seekPercentage, videoElement, true);
-    } else if (playerOverlay.visible) {
-      hidePlayerOverlay();
+
+  const onPlayerTouchStart = () => {
+    hidePlayerOverlay();
+  };
+
+  const doubleTouchTimer = ref(null);
+
+  const onPlayerTouchEnd = (e: any) => {
+    if (!doubleTouchTimer.value) {
+      doubleTouchTimer.value = setTimeout(() => {
+        doubleTouchTimer.value = null;
+
+        if (seekbar.seeking) {
+          seekbar.seeking = false;
+          matchSeekProgressPercentage(videoRef, seekbar.seekPercentage, videoElement, true);
+        } else if (playerOverlay.visible) {
+          hidePlayerOverlay();
+        } else {
+          showPlayerOverlay(true);
+        }
+      }, 500);
     } else {
-      showPlayerOverlay(true);
+      clearTimeout(doubleTouchTimer.value);
+      doubleTouchTimer.value = null;
+
+      if (videoPlayerRef.value && e.changedTouches) {
+        const pageX = e.changedTouches[0].pageX;
+        const containerWidth = videoPlayerRef.value.clientWidth;
+
+        const leftHalf = pageX < containerWidth / 2;
+        const rightHalf = pageX > containerWidth / 2;
+
+        if (leftHalf) {
+          seekBackward(5);
+        } else if (rightHalf) {
+          seekForward(5);
+        }
+      }
+
+      console.log(e);
     }
   };
   const onPlayerMouseMove = e => {
@@ -440,7 +484,6 @@ export const videoPlayerSetup = ({ root, props }) => {
         videoId: props.video.videoId,
         value: currentTime
       });
-      // return this.$localforage.setItem(`savedVideoPositionId${videoId}`, value)
     }
   };
 
@@ -459,16 +502,13 @@ export const videoPlayerSetup = ({ root, props }) => {
     });
     (navigator as any).mediaSession.setActionHandler('seekbackward', () => {
       if (videoRef.value) {
-        videoRef.value.currentTime = Math.max(videoRef.value.currentTime - 5, 0);
+        seekBackward(5);
         updatePlaybackProgress(true);
       }
     });
     (navigator as any).mediaSession.setActionHandler('seekforward', () => {
       if (videoRef.value) {
-        videoRef.value.currentTime = Math.min(
-          videoRef.value.currentTime + 5,
-          videoRef.value.duration
-        );
+        seekForward(5);
         updatePlaybackProgress(true);
       }
     });
@@ -479,6 +519,36 @@ export const videoPlayerSetup = ({ root, props }) => {
       }
     });
   }
+
+  const seekForward = (time: number) => {
+    videoRef.value.currentTime = Math.min(
+      videoRef.value.currentTime + time,
+      videoRef.value.duration
+    );
+    playAnimation((val: boolean) => (animations.skipForward = val));
+  };
+
+  const seekBackward = (time: number) => {
+    videoRef.value.currentTime = Math.max(videoRef.value.currentTime - time, 0);
+    playAnimation((val: boolean) => (animations.skipBackward = val));
+  };
+
+  const increaseVolume = (volume: number) => {
+    videoRef.value.volume = Math.min(videoRef.value.volume + volume, 1);
+    playAnimation((val: boolean) => (animations.volumeUp = val));
+  };
+
+  const decreaseVolume = (volume: number) => {
+    videoRef.value.volume = Math.max(videoRef.value.volume - volume, 0);
+    playAnimation((val: boolean) => (animations.volumeDown = val));
+  };
+
+  const playAnimation = (animFn: Function) => {
+    animFn(true);
+    setTimeout(() => {
+      animFn(false);
+    }, 300);
+  };
 
   onMounted(() => {
     document.addEventListener('keydown', onWindowKeyDown);
@@ -506,6 +576,7 @@ export const videoPlayerSetup = ({ root, props }) => {
     seekbarHoverPreviewRef,
     seekbarHoverTimestampRef,
     videoRef,
+    animations,
     onLoadedMetadata,
     onPlaybackProgress,
     onLoadingProgress,
