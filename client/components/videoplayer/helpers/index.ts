@@ -17,6 +17,8 @@ export const videoPlayerSetup = ({ root, props }) => {
   const dashPlayer = ref(null);
   const dashBitrates = ref(null);
 
+  const touchAction = ref(false);
+
   const selectedQuality = ref(1);
 
   const playerOverlay = reactive({
@@ -58,6 +60,13 @@ export const videoPlayerSetup = ({ root, props }) => {
 
   const commons = Commons;
   const mediaMetadataHelper = new MediaMetadataHelper(props.video);
+
+  const doTouchAction = () => {
+    touchAction.value = true;
+    setTimeout(() => {
+      touchAction.value = false;
+    }, 100);
+  };
 
   highestVideoQuality.value = '#';
   if (props.video.formatStreams) {
@@ -311,12 +320,18 @@ export const videoPlayerSetup = ({ root, props }) => {
   };
 
   const onPlayerTouchStart = () => {
-    hidePlayerOverlay();
+    doTouchAction();
+    if (playerOverlay.visible) {
+      hidePlayerOverlay();
+    } else {
+      showPlayerOverlay(true);
+    }
   };
 
   const doubleTouchTimer = ref(null);
 
   const onPlayerTouchEnd = (e: any) => {
+    doTouchAction();
     if (!doubleTouchTimer.value) {
       doubleTouchTimer.value = setTimeout(() => {
         doubleTouchTimer.value = null;
@@ -324,10 +339,6 @@ export const videoPlayerSetup = ({ root, props }) => {
         if (seekbar.seeking) {
           seekbar.seeking = false;
           matchSeekProgressPercentage(videoRef, seekbar.seekPercentage, videoElement, true);
-        } else if (playerOverlay.visible) {
-          hidePlayerOverlay();
-        } else {
-          showPlayerOverlay(true);
         }
       }, 500);
     } else {
@@ -352,24 +363,26 @@ export const videoPlayerSetup = ({ root, props }) => {
     }
   };
   const onPlayerMouseMove = e => {
-    showPlayerOverlay(false);
-    if (seekbar.seeking && videoRef.value) {
-      seekbar.seekPercentage = calculateSeekPercentage(e.pageX);
-      seekbar.hoverPercentage = calculateSeekPercentage(e.pageX);
-      seekbar.hoverTime = root.$formatting.getTimestampFromSeconds(
-        (videoRef.value.duration / 100) * seekbar.hoverPercentage
-      );
-      seekbar.hoverTimeStamp = (videoRef.value.duration / 100) * seekbar.hoverPercentage;
-      matchSeekProgressPercentage(videoRef, seekbar.seekPercentage, videoElement);
-      if (seekbarFunctions.isMouseOufOfBoundary(e.pageX, e.pageY)) {
-        seekbar.seeking = false;
+    if (!touchAction.value) {
+      showPlayerOverlay(false);
+      if (seekbar.seeking && videoRef.value) {
+        seekbar.seekPercentage = calculateSeekPercentage(e.pageX);
+        seekbar.hoverPercentage = calculateSeekPercentage(e.pageX);
+        seekbar.hoverTime = root.$formatting.getTimestampFromSeconds(
+          (videoRef.value.duration / 100) * seekbar.hoverPercentage
+        );
+        seekbar.hoverTimeStamp = (videoRef.value.duration / 100) * seekbar.hoverPercentage;
+        matchSeekProgressPercentage(videoRef, seekbar.seekPercentage, videoElement);
+        if (seekbarFunctions.isMouseOufOfBoundary(e.pageX, e.pageY)) {
+          seekbar.seeking = false;
+        }
       }
     }
   };
   const onPlayerMouseLeave = () => {
     hidePlayerOverlay();
   };
-  const showPlayerOverlay = (noTimeout: boolean) => {
+  const showPlayerOverlay = (noTimeout: boolean = false) => {
     playerOverlay.visible = true;
     if (playerOverlay.timeout) {
       clearTimeout(playerOverlay.timeout);
@@ -435,13 +448,15 @@ export const videoPlayerSetup = ({ root, props }) => {
       formatFn: root.$formatting.getTimestampFromSeconds
     });
 
-  const onPlayerTouchMove = (e: any) =>
+  const onPlayerTouchMove = (e: any) => {
+    doTouchAction();
     seekbarFunctions.onPlayerTouchMove(e, {
       seekbar,
       videoRef,
       seekPercentage: seekbar.seekPercentage,
       videoElement
     });
+  };
 
   const onSeekbarMouseDown = () => seekbarFunctions.onSeekbarMouseDown({ seekbar });
 
