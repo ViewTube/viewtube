@@ -123,19 +123,74 @@
             @touchmove.prevent="onSeekbarTouchMove"
             @click.prevent.stop="onSeekbarClick"
           />
-          <div class="seekbar-background" />
+          <div v-if="!chapters" class="seekbar-background" />
+          <div v-if="chapters" class="seekbar-background-chapters">
+            <div
+              v-for="(chapter, index) in chapters"
+              :key="index"
+              class="seekbar-background-chapter"
+              :style="{
+                left: `${chapter.startPercentage}%`,
+                width: `calc(${chapter.endPercentage - chapter.startPercentage}% - 3px)`
+              }"
+            />
+          </div>
           <div
+            v-if="!chapters"
             class="seekbar-loading-progress"
             :style="{
               width: `${videoElement.loadingPercentage}%`
             }"
           />
           <div
+            v-if="chapters"
+            class="seekbar-loading-progress-chapters"
+            :style="{
+              'clip-path': `polygon(
+                0 0,
+                ${videoElement.loadingPercentage}% 0,
+                ${videoElement.loadingPercentage}% 100%,
+                0 100%)`
+            }"
+          >
+            <div
+              v-for="(chapter, index) in chapters"
+              :key="index"
+              class="seekbar-loading-progress-chapter"
+              :style="{
+                left: `${chapter.startPercentage}%`,
+                width: `calc(${chapter.endPercentage - chapter.startPercentage}% - 3px)`
+              }"
+            />
+          </div>
+          <div
+            v-if="!chapters"
             class="seekbar-playback-progress"
             :style="{
               width: `${videoElement.progressPercentage}%`
             }"
           />
+          <div
+            v-if="chapters"
+            class="seekbar-playback-progress-chapters"
+            :style="{
+              'clip-path': `polygon(
+                0 0,
+                ${videoElement.progressPercentage}% 0,
+                ${videoElement.progressPercentage}% 100%,
+                0 100%)`
+            }"
+          >
+            <div
+              v-for="(chapter, index) in chapters"
+              :key="index"
+              class="seekbar-playback-progress-chapter"
+              :style="{
+                left: `${chapter.startPercentage}%`,
+                width: `calc(${chapter.endPercentage - chapter.startPercentage}% - 3px)`
+              }"
+            />
+          </div>
           <div
             class="seekbar-circle"
             :style="{
@@ -603,17 +658,54 @@ button.pictureInPictureToggleButton {
           background-color: var(--line-color);
           z-index: 142;
         }
+        .seekbar-background-chapters {
+          @include seekbar-part;
+          height: $video-seekbar-line-height;
+          z-index: 142;
+
+          .seekbar-background-chapter {
+            position: absolute;
+            background-color: var(--line-color);
+            height: 100%;
+          }
+        }
+
         .seekbar-loading-progress {
           @include seekbar-part;
           height: $video-seekbar-line-height;
           background-color: var(--line-accent-color);
           z-index: 143;
         }
+
+        .seekbar-loading-progress-chapters {
+          @include seekbar-part;
+          height: $video-seekbar-line-height;
+          z-index: 143;
+
+          .seekbar-loading-progress-chapter {
+            position: absolute;
+            background-color: var(--line-accent-color);
+            height: 100%;
+          }
+        }
+
         .seekbar-playback-progress {
           @include seekbar-part;
           height: $video-seekbar-line-height;
           background-color: var(--theme-color);
           z-index: 144;
+        }
+
+        .seekbar-playback-progress-chapters {
+          @include seekbar-part;
+          height: $video-seekbar-line-height;
+          z-index: 144;
+
+          .seekbar-playback-progress-chapter {
+            position: absolute;
+            background-color: var(--theme-color);
+            height: 100%;
+          }
         }
       }
 

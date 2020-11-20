@@ -10,6 +10,7 @@ import Commons from '@/plugins/commons';
 import dashjs from 'dashjs';
 import { MediaMetadataHelper } from './mediaMetadata';
 import { calculateSeekPercentage, matchSeekProgressPercentage, seekbarFunctions } from './seekbar';
+import { parseChapters } from './chapters';
 
 export const videoPlayerSetup = ({ root, props }) => {
   const loading = ref(true);
@@ -92,6 +93,13 @@ export const videoPlayerSetup = ({ root, props }) => {
     }
     return 0;
   });
+  const chapters = ref(null);
+
+  if (root.$store.getters['settings/miniplayer']) {
+    chapters.value = parseChapters(props.video.description, videoLength.value);
+    console.log(chapters.value);
+  }
+
   const videoUrl = computed(() => {
     if (props.video !== undefined) {
       return `/watch?v=${props.video.videoId}`;
@@ -592,6 +600,7 @@ export const videoPlayerSetup = ({ root, props }) => {
     seekbarHoverTimestampRef,
     videoRef,
     animations,
+    chapters,
     onLoadedMetadata,
     onPlaybackProgress,
     onLoadingProgress,

@@ -166,13 +166,15 @@ export const state = () => ({
       }
     ]
   },
-  miniplayer: true as boolean
+  miniplayer: true as boolean,
+  chapters: true as boolean
 });
 
 export const getters = getterTree(state, {
   theme: state => state.theme,
   defaultThemes: state => state.defaults.theme,
   miniplayer: state => state.miniplayer,
+  chapters: state => state.chapters,
   themeVariables: state => state.defaults.theme.find(el => state.theme === el.value)
 });
 
@@ -184,5 +186,8 @@ export const mutations = mutationTree(state, {
   },
   setMiniplayer(state, enabled) {
     state.miniplayer = enabled;
+  },
+  setChapters(state, enabled) {
+    state.chapters = enabled;
   }
 });
