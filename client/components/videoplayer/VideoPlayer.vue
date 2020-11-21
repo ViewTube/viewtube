@@ -133,7 +133,14 @@
                 left: `${chapter.startPercentage}%`,
                 width: `calc(${chapter.endPercentage - chapter.startPercentage}% - 3px)`
               }"
-            />
+              :class="{
+                hovering:
+                  seekbar.hoverPercentage > chapter.startPercentage &&
+                  seekbar.hoverPercentage < chapter.endPercentage
+              }"
+            >
+              <span class="chapter-title">{{ chapter.title }}</span>
+            </div>
           </div>
           <div
             v-if="!chapters"
@@ -147,10 +154,10 @@
             class="seekbar-loading-progress-chapters"
             :style="{
               'clip-path': `polygon(
-                0 0,
-                ${videoElement.loadingPercentage}% 0,
-                ${videoElement.loadingPercentage}% 100%,
-                0 100%)`
+                0 -100%,
+                ${videoElement.loadingPercentage}% -100%,
+                ${videoElement.loadingPercentage}% 200%,
+                0 200%)`
             }"
           >
             <div
@@ -160,6 +167,11 @@
               :style="{
                 left: `${chapter.startPercentage}%`,
                 width: `calc(${chapter.endPercentage - chapter.startPercentage}% - 3px)`
+              }"
+              :class="{
+                hovering:
+                  seekbar.hoverPercentage > chapter.startPercentage &&
+                  seekbar.hoverPercentage < chapter.endPercentage
               }"
             />
           </div>
@@ -175,10 +187,10 @@
             class="seekbar-playback-progress-chapters"
             :style="{
               'clip-path': `polygon(
-                0 0,
-                ${videoElement.progressPercentage}% 0,
-                ${videoElement.progressPercentage}% 100%,
-                0 100%)`
+                0 -100%,
+                ${videoElement.progressPercentage}% -100%,
+                ${videoElement.progressPercentage}% 200%,
+                0 200%)`
             }"
           >
             <div
@@ -188,6 +200,11 @@
               :style="{
                 left: `${chapter.startPercentage}%`,
                 width: `calc(${chapter.endPercentage - chapter.startPercentage}% - 3px)`
+              }"
+              :class="{
+                hovering:
+                  seekbar.hoverPercentage > chapter.startPercentage &&
+                  seekbar.hoverPercentage < chapter.endPercentage
               }"
             />
           </div>
@@ -601,6 +618,22 @@ button.pictureInPictureToggleButton {
           .seekbar-preview {
             opacity: 1;
           }
+
+          .seekbar-background-chapters,
+          .seekbar-loading-progress-chapters,
+          .seekbar-playback-progress-chapters {
+            .seekbar-background-chapter,
+            .seekbar-loading-progress-chapter,
+            .seekbar-playback-progress-chapter {
+              &.hovering {
+                transform: scale(1, 3);
+
+                .chapter-title {
+                  opacity: 1;
+                }
+              }
+            }
+          }
         }
 
         .seekbar-preview {
@@ -667,6 +700,16 @@ button.pictureInPictureToggleButton {
             position: absolute;
             background-color: var(--line-color);
             height: 100%;
+            transition: transform 100ms linear;
+
+            .chapter-title {
+              position: absolute;
+              bottom: 4px;
+              opacity: 0;
+              transition: opacity 200ms linear;
+              transform-origin: bottom;
+              transform: scale(1, 0.333333);
+            }
           }
         }
 
@@ -686,6 +729,7 @@ button.pictureInPictureToggleButton {
             position: absolute;
             background-color: var(--line-accent-color);
             height: 100%;
+            transition: transform 100ms linear;
           }
         }
 
@@ -705,6 +749,7 @@ button.pictureInPictureToggleButton {
             position: absolute;
             background-color: var(--theme-color);
             height: 100%;
+            transition: transform 100ms linear;
           }
         }
       }

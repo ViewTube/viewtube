@@ -1,11 +1,10 @@
 export const parseChapters = (description: string, videoLength: number) => {
   if (description.match(/0+:0+/gi)) {
-    const timestampMatches = description.matchAll(/(\d{0,2}:?\d{0,2}:\d{0,2})(\s?-?\s?)(.*)/gi);
+    const timestampMatches = description.matchAll(/((\d{1,2}:)?\d{1,2}:\d{1,2})\s?-?\s?(.*)/gi);
 
     const chaptersArray = [];
 
     for (const match of timestampMatches) {
-      debugger;
       const second = getSecondsFromTimestamp(match[1]);
       chaptersArray.push({
         title: match[3],
