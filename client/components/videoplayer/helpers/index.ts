@@ -113,6 +113,7 @@ export const videoPlayerSetup = ({ root, props }) => {
   const videoPlayerRef = ref(null);
   const seekbarHoverPreviewRef = ref(null);
   const seekbarHoverTimestampRef = ref(null);
+  const chapterTitleRef = ref(null);
   const videoRef = ref(null);
 
   watch(videoVolume, (val: number, prevVal: number) => {
@@ -120,6 +121,18 @@ export const videoPlayerSetup = ({ root, props }) => {
       videoRef.value.volume = val;
     }
   });
+
+  const getChapterForPercentage = (percentage: number) => {
+    if (chapters.value) {
+      const chapter = chapters.value.find(
+        (c: any) => percentage > c.startPercentage && percentage < c.endPercentage
+      );
+      if (chapter) {
+        return chapter;
+      }
+    }
+    return null;
+  };
 
   const toggleVideoPlayback = () => {
     if (!seekbar.seeking && videoRef.value) {
@@ -409,6 +422,10 @@ export const videoPlayerSetup = ({ root, props }) => {
   };
   const seekHoverAdjustedLeft = (element: any): string => {
     const percentage = seekbar.hoverPercentage;
+    return hoverAdjustedCenter(element, percentage);
+  };
+
+  const hoverAdjustedCenter = (element: any, percentage: number): string => {
     let leftPx = 0;
     if (element) {
       const elOffsetWidth = element.$el ? element.$el.offsetWidth : 0;
@@ -421,6 +438,25 @@ export const videoPlayerSetup = ({ root, props }) => {
       }
       if (leftPx > pageWidth - elWidth - 17) {
         leftPx = pageWidth - elWidth - 17;
+      }
+    }
+
+    return `${leftPx}px`;
+  };
+
+  const hoverAdjustedLeft = (element: any, percentage: number): string => {
+    let leftPx = 0;
+    if (element) {
+      const elOffsetWidth = element.$el ? element.$el.offsetWidth : 0;
+      const elWidth = element.offsetWidth || elOffsetWidth;
+      const pageWidth = Commons.getPageWidth();
+      leftPx = ((pageWidth - 20) / 100) * percentage;
+
+      if (leftPx < 10) {
+        leftPx = 10;
+      }
+      if (leftPx > pageWidth - elWidth - 10) {
+        leftPx = pageWidth - elWidth - 10;
       }
     }
 
@@ -597,10 +633,12 @@ export const videoPlayerSetup = ({ root, props }) => {
     playerOverlayVisible,
     videoPlayerRef,
     seekbarHoverPreviewRef,
+    chapterTitleRef,
     seekbarHoverTimestampRef,
     videoRef,
     animations,
     chapters,
+    getChapterForPercentage,
     onLoadedMetadata,
     onPlaybackProgress,
     onLoadingProgress,
@@ -632,6 +670,7 @@ export const videoPlayerSetup = ({ root, props }) => {
     showPlayerOverlay,
     hidePlayerOverlay,
     seekHoverAdjustedLeft,
+    hoverAdjustedLeft,
     onSeekbarMouseMove,
     onSeekbarTouchStart,
     onSeekbarTouchMove,

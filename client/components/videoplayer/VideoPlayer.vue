@@ -138,9 +138,7 @@
                   seekbar.hoverPercentage > chapter.startPercentage &&
                   seekbar.hoverPercentage < chapter.endPercentage
               }"
-            >
-              <span class="chapter-title">{{ chapter.title }}</span>
-            </div>
+            />
           </div>
           <div
             v-if="!chapters"
@@ -232,6 +230,18 @@
           >
             {{ seekbar.hoverTime }}
           </div>
+          <span
+            v-if="getChapterForPercentage(seekbar.hoverPercentage)"
+            ref="chapterTitleRef"
+            class="chapter-title"
+            :style="{
+              left: `${hoverAdjustedLeft(
+                chapterTitleRef,
+                getChapterForPercentage(seekbar.hoverPercentage).startPercentage
+              )}`
+            }"
+            >{{ getChapterForPercentage(seekbar.hoverPercentage).title }}</span
+          >
         </div>
         <div class="bottom-controls">
           <div class="left-bottom-controls">
@@ -619,6 +629,10 @@ button.pictureInPictureToggleButton {
             opacity: 1;
           }
 
+          .chapter-title {
+            opacity: 1;
+          }
+
           .seekbar-background-chapters,
           .seekbar-loading-progress-chapters,
           .seekbar-playback-progress-chapters {
@@ -627,10 +641,6 @@ button.pictureInPictureToggleButton {
             .seekbar-playback-progress-chapter {
               &.hovering {
                 transform: scale(1, 3);
-
-                .chapter-title {
-                  opacity: 1;
-                }
               }
             }
           }
@@ -666,7 +676,7 @@ button.pictureInPictureToggleButton {
 
         .seekbar-hover-timestamp {
           position: relative;
-          bottom: 30px;
+          bottom: 45px;
           background-color: $video-thmb-overlay-bgcolor;
           padding: 4px 6px;
           height: 25px;
@@ -701,15 +711,6 @@ button.pictureInPictureToggleButton {
             background-color: var(--line-color);
             height: 100%;
             transition: transform 100ms linear;
-
-            .chapter-title {
-              position: absolute;
-              bottom: 4px;
-              opacity: 0;
-              transition: opacity 200ms linear;
-              transform-origin: bottom;
-              transform: scale(1, 0.333333);
-            }
           }
         }
 
@@ -731,6 +732,14 @@ button.pictureInPictureToggleButton {
             height: 100%;
             transition: transform 100ms linear;
           }
+        }
+
+        .chapter-title {
+          position: absolute;
+          bottom: 15px;
+          white-space: nowrap;
+          opacity: 0;
+          transition: opacity 300ms $intro-easing, left 100ms $intro-easing;
         }
 
         .seekbar-playback-progress {
