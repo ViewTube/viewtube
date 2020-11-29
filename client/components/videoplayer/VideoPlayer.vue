@@ -740,6 +740,7 @@ button.pictureInPictureToggleButton {
           white-space: nowrap;
           opacity: 0;
           transition: opacity 300ms $intro-easing, left 100ms $intro-easing;
+          text-shadow: 0 0 4px #000;
         }
 
         .seekbar-playback-progress {

@@ -100,7 +100,7 @@
             </div>
           </div>
         </transition>
-        <p v-if="video.keywords" class="video-infobox-text">tags:</p>
+        <p v-if="video.keywords" class="video-infobox-text">Tags</p>
         <div v-if="video.keywords" class="video-infobox-tags">
           <div v-if="video.keywords" class="tags-container">
             <BadgeButton
