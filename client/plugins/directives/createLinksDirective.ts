@@ -1,14 +1,21 @@
-const urlRegex = new RegExp(
-  String.raw`(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])`,
-  'ig'
-);
+import { getSecondsFromTimestamp } from '@/plugins/shared';
+
+const timestampRegex = /((\d{1,2}:)?\d{1,2}:\d{1,2})/gi;
 
 export default {
   inserted(el: HTMLElement) {
     const text = el.textContent.trim();
-    const htmlText = text.replace(urlRegex, match => {
-      return `<a href="${match}" target="_blank" rel="noreferrer noopener">${match}</a>`;
-    });
+    let htmlText = text;
+    if (process.browser) {
+      htmlText = text.replace(timestampRegex, match => {
+        const seconds = getSecondsFromTimestamp(match);
+        const searchParams = new URLSearchParams(window.location.search);
+        searchParams.set('t', `${seconds}s`);
+        return `<a class="time-link" seconds="${seconds}" href="${location.protocol}//${
+          location.host
+        }${location.pathname}?${searchParams.toString()}">${match}</a>`;
+      });
+    }
     el.innerHTML = htmlText;
   }
 };

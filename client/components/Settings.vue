@@ -5,6 +5,13 @@
       <h1>Settings</h1>
       <h2><ThemeIcon />Theme</h2>
       <ThemeSelector />
+      <h2><ChaptersIcon />Chapters</h2>
+      <SwitchButton
+        :value="$store.getters['settings/chapters']"
+        :label="'Show chapters on a video'"
+        :disabled="false"
+        @valuechange="val => $store.commit('settings/setChapters', val)"
+      />
       <h2><MiniplayerIcon />Miniplayer</h2>
       <SwitchButton
         :value="$store.getters['settings/miniplayer']"
@@ -21,6 +28,7 @@
 import CloseIcon from 'vue-material-design-icons/Close.vue';
 import ThemeIcon from 'vue-material-design-icons/Brightness4.vue';
 import MiniplayerIcon from 'vue-material-design-icons/WindowRestore.vue';
+import ChaptersIcon from 'vue-material-design-icons/BookOpenVariant.vue';
 import ThemeSelector from '@/components/themes/ThemeSelector.vue';
 import SwitchButton from '@/components/buttons/SwitchButton.vue';
 import '@/assets/styles/popup.scss';
@@ -33,7 +41,8 @@ export default Vue.extend({
     ThemeIcon,
     MiniplayerIcon,
     SwitchButton,
-    ThemeSelector
+    ThemeSelector,
+    ChaptersIcon
   },
   data() {
     return {

@@ -1,11 +1,11 @@
 import { videoInfo } from 'ytdl-core';
 import { Expose, Exclude } from 'class-transformer';
 import humanizeDuration from 'humanize-duration';
+import { AuthorThumbnailDto } from 'shared/dto/video/author-thumbnail.dto';
+import { VideoDto } from 'shared/dto/video/video.dto';
+import { VideoThumbnailDto } from 'shared/dto/video/video-thumbnail.dto';
+import { RecommendedVideoDto } from 'shared/dto/video/recommended-video.dto';
 import { Common } from '../common';
-import { VideoDto } from './dto/video.dto';
-import { AuthorThumbnailDto } from './dto/author-thumbnail.dto';
-import { VideoThumbnailDto } from './dto/video-thumbnail.dto';
-import { RecommendedVideoDto } from './dto/recommended-video.dto';
 
 export class VideoEntity implements VideoDto {
   constructor(private _source: Partial<videoInfo>) {}

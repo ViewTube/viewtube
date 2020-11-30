@@ -1,3 +1,8 @@
+import Sass from 'sass';
+const dartSass = {
+  implementation: Sass
+};
+
 // eslint-disable-next-line nuxt/no-cjs-in-config
 module.exports = {
   srcDir: './client',
@@ -90,6 +95,7 @@ module.exports = {
   plugins: [
     '@/plugins/directives/index',
     '@/plugins/formatting',
+    '@/plugins/shared',
     { src: '@/plugins/localStorage', mode: 'client' }
   ],
 
@@ -99,7 +105,12 @@ module.exports = {
   },
   // },
 
-  buildModules: ['@nuxtjs/router', '@nuxt/typescript-build', 'nuxt-typed-vuex'],
+  buildModules: [
+    '@nuxtjs/composition-api',
+    '@nuxtjs/router',
+    '@nuxt/typescript-build',
+    'nuxt-typed-vuex'
+  ],
 
   modules: [
     '@nuxtjs/style-resources',
@@ -133,6 +144,9 @@ module.exports = {
         ecma: 2020,
         mangle: true
       }
+    },
+    loaders: {
+      scss: dartSass
     },
     indicator: true,
     transpile: ['vue-material-design-icons', 'dashjs', 'tippy.js'],

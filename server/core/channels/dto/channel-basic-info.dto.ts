@@ -1,4 +1,4 @@
-import { AuthorThumbnailDto } from 'server/core/videos/dto/author-thumbnail.dto';
+import { AuthorThumbnailDto } from 'shared/dto/video/author-thumbnail.dto';
 
 export class ChannelBasicInfoDto {
   authorId: string;

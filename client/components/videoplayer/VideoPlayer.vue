@@ -1,6 +1,6 @@
 <template>
   <div
-    ref="videoPlayer"
+    ref="videoPlayerRef"
     class="video-player"
     :style="{
       cursor: playerOverlay.visible ? 'auto' : 'none',
@@ -25,7 +25,7 @@
   >
     <div class="video-element-container" :class="{ zoom: videoElement.zoomed }">
       <video
-        ref="video"
+        ref="videoRef"
         class="video"
         :src="highestVideoQuality"
         :style="{
@@ -40,11 +40,6 @@
         @progress="onLoadingProgress"
         @loadedmetadata="onLoadedMetadata"
       />
-      <!-- <VideoEndscreen
-        :videoId="video.videoId"
-        :videoProgress="videoElement.progress"
-        :videoElement="$refs.video"
-      />-->
     </div>
 
     <Spinner v-if="videoElement.buffering" class="video-spinner" />
@@ -126,21 +121,94 @@
             @touchstart.prevent.stop="onSeekbarTouchStart"
             @mousemove.prevent="onSeekbarMouseMove"
             @touchmove.prevent="onSeekbarTouchMove"
-            @click.prevent.stop="onSeekBarClick"
+            @click.prevent.stop="onSeekbarClick"
           />
-          <div class="seekbar-background" />
+          <div v-if="!$store.state.settings.chapters || !chapters" class="seekbar-background" />
           <div
+            v-if="$store.state.settings.chapters && chapters"
+            class="seekbar-background-chapters"
+          >
+            <div
+              v-for="(chapter, index) in chapters"
+              :key="index"
+              class="seekbar-background-chapter"
+              :style="{
+                left: `${chapter.startPercentage}%`,
+                width: `calc(${chapter.endPercentage - chapter.startPercentage}% - 3px)`
+              }"
+              :class="{
+                hovering:
+                  seekbar.hoverPercentage > chapter.startPercentage &&
+                  seekbar.hoverPercentage < chapter.endPercentage
+              }"
+            />
+          </div>
+          <div
+            v-if="!$store.state.settings.chapters || !chapters"
             class="seekbar-loading-progress"
             :style="{
               width: `${videoElement.loadingPercentage}%`
             }"
           />
           <div
+            v-if="$store.state.settings.chapters && chapters"
+            class="seekbar-loading-progress-chapters"
+            :style="{
+              'clip-path': `polygon(
+                0 -100%,
+                ${videoElement.loadingPercentage}% -100%,
+                ${videoElement.loadingPercentage}% 200%,
+                0 200%)`
+            }"
+          >
+            <div
+              v-for="(chapter, index) in chapters"
+              :key="index"
+              class="seekbar-loading-progress-chapter"
+              :style="{
+                left: `${chapter.startPercentage}%`,
+                width: `calc(${chapter.endPercentage - chapter.startPercentage}% - 3px)`
+              }"
+              :class="{
+                hovering:
+                  seekbar.hoverPercentage > chapter.startPercentage &&
+                  seekbar.hoverPercentage < chapter.endPercentage
+              }"
+            />
+          </div>
+          <div
+            v-if="!$store.state.settings.chapters || !chapters"
             class="seekbar-playback-progress"
             :style="{
               width: `${videoElement.progressPercentage}%`
             }"
           />
+          <div
+            v-if="$store.state.settings.chapters && chapters"
+            class="seekbar-playback-progress-chapters"
+            :style="{
+              'clip-path': `polygon(
+                0 -100%,
+                ${videoElement.progressPercentage}% -100%,
+                ${videoElement.progressPercentage}% 200%,
+                0 200%)`
+            }"
+          >
+            <div
+              v-for="(chapter, index) in chapters"
+              :key="index"
+              class="seekbar-playback-progress-chapter"
+              :style="{
+                left: `${chapter.startPercentage}%`,
+                width: `calc(${chapter.endPercentage - chapter.startPercentage}% - 3px)`
+              }"
+              :class="{
+                hovering:
+                  seekbar.hoverPercentage > chapter.startPercentage &&
+                  seekbar.hoverPercentage < chapter.endPercentage
+              }"
+            />
+          </div>
           <div
             class="seekbar-circle"
             :style="{
@@ -148,23 +216,37 @@
             }"
           />
           <SeekbarPreview
-            ref="seekbarHoverPreview"
+            ref="seekbarHoverPreviewRef"
             :storyboards="video.storyboards"
             :time="seekbar.hoverTimeStamp"
             :video-id="video.videoId"
             :style="{
-              transform: `translate3d(${seekHoverAdjustedLeft(this.$refs.seekbarHoverPreview)},0,0)`
+              transform: `translate3d(${seekHoverAdjustedLeft(seekbarHoverPreviewRef)},0,0)`
             }"
           />
           <div
-            ref="seekbarHoverTimestamp"
+            ref="seekbarHoverTimestampRef"
             class="seekbar-hover-timestamp"
             :style="{
-              left: seekHoverAdjustedLeft(this.$refs.seekbarHoverTimestamp)
+              left: seekHoverAdjustedLeft(seekbarHoverTimestampRef)
             }"
           >
             {{ seekbar.hoverTime }}
           </div>
+          <span
+            v-if="
+              $store.state.settings.chapters && getChapterForPercentage(seekbar.hoverPercentage)
+            "
+            ref="chapterTitleRef"
+            class="chapter-title"
+            :style="{
+              left: `${hoverAdjustedLeft(
+                chapterTitleRef,
+                getChapterForPercentage(seekbar.hoverPercentage).startPercentage
+              )}`
+            }"
+            >{{ getChapterForPercentage(seekbar.hoverPercentage).title }}</span
+          >
         </div>
         <div class="bottom-controls">
           <div class="left-bottom-controls">
@@ -186,10 +268,11 @@
             </div>
           </div>
           <div class="right-bottom-controls">
-            <!-- <QualitySelection
+            <QualitySelection
               :formatStreams="video.formatStreams"
-              :adaptiveFormats="video.adaptiveFormats"
-            />-->
+              :selectedQuality="selectedQuality"
+              @qualityselect="onChangeQuality"
+            />
             <FullscreenIcon
               v-if="!fullscreen"
               v-tippy="'Enter Fullscreen'"
@@ -210,6 +293,8 @@
         </div>
       </div>
     </div>
+    <portal-target name="video-player" />
+    <VideoPlayerAnimations :animations="animations" />
     <div
       v-if="video.videoThumbnails && video.videoThumbnails.length > 0"
       class="video-thumbnail-overlay"
@@ -222,9 +307,10 @@
 </template>
 
 <script lang="ts">
-import dashjs from 'dashjs';
+import { defineComponent, useContext } from '@nuxtjs/composition-api';
 import PauseIcon from 'vue-material-design-icons/Pause.vue';
 import PlayIcon from 'vue-material-design-icons/Play.vue';
+import VideoPlayerAnimations from '@/components/videoplayer/VideoPlayerAnimations.vue';
 import FullscreenIcon from 'vue-material-design-icons/Fullscreen.vue';
 import FullscreenExitIcon from 'vue-material-design-icons/FullscreenExit.vue';
 // import ArrowExpandIcon from 'vue-material-design-icons/ArrowExpand.vue';
@@ -232,14 +318,38 @@ import FullscreenExitIcon from 'vue-material-design-icons/FullscreenExit.vue';
 import OpenInPlayerIcon from 'vue-material-design-icons/OpenInNew.vue';
 import CloseIcon from 'vue-material-design-icons/Close.vue';
 import Spinner from '@/components/Spinner.vue';
-// import VideoEndscreen from '@/components/videoplayer/VideoEndscreen'
 import VolumeControl from '@/components/videoplayer/VolumeControl.vue';
-// import QualitySelection from '@/components/videoplayer/QualitySelection'
+import QualitySelection from '@/components/videoplayer/QualitySelection.vue';
 import SeekbarPreview from '@/components/videoplayer/SeekbarPreview.vue';
-import Commons from '@/plugins/commons.ts';
-import Vue from 'vue';
+import { NuxtError } from '@nuxt/types';
+import { videoPlayerSetup } from './helpers/index';
 
-export default Vue.extend({
+export default defineComponent({
+  props: {
+    video: {
+      type: Object,
+      required: true
+    },
+    embedded: Boolean,
+    mini: Boolean,
+    autoplay: Boolean
+  },
+  setup(props, { root }) {
+    const { error, route } = useContext();
+
+    if (!props.video) {
+      const videoError: NuxtError = {
+        message: 'Error loading video',
+        path: route.value.path,
+        statusCode: 500
+      };
+      error(videoError);
+    }
+
+    return {
+      ...videoPlayerSetup({ root, props })
+    };
+  },
   name: 'Videoplayer',
   components: {
     Spinner,
@@ -247,416 +357,14 @@ export default Vue.extend({
     PlayIcon,
     FullscreenIcon,
     FullscreenExitIcon,
-    // VideoEndscreen,
     // ArrowExpandIcon,
     // ArrowCollapseIcon,
     OpenInPlayerIcon,
     CloseIcon,
     VolumeControl,
-    // QualitySelection,
-    SeekbarPreview
-  },
-  props: {
-    video: {
-      required: true,
-      type: Object
-    },
-    embedded: Boolean,
-    mini: Boolean,
-    autoplay: Boolean
-  },
-  data: () => ({
-    loading: true,
-    fullscreen: false,
-    commons: Commons,
-    dashPlayer: null,
-    playerOverlay: {
-      visible: false,
-      timeout: undefined,
-      updateInterval: undefined,
-      thumbnailVisible: true
-    },
-    videoElement: {
-      positionSaveInterval: undefined,
-      buffering: true,
-      playing: false,
-      progress: 0,
-      progressPercentage: 0,
-      loadingPercentage: 0,
-      firstTimeBuffering: true,
-      aspectRatio: 16 / 9,
-      playerVolume: 1,
-      zoomed: false
-    },
-    seekbar: {
-      seeking: false,
-      seekPercentage: 0,
-      hoverPercentage: 0,
-      hoverTime: '00:00',
-      hoverTimeStamp: 0
-    }
-  }),
-  computed: {
-    highestVideoQuality(): string {
-      if (this.video.formatStreams) {
-        const video = this.video.formatStreams.find(e => {
-          return e.qualityLabel && e.qualityLabel === '720p';
-        });
-        if (video && video.url) {
-          return video.url;
-        } else if (this.video.formatStreams.length > 0) {
-          return this.video.formatStreams[0].url;
-        }
-      }
-      return '#';
-    },
-    videoVolume(): number {
-      return this.videoElement.playerVolume;
-    },
-    videoLength(): number {
-      if (this.video !== undefined) {
-        return this.video.lengthSeconds;
-      }
-      return 0;
-    },
-    videoUrl(): string {
-      if (this.video !== undefined) {
-        return `/watch?v=${this.video.videoId}`;
-      }
-      return '';
-    },
-    playerOverlayVisible(): boolean {
-      return this.playerOverlay.visible || !this.videoElement.playing;
-    }
-  },
-  watch: {
-    videoVolume(newValue: number) {
-      if (newValue <= 1 && newValue >= 0 && this.$refs.video) {
-        this.$refs.video.volume = newValue;
-      }
-    }
-  },
-  mounted() {
-    document.addEventListener('keydown', this.onWindowKeyDown);
-    // this.loadDashVideo()
-  },
-  beforeDestroy() {
-    this.saveVideoPosition();
-    document.removeEventListener('keydown', this.onWindowKeyDown);
-  },
-  methods: {
-    loadDashVideo() {
-      if (this.$refs.video) {
-        let url = `${this.$store.getters['instances/currentInstanceApi']}manifest/dash/id/${this.video.videoId}?local=true`;
-        console.log(url);
-        if (this.video.dashUrl) {
-          url = `${this.video.dashUrl}?local=true`;
-        }
-        this.dashPlayer = dashjs.MediaPlayer().create();
-        this.dashPlayer.initialize(this.$refs.video, url, false);
-        this.dashBitrates = this.dashPlayer.getBitrateInfoListFor('video');
-      }
-    },
-    // Window events
-    onWindowKeyDown(e) {
-      if (this.$refs.video) {
-        if (e.key === ' ') {
-          this.toggleVideoPlayback();
-          e.preventDefault();
-        } else if (e.key === 'ArrowRight') {
-          this.$refs.video.currentTime += 5;
-        } else if (e.key === 'ArrowLeft') {
-          this.$refs.video.currentTime -= 5;
-        }
-      }
-    },
-
-    // Video events
-    onLoadedMetadata(e) {
-      this.videoElement.aspectRatio = e.target.videoHeight / e.target.videoWidth;
-    },
-    onPlaybackProgress() {
-      const videoRef = this.$refs.video;
-      if (videoRef && !this.seekbar.seeking) {
-        this.videoElement.progressPercentage = (videoRef.currentTime / this.videoLength) * 100;
-        this.videoElement.progress = videoRef.currentTime;
-      }
-    },
-    onLoadingProgress() {
-      const videoRef = this.$refs.video;
-      if (videoRef) {
-        const videoBufferedMaxTimeRange = videoRef.buffered.length - 1;
-        if (videoBufferedMaxTimeRange && videoBufferedMaxTimeRange > 0) {
-          const loadingPercentage =
-            (videoRef.buffered.end(videoRef.buffered.length - 1) / videoRef.duration) * 100;
-          this.videoElement.loadingPercentage = loadingPercentage;
-        }
-      }
-    },
-    onVolumeChange() {
-      if (this.$refs.video) {
-        this.videoElement.playerVolume = this.$refs.video.volume;
-      }
-    },
-    onVideoPlaying() {
-      this.playerOverlay.thumbnailVisible = false;
-      this.videoElement.playing = true;
-      this.videoElement.positionSaveInterval = setInterval(() => this.saveVideoPosition(), 5000);
-    },
-    onVideoPaused() {
-      this.videoElement.playing = false;
-      this.saveVideoPosition();
-      clearInterval(this.videoElement.positionSaveInterval);
-    },
-    onVideoCanplay() {
-      if (this.$refs.video && this.videoElement.firstTimeBuffering) {
-        this.$refs.video.currentTime = this.$accessor.videoProgress.getSavedPositionForId(
-          this.video.videoId
-        );
-        this.videoElement.firstTimeBuffering = false;
-        if (this.autoplay) {
-          this.$refs.video.play();
-        }
-      }
-      this.videoElement.buffering = false;
-    },
-    onVideoBuffering() {
-      this.videoElement.buffering = true;
-    },
-    onLoaded() {
-      this.loading = false;
-    },
-    // Seekbar events
-    onSeekbarTouchStart(e) {
-      if (this.playerOverlayVisible) {
-        this.seekbar.seeking = true;
-        const touchX = e.touches[0].clientX;
-        this.seekbar.seekPercentage = this.calculateSeekPercentage(touchX);
-        this.matchSeekProgressPercentage();
-        this.seekbar.hoverPercentage = this.calculateSeekPercentage(touchX);
-        this.seekbar.hoverTime = this.$formatting.getTimestampFromSeconds(
-          (this.$refs.video.duration / 100) * this.seekbar.hoverPercentage
-        );
-        this.seekbar.hoverTimeStamp =
-          (this.$refs.video.duration / 100) * this.seekbar.hoverPercentage;
-      }
-    },
-    onSeekbarMouseMove(e) {
-      this.seekbar.hoverPercentage = this.calculateSeekPercentage(e.pageX);
-      this.seekbar.hoverTime = this.$formatting.getTimestampFromSeconds(
-        (this.$refs.video.duration / 100) * this.seekbar.hoverPercentage
-      );
-      this.seekbar.hoverTimeStamp =
-        (this.$refs.video.duration / 100) * this.seekbar.hoverPercentage;
-    },
-    onSeekbarTouchMove(e) {
-      if (this.playerOverlayVisible) {
-        const touchX = e.touches[0].clientX;
-        this.seekbar.hoverPercentage = this.calculateSeekPercentage(touchX);
-        this.seekbar.hoverTime = this.$formatting.getTimestampFromSeconds(
-          (this.$refs.video.duration / 100) * this.seekbar.hoverPercentage
-        );
-        this.seekbar.hoverTimeStamp =
-          (this.$refs.video.duration / 100) * this.seekbar.hoverPercentage;
-      }
-    },
-    onPlayerTouchMove(e) {
-      if (this.seekbar.seeking) {
-        const touchX = e.touches[0].clientX;
-        this.seekbar.seekPercentage = this.calculateSeekPercentage(touchX);
-        this.matchSeekProgressPercentage();
-      }
-    },
-    onSeekbarMouseDown() {
-      this.seekbar.seeking = true;
-    },
-    onPlayerClick() {
-      this.toggleVideoPlayback();
-    },
-    onPlayerMouseUp() {
-      if (this.seekbar.seeking) {
-        this.seekbar.seeking = false;
-        this.matchSeekProgressPercentage(true);
-      } else {
-        // this.toggleVideoPlayback()
-      }
-    },
-    onSeekbarMouseLeave() {},
-    onSeekbarMouseEnter() {},
-    onSeekBarClick(e) {
-      this.seekbar.seekPercentage = this.calculateSeekPercentage(e.pageX);
-      this.matchSeekProgressPercentage(true);
-    },
-    matchSeekProgressPercentage(adjustVideo: boolean) {
-      this.videoElement.progressPercentage = this.seekbar.seekPercentage;
-      if (adjustVideo && this.$refs.video) {
-        const currentTime = (this.$refs.video.duration / 100) * this.seekbar.seekPercentage;
-        this.$refs.video.currentTime = currentTime;
-      }
-    },
-    calculateSeekPercentage(pageX: number) {
-      const seekPercentage = ((pageX - 10) / (Commons.getPageWidth() - 27.5)) * 100;
-      if (seekPercentage > 0 && seekPercentage < 100) {
-        return seekPercentage;
-      } else if (seekPercentage > 100) {
-        return 100;
-      } else {
-        return 0;
-      }
-    },
-    isMouseOufOfBoundary(pageX: number, pageY: number) {
-      return pageX > Commons.getPageWidth() || pageX < 0 || pageY < 0;
-    },
-    // Interaction events
-    onVolumeInteraction() {},
-    onOpenInPlayer() {
-      window.open(this.videoUrl, '_blank');
-    },
-    onOpenInPlayerMouseUp() {},
-    onVideoExpand() {
-      this.videoElement.zoomed = true;
-    },
-    onVideoExpandMouseUp() {},
-    onVideoCollapse() {
-      this.videoElement.zoomed = false;
-    },
-    onVideoCollapseMouseUp() {},
-    onSwitchFullscreen() {
-      if (this.fullscreen) {
-        this.onLeaveFullscreen();
-      } else {
-        this.onEnterFullscreen(true);
-      }
-    },
-    onEnterFullscreen(force: boolean) {
-      if (this.playerOverlayVisible || force === true) {
-        const elem = this.$refs.videoPlayer;
-        if (elem.requestFullscreen) {
-          elem.requestFullscreen();
-        } else if (elem.mozRequestFullScreen) {
-          elem.mozRequestFullScreen();
-        } else if (elem.webkitRequestFullscreen) {
-          elem.webkitRequestFullscreen();
-        } else if (elem.msRequestFullscreen) {
-          elem.msRequestFullscreen();
-        }
-        this.fullscreen = true;
-      }
-    },
-    onEnterFullscreenMouseUp() {},
-    onLeaveFullscreen() {
-      const doc = document as any;
-      if (doc.exitFullscreen) {
-        doc.exitFullscreen();
-      } else if (doc.webkitExitFullscreen) {
-        doc.webkitExitFullscreen();
-      } else if (doc.mozCancelFullScreen) {
-        doc.mozCancelFullScreen();
-      } else if (doc.msExitFullscreen) {
-        doc.msExitFullscreen();
-      }
-      this.fullscreen = false;
-    },
-    onFullscreenChange() {
-      if (document.fullscreenElement) {
-        this.fullscreen = true;
-      } else {
-        this.fullscreen = false;
-      }
-    },
-    onLeaveFullscreenMouseUp() {},
-    onPlayBtnTouchEnd() {
-      this.toggleVideoPlayback();
-    },
-    onPlayBtnClick() {
-      this.toggleVideoPlayback();
-    },
-    toggleVideoPlayback() {
-      if (!this.seekbar.seeking) {
-        this.playerOverlay.thumbnailVisible = false;
-        if (this.videoElement.playing) {
-          this.$refs.video.pause();
-        } else {
-          this.$refs.video.play();
-        }
-      }
-    },
-    onPlayerTouchStart() {},
-    onPlayerTouchEnd() {
-      if (this.seekbar.seeking) {
-        this.seekbar.seeking = false;
-        this.matchSeekProgressPercentage(true);
-      } else if (this.playerOverlay.visible) {
-        this.hidePlayerOverlay();
-      } else {
-        this.showPlayerOverlay(true);
-      }
-    },
-    onPlayerMouseMove(e) {
-      this.showPlayerOverlay();
-      if (this.seekbar.seeking && this.$refs.video) {
-        this.seekbar.seekPercentage = this.calculateSeekPercentage(e.pageX);
-        this.seekbar.hoverPercentage = this.calculateSeekPercentage(e.pageX);
-        this.seekbar.hoverTime = this.$formatting.getTimestampFromSeconds(
-          (this.$refs.video.duration / 100) * this.seekbar.hoverPercentage
-        );
-        this.seekbar.hoverTimeStamp =
-          (this.$refs.video.duration / 100) * this.seekbar.hoverPercentage;
-        this.matchSeekProgressPercentage();
-        if (this.isMouseOufOfBoundary(e.pageX, e.pageY)) {
-          this.seekbar.seeking = false;
-        }
-      }
-    },
-    onPlayerMouseLeave() {
-      this.hidePlayerOverlay();
-    },
-    saveVideoPosition() {
-      const video = this.$refs.video;
-      if (video !== undefined) {
-        this.$accessor.videoProgress.addVideoProgress({
-          videoId: this.video.videoId,
-          value: video.currentTime
-        });
-        // return this.$localforage.setItem(`savedVideoPositionId${videoId}`, value)
-      }
-    },
-    showPlayerOverlay(noTimeout: boolean) {
-      this.playerOverlay.visible = true;
-      if (this.playerOverlay.timeout) {
-        clearTimeout(this.playerOverlay.timeout);
-      }
-      if (!noTimeout) {
-        this.playerOverlay.timeout = setTimeout(() => {
-          this.playerOverlay.visible = false;
-        }, 3000);
-      }
-    },
-    hidePlayerOverlay() {
-      if (this.playerOverlay.timeout) {
-        clearTimeout(this.playerOverlay.timeout);
-      }
-      this.playerOverlay.visible = false;
-    },
-    seekHoverAdjustedLeft(element: any): string {
-      const percentage = this.seekbar.hoverPercentage;
-      let leftPx = 0;
-      if (element) {
-        const elOffsetWidth = element.$el ? element.$el.offsetWidth : 0;
-        const elWidth = element.offsetWidth || elOffsetWidth;
-        const pageWidth = Commons.getPageWidth();
-        leftPx = ((pageWidth - 27.5) / 100) * percentage - (elWidth / 2 - 12);
-
-        if (leftPx < 10) {
-          leftPx = 10;
-        }
-        if (leftPx > pageWidth - elWidth - 17) {
-          leftPx = pageWidth - elWidth - 17;
-        }
-      }
-
-      return `${leftPx}px`;
-    }
+    QualitySelection,
+    SeekbarPreview,
+    VideoPlayerAnimations
   }
 });
 </script>
@@ -925,6 +633,22 @@ button.pictureInPictureToggleButton {
           .seekbar-preview {
             opacity: 1;
           }
+
+          .chapter-title {
+            opacity: 1;
+          }
+
+          .seekbar-background-chapters,
+          .seekbar-loading-progress-chapters,
+          .seekbar-playback-progress-chapters {
+            .seekbar-background-chapter,
+            .seekbar-loading-progress-chapter,
+            .seekbar-playback-progress-chapter {
+              &.hovering {
+                transform: scale(1, 3);
+              }
+            }
+          }
         }
 
         .seekbar-preview {
@@ -957,7 +681,7 @@ button.pictureInPictureToggleButton {
 
         .seekbar-hover-timestamp {
           position: relative;
-          bottom: 30px;
+          bottom: 45px;
           background-color: $video-thmb-overlay-bgcolor;
           padding: 4px 6px;
           height: 25px;
@@ -982,17 +706,66 @@ button.pictureInPictureToggleButton {
           background-color: var(--line-color);
           z-index: 142;
         }
+        .seekbar-background-chapters {
+          @include seekbar-part;
+          height: $video-seekbar-line-height;
+          z-index: 142;
+
+          .seekbar-background-chapter {
+            position: absolute;
+            background-color: var(--line-color);
+            height: 100%;
+            transition: transform 100ms linear;
+          }
+        }
+
         .seekbar-loading-progress {
           @include seekbar-part;
           height: $video-seekbar-line-height;
           background-color: var(--line-accent-color);
           z-index: 143;
         }
+
+        .seekbar-loading-progress-chapters {
+          @include seekbar-part;
+          height: $video-seekbar-line-height;
+          z-index: 143;
+
+          .seekbar-loading-progress-chapter {
+            position: absolute;
+            background-color: var(--line-accent-color);
+            height: 100%;
+            transition: transform 100ms linear;
+          }
+        }
+
+        .chapter-title {
+          position: absolute;
+          bottom: 15px;
+          white-space: nowrap;
+          opacity: 0;
+          transition: opacity 300ms $intro-easing, left 300ms $intro-easing;
+          text-shadow: 0 0 4px #000;
+        }
+
         .seekbar-playback-progress {
           @include seekbar-part;
           height: $video-seekbar-line-height;
           background-color: var(--theme-color);
           z-index: 144;
+        }
+
+        .seekbar-playback-progress-chapters {
+          @include seekbar-part;
+          height: $video-seekbar-line-height;
+          z-index: 144;
+
+          .seekbar-playback-progress-chapter {
+            position: absolute;
+            background-color: var(--theme-color);
+            height: 100%;
+            transition: transform 100ms linear;
+          }
         }
       }
 

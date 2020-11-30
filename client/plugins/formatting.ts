@@ -1,13 +1,25 @@
 import Vue from 'vue';
 
+interface FormattingFunction {
+  (seconds: number): string;
+}
+
 declare module 'vue/types/vue' {
   interface Vue {
-    $formatting(message: string): void;
+    $formatting: { getTimestampFromSeconds: FormattingFunction };
   }
 }
 
 Vue.prototype.$formatting = {
-  getTimestampFromSeconds: seconds => {
+  getTimestampFromSeconds: (seconds: number): string => {
+    const toDoubleDigit = (i: number) => {
+      let str = i.toString();
+      if (i >= 0 && i < 10) {
+        str = '0' + i;
+      }
+      return str;
+    };
+
     const hours = Math.floor(seconds / 3600);
     seconds -= hours * 3600;
     const minutes = Math.floor(seconds / 60);
@@ -19,13 +31,6 @@ Vue.prototype.$formatting = {
       return `${timestampHours}:${timestampMinutes}:${timestampSeconds}`;
     } else {
       return `${timestampMinutes}:${timestampSeconds}`;
-    }
-
-    function toDoubleDigit(i) {
-      if (i >= 0 && i < 10) {
-        i = '0' + i;
-      }
-      return i;
     }
   }
 };

@@ -54,13 +54,13 @@
     "@nuxt/types": "^2.14.7",
     "@nuxt/typescript-build": "^2.0.3",
     "@nuxtjs/axios": "^5.12.2",
+    "@nuxtjs/composition-api": "^0.13.5",
     "@nuxtjs/eslint-config-typescript": "^3.0.0",
     "@nuxtjs/router": "^1.5.0",
     "@nuxtjs/style-resources": "^1.0.0",
     "@nuxtjs/workbox": "^3.0.0-beta.16",
     "@types/bcryptjs": "^2.4.2",
     "@types/jest": "^26.0.15",
-    "@vue/composition-api": "^1.0.0-beta.17",
     "bcryptjs": "^2.4.3",
     "cache-manager": "^3.4.0",
     "class-transformer": "^0.3.1",
@@ -108,7 +108,7 @@
     "web-push": "^3.4.4",
     "x2js": "^3.4.0",
     "ytdl-core": "^3.4.1",
-    "ytsr": "^1.0.4"
+    "ytsr": "^2.0.0-alpha.3"
   },
   "devDependencies": {
     "@nestjs/schematics": "^7.1.2",

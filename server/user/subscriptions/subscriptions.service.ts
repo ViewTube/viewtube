@@ -167,7 +167,6 @@ export class SubscriptionsService {
           channelSubscription.createdAt &&
           channelSubscription.createdAt.valueOf() < video.published
         ) {
-          console.log('notification for ' + user.username);
           this.notificationsService.sendVideoNotification(user.username, video);
         }
       });

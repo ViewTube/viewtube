@@ -1,9 +1,9 @@
 import { Document } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { VideoDto } from 'server/core/videos/dto/video.dto';
-import { RecommendedVideoDto } from 'server/core/videos/dto/recommended-video.dto';
-import { VideoThumbnailDto } from 'server/core/videos/dto/video-thumbnail.dto';
-import { AuthorThumbnailDto } from 'server/core/videos/dto/author-thumbnail.dto';
+import { VideoDto } from 'shared/dto/video/video.dto';
+import { RecommendedVideoDto } from 'shared/dto/video/recommended-video.dto';
+import { VideoThumbnailDto } from 'shared/dto/video/video-thumbnail.dto';
+import { AuthorThumbnailDto } from 'shared/dto/video/author-thumbnail.dto';
 
 @Schema({ timestamps: true })
 export class Video extends Document implements VideoDto {

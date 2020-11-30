@@ -4,6 +4,7 @@
     "client/**/*",
     "server/**/*",
     "types/**/*",
+    "shared/**/*",
     ".eslintrc.js",
     "webpack.config.js",
     "jest.config.js",

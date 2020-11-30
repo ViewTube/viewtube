@@ -23,9 +23,9 @@ export const actions = actionTree(
           apiUrl: process.env.VIEWTUBE_API_URL,
           vapidKey: process.env.VIEWTUBE_PUBLIC_VAPID,
           nodeEnv: process.env.NODE_ENV,
-          host: process.env.HOST || 'localhost',
+          host: process.env.HOST || '192.168.178.21',
           port: process.env.PORT || 8066,
-          baseUrl: process.env.BASE_URL || 'http://localhost:8066'
+          baseUrl: process.env.BASE_URL || 'http://192.168.178.21:8066'
         });
         nuxtContext.app.$accessor.user.getUser();
         if (_vuexContext.getters['instances/instances'].length === 0) {
