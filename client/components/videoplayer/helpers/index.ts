@@ -97,7 +97,6 @@ export const videoPlayerSetup = ({ root, props }) => {
 
   if (root.$store.getters['settings/miniplayer']) {
     chapters.value = parseChapters(props.video.description, videoLength.value);
-    console.log(chapters.value);
   }
 
   const videoUrl = computed(() => {
@@ -379,11 +378,9 @@ export const videoPlayerSetup = ({ root, props }) => {
           seekForward(5);
         }
       }
-
-      console.log(e);
     }
   };
-  const onPlayerMouseMove = e => {
+  const onPlayerMouseMove = (e: { pageX: number; pageY: number }) => {
     if (!touchAction.value) {
       showPlayerOverlay(false);
       if (seekbar.seeking && videoRef.value) {
@@ -609,6 +606,10 @@ export const videoPlayerSetup = ({ root, props }) => {
     }, 300);
   };
 
+  const setVideoTime = (seconds: number): void => {
+    if (seconds >= 0 && seconds <= videoRef.value.duration) videoRef.value.currentTime = seconds;
+  };
+
   onMounted(() => {
     document.addEventListener('keydown', onWindowKeyDown);
   });
@@ -682,6 +683,7 @@ export const videoPlayerSetup = ({ root, props }) => {
     onSeekbarClick,
     onPlayerClick,
     onChangeQuality,
-    loadDashVideo
+    loadDashVideo,
+    setVideoTime
   };
 };

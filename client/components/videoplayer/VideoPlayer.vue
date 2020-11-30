@@ -123,8 +123,11 @@
             @touchmove.prevent="onSeekbarTouchMove"
             @click.prevent.stop="onSeekbarClick"
           />
-          <div v-if="!chapters" class="seekbar-background" />
-          <div v-if="chapters" class="seekbar-background-chapters">
+          <div v-if="!$store.state.settings.chapters || !chapters" class="seekbar-background" />
+          <div
+            v-if="$store.state.settings.chapters && chapters"
+            class="seekbar-background-chapters"
+          >
             <div
               v-for="(chapter, index) in chapters"
               :key="index"
@@ -141,14 +144,14 @@
             />
           </div>
           <div
-            v-if="!chapters"
+            v-if="!$store.state.settings.chapters || !chapters"
             class="seekbar-loading-progress"
             :style="{
               width: `${videoElement.loadingPercentage}%`
             }"
           />
           <div
-            v-if="chapters"
+            v-if="$store.state.settings.chapters && chapters"
             class="seekbar-loading-progress-chapters"
             :style="{
               'clip-path': `polygon(
@@ -174,14 +177,14 @@
             />
           </div>
           <div
-            v-if="!chapters"
+            v-if="!$store.state.settings.chapters || !chapters"
             class="seekbar-playback-progress"
             :style="{
               width: `${videoElement.progressPercentage}%`
             }"
           />
           <div
-            v-if="chapters"
+            v-if="$store.state.settings.chapters && chapters"
             class="seekbar-playback-progress-chapters"
             :style="{
               'clip-path': `polygon(
@@ -231,7 +234,9 @@
             {{ seekbar.hoverTime }}
           </div>
           <span
-            v-if="getChapterForPercentage(seekbar.hoverPercentage)"
+            v-if="
+              $store.state.settings.chapters && getChapterForPercentage(seekbar.hoverPercentage)
+            "
             ref="chapterTitleRef"
             class="chapter-title"
             :style="{

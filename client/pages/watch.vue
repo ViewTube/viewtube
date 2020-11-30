@@ -1,7 +1,7 @@
 <template>
   <div class="watch">
     <!-- <video v-if="!jsEnabled" controls :src="getHDUrl()" class="nojs-player" /> -->
-    <VideoPlayer :key="video.id" :video="video" class="video-player-p" />
+    <VideoPlayer :key="video.id" :video="video" class="video-player-p" ref="videoplayer" />
     <div class="video-meta">
       <CollapsibleSection
         class="recommended-videos mobile"
@@ -114,7 +114,11 @@
           </div>
         </div>
         <div class="comments-description">
-          <div v-create-links class="video-infobox-description links">
+          <div
+            v-create-links
+            v-create-timestamp-links="setTimestamp"
+            class="video-infobox-description links"
+          >
             {{ video.description }}
           </div>
           <Spinner v-if="commentsLoading" />
@@ -265,6 +269,13 @@ export default Vue.extend({
     this.$store.commit('miniplayer/setCurrentVideo', this.video);
   },
   methods: {
+    setTimestamp(e: any, seconds: number) {
+      const searchParams = new URLSearchParams(window.location.search);
+      searchParams.set('t', `${seconds}s`);
+      this.$router.push(`${location.pathname}?${searchParams.toString()}`);
+      this.$refs.videoplayer.setVideoTime(seconds);
+      e.preventDefault();
+    },
     getHDUrl() {
       if (this.video.formatStreams) {
         const video = this.video.formatStreams.find(e => {
