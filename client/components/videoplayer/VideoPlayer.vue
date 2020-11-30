@@ -739,7 +739,7 @@ button.pictureInPictureToggleButton {
           bottom: 15px;
           white-space: nowrap;
           opacity: 0;
-          transition: opacity 300ms $intro-easing, left 100ms $intro-easing;
+          transition: opacity 300ms $intro-easing, left 300ms $intro-easing;
           text-shadow: 0 0 4px #000;
         }
 

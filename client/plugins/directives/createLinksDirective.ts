@@ -1,4 +1,4 @@
-import { getSecondsFromTimestamp } from 'shared';
+import { getSecondsFromTimestamp } from '@/plugins/shared';
 
 const urlRegex = new RegExp(
   String.raw`(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])`,
