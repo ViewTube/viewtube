@@ -303,6 +303,8 @@ export default Vue.extend({
     }
     this.loadComments();
     this.$store.commit('miniplayer/setCurrentVideo', this.video);
+    const sponsorblock = new SponsorBlock(this.video.videoId);
+    sponsorblock.getSkipSegments();
   },
   methods: {
     setTimestamp(e: any, seconds: number) {
