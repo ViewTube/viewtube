@@ -33,6 +33,8 @@
         :btnId="'settings-btn-2'"
         @valuechange="val => $store.commit('settings/setSponsorblock', val)"
       />
+      <h3 class="settings-subtitle">Categories</h3>
+
       <h2><MiniplayerIcon />Miniplayer</h2>
       <SwitchButton
         :value="$store.getters['settings/miniplayer']"
