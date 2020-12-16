@@ -1,4 +1,4 @@
-import { relatedVideo, VideoDetails, videoInfo } from 'ytdl-core';
+import { relatedVideo, videoInfo } from 'ytdl-core';
 import { Expose, Exclude } from 'class-transformer';
 import humanizeDuration from 'humanize-duration';
 import { AuthorThumbnailDto } from 'shared/dto/video/author-thumbnail.dto';
