@@ -10,9 +10,7 @@
       @change="onChange"
     />
     <div class="multi-option-body">
-      <span class="multi-option-circle">
-        <span class="multi-option-circle-inner" />
-      </span>
+      <div v-for="" class="option"></div>
     </div>
     <label v-if="label" :for="`multi-option-button-${btnId}`" class="label">{{ label }}</label>
   </div>
@@ -24,13 +22,9 @@ import Vue from 'vue';
 export default Vue.extend({
   name: 'MultiOptionButton',
   props: {
-    value: Boolean,
+    options: Object,
     label: String,
-    disabled: Boolean,
-    btnId: {
-      type: Number,
-      required: true
-    }
+    disabled: Boolean
   },
   methods: {
     onChange(e: any): void {
