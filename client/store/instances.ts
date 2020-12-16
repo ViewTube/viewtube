@@ -47,7 +47,7 @@ export const actions = actionTree(
       commit('clearInstances');
       this.$axios
         .get(
-          `${Commons.proxyUrl}https://raw.githubusercontent.com/wiki/iv-org/invidious/Invidious-Instances.md`
+          `${Commons.proxyUrl}https://raw.githubusercontent.com/iv-org/documentation/master/Invidious-Instances.md`
         )
         .then(response => {
           const fetchData = response.data.split('### Blocked:')[0];

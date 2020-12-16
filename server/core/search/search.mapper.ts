@@ -1,21 +1,22 @@
 /* eslint-disable no-case-declarations */
-import { Result, Video, Channel, Playlist, Item, ShelfVertical } from 'ytsr';
+import { Result, Video, Channel, Playlist, Item, Shelf } from 'ytsr';
 import { Common } from '../common';
 import { ISearchResponse } from './interface/search-response.interface';
 
 export class SearchMapper {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   static ytsrToDto(ytsrResult: Result): ISearchResponse {
-    const resultDto: ISearchResponse = {
-      currentRef: ytsrResult.currentRef,
-      filters: ytsrResult.filters,
-      nextpageRef: ytsrResult.nextpageRef,
-      query: ytsrResult.query,
-      results: ytsrResult.results,
+    // const resultDto: ISearchResponse = {
+    //   // currentRef: ytsrResult.currentRef,
+    //   activeFilters: ytsrResult.activeFilters,
+    //   // ne: ytsrResult.continuation,
+    //   // query: ytsrResult.originalQuery,
+    //   results: ytsrResult.results,
 
-      // Filter Mixes, because urls are broken
-      items: this.getItems(ytsrResult.items.filter(el => el.type !== 'mix'))
-    };
-    return resultDto;
+    //   // Filter Mixes, because urls are broken
+    //   items: this.getItems(ytsrResult.items.filter(el => el.type !== 'mix'))
+    // };
+    return null;
   }
 
   private static getItems(source) {
@@ -42,20 +43,20 @@ export class SearchMapper {
           const playlist = { ...this.mapPlaylist(source), ...{ position: index } };
           result.playlists.push(playlist);
           break;
-        case 'shelf-vertical':
+        case 'shelf':
           const verticalShelf = { ...this.mapVerticalShelf(source), ...{ position: index } };
           result.verticalShelf.push(verticalShelf);
           break;
-        case 'search-refinements':
-          result.searchRefinements.push({
-            entries: (source as any).entries,
-            position: index
-          });
-          break;
-        case 'shelf-compact':
-          const compactShelf = { ...source, ...{ position: index } };
-          result.compactShelf.push(compactShelf);
-          break;
+        // case 'search-refinements':
+        //   result.searchRefinements.push({
+        //     entries: (source as any).entries,
+        //     position: index
+        //   });
+        // break;
+        // case 'shelf-compact':
+        //   const compactShelf = { ...source, ...{ position: index } };
+        //   result.compactShelf.push(compactShelf);
+        //   break;
         case 'movie':
           const movie = { ...source, ...{ position: index } };
           result.movies.push(movie);
@@ -65,7 +66,7 @@ export class SearchMapper {
     return result;
   }
 
-  static mapVerticalShelf(source: ShelfVertical): any {
+  static mapVerticalShelf(source: Shelf): any {
     let shelfType = 'general';
     if (source.title.match(/latest from/gi)) {
       shelfType = 'channel';
@@ -82,11 +83,11 @@ export class SearchMapper {
     const playlist = {
       type: 'playlist',
       title: source.title,
-      playlistId: Common.getPlaylistIdFromUrl(source.link),
-      author: source.author.name,
-      authorId: Common.getChannelIdFromUrl(source.author.ref),
-      authorVerified: source.author.verified,
-      thumbnail: source.thumbnail,
+      playlistId: Common.getPlaylistIdFromUrl(source.url),
+      author: source.owner.name,
+      authorId: source.owner.channelID,
+      authorVerified: source.owner.verified,
+      thumbnail: source.firstVideo.bestThumbnail,
       videoCountString: source.length
     };
     return playlist;
@@ -96,12 +97,12 @@ export class SearchMapper {
     const channel = {
       type: 'channel',
       author: source.name,
-      authorId: source.channel_id,
-      authorThumbnails: Common.getAuthorThumbnails(source.avatar),
+      authorId: source.channelID,
+      authorThumbnails: Common.getAuthorThumbnails(source.avatars[0].url),
       authorVerified: source.verified,
-      authorUrl: '/channel/' + source.channel_id,
-      description: source.description_short,
-      subCount: source.followers,
+      authorUrl: '/channel/' + source.channelID,
+      description: source.descriptionShort,
+      subCount: source.subscribers,
       videoCount: source.videos
     };
     return channel;
@@ -112,13 +113,13 @@ export class SearchMapper {
       type: 'video',
       title: source.title,
       author: source.author.name,
-      authorId: Common.getChannelIdFromUrl(source.author.ref),
+      authorId: source.author.channelID,
       description: source.description,
-      publishedText: source.uploaded_at,
-      videoId: Common.getVideoIdFromUrl(source.link),
-      videoThumbnails: Common.getVideoThumbnails(Common.getVideoIdFromUrl(source.link)),
+      publishedText: source.uploadedAt,
+      videoId: Common.getVideoIdFromUrl(source.url),
+      videoThumbnails: Common.getVideoThumbnails(Common.getVideoIdFromUrl(source.url)),
       viewCount: source.views,
-      live: source.live,
+      live: source.isLive,
       lengthString: source.duration
     };
     return video;

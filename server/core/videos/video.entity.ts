@@ -1,4 +1,4 @@
-import { videoInfo } from 'ytdl-core';
+import { relatedVideo, VideoDetails, videoInfo } from 'ytdl-core';
 import { Expose, Exclude } from 'class-transformer';
 import humanizeDuration from 'humanize-duration';
 import { AuthorThumbnailDto } from 'shared/dto/video/author-thumbnail.dto';
@@ -165,18 +165,21 @@ export class VideoEntity implements VideoDto {
   @Expose()
   get recommendedVideos(): Array<RecommendedVideoDto> {
     return this._source.related_videos.map(vid => {
-      const video = vid as any;
+      const video = vid as relatedVideo;
       return {
         videoId: video.id,
         title: video.title,
         videoThumbnails: Common.getVideoThumbnails(video.id),
-        author: video.author,
-        authorUrl: `/channel/${video.video_id}`,
-        authorId: video.video_id,
-        authorThumbnails: Common.getAuthorThumbnailsForRecommended(video.author_thumbnail),
+        author: typeof video.author === 'string' ? video.author : video.author.name,
+        authorUrl: `/channel/${video.id}`,
+        authorId: video.id,
+        authorThumbnails:
+          typeof video.author !== 'string'
+            ? Common.getAuthorThumbnailsForRecommended(video.author.thumbnails[0].url)
+            : [],
         lengthSeconds: video.length_seconds,
         viewCountText: video.short_view_count_text,
-        viewCount: video.view_count
+        viewCount: parseInt(video.view_count)
       };
     });
   }

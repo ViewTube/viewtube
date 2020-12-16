@@ -34,6 +34,7 @@
         @valuechange="onSearchTypeChange"
       />
     </div>
+    <h3 class="under-construction">🚧 Search is currently unavailable</h3>
     <div v-for="(results, i) in searchResults" :key="i" class="search-videos-container">
       <!-- <SectionTitle v-if="page > 0" :title="`Page ${page}`" /> -->
       <div
@@ -268,6 +269,13 @@ export default Vue.extend({
       z-index: 20;
       margin: 0 10px 0 0;
     }
+  }
+
+  .under-construction {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translateX(-50%);
   }
 
   .search-videos-container {

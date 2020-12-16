@@ -107,8 +107,8 @@
     "vuex-persistedstate": "^3.1.0",
     "web-push": "^3.4.4",
     "x2js": "^3.4.0",
-    "ytdl-core": "^3.4.1",
-    "ytsr": "^2.0.0-alpha.3"
+    "ytdl-core": "^4.1.6",
+    "ytsr": "^3.0.0"
   },
   "devDependencies": {
     "@nestjs/schematics": "^7.1.2",
