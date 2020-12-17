@@ -1299,6 +1299,34 @@
     upath "^2.0.1"
     wrap-ansi "^6.2.0"
 
+"@nuxt/cli@2.14.12":
+  version "2.14.12"
+  resolved "https://registry.yarnpkg.com/@nuxt/cli/-/cli-2.14.12.tgz#1298ecbe4f2b44cd5c52cec58f01d9dfe4e16f47"
+  integrity sha512-YRWY1Gg0c3kcO9vg9/Ig9ZMzih5mhxsBTm5b7DCLAEIALBVcJJLamLDnY2C52YLUeMIcY5XCi0HkizvPIv9r2w==
+  dependencies:
+    "@nuxt/config" "2.14.12"
+    "@nuxt/utils" "2.14.12"
+    boxen "^4.2.0"
+    chalk "^3.0.0"
+    compression "^1.7.4"
+    connect "^3.7.0"
+    consola "^2.15.0"
+    crc "^3.8.0"
+    destr "^1.0.1"
+    esm "^3.2.25"
+    execa "^3.4.0"
+    exit "^0.1.2"
+    fs-extra "^8.1.0"
+    globby "^11.0.1"
+    hable "^3.0.0"
+    minimist "^1.2.5"
+    opener "1.5.2"
+    pretty-bytes "^5.4.1"
+    serve-static "^1.14.1"
+    std-env "^2.2.1"
+    upath "^2.0.1"
+    wrap-ansi "^6.2.0"
+
 "@nuxt/components@^1.2.2":
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/@nuxt/components/-/components-1.2.2.tgz#675975758f77d3cbd33f9561867d71ba9e54d0e9"
@@ -1329,6 +1357,23 @@
     rc9 "^1.2.0"
     std-env "^2.2.1"
 
+"@nuxt/config@2.14.12":
+  version "2.14.12"
+  resolved "https://registry.yarnpkg.com/@nuxt/config/-/config-2.14.12.tgz#077267c94ac4d30ed38f7642236f3523ee5280f2"
+  integrity sha512-Ob861w1BjgI1IcpXRC14TKMpUSogGYX/BFn7q/0HkntYxSOQAkMaaUZ0/YEx6IR1fuZV2v+NB8M4IkyUrgW1YA==
+  dependencies:
+    "@nuxt/ufo" "^0.5.0"
+    "@nuxt/utils" "2.14.12"
+    consola "^2.15.0"
+    create-require "^1.1.1"
+    defu "^2.0.4"
+    destr "^1.0.1"
+    dotenv "^8.2.0"
+    esm "^3.2.25"
+    jiti "^0.1.17"
+    rc9 "^1.2.0"
+    std-env "^2.2.1"
+
 "@nuxt/core@2.14.11":
   version "2.14.11"
   resolved "https://registry.yarnpkg.com/@nuxt/core/-/core-2.14.11.tgz#b791b7d6ab33a1a8a748163d7e70169174c604b2"
@@ -1339,6 +1384,24 @@
     "@nuxt/server" "2.14.11"
     "@nuxt/utils" "2.14.11"
     "@nuxt/vue-renderer" "2.14.11"
+    consola "^2.15.0"
+    debug "^4.2.0"
+    esm "^3.2.25"
+    fs-extra "^8.1.0"
+    hable "^3.0.0"
+    hash-sum "^2.0.0"
+    std-env "^2.2.1"
+
+"@nuxt/core@2.14.12":
+  version "2.14.12"
+  resolved "https://registry.yarnpkg.com/@nuxt/core/-/core-2.14.12.tgz#8f35142bcff0b1bacde2516d5e04d69e34047a95"
+  integrity sha512-J+ej2KYzB05jpGkEH5y+dHdOLEa/GKSJvJBWf5Zq0wgneOHUaxB+dnBNxIRO75eXHslHxE++y/PRIQ9ZlEdtOw==
+  dependencies:
+    "@nuxt/config" "2.14.12"
+    "@nuxt/devalue" "^1.2.4"
+    "@nuxt/server" "2.14.12"
+    "@nuxt/utils" "2.14.12"
+    "@nuxt/vue-renderer" "2.14.12"
     consola "^2.15.0"
     debug "^4.2.0"
     esm "^3.2.25"
@@ -1421,6 +1484,30 @@
     serve-static "^1.14.1"
     server-destroy "^1.0.1"
 
+"@nuxt/server@2.14.12":
+  version "2.14.12"
+  resolved "https://registry.yarnpkg.com/@nuxt/server/-/server-2.14.12.tgz#919ebe76d608a38cc9358c57ae0b76c1bd039ecb"
+  integrity sha512-HDOYgjv01zRSmLxPutrXb/F7kwisR+Vur0b2MEyxqBTTy7OcxiyQn1CcXozl/Q21iqZdcGpu/tRpCHO7B8bKOQ==
+  dependencies:
+    "@nuxt/config" "2.14.12"
+    "@nuxt/utils" "2.14.12"
+    "@nuxt/vue-renderer" "2.14.12"
+    "@nuxtjs/youch" "^4.2.3"
+    chalk "^3.0.0"
+    compression "^1.7.4"
+    connect "^3.7.0"
+    consola "^2.15.0"
+    etag "^1.8.1"
+    fresh "^0.5.2"
+    fs-extra "^8.1.0"
+    ip "^1.1.5"
+    launch-editor-middleware "^2.2.1"
+    on-headers "^1.0.2"
+    pify "^4.0.1"
+    serve-placeholder "^1.2.2"
+    serve-static "^1.14.1"
+    server-destroy "^1.0.1"
+
 "@nuxt/telemetry@^1.3.0":
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/@nuxt/telemetry/-/telemetry-1.3.0.tgz#0c6595c786c4fcb060ea8508aaf6285dce8201e0"
@@ -1484,12 +1571,32 @@
   resolved "https://registry.yarnpkg.com/@nuxt/ufo/-/ufo-0.1.6.tgz#d3128ed6d1cd85c305e3557f17499b80f3555a15"
   integrity sha512-0L+ileCXa8td2czmRiPxODAE3peLJUXB3pAddpbOWCgacHngoBjK/9pu78+h41tess3Psf5cInzsvBqpUclIAQ==
 
+"@nuxt/ufo@^0.5.0":
+  version "0.5.2"
+  resolved "https://registry.yarnpkg.com/@nuxt/ufo/-/ufo-0.5.2.tgz#cb40e4b3001739baebddfd65d0f03d6070e2c0e5"
+  integrity sha512-nnKFQ4NA5id5ekyQWHTdOfirIZRQzfEHMB9T0T6NZdWy4+3Nrw0GTBQ3J9Am0gg8kvqR0mMQTn1wK6ya3i/XmA==
+
 "@nuxt/utils@2.14.11":
   version "2.14.11"
   resolved "https://registry.yarnpkg.com/@nuxt/utils/-/utils-2.14.11.tgz#c6c39f0990b6ef97f7909b6fae2f008b7fb006c8"
   integrity sha512-R96xhwOf3XEBv1Zw83JiehL//C7bH8YtSLmgAk7UQHGFcEraQW4EfDiUv8wHotWtiIZrZyZHNeg7Nr+SjnncVA==
   dependencies:
     "@nuxt/ufo" "^0.1.0"
+    consola "^2.15.0"
+    fs-extra "^8.1.0"
+    hash-sum "^2.0.0"
+    proper-lockfile "^4.1.1"
+    semver "^7.3.2"
+    serialize-javascript "^5.0.1"
+    signal-exit "^3.0.3"
+    ua-parser-js "^0.7.22"
+
+"@nuxt/utils@2.14.12":
+  version "2.14.12"
+  resolved "https://registry.yarnpkg.com/@nuxt/utils/-/utils-2.14.12.tgz#7684ef732fba65608baff02bc4cce2b3ced891ac"
+  integrity sha512-XAy18aT2JOuyGnCuGImelOMwheLRo/qBkjqufa/TLIqnBtywdv2y7WP7c9uGTZrwh+O6KHYFeeZjnLqFI0r/xQ==
+  dependencies:
+    "@nuxt/ufo" "^0.5.0"
     consola "^2.15.0"
     fs-extra "^8.1.0"
     hash-sum "^2.0.0"
@@ -1522,6 +1629,21 @@
   dependencies:
     "@nuxt/devalue" "^1.2.4"
     "@nuxt/utils" "2.14.11"
+    consola "^2.15.0"
+    fs-extra "^8.1.0"
+    lru-cache "^5.1.1"
+    vue "^2.6.12"
+    vue-meta "^2.4.0"
+    vue-server-renderer "^2.6.12"
+
+"@nuxt/vue-renderer@2.14.12":
+  version "2.14.12"
+  resolved "https://registry.yarnpkg.com/@nuxt/vue-renderer/-/vue-renderer-2.14.12.tgz#17343f8698037e6a24ca12bc5908301b8018f151"
+  integrity sha512-bYqN1SIumi4EKWDaay6+V2NxcWS/IygOQekfuvNKYhQk97pzkBuXrBGgI6WRdSGLcEBFV0DpHxx66XWVXghL/g==
+  dependencies:
+    "@nuxt/devalue" "^1.2.4"
+    "@nuxt/ufo" "^0.5.0"
+    "@nuxt/utils" "2.14.12"
     consola "^2.15.0"
     fs-extra "^8.1.0"
     lru-cache "^5.1.1"
@@ -8751,13 +8873,13 @@ num2fraction@^1.2.2:
   resolved "https://registry.yarnpkg.com/num2fraction/-/num2fraction-1.2.2.tgz#6f682b6a027a4e9ddfa4564cd2589d1d4e669ede"
   integrity sha1-b2gragJ6Tp3fpFZM0lidHU5mnt4=
 
-nuxt-start@^2.14.11:
-  version "2.14.11"
-  resolved "https://registry.yarnpkg.com/nuxt-start/-/nuxt-start-2.14.11.tgz#2331a1ebdace422c1a050007fdbbb15345c5a8f4"
-  integrity sha512-1JQ5YqzmvbAdUoWinktBH33x3M2L64zJrYriXt0N+SGMYTl4Ai3WIH7DRjUyUTd9k2iODUahgcWny1PzTkYTWA==
+nuxt-start@^2.14.12:
+  version "2.14.12"
+  resolved "https://registry.yarnpkg.com/nuxt-start/-/nuxt-start-2.14.12.tgz#b3b7662ab940179c85e6cabaab6107889799ec4f"
+  integrity sha512-OGa6OVm6+36UPGrhfcRIq5RDWlTOd92M5AuFHsMluNAXHRwhwHGNINB3sRYyAyoedzeTNoTWEmjyb0EAmVeLFA==
   dependencies:
-    "@nuxt/cli" "2.14.11"
-    "@nuxt/core" "2.14.11"
+    "@nuxt/cli" "2.14.12"
+    "@nuxt/core" "2.14.12"
     "@nuxt/telemetry" "^1.3.0"
     node-fetch "^2.6.1"
     vue "^2.6.12"
