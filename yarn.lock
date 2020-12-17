@@ -1203,10 +1203,10 @@
     lodash "4.17.20"
     path-to-regexp "3.2.0"
 
-"@nestjs/testing@^7.6.1":
-  version "7.6.1"
-  resolved "https://registry.yarnpkg.com/@nestjs/testing/-/testing-7.6.1.tgz#f4017d2119ff70baa0482fd1a9291f85f250ce6a"
-  integrity sha512-mgVfSZTcYSzQWL6A9i6EU7+OEv4PcEebG7SdTeyfX2cg5eLq/DSVoBMHqjxHgQj6YIdir+znOXt4LBDcI2WKtw==
+"@nestjs/testing@^7.6.3":
+  version "7.6.3"
+  resolved "https://registry.yarnpkg.com/@nestjs/testing/-/testing-7.6.3.tgz#011f8061375eed9761788e0d773b80215f7ec159"
+  integrity sha512-rc8Xh/Kq5VXKws0tQYahAxM6gXt310qJBpxTlhVWdXOjGSTYU6jCoZNLYYc3DgOsrBgEDF2db38Fy4h3ck7oLQ==
   dependencies:
     optional "0.1.4"
     tslib "2.0.3"
@@ -5289,15 +5289,6 @@ eslint-plugin-unicorn@^23.0.0:
     reserved-words "^0.1.2"
     safe-regex "^2.1.1"
     semver "^7.3.2"
-
-eslint-plugin-vue@^6.2.2:
-  version "6.2.2"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-vue/-/eslint-plugin-vue-6.2.2.tgz#27fecd9a3a24789b0f111ecdd540a9e56198e0fe"
-  integrity sha512-Nhc+oVAHm0uz/PkJAWscwIT4ijTrK5fqNqz9QB1D35SbbuMG1uB6Yr5AJpvPSWg+WOw7nYNswerYh0kOk64gqQ==
-  dependencies:
-    natural-compare "^1.4.0"
-    semver "^5.6.0"
-    vue-eslint-parser "^7.0.0"
 
 eslint-plugin-vue@^7.1.0:
   version "7.3.0"
@@ -12587,7 +12578,7 @@ vue-client-only@^2.0.0:
   resolved "https://registry.yarnpkg.com/vue-client-only/-/vue-client-only-2.0.0.tgz#ddad8d675ee02c761a14229f0e440e219de1da1c"
   integrity sha512-arhk1wtWAfLsJyxGMoEYhoBowM87/i6HLSG2LH/03Yog6i2d9JEN1peMP0Ceis+/n9DxdenGYZZTxbPPJyHciA==
 
-vue-eslint-parser@^7.0.0, vue-eslint-parser@^7.1.1, vue-eslint-parser@^7.3.0:
+vue-eslint-parser@^7.1.1, vue-eslint-parser@^7.3.0:
   version "7.3.0"
   resolved "https://registry.yarnpkg.com/vue-eslint-parser/-/vue-eslint-parser-7.3.0.tgz#894085839d99d81296fa081d19643733f23d7559"
   integrity sha512-n5PJKZbyspD0+8LnaZgpEvNCrjQx1DyDHw8JdWwoxhhC+yRip4TAvSDpXGf9SWX6b0umeB5aR61gwUo6NVvFxw==
