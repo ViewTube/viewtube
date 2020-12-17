@@ -107,7 +107,7 @@
     "vuex-persistedstate": "^3.1.0",
     "web-push": "^3.4.4",
     "x2js": "^3.4.0",
-    "ytdl-core": "^4.1.6",
+    "ytdl-core": "^4.1.7",
     "ytsr": "^3.0.0"
   },
   "devDependencies": {
