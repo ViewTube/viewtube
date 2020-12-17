@@ -72,7 +72,7 @@
     "eslint": "^7.11.0",
     "eslint-config-prettier": "^7.0.0",
     "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-nuxt": "^1.0.0",
+    "eslint-plugin-nuxt": "^2.0.0",
     "fluent-ffmpeg": "^2.1.2",
     "https-proxy-agent": "^5.0.0",
     "humanize-duration": "^3.24.0",
