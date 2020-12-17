@@ -1194,10 +1194,10 @@
     fs-extra "9.0.1"
     pluralize "8.0.0"
 
-"@nestjs/swagger@^4.6.1":
-  version "4.7.6"
-  resolved "https://registry.yarnpkg.com/@nestjs/swagger/-/swagger-4.7.6.tgz#7ac35d47ab09a944126a12f1f5727ad7c01f256c"
-  integrity sha512-9cj/rAqqnUxHnGqgO9GE1HU5x0BxQmWgWgenLh/cwdW4dFys7JI3xN2RWaEtZCVobvKYUWBPNvXnoduYI/1OKg==
+"@nestjs/swagger@^4.7.7":
+  version "4.7.7"
+  resolved "https://registry.yarnpkg.com/@nestjs/swagger/-/swagger-4.7.7.tgz#3050324e5e6d30e47d5bb45fa4c77809efe98a7e"
+  integrity sha512-c39Lmkl52FgWl1HkivBHdpYiG9/pUbulYzXzGOvywsEjVxaVIohFQ69/kCDmNdfY/EMmCtZ9UIf5CG0FcHHkNA==
   dependencies:
     "@nestjs/mapped-types" "0.1.1"
     lodash "4.17.20"
