@@ -1711,13 +1711,13 @@
     consola "^2.15.0"
     defu "^3.2.2"
 
-"@nuxtjs/composition-api@^0.13.5":
-  version "0.13.5"
-  resolved "https://registry.yarnpkg.com/@nuxtjs/composition-api/-/composition-api-0.13.5.tgz#7fb1f6229d2c19bd1428590aea58e5395e008393"
-  integrity sha512-G1H1c5xKAQB6Zxfstc/g+cNSWoies6t+yZv14+K4bOH+CEXH/D3pgmx1J2zTzJM5YSJNC0Z0BBIKhi2EiYqGcA==
+"@nuxtjs/composition-api@^0.17.0":
+  version "0.17.0"
+  resolved "https://registry.yarnpkg.com/@nuxtjs/composition-api/-/composition-api-0.17.0.tgz#533402f82dc860cbed17d9612ac8b41333789b26"
+  integrity sha512-hc/1amRpu1sr4/0jkb4T0N37YgvM00jcBTQeur5ymdUd52eJExKiOu+EwbWvTPRFz8IU29x6PhdLZ5LcJT6FgA==
   dependencies:
-    "@vue/composition-api" "1.0.0-beta.17"
-    defu "^3.1.0"
+    "@vue/composition-api" "1.0.0-beta.21"
+    defu "^3.2.2"
     normalize-path "^3.0.0"
 
 "@nuxtjs/eslint-config-typescript@^5.0.0":
@@ -2510,10 +2510,10 @@
   optionalDependencies:
     prettier "^1.18.2"
 
-"@vue/composition-api@1.0.0-beta.17":
-  version "1.0.0-beta.17"
-  resolved "https://registry.yarnpkg.com/@vue/composition-api/-/composition-api-1.0.0-beta.17.tgz#63b65b3ed7cab649c53e4459fb0c5d3d1c545a96"
-  integrity sha512-TXa3162xQXeEoT8ar2aLPdSVGUy4phD8b3bytRORJQMvplQxi++QKXKAgYUTH0lwP0t0Dw2ddWtIyTTrOhta5w==
+"@vue/composition-api@1.0.0-beta.21":
+  version "1.0.0-beta.21"
+  resolved "https://registry.yarnpkg.com/@vue/composition-api/-/composition-api-1.0.0-beta.21.tgz#d5a3c68afc8b569dfc3eccd69998388bb7f6a16c"
+  integrity sha512-tgbvDpLvKQ1GrII424wsoyzPCsG0oTFf38emMq495SfLY7RmUqhVIl81pvnC5489PPrCxDkbauJHJrhlcXfbTQ==
   dependencies:
     tslib "^2.0.1"
 
@@ -4742,7 +4742,7 @@ defu@^2.0.4:
   resolved "https://registry.yarnpkg.com/defu/-/defu-2.0.4.tgz#09659a6e87a8fd7178be13bd43e9357ebf6d1c46"
   integrity sha512-G9pEH1UUMxShy6syWk01VQSRVs3CDWtlxtZu7A+NyqjxaCA4gSlWAKDBx6QiUEKezqS8+DUlXLI14Fp05Hmpwg==
 
-defu@^3.1.0, defu@^3.2.2:
+defu@^3.2.2:
   version "3.2.2"
   resolved "https://registry.yarnpkg.com/defu/-/defu-3.2.2.tgz#be20f4cc49b9805d54ee6b610658d53894942e97"
   integrity sha512-8UWj5lNv7HD+kB0e9w77Z7TdQlbUYDVWqITLHNqFIn6khrNHv5WQo38Dcm1f6HeNyZf0U7UbPf6WeZDSdCzGDQ==
@@ -5289,15 +5289,6 @@ eslint-plugin-unicorn@^23.0.0:
     reserved-words "^0.1.2"
     safe-regex "^2.1.1"
     semver "^7.3.2"
-
-eslint-plugin-vue@^6.2.2:
-  version "6.2.2"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-vue/-/eslint-plugin-vue-6.2.2.tgz#27fecd9a3a24789b0f111ecdd540a9e56198e0fe"
-  integrity sha512-Nhc+oVAHm0uz/PkJAWscwIT4ijTrK5fqNqz9QB1D35SbbuMG1uB6Yr5AJpvPSWg+WOw7nYNswerYh0kOk64gqQ==
-  dependencies:
-    natural-compare "^1.4.0"
-    semver "^5.6.0"
-    vue-eslint-parser "^7.0.0"
 
 eslint-plugin-vue@^7.1.0:
   version "7.3.0"
@@ -12587,7 +12578,7 @@ vue-client-only@^2.0.0:
   resolved "https://registry.yarnpkg.com/vue-client-only/-/vue-client-only-2.0.0.tgz#ddad8d675ee02c761a14229f0e440e219de1da1c"
   integrity sha512-arhk1wtWAfLsJyxGMoEYhoBowM87/i6HLSG2LH/03Yog6i2d9JEN1peMP0Ceis+/n9DxdenGYZZTxbPPJyHciA==
 
-vue-eslint-parser@^7.0.0, vue-eslint-parser@^7.1.1, vue-eslint-parser@^7.3.0:
+vue-eslint-parser@^7.1.1, vue-eslint-parser@^7.3.0:
   version "7.3.0"
   resolved "https://registry.yarnpkg.com/vue-eslint-parser/-/vue-eslint-parser-7.3.0.tgz#894085839d99d81296fa081d19643733f23d7559"
   integrity sha512-n5PJKZbyspD0+8LnaZgpEvNCrjQx1DyDHw8JdWwoxhhC+yRip4TAvSDpXGf9SWX6b0umeB5aR61gwUo6NVvFxw==
