@@ -11448,10 +11448,10 @@ spdx-license-ids@^3.0.0:
   resolved "https://registry.yarnpkg.com/spdx-license-ids/-/spdx-license-ids-3.0.7.tgz#e9c18a410e5ed7e12442a549fbd8afa767038d65"
   integrity sha512-U+MTEOO0AiDzxwFvoa4JVnMV6mZlJKk2sBLt90s7G0Gd0Mlknc7kxEn3nuDPNZRta7O2uy8oLcZLVT+4sqNZHQ==
 
-split-file-stream@^1.3.0:
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/split-file-stream/-/split-file-stream-1.3.0.tgz#26f0730b01093f27b39acfb5461868cbf4b39d21"
-  integrity sha512-0vgV3kTx5/1yIphlMsN89Qlvc323jFxYS4BvX1FLcL03TTTwndfxmVFCY8VPMseoGdJKJGFuP6E2aW87+mt+GA==
+split-file-stream@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/split-file-stream/-/split-file-stream-2.0.0.tgz#4b3cac7c7bc39f7fe6c4aec1f9361bfdaf43a427"
+  integrity sha512-a5FrTL3/Kw1gMVbE8PXLpmLQFnD0U8JcL6vF0b3DWljF2A/K7i0+Ldhi+Fla6HoxzmUlJ75l+lYTaWomR2wb8Q==
 
 split-string@^3.0.1, split-string@^3.0.2:
   version "3.1.0"
