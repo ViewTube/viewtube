@@ -12,3 +12,4 @@ updates:
     target-branch: "main"
     commit-message:
       prefix: '⬆️'
+    open-pull-requests-limit: 20
