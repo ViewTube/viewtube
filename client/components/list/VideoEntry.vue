@@ -188,7 +188,7 @@ export default Vue.extend({
 
         .video-entry-thmb-image {
           display: block;
-          width: 100%;
+          max-width: 100%;
           transition: filter 0ms 300ms $intro-easing;
         }
       }
