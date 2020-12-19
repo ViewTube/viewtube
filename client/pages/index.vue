@@ -14,7 +14,11 @@
         :video="video"
       />
     </div>
-    <BadgeButton v-if="displayedVideos.length !== videos.length" :click="showMoreVideos">
+    <BadgeButton
+      v-if="displayedVideos.length !== videos.length"
+      :click="showMoreVideos"
+      class="home-show-more"
+    >
       <LoadMoreIcon />
       <p>Show more</p>
     </BadgeButton>
@@ -111,6 +115,13 @@ export default Vue.extend({
     z-index: 10;
     background-color: var(--bgcolor-main);
     @include viewtube-grid;
+  }
+
+  .home-show-more {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 20px;
   }
 }
 </style>
