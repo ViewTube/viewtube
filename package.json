@@ -54,7 +54,7 @@
     "@nuxt/types": "^2.14.7",
     "@nuxt/typescript-build": "^2.0.3",
     "@nuxtjs/axios": "^5.12.2",
-    "@nuxtjs/composition-api": "^0.13.5",
+    "@nuxtjs/composition-api": "^0.17.0",
     "@nuxtjs/eslint-config-typescript": "^5.0.0",
     "@nuxtjs/router": "^1.5.0",
     "@nuxtjs/style-resources": "^1.0.0",
