@@ -78,7 +78,7 @@ export class VideoEntity implements VideoDto {
   authorUrl: string = '/channel/' + this._videoDetails.author.id;
 
   authorThumbnails: Array<AuthorThumbnailDto> = Common.getAuthorThumbnails(
-    this._videoDetails.author.avatar
+    this._videoDetails.author.thumbnails[0].url
   );
 
   authorVerified: boolean = this._videoDetails.author.verified;
