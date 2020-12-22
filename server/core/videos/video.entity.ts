@@ -31,9 +31,9 @@ export class VideoEntity implements VideoDto {
 
   storyboards: Array<any> = [];
 
-  description: string = this._videoDetails.shortDescription;
+  description: string = this.playerVideoDetails.shortDescription;
 
-  descriptionHtml: string = this._videoDetails.shortDescription;
+  descriptionHtml: string = this.playerVideoDetails.shortDescription;
 
   published: number = Date.parse(this._videoDetails.publishDate);
 
