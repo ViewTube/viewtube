@@ -1,2 +1,8 @@
 User-agent: *
-Disallow: /
+Disallow: 
+Disallow: /watch/
+Disallow: /channel/
+Disallow: /playlist/
+Disallow: /subscriptions/
+Disallow: /subscriptions/manage/
+Disallow: /results/
