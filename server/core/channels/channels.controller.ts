@@ -1,3 +1,5 @@
+import fs from 'fs';
+import path from 'path';
 import {
   Controller,
   Get,
@@ -7,8 +9,6 @@ import {
   CacheInterceptor,
   UseInterceptors
 } from '@nestjs/common';
-import fs from 'fs';
-import path from 'path';
 import { Response } from 'express';
 import { ApiTags } from '@nestjs/swagger';
 import { ChannelsService } from './channels.service';
@@ -21,6 +21,7 @@ export class ChannelsController {
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   @Get(':id/thumbnail/tiny.jpg')
   getTinyThumbnail(@Res() res: Response, @Param('id') id: string) {
+    // eslint-disable-next-line dot-notation
     const imgPath = path.join(global['__basedir'], `channels/${id}.jpg`);
 
     if (fs.existsSync(imgPath)) {

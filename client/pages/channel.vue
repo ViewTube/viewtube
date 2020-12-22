@@ -110,11 +110,6 @@ export default Vue.extend({
       overviewColor: 0
     };
   },
-  methods: {
-    onScrollTop(): void {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-  },
   head() {
     return {
       title: this.channel ? `${this.channel.author} :: ViewTube` : 'ViewTube',
@@ -143,6 +138,11 @@ export default Vue.extend({
         }
       ]
     };
+  },
+  methods: {
+    onScrollTop(): void {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   }
 });
 </script>

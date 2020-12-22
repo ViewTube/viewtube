@@ -1,6 +1,7 @@
 import { getSecondsFromTimestamp } from '@/plugins/shared';
 import { DirectiveBinding } from 'vue/types/options';
 
+// eslint-disable-next-line prefer-regex-literals
 const urlRegex = new RegExp(
   String.raw`(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])`,
   'ig'

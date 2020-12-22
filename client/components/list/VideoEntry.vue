@@ -112,6 +112,7 @@ export default Vue.extend({
   justify-content: flex-start;
   z-index: 11;
   position: relative;
+  min-height: 0;
 
   .video-entry-background {
     position: absolute;
@@ -171,19 +172,19 @@ export default Vue.extend({
   .video-entry-thmb {
     position: relative;
     z-index: 11;
-    perspective: 1000px;
+    box-shadow: $medium-shadow;
+    overflow: hidden;
+    padding-top: 56.25%;
 
     .thmb-image-container {
-      position: relative;
-      top: 0;
+      position: absolute;
+      width: 100%;
+      top: 50%;
       left: 0;
-      transition: transform 800ms 100ms $intro-easing;
-      transform-style: preserve-3d;
-      box-shadow: $medium-shadow;
+      transform: translateY(-50%);
 
       .thmb-clip {
         overflow: hidden;
-        backface-visibility: hidden;
 
         .video-entry-thmb-image {
           display: block;

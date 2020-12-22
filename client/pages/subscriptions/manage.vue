@@ -82,6 +82,16 @@ export default Vue.extend({
     SectionTitle,
     Pagination
   },
+  data() {
+    return {
+      commons: Commons,
+      subscriptionChannels: [],
+      currentPage: 1,
+      pageCount: 0,
+      searchTerm: null,
+      searchTimeout: null
+    };
+  },
   async fetch() {
     if (process.browser) {
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -111,14 +121,27 @@ export default Vue.extend({
         console.log(error);
       });
   },
-  data() {
+  head() {
     return {
-      commons: Commons,
-      subscriptionChannels: [],
-      currentPage: 1,
-      pageCount: 0,
-      searchTerm: null,
-      searchTimeout: null
+      title: `Manage subscriptions :: ViewTube`,
+      meta: [
+        {
+          hid: 'description',
+          vmid: 'descriptionMeta',
+          name: 'description',
+          content: 'Manage your subscriptions'
+        },
+        {
+          hid: 'ogTitle',
+          property: 'og:title',
+          content: 'Manage subscriptions - ViewTube'
+        },
+        {
+          hid: 'ogDescription',
+          property: 'og:description',
+          content: 'Manage your subscriptions'
+        }
+      ]
     };
   },
   computed: {
@@ -192,29 +215,6 @@ export default Vue.extend({
           }
         });
     }
-  },
-  head() {
-    return {
-      title: `Manage subscriptions :: ViewTube`,
-      meta: [
-        {
-          hid: 'description',
-          vmid: 'descriptionMeta',
-          name: 'description',
-          content: 'Manage your subscriptions'
-        },
-        {
-          hid: 'ogTitle',
-          property: 'og:title',
-          content: 'Manage subscriptions - ViewTube'
-        },
-        {
-          hid: 'ogDescription',
-          property: 'og:description',
-          content: 'Manage your subscriptions'
-        }
-      ]
-    };
   }
 });
 </script>

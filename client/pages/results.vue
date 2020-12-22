@@ -135,7 +135,15 @@ export default Vue.extend({
     VerticalShelf,
     SectionTitle
   },
-  watchQuery: true,
+  data: () => ({
+    searchResults: null,
+    searchInformation: null,
+    loading: false,
+    searchQuery: null,
+    parameters: SearchParams,
+    page: 0,
+    moreVideosLoading: false
+  }),
   async fetch() {
     const inputQuery = this.$nuxt.context.query;
     inputQuery.type = 'all';
@@ -156,15 +164,30 @@ export default Vue.extend({
         console.error(error);
       });
   },
-  data: () => ({
-    searchResults: null,
-    searchInformation: null,
-    loading: false,
-    searchQuery: null,
-    parameters: SearchParams,
-    page: 0,
-    moreVideosLoading: false
-  }),
+  head() {
+    return {
+      title: `${this.searchQuery ? this.searchQuery + ' :: ' : ''}Search :: ViewTube`,
+      meta: [
+        {
+          hid: 'description',
+          vmid: 'descriptionMeta',
+          name: 'description',
+          content: 'Search for videos, channels and playlists'
+        },
+        {
+          hid: 'ogTitle',
+          property: 'og:title',
+          content: 'Search - ViewTube'
+        },
+        {
+          hid: 'ogDescription',
+          property: 'og:description',
+          content: 'Search for videos, channels and playlists'
+        }
+      ]
+    };
+  },
+  watchQuery: true,
   methods: {
     getListEntryType(type: string): string {
       switch (type) {
@@ -225,29 +248,6 @@ export default Vue.extend({
           console.error(error);
         });
     }
-  },
-  head() {
-    return {
-      title: `${this.searchQuery ? this.searchQuery + ' :: ' : ''}Search :: ViewTube`,
-      meta: [
-        {
-          hid: 'description',
-          vmid: 'descriptionMeta',
-          name: 'description',
-          content: 'Search for videos, channels and playlists'
-        },
-        {
-          hid: 'ogTitle',
-          property: 'og:title',
-          content: 'Search - ViewTube'
-        },
-        {
-          hid: 'ogDescription',
-          property: 'og:description',
-          content: 'Search for videos, channels and playlists'
-        }
-      ]
-    };
   }
 });
 </script>
