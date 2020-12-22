@@ -4,7 +4,8 @@
       <CloseIcon class="close-icon" @click.stop="$emit('close')" />
       <h1>Settings</h1>
       <h2><ThemeIcon />Theme</h2>
-      <ThemeSelector />
+      <DefaultThemeSelector />
+      <CustomThemeSelector />
       <h2><ChaptersIcon />Chapters</h2>
       <SwitchButton
         :value="$store.getters['settings/chapters']"
@@ -109,7 +110,8 @@ import CloseIcon from 'vue-material-design-icons/Close.vue';
 import ThemeIcon from 'vue-material-design-icons/Brightness4.vue';
 import MiniplayerIcon from 'vue-material-design-icons/WindowRestore.vue';
 import ChaptersIcon from 'vue-material-design-icons/BookOpenVariant.vue';
-import ThemeSelector from '@/components/themes/ThemeSelector.vue';
+import CustomThemeSelector from '@/components/themes/CustomThemeSelector.vue';
+import DefaultThemeSelector from '@/components/themes/DefaultThemeSelector.vue';
 import SwitchButton from '@/components/buttons/SwitchButton.vue';
 import MultiOptionButton from '@/components/buttons/MultiOptionButton.vue';
 import '@/assets/styles/popup.scss';
@@ -122,7 +124,8 @@ export default Vue.extend({
     ThemeIcon,
     MiniplayerIcon,
     SwitchButton,
-    ThemeSelector,
+    CustomThemeSelector,
+    DefaultThemeSelector,
     ChaptersIcon,
     MultiOptionButton
   },

@@ -1,7 +1,7 @@
 <template>
   <div class="theme-selector">
     <a
-      v-for="(theme, id) in themes"
+      v-for="(theme, id) in defaults"
       :key="id"
       v-ripple
       class="theme-preview"
@@ -14,25 +14,25 @@
       <div
         class="preview-graphic"
         :style="{
-          'background-color': theme['bgcolor-main']
+          'background-color': theme.themeVariables['bgcolor-main']
         }"
       >
         <span
           class="prev-header"
           :style="{
-            'background-color': theme['header-bgcolor']
+            'background-color': theme.themeVariables['header-bgcolor']
           }"
         >
           <span
             class="prev-logo"
             :style="{
-              'background-color': theme['theme-color']
+              'background-color': theme.themeVariables['theme-color']
             }"
           />
           <span
             class="prev-searchbar"
             :style="{
-              'background-color': theme['theme-color']
+              'background-color': theme.themeVariables['theme-color']
             }"
           />
         </span>
@@ -42,11 +42,14 @@
             :key="n"
             class="prev-thmb"
             :style="{
-              'background-color': theme['theme-color']
+              'background-color': theme.themeVariables['theme-color']
             }"
           />
         </div>
-        <span class="prev-gradient" :style="{ opacity: theme['gradient-opacity'] }" />
+        <span
+          class="prev-gradient"
+          :style="{ opacity: theme.themeVariables['gradient-opacity'] }"
+        />
       </div>
       <span class="theme-title">{{ theme.name }}</span>
     </a>
@@ -59,19 +62,19 @@ import Vue from 'vue';
 export default Vue.extend({
   data() {
     return {
-      themes: this.$store.getters['settings/defaultThemes']
+      defaults: this.$store.getters['theme/defaultThemes']
     };
   },
   methods: {
     onThemeChange(element) {
       document.body.classList.add('transition-all');
-      this.$store.commit('settings/setTheme', element.value);
+      this.$store.commit('theme/setDefaultTheme', element.value);
       setTimeout(() => {
         document.body.classList.remove('transition-all');
       }, 300);
     },
     getBorderThemeColor(theme): string {
-      return theme.value === this.$store.getters['settings/theme']
+      return theme.value === this.$store.getters['theme/selectedDefault']
         ? theme['theme-color']
         : 'transparent';
     }

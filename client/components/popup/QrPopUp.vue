@@ -39,10 +39,10 @@ export default Vue.extend({
       return process.browser ? window.location.href : '';
     },
     getThemePrimaryColor(): string {
-      return this.$store.getters['settings/themeVariables']['theme-color'];
+      return this.$store.getters['theme/themeVariables']['theme-color'];
     },
     getThemeBackgroundColor(): string {
-      return this.$store.getters['settings/themeVariables']['bgcolor-alt'];
+      return this.$store.getters['theme/themeVariables']['bgcolor-alt'];
     }
   }
 });
