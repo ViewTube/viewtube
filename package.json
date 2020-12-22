@@ -76,6 +76,7 @@
     "fluent-ffmpeg": "^2.1.2",
     "https-proxy-agent": "^5.0.0",
     "humanize-duration": "^3.24.0",
+    "js-sha256": "^0.9.0",
     "mini-svg-data-uri": "^1.2.3",
     "modclean": "^3.0.0-beta.1",
     "module-alias": "^2.2.2",

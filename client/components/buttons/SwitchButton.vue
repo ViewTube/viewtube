@@ -1,7 +1,8 @@
 <template>
   <div class="switch">
     <input
-      id="switch-button"
+      :id="`switch-button-${btnId}`"
+      class="switch-button"
       type="checkbox"
       :name="label"
       :checked="value"
@@ -13,7 +14,7 @@
         <span class="switch-circle-inner" />
       </span>
     </div>
-    <label v-if="label" for="switch-button" class="label">{{ label }}</label>
+    <label v-if="label" :for="`switch-button-${btnId}`" class="label">{{ label }}</label>
   </div>
 </template>
 
@@ -25,7 +26,11 @@ export default Vue.extend({
   props: {
     value: Boolean,
     label: String,
-    disabled: Boolean
+    disabled: Boolean,
+    btnId: {
+      type: Number,
+      required: true
+    }
   },
   methods: {
     onChange(e: any): void {
@@ -44,7 +49,7 @@ export default Vue.extend({
   margin-top: 20px !important;
   position: relative;
 
-  #switch-button {
+  .switch-button {
     all: unset;
     width: 50px;
     height: 24px;
