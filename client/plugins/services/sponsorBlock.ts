@@ -1,5 +1,6 @@
 import { sha256 } from 'js-sha256';
 import axios from 'axios';
+import { SponsorBlockSegmentsDto } from '@/plugins/shared';
 
 export class SponsorBlock {
   constructor(videoId: string) {
@@ -9,24 +10,23 @@ export class SponsorBlock {
   private _videoId: string;
   private _apiUrl: string = 'https://sponsor.ajay.app/';
 
-  public getSkipSegments() {
+  public async getSkipSegments(): Promise<SponsorBlockSegmentsDto> {
     if (this._videoId) {
       const hash = sha256.create();
       hash.update(this._videoId);
       const encodedVideoId = hash.hex();
       const shortHash = encodedVideoId.substr(0, 4);
 
-      return axios
-        .get(`${this._apiUrl}api/skipSegments/${shortHash}`)
-        .then((response: any) => {
-          if (response.data) {
-            const skipSections = response.data.find(el => el.videoID === this._videoId);
-            console.log(skipSections);
+      try {
+        const response = await axios.get(`${this._apiUrl}api/skipSegments/${shortHash}`);
+        if (response.data) {
+          const skipSections = response.data.find(el => el.videoID === this._videoId);
+          if (skipSections) {
+            return skipSections;
           }
-        })
-        .catch(err => {
-          console.log(err);
-        });
+        }
+      } catch (_) {}
+      return null;
     }
   }
 }

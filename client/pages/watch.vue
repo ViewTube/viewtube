@@ -171,8 +171,6 @@ import CollapsibleSection from '@/components/list/CollapsibleSection.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import Vue from 'vue';
 import ViewTubeApi from '@/plugins/services/viewTubeApi.ts';
-import { SponsorBlock } from '@/plugins/services/sponsorBlock.ts';
-// import invidious from '~/plugins/services/invidious';
 
 export default Vue.extend({
   name: 'Watch',
@@ -305,8 +303,6 @@ export default Vue.extend({
     }
     this.loadComments();
     this.$store.commit('miniplayer/setCurrentVideo', this.video);
-    const sponsorblock = new SponsorBlock(this.video.videoId);
-    sponsorblock.getSkipSegments();
   },
   methods: {
     setTimestamp(e: any, seconds: number) {

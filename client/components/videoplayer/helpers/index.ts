@@ -8,6 +8,8 @@ import {
 } from '@nuxtjs/composition-api';
 import Commons from '@/plugins/commons';
 import dashjs from 'dashjs';
+import { SponsorBlock } from '@/plugins/services/sponsorBlock';
+import { SponsorBlockSegmentsDto } from '@/plugins/shared';
 import { MediaMetadataHelper } from './mediaMetadata';
 import { calculateSeekPercentage, matchSeekProgressPercentage, seekbarFunctions } from './seekbar';
 import { parseChapters } from './chapters';
@@ -97,6 +99,30 @@ export const videoPlayerSetup = ({ root, props }) => {
 
   if (root.$store.getters['settings/miniplayer']) {
     chapters.value = parseChapters(props.video.description, videoLength.value);
+  }
+
+  const sponsorBlockSegments = ref<SponsorBlockSegmentsDto>(null);
+
+  if (root.$store.getters['settings/sponsorblock']) {
+    const sponsorblock = new SponsorBlock(props.video.videoId);
+    sponsorblock.getSkipSegments().then(value => {
+      if (value) {
+        const segments = {
+          hash: value.hash,
+          videoID: value.videoID,
+          segments: value.segments.map(segment => {
+            const startPercentage = (segment.segment[0] / videoLength.value) * 100;
+            const endPercentage = (segment.segment[1] / videoLength.value) * 100;
+            return {
+              startPercentage,
+              endPercentage,
+              ...segment
+            };
+          })
+        };
+        sponsorBlockSegments.value = segments;
+      }
+    });
   }
 
   const videoUrl = computed(() => {
@@ -639,6 +665,7 @@ export const videoPlayerSetup = ({ root, props }) => {
     videoRef,
     animations,
     chapters,
+    sponsorBlockSegments,
     getChapterForPercentage,
     onLoadedMetadata,
     onPlaybackProgress,
