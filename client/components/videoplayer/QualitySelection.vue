@@ -86,6 +86,7 @@ export default Vue.extend({
         if (value.type) {
           return value.type.match(/.*video.*/);
         }
+        return false;
       });
     }
   },

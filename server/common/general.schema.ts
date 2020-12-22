@@ -5,6 +5,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 export class General extends Document {
   @Prop()
   innertubeApiKey: string;
+
   @Prop()
   version: number;
 }

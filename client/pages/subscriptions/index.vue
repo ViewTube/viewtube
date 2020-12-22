@@ -88,6 +88,20 @@ export default Vue.extend({
     ImportIcon,
     Pagination
   },
+  data: () => ({
+    videos: [],
+    loading: true,
+    commons: Commons,
+    notificationsEnabled: false,
+    notificationsBtnDisabled: false,
+    notificationsSupported: true,
+    subscriptionImportOpen: false,
+    vapidKey: null,
+    currentPage: 1,
+    currentPageTest: 1,
+    pageCount: 1,
+    pageCountTest: 1
+  }),
   async fetch() {
     if (process.browser) {
       // window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -115,20 +129,29 @@ export default Vue.extend({
         });
       });
   },
-  data: () => ({
-    videos: [],
-    loading: true,
-    commons: Commons,
-    notificationsEnabled: false,
-    notificationsBtnDisabled: false,
-    notificationsSupported: true,
-    subscriptionImportOpen: false,
-    vapidKey: null,
-    currentPage: 1,
-    currentPageTest: 1,
-    pageCount: 1,
-    pageCountTest: 1
-  }),
+  head() {
+    return {
+      title: `Subscriptions :: ViewTube`,
+      meta: [
+        {
+          hid: 'description',
+          vmid: 'descriptionMeta',
+          name: 'description',
+          content: 'See your subscription feed'
+        },
+        {
+          hid: 'ogTitle',
+          property: 'og:title',
+          content: 'Subscriptions - ViewTube'
+        },
+        {
+          hid: 'ogDescription',
+          property: 'og:description',
+          content: 'See your subscription feed'
+        }
+      ]
+    };
+  },
   computed: {
     orderedVideoSections() {
       const orderedArray = [];
@@ -257,29 +280,6 @@ export default Vue.extend({
         return 'Notifications are disabled';
       }
     }
-  },
-  head() {
-    return {
-      title: `Subscriptions :: ViewTube`,
-      meta: [
-        {
-          hid: 'description',
-          vmid: 'descriptionMeta',
-          name: 'description',
-          content: 'See your subscription feed'
-        },
-        {
-          hid: 'ogTitle',
-          property: 'og:title',
-          content: 'Subscriptions - ViewTube'
-        },
-        {
-          hid: 'ogDescription',
-          property: 'og:description',
-          content: 'See your subscription feed'
-        }
-      ]
-    };
   }
 });
 </script>

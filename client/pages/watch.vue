@@ -189,14 +189,6 @@ export default Vue.extend({
     CollapsibleSection,
     BadgeButton
   },
-  watchQuery(newQuery: any) {
-    const videoId = newQuery.v;
-    if (this) {
-      this.loadComments(videoId);
-      this.$store.commit('miniplayer/setCurrentVideo', this.video);
-    }
-    return true;
-  },
   asyncData({ store, query, error }) {
     const viewTubeApi = new ViewTubeApi(store.getters['environment/apiUrl']);
     return viewTubeApi.api
@@ -250,6 +242,39 @@ export default Vue.extend({
       shareOpen: false
     };
   },
+  head() {
+    return {
+      title: `${this.video.title} :: ${this.video.author} :: ViewTube`,
+      meta: [
+        {
+          hid: 'description',
+          vmid: 'descriptionMeta',
+          name: 'description',
+          content: this.video.description.substring(0, 100)
+        },
+        {
+          hid: 'ogTitle',
+          property: 'og:title',
+          content: `${this.video.title} - ${this.video.author} - ViewTube`
+        },
+        {
+          hid: 'ogImage',
+          property: 'og:image',
+          itemprop: 'image',
+          content: this.video.videoThumbnails[2].url
+        },
+        {
+          hid: 'ogDescription',
+          property: 'og:description',
+          content: this.video.description.substring(0, 100)
+        },
+        {
+          property: 'og:video',
+          content: this.video.formatStreams ? this.video.formatStreams[0].url : '#'
+        }
+      ]
+    };
+  },
   computed: {
     browser() {
       return process.browser;
@@ -261,6 +286,14 @@ export default Vue.extend({
         return '';
       }
     }
+  },
+  watchQuery(newQuery: any) {
+    const videoId = newQuery.v;
+    if (this) {
+      this.loadComments(videoId);
+      this.$store.commit('miniplayer/setCurrentVideo', this.video);
+    }
+    return true;
   },
   mounted() {
     if (process.browser) {
@@ -337,39 +370,6 @@ export default Vue.extend({
           console.error(error);
         });
     }
-  },
-  head() {
-    return {
-      title: `${this.video.title} :: ${this.video.author} :: ViewTube`,
-      meta: [
-        {
-          hid: 'description',
-          vmid: 'descriptionMeta',
-          name: 'description',
-          content: this.video.description.substring(0, 100)
-        },
-        {
-          hid: 'ogTitle',
-          property: 'og:title',
-          content: `${this.video.title} - ${this.video.author} - ViewTube`
-        },
-        {
-          hid: 'ogImage',
-          property: 'og:image',
-          itemprop: 'image',
-          content: this.video.videoThumbnails[2].url
-        },
-        {
-          hid: 'ogDescription',
-          property: 'og:description',
-          content: this.video.description.substring(0, 100)
-        },
-        {
-          property: 'og:video',
-          content: this.video.formatStreams ? this.video.formatStreams[0].url : '#'
-        }
-      ]
-    };
   }
 });
 </script>

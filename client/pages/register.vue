@@ -43,6 +43,17 @@ export default Vue.extend({
     SubmitButton,
     Spinner
   },
+  beforeRouteEnter(_, from, next) {
+    next((vm: any) => {
+      if (from.name) {
+        vm.redirectedPage = from;
+      } else {
+        vm.redirectedPage = {
+          fullPath: '/'
+        };
+      }
+    });
+  },
   data: () => ({
     loading: false,
     username: null,
@@ -54,6 +65,29 @@ export default Vue.extend({
     redirectedPage: 'home',
     formWiggle: false
   }),
+  head() {
+    return {
+      title: `Register :: ViewTube`,
+      meta: [
+        {
+          hid: 'description',
+          vmid: 'descriptionMeta',
+          name: 'description',
+          content: 'Create a ViewTube account'
+        },
+        {
+          hid: 'ogTitle',
+          property: 'og:title',
+          content: 'Register - ViewTube'
+        },
+        {
+          hid: 'ogDescription',
+          property: 'og:description',
+          content: 'Create a ViewTube account'
+        }
+      ]
+    };
+  },
   computed: {
     captchaImage() {
       return this.$store.getters['captcha/image'];
@@ -111,40 +145,6 @@ export default Vue.extend({
         this.statusMessage = '';
       }
     }
-  },
-  head() {
-    return {
-      title: `Register :: ViewTube`,
-      meta: [
-        {
-          hid: 'description',
-          vmid: 'descriptionMeta',
-          name: 'description',
-          content: 'Create a ViewTube account'
-        },
-        {
-          hid: 'ogTitle',
-          property: 'og:title',
-          content: 'Register - ViewTube'
-        },
-        {
-          hid: 'ogDescription',
-          property: 'og:description',
-          content: 'Create a ViewTube account'
-        }
-      ]
-    };
-  },
-  beforeRouteEnter(_, from, next) {
-    next((vm: any) => {
-      if (from.name) {
-        vm.redirectedPage = from;
-      } else {
-        vm.redirectedPage = {
-          fullPath: '/'
-        };
-      }
-    });
   }
 });
 </script>

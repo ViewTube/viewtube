@@ -3,7 +3,12 @@
     <GradientBackground :color="'theme'" />
     <SectionTitle v-if="userAuthenticated" :title="'Subscriptions'" :link="'subscriptions'" />
     <div v-if="userAuthenticated" class="home-videos-container small">
-      <VideoEntry v-for="video in subscriptions" :key="video.videoId" :video="video" />
+      <VideoEntry
+        v-for="video in subscriptions"
+        :key="video.videoId"
+        :video="video"
+        :lazy="false"
+      />
     </div>
     <SectionTitle :title="'Popular videos'" :gradient="!userAuthenticated" />
     <div class="home-videos-container small">
@@ -40,9 +45,6 @@ export default Vue.extend({
     LoadMoreIcon,
     BadgeButton
   },
-  async fetch() {
-    await this.loadHomepage();
-  },
   data: () => ({
     videos: [],
     displayedVideos: [],
@@ -50,6 +52,14 @@ export default Vue.extend({
     loading: true,
     commons: Commons
   }),
+  async fetch() {
+    await this.loadHomepage();
+  },
+  head() {
+    return {
+      title: `ViewTube :: An alternative YouTube frontend`
+    };
+  },
   computed: {
     userAuthenticated(): boolean {
       return this.$store.getters['user/isLoggedIn'];
@@ -84,11 +94,6 @@ export default Vue.extend({
     handleScroll(e: Event): void {
       this.$emit('scroll', e);
     }
-  },
-  head() {
-    return {
-      title: `ViewTube :: An alternative YouTube frontend`
-    };
   }
 });
 </script>

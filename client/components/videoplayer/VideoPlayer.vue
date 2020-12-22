@@ -325,6 +325,22 @@ import { NuxtError } from '@nuxt/types';
 import { videoPlayerSetup } from './helpers/index';
 
 export default defineComponent({
+  name: 'Videoplayer',
+  components: {
+    Spinner,
+    PauseIcon,
+    PlayIcon,
+    FullscreenIcon,
+    FullscreenExitIcon,
+    // ArrowExpandIcon,
+    // ArrowCollapseIcon,
+    OpenInPlayerIcon,
+    CloseIcon,
+    VolumeControl,
+    QualitySelection,
+    SeekbarPreview,
+    VideoPlayerAnimations
+  },
   props: {
     video: {
       type: Object,
@@ -349,22 +365,6 @@ export default defineComponent({
     return {
       ...videoPlayerSetup({ root, props })
     };
-  },
-  name: 'Videoplayer',
-  components: {
-    Spinner,
-    PauseIcon,
-    PlayIcon,
-    FullscreenIcon,
-    FullscreenExitIcon,
-    // ArrowExpandIcon,
-    // ArrowCollapseIcon,
-    OpenInPlayerIcon,
-    CloseIcon,
-    VolumeControl,
-    QualitySelection,
-    SeekbarPreview,
-    VideoPlayerAnimations
   }
 });
 </script>
