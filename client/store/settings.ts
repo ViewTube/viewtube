@@ -187,7 +187,13 @@ export const getters = getterTree(state, {
   miniplayer: state => state.miniplayer,
   chapters: state => state.chapters,
   themeVariables: state => state.defaults.theme.find(el => state.theme === el.value),
-  sponsorblock: state => state.sponsorblock.enabled
+  sponsorblock: state => state.sponsorblock.enabled,
+  sponsorblock_sponsor: state => state.sponsorblock.sponsor,
+  sponsorblock_intro: state => state.sponsorblock.intro,
+  sponsorblock_outro: state => state.sponsorblock.outro,
+  sponsorblock_interaction: state => state.sponsorblock.interaction,
+  sponsorblock_selfpromo: state => state.sponsorblock.selfpromo,
+  sponsorblock_music_offtopic: state => state.sponsorblock.music_offtopic
 });
 
 export const mutations = mutationTree(state, {

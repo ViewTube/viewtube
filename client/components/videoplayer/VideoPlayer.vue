@@ -298,6 +298,11 @@
       </div>
     </div>
     <portal-target name="video-player" />
+    <SkipButton
+      :visible="skipButton.visible"
+      :category="skipButton.skipCategory"
+      :clickFn="skipButton.clickFn"
+    />
     <VideoPlayerAnimations :animations="animations" />
     <div
       v-if="video.videoThumbnails && video.videoThumbnails.length > 0"
@@ -320,6 +325,7 @@ import FullscreenExitIcon from 'vue-material-design-icons/FullscreenExit.vue';
 // import ArrowExpandIcon from 'vue-material-design-icons/ArrowExpand.vue';
 // import ArrowCollapseIcon from 'vue-material-design-icons/ArrowCollapse';
 import OpenInPlayerIcon from 'vue-material-design-icons/OpenInNew.vue';
+import SkipButton from '@/components/buttons/SkipButton.vue';
 import CloseIcon from 'vue-material-design-icons/Close.vue';
 import Spinner from '@/components/Spinner.vue';
 import VolumeControl from '@/components/videoplayer/VolumeControl.vue';
@@ -341,6 +347,7 @@ export default defineComponent({
     // ArrowCollapseIcon,
     OpenInPlayerIcon,
     CloseIcon,
+    SkipButton,
     VolumeControl,
     QualitySelection,
     SeekbarPreview,

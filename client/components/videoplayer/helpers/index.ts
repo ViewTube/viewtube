@@ -59,6 +59,12 @@ export const videoPlayerSetup = ({ root, props }) => {
     hoverTimeStamp: 0
   });
 
+  const skipButton = reactive({
+    clickFn: null,
+    skipCategory: '',
+    visible: false
+  });
+
   const highestVideoQuality = ref(null);
 
   const commons = Commons;
@@ -102,10 +108,11 @@ export const videoPlayerSetup = ({ root, props }) => {
   }
 
   const sponsorBlockSegments = ref<SponsorBlockSegmentsDto>(null);
+  let sponsorBlock: SponsorBlock = null;
 
   if (root.$store.getters['settings/sponsorblock']) {
-    const sponsorblock = new SponsorBlock(props.video.videoId);
-    sponsorblock.getSkipSegments().then(value => {
+    sponsorBlock = new SponsorBlock(props.video.videoId);
+    sponsorBlock.getSkipSegments().then(value => {
       if (value) {
         const segments = {
           hash: value.hash,
@@ -200,6 +207,28 @@ export const videoPlayerSetup = ({ root, props }) => {
       if (Math.abs(playbackTimeBeforeUpdate.value - videoRef.value.currentTime) > 1 || force) {
         videoElement.progressPercentage = (videoRef.value.currentTime / videoLength.value) * 100;
         videoElement.progress = videoRef.value.currentTime;
+
+        if (root.$store.getters['settings/sponsorblock'] && sponsorBlock) {
+          const currentSegment = sponsorBlock.getCurrentSegment(
+            Math.floor(videoRef.value.currentTime)
+          );
+          if (currentSegment) {
+            const segmentOption =
+              root.$store.getters[`settings/sponsorblock_${currentSegment.category}`];
+            if (segmentOption && segmentOption === 'skip') {
+              setVideoTime(currentSegment.segment[1]);
+            } else if (segmentOption && segmentOption === 'ask') {
+              skipButton.visible = true;
+              skipButton.skipCategory = currentSegment.category;
+              skipButton.clickFn = () => {
+                setVideoTime(currentSegment.segment[1]);
+                skipButton.visible = false;
+              };
+            }
+          } else {
+            skipButton.visible = false;
+          }
+        }
 
         if (process.browser && 'mediaSession' in navigator) {
           const duration = parseFloat(videoRef.value.duration);
@@ -667,6 +696,7 @@ export const videoPlayerSetup = ({ root, props }) => {
     chapters,
     sponsorBlockSegments,
     getChapterForPercentage,
+    skipButton,
     onLoadedMetadata,
     onPlaybackProgress,
     onLoadingProgress,
