@@ -1,10 +1,11 @@
 import { Module, ModuleMetadata } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { User, UserSchema } from './schemas/user.schema';
-import { UserService } from './user.service';
-import { UserController } from './user.controller';
-import { SubscriptionsModule } from './subscriptions/subscriptions.module';
 import { NotificationsModule } from './notifications/notifications.module';
+import { User, UserSchema } from './schemas/user.schema';
+import { SubscriptionsModule } from './subscriptions/subscriptions.module';
+import { ThemeModule } from './theme/theme.module';
+import { UserController } from './user.controller';
+import { UserService } from './user.service';
 
 const moduleMetadata: ModuleMetadata = {
   imports: [
@@ -16,7 +17,8 @@ const moduleMetadata: ModuleMetadata = {
       }
     ]),
     SubscriptionsModule,
-    NotificationsModule
+    NotificationsModule,
+    ThemeModule
   ],
   providers: [UserService],
   controllers: [UserController],
