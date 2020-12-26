@@ -108,7 +108,7 @@
     "web-push": "^3.4.4",
     "x2js": "^3.4.0",
     "ytdl-core": "^4.2.1",
-    "ytsr": "^3.0.0"
+    "ytsr": "^3.2.1"
   },
   "devDependencies": {
     "@nestjs/schematics": "^7.1.2",
