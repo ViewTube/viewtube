@@ -93,7 +93,7 @@
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^6.6.3",
-    "sass": "^1.29.0",
+    "sass": "^1.32.0",
     "sass-loader": "^10.0.3",
     "split-file-stream": "^2.0.0",
     "svg-captcha": "^1.4.0",
