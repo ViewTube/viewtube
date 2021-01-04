@@ -49,7 +49,7 @@
     "@nestjs/passport": "^7.0.0",
     "@nestjs/platform-express": "^7.6.3",
     "@nestjs/schedule": "^0.4.1",
-    "@nestjs/swagger": "^4.7.7",
+    "@nestjs/swagger": "^4.7.9",
     "@nestjs/testing": "^7.6.1",
     "@nuxt/types": "^2.14.12",
     "@nuxt/typescript-build": "^2.0.3",
