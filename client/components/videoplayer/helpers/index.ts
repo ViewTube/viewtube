@@ -8,6 +8,8 @@ import {
 } from '@nuxtjs/composition-api';
 import Commons from '@/plugins/commons';
 import dashjs from 'dashjs';
+import { SponsorBlock } from '@/plugins/services/sponsorBlock';
+import { SponsorBlockSegmentsDto } from '@/plugins/shared';
 import { MediaMetadataHelper } from './mediaMetadata';
 import { calculateSeekPercentage, matchSeekProgressPercentage, seekbarFunctions } from './seekbar';
 import { parseChapters } from './chapters';
@@ -57,6 +59,12 @@ export const videoPlayerSetup = ({ root, props }) => {
     hoverTimeStamp: 0
   });
 
+  const skipButton = reactive({
+    clickFn: null,
+    skipCategory: '',
+    visible: false
+  });
+
   const highestVideoQuality = ref(null);
 
   const commons = Commons;
@@ -97,6 +105,31 @@ export const videoPlayerSetup = ({ root, props }) => {
 
   if (root.$store.getters['settings/miniplayer']) {
     chapters.value = parseChapters(props.video.description, videoLength.value);
+  }
+
+  const sponsorBlockSegments = ref<SponsorBlockSegmentsDto>(null);
+  let sponsorBlock: SponsorBlock = null;
+
+  if (root.$store.getters['settings/sponsorblock']) {
+    sponsorBlock = new SponsorBlock(props.video.videoId);
+    sponsorBlock.getSkipSegments().then(value => {
+      if (value) {
+        const segments = {
+          hash: value.hash,
+          videoID: value.videoID,
+          segments: value.segments.map(segment => {
+            const startPercentage = (segment.segment[0] / videoLength.value) * 100;
+            const endPercentage = (segment.segment[1] / videoLength.value) * 100;
+            return {
+              startPercentage,
+              endPercentage,
+              ...segment
+            };
+          })
+        };
+        sponsorBlockSegments.value = segments;
+      }
+    });
   }
 
   const videoUrl = computed(() => {
@@ -174,6 +207,30 @@ export const videoPlayerSetup = ({ root, props }) => {
       if (Math.abs(playbackTimeBeforeUpdate.value - videoRef.value.currentTime) > 1 || force) {
         videoElement.progressPercentage = (videoRef.value.currentTime / videoLength.value) * 100;
         videoElement.progress = videoRef.value.currentTime;
+
+        if (root.$store.getters['settings/sponsorblock'] && sponsorBlock) {
+          const currentSegment = sponsorBlock.getCurrentSegment(videoRef.value.currentTime);
+          if (currentSegment) {
+            const segmentOption =
+              root.$store.getters[`settings/sponsorblock_${currentSegment.category}`];
+            if (segmentOption && segmentOption === 'skip') {
+              setVideoTime(currentSegment.segment[1]);
+            } else if (segmentOption && segmentOption === 'ask') {
+              skipButton.visible = true;
+              skipButton.skipCategory = currentSegment.category;
+              console.log('every second', currentSegment.segment[1], videoRef.value.currentTime);
+
+              skipButton.clickFn = () => {
+                setVideoTime(currentSegment.segment[1]);
+                console.log('click', currentSegment.segment[1], videoRef.value.currentTime);
+
+                skipButton.visible = false;
+              };
+            }
+          } else {
+            skipButton.visible = false;
+          }
+        }
 
         if (process.browser && 'mediaSession' in navigator) {
           const duration = parseFloat(videoRef.value.duration);
@@ -607,7 +664,13 @@ export const videoPlayerSetup = ({ root, props }) => {
   };
 
   const setVideoTime = (seconds: number): void => {
-    if (seconds >= 0 && seconds <= videoRef.value.duration) videoRef.value.currentTime = seconds;
+    if (seconds >= 0) {
+      if (seconds <= videoRef.value.duration) {
+        videoRef.value.currentTime = seconds;
+      } else if (seconds > videoRef.value.duration) {
+        videoRef.value.currentTime = videoRef.value.duration;
+      }
+    }
   };
 
   onMounted(() => {
@@ -639,7 +702,9 @@ export const videoPlayerSetup = ({ root, props }) => {
     videoRef,
     animations,
     chapters,
+    sponsorBlockSegments,
     getChapterForPercentage,
+    skipButton,
     onLoadedMetadata,
     onPlaybackProgress,
     onLoadingProgress,

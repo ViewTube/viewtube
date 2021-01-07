@@ -190,7 +190,8 @@ h6,
 a {
   margin: 0;
 }
-div.links {
+div.links,
+span.links {
   a {
     text-decoration: none;
     color: var(--theme-color-alt);

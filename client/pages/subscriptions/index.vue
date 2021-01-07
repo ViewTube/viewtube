@@ -29,6 +29,7 @@
             :value="notificationsEnabled"
             :label="'Enable notifications'"
             :disabled="notificationsBtnDisabled"
+            :btnId="'index-btn-1'"
             @valuechange="subscribeToNotifications"
           />
         </div>
