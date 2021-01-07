@@ -58,12 +58,18 @@ export default Vue.extend({
   transform: translate(20px, 50%);
   pointer-events: none;
   opacity: 0;
+  background-color: #000000bb;
 
-  &.visible,
-  &.animating-out {
+  &.visible {
     pointer-events: all;
     opacity: 1;
     transform: translate(0, 50%);
+  }
+
+  &.animating-out {
+    transform: translate(20px, 50%);
+    pointer-events: none;
+    opacity: 0;
   }
 
   .content {
