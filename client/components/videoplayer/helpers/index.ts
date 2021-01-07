@@ -209,9 +209,7 @@ export const videoPlayerSetup = ({ root, props }) => {
         videoElement.progress = videoRef.value.currentTime;
 
         if (root.$store.getters['settings/sponsorblock'] && sponsorBlock) {
-          const currentSegment = sponsorBlock.getCurrentSegment(
-            Math.floor(videoRef.value.currentTime)
-          );
+          const currentSegment = sponsorBlock.getCurrentSegment(videoRef.value.currentTime);
           if (currentSegment) {
             const segmentOption =
               root.$store.getters[`settings/sponsorblock_${currentSegment.category}`];
@@ -220,8 +218,12 @@ export const videoPlayerSetup = ({ root, props }) => {
             } else if (segmentOption && segmentOption === 'ask') {
               skipButton.visible = true;
               skipButton.skipCategory = currentSegment.category;
+              console.log('every second', currentSegment.segment[1], videoRef.value.currentTime);
+
               skipButton.clickFn = () => {
                 setVideoTime(currentSegment.segment[1]);
+                console.log('click', currentSegment.segment[1], videoRef.value.currentTime);
+
                 skipButton.visible = false;
               };
             }
@@ -662,7 +664,13 @@ export const videoPlayerSetup = ({ root, props }) => {
   };
 
   const setVideoTime = (seconds: number): void => {
-    if (seconds >= 0 && seconds <= videoRef.value.duration) videoRef.value.currentTime = seconds;
+    if (seconds >= 0) {
+      if (seconds <= videoRef.value.duration) {
+        videoRef.value.currentTime = seconds;
+      } else if (seconds > videoRef.value.duration) {
+        videoRef.value.currentTime = videoRef.value.duration;
+      }
+    }
   };
 
   onMounted(() => {

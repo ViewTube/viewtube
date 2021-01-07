@@ -1,5 +1,12 @@
 <template>
-  <a v-ripple href="#" :class="{ visible }" class="skip-btn" @click.stop="clickFunction">
+  <a
+    v-ripple
+    href="#"
+    :class="{ visible: visible, 'animating-out': animatingOut }"
+    class="skip-btn"
+    @click.stop="clickFunction"
+    @touchstart.stop="clickFunction"
+  >
     <div class="content">Skip {{ category }}</div>
   </a>
 </template>
@@ -14,11 +21,20 @@ export default Vue.extend({
     visible: Boolean,
     category: String
   },
+  data() {
+    return {
+      animatingOut: false
+    };
+  },
   methods: {
     clickFunction(e: Event): void {
       if (this.clickFn instanceof Function) {
         e.preventDefault();
         this.clickFn();
+        this.animatingOut = true;
+        setTimeout(() => {
+          this.animatingOut = false;
+        }, 1000);
       }
     }
   }
@@ -32,25 +48,28 @@ export default Vue.extend({
   margin: 2px 5px 2px 0;
   border-radius: 3px;
   display: inline-block;
-  transition: background-color 200ms $intro-easing, border 200ms $intro-easing;
+  transition: background-color 200ms $intro-easing, border 200ms $intro-easing,
+    transform 200ms $intro-easing, opacity 200ms $intro-easing;
   border: 2px solid var(--theme-color-translucent);
   white-space: nowrap;
   position: absolute !important;
   right: 30px;
   bottom: 50%;
-  transform: translateY(50%);
+  transform: translate(20px, 50%);
   pointer-events: none;
   opacity: 0;
 
-  &.visible {
+  &.visible,
+  &.animating-out {
     pointer-events: all;
     opacity: 1;
+    transform: translate(0, 50%);
   }
 
   .content {
     display: flex;
     flex-direction: row;
-    padding: 2px 4px;
+    padding: 6px 10px;
     position: relative;
   }
 }

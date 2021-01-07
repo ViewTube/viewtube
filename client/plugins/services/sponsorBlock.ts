@@ -18,8 +18,7 @@ export class SponsorBlock {
       const len = segments.segments.length;
       while (i < len) {
         const currentSegment = segments.segments[i];
-        if (currentSegment.segment[0] <= time && currentSegment.segment[1] >= time) {
-          console.log(currentSegment);
+        if (currentSegment.segment[0] < time && currentSegment.segment[1] > time) {
           return currentSegment;
         }
         i++;
