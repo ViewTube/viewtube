@@ -76,7 +76,11 @@ export default Vue.extend({
     async loadHomepage(): Promise<void> {
       const invidious = new Invidious(this.$store.getters['instances/currentInstanceApi']);
       await invidious.api
-        .popular()
+        .popular({
+          headers: {
+            'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:84.0) Gecko/20100101 Firefox/84.0'
+          }
+        })
         .then(response => {
           this.videos = response.data;
           this.displayedVideos = response.data.slice(0, 8);
