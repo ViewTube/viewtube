@@ -16,6 +16,9 @@ export default class {
   apiPrototype = {
     request: {},
     requests: {
+      popular: {
+        url: 'homepage/popular'
+      },
       channels: {
         url: 'channels'
       },

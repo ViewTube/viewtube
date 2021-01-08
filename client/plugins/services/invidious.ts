@@ -17,20 +17,6 @@ export default class {
   apiPrototype = {
     request: {},
     requests: {
-      popular: {
-        url: 'v1/popular',
-        fields: [
-          'type',
-          'title',
-          'videoId',
-          'videoThumbnails',
-          'lengthSeconds',
-          'viewCount',
-          'author',
-          'authorId',
-          'publishedText'
-        ]
-      },
       stats: {
         url: 'v1/stats'
       },

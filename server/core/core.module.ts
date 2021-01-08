@@ -15,7 +15,7 @@ import {
 } from './channels/schemas/channel-basic-info.schema';
 import { SearchModule } from './search/search.module';
 import { ChannelsModule } from './channels/channels.module';
-
+import { HomepageModule } from './homepage/homepage.module';
 @Module({
   imports: [
     CacheModule.register({
@@ -47,7 +47,8 @@ import { ChannelsModule } from './channels/channels.module';
     AutocompleteModule,
     ConfigModule.forRoot(),
     SearchModule,
-    ChannelsModule
+    ChannelsModule,
+    HomepageModule
   ],
   controllers: [VideosController, VideoplaybackController],
   providers: [VideosService, VideoplaybackService],

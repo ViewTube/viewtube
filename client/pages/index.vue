@@ -36,7 +36,7 @@ import VideoEntry from '@/components/list/VideoEntry.vue';
 import SectionTitle from '@/components/SectionTitle.vue';
 import GradientBackground from '@/components/GradientBackground.vue';
 import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
-import Invidious from '@/plugins/services/invidious.ts';
+import ViewTubeApi from '@/plugins/services/viewTubeApi.ts';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import Vue from 'vue';
 
@@ -74,16 +74,12 @@ export default Vue.extend({
       this.displayedVideos = this.videos;
     },
     async loadHomepage(): Promise<void> {
-      const invidious = new Invidious(this.$store.getters['instances/currentInstanceApi']);
-      await invidious.api
-        .popular({
-          headers: {
-            'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:84.0) Gecko/20100101 Firefox/84.0'
-          }
-        })
+      const viewTubeApi = new ViewTubeApi(this.$store.getters['environment/apiUrl']);
+      await viewTubeApi.api
+        .popular()
         .then(response => {
-          this.videos = response.data;
-          this.displayedVideos = response.data.slice(0, 8);
+          this.videos = response.data.videos;
+          this.displayedVideos = response.data.videos.slice(0, 8);
         })
         .catch(error => {
           console.error(error);
