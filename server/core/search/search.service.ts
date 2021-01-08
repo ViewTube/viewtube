@@ -1,8 +1,6 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
-import ytsr from 'ytsr';
+import ytsr, { Result } from 'ytsr';
 import { SearchQueryDto } from './dto/search-query.dto';
-import { SearchMapper } from './search.mapper';
-import { ISearchResponse } from './interface/search-response.interface';
 
 @Injectable()
 export class SearchService {
@@ -15,10 +13,10 @@ export class SearchService {
     }
   }
 
-  async doSearch(searchQuery: SearchQueryDto): Promise<ISearchResponse> {
+  async doSearch(searchQuery: SearchQueryDto): Promise<Result> {
     try {
       const result = await ytsr(searchQuery.q, searchQuery);
-      return SearchMapper.ytsrToDto(result);
+      return result;
     } catch (err) {
       throw new InternalServerErrorException(`Error searching for ${searchQuery.q}`);
     }

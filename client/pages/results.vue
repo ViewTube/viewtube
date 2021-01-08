@@ -34,9 +34,8 @@
         @valuechange="onSearchTypeChange"
       />
     </div>
-    <h3 class="under-construction">🚧 Search is currently unavailable</h3>
     <div v-for="(results, i) in searchResults" :key="i" class="search-videos-container">
-      <!-- <SectionTitle v-if="page > 0" :title="`Page ${page}`" /> -->
+      <SectionTitle v-if="page > 0" :title="`Page ${page}`" />
       <div
         v-if="results.searchRefinements && results.searchRefinements.length"
         class="related-searches-container"

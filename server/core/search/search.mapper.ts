@@ -1,72 +1,49 @@
 /* eslint-disable no-case-declarations */
 import { Result, Video, Channel, Playlist, Item, Shelf } from 'ytsr';
 import { Common } from '../common';
-import { ISearchResponse } from './interface/search-response.interface';
+import { SearchResponse } from './interface/search-response.interface';
 
 export class SearchMapper {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  static ytsrToDto(ytsrResult: Result): ISearchResponse {
-    // const resultDto: ISearchResponse = {
-    //   // currentRef: ytsrResult.currentRef,
-    //   activeFilters: ytsrResult.activeFilters,
-    //   // ne: ytsrResult.continuation,
-    //   // query: ytsrResult.originalQuery,
-    //   results: ytsrResult.results,
-
-    //   // Filter Mixes, because urls are broken
-    //   items: this.getItems(ytsrResult.items.filter(el => el.type !== 'mix'))
-    // };
-    return null;
+  static ytsrToDto(ytsrResult: Result): SearchResponse {
+    const items = this.getItems(ytsrResult);
+    delete ytsrResult.items;
+    const result: SearchResponse = {
+      ...ytsrResult,
+      items
+    };
+    return result;
   }
 
-  private static getItems(source) {
-    const result = {
-      channels: [],
-      videos: [],
-      movies: [],
-      playlists: [],
-      verticalShelf: [],
-      compactShelf: [],
-      searchRefinements: []
-    };
-    source.forEach((source: Item, index: number) => {
+  private static getItems(source: Result) {
+    const result = [];
+    source.items.forEach((source: Item, index: number) => {
       switch (source.type) {
         case 'channel':
           const channel = { ...this.mapChannel(source), ...{ position: index } };
-          result.channels.push(channel);
+          result.push(channel);
           break;
         case 'video':
           const video = { ...this.mapVideo(source), ...{ position: index } };
-          result.videos.push(video);
+          result.push(video);
           break;
         case 'playlist':
           const playlist = { ...this.mapPlaylist(source), ...{ position: index } };
-          result.playlists.push(playlist);
+          result.push(playlist);
           break;
         case 'shelf':
-          const verticalShelf = { ...this.mapVerticalShelf(source), ...{ position: index } };
-          result.verticalShelf.push(verticalShelf);
+          const shelf = { ...this.mapShelf(source), ...{ position: index } };
+          result.push(shelf);
           break;
-        // case 'search-refinements':
-        //   result.searchRefinements.push({
-        //     entries: (source as any).entries,
-        //     position: index
-        //   });
-        // break;
-        // case 'shelf-compact':
-        //   const compactShelf = { ...source, ...{ position: index } };
-        //   result.compactShelf.push(compactShelf);
-        //   break;
         case 'movie':
           const movie = { ...source, ...{ position: index } };
-          result.movies.push(movie);
+          result.push(movie);
           break;
       }
     });
     return result;
   }
 
-  static mapVerticalShelf(source: Shelf): any {
+  static mapShelf(source: Shelf): any {
     let shelfType = 'general';
     if (source.title.match(/latest from/gi)) {
       shelfType = 'channel';

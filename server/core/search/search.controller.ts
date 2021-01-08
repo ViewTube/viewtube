@@ -1,8 +1,8 @@
 import { Controller, UseInterceptors, CacheInterceptor, Get, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { Result } from 'ytsr';
 import { SearchService } from './search.service';
 import { SearchQueryDto } from './dto/search-query.dto';
-import { ISearchResponse } from './interface/search-response.interface';
 
 @ApiTags('Core')
 @Controller('search')
@@ -16,7 +16,7 @@ export class SearchController {
   }
 
   @Get()
-  search(@Query() searchQuery: SearchQueryDto): Promise<ISearchResponse> {
+  search(@Query() searchQuery: SearchQueryDto): Promise<Result> {
     return this.searchService.doSearch(searchQuery);
   }
 }
