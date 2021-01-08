@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { Model } from 'mongoose';
 import fetch from 'node-fetch';
+import { VideoBasicInfoDto } from '../videos/dto/video-basic-info.dto';
 import { PopularDto } from './dto/popular.dto';
 import { Popular } from './schemas/popular.schema';
 
@@ -25,8 +26,23 @@ export class HomepageService {
           'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:84.0) Gecko/20100101 Firefox/84.0'
         }
       }).then(val => val.json());
+      const popularVideos = [];
+      await Promise.allSettled(
+        popularPage.map(async (video: VideoBasicInfoDto) => {
+          const hasResult = await fetch(`https://i.ytimg.com/vi/${video.videoId}/default.jpg`)
+            .then(response => response.ok)
+            .catch(_ => {
+              return false;
+            });
+          if (hasResult) {
+            popularVideos.push(video);
+          } else {
+            // Ignores videos where thumbnails return an error, as they are most likely unavailable
+          }
+        })
+      );
       const updatedPopularPage = new this.PopularModel({
-        videos: popularPage,
+        videos: popularVideos,
         createdDate: Date.now().valueOf()
       });
       updatedPopularPage.save();
@@ -36,11 +52,6 @@ export class HomepageService {
   }
 
   async getPopular(): Promise<PopularDto> {
-    if ((await this.PopularModel.estimatedDocumentCount()) === 0) {
-      // Refreshes if the application has been started for the first time,
-      // or the cronjob didn't run for some reason.
-      await this.refreshPopular();
-    }
     try {
       const popularVideos = await this.PopularModel.find()
         .sort({ createdDate: -1 })
