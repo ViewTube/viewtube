@@ -59,7 +59,6 @@ module.exports = {
         title: 'Search ViewTube',
         href: 'https://viewtube.io/viewtubesearch.xml'
       },
-      { rel: 'manifest', href: '/manifest.json' },
       {
         rel: 'apple-touch-icon',
         href: '/apple-touch-icon.png'
@@ -99,11 +98,59 @@ module.exports = {
     { src: '@/plugins/localStorage', mode: 'client' }
   ],
 
-  // pwa: {
-  workbox: {
-    importScripts: ['notifications-sw.js']
+  pwa: {
+    workbox: {
+      debug: true,
+      importScripts: ['notifications-sw.js']
+    },
+    manifest: {
+      name: 'ViewTube',
+      short_name: 'ViewTube',
+      display: 'standalone',
+      background_color: '#121212',
+      description: 'An alternative YouTube-frontend',
+      lang: 'en',
+      theme_color: '#272727',
+      icons: [
+        {
+          src: 'icon-192.png',
+          sizes: '192x192',
+          type: 'image/png',
+          purpose: 'any'
+        },
+        {
+          src: 'icon-256.png',
+          sizes: '256x256',
+          type: 'image/png',
+          purpose: 'any'
+        },
+        {
+          src: 'icon-512.png',
+          sizes: '512x512',
+          type: 'image/png',
+          purpose: 'any'
+        },
+        {
+          src: 'icon-192-maskable.png',
+          sizes: '192x192',
+          type: 'image/png',
+          purpose: 'maskable'
+        },
+        {
+          src: 'icon-256-maskable.png',
+          sizes: '256x256',
+          type: 'image/png',
+          purpose: 'maskable'
+        },
+        {
+          src: 'icon-512-maskable.png',
+          sizes: '512x512',
+          type: 'image/png',
+          purpose: 'maskable'
+        }
+      ]
+    }
   },
-  // },
 
   buildModules: [
     '@nuxtjs/composition-api',
@@ -116,7 +163,7 @@ module.exports = {
     '@nuxtjs/style-resources',
     'portal-vue/nuxt',
     'cookie-universal-nuxt',
-    '@nuxtjs/workbox',
+    '@nuxtjs/pwa',
     '@nuxtjs/axios',
     ['cookie-universal-nuxt', { alias: 'cookies' }]
   ],
