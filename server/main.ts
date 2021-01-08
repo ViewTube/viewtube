@@ -10,6 +10,7 @@ import packageJson from '../package.json';
 import { AppModule } from './app.module';
 import { NuxtFilter } from './nuxt/nuxt.filter';
 import NuxtServer from './nuxt/';
+import { HomepageService } from './core/homepage/homepage.service';
 
 async function bootstrap() {
   const server = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -77,5 +78,8 @@ async function bootstrap() {
       badge: true
     });
   });
+
+  const homepageService = server.get(HomepageService);
+  homepageService.refreshPopular();
 }
 bootstrap();
