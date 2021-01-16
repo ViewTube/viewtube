@@ -274,4 +274,11 @@ a {
   text-decoration: none;
   color: unset;
 }
+.monospace {
+  display: inline-block;
+  background-color: #0000004d;
+  padding: 2px 5px;
+  font-family: monospace;
+  border-radius: 4px;
+}
 </style>

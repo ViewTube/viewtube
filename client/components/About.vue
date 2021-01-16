@@ -21,6 +21,7 @@
           <p>Invidious</p>
         </BadgeButton>
       </div>
+      <div v-if="invidiousStatsError" class="invidious-error" v-html="invidiousStatsError" />
       <div v-if="invidousStats" class="invidious-stats">
         <table>
           <tr>
@@ -87,7 +88,8 @@ export default Vue.extend({
     return {
       description: Commons.description,
       invidousStats: null,
-      currentInstance: this.$store.getters.currentInstance
+      currentInstance: this.$store.getters.currentInstance,
+      invidiousStatsError: null
     };
   },
   mounted() {
@@ -100,8 +102,8 @@ export default Vue.extend({
       .then(data => {
         me.invidousStats = data;
       })
-      .catch(error => {
-        console.error(error);
+      .catch(_ => {
+        this.invidiousStatsError = `Error loading invidious stats. The instance <span class="monospace">${this.$store.getters['instances/currentInstance']}</span> might be unavailable`;
       });
   }
 });
@@ -119,6 +121,10 @@ export default Vue.extend({
   p {
     margin: 0 0 0 10px;
   }
+}
+.invidious-error {
+  margin: 20px 0 20px 0 !important;
+  color: var(--error-color-red);
 }
 .invidious-stats {
   margin: 0 !important;
