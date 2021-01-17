@@ -3,7 +3,6 @@ import webPush from 'web-push';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { VideoBasicInfoDto } from 'server/core/videos/dto/video-basic-info.dto';
-import Consola from 'consola';
 import { NotificationsSubscription } from './schemas/notifications-subscription.schema';
 import { PushNotification } from './schemas/push-notification.schema';
 
