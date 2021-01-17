@@ -117,8 +117,12 @@ export default Vue.extend({
         this.subscriptionChannels = response.data.channels;
         this.pageCount = Math.ceil(response.data.channelCount / 30);
       })
-      .catch(error => {
-        console.log(error);
+      .catch(_ => {
+        this.$store.dispatch('messages/createMessage', {
+          type: 'error',
+          title: 'Error loading subscriptions',
+          message: 'Error loading subscriptions'
+        });
       });
   },
   head() {
