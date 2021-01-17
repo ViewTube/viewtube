@@ -1,5 +1,6 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
+import Consola from 'consola';
 import { Model } from 'mongoose';
 import fetch from 'node-fetch';
 import { General } from 'server/common/general.schema';
@@ -74,7 +75,6 @@ export class ChannelsService {
           return ChannelMapper.mapChannel(rawChannelData, rawAboutData);
         }
       } catch (error) {
-        console.log(error);
         throw new InternalServerErrorException(error);
       }
     }
@@ -122,8 +122,8 @@ export class ChannelsService {
         }
         return null;
       })
-      .catch(err => {
-        console.log(err);
+      .catch(_ => {
+        throw new InternalServerErrorException('Error converting channel name to id');
       });
 
     if (rawSite) {
@@ -145,8 +145,8 @@ export class ChannelsService {
       }
     })
       .then(response => response.text())
-      .catch(err => {
-        console.log(err);
+      .catch(_ => {
+        Consola.error('Error refreshing API key');
       });
     if (rawSite) {
       const apiKey = rawSite.match(/"INNERTUBE_API_KEY":"(.*?)",/im)[1];

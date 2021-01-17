@@ -1,6 +1,11 @@
 import fs from 'fs';
 import path from 'path';
-import { Injectable, HttpException, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  HttpException,
+  NotFoundException,
+  InternalServerErrorException
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { VideoBasicInfo } from 'server/core/videos/schemas/video-basic-info.schema';
 import { ChannelBasicInfo } from 'server/core/channels/schemas/channel-basic-info.schema';
@@ -13,6 +18,7 @@ import { Common } from 'server/core/common';
 import humanizeDuration from 'humanize-duration';
 import { Sorting } from 'server/common/sorting.type';
 import { ChannelBasicInfoDto } from 'server/core/channels/dto/channel-basic-info.dto';
+import Consola from 'consola';
 import { NotificationsService } from '../notifications/notifications.service';
 import { Subscription } from './schemas/subscription.schema';
 import { SubscriptionStatusDto } from './dto/subscription-status.dto';
@@ -33,15 +39,13 @@ export class SubscriptionsService {
 
   @Cron(CronExpression.EVERY_30_MINUTES)
   async collectSubscriptionsJob(): Promise<void> {
-    console.time('subscription-job');
+    console.time('subscription-job ' + new Date().toISOString());
     const users = await this.subscriptionModel.find().lean(true).exec();
     const channelIds = users.reduce(
       (val, { subscriptions }) => [...val, ...subscriptions.map(e => e.channelId)],
       []
     );
     const uniqueChannelIds = [...new Set(channelIds)];
-
-    console.log(uniqueChannelIds.length + ' unique channels');
 
     const feedRequests = uniqueChannelIds.map(async id => {
       const channelFeed = await this.getChannelFeed(id);
@@ -72,7 +76,7 @@ export class SubscriptionsService {
           try {
             return this.saveVideoBasicInfo(element);
           } catch (err) {
-            console.log(err);
+            Consola.error('Error saving video info for id ' + element.videoId);
           }
         })
       );
@@ -88,7 +92,7 @@ export class SubscriptionsService {
         new: true
       })
       .exec()
-      .catch(console.log);
+      .catch(_ => Consola.error('Error saving channel info for id ' + channel.authorId));
     return savedChannel || null;
   }
 
@@ -118,7 +122,6 @@ export class SubscriptionsService {
         if (data) {
           const x2js = new X2js();
           const jsonData = x2js.xml2js(data) as any;
-          // console.log(jsonData);
           if (jsonData.feed.entry) {
             let videos: Array<VideoBasicInfoDto> = [];
             // For channels that have no videos
@@ -151,7 +154,7 @@ export class SubscriptionsService {
         }
       })
       .catch(err =>
-        console.log(`Could not find channel, the following error can be safely ignored:\n${err}`)
+        Consola.warn(`Could not find channel, the following error can be safely ignored:\n${err}`)
       );
   }
 
@@ -226,9 +229,7 @@ export class SubscriptionsService {
     const user = await this.subscriptionModel
       .findOne({ username })
       .exec()
-      .catch(err => {
-        console.log(err);
-      });
+      .catch(_ => {});
     if (user) {
       const userChannelIds = user.subscriptions.map(e => e.channelId);
       if (userChannelIds) {
@@ -244,8 +245,7 @@ export class SubscriptionsService {
           .sort(sort)
           .skip(parseInt(start as any))
           .limit(parseInt(limit as any))
-          .catch(err => {
-            console.log(err);
+          .catch(_ => {
             return null;
           });
 
@@ -377,9 +377,8 @@ export class SubscriptionsService {
       return this.subscriptionModel
         .findOneAndUpdate({ username }, { username, subscriptions }, { upsert: true })
         .exec()
-        .then(() => console.log('subscriptions updated'))
-        .catch(err => {
-          console.log(err);
+        .catch(_ => {
+          throw new InternalServerErrorException('Error updating subscriptions');
         });
     });
     return { successful, failed, existing };
@@ -406,9 +405,7 @@ export class SubscriptionsService {
             return this.saveVideoBasicInfo(vid);
           })
         );
-      } catch (err) {
-        console.log(err);
-      }
+      } catch (_) {}
       const subscriptions = user ? user.subscriptions : [];
       subscriptions.push({
         channelId: channel.authorId,
@@ -419,8 +416,8 @@ export class SubscriptionsService {
         .findOneAndUpdate({ username }, { username, subscriptions }, { upsert: true })
         .exec()
         .then()
-        .catch(err => {
-          console.log(err);
+        .catch(_ => {
+          throw new InternalServerErrorException('Error subscribing to channel');
         });
 
       return {

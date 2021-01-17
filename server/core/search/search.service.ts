@@ -11,7 +11,6 @@ export class SearchService {
       const filters = await ytsr.getFilters(searchString);
       return Array.from(filters);
     } catch (err) {
-      console.log(err);
       throw new InternalServerErrorException(`Error getting filters for ${searchString}`);
     }
   }
@@ -21,7 +20,6 @@ export class SearchService {
       const result = await ytsr(searchQuery.q, searchQuery);
       return SearchMapper.ytsrToDto(result);
     } catch (err) {
-      console.log(err);
       throw new InternalServerErrorException(`Error searching for ${searchQuery.q}`);
     }
   }
