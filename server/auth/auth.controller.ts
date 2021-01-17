@@ -1,4 +1,4 @@
-import { Controller, Post, UseGuards, Body, Res } from '@nestjs/common';
+import { Controller, Post, UseGuards, Body, Res, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import { UserDto } from '../user/user.dto';
@@ -12,11 +12,15 @@ export class AuthController {
 
   @UseGuards(LocalAuthGuard)
   @Post('login')
-  login(@Res() response: Response, @Body() user: UserDto) {
+  login(@Res() response: Response, @Body() user: UserDto, @Query('local') isLocal: boolean) {
     const cookie = this.authService.getJwtCookie(user.username);
     response.setHeader('Set-Cookie', cookie);
-    response.send(this.authService.login(user.username));
-    // return this.authService.login(user.username);
+    const tokenResponse = this.authService.login(user.username);
+    if (isLocal) {
+      response.send(tokenResponse);
+    } else {
+      response.sendStatus(204);
+    }
   }
 
   @Post('logout')
