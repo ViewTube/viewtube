@@ -73,7 +73,6 @@ export default Vue.extend({
           })
           // eslint-disable-next-line handle-callback-err
           .catch(() => {
-            // console.log(error);
             me.isSubscribed = false;
             me.disabled = true;
           });

@@ -218,11 +218,9 @@ export const videoPlayerSetup = ({ root, props }) => {
             } else if (segmentOption && segmentOption === 'ask') {
               skipButton.visible = true;
               skipButton.skipCategory = currentSegment.category;
-              console.log('every second', currentSegment.segment[1], videoRef.value.currentTime);
 
               skipButton.clickFn = () => {
                 setVideoTime(currentSegment.segment[1]);
-                console.log('click', currentSegment.segment[1], videoRef.value.currentTime);
 
                 skipButton.visible = false;
               };
