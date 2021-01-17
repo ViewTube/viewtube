@@ -126,9 +126,7 @@ export class ChannelMapper {
   static tryGet(value: Function): any {
     try {
       return value();
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (_) {}
   }
 
   static mapRelatedChannels(
