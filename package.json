@@ -121,7 +121,7 @@
     "@types/humanize-duration": "^3.18.0",
     "@types/module-alias": "^2.0.0",
     "@types/mongoose": "^5.7.36",
-    "@types/node": "^14.14.20",
+    "@types/node": "^14.14.21",
     "@types/node-fetch": "^2.5.7",
     "@types/passport-jwt": "^3.0.3",
     "@types/passport-local": "^1.0.33",
