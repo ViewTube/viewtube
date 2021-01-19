@@ -165,19 +165,6 @@ export default Vue.extend({
         this.accountMenuVisible = false;
       }
     },
-    share() {
-      if (typeof navigator.share === 'function') {
-        navigator
-          .share({
-            title: document.title,
-            text: 'Hello World',
-            url: window.location.href
-          })
-          .then(() => console.log('Successful share'))
-          .catch(error => console.log('Error sharing:', error));
-      }
-      this.hideAccountMenu();
-    },
     showAccountMenu() {
       this.accountMenuVisible = !this.accountMenuVisible;
     },

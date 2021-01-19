@@ -44,8 +44,7 @@ export class CaptchaService {
           }
           return false;
         },
-        err => {
-          console.error(err);
+        _ => {
           return false;
         }
       );

@@ -206,7 +206,6 @@ export default Vue.extend({
       if (this.importedSubscriptions && this.importedSubscriptions.failed) {
         return this.importedSubscriptions.failed.map(el => {
           const authorObj = this.subscriptionsToImport.find(val => val.authorId === el.channelId);
-          console.log(authorObj);
           return {
             authorId: el.channelId,
             author: authorObj ? authorObj.author : null

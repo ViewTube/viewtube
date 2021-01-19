@@ -81,8 +81,12 @@ export default Vue.extend({
           this.videos = response.data.videos;
           this.displayedVideos = response.data.videos.slice(0, 8);
         })
-        .catch(error => {
-          console.error(error);
+        .catch(_ => {
+          this.$store.dispatch('messages/createMessage', {
+            type: 'error',
+            title: 'Error loading homepage',
+            message: 'Try reloading the page'
+          });
         });
       if (this.$store.getters['user/isLoggedIn']) {
         await this.$axios

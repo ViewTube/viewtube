@@ -49,9 +49,7 @@ export default Vue.extend({
       .then(data => {
         this.endscreenData = data;
       })
-      .catch(error => {
-        console.error(error);
-      });
+      .catch(_ => {});
   },
   methods: {
     onCardEnter() {

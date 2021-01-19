@@ -41,9 +41,7 @@ export default Vue.extend({
         .then(response => {
           this.autocompleteValues = [this.searchValue].concat(response.data);
         })
-        .catch(error => {
-          console.error(error);
-        });
+        .catch(_ => {});
     }
   },
   methods: {

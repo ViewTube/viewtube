@@ -98,8 +98,12 @@ export default Vue.extend({
               this.expanded = false;
             }
           })
-          .catch(error => {
-            console.error(error);
+          .catch(_ => {
+            this.$store.dispatch('messages/createMessage', {
+              type: 'error',
+              title: 'Unable to subscribe',
+              message: `You may not be logged in. Try reloading the page.`
+            });
             this.disabled = false;
           });
       }
@@ -123,8 +127,12 @@ export default Vue.extend({
               this.expanded = false;
             }
           })
-          .catch(error => {
-            console.error(error);
+          .catch(_ => {
+            this.$store.dispatch('messages/createMessage', {
+              type: 'error',
+              title: 'Unable to unsubscribe',
+              message: `You may not be logged in. Try to reload the page.`
+            });
             this.disabled = false;
           });
       }

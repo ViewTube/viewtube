@@ -26,9 +26,7 @@ export default Vue.extend({
           video: response.data
         };
       })
-      .catch(error => {
-        console.log(error);
-      });
+      .catch(_ => {});
   },
   data: () => ({
     video: {},
