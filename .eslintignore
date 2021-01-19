@@ -1,3 +1,5 @@
 .github/*
 dist/*
 .nuxt/*
+
+client/static/sw.js
