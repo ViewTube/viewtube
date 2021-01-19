@@ -99,6 +99,7 @@ module.exports = {
   ],
 
   pwa: {
+    icon: false,
     workbox: {
       debug: true,
       importScripts: ['notifications-sw.js']
