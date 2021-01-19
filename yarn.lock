@@ -1161,10 +1161,10 @@
   resolved "https://registry.yarnpkg.com/@nestjs/mapped-types/-/mapped-types-0.1.1.tgz#2fa9ff0f1ddbe66d5d1c80ae59df21c0ed0d1361"
   integrity sha512-FROYmmZ2F+tLJP/aHasPMX40iUHQPtEAzOAcfAp21baebN5iLUrdyTuphoXjIqubfPFSwtnAGpVm9kLJjQ//ig==
 
-"@nestjs/mongoose@^7.0.2":
-  version "7.2.0"
-  resolved "https://registry.yarnpkg.com/@nestjs/mongoose/-/mongoose-7.2.0.tgz#173528803055c48d58ff3531630bb57464131890"
-  integrity sha512-EYlY/MPcVz9t5gWt1Gz0/wGi0m6BqeNuVw548P7glOqguCKE+Qy/tI/RTJX0Fo9PnSnF4dj3dOWkfDwT237vSg==
+"@nestjs/mongoose@^7.2.2":
+  version "7.2.2"
+  resolved "https://registry.yarnpkg.com/@nestjs/mongoose/-/mongoose-7.2.2.tgz#6922373a0469eb3ecad0cd6dbb4ae18f2dde4b16"
+  integrity sha512-Ubl3uEczpM8GMebOBpBPx3oGj5Nea3SUAoKh4L6u41HE+JuAcaJz9uY/1Advh/9qXGmWOgO4nXoDLAazMvR41A==
 
 "@nestjs/passport@^7.0.0":
   version "7.1.5"
