@@ -34,6 +34,12 @@
         @valuechange="onSearchTypeChange"
       />
     </div>
+    <div
+      class="correction-results"
+      v-if="searchResults && searchResults.orignalQuery !== searchResults.correctedQuery"
+    >
+      <p>Showing results for {{ searchResults.correctedQuery }}</p>
+    </div>
     <div v-for="(results, i) in searchResults" :key="i" class="search-videos-container">
       <SectionTitle v-if="page > 0" :title="`Page ${page}`" />
       <div
@@ -145,19 +151,19 @@ export default Vue.extend({
   }),
   async fetch() {
     const inputQuery = this.$nuxt.context.query;
-    inputQuery.type = 'all';
-    inputQuery.limit = 10;
-    const searchParams = SearchParams.parseQueryJson(inputQuery, inputQuery.search_query);
-    const viewTubeApi = new ViewTubeApi(this.$store.getters['environment/apiUrl']);
-    await viewTubeApi.api
-      .search({ params: searchParams })
+    const searchParams = new URLSearchParams(inputQuery);
+    const apiUrl = this.$store.getters['environment/apiUrl'];
+    const searchTerm = searchParams.get('search_query') || searchParams.get('q');
+    await this.$axios
+      .get(`${apiUrl}search`, {
+        params: {
+          q: searchTerm,
+          pages: 1
+        }
+      })
       .then(response => {
         if (response && response.data) {
-          const results = [];
-          results.push(response.data.items);
-          delete response.data.items;
-          this.searchResults = results;
-          this.searchInformation = response.data;
+          this.searchResults = response.data;
           this.searchQuery = inputQuery.search_query;
         }
       })
@@ -285,6 +291,14 @@ export default Vue.extend({
     top: 30%;
     left: 50%;
     transform: translateX(-50%);
+  }
+
+  .correction-results {
+    z-index: 10;
+    width: 100%;
+    max-width: $main-width;
+    margin: 0 auto;
+    padding: 0 15px;
   }
 
   .search-videos-container {

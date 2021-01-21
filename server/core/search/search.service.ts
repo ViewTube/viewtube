@@ -15,6 +15,9 @@ export class SearchService {
 
   async doSearch(searchQuery: SearchQueryDto): Promise<Result> {
     try {
+      if (!searchQuery.pages) {
+        searchQuery.pages = 1;
+      }
       const result = await ytsr(searchQuery.q, searchQuery);
       return result;
     } catch (err) {

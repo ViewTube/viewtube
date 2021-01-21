@@ -1,5 +1,6 @@
 import { Controller, UseInterceptors, CacheInterceptor, Get, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Result } from 'ytsr';
 import { SearchService } from './search.service';
 import { SearchQueryDto } from './dto/search-query.dto';
