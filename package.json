@@ -81,7 +81,7 @@
     "mini-svg-data-uri": "^1.2.3",
     "modclean": "^3.0.0-beta.1",
     "module-alias": "^2.2.2",
-    "mongoose": "^5.11.12",
+    "mongoose": "^5.11.13",
     "mysql": "^2.18.1",
     "node-fetch": "^2.6.1",
     "nuxt": "^2.14.12",
@@ -95,8 +95,8 @@
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^6.6.3",
-    "sass": "^1.32.4",
     "sass-loader": "^10.1.1",
+    "sass": "^1.32.5",
     "split-file-stream": "^2.0.0",
     "svg-captcha": "^1.4.0",
     "swagger-ui-express": "^4.1.6",
@@ -110,7 +110,7 @@
     "web-push": "^3.4.4",
     "x2js": "^3.4.0",
     "ytdl-core": "^4.4.4",
-    "ytsr": "^3.2.1"
+    "ytsr": "^3.2.2"
   },
   "devDependencies": {
     "@nestjs/schematics": "^7.2.6",
@@ -122,7 +122,7 @@
     "@types/humanize-duration": "^3.18.0",
     "@types/module-alias": "^2.0.0",
     "@types/mongoose": "^5.7.36",
-    "@types/node": "^14.14.21",
+    "@types/node": "^14.14.22",
     "@types/node-fetch": "^2.5.8",
     "@types/passport-jwt": "^3.0.3",
     "@types/passport-local": "^1.0.33",
@@ -142,7 +142,7 @@
     "ts-loader": "^8.0.14",
     "ts-node": "^9.0.0",
     "tsconfig-paths": "^3.9.0",
-    "webpack-cli": "^4.3.1",
     "webpack-shell-plugin-next": "1.1.8"
+    "webpack-cli": "^4.4.0",
   }
 }
