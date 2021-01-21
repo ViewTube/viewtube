@@ -136,7 +136,6 @@ import CheckBox from '@/components/form/CheckBox.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import SubscriptionConverter from '@/plugins/services/subscriptionConverter';
 import Spinner from '@/components/Spinner.vue';
-import Commons from '@/plugins/commons.ts';
 import '@/assets/styles/popup.scss';
 
 import Vue from 'vue';
@@ -166,7 +165,6 @@ export default Vue.extend({
       page2: false,
       page3: false,
       subscriptionsToImport: null,
-      commons: Commons,
       loading: false,
       importedSubscriptions: null
     };

@@ -38,7 +38,7 @@
     <portal to="header">
       <div class="channel-title-sticky">
         <div v-if="channel.authorThumbnails" class="channel-sticky-thumbnail">
-          <img :src="commons.proxyUrl + channel.authorThumbnails[0].url" alt="Author Image" />
+          <img :src="proxyUrl + channel.authorThumbnails[0].url" alt="Author Image" />
         </div>
         <div class="channel-sticky-name">
           <h1>{{ channel.author }}</h1>
@@ -50,7 +50,7 @@
 </template>
 
 <script lang="ts">
-import Commons from '@/plugins/commons.ts';
+import { commons } from '@/plugins/commons.ts';
 import VideoEntry from '@/components/list/VideoEntry.vue';
 import PlaylistEntry from '@/components/list/PlaylistEntry.vue';
 import Banner from '@/components/channel/Banner.vue';
@@ -106,7 +106,7 @@ export default Vue.extend({
   data() {
     return {
       channel: null,
-      commons: Commons,
+      proxyUrl: commons.proxyUrl,
       overviewColor: 0
     };
   },

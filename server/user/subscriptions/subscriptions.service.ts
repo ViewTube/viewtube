@@ -39,7 +39,8 @@ export class SubscriptionsService {
 
   @Cron(CronExpression.EVERY_30_MINUTES)
   async collectSubscriptionsJob(): Promise<void> {
-    console.time('subscription-job ' + new Date().toISOString());
+    const timeMeasurementName = 'subscription-job ' + new Date().toISOString();
+    console.time(timeMeasurementName);
     const users = await this.subscriptionModel.find().lean(true).exec();
     const channelIds = users.reduce(
       (val, { subscriptions }) => [...val, ...subscriptions.map(e => e.channelId)],
@@ -80,7 +81,7 @@ export class SubscriptionsService {
           }
         })
       );
-      console.timeEnd('subscription-job');
+      console.timeEnd(timeMeasurementName);
     }
   }
 

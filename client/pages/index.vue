@@ -31,7 +31,6 @@
 </template>
 
 <script lang="ts">
-import Commons from '@/plugins/commons.ts';
 import VideoEntry from '@/components/list/VideoEntry.vue';
 import SectionTitle from '@/components/SectionTitle.vue';
 import GradientBackground from '@/components/GradientBackground.vue';
@@ -53,8 +52,7 @@ export default Vue.extend({
     videos: [],
     displayedVideos: [],
     subscriptions: [],
-    loading: true,
-    commons: Commons
+    loading: true
   }),
   async fetch() {
     await this.loadHomepage();

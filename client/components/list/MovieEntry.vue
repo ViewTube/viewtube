@@ -3,11 +3,7 @@
     <div class="movie-entry-background" />
     <a class="movie-entry-thmb" :href="data.link" target="_blank" rel="noreferrer noopener">
       <div class="thmb-image-container">
-        <img
-          class="movie-entry-thmb-image"
-          :src="commons.proxyUrl + data.thumbnail"
-          :alt="data.title"
-        />
+        <img class="movie-entry-thmb-image" :src="proxyUrl + data.thumbnail" :alt="data.title" />
       </div>
       <span class="movie-entry-count">{{ data.duration }}</span>
     </a>
@@ -40,7 +36,7 @@
 </template>
 
 <script lang="ts">
-import Commons from '@/plugins/commons.ts';
+import { commons } from '@/plugins/commons.ts';
 import 'tippy.js/dist/tippy.css';
 
 import Vue from 'vue';
@@ -51,7 +47,7 @@ export default Vue.extend({
     data: Object
   },
   data: () => ({
-    commons: Commons
+    proxyUrl: commons.proxyUrl
   }),
   mounted() {}
 });

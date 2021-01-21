@@ -1,5 +1,5 @@
 import { getterTree, mutationTree, actionTree } from 'nuxt-typed-vuex';
-import Commons from '~/plugins/commons';
+import { commons } from '~/plugins/commons';
 
 export const state = () => ({
   currentInstance: '' as string,
@@ -47,7 +47,7 @@ export const actions = actionTree(
       commit('clearInstances');
       this.$axios
         .get(
-          `${Commons.proxyUrl}https://raw.githubusercontent.com/iv-org/documentation/master/Invidious-Instances.md`
+          `${commons.proxyUrl}https://raw.githubusercontent.com/iv-org/documentation/master/Invidious-Instances.md`
         )
         .then(response => {
           const fetchData = response.data.split('### Blocked:')[0];

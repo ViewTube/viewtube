@@ -10,13 +10,13 @@
         <img
           v-if="playlist.thumbnail"
           class="playlist-entry-thmb-image"
-          :src="commons.proxyUrl + playlist.thumbnail"
+          :src="proxyUrl + playlist.thumbnail"
           :alt="playlist.title"
         />
         <img
           v-if="playlist.playlistThumbnails"
           class="playlist-entry-thmb-image"
-          :src="commons.proxyUrl + playlist.playlistThumbnails[3].url"
+          :src="proxyUrl + playlist.playlistThumbnails[3].url"
           :alt="playlist.title"
         />
       </div>
@@ -47,7 +47,7 @@
 </template>
 
 <script lang="ts">
-import Commons from '@/plugins/commons.ts';
+import { commons } from '@/plugins/commons.ts';
 import 'tippy.js/dist/tippy.css';
 
 import Vue from 'vue';
@@ -58,7 +58,7 @@ export default Vue.extend({
     playlist: Object
   },
   data: () => ({
-    commons: Commons
+    proxyUrl: commons.proxyUrl
   })
 });
 </script>

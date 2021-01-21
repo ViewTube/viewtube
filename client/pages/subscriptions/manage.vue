@@ -70,7 +70,6 @@
 <script lang="ts">
 import GradientBackground from '@/components/GradientBackground.vue';
 import SectionTitle from '@/components/SectionTitle.vue';
-import Commons from '@/plugins/commons.ts';
 import Pagination from '@/components/pagination/Pagination.vue';
 // import BadgeButton from '@/components/buttons/BadgeButton';
 import Vue from 'vue';
@@ -84,7 +83,6 @@ export default Vue.extend({
   },
   data() {
     return {
-      commons: Commons,
       subscriptionChannels: [],
       currentPage: 1,
       pageCount: 0,

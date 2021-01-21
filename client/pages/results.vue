@@ -99,7 +99,7 @@
 </template>
 
 <script lang="ts">
-// import Commons from '@/plugins/commons.ts'
+// import { commons } from '@/plugins/commons.ts'
 import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
 import VideoEntry from '@/components/list/VideoEntry.vue';
 import PlaylistEntry from '@/components/list/PlaylistEntry.vue';

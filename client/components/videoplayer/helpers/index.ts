@@ -6,7 +6,7 @@ import {
   onMounted,
   onBeforeUnmount
 } from '@nuxtjs/composition-api';
-import Commons from '@/plugins/commons';
+import { commons } from '@/plugins/commons';
 import dashjs from 'dashjs';
 import { SponsorBlock } from '@/plugins/services/sponsorBlock';
 import { SponsorBlockSegmentsDto } from '@/plugins/shared';
@@ -67,7 +67,6 @@ export const videoPlayerSetup = ({ root, props }) => {
 
   const highestVideoQuality = ref(null);
 
-  const commons = Commons;
   const mediaMetadataHelper = new MediaMetadataHelper(props.video);
 
   const doTouchAction = () => {
@@ -482,7 +481,7 @@ export const videoPlayerSetup = ({ root, props }) => {
     if (element) {
       const elOffsetWidth = element.$el ? element.$el.offsetWidth : 0;
       const elWidth = element.offsetWidth || elOffsetWidth;
-      const pageWidth = Commons.getPageWidth();
+      const pageWidth = commons.getPageWidth();
       leftPx = ((pageWidth - 27.5) / 100) * percentage - (elWidth / 2 - 12);
 
       if (leftPx < 10) {
@@ -501,7 +500,7 @@ export const videoPlayerSetup = ({ root, props }) => {
     if (element) {
       const elOffsetWidth = element.$el ? element.$el.offsetWidth : 0;
       const elWidth = element.offsetWidth || elOffsetWidth;
-      const pageWidth = Commons.getPageWidth();
+      const pageWidth = commons.getPageWidth();
       leftPx = ((pageWidth - 20) / 100) * percentage;
 
       if (leftPx < 10) {
@@ -686,7 +685,6 @@ export const videoPlayerSetup = ({ root, props }) => {
     playerOverlay,
     videoElement,
     seekbar,
-    commons,
     selectedQuality,
     highestVideoQuality,
     videoVolume,

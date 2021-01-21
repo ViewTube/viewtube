@@ -64,7 +64,6 @@
 </template>
 
 <script lang="ts">
-import Commons from '@/plugins/commons.ts';
 import SubscriptionImport from '@/components/popup/SubscriptionImport.vue';
 import VideoEntry from '@/components/list/VideoEntry.vue';
 import GradientBackground from '@/components/GradientBackground.vue';
@@ -92,7 +91,6 @@ export default Vue.extend({
   data: () => ({
     videos: [],
     loading: true,
-    commons: Commons,
     notificationsEnabled: false,
     notificationsBtnDisabled: false,
     notificationsSupported: true,

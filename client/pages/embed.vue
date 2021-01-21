@@ -5,7 +5,6 @@
 </template>
 
 <script lang="ts">
-import Commons from '@/plugins/commons.ts';
 import VideoPlayer from '@/components/videoplayer/VideoPlayer.vue';
 import ViewTubeApi from '@/plugins/services/viewTubeApi.ts';
 import Vue from 'vue';
@@ -29,8 +28,7 @@ export default Vue.extend({
       .catch(_ => {});
   },
   data: () => ({
-    video: {},
-    commons: Commons
+    video: {}
   }),
   methods: {
     loadData(data: any): void {

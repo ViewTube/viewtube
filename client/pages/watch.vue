@@ -159,8 +159,6 @@ import ThumbsDown from 'vue-material-design-icons/ThumbDown.vue';
 import Share from 'vue-material-design-icons/Share.vue';
 import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
 import Spinner from '@/components/Spinner.vue';
-import Commons from '@/plugins/commons.ts';
-import VideoPlayer from '@/components/videoplayer/VideoPlayer.vue';
 import SubscribeButton from '@/components/buttons/SubscribeButton.vue';
 import Comment from '@/components/Comment.vue';
 // import Invidious from '@/plugins/services/invidious'
@@ -180,7 +178,10 @@ export default Vue.extend({
     ThumbsDown,
     Share,
     LoadMoreIcon,
-    VideoPlayer,
+    VideoPlayer: () =>
+      import(
+        /* webpackChunkName: "group-videoplayer" */ '@/components/videoplayer/VideoPlayer.vue'
+      ),
     SubscribeButton,
     Comment,
     RecommendedVideos,
@@ -237,7 +238,6 @@ export default Vue.extend({
       commentsError: false,
       commentsContinuationLink: null,
       commentsContinuationLoading: false,
-      commons: Commons,
       recommendedOpen: false,
       shareOpen: false
     };

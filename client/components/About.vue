@@ -9,7 +9,7 @@
       <h2>ViewTube by Maurice Oegerli</h2>
       <h3>{{ description }}</h3>
       <div class="links-about">
-        <BadgeButton :href="'https://github.com/mauriceoegerli/viewtube-vue'">
+        <BadgeButton :href="'https://github.com/viewtube/viewtube-vue'">
           <GithubIcon />ViewTube
         </BadgeButton>
         <BadgeButton :href="'https://github.com/iv-org/invidious'">
@@ -70,7 +70,7 @@
 import CloseIcon from 'vue-material-design-icons/Close.vue';
 import GithubIcon from 'vue-material-design-icons/Github.vue';
 import ExternalIcon from 'vue-material-design-icons/OpenInNew.vue';
-import Commons from '@/plugins/commons.ts';
+import { commons } from '@/plugins/commons.ts';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import InvidiousLicense from '@/components/licenses/Invidious.vue';
 import Vue from 'vue';
@@ -86,7 +86,7 @@ export default Vue.extend({
   },
   data() {
     return {
-      description: Commons.description,
+      description: commons.description,
       invidousStats: null,
       currentInstance: this.$store.getters.currentInstance,
       invidiousStatsError: null

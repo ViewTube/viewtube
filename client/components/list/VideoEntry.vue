@@ -18,7 +18,7 @@
           <img
             class="video-entry-thmb-image"
             :loading="lazy ? 'lazy' : 'eager'"
-            :src="commons.proxyUrl + video.videoThumbnails[3].url"
+            :src="proxyUrl + video.videoThumbnails[3].url"
             :alt="video.title"
           />
         </div>
@@ -37,7 +37,7 @@
       <img
         v-if="video.authorThumbnails"
         class="author-thumbnail"
-        :src="commons.proxyUrl + video.authorThumbnails[1].url"
+        :src="proxyUrl + video.authorThumbnails[1].url"
         alt="Author thumbnail"
       />
       <div class="video-info-text">
@@ -70,7 +70,7 @@
 <script lang="ts">
 import 'tippy.js/dist/tippy.css';
 import InfoIcon from 'vue-material-design-icons/Information.vue';
-import Commons from '@/plugins/commons.ts';
+import { commons } from '@/plugins/commons.ts';
 
 import Vue from 'vue';
 
@@ -84,7 +84,7 @@ export default Vue.extend({
     lazy: Boolean
   },
   data: () => ({
-    commons: Commons
+    proxyUrl: commons.proxyUrl
   }),
   computed: {
     videoProgressPercentage(): number {
