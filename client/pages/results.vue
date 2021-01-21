@@ -99,7 +99,7 @@
 </template>
 
 <script lang="ts">
-// import Commons from '@/plugins/commons.ts'
+// import { commons } from '@/plugins/commons.ts'
 import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
 import VideoEntry from '@/components/list/VideoEntry.vue';
 import PlaylistEntry from '@/components/list/PlaylistEntry.vue';
@@ -153,15 +153,21 @@ export default Vue.extend({
     await viewTubeApi.api
       .search({ params: searchParams })
       .then(response => {
-        const results = [];
-        results.push(response.data.items);
-        delete response.data.items;
-        this.searchResults = results;
-        this.searchInformation = response.data;
-        this.searchQuery = inputQuery.search_query;
+        if (response && response.data) {
+          const results = [];
+          results.push(response.data.items);
+          delete response.data.items;
+          this.searchResults = results;
+          this.searchInformation = response.data;
+          this.searchQuery = inputQuery.search_query;
+        }
       })
-      .catch(error => {
-        console.error(error);
+      .catch(_ => {
+        this.$store.dispatch('messages/createMessage', {
+          type: 'error',
+          title: 'Search failed',
+          message: 'Try reloading the page'
+        });
       });
   },
   head() {
@@ -244,8 +250,12 @@ export default Vue.extend({
           this.searchInformation.nextpageRef = response.data.nextpageRef;
           this.moreVideosLoading = false;
         })
-        .catch(error => {
-          console.error(error);
+        .catch(_ => {
+          this.$store.dispatch('messages/createMessage', {
+            type: 'error',
+            title: 'Unable to load more results',
+            message: 'Try a different search term for more results'
+          });
         });
     }
   }

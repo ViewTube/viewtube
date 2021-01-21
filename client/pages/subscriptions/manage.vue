@@ -70,7 +70,6 @@
 <script lang="ts">
 import GradientBackground from '@/components/GradientBackground.vue';
 import SectionTitle from '@/components/SectionTitle.vue';
-import Commons from '@/plugins/commons.ts';
 import Pagination from '@/components/pagination/Pagination.vue';
 // import BadgeButton from '@/components/buttons/BadgeButton';
 import Vue from 'vue';
@@ -84,7 +83,6 @@ export default Vue.extend({
   },
   data() {
     return {
-      commons: Commons,
       subscriptionChannels: [],
       currentPage: 1,
       pageCount: 0,
@@ -117,8 +115,12 @@ export default Vue.extend({
         this.subscriptionChannels = response.data.channels;
         this.pageCount = Math.ceil(response.data.channelCount / 30);
       })
-      .catch(error => {
-        console.log(error);
+      .catch(_ => {
+        this.$store.dispatch('messages/createMessage', {
+          type: 'error',
+          title: 'Error loading subscriptions',
+          message: 'Error loading subscriptions'
+        });
       });
   },
   head() {

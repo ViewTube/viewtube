@@ -1,6 +1,7 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Cron, CronExpression } from '@nestjs/schedule';
+import Consola from 'consola';
 import { Model } from 'mongoose';
 import fetch from 'node-fetch';
 import { VideoBasicInfoDto } from '../videos/dto/video-basic-info.dto';
@@ -19,7 +20,7 @@ export class HomepageService {
 
   @Cron(CronExpression.EVERY_DAY_AT_1AM)
   async refreshPopular(): Promise<void> {
-    console.log('Refreshing popular page');
+    Consola.info('Refreshing popular page');
     try {
       const popularPage = await fetch(this.popularPageUrl, {
         headers: {
@@ -47,7 +48,7 @@ export class HomepageService {
       });
       updatedPopularPage.save();
     } catch (err) {
-      console.warn('Popular page refresh failed. URL: ' + this.popularPageUrl);
+      Consola.error('Popular page refresh failed. URL: ' + this.popularPageUrl);
     }
   }
 

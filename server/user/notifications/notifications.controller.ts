@@ -34,6 +34,6 @@ export class NotificationsController {
     webPush
       .sendNotification(storedSubscription, payload)
       .then()
-      .catch(err => console.log('error', err));
+      .catch(_ => {});
   }
 }

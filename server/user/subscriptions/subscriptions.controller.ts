@@ -94,7 +94,6 @@ export class SubscriptionsController {
     failed: Array<SubscriptionStatusDto>;
     existing: Array<SubscriptionStatusDto>;
   }> {
-    console.log(channels);
     return this.subscriptionsService.subscribeToMultipleChannels(req.user.username, channels);
   }
 

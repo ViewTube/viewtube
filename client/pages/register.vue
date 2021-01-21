@@ -107,7 +107,6 @@ export default Vue.extend({
   methods: {
     async register() {
       this.loading = true;
-      const me = this;
 
       const user = await this.$store.dispatch('user/register', {
         username: this.username,
@@ -115,19 +114,19 @@ export default Vue.extend({
         captchaSolution: this.captchaSolution
       });
       if (user && user.username) {
-        me.$store.dispatch('messages/createMessage', {
+        this.$store.dispatch('messages/createMessage', {
           type: 'info',
           title: 'Registration successful',
           message: `Welcome, ${user.username}`
         });
-        me.$router.push(me.redirectedPage.fullPath);
+        this.$router.push(this.redirectedPage.fullPath);
       } else {
-        me.$store.dispatch('messages/createMessage', {
+        this.$store.dispatch('messages/createMessage', {
           type: 'error',
           title: 'Registration failed',
           message: user ? user.error : ''
         });
-        me.loading = false;
+        this.loading = false;
         this.wiggleRegisterForm();
         this.$store.dispatch('captcha/getCaptcha');
       }

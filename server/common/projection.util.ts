@@ -7,6 +7,5 @@ export function createProjectionObject<T>(object: T) {
   Object.keys(object).forEach(val => {
     projectionObj[val] = 1;
   });
-  console.log(projectionObj);
   return projectionObj;
 }

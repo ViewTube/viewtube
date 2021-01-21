@@ -9,6 +9,7 @@ import { Model } from 'mongoose';
 import fetch from 'node-fetch';
 import HttpsProxyAgent from 'https-proxy-agent';
 import { VideoDto } from 'shared/dto/video/video.dto';
+import Consola from 'consola';
 import { ChannelBasicInfoDto } from '../channels/dto/channel-basic-info.dto';
 import { ChannelBasicInfo } from '../channels/schemas/channel-basic-info.schema';
 import { Common } from '../common';
@@ -51,7 +52,6 @@ export class VideosService {
       (ytdlOptions.requestOptions as any).agent = proxyAgent;
     }
 
-    console.log(ytdlOptions);
     try {
       const result: videoInfo = await getBasicInfo(url, ytdlOptions);
       const video: VideoDto = new VideoEntity(result);
@@ -89,15 +89,14 @@ export class VideosService {
       this.channelModel
         .findOneAndUpdate({ authorId: video.authorId }, channelBasicInfo, { upsert: true })
         .exec()
-        .catch(console.log);
+        .catch(Consola.warn);
       this.videoModel
         .findOneAndUpdate({ videoId: video.videoId }, videoBasicInfo, { upsert: true })
         .exec()
-        .catch(console.log);
+        .catch(Consola.warn);
 
       return video;
     } catch (err) {
-      console.error(err);
       throw new HttpException(err.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
@@ -105,7 +104,7 @@ export class VideosService {
   async saveAuthorImage(imgUrl: string, channelId: string) {
     const arrBuffer = await fetch(imgUrl, { method: 'GET' })
       .then(response => response.arrayBuffer())
-      .catch(console.log);
+      .catch(_ => {});
 
     if (arrBuffer) {
       const imgPath = path.join((global as any).__basedir, `channels/${channelId}.jpg`);
@@ -114,7 +113,6 @@ export class VideosService {
       try {
         await appendFile(imgPath, Buffer.from(arrBuffer));
       } catch (err) {
-        console.log(err);
         return null;
       }
       return `channels/${channelId}/thumbnail/tiny.jpg`;

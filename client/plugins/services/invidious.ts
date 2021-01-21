@@ -1,4 +1,4 @@
-// import Commons from '@/plugins/commons.ts';
+// import { commons } from '@/plugins/commons.ts';
 import axios from 'axios';
 import { createApi } from '@/plugins/apiCreator';
 

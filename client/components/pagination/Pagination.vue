@@ -94,7 +94,6 @@ export default Vue.extend({
           numStart = 2;
         } else if (this.currentPage + halfMaxNum > this.pageCount) {
           numStart = this.pageCount - this.maxNumber;
-          console.log(numStart, numStop);
         } else {
           numStart = this.currentPage - halfMaxNum;
         }

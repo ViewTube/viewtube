@@ -159,8 +159,6 @@ import ThumbsDown from 'vue-material-design-icons/ThumbDown.vue';
 import Share from 'vue-material-design-icons/Share.vue';
 import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
 import Spinner from '@/components/Spinner.vue';
-import Commons from '@/plugins/commons.ts';
-import VideoPlayer from '@/components/videoplayer/VideoPlayer.vue';
 import SubscribeButton from '@/components/buttons/SubscribeButton.vue';
 import Comment from '@/components/Comment.vue';
 // import Invidious from '@/plugins/services/invidious'
@@ -180,7 +178,10 @@ export default Vue.extend({
     ThumbsDown,
     Share,
     LoadMoreIcon,
-    VideoPlayer,
+    VideoPlayer: () =>
+      import(
+        /* webpackChunkName: "group-videoplayer" */ '@/components/videoplayer/VideoPlayer.vue'
+      ),
     SubscribeButton,
     Comment,
     RecommendedVideos,
@@ -197,13 +198,15 @@ export default Vue.extend({
       .then(response => {
         if (response) {
           return { video: response.data };
-          // console.log(this.video.description)
         } else {
-          // throw new Error('Error loading video')
+          this.$store.dispatch('messages/createMessage', {
+            type: 'error',
+            title: 'Error loading video',
+            message: 'Loading video information failed. Try reloading the page.'
+          });
         }
       })
-      .catch(async err => {
-        console.log(err);
+      .catch(async () => {
         const invidious = new Invidious(store.getters['instances/currentInstanceApi']);
         await invidious.api
           .videos({ id: query.v })
@@ -217,7 +220,6 @@ export default Vue.extend({
                 message: err.response.data.message
               });
             } else if (err.message) {
-              console.log(err.message);
               error({
                 statusCode: 500,
                 message: 'Error loading video' + err.message,
@@ -236,7 +238,6 @@ export default Vue.extend({
       commentsError: false,
       commentsContinuationLink: null,
       commentsContinuationLoading: false,
-      commons: Commons,
       recommendedOpen: false,
       shareOpen: false
     };
@@ -365,8 +366,12 @@ export default Vue.extend({
           this.commentsContinuationLoading = false;
           this.commentsContinuationLink = data.continuation || null;
         })
-        .catch(error => {
-          console.error(error);
+        .catch(_ => {
+          this.$store.dispatch('messages/createMessage', {
+            type: 'error',
+            title: 'Error loading more comments',
+            message: 'Loading comments failed. There may not be any more comments.'
+          });
         });
     }
   }

@@ -8,7 +8,7 @@
       <div v-if="channel.authorThumbnails" class="thmb-image-container">
         <img
           class="channel-entry-thmb-image"
-          :src="commons.proxyUrl + channel.authorThumbnails[2].url"
+          :src="proxyUrl + channel.authorThumbnails[2].url"
           :alt="channel.author"
         />
       </div>
@@ -32,7 +32,7 @@
 </template>
 
 <script lang="ts">
-import Commons from '@/plugins/commons.ts';
+import { commons } from '@/plugins/commons.ts';
 
 import Vue from 'vue';
 
@@ -42,7 +42,7 @@ export default Vue.extend({
     channel: Object
   },
   data: () => ({
-    commons: Commons
+    proxyUrl: commons.proxyUrl
   }),
   mounted() {},
   methods: {

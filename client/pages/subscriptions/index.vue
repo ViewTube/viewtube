@@ -64,7 +64,6 @@
 </template>
 
 <script lang="ts">
-import Commons from '@/plugins/commons.ts';
 import SubscriptionImport from '@/components/popup/SubscriptionImport.vue';
 import VideoEntry from '@/components/list/VideoEntry.vue';
 import GradientBackground from '@/components/GradientBackground.vue';
@@ -92,7 +91,6 @@ export default Vue.extend({
   data: () => ({
     videos: [],
     loading: true,
-    commons: Commons,
     notificationsEnabled: false,
     notificationsBtnDisabled: false,
     notificationsSupported: true,
@@ -208,7 +206,6 @@ export default Vue.extend({
               applicationServerKey: this.vapidKey
             })
             .then(permissionState => {
-              console.log(permissionState);
               if (permissionState === 'granted') {
                 this.notificationsEnabled = true;
               } else if (permissionState === 'denied') {
@@ -218,7 +215,11 @@ export default Vue.extend({
             });
         })
         .catch(err => {
-          console.log(err);
+          this.$store.dispatch('messages/createMessage', {
+            type: 'error',
+            title: 'Error loading subscription registrations',
+            message: err.message
+          });
         });
     } else {
       this.notificationsSupported = false;
@@ -259,7 +260,11 @@ export default Vue.extend({
               .catch(err => {
                 this.notificationsEnabled = false;
                 this.notificationsBtnDisabled = true;
-                console.log(err);
+                this.$store.dispatch('messages/createMessage', {
+                  type: 'error',
+                  title: 'Error subscribing to notifications',
+                  message: err.message
+                });
               });
           } else {
             worker.pushManager.getSubscription().then(subscription => {

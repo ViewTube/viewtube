@@ -29,7 +29,7 @@ export const actions = actionTree(
           commit('setToken', response.data.token);
           commit('setImage', response.data.captchaImage);
         })
-        .catch(err => console.error(err));
+        .catch(_ => {});
     }
   }
 );

@@ -19,7 +19,7 @@
 </template>
 
 <script lang="ts">
-import Commons from '@/plugins/commons.ts';
+import { commons } from '@/plugins/commons.ts';
 
 import Vue from 'vue';
 
@@ -32,7 +32,7 @@ export default Vue.extend({
   },
   data() {
     return {
-      id: Commons.uuidv4()
+      id: commons.uuidv4()
     };
   },
   methods: {

@@ -18,7 +18,7 @@
 
 <script lang="ts">
 import Axios from 'axios';
-// import Commons from '@/plugins/commons.ts';
+// import { commons } from '@/plugins/commons.ts';
 import Vue from 'vue';
 
 export default Vue.extend({
@@ -41,9 +41,7 @@ export default Vue.extend({
         .then(response => {
           this.autocompleteValues = [this.searchValue].concat(response.data);
         })
-        .catch(error => {
-          console.error(error);
-        });
+        .catch(_ => {});
     }
   },
   methods: {

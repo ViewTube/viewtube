@@ -1,4 +1,4 @@
-import Commons from '@/plugins/commons';
+import { commons } from '@/plugins/commons';
 
 export const seekbarFunctions = {
   onSeekbarTouchStart(e: any, { playerOverlayVisible, seekbar, videoRef, videoElement, formatFn }) {
@@ -57,7 +57,7 @@ export const seekbarFunctions = {
   },
 
   isMouseOufOfBoundary(pageX: number, pageY: number) {
-    return pageX > Commons.getPageWidth() || pageX < 0 || pageY < 0;
+    return pageX > commons.getPageWidth() || pageX < 0 || pageY < 0;
   }
 };
 
@@ -75,7 +75,7 @@ export function matchSeekProgressPercentage(
 }
 
 export function calculateSeekPercentage(pageX: number) {
-  const seekPercentage = ((pageX - 10) / (Commons.getPageWidth() - 27.5)) * 100;
+  const seekPercentage = ((pageX - 10) / (commons.getPageWidth() - 27.5)) * 100;
   if (seekPercentage > 0 && seekPercentage < 100) {
     return seekPercentage;
   } else if (seekPercentage > 100) {
