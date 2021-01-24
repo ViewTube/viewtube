@@ -1,6 +1,6 @@
 <template>
   <div class="search">
-    <Spinner v-if="loading" class="centered" />
+    <Spinner v-if="$fetchState.pending" class="centered search-spinner" />
     <GradientBackground :color="'blue'" />
     <div class="filters">
       <Dropdown
@@ -34,71 +34,72 @@
         @valuechange="onSearchTypeChange"
       />
     </div>
-    <div
-      class="correction-results"
-      v-if="searchResults && searchResults.orignalQuery !== searchResults.correctedQuery"
-    >
-      <p>Showing results for {{ searchResults.correctedQuery }}</p>
+    <p v-if="searchResults" class="result-amount">
+      {{ searchResults.results.toLocaleString('en-US') }} results
+    </p>
+    <div v-if="isCorrectedSearchResult" class="correction-results links">
+      <span>Showing results for</span>
+      <nuxt-link :to="correctedSearchResultUrl">{{ searchResults.correctedQuery }}</nuxt-link>
     </div>
-    <div v-for="(results, i) in searchResults" :key="i" class="search-videos-container">
-      <SectionTitle v-if="page > 0" :title="`Page ${page}`" />
-      <div
-        v-if="results.searchRefinements && results.searchRefinements.length"
-        class="related-searches-container"
-      >
-        <RelatedSearches
-          v-for="(item, index) in results.searchRefinements"
+    <div v-if="!$fetchState.pending && searchResults" class="search-results">
+      <div v-if="searchResults.refinements" class="search-refinements">
+        <RelatedSearches :refinements="searchResults.refinements" />
+      </div>
+      <div v-for="(result, i) in searchResults.items" :key="i" class="search-videos-container">
+        <component :is="getListEntryType(result.type)" />
+        <!-- <div v-if="results.channels && results.channels.length" class="channels">
+          <ChannelEntry
+            v-for="(channel, index) in results.channels"
+            :key="index"
+            :channel="channel"
+          />
+        </div>
+        <VerticalShelf
+          v-for="(item, index) in results.verticalShelf"
           :key="index"
+          :class="item.shelfType"
           :data="item"
         />
-      </div>
-      <div v-if="results.channels && results.channels.length" class="channels">
-        <ChannelEntry
-          v-for="(channel, index) in results.channels"
-          :key="index"
-          :channel="channel"
+        <div v-if="results.compactShelf && results.compactShelf.length" class="compact-shelf">
+          <CompactShelf v-for="(item, index) in results.compactShelf" :key="index" :data="item" />
+        </div>
+        <div v-if="results.playlists && results.playlists.length" class="playlists-container">
+          <SectionTitle :title="'Playlists'" />
+          <div class="playlists">
+            <PlaylistEntry
+              v-for="(item, index) in results.playlists"
+              :key="index"
+              :playlist="item"
+            />
+          </div>
+        </div>
+        <SectionTitle v-if="results.movies && results.movies.length" :title="'Movies'" />
+        <div v-if="results.movies && results.movies.length" class="movies">
+          <MovieEntry v-for="(item, index) in results.movies" :key="index" :data="item" />
+        </div>
+        <SectionTitle
+          v-if="
+            !(
+              (results.channels && results.channels.length) ||
+              (results.verticalShelf && results.verticalShelf.length) ||
+              (results.compactShelf && results.compactShelf.length) ||
+              (results.playlists && results.playlists.length) ||
+              (results.movies && results.movies.length)
+            )
+          "
+          :title="`More videos`"
         />
-      </div>
-      <VerticalShelf
-        v-for="(item, index) in results.verticalShelf"
-        :key="index"
-        :class="item.shelfType"
-        :data="item"
-      />
-      <div v-if="results.compactShelf && results.compactShelf.length" class="compact-shelf">
-        <CompactShelf v-for="(item, index) in results.compactShelf" :key="index" :data="item" />
-      </div>
-      <div v-if="results.playlists && results.playlists.length" class="playlists-container">
-        <SectionTitle :title="'Playlists'" />
-        <div class="playlists">
-          <PlaylistEntry v-for="(item, index) in results.playlists" :key="index" :playlist="item" />
+        <div v-if="results.videos && results.videos.length" class="videos">
+          <VideoEntry v-for="(video, index) in results.videos" :key="index" :video="video" />
+        </div>
+      </div> -->
+        <div class="show-more-btn-container">
+          <BadgeButton :click="loadMoreVideos" :loading="moreVideosLoading">
+            <LoadMoreIcon />
+            <p>show more</p>
+          </BadgeButton>
         </div>
       </div>
-      <SectionTitle v-if="results.movies && results.movies.length" :title="'Movies'" />
-      <div v-if="results.movies && results.movies.length" class="movies">
-        <MovieEntry v-for="(item, index) in results.movies" :key="index" :data="item" />
-      </div>
-      <SectionTitle
-        v-if="
-          !(
-            (results.channels && results.channels.length) ||
-            (results.verticalShelf && results.verticalShelf.length) ||
-            (results.compactShelf && results.compactShelf.length) ||
-            (results.playlists && results.playlists.length) ||
-            (results.movies && results.movies.length)
-          )
-        "
-        :title="`More videos`"
-      />
-      <div v-if="results.videos && results.videos.length" class="videos">
-        <VideoEntry v-for="(video, index) in results.videos" :key="index" :video="video" />
-      </div>
-    </div>
-    <div class="show-more-btn-container">
-      <BadgeButton :click="loadMoreVideos" :loading="moreVideosLoading">
-        <LoadMoreIcon />
-        <p>show more</p>
-      </BadgeButton>
     </div>
   </div>
 </template>
@@ -198,7 +199,28 @@ export default Vue.extend({
       ]
     };
   },
-  watchQuery: true,
+  computed: {
+    isCorrectedSearchResult(): boolean {
+      if (this.searchResults) {
+        return this.searchResults.originalQuery !== this.searchResults.correctedQuery;
+      }
+      return false;
+    },
+    correctedSearchResultUrl(): string {
+      if (this.searchResults) {
+        const url = this.$nuxt.$route.fullPath;
+        const newUrl = url.replace(
+          this.searchResults.originalQuery,
+          this.searchResults.correctedQuery
+        );
+        return newUrl;
+      }
+      return this.$nuxt.$route.fullPath;
+    }
+  },
+  watch: {
+    '$route.query': '$fetch'
+  },
   methods: {
     getListEntryType(type: string): string {
       switch (type) {
@@ -272,6 +294,10 @@ export default Vue.extend({
   display: flex;
   flex-direction: column;
 
+  .search-spinner {
+    z-index: 11;
+  }
+
   .filters {
     width: 100%;
     max-width: $main-width;
@@ -286,19 +312,33 @@ export default Vue.extend({
     }
   }
 
-  .under-construction {
-    position: absolute;
-    top: 30%;
-    left: 50%;
-    transform: translateX(-50%);
+  .result-amount {
+    margin: 10px auto 0 auto;
   }
 
-  .correction-results {
+  .correction-results,
+  .result-amount {
     z-index: 10;
     width: 100%;
     max-width: $main-width;
-    margin: 0 auto;
     padding: 0 15px;
+    box-sizing: border-box;
+  }
+
+  .correction-results {
+    margin: 0 auto;
+  }
+
+  .search-results {
+    .search-refinements {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      max-width: $main-width;
+      margin: 0 auto;
+      padding: 0 15px;
+      box-sizing: border-box;
+    }
   }
 
   .search-videos-container {
