@@ -42,7 +42,7 @@
     "@babel/core": "^7.12.3",
     "@chenfengyuan/vue-qrcode": "^1.0.2",
     "@nestjs/common": "^7.6.5",
-    "@nestjs/config": "^0.6.1",
+    "@nestjs/config": "^0.6.2",
     "@nestjs/core": "^7.6.5",
     "@nestjs/jwt": "^7.1.0",
     "@nestjs/mongoose": "^7.2.2",
