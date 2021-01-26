@@ -17,6 +17,8 @@ It can recommend, play and search for videos. It saves your watch progress and y
 [![GitHub](https://img.shields.io/github/license/mauriceoegerli/viewtube-vue)](https://github.com/ViewTube/viewtube-vue/blob/stable/LICENSE)
 ![Docker Image Size (tag)](https://img.shields.io/docker/image-size/mauriceo/viewtube/latest?label=docker%20image)
 
+Try the dev version on [dev.viewtube.io](https://dev.viewtube.io)
+
 <h2 align="center">
 <sub>
 <img  src=".github/icons/star.svg"
