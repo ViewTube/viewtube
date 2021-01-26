@@ -8,6 +8,7 @@
         :value="parameters.sort_by"
         :label="'Sort by'"
         class="dropdown-btn"
+        :no-default="false"
         @valuechange="onSearchSortChange"
       />
       <Dropdown
@@ -29,6 +30,7 @@
       <Dropdown
         :values="parameters.defaults.type"
         :value="parameters.type"
+        :no-default="false"
         :label="'Type'"
         class="dropdown-btn"
         @valuechange="onSearchTypeChange"
@@ -45,82 +47,43 @@
       <div v-if="searchResults.refinements" class="search-refinements">
         <RelatedSearches :refinements="searchResults.refinements" />
       </div>
-      <div v-for="(result, i) in searchResults.items" :key="i" class="search-videos-container">
-        <component :is="getListEntryType(result.type)" />
-        <!-- <div v-if="results.channels && results.channels.length" class="channels">
-          <ChannelEntry
-            v-for="(channel, index) in results.channels"
-            :key="index"
-            :channel="channel"
-          />
-        </div>
-        <VerticalShelf
-          v-for="(item, index) in results.verticalShelf"
-          :key="index"
-          :class="item.shelfType"
-          :data="item"
+      <div class="search-videos-container">
+        <!-- <ChannelEntry v-if="result.type === 'channel'" :channel="result" /> -->
+        <!-- <Shelf v-if="result.type === 'shelf'" :data="result" /> -->
+        <!-- <PlaylistEntry v-if="result.type === 'playlist'" :playlist="result" /> -->
+        <!-- <MovieEntry :data="result" /> -->
+        <component
+          :is="getListEntryType(result.type)"
+          v-for="(result, i) in searchResults.items"
+          :key="i"
+          :video="result"
+          :lazy="true"
         />
-        <div v-if="results.compactShelf && results.compactShelf.length" class="compact-shelf">
-          <CompactShelf v-for="(item, index) in results.compactShelf" :key="index" :data="item" />
-        </div>
-        <div v-if="results.playlists && results.playlists.length" class="playlists-container">
-          <SectionTitle :title="'Playlists'" />
-          <div class="playlists">
-            <PlaylistEntry
-              v-for="(item, index) in results.playlists"
-              :key="index"
-              :playlist="item"
-            />
-          </div>
-        </div>
-        <SectionTitle v-if="results.movies && results.movies.length" :title="'Movies'" />
-        <div v-if="results.movies && results.movies.length" class="movies">
-          <MovieEntry v-for="(item, index) in results.movies" :key="index" :data="item" />
-        </div>
-        <SectionTitle
-          v-if="
-            !(
-              (results.channels && results.channels.length) ||
-              (results.verticalShelf && results.verticalShelf.length) ||
-              (results.compactShelf && results.compactShelf.length) ||
-              (results.playlists && results.playlists.length) ||
-              (results.movies && results.movies.length)
-            )
-          "
-          :title="`More videos`"
-        />
-        <div v-if="results.videos && results.videos.length" class="videos">
-          <VideoEntry v-for="(video, index) in results.videos" :key="index" :video="video" />
-        </div>
-      </div> -->
-        <div class="show-more-btn-container">
-          <BadgeButton :click="loadMoreVideos" :loading="moreVideosLoading">
-            <LoadMoreIcon />
-            <p>show more</p>
-          </BadgeButton>
-        </div>
+      </div>
+      <div class="show-more-btn-container">
+        <BadgeButton :click="loadMoreVideos" :loading="moreVideosLoading">
+          <LoadMoreIcon />
+          <p>show more</p>
+        </BadgeButton>
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-// import { commons } from '@/plugins/commons.ts'
 import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
 import VideoEntry from '@/components/list/VideoEntry.vue';
 import PlaylistEntry from '@/components/list/PlaylistEntry.vue';
 import ChannelEntry from '@/components/list/ChannelEntry.vue';
 import MovieEntry from '@/components/list/MovieEntry.vue';
 import RelatedSearches from '@/components/search/RelatedSearches.vue';
-import CompactShelf from '@/components/search/CompactShelf.vue';
-import VerticalShelf from '@/components/search/VerticalShelf.vue';
+import Shelf from '@/components/search/Shelf.vue';
 import Spinner from '@/components/Spinner.vue';
 import GradientBackground from '@/components/GradientBackground.vue';
 import Dropdown from '@/components/filter/Dropdown.vue';
-import SectionTitle from '@/components/SectionTitle.vue';
+// import SectionTitle from '@/components/SectionTitle.vue';
 import SearchParams from '@/plugins/services/searchParams.ts';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
-// import Invidious from '@/plugins/services/invidious';
 import Vue from 'vue';
 import ViewTubeApi from '~/plugins/services/viewTubeApi.ts';
 
@@ -137,9 +100,7 @@ export default Vue.extend({
     BadgeButton,
     MovieEntry,
     RelatedSearches,
-    CompactShelf,
-    VerticalShelf,
-    SectionTitle
+    Shelf
   },
   data: () => ({
     searchResults: null,
@@ -156,12 +117,13 @@ export default Vue.extend({
     const apiUrl = this.$store.getters['environment/apiUrl'];
     const searchTerm = searchParams.get('search_query') || searchParams.get('q');
     await this.$axios
-      .get(`${apiUrl}search`, {
-        params: {
-          q: searchTerm,
-          pages: 1
-        }
-      })
+      // .get(`${apiUrl}search`, {
+      //   params: {
+      //     q: searchTerm,
+      //     pages: 1
+      //   }
+      // })
+      .get('/searchresponse.json')
       .then(response => {
         if (response && response.data) {
           this.searchResults = response.data;
@@ -226,20 +188,22 @@ export default Vue.extend({
       switch (type) {
         case 'video':
           return 'VideoEntry';
-        case 'playlist':
-          return 'PlaylistEntry';
-        case 'channel':
-          return 'ChannelEntry';
-        // case 'mix':
-        //   return 'MixEntry';
-        case 'movie':
-          return 'MovieEntry';
-        case 'search-refinements':
-          return 'RelatedSearches';
-        case 'shelf-compact':
-          return 'CompactShelf';
-        case 'shelf-vertical':
-          return 'VerticalShelf';
+        // case 'playlist':
+        //   return 'PlaylistEntry';
+        // case 'channel':
+        //   return 'ChannelEntry';
+        // // case 'mix':
+        // //   return 'MixEntry';
+        // case 'movie':
+        //   return 'MovieEntry';
+        // case 'search-refinements':
+        //   return 'RelatedSearches';
+        // case 'shelf-compact':
+        //   return 'CompactShelf';
+        // case 'shelf-vertical':
+        //   return 'VerticalShelf';
+        default:
+          return null;
       }
     },
     reloadSearchWithParams() {
@@ -350,17 +314,7 @@ export default Vue.extend({
     display: grid;
     box-sizing: border-box;
     display: grid;
-    grid-template-columns: 200px repeat(auto-fill, minmax(300px, 1fr));
-    // grid-auto-rows: minmax(300px, auto);
-    gap: 1em 2em;
-
-    @media screen and (max-width: $mobile-width) {
-      grid-template-columns: 1fr;
-
-      > div {
-        grid-column: unset !important;
-      }
-    }
+    @include viewtube-grid;
 
     .section-title {
       grid-column: 1 / -1;

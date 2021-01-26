@@ -10,7 +10,7 @@
     <nuxt-link
       v-tippy="videoProgressTooltip"
       class="video-entry-thmb"
-      :to="{ path: '/watch?v=' + video.videoId }"
+      :to="{ path: '/watch?v=' + video.videoId ? video.videoId : video.id }"
       :class="{ 'has-description': video.description }"
     >
       <div class="thmb-image-container">
@@ -18,7 +18,7 @@
           <img
             class="video-entry-thmb-image"
             :loading="lazy ? 'lazy' : 'eager'"
-            :src="proxyUrl + video.videoThumbnails[3].url"
+            :src="proxyUrl + videoThumbnailUrl"
             :alt="video.title"
           />
         </div>
@@ -31,6 +31,7 @@
         $formatting.getTimestampFromSeconds(video.lengthSeconds)
       }}</span>
       <span v-if="video.lengthString" class="video-entry-length">{{ video.lengthString }}</span>
+      <span v-if="video.duration" class="video-entry-length">{{ video.duration }}</span>
     </nuxt-link>
 
     <div class="video-entry-info">
@@ -40,26 +41,37 @@
         :src="proxyUrl + video.authorThumbnails[1].url"
         alt="Author thumbnail"
       />
+      <img
+        v-if="video.author && video.author.bestAvatar"
+        class="author-thumbnail"
+        :src="proxyUrl + video.author.bestAvatar.url"
+        alt="Author thumbnail"
+      />
       <div class="video-info-text">
         <nuxt-link
           v-tippy="video.title"
           class="video-entry-title"
-          :to="{ path: '/watch?v=' + video.videoId }"
+          :to="{ path: '/watch?v=' + (video.videoId ? video.videoId : video.id) }"
           >{{ video.title }}</nuxt-link
         >
         <nuxt-link
-          v-tippy="video.author"
+          v-tippy="video.author.name ? video.author.name : video.author"
           class="video-entry-channel"
-          :to="{ path: '/channel/' + video.authorId }"
-          >{{ video.author }}</nuxt-link
+          :to="{ path: '/channel/' + (video.authorId ? video.authorId : video.author.channelID) }"
+          >{{ video.author.name ? video.author.name : video.author }}
+          {{ video.author && video.author.verified ? ' &#10003;' : '' }}</nuxt-link
         >
         <div class="video-entry-stats">
-          <p v-if="video.viewCount !== null" class="video-entry-views">
+          <p v-if="video.viewCount" class="video-entry-views">
             {{ video.viewCount.toLocaleString('en-US') }}
             {{ video.viewCount === 1 ? 'view' : 'views' }}
           </p>
+          <p v-if="video.views" class="video-entry-views">
+            {{ video.views.toLocaleString('en-US') }}
+            {{ video.views === 1 ? 'view' : 'views' }}
+          </p>
           <p class="video-entry-timestamp">
-            {{ video.publishedText }}
+            {{ video.publishedText ? video.publishedText : video.uploadedAt }}
           </p>
         </div>
       </div>
@@ -73,6 +85,7 @@ import InfoIcon from 'vue-material-design-icons/Information.vue';
 import { commons } from '@/plugins/commons.ts';
 
 import Vue from 'vue';
+import { getSecondsFromTimestamp } from '@/plugins/shared';
 
 export default Vue.extend({
   name: 'VideoEntry',
@@ -87,18 +100,38 @@ export default Vue.extend({
     proxyUrl: commons.proxyUrl
   }),
   computed: {
+    videoThumbnailUrl(): string {
+      if (this.video.videoThumbnails) {
+        return this.video.videoThumbnails[3].url;
+      } else if (this.video.thumbnails) {
+        if (this.video.thumbnails[1]) {
+          return this.video.thumbnails[1].url;
+        } else {
+          return this.video.thumbnails[0].url;
+        }
+      }
+      return '';
+    },
     videoProgressPercentage(): number {
-      return (
-        (this.$accessor.videoProgress.getSavedPositionForId(this.video.videoId) /
-          this.video.lengthSeconds) *
-        100
+      const savedPosition = this.$accessor.videoProgress.getSavedPositionForId(
+        this.video.videoId ? this.video.videoId : this.video.id
       );
+      const videoLength = this.video.lengthSeconds
+        ? this.video.lengthSeconds
+        : getSecondsFromTimestamp(this.video.duration);
+      return (savedPosition / videoLength) * 100;
     },
     videoProgressTooltip(): string {
       const watchTime = this.$formatting.getTimestampFromSeconds(
-        this.$accessor.videoProgress.getSavedPositionForId(this.video.videoId)
+        this.$accessor.videoProgress.getSavedPositionForId(
+          this.video.videoId ? this.video.videoId : this.video.id
+        )
       );
-      const totalTime = this.$formatting.getTimestampFromSeconds(this.video.lengthSeconds);
+      const totalTime = this.$formatting.getTimestampFromSeconds(
+        this.video.lengthSeconds
+          ? this.video.lengthSeconds
+          : getSecondsFromTimestamp(this.video.duration)
+      );
       return `${watchTime} of ${totalTime}`;
     }
   }

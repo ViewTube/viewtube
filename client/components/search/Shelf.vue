@@ -1,7 +1,7 @@
 <template>
-  <div class="vertical-shelf">
+  <div class="shelf">
     <SectionTitle :title="data.title" />
-    <div class="vertical-shelf-container">
+    <div class="shelf-container">
       <VideoEntry v-for="video in data.items" :key="video.videoId" :video="video" :lazy="true" />
     </div>
   </div>
@@ -13,7 +13,7 @@ import SectionTitle from '@/components/SectionTitle.vue';
 import Vue from 'vue';
 
 export default Vue.extend({
-  name: 'VerticalShelf',
+  name: 'Shelf',
   components: {
     VideoEntry,
     SectionTitle
@@ -25,11 +25,11 @@ export default Vue.extend({
 </script>
 
 <style lang="scss">
-.vertical-shelf {
+.shelf {
   display: flex;
   flex-direction: column;
 
-  .vertical-shelf-container {
+  .shelf-container {
     @include viewtube-grid;
   }
 }
