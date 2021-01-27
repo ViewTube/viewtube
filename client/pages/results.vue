@@ -57,6 +57,7 @@
           v-for="(result, i) in searchResults.items"
           :key="i"
           :video="result"
+          :channel="result"
           :lazy="true"
         />
       </div>
@@ -189,8 +190,8 @@ export default Vue.extend({
           return 'VideoEntry';
         // case 'playlist':
         //   return 'PlaylistEntry';
-        // case 'channel':
-        //   return 'ChannelEntry';
+        case 'channel':
+          return 'ChannelEntry';
         // // case 'mix':
         // //   return 'MixEntry';
         // case 'movie':
