@@ -10,7 +10,7 @@
     <nuxt-link
       v-tippy="videoProgressTooltip"
       class="video-entry-thmb"
-      :to="{ path: '/watch?v=' + video.videoId ? video.videoId : video.id }"
+      :to="{ path: '/watch?v=' + (video.videoId ? video.videoId : video.id) }"
       :class="{ 'has-description': video.description }"
     >
       <div class="thmb-image-container">
@@ -19,6 +19,7 @@
             class="video-entry-thmb-image"
             :loading="lazy ? 'lazy' : 'eager'"
             :src="proxyUrl + videoThumbnailUrl"
+            :srcset="`${videoThumbnailUrl} 1x, ${videoThumbnailUrl} 2x, ${videoThumbnailUrlXL} 3x, ${videoThumbnailUrlXL} 4x`"
             :alt="video.title"
           />
         </div>
@@ -27,7 +28,7 @@
         </div>
       </div>
       <div class="video-saved-progress" :style="{ width: `${videoProgressPercentage}%` }" />
-      <span v-if="video.lengthSeconds" class="video-entry-length">{{
+      <span v-if="video.lengthSeconds && videoProgressPercentage > 0" class="video-entry-length">{{
         $formatting.getTimestampFromSeconds(video.lengthSeconds)
       }}</span>
       <span v-if="video.lengthString" class="video-entry-length">{{ video.lengthString }}</span>
@@ -112,6 +113,16 @@ export default Vue.extend({
       }
       return '';
     },
+    videoThumbnailUrlXL() {
+      if (this.video.videoThumbnails) {
+        return this.video.videoThumbnails[2].url;
+      } else if (this.video.thumbnails) {
+        if (this.video.thumbnails[0]) {
+          return this.video.thumbnails[0].url;
+        }
+      }
+      return '';
+    },
     videoProgressPercentage(): number {
       const savedPosition = this.$accessor.videoProgress.getSavedPositionForId(
         this.video.videoId ? this.video.videoId : this.video.id
@@ -132,7 +143,10 @@ export default Vue.extend({
           ? this.video.lengthSeconds
           : getSecondsFromTimestamp(this.video.duration)
       );
-      return `${watchTime} of ${totalTime}`;
+      if (this.videoProgressPercentage > 0) {
+        return `${watchTime} of ${totalTime}`;
+      }
+      return null;
     }
   }
 });
@@ -222,6 +236,7 @@ export default Vue.extend({
         .video-entry-thmb-image {
           display: block;
           max-width: 100%;
+          min-width: 100%;
           transition: filter 0ms 300ms $intro-easing;
         }
       }

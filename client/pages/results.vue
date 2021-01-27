@@ -2,7 +2,7 @@
   <div class="search">
     <Spinner v-if="$fetchState.pending" class="centered search-spinner" />
     <GradientBackground :color="'blue'" />
-    <div class="filters">
+    <!-- <div class="filters">
       <Dropdown
         :values="parameters.defaults.sort_by"
         :value="parameters.sort_by"
@@ -35,7 +35,7 @@
         class="dropdown-btn"
         @valuechange="onSearchTypeChange"
       />
-    </div>
+    </div> -->
     <p v-if="searchResults" class="result-amount">
       {{ searchResults.results.toLocaleString('en-US') }} results
     </p>
@@ -107,7 +107,6 @@ export default Vue.extend({
     searchInformation: null,
     loading: false,
     searchQuery: null,
-    parameters: SearchParams,
     page: 0,
     moreVideosLoading: false
   }),
