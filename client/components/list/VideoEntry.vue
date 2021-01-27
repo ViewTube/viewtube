@@ -55,13 +55,20 @@
           :to="{ path: '/watch?v=' + (video.videoId ? video.videoId : video.id) }"
           >{{ video.title }}</nuxt-link
         >
-        <nuxt-link
-          v-tippy="video.author.name ? video.author.name : video.author"
-          class="video-entry-channel"
-          :to="{ path: '/channel/' + (video.authorId ? video.authorId : video.author.channelID) }"
-          >{{ video.author.name ? video.author.name : video.author }}
-          {{ video.author && video.author.verified ? ' &#10003;' : '' }}</nuxt-link
-        >
+        <div class="channel-name-container">
+          <nuxt-link
+            v-tippy="video.author.name ? video.author.name : video.author"
+            class="video-entry-channel"
+            :to="{ path: '/channel/' + (video.authorId ? video.authorId : video.author.channelID) }"
+            >{{ video.author.name ? video.author.name : video.author }}</nuxt-link
+          >
+          <VerifiedIcon
+            v-if="video.author && video.author.verified"
+            v-tippy="'Verified'"
+            class="tooltip"
+            title=""
+          />
+        </div>
         <div class="video-entry-stats">
           <p v-if="video.viewCount" class="video-entry-views">
             {{ video.viewCount.toLocaleString('en-US') }}
@@ -83,6 +90,7 @@
 <script lang="ts">
 import 'tippy.js/dist/tippy.css';
 import InfoIcon from 'vue-material-design-icons/Information.vue';
+import VerifiedIcon from 'vue-material-design-icons/CheckDecagram.vue';
 import { commons } from '@/plugins/commons.ts';
 
 import Vue from 'vue';
@@ -91,7 +99,8 @@ import { getSecondsFromTimestamp } from '@/plugins/shared';
 export default Vue.extend({
   name: 'VideoEntry',
   components: {
-    InfoIcon
+    InfoIcon,
+    VerifiedIcon
   },
   props: {
     video: Object,
@@ -324,15 +333,32 @@ export default Vue.extend({
         box-sizing: border-box;
       }
 
-      .video-entry-channel {
-        text-decoration: none;
-        padding: 3px 0 4px 0;
-        font-size: 0.8rem;
-        font-weight: bold;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        color: var(--subtitle-color);
+      .channel-name-container {
+        display: flex;
+        flex-direction: row;
+
+        .video-entry-channel {
+          text-decoration: none;
+          padding: 3px 0 4px 0;
+          font-size: 0.8rem;
+          font-weight: bold;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          color: var(--subtitle-color);
+        }
+
+        .material-design-icon {
+          width: 14px;
+          height: 14px;
+          top: 3px;
+          margin: 0 0 0 4px;
+
+          .material-design-icon__svg {
+            width: 14px;
+            height: 14px;
+          }
+        }
       }
 
       .video-entry-stats {

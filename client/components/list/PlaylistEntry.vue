@@ -19,10 +19,19 @@
           :src="proxyUrl + playlist.playlistThumbnails[3].url"
           :alt="playlist.title"
         />
+        <img
+          v-if="playlist.firstVideo && playlist.firstVideo.thumbnails"
+          class="playlist-entry-thmb-image"
+          :src="proxyUrl + playlist.firstVideo.thumbnails[0].url"
+          :alt="playlist.title"
+        />
       </div>
       <span v-if="playlist.videoCountString" class="playlist-entry-count">{{
         playlist.videoCountString
       }}</span>
+      <span v-if="playlist['length']" class="playlist-entry-count"
+        >{{ playlist['length'] }} videos</span
+      >
       <span v-if="playlist.videoCount" class="playlist-entry-count"
         >{{ playlist.videoCount }} videos</span
       >
@@ -32,28 +41,58 @@
         v-tippy="playlist.title"
         class="playlist-entry-title tooltip"
         :to="{
-          path: '/playlist?list=' + playlist.playlistId
+          path: `/watch?v=${
+            playlist.firstVideoId ? playlist.firstVideoId : playlist.firstVideo.id
+          }&list=${playlist.playlistId ? playlist.playlistId : playlist.playlistID}`
         }"
         >{{ playlist.title }}</nuxt-link
       >
-      <nuxt-link
-        v-tippy="playlist.author"
-        class="playlist-entry-channel tooltip"
-        :to="{ path: '/channel/' + playlist.authorId }"
-        >{{ playlist.author }}</nuxt-link
-      >
+      <div class="channel-name-container">
+        <nuxt-link
+          v-if="playlist.author"
+          v-tippy="playlist.author"
+          class="playlist-entry-channel tooltip"
+          :to="{
+            path: '/channel/' + playlist.authorId
+          }"
+          >{{ playlist.author }}</nuxt-link
+        >
+        <nuxt-link
+          v-if="playlist.owner"
+          v-tippy="playlist.owner.name"
+          class="playlist-entry-channel tooltip"
+          :to="{
+            path: '/channel/' + playlist.owner.channelID
+          }"
+          >{{ playlist.owner.name }}</nuxt-link
+        >
+        <VerifiedIcon
+          v-if="playlist.owner && playlist.owner.verified"
+          v-tippy="'Verified'"
+          class="tooltip"
+          title=""
+        />
+      </div>
+      <div v-if="playlist.publishedAt" class="video-entry-stats">
+        <p>{{ playlist.publishedAt }}</p>
+      </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { commons } from '@/plugins/commons.ts';
+import VerifiedIcon from 'vue-material-design-icons/CheckDecagram.vue';
+
 import 'tippy.js/dist/tippy.css';
 
 import Vue from 'vue';
 
 export default Vue.extend({
   name: 'PlaylistEntry',
+  components: {
+    VerifiedIcon
+  },
   props: {
     playlist: Object
   },
@@ -124,15 +163,37 @@ export default Vue.extend({
       padding: 6px 0 4px 0;
     }
 
-    .playlist-entry-channel {
-      text-decoration: none;
-      padding: 3px 0 4px 0;
-      font-size: 0.9rem;
-      font-weight: bold;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      color: var(--subtitle-color);
+    .channel-name-container {
+      display: flex;
+      flex-direction: row;
+
+      .playlist-entry-channel {
+        text-decoration: none;
+        padding: 3px 0 4px 0;
+        font-size: 0.9rem;
+        font-weight: bold;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        color: var(--subtitle-color);
+      }
+
+      .material-design-icon {
+        width: 14px;
+        height: 14px;
+        top: 3px;
+        margin: 0 0 0 4px;
+
+        .material-design-icon__svg {
+          width: 14px;
+          height: 14px;
+        }
+      }
+    }
+    .video-entry-stats {
+      color: var(--subtitle-color-light);
+      font-size: 0.8rem;
+      margin: 5px 0 0 0;
     }
   }
 

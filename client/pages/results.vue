@@ -58,6 +58,7 @@
           :key="i"
           :video="result"
           :channel="result"
+          :playlist="result"
           :lazy="true"
         />
       </div>
@@ -113,9 +114,9 @@ export default Vue.extend({
   }),
   async fetch() {
     const inputQuery = this.$nuxt.context.query;
-    const searchParams = new URLSearchParams(inputQuery);
-    const apiUrl = this.$store.getters['environment/apiUrl'];
-    const searchTerm = searchParams.get('search_query') || searchParams.get('q');
+    // const searchParams = new URLSearchParams(inputQuery);
+    // const apiUrl = this.$store.getters['environment/apiUrl'];
+    // const searchTerm = searchParams.get('search_query') || searchParams.get('q');
     await this.$axios
       // .get(`${apiUrl}search`, {
       //   params: {
@@ -188,8 +189,8 @@ export default Vue.extend({
       switch (type) {
         case 'video':
           return 'VideoEntry';
-        // case 'playlist':
-        //   return 'PlaylistEntry';
+        case 'playlist':
+          return 'PlaylistEntry';
         case 'channel':
           return 'ChannelEntry';
         // // case 'mix':
