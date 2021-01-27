@@ -3,7 +3,7 @@
     <nuxt-link
       class="playlist-entry-thmb"
       :to="{
-        path: '/playlist?list=' + playlist.playlistId
+        path: playlistLink
       }"
     >
       <div class="thmb-image-container">
@@ -26,24 +26,23 @@
           :alt="playlist.title"
         />
       </div>
-      <span v-if="playlist.videoCountString" class="playlist-entry-count">{{
-        playlist.videoCountString
-      }}</span>
-      <span v-if="playlist['length']" class="playlist-entry-count"
-        >{{ playlist['length'] }} videos</span
-      >
-      <span v-if="playlist.videoCount" class="playlist-entry-count"
-        >{{ playlist.videoCount }} videos</span
-      >
+      <div class="playlist-entry-count">
+        <PlaylistIcon class="playlist-icon" />
+        <span v-if="playlist.videoCountString" class="count-text">{{
+          playlist.videoCountString
+        }}</span>
+        <span v-if="playlist['length']" class="count-text">{{ playlist['length'] }} videos</span>
+        <span v-if="playlist.videoCount" class="count-text"
+          ><PlaylistIcon class="playlist-icon" />{{ playlist.videoCount }} videos</span
+        >
+      </div>
     </nuxt-link>
     <div class="playlist-entry-info">
       <nuxt-link
         v-tippy="playlist.title"
         class="playlist-entry-title tooltip"
         :to="{
-          path: `/watch?v=${
-            playlist.firstVideoId ? playlist.firstVideoId : playlist.firstVideo.id
-          }&list=${playlist.playlistId ? playlist.playlistId : playlist.playlistID}`
+          path: playlistLink
         }"
         >{{ playlist.title }}</nuxt-link
       >
@@ -83,6 +82,7 @@
 <script lang="ts">
 import { commons } from '@/plugins/commons.ts';
 import VerifiedIcon from 'vue-material-design-icons/CheckDecagram.vue';
+import PlaylistIcon from 'vue-material-design-icons/PlaylistPlay.vue';
 
 import 'tippy.js/dist/tippy.css';
 
@@ -91,14 +91,22 @@ import Vue from 'vue';
 export default Vue.extend({
   name: 'PlaylistEntry',
   components: {
-    VerifiedIcon
+    VerifiedIcon,
+    PlaylistIcon
   },
   props: {
     playlist: Object
   },
   data: () => ({
     proxyUrl: commons.proxyUrl
-  })
+  }),
+  computed: {
+    playlistLink(): string {
+      return `/watch?v=${
+        this.playlist.firstVideoId ? this.playlist.firstVideoId : this.playlist.firstVideo.id
+      }&list=${this.playlist.playlistId ? this.playlist.playlistId : this.playlist.playlistID}`;
+    }
+  }
 });
 </script>
 
@@ -111,7 +119,6 @@ export default Vue.extend({
   position: relative;
 
   .playlist-entry-thmb {
-    width: 100%;
     overflow: hidden;
     position: relative;
     box-shadow: $medium-shadow;
@@ -119,12 +126,14 @@ export default Vue.extend({
 
     .thmb-image-container {
       position: relative;
+      width: 100%;
       top: 50%;
       left: 0;
       transform: translateY(-50%);
 
       .playlist-entry-thmb-image {
-        width: 100%;
+        max-width: 100%;
+        min-width: 100%;
         display: block;
       }
     }
@@ -132,14 +141,31 @@ export default Vue.extend({
       text-decoration: none;
       color: $video-thmb-overlay-textcolor;
       position: absolute;
-      right: 0;
-      bottom: 0;
-      padding: 2px 4px;
-      margin: 8px 4px;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      padding: 5px 12px;
       background-color: $video-thmb-overlay-bgcolor;
       box-sizing: border-box;
-      border-radius: 2px;
+      border-radius: 5px;
       font-family: $default-font;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      .count-text {
+        margin: 0 0 0 10px;
+      }
+
+      .playlist-icon {
+        width: 36px;
+        height: 36px;
+
+        .material-design-icon__svg {
+          width: 36px;
+          height: 36px;
+        }
+      }
     }
   }
 
@@ -194,28 +220,6 @@ export default Vue.extend({
       color: var(--subtitle-color-light);
       font-size: 0.8rem;
       margin: 5px 0 0 0;
-    }
-  }
-
-  @media screen and (max-width: $mobile-width) {
-    width: calc(100% - 20px);
-    margin: 10px;
-
-    .playlist-entry-thmb {
-      width: 100%;
-      height: 53vw;
-
-      .thmb-image-container {
-        position: relative;
-        top: 0;
-        left: 0;
-        transform: translateY(0);
-
-        .playlist-entry-thmb-image {
-          top: 0;
-          transform: translateY(0px);
-        }
-      }
     }
   }
 }

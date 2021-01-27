@@ -36,7 +36,7 @@
         @valuechange="onSearchTypeChange"
       />
     </div> -->
-    <p v-if="searchResults" class="result-amount">
+    <p v-if="!$fetchState.pending && searchResults" class="result-amount">
       {{ searchResults.results.toLocaleString('en-US') }} results
     </p>
     <div v-if="isCorrectedSearchResult" class="correction-results links">
@@ -48,10 +48,6 @@
         <RelatedSearches :refinements="searchResults.refinements" />
       </div>
       <div class="search-videos-container">
-        <!-- <ChannelEntry v-if="result.type === 'channel'" :channel="result" /> -->
-        <!-- <Shelf v-if="result.type === 'shelf'" :data="result" /> -->
-        <!-- <PlaylistEntry v-if="result.type === 'playlist'" :playlist="result" /> -->
-        <!-- <MovieEntry :data="result" /> -->
         <component
           :is="getListEntryType(result.type)"
           v-for="(result, i) in searchResults.items"
@@ -59,6 +55,9 @@
           :video="result"
           :channel="result"
           :playlist="result"
+          :mix="result"
+          :shelf="result"
+          :horizontal="true"
           :lazy="true"
         />
       </div>
@@ -76,6 +75,7 @@
 import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
 import VideoEntry from '@/components/list/VideoEntry.vue';
 import PlaylistEntry from '@/components/list/PlaylistEntry.vue';
+import MixEntry from '@/components/list/MixEntry.vue';
 import ChannelEntry from '@/components/list/ChannelEntry.vue';
 import MovieEntry from '@/components/list/MovieEntry.vue';
 import RelatedSearches from '@/components/search/RelatedSearches.vue';
@@ -83,7 +83,6 @@ import Shelf from '@/components/search/Shelf.vue';
 import Spinner from '@/components/Spinner.vue';
 import GradientBackground from '@/components/GradientBackground.vue';
 import Dropdown from '@/components/filter/Dropdown.vue';
-// import SectionTitle from '@/components/SectionTitle.vue';
 import SearchParams from '@/plugins/services/searchParams.ts';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import Vue from 'vue';
@@ -102,7 +101,8 @@ export default Vue.extend({
     BadgeButton,
     MovieEntry,
     RelatedSearches,
-    Shelf
+    Shelf,
+    MixEntry
   },
   data: () => ({
     searchResults: null,
@@ -114,17 +114,16 @@ export default Vue.extend({
   }),
   async fetch() {
     const inputQuery = this.$nuxt.context.query;
-    // const searchParams = new URLSearchParams(inputQuery);
-    // const apiUrl = this.$store.getters['environment/apiUrl'];
-    // const searchTerm = searchParams.get('search_query') || searchParams.get('q');
+    const searchParams = new URLSearchParams(inputQuery);
+    const apiUrl = this.$store.getters['environment/apiUrl'];
+    const searchTerm = searchParams.get('search_query') || searchParams.get('q');
     await this.$axios
-      // .get(`${apiUrl}search`, {
-      //   params: {
-      //     q: searchTerm,
-      //     pages: 1
-      //   }
-      // })
-      .get('/searchresponse.json')
+      .get(`${apiUrl}search`, {
+        params: {
+          q: searchTerm,
+          pages: 1
+        }
+      })
       .then(response => {
         if (response && response.data) {
           this.searchResults = response.data;
@@ -172,7 +171,7 @@ export default Vue.extend({
     correctedSearchResultUrl(): string {
       if (this.searchResults) {
         const url = this.$nuxt.$route.fullPath;
-        const newUrl = url.replace(
+        const newUrl = decodeURIComponent(url).replace(
           this.searchResults.originalQuery,
           this.searchResults.correctedQuery
         );
@@ -193,16 +192,10 @@ export default Vue.extend({
           return 'PlaylistEntry';
         case 'channel':
           return 'ChannelEntry';
-        // // case 'mix':
-        // //   return 'MixEntry';
-        // case 'movie':
-        //   return 'MovieEntry';
-        // case 'search-refinements':
-        //   return 'RelatedSearches';
-        // case 'shelf-compact':
-        //   return 'CompactShelf';
-        // case 'shelf-vertical':
-        //   return 'VerticalShelf';
+        case 'mix':
+          return 'MixEntry';
+        case 'shelf':
+          return 'Shelf';
         default:
           return null;
       }
@@ -300,7 +293,7 @@ export default Vue.extend({
       z-index: 10;
       width: 100%;
       max-width: $main-width;
-      margin: 0 auto;
+      margin: 0 auto 10px auto;
       padding: 0 15px;
       box-sizing: border-box;
     }
@@ -337,38 +330,13 @@ export default Vue.extend({
         padding: 0;
       }
     }
-    .vertical-shelf {
-      &.channel {
-        grid-column-start: 2;
-      }
-
-      &.general {
-        grid-column-start: 1;
-      }
-      grid-column-end: -1;
-    }
-    .compact-shelf {
-      grid-column: 1 / -1;
-    }
-    .playlists-container {
-      grid-column: 1 / -1;
-
-      .playlists {
-        grid-column: 1 / -1;
-        @include viewtube-grid;
-
-        .playlist-entry {
-          padding: 0;
-        }
-      }
-    }
-    .movies {
-      grid-column: 1 / -1;
-    }
-    .videos {
+    .shelf {
       grid-column-start: 1;
       grid-column-end: -1;
-      @include viewtube-grid;
+    }
+    .channel-entry {
+      grid-column-start: 1;
+      grid-column-end: -1;
     }
   }
 

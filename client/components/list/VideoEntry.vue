@@ -27,6 +27,22 @@
           <p>{{ video.description }}</p>
         </div>
       </div>
+      <div v-if="video.isLive" class="video-live">
+        <svg
+          viewBox="0 0 24 24"
+          preserveAspectRatio="xMidYMid meet"
+          focusable="false"
+          class="live-icon"
+          fill="#fff"
+        >
+          <g>
+            <path
+              d="M16.94 6.9l-1.4 1.46C16.44 9.3 17 10.58 17 12s-.58 2.7-1.48 3.64l1.4 1.45C18.22 15.74 19 13.94 19 12s-.8-3.8-2.06-5.1zM23 12c0-3.12-1.23-5.95-3.23-8l-1.4 1.45C19.97 7.13 21 9.45 21 12s-1 4.9-2.64 6.55l1.4 1.45c2-2.04 3.24-4.87 3.24-8zM7.06 17.1l1.4-1.46C7.56 14.7 7 13.42 7 12s.6-2.7 1.5-3.64L7.08 6.9C5.78 8.2 5 10 5 12s.8 3.8 2.06 5.1zM1 12c0 3.12 1.23 5.95 3.23 8l1.4-1.45C4.03 16.87 3 14.55 3 12s1-4.9 2.64-6.55L4.24 4C2.24 6.04 1 8.87 1 12zm9-3.32v6.63l5-3.3-5-3.3z"
+            />
+          </g>
+        </svg>
+        <span class="live-text">Live</span>
+      </div>
       <div class="video-saved-progress" :style="{ width: `${videoProgressPercentage}%` }" />
       <span v-if="video.lengthSeconds && videoProgressPercentage > 0" class="video-entry-length">{{
         $formatting.getTimestampFromSeconds(video.lengthSeconds)
@@ -136,24 +152,27 @@ export default Vue.extend({
       const savedPosition = this.$accessor.videoProgress.getSavedPositionForId(
         this.video.videoId ? this.video.videoId : this.video.id
       );
-      const videoLength = this.video.lengthSeconds
-        ? this.video.lengthSeconds
-        : getSecondsFromTimestamp(this.video.duration);
-      return (savedPosition / videoLength) * 100;
+      if (this.video.duration) {
+        const videoLength = this.video.lengthSeconds
+          ? this.video.lengthSeconds
+          : getSecondsFromTimestamp(this.video.duration);
+        return (savedPosition / videoLength) * 100;
+      }
+      return 0;
     },
     videoProgressTooltip(): string {
-      const watchTime = this.$formatting.getTimestampFromSeconds(
-        this.$accessor.videoProgress.getSavedPositionForId(
-          this.video.videoId ? this.video.videoId : this.video.id
-        )
+      const savedPosition = this.$accessor.videoProgress.getSavedPositionForId(
+        this.video.videoId ? this.video.videoId : this.video.id
       );
-      const totalTime = this.$formatting.getTimestampFromSeconds(
-        this.video.lengthSeconds
-          ? this.video.lengthSeconds
-          : getSecondsFromTimestamp(this.video.duration)
-      );
-      if (this.videoProgressPercentage > 0) {
-        return `${watchTime} of ${totalTime}`;
+      if (savedPosition && this.video.duration) {
+        const timestampSeconds = getSecondsFromTimestamp(this.video.duration);
+        const watchTime = this.$formatting.getTimestampFromSeconds(savedPosition);
+        const totalTime = this.$formatting.getTimestampFromSeconds(
+          this.video.lengthSeconds ? this.video.lengthSeconds : timestampSeconds
+        );
+        if (this.videoProgressPercentage > 0) {
+          return `${watchTime} of ${totalTime}`;
+        }
       }
       return null;
     }
@@ -270,6 +289,37 @@ export default Vue.extend({
           width: 100%;
           height: 100%;
           overflow: hidden;
+        }
+      }
+    }
+
+    .video-live {
+      text-decoration: none;
+      color: $video-thmb-overlay-textcolor;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      padding: 5px 12px;
+      background-color: $video-thmb-overlay-bgcolor;
+      box-sizing: border-box;
+      border-radius: 5px;
+      font-family: $default-font;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      .live-text {
+        margin: 0 0 0 10px;
+      }
+
+      .live-icon {
+        width: 36px;
+        height: 36px;
+
+        .material-design-icon__svg {
+          width: 36px;
+          height: 36px;
         }
       }
     }

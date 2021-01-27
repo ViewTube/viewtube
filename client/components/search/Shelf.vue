@@ -1,8 +1,8 @@
 <template>
   <div class="shelf">
-    <SectionTitle :title="data.title" />
+    <SectionTitle :title="shelf.title" />
     <div class="shelf-container">
-      <VideoEntry v-for="video in data.items" :key="video.videoId" :video="video" :lazy="true" />
+      <VideoEntry v-for="video in shelf.items" :key="video.videoId" :video="video" :lazy="true" />
     </div>
   </div>
 </template>
@@ -19,7 +19,7 @@ export default Vue.extend({
     SectionTitle
   },
   props: {
-    data: Object
+    shelf: Object
   }
 });
 </script>
@@ -28,9 +28,23 @@ export default Vue.extend({
 .shelf {
   display: flex;
   flex-direction: column;
+  z-index: 11;
+  position: relative;
 
   .shelf-container {
     @include viewtube-grid;
+  }
+
+  &::after {
+    content: '';
+    display: block;
+    background-color: var(--bgcolor-alt);
+    position: absolute;
+    left: -20px;
+    top: 0;
+    width: calc(100% + 40px);
+    height: 100%;
+    border-radius: 5px;
   }
 }
 </style>

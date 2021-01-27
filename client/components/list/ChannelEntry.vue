@@ -1,6 +1,5 @@
 <template>
-  <div class="channel-entry">
-    <div class="channel-entry-background" />
+  <div class="channel-entry" :class="{ horizontal }">
     <nuxt-link
       class="channel-entry-thmb"
       :to="{ path: '/channel/' + (channel.authorId ? channel.authorId : channel.channelID) }"
@@ -44,6 +43,9 @@
         <p v-if="channel.subscribers" class="channel-entry-subcount">
           {{ channel.subscribers }}
         </p>
+        <p v-if="channel.descriptionShort" class="channel-entry-description">
+          {{ channel.descriptionShort }}
+        </p>
       </div>
     </div>
   </div>
@@ -58,7 +60,8 @@ export default Vue.extend({
   name: 'ChannelEntry',
   components: { VerifiedIcon },
   props: {
-    channel: Object
+    channel: Object,
+    horizontal: Boolean
   },
   data: () => ({
     proxyUrl: commons.proxyUrl
@@ -86,18 +89,31 @@ export default Vue.extend({
   z-index: 11;
   position: relative;
 
-  .channel-entry-background {
-    position: absolute;
-    top: 10px;
-    width: 175px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: #34363b;
-    z-index: 10;
-    transition-duration: 300ms;
-    transition-timing-function: $intro-easing;
-    transition-property: box-shadow;
-    z-index: 10;
+  &.horizontal {
+    @media screen and (min-width: $mobile-width) {
+      flex-direction: row;
+      width: 100%;
+
+      .channel-entry-thmb {
+        margin: 0 20px 0 0;
+        min-width: 175px;
+
+        .thmb-image-container {
+          width: 175px;
+          .channel-entry-thmb-image {
+            width: 175px;
+          }
+        }
+      }
+
+      .channel-entry-info {
+        padding: 0;
+      }
+    }
+
+    @media screen and (max-width: $mobile-width) {
+      width: 100%;
+    }
   }
 
   .channel-entry-thmb {
@@ -149,7 +165,6 @@ export default Vue.extend({
     .title-container {
       display: flex;
       flex-direction: row;
-      justify-content: space-between;
 
       .channel-entry-title {
         text-decoration: none;
@@ -167,6 +182,7 @@ export default Vue.extend({
         width: 16px;
         height: 16px;
         top: 6px;
+        margin: 0 0 0 5px;
 
         .material-design-icon__svg {
           width: 16px;
@@ -189,27 +205,5 @@ export default Vue.extend({
       }
     }
   }
-
-  // @media screen and (max-width: $mobile-width) {
-  //   width: calc(100% - 20px);
-  //   margin: 10px;
-
-  //   .channel-entry-thmb {
-  //     width: 100%;
-  //     height: 53vw;
-
-  //     .thmb-image-container {
-  //       position: relative;
-  //       top: 0;
-  //       left: 0;
-  //       transform: translateY(0);
-
-  //       .channel-entry-thmb-image {
-  //         top: 0;
-  //         transform: translateY(0px);
-  //       }
-  //     }
-  //   }
-  // }
 }
 </style>
