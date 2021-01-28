@@ -1,5 +1,6 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
-import ytsr, { Result } from 'ytsr';
+import Consola from 'consola';
+import ytsr, { ContinueResult, Result } from 'ytsr';
 import { SearchQueryDto } from './dto/search-query.dto';
 
 @Injectable()
@@ -13,6 +14,17 @@ export class SearchService {
     }
   }
 
+  async continueSearch(searchContinuation: Array<any>): Promise<ContinueResult> {
+    try {
+      console.log(JSON.parse(JSON.stringify(searchContinuation)));
+      const result = await ytsr.continueReq(searchContinuation);
+      return result;
+    } catch (err) {
+      Consola.error(err);
+      throw new InternalServerErrorException(`Error continuing search`);
+    }
+  }
+
   async doSearch(searchQuery: SearchQueryDto): Promise<Result> {
     try {
       if (!searchQuery.pages) {
@@ -21,6 +33,7 @@ export class SearchService {
       const result = await ytsr(searchQuery.q, searchQuery);
       return result;
     } catch (err) {
+      Consola.error(err);
       throw new InternalServerErrorException(`Error searching for ${searchQuery.q}`);
     }
   }

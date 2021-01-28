@@ -1,7 +1,7 @@
-import { Controller, UseInterceptors, CacheInterceptor, Get, Query } from '@nestjs/common';
+import { Controller, UseInterceptors, CacheInterceptor, Get, Query, Req } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Result } from 'ytsr';
+import { Continuation, ContinueResult, Result } from 'ytsr';
 import { SearchService } from './search.service';
 import { SearchQueryDto } from './dto/search-query.dto';
 
@@ -14,6 +14,13 @@ export class SearchController {
   @Get('filters')
   getFilters(@Query('q') searchString: string): Promise<any> {
     return this.searchService.getFilters(searchString);
+  }
+
+  @Get('continuation')
+  searchContinuation(@Req() request: any) {
+    console.log(JSON.parse(request));
+    // return this.searchService.continueSearch(continuationData);
+    return true;
   }
 
   @Get()

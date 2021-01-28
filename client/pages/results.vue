@@ -44,7 +44,10 @@
       <nuxt-link :to="correctedSearchResultUrl">{{ searchResults.correctedQuery }}</nuxt-link>
     </div>
     <div v-if="!$fetchState.pending && searchResults" class="search-results">
-      <div v-if="searchResults.refinements" class="search-refinements">
+      <div
+        v-if="searchResults.refinements && searchResults.refinements.length"
+        class="search-refinements"
+      >
         <RelatedSearches :refinements="searchResults.refinements" />
       </div>
       <div class="search-videos-container">
@@ -86,7 +89,6 @@ import Dropdown from '@/components/filter/Dropdown.vue';
 import SearchParams from '@/plugins/services/searchParams.ts';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import Vue from 'vue';
-import ViewTubeApi from '~/plugins/services/viewTubeApi.ts';
 
 export default Vue.extend({
   name: 'Search',
@@ -221,27 +223,33 @@ export default Vue.extend({
       SearchParams.type = element.value;
       this.reloadSearchWithParams();
     },
-    loadMoreVideos(): void {
+    async loadMoreVideos(): Promise<void> {
       this.moreVideosLoading = true;
       this.page += 1;
-      // SearchParams.page = this.page;
-      const searchParams = SearchParams.getParamsJson(this.searchQuery);
-      searchParams.nextpageRef = this.searchInformation.nextpageRef;
-      const viewTubeApi = new ViewTubeApi(this.$store.getters['environment/apiUrl']);
-      viewTubeApi.api
-        .search({ params: searchParams })
-        .then(response => {
-          this.searchResults.push(response.data.items);
-          this.searchInformation.nextpageRef = response.data.nextpageRef;
-          this.moreVideosLoading = false;
-        })
-        .catch(_ => {
-          this.$store.dispatch('messages/createMessage', {
-            type: 'error',
-            title: 'Unable to load more results',
-            message: 'Try a different search term for more results'
+
+      if (this.searchResults && this.searchResults.continuation) {
+        const apiUrl = this.$store.getters['environment/apiUrl'];
+        await this.$axios
+          .get(`${apiUrl}search/continuation`, {
+            params: {
+              data: this.searchResults.continuation
+            }
+          })
+          .then(response => {
+            if (response && response.data) {
+              debugger;
+              this.searchResults = response.data;
+              // this.searchQuery = inputQuery.search_query;
+            }
+          })
+          .catch(_ => {
+            this.$store.dispatch('messages/createMessage', {
+              type: 'error',
+              title: 'Unable to load more results',
+              message: 'Try a different search term for more results'
+            });
           });
-        });
+      }
     }
   }
 });
