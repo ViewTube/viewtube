@@ -48,7 +48,7 @@
     "@nestjs/mongoose": "^7.2.2",
     "@nestjs/passport": "^7.0.0",
     "@nestjs/platform-express": "^7.6.6",
-    "@nestjs/schedule": "^0.4.1",
+    "@nestjs/schedule": "^0.4.2",
     "@nestjs/swagger": "^4.7.12",
     "@nestjs/testing": "^7.6.6",
     "@nuxt/types": "^2.14.12",
