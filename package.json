@@ -113,7 +113,7 @@
     "ytsr": "^3.2.3"
   },
   "devDependencies": {
-    "@nestjs/schematics": "^7.2.6",
+    "@nestjs/schematics": "^7.2.7",
     "@nuxtjs/eslint-config": "^5.0.0",
     "@nuxtjs/eslint-module": "^3.0.2",
     "@types/cookie-parser": "^1.4.2",
