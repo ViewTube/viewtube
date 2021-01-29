@@ -53,7 +53,7 @@
       <div class="search-videos-container">
         <component
           :is="getListEntryType(result.type)"
-          v-for="(result, i) in searchResults.items"
+          v-for="(result, i) in resultItems"
           :key="i"
           :video="result"
           :channel="result"
@@ -108,7 +108,8 @@ export default Vue.extend({
   },
   data: () => ({
     searchResults: null,
-    searchInformation: null,
+    resultItems: [],
+    searchContinuation: null,
     loading: false,
     searchQuery: null,
     page: 0,
@@ -129,10 +130,12 @@ export default Vue.extend({
       .then(response => {
         if (response && response.data) {
           this.searchResults = response.data;
+          this.resultItems = response.data.items;
+          this.searchContinuation = response.data.continuation;
           this.searchQuery = inputQuery.search_query;
         }
       })
-      .catch(_ => {
+      .catch((_: any) => {
         this.$store.dispatch('messages/createMessage', {
           type: 'error',
           title: 'Search failed',
@@ -232,22 +235,23 @@ export default Vue.extend({
         await this.$axios
           .get(`${apiUrl}search/continuation`, {
             params: {
-              data: this.searchResults.continuation
+              continuationData: this.searchContinuation
             }
           })
-          .then(response => {
+          .then((response: { data: any }) => {
             if (response && response.data) {
-              debugger;
-              this.searchResults = response.data;
-              // this.searchQuery = inputQuery.search_query;
+              this.resultItems = this.resultItems.concat(response.data.items);
+              this.searchContinuation = response.data.continuation;
+              this.moreVideosLoading = false;
             }
           })
-          .catch(_ => {
+          .catch((_: any) => {
             this.$store.dispatch('messages/createMessage', {
               type: 'error',
               title: 'Unable to load more results',
-              message: 'Try a different search term for more results'
+              message: 'Try again or use a different search term for more results'
             });
+            this.moreVideosLoading = false;
           });
       }
     }

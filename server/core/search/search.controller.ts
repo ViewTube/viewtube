@@ -1,4 +1,12 @@
-import { Controller, UseInterceptors, CacheInterceptor, Get, Query, Req } from '@nestjs/common';
+import {
+  Controller,
+  UseInterceptors,
+  CacheInterceptor,
+  Get,
+  Query,
+  Req,
+  BadRequestException
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Continuation, ContinueResult, Result } from 'ytsr';
@@ -18,9 +26,10 @@ export class SearchController {
 
   @Get('continuation')
   searchContinuation(@Req() request: any) {
-    console.log(JSON.parse(request));
-    // return this.searchService.continueSearch(continuationData);
-    return true;
+    if (request.query.continuationData) {
+      return this.searchService.continueSearch(request.query.continuationData);
+    }
+    throw new BadRequestException('Invalid continuation data');
   }
 
   @Get()

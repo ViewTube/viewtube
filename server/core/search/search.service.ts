@@ -16,8 +16,17 @@ export class SearchService {
 
   async continueSearch(searchContinuation: Array<any>): Promise<ContinueResult> {
     try {
-      console.log(JSON.parse(JSON.stringify(searchContinuation)));
-      const result = await ytsr.continueReq(searchContinuation);
+      let continuationArray = searchContinuation;
+      if (typeof searchContinuation[2] === 'string') {
+        continuationArray = [
+          searchContinuation[0],
+          searchContinuation[1],
+          JSON.parse(searchContinuation[2]),
+          JSON.parse(searchContinuation[3])
+        ];
+        continuationArray[3].limit = Infinity;
+      }
+      const result = await ytsr.continueReq(continuationArray);
       return result;
     } catch (err) {
       Consola.error(err);
