@@ -12,6 +12,8 @@ import { ApiTags } from '@nestjs/swagger';
 import { Continuation, ContinueResult, Result } from 'ytsr';
 import { SearchService } from './search.service';
 import { SearchQueryDto } from './dto/search-query.dto';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { SearchFilterDto } from './dto/search-filter.dto';
 
 @ApiTags('Core')
 @Controller('search')
@@ -20,7 +22,7 @@ export class SearchController {
   constructor(private readonly searchService: SearchService) {}
 
   @Get('filters')
-  getFilters(@Query('q') searchString: string): Promise<any> {
+  getFilters(@Query('q') searchString: string): Promise<Array<SearchFilterDto>> {
     return this.searchService.getFilters(searchString);
   }
 

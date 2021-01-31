@@ -59,6 +59,9 @@ export default Vue.extend({
     localSearchValue: '',
     searchValue: ''
   }),
+  fetch() {
+    this.updateSearchValueFromUrl();
+  },
   watch: {
     $route() {
       this.updateSearchValueFromUrl();
@@ -74,6 +77,9 @@ export default Vue.extend({
     updateSearchValueFromUrl() {
       if (this.$route.query.search_query !== undefined) {
         this.searchValue = this.$route.query.search_query;
+        if (process.server) {
+          this.localSearchValue = this.$route.query.search_query;
+        }
       } else {
         this.searchValue = '';
       }

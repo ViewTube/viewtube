@@ -2,40 +2,7 @@
   <div class="search">
     <Spinner v-if="$fetchState.pending" class="centered search-spinner" />
     <GradientBackground :color="'blue'" />
-    <!-- <div class="filters">
-      <Dropdown
-        :values="parameters.defaults.sort_by"
-        :value="parameters.sort_by"
-        :label="'Sort by'"
-        class="dropdown-btn"
-        :no-default="false"
-        @valuechange="onSearchSortChange"
-      />
-      <Dropdown
-        :values="parameters.defaults.date"
-        :value="parameters.date"
-        :label="'Date'"
-        :no-default="true"
-        class="dropdown-btn"
-        @valuechange="onSearchDateChange"
-      />
-      <Dropdown
-        :values="parameters.defaults.duration"
-        :value="parameters.duration"
-        :label="'Duration'"
-        :no-default="true"
-        class="dropdown-btn"
-        @valuechange="onSearchDurationChange"
-      />
-      <Dropdown
-        :values="parameters.defaults.type"
-        :value="parameters.type"
-        :no-default="false"
-        :label="'Type'"
-        class="dropdown-btn"
-        @valuechange="onSearchTypeChange"
-      />
-    </div> -->
+    <Filters v-if="filters && filters.length" :filters="filters" />
     <p v-if="!$fetchState.pending && searchResults" class="result-amount">
       {{ searchResults.results.toLocaleString('en-US') }} results
     </p>
@@ -86,8 +53,8 @@ import Shelf from '@/components/search/Shelf.vue';
 import Spinner from '@/components/Spinner.vue';
 import GradientBackground from '@/components/GradientBackground.vue';
 import Dropdown from '@/components/filter/Dropdown.vue';
-import SearchParams from '@/plugins/services/searchParams.ts';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
+import Filters from '@/components/search/Filters.vue';
 import Vue from 'vue';
 
 export default Vue.extend({
@@ -104,12 +71,14 @@ export default Vue.extend({
     MovieEntry,
     RelatedSearches,
     Shelf,
-    MixEntry
+    MixEntry,
+    Filters
   },
   data: () => ({
     searchResults: null,
     resultItems: [],
     searchContinuation: null,
+    filters: [],
     loading: false,
     searchQuery: null,
     page: 0,
@@ -120,28 +89,39 @@ export default Vue.extend({
     const searchParams = new URLSearchParams(inputQuery);
     const apiUrl = this.$store.getters['environment/apiUrl'];
     const searchTerm = searchParams.get('search_query') || searchParams.get('q');
-    await this.$axios
-      .get(`${apiUrl}search`, {
+    try {
+      const filters = await this.$axios.get(`${apiUrl}search/filters`, {
         params: {
-          q: searchTerm,
-          pages: 1
+          q: searchTerm
         }
-      })
-      .then(response => {
-        if (response && response.data) {
-          this.searchResults = response.data;
-          this.resultItems = response.data.items;
-          this.searchContinuation = response.data.continuation;
+      });
+
+      if (filters && filters.data && filters.data.length) {
+        this.filters = filters.data;
+        const filterArray = this.getFilterArray(searchParams);
+
+        const searchResponse = await this.$axios.get(`${apiUrl}search`, {
+          params: {
+            q: searchTerm,
+            pages: 1,
+            filters: filterArray
+          }
+        });
+
+        if (searchResponse && searchResponse.data) {
+          this.searchResults = searchResponse.data;
+          this.resultItems = searchResponse.data.items;
+          this.searchContinuation = searchResponse.data.continuation;
           this.searchQuery = inputQuery.search_query;
         }
-      })
-      .catch((_: any) => {
-        this.$store.dispatch('messages/createMessage', {
-          type: 'error',
-          title: 'Search failed',
-          message: 'Try reloading the page'
-        });
+      }
+    } catch (_) {
+      this.$store.dispatch('messages/createMessage', {
+        type: 'error',
+        title: 'Search failed',
+        message: 'Try reloading the page'
       });
+    }
   },
   head() {
     return {
@@ -189,6 +169,19 @@ export default Vue.extend({
     '$route.query': '$fetch'
   },
   methods: {
+    getFilterArray(searchParams: URLSearchParams): Array<any> {
+      const allParams = (searchParams as any).entries();
+      const filters = [];
+      for (const param of allParams) {
+        if (this.filters.find(el => el.filterType === param[0])) {
+          filters.push({
+            filterName: param[0],
+            filterValue: param[1]
+          });
+        }
+      }
+      return filters;
+    },
     getListEntryType(type: string): string {
       switch (type) {
         case 'video':
@@ -204,27 +197,6 @@ export default Vue.extend({
         default:
           return null;
       }
-    },
-    reloadSearchWithParams() {
-      const searchParams = SearchParams.getParamsString();
-      this.$router.push(`/results?search_query=${this.searchQuery}${searchParams}`);
-      this.$fetch();
-    },
-    onSearchSortChange(element: any) {
-      SearchParams.sort_by = element.value;
-      this.reloadSearchWithParams();
-    },
-    onSearchDateChange(element: any) {
-      SearchParams.date = element.value;
-      this.reloadSearchWithParams();
-    },
-    onSearchDurationChange(element: any) {
-      SearchParams.duration = element.value;
-      this.reloadSearchWithParams();
-    },
-    onSearchTypeChange(element: any) {
-      SearchParams.type = element.value;
-      this.reloadSearchWithParams();
     },
     async loadMoreVideos(): Promise<void> {
       this.moreVideosLoading = true;
@@ -271,7 +243,7 @@ export default Vue.extend({
   .filters {
     width: 100%;
     max-width: $main-width;
-    padding: 10px 15px;
+    padding: 15px 15px 0 15px;
     margin: 0 auto;
     box-sizing: border-box;
     display: flex;
@@ -283,7 +255,8 @@ export default Vue.extend({
   }
 
   .result-amount {
-    margin: 10px auto 0 auto;
+    margin: 15px auto;
+    color: var(--subtitle-color);
   }
 
   .correction-results,

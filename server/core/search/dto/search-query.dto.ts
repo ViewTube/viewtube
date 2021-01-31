@@ -1,4 +1,5 @@
 import { Options } from 'ytsr';
+import { SelectedFilterDto } from './selected-filter.dto';
 export class SearchQueryDto implements Options {
   q: string;
   pages?: number;
@@ -6,4 +7,5 @@ export class SearchQueryDto implements Options {
   safeSearch?: boolean;
   hl?: string;
   gl?: string;
+  filters?: Array<SelectedFilterDto>;
 }

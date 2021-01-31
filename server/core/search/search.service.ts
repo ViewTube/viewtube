@@ -1,14 +1,23 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import Consola from 'consola';
 import ytsr, { ContinueResult, Result } from 'ytsr';
+import { SearchFilterDto } from './dto/search-filter.dto';
 import { SearchQueryDto } from './dto/search-query.dto';
 
 @Injectable()
 export class SearchService {
-  async getFilters(searchString: string): Promise<Array<any>> {
+  async getFilters(searchString: string): Promise<Array<SearchFilterDto>> {
     try {
       const filters = await ytsr.getFilters(searchString);
-      return Array.from(filters);
+      const filtersArray = Array.from(filters).map(el => {
+        return {
+          filterType: el[0],
+          filterValues: Array.from(el[1]).map((filterVal: any) => {
+            return filterVal[1];
+          })
+        };
+      });
+      return filtersArray;
     } catch (err) {
       throw new InternalServerErrorException(`Error getting filters for ${searchString}`);
     }
@@ -35,11 +44,24 @@ export class SearchService {
   }
 
   async doSearch(searchQuery: SearchQueryDto): Promise<Result> {
+    let currentFilter = null;
+    if (searchQuery.filters && searchQuery.filters.length > 0) {
+      for (const filter of searchQuery.filters) {
+        const filters = await ytsr.getFilters(currentFilter ? currentFilter.url : searchQuery.q);
+        const filterArray = typeof filter === 'string' ? JSON.parse(filter as any) : filter;
+
+        if (!(filterArray.filterName === 'Sort by' && filterArray.filterValue === 'Relevance')) {
+          currentFilter = filters.get(filterArray.filterName).get(filterArray.filterValue);
+        }
+      }
+    }
+
     try {
       if (!searchQuery.pages) {
         searchQuery.pages = 1;
       }
-      const result = await ytsr(searchQuery.q, searchQuery);
+      const searchString = currentFilter ? currentFilter.url : searchQuery.q;
+      const result = await ytsr(searchString, searchQuery);
       return result;
     } catch (err) {
       Consola.error(err);
