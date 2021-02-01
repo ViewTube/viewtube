@@ -110,7 +110,6 @@ export default Vue.extend({
 
   .filter-details {
     width: 100%;
-    overflow: hidden;
 
     .filter-summary {
       margin: 0;
@@ -139,8 +138,8 @@ export default Vue.extend({
 
       .control-btns {
         position: absolute;
-        bottom: 5px;
-        right: 0;
+        top: -30px;
+        left: 80px;
 
         .btn {
           background-color: var(--bgcolor-alt);
@@ -148,7 +147,7 @@ export default Vue.extend({
           color: var(--title-color);
           margin: 2px 5px 2px 0;
           border-radius: 3px;
-          padding: 3px 10px;
+          padding: 2px 10px;
           display: inline-block;
           transition: background-color 200ms $intro-easing, border 200ms $intro-easing;
           border: 2px solid var(--theme-color-translucent);
@@ -182,12 +181,14 @@ export default Vue.extend({
             position: relative;
             padding: 0 0 0 25px;
             cursor: pointer;
+            pointer-events: none;
             user-select: none;
 
             input {
               position: absolute;
               opacity: 0;
               cursor: pointer;
+              pointer-events: none;
             }
 
             p {
