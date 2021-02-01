@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Store homepage serverside, refreshes once a day from invidious [#254](https://github.com/ViewTube/viewtube-vue/pull/258), [#258](https://github.com/ViewTube/viewtube-vue/pull/254)
 - Sponsorblock support [#253](https://github.com/ViewTube/viewtube-vue/pull/253)
 - Chapter support (parses from description) [#182](https://github.com/ViewTube/viewtube-vue/pull/182)
+- New search experience using ytsr 3.x [#310](https://github.com/ViewTube/viewtube-vue/pull/310)
 - Clickable timestamps in description [#182](https://github.com/ViewTube/viewtube-vue/pull/182)
 - Quality selection in videoplayer [#182](https://github.com/ViewTube/viewtube-vue/pull/182)
 - Support MediaSession API (progressbar in mobile chrome notification) [#182](https://github.com/ViewTube/viewtube-vue/pull/182)
