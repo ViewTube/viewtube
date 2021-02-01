@@ -33,7 +33,7 @@
         </div>
         <div class="control-btns">
           <nuxt-link :to="`/results?search_query=${searchValue}`" class="reset-btn btn"
-            >Reset</nuxt-link
+            ><UndoIcon />Reset</nuxt-link
           >
         </div>
       </div>
@@ -42,9 +42,13 @@
 </template>
 
 <script lang="ts">
+import UndoIcon from 'vue-material-design-icons/Undo.vue';
 import Vue from 'vue';
 export default Vue.extend({
   name: 'Filters',
+  components: {
+    UndoIcon
+  },
   props: {
     filters: Array
   },
@@ -138,26 +142,52 @@ export default Vue.extend({
 
       .control-btns {
         position: absolute;
-        top: -30px;
-        left: 80px;
+        top: 5px;
+        left: 0;
 
         .btn {
-          background-color: var(--bgcolor-alt);
           text-decoration: none;
           color: var(--title-color);
           margin: 2px 5px 2px 0;
-          border-radius: 3px;
-          padding: 2px 10px;
           display: inline-block;
-          transition: background-color 200ms $intro-easing, border 200ms $intro-easing;
-          border: 2px solid var(--theme-color-translucent);
           width: auto;
           white-space: nowrap;
           cursor: pointer;
+          border: none;
+          box-shadow: none;
+
+          &::after {
+            border-bottom: 2px solid transparent;
+          }
+
+          &:focus {
+            &::after {
+              box-shadow: none;
+              border: none;
+              border-bottom: 2px solid var(--title-color);
+              border-radius: 0;
+              left: 0;
+              width: 100%;
+            }
+          }
+
+          .material-design-icon {
+            width: 20px;
+            height: 20px;
+            position: relative;
+            top: 2px;
+
+            .material-design-icon__svg {
+              width: 20px;
+              height: 20px;
+            }
+          }
         }
       }
 
       .filter {
+        margin: 30px 0 0 0;
+
         .filter-title {
           font-weight: bold;
         }
