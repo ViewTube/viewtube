@@ -155,10 +155,6 @@ export default Vue.extend({
           white-space: nowrap;
           cursor: pointer;
         }
-        .reset-btn {
-        }
-        .apply-btn {
-        }
       }
 
       .filter {
