@@ -22,9 +22,6 @@ export default class {
       channels: {
         url: 'channels'
       },
-      search: {
-        url: 'search'
-      },
       videos: {
         url: 'videos',
         fields: [

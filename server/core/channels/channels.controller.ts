@@ -12,6 +12,7 @@ import {
 import { Response } from 'express';
 import { ApiTags } from '@nestjs/swagger';
 import { ChannelsService } from './channels.service';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { ChannelDto } from './dto/channel.dto';
 
 @ApiTags('Core')

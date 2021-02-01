@@ -1,8 +1,10 @@
 <template>
-  <div class="channel-entry">
-    <div class="channel-entry-background" />
-    <nuxt-link class="channel-entry-thmb" :to="{ path: '/channel/' + channel.authorId }">
-      <div v-if="!channel.authorThumbnails" class="fake-thmb">
+  <div class="channel-entry" :class="{ horizontal }">
+    <nuxt-link
+      class="channel-entry-thmb"
+      :to="{ path: '/channel/' + (channel.authorId ? channel.authorId : channel.channelID) }"
+    >
+      <div v-if="!channel.authorThumbnails && !channel.avatars" class="fake-thmb">
         <h3>{{ channelNameToImgString() }}</h3>
       </div>
       <div v-if="channel.authorThumbnails" class="thmb-image-container">
@@ -12,19 +14,37 @@
           :alt="channel.author"
         />
       </div>
+      <div v-if="channel.avatars" class="thmb-image-container">
+        <img
+          class="channel-entry-thmb-image"
+          :src="proxyUrl + channel.avatars[0].url"
+          :alt="channel.author ? channel.author : channel.name"
+        />
+      </div>
     </nuxt-link>
     <div class="channel-entry-info">
-      <nuxt-link
-        v-tippy="channel.author"
-        class="channel-entry-title tooltip"
-        :to="{ path: '/channel/' + channel.authorId }"
-        >{{ channel.author }}</nuxt-link
-      >
+      <div class="title-container">
+        <nuxt-link
+          v-tippy="channel.author ? channel.author : channel.name"
+          class="channel-entry-title tooltip"
+          :to="{ path: '/channel/' + (channel.authorId ? channel.authorId : channel.channelID) }"
+          >{{ channel.author ? channel.author : channel.name }}</nuxt-link
+        >
+        <VerifiedIcon v-if="channel.verified" v-tippy="'Verified'" class="tooltip" title="" />
+      </div>
       <div class="channel-entry-stats">
-        <p class="channel-entry-videocount">{{ channel.videoCount }} videos</p>
+        <p class="channel-entry-videocount">
+          {{ channel.videoCount ? channel.videoCount : channel.videos }} videos
+        </p>
         <p v-if="channel.subCount" class="channel-entry-subcount">
           {{ channel.subCount.toLocaleString('en-US') }}
           subscribers
+        </p>
+        <p v-if="channel.subscribers" class="channel-entry-subcount">
+          {{ channel.subscribers }}
+        </p>
+        <p v-if="channel.descriptionShort" class="channel-entry-description">
+          {{ channel.descriptionShort }}
         </p>
       </div>
     </div>
@@ -33,13 +53,15 @@
 
 <script lang="ts">
 import { commons } from '@/plugins/commons.ts';
-
+import VerifiedIcon from 'vue-material-design-icons/CheckDecagram.vue';
 import Vue from 'vue';
 
 export default Vue.extend({
   name: 'ChannelEntry',
+  components: { VerifiedIcon },
   props: {
-    channel: Object
+    channel: Object,
+    horizontal: Boolean
   },
   data: () => ({
     proxyUrl: commons.proxyUrl
@@ -48,7 +70,8 @@ export default Vue.extend({
   methods: {
     channelNameToImgString(): string {
       let initials = '';
-      this.channel.author.split(' ').forEach(e => {
+      const channelName = this.channel.author ? this.channel.author : this.channel.name;
+      channelName.split(' ').forEach((e: string) => {
         initials += e.charAt(0);
       });
       return initials;
@@ -62,23 +85,35 @@ export default Vue.extend({
   width: 175px;
   display: flex;
   flex-direction: column;
-  padding: 10px;
   justify-content: flex-start;
   z-index: 11;
   position: relative;
 
-  .channel-entry-background {
-    position: absolute;
-    top: 10px;
-    width: 175px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: #34363b;
-    z-index: 10;
-    transition-duration: 300ms;
-    transition-timing-function: $intro-easing;
-    transition-property: box-shadow;
-    z-index: 10;
+  &.horizontal {
+    @media screen and (min-width: $mobile-width) {
+      flex-direction: row;
+      width: 100%;
+
+      .channel-entry-thmb {
+        margin: 0 20px 0 0;
+        min-width: 175px;
+
+        .thmb-image-container {
+          width: 175px;
+          .channel-entry-thmb-image {
+            width: 175px;
+          }
+        }
+      }
+
+      .channel-entry-info {
+        padding: 0;
+      }
+    }
+
+    @media screen and (max-width: $mobile-width) {
+      width: 100%;
+    }
   }
 
   .channel-entry-thmb {
@@ -127,16 +162,33 @@ export default Vue.extend({
     align-items: left;
     z-index: 11;
 
-    .channel-entry-title {
-      text-decoration: none;
-      margin: 0;
-      font-size: 0.9rem;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      color: var(--title-color);
-      padding: 6px 0 4px 0;
-      font-weight: bold;
+    .title-container {
+      display: flex;
+      flex-direction: row;
+
+      .channel-entry-title {
+        text-decoration: none;
+        margin: 0;
+        font-size: 0.9rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        color: var(--title-color);
+        padding: 6px 0 4px 0;
+        font-weight: bold;
+      }
+
+      .material-design-icon {
+        width: 16px;
+        height: 16px;
+        top: 6px;
+        margin: 0 0 0 5px;
+
+        .material-design-icon__svg {
+          width: 16px;
+          height: 16px;
+        }
+      }
     }
 
     .channel-entry-stats {
@@ -153,27 +205,5 @@ export default Vue.extend({
       }
     }
   }
-
-  // @media screen and (max-width: $mobile-width) {
-  //   width: calc(100% - 20px);
-  //   margin: 10px;
-
-  //   .channel-entry-thmb {
-  //     width: 100%;
-  //     height: 53vw;
-
-  //     .thmb-image-container {
-  //       position: relative;
-  //       top: 0;
-  //       left: 0;
-  //       transform: translateY(0);
-
-  //       .channel-entry-thmb-image {
-  //         top: 0;
-  //         transform: translateY(0px);
-  //       }
-  //     }
-  //   }
-  // }
 }
 </style>
