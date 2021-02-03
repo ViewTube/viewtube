@@ -14,7 +14,7 @@
           >
             <label class="radio-container">
               <input
-                :id="filterValue.name.replaceAll(' ', '-')"
+                :id="`${index}-${i}`"
                 type="radio"
                 :name="filter.filterType"
                 :value="filterValue.name"
@@ -22,11 +22,7 @@
                   filterValue.active || $route.query[filter.filterType] === filterValue.name
                 "
               />
-              <label
-                v-tippy="filterValue.description"
-                class="check"
-                :for="filterValue.name.replaceAll(' ', '-')"
-              />
+              <label v-tippy="filterValue.description" class="check" :for="`${index}-${i}`" />
               <p>{{ filterValue.name }}</p>
             </label>
           </nuxt-link>
