@@ -15,7 +15,7 @@ It can recommend, play and search for videos. It saves your watch progress and y
 [![Build Status](https://drone.oeger.li/api/badges/ViewTube/viewtube-vue/status.svg)](https://drone.oeger.li/ViewTube/viewtube-vue)
 [![vue2](https://img.shields.io/badge/vue-2.x-brightgreen.svg)](https://vuejs.org/)
 [![GitHub](https://img.shields.io/github/license/mauriceoegerli/viewtube-vue)](https://github.com/ViewTube/viewtube-vue/blob/stable/LICENSE)
-![Docker Image Size (tag)](https://img.shields.io/docker/image-size/mauriceo/viewtube/latest?label=docker%20image)
+[![Docker Image Size (tag)](https://img.shields.io/docker/image-size/mauriceo/viewtube/latest?label=docker%20image)](https://hub.docker.com/r/mauriceo/viewtube)
 
 Try the dev version on [dev.viewtube.io](https://dev.viewtube.io)
 
