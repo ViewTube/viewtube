@@ -39,7 +39,7 @@
     "**/*": "prettier --write --ignore-unknown"
   },
   "dependencies": {
-    "@babel/core": "^7.12.3",
+    "@babel/core": "^7.12.13",
     "@chenfengyuan/vue-qrcode": "^1.0.2",
     "@nestjs/common": "^7.6.7",
     "@nestjs/config": "^0.6.2",
