@@ -1209,10 +1209,10 @@
     lodash "4.17.20"
     path-to-regexp "3.2.0"
 
-"@nestjs/testing@^7.6.7":
-  version "7.6.7"
-  resolved "https://registry.yarnpkg.com/@nestjs/testing/-/testing-7.6.7.tgz#3818002538e8bc8cd5cf92740facd47ae38d52bf"
-  integrity sha512-DegNWF8P7m4aPvIDdPmR6dqT6DcEnbjig8c7BTcaNjV2Fc+YUlvss9PABBlOEUvNTU7BzUD7sqXB/HGfEp+KSw==
+"@nestjs/testing@^7.6.9":
+  version "7.6.9"
+  resolved "https://registry.yarnpkg.com/@nestjs/testing/-/testing-7.6.9.tgz#b69f87cbe3ee5af08fe5a46c8e09ebdff5714696"
+  integrity sha512-1nWuW7WHMXoiuhYPeL2+IWtR3742jYUMxduIpPLxjaeHxBmM161ylbPOkinCxgdKzVjFMblwTKXG4xIjEjrD+Q==
   dependencies:
     optional "0.1.4"
     tslib "2.1.0"
