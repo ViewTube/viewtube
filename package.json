@@ -8,7 +8,7 @@
   "license": "AGPLv3",
   "private": true,
   "scripts": {
-    "start:local": "cross-env NODE_ENV=production && npm run start",
+    "start:local": "cross-env NODE_ENV=production VIEWTUBE_API_URL=http://localhost:8066/api/ && node -r module-alias/register dist/server/main.js",
     "start": "node -r module-alias/register dist/server/main.js",
     "build:local": "cross-env NODE_ENV=production npm run build",
     "build": "rimraf dist && nuxt build && tsc -p tsconfig.build.json",
