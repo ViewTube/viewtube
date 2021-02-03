@@ -5,6 +5,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.0] - 2021-02-04
+
 ### Fixed
 
 - Improve error handling, cleanup [#289](https://github.com/ViewTube/viewtube-vue/pull/289)
@@ -97,7 +99,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial release
 
-[unreleased]: https://github.com/viewtube/viewtube-vue/compare/v0.4.1...main
+[unreleased]: https://github.com/viewtube/viewtube-vue/compare/v0.5.0...main
+[0.5.0]: https://github.com/viewtube/viewtube-vue/compare/v0.4.1...0.5.0
 [0.4.1]: https://github.com/viewtube/viewtube-vue/compare/v0.4.0...v0.4.1
 [0.4.0]: https://github.com/viewtube/viewtube-vue/compare/v0.3.1...v0.4.0
 [0.3.1]: https://github.com/viewtube/viewtube-vue/compare/v0.3.0...v0.3.1
