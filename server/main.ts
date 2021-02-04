@@ -73,10 +73,7 @@ async function bootstrap() {
 
   // START
   await server.listen(port, () => {
-    Consola.ready({
-      message: `Server listening on http://localhost:${port}`,
-      badge: true
-    });
+    Consola.ready(`Server listening on http://localhost:${port}`);
   });
 
   const homepageService = server.get(HomepageService);

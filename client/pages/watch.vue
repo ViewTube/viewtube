@@ -161,8 +161,6 @@ import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
 import Spinner from '@/components/Spinner.vue';
 import SubscribeButton from '@/components/buttons/SubscribeButton.vue';
 import Comment from '@/components/Comment.vue';
-// import Invidious from '@/plugins/services/invidious'
-import Invidious from '@/plugins/services/invidious.ts';
 import RecommendedVideos from '@/components/watch/RecommendedVideos.vue';
 import ShareOptions from '@/components/watch/ShareOptions.vue';
 import CollapsibleSection from '@/components/list/CollapsibleSection.vue';
@@ -206,27 +204,15 @@ export default Vue.extend({
           });
         }
       })
-      .catch(async () => {
-        const invidious = new Invidious(store.getters['instances/currentInstanceApi']);
-        await invidious.api
-          .videos({ id: query.v })
-          .then(response => {
-            return { video: response.data };
-          })
-          .catch(err => {
-            if (err.response) {
-              error({
-                statusCode: err.statusCode,
-                message: err.response.data.message
-              });
-            } else if (err.message) {
-              error({
-                statusCode: 500,
-                message: 'Error loading video' + err.message,
-                detail: JSON.stringify(err)
-              } as any);
-            }
-          });
+      .catch((err: any) => {
+        const errorObj = err || {
+          message: 'Error loading video'
+        };
+        error({
+          statusCode: 500,
+          message: errorObj.message,
+          detail: errorObj
+        } as any);
       });
   },
   data() {

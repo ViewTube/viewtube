@@ -12,7 +12,7 @@
         <p>Api-url: {{ apiUrl }}</p>
         <details v-if="error.detail" class="error-details">
           <summary>Full error</summary>
-          <p>{{ error.detail }}</p>
+          <pre class="json" v-html="renderJSON(error.detail)" />
         </details>
         <nuxt-link
           v-if="possibleSearch"
@@ -48,6 +48,9 @@ export default Vue.extend({
   methods: {
     retry(): void {
       window.location.reload();
+    },
+    renderJSON(json: any): string {
+      return JSON.stringify(json, null, 2);
     }
   }
 });
@@ -93,7 +96,12 @@ export default Vue.extend({
       }
 
       .error-details {
-        max-width: 80%;
+        max-width: 100%;
+        .json {
+          background-color: var(--bgcolor-translucent);
+          width: 100%;
+          overflow: scroll;
+        }
       }
 
       a {
