@@ -37,7 +37,7 @@
 
 <script lang="ts">
 import EyeIcon from 'vue-material-design-icons/Eye.vue';
-import Commons from '@/plugins/commons.ts';
+import { commons } from '@/plugins/commons.ts';
 
 import Vue from 'vue';
 
@@ -53,7 +53,7 @@ export default Vue.extend({
   },
   data() {
     return {
-      proxyUrl: Commons.proxyUrl
+      proxyUrl: commons.proxyUrl
     };
   }
 });

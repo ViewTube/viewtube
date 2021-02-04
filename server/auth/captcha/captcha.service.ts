@@ -4,6 +4,7 @@ import captcha from 'svg-captcha';
 import miniSVG from 'mini-svg-data-uri';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import Consola from 'consola';
 import { Captcha } from './schemas/captcha.schema';
 import { CaptchaDto } from './dto/captcha.dto';
 
@@ -43,14 +44,15 @@ export class CaptchaService {
           }
           return false;
         },
-        err => {
-          console.error(err);
+        _ => {
           return false;
         }
       );
   }
 
   deleteCaptcha(token: string): void {
-    this.CaptchaModel.deleteOne({ clientToken: token }).exec().then(console.log, console.error);
+    this.CaptchaModel.deleteOne({ clientToken: token })
+      .exec()
+      .catch(() => Consola.error('Error deleting captcha'));
   }
 }

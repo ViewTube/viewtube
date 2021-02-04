@@ -1,11 +1,11 @@
-import { videoInfo } from 'ytdl-core';
+import { relatedVideo, videoInfo } from 'ytdl-core';
 import { Expose, Exclude } from 'class-transformer';
 import humanizeDuration from 'humanize-duration';
+import { AuthorThumbnailDto } from 'shared/dto/video/author-thumbnail.dto';
+import { VideoDto } from 'shared/dto/video/video.dto';
+import { VideoThumbnailDto } from 'shared/dto/video/video-thumbnail.dto';
+import { RecommendedVideoDto } from 'shared/dto/video/recommended-video.dto';
 import { Common } from '../common';
-import { VideoDto } from './dto/video.dto';
-import { AuthorThumbnailDto } from './dto/author-thumbnail.dto';
-import { VideoThumbnailDto } from './dto/video-thumbnail.dto';
-import { RecommendedVideoDto } from './dto/recommended-video.dto';
 
 export class VideoEntity implements VideoDto {
   constructor(private _source: Partial<videoInfo>) {}
@@ -31,9 +31,9 @@ export class VideoEntity implements VideoDto {
 
   storyboards: Array<any> = [];
 
-  description: string = this._videoDetails.shortDescription;
+  description: string = this.playerVideoDetails.shortDescription;
 
-  descriptionHtml: string = this._videoDetails.shortDescription;
+  descriptionHtml: string = this.playerVideoDetails.shortDescription;
 
   published: number = Date.parse(this._videoDetails.publishDate);
 
@@ -78,7 +78,7 @@ export class VideoEntity implements VideoDto {
   authorUrl: string = '/channel/' + this._videoDetails.author.id;
 
   authorThumbnails: Array<AuthorThumbnailDto> = Common.getAuthorThumbnails(
-    this._videoDetails.author.avatar
+    this._videoDetails.author.thumbnails[0].url
   );
 
   authorVerified: boolean = this._videoDetails.author.verified;
@@ -165,18 +165,21 @@ export class VideoEntity implements VideoDto {
   @Expose()
   get recommendedVideos(): Array<RecommendedVideoDto> {
     return this._source.related_videos.map(vid => {
-      const video = vid as any;
+      const video = vid as relatedVideo;
       return {
         videoId: video.id,
         title: video.title,
         videoThumbnails: Common.getVideoThumbnails(video.id),
-        author: video.author,
-        authorUrl: `/channel/${video.video_id}`,
-        authorId: video.video_id,
-        authorThumbnails: Common.getAuthorThumbnailsForRecommended(video.author_thumbnail),
+        author: typeof video.author === 'string' ? video.author : video.author.name,
+        authorUrl: `/channel/${video.id}`,
+        authorId: video.id,
+        authorThumbnails:
+          typeof video.author !== 'string'
+            ? Common.getAuthorThumbnailsForRecommended(video.author.thumbnails[0].url)
+            : [],
         lengthSeconds: video.length_seconds,
         viewCountText: video.short_view_count_text,
-        viewCount: video.view_count
+        viewCount: parseInt(video.view_count)
       };
     });
   }

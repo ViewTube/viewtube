@@ -39,17 +39,14 @@ export class NotificationsService {
         webPush
           .sendNotification(subscription, payload)
           .then(
-            () => {
-              console.log('sent notification to ' + username);
-            },
+            () => {},
             reason => {
-              console.log('notification rejected', reason);
               if (reason.statusCode === 410 || reason.statusCode === 404) {
                 this.NotificationsSubscriptionModel.findOneAndDelete(subscription).exec();
               }
             }
           )
-          .catch(err => console.log('error', err));
+          .catch(_ => {});
       });
     }
   }

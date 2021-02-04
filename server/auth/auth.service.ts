@@ -22,8 +22,8 @@ export class AuthService {
           const { password, ...result } = user;
           return result;
         }
-      } catch (err) {
-        console.error(err);
+      } catch (_) {
+        return null;
       }
     }
     return null;

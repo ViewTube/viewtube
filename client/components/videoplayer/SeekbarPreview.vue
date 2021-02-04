@@ -104,7 +104,7 @@ export default Vue.extend({
   height: 90px;
   margin: 0 0 0 -11px;
   position: absolute;
-  bottom: 24px;
+  bottom: 40px;
   background-color: $video-thmb-overlay-bgcolor;
   opacity: 0;
   pointer-events: none;

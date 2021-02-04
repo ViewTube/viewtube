@@ -1,10 +1,11 @@
 import { Options } from 'ytsr';
+import { SelectedFilterDto } from './selected-filter.dto';
 export class SearchQueryDto implements Options {
   q: string;
+  pages?: number;
   limit?: number;
   safeSearch?: boolean;
-  nextpageRef?: string;
   hl?: string;
   gl?: string;
-  headers?: { [key: string]: string };
+  filters?: Array<SelectedFilterDto>;
 }

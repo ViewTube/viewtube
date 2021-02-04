@@ -15,7 +15,9 @@ It can recommend, play and search for videos. It saves your watch progress and y
 [![Build Status](https://drone.oeger.li/api/badges/ViewTube/viewtube-vue/status.svg)](https://drone.oeger.li/ViewTube/viewtube-vue)
 [![vue2](https://img.shields.io/badge/vue-2.x-brightgreen.svg)](https://vuejs.org/)
 [![GitHub](https://img.shields.io/github/license/mauriceoegerli/viewtube-vue)](https://github.com/ViewTube/viewtube-vue/blob/stable/LICENSE)
-![Docker Image Size (tag)](https://img.shields.io/docker/image-size/mauriceo/viewtube/latest?label=docker%20image)
+[![Docker Image Size (tag)](https://img.shields.io/docker/image-size/mauriceo/viewtube/latest?label=docker%20image)](https://hub.docker.com/r/mauriceo/viewtube)
+
+Try the dev version on [dev.viewtube.io](https://dev.viewtube.io)
 
 <h2 align="center">
 <sub>
@@ -51,7 +53,7 @@ Invidious instances can easily get rate-limited by Google. With ViewTube, you ca
      <br>
      Just go to settings > instance and choose a different one!
      <br>
-     Instances are fetched from the <a href="https://github.com/iv-org/invidious/wiki/Invidious-Instances">invidious wiki</a>.
+     Instances are fetched from the <a href="https://github.com/iv-org/documentation/blob/master/Invidious-Instances.md">invidious wiki</a>.
    </td>
    <td><img src=".github/images/switch_instance.gif" /></td>
  </tr>

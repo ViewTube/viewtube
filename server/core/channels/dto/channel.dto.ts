@@ -1,4 +1,4 @@
-import { AuthorThumbnailDto } from 'server/core/videos/dto/author-thumbnail.dto';
+import { AuthorThumbnailDto } from 'shared/dto/video/author-thumbnail.dto';
 import { ChannelLinkDto } from './channel-link.dto';
 import { RelatedChannelDto } from './related-channel.dto';
 import { VideoSectionDto } from './video-section.dto';

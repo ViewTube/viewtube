@@ -8,8 +8,8 @@ import {
   CacheInterceptor
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { VideoDto } from 'shared/dto/video/video.dto';
 import { VideosService } from './videos.service';
-import { VideoDto } from './dto/video.dto';
 
 @ApiTags('Core')
 @UseInterceptors(CacheInterceptor)

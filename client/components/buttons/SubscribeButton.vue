@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts">
-// import Commons from '@/plugins/commons.ts';
+// import { commons } from '@/plugins/commons.ts';
 
 import Vue from 'vue';
 
@@ -73,7 +73,6 @@ export default Vue.extend({
           })
           // eslint-disable-next-line handle-callback-err
           .catch(() => {
-            // console.log(error);
             me.isSubscribed = false;
             me.disabled = true;
           });
@@ -99,8 +98,12 @@ export default Vue.extend({
               this.expanded = false;
             }
           })
-          .catch(error => {
-            console.error(error);
+          .catch(_ => {
+            this.$store.dispatch('messages/createMessage', {
+              type: 'error',
+              title: 'Unable to subscribe',
+              message: `You may not be logged in. Try reloading the page.`
+            });
             this.disabled = false;
           });
       }
@@ -124,8 +127,12 @@ export default Vue.extend({
               this.expanded = false;
             }
           })
-          .catch(error => {
-            console.error(error);
+          .catch(_ => {
+            this.$store.dispatch('messages/createMessage', {
+              type: 'error',
+              title: 'Unable to unsubscribe',
+              message: `You may not be logged in. Try to reload the page.`
+            });
             this.disabled = false;
           });
       }

@@ -1,4 +1,4 @@
-// import Commons from '@/plugins/commons.ts';
+// import { commons } from '@/plugins/commons.ts';
 import axios from 'axios';
 import { createApi } from '@/plugins/apiCreator';
 
@@ -17,20 +17,6 @@ export default class {
   apiPrototype = {
     request: {},
     requests: {
-      popular: {
-        url: 'v1/popular',
-        fields: [
-          'type',
-          'title',
-          'videoId',
-          'videoThumbnails',
-          'lengthSeconds',
-          'viewCount',
-          'author',
-          'authorId',
-          'publishedText'
-        ]
-      },
       stats: {
         url: 'v1/stats'
       },

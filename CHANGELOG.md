@@ -3,6 +3,29 @@
 This file is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+## [0.5.0] - 2021-02-04
+
+### Fixed
+
+- Improve error handling, cleanup [#289](https://github.com/ViewTube/viewtube-vue/pull/289)
+- Other small fixes
+- Update dependencies
+
+## Added
+
+- Store homepage serverside, refreshes once a day from invidious [#254](https://github.com/ViewTube/viewtube-vue/pull/258), [#258](https://github.com/ViewTube/viewtube-vue/pull/254)
+- Sponsorblock support [#253](https://github.com/ViewTube/viewtube-vue/pull/253)
+- Chapter support (parses from description) [#182](https://github.com/ViewTube/viewtube-vue/pull/182)
+- New search experience using ytsr 3.x [#310](https://github.com/ViewTube/viewtube-vue/pull/310)
+- Clickable timestamps in description [#182](https://github.com/ViewTube/viewtube-vue/pull/182)
+- Quality selection in videoplayer [#182](https://github.com/ViewTube/viewtube-vue/pull/182)
+- Support MediaSession API (progressbar in mobile chrome notification) [#182](https://github.com/ViewTube/viewtube-vue/pull/182)
+- Fix videoplayer volume selector for mobile [#182](https://github.com/ViewTube/viewtube-vue/pull/182)
+- Double tap to go forwards/backwards in videoplayer [#182](https://github.com/ViewTube/viewtube-vue/pull/182)
+- Use arrow keys for volume in videoplayer [#182](https://github.com/ViewTube/viewtube-vue/pull/182)
+
 ## [0.4.1] - 2020-10-26
 
 ### Fixed
@@ -76,7 +99,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial release
 
-[unreleased]: https://github.com/viewtube/viewtube-vue/compare/v0.4.1...main
+[unreleased]: https://github.com/viewtube/viewtube-vue/compare/v0.5.0...main
+[0.5.0]: https://github.com/viewtube/viewtube-vue/compare/v0.4.1...0.5.0
 [0.4.1]: https://github.com/viewtube/viewtube-vue/compare/v0.4.0...v0.4.1
 [0.4.0]: https://github.com/viewtube/viewtube-vue/compare/v0.3.1...v0.4.0
 [0.3.1]: https://github.com/viewtube/viewtube-vue/compare/v0.3.0...v0.3.1

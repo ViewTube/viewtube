@@ -1,6 +1,7 @@
 import { Module, CacheModule } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
+import { General, GeneralSchema } from 'server/common/general.schema';
 import { VideosController } from './videos/videos.controller';
 import { VideosService } from './videos/videos.service';
 import { VideoplaybackController } from './videoplayback/videoplayback.controller';
@@ -14,8 +15,7 @@ import {
 } from './channels/schemas/channel-basic-info.schema';
 import { SearchModule } from './search/search.module';
 import { ChannelsModule } from './channels/channels.module';
-import { General, GeneralSchema } from 'server/common/general.schema';
-
+import { HomepageModule } from './homepage/homepage.module';
 @Module({
   imports: [
     CacheModule.register({
@@ -47,7 +47,8 @@ import { General, GeneralSchema } from 'server/common/general.schema';
     AutocompleteModule,
     ConfigModule.forRoot(),
     SearchModule,
-    ChannelsModule
+    ChannelsModule,
+    HomepageModule
   ],
   controllers: [VideosController, VideoplaybackController],
   providers: [VideosService, VideoplaybackService],

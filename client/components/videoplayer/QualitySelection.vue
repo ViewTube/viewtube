@@ -1,37 +1,46 @@
 <template>
   <div class="quality" @mouseup.stop="onQualityMouseup">
     <SettingsIcon @click.stop="onQualityInteraction" @touchend.stop="onQualityTouchInteraction" />
-    <transition name="circle-bottom">
-      <div v-if="popup" ref="qualityPopup" class="quality-popup">
-        <div class="quality-submenu adaptive">
-          <span class="quality-title"> <MagicIcon />Automatic quality </span>
-          <div
-            class="qualities-info"
-            :class="{ selected: selectedQuality === 0 }"
-            @click.stop="setAutoQuality"
-            @touchend.stop="onQualityTouchInteraction"
-          >
-            <p>Max: {{ maxAdaptiveQuality.qualityLabel }}</p>
-            <p>Min: {{ minAdaptiveQuality.qualityLabel }}</p>
+    <portal to="video-player">
+      <transition name="quality-popup">
+        <div
+          v-if="popup"
+          class="quality-popup-overlay"
+          @click.stop="popup = false"
+          @touchend.stop="popup = false"
+        >
+          <div ref="qualityPopup" class="quality-popup">
+            <div v-if="adaptiveFormats" class="quality-submenu adaptive">
+              <span class="quality-title"> <MagicIcon />Automatic quality </span>
+              <div
+                class="qualities-info"
+                :class="{ selected: selectedQuality === 0 }"
+                @click.stop="setAutoQuality"
+                @touchend.stop="onQualityTouchInteraction"
+              >
+                <p>Max: {{ maxAdaptiveQuality.qualityLabel }}</p>
+                <p>Min: {{ minAdaptiveQuality.qualityLabel }}</p>
+              </div>
+            </div>
+            <div class="quality-submenu">
+              <span class="quality-title"> <HighDefinitionIcon />Video Quality</span>
+              <div
+                v-for="(quality, id) in formatQualities"
+                :key="id"
+                class="format-quality-entry"
+                :class="{
+                  selected: selectedQuality === id
+                }"
+                @click.stop="setFormatQuality(id)"
+                @touchend.stop="onQualityTouchInteraction"
+              >
+                {{ quality.qualityLabel }}
+              </div>
+            </div>
           </div>
         </div>
-        <div class="quality-submenu">
-          <span class="quality-title"> <HighDefinitionIcon />Legacy format </span>
-          <div
-            v-for="(quality, id) in formatStreams"
-            :key="id + 1"
-            class="format-quality-entry"
-            :class="{
-              selected: selectedQuality === id + 1
-            }"
-            @click.stop="setFormatQuality(id + 1)"
-            @touchend.stop="onQualityTouchInteraction"
-          >
-            {{ quality.qualityLabel }}
-          </div>
-        </div>
-      </div>
-    </transition>
+      </transition>
+    </portal>
   </div>
 </template>
 
@@ -50,12 +59,12 @@ export default Vue.extend({
     MagicIcon
   },
   props: {
+    selectedQuality: Number,
     formatStreams: Array,
-    adaptiveFormats: Array
+    adaptiveFormats: { type: Array, required: false, default: null }
   },
   data: () => ({
     qualityUrl: null,
-    selectedQuality: 1,
     popup: false,
     elementHeight: 0
   }),
@@ -66,6 +75,9 @@ export default Vue.extend({
     minAdaptiveQuality(): any {
       return this.sortedAdaptiveQualities[0];
     },
+    formatQualities(): any {
+      return this.formatStreams.filter(el => el.qualityLabel);
+    },
     sortedAdaptiveQualities(): any {
       return this.adaptiveVideos.slice().sort((a, b) => parseInt(a.bitrate) - parseInt(b.bitrate));
     },
@@ -74,6 +86,7 @@ export default Vue.extend({
         if (value.type) {
           return value.type.match(/.*video.*/);
         }
+        return false;
       });
     }
   },
@@ -83,27 +96,37 @@ export default Vue.extend({
     },
     onQualityMouseup() {},
     onQualityTouchInteraction() {},
-    setFormatQuality() {},
+    setFormatQuality(nr: number) {
+      this.$emit('qualityselect', nr);
+    },
     setAutoQuality() {}
   }
 });
 </script>
 
 <style lang="scss">
-.circle-bottom-enter-active,
-.circle-bottom-leave-active {
-  transition: clip-path 300ms $intro-easing, transform 300ms $intro-easing;
+.quality-popup-enter-active,
+.quality-popup-leave-active {
+  .quality-popup {
+    transition: transform 300ms $intro-easing;
+  }
+  transition: opacity 280ms $intro-easing;
 }
-.circle-bottom-enter-to,
-.circle-bottom-leave {
-  clip-path: circle(200% at 95% 95%);
-  transform: translateY(0);
+.quality-popup-enter-to,
+.quality-popup-leave {
+  .quality-popup {
+    transform: scale(1);
+  }
+  opacity: 1;
 }
-.circle-bottom-enter,
-.circle-bottom-leave-to {
-  clip-path: circle(0 at 95% 95%);
-  transform: translateY(20px);
+.quality-popup-enter,
+.quality-popup-leave-to {
+  .quality-popup {
+    transform: scale(1.1);
+  }
+  opacity: 0;
 }
+$bottom-controls-height: $bottom-overlay-height - $video-seekbar-height;
 
 .quality {
   width: 40px;
@@ -111,12 +134,20 @@ export default Vue.extend({
   margin: 0;
   align-self: center;
   position: relative;
-  $bottom-controls-height: $bottom-overlay-height - $video-seekbar-height;
+}
+
+.quality-popup-overlay {
+  position: absolute;
+  background-color: #00000063;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 141;
+  display: grid;
 
   .quality-popup {
-    position: absolute;
-    top: -240px;
-    right: 0;
+    margin: auto;
     display: flex;
     flex-direction: column;
     width: unset;

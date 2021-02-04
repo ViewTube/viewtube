@@ -1,7 +1,7 @@
 <template>
   <div class="watch">
-    <video v-if="!jsEnabled" controls :src="getHDUrl()" class="nojs-player" />
-    <VideoPlayer v-if="jsEnabled" :key="video.id" :video="video" class="video-player-p" />
+    <!-- <video v-if="!jsEnabled" controls :src="getHDUrl()" class="nojs-player" /> -->
+    <VideoPlayer :key="video.id" ref="videoplayer" :video="video" class="video-player-p" />
     <div class="video-meta">
       <CollapsibleSection
         class="recommended-videos mobile"
@@ -17,15 +17,12 @@
         <h1 class="video-infobox-title">
           {{ video.title }}
         </h1>
-        <div
-          v-if="video.viewCount && video.likeCount && video.dislikeCount"
-          class="video-infobox-stats"
-        >
-          <p class="infobox-views">
+        <div class="video-infobox-stats">
+          <p v-if="video.viewCount" class="infobox-views">
             {{ parseFloat(video.viewCount).toLocaleString('en-US') }}
             views
           </p>
-          <div class="infobox-rating">
+          <div v-if="video.likeCount && video.dislikeCount" class="infobox-rating">
             <div class="infobox-likecount">
               <div class="infobox-likes">
                 <ThumbsUp class="thumbs-icon" />
@@ -103,7 +100,7 @@
             </div>
           </div>
         </transition>
-        <p v-if="video.keywords" class="video-infobox-text">tags:</p>
+        <p v-if="video.keywords" class="video-infobox-text">Tags</p>
         <div v-if="video.keywords" class="video-infobox-tags">
           <div v-if="video.keywords" class="tags-container">
             <BadgeButton
@@ -117,11 +114,18 @@
           </div>
         </div>
         <div class="comments-description">
-          <div v-create-links class="video-infobox-description links">
+          <div
+            v-create-links
+            v-create-timestamp-links="setTimestamp"
+            class="video-infobox-description links"
+          >
             {{ video.description }}
           </div>
           <Spinner v-if="commentsLoading" />
-          <div v-if="!commentsLoading" class="comments-container">
+          <div v-if="commentsError" class="comments-error">
+            <p>Error loading comments. Try changing the invidious instance.</p>
+          </div>
+          <div v-if="!commentsLoading && comment" class="comments-container">
             <div class="comments-count">
               <p>
                 {{ comment.commentCount && comment.commentCount.toLocaleString('en-US') }}
@@ -155,8 +159,6 @@ import ThumbsDown from 'vue-material-design-icons/ThumbDown.vue';
 import Share from 'vue-material-design-icons/Share.vue';
 import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
 import Spinner from '@/components/Spinner.vue';
-import Commons from '@/plugins/commons.ts';
-import VideoPlayer from '@/components/videoplayer/VideoPlayer.vue';
 import SubscribeButton from '@/components/buttons/SubscribeButton.vue';
 import Comment from '@/components/Comment.vue';
 // import Invidious from '@/plugins/services/invidious'
@@ -167,7 +169,6 @@ import CollapsibleSection from '@/components/list/CollapsibleSection.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import Vue from 'vue';
 import ViewTubeApi from '@/plugins/services/viewTubeApi.ts';
-// import invidious from '~/plugins/services/invidious';
 
 export default Vue.extend({
   name: 'Watch',
@@ -177,21 +178,16 @@ export default Vue.extend({
     ThumbsDown,
     Share,
     LoadMoreIcon,
-    VideoPlayer,
+    VideoPlayer: () =>
+      import(
+        /* webpackChunkName: "group-videoplayer" */ '@/components/videoplayer/VideoPlayer.vue'
+      ),
     SubscribeButton,
     Comment,
     RecommendedVideos,
     ShareOptions,
     CollapsibleSection,
     BadgeButton
-  },
-  watchQuery(newQuery: any) {
-    const videoId = newQuery.v;
-    if (this) {
-      this.loadComments(videoId);
-      this.$store.commit('miniplayer/setCurrentVideo', this.video);
-    }
-    return true;
   },
   asyncData({ store, query, error }) {
     const viewTubeApi = new ViewTubeApi(store.getters['environment/apiUrl']);
@@ -202,13 +198,15 @@ export default Vue.extend({
       .then(response => {
         if (response) {
           return { video: response.data };
-          // console.log(this.video.description)
         } else {
-          // throw new Error('Error loading video')
+          this.$store.dispatch('messages/createMessage', {
+            type: 'error',
+            title: 'Error loading video',
+            message: 'Loading video information failed. Try reloading the page.'
+          });
         }
       })
-      .catch(async err => {
-        console.log(err);
+      .catch(async () => {
         const invidious = new Invidious(store.getters['instances/currentInstanceApi']);
         await invidious.api
           .videos({ id: query.v })
@@ -222,7 +220,6 @@ export default Vue.extend({
                 message: err.response.data.message
               });
             } else if (err.message) {
-              console.log(err.message);
               error({
                 statusCode: 500,
                 message: 'Error loading video' + err.message,
@@ -238,87 +235,12 @@ export default Vue.extend({
       video: [],
       comment: null,
       commentsLoading: true,
+      commentsError: false,
       commentsContinuationLink: null,
       commentsContinuationLoading: false,
-      commons: Commons,
       recommendedOpen: false,
       shareOpen: false
     };
-  },
-  computed: {
-    browser() {
-      return process.browser;
-    },
-    encodedUrl() {
-      if (process.browser) {
-        return encodeURIComponent(window.location.href);
-      } else {
-        return '';
-      }
-    }
-  },
-  mounted() {
-    if (process.browser) {
-      this.jsEnabled = true;
-    }
-    if (window && window.innerWidth > 700) {
-      this.recommendedOpen = true;
-    }
-    this.loadComments();
-    this.$store.commit('miniplayer/setCurrentVideo', this.video);
-  },
-  methods: {
-    getHDUrl() {
-      if (this.video.formatStreams) {
-        const video = this.video.formatStreams.find(e => {
-          return e.qualityLabel && e.qualityLabel === '720p';
-        });
-        if (video) {
-          return video.url;
-        } else if (this.video.formatStreams.length > 0) {
-          return this.video.formatStreams[0].url;
-        }
-      }
-      return '#';
-    },
-    loadComments(evtVideoId: string) {
-      const videoId = evtVideoId || this.$route.query.v;
-      fetch(`${this.$store.getters['instances/currentInstanceApiV1']}comments/${videoId}`, {
-        cache: 'force-cache',
-        method: 'GET'
-      })
-        .then(response => response.json())
-        .then(data => {
-          if (data.comments && data.comments.length > 0) {
-            this.comment = data;
-            this.commentsLoading = false;
-            this.commentsContinuationLink = data.continuation || null;
-          }
-        })
-        .catch(error => {
-          console.error(error);
-        });
-    },
-    loadMoreComments() {
-      this.commentsContinuationLoading = true;
-      const videoId = this.$route.query.v;
-      fetch(
-        `${this.$store.getters['instances/currentInstanceApiV1']}comments/${videoId}?continuation=${this.commentsContinuationLink}`,
-        {
-          cache: 'force-cache',
-          method: 'GET'
-        }
-      )
-        .then(response => response.json())
-        .then(data => {
-          this.comment.comments = this.comment.comments.concat(data.comments);
-          this.commentsContinuationLoading = false;
-          this.commentsContinuationLink = data.continuation || null;
-        })
-        .catch(error => {
-          console.error(error);
-        });
-    }
   },
   head() {
     return {
@@ -352,6 +274,106 @@ export default Vue.extend({
         }
       ]
     };
+  },
+  computed: {
+    browser() {
+      return process.browser;
+    },
+    encodedUrl() {
+      if (process.browser) {
+        return encodeURIComponent(window.location.href);
+      } else {
+        return '';
+      }
+    }
+  },
+  watchQuery(newQuery: any) {
+    const videoId = newQuery.v;
+    if (this) {
+      this.loadComments(videoId);
+      this.$store.commit('miniplayer/setCurrentVideo', this.video);
+    }
+    return true;
+  },
+  mounted() {
+    if (process.browser) {
+      this.jsEnabled = true;
+    }
+    if (window && window.innerWidth > 700) {
+      this.recommendedOpen = true;
+    }
+    this.loadComments();
+    this.$store.commit('miniplayer/setCurrentVideo', this.video);
+  },
+  methods: {
+    setTimestamp(e: any, seconds: number) {
+      const searchParams = new URLSearchParams(window.location.search);
+      searchParams.set('t', `${seconds}s`);
+      this.$router.push(`${location.pathname}?${searchParams.toString()}`);
+      this.$refs.videoplayer.setVideoTime(seconds);
+      e.preventDefault();
+    },
+    getHDUrl() {
+      if (this.video.formatStreams) {
+        const video = this.video.formatStreams.find(e => {
+          return e.qualityLabel && e.qualityLabel === '720p';
+        });
+        if (video) {
+          return video.url;
+        } else if (this.video.formatStreams.length > 0) {
+          return this.video.formatStreams[0].url;
+        }
+      }
+      return '#';
+    },
+    loadComments(evtVideoId: string) {
+      const videoId = evtVideoId || this.$route.query.v;
+      fetch(`${this.$store.getters['instances/currentInstanceApiV1']}comments/${videoId}`, {
+        cache: 'force-cache',
+        method: 'GET'
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (data.comments && data.comments.length > 0) {
+            this.comment = data;
+            this.commentsLoading = false;
+            this.commentsContinuationLink = data.continuation || null;
+          } else {
+            this.commentsLoading = false;
+            this.commentsError = true;
+            this.comment = null;
+          }
+        })
+        .catch(_ => {
+          this.commentsLoading = false;
+          this.commentsError = true;
+          this.comment = null;
+        });
+    },
+    loadMoreComments() {
+      this.commentsContinuationLoading = true;
+      const videoId = this.$route.query.v;
+      fetch(
+        `${this.$store.getters['instances/currentInstanceApiV1']}comments/${videoId}?continuation=${this.commentsContinuationLink}`,
+        {
+          cache: 'force-cache',
+          method: 'GET'
+        }
+      )
+        .then(response => response.json())
+        .then(data => {
+          this.comment.comments = this.comment.comments.concat(data.comments);
+          this.commentsContinuationLoading = false;
+          this.commentsContinuationLink = data.continuation || null;
+        })
+        .catch(_ => {
+          this.$store.dispatch('messages/createMessage', {
+            type: 'error',
+            title: 'Error loading more comments',
+            message: 'Loading comments failed. There may not be any more comments.'
+          });
+        });
+    }
   }
 });
 </script>
@@ -636,6 +658,11 @@ export default Vue.extend({
           height: 13px;
           margin: 0 4px;
         }
+      }
+
+      .comments-error {
+        margin: 50px 0 0 0;
+        color: var(--error-color-red);
       }
 
       .comments-container {

@@ -64,11 +64,11 @@ export const actions = actionTree(
       }
       return { success };
     },
-    async register({ commit }, { username, password, captchaSolution }) {
+    async register({ commit, dispatch }, { username, password, captchaSolution }) {
       if (this.app.$accessor.captcha.token) {
-        let registeredUsername = null;
+        let registerResult = null;
         try {
-          const result = await this.$axios.post(
+          registerResult = await this.$axios.post(
             `${this.app.$accessor.environment.env.apiUrl}auth/register`,
             {
               username,
@@ -77,8 +77,6 @@ export const actions = actionTree(
               captchaSolution
             }
           );
-          commit('setUsername', result.data.username);
-          registeredUsername = result.data.username;
         } catch (err) {
           if (err.response.data) {
             return {
@@ -89,7 +87,19 @@ export const actions = actionTree(
             error: 'Registration failed'
           };
         }
-        return { username: registeredUsername };
+        if (registerResult && registerResult.data) {
+          const loginSuccess = await dispatch('login', {
+            username: registerResult.data.username,
+            password
+          });
+          if (loginSuccess) {
+            commit('setUsername', registerResult.data.username);
+            return { username: registerResult.data.username };
+          }
+        }
+        return {
+          error: 'Registration failed'
+        };
       }
     }
   }

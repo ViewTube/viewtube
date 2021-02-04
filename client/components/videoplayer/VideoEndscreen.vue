@@ -14,7 +14,6 @@
 </template>
 
 <script lang="ts">
-// import Commons from '@/plugins/commons.ts';
 import EndscreenCard from '@/components/videoplayer/EndscreenCard.vue';
 
 import Vue from 'vue';
@@ -49,9 +48,7 @@ export default Vue.extend({
       .then(data => {
         this.endscreenData = data;
       })
-      .catch(error => {
-        console.error(error);
-      });
+      .catch(_ => {});
   },
   methods: {
     onCardEnter() {

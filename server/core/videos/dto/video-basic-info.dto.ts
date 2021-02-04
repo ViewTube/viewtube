@@ -1,4 +1,4 @@
-import { VideoThumbnailDto } from './video-thumbnail.dto';
+import { VideoThumbnailDto } from 'shared/dto/video/video-thumbnail.dto';
 
 export class VideoBasicInfoDto {
   videoId: string;

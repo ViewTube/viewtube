@@ -33,7 +33,7 @@
 
 <script lang="ts">
 import VideoPlayer from '@/components/videoplayer/VideoPlayer.vue';
-import Commons from '@/plugins/commons.ts';
+import { commons } from '@/plugins/commons.ts';
 
 import Vue from 'vue';
 
@@ -91,10 +91,10 @@ export default Vue.extend({
     },
     onDragSpaceTouchMove(e) {
       const mouseOutOfScreenY = Boolean(
-        e.touches[0].pageY < 0 || e.touches[0].pageY > Commons.getPageHeight()
+        e.touches[0].pageY < 0 || e.touches[0].pageY > commons.getPageHeight()
       );
       const mouseOutOfScreenX = Boolean(
-        e.touches[0].pageX < 0 || e.touches[0].pageX > Commons.getPageWidth()
+        e.touches[0].pageX < 0 || e.touches[0].pageX > commons.getPageWidth()
       );
       if (mouseOutOfScreenY || mouseOutOfScreenX) {
         this.dragging = false;
@@ -116,8 +116,8 @@ export default Vue.extend({
       document.removeEventListener('mouseup', this.onDragSpaceMouseUp);
     },
     onDragSpaceMouseMove(e) {
-      const mouseOutOfScreenY = Boolean(e.pageY < 0 || e.pageY > Commons.getPageHeight());
-      const mouseOutOfScreenX = Boolean(e.pageX < 0 || e.pageX > Commons.getPageWidth());
+      const mouseOutOfScreenY = Boolean(e.pageY < 0 || e.pageY > commons.getPageHeight());
+      const mouseOutOfScreenX = Boolean(e.pageX < 0 || e.pageX > commons.getPageWidth());
       if (mouseOutOfScreenY || mouseOutOfScreenX) {
         this.calculateFinish(e.pageX, e.pageY);
         this.dragging = false;
@@ -135,16 +135,16 @@ export default Vue.extend({
 
         if (posX - halfElementWidth < 0) {
           positionLeft = posX - (0 - (posX - halfElementWidth)) / -1.5;
-        } else if (posX + halfElementWidth > Commons.getPageWidth()) {
-          positionLeft = posX - (Commons.getPageWidth() - (posX + halfElementWidth)) / -1.5;
+        } else if (posX + halfElementWidth > commons.getPageWidth()) {
+          positionLeft = posX - (commons.getPageWidth() - (posX + halfElementWidth)) / -1.5;
         } else {
           positionLeft = posX;
         }
 
         if (posY - tenthElementHeight < 0) {
           positionTop = posY - (0 - (posY - tenthElementHeight)) / -1.5;
-        } else if (posY + tenthElementHeight * 9 > Commons.getPageHeight()) {
-          positionTop = posY - (Commons.getPageHeight() - (posY + tenthElementHeight * 9)) / -1.5;
+        } else if (posY + tenthElementHeight * 9 > commons.getPageHeight()) {
+          positionTop = posY - (commons.getPageHeight() - (posY + tenthElementHeight * 9)) / -1.5;
         } else {
           positionTop = posY;
         }
@@ -159,8 +159,8 @@ export default Vue.extend({
       setTimeout(() => {
         me.transition = false;
       }, 600);
-      const pageWidth = Commons.getPageWidth();
-      const pageHeight = Commons.getPageHeight();
+      const pageWidth = commons.getPageWidth();
+      const pageHeight = commons.getPageHeight();
       const halfElementWidth = this.$refs.miniplayer.clientWidth / 2;
       const tenthElementHeight = this.$refs.miniplayer.clientHeight / 10;
 

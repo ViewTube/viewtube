@@ -29,6 +29,7 @@
             :value="notificationsEnabled"
             :label="'Enable notifications'"
             :disabled="notificationsBtnDisabled"
+            :btnId="'index-btn-1'"
             @valuechange="subscribeToNotifications"
           />
         </div>
@@ -63,7 +64,6 @@
 </template>
 
 <script lang="ts">
-import Commons from '@/plugins/commons.ts';
 import SubscriptionImport from '@/components/popup/SubscriptionImport.vue';
 import VideoEntry from '@/components/list/VideoEntry.vue';
 import GradientBackground from '@/components/GradientBackground.vue';
@@ -88,6 +88,19 @@ export default Vue.extend({
     ImportIcon,
     Pagination
   },
+  data: () => ({
+    videos: [],
+    loading: true,
+    notificationsEnabled: false,
+    notificationsBtnDisabled: false,
+    notificationsSupported: true,
+    subscriptionImportOpen: false,
+    vapidKey: null,
+    currentPage: 1,
+    currentPageTest: 1,
+    pageCount: 1,
+    pageCountTest: 1
+  }),
   async fetch() {
     if (process.browser) {
       // window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -115,20 +128,29 @@ export default Vue.extend({
         });
       });
   },
-  data: () => ({
-    videos: [],
-    loading: true,
-    commons: Commons,
-    notificationsEnabled: false,
-    notificationsBtnDisabled: false,
-    notificationsSupported: true,
-    subscriptionImportOpen: false,
-    vapidKey: null,
-    currentPage: 1,
-    currentPageTest: 1,
-    pageCount: 1,
-    pageCountTest: 1
-  }),
+  head() {
+    return {
+      title: `Subscriptions :: ViewTube`,
+      meta: [
+        {
+          hid: 'description',
+          vmid: 'descriptionMeta',
+          name: 'description',
+          content: 'See your subscription feed'
+        },
+        {
+          hid: 'ogTitle',
+          property: 'og:title',
+          content: 'Subscriptions - ViewTube'
+        },
+        {
+          hid: 'ogDescription',
+          property: 'og:description',
+          content: 'See your subscription feed'
+        }
+      ]
+    };
+  },
   computed: {
     orderedVideoSections() {
       const orderedArray = [];
@@ -184,7 +206,6 @@ export default Vue.extend({
               applicationServerKey: this.vapidKey
             })
             .then(permissionState => {
-              console.log(permissionState);
               if (permissionState === 'granted') {
                 this.notificationsEnabled = true;
               } else if (permissionState === 'denied') {
@@ -194,7 +215,11 @@ export default Vue.extend({
             });
         })
         .catch(err => {
-          console.log(err);
+          this.$store.dispatch('messages/createMessage', {
+            type: 'error',
+            title: 'Error loading subscription registrations',
+            message: err.message
+          });
         });
     } else {
       this.notificationsSupported = false;
@@ -235,7 +260,11 @@ export default Vue.extend({
               .catch(err => {
                 this.notificationsEnabled = false;
                 this.notificationsBtnDisabled = true;
-                console.log(err);
+                this.$store.dispatch('messages/createMessage', {
+                  type: 'error',
+                  title: 'Error subscribing to notifications',
+                  message: err.message
+                });
               });
           } else {
             worker.pushManager.getSubscription().then(subscription => {
@@ -257,29 +286,6 @@ export default Vue.extend({
         return 'Notifications are disabled';
       }
     }
-  },
-  head() {
-    return {
-      title: `Subscriptions :: ViewTube`,
-      meta: [
-        {
-          hid: 'description',
-          vmid: 'descriptionMeta',
-          name: 'description',
-          content: 'See your subscription feed'
-        },
-        {
-          hid: 'ogTitle',
-          property: 'og:title',
-          content: 'Subscriptions - ViewTube'
-        },
-        {
-          hid: 'ogDescription',
-          property: 'og:description',
-          content: 'See your subscription feed'
-        }
-      ]
-    };
   }
 });
 </script>

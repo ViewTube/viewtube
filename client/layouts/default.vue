@@ -190,7 +190,8 @@ h6,
 a {
   margin: 0;
 }
-div.links {
+div.links,
+span.links {
   a {
     text-decoration: none;
     color: var(--theme-color-alt);
@@ -272,5 +273,12 @@ textarea:focus {
 a {
   text-decoration: none;
   color: unset;
+}
+.monospace {
+  display: inline-block;
+  background-color: #0000004d;
+  padding: 2px 5px;
+  font-family: monospace;
+  border-radius: 4px;
 }
 </style>

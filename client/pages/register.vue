@@ -43,6 +43,17 @@ export default Vue.extend({
     SubmitButton,
     Spinner
   },
+  beforeRouteEnter(_, from, next) {
+    next((vm: any) => {
+      if (from.name) {
+        vm.redirectedPage = from;
+      } else {
+        vm.redirectedPage = {
+          fullPath: '/'
+        };
+      }
+    });
+  },
   data: () => ({
     loading: false,
     username: null,
@@ -54,64 +65,6 @@ export default Vue.extend({
     redirectedPage: 'home',
     formWiggle: false
   }),
-  computed: {
-    captchaImage() {
-      return this.$store.getters['captcha/image'];
-    }
-  },
-  watch: {
-    password() {
-      this.checkRepeatPasswords();
-    },
-    repeatPassword() {
-      this.checkRepeatPasswords();
-    }
-  },
-  mounted() {
-    this.$store.dispatch('captcha/getCaptcha');
-  },
-  methods: {
-    async register() {
-      this.loading = true;
-      const me = this;
-
-      const user = await this.$store.dispatch('user/register', {
-        username: this.username,
-        password: this.password,
-        captchaSolution: this.captchaSolution
-      });
-      if (user && user.username) {
-        me.$store.dispatch('messages/createMessage', {
-          type: 'info',
-          title: 'Registration successful',
-          message: `Welcome, ${user.username}`
-        });
-        me.$router.push(me.redirectedPage.fullPath);
-      } else {
-        me.$store.dispatch('messages/createMessage', {
-          type: 'error',
-          title: 'Registration failed',
-          message: user ? user.error : ''
-        });
-        me.loading = false;
-        this.wiggleRegisterForm();
-        this.$store.dispatch('captcha/getCaptcha');
-      }
-    },
-    wiggleRegisterForm() {
-      this.formWiggle = true;
-      setTimeout(() => {
-        this.formWiggle = false;
-      }, 600);
-    },
-    checkRepeatPasswords() {
-      if (this.password !== this.repeatPassword) {
-        this.statusMessage = 'passwords do not match';
-      } else {
-        this.statusMessage = '';
-      }
-    }
-  },
   head() {
     return {
       title: `Register :: ViewTube`,
@@ -135,16 +88,62 @@ export default Vue.extend({
       ]
     };
   },
-  beforeRouteEnter(_, from, next) {
-    next((vm: any) => {
-      if (from.name) {
-        vm.redirectedPage = from;
+  computed: {
+    captchaImage() {
+      return this.$store.getters['captcha/image'];
+    }
+  },
+  watch: {
+    password() {
+      this.checkRepeatPasswords();
+    },
+    repeatPassword() {
+      this.checkRepeatPasswords();
+    }
+  },
+  mounted() {
+    this.$store.dispatch('captcha/getCaptcha');
+  },
+  methods: {
+    async register() {
+      this.loading = true;
+
+      const user = await this.$store.dispatch('user/register', {
+        username: this.username,
+        password: this.password,
+        captchaSolution: this.captchaSolution
+      });
+      if (user && user.username) {
+        this.$store.dispatch('messages/createMessage', {
+          type: 'info',
+          title: 'Registration successful',
+          message: `Welcome, ${user.username}`
+        });
+        this.$router.push(this.redirectedPage.fullPath);
       } else {
-        vm.redirectedPage = {
-          fullPath: '/'
-        };
+        this.$store.dispatch('messages/createMessage', {
+          type: 'error',
+          title: 'Registration failed',
+          message: user ? user.error : ''
+        });
+        this.loading = false;
+        this.wiggleRegisterForm();
+        this.$store.dispatch('captcha/getCaptcha');
       }
-    });
+    },
+    wiggleRegisterForm() {
+      this.formWiggle = true;
+      setTimeout(() => {
+        this.formWiggle = false;
+      }, 600);
+    },
+    checkRepeatPasswords() {
+      if (this.password !== this.repeatPassword) {
+        this.statusMessage = 'passwords do not match';
+      } else {
+        this.statusMessage = '';
+      }
+    }
   }
 });
 </script>

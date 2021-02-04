@@ -9,7 +9,7 @@
       <h2>ViewTube by Maurice Oegerli</h2>
       <h3>{{ description }}</h3>
       <div class="links-about">
-        <BadgeButton :href="'https://github.com/mauriceoegerli/viewtube-vue'">
+        <BadgeButton :href="'https://github.com/viewtube/viewtube-vue'">
           <GithubIcon />ViewTube
         </BadgeButton>
         <BadgeButton :href="'https://github.com/iv-org/invidious'">
@@ -21,6 +21,7 @@
           <p>Invidious</p>
         </BadgeButton>
       </div>
+      <div v-if="invidiousStatsError" class="invidious-error" v-html="invidiousStatsError" />
       <div v-if="invidousStats" class="invidious-stats">
         <table>
           <tr>
@@ -39,6 +40,25 @@
           </tr>
         </table>
       </div>
+      <div class="sponsorblock links">
+        <img
+          class="sponsorblock-image"
+          src="@/assets/icons/sponsorblock.png"
+          alt="Sponsorblock icon"
+        />
+        <p>
+          This project uses the SponsorBlock database and/or API licensed under
+          <a
+            href="https://creativecommons.org/licenses/by-nc-sa/4.0/"
+            target="_blank"
+            rel="noreferrer noopener"
+            >CC BY-NC-SA 4.0</a
+          >. More details can be found at
+          <a href="https://sponsor.ajay.app/" target="_blank" rel="noreferrer noopener">
+            https://sponsor.ajay.app/</a
+          >.
+        </p>
+      </div>
       <h2>Invidious License</h2>
       <InvidiousLicense />
     </div>
@@ -50,7 +70,7 @@
 import CloseIcon from 'vue-material-design-icons/Close.vue';
 import GithubIcon from 'vue-material-design-icons/Github.vue';
 import ExternalIcon from 'vue-material-design-icons/OpenInNew.vue';
-import Commons from '@/plugins/commons.ts';
+import { commons } from '@/plugins/commons.ts';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import InvidiousLicense from '@/components/licenses/Invidious.vue';
 import Vue from 'vue';
@@ -66,9 +86,10 @@ export default Vue.extend({
   },
   data() {
     return {
-      description: Commons.description,
+      description: commons.description,
       invidousStats: null,
-      currentInstance: this.$store.getters.currentInstance
+      currentInstance: this.$store.getters.currentInstance,
+      invidiousStatsError: null
     };
   },
   mounted() {
@@ -81,14 +102,30 @@ export default Vue.extend({
       .then(data => {
         me.invidousStats = data;
       })
-      .catch(error => {
-        console.error(error);
+      .catch(_ => {
+        this.invidiousStatsError = `Error loading invidious stats. The instance <span class="monospace">${this.$store.getters['instances/currentInstance']}</span> might be unavailable`;
       });
   }
 });
 </script>
 
 <style lang="scss">
+.sponsorblock {
+  margin: 10px 0 0 0 !important;
+  display: flex;
+
+  .sponsorblock-image {
+    width: 36px;
+    height: 36px;
+  }
+  p {
+    margin: 0 0 0 10px;
+  }
+}
+.invidious-error {
+  margin: 20px 0 20px 0 !important;
+  color: var(--error-color-red);
+}
 .invidious-stats {
   margin: 0 !important;
 

@@ -26,6 +26,17 @@ export default Vue.extend({
     SubmitButton,
     Spinner
   },
+  beforeRouteEnter(_, from, next) {
+    next((vm: any) => {
+      if (from.name) {
+        vm.redirectedPage = from;
+      } else {
+        vm.redirectedPage = {
+          fullPath: '/'
+        };
+      }
+    });
+  },
   data: () => ({
     loading: false,
     username: null,
@@ -34,6 +45,29 @@ export default Vue.extend({
     redirectedPage: 'home',
     formWiggle: false
   }),
+  head() {
+    return {
+      title: `Login :: ViewTube`,
+      meta: [
+        {
+          hid: 'description',
+          vmid: 'descriptionMeta',
+          name: 'description',
+          content: 'Login to access your ViewTube account'
+        },
+        {
+          hid: 'ogTitle',
+          property: 'og:title',
+          content: 'Login - ViewTube'
+        },
+        {
+          hid: 'ogDescription',
+          property: 'og:description',
+          content: 'Login to access your ViewTube account'
+        }
+      ]
+    };
+  },
   methods: {
     async login(): Promise<void> {
       this.loading = true;
@@ -66,40 +100,6 @@ export default Vue.extend({
         this.formWiggle = false;
       }, 600);
     }
-  },
-  head() {
-    return {
-      title: `Login :: ViewTube`,
-      meta: [
-        {
-          hid: 'description',
-          vmid: 'descriptionMeta',
-          name: 'description',
-          content: 'Login to access your ViewTube account'
-        },
-        {
-          hid: 'ogTitle',
-          property: 'og:title',
-          content: 'Login - ViewTube'
-        },
-        {
-          hid: 'ogDescription',
-          property: 'og:description',
-          content: 'Login to access your ViewTube account'
-        }
-      ]
-    };
-  },
-  beforeRouteEnter(_, from, next) {
-    next((vm: any) => {
-      if (from.name) {
-        vm.redirectedPage = from;
-      } else {
-        vm.redirectedPage = {
-          fullPath: '/'
-        };
-      }
-    });
   }
 });
 </script>

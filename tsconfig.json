@@ -20,11 +20,12 @@
     "baseUrl": "./",
     "paths": {
       "~/*": ["client/*"],
-      "@/*": ["client/*"]
+      "@/*": ["client/*"],
+      "@shared/*": ["shared/*"]
     },
     "typeRoots": ["./node_modules/@types"],
     "types": ["@types/node", "@nuxt/types", "@nuxtjs/axios", "@types/jest"]
   },
-  "include": ["server/**/*", "client/**/*", "types/**/*"],
+  "include": ["server/**/*", "client/**/*", "types/**/*", "shared/**/*"],
   "exclude": ["server/**/*.spec.ts"]
 }

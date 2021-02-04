@@ -23,7 +23,6 @@ export class UserService {
       try {
         hash = await bcrypt.hash(user.password, saltRounds);
       } catch (err) {
-        console.error(err);
         throw new HttpException('Error registering user', 403);
       }
 

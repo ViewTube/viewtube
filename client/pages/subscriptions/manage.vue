@@ -70,7 +70,6 @@
 <script lang="ts">
 import GradientBackground from '@/components/GradientBackground.vue';
 import SectionTitle from '@/components/SectionTitle.vue';
-import Commons from '@/plugins/commons.ts';
 import Pagination from '@/components/pagination/Pagination.vue';
 // import BadgeButton from '@/components/buttons/BadgeButton';
 import Vue from 'vue';
@@ -81,6 +80,15 @@ export default Vue.extend({
     GradientBackground,
     SectionTitle,
     Pagination
+  },
+  data() {
+    return {
+      subscriptionChannels: [],
+      currentPage: 1,
+      pageCount: 0,
+      searchTerm: null,
+      searchTimeout: null
+    };
   },
   async fetch() {
     if (process.browser) {
@@ -107,18 +115,35 @@ export default Vue.extend({
         this.subscriptionChannels = response.data.channels;
         this.pageCount = Math.ceil(response.data.channelCount / 30);
       })
-      .catch(error => {
-        console.log(error);
+      .catch(_ => {
+        this.$store.dispatch('messages/createMessage', {
+          type: 'error',
+          title: 'Error loading subscriptions',
+          message: 'Error loading subscriptions'
+        });
       });
   },
-  data() {
+  head() {
     return {
-      commons: Commons,
-      subscriptionChannels: [],
-      currentPage: 1,
-      pageCount: 0,
-      searchTerm: null,
-      searchTimeout: null
+      title: `Manage subscriptions :: ViewTube`,
+      meta: [
+        {
+          hid: 'description',
+          vmid: 'descriptionMeta',
+          name: 'description',
+          content: 'Manage your subscriptions'
+        },
+        {
+          hid: 'ogTitle',
+          property: 'og:title',
+          content: 'Manage subscriptions - ViewTube'
+        },
+        {
+          hid: 'ogDescription',
+          property: 'og:description',
+          content: 'Manage your subscriptions'
+        }
+      ]
     };
   },
   computed: {
@@ -192,29 +217,6 @@ export default Vue.extend({
           }
         });
     }
-  },
-  head() {
-    return {
-      title: `Manage subscriptions :: ViewTube`,
-      meta: [
-        {
-          hid: 'description',
-          vmid: 'descriptionMeta',
-          name: 'description',
-          content: 'Manage your subscriptions'
-        },
-        {
-          hid: 'ogTitle',
-          property: 'og:title',
-          content: 'Manage subscriptions - ViewTube'
-        },
-        {
-          hid: 'ogDescription',
-          property: 'og:description',
-          content: 'Manage your subscriptions'
-        }
-      ]
-    };
   }
 });
 </script>
