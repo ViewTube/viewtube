@@ -72,19 +72,19 @@ Screenshots
 Homepage
 </h3>
 
-![Screenshot-Homepage](.github/images/screenshots/lxt1y0mk.bmp)
+![Screenshot-Homepage](https://i.ibb.co/Gk5tKQ7/lxt1y0mk.jpg)
 
 <h3 align="center">
 Video
 </h3>
 
-![Screenshot-Video](.github/images/screenshots/g2ejf7wf.bmp)
+![Screenshot-Video](https://i.ibb.co/RTL2v3f/g2ejf7wf.jpg)
 
 <h3 align="center">
 Channel
 </h3>
 
-![Screenshot-Channel](.github/images/screenshots/6j45ao5r.bmp)
+![Screenshot-Channel](https://i.ibb.co/h9mf1yd/6j45ao5r.jpg)
 
 <h2 align="center">
 <sub>
