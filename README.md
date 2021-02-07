@@ -113,7 +113,7 @@ $ docker create \
   --name=viewtube
   -p 8066:8066
   -v /path/to/data:/data \
-  -e VIEWTUBE_API_URL=https://api.viewtube.io/
+  -e VIEWTUBE_API_URL=http://your-ip-or-domain.com/api/
   --restart unless-stopped \
   mauriceo/viewtube:latest
 ```
@@ -132,7 +132,7 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - ./data:/data
     environment:
-      - VIEWTUBE_API_URL=https://api.viewtube.io/
+      - VIEWTUBE_API_URL=http://your-ip-or-domain.com/api/
     ports:
       - 8066:8066
 ```
@@ -148,8 +148,8 @@ Development setup
 
 Prerequisites
 
-- Nodejs v14.x
-- Yarn 1.22
+- Nodejs v15.x
+- Yarn 1.22.x
 - MongoDB 4.4.x
 
 Instructions
