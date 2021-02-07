@@ -4,10 +4,10 @@
     :class="{
       focused: searchFieldFocused,
       scrolled: scrollTop,
-      'has-text': localSearchValue.length > 0
+      'has-text': localSearchValue && localSearchValue.length > 0
     }"
   >
-    <form action="/results" method="get" class="search-form">
+    <form action="/results" method="get" class="search-form" @submit.prevent="onSearchFormSubmit">
       <input
         id="search"
         ref="searchField"
@@ -75,7 +75,8 @@ export default Vue.extend({
   },
   methods: {
     updateSearchValueFromUrl() {
-      if (this.$route.query.search_query !== undefined) {
+      console.log(this.$route.query.search_query);
+      if (this.$route.query.search_query) {
         this.searchValue = this.$route.query.search_query;
         if (process.server) {
           this.localSearchValue = this.$route.query.search_query;
@@ -101,12 +102,20 @@ export default Vue.extend({
     onAutocompleteEnter() {
       this.searchRedirect(this.searchValue);
     },
-    onSearchFieldKeydown(e: any) {
-      const autocomplete = this.$refs.autocomplete;
-      if (e.key === 'Enter' && this.searchValue !== '') {
+    onSearchFormSubmit() {
+      if (
+        this.searchValue &&
+        this.searchValue.length > 0 &&
+        this.localSearchValue &&
+        this.localSearchValue.length > 0
+      ) {
         this.searchValue = this.localSearchValue;
         this.searchRedirect(this.searchValue);
-      } else if (e.key === 'ArrowDown') {
+      }
+    },
+    onSearchFieldKeydown(e: any) {
+      const autocomplete = this.$refs.autocomplete;
+      if (e.key === 'ArrowDown') {
         if (autocomplete.selectedValue + 2 <= autocomplete.autocompleteValues.length) {
           autocomplete.selectedValue += 1;
         } else {
