@@ -205,12 +205,24 @@ export default Vue.extend({
         }
       })
       .catch((err: any) => {
-        const errorObj = err || {
+        let errorObj: any = {
           message: 'Error loading video'
         };
+        if (err) {
+          errorObj = {
+            requestConfig: err.config,
+            responseData: err.response ? err.response.data : null,
+            message: err.message
+          };
+        }
         error({
           statusCode: 500,
-          message: errorObj.message,
+          message:
+            errorObj.responseData &&
+            errorObj.responseData.message &&
+            typeof errorObj.responseData.message === 'string'
+              ? errorObj.responseData.message
+              : errorObj.message,
           detail: errorObj
         } as any);
       });
@@ -256,7 +268,10 @@ export default Vue.extend({
         },
         {
           property: 'og:video',
-          content: this.video.formatStreams ? this.video.formatStreams[0].url : '#'
+          content:
+            this.video.formatStreams && this.video.formatStreams.length > 0
+              ? this.video.formatStreams[0].url
+              : '#'
         }
       ]
     };
