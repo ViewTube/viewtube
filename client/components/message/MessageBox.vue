@@ -106,12 +106,20 @@ export default Vue.extend({
     dismissMessage() {
       this.dismissedRight = true;
       this.swipeOpacity = 0;
-      setTimeout(() => this.message.dismiss(), 600);
+      setTimeout(() => {
+        if (this.message && this.message.dismiss && typeof this.message.dismiss === 'function') {
+          this.message.dismiss();
+        }
+      }, 600);
     },
     dismissMessageLeft() {
       this.dismissedLeft = true;
       this.swipeOpacity = 0;
-      setTimeout(() => this.message.dismiss(), 600);
+      setTimeout(() => {
+        if (this.message && this.message.dismiss && typeof this.message.dismiss === 'function') {
+          this.message.dismiss();
+        }
+      }, 600);
     },
     onMessageClick() {
       if (this.dismissTimeout) {
