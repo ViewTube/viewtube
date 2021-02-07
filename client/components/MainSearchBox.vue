@@ -75,7 +75,6 @@ export default Vue.extend({
   },
   methods: {
     updateSearchValueFromUrl() {
-      console.log(this.$route.query.search_query);
       if (this.$route.query.search_query) {
         this.searchValue = this.$route.query.search_query;
         if (process.server) {
