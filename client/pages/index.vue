@@ -83,7 +83,9 @@ export default Vue.extend({
           this.$store.dispatch('messages/createMessage', {
             type: 'error',
             title: 'Error loading homepage',
-            message: 'Try reloading the page'
+            message: 'Click to try again',
+            dismissDelay: 0,
+            clickAction: () => this.$fetch()
           });
         });
       if (this.$store.getters['user/isLoggedIn']) {

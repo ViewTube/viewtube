@@ -6,6 +6,7 @@
           <img src="@/assets/icon-error.svg" alt="Viewtube broken logo" />
         </div>
         <h2>{{ error.message }}</h2>
+        <BadgeButton :click="retry" class="try-again-btn">Try again</BadgeButton>
         <p>Api-url: {{ apiUrl }}</p>
         <details v-if="error.detail" class="error-details">
           <summary>Full error</summary>
@@ -60,7 +61,7 @@ export default Vue.extend({
       }
     },
     retry(): void {
-      window.location.reload();
+      this.$nuxt.refresh();
     },
     renderJSON(json: any): string {
       return JSON.stringify(json, this.replacerFunc(), 2);

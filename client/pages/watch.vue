@@ -200,7 +200,9 @@ export default Vue.extend({
           this.$store.dispatch('messages/createMessage', {
             type: 'error',
             title: 'Error loading video',
-            message: 'Loading video information failed. Try reloading the page.'
+            message: 'Loading video information failed. Click to try again.',
+            dismissDelay: 0,
+            clickAction: () => this.$fetch()
           });
         }
       })
