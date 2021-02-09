@@ -1646,15 +1646,15 @@
     webpack-node-externals "^2.5.2"
     webpackbar "^4.0.0"
 
-"@nuxtjs/axios@^5.13.0":
-  version "5.13.0"
-  resolved "https://registry.yarnpkg.com/@nuxtjs/axios/-/axios-5.13.0.tgz#e0771829fc093b1232ed0a94eae379fd64c7994d"
-  integrity sha512-ppTgvKENzXhz7Ro7uqDWVlFJfiaoYfDXlSbUwMIabPsTZOJ/sR3+366KNy7fE/PY0qjzFe4ftA8ZWjY2ZWWesA==
+"@nuxtjs/axios@^5.13.1":
+  version "5.13.1"
+  resolved "https://registry.yarnpkg.com/@nuxtjs/axios/-/axios-5.13.1.tgz#70c7444e6be8989372c249637f9287c844340f42"
+  integrity sha512-vZpXV2AAkQ5Duejubt1k3ZgUnYowYnPvmcUt0hskd+OebmQ+jF6Wk6rOG0/9EeknOxm7mtTGgKSwdlE1jDo+xA==
   dependencies:
     "@nuxtjs/proxy" "^2.1.0"
     axios "^0.21.1"
     axios-retry "^3.1.9"
-    consola "^2.15.0"
+    consola "^2.15.3"
     defu "^3.2.2"
 
 "@nuxtjs/composition-api@^0.19.1":
@@ -4060,10 +4060,10 @@ connect@^3.7.0:
     parseurl "~1.3.3"
     utils-merge "1.0.1"
 
-consola@^2.10.0, consola@^2.10.1, consola@^2.15.0, consola@^2.15.2, consola@^2.4.0, consola@^2.6.0, consola@^2.9.0:
-  version "2.15.2"
-  resolved "https://registry.yarnpkg.com/consola/-/consola-2.15.2.tgz#c858f1fe36ab97d256c6ebc791905ee923495602"
-  integrity sha512-VxqWw5C8O/mQpZYtfaaSCDJcVK3AxyvQ26rhgvyAI4j/QJISh8DLwFS8GQU+9154u4ngyCsSlnyIAYJme9kQug==
+consola@^2.10.0, consola@^2.10.1, consola@^2.15.0, consola@^2.15.2, consola@^2.15.3, consola@^2.4.0, consola@^2.6.0, consola@^2.9.0:
+  version "2.15.3"
+  resolved "https://registry.yarnpkg.com/consola/-/consola-2.15.3.tgz#2e11f98d6a4be71ff72e0bdf07bd23e12cb61550"
+  integrity sha512-9vAdYbHj6x2fLKC4+oPH0kFzY/orMZyG2Aj+kNylHxKGJ/Ed4dpNyAQYwJOdqO4zdM7XpVHmyejQDcQHrnuXbw==
 
 console-browserify@^1.1.0:
   version "1.2.0"
