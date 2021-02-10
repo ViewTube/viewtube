@@ -1,5 +1,9 @@
 <template>
-  <div class="theme-selector">
+  <div class="theme-selector links">
+    <p v-if="customs.length === 0">
+      No themes found. Try adding one in
+      <nuxt-link to="/themes/manage" v-ripple v-tippy="'Manage Themes'">here</nuxt-link>.
+    </p>
     <a
       v-for="(theme, id) in customs"
       :key="id"
@@ -57,25 +61,26 @@
 </template>
 
 <script lang="ts">
+import { ThemeDto } from '@/plugins/shared';
 import Vue from 'vue';
 
 export default Vue.extend({
   data() {
     return {
-      customs: this.$store.getters['theme/customThemes']
+      customs: this.$store.getters['theme/customThemes'] as ThemeDto[]
     };
   },
   methods: {
-    onThemeChange(element) {
+    onThemeChange(theme: ThemeDto) {
       document.body.classList.add('transition-all');
-      this.$store.commit('theme/setCustomTheme', element.value);
+      this.$store.commit('theme/setCustomTheme', theme.value);
       setTimeout(() => {
         document.body.classList.remove('transition-all');
       }, 300);
     },
-    getBorderThemeColor(theme): string {
+    getBorderThemeColor(theme: ThemeDto): string {
       return theme.value === this.$store.getters['theme/selectedCustom']
-        ? theme['theme-color']
+        ? theme.themeVariables['theme-color']
         : 'transparent';
     }
   }
@@ -83,6 +88,22 @@ export default Vue.extend({
 </script>
 
 <style lang="scss" scoped>
+.theme {
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 4px;
+  border-color: var(--theme-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 5px;
+  transition: box-shadow 200ms $intro-easing, border-color 200ms $intro-easing;
+}
+
+.theme::after {
+  display: none;
+}
+
 .theme-selector {
   width: calc(100% - 56px);
   display: flex;
@@ -98,7 +119,7 @@ export default Vue.extend({
     flex-direction: column;
     border-style: solid;
     border-width: 2px;
-    margin: 0 15px 20px 0;
+    margin: 20px 20px 0 20px;
     border-radius: 4px;
     overflow: hidden;
     position: relative;
@@ -177,16 +198,11 @@ export default Vue.extend({
         }
       }
     }
-    .theme-title {
-      position: absolute;
-      bottom: 0;
-      color: #fff;
-      background: linear-gradient(to bottom, #00000000 -0%, #000 80%);
-      width: 100%;
-      padding: 2px 5px;
-      z-index: 10;
-      box-sizing: border-box;
-    }
   }
+}
+
+.theme-title {
+  color: var(--title-color);
+  margin: 5px 10px;
 }
 </style>

@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException, Req, UnauthorizedException } from '@nestjs/common';
+import { Injectable, Req, UnauthorizedException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { ThemeDto } from '../../../shared/dto/theme/theme.dto';
@@ -20,10 +20,10 @@ export class ThemeService {
             value: value.value,
             name: value.name,
             themeVariables: value.any.themeVariables
-          };
+          } as ThemeDto;
         });
       }
-      throw new NotFoundException();
+      return [];
     } else {
       throw new UnauthorizedException();
     }

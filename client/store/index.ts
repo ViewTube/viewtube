@@ -1,11 +1,12 @@
-import { getAccessorType, actionTree } from 'nuxt-typed-vuex';
 import { Context } from '@nuxt/types';
+import { actionTree, getAccessorType } from 'nuxt-typed-vuex';
 import * as captcha from '~/store/captcha';
 import * as environment from '~/store/environment';
 import * as instances from '~/store/instances';
 import * as messages from '~/store/messages';
 import * as miniplayer from '~/store/miniplayer';
 import * as settings from '~/store/settings';
+import * as theme from '~/store/theme';
 import * as user from '~/store/user';
 import * as videoPlayer from '~/store/videoPlayer';
 import * as videoProgress from '~/store/videoProgress';
@@ -49,6 +50,7 @@ export const accessorType = getAccessorType({
     settings,
     user,
     videoPlayer,
-    videoProgress
+    videoProgress,
+    theme
   }
 });

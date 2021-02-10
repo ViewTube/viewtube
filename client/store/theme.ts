@@ -1,5 +1,5 @@
 import { ThemeDto } from '@/plugins/shared';
-import { getterTree, mutationTree } from 'nuxt-typed-vuex';
+import { actionTree, getterTree, mutationTree } from 'nuxt-typed-vuex';
 
 export const state = () => ({
   selectedDefault: 'default' as string,
@@ -201,14 +201,49 @@ export const getters = getterTree(state, {
 });
 
 export const mutations = mutationTree(state, {
-  setDefaultTheme(state, theme) {
+  setDefaultTheme(state, theme: string) {
     if (state.defaults.find(e => e.value === theme)) {
       state.selectedDefault = theme;
     }
   },
-  setCustomTheme(state, theme) {
+  setCustomTheme(state, theme: string) {
     if (state.customs.find(e => e.value === theme)) {
       state.selectedCustom = theme;
     }
+  },
+  addCustomTheme(state, theme: ThemeDto) {
+    if (!state.customs.find(e => e.value === theme.value)) state.customs.push(theme);
+  },
+  resetCustomThemes(state) {
+    state.customs = [] as ThemeDto[];
+    state.selectedCustom = '';
   }
 });
+
+export const actions = actionTree(
+  { state, mutations },
+  {
+    fetchCustomThemes() {
+      this.$axios
+        .get(`${this.app.$accessor.environment.apiUrl}user/theme/themes`, {
+          withCredentials: true
+        })
+        .then((response: { data: ThemeDto[] }) => {
+          this.app.$accessor.theme.resetCustomThemes();
+          if (response.data) {
+            response.data.forEach(theme => {
+              this.app.$accessor.theme.addCustomTheme(theme);
+            });
+          }
+        })
+        .catch((_: any) => {
+          console.error(_);
+          this.app.$accessor.messages.createMessage({
+            type: 'error',
+            title: 'Error fetching themes',
+            message: 'Ask for support if problem reappears'
+          });
+        });
+    }
+  }
+);

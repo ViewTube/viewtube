@@ -10,7 +10,7 @@ export const getters = getterTree(state, {
 });
 
 export const mutations = mutationTree(state, {
-  setUsername(state, username) {
+  setUsername(state, username: string) {
     state.username = username;
   }
 });

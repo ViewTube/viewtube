@@ -90,6 +90,15 @@
             <div class="menu-btn-content"><SettingsIcon />settings</div>
           </a>
           <a
+            id="themes-btn"
+            v-tippy="'Open themes'"
+            href="#"
+            class="ripple tooltip menu-btn"
+            @mousedown.self.prevent="openThemes"
+          >
+            <div class="menu-btn-content"><ThemesIcon />themes</div>
+          </a>
+          <a
             id="instances-btn"
             v-tippy="'View instances'"
             href="#"
@@ -127,6 +136,7 @@ import InstanceIcon from 'vue-material-design-icons/ServerNetwork.vue';
 import AboutIcon from 'vue-material-design-icons/InformationOutline.vue';
 import AccountIcon from 'vue-material-design-icons/AccountCircle.vue';
 import AccountPlusIcon from 'vue-material-design-icons/AccountPlus.vue';
+import ThemesIcon from 'vue-material-design-icons/ShapeOutline.vue';
 import Settings from '@/components/Settings.vue';
 import Instances from '@/components/Instances.vue';
 import About from '@/components/About.vue';
@@ -141,6 +151,7 @@ export default Vue.extend({
     AboutIcon,
     AccountIcon,
     AccountPlusIcon,
+    ThemesIcon,
     Settings,
     Instances,
     About
@@ -206,6 +217,10 @@ export default Vue.extend({
     },
     openSubscriptions() {
       this.$router.push('/subscriptions');
+      this.hideAccountMenu();
+    },
+    openThemes() {
+      this.$router.push('/themes');
       this.hideAccountMenu();
     },
     login() {

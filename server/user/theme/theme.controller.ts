@@ -1,9 +1,12 @@
-import { Controller, Delete, Get, Post, Put, Req } from '@nestjs/common';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { Controller, Delete, Get, Post, Put, Req, UseGuards } from '@nestjs/common';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { JwtAuthGuard } from 'server/auth/guards/jwt.guard';
 import { ThemeDto } from '../../../shared/dto/theme/theme.dto';
 import { ThemeService } from './theme.service';
 
 @ApiTags('User')
+@ApiBearerAuth()
+@UseGuards(JwtAuthGuard)
 @Controller('user/theme')
 export class ThemeController {
   constructor(private themeService: ThemeService) {}
