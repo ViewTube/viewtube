@@ -223,8 +223,8 @@ export const mutations = mutationTree(state, {
 export const actions = actionTree(
   { state, mutations },
   {
-    fetchCustomThemes() {
-      this.$axios
+    async fetchCustomThemes() {
+      await this.$axios
         .get(`${this.app.$accessor.environment.apiUrl}user/theme/themes`, {
           withCredentials: true
         })
