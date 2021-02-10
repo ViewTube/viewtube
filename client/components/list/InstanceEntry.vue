@@ -1,8 +1,6 @@
 <template>
   <tr>
-    <td>{{ instance.url }}</td>
-    <td>{{ instance.health }}</td>
-    <td v-if="!selected" align="right">
+    <td v-if="!selected" align="left">
       <a
         v-tippy="'Select Instance'"
         href="#"
@@ -13,7 +11,7 @@
         <p>Select</p>
       </a>
     </td>
-    <td v-else align="right">
+    <td v-else align="left">
       <a
         v-tippy="'Select Instance'"
         href="#"
@@ -24,6 +22,8 @@
         <p>Current</p>
       </a>
     </td>
+    <td>{{ instance.url }}</td>
+    <!-- <td>{{ instance.health }}</td> -->
   </tr>
 </template>
 
@@ -77,11 +77,19 @@ a.btn {
   flex-direction: row;
   align-items: center;
 
+  &.selected {
+    color: var(--theme-color);
+  }
+
   &:hover,
   &:active,
   &:focus {
     box-shadow: $low-shadow;
     border: 2px solid var(--theme-color);
+  }
+
+  &::after {
+    display: none;
   }
 
   span {
@@ -96,10 +104,7 @@ a.btn {
   }
 
   p {
-    margin-right: 0.5vw;
+    // margin-right: 0.5vw;
   }
-}
-.selected {
-  color: var(--theme-color);
 }
 </style>

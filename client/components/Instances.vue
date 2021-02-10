@@ -6,8 +6,9 @@
       <table class="instances-table">
         <thead>
           <tr>
+            <th>Selected</th>
             <th>URL</th>
-            <th>Health</th>
+            <!-- <th class="right-header">Health</th> -->
           </tr>
         </thead>
         <tbody>
@@ -50,11 +51,15 @@ export default Vue.extend({
 <style lang="scss">
 .instances-table {
   width: 100%;
-}
-.instances-table th {
-  text-align: start;
-}
-.instances-table td {
-  padding-right: 2vw;
+  th {
+    text-align: start;
+  }
+  .right-header {
+    text-align: right;
+  }
+
+  td {
+    // padding-right: 2vw;
+  }
 }
 </style>
