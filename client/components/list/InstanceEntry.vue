@@ -7,7 +7,7 @@
         v-tippy="'Select Instance'"
         href="#"
         class="ripple tooltip btn"
-        @mousedown.self.prevent="chooseInstance"
+        @click.self.prevent="chooseInstance"
       >
         <CheckBoxBlank />
         <p>Select</p>
@@ -18,7 +18,7 @@
         v-tippy="'Select Instance'"
         href="#"
         class="ripple tooltip btn selected"
-        @mousedown.self.prevent="chooseInstance"
+        @click.self.prevent="chooseInstance"
       >
         <CheckBoxMarked />
         <p>Current</p>
