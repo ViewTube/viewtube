@@ -66,10 +66,7 @@ export default Vue.extend({
 <style lang="scss">
 a.btn {
   width: fit-content;
-  border-radius: 0;
   margin: 0;
-  justify-self: center;
-  align-self: stretch;
   display: flex;
   border-radius: 5px;
   transition: box-shadow 300ms $intro-easing, border 300ms $intro-easing;
