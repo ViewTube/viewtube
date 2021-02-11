@@ -45,7 +45,7 @@ export default Vue.extend({
     redirectedPage: 'home',
     formWiggle: false
   }),
-  async fetch({ req, store, res }) {
+  async fetch({ req, store, res, redirect }) {
     if (process.server) {
       const requestBody = (req as any).body as {
         username: string;
@@ -66,8 +66,18 @@ export default Vue.extend({
           username: this.username,
           password: this.password
         });
-        if (user.response && user.response.headers && user.response.headers['set-cookie']) {
-          res.setHeader('Set-Cookie', user.response.headers['set-cookie']);
+
+        if (user && user.success) {
+          if (user.response && user.response.headers && user.response.headers['set-cookie']) {
+            res.setHeader('Set-Cookie', user.response.headers['set-cookie']);
+            return redirect('/');
+          }
+        } else {
+          store.dispatch('messages/createMessage', {
+            type: 'error',
+            title: 'Login failed',
+            message: user ? user.error : ''
+          });
         }
       }
     }
