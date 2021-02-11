@@ -43,9 +43,9 @@ export const mutations = mutationTree(state, {
 export const actions = actionTree(
   { state, getters, mutations },
   {
-    fetchInstances({ commit, state }) {
+    async fetchInstances({ commit, state }) {
       commit('clearInstances');
-      this.$axios
+      await this.$axios
         .get(
           `${commons.proxyUrl}https://raw.githubusercontent.com/iv-org/documentation/master/Invidious-Instances.md`
         )

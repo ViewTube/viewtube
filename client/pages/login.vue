@@ -4,7 +4,7 @@
       <h2 class="login-title">Login</h2>
       <span class="status-message-display message-display">{{ statusMessage }}</span>
       <Spinner />
-      <form id="login" method="post" @submit.prevent="login">
+      <form id="login" method="post" action="/login" @submit.prevent="login">
         <FormInput :id="'username'" v-model="username" :label="'username'" :type="'username'" />
         <FormInput :id="'password'" v-model="password" :label="'password'" :type="'password'" />
         <SubmitButton :label="'Login'" />
@@ -45,6 +45,33 @@ export default Vue.extend({
     redirectedPage: 'home',
     formWiggle: false
   }),
+  async fetch({ req, store, res }) {
+    if (process.server) {
+      const requestBody = (req as any).body as {
+        username: string;
+        password?: string;
+        'current-password'?: string;
+      };
+      if (
+        (requestBody.username && requestBody.password) ||
+        (requestBody.username && requestBody['current-password'])
+      ) {
+        const password = requestBody.password || requestBody['current-password'];
+        const username = requestBody.username;
+
+        this.username = username;
+        this.password = password;
+
+        const user = await store.dispatch('user/login', {
+          username: this.username,
+          password: this.password
+        });
+        if (user.response && user.response.headers && user.response.headers['set-cookie']) {
+          res.setHeader('Set-Cookie', user.response.headers['set-cookie']);
+        }
+      }
+    }
+  },
   head() {
     return {
       title: `Login :: ViewTube`,

@@ -38,11 +38,12 @@ export const actions = actionTree(
       commit('setUsername', null);
       return true;
     },
-    async login({ dispatch }, { username, password }) {
+    async login({ dispatch }, { username, password, token }) {
       let success = null;
+      let responseData = null;
       try {
-        await this.$axios.post(
-          `${this.app.$accessor.environment.env.apiUrl}auth/login`,
+        responseData = await this.$axios.post(
+          `${this.app.$accessor.environment.env.apiUrl}auth/login${token ? '?local=true' : ''}`,
           {
             username,
             password
@@ -62,7 +63,7 @@ export const actions = actionTree(
           error: 'Login failed'
         };
       }
-      return { success };
+      return { success, response: responseData };
     },
     async register({ commit, dispatch }, { username, password, captchaSolution }) {
       if (this.app.$accessor.captcha.token) {
