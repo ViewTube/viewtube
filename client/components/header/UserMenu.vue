@@ -37,8 +37,9 @@
     >
       <AccountIcon />
     </a>
+    <input id="account-menu" type="checkbox" name="account-menu" />
     <transition name="fade-up">
-      <div v-if="accountMenuVisible" v-clickaway="hideAccountMenu" class="menu">
+      <div v-clickaway="hideAccountMenu" class="menu">
         <div v-show="userAuthenticated" class="account-menu">
           <AccountIcon />
           <div class="account-info">
@@ -269,7 +270,12 @@ export default Vue.extend({
   position: relative;
   z-index: +1;
 
-  #account {
+  #account-menu:checked + .menu {
+    display: block;
+  }
+
+  .menu {
+    display: none;
     color: var(--subtitle-color-light);
 
     &.authenticated {
