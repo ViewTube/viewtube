@@ -124,6 +124,10 @@
           <Spinner v-if="commentsLoading" />
           <div v-if="commentsError" class="comments-error">
             <p>Error loading comments. Try changing the invidious instance.</p>
+            <BadgeButton :click="reloadComments" :loading="commentsLoading"
+              ><LoadMoreIcon />Try again</BadgeButton
+            >
+            <BadgeButton :click="openInstancePopup"><InstanceIcon />Change instance</BadgeButton>
           </div>
           <div v-if="!commentsLoading && comment" class="comments-container">
             <div class="comments-count">
@@ -156,6 +160,7 @@
 <script lang="ts">
 import ThumbsUp from 'vue-material-design-icons/ThumbUp.vue';
 import ThumbsDown from 'vue-material-design-icons/ThumbDown.vue';
+import InstanceIcon from 'vue-material-design-icons/ServerNetwork.vue';
 import Share from 'vue-material-design-icons/Share.vue';
 import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
 import Spinner from '@/components/Spinner.vue';
@@ -176,6 +181,7 @@ export default Vue.extend({
     ThumbsDown,
     Share,
     LoadMoreIcon,
+    InstanceIcon,
     VideoPlayer: () =>
       import(
         /* webpackChunkName: "group-videoplayer" */ '@/components/videoplayer/VideoPlayer.vue'
@@ -309,6 +315,14 @@ export default Vue.extend({
     this.$store.commit('miniplayer/setCurrentVideo', this.video);
   },
   methods: {
+    openInstancePopup() {
+      this.$nuxt.$emit('open-popup', 'instances');
+    },
+    reloadComments() {
+      this.commentsLoading = true;
+      this.commentsError = false;
+      this.loadComments();
+    },
     setTimestamp(e: any, seconds: number) {
       const searchParams = new URLSearchParams(window.location.search);
       searchParams.set('t', `${seconds}s`);
