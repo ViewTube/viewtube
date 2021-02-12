@@ -159,7 +159,22 @@ export default Vue.extend({
       return this.$store.getters['user/isLoggedIn'];
     }
   },
+  mounted() {
+    this.$nuxt.$on('open-popup', this.openPopup);
+  },
+  beforeDestroy() {
+    this.$nuxt.$off('open-popup');
+  },
   methods: {
+    openPopup(popupName: string): void {
+      switch (popupName) {
+        case 'instances':
+          this.openInstances();
+          break;
+        default:
+          break;
+      }
+    },
     hideAccountMenu() {
       if (this.accountMenuVisible) {
         this.accountMenuVisible = false;
