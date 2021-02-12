@@ -61,7 +61,7 @@ export default Vue.extend({
       }
     },
     retry(): void {
-      this.$nuxt.refresh();
+      window.location.reload();
     },
     renderJSON(json: any): string {
       return JSON.stringify(json, this.replacerFunc(), 2);
