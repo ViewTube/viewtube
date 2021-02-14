@@ -27,11 +27,11 @@ const SubscriptionManage = () =>
     m => m.default || m
   );
 const ThemesIndex = () =>
-  import(/* webpackChunkName: "group-subscription" */ '@/pages/themes/index.vue').then(
+  import(/* webpackChunkName: "group-themes" */ '@/pages/themes/index.vue').then(
     m => m.default || m
   );
 const ThemesManage = () =>
-  import(/* webpackChunkName: "group-subscription" */ '@/pages/themes/manage.vue').then(
+  import(/* webpackChunkName: "group-themes" */ '@/pages/themes/manage.vue').then(
     m => m.default || m
   );
 
