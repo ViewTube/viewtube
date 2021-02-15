@@ -8370,10 +8370,10 @@ mini-svg-data-uri@^1.2.3:
   resolved "https://registry.yarnpkg.com/mini-svg-data-uri/-/mini-svg-data-uri-1.2.3.tgz#e16baa92ad55ddaa1c2c135759129f41910bc39f"
   integrity sha512-zd6KCAyXgmq6FV1mR10oKXYtvmA9vRoB6xPSTUJTbFApCtkefDnYueVR1gkof3KcdLZo1Y8mjF2DFmQMIxsHNQ==
 
-miniget@^4.0.0, miniget@^4.1.0:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/miniget/-/miniget-4.1.0.tgz#018cc1180d2fe4d45ed735ac6bd2ab7224e8bceb"
-  integrity sha512-kzhrNv5L7LlomwGmPGQsLQ2PnT1LeJJWfB0wNFGyv426gEM1gsfziBQmfkr6XOBA8EusZg9nowlNT5CbuKTjZg==
+miniget@^4.0.0, miniget@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/miniget/-/miniget-4.2.0.tgz#0004e95536b192d95a7d09f4435d67b9285481d0"
+  integrity sha512-IzTOaNgBw/qEpzkPTE7X2cUVXQfSKbG8w52Emi93zb+Zya2ZFrbmavpixzebuDJD9Ku4ecbaFlC7Y1cEESzQtQ==
 
 minimalistic-assert@^1.0.0, minimalistic-assert@^1.0.1:
   version "1.0.1"
@@ -13224,9 +13224,9 @@ ytdl-core@^4.4.5:
     miniget "^4.0.0"
     sax "^1.1.3"
 
-ytsr@^3.2.4:
-  version "3.2.4"
-  resolved "https://registry.yarnpkg.com/ytsr/-/ytsr-3.2.4.tgz#acdaaf09cb8a0f1855bda5b79d16792800d9c015"
-  integrity sha512-DyhaGgp1j3szmC2+C+eGnkebauhqowHjbdTbS2h6hXSb8n3Cr6qQzynTqTnO9xF/6WOesgSLG6+Il00hOFQLUg==
+ytsr@^3.3.0:
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/ytsr/-/ytsr-3.3.0.tgz#ad4dd7d3ead916ffa01aba67d9f9f8c5ddf5e725"
+  integrity sha512-Hir0CSge2N2oEXMwREYz5L4/bJerhLeAAvXqFhWVbhTvZTL+TVkkIuHpGdH2JhL8zLcfTJlGBem/tPTOKr0KWQ==
   dependencies:
-    miniget "^4.1.0"
+    miniget "^4.2.0"
