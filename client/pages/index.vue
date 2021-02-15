@@ -1,8 +1,15 @@
 <template>
   <div class="home">
     <GradientBackground :color="'theme'" />
-    <SectionTitle v-if="userAuthenticated" :title="'Subscriptions'" :link="'subscriptions'" />
-    <div v-if="userAuthenticated" class="home-videos-container small">
+    <SectionTitle
+      v-if="userAuthenticated && subscriptions && subscriptions.length > 0"
+      :title="'Subscriptions'"
+      :link="'subscriptions'"
+    />
+    <div
+      v-if="userAuthenticated && subscriptions && subscriptions.length > 0"
+      class="home-videos-container small"
+    >
       <VideoEntry
         v-for="video in subscriptions"
         :key="video.videoId"
