@@ -64,7 +64,7 @@
     "animejs": "^3.2.1",
     "bcryptjs": "^2.4.3",
     "cache-manager": "^3.4.0",
-    "class-transformer": "^0.3.2",
+    "class-transformer": "^0.4.0",
     "consola": "^2.15.2",
     "cookie-parser": "^1.4.5",
     "cookie-universal-nuxt": "^2.1.4",
