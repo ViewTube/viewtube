@@ -1,8 +1,15 @@
 <template>
   <div class="home">
     <GradientBackground :color="'theme'" />
-    <SectionTitle v-if="userAuthenticated" :title="'Subscriptions'" :link="'subscriptions'" />
-    <div v-if="userAuthenticated" class="home-videos-container small">
+    <SectionTitle
+      v-if="userAuthenticated && subscriptions && subscriptions.length > 0"
+      :title="'Subscriptions'"
+      :link="'subscriptions'"
+    />
+    <div
+      v-if="userAuthenticated && subscriptions && subscriptions.length > 0"
+      class="home-videos-container small"
+    >
       <VideoEntry
         v-for="video in subscriptions"
         :key="video.videoId"
@@ -83,7 +90,9 @@ export default Vue.extend({
           this.$store.dispatch('messages/createMessage', {
             type: 'error',
             title: 'Error loading homepage',
-            message: 'Try reloading the page'
+            message: 'Click to try again',
+            dismissDelay: 0,
+            clickAction: () => this.$fetch()
           });
         });
       if (this.$store.getters['user/isLoggedIn']) {

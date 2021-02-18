@@ -17,7 +17,7 @@ export type RootState = ReturnType<typeof state>;
 export const actions = actionTree(
   { state },
   {
-    nuxtServerInit(_vuexContext, nuxtContext: Context): Promise<void> {
+    async nuxtServerInit(_vuexContext, nuxtContext: Context): Promise<void> {
       if (process.server) {
         _vuexContext.commit('environment/setEnv', {
           apiUrl: process.env.VIEWTUBE_API_URL,
@@ -27,9 +27,9 @@ export const actions = actionTree(
           port: process.env.PORT || 8066,
           baseUrl: process.env.BASE_URL || 'http://192.168.178.21:8066'
         });
-        nuxtContext.app.$accessor.user.getUser();
+        await nuxtContext.app.$accessor.user.getUser();
         if (_vuexContext.getters['instances/instances'].length === 0) {
-          nuxtContext.app.$accessor.instances.fetchInstances();
+          await nuxtContext.app.$accessor.instances.fetchInstances();
         }
       }
       return undefined;

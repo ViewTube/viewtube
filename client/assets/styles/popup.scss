@@ -45,7 +45,9 @@
       margin: 20px 20px 0 0;
       height: 38px;
       width: 38px;
+      z-index: 5;
       cursor: pointer;
+      background-color: var(--bgcolor-alt);
 
       .material-design-icon__svg {
         height: 38px !important;
@@ -60,7 +62,7 @@
       color: var(--theme-color);
       font-family: $default-font;
       background-color: var(--bgcolor-alt);
-      z-index: +1;
+      z-index: 2;
 
       @media screen and (min-width: $mobile-width) {
         padding: 20px 0 0 0;
@@ -95,7 +97,7 @@
       padding: 20px;
 
       .close-icon {
-        margin: 20px 20px 0 0;
+        margin: 25px 20px 0 0;
       }
     }
   }

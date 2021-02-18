@@ -65,10 +65,10 @@ export default Vue.extend({
       }
       return appClass;
     },
-    onTouchStart(e): void {
+    onTouchStart(e: any): void {
       this.touchTopY = e.touches[0].pageY;
     },
-    onTouchMove(e): void {
+    onTouchMove(e: any): void {
       const topY = e.touches[0].pageY;
       const topDistance = topY - this.touchTopY;
       if (window.pageYOffset === 0 && topY > this.touchTopY) {

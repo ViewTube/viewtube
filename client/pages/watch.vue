@@ -124,6 +124,10 @@
           <Spinner v-if="commentsLoading" />
           <div v-if="commentsError" class="comments-error">
             <p>Error loading comments. Try changing the invidious instance.</p>
+            <BadgeButton :click="reloadComments" :loading="commentsLoading"
+              ><LoadMoreIcon />Try again</BadgeButton
+            >
+            <BadgeButton :click="openInstancePopup"><InstanceIcon />Change instance</BadgeButton>
           </div>
           <div v-if="!commentsLoading && comment" class="comments-container">
             <div class="comments-count">
@@ -156,13 +160,12 @@
 <script lang="ts">
 import ThumbsUp from 'vue-material-design-icons/ThumbUp.vue';
 import ThumbsDown from 'vue-material-design-icons/ThumbDown.vue';
+import InstanceIcon from 'vue-material-design-icons/ServerNetwork.vue';
 import Share from 'vue-material-design-icons/Share.vue';
 import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
 import Spinner from '@/components/Spinner.vue';
 import SubscribeButton from '@/components/buttons/SubscribeButton.vue';
 import Comment from '@/components/Comment.vue';
-// import Invidious from '@/plugins/services/invidious'
-import Invidious from '@/plugins/services/invidious.ts';
 import RecommendedVideos from '@/components/watch/RecommendedVideos.vue';
 import ShareOptions from '@/components/watch/ShareOptions.vue';
 import CollapsibleSection from '@/components/list/CollapsibleSection.vue';
@@ -178,6 +181,7 @@ export default Vue.extend({
     ThumbsDown,
     Share,
     LoadMoreIcon,
+    InstanceIcon,
     VideoPlayer: () =>
       import(
         /* webpackChunkName: "group-videoplayer" */ '@/components/videoplayer/VideoPlayer.vue'
@@ -202,31 +206,33 @@ export default Vue.extend({
           this.$store.dispatch('messages/createMessage', {
             type: 'error',
             title: 'Error loading video',
-            message: 'Loading video information failed. Try reloading the page.'
+            message: 'Loading video information failed. Click to try again.',
+            dismissDelay: 0,
+            clickAction: () => this.$fetch()
           });
         }
       })
-      .catch(async () => {
-        const invidious = new Invidious(store.getters['instances/currentInstanceApi']);
-        await invidious.api
-          .videos({ id: query.v })
-          .then(response => {
-            return { video: response.data };
-          })
-          .catch(err => {
-            if (err.response) {
-              error({
-                statusCode: err.statusCode,
-                message: err.response.data.message
-              });
-            } else if (err.message) {
-              error({
-                statusCode: 500,
-                message: 'Error loading video' + err.message,
-                detail: JSON.stringify(err)
-              } as any);
-            }
-          });
+      .catch((err: any) => {
+        let errorObj: any = {
+          message: 'Error loading video'
+        };
+        if (err) {
+          errorObj = {
+            requestConfig: err.config,
+            responseData: err.response ? err.response.data : null,
+            message: err.message
+          };
+        }
+        error({
+          statusCode: 500,
+          message:
+            errorObj.responseData &&
+            errorObj.responseData.message &&
+            typeof errorObj.responseData.message === 'string'
+              ? errorObj.responseData.message
+              : errorObj.message,
+          detail: errorObj
+        } as any);
       });
   },
   data() {
@@ -270,7 +276,10 @@ export default Vue.extend({
         },
         {
           property: 'og:video',
-          content: this.video.formatStreams ? this.video.formatStreams[0].url : '#'
+          content:
+            this.video.formatStreams && this.video.formatStreams.length > 0
+              ? this.video.formatStreams[0].url
+              : '#'
         }
       ]
     };
@@ -306,6 +315,14 @@ export default Vue.extend({
     this.$store.commit('miniplayer/setCurrentVideo', this.video);
   },
   methods: {
+    openInstancePopup() {
+      this.$nuxt.$emit('open-popup', 'instances');
+    },
+    reloadComments() {
+      this.commentsLoading = true;
+      this.commentsError = false;
+      this.loadComments();
+    },
     setTimestamp(e: any, seconds: number) {
       const searchParams = new URLSearchParams(window.location.search);
       searchParams.set('t', `${seconds}s`);

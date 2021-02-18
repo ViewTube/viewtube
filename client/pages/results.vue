@@ -89,37 +89,48 @@ export default Vue.extend({
     const searchParams = new URLSearchParams(inputQuery);
     const apiUrl = this.$store.getters['environment/apiUrl'];
     const searchTerm = searchParams.get('search_query') || searchParams.get('q');
-    try {
-      const filters = await this.$axios.get(`${apiUrl}search/filters`, {
-        params: {
-          q: searchTerm
-        }
-      });
-
-      if (filters && filters.data && filters.data.length) {
-        this.filters = filters.data;
-        const filterArray = this.getFilterArray(searchParams);
-
-        const searchResponse = await this.$axios.get(`${apiUrl}search`, {
+    if (searchTerm) {
+      try {
+        const filters = await this.$axios.get(`${apiUrl}search/filters`, {
           params: {
-            q: searchTerm,
-            pages: 1,
-            filters: filterArray
+            q: searchTerm
           }
         });
 
-        if (searchResponse && searchResponse.data) {
-          this.searchResults = searchResponse.data;
-          this.resultItems = searchResponse.data.items;
-          this.searchContinuation = searchResponse.data.continuation;
-          this.searchQuery = inputQuery.search_query;
+        if (filters && filters.data && filters.data.length) {
+          this.filters = filters.data;
+          const filterArray = this.getFilterArray(searchParams);
+
+          const searchResponse = await this.$axios.get(`${apiUrl}search`, {
+            params: {
+              q: searchTerm,
+              pages: 1,
+              filters: filterArray
+            }
+          });
+
+          if (searchResponse && searchResponse.data) {
+            this.searchResults = searchResponse.data;
+            this.resultItems = searchResponse.data.items;
+            this.searchContinuation = searchResponse.data.continuation;
+            this.searchQuery = inputQuery.search_query;
+          }
         }
+      } catch (_) {
+        this.$store.dispatch('messages/createMessage', {
+          type: 'error',
+          title: 'Search failed',
+          message: 'Click to try again',
+          dismissDelay: 0,
+          clickAction: () => this.$fetch()
+        });
       }
-    } catch (_) {
+    } else {
       this.$store.dispatch('messages/createMessage', {
         type: 'error',
-        title: 'Search failed',
-        message: 'Try reloading the page'
+        title: 'Search term is empty',
+        message: "Search term can't be empty",
+        dismissDelay: 0
       });
     }
   },

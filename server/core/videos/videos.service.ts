@@ -97,7 +97,13 @@ export class VideosService {
 
       return video;
     } catch (err) {
-      throw new HttpException(err.message, HttpStatus.INTERNAL_SERVER_ERROR);
+      throw new HttpException(
+        {
+          status: HttpStatus.INTERNAL_SERVER_ERROR,
+          message: err.address && err.code ? err : err.message
+        },
+        HttpStatus.INTERNAL_SERVER_ERROR
+      );
     }
   }
 

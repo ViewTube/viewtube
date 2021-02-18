@@ -1,5 +1,5 @@
 <template>
-  <div class="subscriptions">
+  <div class="subscriptions" :class="{ empty: hasNoSubscriptions }">
     <GradientBackground :color="'green'" />
     <div class="subscribe-info-container">
       <div class="subscribe-info">
@@ -18,6 +18,7 @@
           </BadgeButton>
           <BadgeButton
             class="manage-subscriptions-btn"
+            :disabled="hasNoSubscriptions"
             :href="'subscriptions/manage'"
             :internal-link="true"
           >
@@ -35,6 +36,10 @@
         </div>
       </div>
     </div>
+    <div v-if="hasNoSubscriptions" class="no-subscriptions">
+      <SubscriptionIcon />
+      <p>No subscriptions yet. Subscribe to a channel to see their latest uploads.</p>
+    </div>
     <div class="subscription-videos-container">
       <div
         v-for="(videoSection, index) in orderedVideoSections"
@@ -47,7 +52,7 @@
         </div>
       </div>
     </div>
-    <div class="feed-pagination">
+    <div v-if="orderedVideoSections && orderedVideoSections.length > 0" class="feed-pagination">
       <Pagination :currentPage="currentPage" :pageCount="pageCount" />
     </div>
 
@@ -71,6 +76,7 @@ import SectionTitle from '@/components/SectionTitle.vue';
 import SwitchButton from '@/components/buttons/SwitchButton.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import EditIcon from 'vue-material-design-icons/PencilBoxMultipleOutline.vue';
+import SubscriptionIcon from 'vue-material-design-icons/YoutubeSubscription.vue';
 import ImportIcon from 'vue-material-design-icons/Import.vue';
 import Pagination from '@/components/pagination/Pagination.vue';
 import Vue from 'vue';
@@ -86,7 +92,8 @@ export default Vue.extend({
     BadgeButton,
     EditIcon,
     ImportIcon,
-    Pagination
+    Pagination,
+    SubscriptionIcon
   },
   data: () => ({
     videos: [],
@@ -152,7 +159,10 @@ export default Vue.extend({
     };
   },
   computed: {
-    orderedVideoSections() {
+    hasNoSubscriptions(): boolean {
+      return !this.orderedVideoSections || this.orderedVideoSections.length <= 0;
+    },
+    orderedVideoSections(): Array<any> {
       const orderedArray = [];
       let i = 0;
       this.videos.forEach(video => {
@@ -176,13 +186,13 @@ export default Vue.extend({
       });
       return orderedArray;
     },
-    lastRefreshTime() {
+    lastRefreshTime(): string {
       const now = new Date();
       now.setMinutes(Math.floor(now.getMinutes() / 30) * 30);
       now.setSeconds(0);
       return now.toLocaleString();
     },
-    nextRefreshTime() {
+    nextRefreshTime(): string {
       const now = new Date();
       now.setMinutes(Math.ceil(now.getMinutes() / 30) * 30);
       now.setSeconds(0);
@@ -217,7 +227,7 @@ export default Vue.extend({
         .catch(err => {
           this.$store.dispatch('messages/createMessage', {
             type: 'error',
-            title: 'Error loading subscription registrations',
+            title: 'Error loading notification worker',
             message: err.message
           });
         });
@@ -292,6 +302,9 @@ export default Vue.extend({
 
 <style lang="scss">
 .subscriptions {
+  &.empty {
+    height: 100vh;
+  }
   .section-title {
     width: 100%;
     max-width: $main-width;
@@ -354,10 +367,24 @@ export default Vue.extend({
         flex-direction: row;
         align-items: flex-start;
 
+        @media screen and (max-width: $mobile-width) {
+          flex-direction: column;
+        }
+
         .switch {
           margin: 5px 0 0 0 !important;
         }
       }
+    }
+  }
+
+  .no-subscriptions {
+    position: relative;
+    z-index: 10;
+    margin: 20% 0 0 0;
+    text-align: center;
+
+    p {
     }
   }
 
