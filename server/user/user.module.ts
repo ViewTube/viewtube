@@ -5,6 +5,7 @@ import { UserService } from './user.service';
 import { UserController } from './user.controller';
 import { SubscriptionsModule } from './subscriptions/subscriptions.module';
 import { NotificationsModule } from './notifications/notifications.module';
+import { SettingsModule } from './settings/settings.module';
 
 const moduleMetadata: ModuleMetadata = {
   imports: [
@@ -16,7 +17,8 @@ const moduleMetadata: ModuleMetadata = {
       }
     ]),
     SubscriptionsModule,
-    NotificationsModule
+    NotificationsModule,
+    SettingsModule
   ],
   providers: [UserService],
   controllers: [UserController],
