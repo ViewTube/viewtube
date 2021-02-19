@@ -1673,12 +1673,12 @@
     consola "^2.15.3"
     defu "^3.2.2"
 
-"@nuxtjs/composition-api@^0.20.1":
-  version "0.20.1"
-  resolved "https://registry.yarnpkg.com/@nuxtjs/composition-api/-/composition-api-0.20.1.tgz#56389fb26e8faa92dd9cffb3927d71dc18a0e590"
-  integrity sha512-3Cde2h7EgfNwnV2HaZt1Kdtd588JEQ9Jtfp2nb6VldFpLTx4zeGzNqLSbGPl8XIruZPcxSb1bqwXFVT0HXkh6g==
+"@nuxtjs/composition-api@^0.20.2":
+  version "0.20.2"
+  resolved "https://registry.yarnpkg.com/@nuxtjs/composition-api/-/composition-api-0.20.2.tgz#1c395c675f6eec50f80a378553e965ad0d6bdd19"
+  integrity sha512-SetYbVgG6dmnInUBZ/Peo0Q/oyu9UD9MVukS5vKpp8Setm6ZmTXj5/AjnsQlFx5Kzu+zKf19JzWg29YFZdt/vg==
   dependencies:
-    "@vue/composition-api" "1.0.0-rc.1"
+    "@vue/composition-api" "1.0.0-rc.2"
     defu "^3.2.2"
     ufo "^0.6.6"
     upath "^2.0.1"
@@ -2472,12 +2472,12 @@
   optionalDependencies:
     prettier "^1.18.2"
 
-"@vue/composition-api@1.0.0-rc.1":
-  version "1.0.0-rc.1"
-  resolved "https://registry.yarnpkg.com/@vue/composition-api/-/composition-api-1.0.0-rc.1.tgz#d5286bbaffcd1987e56d5e3a9f26bfb6023e7c41"
-  integrity sha512-6I5LkfA+VvVOLZufRugzQ5sWKQH81/Cr9gRLidDSeUmjRPolEEWgG4MAnWtBR5zgP5qbRMwZJ4IEYtKhnadMQQ==
+"@vue/composition-api@1.0.0-rc.2":
+  version "1.0.0-rc.2"
+  resolved "https://registry.yarnpkg.com/@vue/composition-api/-/composition-api-1.0.0-rc.2.tgz#9d90e507cf71634aad51ab878b141c2a4739d523"
+  integrity sha512-R4XEvT+qXiT/lnsLzqhjkR/L/ALuNeeQPZqredpLduGKwZtmt2l5I3kT1W+c/157hrY732eFlsPUGz/q9vFaYg==
   dependencies:
-    tslib "^2.0.3"
+    tslib "^2.1.0"
 
 "@webassemblyjs/ast@1.9.0":
   version "1.9.0"
@@ -12246,7 +12246,7 @@ tsconfig-paths@^3.9.0:
     minimist "^1.2.0"
     strip-bom "^3.0.0"
 
-tslib@2.1.0, tslib@^2.0.3:
+tslib@2.1.0, tslib@^2.0.3, tslib@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.1.0.tgz#da60860f1c2ecaa5703ab7d39bc05b6bf988b97a"
   integrity sha512-hcVC3wYEziELGGmEEXue7D75zbwIIVUMWAVbHItGPx0ziyXxrOMQx4rQEVEV45Ut/1IotuEvwqPopzIOkDMf0A==
