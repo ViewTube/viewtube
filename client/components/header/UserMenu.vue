@@ -46,7 +46,7 @@
               Logged in as
               {{ $store.getters['user/username'] }}
             </p>
-            <a class="logout-btn" href="#" @click.prevent="logout">Log out</a>
+            <nuxt-link class="profile-btn" href="#" to="/profile">Your profile</nuxt-link>
           </div>
         </div>
         <div class="menu-buttons" :class="{ authenticated: userAuthenticated }">
@@ -332,6 +332,11 @@ export default defineComponent({
 
   #account {
     color: var(--subtitle-color-light);
+    &:focus {
+      &::after {
+        box-shadow: none;
+      }
+    }
 
     &.authenticated {
       color: var(--theme-color);
@@ -454,13 +459,19 @@ export default defineComponent({
           color: var(--title-color);
         }
 
-        .logout-btn {
+        .profile-btn {
           font-size: 0.9rem;
           width: 100%;
           margin: 0 0 0 10px;
 
           &:hover {
             text-decoration: underline;
+          }
+
+          &:focus {
+            &::after {
+              display: none;
+            }
           }
         }
       }
@@ -502,6 +513,18 @@ export default defineComponent({
 
     @media screen and (max-width: $mobile-width) {
       display: none;
+    }
+
+    &:hover {
+      border: 2px solid var(--theme-color);
+    }
+
+    &:focus {
+      border: 2px solid var(--theme-color);
+
+      &::after {
+        display: none !important;
+      }
     }
   }
 
