@@ -10,13 +10,7 @@ module.exports = {
     extraFileExtensions: ['.vue'],
     ecmaVersion: 12
   },
-  extends: [
-    '@nuxtjs/eslint-config-typescript',
-    'plugin:nuxt/recommended',
-    'prettier',
-    'prettier/vue',
-    'prettier/@typescript-eslint'
-  ],
+  extends: ['@nuxtjs/eslint-config-typescript', 'plugin:nuxt/recommended', 'prettier'],
   // add your custom rules here
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
