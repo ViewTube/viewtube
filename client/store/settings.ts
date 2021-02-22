@@ -1,4 +1,4 @@
-import { getterTree, mutationTree } from 'nuxt-typed-vuex';
+import { actionTree, getterTree, mutationTree } from 'nuxt-typed-vuex';
 
 type segmentOption = 'skip' | 'ask' | 'none';
 
@@ -197,6 +197,24 @@ export const getters = getterTree(state, {
 });
 
 export const mutations = mutationTree(state, {
+  setSettings(state, newSettings) {
+    Object.keys(newSettings).forEach((key: string) => {
+      if (key === 'sponsorblock') {
+        Object.entries(newSettings[key]).forEach(val => {
+          if (val[0] === 'enabled') {
+            state.sponsorblock.enabled = val[1] as boolean;
+          } else {
+            this.app.$accessor.settings.setSponsorblockCategoryStatus({
+              category: val[0],
+              status: val[1]
+            });
+          }
+        });
+      } else if (key in state) {
+        state[key] = newSettings[key];
+      }
+    });
+  },
   setTheme(state, theme) {
     if (state.defaults.theme.find(e => e.value === theme)) {
       state.theme = theme;
@@ -219,3 +237,46 @@ export const mutations = mutationTree(state, {
     }
   }
 });
+
+export const actions = actionTree(
+  { state, getters, mutations },
+  {
+    setTheme({ commit, dispatch }, theme) {
+      commit('setTheme', theme);
+      dispatch('doSettingsRequest', { settingsKey: 'theme', value: theme });
+    },
+    setChapters({ commit, dispatch }, enabled) {
+      commit('setChapters', enabled);
+      dispatch('doSettingsRequest', { settingsKey: 'chapters', value: enabled });
+    },
+    setMiniplayer({ commit, dispatch }, enabled) {
+      commit('setMiniplayer', enabled);
+      dispatch('doSettingsRequest', { settingsKey: 'miniplayer', value: enabled });
+    },
+    setSponsorblock({ commit, dispatch }, enabled) {
+      commit('setSponsorblock', enabled);
+      dispatch('storeSponsorblock');
+    },
+    storeSponsorblock({ dispatch, getters }) {
+      dispatch('doSettingsRequest', {
+        settingsKey: 'sponsorblock',
+        value: {
+          enabled: getters.sponsorblock,
+          sponsor: getters.sponsorblock_sponsor,
+          intro: getters.sponsorblock_intro,
+          outro: getters.sponsorblock_outro,
+          interaction: getters.sponsorblock_interaction,
+          selfpromo: getters.sponsorblock_selfpromo,
+          music_offtopic: getters.sponsorblock_music_offtopic
+        }
+      });
+    },
+    async doSettingsRequest(_, { settingsKey, value }) {
+      if (this.app.$accessor.user.isLoggedIn) {
+        const setting = {};
+        setting[settingsKey] = value;
+        await this.$axios.put(`${this.app.$accessor.environment.env.apiUrl}user/settings`, setting);
+      }
+    }
+  }
+);

@@ -5,6 +5,17 @@ export default ({ store }: Context) => {
   createPersistedState({
     key: 'viewtube',
     paths: ['instances', 'settings', 'videoProgress'],
-    fetchBeforeUse: true
+    fetchBeforeUse: true,
+    getState: (key: string, storage: Storage) => {
+      const storageString = storage.getItem(key);
+      if (storageString) {
+        const jsonStorage = JSON.parse(storageString);
+        if (store.getters['user/isLoggedIn'] && 'settings' in jsonStorage) {
+          delete jsonStorage.settings;
+        }
+        return jsonStorage;
+      }
+      return undefined;
+    }
   })(store);
 };

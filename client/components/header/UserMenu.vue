@@ -33,7 +33,7 @@
       v-tippy="'Account'"
       :class="{ authenticated: userAuthenticated }"
       href="#"
-      @click="showAccountMenu"
+      @click.prevent="showAccountMenu"
     >
       <AccountIcon />
     </a>

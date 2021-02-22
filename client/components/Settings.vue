@@ -12,7 +12,7 @@
         :disabled="false"
         :btnId="'settings-btn-1'"
         :right="true"
-        @valuechange="val => $store.commit('settings/setChapters', val)"
+        @valuechange="val => $store.dispatch('settings/setChapters', val)"
       />
       <h2>
         <img
@@ -33,62 +33,67 @@
         :disabled="false"
         :btnId="'settings-btn-2'"
         :right="true"
-        @valuechange="val => $store.commit('settings/setSponsorblock', val)"
+        @valuechange="val => $store.dispatch('settings/setSponsorblock', val)"
       />
-      <MultiOptionButton
-        :options="sponsorblockSegmentOptions"
-        :selectedValue="$store.getters['settings/sponsorblock_sponsor']"
-        :label="'Sponsor'"
-        :small-label="'Advertisements, promotions and video sponsors'"
-        :right="true"
-        :color-mark="'#0fca15'"
-        @valuechange="val => onSponsorblockOptionChange('sponsor', val)"
-      />
-      <MultiOptionButton
-        :options="sponsorblockSegmentOptions"
-        :selectedValue="$store.getters['settings/sponsorblock_intro']"
-        :label="'Intro'"
-        :small-label="'Intro animation, pause, intro sequence'"
-        :right="true"
-        :color-mark="'#07faf0'"
-        @valuechange="val => onSponsorblockOptionChange('intro', val)"
-      />
-      <MultiOptionButton
-        :options="sponsorblockSegmentOptions"
-        :selectedValue="$store.getters['settings/sponsorblock_outro']"
-        :label="'Outro'"
-        :small-label="'Endcards, credits, outros'"
-        :right="true"
-        :color-mark="'#0103e1'"
-        @valuechange="val => onSponsorblockOptionChange('outro', val)"
-      />
-      <MultiOptionButton
-        :options="sponsorblockSegmentOptions"
-        :selectedValue="$store.getters['settings/sponsorblock_interaction']"
-        :label="'Interaction reminder'"
-        :small-label="'Reminder to subscribe, like, follow on social media, etc.'"
-        :right="true"
-        :color-mark="'#b711df'"
-        @valuechange="val => onSponsorblockOptionChange('interaction', val)"
-      />
-      <MultiOptionButton
-        :options="sponsorblockSegmentOptions"
-        :selectedValue="$store.getters['settings/sponsorblock_selfpromo']"
-        :label="'Self promotion'"
-        :small-label="'Unpaid promotion, for example donations, merchandise or shoutouts'"
-        :right="true"
-        :color-mark="'#fdfb0e'"
-        @valuechange="val => onSponsorblockOptionChange('selfpromo', val)"
-      />
-      <MultiOptionButton
-        :options="sponsorblockSegmentOptions"
-        :selectedValue="$store.getters['settings/sponsorblock_music_offtopic']"
-        :label="'Non-music section'"
-        :small-label="'Skips non-music sections in music videos'"
-        :right="true"
-        :color-mark="'#f89c06'"
-        @valuechange="val => onSponsorblockOptionChange('music_offtopic', val)"
-      />
+      <div
+        class="sponsorblock-options"
+        :class="{ disabled: !$store.getters['settings/sponsorblock'] }"
+      >
+        <MultiOptionButton
+          :options="sponsorblockSegmentOptions"
+          :selectedValue="$store.getters['settings/sponsorblock_sponsor']"
+          :label="'Sponsor'"
+          :small-label="'Advertisements, promotions and video sponsors'"
+          :right="true"
+          :color-mark="'#0fca15'"
+          @valuechange="val => onSponsorblockOptionChange('sponsor', val)"
+        />
+        <MultiOptionButton
+          :options="sponsorblockSegmentOptions"
+          :selectedValue="$store.getters['settings/sponsorblock_intro']"
+          :label="'Intro'"
+          :small-label="'Intro animation, pause, intro sequence'"
+          :right="true"
+          :color-mark="'#07faf0'"
+          @valuechange="val => onSponsorblockOptionChange('intro', val)"
+        />
+        <MultiOptionButton
+          :options="sponsorblockSegmentOptions"
+          :selectedValue="$store.getters['settings/sponsorblock_outro']"
+          :label="'Outro'"
+          :small-label="'Endcards, credits, outros'"
+          :right="true"
+          :color-mark="'#0103e1'"
+          @valuechange="val => onSponsorblockOptionChange('outro', val)"
+        />
+        <MultiOptionButton
+          :options="sponsorblockSegmentOptions"
+          :selectedValue="$store.getters['settings/sponsorblock_interaction']"
+          :label="'Interaction reminder'"
+          :small-label="'Reminder to subscribe, like, follow on social media, etc.'"
+          :right="true"
+          :color-mark="'#b711df'"
+          @valuechange="val => onSponsorblockOptionChange('interaction', val)"
+        />
+        <MultiOptionButton
+          :options="sponsorblockSegmentOptions"
+          :selectedValue="$store.getters['settings/sponsorblock_selfpromo']"
+          :label="'Self promotion'"
+          :small-label="'Unpaid promotion, for example donations, merchandise or shoutouts'"
+          :right="true"
+          :color-mark="'#fdfb0e'"
+          @valuechange="val => onSponsorblockOptionChange('selfpromo', val)"
+        />
+        <MultiOptionButton
+          :options="sponsorblockSegmentOptions"
+          :selectedValue="$store.getters['settings/sponsorblock_music_offtopic']"
+          :label="'Non-music section'"
+          :small-label="'Skips non-music sections in music videos'"
+          :right="true"
+          :color-mark="'#f89c06'"
+          @valuechange="val => onSponsorblockOptionChange('music_offtopic', val)"
+        />
+      </div>
 
       <h2><MiniplayerIcon />Miniplayer</h2>
       <SwitchButton
@@ -97,7 +102,7 @@
         :disabled="false"
         :btnId="'settings-btn-3'"
         :right="true"
-        @valuechange="val => $store.commit('settings/setMiniplayer', val)"
+        @valuechange="val => $store.dispatch('settings/setMiniplayer', val)"
       />
     </div>
     <div class="settings-overlay popup-overlay" @click.stop="$emit('close')" />
@@ -174,6 +179,20 @@ h2 {
     filter: grayscale(100%) brightness(0.9) invert(1);
   }
 }
+
+.sponsorblock-options {
+  width: calc(100% - 20px);
+  transition: padding 300ms $intro-easing;
+  padding-bottom: 384px;
+  overflow: hidden;
+
+  &.disabled {
+    pointer-events: none;
+    user-select: none;
+    padding-bottom: 0;
+  }
+}
+
 .small-label {
   margin: 0 0 0 36px;
   font-size: 0.8rem;

@@ -49,8 +49,7 @@ export class SettingsService {
         selfpromo: 'skip',
         sponsor: 'skip'
       }),
-      theme: this.getValid(settings.theme, 'dark'),
-      username: settings.username
+      theme: this.getValid(settings.theme, 'default')
     };
     return completeSettings;
   }

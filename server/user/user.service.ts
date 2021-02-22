@@ -5,13 +5,26 @@ import bcrypt from 'bcryptjs';
 import { UserprofileDto } from 'server/user/dto/userprofile.dto';
 import { User } from './schemas/user.schema';
 import { UserDto } from './user.dto';
+import { Settings } from './settings/schemas/settings.schema';
+import { SettingsService } from './settings/settings.service';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectModel(User.name)
-    private readonly UserModel: Model<User>
+    private readonly UserModel: Model<User>,
+    private settingsService: SettingsService
   ) {}
+
+  async getProfile(username: string): Promise<UserprofileDto> {
+    if (username) {
+      const userSettings = await this.settingsService.getSettings(username);
+      return {
+        username,
+        settings: userSettings
+      };
+    }
+  }
 
   async create(user: UserDto): Promise<UserprofileDto> {
     const existingUser: null | User = await this.findOne(user.username);
