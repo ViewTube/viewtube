@@ -7,7 +7,7 @@ import { SettingsDto } from './dto/settings.dto';
 @ApiTags('User')
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth()
-@Controller('user/settings')
+@Controller('user/history')
 export class SettingsController {
   constructor(private settingsService: SettingsService) {}
 

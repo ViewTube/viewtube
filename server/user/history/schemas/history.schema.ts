@@ -8,7 +8,7 @@ export class Settings extends Document implements SettingsDto {
   username: string;
 
   @Prop()
-  miniplayer: boolean;
+  videoHistory: boolean;
 
   @Prop()
   chapters: boolean;
