@@ -1,11 +1,11 @@
-import { Module } from '@nestjs/common';
+import { Module, ModuleMetadata } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Settings, SettingsSchema } from './schemas/settings.schema';
 import { SettingsController } from './settings.controller';
 import { SettingsService } from './settings.service';
 
-@Module({
+const moduleMetadata: ModuleMetadata = {
   imports: [
     ConfigModule.forRoot(),
     MongooseModule.forFeature([
@@ -19,5 +19,6 @@ import { SettingsService } from './settings.service';
   controllers: [SettingsController],
   providers: [SettingsService],
   exports: [SettingsService]
-})
-export class SettingsModule {}
+};
+@Module(moduleMetadata)
+export class HistoryModule {}

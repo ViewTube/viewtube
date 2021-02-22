@@ -3,7 +3,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { SponsorblockSettingsDto } from '../dto/sponsorblock-settings.dto';
 
 @Schema({ timestamps: true })
-export class Settings extends Document implements SettingsDto {
+export class History extends Document {
   @Prop()
   username: string;
 
@@ -29,4 +29,4 @@ export class Settings extends Document implements SettingsDto {
   showHomeSubscriptions: boolean;
 }
 
-export const SettingsSchema = SchemaFactory.createForClass(Settings);
+export const HistorySchema = SchemaFactory.createForClass(History);
