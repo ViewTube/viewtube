@@ -78,7 +78,7 @@
             class="ripple tooltip menu-btn"
             @click.self.prevent="openSubscriptions"
           >
-            <div class="menu-btn-content"><AccountPlusIcon />Subscriptions</div>
+            <div class="menu-btn-content"><SubscriptionIcon />Subscriptions</div>
           </a>
           <a
             id="settings-btn"
@@ -87,7 +87,7 @@
             class="ripple tooltip menu-btn"
             @mousedown.self.prevent="openSettings"
           >
-            <div class="menu-btn-content"><SettingsIcon />settings</div>
+            <div class="menu-btn-content"><SettingsIcon />Settings</div>
           </a>
           <a
             id="instances-btn"
@@ -96,7 +96,7 @@
             class="ripple tooltip menu-btn"
             @mousedown.self.prevent="openInstances"
           >
-            <div class="menu-btn-content"><InstanceIcon />instances</div>
+            <div class="menu-btn-content"><InstanceIcon />Instances</div>
           </a>
           <a
             id="about-btn"
@@ -105,7 +105,7 @@
             class="ripple tooltip menu-btn"
             @mousedown.self.prevent="openAbout"
           >
-            <div class="menu-btn-content"><AboutIcon />about</div>
+            <div class="menu-btn-content"><AboutIcon />About</div>
           </a>
         </div>
       </div>
@@ -126,6 +126,7 @@ import SettingsIcon from 'vue-material-design-icons/Cog.vue';
 import InstanceIcon from 'vue-material-design-icons/ServerNetwork.vue';
 import AboutIcon from 'vue-material-design-icons/InformationOutline.vue';
 import AccountIcon from 'vue-material-design-icons/AccountCircle.vue';
+import SubscriptionIcon from 'vue-material-design-icons/YoutubeSubscription.vue';
 import AccountPlusIcon from 'vue-material-design-icons/AccountPlus.vue';
 import Settings from '@/components/Settings.vue';
 import Instances from '@/components/Instances.vue';
@@ -150,6 +151,7 @@ export default defineComponent({
     AboutIcon,
     AccountIcon,
     AccountPlusIcon,
+    SubscriptionIcon,
     Settings,
     Instances,
     About
@@ -500,11 +502,11 @@ export default defineComponent({
   .nav-btn {
     text-decoration: none;
     color: var(--theme-color);
-    transition: color 300ms $intro-easing;
+    transition: color 300ms $intro-easing, border 300ms $intro-easing;
     margin: 0 5px;
     display: flex;
     user-select: none;
-    border-radius: 5px;
+    border-radius: 3px;
     line-height: 100%;
     text-align: center;
     padding: 5px 10px;
@@ -529,8 +531,12 @@ export default defineComponent({
   }
 
   .nav-btn.main {
-    border: solid 2px var(--theme-color);
+    border: solid 2px var(--theme-color-translucent);
     border-radius: 3px;
+
+    &:hover {
+      border: 2px solid var(--theme-color);
+    }
   }
 
   #open-in-yt {

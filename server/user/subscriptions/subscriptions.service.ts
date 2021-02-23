@@ -221,6 +221,18 @@ export class SubscriptionsService {
     return { likes, dislikes };
   }
 
+  async getSubscribedChannelsCount(username: string): Promise<number> {
+    const user = await this.subscriptionModel
+      .findOne({ username })
+      .exec()
+      .catch(_ => {});
+
+    if (user) {
+      return user.subscriptions.length;
+    }
+    return 0;
+  }
+
   async getSubscribedChannels(
     username: string,
     limit: number,
@@ -429,10 +441,15 @@ export class SubscriptionsService {
         );
       } catch (_) {}
       const subscriptions = user ? user.subscriptions : [];
-      subscriptions.push({
-        channelId: channel.authorId,
-        createdAt: new Date()
-      });
+
+      const currentSubscription = subscriptions.find(e => e.channelId === channel.authorId);
+
+      if (!currentSubscription) {
+        subscriptions.push({
+          channelId: channel.authorId,
+          createdAt: new Date()
+        });
+      }
 
       await this.subscriptionModel
         .findOneAndUpdate({ username }, { username, subscriptions }, { upsert: true })

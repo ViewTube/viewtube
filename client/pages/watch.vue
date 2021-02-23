@@ -1,11 +1,11 @@
 <template>
   <div class="watch">
-    <!-- <video v-if="!jsEnabled" controls :src="getHDUrl()" class="nojs-player" /> -->
     <Spinner v-if="$fetchState.pending" class="centered" />
+    <!-- <video v-if="!jsEnabled" controls :src="getHDUrl()" class="nojs-player" /> -->
     <VideoPlayer
       v-if="video"
       :key="video.id"
-      ref="videoplayerRef"
+      ref="videoplayer"
       :video="video"
       class="video-player-p"
     />

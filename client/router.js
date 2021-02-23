@@ -26,6 +26,10 @@ const SubscriptionManage = () =>
   import(/* webpackChunkName: "group-subscription" */ '@/pages/subscriptions/manage.vue').then(
     m => m.default || m
   );
+const ProfileIndex = () =>
+  import(/* webpackChunkName: "group-profile" */ '@/pages/profile/index.vue').then(
+    m => m.default || m
+  );
 
 Vue.use(Router);
 
@@ -69,6 +73,10 @@ export function createRouter() {
       {
         path: '/subscriptions/manage',
         component: SubscriptionManage
+      },
+      {
+        path: '/profile',
+        component: ProfileIndex
       }
     ]
   });

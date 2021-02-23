@@ -1,64 +1,156 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
+import { Sorting } from 'server/common/sorting.type';
+import { VideoBasicInfoDto } from 'server/core/videos/dto/video-basic-info.dto';
+import { VideoBasicInfo } from 'server/core/videos/schemas/video-basic-info.schema';
 import { History } from './schemas/history.schema';
-import { HistoryDto } from './dto/history.dto';
+import { VideoVisitDetailsDto } from './dto/video-visit-details.dto';
 
 @Injectable()
 export class HistoryService {
   constructor(
     @InjectModel(History.name)
-    private readonly HistoryModel: Model<History>
+    private readonly HistoryModel: Model<History>,
+    @InjectModel(VideoBasicInfo.name)
+    private readonly VideoBasicInfoModel: Model<VideoBasicInfo>
   ) {}
 
-  async setHistory(history: Partial<HistoryDto>, username: string): Promise<void> {
+  async setVideoVisit(
+    username: string,
+    videoId: string,
+    progressSeconds: number,
+    lengthSeconds: number,
+    lastVisit: Date
+  ) {
     if (username) {
       try {
-        await this.HistoryModel.findOneAndUpdate({ username }, history, { upsert: true }).exec();
-      } catch (err) {
-        throw new InternalServerErrorException('Error updating history');
+        const userHistory = await this.HistoryModel.findOne({ username }).exec();
+
+        const userHistoryArray = userHistory ? userHistory.videoHistory : [];
+
+        const currentVideoVisit = userHistoryArray.find(value => value.videoId === videoId);
+
+        if (currentVideoVisit) {
+          currentVideoVisit.lastVisit = lastVisit;
+          if (progressSeconds) {
+            currentVideoVisit.progressSeconds = progressSeconds;
+          }
+
+          if (lengthSeconds && currentVideoVisit.lengthSeconds !== lengthSeconds) {
+            currentVideoVisit.lengthSeconds = lengthSeconds;
+          }
+        } else {
+          userHistoryArray.push({
+            videoId,
+            progressSeconds,
+            lengthSeconds,
+            lastVisit
+          });
+        }
+
+        await this.HistoryModel.findOneAndUpdate(
+          { username },
+          { username, videoHistory: userHistoryArray },
+          { upsert: true }
+        ).exec();
+      } catch (error) {
+        throw new InternalServerErrorException('Error saving video visit');
       }
-    } else {
-      throw new InternalServerErrorException('Error finding user');
     }
   }
 
-  async getHistory(username: string): Promise<HistoryDto> {
+  async getHistoryStats(username: string) {
+    const history = await this.HistoryModel.findOne({ username })
+      .exec()
+      .catch(_ => {});
+    if (history) {
+      let totalSeconds = 0;
+      history.videoHistory.forEach(el => {
+        totalSeconds += el.progressSeconds;
+      });
+      const totalVideoCount = history.videoHistory.length;
+
+      return {
+        totalSeconds,
+        totalVideoCount
+      };
+    }
+  }
+
+  async getHistory(
+    username: string,
+    limit: number = 30,
+    start: number = 0,
+    sort: 'ASC' | 'DESC' = 'ASC',
+    filter: string = null
+  ): Promise<{ videos: Array<VideoVisitDetailsDto>; videoCount: number }> {
     if (username) {
-      try {
-        const history = (await this.HistoryModel.findOne({ username }).exec()) || {};
-        return this.getCompleteHistoryObject(history);
-      } catch (err) {
-        throw new InternalServerErrorException('Error retrieving history');
+      const history = await this.HistoryModel.findOne({ username })
+        .exec()
+        .catch(_ => {});
+      if (history) {
+        const videoCount = history.videoHistory.length;
+
+        const userHistory = await this.HistoryModel.findOne({ username })
+          .exec()
+          .catch(_ => {});
+
+        if (userHistory) {
+          const videoHistoryItems = userHistory.videoHistory;
+          const videoHistoryIds = videoHistoryItems.map(e => e.videoId);
+
+          const historyVideos = await this.VideoBasicInfoModel.find({
+            videoId: { $in: videoHistoryIds }
+          }).exec();
+
+          let videoVisitDetailsArray: Array<VideoVisitDetailsDto> = historyVideos.map(video => {
+            const videoVisit = videoHistoryItems.find(e => e.videoId === video.videoId);
+            return {
+              lastVisit: videoVisit.lastVisit,
+              lengthSeconds: videoVisit.lengthSeconds,
+              progressSeconds: videoVisit.progressSeconds,
+              videoDetails: video,
+              videoId: video.videoId
+            };
+          });
+
+          if (sort === 'ASC') {
+            videoVisitDetailsArray = videoVisitDetailsArray.sort((a, b) => {
+              return new Date(a.lastVisit).getTime() - new Date(b.lastVisit).getTime();
+            });
+          } else if (sort === 'DESC') {
+            videoVisitDetailsArray = videoVisitDetailsArray.sort((a, b) => {
+              return new Date(b.lastVisit).getTime() - new Date(a.lastVisit).getTime();
+            });
+          }
+
+          if (filter) {
+            videoVisitDetailsArray = videoVisitDetailsArray.filter(e => {
+              return (
+                e.videoDetails.title.match(new RegExp(`.*${filter}.*`, 'i')) ||
+                e.videoDetails.author.match(new RegExp(`.*${filter}.*`, 'i'))
+              );
+            });
+          }
+          if (start < limit) {
+            if (start) {
+              videoVisitDetailsArray = videoVisitDetailsArray.splice(0, start);
+            }
+
+            if (limit) {
+              videoVisitDetailsArray = videoVisitDetailsArray.splice(0, limit);
+            }
+          }
+
+          return {
+            videoCount,
+            videos: videoVisitDetailsArray
+          };
+        }
+      } else {
+        return { videos: [], videoCount: 0 };
       }
     }
-  }
-
-  private getCompleteHistoryObject(history: Partial<HistoryDto>): HistoryDto {
-    const completeHistory: HistoryDto = {
-      autoplay: this.getValid(history.autoplay, true),
-      chapters: this.getValid(history.chapters, true),
-      miniplayer: this.getValid(history.miniplayer, true),
-      saveVideoHistory: this.getValid(history.saveVideoHistory, true),
-      sponsorblock: this.getValid(history.sponsorblock, {
-        enabled: true,
-        interaction: 'skip',
-        intro: 'ask',
-        music_offtopic: 'skip',
-        outro: 'ask',
-        selfpromo: 'skip',
-        sponsor: 'skip'
-      }),
-      theme: this.getValid(history.theme, 'dark'),
-      username: history.username
-    };
-    return completeHistory;
-  }
-
-  private getValid(value: any, defaultValue: any) {
-    if (value !== undefined && defaultValue !== null) {
-      return value;
-    }
-    return defaultValue;
   }
 }

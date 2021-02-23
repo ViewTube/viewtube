@@ -1,7 +1,9 @@
 import { Document } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { SponsorblockSettingsDto } from '../dto/sponsorblock-settings.dto';
+import { SettingsDto } from '../dto/settings.dto';
 
+// eslint-disable-next-line no-undef
 @Schema({ timestamps: true })
 export class Settings extends Document implements SettingsDto {
   @Prop()

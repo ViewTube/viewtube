@@ -3,17 +3,22 @@ import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import bcrypt from 'bcryptjs';
 import { UserprofileDto } from 'server/user/dto/userprofile.dto';
+import humanizeDuration from 'humanize-duration';
 import { User } from './schemas/user.schema';
 import { UserDto } from './user.dto';
-import { Settings } from './settings/schemas/settings.schema';
 import { SettingsService } from './settings/settings.service';
+import { UserprofileDetailsDto } from './dto/userprofile-details.dto';
+import { HistoryService } from './history/history.service';
+import { SubscriptionsService } from './subscriptions/subscriptions.service';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectModel(User.name)
     private readonly UserModel: Model<User>,
-    private settingsService: SettingsService
+    private settingsService: SettingsService,
+    private historyService: HistoryService,
+    private subscriptionsService: SubscriptionsService
   ) {}
 
   async getProfile(username: string): Promise<UserprofileDto> {
@@ -22,6 +27,28 @@ export class UserService {
       return {
         username,
         settings: userSettings
+      };
+    }
+  }
+
+  async getProfileDetails(username: string): Promise<UserprofileDetailsDto> {
+    if (username) {
+      const user = await this.UserModel.findOne({ username });
+      const videoHistory = await this.historyService.getHistory(username, 10, 0, 'DESC');
+
+      const subscribedChannelsCount = await this.subscriptionsService.getSubscribedChannelsCount(
+        username
+      );
+
+      const videoStats = await this.historyService.getHistoryStats(username);
+
+      return {
+        username,
+        videoHistory: videoHistory.videos,
+        registeredAt: (user as any).createdAt,
+        totalVideosCount: videoStats.totalVideoCount,
+        totalTimeString: humanizeDuration(videoStats.totalSeconds * 1000),
+        subscribedChannelsCount
       };
     }
   }
@@ -44,7 +71,8 @@ export class UserService {
         password: hash
       }).save();
       return {
-        username: createdUser.username
+        username: createdUser.username,
+        settings: null
       };
     }
   }
