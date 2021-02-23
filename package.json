@@ -44,7 +44,7 @@
     "@nestjs/platform-express": "^7.6.12",
     "@nestjs/schedule": "^0.4.2",
     "@nestjs/swagger": "^4.7.13",
-    "@nestjs/testing": "^7.6.12",
+    "@nestjs/testing": "^7.6.13",
     "@nuxt/types": "^2.15.1",
     "@nuxt/typescript-build": "2.0.5",
     "@nuxtjs/axios": "^5.13.1",
