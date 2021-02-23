@@ -250,7 +250,7 @@ export class SubscriptionsService {
         const channelCount = await this.ChannelBasicInfoModel.countDocuments({
           authorId: { $in: userChannelIds },
           author: { $regex: `.*${filter}.*`, $options: 'i' }
-        });
+        }).exec();
         const channels = await this.ChannelBasicInfoModel.find({
           authorId: { $in: userChannelIds },
           author: { $regex: `.*${filter}.*`, $options: 'i' }
@@ -260,7 +260,7 @@ export class SubscriptionsService {
           .limit(parseInt(limit as any))
           .catch(_ => {
             return null;
-          });
+          })
 
         if (channels) {
           return {
@@ -283,7 +283,7 @@ export class SubscriptionsService {
       const userSubscriptionIds = userSubscriptions.subscriptions.map(e => e.channelId);
       const videoCount = await this.VideoModel.countDocuments({
         authorId: { $in: userSubscriptionIds }
-      });
+      }).exec();
       const videos = await this.VideoModel.find({ authorId: { $in: userSubscriptionIds } })
         .sort({ published: -1 })
         .limit(parseInt(limit as any))
@@ -295,7 +295,7 @@ export class SubscriptionsService {
         })
         .catch(err => {
           throw new HttpException(`Error fetching subscription feed: ${err}`, 500);
-        });
+        })
       if (videos) {
         const channelIds = videos.map((video: VideoBasicInfoDto) => video.authorId);
 

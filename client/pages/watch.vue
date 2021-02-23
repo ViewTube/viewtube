@@ -241,6 +241,17 @@ export default defineComponent({
     const openInstancePopup = () => {
       emit('open-popup', 'instances');
     };
+    const saveToHistory = () => {
+      if (accessor.user.isLoggedIn) {
+        const apiUrl = accessor.environment.apiUrl;
+        axios
+          .post(`${apiUrl}user/history/${video.value.videoId}`, {
+            progressSeconds: null,
+            lengthSeconds: video.value.lengthSeconds
+          })
+          .catch(_ => {});
+      }
+    };
     const reloadComments = () => {
       commentsLoading.value = true;
       commentsError.value = false;
@@ -317,6 +328,7 @@ export default defineComponent({
         .then((response: { data: any }) => {
           if (response) {
             video.value = response.data;
+            saveToHistory();
           } else {
             accessor.messages.createMessage({
               type: 'error',

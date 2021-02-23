@@ -24,8 +24,7 @@ export class VideosController {
     excludePrefixes: ['_']
   })
   @Get(':id')
-  getVideos(@Param('id') id: string, @Req() request: any): Promise<VideoDto> {
-    console.log(request.user.username);
+  getVideos(@Param('id') id: string): Promise<VideoDto> {
     return this.videosService.getById(id);
   }
 }
