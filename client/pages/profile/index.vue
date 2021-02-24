@@ -9,7 +9,7 @@
         <p>{{ profile.username }}</p>
       </div>
     </div>
-    <div class="statistics">
+    <div v-if="profile" class="statistics">
       <p>
         <span class="highlight">{{ profile.totalVideosCount }} videos</span> watched
       </p>

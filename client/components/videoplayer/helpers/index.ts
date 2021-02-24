@@ -295,7 +295,7 @@ export const videoPlayerSetup = (props: any) => {
     playerOverlay.thumbnailVisible = false;
     videoElement.playing = true;
     videoElement.positionSaveInterval = setInterval(
-      () => saveVideoPosition(videoRef.value.currentTime, accessor.videoProgress),
+      () => saveVideoPosition(videoRef.value.currentTime),
       5000
     );
     if ('mediaSession' in navigator) {
@@ -305,7 +305,7 @@ export const videoPlayerSetup = (props: any) => {
 
   const onVideoPaused = () => {
     videoElement.playing = false;
-    saveVideoPosition(videoRef.value.currentTime, accessor.videoProgress);
+    saveVideoPosition(videoRef.value.currentTime);
     clearInterval(videoElement.positionSaveInterval);
     if ('mediaSession' in navigator) {
       (navigator as any).mediaSession.playbackState = 'paused';
@@ -585,7 +585,7 @@ export const videoPlayerSetup = (props: any) => {
   const onChangeQuality = (index: number) => {
     videoRef.value.pause();
     const currentTime = videoRef.value.currentTime;
-    saveVideoPosition(currentTime, accessor.videoProgress);
+    saveVideoPosition(currentTime);
     videoRef.value.src = props.video.formatStreams[index].url;
     videoRef.value.currentTime = currentTime;
     videoRef.value.play();
@@ -596,12 +596,17 @@ export const videoPlayerSetup = (props: any) => {
     return mediaMetadataHelper.createMediaMetadata();
   };
 
-  const saveVideoPosition = (currentTime: number, store: any) => {
-    if (videoRef.value.video !== undefined) {
-      store.addVideoProgress({
-        videoId: props.video.videoId,
-        value: currentTime
-      });
+  const saveVideoPosition = (currentTime: number) => {
+    if (videoRef.value !== undefined) {
+      if (root.$store.getters['user/isLoggedIn']) {
+        const apiUrl = root.$store.getters['environment/apiUrl'];
+        root.$axios
+          .post(`${apiUrl}user/history/${props.video.videoId}`, {
+            progressSeconds: Math.floor(currentTime),
+            lengthSeconds: Math.floor(videoRef.value.duration)
+          })
+          .catch((_: any) => {});
+      }
     }
   };
 
@@ -683,7 +688,7 @@ export const videoPlayerSetup = (props: any) => {
   });
 
   onBeforeUnmount(() => {
-    saveVideoPosition(videoRef.value.currentTime, accessor.videoProgress);
+    saveVideoPosition(videoRef.value.currentTime);
     document.removeEventListener('keydown', onWindowKeyDown);
   });
   return {

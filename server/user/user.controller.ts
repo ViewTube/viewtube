@@ -3,6 +3,7 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'server/auth/guards/jwt.guard';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { UserprofileDto } from 'server/user/dto/userprofile.dto';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { UserprofileDetailsDto } from './dto/userprofile-details.dto';
 import { UserService } from './user.service';
 

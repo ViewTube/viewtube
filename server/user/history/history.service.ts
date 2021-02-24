@@ -1,11 +1,10 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-import { Sorting } from 'server/common/sorting.type';
-import { VideoBasicInfoDto } from 'server/core/videos/dto/video-basic-info.dto';
 import { VideoBasicInfo } from 'server/core/videos/schemas/video-basic-info.schema';
 import { History } from './schemas/history.schema';
 import { VideoVisitDetailsDto } from './dto/video-visit-details.dto';
+import { VideoVisitDto } from './dto/video-visit.dto';
 
 @Injectable()
 export class HistoryService {
@@ -57,6 +56,28 @@ export class HistoryService {
       } catch (error) {
         throw new InternalServerErrorException('Error saving video visit');
       }
+    }
+  }
+
+  async getVideoVisit(username: string, videoId: string): Promise<VideoVisitDto> {
+    const videoHistory = await this.HistoryModel.findOne({ username }).exec();
+
+    const videoVisit = videoHistory.videoHistory.find(e => e.videoId === videoId);
+
+    if (videoVisit) {
+      return {
+        progressSeconds: videoVisit.progressSeconds,
+        lengthSeconds: videoVisit.lengthSeconds,
+        lastVisit: videoVisit.lastVisit,
+        videoId
+      };
+    } else {
+      return {
+        progressSeconds: 0,
+        lengthSeconds: null,
+        lastVisit: null,
+        videoId
+      };
     }
   }
 
