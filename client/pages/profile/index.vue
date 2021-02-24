@@ -9,6 +9,9 @@
         <p>{{ profile.username }}</p>
       </div>
     </div>
+    <div v-if="profile" class="actions">
+      <BadgeButton :click="logout" style="color: #ef4056">Logout</BadgeButton>
+    </div>
     <div v-if="profile" class="statistics">
       <p>
         <span class="highlight">{{ profile.totalVideosCount }} videos</span> watched
@@ -25,6 +28,7 @@
 
 <script lang="ts">
 import Spinner from '@/components/Spinner.vue';
+import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import AccountCircleIcon from 'vue-material-design-icons/AccountCircle.vue';
 
 import Vue from 'vue';
@@ -32,6 +36,7 @@ export default Vue.extend({
   name: 'Profile',
   components: {
     Spinner,
+    BadgeButton,
     AccountCircleIcon
   },
   data() {
@@ -56,6 +61,37 @@ export default Vue.extend({
             message: 'Try logging out and in again'
           });
         });
+    } else {
+      this.$nuxt.context.redirect('/login');
+    }
+  },
+  head() {
+    return {
+      title: `${this.profile ? this.profile.username + ' :: ' : ''}Profile :: ViewTube`,
+      meta: [
+        {
+          hid: 'description',
+          vmid: 'descriptionMeta',
+          name: 'description',
+          content: 'See your profile'
+        },
+        {
+          hid: 'ogTitle',
+          property: 'og:title',
+          content: 'Your profile'
+        },
+        {
+          hid: 'ogDescription',
+          property: 'og:description',
+          content: 'See your profile'
+        }
+      ]
+    };
+  },
+  methods: {
+    logout() {
+      this.$store.dispatch('user/logout');
+      this.$router.push('/');
     }
   }
 });
