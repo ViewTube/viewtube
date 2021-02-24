@@ -5,9 +5,7 @@ import {
   UseInterceptors,
   ClassSerializerInterceptor,
   SerializeOptions,
-  CacheInterceptor,
-  Req
-} from '@nestjs/common';
+  CacheInterceptor} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { VideoDto } from 'shared/dto/video/video.dto';
