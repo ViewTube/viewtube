@@ -1,8 +1,28 @@
 <template>
   <div class="settings popup">
     <div class="settings-container popup-container">
-      <CloseIcon class="close-icon" @click.stop="$emit('close')" />
-      <h1>Settings</h1>
+      <div class="settings-header">
+        <CloseIcon class="close-icon" @click.stop="$emit('close')" />
+        <h1 class="settings-title">
+          Settings
+          <div class="cloud-icon-container">
+            <transition name="icon-switch" mode="out-in">
+              <CloudCheckIcon
+                v-if="!settingsSaving"
+                v-tippy="'Settings synchronized'"
+                class="cloud-icon"
+              />
+            </transition>
+            <transition name="icon-switch" mode="out-in">
+              <ReloadIcon
+                v-if="settingsSaving"
+                v-tippy="'Saving settings'"
+                class="small-saving-spinner cloud-icon"
+              />
+            </transition>
+          </div>
+        </h1>
+      </div>
       <h2><ThemeIcon />Theme</h2>
       <ThemeSelector />
       <h2><ChaptersIcon />Chapters</h2>
@@ -12,7 +32,7 @@
         :disabled="false"
         :btnId="'settings-btn-1'"
         :right="true"
-        @valuechange="val => $store.dispatch('settings/setChapters', val)"
+        @valuechange="val => saveSetting('settings/setChapters', val)"
       />
       <h2>
         <img
@@ -33,7 +53,7 @@
         :disabled="false"
         :btnId="'settings-btn-2'"
         :right="true"
-        @valuechange="val => $store.dispatch('settings/setSponsorblock', val)"
+        @valuechange="val => saveSetting('settings/setSponsorblock', val)"
       />
       <div
         class="sponsorblock-options"
@@ -102,7 +122,7 @@
         :disabled="false"
         :btnId="'settings-btn-3'"
         :right="true"
-        @valuechange="val => $store.dispatch('settings/setMiniplayer', val)"
+        @valuechange="val => saveSetting('settings/setMiniplayer', val)"
       />
     </div>
     <div class="settings-overlay popup-overlay" @click.stop="$emit('close')" />
@@ -114,11 +134,20 @@ import CloseIcon from 'vue-material-design-icons/Close.vue';
 import ThemeIcon from 'vue-material-design-icons/Brightness4.vue';
 import MiniplayerIcon from 'vue-material-design-icons/WindowRestore.vue';
 import ChaptersIcon from 'vue-material-design-icons/BookOpenVariant.vue';
+import CloudCheckIcon from 'vue-material-design-icons/CloudCheckOutline.vue';
+import ReloadIcon from 'vue-material-design-icons/Reload.vue';
 import ThemeSelector from '@/components/themes/ThemeSelector.vue';
 import SwitchButton from '@/components/buttons/SwitchButton.vue';
 import MultiOptionButton from '@/components/buttons/MultiOptionButton.vue';
 import '@/assets/styles/popup.scss';
-import { computed, defineComponent, reactive } from '@nuxtjs/composition-api';
+import {
+  computed,
+  defineComponent,
+  onBeforeUnmount,
+  reactive,
+  ref,
+  useStore
+} from '@nuxtjs/composition-api';
 import { useAccessor } from '~/store';
 
 export default defineComponent({
@@ -130,25 +159,23 @@ export default defineComponent({
     SwitchButton,
     ThemeSelector,
     ChaptersIcon,
-    MultiOptionButton
+    MultiOptionButton,
+    CloudCheckIcon,
+    ReloadIcon
   },
-  setup() {
+  setup(_, { root }) {
     const accessor = useAccessor();
+    const store = useStore();
     const sponsorblockSegmentOptions = reactive([
       { label: 'Skip', value: 'skip' },
       { label: 'Ask', value: 'ask' },
       { label: 'None', value: 'none' }
     ]);
 
+    const settingsSaving = ref(false);
     const themes = computed(() => accessor.settings.defaultThemes);
     const currentTheme = computed(() => accessor.settings.theme);
 
-    const onSponsorblockOptionChange = (category: string, value: { value: string }) => {
-      accessor.settings.setSponsorblockCategoryStatus({
-        category,
-        status: value.value
-      });
-    };
     const onThemeChange = (element: any) => {
       setTimeout(() => {
         document.body.classList.add('transition-all');
@@ -159,46 +186,151 @@ export default defineComponent({
       }, 300);
     };
 
+    const onSettingsSaving = value => {
+      settingsSaving.value = value;
+    };
+
+    const saveSetting = async (storeAction: string, value: string): Promise<void> => {
+      root.$nuxt.$emit('settings-saving', true);
+      await store.dispatch(storeAction, value);
+      root.$nuxt.$emit('settings-saving', false);
+    };
+
+    const onSponsorblockOptionChange = async (category, value) => {
+      root.$nuxt.$emit('settings-saving', true);
+
+      accessor.settings.setSponsorblockCategoryStatus({
+        category,
+        status: value.value
+      });
+      await accessor.settings.storeSponsorblock();
+      root.$nuxt.$emit('settings-saving', false);
+    };
+
+    root.$nuxt.$on('settings-saving', onSettingsSaving);
+
+    onBeforeUnmount(() => {
+      root.$nuxt.$off('settings-saving');
+    });
+
     return {
       sponsorblockSegmentOptions,
       themes,
       currentTheme,
+      settingsSaving,
       onSponsorblockOptionChange,
-      onThemeChange
+      onThemeChange,
+      saveSetting
     };
   }
 });
 </script>
 
 <style lang="scss">
-h2 {
-  .sponsorblock-image {
-    height: 24px;
-    width: 24px;
-    margin: 0 10px 0 0;
-    filter: grayscale(100%) brightness(0.9) invert(1);
+.icon-switch-enter-active,
+.icon-switch-leave-active {
+  transform: rotate(0);
+  opacity: 1;
+}
+.icon-switch-enter {
+  transform: rotate(-80deg);
+  opacity: 0;
+}
+.icon-switch-leave-to {
+  opacity: 0;
+  transform: rotate(80deg);
+}
+.settings-container {
+  padding: 50px 20px 0 20px !important;
+
+  .settings-header {
+    position: fixed;
+    width: calc(100% - 20px);
+    max-width: 700px;
+    top: 10%;
+    margin: 0 !important;
+    padding: 0;
+    z-index: 12;
+    background-color: var(--bgcolor-alt);
+
+    .settings-title {
+      text-align: center;
+    }
+
+    .cloud-icon-container {
+      display: inline-block;
+      position: relative;
+      top: 0;
+      left: 0;
+      width: 24px;
+      height: 24px;
+
+      .cloud-icon {
+        position: absolute;
+        top: 0;
+        left: 0;
+        transition: opacity 300ms $intro-easing, transform 300ms $intro-easing;
+
+        .material-design-icon__svg {
+          position: absolute;
+          left: 1px;
+        }
+      }
+
+      .small-saving-spinner {
+        animation: spin 600ms linear infinite;
+        transform-origin: center;
+      }
+    }
+
+    .close-icon {
+      position: absolute;
+    }
+
+    @media screen and (max-width: $mobile-width) {
+      top: 0;
+      padding: 15px 0;
+    }
+  }
+
+  h2 {
+    .sponsorblock-image {
+      height: 24px;
+      width: 24px;
+      margin: 0 10px 0 0;
+      filter: grayscale(100%) brightness(0.9) invert(1);
+    }
+  }
+
+  .sponsorblock-options {
+    width: calc(100% - 20px);
+    transition: padding 300ms $intro-easing;
+    padding-bottom: 384px;
+    overflow: hidden;
+
+    &.disabled {
+      pointer-events: none;
+      user-select: none;
+      padding-bottom: 0;
+    }
+  }
+
+  .small-label {
+    margin: 0 0 0 36px;
+    font-size: 0.8rem;
+  }
+
+  .settings-subtitle {
+    margin-left: 36px;
   }
 }
 
-.sponsorblock-options {
-  width: calc(100% - 20px);
-  transition: padding 300ms $intro-easing;
-  padding-bottom: 384px;
-  overflow: hidden;
-
-  &.disabled {
-    pointer-events: none;
-    user-select: none;
-    padding-bottom: 0;
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
   }
-}
-
-.small-label {
-  margin: 0 0 0 36px;
-  font-size: 0.8rem;
-}
-
-.settings-subtitle {
-  margin-left: 36px;
+  100% {
+    transform: rotate(360deg);
+  }
 }
 </style>

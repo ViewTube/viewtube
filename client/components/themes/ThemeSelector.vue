@@ -59,15 +59,18 @@ import { useAccessor } from '@/store';
 
 export default defineComponent({
   name: 'ThemeSelector',
-  setup() {
+  setup(_, { root }) {
     const accessor = useAccessor();
     const themes = ref(accessor.settings.defaultThemes);
 
     const onThemeChange = (element: { value: any }) => {
+      root.$nuxt.$emit('settings-saving', true);
+
       document.body.classList.add('transition-all');
       accessor.settings.setTheme(element.value);
       setTimeout(() => {
         document.body.classList.remove('transition-all');
+        root.$nuxt.$emit('settings-saving', false);
       }, 300);
     };
     const getBorderThemeColor = (theme: { [x: string]: string; value: string }): string => {

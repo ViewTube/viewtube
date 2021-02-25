@@ -241,24 +241,24 @@ export const mutations = mutationTree(state, {
 export const actions = actionTree(
   { state, getters, mutations },
   {
-    setTheme({ commit, dispatch }, theme) {
+    async setTheme({ commit, dispatch }, theme) {
       commit('setTheme', theme);
-      dispatch('doSettingsRequest', { settingsKey: 'theme', value: theme });
+      await dispatch('doSettingsRequest', { settingsKey: 'theme', value: theme });
     },
-    setChapters({ commit, dispatch }, enabled) {
+    async setChapters({ commit, dispatch }, enabled) {
       commit('setChapters', enabled);
-      dispatch('doSettingsRequest', { settingsKey: 'chapters', value: enabled });
+      await dispatch('doSettingsRequest', { settingsKey: 'chapters', value: enabled });
     },
-    setMiniplayer({ commit, dispatch }, enabled) {
+    async setMiniplayer({ commit, dispatch }, enabled) {
       commit('setMiniplayer', enabled);
-      dispatch('doSettingsRequest', { settingsKey: 'miniplayer', value: enabled });
+      await dispatch('doSettingsRequest', { settingsKey: 'miniplayer', value: enabled });
     },
-    setSponsorblock({ commit, dispatch }, enabled) {
+    async setSponsorblock({ commit, dispatch }, enabled) {
       commit('setSponsorblock', enabled);
-      dispatch('storeSponsorblock');
+      await dispatch('storeSponsorblock');
     },
-    storeSponsorblock({ dispatch, getters }) {
-      dispatch('doSettingsRequest', {
+    async storeSponsorblock({ dispatch, getters }) {
+      await dispatch('doSettingsRequest', {
         settingsKey: 'sponsorblock',
         value: {
           enabled: getters.sponsorblock,
