@@ -1,4 +1,4 @@
-import { Module, CacheModule } from '@nestjs/common';
+import { Module, CacheModule, ModuleMetadata } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
 import { General, GeneralSchema } from 'server/common/general.schema';
@@ -16,7 +16,9 @@ import {
 import { SearchModule } from './search/search.module';
 import { ChannelsModule } from './channels/channels.module';
 import { HomepageModule } from './homepage/homepage.module';
-@Module({
+import { ProxyModule } from './proxy/proxy.module';
+
+const moduleMetadata: ModuleMetadata = {
   imports: [
     CacheModule.register({
       ttl: 1200,
@@ -48,10 +50,13 @@ import { HomepageModule } from './homepage/homepage.module';
     ConfigModule.forRoot(),
     SearchModule,
     ChannelsModule,
-    HomepageModule
+    HomepageModule,
+    ProxyModule
   ],
   controllers: [VideosController, VideoplaybackController],
   providers: [VideosService, VideoplaybackService],
   exports: [VideosService, VideoplaybackService]
-})
+};
+
+@Module(moduleMetadata)
 export class CoreModule {}

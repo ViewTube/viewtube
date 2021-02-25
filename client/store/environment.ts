@@ -14,6 +14,9 @@ export const state = () => ({
 export const getters = getterTree(state, {
   apiUrl(state) {
     return state.env.apiUrl;
+  },
+  imgProxyUrl(state) {
+    return `${state.env.apiUrl}proxy/image?url=`;
   }
 });
 

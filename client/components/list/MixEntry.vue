@@ -10,7 +10,7 @@
         <img
           v-if="mix.firstVideo && mix.firstVideo.thumbnails"
           class="mix-entry-thmb-image"
-          :src="proxyUrl + mix.firstVideo.thumbnails[0].url"
+          :src="imgProxyUrl + mix.firstVideo.thumbnails[0].url"
           :alt="mix.title"
         />
       </div>
@@ -45,8 +45,6 @@
 </template>
 
 <script lang="ts">
-import { commons } from '@/plugins/commons.ts';
-
 import 'tippy.js/dist/tippy.css';
 
 import Vue from 'vue';
@@ -56,9 +54,11 @@ export default Vue.extend({
   props: {
     mix: Object
   },
-  data: () => ({
-    proxyUrl: commons.proxyUrl
-  }),
+  data() {
+    return {
+      imgProxyUrl: this.$store.getters['environment/imgProxyUrl']
+    };
+  },
   computed: {
     mixLink(): string {
       return `/watch?v=${
