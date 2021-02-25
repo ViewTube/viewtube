@@ -10,19 +10,19 @@
         <img
           v-if="playlist.thumbnail"
           class="playlist-entry-thmb-image"
-          :src="proxyUrl + playlist.thumbnail"
+          :src="imgProxyUrl + playlist.thumbnail"
           :alt="playlist.title"
         />
         <img
           v-if="playlist.playlistThumbnails"
           class="playlist-entry-thmb-image"
-          :src="proxyUrl + playlist.playlistThumbnails[3].url"
+          :src="imgProxyUrl + playlist.playlistThumbnails[3].url"
           :alt="playlist.title"
         />
         <img
           v-if="playlist.firstVideo && playlist.firstVideo.thumbnails"
           class="playlist-entry-thmb-image"
-          :src="proxyUrl + playlist.firstVideo.thumbnails[0].url"
+          :src="imgProxyUrl + playlist.firstVideo.thumbnails[0].url"
           :alt="playlist.title"
         />
       </div>
@@ -80,7 +80,6 @@
 </template>
 
 <script lang="ts">
-import { commons } from '@/plugins/commons.ts';
 import VerifiedIcon from 'vue-material-design-icons/CheckDecagram.vue';
 import PlaylistIcon from 'vue-material-design-icons/PlaylistPlay.vue';
 
@@ -97,9 +96,11 @@ export default Vue.extend({
   props: {
     playlist: Object
   },
-  data: () => ({
-    proxyUrl: commons.proxyUrl
-  }),
+  data() {
+    return {
+      imgProxyUrl: this.$store.getters['environment/imgProxyUrl']
+    };
+  },
   computed: {
     playlistLink(): string {
       return `/watch?v=${

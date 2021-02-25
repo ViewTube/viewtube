@@ -3,14 +3,14 @@
     <img
       ref="bannerImage"
       class="channel-banner-image"
-      :src="proxyUrl + src"
+      :src="imgProxyUrl + src"
       alt="Channel banner"
     />
     <div class="additional-content">
       <a
         v-tippy="'Show the banner'"
         class="show-btn"
-        :href="proxyUrl + bannerHqSrc"
+        :href="imgProxyUrl + bannerHqSrc"
         target="_blank"
         rel="noreferrer noopener"
         ><EyeIcon
@@ -25,7 +25,7 @@
         >
           <img
             v-if="link.linkThumbnails"
-            :src="proxyUrl + link.linkThumbnails[0].url"
+            :src="imgProxyUrl + link.linkThumbnails[0].url"
             :alt="link.title"
           />
           {{ link.title }}
@@ -37,7 +37,6 @@
 
 <script lang="ts">
 import EyeIcon from 'vue-material-design-icons/Eye.vue';
-import { commons } from '@/plugins/commons.ts';
 
 import Vue from 'vue';
 
@@ -53,7 +52,7 @@ export default Vue.extend({
   },
   data() {
     return {
-      proxyUrl: commons.proxyUrl
+      imgProxyUrl: this.$store.getters['environment/imgProxyUrl']
     };
   }
 });

@@ -10,14 +10,14 @@
       <div v-if="channel.authorThumbnails" class="thmb-image-container">
         <img
           class="channel-entry-thmb-image"
-          :src="proxyUrl + channel.authorThumbnails[2].url"
+          :src="imgProxyUrl + channel.authorThumbnails[2].url"
           :alt="channel.author"
         />
       </div>
       <div v-if="channel.avatars" class="thmb-image-container">
         <img
           class="channel-entry-thmb-image"
-          :src="proxyUrl + channel.avatars[0].url"
+          :src="imgProxyUrl + channel.avatars[0].url"
           :alt="channel.author ? channel.author : channel.name"
         />
       </div>
@@ -52,7 +52,6 @@
 </template>
 
 <script lang="ts">
-import { commons } from '@/plugins/commons.ts';
 import VerifiedIcon from 'vue-material-design-icons/CheckDecagram.vue';
 import Vue from 'vue';
 
@@ -63,9 +62,11 @@ export default Vue.extend({
     channel: Object,
     horizontal: Boolean
   },
-  data: () => ({
-    proxyUrl: commons.proxyUrl
-  }),
+  data() {
+    return {
+      imgProxyUrl: this.$store.getters['environment/imgProxyUrl']
+    };
+  },
   mounted() {},
   methods: {
     channelNameToImgString(): string {
