@@ -4596,10 +4596,10 @@ dashdash@^1.12.0:
   dependencies:
     assert-plus "^1.0.0"
 
-dashjs@^3.1.3:
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/dashjs/-/dashjs-3.2.0.tgz#09435e2601f3208f499d49c82c688dfdb4d82e72"
-  integrity sha512-hir9kgQb4lV+sKGtMNwH5rS2c8Chn0R1URSAdgo73baBgmxq7PnN0RkP5u2VXnVDGR5jbH9KnjVuDTLv0nE2kw==
+dashjs@^3.2.1:
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/dashjs/-/dashjs-3.2.1.tgz#1b4dc392c2d02f5cb209dd9f499bb648043ce385"
+  integrity sha512-n8hDpwGlhgI5jkTLLWyW6TaJcjiytUw0fZ/bu7WXPeqccljf8bjmvBqWyveX+eBB0S0CGACCvgUQ3XubWUxvhQ==
   dependencies:
     codem-isoboxer "0.3.6"
     fast-deep-equal "2.0.1"
