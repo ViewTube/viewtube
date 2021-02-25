@@ -46,7 +46,7 @@
     "@nestjs/swagger": "^4.7.13",
     "@nestjs/testing": "^7.6.13",
     "@nuxt/types": "^2.15.2",
-    "@nuxt/typescript-build": "2.0.5",
+    "@nuxt/typescript-build": "2.0.6",
     "@nuxtjs/axios": "^5.13.1",
     "@nuxtjs/composition-api": "^0.20.2",
     "@nuxtjs/eslint-config-typescript": "^5.0.0",
