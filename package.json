@@ -33,7 +33,7 @@
     "not Edge 18"
   ],
   "dependencies": {
-    "@babel/core": "^7.12.17",
+    "@babel/core": "^7.13.1",
     "@chenfengyuan/vue-qrcode": "^1.0.2",
     "@nestjs/common": "^7.6.13",
     "@nestjs/config": "^0.6.3",
