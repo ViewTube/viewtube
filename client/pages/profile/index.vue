@@ -10,7 +10,7 @@
       </div>
     </div>
     <div v-if="profile" class="actions">
-      <BadgeButton :click="logout" style="color: #ef4056">Logout</BadgeButton>
+      <BadgeButton :click="onLogoutPopup" style="color: #ef4056">Logout</BadgeButton>
     </div>
     <div v-if="profile" class="statistics">
       <p>
@@ -23,6 +23,19 @@
         <span class="highlight">{{ profile.subscribedChannelsCount }} channels</span> subscribed to
       </p>
     </div>
+    <portal to="popup">
+      <transition name="popup">
+        <Confirmation
+          v-if="logoutPopup"
+          :title="'Logout'"
+          :message="'Do you want to log out?'"
+          @close="() => (logoutPopup = false)"
+        >
+          <BadgeButton :click="() => (logoutPopup = false)">Cancel</BadgeButton>
+          <BadgeButton :click="logout">OK</BadgeButton>
+        </Confirmation>
+      </transition>
+    </portal>
   </div>
 </template>
 
@@ -30,6 +43,7 @@
 import Spinner from '@/components/Spinner.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import AccountCircleIcon from 'vue-material-design-icons/AccountCircle.vue';
+import Confirmation from '@/components/popup/Confirmation.vue';
 
 import Vue from 'vue';
 export default Vue.extend({
@@ -37,11 +51,13 @@ export default Vue.extend({
   components: {
     Spinner,
     BadgeButton,
-    AccountCircleIcon
+    AccountCircleIcon,
+    Confirmation
   },
   data() {
     return {
-      profile: null
+      profile: null,
+      logoutPopup: false
     };
   },
   async fetch() {
@@ -89,6 +105,12 @@ export default Vue.extend({
     };
   },
   methods: {
+    onLogoutPopup() {
+      this.logoutPopup = true;
+    },
+    onLogoutPopupClose() {
+      this.logoutPopup = false;
+    },
     logout() {
       this.$store.dispatch('user/logout');
       this.$router.push('/');
@@ -98,6 +120,21 @@ export default Vue.extend({
 </script>
 
 <style lang="scss">
+.popup-enter-active,
+.popup-leave-active {
+  transition: opacity 300ms $intro-easing, transform 300ms $intro-easing;
+}
+.popup-enter-to,
+.popup-leave {
+  opacity: 1;
+  transform: scale(1);
+}
+.popup-enter,
+.popup-leave-to {
+  opacity: 0;
+  transform: scale(1.1);
+}
+
 .profile {
   width: 100%;
   max-width: 500px;
