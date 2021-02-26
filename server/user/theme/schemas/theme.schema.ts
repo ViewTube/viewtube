@@ -12,9 +12,8 @@ export class Theme extends Document {
   @Prop()
   name: string;
 
-  any: {
-    themeVariables: Object;
-  };
+  @Prop({ type: {} })
+  themeVariables: any;
 }
 
 export const ThemeSchema = SchemaFactory.createForClass(Theme).index(

@@ -3,13 +3,13 @@
     <a
       v-for="(theme, id) in defaults"
       :key="id"
-      v-ripple
       href="#"
       class="theme"
       :style="{
         'border-color': getBorderThemeColor(theme)
       }"
       @click.prevent="onThemeChange(theme)"
+      @contextmenu.prevent.stop="onContextClick($event, theme)"
     >
       <div class="theme-preview">
         <div
@@ -55,18 +55,39 @@
       </div>
       <span class="theme-title">{{ theme.name }}</span>
     </a>
+    <vue-simple-context-menu
+      :elementId="'defaultContextMenu'"
+      :options="contextOptions"
+      :ref="'vueSimpleContextMenu'"
+      @option-clicked="optionClicked"
+    />
   </div>
 </template>
 
 <script lang="ts">
 import { ThemeDto } from '@/plugins/shared';
+import DotsIcon from 'vue-material-design-icons/DotsVertical.vue';
+import 'vue-simple-context-menu/dist/vue-simple-context-menu.css';
+import VueSimpleContextMenu from 'vue-simple-context-menu';
 import Vue from 'vue';
 
 export default Vue.extend({
+  components: { DotsIcon, VueSimpleContextMenu },
+  props: {
+    onManagePage: Boolean
+  },
   data() {
     return {
       defaults: this.$store.getters['theme/defaultThemes'] as ThemeDto[]
     };
+  },
+  computed: {
+    contextOptions() {
+      if (this.onManagePage) {
+        return [{ name: 'Clone Theme', slug: 'clone' }];
+      }
+      return [];
+    }
   },
   methods: {
     onThemeChange(theme: ThemeDto) {
@@ -76,15 +97,38 @@ export default Vue.extend({
         document.body.classList.remove('transition-all');
       }, 300);
     },
+    onContextClick(event, theme: ThemeDto) {
+      this.$refs.vueSimpleContextMenu.showMenu(event, theme);
+    },
+    optionClicked(event) {
+      this.$emit('contextOption', { option: event.option.slug, theme: event.item as ThemeDto });
+    },
     getBorderThemeColor(theme: ThemeDto): string {
       return theme.value === this.$store.getters['theme/selectedDefault']
         ? theme.themeVariables['theme-color']
-        : 'transparent';
+        : this.$store.getters['theme/themeVariables'].themeVariables['bgcolor-alt-light'];
     }
   }
 });
 </script>
+<style lang="scss">
+.vue-simple-context-menu__item {
+  background-color: var(--bgcolor-alt);
+  color: var(--theme-color);
+}
+.vue-simple-context-menu__item:hover {
+  background-color: var(--bgcolor-alt-light);
+  color: var(--theme-color);
+}
 
+.vue-simple-context-menu li:first-of-type {
+  margin-top: 0;
+}
+
+.vue-simple-context-menu li:last-of-type {
+  margin-bottom: 0;
+}
+</style>
 <style lang="scss" scoped>
 .theme {
   border-style: solid;
@@ -96,10 +140,42 @@ export default Vue.extend({
   align-items: center;
   padding: 5px;
   transition: box-shadow 200ms $intro-easing, border-color 200ms $intro-easing;
+  margin: 5px;
 }
 
 .theme::after {
   display: none;
+}
+
+.show-details {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  z-index: 13;
+  opacity: 0;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+}
+
+.detail-btn-container {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 12;
+  width: 44px;
+  height: 44px;
+  padding: 10px;
+  margin: 20px 5px;
+  transform: scale(0.8);
+  background-color: var(--bgcolor-alt);
+  color: var(--theme-color);
+  border-radius: 5px;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: opacity 200ms $intro-easing, transform 200ms $intro-easing;
+  box-sizing: border-box;
+  box-shadow: $low-shadow;
 }
 
 .theme-selector {
@@ -115,7 +191,7 @@ export default Vue.extend({
     height: 120px;
     display: flex;
     flex-direction: column;
-    margin: 20px 20px 0 20px;
+    margin: 20px 45px 0 45px;
     overflow: hidden;
     position: relative;
     box-sizing: border-box;
@@ -197,5 +273,6 @@ export default Vue.extend({
 .theme-title {
   color: var(--title-color);
   margin: 5px 10px;
+  width: 200px;
 }
 </style>

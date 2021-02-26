@@ -189,7 +189,7 @@ export const getters = getterTree(state, {
     if (found !== undefined) {
       return found;
     }
-    return state.defaults.find(el => state.selectedDefault === el.value);
+    return state.defaults.find(el => state.selectedDefault === el.value) as ThemeDto;
   },
   selectedTheme: state => {
     if (state.selectedCustom.length !== 0) {
@@ -225,7 +225,7 @@ export const actions = actionTree(
   {
     async fetchCustomThemes() {
       await this.$axios
-        .get(`${this.app.$accessor.environment.apiUrl}user/theme/themes`, {
+        .get(`${this.app.$accessor.environment.apiUrl}user/theme`, {
           withCredentials: true
         })
         .then((response: { data: ThemeDto[] }) => {

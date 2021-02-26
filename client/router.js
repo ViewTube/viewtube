@@ -26,12 +26,8 @@ const SubscriptionManage = () =>
   import(/* webpackChunkName: "group-subscription" */ '@/pages/subscriptions/manage.vue').then(
     m => m.default || m
   );
-const ThemesIndex = () =>
+const Themes = () =>
   import(/* webpackChunkName: "group-themes" */ '@/pages/themes/index.vue').then(
-    m => m.default || m
-  );
-const ThemesManage = () =>
-  import(/* webpackChunkName: "group-themes" */ '@/pages/themes/manage.vue').then(
     m => m.default || m
   );
 
@@ -80,11 +76,7 @@ export function createRouter() {
       },
       {
         path: '/themes',
-        component: ThemesIndex
-      },
-      {
-        path: '/themes/manage',
-        component: ThemesManage
+        component: Themes
       }
     ]
   });

@@ -1,70 +1,79 @@
 <template>
   <div class="themeContainer">
-    <h2 class="title"><ThemeIcon /> Default Themes</h2>
-    <DefaultThemeSelector />
-    <div class="manageThemesTitle">
-      <h2 class="title"><CustomIcon /> Custom Themes</h2>
-      <h3 class="manageThemesBtn">
-        <BadgeButton :href="'themes/manage'" :internal-link="true">
-          <EditIcon />
-          <p>Manage</p>
+    <h2 class="title">Themes</h2>
+    <h4><i>Use the right-click menu to manage themes!</i></h4>
+    <SectionTitle :title="'Default Themes'" />
+    <DefaultThemeSelector :onManagePage="true" @contextOption="handleContextDefault" />
+    <SectionTitle :title="'Custom Themes'">
+      <div class="CloneButtonWrapper">
+        <BadgeButton :click="() => (cloneTheme = true)">
+          <PlusIcon />
+          <p>Create Theme</p>
         </BadgeButton>
-      </h3>
-    </div>
-
-    <CustomThemeSelector />
+      </div>
+    </SectionTitle>
+    <CustomThemeSelector :onManagePage="true" />
   </div>
 </template>
 <script lang="ts">
-// TODO: pagination (for extreme users with many themes)
-import { ThemeDto } from '@/plugins/shared';
+import Vue from 'vue';
 import CustomThemeSelector from '@/components/themes/CustomThemeSelector.vue';
 import DefaultThemeSelector from '@/components/themes/DefaultThemeSelector.vue';
-import GradientBackground from '@/components/GradientBackground.vue';
-import ThemeIcon from 'vue-material-design-icons/Brightness4.vue';
-import CustomIcon from 'vue-material-design-icons/Tune.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
-import EditIcon from 'vue-material-design-icons/PencilBoxMultipleOutline.vue';
-import Vue from 'vue';
+import SectionTitle from '@/components/SectionTitle.vue';
+import PlusIcon from 'vue-material-design-icons/Plus.vue';
+import Axios from 'axios';
+import { ThemeDto } from '@/plugins/shared';
 export default Vue.extend({
-  name: 'Themes',
-  components: {
-    CustomThemeSelector,
-    DefaultThemeSelector,
-    ThemeIcon,
-    GradientBackground,
-    CustomIcon,
-    BadgeButton,
-    EditIcon
-  },
-  data: () => ({
-    themes: [] as ThemeDto[],
-    loading: true
-  }),
-  async fetch({ app: app }) {
-    await app.$accessor.theme.fetchCustomThemes();
+  components: { CustomThemeSelector, BadgeButton, DefaultThemeSelector, SectionTitle, PlusIcon },
+  methods: {
+    handleContextDefault(event: { option: string; theme: ThemeDto }) {
+      if (event.option === 'clone') {
+        Axios.post(
+          `${this.$store.getters['environment/apiUrl']}user/theme`,
+          { theme: event.theme },
+          { withCredentials: true }
+        )
+          .then(response => {
+            if (response.data)
+              this.$store.dispatch('messages/createMessage', {
+                type: 'info',
+                title: 'Cloning theme finished',
+                message: 'Refreshing the page...'
+              });
+          })
+          .catch(err => {
+            this.$store.dispatch('messages/createMessage', {
+              type: 'error',
+              title: 'Cloning theme failed',
+              message: err
+            });
+          })
+          .finally(this.$store.dispatch('theme/fetchCustomThemes'));
+      }
+    }
   }
 });
 </script>
 <style lang="scss" scoped>
 .themeContainer {
   margin-top: $header-height;
+  text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-left: 10px;
+}
+.actions {
+  display: flex;
+  flex-direction: row;
 }
 .title {
   text-align: center;
   margin-top: 30px;
 }
-.manageThemesTitle {
+.CloneButtonWrapper {
   display: flex;
-  justify-items: center;
-}
-.manageThemesBtn {
-  display: flex;
-  flex-direction: row;
-  align-self: flex-end;
-  margin-left: 20px;
+  align-items: center;
 }
 </style>

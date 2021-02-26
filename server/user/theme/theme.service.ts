@@ -1,9 +1,15 @@
-import { Injectable, Req, UnauthorizedException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+  UnauthorizedException
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
+import Consola from 'consola';
 import { Model } from 'mongoose';
 import { ThemeDto } from '../../../shared/dto/theme/theme.dto';
 import { Theme } from './schemas/theme.schema';
-
 @Injectable()
 export class ThemeService {
   constructor(
@@ -11,15 +17,18 @@ export class ThemeService {
     private readonly ThemeModel: Model<Theme>
   ) {}
 
-  async getThemes(@Req() req: any): Promise<ThemeDto[]> {
+  async getThemes(req: any): Promise<ThemeDto[]> {
     if (req.user && req.user.username) {
-      const themes = await this.ThemeModel.find({ username: req.user.username });
+      const themes = await this.ThemeModel.find({ username: req.user.username }).catch(error => {
+        Consola.error(error);
+        throw new InternalServerErrorException();
+      });
       if (themes.length != 0) {
         return themes.map(value => {
           return {
             value: value.value,
             name: value.name,
-            themeVariables: value.any.themeVariables
+            themeVariables: value.themeVariables
           } as ThemeDto;
         });
       }
@@ -29,29 +38,34 @@ export class ThemeService {
     }
   }
 
-  async addTheme(@Req() req: any, theme: ThemeDto): Promise<boolean> {
+  async addTheme(req: any, theme: ThemeDto): Promise<boolean> {
     if (req.user && req.user.username) {
       return this.ThemeModel.create({
         username: req.user.username,
         name: theme.name,
         value: theme.value,
-        any: { themeVariables: theme.themeVariables }
-      }).then(
-        () => {
-          return true;
-        },
-        () => {
-          return false;
-        }
-      );
+        themeVariables: theme.themeVariables
+      })
+        .catch(error => {
+          Consola.error(error);
+          throw new InternalServerErrorException();
+        })
+        .then(
+          () => {
+            return true;
+          },
+          () => {
+            throw new BadRequestException('Theme creation failed. May already exist.');
+          }
+        );
     } else {
       throw new UnauthorizedException();
     }
   }
 
-  async updateTheme(@Req() req: any, theme: ThemeDto): Promise<boolean> {
+  async updateTheme(req: any, theme: ThemeDto): Promise<boolean> {
     if (req.user && req.user.username) {
-      return this.ThemeModel.update(
+      return this.ThemeModel.updateOne(
         {
           username: req.user.username,
           value: theme.value
@@ -60,34 +74,44 @@ export class ThemeService {
           username: req.user.username,
           name: theme.name,
           value: theme.value,
-          any: { themeVariables: theme.themeVariables }
+          themeVariables: theme.themeVariables
         }
-      ).then(
-        () => {
-          return true;
-        },
-        () => {
-          return false;
-        }
-      );
+      )
+        .catch(error => {
+          Consola.error(error);
+          throw new InternalServerErrorException();
+        })
+        .then(
+          () => {
+            return true;
+          },
+          () => {
+            throw new BadRequestException('Theme update failed');
+          }
+        );
     } else {
       throw new UnauthorizedException();
     }
   }
 
-  async deleteTheme(@Req() req: any, theme: ThemeDto): Promise<boolean> {
+  async deleteTheme(req: any, theme: ThemeDto): Promise<boolean> {
     if (req.user && req.user.username) {
       return this.ThemeModel.deleteOne({
         username: req.user.username,
         value: theme.value
-      }).then(
-        () => {
-          return true;
-        },
-        () => {
-          return false;
-        }
-      );
+      })
+        .catch(error => {
+          Consola.error(error);
+          throw new InternalServerErrorException();
+        })
+        .then(
+          () => {
+            return true;
+          },
+          () => {
+            throw new NotFoundException();
+          }
+        );
     } else {
       throw new UnauthorizedException();
     }

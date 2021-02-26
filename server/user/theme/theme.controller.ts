@@ -1,4 +1,4 @@
-import { Controller, Delete, Get, Post, Put, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Post, Put, Req, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'server/auth/guards/jwt.guard';
 import { ThemeDto } from '../../../shared/dto/theme/theme.dto';
@@ -11,27 +11,27 @@ import { ThemeService } from './theme.service';
 export class ThemeController {
   constructor(private themeService: ThemeService) {}
 
-  @Get('themes')
+  @Get()
   @ApiOperation({ summary: 'Gets all themes owned by user' })
   getThemes(@Req() req: any): Promise<ThemeDto[]> {
     return this.themeService.getThemes(req);
   }
 
-  @Post('theme')
+  @Post()
   @ApiOperation({ summary: 'Adds a theme for the current user' })
-  addTheme(@Req() req: any, theme: ThemeDto): Promise<boolean> {
+  addTheme(@Req() req: any, @Body('theme') theme: ThemeDto): Promise<boolean> {
     return this.themeService.addTheme(req, theme);
   }
 
-  @Put('theme')
+  @Put()
   @ApiOperation({ summary: 'Updates a theme for the current user' })
-  updateTheme(@Req() req: any, theme: ThemeDto): Promise<boolean> {
+  updateTheme(@Req() req: any, @Body('theme') theme: ThemeDto): Promise<boolean> {
     return this.themeService.updateTheme(req, theme);
   }
 
-  @Delete('theme')
+  @Delete()
   @ApiOperation({ summary: 'Deletes a theme for the current user' })
-  deleteTheme(@Req() req: any, theme: ThemeDto): Promise<boolean> {
+  deleteTheme(@Req() req: any, @Body('theme') theme: ThemeDto): Promise<boolean> {
     return this.themeService.deleteTheme(req, theme);
   }
 }

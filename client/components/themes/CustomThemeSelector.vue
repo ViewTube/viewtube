@@ -1,13 +1,12 @@
 <template>
   <div class="theme-selector links">
-    <p v-if="customs.length === 0">
-      No themes found. Try adding one in
+    <p v-if="customs.length === 0 && onManagePage === false">
+      No custom themes found. Try adding one in
       <nuxt-link to="/themes/manage" v-ripple v-tippy="'Manage Themes'">here</nuxt-link>.
     </p>
     <a
       v-for="(theme, id) in customs"
       :key="id"
-      v-ripple
       class="theme-preview"
       href="#"
       :style="{
@@ -21,6 +20,12 @@
           'background-color': theme.themeVariables['bgcolor-main']
         }"
       >
+        <div v-if="onManagePage" class="detail-btn-container">
+          <div v-tippy="'Show details'" class="detail-btn">
+            <DotsIcon />
+          </div>
+        </div>
+        <input v-if="onManagePage" class="show-details" type="checkbox" name="show-details" />
         <span
           class="prev-header"
           :style="{
@@ -62,13 +67,18 @@
 
 <script lang="ts">
 import { ThemeDto } from '@/plugins/shared';
+import DotsIcon from 'vue-material-design-icons/DotsVertical.vue';
 import Vue from 'vue';
 
 export default Vue.extend({
-  data() {
-    return {
-      customs: this.$store.getters['theme/customThemes'] as ThemeDto[]
-    };
+  components: { DotsIcon },
+  props: {
+    onManagePage: Boolean
+  },
+  computed: {
+    customs(): ThemeDto[] {
+      return this.$store.getters['theme/customThemes'];
+    }
   },
   methods: {
     onThemeChange(theme: ThemeDto) {
@@ -102,6 +112,35 @@ export default Vue.extend({
 
 .theme::after {
   display: none;
+}
+
+.show-details {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  z-index: 13;
+  opacity: 0;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+}
+
+.detail-btn-container {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 12;
+  width: 44px;
+  height: 44px;
+  padding: 10px;
+  margin: 5px;
+  opacity: 0;
+  transform: scale(0.8);
+  background-color: $video-thmb-overlay-bgcolor;
+  border-radius: 5px;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: opacity 200ms $intro-easing, transform 200ms $intro-easing;
 }
 
 .theme-selector {
