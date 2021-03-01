@@ -1,5 +1,6 @@
 import { Document } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { VideoBasicInfoDto } from 'server/core/videos/dto/video-basic-info.dto';
 
 @Schema()

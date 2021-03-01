@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, ModuleMetadata } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from './schemas/user.schema';
 import { UserService } from './user.service';
@@ -6,7 +6,7 @@ import { UserController } from './user.controller';
 import { SubscriptionsModule } from './subscriptions/subscriptions.module';
 import { NotificationsModule } from './notifications/notifications.module';
 
-@Module({
+const moduleMetadata: ModuleMetadata = {
   imports: [
     MongooseModule.forFeature([
       {
@@ -21,5 +21,6 @@ import { NotificationsModule } from './notifications/notifications.module';
   providers: [UserService],
   controllers: [UserController],
   exports: [UserService]
-})
+};
+@Module(moduleMetadata)
 export class UserModule {}

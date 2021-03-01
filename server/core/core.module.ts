@@ -57,6 +57,5 @@ const moduleMetadata: ModuleMetadata = {
   providers: [VideosService, VideoplaybackService],
   exports: [VideosService, VideoplaybackService]
 };
-
 @Module(moduleMetadata)
 export class CoreModule {}

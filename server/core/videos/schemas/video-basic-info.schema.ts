@@ -4,9 +4,11 @@ import {
   Schema,
   SchemaFactory
 } from '@nestjs/mongoose';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { VideoThumbnailDto } from 'shared/dto/video/video-thumbnail.dto';
 import { VideoBasicInfoDto } from '../dto/video-basic-info.dto';
 
+// eslint-disable-next-line no-undef
 @Schema({ timestamps: true })
 export class VideoBasicInfo
   extends Document

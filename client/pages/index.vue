@@ -42,7 +42,7 @@ import VideoEntry from '@/components/list/VideoEntry.vue';
 import SectionTitle from '@/components/SectionTitle.vue';
 import GradientBackground from '@/components/GradientBackground.vue';
 import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
-import ViewTubeApi from '@/plugins/services/viewTubeApi.ts';
+import ViewTubeApi from '@/plugins/services/viewTubeApi';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import Vue from 'vue';
 

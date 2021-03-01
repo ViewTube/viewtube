@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, ModuleMetadata } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { NotificationsController } from './notifications.controller';
@@ -9,7 +9,7 @@ import {
 } from './schemas/notifications-subscription.schema';
 import { PushNotification, PushNotificationSchema } from './schemas/push-notification.schema';
 
-@Module({
+const moduleMetadata: ModuleMetadata = {
   imports: [
     ConfigModule.forRoot(),
     MongooseModule.forFeature([
@@ -28,5 +28,6 @@ import { PushNotification, PushNotificationSchema } from './schemas/push-notific
   controllers: [NotificationsController],
   providers: [NotificationsService],
   exports: [NotificationsService]
-})
+};
+@Module(moduleMetadata)
 export class NotificationsModule {}

@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, ModuleMetadata } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import {
   VideoBasicInfo,
@@ -13,7 +13,7 @@ import { Subscription, SubscriptionSchema } from './schemas/subscription.schema'
 import { SubscriptionsService } from './subscriptions.service';
 import { SubscriptionsController } from './subscriptions.controller';
 
-@Module({
+const moduleMetadata: ModuleMetadata = {
   imports: [
     MongooseModule.forFeature([
       {
@@ -37,5 +37,6 @@ import { SubscriptionsController } from './subscriptions.controller';
   controllers: [SubscriptionsController],
   providers: [SubscriptionsService],
   exports: [SubscriptionsService]
-})
+};
+@Module(moduleMetadata)
 export class SubscriptionsModule {}

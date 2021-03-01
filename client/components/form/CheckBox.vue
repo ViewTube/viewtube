@@ -19,7 +19,7 @@
 </template>
 
 <script lang="ts">
-import { commons } from '@/plugins/commons.ts';
+import { commons } from '@/plugins/commons';
 
 import Vue from 'vue';
 

@@ -1,5 +1,6 @@
 import { Controller, Get } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { PopularDto } from './dto/popular.dto';
 import { HomepageService } from './homepage.service';
 

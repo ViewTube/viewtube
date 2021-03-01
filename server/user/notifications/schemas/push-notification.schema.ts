@@ -6,6 +6,7 @@ import {
 } from '@nestjs/mongoose';
 import { PushNotificationDto } from 'server/user/dto/push-notification.dto';
 
+// eslint-disable-next-line no-undef
 @Schema({ timestamps: true, id: false })
 export class PushNotification
   extends Document
