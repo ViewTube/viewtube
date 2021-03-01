@@ -33,7 +33,7 @@ export class UserService {
 
   async getProfileDetails(username: string): Promise<UserprofileDetailsDto> {
     if (username) {
-      const user = await this.UserModel.findOne({ username });
+      const user = await this.UserModel.findOne({ username }).exec();
       const videoHistory = await this.historyService.getHistory(username, 10, 0, 'DESC');
 
       const subscribedChannelsCount = await this.subscriptionsService.getSubscribedChannelsCount(

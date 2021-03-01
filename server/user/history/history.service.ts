@@ -91,12 +91,15 @@ export class HistoryService {
         totalSeconds += el.progressSeconds;
       });
       const totalVideoCount = history.videoHistory.length;
-
       return {
         totalSeconds,
         totalVideoCount
       };
     }
+    return {
+      totalSeconds: 0,
+      totalVideoCount: 0
+    };
   }
 
   async getHistory(
