@@ -6,10 +6,10 @@ export default {
   bind(el: HTMLElement, binding: any) {
     if (binding.value && binding.value.length > 0) {
       tippyInstance = tippy(el, {
-        duration: 300,
+        duration: 250,
         content: binding.value,
         arrow: false,
-        delay: [500, 100],
+        delay: [100, 100],
         touch: 'hold',
         placement: 'bottom'
       });

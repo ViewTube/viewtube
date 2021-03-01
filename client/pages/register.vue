@@ -1,7 +1,7 @@
 <template>
   <div class="register">
     <div class="register-container" :class="{ loading: loading, wiggle: formWiggle }">
-      <h2 class="register-title">Register</h2>
+      <h2 class="register-title">Sign up</h2>
       <span class="status-message-display message-display">{{ statusMessage }}</span>
       <Spinner />
       <form id="register" ref="registerForm" method="post" @submit.prevent="register">
@@ -24,7 +24,7 @@
           :label="'Captcha'"
           :type="'text'"
         />
-        <SubmitButton :label="'Register'" />
+        <SubmitButton :label="'Sign up'" />
       </form>
     </div>
   </div>
@@ -134,7 +134,7 @@ export default defineComponent({
         {
           hid: 'ogTitle',
           property: 'og:title',
-          content: 'Register - ViewTube'
+          content: 'Sign up - ViewTube'
         },
         {
           hid: 'ogDescription',

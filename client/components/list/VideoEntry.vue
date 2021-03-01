@@ -134,7 +134,6 @@
 </template>
 
 <script lang="ts">
-import 'tippy.js/dist/tippy.css';
 import InfoIcon from 'vue-material-design-icons/Information.vue';
 import VerifiedIcon from 'vue-material-design-icons/CheckDecagram.vue';
 import { getSecondsFromTimestamp } from '@/plugins/shared';

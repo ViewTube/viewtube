@@ -60,7 +60,7 @@ export const actions = actionTree(
           };
         }
         return {
-          error: 'Login failed'
+          error: 'Sign in failed'
         };
       }
       return { success };

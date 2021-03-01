@@ -1,13 +1,13 @@
 <template>
   <div class="login">
     <div class="login-container" :class="{ loading: loading, wiggle: formWiggle }">
-      <h2 class="login-title">Login</h2>
+      <h2 class="login-title">Sign in</h2>
       <span class="status-message-display message-display">{{ statusMessage }}</span>
       <Spinner />
       <form id="login" method="post" @submit.prevent="login">
         <FormInput :id="'username'" v-model="username" :label="'username'" :type="'username'" />
         <FormInput :id="'password'" v-model="password" :label="'password'" :type="'password'" />
-        <SubmitButton :label="'Login'" />
+        <SubmitButton :label="'Sign in'" />
       </form>
     </div>
   </div>
@@ -77,17 +77,17 @@ export default defineComponent({
           hid: 'description',
           vmid: 'descriptionMeta',
           name: 'description',
-          content: 'Login to access your ViewTube account'
+          content: 'Sign in to access your ViewTube account'
         },
         {
           hid: 'ogTitle',
           property: 'og:title',
-          content: 'Login - ViewTube'
+          content: 'Sign in - ViewTube'
         },
         {
           hid: 'ogDescription',
           property: 'og:description',
-          content: 'Login to access your ViewTube account'
+          content: 'Sign in to access your ViewTube account'
         }
       ]
     }));

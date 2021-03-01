@@ -4,19 +4,19 @@
       v-show="!userAuthenticated"
       id="login"
       v-ripple
-      v-tippy="'Login'"
+      v-tippy="'Sign in'"
       :to="`/login${currentPageRef('login')}`"
       class="tooltip nav-btn main"
-      >Login</nuxt-link
+      >Sign in</nuxt-link
     >
     <nuxt-link
       v-show="!userAuthenticated"
       id="register"
       v-ripple
-      v-tippy="'Register'"
+      v-tippy="'Sign up'"
       :to="`/register${currentPageRef('register')}`"
       class="tooltip nav-btn"
-      >Register</nuxt-link
+      >Sign up</nuxt-link
     >
     <nuxt-link
       v-show="$route.name !== 'subscriptions' && userAuthenticated"
@@ -53,22 +53,22 @@
           <a
             v-show="!userAuthenticated"
             id="login-btn"
-            v-tippy="'Login'"
+            v-tippy="'Sign in'"
             :href="`/login${currentPageRef('login')}`"
             class="ripple tooltip menu-btn account-btn"
             @click.self.prevent="login"
           >
-            <div class="menu-btn-content"><AccountIcon />Login</div>
+            <div class="menu-btn-content"><AccountIcon />Sign in</div>
           </a>
           <a
             v-show="!userAuthenticated"
-            id="login-btn"
-            v-tippy="'Register'"
+            id="register-btn"
+            v-tippy="'Sign up'"
             :href="`/register${currentPageRef('register')}`"
             class="ripple tooltip menu-btn account-btn"
             @click.self.prevent="register"
           >
-            <div class="menu-btn-content"><AccountPlusIcon />Register</div>
+            <div class="menu-btn-content"><AccountPlusIcon />Sign up</div>
           </a>
           <a
             v-if="$route.name !== 'subscriptions' && userAuthenticated"
