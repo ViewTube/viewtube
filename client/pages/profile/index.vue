@@ -74,33 +74,37 @@
       <p>You haven't watched any videos yet. Once you have, your history will show up here.</p>
     </div>
     <div v-if="profile && profile.videoHistory.length > 0" class="video-history">
+      <SectionTitle :title="'History'" />
       <div v-for="(video, index) in profile.videoHistory" :key="index" class="history-entry">
-        <div class="thumbnail">
+        <nuxt-link :to="`/watch?v=${video.videoId}`" class="history-entry-thumbnail">
           <img
             :src="video.videoDetails.videoThumbnails[3].url"
             :alt="video.videoDetails.title"
-            class="thumbnail-img"
+            class="history-entry-thumbnail-img"
           />
-          <div class="progress-bar">
+          <div class="history-entry-progress-bar">
             <span
-              class="progress-line"
+              class="history-entry-progress-line"
               :style="{ width: `${(video.progressSeconds / video.lengthSeconds) * 100}%` }"
             />
           </div>
-        </div>
-        <div class="content">
-          <div class="title">
+        </nuxt-link>
+        <div class="history-entry-content">
+          <div v-tippy="video.videoDetails.title" class="history-entry-title">
             <nuxt-link :to="`/watch?v=${video.videoId}`">{{ video.videoDetails.title }}</nuxt-link>
           </div>
-          <div class="author">
+          <div v-tippy="video.videoDetails.author" class="history-entry-author">
             <nuxt-link :to="`/channel/${video.videoDetails.authorId}`">
               {{ video.videoDetails.author }}</nuxt-link
             >
           </div>
-          <div v-tippy="Date(video.lastVisit).toLocaleString()" class="watched-date tooltip">
+          <div
+            v-tippy="Date(video.lastVisit).toLocaleString()"
+            class="history-entry-watched-date tooltip"
+          >
             Last watched: {{ humanizeDateString(video.lastVisit) }} ago
           </div>
-          <div class="watch-progress">
+          <div class="history-entry-watch-progress">
             Progress: {{ $formatting.getTimestampFromSeconds(video.progressSeconds) }} of
             {{ $formatting.getTimestampFromSeconds(video.lengthSeconds) }}
           </div>
@@ -430,22 +434,32 @@ export default Vue.extend({
   .video-history {
     display: flex;
     flex-direction: column;
+    overflow: hidden;
+    box-sizing: border-box;
+    margin: 0 10px;
 
     .history-entry {
       display: flex;
       flex-direction: row;
       margin: 5px 0;
 
-      .thumbnail {
+      .history-entry-thumbnail {
         position: relative;
-        flex-grow: 1;
+        padding-right: 200px;
+        padding-bottom: 112.5px;
+        width: 0;
 
-        .thumbnail-img {
-          max-width: 100%;
-          min-height: 100%;
+        @media screen and (max-width: $mobile-width) {
+          padding-right: 160px;
+          padding-bottom: 90px;
         }
 
-        .progress-bar {
+        .history-entry-thumbnail-img {
+          position: absolute;
+          width: 100%;
+        }
+
+        .history-entry-progress-bar {
           position: absolute;
           bottom: 0;
           left: 0;
@@ -453,7 +467,7 @@ export default Vue.extend({
           height: 3px;
           background-color: var(--line-accent-color);
 
-          .progress-line {
+          .history-entry-progress-line {
             height: 3px;
             background-image: $theme-color-primary-gradient;
             display: block;
@@ -461,11 +475,11 @@ export default Vue.extend({
         }
       }
 
-      .content {
-        flex-grow: 3;
+      .history-entry-content {
         margin: 0 0 0 10px;
+        overflow: hidden;
 
-        .title {
+        .history-entry-title {
           font-size: 0.9rem;
           overflow: hidden;
           text-overflow: ellipsis;
@@ -473,7 +487,8 @@ export default Vue.extend({
           color: var(--title-color);
           padding: 0 0 4px 0;
         }
-        .author {
+
+        .history-entry-author {
           font-size: 0.8rem;
           font-weight: 700;
           overflow: hidden;
@@ -482,11 +497,13 @@ export default Vue.extend({
           color: var(--subtitle-color);
           padding: 3px 0 4px 0;
         }
-        .watched-date {
+
+        .history-entry-watched-date {
           font-size: 0.8rem;
           color: var(--subtitle-color-light);
         }
-        .watch-progress {
+
+        .history-entry-watch-progress {
           font-size: 0.8rem;
           color: var(--subtitle-color-light);
         }
