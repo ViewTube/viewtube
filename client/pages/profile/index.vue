@@ -209,13 +209,18 @@ export default Vue.extend({
 
     .gradient-background {
       position: absolute;
-      width: 120%;
+      width: 100%;
       height: 80%;
-      left: -10%;
+      left: 0;
       top: 20%;
       background: var(--theme-color-gradient);
       z-index: 7;
-      filter: blur(100px) brightness(10px);
+      filter: blur(50px);
+      opacity: 0.7;
+
+      @media screen and (max-width: $mobile-width) {
+        top: 0;
+      }
     }
 
     .profile-top-card {
