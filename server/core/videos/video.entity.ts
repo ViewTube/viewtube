@@ -4,6 +4,7 @@ import humanizeDuration from 'humanize-duration';
 import { AuthorThumbnailDto } from 'shared/dto/video/author-thumbnail.dto';
 import { VideoDto } from 'shared/dto/video/video.dto';
 import { VideoThumbnailDto } from 'shared/dto/video/video-thumbnail.dto';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { RecommendedVideoDto } from 'shared/dto/video/recommended-video.dto';
 import { Common } from '../common';
 

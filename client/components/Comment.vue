@@ -87,7 +87,7 @@ import CommentIcon from 'vue-material-design-icons/CommentOutline.vue';
 import CommentHideIcon from 'vue-material-design-icons/CommentRemoveOutline.vue';
 import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
-import Invidious from '@/plugins/services/invidious.ts';
+import Invidious from '@/plugins/services/invidious';
 import Vue from 'vue';
 
 export default Vue.extend({

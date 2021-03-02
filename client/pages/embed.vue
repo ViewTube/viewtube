@@ -6,7 +6,7 @@
 
 <script lang="ts">
 import VideoPlayer from '@/components/videoplayer/VideoPlayer.vue';
-import ViewTubeApi from '@/plugins/services/viewTubeApi.ts';
+import ViewTubeApi from '@/plugins/services/viewTubeApi';
 import Vue from 'vue';
 
 export default Vue.extend({

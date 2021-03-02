@@ -21,7 +21,7 @@
 <script lang="ts">
 import MainSearchBox from '@/components/MainSearchBox.vue';
 import UserMenu from '@/components/header/UserMenu.vue';
-import { Scroll } from '@/plugins/scroll.ts';
+import { Scroll } from '@/plugins/scroll';
 
 import Vue from 'vue';
 

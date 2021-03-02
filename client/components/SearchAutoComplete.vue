@@ -18,7 +18,7 @@
 
 <script lang="ts">
 import Axios from 'axios';
-// import { commons } from '@/plugins/commons.ts';
+// import { commons } from '@/plugins/commons';
 import Vue from 'vue';
 
 export default Vue.extend({

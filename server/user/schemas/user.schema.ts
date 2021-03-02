@@ -5,6 +5,7 @@ import {
   SchemaFactory
 } from '@nestjs/mongoose';
 
+// eslint-disable-next-line no-undef
 @Schema({ timestamps: true })
 export class User extends Document {
   @Prop()

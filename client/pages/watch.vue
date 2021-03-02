@@ -171,7 +171,7 @@ import ShareOptions from '@/components/watch/ShareOptions.vue';
 import CollapsibleSection from '@/components/list/CollapsibleSection.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import Vue from 'vue';
-import ViewTubeApi from '@/plugins/services/viewTubeApi.ts';
+import ViewTubeApi from '@/plugins/services/viewTubeApi';
 
 export default Vue.extend({
   name: 'Watch',

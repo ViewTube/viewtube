@@ -1,10 +1,10 @@
-import { CacheModule, Module } from '@nestjs/common';
+import { CacheModule, Module, ModuleMetadata } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { HomepageController } from './homepage.controller';
 import { HomepageService } from './homepage.service';
 import { Popular, PopularSchema } from './schemas/popular.schema';
 
-@Module({
+const moduleMetadata: ModuleMetadata = {
   providers: [HomepageService],
   controllers: [HomepageController],
   imports: [
@@ -20,5 +20,6 @@ import { Popular, PopularSchema } from './schemas/popular.schema';
       }
     ])
   ]
-})
+};
+@Module(moduleMetadata)
 export class HomepageModule {}

@@ -14,8 +14,8 @@
 </template>
 
 <script lang="ts">
-import { WebVTTParser } from '@/plugins/services/webVTTParser.ts';
-import Invidious from '@/plugins/services/invidious.ts';
+import { WebVTTParser } from '@/plugins/services/webVTTParser';
+import Invidious from '@/plugins/services/invidious';
 
 import Vue from 'vue';
 

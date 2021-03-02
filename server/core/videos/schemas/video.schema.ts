@@ -5,6 +5,7 @@ import { RecommendedVideoDto } from 'shared/dto/video/recommended-video.dto';
 import { VideoThumbnailDto } from 'shared/dto/video/video-thumbnail.dto';
 import { AuthorThumbnailDto } from 'shared/dto/video/author-thumbnail.dto';
 
+// eslint-disable-next-line no-undef
 @Schema({ timestamps: true })
 export class Video extends Document implements VideoDto {
   @Prop({ index: { unique: true } })

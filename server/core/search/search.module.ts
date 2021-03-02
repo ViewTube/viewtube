@@ -1,8 +1,8 @@
-import { Module, CacheModule } from '@nestjs/common';
+import { Module, CacheModule, ModuleMetadata } from '@nestjs/common';
 import { SearchController } from './search.controller';
 import { SearchService } from './search.service';
 
-@Module({
+const moduleMetadata: ModuleMetadata = {
   imports: [
     CacheModule.register({
       ttl: 300,
@@ -11,5 +11,6 @@ import { SearchService } from './search.service';
   ],
   controllers: [SearchController],
   providers: [SearchService]
-})
+};
+@Module(moduleMetadata)
 export class SearchModule {}

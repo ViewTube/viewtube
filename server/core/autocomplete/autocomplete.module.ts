@@ -1,8 +1,8 @@
-import { Module, CacheModule } from '@nestjs/common';
+import { Module, CacheModule, ModuleMetadata } from '@nestjs/common';
 import { AutocompleteService } from './autocomplete.service';
 import { AutocompleteController } from './autocomplete.controller';
 
-@Module({
+const moduleMetadata: ModuleMetadata = {
   providers: [AutocompleteService],
   controllers: [AutocompleteController],
   imports: [
@@ -11,5 +11,6 @@ import { AutocompleteController } from './autocomplete.controller';
       max: 500
     })
   ]
-})
+};
+@Module(moduleMetadata)
 export class AutocompleteModule {}

@@ -62,7 +62,7 @@ import SectionTitle from '@/components/SectionTitle.vue';
 import InlineVideo from '@/components/list/InlineVideo.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import UpIcon from 'vue-material-design-icons/ArrowUp.vue';
-import ViewTubeApi from '@/plugins/services/viewTubeApi.ts';
+import ViewTubeApi from '@/plugins/services/viewTubeApi';
 import Vue from 'vue';
 
 export default Vue.extend({

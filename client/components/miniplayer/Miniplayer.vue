@@ -33,7 +33,7 @@
 
 <script lang="ts">
 import VideoPlayer from '@/components/videoplayer/VideoPlayer.vue';
-import { commons } from '@/plugins/commons.ts';
+import { commons } from '@/plugins/commons';
 
 import Vue from 'vue';
 
