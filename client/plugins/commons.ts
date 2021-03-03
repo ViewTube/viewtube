@@ -3,11 +3,11 @@ export const commons = {
   description: 'An alternative YouTube frontend using the Invidious API.',
   language: 'en-US',
 
-  getVideoIdFromUrl(videoUrl) {
+  getVideoIdFromUrl(videoUrl: string) {
     return videoUrl.replace('https://www.youtube.com/watch?v=', '');
   },
 
-  urlBase64ToUint8Array(base64String) {
+  urlBase64ToUint8Array(base64String: string) {
     const padding = '='.repeat((4 - (base64String.length % 4)) % 4);
     const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
 

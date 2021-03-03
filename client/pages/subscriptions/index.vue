@@ -48,7 +48,12 @@
       >
         <SectionTitle :title="videoSection.sectionMessage" />
         <div class="section-videos-container">
-          <VideoEntry v-for="video in videoSection.videos" :key="video.videoId" :video="video" />
+          <VideoEntry
+            v-for="video in videoSection.videos"
+            :key="video.videoId"
+            :video="video"
+            :lazy="false"
+          />
         </div>
       </div>
     </div>
@@ -115,7 +120,7 @@ export default Vue.extend({
     const apiUrl = this.$store.getters['environment/apiUrl'];
     const limit = 20;
     if (this.$route.query && this.$route.query.page) {
-      this.currentPage = parseInt(this.$route.query.page);
+      this.currentPage = parseInt(this.$route.query.page.toString());
     }
     const start = (this.currentPage - 1) * 30;
     await this.$axios
