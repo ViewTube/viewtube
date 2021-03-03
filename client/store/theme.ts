@@ -207,7 +207,7 @@ export const mutations = mutationTree(state, {
     }
   },
   setCustomTheme(state, theme: string) {
-    if (state.customs.find(e => e.value === theme)) {
+    if (state.customs.find(e => e.value === theme) || theme.length === 0) {
       state.selectedCustom = theme;
     }
   },

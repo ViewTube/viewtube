@@ -1,97 +1,118 @@
 <template>
-  <div class="theme-selector links">
-    <p v-if="$store.getters['theme/customThemes'].length === 0 && onManagePage === false">
-      No custom themes found. Try adding one in
-      <nuxt-link to="/themes/manage" v-ripple v-tippy="'Manage Themes'">here</nuxt-link>.
-    </p>
-    <a
-      v-for="(theme, id) in $store.getters['theme/customThemes']"
+  <div class="theme-selector">
+    <ThemePreview
+      v-for="(theme, id) in this.$store.getters['theme/customThemes']"
       :key="id"
-      class="theme-preview"
+      :theme="theme"
       href="#"
+      class="theme"
       :style="{
         'border-color': getBorderThemeColor(theme)
       }"
-      @click.prevent="onThemeChange(theme)"
-    >
-      <div
-        class="preview-graphic"
-        :style="{
-          'background-color': theme.themeVariables['bgcolor-main']
-        }"
-      >
-        <div v-if="onManagePage" class="detail-btn-container">
-          <div v-tippy="'Show details'" class="detail-btn">
-            <DotsIcon />
-          </div>
-        </div>
-        <input v-if="onManagePage" class="show-details" type="checkbox" name="show-details" />
-        <span
-          class="prev-header"
-          :style="{
-            'background-color': theme.themeVariables['header-bgcolor']
-          }"
-        >
-          <span
-            class="prev-logo"
-            :style="{
-              'background-color': theme.themeVariables['theme-color']
-            }"
-          />
-          <span
-            class="prev-searchbar"
-            :style="{
-              'background-color': theme.themeVariables['theme-color']
-            }"
-          />
-        </span>
-        <div class="prev-thmbs">
-          <span
-            v-for="(i, n) in 6"
-            :key="n"
-            class="prev-thmb"
-            :style="{
-              'background-color': theme.themeVariables['theme-color']
-            }"
-          />
-        </div>
-        <span
-          class="prev-gradient"
-          :style="{ opacity: theme.themeVariables['gradient-opacity'] }"
-        />
-      </div>
-      <span class="theme-title">{{ theme.name }}</span>
-    </a>
+      @themeclick="onThemeChange"
+      @onContextClick="onContextClick"
+    />
+    <vue-simple-context-menu
+      :ref="'vueCustomContextMenu'"
+      :elementId="'customContextMenu'"
+      :options="contextOptions"
+      @option-clicked="optionClicked"
+    />
+    <vue-simple-context-menu
+      :ref="'vueCustomContextMenuActive'"
+      :elementId="'customContextMenuActive'"
+      :options="contextOptionsActive"
+      @option-clicked="optionClicked"
+    />
   </div>
 </template>
 
 <script lang="ts">
 import { ThemeDto } from '@/plugins/shared';
-import DotsIcon from 'vue-material-design-icons/DotsVertical.vue';
+import 'vue-simple-context-menu/dist/vue-simple-context-menu.css';
+import VueSimpleContextMenu from 'vue-simple-context-menu';
+import ThemePreview from '@/components/themes/ThemePreview.vue';
 import Vue from 'vue';
 
 export default Vue.extend({
-  components: { DotsIcon },
+  components: { VueSimpleContextMenu, ThemePreview },
   props: {
     onManagePage: Boolean
+  },
+  computed: {
+    contextOptions() {
+      if (this.onManagePage) {
+        return [
+          { name: 'Clone Theme', slug: 'clone' },
+          { name: 'Edit Theme', slug: 'edit' },
+          { name: 'Delete Theme', slug: 'delete' }
+        ];
+      }
+      return [];
+    },
+    contextOptionsActive() {
+      if (this.onManagePage) {
+        return [
+          { name: 'Deselect Theme', slug: 'deselect' },
+          { name: 'Clone Theme', slug: 'clone' },
+          { name: 'Edit Theme', slug: 'edit' },
+          { name: 'Delete Theme', slug: 'delete' }
+        ];
+      }
+      return [];
+    }
   },
   methods: {
     onThemeChange(theme: ThemeDto) {
       document.body.classList.add('transition-all');
-      this.$store.commit('theme/setCustomTheme', theme.value);
+      if (theme.value === this.$store.getters['theme/selectedCustom']) {
+        this.$store.commit('theme/setCustomTheme', '');
+      } else {
+        this.$store.commit('theme/setCustomTheme', theme.value);
+      }
       setTimeout(() => {
         document.body.classList.remove('transition-all');
       }, 300);
     },
+    onContextClick(event, theme: ThemeDto) {
+      if (theme.value === this.$store.getters['theme/selectedCustom']) {
+        this.$refs.vueCustomContextMenuActive.showMenu(event, theme);
+      } else {
+        this.$refs.vueCustomContextMenu.showMenu(event, theme);
+      }
+    },
+    optionClicked(event) {
+      this.$emit('contextOption', {
+        option: event.option.slug,
+        theme: event.item as ThemeDto
+      });
+    },
     getBorderThemeColor(theme: ThemeDto): string {
       return theme.value === this.$store.getters['theme/selectedCustom']
         ? theme.themeVariables['theme-color']
-        : 'transparent';
+        : this.$store.getters['theme/themeVariables'].themeVariables['bgcolor-alt-light'];
     }
   }
 });
 </script>
+<style lang="scss">
+.vue-simple-context-menu__item {
+  background-color: var(--bgcolor-alt);
+  color: var(--theme-color);
+}
+.vue-simple-context-menu__item:hover {
+  background-color: var(--bgcolor-alt-light);
+  color: var(--theme-color);
+}
 
+.vue-simple-context-menu li:first-of-type {
+  margin-top: 0;
+}
+
+.vue-simple-context-menu li:last-of-type {
+  margin-bottom: 0;
+}
+</style>
 <style lang="scss" scoped>
 .theme {
   border-style: solid;
@@ -103,140 +124,10 @@ export default Vue.extend({
   align-items: center;
   padding: 5px;
   transition: box-shadow 200ms $intro-easing, border-color 200ms $intro-easing;
+  margin: 5px;
 }
 
 .theme::after {
   display: none;
-}
-
-.show-details {
-  position: absolute;
-  top: 2px;
-  right: 2px;
-  z-index: 13;
-  opacity: 0;
-  width: 50px;
-  height: 50px;
-  cursor: pointer;
-}
-
-.detail-btn-container {
-  position: absolute;
-  top: 0;
-  right: 0;
-  z-index: 12;
-  width: 44px;
-  height: 44px;
-  padding: 10px;
-  margin: 5px;
-  opacity: 0;
-  transform: scale(0.8);
-  background-color: $video-thmb-overlay-bgcolor;
-  border-radius: 5px;
-  box-sizing: border-box;
-  cursor: pointer;
-  transition: opacity 200ms $intro-easing, transform 200ms $intro-easing;
-}
-
-.theme-selector {
-  width: calc(100% - 56px);
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  padding: 20px 0 0 0;
-  justify-content: space-evenly;
-
-  .theme-preview {
-    width: 200px;
-    height: 120px;
-    display: flex;
-    flex-direction: column;
-    border-style: solid;
-    border-width: 2px;
-    margin: 20px 20px 0 20px;
-    border-radius: 4px;
-    overflow: hidden;
-    position: relative;
-    transition: box-shadow 200ms $intro-easing, border-color 200ms $intro-easing;
-    box-sizing: border-box;
-    box-shadow: $low-shadow;
-    cursor: pointer;
-
-    &:hover {
-      box-shadow: $max-shadow;
-    }
-
-    .preview-graphic {
-      height: 100%;
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      position: relative;
-      pointer-events: none;
-      user-select: none;
-
-      .prev-gradient {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 80%;
-        background: linear-gradient(
-          165deg,
-          rgba(241, 87, 10, 0.705) 0%,
-          rgba(116, 21, 10, 0.801) 28%,
-          rgba(18, 18, 18, 1) 69%,
-          rgba(18, 18, 18, 1) 100%
-        );
-      }
-
-      .prev-header {
-        width: 100%;
-        height: 20px;
-        display: flex;
-        flex-direction: row;
-        box-sizing: border-box;
-        z-index: 9;
-
-        .prev-logo {
-          width: 12px;
-          height: 8px;
-          margin: auto 8px;
-          box-sizing: border-box;
-          clip-path: polygon(0% 0%, 100% 50%, 0% 100%);
-        }
-
-        .prev-searchbar {
-          width: 80%;
-          height: 5px;
-          margin: auto calc(20% + 28px) auto 20%;
-          box-sizing: border-box;
-          border-radius: 1px;
-        }
-      }
-
-      .prev-thmbs {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        padding: 12px 15px 0 15px;
-        justify-content: space-around;
-        box-sizing: border-box;
-
-        .prev-thmb {
-          width: 45px;
-          height: 28px;
-          z-index: 9;
-        }
-      }
-    }
-  }
-}
-
-.theme-title {
-  color: var(--title-color);
-  margin: 5px 10px;
 }
 </style>

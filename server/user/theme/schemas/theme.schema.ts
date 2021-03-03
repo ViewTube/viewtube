@@ -1,7 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
-@Schema({})
+// eslint-disable-next-line no-undef
+@Schema({ timestamps: true })
 export class Theme extends Document {
   @Prop({ index: { unique: false } })
   username: string;

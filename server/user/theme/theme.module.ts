@@ -1,10 +1,10 @@
-import { Module } from '@nestjs/common';
+import { Module, ModuleMetadata } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Theme, ThemeSchema } from './schemas/theme.schema';
 import { ThemeController } from './theme.controller';
 import { ThemeService } from './theme.service';
 
-@Module({
+const moduleMetadata: ModuleMetadata = {
   providers: [ThemeService],
   imports: [
     MongooseModule.forFeature([
@@ -17,5 +17,6 @@ import { ThemeService } from './theme.service';
   ],
   controllers: [ThemeController],
   exports: [ThemeService]
-})
+};
+@Module(moduleMetadata)
 export class ThemeModule {}

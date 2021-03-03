@@ -7,13 +7,13 @@
       <DefaultThemeSelector :onManagePage="true" @contextOption="handleContextDefault" />
       <SectionTitle :title="'Custom Themes'">
         <div class="ButtonWrapper">
-          <BadgeButton :click="() => (createTheme = true)">
+          <BadgeButton :click="() => (createThemeDialog = true)">
             <PlusIcon />
             <p>Create Theme</p>
           </BadgeButton>
         </div>
       </SectionTitle>
-      <CustomThemeSelector :onManagePage="true" />
+      <CustomThemeSelector :onManagePage="true" @contextOption="handleContextDefault" />
     </div>
     <portal to="popup">
       <p v-if="cloneThemeDialog">lul funkt</p>
@@ -29,6 +29,7 @@ import SectionTitle from '@/components/SectionTitle.vue';
 import PlusIcon from 'vue-material-design-icons/Plus.vue';
 import Axios from 'axios';
 import { ThemeDto } from '@/plugins/shared';
+import { commons } from '@/plugins/commons';
 export default Vue.extend({
   components: {
     CustomThemeSelector,
@@ -39,7 +40,8 @@ export default Vue.extend({
   },
   data() {
     return {
-      cloneThemeDialog: true
+      cloneThemeDialog: true,
+      createThemeDialog: false
     };
   },
   async fetch({ app: { $accessor } }) {
@@ -49,28 +51,40 @@ export default Vue.extend({
   },
   methods: {
     handleContextDefault(event: { option: string; theme: ThemeDto }) {
-      if (event.option === 'clone') {
-        Axios.post(
-          `${this.$store.getters['environment/apiUrl']}user/theme`,
-          { theme: event.theme },
-          { withCredentials: true }
-        )
-          .then(response => {
-            if (response.data)
+      switch (event.option) {
+        case 'clone':
+          // TODO: add naming dialog
+          Axios.post(
+            `${this.$store.getters['environment/apiUrl']}user/theme`,
+            {
+              theme: {
+                value: commons.uuidv4(),
+                themeVariables: event.theme.themeVariables,
+                name: event.theme.name
+              } as ThemeDto
+            },
+            { withCredentials: true }
+          )
+            .then(response => {
+              if (response.data)
+                this.$store.dispatch('messages/createMessage', {
+                  type: 'info',
+                  title: 'Cloning theme finished',
+                  message: 'Refreshing the page...'
+                });
+            })
+            .catch(err => {
               this.$store.dispatch('messages/createMessage', {
-                type: 'info',
-                title: 'Cloning theme finished',
-                message: 'Refreshing the page...'
+                type: 'error',
+                title: 'Cloning theme failed',
+                message: err
               });
-          })
-          .catch(err => {
-            this.$store.dispatch('messages/createMessage', {
-              type: 'error',
-              title: 'Cloning theme failed',
-              message: err
-            });
-          })
-          .finally(this.$store.dispatch('theme/fetchCustomThemes'));
+            })
+            .finally(this.$store.dispatch('theme/fetchCustomThemes'));
+          break;
+        case 'deselect':
+          this.$store.commit('theme/setCustomTheme', '');
+          break;
       }
     }
   }

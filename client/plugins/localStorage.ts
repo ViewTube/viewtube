@@ -4,7 +4,7 @@ import createPersistedState from 'vuex-persistedstate';
 export default ({ store }: Context) => {
   createPersistedState({
     key: 'viewtube',
-    paths: ['instances', 'settings', 'videoProgress', 'theme'],
+    paths: ['instances', 'settings', 'videoProgress'],
     fetchBeforeUse: true
   })(store);
 };

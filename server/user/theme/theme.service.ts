@@ -19,11 +19,13 @@ export class ThemeService {
 
   async getThemes(req: any): Promise<ThemeDto[]> {
     if (req.user && req.user.username) {
-      const themes = await this.ThemeModel.find({ username: req.user.username }).catch(error => {
-        Consola.error(error);
-        throw new InternalServerErrorException();
-      });
-      if (themes.length != 0) {
+      const themes = await this.ThemeModel.find({ username: req.user.username })
+        .sort('name')
+        .catch(error => {
+          Consola.error(error);
+          throw new InternalServerErrorException();
+        });
+      if (themes.length !== 0) {
         return themes.map(value => {
           return {
             value: value.value,
@@ -38,7 +40,7 @@ export class ThemeService {
     }
   }
 
-  async addTheme(req: any, theme: ThemeDto): Promise<boolean> {
+  addTheme(req: any, theme: ThemeDto): Promise<boolean> {
     if (req.user && req.user.username) {
       return this.ThemeModel.create({
         username: req.user.username,
@@ -63,7 +65,7 @@ export class ThemeService {
     }
   }
 
-  async updateTheme(req: any, theme: ThemeDto): Promise<boolean> {
+  updateTheme(req: any, theme: ThemeDto): Promise<boolean> {
     if (req.user && req.user.username) {
       return this.ThemeModel.updateOne(
         {
@@ -94,7 +96,7 @@ export class ThemeService {
     }
   }
 
-  async deleteTheme(req: any, theme: ThemeDto): Promise<boolean> {
+  deleteTheme(req: any, theme: ThemeDto): Promise<boolean> {
     if (req.user && req.user.username) {
       return this.ThemeModel.deleteOne({
         username: req.user.username,
