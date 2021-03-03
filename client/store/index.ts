@@ -39,8 +39,8 @@ export const actions = actionTree(
 );
 
 export const accessorType = getAccessorType({
-  actions,
   state,
+  actions,
   modules: {
     captcha,
     environment,
@@ -48,9 +48,9 @@ export const accessorType = getAccessorType({
     messages,
     miniplayer,
     settings,
+    theme,
     user,
     videoPlayer,
-    videoProgress,
-    theme
+    videoProgress
   }
 });

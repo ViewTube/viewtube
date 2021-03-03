@@ -216,7 +216,6 @@ export const mutations = mutationTree(state, {
   },
   resetCustomThemes(state) {
     state.customs = [] as ThemeDto[];
-    state.selectedCustom = '';
   }
 });
 

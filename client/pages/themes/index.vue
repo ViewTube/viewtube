@@ -1,18 +1,23 @@
 <template>
-  <div class="themeContainer">
-    <h2 class="title">Themes</h2>
-    <h4><i>Use the right-click menu to manage themes!</i></h4>
-    <SectionTitle :title="'Default Themes'" />
-    <DefaultThemeSelector :onManagePage="true" @contextOption="handleContextDefault" />
-    <SectionTitle :title="'Custom Themes'">
-      <div class="CloneButtonWrapper">
-        <BadgeButton :click="() => (cloneTheme = true)">
-          <PlusIcon />
-          <p>Create Theme</p>
-        </BadgeButton>
-      </div>
-    </SectionTitle>
-    <CustomThemeSelector :onManagePage="true" />
+  <div>
+    <div class="themeContainer">
+      <h2 class="title">Themes</h2>
+      <h4><i>Use the right-click menu to manage themes!</i></h4>
+      <SectionTitle :title="'Default Themes'" />
+      <DefaultThemeSelector :onManagePage="true" @contextOption="handleContextDefault" />
+      <SectionTitle :title="'Custom Themes'">
+        <div class="ButtonWrapper">
+          <BadgeButton :click="() => (createTheme = true)">
+            <PlusIcon />
+            <p>Create Theme</p>
+          </BadgeButton>
+        </div>
+      </SectionTitle>
+      <CustomThemeSelector :onManagePage="true" />
+    </div>
+    <portal to="popup">
+      <p v-if="cloneThemeDialog">lul funkt</p>
+    </portal>
   </div>
 </template>
 <script lang="ts">
@@ -25,7 +30,23 @@ import PlusIcon from 'vue-material-design-icons/Plus.vue';
 import Axios from 'axios';
 import { ThemeDto } from '@/plugins/shared';
 export default Vue.extend({
-  components: { CustomThemeSelector, BadgeButton, DefaultThemeSelector, SectionTitle, PlusIcon },
+  components: {
+    CustomThemeSelector,
+    BadgeButton,
+    DefaultThemeSelector,
+    SectionTitle,
+    PlusIcon
+  },
+  data() {
+    return {
+      cloneThemeDialog: true
+    };
+  },
+  async fetch({ app: { $accessor } }) {
+    if ($accessor.user.isLoggedIn) {
+      await $accessor.theme.fetchCustomThemes();
+    }
+  },
   methods: {
     handleContextDefault(event: { option: string; theme: ThemeDto }) {
       if (event.option === 'clone') {
@@ -72,8 +93,9 @@ export default Vue.extend({
   text-align: center;
   margin-top: 30px;
 }
-.CloneButtonWrapper {
+.ButtonWrapper {
   display: flex;
   align-items: center;
+  margin-right: 10px;
 }
 </style>

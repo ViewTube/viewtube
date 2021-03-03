@@ -12891,7 +12891,6 @@ vue-server-renderer@^2.6.12:
     serialize-javascript "^3.1.0"
     source-map "0.5.6"
 
-vue-style-loader@^4.1.0:
 vue-simple-context-menu@^3.4.1:
   version "3.4.1"
   resolved "https://registry.yarnpkg.com/vue-simple-context-menu/-/vue-simple-context-menu-3.4.1.tgz#edf19a8228167bd02fd350bda475c83e142da754"
@@ -12899,7 +12898,7 @@ vue-simple-context-menu@^3.4.1:
   dependencies:
     v-click-outside "^2.1.3"
 
-vue-style-loader@^4.1.0:
+vue-style-loader@^4.1.0, vue-style-loader@^4.1.2:
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/vue-style-loader/-/vue-style-loader-4.1.2.tgz#dedf349806f25ceb4e64f3ad7c0a44fba735fcf8"
   integrity sha512-0ip8ge6Gzz/Bk0iHovU9XAUQaFt/G2B61bnWa2tCcqqdgfHs1lF9xXorFbE55Gmy92okFT+8bfmySuUOu13vxQ==

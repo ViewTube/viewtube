@@ -1,11 +1,11 @@
 <template>
   <div class="theme-selector links">
-    <p v-if="customs.length === 0 && onManagePage === false">
+    <p v-if="$store.getters['theme/customThemes'].length === 0 && onManagePage === false">
       No custom themes found. Try adding one in
       <nuxt-link to="/themes/manage" v-ripple v-tippy="'Manage Themes'">here</nuxt-link>.
     </p>
     <a
-      v-for="(theme, id) in customs"
+      v-for="(theme, id) in $store.getters['theme/customThemes']"
       :key="id"
       class="theme-preview"
       href="#"
@@ -74,11 +74,6 @@ export default Vue.extend({
   components: { DotsIcon },
   props: {
     onManagePage: Boolean
-  },
-  computed: {
-    customs(): ThemeDto[] {
-      return this.$store.getters['theme/customThemes'];
-    }
   },
   methods: {
     onThemeChange(theme: ThemeDto) {
