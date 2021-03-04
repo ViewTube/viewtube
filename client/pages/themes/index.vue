@@ -12,7 +12,7 @@
       />
       <SectionTitle :title="'Custom Themes'">
         <div class="ButtonWrapper">
-          <BadgeButton :click="() => (createThemeDialog = true)">
+          <BadgeButton :click="openCreateThemeDialog">
             <PlusIcon />
             <p>Create Theme</p>
           </BadgeButton>
@@ -25,11 +25,44 @@
       />
     </div>
     <portal to="popup">
-      <CloneDialog v-if="cloneThemeDialog" @close="closeCloneDialog" @cloneTheme="cloneTheme" />
+      <CloneDialog
+        v-if="cloneThemeDialog"
+        :theme="activeContextTheme"
+        @close="
+          () => {
+            cloneThemeDialog = false;
+          }
+        "
+      />
       <DeleteDialog
         v-if="deleteThemeDialog"
-        @close="closeDeleteDialog"
-        @deleteTheme="deleteTheme"
+        :themeName="activeContextTheme.name"
+        :themeValue="activeContextTheme.value"
+        @close="
+          () => {
+            deleteThemeDialog = false;
+          }
+        "
+      />
+      <ThemeEditor
+        v-if="createThemeDialog"
+        :themeProp="activeContextTheme"
+        :editMode="false"
+        @close="
+          () => {
+            createThemeDialog = false;
+          }
+        "
+      />
+      <ThemeEditor
+        v-if="editThemeDialog"
+        :themeProp="activeContextTheme"
+        :editMode="true"
+        @close="
+          () => {
+            editThemeDialog = false;
+          }
+        "
       />
     </portal>
   </div>
@@ -42,11 +75,10 @@ import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import SectionTitle from '@/components/SectionTitle.vue';
 import CloneDialog from '@/components/themes/CloneDialog.vue';
 import DeleteDialog from '@/components/themes/DeleteDialog.vue';
+import ThemeEditor from '@/components/themes/ThemeEditor.vue';
 import GradientBackground from '@/components/GradientBackground.vue';
 import PlusIcon from 'vue-material-design-icons/Plus.vue';
-import Axios from 'axios';
 import { ThemeDto } from '@/plugins/shared';
-import { commons } from '@/plugins/commons';
 export default Vue.extend({
   components: {
     CustomThemeSelector,
@@ -56,12 +88,14 @@ export default Vue.extend({
     PlusIcon,
     CloneDialog,
     DeleteDialog,
-    GradientBackground
+    GradientBackground,
+    ThemeEditor
   },
   data() {
     return {
       cloneThemeDialog: false,
       deleteThemeDialog: false,
+      editThemeDialog: false,
       createThemeDialog: false,
       activeContextTheme: {} as ThemeDto
     };
@@ -89,72 +123,19 @@ export default Vue.extend({
         case 'deselect':
           this.$store.commit('theme/setCustomTheme', '');
           break;
+        case 'edit':
+          this.editThemeDialog = true;
+          break;
       }
     },
-    closeCloneDialog() {
-      this.cloneThemeDialog = false;
-    },
-    cloneTheme(themeName: string) {
-      Axios.post(
-        `${this.$store.getters['environment/apiUrl']}user/theme`,
-        {
-          theme: {
-            value: commons.uuidv4(),
-            themeVariables: this.activeContextTheme.themeVariables,
-            name: themeName
-          } as ThemeDto
-        },
-        { withCredentials: true }
-      )
-        .then(response => {
-          if (response.data)
-            this.$store.dispatch('messages/createMessage', {
-              type: 'info',
-              title: 'Cloning theme finished',
-              message: 'Refreshing the page...'
-            });
-        })
-        .catch(err => {
-          this.$store.dispatch('messages/createMessage', {
-            type: 'error',
-            title: 'Cloning theme failed',
-            message: err
-          });
-        })
-        .finally(() => {
-          this.$store.dispatch('theme/fetchCustomThemes');
-          this.closeCloneDialog();
-        });
-    },
-    closeDeleteDialog() {
-      this.deleteThemeDialog = false;
-    },
-    deleteTheme() {
-      Axios.delete(
-        `${this.$store.getters['environment/apiUrl']}user/theme/${this.activeContextTheme.value}`,
-        {
-          withCredentials: true
-        }
-      )
-        .then(response => {
-          if (response.data)
-            this.$store.dispatch('messages/createMessage', {
-              type: 'info',
-              title: 'Deleting theme finished',
-              message: 'Refreshing the page...'
-            });
-        })
-        .catch(err => {
-          this.$store.dispatch('messages/createMessage', {
-            type: 'error',
-            title: 'Deleting theme failed',
-            message: err
-          });
-        })
-        .finally(() => {
-          this.$store.dispatch('theme/fetchCustomThemes');
-          this.closeDeleteDialog();
-        });
+    openCreateThemeDialog() {
+      this.activeContextTheme = {
+        value: '',
+        themeVariables: {},
+        name: ''
+      } as ThemeDto;
+      this.activeContextTheme.themeVariables['bgcolor-main'] = '';
+      this.createThemeDialog = true;
     }
   }
 });

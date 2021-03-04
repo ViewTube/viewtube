@@ -17,17 +17,40 @@
 <script lang="ts">
 import CloseIcon from 'vue-material-design-icons/Close.vue';
 import SubmitButton from '@/components/form/SubmitButton.vue';
+import Axios from 'axios';
 import '@/assets/styles/popup.scss';
 import Vue from 'vue';
 export default Vue.extend({
   name: 'CloneDialog',
   components: { CloseIcon, SubmitButton },
   props: {
-    themeName: String
+    themeName: String,
+    themeValue: String
   },
   methods: {
     deleteTheme() {
-      this.$emit('deleteTheme');
+      Axios.delete(`${this.$store.getters['environment/apiUrl']}user/theme/${this.themeValue}`, {
+        withCredentials: true
+      })
+        .then(response => {
+          if (response.data)
+            this.$store.dispatch('messages/createMessage', {
+              type: 'info',
+              title: 'Deleting theme finished',
+              message: 'Refreshing the page...'
+            });
+        })
+        .catch(err => {
+          this.$store.dispatch('messages/createMessage', {
+            type: 'error',
+            title: 'Deleting theme failed',
+            message: err
+          });
+        })
+        .finally(() => {
+          this.$store.dispatch('theme/fetchCustomThemes');
+          this.$emit('close');
+        });
     }
   }
 });
