@@ -1,4 +1,4 @@
-import { SponsorblockSettingsDto } from './sponsorblock-settings.dto';
+export type segmentOption = 'none' | 'ask' | 'skip';
 
 export class SettingsDto {
   miniplayer: boolean;
@@ -7,9 +7,31 @@ export class SettingsDto {
 
   theme: string;
 
-  sponsorblock: SponsorblockSettingsDto;
+  sponsorblockEnabled: boolean;
+
+  sponsorblockSegmentSponsor: segmentOption;
+
+  sponsorblockSegmentIntro: segmentOption;
+
+  sponsorblockSegmentOutro: segmentOption;
+
+  sponsorblockSegmentInteraction: segmentOption;
+
+  sponsorblockSegmentSelfpromo: segmentOption;
+
+  sponsorblockSegmentMusicOfftopic: segmentOption;
 
   autoplay: boolean;
 
   saveVideoHistory: boolean;
+
+  showHomeSubscriptions: boolean;
+
+  alwaysLoopVideo: boolean;
+
+  autoplayNextVideo: boolean;
+
+  audioModeDefault: boolean;
+
+  defaultVideoSpeed: number;
 }

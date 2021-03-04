@@ -1,7 +1,6 @@
 import { Document } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { SponsorblockSettingsDto } from '../dto/sponsorblock-settings.dto';
-import { SettingsDto } from '../dto/settings.dto';
+import { SettingsDto, segmentOption } from '../dto/settings.dto';
 
 // eslint-disable-next-line no-undef
 @Schema({ timestamps: true })
@@ -19,7 +18,25 @@ export class Settings extends Document implements SettingsDto {
   theme: string;
 
   @Prop()
-  sponsorblock: SponsorblockSettingsDto;
+  sponsorblockEnabled: boolean;
+
+  @Prop()
+  sponsorblockSegmentSponsor: segmentOption;
+
+  @Prop()
+  sponsorblockSegmentIntro: segmentOption;
+
+  @Prop()
+  sponsorblockSegmentOutro: segmentOption;
+
+  @Prop()
+  sponsorblockSegmentInteraction: segmentOption;
+
+  @Prop()
+  sponsorblockSegmentSelfpromo: segmentOption;
+
+  @Prop()
+  sponsorblockSegmentMusicOfftopic: segmentOption;
 
   @Prop()
   autoplay: boolean;
@@ -29,6 +46,18 @@ export class Settings extends Document implements SettingsDto {
 
   @Prop()
   showHomeSubscriptions: boolean;
+
+  @Prop()
+  alwaysLoopVideo: boolean;
+
+  @Prop()
+  autoplayNextVideo: boolean;
+
+  @Prop()
+  audioModeDefault: boolean;
+
+  @Prop()
+  defaultVideoSpeed: number;
 }
 
 export const SettingsSchema = SchemaFactory.createForClass(Settings);

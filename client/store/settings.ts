@@ -3,7 +3,7 @@ import { actionTree, getterTree, mutationTree } from 'nuxt-typed-vuex';
 type segmentOption = 'skip' | 'ask' | 'none';
 
 export const state = () => ({
-  theme: 'default' as string,
+  theme: 'default',
   defaults: {
     theme: [
       {
@@ -168,17 +168,16 @@ export const state = () => ({
       }
     ]
   },
-  miniplayer: true as boolean,
-  chapters: true as boolean,
-  sponsorblock: {
-    enabled: true,
-    sponsor: 'skip' as segmentOption,
-    intro: 'ask' as segmentOption,
-    outro: 'ask' as segmentOption,
-    interaction: 'skip' as segmentOption,
-    selfpromo: 'skip' as segmentOption,
-    music_offtopic: 'skip' as segmentOption
-  }
+  miniplayer: true,
+  chapters: true,
+  saveVideoHistory: true,
+  sponsorblock_enabled: true,
+  sponsorblock_sponsor: 'skip' as segmentOption,
+  sponsorblock_intro: 'ask' as segmentOption,
+  sponsorblock_outro: 'ask' as segmentOption,
+  sponsorblock_interaction: 'skip' as segmentOption,
+  sponsorblock_selfpromo: 'skip' as segmentOption,
+  sponsorblock_music_offtopic: 'skip' as segmentOption
 });
 
 export const getters = getterTree(state, {
@@ -187,6 +186,7 @@ export const getters = getterTree(state, {
   miniplayer: state => state.miniplayer,
   chapters: state => state.chapters,
   themeVariables: state => state.defaults.theme.find(el => state.theme === el.value),
+  saveVideoHistory: state => state.saveVideoHistory,
   sponsorblock: state => state.sponsorblock.enabled,
   sponsorblock_sponsor: state => state.sponsorblock.sponsor,
   sponsorblock_intro: state => state.sponsorblock.intro,
@@ -229,7 +229,10 @@ export const mutations = mutationTree(state, {
   setSponsorblock(state, enabled) {
     state.sponsorblock.enabled = enabled;
   },
-  setSponsorblockCategoryStatus(state: any, { category, status }) {
+  setSaveVideoHistory(state, enabled) {
+    state.saveVideoHistory = enabled;
+  },
+  setSponsorblockCategoryStatus(state, { category, status }) {
     if (state.sponsorblock[category]) {
       if (status === 'skip' || status === 'ask' || status === 'none') {
         state.sponsorblock[category] = status;
@@ -256,6 +259,10 @@ export const actions = actionTree(
     async setSponsorblock({ commit, dispatch }, enabled) {
       commit('setSponsorblock', enabled);
       await dispatch('storeSponsorblock');
+    },
+    async setSaveVideoHistory({ commit, dispatch }, enabled) {
+      commit('setSaveVideoHistory', enabled);
+      await dispatch('doSettingsRequest', { settingsKey: 'saveVideoHistory', value: enabled });
     },
     async storeSponsorblock({ dispatch, getters }) {
       await dispatch('doSettingsRequest', {

@@ -11,6 +11,26 @@ export class SettingsService {
     private readonly SettingsModel: Model<Settings>
   ) {}
 
+  private defaultOptions: SettingsDto = {
+    alwaysLoopVideo: false,
+    audioModeDefault: false,
+    autoplay: false,
+    autoplayNextVideo: false,
+    chapters: true,
+    defaultVideoSpeed: 1,
+    miniplayer: true,
+    saveVideoHistory: true,
+    showHomeSubscriptions: true,
+    sponsorblockEnabled: true,
+    sponsorblockSegmentInteraction: 'skip',
+    sponsorblockSegmentIntro: 'ask',
+    sponsorblockSegmentMusicOfftopic: 'skip',
+    sponsorblockSegmentOutro: 'ask',
+    sponsorblockSegmentSelfpromo: 'skip',
+    sponsorblockSegmentSponsor: 'skip',
+    theme: 'default'
+  };
+
   async setSettings(settings: Partial<SettingsDto>, username: string): Promise<void> {
     if (username) {
       try {
@@ -35,29 +55,13 @@ export class SettingsService {
   }
 
   private getCompleteSettingsObject(settings: Partial<SettingsDto>): SettingsDto {
-    const completeSettings: SettingsDto = {
-      autoplay: this.getValid(settings.autoplay, true),
-      chapters: this.getValid(settings.chapters, true),
-      miniplayer: this.getValid(settings.miniplayer, true),
-      saveVideoHistory: this.getValid(settings.saveVideoHistory, true),
-      sponsorblock: this.getValid(settings.sponsorblock, {
-        enabled: true,
-        interaction: 'skip',
-        intro: 'ask',
-        music_offtopic: 'skip',
-        outro: 'ask',
-        selfpromo: 'skip',
-        sponsor: 'skip'
-      }),
-      theme: this.getValid(settings.theme, 'default')
-    };
+    const completeSettings: SettingsDto = {} as SettingsDto;
+    Object.keys(this.defaultOptions).forEach(settingsKey => {
+      if (Object.prototype.hasOwnProperty.call(settings, settingsKey)) {
+        completeSettings[settingsKey] = settings[settingsKey];
+      }
+      completeSettings[settingsKey] = this.defaultOptions[settingsKey];
+    });
     return completeSettings;
-  }
-
-  private getValid(value: any, defaultValue: any) {
-    if (value !== undefined && defaultValue !== null) {
-      return value;
-    }
-    return defaultValue;
   }
 }
