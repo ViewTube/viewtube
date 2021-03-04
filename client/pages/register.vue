@@ -24,7 +24,7 @@
           :label="'Captcha'"
           :type="'text'"
         />
-        <SubmitButton :label="'Register'" />
+        <SubmitButton class="form-input" :label="'Register'" />
       </form>
     </div>
   </div>

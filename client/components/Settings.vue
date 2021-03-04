@@ -137,15 +137,6 @@ export default Vue.extend({
         category,
         status: value.value
       });
-    },
-    onThemeChange(element: any) {
-      setTimeout(() => {
-        document.body.classList.add('transition-all');
-        this.$store.commit('settings/setTheme', element.value);
-        setTimeout(() => {
-          document.body.classList.remove('transition-all');
-        }, 300);
-      }, 300);
     }
   }
 });

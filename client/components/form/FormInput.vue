@@ -67,8 +67,8 @@ export default Vue.extend({
 
   .material-design-icon {
     position: absolute;
-    right: 40px;
-    top: 30px;
+    right: 15px;
+    top: 15px;
     color: var(--title-color);
   }
 
@@ -77,11 +77,10 @@ export default Vue.extend({
   }
 
   .input {
-    margin: 15px 20px;
     padding: 12px 12px;
     line-height: 30px;
     border-radius: 4px;
-    width: calc(100% - 40px);
+    width: 100%;
     height: $input-line-height;
 
     font-size: 1rem;
@@ -111,8 +110,8 @@ export default Vue.extend({
 
   .input-label {
     position: absolute;
-    left: 34px;
-    top: 15px;
+    left: 14px;
+    top: 0;
     height: $input-line-height;
     line-height: $input-line-height;
     text-align: center;

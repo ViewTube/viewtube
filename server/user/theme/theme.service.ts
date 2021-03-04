@@ -96,11 +96,11 @@ export class ThemeService {
     }
   }
 
-  deleteTheme(req: any, theme: ThemeDto): Promise<boolean> {
+  deleteTheme(req: any, value: string): Promise<boolean> {
     if (req.user && req.user.username) {
       return this.ThemeModel.deleteOne({
         username: req.user.username,
-        value: theme.value
+        value
       })
         .catch(error => {
           Consola.error(error);

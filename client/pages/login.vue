@@ -7,7 +7,7 @@
       <form id="login" method="post" @submit.prevent="login">
         <FormInput :id="'username'" v-model="username" :label="'username'" :type="'username'" />
         <FormInput :id="'password'" v-model="password" :label="'password'" :type="'password'" />
-        <SubmitButton :label="'Login'" />
+        <SubmitButton class="form-input" :label="'Login'" />
       </form>
     </div>
   </div>
@@ -105,6 +105,9 @@ export default Vue.extend({
 </script>
 
 <style lang="scss">
+.form-input {
+  margin: 15px 20px;
+}
 .login {
   display: flex;
   background-size: cover;

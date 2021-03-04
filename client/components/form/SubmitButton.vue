@@ -17,11 +17,9 @@ export default Vue.extend({
 .submit-button {
   font-size: 1rem;
   border-style: none;
-  width: calc(100% - 40px);
   text-align: center;
   cursor: pointer;
   user-select: none;
-  margin: 20px 20px;
   background: $theme-color-primary-gradient;
   padding: 8px 0;
   border-radius: 5px;

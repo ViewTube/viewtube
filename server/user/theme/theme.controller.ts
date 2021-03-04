@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Post, Put, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Req, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'server/auth/guards/jwt.guard';
 import { ThemeDto } from '../../../shared/dto/theme/theme.dto';
@@ -29,9 +29,9 @@ export class ThemeController {
     return this.themeService.updateTheme(req, theme);
   }
 
-  @Delete()
+  @Delete(':themeValue')
   @ApiOperation({ summary: 'Deletes a theme for the current user' })
-  deleteTheme(@Req() req: any, @Body('theme') theme: ThemeDto): Promise<boolean> {
-    return this.themeService.deleteTheme(req, theme);
+  deleteTheme(@Req() req: any, @Param('themeValue') value: string): Promise<boolean> {
+    return this.themeService.deleteTheme(req, value);
   }
 }

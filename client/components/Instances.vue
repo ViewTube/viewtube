@@ -57,9 +57,5 @@ export default Vue.extend({
   .right-header {
     text-align: right;
   }
-
-  td {
-    // padding-right: 2vw;
-  }
 }
 </style>
