@@ -1760,14 +1760,14 @@
     consola "^2.15.3"
     defu "^3.2.2"
 
-"@nuxtjs/composition-api@^0.20.2":
-  version "0.20.2"
-  resolved "https://registry.yarnpkg.com/@nuxtjs/composition-api/-/composition-api-0.20.2.tgz#1c395c675f6eec50f80a378553e965ad0d6bdd19"
-  integrity sha512-SetYbVgG6dmnInUBZ/Peo0Q/oyu9UD9MVukS5vKpp8Setm6ZmTXj5/AjnsQlFx5Kzu+zKf19JzWg29YFZdt/vg==
+"@nuxtjs/composition-api@^0.21.0":
+  version "0.21.0"
+  resolved "https://registry.yarnpkg.com/@nuxtjs/composition-api/-/composition-api-0.21.0.tgz#ed0fe44b305412cee7ec34044db04fe59786e133"
+  integrity sha512-0MwI5D5yUXLmltI91WeoBVwrnjnyYqES1DTAv/vc5AtySLhny8uqT75LHqK3akl0rxS8m9AeHF4TvLAGFggEmQ==
   dependencies:
-    "@vue/composition-api" "1.0.0-rc.2"
+    "@vue/composition-api" "1.0.0-rc.3"
     defu "^3.2.2"
-    ufo "^0.6.6"
+    ufo "^0.6.7"
     upath "^2.0.1"
 
 "@nuxtjs/eslint-config-typescript@^5.0.0":
@@ -2559,10 +2559,10 @@
   optionalDependencies:
     prettier "^1.18.2"
 
-"@vue/composition-api@1.0.0-rc.2":
-  version "1.0.0-rc.2"
-  resolved "https://registry.yarnpkg.com/@vue/composition-api/-/composition-api-1.0.0-rc.2.tgz#9d90e507cf71634aad51ab878b141c2a4739d523"
-  integrity sha512-R4XEvT+qXiT/lnsLzqhjkR/L/ALuNeeQPZqredpLduGKwZtmt2l5I3kT1W+c/157hrY732eFlsPUGz/q9vFaYg==
+"@vue/composition-api@1.0.0-rc.3":
+  version "1.0.0-rc.3"
+  resolved "https://registry.yarnpkg.com/@vue/composition-api/-/composition-api-1.0.0-rc.3.tgz#5174632fdda888f4f04bbaa5263cf01e34ba3fc2"
+  integrity sha512-/N/yCgIeFwAdsChML1RAke7YT5v/LYnPOyrz2zU+fE6xx2MpZfWn+DD2wCf3Vre659AvuXA8zzKLlRaFzW75XQ==
   dependencies:
     tslib "^2.1.0"
 
@@ -12474,11 +12474,6 @@ ua-parser-js@^0.7.24:
   version "0.7.24"
   resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.24.tgz#8d3ecea46ed4f1f1d63ec25f17d8568105dc027c"
   integrity sha512-yo+miGzQx5gakzVK3QFfN0/L9uVhosXBBO7qmnk7c2iw1IhL212wfA3zbnI54B0obGwC/5NWub/iT9sReMx+Fw==
-
-ufo@^0.6.6:
-  version "0.6.6"
-  resolved "https://registry.yarnpkg.com/ufo/-/ufo-0.6.6.tgz#6bc4b4de19ff9a9cb68134719190196b0cc7353b"
-  integrity sha512-HDhml2KskY1VVtQGckmaf/p3rTuleC2M7qL9Wf1dJZMw7glFk6oVjRsddf6LJp0I+pHERZzfttVmBMq1nR3PGA==
 
 ufo@^0.6.7:
   version "0.6.7"
