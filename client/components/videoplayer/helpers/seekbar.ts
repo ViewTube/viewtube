@@ -1,7 +1,23 @@
 import { commons } from '@/plugins/commons';
+import { Ref } from '@nuxtjs/composition-api';
 
 export const seekbarFunctions = {
-  onSeekbarTouchStart(e: any, { playerOverlayVisible, seekbar, videoRef, videoElement, formatFn }) {
+  onSeekbarTouchStart(
+    e: any,
+    {
+      playerOverlayVisible,
+      seekbar,
+      videoRef,
+      videoElement,
+      formatFn
+    }: {
+      playerOverlayVisible: Ref<boolean>;
+      seekbar: any;
+      videoRef: any;
+      videoElement: any;
+      formatFn: Function;
+    }
+  ) {
     if (playerOverlayVisible.value) {
       seekbar.seeking = true;
       const touchX = e.touches[0].clientX;
@@ -13,13 +29,33 @@ export const seekbarFunctions = {
     }
   },
 
-  onSeekbarMouseMove(e: any, { seekbar, videoDuration, formatFn }) {
+  onSeekbarMouseMove(
+    e: any,
+    {
+      seekbar,
+      videoDuration,
+      formatFn
+    }: { seekbar: any; videoDuration: number; formatFn: Function }
+  ) {
     seekbar.hoverPercentage = calculateSeekPercentage(e.pageX);
     seekbar.hoverTime = formatFn((videoDuration / 100) * seekbar.hoverPercentage);
     seekbar.hoverTimeStamp = (videoDuration / 100) * seekbar.hoverPercentage;
   },
 
-  onSeekbarTouchMove(e: any, { playerOverlayVisible, seekbar, videoDuration, formatFn }) {
+  onSeekbarTouchMove(
+    e: any,
+    {
+      playerOverlayVisible,
+      seekbar,
+      videoDuration,
+      formatFn
+    }: {
+      playerOverlayVisible: Ref<boolean>;
+      seekbar: any;
+      videoDuration: number;
+      formatFn: Function;
+    }
+  ) {
     if (playerOverlayVisible.value) {
       const touchX = e.touches[0].clientX;
       seekbar.hoverPercentage = calculateSeekPercentage(touchX);
@@ -28,7 +64,20 @@ export const seekbarFunctions = {
     }
   },
 
-  onPlayerTouchMove(e: any, { seekbar, videoRef, seekPercentage, videoElement }) {
+  onPlayerTouchMove(
+    e: any,
+    {
+      seekbar,
+      videoRef,
+      seekPercentage,
+      videoElement
+    }: {
+      seekbar: any;
+      videoRef: Ref<any>;
+      seekPercentage: number;
+      videoElement: any;
+    }
+  ) {
     if (seekbar.seeking) {
       const touchX = e.touches[0].clientX;
       seekbar.seekPercentage = calculateSeekPercentage(touchX);
@@ -36,11 +85,21 @@ export const seekbarFunctions = {
     }
   },
 
-  onSeekbarMouseDown({ seekbar }) {
+  onSeekbarMouseDown({ seekbar }: { seekbar: any }) {
     seekbar.seeking = true;
   },
 
-  onPlayerMouseUp({ seekbar, videoRef, seekPercentage, videoElement }) {
+  onPlayerMouseUp({
+    seekbar,
+    videoRef,
+    seekPercentage,
+    videoElement
+  }: {
+    seekbar: any;
+    videoRef: Ref<any>;
+    seekPercentage: number;
+    videoElement: any;
+  }) {
     if (seekbar.seeking) {
       seekbar.seeking = false;
       matchSeekProgressPercentage(videoRef, seekPercentage, videoElement, true);
@@ -51,7 +110,18 @@ export const seekbarFunctions = {
 
   onSeekbarMouseLeave() {},
   onSeekbarMouseEnter() {},
-  onSeekBarClick(e: any, { seekbar, videoRef, videoElement }) {
+  onSeekBarClick(
+    e: any,
+    {
+      seekbar,
+      videoRef,
+      videoElement
+    }: {
+      seekbar: any;
+      videoRef: Ref<any>;
+      videoElement: any;
+    }
+  ) {
     seekbar.seekPercentage = calculateSeekPercentage(e.pageX);
     matchSeekProgressPercentage(videoRef, seekbar.seekPercentage, videoElement, true);
   },

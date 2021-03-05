@@ -32,7 +32,7 @@ export default {
     ]
   },
   parseQuery(query: { [x: string]: any }) {
-    const me = this;
+    const me: any = this;
     let queryString = '';
     Object.keys(query).forEach(val => {
       if (me.defaults[val]) {
@@ -49,8 +49,8 @@ export default {
   },
   // eslint-disable-next-line camelcase
   parseQueryJson(query: { [x: string]: any; search_query?: string }, q: string) {
-    const me = this;
-    const queryObj = {
+    const me: any = this;
+    const queryObj: any = {
       q: q || query.search_query
     };
     Object.keys(query).forEach(val => {

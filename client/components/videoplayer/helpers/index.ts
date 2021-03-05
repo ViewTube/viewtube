@@ -14,7 +14,7 @@ import { MediaMetadataHelper } from './mediaMetadata';
 import { calculateSeekPercentage, matchSeekProgressPercentage, seekbarFunctions } from './seekbar';
 import { parseChapters } from './chapters';
 
-export const videoPlayerSetup = ({ root, props }) => {
+export const videoPlayerSetup = ({ root, props }: { root: any; props: any }) => {
   const loading = ref(true);
   const fullscreen = ref(false);
   const dashPlayer = ref(null);
@@ -176,7 +176,7 @@ export const videoPlayerSetup = ({ root, props }) => {
     }
   };
 
-  const onWindowKeyDown = e => {
+  const onWindowKeyDown = (e: KeyboardEvent) => {
     if (videoRef.value) {
       if (e.key === ' ') {
         toggleVideoPlayback();
@@ -195,7 +195,7 @@ export const videoPlayerSetup = ({ root, props }) => {
     }
   };
 
-  const onLoadedMetadata = e => {
+  const onLoadedMetadata = (e: any) => {
     videoElement.aspectRatio = e.target.videoHeight / e.target.videoWidth;
 
     if (videoRef.value && videoElement.firstTimeBuffering) {

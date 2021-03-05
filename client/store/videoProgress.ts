@@ -5,7 +5,7 @@ export const state = () => ({
 });
 
 export const getters = getterTree(state, {
-  getSavedPositionForId: state => (videoId: string) => {
+  getSavedPositionForId: (state: any) => (videoId: string) => {
     if (videoId && process.browser && state.savedVideoProgress[videoId]) {
       return parseInt(state.savedVideoProgress[videoId]);
       // return await this.$localforage.getItem(`savedVideoPositionId${videoId}`) || 0
@@ -15,7 +15,7 @@ export const getters = getterTree(state, {
 });
 
 export const mutations = mutationTree(state, {
-  addVideoProgress(state, videoProgress: { videoId: number; value: string }) {
+  addVideoProgress(state: any, videoProgress: { videoId: number; value: string }) {
     if (videoProgress.videoId && process.browser) {
       state.savedVideoProgress[videoProgress.videoId] = videoProgress.value;
     }

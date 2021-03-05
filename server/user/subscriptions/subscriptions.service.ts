@@ -338,9 +338,9 @@ export class SubscriptionsService {
     failed: Array<SubscriptionStatusDto>;
     existing: Array<SubscriptionStatusDto>;
   }> {
-    const successful = [];
-    const failed = [];
-    const existing = [];
+    const successful: Array<SubscriptionStatusDto> = [];
+    const failed: Array<SubscriptionStatusDto> = [];
+    const existing: Array<SubscriptionStatusDto> = [];
     const user = await this.subscriptionModel.findOne({ username }).exec();
     const subscriptions = user !== null ? user.subscriptions : [];
 
