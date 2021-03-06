@@ -363,7 +363,7 @@ export default defineComponent({
     mini: Boolean,
     autoplay: Boolean
   },
-  setup(props, { root }) {
+  setup(props) {
     const { error, route } = useContext();
 
     if (!props.video) {
@@ -376,7 +376,7 @@ export default defineComponent({
     }
 
     return {
-      ...videoPlayerSetup({ root, props })
+      ...videoPlayerSetup(props)
     };
   }
 });

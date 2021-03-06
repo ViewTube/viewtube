@@ -39,8 +39,9 @@
 import EyeIcon from 'vue-material-design-icons/Eye.vue';
 
 import Vue from 'vue';
+import { defineComponent, useStore } from '@nuxtjs/composition-api';
 
-export default Vue.extend({
+export default defineComponent({
   name: 'ChannelBanner',
   components: {
     EyeIcon
@@ -50,9 +51,12 @@ export default Vue.extend({
     bannerLinks: Array,
     bannerHqSrc: String
   },
-  data() {
+  setup() {
+    const store = useStore();
+    const imgProxyUrl = store.getters['environment/imgProxyUrl'];
+
     return {
-      imgProxyUrl: this.$store.getters['environment/imgProxyUrl']
+      imgProxyUrl
     };
   }
 });

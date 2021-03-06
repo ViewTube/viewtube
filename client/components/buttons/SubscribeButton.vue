@@ -23,11 +23,10 @@
 </template>
 
 <script lang="ts">
-// import { commons } from '@/plugins/commons';
+import { defineComponent, onMounted, ref, useStore } from '@nuxtjs/composition-api';
+import { useAxios } from '@/plugins/axios';
 
-import Vue from 'vue';
-
-export default Vue.extend({
+export default defineComponent({
   name: 'SubscribeButton',
   props: {
     channelId: {
@@ -38,105 +37,111 @@ export default Vue.extend({
     isInitiallySubscribed: { type: Boolean, required: false },
     small: { type: Boolean, required: false }
   },
-  data: () => ({
-    isSubscribed: false,
-    disabled: true,
-    expanded: true
-  }),
-  mounted() {
-    if (this.isInitiallySubscribed) {
-      this.isSubscribed = true;
-      this.disabled = false;
-    } else {
-      this.loadSubscriptionStatus();
-    }
+  setup(props) {
+    const axios = useAxios();
+    const store = useStore();
 
-    if (this.small) {
-      this.expanded = false;
-    }
-  },
-  methods: {
-    loadSubscriptionStatus(): void {
-      if (this.channelId) {
-        const me = this;
-        this.$axios
-          .get(`${this.$store.getters['environment/apiUrl']}user/subscriptions/${this.channelId}`, {
+    const isSubscribed = ref(false);
+    const disabled = ref(true);
+    const expanded = ref(true);
+
+    onMounted(() => {
+      if (props.isInitiallySubscribed) {
+        isSubscribed.value = true;
+        disabled.value = false;
+      } else {
+        loadSubscriptionStatus();
+      }
+
+      if (props.small) {
+        expanded.value = false;
+      }
+    });
+
+    const loadSubscriptionStatus = (): void => {
+      if (props.channelId) {
+        axios
+          .get(`${store.getters['environment/apiUrl']}user/subscriptions/${props.channelId}`, {
             withCredentials: true
           })
-          .then(response => {
+          .then((response: { data: { isSubscribed: any } }) => {
             if (response.data.isSubscribed) {
-              me.isSubscribed = true;
+              isSubscribed.value = true;
             } else {
-              me.isSubscribed = false;
+              isSubscribed.value = false;
             }
-            me.disabled = false;
+            disabled.value = false;
           })
-          // eslint-disable-next-line handle-callback-err
-          .catch(() => {
-            me.isSubscribed = false;
-            me.disabled = true;
+          .catch((_: any) => {
+            isSubscribed.value = false;
+            disabled.value = true;
           });
       }
-    },
-    subscribe(): void {
-      if (this.channelId) {
-        this.disabled = true;
-        this.$axios
+    };
+    const subscribe = (): void => {
+      if (props.channelId) {
+        disabled.value = true;
+        axios
           .put(
-            `${this.$store.getters['environment/apiUrl']}user/subscriptions/${this.channelId}`,
+            `${store.getters['environment/apiUrl']}user/subscriptions/${props.channelId}`,
             {},
             {
               withCredentials: true
             }
           )
-          .then(response => {
+          .then((response: { data: { isSubscribed: any } }) => {
             if (response.data.isSubscribed) {
-              this.isSubscribed = true;
+              isSubscribed.value = true;
             }
-            this.disabled = false;
-            if (this.small) {
-              this.expanded = false;
+            disabled.value = false;
+            if (props.small) {
+              expanded.value = false;
             }
           })
-          .catch(_ => {
-            this.$store.dispatch('messages/createMessage', {
+          .catch((_: any) => {
+            store.dispatch('messages/createMessage', {
               type: 'error',
               title: 'Unable to subscribe',
               message: `You may not be logged in. Try reloading the page.`
             });
-            this.disabled = false;
+            disabled.value = false;
           });
       }
-    },
-    unsubscribe(): void {
-      if (this.channelId) {
-        this.disabled = true;
-        this.$axios
-          .delete(
-            `${this.$store.getters['environment/apiUrl']}user/subscriptions/${this.channelId}`,
-            {
-              withCredentials: true
-            }
-          )
-          .then(response => {
+    };
+    const unsubscribe = (): void => {
+      if (props.channelId) {
+        disabled.value = true;
+        axios
+          .delete(`${store.getters['environment/apiUrl']}user/subscriptions/${props.channelId}`, {
+            withCredentials: true
+          })
+          .then((response: { data: { isSubscribed: any } }) => {
             if (!response.data.isSubscribed) {
-              this.isSubscribed = false;
+              isSubscribed.value = false;
             }
-            this.disabled = false;
-            if (this.small) {
-              this.expanded = false;
+            disabled.value = false;
+            if (props.small) {
+              expanded.value = false;
             }
           })
-          .catch(_ => {
-            this.$store.dispatch('messages/createMessage', {
+          .catch((_: any) => {
+            store.dispatch('messages/createMessage', {
               type: 'error',
               title: 'Unable to unsubscribe',
               message: `You may not be logged in. Try to reload the page.`
             });
-            this.disabled = false;
+            disabled.value = false;
           });
       }
-    }
+    };
+
+    return {
+      isSubscribed,
+      disabled,
+      expanded,
+      subscribe,
+      unsubscribe
+    };
   }
 });
 </script>
