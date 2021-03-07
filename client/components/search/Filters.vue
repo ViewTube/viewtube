@@ -39,8 +39,9 @@
 
 <script lang="ts">
 import UndoIcon from 'vue-material-design-icons/Undo.vue';
-import Vue from 'vue';
-export default Vue.extend({
+import { defineComponent, ref, useRoute, useRouter, watch } from '@nuxtjs/composition-api';
+
+export default defineComponent({
   name: 'Filters',
   components: {
     UndoIcon
@@ -48,34 +49,33 @@ export default Vue.extend({
   props: {
     filters: Array
   },
-  data() {
-    return {
-      searchValue: ''
+  setup() {
+    const route = useRoute();
+    const router = useRouter();
+    const searchValue = ref('');
+
+    const refreshQuery = () => {
+      if (route.value.query.search_query) {
+        searchValue.value = route.value.query.search_query as string;
+      }
     };
-  },
-  fetch() {
-    if (this.$route.query.search_query) {
-      this.searchValue = this.$route.query.search_query;
-    }
-  },
-  watch: {
-    '$route.query': '$fetch'
-  },
-  methods: {
-    onFilterApply(e) {
+
+    watch(route.value.query, refreshQuery);
+
+    const onFilterApply = (e: { target: HTMLFormElement }) => {
       const formData = new FormData(e.target);
       // FormData in URLSearchParams is supported in all major browsers
       const searchParams = new URLSearchParams(formData as any);
       const queryString = searchParams.toString();
-      this.$router.push(`/results?${queryString}`);
-    },
-    getFilterUrl(filterName: string, filterValue: string): string {
-      const newUrlParams = new URLSearchParams(this.$route.query);
+      router.push(`/results?${queryString}`);
+    };
+    const getFilterUrl = (filterName: string, filterValue: string): string => {
+      const newUrlParams = new URLSearchParams(route.value.query as any);
       newUrlParams.set(filterName, filterValue);
       return `/results?${newUrlParams.toString()}`;
-    },
-    isDisabled(filterValue: string): boolean {
-      const urlSearchParams = new URLSearchParams(this.$route.query);
+    };
+    const isDisabled = (filterValue: string): boolean => {
+      const urlSearchParams = new URLSearchParams(route.value.query as any);
       if (
         urlSearchParams.get('Upload date') ||
         urlSearchParams.get('Features') ||
@@ -99,7 +99,17 @@ export default Vue.extend({
         }
       }
       return false;
-    }
+    };
+
+    refreshQuery();
+
+    return {
+      route,
+      searchValue,
+      onFilterApply,
+      getFilterUrl,
+      isDisabled
+    };
   }
 });
 </script>

@@ -22,46 +22,56 @@
 import MainSearchBox from '@/components/MainSearchBox.vue';
 import UserMenu from '@/components/header/UserMenu.vue';
 import { Scroll } from '@/plugins/scroll';
+import {
+  computed,
+  defineComponent,
+  onBeforeUnmount,
+  onMounted,
+  ref,
+  useRoute,
+  useStore
+} from '@nuxtjs/composition-api';
+import { useAccessor } from '@/store/index';
 
-import Vue from 'vue';
-
-export default Vue.extend({
+export default defineComponent({
   name: 'MainHeader',
   components: {
     MainSearchBox,
     UserMenu
   },
-  props: {
-    scrollTop: Boolean
-  },
-  data: () => ({
-    posAbsolute: false,
-    topPosition: 0
-  }),
-  computed: {
-    currentRouteName() {
-      return this.$route.name;
-    },
-    userAuthenticated() {
-      return this.$store.getters['user/isLoggedIn'];
-    }
-  },
-  mounted() {
-    if (process.browser) {
-      window.addEventListener('scroll', this.handleScroll, {
-        passive: true
-      });
-    }
-  },
-  beforeDestroy() {
-    window.removeEventListener('scroll', this.handleScroll, { passive: true } as any);
-  },
-  methods: {
-    handleScroll() {
-      const { posAbsolute, topPosition } = Scroll.setScrollPosition(window.pageYOffset);
-      this.posAbsolute = posAbsolute;
-      this.topPosition = topPosition;
-    }
+  setup() {
+    const route = useRoute();
+
+    const posAbsolute = ref(false);
+    const topPosition = ref(0);
+
+    const currentRouteName = computed(() => {
+      return route.value.name;
+    });
+
+    const handleScroll = () => {
+      const newPositions = Scroll.setScrollPosition(window.pageYOffset);
+      posAbsolute.value = newPositions.posAbsolute;
+      topPosition.value = newPositions.topPosition;
+    };
+
+    onMounted(() => {
+      if (process.browser) {
+        window.addEventListener('scroll', handleScroll, {
+          passive: true
+        });
+      }
+    });
+
+    onBeforeUnmount(() => {
+      window.removeEventListener('scroll', handleScroll, { passive: true } as any);
+    });
+
+    return {
+      posAbsolute,
+      topPosition,
+      currentRouteName
+    };
   }
 });
 </script>

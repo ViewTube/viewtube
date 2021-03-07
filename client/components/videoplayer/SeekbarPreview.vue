@@ -16,10 +16,10 @@
 <script lang="ts">
 import { WebVTTParser } from '@/plugins/services/webVTTParser';
 import Invidious from '@/plugins/services/invidious';
+import { defineComponent, ref, reactive, watch, onMounted } from '@nuxtjs/composition-api';
+import { useAccessor } from '~/store';
 
-import Vue from 'vue';
-
-export default Vue.extend({
+export default defineComponent({
   name: 'SeekbarPreview',
   props: {
     time: {
@@ -35,65 +35,79 @@ export default Vue.extend({
       required: true
     }
   },
-  data: () => ({
-    storyboardVTT: null,
-    storyboardImages: null,
-    storyboardBaseImages: [],
-    currentImg: {
+  setup(props) {
+    const accessor = useAccessor();
+    const storyboardVTT = ref(null);
+    const storyboardImages = ref(null);
+    const storyboardBaseImages = ref([]);
+    const currentImg = reactive({
       imgId: 0
-    }
-  }),
-  watch: {
-    time() {
-      if (this.storyboardImages) {
-        const currentImg = this.storyboardImages.find(element => {
-          return element.startTime < this.time && element.endTime > this.time;
+    });
+
+    onMounted(() => {
+      const invidious = new Invidious(accessor.instances.currentInstanceApi);
+      invidious.api
+        .storyboards({
+          id: props.videoId,
+          params: {
+            width: 160,
+            height: 90
+          }
+        })
+        .then(response => {
+          storyboardVTT.value = response.data;
+          parseVTTData();
         });
-        this.currentImg = currentImg || { imgId: 0 };
-      }
-    }
-  },
-  mounted() {
-    const invidious = new Invidious(this.$store.getters['instances/currentInstanceApi']);
-    invidious.api
-      .storyboards({
-        id: this.videoId,
-        params: {
-          width: 160,
-          height: 90
-        }
-      })
-      .then(response => {
-        this.storyboardVTT = response.data;
-        this.parseVTTData();
-      });
-  },
-  methods: {
-    parseVTTData() {
+    });
+
+    const parseVTTData = () => {
       // eslint-disable-next-line no-undef
       const parser = new WebVTTParser();
-      const tree = parser.parse(this.storyboardVTT, 'metadata');
+      const tree = parser.parse(storyboardVTT.value, 'metadata');
       let baseImgCounter = -1;
-      this.storyboardImages = tree.cues.map(el => {
-        const src = el.text.split('#')[0];
-        const pos = el.text.split('#')[1].replace('xywh=', '');
-        const posX = pos.split(',')[0];
-        const posY = pos.split(',')[1];
+      storyboardImages.value = tree.cues.map(
+        (el: { text: string; startTime: any; endTime: any }) => {
+          const src = el.text.split('#')[0];
+          const pos = el.text.split('#')[1].replace('xywh=', '');
+          const posX = pos.split(',')[0];
+          const posY = pos.split(',')[1];
 
-        if (!this.storyboardBaseImages.find(el => el === src)) {
-          this.storyboardBaseImages.push(src);
-          baseImgCounter++;
+          if (!storyboardBaseImages.value.find(el => el === src)) {
+            storyboardBaseImages.value.push(src);
+            baseImgCounter++;
+          }
+
+          return {
+            startTime: el.startTime,
+            endTime: el.endTime,
+            imgId: baseImgCounter,
+            posX,
+            posY
+          };
         }
+      );
+    };
 
-        return {
-          startTime: el.startTime,
-          endTime: el.endTime,
-          imgId: baseImgCounter,
-          posX,
-          posY
-        };
-      });
-    }
+    watch(
+      () => props.time,
+      () => {
+        if (storyboardImages.value) {
+          const newCurrentImg = storyboardImages.value.find(
+            (element: { startTime: number; endTime: number }) => {
+              return element.startTime < props.time && element.endTime > props.time;
+            }
+          );
+          currentImg.imgId = newCurrentImg.imgId || 0;
+        }
+      }
+    );
+
+    return {
+      storyboardVTT,
+      storyboardImages,
+      storyboardBaseImages,
+      currentImg
+    };
   }
 });
 </script>

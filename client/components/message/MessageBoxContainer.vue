@@ -10,17 +10,12 @@
 
 <script lang="ts">
 import MessageBox from '@/components/message/MessageBox.vue';
-import Vue from 'vue';
+import { defineComponent } from '@nuxtjs/composition-api';
 
-export default Vue.extend({
+export default defineComponent({
   name: 'MessageBoxContainer',
   components: {
     MessageBox
-  },
-  data() {
-    return {
-      messages: this.$store.getters['messages/visibleMessages']
-    };
   }
 });
 </script>

@@ -5,18 +5,22 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import { defineComponent, PropType } from '@nuxtjs/composition-api';
 
-export default Vue.extend({
+export default defineComponent({
   name: 'ShareOptionEntry',
   props: {
     optionName: { type: String, required: true },
-    click: { type: Function, required: true }
+    click: Function as PropType<() => {}>
   },
-  methods: {
-    onClick() {
-      this.click();
-    }
+  setup(props) {
+    const onClick = () => {
+      props.click();
+    };
+
+    return {
+      onClick
+    };
   }
 });
 </script>

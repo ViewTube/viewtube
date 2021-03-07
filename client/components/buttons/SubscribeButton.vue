@@ -23,8 +23,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref, useStore } from '@nuxtjs/composition-api';
+import { defineComponent, onMounted, ref } from '@nuxtjs/composition-api';
 import { useAxios } from '@/plugins/axios';
+import { useAccessor } from '@/store/index';
 
 export default defineComponent({
   name: 'SubscribeButton',
@@ -39,7 +40,7 @@ export default defineComponent({
   },
   setup(props) {
     const axios = useAxios();
-    const store = useStore();
+    const accessor = useAccessor();
 
     const isSubscribed = ref(false);
     const disabled = ref(true);
@@ -61,7 +62,7 @@ export default defineComponent({
     const loadSubscriptionStatus = (): void => {
       if (props.channelId) {
         axios
-          .get(`${store.getters['environment/apiUrl']}user/subscriptions/${props.channelId}`, {
+          .get(`${accessor.environment.apiUrl}user/subscriptions/${props.channelId}`, {
             withCredentials: true
           })
           .then((response: { data: { isSubscribed: any } }) => {
@@ -83,7 +84,7 @@ export default defineComponent({
         disabled.value = true;
         axios
           .put(
-            `${store.getters['environment/apiUrl']}user/subscriptions/${props.channelId}`,
+            `${accessor.environment.apiUrl}user/subscriptions/${props.channelId}`,
             {},
             {
               withCredentials: true
@@ -99,7 +100,7 @@ export default defineComponent({
             }
           })
           .catch((_: any) => {
-            store.dispatch('messages/createMessage', {
+            accessor.messages.createMessage({
               type: 'error',
               title: 'Unable to subscribe',
               message: `You may not be logged in. Try reloading the page.`
@@ -112,7 +113,7 @@ export default defineComponent({
       if (props.channelId) {
         disabled.value = true;
         axios
-          .delete(`${store.getters['environment/apiUrl']}user/subscriptions/${props.channelId}`, {
+          .delete(`${accessor.environment.apiUrl}user/subscriptions/${props.channelId}`, {
             withCredentials: true
           })
           .then((response: { data: { isSubscribed: any } }) => {
@@ -125,7 +126,7 @@ export default defineComponent({
             }
           })
           .catch((_: any) => {
-            store.dispatch('messages/createMessage', {
+            accessor.messages.createMessage({
               type: 'error',
               title: 'Unable to unsubscribe',
               message: `You may not be logged in. Try to reload the page.`

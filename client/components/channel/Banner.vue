@@ -37,9 +37,8 @@
 
 <script lang="ts">
 import EyeIcon from 'vue-material-design-icons/Eye.vue';
-
-import Vue from 'vue';
-import { defineComponent, useStore } from '@nuxtjs/composition-api';
+import { defineComponent } from '@nuxtjs/composition-api';
+import { useImgProxy } from '@/plugins/proxy';
 
 export default defineComponent({
   name: 'ChannelBanner',
@@ -52,11 +51,10 @@ export default defineComponent({
     bannerHqSrc: String
   },
   setup() {
-    const store = useStore();
-    const imgProxyUrl = store.getters['environment/imgProxyUrl'];
+    const imgProxy = useImgProxy();
 
     return {
-      imgProxyUrl
+      imgProxyUrl: imgProxy.url
     };
   }
 });

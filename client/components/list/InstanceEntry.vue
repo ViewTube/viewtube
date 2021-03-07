@@ -30,9 +30,10 @@
 <script lang="ts">
 import CheckBoxBlank from 'vue-material-design-icons/CheckboxBlankOutline.vue';
 import CheckBoxMarked from 'vue-material-design-icons/CheckboxMarkedOutline.vue';
-import Vue from 'vue';
+import { computed, defineComponent } from '@nuxtjs/composition-api';
+import { useAccessor } from '@/store';
 
-export default Vue.extend({
+export default defineComponent({
   name: 'InstanceEntry',
   components: {
     CheckBoxBlank,
@@ -46,19 +47,25 @@ export default Vue.extend({
       }
     }
   },
-  computed: {
-    selected() {
-      if (this.$store.getters['instances/currentInstance'] === this.instance.url) {
+  setup(props: { instance: { url: string; health: any } }) {
+    const accessor = useAccessor();
+
+    const chooseInstance = () => {
+      accessor.instances.changeInstance(props.instance.url);
+    };
+
+    const selected = computed(() => {
+      if (accessor.instances.currentInstance === props.instance.url) {
         return true;
       } else {
         return false;
       }
-    }
-  },
-  methods: {
-    chooseInstance() {
-      this.$store.commit('instances/changeInstance', this.instance.url);
-    }
+    });
+
+    return {
+      chooseInstance,
+      selected
+    };
   }
 });
 </script>

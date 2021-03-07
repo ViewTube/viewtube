@@ -131,9 +131,18 @@ import Settings from '@/components/Settings.vue';
 import Instances from '@/components/Instances.vue';
 import About from '@/components/About.vue';
 
-import Vue from 'vue';
+import {
+  computed,
+  defineComponent,
+  onBeforeUnmount,
+  onMounted,
+  ref,
+  useRoute,
+  useRouter
+} from '@nuxtjs/composition-api';
+import { useAccessor } from '@/store/index';
 
-export default Vue.extend({
+export default defineComponent({
   name: 'UserMenu',
   components: {
     SettingsIcon,
@@ -145,81 +154,107 @@ export default Vue.extend({
     Instances,
     About
   },
-  data: () => ({
-    accountMenuVisible: false,
-    settingsOpen: false,
-    instancesOpen: false,
-    aboutOpen: false
-  }),
-  computed: {
-    currentRouteName(): string {
-      return this.$route.name;
-    },
-    userAuthenticated(): boolean {
-      return this.$store.getters['user/isLoggedIn'];
-    }
-  },
-  mounted() {
-    this.$nuxt.$on('open-popup', this.openPopup);
-  },
-  beforeDestroy() {
-    this.$nuxt.$off('open-popup');
-  },
-  methods: {
-    openPopup(popupName: string): void {
+  setup(_, { root }) {
+    const route = useRoute();
+    const accessor = useAccessor();
+    const router = useRouter();
+
+    const accountMenuVisible = ref(false);
+    const settingsOpen = ref(false);
+    const instancesOpen = ref(false);
+    const aboutOpen = ref(false);
+
+    const currentRouteName = computed((): string => {
+      return route.value.name;
+    });
+
+    const userAuthenticated = computed((): boolean => {
+      return accessor.user.isLoggedIn;
+    });
+
+    const openPopup = (popupName: string): void => {
       switch (popupName) {
         case 'instances':
-          this.openInstances();
+          openInstances();
           break;
         default:
           break;
       }
-    },
-    hideAccountMenu() {
-      if (this.accountMenuVisible) {
-        this.accountMenuVisible = false;
+    };
+    const hideAccountMenu = (): void => {
+      if (accountMenuVisible.value) {
+        accountMenuVisible.value = false;
       }
-    },
-    showAccountMenu() {
-      this.accountMenuVisible = !this.accountMenuVisible;
-    },
-    openAbout() {
-      this.hideAccountMenu();
-      this.aboutOpen = true;
-    },
-    closeAbout() {
-      this.aboutOpen = false;
-    },
-    openSettings() {
-      this.hideAccountMenu();
-      this.settingsOpen = true;
-    },
-    closeSettings() {
-      this.settingsOpen = false;
-    },
-    openInstances() {
-      this.hideAccountMenu();
-      this.instancesOpen = true;
-    },
-    closeInstances() {
-      this.instancesOpen = false;
-    },
-    openSubscriptions() {
-      this.$router.push('/subscriptions');
-      this.hideAccountMenu();
-    },
-    login() {
-      this.$router.push('/login');
-      this.hideAccountMenu();
-    },
-    register() {
-      this.$router.push('/register');
-      this.hideAccountMenu();
-    },
-    logout() {
-      this.$store.dispatch('user/logout');
-      this.hideAccountMenu();
-    }
+    };
+    const showAccountMenu = (): void => {
+      accountMenuVisible.value = !accountMenuVisible.value;
+    };
+    const openAbout = (): void => {
+      hideAccountMenu();
+      aboutOpen.value = true;
+    };
+    const closeAbout = (): void => {
+      aboutOpen.value = false;
+    };
+    const openSettings = (): void => {
+      hideAccountMenu();
+      settingsOpen.value = true;
+    };
+    const closeSettings = (): void => {
+      settingsOpen.value = false;
+    };
+    const openInstances = (): void => {
+      hideAccountMenu();
+      instancesOpen.value = true;
+    };
+    const closeInstances = (): void => {
+      instancesOpen.value = false;
+    };
+    const openSubscriptions = (): void => {
+      router.push('/subscriptions');
+      hideAccountMenu();
+    };
+    const login = (): void => {
+      router.push('/login');
+      hideAccountMenu();
+    };
+    const register = (): void => {
+      router.push('/register');
+      hideAccountMenu();
+    };
+    const logout = (): void => {
+      accessor.user.logout();
+      hideAccountMenu();
+    };
+
+    onMounted(() => {
+      root.$nuxt.$on('open-popup', openPopup);
+    });
+
+    onBeforeUnmount(() => {
+      root.$nuxt.$off('open-popup');
+    });
+
+    return {
+      accountMenuVisible,
+      settingsOpen,
+      instancesOpen,
+      aboutOpen,
+      currentRouteName,
+      userAuthenticated,
+      hideAccountMenu,
+      showAccountMenu,
+      openAbout,
+      closeAbout,
+      openSettings,
+      closeSettings,
+      openInstances,
+      closeInstances,
+      openSubscriptions,
+      login,
+      logout,
+      register
+    };
   }
 });
 </script>

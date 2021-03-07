@@ -14,29 +14,34 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import { defineComponent, ref, watch } from '@nuxtjs/composition-api';
 
-export default Vue.extend({
+export default defineComponent({
   name: 'CollapsibleSection',
   components: {},
   props: {
     label: String,
     opened: Boolean
   },
-  data: () => ({
-    open: false
-  }),
-  watch: {
-    opened(newValue, oldValue) {
-      if (newValue !== oldValue) {
-        this.open = Boolean(newValue);
+  setup(props) {
+    const open = ref(false);
+
+    watch(
+      () => props.opened,
+      (newValue, oldValue) => {
+        if (newValue !== oldValue) {
+          open.value = Boolean(newValue);
+        }
       }
+    );
+
+    if (props.opened) {
+      open.value = props.opened;
     }
-  },
-  mounted() {
-    if (this.opened) {
-      this.open = this.opened;
-    }
+
+    return {
+      open
+    };
   }
 });
 </script>

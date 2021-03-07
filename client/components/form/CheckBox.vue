@@ -20,25 +20,26 @@
 
 <script lang="ts">
 import { commons } from '@/plugins/commons';
+import { defineComponent, ref } from '@nuxtjs/composition-api';
 
-import Vue from 'vue';
-
-export default Vue.extend({
+export default defineComponent({
   name: 'CheckBox',
   props: {
     value: Boolean,
     label: String,
     disabled: Boolean
   },
-  data() {
-    return {
-      id: commons.uuidv4()
+  setup(_, { emit }) {
+    const id = ref(commons.uuidv4());
+
+    const onChange = (e: any) => {
+      emit('valuechange', e.target.checked);
     };
-  },
-  methods: {
-    onChange(e) {
-      this.$emit('valuechange', e.target.checked);
-    }
+
+    return {
+      id,
+      onChange
+    };
   }
 });
 </script>

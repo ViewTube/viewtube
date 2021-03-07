@@ -48,10 +48,9 @@
 import FamilyFriendly from 'vue-material-design-icons/AccountChild.vue';
 import Paid from 'vue-material-design-icons/CurrencyUsd.vue';
 import SubscribeButton from '@/components/buttons/SubscribeButton.vue';
+import { defineComponent } from '@nuxtjs/composition-api';
 
-import Vue from 'vue';
-
-export default Vue.extend({
+export default defineComponent({
   name: 'ChannelOverview',
   components: {
     SubscribeButton,

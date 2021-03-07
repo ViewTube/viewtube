@@ -45,9 +45,9 @@
 
 <script lang="ts">
 import SectionTitle from '@/components/SectionTitle.vue';
-import Vue from 'vue';
+import { defineComponent } from '@nuxtjs/composition-api';
 
-export default Vue.extend({
+export default defineComponent({
   name: 'RelatedChannels',
   components: {
     SectionTitle

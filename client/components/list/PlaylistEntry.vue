@@ -82,12 +82,11 @@
 <script lang="ts">
 import VerifiedIcon from 'vue-material-design-icons/CheckDecagram.vue';
 import PlaylistIcon from 'vue-material-design-icons/PlaylistPlay.vue';
-
 import 'tippy.js/dist/tippy.css';
+import { computed, defineComponent } from '@nuxtjs/composition-api';
+import { useImgProxy } from '~/plugins/proxy';
 
-import Vue from 'vue';
-
-export default Vue.extend({
+export default defineComponent({
   name: 'PlaylistEntry',
   components: {
     VerifiedIcon,
@@ -96,17 +95,19 @@ export default Vue.extend({
   props: {
     playlist: Object
   },
-  data() {
-    return {
-      imgProxyUrl: this.$store.getters['environment/imgProxyUrl']
-    };
-  },
-  computed: {
-    playlistLink(): string {
+  setup(props) {
+    const imgProxy = useImgProxy();
+
+    const playlistLink = computed((): string => {
       return `/watch?v=${
-        this.playlist.firstVideoId ? this.playlist.firstVideoId : this.playlist.firstVideo.id
-      }&list=${this.playlist.playlistId ? this.playlist.playlistId : this.playlist.playlistID}`;
-    }
+        props.playlist.firstVideoId ? props.playlist.firstVideoId : props.playlist.firstVideo.id
+      }&list=${props.playlist.playlistId ? props.playlist.playlistId : props.playlist.playlistID}`;
+    });
+
+    return {
+      imgProxyUrl: imgProxy.url,
+      playlistLink
+    };
   }
 });
 </script>

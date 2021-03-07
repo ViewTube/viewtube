@@ -31,9 +31,9 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import { computed, defineComponent, useRouter } from '@nuxtjs/composition-api';
 
-export default Vue.extend({
+export default defineComponent({
   name: 'EndscreenCard',
   props: {
     card: Object,
@@ -41,82 +41,99 @@ export default Vue.extend({
     videoHeight: Number,
     videoWidth: Number
   },
-  computed: {
-    elementType(): string {
-      if (this.card.type === 'website') {
+  setup(props, { emit }) {
+    const router = useRouter();
+
+    const elementType = computed((): string => {
+      if (props.card.type === 'website') {
         return 'a';
       }
       return 'nuxt-link';
-    },
-    linkUrl(): string {
-      if (this.card.type === 'website') {
-        return this.card.websiteUrl;
-      } else if (this.card.type === 'channel') {
-        return `/channel/${this.card.authorId}`;
-      } else if (this.card.type === 'playlist') {
-        return this.card.playlistUrl;
+    });
+    const linkUrl = computed((): string => {
+      if (props.card.type === 'website') {
+        return props.card.websiteUrl;
+      } else if (props.card.type === 'channel') {
+        return `/channel/${props.card.authorId}`;
+      } else if (props.card.type === 'playlist') {
+        return props.card.playlistUrl;
       } else {
-        return `/watch/?v=${this.card.videoId}`;
+        return `/watch/?v=${props.card.videoId}`;
       }
-    },
-    visible(): boolean {
-      const startTime = this.card.timing.start;
-      const endTime = this.card.timing.end;
-      const videoProgressMs = this.videoProgress * 1000;
+    });
+    const visible = computed((): boolean => {
+      const startTime = props.card.timing.start;
+      const endTime = props.card.timing.end;
+      const videoProgressMs = props.videoProgress * 1000;
 
       return videoProgressMs > startTime && videoProgressMs < endTime;
-    },
-    positionTop(): number {
-      return this.card.dimensions.top * 100;
-    },
-    positionLeft(): number {
-      return this.card.dimensions.left * 100;
-    },
-    cardWidth(): number {
-      return this.card.dimensions.width * 100;
-    },
-    cardHeight(): number {
+    });
+    const positionTop = computed((): number => {
+      return props.card.dimensions.top * 100;
+    });
+    const positionLeft = computed((): number => {
+      return props.card.dimensions.left * 100;
+    });
+    const cardWidth = computed((): number => {
+      return props.card.dimensions.width * 100;
+    });
+    const cardHeight = computed((): number => {
       return (
-        ((this.card.dimensions.width * 100) / this.card.dimensions.aspectRatio) *
-        this.videoAspectRatio
+        ((props.card.dimensions.width * 100) / props.card.dimensions.aspectRatio) *
+        videoAspectRatio.value
       );
-    },
-    videoAspectRatio(): number {
-      return this.videoWidth / this.videoHeight;
-    },
-    backgroundImage(): string {
-      switch (this.card.type) {
+    });
+    const videoAspectRatio = computed((): number => {
+      return props.videoWidth / props.videoHeight;
+    });
+    const backgroundImage = computed((): string => {
+      switch (props.card.type) {
         case 'video':
-          return this.card.videoThumbnails[1].url;
+          return props.card.videoThumbnails[1].url;
         case 'channel':
-          return this.card.authorThumbnails[1].url;
+          return props.card.authorThumbnails[1].url;
         case 'website':
-          return this.card.websiteThumbnails[1].url;
+          return props.card.websiteThumbnails[1].url;
         case 'playlist':
-          return this.card.playlistThumbnails[1].url;
+          return props.card.playlistThumbnails[1].url;
         default:
-          return this.card.videoThumbnails[1].url;
+          return props.card.videoThumbnails[1].url;
       }
-    }
-  },
-  methods: {
-    onMouseEnter() {
-      this.$emit('cardenter');
-    },
-    onMouseLeave() {
-      this.$emit('cardleave');
-    },
-    onClick(e) {
-      if (this.card.type !== 'website') {
-        this.$router.push(this.linkUrl);
+    });
+
+    const onMouseEnter = () => {
+      emit('cardenter');
+    };
+    const onMouseLeave = () => {
+      emit('cardleave');
+    };
+    const onClick = (e: Event) => {
+      if (props.card.type !== 'website') {
+        router.push(linkUrl.value);
         e.preventDefault();
       }
       e.stopPropagation();
-    },
-    onMouseUp(e) {
+    };
+    const onMouseUp = (e: Event) => {
       e.stopPropagation();
       e.preventDefault();
-    }
+    };
+
+    return {
+      elementType,
+      linkUrl,
+      visible,
+      positionTop,
+      positionLeft,
+      cardWidth,
+      cardHeight,
+      videoAspectRatio,
+      backgroundImage,
+      onMouseEnter,
+      onMouseLeave,
+      onClick,
+      onMouseUp
+    };
   }
 });
 </script>

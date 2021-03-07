@@ -35,9 +35,9 @@ import VolumeHighIcon from 'vue-material-design-icons/VolumeHigh.vue';
 import VolumeMediumIcon from 'vue-material-design-icons/VolumeMedium.vue';
 import VolumeLowIcon from 'vue-material-design-icons/VolumeLow.vue';
 import VolumeOffIcon from 'vue-material-design-icons/VolumeOff.vue';
-import Vue from 'vue';
+import { computed, defineComponent, ref } from '@nuxtjs/composition-api';
 
-export default Vue.extend({
+export default defineComponent({
   name: 'VolumeControl',
   components: {
     VolumeHighIcon,
@@ -48,31 +48,37 @@ export default Vue.extend({
   props: {
     value: null
   },
-  data: () => ({
-    visible: false
-  }),
-  computed: {
-    volumeCategory(): number {
-      if (this.value >= 1) {
+  setup(props) {
+    const visible = ref(false);
+
+    const volumeCategory = computed((): number => {
+      if (props.value >= 1) {
         return 3;
-      } else if (this.value < 1 && this.value >= 0.5) {
+      } else if (props.value < 1 && props.value >= 0.5) {
         return 2;
-      } else if (this.value < 0.5 && this.value > 0) {
+      } else if (props.value < 0.5 && props.value > 0) {
         return 1;
-      } else if (this.value <= 0) {
+      } else if (props.value <= 0) {
         return 0;
       }
       return 0;
-    }
-  },
-  methods: {
-    stopEvent() {},
-    onTouch() {
-      this.visible = true;
+    });
+
+    const stopEvent = () => {};
+
+    const onTouch = () => {
+      visible.value = true;
       setTimeout(() => {
-        this.visible = false;
+        visible.value = false;
       }, 1000);
-    }
+    };
+
+    return {
+      visible,
+      volumeCategory,
+      stopEvent,
+      onTouch
+    };
   }
 });
 </script>
