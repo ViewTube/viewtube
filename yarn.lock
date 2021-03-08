@@ -1760,14 +1760,16 @@
     consola "^2.15.3"
     defu "^3.2.2"
 
-"@nuxtjs/composition-api@^0.21.0":
-  version "0.21.0"
-  resolved "https://registry.yarnpkg.com/@nuxtjs/composition-api/-/composition-api-0.21.0.tgz#ed0fe44b305412cee7ec34044db04fe59786e133"
-  integrity sha512-0MwI5D5yUXLmltI91WeoBVwrnjnyYqES1DTAv/vc5AtySLhny8uqT75LHqK3akl0rxS8m9AeHF4TvLAGFggEmQ==
+"@nuxtjs/composition-api@^0.22.0":
+  version "0.22.0"
+  resolved "https://registry.yarnpkg.com/@nuxtjs/composition-api/-/composition-api-0.22.0.tgz#4ce65673dd08ef3d864ff35556e311224f16ffa2"
+  integrity sha512-FnrnYkCog3/N5T13vFcKKn0wu0Ifsh64OgS4e0PFESe+ON0AheXBYfPhpR7jxAAGBaFmz/8OMD4+LKYaQhxT9w==
   dependencies:
     "@vue/composition-api" "1.0.0-rc.3"
     defu "^3.2.2"
-    ufo "^0.6.7"
+    estree-walker "^2.0.2"
+    magic-string "^0.25.7"
+    ufo "^0.6.9"
     upath "^2.0.1"
 
 "@nuxtjs/eslint-config-typescript@^5.0.0":
@@ -5555,6 +5557,11 @@ estraverse@^5.1.0, estraverse@^5.2.0:
   resolved "https://registry.yarnpkg.com/estraverse/-/estraverse-5.2.0.tgz#307df42547e6cc7324d3cf03c155d5cdb8c53880"
   integrity sha512-BxbNGGNm0RyRYvUdHpIwv9IWzeM9XClbOxwoATuFdOE7ZE6wHL+HQ5T8hoPM+zHvmKzzsEqhgy0GrQ5X13afiQ==
 
+estree-walker@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/estree-walker/-/estree-walker-2.0.2.tgz#52f010178c2a4c117a7757cfe942adb7d2da4cac"
+  integrity sha512-Rfkk/Mp/DL7JVje3u18FxFujQlTNR2q6QfMSMB7AvCBx91NGj/ba3kCfza0f6dVDbw7YlRf/nDrn7pQrCCyQ/w==
+
 esutils@^2.0.2:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/esutils/-/esutils-2.0.3.tgz#74d2eb4de0b8da1293711910d50775b9b710ef64"
@@ -8249,7 +8256,7 @@ m3u8stream@^0.8.3:
     miniget "^4.0.0"
     sax "^1.2.4"
 
-magic-string@0.25.7:
+magic-string@0.25.7, magic-string@^0.25.7:
   version "0.25.7"
   resolved "https://registry.yarnpkg.com/magic-string/-/magic-string-0.25.7.tgz#3f497d6fd34c669c6798dcb821f2ef31f5445051"
   integrity sha512-4CrMT5DOHTDk4HYDlzmwu4FVCcIYI8gauveasrdCu2IKIFOJ3f0v/8MDGJCDL9oD2ppz/Av1b0Nj345H9M+XIA==
@@ -12474,10 +12481,10 @@ ua-parser-js@^0.7.24:
   resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.24.tgz#8d3ecea46ed4f1f1d63ec25f17d8568105dc027c"
   integrity sha512-yo+miGzQx5gakzVK3QFfN0/L9uVhosXBBO7qmnk7c2iw1IhL212wfA3zbnI54B0obGwC/5NWub/iT9sReMx+Fw==
 
-ufo@^0.6.7:
-  version "0.6.7"
-  resolved "https://registry.yarnpkg.com/ufo/-/ufo-0.6.7.tgz#e39995c2208ac66f23fc1dfbc090e307ab0ab92b"
-  integrity sha512-pSaIXMAb5RTmuGEzSwqxvIt9x6qgsSXh3/dJXAaLGedT9oz2xqWCXvliFTCSUQxwHlG2fL3tseCFKoNEWpo31w==
+ufo@^0.6.7, ufo@^0.6.9:
+  version "0.6.9"
+  resolved "https://registry.yarnpkg.com/ufo/-/ufo-0.6.9.tgz#9f1f830d11ec059e957149002cbd1d34b3ddeab0"
+  integrity sha512-+Yr0CwPqrug7Svt6zZRhx+WcxGZaOws0JlWB+NHKCp+BOnds9jHFFyTYeigpRWGRDZDf1LiBKl2x5WbWhGhBVQ==
 
 uglify-js@^3.5.1:
   version "3.12.4"
