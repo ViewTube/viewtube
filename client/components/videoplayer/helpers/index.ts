@@ -197,6 +197,21 @@ export const videoPlayerSetup = ({ root, props }) => {
 
   const onLoadedMetadata = e => {
     videoElement.aspectRatio = e.target.videoHeight / e.target.videoWidth;
+
+    if (videoRef.value && videoElement.firstTimeBuffering) {
+      videoRef.value.currentTime = root.$accessor.videoProgress.getSavedPositionForId(
+        props.video.videoId
+      );
+      videoElement.firstTimeBuffering = false;
+      if (props.autoplay) {
+        videoRef.value.play();
+      }
+      if ('mediaSession' in navigator && process.browser) {
+        const metadata = createMediaMetadata();
+        (navigator as any).mediaSession.metadata = metadata;
+      }
+    }
+    videoElement.buffering = false;
   };
 
   const playbackTimeBeforeUpdate = ref(0);
@@ -292,19 +307,6 @@ export const videoPlayerSetup = ({ root, props }) => {
   };
 
   const onVideoCanplay = () => {
-    if (videoRef.value && videoElement.firstTimeBuffering) {
-      videoRef.value.currentTime = root.$accessor.videoProgress.getSavedPositionForId(
-        props.video.videoId
-      );
-      videoElement.firstTimeBuffering = false;
-      if (props.autoplay) {
-        videoRef.value.play();
-      }
-      if ('mediaSession' in navigator && process.browser) {
-        const metadata = createMediaMetadata();
-        (navigator as any).mediaSession.metadata = metadata;
-      }
-    }
     videoElement.buffering = false;
   };
 
