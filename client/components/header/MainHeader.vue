@@ -28,10 +28,8 @@ import {
   onBeforeUnmount,
   onMounted,
   ref,
-  useRoute,
-  useStore
+  useRoute
 } from '@nuxtjs/composition-api';
-import { useAccessor } from '@/store/index';
 
 export default defineComponent({
   name: 'MainHeader',

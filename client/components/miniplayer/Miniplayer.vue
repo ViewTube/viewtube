@@ -42,7 +42,7 @@ export default defineComponent({
   components: {
     VideoPlayer
   },
-  setup(prop) {
+  setup() {
     const accessor = useAccessor();
     const route = useRoute();
 

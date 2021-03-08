@@ -21,9 +21,9 @@ import ShareOptionEntry from '@/components/list/ShareOptionEntry.vue';
 import Copy from 'vue-material-design-icons/ContentCopy.vue';
 import QrCode from 'vue-material-design-icons/Qrcode.vue';
 import QrPopUp from '@/components/popup/QrPopUp.vue';
-import Vue from 'vue';
+import { defineComponent, ref } from '@nuxtjs/composition-api';
 
-export default Vue.extend({
+export default defineComponent({
   name: 'ShareOptions',
   components: {
     ShareOptionEntry,
@@ -31,27 +31,32 @@ export default Vue.extend({
     QrCode,
     QrPopUp
   },
-  data() {
-    return { qrPopUpOpen: false };
-  },
-  methods: {
-    url(): string {
-      return process.browser ? window.location.href : '';
-    },
-    // shareReddit() {},
-    shareCopyLink() {
-      if (process.browser) {
-        navigator.clipboard.writeText(this.url());
-      }
-    },
-    shareCreateQR() {},
+  setup() {
+    const qrPopUpOpen = ref(false);
 
-    qrOpen() {
-      this.qrPopUpOpen = true;
-    },
-    qrClose() {
-      this.qrPopUpOpen = false;
-    }
+    const url = (): string => {
+      return process.browser ? window.location.href : '';
+    };
+    // shareReddit() {},
+    const shareCopyLink = () => {
+      if (process.browser) {
+        navigator.clipboard.writeText(url());
+      }
+    };
+    const qrOpen = () => {
+      qrPopUpOpen.value = true;
+    };
+    const qrClose = () => {
+      qrPopUpOpen.value = false;
+    };
+
+    return {
+      qrPopUpOpen,
+      url,
+      shareCopyLink,
+      qrOpen,
+      qrClose
+    };
   }
 });
 </script>

@@ -25,7 +25,7 @@
 import VueQrcode from '@chenfengyuan/vue-qrcode';
 import CloseIcon from 'vue-material-design-icons/Close.vue';
 import '@/assets/styles/popup.scss';
-import { defineComponent, useStore } from '@nuxtjs/composition-api';
+import { defineComponent } from '@nuxtjs/composition-api';
 import { useAccessor } from '~/store';
 
 export default defineComponent({
