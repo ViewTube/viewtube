@@ -113,9 +113,9 @@ import ThemeSelector from '@/components/themes/ThemeSelector.vue';
 import SwitchButton from '@/components/buttons/SwitchButton.vue';
 import MultiOptionButton from '@/components/buttons/MultiOptionButton.vue';
 import '@/assets/styles/popup.scss';
-import Vue from 'vue';
+import { defineComponent } from '@nuxtjs/composition-api';
 
-export default Vue.extend({
+export default defineComponent({
   name: 'Settings',
   components: {
     CloseIcon,

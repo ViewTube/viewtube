@@ -17,41 +17,54 @@
 </template>
 
 <script lang="ts">
-import Axios from 'axios';
-// import { commons } from '@/plugins/commons';
-import Vue from 'vue';
+import { defineComponent, ref, watch } from '@nuxtjs/composition-api';
+import { useAxios } from '~/plugins/axios';
+import { useAccessor } from '~/store';
 
-export default Vue.extend({
+export default defineComponent({
   name: 'SearchAutocomplete',
   props: {
     searchValue: { type: String, default: null }
   },
-  data: () => ({
-    autocompleteValues: [],
-    visible: false,
-    selectedValue: 0
-  }),
-  watch: {
-    searchValue() {
-      Axios.get(`${this.$store.getters['environment/apiUrl']}autocomplete`, {
-        params: {
-          q: this.searchValue
-        }
-      })
-        .then(response => {
-          this.autocompleteValues = [this.searchValue].concat(response.data);
-        })
-        .catch(_ => {});
-    }
-  },
-  methods: {
-    onAutocompleteMouseDown(e) {
-      this.$emit('searchValueUpdate', e.target.getAttribute('value'));
-      this.$emit('autocompleteEnter');
-    },
-    onMouseOver(e) {
-      this.selectedValue = parseInt(e.target.getAttribute('number'));
-    }
+  setup(props, { emit }) {
+    const accessor = useAccessor();
+    const axios = useAxios();
+
+    const autocompleteValues = ref([]);
+    const visible = ref(false);
+    const selectedValue = ref(0);
+
+    const onAutocompleteMouseDown = (e: { target: any }) => {
+      emit('searchValueUpdate', e.target.getAttribute('value'));
+      emit('autocompleteEnter');
+    };
+    const onMouseOver = (e: { target: any }) => {
+      selectedValue.value = parseInt(e.target.getAttribute('number'));
+    };
+
+    watch(
+      () => props.searchValue,
+      () => {
+        axios
+          .get(`${accessor.environment.apiUrl}autocomplete`, {
+            params: {
+              q: props.searchValue
+            }
+          })
+          .then(response => {
+            autocompleteValues.value = [props.searchValue].concat(response.data);
+          })
+          .catch(_ => {});
+      }
+    );
+
+    return {
+      autocompleteValues,
+      visible,
+      selectedValue,
+      onAutocompleteMouseDown,
+      onMouseOver
+    };
   }
 });
 </script>

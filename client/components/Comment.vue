@@ -88,9 +88,10 @@ import CommentHideIcon from 'vue-material-design-icons/CommentRemoveOutline.vue'
 import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import Invidious from '@/plugins/services/invidious';
-import Vue from 'vue';
+import { defineComponent, ref, useRoute } from '@nuxtjs/composition-api';
+import { useAccessor } from '~/store';
 
-export default Vue.extend({
+export default defineComponent({
   name: 'Comment',
   components: {
     PenIcon,
@@ -106,23 +107,24 @@ export default Vue.extend({
     comment: null,
     creatorName: String
   },
-  data: () => ({
-    replies: [],
-    loadingReplies: false,
-    repliesLoaded: false,
-    repliesContinuationLink: null,
-    repliesContinuationLoading: false
-  }),
-  mounted() {},
-  methods: {
-    hideReplies() {
-      this.repliesLoaded = false;
-    },
-    loadReplies() {
-      this.loadingReplies = true;
-      const repliesId = this.comment.replies.continuation;
-      const videoId = this.$route.query.v;
-      const invidious = new Invidious(this.$store.getters['instances/currentInstanceApi']);
+  setup(props) {
+    const route = useRoute();
+    const accessor = useAccessor();
+
+    const replies = ref([]);
+    const loadingReplies = ref(false);
+    const repliesLoaded = ref(false);
+    const repliesContinuationLink = ref(null);
+    const repliesContinuationLoading = ref(false);
+
+    const hideReplies = () => {
+      repliesLoaded.value = false;
+    };
+    const loadReplies = () => {
+      loadingReplies.value = true;
+      const repliesId = props.comment.replies.continuation;
+      const videoId = route.value.query.v;
+      const invidious = new Invidious(accessor.instances.currentInstanceApi);
       invidious.api
         .comments({
           id: videoId,
@@ -131,45 +133,56 @@ export default Vue.extend({
           }
         })
         .then(response => {
-          this.replies = response.data.comments;
-          this.repliesContinuationLink = response.data.continuation || null;
-          this.repliesLoaded = true;
-          this.loadingReplies = false;
+          replies.value = response.data.comments;
+          repliesContinuationLink.value = response.data.continuation || null;
+          repliesLoaded.value = true;
+          loadingReplies.value = false;
         })
         .catch(err => {
-          this.$store.dispatch('messages/createMessage', {
+          accessor.messages.createMessage({
             type: 'error',
             title: 'Loading comments failed',
             message: err
           });
-          this.loadingReplies = false;
+          loadingReplies.value = false;
         });
-    },
-    loadMoreReplies() {
-      this.repliesContinuationLoading = true;
-      const videoId = this.$route.query.v;
-      const invidious = new Invidious(this.$store.getters['instances/currentInstanceApi']);
+    };
+    const loadMoreReplies = () => {
+      repliesContinuationLoading.value = true;
+      const videoId = route.value.query.v;
+      const invidious = new Invidious(accessor.instances.currentInstanceApi);
       invidious.api
         .comments({
           id: videoId,
           params: {
-            continuation: this.repliesContinuationLink
+            continuation: repliesContinuationLink
           }
         })
         .then(response => {
-          this.replies = this.replies.concat(response.data.comments);
-          this.repliesContinuationLink = response.data.continuation || null;
-          this.repliesContinuationLoading = false;
+          replies.value = replies.value.concat(response.data.comments);
+          repliesContinuationLink.value = response.data.continuation || null;
+          repliesContinuationLoading.value = false;
         })
         .catch(error => {
-          this.$store.dispatch('messages/createMessage', {
+          accessor.messages.createMessage({
             type: 'error',
             title: 'Loading comments failed',
             message: error
           });
-          this.repliesContinuationLoading = false;
+          repliesContinuationLoading.value = false;
         });
-    }
+    };
+
+    return {
+      replies,
+      loadingReplies,
+      repliesLoaded,
+      repliesContinuationLink,
+      repliesContinuationLoading,
+      hideReplies,
+      loadReplies,
+      loadMoreReplies
+    };
   }
 });
 </script>

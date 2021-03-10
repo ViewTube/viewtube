@@ -25,25 +25,31 @@ import CloseIcon from 'vue-material-design-icons/Close.vue';
 import InstanceIcon from 'vue-material-design-icons/ServerNetwork.vue';
 import '@/assets/styles/popup.scss';
 import InstanceEntry from '@/components/list/InstanceEntry.vue';
-import Vue from 'vue';
+import { computed, defineComponent } from '@nuxtjs/composition-api';
+import { useAccessor } from '~/store';
 
-export default Vue.extend({
+export default defineComponent({
   name: 'Instances',
   components: {
     CloseIcon,
     InstanceIcon,
     InstanceEntry
   },
-  data() {
-    return {
-      instances: this.$store.getters['instances/instances'],
-      currentInstance: this.$store.getters['instances/currentInstance']
+  setup() {
+    const accessor = useAccessor();
+
+    const instances = computed(() => accessor.instances.instances);
+    const currentInstance = computed(() => accessor.instances.currentInstance);
+
+    const onInstanceChange = (element: any) => {
+      accessor.instances.changeInstance(element.value);
     };
-  },
-  methods: {
-    onInstanceChange(element: any) {
-      this.$store.commit('instances/changeInstance', element.value);
-    }
+
+    return {
+      instances,
+      currentInstance,
+      onInstanceChange
+    };
   }
 });
 </script>
@@ -56,10 +62,6 @@ export default Vue.extend({
   }
   .right-header {
     text-align: right;
-  }
-
-  td {
-    // padding-right: 2vw;
   }
 }
 </style>
