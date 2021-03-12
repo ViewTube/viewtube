@@ -1760,14 +1760,16 @@
     consola "^2.15.3"
     defu "^3.2.2"
 
-"@nuxtjs/composition-api@^0.21.0":
-  version "0.21.0"
-  resolved "https://registry.yarnpkg.com/@nuxtjs/composition-api/-/composition-api-0.21.0.tgz#ed0fe44b305412cee7ec34044db04fe59786e133"
-  integrity sha512-0MwI5D5yUXLmltI91WeoBVwrnjnyYqES1DTAv/vc5AtySLhny8uqT75LHqK3akl0rxS8m9AeHF4TvLAGFggEmQ==
+"@nuxtjs/composition-api@^0.22.1":
+  version "0.22.1"
+  resolved "https://registry.yarnpkg.com/@nuxtjs/composition-api/-/composition-api-0.22.1.tgz#aa14065b489bbdd3ce72f32132d8a7ffd96ac1a6"
+  integrity sha512-47yAd9GCj2K7OLmM/U03LkldNyXU0zGEjgUrIodD/2vMZArGjFsPoRns6K4oIvvUKeia8MXzjEMYxAsSm5IFlw==
   dependencies:
-    "@vue/composition-api" "1.0.0-rc.3"
+    "@vue/composition-api" "1.0.0-rc.5"
     defu "^3.2.2"
-    ufo "^0.6.7"
+    estree-walker "^2.0.2"
+    magic-string "^0.25.7"
+    ufo "^0.6.10"
     upath "^2.0.1"
 
 "@nuxtjs/eslint-config-typescript@^5.0.0":
@@ -2559,10 +2561,10 @@
   optionalDependencies:
     prettier "^1.18.2"
 
-"@vue/composition-api@1.0.0-rc.3":
-  version "1.0.0-rc.3"
-  resolved "https://registry.yarnpkg.com/@vue/composition-api/-/composition-api-1.0.0-rc.3.tgz#5174632fdda888f4f04bbaa5263cf01e34ba3fc2"
-  integrity sha512-/N/yCgIeFwAdsChML1RAke7YT5v/LYnPOyrz2zU+fE6xx2MpZfWn+DD2wCf3Vre659AvuXA8zzKLlRaFzW75XQ==
+"@vue/composition-api@1.0.0-rc.5":
+  version "1.0.0-rc.5"
+  resolved "https://registry.yarnpkg.com/@vue/composition-api/-/composition-api-1.0.0-rc.5.tgz#9b857743dd2692073b6df90fa2cfb9a75a1bb2f6"
+  integrity sha512-sFBUDZxwi5YOQqH//VSGenO6WH0JuW94+CWo1eUsGSTRue8POfwD4oeduVqi/c6QcwXg2tJL/m6aOD2t/IR6zg==
   dependencies:
     tslib "^2.1.0"
 
@@ -5555,6 +5557,11 @@ estraverse@^5.1.0, estraverse@^5.2.0:
   resolved "https://registry.yarnpkg.com/estraverse/-/estraverse-5.2.0.tgz#307df42547e6cc7324d3cf03c155d5cdb8c53880"
   integrity sha512-BxbNGGNm0RyRYvUdHpIwv9IWzeM9XClbOxwoATuFdOE7ZE6wHL+HQ5T8hoPM+zHvmKzzsEqhgy0GrQ5X13afiQ==
 
+estree-walker@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/estree-walker/-/estree-walker-2.0.2.tgz#52f010178c2a4c117a7757cfe942adb7d2da4cac"
+  integrity sha512-Rfkk/Mp/DL7JVje3u18FxFujQlTNR2q6QfMSMB7AvCBx91NGj/ba3kCfza0f6dVDbw7YlRf/nDrn7pQrCCyQ/w==
+
 esutils@^2.0.2:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/esutils/-/esutils-2.0.3.tgz#74d2eb4de0b8da1293711910d50775b9b710ef64"
@@ -8249,7 +8256,7 @@ m3u8stream@^0.8.3:
     miniget "^4.0.0"
     sax "^1.2.4"
 
-magic-string@0.25.7:
+magic-string@0.25.7, magic-string@^0.25.7:
   version "0.25.7"
   resolved "https://registry.yarnpkg.com/magic-string/-/magic-string-0.25.7.tgz#3f497d6fd34c669c6798dcb821f2ef31f5445051"
   integrity sha512-4CrMT5DOHTDk4HYDlzmwu4FVCcIYI8gauveasrdCu2IKIFOJ3f0v/8MDGJCDL9oD2ppz/Av1b0Nj345H9M+XIA==
@@ -12474,10 +12481,10 @@ ua-parser-js@^0.7.24:
   resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.24.tgz#8d3ecea46ed4f1f1d63ec25f17d8568105dc027c"
   integrity sha512-yo+miGzQx5gakzVK3QFfN0/L9uVhosXBBO7qmnk7c2iw1IhL212wfA3zbnI54B0obGwC/5NWub/iT9sReMx+Fw==
 
-ufo@^0.6.7:
-  version "0.6.7"
-  resolved "https://registry.yarnpkg.com/ufo/-/ufo-0.6.7.tgz#e39995c2208ac66f23fc1dfbc090e307ab0ab92b"
-  integrity sha512-pSaIXMAb5RTmuGEzSwqxvIt9x6qgsSXh3/dJXAaLGedT9oz2xqWCXvliFTCSUQxwHlG2fL3tseCFKoNEWpo31w==
+ufo@^0.6.10, ufo@^0.6.7:
+  version "0.6.10"
+  resolved "https://registry.yarnpkg.com/ufo/-/ufo-0.6.10.tgz#c7ace9b8f72cb08c35e3a8c8edc76f062fbaa7d0"
+  integrity sha512-sMbJnrBcKKsbVyr6++hb0n9lCmrMqkJrNnJIOJ3sckeqY6NMfAULcRGbBWcASSnN1HDV3YqiGCPzi9RVs511bw==
 
 uglify-js@^3.5.1:
   version "3.12.4"
