@@ -113,7 +113,8 @@ import ThemeSelector from '@/components/themes/ThemeSelector.vue';
 import SwitchButton from '@/components/buttons/SwitchButton.vue';
 import MultiOptionButton from '@/components/buttons/MultiOptionButton.vue';
 import '@/assets/styles/popup.scss';
-import { defineComponent } from '@nuxtjs/composition-api';
+import { computed, defineComponent, reactive } from '@nuxtjs/composition-api';
+import { useAccessor } from '~/store';
 
 export default defineComponent({
   name: 'Settings',
@@ -126,33 +127,40 @@ export default defineComponent({
     ChaptersIcon,
     MultiOptionButton
   },
-  data() {
-    return {
-      themes: this.$store.getters['settings/defaultThemes'],
-      currentTheme: this.$store.getters['settings/theme'],
-      sponsorblockSegmentOptions: [
-        { label: 'Skip', value: 'skip' },
-        { label: 'Ask', value: 'ask' },
-        { label: 'None', value: 'none' }
-      ]
-    };
-  },
-  methods: {
-    onSponsorblockOptionChange(category, value) {
-      this.$store.commit('settings/setSponsorblockCategoryStatus', {
+  setup(props) {
+    const accessor = useAccessor();
+    const sponsorblockSegmentOptions = reactive([
+      { label: 'Skip', value: 'skip' },
+      { label: 'Ask', value: 'ask' },
+      { label: 'None', value: 'none' }
+    ]);
+
+    const themes = computed(() => accessor.settings.defaultThemes);
+    const currentTheme = computed(() => accessor.settings.theme);
+
+    const onSponsorblockOptionChange = (category: string, value: { value: string }) => {
+      accessor.settings.setSponsorblockCategoryStatus({
         category,
         status: value.value
       });
-    },
-    onThemeChange(element: any) {
+    };
+    const onThemeChange = (element: any) => {
       setTimeout(() => {
         document.body.classList.add('transition-all');
-        this.$store.commit('settings/setTheme', element.value);
+        accessor.settings.setTheme(element.value);
         setTimeout(() => {
           document.body.classList.remove('transition-all');
         }, 300);
       }, 300);
-    }
+    };
+
+    return {
+      sponsorblockSegmentOptions,
+      themes,
+      currentTheme,
+      onSponsorblockOptionChange,
+      onThemeChange
+    };
   }
 });
 </script>
