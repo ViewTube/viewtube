@@ -78,7 +78,7 @@
     "mongoose": "^5.12.0",
     "mysql": "^2.18.1",
     "node-fetch": "^2.6.1",
-    "nuxt": "^2.15.2",
+    "nuxt": "^2.15.3",
     "nuxt-start": "^2.15.3",
     "nuxt-typed-vuex": "^0.1.22",
     "passport": "^0.4.1",
