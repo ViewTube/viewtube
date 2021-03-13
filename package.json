@@ -108,7 +108,7 @@
   },
   "devDependencies": {
     "@nestjs/schematics": "^7.2.9",
-    "@nuxtjs/eslint-config": "^5.0.0",
+    "@nuxtjs/eslint-config": "^6.0.0",
     "@nuxtjs/eslint-module": "^3.0.2",
     "@types/cookie-parser": "^1.4.2",
     "@types/express": "4.17.11",
