@@ -45,7 +45,7 @@
     "@nestjs/schedule": "^0.4.3",
     "@nestjs/swagger": "^4.7.15",
     "@nestjs/testing": "^7.6.13",
-    "@nuxt/types": "^2.15.2",
+    "@nuxt/types": "^2.15.3",
     "@nuxt/typescript-build": "2.0.6",
     "@nuxtjs/axios": "^5.13.1",
     "@nuxtjs/composition-api": "^0.22.1",
