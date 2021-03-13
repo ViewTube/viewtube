@@ -1,10 +1,10 @@
 import Sass from 'sass';
+import { defineNuxtConfig } from '@nuxtjs/composition-api';
 const dartSass = {
   implementation: Sass
 };
 
-// eslint-disable-next-line nuxt/no-cjs-in-config
-module.exports = {
+export default defineNuxtConfig({
   srcDir: './client',
 
   env: {
@@ -204,4 +204,4 @@ module.exports = {
       }
     }
   }
-};
+})
