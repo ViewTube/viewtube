@@ -234,7 +234,7 @@ export default Vue.extend({
 
   .page-title {
     .title {
-      margin: 0 0 0 15px;
+      margin: 0 0 0 15px !important;
     }
   }
 

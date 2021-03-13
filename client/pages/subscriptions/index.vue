@@ -84,9 +84,9 @@ import EditIcon from 'vue-material-design-icons/PencilBoxMultipleOutline.vue';
 import SubscriptionIcon from 'vue-material-design-icons/YoutubeSubscription.vue';
 import ImportIcon from 'vue-material-design-icons/Import.vue';
 import Pagination from '@/components/pagination/Pagination.vue';
-import Vue from 'vue';
+import { defineComponent } from '@nuxtjs/composition-api';
 
-export default Vue.extend({
+export default defineComponent({
   name: 'Home',
   components: {
     VideoEntry,

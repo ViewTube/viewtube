@@ -26,9 +26,10 @@
 
 <script lang="ts">
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
-import Vue from 'vue';
+import { defineComponent, ref, useRoute } from '@nuxtjs/composition-api';
+import { useAccessor } from '@/store';
 
-export default Vue.extend({
+export default defineComponent({
   name: 'ErrorPage',
   components: {
     BadgeButton
@@ -36,37 +37,31 @@ export default Vue.extend({
   props: {
     error: Object
   },
-  data() {
-    return {
-      possibleSearch: null,
-      apiUrl: this.$store.getters['environment/apiUrl']
-    };
-  },
-  mounted() {
-    if (this.error.statusCode === 404) {
-      const path = this.$route.path;
-      this.possibleSearch = path.replace('/', '');
-    }
-  },
-  methods: {
-    copyError(): void {
+  setup(props) {
+    const accessor = useAccessor();
+    const route = useRoute();
+
+    const possibleSearch = ref(null);
+
+    const copyError = (): void => {
       if (process.browser && 'clipboard' in navigator) {
-        navigator.clipboard.writeText(this.renderJSON(this.error.detail)).then(() => {
-          this.$store.dispatch('messages/createMessage', {
+        navigator.clipboard.writeText(renderJSON(props.error.detail)).then(() => {
+          accessor.messages.createMessage({
             type: 'info',
             title: 'Copied error',
             message: null
           });
         });
       }
-    },
-    retry(): void {
+    };
+
+    const retry = (): void => {
       window.location.reload();
-    },
-    renderJSON(json: any): string {
-      return JSON.stringify(json, this.replacerFunc(), 2);
-    },
-    replacerFunc() {
+    };
+    const renderJSON = (json: any): string => {
+      return JSON.stringify(json, replacerFunc(), 2);
+    };
+    const replacerFunc = () => {
       const visited = new WeakSet();
       return (_key: any, value: object) => {
         if (typeof value === 'object' && value !== null) {
@@ -77,7 +72,19 @@ export default Vue.extend({
         }
         return value;
       };
+    };
+
+    if (props.error.statusCode === 404) {
+      const path = route.value.path;
+      possibleSearch.value = path.replace('/', '');
     }
+
+    return {
+      possibleSearch,
+      copyError,
+      retry,
+      renderJSON
+    };
   }
 });
 </script>

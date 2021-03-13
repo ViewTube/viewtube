@@ -127,7 +127,7 @@ export default defineComponent({
     ChaptersIcon,
     MultiOptionButton
   },
-  setup(props) {
+  setup() {
     const accessor = useAccessor();
     const sponsorblockSegmentOptions = reactive([
       { label: 'Skip', value: 'skip' },

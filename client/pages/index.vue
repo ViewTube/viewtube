@@ -119,7 +119,7 @@ export default Vue.extend({
     max-width: $main-width;
     margin: 0 auto;
     .title {
-      margin: 0 0 0 15px;
+      margin: 0 0 0 15px !important;
     }
   }
   .home-videos-container {

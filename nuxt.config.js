@@ -80,7 +80,7 @@ module.exports = {
 
   css: ['~/assets/fonts/expletus.css', '~/assets/fonts/notosans.css'],
   styleResources: {
-    scss: ['~/assets/styles/global/*.scss']
+    scss: ['~/assets/styles/global/variables.scss', '~/assets/styles/global/styles.scss']
   },
 
   typescript: {
