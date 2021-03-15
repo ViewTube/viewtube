@@ -10,11 +10,17 @@
         <img
           v-if="video.authorThumbnails"
           class="author-thumbnail"
-          :src="imgProxyUrl + (video.authorThumbnails[1] ? video.authorThumbnails[1].url : video.authorThumbnails[0].url)"
+          :src="imgProxyUrl + video.authorThumbnails[1].url"
           alt="Author thumbnail"
         />
         <img
-          v-if="video.author && video.author.bestAvatar"
+          v-else-if="video.authorThumbnailUrl"
+          class="author-thumbnail"
+          :src="video.authorThumbnailUrl"
+          alt="Author thumbnail"
+        />
+        <img
+          v-else-if="video.author && video.author.bestAvatar"
           class="author-thumbnail"
           :src="imgProxyUrl + video.author.bestAvatar.url"
           alt="Author thumbnail"

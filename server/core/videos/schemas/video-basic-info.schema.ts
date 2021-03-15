@@ -30,6 +30,9 @@ export class VideoBasicInfo extends Document implements VideoBasicInfoDto {
   authorThumbnails?: Array<AuthorThumbnailDto>;
 
   @Prop()
+  authorThumbnailUrl?: string;
+
+  @Prop()
   authorVerified?: boolean;
 
   @Prop()

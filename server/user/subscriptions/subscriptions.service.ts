@@ -86,23 +86,24 @@ export class SubscriptionsService {
   }
 
   async saveChannelBasicInfo(channel: ChannelBasicInfoDto): Promise<ChannelBasicInfoDto | null> {
-    const savedChannel = await this.ChannelBasicInfoModel
-      .findOneAndUpdate({ authorId: channel.authorId }, channel, {
+    const savedChannel = await this.ChannelBasicInfoModel.findOneAndUpdate(
+      { authorId: channel.authorId },
+      channel,
+      {
         upsert: true,
         omitUndefined: true,
         new: true
-      })
+      }
+    )
       .exec()
       .catch(_ => Consola.error('Error saving channel info for id ' + channel.authorId));
     return savedChannel || null;
   }
 
   async saveVideoBasicInfo(video: VideoBasicInfoDto): Promise<VideoBasicInfoDto | null> {
-    const savedVideo = await this.VideoModel
-      .findOneAndUpdate({ videoId: video.videoId }, video, {
-        upsert: true
-      })
-      .exec();
+    const savedVideo = await this.VideoModel.findOneAndUpdate({ videoId: video.videoId }, video, {
+      upsert: true
+    }).exec();
     return savedVideo || null;
   }
 
@@ -238,11 +239,10 @@ export class SubscriptionsService {
           authorId: { $in: userChannelIds },
           author: { $regex: `.*${filter}.*`, $options: 'i' }
         });
-        const channels = await this.ChannelBasicInfoModel
-          .find({
-            authorId: { $in: userChannelIds },
-            author: { $regex: `.*${filter}.*`, $options: 'i' }
-          })
+        const channels = await this.ChannelBasicInfoModel.find({
+          authorId: { $in: userChannelIds },
+          author: { $regex: `.*${filter}.*`, $options: 'i' }
+        })
           .sort(sort)
           .skip(parseInt(start as any))
           .limit(parseInt(limit as any))
@@ -272,8 +272,7 @@ export class SubscriptionsService {
       const videoCount = await this.VideoModel.countDocuments({
         authorId: { $in: userSubscriptionIds }
       });
-      const videos = await this.VideoModel
-        .find({ authorId: { $in: userSubscriptionIds } })
+      const videos = await this.VideoModel.find({ authorId: { $in: userSubscriptionIds } })
         .sort({ published: -1 })
         .limit(parseInt(limit as any))
         .skip(parseInt(start as any))
@@ -298,9 +297,7 @@ export class SubscriptionsService {
           );
           if (channelInfo) {
             if (channelInfo.authorThumbnailUrl) {
-              video.authorThumbnails = [
-                { url: channelInfo.authorThumbnailUrl, height: 76, width: 76 }
-              ];
+              video.authorThumbnailUrl = channelInfo.authorThumbnailUrl;
             } else if (channelInfo.authorThumbnails) {
               video.authorThumbnails = channelInfo.authorThumbnails;
             }

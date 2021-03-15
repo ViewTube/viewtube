@@ -10,6 +10,7 @@ export class VideoBasicInfoDto {
   authorId: string;
   authorVerified?: boolean;
   authorThumbnails?: Array<AuthorThumbnailDto>;
+  authorThumbnailUrl?: string;
   videoThumbnails: Array<VideoThumbnailDto>;
   description?: string;
   viewCount: number;

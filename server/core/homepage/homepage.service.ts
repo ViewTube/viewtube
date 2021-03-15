@@ -58,9 +58,7 @@ export class HomepageService {
         );
         if (channelInfo) {
           if (channelInfo.authorThumbnailUrl) {
-            video.authorThumbnails = [
-              { url: channelInfo.authorThumbnailUrl, height: 76, width: 76 }
-            ];
+            video.authorThumbnailUrl = channelInfo.authorThumbnailUrl;
           } else if (channelInfo.authorThumbnails) {
             video.authorThumbnails = channelInfo.authorThumbnails;
           }
