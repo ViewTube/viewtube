@@ -10,7 +10,7 @@
         <img
           v-if="video.authorThumbnails"
           class="author-thumbnail"
-          :src="imgProxyUrl + video.authorThumbnails[1].url"
+          :src="imgProxyUrl + (video.authorThumbnails[1] ? video.authorThumbnails[1].url : video.authorThumbnails[0].url)"
           alt="Author thumbnail"
         />
         <img
