@@ -19,7 +19,7 @@
       >Register</nuxt-link
     >
     <nuxt-link
-      v-show="this.$route.name !== 'subscriptions' && userAuthenticated"
+      v-show="$route.name !== 'subscriptions' && userAuthenticated"
       id="subscriptions"
       v-ripple
       v-tippy="'View your subscriptions'"
@@ -71,7 +71,7 @@
             <div class="menu-btn-content"><AccountPlusIcon />Register</div>
           </a>
           <a
-            v-if="this.$route.name !== 'subscriptions' && userAuthenticated"
+            v-if="$route.name !== 'subscriptions' && userAuthenticated"
             id="subscriptions-btn"
             v-tippy="'View your subscriptions'"
             href="#"

@@ -27,11 +27,11 @@ import { SubscriptionStatusDto } from './dto/subscription-status.dto';
 export class SubscriptionsService {
   constructor(
     @InjectModel(VideoBasicInfo.name)
-    private readonly videoModel: Model<VideoBasicInfo>,
-    @InjectModel(ChannelBasicInfo.name)
-    private readonly channelModel: Model<ChannelBasicInfo>,
+    private readonly VideoModel: Model<VideoBasicInfo>,
     @InjectModel(Subscription.name)
     private readonly subscriptionModel: Model<Subscription>,
+    @InjectModel(ChannelBasicInfo.name)
+    private readonly ChannelBasicInfoModel: Model<ChannelBasicInfo>,
     private notificationsService: NotificationsService
   ) {}
 
@@ -68,7 +68,7 @@ export class SubscriptionsService {
       await Promise.allSettled(
         videos.map(async element => {
           if (
-            !(await this.videoModel.exists({
+            !(await this.VideoModel.exists({
               videoId: element.videoId
             }))
           ) {
@@ -86,7 +86,7 @@ export class SubscriptionsService {
   }
 
   async saveChannelBasicInfo(channel: ChannelBasicInfoDto): Promise<ChannelBasicInfoDto | null> {
-    const savedChannel = await this.channelModel
+    const savedChannel = await this.ChannelBasicInfoModel
       .findOneAndUpdate({ authorId: channel.authorId }, channel, {
         upsert: true,
         omitUndefined: true,
@@ -98,7 +98,7 @@ export class SubscriptionsService {
   }
 
   async saveVideoBasicInfo(video: VideoBasicInfoDto): Promise<VideoBasicInfoDto | null> {
-    const savedVideo = await this.videoModel
+    const savedVideo = await this.VideoModel
       .findOneAndUpdate({ videoId: video.videoId }, video, {
         upsert: true
       })
@@ -234,11 +234,11 @@ export class SubscriptionsService {
     if (user) {
       const userChannelIds = user.subscriptions.map(e => e.channelId);
       if (userChannelIds) {
-        const channelCount = await this.channelModel.countDocuments({
+        const channelCount = await this.ChannelBasicInfoModel.countDocuments({
           authorId: { $in: userChannelIds },
           author: { $regex: `.*${filter}.*`, $options: 'i' }
         });
-        const channels = await this.channelModel
+        const channels = await this.ChannelBasicInfoModel
           .find({
             authorId: { $in: userChannelIds },
             author: { $regex: `.*${filter}.*`, $options: 'i' }
@@ -269,10 +269,10 @@ export class SubscriptionsService {
     const userSubscriptions = await this.subscriptionModel.findOne({ username }).lean().exec();
     if (userSubscriptions) {
       const userSubscriptionIds = userSubscriptions.subscriptions.map(e => e.channelId);
-      const videoCount = await this.videoModel.countDocuments({
+      const videoCount = await this.VideoModel.countDocuments({
         authorId: { $in: userSubscriptionIds }
       });
-      const videos = await this.videoModel
+      const videos = await this.VideoModel
         .find({ authorId: { $in: userSubscriptionIds } })
         .sort({ published: -1 })
         .limit(parseInt(limit as any))
@@ -286,6 +286,30 @@ export class SubscriptionsService {
           throw new HttpException(`Error fetching subscription feed: ${err}`, 500);
         });
       if (videos) {
+        const channelIds = videos.map((video: VideoBasicInfoDto) => video.authorId);
+
+        const channelBasicInfoArray = await this.ChannelBasicInfoModel.find({
+          authorId: { $in: channelIds }
+        }).exec();
+
+        videos.forEach((video: VideoBasicInfoDto) => {
+          const channelInfo = channelBasicInfoArray.find(
+            channel => channel.authorId === video.authorId
+          );
+          if (channelInfo) {
+            if (channelInfo.authorThumbnailUrl) {
+              video.authorThumbnails = [
+                { url: channelInfo.authorThumbnailUrl, height: 76, width: 76 }
+              ];
+            } else if (channelInfo.authorThumbnails) {
+              video.authorThumbnails = channelInfo.authorThumbnails;
+            }
+
+            if (channelInfo.authorVerified) {
+              video.authorVerified = channelInfo.authorVerified;
+            }
+          }
+        });
         return { videos, videoCount };
       }
     }

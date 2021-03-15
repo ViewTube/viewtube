@@ -4,6 +4,7 @@ import { Cron, CronExpression } from '@nestjs/schedule';
 import Consola from 'consola';
 import { Model } from 'mongoose';
 import fetch from 'node-fetch';
+import { ChannelBasicInfo } from '../channels/schemas/channel-basic-info.schema';
 import { VideoBasicInfoDto } from '../videos/dto/video-basic-info.dto';
 import { PopularDto } from './dto/popular.dto';
 import { Popular } from './schemas/popular.schema';
@@ -12,7 +13,9 @@ import { Popular } from './schemas/popular.schema';
 export class HomepageService {
   constructor(
     @InjectModel(Popular.name)
-    private readonly PopularModel: Model<Popular>
+    private readonly PopularModel: Model<Popular>,
+    @InjectModel(ChannelBasicInfo.name)
+    private readonly ChannelBasicInfoModel: Model<ChannelBasicInfo>
   ) {}
 
   private popularPageUrl =
@@ -38,10 +41,36 @@ export class HomepageService {
           if (hasResult) {
             popularVideos.push(video);
           } else {
-            // Ignores videos where thumbnails return an error, as they are most likely unavailable
+            // Ignores videos, where thumbnails return an error, as they are most likely unavailable
           }
         })
       );
+
+      const channelIds = popularVideos.map((video: VideoBasicInfoDto) => video.authorId);
+
+      const channelBasicInfoArray = await this.ChannelBasicInfoModel.find({
+        authorId: { $in: channelIds }
+      }).exec();
+
+      popularVideos.forEach((video: VideoBasicInfoDto) => {
+        const channelInfo = channelBasicInfoArray.find(
+          channel => channel.authorId === video.authorId
+        );
+        if (channelInfo) {
+          if (channelInfo.authorThumbnailUrl) {
+            video.authorThumbnails = [
+              { url: channelInfo.authorThumbnailUrl, height: 76, width: 76 }
+            ];
+          } else if (channelInfo.authorThumbnails) {
+            video.authorThumbnails = channelInfo.authorThumbnails;
+          }
+
+          if (channelInfo.authorVerified) {
+            video.authorVerified = channelInfo.authorVerified;
+          }
+        }
+      });
+
       const updatedPopularPage = new this.PopularModel({
         videos: popularVideos,
         createdDate: Date.now().valueOf()
