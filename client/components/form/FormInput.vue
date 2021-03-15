@@ -10,6 +10,8 @@
       required
       :value="value"
       @input="$emit('input', $event.target.value)"
+      @focus="$emit('focus')"
+      @blur="$emit('blur')"
     />
     <AccountIcon v-if="type == 'username'" />
     <KeyIcon v-if="type == 'password'" />

@@ -114,6 +114,14 @@ export default Vue.extend({
 }
 </style>
 <style lang="scss" scoped>
+.theme-selector {
+  width: calc(100% - 56px);
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding: 20px 0 0 0;
+  justify-content: space-evenly;
+}
 .theme {
   border-style: solid;
   border-width: 2px;

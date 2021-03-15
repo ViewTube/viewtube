@@ -1,5 +1,5 @@
 <template>
-  <a
+  <div
     href="#"
     @click.prevent="$emit('themeclick', theme)"
     @contextmenu.prevent.stop="$emit('onContextClick', $event, theme)"
@@ -47,7 +47,7 @@
       </div>
     </div>
     <span class="theme-title">{{ theme.name }}</span>
-  </a>
+  </div>
 </template>
 
 <script lang="ts">
@@ -59,126 +59,86 @@ export default Vue.extend({
 });
 </script>
 
-<style lang="scss">
-.show-details {
-  position: absolute;
-  top: 2px;
-  right: 2px;
-  z-index: 13;
-  opacity: 0;
-  width: 50px;
-  height: 50px;
-  cursor: pointer;
-}
-
-.detail-btn-container {
-  position: absolute;
-  top: 0;
-  right: 0;
-  z-index: 12;
-  width: 44px;
-  height: 44px;
-  padding: 10px;
-  margin: 20px 5px;
-  transform: scale(0.8);
-  background-color: var(--bgcolor-alt);
-  color: var(--theme-color);
-  border-radius: 5px;
-  box-sizing: border-box;
-  cursor: pointer;
-  transition: opacity 200ms $intro-easing, transform 200ms $intro-easing;
+<style lang="scss" scoped>
+.theme-preview {
+  width: 200px;
+  height: 120px;
+  display: flex;
+  flex-direction: column;
+  margin: 20px 45px 0 45px;
+  overflow: hidden;
+  position: relative;
   box-sizing: border-box;
   box-shadow: $low-shadow;
-}
+  cursor: pointer;
 
-.theme-selector {
-  width: calc(100% - 56px);
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  padding: 20px 0 0 0;
-  justify-content: space-evenly;
+  &:hover {
+    box-shadow: $max-shadow;
+  }
 
-  .theme-preview {
-    width: 200px;
-    height: 120px;
+  .preview-graphic {
+    height: 100%;
+    width: 100%;
     display: flex;
     flex-direction: column;
-    margin: 20px 45px 0 45px;
-    overflow: hidden;
     position: relative;
-    box-sizing: border-box;
-    box-shadow: $low-shadow;
-    cursor: pointer;
+    pointer-events: none;
+    user-select: none;
 
-    &:hover {
-      box-shadow: $max-shadow;
+    .prev-gradient {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 80%;
+      background: linear-gradient(
+        165deg,
+        rgba(241, 87, 10, 0.705) 0%,
+        rgba(116, 21, 10, 0.801) 28%,
+        rgba(18, 18, 18, 1) 69%,
+        rgba(18, 18, 18, 1) 100%
+      );
     }
 
-    .preview-graphic {
-      height: 100%;
+    .prev-header {
       width: 100%;
+      height: 20px;
       display: flex;
-      flex-direction: column;
-      position: relative;
-      pointer-events: none;
-      user-select: none;
+      flex-direction: row;
+      box-sizing: border-box;
+      z-index: 9;
 
-      .prev-gradient {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 80%;
-        background: linear-gradient(
-          165deg,
-          rgba(241, 87, 10, 0.705) 0%,
-          rgba(116, 21, 10, 0.801) 28%,
-          rgba(18, 18, 18, 1) 69%,
-          rgba(18, 18, 18, 1) 100%
-        );
+      .prev-logo {
+        width: 12px;
+        height: 8px;
+        margin: auto 8px;
+        box-sizing: border-box;
+        clip-path: polygon(0% 0%, 100% 50%, 0% 100%);
       }
 
-      .prev-header {
-        width: 100%;
-        height: 20px;
-        display: flex;
-        flex-direction: row;
+      .prev-searchbar {
+        width: 80%;
+        height: 5px;
+        margin: auto calc(20% + 28px) auto 20%;
         box-sizing: border-box;
+        border-radius: 1px;
+      }
+    }
+
+    .prev-thmbs {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      padding: 12px 15px 0 15px;
+      justify-content: space-around;
+      box-sizing: border-box;
+
+      .prev-thmb {
+        width: 45px;
+        height: 28px;
         z-index: 9;
-
-        .prev-logo {
-          width: 12px;
-          height: 8px;
-          margin: auto 8px;
-          box-sizing: border-box;
-          clip-path: polygon(0% 0%, 100% 50%, 0% 100%);
-        }
-
-        .prev-searchbar {
-          width: 80%;
-          height: 5px;
-          margin: auto calc(20% + 28px) auto 20%;
-          box-sizing: border-box;
-          border-radius: 1px;
-        }
-      }
-
-      .prev-thmbs {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        padding: 12px 15px 0 15px;
-        justify-content: space-around;
-        box-sizing: border-box;
-
-        .prev-thmb {
-          width: 45px;
-          height: 28px;
-          z-index: 9;
-        }
       }
     }
   }
