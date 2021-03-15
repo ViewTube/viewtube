@@ -1,5 +1,40 @@
 <template>
   <div class="video-entry">
+    <div
+      class="video-author"
+      :class="{ thumbnail: video.authorThumbnails || (video.author && video.author.bestAvatar) }"
+    >
+      <nuxt-link
+        :to="{ path: '/channel/' + (video.authorId ? video.authorId : video.author.channelID) }"
+      >
+        <img
+          v-if="video.authorThumbnails"
+          class="author-thumbnail"
+          :src="imgProxyUrl + video.authorThumbnails[1].url"
+          alt="Author thumbnail"
+        />
+        <img
+          v-if="video.author && video.author.bestAvatar"
+          class="author-thumbnail"
+          :src="imgProxyUrl + video.author.bestAvatar.url"
+          alt="Author thumbnail"
+        />
+      </nuxt-link>
+      <div class="channel-name-container">
+        <nuxt-link
+          v-tippy="video.author.name ? video.author.name : video.author"
+          class="video-entry-channel"
+          :to="{ path: '/channel/' + (video.authorId ? video.authorId : video.author.channelID) }"
+          >{{ video.author.name ? video.author.name : video.author }}</nuxt-link
+        >
+        <VerifiedIcon
+          v-if="(video.author && video.author.verified) || video.authorVerified"
+          v-tippy="'Verified'"
+          class="tooltip"
+          title=""
+        />
+      </div>
+    </div>
     <div class="video-entry-background" />
     <div v-if="video.description" class="description-btn-container">
       <div v-ripple v-tippy="'Show description'" class="description-btn">
@@ -57,18 +92,6 @@
     </nuxt-link>
 
     <div class="video-entry-info">
-      <img
-        v-if="video.authorThumbnails"
-        class="author-thumbnail"
-        :src="imgProxyUrl + video.authorThumbnails[1].url"
-        alt="Author thumbnail"
-      />
-      <img
-        v-if="video.author && video.author.bestAvatar"
-        class="author-thumbnail"
-        :src="imgProxyUrl + video.author.bestAvatar.url"
-        alt="Author thumbnail"
-      />
       <div class="video-info-text">
         <nuxt-link
           v-tippy="video.title"
@@ -76,20 +99,6 @@
           :to="{ path: '/watch?v=' + (video.videoId ? video.videoId : video.id) }"
           >{{ video.title }}</nuxt-link
         >
-        <div class="channel-name-container">
-          <nuxt-link
-            v-tippy="video.author.name ? video.author.name : video.author"
-            class="video-entry-channel"
-            :to="{ path: '/channel/' + (video.authorId ? video.authorId : video.author.channelID) }"
-            >{{ video.author.name ? video.author.name : video.author }}</nuxt-link
-          >
-          <VerifiedIcon
-            v-if="video.author && video.author.verified"
-            v-tippy="'Verified'"
-            class="tooltip"
-            title=""
-          />
-        </div>
         <div class="video-entry-stats">
           <p v-if="video.viewCount" class="video-entry-views">
             {{ video.viewCount.toLocaleString('en-US') }}
@@ -195,6 +204,59 @@ export default Vue.extend({
   position: relative;
   min-height: 0;
 
+  .video-author {
+    padding: 0;
+
+    &.thumbnail {
+      display: flex;
+      flex-direction: row;
+
+      .channel-name-container {
+        .video-entry-channel {
+          padding: 10px 0 4px 0;
+        }
+        .material-design-icon {
+          margin: 6px 0 0 4px;
+        }
+      }
+    }
+
+    .author-thumbnail {
+      width: 36px;
+      height: 36px;
+      margin: 0 10px 0 0;
+      border-radius: 25px;
+    }
+
+    .channel-name-container {
+      display: flex;
+      flex-direction: row;
+
+      .video-entry-channel {
+        text-decoration: none;
+        padding: 6px 0 8px 0;
+        font-size: 0.85rem;
+        font-weight: bold;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        color: var(--subtitle-color);
+      }
+
+      .material-design-icon {
+        width: 14px;
+        height: 14px;
+        top: 3px;
+        margin: 0 0 0 4px;
+
+        .material-design-icon__svg {
+          width: 14px;
+          height: 14px;
+        }
+      }
+    }
+  }
+
   .video-entry-background {
     position: absolute;
     top: 10px;
@@ -215,7 +277,7 @@ export default Vue.extend({
 
   .description-btn-container {
     position: absolute;
-    top: 0;
+    top: 38px;
     right: 0;
     z-index: 12;
     width: 44px;
@@ -233,7 +295,7 @@ export default Vue.extend({
 
   #show-description {
     position: absolute;
-    top: 2px;
+    top: 38px;
     right: 2px;
     z-index: 13;
     opacity: 0;
@@ -356,19 +418,13 @@ export default Vue.extend({
   }
 
   .video-entry-info {
-    padding: 15px 0 10px 0;
+    padding: 0 0 5px 0;
     font-family: $default-font;
     overflow: hidden;
     display: flex;
     flex-direction: row;
     align-items: left;
     z-index: 11;
-
-    .author-thumbnail {
-      width: 48px;
-      height: 48px;
-      margin: 0 10px 0 0;
-    }
 
     .video-info-text {
       display: flex;
@@ -384,37 +440,9 @@ export default Vue.extend({
         text-overflow: ellipsis;
         white-space: nowrap;
         color: var(--title-color);
-        padding: 0 0 4px 0;
+        padding: 8px 0 4px 0;
         width: 100%;
         box-sizing: border-box;
-      }
-
-      .channel-name-container {
-        display: flex;
-        flex-direction: row;
-
-        .video-entry-channel {
-          text-decoration: none;
-          padding: 3px 0 4px 0;
-          font-size: 0.8rem;
-          font-weight: bold;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-          color: var(--subtitle-color);
-        }
-
-        .material-design-icon {
-          width: 14px;
-          height: 14px;
-          top: 3px;
-          margin: 0 0 0 4px;
-
-          .material-design-icon__svg {
-            width: 14px;
-            height: 14px;
-          }
-        }
       }
 
       .video-entry-stats {
@@ -424,7 +452,7 @@ export default Vue.extend({
         justify-content: space-between;
         flex-direction: row;
         font-size: 0.8rem;
-        margin: 5px 0 0 0;
+        margin: 0 0 0 0;
       }
     }
   }

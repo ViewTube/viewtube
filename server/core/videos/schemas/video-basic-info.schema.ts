@@ -1,18 +1,13 @@
 import { Document } from 'mongoose';
-import {
-  Prop,
-  Schema,
-  SchemaFactory
-} from '@nestjs/mongoose';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { VideoThumbnailDto } from 'shared/dto/video/video-thumbnail.dto';
+import { AuthorThumbnailDto } from 'shared/dto/video/author-thumbnail.dto';
 import { VideoBasicInfoDto } from '../dto/video-basic-info.dto';
 
 // eslint-disable-next-line no-undef
 @Schema({ timestamps: true })
-export class VideoBasicInfo
-  extends Document
-  implements VideoBasicInfoDto {
+export class VideoBasicInfo extends Document implements VideoBasicInfoDto {
   @Prop({ index: { unique: true } })
   videoId: string;
 
@@ -30,6 +25,12 @@ export class VideoBasicInfo
 
   @Prop()
   authorId: string;
+
+  @Prop()
+  authorThumbnails?: Array<AuthorThumbnailDto>;
+
+  @Prop()
+  authorVerified?: boolean;
 
   @Prop()
   videoThumbnails: Array<VideoThumbnailDto>;
@@ -50,6 +51,4 @@ export class VideoBasicInfo
   lengthSeconds?: number;
 }
 
-export const VideoBasicInfoSchema = SchemaFactory.createForClass(
-  VideoBasicInfo
-);
+export const VideoBasicInfoSchema = SchemaFactory.createForClass(VideoBasicInfo);
