@@ -2,13 +2,17 @@
   <div class="video-entry">
     <div
       class="video-author"
-      :class="{ thumbnail: video.authorThumbnails || (video.author && video.author.bestAvatar) }"
+      :class="{
+        thumbnail:
+          (video.authorThumbnails && video.authorThumbnails.length > 0) ||
+          (video.author && video.author.bestAvatar)
+      }"
     >
       <nuxt-link
         :to="{ path: '/channel/' + (video.authorId ? video.authorId : video.author.channelID) }"
       >
         <img
-          v-if="video.authorThumbnails"
+          v-if="video.authorThumbnails && video.authorThumbnails.length > 0"
           class="author-thumbnail"
           :src="
             imgProxyUrl +
