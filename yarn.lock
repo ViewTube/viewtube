@@ -13093,10 +13093,10 @@ webpack-node-externals@^2.5.2:
   resolved "https://registry.yarnpkg.com/webpack-node-externals/-/webpack-node-externals-2.5.2.tgz#178e017a24fec6015bc9e672c77958a6afac861d"
   integrity sha512-aHdl/y2N7PW2Sx7K+r3AxpJO+aDMcYzMQd60Qxefq3+EwhewSbTBqNumOsCE1JsCUNoyfGj5465N0sSf6hc/5w==
 
-webpack-shell-plugin-next@1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/webpack-shell-plugin-next/-/webpack-shell-plugin-next-1.2.0.tgz#6a62931110c08ab36d2f0c225648a63331b7bbc2"
-  integrity sha512-jBLDs436jbKWnLZCqeN4hr7abXx0Tnz6Iwx7ejxh1h4JSmsnc82kGOBC63U6RKl0F6bvaXFsUOiIKV+DFKNxNw==
+webpack-shell-plugin-next@2.2.2:
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/webpack-shell-plugin-next/-/webpack-shell-plugin-next-2.2.2.tgz#35e1bf7fa070b6472be8199cf08012e866f0eea0"
+  integrity sha512-2HeC1e0cCvTgA3SD4XPAD69DnILM92mCschrtKdlLRORHCR+oG7xnibQMkVySxTAYWTQOcBRHlqa88x4syWwhQ==
 
 webpack-sources@^1.0.1, webpack-sources@^1.1.0, webpack-sources@^1.4.0, webpack-sources@^1.4.1, webpack-sources@^1.4.3:
   version "1.4.3"
