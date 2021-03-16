@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="channel" ref="channel" class="channel">
+    <div v-if="channel" class="channel">
       <Banner
         v-if="channel && channel.authorBanners && channel.authorBanners.length > 0"
         class="banner"
@@ -94,14 +94,12 @@ export default defineComponent({
       window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
-    useFetch(() => {
+    useFetch(async () => {
       const viewTubeApi = new ViewTubeApi(accessor.environment.apiUrl);
-      return viewTubeApi.api
+      await viewTubeApi.api
         .channels({ id: route.value.params.id })
         .then((response: { data: any }) => {
-          return {
-            channel: response.data
-          };
+          channel.value = response.data;
         })
         .catch((error: { response: { data: { message: string } } }) => {
           let errorMessage = '';
@@ -116,39 +114,50 @@ export default defineComponent({
         });
     });
 
-    const { title, meta } = useMeta();
-    title.value = channel.value ? `${channel.author} :: ViewTube` : 'ViewTube';
-    meta.value = [
-      {
-        hid: 'description',
-        vmid: 'descriptionMeta',
-        name: 'description',
-        content: channel.value ? channel.value.description.substring(0, 100) : ''
-      },
-      {
-        hid: 'ogTitle',
-        property: 'og:title',
-        content: channel.value ? `${channel.value.author} - ViewTube` : 'ViewTube'
-      },
-      {
-        hid: 'ogImage',
-        property: 'og:image',
-        itemprop: 'image',
-        content: channel.value ? channel.value.authorThumbnails[0].url : ''
-      },
-      {
-        hid: 'ogDescription',
-        property: 'og:description',
-        content: channel.value ? channel.value.description.substring(0, 100) : ''
-      }
-    ];
+    useMeta(() => ({
+      title: channel.value ? `${channel.value.author} :: ViewTube` : 'ViewTube',
+      meta: [
+        {
+          hid: 'description',
+          vmid: 'descriptionMeta',
+          name: 'description',
+          content:
+            channel.value && channel.value.description
+              ? channel.value.description.substring(0, 100)
+              : ''
+        },
+        {
+          hid: 'ogTitle',
+          property: 'og:title',
+          content: channel.value ? `${channel.value.author} - ViewTube` : 'ViewTube'
+        },
+        {
+          hid: 'ogImage',
+          property: 'og:image',
+          itemprop: 'image',
+          content:
+            channel.value && channel.value.authorThumbnails
+              ? channel.value.authorThumbnails[0].url
+              : ''
+        },
+        {
+          hid: 'ogDescription',
+          property: 'og:description',
+          content:
+            channel.value && channel.value.description
+              ? channel.value.description.substring(0, 100)
+              : ''
+        }
+      ]
+    }));
 
     return {
       imgProxyUrl: imgProxy.url,
       channel,
       onScrollTop
     };
-  }
+  },
+  head: {}
 });
 </script>
 

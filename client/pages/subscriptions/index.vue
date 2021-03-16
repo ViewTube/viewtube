@@ -294,27 +294,27 @@ export default defineComponent({
       }
     );
 
-    const { title, meta } = useMeta();
-
-    title.value = `Subscriptions :: ViewTube`;
-    meta.value = [
-      {
-        hid: 'description',
-        vmid: 'descriptionMeta',
-        name: 'description',
-        content: 'See your subscription feed'
-      },
-      {
-        hid: 'ogTitle',
-        property: 'og:title',
-        content: 'Subscriptions - ViewTube'
-      },
-      {
-        hid: 'ogDescription',
-        property: 'og:description',
-        content: 'See your subscription feed'
-      }
-    ];
+    useMeta(() => ({
+      title: `Subscriptions :: ViewTube`,
+      meta: [
+        {
+          hid: 'description',
+          vmid: 'descriptionMeta',
+          name: 'description',
+          content: 'See your subscription feed'
+        },
+        {
+          hid: 'ogTitle',
+          property: 'og:title',
+          content: 'Subscriptions - ViewTube'
+        },
+        {
+          hid: 'ogDescription',
+          property: 'og:description',
+          content: 'See your subscription feed'
+        }
+      ]
+    }));
 
     return {
       videos,

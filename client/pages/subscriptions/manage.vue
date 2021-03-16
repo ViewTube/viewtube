@@ -212,27 +212,27 @@ export default defineComponent({
       }, 400);
     });
 
-    const { title, meta } = useMeta();
-
-    title.value = `Manage subscriptions :: ViewTube`;
-    meta.value = [
-      {
-        hid: 'description',
-        vmid: 'descriptionMeta',
-        name: 'description',
-        content: 'Manage your subscriptions'
-      },
-      {
-        hid: 'ogTitle',
-        property: 'og:title',
-        content: 'Manage subscriptions - ViewTube'
-      },
-      {
-        hid: 'ogDescription',
-        property: 'og:description',
-        content: 'Manage your subscriptions'
-      }
-    ];
+    useMeta(() => ({
+      title: `Manage subscriptions :: ViewTube`,
+      meta: [
+        {
+          hid: 'description',
+          vmid: 'descriptionMeta',
+          name: 'description',
+          content: 'Manage your subscriptions'
+        },
+        {
+          hid: 'ogTitle',
+          property: 'og:title',
+          content: 'Manage subscriptions - ViewTube'
+        },
+        {
+          hid: 'ogDescription',
+          property: 'og:description',
+          content: 'Manage your subscriptions'
+        }
+      ]
+    }));
 
     return {
       subscriptionChannels,
