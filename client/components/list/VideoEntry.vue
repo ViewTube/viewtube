@@ -5,7 +5,8 @@
       :class="{
         thumbnail:
           (video.authorThumbnails && video.authorThumbnails.length > 0) ||
-          (video.author && video.author.bestAvatar)
+          (video.author && video.author.bestAvatar) ||
+          video.authorThumbnailUrl
       }"
     >
       <nuxt-link
