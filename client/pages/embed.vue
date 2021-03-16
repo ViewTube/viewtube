@@ -13,11 +13,10 @@
 <script lang="ts">
 import VideoPlayer from '@/components/videoplayer/VideoPlayer.vue';
 import ViewTubeApi from '@/plugins/services/viewTubeApi';
-import { ref, useFetch, useRoute } from '@nuxtjs/composition-api';
-import Vue from 'vue';
+import { defineComponent, ref, useFetch, useRoute } from '@nuxtjs/composition-api';
 import { useAccessor } from '~/store';
 
-export default Vue.extend({
+export default defineComponent({
   name: 'EmbedVideo',
   components: {
     VideoPlayer

@@ -17,36 +17,61 @@
 import FormInput from '@/components/form/FormInput.vue';
 import SubmitButton from '@/components/form/SubmitButton.vue';
 import Spinner from '@/components/Spinner.vue';
-import Vue from 'vue';
+import { defineComponent, ref, useContext, useMeta, useRouter } from '@nuxtjs/composition-api';
+import { useAccessor } from '~/store';
 
-export default Vue.extend({
+export default defineComponent({
   name: 'Login',
   components: {
     FormInput,
     SubmitButton,
     Spinner
   },
-  beforeRouteEnter(_, from, next) {
-    next((vm: any) => {
-      if (from.name) {
-        vm.redirectedPage = from;
+  setup() {
+    const { from } = useContext();
+    const accessor = useAccessor();
+    const router = useRouter();
+
+    const loading = ref(false);
+    const username = ref(null);
+    const password = ref(null);
+    const statusMessage = ref('');
+    const formWiggle = ref(false);
+
+    const login = async (): Promise<void> => {
+      loading.value = true;
+
+      const user = await accessor.user.login({
+        username: username.value,
+        password: password.value
+      });
+      if (user && user.success) {
+        accessor.messages.createMessage({
+          type: 'info',
+          title: 'Login successful',
+          message: 'Redirecting...'
+        });
+        console.log(from);
+        router.push(from.value);
       } else {
-        vm.redirectedPage = {
-          fullPath: '/'
-        };
+        loading.value = false;
+        wiggleLoginForm();
+        accessor.messages.createMessage({
+          type: 'error',
+          title: 'Login failed',
+          message: user ? user.error : ''
+        });
       }
-    });
-  },
-  data: () => ({
-    loading: false,
-    username: null,
-    password: null,
-    statusMessage: '',
-    redirectedPage: 'home',
-    formWiggle: false
-  }),
-  head() {
-    return {
+    };
+
+    const wiggleLoginForm = (): void => {
+      formWiggle.value = true;
+      setTimeout(() => {
+        formWiggle.value = false;
+      }, 600);
+    };
+
+    useMeta(() => ({
       title: `Login :: ViewTube`,
       meta: [
         {
@@ -66,41 +91,18 @@ export default Vue.extend({
           content: 'Login to access your ViewTube account'
         }
       ]
+    }));
+
+    return {
+      loading,
+      username,
+      password,
+      statusMessage,
+      formWiggle,
+      login
     };
   },
-  methods: {
-    async login(): Promise<void> {
-      this.loading = true;
-      const me = this;
-
-      const user = await this.$store.dispatch('user/login', {
-        username: this.username,
-        password: this.password
-      });
-      if (user && user.success) {
-        me.$store.dispatch('messages/createMessage', {
-          type: 'info',
-          title: 'Login successful',
-          message: 'Redirecting...'
-        });
-        me.$router.push(me.redirectedPage.fullPath);
-      } else {
-        me.loading = false;
-        this.wiggleLoginForm();
-        me.$store.dispatch('messages/createMessage', {
-          type: 'error',
-          title: 'Login failed',
-          message: user ? user.error : ''
-        });
-      }
-    },
-    wiggleLoginForm(): void {
-      this.formWiggle = true;
-      setTimeout(() => {
-        this.formWiggle = false;
-      }, 600);
-    }
-  }
+  head: {}
 });
 </script>
 

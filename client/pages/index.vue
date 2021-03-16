@@ -44,9 +44,11 @@ import GradientBackground from '@/components/GradientBackground.vue';
 import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
 import ViewTubeApi from '@/plugins/services/viewTubeApi';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
-import Vue from 'vue';
+import { defineComponent, ref, useFetch, useMeta } from '@nuxtjs/composition-api';
+import { useAccessor } from '~/store';
+import { useAxios } from '~/plugins/axios';
 
-export default Vue.extend({
+export default defineComponent({
   name: 'Home',
   components: {
     VideoEntry,
@@ -55,61 +57,65 @@ export default Vue.extend({
     LoadMoreIcon,
     BadgeButton
   },
-  data: () => ({
-    videos: [],
-    displayedVideos: [],
-    subscriptions: [],
-    loading: true
-  }),
-  async fetch() {
-    await this.loadHomepage();
-  },
-  head() {
-    return {
-      title: `ViewTube :: An alternative YouTube frontend`
+  setup() {
+    const accessor = useAccessor();
+    const axios = useAxios();
+
+    const videos = ref([]);
+    const displayedVideos = ref([]);
+    const subscriptions = ref([]);
+    const loading = ref(true);
+    const userAuthenticated = ref(false);
+
+    userAuthenticated.value = accessor.user.isLoggedIn;
+
+    const showMoreVideos = (): void => {
+      displayedVideos.value = videos.value;
     };
-  },
-  computed: {
-    userAuthenticated(): boolean {
-      return this.$store.getters['user/isLoggedIn'];
-    }
-  },
-  methods: {
-    showMoreVideos(): void {
-      this.displayedVideos = this.videos;
-    },
-    async loadHomepage(): Promise<void> {
-      const viewTubeApi = new ViewTubeApi(this.$store.getters['environment/apiUrl']);
+
+    const { fetch } = useFetch(async () => {
+      const viewTubeApi = new ViewTubeApi(accessor.environment.apiUrl);
       await viewTubeApi.api
         .popular()
-        .then(response => {
-          this.videos = response.data.videos;
-          this.displayedVideos = response.data.videos.slice(0, 8);
+        .then((response: { data: { videos: any[] } }) => {
+          videos.value = response.data.videos;
+          displayedVideos.value = response.data.videos.slice(0, 8);
         })
-        .catch(_ => {
-          this.$store.dispatch('messages/createMessage', {
+        .catch((_: any) => {
+          accessor.messages.createMessage({
             type: 'error',
             title: 'Error loading homepage',
             message: 'Click to try again',
             dismissDelay: 0,
-            clickAction: () => this.$fetch()
+            clickAction: () => fetch()
           });
         });
-      if (this.$store.getters['user/isLoggedIn']) {
-        await this.$axios
-          .get(`${this.$store.getters['environment/apiUrl']}user/subscriptions/videos?limit=4`, {
+      if (userAuthenticated.value) {
+        await axios
+          .get(`${accessor.environment.apiUrl}user/subscriptions/videos?limit=4`, {
             withCredentials: true
           })
           .then(response => {
-            this.subscriptions = response.data.videos;
+            subscriptions.value = response.data.videos;
           })
           .catch(_ => {});
       }
-    },
-    handleScroll(e: Event): void {
-      this.$emit('scroll', e);
-    }
-  }
+    });
+
+    useMeta(() => ({
+      title: `ViewTube :: An alternative YouTube frontend`
+    }));
+
+    return {
+      videos,
+      displayedVideos,
+      subscriptions,
+      loading,
+      userAuthenticated,
+      showMoreVideos
+    };
+  },
+  head: {}
 });
 </script>
 
