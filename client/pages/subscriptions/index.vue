@@ -84,7 +84,16 @@ import EditIcon from 'vue-material-design-icons/PencilBoxMultipleOutline.vue';
 import SubscriptionIcon from 'vue-material-design-icons/YoutubeSubscription.vue';
 import ImportIcon from 'vue-material-design-icons/Import.vue';
 import Pagination from '@/components/pagination/Pagination.vue';
-import { defineComponent, ref, useFetch, useRoute } from '@nuxtjs/composition-api';
+import {
+  computed,
+  defineComponent,
+  onMounted,
+  ref,
+  useFetch,
+  useMeta,
+  useRoute,
+  watch
+} from '@nuxtjs/composition-api';
 import { useAccessor } from '~/store';
 import { useAxios } from '~/plugins/axios';
 
@@ -113,12 +122,11 @@ export default defineComponent({
     const notificationsBtnDisabled = ref(false);
     const notificationsSupported = ref(true);
     const subscriptionImportOpen = ref(false);
-    const vapidKey = ref(null);
     const currentPage = ref(1);
     const currentPageTest = ref(1);
     const pageCount = ref(1);
 
-    useFetch(async () => {
+    const { fetch } = useFetch(async () => {
       const apiUrl = accessor.environment.apiUrl;
       const limit = 20;
       if (route.value.query && route.value.query.page) {
@@ -143,6 +151,171 @@ export default defineComponent({
         });
     });
 
+    const vapidKey = computed(() => accessor.environment.vapidKey);
+    const hasNoSubscriptions = computed((): boolean => {
+      return !orderedVideoSections.value || orderedVideoSections.value.length <= 0;
+    });
+    const orderedVideoSections = computed(
+      (): Array<any> => {
+        const orderedArray = [];
+        let i = 0;
+        videos.value.forEach(video => {
+          let sectionMessage = 'Older videos';
+          const now = new Date();
+          if (video.published > now.valueOf() - 604800000) {
+            sectionMessage = 'Last 7 days';
+          }
+          if (video.published > now.valueOf() - 172800000) {
+            sectionMessage = 'Yesterday';
+          }
+          if (video.published > now.valueOf() - 86400000) {
+            sectionMessage = 'Today';
+          }
+          const possibleIndex = orderedArray.findIndex(el => el.sectionMessage === sectionMessage);
+          if (possibleIndex !== -1) {
+            orderedArray[possibleIndex].videos.push(video);
+          } else {
+            orderedArray.push({ sectionMessage, videos: [video], id: i++ });
+          }
+        });
+        return orderedArray;
+      }
+    );
+    const lastRefreshTime = computed((): string => {
+      const now = new Date();
+      now.setMinutes(Math.floor(now.getMinutes() / 30) * 30);
+      now.setSeconds(0);
+      return now.toLocaleString();
+    });
+    const nextRefreshTime = computed((): string => {
+      const now = new Date();
+      now.setMinutes(Math.ceil(now.getMinutes() / 30) * 30);
+      now.setSeconds(0);
+      return now.toLocaleString();
+    });
+
+    const closeSubscriptionImport = () => {
+      subscriptionImportOpen.value = false;
+    };
+    const onSubscriptionImportDone = () => {
+      fetch();
+    };
+    const subscribeToNotifications = val => {
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then(registrations => {
+          const worker = registrations[0];
+
+          if (val) {
+            worker.pushManager
+              .subscribe({
+                userVisibleOnly: true,
+                applicationServerKey: vapidKey.value
+              })
+              .then(subscription => {
+                axios
+                  .post(
+                    `${accessor.environment.apiUrl}user/notifications/subscribe`,
+                    subscription,
+                    {
+                      withCredentials: true
+                    }
+                  )
+                  .then(() => {
+                    notificationsEnabled.value = true;
+                  });
+              })
+              .catch(err => {
+                notificationsEnabled.value = false;
+                notificationsBtnDisabled.value = true;
+                accessor.messages.createMessage({
+                  type: 'error',
+                  title: 'Error subscribing to notifications',
+                  message: err.message
+                });
+              });
+          } else {
+            worker.pushManager.getSubscription().then((subscription: PushSubscription) => {
+              if (subscription) {
+                subscription.unsubscribe();
+              }
+              notificationsEnabled.value = false;
+            });
+          }
+        });
+      }
+    };
+    const getNotificationStatus = () => {
+      if (notificationsBtnDisabled.value && notificationsEnabled.value) {
+        return 'Notifications are enabled';
+      } else if (notificationsSupported.value) {
+        return 'Notifications are not supported';
+      } else if (!notificationsBtnDisabled.value && !notificationsEnabled.value) {
+        return 'Notifications are disabled';
+      }
+    };
+
+    onMounted(() => {
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker
+          .getRegistrations()
+          .then(registrations => {
+            const worker = registrations[0];
+            worker.pushManager
+              .permissionState({
+                userVisibleOnly: true,
+                applicationServerKey: vapidKey.value
+              })
+              .then(permissionState => {
+                if (permissionState === 'granted') {
+                  notificationsEnabled.value = true;
+                } else if (permissionState === 'denied') {
+                  notificationsEnabled.value = false;
+                  notificationsBtnDisabled.value = true;
+                }
+              });
+          })
+          .catch(err => {
+            accessor.messages.createMessage({
+              type: 'error',
+              title: 'Error loading notification worker',
+              message: err.message
+            });
+          });
+      } else {
+        notificationsSupported.value = false;
+        notificationsBtnDisabled.value = true;
+      }
+    });
+
+    watch(
+      () => route.value.query,
+      () => {
+        fetch();
+      }
+    );
+
+    const { title, meta } = useMeta();
+
+    title.value = `Subscriptions :: ViewTube`;
+    meta.value = [
+      {
+        hid: 'description',
+        vmid: 'descriptionMeta',
+        name: 'description',
+        content: 'See your subscription feed'
+      },
+      {
+        hid: 'ogTitle',
+        property: 'og:title',
+        content: 'Subscriptions - ViewTube'
+      },
+      {
+        hid: 'ogDescription',
+        property: 'og:description',
+        content: 'See your subscription feed'
+      }
+    ];
+
     return {
       videos,
       loading,
@@ -153,170 +326,16 @@ export default defineComponent({
       vapidKey,
       currentPage,
       currentPageTest,
-      pageCount
+      pageCount,
+      hasNoSubscriptions,
+      orderedVideoSections,
+      lastRefreshTime,
+      nextRefreshTime,
+      closeSubscriptionImport,
+      onSubscriptionImportDone,
+      subscribeToNotifications,
+      getNotificationStatus
     };
-  },
-  head() {
-    return {
-      title: `Subscriptions :: ViewTube`,
-      meta: [
-        {
-          hid: 'description',
-          vmid: 'descriptionMeta',
-          name: 'description',
-          content: 'See your subscription feed'
-        },
-        {
-          hid: 'ogTitle',
-          property: 'og:title',
-          content: 'Subscriptions - ViewTube'
-        },
-        {
-          hid: 'ogDescription',
-          property: 'og:description',
-          content: 'See your subscription feed'
-        }
-      ]
-    };
-  },
-  computed: {
-    hasNoSubscriptions(): boolean {
-      return !this.orderedVideoSections || this.orderedVideoSections.length <= 0;
-    },
-    orderedVideoSections(): Array<any> {
-      const orderedArray = [];
-      let i = 0;
-      this.videos.forEach(video => {
-        let sectionMessage = 'Older videos';
-        const now = new Date();
-        if (video.published > now.valueOf() - 604800000) {
-          sectionMessage = 'Last 7 days';
-        }
-        if (video.published > now.valueOf() - 172800000) {
-          sectionMessage = 'Yesterday';
-        }
-        if (video.published > now.valueOf() - 86400000) {
-          sectionMessage = 'Today';
-        }
-        const possibleIndex = orderedArray.findIndex(el => el.sectionMessage === sectionMessage);
-        if (possibleIndex !== -1) {
-          orderedArray[possibleIndex].videos.push(video);
-        } else {
-          orderedArray.push({ sectionMessage, videos: [video], id: i++ });
-        }
-      });
-      return orderedArray;
-    },
-    lastRefreshTime(): string {
-      const now = new Date();
-      now.setMinutes(Math.floor(now.getMinutes() / 30) * 30);
-      now.setSeconds(0);
-      return now.toLocaleString();
-    },
-    nextRefreshTime(): string {
-      const now = new Date();
-      now.setMinutes(Math.ceil(now.getMinutes() / 30) * 30);
-      now.setSeconds(0);
-      return now.toLocaleString();
-    }
-  },
-  watch: {
-    '$route.query': '$fetch'
-  },
-  mounted() {
-    this.vapidKey = this.$store.getters['environment/vapidKey'];
-
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker
-        .getRegistrations()
-        .then(registrations => {
-          const worker = registrations[0];
-          worker.pushManager
-            .permissionState({
-              userVisibleOnly: true,
-              applicationServerKey: this.vapidKey
-            })
-            .then(permissionState => {
-              if (permissionState === 'granted') {
-                this.notificationsEnabled = true;
-              } else if (permissionState === 'denied') {
-                this.notificationsEnabled = false;
-                this.notificationsBtnDisabled = true;
-              }
-            });
-        })
-        .catch(err => {
-          this.$store.dispatch('messages/createMessage', {
-            type: 'error',
-            title: 'Error loading notification worker',
-            message: err.message
-          });
-        });
-    } else {
-      this.notificationsSupported = false;
-      this.notificationsBtnDisabled = true;
-    }
-  },
-  methods: {
-    closeSubscriptionImport() {
-      this.subscriptionImportOpen = false;
-    },
-    onSubscriptionImportDone() {
-      this.$fetch();
-    },
-    subscribeToNotifications(val) {
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.getRegistrations().then(registrations => {
-          const worker = registrations[0];
-
-          if (val) {
-            worker.pushManager
-              .subscribe({
-                userVisibleOnly: true,
-                applicationServerKey: this.vapidKey
-              })
-              .then(subscription => {
-                this.$axios
-                  .post(
-                    `${this.$store.getters['environment/apiUrl']}user/notifications/subscribe`,
-                    subscription,
-                    {
-                      withCredentials: true
-                    }
-                  )
-                  .then(() => {
-                    this.notificationsEnabled = true;
-                  });
-              })
-              .catch(err => {
-                this.notificationsEnabled = false;
-                this.notificationsBtnDisabled = true;
-                this.$store.dispatch('messages/createMessage', {
-                  type: 'error',
-                  title: 'Error subscribing to notifications',
-                  message: err.message
-                });
-              });
-          } else {
-            worker.pushManager.getSubscription().then(subscription => {
-              if (subscription) {
-                subscription.unsubscribe();
-              }
-              this.notificationsEnabled = false;
-            });
-          }
-        });
-      }
-    },
-    getNotificationStatus() {
-      if (this.notificationsBtnDisabled && this.notificationsEnabled) {
-        return 'Notifications are enabled';
-      } else if (this.notificationsSupported) {
-        return 'Notifications are not supported';
-      } else if (!this.notificationsBtnDisabled && !this.notificationsEnabled) {
-        return 'Notifications are disabled';
-      }
-    }
   }
 });
 </script>

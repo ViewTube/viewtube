@@ -71,152 +71,180 @@
 import GradientBackground from '@/components/GradientBackground.vue';
 import SectionTitle from '@/components/SectionTitle.vue';
 import Pagination from '@/components/pagination/Pagination.vue';
-// import BadgeButton from '@/components/buttons/BadgeButton';
-import Vue from 'vue';
+import {
+  computed,
+  defineComponent,
+  ref,
+  useFetch,
+  useMeta,
+  useRoute,
+  useRouter,
+  watch
+} from '@nuxtjs/composition-api';
+import { useAccessor } from '~/store';
+import { useAxios } from '~/plugins/axios';
 
-export default Vue.extend({
+export default defineComponent({
   name: 'ManageSubscriptions',
   components: {
     GradientBackground,
     SectionTitle,
     Pagination
   },
-  data() {
-    return {
-      subscriptionChannels: [],
-      currentPage: 1,
-      pageCount: 0,
-      searchTerm: null,
-      searchTimeout: null
-    };
-  },
-  async fetch() {
-    if (process.browser) {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-    const apiUrl = this.$store.getters['environment/apiUrl'];
-    const limit = 30;
-    if (this.$route.query && this.$route.query.page) {
-      this.currentPage = parseInt(this.$route.query.page);
-    }
-    let filterString = '';
-    if (this.searchTerm) {
-      filterString = `&filter=${this.searchTerm}`;
-    }
-    const start = (this.currentPage - 1) * 30;
-    await this.$axios
-      .get(
-        `${apiUrl}user/subscriptions/channels?limit=${limit}&start=${start}&sort=author:1${filterString}`,
-        {
-          withCredentials: true
-        }
-      )
-      .then(response => {
-        this.subscriptionChannels = response.data.channels;
-        this.pageCount = Math.ceil(response.data.channelCount / 30);
-      })
-      .catch(_ => {
-        this.$store.dispatch('messages/createMessage', {
-          type: 'error',
-          title: 'Error loading subscriptions',
-          message: 'Error loading subscriptions'
+  setup() {
+    const accessor = useAccessor();
+    const route = useRoute();
+    const axios = useAxios();
+    const router = useRouter();
+
+    const subscriptionChannels = ref([]);
+    const currentPage = ref(1);
+    const pageCount = ref(0);
+    const searchTerm = ref(null);
+    const searchTimeout = ref(null);
+
+    const orderedChannels = computed(
+      (): Array<string> => {
+        const lettersArray = [];
+        let i = 0;
+        subscriptionChannels.value.forEach(channel => {
+          const channelLetter = channel.author.charAt(0);
+          const possibleIndex = lettersArray.findIndex(el => el.letter === channelLetter);
+          if (possibleIndex !== -1) {
+            lettersArray[possibleIndex].channels.push(channel);
+          } else {
+            lettersArray.push({ letter: channelLetter, channels: [channel], id: i++ });
+          }
         });
-      });
-  },
-  head() {
-    return {
-      title: `Manage subscriptions :: ViewTube`,
-      meta: [
-        {
-          hid: 'description',
-          vmid: 'descriptionMeta',
-          name: 'description',
-          content: 'Manage your subscriptions'
-        },
-        {
-          hid: 'ogTitle',
-          property: 'og:title',
-          content: 'Manage subscriptions - ViewTube'
-        },
-        {
-          hid: 'ogDescription',
-          property: 'og:description',
-          content: 'Manage your subscriptions'
-        }
-      ]
-    };
-  },
-  computed: {
-    orderedChannels(): Array<string> {
-      const lettersArray = [];
-      let i = 0;
-      this.subscriptionChannels.forEach(channel => {
-        const channelLetter = channel.author.charAt(0);
-        const possibleIndex = lettersArray.findIndex(el => el.letter === channelLetter);
-        if (possibleIndex !== -1) {
-          lettersArray[possibleIndex].channels.push(channel);
-        } else {
-          lettersArray.push({ letter: channelLetter, channels: [channel], id: i++ });
-        }
-      });
-      return lettersArray;
-    }
-  },
-  watch: {
-    '$route.query': '$fetch',
-    searchTerm(newVal, oldVal): void {
-      if (this.searchTimeout) clearTimeout(this.searchTimeout);
-      this.searchTimeout = setTimeout(() => {
-        if (newVal !== null && newVal !== oldVal) {
-          this.$fetch();
-        }
-      }, 400);
-    }
-  },
-  methods: {
-    changePage(page): void {
-      this.$router.push(`/subscriptions/manage?page=${page}`);
-      this.currentPage = page;
-    },
-    channelNameToImgString(name): string {
-      let initials = '';
-      name.split(' ').forEach(e => {
-        initials += e.charAt(0);
-      });
-      return initials;
-    },
-    unsubscribe(channel): void {
-      this.$axios
-        .delete(
-          `${this.$store.getters['environment/apiUrl']}user/subscriptions/${channel.authorId}`,
+        return lettersArray;
+      }
+    );
+
+    const { fetch } = useFetch(async () => {
+      const apiUrl = accessor.environment.apiUrl;
+      const limit = 30;
+      if (route.value.query && route.value.query.page) {
+        currentPage.value = parseInt(route.value.query.page as string);
+      }
+      let filterString = '';
+      if (searchTerm.value) {
+        filterString = `&filter=${searchTerm.value}`;
+      }
+      const start = (currentPage.value - 1) * 30;
+      await axios
+        .get(
+          `${apiUrl}user/subscriptions/channels?limit=${limit}&start=${start}&sort=author:1${filterString}`,
           {
             withCredentials: true
           }
         )
         .then(response => {
+          subscriptionChannels.value = response.data.channels;
+          pageCount.value = Math.ceil(response.data.channelCount / 30);
+        })
+        .catch(_ => {
+          accessor.messages.createMessage({
+            type: 'error',
+            title: 'Error loading subscriptions',
+            message: 'Error loading subscriptions'
+          });
+        });
+    });
+
+    const changePage = (page: any): void => {
+      router.push(`/subscriptions/manage?page=${page}`);
+      currentPage.value = page;
+    };
+    const channelNameToImgString = (name: string): string => {
+      let initials = '';
+      name.split(' ').forEach(e => {
+        initials += e.charAt(0);
+      });
+      return initials;
+    };
+    const unsubscribe = (channel: { authorId: any; author: any }): void => {
+      axios
+        .delete(`${accessor.environment.apiUrl}user/subscriptions/${channel.authorId}`, {
+          withCredentials: true
+        })
+        .then(response => {
           if (!response.data.isSubscribed) {
-            this.$fetch();
-            this.$store.dispatch('messages/createMessage', {
+            fetch();
+            accessor.messages.createMessage({
               type: 'error',
               title: `Unsubscribed from ${channel.author}`,
               message: 'Click to undo',
               clickAction: () => {
-                this.$axios
+                axios
                   .put(
-                    `${this.$store.getters['environment/apiUrl']}user/subscriptions/${channel.authorId}`,
+                    `${accessor.environment.apiUrl}user/subscriptions/${channel.authorId}`,
                     {},
                     {
                       withCredentials: true
                     }
                   )
                   .then(() => {
-                    this.$fetch();
+                    fetch();
                   });
               }
             });
           }
         });
+    };
+
+    if (process.browser) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
+
+    watch(
+      () => route.value.query,
+      () => {
+        fetch();
+      }
+    );
+
+    watch(searchTerm, (newVal, oldVal): void => {
+      if (searchTimeout.value) clearTimeout(searchTimeout.value);
+      searchTimeout.value = setTimeout(() => {
+        if (newVal !== null && newVal !== oldVal) {
+          fetch();
+        }
+      }, 400);
+    });
+
+    const { title, meta } = useMeta();
+
+    title.value = `Manage subscriptions :: ViewTube`;
+    meta.value = [
+      {
+        hid: 'description',
+        vmid: 'descriptionMeta',
+        name: 'description',
+        content: 'Manage your subscriptions'
+      },
+      {
+        hid: 'ogTitle',
+        property: 'og:title',
+        content: 'Manage subscriptions - ViewTube'
+      },
+      {
+        hid: 'ogDescription',
+        property: 'og:description',
+        content: 'Manage your subscriptions'
+      }
+    ];
+
+    return {
+      subscriptionChannels,
+      currentPage,
+      pageCount,
+      searchTerm,
+      searchTimeout,
+      orderedChannels,
+      changePage,
+      channelNameToImgString,
+      unsubscribe
+    };
   }
 });
 </script>

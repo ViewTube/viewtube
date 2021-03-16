@@ -63,9 +63,11 @@ import InlineVideo from '@/components/list/InlineVideo.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import UpIcon from 'vue-material-design-icons/ArrowUp.vue';
 import ViewTubeApi from '@/plugins/services/viewTubeApi';
-import Vue from 'vue';
+import { defineComponent, ref, useFetch, useMeta, useRoute } from '@nuxtjs/composition-api';
+import { useImgProxy } from '~/plugins/proxy';
+import { useAccessor } from '~/store';
 
-export default Vue.extend({
+export default defineComponent({
   name: 'Home',
   components: {
     VideoEntry,
@@ -81,67 +83,71 @@ export default Vue.extend({
     BadgeButton,
     UpIcon
   },
-  asyncData({ params, store }) {
-    const viewTubeApi = new ViewTubeApi(store.getters['environment/apiUrl']);
-    return viewTubeApi.api
-      .channels({ id: params.id })
-      .then(response => {
-        return {
-          channel: response.data
-        };
-      })
-      .catch(error => {
-        let errorMessage = '';
-        if (error.response && error.response.data) {
-          errorMessage = error.response.data.message;
-        }
-        store.dispatch('messages/createMessage', {
-          type: 'error',
-          title: 'Loading the channel failed',
-          message: errorMessage
-        });
-      });
-  },
-  data() {
-    return {
-      channel: null,
-      imgProxyUrl: this.$store.getters['environment/imgProxyUrl'],
-      overviewColor: 0
-    };
-  },
-  head() {
-    return {
-      title: this.channel ? `${this.channel.author} :: ViewTube` : 'ViewTube',
-      meta: [
-        {
-          hid: 'description',
-          vmid: 'descriptionMeta',
-          name: 'description',
-          content: this.channel ? this.channel.description.substring(0, 100) : ''
-        },
-        {
-          hid: 'ogTitle',
-          property: 'og:title',
-          content: this.channel ? `${this.channel.author} - ViewTube` : 'ViewTube'
-        },
-        {
-          hid: 'ogImage',
-          property: 'og:image',
-          itemprop: 'image',
-          content: this.channel ? this.channel.authorThumbnails[0].url : ''
-        },
-        {
-          hid: 'ogDescription',
-          property: 'og:description',
-          content: this.channel ? this.channel.description.substring(0, 100) : ''
-        }
-      ]
-    };
-  },
-  methods: {
-    onScrollTop(): void {
+  setup() {
+    const imgProxy = useImgProxy();
+    const accessor = useAccessor();
+    const route = useRoute();
+
+    const channel = ref(null);
+
+    const onScrollTop = (): void => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
+    };
+
+    useFetch(() => {
+      const viewTubeApi = new ViewTubeApi(accessor.environment.apiUrl);
+      return viewTubeApi.api
+        .channels({ id: route.value.params.id })
+        .then((response: { data: any }) => {
+          return {
+            channel: response.data
+          };
+        })
+        .catch((error: { response: { data: { message: string } } }) => {
+          let errorMessage = '';
+          if (error.response && error.response.data) {
+            errorMessage = error.response.data.message;
+          }
+          accessor.messages.createMessage({
+            type: 'error',
+            title: 'Loading the channel failed',
+            message: errorMessage
+          });
+        });
+    });
+
+    const { title, meta } = useMeta();
+    title.value = channel.value ? `${channel.author} :: ViewTube` : 'ViewTube';
+    meta.value = [
+      {
+        hid: 'description',
+        vmid: 'descriptionMeta',
+        name: 'description',
+        content: channel.value ? channel.value.description.substring(0, 100) : ''
+      },
+      {
+        hid: 'ogTitle',
+        property: 'og:title',
+        content: channel.value ? `${channel.value.author} - ViewTube` : 'ViewTube'
+      },
+      {
+        hid: 'ogImage',
+        property: 'og:image',
+        itemprop: 'image',
+        content: channel.value ? channel.value.authorThumbnails[0].url : ''
+      },
+      {
+        hid: 'ogDescription',
+        property: 'og:description',
+        content: channel.value ? channel.value.description.substring(0, 100) : ''
+      }
+    ];
+
+    return {
+      imgProxyUrl: imgProxy.url,
+      channel,
+      onScrollTop
+    };
   }
 });
 </script>
