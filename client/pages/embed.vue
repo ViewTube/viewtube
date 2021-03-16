@@ -1,40 +1,48 @@
 <template>
   <div class="embed">
-    <VideoPlayer :video="video" :embedded="true" class="video-player-p" />
+    <VideoPlayer
+      :video="video"
+      :embedded="true"
+      class="video-player-p"
+      :mini="false"
+      :autoplay="false"
+    />
   </div>
 </template>
 
 <script lang="ts">
 import VideoPlayer from '@/components/videoplayer/VideoPlayer.vue';
 import ViewTubeApi from '@/plugins/services/viewTubeApi';
+import { ref, useFetch, useRoute } from '@nuxtjs/composition-api';
 import Vue from 'vue';
+import { useAccessor } from '~/store';
 
 export default Vue.extend({
   name: 'EmbedVideo',
   components: {
     VideoPlayer
   },
-  asyncData({ params, store }) {
-    const viewTubeApi = new ViewTubeApi(store.getters['environment/apiUrl']);
-    return viewTubeApi.api
-      .videos({
-        id: params.id
-      })
-      .then(response => {
-        return {
-          video: response.data
-        };
-      })
-      .catch(_ => {});
-  },
-  data: () => ({
-    video: {}
-  }),
-  methods: {
-    loadData(data: any): void {
-      this.video = data;
-      this.loading = false;
-    }
+  setup() {
+    const route = useRoute();
+    const accessor = useAccessor();
+
+    const video = ref(null);
+
+    useFetch(async () => {
+      const viewTubeApi = new ViewTubeApi(accessor.environment.apiUrl);
+      await viewTubeApi.api
+        .videos({
+          id: route.value.params.id
+        })
+        .then((response: { data: any }) => {
+          video.value = response.data;
+        })
+        .catch((_: any) => {});
+    });
+
+    return {
+      video
+    };
   }
 });
 </script>

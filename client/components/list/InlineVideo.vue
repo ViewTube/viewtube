@@ -58,11 +58,11 @@ export default defineComponent({
     };
 
     if (props.video.description.length > 300) {
-      let smallDescription = props.video.description.split('\n')[0];
-      if (smallDescription.length > 300) {
-        smallDescription = `${props.video.description.substr(0, 300)}...`;
+      let smallerDescription = props.video.description.split('\n')[0];
+      if (smallerDescription.length > 300) {
+        smallerDescription = `${props.video.description.substr(0, 300)}...`;
       }
-      smallDescription.value = smallDescription;
+      smallDescription.value = smallerDescription;
     } else {
       isSmall.value = false;
     }
