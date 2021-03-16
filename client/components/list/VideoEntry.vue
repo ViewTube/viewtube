@@ -26,7 +26,7 @@
         <img
           v-else-if="video.authorThumbnailUrl"
           class="author-thumbnail"
-          :src="video.authorThumbnailUrl"
+          :src="apiUrl + video.authorThumbnailUrl"
           alt="Author thumbnail"
         />
         <img
@@ -153,7 +153,8 @@ export default Vue.extend({
   },
   data() {
     return {
-      imgProxyUrl: this.$store.getters['environment/imgProxyUrl']
+      imgProxyUrl: this.$store.getters['environment/imgProxyUrl'],
+      apiUrl: this.$store.getters['environment/apiUrl']
     };
   },
   computed: {
