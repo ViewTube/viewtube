@@ -84,7 +84,9 @@ import EditIcon from 'vue-material-design-icons/PencilBoxMultipleOutline.vue';
 import SubscriptionIcon from 'vue-material-design-icons/YoutubeSubscription.vue';
 import ImportIcon from 'vue-material-design-icons/Import.vue';
 import Pagination from '@/components/pagination/Pagination.vue';
-import { defineComponent } from '@nuxtjs/composition-api';
+import { defineComponent, ref, useFetch, useRoute } from '@nuxtjs/composition-api';
+import { useAccessor } from '~/store';
+import { useAxios } from '~/plugins/axios';
 
 export default defineComponent({
   name: 'Home',
@@ -100,45 +102,59 @@ export default defineComponent({
     Pagination,
     SubscriptionIcon
   },
-  data: () => ({
-    videos: [],
-    loading: true,
-    notificationsEnabled: false,
-    notificationsBtnDisabled: false,
-    notificationsSupported: true,
-    subscriptionImportOpen: false,
-    vapidKey: null,
-    currentPage: 1,
-    currentPageTest: 1,
-    pageCount: 1,
-    pageCountTest: 1
-  }),
-  async fetch() {
-    if (process.browser) {
-      // window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-    const apiUrl = this.$store.getters['environment/apiUrl'];
-    const limit = 20;
-    if (this.$route.query && this.$route.query.page) {
-      this.currentPage = parseInt(this.$route.query.page.toString());
-    }
-    const start = (this.currentPage - 1) * 30;
-    await this.$axios
-      .get(`${apiUrl}user/subscriptions/videos?limit=${limit}&start=${start}`, {
-        withCredentials: true
-      })
-      .then(response => {
-        this.videos = response.data.videos;
-        this.pageCount = Math.ceil(response.data.videoCount / 30);
-        this.loading = false;
-      })
-      .catch(_ => {
-        this.$store.dispatch('messages/createMessage', {
-          type: 'error',
-          title: 'Error loading subscription feed',
-          message: 'Error loading subscription feed'
+  setup() {
+    const accessor = useAccessor();
+    const route = useRoute();
+    const axios = useAxios();
+
+    const videos = ref([]);
+    const loading = ref(true);
+    const notificationsEnabled = ref(false);
+    const notificationsBtnDisabled = ref(false);
+    const notificationsSupported = ref(true);
+    const subscriptionImportOpen = ref(false);
+    const vapidKey = ref(null);
+    const currentPage = ref(1);
+    const currentPageTest = ref(1);
+    const pageCount = ref(1);
+
+    useFetch(async () => {
+      const apiUrl = accessor.environment.apiUrl;
+      const limit = 20;
+      if (route.value.query && route.value.query.page) {
+        currentPage.value = parseInt(route.value.query.page.toString());
+      }
+      const start = (currentPage.value - 1) * 30;
+      await axios
+        .get(`${apiUrl}user/subscriptions/videos?limit=${limit}&start=${start}`, {
+          withCredentials: true
+        })
+        .then((response: { data: { videos: Array<any>; videoCount: number } }) => {
+          videos.value = response.data.videos;
+          pageCount.value = Math.ceil(response.data.videoCount / 30);
+          loading.value = false;
+        })
+        .catch(_ => {
+          accessor.messages.createMessage({
+            type: 'error',
+            title: 'Error loading subscription feed',
+            message: 'Error loading subscription feed'
+          });
         });
-      });
+    });
+
+    return {
+      videos,
+      loading,
+      notificationsEnabled,
+      notificationsBtnDisabled,
+      notificationsSupported,
+      subscriptionImportOpen,
+      vapidKey,
+      currentPage,
+      currentPageTest,
+      pageCount
+    };
   },
   head() {
     return {
