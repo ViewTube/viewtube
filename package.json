@@ -90,7 +90,7 @@
     "rimraf": "3.0.2",
     "rxjs": "6.6.6",
     "sass": "1.32.8",
-    "sass-loader": "11.0.1",
+    "sass-loader": "10.1.1",
     "split-file-stream": "2.0.0",
     "svg-captcha": "1.4.0",
     "swagger-ui-express": "4.1.6",
