@@ -22,7 +22,7 @@
       <VideoEntry
         v-for="(video, index) in displayedVideos"
         :key="index"
-        :lazy="index < 4 ? false : true"
+        :lazy="true"
         :video="video"
       />
     </div>
