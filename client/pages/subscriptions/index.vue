@@ -336,7 +336,8 @@ export default defineComponent({
       subscribeToNotifications,
       getNotificationStatus
     };
-  }
+  },
+  head: {}
 });
 </script>
 

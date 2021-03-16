@@ -96,7 +96,9 @@ export default defineComponent({
     return {
       dismissedRight,
       dismissedLeft,
+      dismissTimeout,
       isInteractAnimating,
+      swipeOpacity,
       transformString,
       dismissMessage,
       onMessageClick

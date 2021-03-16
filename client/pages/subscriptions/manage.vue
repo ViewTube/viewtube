@@ -245,7 +245,8 @@ export default defineComponent({
       channelNameToImgString,
       unsubscribe
     };
-  }
+  },
+  head: {}
 });
 </script>
 
