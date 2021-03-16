@@ -1802,10 +1802,10 @@
     serve-static "^1.14.1"
     workbox-cdn "^5.1.4"
 
-"@nuxtjs/router@^1.6.0":
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/@nuxtjs/router/-/router-1.6.0.tgz#7d81b5ee26844a4423b2f16a98714e02621017de"
-  integrity sha512-HSuIDyL/2bO4zzEtqVNt0jxG4++7bIa1On5ILCgwZNp+0TPZhS+m4o3st6ai8avFLDllj34Ym+65/CLJ9TZRoA==
+"@nuxtjs/router@^1.6.1":
+  version "1.6.1"
+  resolved "https://registry.yarnpkg.com/@nuxtjs/router/-/router-1.6.1.tgz#a7ee7422e2fc3375d1726579a897179e1e4b2a72"
+  integrity sha512-kuOdXPELh5DXSWSpP6BI+bEDUG2DfX4D1TMxzHQ7hfrJVbbI10rwnsSD1G5jm/yQWXsQ552hA49RaPYuEqLKXg==
   dependencies:
     consola "^2.15.3"
     defu "^3.2.2"

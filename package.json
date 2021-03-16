@@ -51,7 +51,7 @@
     "@nuxtjs/composition-api": "^0.22.1",
     "@nuxtjs/eslint-config-typescript": "^6.0.0",
     "@nuxtjs/pwa": "^3.3.5",
-    "@nuxtjs/router": "^1.6.0",
+    "@nuxtjs/router": "^1.6.1",
     "@nuxtjs/style-resources": "^1.0.0",
     "@types/bcryptjs": "^2.4.2",
     "@types/jest": "^26.0.20",
