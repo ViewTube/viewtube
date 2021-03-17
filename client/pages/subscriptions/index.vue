@@ -182,18 +182,15 @@ export default defineComponent({
       });
       return orderedArray;
     };
-    const lastRefreshTime = computed((): string => {
-      const now = new Date();
-      now.setMinutes(Math.floor(now.getMinutes() / 30) * 30);
-      now.setSeconds(0);
-      return now.toLocaleString();
-    });
-    const nextRefreshTime = computed((): string => {
-      const now = new Date();
-      now.setMinutes(Math.ceil(now.getMinutes() / 30) * 30);
-      now.setSeconds(0);
-      return now.toLocaleString();
-    });
+    const lastRefreshTime = ref('');
+    const nextRefreshTime = ref('');
+    const now = new Date();
+    now.setMinutes(Math.floor(now.getMinutes() / 30) * 30);
+    now.setSeconds(0);
+    lastRefreshTime.value = now.toLocaleString();
+    now.setMinutes(Math.ceil(now.getMinutes() / 30) * 30);
+    now.setSeconds(0);
+    nextRefreshTime.value = now.toLocaleString();
 
     const closeSubscriptionImport = () => {
       subscriptionImportOpen.value = false;
@@ -256,7 +253,6 @@ export default defineComponent({
     };
 
     onMounted(() => {
-      console.log(vapidKey.value);
       if (vapidKey.value && 'serviceWorker' in navigator) {
         navigator.serviceWorker
           .getRegistrations()
