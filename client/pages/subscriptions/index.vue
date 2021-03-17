@@ -88,7 +88,6 @@ import SubscriptionIcon from 'vue-material-design-icons/YoutubeSubscription.vue'
 import ImportIcon from 'vue-material-design-icons/Import.vue';
 import Pagination from '@/components/pagination/Pagination.vue';
 import {
-  computed,
   defineComponent,
   onMounted,
   ref,
