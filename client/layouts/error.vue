@@ -43,6 +43,8 @@ export default defineComponent({
 
     const possibleSearch = ref(null);
 
+    const apiUrl = accessor.environment.apiUrl;
+
     const copyError = (): void => {
       if (process.browser && 'clipboard' in navigator) {
         navigator.clipboard.writeText(renderJSON(props.error.detail)).then(() => {
@@ -81,6 +83,7 @@ export default defineComponent({
 
     return {
       possibleSearch,
+      apiUrl,
       copyError,
       retry,
       renderJSON
