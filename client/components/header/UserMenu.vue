@@ -5,7 +5,7 @@
       id="login"
       v-ripple
       v-tippy="'Login'"
-      to="/login"
+      :to="`/login${currentPageRef('login')}`"
       class="tooltip nav-btn main"
       >Login</nuxt-link
     >
@@ -14,7 +14,7 @@
       id="register"
       v-ripple
       v-tippy="'Register'"
-      to="/register"
+      :to="`/register${currentPageRef('register')}`"
       class="tooltip nav-btn"
       >Register</nuxt-link
     >
@@ -54,7 +54,7 @@
             v-show="!userAuthenticated"
             id="login-btn"
             v-tippy="'Login'"
-            href="#"
+            :href="`/login${currentPageRef('login')}`"
             class="ripple tooltip menu-btn account-btn"
             @click.self.prevent="login"
           >
@@ -64,7 +64,7 @@
             v-show="!userAuthenticated"
             id="login-btn"
             v-tippy="'Register'"
-            href="#"
+            :href="`/register${currentPageRef('register')}`"
             class="ripple tooltip menu-btn account-btn"
             @click.self.prevent="register"
           >
@@ -172,6 +172,16 @@ export default defineComponent({
       return accessor.user.isLoggedIn;
     });
 
+    const currentPageRef = (exclude: string) => {
+      if (
+        !route.value.fullPath.match(new RegExp(`.?${exclude}.?`, 'gi')) &&
+        route.value.fullPath !== '/'
+      ) {
+        return `?ref=${route.value.fullPath}`;
+      }
+      return '';
+    };
+
     const openPopup = (popupName: string): void => {
       switch (popupName) {
         case 'instances':
@@ -215,11 +225,11 @@ export default defineComponent({
       hideAccountMenu();
     };
     const login = (): void => {
-      router.push('/login');
+      router.push(`/login${currentPageRef('login')}`);
       hideAccountMenu();
     };
     const register = (): void => {
-      router.push('/register');
+      router.push(`/register${currentPageRef('register')}`);
       hideAccountMenu();
     };
     const logout = (): void => {
@@ -242,6 +252,7 @@ export default defineComponent({
       aboutOpen,
       currentRouteName,
       userAuthenticated,
+      currentPageRef,
       hideAccountMenu,
       showAccountMenu,
       openAbout,

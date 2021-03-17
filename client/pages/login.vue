@@ -17,7 +17,7 @@
 import FormInput from '@/components/form/FormInput.vue';
 import SubmitButton from '@/components/form/SubmitButton.vue';
 import Spinner from '@/components/Spinner.vue';
-import { defineComponent, ref, useContext, useMeta, useRouter } from '@nuxtjs/composition-api';
+import { defineComponent, ref, useMeta, useRoute, useRouter } from '@nuxtjs/composition-api';
 import { useAccessor } from '~/store';
 
 export default defineComponent({
@@ -28,7 +28,7 @@ export default defineComponent({
     Spinner
   },
   setup() {
-    const { from } = useContext();
+    const route = useRoute();
     const accessor = useAccessor();
     const router = useRouter();
 
@@ -51,8 +51,7 @@ export default defineComponent({
           title: 'Login successful',
           message: 'Redirecting...'
         });
-        console.log(from);
-        router.push(from.value);
+        router.push(route.value.query.ref as string || '/');
       } else {
         loading.value = false;
         wiggleLoginForm();

@@ -38,8 +38,8 @@ import {
   computed,
   defineComponent,
   ref,
-  useContext,
   useMeta,
+  useRoute,
   useRouter,
   watch
 } from '@nuxtjs/composition-api';
@@ -53,7 +53,7 @@ export default defineComponent({
     Spinner
   },
   setup() {
-    const { from } = useContext();
+    const route = useRoute();
     const accessor = useAccessor();
     const router = useRouter();
 
@@ -79,29 +79,33 @@ export default defineComponent({
     });
 
     const register = async () => {
-      loading.value = true;
-
-      const user = await accessor.user.register({
-        username: username.value,
-        password: password.value,
-        captchaSolution: captchaSolution.value
-      });
-      if (user && user.username) {
-        accessor.messages.createMessage({
-          type: 'info',
-          title: 'Registration successful',
-          message: `Welcome, ${user.username}`
-        });
-        router.push(from.value);
-      } else {
-        accessor.messages.createMessage({
-          type: 'error',
-          title: 'Registration failed',
-          message: user ? user.error : ''
-        });
-        loading.value = false;
+      if (password.value !== repeatPassword.value) {
         wiggleRegisterForm();
-        accessor.captcha.getCaptcha();
+      } else {
+        loading.value = true;
+
+        const user = await accessor.user.register({
+          username: username.value,
+          password: password.value,
+          captchaSolution: captchaSolution.value
+        });
+        if (user && user.username) {
+          accessor.messages.createMessage({
+            type: 'info',
+            title: 'Registration successful',
+            message: `Welcome, ${user.username}`
+          });
+          router.push(route.value.query.ref as string || '/');
+        } else {
+          accessor.messages.createMessage({
+            type: 'error',
+            title: 'Registration failed',
+            message: user ? user.error : ''
+          });
+          loading.value = false;
+          wiggleRegisterForm();
+          accessor.captcha.getCaptcha();
+        }
       }
     };
     const wiggleRegisterForm = () => {
@@ -111,7 +115,7 @@ export default defineComponent({
       }, 600);
     };
     const checkRepeatPasswords = () => {
-      if (password !== repeatPassword) {
+      if (password.value !== repeatPassword.value) {
         statusMessage.value = 'passwords do not match';
       } else {
         statusMessage.value = '';
