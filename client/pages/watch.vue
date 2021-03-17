@@ -1,8 +1,15 @@
 <template>
   <div class="watch">
     <!-- <video v-if="!jsEnabled" controls :src="getHDUrl()" class="nojs-player" /> -->
-    <VideoPlayer :key="video.id" ref="videoplayerRef" :video="video" class="video-player-p" />
-    <div class="video-meta">
+    <Spinner v-if="$fetchState.pending" class="centered" />
+    <VideoPlayer
+      v-if="video"
+      :key="video.id"
+      ref="videoplayerRef"
+      :video="video"
+      class="video-player-p"
+    />
+    <div v-if="video" class="video-meta">
       <CollapsibleSection
         class="recommended-videos mobile"
         :label="'Recommended videos'"
@@ -172,7 +179,6 @@ import CollapsibleSection from '@/components/list/CollapsibleSection.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import ViewTubeApi from '@/plugins/services/viewTubeApi';
 import {
-  computed,
   defineComponent,
   onMounted,
   ref,
@@ -224,13 +230,13 @@ export default defineComponent({
     const shareOpen = ref(false);
     const videoplayerRef = ref(null);
 
-    const encodedUrl = computed(() => {
+    const encodedUrl = () => {
       if (process.browser) {
         return encodeURIComponent(window.location.href);
       } else {
         return '';
       }
-    });
+    };
 
     const openInstancePopup = () => {
       emit('open-popup', 'instances');
@@ -248,8 +254,8 @@ export default defineComponent({
       e.preventDefault();
     };
     const getHDUrl = () => {
-      if (video.formatStreams) {
-        const hdVideo = video.value.formatStreams.find(e => {
+      if (video.value.formatStreams) {
+        const hdVideo = video.value.formatStreams.find((e: { qualityLabel: string }) => {
           return e.qualityLabel && e.qualityLabel === '720p';
         });
         if (hdVideo) {
@@ -310,7 +316,7 @@ export default defineComponent({
         })
         .then((response: { data: any }) => {
           if (response) {
-            return { video: response.data };
+            video.value = response.data;
           } else {
             accessor.messages.createMessage({
               type: 'error',
@@ -345,11 +351,14 @@ export default defineComponent({
         });
     });
 
-    watch(route.value.query, newValue => {
-      const videoId = newValue.v as string;
-      loadComments(videoId);
-      accessor.miniplayer.setCurrentVideo(video);
-    });
+    watch(
+      () => route.value.query,
+      newValue => {
+        const videoId = newValue.v as string;
+        loadComments(videoId);
+        accessor.miniplayer.setCurrentVideo(video);
+      }
+    );
 
     onMounted(() => {
       if (process.browser) {
@@ -363,44 +372,47 @@ export default defineComponent({
     });
 
     useMeta(() => ({
-      title: `${video.value.title} :: ${video.value.author} :: ViewTube`,
-      meta: [
-        {
-          hid: 'description',
-          vmid: 'descriptionMeta',
-          name: 'description',
-          content: video.value.description.substring(0, 100)
-        },
-        {
-          hid: 'ogTitle',
-          property: 'og:title',
-          content: `${video.value.title} - ${video.value.author} - ViewTube`
-        },
-        {
-          hid: 'ogImage',
-          property: 'og:image',
-          itemprop: 'image',
-          content: video.value.videoThumbnails[2].url
-        },
-        {
-          hid: 'ogDescription',
-          property: 'og:description',
-          content: video.value.description.substring(0, 100)
-        },
-        {
-          property: 'og:video',
-          content:
-            video.value.formatStreams && video.value.formatStreams.length > 0
-              ? video.value.formatStreams[0].url
-              : '#'
-        }
-      ]
+      title: video.value ? `${video.value.title} :: ${video.value.author} :: ViewTube` : 'ViewTube',
+      meta: video.value
+        ? [
+            {
+              hid: 'description',
+              vmid: 'descriptionMeta',
+              name: 'description',
+              content: video.value.description.substring(0, 100)
+            },
+            {
+              hid: 'ogTitle',
+              property: 'og:title',
+              content: `${video.value.title} - ${video.value.author} - ViewTube`
+            },
+            {
+              hid: 'ogImage',
+              property: 'og:image',
+              itemprop: 'image',
+              content: video.value.videoThumbnails[2].url
+            },
+            {
+              hid: 'ogDescription',
+              property: 'og:description',
+              content: video.value.description.substring(0, 100)
+            },
+            {
+              property: 'og:video',
+              content:
+                video.value.formatStreams && video.value.formatStreams.length > 0
+                  ? video.value.formatStreams[0].url
+                  : '#'
+            }
+          ]
+        : []
     }));
 
     return {
       jsEnabled,
       video,
       comment,
+      videoplayerRef,
       commentsLoading,
       commentsError,
       commentsContinuationLink,
