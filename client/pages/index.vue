@@ -1,5 +1,6 @@
 <template>
   <div class="home">
+    <Spinner v-if="$fetchState.pending" class="centered" />
     <GradientBackground :color="'theme'" />
     <SectionTitle
       v-if="userAuthenticated && subscriptions && subscriptions.length > 0"
@@ -39,6 +40,7 @@
 
 <script lang="ts">
 import VideoEntry from '@/components/list/VideoEntry.vue';
+import Spinner from '@/components/Spinner.vue';
 import SectionTitle from '@/components/SectionTitle.vue';
 import GradientBackground from '@/components/GradientBackground.vue';
 import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
@@ -55,7 +57,8 @@ export default defineComponent({
     SectionTitle,
     GradientBackground,
     LoadMoreIcon,
-    BadgeButton
+    BadgeButton,
+    Spinner
   },
   setup() {
     const accessor = useAccessor();

@@ -1,5 +1,6 @@
 <template>
   <div>
+    <Spinner v-if="$fetchState.pending" class="centered" />
     <div v-if="channel" class="channel">
       <Banner
         v-if="channel && channel.authorBanners && channel.authorBanners.length > 0"
