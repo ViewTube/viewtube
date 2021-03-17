@@ -42,7 +42,7 @@
     </div>
     <div class="subscription-videos-container">
       <div
-        v-for="(videoSection, index) in orderedVideoSections"
+        v-for="(videoSection, index) in getOrderedVideoSections()"
         :key="index"
         class="subscription-section"
       >
@@ -57,7 +57,10 @@
         </div>
       </div>
     </div>
-    <div v-if="orderedVideoSections && orderedVideoSections.length > 0" class="feed-pagination">
+    <div
+      v-if="getOrderedVideoSections() && getOrderedVideoSections().length > 0"
+      class="feed-pagination"
+    >
       <Pagination :currentPage="currentPage" :pageCount="pageCount" />
     </div>
 
@@ -141,6 +144,8 @@ export default defineComponent({
           videos.value = response.data.videos;
           pageCount.value = Math.ceil(response.data.videoCount / 30);
           loading.value = false;
+          hasNoSubscriptions.value =
+            !getOrderedVideoSections() || getOrderedVideoSections().length <= 0;
         })
         .catch(_ => {
           accessor.messages.createMessage({
@@ -151,36 +156,32 @@ export default defineComponent({
         });
     });
 
-    const vapidKey = computed(() => accessor.environment.vapidKey);
-    const hasNoSubscriptions = computed((): boolean => {
-      return !orderedVideoSections.value || orderedVideoSections.value.length <= 0;
-    });
-    const orderedVideoSections = computed(
-      (): Array<any> => {
-        const orderedArray = [];
-        let i = 0;
-        videos.value.forEach(video => {
-          let sectionMessage = 'Older videos';
-          const now = new Date();
-          if (video.published > now.valueOf() - 604800000) {
-            sectionMessage = 'Last 7 days';
-          }
-          if (video.published > now.valueOf() - 172800000) {
-            sectionMessage = 'Yesterday';
-          }
-          if (video.published > now.valueOf() - 86400000) {
-            sectionMessage = 'Today';
-          }
-          const possibleIndex = orderedArray.findIndex(el => el.sectionMessage === sectionMessage);
-          if (possibleIndex !== -1) {
-            orderedArray[possibleIndex].videos.push(video);
-          } else {
-            orderedArray.push({ sectionMessage, videos: [video], id: i++ });
-          }
-        });
-        return orderedArray;
-      }
-    );
+    const vapidKey = ref(accessor.environment.vapidKey);
+    const hasNoSubscriptions = ref(true);
+    const getOrderedVideoSections = (): Array<any> => {
+      const orderedArray = [];
+      let i = 0;
+      videos.value.forEach(video => {
+        let sectionMessage = 'Older videos';
+        const now = new Date();
+        if (video.published > now.valueOf() - 604800000) {
+          sectionMessage = 'Last 7 days';
+        }
+        if (video.published > now.valueOf() - 172800000) {
+          sectionMessage = 'Yesterday';
+        }
+        if (video.published > now.valueOf() - 86400000) {
+          sectionMessage = 'Today';
+        }
+        const possibleIndex = orderedArray.findIndex(el => el.sectionMessage === sectionMessage);
+        if (possibleIndex !== -1) {
+          orderedArray[possibleIndex].videos.push(video);
+        } else {
+          orderedArray.push({ sectionMessage, videos: [video], id: i++ });
+        }
+      });
+      return orderedArray;
+    };
     const lastRefreshTime = computed((): string => {
       const now = new Date();
       now.setMinutes(Math.floor(now.getMinutes() / 30) * 30);
@@ -255,26 +256,33 @@ export default defineComponent({
     };
 
     onMounted(() => {
-      if ('serviceWorker' in navigator) {
+      console.log(vapidKey.value);
+      if (vapidKey.value && 'serviceWorker' in navigator) {
         navigator.serviceWorker
           .getRegistrations()
           .then(registrations => {
             const worker = registrations[0];
-            worker.pushManager
-              .permissionState({
-                userVisibleOnly: true,
-                applicationServerKey: vapidKey.value
-              })
-              .then(permissionState => {
-                if (permissionState === 'granted') {
-                  notificationsEnabled.value = true;
-                } else if (permissionState === 'denied') {
-                  notificationsEnabled.value = false;
-                  notificationsBtnDisabled.value = true;
-                }
-              });
+            if (worker) {
+              worker.pushManager
+                .permissionState({
+                  userVisibleOnly: true,
+                  applicationServerKey: vapidKey.value
+                })
+                .then(permissionState => {
+                  if (permissionState === 'granted') {
+                    notificationsEnabled.value = true;
+                  } else if (permissionState === 'denied') {
+                    notificationsEnabled.value = false;
+                    notificationsBtnDisabled.value = true;
+                  }
+                });
+            } else {
+              notificationsEnabled.value = false;
+              notificationsBtnDisabled.value = true;
+            }
           })
           .catch(err => {
+            console.log(err);
             accessor.messages.createMessage({
               type: 'error',
               title: 'Error loading notification worker',
@@ -328,7 +336,7 @@ export default defineComponent({
       currentPageTest,
       pageCount,
       hasNoSubscriptions,
-      orderedVideoSections,
+      getOrderedVideoSections,
       lastRefreshTime,
       nextRefreshTime,
       closeSubscriptionImport,
@@ -424,9 +432,6 @@ export default defineComponent({
     z-index: 10;
     margin: 20% 0 0 0;
     text-align: center;
-
-    p {
-    }
   }
 
   .subscription-videos-container {
