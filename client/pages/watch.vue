@@ -1,7 +1,7 @@
 <template>
   <div class="watch">
     <!-- <video v-if="!jsEnabled" controls :src="getHDUrl()" class="nojs-player" /> -->
-    <VideoPlayer :key="video.id" ref="videoplayer" :video="video" class="video-player-p" />
+    <VideoPlayer :key="video.id" ref="videoplayerRef" :video="video" class="video-player-p" />
     <div class="video-meta">
       <CollapsibleSection
         class="recommended-videos mobile"
@@ -170,10 +170,23 @@ import RecommendedVideos from '@/components/watch/RecommendedVideos.vue';
 import ShareOptions from '@/components/watch/ShareOptions.vue';
 import CollapsibleSection from '@/components/list/CollapsibleSection.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
-import Vue from 'vue';
 import ViewTubeApi from '@/plugins/services/viewTubeApi';
+import {
+  computed,
+  defineComponent,
+  onMounted,
+  ref,
+  useContext,
+  useFetch,
+  useMeta,
+  useRoute,
+  useRouter,
+  watch
+} from '@nuxtjs/composition-api';
+import { useAccessor } from '~/store';
+import { useAxios } from '~/plugins/axios';
 
-export default Vue.extend({
+export default defineComponent({
   name: 'Watch',
   components: {
     Spinner,
@@ -193,205 +206,216 @@ export default Vue.extend({
     CollapsibleSection,
     BadgeButton
   },
-  asyncData({ store, query, error }) {
-    const viewTubeApi = new ViewTubeApi(store.getters['environment/apiUrl']);
-    return viewTubeApi.api
-      .videos({
-        id: query.v
-      })
-      .then(response => {
-        if (response) {
-          return { video: response.data };
-        } else {
-          this.$store.dispatch('messages/createMessage', {
-            type: 'error',
-            title: 'Error loading video',
-            message: 'Loading video information failed. Click to try again.',
-            dismissDelay: 0,
-            clickAction: () => this.$fetch()
-          });
-        }
-      })
-      .catch((err: any) => {
-        let errorObj: any = {
-          message: 'Error loading video'
-        };
-        if (err) {
-          errorObj = {
-            requestConfig: err.config,
-            responseData: err.response ? err.response.data : null,
-            message: err.message
-          };
-        }
-        error({
-          statusCode: 500,
-          message:
-            errorObj.responseData &&
-            errorObj.responseData.message &&
-            typeof errorObj.responseData.message === 'string'
-              ? errorObj.responseData.message
-              : errorObj.message,
-          detail: errorObj
-        } as any);
-      });
-  },
-  data() {
-    return {
-      jsEnabled: false,
-      video: [],
-      comment: null,
-      commentsLoading: true,
-      commentsError: false,
-      commentsContinuationLink: null,
-      commentsContinuationLoading: false,
-      recommendedOpen: false,
-      shareOpen: false
-    };
-  },
-  head() {
-    return {
-      title: `${this.video.title} :: ${this.video.author} :: ViewTube`,
-      meta: [
-        {
-          hid: 'description',
-          vmid: 'descriptionMeta',
-          name: 'description',
-          content: this.video.description.substring(0, 100)
-        },
-        {
-          hid: 'ogTitle',
-          property: 'og:title',
-          content: `${this.video.title} - ${this.video.author} - ViewTube`
-        },
-        {
-          hid: 'ogImage',
-          property: 'og:image',
-          itemprop: 'image',
-          content: this.video.videoThumbnails[2].url
-        },
-        {
-          hid: 'ogDescription',
-          property: 'og:description',
-          content: this.video.description.substring(0, 100)
-        },
-        {
-          property: 'og:video',
-          content:
-            this.video.formatStreams && this.video.formatStreams.length > 0
-              ? this.video.formatStreams[0].url
-              : '#'
-        }
-      ]
-    };
-  },
-  computed: {
-    browser() {
-      return process.browser;
-    },
-    encodedUrl() {
+  setup(_, { emit }) {
+    const accessor = useAccessor();
+    const route = useRoute();
+    const router = useRouter();
+    const { error } = useContext();
+    const axios = useAxios();
+
+    const jsEnabled = ref(false);
+    const video = ref(null);
+    const comment = ref(null);
+    const commentsLoading = ref(true);
+    const commentsError = ref(false);
+    const commentsContinuationLink = ref(null);
+    const commentsContinuationLoading = ref(false);
+    const recommendedOpen = ref(false);
+    const shareOpen = ref(false);
+    const videoplayerRef = ref(null);
+
+    const encodedUrl = computed(() => {
       if (process.browser) {
         return encodeURIComponent(window.location.href);
       } else {
         return '';
       }
-    }
-  },
-  watchQuery(newQuery: any) {
-    const videoId = newQuery.v;
-    if (this) {
-      this.loadComments(videoId);
-      this.$store.commit('miniplayer/setCurrentVideo', this.video);
-    }
-    return true;
-  },
-  mounted() {
-    if (process.browser) {
-      this.jsEnabled = true;
-    }
-    if (window && window.innerWidth > 700) {
-      this.recommendedOpen = true;
-    }
-    this.loadComments();
-    this.$store.commit('miniplayer/setCurrentVideo', this.video);
-  },
-  methods: {
-    openInstancePopup() {
-      this.$nuxt.$emit('open-popup', 'instances');
-    },
-    reloadComments() {
-      this.commentsLoading = true;
-      this.commentsError = false;
-      this.loadComments();
-    },
-    setTimestamp(e: any, seconds: number) {
+    });
+
+    const openInstancePopup = () => {
+      emit('open-popup', 'instances');
+    };
+    const reloadComments = () => {
+      commentsLoading.value = true;
+      commentsError.value = false;
+      loadComments();
+    };
+    const setTimestamp = (e: any, seconds: number) => {
       const searchParams = new URLSearchParams(window.location.search);
       searchParams.set('t', `${seconds}s`);
-      this.$router.push(`${location.pathname}?${searchParams.toString()}`);
-      this.$refs.videoplayer.setVideoTime(seconds);
+      router.push(`${location.pathname}?${searchParams.toString()}`);
+      videoplayerRef.setVideoTime(seconds);
       e.preventDefault();
-    },
-    getHDUrl() {
-      if (this.video.formatStreams) {
-        const video = this.video.formatStreams.find(e => {
+    };
+    const getHDUrl = () => {
+      if (video.formatStreams) {
+        const hdVideo = video.value.formatStreams.find(e => {
           return e.qualityLabel && e.qualityLabel === '720p';
         });
-        if (video) {
-          return video.url;
-        } else if (this.video.formatStreams.length > 0) {
-          return this.video.formatStreams[0].url;
+        if (hdVideo) {
+          return hdVideo.url;
+        } else if (video.value.formatStreams.length > 0) {
+          return video.value.formatStreams[0].url;
         }
       }
       return '#';
-    },
-    loadComments(evtVideoId: string) {
-      const videoId = evtVideoId || this.$route.query.v;
-      fetch(`${this.$store.getters['instances/currentInstanceApiV1']}comments/${videoId}`, {
-        cache: 'force-cache',
-        method: 'GET'
-      })
-        .then(response => response.json())
-        .then(data => {
-          if (data.comments && data.comments.length > 0) {
-            this.comment = data;
-            this.commentsLoading = false;
-            this.commentsContinuationLink = data.continuation || null;
+    };
+    const loadComments = (evtVideoId: string = null) => {
+      const videoId = evtVideoId || route.value.query.v;
+      axios
+        .get(`${accessor.instances.currentInstanceApiV1}comments/${videoId}`)
+        .then(response => {
+          if (response.data.comments && response.data.comments.length > 0) {
+            comment.value = response.data;
+            commentsLoading.value = false;
+            commentsContinuationLink.value = response.data.continuation || null;
           } else {
-            this.commentsLoading = false;
-            this.commentsError = true;
-            this.comment = null;
+            commentsLoading.value = false;
+            commentsError.value = true;
+            comment.value = null;
           }
         })
         .catch(_ => {
-          this.commentsLoading = false;
-          this.commentsError = true;
-          this.comment = null;
+          commentsLoading.value = false;
+          commentsError.value = true;
+          comment.value = null;
         });
-    },
-    loadMoreComments() {
-      this.commentsContinuationLoading = true;
-      const videoId = this.$route.query.v;
-      fetch(
-        `${this.$store.getters['instances/currentInstanceApiV1']}comments/${videoId}?continuation=${this.commentsContinuationLink}`,
-        {
-          cache: 'force-cache',
-          method: 'GET'
-        }
-      )
-        .then(response => response.json())
-        .then(data => {
-          this.comment.comments = this.comment.comments.concat(data.comments);
-          this.commentsContinuationLoading = false;
-          this.commentsContinuationLink = data.continuation || null;
+    };
+    const loadMoreComments = () => {
+      commentsContinuationLoading.value = true;
+      const videoId = route.value.query.v;
+      axios
+        .get(
+          `${accessor.instances.currentInstanceApiV1}comments/${videoId}?continuation=${commentsContinuationLink}`
+        )
+        .then(response => {
+          comment.value.comments = comment.comments.concat(response.data.comments);
+          commentsContinuationLoading.value = false;
+          commentsContinuationLink.value = response.data.continuation || null;
         })
         .catch(_ => {
-          this.$store.dispatch('messages/createMessage', {
+          accessor.messages.createMessage({
             type: 'error',
             title: 'Error loading more comments',
             message: 'Loading comments failed. There may not be any more comments.'
           });
         });
-    }
-  }
+    };
+
+    const { fetch } = useFetch(() => {
+      const viewTubeApi = new ViewTubeApi(accessor.environment.apiUrl);
+      return viewTubeApi.api
+        .videos({
+          id: route.value.query.v
+        })
+        .then((response: { data: any }) => {
+          if (response) {
+            return { video: response.data };
+          } else {
+            accessor.messages.createMessage({
+              type: 'error',
+              title: 'Error loading video',
+              message: 'Loading video information failed. Click to try again.',
+              dismissDelay: 0,
+              clickAction: () => fetch()
+            });
+          }
+        })
+        .catch((err: any) => {
+          let errorObj: any = {
+            message: 'Error loading video'
+          };
+          if (err) {
+            errorObj = {
+              requestConfig: err.config,
+              responseData: err.response ? err.response.data : null,
+              message: err.message
+            };
+          }
+          error({
+            statusCode: 500,
+            message:
+              errorObj.responseData &&
+              errorObj.responseData.message &&
+              typeof errorObj.responseData.message === 'string'
+                ? errorObj.responseData.message
+                : errorObj.message,
+            detail: errorObj
+          } as any);
+        });
+    });
+
+    watch(route.value.query, newValue => {
+      const videoId = newValue.v as string;
+      loadComments(videoId);
+      accessor.miniplayer.setCurrentVideo(video);
+    });
+
+    onMounted(() => {
+      if (process.browser) {
+        jsEnabled.value = true;
+      }
+      if (window && window.innerWidth > 700) {
+        recommendedOpen.value = true;
+      }
+      loadComments();
+      accessor.miniplayer.setCurrentVideo(video);
+    });
+
+    useMeta(() => ({
+      title: `${video.value.title} :: ${video.value.author} :: ViewTube`,
+      meta: [
+        {
+          hid: 'description',
+          vmid: 'descriptionMeta',
+          name: 'description',
+          content: video.value.description.substring(0, 100)
+        },
+        {
+          hid: 'ogTitle',
+          property: 'og:title',
+          content: `${video.value.title} - ${video.value.author} - ViewTube`
+        },
+        {
+          hid: 'ogImage',
+          property: 'og:image',
+          itemprop: 'image',
+          content: video.value.videoThumbnails[2].url
+        },
+        {
+          hid: 'ogDescription',
+          property: 'og:description',
+          content: video.value.description.substring(0, 100)
+        },
+        {
+          property: 'og:video',
+          content:
+            video.value.formatStreams && video.value.formatStreams.length > 0
+              ? video.value.formatStreams[0].url
+              : '#'
+        }
+      ]
+    }));
+
+    return {
+      jsEnabled,
+      video,
+      comment,
+      commentsLoading,
+      commentsError,
+      commentsContinuationLink,
+      commentsContinuationLoading,
+      recommendedOpen,
+      shareOpen,
+      encodedUrl,
+      openInstancePopup,
+      reloadComments,
+      setTimestamp,
+      getHDUrl,
+      loadMoreComments
+    };
+  },
+  head: {}
 });
 </script>
 
