@@ -15,7 +15,7 @@
     "outDir": "./dist",
     "noEmit": false,
     "strict": false,
-    "noImplicitThis": false,
+    "noImplicitThis": true,
     "noImplicitAny": false,
     "strictBindCallApply": true,
     "strictNullChecks": false,
