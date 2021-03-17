@@ -1,12 +1,12 @@
 <template>
-  <details class="collapsible-section">
+  <details class="collapsible-section" :open="open">
     <summary v-ripple class="collapsible-summary">
       <div class="title">
         <h3 class="title-text">{{ label }}</h3>
       </div>
     </summary>
     <transition name="section-collapse">
-      <div v-show="open" class="section-container">
+      <div class="section-container">
         <slot />
       </div>
     </transition>
