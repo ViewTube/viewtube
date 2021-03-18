@@ -292,12 +292,12 @@ export const videoPlayerSetup = (props: any) => {
   };
 
   const onVideoPlaying = () => {
+    clearInterval(videoElement.positionSaveInterval);
     playerOverlay.thumbnailVisible = false;
     videoElement.playing = true;
-    videoElement.positionSaveInterval = setInterval(
-      () => saveVideoPosition(videoRef.value.currentTime),
-      5000
-    );
+    videoElement.positionSaveInterval = setInterval(() => {
+      saveVideoPosition(videoRef.value.currentTime);
+    }, 5000);
     if ('mediaSession' in navigator) {
       (navigator as any).mediaSession.playbackState = 'playing';
     }
@@ -597,7 +597,7 @@ export const videoPlayerSetup = (props: any) => {
   };
 
   const saveVideoPosition = (currentTime: number) => {
-    if (videoRef.value !== undefined) {
+    if (videoRef.value && accessor.settings.saveVideoHistory) {
       if (accessor.user.isLoggedIn) {
         const apiUrl = accessor.environment.apiUrl;
         axios

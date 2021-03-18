@@ -332,7 +332,7 @@ export default defineComponent({
           .then(async (response: { data: any }) => {
             if (response) {
               video.value = response.data;
-              if (accessor.user.isLoggedIn) {
+              if (accessor.user.isLoggedIn && accessor.settings.saveVideoHistory) {
                 const videoVisit = await axios
                   .get<{
                     videoId: string;

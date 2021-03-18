@@ -31,11 +31,15 @@
         </div>
       </div>
     </div>
-    <div v-if="profile && profile.videoHistory.length <= 0" class="no-history">
+    <div v-if="profile && !$accessor.settings.saveVideoHistory" class="no-history">
+      <RestartOffIcon />
+      <p>Video history is disabled. You can enable it in settings.</p>
+    </div>
+    <div v-if="profile && !hasHistory && $accessor.settings.saveVideoHistory" class="no-history">
       <HistoryIcon />
       <p>You haven't watched any videos yet. Once you have, your history will show up here.</p>
     </div>
-    <div v-if="profile && profile.videoHistory.length > 0" class="video-history">
+    <div v-if="profile && hasHistory" class="video-history">
       <SectionTitle :title="'History'" />
       <div v-for="(video, index) in profile.videoHistory" :key="index" class="history-entry">
         <nuxt-link :to="`/watch?v=${video.videoId}`" class="history-entry-thumbnail">
@@ -98,7 +102,7 @@
             />
             <BadgeButton
               :click="deleteAccount"
-              :disabled="!deleteAccountValid"
+              :disabled="profile && !deleteAccountValid"
               class="delete-account-btn"
               >Delete account</BadgeButton
             >
@@ -115,6 +119,7 @@ import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import FormInput from '@/components/form/FormInput.vue';
 import AccountCircleIcon from 'vue-material-design-icons/AccountCircle.vue';
 import HistoryIcon from 'vue-material-design-icons/History.vue';
+import RestartOffIcon from 'vue-material-design-icons/RestartOff.vue';
 import Confirmation from '@/components/popup/Confirmation.vue';
 import humanizeDuration from 'humanize-duration';
 import SectionTitle from '@/components/SectionTitle.vue';
@@ -135,6 +140,7 @@ export default defineComponent({
     Spinner,
     BadgeButton,
     AccountCircleIcon,
+    RestartOffIcon,
     Confirmation,
     SectionTitle,
     HistoryIcon,
@@ -149,7 +155,16 @@ export default defineComponent({
     const logoutPopup = ref(false);
     const deleteAccountPopup = ref(false);
     const repeatedUsername = ref('');
+    const originalUsername = ref('');
 
+    originalUsername.value = accessor.user.username;
+
+    const hasHistory = computed(() => {
+      if (profile.value && profile.value.videoHistory.length > 0) {
+        return true;
+      }
+      return false;
+    });
     const onLogoutPopup = () => {
       logoutPopup.value = true;
     };
@@ -177,7 +192,7 @@ export default defineComponent({
         });
     };
     const deleteAccountValid = computed(() => {
-      return repeatedUsername.value.length > 0 && repeatedUsername.value === accessor.user.username;
+      return repeatedUsername.value.length > 0 && repeatedUsername.value === originalUsername.value;
     });
     const logout = () => {
       accessor.user.logout();
@@ -216,7 +231,9 @@ export default defineComponent({
     });
 
     useMeta(() => ({
-      title: `${profile.value ? profile.value.username + ' :: ' : ''}Profile :: ViewTube`,
+      title: `${
+        profile && profile.value ? profile.value.username + ' :: ' : ''
+      }Profile :: ViewTube`,
       meta: [
         {
           hid: 'description',
@@ -248,6 +265,7 @@ export default defineComponent({
       onDeleteAccountClose,
       deleteAccount,
       deleteAccountValid,
+      hasHistory,
       logout,
       humanizeDateString,
       humanizeDuration,
