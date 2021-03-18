@@ -70,47 +70,6 @@
         </div>
       </div>
     </div>
-    <div v-if="profile && profile.videoHistory.length <= 0" class="no-history">
-      <p>You haven't watched any videos yet. Once you have, your history will show up here.</p>
-    </div>
-    <div v-if="profile && profile.videoHistory.length > 0" class="video-history">
-      <SectionTitle :title="'History'" />
-      <div v-for="(video, index) in profile.videoHistory" :key="index" class="history-entry">
-        <nuxt-link :to="`/watch?v=${video.videoId}`" class="history-entry-thumbnail">
-          <img
-            :src="video.videoDetails.videoThumbnails[3].url"
-            :alt="video.videoDetails.title"
-            class="history-entry-thumbnail-img"
-          />
-          <div class="history-entry-progress-bar">
-            <span
-              class="history-entry-progress-line"
-              :style="{ width: `${(video.progressSeconds / video.lengthSeconds) * 100}%` }"
-            />
-          </div>
-        </nuxt-link>
-        <div class="history-entry-content">
-          <div v-tippy="video.videoDetails.title" class="history-entry-title">
-            <nuxt-link :to="`/watch?v=${video.videoId}`">{{ video.videoDetails.title }}</nuxt-link>
-          </div>
-          <div v-tippy="video.videoDetails.author" class="history-entry-author">
-            <nuxt-link :to="`/channel/${video.videoDetails.authorId}`">
-              {{ video.videoDetails.author }}</nuxt-link
-            >
-          </div>
-          <div
-            v-tippy="Date(video.lastVisit).toLocaleString()"
-            class="history-entry-watched-date tooltip"
-          >
-            Last watched: {{ humanizeDateString(video.lastVisit) }} ago
-          </div>
-          <div class="history-entry-watch-progress">
-            Progress: {{ $formatting.getTimestampFromSeconds(video.progressSeconds) }} of
-            {{ $formatting.getTimestampFromSeconds(video.lengthSeconds) }}
-          </div>
-        </div>
-      </div>
-    </div>
     <portal to="popup">
       <transition name="popup">
         <Confirmation
@@ -134,8 +93,11 @@ import AccountCircleIcon from 'vue-material-design-icons/AccountCircle.vue';
 import Confirmation from '@/components/popup/Confirmation.vue';
 import humanizeDuration from 'humanize-duration';
 import SectionTitle from '@/components/SectionTitle.vue';
-import Vue from 'vue';
-export default Vue.extend({
+import { defineComponent, ref, useFetch, useMeta, useRouter } from '@nuxtjs/composition-api';
+import { useAccessor } from '~/store';
+import { useAxios } from '~/plugins/axios';
+
+export default defineComponent({
   name: 'Profile',
   components: {
     Spinner,
@@ -144,36 +106,58 @@ export default Vue.extend({
     Confirmation,
     SectionTitle
   },
-  data() {
-    return {
-      profile: null,
-      logoutPopup: false
+  setup(_) {
+    const accessor = useAccessor();
+    const axios = useAxios();
+    const router = useRouter();
+
+    const profile = ref(null);
+    const logoutPopup = ref(false);
+
+    const onLogoutPopup = () => {
+      logoutPopup.value = true;
     };
-  },
-  async fetch() {
-    if (this.$store.getters['user/isLoggedIn']) {
-      const apiUrl = this.$store.getters['environment/apiUrl'];
-      await this.$axios
-        .get(`${apiUrl}user/profile/details`)
-        .then((result: { data: any }) => {
-          if (result) {
-            this.profile = result.data;
-          }
-        })
-        .catch((_: any) => {
-          this.$store.dispatch('messages/createMessage', {
-            type: 'error',
-            title: 'Error loading profile',
-            message: 'Try logging out and in again'
+    const onLogoutPopupClose = () => {
+      logoutPopup.value = false;
+    };
+    const logout = () => {
+      accessor.user.logout();
+      router.push('/');
+    };
+    const humanizeSeconds = (seconds: number): string => {
+      return humanizeDuration(seconds * 1000);
+    };
+    const humanizeDateString = (dateString: string): string => {
+      const now = new Date();
+      const date = new Date(dateString);
+      const dateMs = now.valueOf() - date.valueOf();
+      return humanizeDuration(dateMs, { largest: 1 });
+    };
+
+    const { fetch } = useFetch(async () => {
+      if (accessor.user.isLoggedIn) {
+        const apiUrl = accessor.environment.apiUrl;
+        await axios
+          .get(`${apiUrl}user/profile/details`)
+          .then((result: { data: any }) => {
+            if (result) {
+              profile.value = result.data;
+            }
+          })
+          .catch((_: any) => {
+            accessor.messages.createMessage({
+              type: 'error',
+              title: 'Error loading profile',
+              message: 'Try logging out and in again'
+            });
           });
-        });
-    } else {
-      this.$nuxt.context.redirect('/login');
-    }
-  },
-  head() {
-    return {
-      title: `${this.profile ? this.profile.username + ' :: ' : ''}Profile :: ViewTube`,
+      } else {
+        router.push('/login');
+      }
+    });
+
+    useMeta(() => ({
+      title: `${profile.value ? profile.value.username + ' :: ' : ''}Profile :: ViewTube`,
       meta: [
         {
           hid: 'description',
@@ -192,29 +176,20 @@ export default Vue.extend({
           content: 'See your profile'
         }
       ]
+    }));
+
+    return {
+      profile,
+      logoutPopup,
+      onLogoutPopup,
+      onLogoutPopupClose,
+      logout,
+      humanizeDateString,
+      humanizeDuration,
+      humanizeSeconds
     };
   },
-  methods: {
-    onLogoutPopup() {
-      this.logoutPopup = true;
-    },
-    onLogoutPopupClose() {
-      this.logoutPopup = false;
-    },
-    logout() {
-      this.$store.dispatch('user/logout');
-      this.$router.push('/');
-    },
-    humanizeSeconds(seconds: number): string {
-      return humanizeDuration(seconds * 1000);
-    },
-    humanizeDateString(dateString: string): string {
-      const now = new Date();
-      const date = new Date(dateString);
-      const dateMs = now.valueOf() - date.valueOf();
-      return humanizeDuration(dateMs, { largest: 1 });
-    }
-  }
+  head: {}
 });
 </script>
 

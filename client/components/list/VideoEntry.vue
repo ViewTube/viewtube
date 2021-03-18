@@ -136,11 +136,11 @@
 <script lang="ts">
 import InfoIcon from 'vue-material-design-icons/Information.vue';
 import VerifiedIcon from 'vue-material-design-icons/CheckDecagram.vue';
-import { getSecondsFromTimestamp } from '@/plugins/shared';
+// import { getSecondsFromTimestamp } from '@/plugins/shared';
 import { computed, defineComponent, ref } from '@nuxtjs/composition-api';
 import { useImgProxy } from '~/plugins/proxy';
-import { useAccessor } from '~/store';
-import { useFormatting } from '~/plugins/formatting';
+// import { useAccessor } from '~/store';
+// import { useFormatting } from '~/plugins/formatting';
 
 export default defineComponent({
   name: 'VideoEntry',
@@ -154,8 +154,8 @@ export default defineComponent({
   },
   setup(props) {
     const imgProxy = useImgProxy();
-    const accessor = useAccessor();
-    const formatting = useFormatting();
+    // const accessor = useAccessor();
+    // const formatting = useFormatting();
 
     const apiUrl = ref('/');
     const videoThumbnailUrl = ref(null);
@@ -181,32 +181,32 @@ export default defineComponent({
       }
     }
     const videoProgressPercentage = computed((): number => {
-      const savedPosition = accessor.videoProgress.getSavedPositionForId(
-        props.video.videoId ? props.video.videoId : props.video.id
-      );
-      if (props.video.duration) {
-        const videoLength = props.video.lengthSeconds
-          ? props.video.lengthSeconds
-          : getSecondsFromTimestamp(props.video.duration);
-        return (savedPosition / videoLength) * 100;
-      }
+      // const savedPosition = accessor.videoProgress.getSavedPositionForId(
+      //   props.video.videoId ? props.video.videoId : props.video.id
+      // );
+      // if (props.video.duration) {
+      //   const videoLength = props.video.lengthSeconds
+      //     ? props.video.lengthSeconds
+      //     : getSecondsFromTimestamp(props.video.duration);
+      //   return (savedPosition / videoLength) * 100;
+      // }
       return 0;
     });
 
     const videoProgressTooltip = computed((): string => {
-      const savedPosition = accessor.videoProgress.getSavedPositionForId(
-        props.video.videoId ? props.video.videoId : props.video.id
-      );
-      if (savedPosition && props.video.duration) {
-        const timestampSeconds = getSecondsFromTimestamp(props.video.duration);
-        const watchTime = formatting.getTimestampFromSeconds(savedPosition);
-        const totalTime = formatting.getTimestampFromSeconds(
-          props.video.lengthSeconds ? props.video.lengthSeconds : timestampSeconds
-        );
-        if (videoProgressPercentage.value > 0) {
-          return `${watchTime} of ${totalTime}`;
-        }
-      }
+      // const savedPosition = accessor.videoProgress.getSavedPositionForId(
+      //   props.video.videoId ? props.video.videoId : props.video.id
+      // );
+      // if (savedPosition && props.video.duration) {
+      //   const timestampSeconds = getSecondsFromTimestamp(props.video.duration);
+      //   const watchTime = formatting.getTimestampFromSeconds(savedPosition);
+      //   const totalTime = formatting.getTimestampFromSeconds(
+      //     props.video.lengthSeconds ? props.video.lengthSeconds : timestampSeconds
+      //   );
+      //   if (videoProgressPercentage.value > 0) {
+      //     return `${watchTime} of ${totalTime}`;
+      //   }
+      // }
       return null;
     });
 

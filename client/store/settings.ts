@@ -187,13 +187,13 @@ export const getters = getterTree(state, {
   chapters: state => state.chapters,
   themeVariables: state => state.defaults.theme.find(el => state.theme === el.value),
   saveVideoHistory: state => state.saveVideoHistory,
-  sponsorblock: state => state.sponsorblock.enabled,
-  sponsorblock_sponsor: state => state.sponsorblock.sponsor,
-  sponsorblock_intro: state => state.sponsorblock.intro,
-  sponsorblock_outro: state => state.sponsorblock.outro,
-  sponsorblock_interaction: state => state.sponsorblock.interaction,
-  sponsorblock_selfpromo: state => state.sponsorblock.selfpromo,
-  sponsorblock_music_offtopic: state => state.sponsorblock.music_offtopic
+  sponsorblock: state => state.sponsorblock_enabled,
+  sponsorblock_sponsor: state => state.sponsorblock_sponsor,
+  sponsorblock_intro: state => state.sponsorblock_intro,
+  sponsorblock_outro: state => state.sponsorblock_outro,
+  sponsorblock_interaction: state => state.sponsorblock_interaction,
+  sponsorblock_selfpromo: state => state.sponsorblock_selfpromo,
+  sponsorblock_music_offtopic: state => state.sponsorblock_music_offtopic
 });
 
 export const mutations = mutationTree(state, {
@@ -202,9 +202,9 @@ export const mutations = mutationTree(state, {
       if (key === 'sponsorblock') {
         Object.entries(newSettings[key]).forEach(val => {
           if (val[0] === 'enabled') {
-            state.sponsorblock.enabled = val[1] as boolean;
+            state.sponsorblock_enabled = val[1] as boolean;
           } else {
-            this.app.$accessor.settings.setSponsorblockCategoryStatus({
+            (this as any).app.$accessor.settings.setSponsorblockCategoryStatus({
               category: val[0],
               status: val[1]
             });
@@ -227,15 +227,15 @@ export const mutations = mutationTree(state, {
     state.chapters = enabled;
   },
   setSponsorblock(state, enabled) {
-    state.sponsorblock.enabled = enabled;
+    state.sponsorblock_enabled = enabled;
   },
   setSaveVideoHistory(state, enabled) {
     state.saveVideoHistory = enabled;
   },
   setSponsorblockCategoryStatus(state, { category, status }) {
-    if (state.sponsorblock[category]) {
+    if (state[`sponsorblock_${category}`]) {
       if (status === 'skip' || status === 'ask' || status === 'none') {
-        state.sponsorblock[category] = status;
+        state[`sponsorblock_${category}`] = status;
       }
     }
   }

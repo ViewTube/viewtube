@@ -16,11 +16,13 @@ import { MediaMetadataHelper } from './mediaMetadata';
 import { calculateSeekPercentage, matchSeekProgressPercentage, seekbarFunctions } from './seekbar';
 import { parseChapters } from './chapters';
 import { useFormatting } from '~/plugins/formatting';
+import { useAxios } from '~/plugins/axios';
 
 export const videoPlayerSetup = (props: any) => {
   const store = useStore();
   const accessor = useAccessor();
   const formatting = useFormatting();
+  const axios = useAxios();
 
   const loading = ref(true);
   const fullscreen = ref(false);
@@ -598,9 +600,9 @@ export const videoPlayerSetup = (props: any) => {
 
   const saveVideoPosition = (currentTime: number) => {
     if (videoRef.value !== undefined) {
-      if (root.$store.getters['user/isLoggedIn']) {
-        const apiUrl = root.$store.getters['environment/apiUrl'];
-        root.$axios
+      if (accessor.user.isLoggedIn) {
+        const apiUrl = accessor.environment.apiUrl;
+        axios
           .post(`${apiUrl}user/history/${props.video.videoId}`, {
             progressSeconds: Math.floor(currentTime),
             lengthSeconds: Math.floor(videoRef.value.duration)
