@@ -10,7 +10,7 @@
     <form action="/results" method="get" class="search-form" @submit.prevent="onSearchFormSubmit">
       <input
         id="search"
-        ref="searchField"
+        ref="searchFieldRef"
         type="text"
         name="search"
         :value="localSearchValue"
@@ -32,7 +32,7 @@
     </a>
     <span class="search-line-bottom line" />
     <SearchAutoComplete
-      ref="autocomplete"
+      ref="autocompleteRef"
       :search-value="searchValue"
       @searchValueUpdate="onAutocompleteUpdate"
       @autocompleteEnter="onAutocompleteEnter"
@@ -43,9 +43,9 @@
 <script lang="ts">
 import SearchIcon from 'vue-material-design-icons/Magnify.vue';
 import SearchAutoComplete from '@/components/SearchAutoComplete.vue';
-import Vue from 'vue';
+import { defineComponent, ref, useRoute, useRouter, watch } from '@nuxtjs/composition-api';
 
-export default Vue.extend({
+export default defineComponent({
   name: 'MainSearchBox',
   components: {
     SearchIcon,
@@ -54,93 +54,113 @@ export default Vue.extend({
   props: {
     scrollTop: { type: Boolean, required: false }
   },
-  data: () => ({
-    searchFieldFocused: false,
-    localSearchValue: '',
-    searchValue: ''
-  }),
-  fetch() {
-    this.updateSearchValueFromUrl();
-  },
-  watch: {
-    $route() {
-      this.updateSearchValueFromUrl();
-    },
-    searchValue(newValue: string) {
-      this.localSearchValue = newValue;
-    }
-  },
-  mounted() {
-    this.updateSearchValueFromUrl();
-  },
-  methods: {
-    updateSearchValueFromUrl() {
-      if (this.$route.query.search_query) {
-        this.searchValue = this.$route.query.search_query;
+  setup() {
+    const route = useRoute();
+    const router = useRouter();
+
+    const searchFieldFocused = ref(false);
+    const localSearchValue = ref('');
+    const searchValue = ref('');
+    const autocompleteRef = ref(null);
+    const searchFieldRef = ref(null);
+
+    const updateSearchValueFromUrl = () => {
+      if (route.value.query.search_query) {
+        searchValue.value = route.value.query.search_query as string;
         if (process.server) {
-          this.localSearchValue = this.$route.query.search_query;
+          localSearchValue.value = route.value.query.search_query as string;
         }
       } else {
-        this.searchValue = '';
+        searchValue.value = '';
       }
-    },
-    onAutocompleteUpdate(value: string) {
-      this.searchValue = value;
-    },
-    onSearchFieldChange(e: any) {
-      this.searchValue = e.target.value;
-    },
-    onSearchFieldFocused() {
-      this.$refs.autocomplete.visible = true;
-      this.searchFieldFocused = true;
-    },
-    onSearchFieldBlur() {
-      this.$refs.autocomplete.visible = false;
-      this.searchFieldFocused = false;
-    },
-    onAutocompleteEnter() {
-      this.searchRedirect(this.searchValue);
-    },
-    onSearchFormSubmit() {
+    };
+
+    const onAutocompleteUpdate = (value: string) => {
+      searchValue.value = value;
+    };
+    const onSearchFieldChange = (e: any) => {
+      searchValue.value = e.target.value;
+    };
+    const onSearchFieldFocused = () => {
+      autocompleteRef.value.visible = true;
+      searchFieldFocused.value = true;
+    };
+    const onSearchFieldBlur = () => {
+      autocompleteRef.value.visible = false;
+      searchFieldFocused.value = false;
+    };
+    const onAutocompleteEnter = () => {
+      searchRedirect(searchValue.value);
+    };
+    const onSearchFormSubmit = () => {
       if (
-        this.searchValue &&
-        this.searchValue.length > 0 &&
-        this.localSearchValue &&
-        this.localSearchValue.length > 0
+        searchValue.value &&
+        searchValue.value.length > 0 &&
+        localSearchValue.value &&
+        localSearchValue.value.length > 0
       ) {
-        this.searchValue = this.localSearchValue;
-        this.searchRedirect(this.searchValue);
+        searchValue.value = localSearchValue.value;
+        searchRedirect(searchValue.value);
       }
-    },
-    onSearchFieldKeydown(e: any) {
-      const autocomplete = this.$refs.autocomplete;
+    };
+    const onSearchFieldKeydown = (e: any) => {
+      const autocomplete = autocompleteRef.value;
       if (e.key === 'ArrowDown') {
         if (autocomplete.selectedValue + 2 <= autocomplete.autocompleteValues.length) {
           autocomplete.selectedValue += 1;
         } else {
           autocomplete.selectedValue = 0;
         }
-        this.localSearchValue = autocomplete.autocompleteValues[autocomplete.selectedValue];
+        localSearchValue.value = autocomplete.autocompleteValues[autocomplete.selectedValue];
       } else if (e.key === 'ArrowUp') {
         if (autocomplete.selectedValue - 1 >= 0) {
           autocomplete.selectedValue -= 1;
         } else {
           autocomplete.selectedValue = autocomplete.autocompleteValues.length - 1;
         }
-        this.localSearchValue = autocomplete.autocompleteValues[autocomplete.selectedValue];
+        localSearchValue.value = autocomplete.autocompleteValues[autocomplete.selectedValue];
       }
       e.stopPropagation();
       return true;
-    },
-    onSearchButton() {
-      if (this.searchValue) {
-        this.searchRedirect(this.searchValue);
+    };
+    const onSearchButton = () => {
+      if (searchValue.value) {
+        searchRedirect(searchValue.value);
       }
-    },
-    searchRedirect(searchValue: string) {
-      this.$router.push(`/results?search_query=${searchValue}`);
-      this.$refs.searchField.blur();
-    }
+    };
+    const searchRedirect = (searchValue: string) => {
+      router.push(`/results?search_query=${searchValue}`);
+      searchFieldRef.blur();
+    };
+
+    watch(
+      () => route.value.query,
+      () => {
+        updateSearchValueFromUrl();
+      }
+    );
+
+    watch(searchValue, newValue => {
+      localSearchValue.value = newValue;
+    });
+
+    updateSearchValueFromUrl();
+
+    return {
+      searchFieldFocused,
+      localSearchValue,
+      searchValue,
+      autocompleteRef,
+      searchFieldRef,
+      onAutocompleteUpdate,
+      onSearchFieldChange,
+      onSearchFieldFocused,
+      onSearchFieldBlur,
+      onAutocompleteEnter,
+      onSearchFormSubmit,
+      onSearchFieldKeydown,
+      onSearchButton
+    };
   }
 });
 </script>

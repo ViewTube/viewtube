@@ -25,25 +25,33 @@
 import VueQrcode from '@chenfengyuan/vue-qrcode';
 import CloseIcon from 'vue-material-design-icons/Close.vue';
 import '@/assets/styles/popup.scss';
+import { defineComponent } from '@nuxtjs/composition-api';
+import { useAccessor } from '~/store';
 
-import Vue from 'vue';
-
-export default Vue.extend({
+export default defineComponent({
   name: 'QrPopUp',
   components: {
     VueQrcode,
     CloseIcon
   },
-  methods: {
-    url(): string {
+  setup() {
+    const accessor = useAccessor();
+
+    const url = (): string => {
       return process.browser ? window.location.href : '';
-    },
-    getThemePrimaryColor(): string {
-      return this.$store.getters['settings/themeVariables']['theme-color'];
-    },
-    getThemeBackgroundColor(): string {
-      return this.$store.getters['settings/themeVariables']['bgcolor-alt'];
-    }
+    };
+    const getThemePrimaryColor = (): string => {
+      return accessor.settings.themeVariables['theme-color'];
+    };
+    const getThemeBackgroundColor = (): string => {
+      return accessor.settings.themeVariables['bgcolor-alt'];
+    };
+
+    return {
+      url,
+      getThemePrimaryColor,
+      getThemeBackgroundColor
+    };
   }
 });
 </script>

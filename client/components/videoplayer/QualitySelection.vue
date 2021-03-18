@@ -48,10 +48,9 @@
 import SettingsIcon from 'vue-material-design-icons/Cog.vue';
 import HighDefinitionIcon from 'vue-material-design-icons/HighDefinition.vue';
 import MagicIcon from 'vue-material-design-icons/AutoFix.vue';
+import { computed, defineComponent, ref } from '@nuxtjs/composition-api';
 
-import Vue from 'vue';
-
-export default Vue.extend({
+export default defineComponent({
   name: 'QualitySelection',
   components: {
     SettingsIcon,
@@ -63,43 +62,63 @@ export default Vue.extend({
     formatStreams: Array,
     adaptiveFormats: { type: Array, required: false, default: null }
   },
-  data: () => ({
-    qualityUrl: null,
-    popup: false,
-    elementHeight: 0
-  }),
-  computed: {
-    maxAdaptiveQuality(): any {
-      return this.sortedAdaptiveQualities.slice().reverse()[0];
-    },
-    minAdaptiveQuality(): any {
-      return this.sortedAdaptiveQualities[0];
-    },
-    formatQualities(): any {
-      return this.formatStreams.filter(el => el.qualityLabel);
-    },
-    sortedAdaptiveQualities(): any {
-      return this.adaptiveVideos.slice().sort((a, b) => parseInt(a.bitrate) - parseInt(b.bitrate));
-    },
-    adaptiveVideos(): any {
-      return this.adaptiveFormats.filter(value => {
+  setup(props, { emit }) {
+    const qualityUrl = ref(null);
+    const popup = ref(false);
+    const elementHeight = ref(0);
+
+    const maxAdaptiveQuality = computed((): any => {
+      return sortedAdaptiveQualities.value.slice().reverse()[0];
+    });
+    const minAdaptiveQuality = computed((): any => {
+      return sortedAdaptiveQualities[0];
+    });
+    const formatQualities = computed((): any => {
+      return props.formatStreams.filter((el: any) => el.qualityLabel);
+    });
+    const sortedAdaptiveQualities = computed((): any => {
+      return adaptiveVideos.value
+        .slice()
+        .sort(
+          (a: { bitrate: string }, b: { bitrate: string }) =>
+            parseInt(a.bitrate) - parseInt(b.bitrate)
+        );
+    });
+    const adaptiveVideos = computed((): any => {
+      return props.adaptiveFormats.filter((value: any) => {
         if (value.type) {
           return value.type.match(/.*video.*/);
         }
         return false;
       });
-    }
-  },
-  methods: {
-    onQualityInteraction() {
-      this.popup = !this.popup;
-    },
-    onQualityMouseup() {},
-    onQualityTouchInteraction() {},
-    setFormatQuality(nr: number) {
-      this.$emit('qualityselect', nr);
-    },
-    setAutoQuality() {}
+    });
+
+    const onQualityInteraction = () => {
+      popup.value = !popup.value;
+    };
+
+    const onQualityMouseup = () => {};
+    const onQualityTouchInteraction = () => {};
+    const setFormatQuality = (nr: number) => {
+      emit('qualityselect', nr);
+    };
+    const setAutoQuality = () => {};
+
+    return {
+      qualityUrl,
+      popup,
+      elementHeight,
+      maxAdaptiveQuality,
+      minAdaptiveQuality,
+      formatQualities,
+      sortedAdaptiveQualities,
+      adaptiveVideos,
+      onQualityInteraction,
+      onQualityMouseup,
+      onQualityTouchInteraction,
+      setFormatQuality,
+      setAutoQuality
+    };
   }
 });
 </script>

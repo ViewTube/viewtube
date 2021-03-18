@@ -38,11 +38,9 @@
 
 <script lang="ts">
 import CloseIcon from 'vue-material-design-icons/Close.vue';
-// import Interact from 'interactjs'
+import { computed, defineComponent, reactive, ref } from '@nuxtjs/composition-api';
 
-import Vue from 'vue';
-
-export default Vue.extend({
+export default defineComponent({
   name: 'MessageBox',
   components: {
     CloseIcon
@@ -52,93 +50,59 @@ export default Vue.extend({
       type: Object
     }
   },
-  data: () => ({
-    dismissedRight: false,
-    dismissedLeft: false,
-    dismissTimeout: null,
-    isInteractAnimating: true,
-    interactPosition: {
+  setup(props) {
+    const dismissedRight = ref(false);
+    const dismissedLeft = ref(false);
+    const dismissTimeout = ref(null);
+    const isInteractAnimating = ref(true);
+    const interactPosition = reactive({
       x: 0,
       y: 0
-    },
-    interactXThreshold: 100,
-    swipeOpacity: 1
-  }),
-  computed: {
-    transformString(): string | void {
-      if (!this.isInteractAnimating) {
-        const { x, y } = this.interactPosition;
+    });
+    const swipeOpacity = ref(1);
+
+    const transformString = computed((): string | void => {
+      if (!isInteractAnimating.value) {
+        const { x, y } = interactPosition;
         return `translate3D(${x}px, ${y}px, 0)`;
       }
       return null;
-    }
-  },
-  mounted() {
-    if (this.message.dismissDelay > 0) {
-      this.dismissTimeout = setTimeout(this.dismissMessage, this.message.dismissDelay);
-    }
-    // const element = this.$refs.interactElement
-    // Interact(element).draggable({
-    //   onstart: () => {
-    //     this.isInteractAnimating = false
-    //   },
-    //   onmove: e => {
-    //     const x = this.interactPosition.x + e.dx
-    //     const opacity = 1 - Math.abs(this.interactPosition.x / 300)
-    //     this.interactSetPosition({ x }, opacity)
-    //   },
-    //   onend: () => {
-    //     const x = this.interactPosition.x
-    //     const iXThr = this.interactXThreshold
-    //     this.isInteractAnimating = true
+    });
 
-    //     if (x > iXThr) {
-    //       this.dismissMessage()
-    //     } else if (x < -iXThr) {
-    //       this.dismissMessageLeft()
-    //     } else {
-    //       this.resetCardPosition()
-    //     }
-    //   }
-    // })
-  },
-  methods: {
-    dismissMessage() {
-      this.dismissedRight = true;
-      this.swipeOpacity = 0;
+    const dismissMessage = () => {
+      dismissedRight.value = true;
+      swipeOpacity.value = 0;
       setTimeout(() => {
-        if (this.message && this.message.dismiss && typeof this.message.dismiss === 'function') {
-          this.message.dismiss();
+        if (props.message && props.message.dismiss && typeof props.message.dismiss === 'function') {
+          props.message.dismiss();
         }
       }, 600);
-    },
-    dismissMessageLeft() {
-      this.dismissedLeft = true;
-      this.swipeOpacity = 0;
-      setTimeout(() => {
-        if (this.message && this.message.dismiss && typeof this.message.dismiss === 'function') {
-          this.message.dismiss();
-        }
-      }, 600);
-    },
-    onMessageClick() {
-      if (this.dismissTimeout) {
-        clearTimeout(this.dismissTimeout);
-        this.dismissTimeout = null;
+    };
+    const onMessageClick = () => {
+      if (dismissTimeout.value) {
+        clearTimeout(dismissTimeout.value);
+        dismissTimeout.value = null;
       }
-      if (this.message.clickAction) {
-        this.message.clickAction();
-        this.dismissMessage();
+      if (props.message.clickAction) {
+        props.message.clickAction();
+        dismissMessage();
       }
-    },
-    interactSetPosition(coordinates, distance) {
-      const { x = 0, y = 0 } = coordinates;
-      this.interactPosition = { x, y };
-      this.swipeOpacity = distance;
-    },
-    resetCardPosition() {
-      this.interactSetPosition({ x: 0, y: 0 }, 1);
+    };
+
+    if (props.message.dismissDelay > 0) {
+      dismissTimeout.value = setTimeout(dismissMessage, props.message.dismissDelay);
     }
+
+    return {
+      dismissedRight,
+      dismissedLeft,
+      dismissTimeout,
+      isInteractAnimating,
+      swipeOpacity,
+      transformString,
+      dismissMessage,
+      onMessageClick
+    };
   }
 });
 </script>

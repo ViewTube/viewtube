@@ -1,5 +1,6 @@
 import { getAccessorType, actionTree } from 'nuxt-typed-vuex';
 import { Context } from '@nuxt/types';
+import { wrapProperty } from '@nuxtjs/composition-api';
 import * as captcha from '~/store/captcha';
 import * as environment from '~/store/environment';
 import * as instances from '~/store/instances';
@@ -52,3 +53,5 @@ export const accessorType = getAccessorType({
     videoProgress
   }
 });
+
+export const useAccessor = wrapProperty('$accessor', false);

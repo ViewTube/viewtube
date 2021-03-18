@@ -24,9 +24,9 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import { defineComponent } from '@nuxtjs/composition-api';
 
-export default Vue.extend({
+export default defineComponent({
   name: 'MultiOptionButton',
   props: {
     selectedValue: String,
@@ -46,15 +46,18 @@ export default Vue.extend({
       required: false
     }
   },
-  created() {
-    if (!this.options || new Set(this.options).size !== this.options.length) {
-      throw new Error(`MultiOptionButton with label "${this.label}" has duplicate options.`);
+  setup(props, { emit }) {
+    const onOptionSelect = option => {
+      emit('valuechange', option);
+    };
+
+    if (!props.options || new Set(props.options).size !== props.options.length) {
+      throw new Error(`MultiOptionButton with label "${props.label}" has duplicate options.`);
     }
-  },
-  methods: {
-    onOptionSelect(option) {
-      this.$emit('valuechange', option);
-    }
+
+    return {
+      onOptionSelect
+    };
   }
 });
 </script>

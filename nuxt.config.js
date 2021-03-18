@@ -1,10 +1,10 @@
 import Sass from 'sass';
+import { defineNuxtConfig } from '@nuxtjs/composition-api';
 const dartSass = {
   implementation: Sass
 };
 
-// eslint-disable-next-line nuxt/no-cjs-in-config
-module.exports = {
+export default defineNuxtConfig({
   srcDir: './client',
 
   env: {
@@ -80,7 +80,7 @@ module.exports = {
 
   css: ['~/assets/fonts/expletus.css', '~/assets/fonts/notosans.css'],
   styleResources: {
-    scss: ['~/assets/styles/global/*.scss']
+    scss: ['~/assets/styles/global/variables.scss', '~/assets/styles/global/styles.scss']
   },
 
   typescript: {
@@ -114,37 +114,37 @@ module.exports = {
       theme_color: '#272727',
       icons: [
         {
-          src: 'icon-192.png',
+          src: '/icon-192.png',
           sizes: '192x192',
           type: 'image/png',
           purpose: 'any'
         },
         {
-          src: 'icon-256.png',
+          src: '/icon-256.png',
           sizes: '256x256',
           type: 'image/png',
           purpose: 'any'
         },
         {
-          src: 'icon-512.png',
+          src: '/icon-512.png',
           sizes: '512x512',
           type: 'image/png',
           purpose: 'any'
         },
         {
-          src: 'icon-192-maskable.png',
+          src: '/icon-192-maskable.png',
           sizes: '192x192',
           type: 'image/png',
           purpose: 'maskable'
         },
         {
-          src: 'icon-256-maskable.png',
+          src: '/icon-256-maskable.png',
           sizes: '256x256',
           type: 'image/png',
           purpose: 'maskable'
         },
         {
-          src: 'icon-512-maskable.png',
+          src: '/icon-512-maskable.png',
           sizes: '512x512',
           type: 'image/png',
           purpose: 'maskable'
@@ -204,4 +204,4 @@ module.exports = {
       }
     }
   }
-};
+})

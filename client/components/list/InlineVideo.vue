@@ -34,10 +34,9 @@
 <script lang="ts">
 import PlayIcon from 'vue-material-design-icons/Play.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
+import { defineComponent, ref } from '@nuxtjs/composition-api';
 
-import Vue from 'vue';
-
-export default Vue.extend({
+export default defineComponent({
   name: 'InlineVideo',
   components: {
     PlayIcon,
@@ -46,31 +45,35 @@ export default Vue.extend({
   props: {
     video: Object
   },
-  data() {
-    return {
-      showIframe: false,
-      isSmall: true,
-      smallDescription: ''
+  setup(props) {
+    const showIframe = ref(false);
+    const isSmall = ref(true);
+    const smallDescription = ref('');
+
+    const onVideoClicked = () => {
+      showIframe.value = true;
     };
-  },
-  created() {
-    if (this.video.description.length > 300) {
-      let smallDescription = this.video.description.split('\n')[0];
-      if (smallDescription.length > 300) {
-        smallDescription = `${this.video.description.substr(0, 300)}...`;
+    const onShowFullDescription = () => {
+      isSmall.value = false;
+    };
+
+    if (props.video.description.length > 300) {
+      let smallerDescription = props.video.description.split('\n')[0];
+      if (smallerDescription.length > 300) {
+        smallerDescription = `${props.video.description.substr(0, 300)}...`;
       }
-      this.smallDescription = smallDescription;
+      smallDescription.value = smallerDescription;
     } else {
-      this.isSmall = false;
+      isSmall.value = false;
     }
-  },
-  methods: {
-    onVideoClicked() {
-      this.showIframe = true;
-    },
-    onShowFullDescription() {
-      this.isSmall = false;
-    }
+
+    return {
+      showIframe,
+      isSmall,
+      smallDescription,
+      onVideoClicked,
+      onShowFullDescription
+    };
   }
 });
 </script>

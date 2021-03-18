@@ -73,9 +73,16 @@ import ExternalIcon from 'vue-material-design-icons/OpenInNew.vue';
 import { commons } from '@/plugins/commons';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import InvidiousLicense from '@/components/licenses/Invidious.vue';
-import Vue from 'vue';
+import {
+  computed,
+  defineComponent,
+  onMounted,
+  ref
+} from '@nuxtjs/composition-api';
+import { useAccessor } from '~/store';
+import { useAxios } from '~/plugins/axios';
 
-export default Vue.extend({
+export default defineComponent({
   name: 'About',
   components: {
     CloseIcon,
@@ -84,27 +91,30 @@ export default Vue.extend({
     BadgeButton,
     InvidiousLicense
   },
-  data() {
-    return {
-      description: commons.description,
-      invidousStats: null,
-      currentInstance: this.$store.getters.currentInstance,
-      invidiousStatsError: null
-    };
-  },
-  mounted() {
-    const me = this;
-    fetch(`${this.$store.getters['environment/apiUrl']}stats`, {
-      cache: 'force-cache',
-      method: 'GET'
-    })
-      .then(response => response.json())
-      .then(data => {
-        me.invidousStats = data;
-      })
-      .catch(_ => {
-        this.invidiousStatsError = `Error loading invidious stats. The instance <span class="monospace">${this.$store.getters['instances/currentInstance']}</span> might be unavailable`;
-      });
+  setup() {
+    const accessor = useAccessor();
+    const axios = useAxios();
+
+    const description = ref('');
+    const invidousStats = ref(null);
+    const invidiousStatsError = ref(null);
+
+    const currentInstance = computed(() => accessor.instances.currentInstance);
+
+    onMounted(() => {
+      axios
+        .get(`${accessor.environment.apiUrl}stats`)
+        .then(response => {
+          invidousStats.value = response.data;
+        })
+        .catch(_ => {
+          invidiousStatsError.value = `Error loading invidious stats. The instance <span class="monospace">${currentInstance.value}</span> might be unavailable`;
+        });
+    });
+
+    description.value = commons.description;
+
+    return {};
   }
 });
 </script>

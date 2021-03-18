@@ -45,26 +45,28 @@
 </template>
 
 <script lang="ts">
+import { computed, defineComponent } from '@nuxtjs/composition-api';
 import 'tippy.js/dist/tippy.css';
+import { useImgProxy } from '~/plugins/proxy';
 
-import Vue from 'vue';
-
-export default Vue.extend({
+export default defineComponent({
   name: 'MixEntry',
   props: {
     mix: Object
   },
-  data() {
-    return {
-      imgProxyUrl: this.$store.getters['environment/imgProxyUrl']
-    };
-  },
-  computed: {
-    mixLink(): string {
+  setup(props) {
+    const imgProxy = useImgProxy();
+
+    const mixLink = computed((): string => {
       return `/watch?v=${
-        this.mix.firstVideoId ? this.mix.firstVideoId : this.mix.firstVideo.id
-      }&list=${this.mix.mixId ? this.mix.mixId : this.mix.mixID}&start_radio=1`;
-    }
+        props.mix.firstVideoId ? props.mix.firstVideoId : props.mix.firstVideo.id
+      }&list=${props.mix.mixId ? props.mix.mixId : props.mix.mixID}&start_radio=1`;
+    });
+
+    return {
+      imgProxyUrl: imgProxy.url,
+      mixLink
+    };
   }
 });
 </script>

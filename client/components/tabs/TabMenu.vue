@@ -30,9 +30,9 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import { defineComponent, ref, useRoute } from '@nuxtjs/composition-api';
 
-export default Vue.extend({
+export default defineComponent({
   name: 'TabMenu',
   props: {
     tabNames: {
@@ -40,23 +40,34 @@ export default Vue.extend({
       required: true
     }
   },
-  data: () => ({
-    selectedTab: 0,
-    tabUnderlineWidth: 0,
-    tabUnderlineLeft: 0
-  }),
-  mounted() {
-    if (this.$route.query.tab) {
-      this.selectedTab = this.tabNames.findIndex((_, id) => id === this.$route.query.tab);
-    }
-  },
-  methods: {
-    onTabSelected(tabId, e) {
-      this.tabUnderlineWidth = e.target.clientWidth;
-      this.tabUnderlineLeft = e.target.offsetLeft;
+  setup(props) {
+    const route = useRoute();
+    const selectedTab = ref(0);
+    const tabUnderlineWidth = ref(0);
+    const tabUnderlineLeft = ref(0);
 
-      this.selectedTab = tabId;
+    const onTabSelected = (
+      tabId: number,
+      e: { target: { clientWidth: number; offsetLeft: number } }
+    ) => {
+      tabUnderlineWidth.value = e.target.clientWidth;
+      tabUnderlineLeft.value = e.target.offsetLeft;
+
+      selectedTab.value = tabId;
+    };
+
+    if (route.value.query.tab) {
+      selectedTab.value = props.tabNames.findIndex(
+        (_, id) => id === (route.value.query.tab as any)
+      );
     }
+
+    return {
+      selectedTab,
+      tabUnderlineWidth,
+      tabUnderlineLeft,
+      onTabSelected
+    };
   }
 });
 </script>

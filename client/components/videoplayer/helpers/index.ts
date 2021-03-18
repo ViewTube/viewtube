@@ -4,17 +4,24 @@ import {
   ref,
   watch,
   onMounted,
-  onBeforeUnmount
+  onBeforeUnmount,
+  useStore
 } from '@nuxtjs/composition-api';
 import { commons } from '@/plugins/commons';
 import dashjs from 'dashjs';
 import { SponsorBlock } from '@/plugins/services/sponsorBlock';
 import { SponsorBlockSegmentsDto } from '@/plugins/shared';
+import { useAccessor } from '@/store';
 import { MediaMetadataHelper } from './mediaMetadata';
 import { calculateSeekPercentage, matchSeekProgressPercentage, seekbarFunctions } from './seekbar';
 import { parseChapters } from './chapters';
+import { useFormatting } from '~/plugins/formatting';
 
-export const videoPlayerSetup = ({ root, props }) => {
+export const videoPlayerSetup = (props: any) => {
+  const store = useStore();
+  const accessor = useAccessor();
+  const formatting = useFormatting();
+
   const loading = ref(true);
   const fullscreen = ref(false);
   const dashPlayer = ref(null);
@@ -102,14 +109,14 @@ export const videoPlayerSetup = ({ root, props }) => {
   });
   const chapters = ref(null);
 
-  if (root.$store.getters['settings/miniplayer']) {
+  if (store.getters['settings/miniplayer']) {
     chapters.value = parseChapters(props.video.description, videoLength.value);
   }
 
   const sponsorBlockSegments = ref<SponsorBlockSegmentsDto>(null);
   let sponsorBlock: SponsorBlock = null;
 
-  if (root.$store.getters['settings/sponsorblock']) {
+  if (store.getters['settings/sponsorblock']) {
     sponsorBlock = new SponsorBlock(props.video.videoId);
     sponsorBlock.getSkipSegments().then(value => {
       if (value) {
@@ -176,7 +183,7 @@ export const videoPlayerSetup = ({ root, props }) => {
     }
   };
 
-  const onWindowKeyDown = e => {
+  const onWindowKeyDown = (e: KeyboardEvent) => {
     if (videoRef.value) {
       if (e.key === ' ') {
         toggleVideoPlayback();
@@ -195,11 +202,11 @@ export const videoPlayerSetup = ({ root, props }) => {
     }
   };
 
-  const onLoadedMetadata = e => {
+  const onLoadedMetadata = (e: any) => {
     videoElement.aspectRatio = e.target.videoHeight / e.target.videoWidth;
 
     if (videoRef.value && videoElement.firstTimeBuffering) {
-      videoRef.value.currentTime = root.$accessor.videoProgress.getSavedPositionForId(
+      videoRef.value.currentTime = accessor.videoProgress.getSavedPositionForId(
         props.video.videoId
       );
       videoElement.firstTimeBuffering = false;
@@ -222,11 +229,10 @@ export const videoPlayerSetup = ({ root, props }) => {
         videoElement.progressPercentage = (videoRef.value.currentTime / videoLength.value) * 100;
         videoElement.progress = videoRef.value.currentTime;
 
-        if (root.$store.getters['settings/sponsorblock'] && sponsorBlock) {
+        if (store.getters['settings/sponsorblock'] && sponsorBlock) {
           const currentSegment = sponsorBlock.getCurrentSegment(videoRef.value.currentTime);
           if (currentSegment) {
-            const segmentOption =
-              root.$store.getters[`settings/sponsorblock_${currentSegment.category}`];
+            const segmentOption = store.getters[`settings/sponsorblock_${currentSegment.category}`];
             if (segmentOption && segmentOption === 'skip') {
               setVideoTime(currentSegment.segment[1]);
             } else if (segmentOption && segmentOption === 'ask') {
@@ -289,7 +295,7 @@ export const videoPlayerSetup = ({ root, props }) => {
     playerOverlay.thumbnailVisible = false;
     videoElement.playing = true;
     videoElement.positionSaveInterval = setInterval(
-      () => saveVideoPosition(videoRef.value.currentTime, root.$accessor.videoProgress),
+      () => saveVideoPosition(videoRef.value.currentTime, accessor.videoProgress),
       5000
     );
     if ('mediaSession' in navigator) {
@@ -299,7 +305,7 @@ export const videoPlayerSetup = ({ root, props }) => {
 
   const onVideoPaused = () => {
     videoElement.playing = false;
-    saveVideoPosition(videoRef.value.currentTime, root.$accessor.videoProgress);
+    saveVideoPosition(videoRef.value.currentTime, accessor.videoProgress);
     clearInterval(videoElement.positionSaveInterval);
     if ('mediaSession' in navigator) {
       (navigator as any).mediaSession.playbackState = 'paused';
@@ -320,7 +326,7 @@ export const videoPlayerSetup = ({ root, props }) => {
 
   const loadDashVideo = () => {
     if (videoRef.value) {
-      let url = `${root.$store.getters['instances/currentInstanceApi']}manifest/dash/id/${props.video.videoId}?local=true`;
+      let url = `${store.getters['instances/currentInstanceApi']}manifest/dash/id/${props.video.videoId}?local=true`;
       if (props.video.dashUrl) {
         url = `${props.video.dashUrl}?local=true`;
       }
@@ -442,7 +448,7 @@ export const videoPlayerSetup = ({ root, props }) => {
       if (seekbar.seeking && videoRef.value) {
         seekbar.seekPercentage = calculateSeekPercentage(e.pageX);
         seekbar.hoverPercentage = calculateSeekPercentage(e.pageX);
-        seekbar.hoverTime = root.$formatting.getTimestampFromSeconds(
+        seekbar.hoverTime = formatting.getTimestampFromSeconds(
           (videoRef.value.duration / 100) * seekbar.hoverPercentage
         );
         seekbar.hoverTimeStamp = (videoRef.value.duration / 100) * seekbar.hoverPercentage;
@@ -527,14 +533,14 @@ export const videoPlayerSetup = ({ root, props }) => {
       seekbar,
       videoRef,
       videoElement,
-      formatFn: root.$formatting.getTimestampFromSeconds
+      formatFn: formatting.getTimestampFromSeconds
     });
 
   const onSeekbarMouseMove = (e: any) =>
     seekbarFunctions.onSeekbarMouseMove(e, {
       seekbar,
       videoDuration: videoRef.value.duration,
-      formatFn: root.$formatting.getTimestampFromSeconds
+      formatFn: formatting.getTimestampFromSeconds
     });
 
   const onSeekbarTouchMove = (e: any) =>
@@ -542,7 +548,7 @@ export const videoPlayerSetup = ({ root, props }) => {
       playerOverlayVisible,
       seekbar,
       videoDuration: videoRef.value.duration,
-      formatFn: root.$formatting.getTimestampFromSeconds
+      formatFn: formatting.getTimestampFromSeconds
     });
 
   const onPlayerTouchMove = (e: any) => {
@@ -579,7 +585,7 @@ export const videoPlayerSetup = ({ root, props }) => {
   const onChangeQuality = (index: number) => {
     videoRef.value.pause();
     const currentTime = videoRef.value.currentTime;
-    saveVideoPosition(currentTime, root.$accessor.videoProgress);
+    saveVideoPosition(currentTime, accessor.videoProgress);
     videoRef.value.src = props.video.formatStreams[index].url;
     videoRef.value.currentTime = currentTime;
     videoRef.value.play();
@@ -677,7 +683,7 @@ export const videoPlayerSetup = ({ root, props }) => {
   });
 
   onBeforeUnmount(() => {
-    saveVideoPosition(videoRef.value.currentTime, root.$accessor.videoProgress);
+    saveVideoPosition(videoRef.value.currentTime, accessor.videoProgress);
     document.removeEventListener('keydown', onWindowKeyDown);
   });
   return {

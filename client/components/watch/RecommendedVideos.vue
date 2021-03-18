@@ -1,7 +1,12 @@
 <template>
   <div class="recommended-videos">
-    <div class="recommended-videos-container">
-      <VideoEntry v-for="video in recommendedVideosShort" :key="video.videoId" :video="video" />
+    <div v-if="recommendedVideosShort" class="recommended-videos-container">
+      <VideoEntry
+        v-for="video in recommendedVideosShort"
+        :key="video.videoId"
+        :video="video"
+        :lazy="true"
+      />
       <div class="show-more-container">
         <BadgeButton v-if="!videosExpanded" :click="expand">
           <LoadMoreIcon />
@@ -16,9 +21,9 @@
 import VideoEntry from '@/components/list/VideoEntry.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
-import Vue from 'vue';
+import { defineComponent, ref, watch } from '@nuxtjs/composition-api';
 
-export default Vue.extend({
+export default defineComponent({
   name: 'RecommendedVideos',
   components: {
     VideoEntry,
@@ -31,25 +36,31 @@ export default Vue.extend({
       type: Array
     }
   },
-  data: () => ({
-    recommendedVideosShort: null,
-    videosExpanded: false
-  }),
-  watch: {
-    recommendedVideos(newValue: any, oldValue: any) {
-      if (newValue !== oldValue) {
-        this.recommendedVideosShort = this.recommendedVideos.slice(0, 4);
+  setup(props) {
+    const recommendedVideosShort = ref(null);
+    const videosExpanded = ref(false);
+
+    recommendedVideosShort.value = props.recommendedVideos.slice(0, 4);
+
+    const expand = () => {
+      recommendedVideosShort.value = props.recommendedVideos;
+      videosExpanded.value = true;
+    };
+
+    watch(
+      () => props.recommendedVideos,
+      (newValue: any, oldValue: any) => {
+        if (newValue !== oldValue) {
+          recommendedVideosShort.value = props.recommendedVideos.slice(0, 4);
+        }
       }
-    }
-  },
-  mounted() {
-    this.recommendedVideosShort = this.recommendedVideos.slice(0, 4);
-  },
-  methods: {
-    expand() {
-      this.recommendedVideosShort = this.recommendedVideos;
-      this.videosExpanded = true;
-    }
+    );
+
+    return {
+      recommendedVideosShort,
+      videosExpanded,
+      expand
+    };
   }
 });
 </script>

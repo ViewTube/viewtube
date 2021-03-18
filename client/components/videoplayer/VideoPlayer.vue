@@ -322,8 +322,6 @@ import PlayIcon from 'vue-material-design-icons/Play.vue';
 import VideoPlayerAnimations from '@/components/videoplayer/VideoPlayerAnimations.vue';
 import FullscreenIcon from 'vue-material-design-icons/Fullscreen.vue';
 import FullscreenExitIcon from 'vue-material-design-icons/FullscreenExit.vue';
-// import ArrowExpandIcon from 'vue-material-design-icons/ArrowExpand.vue';
-// import ArrowCollapseIcon from 'vue-material-design-icons/ArrowCollapse';
 import OpenInPlayerIcon from 'vue-material-design-icons/OpenInNew.vue';
 import SkipButton from '@/components/buttons/SkipButton.vue';
 import CloseIcon from 'vue-material-design-icons/Close.vue';
@@ -343,8 +341,6 @@ export default defineComponent({
     PlayIcon,
     FullscreenIcon,
     FullscreenExitIcon,
-    // ArrowExpandIcon,
-    // ArrowCollapseIcon,
     OpenInPlayerIcon,
     CloseIcon,
     SkipButton,
@@ -363,7 +359,7 @@ export default defineComponent({
     mini: Boolean,
     autoplay: Boolean
   },
-  setup(props, { root }) {
+  setup(props) {
     const { error, route } = useContext();
 
     if (!props.video) {
@@ -376,7 +372,7 @@ export default defineComponent({
     }
 
     return {
-      ...videoPlayerSetup({ root, props })
+      ...videoPlayerSetup(props)
     };
   }
 });

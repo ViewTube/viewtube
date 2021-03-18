@@ -14,9 +14,9 @@
 
 <script lang="ts">
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
-import Vue from 'vue';
+import { defineComponent, ref } from '@nuxtjs/composition-api';
 
-export default Vue.extend({
+export default defineComponent({
   name: 'ChannelDescription',
   components: {
     BadgeButton
@@ -24,27 +24,29 @@ export default Vue.extend({
   props: {
     description: String
   },
-  data() {
-    return {
-      smallDescription: '',
-      isSmall: true
+  setup(props) {
+    const smallDescription = ref('');
+    const isSmall = ref(true);
+
+    const onShowFullDescription = (): void => {
+      isSmall.value = false;
     };
-  },
-  created() {
-    if (this.description.length > 300) {
-      let smallDescription = this.description.split('\n')[0];
-      if (smallDescription.length > 300) {
-        smallDescription = `${this.description.substr(0, 300)}...`;
+
+    if (props.description.length > 300) {
+      let smallDescriptionString = props.description.split('\n')[0];
+      if (smallDescriptionString.length > 300) {
+        smallDescriptionString = `${props.description.substr(0, 300)}...`;
       }
-      this.smallDescription = smallDescription;
+      smallDescription.value = smallDescriptionString;
     } else {
-      this.isSmall = false;
+      isSmall.value = false;
     }
-  },
-  methods: {
-    onShowFullDescription(): void {
-      this.isSmall = false;
-    }
+
+    return {
+      smallDescription,
+      isSmall,
+      onShowFullDescription
+    };
   }
 });
 </script>

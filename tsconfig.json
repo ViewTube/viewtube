@@ -15,6 +15,11 @@
     "outDir": "./dist",
     "noEmit": false,
     "strict": false,
+    "noImplicitThis": true,
+    "noImplicitAny": false,
+    "strictBindCallApply": true,
+    "strictNullChecks": false,
+    "strictFunctionTypes": false,
     "esModuleInterop": true,
     "moduleResolution": "node",
     "baseUrl": "./",
@@ -23,9 +28,8 @@
       "@/*": ["client/*"],
       "@shared/*": ["shared/*"]
     },
-    "typeRoots": ["./node_modules/@types"],
     "types": ["@types/node", "@nuxt/types", "@nuxtjs/axios", "@types/jest"]
   },
   "include": ["server/**/*", "client/**/*", "types/**/*", "shared/**/*"],
-  "exclude": ["server/**/*.spec.ts"]
+  "exclude": ["node_modules", "dist", "test", "**/*spec.ts"]
 }

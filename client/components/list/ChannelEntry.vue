@@ -53,30 +53,32 @@
 
 <script lang="ts">
 import VerifiedIcon from 'vue-material-design-icons/CheckDecagram.vue';
-import Vue from 'vue';
+import { defineComponent } from '@nuxtjs/composition-api';
+import { useImgProxy } from '~/plugins/proxy';
 
-export default Vue.extend({
+export default defineComponent({
   name: 'ChannelEntry',
   components: { VerifiedIcon },
   props: {
     channel: Object,
     horizontal: Boolean
   },
-  data() {
-    return {
-      imgProxyUrl: this.$store.getters['environment/imgProxyUrl']
-    };
-  },
-  mounted() {},
-  methods: {
-    channelNameToImgString(): string {
+  setup(props) {
+    const imgProxy = useImgProxy();
+
+    const channelNameToImgString = (): string => {
       let initials = '';
-      const channelName = this.channel.author ? this.channel.author : this.channel.name;
+      const channelName = props.channel.author ? props.channel.author : props.channel.name;
       channelName.split(' ').forEach((e: string) => {
         initials += e.charAt(0);
       });
       return initials;
-    }
+    };
+
+    return {
+      imgProxyUrl: imgProxy.url,
+      channelNameToImgString
+    };
   }
 });
 </script>

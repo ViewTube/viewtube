@@ -211,7 +211,7 @@ export const mutations = mutationTree(state, {
   setSponsorblock(state, enabled) {
     state.sponsorblock.enabled = enabled;
   },
-  setSponsorblockCategoryStatus(state, { category, status }) {
+  setSponsorblockCategoryStatus(state: any, { category, status }) {
     if (state.sponsorblock[category]) {
       if (status === 'skip' || status === 'ask' || status === 'none') {
         state.sponsorblock[category] = status;

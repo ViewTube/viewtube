@@ -137,8 +137,9 @@ import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import SubscriptionConverter from '@/plugins/services/subscriptionConverter';
 import Spinner from '@/components/Spinner.vue';
 import '@/assets/styles/popup.scss';
-
-import Vue from 'vue';
+import { computed, defineComponent, ref } from '@nuxtjs/composition-api';
+import { useAxios } from '@/plugins/axios';
+import { useAccessor } from '@/store/index';
 
 class ChannelDto {
   author: string;
@@ -146,7 +147,7 @@ class ChannelDto {
   selected?: boolean;
 }
 
-export default Vue.extend({
+export default defineComponent({
   name: 'SubscriptionsImport',
   components: {
     CloseIcon,
@@ -159,102 +160,127 @@ export default Vue.extend({
     Spinner,
     ExternalIcon
   },
-  data() {
-    return {
-      youtubeSubscriptionUrl: 'https://www.youtube.com/subscription_manager?action_takeout=1',
-      page2: false,
-      page3: false,
-      subscriptionsToImport: null,
-      loading: false,
-      importedSubscriptions: null
+  setup(_, { emit }) {
+    const axios = useAxios();
+    const accessor = useAccessor();
+
+    const youtubeSubscriptionUrl = ref(
+      'https://www.youtube.com/subscription_manager?action_takeout=1'
+    );
+    const page2 = ref(false);
+    const page3 = ref(false);
+    const subscriptionsToImport = ref(null);
+    const loading = ref(false);
+    const importedSubscriptions = ref(null);
+
+    const selectedChannels = computed(
+      (): Array<ChannelDto> => {
+        return subscriptionsToImport.value.filter((e: { selected: any }) => e.selected);
+      }
+    );
+    const anySelectedChannel = computed((): boolean => {
+      return !(selectedChannels.value.length > 0);
+    });
+
+    const successfulMergedImports = computed(
+      (): Array<ChannelDto> => {
+        if (importedSubscriptions.value && importedSubscriptions.value.successful) {
+          return importedSubscriptions.value.successful.map((el: { channelId: any }) => {
+            const authorObj = subscriptionsToImport.value.find(
+              (val: { authorId: any }) => val.authorId === el.channelId
+            );
+            return {
+              authorId: el.channelId,
+              author: authorObj ? authorObj.author : null
+            };
+          });
+        }
+        return [];
+      }
+    );
+
+    const existingMergedImports = computed(
+      (): Array<ChannelDto> => {
+        if (importedSubscriptions.value && importedSubscriptions.value.existing) {
+          return importedSubscriptions.value.existing.map(el => {
+            const authorObj = subscriptionsToImport.value.find(
+              val => val.authorId === el.channelId
+            );
+            return {
+              authorId: el.channelId,
+              author: authorObj ? authorObj.author : null
+            };
+          });
+        }
+        return [];
+      }
+    );
+
+    const failedMergedImports = computed(
+      (): Array<ChannelDto> => {
+        if (importedSubscriptions.value && importedSubscriptions.value.failed) {
+          return importedSubscriptions.value.failed.map((el: { channelId: any }) => {
+            const authorObj = subscriptionsToImport.value.find(
+              (val: { authorId: any }) => val.authorId === el.channelId
+            );
+            return {
+              authorId: el.channelId,
+              author: authorObj ? authorObj.author : null
+            };
+          });
+        }
+        return [];
+      }
+    );
+
+    const onTryClosePopup = () => {
+      if (!(page2.value || page2.value)) {
+        emit('close');
+      }
     };
-  },
-  computed: {
-    selectedChannels(): Array<ChannelDto> {
-      return this.subscriptionsToImport.filter(e => e.selected);
-    },
-    anySelectedChannel(): boolean {
-      return !(this.selectedChannels.length > 0);
-    },
-    successfulMergedImports(): Array<ChannelDto> {
-      if (this.importedSubscriptions && this.importedSubscriptions.successful) {
-        return this.importedSubscriptions.successful.map(el => {
-          const authorObj = this.subscriptionsToImport.find(val => val.authorId === el.channelId);
-          return {
-            authorId: el.channelId,
-            author: authorObj ? authorObj.author : null
-          };
-        });
-      }
-      return [];
-    },
-    existingMergedImports(): Array<ChannelDto> {
-      if (this.importedSubscriptions && this.importedSubscriptions.existing) {
-        return this.importedSubscriptions.existing.map(el => {
-          const authorObj = this.subscriptionsToImport.find(val => val.authorId === el.channelId);
-          return {
-            authorId: el.channelId,
-            author: authorObj ? authorObj.author : null
-          };
-        });
-      }
-      return [];
-    },
-    failedMergedImports(): Array<ChannelDto> {
-      if (this.importedSubscriptions && this.importedSubscriptions.failed) {
-        return this.importedSubscriptions.failed.map(el => {
-          const authorObj = this.subscriptionsToImport.find(val => val.authorId === el.channelId);
-          return {
-            authorId: el.channelId,
-            author: authorObj ? authorObj.author : null
-          };
-        });
-      }
-      return [];
-    }
-  },
-  methods: {
-    onTryClosePopup() {
-      if (!(this.page2 || this.page2)) {
-        this.$emit('close');
-      }
-    },
-    onYoutubeSubscriptionFileChange(e: any) {
+
+    const onYoutubeSubscriptionFileChange = (e: any) => {
       const fileReader: any = new FileReader();
       fileReader.onload = () => {
-        this.subscriptionsToImport = SubscriptionConverter.convertFromYoutubeOPMLToJson(
+        subscriptionsToImport.value = SubscriptionConverter.convertFromYoutubeOPMLToJson(
           fileReader.result
         )
-          .sort((a, b) => a.author.localeCompare(b.author))
+          .sort((a: { author: string }, b: { author: string }) => a.author.localeCompare(b.author))
           .map(({ author, authorId }) => ({
             author,
             authorId,
             selected: true
           }));
-        this.page2 = true;
+        page2.value = true;
       };
       fileReader.readAsText(e.target.files[0]);
-    },
-    channelCheckBoxChanged(newValue, channelId) {
-      this.subscriptionsToImport.find(e => e.authorId === channelId).selected = newValue;
-    },
-    selectAll() {
-      this.subscriptionsToImport.forEach(el => {
+    };
+
+    const channelCheckBoxChanged = (newValue: any, channelId: any) => {
+      subscriptionsToImport.value.find(
+        (e: { authorId: string }) => e.authorId === channelId
+      ).selected = newValue;
+    };
+
+    const selectAll = () => {
+      subscriptionsToImport.value.forEach((el: { selected: boolean }) => {
         el.selected = true;
       });
-    },
-    unselectAll() {
-      this.subscriptionsToImport.forEach(el => {
+    };
+
+    const unselectAll = () => {
+      subscriptionsToImport.value.forEach((el: { selected: boolean }) => {
         el.selected = false;
       });
-    },
-    importSelected() {
-      this.loading = true;
-      const subscriptions = this.selectedChannels;
+    };
+
+    const importSelected = () => {
+      loading.value = true;
+      const subscriptions = selectedChannels.value;
       const subscriptionIds = subscriptions.map(e => e.authorId);
-      this.$axios
+      axios
         .post(
-          `${this.$store.getters['environment/apiUrl']}user/subscriptions/multiple`,
+          `${accessor.environment.apiUrl}user/subscriptions/multiple`,
           {
             channels: subscriptionIds
           },
@@ -263,13 +289,33 @@ export default Vue.extend({
           }
         )
         .then(response => {
-          this.page2 = false;
-          this.page3 = true;
-          this.loading = false;
-          this.importedSubscriptions = response.data;
-          this.$emit('done');
+          page2.value = false;
+          page3.value = true;
+          loading.value = false;
+          importedSubscriptions.value = response.data;
+          emit('done');
         });
-    }
+    };
+
+    return {
+      youtubeSubscriptionUrl,
+      page2,
+      page3,
+      subscriptionsToImport,
+      loading,
+      importedSubscriptions,
+      selectedChannels,
+      anySelectedChannel,
+      successfulMergedImports,
+      existingMergedImports,
+      failedMergedImports,
+      onTryClosePopup,
+      onYoutubeSubscriptionFileChange,
+      channelCheckBoxChanged,
+      selectAll,
+      unselectAll,
+      importSelected
+    };
   }
 });
 </script>

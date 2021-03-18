@@ -5,22 +5,27 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import { defineComponent, ref, useFetch } from '@nuxtjs/composition-api';
+import { useAxios } from '@/plugins/axios';
 
-export default Vue.extend({
+export default defineComponent({
   name: 'InvidiousLicense',
-  data() {
+  setup() {
+    const axios = useAxios();
+    const licenseText = ref('');
+
+    useFetch(async () => {
+      await axios
+        .get('https://raw.githubusercontent.com/iv-org/invidious/master/LICENSE')
+        .then(response => {
+          licenseText.value = response.data;
+        })
+        .catch(_ => {});
+    });
+
     return {
-      licenseText: null
+      licenseText
     };
-  },
-  mounted() {
-    this.$axios
-      .get('https://raw.githubusercontent.com/iv-org/invidious/master/LICENSE')
-      .then(response => {
-        this.licenseText = response.data;
-      })
-      .catch(_ => {});
   }
 });
 </script>

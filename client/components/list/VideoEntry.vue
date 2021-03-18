@@ -137,11 +137,13 @@
 import 'tippy.js/dist/tippy.css';
 import InfoIcon from 'vue-material-design-icons/Information.vue';
 import VerifiedIcon from 'vue-material-design-icons/CheckDecagram.vue';
-
-import Vue from 'vue';
 import { getSecondsFromTimestamp } from '@/plugins/shared';
+import { computed, defineComponent, ref } from '@nuxtjs/composition-api';
+import { useImgProxy } from '~/plugins/proxy';
+import { useAccessor } from '~/store';
+import { useFormatting } from '~/plugins/formatting';
 
-export default Vue.extend({
+export default defineComponent({
   name: 'VideoEntry',
   components: {
     InfoIcon,
@@ -151,63 +153,67 @@ export default Vue.extend({
     video: Object,
     lazy: Boolean
   },
-  data() {
-    return {
-      imgProxyUrl: this.$store.getters['environment/imgProxyUrl'],
-      apiUrl: this.$store.getters['environment/apiUrl']
-    };
-  },
-  computed: {
-    videoThumbnailUrl(): string {
-      if (this.video.videoThumbnails) {
-        return this.video.videoThumbnails[3].url;
-      } else if (this.video.thumbnails) {
-        if (this.video.thumbnails[1]) {
-          return this.video.thumbnails[1].url;
-        } else {
-          return this.video.thumbnails[0].url;
-        }
+  setup(props) {
+    const imgProxy = useImgProxy();
+    const accessor = useAccessor();
+    const formatting = useFormatting();
+
+    const videoThumbnailUrl = ref(null);
+    if (props.video.videoThumbnails) {
+      videoThumbnailUrl.value = props.video.videoThumbnails[3].url;
+    } else if (props.video.thumbnails) {
+      if (props.video.thumbnails[1]) {
+        videoThumbnailUrl.value = props.video.thumbnails[1].url;
+      } else {
+        videoThumbnailUrl.value = props.video.thumbnails[0].url;
       }
-      return '';
-    },
-    videoThumbnailUrlXL() {
-      if (this.video.videoThumbnails) {
-        return this.video.videoThumbnails[2].url;
-      } else if (this.video.thumbnails) {
-        if (this.video.thumbnails[0]) {
-          return this.video.thumbnails[0].url;
-        }
+    }
+
+    const videoThumbnailUrlXL = ref('');
+    if (props.video.videoThumbnails) {
+      videoThumbnailUrlXL.value = props.video.videoThumbnails[2].url;
+    } else if (props.video.thumbnails) {
+      if (props.video.thumbnails[0]) {
+        videoThumbnailUrlXL.value = props.video.thumbnails[0].url;
       }
-      return '';
-    },
-    videoProgressPercentage(): number {
-      const savedPosition = this.$accessor.videoProgress.getSavedPositionForId(
-        this.video.videoId ? this.video.videoId : this.video.id
+    }
+    const videoProgressPercentage = computed((): number => {
+      const savedPosition = accessor.videoProgress.getSavedPositionForId(
+        props.video.videoId ? props.video.videoId : props.video.id
       );
-      if (this.video.duration) {
-        const videoLength = this.video.lengthSeconds
-          ? this.video.lengthSeconds
-          : getSecondsFromTimestamp(this.video.duration);
+      if (props.video.duration) {
+        const videoLength = props.video.lengthSeconds
+          ? props.video.lengthSeconds
+          : getSecondsFromTimestamp(props.video.duration);
         return (savedPosition / videoLength) * 100;
       }
       return 0;
-    },
-    videoProgressTooltip(): string {
-      const savedPosition = this.$accessor.videoProgress.getSavedPositionForId(
-        this.video.videoId ? this.video.videoId : this.video.id
+    });
+
+    const videoProgressTooltip = computed((): string => {
+      const savedPosition = accessor.videoProgress.getSavedPositionForId(
+        props.video.videoId ? props.video.videoId : props.video.id
       );
-      if (savedPosition && this.video.duration) {
-        const timestampSeconds = getSecondsFromTimestamp(this.video.duration);
-        const watchTime = this.$formatting.getTimestampFromSeconds(savedPosition);
-        const totalTime = this.$formatting.getTimestampFromSeconds(
-          this.video.lengthSeconds ? this.video.lengthSeconds : timestampSeconds
+      if (savedPosition && props.video.duration) {
+        const timestampSeconds = getSecondsFromTimestamp(props.video.duration);
+        const watchTime = formatting.getTimestampFromSeconds(savedPosition);
+        const totalTime = formatting.getTimestampFromSeconds(
+          props.video.lengthSeconds ? props.video.lengthSeconds : timestampSeconds
         );
-        if (this.videoProgressPercentage > 0) {
+        if (videoProgressPercentage.value > 0) {
           return `${watchTime} of ${totalTime}`;
         }
       }
       return null;
-    }
+    });
+
+    return {
+      imgProxyUrl: imgProxy.url,
+      videoThumbnailUrl,
+      videoThumbnailUrlXL,
+      videoProgressPercentage,
+      videoProgressTooltip
+    };
   }
 });
 </script>

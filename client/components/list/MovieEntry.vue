@@ -36,21 +36,19 @@
 </template>
 
 <script lang="ts">
+import { defineComponent } from '@nuxtjs/composition-api';
 import 'tippy.js/dist/tippy.css';
+import { useImgProxy } from '@/plugins/proxy';
 
-import Vue from 'vue';
-
-export default Vue.extend({
+export default defineComponent({
   name: 'MovieEntry',
   props: {
     data: Object
   },
-  data() {
-    return {
-      imgProxyUrl: this.$store.getters['environment/imgProxyUrl']
-    };
-  },
-  mounted() {}
+  setup() {
+    const imgProxy = useImgProxy();
+    return { imgProxyUrl: imgProxy.url };
+  }
 });
 </script>
 

@@ -12,9 +12,9 @@
 <script lang="ts">
 import ChevronRightIcon from 'vue-material-design-icons/ChevronRight.vue';
 import GradientBackground from '@/components/GradientBackground.vue';
-import Vue from 'vue';
+import { defineComponent } from '@nuxtjs/composition-api';
 
-export default Vue.extend({
+export default defineComponent({
   name: 'SectionTitle',
   components: {
     ChevronRightIcon,

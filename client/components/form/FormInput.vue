@@ -22,10 +22,9 @@
 import AccountIcon from 'vue-material-design-icons/AccountOutline.vue';
 import KeyIcon from 'vue-material-design-icons/KeyOutline.vue';
 import MailIcon from 'vue-material-design-icons/At.vue';
+import { computed, defineComponent, reactive } from '@nuxtjs/composition-api';
 
-import Vue from 'vue';
-
-export default Vue.extend({
+export default defineComponent({
   name: 'FormInput',
   components: {
     AccountIcon,
@@ -38,24 +37,28 @@ export default Vue.extend({
     label: String,
     id: String
   },
-  data: () => ({
-    autocompleteTags: {
+  setup(props) {
+    const autocompleteTags = reactive({
       email: 'email',
       username: 'username',
       password: 'current-password',
       all: 'on'
-    }
-  }),
-  computed: {
-    hasText(): boolean {
-      return this.value && this.value.length > 0;
-    },
-    autocompleteTag(): string {
-      const tagId = Object.keys(this.autocompleteTags).find(type => type === this.type);
+    });
+
+    const hasText = computed((): boolean => {
+      return props.value && props.value.length > 0;
+    });
+    const autocompleteTag = computed((): string => {
+      const tagId = Object.keys(autocompleteTags).find(type => type === props.type);
       const tag = tagId !== undefined ? tagId : 'all';
 
-      return this.autocompleteTags[tag];
-    }
+      return autocompleteTags[tag];
+    });
+
+    return {
+      hasText,
+      autocompleteTag
+    };
   }
 });
 </script>

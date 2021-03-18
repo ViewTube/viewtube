@@ -28,18 +28,23 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import { defineComponent, ref } from '@nuxtjs/composition-api';
+import { useAccessor } from '@/store';
 
-export default Vue.extend({
-  data() {
-    return {
-      theme: this.$store.getters['settings/themeVariables']
+export default defineComponent({
+  name: 'ThemeStyling',
+  setup() {
+    const accessor = useAccessor();
+    const theme = ref(accessor.settings.themeVariables);
+
+    const getTheme = (): any => {
+      return accessor.settings.themeVariables;
     };
-  },
-  methods: {
-    getTheme(): any {
-      return this.$store.getters['settings/themeVariables'];
-    }
+
+    return {
+      theme,
+      getTheme
+    };
   }
 });
 </script>

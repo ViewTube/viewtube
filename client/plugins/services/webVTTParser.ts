@@ -16,8 +16,8 @@ export class WebVTTParser {
       var lines = input.split(NEWLINE);
       var alreadyCollected = false;
       var cues = [];
-      var errors = [];
-      function err(message: string, col = undefined) {
+      var errors: Array<{ message: string; line: number; col: any }> = [];
+      function err(message: string, col: any = undefined) {
         errors.push({
           message: message,
           line: linePos + 1,

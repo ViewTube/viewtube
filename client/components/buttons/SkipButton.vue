@@ -12,31 +12,33 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import { defineComponent, ref } from '@nuxtjs/composition-api';
 
-export default Vue.extend({
+export default defineComponent({
   name: 'SkipButton',
   props: {
     clickFn: Function,
     visible: Boolean,
     category: String
   },
-  data() {
-    return {
-      animatingOut: false
-    };
-  },
-  methods: {
-    clickFunction(e: Event): void {
-      if (this.clickFn instanceof Function) {
+  setup(props) {
+    const animatingOut = ref(false);
+
+    const clickFunction = (e: Event): void => {
+      if (props.clickFn instanceof Function) {
         e.preventDefault();
-        this.clickFn();
-        this.animatingOut = true;
+        props.clickFn();
+        animatingOut.value = true;
         setTimeout(() => {
-          this.animatingOut = false;
+          animatingOut.value = false;
         }, 1000);
       }
-    }
+    };
+
+    return {
+      animatingOut,
+      clickFunction
+    };
   }
 });
 </script>

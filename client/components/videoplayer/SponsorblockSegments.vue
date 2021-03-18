@@ -14,8 +14,8 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-export default Vue.extend({
+import { defineComponent } from '@nuxtjs/composition-api';
+export default defineComponent({
   name: 'SponsorBlockSegments',
   props: {
     segments: {
@@ -23,8 +23,8 @@ export default Vue.extend({
       required: true
     }
   },
-  methods: {
-    getSegmentHexColor(segment: string): string {
+  setup() {
+    const getSegmentHexColor = (segment: string): string => {
       switch (segment) {
         case 'sponsor':
           return '#0fca15';
@@ -41,7 +41,11 @@ export default Vue.extend({
         default:
           return '#0fca15';
       }
-    }
+    };
+
+    return {
+      getSegmentHexColor
+    };
   }
 });
 </script>

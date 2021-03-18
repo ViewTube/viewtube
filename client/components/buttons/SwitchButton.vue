@@ -21,9 +21,9 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import { defineComponent } from '@nuxtjs/composition-api';
 
-export default Vue.extend({
+export default defineComponent({
   name: 'SwitchButton',
   props: {
     value: Boolean,
@@ -35,10 +35,14 @@ export default Vue.extend({
       required: false
     }
   },
-  methods: {
-    onChange(e: any): void {
-      this.$emit('valuechange', e.target.checked);
-    }
+  setup(_, { emit }) {
+    const onChange = (e: any): void => {
+      emit('valuechange', e.target.checked);
+    };
+
+    return {
+      onChange
+    };
   }
 });
 </script>

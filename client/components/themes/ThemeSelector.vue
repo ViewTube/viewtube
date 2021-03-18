@@ -54,27 +54,31 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import { defineComponent, ref } from '@nuxtjs/composition-api';
+import { useAccessor } from '@/store';
 
-export default Vue.extend({
-  data() {
-    return {
-      themes: this.$store.getters['settings/defaultThemes']
-    };
-  },
-  methods: {
-    onThemeChange(element) {
+export default defineComponent({
+  name: 'ThemeSelector',
+  setup() {
+    const accessor = useAccessor();
+    const themes = ref(accessor.settings.defaultThemes);
+
+    const onThemeChange = (element: { value: any }) => {
       document.body.classList.add('transition-all');
-      this.$store.commit('settings/setTheme', element.value);
+      accessor.settings.setTheme(element.value);
       setTimeout(() => {
         document.body.classList.remove('transition-all');
       }, 300);
-    },
-    getBorderThemeColor(theme): string {
-      return theme.value === this.$store.getters['settings/theme']
-        ? theme['theme-color']
-        : 'transparent';
-    }
+    };
+    const getBorderThemeColor = (theme: { [x: string]: string; value: string }): string => {
+      return theme.value === accessor.settings.theme ? theme['theme-color'] : 'transparent';
+    };
+
+    return {
+      themes,
+      onThemeChange,
+      getBorderThemeColor
+    };
   }
 });
 </script>

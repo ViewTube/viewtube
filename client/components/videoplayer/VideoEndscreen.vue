@@ -15,10 +15,11 @@
 
 <script lang="ts">
 import EndscreenCard from '@/components/videoplayer/EndscreenCard.vue';
+import { defineComponent, ref } from '@nuxtjs/composition-api';
 
-import Vue from 'vue';
+import { useAccessor } from '~/store';
 
-export default Vue.extend({
+export default defineComponent({
   name: 'VideoEndscreen',
   components: {
     EndscreenCard
@@ -28,35 +29,41 @@ export default Vue.extend({
     videoProgress: Number,
     videoElement: null
   },
-  data: () => ({
-    endscreenData: [],
-    hover: false
-  }),
-  mounted() {
-    fetch(
-      `${this.$store.getters['environment/apiUrl']}video/getEndscreen.php?videoId=${this.videoId}`,
-      {
+  setup(props) {
+    const accessor = useAccessor();
+    const endscreenData = ref([]);
+    const hover = ref(false);
+
+    const fetchEndscreenData = () => {
+      fetch(`${accessor.environment.apiUrl}video/getEndscreen.php?videoId=${props.videoId}`, {
         cache: 'force-cache',
         method: 'GET'
-      }
-    )
-      .then(response => {
-        if (response.ok) {
-          return response.json();
-        }
       })
-      .then(data => {
-        this.endscreenData = data;
-      })
-      .catch(_ => {});
-  },
-  methods: {
-    onCardEnter() {
-      this.hover = true;
-    },
-    onCardLeave() {
-      this.hover = false;
-    }
+        .then(response => {
+          if (response.ok) {
+            return response.json();
+          }
+        })
+        .then(data => {
+          endscreenData.value = data;
+        })
+        .catch(_ => {});
+    };
+
+    const onCardEnter = () => {
+      hover.value = true;
+    };
+    const onCardLeave = () => {
+      hover.value = false;
+    };
+
+    return {
+      endscreenData,
+      hover,
+      fetchEndscreenData,
+      onCardEnter,
+      onCardLeave
+    };
   }
 });
 </script>

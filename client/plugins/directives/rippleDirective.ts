@@ -106,7 +106,7 @@ const Ripple = {
     }
   },
 
-  rippleStart(e) {
+  rippleStart(e: any) {
     const rippleContainer = this.getRippleContainer(e.target);
     if (
       (rippleContainer.getAttribute('animating') === '0' ||
@@ -145,7 +145,7 @@ const Ripple = {
     }
   },
 
-  rippleEnd(e) {
+  rippleEnd(e: any) {
     const rippleContainer = this.getRippleContainer(e.target);
     if (rippleContainer.getAttribute('animating') === '1') {
       rippleContainer.setAttribute('animating', '2');
@@ -176,7 +176,7 @@ const Ripple = {
     }
   },
 
-  rippleRetrieve(e) {
+  rippleRetrieve(e: any) {
     const rippleContainer = this.getRippleContainer(e.target);
     if (rippleContainer.style.transform === 'translate(-50%, -50%) scale(0.15)') {
       rippleContainer.setAttribute('animating', '0');
@@ -191,7 +191,7 @@ const Ripple = {
     }
   },
   // returns the ripple div by scanning all children. If not found, return the argument
-  getRippleContainer(el) {
+  getRippleContainer(el: any) {
     const children = el.childNodes;
     for (let i = 0; i < children.length; i++) {
       try {

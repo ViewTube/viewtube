@@ -42,17 +42,25 @@
     </div>
     <div class="subscription-videos-container">
       <div
-        v-for="(videoSection, index) in orderedVideoSections"
+        v-for="(videoSection, index) in getOrderedVideoSections()"
         :key="index"
         class="subscription-section"
       >
         <SectionTitle :title="videoSection.sectionMessage" />
         <div class="section-videos-container">
-          <VideoEntry v-for="video in videoSection.videos" :key="video.videoId" :video="video" />
+          <VideoEntry
+            v-for="video in videoSection.videos"
+            :key="video.videoId"
+            :video="video"
+            :lazy="false"
+          />
         </div>
       </div>
     </div>
-    <div v-if="orderedVideoSections && orderedVideoSections.length > 0" class="feed-pagination">
+    <div
+      v-if="getOrderedVideoSections() && getOrderedVideoSections().length > 0"
+      class="feed-pagination"
+    >
       <Pagination :currentPage="currentPage" :pageCount="pageCount" />
     </div>
 
@@ -79,9 +87,19 @@ import EditIcon from 'vue-material-design-icons/PencilBoxMultipleOutline.vue';
 import SubscriptionIcon from 'vue-material-design-icons/YoutubeSubscription.vue';
 import ImportIcon from 'vue-material-design-icons/Import.vue';
 import Pagination from '@/components/pagination/Pagination.vue';
-import Vue from 'vue';
+import {
+  defineComponent,
+  onMounted,
+  ref,
+  useFetch,
+  useMeta,
+  useRoute,
+  watch
+} from '@nuxtjs/composition-api';
+import { useAccessor } from '~/store';
+import { useAxios } from '~/plugins/axios';
 
-export default Vue.extend({
+export default defineComponent({
   name: 'Home',
   components: {
     VideoEntry,
@@ -95,77 +113,54 @@ export default Vue.extend({
     Pagination,
     SubscriptionIcon
   },
-  data: () => ({
-    videos: [],
-    loading: true,
-    notificationsEnabled: false,
-    notificationsBtnDisabled: false,
-    notificationsSupported: true,
-    subscriptionImportOpen: false,
-    vapidKey: null,
-    currentPage: 1,
-    currentPageTest: 1,
-    pageCount: 1,
-    pageCountTest: 1
-  }),
-  async fetch() {
-    if (process.browser) {
-      // window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-    const apiUrl = this.$store.getters['environment/apiUrl'];
-    const limit = 20;
-    if (this.$route.query && this.$route.query.page) {
-      this.currentPage = parseInt(this.$route.query.page);
-    }
-    const start = (this.currentPage - 1) * 30;
-    await this.$axios
-      .get(`${apiUrl}user/subscriptions/videos?limit=${limit}&start=${start}`, {
-        withCredentials: true
-      })
-      .then(response => {
-        this.videos = response.data.videos;
-        this.pageCount = Math.ceil(response.data.videoCount / 30);
-        this.loading = false;
-      })
-      .catch(_ => {
-        this.$store.dispatch('messages/createMessage', {
-          type: 'error',
-          title: 'Error loading subscription feed',
-          message: 'Error loading subscription feed'
+  setup() {
+    const accessor = useAccessor();
+    const route = useRoute();
+    const axios = useAxios();
+
+    const videos = ref([]);
+    const loading = ref(true);
+    const notificationsEnabled = ref(false);
+    const notificationsBtnDisabled = ref(false);
+    const notificationsSupported = ref(true);
+    const subscriptionImportOpen = ref(false);
+    const currentPage = ref(1);
+    const currentPageTest = ref(1);
+    const pageCount = ref(1);
+
+    const { fetch } = useFetch(async () => {
+      const apiUrl = accessor.environment.apiUrl;
+      const limit = 20;
+      if (route.value.query && route.value.query.page) {
+        currentPage.value = parseInt(route.value.query.page.toString());
+      }
+      const start = (currentPage.value - 1) * 30;
+      await axios
+        .get(`${apiUrl}user/subscriptions/videos?limit=${limit}&start=${start}`, {
+          withCredentials: true
+        })
+        .then((response: { data: { videos: Array<any>; videoCount: number } }) => {
+          videos.value = response.data.videos;
+          pageCount.value = Math.ceil(response.data.videoCount / 30);
+          loading.value = false;
+          hasNoSubscriptions.value =
+            !getOrderedVideoSections() || getOrderedVideoSections().length <= 0;
+        })
+        .catch(_ => {
+          accessor.messages.createMessage({
+            type: 'error',
+            title: 'Error loading subscription feed',
+            message: 'Error loading subscription feed'
+          });
         });
-      });
-  },
-  head() {
-    return {
-      title: `Subscriptions :: ViewTube`,
-      meta: [
-        {
-          hid: 'description',
-          vmid: 'descriptionMeta',
-          name: 'description',
-          content: 'See your subscription feed'
-        },
-        {
-          hid: 'ogTitle',
-          property: 'og:title',
-          content: 'Subscriptions - ViewTube'
-        },
-        {
-          hid: 'ogDescription',
-          property: 'og:description',
-          content: 'See your subscription feed'
-        }
-      ]
-    };
-  },
-  computed: {
-    hasNoSubscriptions(): boolean {
-      return !this.orderedVideoSections || this.orderedVideoSections.length <= 0;
-    },
-    orderedVideoSections(): Array<any> {
+    });
+
+    const vapidKey = ref(accessor.environment.vapidKey);
+    const hasNoSubscriptions = ref(true);
+    const getOrderedVideoSections = (): Array<any> => {
       const orderedArray = [];
       let i = 0;
-      this.videos.forEach(video => {
+      videos.value.forEach(video => {
         let sectionMessage = 'Older videos';
         const now = new Date();
         if (video.published > now.valueOf() - 604800000) {
@@ -185,65 +180,24 @@ export default Vue.extend({
         }
       });
       return orderedArray;
-    },
-    lastRefreshTime(): string {
-      const now = new Date();
-      now.setMinutes(Math.floor(now.getMinutes() / 30) * 30);
-      now.setSeconds(0);
-      return now.toLocaleString();
-    },
-    nextRefreshTime(): string {
-      const now = new Date();
-      now.setMinutes(Math.ceil(now.getMinutes() / 30) * 30);
-      now.setSeconds(0);
-      return now.toLocaleString();
-    }
-  },
-  watch: {
-    '$route.query': '$fetch'
-  },
-  mounted() {
-    this.vapidKey = this.$store.getters['environment/vapidKey'];
+    };
+    const lastRefreshTime = ref('');
+    const nextRefreshTime = ref('');
+    const now = new Date();
+    now.setMinutes(Math.floor(now.getMinutes() / 30) * 30);
+    now.setSeconds(0);
+    lastRefreshTime.value = now.toLocaleString();
+    now.setMinutes(Math.ceil(now.getMinutes() / 30) * 30);
+    now.setSeconds(0);
+    nextRefreshTime.value = now.toLocaleString();
 
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker
-        .getRegistrations()
-        .then(registrations => {
-          const worker = registrations[0];
-          worker.pushManager
-            .permissionState({
-              userVisibleOnly: true,
-              applicationServerKey: this.vapidKey
-            })
-            .then(permissionState => {
-              if (permissionState === 'granted') {
-                this.notificationsEnabled = true;
-              } else if (permissionState === 'denied') {
-                this.notificationsEnabled = false;
-                this.notificationsBtnDisabled = true;
-              }
-            });
-        })
-        .catch(err => {
-          this.$store.dispatch('messages/createMessage', {
-            type: 'error',
-            title: 'Error loading notification worker',
-            message: err.message
-          });
-        });
-    } else {
-      this.notificationsSupported = false;
-      this.notificationsBtnDisabled = true;
-    }
-  },
-  methods: {
-    closeSubscriptionImport() {
-      this.subscriptionImportOpen = false;
-    },
-    onSubscriptionImportDone() {
-      this.$fetch();
-    },
-    subscribeToNotifications(val) {
+    const closeSubscriptionImport = () => {
+      subscriptionImportOpen.value = false;
+    };
+    const onSubscriptionImportDone = () => {
+      fetch();
+    };
+    const subscribeToNotifications = val => {
       if ('serviceWorker' in navigator) {
         navigator.serviceWorker.getRegistrations().then(registrations => {
           const worker = registrations[0];
@@ -252,51 +206,141 @@ export default Vue.extend({
             worker.pushManager
               .subscribe({
                 userVisibleOnly: true,
-                applicationServerKey: this.vapidKey
+                applicationServerKey: vapidKey.value
               })
               .then(subscription => {
-                this.$axios
+                axios
                   .post(
-                    `${this.$store.getters['environment/apiUrl']}user/notifications/subscribe`,
+                    `${accessor.environment.apiUrl}user/notifications/subscribe`,
                     subscription,
                     {
                       withCredentials: true
                     }
                   )
                   .then(() => {
-                    this.notificationsEnabled = true;
+                    notificationsEnabled.value = true;
                   });
               })
               .catch(err => {
-                this.notificationsEnabled = false;
-                this.notificationsBtnDisabled = true;
-                this.$store.dispatch('messages/createMessage', {
+                notificationsEnabled.value = false;
+                notificationsBtnDisabled.value = true;
+                accessor.messages.createMessage({
                   type: 'error',
                   title: 'Error subscribing to notifications',
                   message: err.message
                 });
               });
           } else {
-            worker.pushManager.getSubscription().then(subscription => {
+            worker.pushManager.getSubscription().then((subscription: PushSubscription) => {
               if (subscription) {
                 subscription.unsubscribe();
               }
-              this.notificationsEnabled = false;
+              notificationsEnabled.value = false;
             });
           }
         });
       }
-    },
-    getNotificationStatus() {
-      if (this.notificationsBtnDisabled && this.notificationsEnabled) {
+    };
+    const getNotificationStatus = () => {
+      if (notificationsBtnDisabled.value && notificationsEnabled.value) {
         return 'Notifications are enabled';
-      } else if (this.notificationsSupported) {
+      } else if (notificationsSupported.value) {
         return 'Notifications are not supported';
-      } else if (!this.notificationsBtnDisabled && !this.notificationsEnabled) {
+      } else if (!notificationsBtnDisabled.value && !notificationsEnabled.value) {
         return 'Notifications are disabled';
       }
-    }
-  }
+    };
+
+    onMounted(() => {
+      if (vapidKey.value && 'serviceWorker' in navigator) {
+        navigator.serviceWorker
+          .getRegistrations()
+          .then(registrations => {
+            const worker = registrations[0];
+            if (worker) {
+              worker.pushManager
+                .permissionState({
+                  userVisibleOnly: true,
+                  applicationServerKey: vapidKey.value
+                })
+                .then(permissionState => {
+                  if (permissionState === 'granted') {
+                    notificationsEnabled.value = true;
+                  } else if (permissionState === 'denied') {
+                    notificationsEnabled.value = false;
+                    notificationsBtnDisabled.value = true;
+                  }
+                });
+            } else {
+              notificationsEnabled.value = false;
+              notificationsBtnDisabled.value = true;
+            }
+          })
+          .catch(err => {
+            console.log(err);
+            accessor.messages.createMessage({
+              type: 'error',
+              title: 'Error loading notification worker',
+              message: err.message
+            });
+          });
+      } else {
+        notificationsSupported.value = false;
+        notificationsBtnDisabled.value = true;
+      }
+    });
+
+    watch(
+      () => route.value.query,
+      () => {
+        fetch();
+      }
+    );
+
+    useMeta(() => ({
+      title: `Subscriptions :: ViewTube`,
+      meta: [
+        {
+          hid: 'description',
+          vmid: 'descriptionMeta',
+          name: 'description',
+          content: 'See your subscription feed'
+        },
+        {
+          hid: 'ogTitle',
+          property: 'og:title',
+          content: 'Subscriptions - ViewTube'
+        },
+        {
+          hid: 'ogDescription',
+          property: 'og:description',
+          content: 'See your subscription feed'
+        }
+      ]
+    }));
+
+    return {
+      videos,
+      loading,
+      notificationsEnabled,
+      notificationsBtnDisabled,
+      notificationsSupported,
+      subscriptionImportOpen,
+      vapidKey,
+      currentPage,
+      currentPageTest,
+      pageCount,
+      hasNoSubscriptions,
+      getOrderedVideoSections,
+      lastRefreshTime,
+      nextRefreshTime,
+      closeSubscriptionImport,
+      onSubscriptionImportDone,
+      subscribeToNotifications,
+      getNotificationStatus
+    };
+  },
+  head: {}
 });
 </script>
 
@@ -383,9 +427,6 @@ export default Vue.extend({
     z-index: 10;
     margin: 20% 0 0 0;
     text-align: center;
-
-    p {
-    }
   }
 
   .subscription-videos-container {

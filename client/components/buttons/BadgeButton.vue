@@ -17,9 +17,10 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import { defineComponent } from '@nuxtjs/composition-api';
+import { Data } from '@vue/composition-api';
 
-export default Vue.extend({
+export default defineComponent({
   name: 'BadgeButton',
   props: {
     href: { type: String, required: false },
@@ -29,13 +30,15 @@ export default Vue.extend({
     disabled: { type: Boolean, required: false },
     selected: { type: Boolean, required: false }
   },
-  methods: {
-    clickFunction(e: Event): void {
-      if (this.click instanceof Function) {
+  setup(props: Data) {
+    const clickFunction = (e: Event): void => {
+      if (props.click instanceof Function) {
         e.preventDefault();
-        this.click();
+        props.click();
       }
-    }
+    };
+
+    return { clickFunction };
   }
 });
 </script>

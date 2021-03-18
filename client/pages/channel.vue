@@ -1,6 +1,7 @@
 <template>
   <div>
-    <div v-if="channel" ref="channel" class="channel">
+    <Spinner v-if="$fetchState.pending" class="centered" />
+    <div v-if="channel" class="channel">
       <Banner
         v-if="channel && channel.authorBanners && channel.authorBanners.length > 0"
         class="banner"
@@ -63,9 +64,11 @@ import InlineVideo from '@/components/list/InlineVideo.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import UpIcon from 'vue-material-design-icons/ArrowUp.vue';
 import ViewTubeApi from '@/plugins/services/viewTubeApi';
-import Vue from 'vue';
+import { defineComponent, ref, useFetch, useMeta, useRoute } from '@nuxtjs/composition-api';
+import { useImgProxy } from '~/plugins/proxy';
+import { useAccessor } from '~/store';
 
-export default Vue.extend({
+export default defineComponent({
   name: 'Home',
   components: {
     VideoEntry,
@@ -81,68 +84,81 @@ export default Vue.extend({
     BadgeButton,
     UpIcon
   },
-  asyncData({ params, store }) {
-    const viewTubeApi = new ViewTubeApi(store.getters['environment/apiUrl']);
-    return viewTubeApi.api
-      .channels({ id: params.id })
-      .then(response => {
-        return {
-          channel: response.data
-        };
-      })
-      .catch(error => {
-        let errorMessage = '';
-        if (error.response && error.response.data) {
-          errorMessage = error.response.data.message;
-        }
-        store.dispatch('messages/createMessage', {
-          type: 'error',
-          title: 'Loading the channel failed',
-          message: errorMessage
-        });
-      });
-  },
-  data() {
-    return {
-      channel: null,
-      imgProxyUrl: this.$store.getters['environment/imgProxyUrl'],
-      overviewColor: 0
+  setup() {
+    const imgProxy = useImgProxy();
+    const accessor = useAccessor();
+    const route = useRoute();
+
+    const channel = ref(null);
+
+    const onScrollTop = (): void => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     };
-  },
-  head() {
-    return {
-      title: this.channel ? `${this.channel.author} :: ViewTube` : 'ViewTube',
+
+    useFetch(async () => {
+      const viewTubeApi = new ViewTubeApi(accessor.environment.apiUrl);
+      await viewTubeApi.api
+        .channels({ id: route.value.params.id })
+        .then((response: { data: any }) => {
+          channel.value = response.data;
+        })
+        .catch((error: { response: { data: { message: string } } }) => {
+          let errorMessage = '';
+          if (error.response && error.response.data) {
+            errorMessage = error.response.data.message;
+          }
+          accessor.messages.createMessage({
+            type: 'error',
+            title: 'Loading the channel failed',
+            message: errorMessage
+          });
+        });
+    });
+
+    useMeta(() => ({
+      title: channel.value ? `${channel.value.author} :: ViewTube` : 'ViewTube',
       meta: [
         {
           hid: 'description',
           vmid: 'descriptionMeta',
           name: 'description',
-          content: this.channel ? this.channel.description.substring(0, 100) : ''
+          content:
+            channel.value && channel.value.description
+              ? channel.value.description.substring(0, 100)
+              : ''
         },
         {
           hid: 'ogTitle',
           property: 'og:title',
-          content: this.channel ? `${this.channel.author} - ViewTube` : 'ViewTube'
+          content: channel.value ? `${channel.value.author} - ViewTube` : 'ViewTube'
         },
         {
           hid: 'ogImage',
           property: 'og:image',
           itemprop: 'image',
-          content: this.channel ? this.channel.authorThumbnails[0].url : ''
+          content:
+            channel.value && channel.value.authorThumbnails
+              ? channel.value.authorThumbnails[0].url
+              : ''
         },
         {
           hid: 'ogDescription',
           property: 'og:description',
-          content: this.channel ? this.channel.description.substring(0, 100) : ''
+          content:
+            channel.value && channel.value.description
+              ? channel.value.description.substring(0, 100)
+              : ''
         }
       ]
+    }));
+
+    return {
+      imgProxyUrl: imgProxy.url,
+      channel,
+      onScrollTop
     };
   },
-  methods: {
-    onScrollTop(): void {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-  }
+  head: {}
 });
 </script>
 

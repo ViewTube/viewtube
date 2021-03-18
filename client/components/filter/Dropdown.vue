@@ -1,5 +1,5 @@
 <template>
-  <div ref="dropdownBtn" v-clickaway="hideDropdown" class="dropdown" :class="{ open: open }">
+  <div ref="dropdownBtnRef" v-clickaway="hideDropdown" class="dropdown" :class="{ open: open }">
     <div
       v-ripple
       class="dropdown-btn"
@@ -39,68 +39,82 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import { computed, defineComponent, PropType, ref } from '@nuxtjs/composition-api';
 
-export default Vue.extend({
+export default defineComponent({
   name: 'Dropdown',
   props: {
-    values: Array,
+    values: Array as PropType<Array<any>>,
     value: String,
     label: String,
     noDefault: Boolean
   },
-  data: () => ({
-    selected: 0,
-    open: false,
-    offsetTop: null,
-    offsetLeft: null,
-    visible: false
-  }),
-  computed: {
-    entries(): Array<{ name: string; value: string }> {
-      if (this.values[0].value && this.values[0].name) {
-        return this.values;
-      } else {
-        return this.values.map(value => {
-          return { name: value, value };
-        });
+  setup(props, { emit }) {
+    const selected = ref(0);
+    const open = ref(false);
+    const offsetTop = ref(null);
+    const offsetLeft = ref(null);
+    const visible = ref(false);
+
+    const dropdownBtnRef = ref(null);
+
+    type entriesArray = Array<{ name: string; value: string }>;
+
+    const entries = computed(
+      (): entriesArray => {
+        if (props.values[0].value && props.values[0].name) {
+          return props.values;
+        } else {
+          return props.values.map(value => {
+            return { name: value, value };
+          });
+        }
       }
-    }
-  },
-  mounted() {
-    const me = this;
-    const selectedEntry = this.entries.findIndex(e => e.value === me.value);
-    if (this.noDefault && this.value === null) {
-      this.selected = selectedEntry !== -1 ? selectedEntry : null;
+    );
+
+    const calculateOffset = (): void => {
+      if (dropdownBtnRef) {
+        const dropdownDimens = dropdownBtnRef.getBoundingClientRect();
+        offsetTop.value = dropdownDimens.top + 50;
+        offsetLeft.value = dropdownDimens.left;
+      }
+    };
+    const select = (e: any): void => {
+      selected.value = e.target.getAttribute('index');
+      open.value = false;
+      emit('valuechange', entries.value[selected.value], selected.value);
+    };
+    const onDropdownBtnClick = (): void => {
+      calculateOffset();
+      open.value = !open.value;
+      window.addEventListener('resize', calculateOffset);
+    };
+    const hideDropdown = (): void => {
+      calculateOffset();
+      open.value = false;
+      window.removeEventListener('resize', calculateOffset);
+    };
+
+    const selectedEntry = entries.value.findIndex(e => e.value === props.value);
+    if (props.noDefault && props.value === null) {
+      selected.value = selectedEntry !== -1 ? selectedEntry : null;
     } else {
-      this.selected = selectedEntry !== -1 ? selectedEntry : 0;
+      selected.value = selectedEntry !== -1 ? selectedEntry : 0;
     }
-    this.calculateOffset();
-    this.visible = true;
-  },
-  methods: {
-    calculateOffset(): void {
-      if (this.$refs.dropdownBtn) {
-        const dropdownDimens = this.$refs.dropdownBtn.getBoundingClientRect();
-        this.offsetTop = dropdownDimens.top + 50;
-        this.offsetLeft = dropdownDimens.left;
-      }
-    },
-    select(e): void {
-      this.selected = e.target.getAttribute('index');
-      this.open = false;
-      this.$emit('valuechange', this.entries[this.selected], this.selected);
-    },
-    onDropdownBtnClick(): void {
-      this.calculateOffset();
-      this.open = !this.open;
-      window.addEventListener('resize', this.calculateOffset);
-    },
-    hideDropdown(): void {
-      this.calculateOffset();
-      this.open = false;
-      window.removeEventListener('resize', this.calculateOffset);
-    }
+    calculateOffset();
+    visible.value = true;
+
+    return {
+      selected,
+      open,
+      offsetTop,
+      offsetLeft,
+      visible,
+      dropdownBtnRef,
+      select,
+      onDropdownBtnClick,
+      hideDropdown
+    };
   }
 });
 </script>

@@ -1,6 +1,6 @@
 import tippy from 'tippy.js';
 
-let tippyInstance = null;
+let tippyInstance: any = null;
 
 export default {
   bind(el: HTMLElement, binding: any) {

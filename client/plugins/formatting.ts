@@ -1,3 +1,4 @@
+import { wrapProperty } from '@nuxtjs/composition-api';
 import Vue from 'vue';
 
 interface FormattingFunction {
@@ -34,3 +35,5 @@ Vue.prototype.$formatting = {
     }
   }
 };
+
+export const useFormatting = wrapProperty('$formatting', false);
