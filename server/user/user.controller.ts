@@ -1,4 +1,13 @@
-import { Controller, UseGuards, Get, Req, Res } from '@nestjs/common';
+import {
+  Controller,
+  UseGuards,
+  Get,
+  Req,
+  Res,
+  Delete,
+  Body,
+  BadRequestException
+} from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'server/auth/guards/jwt.guard';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -39,5 +48,20 @@ export class UserController {
 
     const fileName = `viewtube_export_${sanitizeFilename(req.user.username)}_${dateString}.json`;
     res.status(200).attachment(fileName).send(dataExport);
+  }
+
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @Delete()
+  deleteUser(
+    @Req() req: any,
+    @Body('username') username: string
+  ): Promise<{ subscriptions: boolean; history: boolean; settings: boolean; user: boolean }> {
+    const authenticatedUser = req.user.username;
+    if (authenticatedUser === username) {
+      return this.userService.deleteUserAndData(authenticatedUser);
+    } else {
+      throw new BadRequestException("username doesn't match");
+    }
   }
 }

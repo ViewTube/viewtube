@@ -87,6 +87,27 @@ export class UserService {
     return this.UserModel.find().exec();
   }
 
+  async deleteUserAndData(username: string) {
+    if (username) {
+      const subscriptions = await this.subscriptionsService.deleteAllSubscribedChannels(username);
+      const history = await this.historyService.deleteHistory(username);
+      const settings = await this.settingsService.deleteSettings(username);
+      let userSuccess = true;
+      await this.UserModel.deleteOne({ username })
+        .exec()
+        .catch(_ => {
+          userSuccess = false;
+        });
+
+      return {
+        subscriptions: subscriptions.success,
+        history: history.success,
+        settings: settings.success,
+        user: userSuccess
+      };
+    }
+  }
+
   async createDataExport(username: string): Promise<any> {
     if (username) {
       const exportData = { username, subscriptions: {}, history: {}, settings: {} };

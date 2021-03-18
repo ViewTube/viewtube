@@ -12,13 +12,26 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import { defineComponent, onBeforeUnmount, onMounted } from '@nuxtjs/composition-api';
 
-export default Vue.extend({
+export default defineComponent({
   name: 'Confirmation',
   props: {
     title: String,
     message: String
+  },
+  setup(_, { emit }) {
+    const onEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        emit('close');
+      }
+    };
+    onMounted(() => {
+      window.addEventListener('keydown', onEscape);
+    });
+    onBeforeUnmount(() => {
+      window.removeEventListener('keydown', onEscape);
+    });
   }
 });
 </script>

@@ -177,4 +177,14 @@ export class HistoryService {
       }
     }
   }
+
+  async deleteHistory(username: string) {
+    let success = true;
+    await this.HistoryModel.deleteOne({ username })
+      .exec()
+      .catch(_ => {
+        success = false;
+      });
+    return { success };
+  }
 }

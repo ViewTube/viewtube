@@ -32,7 +32,7 @@ export default defineComponent({
     MailIcon
   },
   props: {
-    type: String,
+    type: { type: String, required: false, default: () => undefined },
     value: null,
     label: String,
     id: String

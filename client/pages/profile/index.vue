@@ -27,6 +27,7 @@
         <div v-if="profile" class="actions">
           <BadgeButton :click="onLogoutPopup" style="color: #ef4056">Sign out</BadgeButton>
           <BadgeButton :href="'/api/user/export'">Export data</BadgeButton>
+          <BadgeButton :click="onDeleteAccount" style="color: #ef4056">Delete account</BadgeButton>
         </div>
       </div>
     </div>
@@ -78,10 +79,30 @@
           v-if="logoutPopup"
           :title="'Sign out'"
           :message="'Do you want to sign out?'"
-          @close="() => (logoutPopup = false)"
+          @close="onLogoutPopupClose"
         >
-          <BadgeButton :click="() => (logoutPopup = false)">Cancel</BadgeButton>
+          <BadgeButton :click="onLogoutPopupClose">Cancel</BadgeButton>
           <BadgeButton :click="logout">OK</BadgeButton>
+        </Confirmation>
+        <Confirmation
+          v-if="deleteAccountPopup"
+          :title="'Delete account'"
+          :message="'Do you want to delete your account? This will immediately erase all related data. This action is irreversible.'"
+          @close="onDeleteAccountClose"
+        >
+          <div class="repeat-username-container">
+            <FormInput
+              :id="'repeated-username'"
+              v-model="repeatedUsername"
+              :label="'Repeat your username'"
+            />
+            <BadgeButton
+              :click="deleteAccount"
+              :disabled="!deleteAccountValid"
+              class="delete-account-btn"
+              >Delete account</BadgeButton
+            >
+          </div>
         </Confirmation>
       </transition>
     </portal>
@@ -91,12 +112,20 @@
 <script lang="ts">
 import Spinner from '@/components/Spinner.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
+import FormInput from '@/components/form/FormInput.vue';
 import AccountCircleIcon from 'vue-material-design-icons/AccountCircle.vue';
 import HistoryIcon from 'vue-material-design-icons/History.vue';
 import Confirmation from '@/components/popup/Confirmation.vue';
 import humanizeDuration from 'humanize-duration';
 import SectionTitle from '@/components/SectionTitle.vue';
-import { defineComponent, ref, useFetch, useMeta, useRouter } from '@nuxtjs/composition-api';
+import {
+  computed,
+  defineComponent,
+  ref,
+  useFetch,
+  useMeta,
+  useRouter
+} from '@nuxtjs/composition-api';
 import { useAccessor } from '~/store';
 import { useAxios } from '~/plugins/axios';
 
@@ -108,7 +137,8 @@ export default defineComponent({
     AccountCircleIcon,
     Confirmation,
     SectionTitle,
-    HistoryIcon
+    HistoryIcon,
+    FormInput
   },
   setup(_) {
     const accessor = useAccessor();
@@ -117,6 +147,8 @@ export default defineComponent({
 
     const profile = ref(null);
     const logoutPopup = ref(false);
+    const deleteAccountPopup = ref(false);
+    const repeatedUsername = ref('');
 
     const onLogoutPopup = () => {
       logoutPopup.value = true;
@@ -124,6 +156,29 @@ export default defineComponent({
     const onLogoutPopupClose = () => {
       logoutPopup.value = false;
     };
+    const onDeleteAccount = () => {
+      deleteAccountPopup.value = true;
+    };
+    const onDeleteAccountClose = () => {
+      deleteAccountPopup.value = false;
+    };
+    const deleteAccount = () => {
+      axios
+        .delete(`${accessor.environment.apiUrl}user`, {
+          data: { username: repeatedUsername.value }
+        })
+        .then(_ => {
+          logout();
+          accessor.messages.createMessage({
+            type: 'info',
+            title: 'Deleted account',
+            message: `Successfully deleted account ${repeatedUsername.value}`
+          });
+        });
+    };
+    const deleteAccountValid = computed(() => {
+      return repeatedUsername.value.length > 0 && repeatedUsername.value === accessor.user.username;
+    });
     const logout = () => {
       accessor.user.logout();
       router.push('/');
@@ -185,8 +240,14 @@ export default defineComponent({
     return {
       profile,
       logoutPopup,
+      deleteAccountPopup,
+      repeatedUsername,
       onLogoutPopup,
       onLogoutPopupClose,
+      onDeleteAccount,
+      onDeleteAccountClose,
+      deleteAccount,
+      deleteAccountValid,
       logout,
       humanizeDateString,
       humanizeDuration,
@@ -211,6 +272,34 @@ export default defineComponent({
 .popup-leave-to {
   opacity: 0;
   transform: scale(1.1);
+}
+
+.repeat-username-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  .form-input {
+    #repeated-username {
+      width: 100%;
+      margin: 15px 0;
+    }
+    .input-label {
+      left: 14px;
+    }
+  }
+
+  .delete-account-btn {
+    color: var(--error-color-red);
+    border-color: var(--error-color-red);
+    transition: color 300ms $intro-easing, background-color 300ms $intro-easing;
+
+    &:hover {
+      color: unset;
+      border-color: var(--error-color-red);
+      background-color: var(--error-color-red);
+    }
+  }
 }
 
 .profile {
@@ -333,7 +422,7 @@ export default defineComponent({
 
       .actions {
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
         position: absolute;
         top: 20px;
         right: 20px;

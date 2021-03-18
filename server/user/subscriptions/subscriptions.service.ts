@@ -260,7 +260,7 @@ export class SubscriptionsService {
           .limit(parseInt(limit as any))
           .catch(_ => {
             return null;
-          })
+          });
 
         if (channels) {
           return {
@@ -295,7 +295,7 @@ export class SubscriptionsService {
         })
         .catch(err => {
           throw new HttpException(`Error fetching subscription feed: ${err}`, 500);
-        })
+        });
       if (videos) {
         const channelIds = videos.map((video: VideoBasicInfoDto) => video.authorId);
 
@@ -416,6 +416,17 @@ export class SubscriptionsService {
         });
     });
     return { successful, failed, existing };
+  }
+
+  async deleteAllSubscribedChannels(username: string): Promise<{ success: boolean }> {
+    let successful = true;
+    await this.subscriptionModel
+      .deleteOne({ username })
+      .exec()
+      .catch(_ => {
+        successful = false;
+      });
+    return { success: successful };
   }
 
   /**

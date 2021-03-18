@@ -54,6 +54,16 @@ export class SettingsService {
     }
   }
 
+  async deleteSettings(username: string): Promise<{ success: boolean }> {
+    let success = true;
+    await this.SettingsModel.deleteOne({ username })
+      .exec()
+      .catch(_ => {
+        success = false;
+      });
+    return { success };
+  }
+
   private getCompleteSettingsObject(settings: Partial<SettingsDto>): SettingsDto {
     const completeSettings: SettingsDto = {} as SettingsDto;
     Object.keys(this.defaultOptions).forEach(settingsKey => {
