@@ -1,7 +1,7 @@
 <template>
   <div class="profile">
     <Spinner v-if="$fetchState.pending" class="centered" />
-    <div class="profile-top">
+    <div v-if="profile" class="profile-top">
       <div class="gradient-background" />
       <div class="profile-top-card">
         <div v-if="profile" class="user-info">
@@ -26,10 +26,12 @@
         </div>
         <div v-if="profile" class="actions">
           <BadgeButton :click="onLogoutPopup" style="color: #ef4056">Sign out</BadgeButton>
+          <BadgeButton :href="'/api/user/export'">Export data</BadgeButton>
         </div>
       </div>
     </div>
     <div v-if="profile && profile.videoHistory.length <= 0" class="no-history">
+      <HistoryIcon />
       <p>You haven't watched any videos yet. Once you have, your history will show up here.</p>
     </div>
     <div v-if="profile && profile.videoHistory.length > 0" class="video-history">
@@ -90,6 +92,7 @@
 import Spinner from '@/components/Spinner.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import AccountCircleIcon from 'vue-material-design-icons/AccountCircle.vue';
+import HistoryIcon from 'vue-material-design-icons/History.vue';
 import Confirmation from '@/components/popup/Confirmation.vue';
 import humanizeDuration from 'humanize-duration';
 import SectionTitle from '@/components/SectionTitle.vue';
@@ -104,7 +107,8 @@ export default defineComponent({
     BadgeButton,
     AccountCircleIcon,
     Confirmation,
-    SectionTitle
+    SectionTitle,
+    HistoryIcon
   },
   setup(_) {
     const accessor = useAccessor();
@@ -134,7 +138,7 @@ export default defineComponent({
       return humanizeDuration(dateMs, { largest: 1 });
     };
 
-    const { fetch } = useFetch(async () => {
+    useFetch(async () => {
       if (accessor.user.isLoggedIn) {
         const apiUrl = accessor.environment.apiUrl;
         await axios
@@ -242,15 +246,18 @@ export default defineComponent({
       margin: 30px 0 0 40px;
       border-radius: 15px;
       padding: 15px 15px 15px 140px;
+      height: 190px;
       z-index: 8;
       position: relative;
       box-sizing: border-box;
       width: calc(100% - 40px);
       box-shadow: $low-shadow;
+      position: relative;
 
       @media screen and (max-width: $mobile-width) {
         margin: 130px 0 0 0;
-        padding: 80px 15px 15px 20px;
+        padding: 90px 15px 15px 20px;
+        height: 230px;
         width: 100%;
       }
 
@@ -323,7 +330,27 @@ export default defineComponent({
           }
         }
       }
+
+      .actions {
+        display: flex;
+        flex-direction: row;
+        position: absolute;
+        top: 20px;
+        right: 20px;
+
+        @media screen and (max-width: $mobile-width) {
+          top: unset;
+          bottom: 20px;
+        }
+      }
     }
+  }
+
+  .no-history {
+    margin: 60px 0 0 0;
+    position: relative;
+    width: 100%;
+    text-align: center;
   }
 
   .video-history {

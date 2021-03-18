@@ -7,6 +7,7 @@
       :key="video.id"
       ref="videoplayer"
       :video="video"
+      :initialVideoTime="initialVideoTime"
       class="video-player-p"
     />
     <div v-if="video" class="video-meta">
@@ -229,6 +230,7 @@ export default defineComponent({
     const recommendedOpen = ref(false);
     const shareOpen = ref(false);
     const videoplayerRef = ref(null);
+    const initialVideoTime = ref(0);
 
     const encodedUrl = () => {
       if (process.browser) {
@@ -319,49 +321,67 @@ export default defineComponent({
         });
     };
 
-    const { fetch } = useFetch(() => {
-      const viewTubeApi = new ViewTubeApi(accessor.environment.apiUrl);
-      return viewTubeApi.api
-        .videos({
-          id: route.value.query.v
-        })
-        .then((response: { data: any }) => {
-          if (response) {
-            video.value = response.data;
-            saveToHistory();
-          } else {
-            accessor.messages.createMessage({
-              type: 'error',
-              title: 'Error loading video',
-              message: 'Loading video information failed. Click to try again.',
-              dismissDelay: 0,
-              clickAction: () => fetch()
-            });
-          }
-        })
-        .catch((err: any) => {
-          let errorObj: any = {
-            message: 'Error loading video'
-          };
-          if (err) {
-            errorObj = {
-              requestConfig: err.config,
-              responseData: err.response ? err.response.data : null,
-              message: err.message
+    const { fetch } = useFetch(
+      async (): Promise<void> => {
+        const apiUrl = accessor.environment.apiUrl;
+        const viewTubeApi = new ViewTubeApi(apiUrl);
+        await viewTubeApi.api
+          .videos({
+            id: route.value.query.v
+          })
+          .then(async (response: { data: any }) => {
+            if (response) {
+              video.value = response.data;
+              if (accessor.user.isLoggedIn) {
+                const videoVisit = await axios
+                  .get<{
+                    videoId: string;
+                    progressSeconds: number;
+                    lengthSeconds: number;
+                    lastVisit: Date;
+                  }>(`${apiUrl}user/history/${response.data.videoId}`)
+                  .catch((_: any) => {});
+
+                if (videoVisit && videoVisit.data && videoVisit.data.progressSeconds > 0) {
+                  initialVideoTime.value = videoVisit.data.progressSeconds;
+                } else {
+                  saveToHistory();
+                }
+              }
+            } else {
+              accessor.messages.createMessage({
+                type: 'error',
+                title: 'Error loading video',
+                message: 'Loading video information failed. Click to try again.',
+                dismissDelay: 0,
+                clickAction: () => fetch()
+              });
+            }
+          })
+          .catch((err: any) => {
+            let errorObj: any = {
+              message: 'Error loading video'
             };
-          }
-          error({
-            statusCode: 500,
-            message:
-              errorObj.responseData &&
-              errorObj.responseData.message &&
-              typeof errorObj.responseData.message === 'string'
-                ? errorObj.responseData.message
-                : errorObj.message,
-            detail: errorObj
-          } as any);
-        });
-    });
+            if (err) {
+              errorObj = {
+                requestConfig: err.config,
+                responseData: err.response ? err.response.data : null,
+                message: err.message
+              };
+            }
+            error({
+              statusCode: 500,
+              message:
+                errorObj.responseData &&
+                errorObj.responseData.message &&
+                typeof errorObj.responseData.message === 'string'
+                  ? errorObj.responseData.message
+                  : errorObj.message,
+              detail: errorObj
+            } as any);
+          });
+      }
+    );
 
     watch(
       () => route.value.query,
@@ -430,6 +450,7 @@ export default defineComponent({
       commentsContinuationLink,
       commentsContinuationLoading,
       recommendedOpen,
+      initialVideoTime,
       shareOpen,
       encodedUrl,
       openInstancePopup,

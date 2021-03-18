@@ -4,6 +4,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import bcrypt from 'bcryptjs';
 import { UserprofileDto } from 'server/user/dto/userprofile.dto';
 import humanizeDuration from 'humanize-duration';
+import { Common } from 'server/core/common';
+import { ChannelBasicInfoDto } from 'server/core/channels/dto/channel-basic-info.dto';
 import { User } from './schemas/user.schema';
 import { UserDto } from './user.dto';
 import { SettingsService } from './settings/settings.service';
@@ -83,5 +85,37 @@ export class UserService {
 
   findAll(): Promise<User[]> {
     return this.UserModel.find().exec();
+  }
+
+  async createDataExport(username: string): Promise<any> {
+    if (username) {
+      const exportData = { username, subscriptions: {}, history: {}, settings: {} };
+
+      const userSubscriptions = await this.subscriptionsService.getSubscribedChannels(
+        username,
+        0,
+        0,
+        Common.convertSortParams<ChannelBasicInfoDto>(''),
+        ''
+      );
+
+      if (userSubscriptions) {
+        exportData.subscriptions = userSubscriptions;
+      }
+
+      const userHistory = await this.historyService.getHistory(username, 0, 0, 'ASC');
+
+      if (userHistory) {
+        exportData.history = userHistory;
+      }
+
+      const userSettings = await this.settingsService.getSettings(username);
+
+      if (userSettings) {
+        exportData.settings = userSettings;
+      }
+
+      return exportData;
+    }
   }
 }

@@ -57,10 +57,11 @@ export class SettingsService {
   private getCompleteSettingsObject(settings: Partial<SettingsDto>): SettingsDto {
     const completeSettings: SettingsDto = {} as SettingsDto;
     Object.keys(this.defaultOptions).forEach(settingsKey => {
-      if (Object.prototype.hasOwnProperty.call(settings, settingsKey)) {
+      if (settings[settingsKey] !== undefined) {
         completeSettings[settingsKey] = settings[settingsKey];
+      } else {
+        completeSettings[settingsKey] = this.defaultOptions[settingsKey];
       }
-      completeSettings[settingsKey] = this.defaultOptions[settingsKey];
     });
     return completeSettings;
   }

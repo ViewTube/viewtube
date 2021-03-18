@@ -89,7 +89,7 @@ export default defineComponent({
           password: password.value,
           captchaSolution: captchaSolution.value
         });
-        if (user && user.username) {
+        if (user && !user.error && user.username) {
           accessor.messages.createMessage({
             type: 'info',
             title: 'Registration successful',

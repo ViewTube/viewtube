@@ -78,7 +78,7 @@ export default defineNuxtConfig({
     duration: 8000
   },
 
-  css: ['~/assets/fonts/expletus.css', '~/assets/fonts/notosans.css'],
+  css: ['~/assets/fonts/expletus.css', '~/assets/fonts/notosans.css', 'tippy.js/dist/tippy.css'],
   styleResources: {
     scss: ['~/assets/styles/global/variables.scss', '~/assets/styles/global/styles.scss']
   },

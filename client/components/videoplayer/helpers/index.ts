@@ -208,10 +208,8 @@ export const videoPlayerSetup = (props: any) => {
     videoElement.aspectRatio = e.target.videoHeight / e.target.videoWidth;
 
     if (videoRef.value && videoElement.firstTimeBuffering) {
-      videoRef.value.currentTime = accessor.videoProgress.getSavedPositionForId(
-        props.video.videoId
-      );
       videoElement.firstTimeBuffering = false;
+      setVideoTime(props.initialVideoTime);
       if (props.autoplay) {
         videoRef.value.play();
       }

@@ -197,7 +197,7 @@ export const getters = getterTree(state, {
 });
 
 export const mutations = mutationTree(state, {
-  setSettings(state, newSettings) {
+  setMutateSettings(state, newSettings) {
     Object.keys(newSettings).forEach((key: string) => {
       if (key === 'sponsorblock') {
         Object.entries(newSettings[key]).forEach(val => {
@@ -215,24 +215,24 @@ export const mutations = mutationTree(state, {
       }
     });
   },
-  setTheme(state, theme) {
+  setMutateTheme(state, theme) {
     if (state.defaults.theme.find(e => e.value === theme)) {
       state.theme = theme;
     }
   },
-  setMiniplayer(state, enabled) {
+  setMutateMiniplayer(state, enabled) {
     state.miniplayer = enabled;
   },
-  setChapters(state, enabled) {
+  setMutateChapters(state, enabled) {
     state.chapters = enabled;
   },
-  setSponsorblock(state, enabled) {
+  setMutateSponsorblock(state, enabled) {
     state.sponsorblock_enabled = enabled;
   },
-  setSaveVideoHistory(state, enabled) {
+  setMutateSaveVideoHistory(state, enabled) {
     state.saveVideoHistory = enabled;
   },
-  setSponsorblockCategoryStatus(state, { category, status }) {
+  setMutateSponsorblockCategoryStatus(state, { category, status }) {
     if (state[`sponsorblock_${category}`]) {
       if (status === 'skip' || status === 'ask' || status === 'none') {
         state[`sponsorblock_${category}`] = status;
@@ -245,23 +245,23 @@ export const actions = actionTree(
   { state, getters, mutations },
   {
     async setTheme({ commit, dispatch }, theme) {
-      commit('setTheme', theme);
+      commit('setMutateTheme', theme);
       await dispatch('doSettingsRequest', { settingsKey: 'theme', value: theme });
     },
     async setChapters({ commit, dispatch }, enabled) {
-      commit('setChapters', enabled);
+      commit('setMutateChapters', enabled);
       await dispatch('doSettingsRequest', { settingsKey: 'chapters', value: enabled });
     },
     async setMiniplayer({ commit, dispatch }, enabled) {
-      commit('setMiniplayer', enabled);
+      commit('setMutateMiniplayer', enabled);
       await dispatch('doSettingsRequest', { settingsKey: 'miniplayer', value: enabled });
     },
     async setSponsorblock({ commit, dispatch }, enabled) {
-      commit('setSponsorblock', enabled);
+      commit('setMutateSponsorblock', enabled);
       await dispatch('storeSponsorblock');
     },
     async setSaveVideoHistory({ commit, dispatch }, enabled) {
-      commit('setSaveVideoHistory', enabled);
+      commit('setMutateSaveVideoHistory', enabled);
       await dispatch('doSettingsRequest', { settingsKey: 'saveVideoHistory', value: enabled });
     },
     async storeSponsorblock({ dispatch, getters }) {
@@ -278,7 +278,7 @@ export const actions = actionTree(
         }
       });
     },
-    async doSettingsRequest(_, { settingsKey, value }) {
+    async doSettingsRequest(_, { settingsKey, value }): Promise<void> {
       if (this.app.$accessor.user.isLoggedIn) {
         const setting = {};
         setting[settingsKey] = value;

@@ -37,7 +37,7 @@
         </div>
       </div>
     </div>
-    <div v-if="hasNoSubscriptions" class="no-subscriptions">
+    <div v-if="hasNoSubscriptions && !$fetchState.pending" class="no-subscriptions">
       <SubscriptionIcon />
       <p>No subscriptions yet. Subscribe to a channel to see their latest uploads.</p>
     </div>

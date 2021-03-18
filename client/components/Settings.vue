@@ -199,7 +199,7 @@ export default defineComponent({
     const onSponsorblockOptionChange = async (category, value) => {
       root.$nuxt.$emit('settings-saving', true);
 
-      accessor.settings.setSponsorblockCategoryStatus({
+      accessor.settings.setMutateSponsorblockCategoryStatus({
         category,
         status: value.value
       });
