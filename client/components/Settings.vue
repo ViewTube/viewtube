@@ -34,6 +34,15 @@
         :right="true"
         @valuechange="val => saveSetting('settings/setChapters', val)"
       />
+      <h2><HistoryIcon />History</h2>
+      <SwitchButton
+        :value="$store.getters['settings/saveVideoHistory']"
+        :label="'Save video history and progress'"
+        :disabled="false"
+        :btnId="'settings-btn-2'"
+        :right="true"
+        @valuechange="val => saveSetting('settings/setSaveVideoHistory', val)"
+      />
       <h2>
         <img
           class="sponsorblock-image"
@@ -135,6 +144,7 @@ import ThemeIcon from 'vue-material-design-icons/Brightness4.vue';
 import MiniplayerIcon from 'vue-material-design-icons/WindowRestore.vue';
 import ChaptersIcon from 'vue-material-design-icons/BookOpenVariant.vue';
 import CloudCheckIcon from 'vue-material-design-icons/CloudCheckOutline.vue';
+import HistoryIcon from 'vue-material-design-icons/History.vue';
 import ReloadIcon from 'vue-material-design-icons/Reload.vue';
 import ThemeSelector from '@/components/themes/ThemeSelector.vue';
 import SwitchButton from '@/components/buttons/SwitchButton.vue';
@@ -156,6 +166,7 @@ export default defineComponent({
     CloseIcon,
     ThemeIcon,
     MiniplayerIcon,
+    HistoryIcon,
     SwitchButton,
     ThemeSelector,
     ChaptersIcon,
