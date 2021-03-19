@@ -12,7 +12,7 @@
             <p>{{ profile.username }}</p>
           </div>
         </div>
-        <div v-if="profile" class="statistics">
+        <div v-if="profile" class="statistics" :class="{ blurred: actionsOpen }">
           <p>
             <span class="highlight">{{ profile.totalVideosCount }} videos</span> watched
           </p>
@@ -25,9 +25,22 @@
           </p>
         </div>
         <div v-if="profile" class="actions">
-          <BadgeButton :click="onLogoutPopup" style="color: #ef4056">Sign out</BadgeButton>
-          <BadgeButton :href="'/api/user/export'">Export data</BadgeButton>
-          <BadgeButton :click="onDeleteAccount" style="color: #ef4056">Delete account</BadgeButton>
+          <input id="actions" v-model="actionsOpen" type="checkbox" name="actions" />
+          <label for="actions" class="actions-icon">
+            <SettingsIcon />
+            <ChevronUpIcon class="chevron-icon" />
+          </label>
+          <div class="actions-details">
+            <BadgeButton class="action" :href="'/api/user/export'"
+              ><ExportIcon />Export data</BadgeButton
+            >
+            <BadgeButton class="action" :click="onLogoutPopup" style="color: #ef4056"
+              ><LogoutIcon />Sign out</BadgeButton
+            >
+            <BadgeButton class="action" :click="onDeleteAccount" style="color: #ef4056"
+              ><DeleteIcon />Delete account</BadgeButton
+            >
+          </div>
         </div>
       </div>
     </div>
@@ -118,6 +131,11 @@ import Spinner from '@/components/Spinner.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import FormInput from '@/components/form/FormInput.vue';
 import AccountCircleIcon from 'vue-material-design-icons/AccountCircle.vue';
+import ChevronUpIcon from 'vue-material-design-icons/ChevronUp.vue';
+import LogoutIcon from 'vue-material-design-icons/LogoutVariant.vue';
+import ExportIcon from 'vue-material-design-icons/DatabaseExportOutline.vue';
+import DeleteIcon from 'vue-material-design-icons/DeleteAlert.vue';
+import SettingsIcon from 'vue-material-design-icons/Cog.vue';
 import HistoryIcon from 'vue-material-design-icons/History.vue';
 import RestartOffIcon from 'vue-material-design-icons/RestartOff.vue';
 import Confirmation from '@/components/popup/Confirmation.vue';
@@ -143,6 +161,11 @@ export default defineComponent({
     RestartOffIcon,
     Confirmation,
     SectionTitle,
+    LogoutIcon,
+    ExportIcon,
+    DeleteIcon,
+    ChevronUpIcon,
+    SettingsIcon,
     HistoryIcon,
     FormInput
   },
@@ -154,6 +177,7 @@ export default defineComponent({
     const profile = ref(null);
     const logoutPopup = ref(false);
     const deleteAccountPopup = ref(false);
+    const actionsOpen = ref(false);
     const repeatedUsername = ref('');
     const originalUsername = ref('');
 
@@ -259,6 +283,7 @@ export default defineComponent({
       logoutPopup,
       deleteAccountPopup,
       repeatedUsername,
+      actionsOpen,
       onLogoutPopup,
       onLogoutPopupClose,
       onDeleteAccount,
@@ -427,6 +452,11 @@ export default defineComponent({
         color: var(--subtitle-color);
         font-size: 0.9rem;
         margin: 0 0 5px 0;
+        transition: filter 300ms 100ms $intro-easing;
+
+        &.blurred {
+          filter: blur(5px);
+        }
 
         p {
           margin: 4px 0;
@@ -439,11 +469,70 @@ export default defineComponent({
       }
 
       .actions {
-        display: flex;
-        flex-direction: column;
         position: absolute;
         top: 20px;
-        right: 20px;
+        right: 18px;
+
+        #actions {
+          visibility: hidden;
+
+          &:checked {
+            ~ .actions-details {
+              .action {
+                transform: translateX(0);
+                opacity: 1;
+                user-select: unset;
+                pointer-events: unset;
+              }
+            }
+
+            ~ .actions-icon {
+              .chevron-icon {
+                transform: rotateX(180deg);
+              }
+            }
+          }
+        }
+        .actions-icon {
+          border: 2px solid var(--theme-color-translucent);
+          position: absolute;
+          right: 5px;
+          top: 0;
+          height: 24px;
+          padding: 2px;
+          border-radius: 3px;
+          cursor: pointer;
+          transition: border $intro-easing;
+
+          &:hover {
+            border: 2px solid var(--theme-color);
+          }
+
+          .chevron-icon {
+            transition: transform 300ms $intro-easing;
+          }
+        }
+        .actions-details {
+          display: flex;
+          flex-direction: column;
+          overflow: hidden;
+          position: relative;
+          top: 10px;
+
+          .action {
+            transform: translateX(20px);
+            opacity: 0;
+            user-select: none;
+            pointer-events: none;
+            transition: transform 300ms $intro-easing, opacity 300ms $intro-easing;
+          }
+
+          @for $i from 0 through 2 {
+            .action:nth-of-type(#{$i + 1}) {
+              transition-delay: 100ms * $i !important;
+            }
+          }
+        }
 
         @media screen and (max-width: $mobile-width) {
           top: unset;
