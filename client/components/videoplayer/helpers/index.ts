@@ -100,9 +100,6 @@ export const videoPlayerSetup = (props: any) => {
     selectedQuality.value = qualityIndex;
   }
 
-  const videoVolume = computed(() => {
-    return videoElement.playerVolume;
-  });
   const videoLength = computed(() => {
     if (props.video !== undefined) {
       return props.video.lengthSeconds;
@@ -156,11 +153,22 @@ export const videoPlayerSetup = (props: any) => {
   const chapterTitleRef = ref(null);
   const videoRef = ref(null);
 
-  watch(videoVolume, (val: number, prevVal: number) => {
-    if (videoRef.value && val <= 1 && val >= 0 && val !== prevVal) {
-      videoRef.value.volume = val;
+  watch(
+    () => videoElement.playerVolume,
+    (newValue: number, oldValue: number) => {
+      if (newValue !== oldValue && newValue >= 0 && newValue <= 1) {
+        if (videoRef.value) {
+          if (newValue > 0) {
+            videoRef.value.muted = false;
+          } else if (newValue === 0) {
+            videoRef.value.muted = true;
+          }
+          accessor.settings.mutatePlayerVolume(newValue);
+          videoRef.value.volume = newValue;
+        }
+      }
     }
-  });
+  );
 
   const getChapterForPercentage = (percentage: number) => {
     if (chapters.value) {
@@ -206,16 +214,18 @@ export const videoPlayerSetup = (props: any) => {
 
   const onLoadedMetadata = (e: any) => {
     videoElement.aspectRatio = e.target.videoHeight / e.target.videoWidth;
-
-    if (videoRef.value && videoElement.firstTimeBuffering) {
-      videoElement.firstTimeBuffering = false;
-      setVideoTime(props.initialVideoTime);
-      if (props.autoplay) {
-        videoRef.value.play();
-      }
-      if ('mediaSession' in navigator && process.browser) {
-        const metadata = createMediaMetadata();
-        (navigator as any).mediaSession.metadata = metadata;
+    if (videoRef.value) {
+      videoElement.playerVolume = accessor.settings.playerVolume;
+      if (videoElement.firstTimeBuffering) {
+        videoElement.firstTimeBuffering = false;
+        setVideoTime(props.initialVideoTime);
+        if (props.autoplay) {
+          videoRef.value.play();
+        }
+        if ('mediaSession' in navigator && process.browser) {
+          const metadata = createMediaMetadata();
+          (navigator as any).mediaSession.metadata = metadata;
+        }
       }
     }
     videoElement.buffering = false;
@@ -287,7 +297,13 @@ export const videoPlayerSetup = (props: any) => {
 
   const onVolumeChange = () => {
     if (videoRef.value) {
-      videoElement.playerVolume = videoRef.value.volume;
+      if (videoRef.value.muted) {
+        videoElement.playerVolume = 0;
+      } else if (videoElement.playerVolume === 0 && videoRef.value.volume === 0) {
+        videoElement.playerVolume = 0.5;
+      } else {
+        videoElement.playerVolume = videoRef.value.volume;
+      }
     }
   };
 
@@ -700,7 +716,6 @@ export const videoPlayerSetup = (props: any) => {
     seekbar,
     selectedQuality,
     highestVideoQuality,
-    videoVolume,
     videoLength,
     videoUrl,
     playerOverlayVisible,

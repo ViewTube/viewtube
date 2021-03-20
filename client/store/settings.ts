@@ -171,6 +171,7 @@ export const state = () => ({
   miniplayer: true,
   chapters: true,
   saveVideoHistory: true,
+  playerVolume: 1,
   sponsorblock_enabled: true,
   sponsorblock_sponsor: 'skip' as segmentOption,
   sponsorblock_intro: 'ask' as segmentOption,
@@ -187,6 +188,7 @@ export const getters = getterTree(state, {
   chapters: state => state.chapters,
   themeVariables: state => state.defaults.theme.find(el => state.theme === el.value),
   saveVideoHistory: state => state.saveVideoHistory,
+  playerVolume: state => state.playerVolume,
   sponsorblock: state => state.sponsorblock_enabled,
   sponsorblock_sponsor: state => state.sponsorblock_sponsor,
   sponsorblock_intro: state => state.sponsorblock_intro,
@@ -197,7 +199,7 @@ export const getters = getterTree(state, {
 });
 
 export const mutations = mutationTree(state, {
-  setMutateSettings(state, newSettings) {
+  mutateSettings(state, newSettings) {
     Object.keys(newSettings).forEach((key: string) => {
       if (key === 'sponsorblock') {
         Object.entries(newSettings[key]).forEach(val => {
@@ -215,24 +217,30 @@ export const mutations = mutationTree(state, {
       }
     });
   },
-  setMutateTheme(state, theme) {
+  mutateTheme(state, theme) {
     if (state.defaults.theme.find(e => e.value === theme)) {
       state.theme = theme;
     }
   },
-  setMutateMiniplayer(state, enabled) {
+  mutateMiniplayer(state, enabled) {
     state.miniplayer = enabled;
   },
-  setMutateChapters(state, enabled) {
+  mutateChapters(state, enabled) {
     state.chapters = enabled;
   },
-  setMutateSponsorblock(state, enabled) {
+  mutatePlayerVolume(state, volume) {
+    if (volume >= 0 && volume <= 1) {
+      console.log('new Volume stored: ' + volume);
+      state.playerVolume = volume;
+    }
+  },
+  mutateSponsorblock(state, enabled) {
     state.sponsorblock_enabled = enabled;
   },
-  setMutateSaveVideoHistory(state, enabled) {
+  mutateSaveVideoHistory(state, enabled) {
     state.saveVideoHistory = enabled;
   },
-  setMutateSponsorblockCategoryStatus(state, { category, status }) {
+  mutateSponsorblockCategoryStatus(state, { category, status }) {
     if (state[`sponsorblock_${category}`]) {
       if (status === 'skip' || status === 'ask' || status === 'none') {
         state[`sponsorblock_${category}`] = status;
@@ -245,23 +253,23 @@ export const actions = actionTree(
   { state, getters, mutations },
   {
     async setTheme({ commit, dispatch }, theme) {
-      commit('setMutateTheme', theme);
+      commit('mutateTheme', theme);
       await dispatch('doSettingsRequest', { settingsKey: 'theme', value: theme });
     },
     async setChapters({ commit, dispatch }, enabled) {
-      commit('setMutateChapters', enabled);
+      commit('mutateChapters', enabled);
       await dispatch('doSettingsRequest', { settingsKey: 'chapters', value: enabled });
     },
     async setMiniplayer({ commit, dispatch }, enabled) {
-      commit('setMutateMiniplayer', enabled);
+      commit('mutateMiniplayer', enabled);
       await dispatch('doSettingsRequest', { settingsKey: 'miniplayer', value: enabled });
     },
     async setSponsorblock({ commit, dispatch }, enabled) {
-      commit('setMutateSponsorblock', enabled);
+      commit('mutateSponsorblock', enabled);
       await dispatch('storeSponsorblock');
     },
     async setSaveVideoHistory({ commit, dispatch }, enabled) {
-      commit('setMutateSaveVideoHistory', enabled);
+      commit('mutateSaveVideoHistory', enabled);
       await dispatch('doSettingsRequest', { settingsKey: 'saveVideoHistory', value: enabled });
     },
     async storeSponsorblock({ dispatch, getters }) {

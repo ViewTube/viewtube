@@ -26,7 +26,7 @@ export const actions = actionTree(
             withCredentials: true
           }
         );
-        this.app.$accessor.settings.setMutateSettings(result.data.settings);
+        this.app.$accessor.settings.mutateSettings(result.data.settings);
         commit('setUsername', result.data.username);
       } catch (e) {}
     },
