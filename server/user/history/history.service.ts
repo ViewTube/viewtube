@@ -157,14 +157,17 @@ export class HistoryService {
               );
             });
           }
-          if (start < limit) {
-            if (start) {
-              videoVisitDetailsArray = videoVisitDetailsArray.splice(0, start);
-            }
+          let startNr = start;
+          let limitNr = limit;
+          if (typeof start !== 'number') {
+            startNr = parseInt(start);
+          }
+          if (typeof limit !== 'number') {
+            limitNr = parseInt(limit);
+          }
 
-            if (limit) {
-              videoVisitDetailsArray = videoVisitDetailsArray.splice(0, limit);
-            }
+          if (startNr !== undefined && limitNr !== undefined) {
+            videoVisitDetailsArray = videoVisitDetailsArray.slice(startNr, startNr + limitNr);
           }
 
           return {

@@ -53,42 +53,8 @@
       <p>You haven't watched any videos yet. Once you have, your history will show up here.</p>
     </div>
     <div v-if="profile && hasHistory" class="video-history">
-      <SectionTitle :title="'History'" />
-      <div v-for="(video, index) in profile.videoHistory" :key="index" class="history-entry">
-        <nuxt-link :to="`/watch?v=${video.videoId}`" class="history-entry-thumbnail">
-          <img
-            :src="video.videoDetails.videoThumbnails[3].url"
-            :alt="video.videoDetails.title"
-            class="history-entry-thumbnail-img"
-          />
-          <div class="history-entry-progress-bar">
-            <span
-              class="history-entry-progress-line"
-              :style="{ width: `${(video.progressSeconds / video.lengthSeconds) * 100}%` }"
-            />
-          </div>
-        </nuxt-link>
-        <div class="history-entry-content">
-          <div v-tippy="video.videoDetails.title" class="history-entry-title">
-            <nuxt-link :to="`/watch?v=${video.videoId}`">{{ video.videoDetails.title }}</nuxt-link>
-          </div>
-          <div v-tippy="video.videoDetails.author" class="history-entry-author">
-            <nuxt-link :to="`/channel/${video.videoDetails.authorId}`">
-              {{ video.videoDetails.author }}</nuxt-link
-            >
-          </div>
-          <div
-            v-tippy="Date(video.lastVisit).toLocaleString()"
-            class="history-entry-watched-date tooltip"
-          >
-            Last watched: {{ humanizeDateString(video.lastVisit) }} ago
-          </div>
-          <div class="history-entry-watch-progress">
-            Progress: {{ $formatting.getTimestampFromSeconds(video.progressSeconds) }} of
-            {{ $formatting.getTimestampFromSeconds(video.lengthSeconds) }}
-          </div>
-        </div>
-      </div>
+      <SectionTitle :title="'History'" :link="'/history'" />
+      <HistoryList :history="profile.videoHistory" />
     </div>
     <portal to="popup">
       <transition name="popup">
@@ -139,7 +105,6 @@ import SettingsIcon from 'vue-material-design-icons/Cog.vue';
 import HistoryIcon from 'vue-material-design-icons/History.vue';
 import RestartOffIcon from 'vue-material-design-icons/RestartOff.vue';
 import Confirmation from '@/components/popup/Confirmation.vue';
-import humanizeDuration from 'humanize-duration';
 import SectionTitle from '@/components/SectionTitle.vue';
 import {
   computed,
@@ -149,6 +114,7 @@ import {
   useMeta,
   useRouter
 } from '@nuxtjs/composition-api';
+import HistoryList from '~/components/history/HistoryList.vue';
 import { useAccessor } from '~/store';
 import { useAxios } from '~/plugins/axios';
 
@@ -167,7 +133,8 @@ export default defineComponent({
     ChevronUpIcon,
     SettingsIcon,
     HistoryIcon,
-    FormInput
+    FormInput,
+    HistoryList
   },
   setup(_) {
     const accessor = useAccessor();
@@ -221,15 +188,6 @@ export default defineComponent({
     const logout = () => {
       accessor.user.logout();
       router.push('/');
-    };
-    const humanizeSeconds = (seconds: number): string => {
-      return humanizeDuration(seconds * 1000);
-    };
-    const humanizeDateString = (dateString: string): string => {
-      const now = new Date();
-      const date = new Date(dateString);
-      const dateMs = now.valueOf() - date.valueOf();
-      return humanizeDuration(dateMs, { largest: 1 });
     };
 
     useFetch(async () => {
@@ -291,10 +249,7 @@ export default defineComponent({
       deleteAccount,
       deleteAccountValid,
       hasHistory,
-      logout,
-      humanizeDateString,
-      humanizeDuration,
-      humanizeSeconds
+      logout
     };
   },
   head: {}
@@ -347,7 +302,7 @@ export default defineComponent({
 
 .profile {
   width: 100%;
-  max-width: 700px;
+  max-width: 800px;
   padding-top: $header-height;
   margin: 0 auto;
   max-height: calc(100% - #{$header-height});
@@ -452,7 +407,7 @@ export default defineComponent({
         color: var(--subtitle-color);
         font-size: 0.9rem;
         margin: 0 0 5px 0;
-        transition: filter 300ms 100ms $intro-easing;
+        transition: filter 500ms $intro-easing;
 
         &.blurred {
           filter: blur(5px);
@@ -502,7 +457,7 @@ export default defineComponent({
           padding: 2px;
           border-radius: 3px;
           cursor: pointer;
-          transition: border $intro-easing;
+          transition: border 300ms $intro-easing;
 
           &:hover {
             border: 2px solid var(--theme-color);
@@ -524,7 +479,8 @@ export default defineComponent({
             opacity: 0;
             user-select: none;
             pointer-events: none;
-            transition: transform 300ms $intro-easing, opacity 300ms $intro-easing;
+            transition: transform 300ms $intro-easing, opacity 300ms $intro-easing,
+              border 300ms 0ms $intro-easing;
           }
 
           @for $i from 0 through 2 {
@@ -542,171 +498,17 @@ export default defineComponent({
     }
   }
 
+  .video-history {
+    overflow: hidden;
+    box-sizing: border-box;
+    margin: 0 10px;
+  }
+
   .no-history {
     margin: 60px 0 0 0;
     position: relative;
     width: 100%;
     text-align: center;
-  }
-
-  .video-history {
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    box-sizing: border-box;
-    margin: 0 10px;
-
-    .history-entry {
-      display: flex;
-      flex-direction: row;
-      margin: 5px 0;
-
-      .history-entry-thumbnail {
-        position: relative;
-        padding-right: 200px;
-        padding-bottom: 112.5px;
-        width: 0;
-
-        @media screen and (max-width: $mobile-width) {
-          padding-right: 160px;
-          padding-bottom: 90px;
-        }
-
-        .history-entry-thumbnail-img {
-          position: absolute;
-          width: 100%;
-        }
-
-        .history-entry-progress-bar {
-          position: absolute;
-          bottom: 0;
-          left: 0;
-          width: 100%;
-          height: 3px;
-          background-color: var(--line-accent-color);
-
-          .history-entry-progress-line {
-            height: 3px;
-            background-image: $theme-color-primary-gradient;
-            display: block;
-          }
-        }
-      }
-
-      .history-entry-content {
-        margin: 0 0 0 10px;
-        overflow: hidden;
-
-        .history-entry-title {
-          font-size: 0.9rem;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-          color: var(--title-color);
-          padding: 0 0 4px 0;
-        }
-
-        .history-entry-author {
-          font-size: 0.8rem;
-          font-weight: 700;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-          color: var(--subtitle-color);
-          padding: 3px 0 4px 0;
-        }
-
-        .history-entry-watched-date {
-          font-size: 0.8rem;
-          color: var(--subtitle-color-light);
-        }
-
-        .history-entry-watch-progress {
-          font-size: 0.8rem;
-          color: var(--subtitle-color-light);
-        }
-      }
-    }
-  }
-
-  .video-history {
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    box-sizing: border-box;
-    margin: 0 10px;
-
-    .history-entry {
-      display: flex;
-      flex-direction: row;
-      margin: 5px 0;
-
-      .history-entry-thumbnail {
-        position: relative;
-        padding-right: 200px;
-        padding-bottom: 112.5px;
-        width: 0;
-
-        @media screen and (max-width: $mobile-width) {
-          padding-right: 160px;
-          padding-bottom: 90px;
-        }
-
-        .history-entry-thumbnail-img {
-          position: absolute;
-          width: 100%;
-        }
-
-        .history-entry-progress-bar {
-          position: absolute;
-          bottom: 0;
-          left: 0;
-          width: 100%;
-          height: 3px;
-          background-color: var(--line-accent-color);
-
-          .history-entry-progress-line {
-            height: 3px;
-            background-image: $theme-color-primary-gradient;
-            display: block;
-          }
-        }
-      }
-
-      .history-entry-content {
-        margin: 0 0 0 10px;
-        overflow: hidden;
-
-        .history-entry-title {
-          font-size: 0.9rem;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-          color: var(--title-color);
-          padding: 0 0 4px 0;
-        }
-
-        .history-entry-author {
-          font-size: 0.8rem;
-          font-weight: 700;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-          color: var(--subtitle-color);
-          padding: 3px 0 4px 0;
-        }
-
-        .history-entry-watched-date {
-          font-size: 0.8rem;
-          color: var(--subtitle-color-light);
-        }
-
-        .history-entry-watch-progress {
-          font-size: 0.8rem;
-          color: var(--subtitle-color-light);
-        }
-      }
-    }
   }
 }
 </style>

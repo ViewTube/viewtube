@@ -17,8 +17,8 @@ export class HistoryController {
   @Get()
   getSettings(
     @Req() request: any,
-    @Query('limit') limit = 30,
-    @Query('start') start = 0,
+    @Query('limit') limit: number = 30,
+    @Query('start') start: number = 0,
     @Query('sort') sortString: 'ASC' | 'DESC' = 'ASC',
     @Query('filter') filter: string = ''
   ): Promise<{ videos: Array<VideoVisitDetailsDto>; videoCount: number }> {
