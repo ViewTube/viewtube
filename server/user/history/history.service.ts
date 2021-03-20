@@ -155,16 +155,14 @@ export class HistoryService {
 
         let startNr = 0;
         let limitNr = videoVisitDetailsArray.length;
-        if (start as any !== null) {
+        if ((start as any) !== null) {
           startNr = parseInt((start as unknown) as string);
         }
-        if (limit as any !== null) {
+        if ((limit as any) !== null) {
           limitNr = parseInt((limit as unknown) as string);
         }
 
-        if (startNr !== null && limitNr !== undefined) {
-          videoVisitDetailsArray = videoVisitDetailsArray.slice(startNr, startNr + limitNr);
-        }
+        videoVisitDetailsArray = videoVisitDetailsArray.slice(startNr, startNr + limitNr);
 
         return {
           videoCount,
