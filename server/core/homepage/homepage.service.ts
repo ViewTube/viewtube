@@ -19,7 +19,7 @@ export class HomepageService {
   ) {}
 
   private popularPageUrl =
-    'https://yewtu.be/api/v1/popular?fields=type,title,videoId,videoThumbnails,lengthSeconds,viewCount,author,authorId,publishedText';
+    'https://invidious.snopyta.org/api/v1/popular?fields=type,title,videoId,videoThumbnails,lengthSeconds,viewCount,author,authorId,publishedText';
 
   @Cron(CronExpression.EVERY_DAY_AT_1AM)
   async refreshPopular(): Promise<void> {
