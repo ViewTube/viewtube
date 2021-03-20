@@ -156,16 +156,12 @@ export class HistoryService {
         let startNr = start;
         let limitNr = limit;
         if (start !== null) {
-          if (typeof start !== 'number') {
-            startNr = parseInt(start);
-          }
+          startNr = parseInt(start as unknown as string);
         } else {
           startNr = 0;
         }
         if (limit !== null) {
-          if (typeof limit !== 'number') {
-            limitNr = parseInt(limit);
-          }
+          limitNr = parseInt(limit as unknown as string);
         } else {
           limitNr = videoVisitDetailsArray.length;
         }
