@@ -1,4 +1,4 @@
-import { Controller, UseGuards, Req, Get, Query, Post, Param, Body } from '@nestjs/common';
+import { Controller, UseGuards, Req, Get, Query, Post, Param, Body, Delete } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'server/auth/guards/jwt.guard';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -45,5 +45,10 @@ export class HistoryController {
   @Get(':id')
   getVideoVisit(@Req() request: any, @Param('id') videoId: string): Promise<VideoVisitDto> {
     return this.historyService.getVideoVisit(request.user.username, videoId);
+  }
+
+  @Delete(':videoId')
+  deleteHistoryEntry(@Req() request: any, @Param('videoId') videoId: string): Promise<void> {
+    return this.historyService.deleteHistoryEntry(request.user.username, videoId);
   }
 }

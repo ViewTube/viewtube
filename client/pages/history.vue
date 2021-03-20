@@ -2,7 +2,12 @@
   <div class="history">
     <SectionTitle class="history-title" :title="'History'" />
     <SmallSearchBox v-model="searchTerm" :label="'Filter'" />
-    <HistoryList class="history-main-list" :history="history" />
+    <HistoryList
+      class="history-main-list"
+      :history="history"
+      :deleteOption="true"
+      @refresh="$fetch"
+    />
     <div class="history-pagination">
       <Pagination :currentPage="currentPage" :pageCount="pageCount" />
     </div>

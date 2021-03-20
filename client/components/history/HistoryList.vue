@@ -34,6 +34,9 @@
           {{ $formatting.getTimestampFromSeconds(video.lengthSeconds) }}
         </div>
       </div>
+      <BadgeButton v-if="deleteOption" class="delete-btn" :click="() => deleteEntry(video.videoId)"
+        ><DeleteIcon
+      /></BadgeButton>
     </div>
   </div>
 </template>
@@ -41,21 +44,39 @@
 <script lang="ts">
 import { defineComponent } from '@nuxtjs/composition-api';
 import humanizeDuration from 'humanize-duration';
+import DeleteIcon from 'vue-material-design-icons/Delete.vue';
+import { useAxios } from '@/plugins/axios';
+import { useAccessor } from '@/store';
+import BadgeButton from '@/components/buttons/BadgeButton.vue';
 
 export default defineComponent({
-  props: {
-    history: Array
+  components: {
+    BadgeButton,
+    DeleteIcon
   },
-  setup() {
+  props: {
+    history: Array,
+    deleteOption: Boolean
+  },
+  setup(props, { emit }) {
+    const axios = useAxios();
+    const accessor = useAccessor();
+
     const humanizeDateString = (dateString: string): string => {
       const now = new Date();
       const date = new Date(dateString);
       const dateMs = now.valueOf() - date.valueOf();
       return humanizeDuration(dateMs, { largest: 1 });
     };
+    const deleteEntry = async (videoId: string) => {
+      axios.delete(`${accessor.environment.apiUrl}user/history/${videoId}`).then(response => {
+        emit('refresh');
+      });
+    };
 
     return {
-      humanizeDateString
+      humanizeDateString,
+      deleteEntry
     };
   }
 });
@@ -70,6 +91,7 @@ export default defineComponent({
     display: flex;
     flex-direction: row;
     margin: 5px 0;
+    position: relative;
 
     .history-entry-thumbnail {
       position: relative;
@@ -135,6 +157,24 @@ export default defineComponent({
         font-size: 0.8rem;
         color: var(--subtitle-color-light);
       }
+    }
+
+    &:hover {
+      .delete-btn {
+        opacity: 1;
+        pointer-events: all;
+        user-select: auto;
+      }
+    }
+
+    .delete-btn {
+      position: absolute !important;
+      top: 0;
+      right: 0;
+      opacity: 0;
+      pointer-events: none;
+      user-select: none;
+      transition: opacity 200ms $intro-easing;
     }
   }
 }

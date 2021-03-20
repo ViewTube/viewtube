@@ -54,7 +54,7 @@
     </div>
     <div v-if="profile && hasHistory" class="video-history">
       <SectionTitle :title="'History'" :link="'/history'" />
-      <HistoryList :history="profile.videoHistory" />
+      <HistoryList :history="profile.videoHistory" :deleteOption="false" />
     </div>
     <portal to="popup">
       <transition name="popup">

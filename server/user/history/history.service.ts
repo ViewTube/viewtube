@@ -174,7 +174,15 @@ export class HistoryService {
     }
   }
 
-  async deleteHistory(username: string) {
+  async deleteHistoryEntry(username: string, videoId: string): Promise<void> {
+    await this.HistoryModel.updateOne({ username }, { $pull: { videoHistory: { videoId } } })
+      .exec()
+      .catch(_ => {
+        throw new InternalServerErrorException('Error deleting history entry');
+      });
+  }
+
+  async deleteCompleteHistory(username: string) {
     let success = true;
     await this.HistoryModel.deleteOne({ username })
       .exec()
