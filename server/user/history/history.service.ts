@@ -153,17 +153,13 @@ export class HistoryService {
 
         const videoCount = videoVisitDetailsArray.length;
 
-        let startNr = start;
-        let limitNr = limit;
-        if (start !== null) {
-          startNr = parseInt(start as unknown as string);
-        } else {
-          startNr = 0;
+        let startNr = 0;
+        let limitNr = videoVisitDetailsArray.length;
+        if (start as any !== null) {
+          startNr = parseInt((start as unknown) as string);
         }
-        if (limit !== null) {
-          limitNr = parseInt(limit as unknown as string);
-        } else {
-          limitNr = videoVisitDetailsArray.length;
+        if (limit as any !== null) {
+          limitNr = parseInt((limit as unknown) as string);
         }
 
         if (startNr !== null && limitNr !== undefined) {
