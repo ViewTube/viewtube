@@ -62,7 +62,7 @@ export const state = () => ({
             rgba(0, 212, 255, 1) 100%
           )`,
         'shadow-load-color': '#535353b6',
-        'header-bgcolor': '#ffffff',
+        'header-bgcolor': '#fffffff2',
         'header-transparent': '#ffffff',
         'title-color': '#080808',
         'subtitle-color': '#333333',
