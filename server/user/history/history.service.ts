@@ -104,77 +104,80 @@ export class HistoryService {
 
   async getHistory(
     username: string,
-    limit: number = 30,
-    start: number = 0,
+    limit: number | null = 30,
+    start: number | null = 0,
     sort: 'ASC' | 'DESC' = 'ASC',
     filter: string = null
   ): Promise<{ videos: Array<VideoVisitDetailsDto>; videoCount: number }> {
     if (username) {
-      const history = await this.HistoryModel.findOne({ username })
+      const userHistory = await this.HistoryModel.findOne({ username })
         .exec()
         .catch(_ => {});
-      if (history) {
-        const videoCount = history.videoHistory.length;
+      if (userHistory) {
+        const videoHistoryItems = userHistory.videoHistory;
+        const videoHistoryIds = videoHistoryItems.map(e => e.videoId);
 
-        const userHistory = await this.HistoryModel.findOne({ username })
-          .exec()
-          .catch(_ => {});
+        const historyVideos = await this.VideoBasicInfoModel.find({
+          videoId: { $in: videoHistoryIds }
+        }).exec();
 
-        if (userHistory) {
-          const videoHistoryItems = userHistory.videoHistory;
-          const videoHistoryIds = videoHistoryItems.map(e => e.videoId);
+        let videoVisitDetailsArray: Array<VideoVisitDetailsDto> = historyVideos.map(video => {
+          const videoVisit = videoHistoryItems.find(e => e.videoId === video.videoId);
+          return {
+            lastVisit: videoVisit.lastVisit,
+            lengthSeconds: videoVisit.lengthSeconds,
+            progressSeconds: videoVisit.progressSeconds,
+            videoDetails: video,
+            videoId: video.videoId
+          };
+        });
 
-          const historyVideos = await this.VideoBasicInfoModel.find({
-            videoId: { $in: videoHistoryIds }
-          }).exec();
-
-          let videoVisitDetailsArray: Array<VideoVisitDetailsDto> = historyVideos.map(video => {
-            const videoVisit = videoHistoryItems.find(e => e.videoId === video.videoId);
-            return {
-              lastVisit: videoVisit.lastVisit,
-              lengthSeconds: videoVisit.lengthSeconds,
-              progressSeconds: videoVisit.progressSeconds,
-              videoDetails: video,
-              videoId: video.videoId
-            };
+        if (sort === 'ASC') {
+          videoVisitDetailsArray = videoVisitDetailsArray.sort((a, b) => {
+            return new Date(a.lastVisit).getTime() - new Date(b.lastVisit).getTime();
           });
+        } else if (sort === 'DESC') {
+          videoVisitDetailsArray = videoVisitDetailsArray.sort((a, b) => {
+            return new Date(b.lastVisit).getTime() - new Date(a.lastVisit).getTime();
+          });
+        }
 
-          if (sort === 'ASC') {
-            videoVisitDetailsArray = videoVisitDetailsArray.sort((a, b) => {
-              return new Date(a.lastVisit).getTime() - new Date(b.lastVisit).getTime();
-            });
-          } else if (sort === 'DESC') {
-            videoVisitDetailsArray = videoVisitDetailsArray.sort((a, b) => {
-              return new Date(b.lastVisit).getTime() - new Date(a.lastVisit).getTime();
-            });
-          }
+        if (filter) {
+          videoVisitDetailsArray = videoVisitDetailsArray.filter(e => {
+            return (
+              e.videoDetails.title.match(new RegExp(`.*${filter}.*`, 'i')) ||
+              e.videoDetails.author.match(new RegExp(`.*${filter}.*`, 'i'))
+            );
+          });
+        }
 
-          if (filter) {
-            videoVisitDetailsArray = videoVisitDetailsArray.filter(e => {
-              return (
-                e.videoDetails.title.match(new RegExp(`.*${filter}.*`, 'i')) ||
-                e.videoDetails.author.match(new RegExp(`.*${filter}.*`, 'i'))
-              );
-            });
-          }
-          let startNr = start;
-          let limitNr = limit;
+        const videoCount = videoVisitDetailsArray.length;
+
+        let startNr = start;
+        let limitNr = limit;
+        if (start !== null) {
           if (typeof start !== 'number') {
             startNr = parseInt(start);
           }
+        } else {
+          startNr = 0;
+        }
+        if (limit !== null) {
           if (typeof limit !== 'number') {
             limitNr = parseInt(limit);
           }
-
-          if (startNr !== undefined && limitNr !== undefined) {
-            videoVisitDetailsArray = videoVisitDetailsArray.slice(startNr, startNr + limitNr);
-          }
-
-          return {
-            videoCount,
-            videos: videoVisitDetailsArray
-          };
+        } else {
+          limitNr = videoVisitDetailsArray.length;
         }
+
+        if (startNr !== null && limitNr !== undefined) {
+          videoVisitDetailsArray = videoVisitDetailsArray.slice(startNr, startNr + limitNr);
+        }
+
+        return {
+          videoCount,
+          videos: videoVisitDetailsArray
+        };
       } else {
         return { videos: [], videoCount: 0 };
       }

@@ -1,7 +1,8 @@
 <template>
   <div class="history">
-    <SectionTitle :title="'History'" />
-    <HistoryList :history="history" />
+    <SectionTitle class="history-title" :title="'History'" />
+    <SmallSearchBox v-model="searchTerm" :label="'Filter'" />
+    <HistoryList class="history-main-list" :history="history" />
     <div class="history-pagination">
       <Pagination :currentPage="currentPage" :pageCount="pageCount" />
     </div>
@@ -9,19 +10,29 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, useFetch, useRoute, useRouter, watch } from '@nuxtjs/composition-api';
+import {
+  defineComponent,
+  ref,
+  useFetch,
+  useMeta,
+  useRoute,
+  useRouter,
+  watch
+} from '@nuxtjs/composition-api';
 import SectionTitle from '@/components/SectionTitle.vue';
 import Pagination from '@/components/pagination/Pagination.vue';
 import HistoryList from '@/components/history/HistoryList.vue';
 import { useAxios } from '@/plugins/axios';
 import { useAccessor } from '@/store';
+import SmallSearchBox from '~/components/SmallSearchBox.vue';
 
 export default defineComponent({
   name: 'History',
   components: {
     SectionTitle,
     HistoryList,
-    Pagination
+    Pagination,
+    SmallSearchBox
   },
   setup() {
     const axios = useAxios();
@@ -63,8 +74,17 @@ export default defineComponent({
             });
           });
       } else {
-        router.push('/login');
+        router.push('/login').catch(_ => {});
       }
+    });
+
+    watch(searchTerm, (newVal, oldVal): void => {
+      if (searchTimeout.value) clearTimeout(searchTimeout.value);
+      searchTimeout.value = setTimeout(() => {
+        if (newVal !== null && newVal !== oldVal) {
+          fetch();
+        }
+      }, 400);
     });
 
     watch(
@@ -74,13 +94,36 @@ export default defineComponent({
       }
     );
 
+    useMeta(() => ({
+      title: 'History :: ViewTube',
+      meta: [
+        {
+          hid: 'description',
+          vmid: 'descriptionMeta',
+          name: 'description',
+          content: 'See your watch history'
+        },
+        {
+          hid: 'ogTitle',
+          property: 'og:title',
+          content: 'Your history'
+        },
+        {
+          hid: 'ogDescription',
+          property: 'og:description',
+          content: 'See your watch history'
+        }
+      ]
+    }));
+
     return {
       history,
       currentPage,
       pageCount,
       searchTerm
     };
-  }
+  },
+  head: {}
 });
 </script>
 
@@ -90,5 +133,14 @@ export default defineComponent({
   max-width: 800px;
   padding-top: $header-height;
   margin: 0 auto;
+  overflow: hidden;
+
+  .history-title {
+    margin: 0 15px;
+  }
+
+  .history-main-list {
+    margin: 15px;
+  }
 }
 </style>
