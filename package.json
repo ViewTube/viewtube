@@ -115,7 +115,7 @@
     "@types/fluent-ffmpeg": "2.1.16",
     "@types/humanize-duration": "3.18.1",
     "@types/module-alias": "2.0.0",
-    "@types/mongoose": "5.10.3",
+    "@types/mongoose": "5.10.4",
     "@types/node": "14.14.35",
     "@types/node-fetch": "2.5.8",
     "@types/passport-jwt": "3.0.5",
