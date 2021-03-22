@@ -58,7 +58,7 @@ export default defineComponent({
     history: Array,
     deleteOption: Boolean
   },
-  setup(props, { emit }) {
+  setup(_, { emit }) {
     const axios = useAxios();
     const accessor = useAccessor();
 
@@ -69,9 +69,18 @@ export default defineComponent({
       return humanizeDuration(dateMs, { largest: 1 });
     };
     const deleteEntry = async (videoId: string) => {
-      axios.delete(`${accessor.environment.apiUrl}user/history/${videoId}`).then(response => {
-        emit('refresh');
-      });
+      await axios
+        .delete(`${accessor.environment.apiUrl}user/history/${videoId}`)
+        .then(() => {
+          emit('refresh');
+        })
+        .catch(() => {
+          accessor.messages.createMessage({
+            type: 'info',
+            title: 'Error deleting history entry',
+            message: 'Try logging out and in again'
+          });
+        });
     };
 
     return {

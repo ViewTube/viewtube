@@ -35,12 +35,17 @@
       href="#"
       @click.prevent="showAccountMenu"
     >
-      <AccountIcon />
+      <div class="user-icon">
+        <AccountIcon />
+      </div>
+      <p v-if="userAuthenticated" class="account-name">{{ $accessor.user.username }}</p>
     </a>
     <transition name="fade-up">
       <div v-if="accountMenuVisible" v-clickaway="hideAccountMenu" class="menu">
         <div v-show="userAuthenticated" class="account-menu">
-          <AccountIcon />
+          <div class="account-icon">
+            <AccountIcon />
+          </div>
           <div class="account-info">
             <p class="account-name">
               Logged in as
@@ -341,7 +346,24 @@ export default defineComponent({
     }
 
     &.authenticated {
-      color: var(--theme-color);
+      width: auto;
+      border-radius: 3px;
+
+      .account-name {
+        color: var(--theme-color);
+        padding: 0 0 0 4px;
+        @media screen and (max-width: $mobile-width) {
+          display: none;
+        }
+      }
+
+      .user-icon {
+        .material-design-icon {
+          .material-design-icon__svg {
+            fill: var(--theme-color);
+          }
+        }
+      }
     }
   }
 
@@ -373,7 +395,7 @@ export default defineComponent({
       column-gap: 10%;
       row-gap: 5%;
       height: auto;
-      margin: 10px 5% 20px 5%;
+      margin: 20px 5% 0 5%;
 
       @media screen and (max-width: $mobile-width) {
         grid-template-columns: 25% 25% 25% 25%;
@@ -398,16 +420,20 @@ export default defineComponent({
         justify-self: center;
         align-self: stretch;
         width: 100%;
-        height: 50px;
+        height: 60px;
         display: flex;
-        border-radius: 5px;
+        border-radius: 3px;
         transition: box-shadow 300ms $intro-easing, border 300ms $intro-easing;
         border: 2px solid transparent;
+        box-sizing: border-box;
+
+        &::after {
+          display: none;
+        }
 
         &:hover,
         &:active,
         &:focus {
-          box-shadow: $low-shadow;
           border: 2px solid var(--theme-color);
         }
 
@@ -415,20 +441,18 @@ export default defineComponent({
           margin: auto;
           display: flex;
           flex-direction: column;
+          color: var(--theme-color);
 
-          span {
+          .material-design-icon {
             margin: auto;
             width: 28px;
             height: 28px;
 
-            svg {
+            .material-design-icon__svg {
+              fill: var(--title-color);
               width: 28px;
               height: 28px;
             }
-          }
-
-          p.menu-subtitle {
-            font-size: 0.8rem;
           }
 
           &.account-btn {
@@ -448,6 +472,22 @@ export default defineComponent({
       flex-direction: row;
       padding: 0 0 0 20px;
       align-items: flex-start;
+
+      .account-icon {
+        margin: 4px 0 0 0;
+        height: 40px;
+        width: 40px;
+        min-width: 42px;
+        min-height: 42px;
+        box-sizing: border-box;
+
+        .account-circle-icon,
+        .material-design-icon__svg {
+          height: 40px;
+          width: 40px;
+          fill: var(--subtitle-color-light);
+        }
+      }
 
       .account-info {
         display: flex;
@@ -512,6 +552,11 @@ export default defineComponent({
     padding: 5px 10px;
     box-sizing: border-box;
     border: solid 2px transparent;
+    min-width: 80px;
+
+    &#login {
+      min-width: 75px;
+    }
 
     @media screen and (max-width: $mobile-width) {
       display: none;

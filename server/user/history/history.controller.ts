@@ -1,4 +1,15 @@
-import { Controller, UseGuards, Req, Get, Query, Post, Param, Body, Delete } from '@nestjs/common';
+import {
+  Controller,
+  UseGuards,
+  Req,
+  Get,
+  Query,
+  Post,
+  Param,
+  Body,
+  Delete,
+  InternalServerErrorException
+} from '@nestjs/common';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'server/auth/guards/jwt.guard';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -47,8 +58,25 @@ export class HistoryController {
     return this.historyService.getVideoVisit(request.user.username, videoId);
   }
 
+  @Delete()
+  async deleteEntireHistory(@Req() request: any): Promise<void> {
+    const result = await this.historyService.deleteCompleteHistory(request.user.username);
+    if (!result.success) {
+      throw new InternalServerErrorException('Error deleting history');
+    }
+  }
+
   @Delete(':videoId')
   deleteHistoryEntry(@Req() request: any, @Param('videoId') videoId: string): Promise<void> {
     return this.historyService.deleteHistoryEntry(request.user.username, videoId);
+  }
+
+  @Delete('from/:startDate/to/:endDate')
+  deleteHistoryRange(
+    @Req() request: any,
+    @Param('startDate') startDate: string,
+    @Param('endDate') endDate: string
+  ): Promise<void> {
+    return this.historyService.deleteHistoryRange(request.user.username, startDate, endDate);
   }
 }

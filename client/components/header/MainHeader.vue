@@ -7,7 +7,6 @@
       </h1>
       <img
         class="logo-small"
-        :class="{ inverted: currentRouteName !== 'home' }"
         src="@/assets/icon.svg"
         alt="ViewTube"
       />

@@ -78,7 +78,12 @@ export default defineNuxtConfig({
     duration: 8000
   },
 
-  css: ['~/assets/fonts/expletus.css', '~/assets/fonts/notosans.css', 'tippy.js/dist/tippy.css'],
+  css: [
+    '~/assets/fonts/expletus.css',
+    '~/assets/fonts/notosans.css',
+    'tippy.js/dist/tippy.css',
+    'vue2-datepicker/index.css'
+  ],
   styleResources: {
     scss: ['~/assets/styles/global/variables.scss']
   },
@@ -95,6 +100,7 @@ export default defineNuxtConfig({
     '@/plugins/directives/index',
     '@/plugins/formatting',
     '@/plugins/shared',
+    { src: '~/plugins/vue-datepicker', mode: 'client' },
     { src: '@/plugins/localStorage', mode: 'client' }
   ],
 

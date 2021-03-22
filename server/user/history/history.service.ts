@@ -174,6 +174,48 @@ export class HistoryService {
     }
   }
 
+  async deleteHistoryRange(username: string, startDate: string, endDate: string): Promise<void> {
+    const userHistory = await this.HistoryModel.findOne({ username })
+      .exec()
+      .catch(_ => {});
+
+    if (userHistory) {
+      const firstDate = new Date(parseInt(startDate as any));
+      const secondDate = new Date(parseInt(endDate as any));
+
+      debugger;
+
+      if (firstDate <= secondDate) {
+        const sortedHistory = userHistory.videoHistory.sort((a, b) => {
+          return new Date(b.lastVisit).getTime() - new Date(a.lastVisit).getTime();
+        });
+
+        const firstIndex = sortedHistory.findIndex(el => {
+          return el.lastVisit >= firstDate;
+        });
+
+        let secondIndex = sortedHistory.findIndex(el => {
+          return el.lastVisit > secondDate;
+        });
+
+        if (secondIndex > 0) {
+          secondIndex -= 1;
+        } else if (secondIndex === -1) {
+          secondIndex = sortedHistory.length - 1;
+        }
+
+        sortedHistory.splice(firstIndex, secondIndex - firstIndex + 1);
+
+        await this.HistoryModel.findOneAndUpdate(
+          { username },
+          { username, videoHistory: sortedHistory }
+        ).exec();
+      }
+    } else {
+      throw new InternalServerErrorException('Error deleting history range');
+    }
+  }
+
   async deleteHistoryEntry(username: string, videoId: string): Promise<void> {
     await this.HistoryModel.updateOne({ username }, { $pull: { videoHistory: { videoId } } })
       .exec()

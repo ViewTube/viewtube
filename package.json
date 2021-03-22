@@ -101,6 +101,7 @@
     "vue": "2.6.12",
     "vue-material-design-icons": "4.11.0",
     "vue-property-decorator": "9.1.2",
+    "vue2-datepicker": "^3.9.0",
     "vuex-persistedstate": "4.0.0-beta.3",
     "web-push": "3.4.4",
     "x2js": "3.4.1",
