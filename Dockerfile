@@ -16,7 +16,7 @@ RUN apk upgrade --no-cache -U && \
 
 COPY --from=build /home/build .
 
-RUN yarn install --pure-lockfile --link-duplicates --ignore-optional --production && \
+RUN yarn install --pure-lockfile --link-duplicates --ignore-optional --non-interactive --production && \
     yarn cache clean && \
     yarn modclean -n default:safe -r
 
