@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { promisify } from 'util';
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
-import { getBasicInfo, videoInfo, downloadOptions } from 'ytdl-core';
+import { getInfo, videoInfo, getInfoOptions } from 'ytdl-core';
 import { ConfigService } from '@nestjs/config';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -35,7 +35,7 @@ export class VideosService {
       const proxy = this.configService.get('VIEWTUBE_PROXY_URL');
       proxyAgent = HttpsProxyAgent(proxy);
     }
-    const ytdlOptions: downloadOptions = {
+    const ytdlOptions: getInfoOptions = {
       requestOptions: {}
     };
     if (this.configService.get('VIEWTUBE_YOUTUBE_COOKIE')) {
@@ -53,8 +53,9 @@ export class VideosService {
     }
 
     try {
-      const result: videoInfo = await getBasicInfo(url, ytdlOptions);
+      const result: videoInfo = await getInfo(url, ytdlOptions);
       const video: VideoDto = new VideoEntity(result);
+
 
       const channelBasicInfo: ChannelBasicInfoDto = {
         authorId: video.authorId,

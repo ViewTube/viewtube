@@ -122,22 +122,9 @@ export class VideoEntity implements VideoDto {
 
   @Expose()
   get formatStreams(): Array<any> {
-    return this._source.formats
-      .filter(value => {
-        return value.bitrate !== undefined && value.audioQuality !== undefined;
-      })
-      .map(vid => {
-        const video = vid as any;
-        if (video.src !== undefined) {
-          return vid;
-        } else {
-          if (video.cipher !== undefined) {
-            const url = video.cipher.replace('url=', '');
-            video.src = decodeURI(url);
-          }
-          return vid;
-        }
-      });
+    return this._source.formats.filter(value => {
+      return value.hasAudio && value.hasVideo;
+    });
   }
 
   @Expose()
