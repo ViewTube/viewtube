@@ -54,7 +54,7 @@
     "@nuxtjs/router": "1.6.1",
     "@nuxtjs/style-resources": "1.0.0",
     "@types/bcryptjs": "2.4.2",
-    "@types/jest": "26.0.21",
+    "@types/jest": "26.0.22",
     "animejs": "3.2.1",
     "bcryptjs": "2.4.3",
     "cache-manager": "3.4.1",
