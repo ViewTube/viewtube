@@ -1,22 +1,24 @@
 <template>
   <div class="nav">
-    <nuxt-link
+    <a
       v-show="!userAuthenticated"
       id="login"
       v-ripple
       v-tippy="'Sign in'"
-      :to="`/login${currentPageRef('login')}`"
+      :href="`/login${currentPageRef('login')}`"
       class="tooltip nav-btn main"
-      >Sign in</nuxt-link
+      @click.prevent="onLoginClick"
+      >Sign in</a
     >
-    <nuxt-link
+    <a
       v-show="!userAuthenticated"
       id="register"
       v-ripple
       v-tippy="'Sign up'"
-      :to="`/register${currentPageRef('register')}`"
+      :href="`/register${currentPageRef('register')}`"
       class="tooltip nav-btn"
-      >Sign up</nuxt-link
+      @click.prevent="onRegisterClick"
+      >Sign up</a
     >
     <nuxt-link
       v-show="$route.name !== 'subscriptions' && userAuthenticated"
@@ -120,9 +122,19 @@
         <Settings v-if="settingsOpen" @close="closeSettings" />
         <Instances v-if="instancesOpen" @close="closeInstances" />
         <About v-if="aboutOpen" @close="closeAbout" />
+        <LoginForm v-if="loginOpen" class="center-popup" :complete="() => (loginOpen = false)" />
+        <RegisterForm
+          v-if="registerOpen"
+          class="center-popup"
+          :complete="() => (registerOpen = false)"
+        />
       </transition>
     </portal>
-    <div :class="{ visible: accountMenuVisible }" class="clickaway-div" />
+    <div
+      :class="{ visible: accountMenuVisible || loginOpen || registerOpen }"
+      class="clickaway-div"
+      @click="closeAllPopups"
+    />
   </div>
 </template>
 
@@ -147,6 +159,8 @@ import {
   useRouter
 } from '@nuxtjs/composition-api';
 import { useAccessor } from '@/store/index';
+import LoginForm from '../form/LoginForm.vue';
+import RegisterForm from '../form/RegisterForm.vue';
 
 export default defineComponent({
   name: 'UserMenu',
@@ -159,7 +173,9 @@ export default defineComponent({
     SubscriptionIcon,
     Settings,
     Instances,
-    About
+    About,
+    LoginForm,
+    RegisterForm
   },
   setup(_, { root }) {
     const route = useRoute();
@@ -170,6 +186,26 @@ export default defineComponent({
     const settingsOpen = ref(false);
     const instancesOpen = ref(false);
     const aboutOpen = ref(false);
+    const loginOpen = ref(false);
+    const registerOpen = ref(false);
+
+    const onLoginClick = () => {
+      closeAllPopups();
+      loginOpen.value = true;
+    };
+    const onRegisterClick = () => {
+      closeAllPopups();
+      registerOpen.value = true;
+    };
+
+    const closeAllPopups = () => {
+      registerOpen.value = false;
+      loginOpen.value = false;
+      aboutOpen.value = false;
+      settingsOpen.value = false;
+      instancesOpen.value = false;
+      accountMenuVisible.value = false;
+    };
 
     const currentRouteName = computed((): string => {
       return route.value.name;
@@ -190,6 +226,7 @@ export default defineComponent({
     };
 
     const openPopup = (popupName: string): void => {
+      closeAllPopups();
       switch (popupName) {
         case 'instances':
           openInstances();
@@ -204,24 +241,25 @@ export default defineComponent({
       }
     };
     const showAccountMenu = (): void => {
+      closeAllPopups();
       accountMenuVisible.value = !accountMenuVisible.value;
     };
     const openAbout = (): void => {
-      hideAccountMenu();
+      closeAllPopups();
       aboutOpen.value = true;
     };
     const closeAbout = (): void => {
       aboutOpen.value = false;
     };
     const openSettings = (): void => {
-      hideAccountMenu();
+      closeAllPopups();
       settingsOpen.value = true;
     };
     const closeSettings = (): void => {
       settingsOpen.value = false;
     };
     const openInstances = (): void => {
-      hideAccountMenu();
+      closeAllPopups();
       instancesOpen.value = true;
     };
     const closeInstances = (): void => {
@@ -244,12 +282,20 @@ export default defineComponent({
       hideAccountMenu();
     };
 
+    const onEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        closeAllPopups();
+      }
+    };
+
     onMounted(() => {
       root.$nuxt.$on('open-popup', openPopup);
+      window.addEventListener('keydown', onEscape);
     });
 
     onBeforeUnmount(() => {
       root.$nuxt.$off('open-popup');
+      window.removeEventListener('keydown', onEscape);
     });
 
     return {
@@ -271,7 +317,12 @@ export default defineComponent({
       openSubscriptions,
       login,
       logout,
-      register
+      register,
+      loginOpen,
+      registerOpen,
+      onLoginClick,
+      onRegisterClick,
+      closeAllPopups
     };
   }
 });
@@ -306,6 +357,22 @@ export default defineComponent({
 .fade-down-leave-to {
   transform: scale(1.1);
   opacity: 0;
+}
+
+.center-popup {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+
+  &.login-form {
+    max-height: 350px;
+  }
+
+  &.register-form {
+    max-height: 700px;
+  }
 }
 
 .clickaway-div {
@@ -410,6 +477,13 @@ export default defineComponent({
 
         .menu-btn {
           height: 80px !important;
+        }
+      }
+
+      #login-btn,
+      #register-btn {
+        @media screen and (min-width: $mobile-width) {
+          display: none;
         }
       }
 

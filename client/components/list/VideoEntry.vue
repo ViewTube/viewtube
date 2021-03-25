@@ -139,7 +139,7 @@ import VerifiedIcon from 'vue-material-design-icons/CheckDecagram.vue';
 // import { getSecondsFromTimestamp } from '@/plugins/shared';
 import { computed, defineComponent, ref } from '@nuxtjs/composition-api';
 import { useImgProxy } from '~/plugins/proxy';
-// import { useAccessor } from '~/store';
+import { useAccessor } from '~/store';
 // import { useFormatting } from '~/plugins/formatting';
 
 export default defineComponent({
@@ -154,7 +154,7 @@ export default defineComponent({
   },
   setup(props) {
     const imgProxy = useImgProxy();
-    // const accessor = useAccessor();
+    const accessor = useAccessor();
     // const formatting = useFormatting();
 
     const apiUrl = ref('/');
