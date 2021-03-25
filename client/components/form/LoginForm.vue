@@ -50,7 +50,7 @@ export default defineComponent({
         accessor.messages.createMessage({
           type: 'info',
           title: 'Login successful',
-          message: 'Redirecting...'
+          message: `Welcome, ${username.value}`
         });
         if (props.complete && typeof props.complete === 'function') {
           props.complete();
