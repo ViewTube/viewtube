@@ -216,7 +216,8 @@ export default defineComponent({
       videoThumbnailUrl,
       videoThumbnailUrlXL,
       videoProgressPercentage,
-      videoProgressTooltip
+      videoProgressTooltip,
+      apiUrl
     };
   }
 });
