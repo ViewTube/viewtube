@@ -186,29 +186,13 @@ export class HistoryService {
       debugger;
 
       if (firstDate <= secondDate) {
-        const sortedHistory = userHistory.videoHistory.sort((a, b) => {
-          return new Date(b.lastVisit).getTime() - new Date(a.lastVisit).getTime();
+        const newHistory = userHistory.videoHistory.filter(el => {
+          const isInRange = el.lastVisit >= firstDate && el.lastVisit <= secondDate;
+          return !isInRange;
         });
-
-        const firstIndex = sortedHistory.findIndex(el => {
-          return el.lastVisit >= firstDate;
-        });
-
-        let secondIndex = sortedHistory.findIndex(el => {
-          return el.lastVisit > secondDate;
-        });
-
-        if (secondIndex > 0) {
-          secondIndex -= 1;
-        } else if (secondIndex === -1) {
-          secondIndex = sortedHistory.length - 1;
-        }
-
-        sortedHistory.splice(firstIndex, secondIndex - firstIndex + 1);
-
         await this.HistoryModel.findOneAndUpdate(
           { username },
-          { username, videoHistory: sortedHistory }
+          { username, videoHistory: newHistory }
         ).exec();
       }
     } else {
