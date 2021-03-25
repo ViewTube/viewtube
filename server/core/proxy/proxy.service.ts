@@ -7,7 +7,7 @@ import fetch from 'node-fetch';
 @Injectable()
 export class ProxyService {
   constructor(private configService: ConfigService) {}
-  async proxyImage(url: string, response: Response): Promise<void> {
+  async proxyImage(url: string, response: Response): Promise<Buffer> {
     try {
       let proxyAgent = null;
       if (this.configService.get('VIEWTUBE_PROXY_URL')) {
@@ -17,11 +17,7 @@ export class ProxyService {
       const fetchResponse = await fetch(url, { agent: proxyAgent });
       if (response) {
         const image = await fetchResponse.buffer();
-        response.set({
-          'Content-Type': 'image/jpg'
-        });
-
-        response.send(image);
+        return image;
       }
     } catch (error) {
       throw new InternalServerErrorException(error);

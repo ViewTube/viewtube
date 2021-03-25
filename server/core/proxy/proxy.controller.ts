@@ -1,16 +1,24 @@
-import { Controller, Get, Query, CacheInterceptor, UseInterceptors, Res } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Query,
+  Res,
+  Header
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import { ProxyService } from './proxy.service';
 
 @ApiTags('Core')
-@UseInterceptors(CacheInterceptor)
 @Controller('proxy')
 export class ProxyController {
   constructor(private proxyService: ProxyService) {}
 
   @Get('image')
-  getQuery(@Query('url') url: string, @Res() response: Response): Promise<void> {
-    return this.proxyService.proxyImage(url, response);
+  @Header('Content-Type', 'image/jpg')
+  @Header('Cache-Control', 'no-cache')
+  async getQuery(@Query('url') url: string, @Res() response: Response): Promise<void> {
+    const image = await this.proxyService.proxyImage(url, response);
+    response.send(image);
   }
 }
