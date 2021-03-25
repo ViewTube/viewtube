@@ -1,7 +1,8 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { VideoBasicInfo } from 'server/core/videos/schemas/video-basic-info.schema';
+import { SettingsService } from '../settings/settings.service';
 import { History } from './schemas/history.schema';
 import { VideoVisitDetailsDto } from './dto/video-visit-details.dto';
 import { VideoVisitDto } from './dto/video-visit.dto';
@@ -12,7 +13,8 @@ export class HistoryService {
     @InjectModel(History.name)
     private readonly HistoryModel: Model<History>,
     @InjectModel(VideoBasicInfo.name)
-    private readonly VideoBasicInfoModel: Model<VideoBasicInfo>
+    private readonly VideoBasicInfoModel: Model<VideoBasicInfo>,
+    private settingsService: SettingsService
   ) {}
 
   async setVideoVisit(
@@ -23,38 +25,43 @@ export class HistoryService {
     lastVisit: Date
   ) {
     if (username) {
-      try {
-        const userHistory = await this.HistoryModel.findOne({ username }).exec();
+      const userSettings = await this.settingsService.getSettings(username);
+      if (!userSettings.saveVideoHistory) {
+        throw new BadRequestException('User has disabled video history.');
+      } else {
+        try {
+          const userHistory = await this.HistoryModel.findOne({ username }).exec();
 
-        const userHistoryArray = userHistory ? userHistory.videoHistory : [];
+          const userHistoryArray = userHistory ? userHistory.videoHistory : [];
 
-        const currentVideoVisit = userHistoryArray.find(value => value.videoId === videoId);
+          const currentVideoVisit = userHistoryArray.find(value => value.videoId === videoId);
 
-        if (currentVideoVisit) {
-          currentVideoVisit.lastVisit = lastVisit;
-          if (progressSeconds) {
-            currentVideoVisit.progressSeconds = progressSeconds;
+          if (currentVideoVisit) {
+            currentVideoVisit.lastVisit = lastVisit;
+            if (progressSeconds) {
+              currentVideoVisit.progressSeconds = progressSeconds;
+            }
+
+            if (lengthSeconds && currentVideoVisit.lengthSeconds !== lengthSeconds) {
+              currentVideoVisit.lengthSeconds = lengthSeconds;
+            }
+          } else {
+            userHistoryArray.push({
+              videoId,
+              progressSeconds,
+              lengthSeconds,
+              lastVisit
+            });
           }
 
-          if (lengthSeconds && currentVideoVisit.lengthSeconds !== lengthSeconds) {
-            currentVideoVisit.lengthSeconds = lengthSeconds;
-          }
-        } else {
-          userHistoryArray.push({
-            videoId,
-            progressSeconds,
-            lengthSeconds,
-            lastVisit
-          });
+          await this.HistoryModel.findOneAndUpdate(
+            { username },
+            { username, videoHistory: userHistoryArray },
+            { upsert: true }
+          ).exec();
+        } catch (error) {
+          throw new InternalServerErrorException('Error saving video visit');
         }
-
-        await this.HistoryModel.findOneAndUpdate(
-          { username },
-          { username, videoHistory: userHistoryArray },
-          { upsert: true }
-        ).exec();
-      } catch (error) {
-        throw new InternalServerErrorException('Error saving video visit');
       }
     }
   }
