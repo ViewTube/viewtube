@@ -10,6 +10,10 @@
         <BadgeButton :click="() => (deletePopup = true)">Delete entire history</BadgeButton>
       </div>
     </details>
+    <div v-if="history && !$accessor.settings.saveVideoHistory" class="no-history">
+      <RestartOffIcon />
+      <p>Video history is disabled. You can enable it in settings.</p>
+    </div>
     <HistoryList
       class="history-main-list"
       :history="history"
@@ -47,6 +51,7 @@ import {
   watch
 } from '@nuxtjs/composition-api';
 import SectionTitle from '@/components/SectionTitle.vue';
+import RestartOffIcon from 'vue-material-design-icons/RestartOff.vue';
 import Pagination from '@/components/pagination/Pagination.vue';
 import HistoryList from '@/components/history/HistoryList.vue';
 import { useAxios } from '@/plugins/axios';
@@ -63,7 +68,8 @@ export default defineComponent({
     Pagination,
     BadgeButton,
     SmallSearchBox,
-    Confirmation
+    Confirmation,
+    RestartOffIcon
   },
   setup() {
     const axios = useAxios();
@@ -254,6 +260,13 @@ export default defineComponent({
       cursor: pointer;
       margin: 0 0 5px 0;
     }
+  }
+
+  .no-history {
+    margin: 20px 0;
+    position: relative;
+    width: 100%;
+    text-align: center;
   }
 
   .history-main-list {
