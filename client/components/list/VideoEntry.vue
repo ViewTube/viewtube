@@ -158,7 +158,11 @@ export default defineComponent({
     const accessor = useAccessor();
     const formatting = useFormatting();
 
+    const apiUrl = ref('/');
     const videoThumbnailUrl = ref(null);
+    
+    apiUrl.value = accessor.environment.apiUrl;
+
     if (props.video.videoThumbnails) {
       videoThumbnailUrl.value = props.video.videoThumbnails[3].url;
     } else if (props.video.thumbnails) {
