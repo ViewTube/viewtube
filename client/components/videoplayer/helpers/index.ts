@@ -17,12 +17,14 @@ import { calculateSeekPercentage, matchSeekProgressPercentage, seekbarFunctions 
 import { parseChapters } from './chapters';
 import { useFormatting } from '~/plugins/formatting';
 import { useAxios } from '~/plugins/axios';
+import { useImgProxy } from '~/plugins/proxy';
 
 export const videoPlayerSetup = (props: any) => {
   const store = useStore();
   const accessor = useAccessor();
   const formatting = useFormatting();
   const axios = useAxios();
+  const imgProxy = useImgProxy();
 
   const loading = ref(true);
   const fullscreen = ref(false);
@@ -708,6 +710,7 @@ export const videoPlayerSetup = (props: any) => {
     document.removeEventListener('keydown', onWindowKeyDown);
   });
   return {
+    imgProxyUrl: imgProxy.url,
     loading,
     fullscreen,
     dashPlayer,

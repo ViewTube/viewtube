@@ -308,7 +308,7 @@
       v-if="video.videoThumbnails && video.videoThumbnails.length > 0"
       class="video-thumbnail-overlay"
       :style="{
-        backgroundImage: `url(${video.videoThumbnails[0].url})`
+        backgroundImage: `url(${imgProxyUrl + video.videoThumbnails[0].url})`
       }"
       :class="{ hidden: !playerOverlay.thumbnailVisible }"
     />

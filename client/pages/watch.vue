@@ -63,7 +63,7 @@
                   v-if="video.authorThumbnails && video.authorThumbnails.length > 0"
                   id="channel-img"
                   alt="Channel image"
-                  :src="video.authorThumbnails[2].url"
+                  :src="imgProxyUrl + video.authorThumbnails[2].url"
                 />
               </nuxt-link>
             </div>
@@ -192,6 +192,7 @@ import {
 } from '@nuxtjs/composition-api';
 import { useAccessor } from '~/store';
 import { useAxios } from '~/plugins/axios';
+import { useImgProxy } from '~/plugins/proxy';
 
 export default defineComponent({
   name: 'Watch',
@@ -219,6 +220,7 @@ export default defineComponent({
     const router = useRouter();
     const { error } = useContext();
     const axios = useAxios();
+    const imgProxy = useImgProxy();
 
     const jsEnabled = ref(false);
     const video = ref(null);
@@ -445,6 +447,7 @@ export default defineComponent({
     }));
 
     return {
+      imgProxyUrl: imgProxy.url,
       jsEnabled,
       video,
       comment,
