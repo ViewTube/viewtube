@@ -22,7 +22,7 @@ export const mutations = mutationTree(state, {
 export const actions = actionTree(
   { state, getters, mutations },
   {
-    getCaptcha({ commit }) {
+    getCaptcha({ commit }): void {
       this.$axios
         .get(this.app.$accessor.environment.env.apiUrl + 'auth/captcha')
         .then(response => {

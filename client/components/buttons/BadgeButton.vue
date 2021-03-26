@@ -56,6 +56,10 @@ export default defineComponent({
   width: auto;
   white-space: nowrap;
 
+  &:hover {
+    border: 2px solid var(--theme-color);
+  }
+
   &:focus {
     border: 2px solid var(--theme-color);
 

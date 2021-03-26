@@ -18,7 +18,7 @@ export const mutations = mutationTree(state, {
 export const actions = actionTree(
   { state, getters, mutations },
   {
-    async getUser({ commit }) {
+    async getUser({ commit }): Promise<void> {
       try {
         const result = await this.$axios.get(
           `${this.app.$accessor.environment.env.apiUrl}user/profile`,
@@ -26,10 +26,11 @@ export const actions = actionTree(
             withCredentials: true
           }
         );
+        this.app.$accessor.settings.mutateSettings(result.data.settings);
         commit('setUsername', result.data.username);
       } catch (e) {}
     },
-    async logout({ commit }) {
+    async logout({ commit }): Promise<boolean> {
       await this.$axios.post(
         `${this.app.$accessor.environment.env.apiUrl}auth/logout`,
         {},
@@ -38,7 +39,10 @@ export const actions = actionTree(
       commit('setUsername', null);
       return true;
     },
-    async login({ dispatch }, { username, password }) {
+    async login(
+      { dispatch },
+      { username, password }
+    ): Promise<{ success?: boolean, error?: any }> {
       let success = null;
       try {
         await this.$axios.post(
@@ -59,12 +63,15 @@ export const actions = actionTree(
           };
         }
         return {
-          error: 'Login failed'
+          error: 'Sign in failed'
         };
       }
       return { success };
     },
-    async register({ commit, dispatch }, { username, password, captchaSolution }) {
+    async register(
+      { commit, dispatch },
+      { username, password, captchaSolution }
+    ): Promise<{ username?: string; error?: any }> {
       if (this.app.$accessor.captcha.token) {
         let registerResult = null;
         try {

@@ -21,6 +21,10 @@ export class Scroll {
       this.absoluteStartPosition = this.scrollPosition - 80;
     }
     this.prevScrollPosition = this.scrollPosition;
+
+    if (pos <= 0) {
+      this.posAbsolute = false;
+    }
     return {
       topPosition: this.posAbsolute ? this.absoluteStartPosition : 0,
       posAbsolute: this.posAbsolute

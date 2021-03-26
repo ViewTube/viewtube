@@ -16,11 +16,13 @@ import { MediaMetadataHelper } from './mediaMetadata';
 import { calculateSeekPercentage, matchSeekProgressPercentage, seekbarFunctions } from './seekbar';
 import { parseChapters } from './chapters';
 import { useFormatting } from '~/plugins/formatting';
+import { useAxios } from '~/plugins/axios';
 
 export const videoPlayerSetup = (props: any) => {
   const store = useStore();
   const accessor = useAccessor();
   const formatting = useFormatting();
+  const axios = useAxios();
 
   const loading = ref(true);
   const fullscreen = ref(false);
@@ -98,9 +100,6 @@ export const videoPlayerSetup = (props: any) => {
     selectedQuality.value = qualityIndex;
   }
 
-  const videoVolume = computed(() => {
-    return videoElement.playerVolume;
-  });
   const videoLength = computed(() => {
     if (props.video !== undefined) {
       return props.video.lengthSeconds;
@@ -154,11 +153,22 @@ export const videoPlayerSetup = (props: any) => {
   const chapterTitleRef = ref(null);
   const videoRef = ref(null);
 
-  watch(videoVolume, (val: number, prevVal: number) => {
-    if (videoRef.value && val <= 1 && val >= 0 && val !== prevVal) {
-      videoRef.value.volume = val;
+  watch(
+    () => videoElement.playerVolume,
+    (newValue: number, oldValue: number) => {
+      if (newValue !== oldValue && newValue >= 0 && newValue <= 1) {
+        if (videoRef.value) {
+          if (newValue > 0) {
+            videoRef.value.muted = false;
+          } else if (newValue === 0) {
+            videoRef.value.muted = true;
+          }
+          accessor.settings.mutatePlayerVolume(newValue);
+          videoRef.value.volume = newValue;
+        }
+      }
     }
-  });
+  );
 
   const getChapterForPercentage = (percentage: number) => {
     if (chapters.value) {
@@ -204,18 +214,18 @@ export const videoPlayerSetup = (props: any) => {
 
   const onLoadedMetadata = (e: any) => {
     videoElement.aspectRatio = e.target.videoHeight / e.target.videoWidth;
-
-    if (videoRef.value && videoElement.firstTimeBuffering) {
-      videoRef.value.currentTime = accessor.videoProgress.getSavedPositionForId(
-        props.video.videoId
-      );
-      videoElement.firstTimeBuffering = false;
-      if (props.autoplay) {
-        videoRef.value.play();
-      }
-      if ('mediaSession' in navigator && process.browser) {
-        const metadata = createMediaMetadata();
-        (navigator as any).mediaSession.metadata = metadata;
+    if (videoRef.value) {
+      videoElement.playerVolume = accessor.settings.playerVolume;
+      if (videoElement.firstTimeBuffering) {
+        videoElement.firstTimeBuffering = false;
+        setVideoTime(props.initialVideoTime);
+        if (props.autoplay) {
+          videoRef.value.play();
+        }
+        if ('mediaSession' in navigator && process.browser) {
+          const metadata = createMediaMetadata();
+          (navigator as any).mediaSession.metadata = metadata;
+        }
       }
     }
     videoElement.buffering = false;
@@ -287,17 +297,23 @@ export const videoPlayerSetup = (props: any) => {
 
   const onVolumeChange = () => {
     if (videoRef.value) {
-      videoElement.playerVolume = videoRef.value.volume;
+      if (videoRef.value.muted) {
+        videoElement.playerVolume = 0;
+      } else if (videoElement.playerVolume === 0 && videoRef.value.volume === 0) {
+        videoElement.playerVolume = 0.5;
+      } else {
+        videoElement.playerVolume = videoRef.value.volume;
+      }
     }
   };
 
   const onVideoPlaying = () => {
+    clearInterval(videoElement.positionSaveInterval);
     playerOverlay.thumbnailVisible = false;
     videoElement.playing = true;
-    videoElement.positionSaveInterval = setInterval(
-      () => saveVideoPosition(videoRef.value.currentTime, accessor.videoProgress),
-      5000
-    );
+    videoElement.positionSaveInterval = setInterval(() => {
+      saveVideoPosition(videoRef.value.currentTime);
+    }, 5000);
     if ('mediaSession' in navigator) {
       (navigator as any).mediaSession.playbackState = 'playing';
     }
@@ -305,7 +321,7 @@ export const videoPlayerSetup = (props: any) => {
 
   const onVideoPaused = () => {
     videoElement.playing = false;
-    saveVideoPosition(videoRef.value.currentTime, accessor.videoProgress);
+    saveVideoPosition(videoRef.value.currentTime);
     clearInterval(videoElement.positionSaveInterval);
     if ('mediaSession' in navigator) {
       (navigator as any).mediaSession.playbackState = 'paused';
@@ -585,7 +601,7 @@ export const videoPlayerSetup = (props: any) => {
   const onChangeQuality = (index: number) => {
     videoRef.value.pause();
     const currentTime = videoRef.value.currentTime;
-    saveVideoPosition(currentTime, accessor.videoProgress);
+    saveVideoPosition(currentTime);
     videoRef.value.src = props.video.formatStreams[index].url;
     videoRef.value.currentTime = currentTime;
     videoRef.value.play();
@@ -596,12 +612,17 @@ export const videoPlayerSetup = (props: any) => {
     return mediaMetadataHelper.createMediaMetadata();
   };
 
-  const saveVideoPosition = (currentTime: number, store: any) => {
-    if (videoRef.value.video !== undefined) {
-      store.addVideoProgress({
-        videoId: props.video.videoId,
-        value: currentTime
-      });
+  const saveVideoPosition = (currentTime: number) => {
+    if (videoRef.value && accessor.settings.saveVideoHistory) {
+      if (accessor.user.isLoggedIn) {
+        const apiUrl = accessor.environment.apiUrl;
+        axios
+          .post(`${apiUrl}user/history/${props.video.videoId}`, {
+            progressSeconds: Math.floor(currentTime),
+            lengthSeconds: Math.floor(videoRef.value.duration)
+          })
+          .catch((_: any) => {});
+      }
     }
   };
 
@@ -683,7 +704,7 @@ export const videoPlayerSetup = (props: any) => {
   });
 
   onBeforeUnmount(() => {
-    saveVideoPosition(videoRef.value.currentTime, accessor.videoProgress);
+    saveVideoPosition(videoRef.value.currentTime);
     document.removeEventListener('keydown', onWindowKeyDown);
   });
   return {
@@ -695,7 +716,6 @@ export const videoPlayerSetup = (props: any) => {
     seekbar,
     selectedQuality,
     highestVideoQuality,
-    videoVolume,
     videoLength,
     videoUrl,
     playerOverlayVisible,

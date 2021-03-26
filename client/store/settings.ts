@@ -1,9 +1,9 @@
-import { getterTree, mutationTree } from 'nuxt-typed-vuex';
+import { actionTree, getterTree, mutationTree } from 'nuxt-typed-vuex';
 
 type segmentOption = 'skip' | 'ask' | 'none';
 
 export const state = () => ({
-  theme: 'default' as string,
+  theme: 'default',
   defaults: {
     theme: [
       {
@@ -62,7 +62,7 @@ export const state = () => ({
             rgba(0, 212, 255, 1) 100%
           )`,
         'shadow-load-color': '#535353b6',
-        'header-bgcolor': '#ffffff',
+        'header-bgcolor': '#fffffff2',
         'header-transparent': '#ffffff',
         'title-color': '#080808',
         'subtitle-color': '#333333',
@@ -168,17 +168,17 @@ export const state = () => ({
       }
     ]
   },
-  miniplayer: true as boolean,
-  chapters: true as boolean,
-  sponsorblock: {
-    enabled: true,
-    sponsor: 'skip' as segmentOption,
-    intro: 'ask' as segmentOption,
-    outro: 'ask' as segmentOption,
-    interaction: 'skip' as segmentOption,
-    selfpromo: 'skip' as segmentOption,
-    music_offtopic: 'skip' as segmentOption
-  }
+  miniplayer: true,
+  chapters: true,
+  saveVideoHistory: true,
+  playerVolume: 1,
+  sponsorblock_enabled: true,
+  sponsorblock_sponsor: 'skip' as segmentOption,
+  sponsorblock_intro: 'ask' as segmentOption,
+  sponsorblock_outro: 'ask' as segmentOption,
+  sponsorblock_interaction: 'skip' as segmentOption,
+  sponsorblock_selfpromo: 'skip' as segmentOption,
+  sponsorblock_music_offtopic: 'skip' as segmentOption
 });
 
 export const getters = getterTree(state, {
@@ -187,35 +187,111 @@ export const getters = getterTree(state, {
   miniplayer: state => state.miniplayer,
   chapters: state => state.chapters,
   themeVariables: state => state.defaults.theme.find(el => state.theme === el.value),
-  sponsorblock: state => state.sponsorblock.enabled,
-  sponsorblock_sponsor: state => state.sponsorblock.sponsor,
-  sponsorblock_intro: state => state.sponsorblock.intro,
-  sponsorblock_outro: state => state.sponsorblock.outro,
-  sponsorblock_interaction: state => state.sponsorblock.interaction,
-  sponsorblock_selfpromo: state => state.sponsorblock.selfpromo,
-  sponsorblock_music_offtopic: state => state.sponsorblock.music_offtopic
+  saveVideoHistory: state => state.saveVideoHistory,
+  playerVolume: state => state.playerVolume,
+  sponsorblock: state => state.sponsorblock_enabled,
+  sponsorblock_sponsor: state => state.sponsorblock_sponsor,
+  sponsorblock_intro: state => state.sponsorblock_intro,
+  sponsorblock_outro: state => state.sponsorblock_outro,
+  sponsorblock_interaction: state => state.sponsorblock_interaction,
+  sponsorblock_selfpromo: state => state.sponsorblock_selfpromo,
+  sponsorblock_music_offtopic: state => state.sponsorblock_music_offtopic
 });
 
 export const mutations = mutationTree(state, {
-  setTheme(state, theme) {
+  mutateSettings(state, newSettings) {
+    Object.keys(newSettings).forEach((key: string) => {
+      if (key === 'sponsorblock') {
+        Object.entries(newSettings[key]).forEach(val => {
+          if (val[0] === 'enabled') {
+            state.sponsorblock_enabled = val[1] as boolean;
+          } else {
+            (this as any).app.$accessor.settings.setSponsorblockCategoryStatus({
+              category: val[0],
+              status: val[1]
+            });
+          }
+        });
+      } else if (key in state) {
+        state[key] = newSettings[key];
+      }
+    });
+  },
+  mutateTheme(state, theme) {
     if (state.defaults.theme.find(e => e.value === theme)) {
       state.theme = theme;
     }
   },
-  setMiniplayer(state, enabled) {
+  mutateMiniplayer(state, enabled) {
     state.miniplayer = enabled;
   },
-  setChapters(state, enabled) {
+  mutateChapters(state, enabled) {
     state.chapters = enabled;
   },
-  setSponsorblock(state, enabled) {
-    state.sponsorblock.enabled = enabled;
+  mutatePlayerVolume(state, volume) {
+    if (volume >= 0 && volume <= 1) {
+      console.log('new Volume stored: ' + volume);
+      state.playerVolume = volume;
+    }
   },
-  setSponsorblockCategoryStatus(state: any, { category, status }) {
-    if (state.sponsorblock[category]) {
+  mutateSponsorblock(state, enabled) {
+    state.sponsorblock_enabled = enabled;
+  },
+  mutateSaveVideoHistory(state, enabled) {
+    state.saveVideoHistory = enabled;
+  },
+  mutateSponsorblockCategoryStatus(state, { category, status }) {
+    if (state[`sponsorblock_${category}`]) {
       if (status === 'skip' || status === 'ask' || status === 'none') {
-        state.sponsorblock[category] = status;
+        state[`sponsorblock_${category}`] = status;
       }
     }
   }
 });
+
+export const actions = actionTree(
+  { state, getters, mutations },
+  {
+    async setTheme({ commit, dispatch }, theme) {
+      commit('mutateTheme', theme);
+      await dispatch('doSettingsRequest', { settingsKey: 'theme', value: theme });
+    },
+    async setChapters({ commit, dispatch }, enabled) {
+      commit('mutateChapters', enabled);
+      await dispatch('doSettingsRequest', { settingsKey: 'chapters', value: enabled });
+    },
+    async setMiniplayer({ commit, dispatch }, enabled) {
+      commit('mutateMiniplayer', enabled);
+      await dispatch('doSettingsRequest', { settingsKey: 'miniplayer', value: enabled });
+    },
+    async setSponsorblock({ commit, dispatch }, enabled) {
+      commit('mutateSponsorblock', enabled);
+      await dispatch('storeSponsorblock');
+    },
+    async setSaveVideoHistory({ commit, dispatch }, enabled) {
+      commit('mutateSaveVideoHistory', enabled);
+      await dispatch('doSettingsRequest', { settingsKey: 'saveVideoHistory', value: enabled });
+    },
+    async storeSponsorblock({ dispatch, getters }) {
+      await dispatch('doSettingsRequest', {
+        settingsKey: 'sponsorblock',
+        value: {
+          enabled: getters.sponsorblock,
+          sponsor: getters.sponsorblock_sponsor,
+          intro: getters.sponsorblock_intro,
+          outro: getters.sponsorblock_outro,
+          interaction: getters.sponsorblock_interaction,
+          selfpromo: getters.sponsorblock_selfpromo,
+          music_offtopic: getters.sponsorblock_music_offtopic
+        }
+      });
+    },
+    async doSettingsRequest(_, { settingsKey, value }): Promise<void> {
+      if (this.app.$accessor.user.isLoggedIn) {
+        const setting = {};
+        setting[settingsKey] = value;
+        await this.$axios.put(`${this.app.$accessor.environment.env.apiUrl}user/settings`, setting);
+      }
+    }
+  }
+);

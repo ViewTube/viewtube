@@ -1,22 +1,24 @@
 <template>
   <div class="nav">
-    <nuxt-link
+    <a
       v-show="!userAuthenticated"
       id="login"
       v-ripple
-      v-tippy="'Login'"
-      :to="`/login${currentPageRef('login')}`"
+      v-tippy="'Sign in'"
+      :href="`/login${currentPageRef('login')}`"
       class="tooltip nav-btn main"
-      >Login</nuxt-link
+      @click.prevent="onLoginClick"
+      >Sign in</a
     >
-    <nuxt-link
+    <a
       v-show="!userAuthenticated"
       id="register"
       v-ripple
-      v-tippy="'Register'"
-      :to="`/register${currentPageRef('register')}`"
+      v-tippy="'Sign up'"
+      :href="`/register${currentPageRef('register')}`"
       class="tooltip nav-btn"
-      >Register</nuxt-link
+      @click.prevent="onRegisterClick"
+      >Sign up</a
     >
     <nuxt-link
       v-show="$route.name !== 'subscriptions' && userAuthenticated"
@@ -33,42 +35,47 @@
       v-tippy="'Account'"
       :class="{ authenticated: userAuthenticated }"
       href="#"
-      @click="showAccountMenu"
+      @click.prevent="showAccountMenu"
     >
-      <AccountIcon />
+      <div class="user-icon">
+        <AccountIcon />
+      </div>
+      <p v-if="userAuthenticated" class="account-name">{{ $accessor.user.username }}</p>
     </a>
     <transition name="fade-up">
       <div v-if="accountMenuVisible" v-clickaway="hideAccountMenu" class="menu">
         <div v-show="userAuthenticated" class="account-menu">
-          <AccountIcon />
+          <div class="account-icon">
+            <AccountIcon />
+          </div>
           <div class="account-info">
             <p class="account-name">
               Logged in as
               {{ $store.getters['user/username'] }}
             </p>
-            <a class="logout-btn" href="#" @click.prevent="logout">Log out</a>
+            <nuxt-link class="profile-btn" href="#" to="/profile">Your profile</nuxt-link>
           </div>
         </div>
         <div class="menu-buttons" :class="{ authenticated: userAuthenticated }">
           <a
             v-show="!userAuthenticated"
             id="login-btn"
-            v-tippy="'Login'"
+            v-tippy="'Sign in'"
             :href="`/login${currentPageRef('login')}`"
             class="ripple tooltip menu-btn account-btn"
             @click.self.prevent="login"
           >
-            <div class="menu-btn-content"><AccountIcon />Login</div>
+            <div class="menu-btn-content"><AccountIcon />Sign in</div>
           </a>
           <a
             v-show="!userAuthenticated"
-            id="login-btn"
-            v-tippy="'Register'"
+            id="register-btn"
+            v-tippy="'Sign up'"
             :href="`/register${currentPageRef('register')}`"
             class="ripple tooltip menu-btn account-btn"
             @click.self.prevent="register"
           >
-            <div class="menu-btn-content"><AccountPlusIcon />Register</div>
+            <div class="menu-btn-content"><AccountPlusIcon />Sign up</div>
           </a>
           <a
             v-if="$route.name !== 'subscriptions' && userAuthenticated"
@@ -78,7 +85,7 @@
             class="ripple tooltip menu-btn"
             @click.self.prevent="openSubscriptions"
           >
-            <div class="menu-btn-content"><AccountPlusIcon />Subscriptions</div>
+            <div class="menu-btn-content"><SubscriptionIcon />Subscriptions</div>
           </a>
           <a
             id="settings-btn"
@@ -87,7 +94,7 @@
             class="ripple tooltip menu-btn"
             @mousedown.self.prevent="openSettings"
           >
-            <div class="menu-btn-content"><SettingsIcon />settings</div>
+            <div class="menu-btn-content"><SettingsIcon />Settings</div>
           </a>
           <a
             id="instances-btn"
@@ -96,7 +103,7 @@
             class="ripple tooltip menu-btn"
             @mousedown.self.prevent="openInstances"
           >
-            <div class="menu-btn-content"><InstanceIcon />instances</div>
+            <div class="menu-btn-content"><InstanceIcon />Instances</div>
           </a>
           <a
             id="about-btn"
@@ -105,7 +112,7 @@
             class="ripple tooltip menu-btn"
             @mousedown.self.prevent="openAbout"
           >
-            <div class="menu-btn-content"><AboutIcon />about</div>
+            <div class="menu-btn-content"><AboutIcon />About</div>
           </a>
         </div>
       </div>
@@ -115,9 +122,19 @@
         <Settings v-if="settingsOpen" @close="closeSettings" />
         <Instances v-if="instancesOpen" @close="closeInstances" />
         <About v-if="aboutOpen" @close="closeAbout" />
+        <LoginForm v-if="loginOpen" class="center-popup" :complete="() => (loginOpen = false)" />
+        <RegisterForm
+          v-if="registerOpen"
+          class="center-popup"
+          :complete="() => (registerOpen = false)"
+        />
       </transition>
     </portal>
-    <div :class="{ visible: accountMenuVisible }" class="clickaway-div" />
+    <div
+      :class="{ visible: accountMenuVisible || loginOpen || registerOpen }"
+      class="clickaway-div"
+      @click="closeAllPopups"
+    />
   </div>
 </template>
 
@@ -126,6 +143,7 @@ import SettingsIcon from 'vue-material-design-icons/Cog.vue';
 import InstanceIcon from 'vue-material-design-icons/ServerNetwork.vue';
 import AboutIcon from 'vue-material-design-icons/InformationOutline.vue';
 import AccountIcon from 'vue-material-design-icons/AccountCircle.vue';
+import SubscriptionIcon from 'vue-material-design-icons/YoutubeSubscription.vue';
 import AccountPlusIcon from 'vue-material-design-icons/AccountPlus.vue';
 import Settings from '@/components/Settings.vue';
 import Instances from '@/components/Instances.vue';
@@ -141,6 +159,8 @@ import {
   useRouter
 } from '@nuxtjs/composition-api';
 import { useAccessor } from '@/store/index';
+import LoginForm from '../form/LoginForm.vue';
+import RegisterForm from '../form/RegisterForm.vue';
 
 export default defineComponent({
   name: 'UserMenu',
@@ -150,9 +170,12 @@ export default defineComponent({
     AboutIcon,
     AccountIcon,
     AccountPlusIcon,
+    SubscriptionIcon,
     Settings,
     Instances,
-    About
+    About,
+    LoginForm,
+    RegisterForm
   },
   setup(_, { root }) {
     const route = useRoute();
@@ -163,6 +186,26 @@ export default defineComponent({
     const settingsOpen = ref(false);
     const instancesOpen = ref(false);
     const aboutOpen = ref(false);
+    const loginOpen = ref(false);
+    const registerOpen = ref(false);
+
+    const onLoginClick = () => {
+      closeAllPopups();
+      loginOpen.value = true;
+    };
+    const onRegisterClick = () => {
+      closeAllPopups();
+      registerOpen.value = true;
+    };
+
+    const closeAllPopups = () => {
+      registerOpen.value = false;
+      loginOpen.value = false;
+      aboutOpen.value = false;
+      settingsOpen.value = false;
+      instancesOpen.value = false;
+      accountMenuVisible.value = false;
+    };
 
     const currentRouteName = computed((): string => {
       return route.value.name;
@@ -183,6 +226,7 @@ export default defineComponent({
     };
 
     const openPopup = (popupName: string): void => {
+      closeAllPopups();
       switch (popupName) {
         case 'instances':
           openInstances();
@@ -197,24 +241,25 @@ export default defineComponent({
       }
     };
     const showAccountMenu = (): void => {
+      closeAllPopups();
       accountMenuVisible.value = !accountMenuVisible.value;
     };
     const openAbout = (): void => {
-      hideAccountMenu();
+      closeAllPopups();
       aboutOpen.value = true;
     };
     const closeAbout = (): void => {
       aboutOpen.value = false;
     };
     const openSettings = (): void => {
-      hideAccountMenu();
+      closeAllPopups();
       settingsOpen.value = true;
     };
     const closeSettings = (): void => {
       settingsOpen.value = false;
     };
     const openInstances = (): void => {
-      hideAccountMenu();
+      closeAllPopups();
       instancesOpen.value = true;
     };
     const closeInstances = (): void => {
@@ -237,12 +282,20 @@ export default defineComponent({
       hideAccountMenu();
     };
 
+    const onEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        closeAllPopups();
+      }
+    };
+
     onMounted(() => {
       root.$nuxt.$on('open-popup', openPopup);
+      window.addEventListener('keydown', onEscape);
     });
 
     onBeforeUnmount(() => {
       root.$nuxt.$off('open-popup');
+      window.removeEventListener('keydown', onEscape);
     });
 
     return {
@@ -264,7 +317,12 @@ export default defineComponent({
       openSubscriptions,
       login,
       logout,
-      register
+      register,
+      loginOpen,
+      registerOpen,
+      onLoginClick,
+      onRegisterClick,
+      closeAllPopups
     };
   }
 });
@@ -301,6 +359,22 @@ export default defineComponent({
   opacity: 0;
 }
 
+.center-popup {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+
+  &.login-form {
+    max-height: 350px;
+  }
+
+  &.register-form {
+    max-height: 700px;
+  }
+}
+
 .clickaway-div {
   position: fixed;
   background-color: #0000008f;
@@ -332,9 +406,31 @@ export default defineComponent({
 
   #account {
     color: var(--subtitle-color-light);
+    &:focus {
+      &::after {
+        box-shadow: none;
+      }
+    }
 
     &.authenticated {
-      color: var(--theme-color);
+      width: auto;
+      border-radius: 3px;
+
+      .account-name {
+        color: var(--theme-color);
+        padding: 0 0 0 4px;
+        @media screen and (max-width: $mobile-width) {
+          display: none;
+        }
+      }
+
+      .user-icon {
+        .material-design-icon {
+          .material-design-icon__svg {
+            fill: var(--theme-color);
+          }
+        }
+      }
     }
   }
 
@@ -366,7 +462,7 @@ export default defineComponent({
       column-gap: 10%;
       row-gap: 5%;
       height: auto;
-      margin: 10px 5% 20px 5%;
+      margin: 20px 5% 0 5%;
 
       @media screen and (max-width: $mobile-width) {
         grid-template-columns: 25% 25% 25% 25%;
@@ -384,6 +480,13 @@ export default defineComponent({
         }
       }
 
+      #login-btn,
+      #register-btn {
+        @media screen and (min-width: $mobile-width) {
+          display: none;
+        }
+      }
+
       a.menu-btn {
         width: auto;
         border-radius: 0;
@@ -391,16 +494,20 @@ export default defineComponent({
         justify-self: center;
         align-self: stretch;
         width: 100%;
-        height: 50px;
+        height: 60px;
         display: flex;
-        border-radius: 5px;
+        border-radius: 3px;
         transition: box-shadow 300ms $intro-easing, border 300ms $intro-easing;
         border: 2px solid transparent;
+        box-sizing: border-box;
+
+        &::after {
+          display: none;
+        }
 
         &:hover,
         &:active,
         &:focus {
-          box-shadow: $low-shadow;
           border: 2px solid var(--theme-color);
         }
 
@@ -408,20 +515,18 @@ export default defineComponent({
           margin: auto;
           display: flex;
           flex-direction: column;
+          color: var(--theme-color);
 
-          span {
+          .material-design-icon {
             margin: auto;
             width: 28px;
             height: 28px;
 
-            svg {
+            .material-design-icon__svg {
+              fill: var(--title-color);
               width: 28px;
               height: 28px;
             }
-          }
-
-          p.menu-subtitle {
-            font-size: 0.8rem;
           }
 
           &.account-btn {
@@ -442,6 +547,22 @@ export default defineComponent({
       padding: 0 0 0 20px;
       align-items: flex-start;
 
+      .account-icon {
+        margin: 4px 0 0 0;
+        height: 40px;
+        width: 40px;
+        min-width: 42px;
+        min-height: 42px;
+        box-sizing: border-box;
+
+        .account-circle-icon,
+        .material-design-icon__svg {
+          height: 40px;
+          width: 40px;
+          fill: var(--subtitle-color-light);
+        }
+      }
+
       .account-info {
         display: flex;
         flex-direction: column;
@@ -454,13 +575,19 @@ export default defineComponent({
           color: var(--title-color);
         }
 
-        .logout-btn {
+        .profile-btn {
           font-size: 0.9rem;
           width: 100%;
           margin: 0 0 0 10px;
 
           &:hover {
             text-decoration: underline;
+          }
+
+          &:focus {
+            &::after {
+              display: none;
+            }
           }
         }
       }
@@ -489,25 +616,46 @@ export default defineComponent({
   .nav-btn {
     text-decoration: none;
     color: var(--theme-color);
-    transition: color 300ms $intro-easing;
+    transition: color 300ms $intro-easing, border 300ms $intro-easing;
     margin: 0 5px;
     display: flex;
     user-select: none;
-    border-radius: 5px;
+    border-radius: 3px;
     line-height: 100%;
     text-align: center;
     padding: 5px 10px;
     box-sizing: border-box;
     border: solid 2px transparent;
+    min-width: 80px;
+
+    &#login {
+      min-width: 75px;
+    }
 
     @media screen and (max-width: $mobile-width) {
       display: none;
     }
+
+    &:hover {
+      border: 2px solid var(--theme-color);
+    }
+
+    &:focus {
+      border: 2px solid var(--theme-color);
+
+      &::after {
+        display: none !important;
+      }
+    }
   }
 
   .nav-btn.main {
-    border: solid 2px var(--theme-color);
+    border: solid 2px var(--theme-color-translucent);
     border-radius: 3px;
+
+    &:hover {
+      border: 2px solid var(--theme-color);
+    }
   }
 
   #open-in-yt {

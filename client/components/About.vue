@@ -22,7 +22,7 @@
         </BadgeButton>
       </div>
       <div v-if="invidiousStatsError" class="invidious-error" v-html="invidiousStatsError" />
-      <div v-if="invidousStats" class="invidious-stats">
+      <div v-if="invidiousStats" class="invidious-stats">
         <table>
           <tr>
             <td>Invidious instance</td>
@@ -30,12 +30,12 @@
           </tr>
           <tr>
             <td>Version</td>
-            <td>{{ invidousStats.software.version }}</td>
+            <td>{{ invidiousStats.software.version }}</td>
           </tr>
           <tr>
             <td>Last update</td>
             <td>
-              {{ new Date(invidousStats.metadata.updatedAt).toUTCString() }}
+              {{ new Date(invidiousStats.metadata.updatedAt).toUTCString() }}
             </td>
           </tr>
         </table>
@@ -73,12 +73,7 @@ import ExternalIcon from 'vue-material-design-icons/OpenInNew.vue';
 import { commons } from '@/plugins/commons';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import InvidiousLicense from '@/components/licenses/Invidious.vue';
-import {
-  computed,
-  defineComponent,
-  onMounted,
-  ref
-} from '@nuxtjs/composition-api';
+import { computed, defineComponent, onMounted, ref } from '@nuxtjs/composition-api';
 import { useAccessor } from '~/store';
 import { useAxios } from '~/plugins/axios';
 
@@ -96,7 +91,7 @@ export default defineComponent({
     const axios = useAxios();
 
     const description = ref('');
-    const invidousStats = ref(null);
+    const invidiousStats = ref(null);
     const invidiousStatsError = ref(null);
 
     const currentInstance = computed(() => accessor.instances.currentInstance);
@@ -105,7 +100,7 @@ export default defineComponent({
       axios
         .get(`${accessor.environment.apiUrl}stats`)
         .then(response => {
-          invidousStats.value = response.data;
+          invidiousStats.value = response.data;
         })
         .catch(_ => {
           invidiousStatsError.value = `Error loading invidious stats. The instance <span class="monospace">${currentInstance.value}</span> might be unavailable`;
@@ -114,7 +109,12 @@ export default defineComponent({
 
     description.value = commons.description;
 
-    return {};
+    return {
+      description,
+      invidiousStats,
+      invidiousStatsError,
+      currentInstance
+    };
   }
 });
 </script>

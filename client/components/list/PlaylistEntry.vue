@@ -82,7 +82,6 @@
 <script lang="ts">
 import VerifiedIcon from 'vue-material-design-icons/CheckDecagram.vue';
 import PlaylistIcon from 'vue-material-design-icons/PlaylistPlay.vue';
-import 'tippy.js/dist/tippy.css';
 import { computed, defineComponent } from '@nuxtjs/composition-api';
 import { useImgProxy } from '~/plugins/proxy';
 

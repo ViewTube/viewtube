@@ -357,7 +357,14 @@ export default defineComponent({
     },
     embedded: Boolean,
     mini: Boolean,
-    autoplay: Boolean
+    autoplay: Boolean,
+    initialVideoTime: {
+      type: Number,
+      required: false,
+      default() {
+        return 0;
+      }
+    }
   },
   setup(props) {
     const { error, route } = useContext();

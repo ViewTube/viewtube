@@ -1,5 +1,6 @@
 <template>
-  <div class="subscriptions" :class="{ empty: hasNoSubscriptions }">
+  <div class="subscriptions" :class="{ empty: hasNoSubscriptions, loading: $fetchState.pending }">
+    <Spinner v-if="$fetchState.pending" class="centered" />
     <GradientBackground :color="'green'" />
     <div class="subscribe-info-container">
       <div class="subscribe-info">
@@ -36,7 +37,7 @@
         </div>
       </div>
     </div>
-    <div v-if="hasNoSubscriptions" class="no-subscriptions">
+    <div v-if="hasNoSubscriptions && !$fetchState.pending" class="no-subscriptions">
       <SubscriptionIcon />
       <p>No subscriptions yet. Subscribe to a channel to see their latest uploads.</p>
     </div>
@@ -80,6 +81,7 @@
 import SubscriptionImport from '@/components/popup/SubscriptionImport.vue';
 import VideoEntry from '@/components/list/VideoEntry.vue';
 import GradientBackground from '@/components/GradientBackground.vue';
+import Spinner from '@/components/Spinner.vue';
 import SectionTitle from '@/components/SectionTitle.vue';
 import SwitchButton from '@/components/buttons/SwitchButton.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
@@ -111,6 +113,7 @@ export default defineComponent({
     EditIcon,
     ImportIcon,
     Pagination,
+    Spinner,
     SubscriptionIcon
   },
   setup() {
@@ -346,7 +349,12 @@ export default defineComponent({
 
 <style lang="scss">
 .subscriptions {
-  &.empty {
+  .spinner {
+    z-index: 11;
+  }
+
+  &.empty,
+  &.loading {
     height: 100vh;
   }
   .section-title {

@@ -12,7 +12,7 @@ export function createApi(api: any) {
         }
         args.params.fields = el[1].fields.toString();
       }
-      return api.request.get(url, args);
+      return api.request.get(url, { ...args, withCredentials: true });
     };
   });
   return api;

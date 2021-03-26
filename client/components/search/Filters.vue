@@ -60,7 +60,7 @@ export default defineComponent({
       }
     };
 
-    watch(route.value.query, refreshQuery);
+    watch(() => route.value.query, refreshQuery);
 
     const onFilterApply = (e: { target: HTMLFormElement }) => {
       const formData = new FormData(e.target);

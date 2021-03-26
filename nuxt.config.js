@@ -78,9 +78,14 @@ export default defineNuxtConfig({
     duration: 8000
   },
 
-  css: ['~/assets/fonts/expletus.css', '~/assets/fonts/notosans.css'],
+  css: [
+    '~/assets/fonts/expletus.css',
+    '~/assets/fonts/notosans.css',
+    'tippy.js/dist/tippy.css',
+    'vue2-datepicker/index.css'
+  ],
   styleResources: {
-    scss: ['~/assets/styles/global/variables.scss', '~/assets/styles/global/styles.scss']
+    scss: ['~/assets/styles/global/variables.scss']
   },
 
   typescript: {
@@ -95,6 +100,7 @@ export default defineNuxtConfig({
     '@/plugins/directives/index',
     '@/plugins/formatting',
     '@/plugins/shared',
+    { src: '~/plugins/vue-datepicker', mode: 'client' },
     { src: '@/plugins/localStorage', mode: 'client' }
   ],
 
@@ -163,10 +169,8 @@ export default defineNuxtConfig({
   modules: [
     '@nuxtjs/style-resources',
     'portal-vue/nuxt',
-    'cookie-universal-nuxt',
     '@nuxtjs/pwa',
     '@nuxtjs/axios',
-    ['cookie-universal-nuxt', { alias: 'cookies' }]
   ],
 
   axios: {

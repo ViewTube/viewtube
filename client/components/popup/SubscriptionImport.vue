@@ -22,7 +22,7 @@
               }}</a
               >.
             </li>
-            <li>You may be asked to login.</li>
+            <li>You may be asked to sign in.</li>
             <li>Download the file with the name "subscription_manager".</li>
             <li>Upload it here.</li>
           </ol>
