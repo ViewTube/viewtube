@@ -230,7 +230,6 @@ export const mutations = mutationTree(state, {
   },
   mutatePlayerVolume(state, volume) {
     if (volume >= 0 && volume <= 1) {
-      console.log('new Volume stored: ' + volume);
       state.playerVolume = volume;
     }
   },

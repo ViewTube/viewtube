@@ -280,7 +280,6 @@ export default defineComponent({
             }
           })
           .catch(err => {
-            console.log(err);
             accessor.messages.createMessage({
               type: 'error',
               title: 'Error loading notification worker',
