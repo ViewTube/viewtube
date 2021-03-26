@@ -190,8 +190,6 @@ export class HistoryService {
       const firstDate = new Date(parseInt(startDate as any));
       const secondDate = new Date(parseInt(endDate as any));
 
-      debugger;
-
       if (firstDate <= secondDate) {
         const newHistory = userHistory.videoHistory.filter(el => {
           const isInRange = el.lastVisit >= firstDate && el.lastVisit <= secondDate;
