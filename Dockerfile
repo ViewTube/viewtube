@@ -8,11 +8,12 @@ COPY . .
 
 RUN yarn build
 
+RUN rm -R node_modules
+
 FROM alpine:3.13 as runtime
 WORKDIR /home/app
 
-RUN apk upgrade --no-cache -U && \
-    apk add --no-cache nodejs-current yarn
+RUN apk add --no-cache nodejs-current yarn
 
 COPY --from=build /home/build .
 
