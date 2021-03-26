@@ -360,7 +360,7 @@ export default defineComponent({
 }
 
 .center-popup {
-  position: absolute;
+  position: absolute !important;
   left: 0;
   top: 0;
   right: 0;

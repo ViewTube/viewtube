@@ -171,7 +171,6 @@ export const state = () => ({
   miniplayer: true,
   chapters: true,
   saveVideoHistory: true,
-  playerVolume: 1,
   sponsorblock_enabled: true,
   sponsorblock_sponsor: 'skip' as segmentOption,
   sponsorblock_intro: 'ask' as segmentOption,
@@ -188,7 +187,6 @@ export const getters = getterTree(state, {
   chapters: state => state.chapters,
   themeVariables: state => state.defaults.theme.find(el => state.theme === el.value),
   saveVideoHistory: state => state.saveVideoHistory,
-  playerVolume: state => state.playerVolume,
   sponsorblock: state => state.sponsorblock_enabled,
   sponsorblock_sponsor: state => state.sponsorblock_sponsor,
   sponsorblock_intro: state => state.sponsorblock_intro,
@@ -227,11 +225,6 @@ export const mutations = mutationTree(state, {
   },
   mutateChapters(state, enabled) {
     state.chapters = enabled;
-  },
-  mutatePlayerVolume(state, volume) {
-    if (volume >= 0 && volume <= 1) {
-      state.playerVolume = volume;
-    }
   },
   mutateSponsorblock(state, enabled) {
     state.sponsorblock_enabled = enabled;
