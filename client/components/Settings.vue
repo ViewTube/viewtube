@@ -197,7 +197,7 @@ export default defineComponent({
       }, 300);
     };
 
-    const onSettingsSaving = value => {
+    const onSettingsSaving = (value: boolean) => {
       settingsSaving.value = value;
     };
 
