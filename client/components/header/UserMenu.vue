@@ -360,7 +360,7 @@ export default defineComponent({
 }
 
 .center-popup {
-  position: absolute;
+  position: absolute !important;
   left: 0;
   top: 0;
   right: 0;
@@ -626,7 +626,7 @@ export default defineComponent({
     padding: 5px 10px;
     box-sizing: border-box;
     border: solid 2px transparent;
-    min-width: 80px;
+    min-width: 85px;
 
     &#login {
       min-width: 75px;

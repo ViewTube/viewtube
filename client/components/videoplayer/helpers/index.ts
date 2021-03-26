@@ -163,7 +163,7 @@ export const videoPlayerSetup = (props: any) => {
           } else if (newValue === 0) {
             videoRef.value.muted = true;
           }
-          accessor.settings.mutatePlayerVolume(newValue);
+          accessor.playerVolume.setPlayerVolume(newValue);
           videoRef.value.volume = newValue;
         }
       }
@@ -215,7 +215,7 @@ export const videoPlayerSetup = (props: any) => {
   const onLoadedMetadata = (e: any) => {
     videoElement.aspectRatio = e.target.videoHeight / e.target.videoWidth;
     if (videoRef.value) {
-      videoElement.playerVolume = accessor.settings.playerVolume;
+      videoElement.playerVolume = accessor.playerVolume.getPlayerVolume;
       if (videoElement.firstTimeBuffering) {
         videoElement.firstTimeBuffering = false;
         setVideoTime(props.initialVideoTime);

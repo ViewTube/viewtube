@@ -468,7 +468,7 @@ button.pictureInPictureToggleButton {
     pointer-events: none;
     user-select: none;
     opacity: 1;
-    transition: opacity 1200ms $intro-easing;
+    transition: opacity 600ms $intro-easing;
 
     &.hidden {
       opacity: 0;

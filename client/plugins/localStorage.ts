@@ -4,7 +4,7 @@ import createPersistedState from 'vuex-persistedstate';
 export default ({ store }: Context) => {
   createPersistedState({
     key: 'viewtube',
-    paths: ['instances', 'settings'],
+    paths: ['instances', 'settings', 'playerVolume'],
     fetchBeforeUse: true,
     getState: (key: string, storage: Storage) => {
       const storageString = storage.getItem(key);

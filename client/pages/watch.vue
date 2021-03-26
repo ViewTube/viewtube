@@ -3,7 +3,7 @@
     <Spinner v-if="$fetchState.pending" class="centered" />
     <!-- <video v-if="!jsEnabled" controls :src="getHDUrl()" class="nojs-player" /> -->
     <VideoPlayer
-      v-if="video"
+      v-if="video && videoLoaded"
       :key="video.id"
       ref="videoplayer"
       :video="video"
@@ -231,6 +231,7 @@ export default defineComponent({
     const shareOpen = ref(false);
     const videoplayerRef = ref(null);
     const initialVideoTime = ref(0);
+    const videoLoaded = ref(false);
 
     const encodedUrl = () => {
       if (process.browser) {
@@ -329,35 +330,38 @@ export default defineComponent({
           .videos({
             id: route.value.query.v
           })
-          .then(async (response: { data: any }) => {
-            if (response) {
-              video.value = response.data;
-              if (accessor.user.isLoggedIn && accessor.settings.saveVideoHistory) {
-                const videoVisit = await axios
-                  .get<{
-                    videoId: string;
-                    progressSeconds: number;
-                    lengthSeconds: number;
-                    lastVisit: Date;
-                  }>(`${apiUrl}user/history/${response.data.videoId}`)
-                  .catch((_: any) => {});
+          .then(
+            async (response: { data: any }): Promise<void> => {
+              if (response) {
+                video.value = response.data;
+                if (accessor.user.isLoggedIn && accessor.settings.saveVideoHistory) {
+                  const videoVisit = await axios
+                    .get<{
+                      videoId: string;
+                      progressSeconds: number;
+                      lengthSeconds: number;
+                      lastVisit: Date;
+                    }>(`${apiUrl}user/history/${response.data.videoId}`)
+                    .catch((_: any) => {});
 
-                if (videoVisit && videoVisit.data && videoVisit.data.progressSeconds > 0) {
-                  initialVideoTime.value = videoVisit.data.progressSeconds;
-                } else {
-                  saveToHistory();
+                  if (videoVisit && videoVisit.data && videoVisit.data.progressSeconds > 0) {
+                    initialVideoTime.value = videoVisit.data.progressSeconds;
+                  } else {
+                    saveToHistory();
+                  }
                 }
+                videoLoaded.value = true;
+              } else {
+                accessor.messages.createMessage({
+                  type: 'error',
+                  title: 'Error loading video',
+                  message: 'Loading video information failed. Click to try again.',
+                  dismissDelay: 0,
+                  clickAction: () => fetch()
+                });
               }
-            } else {
-              accessor.messages.createMessage({
-                type: 'error',
-                title: 'Error loading video',
-                message: 'Loading video information failed. Click to try again.',
-                dismissDelay: 0,
-                clickAction: () => fetch()
-              });
             }
-          })
+          )
           .catch((err: any) => {
             let errorObj: any = {
               message: 'Error loading video'
@@ -450,6 +454,7 @@ export default defineComponent({
       commentsContinuationLink,
       commentsContinuationLoading,
       recommendedOpen,
+      videoLoaded,
       initialVideoTime,
       shareOpen,
       encodedUrl,
