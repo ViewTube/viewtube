@@ -43,7 +43,7 @@
       <p v-if="userAuthenticated" class="account-name">{{ $accessor.user.username }}</p>
     </a>
     <transition name="fade-up">
-      <div v-if="accountMenuVisible" v-clickaway="closeAllPopups" class="menu">
+      <div v-if="accountMenuVisible" class="menu">
         <div v-show="userAuthenticated" class="account-menu">
           <div class="account-icon">
             <AccountIcon />
