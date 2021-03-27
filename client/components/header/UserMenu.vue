@@ -43,7 +43,7 @@
       <p v-if="userAuthenticated" class="account-name">{{ $accessor.user.username }}</p>
     </a>
     <transition name="fade-up">
-      <div v-if="accountMenuVisible" v-clickaway="hideAccountMenu" class="menu">
+      <div v-if="accountMenuVisible" v-clickaway="closeAllPopups" class="menu">
         <div v-show="userAuthenticated" class="account-menu">
           <div class="account-icon">
             <AccountIcon />
@@ -119,9 +119,9 @@
     </transition>
     <portal to="popup">
       <transition name="fade-down">
-        <Settings v-if="settingsOpen" @close="closeSettings" />
-        <Instances v-if="instancesOpen" @close="closeInstances" />
-        <About v-if="aboutOpen" @close="closeAbout" />
+        <Settings v-if="settingsOpen" @close="closeAllPopups" />
+        <Instances v-if="instancesOpen" @close="closeAllPopups" />
+        <About v-if="aboutOpen" @close="closeAllPopups" />
         <LoginForm v-if="loginOpen" class="center-popup" :complete="() => (loginOpen = false)" />
         <RegisterForm
           v-if="registerOpen"
@@ -156,7 +156,8 @@ import {
   onMounted,
   ref,
   useRoute,
-  useRouter
+  useRouter,
+  watch
 } from '@nuxtjs/composition-api';
 import { useAccessor } from '@/store/index';
 import LoginForm from '../form/LoginForm.vue';
@@ -177,7 +178,7 @@ export default defineComponent({
     LoginForm,
     RegisterForm
   },
-  setup(_, { root }) {
+  setup() {
     const route = useRoute();
     const accessor = useAccessor();
     const router = useRouter();
@@ -205,6 +206,9 @@ export default defineComponent({
       settingsOpen.value = false;
       instancesOpen.value = false;
       accountMenuVisible.value = false;
+      if (accessor.popup.isPopupOpen) {
+        accessor.popup.setPopupOpen(false);
+      }
     };
 
     const currentRouteName = computed((): string => {
@@ -235,51 +239,40 @@ export default defineComponent({
           break;
       }
     };
-    const hideAccountMenu = (): void => {
-      if (accountMenuVisible.value) {
-        accountMenuVisible.value = false;
-      }
-    };
     const showAccountMenu = (): void => {
       closeAllPopups();
       accountMenuVisible.value = !accountMenuVisible.value;
     };
     const openAbout = (): void => {
       closeAllPopups();
+      accessor.popup.setPopupOpen(true);
       aboutOpen.value = true;
-    };
-    const closeAbout = (): void => {
-      aboutOpen.value = false;
     };
     const openSettings = (): void => {
       closeAllPopups();
+      accessor.popup.setPopupOpen(true);
       settingsOpen.value = true;
-    };
-    const closeSettings = (): void => {
-      settingsOpen.value = false;
     };
     const openInstances = (): void => {
       closeAllPopups();
+      accessor.popup.setPopupOpen(true);
       instancesOpen.value = true;
-    };
-    const closeInstances = (): void => {
-      instancesOpen.value = false;
     };
     const openSubscriptions = (): void => {
       router.push('/subscriptions');
-      hideAccountMenu();
+      closeAllPopups();
     };
     const login = (): void => {
       router.push(`/login${currentPageRef('login')}`);
-      hideAccountMenu();
+      closeAllPopups();
     };
     const register = (): void => {
       router.push(`/register${currentPageRef('register')}`);
-      hideAccountMenu();
+      closeAllPopups();
     };
     const logout = (): void => {
       accessor.user.logout();
-      hideAccountMenu();
+      closeAllPopups();
     };
 
     const onEscape = (e: KeyboardEvent) => {
@@ -288,13 +281,21 @@ export default defineComponent({
       }
     };
 
-    onMounted(() => {
-      root.$nuxt.$on('open-popup', openPopup);
+    watch(
+      () => accessor.popup.currentPopupName,
+      (newValue: string, oldValue: string): void => {
+        if (newValue && newValue !== oldValue && newValue.length > 0) {
+          openPopup(newValue);
+          accessor.popup.afterOpenPopup();
+        }
+      }
+    );
+
+    onMounted((): void => {
       window.addEventListener('keydown', onEscape);
     });
 
-    onBeforeUnmount(() => {
-      root.$nuxt.$off('open-popup');
+    onBeforeUnmount((): void => {
       window.removeEventListener('keydown', onEscape);
     });
 
@@ -306,14 +307,11 @@ export default defineComponent({
       currentRouteName,
       userAuthenticated,
       currentPageRef,
-      hideAccountMenu,
+      closeAllPopups,
       showAccountMenu,
       openAbout,
-      closeAbout,
       openSettings,
-      closeSettings,
       openInstances,
-      closeInstances,
       openSubscriptions,
       login,
       logout,
@@ -321,8 +319,7 @@ export default defineComponent({
       loginOpen,
       registerOpen,
       onLoginClick,
-      onRegisterClick,
-      closeAllPopups
+      onRegisterClick
     };
   }
 });

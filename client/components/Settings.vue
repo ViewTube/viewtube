@@ -153,10 +153,10 @@ import '@/assets/styles/popup.scss';
 import {
   computed,
   defineComponent,
-  onBeforeUnmount,
   reactive,
   ref,
-  useStore
+  useStore,
+  watch
 } from '@nuxtjs/composition-api';
 import { useAccessor } from '~/store';
 
@@ -174,7 +174,7 @@ export default defineComponent({
     CloudCheckIcon,
     ReloadIcon
   },
-  setup(_, { root }) {
+  setup() {
     const accessor = useAccessor();
     const store = useStore();
     const sponsorblockSegmentOptions = reactive([
@@ -202,27 +202,23 @@ export default defineComponent({
     };
 
     const saveSetting = async (storeAction: string, value: string): Promise<void> => {
-      root.$nuxt.$emit('settings-saving', true);
+      accessor.settings.mutateSettingsSaving(true);
       await store.dispatch(storeAction, value);
-      root.$nuxt.$emit('settings-saving', false);
+      accessor.settings.mutateSettingsSaving(false);
     };
 
     const onSponsorblockOptionChange = async (category, value) => {
-      root.$nuxt.$emit('settings-saving', true);
+      accessor.settings.mutateSettingsSaving(true);
 
       accessor.settings.mutateSponsorblockCategoryStatus({
         category,
         status: value.value
       });
       await accessor.settings.storeSponsorblock();
-      root.$nuxt.$emit('settings-saving', false);
+      accessor.settings.mutateSettingsSaving(false);
     };
 
-    root.$nuxt.$on('settings-saving', onSettingsSaving);
-
-    onBeforeUnmount(() => {
-      root.$nuxt.$off('settings-saving');
-    });
+    watch(() => accessor.settings.settingsSaving, onSettingsSaving);
 
     return {
       sponsorblockSegmentOptions,

@@ -2,7 +2,7 @@ import { getterTree, mutationTree } from 'nuxt-typed-vuex';
 
 export const state = () => ({
   popupOpen: false,
-  currentPopupName: ''
+  currentPopupName: null
 });
 
 export const getters = getterTree(state, {
@@ -15,5 +15,8 @@ export const mutations = mutationTree(state, {
   },
   openPopup: (state, popupName) => {
     state.currentPopupName = popupName;
+  },
+  afterOpenPopup: state => {
+    state.currentPopupName = null;
   }
 });

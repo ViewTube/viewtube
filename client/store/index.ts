@@ -10,6 +10,7 @@ import * as settings from '~/store/settings';
 import * as user from '~/store/user';
 import * as videoPlayer from '~/store/videoPlayer';
 import * as playerVolume from '~/store/playerVolume';
+import * as popup from '~/store/popup';
 
 export const state = () => ({});
 
@@ -49,6 +50,7 @@ export const accessorType = getAccessorType({
     miniplayer,
     settings,
     user,
+    popup,
     videoPlayer,
     playerVolume
   }

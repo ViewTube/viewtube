@@ -244,7 +244,7 @@ export default defineComponent({
     };
 
     const openInstancePopup = () => {
-      emit('open-popup', 'instances');
+      accessor.popup.openPopup('instances');
     };
     const saveToHistory = () => {
       if (accessor.user.isLoggedIn) {
