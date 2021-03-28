@@ -113,6 +113,7 @@ export default defineComponent({
     align-items: center;
     position: relative;
     z-index: +1;
+    width: 40px;
 
     .logo {
       font-family: $header-font;
