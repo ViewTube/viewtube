@@ -3,7 +3,7 @@
     <div ref="channelTitle" class="channel-title-container">
       <div class="channel-title">
         <div v-if="channel.authorThumbnails" class="channel-thumbnail">
-          <img :src="channel.authorThumbnails[2].url" alt="Author Image" />
+          <img :src="imgProxyUrl + channel.authorThumbnails[2].url" alt="Author Image" />
         </div>
         <div class="channel-info">
           <div class="channel-name">
@@ -49,6 +49,7 @@ import FamilyFriendly from 'vue-material-design-icons/AccountChild.vue';
 import Paid from 'vue-material-design-icons/CurrencyUsd.vue';
 import SubscribeButton from '@/components/buttons/SubscribeButton.vue';
 import { defineComponent } from '@nuxtjs/composition-api';
+import { useImgProxy } from '~/plugins/proxy';
 
 export default defineComponent({
   name: 'ChannelOverview',
@@ -59,6 +60,12 @@ export default defineComponent({
   },
   props: {
     channel: Object
+  },
+  setup() {
+    const imgProxy = useImgProxy();
+    return {
+      imgProxyUrl: imgProxy.url
+    };
   }
 });
 </script>

@@ -6,7 +6,11 @@
       </transition>
       <transition name="reveal">
         <div v-if="!showIframe" class="video-thumbnail" @click="onVideoClicked">
-          <img class="video-thumbnail-img" :src="video.videoThumbnails[0].url" :alt="video.title" />
+          <img
+            class="video-thumbnail-img"
+            :src="imgProxyUrl + video.videoThumbnails[0].url"
+            :alt="video.title"
+          />
           <span class="play-btn"><PlayIcon /></span>
           <span class="video-length">{{
             $formatting.getTimestampFromSeconds(video.lengthSeconds)
@@ -35,6 +39,7 @@
 import PlayIcon from 'vue-material-design-icons/Play.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import { defineComponent, ref } from '@nuxtjs/composition-api';
+import { useImgProxy } from '~/plugins/proxy';
 
 export default defineComponent({
   name: 'InlineVideo',
@@ -46,6 +51,8 @@ export default defineComponent({
     video: Object
   },
   setup(props) {
+    const imgProxy = useImgProxy();
+
     const showIframe = ref(false);
     const isSmall = ref(true);
     const smallDescription = ref('');
@@ -72,7 +79,8 @@ export default defineComponent({
       isSmall,
       smallDescription,
       onVideoClicked,
-      onShowFullDescription
+      onShowFullDescription,
+      imgProxyUrl: imgProxy.url
     };
   }
 });
