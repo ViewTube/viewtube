@@ -51,6 +51,43 @@ export class NotificationsService {
     }
   }
 
+  async sendMultipleNotifications(
+    notifications: Array<{ username: string; videos: Array<VideoBasicInfoDto> }>
+  ) {
+    const pushNotifications = await this.PushNotificationModel.find().lean().exec();
+    const notificationsToSave = [];
+    await Promise.allSettled(
+      notifications.map(async notification => {
+        await Promise.allSettled(
+          notification.videos.map(async video => {
+            if (
+              pushNotifications.findIndex(
+                el => el.username === notification.username && el.id === video.videoId
+              ) === -1
+            ) {
+              const notificationPayload = {
+                title: `New video from ${video.author}`,
+                body: `${video.title}\n${video.description}`,
+                video
+              };
+              await this.sendNotification(notification.username, notificationPayload);
+              notificationsToSave.push({
+                insertOne: {
+                  document: {
+                    id: video.videoId,
+                    username: notification.username,
+                    content: notificationPayload
+                  }
+                }
+              });
+            }
+          })
+        );
+      })
+    );
+    await this.PushNotificationModel.bulkWrite(notificationsToSave);
+  }
+
   async sendVideoNotification(username: string, video: VideoBasicInfoDto): Promise<void> {
     if (
       !(await this.PushNotificationModel.exists({
