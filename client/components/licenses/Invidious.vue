@@ -39,7 +39,7 @@ export default defineComponent({
     background-color: var(--bgcolor-main);
     margin: 0 auto !important;
     white-space: pre-wrap;
-    font-size: 0.9rem;
+    font-size: 1rem;
   }
 }
 </style>
