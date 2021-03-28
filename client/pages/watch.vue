@@ -214,7 +214,7 @@ export default defineComponent({
     CollapsibleSection,
     BadgeButton
   },
-  setup(_, { emit }) {
+  setup() {
     const accessor = useAccessor();
     const route = useRoute();
     const router = useRouter();
@@ -409,10 +409,11 @@ export default defineComponent({
       accessor.miniplayer.setCurrentVideo(video);
     });
 
-    useMeta(() => ({
-      title: video.value ? `${video.value.title} :: ${video.value.author} :: ViewTube` : 'ViewTube',
-      meta: video.value
-        ? [
+    useMeta(() => {
+      if (video.value) {
+        return {
+          title: `${video.value.title} :: ${video.value.author} :: ViewTube`,
+          meta: [
             {
               hid: 'description',
               vmid: 'descriptionMeta',
@@ -443,8 +444,9 @@ export default defineComponent({
                   : '#'
             }
           ]
-        : []
-    }));
+        };
+      }
+    });
 
     return {
       imgProxyUrl: imgProxy.url,

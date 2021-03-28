@@ -19,6 +19,11 @@ export default defineNuxtConfig({
   head: {
     meta: [
       { charset: 'utf-8' },
+      { name: 'og:title', skip: true },
+      { name: 'og:site_name', skip: true },
+      { name: 'apple-mobile-web-app-title', skip: true },
+      { name: 'author', skip: true },
+      { name: 'og:description', skip: true },
       {
         name: 'viewport',
         content: 'width=device-width, initial-scale=1'
