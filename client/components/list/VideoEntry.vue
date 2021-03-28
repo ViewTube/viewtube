@@ -1,6 +1,7 @@
 <template>
   <div class="video-entry">
     <div
+      v-if="video.author"
       class="video-author"
       :class="{
         thumbnail:
@@ -159,7 +160,7 @@ export default defineComponent({
 
     const apiUrl = ref('/');
     const videoThumbnailUrl = ref(null);
-    
+
     apiUrl.value = accessor.environment.apiUrl;
 
     if (props.video.videoThumbnails) {
