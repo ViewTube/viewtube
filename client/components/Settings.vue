@@ -24,7 +24,9 @@
         </h1>
       </div>
       <h2><ThemeIcon />Theme</h2>
-      <ThemeSelector />
+      <div class="theme-selector-container">
+        <ThemeSelector />
+      </div>
       <h2><ChaptersIcon />Chapters</h2>
       <SwitchButton
         :value="$store.getters['settings/chapters']"
@@ -150,14 +152,7 @@ import ThemeSelector from '@/components/themes/ThemeSelector.vue';
 import SwitchButton from '@/components/buttons/SwitchButton.vue';
 import MultiOptionButton from '@/components/buttons/MultiOptionButton.vue';
 import '@/assets/styles/popup.scss';
-import {
-  computed,
-  defineComponent,
-  reactive,
-  ref,
-  useStore,
-  watch
-} from '@nuxtjs/composition-api';
+import { computed, defineComponent, reactive, ref, useStore, watch } from '@nuxtjs/composition-api';
 import { useAccessor } from '~/store';
 
 export default defineComponent({
@@ -307,6 +302,9 @@ export default defineComponent({
       margin: 0 10px 0 0;
       filter: grayscale(100%) brightness(0.9) invert(1);
     }
+  }
+
+  .theme-selector-container {
   }
 
   .sponsorblock-options {
