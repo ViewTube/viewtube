@@ -28,8 +28,8 @@ export const videoPlayerSetup = (props: any) => {
 
   const loading = ref(true);
   const fullscreen = ref(false);
-  const dashPlayer = ref(null);
-  const dashBitrates = ref(null);
+  // const dashPlayer = ref(null);
+  // const dashBitrates = ref(null);
 
   const touchAction = ref(false);
 
@@ -713,7 +713,7 @@ export const videoPlayerSetup = (props: any) => {
     imgProxyUrl: imgProxy.url,
     loading,
     fullscreen,
-    dashPlayer,
+    // dashPlayer,
     playerOverlay,
     videoElement,
     seekbar,
