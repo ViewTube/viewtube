@@ -18,12 +18,6 @@ export default defineNuxtConfig({
 
   head: {
     meta: [
-      { charset: 'utf-8' },
-      { name: 'og:title', skip: true },
-      { name: 'og:site_name', skip: true },
-      { name: 'apple-mobile-web-app-title', skip: true },
-      { name: 'author', skip: true },
-      { name: 'og:description', skip: true },
       {
         name: 'viewport',
         content: 'width=device-width, initial-scale=1'
@@ -39,7 +33,6 @@ export default defineNuxtConfig({
         property: 'og:title',
         content: 'ViewTube'
       },
-      { property: 'og:type', content: 'website' },
       {
         hid: 'ogImage',
         property: 'og:image',
@@ -50,6 +43,10 @@ export default defineNuxtConfig({
         hid: 'ogDescription',
         property: 'og:description',
         content: 'An alternative YouTube frontend using the invidio.us API.'
+      }, {
+        hid: 'ogType',
+        property: 'og:type',
+        content: 'website'
       },
       { property: 'og:locale', content: 'en_US' },
       { property: 'og:site_name', content: 'ViewTube' }
@@ -114,6 +111,22 @@ export default defineNuxtConfig({
     workbox: {
       debug: true,
       importScripts: ['notifications-sw.js']
+    },
+    meta: {
+      mobileApp: true,
+      mobileAppIOS: true,
+      appleStatusBarStyle: 'black',
+      name: null,
+      author: 'Maurice Oegerli',
+      theme_color: null,
+      lang: null,
+      ogType: null,
+      ogSiteName: null,
+      ogTitle: null,
+      ogDescription: null,
+      ogHost: null,
+      ogImage: null,
+      ogUrl: null
     },
     manifest: {
       name: 'ViewTube',
