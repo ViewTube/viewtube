@@ -27,6 +27,7 @@
             v-if="link.linkThumbnails"
             :src="imgProxyUrl + link.linkThumbnails[0].url"
             :alt="link.title"
+            class="link-thumbnail"
           />
           {{ link.title }}
         </a>
@@ -99,12 +100,24 @@ export default defineComponent({
     .banner-links {
       display: flex;
       flex-direction: row;
+      margin: 8px 0 0 0;
+
       a {
         background-color: #00000056;
-        padding: 3px;
+        padding: 5px 6px;
         border-radius: 5px;
         margin: 0 5px 5px 0;
         transition: background-color 200ms $intro-easing;
+        text-align: center;
+        line-height: 20px;
+        height: 22px;
+
+        .link-thumbnail {
+          position: relative;
+          top: 50%;
+          transform: translateY(-50%);
+          height: 16px;
+        }
 
         &:focus {
           background-color: #00000083;
