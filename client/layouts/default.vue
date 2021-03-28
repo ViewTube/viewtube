@@ -144,6 +144,7 @@ a {
   margin: 0;
 }
 div.links,
+pre.links,
 span.links {
   a {
     text-decoration: none;
