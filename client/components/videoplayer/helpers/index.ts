@@ -8,7 +8,7 @@ import {
   useStore
 } from '@nuxtjs/composition-api';
 import { commons } from '@/plugins/commons';
-import dashjs from 'dashjs';
+// import dashjs from 'dashjs';
 import { SponsorBlock } from '@/plugins/services/sponsorBlock';
 import { SponsorBlockSegmentsDto } from '@/plugins/shared';
 import { useAccessor } from '@/store';
@@ -342,17 +342,17 @@ export const videoPlayerSetup = (props: any) => {
     loading.value = false;
   };
 
-  const loadDashVideo = () => {
-    if (videoRef.value) {
-      let url = `${store.getters['instances/currentInstanceApi']}manifest/dash/id/${props.video.videoId}?local=true`;
-      if (props.video.dashUrl) {
-        url = `${props.video.dashUrl}?local=true`;
-      }
-      dashPlayer.value = dashjs.MediaPlayer().create();
-      dashPlayer.initialize(videoRef.value, url, false);
-      dashBitrates.value = dashPlayer.getBitrateInfoListFor('video');
-    }
-  };
+  // const loadDashVideo = () => {
+  //   if (videoRef.value) {
+  //     let url = `${store.getters['instances/currentInstanceApi']}manifest/dash/id/${props.video.videoId}?local=true`;
+  //     if (props.video.dashUrl) {
+  //       url = `${props.video.dashUrl}?local=true`;
+  //     }
+  //     dashPlayer.value = dashjs.MediaPlayer().create();
+  //     dashPlayer.initialize(videoRef.value, url, false);
+  //     dashBitrates.value = dashPlayer.getBitrateInfoListFor('video');
+  //   }
+  // };
 
   // Interaction events
   const onVolumeInteraction = () => {};
@@ -775,7 +775,7 @@ export const videoPlayerSetup = (props: any) => {
     onSeekbarClick,
     onPlayerClick,
     onChangeQuality,
-    loadDashVideo,
+    // loadDashVideo,
     setVideoTime
   };
 };

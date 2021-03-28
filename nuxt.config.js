@@ -196,6 +196,12 @@ export default defineNuxtConfig({
     progress: false
   },
 
+  resourceHints: true,
+
+  http2: {
+    push: true
+  },
+
   build: {
     postcss: {
       plugins: [
@@ -219,7 +225,7 @@ export default defineNuxtConfig({
       scss: dartSass
     },
     indicator: true,
-    transpile: ['vue-material-design-icons', 'dashjs', 'tippy.js'],
+    transpile: ['vue-material-design-icons', 'tippy.js'],
     extend(config, { isClient }) {
       if (isClient) {
         config.optimization.splitChunks.maxSize = 1000000;
