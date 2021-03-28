@@ -8,7 +8,7 @@ COPY . .
 
 RUN yarn build
 
-RUN rm -R node_modules
+RUN rm -rf node_modules
 
 FROM alpine:3.13 as runtime
 WORKDIR /home/app
