@@ -1,5 +1,3 @@
-import fs from 'fs';
-import path from 'path';
 import {
   Injectable,
   HttpException,
@@ -11,17 +9,14 @@ import { VideoBasicInfo } from 'server/core/videos/schemas/video-basic-info.sche
 import { ChannelBasicInfo } from 'server/core/channels/schemas/channel-basic-info.schema';
 import { Model } from 'mongoose';
 import { Cron, CronExpression } from '@nestjs/schedule';
-import X2js from 'x2js';
-import fetch from 'node-fetch';
 import { VideoBasicInfoDto } from 'server/core/videos/dto/video-basic-info.dto';
-import { Common } from 'server/core/common';
-import humanizeDuration from 'humanize-duration';
 import { Sorting } from 'server/common/sorting.type';
 import { ChannelBasicInfoDto } from 'server/core/channels/dto/channel-basic-info.dto';
 import Consola from 'consola';
 import { NotificationsService } from '../notifications/notifications.service';
 import { Subscription } from './schemas/subscription.schema';
 import { SubscriptionStatusDto } from './dto/subscription-status.dto';
+import { getChannelFeed, runSubscriptionsJob } from './subscriptions-job';
 
 @Injectable()
 export class SubscriptionsService {
@@ -35,8 +30,6 @@ export class SubscriptionsService {
     private notificationsService: NotificationsService
   ) {}
 
-  private feedUrl = 'https://www.youtube.com/feeds/videos.xml?channel_id=';
-
   @Cron(CronExpression.EVERY_30_MINUTES)
   async collectSubscriptionsJob(): Promise<void> {
     const timeMeasurementName = 'subscription-job ' + new Date().toISOString();
@@ -47,42 +40,33 @@ export class SubscriptionsService {
       []
     );
     const uniqueChannelIds = [...new Set(channelIds)];
+    const subscriptionResults = await runSubscriptionsJob(uniqueChannelIds);
 
-    const feedRequests = uniqueChannelIds.map(async id => {
-      const channelFeed = await this.getChannelFeed(id);
-      if (channelFeed) {
-        const { videos, channel } = channelFeed;
-        this.saveChannelBasicInfo(channel);
-        return videos;
-      }
+    this.sendUserNotifications(subscriptionResults.videoResultArray);
+
+    const channelsToUpdate = subscriptionResults.channelResultArray.map(channel => {
+      return {
+        updateOne: {
+          filter: { authorId: channel.authorId },
+          update: { $set: channel },
+          upsert: true
+        }
+      };
     });
 
-    const promiseResults = await Promise.allSettled(feedRequests);
-    if (promiseResults.find((promiseResult: any) => promiseResult.value)) {
-      const videoValues = promiseResults.filter((promiseResult: any) => promiseResult.value);
-      const videos: Array<VideoBasicInfoDto> = videoValues.reduce(
-        (promiseResult: any, { value }: any) => [...promiseResult, ...value],
-        []
-      );
+    const videosToUpdate = subscriptionResults.videoResultArray.map(video => {
+      return {
+        updateOne: {
+          filter: { videoId: video.videoId },
+          update: { $set: video },
+          upsert: true
+        }
+      };
+    });
 
-      await Promise.allSettled(
-        videos.map(async element => {
-          if (
-            !(await this.VideoModel.exists({
-              videoId: element.videoId
-            }))
-          ) {
-            this.sendUserNotifications(element);
-          }
-          try {
-            return this.saveVideoBasicInfo(element);
-          } catch (err) {
-            Consola.error('Error saving video info for id ' + element.videoId);
-          }
-        })
-      );
-      console.timeEnd(timeMeasurementName);
-    }
+    await this.ChannelBasicInfoModel.bulkWrite(channelsToUpdate);
+    await this.VideoModel.bulkWrite(videosToUpdate);
+    console.timeEnd(timeMeasurementName);
   }
 
   async saveChannelBasicInfo(channel: ChannelBasicInfoDto): Promise<ChannelBasicInfoDto | null> {
@@ -107,118 +91,33 @@ export class SubscriptionsService {
     return savedVideo || null;
   }
 
-  getChannelFeed(
-    channelId: string
-  ): Promise<void | {
-    channel: ChannelBasicInfoDto;
-    videos: Array<VideoBasicInfoDto>;
-  }> {
-    return fetch(this.feedUrl + channelId)
-      .then(response => {
-        if (response.ok) {
-          return response.text();
-        }
-        return null;
-      })
-      .then(data => {
-        if (data) {
-          const x2js = new X2js();
-          const jsonData = x2js.xml2js(data) as any;
-          if (jsonData.feed.entry) {
-            let videos: Array<VideoBasicInfoDto> = [];
-            // For channels that have no videos
-            if (jsonData.feed.entry.length) {
-              videos = jsonData.feed.entry.map((video: any) => this.convertRssVideo(video));
-            }
-
-            const authorId = jsonData.feed.channelId.toString();
-
-            const channel: ChannelBasicInfoDto = {
-              authorId,
-              author: jsonData.feed.author.name,
-              authorUrl: jsonData.feed.author.uri
-            };
-
-            const cachedChannelThmbPath = path.join(
-              (global as any).__basedir,
-              `channels/${authorId}.jpg`
-            );
-            if (fs.existsSync(cachedChannelThmbPath)) {
-              channel.authorThumbnailUrl = `channels/${authorId}/thumbnail/tiny.jpg`;
-            } else {
-              channel.authorThumbnailUrl = undefined;
-            }
-
-            return { channel, videos };
-          }
-        } else {
-          return null;
-        }
-      })
-      .catch(err =>
-        Consola.warn(`Could not find channel, the following error can be safely ignored:\n${err}`)
-      );
-  }
-
-  async sendUserNotifications(video: VideoBasicInfoDto): Promise<void> {
+  async sendUserNotifications(videos: Array<VideoBasicInfoDto>): Promise<void> {
     const users = await this.subscriptionModel.find().lean().exec();
-    const subscribedUsers = users.filter(u =>
-      u.subscriptions.find(sub => sub.channelId === video.authorId)
-    );
-    if (subscribedUsers) {
-      subscribedUsers.forEach((user: Subscription) => {
-        const channelSubscription = user.subscriptions.find(e => e.channelId === video.authorId);
-        if (
-          channelSubscription.createdAt &&
-          channelSubscription.createdAt.valueOf() < video.published
-        ) {
-          this.notificationsService.sendVideoNotification(user.username, video);
-        }
-      });
-    }
-  }
-
-  convertRssVideo(video: any): VideoBasicInfoDto {
-    const rating = video.group.community.starRating;
-    const { likes, dislikes } = this.convertStarsToLikesDislikes({
-      totalRatings: rating._count,
-      avgStarRatings: rating._average
+    const notificationsToSend: Array<{ username: string; videos: Array<VideoBasicInfoDto> }> = [];
+    videos.forEach(video => {
+      const subscribedUsers = users.filter(u =>
+        u.subscriptions.find(sub => sub.channelId === video.authorId)
+      );
+      if (subscribedUsers) {
+        subscribedUsers.forEach((user: Subscription) => {
+          const channelSubscription = user.subscriptions.find(e => e.channelId === video.authorId);
+          if (
+            channelSubscription.createdAt &&
+            channelSubscription.createdAt.valueOf() < video.published
+          ) {
+            const notification = notificationsToSend.find(
+              notification => notification.username === user.username
+            );
+            if (notification) {
+              notification.videos.push(video);
+            } else {
+              notificationsToSend.push({ username: user.username, videos: [video] });
+            }
+          }
+        });
+      }
     });
-
-    const durationString = humanizeDuration(
-      new Date().valueOf() - Date.parse(video.published).valueOf(),
-      { largest: 1 }
-    );
-
-    const description = video.group.description.toString();
-    const descriptionText = typeof description === 'string' ? description : '';
-
-    return {
-      videoId: video.videoId.toString(),
-      title: video.title,
-      author: video.author.name,
-      authorId: video.channelId.toString(),
-      description: descriptionText,
-      published: Date.parse(video.published),
-      publishedText: durationString,
-      videoThumbnails: Common.getVideoThumbnails(video.videoId.toString()),
-      viewCount: video.group.community.statistics._views,
-      likeCount: likes,
-      dislikeCount: dislikes
-    };
-  }
-
-  convertStarsToLikesDislikes({
-    totalRatings,
-    avgStarRatings
-  }: {
-    totalRatings: number;
-    avgStarRatings: number;
-  }): { likes: number; dislikes: number } {
-    const likeRatio = (avgStarRatings - 1) / 4;
-    const likes = Math.round(totalRatings * likeRatio);
-    const dislikes = Math.round(totalRatings * (1 - likeRatio));
-    return { likes, dislikes };
+    await this.notificationsService.sendMultipleNotifications(notificationsToSend);
   }
 
   async getSubscribedChannelsCount(username: string): Promise<number> {
@@ -366,7 +265,7 @@ export class SubscriptionsService {
           return true;
         })
         .map(async (id: string) => {
-          const channelFeed = await this.getChannelFeed(id);
+          const channelFeed = await getChannelFeed(id);
           if (channelFeed) {
             let channel: ChannelBasicInfoDto;
             try {
@@ -439,7 +338,7 @@ export class SubscriptionsService {
   async subscribeToChannel(username: string, channelId: string): Promise<SubscriptionStatusDto> {
     const user = await this.subscriptionModel.findOne({ username }).exec();
 
-    const channelFeed = await this.getChannelFeed(channelId);
+    const channelFeed = await getChannelFeed(channelId);
     if (channelFeed) {
       let channel: ChannelBasicInfoDto;
 

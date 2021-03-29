@@ -144,6 +144,7 @@ a {
   margin: 0;
 }
 div.links,
+pre.links,
 span.links {
   a {
     text-decoration: none;
@@ -233,5 +234,13 @@ a {
   padding: 2px 5px;
   font-family: monospace;
   border-radius: 4px;
+}
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  background-clip: text;
+  color: var(--title-color);
+  -webkit-text-fill-color: var(--title-color);
 }
 </style>

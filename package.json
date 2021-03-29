@@ -55,7 +55,6 @@
     "consola": "2.15.3",
     "cookie-parser": "1.4.5",
     "cross-env": "7.0.3",
-    "dashjs": "3.2.1",
     "fluent-ffmpeg": "2.1.2",
     "https-proxy-agent": "5.0.0",
     "humanize-duration": "3.25.1",

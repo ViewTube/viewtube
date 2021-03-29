@@ -63,7 +63,7 @@
                   v-if="video.authorThumbnails && video.authorThumbnails.length > 0"
                   id="channel-img"
                   alt="Channel image"
-                  :src="video.authorThumbnails[2].url"
+                  :src="imgProxyUrl + video.authorThumbnails[2].url"
                 />
               </nuxt-link>
             </div>
@@ -192,6 +192,7 @@ import {
 } from '@nuxtjs/composition-api';
 import { useAccessor } from '~/store';
 import { useAxios } from '~/plugins/axios';
+import { useImgProxy } from '~/plugins/proxy';
 
 export default defineComponent({
   name: 'Watch',
@@ -213,12 +214,13 @@ export default defineComponent({
     CollapsibleSection,
     BadgeButton
   },
-  setup(_, { emit }) {
+  setup() {
     const accessor = useAccessor();
     const route = useRoute();
     const router = useRouter();
     const { error } = useContext();
     const axios = useAxios();
+    const imgProxy = useImgProxy();
 
     const jsEnabled = ref(false);
     const video = ref(null);
@@ -242,7 +244,7 @@ export default defineComponent({
     };
 
     const openInstancePopup = () => {
-      emit('open-popup', 'instances');
+      accessor.popup.openPopup('instances');
     };
     const saveToHistory = () => {
       if (accessor.user.isLoggedIn) {
@@ -407,10 +409,11 @@ export default defineComponent({
       accessor.miniplayer.setCurrentVideo(video);
     });
 
-    useMeta(() => ({
-      title: video.value ? `${video.value.title} :: ${video.value.author} :: ViewTube` : 'ViewTube',
-      meta: video.value
-        ? [
+    useMeta(() => {
+      if (video.value) {
+        return {
+          title: `${video.value.title} :: ${video.value.author} :: ViewTube`,
+          meta: [
             {
               hid: 'description',
               vmid: 'descriptionMeta',
@@ -441,10 +444,12 @@ export default defineComponent({
                   : '#'
             }
           ]
-        : []
-    }));
+        };
+      }
+    });
 
     return {
+      imgProxyUrl: imgProxy.url,
       jsEnabled,
       video,
       comment,

@@ -1,6 +1,5 @@
 export const commons = {
   proxyUrl: '',
-  description: 'An alternative YouTube frontend using the Invidious API.',
   language: 'en-US',
 
   getVideoIdFromUrl(videoUrl: string) {

@@ -171,6 +171,7 @@ export const state = () => ({
   miniplayer: true,
   chapters: true,
   saveVideoHistory: true,
+  settingsSaving: false,
   sponsorblock_enabled: true,
   sponsorblock_sponsor: 'skip' as segmentOption,
   sponsorblock_intro: 'ask' as segmentOption,
@@ -214,6 +215,9 @@ export const mutations = mutationTree(state, {
         state[key] = newSettings[key];
       }
     });
+  },
+  mutateSettingsSaving(state, saving) {
+    state.settingsSaving = saving;
   },
   mutateTheme(state, theme) {
     if (state.defaults.theme.find(e => e.value === theme)) {

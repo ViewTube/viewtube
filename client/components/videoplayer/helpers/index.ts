@@ -8,7 +8,7 @@ import {
   useStore
 } from '@nuxtjs/composition-api';
 import { commons } from '@/plugins/commons';
-import dashjs from 'dashjs';
+// import dashjs from 'dashjs';
 import { SponsorBlock } from '@/plugins/services/sponsorBlock';
 import { SponsorBlockSegmentsDto } from '@/plugins/shared';
 import { useAccessor } from '@/store';
@@ -17,17 +17,19 @@ import { calculateSeekPercentage, matchSeekProgressPercentage, seekbarFunctions 
 import { parseChapters } from './chapters';
 import { useFormatting } from '~/plugins/formatting';
 import { useAxios } from '~/plugins/axios';
+import { useImgProxy } from '~/plugins/proxy';
 
 export const videoPlayerSetup = (props: any) => {
   const store = useStore();
   const accessor = useAccessor();
   const formatting = useFormatting();
   const axios = useAxios();
+  const imgProxy = useImgProxy();
 
   const loading = ref(true);
   const fullscreen = ref(false);
-  const dashPlayer = ref(null);
-  const dashBitrates = ref(null);
+  // const dashPlayer = ref(null);
+  // const dashBitrates = ref(null);
 
   const touchAction = ref(false);
 
@@ -340,17 +342,17 @@ export const videoPlayerSetup = (props: any) => {
     loading.value = false;
   };
 
-  const loadDashVideo = () => {
-    if (videoRef.value) {
-      let url = `${store.getters['instances/currentInstanceApi']}manifest/dash/id/${props.video.videoId}?local=true`;
-      if (props.video.dashUrl) {
-        url = `${props.video.dashUrl}?local=true`;
-      }
-      dashPlayer.value = dashjs.MediaPlayer().create();
-      dashPlayer.initialize(videoRef.value, url, false);
-      dashBitrates.value = dashPlayer.getBitrateInfoListFor('video');
-    }
-  };
+  // const loadDashVideo = () => {
+  //   if (videoRef.value) {
+  //     let url = `${store.getters['instances/currentInstanceApi']}manifest/dash/id/${props.video.videoId}?local=true`;
+  //     if (props.video.dashUrl) {
+  //       url = `${props.video.dashUrl}?local=true`;
+  //     }
+  //     dashPlayer.value = dashjs.MediaPlayer().create();
+  //     dashPlayer.initialize(videoRef.value, url, false);
+  //     dashBitrates.value = dashPlayer.getBitrateInfoListFor('video');
+  //   }
+  // };
 
   // Interaction events
   const onVolumeInteraction = () => {};
@@ -708,9 +710,10 @@ export const videoPlayerSetup = (props: any) => {
     document.removeEventListener('keydown', onWindowKeyDown);
   });
   return {
+    imgProxyUrl: imgProxy.url,
     loading,
     fullscreen,
-    dashPlayer,
+    // dashPlayer,
     playerOverlay,
     videoElement,
     seekbar,
@@ -772,7 +775,7 @@ export const videoPlayerSetup = (props: any) => {
     onSeekbarClick,
     onPlayerClick,
     onChangeQuality,
-    loadDashVideo,
+    // loadDashVideo,
     setVideoTime
   };
 };

@@ -10,7 +10,7 @@
       >
         <img
           v-if="refinement.bestThumbnail"
-          :src="refinement.bestThumbnail.url"
+          :src="imgProxyUrl + refinement.bestThumbnail.url"
           alt="Refinement image"
         />
         <p>{{ refinement.q.charAt(0).toUpperCase() + refinement.q.slice(1) }}</p>
@@ -22,6 +22,7 @@
 <script lang="ts">
 import SectionTitle from '@/components/SectionTitle.vue';
 import { defineComponent } from '@nuxtjs/composition-api';
+import { useImgProxy } from '~/plugins/proxy';
 
 export default defineComponent({
   name: 'RelatedSearches',
@@ -30,6 +31,12 @@ export default defineComponent({
   },
   props: {
     refinements: Array
+  },
+  setup() {
+    const imgProxy = useImgProxy();
+    return {
+      imgProxyUrl: imgProxy.url
+    };
   }
 });
 </script>

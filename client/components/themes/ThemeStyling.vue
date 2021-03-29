@@ -24,6 +24,9 @@
       --darkness: {{ getTheme()['darkness'] }};
       --gradient-opacity: {{ getTheme()['gradient-opacity'] }};
     }
+    html {
+      {{ $accessor.popup.isPopupOpen ? 'overflow: hidden;' : '' }}
+    }
   </style>
 </template>
 

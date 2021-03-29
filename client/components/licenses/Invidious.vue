@@ -1,6 +1,6 @@
 <template>
-  <div v-if="licenseText" v-create-links class="license links">
-    {{ licenseText }}
+  <div class="license-container">
+    <pre v-if="licenseText" v-create-links class="license links" v-text="licenseText" />
   </div>
 </template>
 
@@ -18,7 +18,7 @@ export default defineComponent({
       await axios
         .get('https://raw.githubusercontent.com/iv-org/invidious/master/LICENSE')
         .then(response => {
-          licenseText.value = response.data;
+          licenseText.value = (response.data as string).replaceAll('<', '').replaceAll('>', '');
         })
         .catch(_ => {});
     });
@@ -31,8 +31,15 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.license {
-  width: 100%;
+.license-container {
   margin: 0 !important;
+  padding: 0 0 100px 0;
+
+  .license {
+    background-color: var(--bgcolor-main);
+    margin: 0 auto !important;
+    white-space: pre-wrap;
+    font-size: 1rem;
+  }
 }
 </style>

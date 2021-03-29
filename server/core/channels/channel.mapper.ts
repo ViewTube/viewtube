@@ -378,7 +378,7 @@ export class ChannelMapper {
     const secondsRegex = /(\d{1,2})\sseconds?/i;
     const minutesRegex = /(\d{1,2})\sminutes?/i;
     const hoursRegex = /(\d{1,2})\shours?/i;
-    const publishedTextRegex = /\d.*?ago/gi;
+    const publishedTextRegex = /\d\s.*?ago/gi;
     const authorRegex = /by\s(.*)/i;
 
     const stringwithoutName = text.replace(videoName, '').trim();
@@ -418,7 +418,13 @@ export class ChannelMapper {
         return {
           title: el.title.simpleText,
           url: this.cleanTrackingRedirect(el.navigationEndpoint.urlEndpoint.url),
-          linkThumbnails: el.icon.thumbnails.map(thmb => ({ url: `https:${thmb.url}` }))
+          linkThumbnails: el.icon.thumbnails.map(thmb => {
+            let url = thmb.url as string;
+            if (!url.startsWith('https:')) {
+              url = `https:${url}`;
+            }
+            return { url };
+          })
         };
       });
     }
@@ -426,7 +432,10 @@ export class ChannelMapper {
   }
 
   static cleanTrackingRedirect(source: string): string {
-    const encodedUrl = source.replace(/\/redirect.*?q=/gi, '').replace(/&.*/gi, '');
+    const encodedUrl = source
+      .replace(/\/redirect.*?q=/gi, '')
+      .replace(/https?:\/\/www.youtube.com/, '')
+      .replace(/&.*/gi, '');
     return decodeURIComponent(encodedUrl);
   }
 

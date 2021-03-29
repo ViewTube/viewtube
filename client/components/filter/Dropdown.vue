@@ -1,5 +1,5 @@
 <template>
-  <div ref="dropdownBtnRef" v-clickaway="hideDropdown" class="dropdown" :class="{ open: open }">
+  <div ref="dropdownBtnRef" class="dropdown" :class="{ open: open }">
     <div
       v-ripple
       class="dropdown-btn"

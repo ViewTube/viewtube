@@ -130,7 +130,7 @@ export default defineComponent({
     };
     const searchRedirect = (searchValue: string) => {
       router.push(`/results?search_query=${searchValue}`);
-      searchFieldRef.blur();
+      searchFieldRef.value.blur();
     };
 
     watch(

@@ -8,14 +8,14 @@
         v-tippy="'Unsubscribe from this channel'"
         class="unsubscribe-button"
         :class="{ hidden: !isSubscribed }"
-        tabindex="0"
+        :tabindex="!isSubscribed || disabled ? null : 0"
         @click="unsubscribe"
       />
       <div
         v-tippy="'Subscribe to this channel'"
         class="subscribe-button"
         :class="{ hidden: isSubscribed }"
-        tabindex="0"
+        :tabindex="isSubscribed || disabled ? null : 0"
         @click="subscribe"
       />
     </div>

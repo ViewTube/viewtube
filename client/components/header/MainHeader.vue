@@ -5,11 +5,7 @@
         <span>View</span>
         <span class="logo-colored">Tube</span>
       </h1>
-      <img
-        class="logo-small"
-        src="@/assets/icon.svg"
-        alt="ViewTube"
-      />
+      <img class="logo-small" src="@/assets/icon.svg" alt="ViewTube" />
     </nuxt-link>
     <MainSearchBox />
     <UserMenu />
@@ -145,6 +141,8 @@ export default defineComponent({
     }
 
     @media screen and (max-width: $mobile-width) {
+      width: 40px;
+
       .logo {
         width: 0;
       }

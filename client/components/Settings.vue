@@ -24,7 +24,9 @@
         </h1>
       </div>
       <h2><ThemeIcon />Theme</h2>
-      <ThemeSelector />
+      <div class="theme-selector-container">
+        <ThemeSelector />
+      </div>
       <h2><ChaptersIcon />Chapters</h2>
       <SwitchButton
         :value="$store.getters['settings/chapters']"
@@ -150,14 +152,7 @@ import ThemeSelector from '@/components/themes/ThemeSelector.vue';
 import SwitchButton from '@/components/buttons/SwitchButton.vue';
 import MultiOptionButton from '@/components/buttons/MultiOptionButton.vue';
 import '@/assets/styles/popup.scss';
-import {
-  computed,
-  defineComponent,
-  onBeforeUnmount,
-  reactive,
-  ref,
-  useStore
-} from '@nuxtjs/composition-api';
+import { computed, defineComponent, reactive, ref, useStore, watch } from '@nuxtjs/composition-api';
 import { useAccessor } from '~/store';
 
 export default defineComponent({
@@ -174,7 +169,7 @@ export default defineComponent({
     CloudCheckIcon,
     ReloadIcon
   },
-  setup(_, { root }) {
+  setup() {
     const accessor = useAccessor();
     const store = useStore();
     const sponsorblockSegmentOptions = reactive([
@@ -197,32 +192,28 @@ export default defineComponent({
       }, 300);
     };
 
-    const onSettingsSaving = value => {
+    const onSettingsSaving = (value: boolean) => {
       settingsSaving.value = value;
     };
 
     const saveSetting = async (storeAction: string, value: string): Promise<void> => {
-      root.$nuxt.$emit('settings-saving', true);
+      accessor.settings.mutateSettingsSaving(true);
       await store.dispatch(storeAction, value);
-      root.$nuxt.$emit('settings-saving', false);
+      accessor.settings.mutateSettingsSaving(false);
     };
 
     const onSponsorblockOptionChange = async (category, value) => {
-      root.$nuxt.$emit('settings-saving', true);
+      accessor.settings.mutateSettingsSaving(true);
 
       accessor.settings.mutateSponsorblockCategoryStatus({
         category,
         status: value.value
       });
       await accessor.settings.storeSponsorblock();
-      root.$nuxt.$emit('settings-saving', false);
+      accessor.settings.mutateSettingsSaving(false);
     };
 
-    root.$nuxt.$on('settings-saving', onSettingsSaving);
-
-    onBeforeUnmount(() => {
-      root.$nuxt.$off('settings-saving');
-    });
+    watch(() => accessor.settings.settingsSaving, onSettingsSaving);
 
     return {
       sponsorblockSegmentOptions,
@@ -311,6 +302,9 @@ export default defineComponent({
       margin: 0 10px 0 0;
       filter: grayscale(100%) brightness(0.9) invert(1);
     }
+  }
+
+  .theme-selector-container {
   }
 
   .sponsorblock-options {

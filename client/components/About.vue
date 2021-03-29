@@ -40,24 +40,26 @@
           </tr>
         </table>
       </div>
-      <div class="sponsorblock links">
-        <img
-          class="sponsorblock-image"
-          src="@/assets/icons/sponsorblock.png"
-          alt="Sponsorblock icon"
-        />
-        <p>
-          This project uses the SponsorBlock database and/or API licensed under
-          <a
-            href="https://creativecommons.org/licenses/by-nc-sa/4.0/"
-            target="_blank"
-            rel="noreferrer noopener"
-            >CC BY-NC-SA 4.0</a
-          >. More details can be found at
-          <a href="https://sponsor.ajay.app/" target="_blank" rel="noreferrer noopener">
-            https://sponsor.ajay.app/</a
-          >.
-        </p>
+      <div class="sponsorblock-container">
+        <div class="sponsorblock links">
+          <img
+            class="sponsorblock-image"
+            src="@/assets/icons/sponsorblock.png"
+            alt="Sponsorblock icon"
+          />
+          <p>
+            This project uses the SponsorBlock database and/or API licensed under
+            <a
+              href="https://creativecommons.org/licenses/by-nc-sa/4.0/"
+              target="_blank"
+              rel="noreferrer noopener"
+              >CC BY-NC-SA 4.0</a
+            >. More details can be found at
+            <a href="https://sponsor.ajay.app/" target="_blank" rel="noreferrer noopener">
+              https://sponsor.ajay.app/</a
+            >.
+          </p>
+        </div>
       </div>
       <h2>Invidious License</h2>
       <InvidiousLicense />
@@ -70,7 +72,7 @@
 import CloseIcon from 'vue-material-design-icons/Close.vue';
 import GithubIcon from 'vue-material-design-icons/Github.vue';
 import ExternalIcon from 'vue-material-design-icons/OpenInNew.vue';
-import { commons } from '@/plugins/commons';
+import packageJson from '@/../package.json';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import InvidiousLicense from '@/components/licenses/Invidious.vue';
 import { computed, defineComponent, onMounted, ref } from '@nuxtjs/composition-api';
@@ -107,7 +109,7 @@ export default defineComponent({
         });
     });
 
-    description.value = commons.description;
+    description.value = packageJson.description;
 
     return {
       description,
@@ -154,6 +156,9 @@ export default defineComponent({
       }
     }
   }
+}
+.sponsorblock-container {
+  margin: 0 !important;
 }
 .links-about {
   margin: 10px 0 0 0 !important;
