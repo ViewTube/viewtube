@@ -16,7 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix disabled subscribe button being reachable with tab button [#66](https://github.com/ViewTube/viewtube-vue/issues/66), [#508](https://github.com/ViewTube/viewtube-vue/pull/508)
 - Fix duplicate and missing meta tags [#70](https://github.com/ViewTube/viewtube-vue/issues/70), [#508](https://github.com/ViewTube/viewtube-vue/pull/508)
 - Fix too wide icon on ios [#340](https://github.com/ViewTube/viewtube-vue/issues/340), [#508](https://github.com/ViewTube/viewtube-vue/pull/508)
-- Improve subscription job [#508](https://github.com/ViewTube/viewtube-vue/pull/508), [#508](https://github.com/ViewTube/viewtube-vue/pull/508)
+- Improve subscription job [#508](https://github.com/ViewTube/viewtube-vue/pull/508)
 - Fix settings and about page layout [#340](https://github.com/ViewTube/viewtube-vue/issues/340), [#508](https://github.com/ViewTube/viewtube-vue/pull/508)
 - Lots of size and speed optimizations [#515](https://github.com/ViewTube/viewtube-vue/pull/515), [#508](https://github.com/ViewTube/viewtube-vue/pull/508)
 - Lots of other small fixes
