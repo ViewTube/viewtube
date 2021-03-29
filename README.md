@@ -14,7 +14,7 @@ ViewTube
 <a href="https://hub.docker.com/r/mauriceo/viewtube"><img src="https://img.shields.io/docker/image-size/mauriceo/viewtube/latest?label=docker%20image" alt="Docker Image Size (tag)"></a>
 <img src="https://img.shields.io/github/last-commit/viewtube/viewtube-vue" alt="GitHub last commit"></p>
 
-ViewTube is an alternative YouTube frontend using the [invidio.us](https://github.com/iv-org/invidious) API.
+ViewTube is an alternative YouTube frontend.
 
 It can recommend, play and search for videos. It saves your watch progress and you can subscribe to channels for them to appear in your subscription feed.
 
@@ -44,6 +44,8 @@ Features
 </sub>
 Why not just use invidio.us?
 </h2>
+
+You can check the progress on [replacing the invidious api here](https://github.com/ViewTube/viewtube-vue/wiki/Invidious-API-migration).
 
 Invidious instances can easily get rate-limited by Google. With ViewTube, you can <b>switch between instances</b>. Your subscriptions, settings, etc. are stored on your <b>ViewTube account</b>.
 
