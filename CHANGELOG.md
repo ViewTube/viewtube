@@ -5,6 +5,34 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.6.0] - 2021-03-29
+
+### Fixed
+
+- Improve display of errors [#357](https://github.com/ViewTube/viewtube-vue/pull/357)
+- Fix video playback on ios [#353](https://github.com/ViewTube/viewtube-vue/issues/353), [#446](https://github.com/ViewTube/viewtube-vue/pull/446)
+- Disable scrolling for main page when popup is open [#508](https://github.com/ViewTube/viewtube-vue/pull/508)
+- Fix input field styles for chrome autofill [#65](https://github.com/ViewTube/viewtube-vue/issues/65), [#508](https://github.com/ViewTube/viewtube-vue/pull/508)
+- Fix disabled subscribe button being reachable with tab button [#66](https://github.com/ViewTube/viewtube-vue/issues/66), [#508](https://github.com/ViewTube/viewtube-vue/pull/508)
+- Fix duplicate and missing meta tags [#70](https://github.com/ViewTube/viewtube-vue/issues/70), [#508](https://github.com/ViewTube/viewtube-vue/pull/508)
+- Fix too wide icon on ios [#340](https://github.com/ViewTube/viewtube-vue/issues/340), [#508](https://github.com/ViewTube/viewtube-vue/pull/508)
+- Improve subscription job [#508](https://github.com/ViewTube/viewtube-vue/pull/508)
+- Fix settings and about page layout [#340](https://github.com/ViewTube/viewtube-vue/issues/340), [#508](https://github.com/ViewTube/viewtube-vue/pull/508)
+- Lots of size and speed optimizations [#515](https://github.com/ViewTube/viewtube-vue/pull/515), [#508](https://github.com/ViewTube/viewtube-vue/pull/508)
+- Lots of other small fixes
+- Update dependencies
+
+### Added
+
+- Add image proxy [#425](https://github.com/ViewTube/viewtube-vue/pull/425)
+- New video entry design [#461](https://github.com/ViewTube/viewtube-vue/pull/461)
+- Migrated to vue composition api [#434](https://github.com/ViewTube/viewtube-vue/pull/434)
+- Support for videos using cipher [#498](https://github.com/ViewTube/viewtube-vue/pull/498)
+- Store user settings on the server [#397](https://github.com/ViewTube/viewtube-vue/pull/397)
+- Add profile page [#397](https://github.com/ViewTube/viewtube-vue/pull/397)
+- Store video history and progress on the server [#397](https://github.com/ViewTube/viewtube-vue/pull/397)
+- Store video volume locally [#397](https://github.com/ViewTube/viewtube-vue/pull/397)
+
 ## [0.5.0] - 2021-02-04
 
 ### Fixed
@@ -99,7 +127,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial release
 
-[unreleased]: https://github.com/viewtube/viewtube-vue/compare/v0.5.0...main
+[unreleased]: https://github.com/viewtube/viewtube-vue/compare/v0.6.0...main
+[0.6.0]: https://github.com/viewtube/viewtube-vue/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/viewtube/viewtube-vue/compare/v0.4.1...v0.5.0
 [0.4.1]: https://github.com/viewtube/viewtube-vue/compare/v0.4.0...v0.4.1
 [0.4.0]: https://github.com/viewtube/viewtube-vue/compare/v0.3.1...v0.4.0

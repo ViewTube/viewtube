@@ -7,7 +7,8 @@
         <img class="logo-about-img" src="@/assets/icon.svg" alt="ViewTube" />
       </div>
       <h2>ViewTube by Maurice Oegerli</h2>
-      <h3>{{ description }}</h3>
+      <h5>Version {{ version }}</h5>
+      <h4>{{ description }}</h4>
       <div class="links-about">
         <BadgeButton :href="'https://github.com/viewtube/viewtube-vue'">
           <GithubIcon />ViewTube
@@ -93,6 +94,7 @@ export default defineComponent({
     const axios = useAxios();
 
     const description = ref('');
+    const version = ref('');
     const invidiousStats = ref(null);
     const invidiousStatsError = ref(null);
 
@@ -110,12 +112,14 @@ export default defineComponent({
     });
 
     description.value = packageJson.description;
+    version.value = packageJson.version;
 
     return {
       description,
       invidiousStats,
       invidiousStatsError,
-      currentInstance
+      currentInstance,
+      version
     };
   }
 });
