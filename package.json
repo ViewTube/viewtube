@@ -11,7 +11,7 @@
     "start:local": "cross-env NODE_ENV=production VIEWTUBE_API_URL=http://localhost:8066/api/ && node -r module-alias/register dist/server/main.js",
     "start": "node -r module-alias/register dist/server/main.js",
     "build:local": "cross-env NODE_ENV=production npm run build",
-    "build": "rimraf dist && nuxt build && tsc -p tsconfig.build.json",
+    "build": "rimraf dist && nuxt build && nest build server --path tsconfig.build.json --config nest-cli.json",
     "serve": "cross-env NODE_ENV=development VIEWTUBE_API_URL=http://localhost:8066/api/ webpack --config webpack.config.js",
     "test": "jest",
     "db": "mongod --dbpath data",
@@ -88,6 +88,7 @@
     "ytsr": "3.3.1"
   },
   "devDependencies": {
+    "@nestjs/cli": "^7.6.0",
     "@nestjs/schematics": "7.3.1",
     "@nuxt/types": "2.15.3",
     "@nuxt/typescript-build": "2.1.0",
