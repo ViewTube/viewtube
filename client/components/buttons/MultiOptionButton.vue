@@ -109,9 +109,6 @@ export default defineComponent({
       &:last-of-type {
         border-radius: 0 3px 3px 0;
       }
-
-      p {
-      }
     }
   }
 
@@ -138,6 +135,8 @@ export default defineComponent({
     span {
       width: 10px;
       height: 10px;
+      min-width: 10px;
+      min-height: 10px;
       border-radius: 25px;
       margin: 6px 6px 0 0;
       display: inline-block;
