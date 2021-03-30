@@ -55,7 +55,6 @@
     "cookie-parser": "1.4.5",
     "cross-env": "7.0.3",
     "fluent-ffmpeg": "2.1.2",
-    "form-data": "^4.0.0",
     "https-proxy-agent": "5.0.0",
     "humanize-duration": "3.25.1",
     "husky": "5.2.0",
@@ -86,6 +85,7 @@
     "vuex-persistedstate": "3.2.0",
     "web-push": "3.4.4",
     "x2js": "3.4.1",
+    "yt-comment-scraper": "^3.0.2",
     "ytdl-core": "4.5.0",
     "ytsr": "3.4.0"
   },

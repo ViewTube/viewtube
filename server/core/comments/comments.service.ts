@@ -1,104 +1,57 @@
-import fs from 'fs';
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { Response } from 'express';
-import HttpsProxyAgent from 'https-proxy-agent/dist/agent';
-import FormData from 'form-data';
-import fetch from 'node-fetch';
+import ytcm from 'yt-comment-scraper';
+import { mapComments } from './comments.mapper';
+import { CommentsResponseDto } from './dto/comments-response.dto';
 
 @Injectable()
 export class CommentsService {
   constructor() {}
 
-  private videoUrl = 'https://www.youtube.com/watch?v=';
-  private commentsUrl = 'https://www.youtube.com/comment_service_ajax';
+  async getComments(
+    videoId: string,
+    sortByNewest: boolean,
+    continuation: string
+  ): Promise<CommentsResponseDto> {
+    const commentsPayload: any = {
+      videoId,
+      sortByNewest
+    };
+    if (continuation) {
+      commentsPayload.continuation = continuation;
+    }
+    let commentsRawResult = null;
+    let index = 0;
+    const retryCounter = 3;
 
-  private youtubeClientParams = {
-    hl: 'en',
-    userAgent:
-      'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36',
-    clientName: 'WEB',
-    clientVersion: '2.20210324.02.00',
-    osName: 'Windows',
-    browserName: 'Chrome',
-    browserVersion: '89.0.4389.90',
-    screenHeightPoints: 767,
-    screenPixelDensity: 1,
-    screenWidthPoints: 1536
-  };
-
-  async getComments(videoId: string) {
-    const { sessionToken, cookie, continuation } = await this.getSessionToken(videoId);
-    const parsedSessionToken = JSON.parse(`"${sessionToken}"`);
-    console.log('xsrf: ' + parsedSessionToken);
-    const formData = new FormData();
-    formData.append('session_token', parsedSessionToken);
-    const commentsResult = await fetch(
-      `${this.commentsUrl}?action_get_comments=1&hl=en&gl=US&pbj=1&ctoken=${continuation}`,
-      {
-        method: 'POST',
-        body: formData as any,
-        headers: {
-          cookie,
-          'User-Agent': this.youtubeClientParams.userAgent,
-          'Content-Type': 'application/x-www-form-urlencoded',
-          'x-youtube-client-name': 1,
-          'x-youtube-client-version': this.youtubeClientParams.clientVersion
-        } as any
-      }
-    ).then(result => {
-      if (result.ok) {
-        return result.text();
-      }
-    });
-    return commentsResult;
+    while (!commentsRawResult && index < retryCounter) {
+      try {
+        commentsRawResult = await this.tryGetComments(commentsPayload);
+      } catch {}
+      index++;
+    }
+    console.log(index + ' times');
+    if (commentsRawResult) {
+      const commentsResult = mapComments(commentsRawResult);
+      return commentsResult;
+    }
+    throw new InternalServerErrorException('Error fetching comments');
   }
 
-  async getSessionToken(
-    videoId: string
-  ): Promise<{ sessionToken: string; cookie: string; continuation: string }> {
-    const rawSiteUrl = this.videoUrl + videoId;
-    let cookie = null;
-    const rawSite = await fetch(rawSiteUrl, {
-      headers: {
-        Accept: 'text/html, application/xhtml+xml, application/xml;q=0.9, */*;q=0.8',
-        'Content-Type': 'text/html; charset=UTF-8',
-        'User-Agent': this.youtubeClientParams.userAgent,
-        'x-youtube-client-name': 1,
-        'x-youtube-client-version': this.youtubeClientParams.clientVersion
-      } as any
-    })
-      .then(response => {
-        if (response.headers.get('set-cookie')) {
-          cookie = response.headers.get('set-cookie');
-        }
-        return response.text();
-      })
-      .catch(e => {
-        console.error(e);
-      });
+  tryGetComments(commentsPayload: any) {
+    return ytcm.getComments(commentsPayload);
+  }
 
-      console.log(rawSite);
-
-    if (rawSite) {
-      const sessionTokenMatch = rawSite.match(/"XSRF_TOKEN":"(.*?)",/im);
-      let continuation = '';
-      const initialDataMatch = rawSite.match(/var\sytInitialData = (.*});<\/script>/im);
-      if (initialDataMatch && initialDataMatch[1]) {
-        try {
-          const ytInitialData = JSON.parse(initialDataMatch[1]);
-          const continuationString = ytInitialData.contents.twoColumnWatchNextResults.results.results.contents.find(
-            (e: { itemSectionRenderer: any }) => e.itemSectionRenderer
-          ).itemSectionRenderer.continuations[0].nextContinuationData.continuation;
-          continuation = continuationString;
-        } catch (e) {
-          console.log(e);
-        }
+  async getCommentReplies(videoId: string, replyToken: string): Promise<CommentsResponseDto> {
+    try {
+      const commentsRawResult = await ytcm.getCommentReplies(videoId, replyToken);
+      if (commentsRawResult) {
+        const commentsResult = mapComments(commentsRawResult);
+        return commentsResult;
       }
-      if (sessionTokenMatch && sessionTokenMatch[1]) {
-        return { sessionToken: sessionTokenMatch[1], cookie, continuation };
-      }
+    } catch (e) {
+      console.log(e);
+      throw new InternalServerErrorException(e);
     }
-    return null;
+    throw new InternalServerErrorException('Error fetching replies');
   }
 }

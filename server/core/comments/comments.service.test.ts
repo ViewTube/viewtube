@@ -12,20 +12,14 @@ describe('CommentsService', () => {
     commentsService = moduleRef.get<CommentsService>(CommentsService);
   });
 
-  describe('session token', () => {
-    it('should return a session token', () => {
-      return commentsService.getSessionToken('7Zdr-Ehh430').then(result => {
-        console.log(result);
-        expect(result).toBeTruthy();
-      });
-    });
-  });
-
   describe('comments api', () => {
     it('should return comments', () => {
-      return commentsService.getComments('7Zdr-Ehh430').then(result => {
-        console.log(result);
-        expect(result).toBeTruthy();
+      return commentsService.getComments('IZy2pZsfKlg', false, null).then(result => {
+        const replyToken = result.comments.find(e => e.replyToken).replyToken;
+        return commentsService.getCommentReplies('IZy2pZsfKlg', replyToken).then(result2 => {
+          console.log(result2);
+          expect(result).toBeTruthy();
+        });
       });
     });
   });
