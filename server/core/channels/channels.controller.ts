@@ -23,10 +23,14 @@ export class ChannelsController {
   @Get(':id/thumbnail/tiny.jpg')
   getTinyThumbnail(@Res() res: Response, @Param('id') id: string) {
     // eslint-disable-next-line dot-notation
-    const imgPath = path.join(global['__basedir'], `channels/${id}.jpg`);
+    const imgPathWebp = path.join(global['__basedir'], `channels/${id}.webp`);
+    // eslint-disable-next-line dot-notation
+    const imgPathJpg = path.join(global['__basedir'], `channels/${id}.jpg`);
 
-    if (fs.existsSync(imgPath)) {
-      res.sendFile(imgPath);
+    if (fs.existsSync(imgPathWebp)) {
+      res.sendFile(imgPathWebp);
+    } else if (fs.existsSync(imgPathJpg)) {
+      res.sendFile(imgPathJpg);
     } else {
       throw new NotFoundException();
     }
