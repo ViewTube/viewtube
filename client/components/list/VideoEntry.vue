@@ -70,12 +70,12 @@
           <img
             class="video-entry-thmb-image"
             :loading="lazy ? 'lazy' : 'eager'"
-            :src="imgProxyUrl + videoThumbnailUrl"
+            :src="videoThumbnailUrl"
             :srcset="`
-              ${imgProxyUrl + videoThumbnailUrl} 1x, 
-              ${imgProxyUrl + videoThumbnailUrl} 2x, 
-              ${imgProxyUrl + videoThumbnailUrlXL} 3x, 
-              ${imgProxyUrl + videoThumbnailUrlXL} 4x
+              ${videoThumbnailUrl} 1x, 
+              ${videoThumbnailUrl} 2x, 
+              ${videoThumbnailUrlXL} 3x, 
+              ${videoThumbnailUrlXL} 4x
             `"
             :alt="video.title"
           />
@@ -158,27 +158,29 @@ export default defineComponent({
     const accessor = useAccessor();
     // const formatting = useFormatting();
 
+    const localProxy = '&local=true';
+
     const apiUrl = ref('/');
     const videoThumbnailUrl = ref(null);
 
     apiUrl.value = accessor.environment.apiUrl;
 
     if (props.video.videoThumbnails) {
-      videoThumbnailUrl.value = props.video.videoThumbnails[3].url;
+      videoThumbnailUrl.value = imgProxy.url + props.video.videoThumbnails[3].url + localProxy;
     } else if (props.video.thumbnails) {
       if (props.video.thumbnails[1]) {
-        videoThumbnailUrl.value = props.video.thumbnails[1].url;
+        videoThumbnailUrl.value = imgProxy.url + props.video.thumbnails[1].url + localProxy;
       } else {
-        videoThumbnailUrl.value = props.video.thumbnails[0].url;
+        videoThumbnailUrl.value = imgProxy.url + props.video.thumbnails[0].url + localProxy;
       }
     }
 
     const videoThumbnailUrlXL = ref('');
     if (props.video.videoThumbnails) {
-      videoThumbnailUrlXL.value = props.video.videoThumbnails[2].url;
+      videoThumbnailUrlXL.value = imgProxy.url + props.video.videoThumbnails[2].url + localProxy;
     } else if (props.video.thumbnails) {
       if (props.video.thumbnails[0]) {
-        videoThumbnailUrlXL.value = props.video.thumbnails[0].url;
+        videoThumbnailUrlXL.value = imgProxy.url + props.video.thumbnails[0].url + localProxy;
       }
     }
     const videoProgressPercentage = computed((): number => {

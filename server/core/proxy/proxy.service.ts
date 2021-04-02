@@ -7,10 +7,10 @@ import fetch from 'node-fetch';
 @Injectable()
 export class ProxyService {
   constructor(private configService: ConfigService) {}
-  async proxyImage(url: string, response: Response): Promise<Buffer> {
+  async proxyImage(url: string, local: boolean = false, response: Response): Promise<Buffer> {
     try {
       let proxyAgent = null;
-      if (this.configService.get('VIEWTUBE_PROXY_URL')) {
+      if (this.configService.get('VIEWTUBE_PROXY_URL') && !local) {
         const proxy = this.configService.get('VIEWTUBE_PROXY_URL');
         proxyAgent = new HttpsProxyAgent(proxy);
       }
