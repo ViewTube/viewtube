@@ -5,8 +5,9 @@ import { VideoBasicInfoDto } from 'server/core/videos/dto/video-basic-info.dto';
 import X2js from 'x2js';
 import fetch from 'node-fetch';
 import humanizeDuration from 'humanize-duration';
-import { Common } from 'server/core/common';
+// import { Common } from 'server/core/common';
 import Consola from 'consola';
+import { Common } from 'server/core/common';
 
 export const runSubscriptionsJob = async (
   uniqueChannelIds: Array<string>
@@ -15,26 +16,30 @@ export const runSubscriptionsJob = async (
   videoResultArray: Array<VideoBasicInfoDto>;
 }> => {
   const channelResultArray: Array<ChannelBasicInfoDto> = [];
+  const videoRawResultArray: Array<any> = [];
   let videoResultArray: Array<VideoBasicInfoDto> = [];
 
-  const feedRequests = uniqueChannelIds.map(async (id: string) => {
+  const getFeedPromise = async (id: string) => {
     await getChannelFeed(id).then(channelFeed => {
       if (channelFeed) {
         const { videos, channel } = channelFeed;
         channelResultArray.push(channel);
-        return videos;
+        videoRawResultArray.push(videos);
       }
       return null;
     });
-  });
+  };
 
-  const promiseResults = (await Promise.allSettled(feedRequests)) as any;
-  if (promiseResults.find((promiseResult: { value: any }) => promiseResult.value)) {
-    const videoValues = promiseResults.filter(
-      (promiseResult: { value: any }) => promiseResult.value
-    );
-    videoResultArray = videoValues.reduce(
-      (promiseResult: any, { value }: any) => [...promiseResult, ...value],
+  await uniqueChannelIds
+    .reduce(async (previousPromise: Promise<void>, nextString: string) => {
+      await previousPromise;
+      return getFeedPromise(nextString);
+    }, Promise.resolve())
+    .catch(() => {});
+
+  if (videoRawResultArray.length > 0) {
+    videoResultArray = videoRawResultArray.reduce(
+      (result: any, value: any) => [...result, ...value],
       []
     );
   }
