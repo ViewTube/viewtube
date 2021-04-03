@@ -33,7 +33,6 @@
     "not Edge 18"
   ],
   "dependencies": {
-    "@chenfengyuan/vue-qrcode": "1.0.2",
     "@nestjs/common": "7.6.15",
     "@nestjs/config": "0.6.3",
     "@nestjs/core": "7.6.15",
@@ -71,11 +70,13 @@
     "passport-jwt": "4.0.0",
     "passport-local": "1.0.0",
     "portal-vue": "2.1.7",
+    "qrcode": "^1.4.4",
     "reflect-metadata": "0.1.13",
     "rxjs": "6.6.7",
     "sanitize-filename": "1.6.3",
     "sass": "1.32.8",
     "sass-loader": "10.1.1",
+    "sharp": "^0.28.0",
     "svg-captcha": "1.4.0",
     "swagger-ui-express": "4.1.6",
     "tippy.js": "6.3.1",

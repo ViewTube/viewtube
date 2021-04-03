@@ -1,11 +1,8 @@
-import fs from 'fs';
-import path from 'path';
 import {
   Controller,
   Get,
   Param,
   Res,
-  NotFoundException,
   CacheInterceptor,
   UseInterceptors
 } from '@nestjs/common';
@@ -19,21 +16,14 @@ import { ChannelDto } from './dto/channel.dto';
 @Controller('channels')
 export class ChannelsController {
   constructor(private channelsService: ChannelsService) {}
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   @Get(':id/thumbnail/tiny.jpg')
-  getTinyThumbnail(@Res() res: Response, @Param('id') id: string) {
-    // eslint-disable-next-line dot-notation
-    const imgPathWebp = path.join(global['__basedir'], `channels/${id}.webp`);
-    // eslint-disable-next-line dot-notation
-    const imgPathJpg = path.join(global['__basedir'], `channels/${id}.jpg`);
+  getTinyThumbnailJpg(@Res() res: Response, @Param('id') id: string) {
+    this.channelsService.getTinyThumbnail(res, id);
+  }
 
-    if (fs.existsSync(imgPathWebp)) {
-      res.sendFile(imgPathWebp);
-    } else if (fs.existsSync(imgPathJpg)) {
-      res.sendFile(imgPathJpg);
-    } else {
-      throw new NotFoundException();
-    }
+  @Get(':id/thumbnail/tiny.webp')
+  getTinyThumbnailWebp(@Res() res: Response, @Param('id') id: string) {
+    this.channelsService.getTinyThumbnail(res, id);
   }
 
   @Get(':id')

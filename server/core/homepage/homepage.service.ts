@@ -69,11 +69,13 @@ export class HomepageService {
         }
       });
 
-      const updatedPopularPage = new this.PopularModel({
-        videos: popularVideos,
-        createdDate: Date.now().valueOf()
-      });
-      updatedPopularPage.save();
+      if(popularVideos.length > 0){
+        const updatedPopularPage = new this.PopularModel({
+          videos: popularVideos,
+          createdDate: Date.now().valueOf()
+        });
+        updatedPopularPage.save();
+      }
     } catch (err) {
       Consola.error('Popular page refresh failed. URL: ' + this.popularPageUrl);
     }

@@ -1,4 +1,6 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import path from 'path';
+import fs from 'fs';
+import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import Consola from 'consola';
 import { Model } from 'mongoose';
@@ -156,5 +158,20 @@ export class ChannelsService {
       return apiKey;
     }
     return null;
+  }
+
+  getTinyThumbnail(res: any, id: string) {
+    // eslint-disable-next-line dot-notation
+    const imgPathWebp = path.join(global['__basedir'], `channels/${id}.webp`);
+    // eslint-disable-next-line dot-notation
+    const imgPathJpg = path.join(global['__basedir'], `channels/${id}.jpg`);
+
+    if (fs.existsSync(imgPathWebp)) {
+      res.sendFile(imgPathWebp);
+    } else if (fs.existsSync(imgPathJpg)) {
+      res.sendFile(imgPathJpg);
+    } else {
+      throw new NotFoundException();
+    }
   }
 }
