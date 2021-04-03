@@ -125,10 +125,10 @@ export const getChannelFeed = (
 
           const cachedChannelThmbPath = path.join(
             (global as any).__basedir,
-            `channels/${authorId}.jpg`
+            `channels/${authorId}.webp`
           );
           if (fs.existsSync(cachedChannelThmbPath)) {
-            channel.authorThumbnailUrl = `channels/${authorId}/thumbnail/tiny.jpg`;
+            channel.authorThumbnailUrl = `channels/${authorId}/thumbnail/tiny.webp`;
           } else {
             channel.authorThumbnailUrl = undefined;
           }

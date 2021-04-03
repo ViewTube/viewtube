@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { promisify } from 'util';
+import sharp from 'sharp';
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { getInfo, videoInfo, getInfoOptions } from 'ytdl-core';
 import { ConfigService } from '@nestjs/config';
@@ -55,7 +56,6 @@ export class VideosService {
     try {
       const result: videoInfo = await getInfo(url, ytdlOptions);
       const video: VideoDto = new VideoEntity(result);
-
 
       const channelBasicInfo: ChannelBasicInfoDto = {
         authorId: video.authorId,
@@ -114,15 +114,30 @@ export class VideosService {
       .catch(_ => {});
 
     if (arrBuffer) {
-      const imgPath = path.join((global as any).__basedir, `channels/${channelId}.jpg`);
+      const imgPath = path.join((global as any).__basedir, `channels/${channelId}.webp`);
       const appendFile = promisify(fs.appendFile);
 
-      try {
-        await appendFile(imgPath, Buffer.from(arrBuffer));
-      } catch (err) {
-        return null;
+      const imgBuffer = Buffer.from(arrBuffer);
+
+      let success = true;
+
+      const webpImage = await sharp(imgBuffer)
+        .resize(36)
+        .webp()
+        .toBuffer()
+        .catch(() => {
+          success = false;
+        });
+
+      if (success) {
+        try {
+          await appendFile(imgPath, webpImage);
+        } catch (err) {
+          return null;
+        }
+        return `channels/${channelId}/thumbnail/tiny.webp`;
       }
-      return `channels/${channelId}/thumbnail/tiny.jpg`;
+      return null;
     }
   }
 }

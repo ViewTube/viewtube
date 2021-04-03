@@ -76,6 +76,7 @@
     "sanitize-filename": "1.6.3",
     "sass": "1.32.8",
     "sass-loader": "10.1.1",
+    "sharp": "^0.28.0",
     "svg-captcha": "1.4.0",
     "swagger-ui-express": "4.1.6",
     "tippy.js": "6.3.1",
