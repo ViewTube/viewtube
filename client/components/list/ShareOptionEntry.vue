@@ -39,6 +39,21 @@ export default defineComponent({
   white-space: nowrap;
   display: flex;
   flex-direction: column;
+  height: 46px;
+  width: 46px;
+  margin: 4px 4px 4px 0;
+
+  .material-design-icon__svg {
+    margin: 4px;
+    height: 38px !important;
+    width: 38px !important;
+    position: unset !important;
+  }
+  
+  img{
+    width: 50px;
+    margin: -1px 0 0 8px;
+  }
 
   &:hover {
     cursor: pointer;

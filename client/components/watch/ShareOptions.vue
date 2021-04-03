@@ -7,6 +7,14 @@
       <ShareOptionEntry class="share-option" optionName="Open QR-Code" :click="qrOpen">
         <QrCode class="qrcode-icon" />
       </ShareOptionEntry>
+      <ShareOptionEntry
+        class="share-option"
+        optionName="Save to pocket"
+        :click="saveToPocket"
+        style="color: #ef4056"
+      >
+        <img src="@/assets/icons/pocket.svg" alt="Save to pocket icon" />
+      </ShareOptionEntry>
     </div>
     <portal to="popup">
       <transition name="fade-down">
@@ -43,6 +51,9 @@ export default defineComponent({
         navigator.clipboard.writeText(url());
       }
     };
+    const saveToPocket = () => {
+      window.open(`https://getpocket.com/save?url=${encodedUrl}`, '_blank');
+    };
     const qrOpen = () => {
       qrPopUpOpen.value = true;
     };
@@ -50,12 +61,22 @@ export default defineComponent({
       qrPopUpOpen.value = false;
     };
 
+    const encodedUrl = () => {
+      if (process.browser) {
+        return encodeURIComponent(window.location.href);
+      } else {
+        return '';
+      }
+    };
+
     return {
       qrPopUpOpen,
       url,
       shareCopyLink,
       qrOpen,
-      qrClose
+      encodedUrl,
+      qrClose,
+      saveToPocket
     };
   }
 });
@@ -63,24 +84,12 @@ export default defineComponent({
 
 <style lang="scss">
 .share-options {
+  height: 60px;
   .share-options-container {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: flex-start;
-
-    .share-option {
-      height: 46px;
-      width: 46px;
-      margin: 4px 4px 4px 0;
-
-      .material-design-icon__svg {
-        margin: 4px;
-        height: 38px !important;
-        width: 38px !important;
-        position: unset !important;
-      }
-    }
   }
 }
 </style>

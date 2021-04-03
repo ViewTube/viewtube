@@ -89,13 +89,6 @@
           {{ new Date(video.published).toLocaleString('en-US') }}
         </div>
         <div class="video-actions">
-          <BadgeButton
-            :href="`https://getpocket.com/save?url=${encodedUrl}`"
-            style="color: #ef4056"
-          >
-            <img src="@/assets/icons/pocket.svg" alt="Save to pocket icon" />
-            Save to pocket
-          </BadgeButton>
           <BadgeButton style="color: #efbb00" :click="() => (shareOpen = !shareOpen)">
             <Share class="share-icon" />
             Share
@@ -103,9 +96,7 @@
         </div>
         <transition name="share-fade-down">
           <div v-show="shareOpen">
-            <div>
-              <ShareOptions class="share-options-display" />
-            </div>
+            <ShareOptions class="share-options-display" />
           </div>
         </transition>
         <p v-if="video.keywords" class="video-infobox-text">Tags</p>
@@ -234,14 +225,6 @@ export default defineComponent({
     const videoplayerRef = ref(null);
     const initialVideoTime = ref(0);
     const videoLoaded = ref(false);
-
-    const encodedUrl = () => {
-      if (process.browser) {
-        return encodeURIComponent(window.location.href);
-      } else {
-        return '';
-      }
-    };
 
     const openInstancePopup = () => {
       accessor.popup.openPopup('instances');
@@ -462,7 +445,6 @@ export default defineComponent({
       videoLoaded,
       initialVideoTime,
       shareOpen,
-      encodedUrl,
       openInstancePopup,
       reloadComments,
       setTimestamp,
@@ -477,16 +459,18 @@ export default defineComponent({
 <style lang="scss">
 .share-fade-down-enter-active,
 .share-fade-down-leave-active {
-  transition: transform 200ms $intro-easing, opacity 200ms $intro-easing;
+  transition: transform 200ms $intro-easing, opacity 200ms $intro-easing, height 200ms $intro-easing;
 }
 .share-fade-down-enter-to,
 .share-fade-down-leave {
-  transform: scale(1);
+  transform: translateX(0);
+  height: 60px;
   opacity: 1;
 }
 .share-fade-down-enter,
 .share-fade-down-leave-to {
-  transform: scale(1.1);
+  transform: translateX(40px);
+  height: 0;
   opacity: 0;
 }
 
