@@ -1,11 +1,8 @@
-import fs from 'fs';
-import path from 'path';
 import {
   Controller,
   Get,
   Param,
   Res,
-  NotFoundException,
   CacheInterceptor,
   UseInterceptors
 } from '@nestjs/common';
