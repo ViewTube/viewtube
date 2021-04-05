@@ -99,7 +99,7 @@
     "@types/bcryptjs": "2.4.2",
     "@types/cookie-parser": "1.4.2",
     "@types/express": "4.17.11",
-    "@types/fluent-ffmpeg": "2.1.16",
+    "@types/fluent-ffmpeg": "2.1.17",
     "@types/humanize-duration": "3.18.1",
     "@types/jest": "26.0.22",
     "@types/module-alias": "2.0.0",
