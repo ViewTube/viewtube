@@ -15,6 +15,7 @@ import { useAccessor } from '@/store';
 import { MediaMetadataHelper } from './mediaMetadata';
 import { calculateSeekPercentage, matchSeekProgressPercentage, seekbarFunctions } from './seekbar';
 import { parseChapters } from './chapters';
+import { initializeHlsStream, isHlsNative, isHlsSupported } from './hlsHelper';
 import { useFormatting } from '~/plugins/formatting';
 import { useAxios } from '~/plugins/axios';
 import { useImgProxy } from '~/plugins/proxy';
@@ -59,7 +60,8 @@ export const videoPlayerSetup = (props: any) => {
     firstTimeBuffering: true,
     aspectRatio: 16 / 9,
     playerVolume: 1,
-    zoomed: false
+    zoomed: false,
+    duration: 0
   });
 
   const seekbar = reactive({
@@ -80,6 +82,12 @@ export const videoPlayerSetup = (props: any) => {
 
   const mediaMetadataHelper = new MediaMetadataHelper(props.video);
 
+  const videoPlayerRef = ref(null);
+  const seekbarHoverPreviewRef = ref(null);
+  const seekbarHoverTimestampRef = ref(null);
+  const chapterTitleRef = ref(null);
+  const videoRef = ref(null);
+
   const doTouchAction = () => {
     touchAction.value = true;
     setTimeout(() => {
@@ -91,8 +99,15 @@ export const videoPlayerSetup = (props: any) => {
   if (props.video.formatStreams) {
     let qualityIndex = 0;
     const videoFormat = props.video.formatStreams.find((e: any, index: number) => {
-      qualityIndex = index;
-      return e.qualityLabel && e.qualityLabel === '720p';
+      if (e.qualityLabel) {
+        qualityIndex = index;
+        if (e.qualityLabel === '1080p') {
+          return true;
+        } else if (e.qualityLabel === '720p') {
+          return true;
+        }
+      }
+      return false;
     });
     if (videoFormat && videoFormat.url) {
       highestVideoQuality.value = videoFormat.url;
@@ -102,16 +117,10 @@ export const videoPlayerSetup = (props: any) => {
     selectedQuality.value = qualityIndex;
   }
 
-  const videoLength = computed(() => {
-    if (props.video !== undefined) {
-      return props.video.lengthSeconds;
-    }
-    return 0;
-  });
   const chapters = ref(null);
 
   if (store.getters['settings/miniplayer']) {
-    chapters.value = parseChapters(props.video.description, videoLength.value);
+    chapters.value = parseChapters(props.video.description, props.video.lengthSeconds);
   }
 
   const sponsorBlockSegments = ref<SponsorBlockSegmentsDto>(null);
@@ -125,8 +134,8 @@ export const videoPlayerSetup = (props: any) => {
           hash: value.hash,
           videoID: value.videoID,
           segments: value.segments.map(segment => {
-            const startPercentage = (segment.segment[0] / videoLength.value) * 100;
-            const endPercentage = (segment.segment[1] / videoLength.value) * 100;
+            const startPercentage = (segment.segment[0] / props.video.lengthSeconds) * 100;
+            const endPercentage = (segment.segment[1] / props.video.lengthSeconds) * 100;
             return {
               startPercentage,
               endPercentage,
@@ -148,12 +157,6 @@ export const videoPlayerSetup = (props: any) => {
   const playerOverlayVisible = computed(() => {
     return playerOverlay.visible || !videoElement.playing;
   });
-
-  const videoPlayerRef = ref(null);
-  const seekbarHoverPreviewRef = ref(null);
-  const seekbarHoverTimestampRef = ref(null);
-  const chapterTitleRef = ref(null);
-  const videoRef = ref(null);
 
   watch(
     () => videoElement.playerVolume,
@@ -220,7 +223,9 @@ export const videoPlayerSetup = (props: any) => {
       videoElement.playerVolume = accessor.playerVolume.getPlayerVolume;
       if (videoElement.firstTimeBuffering) {
         videoElement.firstTimeBuffering = false;
-        setVideoTime(props.initialVideoTime);
+        if (!props.video.liveNow) {
+          setVideoTime(props.initialVideoTime);
+        }
         if (props.autoplay) {
           videoRef.value.play();
         }
@@ -238,8 +243,10 @@ export const videoPlayerSetup = (props: any) => {
   const updatePlaybackProgress = (force = false) => {
     if (videoRef.value && !seekbar.seeking) {
       if (Math.abs(playbackTimeBeforeUpdate.value - videoRef.value.currentTime) > 1 || force) {
-        videoElement.progressPercentage = (videoRef.value.currentTime / videoLength.value) * 100;
+        videoElement.progressPercentage =
+          (videoRef.value.currentTime / videoRef.value.duration) * 100;
         videoElement.progress = videoRef.value.currentTime;
+        videoElement.duration = videoRef.value.duration;
 
         if (store.getters['settings/sponsorblock'] && sponsorBlock) {
           const currentSegment = sponsorBlock.getCurrentSegment(videoRef.value.currentTime);
@@ -616,7 +623,7 @@ export const videoPlayerSetup = (props: any) => {
 
   const saveVideoPosition = (currentTime: number) => {
     if (videoRef.value && accessor.settings.saveVideoHistory) {
-      if (accessor.user.isLoggedIn) {
+      if (accessor.user.isLoggedIn && !props.video.liveNow) {
         const apiUrl = accessor.environment.apiUrl;
         axios
           .post(`${apiUrl}user/history/${props.video.videoId}`, {
@@ -701,8 +708,29 @@ export const videoPlayerSetup = (props: any) => {
     }
   };
 
-  onMounted(() => {
+  onMounted(async () => {
     document.addEventListener('keydown', onWindowKeyDown);
+    if (props.video.liveNow) {
+      if (videoRef.value) {
+        if (props.video.liveNow) {
+          if (isHlsSupported()) {
+            console.log('hls initializing');
+            const proxiedStreamUrl =
+              accessor.environment.streamProxyUrl + btoa(highestVideoQuality.value);
+            await initializeHlsStream(
+              proxiedStreamUrl,
+              videoRef.value,
+              accessor.environment.streamProxyUrl
+            );
+            console.log('hls initialized');
+          } else if (!isHlsNative(videoRef.value) && !isHlsSupported()) {
+            videoRef.value.src = highestVideoQuality.value;
+          }
+        }
+      }
+    } else {
+      videoRef.value.src = highestVideoQuality.value;
+    }
   });
 
   onBeforeUnmount(() => {
@@ -719,7 +747,6 @@ export const videoPlayerSetup = (props: any) => {
     seekbar,
     selectedQuality,
     highestVideoQuality,
-    videoLength,
     videoUrl,
     playerOverlayVisible,
     videoPlayerRef,

@@ -7,6 +7,7 @@ import fetch from 'node-fetch';
 @Injectable()
 export class ProxyService {
   constructor(private configService: ConfigService) {}
+
   async proxyImage(url: string, local: boolean = false, response: Response): Promise<Buffer> {
     try {
       let proxyAgent = null;
@@ -18,6 +19,18 @@ export class ProxyService {
       if (response) {
         const image = await fetchResponse.buffer();
         return image;
+      }
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
+  }
+
+  async proxyStream(url: string, response: Response): Promise<Buffer> {
+    try {
+      const fetchResponse = await fetch(Buffer.from(url, 'base64').toString('binary'));
+      if (response) {
+        const streamBuffer = await fetchResponse.buffer();
+        return streamBuffer;
       }
     } catch (error) {
       throw new InternalServerErrorException(error);

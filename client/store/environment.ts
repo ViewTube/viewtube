@@ -18,6 +18,9 @@ export const getters = getterTree(state, {
   imgProxyUrl(state) {
     return `${state.env.apiUrl}proxy/image?url=`;
   },
+  streamProxyUrl(state) {
+    return `${state.env.apiUrl}proxy/stream?url=`;
+  },
   vapidKey(state) {
     return state.env.vapidKey;
   }

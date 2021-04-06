@@ -27,7 +27,6 @@
       <video
         ref="videoRef"
         class="video"
-        :src="highestVideoQuality"
         :style="{
           opacity: playerOverlay.thumbnailVisible ? 0 : 1
         }"
@@ -267,7 +266,7 @@
               <span class="video-time-current-progress"
                 >{{ $formatting.getTimestampFromSeconds(videoElement.progress) }}
                 /
-                {{ $formatting.getTimestampFromSeconds(videoLength) }}</span
+                {{ $formatting.getTimestampFromSeconds(videoElement.duration) }}</span
               >
             </div>
           </div>
