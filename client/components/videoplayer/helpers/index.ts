@@ -607,11 +607,21 @@ export const videoPlayerSetup = (props: any) => {
       videoElement
     });
 
-  const onChangeQuality = (index: number) => {
+  const onChangeQuality = async (index: number) => {
     videoRef.value.pause();
     const currentTime = videoRef.value.currentTime;
     saveVideoPosition(currentTime);
-    videoRef.value.src = props.video.formatStreams[index].url;
+    if (props.video.liveNow) {
+      const proxiedStreamUrl =
+        accessor.environment.streamProxyUrl + btoa(props.video.formatStreams[index].url);
+      await initializeHlsStream(
+        proxiedStreamUrl,
+        videoRef.value,
+        accessor.environment.streamProxyUrl
+      );
+    } else {
+      videoRef.value.src = props.video.formatStreams[index].url;
+    }
     videoRef.value.currentTime = currentTime;
     videoRef.value.play();
     selectedQuality.value = index;

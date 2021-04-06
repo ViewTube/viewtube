@@ -1,12 +1,17 @@
 import Hls from 'hls.js';
 
+let hls: Hls = null;
+
 export const initializeHlsStream = (
   streamUrl: string,
   videoRef: HTMLMediaElement,
   proxyUrl: string = ''
 ): Promise<any> => {
   return new Promise(resolve => {
-    const hls = new Hls({
+    if (hls) {
+      hls.destroy();
+    }
+    hls = new Hls({
       enableWorker: true,
       backBufferLength: 90,
       xhrSetup(xhr: XMLHttpRequest, url: string) {
