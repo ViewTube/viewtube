@@ -19,4 +19,11 @@ export class ProxyController {
     const image = await this.proxyService.proxyImage(url, local, response);
     response.send(image);
   }
+
+  @Get('stream')
+  @Header('Cache-Control', 'no-cache')
+  async proxyStream(@Query('url') url: string, @Res() response: Response): Promise<void> {
+    const streamBuffer = await this.proxyService.proxyStream(url, response);
+    response.send(streamBuffer);
+  }
 }
