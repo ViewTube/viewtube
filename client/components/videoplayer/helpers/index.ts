@@ -612,10 +612,8 @@ export const videoPlayerSetup = (props: any) => {
     const currentTime = videoRef.value.currentTime;
     saveVideoPosition(currentTime);
     if (props.video.liveNow) {
-      const proxiedStreamUrl =
-        accessor.environment.streamProxyUrl + btoa(props.video.formatStreams[index].url);
       await initializeHlsStream(
-        proxiedStreamUrl,
+        props.video.formatStreams[index].url,
         videoRef.value,
         accessor.environment.streamProxyUrl
       );
@@ -724,10 +722,9 @@ export const videoPlayerSetup = (props: any) => {
       if (props.video.liveNow) {
         if (isHlsSupported()) {
           console.log('hls initializing');
-          const proxiedStreamUrl =
-            accessor.environment.streamProxyUrl + btoa(highestVideoQuality.value);
+
           await initializeHlsStream(
-            proxiedStreamUrl,
+            highestVideoQuality.value,
             videoRef.value,
             accessor.environment.streamProxyUrl
           );

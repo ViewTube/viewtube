@@ -11,6 +11,7 @@ export const initializeHlsStream = (
     if (hls) {
       hls.destroy();
     }
+    const proxiedStreamUrl = proxyUrl + btoa(streamUrl);
     hls = new Hls({
       enableWorker: true,
       backBufferLength: 90,
@@ -22,7 +23,7 @@ export const initializeHlsStream = (
         }
       }
     });
-    hls.loadSource(streamUrl);
+    hls.loadSource(proxiedStreamUrl);
     hls.attachMedia(videoRef);
     hls.on(Hls.Events.MEDIA_ATTACHED, () => {
       console.log('media attached');
