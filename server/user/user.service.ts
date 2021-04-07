@@ -1,4 +1,6 @@
-import { Injectable, HttpException } from '@nestjs/common';
+import fs from 'fs';
+import path from 'path';
+import { Injectable, HttpException, BadRequestException, NotFoundException } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import bcrypt from 'bcryptjs';
@@ -26,8 +28,10 @@ export class UserService {
   async getProfile(username: string): Promise<UserprofileDto> {
     if (username) {
       const userSettings = await this.settingsService.getSettings(username);
+      const user = await this.UserModel.findOne({ username }).exec();
       return {
         username,
+        profileImage: user.profileImage ? `/api/user/profile/image/${username}` : null,
         settings: userSettings
       };
     }
@@ -55,6 +59,76 @@ export class UserService {
     }
   }
 
+  async saveProfileImage(username: string, file: any) {
+    if (file && file.buffer) {
+      let extension = 'jpg';
+      const extMatch = file.originalname.match(/\.(jpg|jpeg|png|gif|webp)$/);
+      if (extMatch && extMatch[1]) {
+        extension = extMatch[1];
+      }
+      let baseDir = '';
+
+      if (process.env.NODE_ENV !== 'production') {
+        // eslint-disable-next-line dot-notation
+        baseDir = global['__basedir'];
+      }
+      const imgPath = path.join(baseDir, `profiles/${username}.${extension}`);
+
+      debugger;
+
+      fs.writeFileSync(imgPath, file.buffer);
+
+      const publicPath = `/api/user/profile/image/${username}`;
+
+      await this.UserModel.findOneAndUpdate({ username }, { profileImage: imgPath }).exec();
+
+      return {
+        path: publicPath
+      };
+    }
+    throw new BadRequestException('Uploaded file is not valid');
+  }
+
+  async getProfileImage(username: string, request: any) {
+    if (username) {
+      const user = await this.UserModel.findOne({ username }).exec();
+      if (user && user.profileImage && fs.existsSync(user.profileImage)) {
+        request.sendFile(user.profileImage);
+      } else {
+        throw new NotFoundException({
+          message: 'Profile image not found',
+          ignoreFilter: true
+        });
+      }
+    } else {
+      throw new NotFoundException({
+        message: 'User not found',
+        ignoreFilter: true
+      });
+    }
+  }
+
+  async deleteProfileImage(username: string) {
+    if (username) {
+      const user = await this.UserModel.findOne({ username });
+      if (user && user.profileImage && fs.existsSync(user.profileImage)) {
+        fs.unlinkSync(user.profileImage);
+        user.profileImage = null;
+        await user.save();
+      } else {
+        throw new NotFoundException({
+          message: 'Profile image not found',
+          ignoreFilter: true
+        });
+      }
+    } else {
+      throw new NotFoundException({
+        message: 'User not found',
+        ignoreFilter: true
+      });
+    }
+  }
+
   async create(user: UserDto): Promise<UserprofileDto> {
     const existingUser: null | User = await this.findOne(user.username);
     if (existingUser !== null) {
@@ -74,6 +148,7 @@ export class UserService {
       }).save();
       return {
         username: createdUser.username,
+        profileImage: null,
         settings: null
       };
     }

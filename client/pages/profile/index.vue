@@ -7,7 +7,16 @@
         <div v-if="profile" class="user-info">
           <div class="profile-img">
             <AccountCircleIcon />
+            <label class="upload-profile-btn" for="upload-profile-image"><PlusIcon /></label>
+            <input
+              id="upload-profile-image"
+              type="file"
+              accept="image/*"
+              name="upload-profile-image"
+              @change="onProfileImageChange"
+            />
           </div>
+          <img ref="testImgRef" src="" alt="" />
           <div class="user-name">
             <p>{{ profile.username }}</p>
           </div>
@@ -100,6 +109,7 @@ import AccountCircleIcon from 'vue-material-design-icons/AccountCircle.vue';
 import ChevronUpIcon from 'vue-material-design-icons/ChevronUp.vue';
 import LogoutIcon from 'vue-material-design-icons/LogoutVariant.vue';
 import ExportIcon from 'vue-material-design-icons/DatabaseExportOutline.vue';
+import PlusIcon from 'vue-material-design-icons/Plus.vue';
 import DeleteIcon from 'vue-material-design-icons/DeleteAlert.vue';
 import SettingsIcon from 'vue-material-design-icons/Cog.vue';
 import HistoryIcon from 'vue-material-design-icons/History.vue';
@@ -134,7 +144,8 @@ export default defineComponent({
     SettingsIcon,
     HistoryIcon,
     FormInput,
-    HistoryList
+    HistoryList,
+    PlusIcon
   },
   setup(_) {
     const accessor = useAccessor();
@@ -147,6 +158,8 @@ export default defineComponent({
     const actionsOpen = ref(false);
     const repeatedUsername = ref('');
     const originalUsername = ref('');
+
+    const testImgRef = ref(null);
 
     originalUsername.value = accessor.user.username;
 
@@ -180,6 +193,45 @@ export default defineComponent({
             title: 'Deleted account',
             message: `Successfully deleted account ${repeatedUsername.value}`
           });
+        });
+    };
+    const onProfileImageChange = (e: any) => {
+      const img = e.target.files[0];
+      const formData = new FormData();
+      formData.append('image', img);
+      axios
+        .post(`${accessor.environment.apiUrl}user/profile/image`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        })
+        .then(response => {
+          console.log(response);
+        })
+        .catch(err => {
+          if (
+            err &&
+            err.response.data.error &&
+            err.response.data.error.match(/payload too large/i)
+          ) {
+            accessor.messages.createMessage({
+              type: 'error',
+              title: err.response.data.message,
+              message: 'Maximum file size is 4MB'
+            });
+          } else if (err && err.response.data && err.response.data.error) {
+            accessor.messages.createMessage({
+              type: 'error',
+              title: err.response.data.error,
+              message: err.response.data.message
+            });
+          } else {
+            accessor.messages.createMessage({
+              type: 'error',
+              title: 'Error saving profile image',
+              message: 'Try uploading it in a different format'
+            });
+          }
         });
     };
     const deleteAccountValid = computed(() => {
@@ -246,9 +298,11 @@ export default defineComponent({
       onLogoutPopupClose,
       onDeleteAccount,
       onDeleteAccountClose,
+      onProfileImageChange,
       deleteAccount,
       deleteAccountValid,
       hasHistory,
+      testImgRef,
       logout
     };
   },
@@ -380,7 +434,48 @@ export default defineComponent({
             transform: translateX(-50%);
           }
 
-          .material-design-icon {
+          &:hover {
+            .upload-profile-btn {
+              opacity: 1;
+              pointer-events: auto;
+            }
+          }
+
+          .upload-profile-btn {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            height: 40px;
+            width: 40px;
+            background-color: #00000059;
+            border-radius: 5px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 200ms $intro-easing;
+            cursor: pointer;
+
+            .material-design-icon {
+              width: 100%;
+              height: 100%;
+              filter: var(--darkness);
+
+              .material-design-icon__svg {
+                fill: var(--bgcolor-main);
+                width: 100%;
+                height: 100%;
+              }
+            }
+          }
+
+          #upload-profile-image {
+            width: 0;
+            height: 0;
+            position: absolute;
+            top: 0;
+            opacity: 0;
+          }
+
+          > .material-design-icon {
             padding: 20px;
             width: calc(100% - 40px);
             height: calc(100% - 40px);
