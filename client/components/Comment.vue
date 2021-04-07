@@ -12,7 +12,7 @@
         <nuxt-link
           class="comment-author-link"
           :to="{ path: '/channel/' + comment.authorId }"
-          :class="{ owner: comment.authorIsChannelOwner }"
+          :class="{ owner: comment.authorId === channelAuthorId }"
           >{{ comment.author }}</nuxt-link
         >
       </div>
@@ -30,14 +30,14 @@
           <span>{{ comment.likeCount.toLocaleString('en-US') }}</span>
         </div>
         <div
-          v-if="comment.creatorHeart !== undefined"
-          v-tippy="`❤ by ${creatorName}`"
+          v-if="comment.creatorHeart"
+          v-tippy="`❤ by ${channelAuthorName}`"
           class="creatorHeart comment-property tooltip"
         >
           <HeartIcon title />
         </div>
       </div>
-      <div v-if="comment.replies !== undefined" class="comment-replies">
+      <div v-if="comment.replyToken" class="comment-replies">
         <BadgeButton
           v-if="!repliesLoaded"
           class="comment-reply-count"
@@ -47,7 +47,7 @@
           <CommentIcon />
           <p>
             show
-            {{ comment.replies.replyCount.toLocaleString('en-US') }}
+            {{ comment.replyCount.toLocaleString('en-US') }}
             replies
           </p>
         </BadgeButton>
@@ -90,6 +90,7 @@ import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import Invidious from '@/plugins/services/invidious';
 import { defineComponent, ref, useRoute } from '@nuxtjs/composition-api';
 import { useAccessor } from '~/store';
+import { useAxios } from '~/plugins/axios';
 
 export default defineComponent({
   name: 'Comment',
@@ -105,11 +106,13 @@ export default defineComponent({
   },
   props: {
     comment: null,
-    creatorName: String
+    channelAuthorName: String,
+    channelAuthorId: String
   },
   setup(props) {
     const route = useRoute();
     const accessor = useAccessor();
+    const axios = useAxios();
 
     const replies = ref([]);
     const loadingReplies = ref(false);
@@ -122,16 +125,10 @@ export default defineComponent({
     };
     const loadReplies = () => {
       loadingReplies.value = true;
-      const repliesId = props.comment.replies.continuation;
+      const replyToken = props.comment.replyToken;
       const videoId = route.value.query.v;
-      const invidious = new Invidious(accessor.instances.currentInstanceApi);
-      invidious.api
-        .comments({
-          id: videoId,
-          params: {
-            continuation: repliesId
-          }
-        })
+      axios
+        .get(`${accessor.environment.apiUrl}comments/${videoId}/replies?replyToken=${replyToken}`)
         .then(response => {
           replies.value = response.data.comments;
           repliesContinuationLink.value = response.data.continuation || null;

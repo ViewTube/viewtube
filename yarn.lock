@@ -9379,6 +9379,13 @@ node-fetch@2.6.1, node-fetch@^2.6.1:
   resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.1.tgz#045bd323631f76ed2e2b55573394416b639a0052"
   integrity sha512-V4aYg89jEoVRxRb2fJdAg8FHvI7cEyYdVAh94HH0UIK8oJxUfkjlDQN9RbMx+bEjP7+ggMiFRprSti032Oipxw==
 
+node-html-parser@^2.0.2:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/node-html-parser/-/node-html-parser-2.2.1.tgz#6507a8658810d1612890a8ddd534e01b2f97e07e"
+  integrity sha512-Vccqb62t6t7DkMVwqPQgb0NWO+gUMMDm+1X3LzqbtXLqjilCTtUYTlniKk08yuA1zIhEFVzu/dozpqs5KZbRFQ==
+  dependencies:
+    he "1.2.0"
+
 node-html-parser@^3.1.2:
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/node-html-parser/-/node-html-parser-3.1.2.tgz#b7a3e3ca9708624e50e0dd84ec988885b2aa6c90"
@@ -14206,6 +14213,14 @@ yocto-queue@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/yocto-queue/-/yocto-queue-0.1.0.tgz#0294eb3dee05028d31ee1a5fa2c556a6aaf10a1b"
   integrity sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==
+
+yt-comment-scraper@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/yt-comment-scraper/-/yt-comment-scraper-3.0.2.tgz#af578f324f795cebce4a04d4c7793fca2d12c1aa"
+  integrity sha512-vWg/2D0eCJ0DTRayBmxqjZdBXSjArDFp/UAlK/r9tOq+x89hyQwuvP5r5URzLeRXGyv0g0COXsNapZGQR5aaPA==
+  dependencies:
+    axios "^0.21.1"
+    node-html-parser "^2.0.2"
 
 ytdl-core@4.5.0:
   version "4.5.0"

@@ -129,17 +129,12 @@
             <BadgeButton :click="openInstancePopup"><InstanceIcon />Change instance</BadgeButton>
           </div>
           <div v-if="!commentsLoading && comment" class="comments-container">
-            <div class="comments-count">
-              <p>
-                {{ comment.commentCount && comment.commentCount.toLocaleString('en-US') }}
-                comments
-              </p>
-            </div>
             <Comment
               v-for="(subComment, i) in comment.comments"
               :key="i"
               :comment="subComment"
-              :creator-name="video.author"
+              :channelAuthorId="video.authorId"
+              :channelAuthorName="video.author"
             />
             <BadgeButton
               v-if="commentsContinuationLink"
@@ -268,7 +263,7 @@ export default defineComponent({
     const loadComments = (evtVideoId: string = null) => {
       const videoId = evtVideoId || route.value.query.v;
       axios
-        .get(`${accessor.instances.currentInstanceApiV1}comments/${videoId}`)
+        .get(`${accessor.environment.apiUrl}comments/${videoId}`)
         .then(response => {
           if (response.data.comments && response.data.comments.length > 0) {
             comment.value = response.data;
@@ -291,10 +286,10 @@ export default defineComponent({
       const videoId = route.value.query.v;
       axios
         .get(
-          `${accessor.instances.currentInstanceApiV1}comments/${videoId}?continuation=${commentsContinuationLink}`
+          `${accessor.environment.apiUrl}comments/${videoId}?continuation=${commentsContinuationLink.value}`
         )
         .then(response => {
-          comment.value.comments = comment.comments.concat(response.data.comments);
+          comment.value.comments = comment.value.comments.concat(response.data.comments);
           commentsContinuationLoading.value = false;
           commentsContinuationLink.value = response.data.continuation || null;
         })
