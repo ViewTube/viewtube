@@ -7000,7 +7000,7 @@ hex-color-regex@^1.1.0:
   resolved "https://registry.yarnpkg.com/hex-color-regex/-/hex-color-regex-1.1.0.tgz#4c06fccb4602fe2602b3c93df82d7e7dbf1a8a8e"
   integrity sha512-l9sfDFsuqtOqKDsQdqrMRk0U85RZc0RtOR9yPI7mRVOa4FsR/BVnZ0shmQRM96Ji99kYZP/7hn1cedc1+ApsTQ==
 
-hls.js@^1.0.0:
+hls.js@1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/hls.js/-/hls.js-1.0.0.tgz#d16f3b263d0028e3fa6c1c9ded4044b4ca47bdbe"
   integrity sha512-ey/KWrc5LPMCnpY3YF+1joMK+ykydeFU39SEeAfdg+mBl9/WcTS18PwkyRvpO1+PiedKsBwKNNJ/7Aw3gfE4sA==
@@ -14219,7 +14219,7 @@ yocto-queue@^0.1.0:
   resolved "https://registry.yarnpkg.com/yocto-queue/-/yocto-queue-0.1.0.tgz#0294eb3dee05028d31ee1a5fa2c556a6aaf10a1b"
   integrity sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==
 
-yt-comment-scraper@^3.0.2:
+yt-comment-scraper@3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/yt-comment-scraper/-/yt-comment-scraper-3.0.2.tgz#af578f324f795cebce4a04d4c7793fca2d12c1aa"
   integrity sha512-vWg/2D0eCJ0DTRayBmxqjZdBXSjArDFp/UAlK/r9tOq+x89hyQwuvP5r5URzLeRXGyv0g0COXsNapZGQR5aaPA==
