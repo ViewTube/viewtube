@@ -66,15 +66,12 @@ export class UserService {
       if (extMatch && extMatch[1]) {
         extension = extMatch[1];
       }
-      let baseDir = '';
+      let imgPath = `profiles/${username}.${extension}`;
 
-      if (process.env.NODE_ENV !== 'production') {
+      if (process.env.NODE_ENV === 'production') {
         // eslint-disable-next-line dot-notation
-        baseDir = global['__basedir'];
+        imgPath = path.join(global['__basedir'] + imgPath);
       }
-      const imgPath = path.join(baseDir, `profiles/${username}.${extension}`);
-
-      debugger;
 
       fs.writeFileSync(imgPath, file.buffer);
 
@@ -93,7 +90,7 @@ export class UserService {
     if (username) {
       const user = await this.UserModel.findOne({ username }).exec();
       if (user && user.profileImage && fs.existsSync(user.profileImage)) {
-        request.sendFile(user.profileImage);
+        request.sendFile('./profiles/maurice.jpg');
       } else {
         throw new NotFoundException({
           message: 'Profile image not found',
