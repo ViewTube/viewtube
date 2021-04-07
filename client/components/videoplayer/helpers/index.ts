@@ -720,26 +720,24 @@ export const videoPlayerSetup = (props: any) => {
 
   onMounted(async () => {
     document.addEventListener('keydown', onWindowKeyDown);
-    if (props.video.liveNow) {
-      if (videoRef.value) {
-        if (props.video.liveNow) {
-          if (isHlsSupported()) {
-            console.log('hls initializing');
-            const proxiedStreamUrl =
-              accessor.environment.streamProxyUrl + btoa(highestVideoQuality.value);
-            await initializeHlsStream(
-              proxiedStreamUrl,
-              videoRef.value,
-              accessor.environment.streamProxyUrl
-            );
-            console.log('hls initialized');
-          } else if (!isHlsNative(videoRef.value) && !isHlsSupported()) {
-            videoRef.value.src = highestVideoQuality.value;
-          }
+    if (videoRef.value) {
+      if (props.video.liveNow) {
+        if (isHlsSupported()) {
+          console.log('hls initializing');
+          const proxiedStreamUrl =
+            accessor.environment.streamProxyUrl + btoa(highestVideoQuality.value);
+          await initializeHlsStream(
+            proxiedStreamUrl,
+            videoRef.value,
+            accessor.environment.streamProxyUrl
+          );
+          console.log('hls initialized');
+        } else if (!isHlsNative(videoRef.value) && !isHlsSupported()) {
+          videoRef.value.src = highestVideoQuality.value;
         }
+      } else {
+        videoRef.value.src = highestVideoQuality.value;
       }
-    } else {
-      videoRef.value.src = highestVideoQuality.value;
     }
   });
 
