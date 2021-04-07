@@ -160,7 +160,7 @@ export class VideoEntity implements VideoDto {
         videoThumbnails: Common.getVideoThumbnails(video.id),
         author: typeof video.author === 'string' ? video.author : video.author.name,
         authorUrl: `/channel/${video.id}`,
-        authorId: video.id,
+        authorId: typeof video.author === 'string' ? '' : video.author.id,
         authorThumbnails:
           typeof video.author !== 'string'
             ? Common.getAuthorThumbnailsForRecommended(video.author.thumbnails[0].url)

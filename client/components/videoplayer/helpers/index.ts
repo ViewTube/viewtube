@@ -15,7 +15,7 @@ import { useAccessor } from '@/store';
 import { MediaMetadataHelper } from './mediaMetadata';
 import { calculateSeekPercentage, matchSeekProgressPercentage, seekbarFunctions } from './seekbar';
 import { parseChapters } from './chapters';
-import { initializeHlsStream, isHlsNative, isHlsSupported } from './hlsHelper';
+import { destroyInstance, initializeHlsStream, isHlsNative, isHlsSupported } from './hlsHelper';
 import { useFormatting } from '~/plugins/formatting';
 import { useAxios } from '~/plugins/axios';
 import { useImgProxy } from '~/plugins/proxy';
@@ -741,6 +741,7 @@ export const videoPlayerSetup = (props: any) => {
   onBeforeUnmount(() => {
     saveVideoPosition(videoRef.value.currentTime);
     document.removeEventListener('keydown', onWindowKeyDown);
+    destroyInstance();
   });
   return {
     imgProxyUrl: imgProxy.url,
