@@ -40,6 +40,12 @@ export const initializeHlsStream = (
   });
 };
 
+export const destroyInstance = (): void => {
+  if (hls) {
+    hls.destroy();
+  }
+};
+
 export const isHlsSupported = (): boolean => {
   return Hls.isSupported();
 };

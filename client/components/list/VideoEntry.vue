@@ -101,7 +101,7 @@
         <span class="live-text">Live</span>
       </div>
       <div class="video-saved-progress" :style="{ width: `${videoProgressPercentage}%` }" />
-      <span v-if="video.lengthSeconds && videoProgressPercentage > 0" class="video-entry-length">{{
+      <span v-if="video.lengthSeconds" class="video-entry-length">{{
         $formatting.getTimestampFromSeconds(video.lengthSeconds)
       }}</span>
       <span v-if="video.lengthString" class="video-entry-length">{{ video.lengthString }}</span>
