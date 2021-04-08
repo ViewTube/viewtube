@@ -6,7 +6,17 @@
       <div class="profile-top-card">
         <div v-if="profile" class="user-info">
           <div class="profile-img">
-            <AccountCircleIcon />
+            <Spinner v-if="profileImageLoading" class="centered" />
+            <AccountCircleIcon v-if="!profileImageUrl && !profileImageLoading" />
+            <div
+              v-if="profileImageUrl && !profileImageLoading"
+              :style="{ 'background-image': `url(${profileImageUrl})` }"
+              alt="Profile image"
+              class="profile-image"
+            />
+            <span v-if="profileImageUrl" class="delete-profile-img-btn" @click="deleteProfileImage"
+              ><DeleteSimpleIcon
+            /></span>
             <label class="upload-profile-btn" for="upload-profile-image"><PlusIcon /></label>
             <input
               id="upload-profile-image"
@@ -16,7 +26,6 @@
               @change="onProfileImageChange"
             />
           </div>
-          <img ref="testImgRef" src="" alt="" />
           <div class="user-name">
             <p>{{ profile.username }}</p>
           </div>
@@ -111,6 +120,7 @@ import LogoutIcon from 'vue-material-design-icons/LogoutVariant.vue';
 import ExportIcon from 'vue-material-design-icons/DatabaseExportOutline.vue';
 import PlusIcon from 'vue-material-design-icons/Plus.vue';
 import DeleteIcon from 'vue-material-design-icons/DeleteAlert.vue';
+import DeleteSimpleIcon from 'vue-material-design-icons/Delete.vue';
 import SettingsIcon from 'vue-material-design-icons/Cog.vue';
 import HistoryIcon from 'vue-material-design-icons/History.vue';
 import RestartOffIcon from 'vue-material-design-icons/RestartOff.vue';
@@ -138,6 +148,7 @@ export default defineComponent({
     Confirmation,
     SectionTitle,
     LogoutIcon,
+    DeleteSimpleIcon,
     ExportIcon,
     DeleteIcon,
     ChevronUpIcon,
@@ -147,7 +158,7 @@ export default defineComponent({
     HistoryList,
     PlusIcon
   },
-  setup(_) {
+  setup() {
     const accessor = useAccessor();
     const axios = useAxios();
     const router = useRouter();
@@ -158,8 +169,8 @@ export default defineComponent({
     const actionsOpen = ref(false);
     const repeatedUsername = ref('');
     const originalUsername = ref('');
-
-    const testImgRef = ref(null);
+    const profileImageUrl = ref(null);
+    const profileImageLoading = ref(false);
 
     originalUsername.value = accessor.user.username;
 
@@ -196,6 +207,7 @@ export default defineComponent({
         });
     };
     const onProfileImageChange = (e: any) => {
+      profileImageLoading.value = true;
       const img = e.target.files[0];
       const formData = new FormData();
       formData.append('image', img);
@@ -205,8 +217,16 @@ export default defineComponent({
             'Content-Type': 'multipart/form-data'
           }
         })
-        .then(response => {
-          console.log(response);
+        .then((response: any) => {
+          if (response.data.path) {
+            accessor.messages.createMessage({
+              type: 'info',
+              title: 'New profile image',
+              message: 'Successfully set new profile image'
+            });
+            setProfileImageUrl(response.data.path);
+            profileImageLoading.value = false;
+          }
         })
         .catch(err => {
           if (
@@ -232,6 +252,26 @@ export default defineComponent({
               message: 'Try uploading it in a different format'
             });
           }
+          profileImageLoading.value = false;
+        });
+    };
+    const deleteProfileImage = () => {
+      axios
+        .delete(`${accessor.environment.apiUrl}user/profile/image`)
+        .then(() => {
+          accessor.messages.createMessage({
+            type: 'info',
+            title: 'Profile image deleted',
+            message: 'Profile image successfully deleted'
+          });
+          setProfileImageUrl(null);
+        })
+        .catch(() => {
+          accessor.messages.createMessage({
+            type: 'error',
+            title: 'Could not delete profile image',
+            message: 'An error occurred when deleting the profile image'
+          });
         });
     };
     const deleteAccountValid = computed(() => {
@@ -242,6 +282,16 @@ export default defineComponent({
       router.push('/');
     };
 
+    const setProfileImageUrl = (url: string): void => {
+      if (url) {
+        const imgUrl = url.replace('/api/', '');
+        const random = Math.random() * (0 - 1000) + 0;
+        profileImageUrl.value = `${accessor.environment.apiUrl}${imgUrl}?r=${random}`;
+      } else {
+        profileImageUrl.value = null;
+      }
+    };
+
     useFetch(async () => {
       if (accessor.user.isLoggedIn) {
         const apiUrl = accessor.environment.apiUrl;
@@ -250,9 +300,13 @@ export default defineComponent({
           .then((result: { data: any }) => {
             if (result) {
               profile.value = result.data;
+              if (result.data.profileImage) {
+                setProfileImageUrl(result.data.profileImage);
+              }
             }
           })
           .catch((_: any) => {
+            console.log(_);
             accessor.messages.createMessage({
               type: 'error',
               title: 'Error loading profile',
@@ -293,7 +347,10 @@ export default defineComponent({
       logoutPopup,
       deleteAccountPopup,
       repeatedUsername,
+      profileImageUrl,
+      profileImageLoading,
       actionsOpen,
+      deleteProfileImage,
       onLogoutPopup,
       onLogoutPopupClose,
       onDeleteAccount,
@@ -302,7 +359,6 @@ export default defineComponent({
       deleteAccount,
       deleteAccountValid,
       hasHistory,
-      testImgRef,
       logout
     };
   },
@@ -435,13 +491,24 @@ export default defineComponent({
           }
 
           &:hover {
-            .upload-profile-btn {
+            .upload-profile-btn,
+            .delete-profile-img-btn {
               opacity: 1;
               pointer-events: auto;
             }
           }
 
-          .upload-profile-btn {
+          .profile-image {
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            border-radius: 15px;
+          }
+
+          .upload-profile-btn,
+          .delete-profile-img-btn {
             position: absolute;
             bottom: 10px;
             right: 10px;
@@ -465,6 +532,11 @@ export default defineComponent({
                 height: 100%;
               }
             }
+          }
+
+          .delete-profile-img-btn {
+            left: 10px;
+            right: unset;
           }
 
           #upload-profile-image {

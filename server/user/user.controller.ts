@@ -11,7 +11,7 @@ import {
   UseInterceptors,
   UploadedFile,
   Param,
-  Request
+  Response
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'server/auth/guards/jwt.guard';
@@ -61,8 +61,8 @@ export class UserController {
   }
 
   @Get('profile/image/:username')
-  async getProfileImage(@Request() req: any, @Param('username') username: string) {
-    await this.userService.getProfileImage(username, req);
+  async getProfileImage(@Response() res: any, @Param('username') username: string) {
+    await this.userService.getProfileImage(username, res);
   }
 
   @Post('profile/image')

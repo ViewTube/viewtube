@@ -50,6 +50,7 @@ export class UserService {
 
       return {
         username,
+        profileImage: user.profileImage ? `/api/user/profile/image/${username}` : null,
         videoHistory: videoHistory.videos,
         registeredAt: (user as any).createdAt,
         totalVideosCount: videoStats.totalVideoCount,
@@ -86,11 +87,20 @@ export class UserService {
     throw new BadRequestException('Uploaded file is not valid');
   }
 
-  async getProfileImage(username: string, request: any) {
+  async getProfileImage(username: string, response: any) {
     if (username) {
       const user = await this.UserModel.findOne({ username }).exec();
       if (user && user.profileImage && fs.existsSync(user.profileImage)) {
-        request.sendFile('./profiles/maurice.jpg');
+        try {
+          if (process.env.NODE_ENV !== 'production') {
+            response.sendFile(user.profileImage, { root: '.' });
+          } else {
+            // eslint-disable-next-line dot-notation
+            response.sendFile(path.join(global['__basedir'], user.profileImage));
+          }
+        } catch (error) {
+          console.log(error);
+        }
       } else {
         throw new NotFoundException({
           message: 'Profile image not found',
