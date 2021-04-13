@@ -20,12 +20,13 @@ export default defineComponent({
 .spinner {
   margin: auto;
   width: 50px;
-  height: 40px;
+  height: 60px;
   text-align: center;
   font-size: 10px;
-  $rectangle-width: 6px;
+  $rectangle-width: 8px;
   user-select: none;
   display: flex;
+  flex-direction: row;
 
   .rect {
     background-image: var(--theme-color-gradient);
@@ -34,7 +35,8 @@ export default defineComponent({
     height: 100%;
     width: $rectangle-width;
     display: block;
-    animation: spinner 1.2s infinite ease-in-out;
+    animation: spinner 2s infinite $dynamic-easing;
+    animation-delay: -1.2s;
     margin: 0 1px;
   }
 
@@ -67,10 +69,10 @@ export default defineComponent({
   0%,
   40%,
   100% {
-    transform: scaleY(0.4);
+    transform: scale(1, 0.4);
   }
   20% {
-    transform: scaleY(1);
+    transform: scale(1, 1);
   }
 }
 </style>
