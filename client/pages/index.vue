@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="home" :class="{ loading: $fetchState.pending || displayedVideos.length <= 0 }">
     <Spinner v-if="$fetchState.pending" class="centered" />
     <GradientBackground :color="'theme'" />
     <SectionTitle
@@ -18,7 +18,7 @@
         :lazy="false"
       />
     </div>
-    <SectionTitle :title="'Popular videos'" :gradient="!userAuthenticated" />
+    <SectionTitle :title="'Popular videos'" :gradient="!userAuthenticated" z />
     <div class="home-videos-container small">
       <VideoEntry
         v-for="(video, index) in displayedVideos"
@@ -124,6 +124,13 @@ export default defineComponent({
 
 <style lang="scss">
 .home {
+  .spinner {
+    z-index: 11;
+  }
+  &.loading {
+    height: 100vh;
+  }
+
   .section-title {
     max-width: $main-width;
     margin: 0 auto;

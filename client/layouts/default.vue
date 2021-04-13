@@ -3,7 +3,7 @@
     <ThemeStyling />
     <Header v-if="!headless" class="main-header" />
     <Miniplayer v-if="$store.getters.miniplayer" />
-    <nuxt />
+    <nuxt keep-alive :keep-alive-props="{ include: ['Home'] }" />
     <portal-target class="dropdown-portal" name="dropdown" multiple />
     <portal-target class="popup-portal" name="popup" multiple />
     <MessageBoxContainer />

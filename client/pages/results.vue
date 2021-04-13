@@ -1,5 +1,5 @@
 <template>
-  <div class="search">
+  <div class="search" :class="{ loading: $fetchState.pending }">
     <Spinner v-if="$fetchState.pending" class="centered search-spinner" />
     <GradientBackground :color="'blue'" />
     <Filters v-if="filters && filters.length" :filters="filters" />
@@ -279,6 +279,10 @@ export default defineComponent({
 .search {
   display: flex;
   flex-direction: column;
+
+  &.loading {
+    height: 100vh;
+  }
 
   .search-spinner {
     z-index: 11;
