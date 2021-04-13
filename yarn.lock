@@ -14241,9 +14241,9 @@ ytdl-core@4.5.0:
     miniget "^4.0.0"
     sax "^1.1.3"
 
-ytsr@3.4.0:
-  version "3.4.0"
-  resolved "https://registry.yarnpkg.com/ytsr/-/ytsr-3.4.0.tgz#44a405dafab948ce49292b16e30c85ce2135b82a"
-  integrity sha512-/Ygk7lf+ZGI9fqp7us2PAyVtmNc5aGblQhtizOvU5L63L/9W7J9PQRoTq7XvGOMT/NWpYT6qhGFEror0UMw4FQ==
+ytsr@3.4.1:
+  version "3.4.1"
+  resolved "https://registry.yarnpkg.com/ytsr/-/ytsr-3.4.1.tgz#9ef631fb40e983c43879f5a460d3b7fcecdac175"
+  integrity sha512-QXW7/G8pRIjuR9OAH1QIxLVrtxZ/Lnv1KFcBFu1gyBzI2IpMAFSsREWHnQ5xRp3r1hoO1dikIWeWhy+MMxYA0A==
   dependencies:
     miniget "^4.2.0"
