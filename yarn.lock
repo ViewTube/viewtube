@@ -7000,10 +7000,10 @@ hex-color-regex@^1.1.0:
   resolved "https://registry.yarnpkg.com/hex-color-regex/-/hex-color-regex-1.1.0.tgz#4c06fccb4602fe2602b3c93df82d7e7dbf1a8a8e"
   integrity sha512-l9sfDFsuqtOqKDsQdqrMRk0U85RZc0RtOR9yPI7mRVOa4FsR/BVnZ0shmQRM96Ji99kYZP/7hn1cedc1+ApsTQ==
 
-hls.js@1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/hls.js/-/hls.js-1.0.0.tgz#d16f3b263d0028e3fa6c1c9ded4044b4ca47bdbe"
-  integrity sha512-ey/KWrc5LPMCnpY3YF+1joMK+ykydeFU39SEeAfdg+mBl9/WcTS18PwkyRvpO1+PiedKsBwKNNJ/7Aw3gfE4sA==
+hls.js@1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/hls.js/-/hls.js-1.0.1.tgz#d92bd0a9c78760f0f0e90d53c60192800ebc629f"
+  integrity sha512-ElPUW9VMY2uXdX07N872BSrVUcVd4jZGav4nqlY3vinpdMpW8esmdpUaeVA5vv3oIRSmiC/XtL9K+mSt6rlBpA==
 
 hmac-drbg@^1.0.1:
   version "1.0.1"
