@@ -42,6 +42,7 @@ export function createRouter() {
     routes: [
       {
         path: '/',
+        name: 'home',
         component: Index
       },
       {
@@ -58,6 +59,7 @@ export function createRouter() {
       },
       {
         path: '/watch',
+        name: 'watch',
         component: Watch
       },
       {

@@ -62,7 +62,11 @@
     <nuxt-link
       v-tippy="videoProgressTooltip"
       class="video-entry-thmb"
-      :to="{ path: '/watch?v=' + (video.videoId ? video.videoId : video.id) }"
+      :to="{
+        name: 'watch',
+        query: { v: video.videoId ? video.videoId : video.id },
+        params: { videoData: video }
+      }"
       :class="{ 'has-description': video.description }"
     >
       <div class="thmb-image-container">
@@ -113,7 +117,11 @@
         <nuxt-link
           v-tippy="video.title"
           class="video-entry-title"
-          :to="{ path: '/watch?v=' + (video.videoId ? video.videoId : video.id) }"
+          :to="{
+            name: 'watch',
+            query: { v: video.videoId ? video.videoId : video.id },
+            params: { videoData: video }
+          }"
           >{{ video.title }}</nuxt-link
         >
         <div class="video-entry-stats">

@@ -102,7 +102,7 @@ import { useAccessor } from '~/store';
 import { useAxios } from '~/plugins/axios';
 
 export default defineComponent({
-  name: 'Home',
+  name: 'Subscriptions',
   components: {
     VideoEntry,
     SubscriptionImport,
