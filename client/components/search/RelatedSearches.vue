@@ -22,7 +22,7 @@
 <script lang="ts">
 import SectionTitle from '@/components/SectionTitle.vue';
 import { defineComponent } from '@nuxtjs/composition-api';
-import { useImgProxy } from '~/plugins/proxy';
+import { useImgProxy } from '@/plugins/proxy';
 
 export default defineComponent({
   name: 'RelatedSearches',

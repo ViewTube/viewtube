@@ -77,8 +77,8 @@ import packageJson from '@/../package.json';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import InvidiousLicense from '@/components/licenses/Invidious.vue';
 import { computed, defineComponent, onMounted, ref } from '@nuxtjs/composition-api';
-import { useAccessor } from '~/store';
-import { useAxios } from '~/plugins/axios';
+import { useAccessor } from '@/store';
+import { useAxios } from '@/plugins/axios';
 
 export default defineComponent({
   name: 'About',

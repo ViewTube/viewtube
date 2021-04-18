@@ -16,7 +16,7 @@ import Miniplayer from '@/components/miniplayer/Miniplayer.vue';
 import MessageBoxContainer from '@/components/message/MessageBoxContainer.vue';
 import ThemeStyling from '@/components/themes/ThemeStyling.vue';
 import { computed, defineComponent, ref, useRoute } from '@nuxtjs/composition-api';
-import { useAccessor } from '~/store';
+import { useAccessor } from '@/store';
 
 export default defineComponent({
   name: 'Default',

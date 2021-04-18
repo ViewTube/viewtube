@@ -14,7 +14,7 @@
 import VideoPlayer from '@/components/videoplayer/VideoPlayer.vue';
 import ViewTubeApi from '@/plugins/services/viewTubeApi';
 import { defineComponent, ref, useFetch, useRoute } from '@nuxtjs/composition-api';
-import { useAccessor } from '~/store';
+import { useAccessor } from '@/store';
 
 export default defineComponent({
   name: 'EmbedVideo',

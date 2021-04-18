@@ -8,7 +8,7 @@
     ".eslintrc.js",
     "webpack.config.js",
     "jest.config.js",
-    "nuxt.config.js"
+    "nuxt.config.ts"
   ],
   "exclude": ["node_modules", "dist/**/*"]
 }

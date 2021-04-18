@@ -18,8 +18,8 @@
 
 <script lang="ts">
 import { defineComponent, ref, watch } from '@nuxtjs/composition-api';
-import { useAxios } from '~/plugins/axios';
-import { useAccessor } from '~/store';
+import { useAxios } from '@/plugins/axios';
+import { useAccessor } from '@/store';
 
 export default defineComponent({
   name: 'SearchAutocomplete',

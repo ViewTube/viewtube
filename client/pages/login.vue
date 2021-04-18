@@ -6,7 +6,7 @@
 
 <script lang="ts">
 import { defineComponent, useMeta } from '@nuxtjs/composition-api';
-import LoginForm from '~/components/form/LoginForm.vue';
+import LoginForm from '@/components/form/LoginForm.vue';
 
 export default defineComponent({
   name: 'Login',

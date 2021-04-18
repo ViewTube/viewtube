@@ -26,7 +26,7 @@ import InstanceIcon from 'vue-material-design-icons/ServerNetwork.vue';
 import '@/assets/styles/popup.scss';
 import InstanceEntry from '@/components/list/InstanceEntry.vue';
 import { computed, defineComponent } from '@nuxtjs/composition-api';
-import { useAccessor } from '~/store';
+import { useAccessor } from '@/store';
 
 export default defineComponent({
   name: 'Instances',

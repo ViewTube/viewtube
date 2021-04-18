@@ -47,8 +47,8 @@ import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
 import ViewTubeApi from '@/plugins/services/viewTubeApi';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import { defineComponent, ref, useFetch, useMeta } from '@nuxtjs/composition-api';
-import { useAccessor } from '~/store';
-import { useAxios } from '~/plugins/axios';
+import { useAccessor } from '@/store';
+import { useAxios } from '@/plugins/axios';
 
 export default defineComponent({
   name: 'Home',

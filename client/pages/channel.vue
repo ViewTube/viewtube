@@ -65,8 +65,8 @@ import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import UpIcon from 'vue-material-design-icons/ArrowUp.vue';
 import ViewTubeApi from '@/plugins/services/viewTubeApi';
 import { defineComponent, ref, useFetch, useMeta, useRoute } from '@nuxtjs/composition-api';
-import { useImgProxy } from '~/plugins/proxy';
-import { useAccessor } from '~/store';
+import { useImgProxy } from '@/plugins/proxy';
+import { useAccessor } from '@/store';
 
 export default defineComponent({
   name: 'Home',

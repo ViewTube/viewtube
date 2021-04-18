@@ -114,9 +114,9 @@ import {
   useMeta,
   useRouter
 } from '@nuxtjs/composition-api';
-import HistoryList from '~/components/history/HistoryList.vue';
-import { useAccessor } from '~/store';
-import { useAxios } from '~/plugins/axios';
+import HistoryList from '@/components/history/HistoryList.vue';
+import { useAccessor } from '@/store';
+import { useAxios } from '@/plugins/axios';
 
 export default defineComponent({
   name: 'Profile',

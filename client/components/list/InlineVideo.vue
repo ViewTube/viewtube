@@ -39,7 +39,7 @@
 import PlayIcon from 'vue-material-design-icons/Play.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import { defineComponent, ref } from '@nuxtjs/composition-api';
-import { useImgProxy } from '~/plugins/proxy';
+import { useImgProxy } from '@/plugins/proxy';
 
 export default defineComponent({
   name: 'InlineVideo',

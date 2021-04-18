@@ -89,8 +89,8 @@ import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import Invidious from '@/plugins/services/invidious';
 import { defineComponent, ref, useRoute } from '@nuxtjs/composition-api';
-import { useAccessor } from '~/store';
-import { useAxios } from '~/plugins/axios';
+import { useAccessor } from '@/store';
+import { useAxios } from '@/plugins/axios';
 
 export default defineComponent({
   name: 'Comment',

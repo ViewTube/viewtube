@@ -176,9 +176,9 @@ import {
   useRouter,
   watch
 } from '@nuxtjs/composition-api';
-import { useAccessor } from '~/store';
-import { useAxios } from '~/plugins/axios';
-import { useImgProxy } from '~/plugins/proxy';
+import { useAccessor } from '@/store';
+import { useAxios } from '@/plugins/axios';
+import { useImgProxy } from '@/plugins/proxy';
 
 export default defineComponent({
   name: 'Watch',

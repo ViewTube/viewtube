@@ -17,7 +17,7 @@
 import EndscreenCard from '@/components/videoplayer/EndscreenCard.vue';
 import { defineComponent, ref } from '@nuxtjs/composition-api';
 
-import { useAccessor } from '~/store';
+import { useAccessor } from '@/store';
 
 export default defineComponent({
   name: 'VideoEndscreen',

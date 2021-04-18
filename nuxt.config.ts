@@ -1,10 +1,10 @@
 import Sass from 'sass';
-import { defineNuxtConfig } from '@nuxtjs/composition-api';
+import { NuxtConfig } from '@nuxt/types';
 const dartSass = {
   implementation: Sass
 };
 
-export default defineNuxtConfig({
+const config: NuxtConfig = {
   srcDir: './client',
 
   env: {
@@ -43,7 +43,8 @@ export default defineNuxtConfig({
         hid: 'ogDescription',
         property: 'og:description',
         content: 'An alternative YouTube frontend using the invidio.us API.'
-      }, {
+      },
+      {
         hid: 'ogType',
         property: 'og:type',
         content: 'website'
@@ -178,18 +179,13 @@ export default defineNuxtConfig({
   },
 
   buildModules: [
-    '@nuxtjs/composition-api',
+    '@nuxtjs/composition-api/module',
     '@nuxtjs/router',
     '@nuxt/typescript-build',
     'nuxt-typed-vuex'
   ],
 
-  modules: [
-    '@nuxtjs/style-resources',
-    'portal-vue/nuxt',
-    '@nuxtjs/pwa',
-    '@nuxtjs/axios',
-  ],
+  modules: ['@nuxtjs/style-resources', 'portal-vue/nuxt', '@nuxtjs/pwa', '@nuxtjs/axios'],
 
   axios: {
     credentials: true,
@@ -225,11 +221,8 @@ export default defineNuxtConfig({
       scss: dartSass
     },
     indicator: true,
-    transpile: ['vue-material-design-icons', 'tippy.js'],
-    extend(config, { isClient }) {
-      if (isClient) {
-        config.optimization.splitChunks.maxSize = 1000000;
-      }
-    }
+    transpile: ['vue-material-design-icons', 'tippy.js']
   }
-})
+};
+
+export default config;
