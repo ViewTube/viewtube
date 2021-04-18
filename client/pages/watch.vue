@@ -1,6 +1,7 @@
 <template>
   <div class="watch">
-    <Spinner v-if="$fetchState.pending" class="centered" />
+    <VideoLoadingTemplate v-if="$fetchState.pending && templateVideoData" :video="templateVideoData" />
+    <Spinner v-if="$fetchState.pending && !templateVideoData" class="centered" />
     <!-- <video v-if="!jsEnabled" controls :src="getHDUrl()" class="nojs-player" /> -->
     <VideoPlayer
       v-if="video && videoLoaded"
@@ -179,6 +180,7 @@ import {
 import { useAccessor } from '@/store';
 import { useAxios } from '@/plugins/axios';
 import { useImgProxy } from '@/plugins/proxy';
+import VideoLoadingTemplate from '@/components/watch/VideoLoadingTemplate.vue';
 
 export default defineComponent({
   name: 'Watch',
@@ -198,7 +200,8 @@ export default defineComponent({
     RecommendedVideos,
     ShareOptions,
     CollapsibleSection,
-    BadgeButton
+    BadgeButton,
+    VideoLoadingTemplate
   },
   setup() {
     const accessor = useAccessor();
@@ -220,6 +223,8 @@ export default defineComponent({
     const videoplayerRef = ref(null);
     const initialVideoTime = ref(0);
     const videoLoaded = ref(false);
+
+    const templateVideoData = route.value.params.videoData;
 
     const openInstancePopup = () => {
       accessor.popup.openPopup('instances');
@@ -444,7 +449,8 @@ export default defineComponent({
       reloadComments,
       setTimestamp,
       getHDUrl,
-      loadMoreComments
+      loadMoreComments,
+      templateVideoData
     };
   },
   head: {}

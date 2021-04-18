@@ -3,7 +3,7 @@
     <nuxt-link :to="{ path: '/channel/' + comment.authorId }" class="comment-author-image-link">
       <img
         class="comment-author-image"
-        :src="comment.authorThumbnails[2].url"
+        :src="imgProxyUrl + comment.authorThumbnails[2].url"
         :alt="comment.author"
       />
     </nuxt-link>
@@ -91,6 +91,7 @@ import Invidious from '@/plugins/services/invidious';
 import { defineComponent, ref, useRoute } from '@nuxtjs/composition-api';
 import { useAccessor } from '@/store';
 import { useAxios } from '@/plugins/axios';
+import { useImgProxy } from '@/plugins/proxy';
 
 export default defineComponent({
   name: 'Comment',
@@ -113,6 +114,7 @@ export default defineComponent({
     const route = useRoute();
     const accessor = useAccessor();
     const axios = useAxios();
+    const imgProxy = useImgProxy();
 
     const replies = ref([]);
     const loadingReplies = ref(false);
@@ -178,7 +180,8 @@ export default defineComponent({
       repliesContinuationLoading,
       hideReplies,
       loadReplies,
-      loadMoreReplies
+      loadMoreReplies,
+      imgProxyUrl: imgProxy.url
     };
   }
 });

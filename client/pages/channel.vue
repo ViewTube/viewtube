@@ -69,7 +69,7 @@ import { useImgProxy } from '@/plugins/proxy';
 import { useAccessor } from '@/store';
 
 export default defineComponent({
-  name: 'Home',
+  name: 'Channel',
   components: {
     VideoEntry,
     Banner,
