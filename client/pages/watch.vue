@@ -177,10 +177,10 @@ import {
   useRouter,
   watch
 } from '@nuxtjs/composition-api';
-import { useAccessor } from '~/store';
-import { useAxios } from '~/plugins/axios';
-import { useImgProxy } from '~/plugins/proxy';
-import VideoLoadingTemplate from '~/components/watch/VideoLoadingTemplate.vue';
+import { useAccessor } from '@/store';
+import { useAxios } from '@/plugins/axios';
+import { useImgProxy } from '@/plugins/proxy';
+import VideoLoadingTemplate from '@/components/watch/VideoLoadingTemplate.vue';
 
 export default defineComponent({
   name: 'Watch',

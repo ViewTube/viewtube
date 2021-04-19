@@ -14,7 +14,7 @@ import QRCode from 'qrcode/build/qrcode';
 import CloseIcon from 'vue-material-design-icons/Close.vue';
 import '@/assets/styles/popup.scss';
 import { defineComponent, onMounted, ref } from '@nuxtjs/composition-api';
-import { useAccessor } from '~/store';
+import { useAccessor } from '@/store';
 
 export default defineComponent({
   name: 'QrPopUp',

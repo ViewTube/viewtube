@@ -155,7 +155,7 @@ import SwitchButton from '@/components/buttons/SwitchButton.vue';
 import MultiOptionButton from '@/components/buttons/MultiOptionButton.vue';
 import '@/assets/styles/popup.scss';
 import { computed, defineComponent, reactive, ref, useStore, watch } from '@nuxtjs/composition-api';
-import { useAccessor } from '~/store';
+import { useAccessor } from '@/store';
 
 export default defineComponent({
   name: 'Settings',

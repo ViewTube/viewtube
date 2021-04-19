@@ -98,8 +98,8 @@ import {
   useRoute,
   watch
 } from '@nuxtjs/composition-api';
-import { useAccessor } from '~/store';
-import { useAxios } from '~/plugins/axios';
+import { useAccessor } from '@/store';
+import { useAxios } from '@/plugins/axios';
 
 export default defineComponent({
   name: 'Subscriptions',

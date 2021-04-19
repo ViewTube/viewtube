@@ -147,9 +147,9 @@ import InfoIcon from 'vue-material-design-icons/Information.vue';
 import VerifiedIcon from 'vue-material-design-icons/CheckDecagram.vue';
 // import { getSecondsFromTimestamp } from '@/plugins/shared';
 import { computed, defineComponent, ref } from '@nuxtjs/composition-api';
-import { useImgProxy } from '~/plugins/proxy';
-import { useAccessor } from '~/store';
-// import { useFormatting } from '~/plugins/formatting';
+import { useImgProxy } from '@/plugins/proxy';
+import { useAccessor } from '@/store';
+// import { useFormatting } from '@/plugins/formatting';
 
 export default defineComponent({
   name: 'VideoEntry',

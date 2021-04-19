@@ -40,7 +40,7 @@ import {
   useRouter,
   watch
 } from '@nuxtjs/composition-api';
-import { useAccessor } from '~/store';
+import { useAccessor } from '@/store';
 
 export default defineComponent({
   name: 'RegisterForm',
