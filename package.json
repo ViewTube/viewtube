@@ -88,7 +88,7 @@
     "x2js": "3.4.1",
     "yt-comment-scraper": "4.0.1",
     "ytdl-core": "4.5.0",
-    "ytsr": "3.4.1"
+    "ytsr": "3.5.0"
   },
   "devDependencies": {
     "@nestjs/cli": "7.6.0",
