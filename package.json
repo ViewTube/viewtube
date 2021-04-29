@@ -66,7 +66,7 @@
     "mongoose": "5.12.5",
     "node-fetch": "2.6.1",
     "nuxt": "2.15.4",
-    "nuxt-typed-vuex": "0.1.22",
+    "nuxt-typed-vuex": "0.2.0",
     "passport": "0.4.1",
     "passport-jwt": "4.0.0",
     "passport-local": "1.0.0",
