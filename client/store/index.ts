@@ -1,4 +1,4 @@
-import { getAccessorType, actionTree } from 'nuxt-typed-vuex';
+import { getAccessorType, actionTree } from 'typed-vuex';
 import { Context } from '@nuxt/types';
 import { wrapProperty } from '@nuxtjs/composition-api';
 import * as captcha from '~/store/captcha';

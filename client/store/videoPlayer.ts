@@ -1,4 +1,4 @@
-import { getterTree, mutationTree } from 'nuxt-typed-vuex';
+import { getterTree, mutationTree } from 'typed-vuex';
 
 export const state = () => ({
   resolutions: null as []
