@@ -1,4 +1,4 @@
-import { actionTree, getterTree, mutationTree } from 'nuxt-typed-vuex';
+import { actionTree, getterTree, mutationTree } from 'typed-vuex';
 
 export const state = () => ({
   messages: [{}] as [
