@@ -65,7 +65,7 @@
     "module-alias": "2.2.2",
     "mongoose": "5.12.8",
     "node-fetch": "2.6.1",
-    "nuxt": "2.15.5",
+    "nuxt": "2.15.6",
     "nuxt-typed-vuex": "0.2.0",
     "passport": "0.4.1",
     "passport-jwt": "4.0.0",
@@ -93,7 +93,7 @@
   "devDependencies": {
     "@nestjs/cli": "7.6.0",
     "@nestjs/schematics": "7.3.1",
-    "@nuxt/types": "2.15.5",
+    "@nuxt/types": "2.15.6",
     "@nuxt/typescript-build": "2.1.0",
     "@nuxtjs/eslint-config": "6.0.0",
     "@nuxtjs/eslint-config-typescript": "6.0.0",
