@@ -73,7 +73,7 @@
     "portal-vue": "2.1.7",
     "qrcode": "1.4.4",
     "reflect-metadata": "0.1.13",
-    "rxjs": "7.0.0",
+    "rxjs": "7.0.1",
     "sanitize-filename": "1.6.3",
     "sass": "1.32.13",
     "sass-loader": "10.2.0",
