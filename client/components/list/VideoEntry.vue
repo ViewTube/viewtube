@@ -356,6 +356,16 @@ export default defineComponent({
     box-shadow: $medium-shadow;
     overflow: hidden;
     padding-top: 56.25%;
+    border-radius: 8px;
+    transition: transform 300ms $intro-easing;
+
+    &:hover {
+      transform: scale(1.02);
+    }
+
+    &:focus {
+      transform: scale(1.05);
+    }
 
     .thmb-image-container {
       position: absolute;
