@@ -56,7 +56,7 @@ export class UserController {
 
     const dateString = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}_${date.getHours()}-${date.getMinutes()}-${date.getSeconds()}`;
 
-    const fileName = `viewtube_export_${sanitizeFilename(req.user.username)}_${dateString}.json`;
+    const fileName = `viewtube_export_${sanitizeFilename(req.user.username)}_${dateString}.zip`;
     res.status(200).attachment(fileName).send(dataExport);
   }
 

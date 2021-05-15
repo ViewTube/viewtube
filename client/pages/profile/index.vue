@@ -5,7 +5,7 @@
       <div class="gradient-background" />
       <div class="profile-top-card">
         <div v-if="profile" class="user-info">
-          <div class="profile-img">
+          <div class="profile-img" :class="{ image: profileImageUrl && !profileImageLoading }">
             <Spinner v-if="profileImageLoading" class="centered" />
             <AccountCircleIcon v-if="!profileImageUrl && !profileImageLoading" />
             <div
@@ -483,6 +483,14 @@ export default defineComponent({
           border-radius: 15px;
           background: linear-gradient(to bottom, var(--theme-color), var(--theme-color-dark));
           box-shadow: 4px 5px 12px var(--theme-color-translucent);
+          filter: none;
+
+          &.image {
+            border-radius: 0;
+            background: none;
+            box-shadow: none;
+            filter: drop-shadow(4px 5px 12px var(--theme-color-translucent));
+          }
 
           @media screen and (max-width: $mobile-width) {
             left: 50%;

@@ -8,12 +8,15 @@ import { UserprofileDto } from 'server/user/dto/userprofile.dto';
 import humanizeDuration from 'humanize-duration';
 import { Common } from 'server/core/common';
 import { ChannelBasicInfoDto } from 'server/core/channels/dto/channel-basic-info.dto';
+import { Response } from 'express';
+import AdmZip from 'adm-zip';
 import { User } from './schemas/user.schema';
 import { UserDto } from './user.dto';
 import { SettingsService } from './settings/settings.service';
 import { UserprofileDetailsDto } from './dto/userprofile-details.dto';
 import { HistoryService } from './history/history.service';
 import { SubscriptionsService } from './subscriptions/subscriptions.service';
+import { profileImage } from './profile-image';
 
 @Injectable()
 export class UserService {
@@ -87,7 +90,7 @@ export class UserService {
     throw new BadRequestException('Uploaded file is not valid');
   }
 
-  async getProfileImage(username: string, response: any) {
+  async getProfileImage(username: string, response: Response) {
     if (username) {
       const user = await this.UserModel.findOne({ username }).exec();
       if (user && user.profileImage && fs.existsSync(user.profileImage)) {
@@ -102,10 +105,12 @@ export class UserService {
           console.log(error);
         }
       } else {
-        throw new NotFoundException({
-          message: 'Profile image not found',
-          ignoreFilter: true
+        const img = Buffer.from(profileImage, 'base64');
+        response.writeHead(200, {
+          'Content-Type': 'image/png',
+          'Content-Length': img.length
         });
+        response.end(img);
       }
     } else {
       throw new NotFoundException({
@@ -192,7 +197,7 @@ export class UserService {
 
   async createDataExport(username: string): Promise<any> {
     if (username) {
-      const exportData = { username, subscriptions: {}, history: {}, settings: {} };
+      const userData = { username, subscriptions: {}, history: {}, settings: {} };
 
       const userSubscriptions = await this.subscriptionsService.getSubscribedChannels(
         username,
@@ -203,22 +208,37 @@ export class UserService {
       );
 
       if (userSubscriptions) {
-        exportData.subscriptions = userSubscriptions;
+        userData.subscriptions = userSubscriptions;
       }
 
-      const userHistory = await this.historyService.getHistory(username, 0, 0, 'ASC');
+      const userHistory = await this.historyService.getHistory(username, null, 0, 'ASC');
 
       if (userHistory) {
-        exportData.history = userHistory;
+        userData.history = userHistory;
       }
 
       const userSettings = await this.settingsService.getSettings(username);
 
       if (userSettings) {
-        exportData.settings = userSettings;
+        userData.settings = userSettings;
+      }
+      const exportUserData = JSON.stringify(userData);
+
+      const user = await this.UserModel.findOne({ username });
+
+      const zip = new AdmZip();
+      zip.addFile('user.json', Buffer.alloc(exportUserData.length, exportUserData));
+
+      if (user.profileImage && fs.existsSync(user.profileImage)) {
+        if (process.env.NODE_ENV !== 'production') {
+          zip.addLocalFile(user.profileImage);
+        } else {
+          // eslint-disable-next-line dot-notation
+          zip.addLocalFile(path.join(global['__basedir'], user.profileImage));
+        }
       }
 
-      return exportData;
+      return zip.toBuffer();
     }
   }
 }
