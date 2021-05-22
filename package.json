@@ -86,7 +86,7 @@
     "vuex-persistedstate": "3.2.0",
     "web-push": "3.4.4",
     "x2js": "3.4.1",
-    "yt-comment-scraper": "4.0.1",
+    "yt-comment-scraper": "4.0.3",
     "ytdl-core": "4.8.0",
     "ytsr": "3.5.0"
   },
