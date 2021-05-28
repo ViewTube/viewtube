@@ -44,7 +44,7 @@
     "@nestjs/swagger": "4.8.0",
     "@nestjs/testing": "7.6.17",
     "@nuxtjs/axios": "5.13.4",
-    "@nuxtjs/composition-api": "0.24.0",
+    "@nuxtjs/composition-api": "0.24.2",
     "@nuxtjs/pwa": "3.3.5",
     "@nuxtjs/router": "1.6.1",
     "@nuxtjs/style-resources": "1.0.0",
