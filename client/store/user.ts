@@ -1,17 +1,22 @@
 import { actionTree, getterTree, mutationTree } from 'typed-vuex';
 
 export const state = () => ({
-  username: null as string
+  username: null as string,
+  profileImage: null as string
 });
 
 export const getters = getterTree(state, {
   username: state => state.username,
+  profileImage: state => state.profileImage,
   isLoggedIn: state => Boolean(state.username)
 });
 
 export const mutations = mutationTree(state, {
   setUsername(state, username) {
     state.username = username;
+  },
+  setProfileImage(state, image) {
+    state.profileImage = image;
   }
 });
 
@@ -28,6 +33,7 @@ export const actions = actionTree(
         );
         this.app.$accessor.settings.mutateSettings(result.data.settings);
         commit('setUsername', result.data.username);
+        commit('setProfileImage', result.data.profileImage);
       } catch (e) {}
     },
     async logout({ commit }): Promise<boolean> {
@@ -39,10 +45,7 @@ export const actions = actionTree(
       commit('setUsername', null);
       return true;
     },
-    async login(
-      { dispatch },
-      { username, password }
-    ): Promise<{ success?: boolean, error?: any }> {
+    async login({ dispatch }, { username, password }): Promise<{ success?: boolean; error?: any }> {
       let success = null;
       try {
         await this.$axios.post(
@@ -69,7 +72,7 @@ export const actions = actionTree(
       return { success };
     },
     async register(
-      { commit, dispatch },
+      { dispatch },
       { username, password, captchaSolution }
     ): Promise<{ username?: string; error?: any }> {
       if (this.app.$accessor.captcha.token) {
@@ -100,7 +103,7 @@ export const actions = actionTree(
             password
           });
           if (loginSuccess) {
-            commit('setUsername', registerResult.data.username);
+            dispatch('getUser');
             return { username: registerResult.data.username };
           }
         }

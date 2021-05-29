@@ -49,8 +49,12 @@ async function bootstrap() {
   }
   if (!dev) {
     const channelsDir = `${(global as any).__basedir}/channels`;
+    const profilesDir = `${(global as any).__basedir}/profiles`;
     if (!fs.existsSync(channelsDir)) {
       fs.mkdirSync(channelsDir);
+    }
+    if (!fs.existsSync(profilesDir)) {
+      fs.mkdirSync(profilesDir);
     }
   }
 

@@ -38,7 +38,12 @@
       @click.prevent="showAccountMenu"
     >
       <div class="user-icon">
-        <AccountIcon />
+        <AccountIcon v-if="!$accessor.user.profileImage" />
+        <div
+          v-if="$accessor.user.profileImage"
+          class="user-image"
+          :style="{ 'background-image': `url(${getProfileImageUrl($accessor.user.profileImage)})` }"
+        />
       </div>
       <p v-if="userAuthenticated" class="account-name">{{ $accessor.user.username }}</p>
     </a>
@@ -46,14 +51,23 @@
       <div v-if="accountMenuVisible" class="menu">
         <div v-show="userAuthenticated" class="account-menu">
           <div class="account-icon">
-            <AccountIcon />
+            <AccountIcon v-if="!$accessor.user.profileImage" />
+            <div
+              v-if="$accessor.user.profileImage"
+              class="user-image"
+              :style="{
+                'background-image': `url(${getProfileImageUrl($accessor.user.profileImage)})`
+              }"
+            />
           </div>
           <div class="account-info">
             <p class="account-name">
               Logged in as
               {{ $store.getters['user/username'] }}
             </p>
-            <nuxt-link class="profile-btn" href="#" to="/profile">Your profile</nuxt-link>
+            <div @mouseup="closeAllPopups">
+              <nuxt-link class="profile-btn" href="#" to="/profile">Your profile</nuxt-link>
+            </div>
           </div>
         </div>
         <div class="menu-buttons" :class="{ authenticated: userAuthenticated }">
@@ -199,6 +213,14 @@ export default defineComponent({
       registerOpen.value = true;
     };
 
+    const getProfileImageUrl = (url: string): string => {
+      if (url) {
+        const imgUrl = url.replace('/api/', '');
+        return `${accessor.environment.apiUrl}${imgUrl}`;
+      }
+      return null;
+    };
+
     const closeAllPopups = () => {
       registerOpen.value = false;
       loginOpen.value = false;
@@ -313,6 +335,7 @@ export default defineComponent({
       openSettings,
       openInstances,
       openSubscriptions,
+      getProfileImageUrl,
       login,
       logout,
       register,
@@ -421,7 +444,28 @@ export default defineComponent({
         }
       }
 
+      @media screen and (max-width: $mobile-width) {
+        height: 35px;
+        .user-icon {
+          height: 35px;
+          width: 35px;
+
+          .user-image {
+            height: 35px !important;
+            width: 35px !important;
+          }
+        }
+      }
+
       .user-icon {
+        .user-image {
+          height: 24px;
+          width: 24px;
+          background-size: cover;
+          background-position: center;
+          background-repeat: no-repeat;
+        }
+
         .material-design-icon {
           .material-design-icon__svg {
             fill: var(--theme-color);
@@ -486,7 +530,6 @@ export default defineComponent({
 
       a.menu-btn {
         width: auto;
-        border-radius: 0;
         margin: 0;
         justify-self: center;
         align-self: stretch;
@@ -551,6 +594,14 @@ export default defineComponent({
         min-width: 42px;
         min-height: 42px;
         box-sizing: border-box;
+
+        .user-image {
+          height: 100%;
+          width: 100%;
+          background-size: cover;
+          background-position: center;
+          background-repeat: no-repeat;
+        }
 
         .account-circle-icon,
         .material-design-icon__svg {

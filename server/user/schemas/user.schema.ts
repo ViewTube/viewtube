@@ -12,6 +12,9 @@ export class User extends Document {
   username: string;
 
   @Prop()
+  profileImage: string;
+
+  @Prop()
   password: string;
 }
 
