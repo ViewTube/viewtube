@@ -30,7 +30,6 @@ export class CommentsService {
       } catch {}
       index++;
     }
-    console.log(index + ' times');
     if (commentsRawResult) {
       const commentsResult = mapComments(commentsRawResult);
       return commentsResult;

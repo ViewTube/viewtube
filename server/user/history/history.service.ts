@@ -111,7 +111,7 @@ export class HistoryService {
 
   async getHistory(
     username: string,
-    limit: number | null = 30,
+    limit: number | null,
     start: number | null = 0,
     sort: 'ASC' | 'DESC' = 'ASC',
     filter: string = null
