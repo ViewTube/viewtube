@@ -21,7 +21,6 @@ import { useAxios } from '~/plugins/axios';
 import { useImgProxy } from '~/plugins/proxy';
 
 export const videoPlayerSetup = (props: any) => {
-  const store = useStore();
   const accessor = useAccessor();
   const formatting = useFormatting();
   const axios = useAxios();
