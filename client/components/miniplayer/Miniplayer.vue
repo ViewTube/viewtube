@@ -1,7 +1,7 @@
 <template>
   <transition name="fade-up">
     <div
-      v-if="$store.state.miniplayer.currentVideo && visible && !dismissed"
+      v-if="$accessor.miniplayer.currentVideo && visible && !dismissed"
       ref="miniplayerRef"
       class="miniplayer"
       :style="{
@@ -21,7 +21,7 @@
         @touchstart.prevent="onDragSpaceTouchStart"
       />
       <VideoPlayer
-        :video="$store.state.miniplayer.currentVideo"
+        :video="$accessor.miniplayer.currentVideo"
         :mini="true"
         :autoplay="true"
         :embedded="false"

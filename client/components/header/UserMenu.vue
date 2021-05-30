@@ -63,7 +63,7 @@
           <div class="account-info">
             <p class="account-name">
               Logged in as
-              {{ $store.getters['user/username'] }}
+              {{ $accessor.user.username }}
             </p>
             <div @mouseup="closeAllPopups">
               <nuxt-link class="profile-btn" href="#" to="/profile">Your profile</nuxt-link>

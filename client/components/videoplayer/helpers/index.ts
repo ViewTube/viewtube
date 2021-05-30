@@ -119,14 +119,14 @@ export const videoPlayerSetup = (props: any) => {
 
   const chapters = ref(null);
 
-  if (store.getters['settings/miniplayer']) {
+  if (accessor.settings.miniplayer) {
     chapters.value = parseChapters(props.video.description, props.video.lengthSeconds);
   }
 
   const sponsorBlockSegments = ref<SponsorBlockSegmentsDto>(null);
   let sponsorBlock: SponsorBlock = null;
 
-  if (store.getters['settings/sponsorblock']) {
+  if (accessor.settings.sponsorblockEnabled) {
     sponsorBlock = new SponsorBlock(props.video.videoId);
     sponsorBlock.getSkipSegments().then(value => {
       if (value) {
@@ -248,10 +248,35 @@ export const videoPlayerSetup = (props: any) => {
         videoElement.progress = videoRef.value.currentTime;
         videoElement.duration = videoRef.value.duration;
 
-        if (store.getters['settings/sponsorblock'] && sponsorBlock) {
+        if (accessor.settings.sponsorblockEnabled && sponsorBlock) {
           const currentSegment = sponsorBlock.getCurrentSegment(videoRef.value.currentTime);
           if (currentSegment) {
-            const segmentOption = store.getters[`settings/sponsorblock_${currentSegment.category}`];
+            let segmentOption = 'ask';
+            if (currentSegment.category === 'music_offtopic') {
+              segmentOption = accessor.settings.sponsorblockSegmentMusicOfftopic;
+            }
+            switch (currentSegment.category) {
+              case 'music_offtopic':
+                segmentOption = accessor.settings.sponsorblockSegmentMusicOfftopic;
+                break;
+              case 'interaction':
+                segmentOption = accessor.settings.sponsorblockSegmentInteraction;
+                break;
+              case 'intro':
+                segmentOption = accessor.settings.sponsorblockSegmentIntro;
+                break;
+              case 'outro':
+                segmentOption = accessor.settings.sponsorblockSegmentOutro;
+                break;
+              case 'selfpromo':
+                segmentOption = accessor.settings.sponsorblockSegmentSelfpromo;
+                break;
+              case 'sponsor':
+                segmentOption = accessor.settings.sponsorblockSegmentSponsor;
+                break;
+              default:
+                break;
+            }
             if (segmentOption && segmentOption === 'skip') {
               setVideoTime(currentSegment.segment[1]);
             } else if (segmentOption && segmentOption === 'ask') {
