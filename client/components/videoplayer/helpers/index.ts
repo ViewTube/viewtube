@@ -4,8 +4,7 @@ import {
   ref,
   watch,
   onMounted,
-  onBeforeUnmount,
-  useStore
+  onBeforeUnmount
 } from '@nuxtjs/composition-api';
 import { commons } from '@/plugins/commons';
 // import dashjs from 'dashjs';
