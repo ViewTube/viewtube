@@ -244,15 +244,13 @@ export default defineComponent({
 
   .video-author {
     padding: 0;
+    height: 42px;
 
     &.thumbnail {
       display: flex;
       flex-direction: row;
 
       .channel-name-container {
-        .video-entry-channel {
-          padding: 10px 0 4px 0;
-        }
         .material-design-icon {
           margin: 6px 0 0 4px;
         }
@@ -269,10 +267,12 @@ export default defineComponent({
     .channel-name-container {
       display: flex;
       flex-direction: row;
+      height: 100%;
 
       .video-entry-channel {
         text-decoration: none;
-        padding: 6px 0 8px 0;
+        padding: 10px 0 4px 0;
+
         font-size: 0.85rem;
         font-weight: bold;
         overflow: hidden;
@@ -356,6 +356,16 @@ export default defineComponent({
     box-shadow: $medium-shadow;
     overflow: hidden;
     padding-top: 56.25%;
+    border-radius: 8px;
+    transition: transform 300ms $intro-easing;
+
+    &:hover {
+      transform: scale(1.02);
+    }
+
+    &:focus {
+      transform: scale(1.05);
+    }
 
     .thmb-image-container {
       position: absolute;
