@@ -86,11 +86,16 @@ export const videoPlayerSetup = (props: any) => {
   const chapterTitleRef = ref(null);
   const videoRef = ref(null);
 
+  const touchActionTimeout = ref(null);
+
   const doTouchAction = () => {
     touchAction.value = true;
-    setTimeout(() => {
+    if (touchActionTimeout.value) {
+      clearTimeout(touchActionTimeout.value);
+    }
+    touchActionTimeout.value = setTimeout(() => {
       touchAction.value = false;
-    }, 100);
+    }, 400);
   };
 
   highestVideoQuality.value = '#';
@@ -387,15 +392,21 @@ export const videoPlayerSetup = (props: any) => {
   // Interaction events
   const onVolumeInteraction = () => {};
   const onOpenInPlayer = () => {
-    window.open(videoUrl.value, '_blank');
+    if (playerOverlayVisible.value) {
+      window.open(videoUrl.value, '_blank');
+    }
   };
   const onOpenInPlayerMouseUp = () => {};
   const onVideoExpand = () => {
-    videoElement.zoomed = true;
+    if (playerOverlayVisible.value) {
+      videoElement.zoomed = true;
+    }
   };
   const onVideoExpandMouseUp = () => {};
   const onVideoCollapse = () => {
-    videoElement.zoomed = false;
+    if (playerOverlayVisible.value) {
+      videoElement.zoomed = false;
+    }
   };
   const onVideoCollapseMouseUp = () => {};
   const onSwitchFullscreen = () => {
@@ -408,31 +419,35 @@ export const videoPlayerSetup = (props: any) => {
   const onEnterFullscreen = (force: boolean) => {
     if (playerOverlayVisible.value || force === true) {
       const elem = videoPlayerRef.value;
-      if (elem.requestFullscreen) {
-        elem.requestFullscreen();
-      } else if (elem.mozRequestFullScreen) {
-        elem.mozRequestFullScreen();
-      } else if (elem.webkitRequestFullscreen) {
-        elem.webkitRequestFullscreen();
-      } else if (elem.msRequestFullscreen) {
-        elem.msRequestFullscreen();
-      }
-      fullscreen.value = true;
+      try {
+        if (elem.requestFullscreen) {
+          elem.requestFullscreen();
+        } else if (elem.mozRequestFullScreen) {
+          elem.mozRequestFullScreen();
+        } else if (elem.webkitRequestFullscreen) {
+          elem.webkitRequestFullscreen();
+        } else if (elem.msRequestFullscreen) {
+          elem.msRequestFullscreen();
+        }
+        fullscreen.value = true;
+      } catch {}
     }
   };
   const onEnterFullscreenMouseUp = () => {};
   const onLeaveFullscreen = () => {
-    const doc = document as any;
-    if (document.exitFullscreen) {
-      document.exitFullscreen();
-    } else if (doc.webkitExitFullscreen) {
-      doc.webkitExitFullscreen();
-    } else if (doc.mozCancelFullScreen) {
-      doc.mozCancelFullScreen();
-    } else if (doc.msExitFullscreen) {
-      doc.msExitFullscreen();
+    if (playerOverlayVisible.value) {
+      const doc = document as any;
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      } else if (doc.webkitExitFullscreen) {
+        doc.webkitExitFullscreen();
+      } else if (doc.mozCancelFullScreen) {
+        doc.mozCancelFullScreen();
+      } else if (doc.msExitFullscreen) {
+        doc.msExitFullscreen();
+      }
+      fullscreen.value = false;
     }
-    fullscreen.value = false;
   };
   const onFullscreenChange = () => {
     if (document.fullscreenElement) {
@@ -443,34 +458,43 @@ export const videoPlayerSetup = (props: any) => {
   };
   const onLeaveFullscreenMouseUp = () => {};
   const onPlayBtnTouchEnd = () => {
-    toggleVideoPlayback();
+    if (playerOverlayVisible.value) {
+      playerOverlay.visible = false;
+      toggleVideoPlayback();
+    }
   };
   const onPlayBtnClick = () => {
-    toggleVideoPlayback();
+    if (playerOverlayVisible.value) {
+      toggleVideoPlayback();
+    }
   };
 
   const onPlayerTouchStart = () => {
     doTouchAction();
-    if (playerOverlay.visible) {
-      hidePlayerOverlay();
-    } else {
-      showPlayerOverlay(true);
-    }
   };
 
   const doubleTouchTimer = ref(null);
+  const firstTouchX = ref(0);
 
   const onPlayerTouchEnd = (e: any) => {
     doTouchAction();
     if (!doubleTouchTimer.value) {
+      firstTouchX.value = e.changedTouches[0].pageX;
+
       doubleTouchTimer.value = setTimeout(() => {
         doubleTouchTimer.value = null;
+
+        if (playerOverlay.visible) {
+          hidePlayerOverlay();
+        } else {
+          showPlayerOverlay(true);
+        }
 
         if (seekbar.seeking) {
           seekbar.seeking = false;
           matchSeekProgressPercentage(videoRef, seekbar.seekPercentage, videoElement, true);
         }
-      }, 500);
+      }, 300);
     } else {
       clearTimeout(doubleTouchTimer.value);
       doubleTouchTimer.value = null;
@@ -482,16 +506,33 @@ export const videoPlayerSetup = (props: any) => {
         const leftHalf = pageX < containerWidth / 2;
         const rightHalf = pageX > containerWidth / 2;
 
-        if (leftHalf) {
-          seekBackward(5);
-        } else if (rightHalf) {
-          seekForward(5);
+        const firstTouchLeftHalf = firstTouchX.value < containerWidth / 2;
+        const firstTouchRightHalf = firstTouchX.value > containerWidth / 2;
+
+        if (leftHalf === firstTouchLeftHalf && rightHalf === firstTouchRightHalf) {
+          if (leftHalf) {
+            seekBackward(5);
+          } else if (rightHalf) {
+            seekForward(5);
+          }
         }
       }
     }
   };
+
+  const playerMouseMoveCounter = ref(0);
+  const playerMouseMoveCounterTimeout = ref(null);
+
   const onPlayerMouseMove = (e: { pageX: number; pageY: number }) => {
-    if (!touchAction.value) {
+    if (playerMouseMoveCounter.value < 1) {
+      if (playerMouseMoveCounterTimeout.value) {
+        clearTimeout(playerMouseMoveCounterTimeout.value);
+      }
+      playerMouseMoveCounter.value += 1;
+      playerMouseMoveCounterTimeout.value = setTimeout(() => {
+        playerMouseMoveCounter.value = 0;
+      }, 100);
+    } else if (!touchAction.value) {
       showPlayerOverlay(false);
       if (seekbar.seeking && videoRef.value) {
         seekbar.seekPercentage = calculateSeekPercentage(e.pageX);
@@ -726,7 +767,7 @@ export const videoPlayerSetup = (props: any) => {
     animFn(true);
     setTimeout(() => {
       animFn(false);
-    }, 300);
+    }, 600);
   };
 
   const setVideoTime = (seconds: number): void => {

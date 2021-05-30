@@ -57,7 +57,8 @@ export default defineComponent({
         .then(response => {
           storyboardVTT.value = response.data;
           parseVTTData();
-        });
+        })
+        .catch(_ => {});
     });
 
     const parseVTTData = () => {
