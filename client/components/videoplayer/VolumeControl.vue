@@ -1,7 +1,7 @@
 <template>
   <div
     class="volume-control"
-    :class="{ visible }"
+    :class="{ expanded }"
     @mouseup.stop="stopEvent"
     @click.stop="stopEvent"
     @touchend.stop="onTouch"
@@ -46,10 +46,11 @@ export default defineComponent({
     VolumeOffIcon
   },
   props: {
-    value: null
+    value: null,
+    playerOverlayVisible: Boolean
   },
   setup(props) {
-    const visible = ref(false);
+    const expanded = ref(false);
 
     const volumeCategory = computed((): number => {
       if (props.value >= 1) {
@@ -67,14 +68,16 @@ export default defineComponent({
     const stopEvent = () => {};
 
     const onTouch = () => {
-      visible.value = true;
-      setTimeout(() => {
-        visible.value = false;
-      }, 1000);
+      if (props.playerOverlayVisible) {
+        expanded.value = true;
+        setTimeout(() => {
+          expanded.value = false;
+        }, 1000);
+      }
     };
 
     return {
-      visible,
+      expanded,
       volumeCategory,
       stopEvent,
       onTouch
@@ -93,7 +96,7 @@ export default defineComponent({
   background-color: var(--bgcolor-alt);
 
   &:hover,
-  &.visible {
+  &.expanded {
     .volume-percentage {
       margin: auto 0 auto 10px;
     }

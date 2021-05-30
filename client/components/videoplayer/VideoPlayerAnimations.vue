@@ -79,12 +79,12 @@ export default defineComponent({
 
   .skip-forward {
     margin: auto 0 auto 60%;
-    animation: anim-float-right 300ms $intro-easing forwards;
+    animation: anim-float-right 600ms $intro-easing forwards;
   }
 
   .skip-backward {
     margin: auto 0 auto 40%;
-    animation: anim-float-left 300ms $intro-easing forwards;
+    animation: anim-float-left 600ms $intro-easing forwards;
   }
 
   .volume-up {

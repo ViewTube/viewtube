@@ -99,7 +99,7 @@
         <div
           v-if="!videoElement.buffering"
           class="play-btn-container"
-          @touchend="onPlayBtnTouchEnd"
+          @touchend.prevent.stop="onPlayBtnTouchEnd"
           @click="onPlayBtnClick"
         >
           <div class="play-btn" :class="{ playing: videoElement.playing }" />
@@ -127,10 +127,7 @@
             :segments="sponsorBlockSegments"
           />
           <div v-if="!$accessor.settings.chapters || !chapters" class="seekbar-background" />
-          <div
-            v-if="$accessor.settings.chapters && chapters"
-            class="seekbar-background-chapters"
-          >
+          <div v-if="$accessor.settings.chapters && chapters" class="seekbar-background-chapters">
             <div
               v-for="(chapter, index) in chapters"
               :key="index"
@@ -237,9 +234,7 @@
             {{ seekbar.hoverTime }}
           </div>
           <span
-            v-if="
-              $accessor.settings.chapters && getChapterForPercentage(seekbar.hoverPercentage)
-            "
+            v-if="$accessor.settings.chapters && getChapterForPercentage(seekbar.hoverPercentage)"
             ref="chapterTitleRef"
             class="chapter-title"
             :style="{
@@ -259,6 +254,7 @@
               v-model.number="videoElement.playerVolume"
               v-tippy="'Change volume'"
               class="tooltip"
+              :playerOverlayVisible="playerOverlayVisible"
               @mouseup.prevent.stop="onVolumeInteraction"
               @click.prevent.stop="onVolumeInteraction"
             />
@@ -282,7 +278,7 @@
               class="tooltip"
               @click.prevent.stop="onEnterFullscreen"
               @mouseup.prevent.stop="onEnterFullscreenMouseUp"
-              @touchend.prevent.stop="onEnterFullscreen"
+              @touchend.prevent="onEnterFullscreen"
             />
             <FullscreenExitIcon
               v-if="fullscreen"
@@ -290,7 +286,7 @@
               class="tooltip"
               @click.prevent.stop="onLeaveFullscreen"
               @mouseup.prevent.stop="onLeaveFullscreenMouseUp"
-              @touchend.prevent.stop="onLeaveFullscreen"
+              @touchend.prevent="onLeaveFullscreen"
             />
           </div>
         </div>
@@ -493,6 +489,18 @@ button.pictureInPictureToggleButton {
     &:not(.visible) {
       pointer-events: none !important;
       touch-action: none !important;
+
+      .top-control-overlay {
+        transform: translate3d(0, -100%, 0);
+      }
+
+      .bottom-control-overlay {
+        transform: translate3d(0, 100%, 0);
+      }
+    }
+
+    &.visible {
+      opacity: 1;
     }
 
     .top-control-overlay {
@@ -504,6 +512,7 @@ button.pictureInPictureToggleButton {
       flex-direction: row;
       justify-content: space-between;
       box-sizing: border-box;
+      transition: transform 300ms $intro-easing;
 
       .left-top-controls {
         .video-fullscreen-title {
@@ -559,8 +568,8 @@ button.pictureInPictureToggleButton {
 
         .play-btn {
           margin: auto;
-          width: 100px;
-          height: 100px;
+          width: 60px;
+          height: 60px;
           background-color: #fff;
           opacity: 1;
           transition: clip-path 300ms $intro-easing, opacity 300ms $intro-easing,
@@ -604,7 +613,7 @@ button.pictureInPictureToggleButton {
       display: flex;
       flex-direction: column;
       z-index: 141;
-      transition: opacity 300ms $intro-easing;
+      transition: opacity 300ms $intro-easing, transform 300ms $intro-easing;
       position: relative;
 
       &:before {
@@ -841,10 +850,6 @@ button.pictureInPictureToggleButton {
       &.hidden {
         opacity: 0;
       }
-    }
-
-    &.visible {
-      opacity: 1;
     }
   }
 }
