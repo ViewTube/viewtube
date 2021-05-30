@@ -1,7 +1,7 @@
 <template>
   <div class="messages-container">
     <MessageBox
-      v-for="message in $store.getters['messages/visibleMessages']"
+      v-for="message in $accessor.messages.visibleMessages"
       :key="message.id"
       :message="message"
     />

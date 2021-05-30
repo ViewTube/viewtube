@@ -30,7 +30,7 @@
             <img
               :src="
                 channel.authorThumbnailUrl
-                  ? `${$store.getters['environment/apiUrl']}${channel.authorThumbnailUrl}`
+                  ? `${$accessor.environment.apiUrl}${channel.authorThumbnailUrl}`
                   : channel.authorThumbnails[2].url
               "
               class="channel-image"

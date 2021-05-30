@@ -172,13 +172,13 @@ export const state = () => ({
   chapters: true,
   saveVideoHistory: true,
   settingsSaving: false,
-  sponsorblock_enabled: true,
-  sponsorblock_sponsor: 'skip' as segmentOption,
-  sponsorblock_intro: 'ask' as segmentOption,
-  sponsorblock_outro: 'ask' as segmentOption,
-  sponsorblock_interaction: 'skip' as segmentOption,
-  sponsorblock_selfpromo: 'skip' as segmentOption,
-  sponsorblock_music_offtopic: 'skip' as segmentOption
+  sponsorblockEnabled: true,
+  sponsorblockSegmentSponsor: 'skip' as segmentOption,
+  sponsorblockSegmentIntro: 'ask' as segmentOption,
+  sponsorblockSegmentOutro: 'ask' as segmentOption,
+  sponsorblockSegmentInteraction: 'skip' as segmentOption,
+  sponsorblockSegmentSelfpromo: 'skip' as segmentOption,
+  sponsorblockSegmentMusicOfftopic: 'skip' as segmentOption
 });
 
 export const getters = getterTree(state, {
@@ -188,32 +188,19 @@ export const getters = getterTree(state, {
   chapters: state => state.chapters,
   themeVariables: state => state.defaults.theme.find(el => state.theme === el.value),
   saveVideoHistory: state => state.saveVideoHistory,
-  sponsorblock: state => state.sponsorblock_enabled,
-  sponsorblock_sponsor: state => state.sponsorblock_sponsor,
-  sponsorblock_intro: state => state.sponsorblock_intro,
-  sponsorblock_outro: state => state.sponsorblock_outro,
-  sponsorblock_interaction: state => state.sponsorblock_interaction,
-  sponsorblock_selfpromo: state => state.sponsorblock_selfpromo,
-  sponsorblock_music_offtopic: state => state.sponsorblock_music_offtopic
+  sponsorblockEnabled: state => state.sponsorblockEnabled,
+  sponsorblockSegmentSponsor: state => state.sponsorblockSegmentSponsor,
+  sponsorblockSegmentIntro: state => state.sponsorblockSegmentIntro,
+  sponsorblockSegmentOutro: state => state.sponsorblockSegmentOutro,
+  sponsorblockSegmentInteraction: state => state.sponsorblockSegmentInteraction,
+  sponsorblockSegmentSelfpromo: state => state.sponsorblockSegmentSelfpromo,
+  sponsorblockSegmentMusicOfftopic: state => state.sponsorblockSegmentMusicOfftopic
 });
 
 export const mutations = mutationTree(state, {
   mutateSettings(state, newSettings) {
     Object.keys(newSettings).forEach((key: string) => {
-      if (key === 'sponsorblock') {
-        Object.entries(newSettings[key]).forEach(val => {
-          if (val[0] === 'enabled') {
-            state.sponsorblock_enabled = val[1] as boolean;
-          } else {
-            (this as any).app.$accessor.settings.setSponsorblockCategoryStatus({
-              category: val[0],
-              status: val[1]
-            });
-          }
-        });
-      } else if (key in state) {
-        state[key] = newSettings[key];
-      }
+      state[key] = newSettings[key];
     });
   },
   mutateSettingsSaving(state, saving) {
@@ -231,15 +218,15 @@ export const mutations = mutationTree(state, {
     state.chapters = enabled;
   },
   mutateSponsorblock(state, enabled) {
-    state.sponsorblock_enabled = enabled;
+    state.sponsorblockEnabled = enabled;
   },
   mutateSaveVideoHistory(state, enabled) {
     state.saveVideoHistory = enabled;
   },
   mutateSponsorblockCategoryStatus(state, { category, status }) {
-    if (state[`sponsorblock_${category}`]) {
+    if (state[`sponsorblockSegment${category}`]) {
       if (status === 'skip' || status === 'ask' || status === 'none') {
-        state[`sponsorblock_${category}`] = status;
+        state[`sponsorblockSegment${category}`] = status;
       }
     }
   }
@@ -268,18 +255,15 @@ export const actions = actionTree(
       commit('mutateSaveVideoHistory', enabled);
       await dispatch('doSettingsRequest', { settingsKey: 'saveVideoHistory', value: enabled });
     },
-    async storeSponsorblock({ dispatch, getters }) {
-      await dispatch('doSettingsRequest', {
-        settingsKey: 'sponsorblock',
-        value: {
-          enabled: getters.sponsorblock,
-          sponsor: getters.sponsorblock_sponsor,
-          intro: getters.sponsorblock_intro,
-          outro: getters.sponsorblock_outro,
-          interaction: getters.sponsorblock_interaction,
-          selfpromo: getters.sponsorblock_selfpromo,
-          music_offtopic: getters.sponsorblock_music_offtopic
-        }
+    async storeSponsorblock({ getters }) {
+      await this.$axios.put(`${this.app.$accessor.environment.env.apiUrl}user/settings`, {
+        sponsorblockEnabled: getters.sponsorblockEnabled,
+        sponsorblockSegmentInteraction: getters.sponsorblockSegmentInteraction,
+        sponsorblockSegmentIntro: getters.sponsorblockSegmentIntro,
+        sponsorblockSegmentMusicOfftopic: getters.sponsorblockSegmentMusicOfftopic,
+        sponsorblockSegmentOutro: getters.sponsorblockSegmentOutro,
+        sponsorblockSegmentSelfpromo: getters.sponsorblockSegmentSelfpromo,
+        sponsorblockSegmentSponsor: getters.sponsorblockSegmentSponsor
       });
     },
     async doSettingsRequest(_, { settingsKey, value }): Promise<void> {

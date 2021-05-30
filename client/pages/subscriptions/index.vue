@@ -5,7 +5,7 @@
     <div class="subscribe-info-container">
       <div class="subscribe-info">
         <div class="info">
-          <h2>Subscription feed for {{ $store.getters['user/username'] }}</h2>
+          <h2>Subscription feed for {{ $accessor.user.username }}</h2>
           <p>Last refresh: {{ lastRefreshTime }}</p>
           <p>Next refresh: {{ nextRefreshTime }}</p>
         </div>

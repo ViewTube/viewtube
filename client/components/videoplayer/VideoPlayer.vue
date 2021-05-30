@@ -123,12 +123,12 @@
             @click.prevent.stop="onSeekbarClick"
           />
           <SponsorBlockSegments
-            v-if="$store.getters['settings/sponsorblock'] && sponsorBlockSegments"
+            v-if="$accessor.settings.sponsorblockEnabled && sponsorBlockSegments"
             :segments="sponsorBlockSegments"
           />
-          <div v-if="!$store.state.settings.chapters || !chapters" class="seekbar-background" />
+          <div v-if="!$accessor.settings.chapters || !chapters" class="seekbar-background" />
           <div
-            v-if="$store.state.settings.chapters && chapters"
+            v-if="$accessor.settings.chapters && chapters"
             class="seekbar-background-chapters"
           >
             <div
@@ -147,14 +147,14 @@
             />
           </div>
           <div
-            v-if="!$store.state.settings.chapters || !chapters"
+            v-if="!$accessor.settings.chapters || !chapters"
             class="seekbar-loading-progress"
             :style="{
               width: `${videoElement.loadingPercentage}%`
             }"
           />
           <div
-            v-if="$store.state.settings.chapters && chapters"
+            v-if="$accessor.settings.chapters && chapters"
             class="seekbar-loading-progress-chapters"
             :style="{
               'clip-path': `polygon(
@@ -180,14 +180,14 @@
             />
           </div>
           <div
-            v-if="!$store.state.settings.chapters || !chapters"
+            v-if="!$accessor.settings.chapters || !chapters"
             class="seekbar-playback-progress"
             :style="{
               width: `${videoElement.progressPercentage}%`
             }"
           />
           <div
-            v-if="$store.state.settings.chapters && chapters"
+            v-if="$accessor.settings.chapters && chapters"
             class="seekbar-playback-progress-chapters"
             :style="{
               'clip-path': `polygon(
@@ -238,7 +238,7 @@
           </div>
           <span
             v-if="
-              $store.state.settings.chapters && getChapterForPercentage(seekbar.hoverPercentage)
+              $accessor.settings.chapters && getChapterForPercentage(seekbar.hoverPercentage)
             "
             ref="chapterTitleRef"
             class="chapter-title"

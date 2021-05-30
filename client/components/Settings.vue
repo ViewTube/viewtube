@@ -29,7 +29,7 @@
       </div>
       <h2><ChaptersIcon />Chapters</h2>
       <SwitchButton
-        :value="$store.getters['settings/chapters']"
+        :value="$accessor.settings.chapters"
         :label="'Show chapters on a video'"
         :disabled="false"
         :btnId="'settings-btn-1'"
@@ -38,7 +38,7 @@
       />
       <h2><HistoryIcon />History</h2>
       <SwitchButton
-        :value="$store.getters['settings/saveVideoHistory']"
+        :value="$accessor.settings.saveVideoHistory"
         :label="'Save video history and progress'"
         :disabled="false"
         :btnId="'settings-btn-2'"
@@ -59,7 +59,7 @@
         ></span
       >
       <SwitchButton
-        :value="$store.getters['settings/sponsorblock']"
+        :value="$accessor.settings.sponsorblockEnabled"
         :label="'Enable SponsorBlock'"
         :disabled="false"
         :btnId="'settings-btn-2'"
@@ -69,68 +69,68 @@
       <div class="sponsorblock-options-container">
         <div
           class="sponsorblock-options"
-          :class="{ disabled: !$store.getters['settings/sponsorblock'] }"
+          :class="{ disabled: !$accessor.settings.sponsorblockEnabled }"
         >
           <MultiOptionButton
             :options="sponsorblockSegmentOptions"
-            :selectedValue="$store.getters['settings/sponsorblock_sponsor']"
+            :selectedValue="$accessor.settings.sponsorblockSegmentSponsor"
             :label="'Sponsor'"
             :small-label="'Advertisements, promotions and video sponsors'"
             :right="true"
             :color-mark="'#0fca15'"
-            @valuechange="val => onSponsorblockOptionChange('sponsor', val)"
+            @valuechange="val => onSponsorblockOptionChange('Sponsor', val)"
           />
           <MultiOptionButton
             :options="sponsorblockSegmentOptions"
-            :selectedValue="$store.getters['settings/sponsorblock_intro']"
+            :selectedValue="$accessor.settings.sponsorblockSegmentIntro"
             :label="'Intro'"
             :small-label="'Intro animation, pause, intro sequence'"
             :right="true"
             :color-mark="'#07faf0'"
-            @valuechange="val => onSponsorblockOptionChange('intro', val)"
+            @valuechange="val => onSponsorblockOptionChange('Intro', val)"
           />
           <MultiOptionButton
             :options="sponsorblockSegmentOptions"
-            :selectedValue="$store.getters['settings/sponsorblock_outro']"
+            :selectedValue="$accessor.settings.sponsorblockSegmentOutro"
             :label="'Outro'"
             :small-label="'Endcards, credits, outros'"
             :right="true"
             :color-mark="'#0103e1'"
-            @valuechange="val => onSponsorblockOptionChange('outro', val)"
+            @valuechange="val => onSponsorblockOptionChange('Outro', val)"
           />
           <MultiOptionButton
             :options="sponsorblockSegmentOptions"
-            :selectedValue="$store.getters['settings/sponsorblock_interaction']"
+            :selectedValue="$accessor.settings.sponsorblockSegmentInteraction"
             :label="'Interaction reminder'"
             :small-label="'Reminder to subscribe, like, follow on social media, etc.'"
             :right="true"
             :color-mark="'#b711df'"
-            @valuechange="val => onSponsorblockOptionChange('interaction', val)"
+            @valuechange="val => onSponsorblockOptionChange('Interaction', val)"
           />
           <MultiOptionButton
             :options="sponsorblockSegmentOptions"
-            :selectedValue="$store.getters['settings/sponsorblock_selfpromo']"
+            :selectedValue="$accessor.settings.sponsorblockSegmentSelfpromo"
             :label="'Self promotion'"
             :small-label="'Unpaid promotion, for example donations, merchandise or shoutouts'"
             :right="true"
             :color-mark="'#fdfb0e'"
-            @valuechange="val => onSponsorblockOptionChange('selfpromo', val)"
+            @valuechange="val => onSponsorblockOptionChange('Selfpromo', val)"
           />
           <MultiOptionButton
             :options="sponsorblockSegmentOptions"
-            :selectedValue="$store.getters['settings/sponsorblock_music_offtopic']"
+            :selectedValue="$accessor.settings.sponsorblockSegmentMusicOfftopic"
             :label="'Non-music section'"
             :small-label="'Skips non-music sections in music videos'"
             :right="true"
             :color-mark="'#f89c06'"
-            @valuechange="val => onSponsorblockOptionChange('music_offtopic', val)"
+            @valuechange="val => onSponsorblockOptionChange('MusicOfftopic', val)"
           />
         </div>
       </div>
 
       <h2><MiniplayerIcon />Miniplayer</h2>
       <SwitchButton
-        :value="$store.getters['settings/miniplayer']"
+        :value="$accessor.settings.miniplayer"
         :label="'Enable miniplayer'"
         :disabled="false"
         :btnId="'settings-btn-3'"
@@ -307,8 +307,9 @@ export default defineComponent({
   }
 
   .sponsorblock-options-container {
+    width: calc(100% - 20px);
     .sponsorblock-options {
-      width: calc(100% - 20px);
+      // width: calc(100% - 20px);
       transition: padding 300ms $intro-easing;
       overflow: hidden;
 

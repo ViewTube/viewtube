@@ -15,7 +15,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@nuxtjs/composition-api';
+import { computed, defineComponent } from '@nuxtjs/composition-api';
 import Spinner from '@/components/Spinner.vue';
 import { useImgProxy } from '~/plugins/proxy';
 
@@ -28,9 +28,12 @@ export default defineComponent({
   setup(props) {
     const imgProxy = useImgProxy();
 
-    const backgroundThumbnail = props.video.videoThumbnails.find(
-      (el: any) => el.width === 480 && el.height === 360
-    );
+    const backgroundThumbnail = computed(() => {
+      if (props.video && props.video.videoThumbnails) {
+        return props.video.videoThumbnails.find((el: any) => el.width === 480 && el.height === 360);
+      }
+      return '#';
+    });
 
     return {
       backgroundThumbnail,
