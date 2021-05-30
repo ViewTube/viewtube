@@ -10,6 +10,7 @@ import { Common } from 'server/core/common';
 import { ChannelBasicInfoDto } from 'server/core/channels/dto/channel-basic-info.dto';
 import { Response } from 'express';
 import AdmZip from 'adm-zip';
+import Consola from 'consola';
 import { User } from './schemas/user.schema';
 import { UserDto } from './user.dto';
 import { SettingsService } from './settings/settings.service';
@@ -74,10 +75,14 @@ export class UserService {
 
       if (process.env.NODE_ENV === 'production') {
         // eslint-disable-next-line dot-notation
-        imgPath = path.join(global['__basedir'] + imgPath);
+        imgPath = path.join(global['__basedir'], imgPath);
       }
 
-      fs.writeFileSync(imgPath, file.buffer);
+      try {
+        fs.writeFileSync(imgPath, file.buffer);
+      } catch (error) {
+        Consola.log(error);
+      }
 
       const publicPath = `/api/user/profile/image/${username}`;
 
@@ -99,7 +104,7 @@ export class UserService {
             response.sendFile(user.profileImage, { root: '.' });
           } else {
             // eslint-disable-next-line dot-notation
-            response.sendFile(path.join(global['__basedir'], user.profileImage));
+            response.sendFile(user.profileImage);
           }
         } catch (error) {
           console.log(error);

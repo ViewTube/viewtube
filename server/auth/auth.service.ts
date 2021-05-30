@@ -31,7 +31,10 @@ export class AuthService {
 
   getDeletionCookie() {
     let domainString = '';
-    if (this.configService.get('NODE_ENV') === 'production') {
+    if (
+      this.configService.get('NODE_ENV') === 'production' &&
+      this.configService.get('VIEWTUBE_CURRENT_DOMAIN')
+    ) {
       domainString = `Domain=${this.configService.get('VIEWTUBE_CURRENT_DOMAIN')}; `;
     }
     const expiration = 0;
@@ -42,7 +45,11 @@ export class AuthService {
     const { accessToken } = this.login(username);
     let domainString = '';
     let secureString = '';
-    if (this.configService.get('NODE_ENV') === 'production') {
+    console.log(this.configService.get('VIEWTUBE_CURRENT_DOMAIN'));
+    if (
+      this.configService.get('NODE_ENV') === 'production' &&
+      this.configService.get('VIEWTUBE_CURRENT_DOMAIN')
+    ) {
       domainString = `Domain=${this.configService.get('VIEWTUBE_CURRENT_DOMAIN')}; `;
       secureString = 'Secure=true; ';
     }
