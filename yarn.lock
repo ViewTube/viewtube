@@ -2458,10 +2458,10 @@
     "@types/bson" "*"
     "@types/node" "*"
 
-"@types/mongoose@5.11.35":
-  version "5.11.35"
-  resolved "https://registry.yarnpkg.com/@types/mongoose/-/mongoose-5.11.35.tgz#daa99cab281417ea67a5dfd5649248217b894ae6"
-  integrity sha512-y9ZeaG6Y+R9xQeaE5bplM5OUvBsh8iL/6uG97PMegiVie5CP9Dc8Tg7i4IlFhP3/03Tmz/T7iQzgmLz8tI21Ug==
+"@types/mongoose@5.11.44":
+  version "5.11.44"
+  resolved "https://registry.yarnpkg.com/@types/mongoose/-/mongoose-5.11.44.tgz#afa27134569dd964f483dba144be913bb43c3d04"
+  integrity sha512-hQE89PmL3qgrXScQ8ipVWFIeD6c3onP0Z2sh+e32az/qT8Rmnqj0mbCg7aacHxrjUh8b1g2WkiCMKgocIh5SeQ==
   dependencies:
     mongoose "*"
 
