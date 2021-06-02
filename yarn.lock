@@ -2067,14 +2067,14 @@
     consola "^2.15.3"
     defu "^3.2.2"
 
-"@nuxtjs/style-resources@1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@nuxtjs/style-resources/-/style-resources-1.0.0.tgz#7c4d6be19d7f7cc5d687d689f2ab16c0b94773a1"
-  integrity sha512-tDRcC/pm8B0Kpxtzb/1/HOBkv3/kPD+2FiCiUBGMB7YriRud9OUPw1pnYCsAH9ftwpMJS4k4XOyUY8FCTk6OxA==
+"@nuxtjs/style-resources@1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@nuxtjs/style-resources/-/style-resources-1.1.0.tgz#74f942cd984d992f903786cb8ed49a68c608dc2b"
+  integrity sha512-bgzKcNyfV+zdR0nrm27ESCxJ7L36AUFjdQZG9A15wQhZgsffx967ZnJ7PlbTGny1mGTCJWFKCDf8Zrhs9A/HFw==
   dependencies:
     consola "^2.4.0"
     glob-all "^3.1.0"
-    sass-resources-loader "^2.0.0"
+    sass-resources-loader "^2.2.1"
 
 "@nuxtjs/youch@^4.2.3":
   version "4.2.3"
@@ -12199,10 +12199,10 @@ sass-loader@10.2.0:
     schema-utils "^3.0.0"
     semver "^7.3.2"
 
-sass-resources-loader@^2.0.0:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/sass-resources-loader/-/sass-resources-loader-2.1.1.tgz#a231b7c4e326d9c8d141909c901233bef9453151"
-  integrity sha512-/KrD5mEBTj3ZQ49thKSThhpv1OFhc82JbWA0bmv9yANRuPIlQrydNpZG82jdy4pEWY0QcQTGyd5OmCb3xVeZsw==
+sass-resources-loader@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/sass-resources-loader/-/sass-resources-loader-2.2.1.tgz#d7dbc36ccb25b2d8ffa508b1b8630b987df1e5c3"
+  integrity sha512-WlofxbWOVnxad874IHZdWbP9eW1pbyqsTJKBsMbeB+YELvLSrZQNDTpH70s6F19BwtanR3NEFnyGwJ9WyotJTQ==
   dependencies:
     async "^3.2.0"
     chalk "^4.1.0"
