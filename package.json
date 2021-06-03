@@ -87,7 +87,7 @@
     "tippy.js": "6.3.1",
     "vue": "2.6.12",
     "vue-material-design-icons": "4.11.0",
-    "vue2-datepicker": "3.9.0",
+    "vue2-datepicker": "3.9.1",
     "vuex": "3.6.2",
     "vuex-persistedstate": "3.2.0",
     "web-push": "3.4.4",
