@@ -30,9 +30,10 @@ const ProfileIndex = () =>
   import(/* webpackChunkName: "group-profile" */ '@/pages/profile/index.vue').then(
     m => m.default || m
   );
-const History = () => import(/* webpackChunkName: "group-history" */ '@/pages/history.vue').then(
-  m => m.default || m
-);
+const History = () =>
+  import(/* webpackChunkName: "group-history" */ '@/pages/history.vue').then(m => m.default || m);
+const Playlist = () =>
+  import(/* webpackChunkName: "group-playlist" */ '@/pages/playlist.vue').then(m => m.default || m);
 
 Vue.use(Router);
 
@@ -86,6 +87,10 @@ export function createRouter() {
       {
         path: '/history',
         component: History
+      },
+      {
+        path: '/playlist',
+        component: Playlist
       }
     ]
   });

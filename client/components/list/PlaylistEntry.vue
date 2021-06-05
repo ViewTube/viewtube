@@ -98,9 +98,7 @@ export default defineComponent({
     const imgProxy = useImgProxy();
 
     const playlistLink = computed((): string => {
-      return `/watch?v=${
-        props.playlist.firstVideoId ? props.playlist.firstVideoId : props.playlist.firstVideo.id
-      }&list=${props.playlist.playlistId ? props.playlist.playlistId : props.playlist.playlistID}`;
+      return `/playlist?list=${props.playlist.playlistId ? props.playlist.playlistId : props.playlist.playlistID}`;
     });
 
     return {

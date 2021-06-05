@@ -8,11 +8,12 @@ export class PlaylistsController {
   constructor(private playlistsService: PlaylistsService) {}
 
   @Get(':playlistId')
-  getComments(
-    @Param('playlistId') playlistId: string,
-    @Query('sortByNewest') sortByNewest: boolean = false,
-    @Query('continuation') continuation: string = null
-  ): Promise<any> {
-    return this.playlistsService.getPlaylist(playlistId, sortByNewest, continuation);
+  getPlaylist(@Param('playlistId') playlistId: string): Promise<any> {
+    return this.playlistsService.getPlaylist(playlistId);
+  }
+
+  @Get('continuation')
+  getPlaylistContinuation(@Query('continuationData') continuationData: Array<any>): Promise<any> {
+    return this.playlistsService.continuePlaylist(continuationData);
   }
 }
