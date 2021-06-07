@@ -59,7 +59,7 @@ export default defineComponent({
   &.right {
     justify-content: flex-start;
     flex-direction: row-reverse;
-    width: calc(100% - 40px);
+    width: calc(100% - 36px);
 
     .label {
       flex-grow: 1;

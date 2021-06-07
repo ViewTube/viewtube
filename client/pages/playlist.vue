@@ -51,23 +51,23 @@
           :lazy="false"
         />
       </div>
+      <div v-if="playlistContinuation" class="load-more-btn">
+        <BadgeButton :click="loadMoreVideos" :loading="moreVideosLoading"
+          ><LoadMoreIcon />
+          <p>show more</p></BadgeButton
+        >
+      </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import {
-  computed,
-  defineComponent,
-  ref,
-  Ref,
-  useFetch,
-  useMeta,
-  useRoute
-} from '@nuxtjs/composition-api';
+import { defineComponent, ref, Ref, useFetch, useMeta, useRoute } from '@nuxtjs/composition-api';
 import Spinner from '@/components/Spinner.vue';
 import VideoEntry from '@/components/list/VideoEntry.vue';
-import { Result } from 'ytpl';
+import BadgeButton from '@/components/buttons/BadgeButton.vue';
+import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
+import { Continuation, Result } from 'ytpl';
 import EyeIcon from 'vue-material-design-icons/EyeOutline.vue';
 import EyeClosedIcon from 'vue-material-design-icons/EyeOffOutline.vue';
 import CountIcon from 'vue-material-design-icons/Counter.vue';
@@ -83,43 +83,29 @@ export default defineComponent({
     CountIcon,
     CalendarIcon,
     EyeClosedIcon,
-    VideoEntry
+    VideoEntry,
+    BadgeButton,
+    LoadMoreIcon
   },
   setup() {
     const accessor = useAccessor();
     const axios = useAxios();
     const route = useRoute();
 
+    const moreVideosLoading = ref(false);
+    const playlistContinuation: Ref<Continuation> = ref(null);
     const playlist: Ref<Result> = ref(null);
-
-    const hashCode = (str: string) => {
-      let hash = 0;
-      for (let i = 0; i < str.length; i++) {
-        hash = str.charCodeAt(i) + ((hash << 5) - hash);
-      }
-      return hash;
-    };
-
-    const intToRGB = (i: number) => {
-      const c = (i & 0x00ffffff).toString(16).toUpperCase();
-
-      return '00000'.substring(0, 6 - c.length) + c;
-    };
-
-    const playlistColor = computed(() => {
-      if (playlist.value) {
-        return intToRGB(hashCode(playlist.value.title));
-      }
-    });
 
     const { fetch } = useFetch(async () => {
       if (route.value.query && route.value.query.list) {
         const apiUrl = accessor.environment.apiUrl;
         await axios
-          .get(`${apiUrl}playlists/${route.value.query.list}`)
+          .get(`${apiUrl}playlists`, { params: { playlistId: route.value.query.list } })
           .then(response => {
             if (response.data) {
+              debugger;
               playlist.value = response.data;
+              playlistContinuation.value = response.data.continuation;
             } else {
               accessor.messages.createMessage({
                 type: 'error',
@@ -137,6 +123,34 @@ export default defineComponent({
           });
       }
     });
+
+    const loadMoreVideos = async () => {
+      if (playlistContinuation.value) {
+        moreVideosLoading.value = true;
+        const apiUrl = accessor.environment.apiUrl;
+        await axios
+          .get(`${apiUrl}playlists/continuation`, {
+            params: {
+              continuationData: playlistContinuation.value
+            }
+          })
+          .then((response: { data: any }) => {
+            if (response && response.data) {
+              playlist.value.items = playlist.value.items.concat(response.data.items);
+              playlistContinuation.value = response.data.continuation;
+              moreVideosLoading.value = false;
+            }
+          })
+          .catch((_: any) => {
+            accessor.messages.createMessage({
+              type: 'error',
+              title: 'Unable to load more results',
+              message: 'Try again or use a different search term for more results'
+            });
+            moreVideosLoading.value = false;
+          });
+      }
+    };
 
     useMeta(() => {
       if (playlist.value) {
@@ -172,7 +186,9 @@ export default defineComponent({
 
     return {
       playlist,
-      playlistColor
+      moreVideosLoading,
+      loadMoreVideos,
+      playlistContinuation
     };
   },
   head: {}
@@ -316,6 +332,14 @@ export default defineComponent({
 
     .playlist-videos-container {
       @include viewtube-grid;
+    }
+
+    .load-more-btn {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 10px 0 20px 0;
     }
   }
 }

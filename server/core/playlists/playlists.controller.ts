@@ -7,8 +7,8 @@ import { PlaylistsService } from './playlists.service';
 export class PlaylistsController {
   constructor(private playlistsService: PlaylistsService) {}
 
-  @Get(':playlistId')
-  getPlaylist(@Param('playlistId') playlistId: string): Promise<any> {
+  @Get()
+  getPlaylist(@Query('playlistId') playlistId: string): Promise<any> {
     return this.playlistsService.getPlaylist(playlistId);
   }
 

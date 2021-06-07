@@ -307,7 +307,8 @@ export default defineComponent({
   }
 
   .sponsorblock-options-container {
-    width: calc(100% - 20px);
+    width: calc(100% - 36px);
+    
     .sponsorblock-options {
       // width: calc(100% - 20px);
       transition: padding 300ms $intro-easing;
