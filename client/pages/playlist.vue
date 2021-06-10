@@ -106,7 +106,6 @@ export default defineComponent({
           .get(`${apiUrl}playlists`, { params: { playlistId: route.value.query.list, pages: 1 } })
           .then(response => {
             if (response.data) {
-              debugger;
               playlist.value = response.data;
               playlistContinuation.value = response.data.continuation;
             } else {
