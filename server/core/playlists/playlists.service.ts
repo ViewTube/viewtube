@@ -1,16 +1,22 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
-import ytpl, { ContinueResult, Result } from 'ytpl';
+import ytpl, { ContinueResult, Options, Result } from 'ytpl';
 
 @Injectable()
 export class PlaylistsService {
   constructor() {}
 
-  async getPlaylist(playlistId: string): Promise<Result> {
+  async getPlaylist(playlistId: string, pages: number): Promise<Result> {
     if (playlistId && ytpl.validateID(playlistId)) {
       let playlistContent: Result;
 
+      const ytplOptions: Options = {};
+
+      if (pages) {
+        ytplOptions.pages = pages;
+      }
+
       try {
-        playlistContent = await ytpl(playlistId, { pages: 1 });
+        playlistContent = await ytpl(playlistId, ytplOptions);
       } catch (error) {
         throw new InternalServerErrorException(error);
       }

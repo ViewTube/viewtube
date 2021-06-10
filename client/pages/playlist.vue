@@ -4,14 +4,14 @@
     <div v-if="playlist" class="thumbnail-banner-container">
       <div
         class="thumbnail-banner"
-        :style="{ 'background-image': `url(${playlist.thumbnails[0].url})` }"
+        :style="{ 'background-image': `url(${imgProxyUrl + playlist.thumbnails[0].url})` }"
       />
       <div class="gradient-to-color" />
       <div class="playlist-info">
         <nuxt-link :to="`/channel/${playlist.author.channelID}`" class="author-thumbnail-banner">
           <img
             class="author-thumbnail"
-            :src="playlist.author.bestAvatar.url"
+            :src="imgProxyUrl + playlist.author.bestAvatar.url"
             alt="Author thumbnail"
           />
           <div class="author-info">
@@ -48,6 +48,7 @@
           v-for="video in playlist.items"
           :key="video.videoId"
           :video="video"
+          :playlistId="playlist.id"
           :lazy="false"
         />
       </div>
@@ -74,6 +75,7 @@ import CountIcon from 'vue-material-design-icons/Counter.vue';
 import CalendarIcon from 'vue-material-design-icons/CalendarClock.vue';
 import { useAxios } from '~/plugins/axios';
 import { useAccessor } from '~/store';
+import { useImgProxy } from '~/plugins/proxy';
 
 export default defineComponent({
   name: 'Playlist',
@@ -91,19 +93,19 @@ export default defineComponent({
     const accessor = useAccessor();
     const axios = useAxios();
     const route = useRoute();
+    const imgProxy = useImgProxy();
 
     const moreVideosLoading = ref(false);
     const playlistContinuation: Ref<Continuation> = ref(null);
     const playlist: Ref<Result> = ref(null);
 
-    const { fetch } = useFetch(async () => {
+    useFetch(async () => {
       if (route.value.query && route.value.query.list) {
         const apiUrl = accessor.environment.apiUrl;
         await axios
-          .get(`${apiUrl}playlists`, { params: { playlistId: route.value.query.list } })
+          .get(`${apiUrl}playlists`, { params: { playlistId: route.value.query.list, pages: 1 } })
           .then(response => {
             if (response.data) {
-              debugger;
               playlist.value = response.data;
               playlistContinuation.value = response.data.continuation;
             } else {
@@ -188,7 +190,8 @@ export default defineComponent({
       playlist,
       moreVideosLoading,
       loadMoreVideos,
-      playlistContinuation
+      playlistContinuation,
+      imgProxyUrl: imgProxy.url
     };
   },
   head: {}

@@ -64,7 +64,7 @@
       class="video-entry-thmb"
       :to="{
         name: 'watch',
-        query: { v: video.videoId ? video.videoId : video.id },
+        query: videoLinkQuery,
         params: { videoData: video }
       }"
       :class="{ 'has-description': video.description }"
@@ -119,7 +119,7 @@
           class="video-entry-title"
           :to="{
             name: 'watch',
-            query: { v: video.videoId ? video.videoId : video.id },
+            query: videoLinkQuery,
             params: { videoData: video }
           }"
           >{{ video.title }}</nuxt-link
@@ -159,6 +159,7 @@ export default defineComponent({
   },
   props: {
     video: Object,
+    playlistId: { type: String, required: false },
     lazy: Boolean
   },
   setup(props) {
@@ -172,6 +173,17 @@ export default defineComponent({
     const videoThumbnailUrl = ref(null);
 
     apiUrl.value = accessor.environment.apiUrl;
+
+    const videoLinkQuery = computed(() => {
+      const linkQuery: { v: string; list?: string } = {
+        v: props.video.videoId ? props.video.videoId : props.video.id
+      };
+
+      if (props.playlistId) {
+        linkQuery.list = props.playlistId;
+      }
+      return linkQuery;
+    });
 
     if (props.video.videoThumbnails) {
       videoThumbnailUrl.value = imgProxy.url + props.video.videoThumbnails[3].url + localProxy;
@@ -227,7 +239,8 @@ export default defineComponent({
       videoThumbnailUrlXL,
       videoProgressPercentage,
       videoProgressTooltip,
-      apiUrl
+      apiUrl,
+      videoLinkQuery
     };
   }
 });

@@ -1,8 +1,14 @@
 <template>
   <div class="watch">
-    <VideoLoadingTemplate v-if="$fetchState.pending && templateVideoData" :video="templateVideoData" />
+    <VideoLoadingTemplate
+      v-if="$fetchState.pending && templateVideoData"
+      :video="templateVideoData"
+    />
     <Spinner v-if="$fetchState.pending && !templateVideoData" class="centered" />
     <!-- <video v-if="!jsEnabled" controls :src="getHDUrl()" class="nojs-player" /> -->
+    <div v-if="!(video && videoLoaded)" class="videoplayer-placeholder">
+      <Spinner />
+    </div>
     <VideoPlayer
       v-if="video && videoLoaded"
       :key="video.id"
@@ -83,6 +89,7 @@
           </div>
           <SubscribeButton class="subscribe-button-watch" :channel-id="video.authorId" />
         </div>
+        <PlaylistSection v-if="playlist" :playlist="playlist" :currentVideoId="video.videoId" />
         <div v-if="video.publishedText" class="video-infobox-date">
           {{ video.publishedText }}
         </div>
@@ -164,11 +171,13 @@ import Comment from '@/components/Comment.vue';
 import RecommendedVideos from '@/components/watch/RecommendedVideos.vue';
 import ShareOptions from '@/components/watch/ShareOptions.vue';
 import CollapsibleSection from '@/components/list/CollapsibleSection.vue';
+import PlaylistSection from '@/components/watch/PlaylistSection.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import ViewTubeApi from '@/plugins/services/viewTubeApi';
 import {
   defineComponent,
   onMounted,
+  Ref,
   ref,
   useContext,
   useFetch,
@@ -181,6 +190,7 @@ import { useAccessor } from '@/store';
 import { useAxios } from '@/plugins/axios';
 import { useImgProxy } from '@/plugins/proxy';
 import VideoLoadingTemplate from '@/components/watch/VideoLoadingTemplate.vue';
+import { Result } from 'ytpl';
 
 export default defineComponent({
   name: 'Watch',
@@ -201,7 +211,8 @@ export default defineComponent({
     ShareOptions,
     CollapsibleSection,
     BadgeButton,
-    VideoLoadingTemplate
+    VideoLoadingTemplate,
+    PlaylistSection
   },
   setup() {
     const accessor = useAccessor();
@@ -223,6 +234,8 @@ export default defineComponent({
     const videoplayerRef = ref(null);
     const initialVideoTime = ref(0);
     const videoLoaded = ref(false);
+
+    const playlist: Ref<Result> = ref(null);
 
     const templateVideoData = route.value.params.videoData;
 
@@ -307,74 +320,98 @@ export default defineComponent({
         });
     };
 
-    const { fetch } = useFetch(
-      async (): Promise<void> => {
+    const loadPlaylist = async () => {
+      if (route.value.query && route.value.query.list) {
         const apiUrl = accessor.environment.apiUrl;
-        const viewTubeApi = new ViewTubeApi(apiUrl);
-        await viewTubeApi.api
-          .videos({
-            id: route.value.query.v
+        await axios
+          .get(`${apiUrl}playlists`, { params: { playlistId: route.value.query.list } })
+          .then(response => {
+            if (response.data) {
+              playlist.value = response.data;
+            } else {
+              accessor.messages.createMessage({
+                type: 'error',
+                title: 'Error loading playlist',
+                message: 'Playlist may not be available'
+              });
+            }
           })
-          .then(
-            async (response: { data: any }): Promise<void> => {
-              if (response) {
-                video.value = response.data;
-                if (accessor.user.isLoggedIn && accessor.settings.saveVideoHistory) {
-                  const videoVisit = await axios
-                    .get<{
-                      videoId: string;
-                      progressSeconds: number;
-                      lengthSeconds: number;
-                      lastVisit: Date;
-                    }>(`${apiUrl}user/history/${response.data.videoId}`)
-                    .catch((_: any) => {});
-
-                  if (videoVisit && videoVisit.data && videoVisit.data.progressSeconds > 0) {
-                    initialVideoTime.value = videoVisit.data.progressSeconds;
-                  } else {
-                    saveToHistory();
-                  }
-                }
-                videoLoaded.value = true;
-              } else {
-                accessor.messages.createMessage({
-                  type: 'error',
-                  title: 'Error loading video',
-                  message: 'Loading video information failed. Click to try again.',
-                  dismissDelay: 0,
-                  clickAction: () => fetch()
-                });
-              }
-            }
-          )
-          .catch((err: any) => {
-            let errorObj: any = {
-              message: 'Error loading video'
-            };
-            if (err) {
-              errorObj = {
-                requestConfig: err.config,
-                responseData: err.response ? err.response.data : null,
-                message: err.message
-              };
-            }
-            error({
-              statusCode: 500,
-              message:
-                errorObj.responseData &&
-                errorObj.responseData.message &&
-                typeof errorObj.responseData.message === 'string'
-                  ? errorObj.responseData.message
-                  : errorObj.message,
-              detail: errorObj
-            } as any);
+          .catch(_ => {
+            accessor.messages.createMessage({
+              type: 'error',
+              title: 'Error loading playlist',
+              message: 'Playlist may not be available'
+            });
           });
       }
-    );
+    };
+
+    const { fetch } = useFetch(async (): Promise<void> => {
+      videoLoaded.value = false;
+      const apiUrl = accessor.environment.apiUrl;
+      const viewTubeApi = new ViewTubeApi(apiUrl);
+      await viewTubeApi.api
+        .videos({
+          id: route.value.query.v
+        })
+        .then(async (response: { data: any }): Promise<void> => {
+          if (response) {
+            video.value = response.data;
+            if (accessor.user.isLoggedIn && accessor.settings.saveVideoHistory) {
+              const videoVisit = await axios
+                .get<{
+                  videoId: string;
+                  progressSeconds: number;
+                  lengthSeconds: number;
+                  lastVisit: Date;
+                }>(`${apiUrl}user/history/${response.data.videoId}`)
+                .catch((_: any) => {});
+
+              if (videoVisit && videoVisit.data && videoVisit.data.progressSeconds > 0) {
+                initialVideoTime.value = videoVisit.data.progressSeconds;
+              } else {
+                saveToHistory();
+              }
+            }
+            videoLoaded.value = true;
+          } else {
+            accessor.messages.createMessage({
+              type: 'error',
+              title: 'Error loading video',
+              message: 'Loading video information failed. Click to try again.',
+              dismissDelay: 0,
+              clickAction: () => fetch()
+            });
+          }
+        })
+        .catch((err: any) => {
+          let errorObj: any = {
+            message: 'Error loading video'
+          };
+          if (err) {
+            errorObj = {
+              requestConfig: err.config,
+              responseData: err.response ? err.response.data : null,
+              message: err.message
+            };
+          }
+          error({
+            statusCode: 500,
+            message:
+              errorObj.responseData &&
+              errorObj.responseData.message &&
+              typeof errorObj.responseData.message === 'string'
+                ? errorObj.responseData.message
+                : errorObj.message,
+            detail: errorObj
+          } as any);
+        });
+    });
 
     watch(
       () => route.value.query,
       newValue => {
+        fetch();
         const videoId = newValue.v as string;
         loadComments(videoId);
         accessor.miniplayer.setCurrentVideo(video);
@@ -390,6 +427,7 @@ export default defineComponent({
       }
       loadComments();
       accessor.miniplayer.setCurrentVideo(video);
+      loadPlaylist();
     });
 
     useMeta(() => {
@@ -450,7 +488,8 @@ export default defineComponent({
       setTimestamp,
       getHDUrl,
       loadMoreComments,
-      templateVideoData
+      templateVideoData,
+      playlist
     };
   },
   head: {}
@@ -478,6 +517,10 @@ export default defineComponent({
 .watch {
   width: 100%;
   margin-top: $header-height;
+
+  .videoplayer-placeholder {
+    height: calc(100vh - 170px);
+  }
 
   .nojs-player {
     max-height: calc(100vh - 170px);

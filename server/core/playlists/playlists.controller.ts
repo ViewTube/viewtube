@@ -1,4 +1,4 @@
-import { Controller, Get, Query, Param } from '@nestjs/common';
+import { Controller, Get, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { PlaylistsService } from './playlists.service';
 
@@ -8,8 +8,11 @@ export class PlaylistsController {
   constructor(private playlistsService: PlaylistsService) {}
 
   @Get()
-  getPlaylist(@Query('playlistId') playlistId: string): Promise<any> {
-    return this.playlistsService.getPlaylist(playlistId);
+  getPlaylist(
+    @Query('playlistId') playlistId: string,
+    @Query('pages') pages: number
+  ): Promise<any> {
+    return this.playlistsService.getPlaylist(playlistId, pages);
   }
 
   @Get('continuation')
