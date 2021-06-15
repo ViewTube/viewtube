@@ -10,7 +10,7 @@ RUN yarn build
 
 RUN rm -rf node_modules server scripts shared types
 
-FROM alpine:3.13 as runtime
+FROM alpine:3.14 as runtime
 WORKDIR /home/app
 
 RUN apk add --no-cache nodejs-current yarn
