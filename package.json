@@ -93,7 +93,7 @@
     "web-push": "3.4.4",
     "webpack": "4.46.0",
     "x2js": "3.4.1",
-    "yt-comment-scraper": "4.0.4",
+    "yt-comment-scraper": "5.1.0",
     "ytdl-core": "4.8.2",
     "ytsr": "3.5.0"
   },
