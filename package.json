@@ -51,7 +51,7 @@
     "@nuxtjs/style-resources": "1.1.0",
     "adm-zip": "0.5.5",
     "bcryptjs": "2.4.3",
-    "cache-manager": "3.4.3",
+    "cache-manager": "3.4.4",
     "class-transformer": "0.4.0",
     "class-validator": "0.13.1",
     "consola": "2.15.3",
