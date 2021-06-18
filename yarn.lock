@@ -14682,10 +14682,10 @@ yocto-queue@^0.1.0:
   resolved "https://registry.yarnpkg.com/yocto-queue/-/yocto-queue-0.1.0.tgz#0294eb3dee05028d31ee1a5fa2c556a6aaf10a1b"
   integrity sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==
 
-yt-comment-scraper@4.0.4:
-  version "4.0.4"
-  resolved "https://registry.yarnpkg.com/yt-comment-scraper/-/yt-comment-scraper-4.0.4.tgz#9519b3593c0e0080599ce3a2544aa520c9186873"
-  integrity sha512-6siEScAU7aqV8fzUexHlUd4w13JPZMQ0y2d+yDbFEoKU43jkFbVtAZ3IxTRCBpfDV7rKkaoAy8umD9y5goaV2Q==
+yt-comment-scraper@5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/yt-comment-scraper/-/yt-comment-scraper-5.1.0.tgz#1d9bb5365da727cbfc67f4a7e5a250acb084365b"
+  integrity sha512-q449/LgeeQ0yuJX0Ox5SoGySDBb8jPR4RMltHdxVbstJRI3Had73yCfMdEntC8VBEioGG+3oiXln4v5v19cgzg==
   dependencies:
     axios "^0.21.1"
     node-html-parser "^2.0.2"
