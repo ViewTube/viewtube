@@ -48,7 +48,7 @@
     "@nuxtjs/composition-api": "0.24.4",
     "@nuxtjs/pwa": "3.3.5",
     "@nuxtjs/router": "1.6.1",
-    "@nuxtjs/style-resources": "1.1.0",
+    "@nuxtjs/style-resources": "1.2.0",
     "adm-zip": "0.5.5",
     "bcryptjs": "2.4.3",
     "cache-manager": "3.4.4",
