@@ -185,24 +185,19 @@ export default defineComponent({
       return linkQuery;
     });
 
-    if (props.video.videoThumbnails) {
-      videoThumbnailUrl.value = imgProxy.url + props.video.videoThumbnails[3].url + localProxy;
-    } else if (props.video.thumbnails) {
-      if (props.video.thumbnails[1]) {
-        videoThumbnailUrl.value = imgProxy.url + props.video.thumbnails[1].url + localProxy;
-      } else {
-        videoThumbnailUrl.value = imgProxy.url + props.video.thumbnails[0].url + localProxy;
-      }
-    }
+    const thumbnailTemplate = 'https://i.ytimg.com/vi/';
+
+    videoThumbnailUrl.value = `
+      ${imgProxy.url}${thumbnailTemplate}${
+      props.video.videoId ? props.video.videoId : props.video.id
+    }/sddefault.jpg${localProxy}`;
 
     const videoThumbnailUrlXL = ref('');
-    if (props.video.videoThumbnails) {
-      videoThumbnailUrlXL.value = imgProxy.url + props.video.videoThumbnails[2].url + localProxy;
-    } else if (props.video.thumbnails) {
-      if (props.video.thumbnails[0]) {
-        videoThumbnailUrlXL.value = imgProxy.url + props.video.thumbnails[0].url + localProxy;
-      }
-    }
+    videoThumbnailUrl.value = `
+      ${imgProxy.url}${thumbnailTemplate}${
+      props.video.videoId ? props.video.videoId : props.video.id
+    }/hqdefault.jpg${localProxy}`;
+
     const videoProgressPercentage = computed((): number => {
       // const savedPosition = accessor.videoProgress.getSavedPositionForId(
       //   props.video.videoId ? props.video.videoId : props.video.id
