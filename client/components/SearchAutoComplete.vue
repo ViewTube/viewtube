@@ -88,14 +88,14 @@ export default defineComponent({
   position: absolute;
   top: 0;
   left: 0;
-  margin-top: $header-height / 2;
+  margin-top: math.div($header-height, 2);
   background-color: var(--header-bgcolor);
   display: flex;
   flex-direction: column;
   box-shadow: $medium-shadow;
 
   @media screen and (max-width: $mobile-width) {
-    top: $header-height / 2;
+    top: math.div($header-height, 2);
     position: fixed;
     width: 100%;
   }

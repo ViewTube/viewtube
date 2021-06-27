@@ -410,8 +410,16 @@ export default defineComponent({
 
     watch(
       () => route.value.query,
-      newValue => {
-        fetch();
+      (newValue, oldValue) => {
+        if (
+          newValue.v &&
+          newValue.list &&
+          oldValue.v &&
+          oldValue.list &&
+          newValue.v !== oldValue.v &&
+          newValue.list !== oldValue.list
+        )
+          fetch();
         const videoId = newValue.v as string;
         loadComments(videoId);
         accessor.miniplayer.setCurrentVideo(video);

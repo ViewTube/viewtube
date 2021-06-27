@@ -1,7 +1,10 @@
 import Sass from 'sass';
 import { NuxtConfig } from '@nuxt/types';
 const dartSass = {
-  implementation: Sass
+  implementation: Sass,
+  additionalData: `
+    @use "sass:math";
+  `
 };
 
 const config: NuxtConfig = {

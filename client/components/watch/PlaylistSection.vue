@@ -6,27 +6,50 @@
       <div class="control-section">
         <nuxt-link
           v-ripple
+          v-tippy="'Skip to previous video'"
           :tabindex="currentVideoId === getPreviousVideoId() ? -1 : 0"
           :class="{ disabled: currentVideoId === getPreviousVideoId() }"
           :to="`/watch?v=${getPreviousVideoId()}&list=${playlist.id}`"
           class="playlist-action"
         >
-          <SkipPreviousIcon />
+          <SkipPreviousIcon :title="null" />
         </nuxt-link>
         <nuxt-link
           v-ripple
+          v-tippy="'Skip to next video'"
           :tabindex="currentVideoId === getNextVideoId() ? -1 : 0"
           :class="{ disabled: currentVideoId === getNextVideoId() }"
           :to="`/watch?v=${getNextVideoId()}&list=${playlist.id}`"
           class="playlist-action"
         >
-          <SkipNextIcon />
+          <SkipNextIcon :title="null" />
         </nuxt-link>
-        <button class="playlist-action playlist-action-btn">
-          <RepeatIcon />
+        <button
+          v-ripple
+          v-tippy="'Repeat playlist'"
+          class="playlist-action playlist-action-btn"
+          :class="{ enabled: repeatEnabled }"
+          @click.stop.prevent="onRepeatToggle"
+        >
+          <RepeatIcon :title="null" />
         </button>
-        <button class="playlist-action playlist-action-btn">
-          <ShuffleIcon />
+        <button
+          v-ripple
+          v-tippy="'Shuffle playlist'"
+          class="playlist-action playlist-action-btn"
+          :class="{ enabled: shuffleEnabled }"
+          @click.stop.prevent="onShuffleToggle"
+        >
+          <ShuffleIcon :title="null" />
+        </button>
+        <button
+          v-ripple
+          v-tippy="'Play in reverse order'"
+          class="playlist-action playlist-action-btn"
+          :class="{ enabled: reverseEnabled }"
+          @click.stop.prevent="onReverseToggle"
+        >
+          <ReverseIcon :title="null" />
         </button>
       </div>
     </div>
@@ -57,11 +80,19 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, PropType, ref, useRouter } from '@nuxtjs/composition-api';
+import {
+  defineComponent,
+  onMounted,
+  PropType,
+  ref,
+  useRoute,
+  useRouter
+} from '@nuxtjs/composition-api';
 import SkipPreviousIcon from 'vue-material-design-icons/SkipPrevious.vue';
 import SkipNextIcon from 'vue-material-design-icons/SkipNext.vue';
 import RepeatIcon from 'vue-material-design-icons/Repeat.vue';
 import ShuffleIcon from 'vue-material-design-icons/Shuffle.vue';
+import ReverseIcon from 'vue-material-design-icons/RotateLeft.vue';
 import { Result } from 'ytpl';
 import { useImgProxy } from '@/plugins/proxy';
 
@@ -71,7 +102,8 @@ export default defineComponent({
     SkipPreviousIcon,
     SkipNextIcon,
     RepeatIcon,
-    ShuffleIcon
+    ShuffleIcon,
+    ReverseIcon
   },
   props: {
     playlist: Object as PropType<Result>,
@@ -80,8 +112,23 @@ export default defineComponent({
   setup(props) {
     const imgProxy = useImgProxy();
     const router = useRouter();
+    const route = useRoute();
 
     const videoSectionRef = ref(null);
+
+    const repeatEnabled = ref(false);
+    const shuffleEnabled = ref(false);
+    const reverseEnabled = ref(false);
+
+    if (route.value.query.repeat) {
+      repeatEnabled.value = true;
+    }
+    if (route.value.query.shuffle) {
+      shuffleEnabled.value = true;
+    }
+    if (route.value.query.reverse) {
+      reverseEnabled.value = true;
+    }
 
     const getPreviousVideoId = (): string => {
       const currentVideoIndex = props.playlist.items.findIndex(
@@ -103,6 +150,33 @@ export default defineComponent({
       return props.playlist.items[currentVideoIndex + 1].id;
     };
 
+    const onRepeatToggle = () => {
+      router.push({
+        path: route.value.fullPath,
+        query: { repeat: (!repeatEnabled.value).toString() },
+        replace: true
+      });
+      repeatEnabled.value = !repeatEnabled.value;
+    };
+
+    const onShuffleToggle = () => {
+      router.push({
+        path: route.value.fullPath,
+        query: { shuffle: (!shuffleEnabled.value).toString() },
+        replace: true
+      });
+      shuffleEnabled.value = !shuffleEnabled.value;
+    };
+
+    const onReverseToggle = () => {
+      router.push({
+        path: route.value.fullPath,
+        query: { reverse: (!reverseEnabled.value).toString() },
+        replace: true
+      });
+      reverseEnabled.value = !reverseEnabled.value;
+    };
+
     onMounted(() => {
       if (videoSectionRef.value) {
         const selectedEl = videoSectionRef.value.getElementsByClassName('current')[0];
@@ -117,7 +191,13 @@ export default defineComponent({
       imgProxyUrl: imgProxy.url,
       videoSectionRef,
       getPreviousVideoId,
-      getNextVideoId
+      getNextVideoId,
+      shuffleEnabled,
+      repeatEnabled,
+      reverseEnabled,
+      onRepeatToggle,
+      onShuffleToggle,
+      onReverseToggle
     };
   }
 });
@@ -138,14 +218,22 @@ export default defineComponent({
       display: flex;
 
       .playlist-action {
-        width: 36px;
-        height: 36px;
-        margin: 2px;
+        $btn-size: 32px;
+        width: $btn-size;
+        height: $btn-size;
+        margin: 2px 6px 2px 0;
 
         &.playlist-action-btn {
           all: unset;
-          width: 36px;
-          height: 36px;
+          width: $btn-size;
+          height: $btn-size;
+          position: relative;
+          cursor: pointer;
+          margin: 2px 6px 2px 0;
+
+          &.enabled {
+            color: var(--theme-color);
+          }
         }
 
         &.material-design-icon,
