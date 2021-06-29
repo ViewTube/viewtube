@@ -201,7 +201,3 @@ Thanks goes to these wonderful people
 <!-- prettier-ignore-end -->
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
-
-
-## License
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FViewTube%2Fviewtube-vue.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2FViewTube%2Fviewtube-vue?ref=badge_large)
