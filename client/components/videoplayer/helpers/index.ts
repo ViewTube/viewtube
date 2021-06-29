@@ -345,6 +345,7 @@ export const videoPlayerSetup = (props: any) => {
   };
 
   const onVideoPlaying = () => {
+    updatePlaybackProgress(true);
     clearInterval(videoElement.positionSaveInterval);
     playerOverlay.thumbnailVisible = false;
     videoElement.playing = true;
