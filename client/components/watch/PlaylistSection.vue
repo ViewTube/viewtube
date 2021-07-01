@@ -234,6 +234,19 @@ export default defineComponent({
 
     const getFullPath = () => route.value.fullPath;
 
+    const playNextVideo = () => {
+      const currentVideoIndex = props.playlist.items.findIndex(
+        el => el.id === props.currentVideoId
+      );
+      // 
+      if (currentVideoIndex + 1 < props.playlist.items.length) {
+        router.push({
+          path: getFullPath(),
+          query: { v: getNextVideoId() }
+        });
+      }
+    };
+
     onMounted(() => {
       if (videoSectionRef.value) {
         const selectedEl = videoSectionRef.value.getElementsByClassName('current')[0];
