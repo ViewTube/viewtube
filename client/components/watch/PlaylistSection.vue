@@ -232,6 +232,8 @@ export default defineComponent({
       return props.playlist.items[randomIndex].id;
     };
 
+    const getFullPath = () => route.value.fullPath;
+
     onMounted(() => {
       if (videoSectionRef.value) {
         const selectedEl = videoSectionRef.value.getElementsByClassName('current')[0];
