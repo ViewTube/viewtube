@@ -63,7 +63,10 @@
       <nuxt-link
         v-for="(video, i) in playlist.items"
         :key="i"
-        :to="`/watch?v=${video.id}&list=${playlist.id}`"
+        :to="{
+          path: getFullPath(),
+          query: { v: video.id }
+        }"
         class="video"
         :class="{ current: video.id === currentVideoId }"
       >
@@ -151,7 +154,7 @@ export default defineComponent({
         el => el.id === props.currentVideoId
       );
       if (currentVideoIndex + 1 === props.playlist.items.length) {
-        return props.playlist.items[props.playlist.items.length].id;
+        return props.playlist.items[currentVideoIndex].id;
       }
       return props.playlist.items[currentVideoIndex + 1].id;
     };
@@ -185,6 +188,19 @@ export default defineComponent({
 
     const getFullPath = () => route.value.fullPath;
 
+    const playNextVideo = () => {
+      const currentVideoIndex = props.playlist.items.findIndex(
+        el => el.id === props.currentVideoId
+      );
+      // 
+      if (currentVideoIndex + 1 < props.playlist.items.length) {
+        router.push({
+          path: getFullPath(),
+          query: { v: getNextVideoId() }
+        });
+      }
+    };
+
     onMounted(() => {
       if (videoSectionRef.value) {
         const selectedEl = videoSectionRef.value.getElementsByClassName('current')[0];
@@ -206,7 +222,8 @@ export default defineComponent({
       onRepeatToggle,
       onShuffleToggle,
       onReverseToggle,
-      getFullPath
+      getFullPath,
+      playNextVideo
     };
   }
 });

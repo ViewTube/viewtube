@@ -15,7 +15,9 @@
       ref="videoplayer"
       :video="video"
       :initialVideoTime="initialVideoTime"
+      :autoplay="isPlaylist"
       class="video-player-p"
+      @videoEnded="onVideoEnded"
     />
     <div v-if="video" class="video-meta">
       <CollapsibleSection
@@ -89,7 +91,12 @@
           </div>
           <SubscribeButton class="subscribe-button-watch" :channel-id="video.authorId" />
         </div>
-        <PlaylistSection v-if="playlist" :playlist="playlist" :currentVideoId="video.videoId" />
+        <PlaylistSection
+          v-if="playlist"
+          ref="playlistSectionRef"
+          :playlist="playlist"
+          :currentVideoId="video.videoId"
+        />
         <div v-if="video.publishedText" class="video-infobox-date">
           {{ video.publishedText }}
         </div>
@@ -175,6 +182,7 @@ import PlaylistSection from '@/components/watch/PlaylistSection.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import ViewTubeApi from '@/plugins/services/viewTubeApi';
 import {
+  computed,
   defineComponent,
   onMounted,
   Ref,
@@ -232,12 +240,17 @@ export default defineComponent({
     const recommendedOpen = ref(false);
     const shareOpen = ref(false);
     const videoplayerRef = ref(null);
+    const playlistSectionRef = ref(null);
     const initialVideoTime = ref(0);
     const videoLoaded = ref(false);
 
     const playlist: Ref<Result> = ref(null);
 
     const templateVideoData = route.value.params.videoData;
+
+    const isPlaylist = computed(() => {
+      return Boolean(route.value.query && route.value.query.list);
+    });
 
     const openInstancePopup = () => {
       accessor.popup.openPopup('instances');
@@ -321,7 +334,7 @@ export default defineComponent({
     };
 
     const loadPlaylist = async () => {
-      if (route.value.query && route.value.query.list) {
+      if (isPlaylist.value) {
         const apiUrl = accessor.environment.apiUrl;
         await axios
           .get(`${apiUrl}playlists`, { params: { playlistId: route.value.query.list } })
@@ -437,6 +450,12 @@ export default defineComponent({
       loadPlaylist();
     });
 
+    const onVideoEnded = () => {
+      if (isPlaylist.value && playlistSectionRef.value) {
+        playlistSectionRef.value.playNextVideo();
+      }
+    };
+
     useMeta(() => {
       if (video.value) {
         return {
@@ -482,6 +501,7 @@ export default defineComponent({
       video,
       comment,
       videoplayerRef,
+      playlistSectionRef,
       commentsLoading,
       commentsError,
       commentsContinuationLink,
@@ -491,8 +511,10 @@ export default defineComponent({
       initialVideoTime,
       shareOpen,
       openInstancePopup,
+      onVideoEnded,
       reloadComments,
       setTimestamp,
+      isPlaylist,
       getHDUrl,
       loadMoreComments,
       templateVideoData,

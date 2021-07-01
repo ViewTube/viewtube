@@ -34,6 +34,7 @@
         @canplay="onVideoCanplay"
         @playing="onVideoPlaying"
         @pause="onVideoPaused"
+        @ended="onVideoEnded"
         @volumechange="onVolumeChange"
         @timeupdate="onPlaybackProgress"
         @progress="onLoadingProgress"
@@ -361,7 +362,7 @@ export default defineComponent({
       }
     }
   },
-  setup(props) {
+  setup(props, { emit }) {
     const { error, route } = useContext();
 
     if (!props.video) {
@@ -374,7 +375,7 @@ export default defineComponent({
     }
 
     return {
-      ...videoPlayerSetup(props)
+      ...videoPlayerSetup(props, emit)
     };
   }
 });
