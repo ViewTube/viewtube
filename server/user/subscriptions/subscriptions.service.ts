@@ -33,16 +33,23 @@ export class SubscriptionsService {
   @Cron(CronExpression.EVERY_30_MINUTES)
   async collectSubscriptionsJob(): Promise<void> {
     const timeMeasurementName = 'subscription-job ' + new Date().toISOString();
+    const a = performance.now();
+    console.log('0', performance.now() - a);
     console.time(timeMeasurementName);
     const users = await this.subscriptionModel.find().lean(true).exec();
+    console.log('1', performance.now() - a);
     const channelIds = users.reduce(
       (val, { subscriptions }) => [...val, ...subscriptions.map(e => e.channelId)],
       []
     );
+    console.log('2', performance.now() - a);
     const uniqueChannelIds = [...new Set(channelIds)];
+    console.log('3', performance.now() - a);
     const subscriptionResults = await runSubscriptionsJob(uniqueChannelIds);
+    console.log('4', performance.now() - a);
 
     this.sendUserNotifications(subscriptionResults.videoResultArray);
+    console.log('5', performance.now() - a);
 
     const channelsToUpdate = subscriptionResults.channelResultArray.map(channel => {
       return {
@@ -53,6 +60,7 @@ export class SubscriptionsService {
         }
       };
     });
+    console.log('6', performance.now() - a);
 
     const videosToUpdate = subscriptionResults.videoResultArray.map(video => {
       return {
@@ -63,9 +71,12 @@ export class SubscriptionsService {
         }
       };
     });
+    console.log('7', performance.now() - a);
 
     await this.ChannelBasicInfoModel.bulkWrite(channelsToUpdate);
+    console.log('8', performance.now() - a);
     await this.VideoModel.bulkWrite(videosToUpdate);
+    console.log('9', performance.now() - a);
     console.timeEnd(timeMeasurementName);
   }
 
@@ -183,9 +194,11 @@ export class SubscriptionsService {
 
       const videoCount = await this.VideoModel.find({
         authorId: { $in: userSubscriptionIds }
-      }).estimatedDocumentCount().exec();
+      })
+        .estimatedDocumentCount()
+        .exec();
 
-      const videos = await this.VideoModel.find({ authorId: { $in: userSubscriptionIds }, })
+      const videos = await this.VideoModel.find({ authorId: { $in: userSubscriptionIds } })
         .sort({ published: -1 })
         .limit(parseInt(limit as any))
         .skip(parseInt(start as any))

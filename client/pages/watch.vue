@@ -416,8 +416,7 @@ export default defineComponent({
           newValue.list &&
           oldValue.v &&
           oldValue.list &&
-          newValue.v !== oldValue.v &&
-          newValue.list !== oldValue.list
+          (newValue.v !== oldValue.v || newValue.list !== oldValue.list)
         )
           fetch();
         const videoId = newValue.v as string;
