@@ -9,7 +9,10 @@
           v-tippy="'Skip to previous video'"
           :tabindex="currentVideoId === getPreviousVideoId() ? -1 : 0"
           :class="{ disabled: currentVideoId === getPreviousVideoId() }"
-          :to="`/watch?v=${getPreviousVideoId()}&list=${playlist.id}`"
+          :to="{
+            path: getFullPath(),
+            query: { v: getPreviousVideoId() }
+          }"
           class="playlist-action"
         >
           <SkipPreviousIcon :title="null" />
@@ -19,7 +22,10 @@
           v-tippy="'Skip to next video'"
           :tabindex="currentVideoId === getNextVideoId() ? -1 : 0"
           :class="{ disabled: currentVideoId === getNextVideoId() }"
-          :to="`/watch?v=${getNextVideoId()}&list=${playlist.id}`"
+          :to="{
+            path: getFullPath(),
+            query: { v: getNextVideoId() }
+          }"
           class="playlist-action"
         >
           <SkipNextIcon :title="null" />
@@ -177,6 +183,8 @@ export default defineComponent({
       reverseEnabled.value = !reverseEnabled.value;
     };
 
+    const getFullPath = () => route.value.fullPath;
+
     onMounted(() => {
       if (videoSectionRef.value) {
         const selectedEl = videoSectionRef.value.getElementsByClassName('current')[0];
@@ -197,7 +205,8 @@ export default defineComponent({
       reverseEnabled,
       onRepeatToggle,
       onShuffleToggle,
-      onReverseToggle
+      onReverseToggle,
+      getFullPath
     };
   }
 });
@@ -205,7 +214,13 @@ export default defineComponent({
 
 <style lang="scss">
 .playlist-section {
+  background-color: var(--bgcolor-alt);
+  margin: 20px 0 0 0;
+  border-radius: 5px;
+
   .info-section {
+    padding: 10px 10px 0 10px;
+
     .playlist-title {
       color: var(--title-color);
     }
@@ -218,10 +233,11 @@ export default defineComponent({
       display: flex;
 
       .playlist-action {
-        $btn-size: 32px;
+        $btn-size: 30px;
         width: $btn-size;
         height: $btn-size;
-        margin: 2px 6px 2px 0;
+        padding: 5px;
+        border-radius: 25px;
 
         &.playlist-action-btn {
           all: unset;
@@ -229,7 +245,8 @@ export default defineComponent({
           height: $btn-size;
           position: relative;
           cursor: pointer;
-          margin: 2px 6px 2px 0;
+          padding: 5px;
+          border-radius: 25px;
 
           &.enabled {
             color: var(--theme-color);
@@ -256,10 +273,9 @@ export default defineComponent({
     display: flex;
     flex-direction: column;
     width: 100%;
-    background-color: var(--bgcolor-alt);
     overflow: hidden scroll;
     max-height: 400px;
-    padding: 10px 0;
+    padding: 0 0 10px 0;
     box-sizing: border-box;
     counter-reset: videos-counter 0;
 
