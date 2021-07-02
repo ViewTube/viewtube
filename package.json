@@ -20,7 +20,7 @@
     "clean": "rimraf dist",
     "nest": "nest",
     "nuxt": "nuxt",
-    "postinstall": "is-ci || husky install",
+    "postinstall": "[ -z \"$BUILD_ENV\" ] || husky install",
     "lint-staged": "prettier --write --ignore-unknown"
   },
   "_moduleAliases": {

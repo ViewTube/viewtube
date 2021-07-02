@@ -1,6 +1,8 @@
 FROM node:16-alpine3.13 as build
 WORKDIR /home/build
 
+ENV BUILD_ENV=production
+
 COPY package.json yarn.lock ./
 RUN yarn install --pure-lockfile --link-duplicates --ignore-optional
 
