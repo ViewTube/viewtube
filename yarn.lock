@@ -2892,10 +2892,10 @@
   resolved "https://registry.yarnpkg.com/@types/validator/-/validator-13.1.3.tgz#366b394aa3fbeed2392bf0a20ded606fa4a3d35e"
   integrity sha512-DaOWN1zf7j+8nHhqXhIgNmS+ltAC53NXqGxYuBhWqWgqolRhddKzfZU814lkHQSTG0IUfQxU7Cg0gb8fFWo2mA==
 
-"@types/web-push@3.3.1":
-  version "3.3.1"
-  resolved "https://registry.yarnpkg.com/@types/web-push/-/web-push-3.3.1.tgz#0b5a3ab30128d180fcf8e7d4ab2e2bf2413af6f2"
-  integrity sha512-n4XCXwssioxBjSIxsDllP7dqpNgGes1t3mL8wINsUsgadx28FqoHmqLLan1fuX9OGLH6Fz4DcV3ZK+1XEdzXMg==
+"@types/web-push@3.3.2":
+  version "3.3.2"
+  resolved "https://registry.yarnpkg.com/@types/web-push/-/web-push-3.3.2.tgz#8c32434147c0396415862e86405c9edc9c50fc15"
+  integrity sha512-JxWGVL/m7mWTIg4mRYO+A6s0jPmBkr4iJr39DqJpRJAc+jrPiEe1/asmkwerzRon8ZZDxaZJpsxpv0Z18Wo9gw==
   dependencies:
     "@types/node" "*"
 
