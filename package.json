@@ -110,7 +110,7 @@
     "@types/cookie-parser": "1.4.2",
     "@types/express": "4.17.12",
     "@types/fluent-ffmpeg": "2.1.17",
-    "@types/humanize-duration": "3.25.0",
+    "@types/humanize-duration": "3.25.1",
     "@types/jest": "26.0.23",
     "@types/module-alias": "2.0.0",
     "@types/mongoose": "5.11.96",

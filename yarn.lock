@@ -2612,10 +2612,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/humanize-duration@3.25.0":
-  version "3.25.0"
-  resolved "https://registry.yarnpkg.com/@types/humanize-duration/-/humanize-duration-3.25.0.tgz#bb451b247dad36424d1581cf040d26d4d1cbfc70"
-  integrity sha512-9aRUp7GAWKy/1wpib4PNsLOj313xl8MtVQzIG+oRFNOZBkgBeJ466duflFn0Wb+MtGkyydEpVQ5NrU8D115dGg==
+"@types/humanize-duration@3.25.1":
+  version "3.25.1"
+  resolved "https://registry.yarnpkg.com/@types/humanize-duration/-/humanize-duration-3.25.1.tgz#b6140d5fc00ff3917b3f521784abef4bc0387ccc"
+  integrity sha512-WZU/4bb+lvzyDmZzjJtp++9mfKy6B3lH6gGISgkcz6SU8hMILKRM0vi08TxIsb0dQB4Gzo68MWLmctu6xqUi9g==
 
 "@types/istanbul-lib-coverage@*", "@types/istanbul-lib-coverage@^2.0.0", "@types/istanbul-lib-coverage@^2.0.1":
   version "2.0.3"
