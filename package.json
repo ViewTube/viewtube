@@ -108,7 +108,7 @@
     "@types/adm-zip": "0.4.34",
     "@types/bcryptjs": "2.4.2",
     "@types/cookie-parser": "1.4.2",
-    "@types/express": "4.17.12",
+    "@types/express": "4.17.13",
     "@types/fluent-ffmpeg": "2.1.17",
     "@types/humanize-duration": "3.25.0",
     "@types/jest": "26.0.23",
