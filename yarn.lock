@@ -2972,10 +2972,10 @@
     "@types/webpack-sources" "*"
     source-map "^0.6.0"
 
-"@types/xml2json@0.11.3":
-  version "0.11.3"
-  resolved "https://registry.yarnpkg.com/@types/xml2json/-/xml2json-0.11.3.tgz#c0fb144d61753c1e0f54aee750608b00184d3241"
-  integrity sha512-iuN41kDZvCGfr43ra1WizAZl2y+0v1z9UPf93B9g4629F9jaA6CZywx80GZwqosS2e7aGZEGIaU1DeU0sKFEZw==
+"@types/xml2json@0.11.4":
+  version "0.11.4"
+  resolved "https://registry.yarnpkg.com/@types/xml2json/-/xml2json-0.11.4.tgz#a08330f23ccf6e7697ab8d0ccebf0c31bf472534"
+  integrity sha512-8kJ61xI/G8r6aJZB1am4kCPZWNhNSU+wM8nNld4zBorlkFYPp2jikug4m07tVtEAm417hDvlVExL3Kmyf36zBQ==
   dependencies:
     "@types/node" "*"
 

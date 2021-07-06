@@ -121,7 +121,7 @@
     "@types/passport-local": "1.0.33",
     "@types/supertest": "2.0.11",
     "@types/web-push": "3.3.2",
-    "@types/xml2json": "0.11.3",
+    "@types/xml2json": "0.11.4",
     "babel-eslint": "10.1.0",
     "copyfiles": "2.4.1",
     "eslint": "7.30.0",
