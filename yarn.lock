@@ -1782,10 +1782,10 @@
     multer "1.4.2"
     tslib "2.2.0"
 
-"@nestjs/schedule@0.4.3":
-  version "0.4.3"
-  resolved "https://registry.yarnpkg.com/@nestjs/schedule/-/schedule-0.4.3.tgz#e780bfc52c2505ec5bbd7261033a7749f0808a20"
-  integrity sha512-EowkpwD09lrdMFzjt/kNQgaq6MG0GrNadNoOEebbfyA0qBU0UTg7J+FVullTR9+5HtaegqqAuWDvZlVoGHYz+Q==
+"@nestjs/schedule@1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@nestjs/schedule/-/schedule-1.0.0.tgz#a086b938a7569fbf5eec2d2b6e54761c34c11cb5"
+  integrity sha512-9eF3Lv5youQr3iRmRkC859CYy3wbbiFNJlqH6W589TweHdpO5GfwlanEoMTrwDYvo1QMXjIvxtK7ROOf5XWJgw==
   dependencies:
     cron "1.7.2"
     uuid "8.3.2"
