@@ -1,33 +1,12 @@
 <template>
   <div class="register">
-    <div
-      class="register-container"
-      :class="{ loading: loading, wiggle: formWiggle }"
-    >
+    <div class="register-container" :class="{ loading: loading, wiggle: formWiggle }">
       <h2 class="register-title">Register</h2>
-      <span
-        class="status-message-display message-display"
-        >{{ statusMessage }}</span
-      >
+      <span class="status-message-display message-display">{{ statusMessage }}</span>
       <Spinner />
-      <form
-        id="register"
-        ref="registerForm"
-        method="post"
-        @submit.prevent="register"
-      >
-        <FormInput
-          :id="'username'"
-          v-model="username"
-          :label="'username'"
-          :type="'username'"
-        />
-        <FormInput
-          :id="'password'"
-          v-model="password"
-          :label="'password'"
-          :type="'password'"
-        />
+      <form id="register" ref="registerForm" method="post" @submit.prevent="register">
+        <FormInput :id="'username'" v-model="username" :label="'username'" :type="'username'" />
+        <FormInput :id="'password'" v-model="password" :label="'password'" :type="'password'" />
         <FormInput
           :id="'repeat-password'"
           v-model="repeatPassword"
@@ -36,11 +15,7 @@
         />
         <div class="captcha-container">
           <div class="captcha-box">
-            <img
-              class="captcha-image"
-              :src="captchaImage"
-              alt="Captcha image"
-            />
+            <img class="captcha-image" :src="captchaImage" alt="Captcha image" />
           </div>
         </div>
         <FormInput
@@ -49,23 +24,35 @@
           :label="'Captcha'"
           :type="'text'"
         />
-        <SubmitButton :label="'Register'" />
+        <SubmitButton class="form-input" :label="'Register'" />
       </form>
     </div>
   </div>
 </template>
 
-<script>
-import FormInput from '@/components/form/FormInput';
-import SubmitButton from '@/components/form/SubmitButton';
-import Spinner from '@/components/Spinner';
+<script lang="ts">
+import FormInput from '@/components/form/FormInput.vue';
+import SubmitButton from '@/components/form/SubmitButton.vue';
+import Spinner from '@/components/Spinner.vue';
+import Vue from 'vue';
 
-export default {
+export default Vue.extend({
   name: 'Register',
   components: {
     FormInput,
     SubmitButton,
     Spinner
+  },
+  beforeRouteEnter(_, from, next) {
+    next((vm: any) => {
+      if (from.name) {
+        vm.redirectedPage = from;
+      } else {
+        vm.redirectedPage = {
+          fullPath: '/'
+        };
+      }
+    });
   },
   data: () => ({
     loading: false,
@@ -78,22 +65,9 @@ export default {
     redirectedPage: 'home',
     formWiggle: false
   }),
-  computed: {
-    captchaImage() {
-      return this.$store.getters['captcha/image'];
-    }
-  },
-  watch: {
-    password() {
-      this.checkRepeatPasswords();
-    },
-    repeatPassword() {
-      this.checkRepeatPasswords();
-    }
-  },
   head() {
     return {
-      title: `Register - ViewTube`,
+      title: `Register :: ViewTube`,
       meta: [
         {
           hid: 'description',
@@ -114,39 +88,48 @@ export default {
       ]
     };
   },
+  computed: {
+    captchaImage() {
+      return this.$store.getters['captcha/image'];
+    }
+  },
+  watch: {
+    password() {
+      this.checkRepeatPasswords();
+    },
+    repeatPassword() {
+      this.checkRepeatPasswords();
+    }
+  },
   mounted() {
     this.$store.dispatch('captcha/getCaptcha');
   },
   methods: {
-    register(e) {
+    async register() {
       this.loading = true;
-      const me = this;
 
-      this.$store
-        .dispatch('user/register', {
-          username: this.username,
-          password: this.password,
-          captchaSolution: this.captchaSolution
-        })
-        .then(result => {
-          me.$store.dispatch('messages/createMessage', {
-            type: 'info',
-            title: 'Registration successful',
-            message: 'Redirecting...'
-          });
-          me.$router.push(me.redirectedPage.fullPath);
-        })
-        .catch(err => {
-          console.error(err);
-          me.loading = false;
-          me.$store.dispatch('messages/createMessage', {
-            type: 'error',
-            title: 'Registration failed',
-            message: err.message
-          });
-          this.wiggleRegisterForm();
-          this.$store.dispatch('captcha/getCaptcha');
+      const user = await this.$store.dispatch('user/register', {
+        username: this.username,
+        password: this.password,
+        captchaSolution: this.captchaSolution
+      });
+      if (user && user.username) {
+        this.$store.dispatch('messages/createMessage', {
+          type: 'info',
+          title: 'Registration successful',
+          message: `Welcome, ${user.username}`
         });
+        this.$router.push(this.redirectedPage.fullPath);
+      } else {
+        this.$store.dispatch('messages/createMessage', {
+          type: 'error',
+          title: 'Registration failed',
+          message: user ? user.error : ''
+        });
+        this.loading = false;
+        this.wiggleRegisterForm();
+        this.$store.dispatch('captcha/getCaptcha');
+      }
     },
     wiggleRegisterForm() {
       this.formWiggle = true;
@@ -161,19 +144,8 @@ export default {
         this.statusMessage = '';
       }
     }
-  },
-  beforeRouteEnter(to, from, next) {
-    next(vm => {
-      if (from.name) {
-        vm.redirectedPage = from;
-      } else {
-        vm.redirectedPage = {
-          fullPath: '/'
-        };
-      }
-    });
   }
-};
+});
 </script>
 
 <style lang="scss">

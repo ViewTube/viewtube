@@ -1,41 +1,33 @@
 <template>
   <div class="popup">
     <div class="popup-container">
-      <CloseIcon
-        class="close-icon"
-        @click.stop="$emit('close')"
-      />
+      <CloseIcon class="close-icon" @click.stop="$emit('close')" />
       <h1><InstanceIcon />Invidious Instances</h1>
       <table class="instances-table">
         <thead>
           <tr>
+            <th>Selected</th>
             <th>URL</th>
-            <th>Health</th>
+            <!-- <th class="right-header">Health</th> -->
           </tr>
         </thead>
         <tbody>
-          <InstanceEntry
-            v-for="instance in instances"
-            :key="instance.url"
-            :instance="instance"
-          />
+          <InstanceEntry v-for="instance in instances" :key="instance.url" :instance="instance" />
         </tbody>
       </table>
     </div>
-    <div
-      class="popup-overlay"
-      @click.stop="$emit('close')"
-    />
+    <div class="popup-overlay" @click.stop="$emit('close')" />
   </div>
 </template>
 
-<script>
-import CloseIcon from 'vue-material-design-icons/Close';
-import InstanceIcon from 'vue-material-design-icons/ServerNetwork';
+<script lang="ts">
+import CloseIcon from 'vue-material-design-icons/Close.vue';
+import InstanceIcon from 'vue-material-design-icons/ServerNetwork.vue';
 import '@/assets/styles/popup.scss';
-import InstanceEntry from '@/components/list/InstanceEntry';
+import InstanceEntry from '@/components/list/InstanceEntry.vue';
+import Vue from 'vue';
 
-export default {
+export default Vue.extend({
   name: 'Instances',
   components: {
     CloseIcon,
@@ -45,30 +37,25 @@ export default {
   data() {
     return {
       instances: this.$store.getters['instances/instances'],
-      currentInstance: this.$store.getters[
-        'instances/currentInstance'
-      ]
+      currentInstance: this.$store.getters['instances/currentInstance']
     };
   },
   methods: {
-    onInstanceChange(element, index) {
-      this.$store.commit(
-        'instances/changeInstance',
-        element.value
-      );
+    onInstanceChange(element: any) {
+      this.$store.commit('instances/changeInstance', element.value);
     }
   }
-};
+});
 </script>
 
 <style lang="scss">
 .instances-table {
   width: 100%;
-}
-.instances-table th {
-  text-align: start;
-}
-.instances-table td {
-  padding-right: 2vw;
+  th {
+    text-align: start;
+  }
+  .right-header {
+    text-align: right;
+  }
 }
 </style>

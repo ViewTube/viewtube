@@ -1,20 +1,9 @@
 <template>
-  <div
-    class="subscribe-button-container"
-    :class="{ disabled: disabled }"
-  >
-    <div
-      class="mini-btn"
-      v-if="small"
-      :class="{ expanded }"
-      @click="expanded = !expanded"
-    >
+  <div class="subscribe-button-container" :class="{ disabled: disabled }">
+    <div v-if="small" class="mini-btn" :class="{ expanded }" @click="expanded = !expanded">
       <span class="minus" />
     </div>
-    <div
-      class="clip-container"
-      :class="{ expanded, small }"
-    >
+    <div class="clip-container" :class="{ expanded, small }">
       <div
         v-tippy="'Unsubscribe from this channel'"
         class="unsubscribe-button"
@@ -33,15 +22,21 @@
   </div>
 </template>
 
-<script>
-import Commons from '@/plugins/commons.js';
+<script lang="ts">
+// import { commons } from '@/plugins/commons';
 
-export default {
+import Vue from 'vue';
+
+export default Vue.extend({
   name: 'SubscribeButton',
   props: {
-    channelId: null,
-    isInitiallySubscribed: Boolean,
-    small: Boolean
+    channelId: {
+      type: String,
+      required: true,
+      default: null
+    },
+    isInitiallySubscribed: { type: Boolean, required: false },
+    small: { type: Boolean, required: false }
   },
   data: () => ({
     isSubscribed: false,
@@ -61,18 +56,13 @@ export default {
     }
   },
   methods: {
-    loadSubscriptionStatus() {
+    loadSubscriptionStatus(): void {
       if (this.channelId) {
         const me = this;
         this.$axios
-          .get(
-            `${Commons.getOwnApiUrl()}user/subscriptions/${
-              this.channelId
-            }`,
-            {
-              withCredentials: true
-            }
-          )
+          .get(`${this.$store.getters['environment/apiUrl']}user/subscriptions/${this.channelId}`, {
+            withCredentials: true
+          })
           .then(response => {
             if (response.data.isSubscribed) {
               me.isSubscribed = true;
@@ -81,21 +71,19 @@ export default {
             }
             me.disabled = false;
           })
-          .catch(error => {
-            console.log(error);
+          // eslint-disable-next-line handle-callback-err
+          .catch(() => {
             me.isSubscribed = false;
             me.disabled = true;
           });
       }
     },
-    subscribe() {
+    subscribe(): void {
       if (this.channelId) {
         this.disabled = true;
         this.$axios
           .put(
-            `${Commons.getOwnApiUrl()}user/subscriptions/${
-              this.channelId
-            }`,
+            `${this.$store.getters['environment/apiUrl']}user/subscriptions/${this.channelId}`,
             {},
             {
               withCredentials: true
@@ -110,20 +98,22 @@ export default {
               this.expanded = false;
             }
           })
-          .catch(error => {
-            console.error(error);
+          .catch(_ => {
+            this.$store.dispatch('messages/createMessage', {
+              type: 'error',
+              title: 'Unable to subscribe',
+              message: `You may not be logged in. Try reloading the page.`
+            });
             this.disabled = false;
           });
       }
     },
-    unsubscribe() {
+    unsubscribe(): void {
       if (this.channelId) {
         this.disabled = true;
         this.$axios
           .delete(
-            `${Commons.getOwnApiUrl()}user/subscriptions/${
-              this.channelId
-            }`,
+            `${this.$store.getters['environment/apiUrl']}user/subscriptions/${this.channelId}`,
             {
               withCredentials: true
             }
@@ -137,14 +127,18 @@ export default {
               this.expanded = false;
             }
           })
-          .catch(error => {
-            console.error(error);
+          .catch(_ => {
+            this.$store.dispatch('messages/createMessage', {
+              type: 'error',
+              title: 'Unable to unsubscribe',
+              message: `You may not be logged in. Try to reload the page.`
+            });
             this.disabled = false;
           });
       }
     }
   }
-};
+});
 </script>
 
 <style lang="scss" scoped>
@@ -168,8 +162,7 @@ export default {
     cursor: pointer;
     user-select: none;
     opacity: 0.8;
-    transition: transform 300ms $overshoot-easing,
-      background-color 300ms $intro-easing;
+    transition: transform 300ms $overshoot-easing, background-color 300ms $intro-easing;
     border: solid 2px transparent;
     box-sizing: border-box;
 
@@ -226,8 +219,7 @@ export default {
       cursor: pointer;
       line-height: 12px;
       opacity: 1;
-      transition: opacity 300ms $intro-easing,
-        transform 300ms $intro-easing;
+      transition: opacity 300ms $intro-easing, transform 300ms $intro-easing;
 
       &:focus {
         transform: scale(0.9);

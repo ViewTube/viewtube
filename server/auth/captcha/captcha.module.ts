@@ -1,13 +1,10 @@
-import { Module } from '@nestjs/common';
-import { CaptchaService } from './captcha.service';
+import { Module, ModuleMetadata } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import {
-  Captcha,
-  CaptchaSchema
-} from './schemas/captcha.schema';
+import { CaptchaService } from './captcha.service';
+import { Captcha, CaptchaSchema } from './schemas/captcha.schema';
 import { CaptchaController } from './captcha.controller';
 
-@Module({
+const moduleMetadata: ModuleMetadata = {
   providers: [CaptchaService],
   imports: [
     MongooseModule.forFeature([
@@ -20,5 +17,6 @@ import { CaptchaController } from './captcha.controller';
   ],
   controllers: [CaptchaController],
   exports: [CaptchaService]
-})
+};
+@Module(moduleMetadata)
 export class CaptchaModule {}

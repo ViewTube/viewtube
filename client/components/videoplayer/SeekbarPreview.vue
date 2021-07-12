@@ -1,10 +1,6 @@
 <template>
   <div v-if="storyboardImages" class="seekbar-preview">
-    <div
-      v-for="(imgSrc, id) in storyboardBaseImages"
-      :key="id"
-      class="preview-image"
-    >
+    <div v-for="(imgSrc, id) in storyboardBaseImages" :key="id" class="preview-image">
       <img
         v-if="currentImg.imgId === id"
         :src="imgSrc"
@@ -17,21 +13,26 @@
   </div>
 </template>
 
-<script>
-import '@/plugins/services/webVTTParser';
+<script lang="ts">
+import { WebVTTParser } from '@/plugins/services/webVTTParser';
 import Invidious from '@/plugins/services/invidious';
 
-export default {
+import Vue from 'vue';
+
+export default Vue.extend({
   name: 'SeekbarPreview',
   props: {
     time: {
-      type: Number
+      type: Number,
+      required: true
     },
     storyboards: {
-      type: Array
+      type: Array,
+      required: true
     },
     videoId: {
-      type: String
+      type: String,
+      required: true
     }
   },
   data: () => ({
@@ -43,22 +44,18 @@ export default {
     }
   }),
   watch: {
-    time(newValue) {
+    time() {
       if (this.storyboardImages) {
-        const currentImg = this.storyboardImages.find(
-          element => {
-            return (
-              element.startTime < this.time &&
-              element.endTime > this.time
-            );
-          }
-        );
+        const currentImg = this.storyboardImages.find(element => {
+          return element.startTime < this.time && element.endTime > this.time;
+        });
         this.currentImg = currentImg || { imgId: 0 };
       }
     }
   },
   mounted() {
-    Invidious.api
+    const invidious = new Invidious(this.$store.getters['instances/currentInstanceApi']);
+    invidious.api
       .storyboards({
         id: this.videoId,
         params: {
@@ -75,22 +72,15 @@ export default {
     parseVTTData() {
       // eslint-disable-next-line no-undef
       const parser = new WebVTTParser();
-      const tree = parser.parse(
-        this.storyboardVTT,
-        'metadata'
-      );
+      const tree = parser.parse(this.storyboardVTT, 'metadata');
       let baseImgCounter = -1;
       this.storyboardImages = tree.cues.map(el => {
         const src = el.text.split('#')[0];
-        const pos = el.text
-          .split('#')[1]
-          .replace('xywh=', '');
+        const pos = el.text.split('#')[1].replace('xywh=', '');
         const posX = pos.split(',')[0];
         const posY = pos.split(',')[1];
 
-        if (
-          !this.storyboardBaseImages.find(el => el === src)
-        ) {
+        if (!this.storyboardBaseImages.find(el => el === src)) {
           this.storyboardBaseImages.push(src);
           baseImgCounter++;
         }
@@ -105,16 +95,16 @@ export default {
       });
     }
   }
-};
+});
 </script>
 
 <style lang="scss" scoped>
 .seekbar-preview {
-  width: 220px;
-  height: 120px;
+  width: 160px;
+  height: 90px;
   margin: 0 0 0 -11px;
   position: absolute;
-  bottom: 24px;
+  bottom: 40px;
   background-color: $video-thmb-overlay-bgcolor;
   opacity: 0;
   pointer-events: none;

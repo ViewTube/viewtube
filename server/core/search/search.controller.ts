@@ -2,17 +2,18 @@ import {
   Controller,
   UseInterceptors,
   CacheInterceptor,
-  ClassSerializerInterceptor,
-  SerializeOptions,
   Get,
-  Body,
-  Query
+  Query,
+  Req,
+  BadRequestException
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { Continuation, ContinueResult, Result } from 'ytsr';
 import { SearchService } from './search.service';
 import { SearchQueryDto } from './dto/search-query.dto';
-import { Result, Filter } from 'ytsr';
-import { ISearchResponse } from './interface/search-response.interface';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { SearchFilterDto } from './dto/search-filter.dto';
 
 @ApiTags('Core')
 @Controller('search')
@@ -21,12 +22,20 @@ export class SearchController {
   constructor(private readonly searchService: SearchService) {}
 
   @Get('filters')
-  async getFilters(@Query('q') searchString: string): Promise<any> {
+  getFilters(@Query('q') searchString: string): Promise<Array<SearchFilterDto>> {
     return this.searchService.getFilters(searchString);
   }
 
+  @Get('continuation')
+  searchContinuation(@Req() request: any) {
+    if (request.query.continuationData) {
+      return this.searchService.continueSearch(request.query.continuationData);
+    }
+    throw new BadRequestException('Invalid continuation data');
+  }
+
   @Get()
-  async search(@Query() searchQuery: SearchQueryDto): Promise<ISearchResponse> {
+  search(@Query() searchQuery: SearchQueryDto): Promise<Result> {
     return this.searchService.doSearch(searchQuery);
   }
 }

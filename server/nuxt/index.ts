@@ -2,7 +2,6 @@ import { Nuxt } from '@nuxt/core';
 import { loadNuxt } from 'nuxt';
 import { BundleBuilder } from '@nuxt/webpack';
 import { Builder } from '@nuxt/builder';
-import config from '../../nuxt.config.js';
 
 export default class NuxtServer {
   private static instance: NuxtServer;
@@ -15,6 +14,7 @@ export default class NuxtServer {
     // Build only in dev mode
     if (dev && shouldBuild) {
       nuxt = await loadNuxt('dev');
+      await nuxt.ready();
       const builder = new Builder(nuxt, BundleBuilder);
       const res = await builder.build();
 

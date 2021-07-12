@@ -1,8 +1,5 @@
 <template>
-  <div
-    v-if="visible && searchValue"
-    class="search-autocomplete"
-  >
+  <div v-if="visible && searchValue" class="search-autocomplete">
     <div
       v-for="(value, key) in autocompleteValues"
       :key="key"
@@ -19,11 +16,12 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import Axios from 'axios';
-import Commons from '@/plugins/commons.js';
+// import { commons } from '@/plugins/commons';
+import Vue from 'vue';
 
-export default {
+export default Vue.extend({
   name: 'SearchAutocomplete',
   props: {
     searchValue: { type: String, default: null }
@@ -35,36 +33,27 @@ export default {
   }),
   watch: {
     searchValue() {
-      Axios.get(`${Commons.getOwnApiUrl()}autocomplete`, {
+      Axios.get(`${this.$store.getters['environment/apiUrl']}autocomplete`, {
         params: {
           q: this.searchValue
         }
       })
         .then(response => {
-          this.autocompleteValues = [
-            this.searchValue
-          ].concat(response.data);
+          this.autocompleteValues = [this.searchValue].concat(response.data);
         })
-        .catch(error => {
-          console.error(error);
-        });
+        .catch(_ => {});
     }
   },
   methods: {
     onAutocompleteMouseDown(e) {
-      this.$emit(
-        'searchValueUpdate',
-        e.target.getAttribute('value')
-      );
+      this.$emit('searchValueUpdate', e.target.getAttribute('value'));
       this.$emit('autocompleteEnter');
     },
     onMouseOver(e) {
-      this.selectedValue = parseInt(
-        e.target.getAttribute('number')
-      );
+      this.selectedValue = parseInt(e.target.getAttribute('number'));
     }
   }
-};
+});
 </script>
 
 <style lang="scss" scoped>
@@ -74,12 +63,7 @@ export default {
 }
 .clip-enter-to,
 .clip-leave {
-  clip-path: polygon(
-    -50% -50%,
-    150% -50%,
-    150% 150%,
-    -50% 150%
-  );
+  clip-path: polygon(-50% -50%, 150% -50%, 150% 150%, -50% 150%);
 }
 .clip-enter,
 .clip-leave-to {

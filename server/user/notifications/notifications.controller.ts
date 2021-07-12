@@ -1,10 +1,4 @@
-import {
-  Controller,
-  UseGuards,
-  Post,
-  Body,
-  Req
-} from '@nestjs/common';
+import { Controller, UseGuards, Post, Body, Req } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'server/auth/guards/jwt.guard';
 import webPush from 'web-push';
@@ -39,12 +33,7 @@ export class NotificationsController {
 
     webPush
       .sendNotification(storedSubscription, payload)
-      .then(
-        result => {},
-        reason => {
-          console.log('rejected', reason);
-        }
-      )
-      .catch(err => console.log('error', err));
+      .then()
+      .catch(_ => {});
   }
 }

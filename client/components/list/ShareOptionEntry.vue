@@ -1,27 +1,24 @@
 <template>
-  <div
-    class="share-option"
-    v-ripple
-    v-tippy="optionName"
-    @click="onClick"
-  >
+  <div v-ripple v-tippy="optionName" class="share-option" @click="onClick">
     <slot />
   </div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import Vue from 'vue';
+
+export default Vue.extend({
   name: 'ShareOptionEntry',
   props: {
-    optionName: String,
-    click: Function
+    optionName: { type: String, required: true },
+    click: { type: Function, required: true }
   },
   methods: {
     onClick() {
       this.click();
     }
   }
-};
+});
 </script>
 
 <style lang="scss">
@@ -32,8 +29,7 @@ export default {
   margin: 2px 5px 2px 0;
   border-radius: 3px;
   display: inline-block;
-  transition: background-color 200ms $intro-easing,
-    border 200ms $intro-easing;
+  transition: background-color 200ms $intro-easing, border 200ms $intro-easing;
   border: 2px solid var(--theme-color-translucent);
   width: auto;
   white-space: nowrap;

@@ -1,19 +1,21 @@
 <template>
   <div class="error-page">
-    <div class="error-container">
-      <h1 class="error-1">{{ error.statusCode }}</h1>
-    </div>
     <div class="error-popup">
       <div class="error-message">
+        <div class="error-logo">
+          <img src="@/assets/icon-error.svg" alt="Viewtube broken logo" />
+        </div>
         <h2>{{ error.message }}</h2>
+        <BadgeButton :click="retry" class="try-again-btn">Try again</BadgeButton>
         <p>Api-url: {{ apiUrl }}</p>
         <details v-if="error.detail" class="error-details">
           <summary>Full error</summary>
-          <p>{{ error.detail }}</p>
+          <pre class="json" v-html="renderJSON(error.detail)" />
+          <BadgeButton :click="copyError" class="copy-error-btn">Copy</BadgeButton>
         </details>
         <nuxt-link
           v-if="possibleSearch"
-          class="ripple"
+          class="possible-search ripple"
           :to="`/results?search_query=${possibleSearch}`"
           >Search for {{ possibleSearch }}</nuxt-link
         >
@@ -22,29 +24,62 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'error-page',
+<script lang="ts">
+import BadgeButton from '@/components/buttons/BadgeButton.vue';
+import Vue from 'vue';
+
+export default Vue.extend({
+  name: 'ErrorPage',
+  components: {
+    BadgeButton
+  },
   props: {
     error: Object
   },
-  methods: {
-    retry() {
-      window.location.reload();
-    }
+  data() {
+    return {
+      possibleSearch: null,
+      apiUrl: this.$store.getters['environment/apiUrl']
+    };
   },
-  data: () => ({
-    possibleSearch: null,
-    apiUrl: process.env.API_URL
-  }),
   mounted() {
     if (this.error.statusCode === 404) {
       const path = this.$route.path;
       this.possibleSearch = path.replace('/', '');
     }
   },
-  beforeCreate() {}
-};
+  methods: {
+    copyError(): void {
+      if (process.browser && 'clipboard' in navigator) {
+        navigator.clipboard.writeText(this.renderJSON(this.error.detail)).then(() => {
+          this.$store.dispatch('messages/createMessage', {
+            type: 'info',
+            title: 'Copied error',
+            message: null
+          });
+        });
+      }
+    },
+    retry(): void {
+      window.location.reload();
+    },
+    renderJSON(json: any): string {
+      return JSON.stringify(json, this.replacerFunc(), 2);
+    },
+    replacerFunc() {
+      const visited = new WeakSet();
+      return (_key: any, value: object) => {
+        if (typeof value === 'object' && value !== null) {
+          if (visited.has(value)) {
+            return;
+          }
+          visited.add(value);
+        }
+        return value;
+      };
+    }
+  }
+});
 </script>
 
 <style lang="scss" scoped>
@@ -58,6 +93,16 @@ export default {
     transform: translate(-50%, -50%);
     z-index: 3;
     width: 500px;
+    max-height: 100%;
+    margin-top: $header-height;
+
+    @media screen and (max-width: $mobile-width) {
+      position: static;
+      transform: none;
+      width: 100vw;
+      padding: $header-height 10px 10px 10px;
+      box-sizing: border-box;
+    }
 
     .error-message {
       display: flex;
@@ -65,11 +110,51 @@ export default {
       align-items: center;
       background-color: var(--bgcolor-main);
 
-      .error-details {
-        max-width: 80%;
+      .error-logo {
+        width: 300px;
+        height: 300px;
+        position: relative;
+
+        img {
+          width: 100%;
+          height: 100%;
+        }
+
+        &::after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: 100%;
+          height: 100px;
+          background: linear-gradient(to bottom, transparent, var(--bgcolor-main));
+        }
       }
 
-      a {
+      .error-details {
+        max-width: 100%;
+        position: relative;
+
+        summary {
+          user-select: none;
+          cursor: pointer;
+          padding: 4px;
+        }
+        .copy-error-btn {
+          position: absolute !important;
+          right: 0;
+          top: 36px;
+        }
+
+        .json {
+          background-color: var(--bgcolor-translucent);
+          width: 100%;
+          overflow: scroll;
+          margin: 0;
+        }
+      }
+
+      .possible-search {
         font-size: 1rem;
         border-style: none;
         width: 300px;
@@ -90,30 +175,6 @@ export default {
         &:hover {
           box-shadow: $max-shadow;
         }
-      }
-    }
-  }
-
-  .error-container {
-    margin: auto;
-    width: 100%;
-    height: 100%;
-    text-align: center;
-    position: relative;
-
-    h1 {
-      position: absolute;
-      left: 0;
-      top: 30%;
-      transform: translateY(-50%);
-      font-size: 200px;
-      width: 100%;
-      overflow: hidden;
-      text-overflow: wrap;
-      color: var(--bgcolor-main);
-
-      &.error-1 {
-        text-shadow: 0 0 5px var(--theme-color);
       }
     }
   }

@@ -1,6 +1,8 @@
+/* eslint-disable no-undef */
+// This file is directly included, without transpiling
 self.addEventListener('push', event => {
   event.waitUntil(
-    new Promise((resolve, reject) => {
+    new Promise(resolve => {
       const data = event.data.json();
       const video = data.video ? data.video : null;
 
@@ -17,9 +19,7 @@ self.addEventListener('push', event => {
   );
 });
 
-self.addEventListener('notificationclick', function (
-  event
-) {
+self.addEventListener('notificationclick', function (event) {
   const clickedNotification = event.notification;
   clickedNotification.close();
 

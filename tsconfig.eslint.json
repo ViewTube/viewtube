@@ -1,0 +1,14 @@
+{
+  "extends": "./tsconfig.json",
+  "include": [
+    "client/**/*",
+    "server/**/*",
+    "types/**/*",
+    "shared/**/*",
+    ".eslintrc.js",
+    "webpack.config.js",
+    "jest.config.js",
+    "nuxt.config.js"
+  ],
+  "exclude": ["node_modules", "dist/**/*"]
+}

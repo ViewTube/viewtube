@@ -1,49 +1,41 @@
 <template>
   <div class="login">
-    <div
-      class="login-container"
-      :class="{ loading: loading, wiggle: formWiggle }"
-    >
+    <div class="login-container" :class="{ loading: loading, wiggle: formWiggle }">
       <h2 class="login-title">Login</h2>
-      <span
-        class="status-message-display message-display"
-        >{{ statusMessage }}</span
-      >
+      <span class="status-message-display message-display">{{ statusMessage }}</span>
       <Spinner />
-      <form
-        id="login"
-        method="post"
-        @submit.prevent="login"
-      >
-        <FormInput
-          :id="'username'"
-          v-model="username"
-          :label="'username'"
-          :type="'username'"
-        />
-        <FormInput
-          :id="'password'"
-          v-model="password"
-          :label="'password'"
-          :type="'password'"
-        />
-        <SubmitButton :label="'Login'" />
+      <form id="login" method="post" @submit.prevent="login">
+        <FormInput :id="'username'" v-model="username" :label="'username'" :type="'username'" />
+        <FormInput :id="'password'" v-model="password" :label="'password'" :type="'password'" />
+        <SubmitButton class="form-input" :label="'Login'" />
       </form>
     </div>
   </div>
 </template>
 
-<script>
-import FormInput from '@/components/form/FormInput';
-import SubmitButton from '@/components/form/SubmitButton';
-import Spinner from '@/components/Spinner';
+<script lang="ts">
+import FormInput from '@/components/form/FormInput.vue';
+import SubmitButton from '@/components/form/SubmitButton.vue';
+import Spinner from '@/components/Spinner.vue';
+import Vue from 'vue';
 
-export default {
+export default Vue.extend({
   name: 'Login',
   components: {
     FormInput,
     SubmitButton,
     Spinner
+  },
+  beforeRouteEnter(_, from, next) {
+    next((vm: any) => {
+      if (from.name) {
+        vm.redirectedPage = from;
+      } else {
+        vm.redirectedPage = {
+          fullPath: '/'
+        };
+      }
+    });
   },
   data: () => ({
     loading: false,
@@ -55,7 +47,7 @@ export default {
   }),
   head() {
     return {
-      title: `Login - ViewTube`,
+      title: `Login :: ViewTube`,
       meta: [
         {
           hid: 'description',
@@ -76,60 +68,46 @@ export default {
       ]
     };
   },
-  mounted() {},
   methods: {
-    login() {
+    async login(): Promise<void> {
       this.loading = true;
       const me = this;
 
-      this.$store
-        .dispatch('user/login', {
-          username: this.username,
-          password: this.password
-        })
-        .then(result => {
-          if (result) {
-            me.$store.dispatch('messages/createMessage', {
-              type: 'info',
-              title: 'Login successful',
-              message: 'Redirecting...'
-            });
-            me.$router.push(me.redirectedPage.fullPath);
-          }
-        })
-        .catch(err => {
-          console.error(err);
-          me.loading = false;
-          this.wiggleLoginForm();
-          me.$store.dispatch('messages/createMessage', {
-            type: 'error',
-            title: 'Login failed',
-            message: err.response.data.message
-          });
+      const user = await this.$store.dispatch('user/login', {
+        username: this.username,
+        password: this.password
+      });
+      if (user && user.success) {
+        me.$store.dispatch('messages/createMessage', {
+          type: 'info',
+          title: 'Login successful',
+          message: 'Redirecting...'
         });
+        me.$router.push(me.redirectedPage.fullPath);
+      } else {
+        me.loading = false;
+        this.wiggleLoginForm();
+        me.$store.dispatch('messages/createMessage', {
+          type: 'error',
+          title: 'Login failed',
+          message: user ? user.error : ''
+        });
+      }
     },
-    wiggleLoginForm() {
+    wiggleLoginForm(): void {
       this.formWiggle = true;
       setTimeout(() => {
         this.formWiggle = false;
       }, 600);
     }
-  },
-  beforeRouteEnter(to, from, next) {
-    next(vm => {
-      if (from.name) {
-        vm.redirectedPage = from;
-      } else {
-        vm.redirectedPage = {
-          fullPath: '/'
-        };
-      }
-    });
   }
-};
+});
 </script>
 
 <style lang="scss">
+.form-input {
+  margin: 15px 20px;
+}
 .login {
   display: flex;
   background-size: cover;

@@ -1,9 +1,5 @@
 <template>
-  <div
-    class="video-endscreen"
-    v-if="videoElement"
-    :class="{ 'card-hover': hover }"
-  >
+  <div v-if="videoElement" class="video-endscreen" :class="{ 'card-hover': hover }">
     <EndscreenCard
       v-for="(card, index) in endscreenData"
       :key="index"
@@ -17,12 +13,13 @@
   </div>
 </template>
 
-<script>
-import Commons from '@/plugins/commons.js';
-import EndscreenCard from '@/components/videoplayer/EndscreenCard';
+<script lang="ts">
+import EndscreenCard from '@/components/videoplayer/EndscreenCard.vue';
 
-export default {
-  name: 'video-endscreen',
+import Vue from 'vue';
+
+export default Vue.extend({
+  name: 'VideoEndscreen',
   components: {
     EndscreenCard
   },
@@ -37,9 +34,7 @@ export default {
   }),
   mounted() {
     fetch(
-      `${Commons.getOwnApiUrl()}video/getEndscreen.php?videoId=${
-        this.videoId
-      }`,
+      `${this.$store.getters['environment/apiUrl']}video/getEndscreen.php?videoId=${this.videoId}`,
       {
         cache: 'force-cache',
         method: 'GET'
@@ -53,9 +48,7 @@ export default {
       .then(data => {
         this.endscreenData = data;
       })
-      .catch(error => {
-        console.error(error);
-      });
+      .catch(_ => {});
   },
   methods: {
     onCardEnter() {
@@ -65,7 +58,7 @@ export default {
       this.hover = false;
     }
   }
-};
+});
 </script>
 
 <style lang="scss" scoped>

@@ -1,33 +1,24 @@
+import fs from 'fs';
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { ConfigService } from '@nestjs/config';
-import {
-  DocumentBuilder,
-  SwaggerModule
-} from '@nestjs/swagger';
-import packageJson from '../package.json';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import cookieParser from 'cookie-parser';
 import webPush from 'web-push';
-import fs from 'fs';
+import Consola from 'consola';
+import packageJson from '../package.json';
+import { AppModule } from './app.module';
 import { NuxtFilter } from './nuxt/nuxt.filter';
 import NuxtServer from './nuxt/';
-import config from '../nuxt.config.js';
-import Consola from 'consola';
-import path from 'path';
-
-declare const module: any;
+import { HomepageService } from './core/homepage/homepage.service';
 
 async function bootstrap() {
-  const server = await NestFactory.create<
-    NestExpressApplication
-  >(AppModule);
+  const server = await NestFactory.create<NestExpressApplication>(AppModule);
+  const configService = server.get(ConfigService);
 
-  const dev = process.env.NODE_ENV !== 'production';
+  const dev = configService.get('NODE_ENV') !== 'production';
   // NUXT
-  const nuxt = await NuxtServer.getInstance().run(
-    dev ? !module.hot._main : true
-  );
+  const nuxt = await NuxtServer.getInstance().run(dev);
 
   // NEST
   server.useGlobalFilters(new NuxtFilter(nuxt));
@@ -35,12 +26,8 @@ async function bootstrap() {
   server.setGlobalPrefix('api');
 
   // CORS
-  const configService = server.get(ConfigService);
   const port = configService.get('PORT');
-  const corsDomains = configService
-    .get('VIEWTUBE_ALLOWED_DOMAINS')
-    .trim()
-    .split(',');
+  const corsDomains = configService.get('VIEWTUBE_ALLOWED_DOMAINS').trim().split(',');
   if (configService.get('NODE_ENV') !== 'production') {
     corsDomains.push('http://localhost:8066');
   }
@@ -50,22 +37,19 @@ async function bootstrap() {
   // PUSH NOTIFICATIONS
   webPush.setVapidDetails(
     `mailto:${packageJson.email}`,
-    configService.get('VIEWTUBE_PUBLIC_VAPID'),
-    configService.get('VIEWTUBE_PRIVATE_VAPID')
+    configService.get('VIEWTUBE_PUBLIC_VAPID') || '',
+    configService.get('VIEWTUBE_PRIVATE_VAPID') || ''
   );
 
   // DATA STORAGE CONFIG
 
-  global['__basedir'] = __dirname;
+  (global as any).__basedir = __dirname;
   if (configService.get('VIEWTUBE_DATA_DIRECTORY')) {
-    global['__basedir'] = configService.get(
-      'VIEWTUBE_DATA_DIRECTORY'
-    );
+    (global as any).__basedir = configService.get('VIEWTUBE_DATA_DIRECTORY');
   }
   if (!dev) {
-    const channelsDir = `${global['__basedir']}/channels`;
+    const channelsDir = `${(global as any).__basedir}/channels`;
     if (!fs.existsSync(channelsDir)) {
-      console.log(channelsDir, 'basedir: ' + __dirname);
       fs.mkdirSync(channelsDir);
     }
   }
@@ -82,25 +66,17 @@ async function bootstrap() {
     .addBearerAuth()
     .build();
 
-  const swaggerDocument = SwaggerModule.createDocument(
-    server,
-    documentOptions
-  );
+  const swaggerDocument = SwaggerModule.createDocument(server, documentOptions);
   SwaggerModule.setup('/api', server, swaggerDocument);
 
   server.use(cookieParser());
 
   // START
   await server.listen(port, () => {
-    Consola.ready({
-      message: `Server listening on http://localhost:${port}`,
-      badge: true
-    });
+    Consola.ready(`Server listening on http://localhost:${port}`);
   });
 
-  if (dev && module.hot) {
-    module.hot.accept();
-    module.hot.dispose(() => server.close());
-  }
+  const homepageService = server.get(HomepageService);
+  homepageService.refreshPopular();
 }
 bootstrap();

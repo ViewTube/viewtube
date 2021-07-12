@@ -1,20 +1,21 @@
+import fs from 'fs';
+import path from 'path';
+import { promisify } from 'util';
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
-import { VideoDto } from './dto/video.dto';
-import { VideoEntity } from './video.entity';
-import { Common } from '../common';
 import { getBasicInfo, videoInfo, downloadOptions } from 'ytdl-core';
 import { ConfigService } from '@nestjs/config';
 import { InjectModel } from '@nestjs/mongoose';
-import { VideoBasicInfo } from './schemas/video-basic-info.schema';
 import { Model } from 'mongoose';
-import { ChannelBasicInfo } from '../channels/schemas/channel-basic-info.schema';
-import { VideoBasicInfoDto } from './dto/video-basic-info.dto';
-import fs from 'fs';
-import path from 'path';
 import fetch from 'node-fetch';
-import { promisify } from 'util';
-import { ChannelBasicInfoDto } from '../channels/dto/channel-basic-info.dto';
 import HttpsProxyAgent from 'https-proxy-agent';
+import { VideoDto } from 'shared/dto/video/video.dto';
+import Consola from 'consola';
+import { ChannelBasicInfoDto } from '../channels/dto/channel-basic-info.dto';
+import { ChannelBasicInfo } from '../channels/schemas/channel-basic-info.schema';
+import { Common } from '../common';
+import { VideoBasicInfoDto } from './dto/video-basic-info.dto';
+import { VideoBasicInfo } from './schemas/video-basic-info.schema';
+import { VideoEntity } from './video.entity';
 
 @Injectable()
 export class VideosService {
@@ -38,7 +39,9 @@ export class VideosService {
       requestOptions: {}
     };
     if (this.configService.get('VIEWTUBE_YOUTUBE_COOKIE')) {
-      ytdlOptions.requestOptions['cookie'] = this.configService.get('VIEWTUBE_YOUTUBE_COOKIE');
+      (ytdlOptions.requestOptions as any).cookie = this.configService.get(
+        'VIEWTUBE_YOUTUBE_COOKIE'
+      );
       if (this.configService.get('VIEWTUBE_YOUTUBE_IDENTIFIER')) {
         ytdlOptions.requestOptions['x-youtube-identity-token'] = this.configService.get(
           'VIEWTUBE_YOUTUBE_IDENTIFIER'
@@ -46,9 +49,9 @@ export class VideosService {
       }
     }
     if (proxyAgent) {
-      ytdlOptions.requestOptions['agent'] = proxyAgent;
+      (ytdlOptions.requestOptions as any).agent = proxyAgent;
     }
-    console.log(ytdlOptions);
+
     try {
       const result: videoInfo = await getBasicInfo(url, ytdlOptions);
       const video: VideoDto = new VideoEntity(result);
@@ -86,32 +89,36 @@ export class VideosService {
       this.channelModel
         .findOneAndUpdate({ authorId: video.authorId }, channelBasicInfo, { upsert: true })
         .exec()
-        .catch(console.log);
+        .catch(Consola.warn);
       this.videoModel
         .findOneAndUpdate({ videoId: video.videoId }, videoBasicInfo, { upsert: true })
         .exec()
-        .catch(console.log);
+        .catch(Consola.warn);
 
       return video;
     } catch (err) {
-      console.error(err);
-      throw new HttpException(err.message, HttpStatus.INTERNAL_SERVER_ERROR);
+      throw new HttpException(
+        {
+          status: HttpStatus.INTERNAL_SERVER_ERROR,
+          message: err.address && err.code ? err : err.message
+        },
+        HttpStatus.INTERNAL_SERVER_ERROR
+      );
     }
   }
 
   async saveAuthorImage(imgUrl: string, channelId: string) {
     const arrBuffer = await fetch(imgUrl, { method: 'GET' })
       .then(response => response.arrayBuffer())
-      .catch(console.log);
+      .catch(_ => {});
 
     if (arrBuffer) {
-      const imgPath = path.join(global['__basedir'], `channels/${channelId}.jpg`);
+      const imgPath = path.join((global as any).__basedir, `channels/${channelId}.jpg`);
       const appendFile = promisify(fs.appendFile);
 
       try {
         await appendFile(imgPath, Buffer.from(arrBuffer));
       } catch (err) {
-        console.log(err);
         return null;
       }
       return `channels/${channelId}/thumbnail/tiny.jpg`;

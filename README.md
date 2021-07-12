@@ -1,27 +1,24 @@
 <h1 align="center">
 <sub>
-<img  src="https://raw.githubusercontent.com/ViewTube/viewtube-vue/master/.github/images/logo.png"
+<img  src="https://raw.githubusercontent.com/ViewTube/viewtube-vue/stable/.github/images/logo.png"
       height="50"
       width="50">
 </sub>
 ViewTube
 </h1>
 
+<p align="center"><a href="https://deepscan.io/dashboard#view=project&amp;tid=11097&amp;pid=14017&amp;bid=262917"><img src="https://deepscan.io/api/teams/11097/projects/14017/branches/262917/badge/grade.svg" alt="DeepScan grade"></a>
+<a href="https://drone.oeger.li/ViewTube/viewtube-vue"><img src="https://drone.oeger.li/api/badges/ViewTube/viewtube-vue/status.svg" alt="Build Status"></a>
+<a href="https://vuejs.org/"><img src="https://img.shields.io/badge/vue-2.x-brightgreen.svg" alt="vue2"></a>
+<a href="https://github.com/ViewTube/viewtube-vue/blob/stable/LICENSE"><img src="https://img.shields.io/github/license/mauriceoegerli/viewtube-vue" alt="GitHub"></a>
+<a href="https://hub.docker.com/r/mauriceo/viewtube"><img src="https://img.shields.io/docker/image-size/mauriceo/viewtube/latest?label=docker%20image" alt="Docker Image Size (tag)"></a>
+<img src="https://img.shields.io/github/last-commit/viewtube/viewtube-vue" alt="GitHub last commit"></p>
+
 ViewTube is an alternative YouTube frontend using the [invidio.us](https://github.com/iv-org/invidious) API.
 
 It can recommend, play and search for videos. It saves your watch progress and you can subscribe to channels for them to appear in your subscription feed.
 
-<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-
-[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg)](#contributors-)
-
-<!-- ALL-CONTRIBUTORS-BADGE:END -->
-
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/3c74d1eff3fe47609a4f889ec1acbdd5)](https://www.codacy.com/manual/mauriceoegerli/viewtube-vue?utm_source=github.com&utm_medium=referral&utm_content=mauriceoegerli/viewtube-vue&utm_campaign=Badge_Grade)
-[![Build Status](https://drone.oeger.li/api/badges/ViewTube/viewtube-vue/status.svg)](https://drone.oeger.li/ViewTube/viewtube-vue)
-[![vue2](https://img.shields.io/badge/vue-2.x-brightgreen.svg)](https://vuejs.org/)
-[![GitHub](https://img.shields.io/github/license/mauriceoegerli/viewtube-vue)](https://github.com/ViewTube/viewtube-vue/blob/master/LICENSE)
-[![Docker Image Size (latest by date)](https://img.shields.io/docker/image-size/mauriceo/viewtube?label=docker%20image%20size)](https://hub.docker.com/r/mauriceo/viewtube)
+Try the dev version on [dev.viewtube.io](https://dev.viewtube.io)
 
 <h2 align="center">
 <sub>
@@ -57,7 +54,7 @@ Invidious instances can easily get rate-limited by Google. With ViewTube, you ca
      <br>
      Just go to settings > instance and choose a different one!
      <br>
-     Instances are fetched from the <a href="https://github.com/iv-org/invidious/wiki/Invidious-Instances">invidious wiki</a>.
+     Instances are fetched from the <a href="https://github.com/iv-org/documentation/blob/master/Invidious-Instances.md">invidious wiki</a>.
    </td>
    <td><img src=".github/images/switch_instance.gif" /></td>
  </tr>
@@ -76,19 +73,19 @@ Screenshots
 Homepage
 </h3>
 
-![Screenshot-Homepage](.github/images/screenshots/lxt1y0mk.bmp)
+![Screenshot-Homepage](https://i.ibb.co/Gk5tKQ7/lxt1y0mk.jpg)
 
 <h3 align="center">
 Video
 </h3>
 
-![Screenshot-Video](.github/images/screenshots/g2ejf7wf.bmp)
+![Screenshot-Video](https://i.ibb.co/RTL2v3f/g2ejf7wf.jpg)
 
 <h3 align="center">
 Channel
 </h3>
 
-![Screenshot-Channel](.github/images/screenshots/6j45ao5r.bmp)
+![Screenshot-Channel](https://i.ibb.co/h9mf1yd/6j45ao5r.jpg)
 
 <h2 align="center">
 <sub>
@@ -117,7 +114,7 @@ $ docker create \
   --name=viewtube
   -p 8066:8066
   -v /path/to/data:/data \
-  -e VIEWTUBE_API_URL=https://api.viewtube.io/
+  -e VIEWTUBE_API_URL=http://your-ip-or-domain.com/api/
   --restart unless-stopped \
   mauriceo/viewtube:latest
 ```
@@ -136,7 +133,7 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - ./data:/data
     environment:
-      - VIEWTUBE_API_URL=https://api.viewtube.io/
+      - VIEWTUBE_API_URL=http://your-ip-or-domain.com/api/
     ports:
       - 8066:8066
 ```
@@ -152,8 +149,8 @@ Development setup
 
 Prerequisites
 
-- Nodejs v14.x
-- Yarn 1.22
+- Nodejs v15.x
+- Yarn 1.22.x
 - MongoDB 4.4.x
 
 Instructions

@@ -1,7 +1,7 @@
 <template>
   <div class="watch">
-    <video v-if="!jsEnabled" controls :src="getHDUrl()" class="nojs-player" />
-    <VideoPlayer v-if="jsEnabled" :key="video.id" :video="video" class="video-player-p" />
+    <!-- <video v-if="!jsEnabled" controls :src="getHDUrl()" class="nojs-player" /> -->
+    <VideoPlayer :key="video.id" ref="videoplayer" :video="video" class="video-player-p" />
     <div class="video-meta">
       <CollapsibleSection
         class="recommended-videos mobile"
@@ -17,15 +17,12 @@
         <h1 class="video-infobox-title">
           {{ video.title }}
         </h1>
-        <div
-          v-if="video.viewCount && video.likeCount && video.dislikeCount"
-          class="video-infobox-stats"
-        >
-          <p class="infobox-views">
+        <div class="video-infobox-stats">
+          <p v-if="video.viewCount" class="infobox-views">
             {{ parseFloat(video.viewCount).toLocaleString('en-US') }}
             views
           </p>
-          <div class="infobox-rating">
+          <div v-if="video.likeCount && video.dislikeCount" class="infobox-rating">
             <div class="infobox-likecount">
               <div class="infobox-likes">
                 <ThumbsUp class="thumbs-icon" />
@@ -77,10 +74,10 @@
           </div>
           <SubscribeButton class="subscribe-button-watch" :channel-id="video.authorId" />
         </div>
-        <div class="video-infobox-date" v-if="video.publishedText">
+        <div v-if="video.publishedText" class="video-infobox-date">
           {{ video.publishedText }}
         </div>
-        <div class="video-exact-date" v-if="!video.publishedText">
+        <div v-if="!video.publishedText" class="video-exact-date">
           {{ new Date(video.published).toLocaleString('en-US') }}
         </div>
         <div class="video-actions">
@@ -99,12 +96,12 @@
         <transition name="share-fade-down">
           <div v-show="shareOpen">
             <div>
-              <ShareOptions class="share-options-display"> </ShareOptions>
+              <ShareOptions class="share-options-display" />
             </div>
           </div>
         </transition>
-        <p class="video-infobox-text" v-if="video.keywords">tags:</p>
-        <div class="video-infobox-tags" v-if="video.keywords">
+        <p v-if="video.keywords" class="video-infobox-text">Tags</p>
+        <div v-if="video.keywords" class="video-infobox-tags">
           <div v-if="video.keywords" class="tags-container">
             <BadgeButton
               v-for="keyword in video.keywords"
@@ -117,11 +114,22 @@
           </div>
         </div>
         <div class="comments-description">
-          <div v-create-links class="video-infobox-description links">
+          <div
+            v-create-links
+            v-create-timestamp-links="setTimestamp"
+            class="video-infobox-description links"
+          >
             {{ video.description }}
           </div>
           <Spinner v-if="commentsLoading" />
-          <div v-if="!commentsLoading" class="comments-container">
+          <div v-if="commentsError" class="comments-error">
+            <p>Error loading comments. Try changing the invidious instance.</p>
+            <BadgeButton :click="reloadComments" :loading="commentsLoading"
+              ><LoadMoreIcon />Try again</BadgeButton
+            >
+            <BadgeButton :click="openInstancePopup"><InstanceIcon />Change instance</BadgeButton>
+          </div>
+          <div v-if="!commentsLoading && comment" class="comments-container">
             <div class="comments-count">
               <p>
                 {{ comment.commentCount && comment.commentCount.toLocaleString('en-US') }}
@@ -129,9 +137,9 @@
               </p>
             </div>
             <Comment
-              v-for="(comment, i) in comment.comments"
+              v-for="(subComment, i) in comment.comments"
               :key="i"
-              :comment="comment"
+              :comment="subComment"
               :creator-name="video.author"
             />
             <BadgeButton
@@ -140,7 +148,7 @@
               :loading="commentsContinuationLoading"
             >
               <LoadMoreIcon />
-              <p>show more</p>
+              <p>Show more</p>
             </BadgeButton>
           </div>
         </div>
@@ -149,26 +157,23 @@
   </div>
 </template>
 
-<script>
-import ThumbsUp from 'vue-material-design-icons/ThumbUp';
-import ThumbsDown from 'vue-material-design-icons/ThumbDown';
-import Share from 'vue-material-design-icons/Share';
-import LoadMoreIcon from 'vue-material-design-icons/Reload';
-import Spinner from '@/components/Spinner';
-import Commons from '@/plugins/commons.js';
-import VideoPlayer from '@/components/videoplayer/VideoPlayer';
-import SubscribeButton from '@/components/buttons/SubscribeButton';
-import Comment from '@/components/Comment';
-// import Invidious from '@/plugins/services/invidious'
-import ViewtubeApi from '@/plugins/services/viewtubeApi';
-import Invidious from '@/plugins/services/invidious';
-import RecommendedVideos from '@/components/watch/RecommendedVideos';
-import ShareOptions from '@/components/watch/ShareOptions';
-import CollapsibleSection from '@/components/list/CollapsibleSection';
-import BadgeButton from '@/components/buttons/BadgeButton';
-import invidious from '~/plugins/services/invidious';
+<script lang="ts">
+import ThumbsUp from 'vue-material-design-icons/ThumbUp.vue';
+import ThumbsDown from 'vue-material-design-icons/ThumbDown.vue';
+import InstanceIcon from 'vue-material-design-icons/ServerNetwork.vue';
+import Share from 'vue-material-design-icons/Share.vue';
+import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
+import Spinner from '@/components/Spinner.vue';
+import SubscribeButton from '@/components/buttons/SubscribeButton.vue';
+import Comment from '@/components/Comment.vue';
+import RecommendedVideos from '@/components/watch/RecommendedVideos.vue';
+import ShareOptions from '@/components/watch/ShareOptions.vue';
+import CollapsibleSection from '@/components/list/CollapsibleSection.vue';
+import BadgeButton from '@/components/buttons/BadgeButton.vue';
+import Vue from 'vue';
+import ViewTubeApi from '@/plugins/services/viewTubeApi';
 
-export default {
+export default Vue.extend({
   name: 'Watch',
   components: {
     Spinner,
@@ -176,7 +181,11 @@ export default {
     ThumbsDown,
     Share,
     LoadMoreIcon,
-    VideoPlayer,
+    InstanceIcon,
+    VideoPlayer: () =>
+      import(
+        /* webpackChunkName: "group-videoplayer" */ '@/components/videoplayer/VideoPlayer.vue'
+      ),
     SubscribeButton,
     Comment,
     RecommendedVideos,
@@ -184,16 +193,9 @@ export default {
     CollapsibleSection,
     BadgeButton
   },
-  watchQuery(newQuery, oldQuery) {
-    const videoId = newQuery.v;
-    if (this) {
-      this.loadComments(videoId);
-      this.$store.commit('miniplayer/setCurrentVideo', this.video);
-    }
-    return true;
-  },
-  asyncData({ query, error }) {
-    return ViewtubeApi.api
+  asyncData({ store, query, error }) {
+    const viewTubeApi = new ViewTubeApi(store.getters['environment/apiUrl']);
+    return viewTubeApi.api
       .videos({
         id: query.v
       })
@@ -201,122 +203,54 @@ export default {
         if (response) {
           return { video: response.data };
         } else {
-          // throw new Error('Error loading video')
+          this.$store.dispatch('messages/createMessage', {
+            type: 'error',
+            title: 'Error loading video',
+            message: 'Loading video information failed. Click to try again.',
+            dismissDelay: 0,
+            clickAction: () => this.$fetch()
+          });
         }
       })
-      .catch(err => {
-        console.log(err);
-        return Invidious.api
-          .videos({ id: query.v })
-          .then(response => {
-            return { video: response.data };
-          })
-          .catch(err => {
-            if (err.response) {
-              error({
-                statusCode: err.statusCode,
-                message: err.response.data.message
-              });
-            } else if (err.message) {
-              console.log(err.message);
-              error({
-                statusCode: '500',
-                message: 'Error loading video' + err.message,
-                detail: JSON.stringify(err)
-              });
-            }
-          });
+      .catch((err: any) => {
+        let errorObj: any = {
+          message: 'Error loading video'
+        };
+        if (err) {
+          errorObj = {
+            requestConfig: err.config,
+            responseData: err.response ? err.response.data : null,
+            message: err.message
+          };
+        }
+        error({
+          statusCode: 500,
+          message:
+            errorObj.responseData &&
+            errorObj.responseData.message &&
+            typeof errorObj.responseData.message === 'string'
+              ? errorObj.responseData.message
+              : errorObj.message,
+          detail: errorObj
+        } as any);
       });
   },
-  data: () => ({
-    jsEnabled: false,
-    video: [],
-    comment: null,
-    commentsLoading: true,
-    commentsContinuationLink: null,
-    commentsContinuationLoading: false,
-    commons: Commons,
-    recommendedOpen: false,
-    shareOpen: false
-  }),
-  computed: {
-    browser() {
-      return process.browser;
-    },
-    encodedUrl() {
-      if (process.browser) {
-        return encodeURIComponent(window.location.href);
-      } else {
-        return '';
-      }
-    }
-  },
-  mounted() {
-    if (process.browser) {
-      this.jsEnabled = true;
-    }
-    if (window && window.innerWidth > 700) {
-      this.recommendedOpen = true;
-    }
-    this.loadComments();
-    this.$store.commit('miniplayer/setCurrentVideo', this.video);
-  },
-  methods: {
-    getHDUrl() {
-      if (this.video.formatStreams) {
-        const video = this.video.formatStreams.find(e => {
-          return e.qualityLabel && e.qualityLabel === '720p';
-        });
-        if (video) {
-          return video.url;
-        } else if (this.video.formatStreams.length > 0) {
-          return this.video.formatStreams[0].url;
-        }
-      }
-      return '#';
-    },
-    loadComments(evtVideoId) {
-      const videoId = evtVideoId || this.$route.query.v;
-      fetch(`${Commons.getApiUrl()}comments/${videoId}`, {
-        cache: 'force-cache',
-        method: 'GET'
-      })
-        .then(response => response.json())
-        .then(data => {
-          if (data.comments && data.comments.length > 0) {
-            this.comment = data;
-            this.commentsLoading = false;
-            this.commentsContinuationLink = data.continuation || null;
-          }
-        })
-        .catch(error => {
-          console.error(error);
-        });
-    },
-    loadMoreComments() {
-      this.commentsContinuationLoading = true;
-      const videoId = this.$route.query.v;
-      fetch(
-        `${Commons.getApiUrl()}comments/${videoId}?continuation=${this.commentsContinuationLink}`,
-        {
-          cache: 'force-cache',
-          method: 'GET'
-        }
-      )
-        .then(response => response.json())
-        .then(data => {
-          this.comment.comments = this.comment.comments.concat(data.comments);
-          this.commentsContinuationLoading = false;
-          this.commentsContinuationLink = data.continuation || null;
-        })
-        .catch(error => {
-          console.error(error);
-        });
-    }
+  data() {
+    return {
+      jsEnabled: false,
+      video: [],
+      comment: null,
+      commentsLoading: true,
+      commentsError: false,
+      commentsContinuationLink: null,
+      commentsContinuationLoading: false,
+      recommendedOpen: false,
+      shareOpen: false
+    };
   },
   head() {
     return {
-      title: `${this.video.title} - ${this.video.author} - ViewTube`,
+      title: `${this.video.title} :: ${this.video.author} :: ViewTube`,
       meta: [
         {
           hid: 'description',
@@ -342,12 +276,123 @@ export default {
         },
         {
           property: 'og:video',
-          content: this.video.formatStreams ? this.video.formatStreams[0].url : '#'
+          content:
+            this.video.formatStreams && this.video.formatStreams.length > 0
+              ? this.video.formatStreams[0].url
+              : '#'
         }
       ]
     };
+  },
+  computed: {
+    browser() {
+      return process.browser;
+    },
+    encodedUrl() {
+      if (process.browser) {
+        return encodeURIComponent(window.location.href);
+      } else {
+        return '';
+      }
+    }
+  },
+  watchQuery(newQuery: any) {
+    const videoId = newQuery.v;
+    if (this) {
+      this.loadComments(videoId);
+      this.$store.commit('miniplayer/setCurrentVideo', this.video);
+    }
+    return true;
+  },
+  mounted() {
+    if (process.browser) {
+      this.jsEnabled = true;
+    }
+    if (window && window.innerWidth > 700) {
+      this.recommendedOpen = true;
+    }
+    this.loadComments();
+    this.$store.commit('miniplayer/setCurrentVideo', this.video);
+  },
+  methods: {
+    openInstancePopup() {
+      this.$nuxt.$emit('open-popup', 'instances');
+    },
+    reloadComments() {
+      this.commentsLoading = true;
+      this.commentsError = false;
+      this.loadComments();
+    },
+    setTimestamp(e: any, seconds: number) {
+      const searchParams = new URLSearchParams(window.location.search);
+      searchParams.set('t', `${seconds}s`);
+      this.$router.push(`${location.pathname}?${searchParams.toString()}`);
+      this.$refs.videoplayer.setVideoTime(seconds);
+      e.preventDefault();
+    },
+    getHDUrl() {
+      if (this.video.formatStreams) {
+        const video = this.video.formatStreams.find(e => {
+          return e.qualityLabel && e.qualityLabel === '720p';
+        });
+        if (video) {
+          return video.url;
+        } else if (this.video.formatStreams.length > 0) {
+          return this.video.formatStreams[0].url;
+        }
+      }
+      return '#';
+    },
+    loadComments(evtVideoId: string) {
+      const videoId = evtVideoId || this.$route.query.v;
+      fetch(`${this.$store.getters['instances/currentInstanceApiV1']}comments/${videoId}`, {
+        cache: 'force-cache',
+        method: 'GET'
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (data.comments && data.comments.length > 0) {
+            this.comment = data;
+            this.commentsLoading = false;
+            this.commentsContinuationLink = data.continuation || null;
+          } else {
+            this.commentsLoading = false;
+            this.commentsError = true;
+            this.comment = null;
+          }
+        })
+        .catch(_ => {
+          this.commentsLoading = false;
+          this.commentsError = true;
+          this.comment = null;
+        });
+    },
+    loadMoreComments() {
+      this.commentsContinuationLoading = true;
+      const videoId = this.$route.query.v;
+      fetch(
+        `${this.$store.getters['instances/currentInstanceApiV1']}comments/${videoId}?continuation=${this.commentsContinuationLink}`,
+        {
+          cache: 'force-cache',
+          method: 'GET'
+        }
+      )
+        .then(response => response.json())
+        .then(data => {
+          this.comment.comments = this.comment.comments.concat(data.comments);
+          this.commentsContinuationLoading = false;
+          this.commentsContinuationLink = data.continuation || null;
+        })
+        .catch(_ => {
+          this.$store.dispatch('messages/createMessage', {
+            type: 'error',
+            title: 'Error loading more comments',
+            message: 'Loading comments failed. There may not be any more comments.'
+          });
+        });
+    }
   }
-};
+});
 </script>
 
 <style lang="scss">
@@ -404,7 +449,6 @@ export default {
     .recommended-videos {
       background-color: var(--bgcolor-main);
       z-index: 400;
-      padding: 10px 0 0 0;
       width: 100%;
 
       @media screen and (min-width: $mobile-width) {
@@ -416,7 +460,7 @@ export default {
       width: 100%;
       display: flex;
       flex-direction: column;
-      padding: 10px;
+      padding: 0 10px;
       box-sizing: border-box;
       opacity: 1;
       transition: opacity 300ms $intro-easing;
@@ -426,6 +470,7 @@ export default {
 
       @media screen and (min-width: $mobile-width) {
         width: calc(100% - 340px);
+        padding: 10px;
       }
 
       .video-infobox-title {
@@ -630,6 +675,11 @@ export default {
           height: 13px;
           margin: 0 4px;
         }
+      }
+
+      .comments-error {
+        margin: 50px 0 0 0;
+        color: var(--error-color-red);
       }
 
       .comments-container {

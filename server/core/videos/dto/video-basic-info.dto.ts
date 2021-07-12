@@ -1,4 +1,5 @@
-import { VideoThumbnailDto } from './video-thumbnail.dto';
+import { AuthorThumbnailDto } from 'shared/dto/video/author-thumbnail.dto';
+import { VideoThumbnailDto } from 'shared/dto/video/video-thumbnail.dto';
 
 export class VideoBasicInfoDto {
   videoId: string;
@@ -7,8 +8,10 @@ export class VideoBasicInfoDto {
   publishedText: string;
   author: string;
   authorId: string;
+  authorVerified?: boolean;
+  authorThumbnails?: Array<AuthorThumbnailDto>;
   videoThumbnails: Array<VideoThumbnailDto>;
-  description: string;
+  description?: string;
   viewCount: number;
   likeCount?: number;
   dislikeCount?: number;

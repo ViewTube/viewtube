@@ -1,98 +1,63 @@
 <template>
   <div class="search">
-    <Spinner v-if="loading" class="centered" />
+    <Spinner v-if="$fetchState.pending" class="centered search-spinner" />
     <GradientBackground :color="'blue'" />
-    <div class="filters">
-      <Dropdown
-        :values="parameters.defaults.sort_by"
-        :value="parameters.sort_by"
-        :label="'Sort by'"
-        class="dropdown-btn"
-        @valuechange="onSearchSortChange"
-      />
-      <Dropdown
-        :values="parameters.defaults.date"
-        :value="parameters.date"
-        :label="'Date'"
-        :no-default="true"
-        class="dropdown-btn"
-        @valuechange="onSearchDateChange"
-      />
-      <Dropdown
-        :values="parameters.defaults.duration"
-        :value="parameters.duration"
-        :label="'Duration'"
-        :no-default="true"
-        class="dropdown-btn"
-        @valuechange="onSearchDurationChange"
-      />
-      <Dropdown
-        :values="parameters.defaults.type"
-        :value="parameters.type"
-        :label="'Type'"
-        class="dropdown-btn"
-        @valuechange="onSearchTypeChange"
-      />
+    <Filters v-if="filters && filters.length" :filters="filters" />
+    <p v-if="!$fetchState.pending && searchResults" class="result-amount">
+      {{ searchResults.results.toLocaleString('en-US') }} results
+    </p>
+    <div v-if="isCorrectedSearchResult" class="correction-results links">
+      <span>Showing results for</span>
+      <nuxt-link :to="correctedSearchResultUrl">{{ searchResults.correctedQuery }}</nuxt-link>
     </div>
-    <div v-for="(results, i) in searchResults" :key="i" class="search-videos-container">
-      <div v-if="results.searchRefinements" class="related-searches-container">
-        <RelatedSearches
-          v-for="(item, index) in results.searchRefinements"
-          :key="index"
-          :data="item"
+    <div v-if="!$fetchState.pending && searchResults" class="search-results">
+      <div
+        v-if="searchResults.refinements && searchResults.refinements.length"
+        class="search-refinements"
+      >
+        <RelatedSearches :refinements="searchResults.refinements" />
+      </div>
+      <div class="search-videos-container">
+        <component
+          :is="getListEntryType(result.type)"
+          v-for="(result, i) in resultItems"
+          :key="i"
+          :video="result"
+          :channel="result"
+          :playlist="result"
+          :mix="result"
+          :shelf="result"
+          :horizontal="true"
+          :lazy="true"
         />
       </div>
-      <div v-if="results.channels" class="channels">
-        <ChannelEntry
-          v-for="(channel, index) in results.channels"
-          :key="index"
-          :channel="channel"
-        />
+      <div class="show-more-btn-container">
+        <BadgeButton :click="loadMoreVideos" :loading="moreVideosLoading">
+          <LoadMoreIcon />
+          <p>show more</p>
+        </BadgeButton>
       </div>
-      <div v-if="results.verticalShelf" class="vertical-shelf">
-        <VerticalShelf v-for="(item, index) in results.verticalShelf" :key="index" :data="item" />
-      </div>
-      <div v-if="results.compactShelf" class="compact-shelf">
-        <CompactShelf v-for="(item, index) in results.compactShelf" :key="index" :data="item" />
-      </div>
-      <div v-if="results.playlists" class="playlists">
-        <PlaylistEntry v-for="(item, index) in results.playlists" :key="index" :playlist="item" />
-      </div>
-      <div v-if="results.movies" class="movies">
-        <MovieEntry v-for="(item, index) in results.movies" :key="index" :data="item" />
-      </div>
-      <div v-if="results.videos" class="videos">
-        <VideoEntry v-for="(video, index) in results.videos" :key="index" :video="video" />
-      </div>
-    </div>
-    <div class="show-more-btn-container">
-      <BadgeButton :click="loadMoreVideos" :loading="moreVideosLoading">
-        <LoadMoreIcon />
-        <p>show more</p>
-      </BadgeButton>
     </div>
   </div>
 </template>
 
-<script>
-// import Commons from '@/plugins/commons.js'
-import LoadMoreIcon from 'vue-material-design-icons/Reload';
-import VideoEntry from '@/components/list/VideoEntry';
-import PlaylistEntry from '@/components/list/PlaylistEntry';
-import ChannelEntry from '@/components/list/ChannelEntry';
-import MovieEntry from '@/components/list/MovieEntry';
-import RelatedSearches from '@/components/search/RelatedSearches';
-import CompactShelf from '@/components/search/CompactShelf';
-import VerticalShelf from '@/components/search/VerticalShelf';
-import Spinner from '@/components/Spinner';
+<script lang="ts">
+import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
+import VideoEntry from '@/components/list/VideoEntry.vue';
+import PlaylistEntry from '@/components/list/PlaylistEntry.vue';
+import MixEntry from '@/components/list/MixEntry.vue';
+import ChannelEntry from '@/components/list/ChannelEntry.vue';
+import MovieEntry from '@/components/list/MovieEntry.vue';
+import RelatedSearches from '@/components/search/RelatedSearches.vue';
+import Shelf from '@/components/search/Shelf.vue';
+import Spinner from '@/components/Spinner.vue';
 import GradientBackground from '@/components/GradientBackground.vue';
-import Dropdown from '@/components/filter/Dropdown';
-import SearchParams from '@/plugins/services/searchParams';
-import BadgeButton from '@/components/buttons/BadgeButton';
-// import Invidious from '@/plugins/services/invidious';
-import ViewtubeApi from '~/plugins/services/viewtubeApi';
+import Dropdown from '@/components/filter/Dropdown.vue';
+import BadgeButton from '@/components/buttons/BadgeButton.vue';
+import Filters from '@/components/search/Filters.vue';
+import Vue from 'vue';
 
-export default {
+export default Vue.extend({
   name: 'Search',
   components: {
     LoadMoreIcon,
@@ -105,101 +70,73 @@ export default {
     BadgeButton,
     MovieEntry,
     RelatedSearches,
-    CompactShelf,
-    VerticalShelf
-  },
-  watchQuery: true,
-  asyncData({ query }) {
-    query.type = 'all';
-    query.limit = 20;
-    const searchParams = SearchParams.parseQueryJson(query, query.search_query);
-    return ViewtubeApi.api
-      .search({ params: searchParams })
-      .then(response => {
-        const results = [];
-        results.push(response.data.items);
-        delete response.data.items;
-        return {
-          searchResults: results,
-          searchInformation: response.data,
-          searchQuery: query.search_query
-        };
-      })
-      .catch(error => {
-        console.error(error);
-      });
+    Shelf,
+    MixEntry,
+    Filters
   },
   data: () => ({
     searchResults: null,
-    searchInformation: null,
+    resultItems: [],
+    searchContinuation: null,
+    filters: [],
     loading: false,
     searchQuery: null,
-    parameters: SearchParams,
-    page: 1,
+    page: 0,
     moreVideosLoading: false
   }),
-  methods: {
-    getListEntryType(type) {
-      switch (type) {
-        case 'video':
-          return 'VideoEntry';
-        case 'playlist':
-          return 'PlaylistEntry';
-        case 'channel':
-          return 'ChannelEntry';
-        // case 'mix':
-        //   return 'MixEntry';
-        case 'movie':
-          return 'MovieEntry';
-        case 'search-refinements':
-          return 'RelatedSearches';
-        case 'shelf-compact':
-          return 'CompactShelf';
-        case 'shelf-vertical':
-          return 'VerticalShelf';
-      }
-    },
-    reloadSearchWithParams() {
-      const searchParams = SearchParams.getParamsString();
-      this.$router.push(`/results?search_query=${this.searchQuery}${searchParams}`);
-    },
-    onSearchSortChange(element, index) {
-      SearchParams.sort_by = element.value;
-      this.reloadSearchWithParams();
-    },
-    onSearchDateChange(element, index) {
-      SearchParams.date = element.value;
-      this.reloadSearchWithParams();
-    },
-    onSearchDurationChange(element, index) {
-      SearchParams.duration = element.value;
-      this.reloadSearchWithParams();
-    },
-    onSearchTypeChange(element, index) {
-      SearchParams.type = element.value;
-      this.reloadSearchWithParams();
-    },
-    loadMoreVideos() {
-      this.moreVideosLoading = true;
-      // this.page += 1;
-      // SearchParams.page = this.page;
-      const searchParams = SearchParams.getParamsJson(this.searchQuery);
-      searchParams.nextpageRef = this.searchInformation.nextpageRef;
-      ViewtubeApi.api
-        .search({ params: searchParams })
-        .then(response => {
-          this.searchResults.push(response.data.items);
-          this.searchInformation.nextpageRef = response.data.nextpageRef;
-          this.moreVideosLoading = false;
-        })
-        .catch(error => {
-          console.error(error);
+  async fetch() {
+    const inputQuery = this.$nuxt.context.query;
+    const searchParams = new URLSearchParams(inputQuery);
+    const apiUrl = this.$store.getters['environment/apiUrl'];
+    const searchTerm = searchParams.get('search_query') || searchParams.get('q');
+    if (searchTerm) {
+      try {
+        const filters = await this.$axios.get(`${apiUrl}search/filters`, {
+          params: {
+            q: searchTerm
+          }
         });
+
+        if (filters && filters.data && filters.data.length) {
+          this.filters = filters.data;
+          const filterArray = this.getFilterArray(searchParams);
+
+          const searchResponse = await this.$axios.get(`${apiUrl}search`, {
+            params: {
+              q: searchTerm,
+              pages: 1,
+              filters: filterArray
+            }
+          });
+
+          if (searchResponse && searchResponse.data) {
+            this.searchResults = searchResponse.data;
+            this.resultItems = searchResponse.data.items;
+            this.searchContinuation = searchResponse.data.continuation;
+            this.searchQuery = inputQuery.search_query;
+          }
+        }
+      } catch (_) {
+        this.$store.dispatch('messages/createMessage', {
+          type: 'error',
+          title: 'Search failed',
+          message: 'Click to try again',
+          dismissDelay: 0,
+          clickAction: () => this.$fetch()
+        });
+      }
+    } else {
+      this.$store.dispatch('messages/createMessage', {
+        type: 'error',
+        title: 'Search term is empty',
+        message: "Search term can't be empty",
+        dismissDelay: 0
+      });
     }
   },
   head() {
     return {
-      title: `${this.searchQuery ? this.searchQuery + ' - ' : ''}Search - ViewTube`,
+      title: `${this.searchQuery ? this.searchQuery + ' :: ' : ''}Search :: ViewTube`,
       meta: [
         {
           hid: 'description',
@@ -219,8 +156,90 @@ export default {
         }
       ]
     };
+  },
+  computed: {
+    isCorrectedSearchResult(): boolean {
+      if (this.searchResults) {
+        return this.searchResults.originalQuery !== this.searchResults.correctedQuery;
+      }
+      return false;
+    },
+    correctedSearchResultUrl(): string {
+      if (this.searchResults) {
+        const url = this.$nuxt.$route.fullPath;
+        const newUrl = decodeURIComponent(url).replace(
+          this.searchResults.originalQuery,
+          this.searchResults.correctedQuery
+        );
+        return newUrl;
+      }
+      return this.$nuxt.$route.fullPath;
+    }
+  },
+  watch: {
+    '$route.query': '$fetch'
+  },
+  methods: {
+    getFilterArray(searchParams: URLSearchParams): Array<any> {
+      const allParams = (searchParams as any).entries();
+      const filters = [];
+      for (const param of allParams) {
+        if (this.filters.find(el => el.filterType === param[0])) {
+          filters.push({
+            filterName: param[0],
+            filterValue: param[1]
+          });
+        }
+      }
+      return filters;
+    },
+    getListEntryType(type: string): string {
+      switch (type) {
+        case 'video':
+          return 'VideoEntry';
+        case 'playlist':
+          return 'PlaylistEntry';
+        case 'channel':
+          return 'ChannelEntry';
+        case 'mix':
+          return 'MixEntry';
+        case 'shelf':
+          return 'Shelf';
+        default:
+          return null;
+      }
+    },
+    async loadMoreVideos(): Promise<void> {
+      this.moreVideosLoading = true;
+      this.page += 1;
+
+      if (this.searchResults && this.searchResults.continuation) {
+        const apiUrl = this.$store.getters['environment/apiUrl'];
+        await this.$axios
+          .get(`${apiUrl}search/continuation`, {
+            params: {
+              continuationData: this.searchContinuation
+            }
+          })
+          .then((response: { data: any }) => {
+            if (response && response.data) {
+              this.resultItems = this.resultItems.concat(response.data.items);
+              this.searchContinuation = response.data.continuation;
+              this.moreVideosLoading = false;
+            }
+          })
+          .catch((_: any) => {
+            this.$store.dispatch('messages/createMessage', {
+              type: 'error',
+              title: 'Unable to load more results',
+              message: 'Try again or use a different search term for more results'
+            });
+            this.moreVideosLoading = false;
+          });
+      }
+    }
   }
-};
+});
 </script>
 
 <style lang="scss">
@@ -228,10 +247,14 @@ export default {
   display: flex;
   flex-direction: column;
 
+  .search-spinner {
+    z-index: 11;
+  }
+
   .filters {
     width: 100%;
     max-width: $main-width;
-    padding: 10px 15px;
+    padding: 15px 15px 0 15px;
     margin: 0 auto;
     box-sizing: border-box;
     display: flex;
@@ -239,6 +262,36 @@ export default {
     .dropdown-btn {
       z-index: 20;
       margin: 0 10px 0 0;
+    }
+  }
+
+  .result-amount {
+    margin: 15px auto;
+    color: var(--subtitle-color);
+  }
+
+  .correction-results,
+  .result-amount {
+    z-index: 10;
+    width: 100%;
+    max-width: $main-width;
+    padding: 0 15px;
+    box-sizing: border-box;
+  }
+
+  .correction-results {
+    margin: 0 auto;
+  }
+
+  .search-results {
+    .search-refinements {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      max-width: $main-width;
+      margin: 0 auto 10px auto;
+      padding: 0 15px;
+      box-sizing: border-box;
     }
   }
 
@@ -250,48 +303,36 @@ export default {
     z-index: 10;
     display: grid;
     box-sizing: border-box;
+    display: grid;
     @include viewtube-grid;
 
+    .section-title {
+      grid-column: 1 / -1;
+      gap: 0;
+    }
     .related-searches-container {
       grid-row: 1;
       grid-column: 1 / -1;
-      overflow: auto hidden;
-      scrollbar-width: thin;
-      box-sizing: border-box;
-      height: 45px;
-      width: 100%;
-      position: relative;
-
-      .related-searches {
-        display: flex;
-        flex-direction: row;
-        width: auto;
-        position: absolute;
-
-        .related-search-tag {
-          display: inline-block;
-          overflow: hidden;
-          white-space: nowrap;
-        }
-      }
     }
     .channels {
+      height: 100%;
+      grid-column: 1;
+      position: sticky;
+      top: 0;
+
+      margin: 80px 0 0 0;
+
+      .channel-entry {
+        padding: 0;
+      }
     }
-    .vertical-shelf {
-      grid-column-start: 2;
+    .shelf {
+      grid-column-start: 1;
       grid-column-end: -1;
     }
-    .compact-shelf {
-      grid-column: 1 / -1;
-    }
-    .playlists {
-    }
-    .movies {
-    }
-    .videos {
-    }
-
-    @media screen and (max-width: $mobile-width) {
+    .channel-entry {
+      grid-column-start: 1;
+      grid-column-end: -1;
     }
   }
 

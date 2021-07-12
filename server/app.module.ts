@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, ModuleMetadata } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
 import { ScheduleModule } from '@nestjs/schedule';
@@ -8,18 +8,15 @@ import { CoreModule } from './core/core.module';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 
-@Module({
+const moduleMetadata: ModuleMetadata = {
   imports: [
-    MongooseModule.forRoot(
-      `mongodb://${process.env.VIEWTUBE_DATABASE_HOST}/viewtube`,
-      {
-        user: process.env.VIEWTUBE_DATABASE_USER,
-        pass: process.env.VIEWTUBE_DATABASE_PASSWORD,
-        useNewUrlParser: true,
-        useFindAndModify: false,
-        useCreateIndex: true
-      }
-    ),
+    MongooseModule.forRoot(`mongodb://${process.env.VIEWTUBE_DATABASE_HOST}/viewtube`, {
+      user: process.env.VIEWTUBE_DATABASE_USER,
+      pass: process.env.VIEWTUBE_DATABASE_PASSWORD,
+      useNewUrlParser: true,
+      useFindAndModify: false,
+      useCreateIndex: true
+    }),
     ScheduleModule.forRoot(),
     CoreModule,
     UserModule,
@@ -28,5 +25,6 @@ import { UserModule } from './user/user.module';
   ],
   controllers: [AppController],
   providers: [AppService]
-})
+};
+@Module(moduleMetadata)
 export class AppModule {}

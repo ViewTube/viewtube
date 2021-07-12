@@ -1,64 +1,87 @@
 <template>
-  <div class="subscriptions">
+  <div class="subscriptions" :class="{ empty: hasNoSubscriptions }">
     <GradientBackground :color="'green'" />
-    <SectionTitle :title="'Subscriptions'">
-      <div class="manage-btn-container">
-        <BadgeButton
-          class="import-subscriptions-btn"
-          :click="() => (subscriptionImportOpen = true)"
-        >
-          <ImportIcon />
-          <p>Import subscriptions</p>
-        </BadgeButton>
-        <BadgeButton
-          class="manage-subscriptions-btn"
-          :href="'subscriptions/manage'"
-          :internalLink="true"
-        >
-          <EditIcon />
-          <p>Manage</p>
-        </BadgeButton>
+    <div class="subscribe-info-container">
+      <div class="subscribe-info">
+        <div class="info">
+          <h2>Subscription feed for {{ $store.getters['user/username'] }}</h2>
+          <p>Last refresh: {{ lastRefreshTime }}</p>
+          <p>Next refresh: {{ nextRefreshTime }}</p>
+        </div>
+        <div class="actions">
+          <BadgeButton
+            class="import-subscriptions-btn"
+            :click="() => (subscriptionImportOpen = true)"
+          >
+            <ImportIcon />
+            <p>Import subscriptions</p>
+          </BadgeButton>
+          <BadgeButton
+            class="manage-subscriptions-btn"
+            :disabled="hasNoSubscriptions"
+            :href="'subscriptions/manage'"
+            :internal-link="true"
+          >
+            <EditIcon />
+            <p>Manage</p>
+          </BadgeButton>
+          <SwitchButton
+            v-tippy="getNotificationStatus"
+            :value="notificationsEnabled"
+            :label="'Enable notifications'"
+            :disabled="notificationsBtnDisabled"
+            :btnId="'index-btn-1'"
+            @valuechange="subscribeToNotifications"
+          />
+        </div>
       </div>
-    </SectionTitle>
-    <div class="subscribe-btn-container">
-      <SwitchButton
-        :value="notificationsEnabled"
-        :label="'Enable notifications'"
-        :disabled="notificationsBtnDisabled"
-        @valuechange="subscribeToNotifications"
-        v-tippy="getNotificationStatus"
-      />
+    </div>
+    <div v-if="hasNoSubscriptions" class="no-subscriptions">
+      <SubscriptionIcon />
+      <p>No subscriptions yet. Subscribe to a channel to see their latest uploads.</p>
     </div>
     <div class="subscription-videos-container">
-      <VideoEntry
-        v-for="video in videos"
-        :key="video.videoId"
-        :video="video"
-      />
+      <div
+        v-for="(videoSection, index) in orderedVideoSections"
+        :key="index"
+        class="subscription-section"
+      >
+        <SectionTitle :title="videoSection.sectionMessage" />
+        <div class="section-videos-container">
+          <VideoEntry v-for="video in videoSection.videos" :key="video.videoId" :video="video" />
+        </div>
+      </div>
     </div>
+    <div v-if="orderedVideoSections && orderedVideoSections.length > 0" class="feed-pagination">
+      <Pagination :currentPage="currentPage" :pageCount="pageCount" />
+    </div>
+
     <portal to="popup">
       <transition name="fade-down">
         <SubscriptionImport
           v-if="subscriptionImportOpen"
           @close="closeSubscriptionImport"
+          @done="onSubscriptionImportDone"
         />
       </transition>
     </portal>
   </div>
 </template>
 
-<script>
-import Commons from '@/plugins/commons.js';
-import SubscriptionImport from '@/components/popup/SubscriptionImport';
-import VideoEntry from '@/components/list/VideoEntry';
-import GradientBackground from '@/components/GradientBackground';
-import SectionTitle from '@/components/SectionTitle';
-import SwitchButton from '@/components/buttons/SwitchButton';
-import BadgeButton from '@/components/buttons/BadgeButton';
-import EditIcon from 'vue-material-design-icons/PencilBoxMultipleOutline';
-import ImportIcon from 'vue-material-design-icons/Import';
+<script lang="ts">
+import SubscriptionImport from '@/components/popup/SubscriptionImport.vue';
+import VideoEntry from '@/components/list/VideoEntry.vue';
+import GradientBackground from '@/components/GradientBackground.vue';
+import SectionTitle from '@/components/SectionTitle.vue';
+import SwitchButton from '@/components/buttons/SwitchButton.vue';
+import BadgeButton from '@/components/buttons/BadgeButton.vue';
+import EditIcon from 'vue-material-design-icons/PencilBoxMultipleOutline.vue';
+import SubscriptionIcon from 'vue-material-design-icons/YoutubeSubscription.vue';
+import ImportIcon from 'vue-material-design-icons/Import.vue';
+import Pagination from '@/components/pagination/Pagination.vue';
+import Vue from 'vue';
 
-export default {
+export default Vue.extend({
   name: 'Home',
   components: {
     VideoEntry,
@@ -68,21 +91,53 @@ export default {
     SwitchButton,
     BadgeButton,
     EditIcon,
-    ImportIcon
+    ImportIcon,
+    Pagination,
+    SubscriptionIcon
   },
   data: () => ({
     videos: [],
     loading: true,
-    commons: Commons,
     notificationsEnabled: false,
     notificationsBtnDisabled: false,
     notificationsSupported: true,
     subscriptionImportOpen: false,
-    vapidKey: null
+    vapidKey: null,
+    currentPage: 1,
+    currentPageTest: 1,
+    pageCount: 1,
+    pageCountTest: 1
   }),
+  async fetch() {
+    if (process.browser) {
+      // window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    const apiUrl = this.$store.getters['environment/apiUrl'];
+    const limit = 20;
+    if (this.$route.query && this.$route.query.page) {
+      this.currentPage = parseInt(this.$route.query.page);
+    }
+    const start = (this.currentPage - 1) * 30;
+    await this.$axios
+      .get(`${apiUrl}user/subscriptions/videos?limit=${limit}&start=${start}`, {
+        withCredentials: true
+      })
+      .then(response => {
+        this.videos = response.data.videos;
+        this.pageCount = Math.ceil(response.data.videoCount / 30);
+        this.loading = false;
+      })
+      .catch(_ => {
+        this.$store.dispatch('messages/createMessage', {
+          type: 'error',
+          title: 'Error loading subscription feed',
+          message: 'Error loading subscription feed'
+        });
+      });
+  },
   head() {
     return {
-      title: `Subscriptions - ViewTube`,
+      title: `Subscriptions :: ViewTube`,
       meta: [
         {
           hid: 'description',
@@ -103,28 +158,57 @@ export default {
       ]
     };
   },
-  mounted() {
-    this.vapidKey = this.$config.vapidKey;
-    this.$axios
-      .get(
-        `${Commons.getOwnApiUrl()}user/subscriptions/videos`,
-        {
-          withCredentials: true
+  computed: {
+    hasNoSubscriptions(): boolean {
+      return !this.orderedVideoSections || this.orderedVideoSections.length <= 0;
+    },
+    orderedVideoSections(): Array<any> {
+      const orderedArray = [];
+      let i = 0;
+      this.videos.forEach(video => {
+        let sectionMessage = 'Older videos';
+        const now = new Date();
+        if (video.published > now.valueOf() - 604800000) {
+          sectionMessage = 'Last 7 days';
         }
-      )
-      .then(response => {
-        console.log(response.data);
-        this.videos = response.data;
-        this.loading = false;
-      })
-      .catch(error => {
-        console.error(error);
+        if (video.published > now.valueOf() - 172800000) {
+          sectionMessage = 'Yesterday';
+        }
+        if (video.published > now.valueOf() - 86400000) {
+          sectionMessage = 'Today';
+        }
+        const possibleIndex = orderedArray.findIndex(el => el.sectionMessage === sectionMessage);
+        if (possibleIndex !== -1) {
+          orderedArray[possibleIndex].videos.push(video);
+        } else {
+          orderedArray.push({ sectionMessage, videos: [video], id: i++ });
+        }
       });
+      return orderedArray;
+    },
+    lastRefreshTime(): string {
+      const now = new Date();
+      now.setMinutes(Math.floor(now.getMinutes() / 30) * 30);
+      now.setSeconds(0);
+      return now.toLocaleString();
+    },
+    nextRefreshTime(): string {
+      const now = new Date();
+      now.setMinutes(Math.ceil(now.getMinutes() / 30) * 30);
+      now.setSeconds(0);
+      return now.toLocaleString();
+    }
+  },
+  watch: {
+    '$route.query': '$fetch'
+  },
+  mounted() {
+    this.vapidKey = this.$store.getters['environment/vapidKey'];
 
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker
         .getRegistrations()
-        .then(async registrations => {
+        .then(registrations => {
           const worker = registrations[0];
           worker.pushManager
             .permissionState({
@@ -132,7 +216,6 @@ export default {
               applicationServerKey: this.vapidKey
             })
             .then(permissionState => {
-              console.log(permissionState);
               if (permissionState === 'granted') {
                 this.notificationsEnabled = true;
               } else if (permissionState === 'denied') {
@@ -142,7 +225,11 @@ export default {
             });
         })
         .catch(err => {
-          console.log(err);
+          this.$store.dispatch('messages/createMessage', {
+            type: 'error',
+            title: 'Error loading notification worker',
+            message: err.message
+          });
         });
     } else {
       this.notificationsSupported = false;
@@ -153,75 +240,77 @@ export default {
     closeSubscriptionImport() {
       this.subscriptionImportOpen = false;
     },
+    onSubscriptionImportDone() {
+      this.$fetch();
+    },
     subscribeToNotifications(val) {
       if ('serviceWorker' in navigator) {
-        navigator.serviceWorker
-          .getRegistrations()
-          .then(async registrations => {
-            const worker = registrations[0];
+        navigator.serviceWorker.getRegistrations().then(registrations => {
+          const worker = registrations[0];
 
-            if (val) {
-              worker.pushManager
-                .subscribe({
-                  userVisibleOnly: true,
-                  applicationServerKey: this.vapidKey
-                })
-                .then(subscription => {
-                  this.$axios
-                    .post(
-                      `${Commons.getOwnApiUrl()}user/notifications/subscribe`,
-                      subscription,
-                      {
-                        withCredentials: true
-                      }
-                    )
-                    .then(result => {
-                      this.notificationsEnabled = true;
-                    });
-                })
-                .catch(err => {
-                  this.notificationsEnabled = false;
-                  this.notificationsBtnDisabled = true;
-                  console.log(err);
+          if (val) {
+            worker.pushManager
+              .subscribe({
+                userVisibleOnly: true,
+                applicationServerKey: this.vapidKey
+              })
+              .then(subscription => {
+                this.$axios
+                  .post(
+                    `${this.$store.getters['environment/apiUrl']}user/notifications/subscribe`,
+                    subscription,
+                    {
+                      withCredentials: true
+                    }
+                  )
+                  .then(() => {
+                    this.notificationsEnabled = true;
+                  });
+              })
+              .catch(err => {
+                this.notificationsEnabled = false;
+                this.notificationsBtnDisabled = true;
+                this.$store.dispatch('messages/createMessage', {
+                  type: 'error',
+                  title: 'Error subscribing to notifications',
+                  message: err.message
                 });
-            } else {
-              worker.pushManager
-                .getSubscription()
-                .then(subscription => {
-                  if (subscription) {
-                    subscription.unsubscribe();
-                  }
-                  this.notificationsEnabled = false;
-                });
-            }
-          });
+              });
+          } else {
+            worker.pushManager.getSubscription().then(subscription => {
+              if (subscription) {
+                subscription.unsubscribe();
+              }
+              this.notificationsEnabled = false;
+            });
+          }
+        });
       }
     },
     getNotificationStatus() {
-      if (
-        notificationsBtnDisabled &&
-        notificationsEnabled
-      ) {
+      if (this.notificationsBtnDisabled && this.notificationsEnabled) {
         return 'Notifications are enabled';
-      } else if (notificationsSupported) {
+      } else if (this.notificationsSupported) {
         return 'Notifications are not supported';
-      } else if (
-        !notificationsBtnDisabled &&
-        !notificationsEnabled
-      ) {
+      } else if (!this.notificationsBtnDisabled && !this.notificationsEnabled) {
         return 'Notifications are disabled';
       }
     }
   }
-};
+});
 </script>
 
 <style lang="scss">
 .subscriptions {
+  &.empty {
+    height: 100vh;
+  }
   .section-title {
     width: 100%;
     max-width: $main-width;
     margin: 0 auto;
+    padding: 0 10px;
+    box-sizing: border-box;
 
     .manage-btn-container {
       width: auto;
@@ -230,7 +319,7 @@ export default {
       z-index: 11;
       height: 80px;
       display: grid;
-      padding: 0 20px 0 0;
+      padding: 0 15px 0 0;
       display: flex;
       flex-direction: row;
 
@@ -240,36 +329,88 @@ export default {
     }
   }
 
-  .subscribe-btn-container {
+  .subscribe-info-container {
     position: relative;
-    left: 0;
     width: 100%;
     max-width: $main-width;
-    margin: 0 auto;
+    margin: 30px auto 0 auto;
+    padding: 0 10px;
     z-index: 11;
-    height: 40px;
-    display: flex;
-    padding: 0 20px 0 20px;
     box-sizing: border-box;
 
-    .switch {
-      margin: 0 !important;
+    .subscribe-info {
+      display: flex;
+      flex-direction: row;
+      padding: 15px;
+      box-sizing: border-box;
+      background: var(--bgcolor-alt);
+      justify-content: space-between;
+      border-radius: 5px;
+      box-shadow: $medium-shadow;
+      box-sizing: border-box;
+
+      @media screen and (max-width: 1000px) {
+        flex-direction: column;
+
+        .actions {
+          margin: 10px 0 0 0;
+        }
+      }
+
+      .info {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .actions {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+
+        @media screen and (max-width: $mobile-width) {
+          flex-direction: column;
+        }
+
+        .switch {
+          margin: 5px 0 0 0 !important;
+        }
+      }
+    }
+  }
+
+  .no-subscriptions {
+    position: relative;
+    z-index: 10;
+    margin: 20% 0 0 0;
+    text-align: center;
+
+    p {
     }
   }
 
   .subscription-videos-container {
-    width: 100%;
-    max-width: $main-width;
-    margin: 0 auto;
-    z-index: 10;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
+    .subscription-section {
+      .section-videos-container {
+        width: 100%;
+        max-width: $main-width;
+        margin: 0 auto;
+        padding: 0 10px;
+        box-sizing: border-box;
+        z-index: 10;
+        @include viewtube-grid;
 
-    @media screen and (max-width: $mobile-width) {
-      flex-direction: column;
+        @media screen and (max-width: $mobile-width) {
+          flex-direction: column;
+        }
+      }
     }
+  }
+
+  .feed-pagination {
+    display: block;
+    position: relative;
+    z-index: 11;
+    margin: 0 0 30px 0;
   }
 }
 </style>

@@ -1,82 +1,70 @@
-import { Result, Video, Channel, Playlist, Item } from 'ytsr';
-import { ISearchResponse } from './interface/search-response.interface';
+/* eslint-disable no-case-declarations */
+import { Result, Video, Channel, Playlist, Item, Shelf } from 'ytsr';
 import { Common } from '../common';
+import { SearchResponse } from './interface/search-response.interface';
 
 export class SearchMapper {
-  static ytsrToDto(ytsrResult: Result): ISearchResponse {
-    const resultDto: ISearchResponse = {
-      currentRef: ytsrResult.currentRef,
-      filters: ytsrResult.filters,
-      nextpageRef: ytsrResult.nextpageRef,
-      query: ytsrResult.query,
-      results: ytsrResult.results,
-
-      // Filter Mixes, because urls are broken
-      items: this.getItems(ytsrResult.items.filter(el => el.type !== 'mix'))
+  static ytsrToDto(ytsrResult: Result): SearchResponse {
+    const items = this.getItems(ytsrResult);
+    delete ytsrResult.items;
+    const result: SearchResponse = {
+      ...ytsrResult,
+      items
     };
-    return resultDto;
+    return result;
   }
 
-  private static getItems(source) {
-    const result = {
-      channels: [],
-      videos: [],
-      movies: [],
-      playlists: [],
-      verticalShelf: [],
-      compactShelf: [],
-      searchRefinements: []
-    };
-    source.forEach((source: Item, index: number) => {
+  private static getItems(source: Result) {
+    const result = [];
+    source.items.forEach((source: Item, index: number) => {
       switch (source.type) {
         case 'channel':
           const channel = { ...this.mapChannel(source), ...{ position: index } };
-          result.channels.push(channel);
+          result.push(channel);
           break;
         case 'video':
           const video = { ...this.mapVideo(source), ...{ position: index } };
-          result.videos.push(video);
+          result.push(video);
           break;
         case 'playlist':
           const playlist = { ...this.mapPlaylist(source), ...{ position: index } };
-          result.playlists.push(playlist);
+          result.push(playlist);
           break;
-        case 'shelf-vertical':
-          result.verticalShelf.push({
-            type: 'shelf-vertical',
-            title: source.title,
-            items: source.items.map(this.mapVideo),
-            position: index
-          });
-          break;
-        case 'search-refinements':
-          result.searchRefinements.push({
-            entries: (source as any).entries,
-            position: index
-          });
-          break;
-        case 'shelf-compact':
-          const compactShelf = { ...source, ...{ position: index } };
-          result.compactShelf.push(compactShelf);
+        case 'shelf':
+          const shelf = { ...this.mapShelf(source), ...{ position: index } };
+          result.push(shelf);
           break;
         case 'movie':
           const movie = { ...source, ...{ position: index } };
-          result.movies.push(movie);
+          result.push(movie);
           break;
       }
     });
     return result;
   }
 
+  static mapShelf(source: Shelf): any {
+    let shelfType = 'general';
+    if (source.title.match(/latest from/gi)) {
+      shelfType = 'channel';
+    }
+    return {
+      type: 'shelf-vertical',
+      shelfType,
+      title: source.title,
+      items: source.items.map(this.mapVideo)
+    };
+  }
+
   static mapPlaylist(source: Playlist): any {
     const playlist = {
       type: 'playlist',
       title: source.title,
-      playlistId: Common.getPlaylistIdFromUrl(source.link),
-      author: source.author.name,
-      authorId: Common.getChannelIdFromUrl(source.author.ref),
-      authorVerified: source.author.verified,
-      thumbnail: source.thumbnail,
+      playlistId: Common.getPlaylistIdFromUrl(source.url),
+      author: source.owner.name,
+      authorId: source.owner.channelID,
+      authorVerified: source.owner.verified,
+      thumbnail: source.firstVideo.bestThumbnail,
       videoCountString: source.length
     };
     return playlist;
@@ -86,12 +74,12 @@ export class SearchMapper {
     const channel = {
       type: 'channel',
       author: source.name,
-      authorId: source.channel_id,
-      authorThumbnails: Common.getAuthorThumbnails(source.avatar),
+      authorId: source.channelID,
+      authorThumbnails: Common.getAuthorThumbnails(source.avatars[0].url),
       authorVerified: source.verified,
-      authorUrl: '/channel/' + source.channel_id,
-      description: source.description_short,
-      subCount: source.followers,
+      authorUrl: '/channel/' + source.channelID,
+      description: source.descriptionShort,
+      subCount: source.subscribers,
       videoCount: source.videos
     };
     return channel;
@@ -102,13 +90,13 @@ export class SearchMapper {
       type: 'video',
       title: source.title,
       author: source.author.name,
-      authorId: source.author.ref,
+      authorId: source.author.channelID,
       description: source.description,
-      publishedText: source.uploaded_at,
-      videoId: Common.getVideoIdFromUrl(source.link),
-      videoThumbnails: Common.getVideoThumbnails(Common.getVideoIdFromUrl(source.link)),
+      publishedText: source.uploadedAt,
+      videoId: Common.getVideoIdFromUrl(source.url),
+      videoThumbnails: Common.getVideoThumbnails(Common.getVideoIdFromUrl(source.url)),
       viewCount: source.views,
-      live: source.live,
+      live: source.isLive,
       lengthString: source.duration
     };
     return video;

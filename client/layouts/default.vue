@@ -1,19 +1,11 @@
 <template>
-  <div
-    id="app"
-    ref="app"
-    class="layout"
-    :class="getAppClass()"
-    @touchstart.passive="onTouchStart"
-    @touchmove.passive="onTouchMove"
-    @touchend.passive="onTouchEnd"
-  >
-    <span
+  <div id="app" ref="app" class="layout" :class="getAppClass()">
+    <!-- <span
       class="reload-element"
       :style="{
         transform: `translate3d(0,${reloadElDistance}px,0)`
       }"
-    ></span>
+    /> -->
     <ThemeStyling />
     <Header v-if="!headless" class="main-header" />
     <Miniplayer v-if="$store.getters.miniplayer" />
@@ -24,13 +16,14 @@
   </div>
 </template>
 
-<script>
-import Header from '@/components/header/MainHeader';
-import Miniplayer from '@/components/miniplayer/Miniplayer';
-import MessageBoxContainer from '@/components/message/MessageBoxContainer';
-import ThemeStyling from '@/components/themes/ThemeStyling';
+<script lang="ts">
+import Header from '@/components/header/MainHeader.vue';
+import Miniplayer from '@/components/miniplayer/Miniplayer.vue';
+import MessageBoxContainer from '@/components/message/MessageBoxContainer.vue';
+import ThemeStyling from '@/components/themes/ThemeStyling.vue';
+import Vue from 'vue';
 
-export default {
+export default Vue.extend({
   name: 'Default',
   components: {
     Header,
@@ -46,37 +39,25 @@ export default {
     };
   },
   computed: {
-    headless() {
+    headless(): boolean {
       return this.$route.meta.headless;
     }
   },
-  watch: {
-    browser(oldVal, newVal) {}
-  },
   mounted() {
-    this.$store.dispatch('user/getUser');
     if (this.$store.getters['instances/instances'].length === 0) {
       this.$store.dispatch('instances/fetchInstances');
     }
     this.$refs.app.classList += ` ${this.getThemeClass()}`;
-    if (process.browser) {
-      window.addEventListener('scroll', this.handleScroll, {
-        passive: true
-      });
-    }
   },
   methods: {
-    handleScroll(e, position) {
-      this.$store.commit('scroll/setScrollPosition', window.pageYOffset);
-    },
-    getThemeClass() {
-      if (process.browser) {
-        return `theme--${this.$store.getters['settings/theme']}`;
+    getThemeClass(): string {
+      if ((process as any).browser) {
+        return `theme--${this.$store.getters['theme/selectedTheme']}`;
       } else {
         return 'theme--default';
       }
     },
-    getAppClass() {
+    getAppClass(): string {
       let appClass = this.getThemeClass();
 
       if (this.reloadAnimating) {
@@ -84,10 +65,10 @@ export default {
       }
       return appClass;
     },
-    onTouchStart(e) {
+    onTouchStart(e: any): void {
       this.touchTopY = e.touches[0].pageY;
     },
-    onTouchMove(e) {
+    onTouchMove(e: any): void {
       const topY = e.touches[0].pageY;
       const topDistance = topY - this.touchTopY;
       if (window.pageYOffset === 0 && topY > this.touchTopY) {
@@ -98,7 +79,7 @@ export default {
         this.reloadAnimating = true;
       }
     },
-    onTouchEnd(e) {
+    onTouchEnd(): void {
       if (this.reloadElDistance > 100) {
         this.reloadElDistance = 100;
         this.reloadAnimating = true;
@@ -109,7 +90,7 @@ export default {
       }
     }
   }
-};
+});
 </script>
 
 <style lang="scss">
@@ -209,7 +190,8 @@ h6,
 a {
   margin: 0;
 }
-div.links {
+div.links,
+span.links {
   a {
     text-decoration: none;
     color: var(--theme-color-alt);
@@ -240,9 +222,6 @@ body,
   width: 24px;
   height: 24px;
   display: inline-block;
-
-  .material-design-icon__svg {
-  }
 }
 
 div,
@@ -294,5 +273,12 @@ textarea:focus {
 a {
   text-decoration: none;
   color: unset;
+}
+.monospace {
+  display: inline-block;
+  background-color: #0000004d;
+  padding: 2px 5px;
+  font-family: monospace;
+  border-radius: 4px;
 }
 </style>

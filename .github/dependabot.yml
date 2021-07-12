@@ -9,6 +9,7 @@ updates:
     directory: '/' # Location of package manifests
     schedule:
       interval: 'daily'
-    target-branch: "dev"
+    target-branch: 'development'
     commit-message:
       prefix: '⬆️'
+    open-pull-requests-limit: 20

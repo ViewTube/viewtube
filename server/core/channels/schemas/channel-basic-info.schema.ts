@@ -1,16 +1,12 @@
 import { Document } from 'mongoose';
-import {
-  Prop,
-  Schema,
-  SchemaFactory
-} from '@nestjs/mongoose';
-import { AuthorThumbnailDto } from 'server/core/videos/dto/author-thumbnail.dto';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { AuthorThumbnailDto } from 'shared/dto/video/author-thumbnail.dto';
 import { ChannelBasicInfoDto } from '../dto/channel-basic-info.dto';
 
+// eslint-disable-next-line no-undef
 @Schema({ timestamps: true })
-export class ChannelBasicInfo
-  extends Document
-  implements ChannelBasicInfoDto {
+export class ChannelBasicInfo extends Document implements ChannelBasicInfoDto {
   @Prop({ index: { unique: true } })
   authorId: string;
 
@@ -30,6 +26,4 @@ export class ChannelBasicInfo
   authorVerified?: boolean;
 }
 
-export const ChannelBasicInfoSchema = SchemaFactory.createForClass(
-  ChannelBasicInfo
-);
+export const ChannelBasicInfoSchema = SchemaFactory.createForClass(ChannelBasicInfo);

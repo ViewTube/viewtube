@@ -1,19 +1,19 @@
-FROM node:14.8-alpine
+FROM alpine:3.12
 WORKDIR /home/app
 
+RUN apk upgrade --no-cache -U && \
+    apk add --no-cache nodejs-current yarn
+
 COPY package.json yarn.lock ./
-RUN yarn install
+RUN yarn install --pure-lockfile --link-duplicates --ignore-optional && \
+    yarn cache clean && \
+    yarn modclean -n default:safe -r
 
 COPY . .
 
 RUN yarn build
 
-ARG NODE_ENV=production
-ENV NODE_ENV=${NODE_ENV}
-
+ENV NODE_ENV=production
 EXPOSE 8066
-ARG NODE_ENV=production
-ENV NODE_ENV=${NODE_ENV}
-ENV NUXT_HOST=0.0.0.0
-ENV NUXT_PORT=8066
-CMD ["npm", "start"]
+
+CMD ["node", "-r", "module-alias/register", "dist/server/main.js"]

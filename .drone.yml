@@ -7,7 +7,6 @@ steps:
     image: node
     commands:
       - yarn install
-      - yarn build
       - yarn test
 
   - name: 📦 Publish
@@ -16,14 +15,15 @@ steps:
       repo: mauriceo/viewtube
       tags:
         - latest
-        - '1.0'
+        - '0.5.0'
+        - '0.5'
       username:
         from_secret: docker_username
       password:
         from_secret: docker_password
     when:
       branch:
-        - master
+        - stable
       event:
         - push
 
@@ -39,7 +39,7 @@ steps:
         from_secret: docker_password
     when:
       branch:
-        - dev
+        - development
       event:
         - push
 
@@ -51,6 +51,14 @@ steps:
       to: -1001411660806
     when:
       branch:
-        - master
+        - stable
       event:
         - push
+      status:
+        - success
+        - failure
+
+trigger:
+  branch:
+    - stable
+    - development

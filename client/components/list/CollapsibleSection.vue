@@ -1,43 +1,31 @@
 <template>
-  <div class="collapsible-section">
-    <div
-      class="title"
-      v-ripple
-      @click.prevent="toggleSection()"
-    >
-      <h3 class="title-text">{{ label }}</h3>
-      <ArrowDownIcon
-        class="icon"
-        :class="{ inverted: open }"
-      />
-    </div>
+  <details class="collapsible-section">
+    <summary v-ripple class="collapsible-summary">
+      <div class="title">
+        <h3 class="title-text">{{ label }}</h3>
+      </div>
+    </summary>
     <transition name="section-collapse">
-      <div class="section-container" v-show="open">
+      <div v-show="open" class="section-container">
         <slot />
       </div>
     </transition>
-  </div>
+  </details>
 </template>
 
-<script>
-import ArrowDownIcon from 'vue-material-design-icons/ChevronDown';
-export default {
-  name: 'collapsible-section',
-  components: {
-    ArrowDownIcon
-  },
-  data: () => ({
-    open: false
-  }),
+<script lang="ts">
+import Vue from 'vue';
+
+export default Vue.extend({
+  name: 'CollapsibleSection',
+  components: {},
   props: {
     label: String,
     opened: Boolean
   },
-  mounted() {
-    if (this.opened) {
-      this.open = this.opened;
-    }
-  },
+  data: () => ({
+    open: false
+  }),
   watch: {
     opened(newValue, oldValue) {
       if (newValue !== oldValue) {
@@ -45,12 +33,12 @@ export default {
       }
     }
   },
-  methods: {
-    toggleSection() {
-      this.open = !this.open;
+  mounted() {
+    if (this.opened) {
+      this.open = this.opened;
     }
   }
-};
+});
 </script>
 
 <style lang="scss" scoped>
@@ -73,21 +61,22 @@ export default {
   min-width: 340px;
   position: relative;
 
-  .title {
+  .collapsible-summary {
     cursor: pointer;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    padding: 10px 10px 0 10px;
-    position: sticky;
-    top: 0;
+    .title {
+      cursor: pointer;
+      display: inline-flex;
+      flex-direction: row;
+      justify-content: space-between;
+      padding: 20px 10px 15px 0;
 
-    .icon {
-      transition: transform 300ms $intro-easing;
-      transform-origin: 50% 40%;
+      .icon {
+        transition: transform 300ms $intro-easing;
+        transform-origin: 50% 40%;
 
-      &.inverted {
-        transform: rotate(180deg);
+        &.inverted {
+          transform: rotate(180deg);
+        }
       }
     }
   }

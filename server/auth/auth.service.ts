@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { UserService } from '../user/user.service';
 import bcrypt from 'bcryptjs';
 import { ConfigService } from '@nestjs/config';
+import { UserService } from '../user/user.service';
 
 @Injectable()
 export class AuthService {
@@ -16,17 +16,14 @@ export class AuthService {
     const user = await this.userService.findOne(username);
     if (user) {
       try {
-        const comparison = await bcrypt.compare(
-          pw,
-          user.password
-        );
+        const comparison = await bcrypt.compare(pw, user.password);
         if (comparison === true) {
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
           const { password, ...result } = user;
           return result;
         }
-      } catch (err) {
-        console.error(err);
+      } catch (_) {
+        return null;
       }
     }
     return null;
@@ -34,34 +31,26 @@ export class AuthService {
 
   getDeletionCookie() {
     let domainString = '';
-    if (
-      this.configService.get('NODE_ENV') === 'production'
-    ) {
-      domainString = `Domain=${this.configService.get(
-        'VIEWTUBE_CURRENT_DOMAIN'
-      )}; `;
+    if (this.configService.get('NODE_ENV') === 'production') {
+      domainString = `Domain=${this.configService.get('VIEWTUBE_CURRENT_DOMAIN')}; `;
     }
     const expiration = 0;
     return `Authentication=; HttpOnly=true; Secure=true; Path=/; ${domainString}Max-Age=${expiration}`;
   }
 
-  async getJwtCookie(username: string) {
-    const { accessToken } = await this.login(username);
+  getJwtCookie(username: string) {
+    const { accessToken } = this.login(username);
     let domainString = '';
-    if (
-      this.configService.get('NODE_ENV') === 'production'
-    ) {
-      domainString = `Domain=${this.configService.get(
-        'VIEWTUBE_CURRENT_DOMAIN'
-      )}; `;
+    let secureString = '';
+    if (this.configService.get('NODE_ENV') === 'production') {
+      domainString = `Domain=${this.configService.get('VIEWTUBE_CURRENT_DOMAIN')}; `;
+      secureString = 'Secure=true; ';
     }
-    const expiration = this.configService.get(
-      'VIEWTUBE_JWT_EXPIRATION_TIME'
-    );
-    return `Authentication=${accessToken}; HttpOnly=true; Secure=true; Path=/; ${domainString}Max-Age=${expiration}`;
+    const expiration = this.configService.get('VIEWTUBE_JWT_EXPIRATION_TIME');
+    return `Authentication=${accessToken}; HttpOnly=true; Path=/; ${secureString}${domainString}Max-Age=${expiration}`;
   }
 
-  async login(username: string) {
+  login(username: string) {
     return {
       accessToken: this.jwtService.sign({ username })
     };

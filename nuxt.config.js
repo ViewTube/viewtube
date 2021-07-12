@@ -1,21 +1,20 @@
-module.exports = {
-  mode: 'universal',
+import Sass from 'sass';
+const dartSass = {
+  implementation: Sass
+};
 
+// eslint-disable-next-line nuxt/no-cjs-in-config
+module.exports = {
   srcDir: './client',
 
   env: {
-    API_URL: process.env.VIEWTUBE_API_URL,
-    VAPID_KEY: process.env.VIEWTUBE_PUBLIC_VAPID,
+    apiUrl: process.env.VIEWTUBE_API_URL,
+    vapidKey: process.env.VIEWTUBE_PUBLIC_VAPID,
+    nodeEnv: process.env.NODE_ENV,
     host: 'localhost',
     port: '3100',
     baseUrl: process.env.BASE_URL || 'http://localhost:3100'
   },
-
-  publicRuntimeConfig: {
-    vapidKey: process.env.VIEWTUBE_VAPID
-  },
-
-  modern: true,
 
   head: {
     meta: [
@@ -60,7 +59,6 @@ module.exports = {
         title: 'Search ViewTube',
         href: 'https://viewtube.io/viewtubesearch.xml'
       },
-      { rel: 'manifest', href: '/manifest.json' },
       {
         rel: 'apple-touch-icon',
         href: '/apple-touch-icon.png'
@@ -85,31 +83,95 @@ module.exports = {
     scss: ['~/assets/styles/global/*.scss']
   },
 
+  typescript: {
+    typeCheck: {
+      eslint: {
+        files: './**/*.{ts,js,vue}'
+      }
+    }
+  },
+
   plugins: [
     '@/plugins/directives/index',
     '@/plugins/formatting',
+    '@/plugins/shared',
     { src: '@/plugins/localStorage', mode: 'client' }
   ],
 
-  // pwa: {
-  workbox: {
-    importScripts: ['notifications-sw.js']
+  pwa: {
+    icon: false,
+    workbox: {
+      debug: true,
+      importScripts: ['notifications-sw.js']
+    },
+    manifest: {
+      name: 'ViewTube',
+      short_name: 'ViewTube',
+      display: 'standalone',
+      background_color: '#121212',
+      description: 'An alternative YouTube-frontend',
+      lang: 'en',
+      theme_color: '#272727',
+      icons: [
+        {
+          src: 'icon-192.png',
+          sizes: '192x192',
+          type: 'image/png',
+          purpose: 'any'
+        },
+        {
+          src: 'icon-256.png',
+          sizes: '256x256',
+          type: 'image/png',
+          purpose: 'any'
+        },
+        {
+          src: 'icon-512.png',
+          sizes: '512x512',
+          type: 'image/png',
+          purpose: 'any'
+        },
+        {
+          src: 'icon-192-maskable.png',
+          sizes: '192x192',
+          type: 'image/png',
+          purpose: 'maskable'
+        },
+        {
+          src: 'icon-256-maskable.png',
+          sizes: '256x256',
+          type: 'image/png',
+          purpose: 'maskable'
+        },
+        {
+          src: 'icon-512-maskable.png',
+          sizes: '512x512',
+          type: 'image/png',
+          purpose: 'maskable'
+        }
+      ]
+    }
   },
-  // },
 
-  buildModules: [],
+  buildModules: [
+    '@nuxtjs/composition-api',
+    '@nuxtjs/router',
+    '@nuxt/typescript-build',
+    'nuxt-typed-vuex'
+  ],
 
   modules: [
     '@nuxtjs/style-resources',
     'portal-vue/nuxt',
     'cookie-universal-nuxt',
-    '@nuxtjs/workbox',
+    '@nuxtjs/pwa',
     '@nuxtjs/axios',
     ['cookie-universal-nuxt', { alias: 'cookies' }]
   ],
 
   axios: {
-    credentials: true
+    credentials: true,
+    progress: false
   },
 
   build: {
@@ -121,7 +183,25 @@ module.exports = {
         })
       ]
     },
+    terser: {
+      parallel: true,
+      cache: false,
+      sourceMap: false,
+      extractComments: false,
+      terserOptions: {
+        ecma: 2020,
+        mangle: true
+      }
+    },
+    loaders: {
+      scss: dartSass
+    },
+    indicator: true,
     transpile: ['vue-material-design-icons', 'dashjs', 'tippy.js'],
-    extend(config, ctx) {}
+    extend(config, { isClient }) {
+      if (isClient) {
+        config.optimization.splitChunks.maxSize = 1000000;
+      }
+    }
   }
 };

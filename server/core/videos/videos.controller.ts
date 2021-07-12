@@ -7,17 +7,16 @@ import {
   SerializeOptions,
   CacheInterceptor
 } from '@nestjs/common';
-import { VideosService } from './videos.service';
-import { VideoDto } from './dto/video.dto';
 import { ApiTags } from '@nestjs/swagger';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { VideoDto } from 'shared/dto/video/video.dto';
+import { VideosService } from './videos.service';
 
 @ApiTags('Core')
 @UseInterceptors(CacheInterceptor)
 @Controller('videos')
 export class VideosController {
-  constructor(
-    private readonly videosService: VideosService
-  ) {}
+  constructor(private readonly videosService: VideosService) {}
 
   @UseInterceptors(ClassSerializerInterceptor)
   @SerializeOptions({

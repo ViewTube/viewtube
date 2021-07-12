@@ -1,7 +1,8 @@
 import { Controller, Get } from '@nestjs/common';
-import { CaptchaService } from './captcha.service';
-import { CaptchaDto } from './dto/captcha.dto';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
+import { CaptchaService } from './captcha.service';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { CaptchaDto } from './dto/captcha.dto';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -10,7 +11,7 @@ export class CaptchaController {
 
   @Get('captcha')
   @ApiOperation({ summary: 'Get a captcha' })
-  async getCaptcha(): Promise<CaptchaDto> {
+  getCaptcha(): Promise<CaptchaDto> {
     return this.captchaService.getCaptcha();
   }
 }
