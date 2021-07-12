@@ -160,30 +160,33 @@ export default defineComponent({
     };
 
     const onRepeatToggle = () => {
-      router.push({
-        path: route.value.fullPath,
-        query: { repeat: (!repeatEnabled.value).toString() },
-        replace: true
-      });
+      toggleQueryParam('repeat', !repeatEnabled.value);
       repeatEnabled.value = !repeatEnabled.value;
     };
 
     const onShuffleToggle = () => {
-      router.push({
-        path: route.value.fullPath,
-        query: { shuffle: (!shuffleEnabled.value).toString() },
-        replace: true
-      });
+      toggleQueryParam('shuffle', !shuffleEnabled.value);
       shuffleEnabled.value = !shuffleEnabled.value;
     };
 
     const onReverseToggle = () => {
+      toggleQueryParam('reverse', !reverseEnabled.value);
+      reverseEnabled.value = !reverseEnabled.value;
+    };
+
+    const toggleQueryParam = (param: string, value: boolean) => {
+      const query = Object.assign({}, route.value.query);
+      if (value) {
+        query[param] = value.toString();
+      } else {
+        delete query[param];
+      }
+      debugger;
       router.push({
-        path: route.value.fullPath,
-        query: { reverse: (!reverseEnabled.value).toString() },
+        path: route.value.path,
+        query,
         replace: true
       });
-      reverseEnabled.value = !reverseEnabled.value;
     };
 
     const getFullPath = () => route.value.fullPath;
@@ -196,7 +199,7 @@ export default defineComponent({
       let nextVideoId = getNextVideoId();
 
       if (repeatEnabled.value) {
-        if (currentVideoIndex + 1 < props.playlist.items.length) {
+        if (currentVideoIndex + 1 === props.playlist.items.length) {
           nextVideoId = props.playlist.items[0].id;
         }
       }
@@ -209,15 +212,24 @@ export default defineComponent({
         }
       }
 
-      // if (shuffleEnabled.value) {
-      // }
+      if (shuffleEnabled.value) {
+        nextVideoId = getRandomVideoId(currentVideoIndex);
+      }
 
       if (props.playlist.items[currentVideoIndex].id !== nextVideoId) {
         router.push({
           path: getFullPath(),
-          query: { v: getNextVideoId() }
+          query: { v: nextVideoId }
         });
       }
+    };
+
+    const getRandomVideoId = (currentIndex: number) => {
+      const randomIndex = Math.floor(Math.random() * props.playlist.items.length);
+      if (randomIndex === currentIndex) {
+        return getRandomVideoId(currentIndex);
+      }
+      return props.playlist.items[randomIndex].id;
     };
 
     onMounted(() => {
