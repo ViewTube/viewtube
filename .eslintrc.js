@@ -24,6 +24,7 @@ module.exports = {
     'vue/require-default-prop': 'off',
     'vue/attribute-hyphenation': ['off', { ignore: ['custom-prop'] }],
     'vue/no-v-html': 'off',
+    'vue/script-setup-uses-vars': 'off',
     semi: 'off',
     'vue/html-self-closing': [
       'error',
