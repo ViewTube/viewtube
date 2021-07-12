@@ -1,8 +1,5 @@
-User-agent: *
-Disallow: 
-Disallow: /watch/
-Disallow: /channel/
-Disallow: /playlist/
-Disallow: /subscriptions/
-Disallow: /subscriptions/manage/
-Disallow: /results/
+User-Agent: *
+Disallow: /subscriptions
+Disallow: /subscriptions/manage
+Disallow: /profile
+Disallow: /history

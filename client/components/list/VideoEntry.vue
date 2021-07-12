@@ -64,7 +64,7 @@
       class="video-entry-thmb"
       :to="{
         name: 'watch',
-        query: { v: video.videoId ? video.videoId : video.id },
+        query: videoLinkQuery,
         params: { videoData: video }
       }"
       :class="{ 'has-description': video.description }"
@@ -119,7 +119,7 @@
           class="video-entry-title"
           :to="{
             name: 'watch',
-            query: { v: video.videoId ? video.videoId : video.id },
+            query: videoLinkQuery,
             params: { videoData: video }
           }"
           >{{ video.title }}</nuxt-link
@@ -159,6 +159,7 @@ export default defineComponent({
   },
   props: {
     video: Object,
+    playlistId: { type: String, required: false },
     lazy: Boolean
   },
   setup(props) {
@@ -173,24 +174,30 @@ export default defineComponent({
 
     apiUrl.value = accessor.environment.apiUrl;
 
-    if (props.video.videoThumbnails) {
-      videoThumbnailUrl.value = imgProxy.url + props.video.videoThumbnails[3].url + localProxy;
-    } else if (props.video.thumbnails) {
-      if (props.video.thumbnails[1]) {
-        videoThumbnailUrl.value = imgProxy.url + props.video.thumbnails[1].url + localProxy;
-      } else {
-        videoThumbnailUrl.value = imgProxy.url + props.video.thumbnails[0].url + localProxy;
+    const videoLinkQuery = computed(() => {
+      const linkQuery: { v: string; list?: string } = {
+        v: props.video.videoId ? props.video.videoId : props.video.id
+      };
+
+      if (props.playlistId) {
+        linkQuery.list = props.playlistId;
       }
-    }
+      return linkQuery;
+    });
+
+    const thumbnailTemplate = 'https://i.ytimg.com/vi/';
+
+    videoThumbnailUrl.value = `
+      ${imgProxy.url}${thumbnailTemplate}${
+      props.video.videoId ? props.video.videoId : props.video.id
+    }/sddefault.jpg${localProxy}`;
 
     const videoThumbnailUrlXL = ref('');
-    if (props.video.videoThumbnails) {
-      videoThumbnailUrlXL.value = imgProxy.url + props.video.videoThumbnails[2].url + localProxy;
-    } else if (props.video.thumbnails) {
-      if (props.video.thumbnails[0]) {
-        videoThumbnailUrlXL.value = imgProxy.url + props.video.thumbnails[0].url + localProxy;
-      }
-    }
+    videoThumbnailUrl.value = `
+      ${imgProxy.url}${thumbnailTemplate}${
+      props.video.videoId ? props.video.videoId : props.video.id
+    }/hqdefault.jpg${localProxy}`;
+
     const videoProgressPercentage = computed((): number => {
       // const savedPosition = accessor.videoProgress.getSavedPositionForId(
       //   props.video.videoId ? props.video.videoId : props.video.id
@@ -227,7 +234,8 @@ export default defineComponent({
       videoThumbnailUrlXL,
       videoProgressPercentage,
       videoProgressTooltip,
-      apiUrl
+      apiUrl,
+      videoLinkQuery
     };
   }
 });
@@ -356,16 +364,6 @@ export default defineComponent({
     box-shadow: $medium-shadow;
     overflow: hidden;
     padding-top: 56.25%;
-    border-radius: 8px;
-    transition: transform 300ms $intro-easing;
-
-    &:hover {
-      transform: scale(1.02);
-    }
-
-    &:focus {
-      transform: scale(1.05);
-    }
 
     .thmb-image-container {
       position: absolute;
