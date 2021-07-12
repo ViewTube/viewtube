@@ -3,7 +3,7 @@ WORKDIR /home/build
 
 ENV BUILD_ENV=production
 
-COPY package.json yarn.lock ./
+COPY package.json yarn.lock prepare.js ./
 RUN yarn install --pure-lockfile --link-duplicates --ignore-optional
 
 COPY . .
