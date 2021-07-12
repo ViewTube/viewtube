@@ -45,7 +45,6 @@ export class AuthService {
     const { accessToken } = this.login(username);
     let domainString = '';
     let secureString = '';
-    console.log(this.configService.get('VIEWTUBE_CURRENT_DOMAIN'));
     if (
       this.configService.get('NODE_ENV') === 'production' &&
       this.configService.get('VIEWTUBE_CURRENT_DOMAIN')
