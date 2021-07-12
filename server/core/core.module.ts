@@ -18,6 +18,7 @@ import { ChannelsModule } from './channels/channels.module';
 import { HomepageModule } from './homepage/homepage.module';
 import { ProxyModule } from './proxy/proxy.module';
 import { CommentsModule } from './comments/comments.module';
+import { PlaylistsModule } from './playlists/playlists.module';
 
 const moduleMetadata: ModuleMetadata = {
   imports: [
@@ -53,7 +54,8 @@ const moduleMetadata: ModuleMetadata = {
     ChannelsModule,
     HomepageModule,
     ProxyModule,
-    CommentsModule
+    CommentsModule,
+    PlaylistsModule
   ],
   controllers: [VideosController, VideoplaybackController],
   providers: [VideosService, VideoplaybackService],

@@ -180,9 +180,13 @@ export class SubscriptionsService {
     const userSubscriptions = await this.subscriptionModel.findOne({ username }).lean().exec();
     if (userSubscriptions) {
       const userSubscriptionIds = userSubscriptions.subscriptions.map(e => e.channelId);
-      const videoCount = await this.VideoModel.countDocuments({
+
+      const videoCount = await this.VideoModel.find({
         authorId: { $in: userSubscriptionIds }
-      }).exec();
+      })
+        .estimatedDocumentCount()
+        .exec();
+
       const videos = await this.VideoModel.find({ authorId: { $in: userSubscriptionIds } })
         .sort({ published: -1 })
         .limit(parseInt(limit as any))
@@ -192,6 +196,7 @@ export class SubscriptionsService {
           delete el.__v;
           return el;
         })
+        .exec()
         .catch(err => {
           throw new HttpException(`Error fetching subscription feed: ${err}`, 500);
         });

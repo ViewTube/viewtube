@@ -19,7 +19,7 @@ import { useFormatting } from '~/plugins/formatting';
 import { useAxios } from '~/plugins/axios';
 import { useImgProxy } from '~/plugins/proxy';
 
-export const videoPlayerSetup = (props: any) => {
+export const videoPlayerSetup = (props: any, emit: Function) => {
   const accessor = useAccessor();
   const formatting = useFormatting();
   const axios = useAxios();
@@ -220,7 +220,7 @@ export const videoPlayerSetup = (props: any) => {
     }
   };
 
-  const onLoadedMetadata = (e: any) => {
+  const onLoadedMetadata = async (e: any) => {
     videoElement.aspectRatio = e.target.videoHeight / e.target.videoWidth;
     if (videoRef.value) {
       videoElement.playerVolume = accessor.playerVolume.getPlayerVolume;
@@ -230,7 +230,15 @@ export const videoPlayerSetup = (props: any) => {
           setVideoTime(props.initialVideoTime);
         }
         if (props.autoplay) {
-          videoRef.value.play();
+          try {
+            await videoRef.value.play();
+          } catch (error) {
+            accessor.messages.createMessage({
+              type: 'error',
+              title: 'Autoplay blocked',
+              message: 'Allow autoplay for this website to start the video automatically'
+            });
+          }
         }
         if ('mediaSession' in navigator && process.browser) {
           const metadata = createMediaMetadata();
@@ -364,6 +372,10 @@ export const videoPlayerSetup = (props: any) => {
     if ('mediaSession' in navigator) {
       (navigator as any).mediaSession.playbackState = 'paused';
     }
+  };
+
+  const onVideoEnded = () => {
+    emit('videoEnded');
   };
 
   const onVideoCanplay = () => {
@@ -836,6 +848,7 @@ export const videoPlayerSetup = (props: any) => {
     onVolumeChange,
     onVideoPlaying,
     onVideoPaused,
+    onVideoEnded,
     onVideoCanplay,
     onVideoBuffering,
     onLoaded,

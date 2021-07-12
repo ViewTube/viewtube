@@ -290,10 +290,6 @@ export default defineComponent({
         margin: 0 auto;
         z-index: 10;
         @include viewtube-grid;
-
-        @media screen and (max-width: $mobile-width) {
-          flex-direction: column;
-        }
       }
     }
   }

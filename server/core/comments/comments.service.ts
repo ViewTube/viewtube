@@ -44,7 +44,7 @@ export class CommentsService {
   async getCommentReplies(videoId: string, replyToken: string): Promise<CommentsResponseDto> {
     try {
       await this.getComments(videoId, false, null);
-      const commentsRawResult = await ytcm.getCommentReplies(videoId, replyToken);
+      const commentsRawResult = await ytcm.getCommentReplies({ videoId, replyToken });
       if (commentsRawResult) {
         const commentsResult = mapComments(commentsRawResult);
         return commentsResult;

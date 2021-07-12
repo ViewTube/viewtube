@@ -1,15 +1,12 @@
 <template>
   <div class="video-loading-template">
-    <div
-      v-if="backgroundThumbnail"
-      class="blurred-background"
-      :style="{ 'background-image': `url(${imgProxyUrl + backgroundThumbnail.url})` }"
-    />
     <div class="centered-card">
       <Spinner class="" />
-      <p>Loading video</p>
-      <h2>{{ video.title }}</h2>
-      <h3>{{ video.author }}</h3>
+      <div class="fade-in">
+        <p>Loading video</p>
+        <h2>{{ video.title }}</h2>
+        <h3>{{ typeof video.author === 'string' ? video.author : video.author.name }}</h3>
+      </div>
     </div>
   </div>
 </template>
@@ -48,18 +45,6 @@ export default defineComponent({
   height: calc(100vh - #{$header-height});
   position: relative;
 
-  .blurred-background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    filter: blur(10px);
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-  }
-
   .centered-card {
     position: absolute;
     top: 50%;
@@ -71,6 +56,23 @@ export default defineComponent({
     border-radius: 5px;
     width: 100%;
     max-width: 500px;
+
+    .fade-in {
+      animation: card-fade-in 300ms 1s $intro-easing forwards;
+      opacity: 0;
+    }
+  }
+}
+
+@keyframes card-fade-in {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 </style>
