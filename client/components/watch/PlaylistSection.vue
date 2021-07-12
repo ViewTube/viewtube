@@ -129,13 +129,13 @@ export default defineComponent({
     const shuffleEnabled = ref(false);
     const reverseEnabled = ref(false);
 
-    if (route.value.query.repeat) {
+    if (route.value.query.repeat === 'true') {
       repeatEnabled.value = true;
     }
-    if (route.value.query.shuffle) {
+    if (route.value.query.shuffle === 'true') {
       shuffleEnabled.value = true;
     }
-    if (route.value.query.reverse) {
+    if (route.value.query.reverse === 'true') {
       reverseEnabled.value = true;
     }
 
@@ -192,8 +192,27 @@ export default defineComponent({
       const currentVideoIndex = props.playlist.items.findIndex(
         el => el.id === props.currentVideoId
       );
-      // 
-      if (currentVideoIndex + 1 < props.playlist.items.length) {
+
+      let nextVideoId = getNextVideoId();
+
+      if (repeatEnabled.value) {
+        if (currentVideoIndex + 1 < props.playlist.items.length) {
+          nextVideoId = props.playlist.items[0].id;
+        }
+      }
+
+      if (reverseEnabled.value) {
+        if (currentVideoIndex - 1 >= 0) {
+          nextVideoId = getPreviousVideoId();
+        } else if (repeatEnabled.value) {
+          nextVideoId = props.playlist.items[props.playlist.items.length - 1].id;
+        }
+      }
+
+      // if (shuffleEnabled.value) {
+      // }
+
+      if (props.playlist.items[currentVideoIndex].id !== nextVideoId) {
         router.push({
           path: getFullPath(),
           query: { v: getNextVideoId() }
