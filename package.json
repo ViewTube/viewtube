@@ -33,16 +33,16 @@
     "not Edge 18"
   ],
   "dependencies": {
-    "@nestjs/common": "7.6.18",
+    "@nestjs/common": "8.0.2",
     "@nestjs/config": "1.0.0",
-    "@nestjs/core": "7.6.18",
+    "@nestjs/core": "8.0.2",
     "@nestjs/jwt": "7.2.0",
     "@nestjs/mongoose": "8.0.0",
     "@nestjs/passport": "7.1.6",
-    "@nestjs/platform-express": "7.6.18",
+    "@nestjs/platform-express": "8.0.2",
     "@nestjs/schedule": "1.0.0",
     "@nestjs/swagger": "4.8.2",
-    "@nestjs/testing": "7.6.18",
+    "@nestjs/testing": "8.0.2",
     "@nuxt/vue-app": "2.15.7",
     "@nuxtjs/axios": "5.13.6",
     "@nuxtjs/composition-api": "0.24.7",
@@ -98,7 +98,7 @@
     "ytsr": "3.5.0"
   },
   "devDependencies": {
-    "@nestjs/cli": "7.6.0",
+    "@nestjs/cli": "8.0.2",
     "@nestjs/schematics": "8.0.1",
     "@nuxt/types": "2.15.7",
     "@nuxt/typescript-build": "2.1.0",
