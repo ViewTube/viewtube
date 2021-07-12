@@ -28,9 +28,8 @@ export class PlaylistsService {
   }
 
   async continuePlaylist(continuation: Array<any>): Promise<ContinueResult> {
-    let continuationArray = continuation;
     if (typeof continuation[2] === 'string') {
-      continuationArray = [
+      const continuationArray = [
         continuation[0],
         continuation[1],
         JSON.parse(continuation[2]),
