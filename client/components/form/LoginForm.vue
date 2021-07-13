@@ -49,7 +49,7 @@ export default defineComponent({
       if (user && user.success) {
         accessor.messages.createMessage({
           type: 'info',
-          title: 'Login successful',
+          title: 'Sign in successful',
           message: `Welcome, ${username.value}`
         });
         if (props.complete && typeof props.complete === 'function') {
@@ -62,7 +62,7 @@ export default defineComponent({
         wiggleLoginForm();
         accessor.messages.createMessage({
           type: 'error',
-          title: 'Login failed',
+          title: 'Sign in failed',
           message: user ? user.error : ''
         });
       }

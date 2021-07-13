@@ -60,13 +60,13 @@ export const actions = actionTree(
 
         success = true;
       } catch (err) {
-        if (err.response.data.message) {
+        if (err && err.response && err.response.data && err.response.data.message) {
           return {
             error: err.response.data.message
           };
         }
         return {
-          error: 'Sign in failed'
+          error: 'Sign in failed, please try reloading the page.'
         };
       }
       return { success };
