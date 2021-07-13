@@ -3,7 +3,22 @@
 This file is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.7.0] - 2021-07-13
+
+## Fixed
+
+- Don't use external proxy for video thumbnails [#527](https://github.com/ViewTube/viewtube-vue/pull/527)
+- Fix top level comments (responses not working yet) [#535](https://github.com/ViewTube/viewtube-vue/pull/535)
+- Fix videoplayer for touch devices [#638](https://github.com/ViewTube/viewtube-vue/pull/638)
+- Skip sponsorblock segments properly [#702](https://github.com/ViewTube/viewtube-vue/pull/702)
+- Many more tweaks and fixes
+- Update dependencies 
+
+## Added
+- Use webp for channel images [#529](https://github.com/ViewTube/viewtube-vue/pull/529)
+- Add livestream support [#536](https://github.com/ViewTube/viewtube-vue/pull/536)
+- Add profile image support [#630](https://github.com/ViewTube/viewtube-vue/pull/630)
+- Add youtube playlists support [#735](https://github.com/ViewTube/viewtube-vue/pull/735)
 
 ## [0.6.1] - 2021-03-29
 
@@ -133,7 +148,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial release
 
-[unreleased]: https://github.com/viewtube/viewtube-vue/compare/v0.6.1...main
+[unreleased]: https://github.com/viewtube/viewtube-vue/compare/v0.7.0...main
+[0.7.0]: https://github.com/viewtube/viewtube-vue/compare/v0.6.1...0.7.0
 [0.6.1]: https://github.com/viewtube/viewtube-vue/compare/v0.6.0...v0.6.1
 [0.6.0]: https://github.com/viewtube/viewtube-vue/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/viewtube/viewtube-vue/compare/v0.4.1...v0.5.0

@@ -4,7 +4,7 @@
   "author": "Maurice Oegerli",
   "country": "Switzerland",
   "email": "viewtube@m-o.dev",
-  "version": "0.6.1",
+  "version": "0.7.0",
   "license": "AGPLv3",
   "private": true,
   "scripts": {

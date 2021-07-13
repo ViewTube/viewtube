@@ -16,8 +16,8 @@ steps:
       repo: mauriceo/viewtube
       tags:
         - latest
-        - '0.6.1'
-        - '0.6'
+        - '0.7.0'
+        - '0.7'
       username:
         from_secret: docker_username
       password:
