@@ -8,10 +8,13 @@ import {
   ChannelBasicInfo,
   ChannelBasicInfoSchema
 } from 'server/core/channels/schemas/channel-basic-info.schema';
+import { BullModule } from '@nestjs/bull';
+import { General, GeneralSchema } from 'server/common/general.schema';
 import { NotificationsModule } from '../notifications/notifications.module';
 import { Subscription, SubscriptionSchema } from './schemas/subscription.schema';
 import { SubscriptionsService } from './subscriptions.service';
 import { SubscriptionsController } from './subscriptions.controller';
+import { SubscriptionsProcessor } from './subscriptions.processor';
 
 const moduleMetadata: ModuleMetadata = {
   imports: [
@@ -30,12 +33,20 @@ const moduleMetadata: ModuleMetadata = {
         name: Subscription.name,
         schema: SubscriptionSchema,
         collection: 'subscriptions'
+      },
+      {
+        name: General.name,
+        schema: GeneralSchema,
+        collection: 'general'
       }
     ]),
+    BullModule.registerQueue({
+      name: 'subscriptions'
+    }),
     NotificationsModule
   ],
   controllers: [SubscriptionsController],
-  providers: [SubscriptionsService],
+  providers: [SubscriptionsService, SubscriptionsProcessor],
   exports: [SubscriptionsService]
 };
 @Module(moduleMetadata)
