@@ -36,3 +36,5 @@ data/*
 output/*
 docker-compose.yml
 .vs/*
+
+dump.rdb
