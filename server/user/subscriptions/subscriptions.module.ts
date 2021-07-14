@@ -1,4 +1,4 @@
-import { Module, ModuleMetadata } from '@nestjs/common';
+import { CacheModule, Module, ModuleMetadata } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import {
   VideoBasicInfo,
@@ -9,6 +9,7 @@ import {
   ChannelBasicInfoSchema
 } from 'server/core/channels/schemas/channel-basic-info.schema';
 import { BullModule } from '@nestjs/bull';
+import { CacheConfigService } from 'server/cache-config.service';
 import { General, GeneralSchema } from 'server/common/general.schema';
 import { NotificationsModule } from '../notifications/notifications.module';
 import { Subscription, SubscriptionSchema } from './schemas/subscription.schema';
@@ -42,6 +43,9 @@ const moduleMetadata: ModuleMetadata = {
     ]),
     BullModule.registerQueue({
       name: 'subscriptions'
+    }),
+    CacheModule.registerAsync({
+      useClass: CacheConfigService
     }),
     NotificationsModule
   ],

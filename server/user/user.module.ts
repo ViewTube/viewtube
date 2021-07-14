@@ -1,5 +1,6 @@
-import { Module, ModuleMetadata } from '@nestjs/common';
+import { CacheModule, Module, ModuleMetadata } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+import { CacheConfigService } from 'server/cache-config.service';
 import { User, UserSchema } from './schemas/user.schema';
 import { UserService } from './user.service';
 import { UserController } from './user.controller';
@@ -17,6 +18,9 @@ const moduleMetadata: ModuleMetadata = {
         collection: 'users'
       }
     ]),
+    CacheModule.registerAsync({
+      useClass: CacheConfigService
+    }),
     SubscriptionsModule,
     NotificationsModule,
     SettingsModule,

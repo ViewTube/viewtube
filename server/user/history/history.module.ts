@@ -1,4 +1,4 @@
-import { Module, ModuleMetadata } from '@nestjs/common';
+import { CacheModule, Module, ModuleMetadata } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import {
@@ -9,6 +9,7 @@ import { SettingsModule } from '../settings/settings.module';
 import { HistoryService } from './history.service';
 import { HistoryController } from './history.controller';
 import { History, HistorySchema } from './schemas/history.schema';
+import { CacheConfigService } from 'server/cache-config.service';
 
 const moduleMetadata: ModuleMetadata = {
   imports: [
@@ -25,6 +26,9 @@ const moduleMetadata: ModuleMetadata = {
         collection: 'videos-basicinfo'
       }
     ]),
+    CacheModule.registerAsync({
+      useClass: CacheConfigService
+    }),
     SettingsModule
   ],
   controllers: [HistoryController],
