@@ -1,5 +1,6 @@
 import { CacheModule, Module, ModuleMetadata } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+import { CacheConfigService } from 'server/cache-config.service';
 import { General, GeneralSchema } from 'server/common/general.schema';
 import { ChannelsController } from './channels.controller';
 import { ChannelsService } from './channels.service';
@@ -9,9 +10,8 @@ const moduleMetadata: ModuleMetadata = {
   providers: [ChannelsService],
   controllers: [ChannelsController],
   imports: [
-    CacheModule.register({
-      ttl: 1200,
-      max: 200
+    CacheModule.registerAsync({
+      useClass: CacheConfigService
     }),
     MongooseModule.forFeature([
       {

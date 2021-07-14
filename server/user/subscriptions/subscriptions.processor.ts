@@ -1,5 +1,7 @@
 import { OnQueueActive, OnQueueCompleted, Process, Processor } from '@nestjs/bull';
+import { CACHE_MANAGER, Inject } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
+import { Cache } from 'cache-manager';
 import { Job } from 'bull';
 import { Model } from 'mongoose';
 import { General } from 'server/common/general.schema';
@@ -16,7 +18,8 @@ export class SubscriptionsProcessor {
     @InjectModel(ChannelBasicInfo.name)
     private readonly ChannelBasicInfoModel: Model<ChannelBasicInfo>,
     @InjectModel(General.name)
-    private readonly GeneralModel: Model<General>
+    private readonly GeneralModel: Model<General>,
+    @Inject(CACHE_MANAGER) private cacheManager: Cache
   ) {}
 
   @Process()
@@ -71,6 +74,7 @@ export class SubscriptionsProcessor {
     console.log(
       `done and dusted in ${job.finishedOn}: ${result.channelsToUpdate.length} channels, ${result.videosToUpdate.length} videos`
     );
+    await this.cacheManager.del('subscriptions');
   }
 
   @OnQueueActive()

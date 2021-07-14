@@ -8,25 +8,28 @@ import {
   Param,
   Body,
   Delete,
-  InternalServerErrorException
+  InternalServerErrorException,
+  CacheInterceptor,
+  UseInterceptors,
+  CacheTTL
 } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'server/auth/guards/jwt.guard';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { VideoVisitDetailsDto } from './dto/video-visit-details.dto';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { VideoVisitDto } from './dto/video-visit.dto';
 import { HistoryService } from './history.service';
 
 @ApiTags('User')
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth()
+@UseInterceptors(CacheInterceptor)
 @Controller('user/history')
 export class HistoryController {
   constructor(private historyService: HistoryService) {}
 
   @Get()
-  getSettings(
+  @CacheTTL(300)
+  getHistory(
     @Req() request: any,
     @Query('limit') limit: number = 30,
     @Query('start') start: number = 0,
@@ -54,6 +57,7 @@ export class HistoryController {
   }
 
   @Get(':id')
+  @CacheTTL(0)
   getVideoVisit(@Req() request: any, @Param('id') videoId: string): Promise<VideoVisitDto> {
     return this.historyService.getVideoVisit(request.user.username, videoId);
   }

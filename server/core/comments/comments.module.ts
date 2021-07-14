@@ -1,5 +1,6 @@
 import { Module, CacheModule, ModuleMetadata } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { CacheConfigService } from 'server/cache-config.service';
 import { CommentsService } from './comments.service';
 import { CommentsController } from './comments.controller';
 
@@ -8,9 +9,8 @@ const moduleMetadata: ModuleMetadata = {
   controllers: [CommentsController],
   imports: [
     ConfigModule.forRoot(),
-    CacheModule.register({
-      ttl: 3600,
-      max: 20
+    CacheModule.registerAsync({
+      useClass: CacheConfigService
     })
   ]
 };

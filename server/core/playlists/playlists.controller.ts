@@ -1,8 +1,9 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { CacheInterceptor, Controller, Get, Query, UseInterceptors } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { PlaylistsService } from './playlists.service';
 
 @ApiTags('Core')
+@UseInterceptors(CacheInterceptor)
 @Controller('playlists')
 export class PlaylistsController {
   constructor(private playlistsService: PlaylistsService) {}

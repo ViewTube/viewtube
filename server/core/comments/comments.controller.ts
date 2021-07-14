@@ -1,9 +1,10 @@
-import { Controller, Get, Query, Param } from '@nestjs/common';
+import { Controller, Get, Query, Param, CacheInterceptor, UseInterceptors } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { CommentsService } from './comments.service';
 import { CommentsResponseDto } from './dto/comments-response.dto';
 
 @ApiTags('Core')
+@UseInterceptors(CacheInterceptor)
 @Controller('comments')
 export class CommentsController {
   constructor(private commentsService: CommentsService) {}
