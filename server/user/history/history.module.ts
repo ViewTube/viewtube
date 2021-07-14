@@ -1,6 +1,7 @@
 import { CacheModule, Module, ModuleMetadata } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
+import { CacheConfigService } from 'server/cache-config.service';
 import {
   VideoBasicInfo,
   VideoBasicInfoSchema
@@ -9,7 +10,6 @@ import { SettingsModule } from '../settings/settings.module';
 import { HistoryService } from './history.service';
 import { HistoryController } from './history.controller';
 import { History, HistorySchema } from './schemas/history.schema';
-import { CacheConfigService } from 'server/cache-config.service';
 
 const moduleMetadata: ModuleMetadata = {
   imports: [

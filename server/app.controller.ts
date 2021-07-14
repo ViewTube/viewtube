@@ -1,4 +1,4 @@
-import { CacheInterceptor, CacheTTL, Controller, Get, UseInterceptors } from '@nestjs/common';
+import { CacheInterceptor, Controller, Get, UseInterceptors } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { AppService } from './app.service';
 import { StatusDto } from './status.dto';
