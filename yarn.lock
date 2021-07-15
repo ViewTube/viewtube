@@ -1234,7 +1234,7 @@
     "@types/yargs" "^16.0.0"
     chalk "^4.0.0"
 
-"@nestjs/bull@^0.4.0":
+"@nestjs/bull@0.4.0":
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/@nestjs/bull/-/bull-0.4.0.tgz#b277b642cd587ee184f1be14d8d6418b5462e93e"
   integrity sha512-6Bv+qx+kjekwM4WPyAxQ+krydJe0xHe5j1+Ui8tpNZ/laMeAjccRWV8yQ9u6gFOGifWFfkBFVM3pNGuFVrQnxw==
@@ -2019,7 +2019,7 @@
   dependencies:
     "@types/node" "*"
 
-"@types/bull@^3.15.2":
+"@types/bull@3.15.2":
   version "3.15.2"
   resolved "https://registry.yarnpkg.com/@types/bull/-/bull-3.15.2.tgz#b824b0b4fc8d1d9294a20973f6ceedcba1a7f3e8"
   integrity sha512-uMQ7u/4GxY2bSTMd4P2yLkyqu3GoKbwTCDkMHJJ2g9OkiMq0Vxw+C7lF4w+oNkwZzZ2k4Kw76Ncxjd6GMnc+CA==
@@ -3846,7 +3846,7 @@ builtin-status-codes@^3.0.0:
   resolved "https://registry.yarnpkg.com/builtin-status-codes/-/builtin-status-codes-3.0.0.tgz#85982878e21b98e1c66425e03d0174788f569ee8"
   integrity sha1-hZgoeOIbmOHGZCXgPQF0eI9Wnug=
 
-bull@^3.23.0:
+bull@3.23.0:
   version "3.23.0"
   resolved "https://registry.yarnpkg.com/bull/-/bull-3.23.0.tgz#d4843b24886a83b8af0e227319d5e1e5a7292c86"
   integrity sha512-A677aSD7a2dKrfTLcyfhp+S92c5mvztEJaDEElAkBaqTbHCDTqpc3apS4dLSKM9EDKhf1jbrjlpkJxrxCb32+w==
@@ -3951,7 +3951,7 @@ cache-loader@^4.1.0:
     neo-async "^2.6.1"
     schema-utils "^2.0.0"
 
-cache-manager-redis-store@^2.0.0:
+cache-manager-redis-store@2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/cache-manager-redis-store/-/cache-manager-redis-store-2.0.0.tgz#25db93656c4ab7b3591bd6ca370e188ef90754c9"
   integrity sha512-bWLWlUg6nCYHiJLCCYxY2MgvwvKnvlWwrbuynrzpjEIhfArD2GC9LtutIHFEPeyGVQN6C+WEw+P3r+BFBwhswg==
