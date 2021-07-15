@@ -6,11 +6,8 @@
     />
     <Spinner v-if="$fetchState.pending && !templateVideoData" class="centered" />
     <!-- <video v-if="!jsEnabled" controls :src="getHDUrl()" class="nojs-player" /> -->
-    <div v-if="!(video && videoLoaded)" class="videoplayer-placeholder">
-      <Spinner />
-    </div>
     <VideoPlayer
-      v-if="video && videoLoaded"
+      v-if="video && videoLoaded && !$fetchState.pending"
       :key="video.id"
       ref="videoplayer"
       :video="video"
@@ -19,7 +16,7 @@
       class="video-player-p"
       @videoEnded="onVideoEnded"
     />
-    <div v-if="video" class="video-meta">
+    <div v-if="video && !$fetchState.pending" class="video-meta">
       <CollapsibleSection
         class="recommended-videos mobile"
         :label="'Recommended videos'"
@@ -424,17 +421,12 @@ export default defineComponent({
     watch(
       () => route.value.query,
       (newValue, oldValue) => {
-        if (
-          newValue.v &&
-          newValue.list &&
-          oldValue.v &&
-          oldValue.list &&
-          (newValue.v !== oldValue.v || newValue.list !== oldValue.list)
-        )
+        if (newValue.v !== oldValue.v || newValue.list !== oldValue.list) {
           fetch();
-        const videoId = newValue.v as string;
-        loadComments(videoId);
-        accessor.miniplayer.setCurrentVideo(video);
+          const videoId = newValue.v as string;
+          loadComments(videoId);
+          accessor.miniplayer.setCurrentVideo(video);
+        }
       }
     );
 

@@ -84,7 +84,6 @@ export default defineComponent({
           const halfMaxNum = Math.floor(maxNumber.value / 2);
           let numStart = null;
           let numStop = null;
-          // debugger;
           if (props.currentPage > 0 && props.currentPage <= halfMaxNum) {
             // If the selected page is smaller than half the shown numbers, it always starts at 2
             // [1] (2) (3) (4) (5)

@@ -10,7 +10,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { VideoBasicInfo } from 'server/core/videos/schemas/video-basic-info.schema';
 import { ChannelBasicInfo } from 'server/core/channels/schemas/channel-basic-info.schema';
 import { Model } from 'mongoose';
-import { Cron } from '@nestjs/schedule';
+import { Cron, CronExpression } from '@nestjs/schedule';
 import { VideoBasicInfoDto } from 'server/core/videos/dto/video-basic-info.dto';
 import { Sorting } from 'server/common/sorting.type';
 import { ChannelBasicInfoDto } from 'server/core/channels/dto/channel-basic-info.dto';
@@ -37,10 +37,8 @@ export class SubscriptionsService {
     private notificationsService: NotificationsService
   ) {}
 
-  @Cron(new Date(Date.now() + 60 * 1000))
+  @Cron(CronExpression.EVERY_30_MINUTES)
   async collectSubscriptionsJob(): Promise<void> {
-    const timeMeasurementName = 'subscription-job ' + new Date().toISOString();
-    console.time(timeMeasurementName);
     const userSubscriptions = await this.subscriptionModel.find().lean(true).exec();
 
     this.subscriptionsQueue.add(
@@ -49,8 +47,6 @@ export class SubscriptionsService {
       },
       {}
     );
-
-    console.timeEnd(timeMeasurementName);
   }
 
   async saveChannelBasicInfo(channel: ChannelBasicInfoDto): Promise<ChannelBasicInfoDto | null> {

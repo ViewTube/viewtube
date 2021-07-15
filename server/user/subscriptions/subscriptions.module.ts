@@ -16,6 +16,7 @@ import { Subscription, SubscriptionSchema } from './schemas/subscription.schema'
 import { SubscriptionsService } from './subscriptions.service';
 import { SubscriptionsController } from './subscriptions.controller';
 import { SubscriptionsProcessor } from './subscriptions.processor';
+import subscriptionsJobHelper from './subscriptions-job.helper';
 
 const moduleMetadata: ModuleMetadata = {
   imports: [
@@ -42,7 +43,8 @@ const moduleMetadata: ModuleMetadata = {
       }
     ]),
     BullModule.registerQueue({
-      name: 'subscriptions'
+      name: 'subscriptions',
+      processors: [subscriptionsJobHelper]
     }),
     CacheModule.registerAsync({
       useClass: CacheConfigService

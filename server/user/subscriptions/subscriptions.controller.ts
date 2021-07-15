@@ -12,7 +12,6 @@ import {
   Query,
   CacheInterceptor,
   UseInterceptors,
-  CacheKey,
   CacheTTL
 } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
@@ -67,7 +66,6 @@ export class SubscriptionsController {
   @Get('videos')
   @ApiQuery({ name: 'limit', required: false })
   @ApiQuery({ name: 'start', required: false })
-  @CacheKey('subscriptions')
   getSubscriptionVideos(
     @Req() req: any,
     @Query('limit') limit = 30,
@@ -77,7 +75,6 @@ export class SubscriptionsController {
   }
 
   @Get(':channelId')
-  @CacheKey('subscriptions')
   @CacheTTL(0)
   getSubscription(
     @Req() req: any,

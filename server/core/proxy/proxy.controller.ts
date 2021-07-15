@@ -3,16 +3,13 @@ import {
   Get,
   Query,
   Res,
-  Header,
-  CacheInterceptor,
-  UseInterceptors
+  Header
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import { ProxyService } from './proxy.service';
 
 @ApiTags('Core')
-@UseInterceptors(CacheInterceptor)
 @Controller('proxy')
 export class ProxyController {
   constructor(private proxyService: ProxyService) {}
