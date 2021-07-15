@@ -9,10 +9,7 @@ import {
   UseGuards,
   Post,
   Body,
-  Query,
-  CacheInterceptor,
-  UseInterceptors,
-  CacheTTL
+  Query
 } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'server/auth/guards/jwt.guard';
@@ -25,7 +22,6 @@ import { SubscriptionsService } from './subscriptions.service';
 @ApiTags('User')
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth()
-@UseInterceptors(CacheInterceptor)
 @Controller('user/subscriptions')
 export class SubscriptionsController {
   constructor(private subscriptionsService: SubscriptionsService) {}
@@ -45,7 +41,6 @@ export class SubscriptionsController {
     example: 'linu',
     required: false
   })
-  @CacheTTL(0)
   getSubscribedChannels(
     @Req() req: any,
     @Query('limit') limit = 30,
@@ -75,7 +70,6 @@ export class SubscriptionsController {
   }
 
   @Get(':channelId')
-  @CacheTTL(0)
   getSubscription(
     @Req() req: any,
     @Param('channelId') channelId: string

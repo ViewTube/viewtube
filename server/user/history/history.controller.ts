@@ -8,10 +8,7 @@ import {
   Param,
   Body,
   Delete,
-  InternalServerErrorException,
-  CacheInterceptor,
-  UseInterceptors,
-  CacheTTL
+  InternalServerErrorException
 } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'server/auth/guards/jwt.guard';
@@ -22,13 +19,11 @@ import { HistoryService } from './history.service';
 @ApiTags('User')
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth()
-@UseInterceptors(CacheInterceptor)
 @Controller('user/history')
 export class HistoryController {
   constructor(private historyService: HistoryService) {}
 
   @Get()
-  @CacheTTL(300)
   getHistory(
     @Req() request: any,
     @Query('limit') limit: number = 30,
@@ -57,7 +52,6 @@ export class HistoryController {
   }
 
   @Get(':id')
-  @CacheTTL(0)
   getVideoVisit(@Req() request: any, @Param('id') videoId: string): Promise<VideoVisitDto> {
     return this.historyService.getVideoVisit(request.user.username, videoId);
   }
