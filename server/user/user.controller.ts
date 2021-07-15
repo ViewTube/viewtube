@@ -11,9 +11,7 @@ import {
   UseInterceptors,
   UploadedFile,
   Param,
-  Response,
-  CacheInterceptor,
-  CacheTTL
+  Response
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'server/auth/guards/jwt.guard';
@@ -41,15 +39,11 @@ export class UserController {
   constructor(private userService: UserService) {}
 
   @Get('profile')
-  @UseInterceptors(CacheInterceptor)
-  @CacheTTL(300)
   getProfile(@Req() req: any): Promise<UserprofileDto> {
     return this.userService.getProfile(req.user.username);
   }
 
   @Get('profile/details')
-  @UseInterceptors(CacheInterceptor)
-  @CacheTTL(300)
   getProfileDetails(@Req() req: any): Promise<UserprofileDetailsDto> {
     return this.userService.getProfileDetails(req.user.username);
   }
