@@ -1,7 +1,8 @@
-import { Module, CacheModule, ModuleMetadata } from '@nestjs/common';
+import { CacheModule, Module, ModuleMetadata } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
 import { General, GeneralSchema } from 'server/common/general.schema';
+import { CacheConfigService } from 'server/cache-config.service';
 import { VideosController } from './videos/videos.controller';
 import { VideosService } from './videos/videos.service';
 import { VideoplaybackController } from './videoplayback/videoplayback.controller';
@@ -22,10 +23,6 @@ import { PlaylistsModule } from './playlists/playlists.module';
 
 const moduleMetadata: ModuleMetadata = {
   imports: [
-    CacheModule.register({
-      ttl: 1200,
-      max: 200
-    }),
     MongooseModule.forFeature([
       {
         name: Video.name,
@@ -48,6 +45,9 @@ const moduleMetadata: ModuleMetadata = {
         collection: 'general'
       }
     ]),
+    CacheModule.registerAsync({
+      useClass: CacheConfigService
+    }),
     AutocompleteModule,
     ConfigModule.forRoot(),
     SearchModule,

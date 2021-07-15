@@ -1,5 +1,6 @@
 import { CacheModule, Module, ModuleMetadata } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+import { CacheConfigService } from 'server/cache-config.service';
 import {
   ChannelBasicInfo,
   ChannelBasicInfoSchema
@@ -12,9 +13,8 @@ const moduleMetadata: ModuleMetadata = {
   providers: [HomepageService],
   controllers: [HomepageController],
   imports: [
-    CacheModule.register({
-      ttl: 3600,
-      max: 20
+    CacheModule.registerAsync({
+      useClass: CacheConfigService
     }),
     MongooseModule.forFeature([
       {

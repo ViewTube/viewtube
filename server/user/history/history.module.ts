@@ -1,6 +1,7 @@
-import { Module, ModuleMetadata } from '@nestjs/common';
+import { CacheModule, Module, ModuleMetadata } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
+import { CacheConfigService } from 'server/cache-config.service';
 import {
   VideoBasicInfo,
   VideoBasicInfoSchema
@@ -25,6 +26,9 @@ const moduleMetadata: ModuleMetadata = {
         collection: 'videos-basicinfo'
       }
     ]),
+    CacheModule.registerAsync({
+      useClass: CacheConfigService
+    }),
     SettingsModule
   ],
   controllers: [HistoryController],

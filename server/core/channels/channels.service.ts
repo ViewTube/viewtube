@@ -13,7 +13,7 @@ import { ChannelDto } from './dto/channel.dto';
 export class ChannelsService {
   constructor(
     @InjectModel(General.name)
-    private readonly generalModel: Model<General>
+    private readonly GeneralModel: Model<General>
   ) {}
 
   private youtubeClientParams = {
@@ -37,7 +37,7 @@ export class ChannelsService {
   private channelApiUrl = 'https://www.youtube.com/youtubei/v1/browse';
 
   async getChannel(channelId: string): Promise<ChannelDto> {
-    const generalRecord = await this.generalModel.findOne({ version: 1 }).exec();
+    const generalRecord = await this.GeneralModel.findOne({ version: 1 }).exec();
     let apiKey: string | void;
     if (!(generalRecord && generalRecord.innertubeApiKey)) {
       apiKey = await this.refreshApiKey();
@@ -152,7 +152,7 @@ export class ChannelsService {
       });
     if (rawSite) {
       const apiKey = rawSite.match(/"INNERTUBE_API_KEY":"(.*?)",/im)[1];
-      await this.generalModel
+      await this.GeneralModel
         .findOneAndUpdate({ version: 1 }, { innertubeApiKey: apiKey }, { upsert: true })
         .exec();
       return apiKey;

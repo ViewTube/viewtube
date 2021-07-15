@@ -9,6 +9,9 @@ export class General extends Document {
 
   @Prop()
   version: number;
+
+  @Prop()
+  lastSubscriptionsRefresh: number;
 }
 
 export const GeneralSchema = SchemaFactory.createForClass(General);

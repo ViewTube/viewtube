@@ -1,6 +1,7 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { CACHE_MANAGER, Inject, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Cron, CronExpression } from '@nestjs/schedule';
+import { Cache } from 'cache-manager';
 import Consola from 'consola';
 import { Model } from 'mongoose';
 import fetch from 'node-fetch';
@@ -15,7 +16,8 @@ export class HomepageService {
     @InjectModel(Popular.name)
     private readonly PopularModel: Model<Popular>,
     @InjectModel(ChannelBasicInfo.name)
-    private readonly ChannelBasicInfoModel: Model<ChannelBasicInfo>
+    private readonly ChannelBasicInfoModel: Model<ChannelBasicInfo>,
+    @Inject(CACHE_MANAGER) private cacheManager: Cache
   ) {}
 
   private popularPageUrl =
@@ -69,13 +71,15 @@ export class HomepageService {
         }
       });
 
-      if(popularVideos.length > 0){
+      if (popularVideos.length > 0) {
         const updatedPopularPage = new this.PopularModel({
           videos: popularVideos,
           createdDate: Date.now().valueOf()
         });
         updatedPopularPage.save();
       }
+
+      await this.cacheManager.del('popular');
     } catch (err) {
       Consola.error('Popular page refresh failed. URL: ' + this.popularPageUrl);
     }

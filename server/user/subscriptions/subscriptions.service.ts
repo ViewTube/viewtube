@@ -4,6 +4,8 @@ import {
   NotFoundException,
   InternalServerErrorException
 } from '@nestjs/common';
+import { InjectQueue } from '@nestjs/bull';
+import { Queue } from 'bull';
 import { InjectModel } from '@nestjs/mongoose';
 import { VideoBasicInfo } from 'server/core/videos/schemas/video-basic-info.schema';
 import { ChannelBasicInfo } from 'server/core/channels/schemas/channel-basic-info.schema';
@@ -13,10 +15,11 @@ import { VideoBasicInfoDto } from 'server/core/videos/dto/video-basic-info.dto';
 import { Sorting } from 'server/common/sorting.type';
 import { ChannelBasicInfoDto } from 'server/core/channels/dto/channel-basic-info.dto';
 import Consola from 'consola';
+import { General } from 'server/common/general.schema';
 import { NotificationsService } from '../notifications/notifications.service';
 import { Subscription } from './schemas/subscription.schema';
 import { SubscriptionStatusDto } from './dto/subscription-status.dto';
-import { getChannelFeed, runSubscriptionsJob } from './subscriptions-job';
+import { getChannelFeed } from './subscriptions-job.helper';
 
 @Injectable()
 export class SubscriptionsService {
@@ -27,46 +30,23 @@ export class SubscriptionsService {
     private readonly subscriptionModel: Model<Subscription>,
     @InjectModel(ChannelBasicInfo.name)
     private readonly ChannelBasicInfoModel: Model<ChannelBasicInfo>,
+    @InjectModel(General.name)
+    private readonly GeneralModel: Model<General>,
+    @InjectQueue('subscriptions')
+    private subscriptionsQueue: Queue,
     private notificationsService: NotificationsService
   ) {}
 
   @Cron(CronExpression.EVERY_30_MINUTES)
   async collectSubscriptionsJob(): Promise<void> {
-    const timeMeasurementName = 'subscription-job ' + new Date().toISOString();
-    console.time(timeMeasurementName);
-    const users = await this.subscriptionModel.find().lean(true).exec();
-    const channelIds = users.reduce(
-      (val, { subscriptions }) => [...val, ...subscriptions.map(e => e.channelId)],
-      []
+    const userSubscriptions = await this.subscriptionModel.find().lean(true).exec();
+
+    this.subscriptionsQueue.add(
+      {
+        userSubscriptions
+      },
+      {}
     );
-    const uniqueChannelIds = [...new Set(channelIds)];
-    const subscriptionResults = await runSubscriptionsJob(uniqueChannelIds);
-
-    this.sendUserNotifications(subscriptionResults.videoResultArray);
-
-    const channelsToUpdate = subscriptionResults.channelResultArray.map(channel => {
-      return {
-        updateOne: {
-          filter: { authorId: channel.authorId },
-          update: { $set: channel },
-          upsert: true
-        }
-      };
-    });
-
-    const videosToUpdate = subscriptionResults.videoResultArray.map(video => {
-      return {
-        updateOne: {
-          filter: { videoId: video.videoId },
-          update: { $set: video },
-          upsert: true
-        }
-      };
-    });
-
-    await this.ChannelBasicInfoModel.bulkWrite(channelsToUpdate);
-    await this.VideoModel.bulkWrite(videosToUpdate);
-    console.timeEnd(timeMeasurementName);
   }
 
   async saveChannelBasicInfo(channel: ChannelBasicInfoDto): Promise<ChannelBasicInfoDto | null> {
@@ -176,7 +156,7 @@ export class SubscriptionsService {
     username: string,
     limit: number,
     start: number
-  ): Promise<{ videoCount: number; videos: Array<VideoBasicInfoDto> }> {
+  ): Promise<{ videoCount: number; videos: Array<VideoBasicInfoDto>; lastRefresh: Date }> {
     const userSubscriptions = await this.subscriptionModel.findOne({ username }).lean().exec();
     if (userSubscriptions) {
       const userSubscriptionIds = userSubscriptions.subscriptions.map(e => e.channelId);
@@ -223,10 +203,16 @@ export class SubscriptionsService {
             }
           }
         });
-        return { videos, videoCount };
+        let lastRefresh = null;
+        try {
+          await this.GeneralModel.findOne({ version: 1 }).then(val => {
+            if (val.lastSubscriptionsRefresh) lastRefresh = val.lastSubscriptionsRefresh;
+          });
+        } catch {}
+        return { videos, videoCount, lastRefresh };
       }
     }
-    return { videos: [], videoCount: 0 };
+    return { videos: [], videoCount: 0, lastRefresh: null };
   }
 
   async getSubscription(username: string, channelId: string): Promise<SubscriptionStatusDto> {

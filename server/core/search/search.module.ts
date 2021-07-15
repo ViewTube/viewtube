@@ -1,12 +1,12 @@
 import { Module, CacheModule, ModuleMetadata } from '@nestjs/common';
+import { CacheConfigService } from 'server/cache-config.service';
 import { SearchController } from './search.controller';
 import { SearchService } from './search.service';
 
 const moduleMetadata: ModuleMetadata = {
   imports: [
-    CacheModule.register({
-      ttl: 300,
-      max: 200
+    CacheModule.registerAsync({
+      useClass: CacheConfigService
     })
   ],
   controllers: [SearchController],

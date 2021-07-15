@@ -6,8 +6,7 @@
       <div class="subscribe-info">
         <div class="info">
           <h2>Subscription feed for {{ $accessor.user.username }}</h2>
-          <p>Last refresh: {{ lastRefreshTime }}</p>
-          <p>Next refresh: {{ nextRefreshTime }}</p>
+          <p v-if="lastRefreshTime">Last refresh: {{ new Date(lastRefreshTime).toLocaleString() }}</p>
         </div>
         <div class="actions">
           <BadgeButton
@@ -92,6 +91,7 @@ import Pagination from '@/components/pagination/Pagination.vue';
 import {
   defineComponent,
   onMounted,
+  Ref,
   ref,
   useFetch,
   useMeta,
@@ -142,13 +142,16 @@ export default defineComponent({
         .get(`${apiUrl}user/subscriptions/videos?limit=${limit}&start=${start}`, {
           withCredentials: true
         })
-        .then((response: { data: { videos: Array<any>; videoCount: number } }) => {
-          videos.value = response.data.videos;
-          pageCount.value = Math.ceil(response.data.videoCount / 30);
-          loading.value = false;
-          hasNoSubscriptions.value =
-            !getOrderedVideoSections() || getOrderedVideoSections().length <= 0;
-        })
+        .then(
+          (response: { data: { videos: Array<any>; videoCount: number; lastRefresh: Date } }) => {
+            videos.value = response.data.videos;
+            pageCount.value = Math.ceil(response.data.videoCount / 30);
+            loading.value = false;
+            hasNoSubscriptions.value =
+              !getOrderedVideoSections() || getOrderedVideoSections().length <= 0;
+            lastRefreshTime.value = response.data.lastRefresh;
+          }
+        )
         .catch(_ => {
           accessor.messages.createMessage({
             type: 'error',
@@ -184,15 +187,7 @@ export default defineComponent({
       });
       return orderedArray;
     };
-    const lastRefreshTime = ref('');
-    const nextRefreshTime = ref('');
-    const now = new Date();
-    now.setMinutes(Math.floor(now.getMinutes() / 30) * 30);
-    now.setSeconds(0);
-    lastRefreshTime.value = now.toLocaleString();
-    now.setMinutes(Math.ceil(now.getMinutes() / 30) * 30);
-    now.setSeconds(0);
-    nextRefreshTime.value = now.toLocaleString();
+    const lastRefreshTime: Ref<Date> = ref(null);
 
     const closeSubscriptionImport = () => {
       subscriptionImportOpen.value = false;
@@ -200,7 +195,7 @@ export default defineComponent({
     const onSubscriptionImportDone = () => {
       fetch();
     };
-    const subscribeToNotifications = val => {
+    const subscribeToNotifications = (val: any) => {
       if ('serviceWorker' in navigator) {
         navigator.serviceWorker.getRegistrations().then(registrations => {
           const worker = registrations[0];
@@ -335,7 +330,6 @@ export default defineComponent({
       hasNoSubscriptions,
       getOrderedVideoSections,
       lastRefreshTime,
-      nextRefreshTime,
       closeSubscriptionImport,
       onSubscriptionImportDone,
       subscribeToNotifications,

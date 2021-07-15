@@ -181,7 +181,6 @@ export default defineComponent({
       } else {
         delete query[param];
       }
-      debugger;
       router.push({
         path: route.value.path,
         query,

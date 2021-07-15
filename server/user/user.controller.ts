@@ -11,7 +11,9 @@ import {
   UseInterceptors,
   UploadedFile,
   Param,
-  Response
+  Response,
+  CacheInterceptor,
+  CacheTTL
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'server/auth/guards/jwt.guard';
@@ -34,21 +36,25 @@ const imageFileFilter = (_, file: any, callback: Function) => {
 @ApiTags('User')
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
+@UseInterceptors(CacheInterceptor)
 @Controller('user')
 export class UserController {
   constructor(private userService: UserService) {}
 
   @Get('profile')
+  @CacheTTL(300)
   getProfile(@Req() req: any): Promise<UserprofileDto> {
     return this.userService.getProfile(req.user.username);
   }
 
   @Get('profile/details')
+  @CacheTTL(300)
   getProfileDetails(@Req() req: any): Promise<UserprofileDetailsDto> {
     return this.userService.getProfileDetails(req.user.username);
   }
 
   @Get('export')
+  @CacheTTL(0)
   async getExport(@Req() req: any, @Res() res: any): Promise<void> {
     const dataExport = await this.userService.createDataExport(req.user.username);
 
@@ -61,6 +67,7 @@ export class UserController {
   }
 
   @Get('profile/image/:username')
+  @CacheTTL(0)
   async getProfileImage(@Response() res: any, @Param('username') username: string) {
     await this.userService.getProfileImage(username, res);
   }

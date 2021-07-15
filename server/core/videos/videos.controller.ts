@@ -5,7 +5,8 @@ import {
   UseInterceptors,
   ClassSerializerInterceptor,
   SerializeOptions,
-  CacheInterceptor} from '@nestjs/common';
+  CacheInterceptor,
+  CacheTTL} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { VideoDto } from 'shared/dto/video/video.dto';
@@ -21,6 +22,7 @@ export class VideosController {
   @SerializeOptions({
     excludePrefixes: ['_']
   })
+  @CacheTTL(18000)
   @Get(':id')
   getVideos(@Param('id') id: string): Promise<VideoDto> {
     return this.videosService.getById(id);

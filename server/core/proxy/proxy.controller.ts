@@ -1,4 +1,10 @@
-import { Controller, Get, Query, Res, Header } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Query,
+  Res,
+  Header
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import { ProxyService } from './proxy.service';

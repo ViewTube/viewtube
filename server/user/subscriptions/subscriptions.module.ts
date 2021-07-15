@@ -1,4 +1,4 @@
-import { Module, ModuleMetadata } from '@nestjs/common';
+import { CacheModule, Module, ModuleMetadata } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import {
   VideoBasicInfo,
@@ -8,10 +8,15 @@ import {
   ChannelBasicInfo,
   ChannelBasicInfoSchema
 } from 'server/core/channels/schemas/channel-basic-info.schema';
+import { BullModule } from '@nestjs/bull';
+import { CacheConfigService } from 'server/cache-config.service';
+import { General, GeneralSchema } from 'server/common/general.schema';
 import { NotificationsModule } from '../notifications/notifications.module';
 import { Subscription, SubscriptionSchema } from './schemas/subscription.schema';
 import { SubscriptionsService } from './subscriptions.service';
 import { SubscriptionsController } from './subscriptions.controller';
+import { SubscriptionsProcessor } from './subscriptions.processor';
+import subscriptionsJobHelper from './subscriptions-job.helper';
 
 const moduleMetadata: ModuleMetadata = {
   imports: [
@@ -30,12 +35,24 @@ const moduleMetadata: ModuleMetadata = {
         name: Subscription.name,
         schema: SubscriptionSchema,
         collection: 'subscriptions'
+      },
+      {
+        name: General.name,
+        schema: GeneralSchema,
+        collection: 'general'
       }
     ]),
+    BullModule.registerQueue({
+      name: 'subscriptions',
+      processors: [subscriptionsJobHelper]
+    }),
+    CacheModule.registerAsync({
+      useClass: CacheConfigService
+    }),
     NotificationsModule
   ],
   controllers: [SubscriptionsController],
-  providers: [SubscriptionsService],
+  providers: [SubscriptionsService, SubscriptionsProcessor],
   exports: [SubscriptionsService]
 };
 @Module(moduleMetadata)
