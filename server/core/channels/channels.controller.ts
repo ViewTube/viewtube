@@ -13,7 +13,6 @@ import { ChannelsService } from './channels.service';
 import { ChannelDto } from './dto/channel.dto';
 
 @ApiTags('Core')
-@UseInterceptors(CacheInterceptor)
 @Controller('channels')
 export class ChannelsController {
   constructor(private channelsService: ChannelsService) {}
