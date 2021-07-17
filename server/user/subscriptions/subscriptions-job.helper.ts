@@ -8,44 +8,8 @@ import humanizeDuration from 'humanize-duration';
 // import { Common } from 'server/core/common';
 import Consola from 'consola';
 import { Common } from 'server/core/common';
-import { DoneCallback, Job } from 'bull';
-import { Subscription } from './schemas/subscription.schema';
 
-export default async function (job: Job<{ userSubscriptions: Array<Subscription> }>, cb: DoneCallback) {
-  const channelIds = job.data.userSubscriptions.reduce(
-    (val, { subscriptions }) => [...val, ...subscriptions.map(e => e.channelId)],
-    []
-  );
-  const uniqueChannelIds = [...new Set(channelIds)];
-  const subscriptionResults = await runSubscriptionsJob(uniqueChannelIds);
-
-  const channelsToUpdate = subscriptionResults.channelResultArray.map(channel => {
-    return {
-      updateOne: {
-        filter: { authorId: channel.authorId },
-        update: { $set: channel },
-        upsert: true
-      }
-    };
-  });
-
-  const videosToUpdate = subscriptionResults.videoResultArray.map(video => {
-    return {
-      updateOne: {
-        filter: { videoId: video.videoId },
-        update: { $set: video },
-        upsert: true
-      }
-    };
-  });
-
-  cb(null, {
-    channelsToUpdate,
-    videosToUpdate
-  });
-}
-
-const runSubscriptionsJob = async (
+export const runSubscriptionsJob = async (
   uniqueChannelIds: Array<string>
 ): Promise<{
   channelResultArray: Array<ChannelBasicInfoDto>;
@@ -66,9 +30,13 @@ const runSubscriptionsJob = async (
     });
   };
 
+  let i = 0;
+
   await uniqueChannelIds
     .reduce(async (previousPromise: Promise<void>, nextString: string) => {
       await previousPromise;
+      console.log(`${i} of ${uniqueChannelIds.length}`);
+      i++;
       return getFeedPromise(nextString);
     }, Promise.resolve())
     .catch(() => {});

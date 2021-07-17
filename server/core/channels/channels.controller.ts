@@ -1,15 +1,8 @@
-import {
-  Controller,
-  Get,
-  Param,
-  Res,
-  CacheInterceptor,
-  UseInterceptors
-} from '@nestjs/common';
+import { Controller, Get, Param, Res, CacheInterceptor, UseInterceptors } from '@nestjs/common';
 import { Response } from 'express';
 import { ApiTags } from '@nestjs/swagger';
+import { MetricsInterceptor } from 'server/metrics/metrics.interceptor';
 import { ChannelsService } from './channels.service';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { ChannelDto } from './dto/channel.dto';
 
 @ApiTags('Core')
@@ -27,6 +20,7 @@ export class ChannelsController {
   }
 
   @Get(':id')
+  @UseInterceptors(MetricsInterceptor)
   @UseInterceptors(CacheInterceptor)
   getChannel(@Param('id') channelId: string): Promise<ChannelDto> {
     return this.channelsService.getChannel(channelId);

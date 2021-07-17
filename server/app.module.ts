@@ -9,6 +9,7 @@ import { CoreModule } from './core/core.module';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { CacheConfigService } from './cache-config.service';
+import { ApiRequest, ApiRequestSchema } from './metrics/schemas/api-request.schema';
 
 const redisPort = isNaN(parseInt(process.env.VIEWTUBE_REDIS_PORT))
   ? 6379
@@ -32,6 +33,13 @@ const moduleMetadata: ModuleMetadata = {
       useFindAndModify: false,
       useCreateIndex: true
     }),
+    MongooseModule.forFeature([
+      {
+        name: ApiRequest.name,
+        schema: ApiRequestSchema,
+        collection: 'api-requests'
+      }
+    ]),
     CacheModule.registerAsync({
       useClass: CacheConfigService
     }),
