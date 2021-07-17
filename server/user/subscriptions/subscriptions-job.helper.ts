@@ -30,9 +30,13 @@ export const runSubscriptionsJob = async (
     });
   };
 
+  let i = 0;
+
   await uniqueChannelIds
     .reduce(async (previousPromise: Promise<void>, nextString: string) => {
       await previousPromise;
+      console.log(`${i} of ${uniqueChannelIds.length}`);
+      i++;
       return getFeedPromise(nextString);
     }, Promise.resolve())
     .catch(() => {});
