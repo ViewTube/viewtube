@@ -1,5 +1,5 @@
 import { getterTree, mutationTree, actionTree } from 'typed-vuex';
-import { commons } from '~/plugins/commons';
+import { commons } from '@/plugins/commons';
 
 export const state = () => ({
   currentInstance: '' as string,

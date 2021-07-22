@@ -99,7 +99,7 @@ import {
   watch
 } from '@nuxtjs/composition-api';
 import { useAccessor } from '@/store';
-import { useAxios } from '@/plugins/axios';
+import { useAxios } from '@/plugins/axiosPlugin';
 
 export default defineComponent({
   name: 'Subscriptions',

@@ -90,7 +90,7 @@ import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import Invidious from '@/plugins/services/invidious';
 import { defineComponent, ref, useRoute } from '@nuxtjs/composition-api';
 import { useAccessor } from '@/store';
-import { useAxios } from '@/plugins/axios';
+import { useAxios } from '@/plugins/axiosPlugin';
 import { useImgProxy } from '@/plugins/proxy';
 
 export default defineComponent({

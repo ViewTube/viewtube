@@ -136,7 +136,7 @@ import {
 } from '@nuxtjs/composition-api';
 import HistoryList from '@/components/history/HistoryList.vue';
 import { useAccessor } from '@/store';
-import { useAxios } from '@/plugins/axios';
+import { useAxios } from '@/plugins/axiosPlugin';
 
 export default defineComponent({
   name: 'Profile',

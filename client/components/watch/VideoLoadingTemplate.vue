@@ -14,7 +14,7 @@
 <script lang="ts">
 import { computed, defineComponent } from '@nuxtjs/composition-api';
 import Spinner from '@/components/Spinner.vue';
-import { useImgProxy } from '~/plugins/proxy';
+import { useImgProxy } from '@/plugins/proxy';
 
 export default defineComponent({
   name: 'VideoLoadingTemplate',

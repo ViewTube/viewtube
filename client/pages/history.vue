@@ -54,7 +54,7 @@ import SectionTitle from '@/components/SectionTitle.vue';
 import RestartOffIcon from 'vue-material-design-icons/RestartOff.vue';
 import Pagination from '@/components/pagination/Pagination.vue';
 import HistoryList from '@/components/history/HistoryList.vue';
-import { useAxios } from '@/plugins/axios';
+import { useAxios } from '@/plugins/axiosPlugin';
 import { useAccessor } from '@/store';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import SmallSearchBox from '@/components/SmallSearchBox.vue';

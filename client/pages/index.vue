@@ -48,7 +48,7 @@ import ViewTubeApi from '@/plugins/services/viewTubeApi';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import { defineComponent, ref, useFetch, useMeta } from '@nuxtjs/composition-api';
 import { useAccessor } from '@/store';
-import { useAxios } from '@/plugins/axios';
+import { useAxios } from '@/plugins/axiosPlugin';
 
 export default defineComponent({
   name: 'Home',
