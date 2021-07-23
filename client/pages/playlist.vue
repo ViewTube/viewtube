@@ -74,8 +74,8 @@ import EyeClosedIcon from 'vue-material-design-icons/EyeOffOutline.vue';
 import CountIcon from 'vue-material-design-icons/Counter.vue';
 import CalendarIcon from 'vue-material-design-icons/CalendarClock.vue';
 import { useAxios } from '@/plugins/axiosPlugin';
-import { useAccessor } from '~/store';
 import { useImgProxy } from '@/plugins/proxy';
+import { useAccessor } from '~/store';
 
 export default defineComponent({
   name: 'Playlist',

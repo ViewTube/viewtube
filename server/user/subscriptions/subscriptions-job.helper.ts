@@ -8,9 +8,11 @@ import humanizeDuration from 'humanize-duration';
 // import { Common } from 'server/core/common';
 import Consola from 'consola';
 import { Common } from 'server/core/common';
+import { Job } from 'bull';
 
 export const runSubscriptionsJob = async (
-  uniqueChannelIds: Array<string>
+  uniqueChannelIds: Array<string>,
+  job: Job = null
 ): Promise<{
   channelResultArray: Array<ChannelBasicInfoDto>;
   videoResultArray: Array<VideoBasicInfoDto>;
@@ -30,16 +32,32 @@ export const runSubscriptionsJob = async (
     });
   };
 
+  const channelIdBatches = [];
+  uniqueChannelIds = [].concat(...uniqueChannelIds);
+
+  while (uniqueChannelIds.length) {
+    channelIdBatches.push(uniqueChannelIds.splice(0, 100));
+  }
+
+  console.log(channelIdBatches.length);
+
   let i = 0;
 
-  await uniqueChannelIds
-    .reduce(async (previousPromise: Promise<void>, nextString: string) => {
+  await channelIdBatches
+    .reduce(async (previousPromise: Promise<void>, nextBatch: Array<string>) => {
       await previousPromise;
-      console.log(`${i} of ${uniqueChannelIds.length}`);
+      const jobProgress = Math.floor((i / channelIdBatches.length) * 100);
+      await job.progress(jobProgress);
       i++;
-      return getFeedPromise(nextString);
+      return Promise.allSettled(
+        nextBatch.map(val => {
+          return getFeedPromise(val);
+        })
+      );
     }, Promise.resolve())
-    .catch(() => {});
+    .catch(error => {
+      console.log('job error', error);
+    });
 
   if (videoRawResultArray.length > 0) {
     videoResultArray = videoRawResultArray.reduce(
