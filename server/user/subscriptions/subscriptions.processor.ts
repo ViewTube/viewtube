@@ -1,4 +1,11 @@
-import { OnQueueActive, OnQueueCompleted, OnQueueError, Process, Processor } from '@nestjs/bull';
+import {
+  OnQueueActive,
+  OnQueueCompleted,
+  OnQueueError,
+  OnQueueProgress,
+  Process,
+  Processor
+} from '@nestjs/bull';
 import { InjectModel } from '@nestjs/mongoose';
 import { Job } from 'bull';
 import { Model } from 'mongoose';
@@ -28,9 +35,9 @@ export class SubscriptionsProcessor {
     const uniqueChannelIds = [...new Set(channelIds)];
     let subscriptionResults = null;
     try {
-      subscriptionResults = await runSubscriptionsJob(uniqueChannelIds);
+      subscriptionResults = await runSubscriptionsJob(uniqueChannelIds, job);
     } catch (error) {
-      console.log(error);
+      throw new Error(error);
     }
 
     if (subscriptionResults) {
@@ -62,6 +69,10 @@ export class SubscriptionsProcessor {
     return null;
   }
 
+  @OnQueueProgress()
+  onProgress(job: Job, progress: number) {
+    console.log(`${job.name}: ${progress}%`);
+  }
   @OnQueueError()
   onError(error: Error) {
     console.log(error);

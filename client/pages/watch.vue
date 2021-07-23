@@ -192,7 +192,7 @@ import {
   watch
 } from '@nuxtjs/composition-api';
 import { useAccessor } from '@/store';
-import { useAxios } from '@/plugins/axios';
+import { useAxios } from '@/plugins/axiosPlugin';
 import { useImgProxy } from '@/plugins/proxy';
 import VideoLoadingTemplate from '@/components/watch/VideoLoadingTemplate.vue';
 import { Result } from 'ytpl';

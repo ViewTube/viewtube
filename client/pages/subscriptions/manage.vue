@@ -73,7 +73,7 @@ import {
   watch
 } from '@nuxtjs/composition-api';
 import { useAccessor } from '@/store';
-import { useAxios } from '@/plugins/axios';
+import { useAxios } from '@/plugins/axiosPlugin';
 import SmallSearchBox from '@/components/SmallSearchBox.vue';
 
 export default defineComponent({

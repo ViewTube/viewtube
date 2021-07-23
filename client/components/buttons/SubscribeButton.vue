@@ -24,7 +24,7 @@
 
 <script lang="ts">
 import { defineComponent, onMounted, ref } from '@nuxtjs/composition-api';
-import { useAxios } from '@/plugins/axios';
+import { useAxios } from '@/plugins/axiosPlugin';
 import { useAccessor } from '@/store/index';
 
 export default defineComponent({

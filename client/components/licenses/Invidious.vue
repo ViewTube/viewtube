@@ -6,7 +6,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, useFetch } from '@nuxtjs/composition-api';
-import { useAxios } from '@/plugins/axios';
+import { useAxios } from '@/plugins/axiosPlugin';
 
 export default defineComponent({
   name: 'InvidiousLicense',

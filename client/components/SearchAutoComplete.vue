@@ -18,7 +18,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, watch } from '@nuxtjs/composition-api';
-import { useAxios } from '@/plugins/axios';
+import { useAxios } from '@/plugins/axiosPlugin';
 import { useAccessor } from '@/store';
 
 export default defineComponent({

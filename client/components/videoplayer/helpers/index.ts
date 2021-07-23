@@ -11,13 +11,13 @@ import { commons } from '@/plugins/commons';
 import { SponsorBlock } from '@/plugins/services/sponsorBlock';
 import { SponsorBlockSegmentsDto } from '@/plugins/shared';
 import { useAccessor } from '@/store';
+import { useFormatting } from '@/plugins/formatting';
+import { useAxios } from '@/plugins/axiosPlugin';
+import { useImgProxy } from '@/plugins/proxy';
 import { MediaMetadataHelper } from './mediaMetadata';
 import { calculateSeekPercentage, matchSeekProgressPercentage, seekbarFunctions } from './seekbar';
 import { parseChapters } from './chapters';
 import { destroyInstance, initializeHlsStream, isHlsNative, isHlsSupported } from './hlsHelper';
-import { useFormatting } from '~/plugins/formatting';
-import { useAxios } from '~/plugins/axios';
-import { useImgProxy } from '~/plugins/proxy';
 
 export const videoPlayerSetup = (props: any, emit: Function) => {
   const accessor = useAccessor();

@@ -138,7 +138,7 @@ import SubscriptionConverter from '@/plugins/services/subscriptionConverter';
 import Spinner from '@/components/Spinner.vue';
 import '@/assets/styles/popup.scss';
 import { computed, defineComponent, ref } from '@nuxtjs/composition-api';
-import { useAxios } from '@/plugins/axios';
+import { useAxios } from '@/plugins/axiosPlugin';
 import { useAccessor } from '@/store/index';
 
 class ChannelDto {

@@ -45,7 +45,7 @@
 import { defineComponent } from '@nuxtjs/composition-api';
 import humanizeDuration from 'humanize-duration';
 import DeleteIcon from 'vue-material-design-icons/Delete.vue';
-import { useAxios } from '@/plugins/axios';
+import { useAxios } from '@/plugins/axiosPlugin';
 import { useAccessor } from '@/store';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 

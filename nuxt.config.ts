@@ -106,7 +106,7 @@ const config: NuxtConfig = {
     '@/plugins/directives/index',
     '@/plugins/formatting',
     '@/plugins/shared',
-    { src: '~/plugins/vue-datepicker', mode: 'client' },
+    { src: '@/plugins/vueDatepickerPlugin', mode: 'client' },
     { src: '@/plugins/localStorage', mode: 'client' }
   ],
 
