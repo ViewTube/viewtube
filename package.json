@@ -98,7 +98,7 @@
     "webpack": "4.46.0",
     "x2js": "3.4.1",
     "yt-comment-scraper": "5.2.0",
-    "ytdl-core": "4.8.3",
+    "ytdl-core": "4.9.0",
     "ytpl": "2.2.1",
     "ytsr": "3.5.0"
   },
