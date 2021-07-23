@@ -73,6 +73,7 @@ export class SubscriptionsProcessor {
   onProgress(job: Job, progress: number) {
     console.log(`${job.name}: ${progress}%`);
   }
+
   @OnQueueError()
   onError(error: Error) {
     console.log(error);
