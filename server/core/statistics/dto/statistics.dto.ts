@@ -1,18 +1,22 @@
-class UniqueRequest {
-  responseTime: number;
-  timestamp: number;
+export class RequestStatisticDto {
+  date: number;
+  averageResponseTime: number;
+  requestCount: number;
 }
 
 export class EndpointStatisticDto {
   url: string;
-  uniqueRequests: Array<UniqueRequest>;
+  uniqueRequests: Array<RequestStatisticDto>;
 }
 
 export class UserRegistrationDto {
-  timestamp: number;
+  date: number;
+  registrationCount: number;
 }
 
 export class StatisticsDto {
+  registrationCount: number;
+
   registrations: Array<UserRegistrationDto>;
 
   endpoints: Array<EndpointStatisticDto>;

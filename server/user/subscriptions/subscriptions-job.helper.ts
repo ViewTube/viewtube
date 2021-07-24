@@ -13,7 +13,6 @@ import { Job } from 'bull';
 export const runSubscriptionsJob = async (
   uniqueChannelIds: Array<string>,
   job: Job = null
-
 ): Promise<{
   channelResultArray: Array<ChannelBasicInfoDto>;
   videoResultArray: Array<VideoBasicInfoDto>;
