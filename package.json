@@ -142,7 +142,7 @@
     "prettier": "2.3.2",
     "rimraf": "3.0.2",
     "supertest": "6.1.4",
-    "ts-jest": "27.0.3",
+    "ts-jest": "27.0.4",
     "ts-loader": "8.3.0",
     "ts-node": "10.1.0",
     "tsconfig-paths": "3.10.1",
