@@ -3,7 +3,12 @@ import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { ApiRequest } from 'server/metrics/schemas/api-request.schema';
 import { User } from 'server/user/schemas/user.schema';
-import { EndpointStatisticDto, StatisticsDto, UserRegistrationDto } from './dto/statistics.dto';
+import {
+  EndpointStatisticDto,
+  RequestStatisticDto,
+  StatisticsDto,
+  UserRegistrationDto
+} from './dto/statistics.dto';
 
 @Injectable()
 export class StatisticsService {
@@ -17,13 +22,16 @@ export class StatisticsService {
   async getStatistics(): Promise<StatisticsDto> {
     let statistics: StatisticsDto = null;
     try {
-      const endpoints = await this.getEndpointStatistics();
+      const apiCalls = await this.ApiRequestModel.find().exec();
+      const endpoints = this.getEndpointStatistics(apiCalls);
 
-      const registrations = await this.getRegistrations();
+      const users = await this.UserModel.find().exec();
+      const registrations = this.getRegistrations(users);
 
       statistics = {
         registrations,
-        endpoints
+        endpoints,
+        registrationCount: users.length
       };
     } catch (error) {
       console.log(error);
@@ -35,19 +43,18 @@ export class StatisticsService {
     throw new InternalServerErrorException();
   }
 
-  private async getRegistrations(): Promise<Array<UserRegistrationDto>> {
-    const users = await this.UserModel.find().lean().exec();
-    return users.map(user => {
+  private getRegistrations(users: Array<User>): Array<UserRegistrationDto> {
+    const mappedUsers = users.map(user => {
       const timestamp = new Date((user as any).createdAt);
       return {
         timestamp: timestamp.valueOf()
       };
     });
+
+    return this.groupRegistrationsByDay(mappedUsers);
   }
 
-  private async getEndpointStatistics(): Promise<Array<EndpointStatisticDto>> {
-    const apiCalls = await this.ApiRequestModel.find().lean().exec();
-
+  private getEndpointStatistics(apiCalls: Array<ApiRequest>): Array<EndpointStatisticDto> {
     apiCalls.map(data => {
       const newRequestData = data;
       if (newRequestData.params && newRequestData.params.id) {
@@ -60,31 +67,62 @@ export class StatisticsService {
 
     const groupedApiCalls = this.groupBy(apiCalls, 'url');
 
-    const endpointStatsArray = [];
+    const endpointStatsArray: Array<EndpointStatisticDto> = [];
 
     for (const url in groupedApiCalls) {
-      if (Object.prototype.hasOwnProperty.call(groupedApiCalls, url)) {
-        const apiCallsArray = groupedApiCalls[url];
+      const apiCallsArray = groupedApiCalls[url];
 
-        endpointStatsArray.push({
-          url,
-          uniqueRequests: apiCallsArray.map(element => {
-            return {
-              responseTime: element.requestDuration,
-              timestamp: element.timestamp
-            };
-          })
-        });
-      }
+      const groupedApiCallsArray = this.groupApiCallsByDay(apiCallsArray);
+
+      endpointStatsArray.push({
+        url,
+        uniqueRequests: groupedApiCallsArray
+      });
     }
 
     return endpointStatsArray;
   }
 
-  private groupBy(arr: Array<any>, property: string) {
-    return arr.reduce((acc, cur) => {
-      acc[cur[property]] = [...(acc[cur[property]] || []), cur];
-      return acc;
+  private groupApiCallsByDay(array: Array<any>) {
+    const apiCalls: Array<RequestStatisticDto> = [];
+    array.forEach(element => {
+      const d = new Date(element.timestamp);
+      d.setHours(0, 0, 0, 0);
+      const date = d.getTime();
+
+      if (apiCalls.findIndex(e => e.date === date) === -1) {
+        apiCalls.push({ date, averageResponseTime: 0, requestCount: 0 });
+      }
+      const dateIndex = apiCalls.findIndex(e => e.date === date);
+
+      apiCalls[dateIndex].averageResponseTime += element.requestDuration;
+      apiCalls[dateIndex].requestCount += 1;
+    });
+
+    return apiCalls;
+  }
+
+  private groupRegistrationsByDay(array: Array<any>) {
+    const apiCalls: Array<UserRegistrationDto> = [];
+    array.forEach(element => {
+      const d = new Date(element.timestamp);
+      d.setHours(0, 0, 0, 0);
+      const date = d.getTime();
+
+      if (apiCalls.findIndex(e => e.date === date) === -1) {
+        apiCalls.push({ date, registrationCount: 0 });
+      }
+      const dateIndex = apiCalls.findIndex(e => e.date === date);
+      apiCalls[dateIndex].registrationCount += 1;
+    });
+
+    return apiCalls;
+  }
+
+  private groupBy(array: Array<any>, property: string): { [key: string]: Array<any> } {
+    return array.reduce((previous, current) => {
+      previous[current[property]] = [...(previous[current[property]] || []), current];
+      return previous;
     }, {});
   }
 }
