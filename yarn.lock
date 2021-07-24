@@ -1366,10 +1366,10 @@
     jsonc-parser "3.0.0"
     pluralize "8.0.0"
 
-"@nestjs/swagger@5.0.3":
-  version "5.0.3"
-  resolved "https://registry.yarnpkg.com/@nestjs/swagger/-/swagger-5.0.3.tgz#61d199483014c7d2f5601d2d9136455914fb63ed"
-  integrity sha512-F/E0eDBMjYYkz+Tesw+UXjvxUsZYRBaDhm12KCfyPjns8yEF62SoqnFqYPstdvejhN+fd0T/E9MYVLiZtDMqRw==
+"@nestjs/swagger@5.0.8":
+  version "5.0.8"
+  resolved "https://registry.yarnpkg.com/@nestjs/swagger/-/swagger-5.0.8.tgz#afc9ac40669ee118065a566526683b4eca08a3af"
+  integrity sha512-L8cNT5nwJzj2gHhmF6j88NfbxZb8TEStDxSr3Ydqhjs4PDgk3szNYRA/MUg2p0JvoshvdRO7EgFtRYGDrRtXCw==
   dependencies:
     "@nestjs/mapped-types" "1.0.0"
     lodash "4.17.21"
