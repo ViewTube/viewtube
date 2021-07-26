@@ -3,6 +3,7 @@ import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { ApiRequest } from 'server/metrics/schemas/api-request.schema';
 import { User } from 'server/user/schemas/user.schema';
+import Consola from 'consola';
 import {
   EndpointStatisticDto,
   RequestStatisticDto,
@@ -23,10 +24,23 @@ export class StatisticsService {
     let statistics: StatisticsDto = null;
     try {
       const apiCalls = await this.ApiRequestModel.find().exec();
-      const endpoints = this.getEndpointStatistics(apiCalls);
-
       const users = await this.UserModel.find().exec();
-      const registrations = this.getRegistrations(users);
+
+      let endpoints = [];
+      let registrations = [];
+      try {
+        endpoints = await new Promise(resolve => {
+          const ep = this.getEndpointStatistics(apiCalls);
+          resolve(ep);
+        });
+
+        registrations = await new Promise(resolve => {
+          const r = this.getRegistrations(users);
+          resolve(r);
+        });
+      } catch (error) {
+        Consola.error(error);
+      }
 
       statistics = {
         registrations,
