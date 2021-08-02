@@ -103,7 +103,7 @@
     "ytsr": "3.5.0"
   },
   "devDependencies": {
-    "@nestjs/cli": "8.1.0",
+    "@nestjs/cli": "8.1.1",
     "@nestjs/schematics": "8.0.2",
     "@nuxt/types": "2.15.7",
     "@nuxt/typescript-build": "2.1.0",
