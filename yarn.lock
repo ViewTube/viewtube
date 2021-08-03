@@ -2030,10 +2030,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/bull@3.15.2":
-  version "3.15.2"
-  resolved "https://registry.yarnpkg.com/@types/bull/-/bull-3.15.2.tgz#b824b0b4fc8d1d9294a20973f6ceedcba1a7f3e8"
-  integrity sha512-uMQ7u/4GxY2bSTMd4P2yLkyqu3GoKbwTCDkMHJJ2g9OkiMq0Vxw+C7lF4w+oNkwZzZ2k4Kw76Ncxjd6GMnc+CA==
+"@types/bull@3.15.3":
+  version "3.15.3"
+  resolved "https://registry.yarnpkg.com/@types/bull/-/bull-3.15.3.tgz#c55a7644465547bd77d70a1c80f10aadf58d5dd5"
+  integrity sha512-JL+c8TmfaZVZn5H+tzgt867eHfm408HV1/wS5+sjQnJ3ULxpw5/GwLl6sX6Gmcrte4VTFm+Jz8U0Wy4QVgC4dg==
   dependencies:
     "@types/ioredis" "*"
 
