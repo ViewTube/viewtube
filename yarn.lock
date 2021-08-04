@@ -1234,10 +1234,10 @@
     "@types/yargs" "^16.0.0"
     chalk "^4.0.0"
 
-"@nestjs/bull@0.4.0":
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/@nestjs/bull/-/bull-0.4.0.tgz#b277b642cd587ee184f1be14d8d6418b5462e93e"
-  integrity sha512-6Bv+qx+kjekwM4WPyAxQ+krydJe0xHe5j1+Ui8tpNZ/laMeAjccRWV8yQ9u6gFOGifWFfkBFVM3pNGuFVrQnxw==
+"@nestjs/bull@0.4.1":
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/@nestjs/bull/-/bull-0.4.1.tgz#86ea1f0d92130b2ef28cb990ce1d2d259eecba72"
+  integrity sha512-RwraagNSRHvd1QTC35BFnF+RkSjheKvX/HlpQU/G0O4Y1QOOBJpJLAYjgQgNqQazym3lTE/7ykCzZR/Ad1b0AQ==
 
 "@nestjs/cli@8.1.1":
   version "8.1.1"
