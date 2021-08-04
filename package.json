@@ -100,7 +100,7 @@
     "yt-comment-scraper": "5.2.0",
     "ytdl-core": "4.9.1",
     "ytpl": "2.2.1",
-    "ytsr": "3.5.1"
+    "ytsr": "3.5.2"
   },
   "devDependencies": {
     "@nestjs/cli": "8.1.1",

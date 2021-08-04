@@ -14062,9 +14062,9 @@ ytpl@2.2.1:
   dependencies:
     miniget "^4.2.0"
 
-ytsr@3.5.1:
-  version "3.5.1"
-  resolved "https://registry.yarnpkg.com/ytsr/-/ytsr-3.5.1.tgz#3c59f801811eb3ac804976703534160ff4c96077"
-  integrity sha512-VUtspVpJXJlpoXBONM6upirM0vUdjJ6AAWmJghSzhJMX/EfewBi+s1EcPI3x+DiGXXM+t6XGNAtOPfSM96Fbmg==
+ytsr@3.5.2:
+  version "3.5.2"
+  resolved "https://registry.yarnpkg.com/ytsr/-/ytsr-3.5.2.tgz#19ccca2381d1d26edf63f4063033d96166873435"
+  integrity sha512-8UKpB+VtmDgyg+rXWmIl2EMn+L7RB2bKi7JUsLiT6xt9JGO1LYo5WEFYoWzUtdV++EWrDunNu6L+2hwTn1Kc/A==
   dependencies:
     miniget "^4.2.1"
