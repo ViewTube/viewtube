@@ -2,7 +2,7 @@
   <div class="switch" :class="{ right: right }">
     <div class="switch-container">
       <input
-        :id="`switch-button-${btnId}`"
+        :id="`switch-button-${randomId}`"
         class="switch-button"
         type="checkbox"
         :name="label"
@@ -16,7 +16,7 @@
         </span>
       </div>
     </div>
-    <label v-if="label" :for="`switch-button-${btnId}`" class="label">{{ label }}</label>
+    <label v-if="label" :for="`switch-button-${randomId}`" class="label">{{ label }}</label>
   </div>
 </template>
 
@@ -29,7 +29,6 @@ export default defineComponent({
     value: Boolean,
     label: String,
     disabled: Boolean,
-    btnId: String,
     right: {
       type: Boolean,
       required: false
@@ -40,8 +39,15 @@ export default defineComponent({
       emit('valuechange', e.target.checked);
     };
 
+    const ID = (_length = 13) => {
+      return '_' + Math.random().toString(36).substr(2, _length);
+    };
+
+    const randomId = ID();
+
     return {
-      onChange
+      onChange,
+      randomId
     };
   }
 });

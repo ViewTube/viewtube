@@ -178,7 +178,14 @@ export const state = () => ({
   sponsorblockSegmentOutro: 'ask' as segmentOption,
   sponsorblockSegmentInteraction: 'skip' as segmentOption,
   sponsorblockSegmentSelfpromo: 'skip' as segmentOption,
-  sponsorblockSegmentMusicOfftopic: 'skip' as segmentOption
+  sponsorblockSegmentMusicOfftopic: 'skip' as segmentOption,
+  autoplay: false,
+  alwaysLoopVideo: false,
+  showHomeSubscriptions: true,
+  autoplayNextVideo: false,
+  audioModeDefault: false,
+  defaultVideoSpeed: 1,
+  defaultVideoQuality: '720p'
 });
 
 export const getters = getterTree(state, {
@@ -194,7 +201,14 @@ export const getters = getterTree(state, {
   sponsorblockSegmentOutro: state => state.sponsorblockSegmentOutro,
   sponsorblockSegmentInteraction: state => state.sponsorblockSegmentInteraction,
   sponsorblockSegmentSelfpromo: state => state.sponsorblockSegmentSelfpromo,
-  sponsorblockSegmentMusicOfftopic: state => state.sponsorblockSegmentMusicOfftopic
+  sponsorblockSegmentMusicOfftopic: state => state.sponsorblockSegmentMusicOfftopic,
+  autoplay: state => state.autoplay,
+  alwaysLoopVideo: state => state.alwaysLoopVideo,
+  showHomeSubscriptions: state => state.showHomeSubscriptions,
+  autoplayNextVideo: state => state.autoplayNextVideo,
+  audioModeDefault: state => state.audioModeDefault,
+  defaultVideoSpeed: state => state.defaultVideoSpeed,
+  defaultVideoQuality: state => state.defaultVideoQuality
 });
 
 export const mutations = mutationTree(state, {
@@ -203,7 +217,7 @@ export const mutations = mutationTree(state, {
       state[key] = newSettings[key];
     });
   },
-  mutateSettingsSaving(state, saving) {
+  mutateSettingsSaving(state, saving: boolean) {
     state.settingsSaving = saving;
   },
   mutateTheme(state, theme) {
@@ -211,16 +225,16 @@ export const mutations = mutationTree(state, {
       state.theme = theme;
     }
   },
-  mutateMiniplayer(state, enabled) {
+  mutateMiniplayer(state, enabled: boolean) {
     state.miniplayer = enabled;
   },
-  mutateChapters(state, enabled) {
+  mutateChapters(state, enabled: boolean) {
     state.chapters = enabled;
   },
-  mutateSponsorblock(state, enabled) {
+  mutateSponsorblock(state, enabled: boolean) {
     state.sponsorblockEnabled = enabled;
   },
-  mutateSaveVideoHistory(state, enabled) {
+  mutateSaveVideoHistory(state, enabled: boolean) {
     state.saveVideoHistory = enabled;
   },
   mutateSponsorblockCategoryStatus(state, { category, status }) {
@@ -229,6 +243,27 @@ export const mutations = mutationTree(state, {
         state[`sponsorblockSegment${category}`] = status;
       }
     }
+  },
+  mutateAutoplay(state, enabled: boolean) {
+    state.autoplay = enabled;
+  },
+  mutateAlwaysLoopVideo(state, enabled: boolean) {
+    state.alwaysLoopVideo = enabled;
+  },
+  mutateShowHomeSubscriptions(state, enabled: boolean) {
+    state.showHomeSubscriptions = enabled;
+  },
+  mutateAutoplayNextVideo(state, enabled: boolean) {
+    state.autoplayNextVideo = enabled;
+  },
+  mutateAudioModeDefault(state, enabled: boolean) {
+    state.audioModeDefault = enabled;
+  },
+  mutateDefaultVideoSpeed(state, speed: number) {
+    state.defaultVideoSpeed = speed;
+  },
+  mutateDefaultVideoQuality(state, quality: string) {
+    state.defaultVideoQuality = quality;
   }
 });
 
@@ -254,6 +289,41 @@ export const actions = actionTree(
     async setSaveVideoHistory({ commit, dispatch }, enabled) {
       commit('mutateSaveVideoHistory', enabled);
       await dispatch('doSettingsRequest', { settingsKey: 'saveVideoHistory', value: enabled });
+    },
+    async setAutoplay({ commit, dispatch }, enabled: boolean) {
+      commit('mutateAutoplay', enabled);
+      await dispatch('doSettingsRequest', { settingsKey: 'autoplay', value: enabled });
+    },
+    async setAlwaysLoopVideo({ commit, dispatch }, enabled: boolean) {
+      commit('mutateAlwaysLoopVideo', enabled);
+      await dispatch('doSettingsRequest', { settingsKey: 'alwaysLoopVideo', value: enabled });
+    },
+    async setShowHomeSubscriptions({ commit, dispatch }, enabled: boolean) {
+      commit('mutateShowHomeSubscriptions', enabled);
+      await dispatch('doSettingsRequest', { settingsKey: 'showHomeSubscriptions', value: enabled });
+    },
+    async setAutoplayNextVideo({ commit, dispatch }, enabled: boolean) {
+      commit('mutateAutoplayNextVideo', enabled);
+      await dispatch('doSettingsRequest', { settingsKey: 'autoplayNextVideo', value: enabled });
+    },
+    async setAudioModeDefault({ commit, dispatch }, enabled: boolean) {
+      commit('mutateAudioModeDefault', enabled);
+      await dispatch('doSettingsRequest', { settingsKey: 'audioModeDefault', value: enabled });
+    },
+    async setDefaultVideoSpeed({ commit, dispatch }, speed: number) {
+      let videoSpeed = speed;
+      if (videoSpeed > 3) {
+        videoSpeed = 3;
+      }
+      if (videoSpeed < 0.1) {
+        videoSpeed = 0.1;
+      }
+      commit('mutateDefaultVideoSpeed', videoSpeed);
+      await dispatch('doSettingsRequest', { settingsKey: 'defaultVideoSpeed', value: videoSpeed });
+    },
+    async setDefaultVideoQuality({ commit, dispatch }, quality: string) {
+      commit('mutateDefaultVideoQuality', quality);
+      await dispatch('doSettingsRequest', { settingsKey: 'defaultVideoQuality', value: quality });
     },
     async storeSponsorblock({ getters }) {
       await this.$axios.put(`${this.app.$accessor.environment.env.apiUrl}user/settings`, {

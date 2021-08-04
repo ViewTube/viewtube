@@ -18,6 +18,7 @@ export class SettingsService {
     autoplayNextVideo: false,
     chapters: true,
     defaultVideoSpeed: 1,
+    defaultVideoQuality: '720p',
     miniplayer: true,
     saveVideoHistory: true,
     showHomeSubscriptions: true,

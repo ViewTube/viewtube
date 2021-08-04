@@ -58,6 +58,9 @@ export class Settings extends Document implements SettingsDto {
 
   @Prop()
   defaultVideoSpeed: number;
+
+  @Prop()
+  defaultVideoQuality: string;
 }
 
 export const SettingsSchema = SchemaFactory.createForClass(Settings);

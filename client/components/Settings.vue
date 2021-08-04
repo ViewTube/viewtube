@@ -32,7 +32,6 @@
         :value="$accessor.settings.chapters"
         :label="'Show chapters on a video'"
         :disabled="false"
-        :btnId="'settings-btn-1'"
         :right="true"
         @valuechange="val => saveSetting('settings/setChapters', val)"
       />
@@ -41,7 +40,6 @@
         :value="$accessor.settings.saveVideoHistory"
         :label="'Save video history and progress'"
         :disabled="false"
-        :btnId="'settings-btn-2'"
         :right="true"
         @valuechange="val => saveSetting('settings/setSaveVideoHistory', val)"
       />
@@ -62,7 +60,6 @@
         :value="$accessor.settings.sponsorblockEnabled"
         :label="'Enable SponsorBlock'"
         :disabled="false"
-        :btnId="'settings-btn-2'"
         :right="true"
         @valuechange="val => saveSetting('settings/setSponsorblock', val)"
       />
@@ -133,10 +130,72 @@
         :value="$accessor.settings.miniplayer"
         :label="'Enable miniplayer'"
         :disabled="false"
-        :btnId="'settings-btn-3'"
         :right="true"
         @valuechange="val => saveSetting('settings/setMiniplayer', val)"
       />
+
+      <h2><HomescreenIcon />Homescreen</h2>
+      <SwitchButton
+        :value="$accessor.settings.showHomeSubscriptions"
+        :label="'Show subscriptions on home screen'"
+        :disabled="false"
+        :right="true"
+        @valuechange="val => saveSetting('settings/setShowHomeSubscriptions', val)"
+      />
+
+      <h2><VideoplayerIcon />Videoplayer</h2>
+      <div class="settings-dropdown-menu">
+        <label>Default video quality</label>
+        <label class="small-label">TODO: what if not available</label>
+        <Dropdown
+          :values="videoQualities"
+          :value="$accessor.settings.defaultVideoQuality"
+          @valuechange="val => saveSetting('settings/setDefaultVideoQuality', val.value)"
+        />
+      </div>
+      <SwitchButton
+        :value="$accessor.settings.autoplay"
+        :label="'Autoplay video after loading'"
+        :disabled="false"
+        :right="true"
+        @valuechange="val => saveSetting('settings/setAutoplay', val)"
+      />
+      <SwitchButton
+        :value="$accessor.settings.autoplayNextVideo"
+        :label="'Autoplay next video'"
+        :disabled="false"
+        :right="true"
+        @valuechange="val => saveSetting('settings/setAutoplayNextVideo', val)"
+      />
+      <SwitchButton
+        :value="$accessor.settings.alwaysLoopVideo"
+        :label="'Loop video'"
+        :disabled="false"
+        :right="true"
+        @valuechange="val => saveSetting('settings/setAlwaysLoopVideo', val)"
+      />
+      <SwitchButton
+        :value="$accessor.settings.audioModeDefault"
+        :label="'Use audio mode by default'"
+        :disabled="false"
+        :right="true"
+        @valuechange="val => saveSetting('settings/setAudioModeDefault', val)"
+      />
+
+      <div class="settings-number-menu">
+        <label for="video-speed-input">Default video speed</label>
+        <input
+          id="video-speed-input"
+          class="settings-number-input"
+          type="number"
+          name="video-speed"
+          :value="$accessor.settings.defaultVideoSpeed"
+          step="0.1"
+          max="3"
+          min="0.1"
+          @change="val => saveSetting('settings/setDefaultVideoSpeed', val.target.value)"
+        />
+      </div>
     </div>
     <div class="settings-overlay popup-overlay" @click.stop="$emit('close')" />
   </div>
@@ -150,10 +209,13 @@ import ChaptersIcon from 'vue-material-design-icons/BookOpenVariant.vue';
 import CloudCheckIcon from 'vue-material-design-icons/CloudCheckOutline.vue';
 import HistoryIcon from 'vue-material-design-icons/History.vue';
 import ReloadIcon from 'vue-material-design-icons/Reload.vue';
+import HomescreenIcon from 'vue-material-design-icons/Home.vue';
+import VideoplayerIcon from 'vue-material-design-icons/Television.vue';
 import { computed, defineComponent, reactive, ref, useStore, watch } from '@nuxtjs/composition-api';
 import ThemeSelector from '@/components/themes/ThemeSelector.vue';
 import SwitchButton from '@/components/buttons/SwitchButton.vue';
 import MultiOptionButton from '@/components/buttons/MultiOptionButton.vue';
+import Dropdown from '@/components/filter/Dropdown.vue';
 import '@/assets/styles/popup.scss';
 import { useAccessor } from '@/store';
 
@@ -164,12 +226,15 @@ export default defineComponent({
     ThemeIcon,
     MiniplayerIcon,
     HistoryIcon,
+    HomescreenIcon,
+    VideoplayerIcon,
     SwitchButton,
     ThemeSelector,
     ChaptersIcon,
     MultiOptionButton,
     CloudCheckIcon,
-    ReloadIcon
+    ReloadIcon,
+    Dropdown
   },
   setup() {
     const accessor = useAccessor();
@@ -179,6 +244,8 @@ export default defineComponent({
       { label: 'Ask', value: 'ask' },
       { label: 'None', value: 'none' }
     ]);
+
+    const videoQualities = ['144p', '240p', '360p', '720p', '1080p', '1440p', '2160p'];
 
     const settingsSaving = ref(false);
     const themes = computed(() => accessor.settings.defaultThemes);
@@ -224,7 +291,8 @@ export default defineComponent({
       settingsSaving,
       onSponsorblockOptionChange,
       onThemeChange,
-      saveSetting
+      saveSetting,
+      videoQualities
     };
   }
 });
@@ -306,9 +374,42 @@ export default defineComponent({
     }
   }
 
+  .settings-dropdown-menu {
+    display: flex;
+    flex-direction: row;
+    width: calc(100% - 36px);
+    justify-content: space-between;
+
+    label {
+      margin-top: 20px !important;
+      height: 100%;
+    }
+  }
+
+  .settings-number-menu {
+    display: flex;
+    flex-direction: row;
+    width: calc(100% - 36px);
+    justify-content: space-between;
+    margin-top: 20px !important;
+
+    .settings-number-input {
+      all: unset;
+      border: 2px solid var(--bgcolor-alt-light);
+      width: 50px;
+      padding: 2px 5px;
+      border-radius: 5px;
+      transition: border 300ms $intro-easing;
+
+      &:focus {
+        border: 2px solid var(--theme-color);
+      }
+    }
+  }
+
   .sponsorblock-options-container {
     width: calc(100% - 36px);
-    
+
     .sponsorblock-options {
       // width: calc(100% - 20px);
       transition: padding 300ms $intro-easing;

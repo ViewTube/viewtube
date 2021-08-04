@@ -46,8 +46,8 @@ export default defineComponent({
   props: {
     values: Array as PropType<Array<any>>,
     value: String,
-    label: String,
-    noDefault: Boolean
+    label: { type: String, required: false },
+    noDefault: { type: Boolean, required: false }
   },
   setup(props, { emit }) {
     const selected = ref(0);
@@ -60,21 +60,19 @@ export default defineComponent({
 
     type entriesArray = Array<{ name: string; value: string }>;
 
-    const entries = computed(
-      (): entriesArray => {
-        if (props.values[0].value && props.values[0].name) {
-          return props.values;
-        } else {
-          return props.values.map(value => {
-            return { name: value, value };
-          });
-        }
+    const entries = computed((): entriesArray => {
+      if (props.values[0].value && props.values[0].name) {
+        return props.values;
+      } else {
+        return props.values.map(value => {
+          return { name: value, value };
+        });
       }
-    );
+    });
 
     const calculateOffset = (): void => {
-      if (dropdownBtnRef) {
-        const dropdownDimens = dropdownBtnRef.getBoundingClientRect();
+      if (dropdownBtnRef.value) {
+        const dropdownDimens = dropdownBtnRef.value.getBoundingClientRect();
         offsetTop.value = dropdownDimens.top + 50;
         offsetLeft.value = dropdownDimens.left;
       }
@@ -110,6 +108,7 @@ export default defineComponent({
       offsetTop,
       offsetLeft,
       visible,
+      entries,
       dropdownBtnRef,
       select,
       onDropdownBtnClick,

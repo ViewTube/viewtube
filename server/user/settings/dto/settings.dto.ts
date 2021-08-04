@@ -34,4 +34,6 @@ export class SettingsDto {
   audioModeDefault: boolean;
 
   defaultVideoSpeed: number;
+
+  defaultVideoQuality: string;
 }
