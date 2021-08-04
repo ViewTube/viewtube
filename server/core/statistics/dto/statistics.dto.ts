@@ -19,5 +19,5 @@ export class StatisticsDto {
 
   registrations: Array<UserRegistrationDto>;
 
-  endpoints: Array<EndpointStatisticDto>;
+  endpoints?: Array<EndpointStatisticDto>;
 }
