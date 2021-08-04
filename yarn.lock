@@ -14046,10 +14046,10 @@ yt-comment-scraper@5.2.0:
     axios "^0.21.1"
     node-html-parser "^2.0.2"
 
-ytdl-core@4.9.0:
-  version "4.9.0"
-  resolved "https://registry.yarnpkg.com/ytdl-core/-/ytdl-core-4.9.0.tgz#d166f6e7ab7c2ac344ada9568f507af1255c6406"
-  integrity sha512-pfuWqEIrP3iYqz5jOMmaz9m+DAzfQpt8X1jmzoOsPdYWrLMV4ml7+p/zhDi0F8IF90i4Jmd0Pq0W1awnKDatKg==
+ytdl-core@4.9.1:
+  version "4.9.1"
+  resolved "https://registry.yarnpkg.com/ytdl-core/-/ytdl-core-4.9.1.tgz#f587e2bd8329b5133c0bac4ce5ee1f3c7a1175a9"
+  integrity sha512-6Jbp5RDhUEozlaJQAR+l8oV8AHsx3WUXxSyPxzE6wOIAaLql7Hjiy0ZM58wZoyj1YEenlEPjEqcJIjKYKxvHtQ==
   dependencies:
     m3u8stream "^0.8.3"
     miniget "^4.0.0"
