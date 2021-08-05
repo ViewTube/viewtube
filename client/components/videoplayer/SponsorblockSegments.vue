@@ -38,6 +38,8 @@ export default defineComponent({
           return '#fdfb0e';
         case 'music_offtopic':
           return '#f89c06';
+        case 'preview':
+          return '#f70000';
         default:
           return '#0fca15';
       }

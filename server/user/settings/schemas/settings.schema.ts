@@ -39,6 +39,9 @@ export class Settings extends Document implements SettingsDto {
   sponsorblockSegmentMusicOfftopic: segmentOption;
 
   @Prop()
+  sponsorblockSegmentPreview: segmentOption;
+
+  @Prop()
   autoplay: boolean;
 
   @Prop()

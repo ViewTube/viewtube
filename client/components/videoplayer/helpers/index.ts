@@ -282,6 +282,9 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
               case 'selfpromo':
                 segmentOption = accessor.settings.sponsorblockSegmentSelfpromo;
                 break;
+              case 'preview':
+                segmentOption = accessor.settings.sponsorblockSegmentPreview;
+                break;
               case 'sponsor':
                 segmentOption = accessor.settings.sponsorblockSegmentSponsor;
                 break;

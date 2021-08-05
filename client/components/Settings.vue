@@ -122,6 +122,15 @@
             :color-mark="'#f89c06'"
             @valuechange="val => onSponsorblockOptionChange('MusicOfftopic', val)"
           />
+          <MultiOptionButton
+            :options="sponsorblockSegmentOptions"
+            :selectedValue="$accessor.settings.sponsorblockSegmentPreview"
+            :label="'Preview'"
+            :small-label="'Skips previews and recaps'"
+            :right="true"
+            :color-mark="'#f70000'"
+            @valuechange="val => onSponsorblockOptionChange('Preview', val)"
+          />
         </div>
       </div>
 

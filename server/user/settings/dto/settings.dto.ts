@@ -21,6 +21,8 @@ export class SettingsDto {
 
   sponsorblockSegmentMusicOfftopic: segmentOption;
 
+  sponsorblockSegmentPreview: segmentOption;
+
   autoplay: boolean;
 
   saveVideoHistory: boolean;

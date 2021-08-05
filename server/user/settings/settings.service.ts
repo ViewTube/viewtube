@@ -29,6 +29,7 @@ export class SettingsService {
     sponsorblockSegmentOutro: 'ask',
     sponsorblockSegmentSelfpromo: 'skip',
     sponsorblockSegmentSponsor: 'skip',
+    sponsorblockSegmentPreview: 'skip',
     theme: 'default'
   };
 

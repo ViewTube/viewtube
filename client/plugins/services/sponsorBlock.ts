@@ -35,7 +35,7 @@ export class SponsorBlock {
       const shortHash = encodedVideoId.substr(0, 4);
       try {
         const response = await axios.get(
-          `${this._apiUrl}api/skipSegments/${shortHash}?categories=["sponsor", "intro", "outro", "interaction", "selfpromo", "music_offtopic"]`
+          `${this._apiUrl}api/skipSegments/${shortHash}?categories=["sponsor", "intro", "outro", "interaction", "selfpromo", "music_offtopic", "preview"]`
         );
         if (response.data) {
           const skipSections = response.data.find((el: any) => el.videoID === this._videoId);

@@ -179,6 +179,7 @@ export const state = () => ({
   sponsorblockSegmentInteraction: 'skip' as segmentOption,
   sponsorblockSegmentSelfpromo: 'skip' as segmentOption,
   sponsorblockSegmentMusicOfftopic: 'skip' as segmentOption,
+  sponsorblockSegmentPreview: 'skip' as segmentOption,
   autoplay: false,
   alwaysLoopVideo: false,
   showHomeSubscriptions: true,
@@ -202,6 +203,7 @@ export const getters = getterTree(state, {
   sponsorblockSegmentInteraction: state => state.sponsorblockSegmentInteraction,
   sponsorblockSegmentSelfpromo: state => state.sponsorblockSegmentSelfpromo,
   sponsorblockSegmentMusicOfftopic: state => state.sponsorblockSegmentMusicOfftopic,
+  sponsorblockSegmentPreview: state => state.sponsorblockSegmentPreview,
   autoplay: state => state.autoplay,
   alwaysLoopVideo: state => state.alwaysLoopVideo,
   showHomeSubscriptions: state => state.showHomeSubscriptions,
@@ -333,7 +335,8 @@ export const actions = actionTree(
         sponsorblockSegmentMusicOfftopic: getters.sponsorblockSegmentMusicOfftopic,
         sponsorblockSegmentOutro: getters.sponsorblockSegmentOutro,
         sponsorblockSegmentSelfpromo: getters.sponsorblockSegmentSelfpromo,
-        sponsorblockSegmentSponsor: getters.sponsorblockSegmentSponsor
+        sponsorblockSegmentSponsor: getters.sponsorblockSegmentSponsor,
+        sponsorblockSegmentPreview: getters.sponsorblockSegmentPreview
       });
     },
     async doSettingsRequest(_, { settingsKey, value }): Promise<void> {
