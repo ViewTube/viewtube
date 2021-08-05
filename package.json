@@ -50,7 +50,7 @@
     "@nuxtjs/composition-api": "0.26.0",
     "@nuxtjs/pwa": "3.3.5",
     "@nuxtjs/router": "1.6.1",
-    "@nuxtjs/style-resources": "1.2.0",
+    "@nuxtjs/style-resources": "1.2.1",
     "adm-zip": "0.5.5",
     "bcryptjs": "2.4.3",
     "bull": "3.27.0",
