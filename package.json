@@ -35,6 +35,7 @@
     "not Edge 18"
   ],
   "dependencies": {
+    "@freetube/yt-comment-scraper": "^6.0.0",
     "@nestjs/bull": "0.4.1",
     "@nestjs/common": "8.0.6",
     "@nestjs/config": "1.0.1",
@@ -98,7 +99,6 @@
     "web-push": "3.4.5",
     "webpack": "4.46.0",
     "x2js": "3.4.1",
-    "yt-comment-scraper": "5.2.0",
     "ytdl-core": "4.9.1",
     "ytpl": "2.2.3",
     "ytsr": "3.5.3"

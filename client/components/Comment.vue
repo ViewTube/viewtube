@@ -65,7 +65,7 @@
             />
           </div>
           <BadgeButton
-            v-if="!loadingReplies && repliesContinuationLink"
+            v-if="!loadingReplies && repliesContinuationString"
             class="show-more-replies"
             :click="loadMoreReplies"
             :loading="repliesContinuationLoading"
@@ -88,7 +88,6 @@ import CommentHideIcon from 'vue-material-design-icons/CommentRemoveOutline.vue'
 import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
 import { defineComponent, ref, useRoute } from '@nuxtjs/composition-api';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
-import Invidious from '@/plugins/services/invidious';
 import { useAccessor } from '@/store';
 import { useAxios } from '@/plugins/axiosPlugin';
 import { useImgProxy } from '@/plugins/proxy';
@@ -119,7 +118,7 @@ export default defineComponent({
     const replies = ref([]);
     const loadingReplies = ref(false);
     const repliesLoaded = ref(false);
-    const repliesContinuationLink = ref(null);
+    const repliesContinuationString = ref(null);
     const repliesContinuationLoading = ref(false);
 
     const hideReplies = () => {
@@ -133,7 +132,7 @@ export default defineComponent({
         .get(`${accessor.environment.apiUrl}comments/${videoId}/replies?replyToken=${replyToken}`)
         .then(response => {
           replies.value = response.data.comments;
-          repliesContinuationLink.value = response.data.continuation || null;
+          repliesContinuationString.value = response.data.continuation || null;
           repliesLoaded.value = true;
           loadingReplies.value = false;
         })
@@ -149,17 +148,11 @@ export default defineComponent({
     const loadMoreReplies = () => {
       repliesContinuationLoading.value = true;
       const videoId = route.value.query.v;
-      const invidious = new Invidious(accessor.instances.currentInstanceApi);
-      invidious.api
-        .comments({
-          id: videoId,
-          params: {
-            continuation: repliesContinuationLink
-          }
-        })
+      axios
+        .get(`${accessor.environment.apiUrl}comments/${videoId}/replies?replyToken=${repliesContinuationString.value}`)
         .then(response => {
           replies.value = replies.value.concat(response.data.comments);
-          repliesContinuationLink.value = response.data.continuation || null;
+          repliesContinuationString.value = response.data.continuation || null;
           repliesContinuationLoading.value = false;
         })
         .catch(error => {
@@ -176,7 +169,7 @@ export default defineComponent({
       replies,
       loadingReplies,
       repliesLoaded,
-      repliesContinuationLink,
+      repliesContinuationString,
       repliesContinuationLoading,
       hideReplies,
       loadReplies,
