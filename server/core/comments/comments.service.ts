@@ -27,7 +27,9 @@ export class CommentsService {
     while (!commentsRawResult && index < retryCounter) {
       try {
         commentsRawResult = await this.tryGetComments(commentsPayload);
-      } catch {}
+      } catch (error) {
+        console.log(error);
+      }
       index++;
     }
     if (commentsRawResult) {
