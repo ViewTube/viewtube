@@ -268,10 +268,12 @@
             </div>
           </div>
           <div class="right-bottom-controls">
-            <QualitySelection
+            <VideoPlayerSettings
               :formatStreams="video.formatStreams"
               :selectedQuality="selectedQuality"
               @qualityselect="onChangeQuality"
+              @speedchange="onChangeSpeed"
+              @loopchange="onChangeLoop"
             />
             <FullscreenIcon
               v-if="!fullscreen"
@@ -325,7 +327,7 @@ import VideoPlayerAnimations from '@/components/videoplayer/VideoPlayerAnimation
 import SkipButton from '@/components/buttons/SkipButton.vue';
 import Spinner from '@/components/Spinner.vue';
 import VolumeControl from '@/components/videoplayer/VolumeControl.vue';
-import QualitySelection from '@/components/videoplayer/QualitySelection.vue';
+import VideoPlayerSettings from '@/components/videoplayer/VideoPlayerSettings.vue';
 import SeekbarPreview from '@/components/videoplayer/SeekbarPreview.vue';
 import SponsorBlockSegments from '@/components/videoplayer/SponsorblockSegments.vue';
 
@@ -341,7 +343,7 @@ export default defineComponent({
     CloseIcon,
     SkipButton,
     VolumeControl,
-    QualitySelection,
+    VideoPlayerSettings,
     SeekbarPreview,
     VideoPlayerAnimations,
     SponsorBlockSegments

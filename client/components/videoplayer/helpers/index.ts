@@ -296,7 +296,6 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
             } else if (segmentOption && segmentOption === 'ask') {
               skipButton.visible = true;
               skipButton.skipCategory = currentSegment.category;
-
               skipButton.clickFn = () => {
                 setVideoTime(currentSegment.segment[1]);
 
@@ -705,6 +704,19 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
     selectedQuality.value = index;
   };
 
+  const onChangeSpeed = (speed: number) => {
+    if (videoRef.value) {
+      videoRef.value.playbackRate = speed;
+      videoRef.value.defaultPlaybackRate = speed;
+    }
+  };
+
+  const onChangeLoop = (enabled: boolean) => {
+    if (videoRef.value) {
+      videoRef.value.loop = enabled;
+    }
+  };
+
   const createMediaMetadata = () => {
     return mediaMetadataHelper.createMediaMetadata();
   };
@@ -889,6 +901,8 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
     onSeekbarClick,
     onPlayerClick,
     onChangeQuality,
+    onChangeLoop,
+    onChangeSpeed,
     // loadDashVideo,
     setVideoTime
   };
