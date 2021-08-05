@@ -145,8 +145,10 @@
 
       <h2><VideoplayerIcon />Videoplayer</h2>
       <div class="settings-dropdown-menu">
-        <label>Default video quality</label>
-        <label class="small-label">TODO: what if not available</label>
+        <div class="quality-label">
+          <label>Default video quality</label>
+          <label class="small-label">If unavailable, the next lower quality will be chosen</label>
+        </div>
         <Dropdown
           :values="videoQualities"
           :value="$accessor.settings.defaultVideoQuality"
@@ -379,6 +381,15 @@ export default defineComponent({
     flex-direction: row;
     width: calc(100% - 36px);
     justify-content: space-between;
+
+    .quality-label {
+      display: flex;
+      flex-direction: column;
+
+      .small-label {
+        margin: 0 !important;
+      }
+    }
 
     label {
       margin-top: 20px !important;
