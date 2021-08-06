@@ -78,7 +78,7 @@ import SettingsIcon from 'vue-material-design-icons/Cog.vue';
 import HighDefinitionIcon from 'vue-material-design-icons/HighDefinition.vue';
 import MagicIcon from 'vue-material-design-icons/AutoFix.vue';
 import SwitchButton from '@/components/buttons/SwitchButton.vue';
-import { computed, defineComponent, ref, watch } from '@nuxtjs/composition-api';
+import { computed, defineComponent, onMounted, ref, watch } from '@nuxtjs/composition-api';
 import { useAccessor } from '~/store';
 
 export default defineComponent({
@@ -103,9 +103,6 @@ export default defineComponent({
     const loopVideo = ref(false);
     const videoSpeed = ref(1);
 
-    loopVideo.value = accessor.settings.alwaysLoopVideo;
-    videoSpeed.value = accessor.settings.defaultVideoSpeed;
-
     const changeVideoSpeed = (e: any) => {
       let speed = e.target.value;
       if (e.target.value < 0.1) {
@@ -123,6 +120,11 @@ export default defineComponent({
 
     watch(videoSpeed, newVal => {
       emit('speedchange', newVal);
+    });
+
+    onMounted(() => {
+      loopVideo.value = accessor.settings.alwaysLoopVideo;
+      videoSpeed.value = accessor.settings.defaultVideoSpeed;
     });
 
     const maxAdaptiveQuality = computed((): any => {

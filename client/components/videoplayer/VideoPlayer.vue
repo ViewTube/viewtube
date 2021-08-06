@@ -39,6 +39,7 @@
         @timeupdate="onPlaybackProgress"
         @progress="onLoadingProgress"
         @loadedmetadata="onLoadedMetadata"
+        @ratechange="onSpeedChanged"
       />
     </div>
 
@@ -269,6 +270,7 @@
           </div>
           <div class="right-bottom-controls">
             <VideoPlayerSettings
+              ref="videoPlayerSettingsRef"
               :formatStreams="video.formatStreams"
               :selectedQuality="selectedQuality"
               @qualityselect="onChangeQuality"

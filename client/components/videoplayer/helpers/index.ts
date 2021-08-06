@@ -85,6 +85,7 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
   const seekbarHoverTimestampRef = ref(null);
   const chapterTitleRef = ref(null);
   const videoRef = ref(null);
+  const videoPlayerSettingsRef = ref(null);
 
   const touchActionTimeout = ref(null);
 
@@ -717,6 +718,18 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
     }
   };
 
+  const onLoopChanged = (enabled: boolean) => {
+    if (videoPlayerSettingsRef.value) {
+      videoPlayerSettingsRef.value.loopVideo = enabled;
+    }
+  };
+
+  const onSpeedChanged = (event: any) => {
+    if (videoPlayerSettingsRef.value) {
+      videoPlayerSettingsRef.value.videoSpeed = event.target.playbackRate;
+    }
+  };
+
   const createMediaMetadata = () => {
     return mediaMetadataHelper.createMediaMetadata();
   };
@@ -808,6 +821,8 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
     }
   };
 
+  const videoAttrObserver = ref(null);
+
   onMounted(async () => {
     document.addEventListener('keydown', onWindowKeyDown);
     if (videoRef.value) {
@@ -827,6 +842,18 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
       } else {
         videoRef.value.src = highestVideoQuality.value;
       }
+
+      videoAttrObserver.value = new MutationObserver(mutations => {
+        mutations.forEach(mutation => {
+          if (mutation.type === 'attributes') {
+            if (mutation.attributeName === 'loop') {
+              onLoopChanged(videoRef.value.loop);
+            }
+          }
+        });
+      });
+
+      videoAttrObserver.value.observe(videoRef.value, { attributes: true });
     }
   });
 
@@ -852,11 +879,12 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
     chapterTitleRef,
     seekbarHoverTimestampRef,
     videoRef,
+    videoPlayerSettingsRef,
     animations,
     chapters,
     sponsorBlockSegments,
-    getChapterForPercentage,
     skipButton,
+    getChapterForPercentage,
     onLoadedMetadata,
     onPlaybackProgress,
     onLoadingProgress,
@@ -866,6 +894,7 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
     onVideoEnded,
     onVideoCanplay,
     onVideoBuffering,
+    onSpeedChanged,
     onLoaded,
     onVolumeInteraction,
     onOpenInPlayer,
