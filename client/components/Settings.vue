@@ -147,6 +147,7 @@
       <SwitchButton
         :value="$accessor.settings.showHomeSubscriptions"
         :label="'Show subscriptions on home screen'"
+        :small-label="'Subscriptions require signing in'"
         :disabled="false"
         :right="true"
         @valuechange="val => saveSetting('settings/setShowHomeSubscriptions', val)"
@@ -166,7 +167,8 @@
       </div>
       <SwitchButton
         :value="$accessor.settings.autoplay"
-        :label="'Autoplay video after loading'"
+        :label="'Autoplay video'"
+        :small-label="'Automatically plays video after opening'"
         :disabled="false"
         :right="true"
         @valuechange="val => saveSetting('settings/setAutoplay', val)"
@@ -174,6 +176,7 @@
       <SwitchButton
         :value="$accessor.settings.autoplayNextVideo"
         :label="'Autoplay next video'"
+        :small-label="'Automatically plays the next recommended video'"
         :disabled="false"
         :right="true"
         @valuechange="val => saveSetting('settings/setAutoplayNextVideo', val)"
@@ -181,13 +184,15 @@
       <SwitchButton
         :value="$accessor.settings.alwaysLoopVideo"
         :label="'Loop video'"
+        :small-label="'Overrides playing next video with autoplay or in playlists'"
         :disabled="false"
         :right="true"
         @valuechange="val => saveSetting('settings/setAlwaysLoopVideo', val)"
       />
       <SwitchButton
         :value="$accessor.settings.audioModeDefault"
-        :label="'Use audio mode by default'"
+        :label="'Audio mode default'"
+        :small-label="'Videos start in audio only mode'"
         :disabled="false"
         :right="true"
         @valuechange="val => saveSetting('settings/setAudioModeDefault', val)"

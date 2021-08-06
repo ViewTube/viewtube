@@ -16,7 +16,12 @@
         </span>
       </div>
     </div>
-    <label v-if="label" :for="`switch-button-${randomId}`" class="label">{{ label }}</label>
+    <div v-if="label" class="label-container">
+      <label :for="`switch-button-${randomId}`" class="label">{{ label }}</label>
+      <label v-if="smallLabel" :for="`switch-button-${randomId}`" class="small-label">{{
+        smallLabel
+      }}</label>
+    </div>
   </div>
 </template>
 
@@ -28,6 +33,10 @@ export default defineComponent({
   props: {
     value: Boolean,
     label: String,
+    smallLabel: {
+      type: String,
+      required: false
+    },
     disabled: Boolean,
     right: {
       type: Boolean,
@@ -67,10 +76,35 @@ export default defineComponent({
     flex-direction: row-reverse;
     width: calc(100% - 36px);
 
-    .label {
+    .label-container {
       flex-grow: 1;
       text-align: start;
       margin: 0;
+
+      .label {
+        margin: 0;
+      }
+
+      .small-label {
+        margin: 0;
+      }
+    }
+  }
+
+  .label-container {
+    display: flex;
+    flex-direction: column;
+    align-content: flex-start;
+
+    .small-label {
+      font-size: 0.8rem;
+      margin: 0 0 0 10px;
+    }
+
+    .label {
+      line-height: 24px;
+      text-align: start;
+      margin: 0 0 0 10px;
     }
   }
 
@@ -148,12 +182,6 @@ export default defineComponent({
         }
       }
     }
-  }
-
-  .label {
-    line-height: 24px;
-    text-align: center;
-    margin: 0 0 0 10px;
   }
 }
 </style>

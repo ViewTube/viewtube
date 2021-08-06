@@ -443,7 +443,12 @@ export default defineComponent({
     });
 
     const onVideoEnded = () => {
-      if (isPlaylist.value && playlistSectionRef.value) {
+      if (
+        isPlaylist.value &&
+        playlistSectionRef.value &&
+        !accessor.settings.alwaysLoopVideo &&
+        !accessor.videoPlayer.loop
+      ) {
         playlistSectionRef.value.playNextVideo();
       }
     };

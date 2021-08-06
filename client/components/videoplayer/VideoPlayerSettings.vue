@@ -115,6 +115,7 @@ export default defineComponent({
     };
 
     watch(loopVideo, newVal => {
+      accessor.videoPlayer.setLoop(newVal);
       emit('loopchange', newVal);
     });
 
