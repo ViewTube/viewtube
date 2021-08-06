@@ -3,15 +3,11 @@
     <Spinner v-if="$fetchState.pending" class="centered" />
     <GradientBackground :color="'theme'" />
     <SectionTitle
-      v-if="
-        $accessor.settings.showHomeSubscriptions &&
-        userAuthenticated &&
-        subscriptions &&
-        subscriptions.length > 0
-      "
+      v-if="$accessor.settings.showHomeSubscriptions && userAuthenticated"
       :title="'Subscriptions'"
       :link="'subscriptions'"
     />
+    <Spinner v-if="subscriptionsLoading" />
     <div
       v-if="
         $accessor.settings.showHomeSubscriptions &&
@@ -78,6 +74,7 @@ export default defineComponent({
     const displayedVideos = ref([]);
     const subscriptions = ref([]);
     const loading = ref(true);
+    const subscriptionsLoading = ref(false);
     const userAuthenticated = ref(false);
 
     userAuthenticated.value = accessor.user.isLoggedIn;
@@ -108,12 +105,14 @@ export default defineComponent({
           });
         });
       if (userAuthenticated.value && accessor.settings.showHomeSubscriptions) {
+        subscriptionsLoading.value = true;
         await axios
           .get(`${accessor.environment.apiUrl}user/subscriptions/videos?limit=4`, {
             withCredentials: true
           })
           .then(response => {
             subscriptions.value = response.data.videos;
+            subscriptionsLoading.value = false;
           })
           .catch(_ => {});
       }
@@ -129,6 +128,7 @@ export default defineComponent({
       subscriptions,
       loading,
       userAuthenticated,
+      subscriptionsLoading,
       showMoreVideos
     };
   },
@@ -137,10 +137,14 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-.home {
-  .spinner {
-    z-index: 11;
+.spinner {
+  z-index: 11;
+
+  &:not(.centered) {
+    position: relative;
   }
+}
+.home {
   &.loading {
     height: 100vh;
   }

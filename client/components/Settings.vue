@@ -197,7 +197,6 @@
         :right="true"
         @valuechange="val => saveSetting('settings/setAudioModeDefault', val)"
       />
-
       <div class="settings-number-menu">
         <label for="video-speed-input">Default video speed</label>
         <input
