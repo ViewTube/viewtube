@@ -168,7 +168,7 @@ export const state = () => ({
       }
     ]
   },
-  miniplayer: true,
+  miniplayer: false,
   chapters: true,
   saveVideoHistory: true,
   settingsSaving: false,

@@ -138,7 +138,8 @@
       <SwitchButton
         :value="$accessor.settings.miniplayer"
         :label="'Enable miniplayer'"
-        :disabled="false"
+        :small-label="'Not working at the moment'"
+        :disabled="true"
         :right="true"
         @valuechange="val => saveSetting('settings/setMiniplayer', val)"
       />
