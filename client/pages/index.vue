@@ -3,12 +3,22 @@
     <Spinner v-if="$fetchState.pending" class="centered" />
     <GradientBackground :color="'theme'" />
     <SectionTitle
-      v-if="userAuthenticated && subscriptions && subscriptions.length > 0"
+      v-if="
+        $accessor.settings.showHomeSubscriptions &&
+        userAuthenticated &&
+        subscriptions &&
+        subscriptions.length > 0
+      "
       :title="'Subscriptions'"
       :link="'subscriptions'"
     />
     <div
-      v-if="userAuthenticated && subscriptions && subscriptions.length > 0"
+      v-if="
+        $accessor.settings.showHomeSubscriptions &&
+        userAuthenticated &&
+        subscriptions &&
+        subscriptions.length > 0
+      "
       class="home-videos-container small"
     >
       <VideoEntry
@@ -82,7 +92,11 @@ export default defineComponent({
         .popular()
         .then((response: { data: { videos: any[] } }) => {
           videos.value = response.data.videos;
-          displayedVideos.value = response.data.videos.slice(0, 8);
+          let videoCount = 12;
+          if (userAuthenticated.value && accessor.settings.showHomeSubscriptions) {
+            videoCount = 8;
+          }
+          displayedVideos.value = response.data.videos.slice(0, videoCount);
         })
         .catch((_: any) => {
           accessor.messages.createMessage({
@@ -93,7 +107,7 @@ export default defineComponent({
             clickAction: () => fetch()
           });
         });
-      if (userAuthenticated.value) {
+      if (userAuthenticated.value && accessor.settings.showHomeSubscriptions) {
         await axios
           .get(`${accessor.environment.apiUrl}user/subscriptions/videos?limit=4`, {
             withCredentials: true
