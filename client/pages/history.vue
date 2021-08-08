@@ -92,7 +92,9 @@ export default defineComponent({
         const firstDate = new Date(dateToDelete.value[0]).valueOf();
         const secondDate = new Date(dateToDelete.value[1]).valueOf();
         await axios
-          .delete(`${accessor.environment.apiUrl}user/history/from/${firstDate}/to/${secondDate}`)
+          .delete(`${accessor.environment.apiUrl}user/history/from/${firstDate}/to/${secondDate}`, {
+            withCredentials: true
+          })
           .then(() => {
             fetch();
           })
@@ -109,7 +111,7 @@ export default defineComponent({
     const deleteEntireHistory = async () => {
       deletePopup.value = false;
       await axios
-        .delete(`${accessor.environment.apiUrl}user/history/`)
+        .delete(`${accessor.environment.apiUrl}user/history/`, { withCredentials: true })
         .then(() => {
           fetch();
         })

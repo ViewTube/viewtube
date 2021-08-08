@@ -12,7 +12,7 @@
       ref="videoplayer"
       :video="video"
       :initialVideoTime="initialVideoTime"
-      :autoplay="isPlaylist"
+      :autoplay="isPlaylist || $accessor.settings.autoplay"
       class="video-player-p"
       @videoEnded="onVideoEnded"
     />
@@ -256,10 +256,14 @@ export default defineComponent({
       if (accessor.user.isLoggedIn) {
         const apiUrl = accessor.environment.apiUrl;
         axios
-          .post(`${apiUrl}user/history/${video.value.videoId}`, {
-            progressSeconds: null,
-            lengthSeconds: video.value.lengthSeconds
-          })
+          .post(
+            `${apiUrl}user/history/${video.value.videoId}`,
+            {
+              progressSeconds: null,
+              lengthSeconds: video.value.lengthSeconds
+            },
+            { withCredentials: true }
+          )
           .catch(_ => {});
       }
     };
@@ -374,7 +378,7 @@ export default defineComponent({
                   progressSeconds: number;
                   lengthSeconds: number;
                   lastVisit: Date;
-                }>(`${apiUrl}user/history/${response.data.videoId}`)
+                }>(`${apiUrl}user/history/${response.data.videoId}`, { withCredentials: true })
                 .catch((_: any) => {});
 
               if (videoVisit && videoVisit.data && videoVisit.data.progressSeconds > 0) {

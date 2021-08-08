@@ -739,10 +739,14 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
       if (accessor.user.isLoggedIn && !props.video.liveNow) {
         const apiUrl = accessor.environment.apiUrl;
         axios
-          .post(`${apiUrl}user/history/${props.video.videoId}`, {
-            progressSeconds: Math.floor(currentTime),
-            lengthSeconds: Math.floor(videoRef.value.duration)
-          })
+          .post(
+            `${apiUrl}user/history/${props.video.videoId}`,
+            {
+              progressSeconds: Math.floor(currentTime),
+              lengthSeconds: Math.floor(videoRef.value.duration)
+            },
+            { withCredentials: true }
+          )
           .catch((_: any) => {});
       }
     }
