@@ -171,6 +171,7 @@ import ThumbsDown from 'vue-material-design-icons/ThumbDown.vue';
 import InstanceIcon from 'vue-material-design-icons/ServerNetwork.vue';
 import Share from 'vue-material-design-icons/Share.vue';
 import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
+import NextUpVideo from '@/components/watch/NextUpVideo.vue';
 import {
   defineComponent,
   onMounted,
