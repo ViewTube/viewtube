@@ -5001,10 +5001,10 @@ data-urls@^2.0.0:
     whatwg-mimetype "^2.3.0"
     whatwg-url "^8.0.0"
 
-date-format-parse@^0.2.6:
-  version "0.2.6"
-  resolved "https://registry.yarnpkg.com/date-format-parse/-/date-format-parse-0.2.6.tgz#7ed42817efb6ec39532169eada9670ae3c627aa7"
-  integrity sha512-sdxnYAWmLopeb+6Hmw+vo3or4OCJOnh4+YoJ9p+Id3o2EnNP0INpTqx7wr8UregfMpgaSZAH473R/ytiaB3gVg==
+date-format-parse@^0.2.7:
+  version "0.2.7"
+  resolved "https://registry.yarnpkg.com/date-format-parse/-/date-format-parse-0.2.7.tgz#a2f78bca857a821785b48abedd4426c65aa7b918"
+  integrity sha512-/+lyMUKoRogMuTeOVii6lUwjbVlesN9YRYLzZT/g3TEZ3uD9QnpjResujeEqUW+OSNbT7T1+SYdyEkTcRv+KDQ==
 
 de-indent@^1.0.2:
   version "1.0.2"
@@ -13467,12 +13467,12 @@ vue-template-es2015-compiler@^1.9.0:
   resolved "https://registry.yarnpkg.com/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.9.1.tgz#1ee3bc9a16ecbf5118be334bb15f9c46f82f5825"
   integrity sha512-4gDntzrifFnCEvyoO8PqyJDmguXgVPxKiIxrBKjIowvL9l+N66196+72XVYR8BBf1Uv1Fgt3bGevJ+sEmxfZzw==
 
-vue2-datepicker@3.9.1:
-  version "3.9.1"
-  resolved "https://registry.yarnpkg.com/vue2-datepicker/-/vue2-datepicker-3.9.1.tgz#00d11cf30942e850f8b1a397af3c15c7465f248e"
-  integrity sha512-LuvcgGR+sDYKcih0z+cyvYufGyBwUtIiwzJPwxE63C8gOsAWiE09KuGtZ3OxdQXJEQM2MGQ9t9t1t7382FiFOg==
+vue2-datepicker@3.9.2:
+  version "3.9.2"
+  resolved "https://registry.yarnpkg.com/vue2-datepicker/-/vue2-datepicker-3.9.2.tgz#2e3e73f12186b5a2c9355ea453b9079c62e361df"
+  integrity sha512-cy6xp2AMn/gb/zqMFnwDZcTsLIxRacGsW63OyJJVSI1103ss0deR81tLUaDvqKdCbhxqR+fomgO7f5fceUXxOA==
   dependencies:
-    date-format-parse "^0.2.6"
+    date-format-parse "^0.2.7"
 
 vue@2.6.14, vue@^2.6.12:
   version "2.6.14"
