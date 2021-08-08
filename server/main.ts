@@ -17,12 +17,15 @@ async function bootstrap() {
   const configService = server.get(ConfigService);
 
   const dev = configService.get('NODE_ENV') !== 'production';
+
   // NUXT
-  const nuxt = await NuxtServer.getInstance().run(dev);
+  if (!configService.get('API_ONLY')) {
+    const nuxt = await NuxtServer.getInstance().run(dev);
+
+    server.useGlobalFilters(new NuxtFilter(nuxt));
+  }
 
   // NEST
-  server.useGlobalFilters(new NuxtFilter(nuxt));
-
   server.setGlobalPrefix('api');
 
   // CORS
