@@ -328,22 +328,30 @@ export const actions = actionTree(
       await dispatch('doSettingsRequest', { settingsKey: 'defaultVideoQuality', value: quality });
     },
     async storeSponsorblock({ getters }) {
-      await this.$axios.put(`${this.app.$accessor.environment.env.apiUrl}user/settings`, {
-        sponsorblockEnabled: getters.sponsorblockEnabled,
-        sponsorblockSegmentInteraction: getters.sponsorblockSegmentInteraction,
-        sponsorblockSegmentIntro: getters.sponsorblockSegmentIntro,
-        sponsorblockSegmentMusicOfftopic: getters.sponsorblockSegmentMusicOfftopic,
-        sponsorblockSegmentOutro: getters.sponsorblockSegmentOutro,
-        sponsorblockSegmentSelfpromo: getters.sponsorblockSegmentSelfpromo,
-        sponsorblockSegmentSponsor: getters.sponsorblockSegmentSponsor,
-        sponsorblockSegmentPreview: getters.sponsorblockSegmentPreview
-      });
+      await this.$axios.put(
+        `${this.app.$accessor.environment.env.apiUrl}user/settings`,
+        {
+          sponsorblockEnabled: getters.sponsorblockEnabled,
+          sponsorblockSegmentInteraction: getters.sponsorblockSegmentInteraction,
+          sponsorblockSegmentIntro: getters.sponsorblockSegmentIntro,
+          sponsorblockSegmentMusicOfftopic: getters.sponsorblockSegmentMusicOfftopic,
+          sponsorblockSegmentOutro: getters.sponsorblockSegmentOutro,
+          sponsorblockSegmentSelfpromo: getters.sponsorblockSegmentSelfpromo,
+          sponsorblockSegmentSponsor: getters.sponsorblockSegmentSponsor,
+          sponsorblockSegmentPreview: getters.sponsorblockSegmentPreview
+        },
+        { withCredentials: true }
+      );
     },
     async doSettingsRequest(_, { settingsKey, value }): Promise<void> {
       if (this.app.$accessor.user.isLoggedIn) {
         const setting = {};
         setting[settingsKey] = value;
-        await this.$axios.put(`${this.app.$accessor.environment.env.apiUrl}user/settings`, setting);
+        await this.$axios.put(
+          `${this.app.$accessor.environment.env.apiUrl}user/settings`,
+          setting,
+          { withCredentials: true }
+        );
       }
     }
   }
