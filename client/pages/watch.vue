@@ -17,16 +17,15 @@
       @videoEnded="onVideoEnded"
     />
     <div v-if="video && !$fetchState.pending" class="video-meta">
-      <CollapsibleSection
-        class="recommended-videos mobile"
-        :label="'Recommended videos'"
-        :opened="recommendedOpen"
-      >
-        <RecommendedVideos
-          class="recommended-videos-list"
-          :recommended-videos="video.recommendedVideos"
-        />
-      </CollapsibleSection>
+      <div class="recommended-videos mobile">
+        <NextUpVideo v-if="nextUpVideo && $accessor.settings.autoplayNextVideo" :video="nextUpVideo" />
+        <CollapsibleSection :label="'Recommended videos'" :opened="recommendedOpen">
+          <RecommendedVideos
+            class="recommended-videos-list"
+            :recommended-videos="recommendedVideos"
+          />
+        </CollapsibleSection>
+      </div>
       <div class="video-infobox">
         <h1 class="video-infobox-title">
           {{ video.title }}
@@ -169,8 +168,8 @@ import ThumbsDown from 'vue-material-design-icons/ThumbDown.vue';
 import InstanceIcon from 'vue-material-design-icons/ServerNetwork.vue';
 import Share from 'vue-material-design-icons/Share.vue';
 import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
+import NextUpVideo from '@/components/watch/NextUpVideo.vue';
 import {
-  computed,
   defineComponent,
   onMounted,
   Ref,
@@ -192,6 +191,7 @@ import CollapsibleSection from '@/components/list/CollapsibleSection.vue';
 import PlaylistSection from '@/components/watch/PlaylistSection.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import ViewTubeApi from '@/plugins/services/viewTubeApi';
+import { createComputed } from '@/plugins/computed';
 import { useAccessor } from '@/store';
 import { useAxios } from '@/plugins/axiosPlugin';
 import { useImgProxy } from '@/plugins/proxy';
@@ -206,6 +206,7 @@ export default defineComponent({
     Share,
     LoadMoreIcon,
     InstanceIcon,
+    NextUpVideo,
     VideoPlayer: () =>
       import(
         /* webpackChunkName: "group-videoplayer" */ '@/components/videoplayer/VideoPlayer.vue'
@@ -245,8 +246,23 @@ export default defineComponent({
 
     const templateVideoData = route.value.params.videoData;
 
-    const isPlaylist = computed(() => {
+    const isPlaylist = createComputed(() => {
       return Boolean(route.value.query && route.value.query.list);
+    });
+
+    const recommendedVideos = createComputed(() => {
+      if (video.value) {
+        if (accessor.settings.autoplayNextVideo) {
+          return video.value.recommendedVideos.slice(1);
+        }
+        return video.value.recommendedVideos;
+      }
+      return [];
+    });
+
+    const nextUpVideo = createComputed(() => {
+      if (video.value) return video.value.recommendedVideos[0];
+      return null;
     });
 
     const openInstancePopup = () => {
@@ -508,6 +524,8 @@ export default defineComponent({
       commentsContinuationLink,
       commentsContinuationLoading,
       recommendedOpen,
+      recommendedVideos,
+      nextUpVideo,
       videoLoaded,
       initialVideoTime,
       shareOpen,

@@ -27,9 +27,7 @@ export class CommentsService {
     while (!commentsRawResult && index < retryCounter) {
       try {
         commentsRawResult = await this.tryGetComments(commentsPayload);
-      } catch (error) {
-        console.log(error);
-      }
+      } catch {}
       index++;
     }
     if (commentsRawResult) {
@@ -55,7 +53,6 @@ export class CommentsService {
         return commentsResult;
       }
     } catch (e) {
-      console.log(e);
       throw new InternalServerErrorException(e);
     }
     throw new InternalServerErrorException('Error fetching replies');
