@@ -15,6 +15,9 @@ export const getters = getterTree(state, {
   apiUrl(state) {
     return state.env.apiUrl;
   },
+  textProxyUrl(state) {
+    return `${state.env.apiUrl}proxy/text?url=`;
+  },
   imgProxyUrl(state) {
     return `${state.env.apiUrl}proxy/image?url=`;
   },

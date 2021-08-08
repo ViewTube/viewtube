@@ -24,7 +24,7 @@
 import CloseIcon from 'vue-material-design-icons/Close.vue';
 import InstanceIcon from 'vue-material-design-icons/ServerNetwork.vue';
 import '@/assets/styles/popup.scss';
-import { computed, defineComponent } from '@nuxtjs/composition-api';
+import { computed, defineComponent, onMounted } from '@nuxtjs/composition-api';
 import InstanceEntry from '@/components/list/InstanceEntry.vue';
 import { useAccessor } from '@/store';
 
@@ -44,6 +44,18 @@ export default defineComponent({
     const onInstanceChange = (element: any) => {
       accessor.instances.changeInstance(element.value);
     };
+
+    onMounted(() => {
+      const oneDay = 60 * 60 * 24 * 1000;
+      let tooOld = false;
+      if (accessor.instances.refreshDate) {
+        const refreshDate = new Date(accessor.instances.refreshDate);
+        tooOld = Date.now() - refreshDate.getTime() > oneDay;
+      }
+      if (accessor.instances.instances.length === 0 || tooOld) {
+        accessor.instances.fetchInstances();
+      }
+    });
 
     return {
       instances,

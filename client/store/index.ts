@@ -30,9 +30,6 @@ export const actions = actionTree(
           baseUrl: process.env.BASE_URL || 'http://192.168.178.21:8066'
         });
         await nuxtContext.app.$accessor.user.getUser();
-        if (_vuexContext.getters['instances/instances'].length === 0) {
-          await nuxtContext.app.$accessor.instances.fetchInstances();
-        }
       }
       return undefined;
     }

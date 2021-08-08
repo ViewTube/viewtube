@@ -1,9 +1,9 @@
 import { getterTree, mutationTree, actionTree } from 'typed-vuex';
-import { commons } from '@/plugins/commons';
 
 export const state = () => ({
   currentInstance: '' as string,
-  instances: [] as { url: string; health: string }[]
+  instances: [] as { url: string; health: string }[],
+  refreshDate: null as Date
 });
 
 export const getters = getterTree(state, {
@@ -37,6 +37,9 @@ export const mutations = mutationTree(state, {
   },
   clearInstances(state) {
     state.instances = [];
+  },
+  updateRefreshDate(state) {
+    state.refreshDate = new Date();
   }
 });
 
@@ -45,10 +48,12 @@ export const actions = actionTree(
   {
     async fetchInstances({ commit, state }) {
       commit('clearInstances');
+
+      const instancesUrl =
+        'https://raw.githubusercontent.com/iv-org/documentation/master/Invidious-Instances.md';
+
       await this.$axios
-        .get(
-          `${commons.proxyUrl}https://raw.githubusercontent.com/iv-org/documentation/master/Invidious-Instances.md`
-        )
+        .get(`${this.app.$accessor.environment.textProxyUrl}${instancesUrl}`)
         .then(response => {
           const fetchData = response.data.split('### Blocked:')[0];
           const regex = /\[(?<host>[^ \]]+)\]\((?<uri>[^)]+)\)(?! - offline)/g;
@@ -71,6 +76,7 @@ export const actions = actionTree(
           if (state.currentInstance.length === 0) {
             commit('changeInstance', matches[0][2]);
           }
+          commit('updateRefreshDate');
         });
     }
   }
