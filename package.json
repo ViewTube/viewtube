@@ -63,7 +63,7 @@
     "cross-env": "7.0.3",
     "express": "4.17.1",
     "fluent-ffmpeg": "2.1.2",
-    "hls.js": "1.0.7",
+    "hls.js": "1.0.8",
     "https-proxy-agent": "5.0.0",
     "humanize-duration": "3.27.0",
     "husky": "7.0.1",
