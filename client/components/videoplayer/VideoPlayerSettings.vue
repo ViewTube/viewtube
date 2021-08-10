@@ -77,8 +77,8 @@
 import SettingsIcon from 'vue-material-design-icons/Cog.vue';
 import HighDefinitionIcon from 'vue-material-design-icons/HighDefinition.vue';
 import MagicIcon from 'vue-material-design-icons/AutoFix.vue';
-import SwitchButton from '@/components/buttons/SwitchButton.vue';
 import { computed, defineComponent, onMounted, ref, watch } from '@nuxtjs/composition-api';
+import SwitchButton from '@/components/buttons/SwitchButton.vue';
 import { useAccessor } from '~/store';
 
 export default defineComponent({

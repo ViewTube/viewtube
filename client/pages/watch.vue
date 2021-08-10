@@ -168,7 +168,6 @@ import ThumbsDown from 'vue-material-design-icons/ThumbDown.vue';
 import InstanceIcon from 'vue-material-design-icons/ServerNetwork.vue';
 import Share from 'vue-material-design-icons/Share.vue';
 import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
-import NextUpVideo from '@/components/watch/NextUpVideo.vue';
 import {
   defineComponent,
   onMounted,
@@ -182,6 +181,7 @@ import {
   watch
 } from '@nuxtjs/composition-api';
 import { Result } from 'ytpl';
+  import NextUpVideo from '@/components/watch/NextUpVideo.vue';
 import Spinner from '@/components/Spinner.vue';
 import SubscribeButton from '@/components/buttons/SubscribeButton.vue';
 import Comment from '@/components/Comment.vue';
