@@ -18,10 +18,10 @@
 </template>
 
 <script lang="ts">
-import VideoEntry from '@/components/list/VideoEntry.vue';
-import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
 import { defineComponent, ref, watch } from '@nuxtjs/composition-api';
+import VideoEntry from '@/components/list/VideoEntry.vue';
+import BadgeButton from '@/components/buttons/BadgeButton.vue';
 
 export default defineComponent({
   name: 'RecommendedVideos',

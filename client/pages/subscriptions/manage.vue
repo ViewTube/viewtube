@@ -59,9 +59,6 @@
 </template>
 
 <script lang="ts">
-import GradientBackground from '@/components/GradientBackground.vue';
-import SectionTitle from '@/components/SectionTitle.vue';
-import Pagination from '@/components/pagination/Pagination.vue';
 import {
   computed,
   defineComponent,
@@ -72,6 +69,9 @@ import {
   useRouter,
   watch
 } from '@nuxtjs/composition-api';
+import GradientBackground from '@/components/GradientBackground.vue';
+import SectionTitle from '@/components/SectionTitle.vue';
+import Pagination from '@/components/pagination/Pagination.vue';
 import { useAccessor } from '@/store';
 import { useAxios } from '@/plugins/axiosPlugin';
 import SmallSearchBox from '@/components/SmallSearchBox.vue';

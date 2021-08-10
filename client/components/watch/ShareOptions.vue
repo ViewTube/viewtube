@@ -25,11 +25,11 @@
 </template>
 
 <script lang="ts">
-import ShareOptionEntry from '@/components/list/ShareOptionEntry.vue';
 import Copy from 'vue-material-design-icons/ContentCopy.vue';
 import QrCode from 'vue-material-design-icons/Qrcode.vue';
-import QrPopUp from '@/components/popup/QrPopUp.vue';
 import { defineComponent, ref } from '@nuxtjs/composition-api';
+import QrPopUp from '@/components/popup/QrPopUp.vue';
+import ShareOptionEntry from '@/components/list/ShareOptionEntry.vue';
 
 export default defineComponent({
   name: 'ShareOptions',

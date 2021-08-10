@@ -6,6 +6,10 @@ import {
   onMounted,
   onBeforeUnmount
 } from '@nuxtjs/composition-api';
+import { MediaMetadataHelper } from './mediaMetadata';
+import { calculateSeekPercentage, matchSeekProgressPercentage, seekbarFunctions } from './seekbar';
+import { parseChapters } from './chapters';
+import { destroyInstance, initializeHlsStream, isHlsNative, isHlsSupported } from './hlsHelper';
 import { commons } from '@/plugins/commons';
 // import dashjs from 'dashjs';
 import { SponsorBlock } from '@/plugins/services/sponsorBlock';
@@ -14,10 +18,6 @@ import { useAccessor } from '@/store';
 import { useFormatting } from '@/plugins/formatting';
 import { useAxios } from '@/plugins/axiosPlugin';
 import { useImgProxy } from '@/plugins/proxy';
-import { MediaMetadataHelper } from './mediaMetadata';
-import { calculateSeekPercentage, matchSeekProgressPercentage, seekbarFunctions } from './seekbar';
-import { parseChapters } from './chapters';
-import { destroyInstance, initializeHlsStream, isHlsNative, isHlsSupported } from './hlsHelper';
 
 export const videoPlayerSetup = (props: any, emit: Function) => {
   const accessor = useAccessor();

@@ -51,6 +51,8 @@
 </template>
 
 <script lang="ts">
+import UpIcon from 'vue-material-design-icons/ArrowUp.vue';
+import { defineComponent, ref, useFetch, useMeta, useRoute } from '@nuxtjs/composition-api';
 import VideoEntry from '@/components/list/VideoEntry.vue';
 import PlaylistEntry from '@/components/list/PlaylistEntry.vue';
 import Banner from '@/components/channel/Banner.vue';
@@ -62,9 +64,7 @@ import SubscribeButton from '@/components/buttons/SubscribeButton.vue';
 import SectionTitle from '@/components/SectionTitle.vue';
 import InlineVideo from '@/components/list/InlineVideo.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
-import UpIcon from 'vue-material-design-icons/ArrowUp.vue';
 import ViewTubeApi from '@/plugins/services/viewTubeApi';
-import { defineComponent, ref, useFetch, useMeta, useRoute } from '@nuxtjs/composition-api';
 import { useImgProxy } from '@/plugins/proxy';
 import { useAccessor } from '@/store';
 

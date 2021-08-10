@@ -47,8 +47,8 @@
 <script lang="ts">
 import FamilyFriendly from 'vue-material-design-icons/AccountChild.vue';
 import Paid from 'vue-material-design-icons/CurrencyUsd.vue';
-import SubscribeButton from '@/components/buttons/SubscribeButton.vue';
 import { defineComponent } from '@nuxtjs/composition-api';
+import SubscribeButton from '@/components/buttons/SubscribeButton.vue';
 import { useImgProxy } from '@/plugins/proxy';
 
 export default defineComponent({

@@ -11,11 +11,11 @@
 </template>
 
 <script lang="ts">
+import { computed, defineComponent, ref, useRoute } from '@nuxtjs/composition-api';
 import Header from '@/components/header/MainHeader.vue';
 import Miniplayer from '@/components/miniplayer/Miniplayer.vue';
 import MessageBoxContainer from '@/components/message/MessageBoxContainer.vue';
 import ThemeStyling from '@/components/themes/ThemeStyling.vue';
-import { computed, defineComponent, ref, useRoute } from '@nuxtjs/composition-api';
 import { useAccessor } from '@/store';
 
 export default defineComponent({

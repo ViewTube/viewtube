@@ -77,17 +77,9 @@
 </template>
 
 <script lang="ts">
-import SubscriptionImport from '@/components/popup/SubscriptionImport.vue';
-import VideoEntry from '@/components/list/VideoEntry.vue';
-import GradientBackground from '@/components/GradientBackground.vue';
-import Spinner from '@/components/Spinner.vue';
-import SectionTitle from '@/components/SectionTitle.vue';
-import SwitchButton from '@/components/buttons/SwitchButton.vue';
-import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import EditIcon from 'vue-material-design-icons/PencilBoxMultipleOutline.vue';
 import SubscriptionIcon from 'vue-material-design-icons/YoutubeSubscription.vue';
 import ImportIcon from 'vue-material-design-icons/Import.vue';
-import Pagination from '@/components/pagination/Pagination.vue';
 import {
   defineComponent,
   onMounted,
@@ -98,6 +90,14 @@ import {
   useRoute,
   watch
 } from '@nuxtjs/composition-api';
+import SubscriptionImport from '@/components/popup/SubscriptionImport.vue';
+import VideoEntry from '@/components/list/VideoEntry.vue';
+import GradientBackground from '@/components/GradientBackground.vue';
+import Spinner from '@/components/Spinner.vue';
+import SectionTitle from '@/components/SectionTitle.vue';
+import SwitchButton from '@/components/buttons/SwitchButton.vue';
+import BadgeButton from '@/components/buttons/BadgeButton.vue';
+import Pagination from '@/components/pagination/Pagination.vue';
 import { useAccessor } from '@/store';
 import { useAxios } from '@/plugins/axiosPlugin';
 

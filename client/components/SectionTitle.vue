@@ -11,8 +11,8 @@
 
 <script lang="ts">
 import ChevronRightIcon from 'vue-material-design-icons/ChevronRight.vue';
-import GradientBackground from '@/components/GradientBackground.vue';
 import { defineComponent } from '@nuxtjs/composition-api';
+import GradientBackground from '@/components/GradientBackground.vue';
 
 export default defineComponent({
   name: 'SectionTitle',

@@ -37,8 +37,8 @@
 
 <script lang="ts">
 import PlayIcon from 'vue-material-design-icons/Play.vue';
-import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import { defineComponent, ref } from '@nuxtjs/composition-api';
+import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import { useImgProxy } from '@/plugins/proxy';
 
 export default defineComponent({

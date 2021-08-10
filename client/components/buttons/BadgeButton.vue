@@ -17,20 +17,19 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@nuxtjs/composition-api';
-import { Data } from '@vue/composition-api';
+import { defineComponent, PropType } from '@nuxtjs/composition-api';
 
 export default defineComponent({
   name: 'BadgeButton',
   props: {
     href: { type: String, required: false },
-    click: { type: Function, required: false },
+    click: { type: Function as PropType<() => void>, required: false },
     loading: { type: Boolean, required: false },
     internalLink: { type: Boolean, required: false },
     disabled: { type: Boolean, required: false },
     selected: { type: Boolean, required: false }
   },
-  setup(props: Data) {
+  setup(props) {
     const clickFunction = (e: Event): void => {
       if (props.click instanceof Function) {
         e.preventDefault();

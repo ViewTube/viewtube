@@ -42,8 +42,8 @@
 
 <script lang="ts">
 import SearchIcon from 'vue-material-design-icons/Magnify.vue';
-import SearchAutoComplete from '@/components/SearchAutoComplete.vue';
 import { defineComponent, ref, useRoute, useRouter, watch } from '@nuxtjs/composition-api';
+import SearchAutoComplete from '@/components/SearchAutoComplete.vue';
 
 export default defineComponent({
   name: 'MainSearchBox',

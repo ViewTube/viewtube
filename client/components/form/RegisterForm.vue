@@ -29,9 +29,6 @@
 </template>
 
 <script lang="ts">
-import FormInput from '@/components/form/FormInput.vue';
-import SubmitButton from '@/components/form/SubmitButton.vue';
-import Spinner from '@/components/Spinner.vue';
 import {
   computed,
   defineComponent,
@@ -40,6 +37,9 @@ import {
   useRouter,
   watch
 } from '@nuxtjs/composition-api';
+import FormInput from '@/components/form/FormInput.vue';
+import SubmitButton from '@/components/form/SubmitButton.vue';
+import Spinner from '@/components/Spinner.vue';
 import { useAccessor } from '@/store';
 
 export default defineComponent({
