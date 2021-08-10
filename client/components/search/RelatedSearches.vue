@@ -20,8 +20,8 @@
 </template>
 
 <script lang="ts">
-import SectionTitle from '@/components/SectionTitle.vue';
 import { defineComponent } from '@nuxtjs/composition-api';
+import SectionTitle from '@/components/SectionTitle.vue';
 import { useImgProxy } from '@/plugins/proxy';
 
 export default defineComponent({

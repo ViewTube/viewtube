@@ -19,8 +19,8 @@
 </template>
 
 <script lang="ts">
-import { commons } from '@/plugins/commons';
 import { defineComponent, ref } from '@nuxtjs/composition-api';
+import { commons } from '@/plugins/commons';
 
 export default defineComponent({
   name: 'CheckBox',

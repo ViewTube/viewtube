@@ -159,10 +159,6 @@ import AboutIcon from 'vue-material-design-icons/InformationOutline.vue';
 import AccountIcon from 'vue-material-design-icons/AccountCircle.vue';
 import SubscriptionIcon from 'vue-material-design-icons/YoutubeSubscription.vue';
 import AccountPlusIcon from 'vue-material-design-icons/AccountPlus.vue';
-import Settings from '@/components/Settings.vue';
-import Instances from '@/components/Instances.vue';
-import About from '@/components/About.vue';
-
 import {
   computed,
   defineComponent,
@@ -173,9 +169,13 @@ import {
   useRouter,
   watch
 } from '@nuxtjs/composition-api';
-import { useAccessor } from '@/store/index';
 import LoginForm from '../form/LoginForm.vue';
 import RegisterForm from '../form/RegisterForm.vue';
+import Settings from '@/components/Settings.vue';
+import Instances from '@/components/Instances.vue';
+import About from '@/components/About.vue';
+
+import { useAccessor } from '@/store/index';
 
 export default defineComponent({
   name: 'UserMenu',

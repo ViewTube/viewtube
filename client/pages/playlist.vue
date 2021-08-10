@@ -64,15 +64,15 @@
 
 <script lang="ts">
 import { defineComponent, ref, Ref, useFetch, useMeta, useRoute } from '@nuxtjs/composition-api';
-import Spinner from '@/components/Spinner.vue';
-import VideoEntry from '@/components/list/VideoEntry.vue';
-import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
 import { Continuation, Result } from 'ytpl';
 import EyeIcon from 'vue-material-design-icons/EyeOutline.vue';
 import EyeClosedIcon from 'vue-material-design-icons/EyeOffOutline.vue';
 import CountIcon from 'vue-material-design-icons/Counter.vue';
 import CalendarIcon from 'vue-material-design-icons/CalendarClock.vue';
+import BadgeButton from '@/components/buttons/BadgeButton.vue';
+import VideoEntry from '@/components/list/VideoEntry.vue';
+import Spinner from '@/components/Spinner.vue';
 import { useAxios } from '@/plugins/axiosPlugin';
 import { useImgProxy } from '@/plugins/proxy';
 import { useAccessor } from '~/store';

@@ -25,8 +25,8 @@
 </template>
 
 <script lang="ts">
-import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import { defineComponent, ref, useRoute } from '@nuxtjs/composition-api';
+import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import { useAccessor } from '@/store';
 
 export default defineComponent({

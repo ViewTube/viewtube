@@ -57,8 +57,8 @@
 <script lang="ts">
 import ChevronLeftIcon from 'vue-material-design-icons/ChevronLeft.vue';
 import ChevronRightIcon from 'vue-material-design-icons/ChevronRight.vue';
-import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import { computed, defineComponent, ref } from '@nuxtjs/composition-api';
+import BadgeButton from '@/components/buttons/BadgeButton.vue';
 
 export default defineComponent({
   name: 'Pagination',

@@ -39,14 +39,14 @@
 </template>
 
 <script lang="ts">
+import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
+import { defineComponent, ref, useFetch, useMeta } from '@nuxtjs/composition-api';
 import VideoEntry from '@/components/list/VideoEntry.vue';
 import Spinner from '@/components/Spinner.vue';
 import SectionTitle from '@/components/SectionTitle.vue';
 import GradientBackground from '@/components/GradientBackground.vue';
-import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
 import ViewTubeApi from '@/plugins/services/viewTubeApi';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
-import { defineComponent, ref, useFetch, useMeta } from '@nuxtjs/composition-api';
 import { useAccessor } from '@/store';
 import { useAxios } from '@/plugins/axiosPlugin';
 

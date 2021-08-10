@@ -44,8 +44,8 @@
 </template>
 
 <script lang="ts">
-import SectionTitle from '@/components/SectionTitle.vue';
 import { defineComponent } from '@nuxtjs/composition-api';
+import SectionTitle from '@/components/SectionTitle.vue';
 
 export default defineComponent({
   name: 'RelatedChannels',

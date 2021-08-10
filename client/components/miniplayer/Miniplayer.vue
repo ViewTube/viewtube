@@ -32,9 +32,9 @@
 </template>
 
 <script lang="ts">
+import { computed, defineComponent, ref, useRoute, watch } from '@nuxtjs/composition-api';
 import VideoPlayer from '@/components/videoplayer/VideoPlayer.vue';
 import { commons } from '@/plugins/commons';
-import { computed, defineComponent, ref, useRoute, watch } from '@nuxtjs/composition-api';
 import { useAccessor } from '@/store/index';
 
 export default defineComponent({

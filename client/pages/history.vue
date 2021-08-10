@@ -50,8 +50,8 @@ import {
   useRouter,
   watch
 } from '@nuxtjs/composition-api';
-import SectionTitle from '@/components/SectionTitle.vue';
 import RestartOffIcon from 'vue-material-design-icons/RestartOff.vue';
+import SectionTitle from '@/components/SectionTitle.vue';
 import Pagination from '@/components/pagination/Pagination.vue';
 import HistoryList from '@/components/history/HistoryList.vue';
 import { useAxios } from '@/plugins/axiosPlugin';

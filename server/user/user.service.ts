@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import { Injectable, HttpException, BadRequestException, NotFoundException } from '@nestjs/common';
+import { Injectable, HttpException, BadRequestException, NotFoundException, InternalServerErrorException } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import bcrypt from 'bcryptjs';
@@ -107,7 +107,7 @@ export class UserService {
             response.sendFile(user.profileImage);
           }
         } catch (error) {
-          console.log(error);
+          throw new InternalServerErrorException('Error getting photo');
         }
       } else {
         const img = Buffer.from(profileImage, 'base64');

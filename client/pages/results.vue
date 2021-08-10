@@ -43,6 +43,15 @@
 
 <script lang="ts">
 import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
+import {
+  computed,
+  defineComponent,
+  ref,
+  useFetch,
+  useMeta,
+  useRoute,
+  watch
+} from '@nuxtjs/composition-api';
 import VideoEntry from '@/components/list/VideoEntry.vue';
 import PlaylistEntry from '@/components/list/PlaylistEntry.vue';
 import MixEntry from '@/components/list/MixEntry.vue';
@@ -55,15 +64,6 @@ import GradientBackground from '@/components/GradientBackground.vue';
 import Dropdown from '@/components/filter/Dropdown.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import Filters from '@/components/search/Filters.vue';
-import {
-  computed,
-  defineComponent,
-  ref,
-  useFetch,
-  useMeta,
-  useRoute,
-  watch
-} from '@nuxtjs/composition-api';
 import { useAccessor } from '@/store';
 import { useAxios } from '@/plugins/axiosPlugin';
 

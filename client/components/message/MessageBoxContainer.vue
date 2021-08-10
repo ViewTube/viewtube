@@ -9,8 +9,8 @@
 </template>
 
 <script lang="ts">
-import MessageBox from '@/components/message/MessageBox.vue';
 import { defineComponent } from '@nuxtjs/composition-api';
+import MessageBox from '@/components/message/MessageBox.vue';
 
 export default defineComponent({
   name: 'MessageBoxContainer',

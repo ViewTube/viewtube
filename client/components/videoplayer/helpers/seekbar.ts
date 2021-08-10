@@ -1,5 +1,5 @@
-import { commons } from '@/plugins/commons';
 import { Ref } from '@nuxtjs/composition-api';
+import { commons } from '@/plugins/commons';
 
 export const seekbarFunctions = {
   onSeekbarTouchStart(

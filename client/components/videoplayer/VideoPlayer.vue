@@ -315,19 +315,19 @@
 import { defineComponent, useContext } from '@nuxtjs/composition-api';
 import PauseIcon from 'vue-material-design-icons/Pause.vue';
 import PlayIcon from 'vue-material-design-icons/Play.vue';
-import VideoPlayerAnimations from '@/components/videoplayer/VideoPlayerAnimations.vue';
 import FullscreenIcon from 'vue-material-design-icons/Fullscreen.vue';
 import FullscreenExitIcon from 'vue-material-design-icons/FullscreenExit.vue';
 import OpenInPlayerIcon from 'vue-material-design-icons/OpenInNew.vue';
-import SkipButton from '@/components/buttons/SkipButton.vue';
 import CloseIcon from 'vue-material-design-icons/Close.vue';
+import { NuxtError } from '@nuxt/types';
+import { videoPlayerSetup } from './helpers/index';
+import VideoPlayerAnimations from '@/components/videoplayer/VideoPlayerAnimations.vue';
+import SkipButton from '@/components/buttons/SkipButton.vue';
 import Spinner from '@/components/Spinner.vue';
 import VolumeControl from '@/components/videoplayer/VolumeControl.vue';
 import QualitySelection from '@/components/videoplayer/QualitySelection.vue';
 import SeekbarPreview from '@/components/videoplayer/SeekbarPreview.vue';
 import SponsorBlockSegments from '@/components/videoplayer/SponsorblockSegments.vue';
-import { NuxtError } from '@nuxt/types';
-import { videoPlayerSetup } from './helpers/index';
 
 export default defineComponent({
   name: 'Videoplayer',

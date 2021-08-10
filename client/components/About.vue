@@ -73,10 +73,10 @@
 import CloseIcon from 'vue-material-design-icons/Close.vue';
 import GithubIcon from 'vue-material-design-icons/Github.vue';
 import ExternalIcon from 'vue-material-design-icons/OpenInNew.vue';
+import { computed, defineComponent, onMounted, ref } from '@nuxtjs/composition-api';
 import packageJson from '@/../package.json';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import InvidiousLicense from '@/components/licenses/Invidious.vue';
-import { computed, defineComponent, onMounted, ref } from '@nuxtjs/composition-api';
 import { useAccessor } from '@/store';
 import { useAxios } from '@/plugins/axiosPlugin';
 

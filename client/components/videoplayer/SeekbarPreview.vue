@@ -14,9 +14,9 @@
 </template>
 
 <script lang="ts">
+import { defineComponent, ref, reactive, watch, onMounted } from '@nuxtjs/composition-api';
 import { WebVTTParser } from '@/plugins/services/webVTTParser';
 import Invidious from '@/plugins/services/invidious';
-import { defineComponent, ref, reactive, watch, onMounted } from '@nuxtjs/composition-api';
 import { useAccessor } from '@/store';
 
 export default defineComponent({

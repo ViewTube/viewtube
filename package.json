@@ -18,6 +18,7 @@
     "redis": "redis-server redis.conf",
     "prettier": "prettier --write .",
     "lint": "eslint --ext .ts,.js,.vue .",
+    "lintfix": "eslint --ext .ts,.js,.vue --fix .",
     "clean": "rimraf dist",
     "nest": "nest",
     "nuxt": "nuxt",

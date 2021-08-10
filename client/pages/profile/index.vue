@@ -111,9 +111,6 @@
 </template>
 
 <script lang="ts">
-import Spinner from '@/components/Spinner.vue';
-import BadgeButton from '@/components/buttons/BadgeButton.vue';
-import FormInput from '@/components/form/FormInput.vue';
 import AccountCircleIcon from 'vue-material-design-icons/AccountCircle.vue';
 import ChevronUpIcon from 'vue-material-design-icons/ChevronUp.vue';
 import LogoutIcon from 'vue-material-design-icons/LogoutVariant.vue';
@@ -124,8 +121,6 @@ import DeleteSimpleIcon from 'vue-material-design-icons/Delete.vue';
 import SettingsIcon from 'vue-material-design-icons/Cog.vue';
 import HistoryIcon from 'vue-material-design-icons/History.vue';
 import RestartOffIcon from 'vue-material-design-icons/RestartOff.vue';
-import Confirmation from '@/components/popup/Confirmation.vue';
-import SectionTitle from '@/components/SectionTitle.vue';
 import {
   computed,
   defineComponent,
@@ -134,6 +129,11 @@ import {
   useMeta,
   useRouter
 } from '@nuxtjs/composition-api';
+import Confirmation from '@/components/popup/Confirmation.vue';
+import SectionTitle from '@/components/SectionTitle.vue';
+import FormInput from '@/components/form/FormInput.vue';
+import BadgeButton from '@/components/buttons/BadgeButton.vue';
+import Spinner from '@/components/Spinner.vue';
 import HistoryList from '@/components/history/HistoryList.vue';
 import { useAccessor } from '@/store';
 import { useAxios } from '@/plugins/axiosPlugin';

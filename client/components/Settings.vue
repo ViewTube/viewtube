@@ -150,11 +150,11 @@ import ChaptersIcon from 'vue-material-design-icons/BookOpenVariant.vue';
 import CloudCheckIcon from 'vue-material-design-icons/CloudCheckOutline.vue';
 import HistoryIcon from 'vue-material-design-icons/History.vue';
 import ReloadIcon from 'vue-material-design-icons/Reload.vue';
+import { computed, defineComponent, reactive, ref, useStore, watch } from '@nuxtjs/composition-api';
 import ThemeSelector from '@/components/themes/ThemeSelector.vue';
 import SwitchButton from '@/components/buttons/SwitchButton.vue';
 import MultiOptionButton from '@/components/buttons/MultiOptionButton.vue';
 import '@/assets/styles/popup.scss';
-import { computed, defineComponent, reactive, ref, useStore, watch } from '@nuxtjs/composition-api';
 import { useAccessor } from '@/store';
 
 export default defineComponent({

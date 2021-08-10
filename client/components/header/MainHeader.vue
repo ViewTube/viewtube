@@ -14,9 +14,6 @@
 </template>
 
 <script lang="ts">
-import MainSearchBox from '@/components/MainSearchBox.vue';
-import UserMenu from '@/components/header/UserMenu.vue';
-import { Scroll } from '@/plugins/scroll';
 import {
   computed,
   defineComponent,
@@ -25,6 +22,9 @@ import {
   ref,
   useRoute
 } from '@nuxtjs/composition-api';
+import MainSearchBox from '@/components/MainSearchBox.vue';
+import UserMenu from '@/components/header/UserMenu.vue';
+import { Scroll } from '@/plugins/scroll';
 
 export default defineComponent({
   name: 'MainHeader',

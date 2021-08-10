@@ -169,15 +169,6 @@ import ThumbsDown from 'vue-material-design-icons/ThumbDown.vue';
 import InstanceIcon from 'vue-material-design-icons/ServerNetwork.vue';
 import Share from 'vue-material-design-icons/Share.vue';
 import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
-import Spinner from '@/components/Spinner.vue';
-import SubscribeButton from '@/components/buttons/SubscribeButton.vue';
-import Comment from '@/components/Comment.vue';
-import RecommendedVideos from '@/components/watch/RecommendedVideos.vue';
-import ShareOptions from '@/components/watch/ShareOptions.vue';
-import CollapsibleSection from '@/components/list/CollapsibleSection.vue';
-import PlaylistSection from '@/components/watch/PlaylistSection.vue';
-import BadgeButton from '@/components/buttons/BadgeButton.vue';
-import ViewTubeApi from '@/plugins/services/viewTubeApi';
 import {
   computed,
   defineComponent,
@@ -191,11 +182,20 @@ import {
   useRouter,
   watch
 } from '@nuxtjs/composition-api';
+import { Result } from 'ytpl';
+import Spinner from '@/components/Spinner.vue';
+import SubscribeButton from '@/components/buttons/SubscribeButton.vue';
+import Comment from '@/components/Comment.vue';
+import RecommendedVideos from '@/components/watch/RecommendedVideos.vue';
+import ShareOptions from '@/components/watch/ShareOptions.vue';
+import CollapsibleSection from '@/components/list/CollapsibleSection.vue';
+import PlaylistSection from '@/components/watch/PlaylistSection.vue';
+import BadgeButton from '@/components/buttons/BadgeButton.vue';
+import ViewTubeApi from '@/plugins/services/viewTubeApi';
 import { useAccessor } from '@/store';
 import { useAxios } from '@/plugins/axiosPlugin';
 import { useImgProxy } from '@/plugins/proxy';
 import VideoLoadingTemplate from '@/components/watch/VideoLoadingTemplate.vue';
-import { Result } from 'ytpl';
 
 export default defineComponent({
   name: 'Watch',

@@ -8,9 +8,9 @@
 </template>
 
 <script lang="ts">
+import { defineComponent } from '@nuxtjs/composition-api';
 import VideoEntry from '@/components/list/VideoEntry.vue';
 import SectionTitle from '@/components/SectionTitle.vue';
-import { defineComponent } from '@nuxtjs/composition-api';
 
 export default defineComponent({
   name: 'Shelf',

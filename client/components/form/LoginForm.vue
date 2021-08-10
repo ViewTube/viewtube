@@ -12,11 +12,11 @@
 </template>
 
 <script lang="ts">
+import { defineComponent, ref, useRoute, useRouter } from '@nuxtjs/composition-api';
 import FormInput from '@/components/form/FormInput.vue';
 import SubmitButton from '@/components/form/SubmitButton.vue';
 import Spinner from '@/components/Spinner.vue';
 import { useAccessor } from '@/store';
-import { defineComponent, ref, useRoute, useRouter } from '@nuxtjs/composition-api';
 
 export default defineComponent({
   name: 'LoginForm',
