@@ -27,7 +27,7 @@ export const actions = actionTree(
           nodeEnv: process.env.NODE_ENV,
           host: process.env.HOST || '192.168.178.21',
           port: process.env.PORT || 8066,
-          baseUrl: process.env.BASE_URL || 'http://192.168.178.21:8066'
+          baseUrl: process.env.BASE_URL
         });
         await nuxtContext.app.$accessor.user.getUser();
       }
