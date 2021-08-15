@@ -1,5 +1,4 @@
 import { Controller, Get, Param, Res, CacheInterceptor, UseInterceptors } from '@nestjs/common';
-import { Response } from 'express';
 import { ApiTags } from '@nestjs/swagger';
 import { MetricsInterceptor } from 'server/metrics/metrics.interceptor';
 import { ChannelsService } from './channels.service';

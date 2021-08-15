@@ -1,6 +1,6 @@
 import fs from 'fs';
 import { NestFactory } from '@nestjs/core';
-import { NestExpressApplication } from '@nestjs/platform-express';
+import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
 import { ConfigService } from '@nestjs/config';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import cookieParser from 'cookie-parser';
@@ -16,7 +16,7 @@ import { checkEnvironmentVariables } from './prerequisiteHelper';
 async function bootstrap() {
   checkEnvironmentVariables();
 
-  const server = await NestFactory.create<NestExpressApplication>(AppModule);
+  const server = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter());
   const configService = server.get(ConfigService);
 
   const dev = configService.get('NODE_ENV') !== 'production';
