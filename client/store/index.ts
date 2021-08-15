@@ -1,16 +1,16 @@
 import { getAccessorType, actionTree } from 'typed-vuex';
 import { Context } from '@nuxt/types';
 import { wrapProperty } from '@nuxtjs/composition-api';
-import * as captcha from '~/store/captcha';
-import * as environment from '~/store/environment';
-import * as instances from '~/store/instances';
-import * as messages from '~/store/messages';
-import * as miniplayer from '~/store/miniplayer';
-import * as settings from '~/store/settings';
-import * as user from '~/store/user';
-import * as videoPlayer from '~/store/videoPlayer';
-import * as playerVolume from '~/store/playerVolume';
-import * as popup from '~/store/popup';
+import * as captcha from '@/store/captcha';
+import * as environment from '@/store/environment';
+import * as instances from '@/store/instances';
+import * as messages from '@/store/messages';
+import * as miniplayer from '@/store/miniplayer';
+import * as settings from '@/store/settings';
+import * as user from '@/store/user';
+import * as videoPlayer from '@/store/videoPlayer';
+import * as playerVolume from '@/store/playerVolume';
+import * as popup from '@/store/popup';
 
 export const state = () => ({});
 

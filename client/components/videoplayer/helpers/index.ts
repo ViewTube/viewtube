@@ -260,6 +260,9 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
         videoElement.progress = videoRef.value.currentTime;
         videoElement.duration = videoRef.value.duration;
 
+        accessor.videoPlayer.setCurrentTime(videoRef.value.currentTime);
+        accessor.videoPlayer.setVideoLength(videoRef.value.duration);
+
         if (accessor.settings.sponsorblockEnabled && sponsorBlock) {
           const currentSegment = sponsorBlock.getCurrentSegment(videoRef.value.currentTime);
           if (currentSegment) {

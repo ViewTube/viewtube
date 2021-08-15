@@ -12,13 +12,16 @@
       ref="videoplayer"
       :video="video"
       :initialVideoTime="initialVideoTime"
-      :autoplay="isPlaylist || $accessor.settings.autoplay"
+      :autoplay="isAutoplaying"
       class="video-player-p"
       @videoEnded="onVideoEnded"
     />
     <div v-if="video && !$fetchState.pending" class="video-meta">
       <div class="recommended-videos mobile">
-        <NextUpVideo v-if="nextUpVideo && $accessor.settings.autoplayNextVideo" :video="nextUpVideo" />
+        <NextUpVideo
+          v-if="nextUpVideo && $accessor.settings.autoplayNextVideo"
+          :video="nextUpVideo"
+        />
         <CollapsibleSection :label="'Recommended videos'" :opened="recommendedOpen">
           <RecommendedVideos
             class="recommended-videos-list"
@@ -181,7 +184,7 @@ import {
   watch
 } from '@nuxtjs/composition-api';
 import { Result } from 'ytpl';
-  import NextUpVideo from '@/components/watch/NextUpVideo.vue';
+import NextUpVideo from '@/components/watch/NextUpVideo.vue';
 import Spinner from '@/components/Spinner.vue';
 import SubscribeButton from '@/components/buttons/SubscribeButton.vue';
 import Comment from '@/components/Comment.vue';
@@ -248,6 +251,10 @@ export default defineComponent({
 
     const isPlaylist = createComputed(() => {
       return Boolean(route.value.query && route.value.query.list);
+    });
+
+    const isAutoplaying = createComputed(() => {
+      return isPlaylist.value || accessor.settings.autoplay || route.value.query.autoplay === 'true';
     });
 
     const recommendedVideos = createComputed(() => {
@@ -470,6 +477,11 @@ export default defineComponent({
         !accessor.videoPlayer.loop
       ) {
         playlistSectionRef.value.playNextVideo();
+      } else if (accessor.settings.autoplayNextVideo && video.value.recommendedVideos) {
+        router.push({
+          path: route.value.fullPath,
+          query: { v: video.value.recommendedVideos[0].videoId, autoplay: 'true' }
+        });
       }
     };
 
@@ -534,6 +546,7 @@ export default defineComponent({
       reloadComments,
       setTimestamp,
       isPlaylist,
+      isAutoplaying,
       getHDUrl,
       loadMoreComments,
       templateVideoData,

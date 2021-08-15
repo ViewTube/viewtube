@@ -9,6 +9,7 @@ const requiredEnvironmentVariables = [
 
 // These have a usable default value
 const voluntaryEnvironmentVariables = [
+  { var: 'PORT', default: 8066 },
   { var: 'VIEWTUBE_API_URL', default: 'http://localhost:8066/api/' },
   { var: 'VIEWTUBE_DATABASE_HOST', default: 'localhost' },
   { var: 'VIEWTUBE_DATABASE_PORT', default: 27017 },

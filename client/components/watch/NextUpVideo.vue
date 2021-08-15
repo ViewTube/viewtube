@@ -1,6 +1,6 @@
 <template>
   <div class="next-up-container">
-    <p class="next-up-title">Next up</p>
+    <p class="next-up-title">Next up{{ remainingTimeString }}</p>
     <nuxt-link
       :to="{
         path: fullPath,
@@ -21,7 +21,7 @@
           {{ video.title }}
         </p>
         <p v-tippy="video.author" class="channel">{{ video.author }}</p>
-        <p class="views">{{ video.viewCount.toLocaleString('en-US') }}</p>
+        <p class="views">{{ video.viewCount.toLocaleString('en-US') }} views</p>
       </div>
     </nuxt-link>
   </div>
@@ -30,6 +30,8 @@
 <script lang="ts">
 import { defineComponent, useRoute } from '@nuxtjs/composition-api';
 import { useImgProxy } from '@/plugins/proxy';
+import { createComputed } from '@/plugins/computed';
+import { useAccessor } from '@/store';
 
 export default defineComponent({
   props: {
@@ -38,10 +40,20 @@ export default defineComponent({
   setup() {
     const imgProxy = useImgProxy();
     const route = useRoute();
+    const accessor = useAccessor();
+
+    const remainingTimeString = createComputed(() => {
+      const remaining = accessor.videoPlayer.videoLength - accessor.videoPlayer.currentTime;
+      if (remaining <= 30) {
+        return ` in ${Math.floor(remaining)}s`;
+      }
+      return '';
+    });
 
     return {
       imgProxyUrl: imgProxy.url,
-      fullPath: route.value.fullPath
+      fullPath: route.value.fullPath,
+      remainingTimeString
     };
   }
 });
