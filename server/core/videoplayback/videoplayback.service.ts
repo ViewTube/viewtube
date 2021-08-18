@@ -6,13 +6,11 @@ import { Readable } from 'stream';
 import { Injectable } from '@nestjs/common';
 import ytdl from 'ytdl-core';
 import ffmpeg from 'fluent-ffmpeg';
-import { Response } from 'express';
-
 @Injectable()
 export class VideoplaybackService {
   private video: Readable;
 
-  getVideoStream(url: string, res: Response) {
+  getVideoStream(url: string, res: any) {
     const audioOutput: string = path.resolve(`output/sound-${url}.mp4`);
     // const audioFolder: string = path.resolve(`output/sound-${url}`);
     const rangeStart = 0;

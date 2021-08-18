@@ -20,7 +20,7 @@ import { UserprofileDto } from 'server/user/dto/userprofile.dto';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import sanitizeFilename from 'sanitize-filename';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { FileInterceptor } from '@nestjs/platform-express';
+// import { FileInterceptor } from '@nestjs/platform-express';
 import { UserprofileDetailsDto } from './dto/userprofile-details.dto';
 import { UserService } from './user.service';
 
@@ -66,9 +66,9 @@ export class UserController {
   }
 
   @Post('profile/image')
-  @UseInterceptors(
-    FileInterceptor('image', { fileFilter: imageFileFilter, limits: { fileSize: 4000000 } })
-  )
+  // @UseInterceptors(
+  //   FileInterceptor('image', { fileFilter: imageFileFilter, limits: { fileSize: 4000000 } })
+  // )
   uploadProfileImage(@Req() req: any, @UploadedFile() file: any) {
     return this.userService.saveProfileImage(req.user.username, file);
   }

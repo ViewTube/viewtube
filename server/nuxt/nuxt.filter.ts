@@ -1,6 +1,5 @@
 import { ExceptionFilter, HttpException, ArgumentsHost, Catch } from '@nestjs/common';
 import { Nuxt } from 'nuxt';
-import { Response } from 'express';
 // import Consola from 'consola';
 
 @Catch()
@@ -13,7 +12,7 @@ export class NuxtFilter implements ExceptionFilter {
 
   public async catch(exception: HttpException, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
-    const res: Response = ctx.getResponse();
+    const res = ctx.getResponse();
     const req = ctx.getRequest();
     let status = null;
     try {

@@ -9,12 +9,12 @@ import { ChannelDto } from './dto/channel.dto';
 export class ChannelsController {
   constructor(private channelsService: ChannelsService) {}
   @Get(':id/thumbnail/tiny.jpg')
-  getTinyThumbnailJpg(@Res() res: Response, @Param('id') id: string) {
+  getTinyThumbnailJpg(@Res() res: any, @Param('id') id: string) {
     this.channelsService.getTinyThumbnail(res, id);
   }
 
   @Get(':id/thumbnail/tiny.webp')
-  getTinyThumbnailWebp(@Res() res: Response, @Param('id') id: string) {
+  getTinyThumbnailWebp(@Res() res: any, @Param('id') id: string) {
     this.channelsService.getTinyThumbnail(res, id);
   }
 

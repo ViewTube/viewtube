@@ -1,6 +1,5 @@
 import { Controller, Get, Query, Res, Header } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { Response } from 'express';
 import { ProxyService } from './proxy.service';
 
 @ApiTags('Core')
@@ -24,7 +23,7 @@ export class ProxyController {
   async getQuery(
     @Query('url') url: string,
     @Query('local') local: boolean = false,
-    @Res() response: Response
+    @Res() response: any
   ): Promise<void> {
     const image = await this.proxyService.proxyImage(url, local, response);
     response.send(image);
@@ -32,7 +31,7 @@ export class ProxyController {
 
   @Get('stream')
   @Header('Cache-Control', 'no-cache')
-  async proxyStream(@Query('url') url: string, @Res() response: Response): Promise<void> {
+  async proxyStream(@Query('url') url: string, @Res() response: any): Promise<void> {
     const streamBuffer = await this.proxyService.proxyStream(url, response);
     response.send(streamBuffer);
   }

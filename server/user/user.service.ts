@@ -8,7 +8,6 @@ import { UserprofileDto } from 'server/user/dto/userprofile.dto';
 import humanizeDuration from 'humanize-duration';
 import { Common } from 'server/core/common';
 import { ChannelBasicInfoDto } from 'server/core/channels/dto/channel-basic-info.dto';
-import { Response } from 'express';
 import AdmZip from 'adm-zip';
 import Consola from 'consola';
 import { User } from './schemas/user.schema';
@@ -95,7 +94,7 @@ export class UserService {
     throw new BadRequestException('Uploaded file is not valid');
   }
 
-  async getProfileImage(username: string, response: Response) {
+  async getProfileImage(username: string, response: any) {
     if (username) {
       const user = await this.UserModel.findOne({ username }).exec();
       if (user && user.profileImage && fs.existsSync(user.profileImage)) {
