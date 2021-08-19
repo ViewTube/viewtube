@@ -16,7 +16,7 @@ import { Common } from 'server/core/common';
 import { ChannelBasicInfoDto } from 'server/core/channels/dto/channel-basic-info.dto';
 import AdmZip from 'adm-zip';
 import Consola from 'consola';
-import fastify, { FastifyReply } from 'fastify';
+import { FastifyReply } from 'fastify';
 import { ViewTubeRequest } from 'server/common/viewtube-request';
 import { User } from './schemas/user.schema';
 import { UserDto } from './user.dto';
