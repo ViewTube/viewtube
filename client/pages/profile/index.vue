@@ -49,7 +49,10 @@
             <ChevronUpIcon class="chevron-icon" />
           </label>
           <div class="actions-details">
-            <BadgeButton class="action" :href="'/api/user/export'"
+            <BadgeButton
+              download
+              class="action"
+              :href="`${$accessor.environment.apiUrl}user/export`"
               ><ExportIcon />Export data</BadgeButton
             >
             <BadgeButton class="action" :click="onLogoutPopup" style="color: #ef4056"
@@ -122,7 +125,6 @@ import SettingsIcon from 'vue-material-design-icons/Cog.vue';
 import HistoryIcon from 'vue-material-design-icons/History.vue';
 import RestartOffIcon from 'vue-material-design-icons/RestartOff.vue';
 import {
-  computed,
   defineComponent,
   ref,
   useFetch,
@@ -137,6 +139,7 @@ import Spinner from '@/components/Spinner.vue';
 import HistoryList from '@/components/history/HistoryList.vue';
 import { useAccessor } from '@/store';
 import { useAxios } from '@/plugins/axiosPlugin';
+import { createComputed } from '@/plugins/computed';
 
 export default defineComponent({
   name: 'Profile',
@@ -174,7 +177,7 @@ export default defineComponent({
 
     originalUsername.value = accessor.user.username;
 
-    const hasHistory = computed(() => {
+    const hasHistory = createComputed(() => {
       if (profile.value && profile.value.videoHistory.length > 0) {
         return true;
       }
@@ -258,7 +261,7 @@ export default defineComponent({
     };
     const deleteProfileImage = () => {
       axios
-        .delete(`${accessor.environment.apiUrl}user/profile/image`)
+        .delete(`${accessor.environment.apiUrl}user/profile/image`, { withCredentials: true })
         .then(() => {
           accessor.messages.createMessage({
             type: 'info',
@@ -275,7 +278,7 @@ export default defineComponent({
           });
         });
     };
-    const deleteAccountValid = computed(() => {
+    const deleteAccountValid = createComputed(() => {
       return repeatedUsername.value.length > 0 && repeatedUsername.value === originalUsername.value;
     });
     const logout = () => {
@@ -297,7 +300,7 @@ export default defineComponent({
       if (accessor.user.isLoggedIn) {
         const apiUrl = accessor.environment.apiUrl;
         await axios
-          .get(`${apiUrl}user/profile/details`)
+          .get(`${apiUrl}user/profile/details`, { withCredentials: true })
           .then((result: { data: any }) => {
             if (result) {
               profile.value = result.data;

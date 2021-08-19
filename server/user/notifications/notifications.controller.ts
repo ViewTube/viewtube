@@ -3,6 +3,7 @@ import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'server/auth/guards/jwt.guard';
 import webPush from 'web-push';
 import { ConfigService } from '@nestjs/config';
+import { ViewTubeRequest } from 'server/common/viewtube-request';
 import { NotificationsService } from './notifications.service';
 
 @ApiTags('User')
@@ -19,11 +20,11 @@ export class NotificationsController {
   @Post('subscribe')
   async subscribeToNotifications(
     @Body() subscription: webPush.PushSubscription,
-    @Req() req: any
+    @Req() request: ViewTubeRequest
   ): Promise<void> {
     const storedSubscription = await this.notificationsService.createNotificationsSubscription(
       subscription,
-      req.user.username
+      request.user.username
     );
 
     const payload = JSON.stringify({

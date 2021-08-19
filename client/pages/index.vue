@@ -83,7 +83,7 @@ export default defineComponent({
       displayedVideos.value = videos.value;
     };
 
-    const { fetch } = useFetch(async () => {
+    useFetch(async () => {
       const viewTubeApi = new ViewTubeApi(accessor.environment.apiUrl);
       await viewTubeApi.api
         .popular()
@@ -99,9 +99,8 @@ export default defineComponent({
           accessor.messages.createMessage({
             type: 'error',
             title: 'Error loading homepage',
-            message: 'Click to try again',
-            dismissDelay: 0,
-            clickAction: () => fetch()
+            message: 'Refresh the page to try again',
+            dismissDelay: 0
           });
         });
       if (userAuthenticated.value && accessor.settings.showHomeSubscriptions) {

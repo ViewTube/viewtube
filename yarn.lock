@@ -4580,6 +4580,11 @@ cookie-signature@1.0.6:
   resolved "https://registry.yarnpkg.com/cookie-signature/-/cookie-signature-1.0.6.tgz#e303a882b342cc3ee8ca513a79999734dab3ae2c"
   integrity sha1-4wOogrNCzD7oylE6eZmXNNqzriw=
 
+cookie-signature@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/cookie-signature/-/cookie-signature-1.1.0.tgz#cc94974f91fb9a9c1bb485e95fc2b7f4b120aff2"
+  integrity sha512-Alvs19Vgq07eunykd3Xy2jF0/qSNv2u7KDbAek9H5liV1UMijbqFs5cycZvv5dVsvseT/U4H8/7/w8Koh35C4A==
+
 cookie@0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/cookie/-/cookie-0.4.0.tgz#beb437e7022b3b6d49019d088665303ebe9c14ba"
@@ -6134,6 +6139,15 @@ fastest-levenshtein@^1.0.12:
   resolved "https://registry.yarnpkg.com/fastest-levenshtein/-/fastest-levenshtein-1.0.12.tgz#9990f7d3a88cc5a9ffd1f1745745251700d497e2"
   integrity sha512-On2N+BpYJ15xIC974QNVuYGMOlEVt4s0EOI3wwMqOmK1fdDY+FN/zltPV8vosq4ad4c/gJ1KHScUn/6AWIgiow==
 
+fastify-cookie@^5.3.1:
+  version "5.3.1"
+  resolved "https://registry.yarnpkg.com/fastify-cookie/-/fastify-cookie-5.3.1.tgz#97b17f3f297b06ffc8e27fe7a0398aefa9df74f0"
+  integrity sha512-ubiC5ydvgqaXOydeg3G+SFEiTJtsyNPde6ForXi+UG66aDbsHlWNLJTQZg4BopXv+MJ0SzlShGVCWv26mgAwpw==
+  dependencies:
+    cookie "^0.4.0"
+    cookie-signature "^1.1.0"
+    fastify-plugin "^3.0.0"
+
 fastify-cors@6.0.2:
   version "6.0.2"
   resolved "https://registry.yarnpkg.com/fastify-cors/-/fastify-cors-6.0.2.tgz#4fd5102549659e9b34d252fd7ee607b63d021390"
@@ -6191,6 +6205,28 @@ fastify@3.20.1:
   version "3.20.1"
   resolved "https://registry.yarnpkg.com/fastify/-/fastify-3.20.1.tgz#8ca19b1da6e5e09b552b412168b1923a0eea9f9f"
   integrity sha512-AzIpPuHdPaRBMWCg+LbnfGvhmBVpF1tRihGOfpxnUphL1eh8ZrN1GbY3cXY07yn4fUNzYsByTkc9/IjwXH7DAQ==
+  dependencies:
+    "@fastify/ajv-compiler" "^1.0.0"
+    abstract-logging "^2.0.0"
+    avvio "^7.1.2"
+    fast-json-stringify "^2.5.2"
+    fastify-error "^0.3.0"
+    fastify-warning "^0.2.0"
+    find-my-way "^4.1.0"
+    flatstr "^1.0.12"
+    light-my-request "^4.2.0"
+    pino "^6.13.0"
+    proxy-addr "^2.0.7"
+    readable-stream "^3.4.0"
+    rfdc "^1.1.4"
+    secure-json-parse "^2.0.0"
+    semver "^7.3.2"
+    tiny-lru "^7.0.0"
+
+fastify@^3.20.2:
+  version "3.20.2"
+  resolved "https://registry.yarnpkg.com/fastify/-/fastify-3.20.2.tgz#99a5a2b4b4a8c468dfae245219af053b12c5fe55"
+  integrity sha512-POvayPpbyvkE/wHQquQsNwIgYKVRz7HhCXYJyzUuWEN3kch7/QeI+/azQCjS6+XHiHZPWQwrBKjJB9FBdJHrgA==
   dependencies:
     "@fastify/ajv-compiler" "^1.0.0"
     abstract-logging "^2.0.0"

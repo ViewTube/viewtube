@@ -211,9 +211,8 @@ export default defineComponent({
           accessor.messages.createMessage({
             type: 'error',
             title: 'Search failed',
-            message: 'Click to try again',
-            dismissDelay: 0,
-            clickAction: () => fetch()
+            message: 'Refresh the page to try again',
+            dismissDelay: 0
           });
         }
       } else {

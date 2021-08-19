@@ -39,6 +39,7 @@
 <script lang="ts">
 import CloseIcon from 'vue-material-design-icons/Close.vue';
 import { computed, defineComponent, reactive, ref } from '@nuxtjs/composition-api';
+import { useAccessor } from '@/store';
 
 export default defineComponent({
   name: 'MessageBox',
@@ -51,6 +52,8 @@ export default defineComponent({
     }
   },
   setup(props) {
+    const accessor = useAccessor();
+
     const dismissedRight = ref(false);
     const dismissedLeft = ref(false);
     const dismissTimeout = ref(null);
@@ -73,8 +76,8 @@ export default defineComponent({
       dismissedRight.value = true;
       swipeOpacity.value = 0;
       setTimeout(() => {
-        if (props.message && props.message.dismiss && typeof props.message.dismiss === 'function') {
-          props.message.dismiss();
+        if (props.message && props.message.id) {
+          accessor.messages.dismissMessage(props.message.id);
         }
       }, 600);
     };

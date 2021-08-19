@@ -145,7 +145,9 @@ export default defineComponent({
         const start = (currentPage.value - 1) * 30;
         const apiUrl = accessor.environment.apiUrl;
         await axios
-          .get(`${apiUrl}user/history?limit=${limit}&start=${start}${filterString}&sort=DESC`)
+          .get(`${apiUrl}user/history?limit=${limit}&start=${start}${filterString}&sort=DESC`, {
+            withCredentials: true
+          })
           .then((result: { data: any }) => {
             if (result) {
               history.value = result.data.videos;

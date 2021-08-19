@@ -6,6 +6,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import cookieParser from 'cookie-parser';
 import webPush from 'web-push';
 import Consola from 'consola';
+import FastifyCookie from 'fastify-cookie';
 import packageJson from '../package.json';
 import { AppModule } from './app.module';
 import { NuxtFilter } from './nuxt/nuxt.filter';
@@ -17,6 +18,7 @@ async function bootstrap() {
   checkEnvironmentVariables();
 
   const server = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter());
+  await server.register(FastifyCookie);
   const configService = server.get(ConfigService);
 
   const dev = configService.get('NODE_ENV') !== 'production';

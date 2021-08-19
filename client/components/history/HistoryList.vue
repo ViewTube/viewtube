@@ -70,13 +70,13 @@ export default defineComponent({
     };
     const deleteEntry = async (videoId: string) => {
       await axios
-        .delete(`${accessor.environment.apiUrl}user/history/${videoId}`)
+        .delete(`${accessor.environment.apiUrl}user/history/${videoId}`, { withCredentials: true })
         .then(() => {
           emit('refresh');
         })
         .catch(() => {
           accessor.messages.createMessage({
-            type: 'info',
+            type: 'error',
             title: 'Error deleting history entry',
             message: 'Try logging out and in again'
           });

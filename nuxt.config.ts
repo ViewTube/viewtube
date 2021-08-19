@@ -10,13 +10,8 @@ const dartSass = {
 const config: NuxtConfig = {
   srcDir: './client',
 
-  env: {
-    apiUrl: process.env.VIEWTUBE_API_URL,
-    vapidKey: process.env.VIEWTUBE_PUBLIC_VAPID,
-    nodeEnv: process.env.NODE_ENV,
-    host: 'localhost',
-    port: '8066',
-    baseUrl: process.env.BASE_URL || 'http://localhost:8066'
+  server: {
+    port: 8066
   },
 
   head: {

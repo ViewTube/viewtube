@@ -4,15 +4,12 @@ import {
   CacheInterceptor,
   Get,
   Query,
-  Req,
   BadRequestException
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Continuation, ContinueResult, Result } from 'ytsr';
+import { Result } from 'ytsr';
 import { SearchService } from './search.service';
 import { SearchQueryDto } from './dto/search-query.dto';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { SearchFilterDto } from './dto/search-filter.dto';
 
 @ApiTags('Core')
@@ -27,9 +24,9 @@ export class SearchController {
   }
 
   @Get('continuation')
-  searchContinuation(@Req() request: any) {
-    if (request.query.continuationData) {
-      return this.searchService.continueSearch(request.query.continuationData);
+  searchContinuation(@Query('continuationData') continuationData: any) {
+    if (continuationData) {
+      return this.searchService.continueSearch(continuationData);
     }
     throw new BadRequestException('Invalid continuation data');
   }

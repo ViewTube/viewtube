@@ -1,6 +1,12 @@
 import fs from 'fs';
 import path from 'path';
-import { Injectable, HttpException, BadRequestException, NotFoundException, InternalServerErrorException } from '@nestjs/common';
+import {
+  Injectable,
+  HttpException,
+  BadRequestException,
+  NotFoundException,
+  InternalServerErrorException
+} from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import bcrypt from 'bcryptjs';
@@ -10,6 +16,7 @@ import { Common } from 'server/core/common';
 import { ChannelBasicInfoDto } from 'server/core/channels/dto/channel-basic-info.dto';
 import AdmZip from 'adm-zip';
 import Consola from 'consola';
+import { FastifyReply } from 'fastify';
 import { User } from './schemas/user.schema';
 import { UserDto } from './user.dto';
 import { SettingsService } from './settings/settings.service';
@@ -94,27 +101,29 @@ export class UserService {
     throw new BadRequestException('Uploaded file is not valid');
   }
 
-  async getProfileImage(username: string, response: any) {
+  async getProfileImage(username: string, reply: FastifyReply) {
     if (username) {
       const user = await this.UserModel.findOne({ username }).exec();
       if (user && user.profileImage && fs.existsSync(user.profileImage)) {
         try {
+          let filePath = user.profileImage;
           if (process.env.NODE_ENV !== 'production') {
-            response.sendFile(user.profileImage, { root: '.' });
-          } else {
-            // eslint-disable-next-line dot-notation
-            response.sendFile(user.profileImage);
+            filePath = path.resolve('.', user.profileImage);
           }
+          const fileStream = fs.createReadStream(filePath);
+          reply.type('image/webp').send(fileStream);
         } catch (error) {
           throw new InternalServerErrorException('Error getting photo');
         }
       } else {
         const img = Buffer.from(profileImage, 'base64');
-        response.writeHead(200, {
-          'Content-Type': 'image/png',
-          'Content-Length': img.length
-        });
-        response.end(img);
+        reply
+          .code(200)
+          .headers({
+            'Content-Type': 'image/png',
+            'Content-Length': img.length
+          })
+          .send(img);
       }
     } else {
       throw new NotFoundException({
@@ -199,7 +208,7 @@ export class UserService {
     }
   }
 
-  async createDataExport(username: string): Promise<any> {
+  async createDataExport(username: string): Promise<Buffer> {
     if (username) {
       const userData = { username, subscriptions: {}, history: {}, settings: {} };
 
@@ -226,12 +235,12 @@ export class UserService {
       if (userSettings) {
         userData.settings = userSettings;
       }
-      const exportUserData = JSON.stringify(userData);
+      const exportUserData = JSON.stringify(userData, null, 2);
 
       const user = await this.UserModel.findOne({ username });
 
       const zip = new AdmZip();
-      zip.addFile('user.json', Buffer.alloc(exportUserData.length, exportUserData));
+      zip.addFile('user.json', Buffer.from(exportUserData));
 
       if (user.profileImage && fs.existsSync(user.profileImage)) {
         if (process.env.NODE_ENV !== 'production') {

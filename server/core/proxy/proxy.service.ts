@@ -25,7 +25,7 @@ export class ProxyService {
     throw new InternalServerErrorException('Error fetching url');
   }
 
-  async proxyImage(url: string, local: boolean = false, response: any): Promise<Buffer> {
+  async proxyImage(url: string, local: boolean = false): Promise<Buffer> {
     try {
       let proxyAgent = null;
       if (this.configService.get('VIEWTUBE_PROXY_URL') && !local) {
@@ -33,22 +33,20 @@ export class ProxyService {
         proxyAgent = new HttpsProxyAgent(proxy);
       }
       const fetchResponse = await fetch(url, { agent: proxyAgent });
-      if (response) {
-        const image = await fetchResponse.buffer();
-        return image;
-      }
+
+      const image = await fetchResponse.buffer();
+      return image;
     } catch (error) {
       throw new InternalServerErrorException(error);
     }
   }
 
-  async proxyStream(url: string, response: any): Promise<Buffer> {
+  async proxyStream(url: string): Promise<Buffer> {
     try {
       const fetchResponse = await fetch(Buffer.from(url, 'base64').toString('binary'));
-      if (response) {
-        const streamBuffer = await fetchResponse.buffer();
-        return streamBuffer;
-      }
+
+      const streamBuffer = await fetchResponse.buffer();
+      return streamBuffer;
     } catch (error) {
       throw new InternalServerErrorException(error);
     }
