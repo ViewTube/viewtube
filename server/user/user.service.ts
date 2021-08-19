@@ -16,7 +16,8 @@ import { Common } from 'server/core/common';
 import { ChannelBasicInfoDto } from 'server/core/channels/dto/channel-basic-info.dto';
 import AdmZip from 'adm-zip';
 import Consola from 'consola';
-import { FastifyReply } from 'fastify';
+import fastify, { FastifyReply } from 'fastify';
+import { ViewTubeRequest } from 'server/common/viewtube-request';
 import { User } from './schemas/user.schema';
 import { UserDto } from './user.dto';
 import { SettingsService } from './settings/settings.service';
@@ -70,33 +71,54 @@ export class UserService {
     }
   }
 
-  async saveProfileImage(username: string, file: any) {
-    if (file && file.buffer) {
-      let extension = 'jpg';
-      const extMatch = file.originalname.match(/\.(jpg|jpeg|png|gif|webp)$/);
-      if (extMatch && extMatch[1]) {
-        extension = extMatch[1];
+  async saveProfileImage(request: ViewTubeRequest) {
+    const username = request.user.username;
+    if (username) {
+      let fileTooLarge = false;
+      const file = await request.file({
+        limits: {
+          fieldNameSize: 100,
+          fileSize: 4000000,
+          files: 1
+        }
+      });
+
+      file.file.on('limit', () => {
+        fileTooLarge = true;
+      });
+      const mimetypeMath = file.mimetype.match(/image\/(jpg|jpeg|png|gif|webp)/);
+      if (mimetypeMath !== null) {
+        const fileBuffer = await file.toBuffer();
+        let extension = 'jpg';
+        const extMatch = file.filename.match(/\.(jpg|jpeg|png|gif|webp)$/);
+        if (extMatch && extMatch[1]) {
+          extension = extMatch[1];
+        }
+        let imgPath = `profiles/${username}.${extension}`;
+
+        if (process.env.NODE_ENV === 'production') {
+          // eslint-disable-next-line dot-notation
+          imgPath = path.join(global['__basedir'], imgPath);
+        }
+
+        if (fileTooLarge) {
+          throw new BadRequestException('The file is too large');
+        }
+
+        try {
+          fs.writeFileSync(imgPath, fileBuffer);
+        } catch (error) {
+          Consola.log(error);
+        }
+
+        const publicPath = `/api/user/profile/image/${username}`;
+
+        await this.UserModel.findOneAndUpdate({ username }, { profileImage: imgPath }).exec();
+
+        return {
+          path: publicPath
+        };
       }
-      let imgPath = `profiles/${username}.${extension}`;
-
-      if (process.env.NODE_ENV === 'production') {
-        // eslint-disable-next-line dot-notation
-        imgPath = path.join(global['__basedir'], imgPath);
-      }
-
-      try {
-        fs.writeFileSync(imgPath, file.buffer);
-      } catch (error) {
-        Consola.log(error);
-      }
-
-      const publicPath = `/api/user/profile/image/${username}`;
-
-      await this.UserModel.findOneAndUpdate({ username }, { profileImage: imgPath }).exec();
-
-      return {
-        path: publicPath
-      };
     }
     throw new BadRequestException('Uploaded file is not valid');
   }

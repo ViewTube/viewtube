@@ -67,6 +67,7 @@
     "cookie-parser": "1.4.5",
     "cross-env": "7.0.3",
     "fastify-cookie": "^5.3.1",
+    "fastify-multipart": "^4.0.7",
     "fastify-swagger": "^4.8.4",
     "fluent-ffmpeg": "2.1.2",
     "hls.js": "1.0.10",

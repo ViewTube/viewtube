@@ -8,8 +8,6 @@ import {
   Body,
   BadRequestException,
   Post,
-  // UseInterceptors,
-  UploadedFile,
   Param
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
@@ -18,16 +16,8 @@ import { UserprofileDto } from 'server/user/dto/userprofile.dto';
 import sanitizeFilename from 'sanitize-filename';
 import { FastifyReply } from 'fastify';
 import { ViewTubeRequest } from 'server/common/viewtube-request';
-// import { FileInterceptor } from '@nestjs/platform-express';
 import { UserprofileDetailsDto } from './dto/userprofile-details.dto';
 import { UserService } from './user.service';
-
-// const imageFileFilter = (_, file: any, callback: Function) => {
-//   if (!file.originalname.match(/\.(jpg|jpeg|png|gif|webp)$/)) {
-//     return callback(new Error('Only image files are allowed!'), false);
-//   }
-//   callback(null, true);
-// };
 
 @ApiTags('User')
 @ApiBearerAuth()
@@ -67,11 +57,8 @@ export class UserController {
   }
 
   @Post('profile/image')
-  // @UseInterceptors(
-  //   FileInterceptor('image', { fileFilter: imageFileFilter, limits: { fileSize: 4000000 } })
-  // )
-  uploadProfileImage(@Req() request: ViewTubeRequest, @UploadedFile() file: any) {
-    return this.userService.saveProfileImage(request.user.username, file);
+  uploadProfileImage(@Req() request: ViewTubeRequest) {
+    return this.userService.saveProfileImage(request);
   }
 
   @Delete('profile/image')

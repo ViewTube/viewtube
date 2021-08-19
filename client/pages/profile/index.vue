@@ -235,8 +235,8 @@ export default defineComponent({
         .catch(err => {
           if (
             err &&
-            err.response.data.error &&
-            err.response.data.error.match(/payload too large/i)
+            err.response.data.message &&
+            err.response.data.message.match(/.*too large.*/i)
           ) {
             accessor.messages.createMessage({
               type: 'error',
