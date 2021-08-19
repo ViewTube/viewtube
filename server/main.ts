@@ -8,6 +8,7 @@ import webPush from 'web-push';
 import Consola from 'consola';
 import FastifyCookie from 'fastify-cookie';
 import FastifyMultipart from 'fastify-multipart';
+import FastifyHelmet from 'fastify-helmet';
 import packageJson from '../package.json';
 import { AppModule } from './app.module';
 import { NuxtFilter } from './nuxt/nuxt.filter';
@@ -19,6 +20,8 @@ async function bootstrap() {
   checkEnvironmentVariables();
 
   const server = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter());
+
+  await server.register(FastifyHelmet);
   await server.register(FastifyCookie);
   await server.register(FastifyMultipart);
   const configService = server.get(ConfigService);
@@ -34,11 +37,15 @@ async function bootstrap() {
 
   // NEST
   server.setGlobalPrefix('api');
-
-  // CORS
   const port = configService.get('PORT');
 
-  server.enableCors();
+  // CORS
+  const allowedDomain = configService.get('VIEWTUBE_ALLOWED_DOMAIN');
+  if (!allowedDomain) {
+    server.enableCors();
+  } else {
+    server.enableCors({ origin: new RegExp(allowedDomain) });
+  }
 
   // PUSH NOTIFICATIONS
   webPush.setVapidDetails(

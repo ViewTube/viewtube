@@ -1,4 +1,11 @@
-import { Controller, Get, Query, CacheInterceptor, UseInterceptors, CacheTTL } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Query,
+  CacheInterceptor,
+  UseInterceptors,
+  CacheTTL
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { AutocompleteService } from './autocomplete.service';
 

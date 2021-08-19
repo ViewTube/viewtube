@@ -1,10 +1,12 @@
 import { Controller, Get, Query, Res, Header } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { Throttle } from '@nestjs/throttler';
 import { FastifyReply } from 'fastify';
 import { ProxyService } from './proxy.service';
 
 @ApiTags('Core')
 @Controller('proxy')
+@Throttle(10000, 600)
 export class ProxyController {
   constructor(private proxyService: ProxyService) {}
 

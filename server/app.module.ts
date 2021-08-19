@@ -3,6 +3,9 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
 import { ScheduleModule } from '@nestjs/schedule';
 import { BullModule } from '@nestjs/bull';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
+import { APP_GUARD } from '@nestjs/core';
+import { ThrottlerStorageRedisService } from 'nestjs-throttler-storage-redis';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CoreModule } from './core/core.module';
@@ -55,6 +58,11 @@ const moduleMetadata: ModuleMetadata = {
         db: 1
       }
     }),
+    ThrottlerModule.forRoot({
+      ttl: 600,
+      limit: 1000,
+      storage: new ThrottlerStorageRedisService({ ...redisOptions, db: 3 })
+    }),
     ScheduleModule.forRoot(),
     CoreModule,
     UserModule,
@@ -62,7 +70,13 @@ const moduleMetadata: ModuleMetadata = {
     ConfigModule.forRoot()
   ],
   controllers: [AppController],
-  providers: [AppService]
+  providers: [
+    AppService,
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard
+    }
+  ]
 };
 @Module(moduleMetadata)
 export class AppModule {}
