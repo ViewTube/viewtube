@@ -54,7 +54,7 @@
     "@nuxtjs/style-resources": "1.2.1",
     "adm-zip": "0.5.5",
     "bcryptjs": "2.4.3",
-    "bull": "3.28.1",
+    "bull": "3.29.0",
     "cache-manager": "3.4.4",
     "cache-manager-redis-store": "2.0.0",
     "class-transformer": "0.4.0",
