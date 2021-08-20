@@ -3,6 +3,7 @@
   "include": [
     "client/**/*",
     "server/**/*",
+    "test/**/*",
     "types/**/*",
     "shared/**/*",
     ".eslintrc.js",

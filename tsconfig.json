@@ -26,10 +26,11 @@
     "paths": {
       "@/*": ["client/*"],
       "@shared/*": ["shared/*"],
+      "server/*": ["server/*"],
       "~/*": ["client/*"]
     },
     "types": ["@types/node", "@nuxt/types", "@nuxtjs/axios", "@types/jest"]
   },
-  "include": ["server/**/*", "client/**/*", "types/**/*", "shared/**/*"],
-  "exclude": ["node_modules", "dist", "test", "**/*spec.ts"]
+  "include": ["server/**/*", "client/**/*", "test/**/*", "types/**/*", "shared/**/*"],
+  "exclude": ["node_modules", "dist"]
 }
