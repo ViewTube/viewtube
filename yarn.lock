@@ -6821,10 +6821,10 @@ hex-color-regex@^1.1.0:
   resolved "https://registry.yarnpkg.com/hex-color-regex/-/hex-color-regex-1.1.0.tgz#4c06fccb4602fe2602b3c93df82d7e7dbf1a8a8e"
   integrity sha512-l9sfDFsuqtOqKDsQdqrMRk0U85RZc0RtOR9yPI7mRVOa4FsR/BVnZ0shmQRM96Ji99kYZP/7hn1cedc1+ApsTQ==
 
-hls.js@1.0.9:
-  version "1.0.9"
-  resolved "https://registry.yarnpkg.com/hls.js/-/hls.js-1.0.9.tgz#a3b92a0a2a4cdb3076c09639a8e06463b3a189f5"
-  integrity sha512-uUfvc53QawXMH8fRd2IGPEtWlujsiX/Xj8oW/tx+T8yY1kHRpI8o1brsLRGJMivAyNBtdB/3ZV4fTdZ+DAiCEQ==
+hls.js@1.0.10:
+  version "1.0.10"
+  resolved "https://registry.yarnpkg.com/hls.js/-/hls.js-1.0.10.tgz#2626c19e0a32904c1915a842c591f9b0a9f5066b"
+  integrity sha512-P+o/wjGJsnqwdXXYfWvopOceXEXFV0H8vs/T+ApsscP/GlpUtdIRWie7qc+jbml95ThjE6+FVci9VGaD51r/6Q==
 
 hmac-drbg@^1.0.1:
   version "1.0.1"
