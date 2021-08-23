@@ -193,8 +193,8 @@
       <SwitchButton
         :value="$accessor.settings.audioModeDefault"
         :label="'Audio mode default'"
-        :small-label="'Videos start in audio only mode'"
-        :disabled="false"
+        :small-label="'Not implemented yet'"
+        :disabled="true"
         :right="true"
         @valuechange="val => saveSetting('settings/setAudioModeDefault', val)"
       />
