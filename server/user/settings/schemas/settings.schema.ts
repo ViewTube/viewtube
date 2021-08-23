@@ -39,6 +39,9 @@ export class Settings extends Document implements SettingsDto {
   sponsorblockSegmentMusicOfftopic: segmentOption;
 
   @Prop()
+  sponsorblockSegmentPreview: segmentOption;
+
+  @Prop()
   autoplay: boolean;
 
   @Prop()
@@ -58,6 +61,9 @@ export class Settings extends Document implements SettingsDto {
 
   @Prop()
   defaultVideoSpeed: number;
+
+  @Prop()
+  defaultVideoQuality: string;
 }
 
 export const SettingsSchema = SchemaFactory.createForClass(Settings);

@@ -21,6 +21,8 @@ export class SettingsDto {
 
   sponsorblockSegmentMusicOfftopic: segmentOption;
 
+  sponsorblockSegmentPreview: segmentOption;
+
   autoplay: boolean;
 
   saveVideoHistory: boolean;
@@ -34,4 +36,6 @@ export class SettingsDto {
   audioModeDefault: boolean;
 
   defaultVideoSpeed: number;
+
+  defaultVideoQuality: string;
 }

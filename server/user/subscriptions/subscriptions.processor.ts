@@ -98,7 +98,9 @@ export class SubscriptionsProcessor {
       // this.sendUserNotifications(subscriptionResults.videoResultArray);
 
       console.log(
-        `done and dusted in ${job.finishedOn}: ${result.channelsToUpdate.length} channels, ${result.videosToUpdate.length} videos`
+        `done at ${new Date(job.finishedOn)}: ${
+          result.channelsToUpdate.length
+        } channels, ${result.videosToUpdate.length} videos`
       );
     } else {
       console.log('subscriptions job failed');
@@ -107,6 +109,6 @@ export class SubscriptionsProcessor {
 
   @OnQueueActive()
   onActive(job: Job) {
-    console.log(`Processing job ${job.id} of type ${job.name} with data ${job.data}...`);
+    console.log(`Starting subscriptions job ${job.id} at ${new Date()}`);
   }
 }

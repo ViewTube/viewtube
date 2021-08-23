@@ -18,6 +18,7 @@ export class SettingsService {
     autoplayNextVideo: false,
     chapters: true,
     defaultVideoSpeed: 1,
+    defaultVideoQuality: '720p',
     miniplayer: true,
     saveVideoHistory: true,
     showHomeSubscriptions: true,
@@ -28,6 +29,7 @@ export class SettingsService {
     sponsorblockSegmentOutro: 'ask',
     sponsorblockSegmentSelfpromo: 'skip',
     sponsorblockSegmentSponsor: 'skip',
+    sponsorblockSegmentPreview: 'skip',
     theme: 'default'
   };
 

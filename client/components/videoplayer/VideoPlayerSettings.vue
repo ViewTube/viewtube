@@ -1,17 +1,21 @@
 <template>
-  <div class="quality" @mouseup.stop="onQualityMouseup">
+  <div class="video-player-settings" @mouseup.stop="onQualityMouseup">
     <SettingsIcon @click.stop="onQualityInteraction" @touchend.stop="onQualityTouchInteraction" />
-    <portal to="video-player">
-      <transition name="quality-popup">
+    <portal to="popup">
+      <transition name="player-settings-popup">
         <div
           v-if="popup"
-          class="quality-popup-overlay"
+          class="player-settings-popup-overlay"
           @click.stop="popup = false"
           @touchend.stop="popup = false"
         >
-          <div ref="qualityPopup" class="quality-popup">
-            <div v-if="adaptiveFormats" class="quality-submenu adaptive">
-              <span class="quality-title"> <MagicIcon />Automatic quality </span>
+          <div
+            class="player-settings-popup"
+            @click.stop="onQualityMouseup"
+            @touchend.stop="onQualityMouseup"
+          >
+            <div v-if="adaptiveFormats" class="player-settings-submenu adaptive">
+              <span class="player-settings-title"> <MagicIcon />Automatic quality </span>
               <div
                 class="qualities-info"
                 :class="{ selected: selectedQuality === 0 }"
@@ -22,8 +26,8 @@
                 <p>Min: {{ minAdaptiveQuality.qualityLabel }}</p>
               </div>
             </div>
-            <div class="quality-submenu">
-              <span class="quality-title"> <HighDefinitionIcon />Video Quality</span>
+            <div class="player-settings-submenu">
+              <span class="player-settings-title"><HighDefinitionIcon />Video Quality</span>
               <div
                 v-for="(quality, id) in formatQualities"
                 :key="id"
@@ -37,6 +41,31 @@
                 {{ quality.qualityLabel }}
               </div>
             </div>
+            <div class="player-settings-submenu">
+              <span class="player-settings-title"><SettingsIcon />Other settings</span>
+              <SwitchButton
+                :value="loopVideo"
+                :label="'Loop'"
+                :disabled="false"
+                :right="true"
+                @valuechange="val => (loopVideo = val)"
+              />
+              <div class="settings-number-menu">
+                <label for="video-speed-input">Speed</label>
+                <input
+                  id="video-speed-input"
+                  class="settings-number-input"
+                  type="number"
+                  name="video-speed"
+                  :value="videoSpeed"
+                  step="0.1"
+                  max="3"
+                  min="0.1"
+                  @keydown.stop="() => {}"
+                  @change="changeVideoSpeed"
+                />
+              </div>
+            </div>
           </div>
         </div>
       </transition>
@@ -48,14 +77,17 @@
 import SettingsIcon from 'vue-material-design-icons/Cog.vue';
 import HighDefinitionIcon from 'vue-material-design-icons/HighDefinition.vue';
 import MagicIcon from 'vue-material-design-icons/AutoFix.vue';
-import { computed, defineComponent, ref } from '@nuxtjs/composition-api';
+import { computed, defineComponent, onMounted, ref, watch } from '@nuxtjs/composition-api';
+import SwitchButton from '@/components/buttons/SwitchButton.vue';
+import { useAccessor } from '~/store';
 
 export default defineComponent({
   name: 'QualitySelection',
   components: {
     SettingsIcon,
     HighDefinitionIcon,
-    MagicIcon
+    MagicIcon,
+    SwitchButton
   },
   props: {
     selectedQuality: Number,
@@ -63,9 +95,38 @@ export default defineComponent({
     adaptiveFormats: { type: Array, required: false, default: null }
   },
   setup(props, { emit }) {
+    const accessor = useAccessor();
     const qualityUrl = ref(null);
     const popup = ref(false);
     const elementHeight = ref(0);
+
+    const loopVideo = ref(false);
+    const videoSpeed = ref(1);
+
+    const changeVideoSpeed = (e: any) => {
+      let speed = e.target.value;
+      if (e.target.value < 0.1) {
+        speed = 0.1;
+      }
+      if (e.target.value > 3) {
+        speed = 3;
+      }
+      videoSpeed.value = speed;
+    };
+
+    watch(loopVideo, newVal => {
+      accessor.videoPlayer.setLoop(newVal);
+      emit('loopchange', newVal);
+    });
+
+    watch(videoSpeed, newVal => {
+      emit('speedchange', newVal);
+    });
+
+    onMounted(() => {
+      loopVideo.value = accessor.settings.alwaysLoopVideo;
+      videoSpeed.value = accessor.settings.defaultVideoSpeed;
+    });
 
     const maxAdaptiveQuality = computed((): any => {
       return sortedAdaptiveQualities.value.slice().reverse()[0];
@@ -113,41 +174,44 @@ export default defineComponent({
       formatQualities,
       sortedAdaptiveQualities,
       adaptiveVideos,
+      changeVideoSpeed,
       onQualityInteraction,
       onQualityMouseup,
       onQualityTouchInteraction,
       setFormatQuality,
-      setAutoQuality
+      setAutoQuality,
+      loopVideo,
+      videoSpeed
     };
   }
 });
 </script>
 
 <style lang="scss">
-.quality-popup-enter-active,
-.quality-popup-leave-active {
-  .quality-popup {
+.player-settings-popup-enter-active,
+.player-settings-popup-leave-active {
+  .player-settings-popup {
     transition: transform 300ms $intro-easing;
   }
   transition: opacity 280ms $intro-easing;
 }
-.quality-popup-enter-to,
-.quality-popup-leave {
-  .quality-popup {
+.player-settings-popup-enter-to,
+.player-settings-popup-leave {
+  .player-settings-popup {
     transform: scale(1);
   }
   opacity: 1;
 }
-.quality-popup-enter,
-.quality-popup-leave-to {
-  .quality-popup {
+.player-settings-popup-enter,
+.player-settings-popup-leave-to {
+  .player-settings-popup {
     transform: scale(1.1);
   }
   opacity: 0;
 }
 $bottom-controls-height: $bottom-overlay-height - $video-seekbar-height;
 
-.quality {
+.video-player-settings {
   width: 40px;
   height: 40px;
   margin: 0;
@@ -155,7 +219,7 @@ $bottom-controls-height: $bottom-overlay-height - $video-seekbar-height;
   position: relative;
 }
 
-.quality-popup-overlay {
+.player-settings-popup-overlay {
   position: absolute;
   background-color: #00000063;
   top: 0;
@@ -165,21 +229,21 @@ $bottom-controls-height: $bottom-overlay-height - $video-seekbar-height;
   z-index: 141;
   display: grid;
 
-  .quality-popup {
+  .player-settings-popup {
     margin: auto;
     display: flex;
     flex-direction: column;
     width: unset;
-    overflow-y: auto;
-    max-height: 220px;
+    overflow: hidden auto;
+    max-height: 100vh;
     background-color: var(--bgcolor-alt);
     box-sizing: border-box;
     border-radius: 3px;
     box-shadow: $max-shadow;
     padding: 10px 0;
 
-    .quality-submenu {
-      width: 240px;
+    .player-settings-submenu {
+      width: 300px;
       border-radius: 0;
       margin: 0;
       padding: 0 0 0 0;
@@ -188,8 +252,40 @@ $bottom-controls-height: $bottom-overlay-height - $video-seekbar-height;
       position: relative;
       box-sizing: border-box;
 
-      .quality-title {
-        margin: 0 0 0 50px;
+      .switch {
+        font-size: 0.9rem;
+        margin: 10px 0 0 40px !important;
+        width: calc(100% - 50px);
+
+        .switch-container {
+          transform: scale(0.9);
+        }
+      }
+
+      .settings-number-menu {
+        display: flex;
+        flex-direction: row;
+        width: calc(100% - 50px);
+        justify-content: space-between;
+        margin: 10px 0 0 40px !important;
+        font-size: 0.9rem;
+
+        .settings-number-input {
+          all: unset;
+          border: 2px solid var(--bgcolor-alt-light);
+          width: 50px;
+          padding: 2px 5px;
+          border-radius: 5px;
+          transition: border 300ms $intro-easing;
+
+          &:focus {
+            border: 2px solid var(--theme-color);
+          }
+        }
+      }
+
+      .player-settings-title {
+        margin: 0 0 0 40px;
         box-sizing: border-box;
         color: var(--theme-color);
       }
@@ -227,8 +323,12 @@ $bottom-controls-height: $bottom-overlay-height - $video-seekbar-height;
         font-size: 0.9rem;
         box-sizing: border-box;
 
-        &:nth-of-type(1) {
+        &:first-of-type {
           margin-top: 6px;
+        }
+
+        &:last-of-type {
+          margin-bottom: 12px;
         }
 
         &:hover:not(.selected),

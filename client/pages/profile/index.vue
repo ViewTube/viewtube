@@ -215,7 +215,8 @@ export default defineComponent({
         .post(`${accessor.environment.apiUrl}user/profile/image`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data'
-          }
+          },
+          withCredentials: true
         })
         .then((response: any) => {
           if (response.data.path) {

@@ -23,16 +23,16 @@ export class StatisticsService {
   async getStatistics(): Promise<StatisticsDto> {
     let statistics: StatisticsDto = null;
     try {
-      const apiCalls = await this.ApiRequestModel.find().exec();
+      // const apiCalls = await this.ApiRequestModel.find().exec();
       const users = await this.UserModel.find().exec();
 
-      let endpoints = [];
+      // let endpoints = [];
       let registrations = [];
       try {
-        endpoints = await new Promise(resolve => {
-          const ep = this.getEndpointStatistics(apiCalls);
-          resolve(ep);
-        });
+        // endpoints = await new Promise(resolve => {
+        //   const ep = this.getEndpointStatistics(apiCalls);
+        //   resolve(ep);
+        // });
 
         registrations = await new Promise(resolve => {
           const r = this.getRegistrations(users);
@@ -44,7 +44,7 @@ export class StatisticsService {
 
       statistics = {
         registrations,
-        endpoints,
+        // endpoints,
         registrationCount: users.length
       };
     } catch (error) {

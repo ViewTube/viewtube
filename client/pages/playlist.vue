@@ -75,7 +75,7 @@ import VideoEntry from '@/components/list/VideoEntry.vue';
 import Spinner from '@/components/Spinner.vue';
 import { useAxios } from '@/plugins/axiosPlugin';
 import { useImgProxy } from '@/plugins/proxy';
-import { useAccessor } from '~/store';
+import { useAccessor } from '@/store';
 
 export default defineComponent({
   name: 'Playlist',

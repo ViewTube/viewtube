@@ -44,9 +44,6 @@ export default defineComponent({
       }
     };
 
-    if (accessor.instances.instances.length === 0) {
-      accessor.instances.fetchInstances();
-    }
     if (appRef.value) {
       appRef.value.classList.add(getThemeClass());
     }

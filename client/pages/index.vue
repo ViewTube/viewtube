@@ -3,12 +3,18 @@
     <Spinner v-if="$fetchState.pending" class="centered" />
     <GradientBackground :color="'theme'" />
     <SectionTitle
-      v-if="userAuthenticated && subscriptions && subscriptions.length > 0"
+      v-if="$accessor.settings.showHomeSubscriptions && userAuthenticated"
       :title="'Subscriptions'"
       :link="'subscriptions'"
     />
+    <Spinner v-if="subscriptionsLoading" />
     <div
-      v-if="userAuthenticated && subscriptions && subscriptions.length > 0"
+      v-if="
+        $accessor.settings.showHomeSubscriptions &&
+        userAuthenticated &&
+        subscriptions &&
+        subscriptions.length > 0
+      "
       class="home-videos-container small"
     >
       <VideoEntry
@@ -68,6 +74,7 @@ export default defineComponent({
     const displayedVideos = ref([]);
     const subscriptions = ref([]);
     const loading = ref(true);
+    const subscriptionsLoading = ref(false);
     const userAuthenticated = ref(false);
 
     userAuthenticated.value = accessor.user.isLoggedIn;
@@ -82,7 +89,11 @@ export default defineComponent({
         .popular()
         .then((response: { data: { videos: any[] } }) => {
           videos.value = response.data.videos;
-          displayedVideos.value = response.data.videos.slice(0, 8);
+          let videoCount = 12;
+          if (userAuthenticated.value && accessor.settings.showHomeSubscriptions) {
+            videoCount = 8;
+          }
+          displayedVideos.value = response.data.videos.slice(0, videoCount);
         })
         .catch((_: any) => {
           accessor.messages.createMessage({
@@ -93,13 +104,15 @@ export default defineComponent({
             clickAction: () => fetch()
           });
         });
-      if (userAuthenticated.value) {
+      if (userAuthenticated.value && accessor.settings.showHomeSubscriptions) {
+        subscriptionsLoading.value = true;
         await axios
           .get(`${accessor.environment.apiUrl}user/subscriptions/videos?limit=4`, {
             withCredentials: true
           })
           .then(response => {
             subscriptions.value = response.data.videos;
+            subscriptionsLoading.value = false;
           })
           .catch(_ => {});
       }
@@ -115,6 +128,7 @@ export default defineComponent({
       subscriptions,
       loading,
       userAuthenticated,
+      subscriptionsLoading,
       showMoreVideos
     };
   },
@@ -123,10 +137,14 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-.home {
-  .spinner {
-    z-index: 11;
+.spinner {
+  z-index: 11;
+
+  &:not(.centered) {
+    position: relative;
   }
+}
+.home {
   &.loading {
     height: 100vh;
   }

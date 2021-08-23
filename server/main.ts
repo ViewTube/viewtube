@@ -11,26 +11,28 @@ import { AppModule } from './app.module';
 import { NuxtFilter } from './nuxt/nuxt.filter';
 import NuxtServer from './nuxt/';
 import { HomepageService } from './core/homepage/homepage.service';
+import { checkEnvironmentVariables } from './prerequisiteHelper';
 
 async function bootstrap() {
+  checkEnvironmentVariables();
+
   const server = await NestFactory.create<NestExpressApplication>(AppModule);
   const configService = server.get(ConfigService);
 
   const dev = configService.get('NODE_ENV') !== 'production';
+
   // NUXT
-  const nuxt = await NuxtServer.getInstance().run(dev);
+  if (!configService.get('API_ONLY')) {
+    const nuxt = await NuxtServer.getInstance().run(dev);
+
+    server.useGlobalFilters(new NuxtFilter(nuxt));
+  }
 
   // NEST
-  server.useGlobalFilters(new NuxtFilter(nuxt));
-
   server.setGlobalPrefix('api');
 
   // CORS
   const port = configService.get('PORT');
-  const corsDomains = configService.get('VIEWTUBE_ALLOWED_DOMAINS').trim().split(',');
-  if (configService.get('NODE_ENV') !== 'production') {
-    corsDomains.push('http://localhost:8066');
-  }
 
   server.enableCors();
 

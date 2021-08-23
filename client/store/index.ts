@@ -1,16 +1,16 @@
 import { getAccessorType, actionTree } from 'typed-vuex';
 import { Context } from '@nuxt/types';
 import { wrapProperty } from '@nuxtjs/composition-api';
-import * as captcha from '~/store/captcha';
-import * as environment from '~/store/environment';
-import * as instances from '~/store/instances';
-import * as messages from '~/store/messages';
-import * as miniplayer from '~/store/miniplayer';
-import * as settings from '~/store/settings';
-import * as user from '~/store/user';
-import * as videoPlayer from '~/store/videoPlayer';
-import * as playerVolume from '~/store/playerVolume';
-import * as popup from '~/store/popup';
+import * as captcha from '@/store/captcha';
+import * as environment from '@/store/environment';
+import * as instances from '@/store/instances';
+import * as messages from '@/store/messages';
+import * as miniplayer from '@/store/miniplayer';
+import * as settings from '@/store/settings';
+import * as user from '@/store/user';
+import * as videoPlayer from '@/store/videoPlayer';
+import * as playerVolume from '@/store/playerVolume';
+import * as popup from '@/store/popup';
 
 export const state = () => ({});
 
@@ -27,12 +27,9 @@ export const actions = actionTree(
           nodeEnv: process.env.NODE_ENV,
           host: process.env.HOST || '192.168.178.21',
           port: process.env.PORT || 8066,
-          baseUrl: process.env.BASE_URL || 'http://192.168.178.21:8066'
+          baseUrl: process.env.BASE_URL
         });
         await nuxtContext.app.$accessor.user.getUser();
-        if (_vuexContext.getters['instances/instances'].length === 0) {
-          await nuxtContext.app.$accessor.instances.fetchInstances();
-        }
       }
       return undefined;
     }

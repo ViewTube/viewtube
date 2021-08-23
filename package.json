@@ -8,12 +8,14 @@
   "license": "AGPLv3",
   "private": true,
   "scripts": {
-    "start:local": "cross-env NODE_ENV=production VIEWTUBE_API_URL=http://localhost:8066/api/ && node -r module-alias/register dist/server/main.js",
     "start": "node -r module-alias/register dist/server/main.js",
-    "build:local": "cross-env NODE_ENV=production npm run build",
     "build": "rimraf dist && nuxt build && nest build server --path tsconfig.build.json --config nest-cli.json",
-    "serve": "cross-env NODE_ENV=development VIEWTUBE_API_URL=http://localhost:8066/api/ webpack --config webpack.config.js",
+    "serve": "cross-env NODE_ENV=development webpack --config webpack.config.js",
+    "serve:api": "cross-env NODE_ENV=development API_ONLY=true PORT=8067 nest start",
+    "serve:web": "cross-env NODE_ENV=development nuxt dev",
     "test": "jest",
+    "start:local": "cross-env NODE_ENV=production && node -r module-alias/register dist/server/main.js",
+    "build:local": "cross-env NODE_ENV=production npm run build",
     "db": "mongod --dbpath data",
     "redis": "redis-server redis.conf",
     "prettier": "prettier --write .",
@@ -35,6 +37,7 @@
     "not Edge 18"
   ],
   "dependencies": {
+    "@freetube/yt-comment-scraper": "^6.0.0",
     "@nestjs/bull": "0.4.1",
     "@nestjs/common": "8.0.6",
     "@nestjs/config": "1.0.1",
@@ -57,6 +60,7 @@
     "bull": "3.29.0",
     "cache-manager": "3.4.4",
     "cache-manager-redis-store": "2.0.0",
+    "chalk": "^4.1.2",
     "class-transformer": "0.4.0",
     "class-validator": "0.13.1",
     "consola": "2.15.3",
@@ -98,7 +102,6 @@
     "web-push": "3.4.5",
     "webpack": "4.46.0",
     "x2js": "3.4.1",
-    "yt-comment-scraper": "5.2.0",
     "ytdl-core": "4.9.1",
     "ytpl": "2.2.3",
     "ytsr": "3.5.3"

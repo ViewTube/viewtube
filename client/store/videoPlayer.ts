@@ -1,13 +1,19 @@
 import { getterTree, mutationTree } from 'typed-vuex';
 
 export const state = () => ({
-  resolutions: null as []
+  loop: false,
+  currentTime: 0,
+  videoLength: 0
 });
 
 export const getters = getterTree(state, {
-  resolutions: state => state.resolutions
+  loop: state => state.loop,
+  currentTime: state => state.currentTime,
+  videoLength: state => state.videoLength
 });
 
 export const mutations = mutationTree(state, {
-  setResolutions: (state, resolutions) => (state.resolutions = resolutions)
+  setLoop: (state, enabled: boolean) => (state.loop = enabled),
+  setCurrentTime: (state, time: number) => (state.currentTime = time),
+  setVideoLength: (state, length: number) => (state.videoLength = length)
 });

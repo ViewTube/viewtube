@@ -12,21 +12,23 @@
       ref="videoplayer"
       :video="video"
       :initialVideoTime="initialVideoTime"
-      :autoplay="isPlaylist"
+      :autoplay="isAutoplaying"
       class="video-player-p"
       @videoEnded="onVideoEnded"
     />
     <div v-if="video && !$fetchState.pending" class="video-meta">
-      <CollapsibleSection
-        class="recommended-videos mobile"
-        :label="'Recommended videos'"
-        :opened="recommendedOpen"
-      >
-        <RecommendedVideos
-          class="recommended-videos-list"
-          :recommended-videos="video.recommendedVideos"
+      <div class="recommended-videos mobile">
+        <NextUpVideo
+          v-if="nextUpVideo && $accessor.settings.autoplayNextVideo"
+          :video="nextUpVideo"
         />
-      </CollapsibleSection>
+        <CollapsibleSection :label="'Recommended videos'" :opened="recommendedOpen">
+          <RecommendedVideos
+            class="recommended-videos-list"
+            :recommended-videos="recommendedVideos"
+          />
+        </CollapsibleSection>
+      </div>
       <div class="video-infobox">
         <h1 class="video-infobox-title">
           {{ video.title }}
@@ -170,7 +172,6 @@ import InstanceIcon from 'vue-material-design-icons/ServerNetwork.vue';
 import Share from 'vue-material-design-icons/Share.vue';
 import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
 import {
-  computed,
   defineComponent,
   onMounted,
   Ref,
@@ -183,6 +184,7 @@ import {
   watch
 } from '@nuxtjs/composition-api';
 import { Result } from 'ytpl';
+import NextUpVideo from '@/components/watch/NextUpVideo.vue';
 import Spinner from '@/components/Spinner.vue';
 import SubscribeButton from '@/components/buttons/SubscribeButton.vue';
 import Comment from '@/components/Comment.vue';
@@ -192,6 +194,7 @@ import CollapsibleSection from '@/components/list/CollapsibleSection.vue';
 import PlaylistSection from '@/components/watch/PlaylistSection.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import ViewTubeApi from '@/plugins/services/viewTubeApi';
+import { createComputed } from '@/plugins/computed';
 import { useAccessor } from '@/store';
 import { useAxios } from '@/plugins/axiosPlugin';
 import { useImgProxy } from '@/plugins/proxy';
@@ -206,6 +209,7 @@ export default defineComponent({
     Share,
     LoadMoreIcon,
     InstanceIcon,
+    NextUpVideo,
     VideoPlayer: () =>
       import(
         /* webpackChunkName: "group-videoplayer" */ '@/components/videoplayer/VideoPlayer.vue'
@@ -245,8 +249,27 @@ export default defineComponent({
 
     const templateVideoData = route.value.params.videoData;
 
-    const isPlaylist = computed(() => {
+    const isPlaylist = createComputed(() => {
       return Boolean(route.value.query && route.value.query.list);
+    });
+
+    const isAutoplaying = createComputed(() => {
+      return isPlaylist.value || accessor.settings.autoplay || route.value.query.autoplay === 'true';
+    });
+
+    const recommendedVideos = createComputed(() => {
+      if (video.value) {
+        if (accessor.settings.autoplayNextVideo) {
+          return video.value.recommendedVideos.slice(1);
+        }
+        return video.value.recommendedVideos;
+      }
+      return [];
+    });
+
+    const nextUpVideo = createComputed(() => {
+      if (video.value) return video.value.recommendedVideos[0];
+      return null;
     });
 
     const openInstancePopup = () => {
@@ -256,10 +279,14 @@ export default defineComponent({
       if (accessor.user.isLoggedIn) {
         const apiUrl = accessor.environment.apiUrl;
         axios
-          .post(`${apiUrl}user/history/${video.value.videoId}`, {
-            progressSeconds: null,
-            lengthSeconds: video.value.lengthSeconds
-          })
+          .post(
+            `${apiUrl}user/history/${video.value.videoId}`,
+            {
+              progressSeconds: null,
+              lengthSeconds: video.value.lengthSeconds
+            },
+            { withCredentials: true }
+          )
           .catch(_ => {});
       }
     };
@@ -374,7 +401,7 @@ export default defineComponent({
                   progressSeconds: number;
                   lengthSeconds: number;
                   lastVisit: Date;
-                }>(`${apiUrl}user/history/${response.data.videoId}`)
+                }>(`${apiUrl}user/history/${response.data.videoId}`, { withCredentials: true })
                 .catch((_: any) => {});
 
               if (videoVisit && videoVisit.data && videoVisit.data.progressSeconds > 0) {
@@ -443,8 +470,18 @@ export default defineComponent({
     });
 
     const onVideoEnded = () => {
-      if (isPlaylist.value && playlistSectionRef.value) {
+      if (
+        isPlaylist.value &&
+        playlistSectionRef.value &&
+        !accessor.settings.alwaysLoopVideo &&
+        !accessor.videoPlayer.loop
+      ) {
         playlistSectionRef.value.playNextVideo();
+      } else if (accessor.settings.autoplayNextVideo && video.value.recommendedVideos) {
+        router.push({
+          path: route.value.fullPath,
+          query: { v: video.value.recommendedVideos[0].videoId, autoplay: 'true' }
+        });
       }
     };
 
@@ -499,6 +536,8 @@ export default defineComponent({
       commentsContinuationLink,
       commentsContinuationLoading,
       recommendedOpen,
+      recommendedVideos,
+      nextUpVideo,
       videoLoaded,
       initialVideoTime,
       shareOpen,
@@ -507,6 +546,7 @@ export default defineComponent({
       reloadComments,
       setTimestamp,
       isPlaylist,
+      isAutoplaying,
       getHDUrl,
       loadMoreComments,
       templateVideoData,

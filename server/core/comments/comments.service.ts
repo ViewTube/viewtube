@@ -1,5 +1,5 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
-import ytcm from 'yt-comment-scraper';
+import ytcm from '@freetube/yt-comment-scraper';
 import { mapComments } from './comments.mapper';
 import { CommentsResponseDto } from './dto/comments-response.dto';
 
@@ -15,7 +15,7 @@ export class CommentsService {
     const commentsPayload: any = {
       videoId,
       sortByNewest,
-      setCookie: true
+      mustSetCookie: true
     };
     if (continuation) {
       commentsPayload.continuation = continuation;
@@ -43,14 +43,16 @@ export class CommentsService {
 
   async getCommentReplies(videoId: string, replyToken: string): Promise<CommentsResponseDto> {
     try {
-      await this.getComments(videoId, false, null);
-      const commentsRawResult = await ytcm.getCommentReplies({ videoId, replyToken });
+      const commentsRawResult = await ytcm.getCommentReplies({
+        videoId,
+        replyToken,
+        mustSetCookie: true
+      });
       if (commentsRawResult) {
         const commentsResult = mapComments(commentsRawResult);
         return commentsResult;
       }
     } catch (e) {
-      console.log(e);
       throw new InternalServerErrorException(e);
     }
     throw new InternalServerErrorException('Error fetching replies');

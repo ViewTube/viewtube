@@ -191,6 +191,7 @@ const config: NuxtConfig = {
   modules: ['@nuxtjs/style-resources', 'portal-vue/nuxt', '@nuxtjs/pwa', '@nuxtjs/axios'],
 
   axios: {
+    withCredentials: true,
     credentials: true,
     progress: false
   },

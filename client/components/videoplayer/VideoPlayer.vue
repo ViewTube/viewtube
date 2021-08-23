@@ -39,6 +39,7 @@
         @timeupdate="onPlaybackProgress"
         @progress="onLoadingProgress"
         @loadedmetadata="onLoadedMetadata"
+        @ratechange="onSpeedChanged"
       />
     </div>
 
@@ -216,7 +217,7 @@
               left: `${videoElement.progressPercentage}%`
             }"
           />
-          <SeekbarPreview
+          <!-- <SeekbarPreview
             ref="seekbarHoverPreviewRef"
             :storyboards="video.storyboards"
             :time="seekbar.hoverTimeStamp"
@@ -224,7 +225,7 @@
             :style="{
               transform: `translate3d(${seekHoverAdjustedLeft(seekbarHoverPreviewRef)},0,0)`
             }"
-          />
+          /> -->
           <div
             ref="seekbarHoverTimestampRef"
             class="seekbar-hover-timestamp"
@@ -268,10 +269,13 @@
             </div>
           </div>
           <div class="right-bottom-controls">
-            <QualitySelection
+            <VideoPlayerSettings
+              ref="videoPlayerSettingsRef"
               :formatStreams="video.formatStreams"
               :selectedQuality="selectedQuality"
               @qualityselect="onChangeQuality"
+              @speedchange="onChangeSpeed"
+              @loopchange="onChangeLoop"
             />
             <FullscreenIcon
               v-if="!fullscreen"
@@ -306,7 +310,7 @@
       :style="{
         backgroundImage: `url(${imgProxyUrl + video.videoThumbnails[0].url})`
       }"
-      :class="{ hidden: !playerOverlay.thumbnailVisible }"
+      :class="{ hidden: !playerOverlay.thumbnailVisible, autoplay: $accessor.settings.autoplay }"
     />
   </div>
 </template>
@@ -325,8 +329,8 @@ import VideoPlayerAnimations from '@/components/videoplayer/VideoPlayerAnimation
 import SkipButton from '@/components/buttons/SkipButton.vue';
 import Spinner from '@/components/Spinner.vue';
 import VolumeControl from '@/components/videoplayer/VolumeControl.vue';
-import QualitySelection from '@/components/videoplayer/QualitySelection.vue';
-import SeekbarPreview from '@/components/videoplayer/SeekbarPreview.vue';
+import VideoPlayerSettings from '@/components/videoplayer/VideoPlayerSettings.vue';
+// import SeekbarPreview from '@/components/videoplayer/SeekbarPreview.vue';
 import SponsorBlockSegments from '@/components/videoplayer/SponsorblockSegments.vue';
 
 export default defineComponent({
@@ -341,8 +345,8 @@ export default defineComponent({
     CloseIcon,
     SkipButton,
     VolumeControl,
-    QualitySelection,
-    SeekbarPreview,
+    VideoPlayerSettings,
+    // SeekbarPreview,
     VideoPlayerAnimations,
     SponsorBlockSegments
   },
@@ -465,6 +469,10 @@ button.pictureInPictureToggleButton {
     user-select: none;
     opacity: 1;
     transition: opacity 600ms $intro-easing;
+
+    &.autoplay {
+      transition: opacity 200ms $intro-easing;
+    }
 
     &.hidden {
       opacity: 0;

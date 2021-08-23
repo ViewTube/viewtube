@@ -26,12 +26,18 @@ if (process.env.VIEWTUBE_REDIS_PASSWORD) {
 
 const moduleMetadata: ModuleMetadata = {
   imports: [
-    MongooseModule.forRoot(`mongodb://${process.env.VIEWTUBE_DATABASE_HOST}/viewtube`, {
-      user: process.env.VIEWTUBE_DATABASE_USER,
-      pass: process.env.VIEWTUBE_DATABASE_PASSWORD,
-      useNewUrlParser: true,
-      useFindAndModify: false,
-      useCreateIndex: true
+    MongooseModule.forRootAsync({
+      useFactory: () => {
+        const uri = `mongodb://${process.env.VIEWTUBE_DATABASE_HOST}:${process.env.VIEWTUBE_DATABASE_PORT}/viewtube`;
+        return {
+          uri,
+          user: process.env.VIEWTUBE_DATABASE_USER,
+          pass: process.env.VIEWTUBE_DATABASE_PASSWORD,
+          useNewUrlParser: true,
+          useFindAndModify: false,
+          useCreateIndex: true
+        };
+      }
     }),
     MongooseModule.forFeature([
       {

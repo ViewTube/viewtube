@@ -85,6 +85,7 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
   const seekbarHoverTimestampRef = ref(null);
   const chapterTitleRef = ref(null);
   const videoRef = ref(null);
+  const videoPlayerSettingsRef = ref(null);
 
   const touchActionTimeout = ref(null);
 
@@ -259,6 +260,9 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
         videoElement.progress = videoRef.value.currentTime;
         videoElement.duration = videoRef.value.duration;
 
+        accessor.videoPlayer.setCurrentTime(videoRef.value.currentTime);
+        accessor.videoPlayer.setVideoLength(videoRef.value.duration);
+
         if (accessor.settings.sponsorblockEnabled && sponsorBlock) {
           const currentSegment = sponsorBlock.getCurrentSegment(videoRef.value.currentTime);
           if (currentSegment) {
@@ -282,6 +286,9 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
               case 'selfpromo':
                 segmentOption = accessor.settings.sponsorblockSegmentSelfpromo;
                 break;
+              case 'preview':
+                segmentOption = accessor.settings.sponsorblockSegmentPreview;
+                break;
               case 'sponsor':
                 segmentOption = accessor.settings.sponsorblockSegmentSponsor;
                 break;
@@ -293,7 +300,6 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
             } else if (segmentOption && segmentOption === 'ask') {
               skipButton.visible = true;
               skipButton.skipCategory = currentSegment.category;
-
               skipButton.clickFn = () => {
                 setVideoTime(currentSegment.segment[1]);
 
@@ -702,6 +708,31 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
     selectedQuality.value = index;
   };
 
+  const onChangeSpeed = (speed: number) => {
+    if (videoRef.value) {
+      videoRef.value.playbackRate = speed;
+      videoRef.value.defaultPlaybackRate = speed;
+    }
+  };
+
+  const onChangeLoop = (enabled: boolean) => {
+    if (videoRef.value) {
+      videoRef.value.loop = enabled;
+    }
+  };
+
+  const onLoopChanged = (enabled: boolean) => {
+    if (videoPlayerSettingsRef.value) {
+      videoPlayerSettingsRef.value.loopVideo = enabled;
+    }
+  };
+
+  const onSpeedChanged = (event: any) => {
+    if (videoPlayerSettingsRef.value) {
+      videoPlayerSettingsRef.value.videoSpeed = event.target.playbackRate;
+    }
+  };
+
   const createMediaMetadata = () => {
     return mediaMetadataHelper.createMediaMetadata();
   };
@@ -711,10 +742,14 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
       if (accessor.user.isLoggedIn && !props.video.liveNow) {
         const apiUrl = accessor.environment.apiUrl;
         axios
-          .post(`${apiUrl}user/history/${props.video.videoId}`, {
-            progressSeconds: Math.floor(currentTime),
-            lengthSeconds: Math.floor(videoRef.value.duration)
-          })
+          .post(
+            `${apiUrl}user/history/${props.video.videoId}`,
+            {
+              progressSeconds: Math.floor(currentTime),
+              lengthSeconds: Math.floor(videoRef.value.duration)
+            },
+            { withCredentials: true }
+          )
           .catch((_: any) => {});
       }
     }
@@ -793,6 +828,8 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
     }
   };
 
+  const videoAttrObserver = ref(null);
+
   onMounted(async () => {
     document.addEventListener('keydown', onWindowKeyDown);
     if (videoRef.value) {
@@ -812,6 +849,18 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
       } else {
         videoRef.value.src = highestVideoQuality.value;
       }
+
+      videoAttrObserver.value = new MutationObserver(mutations => {
+        mutations.forEach(mutation => {
+          if (mutation.type === 'attributes') {
+            if (mutation.attributeName === 'loop') {
+              onLoopChanged(videoRef.value.loop);
+            }
+          }
+        });
+      });
+
+      videoAttrObserver.value.observe(videoRef.value, { attributes: true });
     }
   });
 
@@ -837,11 +886,12 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
     chapterTitleRef,
     seekbarHoverTimestampRef,
     videoRef,
+    videoPlayerSettingsRef,
     animations,
     chapters,
     sponsorBlockSegments,
-    getChapterForPercentage,
     skipButton,
+    getChapterForPercentage,
     onLoadedMetadata,
     onPlaybackProgress,
     onLoadingProgress,
@@ -851,6 +901,7 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
     onVideoEnded,
     onVideoCanplay,
     onVideoBuffering,
+    onSpeedChanged,
     onLoaded,
     onVolumeInteraction,
     onOpenInPlayer,
@@ -886,6 +937,8 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
     onSeekbarClick,
     onPlayerClick,
     onChangeQuality,
+    onChangeLoop,
+    onChangeSpeed,
     // loadDashVideo,
     setVideoTime
   };

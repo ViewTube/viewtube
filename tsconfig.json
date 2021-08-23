@@ -24,9 +24,9 @@
     "moduleResolution": "node",
     "baseUrl": "./",
     "paths": {
-      "~/*": ["client/*"],
       "@/*": ["client/*"],
-      "@shared/*": ["shared/*"]
+      "@shared/*": ["shared/*"],
+      "~/*": ["client/*"]
     },
     "types": ["@types/node", "@nuxt/types", "@nuxtjs/axios", "@types/jest"]
   },
