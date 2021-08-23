@@ -4,8 +4,7 @@ import { MongoMemoryServer } from 'mongodb-memory-server';
 import { CoreModule } from 'server/core/core.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { defineIt, getPayloadJson } from 'test/common/test.helper';
-import ytsr, { ContinueResult } from 'ytsr';
-import { PopularDto } from 'server/core/homepage/dto/popular.dto';
+import ytsr from 'ytsr';
 import { CommentsResponseDto } from 'server/core/comments/dto/comments-response.dto';
 import ytpl from 'ytpl';
 
