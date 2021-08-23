@@ -8,7 +8,8 @@ const config = {
     '^server/(.*)$': '<rootDir>/server/$1',
     '^test/(.*)$': '<rootDir>/test/$1'
   },
-  setupFilesAfterEnv: ['<rootDir>/test/jest.setup.redis-mock.js']
+  setupFilesAfterEnv: ['<rootDir>/test/jest.setup.redis-mock.js'],
+  testPathIgnorePatterns: ['<rootDir>/dist/*']
 };
 
 module.exports = config;

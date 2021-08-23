@@ -1,4 +1,4 @@
 export class SelectedFilterDto {
-  filterName: string;
-  filterValue: string;
+  filterName?: string;
+  filterValue?: string;
 }
