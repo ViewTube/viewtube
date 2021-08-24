@@ -469,7 +469,7 @@ export default defineComponent({
     overflow: hidden;
     display: flex;
     flex-direction: row;
-    align-items: left;
+    align-items: flex-start;
     z-index: 11;
 
     .video-info-text {

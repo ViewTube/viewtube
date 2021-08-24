@@ -1,5 +1,6 @@
 import { CacheInterceptor, Controller, Get, Query, UseInterceptors } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { ContinueResult, Result } from 'ytpl';
 import { PlaylistsService } from './playlists.service';
 
 @ApiTags('Core')
@@ -12,12 +13,14 @@ export class PlaylistsController {
   getPlaylist(
     @Query('playlistId') playlistId: string,
     @Query('pages') pages: number
-  ): Promise<any> {
+  ): Promise<Result> {
     return this.playlistsService.getPlaylist(playlistId, pages);
   }
 
   @Get('continuation')
-  getPlaylistContinuation(@Query('continuationData') continuationData: Array<any>): Promise<any> {
+  getPlaylistContinuation(
+    @Query('continuationData') continuationData: Array<any>
+  ): Promise<ContinueResult> {
     return this.playlistsService.continuePlaylist(continuationData);
   }
 }

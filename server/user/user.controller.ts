@@ -8,28 +8,16 @@ import {
   Body,
   BadRequestException,
   Post,
-  UseInterceptors,
-  UploadedFile,
-  Param,
-  Response
+  Param
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'server/auth/guards/jwt.guard';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { UserprofileDto } from 'server/user/dto/userprofile.dto';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import sanitizeFilename from 'sanitize-filename';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { FileInterceptor } from '@nestjs/platform-express';
+import { FastifyReply } from 'fastify';
+import { ViewTubeRequest } from 'server/common/viewtube-request';
 import { UserprofileDetailsDto } from './dto/userprofile-details.dto';
 import { UserService } from './user.service';
-
-const imageFileFilter = (_, file: any, callback: Function) => {
-  if (!file.originalname.match(/\.(jpg|jpeg|png|gif|webp)$/)) {
-    return callback(new Error('Only image files are allowed!'), false);
-  }
-  callback(null, true);
-};
 
 @ApiTags('User')
 @ApiBearerAuth()
@@ -39,51 +27,51 @@ export class UserController {
   constructor(private userService: UserService) {}
 
   @Get('profile')
-  getProfile(@Req() req: any): Promise<UserprofileDto> {
-    return this.userService.getProfile(req.user.username);
+  getProfile(@Req() request: ViewTubeRequest): Promise<UserprofileDto> {
+    return this.userService.getProfile(request.user.username);
   }
 
   @Get('profile/details')
-  getProfileDetails(@Req() req: any): Promise<UserprofileDetailsDto> {
-    return this.userService.getProfileDetails(req.user.username);
+  getProfileDetails(@Req() request: ViewTubeRequest): Promise<UserprofileDetailsDto> {
+    return this.userService.getProfileDetails(request.user.username);
   }
 
   @Get('export')
-  async getExport(@Req() req: any, @Res() res: any): Promise<void> {
-    const dataExport = await this.userService.createDataExport(req.user.username);
+  async getExport(@Req() request: ViewTubeRequest, @Res() reply: FastifyReply): Promise<void> {
+    const dataExport = await this.userService.createDataExport(request.user.username);
 
     const date = new Date();
 
     const dateString = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}_${date.getHours()}-${date.getMinutes()}-${date.getSeconds()}`;
 
-    const fileName = `viewtube_export_${sanitizeFilename(req.user.username)}_${dateString}.zip`;
-    res.status(200).attachment(fileName).send(dataExport);
+    const fileName = `viewtube_export_${sanitizeFilename(request.user.username)}_${dateString}.zip`;
+    reply
+      .code(200)
+      .header('Content-Disposition', `attachment; filename="${fileName}"`)
+      .send(dataExport);
   }
 
   @Get('profile/image/:username')
-  async getProfileImage(@Response() res: any, @Param('username') username: string) {
-    await this.userService.getProfileImage(username, res);
+  async getProfileImage(@Res() reply: FastifyReply, @Param('username') username: string) {
+    await this.userService.getProfileImage(username, reply);
   }
 
   @Post('profile/image')
-  @UseInterceptors(
-    FileInterceptor('image', { fileFilter: imageFileFilter, limits: { fileSize: 4000000 } })
-  )
-  uploadProfileImage(@Req() req: any, @UploadedFile() file: any) {
-    return this.userService.saveProfileImage(req.user.username, file);
+  uploadProfileImage(@Req() request: ViewTubeRequest) {
+    return this.userService.saveProfileImage(request);
   }
 
   @Delete('profile/image')
-  async deleteProfileImage(@Req() req: any) {
-    await this.userService.deleteProfileImage(req.user.username);
+  async deleteProfileImage(@Req() request: ViewTubeRequest) {
+    await this.userService.deleteProfileImage(request.user.username);
   }
 
   @Delete()
   deleteUser(
-    @Req() req: any,
+    @Req() request: ViewTubeRequest,
     @Body('username') username: string
   ): Promise<{ subscriptions: boolean; history: boolean; settings: boolean; user: boolean }> {
-    const authenticatedUser = req.user.username;
+    const authenticatedUser = request.user.username;
     if (authenticatedUser === username) {
       return this.userService.deleteUserAndData(authenticatedUser);
     } else {

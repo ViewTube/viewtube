@@ -6,6 +6,7 @@ import Consola from 'consola';
 import { Model } from 'mongoose';
 import fetch from 'node-fetch';
 import { General } from 'server/common/general.schema';
+import { FastifyReply } from 'fastify';
 import { ChannelMapper } from './channel.mapper';
 import { ChannelDto } from './dto/channel.dto';
 
@@ -152,24 +153,28 @@ export class ChannelsService {
       });
     if (rawSite) {
       const apiKey = rawSite.match(/"INNERTUBE_API_KEY":"(.*?)",/im)[1];
-      await this.GeneralModel
-        .findOneAndUpdate({ version: 1 }, { innertubeApiKey: apiKey }, { upsert: true })
-        .exec();
+      await this.GeneralModel.findOneAndUpdate(
+        { version: 1 },
+        { innertubeApiKey: apiKey },
+        { upsert: true }
+      ).exec();
       return apiKey;
     }
     return null;
   }
 
-  getTinyThumbnail(res: any, id: string) {
+  getTinyThumbnail(reply: FastifyReply, id: string) {
     // eslint-disable-next-line dot-notation
     const imgPathWebp = path.join(global['__basedir'], `channels/${id}.webp`);
     // eslint-disable-next-line dot-notation
     const imgPathJpg = path.join(global['__basedir'], `channels/${id}.jpg`);
 
     if (fs.existsSync(imgPathWebp)) {
-      res.sendFile(imgPathWebp);
+      const fileStream = fs.createReadStream(imgPathWebp);
+      reply.type('image/webp').send(fileStream);
     } else if (fs.existsSync(imgPathJpg)) {
-      res.sendFile(imgPathJpg);
+      const fileStream = fs.createReadStream(imgPathJpg);
+      reply.type('image/jpeg').send(fileStream);
     } else {
       throw new NotFoundException();
     }

@@ -16,6 +16,7 @@ import { JwtAuthGuard } from 'server/auth/guards/jwt.guard';
 import { VideoBasicInfoDto } from 'server/core/videos/dto/video-basic-info.dto';
 import { ChannelBasicInfoDto } from 'server/core/channels/dto/channel-basic-info.dto';
 import { Common } from 'server/core/common';
+import { ViewTubeRequest } from 'server/common/viewtube-request';
 import { SubscriptionStatusDto } from './dto/subscription-status.dto';
 import { SubscriptionsService } from './subscriptions.service';
 
@@ -42,7 +43,7 @@ export class SubscriptionsController {
     required: false
   })
   getSubscribedChannels(
-    @Req() req: any,
+    @Req() request: ViewTubeRequest,
     @Query('limit') limit = 30,
     @Query('start') start = 0,
     @Query('sort') sort: string = '',
@@ -50,7 +51,7 @@ export class SubscriptionsController {
   ): Promise<{ channels: Array<ChannelBasicInfoDto>; channelCount: number } | void> {
     const sortObj = Common.convertSortParams<ChannelBasicInfoDto>(sort);
     return this.subscriptionsService.getSubscribedChannels(
-      req.user.username,
+      request.user.username,
       limit,
       start,
       sortObj,
@@ -62,46 +63,46 @@ export class SubscriptionsController {
   @ApiQuery({ name: 'limit', required: false })
   @ApiQuery({ name: 'start', required: false })
   getSubscriptionVideos(
-    @Req() req: any,
+    @Req() request: ViewTubeRequest,
     @Query('limit') limit = 30,
     @Query('start') start = 0
   ): Promise<{ videoCount: number; videos: Array<VideoBasicInfoDto> }> {
-    return this.subscriptionsService.getSubscriptionFeed(req.user.username, limit, start);
+    return this.subscriptionsService.getSubscriptionFeed(request.user.username, limit, start);
   }
 
   @Get(':channelId')
   getSubscription(
-    @Req() req: any,
+    @Req() request: ViewTubeRequest,
     @Param('channelId') channelId: string
   ): Promise<SubscriptionStatusDto> {
-    return this.subscriptionsService.getSubscription(req.user.username, channelId);
+    return this.subscriptionsService.getSubscription(request.user.username, channelId);
   }
 
   @Put(':channelId')
   createSubscription(
-    @Req() req: any,
+    @Req() request: ViewTubeRequest,
     @Param('channelId') channelId: string
   ): Promise<SubscriptionStatusDto> {
-    return this.subscriptionsService.subscribeToChannel(req.user.username, channelId);
+    return this.subscriptionsService.subscribeToChannel(request.user.username, channelId);
   }
 
   @Post('multiple')
   createMultipleSubscriptions(
-    @Req() req: any,
+    @Req() request: ViewTubeRequest,
     @Body('channels') channels: Array<string>
   ): Promise<{
     successful: Array<SubscriptionStatusDto>;
     failed: Array<SubscriptionStatusDto>;
     existing: Array<SubscriptionStatusDto>;
   }> {
-    return this.subscriptionsService.subscribeToMultipleChannels(req.user.username, channels);
+    return this.subscriptionsService.subscribeToMultipleChannels(request.user.username, channels);
   }
 
   @Delete(':channelId')
   deleteSubscription(
-    @Req() req: any,
+    @Req() request: ViewTubeRequest,
     @Param('channelId') channelId: string
   ): Promise<SubscriptionStatusDto> {
-    return this.subscriptionsService.unsubscribeFromChannel(req.user.username, channelId);
+    return this.subscriptionsService.unsubscribeFromChannel(request.user.username, channelId);
   }
 }

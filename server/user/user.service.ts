@@ -1,6 +1,12 @@
 import fs from 'fs';
 import path from 'path';
-import { Injectable, HttpException, BadRequestException, NotFoundException, InternalServerErrorException } from '@nestjs/common';
+import {
+  Injectable,
+  HttpException,
+  BadRequestException,
+  NotFoundException,
+  InternalServerErrorException
+} from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import bcrypt from 'bcryptjs';
@@ -8,9 +14,10 @@ import { UserprofileDto } from 'server/user/dto/userprofile.dto';
 import humanizeDuration from 'humanize-duration';
 import { Common } from 'server/core/common';
 import { ChannelBasicInfoDto } from 'server/core/channels/dto/channel-basic-info.dto';
-import { Response } from 'express';
 import AdmZip from 'adm-zip';
 import Consola from 'consola';
+import { FastifyReply } from 'fastify';
+import { ViewTubeRequest } from 'server/common/viewtube-request';
 import { User } from './schemas/user.schema';
 import { UserDto } from './user.dto';
 import { SettingsService } from './settings/settings.service';
@@ -64,58 +71,81 @@ export class UserService {
     }
   }
 
-  async saveProfileImage(username: string, file: any) {
-    if (file && file.buffer) {
-      let extension = 'jpg';
-      const extMatch = file.originalname.match(/\.(jpg|jpeg|png|gif|webp)$/);
-      if (extMatch && extMatch[1]) {
-        extension = extMatch[1];
+  async saveProfileImage(request: ViewTubeRequest) {
+    const username = request.user.username;
+    if (username) {
+      let fileTooLarge = false;
+      const file = await request.file({
+        limits: {
+          fieldNameSize: 100,
+          fileSize: 4000000,
+          files: 1
+        }
+      });
+
+      file.file.on('limit', () => {
+        fileTooLarge = true;
+      });
+      const mimetypeMath = file.mimetype.match(/image\/(jpg|jpeg|png|gif|webp)/);
+      if (mimetypeMath !== null) {
+        const fileBuffer = await file.toBuffer();
+        let extension = 'jpg';
+        const extMatch = file.filename.match(/\.(jpg|jpeg|png|gif|webp)$/);
+        if (extMatch && extMatch[1]) {
+          extension = extMatch[1];
+        }
+        let imgPath = `profiles/${username}.${extension}`;
+
+        if (process.env.NODE_ENV === 'production') {
+          // eslint-disable-next-line dot-notation
+          imgPath = path.join(global['__basedir'], imgPath);
+        }
+
+        if (fileTooLarge) {
+          throw new BadRequestException('The file is too large');
+        }
+
+        try {
+          fs.writeFileSync(imgPath, fileBuffer);
+        } catch (error) {
+          Consola.log(error);
+        }
+
+        const publicPath = `/api/user/profile/image/${username}`;
+
+        await this.UserModel.findOneAndUpdate({ username }, { profileImage: imgPath }).exec();
+
+        return {
+          path: publicPath
+        };
       }
-      let imgPath = `profiles/${username}.${extension}`;
-
-      if (process.env.NODE_ENV === 'production') {
-        // eslint-disable-next-line dot-notation
-        imgPath = path.join(global['__basedir'], imgPath);
-      }
-
-      try {
-        fs.writeFileSync(imgPath, file.buffer);
-      } catch (error) {
-        Consola.log(error);
-      }
-
-      const publicPath = `/api/user/profile/image/${username}`;
-
-      await this.UserModel.findOneAndUpdate({ username }, { profileImage: imgPath }).exec();
-
-      return {
-        path: publicPath
-      };
     }
     throw new BadRequestException('Uploaded file is not valid');
   }
 
-  async getProfileImage(username: string, response: Response) {
+  async getProfileImage(username: string, reply: FastifyReply) {
     if (username) {
       const user = await this.UserModel.findOne({ username }).exec();
       if (user && user.profileImage && fs.existsSync(user.profileImage)) {
         try {
+          let filePath = user.profileImage;
           if (process.env.NODE_ENV !== 'production') {
-            response.sendFile(user.profileImage, { root: '.' });
-          } else {
-            // eslint-disable-next-line dot-notation
-            response.sendFile(user.profileImage);
+            filePath = path.resolve('.', user.profileImage);
           }
+          const fileStream = fs.createReadStream(filePath);
+          reply.type('image/webp').send(fileStream);
         } catch (error) {
           throw new InternalServerErrorException('Error getting photo');
         }
       } else {
         const img = Buffer.from(profileImage, 'base64');
-        response.writeHead(200, {
-          'Content-Type': 'image/png',
-          'Content-Length': img.length
-        });
-        response.end(img);
+        reply
+          .code(200)
+          .headers({
+            'Content-Type': 'image/png',
+            'Content-Length': img.length
+          })
+          .send(img);
       }
     } else {
       throw new NotFoundException({
@@ -200,7 +230,7 @@ export class UserService {
     }
   }
 
-  async createDataExport(username: string): Promise<any> {
+  async createDataExport(username: string): Promise<Buffer> {
     if (username) {
       const userData = { username, subscriptions: {}, history: {}, settings: {} };
 
@@ -227,12 +257,12 @@ export class UserService {
       if (userSettings) {
         userData.settings = userSettings;
       }
-      const exportUserData = JSON.stringify(userData);
+      const exportUserData = JSON.stringify(userData, null, 2);
 
       const user = await this.UserModel.findOne({ username });
 
       const zip = new AdmZip();
-      zip.addFile('user.json', Buffer.alloc(exportUserData.length, exportUserData));
+      zip.addFile('user.json', Buffer.from(exportUserData));
 
       if (user.profileImage && fs.existsSync(user.profileImage)) {
         if (process.env.NODE_ENV !== 'production') {

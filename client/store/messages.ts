@@ -9,7 +9,6 @@ export const state = () => ({
       message: string;
       clickAction: string;
       dismissed: boolean;
-      dismiss: Function;
       dismissDelay: number;
     }
   ]
@@ -44,7 +43,6 @@ export const actions = actionTree(
         message,
         clickAction,
         dismissed: false,
-        dismiss: () => commit('dismissMessage', id),
         dismissDelay
       });
     }

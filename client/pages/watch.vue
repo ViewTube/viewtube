@@ -254,7 +254,9 @@ export default defineComponent({
     });
 
     const isAutoplaying = createComputed(() => {
-      return isPlaylist.value || accessor.settings.autoplay || route.value.query.autoplay === 'true';
+      return (
+        isPlaylist.value || accessor.settings.autoplay || route.value.query.autoplay === 'true'
+      );
     });
 
     const recommendedVideos = createComputed(() => {
@@ -415,9 +417,8 @@ export default defineComponent({
             accessor.messages.createMessage({
               type: 'error',
               title: 'Error loading video',
-              message: 'Loading video information failed. Click to try again.',
-              dismissDelay: 0,
-              clickAction: () => fetch()
+              message: 'Loading video information failed. Refresh the page to try again.',
+              dismissDelay: 0
             });
           }
         })

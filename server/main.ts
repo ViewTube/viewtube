@@ -1,11 +1,14 @@
 import fs from 'fs';
 import { NestFactory } from '@nestjs/core';
-import { NestExpressApplication } from '@nestjs/platform-express';
+import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
 import { ConfigService } from '@nestjs/config';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import cookieParser from 'cookie-parser';
 import webPush from 'web-push';
 import Consola from 'consola';
+import FastifyCookie from 'fastify-cookie';
+import FastifyMultipart from 'fastify-multipart';
+import FastifyHelmet from 'fastify-helmet';
 import packageJson from '../package.json';
 import { AppModule } from './app.module';
 import { NuxtFilter } from './nuxt/nuxt.filter';
@@ -16,7 +19,18 @@ import { checkEnvironmentVariables } from './prerequisiteHelper';
 async function bootstrap() {
   checkEnvironmentVariables();
 
-  const server = await NestFactory.create<NestExpressApplication>(AppModule);
+  const server = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter());
+  await server.register(FastifyHelmet, {
+    contentSecurityPolicy: {
+      useDefaults: true,
+      directives: {
+        scriptSrc: [`'self'`, `https: 'unsafe-eval'`, `https: 'unsafe-inline'`],
+        scriptSrcAttr: null
+      }
+    }
+  });
+  await server.register(FastifyCookie);
+  await server.register(FastifyMultipart);
   const configService = server.get(ConfigService);
 
   const dev = configService.get('NODE_ENV') !== 'production';
@@ -30,11 +44,15 @@ async function bootstrap() {
 
   // NEST
   server.setGlobalPrefix('api');
-
-  // CORS
   const port = configService.get('PORT');
 
-  server.enableCors();
+  // CORS
+  const allowedDomain = configService.get('VIEWTUBE_ALLOWED_DOMAIN');
+  if (!allowedDomain) {
+    server.enableCors();
+  } else {
+    server.enableCors({ origin: new RegExp(allowedDomain) });
+  }
 
   // PUSH NOTIFICATIONS
   webPush.setVapidDetails(

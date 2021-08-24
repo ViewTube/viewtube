@@ -21,13 +21,10 @@ export const actions = actionTree(
   {
     async nuxtServerInit(_vuexContext, nuxtContext: Context): Promise<void> {
       if (process.server) {
-        _vuexContext.commit('environment/setEnv', {
-          apiUrl: process.env.VIEWTUBE_API_URL,
+        nuxtContext.app.$accessor.environment.setEnv({
+          apiUrl: process.env.VIEWTUBE_API_URL || 'http://localhost:8066/api/',
           vapidKey: process.env.VIEWTUBE_PUBLIC_VAPID,
-          nodeEnv: process.env.NODE_ENV,
-          host: process.env.HOST || '192.168.178.21',
-          port: process.env.PORT || 8066,
-          baseUrl: process.env.BASE_URL
+          nodeEnv: process.env.NODE_ENV
         });
         await nuxtContext.app.$accessor.user.getUser();
       }

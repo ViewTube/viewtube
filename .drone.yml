@@ -4,7 +4,7 @@ name: default
 
 steps:
   - name: ✅ Test
-    image: node
+    image: mauriceo/nodejs-mongodb
     commands:
       - yarn install
       - yarn build

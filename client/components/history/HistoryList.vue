@@ -3,7 +3,7 @@
     <div v-for="(video, index) in history" :key="index" class="history-entry">
       <nuxt-link :to="`/watch?v=${video.videoId}`" class="history-entry-thumbnail">
         <img
-          :src="video.videoDetails.videoThumbnails[3].url"
+          :src="imgProxyUrl + video.videoDetails.videoThumbnails[3].url"
           :alt="video.videoDetails.title"
           class="history-entry-thumbnail-img"
         />
@@ -48,6 +48,7 @@ import DeleteIcon from 'vue-material-design-icons/Delete.vue';
 import { useAxios } from '@/plugins/axiosPlugin';
 import { useAccessor } from '@/store';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
+import { useImgProxy } from '@/plugins/proxy';
 
 export default defineComponent({
   components: {
@@ -61,6 +62,7 @@ export default defineComponent({
   setup(_, { emit }) {
     const axios = useAxios();
     const accessor = useAccessor();
+    const imgProxy = useImgProxy();
 
     const humanizeDateString = (dateString: string): string => {
       const now = new Date();
@@ -70,13 +72,13 @@ export default defineComponent({
     };
     const deleteEntry = async (videoId: string) => {
       await axios
-        .delete(`${accessor.environment.apiUrl}user/history/${videoId}`)
+        .delete(`${accessor.environment.apiUrl}user/history/${videoId}`, { withCredentials: true })
         .then(() => {
           emit('refresh');
         })
         .catch(() => {
           accessor.messages.createMessage({
-            type: 'info',
+            type: 'error',
             title: 'Error deleting history entry',
             message: 'Try logging out and in again'
           });
@@ -85,7 +87,8 @@ export default defineComponent({
 
     return {
       humanizeDateString,
-      deleteEntry
+      deleteEntry,
+      imgProxyUrl: imgProxy.url
     };
   }
 });

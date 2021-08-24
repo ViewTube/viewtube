@@ -9,9 +9,9 @@ export class VideoplaybackController {
 
   // @Get(':id/default.mp4')
   // getVideoplayback(
-  //   @Res() response: Response,
+  //   @Res() reply: FastifyReply,
   //   @Param('id') id: string
   // ) {
-  //   this.videoplaybackService.getVideoStream(id, response);
+  //   this.videoplaybackService.getVideoStream(id, reply);
   // }
 }

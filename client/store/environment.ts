@@ -1,13 +1,10 @@
 import { getterTree, mutationTree } from 'typed-vuex';
 
 export const state = () => ({
-  env: { apiUrl: '', vapidKey: '', nodeEnv: '', host: '', port: '', baseUrl: '' } as {
+  env: { apiUrl: '', vapidKey: '', nodeEnv: '', host: '', port: '' } as {
     apiUrl: string;
     vapidKey: string;
     nodeEnv: string;
-    host: string;
-    port: string | number;
-    baseUrl: string;
   }
 });
 
@@ -36,9 +33,6 @@ export const mutations = mutationTree(state, {
       apiUrl: string;
       vapidKey: string;
       nodeEnv: string;
-      host: string;
-      port: string | number;
-      baseUrl: string;
     }
   ) {
     state.env = env;

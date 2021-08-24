@@ -18,7 +18,8 @@ const voluntaryEnvironmentVariables = [
   { var: 'VIEWTUBE_REDIS_HOST', default: 'localhost' },
   { var: 'VIEWTUBE_REDIS_PORT', default: 6379 },
   { var: 'VIEWTUBE_REDIS_PASSWORD', default: null },
-  { var: 'VIEWTUBE_JWT_EXPIRATION_TIME', default: 43200 }
+  { var: 'VIEWTUBE_JWT_EXPIRATION_TIME', default: 43200 },
+  { var: 'VIEWTUBE_ALLOWED_DOMAIN', default: /^viewtube\.io|\.viewtube\.io$/ }
 ];
 
 // These are not required for ViewTube to run

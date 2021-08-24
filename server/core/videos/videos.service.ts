@@ -40,9 +40,8 @@ export class VideosService {
       requestOptions: {}
     };
     if (this.configService.get('VIEWTUBE_YOUTUBE_COOKIE')) {
-      (ytdlOptions.requestOptions as any).cookie = this.configService.get(
-        'VIEWTUBE_YOUTUBE_COOKIE'
-      );
+      (ytdlOptions.requestOptions as any).cookie =
+        this.configService.get('VIEWTUBE_YOUTUBE_COOKIE');
       if (this.configService.get('VIEWTUBE_YOUTUBE_IDENTIFIER')) {
         ytdlOptions.requestOptions['x-youtube-identity-token'] = this.configService.get(
           'VIEWTUBE_YOUTUBE_IDENTIFIER'
@@ -114,30 +113,30 @@ export class VideosService {
       .catch(_ => {});
 
     if (arrBuffer) {
-      const imgPath = path.join((global as any).__basedir, `channels/${channelId}.webp`);
-      const appendFile = promisify(fs.appendFile);
+      try {
+        const imgPath = path.join((global as any).__basedir, `channels/${channelId}.webp`);
+        const appendFile = promisify(fs.appendFile);
 
-      const imgBuffer = Buffer.from(arrBuffer);
+        const imgBuffer = Buffer.from(arrBuffer);
 
-      let success = true;
+        let success = true;
 
-      const webpImage = await sharp(imgBuffer)
-        .resize(36)
-        .webp()
-        .toBuffer()
-        .catch(() => {
-          success = false;
-        });
+        const webpImage = await sharp(imgBuffer)
+          .resize(36)
+          .webp()
+          .toBuffer()
+          .catch(() => {
+            success = false;
+          });
 
-      if (success) {
-        try {
+        if (success) {
           await appendFile(imgPath, webpImage);
-        } catch (err) {
-          return null;
+          return `channels/${channelId}/thumbnail/tiny.webp`;
         }
-        return `channels/${channelId}/thumbnail/tiny.webp`;
+        return null;
+      } catch {
+        return null;
       }
-      return null;
     }
   }
 }
