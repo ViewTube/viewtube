@@ -6284,7 +6284,7 @@ fastify@3.20.1:
     semver "^7.3.2"
     tiny-lru "^7.0.0"
 
-fastify@^3.20.2:
+fastify@3.20.2:
   version "3.20.2"
   resolved "https://registry.yarnpkg.com/fastify/-/fastify-3.20.2.tgz#99a5a2b4b4a8c468dfae245219af053b12c5fe55"
   integrity sha512-POvayPpbyvkE/wHQquQsNwIgYKVRz7HhCXYJyzUuWEN3kch7/QeI+/azQCjS6+XHiHZPWQwrBKjJB9FBdJHrgA==
@@ -9545,10 +9545,10 @@ neo-async@^2.5.0, neo-async@^2.6.1, neo-async@^2.6.2:
   resolved "https://registry.yarnpkg.com/neo-async/-/neo-async-2.6.2.tgz#b4aafb93e3aeb2d8174ca53cf163ab7d7308305f"
   integrity sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==
 
-nestjs-throttler-storage-redis@^0.1.13:
-  version "0.1.13"
-  resolved "https://registry.yarnpkg.com/nestjs-throttler-storage-redis/-/nestjs-throttler-storage-redis-0.1.13.tgz#d0160f4039500e1072c0b7776312b459a36088cb"
-  integrity sha512-4N6sqDDrnuKyvyI27P8btBojVBwhYJOeUeejxtZg+bM4bqRE8APrhSSTWaarMiuGBNrsjMeCBx1EFXQPWRFrPw==
+nestjs-throttler-storage-redis@0.1.15:
+  version "0.1.15"
+  resolved "https://registry.yarnpkg.com/nestjs-throttler-storage-redis/-/nestjs-throttler-storage-redis-0.1.15.tgz#c2fe6f914306f7b528b62355d7ff4e450c5085cd"
+  integrity sha512-xE1X9+fv6NwTxfyJVD3I9krHk4UPxjb5Tr+5lVXTOS6BfkCKF5apwMdifuusvqpTMfB30XCa5WAz7R7RtM+YYg==
 
 new-find-package-json@^1.1.0:
   version "1.1.0"
