@@ -20,8 +20,15 @@ async function bootstrap() {
   checkEnvironmentVariables();
 
   const server = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter());
-
-  await server.register(FastifyHelmet);
+  await server.register(FastifyHelmet, {
+    contentSecurityPolicy: {
+      useDefaults: true,
+      directives: {
+        scriptSrc: [`'self'`, `https: 'unsafe-eval'`, `https: 'unsafe-inline'`],
+        scriptSrcAttr: null
+      }
+    }
+  });
   await server.register(FastifyCookie);
   await server.register(FastifyMultipart);
   const configService = server.get(ConfigService);

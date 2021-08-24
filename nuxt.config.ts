@@ -14,6 +14,8 @@ const config: NuxtConfig = {
     port: 8066
   },
 
+  modern: true,
+
   head: {
     meta: [
       {

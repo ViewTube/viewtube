@@ -135,7 +135,7 @@ export default defineComponent({
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    align-items: left;
+    align-items: flex-start;
     z-index: 11;
 
     .mix-entry-title {
