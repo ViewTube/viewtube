@@ -95,9 +95,15 @@ async function bootstrap() {
 
   server.use(cookieParser());
 
+  server.enableShutdownHooks();
+
   // START
-  await server.listen(port, () => {
-    Consola.ready(`Server listening on http://localhost:${port}`);
+  await server.listen(port, '0.0.0.0', (err, address) => {
+    if (err) {
+      Consola.error(err);
+      process.exit(1);
+    }
+    Consola.ready(`Server listening on ${address}`);
   });
 
   const homepageService = server.get(HomepageService);
