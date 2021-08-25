@@ -2054,10 +2054,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/bull@3.15.3":
-  version "3.15.3"
-  resolved "https://registry.yarnpkg.com/@types/bull/-/bull-3.15.3.tgz#c55a7644465547bd77d70a1c80f10aadf58d5dd5"
-  integrity sha512-JL+c8TmfaZVZn5H+tzgt867eHfm408HV1/wS5+sjQnJ3ULxpw5/GwLl6sX6Gmcrte4VTFm+Jz8U0Wy4QVgC4dg==
+"@types/bull@3.15.4":
+  version "3.15.4"
+  resolved "https://registry.yarnpkg.com/@types/bull/-/bull-3.15.4.tgz#71390e83b6aa41a9106535240ad226c5239615f1"
+  integrity sha512-vsw4kqsI/SLocfcgTUY2b8POTBUw9AwmTaehvSVnEAbcgJHsPheFMP8WKDFDk2I+aNTLRQX5iP21dPwz3CGLVA==
   dependencies:
     "@types/ioredis" "*"
 
