@@ -1340,7 +1340,7 @@
   resolved "https://registry.yarnpkg.com/@nestjs/passport/-/passport-8.0.1.tgz#f1ed39a19489f794d1fe3fef592b4523bc48da68"
   integrity sha512-vn/ZJLXQKvSf9D0BvEoNFJLfzl9AVqfGtDyQMfWDLbaNpoEB2FyeaHGxdiX6H71oLSrQV78c/yuhfantzwdjdg==
 
-"@nestjs/platform-fastify@^8.0.6":
+"@nestjs/platform-fastify@8.0.6":
   version "8.0.6"
   resolved "https://registry.yarnpkg.com/@nestjs/platform-fastify/-/platform-fastify-8.0.6.tgz#0dc5eecc61ffbacdecca6c3c2177f199aeb9c9ec"
   integrity sha512-5zBS09GU2DyDpJEKviPqkIaqPu0QNHL5c6V7HdfzGgEowRjIUeaiFPkzhua7cvYVHBSlKPgUCHORMU99snElZg==
