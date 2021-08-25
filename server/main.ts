@@ -24,6 +24,7 @@ async function bootstrap() {
     contentSecurityPolicy: {
       useDefaults: true,
       directives: {
+        defaultSrc: [`'self'`, `https://sponsor.ajay.app`, `https://*.googlevideo.com`],
         scriptSrc: [`'self'`, `https: 'unsafe-eval'`, `https: 'unsafe-inline'`],
         scriptSrcAttr: null
       }

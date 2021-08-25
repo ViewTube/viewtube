@@ -60,7 +60,7 @@ export default defineComponent({
     });
 
     const loadSubscriptionStatus = (): void => {
-      if (props.channelId) {
+      if (props.channelId && accessor.user.isLoggedIn) {
         axios
           .get(`${accessor.environment.apiUrl}user/subscriptions/${props.channelId}`, {
             withCredentials: true
@@ -152,9 +152,11 @@ export default defineComponent({
   width: 140px;
   height: 32px;
   position: relative;
+  transition: filter 300ms $intro-easing;
 
   &.disabled {
     pointer-events: none;
+    filter: grayscale(100%);
   }
 
   .mini-btn {
