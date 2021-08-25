@@ -19,10 +19,11 @@ COPY --from=build /home/build .
 
 RUN apk add --no-cache nodejs-current
 
-RUN apk add --no-cache --virtual yarn && \
+RUN apk add --no-cache --virtual .build-deps yarn && \
     yarn install --pure-lockfile --link-duplicates --ignore-optional --non-interactive --production && \
     yarn cache clean && \
-    yarn modclean -n default:safe -r
+    yarn modclean -n default:safe -r && \
+    apk del .build-deps
 
 ENV NODE_ENV=production
 EXPOSE 8066
