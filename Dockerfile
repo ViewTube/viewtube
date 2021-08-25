@@ -15,11 +15,12 @@ RUN rm -rf node_modules server scripts shared types
 FROM alpine:3.14 as runtime
 WORKDIR /home/app
 
-RUN apk add --no-cache nodejs-current yarn
-
 COPY --from=build /home/build .
 
-RUN yarn install --pure-lockfile --link-duplicates --ignore-optional --non-interactive --production && \
+RUN apk add --no-cache nodejs-current
+
+RUN apk add --no-cache --virtual yarn && \
+    yarn install --pure-lockfile --link-duplicates --ignore-optional --non-interactive --production && \
     yarn cache clean && \
     yarn modclean -n default:safe -r
 
