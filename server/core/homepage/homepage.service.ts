@@ -26,7 +26,7 @@ export class HomepageService {
 
   @Cron(CronExpression.EVERY_DAY_AT_1AM)
   async refreshPopular(): Promise<void> {
-    if (cluster?.worker.id === 1) {
+    if (cluster.worker && cluster.worker.id === 1) {
       Consola.info('Refreshing popular page');
       try {
         const popularPage = await fetch(this.popularPageUrl, {

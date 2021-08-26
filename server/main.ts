@@ -57,8 +57,8 @@ const bootstrap = async () => {
     contentSecurityPolicy: {
       useDefaults: true,
       directives: {
-        defaultSrc: [`'self'`, `https://sponsor.ajay.app`, `https://*.googlevideo.com`],
-        scriptSrc: [`'self'`, `https: 'unsafe-eval'`, `https: 'unsafe-inline'`],
+        defaultSrc: [`'self'`, `blob:`, `https://sponsor.ajay.app`, `https://*.googlevideo.com`],
+        scriptSrc: [`'self'`, `blob:`, `https: 'unsafe-eval'`, `https: 'unsafe-inline'`],
         scriptSrcAttr: null
       }
     }
@@ -111,7 +111,7 @@ const bootstrap = async () => {
       Consola.error(err);
       process.exit(1);
     }
-    if (cluster.worker?.id === 1) {
+    if (cluster.worker && cluster.worker.id === 1) {
       Consola.ready(`Server listening on http://localhost:${port}`);
     }
   });
