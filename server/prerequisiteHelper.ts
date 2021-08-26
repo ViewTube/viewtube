@@ -5,7 +5,8 @@ import Consola from 'consola';
 const requiredEnvironmentVariables = [
   { var: 'VIEWTUBE_JWT_SECRET', default: null },
   { var: 'VIEWTUBE_PUBLIC_VAPID', default: null },
-  { var: 'VIEWTUBE_PRIVATE_VAPID', default: null }
+  { var: 'VIEWTUBE_PRIVATE_VAPID', default: null },
+  { var: 'VIEWTUBE_CURRENT_DOMAIN', default: null }
 ];
 
 // These have a usable default value
@@ -20,7 +21,8 @@ const voluntaryEnvironmentVariables = [
   { var: 'VIEWTUBE_REDIS_PORT', default: 6379 },
   { var: 'VIEWTUBE_REDIS_PASSWORD', default: null },
   { var: 'VIEWTUBE_JWT_EXPIRATION_TIME', default: 43200 },
-  { var: 'VIEWTUBE_ALLOWED_DOMAIN', default: /^viewtube\.io|\.viewtube\.io$/ }
+  { var: 'VIEWTUBE_ALLOWED_DOMAIN', default: /^viewtube\.io|\.viewtube\.io$/ },
+  { var: 'VIEWTUBE_DATA_DIRECTORY', default: '/data' }
 ];
 
 // These are not required for ViewTube to run
