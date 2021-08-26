@@ -38,8 +38,8 @@ export class SubscriptionsService {
     private notificationsService: NotificationsService
   ) {}
 
-  // @Cron(CronExpression.EVERY_HOUR)
-  @Cron(new Date(Date.now() + 60 * 1000))
+  @Cron(CronExpression.EVERY_HOUR)
+  // @Cron(new Date(Date.now() + 60 * 1000))
   async collectSubscriptionsJob(): Promise<void> {
     if (cluster?.worker.id === 1) {
       const userSubscriptions = await this.subscriptionModel.find().lean(true).exec();

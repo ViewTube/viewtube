@@ -6,7 +6,7 @@ import { ConfigService } from '@nestjs/config';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import cookieParser from 'cookie-parser';
 import webPush from 'web-push';
-import Consola, { FancyReporter } from 'consola';
+import Consola from 'consola';
 import FastifyCookie from 'fastify-cookie';
 import FastifyMultipart from 'fastify-multipart';
 import FastifyHelmet from 'fastify-helmet';
