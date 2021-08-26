@@ -37,7 +37,6 @@ export default defineComponent({
     };
 
     onMounted(() => {
-      console.log(qrCodeRef.value);
       const computedStyle = getComputedStyle(document.documentElement);
       const themeColor = computedStyle.getPropertyValue('--theme-color').trim();
       const bgColor = computedStyle.getPropertyValue('--bgcolor-alt').trim();

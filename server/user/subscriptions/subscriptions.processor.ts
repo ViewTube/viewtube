@@ -7,6 +7,7 @@ import {
   Processor
 } from '@nestjs/bull';
 import { InjectModel } from '@nestjs/mongoose';
+import Consola from 'consola';
 import { Job } from 'bull';
 import { Model } from 'mongoose';
 import { General } from 'server/common/general.schema';
@@ -70,13 +71,13 @@ export class SubscriptionsProcessor {
   }
 
   @OnQueueProgress()
-  onProgress(job: Job, progress: number) {
-    console.log(`${job.name}: ${progress}%`);
+  onProgress(_job: Job, progress: number) {
+    Consola.log(`Subscriptions job: ${progress}% done`);
   }
 
   @OnQueueError()
   onError(error: Error) {
-    console.log(error);
+    Consola.log(error);
   }
 
   @OnQueueCompleted()
@@ -92,23 +93,25 @@ export class SubscriptionsProcessor {
           { upsert: true }
         ).exec();
       } catch (error) {
-        console.log('error running job');
-        console.log(error);
+        Consola.log('error running job');
+        Consola.log(error);
       }
       // this.sendUserNotifications(subscriptionResults.videoResultArray);
 
-      console.log(
-        `done at ${new Date(job.finishedOn)}: ${
+      Consola.log(
+        `Done at ${new Date(job.finishedOn).toISOString().replace('T', ' ')}: ${
           result.channelsToUpdate.length
         } channels, ${result.videosToUpdate.length} videos`
       );
     } else {
-      console.log('subscriptions job failed');
+      Consola.log('subscriptions job failed');
     }
   }
 
   @OnQueueActive()
   onActive(job: Job) {
-    console.log(`Starting subscriptions job ${job.id} at ${new Date()}`);
+    Consola.log(
+      `Starting subscriptions job ${job.id} at ${new Date().toISOString().replace('T', ' ')}`
+    );
   }
 }

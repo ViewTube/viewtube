@@ -7,12 +7,11 @@ export default class NuxtServer {
   private static instance: NuxtServer;
   public nuxt: Nuxt;
 
-  public async run(shouldBuild = true): Nuxt {
-    const dev = process.env.NODE_ENV !== 'production';
+  public async run(dev = true): Nuxt {
     let nuxt: Nuxt;
 
     // Build only in dev mode
-    if (dev && shouldBuild) {
+    if (dev) {
       nuxt = await loadNuxt('dev');
       await nuxt.ready();
       const builder = new Builder(nuxt, BundleBuilder);

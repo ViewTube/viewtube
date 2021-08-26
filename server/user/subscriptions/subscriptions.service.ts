@@ -1,3 +1,4 @@
+import cluster from 'cluster';
 import {
   Injectable,
   HttpException,
@@ -37,14 +38,16 @@ export class SubscriptionsService {
     private notificationsService: NotificationsService
   ) {}
 
-  @Cron(CronExpression.EVERY_HOUR)
-  // @Cron(new Date(Date.now() + 60 * 1000))
+  // @Cron(CronExpression.EVERY_HOUR)
+  @Cron(new Date(Date.now() + 60 * 1000))
   async collectSubscriptionsJob(): Promise<void> {
-    const userSubscriptions = await this.subscriptionModel.find().lean(true).exec();
+    if (cluster?.worker.id === 1) {
+      const userSubscriptions = await this.subscriptionModel.find().lean(true).exec();
 
-    this.subscriptionsQueue.add({
-      userSubscriptions
-    });
+      this.subscriptionsQueue.add({
+        userSubscriptions
+      });
+    }
   }
 
   async saveChannelBasicInfo(channel: ChannelBasicInfoDto): Promise<ChannelBasicInfoDto | null> {

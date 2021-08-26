@@ -39,8 +39,6 @@ export const runSubscriptionsJob = async (
     channelIdBatches.push(uniqueChannelIds.splice(0, 100));
   }
 
-  console.log(channelIdBatches.length);
-
   let i = 0;
 
   await channelIdBatches
@@ -56,7 +54,7 @@ export const runSubscriptionsJob = async (
       );
     }, Promise.resolve())
     .catch(error => {
-      console.log('job error', error);
+      Consola.log('job error', error);
     });
 
   if (videoRawResultArray.length > 0) {

@@ -1,4 +1,5 @@
 import chalk from 'chalk';
+import Consola from 'consola';
 
 // Without these, ViewTube won't work
 const requiredEnvironmentVariables = [
@@ -28,7 +29,7 @@ const availableEnvironmentVariables = [
   { var: 'VIEWTUBE_YOUTUBE_IDENTIFIER', default: null }
 ];
 
-export const checkEnvironmentVariables = () => {
+export const checkEnvironmentVariables = (silent: boolean = false) => {
   const definedRequired = [];
   const definedVoluntary = [];
   const definedAvailable = [];
@@ -64,28 +65,32 @@ export const checkEnvironmentVariables = () => {
     }
   });
 
-  console.log(chalk.bgBlueBright.white('--- Environment variables ---'));
+  if (!silent) {
+    Consola.log(chalk.bgBlueBright.white('--- Environment variables ---'));
+  }
 
   if (missingRequired.length > 0) {
-    console.log(chalk.bold.bgRed.white('\n! Missing the following required environment variables'));
+    Consola.log(chalk.bold.bgRed.white('\n! Missing the following required environment variables'));
     logEnvResults(missingRequired);
     process.exit(1);
   }
 
-  if (missingVoluntary.length > 0) {
-    console.log(
-      chalk.bold.bgYellow.black('\n~ Used default value for the following environment variables')
-    );
-    logEnvResults(missingVoluntary);
-  }
+  if (!silent) {
+    if (missingVoluntary.length > 0) {
+      Consola.log(
+        chalk.bold.bgYellow.black('\n~ Used default value for the following environment variables')
+      );
+      logEnvResults(missingVoluntary);
+    }
 
-  if (definedRequired.length > 0) {
-    console.log(
-      chalk.bgGreenBright.black('\n\u2713 Found values for the following environment variables')
-    );
-    logEnvResults(definedRequired);
-    logEnvResults(definedVoluntary);
-    logEnvResults(definedAvailable);
+    if (definedRequired.length > 0) {
+      Consola.log(
+        chalk.bgGreenBright.black('\n\u2713 Found values for the following environment variables')
+      );
+      logEnvResults(definedRequired);
+      logEnvResults(definedVoluntary);
+      logEnvResults(definedAvailable);
+    }
   }
 };
 
@@ -104,7 +109,7 @@ const logEnvResults = (envArray: Array<any>) => {
       } else {
         val = chalk.gray.italic('empty');
       }
-      console.log(`${chalk.bold(envVar.var)}:${whitespace}${val}`);
+      Consola.log(`${chalk.bold(envVar.var)}:${whitespace}${val}`);
     });
   }
 };
