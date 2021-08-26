@@ -55,9 +55,9 @@ export class VideoEntity implements VideoDto {
     return parseFloat(this.playerVideoDetails.viewCount.toString());
   }
 
-  likeCount: number = this._videoDetails.likes;
+  likeCount: number = this._videoDetails.likes || 0;
 
-  dislikeCount: number = this._videoDetails.dislikes;
+  dislikeCount: number = this._videoDetails.dislikes || 0;
 
   @Expose()
   get paid(): boolean {
@@ -96,15 +96,19 @@ export class VideoEntity implements VideoDto {
 
   isListed = !this.microformatData.isUnlisted;
 
-  liveNow: boolean = this.playerVideoDetails.isLiveContent;
+  liveNow: boolean = Boolean(
+    this.playerVideoDetails.isLiveContent &&
+      (this.playerResponse.playabilityStatus as any).liveStreamability
+  );
 
   @Expose()
   get isUpcoming(): boolean {
     return (
       this.playerResponse.playabilityStatus.status === 'LIVE_STREAM_OFFLINE' &&
       new Date(
-        (this.playerResponse
-          .playabilityStatus as any).liveStreamability.liveStreamabilityRenderer.offlineSlate.liveStreamOfflineSlateRenderer.scheduledStartTime
+        (
+          this.playerResponse.playabilityStatus as any
+        ).liveStreamability.liveStreamabilityRenderer.offlineSlate.liveStreamOfflineSlateRenderer.scheduledStartTime
       ).valueOf() > Date.now()
     );
   }

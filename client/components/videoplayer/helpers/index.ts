@@ -843,7 +843,7 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
             accessor.environment.streamProxyUrl
           );
           console.log('hls initialized');
-        } else if (!isHlsNative(videoRef.value) && !isHlsSupported()) {
+        } else if (isHlsNative(videoRef.value) && !isHlsSupported()) {
           videoRef.value.src = highestVideoQuality.value;
         }
       } else {
