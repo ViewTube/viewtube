@@ -152,7 +152,7 @@ Development setup
 
 Prerequisites
 
-- Nodejs v15.x
+- Nodejs v16.x
 - Yarn 1.22.x
 - MongoDB 4.4.x
 
