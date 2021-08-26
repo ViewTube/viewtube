@@ -7,6 +7,8 @@ const dartSass = {
   `
 };
 
+const dev = process.env.NODE_ENV !== 'production';
+
 const config: NuxtConfig = {
   srcDir: './client',
 
@@ -14,7 +16,7 @@ const config: NuxtConfig = {
     port: 8066
   },
 
-  modern: true,
+  modern: !dev,
 
   head: {
     meta: [

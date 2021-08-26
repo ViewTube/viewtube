@@ -1,3 +1,4 @@
+import cluster from 'cluster';
 import { CACHE_MANAGER, Inject, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Cron, CronExpression } from '@nestjs/schedule';
@@ -25,63 +26,66 @@ export class HomepageService {
 
   @Cron(CronExpression.EVERY_DAY_AT_1AM)
   async refreshPopular(): Promise<void> {
-    Consola.info('Refreshing popular page');
-    try {
-      const popularPage = await fetch(this.popularPageUrl, {
-        headers: {
-          'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:84.0) Gecko/20100101 Firefox/84.0'
-        }
-      }).then(val => val.json());
-      const popularVideos = [];
-      await Promise.allSettled(
-        popularPage.map(async (video: VideoBasicInfoDto) => {
-          const hasResult = await fetch(`https://i.ytimg.com/vi/${video.videoId}/default.jpg`)
-            .then(response => response.ok)
-            .catch(_ => {
-              return false;
-            });
-          if (hasResult) {
-            popularVideos.push(video);
-          } else {
-            // Ignores videos, where thumbnails return an error, as they are most likely unavailable
+    if (cluster?.worker.id === 1) {
+      Consola.info('Refreshing popular page');
+      try {
+        const popularPage = await fetch(this.popularPageUrl, {
+          headers: {
+            'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:84.0) Gecko/20100101 Firefox/84.0'
           }
-        })
-      );
-
-      const channelIds = popularVideos.map((video: VideoBasicInfoDto) => video.authorId);
-
-      const channelBasicInfoArray = await this.ChannelBasicInfoModel.find({
-        authorId: { $in: channelIds }
-      }).exec();
-
-      popularVideos.forEach((video: VideoBasicInfoDto) => {
-        const channelInfo = channelBasicInfoArray.find(
-          channel => channel.authorId === video.authorId
+        }).then(val => val.json());
+        const popularVideos = [];
+        await Promise.allSettled(
+          popularPage.map(async (video: VideoBasicInfoDto) => {
+            const hasResult = await fetch(`https://i.ytimg.com/vi/${video.videoId}/default.jpg`)
+              .then(response => response.ok)
+              .catch(_ => {
+                return false;
+              });
+            if (hasResult) {
+              popularVideos.push(video);
+            } else {
+              // Ignores videos, where thumbnails return an error, as they are most likely unavailable
+            }
+          })
         );
-        if (channelInfo) {
-          if (channelInfo.authorThumbnailUrl) {
-            video.authorThumbnailUrl = channelInfo.authorThumbnailUrl;
-          } else if (channelInfo.authorThumbnails) {
-            video.authorThumbnails = channelInfo.authorThumbnails;
-          }
 
-          if (channelInfo.authorVerified) {
-            video.authorVerified = channelInfo.authorVerified;
-          }
-        }
-      });
+        const channelIds = popularVideos.map((video: VideoBasicInfoDto) => video.authorId);
 
-      if (popularVideos.length > 0) {
-        const updatedPopularPage = new this.PopularModel({
-          videos: popularVideos,
-          createdDate: Date.now().valueOf()
+        const channelBasicInfoArray = await this.ChannelBasicInfoModel.find({
+          authorId: { $in: channelIds }
+        }).exec();
+
+        popularVideos.forEach((video: VideoBasicInfoDto) => {
+          const channelInfo = channelBasicInfoArray.find(
+            channel => channel.authorId === video.authorId
+          );
+          if (channelInfo) {
+            if (channelInfo.authorThumbnailUrl) {
+              video.authorThumbnailUrl = channelInfo.authorThumbnailUrl;
+            } else if (channelInfo.authorThumbnails) {
+              video.authorThumbnails = channelInfo.authorThumbnails;
+            }
+
+            if (channelInfo.authorVerified) {
+              video.authorVerified = channelInfo.authorVerified;
+            }
+          }
         });
-        updatedPopularPage.save();
-      }
 
-      await this.cacheManager.del('popular');
-    } catch (err) {
-      Consola.error('Popular page refresh failed. URL: ' + this.popularPageUrl);
+        if (popularVideos.length > 0) {
+          const updatedPopularPage = new this.PopularModel({
+            videos: popularVideos,
+            createdDate: Date.now().valueOf()
+          });
+          updatedPopularPage.save();
+        }
+
+        await this.cacheManager.del('popular');
+      } catch (err) {
+        Consola.error('Popular page refresh failed. URL: ' + this.popularPageUrl);
+        Consola.error(err);
+      }
     }
   }
 

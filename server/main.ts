@@ -1,4 +1,5 @@
 import fs from 'fs';
+import cluster from 'cluster';
 import { NestFactory } from '@nestjs/core';
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
 import { ConfigService } from '@nestjs/config';
@@ -15,11 +16,43 @@ import { NuxtFilter } from './nuxt/nuxt.filter';
 import NuxtServer from './nuxt/';
 import { HomepageService } from './core/homepage/homepage.service';
 import { checkEnvironmentVariables } from './prerequisiteHelper';
+import { AppClusterService } from './app-cluster.service';
 
-async function bootstrap() {
+const dev = process.env.NODE_ENV !== 'production';
+
+const prepareBootstrapPrimary = () => {
   checkEnvironmentVariables();
 
-  const server = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter());
+  if (!dev) {
+    const channelsDir = `${(global as any).__basedir}/channels`;
+    const profilesDir = `${(global as any).__basedir}/profiles`;
+    if (!fs.existsSync(channelsDir)) {
+      fs.mkdirSync(channelsDir);
+    }
+    if (!fs.existsSync(profilesDir)) {
+      fs.mkdirSync(profilesDir);
+    }
+  }
+};
+
+const prepareBootstrap = () => {
+  webPush.setVapidDetails(
+    `mailto:${packageJson.email}`,
+    process.env.VIEWTUBE_PUBLIC_VAPID || '',
+    process.env.VIEWTUBE_PRIVATE_VAPID || ''
+  );
+
+  (global as any).__basedir = __dirname;
+  if (process.env.VIEWTUBE_DATA_DIRECTORY) {
+    (global as any).__basedir = process.env.VIEWTUBE_DATA_DIRECTORY;
+  }
+};
+
+const bootstrap = async () => {
+  const server = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter(), {
+    logger: ['warn', 'error']
+  });
+
   await server.register(FastifyHelmet, {
     contentSecurityPolicy: {
       useDefaults: true,
@@ -33,8 +66,6 @@ async function bootstrap() {
   await server.register(FastifyCookie);
   await server.register(FastifyMultipart);
   const configService = server.get(ConfigService);
-
-  const dev = configService.get('NODE_ENV') !== 'production';
 
   // NUXT
   if (!configService.get('API_ONLY')) {
@@ -55,30 +86,6 @@ async function bootstrap() {
     server.enableCors({ origin: new RegExp(allowedDomain) });
   }
 
-  // PUSH NOTIFICATIONS
-  webPush.setVapidDetails(
-    `mailto:${packageJson.email}`,
-    configService.get('VIEWTUBE_PUBLIC_VAPID') || '',
-    configService.get('VIEWTUBE_PRIVATE_VAPID') || ''
-  );
-
-  // DATA STORAGE CONFIG
-
-  (global as any).__basedir = __dirname;
-  if (configService.get('VIEWTUBE_DATA_DIRECTORY')) {
-    (global as any).__basedir = configService.get('VIEWTUBE_DATA_DIRECTORY');
-  }
-  if (!dev) {
-    const channelsDir = `${(global as any).__basedir}/channels`;
-    const profilesDir = `${(global as any).__basedir}/profiles`;
-    if (!fs.existsSync(channelsDir)) {
-      fs.mkdirSync(channelsDir);
-    }
-    if (!fs.existsSync(profilesDir)) {
-      fs.mkdirSync(profilesDir);
-    }
-  }
-
   // SWAGGER DOCS
   const documentOptions = new DocumentBuilder()
     .setTitle('ViewTube-API')
@@ -86,7 +93,7 @@ async function bootstrap() {
     .setVersion(packageJson.version)
     .setLicense(
       packageJson.license,
-      'https://raw.githubusercontent.com/mauriceoegerli/viewtube-api/master/LICENSE'
+      'https://raw.githubusercontent.com/viewtube/viewtube-vue/master/LICENSE'
     )
     .addBearerAuth()
     .build();
@@ -99,15 +106,31 @@ async function bootstrap() {
   server.enableShutdownHooks();
 
   // START
-  await server.listen(port, '0.0.0.0', (err, address) => {
+  await server.listen(port, '0.0.0.0', (err, _address) => {
     if (err) {
       Consola.error(err);
       process.exit(1);
     }
-    Consola.ready(`Server listening on ${address}`);
+    if (cluster.worker?.id === 1) {
+      Consola.ready(`Server listening on http://localhost:${port}`);
+    }
   });
 
   const homepageService = server.get(HomepageService);
   homepageService.refreshPopular();
-}
-bootstrap();
+};
+
+const runBootstrap = async () => {
+  prepareBootstrap();
+  if (process.env.API_ONLY || !dev) {
+    if (cluster.isPrimary) {
+      prepareBootstrapPrimary();
+    }
+    AppClusterService.clusterize(bootstrap);
+  } else {
+    prepareBootstrapPrimary();
+    await bootstrap();
+  }
+};
+
+runBootstrap();
