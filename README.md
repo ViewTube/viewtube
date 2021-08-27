@@ -36,6 +36,7 @@ Features
 - Subscribe to channels and see their latest uploads
 - Receive push notifications for subscribed channels
 - Responsive: mobile and desktop friendly
+- SponsorBlock
 
 <h2 align="center">
 <sub>
