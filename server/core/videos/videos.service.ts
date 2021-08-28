@@ -129,7 +129,7 @@ export class VideosService {
             success = false;
           });
 
-        if (success) {
+        if (success && webpImage) {
           await appendFile(imgPath, webpImage);
           return `channels/${channelId}/thumbnail/tiny.webp`;
         }
