@@ -1,5 +1,7 @@
 import path from 'path';
 import fs from 'fs';
+import { promisify } from 'util';
+import sharp from 'sharp';
 import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import Consola from 'consola';
@@ -163,20 +165,31 @@ export class ChannelsService {
     return null;
   }
 
-  getTinyThumbnail(reply: FastifyReply, id: string) {
+  async getTinyThumbnail(reply: FastifyReply, id: string) {
     // eslint-disable-next-line dot-notation
-    const imgPathWebp = path.join(global['__basedir'], `channels/${id}.webp`);
+    const imgPathWebp = `/home/maurice/Projects/viewtube-vue/channels/${id}.webp`;
     // eslint-disable-next-line dot-notation
     const imgPathJpg = path.join(global['__basedir'], `channels/${id}.jpg`);
 
-    if (fs.existsSync(imgPathWebp)) {
-      const fileStream = fs.createReadStream(imgPathWebp);
-      reply.type('image/webp').send(fileStream);
-    } else if (fs.existsSync(imgPathJpg)) {
-      const fileStream = fs.createReadStream(imgPathJpg);
-      reply.type('image/jpeg').send(fileStream);
-    } else {
+    let fileType = 'image/webp';
+    let fileBuffer = null;
+
+    const readFileAsync = promisify(fs.readFile);
+
+    try {
+      if (fs.existsSync(imgPathWebp)) {
+        fileBuffer = await readFileAsync(imgPathWebp);
+      } else if (fs.existsSync(imgPathJpg)) {
+        fileType = 'image/jpeg';
+        fileBuffer = await readFileAsync(imgPathJpg);
+      }
+    } catch {}
+
+    if (!fileBuffer) {
       throw new NotFoundException();
     }
+    const outputBuffer = await sharp(fileBuffer).resize(36, 36).toBuffer();
+
+    reply.type(fileType).send(outputBuffer);
   }
 }
