@@ -2442,7 +2442,7 @@
     "@types/mime" "^1"
     "@types/node" "*"
 
-"@types/sharp@^0.28.5":
+"@types/sharp@0.28.5":
   version "0.28.5"
   resolved "https://registry.yarnpkg.com/@types/sharp/-/sharp-0.28.5.tgz#2095c304e24c310945d6ece7a9fd44b34272c93f"
   integrity sha512-+RYU1NdKeDtTMau6HBbcVUCWjMiDydW4nRIGnOviwRxZxjJy0LqRdx0+YdxBKHcSlUWIYhD1XtiGQsUtInsjBQ==
