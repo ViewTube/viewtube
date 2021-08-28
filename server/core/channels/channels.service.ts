@@ -167,7 +167,7 @@ export class ChannelsService {
 
   async getTinyThumbnail(reply: FastifyReply, id: string) {
     // eslint-disable-next-line dot-notation
-    const imgPathWebp = `/home/maurice/Projects/viewtube-vue/channels/${id}.webp`;
+    const imgPathWebp = path.join(global['__basedir'], `channels/${id}.webp`);
     // eslint-disable-next-line dot-notation
     const imgPathJpg = path.join(global['__basedir'], `channels/${id}.jpg`);
 
