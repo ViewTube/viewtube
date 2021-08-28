@@ -135,12 +135,14 @@
             {{ video.description }}
           </div>
           <Spinner v-if="commentsLoading" />
+          <div v-if="video.liveNow" class="comments-error livestream">
+            <p>Livestream comments are not supported yet.</p>
+          </div>
           <div v-if="commentsError" class="comments-error">
-            <p>Error loading comments. Try changing the invidious instance.</p>
+            <p>Error loading comments. They might be disabled for this video.</p>
             <BadgeButton :click="reloadComments" :loading="commentsLoading"
               ><LoadMoreIcon />Try again</BadgeButton
             >
-            <BadgeButton :click="openInstancePopup"><InstanceIcon />Change instance</BadgeButton>
           </div>
           <div v-if="!commentsLoading && comment" class="comments-container">
             <Comment
@@ -168,7 +170,6 @@
 <script lang="ts">
 import ThumbsUp from 'vue-material-design-icons/ThumbUp.vue';
 import ThumbsDown from 'vue-material-design-icons/ThumbDown.vue';
-import InstanceIcon from 'vue-material-design-icons/ServerNetwork.vue';
 import Share from 'vue-material-design-icons/Share.vue';
 import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
 import {
@@ -208,7 +209,6 @@ export default defineComponent({
     ThumbsDown,
     Share,
     LoadMoreIcon,
-    InstanceIcon,
     NextUpVideo,
     VideoPlayer: () =>
       import(
@@ -273,10 +273,6 @@ export default defineComponent({
       if (video.value) return video.value.recommendedVideos[0];
       return null;
     });
-
-    const openInstancePopup = () => {
-      accessor.popup.openPopup('instances');
-    };
     const saveToHistory = () => {
       if (accessor.user.isLoggedIn) {
         const apiUrl = accessor.environment.apiUrl;
@@ -542,7 +538,6 @@ export default defineComponent({
       videoLoaded,
       initialVideoTime,
       shareOpen,
-      openInstancePopup,
       onVideoEnded,
       reloadComments,
       setTimestamp,

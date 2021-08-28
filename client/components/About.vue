@@ -17,29 +17,10 @@
           <GithubIcon />
           <p>Invidious</p>
         </BadgeButton>
-        <BadgeButton :href="'https://invidio.us'">
+        <BadgeButton :href="'https://redirect.invidious.io'">
           <ExternalIcon />
           <p>Invidious</p>
         </BadgeButton>
-      </div>
-      <div v-if="invidiousStatsError" class="invidious-error" v-html="invidiousStatsError" />
-      <div v-if="invidiousStats" class="invidious-stats">
-        <table>
-          <tr>
-            <td>Invidious instance</td>
-            <td>{{ currentInstance }}</td>
-          </tr>
-          <tr>
-            <td>Version</td>
-            <td>{{ invidiousStats.software.version }}</td>
-          </tr>
-          <tr>
-            <td>Last update</td>
-            <td>
-              {{ new Date(invidiousStats.metadata.updatedAt).toUTCString() }}
-            </td>
-          </tr>
-        </table>
       </div>
       <div class="sponsorblock-container">
         <div class="sponsorblock links">
@@ -49,7 +30,7 @@
             alt="Sponsorblock icon"
           />
           <p>
-            This project uses the SponsorBlock database and/or API licensed under
+            This project uses the SponsorBlock database and API licensed under
             <a
               href="https://creativecommons.org/licenses/by-nc-sa/4.0/"
               target="_blank"
@@ -73,12 +54,10 @@
 import CloseIcon from 'vue-material-design-icons/Close.vue';
 import GithubIcon from 'vue-material-design-icons/Github.vue';
 import ExternalIcon from 'vue-material-design-icons/OpenInNew.vue';
-import { computed, defineComponent, onMounted, ref } from '@nuxtjs/composition-api';
+import { defineComponent, ref } from '@nuxtjs/composition-api';
 import packageJson from '@/../package.json';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import InvidiousLicense from '@/components/licenses/Invidious.vue';
-import { useAccessor } from '@/store';
-import { useAxios } from '@/plugins/axiosPlugin';
 
 export default defineComponent({
   name: 'About',
@@ -90,35 +69,14 @@ export default defineComponent({
     InvidiousLicense
   },
   setup() {
-    const accessor = useAccessor();
-    const axios = useAxios();
-
     const description = ref('');
     const version = ref('');
-    const invidiousStats = ref(null);
-    const invidiousStatsError = ref(null);
-
-    const currentInstance = computed(() => accessor.instances.currentInstance);
-
-    onMounted(() => {
-      axios
-        .get(`${accessor.environment.apiUrl}stats`)
-        .then(response => {
-          invidiousStats.value = response.data;
-        })
-        .catch(_ => {
-          invidiousStatsError.value = `Error loading invidious stats. The instance <span class="monospace">${currentInstance.value}</span> might be unavailable`;
-        });
-    });
 
     description.value = packageJson.description;
     version.value = packageJson.version;
 
     return {
       description,
-      invidiousStats,
-      invidiousStatsError,
-      currentInstance,
       version
     };
   }
@@ -138,32 +96,11 @@ export default defineComponent({
     margin: 0 0 0 10px;
   }
 }
-.invidious-error {
-  margin: 20px 0 20px 0 !important;
-  color: var(--error-color-red);
-}
-.invidious-stats {
-  margin: 0 !important;
 
-  table {
-    border-collapse: collapse;
-    table-layout: auto;
-    width: 100%;
-    margin: 10px 0 0 0;
-
-    tr {
-      td {
-        padding: 5px 10px 5px 0;
-        &:nth-of-type(1) {
-          color: var(--theme-color);
-        }
-      }
-    }
-  }
-}
 .sponsorblock-container {
   margin: 0 !important;
 }
+
 .links-about {
   margin: 10px 0 0 0 !important;
 

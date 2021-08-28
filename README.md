@@ -19,7 +19,9 @@ ViewTube is an alternative YouTube frontend.
 
 It can recommend, play and search for videos. It saves your watch progress and you can subscribe to channels for them to appear in your subscription feed.
 
-Try the dev version on [dev.viewtube.io](https://dev.viewtube.io)
+It's built using [Nuxt.js](https://nuxtjs.org/) and [Nest](https://nestjs.com/).
+
+Try the dev version on [dev.viewtube.io](https://dev.viewtube.io).
 
 <h2 align="center">
 <sub>
@@ -31,12 +33,17 @@ Features
 </h2>
 
 - Watch videos without ads or tracking
+- Built from the ground up to be mobile and desktop friendly
+- Dark and light themes
+- Touch friendly video player with gestures
+- Supports loop, speed, autoplay and volume
+- Create an account separately from Youtube
 - Read comments
 - Search for videos
+- Watch playlists
 - Subscribe to channels and see their latest uploads
 - Receive push notifications for subscribed channels
-- Responsive: mobile and desktop friendly
-- SponsorBlock
+- Integrated SponsorBlock support
 
 <h2 align="center">
 <sub>
@@ -44,25 +51,18 @@ Features
       height="30"
       width="30">
 </sub>
-Why not just use invidio.us?
+Where does ViewTube get the data from?
 </h2>
 
+ViewTube does not use the official Youtube API. It instead scrapes the data from the website using a combination of custom built tools and the following open source libraries.
+
+- [node-ytdl-core](https://github.com/fent/node-ytdl-core)
+- [node-ytsr](https://github.com/TimeForANinja/node-ytsr)
+- [node-ytpl](https://github.com/TimeForANinja/node-ytpl)
+- [yt-comment-scraper ](https://github.com/FreeTubeApp/yt-comment-scraper)
+
+The [Invidious](https://github.com/iv-org/invidious) API is still used in a few places.
 You can check the progress on [replacing the invidious api here](https://github.com/ViewTube/viewtube-vue/wiki/Invidious-API-migration).
-
-Invidious instances can easily get rate-limited by Google. With ViewTube, you can <b>switch between instances</b>. Your subscriptions, settings, etc. are stored on your <b>ViewTube account</b>.
-
-<table>
- <tr>
-   <td valign="top">
-     Your selected instance is slow or doesn't work?
-     <br>
-     Just go to settings > instance and choose a different one!
-     <br>
-     Instances are fetched from the <a href="https://github.com/iv-org/documentation/blob/master/Invidious-Instances.md">invidious wiki</a>.
-   </td>
-   <td><img src=".github/images/switch_instance.gif" /></td>
- </tr>
-</table>
 
 <h2 align="center">
 <sub>
@@ -156,22 +156,27 @@ Prerequisites
 - Nodejs v16.x
 - Yarn 1.22.x
 - MongoDB 4.4.x
+- Redis 6.x
 
 Instructions
 
-1.  Clone this repo
+1. Clone this repo
 
-    `git clone https://github.com/ViewTube/viewtube-vue`
+   `git clone https://github.com/ViewTube/viewtube-vue`
 
-2.  Install dependencies
+2. Install dependencies
 
-    `yarn install`
+   `yarn install`
 
-3.  Start the dev server
+3. Start the dev server
 
-    `yarn serve`
+   `yarn serve`  
 
-4.  Visit [localhost:8066](http://localhost:8066) with a browser
+   If you want to start the api and frontend separately, you can use the following commands.  
+   `yarn serve:api`  
+   `yarn serve:web`
+
+4. Visit [localhost:8066](http://localhost:8066) with a browser
 
 Pull requests welcome!
 

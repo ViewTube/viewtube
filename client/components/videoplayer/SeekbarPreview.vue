@@ -15,9 +15,8 @@
 
 <script lang="ts">
 import { defineComponent, ref, reactive, watch, onMounted } from '@nuxtjs/composition-api';
-import { WebVTTParser } from '@/plugins/services/webVTTParser';
-import Invidious from '@/plugins/services/invidious';
-import { useAccessor } from '@/store';
+// import { WebVTTParser } from '@/plugins/services/webVTTParser';
+// import { useAccessor } from '@/store';
 
 export default defineComponent({
   name: 'SeekbarPreview',
@@ -36,7 +35,7 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const accessor = useAccessor();
+    // const accessor = useAccessor();
     const storyboardVTT = ref(null);
     const storyboardImages = ref(null);
     const storyboardBaseImages = ref([]);
@@ -45,49 +44,47 @@ export default defineComponent({
     });
 
     onMounted(() => {
-      const invidious = new Invidious(accessor.instances.currentInstanceApi);
-      invidious.api
-        .storyboards({
-          id: props.videoId,
-          params: {
-            width: 160,
-            height: 90
-          }
-        })
-        .then(response => {
-          storyboardVTT.value = response.data;
-          parseVTTData();
-        })
-        .catch(_ => {});
+      //   .storyboards({
+      //     id: props.videoId,
+      //     params: {
+      //       width: 160,
+      //       height: 90
+      //     }
+      //   })
+      //   .then(response => {
+      //     storyboardVTT.value = response.data;
+      //     parseVTTData();
+      //   })
+      //   .catch(_ => {});
     });
 
-    const parseVTTData = () => {
-      // eslint-disable-next-line no-undef
-      const parser = new WebVTTParser();
-      const tree = parser.parse(storyboardVTT.value, 'metadata');
-      let baseImgCounter = -1;
-      storyboardImages.value = tree.cues.map(
-        (el: { text: string; startTime: any; endTime: any }) => {
-          const src = el.text.split('#')[0];
-          const pos = el.text.split('#')[1].replace('xywh=', '');
-          const posX = pos.split(',')[0];
-          const posY = pos.split(',')[1];
+    // const parseVTTData = () => {
+    //   // eslint-disable-next-line no-undef
+    //   const parser = new WebVTTParser();
+    //   const tree = parser.parse(storyboardVTT.value, 'metadata');
+    //   let baseImgCounter = -1;
+    //   storyboardImages.value = tree.cues.map(
+    //     (el: { text: string; startTime: any; endTime: any }) => {
+    //       const src = el.text.split('#')[0];
+    //       const pos = el.text.split('#')[1].replace('xywh=', '');
+    //       const posX = pos.split(',')[0];
+    //       const posY = pos.split(',')[1];
 
-          if (!storyboardBaseImages.value.find(el => el === src)) {
-            storyboardBaseImages.value.push(src);
-            baseImgCounter++;
-          }
+    //       if (!storyboardBaseImages.value.find(el => el === src)) {
+    //         storyboardBaseImages.value.push(src);
+    //         baseImgCounter++;
+    //       }
 
-          return {
-            startTime: el.startTime,
-            endTime: el.endTime,
-            imgId: baseImgCounter,
-            posX,
-            posY
-          };
-        }
-      );
-    };
+    //       return {
+    //         startTime: el.startTime,
+    //         endTime: el.endTime,
+    //         imgId: baseImgCounter,
+    //         posX,
+    //         posY
+    //       };
+    //     }
+    //   );
+    // };
 
     watch(
       () => props.time,

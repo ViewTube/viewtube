@@ -3,7 +3,6 @@ import { Context } from '@nuxt/types';
 import { wrapProperty } from '@nuxtjs/composition-api';
 import * as captcha from '@/store/captcha';
 import * as environment from '@/store/environment';
-import * as instances from '@/store/instances';
 import * as messages from '@/store/messages';
 import * as miniplayer from '@/store/miniplayer';
 import * as settings from '@/store/settings';
@@ -39,7 +38,6 @@ export const accessorType = getAccessorType({
   modules: {
     captcha,
     environment,
-    instances,
     messages,
     miniplayer,
     settings,
