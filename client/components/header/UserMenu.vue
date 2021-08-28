@@ -111,15 +111,6 @@
             <div class="menu-btn-content"><SettingsIcon />Settings</div>
           </a>
           <a
-            id="instances-btn"
-            v-tippy="'View instances'"
-            href="#"
-            class="ripple tooltip menu-btn"
-            @mousedown.self.prevent="openInstances"
-          >
-            <div class="menu-btn-content"><InstanceIcon />Instances</div>
-          </a>
-          <a
             id="about-btn"
             v-tippy="'Open about'"
             href="#"
@@ -134,7 +125,6 @@
     <portal to="popup">
       <transition name="fade-down">
         <Settings v-if="settingsOpen" @close="closeAllPopups" />
-        <Instances v-if="instancesOpen" @close="closeAllPopups" />
         <About v-if="aboutOpen" @close="closeAllPopups" />
         <LoginForm v-if="loginOpen" class="center-popup" :complete="() => (loginOpen = false)" />
         <RegisterForm
@@ -154,7 +144,6 @@
 
 <script lang="ts">
 import SettingsIcon from 'vue-material-design-icons/Cog.vue';
-import InstanceIcon from 'vue-material-design-icons/ServerNetwork.vue';
 import AboutIcon from 'vue-material-design-icons/InformationOutline.vue';
 import AccountIcon from 'vue-material-design-icons/AccountCircle.vue';
 import SubscriptionIcon from 'vue-material-design-icons/YoutubeSubscription.vue';
@@ -172,7 +161,6 @@ import {
 import LoginForm from '../form/LoginForm.vue';
 import RegisterForm from '../form/RegisterForm.vue';
 import Settings from '@/components/Settings.vue';
-import Instances from '@/components/Instances.vue';
 import About from '@/components/About.vue';
 
 import { useAccessor } from '@/store/index';
@@ -181,13 +169,11 @@ export default defineComponent({
   name: 'UserMenu',
   components: {
     SettingsIcon,
-    InstanceIcon,
     AboutIcon,
     AccountIcon,
     AccountPlusIcon,
     SubscriptionIcon,
     Settings,
-    Instances,
     About,
     LoginForm,
     RegisterForm
@@ -199,7 +185,6 @@ export default defineComponent({
 
     const accountMenuVisible = ref(false);
     const settingsOpen = ref(false);
-    const instancesOpen = ref(false);
     const aboutOpen = ref(false);
     const loginOpen = ref(false);
     const registerOpen = ref(false);
@@ -226,7 +211,6 @@ export default defineComponent({
       loginOpen.value = false;
       aboutOpen.value = false;
       settingsOpen.value = false;
-      instancesOpen.value = false;
       accountMenuVisible.value = false;
       if (accessor.popup.isPopupOpen) {
         accessor.popup.setPopupOpen(false);
@@ -254,9 +238,6 @@ export default defineComponent({
     const openPopup = (popupName: string): void => {
       closeAllPopups();
       switch (popupName) {
-        case 'instances':
-          openInstances();
-          break;
         default:
           break;
       }
@@ -274,11 +255,6 @@ export default defineComponent({
       closeAllPopups();
       accessor.popup.setPopupOpen(true);
       settingsOpen.value = true;
-    };
-    const openInstances = (): void => {
-      closeAllPopups();
-      accessor.popup.setPopupOpen(true);
-      instancesOpen.value = true;
     };
     const openSubscriptions = (): void => {
       router.push('/subscriptions');
@@ -324,7 +300,6 @@ export default defineComponent({
     return {
       accountMenuVisible,
       settingsOpen,
-      instancesOpen,
       aboutOpen,
       currentRouteName,
       userAuthenticated,
@@ -333,7 +308,6 @@ export default defineComponent({
       showAccountMenu,
       openAbout,
       openSettings,
-      openInstances,
       openSubscriptions,
       getProfileImageUrl,
       login,

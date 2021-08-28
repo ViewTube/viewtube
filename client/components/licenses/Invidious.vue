@@ -7,16 +7,20 @@
 <script lang="ts">
 import { defineComponent, ref, useFetch } from '@nuxtjs/composition-api';
 import { useAxios } from '@/plugins/axiosPlugin';
+import { useAccessor } from '@/store';
 
 export default defineComponent({
   name: 'InvidiousLicense',
   setup() {
     const axios = useAxios();
+    const accessor = useAccessor();
     const licenseText = ref('');
 
     useFetch(async () => {
       await axios
-        .get('https://raw.githubusercontent.com/iv-org/invidious/master/LICENSE')
+        .get(
+          `${accessor.environment.textProxyUrl}https://raw.githubusercontent.com/iv-org/invidious/master/LICENSE`
+        )
         .then(response => {
           licenseText.value = (response.data as string).replaceAll('<', '').replaceAll('>', '');
         })
