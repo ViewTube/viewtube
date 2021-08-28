@@ -3,6 +3,35 @@
 This file is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.8.0] - 2021-08-29
+
+## Fixed
+
+- Run subscriptions job in batches [#766](https://github.com/ViewTube/viewtube-vue/pull/766)
+- Smaller build by removing unused dependencies [#841](https://github.com/ViewTube/viewtube-vue/pull/841)
+- Livestream VODs are playable now [#849](https://github.com/ViewTube/viewtube-vue/pull/849)
+- Fix Livestreams on iOS by using native HLS support [#849](https://github.com/ViewTube/viewtube-vue/pull/849)
+- Remove Invidious instance switcher, as invidious is no longer used in the frontend [#858](https://github.com/ViewTube/viewtube-vue/pull/858)
+- Properly size channel thumbnails [#859](https://github.com/ViewTube/viewtube-vue/pull/859)
+
+## Added
+
+- Use redis for API caching [#474](https://github.com/ViewTube/viewtube-vue/pull/474)
+- Queue system for the subscriptions job [#474](https://github.com/ViewTube/viewtube-vue/pull/474)
+- Add statistics api for user registrations [#754](https://github.com/ViewTube/viewtube-vue/pull/754)
+- Ability to autoplay video [#795](https://github.com/ViewTube/viewtube-vue/pull/795)
+- Ability to autoplay the next video [#795](https://github.com/ViewTube/viewtube-vue/pull/795)
+- Add loop video control [#795](https://github.com/ViewTube/viewtube-vue/pull/795)
+- Adjustable video speed [#795](https://github.com/ViewTube/viewtube-vue/pull/795)
+- Add settings for autoplay, autoplay next video, loop and speed [#795](https://github.com/ViewTube/viewtube-vue/pull/795)
+- Add setting to disable subscriptions on home screen [#795](https://github.com/ViewTube/viewtube-vue/pull/795)
+- Add default quality setting [#795](https://github.com/ViewTube/viewtube-vue/pull/795)
+- Switch from express to fastify [#830](https://github.com/ViewTube/viewtube-vue/pull/830)
+- Implement new API security measures [#830](https://github.com/ViewTube/viewtube-vue/pull/830)
+- Add rate limiting (max. 100 request per minute per endpoint, 1000 for proxy) [#830](https://github.com/ViewTube/viewtube-vue/pull/830)
+- Add end-to-end tests for core endpoints [#830](https://github.com/ViewTube/viewtube-vue/pull/830)
+- Implement clustering for better multi-core usage [#845](https://github.com/ViewTube/viewtube-vue/pull/845)
+
 ## [0.7.0] - 2021-07-13
 
 ## Fixed
@@ -12,9 +41,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix videoplayer for touch devices [#638](https://github.com/ViewTube/viewtube-vue/pull/638)
 - Skip sponsorblock segments properly [#702](https://github.com/ViewTube/viewtube-vue/pull/702)
 - Many more tweaks and fixes
-- Update dependencies 
+- Update dependencies
 
 ## Added
+
 - Use webp for channel images [#529](https://github.com/ViewTube/viewtube-vue/pull/529)
 - Add livestream support [#536](https://github.com/ViewTube/viewtube-vue/pull/536)
 - Add profile image support [#630](https://github.com/ViewTube/viewtube-vue/pull/630)
@@ -148,8 +178,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial release
 
-[unreleased]: https://github.com/viewtube/viewtube-vue/compare/v0.7.0...main
-[0.7.0]: https://github.com/viewtube/viewtube-vue/compare/v0.6.1...0.7.0
+[unreleased]: https://github.com/viewtube/viewtube-vue/compare/v0.8.0...development
+[0.8.0]: https://github.com/viewtube/viewtube-vue/compare/v0.7.0...v0.8.0
+[0.7.0]: https://github.com/viewtube/viewtube-vue/compare/v0.6.1...v0.7.0
 [0.6.1]: https://github.com/viewtube/viewtube-vue/compare/v0.6.0...v0.6.1
 [0.6.0]: https://github.com/viewtube/viewtube-vue/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/viewtube/viewtube-vue/compare/v0.4.1...v0.5.0
