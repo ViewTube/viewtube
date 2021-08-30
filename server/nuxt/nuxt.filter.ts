@@ -29,7 +29,7 @@ export class NuxtFilter implements ExceptionFilter {
       delete (response as any).ignoreFilter;
       res.status(status).send(response);
     } else {
-      res.code(500);
+      res.code(500).send();
     }
   }
 }

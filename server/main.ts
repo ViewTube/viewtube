@@ -65,6 +65,7 @@ const bootstrap = async () => {
   });
   await server.register(FastifyCookie);
   await server.register(FastifyMultipart);
+
   const configService = server.get(ConfigService);
 
   // NUXT

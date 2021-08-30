@@ -4,15 +4,17 @@ import { ConfigModule } from '@nestjs/config';
 import { ScheduleModule } from '@nestjs/schedule';
 import { BullModule } from '@nestjs/bull';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
-import { APP_GUARD } from '@nestjs/core';
+import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { ThrottlerStorageRedisService } from 'nestjs-throttler-storage-redis';
+import * as Sentry from '@sentry/node';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CoreModule } from './core/core.module';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { CacheConfigService } from './cache-config.service';
-import { ApiRequest, ApiRequestSchema } from './metrics/schemas/api-request.schema';
+import { SentryModule } from './sentry/sentry.module';
+import { SentryInterceptor } from './sentry/sentry.interceptor';
 
 const redisPort = isNaN(parseInt(process.env.VIEWTUBE_REDIS_PORT))
   ? 6379
@@ -42,13 +44,15 @@ const moduleMetadata: ModuleMetadata = {
         };
       }
     }),
-    MongooseModule.forFeature([
-      {
-        name: ApiRequest.name,
-        schema: ApiRequestSchema,
-        collection: 'api-requests'
-      }
-    ]),
+    SentryModule.forRoot({
+      dsn: process.env.SENTRY_DSN,
+      release: process.env.SENTRY_RELEASE,
+      environment: 'production',
+      integrations: [
+        new Sentry.Integrations.Http({ breadcrumbs: true, tracing: true })
+      ],
+      tracesSampleRate: parseFloat(process.env.SENTRY_TRACES_SAMPLERATE)
+    }),
     CacheModule.registerAsync({
       useClass: CacheConfigService
     }),
@@ -75,6 +79,10 @@ const moduleMetadata: ModuleMetadata = {
     {
       provide: APP_GUARD,
       useClass: ThrottlerGuard
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: SentryInterceptor
     }
   ]
 };

@@ -29,7 +29,7 @@
       "server/*": ["server/*"],
       "~/*": ["client/*"]
     },
-    "types": ["@types/node", "@nuxt/types", "@nuxtjs/axios", "@types/jest"]
+    "types": ["@types/node", "@nuxt/types", "@nuxtjs/axios", "@types/jest", "@sentry/types"]
   },
   "include": ["server/**/*", "client/**/*", "test/**/*", "types/**/*", "shared/**/*"],
   "exclude": ["node_modules", "dist"]

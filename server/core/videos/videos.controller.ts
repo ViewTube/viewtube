@@ -9,13 +9,11 @@ import {
   CacheTTL
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { MetricsInterceptor } from 'server/metrics/metrics.interceptor';
 import { VideoDto } from 'shared/dto/video/video.dto';
 import { VideosService } from './videos.service';
 
 @ApiTags('Core')
 @UseInterceptors(CacheInterceptor)
-@UseInterceptors(MetricsInterceptor)
 @Controller('videos')
 export class VideosController {
   constructor(private readonly videosService: VideosService) {}
