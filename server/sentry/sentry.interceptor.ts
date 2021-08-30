@@ -12,8 +12,6 @@ export class SentryInterceptor implements NestInterceptor {
     const httpArguments = context.switchToHttp();
     const request = httpArguments.getRequest<FastifyRequest>();
 
-    console.log(request.routerPath);
-
     const transaction = Sentry.startTransaction({
       op: 'request',
       name: request.routerPath
@@ -37,12 +35,10 @@ export class SentryInterceptor implements NestInterceptor {
       tap({
         finalize: () => {
           const response = httpArguments.getResponse<FastifyReply>();
-          console.log('complete with ' + response.statusCode);
           transaction.setHttpStatus(response.statusCode);
           transaction.finish();
         },
         error: error => {
-          console.log('error');
           Sentry.captureException(error);
         }
       })
