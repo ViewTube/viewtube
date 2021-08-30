@@ -1,7 +1,6 @@
 import { CacheModule, Module, ModuleMetadata } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { CacheConfigService } from 'server/cache-config.service';
-import { ApiRequest, ApiRequestSchema } from 'server/metrics/schemas/api-request.schema';
 import {
   ChannelBasicInfo,
   ChannelBasicInfoSchema
@@ -27,11 +26,6 @@ const moduleMetadata: ModuleMetadata = {
         name: ChannelBasicInfo.name,
         schema: ChannelBasicInfoSchema,
         collection: 'channel-basicinfo'
-      },
-      {
-        name: ApiRequest.name,
-        schema: ApiRequestSchema,
-        collection: 'api-requests'
       }
     ])
   ]
