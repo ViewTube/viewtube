@@ -42,7 +42,6 @@ export class SubscriptionsService {
   @Cron(CronExpression.EVERY_HOUR)
   // @Cron(new Date(Date.now() + 60 * 1000))
   async collectSubscriptionsJob(): Promise<void> {
-    console.log('subs');
     if ((cluster.worker && cluster.worker.id === 1) || !AppClusterService.isClustered) {
       const userSubscriptions = await this.subscriptionModel.find().lean(true).exec();
 

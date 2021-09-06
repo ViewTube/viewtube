@@ -8,11 +8,13 @@ export class SentryService implements OnApplicationShutdown {
   private static sentryServiceInstance: SentryService;
 
   constructor(@Inject('SENTRY_OPTIONS') sentryOptions?: SentryTypes.Options) {
-    if (!(sentryOptions && sentryOptions.dsn)) {
-      console.error('Invalid sentry config');
+    if (sentryOptions.enabled) {
+      if (!(sentryOptions && sentryOptions.dsn)) {
+        console.error('Invalid sentry config');
+      }
+      this.sentryConfig = sentryOptions;
+      Sentry.init(this.sentryConfig);
     }
-    this.sentryConfig = sentryOptions;
-    Sentry.init(this.sentryConfig);
   }
 
   public static SentryServiceInstance(): SentryService {
