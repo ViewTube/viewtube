@@ -80,11 +80,13 @@ const bootstrap = async () => {
   const port = configService.get('PORT');
 
   // CORS
-  const allowedDomain = configService.get('VIEWTUBE_ALLOWED_DOMAIN');
-  if (!allowedDomain) {
+  const allowedDomain = configService.get<string>('VIEWTUBE_ALLOWED_DOMAIN');
+  if (!allowedDomain.startsWith('/')) {
+    server.enableCors({ origin: allowedDomain, credentials: true });
+  } else if (!allowedDomain && !dev) {
     server.enableCors();
   } else {
-    server.enableCors({ origin: new RegExp(allowedDomain) });
+    server.enableCors({ origin: new RegExp(allowedDomain), credentials: true });
   }
 
   // SWAGGER DOCS
@@ -124,7 +126,9 @@ const bootstrap = async () => {
 const runBootstrap = async () => {
   prepareBootstrap();
   if (AppClusterService.isClustered) {
-    Consola.start('Starting in clustered mode');
+    if (cluster.worker && cluster.worker.id === 1) {
+      Consola.start('Starting in clustered mode');
+    }
     if (cluster.isPrimary) {
       prepareBootstrapPrimary();
     }
