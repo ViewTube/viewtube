@@ -112,7 +112,7 @@ const bootstrap = async () => {
       Consola.error(err);
       process.exit(1);
     }
-    if (cluster.worker && cluster.worker.id === 1) {
+    if ((cluster.worker && cluster.worker.id === 1) || !AppClusterService.isClustered) {
       Consola.ready(`Server listening on http://localhost:${port}`);
     }
   });
@@ -123,12 +123,14 @@ const bootstrap = async () => {
 
 const runBootstrap = async () => {
   prepareBootstrap();
-  if (process.env.API_ONLY || !dev) {
+  if (AppClusterService.isClustered) {
+    Consola.start('Starting in clustered mode');
     if (cluster.isPrimary) {
       prepareBootstrapPrimary();
     }
     AppClusterService.clusterize(bootstrap);
   } else {
+    Consola.start('Starting with single node');
     prepareBootstrapPrimary();
     await bootstrap();
   }

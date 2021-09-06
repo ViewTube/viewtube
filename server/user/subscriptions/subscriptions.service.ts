@@ -16,6 +16,7 @@ import { VideoBasicInfoDto } from 'server/core/videos/dto/video-basic-info.dto';
 import { Sorting } from 'server/common/sorting.type';
 import { ChannelBasicInfoDto } from 'server/core/channels/dto/channel-basic-info.dto';
 import Consola from 'consola';
+import { AppClusterService } from 'server/app-cluster.service';
 import { General } from 'server/common/general.schema';
 import { NotificationsService } from '../notifications/notifications.service';
 import { Subscription } from './schemas/subscription.schema';
@@ -38,10 +39,11 @@ export class SubscriptionsService {
     private notificationsService: NotificationsService
   ) {}
 
-  @Cron(CronExpression.EVERY_HOUR)
-  // @Cron(new Date(Date.now() + 60 * 1000))
+  // @Cron(CronExpression.EVERY_HOUR)
+  @Cron(new Date(Date.now() + 60 * 1000))
   async collectSubscriptionsJob(): Promise<void> {
-    if (cluster.worker && cluster.worker.id === 1) {
+    console.log('subs');
+    if ((cluster.worker && cluster.worker.id === 1) || !AppClusterService.isClustered) {
       const userSubscriptions = await this.subscriptionModel.find().lean(true).exec();
 
       this.subscriptionsQueue.add({
@@ -162,17 +164,21 @@ export class SubscriptionsService {
     if (userSubscriptions) {
       const userSubscriptionIds = userSubscriptions.subscriptions.map(e => e.channelId);
 
+      if (limit > 30) {
+        limit = 30;
+      }
+
       const videoCount = await this.VideoModel.find({
         authorId: { $in: userSubscriptionIds }
       })
-        .limit(10000)
+        // .limit(10000)
         .estimatedDocumentCount()
         .exec();
 
       const videos = await this.VideoModel.find({ authorId: { $in: userSubscriptionIds } })
         .sort({ published: -1 })
-        .limit(parseInt(limit as any))
-        .skip(parseInt(start as any))
+        .limit(limit)
+        .skip(start)
         .map((el: any) => {
           delete el._id;
           delete el.__v;

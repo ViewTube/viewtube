@@ -9,7 +9,8 @@ import {
   UseGuards,
   Post,
   Body,
-  Query
+  Query,
+  ParseIntPipe
 } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'server/auth/guards/jwt.guard';
@@ -64,8 +65,8 @@ export class SubscriptionsController {
   @ApiQuery({ name: 'start', required: false })
   getSubscriptionVideos(
     @Req() request: ViewTubeRequest,
-    @Query('limit') limit = 30,
-    @Query('start') start = 0
+    @Query('limit', ParseIntPipe) limit = 30,
+    @Query('start', ParseIntPipe) start = 0
   ): Promise<{ videoCount: number; videos: Array<VideoBasicInfoDto> }> {
     return this.subscriptionsService.getSubscriptionFeed(request.user.username, limit, start);
   }

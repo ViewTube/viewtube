@@ -7,6 +7,11 @@ const cpuCount = os.cpus().length;
 
 @Injectable()
 export class AppClusterService {
+  static get isClustered() {
+    const production = process.env.NODE_ENV === 'production';
+    return Boolean(process.env.API_ONLY || production);
+  }
+
   static clusterize(bootstrap: Function): void {
     if (cluster.isPrimary) {
       Consola.info(`Primary node started: pid ${process.pid}`);

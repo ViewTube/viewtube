@@ -1,7 +1,7 @@
-import { Controller, Get, Query, Res, Header, HttpException } from '@nestjs/common';
+import { Readable } from 'stream';
+import { Controller, Get, Query, Header, StreamableFile } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Throttle } from '@nestjs/throttler';
-import { FastifyReply } from 'fastify';
 import { ProxyService } from './proxy.service';
 
 @ApiTags('Core')
@@ -22,24 +22,15 @@ export class ProxyController {
   @Header('Cache-Control', 'no-cache')
   async getQuery(
     @Query('url') url: string,
-    @Query('local') local: boolean = false,
-    @Res() reply: FastifyReply
-  ): Promise<void> {
-    try {
-      await this.proxyService.proxyImage(url, reply, local);
-    } catch (error) {
-      throw new HttpException(error, 500);
-    }
+    @Query('local') local: boolean = false
+  ): Promise<StreamableFile> {
+    const stream = await this.proxyService.proxyImage(url, local);
+    return new StreamableFile(stream);
   }
 
   @Get('stream')
   @Header('Cache-Control', 'no-cache')
-  async proxyStream(@Query('url') url: string, @Res() reply: FastifyReply): Promise<void> {
-    try {
-      const streamBuffer = await this.proxyService.proxyStream(url);
-      reply.send(streamBuffer);
-    } catch (error) {
-      throw new HttpException(error, 500);
-    }
+  proxyStream(@Query('url') url: string): Promise<Readable> {
+    return this.proxyService.proxyStream(url);
   }
 }
