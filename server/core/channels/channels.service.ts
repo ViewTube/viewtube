@@ -1,6 +1,5 @@
 import path from 'path';
-import fs, { ReadStream } from 'fs';
-import { promisify } from 'util';
+import fs from 'fs';
 import sharp, { Sharp } from 'sharp';
 import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
