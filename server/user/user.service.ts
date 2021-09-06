@@ -1,3 +1,4 @@
+import { Readable } from 'stream';
 import fs from 'fs';
 import path from 'path';
 import {
@@ -14,9 +15,9 @@ import { UserprofileDto } from 'server/user/dto/userprofile.dto';
 import humanizeDuration from 'humanize-duration';
 import { Common } from 'server/core/common';
 import { ChannelBasicInfoDto } from 'server/core/channels/dto/channel-basic-info.dto';
-import AdmZip from 'adm-zip';
 import Consola from 'consola';
 import { FastifyReply } from 'fastify';
+import archiver from 'archiver';
 import { ViewTubeRequest } from 'server/common/viewtube-request';
 import { User } from './schemas/user.schema';
 import { UserDto } from './user.dto';
@@ -35,6 +36,12 @@ export class UserService {
     private historyService: HistoryService,
     private subscriptionsService: SubscriptionsService
   ) {}
+
+  static getDateString(): string {
+    const date = new Date();
+
+    return `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}_${date.getHours()}-${date.getMinutes()}-${date.getSeconds()}`;
+  }
 
   async getProfile(username: string): Promise<UserprofileDto> {
     if (username) {
@@ -230,7 +237,7 @@ export class UserService {
     }
   }
 
-  async createDataExport(username: string): Promise<Buffer> {
+  async createDataExport(username: string): Promise<Readable> {
     if (username) {
       const userData = { username, subscriptions: {}, history: {}, settings: {} };
 
@@ -261,19 +268,31 @@ export class UserService {
 
       const user = await this.UserModel.findOne({ username });
 
-      const zip = new AdmZip();
-      zip.addFile('user.json', Buffer.from(exportUserData));
+      try {
+        const archive = archiver('zip', {
+          zlib: { level: 9 }
+        });
 
-      if (user.profileImage && fs.existsSync(user.profileImage)) {
-        if (process.env.NODE_ENV !== 'production') {
-          zip.addLocalFile(user.profileImage);
-        } else {
-          // eslint-disable-next-line dot-notation
-          zip.addLocalFile(path.join(global['__basedir'], user.profileImage));
+        archive.append(exportUserData, { name: 'user.json' });
+
+        if (user.profileImage && fs.existsSync(user.profileImage)) {
+          let fileStream = fs.createReadStream(user.profileImage);
+          if (process.env.NODE_ENV === 'production') {
+            fileStream = fs.createReadStream(path.join(global.__basedir, user.profileImage));
+          }
+          archive.append(fileStream, { name: user.profileImage });
         }
-      }
 
-      return zip.toBuffer();
+        archive.on('error', error => {
+          throw new InternalServerErrorException(error);
+        });
+
+        archive.finalize();
+
+        return archive;
+      } catch (error) {
+        throw new InternalServerErrorException(error);
+      }
     }
   }
 }

@@ -8,12 +8,13 @@ import {
   Body,
   BadRequestException,
   Post,
-  Param
+  Param,
+  StreamableFile,
+  Header
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'server/auth/guards/jwt.guard';
 import { UserprofileDto } from 'server/user/dto/userprofile.dto';
-import sanitizeFilename from 'sanitize-filename';
 import { FastifyReply } from 'fastify';
 import { ViewTubeRequest } from 'server/common/viewtube-request';
 import { UserprofileDetailsDto } from './dto/userprofile-details.dto';
@@ -37,18 +38,14 @@ export class UserController {
   }
 
   @Get('export')
-  async getExport(@Req() request: ViewTubeRequest, @Res() reply: FastifyReply): Promise<void> {
+  @Header(
+    'Content-Disposition',
+    `attachment; filename="viewtube_export__${UserService.getDateString()}.zip"`
+  )
+  async getExport(@Req() request: ViewTubeRequest): Promise<StreamableFile> {
     const dataExport = await this.userService.createDataExport(request.user.username);
 
-    const date = new Date();
-
-    const dateString = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}_${date.getHours()}-${date.getMinutes()}-${date.getSeconds()}`;
-
-    const fileName = `viewtube_export_${sanitizeFilename(request.user.username)}_${dateString}.zip`;
-    reply
-      .code(200)
-      .header('Content-Disposition', `attachment; filename="${fileName}"`)
-      .send(dataExport);
+    return new StreamableFile(dataExport);
   }
 
   @Get('profile/image/:username')

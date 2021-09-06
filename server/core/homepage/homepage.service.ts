@@ -6,6 +6,7 @@ import { Cache } from 'cache-manager';
 import Consola from 'consola';
 import { Model } from 'mongoose';
 import fetch from 'node-fetch';
+import { AppClusterService } from 'server/app-cluster.service';
 import { ChannelBasicInfo } from '../channels/schemas/channel-basic-info.schema';
 import { VideoBasicInfoDto } from '../videos/dto/video-basic-info.dto';
 import { PopularDto } from './dto/popular.dto';
@@ -26,7 +27,7 @@ export class HomepageService {
 
   @Cron(CronExpression.EVERY_DAY_AT_1AM)
   async refreshPopular(): Promise<void> {
-    if (cluster.worker && cluster.worker.id === 1) {
+    if ((cluster.worker && cluster.worker.id === 1) || !AppClusterService.isClustered) {
       Consola.info('Refreshing popular page');
       try {
         const popularPage = await fetch(this.popularPageUrl, {

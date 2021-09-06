@@ -1,6 +1,13 @@
-import { Controller, Get, Param, Res, CacheInterceptor, UseInterceptors } from '@nestjs/common';
+import { Duplex } from 'stream';
+import {
+  Controller,
+  Get,
+  Param,
+  CacheInterceptor,
+  UseInterceptors,
+  StreamableFile
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { FastifyReply } from 'fastify';
 import { ChannelsService } from './channels.service';
 import { ChannelDto } from './dto/channel.dto';
 
@@ -8,14 +15,21 @@ import { ChannelDto } from './dto/channel.dto';
 @Controller('channels')
 export class ChannelsController {
   constructor(private channelsService: ChannelsService) {}
+
   @Get(':id/thumbnail/tiny.jpg')
-  async getTinyThumbnailJpg(@Res() reply: FastifyReply, @Param('id') id: string) {
-    await this.channelsService.getTinyThumbnail(reply, id);
+  getTinyThumbnailJpg(@Param('id') id: string): StreamableFile {
+    const thumbnail = this.channelsService.getTinyThumbnail(id);
+    if (thumbnail && thumbnail instanceof Duplex) {
+      return new StreamableFile(thumbnail);
+    }
   }
 
   @Get(':id/thumbnail/tiny.webp')
-  async getTinyThumbnailWebp(@Res() reply: FastifyReply, @Param('id') id: string) {
-    await this.channelsService.getTinyThumbnail(reply, id);
+  getTinyThumbnailWebp(@Param('id') id: string) {
+    const thumbnail = this.channelsService.getTinyThumbnail(id);
+    if (thumbnail && thumbnail instanceof Duplex) {
+      return new StreamableFile(thumbnail);
+    }
   }
 
   @Get(':id')

@@ -29,9 +29,10 @@
           >
             <img
               :src="
-                channel.authorThumbnailUrl
+                imgProxyUrl +
+                (channel.authorThumbnailUrl
                   ? `${$accessor.environment.apiUrl}${channel.authorThumbnailUrl}`
-                  : channel.authorThumbnails[2].url
+                  : channel.authorThumbnails[2].url)
               "
               class="channel-image"
               alt="Channel profile image"
@@ -75,6 +76,7 @@ import Pagination from '@/components/pagination/Pagination.vue';
 import { useAccessor } from '@/store';
 import { useAxios } from '@/plugins/axiosPlugin';
 import SmallSearchBox from '@/components/SmallSearchBox.vue';
+import { useImgProxy } from '@/plugins/proxy';
 
 export default defineComponent({
   name: 'ManageSubscriptions',
@@ -89,6 +91,7 @@ export default defineComponent({
     const route = useRoute();
     const axios = useAxios();
     const router = useRouter();
+    const imgProxy = useImgProxy();
 
     const subscriptionChannels = ref([]);
     const currentPage = ref(1);
@@ -96,22 +99,20 @@ export default defineComponent({
     const searchTerm = ref(null);
     const searchTimeout = ref(null);
 
-    const orderedChannels = computed(
-      (): Array<string> => {
-        const lettersArray = [];
-        let i = 0;
-        subscriptionChannels.value.forEach(channel => {
-          const channelLetter = channel.author.charAt(0);
-          const possibleIndex = lettersArray.findIndex(el => el.letter === channelLetter);
-          if (possibleIndex !== -1) {
-            lettersArray[possibleIndex].channels.push(channel);
-          } else {
-            lettersArray.push({ letter: channelLetter, channels: [channel], id: i++ });
-          }
-        });
-        return lettersArray;
-      }
-    );
+    const orderedChannels = computed((): Array<string> => {
+      const lettersArray = [];
+      let i = 0;
+      subscriptionChannels.value.forEach(channel => {
+        const channelLetter = channel.author.charAt(0);
+        const possibleIndex = lettersArray.findIndex(el => el.letter === channelLetter);
+        if (possibleIndex !== -1) {
+          lettersArray[possibleIndex].channels.push(channel);
+        } else {
+          lettersArray.push({ letter: channelLetter, channels: [channel], id: i++ });
+        }
+      });
+      return lettersArray;
+    });
 
     const { fetch } = useFetch(async () => {
       const apiUrl = accessor.environment.apiUrl;
@@ -236,7 +237,8 @@ export default defineComponent({
       orderedChannels,
       changePage,
       channelNameToImgString,
-      unsubscribe
+      unsubscribe,
+      imgProxyUrl: imgProxy.url
     };
   },
   head: {}
