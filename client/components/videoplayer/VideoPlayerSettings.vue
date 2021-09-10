@@ -91,7 +91,7 @@ export default defineComponent({
   },
   props: {
     selectedQuality: Number,
-    formatStreams: Array,
+    legacyFormats: Array,
     adaptiveFormats: { type: Array, required: false, default: null }
   },
   setup(props, { emit }) {
@@ -135,7 +135,7 @@ export default defineComponent({
       return sortedAdaptiveQualities[0];
     });
     const formatQualities = computed((): any => {
-      return props.formatStreams.filter((el: any) => el.qualityLabel);
+      return props.legacyFormats.filter((el: any) => el.qualityLabel);
     });
     const sortedAdaptiveQualities = computed((): any => {
       return adaptiveVideos.value

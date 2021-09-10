@@ -271,7 +271,7 @@
           <div class="right-bottom-controls">
             <VideoPlayerSettings
               ref="videoPlayerSettingsRef"
-              :formatStreams="video.formatStreams"
+              :legacyFormats="video.legacyFormats"
               :selectedQuality="selectedQuality"
               @qualityselect="onChangeQuality"
               @speedchange="onChangeSpeed"

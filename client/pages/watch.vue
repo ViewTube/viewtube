@@ -301,14 +301,14 @@ export default defineComponent({
       e.preventDefault();
     };
     const getHDUrl = () => {
-      if (video.value.formatStreams) {
-        const hdVideo = video.value.formatStreams.find((e: { qualityLabel: string }) => {
+      if (video.value.legacyFormats) {
+        const hdVideo = video.value.legacyFormats.find((e: { qualityLabel: string }) => {
           return e.qualityLabel && e.qualityLabel === '720p';
         });
         if (hdVideo) {
           return hdVideo.url;
-        } else if (video.value.formatStreams.length > 0) {
-          return video.value.formatStreams[0].url;
+        } else if (video.value.legacyFormats.length > 0) {
+          return video.value.legacyFormats[0].url;
         }
       }
       return '#';
@@ -512,8 +512,8 @@ export default defineComponent({
             {
               property: 'og:video',
               content:
-                video.value.formatStreams && video.value.formatStreams.length > 0
-                  ? video.value.formatStreams[0].url
+                video.value.legacyFormats && video.value.legacyFormats.length > 0
+                  ? video.value.legacyFormats[0].url
                   : '#'
             }
           ]

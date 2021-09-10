@@ -100,9 +100,9 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
   };
 
   highestVideoQuality.value = '#';
-  if (props.video.formatStreams) {
+  if (props.video.legacyFormats) {
     let qualityIndex = 0;
-    const videoFormat = props.video.formatStreams.find((e: any, index: number) => {
+    const videoFormat = props.video.legacyFormats.find((e: any, index: number) => {
       if (e.qualityLabel) {
         qualityIndex = index;
         if (e.qualityLabel === '1080p') {
@@ -115,8 +115,8 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
     });
     if (videoFormat && videoFormat.url) {
       highestVideoQuality.value = videoFormat.url;
-    } else if (props.video.formatStreams.length > 0) {
-      highestVideoQuality.value = props.video.formatStreams[0].url;
+    } else if (props.video.legacyFormats.length > 0) {
+      highestVideoQuality.value = props.video.legacyFormats[0].url;
     }
     selectedQuality.value = qualityIndex;
   }
@@ -696,12 +696,12 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
     saveVideoPosition(currentTime);
     if (props.video.liveNow) {
       await initializeHlsStream(
-        props.video.formatStreams[index].url,
+        props.video.legacyFormats[index].url,
         videoRef.value,
         accessor.environment.streamProxyUrl
       );
     } else {
-      videoRef.value.src = props.video.formatStreams[index].url;
+      videoRef.value.src = props.video.legacyFormats[index].url;
     }
     videoRef.value.currentTime = currentTime;
     videoRef.value.play();

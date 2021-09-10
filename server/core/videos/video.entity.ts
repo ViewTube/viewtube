@@ -6,10 +6,11 @@ import { VideoDto } from 'shared/dto/video/video.dto';
 import { VideoThumbnailDto } from 'shared/dto/video/video-thumbnail.dto';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { RecommendedVideoDto } from 'shared/dto/video/recommended-video.dto';
+import { ChapterDto } from 'shared/dto/video/chapter.dto';
 import { Common } from '../common';
 
 export class VideoEntity implements VideoDto {
-  constructor(private _source: Partial<videoInfo>) {}
+  constructor(private _source: Partial<videoInfo>, private _dashManifest?: string) {}
 
   private _videoDetails = this._source.videoDetails;
 
@@ -117,18 +118,29 @@ export class VideoEntity implements VideoDto {
 
   @Expose()
   get adaptiveFormats(): Array<any> {
-    if (this.playerResponse.streamingData) {
-      return this.playerResponse.streamingData.adaptiveFormats;
+    if (this._source.formats) {
+      return this._source.formats;
     } else {
       return [];
     }
   }
 
   @Expose()
-  get formatStreams(): Array<any> {
+  get legacyFormats(): Array<any> {
     return this._source.formats.filter(value => {
       return value.hasAudio && value.hasVideo;
     });
+  }
+
+  @Expose()
+  get chapters(): Array<ChapterDto> {
+    if (this._source.videoDetails.chapters && this._source.videoDetails.chapters.length > 0) {
+      return this._source.videoDetails.chapters.map(chapter => ({
+        startTime: chapter.start_time,
+        title: chapter.title
+      }));
+    }
+    return [];
   }
 
   @Expose()
@@ -174,5 +186,13 @@ export class VideoEntity implements VideoDto {
         viewCount: parseInt(video.view_count)
       };
     });
+  }
+
+  @Expose()
+  get dashManifest(): string {
+    if (this._dashManifest) {
+      return this._dashManifest;
+    }
+    return null;
   }
 }

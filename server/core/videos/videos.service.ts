@@ -14,6 +14,7 @@ import Consola from 'consola';
 import { ChannelBasicInfoDto } from '../channels/dto/channel-basic-info.dto';
 import { ChannelBasicInfo } from '../channels/schemas/channel-basic-info.schema';
 import { Common } from '../common';
+import { DashGenerator } from './dash.generator';
 import { VideoBasicInfoDto } from './dto/video-basic-info.dto';
 import { VideoBasicInfo } from './schemas/video-basic-info.schema';
 import { VideoEntity } from './video.entity';
@@ -54,7 +55,13 @@ export class VideosService {
 
     try {
       const result: videoInfo = await getInfo(url, ytdlOptions);
-      const video: VideoDto = new VideoEntity(result);
+
+      const dashManifest = DashGenerator.generateDashFileFromFormats(
+        result.player_response.streamingData.adaptiveFormats,
+        result.videoDetails.lengthSeconds
+      );
+
+      const video: VideoDto = new VideoEntity(result, dashManifest);
 
       const channelBasicInfo: ChannelBasicInfoDto = {
         authorId: video.authorId,
@@ -97,6 +104,7 @@ export class VideosService {
 
       return video;
     } catch (err) {
+      console.log(err);
       throw new HttpException(
         {
           status: HttpStatus.INTERNAL_SERVER_ERROR,
