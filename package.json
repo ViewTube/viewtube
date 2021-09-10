@@ -149,7 +149,7 @@
     "eslint-plugin-import": "2.24.2",
     "eslint-plugin-nuxt": "2.0.0",
     "friendly-errors-webpack-plugin": "1.7.0",
-    "jest": "27.1.0",
+    "jest": "27.1.1",
     "lint-staged": "11.1.2",
     "mongodb-memory-server": "7.4.0",
     "nodemon": "2.0.12",
