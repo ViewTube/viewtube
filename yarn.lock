@@ -3342,6 +3342,11 @@
   resolved "https://registry.yarnpkg.com/@webpack-cli/serve/-/serve-1.5.2.tgz#ea584b637ff63c5a477f6f21604b5a205b72c9ec"
   integrity sha512-vgJ5OLWadI8aKjDlOH3rb+dYyPd2GTZuQC/Tihjct6F9GpXGZINo3Y/IVuZVTM1eDQB+/AOsjPUWH/WySDaXvw==
 
+"@xmldom/xmldom@^0.7.4":
+  version "0.7.4"
+  resolved "https://registry.yarnpkg.com/@xmldom/xmldom/-/xmldom-0.7.4.tgz#93b2f9486c88b6464e97f76c9ab49b0a548fbe57"
+  integrity sha512-wdxC79cvO7PjSM34jATd/RYZuYWQ8y/R7MidZl1NYYlbpFn1+spfjkiR3ZsJfcaTs2IyslBN7VwBBJwrYKM+zw==
+
 "@xtuc/ieee754@^1.2.0":
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/@xtuc/ieee754/-/ieee754-1.2.0.tgz#eef014a3145ae477a1cbc00cd1e552336dceb790"
@@ -14755,12 +14760,12 @@ ws@^7.3.1, ws@^7.4.5:
   resolved "https://registry.yarnpkg.com/ws/-/ws-7.5.3.tgz#160835b63c7d97bfab418fc1b8a9fced2ac01a74"
   integrity sha512-kQ/dHIzuLrS6Je9+uv81ueZomEwH0qVYstcAQ4/Z93K8zeko9gtAbttJWzoC5ukqXY1PpoouV3+VSOqEAFt5wg==
 
-x2js@3.4.1:
-  version "3.4.1"
-  resolved "https://registry.yarnpkg.com/x2js/-/x2js-3.4.1.tgz#9e2f2b9d4181ed504a5907110dc360e9829d1cee"
-  integrity sha512-RCMEmHNsyeyzF5NyGHbmCCZU9N8uMiz9FluAj3CpfVREHpgm3JB9Wr/dEWdPqGHmK3lRd2fm0ccOWtuJ2YUowQ==
+x2js@3.4.2:
+  version "3.4.2"
+  resolved "https://registry.yarnpkg.com/x2js/-/x2js-3.4.2.tgz#2b0c81df66fc63d7b03f4b0d662117bc9143ab94"
+  integrity sha512-Jq6404udUnfBhElBNum8dl1KzhxLUJOPvZ3dE+8UMoYNbts3aJlLZxw0H0UjrYCDz/IQlqpYtC8X273XoRrGFw==
   dependencies:
-    xmldom "^0.5.0"
+    "@xmldom/xmldom" "^0.7.4"
 
 xdg-basedir@^4.0.0:
   version "4.0.0"
@@ -14776,11 +14781,6 @@ xmlchars@^2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/xmlchars/-/xmlchars-2.2.0.tgz#060fe1bcb7f9c76fe2a17db86a9bc3ab894210cb"
   integrity sha512-JZnDKK8B0RCDw84FNdDAIpZK+JuJw+s7Lz8nksI7SIuU3UXJJslUthsi+uWBUYOwPFwW7W7PRLRfUKpxjtjFCw==
-
-xmldom@^0.5.0:
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/xmldom/-/xmldom-0.5.0.tgz#193cb96b84aa3486127ea6272c4596354cb4962e"
-  integrity sha512-Foaj5FXVzgn7xFzsKeNIde9g6aFBxTPi37iwsno8QvApmtg7KYrr+OPyRHcJF7dud2a5nGRBXK3n0dL62Gf7PA==
 
 xtend@^4.0.0, xtend@~4.0.1:
   version "4.0.2"
