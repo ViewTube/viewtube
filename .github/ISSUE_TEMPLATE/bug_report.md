@@ -19,18 +19,23 @@ assignees: ''
 4. See the error
 -->
 
+1.
+2.
+3.
 
-### Expected behaviour
+
+### Expected Behaviour
 <!-- Tell us what you expect to happen. -->
 
 
 
-### Screenshots/Screen recordings
+### Screenshot/Screen recording
 <!-- If applicable, add screenshots to help explain your problem -->
 
 
 
-### Device Info (please complete the following information)
+### Device Info 
+<!-- Please complete the following information -->
 
 - Device: [e.g. iPhone6]
 - OS: [e.g. iOS8.1]
@@ -38,5 +43,5 @@ assignees: ''
 - Version: [e.g. 22]
 
 
-### Additional context
+### Additional Context
 <!-- Add any other context about the problem here. -->
