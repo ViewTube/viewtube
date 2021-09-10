@@ -14325,10 +14325,10 @@ vue-template-es2015-compiler@^1.9.0:
   resolved "https://registry.yarnpkg.com/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.9.1.tgz#1ee3bc9a16ecbf5118be334bb15f9c46f82f5825"
   integrity sha512-4gDntzrifFnCEvyoO8PqyJDmguXgVPxKiIxrBKjIowvL9l+N66196+72XVYR8BBf1Uv1Fgt3bGevJ+sEmxfZzw==
 
-vue2-datepicker@3.9.2:
-  version "3.9.2"
-  resolved "https://registry.yarnpkg.com/vue2-datepicker/-/vue2-datepicker-3.9.2.tgz#2e3e73f12186b5a2c9355ea453b9079c62e361df"
-  integrity sha512-cy6xp2AMn/gb/zqMFnwDZcTsLIxRacGsW63OyJJVSI1103ss0deR81tLUaDvqKdCbhxqR+fomgO7f5fceUXxOA==
+vue2-datepicker@3.10.1:
+  version "3.10.1"
+  resolved "https://registry.yarnpkg.com/vue2-datepicker/-/vue2-datepicker-3.10.1.tgz#4e5149bb82481257183477bc6de649a43720e47a"
+  integrity sha512-AKp4Tq5LRpy4v1lc6qIXLKFfklCDgZQthoVnDCR9QvMo7AaUQv3nD9k45PVBPIF1A1vzQVcSIvhCQJfMhXmMWQ==
   dependencies:
     date-format-parse "^0.2.7"
 
