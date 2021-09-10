@@ -87,7 +87,7 @@
     "module-alias": "2.2.2",
     "mongoose": "5.13.9",
     "nestjs-throttler-storage-redis": "0.1.15",
-    "node-fetch": "2.6.1",
+    "node-fetch": "2.6.2",
     "nuxt": "2.15.8",
     "nuxt-typed-vuex": "0.2.0",
     "passport": "0.4.1",
