@@ -115,6 +115,17 @@ export class VideosService {
     }
   }
 
+  async getDashManifest(id: string): Promise<string> {
+    const url: string = Common.youtubeVideoUrl + id;
+    const result: videoInfo = await getInfo(url);
+
+    const dashManifest = DashGenerator.generateDashFileFromFormats(
+      result.player_response.streamingData.adaptiveFormats,
+      result.videoDetails.lengthSeconds
+    );
+    return dashManifest;
+  }
+
   async saveAuthorImage(imgUrl: string, channelId: string) {
     const arrBuffer = await fetch(imgUrl, { method: 'GET' })
       .then(response => response.arrayBuffer())

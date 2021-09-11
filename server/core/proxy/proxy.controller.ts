@@ -1,7 +1,7 @@
-import { Readable } from 'stream';
-import { Controller, Get, Query, Header, StreamableFile } from '@nestjs/common';
+import { Controller, Get, Query, Header, StreamableFile, Res, Req } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Throttle } from '@nestjs/throttler';
+import { FastifyReply, FastifyRequest } from '@nestjs/platform-fastify/node_modules/fastify';
 import { ProxyService } from './proxy.service';
 
 @ApiTags('Core')
@@ -30,7 +30,11 @@ export class ProxyController {
 
   @Get('stream')
   @Header('Cache-Control', 'no-cache')
-  proxyStream(@Query('url') url: string): Promise<Readable> {
-    return this.proxyService.proxyStream(url);
+  async proxyStream(
+    @Query('url') url: string,
+    @Req() request: FastifyRequest,
+    @Res() reply: FastifyReply
+  ): Promise<void> {
+    return await this.proxyService.proxyStream(url, request, reply);
   }
 }

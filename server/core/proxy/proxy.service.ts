@@ -3,7 +3,8 @@ import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import HttpsProxyAgent from 'https-proxy-agent/dist/agent';
 import fetch from 'node-fetch';
-
+import { FastifyReply, FastifyRequest } from '@nestjs/platform-fastify/node_modules/fastify';
+import undici from 'undici';
 @Injectable()
 export class ProxyService {
   constructor(private configService: ConfigService) {}
@@ -46,18 +47,23 @@ export class ProxyService {
     }
   }
 
-  async proxyStream(url: string): Promise<Readable> {
+  async proxyStream(url: string, request: FastifyRequest, reply: FastifyReply): Promise<void> {
     try {
-      const response = await fetch(Buffer.from(url, 'base64').toString('binary'), {
-        timeout: 10000
-      });
-
-      if (response.ok) {
-        const readable = new Readable();
-        readable.wrap(response.body);
-        return readable;
-      }
-      throw new InternalServerErrorException();
+      const stringUrl = Buffer.from(url, 'base64').toString('binary');
+      const rawHeaders = request.raw.headers;
+      const headers = {
+        range: rawHeaders.range,
+        'accept-language': rawHeaders['accept-language'],
+        'accept-encoding': rawHeaders['accept-encoding'],
+        'user-agent':
+          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36',
+        origin: 'https://www.youtube.com'
+      };
+      await undici.stream(
+        stringUrl,
+        { method: 'GET', opaque: reply, headers },
+        ({ opaque }: { opaque: any }) => opaque.raw
+      );
     } catch (error) {
       throw new InternalServerErrorException(error);
     }

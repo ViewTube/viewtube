@@ -27,4 +27,10 @@ export class VideosController {
   getVideos(@Param('id') id: string): Promise<VideoDto> {
     return this.videosService.getById(id);
   }
+
+  @CacheTTL(1800)
+  @Get('manifest/dash/:id')
+  getDashManifest(@Param('id') id: string): Promise<string> {
+    return this.videosService.getDashManifest(id);
+  }
 }
