@@ -10,6 +10,7 @@ import { MediaMetadataHelper } from './mediaMetadata';
 import { calculateSeekPercentage, matchSeekProgressPercentage, seekbarFunctions } from './seekbar';
 import { parseChapters } from './chapters';
 import { destroyInstance, initializeHlsStream, isHlsNative, isHlsSupported } from './hlsHelper';
+import { DashHelper } from './dash';
 import { commons } from '@/plugins/commons';
 // import dashjs from 'dashjs';
 import { SponsorBlock } from '@/plugins/services/sponsorBlock';
@@ -334,15 +335,11 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
   };
 
   const onLoadingProgress = () => {
-    if (videoRef.value) {
+    if (videoRef.value && videoRef.value.buffered.length) {
       const videoBufferedMaxTimeRange = videoRef.value.buffered.length - 1;
-      if (videoBufferedMaxTimeRange && videoBufferedMaxTimeRange > 0) {
-        const loadingPercentage =
-          (videoRef.value.buffered.end(videoRef.value.buffered.length - 1) /
-            videoRef.value.duration) *
-          100;
-        videoElement.loadingPercentage = loadingPercentage;
-      }
+      const loadingPercentage =
+        (videoRef.value.buffered.end(videoBufferedMaxTimeRange) / videoRef.value.duration) * 100;
+      videoElement.loadingPercentage = loadingPercentage;
     }
   };
 
@@ -830,6 +827,8 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
 
   const videoAttrObserver = ref(null);
 
+  const dashHelper = ref<DashHelper>(null);
+
   onMounted(async () => {
     document.addEventListener('keydown', onWindowKeyDown);
     if (videoRef.value) {
@@ -846,8 +845,15 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
         } else if (isHlsNative(videoRef.value) && !isHlsSupported()) {
           videoRef.value.src = highestVideoQuality.value;
         }
-      } else {
-        videoRef.value.src = highestVideoQuality.value;
+      } else if (process.browser) {
+        if (props.video.dashManifest) {
+          // Using dashjs
+          dashHelper.value = new DashHelper(videoRef.value, props.video.dashManifest);
+
+          dashHelper.value.registerEventHandlers({ videoElement });
+        } else {
+          videoRef.value.src = highestVideoQuality.value;
+        }
       }
 
       videoAttrObserver.value = new MutationObserver(mutations => {

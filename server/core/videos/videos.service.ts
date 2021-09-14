@@ -57,7 +57,7 @@ export class VideosService {
       const result: videoInfo = await getInfo(url, ytdlOptions);
 
       const dashManifest = DashGenerator.generateDashFileFromFormats(
-        result.player_response.streamingData.adaptiveFormats,
+        result.formats,
         result.videoDetails.lengthSeconds
       );
 
