@@ -73,7 +73,7 @@
     "fastify": "3.21.0",
     "fastify-cookie": "5.3.1",
     "fastify-helmet": "5.3.2",
-    "fastify-multipart": "4.0.7",
+    "fastify-multipart": "5.0.0",
     "fastify-swagger": "4.11.0",
     "fluent-ffmpeg": "2.1.2",
     "hls.js": "1.0.10",
