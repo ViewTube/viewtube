@@ -81,10 +81,12 @@ const bootstrap = async () => {
 
   // CORS
   const allowedDomain = configService.get<string>('VIEWTUBE_ALLOWED_DOMAIN');
-  if (!allowedDomain.startsWith('/')) {
+  if (dev) {
+    server.enableCors({ origin: '*' });
+  } else if (!allowedDomain.startsWith('/')) {
     server.enableCors({ origin: allowedDomain, credentials: true });
-  } else if (!allowedDomain && !dev) {
-    server.enableCors();
+  } else if (!allowedDomain) {
+    server.enableCors({ origin: '*' });
   } else {
     server.enableCors({ origin: new RegExp(allowedDomain), credentials: true });
   }

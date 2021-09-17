@@ -47,6 +47,7 @@ const moduleMetadata: ModuleMetadata = {
     SentryModule.forRoot({
       dsn: process.env.SENTRY_DSN,
       release: process.env.SENTRY_RELEASE,
+      enabled: true,
       environment: 'production',
       integrations: [
         new Sentry.Integrations.Http({ breadcrumbs: true, tracing: true })

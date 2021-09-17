@@ -164,11 +164,17 @@ export class DashGenerator {
       }
       mimeObjects[i].forEach(format => {
         if (format.url) {
-          format.url = `http://localhost:8067/api/proxy/stream?url=${Buffer.from(
-            format.url,
-            'utf-8'
-          ).toString('base64')}`;
+          const correctedUrl = format.url.replaceAll('&amp;', '&');
+          const oldUrl = new URL(correctedUrl);
+
+          const newUrl = new URL(`${process.env.VIEWTUBE_API_URL}videoplayback`);
+          for (const [key, value] of oldUrl.searchParams as any) {
+            newUrl.searchParams.append(key, value);
+          }
+          newUrl.searchParams.append('host', oldUrl.host);
+          format.url = newUrl.toString();
         }
+
         if (isVideoFormat) {
           adapSet.elements.push(this.generateVideoRepresentation(format));
         } else {

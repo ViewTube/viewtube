@@ -848,7 +848,8 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
       } else if (process.browser) {
         if (props.video.dashManifest) {
           // Using dashjs
-          dashHelper.value = new DashHelper(videoRef.value, props.video.dashManifest);
+          const manifestUrl = `${accessor.environment.apiUrl}videos/manifest/dash/${props.video.videoId}`;
+          dashHelper.value = new DashHelper(videoRef.value, manifestUrl);
 
           dashHelper.value.registerEventHandlers({ videoElement });
         } else {
