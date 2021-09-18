@@ -271,9 +271,12 @@
           <div class="right-bottom-controls">
             <VideoPlayerSettings
               ref="videoPlayerSettingsRef"
-              :legacyFormats="video.legacyFormats"
-              :selectedQuality="selectedQuality"
-              @qualityselect="onChangeQuality"
+              :videoQualityList="videoQualityList"
+              :audioQualityList="audioQualityList"
+              :selectedVideoQualityFn="getSelectedVideoQuality"
+              :selectedAudioQualityFn="getSelectedAudioQuality"
+              @videoqualityselect="onChangeVideoQuality"
+              @audioqualityselect="onChangeAudioQuality"
               @speedchange="onChangeSpeed"
               @loopchange="onChangeLoop"
             />

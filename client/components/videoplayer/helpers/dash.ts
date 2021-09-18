@@ -18,6 +18,7 @@ export class DashHelper {
   videoRef: any;
   dashManifest: string;
   dashPlayerInstance: MediaPlayerClass;
+  isFullyInitialized = false;
 
   videoElement: any;
 
@@ -45,7 +46,31 @@ export class DashHelper {
     });
 
     this.dashPlayerInstance.on('streamInitialized', () => {
-      console.log(this.dashPlayerInstance.getBitrateInfoListFor('video'));
+      this.isFullyInitialized = true;
     });
   }
+
+  getVideoQualityList = () => {
+    return this.dashPlayerInstance.getBitrateInfoListFor('video');
+  };
+
+  getAudioQualityList = () => {
+    return this.dashPlayerInstance.getBitrateInfoListFor('audio');
+  };
+
+  getCurrentVideoQuality = () => {
+    return this.dashPlayerInstance.getQualityFor('video');
+  };
+
+  getCurrentAudioQuality = () => {
+    return this.dashPlayerInstance.getQualityFor('audio');
+  };
+
+  setVideoQuality = (index: number) => {
+    this.dashPlayerInstance.setQualityFor('video', index);
+  };
+
+  setAudioQuality = (index: number) => {
+    this.dashPlayerInstance.setQualityFor('audio', index);
+  };
 }

@@ -14,31 +14,36 @@
             @click.stop="onQualityMouseup"
             @touchend.stop="onQualityMouseup"
           >
-            <div v-if="adaptiveFormats" class="player-settings-submenu adaptive">
-              <span class="player-settings-title"> <MagicIcon />Automatic quality </span>
-              <div
-                class="qualities-info"
-                :class="{ selected: selectedQuality === 0 }"
-                @click.stop="setAutoQuality"
-                @touchend.stop="onQualityTouchInteraction"
-              >
-                <p>Max: {{ maxAdaptiveQuality.qualityLabel }}</p>
-                <p>Min: {{ minAdaptiveQuality.qualityLabel }}</p>
-              </div>
-            </div>
             <div class="player-settings-submenu">
               <span class="player-settings-title"><HighDefinitionIcon />Video Quality</span>
               <div
-                v-for="(quality, id) in formatQualities"
-                :key="id"
+                v-for="quality in videoQualityList"
+                :key="quality.qualityIndex"
                 class="format-quality-entry"
                 :class="{
-                  selected: selectedQuality === id
+                  selected: quality.qualityIndex === selectedVideoQualityFn()
                 }"
-                @click.stop="setFormatQuality(id)"
+                @click.stop="setVideoQuality(quality.qualityIndex)"
                 @touchend.stop="onQualityTouchInteraction"
               >
-                {{ quality.qualityLabel }}
+                {{ quality.height }}x{{ quality.width }} -
+                {{ $formatting.humanizeFileSize(quality.bitrate, true) }}/s
+              </div>
+            </div>
+            <div class="player-settings-submenu">
+              <span class="player-settings-title"><AudioDefinitionIcon />Audio Quality</span>
+              <div
+                v-for="quality in audioQualityList"
+                :key="quality.qualityIndex"
+                class="format-quality-entry"
+                :class="{
+                  selected: quality.qualityIndex === selectedAudioQualityFn()
+                }"
+                @click.stop="setAudioQuality(quality.qualityIndex)"
+                @touchend.stop="onQualityTouchInteraction"
+              >
+                <!-- {{ quality.height }}x{{ quality.width }} - -->
+                {{ $formatting.humanizeFileSize(quality.bitrate, true) }}/s
               </div>
             </div>
             <div class="player-settings-submenu">
@@ -76,8 +81,9 @@
 <script lang="ts">
 import SettingsIcon from 'vue-material-design-icons/Cog.vue';
 import HighDefinitionIcon from 'vue-material-design-icons/HighDefinition.vue';
-import MagicIcon from 'vue-material-design-icons/AutoFix.vue';
-import { computed, defineComponent, onMounted, ref, watch } from '@nuxtjs/composition-api';
+import AudioDefinitionIcon from 'vue-material-design-icons/QualityHigh.vue';
+// import MagicIcon from 'vue-material-design-icons/AutoFix.vue';
+import { defineComponent, onMounted, ref, watch } from '@nuxtjs/composition-api';
 import SwitchButton from '@/components/buttons/SwitchButton.vue';
 import { useAccessor } from '~/store';
 
@@ -86,13 +92,15 @@ export default defineComponent({
   components: {
     SettingsIcon,
     HighDefinitionIcon,
-    MagicIcon,
+    AudioDefinitionIcon,
+    // MagicIcon,
     SwitchButton
   },
   props: {
-    selectedQuality: Number,
-    legacyFormats: Array,
-    adaptiveFormats: { type: Array, required: false, default: null }
+    selectedVideoQualityFn: Function,
+    selectedAudioQualityFn: Function,
+    videoQualityList: Array,
+    audioQualityList: Array
   },
   setup(props, { emit }) {
     const accessor = useAccessor();
@@ -128,58 +136,29 @@ export default defineComponent({
       videoSpeed.value = accessor.settings.defaultVideoSpeed;
     });
 
-    const maxAdaptiveQuality = computed((): any => {
-      return sortedAdaptiveQualities.value.slice().reverse()[0];
-    });
-    const minAdaptiveQuality = computed((): any => {
-      return sortedAdaptiveQualities[0];
-    });
-    const formatQualities = computed((): any => {
-      return props.legacyFormats.filter((el: any) => el.qualityLabel);
-    });
-    const sortedAdaptiveQualities = computed((): any => {
-      return adaptiveVideos.value
-        .slice()
-        .sort(
-          (a: { bitrate: string }, b: { bitrate: string }) =>
-            parseInt(a.bitrate) - parseInt(b.bitrate)
-        );
-    });
-    const adaptiveVideos = computed((): any => {
-      return props.adaptiveFormats.filter((value: any) => {
-        if (value.type) {
-          return value.type.match(/.*video.*/);
-        }
-        return false;
-      });
-    });
-
     const onQualityInteraction = () => {
       popup.value = !popup.value;
     };
 
     const onQualityMouseup = () => {};
     const onQualityTouchInteraction = () => {};
-    const setFormatQuality = (nr: number) => {
-      emit('qualityselect', nr);
+    const setVideoQuality = (index: number) => {
+      emit('videoqualityselect', index);
     };
-    const setAutoQuality = () => {};
+    const setAudioQuality = (index: number) => {
+      emit('audioqualityselect', index);
+    };
 
     return {
       qualityUrl,
       popup,
       elementHeight,
-      maxAdaptiveQuality,
-      minAdaptiveQuality,
-      formatQualities,
-      sortedAdaptiveQualities,
-      adaptiveVideos,
       changeVideoSpeed,
       onQualityInteraction,
       onQualityMouseup,
       onQualityTouchInteraction,
-      setFormatQuality,
-      setAutoQuality,
+      setVideoQuality,
+      setAudioQuality,
       loopVideo,
       videoSpeed
     };

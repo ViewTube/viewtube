@@ -1,10 +1,10 @@
-import { Readable } from 'stream';
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import HttpsProxyAgent from 'https-proxy-agent/dist/agent';
 import fetch from 'node-fetch';
 import { FastifyReply, FastifyRequest } from '@nestjs/platform-fastify/node_modules/fastify';
-import undici from 'undici';
+import undici, { Client } from 'undici';
+import Consola from 'consola';
 @Injectable()
 export class ProxyService {
   constructor(private configService: ConfigService) {}
@@ -27,23 +27,35 @@ export class ProxyService {
     throw new InternalServerErrorException('Error fetching url');
   }
 
-  async proxyImage(url: string, local: boolean = false): Promise<Readable> {
+  async proxyImage(url: string, reply: FastifyReply, local: boolean = false): Promise<void> {
     try {
-      let proxyAgent = null;
+      let proxyUrl = null;
       if (this.configService.get('VIEWTUBE_PROXY_URL') && !local) {
-        const proxy = this.configService.get('VIEWTUBE_PROXY_URL');
-        proxyAgent = new HttpsProxyAgent(proxy);
+        proxyUrl = this.configService.get('VIEWTUBE_PROXY_URL');
       }
-      const response = await fetch(url, { agent: proxyAgent, timeout: 5000 });
-
-      if (response.ok) {
-        const readable = new Readable();
-        readable.wrap(response.body);
-        return readable;
+      if (proxyUrl) {
+        const client = new Client(proxyUrl);
+        await client
+          .stream(
+            { method: 'GET', path: url, opaque: reply },
+            ({ opaque }: { opaque: any }) => opaque.raw
+          )
+          .catch(error => {
+            Consola.log(error);
+          });
+      } else {
+        await undici
+          .stream(
+            url,
+            { method: 'GET', opaque: reply },
+            ({ opaque }: { opaque: any }) => opaque.raw
+          )
+          .catch(error => {
+            Consola.log(error);
+          });
       }
-      throw new InternalServerErrorException();
     } catch (error) {
-      throw new InternalServerErrorException(error);
+      Consola.log(error);
     }
   }
 
@@ -66,10 +78,10 @@ export class ProxyService {
           ({ opaque }: { opaque: any }) => opaque.raw
         )
         .catch(error => {
-          throw new InternalServerErrorException(error);
+          Consola.log(error);
         });
     } catch (error) {
-      throw new InternalServerErrorException(error);
+      Consola.log(error);
     }
   }
 }
