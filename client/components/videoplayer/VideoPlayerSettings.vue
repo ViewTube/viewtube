@@ -19,19 +19,31 @@
           >
             <div class="player-settings-submenu">
               <span class="player-settings-title"><HighDefinitionIcon />Video Quality</span>
+              <SwitchButton
+                :value="autoAdjustVideo"
+                :label="'Automatically adjust'"
+                :disabled="false"
+                :right="true"
+                @valuechange="val => (loopVideo = val)"
+              />
               <div
                 v-for="quality in videoQualityList"
                 :key="quality.qualityIndex"
                 class="format-quality-entry"
                 :class="{
-                  selected: quality.qualityIndex === selectedVideoQuality,
-                  recommended: quality.qualityIndex === recommendedResolution
+                  selected: quality.qualityIndex === selectedVideoQuality
                 }"
                 @click.stop="setVideoQuality(quality.qualityIndex)"
                 @touchend.stop="onQualityTouchInteraction"
               >
-                {{ quality.height }}x{{ quality.width }} -
+                {{ quality.width }}x{{ quality.height }} -
                 {{ $formatting.humanizeFileSize(quality.bitrate, true) }}/s
+                <span
+                  v-if="recommendedResolution && quality.qualityIndex === recommendedResolution"
+                  v-tippy="'Recommended for your screen size'"
+                  class="recommended-icon"
+                  ><CheckIcon
+                /></span>
               </div>
             </div>
             <div class="player-settings-submenu">
@@ -46,7 +58,6 @@
                 @click.stop="setAudioQuality(quality.qualityIndex)"
                 @touchend.stop="onQualityTouchInteraction"
               >
-                <!-- {{ quality.height }}x{{ quality.width }} - -->
                 {{ $formatting.humanizeFileSize(quality.bitrate, true) }}/s
               </div>
             </div>
@@ -86,8 +97,9 @@
 import SettingsIcon from 'vue-material-design-icons/Cog.vue';
 import HighDefinitionIcon from 'vue-material-design-icons/HighDefinition.vue';
 import AudioDefinitionIcon from 'vue-material-design-icons/QualityHigh.vue';
+import CheckIcon from 'vue-material-design-icons/Check.vue';
 // import MagicIcon from 'vue-material-design-icons/AutoFix.vue';
-import { defineComponent, onMounted, ref, watch } from '@nuxtjs/composition-api';
+import { defineComponent, onBeforeUnmount, onMounted, ref, watch } from '@nuxtjs/composition-api';
 import SwitchButton from '@/components/buttons/SwitchButton.vue';
 import { useAccessor } from '~/store';
 import { createComputed } from '@/plugins/computed';
@@ -98,6 +110,7 @@ export default defineComponent({
     SettingsIcon,
     HighDefinitionIcon,
     AudioDefinitionIcon,
+    CheckIcon,
     // MagicIcon,
     SwitchButton
   },
@@ -117,18 +130,7 @@ export default defineComponent({
     const loopVideo = ref(false);
     const videoSpeed = ref(1);
 
-    const recommendedResolution = createComputed(() => {
-      if (process.browser) {
-        const sortedResArray: Array<any> = [...props.videoQualityList].sort((a: any, b: any) => {
-          const screenHeight = screen.height * window.devicePixelRatio;
-          const aDiff = Math.abs(a.height - screenHeight);
-          const bDiff = Math.abs(b.height - screenHeight);
-          return aDiff - bDiff;
-        });
-        return sortedResArray[0].qualityIndex;
-      }
-      return null;
-    });
+    const recommendedResolution = ref(null);
 
     const smallQualityLabel = createComputed(() => {
       if (props.videoQualityList && props.renderedVideoQuality) {
@@ -157,12 +159,27 @@ export default defineComponent({
       emit('speedchange', newVal);
     });
 
+    const refreshRecommended = () => {
+      if (process.browser && props.videoQualityList) {
+        const sortedResArray: Array<any> = [...props.videoQualityList].sort((a: any, b: any) => {
+          const screenHeight = screen.height * window.devicePixelRatio;
+          const aDiff = Math.abs(a.height - screenHeight);
+          const bDiff = Math.abs(b.height - screenHeight);
+          return aDiff - bDiff;
+        });
+        recommendedResolution.value = sortedResArray[0].qualityIndex;
+      }
+    };
+
     onMounted(() => {
       loopVideo.value = accessor.settings.alwaysLoopVideo;
       videoSpeed.value = accessor.settings.defaultVideoSpeed;
+
+      window.addEventListener('resize', refreshRecommended);
     });
 
     const onQualityInteraction = () => {
+      refreshRecommended();
       popup.value = !popup.value;
     };
 
@@ -174,6 +191,10 @@ export default defineComponent({
     const setAudioQuality = (index: number) => {
       emit('audioqualityselect', index);
     };
+
+    onBeforeUnmount(() => {
+      window.removeEventListener('resize', refreshRecommended);
+    });
 
     return {
       qualityUrl,
@@ -337,6 +358,7 @@ $bottom-controls-height: $bottom-overlay-height - $video-seekbar-height;
         border-radius: 3px;
         font-size: 0.9rem;
         box-sizing: border-box;
+        position: relative;
 
         &:first-of-type {
           margin-top: 6px;
@@ -354,6 +376,11 @@ $bottom-controls-height: $bottom-overlay-height - $video-seekbar-height;
 
         &.selected {
           background-color: var(--theme-color-translucent);
+        }
+
+        .recommended-icon {
+          position: absolute;
+          right: 40px;
         }
       }
 

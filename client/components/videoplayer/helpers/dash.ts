@@ -12,6 +12,11 @@ export class DashHelper {
     //   debug: { logLevel: 5 }
     // });
 
+    this.videoAutoSwitchingMode =
+      this.dashPlayerInstance.getSettings().streaming.abr.autoSwitchBitrate.video;
+    this.audioAutoSwitchingMode =
+      this.dashPlayerInstance.getSettings().streaming.abr.autoSwitchBitrate.audio;
+
     this.dashPlayerInstance.initialize(videoRef, manifestUrl, false);
   }
 
@@ -26,6 +31,9 @@ export class DashHelper {
   currentAudioQuality = 0;
 
   renderedVideoQuality = 0;
+
+  videoAutoSwitchingMode = true;
+  audioAutoSwitchingMode = true;
 
   registerEventHandlers({ videoElement }: { videoElement: any }) {
     this.videoElement = videoElement;
@@ -69,19 +77,45 @@ export class DashHelper {
     });
   }
 
-  getVideoQualityList = () => {
+  setVideoAutoSwitchingMode(newValue: boolean) {
+    this.dashPlayerInstance.updateSettings({
+      streaming: {
+        abr: {
+          autoSwitchBitrate: {
+            video: newValue
+          }
+        }
+      }
+    });
+    this.videoAutoSwitchingMode = newValue;
+  }
+
+  setAudioAutoSwitchingMode(newValue: boolean) {
+    this.dashPlayerInstance.updateSettings({
+      streaming: {
+        abr: {
+          autoSwitchBitrate: {
+            audio: newValue
+          }
+        }
+      }
+    });
+    this.audioAutoSwitchingMode = newValue;
+  }
+
+  getVideoQualityList() {
     return this.dashPlayerInstance.getBitrateInfoListFor('video');
-  };
+  }
 
-  getAudioQualityList = () => {
+  getAudioQualityList() {
     return this.dashPlayerInstance.getBitrateInfoListFor('audio');
-  };
+  }
 
-  setVideoQuality = (index: number) => {
+  setVideoQuality(index: number) {
     this.dashPlayerInstance.setQualityFor('video', index);
-  };
+  }
 
-  setAudioQuality = (index: number) => {
+  setAudioQuality(index: number) {
     this.dashPlayerInstance.setQualityFor('audio', index);
-  };
+  }
 }

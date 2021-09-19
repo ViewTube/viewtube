@@ -64,6 +64,15 @@ export class Settings extends Document implements SettingsDto {
 
   @Prop()
   defaultVideoQuality: string;
+
+  @Prop()
+  defaultAudioQuality: string;
+
+  @Prop()
+  autoAdjustAudioQuality: boolean;
+
+  @Prop()
+  autoAdjustVideoQuality: boolean;
 }
 
 export const SettingsSchema = SchemaFactory.createForClass(Settings);

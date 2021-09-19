@@ -38,4 +38,10 @@ export class SettingsDto {
   defaultVideoSpeed: number;
 
   defaultVideoQuality: string;
+
+  defaultAudioQuality: string;
+
+  autoAdjustAudioQuality: boolean;
+
+  autoAdjustVideoQuality: boolean;
 }
