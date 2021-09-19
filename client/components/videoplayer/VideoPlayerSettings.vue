@@ -1,6 +1,9 @@
 <template>
   <div class="video-player-settings" @mouseup.stop="onQualityMouseup">
-    <SettingsIcon @click.stop="onQualityInteraction" @touchend.stop="onQualityTouchInteraction" />
+    <div class="quality-icon">
+      <span class="quality-label-small">{{ smallQualityLabel }}</span>
+      <SettingsIcon @click.stop="onQualityInteraction" @touchend.stop="onQualityTouchInteraction" />
+    </div>
     <portal to="popup">
       <transition name="player-settings-popup">
         <div
@@ -21,7 +24,8 @@
                 :key="quality.qualityIndex"
                 class="format-quality-entry"
                 :class="{
-                  selected: quality.qualityIndex === selectedVideoQualityFn()
+                  selected: quality.qualityIndex === selectedVideoQuality,
+                  recommended: quality.qualityIndex === recommendedResolution
                 }"
                 @click.stop="setVideoQuality(quality.qualityIndex)"
                 @touchend.stop="onQualityTouchInteraction"
@@ -37,7 +41,7 @@
                 :key="quality.qualityIndex"
                 class="format-quality-entry"
                 :class="{
-                  selected: quality.qualityIndex === selectedAudioQualityFn()
+                  selected: quality.qualityIndex === selectedAudioQuality
                 }"
                 @click.stop="setAudioQuality(quality.qualityIndex)"
                 @touchend.stop="onQualityTouchInteraction"
@@ -86,6 +90,7 @@ import AudioDefinitionIcon from 'vue-material-design-icons/QualityHigh.vue';
 import { defineComponent, onMounted, ref, watch } from '@nuxtjs/composition-api';
 import SwitchButton from '@/components/buttons/SwitchButton.vue';
 import { useAccessor } from '~/store';
+import { createComputed } from '@/plugins/computed';
 
 export default defineComponent({
   name: 'QualitySelection',
@@ -97,8 +102,9 @@ export default defineComponent({
     SwitchButton
   },
   props: {
-    selectedVideoQualityFn: Function,
-    selectedAudioQualityFn: Function,
+    selectedVideoQuality: Number,
+    selectedAudioQuality: Number,
+    renderedVideoQuality: Number,
     videoQualityList: Array,
     audioQualityList: Array
   },
@@ -110,6 +116,26 @@ export default defineComponent({
 
     const loopVideo = ref(false);
     const videoSpeed = ref(1);
+
+    const recommendedResolution = createComputed(() => {
+      if (process.browser) {
+        const sortedResArray: Array<any> = [...props.videoQualityList].sort((a: any, b: any) => {
+          const screenHeight = screen.height * window.devicePixelRatio;
+          const aDiff = Math.abs(a.height - screenHeight);
+          const bDiff = Math.abs(b.height - screenHeight);
+          return aDiff - bDiff;
+        });
+        return sortedResArray[0].qualityIndex;
+      }
+      return null;
+    });
+
+    const smallQualityLabel = createComputed(() => {
+      if (props.videoQualityList && props.renderedVideoQuality) {
+        const renderedQuality: any = props.videoQualityList[props.renderedVideoQuality];
+        return `${renderedQuality.width}x${renderedQuality.height}`;
+      }
+    });
 
     const changeVideoSpeed = (e: any) => {
       let speed = e.target.value;
@@ -154,6 +180,8 @@ export default defineComponent({
       popup,
       elementHeight,
       changeVideoSpeed,
+      recommendedResolution,
+      smallQualityLabel,
       onQualityInteraction,
       onQualityMouseup,
       onQualityTouchInteraction,
@@ -191,11 +219,19 @@ export default defineComponent({
 $bottom-controls-height: $bottom-overlay-height - $video-seekbar-height;
 
 .video-player-settings {
-  width: 40px;
   height: 40px;
   margin: 0;
   align-self: center;
   position: relative;
+}
+
+.quality-icon {
+  display: flex;
+  flex-direction: row;
+
+  .quality-label-small {
+    margin: auto;
+  }
 }
 
 .player-settings-popup-overlay {

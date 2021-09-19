@@ -22,6 +22,11 @@ export class DashHelper {
 
   videoElement: any;
 
+  currentVideoQuality = 0;
+  currentAudioQuality = 0;
+
+  renderedVideoQuality = 0;
+
   registerEventHandlers({ videoElement }: { videoElement: any }) {
     this.videoElement = videoElement;
 
@@ -45,6 +50,20 @@ export class DashHelper {
       console.log(error);
     });
 
+    this.dashPlayerInstance.on('qualityChangeRequested', e => {
+      if (e.mediaType === 'video') {
+        this.currentVideoQuality = e.newQuality;
+      } else if (e.mediaType === 'audio') {
+        this.currentAudioQuality = e.newQuality;
+      }
+    });
+
+    this.dashPlayerInstance.on('qualityChangeRendered', e => {
+      if (e.mediaType === 'video') {
+        this.renderedVideoQuality = e.newQuality;
+      }
+    });
+
     this.dashPlayerInstance.on('streamInitialized', () => {
       this.isFullyInitialized = true;
     });
@@ -56,14 +75,6 @@ export class DashHelper {
 
   getAudioQualityList = () => {
     return this.dashPlayerInstance.getBitrateInfoListFor('audio');
-  };
-
-  getCurrentVideoQuality = () => {
-    return this.dashPlayerInstance.getQualityFor('video');
-  };
-
-  getCurrentAudioQuality = () => {
-    return this.dashPlayerInstance.getQualityFor('audio');
   };
 
   setVideoQuality = (index: number) => {

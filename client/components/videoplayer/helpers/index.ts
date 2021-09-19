@@ -104,17 +104,23 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
     }
   });
 
-  const getSelectedVideoQuality = () => {
+  const selectedVideoQuality = createComputed(() => {
     if (dashHelper.value && dashHelper.value.isFullyInitialized) {
-      return dashHelper.value.getCurrentVideoQuality();
+      return dashHelper.value.currentVideoQuality;
     }
-  };
+  });
 
-  const getSelectedAudioQuality = () => {
+  const selectedAudioQuality = createComputed(() => {
     if (dashHelper.value && dashHelper.value.isFullyInitialized) {
-      return dashHelper.value.getCurrentAudioQuality();
+      return dashHelper.value.currentAudioQuality;
     }
-  };
+  });
+
+  const renderedVideoQuality = createComputed(() => {
+    if (dashHelper.value && dashHelper.value.isFullyInitialized) {
+      return dashHelper.value.renderedVideoQuality;
+    }
+  });
 
   const doTouchAction = () => {
     touchAction.value = true;
@@ -128,10 +134,8 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
 
   highestLegacyQuality.value = '#';
   if (props.video.legacyFormats) {
-    let qualityIndex = 0;
-    const videoFormat = props.video.legacyFormats.find((e: any, index: number) => {
+    const videoFormat = props.video.legacyFormats.find((e: any) => {
       if (e.qualityLabel) {
-        qualityIndex = index;
         if (e.qualityLabel === '1080p') {
           return true;
         } else if (e.qualityLabel === '720p') {
@@ -145,7 +149,6 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
     } else if (props.video.legacyFormats.length > 0) {
       highestLegacyQuality.value = props.video.legacyFormats[0].url;
     }
-    // selectedQuality.value = qualityIndex;
   }
 
   const chapters = ref(null);
@@ -923,8 +926,9 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
     chapters,
     sponsorBlockSegments,
     skipButton,
-    getSelectedVideoQuality,
-    getSelectedAudioQuality,
+    selectedVideoQuality,
+    selectedAudioQuality,
+    renderedVideoQuality,
     getChapterForPercentage,
     onLoadedMetadata,
     onPlaybackProgress,
