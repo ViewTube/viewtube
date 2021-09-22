@@ -280,6 +280,8 @@
               @audioqualityselect="onChangeAudioQuality"
               @speedchange="onChangeSpeed"
               @loopchange="onChangeLoop"
+              @autoadjustchange="onAutoAdjustChange"
+              @refreshrecommended="onRefreshRecommendedQuality"
             />
             <FullscreenIcon
               v-if="!fullscreen"

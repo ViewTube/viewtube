@@ -8,9 +8,14 @@ export class DashHelper {
     this.dashPlayerInstance = dashLibrary.MediaPlayer().create();
     this.videoRef = videoRef;
 
-    // this.dashPlayerInstance.updateSettings({
-    //   debug: { logLevel: 5 }
-    // });
+    this.dashPlayerInstance.updateSettings({
+      streaming: {
+        abr: {
+          limitBitrateByPortal: true,
+          usePixelRatioInLimitBitrateByPortal: true
+        }
+      }
+    });
 
     this.videoAutoSwitchingMode =
       this.dashPlayerInstance.getSettings().streaming.abr.autoSwitchBitrate.video;
@@ -74,6 +79,18 @@ export class DashHelper {
 
     this.dashPlayerInstance.on('streamInitialized', () => {
       this.isFullyInitialized = true;
+    });
+  }
+
+  setMaxBitrate(bitrate: number) {
+    this.dashPlayerInstance.updateSettings({
+      streaming: {
+        abr: {
+          maxBitrate: {
+            video: bitrate
+          }
+        }
+      }
     });
   }
 

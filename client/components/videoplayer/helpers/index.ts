@@ -727,8 +727,22 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
     selectedLegacyQuality.value = index;
   };
 
+  const onAutoAdjustChange = () => {
+    if (dashHelper.value && dashHelper.value.isFullyInitialized) {
+      dashHelper.value.setAudioAutoSwitchingMode(accessor.settings.autoAdjustAudioQuality);
+      dashHelper.value.setVideoAutoSwitchingMode(accessor.settings.autoAdjustVideoQuality);
+    }
+  };
+
+  const onRefreshRecommendedQuality = (quality: number) => {
+    if (dashHelper.value && dashHelper.value.isFullyInitialized) {
+      const maxBitrate = dashHelper.value.getVideoQualityList()[quality];
+      dashHelper.value.setMaxBitrate(maxBitrate.bitrate);
+    }
+  };
+
   const onChangeVideoQuality = (index: number) => {
-    if (dashHelper.value) {
+    if (dashHelper.value && dashHelper.value.isFullyInitialized) {
       dashHelper.value.setVideoQuality(index);
     } else {
       onChangeQuality(index);
@@ -908,11 +922,11 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
     document.removeEventListener('keydown', onWindowKeyDown);
     destroyInstance();
   });
+
   return {
     imgProxyUrl: imgProxy.url,
     loading,
     fullscreen,
-    // dashPlayer,
     playerOverlay,
     videoElement,
     seekbar,
@@ -984,6 +998,8 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
     onChangeAudioQuality,
     onChangeLoop,
     onChangeSpeed,
-    setVideoTime
+    setVideoTime,
+    onAutoAdjustChange,
+    onRefreshRecommendedQuality
   };
 };

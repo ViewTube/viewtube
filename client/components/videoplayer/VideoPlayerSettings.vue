@@ -19,25 +19,22 @@
           >
             <div v-if="videoQualityList" class="player-settings-submenu">
               <span class="player-settings-title"><HighDefinitionIcon />Video Quality</span>
-              <!-- <SwitchButton
-                :value="autoAdjustVideo"
+              <SwitchButton
+                :value="$accessor.settings.autoAdjustVideoQuality"
                 :label="'Automatically adjust'"
                 :disabled="false"
                 :right="true"
-                @valuechange="val => (loopVideo = val)"
-              /> -->
+                @valuechange="autoAdjustVideoQuality"
+              />
               <div
                 v-for="(quality, index) in videoQualityList"
                 :key="quality.qualityIndex ? quality.qualityIndex : index"
                 class="format-quality-entry"
                 :class="{
                   selected:
-                    quality.qualityIndex === selectedVideoQuality ||
-                    index === selectedVideoQuality
+                    quality.qualityIndex === selectedVideoQuality || index === selectedVideoQuality
                 }"
-                @click.stop="
-                  setVideoQuality(quality.qualityIndex ? quality.qualityIndex : index)
-                "
+                @click.stop="setVideoQuality(quality.qualityIndex ? quality.qualityIndex : index)"
                 @touchend.stop="onQualityTouchInteraction"
               >
                 {{
@@ -56,6 +53,13 @@
             </div>
             <div v-if="audioQualityList" class="player-settings-submenu">
               <span class="player-settings-title"><AudioDefinitionIcon />Audio Quality</span>
+              <SwitchButton
+                :value="$accessor.settings.autoAdjustAudioQuality"
+                :label="'Automatically adjust'"
+                :disabled="false"
+                :right="true"
+                @valuechange="autoAdjustAudioQuality"
+              />
               <div
                 v-for="quality in audioQualityList"
                 :key="quality.qualityIndex"
@@ -176,7 +180,18 @@ export default defineComponent({
           return aDiff - bDiff;
         });
         recommendedResolution.value = sortedResArray[0].qualityIndex;
+        emit('refreshrecommended', recommendedResolution.value);
       }
+    };
+
+    const autoAdjustVideoQuality = (val: boolean) => {
+      accessor.settings.setAutoAdjustVideoQuality(val); 
+      emit('autoadjustchange');
+    };
+
+    const autoAdjustAudioQuality = (val: boolean) => {
+      accessor.settings.setAutoAdjustAudioQuality(val); 
+      emit('autoadjustchange');
     };
 
     onMounted(() => {
@@ -216,6 +231,8 @@ export default defineComponent({
       onQualityTouchInteraction,
       setVideoQuality,
       setAudioQuality,
+      autoAdjustVideoQuality,
+      autoAdjustAudioQuality,
       loopVideo,
       videoSpeed
     };
