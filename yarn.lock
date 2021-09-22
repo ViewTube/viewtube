@@ -5483,7 +5483,7 @@ cyclist@^1.0.1:
   resolved "https://registry.yarnpkg.com/cyclist/-/cyclist-1.0.1.tgz#596e9698fd0c80e12038c2b82d6eb1b35b6224d9"
   integrity sha1-WW6WmP0MgOEgOMK4LW6xs1tiJNk=
 
-dashjs@^4.0.1:
+dashjs@4.0.1:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/dashjs/-/dashjs-4.0.1.tgz#6837300387495e2975c067f7e2bf3126f751db80"
   integrity sha512-Osgi+XKYS+OUiOJNQgY+576WluEIr2PFH8ioh9NsTLdqDQDanNfTdfXHRpfZLQbVd6xrGP5d5z1XoDr5Q9pwWQ==
@@ -14220,7 +14220,7 @@ undefsafe@^2.0.3:
   dependencies:
     debug "^2.2.0"
 
-undici@^4.5.1:
+undici@4.5.1:
   version "4.5.1"
   resolved "https://registry.yarnpkg.com/undici/-/undici-4.5.1.tgz#482456da326b06220fcbd4db3eacc2fba1f2d05d"
   integrity sha512-1Kmphp4SMwVbSauz9xH4gxt0m3sLGs5qRHs/XYgjeO3bNSt6hspDZqMhM8+ETu9ynB5bq9e6mnwcDz+NVCQ3UQ==
@@ -15100,7 +15100,7 @@ xdg-basedir@^4.0.0:
   resolved "https://registry.yarnpkg.com/xdg-basedir/-/xdg-basedir-4.0.0.tgz#4bc8d9984403696225ef83a1573cbbcb4e79db13"
   integrity sha512-PSNhEJDejZYV7h50BohL09Er9VaIefr2LMAf3OEmpCkjOi34eYyQYAXUTjEQtZJTKcF0E2UKTh+osDLsgNim9Q==
 
-xml-js@^1.6.11:
+xml-js@1.6.11:
   version "1.6.11"
   resolved "https://registry.yarnpkg.com/xml-js/-/xml-js-1.6.11.tgz#927d2f6947f7f1c19a316dd8eea3614e8b18f8e9"
   integrity sha512-7rVi2KMfwfWFl+GpPg6m80IVMWXLRjO+PxTq7V2CDhoGak0wzYzFgUY2m4XJ47OGdXd8eLE8EmwfAmdjw7lC1g==
