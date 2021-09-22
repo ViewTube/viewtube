@@ -163,6 +163,12 @@ export class SubscriptionsService {
     if (userSubscriptions) {
       const userSubscriptionIds = userSubscriptions.subscriptions.map(e => e.channelId);
 
+      if (typeof limit !== 'number') {
+        limit = parseInt('' + limit);
+      }
+      if (typeof start !== 'number') {
+        start = parseInt('' + start);
+      }
       if (limit > 30) {
         limit = 30;
       }

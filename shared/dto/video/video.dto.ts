@@ -1,6 +1,7 @@
 import { RecommendedVideoDto } from './recommended-video.dto';
 import { VideoThumbnailDto } from './video-thumbnail.dto';
 import { AuthorThumbnailDto } from './author-thumbnail.dto';
+import { ChapterDto } from './chapter.dto';
 
 export class VideoDto {
   type: string;
@@ -34,9 +35,10 @@ export class VideoDto {
   isListed: boolean;
   liveNow: boolean;
   isUpcoming: boolean;
-  dashUrl: string;
   adaptiveFormats: Array<any>;
-  formatStreams: Array<any>;
+  legacyFormats: Array<any>;
+  chapters?: Array<ChapterDto>;
   captions: object;
   recommendedVideos: Array<RecommendedVideoDto>;
+  dashManifest?: string;
 }

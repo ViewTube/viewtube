@@ -26,6 +26,7 @@ RUN apk add --no-cache --virtual .build-deps yarn && \
     apk del .build-deps
 
 ENV NODE_ENV=production
+HEALTHCHECK --interval=30s --timeout=5s --start-period=30s CMD wget --no-verbose --tries=1 --spider http://localhost/ || exit 1
 EXPOSE 8066
 
 CMD ["node", "-r", "module-alias/register", "dist/server/main.js"]

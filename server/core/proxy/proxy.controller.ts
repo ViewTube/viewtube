@@ -1,7 +1,7 @@
-import { Readable } from 'stream';
-import { Controller, Get, Query, Header, StreamableFile } from '@nestjs/common';
+import { Controller, Get, Query, Header, Res, Req } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Throttle } from '@nestjs/throttler';
+import { FastifyReply, FastifyRequest } from '@nestjs/platform-fastify/node_modules/fastify';
 import { ProxyService } from './proxy.service';
 
 @ApiTags('Core')
@@ -22,15 +22,19 @@ export class ProxyController {
   @Header('Cache-Control', 'no-cache')
   async getQuery(
     @Query('url') url: string,
-    @Query('local') local: boolean = false
-  ): Promise<StreamableFile> {
-    const stream = await this.proxyService.proxyImage(url, local);
-    return new StreamableFile(stream);
+    @Query('local') local: boolean = false,
+    @Res() reply: FastifyReply
+  ): Promise<void> {
+    await this.proxyService.proxyImage(url, reply, local);
   }
 
   @Get('stream')
   @Header('Cache-Control', 'no-cache')
-  proxyStream(@Query('url') url: string): Promise<Readable> {
-    return this.proxyService.proxyStream(url);
+  async proxyStream(
+    @Query('url') url: string,
+    @Req() request: FastifyRequest,
+    @Res() reply: FastifyReply
+  ): Promise<void> {
+    return await this.proxyService.proxyStream(url, request, reply);
   }
 }

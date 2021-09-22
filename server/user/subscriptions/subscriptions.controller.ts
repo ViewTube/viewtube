@@ -65,8 +65,8 @@ export class SubscriptionsController {
   @ApiQuery({ name: 'start', required: false })
   getSubscriptionVideos(
     @Req() request: ViewTubeRequest,
-    @Query('limit', ParseIntPipe) limit = 30,
-    @Query('start', ParseIntPipe) start = 0
+    @Query('limit') limit: number = 30,
+    @Query('start') start: number = 0
   ): Promise<{ videoCount: number; videos: Array<VideoBasicInfoDto> }> {
     return this.subscriptionsService.getSubscriptionFeed(request.user.username, limit, start);
   }

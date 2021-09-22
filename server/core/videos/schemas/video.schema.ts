@@ -43,7 +43,7 @@ export class Video extends Document implements VideoDto {
   isUpcoming: boolean;
   dashUrl: string;
   adaptiveFormats: object[];
-  formatStreams: object[];
+  legacyFormats: object[];
   captions: object;
   recommendedVideos: RecommendedVideoDto[];
 }
