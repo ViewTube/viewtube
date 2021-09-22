@@ -17,26 +17,34 @@
             @click.stop="onQualityMouseup"
             @touchend.stop="onQualityMouseup"
           >
-            <div class="player-settings-submenu">
+            <div v-if="videoQualityList" class="player-settings-submenu">
               <span class="player-settings-title"><HighDefinitionIcon />Video Quality</span>
-              <SwitchButton
+              <!-- <SwitchButton
                 :value="autoAdjustVideo"
                 :label="'Automatically adjust'"
                 :disabled="false"
                 :right="true"
                 @valuechange="val => (loopVideo = val)"
-              />
+              /> -->
               <div
-                v-for="quality in videoQualityList"
-                :key="quality.qualityIndex"
+                v-for="(quality, index) in videoQualityList"
+                :key="quality.qualityIndex ? quality.qualityIndex : index"
                 class="format-quality-entry"
                 :class="{
-                  selected: quality.qualityIndex === selectedVideoQuality
+                  selected:
+                    quality.qualityIndex === selectedVideoQuality ||
+                    index === selectedVideoQuality
                 }"
-                @click.stop="setVideoQuality(quality.qualityIndex)"
+                @click.stop="
+                  setVideoQuality(quality.qualityIndex ? quality.qualityIndex : index)
+                "
                 @touchend.stop="onQualityTouchInteraction"
               >
-                {{ quality.width }}x{{ quality.height }} -
+                {{
+                  quality.width && quality.height
+                    ? `${quality.width}x${quality.height} - `
+                    : `${quality.qualityLabel} - `
+                }}
                 {{ $formatting.humanizeFileSize(quality.bitrate, true) }}/s
                 <span
                   v-if="recommendedResolution && quality.qualityIndex === recommendedResolution"
@@ -46,7 +54,7 @@
                 /></span>
               </div>
             </div>
-            <div class="player-settings-submenu">
+            <div v-if="audioQualityList" class="player-settings-submenu">
               <span class="player-settings-title"><AudioDefinitionIcon />Audio Quality</span>
               <div
                 v-for="quality in audioQualityList"
@@ -101,7 +109,7 @@ import CheckIcon from 'vue-material-design-icons/Check.vue';
 // import MagicIcon from 'vue-material-design-icons/AutoFix.vue';
 import { defineComponent, onBeforeUnmount, onMounted, ref, watch } from '@nuxtjs/composition-api';
 import SwitchButton from '@/components/buttons/SwitchButton.vue';
-import { useAccessor } from '~/store';
+import { useAccessor } from '@/store';
 import { createComputed } from '@/plugins/computed';
 
 export default defineComponent({

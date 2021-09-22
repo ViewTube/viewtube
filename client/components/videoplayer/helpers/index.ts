@@ -95,6 +95,8 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
     if (dashHelper.value && dashHelper.value.isFullyInitialized) {
       console.log('getting quality');
       return dashHelper.value.getVideoQualityList();
+    } else {
+      return props.video.legacyFormats;
     }
   });
 
@@ -104,10 +106,13 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
     }
   });
 
+  const selectedLegacyQuality = ref(0);
+
   const selectedVideoQuality = createComputed(() => {
     if (dashHelper.value && dashHelper.value.isFullyInitialized) {
       return dashHelper.value.currentVideoQuality;
     }
+    return selectedLegacyQuality.value;
   });
 
   const selectedAudioQuality = createComputed(() => {
@@ -719,12 +724,14 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
     }
     videoRef.value.currentTime = currentTime;
     videoRef.value.play();
-    // selectedQuality.value = index;
+    selectedLegacyQuality.value = index;
   };
 
   const onChangeVideoQuality = (index: number) => {
     if (dashHelper.value) {
       dashHelper.value.setVideoQuality(index);
+    } else {
+      onChangeQuality(index);
     }
   };
 
@@ -861,14 +868,12 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
     if (videoRef.value) {
       if (props.video.liveNow) {
         if (isHlsSupported()) {
-          console.log('hls initializing');
-
           await initializeHlsStream(
             highestLegacyQuality.value,
             videoRef.value,
             accessor.environment.streamProxyUrl
           );
-          console.log('hls initialized');
+          selectedLegacyQuality.value = 0;
         } else if (isHlsNative(videoRef.value) && !isHlsSupported()) {
           videoRef.value.src = highestLegacyQuality.value;
         }
