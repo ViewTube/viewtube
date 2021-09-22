@@ -104,7 +104,6 @@ export class VideosService {
 
       return video;
     } catch (err) {
-      console.log(err);
       throw new HttpException(
         {
           status: HttpStatus.INTERNAL_SERVER_ERROR,

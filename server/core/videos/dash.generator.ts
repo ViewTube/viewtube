@@ -163,7 +163,7 @@ export class DashGenerator {
         isVideoFormat = true;
       }
       mimeObjects[i].forEach(format => {
-        if (format.url) {
+        if (format.url && process.env.VIEWTUBE_API_URL) {
           const correctedUrl = format.url.replaceAll('&amp;', '&');
           const oldUrl = new URL(correctedUrl);
 
