@@ -892,13 +892,14 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
           videoRef.value.src = highestLegacyQuality.value;
         }
       } else if (process.browser) {
-        if (props.video.dashManifest) {
+        if (props.video.dashManifest && window.MediaSource) {
           // Using dashjs
           const manifestUrl = `${accessor.environment.apiUrl}videos/manifest/dash/${props.video.videoId}`;
           dashHelper.value = new DashHelper(videoRef.value, manifestUrl);
 
           dashHelper.value.registerEventHandlers({ videoElement });
         } else {
+          selectedLegacyQuality.value = 0;
           videoRef.value.src = highestLegacyQuality.value;
         }
       }
