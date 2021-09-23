@@ -1,11 +1,9 @@
-import { Duplex } from 'stream';
 import {
   Controller,
   Get,
   Param,
   CacheInterceptor,
   UseInterceptors,
-  StreamableFile,
   Res
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
