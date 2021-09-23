@@ -42,10 +42,14 @@ const prepareBootstrap = () => {
     process.env.VIEWTUBE_PRIVATE_VAPID || ''
   );
 
-  (global as any).__basedir = __dirname;
+  // eslint-disable-next-line dot-notation
+  global['__basedir'] = __dirname;
   if (process.env.VIEWTUBE_DATA_DIRECTORY) {
-    (global as any).__basedir = process.env.VIEWTUBE_DATA_DIRECTORY;
+    // eslint-disable-next-line dot-notation
+    global['__basedir'] = process.env.VIEWTUBE_DATA_DIRECTORY;
   }
+  // eslint-disable-next-line dot-notation
+  console.log(global['__basedir']);
 };
 
 const bootstrap = async () => {
@@ -81,8 +85,8 @@ const bootstrap = async () => {
 
   // CORS
   const allowedDomain = configService.get<string>('VIEWTUBE_ALLOWED_DOMAIN');
-  if (dev) {
-    server.enableCors({ origin: '*' });
+  if (dev && allowedDomain) {
+    server.enableCors({ origin: allowedDomain, credentials: true });
   } else if (!allowedDomain.startsWith('/')) {
     server.enableCors({ origin: allowedDomain, credentials: true });
   } else if (!allowedDomain) {

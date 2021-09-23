@@ -1,12 +1,12 @@
 import path from 'path';
 import fs from 'fs';
-import sharp, { Sharp } from 'sharp';
 import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import Consola from 'consola';
 import { Model } from 'mongoose';
 import fetch from 'node-fetch';
 import { General } from 'server/common/general.schema';
+import { FastifyReply } from 'fastify';
 import { ChannelMapper } from './channel.mapper';
 import { ChannelDto } from './dto/channel.dto';
 
@@ -163,26 +163,20 @@ export class ChannelsService {
     return null;
   }
 
-  getTinyThumbnail(id: string): Sharp {
+  getTinyThumbnail(reply: FastifyReply, id: string) {
     // eslint-disable-next-line dot-notation
     const imgPathWebp = path.join(global['__basedir'], `channels/${id}.webp`);
     // eslint-disable-next-line dot-notation
     const imgPathJpg = path.join(global['__basedir'], `channels/${id}.jpg`);
 
-    let fileStream = null;
-
-    try {
-      if (fs.existsSync(imgPathWebp)) {
-        fileStream = fs.createReadStream(imgPathWebp);
-      } else if (fs.existsSync(imgPathJpg)) {
-        fileStream = fs.createReadStream(imgPathJpg);
-      }
-    } catch {}
-
-    if (!fileStream) {
+    if (fs.existsSync(imgPathWebp)) {
+      const fileStream = fs.createReadStream(imgPathWebp);
+      reply.type('image/webp').send(fileStream);
+    } else if (fs.existsSync(imgPathJpg)) {
+      const fileStream = fs.createReadStream(imgPathJpg);
+      reply.type('image/jpeg').send(fileStream);
+    } else {
       throw new NotFoundException();
     }
-    const outputStream = sharp(fileStream).resize(36, 36);
-    return outputStream;
   }
 }

@@ -5,9 +5,11 @@ import {
   Param,
   CacheInterceptor,
   UseInterceptors,
-  StreamableFile
+  StreamableFile,
+  Res
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { FastifyReply } from 'fastify';
 import { ChannelsService } from './channels.service';
 import { ChannelDto } from './dto/channel.dto';
 
@@ -17,19 +19,13 @@ export class ChannelsController {
   constructor(private channelsService: ChannelsService) {}
 
   @Get(':id/thumbnail/tiny.jpg')
-  getTinyThumbnailJpg(@Param('id') id: string): StreamableFile {
-    const thumbnail = this.channelsService.getTinyThumbnail(id);
-    if (thumbnail && thumbnail instanceof Duplex) {
-      return new StreamableFile(thumbnail);
-    }
+  getTinyThumbnailJpg(@Param('id') id: string, @Res() reply: FastifyReply): void {
+    this.channelsService.getTinyThumbnail(reply, id);
   }
 
   @Get(':id/thumbnail/tiny.webp')
-  getTinyThumbnailWebp(@Param('id') id: string) {
-    const thumbnail = this.channelsService.getTinyThumbnail(id);
-    if (thumbnail && thumbnail instanceof Duplex) {
-      return new StreamableFile(thumbnail);
-    }
+  getTinyThumbnailWebp(@Param('id') id: string, @Res() reply: FastifyReply): void {
+    this.channelsService.getTinyThumbnail(reply, id);
   }
 
   @Get(':id')
