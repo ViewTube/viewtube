@@ -7,6 +7,7 @@ import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { ThrottlerStorageRedisService } from 'nestjs-throttler-storage-redis';
 import * as Sentry from '@sentry/node';
+import { RedisOptions } from 'ioredis';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CoreModule } from './core/core.module';
@@ -20,7 +21,7 @@ const redisPort = isNaN(parseInt(process.env.VIEWTUBE_REDIS_PORT))
   ? 6379
   : parseInt(process.env.VIEWTUBE_REDIS_PORT);
 
-const redisOptions: any = {
+const redisOptions: RedisOptions = {
   host: process.env.VIEWTUBE_REDIS_HOST,
   port: redisPort
 };
@@ -49,9 +50,7 @@ const moduleMetadata: ModuleMetadata = {
       release: process.env.SENTRY_RELEASE,
       enabled: Boolean(process.env.SENTRY_DSN && process.env.SENTRY_RELEASE),
       environment: 'production',
-      integrations: [
-        new Sentry.Integrations.Http({ breadcrumbs: true, tracing: true })
-      ],
+      integrations: [new Sentry.Integrations.Http({ breadcrumbs: true, tracing: true })],
       tracesSampleRate: parseFloat(process.env.SENTRY_TRACES_SAMPLERATE)
     }),
     CacheModule.registerAsync({
