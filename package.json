@@ -90,7 +90,7 @@
     "node-fetch": "2.6.5",
     "nuxt": "2.15.8",
     "nuxt-typed-vuex": "0.2.0",
-    "passport": "0.4.1",
+    "passport": "0.5.0",
     "passport-jwt": "4.0.0",
     "passport-local": "1.0.0",
     "portal-vue": "2.1.7",
