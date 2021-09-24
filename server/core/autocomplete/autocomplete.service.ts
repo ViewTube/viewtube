@@ -1,5 +1,4 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
-import encoding from 'encoding';
 import undici from 'undici';
 
 @Injectable()
