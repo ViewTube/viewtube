@@ -24,7 +24,7 @@ export class SearchController {
   }
 
   @Get('continuation')
-  searchContinuation(@Query('continuationData') continuationData: any) {
+  searchContinuation(@Query('continuationData[]') continuationData: Array<any>) {
     if (continuationData) {
       return this.searchService.continueSearch(continuationData);
     }
