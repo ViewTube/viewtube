@@ -48,8 +48,6 @@ const prepareBootstrap = () => {
     // eslint-disable-next-line dot-notation
     global['__basedir'] = process.env.VIEWTUBE_DATA_DIRECTORY;
   }
-  // eslint-disable-next-line dot-notation
-  console.log(global['__basedir']);
 };
 
 const bootstrap = async () => {
