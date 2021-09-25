@@ -239,7 +239,7 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
 
   const onWindowKeyDown = (e: KeyboardEvent) => {
     if (videoRef.value) {
-      if (e.key === ' ') {
+      if (e.key === ' ' || e.key === 'k') {
         toggleVideoPlayback();
         e.preventDefault();
       } else if (e.key === 'ArrowRight') {
@@ -252,6 +252,20 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
       } else if (e.key === 'ArrowDown') {
         decreaseVolume(0.1);
         e.preventDefault();
+      } else if (e.key === 'j') {
+        seekBackward(10);
+      } else if (e.key === 'l') {
+        seekBackward(10);
+      } else if (e.key === 'm') {
+        videoRef.value.muted = !videoRef.value.muted;
+      } else if (e.key === '.') {
+        if (!videoElement.playing) {
+          videoRef.value.currentTime = videoRef.value.currentTime + 1 / 30;
+        }
+      } else if (e.key === ',') {
+        if (!videoElement.playing) {
+          videoRef.value.currentTime = videoRef.value.currentTime - 1 / 30;
+        }
       }
     }
   };
