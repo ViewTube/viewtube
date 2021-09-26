@@ -75,7 +75,7 @@
     "fastify-cookie": "5.3.1",
     "fastify-helmet": "5.3.2",
     "fastify-multipart": "5.0.0",
-    "fastify-swagger": "4.12.0",
+    "fastify-swagger": "4.12.1",
     "hls.js": "1.0.10",
     "https-proxy-agent": "5.0.0",
     "humanize-duration": "3.27.0",
