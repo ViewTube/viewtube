@@ -44,7 +44,7 @@
     "@nestjs/config": "1.0.1",
     "@nestjs/core": "8.0.7",
     "@nestjs/jwt": "8.0.0",
-    "@nestjs/mongoose": "8.0.1",
+    "@nestjs/mongoose": "9.0.0",
     "@nestjs/passport": "8.0.1",
     "@nestjs/platform-fastify": "8.0.7",
     "@nestjs/schedule": "1.0.1",
