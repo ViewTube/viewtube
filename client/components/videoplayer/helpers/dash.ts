@@ -3,7 +3,6 @@ import { MediaPlayerClass } from 'dashjs';
 export class DashHelper {
   constructor(videoRef: any, manifestUrl: string) {
     const dashLibrary = require('dashjs');
-    console.log('initializing dash playback');
 
     this.dashPlayerInstance = dashLibrary.MediaPlayer().create();
     this.videoRef = videoRef;
@@ -47,9 +46,7 @@ export class DashHelper {
       console.log(e);
     });
 
-    this.dashPlayerInstance.on('bufferLoaded', () => {
-      console.log('buffer loaded');
-    });
+    this.dashPlayerInstance.on('bufferLoaded', () => {});
 
     this.dashPlayerInstance.on('playbackWaiting', () => {
       this.videoElement.buffering = true;

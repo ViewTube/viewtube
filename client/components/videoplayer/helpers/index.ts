@@ -93,7 +93,6 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
 
   const videoQualityList = createComputed(() => {
     if (dashHelper.value && dashHelper.value.isFullyInitialized) {
-      console.log('getting quality');
       return dashHelper.value.getVideoQualityList();
     } else {
       return props.video.legacyFormats;
@@ -239,33 +238,70 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
 
   const onWindowKeyDown = (e: KeyboardEvent) => {
     if (videoRef.value) {
-      if (e.key === ' ' || e.key === 'k') {
-        toggleVideoPlayback();
-        e.preventDefault();
-      } else if (e.key === 'ArrowRight') {
-        seekForward(5);
-      } else if (e.key === 'ArrowLeft') {
-        seekBackward(5);
-      } else if (e.key === 'ArrowUp') {
-        increaseVolume(0.1);
-        e.preventDefault();
-      } else if (e.key === 'ArrowDown') {
-        decreaseVolume(0.1);
-        e.preventDefault();
-      } else if (e.key === 'j') {
-        seekBackward(10);
-      } else if (e.key === 'l') {
-        seekBackward(10);
-      } else if (e.key === 'm') {
-        videoRef.value.muted = !videoRef.value.muted;
-      } else if (e.key === '.') {
-        if (!videoElement.playing) {
-          videoRef.value.currentTime = videoRef.value.currentTime + 1 / 30;
+      switch (e.key) {
+        case ' ':
+        case 'k':
+          toggleVideoPlayback();
+          e.preventDefault();
+          break;
+        case 'ArrowRight':
+          seekForward(5);
+          break;
+        case 'ArrowLeft':
+          seekBackward(5);
+          break;
+        case 'ArrowUp':
+          increaseVolume(0.1);
+          e.preventDefault();
+          break;
+        case 'ArrowDown':
+          decreaseVolume(0.1);
+          e.preventDefault();
+          break;
+        case 'j':
+          seekBackward(10);
+          break;
+        case 'l':
+          seekBackward(10);
+          break;
+        case 'm':
+          videoRef.value.muted = !videoRef.value.muted;
+          break;
+        case 'f':
+          onSwitchFullscreen();
+          break;
+        case '.':
+          if (!videoElement.playing) {
+            videoRef.value.currentTime = videoRef.value.currentTime + 1 / 30;
+          }
+          break;
+        case ',':
+          if (!videoElement.playing) {
+            videoRef.value.currentTime = videoRef.value.currentTime - 1 / 30;
+          }
+          break;
+        case '>': {
+          let newSpeed = videoRef.value.playbackRate + 0.2;
+          newSpeed = newSpeed < 3 ? newSpeed : 3;
+          videoRef.value.playbackRate = newSpeed;
+          videoRef.value.defaultPlaybackRate = newSpeed;
+          break;
         }
-      } else if (e.key === ',') {
-        if (!videoElement.playing) {
-          videoRef.value.currentTime = videoRef.value.currentTime - 1 / 30;
+        case '<': {
+          let newSpeed = videoRef.value.playbackRate - 0.2;
+          newSpeed = newSpeed > 0.1 ? newSpeed : 0.1;
+          videoRef.value.playbackRate = newSpeed;
+          videoRef.value.defaultPlaybackRate = newSpeed;
+          break;
         }
+        case e.key.match(/\d/).input || {}: {
+          const skipInterval = videoRef.value.duration / 10;
+          const amount = parseInt(e.key);
+          videoRef.value.currentTime = skipInterval * amount;
+          break;
+        }
+        default:
+          break;
       }
     }
   };
