@@ -48,7 +48,7 @@
     "@nestjs/passport": "8.0.1",
     "@nestjs/platform-fastify": "8.0.7",
     "@nestjs/schedule": "1.0.1",
-    "@nestjs/swagger": "5.0.9",
+    "@nestjs/swagger": "5.1.0",
     "@nestjs/testing": "8.0.7",
     "@nestjs/throttler": "2.0.0",
     "@nuxt/vue-app": "2.15.8",
