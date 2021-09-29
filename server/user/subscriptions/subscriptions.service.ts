@@ -81,7 +81,7 @@ export class SubscriptionsService {
         u.subscriptions.find(sub => sub.channelId === video.authorId)
       );
       if (subscribedUsers) {
-        subscribedUsers.forEach((user: Subscription) => {
+        subscribedUsers.forEach(user => {
           const channelSubscription = user.subscriptions.find(e => e.channelId === video.authorId);
           if (
             channelSubscription.createdAt &&
