@@ -19,15 +19,7 @@ describe('Core', () => {
     const dbUri = mongod.getUri();
 
     const moduleRef = await Test.createTestingModule({
-      imports: [
-        MongooseModule.forRoot(dbUri, {
-          useNewUrlParser: true,
-          useUnifiedTopology: true,
-          useCreateIndex: true,
-          useFindAndModify: false
-        }),
-        CoreModule
-      ],
+      imports: [MongooseModule.forRoot(dbUri, {}), CoreModule],
       providers: [
         // {
         //   provide: getModelToken('VideoBasicInfo'),

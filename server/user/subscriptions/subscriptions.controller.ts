@@ -63,12 +63,18 @@ export class SubscriptionsController {
   @Get('videos')
   @ApiQuery({ name: 'limit', required: false })
   @ApiQuery({ name: 'start', required: false })
-  getSubscriptionVideos(
+  async getSubscriptionVideos(
     @Req() request: ViewTubeRequest,
     @Query('limit') limit: number = 30,
     @Query('start') start: number = 0
   ): Promise<{ videoCount: number; videos: Array<VideoBasicInfoDto> }> {
-    return this.subscriptionsService.getSubscriptionFeed(request.user.username, limit, start);
+    let feed = null;
+    try {
+      feed = await this.subscriptionsService.getSubscriptionFeed(request.user.username, limit, start);
+    } catch (error) {
+      console.log(error);
+    }
+    return feed;
   }
 
   @Get(':channelId')
