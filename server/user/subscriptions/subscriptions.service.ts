@@ -342,42 +342,42 @@ export class SubscriptionsService {
   async subscribeToChannel(username: string, channelId: string): Promise<SubscriptionStatusDto> {
     const user = await this.subscriptionModel.findOne({ username }).exec();
 
+    const subscriptions = user ? user.subscriptions : [];
+    const currentSubscription = subscriptions.find(e => e.channelId === channelId);
+
+    if (!currentSubscription) {
+      subscriptions.push({
+        channelId,
+        createdAt: new Date()
+      });
+    }
+
+    await this.subscriptionModel
+      .findOneAndUpdate({ username }, { username, subscriptions }, { upsert: true })
+      .exec()
+      .then()
+      .catch(_ => {
+        throw new InternalServerErrorException('Error subscribing to channel');
+      });
+
     const channelFeed = await getChannelFeed(channelId);
     if (channelFeed) {
-      let channel: ChannelBasicInfoDto;
-
       try {
-        channel = await this.saveChannelBasicInfo(channelFeed.channel);
+        await this.saveChannelBasicInfo(channelFeed.channel);
         await Promise.all(
           channelFeed.videos.map(vid => {
             return this.saveVideoBasicInfo(vid);
           })
         );
-      } catch (_) {}
-      const subscriptions = user ? user.subscriptions : [];
-
-      const currentSubscription = subscriptions.find(e => e.channelId === channel.authorId);
-
-      if (!currentSubscription) {
-        subscriptions.push({
-          channelId: channel.authorId,
-          createdAt: new Date()
-        });
+      } catch (error) {
+        Consola.error(error);
       }
-
-      await this.subscriptionModel
-        .findOneAndUpdate({ username }, { username, subscriptions }, { upsert: true })
-        .exec()
-        .then()
-        .catch(_ => {
-          throw new InternalServerErrorException('Error subscribing to channel');
-        });
-
-      return {
-        channelId,
-        isSubscribed: true
-      };
     }
+
+    return {
+      channelId,
+      isSubscribed: true
+    };
   }
 
   async unsubscribeFromChannel(
