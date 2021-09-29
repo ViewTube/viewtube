@@ -1,6 +1,7 @@
 import { Inject, Injectable, OnApplicationShutdown } from '@nestjs/common';
 import * as SentryTypes from '@sentry/types';
 import * as Sentry from '@sentry/node';
+import Consola from 'consola';
 
 @Injectable()
 export class SentryService implements OnApplicationShutdown {
@@ -10,7 +11,7 @@ export class SentryService implements OnApplicationShutdown {
   constructor(@Inject('SENTRY_OPTIONS') sentryOptions?: SentryTypes.Options) {
     if (sentryOptions.enabled) {
       if (!sentryOptions.dsn) {
-        console.error('Invalid sentry config');
+        Consola.error('Invalid sentry config');
       }
       this.sentryConfig = sentryOptions;
       Sentry.init(this.sentryConfig);

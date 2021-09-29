@@ -55,7 +55,7 @@ const bootstrap = async () => {
     logger: ['warn', 'error']
   });
 
-  await server.register(FastifyHelmet, {
+  await server.register(FastifyHelmet as any, {
     contentSecurityPolicy: {
       useDefaults: true,
       directives: {
@@ -65,8 +65,8 @@ const bootstrap = async () => {
       }
     }
   });
-  await server.register(FastifyCookie);
-  await server.register(FastifyMultipart);
+  await server.register(FastifyCookie as any);
+  await server.register(FastifyMultipart as any);
 
   const configService = server.get(ConfigService);
 

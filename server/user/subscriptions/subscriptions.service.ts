@@ -81,7 +81,7 @@ export class SubscriptionsService {
         u.subscriptions.find(sub => sub.channelId === video.authorId)
       );
       if (subscribedUsers) {
-        subscribedUsers.forEach((user: Subscription) => {
+        subscribedUsers.forEach(user => {
           const channelSubscription = user.subscriptions.find(e => e.channelId === video.authorId);
           if (
             channelSubscription.createdAt &&
@@ -176,7 +176,7 @@ export class SubscriptionsService {
       const videoCount = await this.VideoModel.find({
         authorId: { $in: userSubscriptionIds }
       })
-        // .limit(10000)
+        .limit(10000)
         .estimatedDocumentCount()
         .exec();
 
@@ -184,23 +184,24 @@ export class SubscriptionsService {
         .sort({ published: -1 })
         .limit(limit)
         .skip(start)
-        .map((el: any) => {
-          delete el._id;
-          delete el.__v;
-          return el;
-        })
         .exec()
         .catch(err => {
           throw new HttpException(`Error fetching subscription feed: ${err}`, 500);
         });
+
       if (videos) {
-        const channelIds = videos.map((video: VideoBasicInfoDto) => video.authorId);
+        const mappedVideos = videos.map((el: any) => {
+          delete el._id;
+          delete el.__v;
+          return el;
+        });
+        const channelIds = mappedVideos.map((video: VideoBasicInfoDto) => video.authorId);
 
         const channelBasicInfoArray = await this.ChannelBasicInfoModel.find({
           authorId: { $in: channelIds }
         }).exec();
 
-        videos.forEach((video: VideoBasicInfoDto) => {
+        mappedVideos.forEach((video: VideoBasicInfoDto) => {
           const channelInfo = channelBasicInfoArray.find(
             channel => channel.authorId === video.authorId
           );
@@ -221,8 +222,10 @@ export class SubscriptionsService {
           await this.GeneralModel.findOne({ version: 1 }).then(val => {
             if (val.lastSubscriptionsRefresh) lastRefresh = val.lastSubscriptionsRefresh;
           });
-        } catch {}
-        return { videos, videoCount, lastRefresh };
+        } catch (error) {
+          Consola.error(error);
+        }
+        return { videos: mappedVideos, videoCount, lastRefresh };
       }
     }
     return { videos: [], videoCount: 0, lastRefresh: null };

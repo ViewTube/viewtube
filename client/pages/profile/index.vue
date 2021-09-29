@@ -310,7 +310,6 @@ export default defineComponent({
             }
           })
           .catch((_: any) => {
-            console.log(_);
             accessor.messages.createMessage({
               type: 'error',
               title: 'Error loading profile',

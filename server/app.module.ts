@@ -38,10 +38,7 @@ const moduleMetadata: ModuleMetadata = {
         return {
           uri,
           user: process.env.VIEWTUBE_DATABASE_USER,
-          pass: process.env.VIEWTUBE_DATABASE_PASSWORD,
-          useNewUrlParser: true,
-          useFindAndModify: false,
-          useCreateIndex: true
+          pass: process.env.VIEWTUBE_DATABASE_PASSWORD
         };
       }
     }),

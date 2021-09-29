@@ -2,7 +2,7 @@ import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import HttpsProxyAgent from 'https-proxy-agent/dist/agent';
 import fetch from 'node-fetch';
-import { FastifyReply, FastifyRequest } from '@nestjs/platform-fastify/node_modules/fastify';
+import { FastifyReply, FastifyRequest } from 'fastify';
 import undici, { Client } from 'undici';
 import Consola from 'consola';
 @Injectable()
