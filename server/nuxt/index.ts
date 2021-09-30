@@ -1,34 +1,34 @@
 import { Nuxt } from '@nuxt/core';
-import { loadNuxt } from 'nuxt';
+import { loadNuxt } from '@nuxt/core';
 import { BundleBuilder } from '@nuxt/webpack';
 import { Builder } from '@nuxt/builder';
 
 export default class NuxtServer {
   private static instance: NuxtServer;
-  public nuxt: Nuxt;
+  public nuxtInstance: Nuxt;
 
   public async run(dev = true): Nuxt {
-    let nuxt: Nuxt;
+    let nuxtInstance: Nuxt;
 
     // Build only in dev mode
     if (dev) {
-      nuxt = await loadNuxt('dev');
-      await nuxt.ready();
-      const builder = new Builder(nuxt, BundleBuilder);
+      nuxtInstance = await loadNuxt('dev');
+      await nuxtInstance.ready();
+      const builder = new Builder(nuxtInstance, BundleBuilder);
       const res = await builder.build();
 
-      this.nuxt = res.nuxt;
+      this.nuxtInstance = res.nuxt;
 
       return res.nuxt;
     } else {
-      nuxt = await loadNuxt('start');
+      nuxtInstance = await loadNuxt('start');
     }
 
-    if (this.nuxt) {
-      return this.nuxt;
+    if (this.nuxtInstance) {
+      return this.nuxtInstance;
     }
 
-    return nuxt;
+    return nuxtInstance;
   }
 
   public static getInstance(): NuxtServer {

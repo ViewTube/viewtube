@@ -30,7 +30,7 @@ export class HomepageService {
     if ((cluster.worker && cluster.worker.id === 1) || !AppClusterService.isClustered) {
       Consola.info('Refreshing popular page');
       try {
-        const popularPage = await fetch(this.popularPageUrl, {
+        const popularPage: any = await fetch(this.popularPageUrl, {
           headers: {
             'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:84.0) Gecko/20100101 Firefox/84.0'
           }

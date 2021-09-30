@@ -18,6 +18,7 @@ import { HomepageService } from './core/homepage/homepage.service';
 import { checkEnvironmentVariables } from './prerequisiteHelper';
 import { AppClusterService } from './app-cluster.service';
 
+declare const module: any;
 const dev = process.env.NODE_ENV !== 'production';
 
 const prepareBootstrapPrimary = () => {
@@ -55,7 +56,7 @@ const bootstrap = async () => {
     logger: ['warn', 'error']
   });
 
-  await server.register(FastifyHelmet as any, {
+  await server.register(FastifyHelmet, {
     contentSecurityPolicy: {
       useDefaults: true,
       directives: {
@@ -65,8 +66,8 @@ const bootstrap = async () => {
       }
     }
   });
-  await server.register(FastifyCookie as any);
-  await server.register(FastifyMultipart as any);
+  await server.register(FastifyCookie);
+  await server.register(FastifyMultipart);
 
   const configService = server.get(ConfigService);
 
@@ -122,6 +123,11 @@ const bootstrap = async () => {
       Consola.ready(`Server listening on http://localhost:${port}`);
     }
   });
+
+  if (module.hot) {
+    module.hot.accept();
+    module.hot.dispose(() => server.close());
+  }
 
   const homepageService = server.get(HomepageService);
   homepageService.refreshPopular();

@@ -4,7 +4,7 @@
     "declaration": false,
     "removeComments": true,
     "noLib": false,
-    "lib": ["ESNext", "ES2020", "ESNext.AsyncIterable", "DOM"],
+    "lib": ["ESNext", "ES2020", "DOM", "ESNext.AsyncIterable"],
     "allowSyntheticDefaultImports": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
@@ -24,12 +24,9 @@
     "moduleResolution": "node",
     "baseUrl": "./",
     "paths": {
-      "@/*": ["client/*"],
-      "viewtube/*": ["./*"],
-      "~/*": ["client/*"]
+      "viewtube/*": ["../*"]
     },
-    "types": ["@types/node", "@nuxt/types", "@nuxtjs/axios", "@types/jest", "@sentry/types"]
+    "types": ["@types/node", "@types/jest", "@sentry/types"]
   },
-  "include": ["server/**/*", "client/**/*", "test/**/*", "types/**/*", "shared/**/*"],
-  "exclude": ["node_modules", "dist"]
+  "exclude": ["node_modules", "dist", ".yarn"]
 }

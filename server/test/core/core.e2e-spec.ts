@@ -3,7 +3,7 @@ import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import { CoreModule } from 'viewtube/server/core/core.module';
 import { MongooseModule } from '@nestjs/mongoose';
-import { defineIt, getPayloadJson } from 'viewtube/test/common/test.helper';
+import { defineIt, getPayloadJson } from 'viewtube/server/test/common/test.helper';
 import ytsr from 'ytsr';
 import { CommentsResponseDto } from 'viewtube/server/core/comments/dto/comments-response.dto';
 import ytpl from 'ytpl';

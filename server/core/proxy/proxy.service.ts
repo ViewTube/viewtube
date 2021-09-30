@@ -16,7 +16,7 @@ export class ProxyService {
         const proxy = this.configService.get('VIEWTUBE_PROXY_URL');
         proxyAgent = new HttpsProxyAgent(proxy);
       }
-      const fetchResponse = await fetch(url, { agent: proxyAgent, timeout: 5000 });
+      const fetchResponse = await fetch(url, { agent: proxyAgent });
       if (fetchResponse) {
         const result = await fetchResponse.text();
         return result;
