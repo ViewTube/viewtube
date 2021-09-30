@@ -1,2 +1,3 @@
 import * as shared from '../../shared';
-export = shared;
+export default shared;
+export * from '../../shared';

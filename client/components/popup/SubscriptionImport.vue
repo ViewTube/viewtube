@@ -173,65 +173,55 @@ export default defineComponent({
     const loading = ref(false);
     const importedSubscriptions = ref(null);
 
-    const selectedChannels = computed(
-      (): Array<ChannelDto> => {
-        return subscriptionsToImport.value.filter((e: { selected: any }) => e.selected);
-      }
-    );
+    const selectedChannels = computed((): Array<ChannelDto> => {
+      return subscriptionsToImport.value.filter((e: { selected: any }) => e.selected);
+    });
     const anySelectedChannel = computed((): boolean => {
       return !(selectedChannels.value.length > 0);
     });
 
-    const successfulMergedImports = computed(
-      (): Array<ChannelDto> => {
-        if (importedSubscriptions.value && importedSubscriptions.value.successful) {
-          return importedSubscriptions.value.successful.map((el: { channelId: any }) => {
-            const authorObj = subscriptionsToImport.value.find(
-              (val: { authorId: any }) => val.authorId === el.channelId
-            );
-            return {
-              authorId: el.channelId,
-              author: authorObj ? authorObj.author : null
-            };
-          });
-        }
-        return [];
+    const successfulMergedImports = computed((): Array<ChannelDto> => {
+      if (importedSubscriptions.value && importedSubscriptions.value.successful) {
+        return importedSubscriptions.value.successful.map((el: { channelId: any }) => {
+          const authorObj = subscriptionsToImport.value.find(
+            (val: { authorId: any }) => val.authorId === el.channelId
+          );
+          return {
+            authorId: el.channelId,
+            author: authorObj ? authorObj.author : null
+          };
+        });
       }
-    );
+      return [];
+    });
 
-    const existingMergedImports = computed(
-      (): Array<ChannelDto> => {
-        if (importedSubscriptions.value && importedSubscriptions.value.existing) {
-          return importedSubscriptions.value.existing.map(el => {
-            const authorObj = subscriptionsToImport.value.find(
-              val => val.authorId === el.channelId
-            );
-            return {
-              authorId: el.channelId,
-              author: authorObj ? authorObj.author : null
-            };
-          });
-        }
-        return [];
+    const existingMergedImports = computed((): Array<ChannelDto> => {
+      if (importedSubscriptions.value && importedSubscriptions.value.existing) {
+        return importedSubscriptions.value.existing.map(el => {
+          const authorObj = subscriptionsToImport.value.find(val => val.authorId === el.channelId);
+          return {
+            authorId: el.channelId,
+            author: authorObj ? authorObj.author : null
+          };
+        });
       }
-    );
+      return [];
+    });
 
-    const failedMergedImports = computed(
-      (): Array<ChannelDto> => {
-        if (importedSubscriptions.value && importedSubscriptions.value.failed) {
-          return importedSubscriptions.value.failed.map((el: { channelId: any }) => {
-            const authorObj = subscriptionsToImport.value.find(
-              (val: { authorId: any }) => val.authorId === el.channelId
-            );
-            return {
-              authorId: el.channelId,
-              author: authorObj ? authorObj.author : null
-            };
-          });
-        }
-        return [];
+    const failedMergedImports = computed((): Array<ChannelDto> => {
+      if (importedSubscriptions.value && importedSubscriptions.value.failed) {
+        return importedSubscriptions.value.failed.map((el: { channelId: any }) => {
+          const authorObj = subscriptionsToImport.value.find(
+            (val: { authorId: any }) => val.authorId === el.channelId
+          );
+          return {
+            authorId: el.channelId,
+            author: authorObj ? authorObj.author : null
+          };
+        });
       }
-    );
+      return [];
+    });
 
     const onTryClosePopup = () => {
       if (!(page2.value || page2.value)) {

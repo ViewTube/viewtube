@@ -1,4 +1,5 @@
 import { actionTree, getterTree, mutationTree } from 'typed-vuex';
+import Consola from 'consola';
 
 export const state = () => ({
   username: null as string,
@@ -28,13 +29,18 @@ export const actions = actionTree(
         const result = await this.$axios.get(
           `${this.app.$accessor.environment.env.apiUrl}user/profile`,
           {
-            withCredentials: true
+            withCredentials: true,
+            timeout: 10000
           }
         );
         this.app.$accessor.settings.mutateSettings(result.data.settings);
         commit('setUsername', result.data.username);
         commit('setProfileImage', result.data.profileImage);
-      } catch (e) {}
+      } catch (e) {
+        if (!e.message.includes('timeout') && !e.message.includes('401')) {
+          Consola.error(e);
+        }
+      }
     },
     async logout({ commit }): Promise<boolean> {
       await this.$axios.post(

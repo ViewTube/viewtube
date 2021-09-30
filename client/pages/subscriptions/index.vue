@@ -6,7 +6,9 @@
       <div class="subscribe-info">
         <div class="info">
           <h2>Subscription feed for {{ $accessor.user.username }}</h2>
-          <p v-if="lastRefreshTime">Last refresh: {{ new Date(lastRefreshTime).toLocaleString() }}</p>
+          <p v-if="lastRefreshTime">
+            Last refresh: {{ new Date(lastRefreshTime).toLocaleString() }}
+          </p>
         </div>
         <div class="actions">
           <BadgeButton

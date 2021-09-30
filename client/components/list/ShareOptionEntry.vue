@@ -49,8 +49,8 @@ export default defineComponent({
     width: 38px !important;
     position: unset !important;
   }
-  
-  img{
+
+  img {
     width: 50px;
     margin: -1px 0 0 8px;
   }
