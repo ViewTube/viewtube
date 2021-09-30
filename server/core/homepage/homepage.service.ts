@@ -6,7 +6,7 @@ import { Cache } from 'cache-manager';
 import Consola from 'consola';
 import { Model } from 'mongoose';
 import fetch from 'node-fetch';
-import { AppClusterService } from 'server/app-cluster.service';
+import { AppClusterService } from 'viewtube/server/app-cluster.service';
 import { ChannelBasicInfo } from '../channels/schemas/channel-basic-info.schema';
 import { VideoBasicInfoDto } from '../videos/dto/video-basic-info.dto';
 import { PopularDto } from './dto/popular.dto';

@@ -1,9 +1,9 @@
 import { Controller, UseGuards, Post, Body, Req } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
-import { JwtAuthGuard } from 'server/auth/guards/jwt.guard';
+import { JwtAuthGuard } from 'viewtube/server/auth/guards/jwt.guard';
 import webPush from 'web-push';
 import { ConfigService } from '@nestjs/config';
-import { ViewTubeRequest } from 'server/common/viewtube-request';
+import { ViewTubeRequest } from 'viewtube/server/common/viewtube-request';
 import { NotificationsService } from './notifications.service';
 
 @ApiTags('User')

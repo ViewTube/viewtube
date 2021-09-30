@@ -1,4 +1,4 @@
-import { VideoThumbnailDto, VideoDto } from 'shared';
+import { VideoThumbnailDto, VideoDto } from 'viewtube/shared';
 
 declare const MediaMetadata: new (arg0: any) => any;
 

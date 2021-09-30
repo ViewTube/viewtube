@@ -1,13 +1,13 @@
 import path from 'path';
 import fs from 'fs';
-import { ChannelBasicInfoDto } from 'server/core/channels/dto/channel-basic-info.dto';
-import { VideoBasicInfoDto } from 'server/core/videos/dto/video-basic-info.dto';
+import { ChannelBasicInfoDto } from 'viewtube/server/core/channels/dto/channel-basic-info.dto';
+import { VideoBasicInfoDto } from 'viewtube/server/core/videos/dto/video-basic-info.dto';
 import X2js from 'x2js';
 import fetch from 'node-fetch';
 import humanizeDuration from 'humanize-duration';
-// import { Common } from 'server/core/common';
+// import { Common } from 'viewtube/server/core/common';
 import Consola from 'consola';
-import { Common } from 'server/core/common';
+import { Common } from 'viewtube/server/core/common';
 import { Job } from 'bull';
 
 export const runSubscriptionsJob = async (

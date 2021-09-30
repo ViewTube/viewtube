@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-import { VideoBasicInfo } from 'server/core/videos/schemas/video-basic-info.schema';
+import { VideoBasicInfo } from 'viewtube/server/core/videos/schemas/video-basic-info.schema';
 import { SettingsService } from '../settings/settings.service';
 import { History } from './schemas/history.schema';
 import { VideoVisitDetailsDto } from './dto/video-visit-details.dto';

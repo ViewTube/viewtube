@@ -13,11 +13,11 @@ import {
   ParseIntPipe
 } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
-import { JwtAuthGuard } from 'server/auth/guards/jwt.guard';
-import { VideoBasicInfoDto } from 'server/core/videos/dto/video-basic-info.dto';
-import { ChannelBasicInfoDto } from 'server/core/channels/dto/channel-basic-info.dto';
-import { Common } from 'server/core/common';
-import { ViewTubeRequest } from 'server/common/viewtube-request';
+import { JwtAuthGuard } from 'viewtube/server/auth/guards/jwt.guard';
+import { VideoBasicInfoDto } from 'viewtube/server/core/videos/dto/video-basic-info.dto';
+import { ChannelBasicInfoDto } from 'viewtube/server/core/channels/dto/channel-basic-info.dto';
+import { Common } from 'viewtube/server/core/common';
+import { ViewTubeRequest } from 'viewtube/server/common/viewtube-request';
 import { SubscriptionStatusDto } from './dto/subscription-status.dto';
 import { SubscriptionsService } from './subscriptions.service';
 

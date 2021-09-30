@@ -1,27 +1,30 @@
 const path = require('path');
-const webpack = require('webpack');
 const nodeExternals = require('webpack-node-externals');
 const WebpackShellPluginNext = require('webpack-shell-plugin-next');
+const PnpWebpackPlugin = require(`pnp-webpack-plugin`);
 
 module.exports = {
-  entry: ['webpack/hot/poll?1000', './server/main.ts'],
+  entry: ['./server/main.ts'],
   watch: true,
   target: 'node',
-  externals: [
-    nodeExternals({
-      allowlist: ['webpack/hot/poll?1000']
-    })
-  ],
+  externals: [{ sharp: 'commonjs sharp' }, nodeExternals()],
   module: {
     rules: [
       {
         test: /\.tsx?$/,
         use: {
-          loader: 'ts-loader',
+          loader: 'babel-loader',
           options: {
-            getCustomTransformers: program => ({
-              before: [require('@nestjs/swagger/plugin').before({}, program)]
-            })
+            presets: [
+              [
+                '@babel/preset-env',
+                {
+                  modules: 'commonjs'
+                }
+              ],
+              '@babel/preset-typescript'
+            ],
+            plugins: ['@nestjs/swagger/plugin', 'add-module-exports']
           }
         },
         exclude: /node_modules/
@@ -33,13 +36,14 @@ module.exports = {
     extensions: ['.tsx', '.ts', '.js'],
     alias: {
       server: path.resolve(__dirname, 'server/')
-    }
+    },
+    plugins: [PnpWebpackPlugin]
   },
+  resolveLoader: { plugins: [PnpWebpackPlugin.moduleLoader(module)] },
   plugins: [
-    new webpack.HotModuleReplacementPlugin(),
     new WebpackShellPluginNext({
       onBuildEnd: {
-        scripts: ['node dist/main.js'],
+        scripts: ['yarn node dist/main.js'],
         blocking: false,
         parallel: false
       }

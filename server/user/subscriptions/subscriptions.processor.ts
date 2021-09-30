@@ -10,9 +10,9 @@ import { InjectModel } from '@nestjs/mongoose';
 import Consola from 'consola';
 import { Job } from 'bull';
 import { Model } from 'mongoose';
-import { General } from 'server/common/general.schema';
-import { ChannelBasicInfo } from 'server/core/channels/schemas/channel-basic-info.schema';
-import { VideoBasicInfo } from 'server/core/videos/schemas/video-basic-info.schema';
+import { General } from 'viewtube/server/common/general.schema';
+import { ChannelBasicInfo } from 'viewtube/server/core/channels/schemas/channel-basic-info.schema';
+import { VideoBasicInfo } from 'viewtube/server/core/videos/schemas/video-basic-info.schema';
 import { Subscription } from './schemas/subscription.schema';
 import { runSubscriptionsJob } from './subscriptions-job.helper';
 

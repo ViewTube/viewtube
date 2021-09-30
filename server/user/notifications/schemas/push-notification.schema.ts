@@ -4,7 +4,7 @@ import {
   Schema,
   SchemaFactory
 } from '@nestjs/mongoose';
-import { PushNotificationDto } from 'server/user/dto/push-notification.dto';
+import { PushNotificationDto } from 'viewtube/server/user/dto/push-notification.dto';
 
 // eslint-disable-next-line no-undef
 @Schema({ timestamps: true, id: false })

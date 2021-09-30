@@ -1,4 +1,4 @@
-import { VideoBasicInfoDto } from 'server/core/videos/dto/video-basic-info.dto';
+import { VideoBasicInfoDto } from 'viewtube/server/core/videos/dto/video-basic-info.dto';
 
 export class PopularDto {
   videos: Array<VideoBasicInfoDto>;
