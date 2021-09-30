@@ -12,7 +12,7 @@ export class PushNotification
   extends Document
   implements PushNotificationDto {
   @Prop({ required: true })
-  id: string;
+  declare id: string;
 
   @Prop({ required: true })
   username: string;

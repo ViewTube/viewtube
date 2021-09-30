@@ -16,7 +16,6 @@ module.exports = {
     'plugin:jest/recommended',
     'prettier'
   ],
-  // add your custom rules here
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
@@ -30,6 +29,8 @@ module.exports = {
     'vue/attribute-hyphenation': ['off', { ignore: ['custom-prop'] }],
     'vue/no-v-html': 'off',
     'vue/script-setup-uses-vars': 'off',
+    'import/order': 'off',
+    'jest/no-standalone-expect': 'off',
     semi: 'off',
     'vue/html-self-closing': [
       'error',
