@@ -2313,10 +2313,10 @@
   dependencies:
     browserslist "*"
 
-"@types/bull@3.15.4":
-  version "3.15.4"
-  resolved "https://registry.yarnpkg.com/@types/bull/-/bull-3.15.4.tgz#71390e83b6aa41a9106535240ad226c5239615f1"
-  integrity sha512-vsw4kqsI/SLocfcgTUY2b8POTBUw9AwmTaehvSVnEAbcgJHsPheFMP8WKDFDk2I+aNTLRQX5iP21dPwz3CGLVA==
+"@types/bull@3.15.5":
+  version "3.15.5"
+  resolved "https://registry.yarnpkg.com/@types/bull/-/bull-3.15.5.tgz#a4459c127c5b10fb847531579a2cd5db35751366"
+  integrity sha512-XgJQWJ03jyKMfdoL8IAIoHIo7JkkL74kcxuujTONkSJswm0giIJ9kuVgDNHS0OvD+OiPNcFmbBl0H3scj2+A8A==
   dependencies:
     "@types/ioredis" "*"
 
