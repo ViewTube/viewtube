@@ -12,7 +12,8 @@
   },
   "workspaces": [
     "client",
-    "server"
+    "server",
+    "shared"
   ],
   "browserslist": [
     "last 1 version",
@@ -20,7 +21,14 @@
     "not IE_Mob 11",
     "not Edge 18"
   ],
+  "dependencies": {
+    "eslint-import-resolver-node": "^0.3.6",
+    "vue": "2.6.14",
+    "vue-template-compiler": "^2.6.14",
+    "webpack": "4.46.0"
+  },
   "devDependencies": {
+    "eslint": "^7.32.0",
     "prettier": "^2.4.1"
   }
 }

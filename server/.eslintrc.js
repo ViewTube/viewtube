@@ -5,7 +5,7 @@ module.exports = {
     node: true
   },
   parserOptions: {
-    project: './tsconfig.eslint.json',
+    project: 'tsconfig.eslint.json',
     sourceType: 'module',
     extraFileExtensions: ['.vue'],
     ecmaVersion: 12

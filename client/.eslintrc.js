@@ -2,20 +2,15 @@ module.exports = {
   root: true,
   env: {
     browser: true,
-    node: true,
-    'jest/globals': true
+    node: true
   },
   parserOptions: {
-    project: './tsconfig.eslint.json',
+    project: 'tsconfig.eslint.json',
     sourceType: 'module',
     extraFileExtensions: ['.vue'],
     ecmaVersion: 12
   },
-  extends: [
-    '@nuxtjs/eslint-config-typescript',
-    'plugin:prettier/recommended',
-    'plugin:jest/recommended'
-  ],
+  extends: ['@nuxtjs/eslint-config-typescript', 'prettier'],
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
