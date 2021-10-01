@@ -1,5 +1,4 @@
 import { actionTree, getterTree, mutationTree } from 'typed-vuex';
-import Consola from 'consola';
 
 export const state = () => ({
   username: null as string,
@@ -38,7 +37,7 @@ export const actions = actionTree(
         commit('setProfileImage', result.data.profileImage);
       } catch (e) {
         if (!e.message.includes('timeout') && !e.message.includes('401')) {
-          Consola.error(e);
+          console.error(e);
         }
       }
     },
