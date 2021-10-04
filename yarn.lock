@@ -6716,10 +6716,10 @@ fastify-static@^4.0.0:
     readable-stream "^3.4.0"
     send "^0.17.1"
 
-fastify-swagger@4.12.3:
-  version "4.12.3"
-  resolved "https://registry.yarnpkg.com/fastify-swagger/-/fastify-swagger-4.12.3.tgz#effe4022c2dd1c9310fe6c66bc78492266c3b5b2"
-  integrity sha512-mreAFMNVfXuTrsqn8FnkARMpnQNgRbtYaM3jb7I+29JmN0P2Gu/cJ7vB8GocnPz4CUXxaEBdKEwYOM/zpDk0Mw==
+fastify-swagger@4.12.4:
+  version "4.12.4"
+  resolved "https://registry.yarnpkg.com/fastify-swagger/-/fastify-swagger-4.12.4.tgz#d7a53890f83b4fac5863709d44fb8937e1ccab29"
+  integrity sha512-M7sN9VDS0wt3w8A6RwZ06sMeUXKFwSSK8Q8u7BaGMqTZ1dE3cKUeIiQWToDWpb4eKjVK1xla3d4NgTtKB6jdAw==
   dependencies:
     fastify-plugin "^3.0.0"
     fastify-static "^4.0.0"
