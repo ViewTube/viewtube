@@ -2,9 +2,10 @@
   "name": "client",
   "packageManager": "yarn@3.0.2",
   "scripts": {
-    "serve": "cross-env VIEWTUBE_API_URL=http://localhost:8067/api/ nuxt",
+    "prepare:env": "cross-env VIEWTUBE_API_URL=http://localhost:8067/api/",
+    "serve": "yarn prepare:env nuxt",
     "build": "nuxt build",
-    "start": "nuxt start",
+    "start": "yarn prepare:env nuxt start",
     "lint:fix": "eslint --ext .ts,.js,.vue --fix ."
   },
   "dependencies": {
@@ -22,6 +23,7 @@
     "qrcode": "^1.4.4",
     "tippy.js": "^6.3.1",
     "typed-vuex": "^0.2.0",
+    "unplugin-vue2-script-setup": "^0.6.4",
     "vue": "^2.6.14",
     "vue-material-design-icons": "^4.13.0",
     "vue-template-compiler": "^2.6.14",

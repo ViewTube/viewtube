@@ -45,3 +45,5 @@ dump.rdb
 !.yarn/sdks
 !.yarn/versions
 .pnp.*
+dist-server/*
+dist-client/*

@@ -1983,7 +1983,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nuxt/babel-preset-app@npm:2.15.8":
+"@nuxt/babel-preset-app@npm:2.15.8, @nuxt/babel-preset-app@npm:^2.15.8":
   version: 2.15.8
   resolution: "@nuxt/babel-preset-app@npm:2.15.8"
   dependencies:
@@ -2295,7 +2295,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nuxt/vue-app@npm:2.15.8":
+"@nuxt/vue-app@npm:2.15.8, @nuxt/vue-app@npm:^2.15.8":
   version: 2.15.8
   resolution: "@nuxt/vue-app@npm:2.15.8"
   dependencies:
@@ -5742,6 +5742,7 @@ __metadata:
     tippy.js: ^6.3.1
     typed-vuex: ^0.2.0
     typescript: ^4.4.3
+    unplugin-vue2-script-setup: ^0.6.4
     vue: ^2.6.14
     vue-material-design-icons: ^4.13.0
     vue-template-compiler: ^2.6.14
@@ -15773,9 +15774,11 @@ fsevents@^1.2.7:
     "@nestjs/swagger": ^5.1.0
     "@nestjs/testing": ^8.0.9
     "@nestjs/throttler": ^2.0.0
+    "@nuxt/babel-preset-app": ^2.15.8
     "@nuxt/builder": ^2.15.8
     "@nuxt/core": ^2.15.8
     "@nuxt/types": ^2.15.8
+    "@nuxt/vue-app": ^2.15.8
     "@nuxt/webpack": ^2.15.8
     "@sentry/node": ^6.13.2
     "@sentry/tracing": ^6.13.2
@@ -17820,9 +17823,11 @@ typescript@~4.2:
   version: 0.0.0-use.local
   resolution: "viewtube@workspace:."
   dependencies:
+    cross-env: ^7.0.3
     eslint: ^7.32.0
     eslint-import-resolver-node: ^0.3.6
     prettier: ^2.4.1
+    typescript: ^4.4.3
     vue: 2.6.14
     vue-template-compiler: ^2.6.14
     webpack: 4.46.0
