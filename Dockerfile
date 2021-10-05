@@ -25,6 +25,11 @@ RUN yarn build
 FROM alpine:3.14 as runtime
 WORKDIR /home/app
 
+COPY --from=build /home/build/.yarn/plugins ./.yarn/plugins/
+COPY --from=build /home/build/.yarn/releases ./.yarn/releases/
+COPY --from=build /home/build/.yarn/sdks ./.yarn/sdks/
+COPY --from=build /home/build/package.json /home/build/yarn.lock /home/build/.yarnrc.yml ./
+
 COPY --from=build /home/build/server/package.json ./server/package.json
 COPY --from=build /home/build/server/dist ./server/dist
 
@@ -34,12 +39,12 @@ COPY --from=build /home/build/client/.nuxt ./client/.nuxt
 RUN apk add --no-cache nodejs-current
 
 RUN apk add --no-cache --virtual .build-deps yarn && \
-    yarn install --production && \
-    yarn cache clean --all && \
+    yarn workspaces focus server --production && \
+    yarn cache clean --mirror && \
     apk del .build-deps
 
 ENV NODE_ENV=production
 HEALTHCHECK --interval=30s --timeout=20s --start-period=60s CMD wget --no-verbose --tries=3 --spider http://localhost:8066/ || exit 1
 EXPOSE 8066
 
-CMD ["node", "server/dist/server/main.js"]
+CMD ["node", "-r", "/home/app/.pnp.cjs", "/home/app/server/dist/server/main.js"]

@@ -8,6 +8,7 @@ out
 channels
 scripts
 
+Dockerfile
 npm-debug.log
 .all-contributorsrc
 .drone.yml
