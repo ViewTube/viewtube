@@ -17823,6 +17823,7 @@ typescript@~4.2:
     eslint: ^7.32.0
     eslint-import-resolver-node: ^0.3.6
     prettier: ^2.4.1
+    typescript: ^4.4.3
     vue: 2.6.14
     vue-template-compiler: ^2.6.14
     webpack: 4.46.0
