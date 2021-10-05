@@ -8,6 +8,8 @@
   "license": "AGPLv3",
   "private": true,
   "scripts": {
+    "build": "cross-env NODE_ENV=production yarn workspaces foreach run build",
+    "start": "yarn workspace server run start",
     "lint-staged": "prettier --write --ignore-unknown"
   },
   "workspaces": [
@@ -29,6 +31,7 @@
     "webpack": "4.46.0"
   },
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "eslint": "^7.32.0",
     "prettier": "^2.4.1"
   }

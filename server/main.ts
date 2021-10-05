@@ -53,7 +53,7 @@ const prepareBootstrap = () => {
 
 const bootstrap = async () => {
   const server = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter(), {
-    logger: ['warn', 'error']
+    logger: ['error', 'warn', 'log', 'debug', 'verbose']
   });
 
   await server.register(FastifyHelmet, {

@@ -14,6 +14,8 @@ const config: NuxtConfig = {
     port: 8066
   },
 
+  buildDir: '../dist-client',
+
   modern: !dev,
 
   head: {

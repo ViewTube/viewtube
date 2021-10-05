@@ -12,7 +12,7 @@ export default class NuxtServer {
 
     // Build only in dev mode
     if (dev) {
-      nuxtInstance = await loadNuxt('dev');
+      nuxtInstance = await loadNuxt({ for: 'dev', rootDir: '../client' });
       await nuxtInstance.ready();
       const builder = new Builder(nuxtInstance, BundleBuilder);
       const res = await builder.build();
@@ -21,7 +21,11 @@ export default class NuxtServer {
 
       return res.nuxt;
     } else {
-      nuxtInstance = await loadNuxt('start');
+      nuxtInstance = await loadNuxt({
+        for: 'start',
+        rootDir: '../client',
+        configFile: './client/nuxt.config.ts'
+      });
     }
 
     if (this.nuxtInstance) {

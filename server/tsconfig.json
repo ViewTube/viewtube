@@ -12,7 +12,7 @@
     "target": "ES2020",
     "resolveJsonModule": true,
     "sourceMap": true,
-    "outDir": "./dist",
+    "outDir": "../dist-server",
     "noEmit": false,
     "strict": false,
     "noImplicitThis": true,
@@ -22,7 +22,7 @@
     "strictFunctionTypes": false,
     "esModuleInterop": true,
     "moduleResolution": "node",
-    "baseUrl": "./",
+    "baseUrl": "../server",
     "paths": {
       "viewtube/*": ["../*"]
     },
