@@ -1,7 +1,7 @@
 import { CacheModule, Module, ModuleMetadata } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { CacheConfigService } from 'viewtube/server/cache-config.service';
-import { General, GeneralSchema } from 'viewtube/server/common/general.schema';
+import { CacheConfigService } from 'server/cache-config.service';
+import { General, GeneralSchema } from 'server/common/general.schema';
 import { ChannelsController } from './channels.controller';
 import { ChannelsService } from './channels.service';
 import { ChannelBasicInfo, ChannelBasicInfoSchema } from './schemas/channel-basic-info.schema';

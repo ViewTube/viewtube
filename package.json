@@ -6,7 +6,6 @@
   "email": "viewtube@m-o.dev",
   "version": "0.8.0",
   "license": "AGPLv3",
-  "private": true,
   "scripts": {
     "build": "cross-env NODE_ENV=production yarn workspaces foreach run build",
     "start": "yarn workspace server run start",
@@ -17,6 +16,9 @@
     "server",
     "shared"
   ],
+  "_moduleAliases": {
+    "server": "server/dist/server"
+  },
   "browserslist": [
     "last 1 version",
     "not IE 11",

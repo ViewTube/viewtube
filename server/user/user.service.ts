@@ -11,14 +11,14 @@ import {
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import bcrypt from 'bcryptjs';
-import { UserprofileDto } from 'viewtube/server/user/dto/userprofile.dto';
+import { UserprofileDto } from 'server/user/dto/userprofile.dto';
 import humanizeDuration from 'humanize-duration';
-import { Common } from 'viewtube/server/core/common';
-import { ChannelBasicInfoDto } from 'viewtube/server/core/channels/dto/channel-basic-info.dto';
+import { Common } from 'server/core/common';
+import { ChannelBasicInfoDto } from 'server/core/channels/dto/channel-basic-info.dto';
 import Consola from 'consola';
 import { FastifyReply } from 'fastify';
 import archiver from 'archiver';
-import { ViewTubeRequest } from 'viewtube/server/common/viewtube-request';
+import { ViewTubeRequest } from 'server/common/viewtube-request';
 import { User } from './schemas/user.schema';
 import { UserDto } from './user.dto';
 import { SettingsService } from './settings/settings.service';

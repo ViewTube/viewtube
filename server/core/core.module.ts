@@ -1,9 +1,9 @@
 import { CacheModule, Module, ModuleMetadata } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
-import { General, GeneralSchema } from 'viewtube/server/common/general.schema';
-import { CacheConfigService } from 'viewtube/server/cache-config.service';
-import { User, UserSchema } from 'viewtube/server/user/schemas/user.schema';
+import { General, GeneralSchema } from 'server/common/general.schema';
+import { CacheConfigService } from 'server/cache-config.service';
+import { User, UserSchema } from 'server/user/schemas/user.schema';
 import { VideosController } from './videos/videos.controller';
 import { VideosService } from './videos/videos.service';
 import { VideoplaybackController } from './videoplayback/videoplayback.controller';

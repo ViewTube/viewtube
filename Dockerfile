@@ -25,16 +25,18 @@ RUN yarn build
 FROM alpine:3.14 as runtime
 WORKDIR /home/app
 
-COPY --from=build /home/build/.yarn/plugins ./.yarn/plugins/
 COPY --from=build /home/build/.yarn/releases ./.yarn/releases/
+COPY --from=build /home/build/.yarn/plugins ./.yarn/plugins/
 COPY --from=build /home/build/.yarn/sdks ./.yarn/sdks/
 COPY --from=build /home/build/package.json /home/build/yarn.lock /home/build/.yarnrc.yml ./
 
 COPY --from=build /home/build/server/package.json ./server/package.json
 COPY --from=build /home/build/server/dist ./server/dist
 
+RUN cat ./server/package.json
+
 COPY --from=build /home/build/client/package.json ./client/package.json
-COPY --from=build /home/build/client/.nuxt ./client/.nuxt
+COPY --from=build /home/build/client/dist ./client/dist
 
 RUN apk add --no-cache nodejs-current
 

@@ -5,11 +5,12 @@
     "prepare:env": "cross-env VIEWTUBE_API_URL=http://localhost:8067/api/",
     "serve": "yarn prepare:env nuxt",
     "build": "nuxt build",
-    "start": "yarn prepare:env nuxt start",
+    "start": "yarn prepare:env nuxt startuxt sta",
     "lint:fix": "eslint --ext .ts,.js,.vue --fix ."
   },
   "dependencies": {
     "@nuxtjs/router": "^1.6.1",
+    "@vue/composition-api": "^1.2.3",
     "axios": "^0.21.4",
     "consola": "^2.15.3",
     "dashjs": "^4.1.0",

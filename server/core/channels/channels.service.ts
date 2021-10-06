@@ -5,7 +5,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import Consola from 'consola';
 import { Model } from 'mongoose';
 import fetch from 'node-fetch';
-import { General } from 'viewtube/server/common/general.schema';
+import { General } from 'server/common/general.schema';
 import { FastifyReply } from 'fastify';
 import { ChannelMapper } from './channel.mapper';
 import { ChannelDto } from './dto/channel.dto';

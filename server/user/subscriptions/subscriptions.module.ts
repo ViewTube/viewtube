@@ -3,14 +3,14 @@ import { MongooseModule } from '@nestjs/mongoose';
 import {
   VideoBasicInfo,
   VideoBasicInfoSchema
-} from 'viewtube/server/core/videos/schemas/video-basic-info.schema';
+} from 'server/core/videos/schemas/video-basic-info.schema';
 import {
   ChannelBasicInfo,
   ChannelBasicInfoSchema
-} from 'viewtube/server/core/channels/schemas/channel-basic-info.schema';
+} from 'server/core/channels/schemas/channel-basic-info.schema';
 import { BullModule } from '@nestjs/bull';
-import { CacheConfigService } from 'viewtube/server/cache-config.service';
-import { General, GeneralSchema } from 'viewtube/server/common/general.schema';
+import { CacheConfigService } from 'server/cache-config.service';
+import { General, GeneralSchema } from 'server/common/general.schema';
 import { NotificationsModule } from '../notifications/notifications.module';
 import { Subscription, SubscriptionSchema } from './schemas/subscription.schema';
 import { SubscriptionsService } from './subscriptions.service';

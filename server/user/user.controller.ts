@@ -13,10 +13,10 @@ import {
   Header
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { JwtAuthGuard } from 'viewtube/server/auth/guards/jwt.guard';
-import { UserprofileDto } from 'viewtube/server/user/dto/userprofile.dto';
+import { JwtAuthGuard } from 'server/auth/guards/jwt.guard';
+import { UserprofileDto } from 'server/user/dto/userprofile.dto';
 import { FastifyReply } from 'fastify';
-import { ViewTubeRequest } from 'viewtube/server/common/viewtube-request';
+import { ViewTubeRequest } from 'server/common/viewtube-request';
 import { UserprofileDetailsDto } from './dto/userprofile-details.dto';
 import { UserService } from './user.service';
 

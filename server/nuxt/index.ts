@@ -24,7 +24,7 @@ export default class NuxtServer {
       nuxtInstance = await loadNuxt({
         for: 'start',
         rootDir: '../client',
-        configFile: './client/nuxt.config.ts'
+        configFile: '../client/nuxt.config.ts'
       });
     }
 

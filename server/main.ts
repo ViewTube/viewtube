@@ -1,3 +1,4 @@
+import 'module-alias/register';
 import fs from 'fs';
 import cluster from 'cluster';
 import { NestFactory } from '@nestjs/core';
@@ -10,7 +11,6 @@ import Consola from 'consola';
 import FastifyCookie from 'fastify-cookie';
 import FastifyMultipart from 'fastify-multipart';
 import FastifyHelmet from 'fastify-helmet';
-import packageJson from '../package.json';
 import { AppModule } from './app.module';
 import { NuxtFilter } from './nuxt/nuxt.filter';
 import NuxtServer from './nuxt/';
@@ -38,7 +38,7 @@ const prepareBootstrapPrimary = () => {
 
 const prepareBootstrap = () => {
   webPush.setVapidDetails(
-    `mailto:${packageJson.email}`,
+    'https://github.com/ViewTube/viewtube-vue',
     process.env.VIEWTUBE_PUBLIC_VAPID || '',
     process.env.VIEWTUBE_PRIVATE_VAPID || ''
   );
@@ -53,7 +53,7 @@ const prepareBootstrap = () => {
 
 const bootstrap = async () => {
   const server = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter(), {
-    logger: ['error', 'warn', 'log', 'debug', 'verbose']
+    logger: ['error', 'warn']
   });
 
   await server.register(FastifyHelmet, {
@@ -97,10 +97,10 @@ const bootstrap = async () => {
   // SWAGGER DOCS
   const documentOptions = new DocumentBuilder()
     .setTitle('ViewTube-API')
-    .setDescription(packageJson.description)
-    .setVersion(packageJson.version)
+    .setDescription('ViewTube, an alternative Youtube frontend.')
+    .setVersion('Version 0.8.0')
     .setLicense(
-      packageJson.license,
+      'AGPLv3',
       'https://raw.githubusercontent.com/viewtube/viewtube-vue/master/LICENSE'
     )
     .addBearerAuth()

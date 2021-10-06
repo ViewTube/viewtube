@@ -16,7 +16,6 @@
     "strictBindCallApply": true,
     "strictNullChecks": false,
     "strictFunctionTypes": false,
-    "noEmit": false,
     "baseUrl": "./",
     "outDir": "dist",
     "paths": {

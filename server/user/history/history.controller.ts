@@ -11,8 +11,8 @@ import {
   InternalServerErrorException
 } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
-import { JwtAuthGuard } from 'viewtube/server/auth/guards/jwt.guard';
-import { ViewTubeRequest } from 'viewtube/server/common/viewtube-request';
+import { JwtAuthGuard } from 'server/auth/guards/jwt.guard';
+import { ViewTubeRequest } from 'server/common/viewtube-request';
 import { VideoVisitDetailsDto } from './dto/video-visit-details.dto';
 import { VideoVisitDto } from './dto/video-visit.dto';
 import { HistoryService } from './history.service';

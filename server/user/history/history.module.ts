@@ -1,11 +1,11 @@
 import { CacheModule, Module, ModuleMetadata } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
-import { CacheConfigService } from 'viewtube/server/cache-config.service';
+import { CacheConfigService } from 'server/cache-config.service';
 import {
   VideoBasicInfo,
   VideoBasicInfoSchema
-} from 'viewtube/server/core/videos/schemas/video-basic-info.schema';
+} from 'server/core/videos/schemas/video-basic-info.schema';
 import { SettingsModule } from '../settings/settings.module';
 import { HistoryService } from './history.service';
 import { HistoryController } from './history.controller';
