@@ -6707,10 +6707,10 @@ fastify-helmet@5.3.2:
     fastify-plugin "^3.0.0"
     helmet "^4.0.0"
 
-fastify-multipart@5.0.1:
-  version "5.0.1"
-  resolved "https://registry.yarnpkg.com/fastify-multipart/-/fastify-multipart-5.0.1.tgz#a2ff26a58d306bdd38cada6185bde99f7fce799a"
-  integrity sha512-lBetyftankDsub3Cp59AxRMB6WX7ZHufEknfXNieLDzwB7a+cuS67x+PIYxcZJoU62epkaPK63tUJAoc7uLg9Q==
+fastify-multipart@5.0.2:
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/fastify-multipart/-/fastify-multipart-5.0.2.tgz#3e920b198e7d56149cf5e4e9bfcfb307f5f09662"
+  integrity sha512-OA4P8LmLPAWU6fbx8bQ/QlD8fs560geqm33S5MhYFtER7IZnrcbQQIiT6Fb5sJSjMnPd0RoJkhWENskWQ+5SFw==
   dependencies:
     busboy "^0.3.1"
     deepmerge "^4.2.2"
