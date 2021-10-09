@@ -2,13 +2,14 @@
   "name": "server",
   "main": "dist/server/main",
   "packageManager": "yarn@3.0.2",
+  "type": "module",
   "scripts": {
     "serve": "yarn env:api nest build --webpack --webpackPath webpack-hmr.config.js --watch",
     "serve:all": "yarn env nest build --webpack --webpackPath webpack-hmr.config.js --watch",
     "env": "cross-env VIEWTUBE_API_URL=http://localhost:8067/api/ PORT=8067",
     "env:api": "yarn env API_ONLY=true",
     "env:prod": "yarn env NODE_ENV=production",
-    "build": "nest build --tsc",
+    "build": "nest build --tsc --path tsconfig.build.json --config nest-cli.json",
     "start": "yarn env:prod node ./dist/server/main",
     "test": "jest"
   },

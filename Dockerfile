@@ -8,18 +8,14 @@ COPY package.json ./
 COPY .yarn ./.yarn/
 COPY yarn.lock .yarnrc.yml ./
 
-COPY server/package.json ./server
-COPY client/package.json ./client
-COPY shared/package.json ./shared
+COPY server/package.json ./server/
+COPY client/package.json ./client/
+COPY shared/package.json ./shared/
 
 RUN yarn install 
 
 COPY . .
 
-WORKDIR /home/build/server
-RUN yarn build
-
-WORKDIR /home/build/client
 RUN yarn build
 
 FROM alpine:3.14 as runtime

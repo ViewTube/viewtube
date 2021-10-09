@@ -101,7 +101,7 @@ const bootstrap = async () => {
     .setVersion('Version 0.8.0')
     .setLicense(
       'AGPLv3',
-      'https://raw.githubusercontent.com/viewtube/viewtube-vue/master/LICENSE'
+      'https://raw.githubusercontent.com/viewtube/viewtube-vue/development/LICENSE'
     )
     .addBearerAuth()
     .build();

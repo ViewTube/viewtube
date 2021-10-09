@@ -8,6 +8,8 @@
   "license": "AGPLv3",
   "scripts": {
     "build": "cross-env NODE_ENV=production yarn workspaces foreach run build",
+    "build:server": "scripts/build.server.sh",
+    "build:client": "cross-env NODE_ENV=production yarn workspace client run build",
     "start": "yarn workspace server run start",
     "lint-staged": "prettier --write --ignore-unknown"
   },
