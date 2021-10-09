@@ -19,3 +19,6 @@ LICENSE
 no-master.sh
 README.md
 webpack.config.js
+
+.yarn/unplugged
+.yarn/install-state.gz
