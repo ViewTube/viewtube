@@ -1,3 +1,4 @@
+import path from 'path';
 import { Nuxt } from '@nuxt/core';
 import { loadNuxt } from '@nuxt/core';
 import { BundleBuilder } from '@nuxt/webpack';
@@ -21,10 +22,14 @@ export default class NuxtServer {
 
       return res.nuxt;
     } else {
+      let clientDir = '../client';
+      if (process.env.VIEWTUBE_BASE_DIR) {
+        clientDir = path.join(process.env.VIEWTUBE_BASE_DIR, 'client/');
+      }
       nuxtInstance = await loadNuxt({
         for: 'start',
-        rootDir: '../client',
-        configFile: '../client/nuxt.config.ts'
+        rootDir: clientDir,
+        configFile: `${clientDir}/nuxt.config.ts`
       });
     }
 

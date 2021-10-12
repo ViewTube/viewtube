@@ -3268,7 +3268,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/sass@npm:*":
+"@types/sass@npm:*, @types/sass@npm:^1":
   version: 1.16.1
   resolution: "@types/sass@npm:1.16.1"
   dependencies:
@@ -5987,6 +5987,7 @@ __metadata:
     "@nuxtjs/router": ^1.6.1
     "@nuxtjs/style-resources": ^1.2.1
     "@types/node": ^16.10.2
+    "@types/sass": ^1
     "@typescript-eslint/eslint-plugin": ^4.32.0
     "@vue/composition-api": ^1.2.3
     axios: ^0.21.4
@@ -18393,10 +18394,12 @@ typescript@~4.2:
   version: 0.0.0-use.local
   resolution: "viewtube@workspace:."
   dependencies:
+    "@types/sass": ^1
     cross-env: ^7.0.3
     eslint: ^7.32.0
     eslint-import-resolver-node: ^0.3.6
     prettier: ^2.4.1
+    sass: ^1.42.1
     typescript: ^4.4.3
     vue: 2.6.14
     vue-template-compiler: ^2.6.14

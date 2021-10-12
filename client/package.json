@@ -22,6 +22,7 @@
     "nuxt-typed-vuex": "^0.2.0",
     "portal-vue": "^2.1.7",
     "qrcode": "^1.4.4",
+    "sass": "^1.42.1",
     "tippy.js": "^6.3.1",
     "typed-vuex": "^0.2.0",
     "unplugin-vue2-script-setup": "^0.6.4",
@@ -42,6 +43,7 @@
     "@nuxtjs/pwa": "^3.3.5",
     "@nuxtjs/style-resources": "^1.2.1",
     "@types/node": "^16.10.2",
+    "@types/sass": "^1",
     "@typescript-eslint/eslint-plugin": "^4.32.0",
     "cross-env": "^7.0.3",
     "eslint-config-prettier": "^8.3.0",
@@ -55,7 +57,6 @@
     "eslint-plugin-vue": "^7.18.0",
     "jest": "^27.2.4",
     "prettier": "^2.4.1",
-    "sass": "^1.42.1",
     "sass-loader": "10.1.1",
     "typescript": "^4.4.3",
     "webpack": "4.46.0"
