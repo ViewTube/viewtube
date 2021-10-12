@@ -17,7 +17,8 @@ COPY . .
 
 RUN yarn build
 
-RUN yarn workspaces focus server --production && \
+RUN yarn cache clean --all && \
+    yarn workspaces focus --all --production && \
     yarn cache clean --mirror
 
 FROM alpine:3.14 as runtime
@@ -31,6 +32,7 @@ COPY --from=build /home/build/server/dist ./server/dist/
 
 COPY --from=build /home/build/client/package.json /home/build/client/nuxt.config.ts ./client/
 COPY --from=build /home/build/client/dist ./client/dist/
+COPY --from=build /home/build/client/static ./client/static/
 
 RUN apk add --no-cache nodejs-current
 
