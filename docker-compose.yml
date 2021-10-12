@@ -1,0 +1,41 @@
+version: '3'
+
+services:
+  viewtube:
+    build: .
+    ports:
+      - 8066:8066
+    volumes:
+      - ./ddata:/data
+    depends_on:
+      - viewtube-db
+      - viewtube-redis
+    networks:
+      - viewtube-local
+    environment:
+      VIEWTUBE_CURRENT_DOMAIN: localhost:8066
+      VIEWTUBE_API_URL: http://localhost:8066/api/
+      VIEWTUBE_DATABASE_HOST: viewtube-db
+      VIEWTUBE_REDIS_HOST: viewtube-redis
+      VIEWTUBE_DATA_DIRECTORY: /data
+      VIEWTUBE_JWT_EXPIRATION_TIME: '43200'
+      VIEWTUBE_JWT_SECRET: e1654ca9-b48d-4983-8e86-13cc633a660c
+      VIEWTUBE_PRIVATE_VAPID: J6VVPFuDaTiUNoFRjRvbM1HamlZRp38Ug6QCiBInTXE
+      VIEWTUBE_PUBLIC_VAPID: BOrEQvCnNpzxN9ukVpNBqYgLuVCEQybbhJJKWumFzMd19udELweu78ytl3Jos2dCmAOjPUfqjWmFXeqo8_FhiK4
+      VIEWTUBE_VAPID: BOrEQvCnNpzxN9ukVpNBqYgLuVCEQybbhJJKWumFzMd19udELweu78ytl3Jos2dCmAOjPUfqjWmFXeqo8_FhiK4
+      VIEWTUBE_YOUTUBE_COOKIE:
+        SID=1AfXwB-fQDpytqTgO17IkBNbGATrIGHHE8piYl2LSWFEJWf-QDyRcdx7w_LZdnIruCCRfg.;
+        SSID=Ac7zJUkm5W1R1DNX2; HSID=AgYc_-6n42Ld_d6b9
+
+  viewtube-db:
+    image: mongo
+    networks:
+      - viewtube-local
+
+  viewtube-redis:
+    image: redis
+    networks:
+      - viewtube-local
+
+networks:
+  viewtube-local:
