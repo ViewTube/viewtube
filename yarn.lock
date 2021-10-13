@@ -14159,10 +14159,10 @@ undefsafe@^2.0.3:
   dependencies:
     debug "^2.2.0"
 
-undici@4.7.1:
-  version "4.7.1"
-  resolved "https://registry.yarnpkg.com/undici/-/undici-4.7.1.tgz#e3aea016caa174fd0b05a01398f73084f34798d3"
-  integrity sha512-5Vub7YlWErSgv+7UE4yCyqRbKLdP+Xo92AR9XWG5BrQvLSMXLtYZa/RxYwYnsOpaLNHeivswkYKGxZOC3Dfw4g==
+undici@4.7.2:
+  version "4.7.2"
+  resolved "https://registry.yarnpkg.com/undici/-/undici-4.7.2.tgz#7889da2a2b5bae03330ca9eb310a66200d9e92d1"
+  integrity sha512-kEW5A5JpmnzjMi09XL++3Y1lKG2rnInJuRIsYHD4DwlJFUX2EFehMBaaeDlSys/ht4nwMhKnnoWEycuRQ8GJPw==
 
 unfetch@^4.2.0:
   version "4.2.0"
