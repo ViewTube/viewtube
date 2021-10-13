@@ -1,11 +1,11 @@
 module.exports = {
-  root: true,
   env: {
     browser: true,
     node: true
   },
   parserOptions: {
-    project: './tsconfig.eslint.json',
+    tsconfigRootDir: __dirname,
+    project: 'tsconfig.eslint.json',
     sourceType: 'module',
     extraFileExtensions: ['.vue'],
     ecmaVersion: 12

@@ -10,6 +10,8 @@
     "build": "cross-env NODE_ENV=production yarn workspaces foreach run build",
     "build:server": "scripts/build.server.sh",
     "build:client": "cross-env NODE_ENV=production yarn workspace client run build",
+    "serve:api": "yarn workspace server run serve",
+    "serve:client": "yarn workspace client run serve",
     "start": "yarn workspace server run start",
     "lint-staged": "prettier --write --ignore-unknown"
   },
@@ -37,6 +39,6 @@
     "cross-env": "^7.0.3",
     "eslint": "^7.32.0",
     "prettier": "^2.4.1",
-    "webpack": "^5.58.1"
+    "vls": "^0.7.4"
   }
 }

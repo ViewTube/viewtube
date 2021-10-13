@@ -26,6 +26,8 @@ export class SentryService implements OnApplicationShutdown {
   }
 
   async onApplicationShutdown(_signal?: string) {
-    await Sentry.close();
+    if (SentryService.sentryServiceInstance) {
+      await Sentry.close();
+    }
   }
 }

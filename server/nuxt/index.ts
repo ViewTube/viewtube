@@ -8,30 +8,16 @@ export default class NuxtServer {
   private static instance: NuxtServer;
   public nuxtInstance: Nuxt;
 
-  public async run(dev = true): Nuxt {
-    let nuxtInstance: Nuxt;
-
-    // Build only in dev mode
-    if (dev) {
-      nuxtInstance = await loadNuxt({ for: 'dev', rootDir: '../client' });
-      await nuxtInstance.ready();
-      const builder = new Builder(nuxtInstance, BundleBuilder);
-      const res = await builder.build();
-
-      this.nuxtInstance = res.nuxt;
-
-      return res.nuxt;
-    } else {
-      let clientDir = '../client';
-      if (process.env.VIEWTUBE_BASE_DIR) {
-        clientDir = path.join(process.env.VIEWTUBE_BASE_DIR, 'client/');
-      }
-      nuxtInstance = await loadNuxt({
-        for: 'start',
-        rootDir: clientDir,
-        configFile: `${clientDir}/nuxt.config.ts`
-      });
+  public async run(): Nuxt {
+    let clientDir = '../client';
+    if (process.env.VIEWTUBE_BASE_DIR) {
+      clientDir = path.join(process.env.VIEWTUBE_BASE_DIR, 'client/');
     }
+    const nuxtInstance: Nuxt = await loadNuxt({
+      for: 'start',
+      rootDir: clientDir,
+      configFile: `${clientDir}/nuxt.config.ts`
+    });
 
     if (this.nuxtInstance) {
       return this.nuxtInstance;

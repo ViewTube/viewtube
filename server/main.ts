@@ -1,5 +1,6 @@
 import 'module-alias/register';
 import fs from 'fs';
+import path from 'path';
 import cluster from 'cluster';
 import { NestFactory } from '@nestjs/core';
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
@@ -19,12 +20,12 @@ import { checkEnvironmentVariables } from './prerequisiteHelper';
 import { AppClusterService } from './app-cluster.service';
 
 declare const module: any;
-const dev = process.env.NODE_ENV !== 'production';
+const isProduction = process.env.NODE_ENV === 'production';
 
 const prepareBootstrapPrimary = () => {
   checkEnvironmentVariables();
 
-  if (!dev) {
+  if (isProduction) {
     const channelsDir = `${(global as any).__basedir}/channels`;
     const profilesDir = `${(global as any).__basedir}/profiles`;
     if (!fs.existsSync(channelsDir)) {
@@ -49,6 +50,9 @@ const prepareBootstrap = () => {
     // eslint-disable-next-line dot-notation
     global['__basedir'] = process.env.VIEWTUBE_DATA_DIRECTORY;
   }
+  if(!isProduction){
+    global['__basedir'] = path.join(__dirname, global['__basedir']);
+  }
 };
 
 const bootstrap = async () => {
@@ -72,8 +76,8 @@ const bootstrap = async () => {
   const configService = server.get(ConfigService);
 
   // NUXT
-  if (!configService.get('API_ONLY')) {
-    const nuxt = await NuxtServer.getInstance().run(dev);
+  if (isProduction) {
+    const nuxt = await NuxtServer.getInstance().run();
 
     server.useGlobalFilters(new NuxtFilter(nuxt));
   }
@@ -84,7 +88,7 @@ const bootstrap = async () => {
 
   // CORS
   const allowedDomain = configService.get<string>('VIEWTUBE_ALLOWED_DOMAIN');
-  if (dev && allowedDomain) {
+  if (isProduction && allowedDomain) {
     server.enableCors({ origin: allowedDomain, credentials: true });
   } else if (!allowedDomain.startsWith('/')) {
     server.enableCors({ origin: allowedDomain, credentials: true });

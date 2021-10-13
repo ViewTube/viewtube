@@ -5,9 +5,9 @@ module.exports = {
     node: true
   },
   parserOptions: {
-    project: './tsconfig.eslint.json',
+    tsconfigRootDir: __dirname,
+    project: 'server/tsconfig.eslint.json',
     sourceType: 'module',
-    extraFileExtensions: ['.vue'],
     ecmaVersion: 12
   },
   extends: [
