@@ -3321,34 +3321,9 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/class-validator", null],
             ["@types/nestjs__common", null],
             ["@types/reflect-metadata", null],
-            ["class-transformer", null],
+            ["class-transformer", "npm:0.4.0"],
             ["class-validator", null],
             ["reflect-metadata", "npm:0.1.13"]
-          ],
-          "packagePeers": [
-            "@nestjs/common",
-            "@types/class-transformer",
-            "@types/class-validator",
-            "@types/nestjs__common",
-            "@types/reflect-metadata",
-            "class-transformer",
-            "class-validator",
-            "reflect-metadata"
-          ],
-          "linkType": "HARD",
-        }],
-        ["virtual:7f90894584308a62ae6ebac7dacfc26898e7fcf44a461721251869b234f86a1b2632bf17d642ee6784366471be6c218b799d1b80418e31636acc9c3c2aa4adb9#npm:1.0.0", {
-          "packageLocation": "./.yarn/__virtual__/@nestjs-mapped-types-virtual-c4eb5c9c8e/0/cache/@nestjs-mapped-types-npm-1.0.0-a5166fdfcf-64e4bb9313.zip/node_modules/@nestjs/mapped-types/",
-          "packageDependencies": [
-            ["@nestjs/mapped-types", "virtual:7f90894584308a62ae6ebac7dacfc26898e7fcf44a461721251869b234f86a1b2632bf17d642ee6784366471be6c218b799d1b80418e31636acc9c3c2aa4adb9#npm:1.0.0"],
-            ["@nestjs/common", null],
-            ["@types/class-transformer", null],
-            ["@types/class-validator", null],
-            ["@types/nestjs__common", null],
-            ["@types/reflect-metadata", null],
-            ["class-transformer", null],
-            ["class-validator", null],
-            ["reflect-metadata", null]
           ],
           "packagePeers": [
             "@nestjs/common",
@@ -3534,12 +3509,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@nestjs/common", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:8.0.9"],
             ["@nestjs/core", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:8.0.9"],
             ["@nestjs/mapped-types", "virtual:254e6127a0bb14ed7b43e9dcdf5c50d3c65a3a597f9530c39c131eb0f2bd74574d74dbfcf0c0a6e435d68b20ad409adc46933a0876a42dd92e66ef831d681507#npm:1.0.0"],
+            ["@types/clas-validator", null],
+            ["@types/class-transformer", null],
             ["@types/fastify-swagger", null],
             ["@types/nestjs__common", null],
             ["@types/nestjs__core", null],
             ["@types/reflect-metadata", null],
             ["@types/swagger-ui-express", null],
             ["@types/typescript", null],
+            ["clas-validator", null],
+            ["class-transformer", "npm:0.4.0"],
             ["fastify-swagger", "npm:4.12.3"],
             ["lodash", "npm:4.17.21"],
             ["path-to-regexp", "npm:3.2.0"],
@@ -3550,48 +3529,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packagePeers": [
             "@nestjs/common",
             "@nestjs/core",
+            "@types/clas-validator",
+            "@types/class-transformer",
             "@types/fastify-swagger",
             "@types/nestjs__common",
             "@types/nestjs__core",
             "@types/reflect-metadata",
             "@types/swagger-ui-express",
             "@types/typescript",
-            "fastify-swagger",
-            "reflect-metadata",
-            "swagger-ui-express",
-            "typescript"
-          ],
-          "linkType": "HARD",
-        }],
-        ["virtual:d10100d960b1b73f8c74718d4637dfe2c18d098bafef09afa646f6b4f65cd1a5ad77d7941e2a1def095bb77eb2ac82d00bec47774003ea2f130a251bc51e4c5b#npm:5.1.0", {
-          "packageLocation": "./.yarn/__virtual__/@nestjs-swagger-virtual-7f90894584/0/cache/@nestjs-swagger-npm-5.1.0-178cdbd24b-2165ac2533.zip/node_modules/@nestjs/swagger/",
-          "packageDependencies": [
-            ["@nestjs/swagger", "virtual:d10100d960b1b73f8c74718d4637dfe2c18d098bafef09afa646f6b4f65cd1a5ad77d7941e2a1def095bb77eb2ac82d00bec47774003ea2f130a251bc51e4c5b#npm:5.1.0"],
-            ["@nestjs/common", null],
-            ["@nestjs/core", null],
-            ["@nestjs/mapped-types", "virtual:7f90894584308a62ae6ebac7dacfc26898e7fcf44a461721251869b234f86a1b2632bf17d642ee6784366471be6c218b799d1b80418e31636acc9c3c2aa4adb9#npm:1.0.0"],
-            ["@types/fastify-swagger", null],
-            ["@types/nestjs__common", null],
-            ["@types/nestjs__core", null],
-            ["@types/reflect-metadata", null],
-            ["@types/swagger-ui-express", null],
-            ["@types/typescript", null],
-            ["fastify-swagger", null],
-            ["lodash", "npm:4.17.21"],
-            ["path-to-regexp", "npm:3.2.0"],
-            ["reflect-metadata", null],
-            ["swagger-ui-express", null],
-            ["typescript", null]
-          ],
-          "packagePeers": [
-            "@nestjs/common",
-            "@nestjs/core",
-            "@types/fastify-swagger",
-            "@types/nestjs__common",
-            "@types/nestjs__core",
-            "@types/reflect-metadata",
-            "@types/swagger-ui-express",
-            "@types/typescript",
+            "clas-validator",
+            "class-transformer",
             "fastify-swagger",
             "reflect-metadata",
             "swagger-ui-express",
@@ -4206,7 +4153,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/__virtual__/@nuxtjs-composition-api-virtual-38457b8e35/0/cache/@nuxtjs-composition-api-npm-0.29.2-0f62745e23-139798f8f0.zip/node_modules/@nuxtjs/composition-api/",
           "packageDependencies": [
             ["@nuxtjs/composition-api", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:0.29.2"],
-            ["@nuxt/vue-app", null],
+            ["@nuxt/vue-app", "npm:2.15.8"],
             ["@types/nuxt", null],
             ["@types/nuxt__vue-app", null],
             ["@types/vue", null],
@@ -8654,6 +8601,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["client", "workspace:client"],
             ["@nuxt/types", "npm:2.15.8"],
             ["@nuxt/typescript-build", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:2.1.0"],
+            ["@nuxt/vue-app", "npm:2.15.8"],
             ["@nuxtjs/axios", "npm:5.13.6"],
             ["@nuxtjs/composition-api", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:0.29.2"],
             ["@nuxtjs/eslint-config-typescript", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:6.0.1"],
@@ -8697,6 +8645,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["vue-material-design-icons", "npm:4.13.0"],
             ["vue-template-compiler", "npm:2.6.14"],
             ["vue2-datepicker", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:3.10.2"],
+            ["vuex", "virtual:b703fe309445e73be0544c0731c064bd8abfb48eba238ef60c1180739300244272080b53495cbb64a2ec07139667d15d2f5ce81fb8e0f1ce36343b35ebd9836e#npm:3.6.2"],
             ["vuex-persistedstate", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:4.1.0"],
             ["webpack", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:4.46.0"],
             ["x2js", "npm:3.4.2"],
@@ -17765,7 +17714,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["nuxt-typed-vuex", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:0.2.0"],
             ["@nuxt/types", "npm:2.15.8"],
             ["@types/nuxt__types", null],
-            ["typed-vuex", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:0.2.0"],
+            ["typed-vuex", "virtual:6b3c9c59b249155f7a07d0094b3e44b1617c2f6a3c2d42cdcb993f88cc35a00f7c3d536a80a47e19e378f155ab4483b4648379907ecc5c73a302c3243f2fdfab#npm:0.2.0"],
             ["upath", "npm:2.0.1"]
           ],
           "packagePeers": [
@@ -21459,8 +21408,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         ["workspace:shared", {
           "packageLocation": "./shared/",
           "packageDependencies": [
-            ["shared", "workspace:shared"],
-            ["@nestjs/swagger", "virtual:d10100d960b1b73f8c74718d4637dfe2c18d098bafef09afa646f6b4f65cd1a5ad77d7941e2a1def095bb77eb2ac82d00bec47774003ea2f130a251bc51e4c5b#npm:5.1.0"]
+            ["shared", "workspace:shared"]
           ],
           "linkType": "SOFT",
         }]
@@ -23331,6 +23279,19 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["typed-vuex", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:0.2.0"],
             ["@types/vuex", null],
+            ["vuex", "virtual:b703fe309445e73be0544c0731c064bd8abfb48eba238ef60c1180739300244272080b53495cbb64a2ec07139667d15d2f5ce81fb8e0f1ce36343b35ebd9836e#npm:3.6.2"]
+          ],
+          "packagePeers": [
+            "@types/vuex",
+            "vuex"
+          ],
+          "linkType": "HARD",
+        }],
+        ["virtual:6b3c9c59b249155f7a07d0094b3e44b1617c2f6a3c2d42cdcb993f88cc35a00f7c3d536a80a47e19e378f155ab4483b4648379907ecc5c73a302c3243f2fdfab#npm:0.2.0", {
+          "packageLocation": "./.yarn/__virtual__/typed-vuex-virtual-18213925ee/0/cache/typed-vuex-npm-0.2.0-3425aa3fce-d2d30f1731.zip/node_modules/typed-vuex/",
+          "packageDependencies": [
+            ["typed-vuex", "virtual:6b3c9c59b249155f7a07d0094b3e44b1617c2f6a3c2d42cdcb993f88cc35a00f7c3d536a80a47e19e378f155ab4483b4648379907ecc5c73a302c3243f2fdfab#npm:0.2.0"],
+            ["@types/vuex", null],
             ["vuex", null]
           ],
           "packagePeers": [
@@ -24195,7 +24156,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/vuex", null],
             ["deepmerge", "npm:4.2.2"],
             ["shvl", "npm:2.0.3"],
-            ["vuex", null]
+            ["vuex", "virtual:b703fe309445e73be0544c0731c064bd8abfb48eba238ef60c1180739300244272080b53495cbb64a2ec07139667d15d2f5ce81fb8e0f1ce36343b35ebd9836e#npm:3.6.2"]
           ],
           "packagePeers": [
             "@types/vuex",
