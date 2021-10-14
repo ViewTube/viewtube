@@ -30,7 +30,6 @@
             <li>Upload the file "subscriptions.csv" here.</li>
           </ol>
           <FileButton :label="'Upload CSV'" @change="onYTTakeoutFileChange"  />
-          <FormInput />
           <h2><XmlIcon />Import from Invidious / OPML</h2>
           <FileButton :label="'Upload OPML'" @change="onOPMLFileChange"  />
         </div>
