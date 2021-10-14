@@ -12,6 +12,7 @@
     "build:client": "cross-env NODE_ENV=production yarn workspace client run build",
     "serve:api": "yarn workspace server run serve",
     "serve:client": "yarn workspace client run serve",
+    "test": "yarn workspace server run test",
     "start": "yarn workspace server run start",
     "lint-staged": "prettier --write --ignore-unknown"
   },
