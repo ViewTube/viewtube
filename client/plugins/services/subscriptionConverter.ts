@@ -6,7 +6,7 @@ export default {
     const x2js = new X2js();
     const jsonString: any = x2js.xml2js(opmlString);
 
-    if (jsonString.opml !== undefined ){
+    if (jsonString.opml !== undefined) {
       const channelArray = jsonString.opml.body.outline.outline;
       const mappedChannelArray = this.mapOMPL(channelArray);
       return mappedChannelArray;
@@ -14,9 +14,10 @@ export default {
   },
 
   convertFromCSVToJson(csvString: string) {
-    const result = PapaParse.parse(csvString, { header: true, skipEmptyLines: true });
-    if (result.data[0]['Channel ID'] !== undefined) {
-      return this.mapYTTakeout(result.data)
+    const result = PapaParse.parse(csvString, { header: false, skipEmptyLines: true });
+    result.data.splice(0, 1);
+    if (result.data[0] !== undefined) {
+      return this.mapYTTakeout(result.data);
     }
   },
 
@@ -39,8 +40,8 @@ export default {
   mapYTTakeout(array: any[]) {
     return array.map((element: Object) => {
       return {
-        author: element['Channel title'],
-        authorId: element['Channel ID'],
+        author: element[2],
+        authorId: element[0],
         selected: false
       };
     });
