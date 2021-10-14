@@ -38,7 +38,7 @@ export default defineComponent({
     box-shadow: $max-shadow;
   }
 }
-/* Don't forget to hide the original file input! */
+
 .button > input[type='file'] {
   display: none;
 }
