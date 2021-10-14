@@ -2206,7 +2206,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nuxt/builder@npm:2.15.8, @nuxt/builder@npm:^2.15.8":
+"@nuxt/builder@npm:2.15.8":
   version: 2.15.8
   resolution: "@nuxt/builder@npm:2.15.8"
   dependencies:
@@ -2531,7 +2531,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nuxt/webpack@npm:2.15.8, @nuxt/webpack@npm:^2.15.8":
+"@nuxt/webpack@npm:2.15.8":
   version: 2.15.8
   resolution: "@nuxt/webpack@npm:2.15.8"
   dependencies:
@@ -17041,11 +17041,9 @@ fsevents@^1.2.7:
     "@nestjs/testing": ^8.0.9
     "@nestjs/throttler": ^2.0.0
     "@nuxt/babel-preset-app": ^2.15.8
-    "@nuxt/builder": ^2.15.8
     "@nuxt/core": ^2.15.8
     "@nuxt/types": ^2.15.8
     "@nuxt/vue-app": ^2.15.8
-    "@nuxt/webpack": ^2.15.8
     "@sentry/node": ^6.13.2
     "@sentry/tracing": ^6.13.2
     "@sentry/types": ^6.13.2

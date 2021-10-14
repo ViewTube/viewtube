@@ -1,8 +1,6 @@
 import path from 'path';
 import { Nuxt } from '@nuxt/core';
 import { loadNuxt } from '@nuxt/core';
-import { BundleBuilder } from '@nuxt/webpack';
-import { Builder } from '@nuxt/builder';
 
 export default class NuxtServer {
   private static instance: NuxtServer;
