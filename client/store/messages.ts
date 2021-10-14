@@ -1,4 +1,5 @@
-import { actionTree, getterTree, mutationTree } from 'typed-vuex';
+import { declareActionTree } from '@/plugins/actionTree.shim';
+import { getterTree, mutationTree } from 'typed-vuex';
 
 export const state = () => ({
   messages: [{}] as [
@@ -28,7 +29,7 @@ export const mutations = mutationTree(state, {
   }
 });
 
-export const actions = actionTree(
+export const actions = declareActionTree(
   { getters, state, mutations },
   {
     createMessage(

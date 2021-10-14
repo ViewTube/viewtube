@@ -19,8 +19,8 @@
     "baseUrl": "./",
     "outDir": "dist",
     "paths": {
-      "~/*": ["./*"],
       "@/*": ["./*"],
+      "~/*": ["./*"],
       "viewtube/*": ["../*"]
     },
     "types": ["@types/node", "@nuxt/types", "@nuxtjs/axios"]
