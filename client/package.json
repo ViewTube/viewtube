@@ -9,6 +9,7 @@
     "lint:fix": "eslint --ext .ts,.js,.vue --fix ."
   },
   "dependencies": {
+    "papaparse": "^5.3.1",
     "sass": "^1.42.1"
   },
   "devDependencies": {
@@ -22,6 +23,7 @@
     "@nuxtjs/router": "^1.6.1",
     "@nuxtjs/style-resources": "^1.2.1",
     "@types/node": "^16.10.2",
+    "@types/papaparse": "^5",
     "@types/sass": "^1",
     "@typescript-eslint/eslint-plugin": "^4.32.0",
     "@vue/composition-api": "^1.2.3",

@@ -3348,6 +3348,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/papaparse@npm:^5":
+  version: 5.3.0
+  resolution: "@types/papaparse@npm:5.3.0"
+  dependencies:
+    "@types/node": "*"
+  checksum: 25ca7ee15c2e1cffaea4e474361d73c8c1febf705a23003a0f0af3aa06690a6ea30073347f087302a4a92c3420d1277fb6f9e5c4fd2d31c15a7768fcee4a9255
+  languageName: node
+  linkType: hard
+
 "@types/parse-json@npm:^4.0.0":
   version: 4.0.0
   resolution: "@types/parse-json@npm:4.0.0"
@@ -6230,6 +6239,7 @@ __metadata:
     "@nuxtjs/router": ^1.6.1
     "@nuxtjs/style-resources": ^1.2.1
     "@types/node": ^16.10.2
+    "@types/papaparse": ^5
     "@types/sass": ^1
     "@typescript-eslint/eslint-plugin": ^4.32.0
     "@vue/composition-api": ^1.2.3
@@ -6253,6 +6263,7 @@ __metadata:
     js-sha256: ^0.9.0
     nuxt: ^2.15.8
     nuxt-typed-vuex: ^0.2.0
+    papaparse: ^5.3.1
     portal-vue: ^2.1.7
     prettier: ^2.4.1
     qrcode: ^1.4.4
@@ -14317,6 +14328,13 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
+"papaparse@npm:^5.3.1":
+  version: 5.3.1
+  resolution: "papaparse@npm:5.3.1"
+  checksum: 3431917bb46f8952e49ca64ecc9107ddf05291573ef666c8fac4e172b57780d131f1af925b47841039bd5ae0ceadc2eafbcb8183c092307442f85eed11f82b69
+  languageName: node
+  linkType: hard
+
 "parallel-transform@npm:^1.1.0":
   version: 1.2.0
   resolution: "parallel-transform@npm:1.2.0"
@@ -17185,6 +17203,8 @@ fsevents@^1.2.7:
 "shared@workspace:shared":
   version: 0.0.0-use.local
   resolution: "shared@workspace:shared"
+  dependencies:
+    "@nestjs/swagger": ^5.1.0
   languageName: unknown
   linkType: soft
 

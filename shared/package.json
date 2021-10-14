@@ -1,4 +1,7 @@
 {
   "name": "shared",
-  "packageManager": "yarn@3.0.2"
+  "packageManager": "yarn@3.0.2",
+  "dependencies": {
+    "@nestjs/swagger": "^5.1.0"
+  }
 }
