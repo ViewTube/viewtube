@@ -5,7 +5,7 @@ const config = {
   verbose: true,
   testMatch: ['**/test/**/*spec.ts'],
   moduleNameMapper: {
-    '^server/(.*)$': '<rootDir>/server/$1',
+    '^server/(.*)$': '<rootDir>/$1',
     '^test/(.*)$': '<rootDir>/test/$1'
   },
   setupFilesAfterEnv: ['<rootDir>/test/jest.setup.redis-mock.js'],

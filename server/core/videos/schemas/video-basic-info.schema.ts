@@ -1,8 +1,8 @@
 import { Document } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { VideoThumbnailDto } from 'shared/dto/video/video-thumbnail.dto';
-import { AuthorThumbnailDto } from 'shared/dto/video/author-thumbnail.dto';
+import { VideoThumbnailDto } from 'viewtube/shared/dto/video/video-thumbnail.dto';
+import { AuthorThumbnailDto } from 'viewtube/shared/dto/video/author-thumbnail.dto';
 import { VideoBasicInfoDto } from '../dto/video-basic-info.dto';
 
 // eslint-disable-next-line no-undef

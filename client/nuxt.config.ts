@@ -10,11 +10,11 @@ const dartSass = {
 const dev = process.env.NODE_ENV !== 'production';
 
 const config: NuxtConfig = {
-  srcDir: './client',
-
   server: {
     port: 8066
   },
+
+  buildDir: './dist',
 
   modern: !dev,
 
@@ -136,7 +136,7 @@ const config: NuxtConfig = {
       short_name: 'ViewTube',
       display: 'standalone',
       background_color: '#121212',
-      description: 'An alternative YouTube-frontend',
+      description: 'An alternative YouTube frontend',
       lang: 'en',
       theme_color: '#272727',
       icons: [
@@ -184,13 +184,14 @@ const config: NuxtConfig = {
     '@nuxtjs/composition-api/module',
     '@nuxtjs/router',
     '@nuxt/typescript-build',
-    'nuxt-typed-vuex'
+    'nuxt-typed-vuex',
+    '@nuxtjs/style-resources',
+    '@nuxtjs/pwa'
   ],
 
-  modules: ['@nuxtjs/style-resources', 'portal-vue/nuxt', '@nuxtjs/pwa', '@nuxtjs/axios'],
+  modules: ['portal-vue/nuxt', '@nuxtjs/axios'],
 
   axios: {
-    withCredentials: true,
     credentials: true,
     progress: false
   },
@@ -202,22 +203,9 @@ const config: NuxtConfig = {
   },
 
   build: {
-    postcss: {
-      plugins: [
-        require('autoprefixer'),
-        require('cssnano')({
-          preset: 'default'
-        })
-      ]
-    },
-    terser: {
-      parallel: true,
-      cache: false,
-      sourceMap: false,
-      extractComments: false,
-      terserOptions: {
-        ecma: 2020,
-        mangle: true
+    extend(config) {
+      if (!dev) {
+        config.devtool = false;
       }
     },
     loaders: {

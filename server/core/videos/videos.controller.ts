@@ -9,7 +9,7 @@ import {
   CacheTTL
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { VideoDto } from 'shared/dto/video/video.dto';
+import { VideoDto } from 'viewtube/shared/dto/video/video.dto';
 import { VideosService } from './videos.service';
 
 @ApiTags('Core')

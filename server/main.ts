@@ -1,4 +1,6 @@
+import 'module-alias/register';
 import fs from 'fs';
+import path from 'path';
 import cluster from 'cluster';
 import { NestFactory } from '@nestjs/core';
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
@@ -10,7 +12,6 @@ import Consola from 'consola';
 import FastifyCookie from 'fastify-cookie';
 import FastifyMultipart from 'fastify-multipart';
 import FastifyHelmet from 'fastify-helmet';
-import packageJson from '../package.json';
 import { AppModule } from './app.module';
 import { NuxtFilter } from './nuxt/nuxt.filter';
 import NuxtServer from './nuxt/';
@@ -18,12 +19,13 @@ import { HomepageService } from './core/homepage/homepage.service';
 import { checkEnvironmentVariables } from './prerequisiteHelper';
 import { AppClusterService } from './app-cluster.service';
 
-const dev = process.env.NODE_ENV !== 'production';
+declare const module: any;
+const isProduction = process.env.NODE_ENV === 'production';
 
 const prepareBootstrapPrimary = () => {
   checkEnvironmentVariables();
 
-  if (!dev) {
+  if (isProduction) {
     const channelsDir = `${(global as any).__basedir}/channels`;
     const profilesDir = `${(global as any).__basedir}/profiles`;
     if (!fs.existsSync(channelsDir)) {
@@ -37,7 +39,7 @@ const prepareBootstrapPrimary = () => {
 
 const prepareBootstrap = () => {
   webPush.setVapidDetails(
-    `mailto:${packageJson.email}`,
+    'https://github.com/ViewTube/viewtube-vue',
     process.env.VIEWTUBE_PUBLIC_VAPID || '',
     process.env.VIEWTUBE_PRIVATE_VAPID || ''
   );
@@ -48,14 +50,17 @@ const prepareBootstrap = () => {
     // eslint-disable-next-line dot-notation
     global['__basedir'] = process.env.VIEWTUBE_DATA_DIRECTORY;
   }
+  if(!isProduction){
+    global['__basedir'] = path.join(__dirname, global['__basedir']);
+  }
 };
 
 const bootstrap = async () => {
   const server = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter(), {
-    logger: ['warn', 'error']
+    logger: ['error', 'warn']
   });
 
-  await server.register(FastifyHelmet as any, {
+  await server.register(FastifyHelmet, {
     contentSecurityPolicy: {
       useDefaults: true,
       directives: {
@@ -65,14 +70,14 @@ const bootstrap = async () => {
       }
     }
   });
-  await server.register(FastifyCookie as any);
-  await server.register(FastifyMultipart as any);
+  await server.register(FastifyCookie);
+  await server.register(FastifyMultipart);
 
   const configService = server.get(ConfigService);
 
   // NUXT
-  if (!configService.get('API_ONLY')) {
-    const nuxt = await NuxtServer.getInstance().run(dev);
+  if (isProduction) {
+    const nuxt = await NuxtServer.getInstance().run();
 
     server.useGlobalFilters(new NuxtFilter(nuxt));
   }
@@ -83,7 +88,7 @@ const bootstrap = async () => {
 
   // CORS
   const allowedDomain = configService.get<string>('VIEWTUBE_ALLOWED_DOMAIN');
-  if (dev && allowedDomain) {
+  if (isProduction && allowedDomain) {
     server.enableCors({ origin: allowedDomain, credentials: true });
   } else if (!allowedDomain.startsWith('/')) {
     server.enableCors({ origin: allowedDomain, credentials: true });
@@ -96,11 +101,11 @@ const bootstrap = async () => {
   // SWAGGER DOCS
   const documentOptions = new DocumentBuilder()
     .setTitle('ViewTube-API')
-    .setDescription(packageJson.description)
-    .setVersion(packageJson.version)
+    .setDescription('ViewTube, an alternative Youtube frontend.')
+    .setVersion('Version 0.8.0')
     .setLicense(
-      packageJson.license,
-      'https://raw.githubusercontent.com/viewtube/viewtube-vue/master/LICENSE'
+      'AGPLv3',
+      'https://raw.githubusercontent.com/viewtube/viewtube-vue/development/LICENSE'
     )
     .addBearerAuth()
     .build();
@@ -122,6 +127,11 @@ const bootstrap = async () => {
       Consola.ready(`Server listening on http://localhost:${port}`);
     }
   });
+
+  if (module.hot) {
+    module.hot.accept();
+    module.hot.dispose(() => server.close());
+  }
 
   const homepageService = server.get(HomepageService);
   homepageService.refreshPopular();

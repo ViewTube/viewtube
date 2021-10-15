@@ -103,7 +103,8 @@ export class UserService {
         }
         let imgPath = `profiles/${username}.${extension}`;
 
-        if (process.env.NODE_ENV === 'production') {
+        console.log(__dirname);
+        if (global['__basedir']) {
           // eslint-disable-next-line dot-notation
           imgPath = path.join(global['__basedir'], imgPath);
         }

@@ -8,8 +8,6 @@ import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { ThrottlerStorageRedisService } from 'nestjs-throttler-storage-redis';
 import * as Sentry from '@sentry/node';
 import { RedisOptions } from 'ioredis';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { CoreModule } from './core/core.module';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
@@ -70,9 +68,7 @@ const moduleMetadata: ModuleMetadata = {
     AuthModule,
     ConfigModule.forRoot()
   ],
-  controllers: [AppController],
   providers: [
-    AppService,
     {
       provide: APP_GUARD,
       useClass: ThrottlerGuard

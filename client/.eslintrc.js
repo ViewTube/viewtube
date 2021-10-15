@@ -1,18 +1,18 @@
 module.exports = {
-  root: true,
   env: {
     browser: true,
     node: true
   },
   parserOptions: {
-    project: './tsconfig.eslint.json',
+    tsconfigRootDir: __dirname,
+    project: 'tsconfig.eslint.json',
     sourceType: 'module',
     extraFileExtensions: ['.vue'],
     ecmaVersion: 12
   },
-  extends: ['@nuxtjs/eslint-config-typescript', 'plugin:nuxt/recommended', 'prettier'],
-  // add your custom rules here
+  extends: ['@nuxtjs/eslint-config-typescript', 'prettier'],
   rules: {
+    'import/named': 'off',
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'space-before-function-paren': 'off',
@@ -25,6 +25,7 @@ module.exports = {
     'vue/attribute-hyphenation': ['off', { ignore: ['custom-prop'] }],
     'vue/no-v-html': 'off',
     'vue/script-setup-uses-vars': 'off',
+    'import/order': 'off',
     semi: 'off',
     'vue/html-self-closing': [
       'error',

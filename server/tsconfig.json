@@ -1,10 +1,10 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
+    "module": "CommonJS",
     "declaration": false,
     "removeComments": true,
     "noLib": false,
-    "lib": ["ESNext", "ES2020", "ESNext.AsyncIterable", "DOM"],
+    "lib": ["ESNext", "ES2020", "DOM", "ESNext.AsyncIterable"],
     "allowSyntheticDefaultImports": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
@@ -13,7 +13,6 @@
     "resolveJsonModule": true,
     "sourceMap": true,
     "outDir": "./dist",
-    "noEmit": false,
     "strict": false,
     "noImplicitThis": true,
     "noImplicitAny": false,
@@ -21,16 +20,13 @@
     "strictNullChecks": false,
     "strictFunctionTypes": false,
     "esModuleInterop": true,
-    "moduleResolution": "node",
+    "moduleResolution": "Node",
     "baseUrl": "./",
     "paths": {
-      "@/*": ["client/*"],
-      "@shared/*": ["shared/*"],
-      "server/*": ["server/*"],
-      "~/*": ["client/*"]
+      "viewtube/*": ["../*"],
+      "server/*": ["./"]
     },
-    "types": ["@types/node", "@nuxt/types", "@nuxtjs/axios", "@types/jest", "@sentry/types"]
+    "types": ["@types/node", "@types/jest", "@sentry/types"]
   },
-  "include": ["server/**/*", "client/**/*", "test/**/*", "types/**/*", "shared/**/*"],
-  "exclude": ["node_modules", "dist"]
+  "exclude": ["**/node_modules", "**/dist", "**/.yarn"]
 }

@@ -1,5 +1,5 @@
-import { AuthorThumbnailDto } from 'shared/dto/video/author-thumbnail.dto';
-import { VideoThumbnailDto } from 'shared/dto/video/video-thumbnail.dto';
+import { AuthorThumbnailDto } from 'viewtube/shared/dto/video/author-thumbnail.dto';
+import { VideoThumbnailDto } from 'viewtube/shared/dto/video/video-thumbnail.dto';
 
 export class VideoBasicInfoDto {
   videoId: string;

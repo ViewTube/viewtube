@@ -1,3 +1,6 @@
+/* eslint-disable jest/valid-title */
+/* eslint-disable jest/expect-expect */
+/* eslint-disable jest/no-export */
 import chalk from 'chalk';
 
 export const defineIt = (name: string, fn?: jest.ProvidesCallback, timeout?: number): void => {

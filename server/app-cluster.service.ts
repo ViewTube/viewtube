@@ -9,7 +9,7 @@ const cpuCount = os.cpus().length;
 export class AppClusterService {
   static get isClustered() {
     const production = process.env.NODE_ENV === 'production';
-    return Boolean(process.env.API_ONLY || production);
+    return Boolean(production);
   }
 
   static clusterize(bootstrap: Function): void {

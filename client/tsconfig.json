@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "target": "ES2018",
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "declaration": false,
+    "lib": ["ESNext", "ESNext.AsyncIterable", "DOM"],
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "allowJs": true,
+    "sourceMap": false,
+    "strict": false,
+    "noImplicitThis": true,
+    "noImplicitAny": false,
+    "strictBindCallApply": true,
+    "strictNullChecks": false,
+    "strictFunctionTypes": false,
+    "baseUrl": "./",
+    "outDir": "dist",
+    "paths": {
+      "@/*": ["./*"],
+      "~/*": ["./*"],
+      "viewtube/*": ["../*"]
+    },
+    "types": ["@types/node", "@nuxt/types", "@nuxtjs/axios"]
+  },
+  "exclude": ["node_modules", ".nuxt"]
+}

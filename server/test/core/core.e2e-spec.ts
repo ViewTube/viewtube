@@ -3,7 +3,7 @@ import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import { CoreModule } from 'server/core/core.module';
 import { MongooseModule } from '@nestjs/mongoose';
-import { defineIt, getPayloadJson } from 'test/common/test.helper';
+import { defineIt, getPayloadJson } from 'server/test/common/test.helper';
 import ytsr from 'ytsr';
 import { CommentsResponseDto } from 'server/core/comments/dto/comments-response.dto';
 import ytpl from 'ytpl';
@@ -19,17 +19,7 @@ describe('Core', () => {
     const dbUri = mongod.getUri();
 
     const moduleRef = await Test.createTestingModule({
-      imports: [MongooseModule.forRoot(dbUri, {}), CoreModule],
-      providers: [
-        // {
-        //   provide: getModelToken('VideoBasicInfo'),
-        //   useValue: mockUserModel
-        // },
-        // {
-        //   provide: getModelToken('ChannelBasicInfo'),
-        //   useValue: mockUserModel
-        // }
-      ]
+      imports: [MongooseModule.forRoot(dbUri, {}), CoreModule]
     }).compile();
     app = moduleRef.createNestApplication<NestFastifyApplication>(new FastifyAdapter());
 
