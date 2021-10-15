@@ -1,4 +1,4 @@
-import { getAccessorType, actionTree } from 'typed-vuex';
+import { getAccessorType } from 'typed-vuex';
 import { Context } from '@nuxt/types';
 import { wrapProperty } from '@nuxtjs/composition-api';
 import * as captcha from '@/store/captcha';
@@ -10,12 +10,13 @@ import * as user from '@/store/user';
 import * as videoPlayer from '@/store/videoPlayer';
 import * as playerVolume from '@/store/playerVolume';
 import * as popup from '@/store/popup';
+import { declareActionTree } from '@/plugins/actionTree.shim';
 
 export const state = () => ({});
 
 export type RootState = ReturnType<typeof state>;
 
-export const actions = actionTree(
+export const actions = declareActionTree(
   { state },
   {
     async nuxtServerInit(_vuexContext, nuxtContext: Context): Promise<void> {

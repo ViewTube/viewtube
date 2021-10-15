@@ -149,7 +149,9 @@ export default defineComponent({
       repliesContinuationLoading.value = true;
       const videoId = route.value.query.v;
       axios
-        .get(`${accessor.environment.apiUrl}comments/${videoId}/replies?replyToken=${repliesContinuationString.value}`)
+        .get(
+          `${accessor.environment.apiUrl}comments/${videoId}/replies?replyToken=${repliesContinuationString.value}`
+        )
         .then(response => {
           replies.value = replies.value.concat(response.data.comments);
           repliesContinuationString.value = response.data.continuation || null;

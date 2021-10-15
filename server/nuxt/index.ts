@@ -1,34 +1,27 @@
+import path from 'path';
 import { Nuxt } from '@nuxt/core';
-import { loadNuxt } from 'nuxt';
-import { BundleBuilder } from '@nuxt/webpack';
-import { Builder } from '@nuxt/builder';
+import { loadNuxt } from '@nuxt/core';
 
 export default class NuxtServer {
   private static instance: NuxtServer;
-  public nuxt: Nuxt;
+  public nuxtInstance: Nuxt;
 
-  public async run(dev = true): Nuxt {
-    let nuxt: Nuxt;
+  public async run(): Nuxt {
+    let clientDir = '../client';
+    if (process.env.VIEWTUBE_BASE_DIR) {
+      clientDir = path.join(process.env.VIEWTUBE_BASE_DIR, 'client/');
+    }
+    const nuxtInstance: Nuxt = await loadNuxt({
+      for: 'start',
+      rootDir: clientDir,
+      configFile: `${clientDir}/nuxt.config.ts`
+    });
 
-    // Build only in dev mode
-    if (dev) {
-      nuxt = await loadNuxt('dev');
-      await nuxt.ready();
-      const builder = new Builder(nuxt, BundleBuilder);
-      const res = await builder.build();
-
-      this.nuxt = res.nuxt;
-
-      return res.nuxt;
-    } else {
-      nuxt = await loadNuxt('start');
+    if (this.nuxtInstance) {
+      return this.nuxtInstance;
     }
 
-    if (this.nuxt) {
-      return this.nuxt;
-    }
-
-    return nuxt;
+    return nuxtInstance;
   }
 
   public static getInstance(): NuxtServer {

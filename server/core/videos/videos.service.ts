@@ -9,7 +9,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import fetch from 'node-fetch';
 import HttpsProxyAgent from 'https-proxy-agent';
-import { VideoDto } from 'shared/dto/video/video.dto';
+import { VideoDto } from 'viewtube/shared/dto/video/video.dto';
 import Consola from 'consola';
 import { ChannelBasicInfoDto } from '../channels/dto/channel-basic-info.dto';
 import { ChannelBasicInfo } from '../channels/schemas/channel-basic-info.schema';

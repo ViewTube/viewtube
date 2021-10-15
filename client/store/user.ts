@@ -1,4 +1,5 @@
-import { actionTree, getterTree, mutationTree } from 'typed-vuex';
+import { getterTree, mutationTree } from 'typed-vuex';
+import { declareActionTree } from '@/plugins/actionTree.shim';
 
 export const state = () => ({
   username: null as string,
@@ -20,7 +21,7 @@ export const mutations = mutationTree(state, {
   }
 });
 
-export const actions = actionTree(
+export const actions = declareActionTree(
   { state, getters, mutations },
   {
     async getUser({ commit }): Promise<void> {
@@ -28,13 +29,18 @@ export const actions = actionTree(
         const result = await this.$axios.get(
           `${this.app.$accessor.environment.env.apiUrl}user/profile`,
           {
-            withCredentials: true
+            withCredentials: true,
+            timeout: 10000
           }
         );
         this.app.$accessor.settings.mutateSettings(result.data.settings);
         commit('setUsername', result.data.username);
         commit('setProfileImage', result.data.profileImage);
-      } catch (e) {}
+      } catch (e) {
+        if (!e.message.includes('timeout') && !e.message.includes('401')) {
+          console.error(e);
+        }
+      }
     },
     async logout({ commit }): Promise<boolean> {
       await this.$axios.post(

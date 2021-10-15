@@ -185,12 +185,12 @@ export default defineComponent({
     };
 
     const autoAdjustVideoQuality = (val: boolean) => {
-      accessor.settings.setAutoAdjustVideoQuality(val); 
+      accessor.settings.setAutoAdjustVideoQuality(val);
       emit('autoadjustchange');
     };
 
     const autoAdjustAudioQuality = (val: boolean) => {
-      accessor.settings.setAutoAdjustAudioQuality(val); 
+      accessor.settings.setAutoAdjustAudioQuality(val);
       emit('autoadjustchange');
     };
 

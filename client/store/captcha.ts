@@ -1,4 +1,5 @@
-import { getterTree, mutationTree, actionTree } from 'typed-vuex';
+import { getterTree, mutationTree } from 'typed-vuex';
+import { declareActionTree } from '@/plugins/actionTree.shim';
 
 export const state = () => ({
   token: '' as string,
@@ -19,7 +20,7 @@ export const mutations = mutationTree(state, {
   }
 });
 
-export const actions = actionTree(
+export const actions = declareActionTree(
   { state, getters, mutations },
   {
     getCaptcha({ commit }): void {

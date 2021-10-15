@@ -8,6 +8,7 @@ out
 channels
 scripts
 
+Dockerfile
 npm-debug.log
 .all-contributorsrc
 .drone.yml
@@ -18,3 +19,6 @@ LICENSE
 no-master.sh
 README.md
 webpack.config.js
+
+.yarn/unplugged
+.yarn/install-state.gz
