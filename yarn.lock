@@ -2592,10 +2592,10 @@
   dependencies:
     "@types/webpack" "^4"
 
-"@types/papaparse@5.2.6":
-  version "5.2.6"
-  resolved "https://registry.yarnpkg.com/@types/papaparse/-/papaparse-5.2.6.tgz#0bba18de4d15eff65883bc7c0794e0134de9e7c7"
-  integrity sha512-xGKSd0UTn58N1h0+zf8mW863Rv8BvXcGibEgKFtBIXZlcDXAmX/T4RdDO2mwmrmOypUDt5vRgo2v32a78JdqUA==
+"@types/papaparse@5.3.0":
+  version "5.3.0"
+  resolved "https://registry.yarnpkg.com/@types/papaparse/-/papaparse-5.3.0.tgz#7e810548a0d453a8820066d7f08757a5347ac877"
+  integrity sha512-QOyKvhGJ3yjuD0R/MtbxLtKM4XBcaVRekUFFwxGOOTncuUa3o07g8V28gmwe+bJgOcsWRUYkf+09cx+/ug5AbA==
   dependencies:
     "@types/node" "*"
 
