@@ -4,8 +4,9 @@
   "scripts": {
     "prepare:env": "cross-env VIEWTUBE_API_URL=http://localhost:8067/api/",
     "serve": "yarn prepare:env nuxt",
-    "build": "nuxt build",
+    "build": "NODE_ENV=production nuxt build",
     "start": "yarn prepare:env nuxt startuxt sta",
+    "lint": "eslint --ext .ts,.js,.vue .",
     "lint:fix": "eslint --ext .ts,.js,.vue --fix ."
   },
   "dependencies": {
@@ -26,6 +27,7 @@
     "@types/papaparse": "^5",
     "@types/sass": "^1",
     "@typescript-eslint/eslint-plugin": "^4.32.0",
+    "@typescript-eslint/parser": "4.33.0",
     "@vue/composition-api": "^1.2.3",
     "axios": "^0.21.4",
     "consola": "^2.15.3",

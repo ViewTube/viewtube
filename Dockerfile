@@ -17,7 +17,7 @@ COPY . .
 
 RUN yarn build
 
-RUN yarn cache clean --all && \
+RUN yarn cache clean && \
     yarn workspaces focus --all --production && \
     yarn cache clean --mirror
 

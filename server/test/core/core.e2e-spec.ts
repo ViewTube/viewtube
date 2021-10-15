@@ -19,17 +19,7 @@ describe('Core', () => {
     const dbUri = mongod.getUri();
 
     const moduleRef = await Test.createTestingModule({
-      imports: [MongooseModule.forRoot(dbUri, {}), CoreModule],
-      providers: [
-        // {
-        //   provide: getModelToken('VideoBasicInfo'),
-        //   useValue: mockUserModel
-        // },
-        // {
-        //   provide: getModelToken('ChannelBasicInfo'),
-        //   useValue: mockUserModel
-        // }
-      ]
+      imports: [MongooseModule.forRoot(dbUri, {}), CoreModule]
     }).compile();
     app = moduleRef.createNestApplication<NestFastifyApplication>(new FastifyAdapter());
 

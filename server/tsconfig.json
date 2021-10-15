@@ -21,7 +21,7 @@
     "strictFunctionTypes": false,
     "esModuleInterop": true,
     "moduleResolution": "Node",
-    "baseUrl": ".",
+    "baseUrl": "./",
     "paths": {
       "viewtube/*": ["../*"],
       "server/*": ["./"]

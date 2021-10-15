@@ -1,6 +1,7 @@
 {
   "extends": "./tsconfig.json",
   "include": [
+    "./**/*",
     "client/**/*",
     "server/**/*",
     "test/**/*",
@@ -8,10 +9,8 @@
     "shared/**/*",
     ".eslintrc.js",
     "client/.eslintrc.js",
-    "webpack.config.js",
-    "jest.config.js",
-    "nuxt.config.ts",
-    "prepare.js"
+    "webpack-hmr.config.js",
+    "jest.config.js"
   ],
   "exclude": ["node_modules", "dist/**/*", ".yarn"]
 }

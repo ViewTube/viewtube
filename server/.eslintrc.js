@@ -6,13 +6,13 @@ module.exports = {
   },
   parserOptions: {
     tsconfigRootDir: __dirname,
-    project: 'server/tsconfig.eslint.json',
+    project: 'tsconfig.eslint.json',
     sourceType: 'module',
     ecmaVersion: 12
   },
   extends: [
-    '@nuxtjs/eslint-config-typescript',
-    'plugin:nuxt/recommended',
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended',
     'plugin:jest/recommended',
     'prettier'
   ],
@@ -23,22 +23,8 @@ module.exports = {
     'no-unused-vars': 'off',
     '@typescript-eslint/no-unused-vars': 'warn',
     'no-useless-constructor': 'off',
-    'vue/singleline-html-element-content-newline': 'off',
-    'vue/multiline-html-element-content-newline': 'off',
-    'vue/require-default-prop': 'off',
-    'vue/attribute-hyphenation': ['off', { ignore: ['custom-prop'] }],
-    'vue/no-v-html': 'off',
-    'vue/script-setup-uses-vars': 'off',
     'import/order': 'off',
     'jest/no-standalone-expect': 'off',
-    semi: 'off',
-    'vue/html-self-closing': [
-      'error',
-      {
-        html: {
-          void: 'any'
-        }
-      }
-    ]
+    semi: 'off'
   }
 };

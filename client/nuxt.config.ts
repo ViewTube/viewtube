@@ -203,14 +203,9 @@ const config: NuxtConfig = {
   },
 
   build: {
-    terser: {
-      parallel: true,
-      cache: false,
-      sourceMap: false,
-      extractComments: false,
-      terserOptions: {
-        ecma: 2020,
-        mangle: true
+    extend(config) {
+      if (!dev) {
+        config.devtool = false;
       }
     },
     loaders: {
