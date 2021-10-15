@@ -4468,6 +4468,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@sentry/types", "npm:6.13.2"]
           ],
           "linkType": "HARD",
+        }],
+        ["npm:6.13.3", {
+          "packageLocation": "./.yarn/cache/@sentry-types-npm-6.13.3-986bf53753-e5641cb0c0.zip/node_modules/@sentry/types/",
+          "packageDependencies": [
+            ["@sentry/types", "npm:6.13.3"]
+          ],
+          "linkType": "HARD",
         }]
       ]],
       ["@sentry/utils", [
@@ -21120,7 +21127,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@nuxt/vue-app", "npm:2.15.8"],
             ["@sentry/node", "npm:6.13.2"],
             ["@sentry/tracing", "npm:6.13.2"],
-            ["@sentry/types", "npm:6.13.2"],
+            ["@sentry/types", "npm:6.13.3"],
             ["@types/archiver", "npm:5.3.0"],
             ["@types/bcryptjs", "npm:2.4.2"],
             ["@types/bull", "npm:3.15.5"],
