@@ -71,6 +71,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@antfu/utils@npm:^0.3.0":
+  version: 0.3.0
+  resolution: "@antfu/utils@npm:0.3.0"
+  dependencies:
+    "@types/throttle-debounce": ^2.1.0
+  checksum: 1f42790560e1768e16d05e302c9f1a69e64c3e048ab5a79d2d9f5c0d92d350e910f54c097475a0ed702a576ce0d306a6af68c7b0c53335df109358cf13f0cd0c
+  languageName: node
+  linkType: hard
+
 "@babel/code-frame@npm:7.12.11":
   version: 7.12.11
   resolution: "@babel/code-frame@npm:7.12.11"
@@ -2724,6 +2733,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@rollup/pluginutils@npm:^4.1.1":
+  version: 4.1.1
+  resolution: "@rollup/pluginutils@npm:4.1.1"
+  dependencies:
+    estree-walker: ^2.0.1
+    picomatch: ^2.2.2
+  checksum: 405f681c7d32661980aa3caa928ff22e1c06f0e081db1550e6ab9c179dc9d3d8d63c05dcc7338fe65ab3f856a56c465696a51300b83e98171956fcb141106e39
+  languageName: node
+  linkType: hard
+
 "@sentry/core@npm:6.13.2":
   version: 6.13.2
   resolution: "@sentry/core@npm:6.13.2"
@@ -3501,6 +3520,13 @@ __metadata:
     "@types/webpack": ^4
     terser: ^4.6.13
   checksum: d120ddafc8993c8861526ea93ea2668c945aa00739fc465430be8882c58df17e72e42fed0d6306f4ad6b697a68ea39ce79424370fb8a9e373f516a7ae9ba94a9
+  languageName: node
+  linkType: hard
+
+"@types/throttle-debounce@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "@types/throttle-debounce@npm:2.1.0"
+  checksum: 70e219d000595108fce0dc624c8296e37cdb174b528e09c939da18e619da1c6df86b088659f5eb93cb146bd5fe2954597823c2e1f0849dc8f6585d87cbbf71b7
   languageName: node
   linkType: hard
 
@@ -6205,7 +6231,7 @@ __metadata:
     tippy.js: 6.3.1
     typed-vuex: 0.2.0
     typescript: 4.4.3
-    unplugin-vue2-script-setup: 0.6.4
+    unplugin-vue2-script-setup: 0.6.11
     vue: 2.6.14
     vue-material-design-icons: 4.13.0
     vue-template-compiler: 2.6.14
@@ -8361,7 +8387,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"estree-walker@npm:^2.0.2":
+"estree-walker@npm:^2.0.1, estree-walker@npm:^2.0.2":
   version: 2.0.2
   resolution: "estree-walker@npm:2.0.2"
   checksum: 6151e6f9828abe2259e57f5fd3761335bb0d2ebd76dc1a01048ccee22fabcfef3c0859300f6d83ff0d1927849368775ec5a6d265dde2f6de5a1be1721cd94efc
@@ -14397,7 +14423,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"picomatch@npm:^2.0.4, picomatch@npm:^2.2.1, picomatch@npm:^2.2.3":
+"picomatch@npm:^2.0.4, picomatch@npm:^2.2.1, picomatch@npm:^2.2.2, picomatch@npm:^2.2.3":
   version: 2.3.0
   resolution: "picomatch@npm:2.3.0"
   checksum: 16818720ea7c5872b6af110760dee856c8e4cd79aed1c7a006d076b1cc09eff3ae41ca5019966694c33fbd2e1cc6ea617ab10e4adac6df06556168f13be3fca2
@@ -18666,7 +18692,33 @@ typescript@~4.2:
   languageName: node
   linkType: hard
 
-"unplugin-vue2-script-setup@npm:0.6.4, unplugin-vue2-script-setup@npm:^0.6.4":
+"unplugin-vue2-script-setup@npm:0.6.11":
+  version: 0.6.11
+  resolution: "unplugin-vue2-script-setup@npm:0.6.11"
+  dependencies:
+    "@antfu/utils": ^0.3.0
+    "@babel/core": ^7.15.5
+    "@babel/generator": ^7.15.4
+    "@babel/parser": ^7.15.6
+    "@babel/traverse": ^7.15.4
+    "@babel/types": ^7.15.6
+    "@rollup/pluginutils": ^4.1.1
+    "@vue/ref-transform": ^3.2.11
+    "@vue/shared": ^3.2.11
+    defu: ^5.0.0
+    htmlparser2: ^7.1.2
+    magic-string: ^0.25.7
+    unplugin: ^0.2.11
+  peerDependencies:
+    pug: ^3.0.2
+  peerDependenciesMeta:
+    pug:
+      optional: true
+  checksum: e50198ceb570e828e80d6d1d6e3ce78dcfde373ad61f73613e5bd846ac7f748e61cce0eb4a8240b3d555daf4eaa18f79216e6909f29ad6807884591bb921f259
+  languageName: node
+  linkType: hard
+
+"unplugin-vue2-script-setup@npm:^0.6.4":
   version: 0.6.4
   resolution: "unplugin-vue2-script-setup@npm:0.6.4"
   dependencies:
