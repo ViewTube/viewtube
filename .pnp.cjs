@@ -128,6 +128,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["@antfu/utils", [
+        ["npm:0.3.0", {
+          "packageLocation": "./.yarn/cache/@antfu-utils-npm-0.3.0-0cf5dde80d-1f42790560.zip/node_modules/@antfu/utils/",
+          "packageDependencies": [
+            ["@antfu/utils", "npm:0.3.0"],
+            ["@types/throttle-debounce", "npm:2.1.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["@babel/code-frame", [
         ["npm:7.12.11", {
           "packageLocation": "./.yarn/cache/@babel-code-frame-npm-7.12.11-1a9a1b277f-3963eff3eb.zip/node_modules/@babel/code-frame/",
@@ -4391,6 +4401,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["@rollup/pluginutils", [
+        ["npm:4.1.1", {
+          "packageLocation": "./.yarn/cache/@rollup-pluginutils-npm-4.1.1-7b6d7ea8b8-405f681c7d.zip/node_modules/@rollup/pluginutils/",
+          "packageDependencies": [
+            ["@rollup/pluginutils", "npm:4.1.1"],
+            ["estree-walker", "npm:2.0.2"],
+            ["picomatch", "npm:2.3.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["@sentry/core", [
         ["npm:6.13.2", {
           "packageLocation": "./.yarn/cache/@sentry-core-npm-6.13.2-2e3cedb943-b54619d0ab.zip/node_modules/@sentry/core/",
@@ -5269,6 +5290,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/terser-webpack-plugin", "npm:4.2.1"],
             ["@types/webpack", "npm:4.41.31"],
             ["terser", "npm:4.8.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@types/throttle-debounce", [
+        ["npm:2.1.0", {
+          "packageLocation": "./.yarn/cache/@types-throttle-debounce-npm-2.1.0-41a5eb5af6-70e219d000.zip/node_modules/@types/throttle-debounce/",
+          "packageDependencies": [
+            ["@types/throttle-debounce", "npm:2.1.0"]
           ],
           "linkType": "HARD",
         }]
@@ -8700,7 +8730,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["tippy.js", "npm:6.3.1"],
             ["typed-vuex", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:0.2.0"],
             ["typescript", "patch:typescript@npm%3A4.4.3#~builtin<compat/typescript>::version=4.4.3&hash=32657b"],
-            ["unplugin-vue2-script-setup", "npm:0.6.4"],
+            ["unplugin-vue2-script-setup", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:0.6.11"],
             ["vue", "npm:2.6.14"],
             ["vue-material-design-icons", "npm:4.13.0"],
             ["vue-template-compiler", "npm:2.6.14"],
@@ -23392,6 +23422,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["unplugin-vue2-script-setup", [
+        ["npm:0.6.11", {
+          "packageLocation": "./.yarn/cache/unplugin-vue2-script-setup-npm-0.6.11-b14f758be0-e50198ceb5.zip/node_modules/unplugin-vue2-script-setup/",
+          "packageDependencies": [
+            ["unplugin-vue2-script-setup", "npm:0.6.11"]
+          ],
+          "linkType": "SOFT",
+        }],
         ["npm:0.6.4", {
           "packageLocation": "./.yarn/cache/unplugin-vue2-script-setup-npm-0.6.4-49aed843eb-5caaa1f674.zip/node_modules/unplugin-vue2-script-setup/",
           "packageDependencies": [
@@ -23408,6 +23445,32 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["magic-string", "npm:0.25.7"],
             ["pug", "npm:3.0.2"],
             ["unplugin", "virtual:49aed843eb7ce92b7d4a6a01ae8f12644c6c92d8da2400ae50ee776963e4f43c235f038fe0aef55d64ed67d0407b8521e18a5437ef3d357885d9a013be0c5dce#npm:0.2.16"]
+          ],
+          "linkType": "HARD",
+        }],
+        ["virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:0.6.11", {
+          "packageLocation": "./.yarn/__virtual__/unplugin-vue2-script-setup-virtual-5ae3107ab3/0/cache/unplugin-vue2-script-setup-npm-0.6.11-b14f758be0-e50198ceb5.zip/node_modules/unplugin-vue2-script-setup/",
+          "packageDependencies": [
+            ["unplugin-vue2-script-setup", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:0.6.11"],
+            ["@antfu/utils", "npm:0.3.0"],
+            ["@babel/core", "npm:7.15.5"],
+            ["@babel/generator", "npm:7.15.4"],
+            ["@babel/parser", "npm:7.15.7"],
+            ["@babel/traverse", "npm:7.15.4"],
+            ["@babel/types", "npm:7.15.6"],
+            ["@rollup/pluginutils", "npm:4.1.1"],
+            ["@types/pug", null],
+            ["@vue/ref-transform", "npm:3.2.19"],
+            ["@vue/shared", "npm:3.2.19"],
+            ["defu", "npm:5.0.0"],
+            ["htmlparser2", "npm:7.1.2"],
+            ["magic-string", "npm:0.25.7"],
+            ["pug", null],
+            ["unplugin", "virtual:49aed843eb7ce92b7d4a6a01ae8f12644c6c92d8da2400ae50ee776963e4f43c235f038fe0aef55d64ed67d0407b8521e18a5437ef3d357885d9a013be0c5dce#npm:0.2.16"]
+          ],
+          "packagePeers": [
+            "@types/pug",
+            "pug"
           ],
           "linkType": "HARD",
         }]
