@@ -3417,7 +3417,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@nestjs/common", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:8.0.9"],
             ["@types/nestjs__common", null],
             ["@types/passport", null],
-            ["passport", "npm:0.4.1"]
+            ["passport", "npm:0.5.0"]
           ],
           "packagePeers": [
             "@nestjs/common",
@@ -18344,10 +18344,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["passport", [
-        ["npm:0.4.1", {
-          "packageLocation": "./.yarn/cache/passport-npm-0.4.1-4b3528ad29-6e0d855e28.zip/node_modules/passport/",
+        ["npm:0.5.0", {
+          "packageLocation": "./.yarn/cache/passport-npm-0.5.0-e1559353ce-5a3db4b420.zip/node_modules/passport/",
           "packageDependencies": [
-            ["passport", "npm:0.4.1"],
+            ["passport", "npm:0.5.0"],
             ["passport-strategy", "npm:1.0.0"],
             ["pause", "npm:0.0.1"]
           ],
@@ -21253,7 +21253,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["mongoose", "npm:6.0.8"],
             ["nestjs-throttler-storage-redis", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:0.1.15"],
             ["node-fetch", "npm:2.6.2"],
-            ["passport", "npm:0.4.1"],
+            ["passport", "npm:0.5.0"],
             ["passport-jwt", "npm:4.0.0"],
             ["passport-local", "npm:1.0.0"],
             ["redis", "npm:3.1.2"],
