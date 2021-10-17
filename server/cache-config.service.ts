@@ -1,23 +1,21 @@
 import { CacheModuleOptions, CacheOptionsFactory, Injectable } from '@nestjs/common';
 import { RedisOptions } from 'ioredis';
 import * as redisStore from 'cache-manager-redis-store';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class CacheConfigService implements CacheOptionsFactory {
+  constructor(private configService: ConfigService) {}
   createCacheOptions(): CacheModuleOptions {
-    if (process.env.NODE_ENV === 'production') {
-      const redisPort = isNaN(parseInt(process.env.VIEWTUBE_REDIS_PORT))
-        ? 6379
-        : parseInt(process.env.VIEWTUBE_REDIS_PORT);
-
+    if (this.configService.get('NODE_ENV') === 'production') {
       const redisOptions: RedisOptions = {
-        host: process.env.VIEWTUBE_REDIS_HOST,
-        port: redisPort
+        host: this.configService.get('VIEWTUBE_REDIS_PORT'),
+        port: this.configService.get<number>('VIEWTUBE_REDIS_PORT')
       };
 
-      if (process.env.VIEWTUBE_REDIS_PASSWORD) {
-        redisOptions.password = process.env.VIEWTUBE_REDIS_PASSWORD;
-      };
+      if (this.configService.get('VIEWTUBE_REDIS_PASSWORD')) {
+        redisOptions.password = this.configService.get('VIEWTUBE_REDIS_PASSWORD');
+      }
 
       return {
         store: redisStore,

@@ -26,6 +26,7 @@ import { UserprofileDetailsDto } from './dto/userprofile-details.dto';
 import { HistoryService } from './history/history.service';
 import { SubscriptionsService } from './subscriptions/subscriptions.service';
 import { profileImage } from './profile-image';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class UserService {
@@ -34,7 +35,8 @@ export class UserService {
     private readonly UserModel: Model<User>,
     private settingsService: SettingsService,
     private historyService: HistoryService,
-    private subscriptionsService: SubscriptionsService
+    private subscriptionsService: SubscriptionsService,
+    private configService: ConfigService
   ) {}
 
   static getDateString(): string {
@@ -137,7 +139,7 @@ export class UserService {
       if (user && user.profileImage && fs.existsSync(user.profileImage)) {
         try {
           let filePath = user.profileImage;
-          if (process.env.NODE_ENV !== 'production') {
+          if (this.configService.get('NODE_ENV') !== 'production') {
             filePath = path.resolve('.', user.profileImage);
           }
           const fileStream = fs.createReadStream(filePath);
@@ -278,7 +280,7 @@ export class UserService {
 
         if (user.profileImage && fs.existsSync(user.profileImage)) {
           let fileStream = fs.createReadStream(user.profileImage);
-          if (process.env.NODE_ENV === 'production') {
+          if (this.configService.get('NODE_ENV') === 'production') {
             fileStream = fs.createReadStream(path.join(global.__basedir, user.profileImage));
           }
           archive.append(fileStream, { name: user.profileImage });

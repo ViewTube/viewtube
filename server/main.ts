@@ -16,14 +16,29 @@ import { AppModule } from './app.module';
 import { NuxtFilter } from './nuxt/nuxt.filter';
 import NuxtServer from './nuxt/';
 import { HomepageService } from './core/homepage/homepage.service';
-import { checkEnvironmentVariables } from './prerequisiteHelper';
 import { AppClusterService } from './app-cluster.service';
 
 declare const module: any;
 const isProduction = process.env.NODE_ENV === 'production';
 
-const prepareBootstrapPrimary = () => {
-  checkEnvironmentVariables();
+const bootstrap = async () => {
+  const server = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter(), {
+    logger: ['error', 'warn']
+  });
+
+  webPush.setVapidDetails(
+    'https://github.com/ViewTube/viewtube-vue',
+    process.env.VIEWTUBE_PUBLIC_VAPID || '',
+    process.env.VIEWTUBE_PRIVATE_VAPID || ''
+  );
+
+  global['__basedir'] = __dirname;
+  if (process.env.VIEWTUBE_DATA_DIRECTORY) {
+    global['__basedir'] = process.env.VIEWTUBE_DATA_DIRECTORY;
+  }
+  if (!isProduction) {
+    global['__basedir'] = path.join(__dirname, global['__basedir']);
+  }
 
   if (isProduction) {
     const channelsDir = `${(global as any).__basedir}/channels`;
@@ -35,30 +50,6 @@ const prepareBootstrapPrimary = () => {
       fs.mkdirSync(profilesDir);
     }
   }
-};
-
-const prepareBootstrap = () => {
-  webPush.setVapidDetails(
-    'https://github.com/ViewTube/viewtube-vue',
-    process.env.VIEWTUBE_PUBLIC_VAPID || '',
-    process.env.VIEWTUBE_PRIVATE_VAPID || ''
-  );
-
-  // eslint-disable-next-line dot-notation
-  global['__basedir'] = __dirname;
-  if (process.env.VIEWTUBE_DATA_DIRECTORY) {
-    // eslint-disable-next-line dot-notation
-    global['__basedir'] = process.env.VIEWTUBE_DATA_DIRECTORY;
-  }
-  if(!isProduction){
-    global['__basedir'] = path.join(__dirname, global['__basedir']);
-  }
-};
-
-const bootstrap = async () => {
-  const server = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter(), {
-    logger: ['error', 'warn']
-  });
 
   await server.register(FastifyHelmet, {
     contentSecurityPolicy: {
@@ -138,18 +129,13 @@ const bootstrap = async () => {
 };
 
 const runBootstrap = async () => {
-  prepareBootstrap();
   if (AppClusterService.isClustered) {
     if (cluster.worker && cluster.worker.id === 1) {
       Consola.start('Starting in clustered mode');
     }
-    if (cluster.isPrimary) {
-      prepareBootstrapPrimary();
-    }
     AppClusterService.clusterize(bootstrap);
   } else {
     Consola.start('Starting with single node');
-    prepareBootstrapPrimary();
     await bootstrap();
   }
 };
