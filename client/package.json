@@ -41,7 +41,7 @@
     "eslint-plugin-node": "11.1.0",
     "eslint-plugin-nuxt": "2.0.0",
     "eslint-plugin-promise": "5.1.0",
-    "eslint-plugin-unicorn": "36.0.0",
+    "eslint-plugin-unicorn": "37.0.1",
     "eslint-plugin-vue": "7.19.1",
     "hls.js": "1.0.10",
     "humanize-duration": "3.27.0",
