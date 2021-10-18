@@ -1904,7 +1904,29 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nestjs/swagger@npm:5.1.0, @nestjs/swagger@npm:^5.1.0":
+"@nestjs/swagger@npm:5.1.1":
+  version: 5.1.1
+  resolution: "@nestjs/swagger@npm:5.1.1"
+  dependencies:
+    "@nestjs/mapped-types": 1.0.0
+    lodash: 4.17.21
+    path-to-regexp: 3.2.0
+  peerDependencies:
+    "@nestjs/common": ^8.0.0
+    "@nestjs/core": ^8.0.0
+    fastify-swagger: "*"
+    reflect-metadata: ^0.1.12
+    swagger-ui-express: "*"
+  peerDependenciesMeta:
+    fastify-swagger:
+      optional: true
+    swagger-ui-express:
+      optional: true
+  checksum: b2d8cb049b783e5cef8201544a0b3b20ee21fcb758b4dd94589f2e7abff790d0aecb2caed529f13bf1570ce3afa2eca6eaec85607a88bd5cb2a9e03bd0b92be0
+  languageName: node
+  linkType: hard
+
+"@nestjs/swagger@npm:^5.1.0":
   version: 5.1.0
   resolution: "@nestjs/swagger@npm:5.1.0"
   dependencies:
@@ -16326,7 +16348,7 @@ fsevents@^1.2.7:
   version: 0.0.0-use.local
   resolution: "shared@workspace:shared"
   dependencies:
-    "@nestjs/swagger": 5.1.0
+    "@nestjs/swagger": 5.1.1
   peerDependencies:
     "@nestjs/common": ^8.1.1
     "@nestjs/core": ^8.1.1
