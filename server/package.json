@@ -104,7 +104,7 @@
     "eslint-config-prettier": "8.3.0",
     "eslint-plugin-jest": "25.2.2",
     "husky": "7.0.2",
-    "jest": "27.3.0",
+    "jest": "27.3.1",
     "mongodb-memory-server": "7.4.2",
     "redis": "3.1.2",
     "redis-mock": "0.56.3",

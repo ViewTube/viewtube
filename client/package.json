@@ -45,7 +45,7 @@
     "eslint-plugin-vue": "7.19.1",
     "hls.js": "1.0.10",
     "humanize-duration": "3.27.0",
-    "jest": "27.3.0",
+    "jest": "27.3.1",
     "js-sha256": "0.9.0",
     "nuxt": "2.15.8",
     "nuxt-typed-vuex": "0.2.0",
