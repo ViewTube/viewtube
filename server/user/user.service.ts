@@ -27,6 +27,7 @@ import { HistoryService } from './history/history.service';
 import { SubscriptionsService } from './subscriptions/subscriptions.service';
 import { profileImage } from './profile-image';
 import { ConfigService } from '@nestjs/config';
+import { promisify } from 'util';
 
 @Injectable()
 export class UserService {
@@ -105,7 +106,6 @@ export class UserService {
         }
         let imgPath = `profiles/${username}.${extension}`;
 
-        console.log(__dirname);
         if (global['__basedir']) {
           // eslint-disable-next-line dot-notation
           imgPath = path.join(global['__basedir'], imgPath);
@@ -115,8 +115,10 @@ export class UserService {
           throw new BadRequestException('The file is too large');
         }
 
+        const writeFile = promisify(fs.writeFile);
+
         try {
-          fs.writeFileSync(imgPath, fileBuffer);
+          await writeFile(imgPath, fileBuffer);
         } catch (error) {
           Consola.log(error);
         }

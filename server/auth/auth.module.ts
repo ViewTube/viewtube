@@ -1,5 +1,5 @@
 import { Module, ModuleMetadata } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { UserModule } from '../user/user.module';
@@ -16,12 +16,16 @@ const moduleMetadata: ModuleMetadata = {
     ConfigModule.forRoot(),
     RegisterModule,
     PassportModule.register({ defaultStrategy: 'jwt' }),
-    JwtModule.register({
-      secret: process.env.VIEWTUBE_JWT_SECRET,
-      signOptions: {
-        expiresIn: '12h',
-        issuer: 'viewtube-api',
-        audience: 'viewtube-web'
+    JwtModule.registerAsync({
+      useFactory: (configService: ConfigService) => {
+        return {
+          secret: configService.get('VIEWTUBE_JWT_SECRET'),
+          signOptions: {
+            expiresIn: '12h',
+            issuer: 'viewtube-api',
+            audience: 'viewtube-web'
+          }
+        };
       }
     })
   ],

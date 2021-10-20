@@ -102,7 +102,9 @@ export class ChannelsService {
           params: this.featuredParam
         })
       });
-    } catch (err) {}
+    } catch {
+      // Swallowing error
+    }
     if (response && response.ok) {
       return response.json();
     }
@@ -169,14 +171,22 @@ export class ChannelsService {
     // eslint-disable-next-line dot-notation
     const imgPathJpg = path.join(global['__basedir'], `channels/${id}.jpg`);
 
-    if (fs.existsSync(imgPathWebp)) {
+    try {
       const fileStream = fs.createReadStream(imgPathWebp);
       reply.type('image/webp').send(fileStream);
-    } else if (fs.existsSync(imgPathJpg)) {
+      return;
+    } catch {
+      // Error is thrown later
+    }
+
+    try {
       const fileStream = fs.createReadStream(imgPathJpg);
       reply.type('image/jpeg').send(fileStream);
-    } else {
-      throw new NotFoundException();
+      return;
+    } catch {
+      // Error is thrown later
     }
+
+    throw new NotFoundException();
   }
 }

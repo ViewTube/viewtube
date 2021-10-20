@@ -1,6 +1,6 @@
 import { CacheModule, Module, ModuleMetadata } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ScheduleModule } from '@nestjs/schedule';
 import { BullModule } from '@nestjs/bull';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
@@ -28,35 +28,41 @@ const moduleMetadata: ModuleMetadata = {
       isGlobal: true
     }),
     MongooseModule.forRootAsync({
-      useFactory: () => {
-        const uri = `mongodb://${process.env.VIEWTUBE_DATABASE_HOST}:${process.env.VIEWTUBE_DATABASE_PORT}/viewtube`;
+      useFactory: (configService: ConfigService) => {
+        const uri = `mongodb://${configService.get('VIEWTUBE_DATABASE_HOST')}:${configService.get(
+          'VIEWTUBE_DATABASE_PORT'
+        )}/viewtube`;
         return {
           uri,
-          user: process.env.VIEWTUBE_DATABASE_USER,
-          pass: process.env.VIEWTUBE_DATABASE_PASSWORD
+          user: configService.get('VIEWTUBE_DATABASE_USER'),
+          pass: configService.get('VIEWTUBE_DATABASE_PASSWORD')
         };
       }
     }),
-    SentryModule.forRoot({
-      dsn: process.env.SENTRY_DSN,
-      release: process.env.SENTRY_RELEASE,
-      enabled: Boolean(process.env.SENTRY_DSN && process.env.SENTRY_RELEASE),
-      environment: 'production',
-      integrations: [new Sentry.Integrations.Http({ breadcrumbs: true, tracing: true })],
-      tracesSampleRate: parseFloat(process.env.SENTRY_TRACES_SAMPLERATE)
+    SentryModule.forRootAsync({
+      useFactory: (configService: ConfigService) => {
+        return {
+          dsn: configService.get('SENTRY_DSN'),
+          release: configService.get('SENTRY_RELEASE'),
+          enabled: Boolean(configService.get('SENTRY_DSN') && configService.get('SENTRY_RELEASE')),
+          environment: 'production',
+          integrations: [new Sentry.Integrations.Http({ breadcrumbs: true, tracing: true })],
+          tracesSampleRate: configService.get<number>('SENTRY_TRACES_SAMPLERATE')
+        };
+      }
     }),
     CacheModule.registerAsync({
       useClass: CacheConfigService
     }),
     BullModule.forRootAsync({
-      useFactory: () => {
+      useFactory: (configService: ConfigService) => {
         const redisOptions: RedisOptions = {
-          host: process.env.VIEWTUBE_REDIS_HOST.toString(),
-          port: parseInt(process.env.VIEWTUBE_REDIS_PORT)
+          host: configService.get('VIEWTUBE_REDIS_HOST'),
+          port: configService.get<number>('VIEWTUBE_REDIS_PORT')
         };
 
-        if (process.env.VIEWTUBE_REDIS_PASSWORD) {
-          redisOptions.password = process.env.VIEWTUBE_REDIS_PASSWORD;
+        if (configService.get('VIEWTUBE_REDIS_PASSWORD')) {
+          redisOptions.password = configService.get('VIEWTUBE_REDIS_PASSWORD');
         }
 
         return {
@@ -68,14 +74,14 @@ const moduleMetadata: ModuleMetadata = {
       }
     }),
     ThrottlerModule.forRootAsync({
-      useFactory: () => {
+      useFactory: (configService: ConfigService) => {
         const redisOptions: RedisOptions = {
-          host: process.env.VIEWTUBE_REDIS_HOST.toString(),
-          port: parseInt(process.env.VIEWTUBE_REDIS_PORT)
+          host: configService.get('VIEWTUBE_REDIS_HOST'),
+          port: configService.get<number>('VIEWTUBE_REDIS_PORT')
         };
 
-        if (process.env.VIEWTUBE_REDIS_PASSWORD) {
-          redisOptions.password = process.env.VIEWTUBE_REDIS_PASSWORD;
+        if (configService.get('VIEWTUBE_REDIS_PASSWORD')) {
+          redisOptions.password = configService.get('VIEWTUBE_REDIS_PASSWORD');
         }
 
         return {
