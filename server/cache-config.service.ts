@@ -9,7 +9,7 @@ export class CacheConfigService implements CacheOptionsFactory {
   createCacheOptions(): CacheModuleOptions {
     if (this.configService.get('NODE_ENV') === 'production') {
       const redisOptions: RedisOptions = {
-        host: this.configService.get('VIEWTUBE_REDIS_PORT'),
+        host: this.configService.get('VIEWTUBE_REDIS_HOST'),
         port: this.configService.get<number>('VIEWTUBE_REDIS_PORT')
       };
 

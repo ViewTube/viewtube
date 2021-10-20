@@ -2,7 +2,7 @@
   "name": "client",
   "packageManager": "yarn@3.0.2",
   "scripts": {
-    "prepare:env": "cross-env VIEWTUBE_API_URL=http://localhost:8067/api/",
+    "prepare:env": "VIEWTUBE_API_URL=http://localhost:8067/api/",
     "serve": "yarn prepare:env nuxt",
     "build": "NODE_ENV=production nuxt build",
     "start": "yarn prepare:env nuxt startuxt sta",
@@ -31,7 +31,6 @@
     "@vue/composition-api": "1.2.4",
     "axios": "0.23.0",
     "consola": "2.15.3",
-    "cross-env": "7.0.3",
     "dashjs": "4.1.0",
     "eslint": "7.32.0",
     "eslint-config-prettier": "8.3.0",

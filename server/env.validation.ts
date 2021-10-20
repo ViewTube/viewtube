@@ -23,6 +23,7 @@ export const validationSchema = Joi.object({
   VIEWTUBE_JWT_EXPIRATION_TIME: Joi.number().default(43200),
   VIEWTUBE_ALLOWED_DOMAIN: Joi.string().default(/^viewtube\.io|\.viewtube\.io$/),
   VIEWTUBE_DATA_DIRECTORY: Joi.string().default('/data'),
+  VIEWTUBE_CLUSTERED: Joi.boolean().default(true),
 
   // These are not required for ViewTube to run
   VIEWTUBE_YOUTUBE_COOKIE: Joi.string().optional(),

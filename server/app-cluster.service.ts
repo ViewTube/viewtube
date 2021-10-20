@@ -10,7 +10,8 @@ export class AppClusterService {
   static get isClustered() {
     if (!this._clustered) {
       const production = process.env.NODE_ENV === 'production';
-      this._clustered = Boolean(production);
+      const clusterEnabled = !(process.env.VIEWTUBE_CLUSTERED as any === false || process.env.VIEWTUBE_CLUSTERED === 'false');
+      this._clustered = Boolean(production && clusterEnabled);
     }
 
     return this._clustered;

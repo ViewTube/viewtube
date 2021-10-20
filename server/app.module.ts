@@ -38,8 +38,8 @@ const moduleMetadata: ModuleMetadata = {
       }
     }),
     SentryModule.forRoot({
-      dsn: process.env.SENTRY_DSN.toString(),
-      release: process.env.SENTRY_RELEASE.toString(),
+      dsn: process.env.SENTRY_DSN,
+      release: process.env.SENTRY_RELEASE,
       enabled: Boolean(process.env.SENTRY_DSN && process.env.SENTRY_RELEASE),
       environment: 'production',
       integrations: [new Sentry.Integrations.Http({ breadcrumbs: true, tracing: true })],
