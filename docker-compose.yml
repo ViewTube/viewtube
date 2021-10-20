@@ -13,8 +13,7 @@ services:
     networks:
       - viewtube-local
     environment:
-      VIEWTUBE_CURRENT_DOMAIN: localhost
-      VIEWTUBE_API_URL: http://localhost:8066/api/
+      VIEWTUBE_URL: http://localhost:8066
       VIEWTUBE_DATABASE_HOST: viewtube-db
       VIEWTUBE_REDIS_HOST: viewtube-redis
       VIEWTUBE_DATA_DIRECTORY: /data

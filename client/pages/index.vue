@@ -21,7 +21,7 @@
         v-for="video in subscriptions"
         :key="video.videoId"
         :video="video"
-        :lazy="false"
+        :lazy="true"
       />
     </div>
     <SectionTitle :title="'Popular videos'" :gradient="!userAuthenticated" z />

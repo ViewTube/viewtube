@@ -118,7 +118,7 @@ $ docker create \
   --name=viewtube
   -p 8066:8066
   -v /path/to/data:/data \
-  -e VIEWTUBE_API_URL=http://your-ip-or-domain.com/api/
+  -e VIEWTUBE_URL=http://your-ip-or-domain.com
   --restart unless-stopped \
   mauriceo/viewtube:latest
 ```
@@ -137,7 +137,7 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - ./data:/data
     environment:
-      - VIEWTUBE_API_URL=http://your-ip-or-domain.com/api/
+      - VIEWTUBE_URL=http://your-ip-or-domain.com
     ports:
       - 8066:8066
 ```

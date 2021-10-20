@@ -2,15 +2,14 @@
   "name": "client",
   "packageManager": "yarn@3.0.2",
   "scripts": {
-    "prepare:env": "VIEWTUBE_API_URL=http://localhost:8067/api/",
+    "prepare:env": "cross-env VIEWTUBE_URL=http://localhost:8067",
     "serve": "yarn prepare:env nuxt",
-    "build": "NODE_ENV=production nuxt build",
-    "start": "yarn prepare:env nuxt startuxt sta",
+    "build": "cross-env NODE_ENV=production nuxt build",
+    "start": "yarn prepare:env nuxt start",
     "lint": "eslint --ext .ts,.js,.vue .",
     "lint:fix": "eslint --ext .ts,.js,.vue --fix ."
   },
   "dependencies": {
-    "papaparse": "5.3.1",
     "sass": "1.42.1"
   },
   "devDependencies": {
@@ -24,13 +23,14 @@
     "@nuxtjs/router": "1.6.1",
     "@nuxtjs/style-resources": "1.2.1",
     "@types/node": "16.10.2",
-    "@types/papaparse": "5.3.0",
+    "@types/papaparse": "^5",
     "@types/sass": "1.16.1",
     "@typescript-eslint/eslint-plugin": "5.0.0",
     "@typescript-eslint/parser": "5.0.0",
     "@vue/composition-api": "1.2.4",
     "axios": "0.23.0",
     "consola": "2.15.3",
+    "cross-env": "^7.0.3",
     "dashjs": "4.1.0",
     "eslint": "7.32.0",
     "eslint-config-prettier": "8.3.0",
@@ -48,6 +48,7 @@
     "js-sha256": "0.9.0",
     "nuxt": "2.15.8",
     "nuxt-typed-vuex": "0.2.0",
+    "papaparse": "5.3.1",
     "portal-vue": "2.1.7",
     "prettier": "2.4.1",
     "qrcode": "1.4.4",

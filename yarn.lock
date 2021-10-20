@@ -3340,6 +3340,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/node@npm:^16.11.1":
+  version: 16.11.1
+  resolution: "@types/node@npm:16.11.1"
+  checksum: 22cea470b89292810733b8b9fc1b6a1873bc3ed4d4cdf2f25e777dc607994bd7c12e64166d1a66dd5924734192b0a891b6aeb6813aa935f731345f4086234375
+  languageName: node
+  linkType: hard
+
 "@types/normalize-package-data@npm:^2.4.0":
   version: 2.4.1
   resolution: "@types/normalize-package-data@npm:2.4.1"
@@ -3356,7 +3363,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/papaparse@npm:5.3.0":
+"@types/papaparse@npm:^5":
   version: 5.3.0
   resolution: "@types/papaparse@npm:5.3.0"
   dependencies:
@@ -6183,13 +6190,14 @@ __metadata:
     "@nuxtjs/router": 1.6.1
     "@nuxtjs/style-resources": 1.2.1
     "@types/node": 16.10.2
-    "@types/papaparse": 5.3.0
+    "@types/papaparse": ^5
     "@types/sass": 1.16.1
     "@typescript-eslint/eslint-plugin": 5.0.0
     "@typescript-eslint/parser": 5.0.0
     "@vue/composition-api": 1.2.4
     axios: 0.23.0
     consola: 2.15.3
+    cross-env: ^7.0.3
     dashjs: 4.1.0
     eslint: 7.32.0
     eslint-config-prettier: 8.3.0
@@ -6797,7 +6805,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cross-spawn@npm:^7.0.0, cross-spawn@npm:^7.0.2, cross-spawn@npm:^7.0.3":
+"cross-env@npm:^7.0.3":
+  version: 7.0.3
+  resolution: "cross-env@npm:7.0.3"
+  dependencies:
+    cross-spawn: ^7.0.1
+  bin:
+    cross-env: src/bin/cross-env.js
+    cross-env-shell: src/bin/cross-env-shell.js
+  checksum: 26f2f3ea2ab32617f57effb70d329c2070d2f5630adc800985d8b30b56e8bf7f5f439dd3a0358b79cee6f930afc23cf8e23515f17ccfb30092c6b62c6b630a79
+  languageName: node
+  linkType: hard
+
+"cross-spawn@npm:^7.0.0, cross-spawn@npm:^7.0.1, cross-spawn@npm:^7.0.2, cross-spawn@npm:^7.0.3":
   version: 7.0.3
   resolution: "cross-spawn@npm:7.0.3"
   dependencies:
@@ -16957,6 +16977,7 @@ fsevents@^1.2.7:
   resolution: "shared@workspace:shared"
   dependencies:
     "@nestjs/swagger": 5.1.0
+    "@types/node": ^16.11.1
   peerDependencies:
     "@nestjs/common": ^8.1.1
     "@nestjs/core": ^8.1.1

@@ -5061,6 +5061,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.10.2"]
           ],
           "linkType": "HARD",
+        }],
+        ["npm:16.11.1", {
+          "packageLocation": "./.yarn/cache/@types-node-npm-16.11.1-30ee26b246-22cea470b8.zip/node_modules/@types/node/",
+          "packageDependencies": [
+            ["@types/node", "npm:16.11.1"]
+          ],
+          "linkType": "HARD",
         }]
       ]],
       ["@types/node-fetch", [
@@ -8735,6 +8742,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@vue/composition-api", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:1.2.4"],
             ["axios", "npm:0.23.0"],
             ["consola", "npm:2.15.3"],
+            ["cross-env", "npm:7.0.3"],
             ["dashjs", "npm:4.1.0"],
             ["eslint", "npm:7.32.0"],
             ["eslint-config-prettier", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:8.3.0"],
@@ -9628,6 +9636,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["cron-parser", "npm:2.18.0"],
             ["is-nan", "npm:1.3.2"],
             ["moment-timezone", "npm:0.5.33"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["cross-env", [
+        ["npm:7.0.3", {
+          "packageLocation": "./.yarn/cache/cross-env-npm-7.0.3-96d81820f4-26f2f3ea2a.zip/node_modules/cross-env/",
+          "packageDependencies": [
+            ["cross-env", "npm:7.0.3"],
+            ["cross-spawn", "npm:7.0.3"]
           ],
           "linkType": "HARD",
         }]
@@ -21363,7 +21381,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./shared/",
           "packageDependencies": [
             ["shared", "workspace:shared"],
-            ["@nestjs/swagger", "virtual:d10100d960b1b73f8c74718d4637dfe2c18d098bafef09afa646f6b4f65cd1a5ad77d7941e2a1def095bb77eb2ac82d00bec47774003ea2f130a251bc51e4c5b#npm:5.1.0"]
+            ["@nestjs/swagger", "virtual:d10100d960b1b73f8c74718d4637dfe2c18d098bafef09afa646f6b4f65cd1a5ad77d7941e2a1def095bb77eb2ac82d00bec47774003ea2f130a251bc51e4c5b#npm:5.1.0"],
+            ["@types/node", "npm:16.11.1"]
           ],
           "linkType": "SOFT",
         }]

@@ -5,11 +5,11 @@ export const validationSchema = Joi.object({
   VIEWTUBE_JWT_SECRET: Joi.string().required(),
   VIEWTUBE_PUBLIC_VAPID: Joi.string().required(),
   VIEWTUBE_PRIVATE_VAPID: Joi.string().required(),
-  VIEWTUBE_CURRENT_DOMAIN: Joi.string().required(),
+  VIEWTUBE_URL: Joi.string().uri().required(),
 
   // These have a usable default value
   PORT: Joi.number().default(8066),
-  VIEWTUBE_API_URL: Joi.string().uri().default('http://localhost:8066/api/'),
+  VIEWTUBE_SSL_ENABLED: Joi.boolean().default(false),
 
   VIEWTUBE_DATABASE_HOST: Joi.string().default('localhost'),
   VIEWTUBE_DATABASE_PORT: Joi.number().default(27017),

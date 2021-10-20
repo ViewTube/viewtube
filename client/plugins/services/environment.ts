@@ -1,7 +1,8 @@
+import { getApiUrl } from '@/plugins/shared';
 export class EnvironmentService {
   static getEnvironmentVariables() {
     if (!this.cached) {
-      this.apiUrl = process.env.VIEWTUBE_API_URL || 'http://localhost:8066/api/';
+      this.apiUrl = getApiUrl();
       this.vapidKey = process.env.VIEWTUBE_PUBLIC_VAPID;
       this.nodeEnv = process.env.NODE_ENV;
       this.cached = true;
