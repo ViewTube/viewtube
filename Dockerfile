@@ -1,4 +1,4 @@
-FROM node:16-alpine3.14 as build
+FROM node:17-alpine3.14 as build
 WORKDIR /home/build
 
 ENV BUILD_ENV=production
