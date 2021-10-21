@@ -13448,10 +13448,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["husky", [
-        ["npm:7.0.2", {
-          "packageLocation": "./.yarn/cache/husky-npm-7.0.2-f2a671a0c6-2ccfe6ddc5.zip/node_modules/husky/",
+        ["npm:7.0.4", {
+          "packageLocation": "./.yarn/cache/husky-npm-7.0.4-917ba035c6-c6ec4af63d.zip/node_modules/husky/",
           "packageDependencies": [
-            ["husky", "npm:7.0.2"]
+            ["husky", "npm:7.0.4"]
           ],
           "linkType": "HARD",
         }]
@@ -20713,7 +20713,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["fastify-swagger", "npm:4.12.3"],
             ["https-proxy-agent", "npm:5.0.0"],
             ["humanize-duration", "npm:3.27.0"],
-            ["husky", "npm:7.0.2"],
+            ["husky", "npm:7.0.4"],
             ["ioredis", "npm:4.27.9"],
             ["jest", "virtual:c139d237b0dbb776e61db419e9c89c8b814c75fa7a88b9f24aafc5ab8ac92bbf91dff4585597824d969ce997b2ccd24ccbc8eb827b2908e4b381ccc31b31d3eb#npm:27.3.1"],
             ["mini-svg-data-uri", "npm:1.3.3"],
