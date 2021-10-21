@@ -24,7 +24,7 @@
     "@nuxtjs/router": "1.6.1",
     "@nuxtjs/style-resources": "1.2.1",
     "@types/node": "16.10.2",
-    "@types/papaparse": "5.3.0",
+    "@types/papaparse": "5.3.1",
     "@types/sass": "1.16.1",
     "@typescript-eslint/eslint-plugin": "5.1.0",
     "@typescript-eslint/parser": "5.1.0",
