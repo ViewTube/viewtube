@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "papaparse": "5.3.1",
-    "sass": "1.42.1"
+    "sass": "1.43.3"
   },
   "devDependencies": {
     "@nuxt/types": "2.15.8",
