@@ -8630,7 +8630,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["tippy.js", "npm:6.3.1"],
             ["typed-vuex", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:0.2.0"],
             ["typescript", "patch:typescript@npm%3A4.4.3#~builtin<compat/typescript>::version=4.4.3&hash=32657b"],
-            ["unplugin-vue2-script-setup", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:0.6.11"],
+            ["unplugin-vue2-script-setup", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:0.6.12"],
             ["vue", "npm:2.6.14"],
             ["vue-material-design-icons", "npm:4.13.0"],
             ["vue-template-compiler", "npm:2.6.14"],
@@ -22965,10 +22965,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["unplugin-vue2-script-setup", [
-        ["npm:0.6.11", {
-          "packageLocation": "./.yarn/cache/unplugin-vue2-script-setup-npm-0.6.11-b14f758be0-e50198ceb5.zip/node_modules/unplugin-vue2-script-setup/",
+        ["npm:0.6.12", {
+          "packageLocation": "./.yarn/cache/unplugin-vue2-script-setup-npm-0.6.12-de6b5a5835-c7bfd93cf6.zip/node_modules/unplugin-vue2-script-setup/",
           "packageDependencies": [
-            ["unplugin-vue2-script-setup", "npm:0.6.11"]
+            ["unplugin-vue2-script-setup", "npm:0.6.12"]
           ],
           "linkType": "SOFT",
         }],
@@ -22991,10 +22991,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "HARD",
         }],
-        ["virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:0.6.11", {
-          "packageLocation": "./.yarn/__virtual__/unplugin-vue2-script-setup-virtual-5ae3107ab3/0/cache/unplugin-vue2-script-setup-npm-0.6.11-b14f758be0-e50198ceb5.zip/node_modules/unplugin-vue2-script-setup/",
+        ["virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:0.6.12", {
+          "packageLocation": "./.yarn/__virtual__/unplugin-vue2-script-setup-virtual-e6b84adc69/0/cache/unplugin-vue2-script-setup-npm-0.6.12-de6b5a5835-c7bfd93cf6.zip/node_modules/unplugin-vue2-script-setup/",
           "packageDependencies": [
-            ["unplugin-vue2-script-setup", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:0.6.11"],
+            ["unplugin-vue2-script-setup", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:0.6.12"],
             ["@antfu/utils", "npm:0.3.0"],
             ["@babel/core", "npm:7.15.5"],
             ["@babel/generator", "npm:7.15.4"],
