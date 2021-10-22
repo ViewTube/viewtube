@@ -2900,13 +2900,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/eslint@npm:7.28.1":
-  version: 7.28.1
-  resolution: "@types/eslint@npm:7.28.1"
+"@types/eslint@npm:7.28.2":
+  version: 7.28.2
+  resolution: "@types/eslint@npm:7.28.2"
   dependencies:
     "@types/estree": "*"
     "@types/json-schema": "*"
-  checksum: 16086d00c2f56b16471fd02c2b495b07e3b84b57113fe34d94b57fb9fc0a5a85f6b87d787051f5d6acb859f6addda9b1e747d1a83ee08cac330d0f26c357fb9e
+  checksum: d177f3eec22971baeef8f244693687ee4c0357125f4a8fb7e614b83e36b98318a0b1a13b31230199d2a91af54122b67883faa7b4d2c29f0c83e2650f6b0d4d9c
   languageName: node
   linkType: hard
 
@@ -16322,7 +16322,7 @@ fsevents@^1.2.7:
     "@types/bull": 3.15.5
     "@types/busboy": 0.3.0
     "@types/cookie-parser": 1.4.2
-    "@types/eslint": 7.28.1
+    "@types/eslint": 7.28.2
     "@types/humanize-duration": 3.25.1
     "@types/jest": 27.0.2
     "@types/module-alias": 2.0.1
@@ -18500,7 +18500,7 @@ typescript@~4.2:
   version: 0.0.0-use.local
   resolution: "viewtube@workspace:."
   dependencies:
-    "@types/eslint": 7.28.1
+    "@types/eslint": 7.28.2
     cross-env: 7.0.3
     eslint: 7.32.0
     eslint-import-resolver-node: 0.3.6
