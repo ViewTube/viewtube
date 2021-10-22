@@ -6086,7 +6086,7 @@ __metadata:
     tippy.js: 6.3.1
     typed-vuex: 0.2.0
     typescript: 4.4.3
-    unplugin-vue2-script-setup: 0.6.11
+    unplugin-vue2-script-setup: 0.6.12
     vue: 2.6.14
     vue-material-design-icons: 4.13.0
     vue-template-compiler: 2.6.14
@@ -18200,9 +18200,9 @@ typescript@~4.2:
   languageName: node
   linkType: hard
 
-"unplugin-vue2-script-setup@npm:0.6.11":
-  version: 0.6.11
-  resolution: "unplugin-vue2-script-setup@npm:0.6.11"
+"unplugin-vue2-script-setup@npm:0.6.12":
+  version: 0.6.12
+  resolution: "unplugin-vue2-script-setup@npm:0.6.12"
   dependencies:
     "@antfu/utils": ^0.3.0
     "@babel/core": ^7.15.5
@@ -18222,7 +18222,7 @@ typescript@~4.2:
   peerDependenciesMeta:
     pug:
       optional: true
-  checksum: e50198ceb570e828e80d6d1d6e3ce78dcfde373ad61f73613e5bd846ac7f748e61cce0eb4a8240b3d555daf4eaa18f79216e6909f29ad6807884591bb921f259
+  checksum: c7bfd93cf671886dc27b1e8e39c028b0670de62ab3942aab388bfe31e1256feb90ef3f9331e9733cc987f9ac618e88b910acca40b042c03d479f7268ad2e2e57
   languageName: node
   linkType: hard
 
