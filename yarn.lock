@@ -1948,9 +1948,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nestjs/testing@npm:8.1.1":
-  version: 8.1.1
-  resolution: "@nestjs/testing@npm:8.1.1"
+"@nestjs/testing@npm:8.1.2":
+  version: 8.1.2
+  resolution: "@nestjs/testing@npm:8.1.2"
   dependencies:
     optional: 0.1.4
     tslib: 2.3.1
@@ -1964,7 +1964,7 @@ __metadata:
       optional: true
     "@nestjs/platform-express":
       optional: true
-  checksum: a0183f5474adbcc9b1faf414334d519629af62e37bdfab60754d0c55611aa5e4e09374a774cbf5981d8aa2a0fc096ae7070a1e7b2f1378798220d1b547aac312
+  checksum: 626c718b28eb6726a290875d9732e7c2df025eb9cbaaf591ca9410cbb09d905cca963ac22202f6c9ca546f52a8aed152a4ee59af8f805d21797513b5056aef6a
   languageName: node
   linkType: hard
 
@@ -16308,7 +16308,7 @@ fsevents@^1.2.7:
     "@nestjs/platform-fastify": ^8.0.9
     "@nestjs/schedule": ^1.0.1
     "@nestjs/swagger": ^5.1.0
-    "@nestjs/testing": 8.1.1
+    "@nestjs/testing": 8.1.2
     "@nestjs/throttler": ^2.0.0
     "@nuxt/babel-preset-app": ^2.15.8
     "@nuxt/core": ^2.15.8
