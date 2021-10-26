@@ -4860,6 +4860,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.10.2"]
           ],
           "linkType": "HARD",
+        }],
+        ["npm:16.11.6", {
+          "packageLocation": "./.yarn/cache/@types-node-npm-16.11.6-3a38cc239a-6e19634766.zip/node_modules/@types/node/",
+          "packageDependencies": [
+            ["@types/node", "npm:16.11.6"]
+          ],
+          "linkType": "HARD",
         }]
       ]],
       ["@types/node-fetch", [
@@ -8595,7 +8602,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@nuxtjs/pwa", "npm:3.3.5"],
             ["@nuxtjs/router", "npm:1.6.1"],
             ["@nuxtjs/style-resources", "npm:1.2.1"],
-            ["@types/node", "npm:16.10.2"],
+            ["@types/node", "npm:16.11.6"],
             ["@types/papaparse", "npm:5.3.1"],
             ["@types/sass", "npm:1.16.1"],
             ["@typescript-eslint/eslint-plugin", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:5.2.0"],
@@ -20701,7 +20708,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.0.2"],
             ["@types/module-alias", "npm:2.0.1"],
             ["@types/multer", "npm:1.4.7"],
-            ["@types/node", "npm:16.10.2"],
+            ["@types/node", "npm:16.11.6"],
             ["@types/node-fetch", "npm:3.0.3"],
             ["@types/passport-jwt", "npm:3.0.6"],
             ["@types/passport-local", "npm:1.0.34"],
