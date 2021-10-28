@@ -5054,6 +5054,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.10.2"]
           ],
           "linkType": "HARD",
+        }],
+        ["npm:1.43.0", {
+          "packageLocation": "./.yarn/cache/@types-sass-npm-1.43.0-c5a1a958a2-a362349c15.zip/node_modules/@types/sass/",
+          "packageDependencies": [
+            ["@types/sass", "npm:1.43.0"],
+            ["@types/node", "npm:16.10.2"]
+          ],
+          "linkType": "HARD",
         }]
       ]],
       ["@types/sass-loader", [
@@ -8617,7 +8625,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@nuxtjs/style-resources", "npm:1.2.1"],
             ["@types/node", "npm:16.11.6"],
             ["@types/papaparse", "npm:5.3.1"],
-            ["@types/sass", "npm:1.16.1"],
+            ["@types/sass", "npm:1.43.0"],
             ["@typescript-eslint/eslint-plugin", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:5.2.0"],
             ["@typescript-eslint/parser", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:5.2.0"],
             ["@vue/composition-api", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:1.3.0"],
@@ -20461,7 +20469,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["sass-loader", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:10.1.1"],
             ["@types/fibers", null],
             ["@types/node-sass", null],
-            ["@types/sass", "npm:1.16.1"],
+            ["@types/sass", "npm:1.43.0"],
             ["@types/webpack", null],
             ["fibers", null],
             ["klona", "npm:2.0.4"],
