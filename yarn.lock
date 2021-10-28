@@ -3317,12 +3317,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/sass@npm:*, @types/sass@npm:1.16.1":
+"@types/sass@npm:*":
   version: 1.16.1
   resolution: "@types/sass@npm:1.16.1"
   dependencies:
     "@types/node": "*"
   checksum: 3f86d2eaf4988a2775fc0fc164d35e73ce82d71228191da7b11d97ad5e8ac129f1c5f798307e31482f8cfebab758bd3b24e731860bed81afe5a1bbe13fa2b2df
+  languageName: node
+  linkType: hard
+
+"@types/sass@npm:1.43.0":
+  version: 1.43.0
+  resolution: "@types/sass@npm:1.43.0"
+  dependencies:
+    "@types/node": "*"
+  checksum: a362349c157fb319f2f27fa1fc0f2e0dee3d8fb249b6914047a227319f08197bc3f0a5e909a520478ed9048a241dbf53b75ecb58b299077bd3efd8324a44f297
   languageName: node
   linkType: hard
 
@@ -6060,7 +6069,7 @@ __metadata:
     "@nuxtjs/style-resources": 1.2.1
     "@types/node": 16.11.6
     "@types/papaparse": 5.3.1
-    "@types/sass": 1.16.1
+    "@types/sass": 1.43.0
     "@typescript-eslint/eslint-plugin": 5.2.0
     "@typescript-eslint/parser": 5.2.0
     "@vue/composition-api": 1.3.0
