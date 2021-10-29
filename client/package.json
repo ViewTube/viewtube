@@ -53,7 +53,7 @@
     "prettier": "2.4.1",
     "qrcode": "1.4.4",
     "sass-loader": "10.1.1",
-    "tippy.js": "6.3.1",
+    "tippy.js": "6.3.3",
     "typed-vuex": "0.2.0",
     "typescript": "4.4.3",
     "unplugin-vue2-script-setup": "0.6.12",

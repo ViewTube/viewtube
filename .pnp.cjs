@@ -4217,10 +4217,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@popperjs/core", [
-        ["npm:2.10.1", {
-          "packageLocation": "./.yarn/cache/@popperjs-core-npm-2.10.1-cb330bd1e0-55262eb989.zip/node_modules/@popperjs/core/",
+        ["npm:2.10.2", {
+          "packageLocation": "./.yarn/cache/@popperjs-core-npm-2.10.2-aba0bab6b1-43c189e3eb.zip/node_modules/@popperjs/core/",
           "packageDependencies": [
-            ["@popperjs/core", "npm:2.10.1"]
+            ["@popperjs/core", "npm:2.10.2"]
           ],
           "linkType": "HARD",
         }]
@@ -8655,7 +8655,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["qrcode", "npm:1.4.4"],
             ["sass", "npm:1.43.4"],
             ["sass-loader", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:10.1.1"],
-            ["tippy.js", "npm:6.3.1"],
+            ["tippy.js", "npm:6.3.3"],
             ["typed-vuex", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:0.2.0"],
             ["typescript", "patch:typescript@npm%3A4.4.3#~builtin<compat/typescript>::version=4.4.3&hash=32657b"],
             ["unplugin-vue2-script-setup", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:0.6.12"],
@@ -22211,11 +22211,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["tippy.js", [
-        ["npm:6.3.1", {
-          "packageLocation": "./.yarn/cache/tippy.js-npm-6.3.1-e96c0f7147-a2e8559590.zip/node_modules/tippy.js/",
+        ["npm:6.3.3", {
+          "packageLocation": "./.yarn/cache/tippy.js-npm-6.3.3-b659f4583d-0f659c50db.zip/node_modules/tippy.js/",
           "packageDependencies": [
-            ["tippy.js", "npm:6.3.1"],
-            ["@popperjs/core", "npm:2.10.1"]
+            ["tippy.js", "npm:6.3.3"],
+            ["@popperjs/core", "npm:2.10.2"]
           ],
           "linkType": "HARD",
         }]
