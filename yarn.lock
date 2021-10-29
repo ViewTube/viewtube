@@ -2572,10 +2572,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@popperjs/core@npm:^2.8.3":
-  version: 2.10.1
-  resolution: "@popperjs/core@npm:2.10.1"
-  checksum: 55262eb98984a03364a844177a9d4b9ab1c6e3503eaa1ecb086c028b5b6d93985a92b5b5783008962633015fc9f0232fda3ce88f5b17930a909a633387a06505
+"@popperjs/core@npm:^2.9.0":
+  version: 2.10.2
+  resolution: "@popperjs/core@npm:2.10.2"
+  checksum: 43c189e3eb6d032433512d94761b54fc7cae15957ca5528008813f887a67b5760b949f30a5141b476be2ba5a6c677c91def150f603d2d3e30b5e97a5ae51474e
   languageName: node
   linkType: hard
 
@@ -6099,7 +6099,7 @@ __metadata:
     qrcode: 1.4.4
     sass: 1.43.4
     sass-loader: 10.1.1
-    tippy.js: 6.3.1
+    tippy.js: 6.3.3
     typed-vuex: 0.2.0
     typescript: 4.4.3
     unplugin-vue2-script-setup: 0.6.12
@@ -17610,12 +17610,12 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"tippy.js@npm:6.3.1":
-  version: 6.3.1
-  resolution: "tippy.js@npm:6.3.1"
+"tippy.js@npm:6.3.3":
+  version: 6.3.3
+  resolution: "tippy.js@npm:6.3.3"
   dependencies:
-    "@popperjs/core": ^2.8.3
-  checksum: a2e8559590e7149bb08274bc52bca497fc63ee3cac9a28b1ab76a143cebdcddb0f2d01452c7c1be26df2e60d54785bc4f5a2aac7af3628cb76e674e70bfc7381
+    "@popperjs/core": ^2.9.0
+  checksum: 0f659c50db3aa8a5547addffd6c5d1a6fc4953bfa12512c13462d1ff91a399aa0bf85a726f0e6ec923b369405abd9a17a0fba5bbc09548472edc9895fb6c51ba
   languageName: node
   linkType: hard
 
