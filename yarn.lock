@@ -3004,10 +3004,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/humanize-duration@npm:3.25.1":
-  version: 3.25.1
-  resolution: "@types/humanize-duration@npm:3.25.1"
-  checksum: 5185902d61baa93755f5247d70dda887ea08a2e4b32aa8bd70e817fd887fa3c244b78a611594612329bb6bf9373ecb83cfb8eebd3c0599b0c0f534248c108be3
+"@types/humanize-duration@npm:3.27.0":
+  version: 3.27.0
+  resolution: "@types/humanize-duration@npm:3.27.0"
+  checksum: 2c3dc11efec4ff6ae352d9738955ae952a1336c4123c41736dfe30dc58a5bd42ead3f8ee1827e0da8feb7b70e4e3c2f9367925f9bb236ffcfc05799014058683
   languageName: node
   linkType: hard
 
@@ -16360,7 +16360,7 @@ fsevents@^1.2.7:
     "@types/busboy": 0.3.1
     "@types/cookie-parser": 1.4.2
     "@types/eslint": 7.28.2
-    "@types/humanize-duration": 3.25.1
+    "@types/humanize-duration": 3.27.0
     "@types/jest": 27.0.2
     "@types/module-alias": 2.0.1
     "@types/multer": 1.4.7
