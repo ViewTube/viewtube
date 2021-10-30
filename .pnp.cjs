@@ -4695,10 +4695,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@types/humanize-duration", [
-        ["npm:3.25.1", {
-          "packageLocation": "./.yarn/cache/@types-humanize-duration-npm-3.25.1-9328b21dd1-5185902d61.zip/node_modules/@types/humanize-duration/",
+        ["npm:3.27.0", {
+          "packageLocation": "./.yarn/cache/@types-humanize-duration-npm-3.27.0-c1ba2a736a-2c3dc11efe.zip/node_modules/@types/humanize-duration/",
           "packageDependencies": [
-            ["@types/humanize-duration", "npm:3.25.1"]
+            ["@types/humanize-duration", "npm:3.27.0"]
           ],
           "linkType": "HARD",
         }]
@@ -20744,7 +20744,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/busboy", "npm:0.3.1"],
             ["@types/cookie-parser", "npm:1.4.2"],
             ["@types/eslint", "npm:7.28.2"],
-            ["@types/humanize-duration", "npm:3.25.1"],
+            ["@types/humanize-duration", "npm:3.27.0"],
             ["@types/jest", "npm:27.0.2"],
             ["@types/module-alias", "npm:2.0.1"],
             ["@types/multer", "npm:1.4.7"],
