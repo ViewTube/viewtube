@@ -57,7 +57,7 @@
     "module-alias": "^2.2.2",
     "mongoose": "^6.0.8",
     "nestjs-throttler-storage-redis": "^0.1.15",
-    "node-fetch": "2.6.2",
+    "node-fetch": "2.6.6",
     "passport": "0.5",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
