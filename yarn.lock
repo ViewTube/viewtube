@@ -12997,10 +12997,12 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"node-fetch@npm:2.6.2":
-  version: 2.6.2
-  resolution: "node-fetch@npm:2.6.2"
-  checksum: de367eae1dfbc0e12283c1cf92256ea7fba7eac8655e2e51ebb217727162396fc6cf24689ef9fc6accf075e3991e2ffaa061f7cfaa958215329649b2297ff06d
+"node-fetch@npm:2.6.6":
+  version: 2.6.6
+  resolution: "node-fetch@npm:2.6.6"
+  dependencies:
+    whatwg-url: ^5.0.0
+  checksum: ee8290626bdb73629c59722b75dcf4b9b6a67c1ed7eb9102e368479c4a13b56a48c2bb3ad71571e378e98c8b2c64c820e11f9cd39e4b8557dd138ad571ef9a42
   languageName: node
   linkType: hard
 
@@ -16404,7 +16406,7 @@ fsevents@^1.2.7:
     mongodb-memory-server: 7.5.1
     mongoose: ^6.0.8
     nestjs-throttler-storage-redis: ^0.1.15
-    node-fetch: 2.6.2
+    node-fetch: 2.6.6
     passport: 0.5
     passport-jwt: ^4.0.0
     passport-local: ^1.0.0
