@@ -1,6 +1,6 @@
 {
   "name": "client",
-  "packageManager": "yarn@3.0.2",
+  "packageManager": "yarn@3.1.0",
   "scripts": {
     "prepare:env": "cross-env VIEWTUBE_API_URL=http://localhost:8067/api/",
     "serve": "yarn prepare:env nuxt",
