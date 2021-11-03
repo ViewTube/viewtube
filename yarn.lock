@@ -3960,14 +3960,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vue/composition-api@npm:1.3.1":
-  version: 1.3.1
-  resolution: "@vue/composition-api@npm:1.3.1"
+"@vue/composition-api@npm:1.3.2":
+  version: 1.3.2
+  resolution: "@vue/composition-api@npm:1.3.2"
   dependencies:
-    tslib: ^2.3.0
+    tslib: ^2.3.1
   peerDependencies:
     vue: ">= 2.5 < 3"
-  checksum: 0f47458f14a6c8bae528fef037acf5647c6a36ced0cd7bede3c185c8a6d2747541c928f9271c7874bac42f2abfedd283312cd35763d8cf5b04173361dfcd8c6a
+  checksum: ded80b27a4c2423dd4ba6ebcc997a98afd4f21632457c3cf02ecec4e0d6c84f93947ac04054914c9dde99c0580d1659a5114a94eaa8893797a5ef553fe58a38f
   languageName: node
   linkType: hard
 
@@ -6072,7 +6072,7 @@ __metadata:
     "@types/sass": 1.43.0
     "@typescript-eslint/eslint-plugin": 5.3.0
     "@typescript-eslint/parser": 5.3.0
-    "@vue/composition-api": 1.3.1
+    "@vue/composition-api": 1.3.2
     axios: 0.24.0
     consola: 2.15.3
     cross-env: 7.0.3
