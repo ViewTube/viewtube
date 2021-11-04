@@ -6081,7 +6081,7 @@ __metadata:
     eslint-config-prettier: 8.3.0
     eslint-import-resolver-node: 0.3.6
     eslint-plugin-import: 2.24.2
-    eslint-plugin-jest: 25.2.2
+    eslint-plugin-jest: 25.2.3
     eslint-plugin-node: 11.1.0
     eslint-plugin-nuxt: 3.0.0
     eslint-plugin-promise: 5.1.1
@@ -7913,9 +7913,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-jest@npm:25.2.2":
-  version: 25.2.2
-  resolution: "eslint-plugin-jest@npm:25.2.2"
+"eslint-plugin-jest@npm:25.2.3":
+  version: 25.2.3
+  resolution: "eslint-plugin-jest@npm:25.2.3"
   dependencies:
     "@typescript-eslint/experimental-utils": ^5.0.0
   peerDependencies:
@@ -7924,7 +7924,9 @@ __metadata:
   peerDependenciesMeta:
     "@typescript-eslint/eslint-plugin":
       optional: true
-  checksum: ba78bf20625f017b47f2dc0fe12226f461e7b289fd7e3314421f51a993b142dd51017404524950a95978b3b86850a64931f0615f274cdfeeafea078abf594d73
+    jest:
+      optional: true
+  checksum: eb6ed233348c735bfb3933947d75f982a0884825b2269518048a236bee49a913b67b7788986b8d4679687658cc4f7cd3d2ef32b128cb3d65b422ddec92c770ab
   languageName: node
   linkType: hard
 
@@ -16392,7 +16394,7 @@ fsevents@^1.2.7:
     cross-env: 7.0.3
     eslint: 7.32.0
     eslint-config-prettier: 8.3.0
-    eslint-plugin-jest: 25.2.2
+    eslint-plugin-jest: 25.2.3
     fastify: ^3.22.0
     fastify-cookie: ^5.3.1
     fastify-helmet: ^5.3.2
