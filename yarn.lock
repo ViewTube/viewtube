@@ -2661,10 +2661,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sentry/types@npm:6.14.0":
-  version: 6.14.0
-  resolution: "@sentry/types@npm:6.14.0"
-  checksum: 3264f449b59ac00d4b2a85faa1233348e42904195fe1ea39a139d9e85c5427494fac0b359693e7ebe42a307a74475d90d7ea7c5d93338da32c8c8601fea0f1c5
+"@sentry/types@npm:6.14.1":
+  version: 6.14.1
+  resolution: "@sentry/types@npm:6.14.1"
+  checksum: 882324b724cb5783e75615b535c45a51ed8c51320690d15b48322b8f3d2fd147d81411199982a6068b8b83547bd017ba3ff00314526bf9f0b94e5698bd4cfe20
   languageName: node
   linkType: hard
 
@@ -16359,7 +16359,7 @@ fsevents@^1.2.7:
     "@nuxt/vue-app": ^2.15.8
     "@sentry/node": ^6.13.2
     "@sentry/tracing": ^6.13.2
-    "@sentry/types": 6.14.0
+    "@sentry/types": 6.14.1
     "@types/archiver": 5.3.0
     "@types/bcryptjs": 2.4.2
     "@types/bull": 3.15.5
