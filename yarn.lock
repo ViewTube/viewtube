@@ -12587,9 +12587,9 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"mongodb-memory-server-core@npm:7.6.0":
-  version: 7.6.0
-  resolution: "mongodb-memory-server-core@npm:7.6.0"
+"mongodb-memory-server-core@npm:7.6.2":
+  version: 7.6.2
+  resolution: "mongodb-memory-server-core@npm:7.6.2"
   dependencies:
     "@types/mongodb": ^3.6.20
     "@types/tmp": ^0.2.2
@@ -12609,17 +12609,17 @@ fsevents@^1.2.7:
     tslib: ^2.3.0
     uuid: ^8.3.1
     yauzl: ^2.10.0
-  checksum: c17e8a8a6c02e8f19280ada2a89ef1b5536a4c212b7868996200787f732bbc3a5f87379b1f178922dd05d12bf39d4e3f8cc8aa18a76ad1caa7669c4f4169cf76
+  checksum: 8f7773eaa82b8339c63a047a94b358ce0c56c8589524b8941b61153f63d21b3b1d93d8e5e1a33c43c4a413b165912385f855aca01228b33fd4f861945d207bb8
   languageName: node
   linkType: hard
 
-"mongodb-memory-server@npm:7.6.0":
-  version: 7.6.0
-  resolution: "mongodb-memory-server@npm:7.6.0"
+"mongodb-memory-server@npm:7.6.2":
+  version: 7.6.2
+  resolution: "mongodb-memory-server@npm:7.6.2"
   dependencies:
-    mongodb-memory-server-core: 7.6.0
+    mongodb-memory-server-core: 7.6.2
     tslib: ^2.3.0
-  checksum: 7261e8fdf3376eeab45389fcd710f5d362a38a42f9914ad062b5861ea0361d0b296bb977761a150278bdb1348299514c49ebf850bb8a310ef05d31bd78625bb9
+  checksum: 68232ee3f69f9d9cbf4649f2596fffd497d6cad8c20e7525d198cd62d1d58c1ea91bd872e4950d16f4ee8c32b574276842d550d7e460ecccfef4b10fb55427f1
   languageName: node
   linkType: hard
 
@@ -16214,7 +16214,7 @@ fsevents@^1.2.7:
     jest: 27.3.1
     mini-svg-data-uri: ^1.3.3
     module-alias: ^2.2.2
-    mongodb-memory-server: 7.6.0
+    mongodb-memory-server: 7.6.2
     mongoose: ^6.0.8
     nestjs-throttler-storage-redis: ^0.1.15
     node-fetch: 2.6.6
