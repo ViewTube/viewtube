@@ -37,7 +37,8 @@ const moduleMetadata: ModuleMetadata = {
           user: configService.get('VIEWTUBE_DATABASE_USER'),
           pass: configService.get('VIEWTUBE_DATABASE_PASSWORD')
         };
-      }
+      },
+      inject: [ConfigService]
     }),
     SentryModule.forRootAsync({
       useFactory: (configService: ConfigService) => {
@@ -49,7 +50,8 @@ const moduleMetadata: ModuleMetadata = {
           integrations: [new Sentry.Integrations.Http({ breadcrumbs: true, tracing: true })],
           tracesSampleRate: configService.get<number>('SENTRY_TRACES_SAMPLERATE')
         };
-      }
+      },
+      inject: [ConfigService]
     }),
     CacheModule.registerAsync({
       useClass: CacheConfigService
@@ -71,7 +73,8 @@ const moduleMetadata: ModuleMetadata = {
             db: 1
           }
         };
-      }
+      },
+      inject: [ConfigService]
     }),
     ThrottlerModule.forRootAsync({
       useFactory: (configService: ConfigService) => {
@@ -89,7 +92,8 @@ const moduleMetadata: ModuleMetadata = {
           limit: 1000,
           storage: new ThrottlerStorageRedisService({ ...redisOptions, db: 3 })
         };
-      }
+      },
+      inject: [ConfigService]
     }),
     ScheduleModule.forRoot(),
     CoreModule,

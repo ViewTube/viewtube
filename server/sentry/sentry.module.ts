@@ -1,4 +1,4 @@
-import { DynamicModule, Module, ModuleMetadata, Provider } from '@nestjs/common';
+import { DynamicModule, Module, Provider } from '@nestjs/common';
 import * as SentryTypes from '@sentry/types';
 import { SentryModuleAsyncOptions } from './sentry.interface';
 import { SentryService } from './sentry.service';
@@ -31,6 +31,7 @@ export class SentryModule {
     if (options.useFactory) {
       return [
         {
+          inject: options.inject || [],
           provide: 'SENTRY_OPTIONS',
           useFactory: options.useFactory
         }

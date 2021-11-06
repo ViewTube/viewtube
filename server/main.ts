@@ -18,10 +18,12 @@ import NuxtServer from './nuxt/';
 import { HomepageService } from './core/homepage/homepage.service';
 import { AppClusterService } from './app-cluster.service';
 import { promisify } from 'util';
+import { ConfigurationService } from 'viewtube/server/core/configuration/configuration.service';
 
 declare const module: any;
 
 const bootstrap = async () => {
+  await ConfigurationService.initializeEnvironment();
   const server = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter(), {
     logger: ['error', 'warn']
   });
@@ -32,8 +34,8 @@ const bootstrap = async () => {
 
   webPush.setVapidDetails(
     'https://github.com/ViewTube/viewtube-vue',
-    configService.get('VIEWTUBE_PUBLIC_VAPID') || '',
-    configService.get('VIEWTUBE_PRIVATE_VAPID') || ''
+    ConfigurationService.publicVapidKey || '',
+    ConfigurationService.privateVapidKey || ''
   );
 
   global['__basedir'] = __dirname;
@@ -115,7 +117,6 @@ const bootstrap = async () => {
   server.use(cookieParser());
 
   server.enableShutdownHooks();
-
   // START
   await server.listen(port, '0.0.0.0', (err, _address) => {
     if (err) {

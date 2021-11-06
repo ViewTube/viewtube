@@ -8,18 +8,19 @@ import { LocalStrategy } from './strategies/local.strategy';
 import { AuthController } from './auth.controller';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { RegisterModule } from './register/register.module';
+import { ConfigurationService } from 'core/configuration/configuration.service';
 
 const moduleMetadata: ModuleMetadata = {
   providers: [AuthService, LocalStrategy, JwtStrategy],
   imports: [
-    UserModule,
     ConfigModule.forRoot(),
+    UserModule,
     RegisterModule,
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.registerAsync({
-      useFactory: (configService: ConfigService) => {
+      useFactory: () => {
         return {
-          secret: configService.get('VIEWTUBE_JWT_SECRET'),
+          secret: ConfigurationService.jwtKey,
           signOptions: {
             expiresIn: '12h',
             issuer: 'viewtube-api',
