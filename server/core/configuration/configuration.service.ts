@@ -30,7 +30,7 @@ export class ConfigurationService {
       savedConfiguration = {};
     }
 
-    const dbJwtKey = savedConfiguration?.jwtKey;
+    const dbJwtKey = savedConfiguration.jwtKey;
 
     if (envJwtKey && dbJwtKey) {
       this.jwtKey = envJwtKey;
