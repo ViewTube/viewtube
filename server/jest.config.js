@@ -6,7 +6,8 @@ const config = {
   testMatch: ['**/test/**/*spec.ts'],
   moduleNameMapper: {
     '^server/(.*)$': '<rootDir>/$1',
-    '^test/(.*)$': '<rootDir>/test/$1'
+    '^test/(.*)$': '<rootDir>/test/$1',
+    '^viewtube/(.*)$': '<rootDir>/../$1'
   },
   setupFilesAfterEnv: ['<rootDir>/test/jest.setup.redis-mock.js'],
   testPathIgnorePatterns: ['<rootDir>/dist/*']

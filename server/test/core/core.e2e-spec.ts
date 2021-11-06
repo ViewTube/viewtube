@@ -1,3 +1,4 @@
+import 'module-alias/register';
 import { Test } from '@nestjs/testing';
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
 import { MongoMemoryServer } from 'mongodb-memory-server';

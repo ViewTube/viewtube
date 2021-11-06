@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
+import { ConfigurationService } from 'core/configuration/configuration.service';
 import { Strategy, ExtractJwt } from 'passport-jwt';
 
 @Injectable()
@@ -11,7 +12,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
         ExtractJwt.fromAuthHeaderAsBearerToken()
       ]),
       ignoreExpiration: false,
-      secretOrKey: process.env.VIEWTUBE_JWT_SECRET,
+      secretOrKey: ConfigurationService.jwtKey,
       issuer: 'viewtube-api',
       audience: 'viewtube-web'
     });

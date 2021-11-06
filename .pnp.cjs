@@ -2626,6 +2626,25 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["@hapi/hoek", [
+        ["npm:9.2.1", {
+          "packageLocation": "./.yarn/cache/@hapi-hoek-npm-9.2.1-5e7f2fab98-6a439f672d.zip/node_modules/@hapi/hoek/",
+          "packageDependencies": [
+            ["@hapi/hoek", "npm:9.2.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@hapi/topo", [
+        ["npm:5.1.0", {
+          "packageLocation": "./.yarn/cache/@hapi-topo-npm-5.1.0-5e0b776809-604dfd5dde.zip/node_modules/@hapi/topo/",
+          "packageDependencies": [
+            ["@hapi/topo", "npm:5.1.0"],
+            ["@hapi/hoek", "npm:9.2.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["@humanwhocodes/config-array", [
         ["npm:0.5.0", {
           "packageLocation": "./.yarn/cache/@humanwhocodes-config-array-npm-0.5.0-5ded120470-44ee6a9f05.zip/node_modules/@humanwhocodes/config-array/",
@@ -4333,6 +4352,34 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["@sideway/address", [
+        ["npm:4.1.2", {
+          "packageLocation": "./.yarn/cache/@sideway-address-npm-4.1.2-5e0aba9016-1e4910f7b3.zip/node_modules/@sideway/address/",
+          "packageDependencies": [
+            ["@sideway/address", "npm:4.1.2"],
+            ["@hapi/hoek", "npm:9.2.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@sideway/formula", [
+        ["npm:3.0.0", {
+          "packageLocation": "./.yarn/cache/@sideway-formula-npm-3.0.0-8688cb96b6-8ae26a0ed6.zip/node_modules/@sideway/formula/",
+          "packageDependencies": [
+            ["@sideway/formula", "npm:3.0.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@sideway/pinpoint", [
+        ["npm:2.0.0", {
+          "packageLocation": "./.yarn/cache/@sideway-pinpoint-npm-2.0.0-66d94e687e-0f4491e589.zip/node_modules/@sideway/pinpoint/",
+          "packageDependencies": [
+            ["@sideway/pinpoint", "npm:2.0.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["@sinonjs/commons", [
         ["npm:1.8.3", {
           "packageLocation": "./.yarn/cache/@sinonjs-commons-npm-1.8.3-30cf78d93f-6159726db5.zip/node_modules/@sinonjs/commons/",
@@ -4858,6 +4905,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@types-node-npm-16.10.2-9677b4eef7-83c1c3c68e.zip/node_modules/@types/node/",
           "packageDependencies": [
             ["@types/node", "npm:16.10.2"]
+          ],
+          "linkType": "HARD",
+        }],
+        ["npm:16.11.1", {
+          "packageLocation": "./.yarn/cache/@types-node-npm-16.11.1-30ee26b246-22cea470b8.zip/node_modules/@types/node/",
+          "packageDependencies": [
+            ["@types/node", "npm:16.11.1"]
           ],
           "linkType": "HARD",
         }],
@@ -15058,6 +15112,20 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["joi", [
+        ["npm:17.4.2", {
+          "packageLocation": "./.yarn/cache/joi-npm-17.4.2-93548ecd23-977ada1f9d.zip/node_modules/joi/",
+          "packageDependencies": [
+            ["joi", "npm:17.4.2"],
+            ["@hapi/hoek", "npm:9.2.1"],
+            ["@hapi/topo", "npm:5.1.0"],
+            ["@sideway/address", "npm:4.1.2"],
+            ["@sideway/formula", "npm:3.0.0"],
+            ["@sideway/pinpoint", "npm:2.0.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["js-sha256", [
         ["npm:0.9.0", {
           "packageLocation": "./.yarn/cache/js-sha256-npm-0.9.0-1aa718efaf-ffad54b337.zip/node_modules/js-sha256/",
@@ -20611,6 +20679,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["husky", "npm:7.0.4"],
             ["ioredis", "npm:4.27.9"],
             ["jest", "virtual:c139d237b0dbb776e61db419e9c89c8b814c75fa7a88b9f24aafc5ab8ac92bbf91dff4585597824d969ce997b2ccd24ccbc8eb827b2908e4b381ccc31b31d3eb#npm:27.3.1"],
+            ["joi", "npm:17.4.2"],
             ["mini-svg-data-uri", "npm:1.3.3"],
             ["module-alias", "npm:2.2.2"],
             ["mongodb-memory-server", "npm:7.6.2"],
@@ -20728,7 +20797,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./shared/",
           "packageDependencies": [
             ["shared", "workspace:shared"],
-            ["@nestjs/swagger", "virtual:d10100d960b1b73f8c74718d4637dfe2c18d098bafef09afa646f6b4f65cd1a5ad77d7941e2a1def095bb77eb2ac82d00bec47774003ea2f130a251bc51e4c5b#npm:5.1.4"]
+            ["@nestjs/swagger", "virtual:d10100d960b1b73f8c74718d4637dfe2c18d098bafef09afa646f6b4f65cd1a5ad77d7941e2a1def095bb77eb2ac82d00bec47774003ea2f130a251bc51e4c5b#npm:5.1.4"],
+            ["@types/node", "npm:16.11.1"]
           ],
           "linkType": "SOFT",
         }]

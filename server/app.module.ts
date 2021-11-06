@@ -1,6 +1,6 @@
 import { CacheModule, Module, ModuleMetadata } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ScheduleModule } from '@nestjs/schedule';
 import { BullModule } from '@nestjs/bull';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
@@ -14,59 +14,91 @@ import { UserModule } from './user/user.module';
 import { CacheConfigService } from './cache-config.service';
 import { SentryModule } from './sentry/sentry.module';
 import { SentryInterceptor } from './sentry/sentry.interceptor';
-
-const redisPort = isNaN(parseInt(process.env.VIEWTUBE_REDIS_PORT))
-  ? 6379
-  : parseInt(process.env.VIEWTUBE_REDIS_PORT);
-
-const redisOptions: RedisOptions = {
-  host: process.env.VIEWTUBE_REDIS_HOST,
-  port: redisPort
-};
-
-if (process.env.VIEWTUBE_REDIS_PASSWORD) {
-  redisOptions.password = process.env.VIEWTUBE_REDIS_PASSWORD;
-}
+import { validationSchema } from './env.validation';
 
 const moduleMetadata: ModuleMetadata = {
   imports: [
+    ConfigModule.forRoot({
+      validationSchema,
+      validationOptions: {
+        allowUnknown: true,
+        abortEarly: false
+      },
+      cache: true,
+      isGlobal: true
+    }),
     MongooseModule.forRootAsync({
-      useFactory: () => {
-        const uri = `mongodb://${process.env.VIEWTUBE_DATABASE_HOST}:${process.env.VIEWTUBE_DATABASE_PORT}/viewtube`;
+      useFactory: (configService: ConfigService) => {
+        const uri = `mongodb://${configService.get('VIEWTUBE_DATABASE_HOST')}:${configService.get(
+          'VIEWTUBE_DATABASE_PORT'
+        )}/viewtube`;
         return {
           uri,
-          user: process.env.VIEWTUBE_DATABASE_USER,
-          pass: process.env.VIEWTUBE_DATABASE_PASSWORD
+          user: configService.get('VIEWTUBE_DATABASE_USER'),
+          pass: configService.get('VIEWTUBE_DATABASE_PASSWORD')
         };
-      }
+      },
+      inject: [ConfigService]
     }),
-    SentryModule.forRoot({
-      dsn: process.env.SENTRY_DSN,
-      release: process.env.SENTRY_RELEASE,
-      enabled: Boolean(process.env.SENTRY_DSN && process.env.SENTRY_RELEASE),
-      environment: 'production',
-      integrations: [new Sentry.Integrations.Http({ breadcrumbs: true, tracing: true })],
-      tracesSampleRate: parseFloat(process.env.SENTRY_TRACES_SAMPLERATE)
+    SentryModule.forRootAsync({
+      useFactory: (configService: ConfigService) => {
+        return {
+          dsn: configService.get('SENTRY_DSN'),
+          release: configService.get('SENTRY_RELEASE'),
+          enabled: Boolean(configService.get('SENTRY_DSN') && configService.get('SENTRY_RELEASE')),
+          environment: 'production',
+          integrations: [new Sentry.Integrations.Http({ breadcrumbs: true, tracing: true })],
+          tracesSampleRate: configService.get<number>('SENTRY_TRACES_SAMPLERATE')
+        };
+      },
+      inject: [ConfigService]
     }),
     CacheModule.registerAsync({
       useClass: CacheConfigService
     }),
-    BullModule.forRoot({
-      redis: {
-        ...redisOptions,
-        db: 1
-      }
+    BullModule.forRootAsync({
+      useFactory: (configService: ConfigService) => {
+        const redisOptions: RedisOptions = {
+          host: configService.get('VIEWTUBE_REDIS_HOST'),
+          port: configService.get<number>('VIEWTUBE_REDIS_PORT')
+        };
+
+        if (configService.get('VIEWTUBE_REDIS_PASSWORD')) {
+          redisOptions.password = configService.get('VIEWTUBE_REDIS_PASSWORD');
+        }
+
+        return {
+          redis: {
+            ...redisOptions,
+            db: 1
+          }
+        };
+      },
+      inject: [ConfigService]
     }),
-    ThrottlerModule.forRoot({
-      ttl: 600,
-      limit: 1000,
-      storage: new ThrottlerStorageRedisService({ ...redisOptions, db: 3 })
+    ThrottlerModule.forRootAsync({
+      useFactory: (configService: ConfigService) => {
+        const redisOptions: RedisOptions = {
+          host: configService.get('VIEWTUBE_REDIS_HOST'),
+          port: configService.get<number>('VIEWTUBE_REDIS_PORT')
+        };
+
+        if (configService.get('VIEWTUBE_REDIS_PASSWORD')) {
+          redisOptions.password = configService.get('VIEWTUBE_REDIS_PASSWORD');
+        }
+
+        return {
+          ttl: 600,
+          limit: 1000,
+          storage: new ThrottlerStorageRedisService({ ...redisOptions, db: 3 })
+        };
+      },
+      inject: [ConfigService]
     }),
     ScheduleModule.forRoot(),
     CoreModule,
     UserModule,
-    AuthModule,
-    ConfigModule.forRoot()
+    AuthModule
   ],
   providers: [
     {
