@@ -3205,17 +3205,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/node@npm:16.11.1":
+  version: 16.11.1
+  resolution: "@types/node@npm:16.11.1"
+  checksum: 22cea470b89292810733b8b9fc1b6a1873bc3ed4d4cdf2f25e777dc607994bd7c12e64166d1a66dd5924734192b0a891b6aeb6813aa935f731345f4086234375
+  languageName: node
+  linkType: hard
+
 "@types/node@npm:16.11.6":
   version: 16.11.6
   resolution: "@types/node@npm:16.11.6"
   checksum: 6e19634766ff589d3d2f361c2196b671f8f133cdadc5ad347a621c360d8994b6c4fbccfb2ad9c60c588c593831a96497c9c6b77d2b7e91be723384b94f6368e7
-  languageName: node
-  linkType: hard
-
-"@types/node@npm:^16.11.1":
-  version: 16.11.1
-  resolution: "@types/node@npm:16.11.1"
-  checksum: 22cea470b89292810733b8b9fc1b6a1873bc3ed4d4cdf2f25e777dc607994bd7c12e64166d1a66dd5924734192b0a891b6aeb6813aa935f731345f4086234375
   languageName: node
   linkType: hard
 
@@ -6087,7 +6087,7 @@ __metadata:
     "@vue/composition-api": 1.3.3
     axios: 0.24.0
     consola: 2.15.3
-    cross-env: ^7.0.3
+    cross-env: 7.0.3
     dashjs: 4.1.0
     eslint: 7.32.0
     eslint-config-prettier: 8.3.0
@@ -6685,7 +6685,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cross-env@npm:7.0.3, cross-env@npm:^7.0.3":
+"cross-env@npm:7.0.3":
   version: 7.0.3
   resolution: "cross-env@npm:7.0.3"
   dependencies:
@@ -16370,7 +16370,7 @@ fsevents@^1.2.7:
   resolution: "shared@workspace:shared"
   dependencies:
     "@nestjs/swagger": 5.1.4
-    "@types/node": ^16.11.1
+    "@types/node": 16.11.1
   peerDependencies:
     "@nestjs/common": ^8.1.1
     "@nestjs/core": ^8.1.1
