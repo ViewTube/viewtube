@@ -22,7 +22,8 @@
     "shared"
   ],
   "_moduleAliases": {
-    "server": "server/dist/server"
+    "server": "server/dist/server",
+    "viewtube": "./"
   },
   "browserslist": [
     "last 1 version",
