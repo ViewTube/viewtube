@@ -1,8 +1,8 @@
 {
   "name": "shared",
-  "packageManager": "yarn@3.0.2",
+  "packageManager": "yarn@3.1.0",
   "dependencies": {
-    "@nestjs/swagger": "5.1.0"
+    "@nestjs/swagger": "5.1.4"
   },
   "peerDependencies": {
     "@nestjs/common": "^8.1.1",
