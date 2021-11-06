@@ -4,7 +4,7 @@ import { VideoThumbnailDto } from './dto/video/video-thumbnail.dto';
 import { VideoDto } from './dto/video/video.dto';
 import { SponsorBlockSegmentsDto } from './dto/sponsorblock/sponsorblock-segments.dto';
 import { SponsorBlockSegmentDto } from './dto/sponsorblock/sponsorblock-segment.dto';
-import { getSecondsFromTimestamp } from './util';
+import { getSecondsFromTimestamp, getApiUrl, getViewtubeDomain } from './util';
 
 export {
   AuthorThumbnailDto,
@@ -13,5 +13,7 @@ export {
   VideoDto,
   SponsorBlockSegmentsDto,
   SponsorBlockSegmentDto,
-  getSecondsFromTimestamp
+  getSecondsFromTimestamp,
+  getApiUrl,
+  getViewtubeDomain
 };

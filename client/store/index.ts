@@ -11,6 +11,7 @@ import * as videoPlayer from '@/store/videoPlayer';
 import * as playerVolume from '@/store/playerVolume';
 import * as popup from '@/store/popup';
 import { declareActionTree } from '@/plugins/actionTree.shim';
+import { EnvironmentService } from '@/plugins/services/environment';
 
 export const state = () => ({});
 
@@ -21,12 +22,15 @@ export const actions = declareActionTree(
   {
     async nuxtServerInit(_vuexContext, nuxtContext: Context): Promise<void> {
       if (process.server) {
+        const envVars = EnvironmentService.getEnvironmentVariables();
         nuxtContext.app.$accessor.environment.setEnv({
-          apiUrl: process.env.VIEWTUBE_API_URL || 'http://localhost:8066/api/',
-          vapidKey: process.env.VIEWTUBE_PUBLIC_VAPID,
-          nodeEnv: process.env.NODE_ENV
+          apiUrl: envVars.apiUrl,
+          vapidKey: envVars.vapidKey,
+          nodeEnv: envVars.nodeEnv
         });
-        await nuxtContext.app.$accessor.user.getUser();
+        if (nuxtContext.req.headers.cookie) {
+          await nuxtContext.app.$accessor.user.getUser();
+        }
       }
       return undefined;
     }

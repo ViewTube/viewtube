@@ -16,49 +16,52 @@ import { AppModule } from './app.module';
 import { NuxtFilter } from './nuxt/nuxt.filter';
 import NuxtServer from './nuxt/';
 import { HomepageService } from './core/homepage/homepage.service';
-import { checkEnvironmentVariables } from './prerequisiteHelper';
 import { AppClusterService } from './app-cluster.service';
+import { promisify } from 'util';
+import { ConfigurationService } from 'viewtube/server/core/configuration/configuration.service';
 
 declare const module: any;
-const isProduction = process.env.NODE_ENV === 'production';
 
-const prepareBootstrapPrimary = () => {
-  checkEnvironmentVariables();
+const bootstrap = async () => {
+  await ConfigurationService.initializeEnvironment();
+  const server = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter(), {
+    logger: ['error', 'warn']
+  });
+
+  const configService = server.get(ConfigService);
+
+  const isProduction = configService.get('NODE_ENV') === 'production';
+
+  webPush.setVapidDetails(
+    'https://github.com/ViewTube/viewtube-vue',
+    ConfigurationService.publicVapidKey || '',
+    ConfigurationService.privateVapidKey || ''
+  );
+
+  global['__basedir'] = __dirname;
+  if (configService.get('VIEWTUBE_DATA_DIRECTORY')) {
+    global['__basedir'] = configService.get('VIEWTUBE_DATA_DIRECTORY');
+  }
+  if (!isProduction) {
+    global['__basedir'] = path.join(__dirname, global['__basedir']);
+  }
 
   if (isProduction) {
     const channelsDir = `${(global as any).__basedir}/channels`;
     const profilesDir = `${(global as any).__basedir}/profiles`;
-    if (!fs.existsSync(channelsDir)) {
-      fs.mkdirSync(channelsDir);
+    const folderExists = promisify(fs.access);
+    const createFolder = promisify(fs.mkdir);
+    try {
+      await folderExists(channelsDir);
+    } catch {
+      await createFolder(channelsDir);
     }
-    if (!fs.existsSync(profilesDir)) {
-      fs.mkdirSync(profilesDir);
+    try {
+      await folderExists(profilesDir);
+    } catch {
+      await createFolder(profilesDir);
     }
   }
-};
-
-const prepareBootstrap = () => {
-  webPush.setVapidDetails(
-    'https://github.com/ViewTube/viewtube-vue',
-    process.env.VIEWTUBE_PUBLIC_VAPID || '',
-    process.env.VIEWTUBE_PRIVATE_VAPID || ''
-  );
-
-  // eslint-disable-next-line dot-notation
-  global['__basedir'] = __dirname;
-  if (process.env.VIEWTUBE_DATA_DIRECTORY) {
-    // eslint-disable-next-line dot-notation
-    global['__basedir'] = process.env.VIEWTUBE_DATA_DIRECTORY;
-  }
-  if(!isProduction){
-    global['__basedir'] = path.join(__dirname, global['__basedir']);
-  }
-};
-
-const bootstrap = async () => {
-  const server = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter(), {
-    logger: ['error', 'warn']
-  });
 
   await server.register(FastifyHelmet, {
     contentSecurityPolicy: {
@@ -72,8 +75,6 @@ const bootstrap = async () => {
   });
   await server.register(FastifyCookie);
   await server.register(FastifyMultipart);
-
-  const configService = server.get(ConfigService);
 
   // NUXT
   if (isProduction) {
@@ -116,7 +117,6 @@ const bootstrap = async () => {
   server.use(cookieParser());
 
   server.enableShutdownHooks();
-
   // START
   await server.listen(port, '0.0.0.0', (err, _address) => {
     if (err) {
@@ -138,18 +138,13 @@ const bootstrap = async () => {
 };
 
 const runBootstrap = async () => {
-  prepareBootstrap();
   if (AppClusterService.isClustered) {
     if (cluster.worker && cluster.worker.id === 1) {
       Consola.start('Starting in clustered mode');
     }
-    if (cluster.isPrimary) {
-      prepareBootstrapPrimary();
-    }
     AppClusterService.clusterize(bootstrap);
   } else {
     Consola.start('Starting with single node');
-    prepareBootstrapPrimary();
     await bootstrap();
   }
 };

@@ -3,6 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import bcrypt from 'bcryptjs';
 import { ConfigService } from '@nestjs/config';
 import { UserService } from '../user/user.service';
+import { getViewtubeDomain } from 'viewtube/shared/util';
 
 @Injectable()
 export class AuthService {
@@ -31,11 +32,9 @@ export class AuthService {
 
   getDeletionCookie() {
     let domainString = '';
-    if (
-      this.configService.get('NODE_ENV') === 'production' &&
-      this.configService.get('VIEWTUBE_CURRENT_DOMAIN')
-    ) {
-      domainString = `Domain=${this.configService.get('VIEWTUBE_CURRENT_DOMAIN')}; `;
+    const currentDomain = getViewtubeDomain();
+    if (this.configService.get('NODE_ENV') === 'production' && currentDomain) {
+      domainString = `Domain=${currentDomain}; `;
     }
     const expiration = 0;
     return `Authentication=; HttpOnly=true; Secure=true; Path=/; ${domainString}Max-Age=${expiration}`;
@@ -45,11 +44,9 @@ export class AuthService {
     const { accessToken } = this.login(username);
     let domainString = '';
     let secureString = '';
-    if (
-      this.configService.get('NODE_ENV') === 'production' &&
-      this.configService.get('VIEWTUBE_CURRENT_DOMAIN')
-    ) {
-      domainString = `Domain=${this.configService.get('VIEWTUBE_CURRENT_DOMAIN')}; `;
+    const currentDomain = getViewtubeDomain();
+    if (this.configService.get('NODE_ENV') === 'production' && currentDomain) {
+      domainString = `Domain=${currentDomain}; `;
       secureString = 'Secure=true; ';
     }
     const expiration = this.configService.get('VIEWTUBE_JWT_EXPIRATION_TIME');

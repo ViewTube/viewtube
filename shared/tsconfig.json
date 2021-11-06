@@ -1,0 +1,32 @@
+{
+  "compilerOptions": {
+    "module": "CommonJS",
+    "declaration": false,
+    "removeComments": true,
+    "noLib": false,
+    "lib": ["ESNext", "ES2020", "DOM", "ESNext.AsyncIterable"],
+    "allowSyntheticDefaultImports": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowJs": true,
+    "target": "ES2020",
+    "resolveJsonModule": true,
+    "sourceMap": true,
+    "outDir": "./dist",
+    "strict": false,
+    "noImplicitThis": true,
+    "noImplicitAny": false,
+    "strictBindCallApply": true,
+    "strictNullChecks": false,
+    "strictFunctionTypes": false,
+    "esModuleInterop": true,
+    "moduleResolution": "Node",
+    "baseUrl": "./",
+    "paths": {
+      "viewtube/*": ["../*"],
+      "server/*": ["./"]
+    },
+    "types": ["@types/node"]
+  },
+  "exclude": ["**/node_modules", "**/dist", "**/.yarn"]
+}

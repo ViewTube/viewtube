@@ -6,18 +6,14 @@ import * as redisStore from 'cache-manager-redis-store';
 export class CacheConfigService implements CacheOptionsFactory {
   createCacheOptions(): CacheModuleOptions {
     if (process.env.NODE_ENV === 'production') {
-      const redisPort = isNaN(parseInt(process.env.VIEWTUBE_REDIS_PORT))
-        ? 6379
-        : parseInt(process.env.VIEWTUBE_REDIS_PORT);
-
       const redisOptions: RedisOptions = {
         host: process.env.VIEWTUBE_REDIS_HOST,
-        port: redisPort
+        port: parseInt(process.env.VIEWTUBE_REDIS_PORT)
       };
 
       if (process.env.VIEWTUBE_REDIS_PASSWORD) {
         redisOptions.password = process.env.VIEWTUBE_REDIS_PASSWORD;
-      };
+      }
 
       return {
         store: redisStore,

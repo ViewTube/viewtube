@@ -8,20 +8,25 @@ import { LocalStrategy } from './strategies/local.strategy';
 import { AuthController } from './auth.controller';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { RegisterModule } from './register/register.module';
+import { ConfigurationService } from 'core/configuration/configuration.service';
 
 const moduleMetadata: ModuleMetadata = {
   providers: [AuthService, LocalStrategy, JwtStrategy],
   imports: [
-    UserModule,
     ConfigModule.forRoot(),
+    UserModule,
     RegisterModule,
     PassportModule.register({ defaultStrategy: 'jwt' }),
-    JwtModule.register({
-      secret: process.env.VIEWTUBE_JWT_SECRET,
-      signOptions: {
-        expiresIn: '12h',
-        issuer: 'viewtube-api',
-        audience: 'viewtube-web'
+    JwtModule.registerAsync({
+      useFactory: () => {
+        return {
+          secret: ConfigurationService.jwtKey,
+          signOptions: {
+            expiresIn: '12h',
+            issuer: 'viewtube-api',
+            audience: 'viewtube-web'
+          }
+        };
       }
     })
   ],

@@ -5,6 +5,7 @@
 // https://www.npmjs.com/package/@freetube/yt-dash-manifest-generator
 
 import xml from 'xml-js';
+import { getApiUrl } from 'viewtube/shared/index';
 
 export class DashGenerator {
   static generateDashFileFromFormats(videoFormats, videoLength) {
@@ -162,12 +163,13 @@ export class DashGenerator {
         (adapSet.attributes as any).scanType = 'progressive';
         isVideoFormat = true;
       }
+      const apiUrl = getApiUrl();
       mimeObjects[i].forEach(format => {
-        if (format.url && process.env.VIEWTUBE_API_URL) {
+        if (format.url && apiUrl) {
           const correctedUrl = format.url.replaceAll('&amp;', '&');
           const oldUrl = new URL(correctedUrl);
 
-          const newUrl = new URL(`${process.env.VIEWTUBE_API_URL}videoplayback`);
+          const newUrl = new URL(`${apiUrl}videoplayback`);
           for (const [key, value] of oldUrl.searchParams as any) {
             newUrl.searchParams.append(key, value);
           }
