@@ -5975,7 +5975,7 @@ __metadata:
     eslint-plugin-node: 11.1.0
     eslint-plugin-nuxt: 3.0.0
     eslint-plugin-promise: 5.1.1
-    eslint-plugin-unicorn: 37.0.1
+    eslint-plugin-unicorn: 38.0.0
     eslint-plugin-vue: 7.20.0
     hls.js: 1.0.12
     humanize-duration: 3.27.0
@@ -7863,9 +7863,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-unicorn@npm:37.0.1":
-  version: 37.0.1
-  resolution: "eslint-plugin-unicorn@npm:37.0.1"
+"eslint-plugin-unicorn@npm:38.0.0":
+  version: 38.0.0
+  resolution: "eslint-plugin-unicorn@npm:38.0.0"
   dependencies:
     "@babel/helper-validator-identifier": ^7.14.9
     ci-info: ^3.2.0
@@ -7884,7 +7884,7 @@ __metadata:
     strip-indent: ^3.0.0
   peerDependencies:
     eslint: ">=7.32.0"
-  checksum: 9c74b642150c765919fc925808791910a3e8ce642db4a5a38aa4c04e8b4899b8aed5fab4ae73947cf0ad0b4a783161e2389c9148ed30c73469a757ba8372c1cd
+  checksum: 5ef60a29f64bf37171b79e9419dc8e14829b32d51e7895131ff39ff6835abcf0af04a41df945c63882a99da125d251528e7a35b8b84ca09742b667fe7488b50f
   languageName: node
   linkType: hard
 
