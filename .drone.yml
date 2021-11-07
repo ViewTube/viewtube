@@ -4,7 +4,7 @@ name: default
 
 steps:
   - name: install
-    image: node:16-alpine3.14
+    image: node:16
     pull: if-not-exists
     volumes:
       - name: installcache
@@ -13,7 +13,7 @@ steps:
       - yarn install
 
   - name: build
-    image: node:16-alpine3.14
+    image: node:16
     pull: if-not-exists
     volumes:
       - name: installcache
@@ -24,7 +24,7 @@ steps:
       - install
 
   - name: test
-    image: node:16-alpine3.14
+    image: node:16
     pull: if-not-exists
     volumes:
       - name: installcache
