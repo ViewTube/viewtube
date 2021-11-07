@@ -15,13 +15,6 @@
   "_moduleAliases": {
     "server": "dist/server"
   },
-  "config": {
-    "mongodbMemoryServer": {
-      "debug": "1",
-      "runtimeDownload": false,
-      "systemBinary": "/usr/bin/mongod"
-    }
-  },
   "dependencies": {
     "@freetube/yt-comment-scraper": "^6.0.0",
     "@nestjs/bull": "^0.4.1",
@@ -111,7 +104,7 @@
     "eslint-plugin-jest": "25.2.3",
     "husky": "7.0.4",
     "jest": "27.3.1",
-    "mongodb-memory-server": "8.0.2",
+    "mongodb-memory-server-core": "^8.0.2",
     "redis": "3.1.2",
     "redis-mock": "0.56.3",
     "run-script-webpack-plugin": "0.0.11",

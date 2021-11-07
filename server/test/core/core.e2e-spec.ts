@@ -1,7 +1,7 @@
 import 'module-alias/register';
 import { Test } from '@nestjs/testing';
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
-import { MongoMemoryServer } from 'mongodb-memory-server';
+import { MongoMemoryServer } from 'mongodb-memory-server-core';
 import { CoreModule } from 'server/core/core.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { defineIt, getPayloadJson } from 'server/test/common/test.helper';

@@ -16340,17 +16340,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
-      ["mongodb-memory-server", [
-        ["npm:8.0.2", {
-          "packageLocation": "./.yarn/unplugged/mongodb-memory-server-npm-8.0.2-35026199c3/node_modules/mongodb-memory-server/",
-          "packageDependencies": [
-            ["mongodb-memory-server", "npm:8.0.2"],
-            ["mongodb-memory-server-core", "npm:8.0.2"],
-            ["tslib", "npm:2.3.1"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
       ["mongodb-memory-server-core", [
         ["npm:8.0.2", {
           "packageLocation": "./.yarn/cache/mongodb-memory-server-core-npm-8.0.2-b1fe1f881e-af256f84fd.zip/node_modules/mongodb-memory-server-core/",
@@ -20360,7 +20349,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["joi", "npm:17.4.2"],
             ["mini-svg-data-uri", "npm:1.3.3"],
             ["module-alias", "npm:2.2.2"],
-            ["mongodb-memory-server", "npm:8.0.2"],
+            ["mongodb-memory-server-core", "npm:8.0.2"],
             ["mongoose", "npm:6.0.8"],
             ["nestjs-throttler-storage-redis", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:0.1.15"],
             ["node-fetch", "npm:2.6.6"],

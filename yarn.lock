@@ -12391,7 +12391,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"mongodb-memory-server-core@npm:8.0.2":
+"mongodb-memory-server-core@npm:^8.0.2":
   version: 8.0.2
   resolution: "mongodb-memory-server-core@npm:8.0.2"
   dependencies:
@@ -12412,16 +12412,6 @@ fsevents@^1.2.7:
     uuid: ^8.3.1
     yauzl: ^2.10.0
   checksum: af256f84fdc4044ba878f59c8217f2212a973fb2a5a4a2f27c89417e48b81ba37dd38aa7e3571c908acf8fccf83fece05270b78e12d85c7d618c7868fd544d82
-  languageName: node
-  linkType: hard
-
-"mongodb-memory-server@npm:8.0.2":
-  version: 8.0.2
-  resolution: "mongodb-memory-server@npm:8.0.2"
-  dependencies:
-    mongodb-memory-server-core: 8.0.2
-    tslib: ^2.3.1
-  checksum: f376c7c425e295d531a83e7e1e52511f47bf2f6b7437d40c862ffad068ef71076f949f2cbbf7c6df35b977ba9c615ce072415cb3f528af652c706ae85418891f
   languageName: node
   linkType: hard
 
@@ -15965,7 +15955,7 @@ fsevents@^1.2.7:
     joi: ^17.4.2
     mini-svg-data-uri: ^1.3.3
     module-alias: ^2.2.2
-    mongodb-memory-server: 8.0.2
+    mongodb-memory-server-core: ^8.0.2
     mongoose: ^6.0.8
     nestjs-throttler-storage-redis: ^0.1.15
     node-fetch: 2.6.6
