@@ -3,21 +3,47 @@ type: docker
 name: default
 
 steps:
-  - name: ✅ Test
-    image: mauriceo/nodejs-mongodb
+  - name: install
+    image: node:16-alpine3.14
+    pull: if-not-exists
+    volumes:
+      - name: installcache
+        path: /installcache
     commands:
       - yarn install
-      - yarn build
-      - yarn test
 
-  - name: 📦 Publish
+  - name: build
+    image: node:16-alpine3.14
+    pull: if-not-exists
+    volumes:
+      - name: installcache
+        path: /installcache
+    commands:
+      - yarn build
+    depends_on:
+      - install
+
+  - name: test
+    image: node:16-alpine3.14
+    pull: if-not-exists
+    volumes:
+      - name: installcache
+        path: /installcache
+    commands:
+      - yarn test
+    depends_on:
+      - install
+
+  - name: publish
     image: plugins/docker
+    pull: if-not-exists
     settings:
       repo: mauriceo/viewtube
+      compress: true
       tags:
         - latest
-        - '0.8.0'
-        - '0.8'
+        - "0.8.0"
+        - "0.8"
       username:
         from_secret: docker_username
       password:
@@ -27,11 +53,17 @@ steps:
         - stable
       event:
         - push
+    depends_on:
+      - install
+      - build
+      - test
 
-  - name: 🧪 Publish dev
+  - name: publish-dev
     image: plugins/docker
+    pull: if-not-exists
     settings:
       repo: mauriceo/viewtube
+      compress: true
       tags:
         - dev
       username:
@@ -43,9 +75,14 @@ steps:
         - development
       event:
         - push
+    depends_on:
+      - install
+      - build
+      - test
 
-  - name: 🔔 Notify
+  - name: notify
     image: appleboy/drone-telegram
+    pull: if-not-exists
     settings:
       token:
         from_secret: tg_bot_token
@@ -58,6 +95,10 @@ steps:
       status:
         - success
         - failure
+
+volumes:
+  - name: installcache
+    temp: {}
 
 trigger:
   branch:
