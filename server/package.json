@@ -15,6 +15,11 @@
   "_moduleAliases": {
     "server": "dist/server"
   },
+  "config": {
+    "mongodbMemoryServer": {
+      "debug": "1"
+    }
+  },
   "dependencies": {
     "@freetube/yt-comment-scraper": "^6.0.0",
     "@nestjs/bull": "^0.4.1",
