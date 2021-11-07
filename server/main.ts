@@ -129,7 +129,7 @@ const bootstrap = async () => {
       process.exit(1);
     }
     if ((cluster.worker && cluster.worker.id === 1) || !AppClusterService.isClustered) {
-      Consola.ready(`Server listening on http://localhost:${port}`);
+      Consola.ready(`Server listening on ${_address}`);
     }
   });
 
@@ -139,7 +139,7 @@ const bootstrap = async () => {
   }
 
   const homepageService = server.get(HomepageService);
-  homepageService.refreshPopular();
+  await homepageService.refreshPopular();
 };
 
 const runBootstrap = async () => {
