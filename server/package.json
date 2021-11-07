@@ -17,7 +17,9 @@
   },
   "config": {
     "mongodbMemoryServer": {
-      "debug": "1"
+      "debug": "1",
+      "runtimeDownload": false,
+      "systemBinary": "/usr/bin/mongod"
     }
   },
   "dependencies": {
