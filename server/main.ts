@@ -19,6 +19,7 @@ import { HomepageService } from './core/homepage/homepage.service';
 import { AppClusterService } from './app-cluster.service';
 import { promisify } from 'util';
 import { ConfigurationService } from 'viewtube/server/core/configuration/configuration.service';
+import { isHttps } from 'viewtube/shared/index';
 
 declare const module: any;
 
@@ -63,16 +64,20 @@ const bootstrap = async () => {
     }
   }
 
-  await server.register(FastifyHelmet, {
-    contentSecurityPolicy: {
-      useDefaults: true,
-      directives: {
-        defaultSrc: [`'self'`, `blob:`, `https://sponsor.ajay.app`, `https://*.googlevideo.com`],
-        scriptSrc: [`'self'`, `blob:`, `https: 'unsafe-eval'`, `https: 'unsafe-inline'`],
-        scriptSrcAttr: null
+  // Disable helment on non-https instances
+  if (isHttps()) {
+    await server.register(FastifyHelmet, {
+      contentSecurityPolicy: {
+        useDefaults: true,
+        directives: {
+          defaultSrc: [`'self'`, `blob:`, `https://sponsor.ajay.app`, `https://*.googlevideo.com`],
+          scriptSrc: [`'self'`, `blob:`, `https: 'unsafe-eval'`, `https: 'unsafe-inline'`],
+          scriptSrcAttr: null
+        }
       }
-    }
-  });
+    });
+  }
+
   await server.register(FastifyCookie);
   await server.register(FastifyMultipart);
 
