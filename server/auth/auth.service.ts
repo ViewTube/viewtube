@@ -3,7 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import bcrypt from 'bcryptjs';
 import { ConfigService } from '@nestjs/config';
 import { UserService } from '../user/user.service';
-import { getViewtubeDomain } from 'viewtube/shared/util';
+import { getViewtubeDomain, isHttps } from 'viewtube/shared/util';
 
 @Injectable()
 export class AuthService {
@@ -32,12 +32,16 @@ export class AuthService {
 
   getDeletionCookie() {
     let domainString = '';
+    let secureString = '';
     const currentDomain = getViewtubeDomain();
     if (this.configService.get('NODE_ENV') === 'production' && currentDomain) {
       domainString = `Domain=${currentDomain}; `;
+      if (isHttps()) {
+        secureString = 'Secure=true; ';
+      }
     }
     const expiration = 0;
-    return `Authentication=; HttpOnly=true; Secure=true; Path=/; ${domainString}Max-Age=${expiration}`;
+    return `Authentication=; HttpOnly=true; Path=/; ${secureString}${domainString}Max-Age=${expiration}`;
   }
 
   getJwtCookie(username: string) {
@@ -47,7 +51,9 @@ export class AuthService {
     const currentDomain = getViewtubeDomain();
     if (this.configService.get('NODE_ENV') === 'production' && currentDomain) {
       domainString = `Domain=${currentDomain}; `;
-      secureString = 'Secure=true; ';
+      if (isHttps()) {
+        secureString = 'Secure=true; ';
+      }
     }
     const expiration = this.configService.get('VIEWTUBE_JWT_EXPIRATION_TIME');
     return `Authentication=${accessToken}; HttpOnly=true; Path=/; ${secureString}${domainString}Max-Age=${expiration}`;
