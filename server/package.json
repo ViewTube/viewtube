@@ -4,9 +4,8 @@
   "packageManager": "yarn@3.1.0",
   "scripts": {
     "serve": "nest build --webpack --webpackPath webpack-hmr.config.js --watch",
-    "serve:all": "yarn env && nest build --webpack --webpackPath webpack-hmr.config.js --watch",
-    "env": "VIEWTUBE_URL=http://localhost:8067 && PORT=8067",
-    "env:prod": "yarn env && NODE_ENV=production",
+    "serve:all": "nest build --webpack --webpackPath webpack-hmr.config.js --watch",
+    "env:prod": "NODE_ENV=production",
     "build": "NODE_ENV=production && nest build --tsc --path tsconfig.build.json --config nest-cli.json",
     "start": "yarn env:prod && node ./dist/server/main",
     "test": "jest",
