@@ -17,7 +17,6 @@ describe('Core', () => {
 
   beforeAll(async () => {
     mongod = await MongoMemoryServer.create();
-    await mongod.start();
     const dbUri = mongod.getUri();
 
     const moduleRef = await Test.createTestingModule({
