@@ -15,6 +15,12 @@
   "_moduleAliases": {
     "server": "dist/server"
   },
+  "config": {
+    "mongodbMemoryServer": {
+      "runtimeDownload": false,
+      "systemBinary": "/usr/bin/mongod"
+    }
+  },
   "dependencies": {
     "@freetube/yt-comment-scraper": "^6.0.0",
     "@nestjs/bull": "^0.4.1",
