@@ -22,7 +22,7 @@
     "@nuxtjs/pwa": "3.3.5",
     "@nuxtjs/router": "1.6.1",
     "@nuxtjs/style-resources": "1.2.1",
-    "@types/node": "16.11.6",
+    "@types/node": "16.11.7",
     "@types/papaparse": "5.3.1",
     "@types/sass": "1.43.0",
     "@typescript-eslint/eslint-plugin": "5.3.1",
