@@ -21,7 +21,8 @@ steps:
     commands:
       - yarn build
     when:
-      - pull_request
+      event:
+        - pull_request
     depends_on:
       - install
 
