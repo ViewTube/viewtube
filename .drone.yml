@@ -12,7 +12,7 @@ steps:
     commands:
       - yarn install
 
-  - name: build
+  - name: test-build
     image: node:16
     pull: if-not-exists
     volumes:
@@ -20,6 +20,9 @@ steps:
         path: /installcache
     commands:
       - yarn build
+    when:
+      event:
+        - pull_request
     depends_on:
       - install
 
@@ -55,7 +58,6 @@ steps:
         - push
     depends_on:
       - install
-      - build
       - test
 
   - name: publish-dev
@@ -77,7 +79,6 @@ steps:
         - push
     depends_on:
       - install
-      - build
       - test
 
   - name: notify
