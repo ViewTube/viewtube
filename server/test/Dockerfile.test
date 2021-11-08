@@ -13,7 +13,7 @@ RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash - && \
 
 RUN node --version
 
-RUN wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | apt-key add - && \
-  echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/4.4 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-4.4.list && \
+RUN wget -qO - https://www.mongodb.org/static/pgp/server-5.0.asc | apt-key add - && \
+  echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/5.0 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-5.0.list && \
   apt-get update && \
-  apt-get install -y mongodb-org=4.4.8 mongodb-org-server=4.4.8 mongodb-org-shell=4.4.8 mongodb-org-mongos=4.4.8 mongodb-org-tools=4.4.8
+  apt-get install -y mongodb-org=5.0.3 mongodb-org-server=5.0.3 mongodb-org-shell=5.0.3 mongodb-org-mongos=5.0.3 mongodb-org-tools=5.0.3
