@@ -1929,9 +1929,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nestjs/testing@npm:8.1.2":
-  version: 8.1.2
-  resolution: "@nestjs/testing@npm:8.1.2"
+"@nestjs/testing@npm:8.2.0":
+  version: 8.2.0
+  resolution: "@nestjs/testing@npm:8.2.0"
   dependencies:
     optional: 0.1.4
     tslib: 2.3.1
@@ -1945,7 +1945,7 @@ __metadata:
       optional: true
     "@nestjs/platform-express":
       optional: true
-  checksum: 626c718b28eb6726a290875d9732e7c2df025eb9cbaaf591ca9410cbb09d905cca963ac22202f6c9ca546f52a8aed152a4ee59af8f805d21797513b5056aef6a
+  checksum: e7efbe35268cf16c792ed529c5939380be543eff6cd26e0bbfd04dde20d8ff14b87dc7d90d227a6a0612fc21c28333008ea6cfb6295c132aeee753d77fb8eb92
   languageName: node
   linkType: hard
 
@@ -5944,11 +5944,11 @@ __metadata:
     eslint-config-prettier: 8.3.0
     eslint-import-resolver-node: 0.3.6
     eslint-plugin-import: 2.24.2
-    eslint-plugin-jest: 25.2.3
+    eslint-plugin-jest: 25.2.4
     eslint-plugin-node: 11.1.0
     eslint-plugin-nuxt: 3.0.0
     eslint-plugin-promise: 5.1.1
-    eslint-plugin-unicorn: 38.0.0
+    eslint-plugin-unicorn: 38.0.1
     eslint-plugin-vue: 7.20.0
     hls.js: 1.0.12
     humanize-duration: 3.27.0
@@ -7766,9 +7766,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-jest@npm:25.2.3":
-  version: 25.2.3
-  resolution: "eslint-plugin-jest@npm:25.2.3"
+"eslint-plugin-jest@npm:25.2.4":
+  version: 25.2.4
+  resolution: "eslint-plugin-jest@npm:25.2.4"
   dependencies:
     "@typescript-eslint/experimental-utils": ^5.0.0
   peerDependencies:
@@ -7779,7 +7779,7 @@ __metadata:
       optional: true
     jest:
       optional: true
-  checksum: eb6ed233348c735bfb3933947d75f982a0884825b2269518048a236bee49a913b67b7788986b8d4679687658cc4f7cd3d2ef32b128cb3d65b422ddec92c770ab
+  checksum: d263c5564e5ce573759fa06b94011855780e79b0407888a5ac0e80303af2aa249d9d089bcd2f0fc108eb58ef6f367544217b1be2b561216e92fc830e9a924a63
   languageName: node
   linkType: hard
 
@@ -7843,9 +7843,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-unicorn@npm:38.0.0":
-  version: 38.0.0
-  resolution: "eslint-plugin-unicorn@npm:38.0.0"
+"eslint-plugin-unicorn@npm:38.0.1":
+  version: 38.0.1
+  resolution: "eslint-plugin-unicorn@npm:38.0.1"
   dependencies:
     "@babel/helper-validator-identifier": ^7.14.9
     ci-info: ^3.2.0
@@ -7864,7 +7864,7 @@ __metadata:
     strip-indent: ^3.0.0
   peerDependencies:
     eslint: ">=7.32.0"
-  checksum: 5ef60a29f64bf37171b79e9419dc8e14829b32d51e7895131ff39ff6835abcf0af04a41df945c63882a99da125d251528e7a35b8b84ca09742b667fe7488b50f
+  checksum: 79792b724a8fcfb089221eae12f0b76471a4d0f0a72bb16076a5650068901f48391c3da401eef1c62dfabff5ec96abe3a77b4b93774d43724b922de1ad581350
   languageName: node
   linkType: hard
 
@@ -15908,7 +15908,7 @@ fsevents@^1.2.7:
     "@nestjs/platform-fastify": ^8.0.9
     "@nestjs/schedule": ^1.0.1
     "@nestjs/swagger": ^5.1.0
-    "@nestjs/testing": 8.1.2
+    "@nestjs/testing": 8.2.0
     "@nestjs/throttler": ^2.0.0
     "@nuxt/babel-preset-app": ^2.15.8
     "@nuxt/core": ^2.15.8
@@ -15951,7 +15951,7 @@ fsevents@^1.2.7:
     cross-env: 7.0.3
     eslint: 7.32.0
     eslint-config-prettier: 8.3.0
-    eslint-plugin-jest: 25.2.3
+    eslint-plugin-jest: 25.2.4
     fastify: ^3.22.0
     fastify-cookie: ^5.3.1
     fastify-helmet: ^5.3.2

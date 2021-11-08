@@ -80,7 +80,7 @@
   },
   "devDependencies": {
     "@nestjs/cli": "8.1.4",
-    "@nestjs/testing": "8.1.2",
+    "@nestjs/testing": "8.2.0",
     "@nuxt/types": "2.15.8",
     "@sentry/types": "6.14.1",
     "@types/archiver": "5.3.0",
@@ -107,7 +107,7 @@
     "cross-env": "7.0.3",
     "eslint": "7.32.0",
     "eslint-config-prettier": "8.3.0",
-    "eslint-plugin-jest": "25.2.3",
+    "eslint-plugin-jest": "25.2.4",
     "husky": "7.0.4",
     "jest": "27.3.1",
     "mongodb-memory-server": "8.0.2",
