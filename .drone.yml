@@ -24,7 +24,7 @@ steps:
       - install
 
   - name: test
-    image: mauriceo/nodejs-mongodb:1.1
+    image: mauriceo/nodejs-mongodb:1.0
     pull: if-not-exists
     volumes:
       - name: installcache
