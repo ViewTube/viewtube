@@ -44,3 +44,4 @@ dump.rdb
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+Dockerfile.nodejs-mongodb
