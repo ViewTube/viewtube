@@ -7867,14 +7867,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["buffer", "npm:5.7.1"]
           ],
           "linkType": "HARD",
-        }],
-        ["npm:4.5.4", {
-          "packageLocation": "./.yarn/cache/bson-npm-4.5.4-9761055ddb-f4d088a91e.zip/node_modules/bson/",
-          "packageDependencies": [
-            ["bson", "npm:4.5.4"],
-            ["buffer", "npm:5.7.1"]
-          ],
-          "linkType": "HARD",
         }]
       ]],
       ["buffer", [
@@ -10143,13 +10135,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/denque-npm-1.5.1-2dd42d2dcb-4375ad19d5.zip/node_modules/denque/",
           "packageDependencies": [
             ["denque", "npm:1.5.1"]
-          ],
-          "linkType": "HARD",
-        }],
-        ["npm:2.0.1", {
-          "packageLocation": "./.yarn/cache/denque-npm-2.0.1-4ba00e404b-ec398d1e3c.zip/node_modules/denque/",
-          "packageDependencies": [
-            ["denque", "npm:2.0.1"]
           ],
           "linkType": "HARD",
         }]
@@ -16361,17 +16346,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "HARD",
         }],
-        ["npm:4.1.4", {
-          "packageLocation": "./.yarn/cache/mongodb-npm-4.1.4-b34c409a0d-8d5a3caf34.zip/node_modules/mongodb/",
-          "packageDependencies": [
-            ["mongodb", "npm:4.1.4"],
-            ["bson", "npm:4.5.4"],
-            ["denque", "npm:2.0.1"],
-            ["mongodb-connection-string-url", "npm:2.1.0"],
-            ["saslprep", "npm:1.0.3"]
-          ],
-          "linkType": "HARD",
-        }],
         ["virtual:2b530e1e76a8148ea6dd1343e218131e905f41fd19a8f5242fb2548aeb4340efe860cd0778f76fa4e2da49810ddc8a57b83bf92a04c93f57c0a5bd8dae888bc4#npm:3.7.3", {
           "packageLocation": "./.yarn/__virtual__/mongodb-virtual-4ceeac2193/0/cache/mongodb-npm-3.7.3-c479129d1e-ef7690fe6e.zip/node_modules/mongodb/",
           "packageDependencies": [
@@ -16450,29 +16424,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["md5-file", "npm:5.0.0"],
             ["mkdirp", "npm:1.0.4"],
             ["mongodb", "virtual:2b530e1e76a8148ea6dd1343e218131e905f41fd19a8f5242fb2548aeb4340efe860cd0778f76fa4e2da49810ddc8a57b83bf92a04c93f57c0a5bd8dae888bc4#npm:3.7.3"],
-            ["new-find-package-json", "npm:1.1.0"],
-            ["semver", "npm:7.3.5"],
-            ["tar-stream", "npm:2.2.0"],
-            ["tmp", "npm:0.2.1"],
-            ["tslib", "npm:2.3.1"],
-            ["uuid", "npm:8.3.2"],
-            ["yauzl", "npm:2.10.0"]
-          ],
-          "linkType": "HARD",
-        }],
-        ["npm:8.0.2", {
-          "packageLocation": "./.yarn/cache/mongodb-memory-server-core-npm-8.0.2-b1fe1f881e-af256f84fd.zip/node_modules/mongodb-memory-server-core/",
-          "packageDependencies": [
-            ["mongodb-memory-server-core", "npm:8.0.2"],
-            ["@types/tmp", "npm:0.2.2"],
-            ["async-mutex", "npm:0.3.2"],
-            ["camelcase", "npm:6.2.0"],
-            ["debug", "virtual:ee1bbcab87c0701d4ea83dd18afa59b10c6343191c17b3a8e7844ecdde3ca8e8977791131460b822baae289e9261b3b228709bc45987d850e69091b4d363edfa#npm:4.3.2"],
-            ["find-cache-dir", "npm:3.3.2"],
-            ["get-port", "npm:5.1.1"],
-            ["https-proxy-agent", "npm:5.0.0"],
-            ["md5-file", "npm:5.0.0"],
-            ["mongodb", "npm:4.1.4"],
             ["new-find-package-json", "npm:1.1.0"],
             ["semver", "npm:7.3.5"],
             ["tar-stream", "npm:2.2.0"],
@@ -20488,7 +20439,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["mini-svg-data-uri", "npm:1.3.3"],
             ["module-alias", "npm:2.2.2"],
             ["mongodb-memory-server", "npm:7.6.3"],
-            ["mongodb-memory-server-core", "npm:8.0.2"],
             ["mongoose", "npm:6.0.8"],
             ["nestjs-throttler-storage-redis", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:0.1.15"],
             ["node-fetch", "npm:2.6.6"],
