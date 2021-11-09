@@ -15,14 +15,28 @@ steps:
     commands:
       - yarn install
 
-  - name: test-build
+  - name: test-build-client
     image: node:16
     pull: if-not-exists
     volumes:
       - name: installcache
         path: /installcache
     commands:
-      - yarn build
+      - yarn build:client
+    when:
+      event:
+        - pull_request
+    depends_on:
+      - install
+
+  - name: test-build-server
+    image: node:16
+    pull: if-not-exists
+    volumes:
+      - name: installcache
+        path: /installcache
+    commands:
+      - yarn build:server
     when:
       event:
         - pull_request
