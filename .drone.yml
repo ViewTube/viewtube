@@ -3,16 +3,9 @@ type: docker
 name: default
 
 clone: 
-  disable: true
+  depth: 1
 
 steps:
-  - name: clone
-    image: alpine/git:v2.32.0
-    pull: if-not-exists
-    commands:
-      - git clone --depth 1 https://github.com/viewtube/viewtube-vue.git .
-      - git checkout $DRONE_COMMIT
-
   - name: install
     image: node:16
     pull: if-not-exists
