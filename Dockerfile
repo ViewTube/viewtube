@@ -21,7 +21,7 @@ RUN yarn cache clean && \
     yarn workspaces focus --all --production && \
     yarn cache clean --mirror
 
-FROM alpine:3.14 as runtime
+FROM mauriceo/node:16-alpine3.14 as runtime
 WORKDIR /home/app
 
 COPY --from=build /home/build/.yarn/ ./.yarn/
@@ -33,8 +33,6 @@ COPY --from=build /home/build/server/dist ./server/dist/
 COPY --from=build /home/build/client/package.json /home/build/client/nuxt.config.ts ./client/
 COPY --from=build /home/build/client/dist ./client/dist/
 COPY --from=build /home/build/client/static ./client/static/
-
-RUN apk add --no-cache nodejs-current
 
 ENV VIEWTUBE_BASE_DIR=/home/app
 ENV NODE_ENV=production
