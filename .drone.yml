@@ -2,6 +2,9 @@ kind: pipeline
 type: docker
 name: default
 
+clone:
+  depth: 1
+
 steps:
   - name: install
     image: node:16
@@ -12,14 +15,28 @@ steps:
     commands:
       - yarn install
 
-  - name: test-build
+  - name: test-build-client
     image: node:16
     pull: if-not-exists
     volumes:
       - name: installcache
         path: /installcache
     commands:
-      - yarn build
+      - yarn build:client
+    when:
+      event:
+        - pull_request
+    depends_on:
+      - install
+
+  - name: test-build-server
+    image: node:16
+    pull: if-not-exists
+    volumes:
+      - name: installcache
+        path: /installcache
+    commands:
+      - yarn build:server
     when:
       event:
         - pull_request
@@ -43,6 +60,7 @@ steps:
     settings:
       repo: mauriceo/viewtube
       compress: true
+      cache_from: "mauriceo/viewtube:latest"
       tags:
         - latest
         - "0.8.0"
@@ -66,6 +84,7 @@ steps:
     settings:
       repo: mauriceo/viewtube
       compress: true
+      cache_from: "mauriceo/viewtube:dev"
       tags:
         - dev
       username:
@@ -100,6 +119,7 @@ steps:
 volumes:
   - name: installcache
     temp: {}
+  - name: permanentcache
 
 trigger:
   branch:
