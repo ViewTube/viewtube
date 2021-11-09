@@ -2,7 +2,7 @@ kind: pipeline
 type: docker
 name: default
 
-clone: 
+clone:
   depth: 1
 
 steps:
@@ -60,6 +60,7 @@ steps:
     settings:
       repo: mauriceo/viewtube
       compress: true
+      cache_from: "mauriceo/viewtube:latest"
       tags:
         - latest
         - "0.8.0"
@@ -83,6 +84,7 @@ steps:
     settings:
       repo: mauriceo/viewtube
       compress: true
+      cache_from: "mauriceo/viewtube:dev"
       tags:
         - dev
       username:
@@ -117,6 +119,7 @@ steps:
 volumes:
   - name: installcache
     temp: {}
+  - name: permanentcache
 
 trigger:
   branch:
