@@ -1,4 +1,4 @@
-#/bin/sh
+#/bin/bash
 
 echo "Starting server build"
 START=$(date +%s.%N)
