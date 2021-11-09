@@ -5480,9 +5480,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bull@npm:^3.29.2":
-  version: 3.29.2
-  resolution: "bull@npm:3.29.2"
+"bull@npm:^4.0.0":
+  version: 4.1.0
+  resolution: "bull@npm:4.1.0"
   dependencies:
     cron-parser: ^2.13.0
     debuglog: ^1.0.0
@@ -5494,7 +5494,7 @@ __metadata:
     semver: ^7.3.2
     util.promisify: ^1.0.1
     uuid: ^8.3.0
-  checksum: 5b66450b3fa3639e9284545a158a44871054a0bad1bc3fc1d46e8190a90fb6a69d68537fc22e072b25ce761bdb560a42762d3c6dd8eb6d4f7311beb669f6e801
+  checksum: 8fc696346dc56d273e3fae0e3ca8f1d541098422d81e91bdd6a696aa43f7a785f0c7bc5a8f03d8dfd0a131b65de170d0c3fcd0cb38939703eb0712149b1d1173
   languageName: node
   linkType: hard
 
@@ -16001,7 +16001,7 @@ fsevents@^1.2.7:
     "@typescript-eslint/parser": 5.3.1
     archiver: ^5.3.0
     bcryptjs: ^2.4.3
-    bull: ^3.29.2
+    bull: ^4.0.0
     cache-manager: ^3.4.4
     cache-manager-redis-store: ^2.0.0
     chalk: ^4.1.2
