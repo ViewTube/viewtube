@@ -7,7 +7,7 @@ clone:
 
 steps:
   - name: clone
-    image: alpine/git:v2.23.0
+    image: alpine/git:v2.32.0
     pull: if-not-exists
     commands:
       - git clone --depth 1 https://github.com/viewtube/viewtube-vue.git .
