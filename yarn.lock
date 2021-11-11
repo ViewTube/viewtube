@@ -6011,7 +6011,7 @@ __metadata:
     eslint-plugin-promise: 5.1.1
     eslint-plugin-unicorn: 38.0.1
     eslint-plugin-vue: 7.20.0
-    hls.js: 1.0.12
+    hls.js: 1.1.1
     humanize-duration: 3.27.0
     jest: 27.3.1
     js-sha256: 0.9.0
@@ -9513,10 +9513,10 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"hls.js@npm:1.0.12":
-  version: 1.0.12
-  resolution: "hls.js@npm:1.0.12"
-  checksum: cce0704d3cf19d9ab7a6e053c6ad4eb2a203a47861bf53c6e821c962e7d3d2d5361b704f7b526651beefb40a24c740c7717e11ef1b42cc9576595cfdc38210ff
+"hls.js@npm:1.1.1":
+  version: 1.1.1
+  resolution: "hls.js@npm:1.1.1"
+  checksum: df5e600d87c48dc40a0190c077b8de98c9ae4093b8abaf3b0931b49b3bc972c3e52cc85ea36a0115beaeb8ff95c315154838549219af32e954a1364632dd9ace
   languageName: node
   linkType: hard
 
