@@ -8590,7 +8590,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["qrcode", "npm:1.4.4"],
             ["sass", "npm:1.43.4"],
             ["sass-loader", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:10.1.1"],
-            ["tippy.js", "npm:6.3.6"],
+            ["tippy.js", "npm:6.3.7"],
             ["typed-vuex", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:0.2.0"],
             ["typescript", "patch:typescript@npm%3A4.4.4#~builtin<compat/typescript>::version=4.4.4&hash=ddd1e8"],
             ["unplugin-vue2-script-setup", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:0.6.15"],
@@ -21835,10 +21835,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["tippy.js", [
-        ["npm:6.3.6", {
-          "packageLocation": "./.yarn/cache/tippy.js-npm-6.3.6-b092442328-36ed096653.zip/node_modules/tippy.js/",
+        ["npm:6.3.7", {
+          "packageLocation": "./.yarn/cache/tippy.js-npm-6.3.7-424f946d38-cac955318a.zip/node_modules/tippy.js/",
           "packageDependencies": [
-            ["tippy.js", "npm:6.3.6"],
+            ["tippy.js", "npm:6.3.7"],
             ["@popperjs/core", "npm:2.10.2"]
           ],
           "linkType": "HARD",

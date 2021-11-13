@@ -6023,7 +6023,7 @@ __metadata:
     qrcode: 1.4.4
     sass: 1.43.4
     sass-loader: 10.1.1
-    tippy.js: 6.3.6
+    tippy.js: 6.3.7
     typed-vuex: 0.2.0
     typescript: 4.4.4
     unplugin-vue2-script-setup: 0.6.15
@@ -17236,12 +17236,12 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"tippy.js@npm:6.3.6":
-  version: 6.3.6
-  resolution: "tippy.js@npm:6.3.6"
+"tippy.js@npm:6.3.7":
+  version: 6.3.7
+  resolution: "tippy.js@npm:6.3.7"
   dependencies:
     "@popperjs/core": ^2.9.0
-  checksum: 36ed09665317b56326bf82f36f2e3a8c315d1a8cb3a24b370ca9975de49e6aff7a97564e4c3491b8269cc3050052b9c2ad5eb0a2e11e71d88d6dc330d4e48a0d
+  checksum: cac955318a65288e8d2dca05059878b003c6e66f92c94f7810f5bc5448eb6646abdf7dacc9bd00020e2611592598d0aae3a28ec9a45349a159603c3fdddce5fb
   languageName: node
   linkType: hard
 
