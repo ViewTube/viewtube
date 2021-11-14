@@ -113,9 +113,15 @@ export class HomepageService {
         .sort({ createdDate: -1 })
         .limit(1)
         .exec();
+      if (popularVideos && popularVideos[0]) {
+        return {
+          videos: popularVideos[0].videos,
+          updatedAt: popularVideos[0].createdDate
+        };
+      }
       return {
-        videos: popularVideos[0].videos,
-        updatedAt: popularVideos[0].createdDate
+        videos: [],
+        updatedAt: null
       };
     } catch (error) {
       throw new InternalServerErrorException('Error loading the homepage.');

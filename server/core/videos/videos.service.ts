@@ -56,51 +56,51 @@ export class VideosService {
     try {
       const result: videoInfo = await getInfo(url, ytdlOptions);
 
-      const dashManifest = DashGenerator.generateDashFileFromFormats(
-        result.formats,
-        result.videoDetails.lengthSeconds
-      );
+      // const dashManifest = DashGenerator.generateDashFileFromFormats(
+      //   result.formats,
+      //   result.videoDetails.lengthSeconds
+      // );
 
-      const video: VideoDto = new VideoEntity(result, dashManifest);
+      const video: VideoDto = new VideoEntity(result);
 
-      const channelBasicInfo: ChannelBasicInfoDto = {
-        authorId: video.authorId,
-        author: video.author,
-        authorThumbnails: video.authorThumbnails,
-        authorVerified: video.authorVerified
-      };
+      // const channelBasicInfo: ChannelBasicInfoDto = {
+      //   authorId: video.authorId,
+      //   author: video.author,
+      //   authorThumbnails: video.authorThumbnails,
+      //   authorVerified: video.authorVerified
+      // };
 
-      const authorImageUrl = await this.saveAuthorImage(
-        video.authorThumbnails[2].url,
-        video.authorId
-      );
-      if (authorImageUrl) {
-        channelBasicInfo.authorThumbnailUrl = authorImageUrl;
-      }
+      // const authorImageUrl = await this.saveAuthorImage(
+      //   video.authorThumbnails[2].url,
+      //   video.authorId
+      // );
+      // if (authorImageUrl) {
+      //   channelBasicInfo.authorThumbnailUrl = authorImageUrl;
+      // }
 
-      const videoBasicInfo: VideoBasicInfoDto = {
-        author: video.author,
-        authorId: video.authorId,
-        description: video.description,
-        dislikeCount: video.dislikeCount,
-        likeCount: video.likeCount,
-        published: video.published,
-        publishedText: video.publishedText,
-        title: video.title,
-        videoId: video.videoId,
-        videoThumbnails: video.videoThumbnails,
-        viewCount: video.viewCount,
-        lengthSeconds: video.lengthSeconds
-      };
+      // const videoBasicInfo: VideoBasicInfoDto = {
+      //   author: video.author,
+      //   authorId: video.authorId,
+      //   description: video.description,
+      //   dislikeCount: video.dislikeCount,
+      //   likeCount: video.likeCount,
+      //   published: video.published,
+      //   publishedText: video.publishedText,
+      //   title: video.title,
+      //   videoId: video.videoId,
+      //   videoThumbnails: video.videoThumbnails,
+      //   viewCount: video.viewCount,
+      //   lengthSeconds: video.lengthSeconds
+      // };
 
-      this.channelModel
-        .findOneAndUpdate({ authorId: video.authorId }, channelBasicInfo, { upsert: true })
-        .exec()
-        .catch(Consola.warn);
-      this.videoModel
-        .findOneAndUpdate({ videoId: video.videoId }, videoBasicInfo, { upsert: true })
-        .exec()
-        .catch(Consola.warn);
+      // this.channelModel
+      //   .findOneAndUpdate({ authorId: video.authorId }, channelBasicInfo, { upsert: true })
+      //   .exec()
+      //   .catch(Consola.warn);
+      // this.videoModel
+      //   .findOneAndUpdate({ videoId: video.videoId }, videoBasicInfo, { upsert: true })
+      //   .exec()
+      //   .catch(Consola.warn);
 
       return video;
     } catch (err) {
@@ -128,7 +128,9 @@ export class VideosService {
   async saveAuthorImage(imgUrl: string, channelId: string) {
     const arrBuffer = await fetch(imgUrl, { method: 'GET' })
       .then(response => response.arrayBuffer())
-      .catch(_ => {});
+      .catch(_ => {
+        // Drop errors
+      });
 
     if (arrBuffer) {
       try {
