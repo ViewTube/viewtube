@@ -180,7 +180,7 @@ export class SubscriptionsService {
       const videoCount = await this.VideoModel.find({
         authorId: { $in: userSubscriptionIds }
       })
-        .limit(10000)
+        .limit(1000)
         .estimatedDocumentCount()
         .exec();
 
