@@ -33,7 +33,8 @@ export class SettingsService {
     sponsorblockSegmentSelfpromo: 'skip',
     sponsorblockSegmentSponsor: 'skip',
     sponsorblockSegmentPreview: 'skip',
-    theme: 'default'
+    theme: 'default',
+    dashPlaybackEnabled: false
   };
 
   async setSettings(settings: Partial<SettingsDto>, username: string): Promise<void> {
