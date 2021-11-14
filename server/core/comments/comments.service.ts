@@ -5,8 +5,6 @@ import { CommentsResponseDto } from './dto/comments-response.dto';
 
 @Injectable()
 export class CommentsService {
-  constructor() {}
-
   async getComments(
     videoId: string,
     sortByNewest: boolean,
@@ -27,7 +25,9 @@ export class CommentsService {
     while (!commentsRawResult && index < retryCounter) {
       try {
         commentsRawResult = await this.tryGetComments(commentsPayload);
-      } catch {}
+      } catch {
+        // Silently ignore exception
+      }
       index++;
     }
     if (commentsRawResult) {
