@@ -4277,7 +4277,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/nuxt", null],
             ["@types/nuxt__vue-app", null],
             ["@types/vue", null],
-            ["@vue/composition-api", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:1.3.3"],
+            ["@vue/composition-api", "virtual:a69ca89a26c4e74e53a5a01dd3127c69d24bb4af867e4d6a8d6ea670aa96511313322f5bb0920cdfab6e281cdfeff8ceb3867f5e1e7b943249c8747ecad0a789#npm:1.3.3"],
             ["defu", "npm:5.0.0"],
             ["estree-walker", "npm:2.0.2"],
             ["fs-extra", "npm:9.1.0"],
@@ -6352,10 +6352,31 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "SOFT",
         }],
-        ["virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:1.3.3", {
-          "packageLocation": "./.yarn/__virtual__/@vue-composition-api-virtual-3c2786fc67/0/cache/@vue-composition-api-npm-1.3.3-e6fd2c07f0-77949b20bf.zip/node_modules/@vue/composition-api/",
+        ["npm:1.4.0", {
+          "packageLocation": "./.yarn/cache/@vue-composition-api-npm-1.4.0-e5ba6e3da5-117cc86a89.zip/node_modules/@vue/composition-api/",
           "packageDependencies": [
-            ["@vue/composition-api", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:1.3.3"],
+            ["@vue/composition-api", "npm:1.4.0"]
+          ],
+          "linkType": "SOFT",
+        }],
+        ["virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:1.4.0", {
+          "packageLocation": "./.yarn/__virtual__/@vue-composition-api-virtual-f424199577/0/cache/@vue-composition-api-npm-1.4.0-e5ba6e3da5-117cc86a89.zip/node_modules/@vue/composition-api/",
+          "packageDependencies": [
+            ["@vue/composition-api", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:1.4.0"],
+            ["@types/vue", null],
+            ["tslib", "npm:2.3.1"],
+            ["vue", "npm:2.6.14"]
+          ],
+          "packagePeers": [
+            "@types/vue",
+            "vue"
+          ],
+          "linkType": "HARD",
+        }],
+        ["virtual:a69ca89a26c4e74e53a5a01dd3127c69d24bb4af867e4d6a8d6ea670aa96511313322f5bb0920cdfab6e281cdfeff8ceb3867f5e1e7b943249c8747ecad0a789#npm:1.3.3", {
+          "packageLocation": "./.yarn/__virtual__/@vue-composition-api-virtual-c431bb3902/0/cache/@vue-composition-api-npm-1.3.3-e6fd2c07f0-77949b20bf.zip/node_modules/@vue/composition-api/",
+          "packageDependencies": [
+            ["@vue/composition-api", "virtual:a69ca89a26c4e74e53a5a01dd3127c69d24bb4af867e4d6a8d6ea670aa96511313322f5bb0920cdfab6e281cdfeff8ceb3867f5e1e7b943249c8747ecad0a789#npm:1.3.3"],
             ["@types/vue", null],
             ["tslib", "npm:2.3.1"],
             ["vue", "npm:2.6.14"]
@@ -8838,7 +8859,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/sass", "npm:1.43.0"],
             ["@typescript-eslint/eslint-plugin", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:5.3.1"],
             ["@typescript-eslint/parser", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:5.3.1"],
-            ["@vue/composition-api", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:1.3.3"],
+            ["@vue/composition-api", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:1.4.0"],
             ["axios", "npm:0.24.0"],
             ["consola", "npm:2.15.3"],
             ["cross-env", "npm:7.0.3"],
