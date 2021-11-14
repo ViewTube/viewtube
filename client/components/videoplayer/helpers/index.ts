@@ -262,7 +262,7 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
           seekBackward(10);
           break;
         case 'l':
-          seekBackward(10);
+          seekForward(10);
           break;
         case 'm':
           videoRef.value.muted = !videoRef.value.muted;
@@ -294,7 +294,7 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
           videoRef.value.defaultPlaybackRate = newSpeed;
           break;
         }
-        case e.key.match(/\d/).input || {}: {
+        case e.key.match(/\d/) && e.key.match(/\d/).input || {}: {
           const skipInterval = videoRef.value.duration / 10;
           const amount = parseInt(e.key);
           videoRef.value.currentTime = skipInterval * amount;
@@ -942,7 +942,7 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
           videoRef.value.src = highestLegacyQuality.value;
         }
       } else if (process.browser) {
-        if (props.video.dashManifest && window.MediaSource) {
+        if (accessor.settings.dashPlaybackEnabled && props.video.dashManifest && window.MediaSource) {
           // Using dashjs
           const manifestUrl = `${accessor.environment.apiUrl}videos/manifest/dash/${props.video.videoId}`;
           dashHelper.value = new DashHelper(videoRef.value, manifestUrl);

@@ -73,6 +73,9 @@ export class Settings extends Document implements SettingsDto {
 
   @Prop()
   autoAdjustVideoQuality: boolean;
+
+  @Prop()
+  dashPlaybackEnabled: boolean;
 }
 
 export const SettingsSchema = SchemaFactory.createForClass(Settings);
