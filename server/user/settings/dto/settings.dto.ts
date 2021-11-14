@@ -44,4 +44,6 @@ export class SettingsDto {
   autoAdjustAudioQuality: boolean;
 
   autoAdjustVideoQuality: boolean;
+
+  dashPlaybackEnabled: boolean;
 }

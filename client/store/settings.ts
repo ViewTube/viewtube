@@ -190,7 +190,8 @@ export const state = () => ({
   defaultVideoQuality: '720p',
   defaultAudioQuality: '192kb',
   autoAdjustVideoQuality: true,
-  autoAdjustAudioQuality: true
+  autoAdjustAudioQuality: true,
+  dashPlaybackEnabled: false
 });
 
 export const getters = getterTree(state, {
@@ -217,7 +218,8 @@ export const getters = getterTree(state, {
   defaultVideoQuality: state => state.defaultVideoQuality,
   defaultAudioQuality: state => state.defaultAudioQuality,
   autoAdjustVideoQuality: state => state.autoAdjustVideoQuality,
-  autoAdjustAudioQuality: state => state.autoAdjustAudioQuality
+  autoAdjustAudioQuality: state => state.autoAdjustAudioQuality,
+  dashPlaybackEnabled: state => state.dashPlaybackEnabled
 });
 
 export const mutations = mutationTree(state, {
@@ -282,6 +284,9 @@ export const mutations = mutationTree(state, {
   },
   mutateAutoAdjustAudioQuality(state, value: boolean) {
     state.autoAdjustAudioQuality = value;
+  },
+  mutateDashPlaybackEnabled(state, value: boolean) {
+    state.dashPlaybackEnabled = value;
   }
 });
 
@@ -354,6 +359,10 @@ export const actions = declareActionTree(
     async setAutoAdjustAudioQuality({ commit, dispatch }, value: boolean) {
       commit('mutateAutoAdjustAudioQuality', value);
       await dispatch('doSettingsRequest', { settingsKey: 'autoAdjustAudioQuality', value });
+    },
+    async setDashPlaybackEnabled({ commit, dispatch }, value: boolean) {
+      commit('mutateDashPlaybackEnabled', value);
+      await dispatch('doSettingsRequest', { settingsKey: 'dashPlaybackEnabled', value });
     },
     async storeSponsorblock({ getters }) {
       await this.$axios.put(

@@ -167,6 +167,14 @@
         />
       </div>
       <SwitchButton
+        :value="$accessor.settings.dashPlaybackEnabled"
+        :label="'Enable MPEG-DASH'"
+        :small-label="'Enable high quality video playback using MPEG-DASH adaptive bitrate streaming'"
+        :disabled="false"
+        :right="true"
+        @valuechange="val => saveSetting('settings/setDashPlaybackEnabled', val)"
+      />
+      <SwitchButton
         :value="$accessor.settings.autoplay"
         :label="'Autoplay video'"
         :small-label="'Automatically plays video after opening'"
