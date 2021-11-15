@@ -106,7 +106,9 @@ export class SubscriptionsService {
     const user = await this.subscriptionModel
       .findOne({ username })
       .exec()
-      .catch(_ => {});
+      .catch(_ => {
+        // Silently drop error
+      });
 
     if (user) {
       return user.subscriptions.length;
@@ -124,7 +126,9 @@ export class SubscriptionsService {
     const user = await this.subscriptionModel
       .findOne({ username })
       .exec()
-      .catch(_ => {});
+      .catch(_ => {
+        // Silently drop error
+      });
     if (user) {
       const userChannelIds = user.subscriptions.map(e => e.channelId);
       if (userChannelIds) {
@@ -176,7 +180,7 @@ export class SubscriptionsService {
       const videoCount = await this.VideoModel.find({
         authorId: { $in: userSubscriptionIds }
       })
-        .limit(10000)
+        .limit(1000)
         .estimatedDocumentCount()
         .exec();
 

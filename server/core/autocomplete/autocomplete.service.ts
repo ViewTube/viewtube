@@ -13,8 +13,8 @@ export class AutocompleteService {
       const response = await undici.request(this.url + query);
       response.body.setEncoding('latin1');
       const data = await response.body.text();
-      const array: Array<any> = JSON.parse(data.match(this.responseRegex)[2]);
-      return array[1].map((e: any) => e[0]);
+      const array: Array<Array<unknown>> = JSON.parse(data.match(this.responseRegex)[2]);
+      return array[1].map((e: unknown) => e[0]);
     } catch (error) {
       throw new InternalServerErrorException(error);
     }

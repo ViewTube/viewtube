@@ -97,7 +97,7 @@ export class VideoEntity implements VideoDto {
 
   isListed = !this.microformatData.isUnlisted;
 
-  liveNow: boolean = Boolean(
+  liveNow = Boolean(
     this.playerVideoDetails.isLiveContent &&
       (this.playerResponse.playabilityStatus as any).liveStreamability
   );
