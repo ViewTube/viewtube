@@ -27,7 +27,18 @@ export class HomepageService {
 
   @Cron(CronExpression.EVERY_DAY_AT_1AM)
   async refreshPopular(): Promise<void> {
-    if ((cluster.worker && cluster.worker.id === 1) || !AppClusterService.isClustered) {
+    let expired = false;
+    const clusterWorker1 = cluster.worker && cluster.worker.id === 1;
+    const notClustered = !AppClusterService.isClustered;
+
+    const oldPopularPage = await this.PopularModel.find().sort({ createdDate: -1 }).limit(1).exec();
+    if (oldPopularPage && oldPopularPage[0]) {
+      const expireTime = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
+      if (expireTime < oldPopularPage[0].createdDate) {
+        expired = true;
+      }
+    }
+    if (expired && (clusterWorker1 || notClustered)) {
       Consola.info('Refreshing popular page');
       try {
         const abortController = new AbortController();
@@ -102,9 +113,15 @@ export class HomepageService {
         .sort({ createdDate: -1 })
         .limit(1)
         .exec();
+      if (popularVideos && popularVideos[0]) {
+        return {
+          videos: popularVideos[0].videos,
+          updatedAt: popularVideos[0].createdDate
+        };
+      }
       return {
-        videos: popularVideos[0].videos,
-        updatedAt: popularVideos[0].createdDate
+        videos: [],
+        updatedAt: null
       };
     } catch (error) {
       throw new InternalServerErrorException('Error loading the homepage.');

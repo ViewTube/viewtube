@@ -3,8 +3,6 @@ import ytpl, { ContinueResult, Options, Result } from 'ytpl';
 
 @Injectable()
 export class PlaylistsService {
-  constructor() {}
-
   async getPlaylist(playlistId: string, pages: number): Promise<Result> {
     if (playlistId && ytpl.validateID(playlistId)) {
       let playlistContent: Result;

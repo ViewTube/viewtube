@@ -9,7 +9,7 @@ import Consola from 'consola';
 export class ProxyService {
   constructor(private configService: ConfigService) {}
 
-  async proxyText(url: string, local: boolean = true): Promise<string> {
+  async proxyText(url: string, local = true): Promise<string> {
     try {
       let proxyAgent = null;
       if (this.configService.get('VIEWTUBE_PROXY_URL') && !local) {
@@ -27,7 +27,7 @@ export class ProxyService {
     throw new InternalServerErrorException('Error fetching url');
   }
 
-  async proxyImage(url: string, reply: FastifyReply, local: boolean = false): Promise<void> {
+  async proxyImage(url: string, reply: FastifyReply, local = false): Promise<void> {
     try {
       let proxyUrl = null;
       if (this.configService.get('VIEWTUBE_PROXY_URL') && !local) {
@@ -55,7 +55,9 @@ export class ProxyService {
           });
       }
     } catch (error) {
-      Consola.log(error);
+      if (this.configService.get('NODE_ENV') !== 'production') {
+        Consola.log(error);
+      }
     }
   }
 
@@ -79,7 +81,9 @@ export class ProxyService {
           Consola.log(error);
         });
     } catch (error) {
-      Consola.log(error);
+      if (this.configService.get('NODE_ENV') !== 'production') {
+        Consola.log(error);
+      }
     }
   }
 }
