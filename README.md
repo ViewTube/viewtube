@@ -21,6 +21,7 @@ It can recommend, play and search for videos. It saves your watch progress and y
 
 It's built using [Nuxt.js](https://nuxtjs.org/) and [Nest](https://nestjs.com/).
 
+Check [uptime.m-o.dev/status](https://uptime.m-o.dev/status) for updates and downtime status.  
 Try the dev version on [dev.viewtube.io](https://dev.viewtube.io).
 
 <h2 align="center">
