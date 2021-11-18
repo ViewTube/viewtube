@@ -79,8 +79,8 @@
     "ytsr": "^3.5.3"
   },
   "devDependencies": {
-    "@nestjs/cli": "8.1.4",
-    "@nestjs/testing": "8.2.1",
+    "@nestjs/cli": "8.1.5",
+    "@nestjs/testing": "8.2.2",
     "@nuxt/types": "2.15.8",
     "@sentry/types": "6.15.0",
     "@types/archiver": "5.3.0",
