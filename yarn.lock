@@ -6319,7 +6319,7 @@ __metadata:
     sass-loader: 10.1.1
     tippy.js: 6.3.7
     typed-vuex: 0.2.0
-    typescript: 4.4.4
+    typescript: 4.5.2
     unplugin-vue2-script-setup: 0.6.16
     vue: 2.6.14
     vue-material-design-icons: 4.13.0
@@ -16370,7 +16370,7 @@ fsevents@^1.2.7:
     svg-captcha: ^1.4.0
     ts-jest: 27.0.7
     ts-loader: 9.2.6
-    typescript: 4.4.4
+    typescript: 4.5.2
     undici: ^4.7.0
     web-push: ^3.4.5
     webpack: 5.64.1
@@ -16456,7 +16456,7 @@ fsevents@^1.2.7:
     class-validator: 0.13.1
     reflect-metadata: 0.1.13
     rxjs: 7.4.0
-    typescript: 4.4.4
+    typescript: 4.5.2
   languageName: unknown
   linkType: soft
 
@@ -17967,13 +17967,23 @@ typescript@4.3.5:
   languageName: node
   linkType: hard
 
-"typescript@4.4.4, typescript@^4.4.3, typescript@^4.4.4":
+"typescript@^4.4.3, typescript@^4.4.4":
   version: 4.4.4
   resolution: "typescript@npm:4.4.4"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
   checksum: 89ecb8436bb48ef5594d49289f5f89103071716b6e4844278f4fb3362856e31203e187a9c76d205c3f0b674d221a058fd28310dbcbcf5d95e9a57229bb5203f1
+  languageName: node
+  linkType: hard
+
+"typescript@npm:4.5.2":
+  version: 4.5.2
+  resolution: "typescript@npm:4.5.2"
+  bin:
+    tsc: bin/tsc
+    tsserver: bin/tsserver
+  checksum: 74f9ce65d532bdf5d0214b3f60cf37992180023388c87a11ee6f838a803067ef0b63c600fa501b0deb07f989257dce1e244c9635ed79feca40bbccf6e0aa1ebc
   languageName: node
   linkType: hard
 
@@ -17987,7 +17997,17 @@ typescript@4.3.5:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@4.4.4#~builtin<compat/typescript>, typescript@patch:typescript@^4.4.3#~builtin<compat/typescript>, typescript@patch:typescript@^4.4.4#~builtin<compat/typescript>":
+"typescript@patch:typescript@4.5.2#~builtin<compat/typescript>":
+  version: 4.5.2
+  resolution: "typescript@patch:typescript@npm%3A4.5.2#~builtin<compat/typescript>::version=4.5.2&hash=ddd1e8"
+  bin:
+    tsc: bin/tsc
+    tsserver: bin/tsserver
+  checksum: 24a439e062a05e3285a4f0e8a40644116ecdca89f3e908bed01e5a01b9aee747e3bcf0e85fe9e017e5ebf0c0863437c39479f2616f55a244c2d82d37022cdc4f
+  languageName: node
+  linkType: hard
+
+"typescript@patch:typescript@^4.4.3#~builtin<compat/typescript>, typescript@patch:typescript@^4.4.4#~builtin<compat/typescript>":
   version: 4.4.4
   resolution: "typescript@patch:typescript@npm%3A4.4.4#~builtin<compat/typescript>::version=4.4.4&hash=ddd1e8"
   bin:
@@ -18491,7 +18511,7 @@ typescript@~4.2:
     eslint-import-resolver-node: 0.3.6
     jest: 27.3.1
     prettier: 2.4.1
-    typescript: 4.4.4
+    typescript: 4.5.2
     vls: 0.7.6
     vue: 2.6.14
   languageName: unknown
