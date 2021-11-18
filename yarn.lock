@@ -6320,7 +6320,7 @@ __metadata:
     eslint-plugin-nuxt: 3.0.0
     eslint-plugin-promise: 5.1.1
     eslint-plugin-unicorn: 38.0.1
-    eslint-plugin-vue: 7.20.0
+    eslint-plugin-vue: 8.1.1
     hls.js: 1.1.1
     humanize-duration: 3.27.0
     jest: 27.3.1
@@ -8269,7 +8269,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-vue@npm:7.20.0, eslint-plugin-vue@npm:^7.19.1, eslint-plugin-vue@npm:^7.20.0, eslint-plugin-vue@npm:^7.9.0":
+"eslint-plugin-vue@npm:8.1.1":
+  version: 8.1.1
+  resolution: "eslint-plugin-vue@npm:8.1.1"
+  dependencies:
+    eslint-utils: ^3.0.0
+    natural-compare: ^1.4.0
+    semver: ^7.3.5
+    vue-eslint-parser: ^8.0.1
+  peerDependencies:
+    eslint: ^6.2.0 || ^7.0.0 || ^8.0.0
+  checksum: e910298bfad3160541e97841144d0def87dd69575200eb651896dc759ff1dfb4a3cb736a8e0b462de0ad326d17b6f6ce6b189784d9d8338811f11fdb59193bba
+  languageName: node
+  linkType: hard
+
+"eslint-plugin-vue@npm:^7.19.1, eslint-plugin-vue@npm:^7.20.0, eslint-plugin-vue@npm:^7.9.0":
   version: 7.20.0
   resolution: "eslint-plugin-vue@npm:7.20.0"
   dependencies:
@@ -18575,6 +18589,23 @@ typescript@~4.2:
   peerDependencies:
     eslint: ">=6.0.0"
   checksum: 6b5381f5b202ea42e1726772690d7bbcdd186df439033d84010d45181cac711b204805f6c7bd00240f3bbee83a898bafb5a9b1bef5c13b56dffc61df1af10372
+  languageName: node
+  linkType: hard
+
+"vue-eslint-parser@npm:^8.0.1":
+  version: 8.0.1
+  resolution: "vue-eslint-parser@npm:8.0.1"
+  dependencies:
+    debug: ^4.3.2
+    eslint-scope: ^6.0.0
+    eslint-visitor-keys: ^3.0.0
+    espree: ^9.0.0
+    esquery: ^1.4.0
+    lodash: ^4.17.21
+    semver: ^7.3.5
+  peerDependencies:
+    eslint: ">=6.0.0"
+  checksum: 9c40558975ef0aecb5cf8977d59d39ffde58108c652b8fd66524aec0cc828fe63e2146c0a95b2ccb52fbd97c1b1d3e5936919920c12d4de4be4c5a752dbc4e53
   languageName: node
   linkType: hard
 
