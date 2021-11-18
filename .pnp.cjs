@@ -5322,10 +5322,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@types/sharp", [
-        ["npm:0.29.3", {
-          "packageLocation": "./.yarn/cache/@types-sharp-npm-0.29.3-cc8190f172-32e67cd643.zip/node_modules/@types/sharp/",
+        ["npm:0.29.4", {
+          "packageLocation": "./.yarn/cache/@types-sharp-npm-0.29.4-34ed3f2ccb-155313a87f.zip/node_modules/@types/sharp/",
           "packageDependencies": [
-            ["@types/sharp", "npm:0.29.3"],
+            ["@types/sharp", "npm:0.29.4"],
             ["@types/node", "npm:16.11.6"]
           ],
           "linkType": "HARD",
@@ -20702,7 +20702,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/passport-jwt", "npm:3.0.6"],
             ["@types/passport-local", "npm:1.0.34"],
             ["@types/redis-mock", "npm:0.17.0"],
-            ["@types/sharp", "npm:0.29.3"],
+            ["@types/sharp", "npm:0.29.4"],
             ["@types/source-map-support", "npm:0.5.4"],
             ["@types/web-push", "npm:3.3.2"],
             ["@types/xml2json", "npm:0.11.4"],
