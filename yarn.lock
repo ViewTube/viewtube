@@ -1976,11 +1976,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nestjs/common@npm:^8.0.9":
-  version: 8.0.9
-  resolution: "@nestjs/common@npm:8.0.9"
+"@nestjs/common@npm:8.2.0, @nestjs/common@npm:^8.0.9":
+  version: 8.2.0
+  resolution: "@nestjs/common@npm:8.2.0"
   dependencies:
-    axios: 0.21.4
+    axios: 0.24.0
     iterare: 1.2.1
     tslib: 2.3.1
     uuid: 8.3.2
@@ -1997,7 +1997,7 @@ __metadata:
       optional: true
     class-validator:
       optional: true
-  checksum: 7b5df099b9b54770b10420b096df580d91eb889706787efd9928ce7f6ea6ecb829ff0ae29a7af9c95b78687be37824296afc296ee316b713e93e43a8422647c9
+  checksum: d6adb3862ac4583d8ed0d71d9044db3070debac7680c4b6438b003753240ee4b4f8b885eb1d06e878fd177748b50539e760b4da08f5ea323717c768b774f1e56
   languageName: node
   linkType: hard
 
@@ -2019,9 +2019,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nestjs/core@npm:^8.0.9":
-  version: 8.0.9
-  resolution: "@nestjs/core@npm:8.0.9"
+"@nestjs/core@npm:8.1.1, @nestjs/core@npm:^8.0.9":
+  version: 8.1.1
+  resolution: "@nestjs/core@npm:8.1.1"
   dependencies:
     "@nuxtjs/opencollective": 0.3.2
     fast-safe-stringify: 2.1.1
@@ -2044,7 +2044,7 @@ __metadata:
       optional: true
     "@nestjs/websockets":
       optional: true
-  checksum: 65f481ef03b0432c89d0905b459084cb9839ea88e6ff56bf5b4f9e5a70823d681e8aebdeddcb19bebde71ace557123734fa7e884ed27814b433cb93318591a1e
+  checksum: ba74fd8c97877890903cd808baee03382418789ba34895994c741e2b2e4a89b9a84daf7dede8fece27722f8a5d5a3cc1f5d5378beb0813e4d57c56c08a90f11b
   languageName: node
   linkType: hard
 
@@ -3372,10 +3372,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*":
-  version: 16.11.6
-  resolution: "@types/node@npm:16.11.6"
-  checksum: 6e19634766ff589d3d2f361c2196b671f8f133cdadc5ad347a621c360d8994b6c4fbccfb2ad9c60c588c593831a96497c9c6b77d2b7e91be723384b94f6368e7
+"@types/node@npm:*, @types/node@npm:16.11.7":
+  version: 16.11.7
+  resolution: "@types/node@npm:16.11.7"
+  checksum: 2706403e6efc4aa40fdce8f0b5d9884d5600c3c8610aedc7fa5e7e298d30366f7e8b7296028d52898dca3edef4c3e827b03bf20952c4780f13fa4e79864f7a86
   languageName: node
   linkType: hard
 
@@ -3383,13 +3383,6 @@ __metadata:
   version: 12.20.12
   resolution: "@types/node@npm:12.20.12"
   checksum: 9e4ef12f52bbf6c1df7534e750c28edd7b49ac0793e2a8cf0ddfe02fcdc68740ebc349a727b8c584e60006ec63e6c9fa5123210ab52898e69b91835f1ac38afd
-  languageName: node
-  linkType: hard
-
-"@types/node@npm:16.11.7":
-  version: 16.11.7
-  resolution: "@types/node@npm:16.11.7"
-  checksum: 2706403e6efc4aa40fdce8f0b5d9884d5600c3c8610aedc7fa5e7e298d30366f7e8b7296028d52898dca3edef4c3e827b03bf20952c4780f13fa4e79864f7a86
   languageName: node
   linkType: hard
 
@@ -5216,21 +5209,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:0.21.4, axios@npm:^0.21.1":
-  version: 0.21.4
-  resolution: "axios@npm:0.21.4"
-  dependencies:
-    follow-redirects: ^1.14.0
-  checksum: 44245f24ac971e7458f3120c92f9d66d1fc695e8b97019139de5b0cc65d9b8104647db01e5f46917728edfc0cfd88eb30fc4c55e6053eef4ace76768ce95ff3c
-  languageName: node
-  linkType: hard
-
 "axios@npm:0.24.0":
   version: 0.24.0
   resolution: "axios@npm:0.24.0"
   dependencies:
     follow-redirects: ^1.14.4
   checksum: 468cf496c08a6aadfb7e699bebdac02851e3043d4e7d282350804ea8900e30d368daa6e3cd4ab83b8ddb5a3b1e17a5a21ada13fc9cebd27b74828f47a4236316
+  languageName: node
+  linkType: hard
+
+"axios@npm:^0.21.1":
+  version: 0.21.4
+  resolution: "axios@npm:0.21.4"
+  dependencies:
+    follow-redirects: ^1.14.0
+  checksum: 44245f24ac971e7458f3120c92f9d66d1fc695e8b97019139de5b0cc65d9b8104647db01e5f46917728edfc0cfd88eb30fc4c55e6053eef4ace76768ce95ff3c
   languageName: node
   linkType: hard
 
@@ -5664,16 +5657,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bson@npm:^4.2.2, bson@npm:^4.5.1":
-  version: 4.5.2
-  resolution: "bson@npm:4.5.2"
-  dependencies:
-    buffer: ^5.6.0
-  checksum: 23d8232c5df0a09176636e9855f5d9bf7daef9472737b4ec85e3eca06eac0042a9f59409b6e7009b27a524c80b82738a6b6fa76fe41aa26c7d1b9287ec58c49f
-  languageName: node
-  linkType: hard
-
-"bson@npm:^4.5.4":
+"bson@npm:^4.2.2, bson@npm:^4.5.1, bson@npm:^4.5.4":
   version: 4.5.4
   resolution: "bson@npm:4.5.4"
   dependencies:
@@ -6189,7 +6173,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"class-transformer@npm:^0.4.0":
+"class-transformer@npm:0.4.0, class-transformer@npm:^0.4.0":
   version: 0.4.0
   resolution: "class-transformer@npm:0.4.0"
   checksum: 4057346b512705b1a5a68025b025a5be1ff847d7e0e76e82bbb937f832cf6235c5f66e874487d4bd35d67401411e8a3279c9d36bdd8c800336d5507ee6e94af0
@@ -6208,7 +6192,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"class-validator@npm:^0.13.1":
+"class-validator@npm:0.13.1, class-validator@npm:^0.13.1":
   version: 0.13.1
   resolution: "class-validator@npm:0.13.1"
   dependencies:
@@ -15595,7 +15579,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"reflect-metadata@npm:^0.1.13":
+"reflect-metadata@npm:0.1.13, reflect-metadata@npm:^0.1.13":
   version: 0.1.13
   resolution: "reflect-metadata@npm:0.1.13"
   checksum: 798d379a7b6f6455501145419505c97dd11cbc23857a386add2b9ef15963ccf15a48d9d15507afe01d4cd74116df8a213247200bac00320bd7c11ddeaa5e8fb4
@@ -15971,12 +15955,12 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"rxjs@npm:^7.2.0, rxjs@npm:^7.3.0":
-  version: 7.3.0
-  resolution: "rxjs@npm:7.3.0"
+"rxjs@npm:7.4.0, rxjs@npm:^7.2.0, rxjs@npm:^7.3.0":
+  version: 7.4.0
+  resolution: "rxjs@npm:7.4.0"
   dependencies:
     tslib: ~2.1.0
-  checksum: e63adb8808ea6c299a020d56d2af92bcf71efe641adf838499932e29b8f5fd5ff00873653ad48ba3ecf6c9fc11c3c595acf995e8d456f9d8cb85c7d37a1fd72e
+  checksum: 6b33172a760dcad6882fdc836ee8cf1ebe160dd7eaad95c45a12338ffdaa96eb41e48e6c25bbd3d1fdf45075949ff447954bc17a9d01c688558a67967d09c114
   languageName: node
   linkType: hard
 
@@ -16464,16 +16448,15 @@ fsevents@^1.2.7:
   version: 0.0.0-use.local
   resolution: "shared@workspace:shared"
   dependencies:
+    "@nestjs/common": 8.2.0
+    "@nestjs/core": 8.1.1
     "@nestjs/swagger": 5.1.4
     "@types/node": 16.11.7
-  peerDependencies:
-    "@nestjs/common": ^8.1.1
-    "@nestjs/core": ^8.1.1
-    class-transformer: ^0.4.0
-    class-validator: ^0.13.1
-    reflect-metadata: ^0.1.13
-    rxjs: ^7.4.0
-    typescript: ^4.4.4
+    class-transformer: 0.4.0
+    class-validator: 0.13.1
+    reflect-metadata: 0.1.13
+    rxjs: 7.4.0
+    typescript: 4.4.4
   languageName: unknown
   linkType: soft
 
