@@ -8902,7 +8902,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["vue", "npm:2.6.14"],
             ["vue-material-design-icons", "npm:4.13.0"],
             ["vue-template-compiler", "npm:2.6.14"],
-            ["vue2-datepicker", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:3.10.2"],
+            ["vue2-datepicker", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:3.10.3"],
             ["vuex", "virtual:b703fe309445e73be0544c0731c064bd8abfb48eba238ef60c1180739300244272080b53495cbb64a2ec07139667d15d2f5ce81fb8e0f1ce36343b35ebd9836e#npm:3.6.2"],
             ["vuex-persistedstate", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:4.1.0"],
             ["webpack", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:5.64.1"],
@@ -23590,17 +23590,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["vue2-datepicker", [
-        ["npm:3.10.2", {
-          "packageLocation": "./.yarn/cache/vue2-datepicker-npm-3.10.2-389931bc30-a6027ae8c3.zip/node_modules/vue2-datepicker/",
+        ["npm:3.10.3", {
+          "packageLocation": "./.yarn/cache/vue2-datepicker-npm-3.10.3-0802946667-04024fc2b3.zip/node_modules/vue2-datepicker/",
           "packageDependencies": [
-            ["vue2-datepicker", "npm:3.10.2"]
+            ["vue2-datepicker", "npm:3.10.3"]
           ],
           "linkType": "SOFT",
         }],
-        ["virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:3.10.2", {
-          "packageLocation": "./.yarn/__virtual__/vue2-datepicker-virtual-69f3327c19/0/cache/vue2-datepicker-npm-3.10.2-389931bc30-a6027ae8c3.zip/node_modules/vue2-datepicker/",
+        ["virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:3.10.3", {
+          "packageLocation": "./.yarn/__virtual__/vue2-datepicker-virtual-c465c0c470/0/cache/vue2-datepicker-npm-3.10.3-0802946667-04024fc2b3.zip/node_modules/vue2-datepicker/",
           "packageDependencies": [
-            ["vue2-datepicker", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:3.10.2"],
+            ["vue2-datepicker", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:3.10.3"],
             ["@types/vue", null],
             ["date-format-parse", "npm:0.2.7"],
             ["vue", "npm:2.6.14"]
