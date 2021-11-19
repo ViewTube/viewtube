@@ -3,6 +3,29 @@
 This file is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.9.0] - 2021-11-19
+
+## Fixed
+
+- Subscribe button reliability [#941](https://github.com/ViewTube/viewtube-vue/pull/941)
+- Encoding for search autocomplete [#929](https://github.com/ViewTube/viewtube-vue/pull/929)
+- Video playback on ios [#917](https://github.com/ViewTube/viewtube-vue/pull/766)
+- Disable CSP on non-https instances [#1070](https://github.com/ViewTube/viewtube-vue/pull/1070)
+- Disable some unnecessarily heavy database requests to improve performance [#1102](https://github.com/ViewTube/viewtube-vue/pull/1102)
+- Improve CI and build performance [#1081](https://github.com/ViewTube/viewtube-vue/pull/1081)
+- Dont set secure cookie on non-https connections [#1071](https://github.com/ViewTube/viewtube-vue/pull/1071)
+- Other small bugfixes
+
+## Added
+
+- High quality video support using MPEG-DASH [#912](https://github.com/ViewTube/viewtube-vue/pull/912)
+- Video player keybindings [#932](https://github.com/ViewTube/viewtube-vue/pull/932)
+- Add CSV import for youtube takeout format (thanks to @cyacedev) [#984](https://github.com/ViewTube/viewtube-vue/pull/984)
+- Add healthcheck for docker [45ceb45](https://github.com/ViewTube/viewtube-vue/commit/45ceb454ab203fba1d9ee18ee3a584112ab5a6de)
+- Switched to a yarn 2 monorepo using pnp [#988](https://github.com/ViewTube/viewtube-vue/pull/988)
+- Reduce required environment variables [#1067](https://github.com/ViewTube/viewtube-vue/pull/1067)
+- Lots of dependency upgrades
+
 ## [0.8.0] - 2021-08-29
 
 ## Fixed
@@ -178,7 +201,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial release
 
-[unreleased]: https://github.com/viewtube/viewtube-vue/compare/v0.8.0...development
+[unreleased]: https://github.com/viewtube/viewtube-vue/compare/v0.9.0...development
+[0.9.0]: https://github.com/viewtube/viewtube-vue/compare/v0.8.0...v0.9.0
 [0.8.0]: https://github.com/viewtube/viewtube-vue/compare/v0.7.0...v0.8.0
 [0.7.0]: https://github.com/viewtube/viewtube-vue/compare/v0.6.1...v0.7.0
 [0.6.1]: https://github.com/viewtube/viewtube-vue/compare/v0.6.0...v0.6.1

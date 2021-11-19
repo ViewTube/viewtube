@@ -63,8 +63,8 @@ steps:
       cache_from: "mauriceo/viewtube:latest"
       tags:
         - latest
-        - "0.8.0"
-        - "0.8"
+        - "0.9.0"
+        - "0.9"
       username:
         from_secret: docker_username
       password:
