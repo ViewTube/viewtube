@@ -3372,7 +3372,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:16.11.7":
+"@types/node@npm:*":
   version: 16.11.7
   resolution: "@types/node@npm:16.11.7"
   checksum: 2706403e6efc4aa40fdce8f0b5d9884d5600c3c8610aedc7fa5e7e298d30366f7e8b7296028d52898dca3edef4c3e827b03bf20952c4780f13fa4e79864f7a86
@@ -3383,6 +3383,13 @@ __metadata:
   version: 12.20.12
   resolution: "@types/node@npm:12.20.12"
   checksum: 9e4ef12f52bbf6c1df7534e750c28edd7b49ac0793e2a8cf0ddfe02fcdc68740ebc349a727b8c584e60006ec63e6c9fa5123210ab52898e69b91835f1ac38afd
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:16.11.9":
+  version: 16.11.9
+  resolution: "@types/node@npm:16.11.9"
+  checksum: baec2e6471ee58fd1e9874e6f47ab95a918a0f46b42424392e4c13e3e07f078f8b72b6b48073b0b14f710ed66c5f1b2e497df43f28151000f11f5f299382cfe2
   languageName: node
   linkType: hard
 
@@ -6285,7 +6292,7 @@ __metadata:
     "@nuxtjs/pwa": 3.3.5
     "@nuxtjs/router": 1.6.1
     "@nuxtjs/style-resources": 1.2.1
-    "@types/node": 16.11.7
+    "@types/node": 16.11.9
     "@types/papaparse": 5.3.1
     "@types/sass": 1.43.0
     "@typescript-eslint/eslint-plugin": 5.4.0
@@ -16315,7 +16322,7 @@ fsevents@^1.2.7:
     "@types/jest": 27.0.2
     "@types/module-alias": 2.0.1
     "@types/multer": 1.4.7
-    "@types/node": 16.11.7
+    "@types/node": 16.11.9
     "@types/node-fetch": 3.0.3
     "@types/passport-jwt": 3.0.6
     "@types/passport-local": 1.0.34
@@ -16451,7 +16458,7 @@ fsevents@^1.2.7:
     "@nestjs/common": 8.2.0
     "@nestjs/core": 8.1.1
     "@nestjs/swagger": 5.1.4
-    "@types/node": 16.11.7
+    "@types/node": 16.11.9
     class-transformer: 0.4.0
     class-validator: 0.13.1
     reflect-metadata: 0.1.13
