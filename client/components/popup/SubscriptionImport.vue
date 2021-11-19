@@ -23,17 +23,15 @@
               >.
             </li>
             <li>You may be asked to sign in.</li>
-            <li>Download the file with the name "subscription_manager".</li>
-            <li>Upload it here.</li>
+            <li>
+              Request a takeout for youtube data (you can customize the options to limit only to
+              subscriptions)
+            </li>
+            <li>Upload the file "subscriptions.csv" here.</li>
           </ol>
-          <input
-            id="youtube-file-upload"
-            type="file"
-            name="file-upload"
-            multiple="false"
-            @change="onYoutubeSubscriptionFileChange"
-          />
-          <p>Also supports invidious opml exports.</p>
+          <FileButton :label="'Upload CSV'" @change="onYTTakeoutFileChange"  />
+          <h2><XmlIcon />Import from Invidious / OPML</h2>
+          <FileButton :label="'Upload OPML'" @change="onOPMLFileChange"  />
         </div>
         <div
           v-if="subscriptionsToImport && subscriptionsToImport.length > 0"
@@ -132,9 +130,11 @@ import ImportIcon from 'vue-material-design-icons/Import.vue';
 import SelectAllIcon from 'vue-material-design-icons/SelectAll.vue';
 import ExternalIcon from 'vue-material-design-icons/OpenInNew.vue';
 import UnselectAllIcon from 'vue-material-design-icons/Select.vue';
+import XmlIcon from 'vue-material-design-icons/Xml.vue';
 import { computed, defineComponent, ref } from '@nuxtjs/composition-api';
 import CheckBox from '@/components/form/CheckBox.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
+import FileButton from '@/components/form/FileButton.vue';
 import SubscriptionConverter from '@/plugins/services/subscriptionConverter';
 import Spinner from '@/components/Spinner.vue';
 import '@/assets/styles/popup.scss';
@@ -154,84 +154,74 @@ export default defineComponent({
     YoutubeIcon,
     CheckBox,
     BadgeButton,
+    FileButton,
     ImportIcon,
     SelectAllIcon,
     UnselectAllIcon,
     Spinner,
-    ExternalIcon
+    ExternalIcon,
+    XmlIcon
   },
   setup(_, { emit }) {
     const axios = useAxios();
     const accessor = useAccessor();
 
-    const youtubeSubscriptionUrl = ref(
-      'https://www.youtube.com/subscription_manager?action_takeout=1'
-    );
+    const youtubeSubscriptionUrl = ref('https://takeout.google.com');
     const page2 = ref(false);
     const page3 = ref(false);
     const subscriptionsToImport = ref(null);
     const loading = ref(false);
     const importedSubscriptions = ref(null);
 
-    const selectedChannels = computed(
-      (): Array<ChannelDto> => {
-        return subscriptionsToImport.value.filter((e: { selected: any }) => e.selected);
-      }
-    );
+    const selectedChannels = computed((): Array<ChannelDto> => {
+      return subscriptionsToImport.value.filter((e: { selected: any }) => e.selected);
+    });
     const anySelectedChannel = computed((): boolean => {
       return !(selectedChannels.value.length > 0);
     });
 
-    const successfulMergedImports = computed(
-      (): Array<ChannelDto> => {
-        if (importedSubscriptions.value && importedSubscriptions.value.successful) {
-          return importedSubscriptions.value.successful.map((el: { channelId: any }) => {
-            const authorObj = subscriptionsToImport.value.find(
-              (val: { authorId: any }) => val.authorId === el.channelId
-            );
-            return {
-              authorId: el.channelId,
-              author: authorObj ? authorObj.author : null
-            };
-          });
-        }
-        return [];
+    const successfulMergedImports = computed((): Array<ChannelDto> => {
+      if (importedSubscriptions.value && importedSubscriptions.value.successful) {
+        return importedSubscriptions.value.successful.map((el: { channelId: any }) => {
+          const authorObj = subscriptionsToImport.value.find(
+            (val: { authorId: any }) => val.authorId === el.channelId
+          );
+          return {
+            authorId: el.channelId,
+            author: authorObj ? authorObj.author : null
+          };
+        });
       }
-    );
+      return [];
+    });
 
-    const existingMergedImports = computed(
-      (): Array<ChannelDto> => {
-        if (importedSubscriptions.value && importedSubscriptions.value.existing) {
-          return importedSubscriptions.value.existing.map(el => {
-            const authorObj = subscriptionsToImport.value.find(
-              val => val.authorId === el.channelId
-            );
-            return {
-              authorId: el.channelId,
-              author: authorObj ? authorObj.author : null
-            };
-          });
-        }
-        return [];
+    const existingMergedImports = computed((): Array<ChannelDto> => {
+      if (importedSubscriptions.value && importedSubscriptions.value.existing) {
+        return importedSubscriptions.value.existing.map(el => {
+          const authorObj = subscriptionsToImport.value.find(val => val.authorId === el.channelId);
+          return {
+            authorId: el.channelId,
+            author: authorObj ? authorObj.author : null
+          };
+        });
       }
-    );
+      return [];
+    });
 
-    const failedMergedImports = computed(
-      (): Array<ChannelDto> => {
-        if (importedSubscriptions.value && importedSubscriptions.value.failed) {
-          return importedSubscriptions.value.failed.map((el: { channelId: any }) => {
-            const authorObj = subscriptionsToImport.value.find(
-              (val: { authorId: any }) => val.authorId === el.channelId
-            );
-            return {
-              authorId: el.channelId,
-              author: authorObj ? authorObj.author : null
-            };
-          });
-        }
-        return [];
+    const failedMergedImports = computed((): Array<ChannelDto> => {
+      if (importedSubscriptions.value && importedSubscriptions.value.failed) {
+        return importedSubscriptions.value.failed.map((el: { channelId: any }) => {
+          const authorObj = subscriptionsToImport.value.find(
+            (val: { authorId: any }) => val.authorId === el.channelId
+          );
+          return {
+            authorId: el.channelId,
+            author: authorObj ? authorObj.author : null
+          };
+        });
       }
-    );
+      return [];
+    });
 
     const onTryClosePopup = () => {
       if (!(page2.value || page2.value)) {
@@ -239,19 +229,62 @@ export default defineComponent({
       }
     };
 
-    const onYoutubeSubscriptionFileChange = (e: any) => {
-      const fileReader: any = new FileReader();
+    const onYTTakeoutFileChange = (e: any) => {
+      const fileReader = new FileReader();
       fileReader.onload = () => {
-        subscriptionsToImport.value = SubscriptionConverter.convertFromYoutubeOPMLToJson(
-          fileReader.result
-        )
-          .sort((a: { author: string }, b: { author: string }) => a.author.localeCompare(b.author))
-          .map(({ author, authorId }) => ({
-            author,
-            authorId,
-            selected: true
-          }));
-        page2.value = true;
+        if (e.target.files[0].name.includes('.csv')) {
+          subscriptionsToImport.value = SubscriptionConverter.convertFromCSVToJson(
+            fileReader.result as string
+          );
+        }
+        if (subscriptionsToImport.value === undefined) {
+          accessor.messages.createMessage({
+            type: 'error',
+            title: 'Invalid or Empty CSV',
+            message: 'Please check your file'
+          });
+        } else {
+          subscriptionsToImport.value
+            .sort((a: { author: string }, b: { author: string }) =>
+              a.author.localeCompare(b.author)
+            )
+            .map(({ author, authorId }) => ({
+              author,
+              authorId,
+              selected: true
+            }));
+
+          page2.value = true;
+        }
+      };
+      fileReader.readAsText(e.target.files[0]);
+    };
+
+    const onOPMLFileChange = (e: any) => {
+      const fileReader = new FileReader();
+      fileReader.onload = () => {
+        subscriptionsToImport.value = SubscriptionConverter.convertFromOPMLToJson(
+          fileReader.result as string
+        );
+        if (subscriptionsToImport.value === undefined) {
+          accessor.messages.createMessage({
+            type: 'error',
+            title: 'Invalid or Empty OPML',
+            message: 'Please check your file'
+          });
+        } else {
+          subscriptionsToImport.value
+            .sort((a: { author: string }, b: { author: string }) =>
+              a.author.localeCompare(b.author)
+            )
+            .map(({ author, authorId }) => ({
+              author,
+              authorId,
+              selected: true
+            }));
+
+          page2.value = true;
+        }
       };
       fileReader.readAsText(e.target.files[0]);
     };
@@ -310,7 +343,8 @@ export default defineComponent({
       existingMergedImports,
       failedMergedImports,
       onTryClosePopup,
-      onYoutubeSubscriptionFileChange,
+      onYTTakeoutFileChange,
+      onOPMLFileChange,
       channelCheckBoxChanged,
       selectAll,
       unselectAll,

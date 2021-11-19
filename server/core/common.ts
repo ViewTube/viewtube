@@ -1,5 +1,5 @@
 import { Sorting } from 'server/common/sorting.type';
-import { VideoThumbnailDto } from 'shared/dto/video/video-thumbnail.dto';
+import { VideoThumbnailDto } from 'viewtube/shared/dto/video/video-thumbnail.dto';
 import { AuthorThumbnailDto } from '../../shared/dto/video/author-thumbnail.dto';
 
 export class Common {

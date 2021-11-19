@@ -15,3 +15,52 @@ export const getSecondsFromTimestamp = (timestamp: string) => {
 
   return seconds;
 };
+
+/**
+ * Checks the protocol, parsed from the VIEWTUBE_URL environment variable.
+ * @returns {boolean}
+ * @throws Throws an error if VIEWTUBE_URL is undefined or an invalid URL.
+ */
+export const isHttps = (): boolean => new URL(getApiUrl()).protocol === 'https:';
+
+/**
+ * Returns the api url, parsed from the VIEWTUBE_URL environment variable.
+ * @returns {string}
+ * @throws Throws an error if VIEWTUBE_URL is undefined or an invalid URL.
+ */
+export const getApiUrl = (): string => {
+  const urlEnv = process.env.VIEWTUBE_URL;
+
+  if (urlEnv) {
+    try {
+      const urlObj = new URL(urlEnv);
+      urlObj.pathname = 'api/';
+      const url = urlObj.href;
+      return url;
+    } catch (error) {
+      throw new Error(`Error parsing VIEWTUBE_URL, make sure it is a valid URL.\n${error}`);
+    }
+  } else {
+    throw new Error('Unable to find domain, VIEWTUBE_URL may not be defined');
+  }
+};
+
+/**
+ * Returns the domain (hostname), parsed from the VIEWTUBE_URL environment variable.
+ * @returns {string}
+ * @throws Throws an error if VIEWTUBE_URL is undefined or an invalid URL.
+ */
+export const getViewtubeDomain = (): string => {
+  const urlEnv = process.env.VIEWTUBE_URL;
+
+  if (urlEnv) {
+    try {
+      const urlObj = new URL(urlEnv);
+      return urlObj.hostname;
+    } catch (error) {
+      throw new Error(`Error parsing VIEWTUBE_URL, make sure it is a valid URL.\n${error}`);
+    }
+  } else {
+    throw new Error('Unable to find domain, VIEWTUBE_URL may not be defined');
+  }
+};

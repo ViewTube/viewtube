@@ -124,13 +124,7 @@ import DeleteSimpleIcon from 'vue-material-design-icons/Delete.vue';
 import SettingsIcon from 'vue-material-design-icons/Cog.vue';
 import HistoryIcon from 'vue-material-design-icons/History.vue';
 import RestartOffIcon from 'vue-material-design-icons/RestartOff.vue';
-import {
-  defineComponent,
-  ref,
-  useFetch,
-  useMeta,
-  useRouter
-} from '@nuxtjs/composition-api';
+import { defineComponent, ref, useFetch, useMeta, useRouter } from '@nuxtjs/composition-api';
 import Confirmation from '@/components/popup/Confirmation.vue';
 import SectionTitle from '@/components/SectionTitle.vue';
 import FormInput from '@/components/form/FormInput.vue';
@@ -310,7 +304,6 @@ export default defineComponent({
             }
           })
           .catch((_: any) => {
-            console.log(_);
             accessor.messages.createMessage({
               type: 'error',
               title: 'Error loading profile',

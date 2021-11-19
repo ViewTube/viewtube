@@ -10,6 +10,7 @@ import { MediaMetadataHelper } from './mediaMetadata';
 import { calculateSeekPercentage, matchSeekProgressPercentage, seekbarFunctions } from './seekbar';
 import { parseChapters } from './chapters';
 import { destroyInstance, initializeHlsStream, isHlsNative, isHlsSupported } from './hlsHelper';
+import { DashHelper } from './dash';
 import { commons } from '@/plugins/commons';
 // import dashjs from 'dashjs';
 import { SponsorBlock } from '@/plugins/services/sponsorBlock';
@@ -18,6 +19,7 @@ import { useAccessor } from '@/store';
 import { useFormatting } from '@/plugins/formatting';
 import { useAxios } from '@/plugins/axiosPlugin';
 import { useImgProxy } from '@/plugins/proxy';
+import { createComputed } from '@/plugins/computed';
 
 export const videoPlayerSetup = (props: any, emit: Function) => {
   const accessor = useAccessor();
@@ -31,8 +33,6 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
   // const dashBitrates = ref(null);
 
   const touchAction = ref(false);
-
-  const selectedQuality = ref(1);
 
   const playerOverlay = reactive({
     visible: false,
@@ -76,7 +76,7 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
     visible: false
   });
 
-  const highestVideoQuality = ref(null);
+  const highestLegacyQuality = ref(null);
 
   const mediaMetadataHelper = new MediaMetadataHelper(props.video);
 
@@ -89,6 +89,43 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
 
   const touchActionTimeout = ref(null);
 
+  const dashHelper = ref<DashHelper>(null);
+
+  const videoQualityList = createComputed(() => {
+    if (dashHelper.value && dashHelper.value.isFullyInitialized) {
+      return dashHelper.value.getVideoQualityList();
+    } else {
+      return props.video.legacyFormats;
+    }
+  });
+
+  const audioQualityList = createComputed(() => {
+    if (dashHelper.value && dashHelper.value.isFullyInitialized) {
+      return dashHelper.value.getAudioQualityList();
+    }
+  });
+
+  const selectedLegacyQuality = ref(0);
+
+  const selectedVideoQuality = createComputed(() => {
+    if (dashHelper.value && dashHelper.value.isFullyInitialized) {
+      return dashHelper.value.currentVideoQuality;
+    }
+    return selectedLegacyQuality.value;
+  });
+
+  const selectedAudioQuality = createComputed(() => {
+    if (dashHelper.value && dashHelper.value.isFullyInitialized) {
+      return dashHelper.value.currentAudioQuality;
+    }
+  });
+
+  const renderedVideoQuality = createComputed(() => {
+    if (dashHelper.value && dashHelper.value.isFullyInitialized) {
+      return dashHelper.value.renderedVideoQuality;
+    }
+  });
+
   const doTouchAction = () => {
     touchAction.value = true;
     if (touchActionTimeout.value) {
@@ -99,12 +136,10 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
     }, 400);
   };
 
-  highestVideoQuality.value = '#';
-  if (props.video.formatStreams) {
-    let qualityIndex = 0;
-    const videoFormat = props.video.formatStreams.find((e: any, index: number) => {
+  highestLegacyQuality.value = '#';
+  if (props.video.legacyFormats) {
+    const videoFormat = props.video.legacyFormats.find((e: any) => {
       if (e.qualityLabel) {
-        qualityIndex = index;
         if (e.qualityLabel === '1080p') {
           return true;
         } else if (e.qualityLabel === '720p') {
@@ -114,11 +149,10 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
       return false;
     });
     if (videoFormat && videoFormat.url) {
-      highestVideoQuality.value = videoFormat.url;
-    } else if (props.video.formatStreams.length > 0) {
-      highestVideoQuality.value = props.video.formatStreams[0].url;
+      highestLegacyQuality.value = videoFormat.url;
+    } else if (props.video.legacyFormats.length > 0) {
+      highestLegacyQuality.value = props.video.legacyFormats[0].url;
     }
-    selectedQuality.value = qualityIndex;
   }
 
   const chapters = ref(null);
@@ -204,19 +238,70 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
 
   const onWindowKeyDown = (e: KeyboardEvent) => {
     if (videoRef.value) {
-      if (e.key === ' ') {
-        toggleVideoPlayback();
-        e.preventDefault();
-      } else if (e.key === 'ArrowRight') {
-        seekForward(5);
-      } else if (e.key === 'ArrowLeft') {
-        seekBackward(5);
-      } else if (e.key === 'ArrowUp') {
-        increaseVolume(0.1);
-        e.preventDefault();
-      } else if (e.key === 'ArrowDown') {
-        decreaseVolume(0.1);
-        e.preventDefault();
+      switch (e.key) {
+        case ' ':
+        case 'k':
+          toggleVideoPlayback();
+          e.preventDefault();
+          break;
+        case 'ArrowRight':
+          seekForward(5);
+          break;
+        case 'ArrowLeft':
+          seekBackward(5);
+          break;
+        case 'ArrowUp':
+          increaseVolume(0.1);
+          e.preventDefault();
+          break;
+        case 'ArrowDown':
+          decreaseVolume(0.1);
+          e.preventDefault();
+          break;
+        case 'j':
+          seekBackward(10);
+          break;
+        case 'l':
+          seekForward(10);
+          break;
+        case 'm':
+          videoRef.value.muted = !videoRef.value.muted;
+          break;
+        case 'f':
+          onSwitchFullscreen();
+          break;
+        case '.':
+          if (!videoElement.playing) {
+            videoRef.value.currentTime = videoRef.value.currentTime + 1 / 30;
+          }
+          break;
+        case ',':
+          if (!videoElement.playing) {
+            videoRef.value.currentTime = videoRef.value.currentTime - 1 / 30;
+          }
+          break;
+        case '>': {
+          let newSpeed = videoRef.value.playbackRate + 0.2;
+          newSpeed = newSpeed < 3 ? newSpeed : 3;
+          videoRef.value.playbackRate = newSpeed;
+          videoRef.value.defaultPlaybackRate = newSpeed;
+          break;
+        }
+        case '<': {
+          let newSpeed = videoRef.value.playbackRate - 0.2;
+          newSpeed = newSpeed > 0.1 ? newSpeed : 0.1;
+          videoRef.value.playbackRate = newSpeed;
+          videoRef.value.defaultPlaybackRate = newSpeed;
+          break;
+        }
+        case (e.key.match(/\d/) && e.key.match(/\d/).input) || {}: {
+          const skipInterval = videoRef.value.duration / 10;
+          const amount = parseInt(e.key);
+          videoRef.value.currentTime = skipInterval * amount;
+          break;
+        }
+        default:
+          break;
       }
     }
   };
@@ -334,15 +419,11 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
   };
 
   const onLoadingProgress = () => {
-    if (videoRef.value) {
+    if (videoRef.value && videoRef.value.buffered.length) {
       const videoBufferedMaxTimeRange = videoRef.value.buffered.length - 1;
-      if (videoBufferedMaxTimeRange && videoBufferedMaxTimeRange > 0) {
-        const loadingPercentage =
-          (videoRef.value.buffered.end(videoRef.value.buffered.length - 1) /
-            videoRef.value.duration) *
-          100;
-        videoElement.loadingPercentage = loadingPercentage;
-      }
+      const loadingPercentage =
+        (videoRef.value.buffered.end(videoBufferedMaxTimeRange) / videoRef.value.duration) * 100;
+      videoElement.loadingPercentage = loadingPercentage;
     }
   };
 
@@ -395,18 +476,6 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
   const onLoaded = () => {
     loading.value = false;
   };
-
-  // const loadDashVideo = () => {
-  //   if (videoRef.value) {
-  //     let url = `${store.getters['instances/currentInstanceApi']}manifest/dash/id/${props.video.videoId}?local=true`;
-  //     if (props.video.dashUrl) {
-  //       url = `${props.video.dashUrl}?local=true`;
-  //     }
-  //     dashPlayer.value = dashjs.MediaPlayer().create();
-  //     dashPlayer.initialize(videoRef.value, url, false);
-  //     dashBitrates.value = dashPlayer.getBitrateInfoListFor('video');
-  //   }
-  // };
 
   // Interaction events
   const onVolumeInteraction = () => {};
@@ -696,16 +765,44 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
     saveVideoPosition(currentTime);
     if (props.video.liveNow) {
       await initializeHlsStream(
-        props.video.formatStreams[index].url,
+        props.video.legacyFormats[index].url,
         videoRef.value,
         accessor.environment.streamProxyUrl
       );
     } else {
-      videoRef.value.src = props.video.formatStreams[index].url;
+      videoRef.value.src = props.video.legacyFormats[index].url;
     }
     videoRef.value.currentTime = currentTime;
     videoRef.value.play();
-    selectedQuality.value = index;
+    selectedLegacyQuality.value = index;
+  };
+
+  const onAutoAdjustChange = () => {
+    if (dashHelper.value && dashHelper.value.isFullyInitialized) {
+      dashHelper.value.setAudioAutoSwitchingMode(accessor.settings.autoAdjustAudioQuality);
+      dashHelper.value.setVideoAutoSwitchingMode(accessor.settings.autoAdjustVideoQuality);
+    }
+  };
+
+  const onRefreshRecommendedQuality = (quality: number) => {
+    if (dashHelper.value && dashHelper.value.isFullyInitialized) {
+      const maxBitrate = dashHelper.value.getVideoQualityList()[quality];
+      dashHelper.value.setMaxBitrate(maxBitrate.bitrate);
+    }
+  };
+
+  const onChangeVideoQuality = (index: number) => {
+    if (dashHelper.value && dashHelper.value.isFullyInitialized) {
+      dashHelper.value.setVideoQuality(index);
+    } else {
+      onChangeQuality(index);
+    }
+  };
+
+  const onChangeAudioQuality = (index: number) => {
+    if (dashHelper.value) {
+      dashHelper.value.setAudioQuality(index);
+    }
   };
 
   const onChangeSpeed = (speed: number) => {
@@ -835,19 +932,26 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
     if (videoRef.value) {
       if (props.video.liveNow) {
         if (isHlsSupported()) {
-          console.log('hls initializing');
-
           await initializeHlsStream(
-            highestVideoQuality.value,
+            highestLegacyQuality.value,
             videoRef.value,
             accessor.environment.streamProxyUrl
           );
-          console.log('hls initialized');
+          selectedLegacyQuality.value = 0;
         } else if (isHlsNative(videoRef.value) && !isHlsSupported()) {
-          videoRef.value.src = highestVideoQuality.value;
+          videoRef.value.src = highestLegacyQuality.value;
         }
-      } else {
-        videoRef.value.src = highestVideoQuality.value;
+      } else if (process.browser) {
+        if (accessor.settings.dashPlaybackEnabled && window.MediaSource) {
+          // Using dashjs
+          const manifestUrl = `${accessor.environment.apiUrl}videos/manifest/dash/${props.video.videoId}`;
+          dashHelper.value = new DashHelper(videoRef.value, manifestUrl);
+
+          dashHelper.value.registerEventHandlers({ videoElement });
+        } else {
+          selectedLegacyQuality.value = 0;
+          videoRef.value.src = highestLegacyQuality.value;
+        }
       }
 
       videoAttrObserver.value = new MutationObserver(mutations => {
@@ -869,16 +973,17 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
     document.removeEventListener('keydown', onWindowKeyDown);
     destroyInstance();
   });
+
   return {
     imgProxyUrl: imgProxy.url,
     loading,
     fullscreen,
-    // dashPlayer,
     playerOverlay,
     videoElement,
     seekbar,
-    selectedQuality,
-    highestVideoQuality,
+    highestLegacyQuality,
+    videoQualityList,
+    audioQualityList,
     videoUrl,
     playerOverlayVisible,
     videoPlayerRef,
@@ -891,6 +996,9 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
     chapters,
     sponsorBlockSegments,
     skipButton,
+    selectedVideoQuality,
+    selectedAudioQuality,
+    renderedVideoQuality,
     getChapterForPercentage,
     onLoadedMetadata,
     onPlaybackProgress,
@@ -937,9 +1045,12 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
     onSeekbarClick,
     onPlayerClick,
     onChangeQuality,
+    onChangeVideoQuality,
+    onChangeAudioQuality,
     onChangeLoop,
     onChangeSpeed,
-    // loadDashVideo,
-    setVideoTime
+    setVideoTime,
+    onAutoAdjustChange,
+    onRefreshRecommendedQuality
   };
 };

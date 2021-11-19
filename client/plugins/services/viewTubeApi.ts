@@ -23,31 +23,7 @@ export default class {
         url: 'channels'
       },
       videos: {
-        url: 'videos',
-        fields: [
-          'type',
-          'title',
-          'videoId',
-          'videoThumbnails',
-          'storyboards',
-          'description',
-          'descriptionHtml',
-          'publishedText',
-          'viewCount',
-          'likeCount',
-          'dislikeCount',
-          'paid',
-          'premium',
-          'isFamilyFriendly',
-          'author',
-          'authorId',
-          'authorThumbnails',
-          'subCountText',
-          'lengthSeconds',
-          'rating',
-          'formatStreams',
-          'recommendedVideos'
-        ]
+        url: 'videos'
       }
     }
   };

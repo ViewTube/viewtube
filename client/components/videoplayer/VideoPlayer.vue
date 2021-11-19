@@ -271,11 +271,17 @@
           <div class="right-bottom-controls">
             <VideoPlayerSettings
               ref="videoPlayerSettingsRef"
-              :formatStreams="video.formatStreams"
-              :selectedQuality="selectedQuality"
-              @qualityselect="onChangeQuality"
+              :videoQualityList="videoQualityList"
+              :audioQualityList="audioQualityList"
+              :selectedVideoQuality="selectedVideoQuality"
+              :selectedAudioQuality="selectedAudioQuality"
+              :renderedVideoQuality="renderedVideoQuality"
+              @videoqualityselect="onChangeVideoQuality"
+              @audioqualityselect="onChangeAudioQuality"
               @speedchange="onChangeSpeed"
               @loopchange="onChangeLoop"
+              @autoadjustchange="onAutoAdjustChange"
+              @refreshrecommended="onRefreshRecommendedQuality"
             />
             <FullscreenIcon
               v-if="!fullscreen"
@@ -447,7 +453,7 @@ button.pictureInPictureToggleButton {
   }
 
   .video-spinner {
-    position: absolute;
+    position: absolute !important;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);

@@ -1,6 +1,9 @@
 <template>
   <div class="video-player-settings" @mouseup.stop="onQualityMouseup">
-    <SettingsIcon @click.stop="onQualityInteraction" @touchend.stop="onQualityTouchInteraction" />
+    <div class="quality-icon">
+      <span class="quality-label-small">{{ smallQualityLabel }}</span>
+      <SettingsIcon @click.stop="onQualityInteraction" @touchend.stop="onQualityTouchInteraction" />
+    </div>
     <portal to="popup">
       <transition name="player-settings-popup">
         <div
@@ -14,31 +17,60 @@
             @click.stop="onQualityMouseup"
             @touchend.stop="onQualityMouseup"
           >
-            <div v-if="adaptiveFormats" class="player-settings-submenu adaptive">
-              <span class="player-settings-title"> <MagicIcon />Automatic quality </span>
-              <div
-                class="qualities-info"
-                :class="{ selected: selectedQuality === 0 }"
-                @click.stop="setAutoQuality"
-                @touchend.stop="onQualityTouchInteraction"
-              >
-                <p>Max: {{ maxAdaptiveQuality.qualityLabel }}</p>
-                <p>Min: {{ minAdaptiveQuality.qualityLabel }}</p>
-              </div>
-            </div>
-            <div class="player-settings-submenu">
+            <div v-if="videoQualityList" class="player-settings-submenu">
               <span class="player-settings-title"><HighDefinitionIcon />Video Quality</span>
+              <SwitchButton
+                :value="$accessor.settings.autoAdjustVideoQuality"
+                :label="'Automatically adjust'"
+                :disabled="false"
+                :right="true"
+                @valuechange="autoAdjustVideoQuality"
+              />
               <div
-                v-for="(quality, id) in formatQualities"
-                :key="id"
+                v-for="(quality, index) in videoQualityList"
+                :key="quality.qualityIndex ? quality.qualityIndex : index"
                 class="format-quality-entry"
                 :class="{
-                  selected: selectedQuality === id
+                  selected:
+                    quality.qualityIndex === selectedVideoQuality || index === selectedVideoQuality
                 }"
-                @click.stop="setFormatQuality(id)"
+                @click.stop="setVideoQuality(quality.qualityIndex ? quality.qualityIndex : index)"
                 @touchend.stop="onQualityTouchInteraction"
               >
-                {{ quality.qualityLabel }}
+                {{
+                  quality.width && quality.height
+                    ? `${quality.width}x${quality.height} - `
+                    : `${quality.qualityLabel} - `
+                }}
+                {{ $formatting.humanizeFileSize(quality.bitrate, true) }}/s
+                <span
+                  v-if="recommendedResolution && quality.qualityIndex === recommendedResolution"
+                  v-tippy="'Recommended for your screen size'"
+                  class="recommended-icon"
+                  ><CheckIcon
+                /></span>
+              </div>
+            </div>
+            <div v-if="audioQualityList" class="player-settings-submenu">
+              <span class="player-settings-title"><AudioDefinitionIcon />Audio Quality</span>
+              <SwitchButton
+                :value="$accessor.settings.autoAdjustAudioQuality"
+                :label="'Automatically adjust'"
+                :disabled="false"
+                :right="true"
+                @valuechange="autoAdjustAudioQuality"
+              />
+              <div
+                v-for="quality in audioQualityList"
+                :key="quality.qualityIndex"
+                class="format-quality-entry"
+                :class="{
+                  selected: quality.qualityIndex === selectedAudioQuality
+                }"
+                @click.stop="setAudioQuality(quality.qualityIndex)"
+                @touchend.stop="onQualityTouchInteraction"
+              >
+                {{ $formatting.humanizeFileSize(quality.bitrate, true) }}/s
               </div>
             </div>
             <div class="player-settings-submenu">
@@ -76,23 +108,30 @@
 <script lang="ts">
 import SettingsIcon from 'vue-material-design-icons/Cog.vue';
 import HighDefinitionIcon from 'vue-material-design-icons/HighDefinition.vue';
-import MagicIcon from 'vue-material-design-icons/AutoFix.vue';
-import { computed, defineComponent, onMounted, ref, watch } from '@nuxtjs/composition-api';
+import AudioDefinitionIcon from 'vue-material-design-icons/QualityHigh.vue';
+import CheckIcon from 'vue-material-design-icons/Check.vue';
+// import MagicIcon from 'vue-material-design-icons/AutoFix.vue';
+import { defineComponent, onBeforeUnmount, onMounted, ref, watch } from '@nuxtjs/composition-api';
 import SwitchButton from '@/components/buttons/SwitchButton.vue';
-import { useAccessor } from '~/store';
+import { useAccessor } from '@/store';
+import { createComputed } from '@/plugins/computed';
 
 export default defineComponent({
   name: 'QualitySelection',
   components: {
     SettingsIcon,
     HighDefinitionIcon,
-    MagicIcon,
+    AudioDefinitionIcon,
+    CheckIcon,
+    // MagicIcon,
     SwitchButton
   },
   props: {
-    selectedQuality: Number,
-    formatStreams: Array,
-    adaptiveFormats: { type: Array, required: false, default: null }
+    selectedVideoQuality: Number,
+    selectedAudioQuality: Number,
+    renderedVideoQuality: Number,
+    videoQualityList: Array,
+    audioQualityList: Array
   },
   setup(props, { emit }) {
     const accessor = useAccessor();
@@ -102,6 +141,15 @@ export default defineComponent({
 
     const loopVideo = ref(false);
     const videoSpeed = ref(1);
+
+    const recommendedResolution = ref(null);
+
+    const smallQualityLabel = createComputed(() => {
+      if (props.videoQualityList && props.renderedVideoQuality) {
+        const renderedQuality: any = props.videoQualityList[props.renderedVideoQuality];
+        return `${renderedQuality.width}x${renderedQuality.height}`;
+      }
+    });
 
     const changeVideoSpeed = (e: any) => {
       let speed = e.target.value;
@@ -123,63 +171,68 @@ export default defineComponent({
       emit('speedchange', newVal);
     });
 
+    const refreshRecommended = () => {
+      if (process.browser && props.videoQualityList) {
+        const sortedResArray: Array<any> = [...props.videoQualityList].sort((a: any, b: any) => {
+          const screenHeight = screen.height * window.devicePixelRatio;
+          const aDiff = Math.abs(a.height - screenHeight);
+          const bDiff = Math.abs(b.height - screenHeight);
+          return aDiff - bDiff;
+        });
+        recommendedResolution.value = sortedResArray[0].qualityIndex;
+        emit('refreshrecommended', recommendedResolution.value);
+      }
+    };
+
+    const autoAdjustVideoQuality = (val: boolean) => {
+      accessor.settings.setAutoAdjustVideoQuality(val);
+      emit('autoadjustchange');
+    };
+
+    const autoAdjustAudioQuality = (val: boolean) => {
+      accessor.settings.setAutoAdjustAudioQuality(val);
+      emit('autoadjustchange');
+    };
+
     onMounted(() => {
       loopVideo.value = accessor.settings.alwaysLoopVideo;
       videoSpeed.value = accessor.settings.defaultVideoSpeed;
-    });
 
-    const maxAdaptiveQuality = computed((): any => {
-      return sortedAdaptiveQualities.value.slice().reverse()[0];
-    });
-    const minAdaptiveQuality = computed((): any => {
-      return sortedAdaptiveQualities[0];
-    });
-    const formatQualities = computed((): any => {
-      return props.formatStreams.filter((el: any) => el.qualityLabel);
-    });
-    const sortedAdaptiveQualities = computed((): any => {
-      return adaptiveVideos.value
-        .slice()
-        .sort(
-          (a: { bitrate: string }, b: { bitrate: string }) =>
-            parseInt(a.bitrate) - parseInt(b.bitrate)
-        );
-    });
-    const adaptiveVideos = computed((): any => {
-      return props.adaptiveFormats.filter((value: any) => {
-        if (value.type) {
-          return value.type.match(/.*video.*/);
-        }
-        return false;
-      });
+      window.addEventListener('resize', refreshRecommended);
     });
 
     const onQualityInteraction = () => {
+      refreshRecommended();
       popup.value = !popup.value;
     };
 
     const onQualityMouseup = () => {};
     const onQualityTouchInteraction = () => {};
-    const setFormatQuality = (nr: number) => {
-      emit('qualityselect', nr);
+    const setVideoQuality = (index: number) => {
+      emit('videoqualityselect', index);
     };
-    const setAutoQuality = () => {};
+    const setAudioQuality = (index: number) => {
+      emit('audioqualityselect', index);
+    };
+
+    onBeforeUnmount(() => {
+      window.removeEventListener('resize', refreshRecommended);
+    });
 
     return {
       qualityUrl,
       popup,
       elementHeight,
-      maxAdaptiveQuality,
-      minAdaptiveQuality,
-      formatQualities,
-      sortedAdaptiveQualities,
-      adaptiveVideos,
       changeVideoSpeed,
+      recommendedResolution,
+      smallQualityLabel,
       onQualityInteraction,
       onQualityMouseup,
       onQualityTouchInteraction,
-      setFormatQuality,
-      setAutoQuality,
+      setVideoQuality,
+      setAudioQuality,
+      autoAdjustVideoQuality,
+      autoAdjustAudioQuality,
       loopVideo,
       videoSpeed
     };
@@ -212,11 +265,19 @@ export default defineComponent({
 $bottom-controls-height: $bottom-overlay-height - $video-seekbar-height;
 
 .video-player-settings {
-  width: 40px;
   height: 40px;
   margin: 0;
   align-self: center;
   position: relative;
+}
+
+.quality-icon {
+  display: flex;
+  flex-direction: row;
+
+  .quality-label-small {
+    margin: auto;
+  }
 }
 
 .player-settings-popup-overlay {
@@ -322,6 +383,7 @@ $bottom-controls-height: $bottom-overlay-height - $video-seekbar-height;
         border-radius: 3px;
         font-size: 0.9rem;
         box-sizing: border-box;
+        position: relative;
 
         &:first-of-type {
           margin-top: 6px;
@@ -339,6 +401,11 @@ $bottom-controls-height: $bottom-overlay-height - $video-seekbar-height;
 
         &.selected {
           background-color: var(--theme-color-translucent);
+        }
+
+        .recommended-icon {
+          position: absolute;
+          right: 40px;
         }
       }
 

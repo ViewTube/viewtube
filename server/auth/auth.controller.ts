@@ -19,14 +19,13 @@ export class AuthController {
     if (isLocal) {
       reply.send(tokenResponse);
     } else {
-      reply.code(204);
+      reply.code(204).send();
     }
   }
 
   @Post('logout')
   logout(@Res() reply: FastifyReply) {
     const cookie = this.authService.getDeletionCookie();
-    reply.header('Set-Cookie', cookie);
-    reply.code(200);
+    reply.header('Set-Cookie', cookie).code(204).send();
   }
 }

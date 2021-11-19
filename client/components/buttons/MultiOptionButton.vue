@@ -74,7 +74,8 @@ export default defineComponent({
 
   &.right {
     flex-direction: row-reverse;
-    width: 100% ;
+    width: 100%;
+    text-align: start;
 
     .label {
       flex-grow: 1;
@@ -114,7 +115,6 @@ export default defineComponent({
 
   .label {
     line-height: 32px;
-    text-align: center;
     margin: 0 0 0 10px;
     display: flex;
     flex-direction: row;

@@ -12,6 +12,7 @@ import {
   Query
 } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
+import Consola from 'consola';
 import { JwtAuthGuard } from 'server/auth/guards/jwt.guard';
 import { VideoBasicInfoDto } from 'server/core/videos/dto/video-basic-info.dto';
 import { ChannelBasicInfoDto } from 'server/core/channels/dto/channel-basic-info.dto';
@@ -46,8 +47,8 @@ export class SubscriptionsController {
     @Req() request: ViewTubeRequest,
     @Query('limit') limit = 30,
     @Query('start') start = 0,
-    @Query('sort') sort: string = '',
-    @Query('filter') filter: string = ''
+    @Query('sort') sort = '',
+    @Query('filter') filter = ''
   ): Promise<{ channels: Array<ChannelBasicInfoDto>; channelCount: number } | void> {
     const sortObj = Common.convertSortParams<ChannelBasicInfoDto>(sort);
     return this.subscriptionsService.getSubscribedChannels(
@@ -62,12 +63,22 @@ export class SubscriptionsController {
   @Get('videos')
   @ApiQuery({ name: 'limit', required: false })
   @ApiQuery({ name: 'start', required: false })
-  getSubscriptionVideos(
+  async getSubscriptionVideos(
     @Req() request: ViewTubeRequest,
     @Query('limit') limit = 30,
     @Query('start') start = 0
   ): Promise<{ videoCount: number; videos: Array<VideoBasicInfoDto> }> {
-    return this.subscriptionsService.getSubscriptionFeed(request.user.username, limit, start);
+    let feed = null;
+    try {
+      feed = await this.subscriptionsService.getSubscriptionFeed(
+        request.user.username,
+        limit,
+        start
+      );
+    } catch (error) {
+      Consola.error(error);
+    }
+    return feed;
   }
 
   @Get(':channelId')

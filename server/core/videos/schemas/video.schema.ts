@@ -1,9 +1,9 @@
 import { Document } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { VideoDto } from 'shared/dto/video/video.dto';
-import { RecommendedVideoDto } from 'shared/dto/video/recommended-video.dto';
-import { VideoThumbnailDto } from 'shared/dto/video/video-thumbnail.dto';
-import { AuthorThumbnailDto } from 'shared/dto/video/author-thumbnail.dto';
+import { VideoDto } from 'viewtube/shared/dto/video/video.dto';
+import { RecommendedVideoDto } from 'viewtube/shared/dto/video/recommended-video.dto';
+import { VideoThumbnailDto } from 'viewtube/shared/dto/video/video-thumbnail.dto';
+import { AuthorThumbnailDto } from 'viewtube/shared/dto/video/author-thumbnail.dto';
 
 // eslint-disable-next-line no-undef
 @Schema({ timestamps: true })
@@ -43,7 +43,7 @@ export class Video extends Document implements VideoDto {
   isUpcoming: boolean;
   dashUrl: string;
   adaptiveFormats: object[];
-  formatStreams: object[];
+  legacyFormats: object[];
   captions: object;
   recommendedVideos: RecommendedVideoDto[];
 }

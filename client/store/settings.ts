@@ -1,4 +1,5 @@
-import { actionTree, getterTree, mutationTree } from 'typed-vuex';
+import { getterTree, mutationTree } from 'typed-vuex';
+import { declareActionTree } from '@/plugins/actionTree.shim';
 
 type segmentOption = 'skip' | 'ask' | 'none';
 
@@ -186,7 +187,11 @@ export const state = () => ({
   autoplayNextVideo: false,
   audioModeDefault: false,
   defaultVideoSpeed: 1,
-  defaultVideoQuality: '720p'
+  defaultVideoQuality: '720p',
+  defaultAudioQuality: '192kb',
+  autoAdjustVideoQuality: true,
+  autoAdjustAudioQuality: true,
+  dashPlaybackEnabled: false
 });
 
 export const getters = getterTree(state, {
@@ -210,7 +215,11 @@ export const getters = getterTree(state, {
   autoplayNextVideo: state => state.autoplayNextVideo,
   audioModeDefault: state => state.audioModeDefault,
   defaultVideoSpeed: state => state.defaultVideoSpeed,
-  defaultVideoQuality: state => state.defaultVideoQuality
+  defaultVideoQuality: state => state.defaultVideoQuality,
+  defaultAudioQuality: state => state.defaultAudioQuality,
+  autoAdjustVideoQuality: state => state.autoAdjustVideoQuality,
+  autoAdjustAudioQuality: state => state.autoAdjustAudioQuality,
+  dashPlaybackEnabled: state => state.dashPlaybackEnabled
 });
 
 export const mutations = mutationTree(state, {
@@ -266,10 +275,22 @@ export const mutations = mutationTree(state, {
   },
   mutateDefaultVideoQuality(state, quality: string) {
     state.defaultVideoQuality = quality;
+  },
+  mutateDefaultAudioQuality(state, quality: string) {
+    state.defaultAudioQuality = quality;
+  },
+  mutateAutoAdjustVideoQuality(state, value: boolean) {
+    state.autoAdjustVideoQuality = value;
+  },
+  mutateAutoAdjustAudioQuality(state, value: boolean) {
+    state.autoAdjustAudioQuality = value;
+  },
+  mutateDashPlaybackEnabled(state, value: boolean) {
+    state.dashPlaybackEnabled = value;
   }
 });
 
-export const actions = actionTree(
+export const actions = declareActionTree(
   { state, getters, mutations },
   {
     async setTheme({ commit, dispatch }, theme) {
@@ -326,6 +347,22 @@ export const actions = actionTree(
     async setDefaultVideoQuality({ commit, dispatch }, quality: string) {
       commit('mutateDefaultVideoQuality', quality);
       await dispatch('doSettingsRequest', { settingsKey: 'defaultVideoQuality', value: quality });
+    },
+    async setDefaultAudioQuality({ commit, dispatch }, quality: string) {
+      commit('mutateDefaultAudioQuality', quality);
+      await dispatch('doSettingsRequest', { settingsKey: 'defaultAudioQuality', value: quality });
+    },
+    async setAutoAdjustVideoQuality({ commit, dispatch }, value: boolean) {
+      commit('mutateAutoAdjustVideoQuality', value);
+      await dispatch('doSettingsRequest', { settingsKey: 'autoAdjustVideoQuality', value });
+    },
+    async setAutoAdjustAudioQuality({ commit, dispatch }, value: boolean) {
+      commit('mutateAutoAdjustAudioQuality', value);
+      await dispatch('doSettingsRequest', { settingsKey: 'autoAdjustAudioQuality', value });
+    },
+    async setDashPlaybackEnabled({ commit, dispatch }, value: boolean) {
+      commit('mutateDashPlaybackEnabled', value);
+      await dispatch('doSettingsRequest', { settingsKey: 'dashPlaybackEnabled', value });
     },
     async storeSponsorblock({ getters }) {
       await this.$axios.put(

@@ -1,7 +1,6 @@
 import { ExceptionFilter, HttpException, ArgumentsHost, Catch } from '@nestjs/common';
 import { FastifyRequest, FastifyReply } from 'fastify';
-import { Nuxt } from 'nuxt';
-// import Consola from 'consola';
+import { Nuxt } from '@nuxt/core';
 
 @Catch()
 export class NuxtFilter implements ExceptionFilter {
@@ -29,7 +28,7 @@ export class NuxtFilter implements ExceptionFilter {
       delete (response as any).ignoreFilter;
       res.status(status).send(response);
     } else {
-      res.code(500);
+      res.code(500).send();
     }
   }
 }

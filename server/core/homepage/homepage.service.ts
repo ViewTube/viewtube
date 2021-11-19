@@ -6,6 +6,7 @@ import { Cache } from 'cache-manager';
 import Consola from 'consola';
 import { Model } from 'mongoose';
 import fetch from 'node-fetch';
+import { AppClusterService } from 'server/app-cluster.service';
 import { ChannelBasicInfo } from '../channels/schemas/channel-basic-info.schema';
 import { VideoBasicInfoDto } from '../videos/dto/video-basic-info.dto';
 import { PopularDto } from './dto/popular.dto';
@@ -26,13 +27,29 @@ export class HomepageService {
 
   @Cron(CronExpression.EVERY_DAY_AT_1AM)
   async refreshPopular(): Promise<void> {
-    if (cluster.worker && cluster.worker.id === 1) {
+    let expired = false;
+    const clusterWorker1 = cluster.worker && cluster.worker.id === 1;
+    const notClustered = !AppClusterService.isClustered;
+
+    const oldPopularPage = await this.PopularModel.find().sort({ createdDate: -1 }).limit(1).exec();
+    if (oldPopularPage && oldPopularPage[0]) {
+      const expireTime = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
+      if (expireTime < oldPopularPage[0].createdDate) {
+        expired = true;
+      }
+    }
+    if (expired && (clusterWorker1 || notClustered)) {
       Consola.info('Refreshing popular page');
       try {
-        const popularPage = await fetch(this.popularPageUrl, {
+        const abortController = new AbortController();
+        setTimeout(() => {
+          abortController.abort();
+        }, 10000);
+        const popularPage: any = await fetch(this.popularPageUrl, {
           headers: {
             'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:84.0) Gecko/20100101 Firefox/84.0'
-          }
+          },
+          signal: abortController.signal
         }).then(val => val.json());
         const popularVideos = [];
         await Promise.allSettled(
@@ -82,6 +99,7 @@ export class HomepageService {
         }
 
         await this.cacheManager.del('popular');
+        Consola.info('Refreshed popular page');
       } catch (err) {
         Consola.error('Popular page refresh failed. URL: ' + this.popularPageUrl);
         Consola.error(err);
@@ -95,9 +113,15 @@ export class HomepageService {
         .sort({ createdDate: -1 })
         .limit(1)
         .exec();
+      if (popularVideos && popularVideos[0]) {
+        return {
+          videos: popularVideos[0].videos,
+          updatedAt: popularVideos[0].createdDate
+        };
+      }
       return {
-        videos: popularVideos[0].videos,
-        updatedAt: popularVideos[0].createdDate
+        videos: [],
+        updatedAt: null
       };
     } catch (error) {
       throw new InternalServerErrorException('Error loading the homepage.');

@@ -1,4 +1,4 @@
-import { VideoThumbnailDto } from 'shared/dto/video/video-thumbnail.dto';
+import { VideoThumbnailDto } from 'viewtube/shared/dto/video/video-thumbnail.dto';
 
 export class PreviewVideoDto {
   title?: string;

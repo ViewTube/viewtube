@@ -9,13 +9,11 @@ import {
   CacheTTL
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { MetricsInterceptor } from 'server/metrics/metrics.interceptor';
-import { VideoDto } from 'shared/dto/video/video.dto';
+import { VideoDto } from 'viewtube/shared/dto/video/video.dto';
 import { VideosService } from './videos.service';
 
 @ApiTags('Core')
 @UseInterceptors(CacheInterceptor)
-@UseInterceptors(MetricsInterceptor)
 @Controller('videos')
 export class VideosController {
   constructor(private readonly videosService: VideosService) {}
@@ -28,5 +26,11 @@ export class VideosController {
   @Get(':id')
   getVideos(@Param('id') id: string): Promise<VideoDto> {
     return this.videosService.getById(id);
+  }
+
+  @CacheTTL(1800)
+  @Get('manifest/dash/:id')
+  getDashManifest(@Param('id') id: string): Promise<string> {
+    return this.videosService.getDashManifest(id);
   }
 }

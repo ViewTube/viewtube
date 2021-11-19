@@ -21,6 +21,9 @@ export const getters = getterTree(state, {
   streamProxyUrl(state) {
     return `${state.env.apiUrl}proxy/stream?url=`;
   },
+  videoPlaybackProxyUrl(state) {
+    return `${state.env.apiUrl}videoplayback`;
+  },
   vapidKey(state) {
     return state.env.vapidKey;
   }

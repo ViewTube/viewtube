@@ -2,22 +2,69 @@ kind: pipeline
 type: docker
 name: default
 
+clone:
+  depth: 1
+
 steps:
-  - name: ✅ Test
-    image: mauriceo/nodejs-mongodb
+  - name: install
+    image: node:16
+    pull: if-not-exists
+    volumes:
+      - name: installcache
+        path: /installcache
     commands:
       - yarn install
-      - yarn build
-      - yarn test
 
-  - name: 📦 Publish
+  - name: test-build-client
+    image: node:16
+    pull: if-not-exists
+    volumes:
+      - name: installcache
+        path: /installcache
+    commands:
+      - yarn build:client
+    when:
+      event:
+        - pull_request
+    depends_on:
+      - install
+
+  - name: test-build-server
+    image: node:16
+    pull: if-not-exists
+    volumes:
+      - name: installcache
+        path: /installcache
+    commands:
+      - yarn build:server
+    when:
+      event:
+        - pull_request
+    depends_on:
+      - install
+
+  - name: test
+    image: mauriceo/nodejs-mongodb:1.0
+    pull: if-not-exists
+    volumes:
+      - name: installcache
+        path: /installcache
+    commands:
+      - yarn test
+    depends_on:
+      - install
+
+  - name: publish
     image: plugins/docker
+    pull: if-not-exists
     settings:
       repo: mauriceo/viewtube
+      compress: true
+      cache_from: "mauriceo/viewtube:latest"
       tags:
         - latest
-        - '0.8.0'
-        - '0.8'
+        - "0.9.0"
+        - "0.9"
       username:
         from_secret: docker_username
       password:
@@ -27,11 +74,16 @@ steps:
         - stable
       event:
         - push
+    depends_on:
+      - test
 
-  - name: 🧪 Publish dev
+  - name: publish-dev
     image: plugins/docker
+    pull: if-not-exists
     settings:
       repo: mauriceo/viewtube
+      compress: true
+      cache_from: "mauriceo/viewtube:dev"
       tags:
         - dev
       username:
@@ -43,9 +95,12 @@ steps:
         - development
       event:
         - push
+    depends_on:
+      - test
 
-  - name: 🔔 Notify
+  - name: notify
     image: appleboy/drone-telegram
+    pull: if-not-exists
     settings:
       token:
         from_secret: tg_bot_token
@@ -58,6 +113,11 @@ steps:
       status:
         - success
         - failure
+
+volumes:
+  - name: installcache
+    temp: {}
+  - name: permanentcache
 
 trigger:
   branch:

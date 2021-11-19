@@ -16,6 +16,7 @@ import { VideoBasicInfoDto } from 'server/core/videos/dto/video-basic-info.dto';
 import { Sorting } from 'server/common/sorting.type';
 import { ChannelBasicInfoDto } from 'server/core/channels/dto/channel-basic-info.dto';
 import Consola from 'consola';
+import { AppClusterService } from 'server/app-cluster.service';
 import { General } from 'server/common/general.schema';
 import { NotificationsService } from '../notifications/notifications.service';
 import { Subscription } from './schemas/subscription.schema';
@@ -41,7 +42,7 @@ export class SubscriptionsService {
   @Cron(CronExpression.EVERY_HOUR)
   // @Cron(new Date(Date.now() + 60 * 1000))
   async collectSubscriptionsJob(): Promise<void> {
-    if (cluster.worker && cluster.worker.id === 1) {
+    if ((cluster.worker && cluster.worker.id === 1) || !AppClusterService.isClustered) {
       const userSubscriptions = await this.subscriptionModel.find().lean(true).exec();
 
       this.subscriptionsQueue.add({
@@ -80,7 +81,7 @@ export class SubscriptionsService {
         u.subscriptions.find(sub => sub.channelId === video.authorId)
       );
       if (subscribedUsers) {
-        subscribedUsers.forEach((user: Subscription) => {
+        subscribedUsers.forEach(user => {
           const channelSubscription = user.subscriptions.find(e => e.channelId === video.authorId);
           if (
             channelSubscription.createdAt &&
@@ -105,7 +106,9 @@ export class SubscriptionsService {
     const user = await this.subscriptionModel
       .findOne({ username })
       .exec()
-      .catch(_ => {});
+      .catch(_ => {
+        // Silently drop error
+      });
 
     if (user) {
       return user.subscriptions.length;
@@ -123,7 +126,9 @@ export class SubscriptionsService {
     const user = await this.subscriptionModel
       .findOne({ username })
       .exec()
-      .catch(_ => {});
+      .catch(_ => {
+        // Silently drop error
+      });
     if (user) {
       const userChannelIds = user.subscriptions.map(e => e.channelId);
       if (userChannelIds) {
@@ -162,34 +167,45 @@ export class SubscriptionsService {
     if (userSubscriptions) {
       const userSubscriptionIds = userSubscriptions.subscriptions.map(e => e.channelId);
 
+      if (typeof limit !== 'number') {
+        limit = parseInt('' + limit);
+      }
+      if (typeof start !== 'number') {
+        start = parseInt('' + start);
+      }
+      if (limit > 30) {
+        limit = 30;
+      }
+
       const videoCount = await this.VideoModel.find({
         authorId: { $in: userSubscriptionIds }
       })
-        .limit(10000)
+        .limit(1000)
         .estimatedDocumentCount()
         .exec();
 
       const videos = await this.VideoModel.find({ authorId: { $in: userSubscriptionIds } })
         .sort({ published: -1 })
-        .limit(parseInt(limit as any))
-        .skip(parseInt(start as any))
-        .map((el: any) => {
-          delete el._id;
-          delete el.__v;
-          return el;
-        })
+        .limit(limit)
+        .skip(start)
         .exec()
         .catch(err => {
           throw new HttpException(`Error fetching subscription feed: ${err}`, 500);
         });
+
       if (videos) {
-        const channelIds = videos.map((video: VideoBasicInfoDto) => video.authorId);
+        const mappedVideos = videos.map((el: any) => {
+          delete el._id;
+          delete el.__v;
+          return el;
+        });
+        const channelIds = mappedVideos.map((video: VideoBasicInfoDto) => video.authorId);
 
         const channelBasicInfoArray = await this.ChannelBasicInfoModel.find({
           authorId: { $in: channelIds }
         }).exec();
 
-        videos.forEach((video: VideoBasicInfoDto) => {
+        mappedVideos.forEach((video: VideoBasicInfoDto) => {
           const channelInfo = channelBasicInfoArray.find(
             channel => channel.authorId === video.authorId
           );
@@ -210,8 +226,10 @@ export class SubscriptionsService {
           await this.GeneralModel.findOne({ version: 1 }).then(val => {
             if (val.lastSubscriptionsRefresh) lastRefresh = val.lastSubscriptionsRefresh;
           });
-        } catch {}
-        return { videos, videoCount, lastRefresh };
+        } catch (error) {
+          Consola.error(error);
+        }
+        return { videos: mappedVideos, videoCount, lastRefresh };
       }
     }
     return { videos: [], videoCount: 0, lastRefresh: null };
@@ -331,42 +349,42 @@ export class SubscriptionsService {
   async subscribeToChannel(username: string, channelId: string): Promise<SubscriptionStatusDto> {
     const user = await this.subscriptionModel.findOne({ username }).exec();
 
+    const subscriptions = user ? user.subscriptions : [];
+    const currentSubscription = subscriptions.find(e => e.channelId === channelId);
+
+    if (!currentSubscription) {
+      subscriptions.push({
+        channelId,
+        createdAt: new Date()
+      });
+    }
+
+    await this.subscriptionModel
+      .findOneAndUpdate({ username }, { username, subscriptions }, { upsert: true })
+      .exec()
+      .then()
+      .catch(_ => {
+        throw new InternalServerErrorException('Error subscribing to channel');
+      });
+
     const channelFeed = await getChannelFeed(channelId);
     if (channelFeed) {
-      let channel: ChannelBasicInfoDto;
-
       try {
-        channel = await this.saveChannelBasicInfo(channelFeed.channel);
+        await this.saveChannelBasicInfo(channelFeed.channel);
         await Promise.all(
           channelFeed.videos.map(vid => {
             return this.saveVideoBasicInfo(vid);
           })
         );
-      } catch (_) {}
-      const subscriptions = user ? user.subscriptions : [];
-
-      const currentSubscription = subscriptions.find(e => e.channelId === channel.authorId);
-
-      if (!currentSubscription) {
-        subscriptions.push({
-          channelId: channel.authorId,
-          createdAt: new Date()
-        });
+      } catch (error) {
+        Consola.error(error);
       }
-
-      await this.subscriptionModel
-        .findOneAndUpdate({ username }, { username, subscriptions }, { upsert: true })
-        .exec()
-        .then()
-        .catch(_ => {
-          throw new InternalServerErrorException('Error subscribing to channel');
-        });
-
-      return {
-        channelId,
-        isSubscribed: true
-      };
     }
+
+    return {
+      channelId,
+      isSubscribed: true
+    };
   }
 
   async unsubscribeFromChannel(

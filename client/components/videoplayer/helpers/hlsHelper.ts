@@ -1,4 +1,4 @@
-import Hls from 'hls.js/dist/hls.light.min';
+import Hls from 'hls.js';
 
 let hls: Hls = null;
 

@@ -3,7 +3,6 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
 import { General, GeneralSchema } from 'server/common/general.schema';
 import { CacheConfigService } from 'server/cache-config.service';
-import { ApiRequest, ApiRequestSchema } from 'server/metrics/schemas/api-request.schema';
 import { User, UserSchema } from 'server/user/schemas/user.schema';
 import { VideosController } from './videos/videos.controller';
 import { VideosService } from './videos/videos.service';
@@ -22,8 +21,6 @@ import { HomepageModule } from './homepage/homepage.module';
 import { ProxyModule } from './proxy/proxy.module';
 import { CommentsModule } from './comments/comments.module';
 import { PlaylistsModule } from './playlists/playlists.module';
-import { StatisticsController } from './statistics/statistics.controller';
-import { StatisticsService } from './statistics/statistics.service';
 
 const moduleMetadata: ModuleMetadata = {
   imports: [
@@ -49,11 +46,6 @@ const moduleMetadata: ModuleMetadata = {
         collection: 'general'
       },
       {
-        name: ApiRequest.name,
-        schema: ApiRequestSchema,
-        collection: 'api-requests'
-      },
-      {
         name: User.name,
         schema: UserSchema,
         collection: 'users'
@@ -71,9 +63,9 @@ const moduleMetadata: ModuleMetadata = {
     CommentsModule,
     PlaylistsModule
   ],
-  controllers: [VideosController, VideoplaybackController, StatisticsController],
-  providers: [VideosService, VideoplaybackService, StatisticsService],
-  exports: [VideosService, VideoplaybackService, StatisticsService]
+  controllers: [VideosController, VideoplaybackController],
+  providers: [VideosService, VideoplaybackService],
+  exports: [VideosService, VideoplaybackService]
 };
 @Module(moduleMetadata)
 export class CoreModule {}

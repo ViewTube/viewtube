@@ -1,74 +1,51 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable no-unused-vars */
-import fs from 'fs';
-import path from 'path';
-import { Readable } from 'stream';
 import { Injectable } from '@nestjs/common';
-import ytdl from 'ytdl-core';
-import ffmpeg from 'fluent-ffmpeg';
+import { ConfigService } from '@nestjs/config';
+import Consola from 'consola';
+import { FastifyReply, FastifyRequest } from 'fastify';
+import undici from 'undici';
 @Injectable()
 export class VideoplaybackService {
-  private video: Readable;
+  constructor(private configService: ConfigService) {}
+  async proxyStream(request: FastifyRequest, reply: FastifyReply): Promise<void> {
+    try {
+      let url = request.url;
 
-  getVideoStream(url: string, res: any) {
-    const audioOutput: string = path.resolve(`output/sound-${url}.mp4`);
-    // const audioFolder: string = path.resolve(`output/sound-${url}`);
-    const rangeStart = 0;
-    // if (fs.existsSync(audioOutput)) {
-    //   console.log('audio exists');
-    //   const stats = fs.statSync(audioOutput);
-    //   rangeStart = stats.size;
-    // }
-    const videoStream = ytdl(url, {
-      filter: format => format.container === 'mp4' && !format.audioBitrate
-    }).on('error', console.error);
+      // URL constructor expects valid url
+      if (!url.startsWith('http')) {
+        url = `https://example.com${url}`;
+      }
+      const oldUrl = new URL(url);
+      const urlHost = oldUrl.searchParams.get('host');
 
-    const audioStream = ytdl(url, {
-      quality: 'lowestaudio',
-      range: { start: rangeStart },
-      filter: format => format.container === 'mp4' && !format.qualityLabel
-    })
-      .on('info', (videoInfo, videoFormat: ytdl.videoFormat) => {
-        console.log(videoInfo, videoFormat);
-        const audio = videoInfo.formats[23].url;
-        const video = videoInfo.formats[4].url;
-        ffmpeg()
-          .input(video)
-          .videoCodec('copy')
-          .input(audio)
-          .audioCodec('copy')
-          .format('ismv')
-          // .save(this.combinedOutput)
-          // .concat(res, { end: true })
-          .videoCodec('libx264')
-          .on('progress', videoProgress => console.log(videoProgress))
-          .on('end', () => {
-            fs.unlink(audioOutput, err => {
-              if (err) {
-                console.log('unlink error:\n' + err);
-              } else {
-                console.log('done');
-              }
-            });
-          })
-          .on('error', (err: Error, stdout, stderr) => {
-            console.log('ffmpeg error:\n' + err.message);
-            console.log('ffmpeg stdout:\n' + stdout);
-            console.log('ffmpeg stderr:\n' + stderr);
-          })
-          .pipe(res, { end: true });
-      })
-      .on('error', console.error)
-      .on('progress', (chunkLength, downloaded, total) => {
-        this.logProgress(chunkLength, downloaded, total, 'audio');
-      })
-      .on('finish', () => {
-        console.log('done with audio');
-      });
-  }
+      const newUrl = new URL(`https://${urlHost}/videoplayback`);
+      for (const [key, value] of oldUrl.searchParams as any) {
+        newUrl.searchParams.append(key, value);
+      }
 
-  logProgress(chunkLength, downloaded, total, string) {
-    // console.log(chunkLength, downloaded, total, string);
-    console.log(`${string}:${chunkLength}`, `${((downloaded / total) * 100).toFixed(2)}%`);
+      const rawHeaders = request.raw.headers;
+      const headers = {
+        range: rawHeaders.range,
+        'accept-language': rawHeaders['accept-language'],
+        'accept-encoding': rawHeaders['accept-encoding'],
+        'user-agent':
+          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36',
+        origin: 'https://www.youtube.com'
+      };
+      await undici
+        .stream(
+          newUrl.toString(),
+          { method: 'GET', opaque: reply, headers },
+          data => (data.opaque as any).raw
+        )
+        .catch(error => {
+          if (this.configService.get('NODE_ENV') !== 'production') {
+            Consola.log(error);
+          }
+        });
+    } catch (error) {
+      if (this.configService.get('NODE_ENV') !== 'production') {
+        Consola.log(error);
+      }
+    }
   }
 }

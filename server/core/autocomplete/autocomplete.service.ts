@@ -1,5 +1,5 @@
-import { Injectable } from '@nestjs/common';
-import fetch from 'node-fetch';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import undici from 'undici';
 
 @Injectable()
 export class AutocompleteService {
@@ -9,17 +9,14 @@ export class AutocompleteService {
   private responseRegex = new RegExp(/(window\.google\.ac\.h\()(.*)(\))/);
 
   async getAutocompleteResult(query: string): Promise<Array<string>> {
-    const data: string = await fetch(this.url + query, {
-      headers: {
-        charset: 'utf-8',
-        'Content-Type': 'text/plain'
-      }
-    })
-      .then(response => response.text())
-      .then(e => {
-        return e;
-      });
-    const array: Array<any> = JSON.parse(data.match(this.responseRegex)[2]);
-    return array[1].map((e: any) => e[0]);
+    try {
+      const response = await undici.request(this.url + query);
+      response.body.setEncoding('latin1');
+      const data = await response.body.text();
+      const array: Array<Array<unknown>> = JSON.parse(data.match(this.responseRegex)[2]);
+      return array[1].map((e: unknown) => e[0]);
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
   }
 }

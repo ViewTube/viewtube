@@ -19,6 +19,9 @@ export class SettingsService {
     chapters: true,
     defaultVideoSpeed: 1,
     defaultVideoQuality: '720p',
+    defaultAudioQuality: '192kb',
+    autoAdjustAudioQuality: true,
+    autoAdjustVideoQuality: true,
     miniplayer: true,
     saveVideoHistory: true,
     showHomeSubscriptions: true,
@@ -30,7 +33,8 @@ export class SettingsService {
     sponsorblockSegmentSelfpromo: 'skip',
     sponsorblockSegmentSponsor: 'skip',
     sponsorblockSegmentPreview: 'skip',
-    theme: 'default'
+    theme: 'default',
+    dashPlaybackEnabled: false
   };
 
   async setSettings(settings: Partial<SettingsDto>, username: string): Promise<void> {

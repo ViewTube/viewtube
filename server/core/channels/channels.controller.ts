@@ -1,7 +1,13 @@
-import { Controller, Get, Param, Res, CacheInterceptor, UseInterceptors } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Param,
+  CacheInterceptor,
+  UseInterceptors,
+  Res
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { FastifyReply } from 'fastify';
-import { MetricsInterceptor } from 'server/metrics/metrics.interceptor';
 import { ChannelsService } from './channels.service';
 import { ChannelDto } from './dto/channel.dto';
 
@@ -9,18 +15,18 @@ import { ChannelDto } from './dto/channel.dto';
 @Controller('channels')
 export class ChannelsController {
   constructor(private channelsService: ChannelsService) {}
+
   @Get(':id/thumbnail/tiny.jpg')
-  async getTinyThumbnailJpg(@Res() reply: FastifyReply, @Param('id') id: string) {
-    await this.channelsService.getTinyThumbnail(reply, id);
+  getTinyThumbnailJpg(@Param('id') id: string, @Res() reply: FastifyReply): void {
+    this.channelsService.getTinyThumbnail(reply, id);
   }
 
   @Get(':id/thumbnail/tiny.webp')
-  async getTinyThumbnailWebp(@Res() reply: FastifyReply, @Param('id') id: string) {
-    await this.channelsService.getTinyThumbnail(reply, id);
+  getTinyThumbnailWebp(@Param('id') id: string, @Res() reply: FastifyReply): void {
+    this.channelsService.getTinyThumbnail(reply, id);
   }
 
   @Get(':id')
-  @UseInterceptors(MetricsInterceptor)
   @UseInterceptors(CacheInterceptor)
   getChannel(@Param('id') channelId: string): Promise<ChannelDto> {
     return this.channelsService.getChannel(channelId);

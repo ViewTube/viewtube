@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  viewtube:
+    build: .
+    ports:
+      - 8066:8066
+    volumes:
+      - ./ddata:/data
+    depends_on:
+      - viewtube-db
+      - viewtube-redis
+    networks:
+      - viewtube-local
+    environment:
+      VIEWTUBE_URL: http://localhost:8066
+      VIEWTUBE_DATABASE_HOST: viewtube-db
+      VIEWTUBE_REDIS_HOST: viewtube-redis
+      VIEWTUBE_DATA_DIRECTORY: /data
+
+  viewtube-db:
+    image: mongo
+    networks:
+      - viewtube-local
+
+  viewtube-redis:
+    image: redis
+    networks:
+      - viewtube-local
+
+networks:
+  viewtube-local:

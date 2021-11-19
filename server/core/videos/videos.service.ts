@@ -9,12 +9,10 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import fetch from 'node-fetch';
 import HttpsProxyAgent from 'https-proxy-agent';
-import { VideoDto } from 'shared/dto/video/video.dto';
-import Consola from 'consola';
-import { ChannelBasicInfoDto } from '../channels/dto/channel-basic-info.dto';
+import { VideoDto } from 'viewtube/shared/dto/video/video.dto';
 import { ChannelBasicInfo } from '../channels/schemas/channel-basic-info.schema';
 import { Common } from '../common';
-import { VideoBasicInfoDto } from './dto/video-basic-info.dto';
+import { DashGenerator } from './dash.generator';
 import { VideoBasicInfo } from './schemas/video-basic-info.schema';
 import { VideoEntity } from './video.entity';
 
@@ -54,46 +52,52 @@ export class VideosService {
 
     try {
       const result: videoInfo = await getInfo(url, ytdlOptions);
+
+      // const dashManifest = DashGenerator.generateDashFileFromFormats(
+      //   result.formats,
+      //   result.videoDetails.lengthSeconds
+      // );
+
       const video: VideoDto = new VideoEntity(result);
 
-      const channelBasicInfo: ChannelBasicInfoDto = {
-        authorId: video.authorId,
-        author: video.author,
-        authorThumbnails: video.authorThumbnails,
-        authorVerified: video.authorVerified
-      };
+      // const channelBasicInfo: ChannelBasicInfoDto = {
+      //   authorId: video.authorId,
+      //   author: video.author,
+      //   authorThumbnails: video.authorThumbnails,
+      //   authorVerified: video.authorVerified
+      // };
 
-      const authorImageUrl = await this.saveAuthorImage(
-        video.authorThumbnails[2].url,
-        video.authorId
-      );
-      if (authorImageUrl) {
-        channelBasicInfo.authorThumbnailUrl = authorImageUrl;
-      }
+      // const authorImageUrl = await this.saveAuthorImage(
+      //   video.authorThumbnails[2].url,
+      //   video.authorId
+      // );
+      // if (authorImageUrl) {
+      //   channelBasicInfo.authorThumbnailUrl = authorImageUrl;
+      // }
 
-      const videoBasicInfo: VideoBasicInfoDto = {
-        author: video.author,
-        authorId: video.authorId,
-        description: video.description,
-        dislikeCount: video.dislikeCount,
-        likeCount: video.likeCount,
-        published: video.published,
-        publishedText: video.publishedText,
-        title: video.title,
-        videoId: video.videoId,
-        videoThumbnails: video.videoThumbnails,
-        viewCount: video.viewCount,
-        lengthSeconds: video.lengthSeconds
-      };
+      // const videoBasicInfo: VideoBasicInfoDto = {
+      //   author: video.author,
+      //   authorId: video.authorId,
+      //   description: video.description,
+      //   dislikeCount: video.dislikeCount,
+      //   likeCount: video.likeCount,
+      //   published: video.published,
+      //   publishedText: video.publishedText,
+      //   title: video.title,
+      //   videoId: video.videoId,
+      //   videoThumbnails: video.videoThumbnails,
+      //   viewCount: video.viewCount,
+      //   lengthSeconds: video.lengthSeconds
+      // };
 
-      this.channelModel
-        .findOneAndUpdate({ authorId: video.authorId }, channelBasicInfo, { upsert: true })
-        .exec()
-        .catch(Consola.warn);
-      this.videoModel
-        .findOneAndUpdate({ videoId: video.videoId }, videoBasicInfo, { upsert: true })
-        .exec()
-        .catch(Consola.warn);
+      // this.channelModel
+      //   .findOneAndUpdate({ authorId: video.authorId }, channelBasicInfo, { upsert: true })
+      //   .exec()
+      //   .catch(Consola.warn);
+      // this.videoModel
+      //   .findOneAndUpdate({ videoId: video.videoId }, videoBasicInfo, { upsert: true })
+      //   .exec()
+      //   .catch(Consola.warn);
 
       return video;
     } catch (err) {
@@ -107,10 +111,23 @@ export class VideosService {
     }
   }
 
+  async getDashManifest(id: string): Promise<string> {
+    const url: string = Common.youtubeVideoUrl + id;
+    const result: videoInfo = await getInfo(url);
+
+    const dashManifest = DashGenerator.generateDashFileFromFormats(
+      result.player_response.streamingData.adaptiveFormats,
+      result.videoDetails.lengthSeconds
+    );
+    return dashManifest;
+  }
+
   async saveAuthorImage(imgUrl: string, channelId: string) {
     const arrBuffer = await fetch(imgUrl, { method: 'GET' })
       .then(response => response.arrayBuffer())
-      .catch(_ => {});
+      .catch(_ => {
+        // Drop errors
+      });
 
     if (arrBuffer) {
       try {

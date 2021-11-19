@@ -1,7 +1,7 @@
-import { Controller, Get, Query, Res, Header } from '@nestjs/common';
+import { Controller, Get, Query, Header, Res, Req } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Throttle } from '@nestjs/throttler';
-import { FastifyReply } from 'fastify';
+import { FastifyReply, FastifyRequest } from 'fastify';
 import { ProxyService } from './proxy.service';
 
 @ApiTags('Core')
@@ -18,21 +18,23 @@ export class ProxyController {
   }
 
   @Get('image')
-  @Header('Content-Type', 'image/jpg')
+  @Header('Content-Type', 'image/jpeg')
   @Header('Cache-Control', 'no-cache')
   async getQuery(
     @Query('url') url: string,
     @Query('local') local: boolean = false,
     @Res() reply: FastifyReply
   ): Promise<void> {
-    const image = await this.proxyService.proxyImage(url, local);
-    reply.send(image);
+    await this.proxyService.proxyImage(url, reply, local);
   }
 
   @Get('stream')
   @Header('Cache-Control', 'no-cache')
-  async proxyStream(@Query('url') url: string, @Res() reply: FastifyReply): Promise<void> {
-    const streamBuffer = await this.proxyService.proxyStream(url);
-    reply.send(streamBuffer);
+  async proxyStream(
+    @Query('url') url: string,
+    @Req() request: FastifyRequest,
+    @Res() reply: FastifyReply
+  ): Promise<void> {
+    return await this.proxyService.proxyStream(url, request, reply);
   }
 }
