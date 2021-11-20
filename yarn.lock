@@ -6173,10 +6173,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"class-transformer@npm:0.4.0, class-transformer@npm:^0.4.0":
-  version: 0.4.0
-  resolution: "class-transformer@npm:0.4.0"
-  checksum: 4057346b512705b1a5a68025b025a5be1ff847d7e0e76e82bbb937f832cf6235c5f66e874487d4bd35d67401411e8a3279c9d36bdd8c800336d5507ee6e94af0
+"class-transformer@npm:0.5.0, class-transformer@npm:^0.5.0":
+  version: 0.5.0
+  resolution: "class-transformer@npm:0.5.0"
+  checksum: c4478eca23fff6442394e17343382ae984f406203cfee0ce4a4902883faa4c6e00a3f8f10949a8297912cbd427c8e2e08b87bb2c785999c4baa88c2cc6713d2c
   languageName: node
   linkType: hard
 
@@ -16332,7 +16332,7 @@ fsevents@^1.2.7:
     cache-manager: ^3.4.4
     cache-manager-redis-store: ^2.0.0
     chalk: ^4.1.2
-    class-transformer: ^0.4.0
+    class-transformer: ^0.5.0
     class-validator: ^0.13.1
     consola: ^2.15.3
     cookie-parser: ^1.4.5
@@ -16452,7 +16452,7 @@ fsevents@^1.2.7:
     "@nestjs/core": 8.1.1
     "@nestjs/swagger": 5.1.4
     "@types/node": 16.11.7
-    class-transformer: 0.4.0
+    class-transformer: 0.5.0
     class-validator: 0.13.1
     reflect-metadata: 0.1.13
     rxjs: 7.4.0
