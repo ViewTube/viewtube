@@ -6327,7 +6327,7 @@ __metadata:
     vue2-datepicker: 3.10.3
     vuex: 3.6.2
     vuex-persistedstate: 4.1.0
-    webpack: 5.64.1
+    webpack: 5.64.2
     x2js: 3.4.2
     ytpl: 2.2.3
   languageName: unknown
@@ -16373,7 +16373,7 @@ fsevents@^1.2.7:
     typescript: 4.4.4
     undici: ^4.7.0
     web-push: ^3.4.5
-    webpack: 5.64.1
+    webpack: 5.64.2
     webpack-pnp-externals: 1.1.0
     x2js: ^3.4.2
     xml-js: ^1.6.11
@@ -18946,9 +18946,9 @@ typescript@~4.2:
   languageName: node
   linkType: hard
 
-"webpack@npm:5.64.1":
-  version: 5.64.1
-  resolution: "webpack@npm:5.64.1"
+"webpack@npm:5.64.2":
+  version: 5.64.2
+  resolution: "webpack@npm:5.64.2"
   dependencies:
     "@types/eslint-scope": ^3.7.0
     "@types/estree": ^0.0.50
@@ -18979,7 +18979,7 @@ typescript@~4.2:
       optional: true
   bin:
     webpack: bin/webpack.js
-  checksum: d2a1baddaed03f2ce70c13501b89935d4bb4af30b4accb0d2dfbd00ec6f491eaf46272346cedcf013b477e131c8cc202ee0b2d2c51ece1cfb713fd2d98b80a52
+  checksum: e02fcd3bfdc7e3322291b476af60f46dc4a31ec4349af4d1d47018b8e449820968d4ab8f1e8b313dd5cfcf1b47c7f976fe39fde73411d03c173a692c3dae428e
   languageName: node
   linkType: hard
 
