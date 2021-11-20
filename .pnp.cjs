@@ -3257,7 +3257,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["axios", "npm:0.24.0"],
             ["cache-manager", null],
             ["class-transformer", "npm:0.4.0"],
-            ["class-validator", "npm:0.13.1"],
+            ["class-validator", "npm:0.13.2"],
             ["iterare", "npm:1.2.1"],
             ["reflect-metadata", "npm:0.1.13"],
             ["rxjs", "npm:7.4.0"],
@@ -3471,7 +3471,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/nestjs__common", null],
             ["@types/reflect-metadata", null],
             ["class-transformer", "npm:0.4.0"],
-            ["class-validator", "npm:0.13.1"],
+            ["class-validator", "npm:0.13.2"],
             ["reflect-metadata", "npm:0.1.13"]
           ],
           "packagePeers": [
@@ -3711,7 +3711,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/swagger-ui-express", null],
             ["@types/typescript", null],
             ["class-transformer", "npm:0.4.0"],
-            ["class-validator", "npm:0.13.1"],
+            ["class-validator", "npm:0.13.2"],
             ["fastify-swagger", null],
             ["lodash", "npm:4.17.21"],
             ["path-to-regexp", "npm:3.2.0"],
@@ -8825,6 +8825,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/validator", "npm:13.6.3"],
             ["libphonenumber-js", "npm:1.9.34"],
             ["validator", "npm:13.6.0"]
+          ],
+          "linkType": "HARD",
+        }],
+        ["npm:0.13.2", {
+          "packageLocation": "./.yarn/cache/class-validator-npm-0.13.2-915206252c-0deb4c29fa.zip/node_modules/class-validator/",
+          "packageDependencies": [
+            ["class-validator", "npm:0.13.2"],
+            ["libphonenumber-js", "npm:1.9.43"],
+            ["validator", "npm:13.7.0"]
           ],
           "linkType": "HARD",
         }]
@@ -15697,6 +15706,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["libphonenumber-js", "npm:1.9.34"]
           ],
           "linkType": "HARD",
+        }],
+        ["npm:1.9.43", {
+          "packageLocation": "./.yarn/cache/libphonenumber-js-npm-1.9.43-925d52ea37-0e5112fbe9.zip/node_modules/libphonenumber-js/",
+          "packageDependencies": [
+            ["libphonenumber-js", "npm:1.9.43"]
+          ],
+          "linkType": "HARD",
         }]
       ]],
       ["lie", [
@@ -20913,7 +20929,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@nestjs/swagger", "virtual:d10100d960b1b73f8c74718d4637dfe2c18d098bafef09afa646f6b4f65cd1a5ad77d7941e2a1def095bb77eb2ac82d00bec47774003ea2f130a251bc51e4c5b#npm:5.1.4"],
             ["@types/node", "npm:16.11.7"],
             ["class-transformer", "npm:0.4.0"],
-            ["class-validator", "npm:0.13.1"],
+            ["class-validator", "npm:0.13.2"],
             ["reflect-metadata", "npm:0.1.13"],
             ["rxjs", "npm:7.4.0"],
             ["typescript", "patch:typescript@npm%3A4.4.4#~builtin<compat/typescript>::version=4.4.4&hash=ddd1e8"]
@@ -23355,6 +23371,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/validator-npm-13.6.0-2ca88b50f3-1f9f813228.zip/node_modules/validator/",
           "packageDependencies": [
             ["validator", "npm:13.6.0"]
+          ],
+          "linkType": "HARD",
+        }],
+        ["npm:13.7.0", {
+          "packageLocation": "./.yarn/cache/validator-npm-13.7.0-624277e841-2b83283de1.zip/node_modules/validator/",
+          "packageDependencies": [
+            ["validator", "npm:13.7.0"]
           ],
           "linkType": "HARD",
         }]
