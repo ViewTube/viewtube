@@ -45,3 +45,4 @@ dump.rdb
 !.yarn/sdks
 !.yarn/versions
 Dockerfile.nodejs-mongodb
+.vscode/.ropeproject/
