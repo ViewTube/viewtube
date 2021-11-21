@@ -21,8 +21,10 @@ RUN yarn cache clean && \
     yarn workspaces focus --all --production && \
     yarn cache clean --mirror
 
-FROM mauriceo/node:16-alpine3.14 as runtime
+FROM alpine:3.14 as runtime
 WORKDIR /home/app
+
+RUN apk add --no-cache --update nodejs-current
 
 COPY --from=build /home/build/.yarn/ ./.yarn/
 COPY --from=build /home/build/.pnp.cjs /home/build/package.json /home/build/yarn.lock /home/build/.yarnrc.yml ./
