@@ -1,11 +1,20 @@
 {
-  "extends": [
-    "config:base"
-  ],
+  "extends": ["config:base"],
+  "schedule": ["after 9am and before 7pm on friday"],
+  "timezone": "Europe/Zurich",
+  "labels": ["dependencies"],
+  "lockFileMaintenance": { "enabled": true },
   "packageRules": [
     {
+      "matchPackagePatterns": ["*"],
       "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
-      "automerge": false
+      "groupName": "all non-major dependencies",
+      "groupSlug": "all-minor-patch"
+    },
+    {
+      "matchDepTypes": ["devDependencies"],
+      "groupName": "all devDependencies",
+      "groupSlug": "all-dev-dependencies"
     }
   ],
   "commitMessagePrefix": "⬆️ ",
