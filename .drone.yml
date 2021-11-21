@@ -160,7 +160,7 @@ depends_on:
   - build-amd64
   - build-arm64
 kind: pipeline
-name: manifest
+name: manifest-dev
 steps:
   - image: plugins/manifest
     name: manifest
@@ -186,7 +186,7 @@ depends_on:
   - build-amd64
   - build-arm64
 kind: pipeline
-name: manifest
+name: manifest-latest
 steps:
   - image: plugins/manifest
     name: manifest
@@ -212,7 +212,7 @@ depends_on:
   - build-amd64
   - build-arm64
 kind: pipeline
-name: manifest
+name: manifest-0.9.0
 steps:
   - image: plugins/manifest
     name: manifest
@@ -238,7 +238,7 @@ depends_on:
   - build-amd64
   - build-arm64
 kind: pipeline
-name: manifest
+name: manifest-0.9
 steps:
   - image: plugins/manifest
     name: manifest

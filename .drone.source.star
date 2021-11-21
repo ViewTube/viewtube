@@ -175,7 +175,7 @@ def manifest(tag, branch):
     return {
         'kind': 'pipeline',
         'type': 'docker',
-        'name': 'manifest',
+        'name': 'manifest-%s' % tag,
         'steps': [
             {
                 'name': 'manifest',
