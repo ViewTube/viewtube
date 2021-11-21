@@ -40,6 +40,15 @@ def step(arch):
         'clone': {
             'depth': 1
         },
+        'trigger': {
+            'branch': [
+                'development',
+                'stabe'
+            ],
+            'event': [
+                'push'
+            ]
+        },
         'steps': [
             publishStep(
                 stableTagsArray,
