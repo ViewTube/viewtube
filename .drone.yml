@@ -109,9 +109,9 @@ type: docker
 clone:
   depth: 1
 kind: pipeline
-name: build-arm64
+name: build-arm
 platform:
-  arch: arm64
+  arch: arm
   os: linux
 steps:
 - image: plugins/docker
@@ -162,7 +162,7 @@ type: docker
 ---
 depends_on:
 - build-amd64
-- build-arm64
+- build-arm
 kind: pipeline
 name: manifest-dev
 steps:
@@ -174,7 +174,7 @@ steps:
       from_secret: docker_password
     platforms:
     - linux/amd64
-    - linux/arm64
+    - linux/arm
     target: mauriceo/viewtube:dev
     template: mauriceo/viewtube:dev-OS-ARCH
     username:
@@ -188,7 +188,7 @@ type: docker
 ---
 depends_on:
 - build-amd64
-- build-arm64
+- build-arm
 kind: pipeline
 name: manifest-latest
 steps:
@@ -200,7 +200,7 @@ steps:
       from_secret: docker_password
     platforms:
     - linux/amd64
-    - linux/arm64
+    - linux/arm
     target: mauriceo/viewtube:latest
     template: mauriceo/viewtube:latest-OS-ARCH
     username:
@@ -214,7 +214,7 @@ type: docker
 ---
 depends_on:
 - build-amd64
-- build-arm64
+- build-arm
 kind: pipeline
 name: manifest-0.9.0
 steps:
@@ -226,7 +226,7 @@ steps:
       from_secret: docker_password
     platforms:
     - linux/amd64
-    - linux/arm64
+    - linux/arm
     target: mauriceo/viewtube:0.9.0
     template: mauriceo/viewtube:0.9.0-OS-ARCH
     username:
@@ -240,7 +240,7 @@ type: docker
 ---
 depends_on:
 - build-amd64
-- build-arm64
+- build-arm
 kind: pipeline
 name: manifest-0.9
 steps:
@@ -252,7 +252,7 @@ steps:
       from_secret: docker_password
     platforms:
     - linux/amd64
-    - linux/arm64
+    - linux/arm
     target: mauriceo/viewtube:0.9
     template: mauriceo/viewtube:0.9-OS-ARCH
     username:
