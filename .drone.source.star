@@ -66,7 +66,7 @@ def step(arch):
 
 def publishStep(tags, branch):
     return {
-        'name': 'publish',
+        'name': 'publish-%s' % branch,
         'image': 'plugins/docker',
         'pull': 'if-not-exists',
         'settings': {
