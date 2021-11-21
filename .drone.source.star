@@ -1,6 +1,6 @@
 architectures = [
     'amd64',
-    'arm64'
+    'arm'
 ]
 
 version = '0.9.0'
