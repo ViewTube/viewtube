@@ -4,53 +4,53 @@ clone:
 kind: pipeline
 name: pull-request
 steps:
-- commands:
-  - yarn install
-  image: node:16
-  name: install
-  pull: if-not-exists
-  volumes:
-  - name: installcache
-    path: /installcache
-- commands:
-  - yarn build:client
-  depends_on:
-  - install
-  image: node:16
-  name: build-client
-  pull: if-not-exists
-  volumes:
-  - name: installcache
-    path: /installcache
-- commands:
-  - yarn build:server
-  depends_on:
-  - install
-  image: node:16
-  name: build-server
-  pull: if-not-exists
-  volumes:
-  - name: installcache
-    path: /installcache
-- commands:
-  - yarn test
-  depends_on:
-  - install
-  image: mauriceo/nodejs-mongodb:1.0
-  name: test
-  pull: if-not-exists
-  volumes:
-  - name: installcache
-    path: /installcache
+  - commands:
+      - yarn install
+    image: node:16
+    name: install
+    pull: if-not-exists
+    volumes:
+      - name: installcache
+        path: /installcache
+  - commands:
+      - yarn build:client
+    depends_on:
+      - install
+    image: node:16
+    name: build-client
+    pull: if-not-exists
+    volumes:
+      - name: installcache
+        path: /installcache
+  - commands:
+      - yarn build:server
+    depends_on:
+      - install
+    image: node:16
+    name: build-server
+    pull: if-not-exists
+    volumes:
+      - name: installcache
+        path: /installcache
+  - commands:
+      - yarn test
+    depends_on:
+      - install
+    image: mauriceo/nodejs-mongodb:1.0
+    name: test
+    pull: if-not-exists
+    volumes:
+      - name: installcache
+        path: /installcache
 trigger:
   branch:
-  - development
+    - development
   event:
-  - pull_request
+    - pull_request
 type: docker
 volumes:
-- name: installcache
-  temp: {}
+  - name: installcache
+    temp: {}
 ---
 clone:
   depth: 1
@@ -60,48 +60,48 @@ platform:
   arch: amd64
   os: linux
 steps:
-- depends_on:
-  - test
-  image: plugins/docker
-  name: publish
-  pull: if-not-exists
-  settings:
-    cache_from: mauriceo/viewtube:latest
-    compress: "true"
-    password:
-      from_secret: docker_password
-    repo: mauriceo/viewtube
-    tags:
-    - latest
-    - 0.9.0
-    - "0.9"
-    username:
-      from_secret: docker_username
-  when:
-    branch:
-    - stable
-    event:
-    - push
-- depends_on:
-  - test
-  image: plugins/docker
-  name: publish
-  pull: if-not-exists
-  settings:
-    cache_from: mauriceo/viewtube:dev
-    compress: "true"
-    password:
-      from_secret: docker_password
-    repo: mauriceo/viewtube
-    tags:
-    - dev
-    username:
-      from_secret: docker_username
-  when:
-    branch:
-    - development
-    event:
-    - push
+  - depends_on:
+      - test
+    image: plugins/docker
+    name: publish
+    pull: if-not-exists
+    settings:
+      cache_from: mauriceo/viewtube:latest
+      compress: "true"
+      password:
+        from_secret: docker_password
+      repo: mauriceo/viewtube
+      tags:
+        - latest
+        - 0.9.0
+        - "0.9"
+      username:
+        from_secret: docker_username
+    when:
+      branch:
+        - stable
+      event:
+        - push
+  - depends_on:
+      - test
+    image: plugins/docker
+    name: publish
+    pull: if-not-exists
+    settings:
+      cache_from: mauriceo/viewtube:dev
+      compress: "true"
+      password:
+        from_secret: docker_password
+      repo: mauriceo/viewtube
+      tags:
+        - dev
+      username:
+        from_secret: docker_username
+    when:
+      branch:
+        - development
+      event:
+        - push
 type: docker
 ---
 clone:
@@ -112,150 +112,150 @@ platform:
   arch: arm64
   os: linux
 steps:
-- depends_on:
-  - test
-  image: plugins/docker
-  name: publish
-  pull: if-not-exists
-  settings:
-    cache_from: mauriceo/viewtube:latest
-    compress: "true"
-    password:
-      from_secret: docker_password
-    repo: mauriceo/viewtube
-    tags:
-    - latest
-    - 0.9.0
-    - "0.9"
-    username:
-      from_secret: docker_username
-  when:
-    branch:
-    - stable
-    event:
-    - push
-- depends_on:
-  - test
-  image: plugins/docker
-  name: publish
-  pull: if-not-exists
-  settings:
-    cache_from: mauriceo/viewtube:dev
-    compress: "true"
-    password:
-      from_secret: docker_password
-    repo: mauriceo/viewtube
-    tags:
-    - dev
-    username:
-      from_secret: docker_username
-  when:
-    branch:
+  - depends_on:
+      - test
+    image: plugins/docker
+    name: publish
+    pull: if-not-exists
+    settings:
+      cache_from: mauriceo/viewtube:latest
+      compress: "true"
+      password:
+        from_secret: docker_password
+      repo: mauriceo/viewtube
+      tags:
+        - latest
+        - 0.9.0
+        - "0.9"
+      username:
+        from_secret: docker_username
+    when:
+      branch:
+        - stable
+      event:
+        - push
+  - depends_on:
+      - test
+    image: plugins/docker
+    name: publish
+    pull: if-not-exists
+    settings:
+      cache_from: mauriceo/viewtube:dev
+      compress: "true"
+      password:
+        from_secret: docker_password
+      repo: mauriceo/viewtube
+      tags:
+        - dev
+      username:
+        from_secret: docker_username
+    when:
+      branch:
+        - development
+      event:
+        - push
+type: docker
+---
+depends_on:
+  - build-amd64
+  - build-arm64
+kind: pipeline
+name: manifest
+steps:
+  - image: plugins/manifest
+    name: manifest
+    settings:
+      ignore_missing: "true"
+      password:
+        from_secret: docker_password
+      platforms:
+        - linux/amd64
+        - linux/arm64
+      target: mauriceo/viewtube:dev
+      template: mauriceo/viewtube:dev-OS-ARCH
+      username:
+        from-secret: docker_username
+trigger:
+  branch:
     - development
-    event:
+  event:
     - push
 type: docker
 ---
 depends_on:
-- build-amd64
-- build-arm64
+  - build-amd64
+  - build-arm64
 kind: pipeline
 name: manifest
 steps:
-- image: plugins/manifest
-  name: manifest
-  settings:
-    ignore_missing: "true"
-    password:
-      from_secret: docker_password
-    platforms:
-    - linux/amd64
-    - linux/arm64
-    target: mauriceo/viewtube:dev
-    template: mauriceo/viewtube:dev-OS-ARCH
-    username:
-      from-secret: docker_username
+  - image: plugins/manifest
+    name: manifest
+    settings:
+      ignore_missing: "true"
+      password:
+        from_secret: docker_password
+      platforms:
+        - linux/amd64
+        - linux/arm64
+      target: mauriceo/viewtube:latest
+      template: mauriceo/viewtube:latest-OS-ARCH
+      username:
+        from-secret: docker_username
 trigger:
   branch:
-  - development
+    - stable
   event:
-  - push
+    - push
 type: docker
 ---
 depends_on:
-- build-amd64
-- build-arm64
+  - build-amd64
+  - build-arm64
 kind: pipeline
 name: manifest
 steps:
-- image: plugins/manifest
-  name: manifest
-  settings:
-    ignore_missing: "true"
-    password:
-      from_secret: docker_password
-    platforms:
-    - linux/amd64
-    - linux/arm64
-    target: mauriceo/viewtube:latest
-    template: mauriceo/viewtube:latest-OS-ARCH
-    username:
-      from-secret: docker_username
+  - image: plugins/manifest
+    name: manifest
+    settings:
+      ignore_missing: "true"
+      password:
+        from_secret: docker_password
+      platforms:
+        - linux/amd64
+        - linux/arm64
+      target: mauriceo/viewtube:0.9.0
+      template: mauriceo/viewtube:0.9.0-OS-ARCH
+      username:
+        from-secret: docker_username
 trigger:
   branch:
-  - stable
+    - stable
   event:
-  - push
+    - push
 type: docker
 ---
 depends_on:
-- build-amd64
-- build-arm64
+  - build-amd64
+  - build-arm64
 kind: pipeline
 name: manifest
 steps:
-- image: plugins/manifest
-  name: manifest
-  settings:
-    ignore_missing: "true"
-    password:
-      from_secret: docker_password
-    platforms:
-    - linux/amd64
-    - linux/arm64
-    target: mauriceo/viewtube:0.9.0
-    template: mauriceo/viewtube:0.9.0-OS-ARCH
-    username:
-      from-secret: docker_username
+  - image: plugins/manifest
+    name: manifest
+    settings:
+      ignore_missing: "true"
+      password:
+        from_secret: docker_password
+      platforms:
+        - linux/amd64
+        - linux/arm64
+      target: mauriceo/viewtube:0.9
+      template: mauriceo/viewtube:0.9-OS-ARCH
+      username:
+        from-secret: docker_username
 trigger:
   branch:
-  - stable
+    - stable
   event:
-  - push
-type: docker
----
-depends_on:
-- build-amd64
-- build-arm64
-kind: pipeline
-name: manifest
-steps:
-- image: plugins/manifest
-  name: manifest
-  settings:
-    ignore_missing: "true"
-    password:
-      from_secret: docker_password
-    platforms:
-    - linux/amd64
-    - linux/arm64
-    target: mauriceo/viewtube:0.9
-    template: mauriceo/viewtube:0.9-OS-ARCH
-    username:
-      from-secret: docker_username
-trigger:
-  branch:
-  - stable
-  event:
-  - push
+    - push
 type: docker
