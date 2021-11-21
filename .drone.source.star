@@ -88,10 +88,7 @@ def publishStep(tags, branch):
             'event': [
                 'push'
             ]
-        },
-        'depends_on': [
-            'test'
-        ]
+        }
     }
 
 

@@ -60,9 +60,7 @@ platform:
   arch: amd64
   os: linux
 steps:
-- depends_on:
-  - test
-  image: plugins/docker
+- image: plugins/docker
   name: publish-stable
   pull: if-not-exists
   settings:
@@ -82,9 +80,7 @@ steps:
     - stable
     event:
     - push
-- depends_on:
-  - test
-  image: plugins/docker
+- image: plugins/docker
   name: publish-development
   pull: if-not-exists
   settings:
@@ -118,9 +114,7 @@ platform:
   arch: arm64
   os: linux
 steps:
-- depends_on:
-  - test
-  image: plugins/docker
+- image: plugins/docker
   name: publish-stable
   pull: if-not-exists
   settings:
@@ -140,9 +134,7 @@ steps:
     - stable
     event:
     - push
-- depends_on:
-  - test
-  image: plugins/docker
+- image: plugins/docker
   name: publish-development
   pull: if-not-exists
   settings:
