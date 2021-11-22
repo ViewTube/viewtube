@@ -1,4 +1,12 @@
-import { Controller, Get, Query, Param, CacheInterceptor, UseInterceptors } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Query,
+  Param,
+  CacheInterceptor,
+  UseInterceptors,
+  Header
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { CommentsService } from './comments.service';
 import { CommentsResponseDto } from './dto/comments-response.dto';
@@ -9,15 +17,17 @@ import { CommentsResponseDto } from './dto/comments-response.dto';
 export class CommentsController {
   constructor(private commentsService: CommentsService) {}
 
+  @Header('Cache-Control', 'public, max-age=1800')
   @Get(':videoId')
   getComments(
     @Param('videoId') videoId: string,
-    @Query('sortByNewest') sortByNewest: boolean = false,
+    @Query('sortByNewest') sortByNewest = false,
     @Query('continuation') continuation: string = null
   ): Promise<CommentsResponseDto> {
     return this.commentsService.getComments(videoId, sortByNewest, continuation);
   }
 
+  @Header('Cache-Control', 'public, max-age=1800')
   @Get(':videoId/replies')
   getCommentReplies(
     @Param('videoId') videoId: string,

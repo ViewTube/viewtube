@@ -4,6 +4,7 @@ import {
   CacheTTL,
   Controller,
   Get,
+  Header,
   UseInterceptors
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
@@ -19,6 +20,7 @@ export class HomepageController {
   @Get('popular')
   @CacheTTL(43200)
   @CacheKey('popular')
+  @Header('Cache-Control', 'public, max-age=43200')
   getPopular(): Promise<PopularDto> {
     return this.homepageService.getPopular();
   }

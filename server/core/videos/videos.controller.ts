@@ -6,7 +6,8 @@ import {
   ClassSerializerInterceptor,
   SerializeOptions,
   CacheInterceptor,
-  CacheTTL
+  CacheTTL,
+  Header
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { VideoDto } from 'viewtube/shared/dto/video/video.dto';
@@ -23,12 +24,14 @@ export class VideosController {
     excludePrefixes: ['_']
   })
   @CacheTTL(18000)
+  @Header('Cache-Control', 'public, max-age=18000')
   @Get(':id')
   getVideos(@Param('id') id: string): Promise<VideoDto> {
     return this.videosService.getById(id);
   }
 
   @CacheTTL(1800)
+  @Header('Cache-Control', 'public, max-age=1800')
   @Get('manifest/dash/:id')
   getDashManifest(@Param('id') id: string): Promise<string> {
     return this.videosService.getDashManifest(id);
