@@ -4,7 +4,8 @@ import {
   Query,
   CacheInterceptor,
   UseInterceptors,
-  CacheTTL
+  CacheTTL,
+  Header
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { AutocompleteService } from './autocomplete.service';
@@ -15,8 +16,9 @@ import { AutocompleteService } from './autocomplete.service';
 export class AutocompleteController {
   constructor(private autocompleteService: AutocompleteService) {}
 
-  @Get()
   @CacheTTL(86400)
+  @Header('Cache-Control', 'public, max-age=86400')
+  @Get()
   getQuery(@Query('q') query: string): Promise<Array<string>> {
     return this.autocompleteService.getAutocompleteResult(query);
   }
