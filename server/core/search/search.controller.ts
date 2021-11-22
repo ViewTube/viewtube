@@ -4,7 +4,8 @@ import {
   CacheInterceptor,
   Get,
   Query,
-  BadRequestException
+  BadRequestException,
+  Header
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Result } from 'ytsr';
@@ -19,11 +20,13 @@ export class SearchController {
   constructor(private readonly searchService: SearchService) {}
 
   @Get('filters')
+  @Header('Cache-Control', 'public, max-age=1800')
   getFilters(@Query('q') searchString: string): Promise<Array<SearchFilterDto>> {
     return this.searchService.getFilters(searchString);
   }
 
   @Get('continuation')
+  @Header('Cache-Control', 'public, max-age=1800')
   searchContinuation(@Query('continuationData[]') continuationData: Array<any>) {
     if (continuationData) {
       return this.searchService.continueSearch(continuationData);
@@ -32,6 +35,7 @@ export class SearchController {
   }
 
   @Get()
+  @Header('Cache-Control', 'public, max-age=1800')
   search(@Query() searchQuery: SearchQueryDto): Promise<Result> {
     return this.searchService.doSearch(searchQuery);
   }
