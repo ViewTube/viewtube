@@ -1,8 +1,8 @@
-import { MediaPlayerClass } from 'dashjs';
+import { MediaPlayerClass } from 'dashjs/index.d';
 
 export class DashHelper {
   constructor(videoRef: any, manifestUrl: string) {
-    const dashLibrary = require('dashjs');
+    const dashLibrary = require('dashjs/dist/dash.mediaplayer.min');
 
     this.dashPlayerInstance = dashLibrary.MediaPlayer().create();
     this.videoRef = videoRef;
