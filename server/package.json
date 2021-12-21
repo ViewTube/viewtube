@@ -1,7 +1,7 @@
 {
   "name": "server",
   "main": "dist/server/main",
-  "packageManager": "yarn@3.1.0",
+  "packageManager": "yarn@3.1.1",
   "scripts": {
     "serve": "nest build --webpack --webpackPath webpack-hmr.config.js --watch",
     "serve:all": "nest build --webpack --webpackPath webpack-hmr.config.js --watch",
@@ -45,7 +45,7 @@
     "cache-manager": "^3.4.4",
     "cache-manager-redis-store": "^2.0.0",
     "chalk": "^4.1.2",
-    "class-transformer": "^0.4.0",
+    "class-transformer": "^0.5.0",
     "class-validator": "^0.13.1",
     "consola": "^2.15.3",
     "cookie-parser": "^1.4.5",
