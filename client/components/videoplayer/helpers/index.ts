@@ -12,7 +12,6 @@ import { parseChapters } from './chapters';
 import { destroyInstance, initializeHlsStream, isHlsNative, isHlsSupported } from './hlsHelper';
 import { DashHelper } from './dash';
 import { commons } from '@/plugins/commons';
-// import dashjs from 'dashjs';
 import { SponsorBlock } from '@/plugins/services/sponsorBlock';
 import { SponsorBlockSegmentsDto } from '@/plugins/shared';
 import { useAccessor } from '@/store';
@@ -29,8 +28,6 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
 
   const loading = ref(true);
   const fullscreen = ref(false);
-  // const dashPlayer = ref(null);
-  // const dashBitrates = ref(null);
 
   const touchAction = ref(false);
 
@@ -138,6 +135,7 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
 
   highestLegacyQuality.value = '#';
   if (props.video.legacyFormats) {
+    console.log(props.video.legacyFormats);
     const videoFormat = props.video.legacyFormats.find((e: any) => {
       if (e.qualityLabel) {
         if (e.qualityLabel === '1080p') {
