@@ -434,6 +434,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/parser@npm:^7.16.4":
+  version: 7.16.6
+  resolution: "@babel/parser@npm:7.16.6"
+  bin:
+    parser: ./bin/babel-parser.js
+  checksum: 5cbb01a7b2ba5d609945099bfadb01f54e11ef85201e1e0bf47010ee1b35c257eca6ff91606c6ce8adba82a95e180b583183e4dc076f4a70e706152075dd98ca
+  languageName: node
+  linkType: hard
+
 "@babel/plugin-bugfix-safari-id-destructuring-collision-in-function-expression@npm:^7.16.2":
   version: 7.16.2
   resolution: "@babel/plugin-bugfix-safari-id-destructuring-collision-in-function-expression@npm:7.16.2"
@@ -2519,23 +2528,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nuxtjs/composition-api@npm:0.30.0":
-  version: 0.30.0
-  resolution: "@nuxtjs/composition-api@npm:0.30.0"
+"@nuxtjs/composition-api@npm:0.31.0":
+  version: 0.31.0
+  resolution: "@nuxtjs/composition-api@npm:0.31.0"
   dependencies:
-    "@vue/composition-api": ^1.3.3
+    "@vue/composition-api": ^1.4.1
     defu: ^5.0.0
     estree-walker: ^2.0.2
     fs-extra: ^9.1.0
     magic-string: ^0.25.7
     ufo: ^0.7.9
-    unplugin-vue2-script-setup: ^0.6.13
+    unplugin-vue2-script-setup: ^0.7.3
     upath: ^2.0.1
   peerDependencies:
     "@nuxt/vue-app": ^2.15
     nuxt: ^2.15
     vue: ^2
-  checksum: 5fea1c13bbf633cc82652957c5879ceefb5df81b9a131197ab915249f05a3224e01b5d79447612a214e7f2c81b89708d19fa2ded5fa74df41b1a5bfc8aac13b5
+  checksum: bdb611a16a553a632caaab06f285857ab2ddb20cb4710ba045d78998d5777e41fc75b426c7c082b2b5a1a26e1a30bf6f93aeab5cccb906d2b5a14e5f28c4a0aa
   languageName: node
   linkType: hard
 
@@ -3943,6 +3952,30 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@vue/compiler-core@npm:3.2.24":
+  version: 3.2.24
+  resolution: "@vue/compiler-core@npm:3.2.24"
+  dependencies:
+    "@babel/parser": ^7.15.0
+    "@vue/shared": 3.2.24
+    estree-walker: ^2.0.2
+    source-map: ^0.6.1
+  checksum: f5391f7ca4d4736025d161b7890b8b8bfed77b99ab8870891fb18e53896775b2702e2d3c5df0465d423c1ed351154767be3f5dbb365a25a998c788cb8ed460f5
+  languageName: node
+  linkType: hard
+
+"@vue/compiler-core@npm:^3.2.23":
+  version: 3.2.26
+  resolution: "@vue/compiler-core@npm:3.2.26"
+  dependencies:
+    "@babel/parser": ^7.16.4
+    "@vue/shared": 3.2.26
+    estree-walker: ^2.0.2
+    source-map: ^0.6.1
+  checksum: 5ee694b573ff556a8d3c92f40c419da88a9ee1212aa0a52c17e101edbcc12fb2efb97eda9ecb46c2e5ce9e36f5d78b299a6e6321bd2739f57b25dbb4dba6d3e1
+  languageName: node
+  linkType: hard
+
 "@vue/component-compiler-utils@npm:^3.1.0":
   version: 3.3.0
   resolution: "@vue/component-compiler-utils@npm:3.3.0"
@@ -3963,7 +3996,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vue/composition-api@npm:1.4.0, @vue/composition-api@npm:^1.3.3":
+"@vue/composition-api@npm:1.4.0":
   version: 1.4.0
   resolution: "@vue/composition-api@npm:1.4.0"
   dependencies:
@@ -3971,6 +4004,17 @@ __metadata:
   peerDependencies:
     vue: ">= 2.5 < 3"
   checksum: 117cc86a897a9dda88ffadfaad2c7a039f95c581c2476d9743c6e8c7eb8940719fc24abd3d2ca7eee11b5a1505c33d3c6427a1175af73de0ae473d99e208c85c
+  languageName: node
+  linkType: hard
+
+"@vue/composition-api@npm:^1.4.1":
+  version: 1.4.2
+  resolution: "@vue/composition-api@npm:1.4.2"
+  dependencies:
+    tslib: ^2.3.1
+  peerDependencies:
+    vue: ">= 2.5 < 3"
+  checksum: 7eeb8928ab5d78458d2c07e0cef50e264883438657531f5ce4e8012389d2bc36411e083426a4ca5c530536ac70e304e3961484b733415b5fa51c98f7e44e6e5d
   languageName: node
   linkType: hard
 
@@ -3987,10 +4031,37 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@vue/ref-transform@npm:^3.2.23":
+  version: 3.2.24
+  resolution: "@vue/ref-transform@npm:3.2.24"
+  dependencies:
+    "@babel/parser": ^7.15.0
+    "@vue/compiler-core": 3.2.24
+    "@vue/shared": 3.2.24
+    estree-walker: ^2.0.2
+    magic-string: ^0.25.7
+  checksum: 4c2d0de263644b89acb6481e630cd0cfa72d88bc09755b26a1e6568f6981b586f5cb023c27c67892dd976d844123bbf22339535eb1a29b576cd8d8d1102c21bf
+  languageName: node
+  linkType: hard
+
 "@vue/shared@npm:3.2.22, @vue/shared@npm:^3.2.21":
   version: 3.2.22
   resolution: "@vue/shared@npm:3.2.22"
   checksum: 91e562a5b2543313de63dab40ebad41f1ae46fbf860d1f09a019ebc02b11c124952b603d4b774ebb8803f94f52d670a75c4677be30ecf51cea7e97abfcb7304b
+  languageName: node
+  linkType: hard
+
+"@vue/shared@npm:3.2.24":
+  version: 3.2.24
+  resolution: "@vue/shared@npm:3.2.24"
+  checksum: dcc27cb99d54d8525f29cfe31514d5e49702506bac042e0179764f191a91528078d502e89399ae682ff3b33fd534d918e97f80f316b385e261c3e8931ddd154e
+  languageName: node
+  linkType: hard
+
+"@vue/shared@npm:3.2.26, @vue/shared@npm:^3.2.23":
+  version: 3.2.26
+  resolution: "@vue/shared@npm:3.2.26"
+  checksum: 2e21fe586cfcd07aa1d0cd546ec1a0f1cd65c5a9d16d03ef53f5672962a9b79b6ef864c55f503ed45e4391b2dd5d33d418b3d7e6466d43b132fbcd32517383d6
   languageName: node
   linkType: hard
 
@@ -6016,7 +6087,7 @@ __metadata:
     "@nuxt/typescript-build": 2.1.0
     "@nuxt/vue-app": 2.15.8
     "@nuxtjs/axios": 5.13.6
-    "@nuxtjs/composition-api": 0.30.0
+    "@nuxtjs/composition-api": 0.31.0
     "@nuxtjs/eslint-config-typescript": 6.0.1
     "@nuxtjs/pwa": 3.3.5
     "@nuxtjs/router": 1.6.1
@@ -7391,6 +7462,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"domhandler@npm:^3.3.0":
+  version: 3.3.0
+  resolution: "domhandler@npm:3.3.0"
+  dependencies:
+    domelementtype: ^2.0.1
+  checksum: 850e5e9fee7834ab4314811e18bc1f4294d7eafbf6a79ad03cbe50cf964108935c97257ac248944d72a9312b4a18dfa8323e857d23278964dc83b1f124467fa3
+  languageName: node
+  linkType: hard
+
 "domhandler@npm:^4.0.0, domhandler@npm:^4.2.0, domhandler@npm:^4.2.2":
   version: 4.2.2
   resolution: "domhandler@npm:4.2.2"
@@ -7410,7 +7490,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"domutils@npm:^2.5.2, domutils@npm:^2.6.0, domutils@npm:^2.8.0":
+"domutils@npm:^2.4.2, domutils@npm:^2.5.2, domutils@npm:^2.6.0, domutils@npm:^2.8.0":
   version: 2.8.0
   resolution: "domutils@npm:2.8.0"
   dependencies:
@@ -9689,6 +9769,18 @@ __metadata:
   peerDependencies:
     webpack: ^4.0.0 || ^5.0.0
   checksum: 25ca0b341234501c64754ba8f9bb84f978e50f3f90affc199d18d04511cdc2c0c8ef8a975901a0fbcfe5bae32f80e8fd5ef52f1ce3672d3ff5307057ccb5a063
+  languageName: node
+  linkType: hard
+
+"htmlparser2@npm:5.0.1":
+  version: 5.0.1
+  resolution: "htmlparser2@npm:5.0.1"
+  dependencies:
+    domelementtype: ^2.0.1
+    domhandler: ^3.3.0
+    domutils: ^2.4.2
+    entities: ^2.0.0
+  checksum: b67ac02e44629ec76b712fc06702451bea64e522cfcd7cc22fa85023b81b44cde5060662faa81d34f18c0fe5a43ced1cac73528d30a6df5ac5825a4d479c7ea5
   languageName: node
   linkType: hard
 
@@ -17897,7 +17989,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"unplugin-vue2-script-setup@npm:0.6.16, unplugin-vue2-script-setup@npm:^0.6.13":
+"unplugin-vue2-script-setup@npm:0.6.16":
   version: 0.6.16
   resolution: "unplugin-vue2-script-setup@npm:0.6.16"
   dependencies:
@@ -17920,6 +18012,33 @@ __metadata:
     pug:
       optional: true
   checksum: 36be8b297ff595247463d980ef2fd116cae694f85f75d331247f17b25172c3cca4c57a6d50392dbd773b5607680faa803cad374bdd55c01fc4baa99b16e68bb0
+  languageName: node
+  linkType: hard
+
+"unplugin-vue2-script-setup@npm:^0.7.3":
+  version: 0.7.3
+  resolution: "unplugin-vue2-script-setup@npm:0.7.3"
+  dependencies:
+    "@antfu/utils": ^0.3.0
+    "@babel/core": ^7.16.0
+    "@babel/generator": ^7.16.0
+    "@babel/parser": ^7.16.3
+    "@babel/traverse": ^7.16.3
+    "@babel/types": ^7.16.0
+    "@rollup/pluginutils": ^4.1.1
+    "@vue/compiler-core": ^3.2.23
+    "@vue/ref-transform": ^3.2.23
+    "@vue/shared": ^3.2.23
+    defu: ^5.0.0
+    htmlparser2: 5.0.1
+    magic-string: ^0.25.7
+    unplugin: ^0.2.21
+  peerDependencies:
+    pug: ^3.0.2
+  peerDependenciesMeta:
+    pug:
+      optional: true
+  checksum: 57b3fa8fb162bebed0b47fc825e2983ff0cc55c658127d2f17bbe8de663244fab0da736b2419594c5d46e87b7f6a25b0b0772323c6a95e0cc61b5b338307f46d
   languageName: node
   linkType: hard
 
