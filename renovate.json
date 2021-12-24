@@ -1,20 +1,20 @@
 {
   "extends": ["config:base"],
-  "schedule": ["after 9am and before 7pm on friday"],
   "timezone": "Europe/Zurich",
   "labels": ["dependencies"],
   "lockFileMaintenance": { "enabled": true },
   "packageRules": [
     {
       "matchPackagePatterns": ["*"],
-      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
-      "groupName": "all non-major dependencies",
-      "groupSlug": "all-minor-patch"
+      "matchUpdateTypes": ["pin", "digest"],
+      "groupName": "all pin, digest dependencies",
+      "groupSlug": "all-pin-digest"
     },
     {
-      "matchDepTypes": ["devDependencies"],
-      "groupName": "all devDependencies",
-      "groupSlug": "all-dev-dependencies"
+      "matchPackagePatterns": ["*"],
+      "matchUpdateTypes": ["patch"],
+      "groupName": "all patch dependencies",
+      "groupSlug": "all-patch"
     }
   ],
   "commitMessagePrefix": "⬆️ ",
