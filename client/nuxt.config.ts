@@ -1,6 +1,7 @@
+import { defineNuxtConfig } from '@nuxt/bridge';
 import Sass from 'sass';
 import PnpWebpackPlugin from 'pnp-webpack-plugin';
-import { NuxtConfig } from '@nuxt/types';
+import { NuxtConfig } from '@nuxt/schema';
 const dartSass = {
   implementation: Sass,
   additionalData: `
@@ -10,14 +11,22 @@ const dartSass = {
 
 const dev = process.env.NODE_ENV !== 'production';
 
-const config: NuxtConfig = {
+type NuxtConfigType = Partial<NuxtConfig> & {
+  styleResources: any;
+  pwa: any;
+  axios: any;
+};
+
+const config: NuxtConfigType = {
   server: {
     port: 8066
   },
 
-  buildDir: './dist',
-
   modern: !dev,
+
+  alias: {
+    'viewtube/*': '../*'
+  },
 
   head: {
     meta: [
@@ -94,13 +103,7 @@ const config: NuxtConfig = {
     scss: ['~/assets/styles/global/variables.scss']
   },
 
-  typescript: {
-    typeCheck: {
-      eslint: {
-        files: './**/*.{ts,js,vue}'
-      }
-    }
-  },
+  typescript: {},
 
   plugins: [
     '@/plugins/directives/index',
@@ -181,14 +184,7 @@ const config: NuxtConfig = {
     }
   },
 
-  buildModules: [
-    '@nuxtjs/composition-api/module',
-    '@nuxtjs/router',
-    '@nuxt/typescript-build',
-    'nuxt-typed-vuex',
-    '@nuxtjs/style-resources',
-    '@nuxtjs/pwa'
-  ],
+  buildModules: ['@nuxtjs/router', 'nuxt-typed-vuex', '@nuxtjs/style-resources', '@nuxtjs/pwa'],
 
   modules: ['portal-vue/nuxt', '@nuxtjs/axios'],
 
@@ -197,25 +193,13 @@ const config: NuxtConfig = {
     progress: false
   },
 
-  resourceHints: true,
-
-  http2: {
-    push: true
-  },
-
   build: {
-    extend(config) {
-      if (!dev) {
-        config.devtool = false;
-      }
-    },
     loaders: {
       scss: dartSass
     },
     plugins: [PnpWebpackPlugin],
-    indicator: true,
     transpile: ['vue-material-design-icons', 'tippy.js']
   }
 };
 
-export default config;
+export default defineNuxtConfig(config);

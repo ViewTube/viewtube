@@ -1,4 +1,5 @@
 {
+  "extends": "./nuxt/tsconfig.json",
   "compilerOptions": {
     "target": "ES2018",
     "module": "ESNext",
@@ -16,13 +17,6 @@
     "strictBindCallApply": true,
     "strictNullChecks": false,
     "strictFunctionTypes": false,
-    "baseUrl": "./",
-    "outDir": "dist",
-    "paths": {
-      "@/*": ["./*"],
-      "~/*": ["./*"],
-      "viewtube/*": ["../*"]
-    },
     "types": ["@types/node", "@nuxt/types", "@nuxtjs/axios"]
   },
   "exclude": ["node_modules", ".nuxt"]

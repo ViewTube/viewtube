@@ -3,8 +3,8 @@
   "packageManager": "yarn@3.1.1",
   "scripts": {
     "prepare:env": "cross-env VIEWTUBE_URL=http://localhost:8067",
-    "serve": "yarn prepare:env nuxt",
-    "build": "cross-env NODE_ENV=production nuxt build",
+    "serve": "yarn prepare:env nuxi dev",
+    "build": "cross-env NODE_ENV=production nuxi build",
     "start": "yarn prepare:env nuxt start",
     "lint": "eslint --ext .ts,.js,.vue .",
     "lint:fix": "eslint --ext .ts,.js,.vue --fix ."
@@ -15,10 +15,9 @@
     "sass": "1.45.1"
   },
   "devDependencies": {
+    "@nuxt/bridge": "npm:@nuxt/bridge-edge@latest",
     "@nuxt/types": "2.15.8",
-    "@nuxt/typescript-build": "2.1.0",
     "@nuxt/vue-app": "2.15.8",
-    "@nuxtjs/composition-api": "0.31.0",
     "@nuxtjs/eslint-config-typescript": "8.0.0",
     "@nuxtjs/pwa": "3.3.5",
     "@nuxtjs/router": "1.7.0",
@@ -47,7 +46,7 @@
     "humanize-duration": "3.27.1",
     "jest": "27.4.5",
     "js-sha256": "0.9.0",
-    "nuxt": "2.15.8",
+    "nuxt": "npm:nuxt-edge@latest",
     "nuxt-typed-vuex": "0.2.0",
     "papaparse": "5.3.1",
     "pnp-webpack-plugin": "1.7.0",
@@ -58,7 +57,6 @@
     "ts-loader": "8.3.0",
     "typed-vuex": "0.2.0",
     "typescript": "4.5.4",
-    "unplugin-vue2-script-setup": "0.8.3",
     "vue": "2.6.14",
     "vue-material-design-icons": "5.0.0",
     "vue-template-compiler": "2.6.14",
