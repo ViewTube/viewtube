@@ -1,4 +1,5 @@
 import Sass from 'sass';
+import PnpWebpackPlugin from 'pnp-webpack-plugin';
 import { NuxtConfig } from '@nuxt/types';
 const dartSass = {
   implementation: Sass,
@@ -211,6 +212,7 @@ const config: NuxtConfig = {
     loaders: {
       scss: dartSass
     },
+    plugins: [PnpWebpackPlugin],
     indicator: true,
     transpile: ['vue-material-design-icons', 'tippy.js']
   }

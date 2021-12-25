@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts">
-import QRCode from 'qrcode/build/qrcode.min';
+import QRCode from 'qrcode';
 import CloseIcon from 'vue-material-design-icons/Close.vue';
 import '@/assets/styles/popup.scss';
 import { defineComponent, onMounted, ref } from '@nuxtjs/composition-api';
