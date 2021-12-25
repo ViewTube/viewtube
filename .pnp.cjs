@@ -6414,31 +6414,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "SOFT",
         }],
-        ["npm:1.4.3", {
-          "packageLocation": "./.yarn/cache/@vue-composition-api-npm-1.4.3-983d7d8cf2-638d9be202.zip/node_modules/@vue/composition-api/",
-          "packageDependencies": [
-            ["@vue/composition-api", "npm:1.4.3"]
-          ],
-          "linkType": "SOFT",
-        }],
         ["virtual:57bbe1fc7be38010cda51f728bf48bdd6e7f45bc454baabb76e5f02193d11d218ca85dce5a4c8cafb3dd0ecdf92f8bf631261ba119bc2a0ee45f4980bf361dbf#npm:1.4.2", {
           "packageLocation": "./.yarn/__virtual__/@vue-composition-api-virtual-16991a7804/0/cache/@vue-composition-api-npm-1.4.2-9256abdd7e-7eeb8928ab.zip/node_modules/@vue/composition-api/",
           "packageDependencies": [
             ["@vue/composition-api", "virtual:57bbe1fc7be38010cda51f728bf48bdd6e7f45bc454baabb76e5f02193d11d218ca85dce5a4c8cafb3dd0ecdf92f8bf631261ba119bc2a0ee45f4980bf361dbf#npm:1.4.2"],
-            ["@types/vue", null],
-            ["tslib", "npm:2.3.1"],
-            ["vue", "npm:2.6.14"]
-          ],
-          "packagePeers": [
-            "@types/vue",
-            "vue"
-          ],
-          "linkType": "HARD",
-        }],
-        ["virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:1.4.3", {
-          "packageLocation": "./.yarn/__virtual__/@vue-composition-api-virtual-a6cf1cbbcd/0/cache/@vue-composition-api-npm-1.4.3-983d7d8cf2-638d9be202.zip/node_modules/@vue/composition-api/",
-          "packageDependencies": [
-            ["@vue/composition-api", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:1.4.3"],
             ["@types/vue", null],
             ["tslib", "npm:2.3.1"],
             ["vue", "npm:2.6.14"]
@@ -8817,7 +8796,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/sass", "npm:1.43.1"],
             ["@typescript-eslint/eslint-plugin", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:5.8.0"],
             ["@typescript-eslint/parser", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:5.8.0"],
-            ["@vue/composition-api", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:1.4.3"],
             ["axios", "npm:0.24.0"],
             ["consola", "npm:2.15.3"],
             ["cross-env", "npm:7.0.3"],
