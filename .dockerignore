@@ -7,6 +7,11 @@ dist
 out
 channels
 scripts
+client/node_modules
+client/.output
+client/.nuxt
+server/node_modules
+server/dist
 
 Dockerfile
 npm-debug.log

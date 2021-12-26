@@ -24,8 +24,13 @@ const config: NuxtConfigType = {
 
   modern: !dev,
 
+  nitro: {
+    preset: 'node'
+  },
+
   alias: {
-    'viewtube/*': '../*'
+    'viewtube/*': '../*',
+    'core-js/*': '../node_modules/core-js/*'
   },
 
   head: {

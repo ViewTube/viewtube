@@ -7,9 +7,7 @@
   "version": "0.9.0",
   "license": "AGPLv3",
   "scripts": {
-    "build": "yarn workspaces foreach run build",
     "build:server": "scripts/build.server.sh",
-    "build:client": "yarn workspace client run build",
     "serve:api": "yarn workspace server run serve",
     "serve:client": "yarn workspace client run serve",
     "test": "yarn workspace server run test",
@@ -39,8 +37,7 @@
     "jest": "27.4.5",
     "prettier": "2.5.1",
     "typescript": "4.5.4",
-    "vls": "0.7.6",
-    "vue": "2.6.14"
+    "vls": "0.7.6"
   },
   "packageManager": "yarn@3.1.1"
 }

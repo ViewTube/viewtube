@@ -6,14 +6,23 @@ ENV BUILD_ENV=production
 COPY prepare.js package.json ./
 COPY .yarn ./.yarn/
 COPY yarn.lock .yarnrc.yml ./
+COPY client/.yarnrc.yml ./client/
 
 COPY server/package.json ./server/
 COPY client/package.json ./client/
 COPY shared/package.json ./shared/
 
-RUN yarn install 
+RUN yarn install
+
+WORKDIR /home/build/client
+RUN yarn install
+WORKDIR /home/build
 
 COPY . .
+
+WORKDIR /home/build/client
+RUN yarn build
+WORKDIR /home/build
 
 RUN yarn build
 
