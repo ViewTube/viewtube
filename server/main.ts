@@ -14,7 +14,7 @@ import FastifyMultipart from 'fastify-multipart';
 import FastifyHelmet from 'fastify-helmet';
 import { AppModule } from './app.module';
 import { NuxtFilter } from './nuxt/nuxt.filter';
-import NuxtServer from './nuxt/';
+import NuxtHandler from './nuxt/';
 import { HomepageService } from './core/homepage/homepage.service';
 import { AppClusterService } from './app-cluster.service';
 import { promisify } from 'util';
@@ -83,7 +83,8 @@ const bootstrap = async () => {
 
   // NUXT
   if (isProduction) {
-    const nuxt = await NuxtServer.getInstance().run();
+    const handler = new NuxtHandler();
+    const nuxt = await handler.getHandler();
 
     server.useGlobalFilters(new NuxtFilter(nuxt));
   }

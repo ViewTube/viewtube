@@ -1,13 +1,14 @@
 import { ExceptionFilter, HttpException, ArgumentsHost, Catch } from '@nestjs/common';
 import { FastifyRequest, FastifyReply } from 'fastify';
-import { Nuxt } from '@nuxt/core';
+import { NuxtHandlerType } from 'nuxt';
 
 @Catch()
 export class NuxtFilter implements ExceptionFilter {
-  private readonly nuxt: Nuxt;
+  private readonly nuxt: NuxtHandlerType;
 
-  constructor(nuxt: Nuxt) {
+  constructor(nuxt: NuxtHandlerType) {
     this.nuxt = nuxt;
+    console.log('created nuxt');
   }
 
   public async catch(exception: HttpException, host: ArgumentsHost) {
@@ -22,7 +23,8 @@ export class NuxtFilter implements ExceptionFilter {
     }
 
     if (status === 404 && !(exception.getResponse() as any).ignoreFilter) {
-      await this.nuxt.render(req.raw, res.raw);
+      console.log('sending nuxt');
+      await this.nuxt(req.raw, res.raw);
     } else if (status) {
       const response = exception.getResponse();
       delete (response as any).ignoreFilter;
