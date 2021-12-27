@@ -4182,33 +4182,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/parser@npm:^4.32.0":
-  version: 4.33.0
-  resolution: "@typescript-eslint/parser@npm:4.33.0"
-  dependencies:
-    "@typescript-eslint/scope-manager": 4.33.0
-    "@typescript-eslint/types": 4.33.0
-    "@typescript-eslint/typescript-estree": 4.33.0
-    debug: ^4.3.1
-  peerDependencies:
-    eslint: ^5.0.0 || ^6.0.0 || ^7.0.0
-  peerDependenciesMeta:
-    typescript:
-      optional: true
-  checksum: 102457eae1acd516211098fea081c8a2ed728522bbda7f5a557b6ef23d88970514f9a0f6285d53fca134d3d4d7d17822b5d5e12438d5918df4d1f89cc9e67d57
-  languageName: node
-  linkType: hard
-
-"@typescript-eslint/scope-manager@npm:4.33.0":
-  version: 4.33.0
-  resolution: "@typescript-eslint/scope-manager@npm:4.33.0"
-  dependencies:
-    "@typescript-eslint/types": 4.33.0
-    "@typescript-eslint/visitor-keys": 4.33.0
-  checksum: 9a25fb7ba7c725ea7227a24d315b0f6aacbad002e2549a049edf723c1d3615c22f5c301f0d7d615b377f2cdf2f3519d97e79af0c459de6ef8d2aaf0906dff13e
-  languageName: node
-  linkType: hard
-
 "@typescript-eslint/scope-manager@npm:5.8.0":
   version: 5.8.0
   resolution: "@typescript-eslint/scope-manager@npm:5.8.0"
@@ -4219,35 +4192,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/types@npm:4.33.0":
-  version: 4.33.0
-  resolution: "@typescript-eslint/types@npm:4.33.0"
-  checksum: 3baae1ca35872421b4eb60f5d3f3f32dc1d513f2ae0a67dee28c7d159fd7a43ed0d11a8a5a0f0c2d38507ffa036fc7c511cb0f18a5e8ac524b3ebde77390ec53
-  languageName: node
-  linkType: hard
-
 "@typescript-eslint/types@npm:5.8.0":
   version: 5.8.0
   resolution: "@typescript-eslint/types@npm:5.8.0"
   checksum: eda7a2c4620fd0cd56a81af6f44d8de96eb5912dda69907cd422e3fb5845b45c004a2c50f1896b6573b70f41f175208434d13dd744ea23aec2094ba916578a81
-  languageName: node
-  linkType: hard
-
-"@typescript-eslint/typescript-estree@npm:4.33.0":
-  version: 4.33.0
-  resolution: "@typescript-eslint/typescript-estree@npm:4.33.0"
-  dependencies:
-    "@typescript-eslint/types": 4.33.0
-    "@typescript-eslint/visitor-keys": 4.33.0
-    debug: ^4.3.1
-    globby: ^11.0.3
-    is-glob: ^4.0.1
-    semver: ^7.3.5
-    tsutils: ^3.21.0
-  peerDependenciesMeta:
-    typescript:
-      optional: true
-  checksum: 2566984390c76bd95f43240057215c068c69769e406e27aba41e9f21fd300074d6772e4983fa58fe61e80eb5550af1548d2e31e80550d92ba1d051bb00fe6f5c
   languageName: node
   linkType: hard
 
@@ -4266,16 +4214,6 @@ __metadata:
     typescript:
       optional: true
   checksum: 67f51754d1dea9eafc8d052b67a2d7a3b20e20d97de03fc49615fe70d0373323619dfa5986a8e71cb9b2ec6079fb050049100763b5dbadae52b30c7d11c57ebd
-  languageName: node
-  linkType: hard
-
-"@typescript-eslint/visitor-keys@npm:4.33.0":
-  version: 4.33.0
-  resolution: "@typescript-eslint/visitor-keys@npm:4.33.0"
-  dependencies:
-    "@typescript-eslint/types": 4.33.0
-    eslint-visitor-keys: ^2.0.0
-  checksum: 59953e474ad4610c1aa23b2b1a964445e2c6201521da6367752f37939d854352bbfced5c04ea539274065e012b1337ba3ffa49c2647a240a4e87155378ba9873
   languageName: node
   linkType: hard
 
@@ -7186,7 +7124,6 @@ __metadata:
     "@typescript-eslint/parser": 5.8.0
     axios: 0.24.0
     consola: 2.15.3
-    core-js: 3.20.1
     cross-env: 7.0.3
     dashjs: 4.2.1
     eslint: 8.5.0
@@ -7203,6 +7140,7 @@ __metadata:
     humanize-duration: 3.27.1
     jest: 27.4.5
     js-sha256: 0.9.0
+    nuxi: 0.10.1
     nuxt: "npm:nuxt-edge@latest"
     nuxt-typed-vuex: 0.2.0
     papaparse: 5.3.1
@@ -7678,13 +7616,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"core-js@npm:3.20.1, core-js@npm:^3.19.1":
-  version: 3.20.1
-  resolution: "core-js@npm:3.20.1"
-  checksum: e45f4f4b5c64d4650d46075b1fa8845c62ea08f5c30ee92ffc14b95147b4a9eb511c8a1184a31d03660061a8570a9610e598e30981afc2d2f8bca460f63dd3cb
-  languageName: node
-  linkType: hard
-
 "core-js@npm:^2.4.0":
   version: 2.6.12
   resolution: "core-js@npm:2.6.12"
@@ -7692,10 +7623,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"core-js@npm:^3.19.0":
-  version: 3.20.2
-  resolution: "core-js@npm:3.20.2"
-  checksum: dc055a5a79f2e3c2e060b4fb8a3e228fa0de16464bff3c6605646183139eebaa68c390ec6d9c3acc5677f333df510b977ee3f1d5992e6c36b1f200e35f5ed8ca
+"core-js@npm:^3.19.0, core-js@npm:^3.19.1":
+  version: 3.20.1
+  resolution: "core-js@npm:3.20.1"
+  checksum: e45f4f4b5c64d4650d46075b1fa8845c62ea08f5c30ee92ffc14b95147b4a9eb511c8a1184a31d03660061a8570a9610e598e30981afc2d2f8bca460f63dd3cb
   languageName: node
   linkType: hard
 
@@ -10370,29 +10301,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fastify@npm:*, fastify@npm:3.25.2":
-  version: 3.25.2
-  resolution: "fastify@npm:3.25.2"
-  dependencies:
-    "@fastify/ajv-compiler": ^1.0.0
-    abstract-logging: ^2.0.0
-    avvio: ^7.1.2
-    fast-json-stringify: ^2.5.2
-    fastify-error: ^0.3.0
-    fastify-warning: ^0.2.0
-    find-my-way: ^4.5.0
-    flatstr: ^1.0.12
-    light-my-request: ^4.2.0
-    pino: ^6.13.0
-    proxy-addr: ^2.0.7
-    rfdc: ^1.1.4
-    secure-json-parse: ^2.0.0
-    semver: ^7.3.2
-    tiny-lru: ^7.0.0
-  checksum: 730acc309d91870560c0bb09644fa37f5c229b190c0dbf8d91b9bac655cfcb4c3ed518f3ac43bbd51e26e907fd922cf7c7328f88a943389d41bd2108d4a9618a
-  languageName: node
-  linkType: hard
-
 "fastify@npm:3.24.1":
   version: 3.24.1
   resolution: "fastify@npm:3.24.1"
@@ -10413,6 +10321,29 @@ __metadata:
     semver: ^7.3.2
     tiny-lru: ^7.0.0
   checksum: d73cd0398989d51df53c892ce5eac3a9e2c194aff7df8b557e8efa95093afca3cf7c9b9cc926249554272d94ff764722272ee0d37dd3f858b728106612a83fe7
+  languageName: node
+  linkType: hard
+
+"fastify@npm:3.25.2":
+  version: 3.25.2
+  resolution: "fastify@npm:3.25.2"
+  dependencies:
+    "@fastify/ajv-compiler": ^1.0.0
+    abstract-logging: ^2.0.0
+    avvio: ^7.1.2
+    fast-json-stringify: ^2.5.2
+    fastify-error: ^0.3.0
+    fastify-warning: ^0.2.0
+    find-my-way: ^4.5.0
+    flatstr: ^1.0.12
+    light-my-request: ^4.2.0
+    pino: ^6.13.0
+    proxy-addr: ^2.0.7
+    rfdc: ^1.1.4
+    secure-json-parse: ^2.0.0
+    semver: ^7.3.2
+    tiny-lru: ^7.0.0
+  checksum: 730acc309d91870560c0bb09644fa37f5c229b190c0dbf8d91b9bac655cfcb4c3ed518f3ac43bbd51e26e907fd922cf7c7328f88a943389d41bd2108d4a9618a
   languageName: node
   linkType: hard
 
@@ -11176,7 +11107,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"globby@npm:^11.0.3, globby@npm:^11.0.4":
+"globby@npm:^11.0.4":
   version: 11.0.4
   resolution: "globby@npm:11.0.4"
   dependencies:
@@ -15218,7 +15149,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nuxi@npm:nuxi-edge@3.0.0-27338323.1e98259":
+"nuxi-edge@npm:latest, nuxi@npm:nuxi-edge@3.0.0-27338323.1e98259":
   version: 3.0.0-27338323.1e98259
   resolution: "nuxi-edge@npm:3.0.0-27338323.1e98259"
   dependencies:
@@ -15229,6 +15160,17 @@ __metadata:
   bin:
     nuxi-edge: ./bin/nuxi.mjs
   checksum: 9c7772b463c7f7a88519e168f9c7d321a763ba9254991bb2e58d91ab0e7ec240613967e91ed17bcff0c3f7a316fdd67066a8eae965ba6b26902aceb0743fa562
+  languageName: node
+  linkType: hard
+
+"nuxi@npm:0.10.1":
+  version: 0.10.1
+  resolution: "nuxi@npm:0.10.1"
+  dependencies:
+    nuxi-edge: latest
+  bin:
+    nuxi: bin/nuxi.mjs
+  checksum: ee2bcbfef94c497c9300c6c2ba65dae794a143682b36acdaba58e3dd7e455402793b130976bc1c8c3b2e139e533db66ddc06f66362477e42be5513dd703ac89f
   languageName: node
   linkType: hard
 
@@ -20529,7 +20471,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:4.5.4, typescript@npm:^4.4.4, typescript@npm:^4.5.4":
+"typescript@npm:4.5.4, typescript@npm:^4.4.4":
   version: 4.5.4
   resolution: "typescript@npm:4.5.4"
   bin:
@@ -20549,7 +20491,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@4.5.4#~builtin<compat/typescript>, typescript@patch:typescript@^4.4.4#~builtin<compat/typescript>, typescript@patch:typescript@^4.5.4#~builtin<compat/typescript>":
+"typescript@patch:typescript@4.5.4#~builtin<compat/typescript>, typescript@patch:typescript@^4.4.4#~builtin<compat/typescript>":
   version: 4.5.4
   resolution: "typescript@patch:typescript@npm%3A4.5.4#~builtin<compat/typescript>::version=4.5.4&hash=493e53"
   bin:

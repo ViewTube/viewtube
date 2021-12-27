@@ -1,21 +1,15 @@
 {
   "extends": "./.nuxt/tsconfig.json",
   "compilerOptions": {
-    "target": "ES2018",
-    "module": "ESNext",
-    "moduleResolution": "Node",
     "declaration": false,
     "lib": ["ESNext", "ESNext.AsyncIterable", "DOM"],
     "esModuleInterop": true,
-    "resolveJsonModule": true,
-    "allowJs": true,
     "sourceMap": false,
-    "strict": false,
     "noImplicitThis": true,
     "noImplicitAny": false,
     "strictBindCallApply": true,
     "strictNullChecks": false,
     "strictFunctionTypes": false
   },
-  "exclude": ["node_modules", ".nuxt"]
+  // "exclude": ["node_modules", ".nuxt"]
 }

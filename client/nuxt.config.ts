@@ -29,8 +29,8 @@ const config: NuxtConfigType = {
   },
 
   alias: {
-    'viewtube/*': '../*',
-    'core-js/*': '../node_modules/core-js/*'
+    'viewtube/*': '../*'
+    // 'core-js/*': '../node_modules/core-js/*'
   },
 
   head: {
@@ -189,7 +189,13 @@ const config: NuxtConfigType = {
     }
   },
 
-  buildModules: ['@nuxtjs/router', 'nuxt-typed-vuex', '@nuxtjs/style-resources', '@nuxtjs/pwa'],
+  buildModules: [
+    '@nuxt/bridge',
+    '@nuxtjs/router',
+    'nuxt-typed-vuex',
+    '@nuxtjs/style-resources',
+    '@nuxtjs/pwa'
+  ],
 
   modules: ['portal-vue/nuxt', '@nuxtjs/axios'],
 
