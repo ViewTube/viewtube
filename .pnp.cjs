@@ -3051,7 +3051,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/rxjs", null],
             ["axios", "npm:0.24.0"],
             ["cache-manager", "npm:3.6.0"],
-            ["class-transformer", "npm:0.4.0"],
+            ["class-transformer", "npm:0.5.1"],
             ["class-validator", "npm:0.13.2"],
             ["iterare", "npm:1.2.1"],
             ["reflect-metadata", "npm:0.1.13"],
@@ -3084,7 +3084,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/rxjs", null],
             ["axios", "npm:0.24.0"],
             ["cache-manager", null],
-            ["class-transformer", "npm:0.4.0"],
+            ["class-transformer", "npm:0.5.1"],
             ["class-validator", "npm:0.13.1"],
             ["iterare", "npm:1.2.1"],
             ["reflect-metadata", "npm:0.1.13"],
@@ -3280,7 +3280,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/class-validator", null],
             ["@types/nestjs__common", null],
             ["@types/reflect-metadata", null],
-            ["class-transformer", "npm:0.4.0"],
+            ["class-transformer", "npm:0.5.1"],
             ["class-validator", "npm:0.13.2"],
             ["reflect-metadata", "npm:0.1.13"]
           ],
@@ -3305,7 +3305,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/class-validator", null],
             ["@types/nestjs__common", null],
             ["@types/reflect-metadata", null],
-            ["class-transformer", "npm:0.4.0"],
+            ["class-transformer", "npm:0.5.1"],
             ["class-validator", "npm:0.13.1"],
             ["reflect-metadata", "npm:0.1.13"]
           ],
@@ -3508,7 +3508,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/reflect-metadata", null],
             ["@types/swagger-ui-express", null],
             ["@types/typescript", null],
-            ["class-transformer", "npm:0.4.0"],
+            ["class-transformer", "npm:0.5.1"],
             ["class-validator", "npm:0.13.2"],
             ["fastify-swagger", "npm:4.12.6"],
             ["lodash", "npm:4.17.21"],
@@ -3552,7 +3552,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/reflect-metadata", null],
             ["@types/swagger-ui-express", null],
             ["@types/typescript", null],
-            ["class-transformer", "npm:0.4.0"],
+            ["class-transformer", "npm:0.5.1"],
             ["class-validator", "npm:0.13.1"],
             ["fastify-swagger", null],
             ["lodash", "npm:4.17.21"],
@@ -8573,10 +8573,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["class-transformer", [
-        ["npm:0.4.0", {
-          "packageLocation": "./.yarn/cache/class-transformer-npm-0.4.0-7e25d375bc-4057346b51.zip/node_modules/class-transformer/",
+        ["npm:0.5.1", {
+          "packageLocation": "./.yarn/cache/class-transformer-npm-0.5.1-96b5161e6c-f191c8b4cc.zip/node_modules/class-transformer/",
           "packageDependencies": [
-            ["class-transformer", "npm:0.4.0"]
+            ["class-transformer", "npm:0.5.1"]
           ],
           "linkType": "HARD",
         }]
@@ -20446,7 +20446,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["cache-manager", "npm:3.6.0"],
             ["cache-manager-redis-store", "npm:2.0.0"],
             ["chalk", "npm:4.1.2"],
-            ["class-transformer", "npm:0.4.0"],
+            ["class-transformer", "npm:0.5.1"],
             ["class-validator", "npm:0.13.2"],
             ["consola", "npm:2.15.3"],
             ["cookie-parser", "npm:1.4.6"],
@@ -20586,7 +20586,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@nestjs/core", "virtual:d10100d960b1b73f8c74718d4637dfe2c18d098bafef09afa646f6b4f65cd1a5ad77d7941e2a1def095bb77eb2ac82d00bec47774003ea2f130a251bc51e4c5b#npm:8.1.1"],
             ["@nestjs/swagger", "virtual:d10100d960b1b73f8c74718d4637dfe2c18d098bafef09afa646f6b4f65cd1a5ad77d7941e2a1def095bb77eb2ac82d00bec47774003ea2f130a251bc51e4c5b#npm:5.1.4"],
             ["@types/node", "npm:16.11.7"],
-            ["class-transformer", "npm:0.4.0"],
+            ["class-transformer", "npm:0.5.1"],
             ["class-validator", "npm:0.13.1"],
             ["reflect-metadata", "npm:0.1.13"],
             ["rxjs", "npm:7.4.0"],
