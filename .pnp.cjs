@@ -55,7 +55,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint", "npm:7.32.0"],
             ["eslint-import-resolver-node", "npm:0.3.6"],
             ["jest", "virtual:c139d237b0dbb776e61db419e9c89c8b814c75fa7a88b9f24aafc5ab8ac92bbf91dff4585597824d969ce997b2ccd24ccbc8eb827b2908e4b381ccc31b31d3eb#npm:27.3.1"],
-            ["prettier", "npm:2.4.1"],
+            ["prettier", "npm:2.5.1"],
             ["typescript", "patch:typescript@npm%3A4.4.4#~builtin<compat/typescript>::version=4.4.4&hash=ddd1e8"],
             ["vls", "npm:0.7.6"],
             ["vue", "npm:2.6.14"]
@@ -8742,7 +8742,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["nuxt-typed-vuex", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:0.2.0"],
             ["papaparse", "npm:5.3.1"],
             ["portal-vue", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:2.1.7"],
-            ["prettier", "npm:2.4.1"],
+            ["prettier", "npm:2.5.1"],
             ["qrcode", "npm:1.4.4"],
             ["sass", "npm:1.43.4"],
             ["sass-loader", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:10.1.1"],
@@ -18992,6 +18992,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["prettier", "npm:2.4.1"]
           ],
           "linkType": "HARD",
+        }],
+        ["npm:2.5.1", {
+          "packageLocation": "./.yarn/cache/prettier-npm-2.5.1-58b195b509-21b9408476.zip/node_modules/prettier/",
+          "packageDependencies": [
+            ["prettier", "npm:2.5.1"]
+          ],
+          "linkType": "HARD",
         }]
       ]],
       ["pretty-bytes", [
@@ -23069,7 +23076,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint", "npm:7.32.0"],
             ["eslint-import-resolver-node", "npm:0.3.6"],
             ["jest", "virtual:c139d237b0dbb776e61db419e9c89c8b814c75fa7a88b9f24aafc5ab8ac92bbf91dff4585597824d969ce997b2ccd24ccbc8eb827b2908e4b381ccc31b31d3eb#npm:27.3.1"],
-            ["prettier", "npm:2.4.1"],
+            ["prettier", "npm:2.5.1"],
             ["typescript", "patch:typescript@npm%3A4.4.4#~builtin<compat/typescript>::version=4.4.4&hash=ddd1e8"],
             ["vls", "npm:0.7.6"],
             ["vue", "npm:2.6.14"]

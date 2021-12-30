@@ -6127,7 +6127,7 @@ __metadata:
     nuxt-typed-vuex: 0.2.0
     papaparse: 5.3.1
     portal-vue: 2.1.7
-    prettier: 2.4.1
+    prettier: 2.5.1
     qrcode: 1.4.4
     sass: 1.43.4
     sass-loader: 10.1.1
@@ -14783,7 +14783,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier@npm:2.4.1, prettier@npm:^1.18.2 || ^2.0.0, prettier@npm:^2.4.1":
+"prettier@npm:2.5.1":
+  version: 2.5.1
+  resolution: "prettier@npm:2.5.1"
+  bin:
+    prettier: bin-prettier.js
+  checksum: 21b9408476ea1c544b0e45d51ceb94a84789ff92095abb710942d780c862d0daebdb29972d47f6b4d0f7ebbfb0ffbf56cc2cfa3e3e9d1cca54864af185b15b66
+  languageName: node
+  linkType: hard
+
+"prettier@npm:^1.18.2 || ^2.0.0, prettier@npm:^2.4.1":
   version: 2.4.1
   resolution: "prettier@npm:2.4.1"
   bin:
@@ -18216,7 +18225,7 @@ __metadata:
     eslint: 7.32.0
     eslint-import-resolver-node: 0.3.6
     jest: 27.3.1
-    prettier: 2.4.1
+    prettier: 2.5.1
     typescript: 4.4.4
     vls: 0.7.6
     vue: 2.6.14
