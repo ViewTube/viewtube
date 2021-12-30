@@ -1837,9 +1837,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nestjs/core@npm:8.1.1":
-  version: 8.1.1
-  resolution: "@nestjs/core@npm:8.1.1"
+"@nestjs/core@npm:8.2.4":
+  version: 8.2.4
+  resolution: "@nestjs/core@npm:8.2.4"
   dependencies:
     "@nuxtjs/opencollective": 0.3.2
     fast-safe-stringify: 2.1.1
@@ -1862,7 +1862,7 @@ __metadata:
       optional: true
     "@nestjs/websockets":
       optional: true
-  checksum: ba74fd8c97877890903cd808baee03382418789ba34895994c741e2b2e4a89b9a84daf7dede8fece27722f8a5d5a3cc1f5d5378beb0813e4d57c56c08a90f11b
+  checksum: 9bf9ddb586ad4c84f3f8c906d4eaef8985a702d082ca4c80b933c97d63863a7a60cd2b543782e1084b0905822b3a89500f2349f47e0e8a4d256016e60f3511f9
   languageName: node
   linkType: hard
 
@@ -16174,7 +16174,7 @@ __metadata:
   resolution: "shared@workspace:shared"
   dependencies:
     "@nestjs/common": 8.2.0
-    "@nestjs/core": 8.1.1
+    "@nestjs/core": 8.2.4
     "@nestjs/swagger": 5.1.4
     "@types/node": 16.11.7
     class-transformer: 0.5.1
