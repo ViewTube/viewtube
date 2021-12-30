@@ -8716,7 +8716,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["axios", "npm:0.24.0"],
             ["consola", "npm:2.15.3"],
             ["cross-env", "npm:7.0.3"],
-            ["dashjs", "npm:4.1.0"],
+            ["dashjs", "npm:4.2.1"],
             ["eslint", "npm:7.32.0"],
             ["eslint-config-prettier", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:8.3.0"],
             ["eslint-import-resolver-node", "npm:0.3.6"],
@@ -9970,10 +9970,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["dashjs", [
-        ["npm:4.1.0", {
-          "packageLocation": "./.yarn/cache/dashjs-npm-4.1.0-dbc7b61360-64165a2ae8.zip/node_modules/dashjs/",
+        ["npm:4.2.1", {
+          "packageLocation": "./.yarn/cache/dashjs-npm-4.2.1-4f4271b922-eefac7581d.zip/node_modules/dashjs/",
           "packageDependencies": [
-            ["dashjs", "npm:4.1.0"],
+            ["dashjs", "npm:4.2.1"],
             ["codem-isoboxer", "npm:0.3.6"],
             ["es6-promise", "npm:4.2.8"],
             ["fast-deep-equal", "npm:2.0.1"],

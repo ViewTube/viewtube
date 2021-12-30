@@ -6101,7 +6101,7 @@ __metadata:
     axios: 0.24.0
     consola: 2.15.3
     cross-env: 7.0.3
-    dashjs: 4.1.0
+    dashjs: 4.2.1
     eslint: 7.32.0
     eslint-config-prettier: 8.3.0
     eslint-import-resolver-node: 0.3.6
@@ -7030,9 +7030,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dashjs@npm:4.1.0":
-  version: 4.1.0
-  resolution: "dashjs@npm:4.1.0"
+"dashjs@npm:4.2.1":
+  version: 4.2.1
+  resolution: "dashjs@npm:4.2.1"
   dependencies:
     codem-isoboxer: 0.3.6
     es6-promise: ^4.2.8
@@ -7040,7 +7040,7 @@ __metadata:
     html-entities: ^1.2.1
     imsc: ^1.0.2
     localforage: ^1.7.1
-  checksum: 64165a2ae8fd9cdd3dbce09f3c58cf63b5eb2229aed6da516f895ebb63705a05fd7e07dd43ab58b5357b9641f2527be5d52307b7967994ef692acfdca17c833c
+  checksum: eefac7581dce314e7e61c77f0added7c4c7f93dd1347ab3f68749b2f2a282487b01100e76333d5c4bab66c5ddaec9b1071528fa26e36f6171784583805285bb9
   languageName: node
   linkType: hard
 
