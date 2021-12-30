@@ -2618,13 +2618,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nuxtjs/router@npm:1.6.1":
-  version: 1.6.1
-  resolution: "@nuxtjs/router@npm:1.6.1"
+"@nuxtjs/router@npm:1.7.0":
+  version: 1.7.0
+  resolution: "@nuxtjs/router@npm:1.7.0"
   dependencies:
     consola: ^2.15.3
-    defu: ^3.2.2
-  checksum: d7c2599cb7c612b6e71404d823e2f1f764799a3e989647f80a98c7391ca1ca387f9b73d229b8aa7dbb9bc9b3ed532795cfde37a3a4a4f664c287c7e651ed386f
+    defu: ^5.0.0
+  checksum: 984256ec4a473967dd99905d226d108c6239fcc746a67835076e46127516f93d25858d72e7798100765da4edc7348e9b10faafdf084edba8255c42763c3aa610
   languageName: node
   linkType: hard
 
@@ -6097,7 +6097,7 @@ __metadata:
     "@nuxtjs/composition-api": 0.31.0
     "@nuxtjs/eslint-config-typescript": 6.0.1
     "@nuxtjs/pwa": 3.3.5
-    "@nuxtjs/router": 1.6.1
+    "@nuxtjs/router": 1.7.0
     "@nuxtjs/style-resources": 1.2.1
     "@types/node": 16.11.7
     "@types/papaparse": 5.3.1

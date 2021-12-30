@@ -4314,12 +4314,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@nuxtjs/router", [
-        ["npm:1.6.1", {
-          "packageLocation": "./.yarn/cache/@nuxtjs-router-npm-1.6.1-25f6d99c36-d7c2599cb7.zip/node_modules/@nuxtjs/router/",
+        ["npm:1.7.0", {
+          "packageLocation": "./.yarn/cache/@nuxtjs-router-npm-1.7.0-8cd03ffefd-984256ec4a.zip/node_modules/@nuxtjs/router/",
           "packageDependencies": [
-            ["@nuxtjs/router", "npm:1.6.1"],
+            ["@nuxtjs/router", "npm:1.7.0"],
             ["consola", "npm:2.15.3"],
-            ["defu", "npm:3.2.2"]
+            ["defu", "npm:5.0.0"]
           ],
           "linkType": "HARD",
         }]
@@ -8712,7 +8712,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@nuxtjs/composition-api", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:0.31.0"],
             ["@nuxtjs/eslint-config-typescript", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:6.0.1"],
             ["@nuxtjs/pwa", "npm:3.3.5"],
-            ["@nuxtjs/router", "npm:1.6.1"],
+            ["@nuxtjs/router", "npm:1.7.0"],
             ["@nuxtjs/style-resources", "npm:1.2.1"],
             ["@types/node", "npm:16.11.7"],
             ["@types/papaparse", "npm:5.3.1"],
