@@ -1,5 +1,5 @@
 ignore-failures:
-  typescript:
+  javascript:
     - bcryptjs
     - @types/bcryptjs
     - @types/cookie-parser
