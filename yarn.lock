@@ -12038,7 +12038,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"m3u8stream@npm:^0.8.3":
+"m3u8stream@npm:^0.8.4":
   version: 0.8.4
   resolution: "m3u8stream@npm:0.8.4"
   dependencies:
@@ -16133,7 +16133,7 @@ __metadata:
     webpack-pnp-externals: 1.1.0
     x2js: ^3.4.2
     xml-js: ^1.6.11
-    ytdl-core: ^4.9.1
+    ytdl-core: 4.9.2
     ytpl: ^2.2.3
     ytsr: ^3.5.3
   languageName: unknown
@@ -19192,14 +19192,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ytdl-core@npm:^4.9.1":
-  version: 4.9.1
-  resolution: "ytdl-core@npm:4.9.1"
+"ytdl-core@npm:4.9.2":
+  version: 4.9.2
+  resolution: "ytdl-core@npm:4.9.2"
   dependencies:
-    m3u8stream: ^0.8.3
+    m3u8stream: ^0.8.4
     miniget: ^4.0.0
     sax: ^1.1.3
-  checksum: a2401e9cf056706fd3d1fb5b3370e31694f7430357f5d646925b748e1d18cc499414672633095ceb2097600ec7da17cf367642a09e24bc5452404f5cbd253287
+  checksum: 90c2018bc5d802cde184c80830a472004b57e0c711549548c976be48e33189ab934077d292d3d4734c17d8c7f43f8f442737491f321d9bb1ef1651cb0e99470a
   languageName: node
   linkType: hard
 
