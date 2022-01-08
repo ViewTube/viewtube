@@ -1,0 +1,15 @@
+ignore-failures:
+  javascript:
+    - bcryptjs
+    - @types/bcryptjs
+    - @types/cookie-parser
+    - @types/node-fetch
+    - cross-env
+    - js-sha256
+    - module-alias
+    - passport-jwt
+    - passport-local
+    - portal-vue  # Available in vue 3
+    - reflect-metadata
+    - svg-captcha
+    - xml-js
