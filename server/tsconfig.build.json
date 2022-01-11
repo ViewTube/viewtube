@@ -4,5 +4,5 @@
     "sourceMap": false,
     "inlineSourceMap": false
   },
-  "exclude": ["**/node_modules", "**/dist", "test", "**/*spec.ts", "**/.yarn"]
+  "exclude": ["**/node_modules", "**/dist", "test", "**/*spec.ts", "**/.yarn", "../client/node_modules", "client/node_modules"]
 }

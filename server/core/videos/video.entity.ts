@@ -10,12 +10,15 @@ import { ChapterDto } from 'viewtube/shared/dto/video/chapter.dto';
 import { Common } from '../common';
 
 export class VideoEntity implements VideoDto {
-  constructor(private _source: Partial<videoInfo>, private _dashManifest?: string) {}
+  constructor(private _source: Partial<videoInfo>, private _dashManifest?: string) {
+    this._videoDetails = this._source.videoDetails;
+    this.playerResponse = this._source.player_response;
+  }
 
-  private _videoDetails = this._source.videoDetails;
+  private _videoDetails = null;
 
   @Exclude()
-  playerResponse = this._source.player_response;
+  playerResponse = null;
 
   @Exclude()
   playerVideoDetails = this.playerResponse.videoDetails;

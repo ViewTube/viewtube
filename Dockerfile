@@ -7,6 +7,7 @@ COPY prepare.js package.json ./
 COPY .yarn ./.yarn/
 COPY yarn.lock .yarnrc.yml ./
 COPY client/.yarnrc.yml ./client/
+COPY client/yarn.lock ./client/
 
 COPY server/package.json ./server/
 COPY client/package.json ./client/
@@ -22,6 +23,7 @@ COPY . .
 
 WORKDIR /home/build/client
 RUN yarn build
+RUN rm -rf node_modules
 WORKDIR /home/build
 
 RUN yarn build
@@ -41,9 +43,7 @@ COPY --from=build /home/build/.pnp.cjs /home/build/package.json /home/build/yarn
 COPY --from=build /home/build/server/package.json ./server/
 COPY --from=build /home/build/server/dist ./server/dist/
 
-COPY --from=build /home/build/client/package.json /home/build/client/nuxt.config.ts ./client/
-COPY --from=build /home/build/client/dist ./client/dist/
-COPY --from=build /home/build/client/static ./client/static/
+COPY --from=build /home/build/client/.output ./client/.output/
 
 ENV VIEWTUBE_BASE_DIR=/home/app
 ENV NODE_ENV=production

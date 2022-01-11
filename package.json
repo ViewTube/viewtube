@@ -7,6 +7,7 @@
   "version": "0.9.0",
   "license": "AGPLv3",
   "scripts": {
+    "build": "yarn workspaces foreach run build",
     "build:server": "scripts/build.server.sh",
     "build:client": "yarn workspace client run build",
     "serve:api": "yarn workspace server run serve",
@@ -16,7 +17,6 @@
     "lint-staged": "prettier --write --ignore-unknown"
   },
   "workspaces": [
-    "client",
     "server",
     "shared"
   ],
