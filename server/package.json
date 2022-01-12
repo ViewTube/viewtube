@@ -2,6 +2,7 @@
   "name": "server",
   "main": "dist/server/main",
   "packageManager": "yarn@3.1.1",
+  "type": "commonjs",
   "scripts": {
     "serve": "nest build --webpack --webpackPath webpack-hmr.config.js --watch",
     "serve:all": "nest build --webpack --webpackPath webpack-hmr.config.js --watch",

@@ -21,12 +21,21 @@
     "strictFunctionTypes": false,
     "esModuleInterop": true,
     "moduleResolution": "Node",
+    "skipLibCheck": true,
     "baseUrl": "./",
     "paths": {
+      "viewtube": ["../"],
       "viewtube/*": ["../*"],
-      "server/*": ["./"]
+      "server": ["./"],
+      "server/*": ["./*"]
     },
     "types": ["@types/node", "@types/jest", "@sentry/types"]
   },
-  "exclude": ["**/node_modules", "**/dist", "**/.yarn"]
+  "exclude": [
+    "**/node_modules",
+    "**/dist",
+    "**/.yarn",
+    "../client/node_modules",
+    "client/node_modules"
+  ]
 }

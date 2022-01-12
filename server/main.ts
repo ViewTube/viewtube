@@ -1,4 +1,3 @@
-import 'module-alias/register';
 import fs from 'fs';
 import path from 'path';
 import cluster from 'cluster';
@@ -82,7 +81,9 @@ const bootstrap = async () => {
 
   // NUXT
   if (isProduction) {
-    server.useGlobalFilters(new NuxtFilter());
+    const nuxtFilter = new NuxtFilter();
+    await nuxtFilter.init();
+    server.useGlobalFilters(nuxtFilter);
   }
 
   // NEST

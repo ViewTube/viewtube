@@ -1,9 +1,14 @@
 import { ExceptionFilter, HttpException, ArgumentsHost, Catch } from '@nestjs/common';
 import { FastifyRequest, FastifyReply } from 'fastify';
-import { handle } from '../../client/.output/server/index.mjs';
 
 @Catch()
 export class NuxtFilter implements ExceptionFilter {
+  nuxtFilter: any = null;
+
+  public async init() {
+    this.nuxtFilter = await import('../../client/.output/server/index.mjs');
+  }
+
   public async catch(exception: HttpException, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const res = ctx.getResponse<FastifyReply>();
@@ -16,7 +21,7 @@ export class NuxtFilter implements ExceptionFilter {
     }
 
     if (status === 404 && !(exception.getResponse() as any).ignoreFilter) {
-      await handle(req.raw, res.raw);
+      await this.nuxtFilter.handle(req.raw, res.raw);
     } else if (status) {
       const response = exception.getResponse();
       delete (response as any).ignoreFilter;
