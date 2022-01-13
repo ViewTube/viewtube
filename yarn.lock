@@ -6309,7 +6309,7 @@ __metadata:
     eslint-plugin-import: 2.25.4
     eslint-plugin-jest: 25.2.4
     eslint-plugin-node: 11.1.0
-    eslint-plugin-nuxt: 3.0.0
+    eslint-plugin-nuxt: 3.1.0
     eslint-plugin-promise: 5.1.1
     eslint-plugin-unicorn: 38.0.1
     eslint-plugin-vue: 7.20.0
@@ -8232,14 +8232,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-nuxt@npm:3.0.0":
-  version: 3.0.0
-  resolution: "eslint-plugin-nuxt@npm:3.0.0"
+"eslint-plugin-nuxt@npm:3.1.0":
+  version: 3.1.0
+  resolution: "eslint-plugin-nuxt@npm:3.1.0"
   dependencies:
-    eslint-plugin-vue: ^7.20.0
+    eslint-plugin-vue: ^8.1.1
     semver: ^7.3.5
-    vue-eslint-parser: ^8.0.0
-  checksum: e4b1fd2230585e3fc59c3f77f4ff15b4afd782bb566a0e29b6565ab41e883948062132ab8953398909ba4af22557e631c19718fcd90df7605178f907438bd715
+    vue-eslint-parser: ^8.0.1
+  checksum: 3fb602115309faa8c0a9799f4c0c0a6755884a831687526ed13cffab43a2369e27c1b922b3f55094f2fc6bfe7ed65bfe3175fda0e2e6a11b87f1bbf876fb3e24
   languageName: node
   linkType: hard
 
@@ -8309,7 +8309,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-vue@npm:7.20.0, eslint-plugin-vue@npm:^7.19.1, eslint-plugin-vue@npm:^7.20.0, eslint-plugin-vue@npm:^7.9.0":
+"eslint-plugin-vue@npm:7.20.0, eslint-plugin-vue@npm:^7.19.1, eslint-plugin-vue@npm:^7.9.0":
   version: 7.20.0
   resolution: "eslint-plugin-vue@npm:7.20.0"
   dependencies:
@@ -8320,6 +8320,20 @@ __metadata:
   peerDependencies:
     eslint: ^6.2.0 || ^7.0.0 || ^8.0.0
   checksum: 7b724ed8317ce3621cfd94235a68af20ec355fca93092cc09ee73fbffcefa69e3c5202b8035aae8e7457df6924dfe713834ae46dee08acdd9316188c47933956
+  languageName: node
+  linkType: hard
+
+"eslint-plugin-vue@npm:^8.1.1":
+  version: 8.2.0
+  resolution: "eslint-plugin-vue@npm:8.2.0"
+  dependencies:
+    eslint-utils: ^3.0.0
+    natural-compare: ^1.4.0
+    semver: ^7.3.5
+    vue-eslint-parser: ^8.0.1
+  peerDependencies:
+    eslint: ^6.2.0 || ^7.0.0 || ^8.0.0
+  checksum: 5aa0cdc17ffbc676b4ebd998d59d139a4e4da90897d54e5a389116b334a9dbb6d82ca0e90c653d34b4fe8f2e627431c2ffde11feea4ac0a2d88969255edd83ab
   languageName: node
   linkType: hard
 
@@ -18571,7 +18585,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vue-eslint-parser@npm:^8.0.0":
+"vue-eslint-parser@npm:^8.0.1":
   version: 8.0.1
   resolution: "vue-eslint-parser@npm:8.0.1"
   dependencies:
