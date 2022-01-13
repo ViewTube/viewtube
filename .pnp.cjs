@@ -9163,7 +9163,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["prettier", "npm:2.5.1"],
             ["qrcode", "npm:1.4.4"],
             ["sass", "npm:1.48.0"],
-            ["sass-loader", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:10.1.1"],
+            ["sass-loader", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:10.2.0"],
             ["tippy.js", "npm:6.3.7"],
             ["typed-vuex", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:0.2.0"],
             ["typescript", "patch:typescript@npm%3A4.5.4#~builtin<compat/typescript>::version=4.5.4&hash=493e53"],
@@ -20703,6 +20703,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "SOFT",
         }],
+        ["npm:10.2.0", {
+          "packageLocation": "./.yarn/cache/sass-loader-npm-10.2.0-91ed64638b-d53212e5d1.zip/node_modules/sass-loader/",
+          "packageDependencies": [
+            ["sass-loader", "npm:10.2.0"]
+          ],
+          "linkType": "SOFT",
+        }],
         ["virtual:378ce467826dbefa299483b05ffa99d948fa0adaa439d65017e6a7cf6b1aeb1c9b9279c8c2da3c488becb5fe1ef0359a130c5634475df77ed53a7e353566d2e7#npm:10.1.1", {
           "packageLocation": "./.yarn/__virtual__/sass-loader-virtual-045d790d21/0/cache/sass-loader-npm-10.1.1-5a25ed7b45-dbd4ba06e2.zip/node_modules/sass-loader/",
           "packageDependencies": [
@@ -20733,10 +20740,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "HARD",
         }],
-        ["virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:10.1.1", {
-          "packageLocation": "./.yarn/__virtual__/sass-loader-virtual-e92e13ca67/0/cache/sass-loader-npm-10.1.1-5a25ed7b45-dbd4ba06e2.zip/node_modules/sass-loader/",
+        ["virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:10.2.0", {
+          "packageLocation": "./.yarn/__virtual__/sass-loader-virtual-becbce98b1/0/cache/sass-loader-npm-10.2.0-91ed64638b-d53212e5d1.zip/node_modules/sass-loader/",
           "packageDependencies": [
-            ["sass-loader", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:10.1.1"],
+            ["sass-loader", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:10.2.0"],
             ["@types/fibers", null],
             ["@types/node-sass", null],
             ["@types/sass", "npm:1.43.1"],
