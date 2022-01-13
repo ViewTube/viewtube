@@ -16565,7 +16565,7 @@ __metadata:
     webpack-pnp-externals: 1.1.0
     x2js: ^3.4.2
     xml-js: ^1.6.11
-    ytdl-core: 4.9.2
+    ytdl-core: 4.10.0
     ytpl: ^2.2.3
     ytsr: ^3.5.3
   languageName: unknown
@@ -19650,14 +19650,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ytdl-core@npm:4.9.2":
-  version: 4.9.2
-  resolution: "ytdl-core@npm:4.9.2"
+"ytdl-core@npm:4.10.0":
+  version: 4.10.0
+  resolution: "ytdl-core@npm:4.10.0"
   dependencies:
     m3u8stream: ^0.8.4
     miniget: ^4.0.0
     sax: ^1.1.3
-  checksum: 90c2018bc5d802cde184c80830a472004b57e0c711549548c976be48e33189ab934077d292d3d4734c17d8c7f43f8f442737491f321d9bb1ef1651cb0e99470a
+  checksum: dc76964811768d13acff0a1191b6911403fb2a0ea53202eed2737fbe1e0fa024963316103d3e082f325fb85380c7bac1500c9ea38ea00c63479e456130e75487
   languageName: node
   linkType: hard
 
