@@ -4369,14 +4369,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vue/composition-api@npm:1.4.3":
-  version: 1.4.3
-  resolution: "@vue/composition-api@npm:1.4.3"
+"@vue/composition-api@npm:1.4.4":
+  version: 1.4.4
+  resolution: "@vue/composition-api@npm:1.4.4"
   dependencies:
     tslib: ^2.3.1
   peerDependencies:
     vue: ">= 2.5 < 3"
-  checksum: 638d9be202543dd9d589fe7c75e4afbffa115d2843a31abd4fec41e942e667f042f599f692f483f30ac31dc5499e5a8cfbafe75a8827cdb55e461716fad97550
+  checksum: eaada93a68aba0adb1469a1df3d50814ab564361a02f010de250e88c48b17fe77ed000ba5c5f0ed7ac79cb3384603e263a425d51df85562bda15ef79743a3415
   languageName: node
   linkType: hard
 
@@ -6434,7 +6434,7 @@ __metadata:
     "@types/sass": 1.43.1
     "@typescript-eslint/eslint-plugin": 5.9.1
     "@typescript-eslint/parser": 5.9.1
-    "@vue/composition-api": 1.4.3
+    "@vue/composition-api": 1.4.4
     axios: 0.24.0
     consola: 2.15.3
     cross-env: 7.0.3
@@ -6449,7 +6449,7 @@ __metadata:
     eslint-plugin-promise: 5.2.0
     eslint-plugin-unicorn: 38.0.1
     eslint-plugin-vue: 7.20.0
-    hls.js: 1.1.2
+    hls.js: 1.1.3
     humanize-duration: 3.27.1
     jest: 27.4.7
     js-sha256: 0.9.0
@@ -6460,7 +6460,7 @@ __metadata:
     prettier: 2.5.1
     qrcode: 1.4.4
     sass: 1.48.0
-    sass-loader: 10.2.0
+    sass-loader: 10.2.1
     tippy.js: 6.3.7
     typed-vuex: 0.2.0
     typescript: 4.5.4
@@ -6472,7 +6472,7 @@ __metadata:
     vuex: 3.6.2
     vuex-persistedstate: 4.1.0
     webpack: 5.66.0
-    x2js: 3.4.2
+    x2js: 3.4.3
     ytpl: 2.2.3
   languageName: unknown
   linkType: soft
@@ -10028,10 +10028,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"hls.js@npm:1.1.2":
-  version: 1.1.2
-  resolution: "hls.js@npm:1.1.2"
-  checksum: 2869b8efd2535ad0cd2b6568029938767a8cfb682761b909729b5230d31ed4080924687aa9013df6294230030d06f5f08cab7e66e1fc78793ede33772b01f564
+"hls.js@npm:1.1.3":
+  version: 1.1.3
+  resolution: "hls.js@npm:1.1.3"
+  checksum: c7acdb0ba96373fa21e719b601bedee501c4eaed8aa073dbbf21d56d63ab3a9d5f80472b0d6bc3e8f1de178dd0a14010b9303948b884a0bb2bf541ad0f80323e
   languageName: node
   linkType: hard
 
@@ -13329,7 +13329,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"node-fetch@npm:2.6.6, node-fetch@npm:^2.6.1":
+"node-fetch@npm:2.6.7":
+  version: 2.6.7
+  resolution: "node-fetch@npm:2.6.7"
+  dependencies:
+    whatwg-url: ^5.0.0
+  peerDependencies:
+    encoding: ^0.1.0
+  peerDependenciesMeta:
+    encoding:
+      optional: true
+  checksum: 8d816ffd1ee22cab8301c7756ef04f3437f18dace86a1dae22cf81db8ef29c0bf6655f3215cb0cdb22b420b6fe141e64b26905e7f33f9377a7fa59135ea3e10b
+  languageName: node
+  linkType: hard
+
+"node-fetch@npm:^2.6.1":
   version: 2.6.6
   resolution: "node-fetch@npm:2.6.6"
   dependencies:
@@ -16232,9 +16246,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sass-loader@npm:10.2.0":
-  version: 10.2.0
-  resolution: "sass-loader@npm:10.2.0"
+"sass-loader@npm:10.2.1":
+  version: 10.2.1
+  resolution: "sass-loader@npm:10.2.1"
   dependencies:
     klona: ^2.0.4
     loader-utils: ^2.0.0
@@ -16253,7 +16267,7 @@ __metadata:
       optional: true
     sass:
       optional: true
-  checksum: d53212e5d199cdd221a67046ab4276c352d56b50ca64347115b36e8ebbb2c68ec396a14d6cf5a08853c830a6b0ec1fd2b016cdc53cbe90a0332a908f50ec2043
+  checksum: e5bc4a230bfb9103dbd05f72e936e9e31cb35d09922fe90541ad71d0a64abce238b54069cfe51e67c045870093a8e9a218aff63d66468e36dc1cc3d5db4ee83b
   languageName: node
   linkType: hard
 
@@ -16569,7 +16583,7 @@ __metadata:
     mongodb-memory-server: 8.1.0
     mongoose: ^6.0.8
     nestjs-throttler-storage-redis: ^0.1.15
-    node-fetch: 2.6.6
+    node-fetch: 2.6.7
     passport: 0.5
     passport-jwt: ^4.0.0
     passport-local: ^1.0.0
@@ -16581,7 +16595,7 @@ __metadata:
     sharp: ^0.29.1
     source-map-support: 0.5.21
     svg-captcha: ^1.4.0
-    ts-jest: 27.1.2
+    ts-jest: 27.1.3
     ts-loader: 9.2.6
     typescript: 4.5.4
     undici: ^4.7.0
@@ -17911,9 +17925,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ts-jest@npm:27.1.2":
-  version: 27.1.2
-  resolution: "ts-jest@npm:27.1.2"
+"ts-jest@npm:27.1.3":
+  version: 27.1.3
+  resolution: "ts-jest@npm:27.1.3"
   dependencies:
     bs-logger: 0.x
     fast-json-stable-stringify: 2.x
@@ -17941,7 +17955,7 @@ __metadata:
       optional: true
   bin:
     ts-jest: cli.js
-  checksum: 2e7275f8a3545ec1340b37c458ace9244b5903e86861eb108beffff97d433f296c1254f76a41b573b1fe6245110b21bb62150bb88d55159f1dc7a929886535cb
+  checksum: eb54e5b8fc5f06e4cc20ecec7891201ddc78a3537d5eb3775e29ffbc7e83fd2a68f91db801b6a8c820c872060b24dc41fb6decac800b76256d3cdda6520b5c4f
   languageName: node
   linkType: hard
 
@@ -19487,7 +19501,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"x2js@npm:3.4.2, x2js@npm:^3.4.2":
+"x2js@npm:3.4.3":
+  version: 3.4.3
+  resolution: "x2js@npm:3.4.3"
+  dependencies:
+    "@xmldom/xmldom": ^0.7.4
+  checksum: cb4f89ffa685114504016df9bd5841b233217943c6471e22729ad1e958c589c74214a98e1113779495b3ca58beba34b0ec23535df541c6cf863ae2100c74538b
+  languageName: node
+  linkType: hard
+
+"x2js@npm:^3.4.2":
   version: 3.4.2
   resolution: "x2js@npm:3.4.2"
   dependencies:
