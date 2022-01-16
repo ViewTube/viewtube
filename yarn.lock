@@ -2036,9 +2036,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nestjs/cli@npm:8.1.8":
-  version: 8.1.8
-  resolution: "@nestjs/cli@npm:8.1.8"
+"@nestjs/cli@npm:8.2.0":
+  version: 8.2.0
+  resolution: "@nestjs/cli@npm:8.2.0"
   dependencies:
     "@angular-devkit/core": 13.1.2
     "@angular-devkit/schematics": 13.1.2
@@ -2059,12 +2059,12 @@ __metadata:
     tree-kill: 1.2.2
     tsconfig-paths: 3.12.0
     tsconfig-paths-webpack-plugin: 3.5.2
-    typescript: 4.3.5
-    webpack: 5.65.0
+    typescript: 4.5.4
+    webpack: 5.66.0
     webpack-node-externals: 3.0.0
   bin:
     nest: bin/nest.js
-  checksum: d7a389088be894058824320b8ca9cfa08a9b544a8f60768a4c68a4312178158eec2133afd96a6c6251ca733c9e0c4dd04604b1a9ac010d5544fe3a90030354af
+  checksum: 1f408094b29f8501372958dc78e668b9c2452bdc852912bd167a283199d8b21dc2c0187c3b7c0d8d583279e1b87cf3bf07351770530c3b011947eadf47ca1f11
   languageName: node
   linkType: hard
 
@@ -16499,7 +16499,7 @@ __metadata:
   dependencies:
     "@freetube/yt-comment-scraper": ^6.0.0
     "@nestjs/bull": ^0.4.1
-    "@nestjs/cli": 8.1.8
+    "@nestjs/cli": 8.2.0
     "@nestjs/common": ^8.0.9
     "@nestjs/config": ^1.0.1
     "@nestjs/core": ^8.0.9
@@ -18171,16 +18171,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:4.3.5":
-  version: 4.3.5
-  resolution: "typescript@npm:4.3.5"
-  bin:
-    tsc: bin/tsc
-    tsserver: bin/tsserver
-  checksum: bab033b5e2b0790dd35b77fd005df976ef80b8d84fd2c6e63cc31808151875beae9216e5a315fe7068e8499905c3c354248fe83272cdfc13b7705635f0c66c97
-  languageName: node
-  linkType: hard
-
 "typescript@npm:4.5.4":
   version: 4.5.4
   resolution: "typescript@npm:4.5.4"
@@ -18208,16 +18198,6 @@ __metadata:
     tsc: bin/tsc
     tsserver: bin/tsserver
   checksum: 89c397df192f239359ad798b96d8e8d552e12c0c189ac5676cec4c20c410d6eec636b8e59a88f2aef0a56d961a9678d99c400099be9b7cae2f7b062eb4b7b171
-  languageName: node
-  linkType: hard
-
-"typescript@patch:typescript@4.3.5#~builtin<compat/typescript>":
-  version: 4.3.5
-  resolution: "typescript@patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"
-  bin:
-    tsc: bin/tsc
-    tsserver: bin/tsserver
-  checksum: 61fc1a2ca5037420de5bbe17c6ddc4cbcc0d52301ed94f0a7b5821c55ff9eb96307f0816f745ca8f0fc87ed92f3951cde6d97cd6fd6bc6920c02ea63b5b26259
   languageName: node
   linkType: hard
 
@@ -19134,43 +19114,6 @@ __metadata:
   version: 0.4.3
   resolution: "webpack-virtual-modules@npm:0.4.3"
   checksum: 158d30633e0d9be3cfcde10fe959b28df5d5adb1068e0f057fcfb10b0b16ede6c892eba438f6ced089c7c442087748c2fcd1e3f035e4e2dc6760517a8c227714
-  languageName: node
-  linkType: hard
-
-"webpack@npm:5.65.0":
-  version: 5.65.0
-  resolution: "webpack@npm:5.65.0"
-  dependencies:
-    "@types/eslint-scope": ^3.7.0
-    "@types/estree": ^0.0.50
-    "@webassemblyjs/ast": 1.11.1
-    "@webassemblyjs/wasm-edit": 1.11.1
-    "@webassemblyjs/wasm-parser": 1.11.1
-    acorn: ^8.4.1
-    acorn-import-assertions: ^1.7.6
-    browserslist: ^4.14.5
-    chrome-trace-event: ^1.0.2
-    enhanced-resolve: ^5.8.3
-    es-module-lexer: ^0.9.0
-    eslint-scope: 5.1.1
-    events: ^3.2.0
-    glob-to-regexp: ^0.4.1
-    graceful-fs: ^4.2.4
-    json-parse-better-errors: ^1.0.2
-    loader-runner: ^4.2.0
-    mime-types: ^2.1.27
-    neo-async: ^2.6.2
-    schema-utils: ^3.1.0
-    tapable: ^2.1.1
-    terser-webpack-plugin: ^5.1.3
-    watchpack: ^2.3.1
-    webpack-sources: ^3.2.2
-  peerDependenciesMeta:
-    webpack-cli:
-      optional: true
-  bin:
-    webpack: bin/webpack.js
-  checksum: 221ab8ccd440cb678269e86689704bbef81cf41393eb266625873e30c6980ffaa055bb1a7d14bf9fc0f5a2e6f03d15d068cbb995bc876757c01a4ca27fd2870c
   languageName: node
   linkType: hard
 
