@@ -8986,6 +8986,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["ci-info", "npm:3.2.0"]
           ],
           "linkType": "HARD",
+        }],
+        ["npm:3.3.0", {
+          "packageLocation": "./.yarn/cache/ci-info-npm-3.3.0-bc2aaaca96-c3d86fe374.zip/node_modules/ci-info/",
+          "packageDependencies": [
+            ["ci-info", "npm:3.3.0"]
+          ],
+          "linkType": "HARD",
         }]
       ]],
       ["cipher-base", [
@@ -9150,7 +9157,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint-plugin-node", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:11.1.0"],
             ["eslint-plugin-nuxt", "npm:3.1.0"],
             ["eslint-plugin-promise", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:5.2.0"],
-            ["eslint-plugin-unicorn", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:38.0.1"],
+            ["eslint-plugin-unicorn", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:40.1.0"],
             ["eslint-plugin-vue", "virtual:eeea9656f62dfafeff82878a3925f9ccc0fa77ef44c6bb656042282300e5c5931551889cce474f316f10a7a4ab6643c2fff169981a9a4b09c474961e6737604e#npm:7.20.0"],
             ["hls.js", "npm:1.1.3"],
             ["humanize-duration", "npm:3.27.1"],
@@ -11826,10 +11833,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "SOFT",
         }],
-        ["npm:38.0.1", {
-          "packageLocation": "./.yarn/cache/eslint-plugin-unicorn-npm-38.0.1-8df20f7a9b-79792b724a.zip/node_modules/eslint-plugin-unicorn/",
+        ["npm:40.1.0", {
+          "packageLocation": "./.yarn/cache/eslint-plugin-unicorn-npm-40.1.0-d6d3afef49-b15ffd0750.zip/node_modules/eslint-plugin-unicorn/",
           "packageDependencies": [
-            ["eslint-plugin-unicorn", "npm:38.0.1"]
+            ["eslint-plugin-unicorn", "npm:40.1.0"]
           ],
           "linkType": "SOFT",
         }],
@@ -11859,16 +11866,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "HARD",
         }],
-        ["virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:38.0.1", {
-          "packageLocation": "./.yarn/__virtual__/eslint-plugin-unicorn-virtual-da0822df07/0/cache/eslint-plugin-unicorn-npm-38.0.1-8df20f7a9b-79792b724a.zip/node_modules/eslint-plugin-unicorn/",
+        ["virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:40.1.0", {
+          "packageLocation": "./.yarn/__virtual__/eslint-plugin-unicorn-virtual-bead01fed5/0/cache/eslint-plugin-unicorn-npm-40.1.0-d6d3afef49-b15ffd0750.zip/node_modules/eslint-plugin-unicorn/",
           "packageDependencies": [
-            ["eslint-plugin-unicorn", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:38.0.1"],
+            ["eslint-plugin-unicorn", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:40.1.0"],
             ["@babel/helper-validator-identifier", "npm:7.15.7"],
             ["@types/eslint", null],
-            ["ci-info", "npm:3.2.0"],
+            ["ci-info", "npm:3.3.0"],
             ["clean-regexp", "npm:1.0.0"],
             ["eslint", "npm:7.32.0"],
-            ["eslint-template-visitor", "virtual:57055fb7beea3002e7eaba7e81d264961e6a1cefb21aaea700f862b3082177b858e997ff45c8c2bd40e17498ef4440b3134e0c754950ec6dc1dfa69d7de840ee#npm:2.3.2"],
             ["eslint-utils", "virtual:eb71da7b399ba0c847c8e8dbf8fd84eb98742cc969c1ec52c8f78798ece07cf136ca0d1f08715d9414b644619d31db5c5d6ac37f509d895220fbfc03663a70b4#npm:3.0.0"],
             ["esquery", "npm:1.4.0"],
             ["indent-string", "npm:4.0.0"],
