@@ -12557,25 +12557,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["fastify-helmet", [
-        ["npm:5.3.2", {
-          "packageLocation": "./.yarn/cache/fastify-helmet-npm-5.3.2-8f5ea37cea-e933893c47.zip/node_modules/fastify-helmet/",
+        ["npm:7.0.0", {
+          "packageLocation": "./.yarn/cache/fastify-helmet-npm-7.0.0-d1fe75358a-d19745e890.zip/node_modules/fastify-helmet/",
           "packageDependencies": [
-            ["fastify-helmet", "npm:5.3.2"]
-          ],
-          "linkType": "SOFT",
-        }],
-        ["virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:5.3.2", {
-          "packageLocation": "./.yarn/__virtual__/fastify-helmet-virtual-8c9779200f/0/cache/fastify-helmet-npm-5.3.2-8f5ea37cea-e933893c47.zip/node_modules/fastify-helmet/",
-          "packageDependencies": [
-            ["fastify-helmet", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:5.3.2"],
-            ["@types/fastify", null],
-            ["fastify", "npm:3.24.0"],
+            ["fastify-helmet", "npm:7.0.0"],
             ["fastify-plugin", "npm:3.0.0"],
-            ["helmet", "npm:4.6.0"]
-          ],
-          "packagePeers": [
-            "@types/fastify",
-            "fastify"
+            ["helmet", "npm:5.0.1"]
           ],
           "linkType": "HARD",
         }]
@@ -13719,10 +13706,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["helmet", [
-        ["npm:4.6.0", {
-          "packageLocation": "./.yarn/cache/helmet-npm-4.6.0-f244fd965c-139ad678d1.zip/node_modules/helmet/",
+        ["npm:5.0.1", {
+          "packageLocation": "./.yarn/cache/helmet-npm-5.0.1-11e93f7fab-6e693ce32a.zip/node_modules/helmet/",
           "packageDependencies": [
-            ["helmet", "npm:4.6.0"]
+            ["helmet", "npm:5.0.1"]
           ],
           "linkType": "HARD",
         }]
@@ -21079,7 +21066,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint-plugin-jest", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:25.3.4"],
             ["fastify", "npm:3.24.0"],
             ["fastify-cookie", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:5.3.2"],
-            ["fastify-helmet", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:5.3.2"],
+            ["fastify-helmet", "npm:7.0.0"],
             ["fastify-multipart", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:5.1.0"],
             ["fastify-swagger", "npm:4.12.6"],
             ["https-proxy-agent", "npm:5.0.0"],
