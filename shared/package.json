@@ -5,7 +5,7 @@
     "@nestjs/common": "8.2.5",
     "@nestjs/core": "8.2.5",
     "@nestjs/swagger": "5.1.5",
-    "@types/node": "16.11.19",
+    "@types/node": "16.11.21",
     "class-transformer": "0.5.1",
     "class-validator": "0.13.2",
     "reflect-metadata": "0.1.13",
