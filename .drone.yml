@@ -36,7 +36,7 @@ steps:
   - yarn test
   depends_on:
   - install
-  image: mauriceo/nodejs-mongodb:1.0
+  image: mauriceo/nodejs-mongodb:1.2
   name: test
   pull: if-not-exists
   volumes:
