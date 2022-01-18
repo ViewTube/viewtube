@@ -40,7 +40,7 @@
     "eslint-plugin-jest": "25.3.4",
     "eslint-plugin-node": "11.1.0",
     "eslint-plugin-nuxt": "3.1.0",
-    "eslint-plugin-promise": "5.2.0",
+    "eslint-plugin-promise": "6.0.0",
     "eslint-plugin-unicorn": "40.1.0",
     "eslint-plugin-vue": "7.20.0",
     "hls.js": "1.1.3",
