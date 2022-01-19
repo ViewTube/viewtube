@@ -37,9 +37,6 @@ def step(arch):
             'arch': arch,
             'os': 'linux'
         },
-        'clone': {
-            'depth': 1
-        },
         'trigger': {
             'branch': [
                 'development',
@@ -103,9 +100,6 @@ def pullrequest():
         'kind': 'pipeline',
         'type': 'docker',
         'name': 'pull-request',
-        'clone': {
-                'depth': 1
-        },
         'volumes': [
             {
                 'name': 'installcache',
