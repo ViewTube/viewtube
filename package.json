@@ -4,7 +4,7 @@
   "author": "Maurice Oegerli",
   "country": "Switzerland",
   "email": "viewtube@m-o.dev",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "license": "AGPLv3",
   "scripts": {
     "build": "yarn workspaces foreach run build",
