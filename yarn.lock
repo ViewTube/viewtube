@@ -6519,7 +6519,7 @@ __metadata:
     typescript: 4.5.4
     unplugin-vue2-script-setup: 0.9.1
     vue: 2.6.14
-    vue-material-design-icons: 4.13.0
+    vue-material-design-icons: 5.0.0
     vue-template-compiler: 2.6.14
     vue2-datepicker: 3.10.4
     vuex: 3.6.2
@@ -18964,10 +18964,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vue-material-design-icons@npm:4.13.0":
-  version: 4.13.0
-  resolution: "vue-material-design-icons@npm:4.13.0"
-  checksum: 109794da18b1e1a590c4882a0db00513860f28710117fa292e2336b0167ad14a938b66aa1da8cc52dc3ae2e7cce41fd3bfd05ce2957ca6acd41ee0fcaaf9e26d
+"vue-material-design-icons@npm:5.0.0":
+  version: 5.0.0
+  resolution: "vue-material-design-icons@npm:5.0.0"
+  checksum: e976c8947e05e8d5305ec8440e8fa150102bf681957e72c3c9a209d64f6db75abd6f1d404f82a4ba71ba4adc918d423daf3fe02c0576065101380115c7240187
   languageName: node
   linkType: hard
 
