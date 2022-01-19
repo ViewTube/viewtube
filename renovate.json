@@ -1,11 +1,20 @@
 {
-  "extends": [
-    "config:base"
-  ],
+  "extends": ["config:base"],
+  "timezone": "Europe/Zurich",
+  "labels": ["dependencies"],
+  "lockFileMaintenance": { "enabled": true },
   "packageRules": [
     {
-      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
-      "automerge": false
+      "matchPackagePatterns": ["*"],
+      "matchUpdateTypes": ["pin", "digest"],
+      "groupName": "all pin, digest dependencies",
+      "groupSlug": "all-pin-digest"
+    },
+    {
+      "matchPackagePatterns": ["*"],
+      "matchUpdateTypes": ["patch"],
+      "groupName": "all patch dependencies",
+      "groupSlug": "all-patch"
     }
   ],
   "commitMessagePrefix": "⬆️ ",
