@@ -3543,10 +3543,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:16.11.19":
-  version: 16.11.19
-  resolution: "@types/node@npm:16.11.19"
-  checksum: a9ba0cd1e61c8ad50f3fc9c2b37b795bf0286dacb39dcc985da90328abf0c5151dffe9932d20bc9a6a52c3ce7bfc1e5a7c2dc1416480fb84f1c2d70e25caeba0
+"@types/node@npm:16.11.21":
+  version: 16.11.21
+  resolution: "@types/node@npm:16.11.21"
+  checksum: 75b679dc6375cf09bc14a2d1b344be6f3fd8ea50f212b0d60970dc9e175cef45e44c284c716eb9e766ffa52d0c83b689adb3d1911b6dd8649c560b8f77442a22
   languageName: node
   linkType: hard
 
@@ -6436,7 +6436,7 @@ __metadata:
     "@nuxtjs/pwa": 3.3.5
     "@nuxtjs/router": 1.7.0
     "@nuxtjs/style-resources": 1.2.1
-    "@types/node": 16.11.19
+    "@types/node": 16.11.21
     "@types/papaparse": 5.3.1
     "@types/sass": 1.43.1
     "@typescript-eslint/eslint-plugin": 5.9.1
@@ -6471,7 +6471,7 @@ __metadata:
     tippy.js: 6.3.7
     typed-vuex: 0.2.0
     typescript: 4.5.4
-    unplugin-vue2-script-setup: 0.9.0
+    unplugin-vue2-script-setup: 0.9.1
     vue: 2.6.14
     vue-material-design-icons: 4.13.0
     vue-template-compiler: 2.6.14
@@ -16548,7 +16548,7 @@ __metadata:
     "@types/jest": 27.4.0
     "@types/module-alias": 2.0.1
     "@types/multer": 1.4.7
-    "@types/node": 16.11.19
+    "@types/node": 16.11.21
     "@types/node-fetch": 3.0.3
     "@types/passport-jwt": 3.0.6
     "@types/passport-local": 1.0.34
@@ -16684,7 +16684,7 @@ __metadata:
     "@nestjs/common": 8.2.5
     "@nestjs/core": 8.2.5
     "@nestjs/swagger": 5.1.5
-    "@types/node": 16.11.19
+    "@types/node": 16.11.21
     class-transformer: 0.5.1
     class-validator: 0.13.2
     reflect-metadata: 0.1.13
@@ -18396,9 +18396,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"unplugin-vue2-script-setup@npm:0.9.0":
-  version: 0.9.0
-  resolution: "unplugin-vue2-script-setup@npm:0.9.0"
+"unplugin-vue2-script-setup@npm:0.9.1":
+  version: 0.9.1
+  resolution: "unplugin-vue2-script-setup@npm:0.9.1"
   dependencies:
     "@antfu/utils": ^0.4.0
     "@babel/core": ^7.16.7
@@ -18417,11 +18417,13 @@ __metadata:
     tslib: ^2.3.1
     unplugin: ^0.3.0
   peerDependencies:
+    "@vue/composition-api": ^1.4.3
+    "@vue/runtime-dom": ^3.2.26
     pug: ^3.0.2
   peerDependenciesMeta:
     pug:
       optional: true
-  checksum: c36ff719d228bba72036b560990ef51b398d453e641e8652a729926b9d3c81a036777cd3a953cfdabc1600cd5a9c7814b5af1b0b3e9b62101bb4752c2cf80818
+  checksum: 3ecee02633f71c9f1b86968343886c706bc01063eadf454b8f7a539f9317f4d8ed6b7e2fd551c48c2333fa354a1bc089e9bbad4677add6ecb7e605fc9026e7c3
   languageName: node
   linkType: hard
 
