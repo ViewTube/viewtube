@@ -40,7 +40,7 @@ def step(arch):
         'trigger': {
             'branch': [
                 'development',
-                'stabe'
+                'stable'
             ],
             'event': [
                 'push'
