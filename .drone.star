@@ -3,7 +3,7 @@ architectures = [
     'arm'
 ]
 
-version = '0.9.0'
+version = '0.9.1'
 
 repo = 'mauriceo/viewtube'
 
