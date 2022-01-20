@@ -58,7 +58,7 @@
     "typescript": "4.5.5",
     "unplugin-vue2-script-setup": "0.9.1",
     "vue": "2.6.14",
-    "vue-material-design-icons": "4.13.0",
+    "vue-material-design-icons": "5.0.0",
     "vue-template-compiler": "2.6.14",
     "vue2-datepicker": "3.10.4",
     "vuex": "3.6.2",
