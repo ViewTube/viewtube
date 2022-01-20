@@ -9246,7 +9246,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["portal-vue", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:2.1.7"],
             ["prettier", "npm:2.5.1"],
             ["qrcode", "npm:1.4.4"],
-            ["sass", "npm:1.48.0"],
+            ["sass", "npm:1.49.0"],
             ["sass-loader", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:10.2.1"],
             ["tippy.js", "npm:6.3.7"],
             ["typed-vuex", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:0.2.0"],
@@ -20908,10 +20908,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["sass", [
-        ["npm:1.48.0", {
-          "packageLocation": "./.yarn/cache/sass-npm-1.48.0-20ff26be98-0fa57d17a9.zip/node_modules/sass/",
+        ["npm:1.49.0", {
+          "packageLocation": "./.yarn/cache/sass-npm-1.49.0-5b92035d24-7cd6086859.zip/node_modules/sass/",
           "packageDependencies": [
-            ["sass", "npm:1.48.0"],
+            ["sass", "npm:1.49.0"],
             ["chokidar", "npm:3.5.2"],
             ["immutable", "npm:4.0.0"],
             ["source-map-js", "npm:1.0.1"]
@@ -20977,7 +20977,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["loader-utils", "npm:2.0.2"],
             ["neo-async", "npm:2.6.2"],
             ["node-sass", null],
-            ["sass", "npm:1.48.0"],
+            ["sass", "npm:1.49.0"],
             ["schema-utils", "npm:3.1.1"],
             ["semver", "npm:7.3.5"],
             ["webpack", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:5.66.0"]
