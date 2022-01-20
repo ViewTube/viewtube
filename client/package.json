@@ -55,7 +55,7 @@
     "sass-loader": "10.2.1",
     "tippy.js": "6.3.7",
     "typed-vuex": "0.2.0",
-    "typescript": "4.5.4",
+    "typescript": "4.5.5",
     "unplugin-vue2-script-setup": "0.9.1",
     "vue": "2.6.14",
     "vue-material-design-icons": "4.13.0",

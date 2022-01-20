@@ -80,7 +80,7 @@
   },
   "devDependencies": {
     "@nestjs/cli": "8.2.0",
-    "@nestjs/testing": "8.2.5",
+    "@nestjs/testing": "8.2.6",
     "@nuxt/types": "2.15.8",
     "@sentry/types": "6.16.1",
     "@types/archiver": "5.3.1",
@@ -117,7 +117,7 @@
     "source-map-support": "0.5.21",
     "ts-jest": "27.1.3",
     "ts-loader": "9.2.6",
-    "typescript": "4.5.4",
+    "typescript": "4.5.5",
     "webpack": "5.66.0",
     "webpack-pnp-externals": "1.1.0"
   }
