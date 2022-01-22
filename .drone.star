@@ -196,7 +196,7 @@ def manifest(tag, branch):
                     },
                     'password': {
                         'from_secret': 'docker_password'
-                    }
+                    },
                     'target': repo + ':' + tag,
                     'template': repo + ':' + tag + '-OS-ARCH',
                     'platforms': platforms,
