@@ -75,7 +75,7 @@ def publishStep(tags, branch, arch):
             'GOOS': os,
             'GOARCH': arch
         },
-        'privileged': true,
+        'privileged': 'true',
         'settings': {
             'repo': repo,
             'compress': 'true',
