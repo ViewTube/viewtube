@@ -1,7 +1,10 @@
 architectures = [
     'amd64',
-    'arm'
+    'arm',
+    'arm64'
 ]
+
+os = 'linux'
 
 version = '0.9.1'
 
@@ -34,7 +37,7 @@ def step(arch):
         'type': 'docker',
         'name': 'build-%s' % arch,
         'platform': {
-            'arch': arch,
+            'arch': 'amd64',
             'os': 'linux'
         },
         'trigger': {
@@ -49,23 +52,29 @@ def step(arch):
         'steps': [
             publishStep(
                 stableTagsArray,
-                'stable'
+                'stable',
+                arch
             ),
             publishStep(
                 [
                     'dev'
                 ],
-                'development'
+                'development',
+                arch
             )
         ]
     }
 
 
-def publishStep(tags, branch):
+def publishStep(tags, branch, arch):
     return {
         'name': 'publish-%s' % branch,
-        'image': 'plugins/docker',
+        'image': 'thegeeklab/drone-docker-buildx',
         'pull': 'if-not-exists',
+        'environment': {
+            'GOOS': os,
+            'GOARCH': arch
+        },
         'settings': {
             'repo': repo,
             'compress': 'true',
