@@ -192,11 +192,11 @@ def manifest(tag, branch):
                 'image': 'plugins/manifest',
                 'settings': {
                     'username': {
-                        'from-secret': 'docker_username'
+                        'from_secret': 'docker_username'
                     },
                     'password': {
                         'from_secret': 'docker_password'
-                    },
+                    }
                     'target': repo + ':' + tag,
                     'template': repo + ':' + tag + '-OS-ARCH',
                     'platforms': platforms,
