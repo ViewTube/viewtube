@@ -12959,6 +12959,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["web-streams-polyfill", "npm:3.2.0"]
           ],
           "linkType": "HARD",
+        }],
+        ["npm:3.1.4", {
+          "packageLocation": "./.yarn/cache/fetch-blob-npm-3.1.4-478ba5034d-81b074f38a.zip/node_modules/fetch-blob/",
+          "packageDependencies": [
+            ["fetch-blob", "npm:3.1.4"],
+            ["node-domexception", "npm:1.0.0"],
+            ["web-streams-polyfill", "npm:3.2.0"]
+          ],
+          "linkType": "HARD",
         }]
       ]],
       ["figgy-pudding", [
@@ -17713,6 +17722,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["node-domexception", [
+        ["npm:1.0.0", {
+          "packageLocation": "./.yarn/cache/node-domexception-npm-1.0.0-e1e813b76f-ee1d37dd2a.zip/node_modules/node-domexception/",
+          "packageDependencies": [
+            ["node-domexception", "npm:1.0.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["node-emoji", [
         ["npm:1.11.0", {
           "packageLocation": "./.yarn/cache/node-emoji-npm-1.11.0-dd2f09050c-e8c856c04a.zip/node_modules/node-emoji/",
@@ -17732,13 +17750,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "HARD",
         }],
-        ["npm:2.6.7", {
-          "packageLocation": "./.yarn/cache/node-fetch-npm-2.6.7-777aa2a6df-8d816ffd1e.zip/node_modules/node-fetch/",
-          "packageDependencies": [
-            ["node-fetch", "npm:2.6.7"]
-          ],
-          "linkType": "SOFT",
-        }],
         ["npm:3.1.0", {
           "packageLocation": "./.yarn/cache/node-fetch-npm-3.1.0-37d8e85e91-23b5977554.zip/node_modules/node-fetch/",
           "packageDependencies": [
@@ -17749,17 +17760,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "HARD",
         }],
-        ["virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:2.6.7", {
-          "packageLocation": "./.yarn/__virtual__/node-fetch-virtual-0847b98953/0/cache/node-fetch-npm-2.6.7-777aa2a6df-8d816ffd1e.zip/node_modules/node-fetch/",
+        ["npm:3.1.1", {
+          "packageLocation": "./.yarn/cache/node-fetch-npm-3.1.1-5268eea12d-2e03f9a309.zip/node_modules/node-fetch/",
           "packageDependencies": [
-            ["node-fetch", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:2.6.7"],
-            ["@types/encoding", null],
-            ["encoding", null],
-            ["whatwg-url", "npm:5.0.0"]
-          ],
-          "packagePeers": [
-            "@types/encoding",
-            "encoding"
+            ["node-fetch", "npm:3.1.1"],
+            ["data-uri-to-buffer", "npm:4.0.0"],
+            ["fetch-blob", "npm:3.1.4"],
+            ["formdata-polyfill", "npm:4.0.10"]
           ],
           "linkType": "HARD",
         }]
@@ -21412,7 +21419,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["mongodb-memory-server", "npm:8.2.0"],
             ["mongoose", "npm:6.0.13"],
             ["nestjs-throttler-storage-redis", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:0.1.18"],
-            ["node-fetch", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:2.6.7"],
+            ["node-fetch", "npm:3.1.1"],
             ["passport", "npm:0.5.0"],
             ["passport-jwt", "npm:4.0.0"],
             ["passport-local", "npm:1.0.0"],
