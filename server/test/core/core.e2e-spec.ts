@@ -75,7 +75,9 @@ describe('Core', () => {
     const query = 'john';
     const result = await app.inject({ method: 'GET', url: '/autocomplete', query: { q: query } });
 
+    console.log(result.body);
     expect(result.statusCode).toEqual(200);
+    expect(result.body).toBeDefined();
 
     const payloadJson = getPayloadJson(result.payload);
     expect(payloadJson.length).toBeGreaterThan(0);
