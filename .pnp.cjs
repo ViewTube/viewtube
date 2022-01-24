@@ -4822,53 +4822,53 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@sentry/core", [
-        ["npm:6.15.0", {
-          "packageLocation": "./.yarn/cache/@sentry-core-npm-6.15.0-b55d420768-6299324cfa.zip/node_modules/@sentry/core/",
+        ["npm:6.17.1", {
+          "packageLocation": "./.yarn/cache/@sentry-core-npm-6.17.1-71e9059ce1-fae7505e85.zip/node_modules/@sentry/core/",
           "packageDependencies": [
-            ["@sentry/core", "npm:6.15.0"],
-            ["@sentry/hub", "npm:6.15.0"],
-            ["@sentry/minimal", "npm:6.15.0"],
-            ["@sentry/types", "npm:6.15.0"],
-            ["@sentry/utils", "npm:6.15.0"],
+            ["@sentry/core", "npm:6.17.1"],
+            ["@sentry/hub", "npm:6.17.1"],
+            ["@sentry/minimal", "npm:6.17.1"],
+            ["@sentry/types", "npm:6.17.1"],
+            ["@sentry/utils", "npm:6.17.1"],
             ["tslib", "npm:1.14.1"]
           ],
           "linkType": "HARD",
         }]
       ]],
       ["@sentry/hub", [
-        ["npm:6.15.0", {
-          "packageLocation": "./.yarn/cache/@sentry-hub-npm-6.15.0-e3085bc606-6645534f0d.zip/node_modules/@sentry/hub/",
+        ["npm:6.17.1", {
+          "packageLocation": "./.yarn/cache/@sentry-hub-npm-6.17.1-05a34b2251-a5c5e7b72c.zip/node_modules/@sentry/hub/",
           "packageDependencies": [
-            ["@sentry/hub", "npm:6.15.0"],
-            ["@sentry/types", "npm:6.15.0"],
-            ["@sentry/utils", "npm:6.15.0"],
+            ["@sentry/hub", "npm:6.17.1"],
+            ["@sentry/types", "npm:6.17.1"],
+            ["@sentry/utils", "npm:6.17.1"],
             ["tslib", "npm:1.14.1"]
           ],
           "linkType": "HARD",
         }]
       ]],
       ["@sentry/minimal", [
-        ["npm:6.15.0", {
-          "packageLocation": "./.yarn/cache/@sentry-minimal-npm-6.15.0-386ff466a3-98a39f2f2c.zip/node_modules/@sentry/minimal/",
+        ["npm:6.17.1", {
+          "packageLocation": "./.yarn/cache/@sentry-minimal-npm-6.17.1-557707b389-fbecb1640c.zip/node_modules/@sentry/minimal/",
           "packageDependencies": [
-            ["@sentry/minimal", "npm:6.15.0"],
-            ["@sentry/hub", "npm:6.15.0"],
-            ["@sentry/types", "npm:6.15.0"],
+            ["@sentry/minimal", "npm:6.17.1"],
+            ["@sentry/hub", "npm:6.17.1"],
+            ["@sentry/types", "npm:6.17.1"],
             ["tslib", "npm:1.14.1"]
           ],
           "linkType": "HARD",
         }]
       ]],
       ["@sentry/node", [
-        ["npm:6.15.0", {
-          "packageLocation": "./.yarn/cache/@sentry-node-npm-6.15.0-905b507fbf-a73f4de9c3.zip/node_modules/@sentry/node/",
+        ["npm:6.17.1", {
+          "packageLocation": "./.yarn/cache/@sentry-node-npm-6.17.1-93b39f753f-cc2829133d.zip/node_modules/@sentry/node/",
           "packageDependencies": [
-            ["@sentry/node", "npm:6.15.0"],
-            ["@sentry/core", "npm:6.15.0"],
-            ["@sentry/hub", "npm:6.15.0"],
-            ["@sentry/tracing", "npm:6.15.0"],
-            ["@sentry/types", "npm:6.15.0"],
-            ["@sentry/utils", "npm:6.15.0"],
+            ["@sentry/node", "npm:6.17.1"],
+            ["@sentry/core", "npm:6.17.1"],
+            ["@sentry/hub", "npm:6.17.1"],
+            ["@sentry/tracing", "npm:6.17.1"],
+            ["@sentry/types", "npm:6.17.1"],
+            ["@sentry/utils", "npm:6.17.1"],
             ["cookie", "npm:0.4.1"],
             ["https-proxy-agent", "npm:5.0.0"],
             ["lru_map", "npm:0.3.3"],
@@ -4878,27 +4878,20 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@sentry/tracing", [
-        ["npm:6.15.0", {
-          "packageLocation": "./.yarn/cache/@sentry-tracing-npm-6.15.0-d9c3af8fc5-63976d6047.zip/node_modules/@sentry/tracing/",
+        ["npm:6.17.1", {
+          "packageLocation": "./.yarn/cache/@sentry-tracing-npm-6.17.1-ce565005d0-5f7cbbb0e7.zip/node_modules/@sentry/tracing/",
           "packageDependencies": [
-            ["@sentry/tracing", "npm:6.15.0"],
-            ["@sentry/hub", "npm:6.15.0"],
-            ["@sentry/minimal", "npm:6.15.0"],
-            ["@sentry/types", "npm:6.15.0"],
-            ["@sentry/utils", "npm:6.15.0"],
+            ["@sentry/tracing", "npm:6.17.1"],
+            ["@sentry/hub", "npm:6.17.1"],
+            ["@sentry/minimal", "npm:6.17.1"],
+            ["@sentry/types", "npm:6.17.1"],
+            ["@sentry/utils", "npm:6.17.1"],
             ["tslib", "npm:1.14.1"]
           ],
           "linkType": "HARD",
         }]
       ]],
       ["@sentry/types", [
-        ["npm:6.15.0", {
-          "packageLocation": "./.yarn/cache/@sentry-types-npm-6.15.0-e4486f130b-e84a53cd8c.zip/node_modules/@sentry/types/",
-          "packageDependencies": [
-            ["@sentry/types", "npm:6.15.0"]
-          ],
-          "linkType": "HARD",
-        }],
         ["npm:6.17.1", {
           "packageLocation": "./.yarn/cache/@sentry-types-npm-6.17.1-aee631745d-291c87496e.zip/node_modules/@sentry/types/",
           "packageDependencies": [
@@ -4908,11 +4901,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@sentry/utils", [
-        ["npm:6.15.0", {
-          "packageLocation": "./.yarn/cache/@sentry-utils-npm-6.15.0-8a174ffdd4-150a7d8b4e.zip/node_modules/@sentry/utils/",
+        ["npm:6.17.1", {
+          "packageLocation": "./.yarn/cache/@sentry-utils-npm-6.17.1-2bb3b90067-2fea787ec0.zip/node_modules/@sentry/utils/",
           "packageDependencies": [
-            ["@sentry/utils", "npm:6.15.0"],
-            ["@sentry/types", "npm:6.15.0"],
+            ["@sentry/utils", "npm:6.17.1"],
+            ["@sentry/types", "npm:6.17.1"],
             ["tslib", "npm:1.14.1"]
           ],
           "linkType": "HARD",
@@ -21358,8 +21351,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@nuxt/core", "npm:2.15.8"],
             ["@nuxt/types", "npm:2.15.8"],
             ["@nuxt/vue-app", "npm:2.15.8"],
-            ["@sentry/node", "npm:6.15.0"],
-            ["@sentry/tracing", "npm:6.15.0"],
+            ["@sentry/node", "npm:6.17.1"],
+            ["@sentry/tracing", "npm:6.17.1"],
             ["@sentry/types", "npm:6.17.1"],
             ["@types/archiver", "npm:5.3.1"],
             ["@types/bcryptjs", "npm:2.4.2"],
