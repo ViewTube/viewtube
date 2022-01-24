@@ -4,7 +4,7 @@ architectures = [
     'arm64'
 ]
 
-os = 'linux'
+buildOS = 'linux'
 
 version = '0.9.1'
 
@@ -16,15 +16,30 @@ stableTagsArray = [
     version[:-2]
 ]
 
+devTagsArray = [
+    'dev'
+]
+
+
+def addArchMap(tags, arch):
+    archTagsArray = []
+    for curTag in tags:
+        tagArchName = '%s-%s-%s' % (curTag, buildOS, arch)
+        archTagsArray.append(tagArchName)
+
+    return archTagsArray
+
 
 def main(ctx):
     stages = []
+    after = []
+
     for arch in architectures:
         stages.append(step(arch))
 
-    after = [
-        manifest('dev', 'development')
-    ]
+    for devTag in devTagsArray:
+        after.append(manifest(devTag, 'development'))
+
     for stableTag in stableTagsArray:
         after.append(manifest(stableTag, 'stable'))
 
@@ -38,7 +53,7 @@ def step(arch):
         'name': 'build-%s' % arch,
         'platform': {
             'arch': 'amd64',
-            'os': 'linux'
+            'os': buildOS
         },
         'trigger': {
             'branch': [
@@ -51,14 +66,12 @@ def step(arch):
         },
         'steps': [
             publishStep(
-                stableTagsArray,
+                addArchMap(stableTagsArray, arch),
                 'stable',
                 arch
             ),
             publishStep(
-                [
-                    'dev'
-                ],
+                addArchMap(devTagsArray, arch),
                 'development',
                 arch
             )
@@ -72,7 +85,7 @@ def publishStep(tags, branch, arch):
         'image': 'thegeeklab/drone-docker-buildx',
         'pull': 'if-not-exists',
         'environment': {
-            'GOOS': os,
+            'GOOS': buildOS,
             'GOARCH': arch
         },
         'privileged': True,
