@@ -8,7 +8,7 @@
   "license": "AGPLv3",
   "scripts": {
     "build": "yarn workspaces foreach run build",
-    "build:server": "scripts/build.server.sh",
+    "build:server": "yarn workspace server run build",
     "build:client": "yarn workspace client run build",
     "serve:api": "yarn workspace server run serve",
     "serve:client": "yarn workspace client run serve",
