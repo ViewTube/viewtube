@@ -11,8 +11,9 @@ export class AutocompleteService {
   async getAutocompleteResult(query: string): Promise<Array<string>> {
     try {
       const response = await undici.request(this.url + query);
-      response.body.setEncoding('latin1');
-      const data = await response.body.text();
+      const textDecoder = new TextDecoder('latin1');
+      const arrayBufferData = await response.body.arrayBuffer();
+      const data = textDecoder.decode(arrayBufferData);
       const array: Array<Array<unknown>> = JSON.parse(data.match(this.responseRegex)[2]);
       return array[1].map((e: unknown) => e[0]);
     } catch (error) {

@@ -3,6 +3,7 @@
   "timezone": "Europe/Zurich",
   "labels": ["dependencies"],
   "lockFileMaintenance": { "enabled": true },
+  "updateInternalDeps": true,
   "packageRules": [
     {
       "matchPackagePatterns": ["*"],
