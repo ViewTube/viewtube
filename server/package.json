@@ -32,7 +32,7 @@
     "@nestjs/passport": "8.1.0",
     "@nestjs/platform-fastify": "8.2.6",
     "@nestjs/schedule": "1.0.2",
-    "@nestjs/swagger": "5.1.5",
+    "@nestjs/swagger": "5.2.0",
     "@nestjs/throttler": "2.0.0",
     "@nuxt/babel-preset-app": "2.15.8",
     "@nuxt/core": "2.15.8",
