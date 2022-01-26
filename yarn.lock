@@ -5606,19 +5606,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bull@npm:4.2.1":
-  version: 4.2.1
-  resolution: "bull@npm:4.2.1"
+"bull@npm:4.4.0":
+  version: 4.4.0
+  resolution: "bull@npm:4.4.0"
   dependencies:
-    cron-parser: ^2.13.0
+    cron-parser: ^4.2.1
     debuglog: ^1.0.0
     get-port: ^5.1.1
     ioredis: ^4.27.0
     lodash: ^4.17.21
+    msgpackr: ^1.5.2
     p-timeout: ^3.2.0
     semver: ^7.3.2
     uuid: ^8.3.0
-  checksum: 1374dd9bfdddef34a61a18f0f08b1ea0514b1773cf71e2ccd69e866d656780a1f3ce14b6ed9b011aaa74907c8ff9066bf69c6c362e99e727239ba41433d36d0f
+  checksum: 34b35629276fb703c54ae276c72fa3d984454eaf81f391d86e8ae592a752825efb7c5c3ae0b8f3e67baf27cee73223b73d4e0110b8bc3b3296a8dc74b52c29f3
   languageName: node
   linkType: hard
 
@@ -6712,13 +6713,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cron-parser@npm:^2.13.0":
-  version: 2.18.0
-  resolution: "cron-parser@npm:2.18.0"
+"cron-parser@npm:^4.2.1":
+  version: 4.2.1
+  resolution: "cron-parser@npm:4.2.1"
   dependencies:
-    is-nan: ^1.3.0
-    moment-timezone: ^0.5.31
-  checksum: c0fcb3922ca19a649d779abca1aad3302fb5bfc9c95da9ea19176a006a1225ea92f29e06f54a64ce9f9b8add7668af9ff865522922e66ddbc37017c226d16e70
+    luxon: ^1.28.0
+  checksum: 2128a791a557c731fb6ed6813c08fea4768ba344181dfe3de11fd9672ca585a066977323ce3e16b2abf49d61b4bdf3ae28d431e7ceaaa835625dfd2497d8b06e
   languageName: node
   linkType: hard
 
@@ -10558,16 +10558,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"is-nan@npm:^1.3.0":
-  version: 1.3.2
-  resolution: "is-nan@npm:1.3.2"
-  dependencies:
-    call-bind: ^1.0.0
-    define-properties: ^1.1.3
-  checksum: 5dfadcef6ad12d3029d43643d9800adbba21cf3ce2ec849f734b0e14ee8da4070d82b15fdb35138716d02587c6578225b9a22779cab34888a139cc43e4e3610a
-  languageName: node
-  linkType: hard
-
 "is-negative-zero@npm:^2.0.1":
   version: 2.0.2
   resolution: "is-negative-zero@npm:2.0.2"
@@ -12065,6 +12055,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"luxon@npm:^1.28.0":
+  version: 1.28.0
+  resolution: "luxon@npm:1.28.0"
+  checksum: 5250cb9f138b6048eeb0b3a9044a4ac994d0058f680c72a0da4b6aeaec8612460385639cba2b1052ef6d5564879e9ed144d686f26d9d97b38ab920d82e18281c
+  languageName: node
+  linkType: hard
+
 "m3u8stream@npm:^0.8.4":
   version: 0.8.6
   resolution: "m3u8stream@npm:0.8.6"
@@ -12592,7 +12589,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"moment-timezone@npm:^0.5.31, moment-timezone@npm:^0.5.x":
+"moment-timezone@npm:^0.5.x":
   version: 0.5.34
   resolution: "moment-timezone@npm:0.5.34"
   dependencies:
@@ -12758,6 +12755,29 @@ __metadata:
   languageName: node
   linkType: hard
 
+"msgpackr-extract@npm:^1.0.14":
+  version: 1.0.16
+  resolution: "msgpackr-extract@npm:1.0.16"
+  dependencies:
+    nan: ^2.14.2
+    node-gyp: latest
+    node-gyp-build: ^4.2.3
+  checksum: 92579bcecf1a0bce090165d46e18338850b1cfef9e5e4cd91e8d95fe01516479d96d09dc1bbb344083950669b4e6b3c8193a1f8e510a0cd7a1634d4a44c4c6b2
+  languageName: node
+  linkType: hard
+
+"msgpackr@npm:^1.5.2":
+  version: 1.5.2
+  resolution: "msgpackr@npm:1.5.2"
+  dependencies:
+    msgpackr-extract: ^1.0.14
+  dependenciesMeta:
+    msgpackr-extract:
+      optional: true
+  checksum: 7102558a772df233189378f223234970d52c755b90cd1ebcb83d00c6a6c2ac7caea98113d941e6ca247365aad4fc3a81b1c1f0e97f3dac6024ebb6cec1bec11d
+  languageName: node
+  linkType: hard
+
 "multimap@npm:^1.1.0":
   version: 1.1.0
   resolution: "multimap@npm:1.1.0"
@@ -12781,7 +12801,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nan@npm:^2.12.1":
+"nan@npm:^2.12.1, nan@npm:^2.14.2":
   version: 2.15.0
   resolution: "nan@npm:2.15.0"
   dependencies:
@@ -12951,6 +12971,17 @@ __metadata:
     encoding:
       optional: true
   checksum: 8d816ffd1ee22cab8301c7756ef04f3437f18dace86a1dae22cf81db8ef29c0bf6655f3215cb0cdb22b420b6fe141e64b26905e7f33f9377a7fa59135ea3e10b
+  languageName: node
+  linkType: hard
+
+"node-gyp-build@npm:^4.2.3":
+  version: 4.3.0
+  resolution: "node-gyp-build@npm:4.3.0"
+  bin:
+    node-gyp-build: bin.js
+    node-gyp-build-optional: optional.js
+    node-gyp-build-test: build-test.js
+  checksum: 1ecab16d9f275174d516e223f60f65ebe07540347d5c04a6a7d6921060b7f2e3af4f19463d9d1dcedc452e275c2ae71354a99405e55ebd5b655bb2f38025c728
   languageName: node
   linkType: hard
 
@@ -16156,7 +16187,7 @@ __metadata:
     "@typescript-eslint/parser": 5.10.1
     archiver: 5.3.0
     bcryptjs: 2.4.3
-    bull: 4.2.1
+    bull: 4.4.0
     cache-manager: 3.6.0
     cache-manager-redis-store: 2.0.0
     chalk: 4.1.2
