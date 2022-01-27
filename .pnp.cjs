@@ -15307,10 +15307,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["joi", [
-        ["npm:17.5.0", {
-          "packageLocation": "./.yarn/cache/joi-npm-17.5.0-02b9b7e605-6a20d009d2.zip/node_modules/joi/",
+        ["npm:17.6.0", {
+          "packageLocation": "./.yarn/cache/joi-npm-17.6.0-987ef6515f-eaf62f6c02.zip/node_modules/joi/",
           "packageDependencies": [
-            ["joi", "npm:17.5.0"],
+            ["joi", "npm:17.6.0"],
             ["@hapi/hoek", "npm:9.2.1"],
             ["@hapi/topo", "npm:5.1.0"],
             ["@sideway/address", "npm:4.1.3"],
@@ -20764,7 +20764,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["husky", "npm:7.0.4"],
             ["ioredis", "npm:4.28.3"],
             ["jest", "virtual:c139d237b0dbb776e61db419e9c89c8b814c75fa7a88b9f24aafc5ab8ac92bbf91dff4585597824d969ce997b2ccd24ccbc8eb827b2908e4b381ccc31b31d3eb#npm:27.4.7"],
-            ["joi", "npm:17.5.0"],
+            ["joi", "npm:17.6.0"],
             ["mini-svg-data-uri", "npm:1.4.3"],
             ["module-alias", "npm:2.2.2"],
             ["mongodb-memory-server", "npm:8.2.0"],
