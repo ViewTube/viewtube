@@ -16239,7 +16239,7 @@ __metadata:
     ts-jest: 27.1.3
     ts-loader: 9.2.6
     typescript: 4.5.5
-    undici: 4.12.2
+    undici: 4.13.0
     web-push: 3.4.5
     webpack: 5.67.0
     webpack-pnp-externals: 1.1.0
@@ -17915,10 +17915,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"undici@npm:4.12.2":
-  version: 4.12.2
-  resolution: "undici@npm:4.12.2"
-  checksum: e53e144e96afdd097e3289f92ec9baad856dbe162cbb9c0e50b9105244cc7c0867cad3ef444274c78700b3ffc0a96603b26516f59a709008f8dd93eb1482567f
+"undici@npm:4.13.0":
+  version: 4.13.0
+  resolution: "undici@npm:4.13.0"
+  checksum: 7bb4b432e1f94473eb6aec3c72cda774f29c4e02a534d199bdecab12c3a17f1ad829d2b187eddfeb2320d5c6690a5bc483b0e3a02f52febe623712298f900b7e
   languageName: node
   linkType: hard
 
