@@ -5212,10 +5212,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@types/papaparse", [
-        ["npm:5.3.1", {
-          "packageLocation": "./.yarn/cache/@types-papaparse-npm-5.3.1-7080d02c9f-ee788899e6.zip/node_modules/@types/papaparse/",
+        ["npm:5.3.2", {
+          "packageLocation": "./.yarn/cache/@types-papaparse-npm-5.3.2-203a9019b3-e8f7f5c251.zip/node_modules/@types/papaparse/",
           "packageDependencies": [
-            ["@types/papaparse", "npm:5.3.1"],
+            ["@types/papaparse", "npm:5.3.2"],
             ["@types/node", "npm:17.0.11"]
           ],
           "linkType": "HARD",
@@ -8879,7 +8879,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@nuxtjs/router", "npm:1.7.0"],
             ["@nuxtjs/style-resources", "npm:1.2.1"],
             ["@types/node", "npm:16.11.21"],
-            ["@types/papaparse", "npm:5.3.1"],
+            ["@types/papaparse", "npm:5.3.2"],
             ["@types/sass", "npm:1.43.1"],
             ["@typescript-eslint/eslint-plugin", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:5.10.1"],
             ["@typescript-eslint/parser", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:5.10.1"],
