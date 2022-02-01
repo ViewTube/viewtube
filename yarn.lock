@@ -5674,9 +5674,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bull@npm:4.4.0":
-  version: 4.4.0
-  resolution: "bull@npm:4.4.0"
+"bull@npm:4.5.0":
+  version: 4.5.0
+  resolution: "bull@npm:4.5.0"
   dependencies:
     cron-parser: ^4.2.1
     debuglog: ^1.0.0
@@ -5687,7 +5687,7 @@ __metadata:
     p-timeout: ^3.2.0
     semver: ^7.3.2
     uuid: ^8.3.0
-  checksum: 34b35629276fb703c54ae276c72fa3d984454eaf81f391d86e8ae592a752825efb7c5c3ae0b8f3e67baf27cee73223b73d4e0110b8bc3b3296a8dc74b52c29f3
+  checksum: 2367396970b8eeb0ecc828a00e8b7fb6d5f8266d5fa64cd93450e89786fb6268bf83a92ee28294cbb9b4190c1b77a95c6ae71f0d153233f194cd8ceb36954645
   languageName: node
   linkType: hard
 
@@ -16270,7 +16270,7 @@ __metadata:
     "@typescript-eslint/parser": 5.10.2
     archiver: 5.3.0
     bcryptjs: 2.4.3
-    bull: 4.4.0
+    bull: 4.5.0
     cache-manager: 3.6.0
     cache-manager-redis-store: 2.0.0
     chalk: 4.1.2
