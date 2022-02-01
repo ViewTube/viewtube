@@ -5172,10 +5172,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "HARD",
         }],
-        ["npm:16.11.21", {
-          "packageLocation": "./.yarn/cache/@types-node-npm-16.11.21-7c4c341552-75b679dc63.zip/node_modules/@types/node/",
+        ["npm:16.11.22", {
+          "packageLocation": "./.yarn/cache/@types-node-npm-16.11.22-e445de895f-9d879b9b04.zip/node_modules/@types/node/",
           "packageDependencies": [
-            ["@types/node", "npm:16.11.21"]
+            ["@types/node", "npm:16.11.22"]
           ],
           "linkType": "HARD",
         }],
@@ -8976,7 +8976,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@nuxtjs/pwa", "npm:3.3.5"],
             ["@nuxtjs/router", "npm:1.7.0"],
             ["@nuxtjs/style-resources", "npm:1.2.1"],
-            ["@types/node", "npm:16.11.21"],
+            ["@types/node", "npm:16.11.22"],
             ["@types/papaparse", "npm:5.3.2"],
             ["@types/sass", "npm:1.43.1"],
             ["@typescript-eslint/eslint-plugin", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:5.10.2"],
@@ -9006,7 +9006,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["portal-vue", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:2.1.7"],
             ["prettier", "npm:2.5.1"],
             ["qrcode", "npm:1.4.4"],
-            ["sass", "npm:1.49.1"],
+            ["sass", "npm:1.49.4"],
             ["sass-loader", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:10.2.1"],
             ["tippy.js", "npm:6.3.7"],
             ["typed-vuex", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:0.2.0"],
@@ -20521,10 +20521,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["sass", [
-        ["npm:1.49.1", {
-          "packageLocation": "./.yarn/cache/sass-npm-1.49.1-ebd4aba374-70ae4986ff.zip/node_modules/sass/",
+        ["npm:1.49.4", {
+          "packageLocation": "./.yarn/cache/sass-npm-1.49.4-c7e2ce6373-b4ddfcff93.zip/node_modules/sass/",
           "packageDependencies": [
-            ["sass", "npm:1.49.1"],
+            ["sass", "npm:1.49.4"],
             ["chokidar", "npm:3.5.3"],
             ["immutable", "npm:4.0.0"],
             ["source-map-js", "npm:1.0.2"]
@@ -20590,7 +20590,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["loader-utils", "npm:2.0.2"],
             ["neo-async", "npm:2.6.2"],
             ["node-sass", null],
-            ["sass", "npm:1.49.1"],
+            ["sass", "npm:1.49.4"],
             ["schema-utils", "npm:3.1.1"],
             ["semver", "npm:7.3.5"],
             ["webpack", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:5.68.0"]
@@ -20862,7 +20862,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.4.0"],
             ["@types/module-alias", "npm:2.0.1"],
             ["@types/multer", "npm:1.4.7"],
-            ["@types/node", "npm:16.11.21"],
+            ["@types/node", "npm:16.11.22"],
             ["@types/node-fetch", "npm:3.0.3"],
             ["@types/passport-jwt", "npm:3.0.6"],
             ["@types/passport-local", "npm:1.0.34"],
@@ -21018,7 +21018,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@nestjs/common", "virtual:d10100d960b1b73f8c74718d4637dfe2c18d098bafef09afa646f6b4f65cd1a5ad77d7941e2a1def095bb77eb2ac82d00bec47774003ea2f130a251bc51e4c5b#npm:8.2.6"],
             ["@nestjs/core", "virtual:d10100d960b1b73f8c74718d4637dfe2c18d098bafef09afa646f6b4f65cd1a5ad77d7941e2a1def095bb77eb2ac82d00bec47774003ea2f130a251bc51e4c5b#npm:8.2.6"],
             ["@nestjs/swagger", "virtual:d10100d960b1b73f8c74718d4637dfe2c18d098bafef09afa646f6b4f65cd1a5ad77d7941e2a1def095bb77eb2ac82d00bec47774003ea2f130a251bc51e4c5b#npm:5.2.0"],
-            ["@types/node", "npm:16.11.21"],
+            ["@types/node", "npm:16.11.22"],
             ["class-transformer", "npm:0.5.1"],
             ["class-validator", "npm:0.13.2"],
             ["reflect-metadata", "npm:0.1.13"],

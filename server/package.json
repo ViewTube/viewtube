@@ -93,7 +93,7 @@
     "@types/jest": "27.4.0",
     "@types/module-alias": "2.0.1",
     "@types/multer": "1.4.7",
-    "@types/node": "16.11.21",
+    "@types/node": "16.11.22",
     "@types/node-fetch": "3.0.3",
     "@types/passport-jwt": "3.0.6",
     "@types/passport-local": "1.0.34",
