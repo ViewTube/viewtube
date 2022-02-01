@@ -12,7 +12,7 @@
   "dependencies": {
     "@nuxtjs/axios": "5.13.6",
     "portal-vue": "2.1.7",
-    "sass": "1.49.1"
+    "sass": "1.49.4"
   },
   "devDependencies": {
     "@nuxt/types": "2.15.8",
@@ -23,7 +23,7 @@
     "@nuxtjs/pwa": "3.3.5",
     "@nuxtjs/router": "1.7.0",
     "@nuxtjs/style-resources": "1.2.1",
-    "@types/node": "16.11.21",
+    "@types/node": "16.11.22",
     "@types/papaparse": "5.3.2",
     "@types/sass": "1.43.1",
     "@typescript-eslint/eslint-plugin": "5.10.2",
