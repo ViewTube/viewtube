@@ -3410,7 +3410,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/nestjs__core", null],
             ["@types/reflect-metadata", null],
             ["@types/rxjs", null],
-            ["mongoose", "npm:6.1.9"],
+            ["mongoose", "npm:6.1.10"],
             ["reflect-metadata", "npm:0.1.13"],
             ["rxjs", "npm:7.5.2"]
           ],
@@ -9006,7 +9006,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["portal-vue", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:2.1.7"],
             ["prettier", "npm:2.5.1"],
             ["qrcode", "npm:1.4.4"],
-            ["sass", "npm:1.49.4"],
+            ["sass", "npm:1.49.7"],
             ["sass-loader", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:10.2.1"],
             ["tippy.js", "npm:6.3.7"],
             ["typed-vuex", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:0.2.0"],
@@ -16904,10 +16904,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["mongoose", [
-        ["npm:6.1.9", {
-          "packageLocation": "./.yarn/cache/mongoose-npm-6.1.9-c195799486-a2b7b424b9.zip/node_modules/mongoose/",
+        ["npm:6.1.10", {
+          "packageLocation": "./.yarn/cache/mongoose-npm-6.1.10-d0ad94930f-718f6f6f8d.zip/node_modules/mongoose/",
           "packageDependencies": [
-            ["mongoose", "npm:6.1.9"],
+            ["mongoose", "npm:6.1.10"],
             ["@types/node", "npm:17.0.5"],
             ["bson", "npm:4.6.1"],
             ["kareem", "npm:2.3.3"],
@@ -20521,10 +20521,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["sass", [
-        ["npm:1.49.4", {
-          "packageLocation": "./.yarn/cache/sass-npm-1.49.4-c7e2ce6373-b4ddfcff93.zip/node_modules/sass/",
+        ["npm:1.49.7", {
+          "packageLocation": "./.yarn/cache/sass-npm-1.49.7-31c62a5c43-514d1abff5.zip/node_modules/sass/",
           "packageDependencies": [
-            ["sass", "npm:1.49.4"],
+            ["sass", "npm:1.49.7"],
             ["chokidar", "npm:3.5.3"],
             ["immutable", "npm:4.0.0"],
             ["source-map-js", "npm:1.0.2"]
@@ -20590,7 +20590,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["loader-utils", "npm:2.0.2"],
             ["neo-async", "npm:2.6.2"],
             ["node-sass", null],
-            ["sass", "npm:1.49.4"],
+            ["sass", "npm:1.49.7"],
             ["schema-utils", "npm:3.1.1"],
             ["semver", "npm:7.3.5"],
             ["webpack", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:5.68.0"]
@@ -20901,7 +20901,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["mini-svg-data-uri", "npm:1.4.3"],
             ["module-alias", "npm:2.2.2"],
             ["mongodb-memory-server", "npm:8.2.0"],
-            ["mongoose", "npm:6.1.9"],
+            ["mongoose", "npm:6.1.10"],
             ["nestjs-throttler-storage-redis", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:0.1.18"],
             ["node-fetch", "virtual:b703fe309445e73be0544c0731c064bd8abfb48eba238ef60c1180739300244272080b53495cbb64a2ec07139667d15d2f5ce81fb8e0f1ce36343b35ebd9836e#npm:2.6.7"],
             ["passport", "npm:0.5.2"],
