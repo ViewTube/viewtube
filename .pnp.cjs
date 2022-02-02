@@ -3410,7 +3410,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/nestjs__core", null],
             ["@types/reflect-metadata", null],
             ["@types/rxjs", null],
-            ["mongoose", "npm:6.1.10"],
+            ["mongoose", "npm:6.2.0"],
             ["reflect-metadata", "npm:0.1.13"],
             ["rxjs", "npm:7.5.2"]
           ],
@@ -5183,13 +5183,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@types-node-npm-17.0.13-0b4bf052b4-8b87c850c1.zip/node_modules/@types/node/",
           "packageDependencies": [
             ["@types/node", "npm:17.0.13"]
-          ],
-          "linkType": "HARD",
-        }],
-        ["npm:17.0.5", {
-          "packageLocation": "./.yarn/cache/@types-node-npm-17.0.5-78c23cecdc-105535e787.zip/node_modules/@types/node/",
-          "packageDependencies": [
-            ["@types/node", "npm:17.0.5"]
           ],
           "linkType": "HARD",
         }]
@@ -16825,17 +16818,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["mongodb", [
-        ["npm:4.2.2", {
-          "packageLocation": "./.yarn/cache/mongodb-npm-4.2.2-5d828ca7b9-645cc8889e.zip/node_modules/mongodb/",
-          "packageDependencies": [
-            ["mongodb", "npm:4.2.2"],
-            ["bson", "npm:4.6.1"],
-            ["denque", "npm:2.0.1"],
-            ["mongodb-connection-string-url", "npm:2.4.1"],
-            ["saslprep", "npm:1.0.3"]
-          ],
-          "linkType": "HARD",
-        }],
         ["npm:4.3.1", {
           "packageLocation": "./.yarn/cache/mongodb-npm-4.3.1-a90fff3f6a-5684b5481b.zip/node_modules/mongodb/",
           "packageDependencies": [
@@ -16897,14 +16879,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["mongoose", [
-        ["npm:6.1.10", {
-          "packageLocation": "./.yarn/cache/mongoose-npm-6.1.10-d0ad94930f-718f6f6f8d.zip/node_modules/mongoose/",
+        ["npm:6.2.0", {
+          "packageLocation": "./.yarn/cache/mongoose-npm-6.2.0-952348aad3-e5ebc256d7.zip/node_modules/mongoose/",
           "packageDependencies": [
-            ["mongoose", "npm:6.1.10"],
-            ["@types/node", "npm:17.0.5"],
+            ["mongoose", "npm:6.2.0"],
             ["bson", "npm:4.6.1"],
             ["kareem", "npm:2.3.3"],
-            ["mongodb", "npm:4.2.2"],
+            ["mongodb", "npm:4.3.1"],
             ["mpath", "npm:0.8.4"],
             ["mquery", "npm:4.0.2"],
             ["ms", "npm:2.1.2"],
@@ -20894,7 +20875,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["mini-svg-data-uri", "npm:1.4.3"],
             ["module-alias", "npm:2.2.2"],
             ["mongodb-memory-server", "npm:8.2.0"],
-            ["mongoose", "npm:6.1.10"],
+            ["mongoose", "npm:6.2.0"],
             ["nestjs-throttler-storage-redis", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:0.1.18"],
             ["node-fetch", "virtual:b703fe309445e73be0544c0731c064bd8abfb48eba238ef60c1180739300244272080b53495cbb64a2ec07139667d15d2f5ce81fb8e0f1ce36343b35ebd9836e#npm:2.6.7"],
             ["passport", "npm:0.5.2"],

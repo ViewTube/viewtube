@@ -3288,13 +3288,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:< 17.0.6":
-  version: 17.0.5
-  resolution: "@types/node@npm:17.0.5"
-  checksum: 105535e78722515c26cfdc1b0cbf1b19f55fe53b814e2e90d8b1e653bc63136d4760c7efc102eca111c6d124a291e37d60d761d569a3f4afb3fba05bad5d9ade
-  languageName: node
-  linkType: hard
-
 "@types/normalize-package-data@npm:^2.4.0":
   version: 2.4.1
   resolution: "@types/normalize-package-data@npm:2.4.1"
@@ -5564,7 +5557,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bson@npm:^4.2.2, bson@npm:^4.6.0, bson@npm:^4.6.1":
+"bson@npm:^4.2.2, bson@npm:^4.6.1":
   version: 4.6.1
   resolution: "bson@npm:4.6.1"
   dependencies:
@@ -12678,7 +12671,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mongodb-connection-string-url@npm:^2.3.2, mongodb-connection-string-url@npm:^2.4.1":
+"mongodb-connection-string-url@npm:^2.4.1":
   version: 2.4.1
   resolution: "mongodb-connection-string-url@npm:2.4.1"
   dependencies:
@@ -12722,22 +12715,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mongodb@npm:4.2.2":
-  version: 4.2.2
-  resolution: "mongodb@npm:4.2.2"
-  dependencies:
-    bson: ^4.6.0
-    denque: ^2.0.1
-    mongodb-connection-string-url: ^2.3.2
-    saslprep: ^1.0.3
-  dependenciesMeta:
-    saslprep:
-      optional: true
-  checksum: 645cc8889ee093c0d6479638aa4f5b3e587b84be5179a35993f0796fda6b25d22c4b6f7d5f27b4d23c3aacb694db2ff696ea0a5080ddc745508ffff95131f3b5
-  languageName: node
-  linkType: hard
-
-"mongodb@npm:^4.2.2":
+"mongodb@npm:4.3.1, mongodb@npm:^4.2.2":
   version: 4.3.1
   resolution: "mongodb@npm:4.3.1"
   dependencies:
@@ -12753,20 +12731,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mongoose@npm:6.1.10":
-  version: 6.1.10
-  resolution: "mongoose@npm:6.1.10"
+"mongoose@npm:6.2.0":
+  version: 6.2.0
+  resolution: "mongoose@npm:6.2.0"
   dependencies:
-    "@types/node": < 17.0.6
     bson: ^4.2.2
     kareem: 2.3.3
-    mongodb: 4.2.2
+    mongodb: 4.3.1
     mpath: 0.8.4
     mquery: 4.0.2
     ms: 2.1.2
     regexp-clone: 1.0.0
     sift: 13.5.2
-  checksum: 718f6f6f8d25e2a7d533643891c81364cdbbf382d01141b94ad0a0ab1b743878c0f72ecb68b7f5b3628240033ea652b4e049b91ef8114069b37650d5b37ba435
+  checksum: e5ebc256d793f5270de35221588da6c576652519be4230811704f9d11cd4d17afc4b53950d7ea4abe72f52d81e1cf9bd814154ee88353cf84f3c5130595b4568
   languageName: node
   linkType: hard
 
@@ -16287,7 +16264,7 @@ __metadata:
     mini-svg-data-uri: 1.4.3
     module-alias: 2.2.2
     mongodb-memory-server: 8.2.0
-    mongoose: 6.1.10
+    mongoose: 6.2.0
     nestjs-throttler-storage-redis: 0.1.18
     node-fetch: 2.6.7
     passport: 0.5.2
