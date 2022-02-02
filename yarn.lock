@@ -6222,7 +6222,7 @@ __metadata:
     portal-vue: 2.1.7
     prettier: 2.5.1
     qrcode: 1.4.4
-    sass: 1.49.4
+    sass: 1.49.7
     sass-loader: 10.2.1
     tippy.js: 6.3.7
     typed-vuex: 0.2.0
@@ -12762,9 +12762,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mongoose@npm:6.1.9":
-  version: 6.1.9
-  resolution: "mongoose@npm:6.1.9"
+"mongoose@npm:6.1.10":
+  version: 6.1.10
+  resolution: "mongoose@npm:6.1.10"
   dependencies:
     "@types/node": < 17.0.6
     bson: ^4.2.2
@@ -12775,7 +12775,7 @@ __metadata:
     ms: 2.1.2
     regexp-clone: 1.0.0
     sift: 13.5.2
-  checksum: a2b7b424b9380a3d0a8eb32654736adccedd980e984f19f8806455f458d82b51abc001f304e51a0c8d40305c3f17a81942b9efc5a5eb4f45caa3500c4c3d2254
+  checksum: 718f6f6f8d25e2a7d533643891c81364cdbbf382d01141b94ad0a0ab1b743878c0f72ecb68b7f5b3628240033ea652b4e049b91ef8114069b37650d5b37ba435
   languageName: node
   linkType: hard
 
@@ -15998,16 +15998,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sass@npm:1.49.4":
-  version: 1.49.4
-  resolution: "sass@npm:1.49.4"
+"sass@npm:1.49.7":
+  version: 1.49.7
+  resolution: "sass@npm:1.49.7"
   dependencies:
     chokidar: ">=3.0.0 <4.0.0"
     immutable: ^4.0.0
     source-map-js: ">=0.6.2 <2.0.0"
   bin:
     sass: sass.js
-  checksum: b4ddfcff93df823e5369fd10664938437945655956d8cd7800faeda3d6ee0bc26f7324098e259105f1a2cdd70c49d1f89e80a9deaa532e04c2cb849bd2c34b1b
+  checksum: 514d1abff594aa56afdc9eb7e40d1cbd9cf1ed6954c4e0ef494266d18965151c6f936e137cd118a138f7677a7bb98f2bbf2d1a485a3f5f66c78be0007506cc9b
   languageName: node
   linkType: hard
 
@@ -16296,7 +16296,7 @@ __metadata:
     mini-svg-data-uri: 1.4.3
     module-alias: 2.2.2
     mongodb-memory-server: 8.2.0
-    mongoose: 6.1.9
+    mongoose: 6.1.10
     nestjs-throttler-storage-redis: 0.1.18
     node-fetch: 2.6.7
     passport: 0.5.2
