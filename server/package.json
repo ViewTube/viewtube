@@ -68,7 +68,7 @@
     "passport-local": "1.0.0",
     "reflect-metadata": "0.1.13",
     "rxjs": "7.5.2",
-    "sharp": "0.29.3",
+    "sharp": "0.30.0",
     "svg-captcha": "1.4.0",
     "undici": "4.13.0",
     "web-push": "3.4.5",

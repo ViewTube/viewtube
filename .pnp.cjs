@@ -10627,13 +10627,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["detect-libc", [
-        ["npm:1.0.3", {
-          "packageLocation": "./.yarn/cache/detect-libc-npm-1.0.3-c30ac344d4-daaaed925f.zip/node_modules/detect-libc/",
-          "packageDependencies": [
-            ["detect-libc", "npm:1.0.3"]
-          ],
-          "linkType": "HARD",
-        }],
         ["npm:2.0.0", {
           "packageLocation": "./.yarn/cache/detect-libc-npm-2.0.0-725ffd9c90-cb96738a4a.zip/node_modules/detect-libc/",
           "packageDependencies": [
@@ -20912,7 +20905,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["reflect-metadata", "npm:0.1.13"],
             ["run-script-webpack-plugin", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:0.0.11"],
             ["rxjs", "npm:7.5.2"],
-            ["sharp", "npm:0.29.3"],
+            ["sharp", "npm:0.30.0"],
             ["source-map-support", "npm:0.5.21"],
             ["svg-captcha", "npm:1.4.0"],
             ["ts-jest", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:27.1.3"],
@@ -21029,12 +21022,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["sharp", [
-        ["npm:0.29.3", {
-          "packageLocation": "./.yarn/unplugged/sharp-npm-0.29.3-70033a2ec2/node_modules/sharp/",
+        ["npm:0.30.0", {
+          "packageLocation": "./.yarn/unplugged/sharp-npm-0.30.0-d747dc010e/node_modules/sharp/",
           "packageDependencies": [
-            ["sharp", "npm:0.29.3"],
+            ["sharp", "npm:0.30.0"],
             ["color", "npm:4.2.0"],
-            ["detect-libc", "npm:1.0.3"],
+            ["detect-libc", "npm:2.0.0"],
             ["node-addon-api", "npm:4.3.0"],
             ["node-gyp", "npm:8.4.1"],
             ["prebuild-install", "npm:7.0.1"],
