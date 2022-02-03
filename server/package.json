@@ -60,7 +60,7 @@
     "joi": "17.6.0",
     "mini-svg-data-uri": "1.4.3",
     "module-alias": "2.2.2",
-    "mongoose": "6.1.10",
+    "mongoose": "6.2.0",
     "nestjs-throttler-storage-redis": "0.1.18",
     "node-fetch": "2.6.7",
     "passport": "0.5.2",
