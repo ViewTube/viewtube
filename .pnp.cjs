@@ -3572,7 +3572,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/typescript", null],
             ["class-transformer", "npm:0.5.1"],
             ["class-validator", "npm:0.13.2"],
-            ["fastify-swagger", "npm:4.13.1"],
+            ["fastify-swagger", "npm:4.14.0"],
             ["lodash", "npm:4.17.21"],
             ["path-to-regexp", "npm:3.2.0"],
             ["reflect-metadata", "npm:0.1.13"],
@@ -12480,10 +12480,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["fastify-swagger", [
-        ["npm:4.13.1", {
-          "packageLocation": "./.yarn/cache/fastify-swagger-npm-4.13.1-28de52a468-0f673155d5.zip/node_modules/fastify-swagger/",
+        ["npm:4.14.0", {
+          "packageLocation": "./.yarn/cache/fastify-swagger-npm-4.14.0-f3cf225454-2d230ccdc8.zip/node_modules/fastify-swagger/",
           "packageDependencies": [
-            ["fastify-swagger", "npm:4.13.1"],
+            ["fastify-swagger", "npm:4.14.0"],
             ["fastify-plugin", "npm:3.0.1"],
             ["fastify-static", "npm:4.5.0"],
             ["js-yaml", "npm:4.1.0"],
@@ -20905,7 +20905,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["fastify-cookie", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:5.5.0"],
             ["fastify-helmet", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:7.0.1"],
             ["fastify-multipart", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:5.3.0"],
-            ["fastify-swagger", "npm:4.13.1"],
+            ["fastify-swagger", "npm:4.14.0"],
             ["https-proxy-agent", "npm:5.0.0"],
             ["humanize-duration", "npm:3.27.1"],
             ["husky", "npm:7.0.4"],
