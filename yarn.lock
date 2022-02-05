@@ -5862,7 +5862,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"camelcase@npm:^6.0.0, camelcase@npm:^6.2.0, camelcase@npm:^6.2.1":
+"camelcase@npm:^6.0.0, camelcase@npm:^6.2.0, camelcase@npm:^6.3.0":
   version: 6.3.0
   resolution: "camelcase@npm:6.3.0"
   checksum: 8c96818a9076434998511251dcb2761a94817ea17dbdc37f47ac080bd088fc62c7369429a19e2178b993497132c8cbcf5cc1f44ba963e76782ba469c0474938d
@@ -12723,19 +12723,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mongodb-memory-server-core@npm:8.2.0":
-  version: 8.2.0
-  resolution: "mongodb-memory-server-core@npm:8.2.0"
+"mongodb-memory-server-core@npm:8.3.0":
+  version: 8.3.0
+  resolution: "mongodb-memory-server-core@npm:8.3.0"
   dependencies:
     "@types/tmp": ^0.2.3
     async-mutex: ^0.3.2
-    camelcase: ^6.2.1
+    camelcase: ^6.3.0
     debug: ^4.3.3
     find-cache-dir: ^3.3.2
     get-port: ^5.1.1
     https-proxy-agent: ^5.0.0
     md5-file: ^5.0.0
-    mongodb: ^4.2.2
+    mongodb: ^4.3.1
     new-find-package-json: ^1.1.0
     semver: ^7.3.5
     tar-stream: ^2.1.4
@@ -12743,21 +12743,21 @@ __metadata:
     tslib: ^2.3.1
     uuid: ^8.3.1
     yauzl: ^2.10.0
-  checksum: f609157d3823c6494f995ccda432cc260766e68c6776d7dc194bc4b93eeb2508946c15fef50c49478a2f448be34834877175fe4f08dc71eb25244808a132fc7b
+  checksum: 94dd31b6860c44083dfd4875ba03784b832176d625ff22fd23b300405bc4153276f64ab4fa5bfb5ab2610189f8e8fc8a228e9b7791a2bd45d7f03f675dc0897c
   languageName: node
   linkType: hard
 
-"mongodb-memory-server@npm:8.2.0":
-  version: 8.2.0
-  resolution: "mongodb-memory-server@npm:8.2.0"
+"mongodb-memory-server@npm:8.3.0":
+  version: 8.3.0
+  resolution: "mongodb-memory-server@npm:8.3.0"
   dependencies:
-    mongodb-memory-server-core: 8.2.0
+    mongodb-memory-server-core: 8.3.0
     tslib: ^2.3.1
-  checksum: 570b9feff08c41a073ebb4ce188ca4d962b7d965550620254fbf48b3d0193e7e8c06d5e3cb6a8e87adca5d948631c4267ab170f8e8e84f87453fe35c168ff8b8
+  checksum: 300e7e8d78032baf2d4c54b799e4cae0e77c6cdc58119f82581ab4a214acb6ff61a30f3d43a81da4b2e162ec8f2a8f196eb72f1724f20830ca5aa1ba0700e5ae
   languageName: node
   linkType: hard
 
-"mongodb@npm:4.3.1, mongodb@npm:^4.2.2":
+"mongodb@npm:4.3.1, mongodb@npm:^4.3.1":
   version: 4.3.1
   resolution: "mongodb@npm:4.3.1"
   dependencies:
@@ -16305,7 +16305,7 @@ __metadata:
     joi: 17.6.0
     mini-svg-data-uri: 1.4.3
     module-alias: 2.2.2
-    mongodb-memory-server: 8.2.0
+    mongodb-memory-server: 8.3.0
     mongoose: 6.2.0
     nestjs-throttler-storage-redis: 0.1.18
     node-fetch: 2.6.7
