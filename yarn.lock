@@ -4079,7 +4079,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vue/composition-api@npm:1.4.5, @vue/composition-api@npm:^1.4.1":
+"@vue/composition-api@npm:1.4.6":
+  version: 1.4.6
+  resolution: "@vue/composition-api@npm:1.4.6"
+  peerDependencies:
+    vue: ">= 2.5 < 3"
+  checksum: 60c66a1616a05cdb8e1d91fc138584da5719b91232bd0bb9ba36161a1593de9c6c2ddd7dc4ccc8fefbeddb3fca581778887a0fca750a25b8db830f711c9482e4
+  languageName: node
+  linkType: hard
+
+"@vue/composition-api@npm:^1.4.1":
   version: 1.4.5
   resolution: "@vue/composition-api@npm:1.4.5"
   peerDependencies:
@@ -5648,9 +5657,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bull@npm:4.5.0":
-  version: 4.5.0
-  resolution: "bull@npm:4.5.0"
+"bull@npm:4.5.1":
+  version: 4.5.1
+  resolution: "bull@npm:4.5.1"
   dependencies:
     cron-parser: ^4.2.1
     debuglog: ^1.0.0
@@ -5661,7 +5670,7 @@ __metadata:
     p-timeout: ^3.2.0
     semver: ^7.3.2
     uuid: ^8.3.0
-  checksum: 2367396970b8eeb0ecc828a00e8b7fb6d5f8266d5fa64cd93450e89786fb6268bf83a92ee28294cbb9b4190c1b77a95c6ae71f0d153233f194cd8ceb36954645
+  checksum: aeaabc4880586d4abe7ecebf0a6eece09ef931d94748b737ecba0f2eceee6aafa89c81d0019cebd6e2afe63a46cb67962cfdd90bc1d924f196952afdcef3458f
   languageName: node
   linkType: hard
 
@@ -6178,7 +6187,7 @@ __metadata:
     "@types/sass": 1.43.1
     "@typescript-eslint/eslint-plugin": 5.10.2
     "@typescript-eslint/parser": 5.10.2
-    "@vue/composition-api": 1.4.5
+    "@vue/composition-api": 1.4.6
     axios: 0.25.0
     consola: 2.15.3
     cross-env: 7.0.3
@@ -10327,9 +10336,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ioredis@npm:4.28.4":
-  version: 4.28.4
-  resolution: "ioredis@npm:4.28.4"
+"ioredis@npm:4.28.5":
+  version: 4.28.5
+  resolution: "ioredis@npm:4.28.5"
   dependencies:
     cluster-key-slot: ^1.1.0
     debug: ^4.3.1
@@ -10342,7 +10351,7 @@ __metadata:
     redis-errors: ^1.2.0
     redis-parser: ^3.0.0
     standard-as-callback: ^2.1.0
-  checksum: cedf494a121bab17844daa78aaaeca8d17bf68b46f3e97b558f0f331236ad0ada58b0a299423312db0919f15046472ad2d7b87ae3bf59bd115c0668fc3210617
+  checksum: a8793c3324cd69fa55b4baacbda118ce6724e574260157761276b31411dd3e168c75490f7155c6ce34d79e01488efa98e0cdb162991970fd56da7cbcdafb8fb8
   languageName: node
   linkType: hard
 
@@ -16279,7 +16288,7 @@ __metadata:
     "@typescript-eslint/parser": 5.10.2
     archiver: 5.3.0
     bcryptjs: 2.4.3
-    bull: 4.5.0
+    bull: 4.5.1
     cache-manager: 3.6.0
     cache-manager-redis-store: 2.0.0
     chalk: 4.1.2
@@ -16299,7 +16308,7 @@ __metadata:
     https-proxy-agent: 5.0.0
     humanize-duration: 3.27.1
     husky: 7.0.4
-    ioredis: 4.28.4
+    ioredis: 4.28.5
     jest: 27.4.7
     joi: 17.6.0
     mini-svg-data-uri: 1.4.3
