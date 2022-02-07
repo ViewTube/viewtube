@@ -3066,7 +3066,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/bull", "npm:3.15.7"],
             ["@types/nestjs__common", null],
             ["@types/nestjs__core", null],
-            ["bull", "npm:4.5.0"]
+            ["bull", "npm:4.5.1"]
           ],
           "packagePeers": [
             "@nestjs/common",
@@ -4377,7 +4377,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/nuxt", null],
             ["@types/nuxt__vue-app", null],
             ["@types/vue", null],
-            ["@vue/composition-api", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:1.4.5"],
+            ["@vue/composition-api", "virtual:57bbe1fc7be38010cda51f728bf48bdd6e7f45bc454baabb76e5f02193d11d218ca85dce5a4c8cafb3dd0ecdf92f8bf631261ba119bc2a0ee45f4980bf361dbf#npm:1.4.5"],
             ["defu", "npm:5.0.1"],
             ["estree-walker", "npm:2.0.2"],
             ["fs-extra", "npm:9.1.0"],
@@ -6501,10 +6501,30 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "SOFT",
         }],
-        ["virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:1.4.5", {
-          "packageLocation": "./.yarn/__virtual__/@vue-composition-api-virtual-bbb476da6e/0/cache/@vue-composition-api-npm-1.4.5-ab8f2d46b5-6534d7a37c.zip/node_modules/@vue/composition-api/",
+        ["npm:1.4.6", {
+          "packageLocation": "./.yarn/cache/@vue-composition-api-npm-1.4.6-e133a9d112-60c66a1616.zip/node_modules/@vue/composition-api/",
           "packageDependencies": [
-            ["@vue/composition-api", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:1.4.5"],
+            ["@vue/composition-api", "npm:1.4.6"]
+          ],
+          "linkType": "SOFT",
+        }],
+        ["virtual:57bbe1fc7be38010cda51f728bf48bdd6e7f45bc454baabb76e5f02193d11d218ca85dce5a4c8cafb3dd0ecdf92f8bf631261ba119bc2a0ee45f4980bf361dbf#npm:1.4.5", {
+          "packageLocation": "./.yarn/__virtual__/@vue-composition-api-virtual-dd42e5b212/0/cache/@vue-composition-api-npm-1.4.5-ab8f2d46b5-6534d7a37c.zip/node_modules/@vue/composition-api/",
+          "packageDependencies": [
+            ["@vue/composition-api", "virtual:57bbe1fc7be38010cda51f728bf48bdd6e7f45bc454baabb76e5f02193d11d218ca85dce5a4c8cafb3dd0ecdf92f8bf631261ba119bc2a0ee45f4980bf361dbf#npm:1.4.5"],
+            ["@types/vue", null],
+            ["vue", "npm:2.6.14"]
+          ],
+          "packagePeers": [
+            "@types/vue",
+            "vue"
+          ],
+          "linkType": "HARD",
+        }],
+        ["virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:1.4.6", {
+          "packageLocation": "./.yarn/__virtual__/@vue-composition-api-virtual-6ea13e0739/0/cache/@vue-composition-api-npm-1.4.6-e133a9d112-60c66a1616.zip/node_modules/@vue/composition-api/",
+          "packageDependencies": [
+            ["@vue/composition-api", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:1.4.6"],
             ["@types/vue", null],
             ["vue", "npm:2.6.14"]
           ],
@@ -8406,10 +8426,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["bull", [
-        ["npm:4.5.0", {
-          "packageLocation": "./.yarn/cache/bull-npm-4.5.0-a92054af41-2367396970.zip/node_modules/bull/",
+        ["npm:4.5.1", {
+          "packageLocation": "./.yarn/cache/bull-npm-4.5.1-c572661164-aeaabc4880.zip/node_modules/bull/",
           "packageDependencies": [
-            ["bull", "npm:4.5.0"],
+            ["bull", "npm:4.5.1"],
             ["cron-parser", "npm:4.2.1"],
             ["debuglog", "npm:1.0.1"],
             ["get-port", "npm:5.1.1"],
@@ -8974,7 +8994,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/sass", "npm:1.43.1"],
             ["@typescript-eslint/eslint-plugin", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:5.10.2"],
             ["@typescript-eslint/parser", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:5.10.2"],
-            ["@vue/composition-api", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:1.4.5"],
+            ["@vue/composition-api", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:1.4.6"],
             ["axios", "npm:0.25.0"],
             ["consola", "npm:2.15.3"],
             ["cross-env", "npm:7.0.3"],
@@ -14233,10 +14253,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "HARD",
         }],
-        ["npm:4.28.4", {
-          "packageLocation": "./.yarn/cache/ioredis-npm-4.28.4-39d8de8cea-cedf494a12.zip/node_modules/ioredis/",
+        ["npm:4.28.5", {
+          "packageLocation": "./.yarn/cache/ioredis-npm-4.28.5-74671f2fa3-a8793c3324.zip/node_modules/ioredis/",
           "packageDependencies": [
-            ["ioredis", "npm:4.28.4"],
+            ["ioredis", "npm:4.28.5"],
             ["cluster-key-slot", "npm:1.1.0"],
             ["debug", "virtual:bd5ac53f2a4d13161e4becd2185852df3b4231ea7460becce6b80faf113589c84e6d5a7592f2b45846dcda321b203d871f080c12cd9638e02938ccdf6bfbd6ee#npm:4.3.3"],
             ["denque", "npm:1.5.1"],
@@ -17152,7 +17172,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/nestjs__core", null],
             ["@types/nestjs__throttler", null],
             ["@types/reflect-metadata", null],
-            ["ioredis", "npm:4.28.4"],
+            ["ioredis", "npm:4.28.5"],
             ["reflect-metadata", "npm:0.1.13"]
           ],
           "packagePeers": [
@@ -20889,7 +20909,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@typescript-eslint/parser", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:5.10.2"],
             ["archiver", "npm:5.3.0"],
             ["bcryptjs", "npm:2.4.3"],
-            ["bull", "npm:4.5.0"],
+            ["bull", "npm:4.5.1"],
             ["cache-manager", "npm:3.6.0"],
             ["cache-manager-redis-store", "npm:2.0.0"],
             ["chalk", "npm:4.1.2"],
@@ -20909,7 +20929,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["https-proxy-agent", "npm:5.0.0"],
             ["humanize-duration", "npm:3.27.1"],
             ["husky", "npm:7.0.4"],
-            ["ioredis", "npm:4.28.4"],
+            ["ioredis", "npm:4.28.5"],
             ["jest", "virtual:c139d237b0dbb776e61db419e9c89c8b814c75fa7a88b9f24aafc5ab8ac92bbf91dff4585597824d969ce997b2ccd24ccbc8eb827b2908e4b381ccc31b31d3eb#npm:27.4.7"],
             ["joi", "npm:17.6.0"],
             ["mini-svg-data-uri", "npm:1.4.3"],
@@ -23230,7 +23250,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/vue__runtime-dom", null],
             ["@vue/compiler-core", "npm:3.2.29"],
             ["@vue/compiler-dom", "npm:3.2.29"],
-            ["@vue/composition-api", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:1.4.5"],
+            ["@vue/composition-api", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:1.4.6"],
             ["@vue/reactivity-transform", "npm:3.2.29"],
             ["@vue/runtime-dom", null],
             ["@vue/shared", "npm:3.2.29"],
