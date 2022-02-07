@@ -28,7 +28,7 @@
     "@types/sass": "1.43.1",
     "@typescript-eslint/eslint-plugin": "5.10.2",
     "@typescript-eslint/parser": "5.10.2",
-    "@vue/composition-api": "1.4.5",
+    "@vue/composition-api": "1.4.6",
     "axios": "0.25.0",
     "consola": "2.15.3",
     "cross-env": "7.0.3",
