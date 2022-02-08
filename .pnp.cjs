@@ -3451,7 +3451,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/nestjs__core", null],
             ["@types/reflect-metadata", null],
             ["@types/rxjs", null],
-            ["mongoose", "npm:6.2.0"],
+            ["mongoose", "npm:6.2.1"],
             ["reflect-metadata", "npm:0.1.13"],
             ["rxjs", "npm:7.5.2"]
           ],
@@ -4604,53 +4604,53 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@sentry/core", [
-        ["npm:6.17.4", {
-          "packageLocation": "./.yarn/cache/@sentry-core-npm-6.17.4-96a7369b14-daf80e9b2d.zip/node_modules/@sentry/core/",
+        ["npm:6.17.5", {
+          "packageLocation": "./.yarn/cache/@sentry-core-npm-6.17.5-177339d68c-316b6bbebd.zip/node_modules/@sentry/core/",
           "packageDependencies": [
-            ["@sentry/core", "npm:6.17.4"],
-            ["@sentry/hub", "npm:6.17.4"],
-            ["@sentry/minimal", "npm:6.17.4"],
-            ["@sentry/types", "npm:6.17.4"],
-            ["@sentry/utils", "npm:6.17.4"],
+            ["@sentry/core", "npm:6.17.5"],
+            ["@sentry/hub", "npm:6.17.5"],
+            ["@sentry/minimal", "npm:6.17.5"],
+            ["@sentry/types", "npm:6.17.5"],
+            ["@sentry/utils", "npm:6.17.5"],
             ["tslib", "npm:1.14.1"]
           ],
           "linkType": "HARD",
         }]
       ]],
       ["@sentry/hub", [
-        ["npm:6.17.4", {
-          "packageLocation": "./.yarn/cache/@sentry-hub-npm-6.17.4-85e74cfe76-61c27230a8.zip/node_modules/@sentry/hub/",
+        ["npm:6.17.5", {
+          "packageLocation": "./.yarn/cache/@sentry-hub-npm-6.17.5-6f9b5da350-b082c248a4.zip/node_modules/@sentry/hub/",
           "packageDependencies": [
-            ["@sentry/hub", "npm:6.17.4"],
-            ["@sentry/types", "npm:6.17.4"],
-            ["@sentry/utils", "npm:6.17.4"],
+            ["@sentry/hub", "npm:6.17.5"],
+            ["@sentry/types", "npm:6.17.5"],
+            ["@sentry/utils", "npm:6.17.5"],
             ["tslib", "npm:1.14.1"]
           ],
           "linkType": "HARD",
         }]
       ]],
       ["@sentry/minimal", [
-        ["npm:6.17.4", {
-          "packageLocation": "./.yarn/cache/@sentry-minimal-npm-6.17.4-6ddab529d1-e67efeaf1b.zip/node_modules/@sentry/minimal/",
+        ["npm:6.17.5", {
+          "packageLocation": "./.yarn/cache/@sentry-minimal-npm-6.17.5-65c2a78611-f374f6b119.zip/node_modules/@sentry/minimal/",
           "packageDependencies": [
-            ["@sentry/minimal", "npm:6.17.4"],
-            ["@sentry/hub", "npm:6.17.4"],
-            ["@sentry/types", "npm:6.17.4"],
+            ["@sentry/minimal", "npm:6.17.5"],
+            ["@sentry/hub", "npm:6.17.5"],
+            ["@sentry/types", "npm:6.17.5"],
             ["tslib", "npm:1.14.1"]
           ],
           "linkType": "HARD",
         }]
       ]],
       ["@sentry/node", [
-        ["npm:6.17.4", {
-          "packageLocation": "./.yarn/cache/@sentry-node-npm-6.17.4-231f6708c8-2d1f7844b1.zip/node_modules/@sentry/node/",
+        ["npm:6.17.5", {
+          "packageLocation": "./.yarn/cache/@sentry-node-npm-6.17.5-1f17081873-079d125318.zip/node_modules/@sentry/node/",
           "packageDependencies": [
-            ["@sentry/node", "npm:6.17.4"],
-            ["@sentry/core", "npm:6.17.4"],
-            ["@sentry/hub", "npm:6.17.4"],
-            ["@sentry/tracing", "npm:6.17.4"],
-            ["@sentry/types", "npm:6.17.4"],
-            ["@sentry/utils", "npm:6.17.4"],
+            ["@sentry/node", "npm:6.17.5"],
+            ["@sentry/core", "npm:6.17.5"],
+            ["@sentry/hub", "npm:6.17.5"],
+            ["@sentry/tracing", "npm:6.17.5"],
+            ["@sentry/types", "npm:6.17.5"],
+            ["@sentry/utils", "npm:6.17.5"],
             ["cookie", "npm:0.4.2"],
             ["https-proxy-agent", "npm:5.0.0"],
             ["lru_map", "npm:0.3.3"],
@@ -4660,34 +4660,34 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@sentry/tracing", [
-        ["npm:6.17.4", {
-          "packageLocation": "./.yarn/cache/@sentry-tracing-npm-6.17.4-8f7d382ea4-4f630fece6.zip/node_modules/@sentry/tracing/",
+        ["npm:6.17.5", {
+          "packageLocation": "./.yarn/cache/@sentry-tracing-npm-6.17.5-62a08861a1-27441d950b.zip/node_modules/@sentry/tracing/",
           "packageDependencies": [
-            ["@sentry/tracing", "npm:6.17.4"],
-            ["@sentry/hub", "npm:6.17.4"],
-            ["@sentry/minimal", "npm:6.17.4"],
-            ["@sentry/types", "npm:6.17.4"],
-            ["@sentry/utils", "npm:6.17.4"],
+            ["@sentry/tracing", "npm:6.17.5"],
+            ["@sentry/hub", "npm:6.17.5"],
+            ["@sentry/minimal", "npm:6.17.5"],
+            ["@sentry/types", "npm:6.17.5"],
+            ["@sentry/utils", "npm:6.17.5"],
             ["tslib", "npm:1.14.1"]
           ],
           "linkType": "HARD",
         }]
       ]],
       ["@sentry/types", [
-        ["npm:6.17.4", {
-          "packageLocation": "./.yarn/cache/@sentry-types-npm-6.17.4-880bcb62b2-e2c514b42c.zip/node_modules/@sentry/types/",
+        ["npm:6.17.5", {
+          "packageLocation": "./.yarn/cache/@sentry-types-npm-6.17.5-d8b5cf4195-074c33ba0f.zip/node_modules/@sentry/types/",
           "packageDependencies": [
-            ["@sentry/types", "npm:6.17.4"]
+            ["@sentry/types", "npm:6.17.5"]
           ],
           "linkType": "HARD",
         }]
       ]],
       ["@sentry/utils", [
-        ["npm:6.17.4", {
-          "packageLocation": "./.yarn/cache/@sentry-utils-npm-6.17.4-02f831351e-9c82b947d2.zip/node_modules/@sentry/utils/",
+        ["npm:6.17.5", {
+          "packageLocation": "./.yarn/cache/@sentry-utils-npm-6.17.5-c5bfd9516d-dfe9c25949.zip/node_modules/@sentry/utils/",
           "packageDependencies": [
-            ["@sentry/utils", "npm:6.17.4"],
-            ["@sentry/types", "npm:6.17.4"],
+            ["@sentry/utils", "npm:6.17.5"],
+            ["@sentry/types", "npm:6.17.5"],
             ["tslib", "npm:1.14.1"]
           ],
           "linkType": "HARD",
@@ -16898,17 +16898,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["mongoose", [
-        ["npm:6.2.0", {
-          "packageLocation": "./.yarn/cache/mongoose-npm-6.2.0-952348aad3-e5ebc256d7.zip/node_modules/mongoose/",
+        ["npm:6.2.1", {
+          "packageLocation": "./.yarn/cache/mongoose-npm-6.2.1-5aa18a70e6-2205e5fdd0.zip/node_modules/mongoose/",
           "packageDependencies": [
-            ["mongoose", "npm:6.2.0"],
+            ["mongoose", "npm:6.2.1"],
             ["bson", "npm:4.6.1"],
             ["kareem", "npm:2.3.3"],
             ["mongodb", "npm:4.3.1"],
             ["mpath", "npm:0.8.4"],
             ["mquery", "npm:4.0.2"],
             ["ms", "npm:2.1.2"],
-            ["regexp-clone", "npm:1.0.0"],
             ["sift", "npm:13.5.2"]
           ],
           "linkType": "HARD",
@@ -20054,15 +20053,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
-      ["regexp-clone", [
-        ["npm:1.0.0", {
-          "packageLocation": "./.yarn/cache/regexp-clone-npm-1.0.0-969a61b0d1-ca4960bbdc.zip/node_modules/regexp-clone/",
-          "packageDependencies": [
-            ["regexp-clone", "npm:1.0.0"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
       ["regexp-tree", [
         ["npm:0.1.24", {
           "packageLocation": "./.yarn/cache/regexp-tree-npm-0.1.24-b265ab7f23-5807013289.zip/node_modules/regexp-tree/",
@@ -20835,9 +20825,9 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@nuxt/core", "npm:2.15.8"],
             ["@nuxt/types", "npm:2.15.8"],
             ["@nuxt/vue-app", "npm:2.15.8"],
-            ["@sentry/node", "npm:6.17.4"],
-            ["@sentry/tracing", "npm:6.17.4"],
-            ["@sentry/types", "npm:6.17.4"],
+            ["@sentry/node", "npm:6.17.5"],
+            ["@sentry/tracing", "npm:6.17.5"],
+            ["@sentry/types", "npm:6.17.5"],
             ["@types/archiver", "npm:5.3.1"],
             ["@types/bcryptjs", "npm:2.4.2"],
             ["@types/bull", "npm:3.15.7"],
@@ -20887,7 +20877,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["mini-svg-data-uri", "npm:1.4.3"],
             ["module-alias", "npm:2.2.2"],
             ["mongodb-memory-server", "npm:8.3.0"],
-            ["mongoose", "npm:6.2.0"],
+            ["mongoose", "npm:6.2.1"],
             ["nestjs-throttler-storage-redis", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:0.1.18"],
             ["node-fetch", "virtual:b703fe309445e73be0544c0731c064bd8abfb48eba238ef60c1180739300244272080b53495cbb64a2ec07139667d15d2f5ce81fb8e0f1ce36343b35ebd9836e#npm:2.6.7"],
             ["passport", "npm:0.5.2"],
