@@ -21117,7 +21117,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["ts-jest", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:27.1.3"],
             ["ts-loader", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:9.2.6"],
             ["typescript", "patch:typescript@npm%3A4.5.5#~builtin<compat/typescript>::version=4.5.5&hash=493e53"],
-            ["undici", "npm:4.13.0"],
+            ["undici", "npm:4.14.1"],
             ["web-push", "npm:3.4.5"],
             ["webpack", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:5.68.0"],
             ["webpack-pnp-externals", "npm:1.1.0"],
@@ -23162,10 +23162,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["undici", [
-        ["npm:4.13.0", {
-          "packageLocation": "./.yarn/cache/undici-npm-4.13.0-d2ed56893c-7bb4b432e1.zip/node_modules/undici/",
+        ["npm:4.14.1", {
+          "packageLocation": "./.yarn/cache/undici-npm-4.14.1-d95e964ffd-d64a7fa0e3.zip/node_modules/undici/",
           "packageDependencies": [
-            ["undici", "npm:4.13.0"]
+            ["undici", "npm:4.14.1"]
           ],
           "linkType": "HARD",
         }]
