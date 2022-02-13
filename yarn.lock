@@ -8837,9 +8837,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fastify-multipart@npm:5.3.0":
-  version: 5.3.0
-  resolution: "fastify-multipart@npm:5.3.0"
+"fastify-multipart@npm:5.3.1":
+  version: 5.3.1
+  resolution: "fastify-multipart@npm:5.3.1"
   dependencies:
     "@fastify/busboy": ^1.0.0
     deepmerge: ^4.2.2
@@ -8849,7 +8849,7 @@ __metadata:
     hexoid: ^1.0.0
     secure-json-parse: ^2.4.0
     stream-wormhole: ^1.1.0
-  checksum: f9807b9a359e74f7153dc2fc5032ae73e15d846bd1ef135d08ffe942ac57373ba915103b2c7b5879f4f37108633504699b7582540e138d4f226545aa69064cde
+  checksum: e471f7b01bb8c9b61c89dcd469c8846043285cfb7d4d594641397908408474059caaca4f5b5bba74cfd41e3d7f40af2b932340d047110962f7bd3de2c15ed373
   languageName: node
   linkType: hard
 
@@ -16423,7 +16423,7 @@ __metadata:
     fastify: 3.27.1
     fastify-cookie: 5.5.0
     fastify-helmet: 7.0.1
-    fastify-multipart: 5.3.0
+    fastify-multipart: 5.3.1
     fastify-swagger: 4.15.0
     https-proxy-agent: 5.0.0
     humanize-duration: 3.27.1
