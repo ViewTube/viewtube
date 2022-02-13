@@ -12528,17 +12528,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["fastify-multipart", [
-        ["npm:5.3.0", {
-          "packageLocation": "./.yarn/cache/fastify-multipart-npm-5.3.0-1379b9f865-f9807b9a35.zip/node_modules/fastify-multipart/",
+        ["npm:5.3.1", {
+          "packageLocation": "./.yarn/cache/fastify-multipart-npm-5.3.1-388d3779de-e471f7b01b.zip/node_modules/fastify-multipart/",
           "packageDependencies": [
-            ["fastify-multipart", "npm:5.3.0"]
+            ["fastify-multipart", "npm:5.3.1"]
           ],
           "linkType": "SOFT",
         }],
-        ["virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:5.3.0", {
-          "packageLocation": "./.yarn/__virtual__/fastify-multipart-virtual-941bd461d2/0/cache/fastify-multipart-npm-5.3.0-1379b9f865-f9807b9a35.zip/node_modules/fastify-multipart/",
+        ["virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:5.3.1", {
+          "packageLocation": "./.yarn/__virtual__/fastify-multipart-virtual-4b3f421eb9/0/cache/fastify-multipart-npm-5.3.1-388d3779de-e471f7b01b.zip/node_modules/fastify-multipart/",
           "packageDependencies": [
-            ["fastify-multipart", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:5.3.0"],
+            ["fastify-multipart", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:5.3.1"],
             ["@fastify/busboy", "npm:1.0.0"],
             ["@types/fastify", null],
             ["deepmerge", "npm:4.2.2"],
@@ -21043,7 +21043,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["fastify", "npm:3.27.1"],
             ["fastify-cookie", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:5.5.0"],
             ["fastify-helmet", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:7.0.1"],
-            ["fastify-multipart", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:5.3.0"],
+            ["fastify-multipart", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:5.3.1"],
             ["fastify-swagger", "npm:4.15.0"],
             ["https-proxy-agent", "npm:5.0.0"],
             ["humanize-duration", "npm:3.27.1"],
