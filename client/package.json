@@ -56,7 +56,7 @@
     "tippy.js": "6.3.7",
     "typed-vuex": "0.2.0",
     "typescript": "4.5.5",
-    "unplugin-vue2-script-setup": "0.9.2",
+    "unplugin-vue2-script-setup": "0.9.3",
     "vue": "2.6.14",
     "vue-material-design-icons": "5.0.0",
     "vue-template-compiler": "2.6.14",
