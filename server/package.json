@@ -25,7 +25,7 @@
     "@freetube/yt-comment-scraper": "^6.0.0",
     "@nestjs/bull": "0.4.2",
     "@nestjs/common": "8.2.6",
-    "@nestjs/config": "1.1.7",
+    "@nestjs/config": "1.2.0",
     "@nestjs/core": "8.2.6",
     "@nestjs/jwt": "8.0.0",
     "@nestjs/mongoose": "9.0.2",
