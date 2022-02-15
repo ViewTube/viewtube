@@ -3471,17 +3471,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@nestjs/passport", [
-        ["npm:8.1.0", {
-          "packageLocation": "./.yarn/cache/@nestjs-passport-npm-8.1.0-d15275685a-eb6378c519.zip/node_modules/@nestjs/passport/",
+        ["npm:8.2.0", {
+          "packageLocation": "./.yarn/cache/@nestjs-passport-npm-8.2.0-8df67f33b7-fdddfe3a7e.zip/node_modules/@nestjs/passport/",
           "packageDependencies": [
-            ["@nestjs/passport", "npm:8.1.0"]
+            ["@nestjs/passport", "npm:8.2.0"]
           ],
           "linkType": "SOFT",
         }],
-        ["virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:8.1.0", {
-          "packageLocation": "./.yarn/__virtual__/@nestjs-passport-virtual-e7d7c093dd/0/cache/@nestjs-passport-npm-8.1.0-d15275685a-eb6378c519.zip/node_modules/@nestjs/passport/",
+        ["virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:8.2.0", {
+          "packageLocation": "./.yarn/__virtual__/@nestjs-passport-virtual-8f20a4fb1e/0/cache/@nestjs-passport-npm-8.2.0-8df67f33b7-fdddfe3a7e.zip/node_modules/@nestjs/passport/",
           "packageDependencies": [
-            ["@nestjs/passport", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:8.1.0"],
+            ["@nestjs/passport", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:8.2.0"],
             ["@nestjs/common", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:8.2.6"],
             ["@types/nestjs__common", null],
             ["@types/passport", null],
@@ -20797,7 +20797,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@nestjs/core", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:8.2.6"],
             ["@nestjs/jwt", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:8.0.0"],
             ["@nestjs/mongoose", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:9.0.2"],
-            ["@nestjs/passport", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:8.1.0"],
+            ["@nestjs/passport", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:8.2.0"],
             ["@nestjs/platform-fastify", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:8.2.6"],
             ["@nestjs/schedule", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:1.0.2"],
             ["@nestjs/swagger", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:5.2.0"],
