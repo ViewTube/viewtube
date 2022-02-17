@@ -1,5 +1,5 @@
 import { getAccessorType } from 'typed-vuex';
-import { wrapProperty } from './services/wrapProperty';
+import { wrapProperty } from '@/plugins/services/wrapProperty';
 import * as captcha from '@/store/captcha';
 import * as environment from '@/store/environment';
 import * as messages from '@/store/messages';

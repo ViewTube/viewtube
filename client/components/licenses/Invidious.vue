@@ -5,8 +5,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, useFetch } from '#imports';
-import { useNuxtApp } from '#app';
+import { defineComponent } from '#imports';
 import { useAccessor } from '@/store';
 
 export default defineComponent({
