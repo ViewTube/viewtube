@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive, watch, onMounted } from '@nuxtjs/composition-api';
+import { defineComponent, ref, reactive, watch, onMounted } from '#imports';
 // import { WebVTTParser } from '@/plugins/services/webVTTParser';
 // import { useAccessor } from '@/store';
 

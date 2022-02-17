@@ -42,7 +42,7 @@
 
 <script lang="ts">
 import SearchIcon from 'vue-material-design-icons/Magnify.vue';
-import { defineComponent, ref, useRoute, useRouter, watch } from '@nuxtjs/composition-api';
+import { defineComponent, ref, useRoute, useRouter, watch } from '#imports';
 import SearchAutoComplete from '@/components/SearchAutoComplete.vue';
 
 export default defineComponent({
@@ -65,10 +65,10 @@ export default defineComponent({
     const searchFieldRef = ref(null);
 
     const updateSearchValueFromUrl = () => {
-      if (route.value.query.search_query) {
-        searchValue.value = route.value.query.search_query as string;
+      if (route.query.search_query) {
+        searchValue.value = route.query.search_query as string;
         if (process.server) {
-          localSearchValue.value = route.value.query.search_query as string;
+          localSearchValue.value = route.query.search_query as string;
         }
       } else {
         searchValue.value = '';
@@ -134,7 +134,7 @@ export default defineComponent({
     };
 
     watch(
-      () => route.value.query,
+      () => route.query,
       () => {
         updateSearchValueFromUrl();
       }

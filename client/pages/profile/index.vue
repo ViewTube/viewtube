@@ -124,7 +124,8 @@ import DeleteSimpleIcon from 'vue-material-design-icons/Delete.vue';
 import SettingsIcon from 'vue-material-design-icons/Cog.vue';
 import HistoryIcon from 'vue-material-design-icons/History.vue';
 import RestartOffIcon from 'vue-material-design-icons/RestartOff.vue';
-import { defineComponent, ref, useFetch, useMeta, useRouter } from '@nuxtjs/composition-api';
+import { defineComponent, ref, useFetch, useMeta, useRouter } from '#imports';
+import { useNuxtApp } from '#app';
 import Confirmation from '@/components/popup/Confirmation.vue';
 import SectionTitle from '@/components/SectionTitle.vue';
 import FormInput from '@/components/form/FormInput.vue';
@@ -132,7 +133,6 @@ import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import Spinner from '@/components/Spinner.vue';
 import HistoryList from '@/components/history/HistoryList.vue';
 import { useAccessor } from '@/store';
-import { useAxios } from '@/plugins/axiosPlugin';
 import { createComputed } from '@/plugins/computed';
 
 export default defineComponent({
@@ -157,7 +157,7 @@ export default defineComponent({
   },
   setup() {
     const accessor = useAccessor();
-    const axios = useAxios();
+    const { $axios: axios } = useNuxtApp();
     const router = useRouter();
 
     const profile = ref(null);

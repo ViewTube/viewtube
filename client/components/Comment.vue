@@ -86,10 +86,10 @@ import HeartIcon from 'vue-material-design-icons/Heart.vue';
 import CommentIcon from 'vue-material-design-icons/CommentOutline.vue';
 import CommentHideIcon from 'vue-material-design-icons/CommentRemoveOutline.vue';
 import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
-import { defineComponent, ref, useRoute } from '@nuxtjs/composition-api';
+import { defineComponent, ref, useRoute } from '#imports';
+import { useNuxtApp } from '#app';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import { useAccessor } from '@/store';
-import { useAxios } from '@/plugins/axiosPlugin';
 import { useImgProxy } from '@/plugins/proxy';
 
 export default defineComponent({
@@ -112,7 +112,7 @@ export default defineComponent({
   setup(props) {
     const route = useRoute();
     const accessor = useAccessor();
-    const axios = useAxios();
+    const { $axios: axios } = useNuxtApp();
     const imgProxy = useImgProxy();
 
     const replies = ref([]);
@@ -124,10 +124,11 @@ export default defineComponent({
     const hideReplies = () => {
       repliesLoaded.value = false;
     };
+
     const loadReplies = () => {
       loadingReplies.value = true;
       const replyToken = props.comment.replyToken;
-      const videoId = route.value.query.v;
+      const videoId = route.query.v;
       axios
         .get(`${accessor.environment.apiUrl}comments/${videoId}/replies?replyToken=${replyToken}`)
         .then(response => {
@@ -147,7 +148,7 @@ export default defineComponent({
     };
     const loadMoreReplies = () => {
       repliesContinuationLoading.value = true;
-      const videoId = route.value.query.v;
+      const videoId = route.query.v;
       axios
         .get(
           `${accessor.environment.apiUrl}comments/${videoId}/replies?replyToken=${repliesContinuationString.value}`

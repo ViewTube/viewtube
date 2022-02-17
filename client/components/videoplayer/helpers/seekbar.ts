@@ -1,4 +1,4 @@
-import { Ref } from '@nuxtjs/composition-api';
+import { Ref } from '#imports';
 import { commons } from '@/plugins/commons';
 
 export const seekbarFunctions = {

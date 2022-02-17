@@ -1,11 +1,5 @@
-import {
-  computed,
-  reactive,
-  ref,
-  watch,
-  onMounted,
-  onBeforeUnmount
-} from '@nuxtjs/composition-api';
+import { computed, reactive, ref, watch, onMounted, onBeforeUnmount } from '#imports';
+import { useNuxtApp } from '#app';
 import { MediaMetadataHelper } from './mediaMetadata';
 import { calculateSeekPercentage, matchSeekProgressPercentage, seekbarFunctions } from './seekbar';
 import { parseChapters } from './chapters';
@@ -16,14 +10,13 @@ import { SponsorBlock } from '@/plugins/services/sponsorBlock';
 import { SponsorBlockSegmentsDto } from '@/plugins/shared';
 import { useAccessor } from '@/store';
 import { useFormatting } from '@/plugins/formatting';
-import { useAxios } from '@/plugins/axiosPlugin';
 import { useImgProxy } from '@/plugins/proxy';
 import { createComputed } from '@/plugins/computed';
 
 export const videoPlayerSetup = (props: any, emit: Function) => {
   const accessor = useAccessor();
   const formatting = useFormatting();
-  const axios = useAxios();
+  const { $axios: axios } = useNuxtApp();
   const imgProxy = useImgProxy();
 
   const loading = ref(true);

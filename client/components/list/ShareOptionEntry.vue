@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from '@nuxtjs/composition-api';
+import { defineComponent, PropType } from '#imports';
 
 export default defineComponent({
   name: 'ShareOptionEntry',

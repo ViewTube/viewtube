@@ -5,14 +5,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, useFetch } from '@nuxtjs/composition-api';
-import { useAxios } from '@/plugins/axiosPlugin';
+import { defineComponent, ref, useFetch } from '#imports';
+import { useNuxtApp } from '#app';
 import { useAccessor } from '@/store';
 
 export default defineComponent({
   name: 'InvidiousLicense',
   setup() {
-    const axios = useAxios();
+    const { $axios: axios } = useNuxtApp();
     const accessor = useAccessor();
     const licenseText = ref('');
 

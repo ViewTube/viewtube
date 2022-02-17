@@ -157,7 +157,7 @@ import {
   useRoute,
   useRouter,
   watch
-} from '@nuxtjs/composition-api';
+} from '#imports';
 import LoginForm from '../form/LoginForm.vue';
 import RegisterForm from '../form/RegisterForm.vue';
 import Settings from '@/components/Settings.vue';
@@ -218,7 +218,7 @@ export default defineComponent({
     };
 
     const currentRouteName = computed((): string => {
-      return route.value.name;
+      return route.name;
     });
 
     const userAuthenticated = computed((): boolean => {
@@ -227,10 +227,10 @@ export default defineComponent({
 
     const currentPageRef = (exclude: string) => {
       if (
-        !route.value.fullPath.match(new RegExp(`.?${exclude}.?`, 'gi')) &&
-        route.value.fullPath !== '/'
+        !route.fullPath.match(new RegExp(`.?${exclude}.?`, 'gi')) &&
+        route.fullPath !== '/'
       ) {
-        return `?ref=${route.value.fullPath}`;
+        return `?ref=${route.fullPath}`;
       }
       return '';
     };

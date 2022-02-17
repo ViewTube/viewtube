@@ -12,7 +12,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from '@nuxtjs/composition-api';
+import { defineComponent, ref } from '#imports';
 
 export default defineComponent({
   name: 'SkipButton',

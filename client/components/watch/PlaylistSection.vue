@@ -96,7 +96,7 @@ import {
   ref,
   useRoute,
   useRouter
-} from '@nuxtjs/composition-api';
+} from '#imports';
 import SkipPreviousIcon from 'vue-material-design-icons/SkipPrevious.vue';
 import SkipNextIcon from 'vue-material-design-icons/SkipNext.vue';
 import RepeatIcon from 'vue-material-design-icons/Repeat.vue';
@@ -129,13 +129,13 @@ export default defineComponent({
     const shuffleEnabled = ref(false);
     const reverseEnabled = ref(false);
 
-    if (route.value.query.repeat === 'true') {
+    if (route.query.repeat === 'true') {
       repeatEnabled.value = true;
     }
-    if (route.value.query.shuffle === 'true') {
+    if (route.query.shuffle === 'true') {
       shuffleEnabled.value = true;
     }
-    if (route.value.query.reverse === 'true') {
+    if (route.query.reverse === 'true') {
       reverseEnabled.value = true;
     }
 
@@ -175,20 +175,20 @@ export default defineComponent({
     };
 
     const toggleQueryParam = (param: string, value: boolean) => {
-      const query = Object.assign({}, route.value.query);
+      const query = Object.assign({}, route.query);
       if (value) {
         query[param] = value.toString();
       } else {
         delete query[param];
       }
       router.push({
-        path: route.value.path,
+        path: route.path,
         query,
         replace: true
       });
     };
 
-    const getFullPath = () => route.value.fullPath;
+    const getFullPath = () => route.fullPath;
 
     const playNextVideo = () => {
       const currentVideoIndex = props.playlist.items.findIndex(

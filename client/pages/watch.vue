@@ -183,7 +183,8 @@ import {
   useRoute,
   useRouter,
   watch
-} from '@nuxtjs/composition-api';
+} from '#imports';
+import { useNuxtApp } from '#app';
 import { Result } from 'ytpl';
 import NextUpVideo from '@/components/watch/NextUpVideo.vue';
 import Spinner from '@/components/Spinner.vue';
@@ -197,7 +198,6 @@ import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import ViewTubeApi from '@/plugins/services/viewTubeApi';
 import { createComputed } from '@/plugins/computed';
 import { useAccessor } from '@/store';
-import { useAxios } from '@/plugins/axiosPlugin';
 import { useImgProxy } from '@/plugins/proxy';
 import VideoLoadingTemplate from '@/components/watch/VideoLoadingTemplate.vue';
 
@@ -228,7 +228,7 @@ export default defineComponent({
     const route = useRoute();
     const router = useRouter();
     const { error } = useContext();
-    const axios = useAxios();
+    const { $axios: axios } = useNuxtApp();
     const imgProxy = useImgProxy();
 
     const jsEnabled = ref(false);
@@ -247,16 +247,14 @@ export default defineComponent({
 
     const playlist: Ref<Result> = ref(null);
 
-    const templateVideoData = route.value.params.videoData;
+    const templateVideoData = route.params.videoData;
 
     const isPlaylist = createComputed(() => {
-      return Boolean(route.value.query && route.value.query.list);
+      return Boolean(route.query && route.query.list);
     });
 
     const isAutoplaying = createComputed(() => {
-      return (
-        isPlaylist.value || accessor.settings.autoplay || route.value.query.autoplay === 'true'
-      );
+      return isPlaylist.value || accessor.settings.autoplay || route.query.autoplay === 'true';
     });
 
     const recommendedVideos = createComputed(() => {
@@ -314,7 +312,7 @@ export default defineComponent({
       return '#';
     };
     const loadComments = (evtVideoId: string = null) => {
-      const videoId = evtVideoId || route.value.query.v;
+      const videoId = evtVideoId || route.query.v;
       axios
         .get(`${accessor.environment.apiUrl}comments/${videoId}`)
         .then(response => {
@@ -336,7 +334,7 @@ export default defineComponent({
     };
     const loadMoreComments = () => {
       commentsContinuationLoading.value = true;
-      const videoId = route.value.query.v;
+      const videoId = route.query.v;
       axios
         .get(
           `${accessor.environment.apiUrl}comments/${videoId}?continuation=${commentsContinuationLink.value}`
@@ -359,7 +357,7 @@ export default defineComponent({
       if (isPlaylist.value) {
         const apiUrl = accessor.environment.apiUrl;
         await axios
-          .get(`${apiUrl}playlists`, { params: { playlistId: route.value.query.list } })
+          .get(`${apiUrl}playlists`, { params: { playlistId: route.query.list } })
           .then(response => {
             if (response.data) {
               playlist.value = response.data;
@@ -387,7 +385,7 @@ export default defineComponent({
       const viewTubeApi = new ViewTubeApi(apiUrl);
       await viewTubeApi.api
         .videos({
-          id: route.value.query.v
+          id: route.query.v
         })
         .then(async (response: { data: any }): Promise<void> => {
           if (response) {
@@ -443,7 +441,7 @@ export default defineComponent({
     });
 
     watch(
-      () => route.value.query,
+      () => route.query,
       (newValue, oldValue) => {
         if (newValue.v !== oldValue.v || newValue.list !== oldValue.list) {
           fetch();
@@ -476,7 +474,7 @@ export default defineComponent({
         playlistSectionRef.value.playNextVideo();
       } else if (accessor.settings.autoplayNextVideo && video.value.recommendedVideos) {
         router.push({
-          path: route.value.fullPath,
+          path: route.fullPath,
           query: { v: video.value.recommendedVideos[0].videoId, autoplay: 'true' }
         });
       }

@@ -82,7 +82,7 @@
 <script lang="ts">
 import VerifiedIcon from 'vue-material-design-icons/CheckDecagram.vue';
 import PlaylistIcon from 'vue-material-design-icons/PlaylistPlay.vue';
-import { computed, defineComponent } from '@nuxtjs/composition-api';
+import { computed, defineComponent } from '#imports';
 import { useImgProxy } from '@/plugins/proxy';
 
 export default defineComponent({

@@ -28,7 +28,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, useRoute } from '@nuxtjs/composition-api';
+import { defineComponent, useRoute } from '#imports';
 import { useImgProxy } from '@/plugins/proxy';
 import { createComputed } from '@/plugins/computed';
 import { useAccessor } from '@/store';
@@ -52,7 +52,7 @@ export default defineComponent({
 
     return {
       imgProxyUrl: imgProxy.url,
-      fullPath: route.value.fullPath,
+      fullPath: route.fullPath,
       remainingTimeString
     };
   }

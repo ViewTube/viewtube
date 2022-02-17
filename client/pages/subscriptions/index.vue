@@ -91,7 +91,8 @@ import {
   useMeta,
   useRoute,
   watch
-} from '@nuxtjs/composition-api';
+} from '#imports';
+import { useNuxtApp } from '#app';
 import SubscriptionImport from '@/components/popup/SubscriptionImport.vue';
 import VideoEntry from '@/components/list/VideoEntry.vue';
 import GradientBackground from '@/components/GradientBackground.vue';
@@ -101,7 +102,6 @@ import SwitchButton from '@/components/buttons/SwitchButton.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import Pagination from '@/components/pagination/Pagination.vue';
 import { useAccessor } from '@/store';
-import { useAxios } from '@/plugins/axiosPlugin';
 
 export default defineComponent({
   name: 'Subscriptions',
@@ -121,7 +121,7 @@ export default defineComponent({
   setup() {
     const accessor = useAccessor();
     const route = useRoute();
-    const axios = useAxios();
+    const { $axios: axios } = useNuxtApp();
 
     const videos = ref([]);
     const loading = ref(true);
@@ -136,8 +136,8 @@ export default defineComponent({
     const { fetch } = useFetch(async () => {
       const apiUrl = accessor.environment.apiUrl;
       const limit = 20;
-      if (route.value.query && route.value.query.page) {
-        currentPage.value = parseInt(route.value.query.page.toString());
+      if (route.query && route.query.page) {
+        currentPage.value = parseInt(route.query.page.toString());
       }
       const start = (currentPage.value - 1) * 30;
       await axios
@@ -290,7 +290,7 @@ export default defineComponent({
     });
 
     watch(
-      () => route.value.query,
+      () => route.query,
       () => {
         fetch();
       }

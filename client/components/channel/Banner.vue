@@ -38,7 +38,7 @@
 
 <script lang="ts">
 import EyeIcon from 'vue-material-design-icons/Eye.vue';
-import { defineComponent } from '@nuxtjs/composition-api';
+import { defineComponent } from '#imports';
 import { useImgProxy } from '@/plugins/proxy';
 
 export default defineComponent({

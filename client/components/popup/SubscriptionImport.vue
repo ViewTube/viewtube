@@ -131,14 +131,14 @@ import SelectAllIcon from 'vue-material-design-icons/SelectAll.vue';
 import ExternalIcon from 'vue-material-design-icons/OpenInNew.vue';
 import UnselectAllIcon from 'vue-material-design-icons/Select.vue';
 import XmlIcon from 'vue-material-design-icons/Xml.vue';
-import { computed, defineComponent, ref } from '@nuxtjs/composition-api';
+import { computed, defineComponent, ref } from '#imports';
+import { useNuxtApp } from '#app';
 import CheckBox from '@/components/form/CheckBox.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import FileButton from '@/components/form/FileButton.vue';
 import SubscriptionConverter from '@/plugins/services/subscriptionConverter';
 import Spinner from '@/components/Spinner.vue';
 import '@/assets/styles/popup.scss';
-import { useAxios } from '@/plugins/axiosPlugin';
 import { useAccessor } from '@/store/index';
 
 class ChannelDto {
@@ -163,7 +163,7 @@ export default defineComponent({
     XmlIcon
   },
   setup(_, { emit }) {
-    const axios = useAxios();
+    const { $axios: axios } = useNuxtApp();
     const accessor = useAccessor();
 
     const youtubeSubscriptionUrl = ref('https://takeout.google.com');

@@ -25,7 +25,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, useRoute } from '@nuxtjs/composition-api';
+import { defineComponent, ref, useRoute } from '#imports';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import { useAccessor } from '@/store';
 
@@ -77,7 +77,7 @@ export default defineComponent({
     };
 
     if (props.error.statusCode === 404) {
-      const path = route.value.path;
+      const path = route.path;
       possibleSearch.value = path.replace('/', '');
     }
 

@@ -51,7 +51,8 @@ import {
   useMeta,
   useRoute,
   watch
-} from '@nuxtjs/composition-api';
+} from '#imports';
+import { useNuxtApp } from '#app';
 import VideoEntry from '@/components/list/VideoEntry.vue';
 import PlaylistEntry from '@/components/list/PlaylistEntry.vue';
 import MixEntry from '@/components/list/MixEntry.vue';
@@ -65,7 +66,6 @@ import Dropdown from '@/components/filter/Dropdown.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import Filters from '@/components/search/Filters.vue';
 import { useAccessor } from '@/store';
-import { useAxios } from '@/plugins/axiosPlugin';
 
 export default defineComponent({
   name: 'Search',
@@ -87,7 +87,7 @@ export default defineComponent({
   setup() {
     const route = useRoute();
     const accessor = useAccessor();
-    const axios = useAxios();
+    const { $axios: axios } = useNuxtApp();
 
     const searchResults = ref(null);
     const resultItems = ref([]);
@@ -106,14 +106,14 @@ export default defineComponent({
     });
     const correctedSearchResultUrl = computed((): string => {
       if (searchResults.value) {
-        const url = route.value.fullPath;
+        const url = route.fullPath;
         const newUrl = decodeURIComponent(url).replace(
           searchResults.value.originalQuery,
           searchResults.value.correctedQuery
         );
         return newUrl;
       }
-      return route.value.fullPath;
+      return route.fullPath;
     });
 
     const getFilterArray = (searchParams: URLSearchParams): Array<any> => {
@@ -176,7 +176,7 @@ export default defineComponent({
     };
 
     const { fetch } = useFetch(async () => {
-      const inputQuery = route.value.query as any;
+      const inputQuery = route.query as any;
       const searchParams = new URLSearchParams(inputQuery);
       const apiUrl = accessor.environment.apiUrl;
       const searchTerm = searchParams.get('search_query') || searchParams.get('q');
@@ -226,7 +226,7 @@ export default defineComponent({
     });
 
     watch(
-      () => route.value.query,
+      () => route.query,
       () => {
         fetch();
       }

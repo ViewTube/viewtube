@@ -49,12 +49,12 @@ import {
   useRoute,
   useRouter,
   watch
-} from '@nuxtjs/composition-api';
+} from '#imports';
+import { useNuxtApp } from '#app';
 import RestartOffIcon from 'vue-material-design-icons/RestartOff.vue';
 import SectionTitle from '@/components/SectionTitle.vue';
 import Pagination from '@/components/pagination/Pagination.vue';
 import HistoryList from '@/components/history/HistoryList.vue';
-import { useAxios } from '@/plugins/axiosPlugin';
 import { useAccessor } from '@/store';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import SmallSearchBox from '@/components/SmallSearchBox.vue';
@@ -72,7 +72,7 @@ export default defineComponent({
     RestartOffIcon
   },
   setup() {
-    const axios = useAxios();
+    const { $axios: axios } = useNuxtApp();
     const router = useRouter();
     const accessor = useAccessor();
     const route = useRoute();
@@ -135,8 +135,8 @@ export default defineComponent({
     const { fetch } = useFetch(async () => {
       if (accessor.user.isLoggedIn) {
         const limit = 30;
-        if (route.value.query && route.value.query.page) {
-          currentPage.value = parseInt(route.value.query.page as string);
+        if (route.query && route.query.page) {
+          currentPage.value = parseInt(route.query.page as string);
         }
         let filterString = '';
         if (searchTerm.value) {
@@ -176,7 +176,7 @@ export default defineComponent({
     });
 
     watch(
-      () => route.value.query,
+      () => route.query,
       () => {
         fetch();
       }

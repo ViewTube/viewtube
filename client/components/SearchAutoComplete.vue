@@ -17,8 +17,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch } from '@nuxtjs/composition-api';
-import { useAxios } from '@/plugins/axiosPlugin';
+import { defineComponent, ref, watch } from '#imports';
+import { useNuxtApp } from '#app';
 import { useAccessor } from '@/store';
 
 export default defineComponent({
@@ -28,7 +28,7 @@ export default defineComponent({
   },
   setup(props, { emit }) {
     const accessor = useAccessor();
-    const axios = useAxios();
+    const { $axios: axios } = useNuxtApp();
 
     const autocompleteValues = ref([]);
     const visible = ref(false);

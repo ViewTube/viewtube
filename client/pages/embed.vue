@@ -11,7 +11,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, useFetch, useRoute } from '@nuxtjs/composition-api';
+import { defineComponent, ref, useFetch, useRoute } from '#imports';
 import VideoPlayer from '@/components/videoplayer/VideoPlayer.vue';
 import ViewTubeApi from '@/plugins/services/viewTubeApi';
 import { useAccessor } from '@/store';
@@ -31,7 +31,7 @@ export default defineComponent({
       const viewTubeApi = new ViewTubeApi(accessor.environment.apiUrl);
       await viewTubeApi.api
         .videos({
-          id: route.value.params.id
+          id: route.params.id
         })
         .then((response: { data: any }) => {
           video.value = response.data;

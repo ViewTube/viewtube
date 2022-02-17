@@ -1,6 +1,5 @@
 import { getAccessorType } from 'typed-vuex';
-import { Context } from '@nuxt/types';
-import { wrapProperty } from '@nuxtjs/composition-api';
+import { wrapProperty } from './services/wrapProperty';
 import * as captcha from '@/store/captcha';
 import * as environment from '@/store/environment';
 import * as messages from '@/store/messages';
@@ -20,7 +19,7 @@ export type RootState = ReturnType<typeof state>;
 export const actions = declareActionTree(
   { state },
   {
-    async nuxtServerInit(_vuexContext, nuxtContext: Context): Promise<void> {
+    async nuxtServerInit(_vuexContext, nuxtContext): Promise<void> {
       if (process.server) {
         const envVars = EnvironmentService.getEnvironmentVariables();
         nuxtContext.app.$accessor.environment.setEnv({

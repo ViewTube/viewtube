@@ -19,7 +19,7 @@
 
 <script lang="ts">
 import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
-import { defineComponent, ref, watch } from '@nuxtjs/composition-api';
+import { defineComponent, ref, watch } from '#imports';
 import VideoEntry from '@/components/list/VideoEntry.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 

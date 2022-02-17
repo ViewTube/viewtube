@@ -32,7 +32,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref, useRoute, watch } from '@nuxtjs/composition-api';
+import { computed, defineComponent, ref, useRoute, watch } from '#imports';
 import VideoPlayer from '@/components/videoplayer/VideoPlayer.vue';
 import { commons } from '@/plugins/commons';
 import { useAccessor } from '@/store/index';
@@ -63,7 +63,7 @@ export default defineComponent({
     });
 
     const visible = computed((): boolean => {
-      return route.value.name !== 'watch';
+      return route.name !== 'watch';
     });
 
     watch(visible, (newValue, oldValue) => {

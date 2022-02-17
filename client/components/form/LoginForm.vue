@@ -12,7 +12,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, useRoute, useRouter } from '@nuxtjs/composition-api';
+import { defineComponent, ref, useRoute, useRouter } from '#imports';
 import FormInput from '@/components/form/FormInput.vue';
 import SubmitButton from '@/components/form/SubmitButton.vue';
 import Spinner from '@/components/Spinner.vue';
@@ -55,7 +55,7 @@ export default defineComponent({
         if (props.complete && typeof props.complete === 'function') {
           props.complete();
         } else {
-          router.push((route.value.query.ref as string) || '/');
+          router.push((route.query.ref as string) || '/');
         }
       } else {
         loading.value = false;

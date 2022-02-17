@@ -63,7 +63,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, Ref, useFetch, useMeta, useRoute } from '@nuxtjs/composition-api';
+import { defineComponent, ref, Ref, useFetch, useMeta, useRoute } from '#imports';
+import { useNuxtApp } from '#app';
 import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
 import { Continuation, Result } from 'ytpl';
 import EyeIcon from 'vue-material-design-icons/EyeOutline.vue';
@@ -73,7 +74,6 @@ import CalendarIcon from 'vue-material-design-icons/CalendarClock.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import VideoEntry from '@/components/list/VideoEntry.vue';
 import Spinner from '@/components/Spinner.vue';
-import { useAxios } from '@/plugins/axiosPlugin';
 import { useImgProxy } from '@/plugins/proxy';
 import { useAccessor } from '@/store';
 
@@ -91,7 +91,7 @@ export default defineComponent({
   },
   setup() {
     const accessor = useAccessor();
-    const axios = useAxios();
+    const { $axios: axios } = useNuxtApp();
     const route = useRoute();
     const imgProxy = useImgProxy();
 
@@ -100,10 +100,10 @@ export default defineComponent({
     const playlist: Ref<Result> = ref(null);
 
     useFetch(async () => {
-      if (route.value.query && route.value.query.list) {
+      if (route.query && route.query.list) {
         const apiUrl = accessor.environment.apiUrl;
         await axios
-          .get(`${apiUrl}playlists`, { params: { playlistId: route.value.query.list, pages: 1 } })
+          .get(`${apiUrl}playlists`, { params: { playlistId: route.query.list, pages: 1 } })
           .then(response => {
             if (response.data) {
               playlist.value = response.data;

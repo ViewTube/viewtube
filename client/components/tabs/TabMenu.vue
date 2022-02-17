@@ -30,7 +30,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, useRoute } from '@nuxtjs/composition-api';
+import { defineComponent, ref, useRoute } from '#imports';
 
 export default defineComponent({
   name: 'TabMenu',
@@ -56,9 +56,9 @@ export default defineComponent({
       selectedTab.value = tabId;
     };
 
-    if (route.value.query.tab) {
+    if (route.query.tab) {
       selectedTab.value = props.tabNames.findIndex(
-        (_, id) => id === (route.value.query.tab as any)
+        (_, id) => id === (route.query.tab as any)
       );
     }
 

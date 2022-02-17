@@ -31,7 +31,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from '@nuxtjs/composition-api';
+import { defineComponent, ref } from '#imports';
 import { useAccessor } from '@/store';
 
 export default defineComponent({

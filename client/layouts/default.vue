@@ -11,7 +11,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref, useRoute } from '@nuxtjs/composition-api';
+import { computed, defineComponent, ref, useRoute } from '#imports';
 import Header from '@/components/header/MainHeader.vue';
 import Miniplayer from '@/components/miniplayer/Miniplayer.vue';
 import MessageBoxContainer from '@/components/message/MessageBoxContainer.vue';
@@ -33,7 +33,7 @@ export default defineComponent({
     const appRef = ref(null);
 
     const headless = computed((): boolean => {
-      return route.value.meta.headless;
+      return route.meta.headless;
     });
 
     const getThemeClass = (): string => {

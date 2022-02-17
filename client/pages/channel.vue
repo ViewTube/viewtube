@@ -52,7 +52,7 @@
 
 <script lang="ts">
 import UpIcon from 'vue-material-design-icons/ArrowUp.vue';
-import { defineComponent, ref, useFetch, useMeta, useRoute } from '@nuxtjs/composition-api';
+import { defineComponent, ref, useFetch, useMeta, useRoute } from '#imports';
 import VideoEntry from '@/components/list/VideoEntry.vue';
 import PlaylistEntry from '@/components/list/PlaylistEntry.vue';
 import Banner from '@/components/channel/Banner.vue';
@@ -98,7 +98,7 @@ export default defineComponent({
     useFetch(async () => {
       const viewTubeApi = new ViewTubeApi(accessor.environment.apiUrl);
       await viewTubeApi.api
-        .channels({ id: route.value.params.id })
+        .channels({ id: route.params.id })
         .then((response: { data: any }) => {
           channel.value = response.data;
         })

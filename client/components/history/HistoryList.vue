@@ -42,10 +42,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@nuxtjs/composition-api';
+import { defineComponent } from '#imports';
+import { useNuxtApp } from '#app';
 import humanizeDuration from 'humanize-duration';
 import DeleteIcon from 'vue-material-design-icons/Delete.vue';
-import { useAxios } from '@/plugins/axiosPlugin';
 import { useAccessor } from '@/store';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import { useImgProxy } from '@/plugins/proxy';
@@ -60,7 +60,7 @@ export default defineComponent({
     deleteOption: Boolean
   },
   setup(_, { emit }) {
-    const axios = useAxios();
+    const { $axios: axios } = useNuxtApp();
     const accessor = useAccessor();
     const imgProxy = useImgProxy();
 

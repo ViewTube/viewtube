@@ -69,12 +69,12 @@ import {
   useRoute,
   useRouter,
   watch
-} from '@nuxtjs/composition-api';
+} from '#imports';
+import { useNuxtApp } from '#app';
 import GradientBackground from '@/components/GradientBackground.vue';
 import SectionTitle from '@/components/SectionTitle.vue';
 import Pagination from '@/components/pagination/Pagination.vue';
 import { useAccessor } from '@/store';
-import { useAxios } from '@/plugins/axiosPlugin';
 import SmallSearchBox from '@/components/SmallSearchBox.vue';
 import { useImgProxy } from '@/plugins/proxy';
 
@@ -89,7 +89,7 @@ export default defineComponent({
   setup() {
     const accessor = useAccessor();
     const route = useRoute();
-    const axios = useAxios();
+    const { $axios: axios } = useNuxtApp();
     const router = useRouter();
     const imgProxy = useImgProxy();
 
@@ -117,8 +117,8 @@ export default defineComponent({
     const { fetch } = useFetch(async () => {
       const apiUrl = accessor.environment.apiUrl;
       const limit = 30;
-      if (route.value.query && route.value.query.page) {
-        currentPage.value = parseInt(route.value.query.page as string);
+      if (route.query && route.query.page) {
+        currentPage.value = parseInt(route.query.page as string);
       }
       let filterString = '';
       if (searchTerm.value) {
@@ -191,7 +191,7 @@ export default defineComponent({
     }
 
     watch(
-      () => route.value.query,
+      () => route.query,
       () => {
         fetch();
       }

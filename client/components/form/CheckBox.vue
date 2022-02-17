@@ -19,7 +19,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from '@nuxtjs/composition-api';
+import { defineComponent, ref } from '#imports';
 import { commons } from '@/plugins/commons';
 
 export default defineComponent({

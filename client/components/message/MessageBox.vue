@@ -38,7 +38,7 @@
 
 <script lang="ts">
 import CloseIcon from 'vue-material-design-icons/Close.vue';
-import { computed, defineComponent, reactive, ref } from '@nuxtjs/composition-api';
+import { computed, defineComponent, reactive, ref } from '#imports';
 import { useAccessor } from '@/store';
 
 export default defineComponent({

@@ -235,7 +235,8 @@ import HistoryIcon from 'vue-material-design-icons/History.vue';
 import ReloadIcon from 'vue-material-design-icons/Reload.vue';
 import HomescreenIcon from 'vue-material-design-icons/Home.vue';
 import VideoplayerIcon from 'vue-material-design-icons/Television.vue';
-import { computed, defineComponent, reactive, ref, useStore, watch } from '@nuxtjs/composition-api';
+import { computed, defineComponent, reactive, ref, watch } from '#imports';
+import { useNuxtApp } from '#app';
 import ThemeSelector from '@/components/themes/ThemeSelector.vue';
 import SwitchButton from '@/components/buttons/SwitchButton.vue';
 import MultiOptionButton from '@/components/buttons/MultiOptionButton.vue';
@@ -262,7 +263,7 @@ export default defineComponent({
   },
   setup() {
     const accessor = useAccessor();
-    const store = useStore();
+    const { $store: store } = useNuxtApp();
     const sponsorblockSegmentOptions = reactive([
       { label: 'Skip', value: 'skip' },
       { label: 'Ask', value: 'ask' },

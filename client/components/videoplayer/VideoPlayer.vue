@@ -322,7 +322,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, useContext } from '@nuxtjs/composition-api';
+import { defineComponent, useContext } from '#imports';
 import PauseIcon from 'vue-material-design-icons/Pause.vue';
 import PlayIcon from 'vue-material-design-icons/Play.vue';
 import FullscreenIcon from 'vue-material-design-icons/Fullscreen.vue';
@@ -378,7 +378,7 @@ export default defineComponent({
     if (!props.video) {
       const videoError: NuxtError = {
         message: 'Error loading video',
-        path: route.value.path,
+        path: route.path,
         statusCode: 500
       };
       error(videoError);

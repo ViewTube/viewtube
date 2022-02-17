@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from '@nuxtjs/composition-api';
+import { defineComponent, ref } from '#imports';
 import EndscreenCard from '@/components/videoplayer/EndscreenCard.vue';
 
 import { useAccessor } from '@/store';

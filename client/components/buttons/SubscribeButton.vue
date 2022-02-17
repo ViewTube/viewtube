@@ -23,8 +23,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref } from '@nuxtjs/composition-api';
-import { useAxios } from '@/plugins/axiosPlugin';
+import { defineComponent, onMounted, ref } from '#imports';
+import { useNuxtApp } from '#app';
 import { useAccessor } from '@/store/index';
 
 export default defineComponent({
@@ -39,7 +39,7 @@ export default defineComponent({
     small: { type: Boolean, required: false }
   },
   setup(props) {
-    const axios = useAxios();
+    const { $axios: axios } = useNuxtApp();
     const accessor = useAccessor();
 
     const isSubscribed = ref(false);

@@ -53,7 +53,7 @@
 
 <script lang="ts">
 import VerifiedIcon from 'vue-material-design-icons/CheckDecagram.vue';
-import { defineComponent } from '@nuxtjs/composition-api';
+import { defineComponent } from '#imports';
 import { useImgProxy } from '@/plugins/proxy';
 
 export default defineComponent({

@@ -45,7 +45,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from '@nuxtjs/composition-api';
+import { computed, defineComponent } from '#imports';
 import { useImgProxy } from '@/plugins/proxy';
 
 export default defineComponent({
