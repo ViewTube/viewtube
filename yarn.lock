@@ -1819,14 +1819,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nestjs/bull@npm:0.4.2":
-  version: 0.4.2
-  resolution: "@nestjs/bull@npm:0.4.2"
+"@nestjs/bull@npm:0.5.0":
+  version: 0.5.0
+  resolution: "@nestjs/bull@npm:0.5.0"
   peerDependencies:
     "@nestjs/common": ^6.10.11 || ^7.0.0 || ^8.0.0
     "@nestjs/core": ^6.10.11 || ^7.0.0 || ^8.0.0
-    bull: ^3.3 || ^3.22.0
-  checksum: c9874f5ada3c72a66bd0bf7fa15a78df4b9574fe95e5a65ffb8f51d0fbf85e59a1a61033e4fa3f4b3099f41ef038f365d370a67e0dd49119aa48f83e324cb373
+    bull: ^3.3 || ^4.0.0
+  checksum: e8b730d60b5590b02543f14a9e18d5ec8a23fba5e3c7e7a89d7ab08f5954dba299be5a9ed2bdbf2cfc41bc18bf1e4e32ff44b1d28e968daf8fab680ba2cce2ee
   languageName: node
   linkType: hard
 
@@ -16241,7 +16241,7 @@ __metadata:
   resolution: "server@workspace:server"
   dependencies:
     "@freetube/yt-comment-scraper": ^6.0.0
-    "@nestjs/bull": 0.4.2
+    "@nestjs/bull": 0.5.0
     "@nestjs/cli": 8.2.1
     "@nestjs/common": 8.2.6
     "@nestjs/config": 1.2.0
