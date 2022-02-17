@@ -12,20 +12,12 @@ import { useAccessor } from '@/store';
 export default defineComponent({
   name: 'InvidiousLicense',
   setup() {
-    const { $axios: axios } = useNuxtApp();
     const accessor = useAccessor();
-    const licenseText = ref('');
+    const { data: licenseTextData } = useLazyFetch(
+      `${accessor.environment.textProxyUrl}https://raw.githubusercontent.com/iv-org/invidious/master/LICENSE`
+    );
 
-    useFetch(async () => {
-      await axios
-        .get(
-          `${accessor.environment.textProxyUrl}https://raw.githubusercontent.com/iv-org/invidious/master/LICENSE`
-        )
-        .then(response => {
-          licenseText.value = (response.data as string).replaceAll('<', '').replaceAll('>', '');
-        })
-        .catch(_ => {});
-    });
+    const licenseText = computed(() => licenseTextData.replaceAll('<', '').replaceAll('>', ''));
 
     return {
       licenseText
