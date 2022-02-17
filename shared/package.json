@@ -2,8 +2,8 @@
   "name": "shared",
   "packageManager": "yarn@3.1.1",
   "devDependencies": {
-    "@nestjs/common": "8.2.6",
-    "@nestjs/core": "8.2.6",
+    "@nestjs/common": "8.3.1",
+    "@nestjs/core": "8.3.1",
     "@nestjs/swagger": "5.2.0",
     "@types/node": "16.11.25",
     "class-transformer": "0.5.1",
