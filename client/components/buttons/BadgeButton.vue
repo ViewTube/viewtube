@@ -17,7 +17,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from '#imports';
+import { defineComponent } from '#imports';
+import { PropType } from 'vue';
 
 export default defineComponent({
   name: 'BadgeButton',
