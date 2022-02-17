@@ -3091,17 +3091,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@nestjs/bull", [
-        ["npm:0.4.2", {
-          "packageLocation": "./.yarn/cache/@nestjs-bull-npm-0.4.2-5fe3cfca6f-c9874f5ada.zip/node_modules/@nestjs/bull/",
+        ["npm:0.5.0", {
+          "packageLocation": "./.yarn/cache/@nestjs-bull-npm-0.5.0-6fb23e4779-e8b730d60b.zip/node_modules/@nestjs/bull/",
           "packageDependencies": [
-            ["@nestjs/bull", "npm:0.4.2"]
+            ["@nestjs/bull", "npm:0.5.0"]
           ],
           "linkType": "SOFT",
         }],
-        ["virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:0.4.2", {
-          "packageLocation": "./.yarn/__virtual__/@nestjs-bull-virtual-6a7913b8b3/0/cache/@nestjs-bull-npm-0.4.2-5fe3cfca6f-c9874f5ada.zip/node_modules/@nestjs/bull/",
+        ["virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:0.5.0", {
+          "packageLocation": "./.yarn/__virtual__/@nestjs-bull-virtual-9f93780cbb/0/cache/@nestjs-bull-npm-0.5.0-6fb23e4779-e8b730d60b.zip/node_modules/@nestjs/bull/",
           "packageDependencies": [
-            ["@nestjs/bull", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:0.4.2"],
+            ["@nestjs/bull", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:0.5.0"],
             ["@nestjs/common", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:8.2.6"],
             ["@nestjs/core", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:8.2.6"],
             ["@types/bull", "npm:3.15.8"],
@@ -20751,7 +20751,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["server", "workspace:server"],
             ["@freetube/yt-comment-scraper", "npm:6.1.0"],
-            ["@nestjs/bull", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:0.4.2"],
+            ["@nestjs/bull", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:0.5.0"],
             ["@nestjs/cli", "npm:8.2.1"],
             ["@nestjs/common", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:8.2.6"],
             ["@nestjs/config", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:1.2.0"],
