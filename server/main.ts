@@ -30,6 +30,7 @@ const bootstrap = async () => {
   const configService = server.get(ConfigService);
 
   const isProduction = configService.get('NODE_ENV') === 'production';
+  Consola.info(`Running in ${isProduction ? 'production' : 'development'} mode`);
 
   webPush.setVapidDetails(
     'https://github.com/ViewTube/viewtube-vue',

@@ -1,12 +1,13 @@
 import { ExceptionFilter, HttpException, ArgumentsHost, Catch } from '@nestjs/common';
 import { FastifyRequest, FastifyReply } from 'fastify';
+import { importNuxt } from './importNuxt';
 
 @Catch()
 export class NuxtFilter implements ExceptionFilter {
   nuxtFilter: any = null;
 
   public async init() {
-    this.nuxtFilter = await import('../../client/.output/server/index.mjs');
+    this.nuxtFilter = await importNuxt();
   }
 
   public async catch(exception: HttpException, host: ArgumentsHost) {

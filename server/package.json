@@ -6,9 +6,9 @@
   "scripts": {
     "serve": "nest build --webpack --webpackPath webpack-hmr.config.js --watch",
     "serve:all": "nest build --webpack --webpackPath webpack-hmr.config.js --watch",
-    "env:prod": "NODE_ENV=production",
+    "env:prod": "cross-env NODE_ENV=production VIEWTUBE_CLUSTERED=false",
     "build": "NODE_ENV=production && nest build --tsc --path tsconfig.build.json --config nest-cli.json",
-    "start": "yarn env:prod && node ./dist/server/main",
+    "start": "yarn env:prod node ./dist/server/main",
     "test": "jest",
     "lint": "eslint --ext .ts,.js,.vue .",
     "lint:fix": "eslint --ext .ts,.js,.vue --fix ."
