@@ -1,11 +1,11 @@
 {
   "name": "client",
-  "packageManager": "yarn@3.1.1",
+  "packageManager": "pnpm@6.20.0",
   "scripts": {
     "prepare:env": "cross-env VIEWTUBE_URL=http://localhost:8067",
-    "serve": "yarn prepare:env nuxi dev",
+    "serve": "pnpm prepare:env nuxi dev",
     "build": "cross-env NODE_ENV=production nuxi build",
-    "start": "yarn prepare:env nuxt start",
+    "start": "pnpm prepare:env nuxt start",
     "lint": "eslint --ext .ts,.js,.vue .",
     "lint:fix": "eslint --ext .ts,.js,.vue --fix ."
   },
