@@ -12,7 +12,7 @@
   "dependencies": {
     "@nuxtjs/axios": "5.13.6",
     "portal-vue": "2.1.7",
-    "sass": "1.49.7"
+    "sass": "1.49.8"
   },
   "devDependencies": {
     "@nuxt/types": "2.15.8",
@@ -63,7 +63,7 @@
     "vue2-datepicker": "3.10.4",
     "vuex": "3.6.2",
     "vuex-persistedstate": "4.1.0",
-    "webpack": "5.69.0",
+    "webpack": "5.69.1",
     "x2js": "3.4.3",
     "ytpl": "2.2.3"
   }
