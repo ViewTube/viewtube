@@ -1,6 +1,10 @@
 {
   "name": "client",
-  "packageManager": "pnpm@6.20.0",
+  "packageManager": "yarn@3.1.1",
+  "engines": {
+    "node": ">=16.5.0",
+    "yarn": ">=3.1.0"
+  },
   "scripts": {
     "prepare:env": "cross-env VIEWTUBE_URL=http://localhost:8067",
     "serve": "pnpm prepare:env nuxi dev",

@@ -6,12 +6,14 @@
   "email": "viewtube@m-o.dev",
   "version": "0.9.0",
   "license": "AGPLv3",
+  "engines": {
+    "node": ">=16.5.0",
+    "yarn": ">=3.1.0"
+  },
   "scripts": {
     "build": "yarn workspaces foreach run build",
     "build:server": "scripts/build.server.sh",
-    "build:client": "yarn workspace client run build",
     "serve:api": "yarn workspace server run serve",
-    "serve:client": "yarn workspace client run serve",
     "test": "yarn workspace server run test",
     "start": "yarn workspace server run start",
     "lint-staged": "prettier --write --ignore-unknown"
