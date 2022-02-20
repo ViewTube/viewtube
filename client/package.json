@@ -54,7 +54,7 @@
     "qrcode": "1.4.4",
     "sass-loader": "10.2.1",
     "tippy.js": "6.3.7",
-    "typed-vuex": "0.2.0",
+    "typed-vuex": "0.3.0",
     "typescript": "4.5.5",
     "unplugin-vue2-script-setup": "0.9.3",
     "vue": "2.6.14",

@@ -6227,7 +6227,7 @@ __metadata:
     sass: 1.49.8
     sass-loader: 10.2.1
     tippy.js: 6.3.7
-    typed-vuex: 0.2.0
+    typed-vuex: 0.3.0
     typescript: 4.5.5
     unplugin-vue2-script-setup: 0.9.3
     vue: 2.6.14
@@ -17845,6 +17845,15 @@ __metadata:
   peerDependencies:
     vuex: ^3.6.2
   checksum: d2d30f173134b00859ff7b95f1afa5d9e4af21e24194f7b54ba3c32aa5804dd41b7ab8c0c68f4b78a3cc6ab52b570e45b08eb03e5646fa277ffa48955ebc3af0
+  languageName: node
+  linkType: hard
+
+"typed-vuex@npm:0.3.0":
+  version: 0.3.0
+  resolution: "typed-vuex@npm:0.3.0"
+  peerDependencies:
+    vuex: ^3.6.2
+  checksum: 026c5b44f422b2c2d23e15a1aa1569082b9f24c27e974608fe609758bdaa2d9920c3f6ae596cda5a4f9fe83f4fb06154e2f65fa0f1995cc0579ff4f3802f5a7d
   languageName: node
   linkType: hard
 
