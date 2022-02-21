@@ -17,12 +17,7 @@
       "
       class="home-videos-container small"
     >
-      <VideoEntry
-        v-for="video in subscriptions"
-        :key="video.videoId"
-        :video="video"
-        :lazy="true"
-      />
+      <VideoEntry v-for="video in subscriptions" :key="video.videoId" :video="video" :lazy="true" />
     </div>
     <SectionTitle :title="'Popular videos'" :gradient="!userAuthenticated" z />
     <div class="home-videos-container small">
@@ -46,8 +41,9 @@
 
 <script lang="ts">
 import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
-import { defineComponent, ref, useFetch, useMeta } from '#imports';
+import { defineComponent, ref, useMeta } from '#imports';
 import { useNuxtApp } from '#app';
+import { useFetch } from '@nuxtjs/composition-api';
 import VideoEntry from '@/components/list/VideoEntry.vue';
 import Spinner from '@/components/Spinner.vue';
 import SectionTitle from '@/components/SectionTitle.vue';

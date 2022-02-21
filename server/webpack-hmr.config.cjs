@@ -1,5 +1,6 @@
 const { WebpackPnpExternals } = require('webpack-pnp-externals');
 const { RunScriptWebpackPlugin } = require('run-script-webpack-plugin');
+const path = require('path');
 
 module.exports = function (options, webpack) {
   return {

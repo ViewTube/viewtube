@@ -7,9 +7,9 @@
   },
   "scripts": {
     "prepare:env": "cross-env VIEWTUBE_URL=http://localhost:8067",
-    "serve": "pnpm prepare:env nuxi dev",
+    "serve": "yarn prepare:env nuxi dev",
     "build": "cross-env NODE_ENV=production nuxi build",
-    "start": "pnpm prepare:env nuxt start",
+    "start": "yarn prepare:env nuxt start",
     "lint": "eslint --ext .ts,.js,.vue .",
     "lint:fix": "eslint --ext .ts,.js,.vue --fix ."
   },
