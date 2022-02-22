@@ -5688,20 +5688,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bull@npm:4.5.5":
-  version: 4.5.5
-  resolution: "bull@npm:4.5.5"
+"bull@npm:4.6.1":
+  version: 4.6.1
+  resolution: "bull@npm:4.6.1"
   dependencies:
     cron-parser: ^4.2.1
     debuglog: ^1.0.0
     get-port: ^5.1.1
-    ioredis: ^4.27.0
+    ioredis: ^4.28.5
     lodash: ^4.17.21
     msgpackr: ^1.5.2
     p-timeout: ^3.2.0
     semver: ^7.3.2
     uuid: ^8.3.0
-  checksum: 6cdb110870c33730975f93b150f2554bf18fd636e4e21ca7ed1020545fc946ca80aca564f5944911c59d2981b5e178fed9bb75a92b8a19d6f7bd5b7b48bcd4bc
+  checksum: 525ea51f277742e3e73f41f88e01ff659a74cc7b77120cd8e5ab75f417cb0102739b4b885b2d99c32b7980f08164bc267098f0eca1917d791db7c1f50d7f5e44
   languageName: node
   linkType: hard
 
@@ -10325,7 +10325,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ioredis@npm:4.28.5, ioredis@npm:^4.27.0":
+"ioredis@npm:4.28.5, ioredis@npm:^4.28.5":
   version: 4.28.5
   resolution: "ioredis@npm:4.28.5"
   dependencies:
@@ -16240,7 +16240,7 @@ __metadata:
     "@typescript-eslint/parser": 5.12.0
     archiver: 5.3.0
     bcryptjs: 2.4.3
-    bull: 4.5.5
+    bull: 4.6.1
     cache-manager: 3.6.0
     cache-manager-redis-store: 2.0.0
     chalk: 4.1.2
