@@ -8907,7 +8907,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["jest", "virtual:c139d237b0dbb776e61db419e9c89c8b814c75fa7a88b9f24aafc5ab8ac92bbf91dff4585597824d969ce997b2ccd24ccbc8eb827b2908e4b381ccc31b31d3eb#npm:27.5.1"],
             ["js-sha256", "npm:0.9.0"],
             ["nuxt", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:2.15.8"],
-            ["nuxt-typed-vuex", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:0.2.0"],
+            ["nuxt-typed-vuex", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:0.3.0"],
             ["papaparse", "npm:5.3.1"],
             ["portal-vue", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:2.1.7"],
             ["prettier", "npm:2.5.1"],
@@ -17486,20 +17486,20 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["nuxt-typed-vuex", [
-        ["npm:0.2.0", {
-          "packageLocation": "./.yarn/cache/nuxt-typed-vuex-npm-0.2.0-bd09e6686f-2df462a5d7.zip/node_modules/nuxt-typed-vuex/",
+        ["npm:0.3.0", {
+          "packageLocation": "./.yarn/cache/nuxt-typed-vuex-npm-0.3.0-c24159637a-3680c714eb.zip/node_modules/nuxt-typed-vuex/",
           "packageDependencies": [
-            ["nuxt-typed-vuex", "npm:0.2.0"]
+            ["nuxt-typed-vuex", "npm:0.3.0"]
           ],
           "linkType": "SOFT",
         }],
-        ["virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:0.2.0", {
-          "packageLocation": "./.yarn/__virtual__/nuxt-typed-vuex-virtual-6b3c9c59b2/0/cache/nuxt-typed-vuex-npm-0.2.0-bd09e6686f-2df462a5d7.zip/node_modules/nuxt-typed-vuex/",
+        ["virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:0.3.0", {
+          "packageLocation": "./.yarn/__virtual__/nuxt-typed-vuex-virtual-78f3f55e4a/0/cache/nuxt-typed-vuex-npm-0.3.0-c24159637a-3680c714eb.zip/node_modules/nuxt-typed-vuex/",
           "packageDependencies": [
-            ["nuxt-typed-vuex", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:0.2.0"],
+            ["nuxt-typed-vuex", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:0.3.0"],
             ["@nuxt/types", "npm:2.15.8"],
             ["@types/nuxt__types", null],
-            ["typed-vuex", "virtual:6b3c9c59b249155f7a07d0094b3e44b1617c2f6a3c2d42cdcb993f88cc35a00f7c3d536a80a47e19e378f155ab4483b4648379907ecc5c73a302c3243f2fdfab#npm:0.2.0"],
+            ["typed-vuex", "virtual:78f3f55e4ada5efb857ef619474398d34161d0841375d3ff5642064c5a96089bf084fda97f3d88a2ff7d58e84f0fe6ffda23f476f6c19bc370b88ef966ee7b02#npm:0.3.0"],
             ["upath", "npm:2.0.1"]
           ],
           "packagePeers": [
@@ -22776,13 +22776,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["typed-vuex", [
-        ["npm:0.2.0", {
-          "packageLocation": "./.yarn/cache/typed-vuex-npm-0.2.0-3425aa3fce-d2d30f1731.zip/node_modules/typed-vuex/",
-          "packageDependencies": [
-            ["typed-vuex", "npm:0.2.0"]
-          ],
-          "linkType": "SOFT",
-        }],
         ["npm:0.3.0", {
           "packageLocation": "./.yarn/cache/typed-vuex-npm-0.3.0-ab6380b95c-026c5b44f4.zip/node_modules/typed-vuex/",
           "packageDependencies": [
@@ -22803,10 +22796,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "HARD",
         }],
-        ["virtual:6b3c9c59b249155f7a07d0094b3e44b1617c2f6a3c2d42cdcb993f88cc35a00f7c3d536a80a47e19e378f155ab4483b4648379907ecc5c73a302c3243f2fdfab#npm:0.2.0", {
-          "packageLocation": "./.yarn/__virtual__/typed-vuex-virtual-18213925ee/0/cache/typed-vuex-npm-0.2.0-3425aa3fce-d2d30f1731.zip/node_modules/typed-vuex/",
+        ["virtual:78f3f55e4ada5efb857ef619474398d34161d0841375d3ff5642064c5a96089bf084fda97f3d88a2ff7d58e84f0fe6ffda23f476f6c19bc370b88ef966ee7b02#npm:0.3.0", {
+          "packageLocation": "./.yarn/__virtual__/typed-vuex-virtual-4ce9f9873f/0/cache/typed-vuex-npm-0.3.0-ab6380b95c-026c5b44f4.zip/node_modules/typed-vuex/",
           "packageDependencies": [
-            ["typed-vuex", "virtual:6b3c9c59b249155f7a07d0094b3e44b1617c2f6a3c2d42cdcb993f88cc35a00f7c3d536a80a47e19e378f155ab4483b4648379907ecc5c73a302c3243f2fdfab#npm:0.2.0"],
+            ["typed-vuex", "virtual:78f3f55e4ada5efb857ef619474398d34161d0841375d3ff5642064c5a96089bf084fda97f3d88a2ff7d58e84f0fe6ffda23f476f6c19bc370b88ef966ee7b02#npm:0.3.0"],
             ["@types/vuex", null],
             ["vuex", null]
           ],
