@@ -16809,21 +16809,21 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["mongodb-memory-server", [
-        ["npm:8.3.0", {
-          "packageLocation": "./.yarn/unplugged/mongodb-memory-server-npm-8.3.0-80c6386e35/node_modules/mongodb-memory-server/",
+        ["npm:8.4.0", {
+          "packageLocation": "./.yarn/unplugged/mongodb-memory-server-npm-8.4.0-ed4e00ced9/node_modules/mongodb-memory-server/",
           "packageDependencies": [
-            ["mongodb-memory-server", "npm:8.3.0"],
-            ["mongodb-memory-server-core", "npm:8.3.0"],
+            ["mongodb-memory-server", "npm:8.4.0"],
+            ["mongodb-memory-server-core", "npm:8.4.0"],
             ["tslib", "npm:2.3.1"]
           ],
           "linkType": "HARD",
         }]
       ]],
       ["mongodb-memory-server-core", [
-        ["npm:8.3.0", {
-          "packageLocation": "./.yarn/cache/mongodb-memory-server-core-npm-8.3.0-2b836bf3b7-94dd31b686.zip/node_modules/mongodb-memory-server-core/",
+        ["npm:8.4.0", {
+          "packageLocation": "./.yarn/cache/mongodb-memory-server-core-npm-8.4.0-a517fbe0e9-4e0709157e.zip/node_modules/mongodb-memory-server-core/",
           "packageDependencies": [
-            ["mongodb-memory-server-core", "npm:8.3.0"],
+            ["mongodb-memory-server-core", "npm:8.4.0"],
             ["@types/tmp", "npm:0.2.3"],
             ["async-mutex", "npm:0.3.2"],
             ["camelcase", "npm:6.3.0"],
@@ -20823,7 +20823,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["joi", "npm:17.6.0"],
             ["mini-svg-data-uri", "npm:1.4.3"],
             ["module-alias", "npm:2.2.2"],
-            ["mongodb-memory-server", "npm:8.3.0"],
+            ["mongodb-memory-server", "npm:8.4.0"],
             ["mongoose", "npm:6.2.2"],
             ["nestjs-throttler-storage-redis", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:0.1.18"],
             ["node-fetch", "virtual:b703fe309445e73be0544c0731c064bd8abfb48eba238ef60c1180739300244272080b53495cbb64a2ec07139667d15d2f5ce81fb8e0f1ce36343b35ebd9836e#npm:2.6.7"],
