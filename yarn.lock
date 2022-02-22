@@ -6158,7 +6158,7 @@ __metadata:
     jest: 27.5.1
     js-sha256: 0.9.0
     nuxt: 2.15.8
-    nuxt-typed-vuex: 0.2.0
+    nuxt-typed-vuex: 0.3.0
     papaparse: 5.3.1
     portal-vue: 2.1.7
     prettier: 2.5.1
@@ -13266,15 +13266,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nuxt-typed-vuex@npm:0.2.0":
-  version: 0.2.0
-  resolution: "nuxt-typed-vuex@npm:0.2.0"
+"nuxt-typed-vuex@npm:0.3.0":
+  version: 0.3.0
+  resolution: "nuxt-typed-vuex@npm:0.3.0"
   dependencies:
-    typed-vuex: 0.2.0
+    typed-vuex: 0.3.0
     upath: ^2.0.1
   peerDependencies:
-    "@nuxt/types": ^2.15.4
-  checksum: 2df462a5d7ed2995c52c5ec9377234fabcc9175ea7bb8e80a7212e936e0fba38ad7698f982fb9775716e9e432f483b57567fcfadc7ac50114fb56870c8b606ab
+    "@nuxt/types": ^2.15.6
+  checksum: 3680c714ebdbf5fbfe108d4080d514342674d1d459b234271d7449599585fc48ae5024716d95a8bdcb4c70f1a7b6dc336540aac042417d9e2f0f01f060372e89
   languageName: node
   linkType: hard
 
@@ -17833,15 +17833,6 @@ __metadata:
   version: 0.8.1
   resolution: "type-fest@npm:0.8.1"
   checksum: d61c4b2eba24009033ae4500d7d818a94fd6d1b481a8111612ee141400d5f1db46f199c014766b9fa9b31a6a7374d96fc748c6d688a78a3ce5a33123839becb7
-  languageName: node
-  linkType: hard
-
-"typed-vuex@npm:0.2.0":
-  version: 0.2.0
-  resolution: "typed-vuex@npm:0.2.0"
-  peerDependencies:
-    vuex: ^3.6.2
-  checksum: d2d30f173134b00859ff7b95f1afa5d9e4af21e24194f7b54ba3c32aa5804dd41b7ab8c0c68f4b78a3cc6ab52b570e45b08eb03e5646fa277ffa48955ebc3af0
   languageName: node
   linkType: hard
 
