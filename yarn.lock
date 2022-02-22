@@ -12672,9 +12672,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mongodb-memory-server-core@npm:8.3.0":
-  version: 8.3.0
-  resolution: "mongodb-memory-server-core@npm:8.3.0"
+"mongodb-memory-server-core@npm:8.4.0":
+  version: 8.4.0
+  resolution: "mongodb-memory-server-core@npm:8.4.0"
   dependencies:
     "@types/tmp": ^0.2.3
     async-mutex: ^0.3.2
@@ -12684,7 +12684,7 @@ __metadata:
     get-port: ^5.1.1
     https-proxy-agent: ^5.0.0
     md5-file: ^5.0.0
-    mongodb: ^4.3.1
+    mongodb: ^4.4.0
     new-find-package-json: ^1.1.0
     semver: ^7.3.5
     tar-stream: ^2.1.4
@@ -12692,17 +12692,17 @@ __metadata:
     tslib: ^2.3.1
     uuid: ^8.3.1
     yauzl: ^2.10.0
-  checksum: 94dd31b6860c44083dfd4875ba03784b832176d625ff22fd23b300405bc4153276f64ab4fa5bfb5ab2610189f8e8fc8a228e9b7791a2bd45d7f03f675dc0897c
+  checksum: 4e0709157ec97f4b84dbee9afb78827252131ee3498c570bd296dfb2e5c3311fc1553958751001284dddb194cbe3177f2c263e0c75aea28ab35d9633b8042b2f
   languageName: node
   linkType: hard
 
-"mongodb-memory-server@npm:8.3.0":
-  version: 8.3.0
-  resolution: "mongodb-memory-server@npm:8.3.0"
+"mongodb-memory-server@npm:8.4.0":
+  version: 8.4.0
+  resolution: "mongodb-memory-server@npm:8.4.0"
   dependencies:
-    mongodb-memory-server-core: 8.3.0
+    mongodb-memory-server-core: 8.4.0
     tslib: ^2.3.1
-  checksum: 300e7e8d78032baf2d4c54b799e4cae0e77c6cdc58119f82581ab4a214acb6ff61a30f3d43a81da4b2e162ec8f2a8f196eb72f1724f20830ca5aa1ba0700e5ae
+  checksum: c3e529145a896eaf737af59be18eebe076cff81efbad9839bf3b3cc3fe390935049f289d346c0e2cb3b6bb833bf85eb0af7f39a0c320315a24c9f244e29068bf
   languageName: node
   linkType: hard
 
@@ -12722,7 +12722,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mongodb@npm:^4.3.1":
+"mongodb@npm:^4.4.0":
   version: 4.4.0
   resolution: "mongodb@npm:4.4.0"
   dependencies:
@@ -16255,7 +16255,7 @@ __metadata:
     joi: 17.6.0
     mini-svg-data-uri: 1.4.3
     module-alias: 2.2.2
-    mongodb-memory-server: 8.3.0
+    mongodb-memory-server: 8.4.0
     mongoose: 6.2.2
     nestjs-throttler-storage-redis: 0.1.18
     node-fetch: 2.6.7
