@@ -8661,13 +8661,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fastify-cookie@npm:5.5.0":
-  version: 5.5.0
-  resolution: "fastify-cookie@npm:5.5.0"
+"fastify-cookie@npm:5.6.0":
+  version: 5.6.0
+  resolution: "fastify-cookie@npm:5.6.0"
   dependencies:
     cookie-signature: ^1.1.0
-    fastify-plugin: ^3.0.0
-  checksum: aaafcd994a6e5feccf5d2a9e1348b069b7143804b9fc2078a7c483cc5b9423628e122c85a851f93bf0c3a21c2abc05bfd402c6386df9ea97f6a417a5e69b12a8
+    fastify-plugin: ^3.0.1
+  checksum: a4dc359a8434217ccc2fb28b82a1c25b2a06383d7e01a5967e457298c7a231bd4273a0295a17c8564753a5ab9dc1865d2bc0296db7ec8012a064f9b5c2e455b5
   languageName: node
   linkType: hard
 
@@ -8723,7 +8723,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fastify-plugin@npm:^3.0.0":
+"fastify-plugin@npm:^3.0.0, fastify-plugin@npm:^3.0.1":
   version: 3.0.1
   resolution: "fastify-plugin@npm:3.0.1"
   checksum: 131ba0a388f777829c3fb0fd5b75cf057688ce6d0ca354fb1ebf829767a8c853b0825762b9185b5200097454df0ede2f3095da2efe1aa1b3736d07f194e6d374
@@ -16243,7 +16243,7 @@ __metadata:
     eslint-config-prettier: 8.4.0
     eslint-plugin-jest: 26.1.1
     fastify: 3.27.1
-    fastify-cookie: 5.5.0
+    fastify-cookie: 5.6.0
     fastify-helmet: 7.0.1
     fastify-multipart: 5.3.1
     fastify-swagger: 4.15.0

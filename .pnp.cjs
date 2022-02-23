@@ -12267,17 +12267,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["fastify-cookie", [
-        ["npm:5.5.0", {
-          "packageLocation": "./.yarn/cache/fastify-cookie-npm-5.5.0-a383a04577-aaafcd994a.zip/node_modules/fastify-cookie/",
+        ["npm:5.6.0", {
+          "packageLocation": "./.yarn/cache/fastify-cookie-npm-5.6.0-be9294066f-a4dc359a84.zip/node_modules/fastify-cookie/",
           "packageDependencies": [
-            ["fastify-cookie", "npm:5.5.0"]
+            ["fastify-cookie", "npm:5.6.0"]
           ],
           "linkType": "SOFT",
         }],
-        ["virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:5.5.0", {
-          "packageLocation": "./.yarn/__virtual__/fastify-cookie-virtual-4e1646a358/0/cache/fastify-cookie-npm-5.5.0-a383a04577-aaafcd994a.zip/node_modules/fastify-cookie/",
+        ["virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:5.6.0", {
+          "packageLocation": "./.yarn/__virtual__/fastify-cookie-virtual-8bcab7f66c/0/cache/fastify-cookie-npm-5.6.0-be9294066f-a4dc359a84.zip/node_modules/fastify-cookie/",
           "packageDependencies": [
-            ["fastify-cookie", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:5.5.0"],
+            ["fastify-cookie", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:5.6.0"],
             ["@types/fastify", null],
             ["cookie-signature", "npm:1.2.0"],
             ["fastify", "npm:3.27.1"],
@@ -20811,7 +20811,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint-config-prettier", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:8.4.0"],
             ["eslint-plugin-jest", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:26.1.1"],
             ["fastify", "npm:3.27.1"],
-            ["fastify-cookie", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:5.5.0"],
+            ["fastify-cookie", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:5.6.0"],
             ["fastify-helmet", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:7.0.1"],
             ["fastify-multipart", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:5.3.1"],
             ["fastify-swagger", "npm:4.15.0"],
