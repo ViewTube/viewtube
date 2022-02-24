@@ -196,11 +196,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "HARD",
         }],
-        ["npm:0.4.0", {
-          "packageLocation": "./.yarn/cache/@antfu-utils-npm-0.4.0-b57aa285d0-1c679120c0.zip/node_modules/@antfu/utils/",
+        ["npm:0.5.0", {
+          "packageLocation": "./.yarn/cache/@antfu-utils-npm-0.5.0-c74bb17ff4-a5b39b556f.zip/node_modules/@antfu/utils/",
           "packageDependencies": [
-            ["@antfu/utils", "npm:0.4.0"],
-            ["@types/throttle-debounce", "npm:2.1.0"]
+            ["@antfu/utils", "npm:0.5.0"]
           ],
           "linkType": "HARD",
         }]
@@ -8917,7 +8916,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["tippy.js", "npm:6.3.7"],
             ["typed-vuex", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:0.3.0"],
             ["typescript", "patch:typescript@npm%3A4.5.5#~builtin<compat/typescript>::version=4.5.5&hash=493e53"],
-            ["unplugin-vue2-script-setup", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:0.9.3"],
+            ["unplugin-vue2-script-setup", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:0.10.0"],
             ["vue", "npm:2.6.14"],
             ["vue-material-design-icons", "npm:5.0.0"],
             ["vue-template-compiler", "npm:2.6.14"],
@@ -23054,10 +23053,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "HARD",
         }],
-        ["virtual:862ce2888dd7a7e636681e96e8d2429367982757c3ba17f50fd1fe78ed8ec3e701a0f2b3b55a0ad84b2ed32865434d0770b2293b0d9d7cb778fabc1eefbd0352#npm:0.3.2", {
-          "packageLocation": "./.yarn/__virtual__/unplugin-virtual-6a3a885b7c/0/cache/unplugin-npm-0.3.2-bb27e203de-2f24c04356.zip/node_modules/unplugin/",
+        ["virtual:70f9705cee2195140c50e28939c9f53eb752c65d73aaf6614b5da84292d50ab55e0eacf5eb77cca64c9afdde12498eb7f2a4c6e230008ee922bc8ca0e67d23e3#npm:0.3.2", {
+          "packageLocation": "./.yarn/__virtual__/unplugin-virtual-86a6af815b/0/cache/unplugin-npm-0.3.2-bb27e203de-2f24c04356.zip/node_modules/unplugin/",
           "packageDependencies": [
-            ["unplugin", "virtual:862ce2888dd7a7e636681e96e8d2429367982757c3ba17f50fd1fe78ed8ec3e701a0f2b3b55a0ad84b2ed32865434d0770b2293b0d9d7cb778fabc1eefbd0352#npm:0.3.2"],
+            ["unplugin", "virtual:70f9705cee2195140c50e28939c9f53eb752c65d73aaf6614b5da84292d50ab55e0eacf5eb77cca64c9afdde12498eb7f2a4c6e230008ee922bc8ca0e67d23e3#npm:0.3.2"],
             ["@types/esbuild", null],
             ["@types/rollup", null],
             ["@types/vite", null],
@@ -23082,17 +23081,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["unplugin-vue2-script-setup", [
+        ["npm:0.10.0", {
+          "packageLocation": "./.yarn/cache/unplugin-vue2-script-setup-npm-0.10.0-decb0bde73-4fa70dece8.zip/node_modules/unplugin-vue2-script-setup/",
+          "packageDependencies": [
+            ["unplugin-vue2-script-setup", "npm:0.10.0"]
+          ],
+          "linkType": "SOFT",
+        }],
         ["npm:0.7.3", {
           "packageLocation": "./.yarn/cache/unplugin-vue2-script-setup-npm-0.7.3-531432a97b-57b3fa8fb1.zip/node_modules/unplugin-vue2-script-setup/",
           "packageDependencies": [
             ["unplugin-vue2-script-setup", "npm:0.7.3"]
-          ],
-          "linkType": "SOFT",
-        }],
-        ["npm:0.9.3", {
-          "packageLocation": "./.yarn/cache/unplugin-vue2-script-setup-npm-0.9.3-d2e7554cec-c183733a57.zip/node_modules/unplugin-vue2-script-setup/",
-          "packageDependencies": [
-            ["unplugin-vue2-script-setup", "npm:0.9.3"]
           ],
           "linkType": "SOFT",
         }],
@@ -23123,11 +23122,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "HARD",
         }],
-        ["virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:0.9.3", {
-          "packageLocation": "./.yarn/__virtual__/unplugin-vue2-script-setup-virtual-862ce2888d/0/cache/unplugin-vue2-script-setup-npm-0.9.3-d2e7554cec-c183733a57.zip/node_modules/unplugin-vue2-script-setup/",
+        ["virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:0.10.0", {
+          "packageLocation": "./.yarn/__virtual__/unplugin-vue2-script-setup-virtual-70f9705cee/0/cache/unplugin-vue2-script-setup-npm-0.10.0-decb0bde73-4fa70dece8.zip/node_modules/unplugin-vue2-script-setup/",
           "packageDependencies": [
-            ["unplugin-vue2-script-setup", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:0.9.3"],
-            ["@antfu/utils", "npm:0.4.0"],
+            ["unplugin-vue2-script-setup", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:0.10.0"],
+            ["@antfu/utils", "npm:0.5.0"],
             ["@babel/core", "npm:7.17.5"],
             ["@babel/generator", "npm:7.17.3"],
             ["@babel/parser", "npm:7.17.3"],
@@ -23144,11 +23143,9 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@vue/runtime-dom", null],
             ["@vue/shared", "npm:3.2.31"],
             ["defu", "npm:5.0.1"],
-            ["htmlparser2", "npm:5.0.1"],
             ["magic-string", "npm:0.25.7"],
             ["pug", null],
-            ["tslib", "npm:2.3.1"],
-            ["unplugin", "virtual:862ce2888dd7a7e636681e96e8d2429367982757c3ba17f50fd1fe78ed8ec3e701a0f2b3b55a0ad84b2ed32865434d0770b2293b0d9d7cb778fabc1eefbd0352#npm:0.3.2"]
+            ["unplugin", "virtual:70f9705cee2195140c50e28939c9f53eb752c65d73aaf6614b5da84292d50ab55e0eacf5eb77cca64c9afdde12498eb7f2a4c6e230008ee922bc8ca0e67d23e3#npm:0.3.2"]
           ],
           "packagePeers": [
             "@types/pug",
