@@ -32,7 +32,7 @@
     "axios": "0.26.0",
     "consola": "2.15.3",
     "cross-env": "7.0.3",
-    "dashjs": "4.2.1",
+    "dashjs": "4.3.0",
     "eslint": "8.9.0",
     "eslint-config-prettier": "8.4.0",
     "eslint-import-resolver-node": "0.3.6",
