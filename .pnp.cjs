@@ -20858,7 +20858,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["webpack-pnp-externals", "npm:1.1.0"],
             ["x2js", "npm:3.4.3"],
             ["xml-js", "npm:1.6.11"],
-            ["ytdl-core", "npm:4.10.1"],
+            ["ytdl-core", "npm:4.11.0"],
             ["ytpl", "npm:2.2.3"],
             ["ytsr", "npm:3.6.0"]
           ],
@@ -24588,10 +24588,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["ytdl-core", [
-        ["npm:4.10.1", {
-          "packageLocation": "./.yarn/cache/ytdl-core-npm-4.10.1-db8d995bcf-31f79758be.zip/node_modules/ytdl-core/",
+        ["npm:4.11.0", {
+          "packageLocation": "./.yarn/cache/ytdl-core-npm-4.11.0-537c39e80f-1ebe546da3.zip/node_modules/ytdl-core/",
           "packageDependencies": [
-            ["ytdl-core", "npm:4.10.1"],
+            ["ytdl-core", "npm:4.11.0"],
             ["m3u8stream", "npm:0.8.6"],
             ["miniget", "npm:4.2.2"],
             ["sax", "npm:1.2.4"]
