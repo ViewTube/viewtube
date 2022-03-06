@@ -65,6 +65,6 @@
     "vuex-persistedstate": "4.1.0",
     "webpack": "5.70.0",
     "x2js": "3.4.3",
-    "ytpl": "2.2.3"
+    "ytpl": "2.3.0"
   }
 }

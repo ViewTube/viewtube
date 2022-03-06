@@ -6152,7 +6152,7 @@ __metadata:
     vuex-persistedstate: 4.1.0
     webpack: 5.70.0
     x2js: 3.4.3
-    ytpl: 2.2.3
+    ytpl: 2.3.0
   languageName: unknown
   linkType: soft
 
@@ -16281,7 +16281,7 @@ __metadata:
     x2js: 3.4.3
     xml-js: 1.6.11
     ytdl-core: 4.11.0
-    ytpl: 2.2.3
+    ytpl: 2.3.0
     ytsr: 3.6.0
   languageName: unknown
   linkType: soft
@@ -19317,12 +19317,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ytpl@npm:2.2.3":
-  version: 2.2.3
-  resolution: "ytpl@npm:2.2.3"
+"ytpl@npm:2.3.0":
+  version: 2.3.0
+  resolution: "ytpl@npm:2.3.0"
   dependencies:
-    miniget: ^4.2.1
-  checksum: 438396f1f8dbd26ad79f20eafbd9e23bebca010c251d4c61c4a2fea28c192227e58a7adf21dd18ae0b0d09aca2960d245a89331a5612d1698ad9ea8698581eb6
+    miniget: ^4.2.2
+  checksum: cec072c4e4b5e19930d498b0e4e69726538e95a452dc0686d4d7c865583f9ed14c33e526bbf1d54a75b7470490b4860eac814a697a98b3b89115ed1a0ea77a39
   languageName: node
   linkType: hard
 

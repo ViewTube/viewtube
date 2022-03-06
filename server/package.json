@@ -75,7 +75,7 @@
     "x2js": "3.4.3",
     "xml-js": "1.6.11",
     "ytdl-core": "4.11.0",
-    "ytpl": "2.2.3",
+    "ytpl": "2.3.0",
     "ytsr": "3.6.0"
   },
   "devDependencies": {
