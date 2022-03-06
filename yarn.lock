@@ -12469,7 +12469,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"miniget@npm:^4.0.0, miniget@npm:^4.2.1, miniget@npm:^4.2.2":
+"miniget@npm:^4.2.1, miniget@npm:^4.2.2":
   version: 4.2.2
   resolution: "miniget@npm:4.2.2"
   checksum: 577a7826cbf521b8ecb31906b3dce55c61b35398318a461f3484681572287208b7ec5a40de7b0bf0b7738f21630d015cc39ba3edcfb69146565f1528ff957612
@@ -16280,7 +16280,7 @@ __metadata:
     webpack-pnp-externals: 1.1.0
     x2js: 3.4.3
     xml-js: 1.6.11
-    ytdl-core: 4.10.1
+    ytdl-core: 4.11.0
     ytpl: 2.2.3
     ytsr: 3.6.0
   languageName: unknown
@@ -19306,14 +19306,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ytdl-core@npm:4.10.1":
-  version: 4.10.1
-  resolution: "ytdl-core@npm:4.10.1"
+"ytdl-core@npm:4.11.0":
+  version: 4.11.0
+  resolution: "ytdl-core@npm:4.11.0"
   dependencies:
     m3u8stream: ^0.8.6
-    miniget: ^4.0.0
+    miniget: ^4.2.2
     sax: ^1.1.3
-  checksum: 31f79758be7dbc37629711d3b0e1a68131b73e73d0cfbe490982f25620d01893810142aa6464420ea05993d40657523fc2565e3bf346227f66bdb8233fe8a780
+  checksum: 1ebe546da39e2a55fea6544d290f92f722416b77bb9c84322d5ca08394fb00642c6cf832ccac2feec12e9189a009af90e8185a96772e84c94599841ded21bd65
   languageName: node
   linkType: hard
 
