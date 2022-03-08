@@ -8913,7 +8913,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["vuex-persistedstate", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:4.1.0"],
             ["webpack", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:5.70.0"],
             ["x2js", "npm:3.4.3"],
-            ["ytpl", "npm:2.2.3"]
+            ["ytpl", "npm:2.3.0"]
           ],
           "linkType": "SOFT",
         }]
@@ -20859,7 +20859,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["x2js", "npm:3.4.3"],
             ["xml-js", "npm:1.6.11"],
             ["ytdl-core", "npm:4.11.0"],
-            ["ytpl", "npm:2.2.3"],
+            ["ytpl", "npm:2.3.0"],
             ["ytsr", "npm:3.6.0"]
           ],
           "linkType": "SOFT",
@@ -24600,10 +24600,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["ytpl", [
-        ["npm:2.2.3", {
-          "packageLocation": "./.yarn/cache/ytpl-npm-2.2.3-b5a3ab1813-438396f1f8.zip/node_modules/ytpl/",
+        ["npm:2.3.0", {
+          "packageLocation": "./.yarn/cache/ytpl-npm-2.3.0-13ac87cdcb-cec072c4e4.zip/node_modules/ytpl/",
           "packageDependencies": [
-            ["ytpl", "npm:2.2.3"],
+            ["ytpl", "npm:2.3.0"],
             ["miniget", "npm:4.2.2"]
           ],
           "linkType": "HARD",
