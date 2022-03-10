@@ -9,7 +9,7 @@ const dartSass = {
   `
 };
 
-const dev = process.env.NODE_ENV !== 'production';
+const prod = process.env.NODE_ENV === 'production';
 
 type NuxtConfigType = Partial<NuxtConfig> & {
   styleResources: any;
@@ -22,7 +22,7 @@ const config: NuxtConfigType = {
     port: 8066
   },
 
-  modern: !dev,
+  modern: prod,
 
   nitro: {
     preset: 'node'
@@ -194,7 +194,8 @@ const config: NuxtConfigType = {
     '@nuxtjs/router',
     'nuxt-typed-vuex',
     '@nuxtjs/style-resources',
-    '@nuxtjs/pwa'
+    '@nuxtjs/pwa',
+    'nuxt-webpack-optimisations'
   ],
 
   modules: ['portal-vue/nuxt', '@nuxtjs/axios'],
