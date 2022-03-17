@@ -50,7 +50,7 @@
     "nuxt": "2.15.8",
     "nuxt-typed-vuex": "0.3.0",
     "papaparse": "5.3.1",
-    "prettier": "2.5.1",
+    "prettier": "2.6.0",
     "qrcode": "1.4.4",
     "sass-loader": "10.2.1",
     "tippy.js": "6.3.7",
