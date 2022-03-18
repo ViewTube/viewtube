@@ -1885,19 +1885,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nestjs/config@npm:1.2.0":
-  version: 1.2.0
-  resolution: "@nestjs/config@npm:1.2.0"
+"@nestjs/config@npm:2.0.0":
+  version: 2.0.0
+  resolution: "@nestjs/config@npm:2.0.0"
   dependencies:
     dotenv: 16.0.0
-    dotenv-expand: 8.0.1
+    dotenv-expand: 8.0.2
     lodash: 4.17.21
     uuid: 8.3.2
   peerDependencies:
     "@nestjs/common": ^7.0.0 || ^8.0.0
     reflect-metadata: ^0.1.13
     rxjs: ^6.0.0 || ^7.2.0
-  checksum: f18a4444e85992a0ab33dfdf8f8526711266830cf331eea8d8aa59e349ba40df81e7cabc3c7f87b482eac8cb206bbc59deb3941e3c4c422f34671e59c2f5c27d
+  checksum: f0aedec1b6a6fd44f686121c05d38b7ff32f3e70c5df1ded91fae788ee73e1371f6f1a6a9223c82f41c5e15a38ccf09aaf6650fc71714c0813452595fb5f3917
   languageName: node
   linkType: hard
 
@@ -7615,10 +7615,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dotenv-expand@npm:8.0.1":
-  version: 8.0.1
-  resolution: "dotenv-expand@npm:8.0.1"
-  checksum: 872a573d64c5cc1d0773df5822546fa47022124dbbf5d260756e081970dc27adf6b0822db952280b5ba3d175971ca8faf23b64204ee5003588a08152fd5e806e
+"dotenv-expand@npm:8.0.2":
+  version: 8.0.2
+  resolution: "dotenv-expand@npm:8.0.2"
+  checksum: 4b42b2602478bccf1bfde25c97ecc0fee4059e74df4f8fda7f076b2ef428315e00b301bda43eec3707bfa083837abb284d6fec91571f164449243001ed8eef81
   languageName: node
   linkType: hard
 
@@ -16285,7 +16285,7 @@ __metadata:
     "@nestjs/bull": 0.5.0
     "@nestjs/cli": 8.2.1
     "@nestjs/common": 8.3.1
-    "@nestjs/config": 1.2.0
+    "@nestjs/config": 2.0.0
     "@nestjs/core": 8.3.1
     "@nestjs/jwt": 8.0.0
     "@nestjs/mongoose": 9.0.2
