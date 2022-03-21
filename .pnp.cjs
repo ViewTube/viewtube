@@ -3106,7 +3106,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/bull", "npm:3.15.8"],
             ["@types/nestjs__common", null],
             ["@types/nestjs__core", null],
-            ["bull", "npm:4.7.0"]
+            ["bull", "npm:4.8.1"]
           ],
           "packagePeers": [
             "@nestjs/common",
@@ -8457,10 +8457,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["bull", [
-        ["npm:4.7.0", {
-          "packageLocation": "./.yarn/cache/bull-npm-4.7.0-23115db5f4-1b01a26b96.zip/node_modules/bull/",
+        ["npm:4.8.1", {
+          "packageLocation": "./.yarn/cache/bull-npm-4.8.1-8241ce4aa8-dd8147c9ac.zip/node_modules/bull/",
           "packageDependencies": [
-            ["bull", "npm:4.7.0"],
+            ["bull", "npm:4.8.1"],
             ["cron-parser", "npm:4.2.1"],
             ["debuglog", "npm:1.0.1"],
             ["get-port", "npm:5.1.1"],
@@ -20977,7 +20977,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@typescript-eslint/parser", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:5.15.0"],
             ["archiver", "npm:5.3.0"],
             ["bcryptjs", "npm:2.4.3"],
-            ["bull", "npm:4.7.0"],
+            ["bull", "npm:4.8.1"],
             ["cache-manager", "npm:3.6.0"],
             ["cache-manager-redis-store", "npm:2.0.0"],
             ["chalk", "npm:4.1.2"],
