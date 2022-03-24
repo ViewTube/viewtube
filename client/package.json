@@ -21,7 +21,7 @@
     "sass": "1.49.7"
   },
   "devDependencies": {
-    "@nuxt/bridge": "npm:@nuxt/bridge-edge@3.0.0-27447229.20f3171",
+    "@nuxt/bridge": "npm:@nuxt/bridge-edge@3.0.0-27468761.cd8dbdc",
     "@nuxtjs/eslint-config-typescript": "8.0.0",
     "@nuxtjs/pwa": "3.3.5",
     "@nuxtjs/router": "1.7.0",
