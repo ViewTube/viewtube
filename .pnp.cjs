@@ -4883,10 +4883,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@types/busboy", [
-        ["npm:1.3.0", {
-          "packageLocation": "./.yarn/cache/@types-busboy-npm-1.3.0-a90e02e1ff-6438cf56ab.zip/node_modules/@types/busboy/",
+        ["npm:1.5.0", {
+          "packageLocation": "./.yarn/cache/@types-busboy-npm-1.5.0-0e24e7f08d-ffa7bf25c0.zip/node_modules/@types/busboy/",
           "packageDependencies": [
-            ["@types/busboy", "npm:1.3.0"],
+            ["@types/busboy", "npm:1.5.0"],
             ["@types/node", "npm:17.0.21"]
           ],
           "linkType": "HARD",
@@ -20974,7 +20974,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/archiver", "npm:5.3.1"],
             ["@types/bcryptjs", "npm:2.4.2"],
             ["@types/bull", "npm:3.15.8"],
-            ["@types/busboy", "npm:1.3.0"],
+            ["@types/busboy", "npm:1.5.0"],
             ["@types/cookie-parser", "npm:1.4.2"],
             ["@types/eslint", "npm:8.4.1"],
             ["@types/humanize-duration", "npm:3.27.1"],

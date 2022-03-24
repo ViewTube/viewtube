@@ -2999,12 +2999,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/busboy@npm:1.3.0":
-  version: 1.3.0
-  resolution: "@types/busboy@npm:1.3.0"
+"@types/busboy@npm:1.5.0":
+  version: 1.5.0
+  resolution: "@types/busboy@npm:1.5.0"
   dependencies:
     "@types/node": "*"
-  checksum: 6438cf56ab1f957017a408b6e375265ee18be181449bf5227736508b2b673c6fa6a2f843beed2cd95e697f15b7c2020673cba2cd2fa0f1fd198598e630b79657
+  checksum: ffa7bf25c0395f6927526b7d97e70cd2df789e4ca0d231e41855fb08542fa236891ce457d83cc50cac6e5cef6be092ab80597070dcf1413f736462690a23e987
   languageName: node
   linkType: hard
 
@@ -16322,7 +16322,7 @@ __metadata:
     "@types/archiver": 5.3.1
     "@types/bcryptjs": 2.4.2
     "@types/bull": 3.15.8
-    "@types/busboy": 1.3.0
+    "@types/busboy": 1.5.0
     "@types/cookie-parser": 1.4.2
     "@types/eslint": 8.4.1
     "@types/humanize-duration": 3.27.1
