@@ -66,7 +66,7 @@ const bootstrap = async () => {
 
   // Disable helment on non-https instances
   if (isHttps()) {
-    await server.register(FastifyHelmet, {
+    await server.register(FastifyHelmet as any, {
       contentSecurityPolicy: {
         useDefaults: true,
         directives: {
@@ -75,11 +75,11 @@ const bootstrap = async () => {
           scriptSrcAttr: null
         }
       }
-    });
+    } as any);
   }
 
-  await server.register(FastifyCookie);
-  await server.register(FastifyMultipart);
+  await server.register(FastifyCookie as any);
+  await server.register(FastifyMultipart as any);
 
   // NUXT
   if (isProduction) {
