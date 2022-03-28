@@ -26,6 +26,7 @@ module.exports = {
     'vue/no-v-html': 'off',
     'vue/script-setup-uses-vars': 'off',
     'import/order': 'off',
+    'vue/multi-word-component-names': 'off',
     semi: 'off',
     'vue/html-self-closing': [
       'error',
