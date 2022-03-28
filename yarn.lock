@@ -11755,10 +11755,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"kareem@npm:2.3.4":
-  version: 2.3.4
-  resolution: "kareem@npm:2.3.4"
-  checksum: e12d05e120515c0ded270eb47792e7b1eb3d2656f74a57050e59c8d0a21212c02c7dc5e0acfaa75f89637c5b13d3dfef53218be33c4d3c7d531ef44a68df7478
+"kareem@npm:2.3.5":
+  version: 2.3.5
+  resolution: "kareem@npm:2.3.5"
+  checksum: eb1b996937e0a7a031230ed56ba2142f35179af5973ff86074921a082375fc3d5df7820b4c7a70b51e7e19c063bf3d735defd5b99a50982095674d68442f4ecb
   languageName: node
   linkType: hard
 
@@ -12856,18 +12856,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mongoose@npm:6.2.8":
-  version: 6.2.8
-  resolution: "mongoose@npm:6.2.8"
+"mongoose@npm:6.2.9":
+  version: 6.2.9
+  resolution: "mongoose@npm:6.2.9"
   dependencies:
     bson: ^4.2.2
-    kareem: 2.3.4
+    kareem: 2.3.5
     mongodb: 4.3.1
     mpath: 0.8.4
     mquery: 4.0.2
     ms: 2.1.3
     sift: 16.0.0
-  checksum: 238fab1829d220d9fae8c8b5c923fabbbeaf0a9784bc6ae2c79241a11b1a8d9707702758939359f5096d1e005bfa1afa61db0d063a3d365cf41b31eaa4080daf
+  checksum: e5769926a303ad9e0275807df070ed99065728cc6f41965aae1e40d7a68c997263843afc28ead9da2486f47c5e0c556230ed77b65774bd3d2854f71ee60f62dd
   languageName: node
   linkType: hard
 
@@ -16401,7 +16401,7 @@ __metadata:
     mini-svg-data-uri: 1.4.4
     module-alias: 2.2.2
     mongodb-memory-server: 8.4.1
-    mongoose: 6.2.8
+    mongoose: 6.2.9
     nestjs-throttler-storage-redis: 0.1.18
     node-fetch: 2.6.7
     passport: 0.5.2

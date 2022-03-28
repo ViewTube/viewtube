@@ -3479,7 +3479,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/nestjs__core", null],
             ["@types/reflect-metadata", null],
             ["@types/rxjs", null],
-            ["mongoose", "npm:6.2.8"],
+            ["mongoose", "npm:6.2.9"],
             ["reflect-metadata", "npm:0.1.13"],
             ["rxjs", "npm:7.5.5"]
           ],
@@ -15870,10 +15870,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["kareem", [
-        ["npm:2.3.4", {
-          "packageLocation": "./.yarn/cache/kareem-npm-2.3.4-3a5c31ec37-e12d05e120.zip/node_modules/kareem/",
+        ["npm:2.3.5", {
+          "packageLocation": "./.yarn/cache/kareem-npm-2.3.5-ce11fa6c90-eb1b996937.zip/node_modules/kareem/",
           "packageDependencies": [
-            ["kareem", "npm:2.3.4"]
+            ["kareem", "npm:2.3.5"]
           ],
           "linkType": "HARD",
         }]
@@ -17084,12 +17084,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["mongoose", [
-        ["npm:6.2.8", {
-          "packageLocation": "./.yarn/cache/mongoose-npm-6.2.8-191394e884-238fab1829.zip/node_modules/mongoose/",
+        ["npm:6.2.9", {
+          "packageLocation": "./.yarn/cache/mongoose-npm-6.2.9-81f9e9d151-e5769926a3.zip/node_modules/mongoose/",
           "packageDependencies": [
-            ["mongoose", "npm:6.2.8"],
+            ["mongoose", "npm:6.2.9"],
             ["bson", "npm:4.6.1"],
-            ["kareem", "npm:2.3.4"],
+            ["kareem", "npm:2.3.5"],
             ["mongodb", "npm:4.3.1"],
             ["mpath", "npm:0.8.4"],
             ["mquery", "npm:4.0.2"],
@@ -21086,7 +21086,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["mini-svg-data-uri", "npm:1.4.4"],
             ["module-alias", "npm:2.2.2"],
             ["mongodb-memory-server", "npm:8.4.1"],
-            ["mongoose", "npm:6.2.8"],
+            ["mongoose", "npm:6.2.9"],
             ["nestjs-throttler-storage-redis", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:0.1.18"],
             ["node-fetch", "virtual:b703fe309445e73be0544c0731c064bd8abfb48eba238ef60c1180739300244272080b53495cbb64a2ec07139667d15d2f5ce81fb8e0f1ce36343b35ebd9836e#npm:2.6.7"],
             ["passport", "npm:0.5.2"],
