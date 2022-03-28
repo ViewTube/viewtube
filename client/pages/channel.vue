@@ -52,7 +52,7 @@
 
 <script lang="ts">
 import UpIcon from 'vue-material-design-icons/ArrowUp.vue';
-import { defineComponent, ref, useFetch, useMeta, useRoute } from '#imports';
+import { defineComponent, useMeta, useRoute } from '#imports';
 import VideoEntry from '@/components/list/VideoEntry.vue';
 import PlaylistEntry from '@/components/list/PlaylistEntry.vue';
 import Banner from '@/components/channel/Banner.vue';
@@ -64,7 +64,6 @@ import SubscribeButton from '@/components/buttons/SubscribeButton.vue';
 import SectionTitle from '@/components/SectionTitle.vue';
 import InlineVideo from '@/components/list/InlineVideo.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
-import ViewTubeApi from '@/plugins/services/viewTubeApi';
 import { useImgProxy } from '@/plugins/proxy';
 import { useAccessor } from '@/store';
 
@@ -89,31 +88,28 @@ export default defineComponent({
     const accessor = useAccessor();
     const route = useRoute();
 
-    const channel = ref(null);
-
     const onScrollTop = (): void => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
-    useFetch(async () => {
-      const viewTubeApi = new ViewTubeApi(accessor.environment.apiUrl);
-      await viewTubeApi.api
-        .channels({ id: route.params.id })
-        .then((response: { data: any }) => {
-          channel.value = response.data;
-        })
-        .catch((error: { response: { data: { message: string } } }) => {
-          let errorMessage = '';
-          if (error.response && error.response.data) {
-            errorMessage = error.response.data.message;
-          }
-          accessor.messages.createMessage({
-            type: 'error',
-            title: 'Loading the channel failed',
-            message: errorMessage
-          });
+    const { data: channel, error } = useLazyFetch(
+      `${accessor.environment.apiUrl}channels/${route.params.id}`
+    );
+
+    watch(
+      () => error,
+      () => {
+        let errorMessage = '';
+        if (error.response && error.response.data) {
+          errorMessage = error.response.data.message;
+        }
+        accessor.messages.createMessage({
+          type: 'error',
+          title: 'Loading the channel failed',
+          message: errorMessage
         });
-    });
+      }
+    );
 
     useMeta(() => ({
       title: channel.value ? `${channel.value.author} :: ViewTube` : 'ViewTube',
