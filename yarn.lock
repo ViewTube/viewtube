@@ -1572,6 +1572,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@ioredis/commands@npm:^1.1.1":
+  version: 1.1.1
+  resolution: "@ioredis/commands@npm:1.1.1"
+  checksum: 66a9dc315dc077826fef4057c027c77c5af3fba247e6a5156c6847700fec8968a1b180bca344120ad561f5654cda54ed63119f790a041b0a010cacf02421ecff
+  languageName: node
+  linkType: hard
+
 "@istanbuljs/load-nyc-config@npm:^1.0.0":
   version: 1.1.0
   resolution: "@istanbuljs/load-nyc-config@npm:1.1.0"
@@ -3004,16 +3011,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/bull@npm:3.15.8":
-  version: 3.15.8
-  resolution: "@types/bull@npm:3.15.8"
-  dependencies:
-    "@types/ioredis": "*"
-    "@types/redis": ^2.8.0
-  checksum: 9a081a67d563545269dd2467419d43e833d3511afa5ef16ffa97f18ed178199088b810c8e5951dfad15929fccb712d67351f7c6d0640aee6b66fd726615ba01b
-  languageName: node
-  linkType: hard
-
 "@types/busboy@npm:1.5.0":
   version: 1.5.0
   resolution: "@types/busboy@npm:1.5.0"
@@ -3187,15 +3184,6 @@ __metadata:
   version: 3.27.1
   resolution: "@types/humanize-duration@npm:3.27.1"
   checksum: d3d69b64918d0cee4aa69580dd04d1b96e3385645d398e27b1535f8c6d0252b0235defb16619379a6196c6bbdfc7b6032f010b25cac44903a32b09db8aa06f30
-  languageName: node
-  linkType: hard
-
-"@types/ioredis@npm:*":
-  version: 4.28.10
-  resolution: "@types/ioredis@npm:4.28.10"
-  dependencies:
-    "@types/node": "*"
-  checksum: 0f2788cf25f490d3b345db8c5f8b8ce3f6c92cc99abcf744c8f974f02b9b3875233b3d22098614c462a0d6c41c523bd655509418ea88eb6249db6652290ce7cf
   languageName: node
   linkType: hard
 
@@ -7212,7 +7200,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"debug@npm:4, debug@npm:4.x, debug@npm:^4.0.0, debug@npm:^4.0.1, debug@npm:^4.1.0, debug@npm:^4.1.1, debug@npm:^4.3.1, debug@npm:^4.3.2, debug@npm:^4.3.3":
+"debug@npm:4, debug@npm:4.x, debug@npm:^4.0.0, debug@npm:^4.0.1, debug@npm:^4.1.0, debug@npm:^4.1.1, debug@npm:^4.3.1, debug@npm:^4.3.2, debug@npm:^4.3.3, debug@npm:^4.3.4":
   version: 4.3.4
   resolution: "debug@npm:4.3.4"
   dependencies:
@@ -10364,7 +10352,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ioredis@npm:4.28.5, ioredis@npm:^4.28.5":
+"ioredis@npm:5.0.1":
+  version: 5.0.1
+  resolution: "ioredis@npm:5.0.1"
+  dependencies:
+    "@ioredis/commands": ^1.1.1
+    cluster-key-slot: ^1.1.0
+    debug: ^4.3.4
+    denque: ^2.0.1
+    lodash.defaults: ^4.2.0
+    lodash.isarguments: ^3.1.0
+    redis-errors: ^1.2.0
+    redis-parser: ^3.0.0
+    standard-as-callback: ^2.1.0
+  checksum: 51a78587a7b9c4bfaee29a35e40a537b47483a1e89e45141681c14140bee1f8cfa6831deb401b16f9fe909f911d933bf49389071b443459941e16eb70ca3de34
+  languageName: node
+  linkType: hard
+
+"ioredis@npm:^4.28.5":
   version: 4.28.5
   resolution: "ioredis@npm:4.28.5"
   dependencies:
@@ -12989,16 +12994,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nestjs-throttler-storage-redis@npm:0.1.18":
+"nestjs-throttler-storage-redis@git+https://github.com/mauriceoegerli/nestjs-throttler-storage-redis.git":
   version: 0.1.18
-  resolution: "nestjs-throttler-storage-redis@npm:0.1.18"
+  resolution: "nestjs-throttler-storage-redis@https://github.com/mauriceoegerli/nestjs-throttler-storage-redis.git#commit=31445b0e76f3bf67cd02e4fba918dcc3227c6a92"
   peerDependencies:
     "@nestjs/common": ^7 || ^8
     "@nestjs/core": ^7 || ^8
     "@nestjs/throttler": ^2.0.0
-    ioredis: ^4.27.6
+    ioredis: ^5.0.1
     reflect-metadata: ^0.1.13
-  checksum: 263d84b34eecca2adc6fcf653ad1c940eb9d70608a4ed3036a7a57c23a06aa93ded6af52aebaff6150e54b17188c06bd13c35f11e6733d7e2d4addfd83936aee
+  checksum: a04877c98dfc2cb009dfc56c1c5d667822fafdb55140ea99996e86e221634212e1912abe9cf77e1afc9c4bfe1ee4897c781bad043416fbb57dc2c3ff0a2534cd
   languageName: node
   linkType: hard
 
@@ -16303,7 +16308,6 @@ __metadata:
     "@sentry/types": 6.19.2
     "@types/archiver": 5.3.1
     "@types/bcryptjs": 2.4.2
-    "@types/bull": 3.15.8
     "@types/busboy": 1.5.0
     "@types/cookie-parser": 1.4.2
     "@types/eslint": 8.4.1
@@ -16344,14 +16348,14 @@ __metadata:
     https-proxy-agent: 5.0.0
     humanize-duration: 3.27.1
     husky: 7.0.4
-    ioredis: 4.28.5
+    ioredis: 5.0.1
     jest: 27.5.1
     joi: 17.6.0
     mini-svg-data-uri: 1.4.4
     module-alias: 2.2.2
     mongodb-memory-server: 8.4.1
     mongoose: 6.2.9
-    nestjs-throttler-storage-redis: 0.1.18
+    nestjs-throttler-storage-redis: "git+https://github.com/mauriceoegerli/nestjs-throttler-storage-redis.git"
     node-fetch: 2.6.7
     passport: 0.5.2
     passport-jwt: 4.0.0

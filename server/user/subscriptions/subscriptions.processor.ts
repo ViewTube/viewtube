@@ -33,7 +33,7 @@ export class SubscriptionsProcessor {
       (val, { subscriptions }) => [...val, ...subscriptions.map(e => e.channelId)],
       []
     );
-    const uniqueChannelIds = [...new Set(channelIds)];
+    const uniqueChannelIds = [...new Set<string>(channelIds)];
     let subscriptionResults = null;
     try {
       subscriptionResults = await runSubscriptionsJob(uniqueChannelIds, job);
