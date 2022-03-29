@@ -2809,6 +2809,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["@ioredis/commands", [
+        ["npm:1.1.1", {
+          "packageLocation": "./.yarn/cache/@ioredis-commands-npm-1.1.1-8a87e5940e-66a9dc315d.zip/node_modules/@ioredis/commands/",
+          "packageDependencies": [
+            ["@ioredis/commands", "npm:1.1.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["@istanbuljs/load-nyc-config", [
         ["npm:1.1.0", {
           "packageLocation": "./.yarn/cache/@istanbuljs-load-nyc-config-npm-1.1.0-42d17c9cb1-d578da5e2e.zip/node_modules/@istanbuljs/load-nyc-config/",
@@ -3104,7 +3113,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@nestjs/bull-shared", "virtual:06939f60dc769924971b31f70991bd3a5f592e0b2bad6c16d64b8a37bb30d65189dcfce25d99e97ef78535f8327325d9aadde03903c3794f5ac8921160ad0d1a#npm:0.0.4"],
             ["@nestjs/common", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:8.4.3"],
             ["@nestjs/core", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:8.4.3"],
-            ["@types/bull", "npm:3.15.8"],
+            ["@types/bull", null],
             ["@types/nestjs__common", null],
             ["@types/nestjs__core", null],
             ["bull", "npm:4.8.1"],
@@ -4900,17 +4909,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
-      ["@types/bull", [
-        ["npm:3.15.8", {
-          "packageLocation": "./.yarn/cache/@types-bull-npm-3.15.8-a7f4890361-9a081a67d5.zip/node_modules/@types/bull/",
-          "packageDependencies": [
-            ["@types/bull", "npm:3.15.8"],
-            ["@types/ioredis", "npm:4.28.10"],
-            ["@types/redis", "npm:2.8.32"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
       ["@types/busboy", [
         ["npm:1.5.0", {
           "packageLocation": "./.yarn/cache/@types-busboy-npm-1.5.0-0e24e7f08d-ffa7bf25c0.zip/node_modules/@types/busboy/",
@@ -5103,16 +5101,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@types-humanize-duration-npm-3.27.1-137320c84b-d3d69b6491.zip/node_modules/@types/humanize-duration/",
           "packageDependencies": [
             ["@types/humanize-duration", "npm:3.27.1"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
-      ["@types/ioredis", [
-        ["npm:4.28.10", {
-          "packageLocation": "./.yarn/cache/@types-ioredis-npm-4.28.10-4bdbe26a79-0f2788cf25.zip/node_modules/@types/ioredis/",
-          "packageDependencies": [
-            ["@types/ioredis", "npm:4.28.10"],
-            ["@types/node", "npm:17.0.21"]
           ],
           "linkType": "HARD",
         }]
@@ -14351,6 +14339,22 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["standard-as-callback", "npm:2.1.0"]
           ],
           "linkType": "HARD",
+        }],
+        ["npm:5.0.1", {
+          "packageLocation": "./.yarn/cache/ioredis-npm-5.0.1-1fe6011980-51a78587a7.zip/node_modules/ioredis/",
+          "packageDependencies": [
+            ["ioredis", "npm:5.0.1"],
+            ["@ioredis/commands", "npm:1.1.1"],
+            ["cluster-key-slot", "npm:1.1.0"],
+            ["debug", "virtual:62738e6f4a1bb4f8ff35ae41a77cb589aeffb1a2b896f237bc331b5509d0b413c328994ab1431dc8c128ffa7d6ca83d167ebf621c5c6b08297150420be31ce8e#npm:4.3.4"],
+            ["denque", "npm:2.0.1"],
+            ["lodash.defaults", "npm:4.2.0"],
+            ["lodash.isarguments", "npm:3.1.0"],
+            ["redis-errors", "npm:1.2.0"],
+            ["redis-parser", "npm:3.0.0"],
+            ["standard-as-callback", "npm:2.1.0"]
+          ],
+          "linkType": "HARD",
         }]
       ]],
       ["ip", [
@@ -17240,17 +17244,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["nestjs-throttler-storage-redis", [
-        ["npm:0.1.18", {
-          "packageLocation": "./.yarn/cache/nestjs-throttler-storage-redis-npm-0.1.18-9bb61e3eb1-263d84b34e.zip/node_modules/nestjs-throttler-storage-redis/",
+        ["https://github.com/mauriceoegerli/nestjs-throttler-storage-redis.git#commit=31445b0e76f3bf67cd02e4fba918dcc3227c6a92", {
+          "packageLocation": "./.yarn/cache/nestjs-throttler-storage-redis-https-cfb185ee9d-a04877c98d.zip/node_modules/nestjs-throttler-storage-redis/",
           "packageDependencies": [
-            ["nestjs-throttler-storage-redis", "npm:0.1.18"]
+            ["nestjs-throttler-storage-redis", "https://github.com/mauriceoegerli/nestjs-throttler-storage-redis.git#commit=31445b0e76f3bf67cd02e4fba918dcc3227c6a92"]
           ],
           "linkType": "SOFT",
         }],
-        ["virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:0.1.18", {
-          "packageLocation": "./.yarn/__virtual__/nestjs-throttler-storage-redis-virtual-38adbeae01/0/cache/nestjs-throttler-storage-redis-npm-0.1.18-9bb61e3eb1-263d84b34e.zip/node_modules/nestjs-throttler-storage-redis/",
+        ["virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#https://github.com/mauriceoegerli/nestjs-throttler-storage-redis.git#commit=31445b0e76f3bf67cd02e4fba918dcc3227c6a92", {
+          "packageLocation": "./.yarn/__virtual__/nestjs-throttler-storage-redis-virtual-2014aefc7b/0/cache/nestjs-throttler-storage-redis-https-cfb185ee9d-a04877c98d.zip/node_modules/nestjs-throttler-storage-redis/",
           "packageDependencies": [
-            ["nestjs-throttler-storage-redis", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:0.1.18"],
+            ["nestjs-throttler-storage-redis", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#https://github.com/mauriceoegerli/nestjs-throttler-storage-redis.git#commit=31445b0e76f3bf67cd02e4fba918dcc3227c6a92"],
             ["@nestjs/common", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:8.4.3"],
             ["@nestjs/core", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:8.4.3"],
             ["@nestjs/throttler", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:2.0.1"],
@@ -17259,7 +17263,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/nestjs__core", null],
             ["@types/nestjs__throttler", null],
             ["@types/reflect-metadata", null],
-            ["ioredis", "npm:4.28.5"],
+            ["ioredis", "npm:5.0.1"],
             ["reflect-metadata", "npm:0.1.13"]
           ],
           "packagePeers": [
@@ -20989,7 +20993,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@sentry/types", "npm:6.19.2"],
             ["@types/archiver", "npm:5.3.1"],
             ["@types/bcryptjs", "npm:2.4.2"],
-            ["@types/bull", "npm:3.15.8"],
             ["@types/busboy", "npm:1.5.0"],
             ["@types/cookie-parser", "npm:1.4.2"],
             ["@types/eslint", "npm:8.4.1"],
@@ -21030,14 +21033,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["https-proxy-agent", "npm:5.0.0"],
             ["humanize-duration", "npm:3.27.1"],
             ["husky", "npm:7.0.4"],
-            ["ioredis", "npm:4.28.5"],
+            ["ioredis", "npm:5.0.1"],
             ["jest", "virtual:c139d237b0dbb776e61db419e9c89c8b814c75fa7a88b9f24aafc5ab8ac92bbf91dff4585597824d969ce997b2ccd24ccbc8eb827b2908e4b381ccc31b31d3eb#npm:27.5.1"],
             ["joi", "npm:17.6.0"],
             ["mini-svg-data-uri", "npm:1.4.4"],
             ["module-alias", "npm:2.2.2"],
             ["mongodb-memory-server", "npm:8.4.1"],
             ["mongoose", "npm:6.2.9"],
-            ["nestjs-throttler-storage-redis", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:0.1.18"],
+            ["nestjs-throttler-storage-redis", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#https://github.com/mauriceoegerli/nestjs-throttler-storage-redis.git#commit=31445b0e76f3bf67cd02e4fba918dcc3227c6a92"],
             ["node-fetch", "virtual:b703fe309445e73be0544c0731c064bd8abfb48eba238ef60c1180739300244272080b53495cbb64a2ec07139667d15d2f5ce81fb8e0f1ce36343b35ebd9836e#npm:2.6.7"],
             ["passport", "npm:0.5.2"],
             ["passport-jwt", "npm:4.0.0"],
