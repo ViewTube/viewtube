@@ -2771,84 +2771,84 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sentry/core@npm:6.19.2":
-  version: 6.19.2
-  resolution: "@sentry/core@npm:6.19.2"
+"@sentry/core@npm:6.19.3":
+  version: 6.19.3
+  resolution: "@sentry/core@npm:6.19.3"
   dependencies:
-    "@sentry/hub": 6.19.2
-    "@sentry/minimal": 6.19.2
-    "@sentry/types": 6.19.2
-    "@sentry/utils": 6.19.2
+    "@sentry/hub": 6.19.3
+    "@sentry/minimal": 6.19.3
+    "@sentry/types": 6.19.3
+    "@sentry/utils": 6.19.3
     tslib: ^1.9.3
-  checksum: 0b683287973d14b98a6a7b09bb8a30e1fbad5cbd144b34bb999fe9b9ffb15bfbfe3fc7eccdb8b308ab707c9a243b561feb3ccea196b10e01e27bc85385b87b13
+  checksum: a4fd7a9724387ed760867e2779b457398c12122530b2d946e3cde3e88d92dd93045aa638ff07771b922536766322b5a824ff123dc594cc4cb17b2f29e8d05631
   languageName: node
   linkType: hard
 
-"@sentry/hub@npm:6.19.2":
-  version: 6.19.2
-  resolution: "@sentry/hub@npm:6.19.2"
+"@sentry/hub@npm:6.19.3":
+  version: 6.19.3
+  resolution: "@sentry/hub@npm:6.19.3"
   dependencies:
-    "@sentry/types": 6.19.2
-    "@sentry/utils": 6.19.2
+    "@sentry/types": 6.19.3
+    "@sentry/utils": 6.19.3
     tslib: ^1.9.3
-  checksum: 22ff7103d0313395e47cb667ee7dc0efec239329c4bd513c6cc1dce2a03ccbd6f821d40b2dd3b944300aa857bf8c4e4e6591d40f0f5ddee983d717e28ea1419f
+  checksum: c11435dabe6d53e741539dfb88267de152bfb37170425ee91354b17cf1fd1f23a57d87e5a7468c6c9e5e7bc3a7a63f0e5023ea35421fb562910f0efc7248ff84
   languageName: node
   linkType: hard
 
-"@sentry/minimal@npm:6.19.2":
-  version: 6.19.2
-  resolution: "@sentry/minimal@npm:6.19.2"
+"@sentry/minimal@npm:6.19.3":
+  version: 6.19.3
+  resolution: "@sentry/minimal@npm:6.19.3"
   dependencies:
-    "@sentry/hub": 6.19.2
-    "@sentry/types": 6.19.2
+    "@sentry/hub": 6.19.3
+    "@sentry/types": 6.19.3
     tslib: ^1.9.3
-  checksum: a81344497cf86a7f94a79571a05da3915d9c2a05e15c7ea5fc3dddfec19390b49b18fcfcf71530cec0b18ce5b76bf2c1600346ec5545244d8b2a2c56a7d15c86
+  checksum: 6cde9b7a3fe3e6121e237681340d137a5725554ba01558d8b44e32e3f4604e833fb7c835ab5c26fe19b7bce318a57efe8eb2b44454e763a947d9ee6abf21926b
   languageName: node
   linkType: hard
 
-"@sentry/node@npm:6.19.2":
-  version: 6.19.2
-  resolution: "@sentry/node@npm:6.19.2"
+"@sentry/node@npm:6.19.3":
+  version: 6.19.3
+  resolution: "@sentry/node@npm:6.19.3"
   dependencies:
-    "@sentry/core": 6.19.2
-    "@sentry/hub": 6.19.2
-    "@sentry/types": 6.19.2
-    "@sentry/utils": 6.19.2
+    "@sentry/core": 6.19.3
+    "@sentry/hub": 6.19.3
+    "@sentry/types": 6.19.3
+    "@sentry/utils": 6.19.3
     cookie: ^0.4.1
     https-proxy-agent: ^5.0.0
     lru_map: ^0.3.3
     tslib: ^1.9.3
-  checksum: 6c38c8cea0611c9c2dd267c5d43f806c7c06bbfa4506930b0027277dfae71b7b754f18b1141d75d102e366369068941e6f9c2f889cca0c571e0304b559c7aa80
+  checksum: 06307c1a6543b2121382fa308f7dbfecffb99d62e5aff44fb28bd8767c33f68dbf5b9375098bb28f2f92d2a0ad2eb6222565c16465d1411ce87f48315ba9c0c3
   languageName: node
   linkType: hard
 
-"@sentry/tracing@npm:6.19.2":
-  version: 6.19.2
-  resolution: "@sentry/tracing@npm:6.19.2"
+"@sentry/tracing@npm:6.19.3":
+  version: 6.19.3
+  resolution: "@sentry/tracing@npm:6.19.3"
   dependencies:
-    "@sentry/hub": 6.19.2
-    "@sentry/minimal": 6.19.2
-    "@sentry/types": 6.19.2
-    "@sentry/utils": 6.19.2
+    "@sentry/hub": 6.19.3
+    "@sentry/minimal": 6.19.3
+    "@sentry/types": 6.19.3
+    "@sentry/utils": 6.19.3
     tslib: ^1.9.3
-  checksum: 07bdc2658118d5ad8b0c921d6b15362731cac6383f82396784ba8fdecfabc9a9712456d5c5c90a24dc57fa6ecb8cb366cc5dc426482f2a2a243ee04c1c61c2ba
+  checksum: 3fdd4b2c441fb5c9509bfb5a9b6e257e92db97ad8629b955466217d5c34f727e97b03f477eadb4b52fdd17b774cf0a19823f3ef3ec43ff6b008a4c363394a5f2
   languageName: node
   linkType: hard
 
-"@sentry/types@npm:6.19.2":
-  version: 6.19.2
-  resolution: "@sentry/types@npm:6.19.2"
-  checksum: 4a22891c1549ad345abbe873b093898e4b9310ec0a53a0aa68055dc21e52bd2d4014e7b5c9da4106bccded29ae1a3f0ac04ba119eaf3371fe469de4f87e56e39
+"@sentry/types@npm:6.19.3":
+  version: 6.19.3
+  resolution: "@sentry/types@npm:6.19.3"
+  checksum: 8a2705eed16fb7fa660c36417a41ca4106829821024be534f74b40a00b6c96b27a84343b101c7478e0b4458f71c280d4fa508d10928a3eccdb30baff49f5827e
   languageName: node
   linkType: hard
 
-"@sentry/utils@npm:6.19.2":
-  version: 6.19.2
-  resolution: "@sentry/utils@npm:6.19.2"
+"@sentry/utils@npm:6.19.3":
+  version: 6.19.3
+  resolution: "@sentry/utils@npm:6.19.3"
   dependencies:
-    "@sentry/types": 6.19.2
+    "@sentry/types": 6.19.3
     tslib: ^1.9.3
-  checksum: 9e1c95bb50e874f4d2e1b650dd1d8e3a19ba25789158756e7d296da41ddf44619adcfe027b7af0e7354bdf60953bffa157a69765c15c63345f0a2841646b5205
+  checksum: 6c0dd60a24554e9dbe11d5acd18d808f5a0f4c648c45b74818fbf009c9404c6e0d943cfbe62dea6a94c70fec9e1a0aedbd5579b8981f85fcfe0103527c9c5c5a
   languageName: node
   linkType: hard
 
@@ -6220,7 +6220,7 @@ __metadata:
     portal-vue: 2.1.7
     prettier: 2.6.1
     qrcode: 1.5.0
-    sass: 1.49.9
+    sass: 1.49.10
     sass-loader: 10.2.1
     tippy.js: 6.3.7
     typed-vuex: 0.3.0
@@ -10352,9 +10352,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ioredis@npm:5.0.1":
-  version: 5.0.1
-  resolution: "ioredis@npm:5.0.1"
+"ioredis@npm:5.0.2":
+  version: 5.0.2
+  resolution: "ioredis@npm:5.0.2"
   dependencies:
     "@ioredis/commands": ^1.1.1
     cluster-key-slot: ^1.1.0
@@ -10365,7 +10365,7 @@ __metadata:
     redis-errors: ^1.2.0
     redis-parser: ^3.0.0
     standard-as-callback: ^2.1.0
-  checksum: 51a78587a7b9c4bfaee29a35e40a537b47483a1e89e45141681c14140bee1f8cfa6831deb401b16f9fe909f911d933bf49389071b443459941e16eb70ca3de34
+  checksum: 13391e938cd1ef521b2924689e11f768ea0f720174a358a03bf3514e70aff46e1b0ec009b4afbc246f915e3f2c44e25860964b268a8eec5ab40d03e4d84d34df
   languageName: node
   linkType: hard
 
@@ -12744,9 +12744,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mongodb-memory-server-core@npm:8.4.1":
-  version: 8.4.1
-  resolution: "mongodb-memory-server-core@npm:8.4.1"
+"mongodb-memory-server-core@npm:8.4.2":
+  version: 8.4.2
+  resolution: "mongodb-memory-server-core@npm:8.4.2"
   dependencies:
     "@types/tmp": ^0.2.3
     async-mutex: ^0.3.2
@@ -12764,17 +12764,17 @@ __metadata:
     tslib: ^2.3.1
     uuid: ^8.3.1
     yauzl: ^2.10.0
-  checksum: 6507fffa5e814f7b3636d7c85538d0427ba82a93473d8c512eaf3089212fb238d944778e44311eda1888bdb43cc0621034f42e373361d0e9b4d9d2607c052eff
+  checksum: e1e61f55c5ea10b41c01eff9956e2f6b527141673e8c70a6c3208770bb3aeedcee0c31f533b5d7b83fb181b80e593ae4751beac5c03b2de2b74f0b057daa2c59
   languageName: node
   linkType: hard
 
-"mongodb-memory-server@npm:8.4.1":
-  version: 8.4.1
-  resolution: "mongodb-memory-server@npm:8.4.1"
+"mongodb-memory-server@npm:8.4.2":
+  version: 8.4.2
+  resolution: "mongodb-memory-server@npm:8.4.2"
   dependencies:
-    mongodb-memory-server-core: 8.4.1
+    mongodb-memory-server-core: 8.4.2
     tslib: ^2.3.1
-  checksum: 0639dc5b91f12efcc5cba1ee611dff7c25d559709d305ee49436876baf40f227c31defbbc4be2056f4f07c757ac055ec591861ca0a5ea121d4206d9941065a1e
+  checksum: aea44c44a4f22c3513ea13626a63190325b4bbedd81cac2e5e0c919d16998d613ee782787c768d267b82863226e1891a27dc01bc13bc8a5f5259f79321fcacbf
   languageName: node
   linkType: hard
 
@@ -16045,16 +16045,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sass@npm:1.49.9":
-  version: 1.49.9
-  resolution: "sass@npm:1.49.9"
+"sass@npm:1.49.10":
+  version: 1.49.10
+  resolution: "sass@npm:1.49.10"
   dependencies:
     chokidar: ">=3.0.0 <4.0.0"
     immutable: ^4.0.0
     source-map-js: ">=0.6.2 <2.0.0"
   bin:
     sass: sass.js
-  checksum: e5653e3499274c5127dcb5c9e7c5f6930378fc61764d999a5d8965782e027181ed09714f94836dec74ef55e3a858107fe6c571954c0cab0ad0be5ab8e586829c
+  checksum: 7b767ece77df47382ac80ff279f5c1cff24dec6684ccaf3f9657f52a793e7ba7b85e4d30a45fb6c70f9fc46da507559fe83e771dcb804341d03af908ad6404c9
   languageName: node
   linkType: hard
 
@@ -16303,9 +16303,9 @@ __metadata:
     "@nuxt/core": 2.15.8
     "@nuxt/types": 2.15.8
     "@nuxt/vue-app": 2.15.8
-    "@sentry/node": 6.19.2
-    "@sentry/tracing": 6.19.2
-    "@sentry/types": 6.19.2
+    "@sentry/node": 6.19.3
+    "@sentry/tracing": 6.19.3
+    "@sentry/types": 6.19.3
     "@types/archiver": 5.3.1
     "@types/bcryptjs": 2.4.2
     "@types/busboy": 1.5.0
@@ -16348,12 +16348,12 @@ __metadata:
     https-proxy-agent: 5.0.0
     humanize-duration: 3.27.1
     husky: 7.0.4
-    ioredis: 5.0.1
+    ioredis: 5.0.2
     jest: 27.5.1
     joi: 17.6.0
     mini-svg-data-uri: 1.4.4
     module-alias: 2.2.2
-    mongodb-memory-server: 8.4.1
+    mongodb-memory-server: 8.4.2
     mongoose: 6.2.9
     nestjs-throttler-storage-redis: "git+https://github.com/mauriceoegerli/nestjs-throttler-storage-redis.git"
     node-fetch: 2.6.7
