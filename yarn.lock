@@ -2115,15 +2115,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@node-redis/client@npm:1.0.4":
-  version: 1.0.4
-  resolution: "@node-redis/client@npm:1.0.4"
+"@node-redis/client@npm:1.0.5":
+  version: 1.0.5
+  resolution: "@node-redis/client@npm:1.0.5"
   dependencies:
     cluster-key-slot: 1.1.0
     generic-pool: 3.8.2
     redis-parser: 3.0.0
     yallist: 4.0.0
-  checksum: 80c2665e86b24c704c502b673884551ad7e5f4a94d2337d1b2c24a3194841be12b4c493ae3d447eb4a0bc3fc7ec1449a591c7b792f053b185338b2000b20a84d
+  checksum: cea9c4e339605afe805b5fb762b35d614dffbc40d8290f7050ae4994604c9f74b57d71433f50d3aa090d04b1f5c593ff52170b5cbc13a00ae3222b4282f47b2a
   languageName: node
   linkType: hard
 
@@ -2145,12 +2145,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@node-redis/search@npm:1.0.3":
-  version: 1.0.3
-  resolution: "@node-redis/search@npm:1.0.3"
+"@node-redis/search@npm:1.0.5":
+  version: 1.0.5
+  resolution: "@node-redis/search@npm:1.0.5"
   peerDependencies:
     "@node-redis/client": ^1.0.0
-  checksum: 5ad7ff7849728aec4bda2af51a3f5fc263420c812b4af4f2ac6e47cbe18f245e4c440de7aacf18db40bd209e088f448f2801ccfb3b0e3475b77c9aea507686a0
+  checksum: 3ef636d2386c79df3567bd5d2540932f544da7e097c2c6c0953410a0d11f9f214e4d98e4f3a61aa66690b1c77de5501f754adcb0ae2c9ba03cf07d649fc57ac8
   languageName: node
   linkType: hard
 
@@ -6225,7 +6225,7 @@ __metadata:
     tippy.js: 6.3.7
     typed-vuex: 0.3.0
     typescript: 4.5.5
-    unplugin-vue2-script-setup: 0.10.1
+    unplugin-vue2-script-setup: 0.10.2
     vue: 2.6.14
     vue-material-design-icons: 5.0.0
     vue-template-compiler: 2.6.14
@@ -10352,9 +10352,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ioredis@npm:5.0.2":
-  version: 5.0.2
-  resolution: "ioredis@npm:5.0.2"
+"ioredis@npm:5.0.3":
+  version: 5.0.3
+  resolution: "ioredis@npm:5.0.3"
   dependencies:
     "@ioredis/commands": ^1.1.1
     cluster-key-slot: ^1.1.0
@@ -10365,7 +10365,7 @@ __metadata:
     redis-errors: ^1.2.0
     redis-parser: ^3.0.0
     standard-as-callback: ^2.1.0
-  checksum: 13391e938cd1ef521b2924689e11f768ea0f720174a358a03bf3514e70aff46e1b0ec009b4afbc246f915e3f2c44e25860964b268a8eec5ab40d03e4d84d34df
+  checksum: 3d38075c8f48f682997be0336b8e19ed55e2f03238060a0a178f41d05bd505d57cbbf4f7cbf7e9965b390d91c134bdd4fec2624f4d0f443c947951e0c6ec12e9
   languageName: node
   linkType: hard
 
@@ -15516,17 +15516,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"redis@npm:4.0.4":
-  version: 4.0.4
-  resolution: "redis@npm:4.0.4"
+"redis@npm:4.0.6":
+  version: 4.0.6
+  resolution: "redis@npm:4.0.6"
   dependencies:
     "@node-redis/bloom": 1.0.1
-    "@node-redis/client": 1.0.4
+    "@node-redis/client": 1.0.5
     "@node-redis/graph": 1.0.0
     "@node-redis/json": 1.0.2
-    "@node-redis/search": 1.0.3
+    "@node-redis/search": 1.0.5
     "@node-redis/time-series": 1.0.2
-  checksum: bed4ded396646d128843a97ff01202d802729c83234ba755701ef693e526e2d858b30c566e8830c7c70793ffbf3f91f6e316bfe61ddff3d1c11120ba292ce98a
+  checksum: 1b15d5703a1298e75125b2818ca5fc923f66f6e0d6463932a98890d6455db88f1bddb492172f5707f8273a124a5e9b807f4cd692e1c8edd6e3a63826401c2220
   languageName: node
   linkType: hard
 
@@ -16348,7 +16348,7 @@ __metadata:
     https-proxy-agent: 5.0.0
     humanize-duration: 3.27.1
     husky: 7.0.4
-    ioredis: 5.0.2
+    ioredis: 5.0.3
     jest: 27.5.1
     joi: 17.6.0
     mini-svg-data-uri: 1.4.4
@@ -16360,7 +16360,7 @@ __metadata:
     passport: 0.5.2
     passport-jwt: 4.0.0
     passport-local: 1.0.0
-    redis: 4.0.4
+    redis: 4.0.6
     redis-mock: 0.56.3
     reflect-metadata: 0.1.13
     run-script-webpack-plugin: 0.0.11
@@ -18132,9 +18132,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"unplugin-vue2-script-setup@npm:0.10.1":
-  version: 0.10.1
-  resolution: "unplugin-vue2-script-setup@npm:0.10.1"
+"unplugin-vue2-script-setup@npm:0.10.2":
+  version: 0.10.2
+  resolution: "unplugin-vue2-script-setup@npm:0.10.2"
   dependencies:
     "@antfu/utils": ^0.5.0
     "@babel/core": ^7.17.5
@@ -18157,7 +18157,7 @@ __metadata:
   peerDependenciesMeta:
     pug:
       optional: true
-  checksum: 4838f48e7259202ab71415b4bc80d1b2debca09ba7a798682446e4109ff231e19c47ce9cd49ccd9d43761aef2397991be305f30b056a82ba7a08d3bc52277d36
+  checksum: 934bcaf8a43d4cd0063a052171f68534d06a4b314af125efeda278660a79326510cb84c3957353a2a9b7ad51afa632b611224650c0642e3cb8ec41e46a45c05b
   languageName: node
   linkType: hard
 
