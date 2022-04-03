@@ -55,7 +55,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint", "npm:8.12.0"],
             ["eslint-import-resolver-node", "npm:0.3.6"],
             ["jest", "virtual:c139d237b0dbb776e61db419e9c89c8b814c75fa7a88b9f24aafc5ab8ac92bbf91dff4585597824d969ce997b2ccd24ccbc8eb827b2908e4b381ccc31b31d3eb#npm:27.5.1"],
-            ["prettier", "npm:2.6.1"],
+            ["prettier", "npm:2.6.2"],
             ["typescript", "patch:typescript@npm%3A4.5.5#~builtin<compat/typescript>::version=4.5.5&hash=493e53"],
             ["vls", "npm:0.7.6"],
             ["vue", "npm:2.6.14"]
@@ -9097,9 +9097,9 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["nuxt-typed-vuex", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:0.3.0"],
             ["papaparse", "npm:5.3.2"],
             ["portal-vue", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:2.1.7"],
-            ["prettier", "npm:2.6.1"],
+            ["prettier", "npm:2.6.2"],
             ["qrcode", "npm:1.5.0"],
-            ["sass", "npm:1.49.10"],
+            ["sass", "npm:1.49.11"],
             ["sass-loader", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:10.2.1"],
             ["tippy.js", "npm:6.3.7"],
             ["typed-vuex", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:0.3.0"],
@@ -19521,10 +19521,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "HARD",
         }],
-        ["npm:2.6.1", {
-          "packageLocation": "./.yarn/cache/prettier-npm-2.6.1-94a3731152-78be1f8a3d.zip/node_modules/prettier/",
+        ["npm:2.6.2", {
+          "packageLocation": "./.yarn/cache/prettier-npm-2.6.2-05918420da-48d08dde8e.zip/node_modules/prettier/",
           "packageDependencies": [
-            ["prettier", "npm:2.6.1"]
+            ["prettier", "npm:2.6.2"]
           ],
           "linkType": "HARD",
         }]
@@ -20649,10 +20649,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["sass", [
-        ["npm:1.49.10", {
-          "packageLocation": "./.yarn/cache/sass-npm-1.49.10-72e8541da0-7b767ece77.zip/node_modules/sass/",
+        ["npm:1.49.11", {
+          "packageLocation": "./.yarn/cache/sass-npm-1.49.11-865750ab0d-f81cabfc43.zip/node_modules/sass/",
           "packageDependencies": [
-            ["sass", "npm:1.49.10"],
+            ["sass", "npm:1.49.11"],
             ["chokidar", "npm:3.5.3"],
             ["immutable", "npm:4.0.0"],
             ["source-map-js", "npm:1.0.2"]
@@ -20718,7 +20718,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["loader-utils", "npm:2.0.2"],
             ["neo-async", "npm:2.6.2"],
             ["node-sass", null],
-            ["sass", "npm:1.49.10"],
+            ["sass", "npm:1.49.11"],
             ["schema-utils", "npm:3.1.1"],
             ["semver", "npm:7.3.5"],
             ["webpack", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:5.70.0"]
@@ -23576,7 +23576,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint", "npm:8.12.0"],
             ["eslint-import-resolver-node", "npm:0.3.6"],
             ["jest", "virtual:c139d237b0dbb776e61db419e9c89c8b814c75fa7a88b9f24aafc5ab8ac92bbf91dff4585597824d969ce997b2ccd24ccbc8eb827b2908e4b381ccc31b31d3eb#npm:27.5.1"],
-            ["prettier", "npm:2.6.1"],
+            ["prettier", "npm:2.6.2"],
             ["typescript", "patch:typescript@npm%3A4.5.5#~builtin<compat/typescript>::version=4.5.5&hash=493e53"],
             ["vls", "npm:0.7.6"],
             ["vue", "npm:2.6.14"]
