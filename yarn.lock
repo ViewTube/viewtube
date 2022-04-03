@@ -6218,9 +6218,9 @@ __metadata:
     nuxt-typed-vuex: 0.3.0
     papaparse: 5.3.2
     portal-vue: 2.1.7
-    prettier: 2.6.1
+    prettier: 2.6.2
     qrcode: 1.5.0
-    sass: 1.49.10
+    sass: 1.49.11
     sass-loader: 10.2.1
     tippy.js: 6.3.7
     typed-vuex: 0.3.0
@@ -14995,12 +14995,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier@npm:2.6.1":
-  version: 2.6.1
-  resolution: "prettier@npm:2.6.1"
+"prettier@npm:2.6.2":
+  version: 2.6.2
+  resolution: "prettier@npm:2.6.2"
   bin:
     prettier: bin-prettier.js
-  checksum: 78be1f8a3ddfad7c3d8a854b6c8941a3bb1ddfca4225c38d778e0fe1029a55368f71b3bbefff82c689015fbb4d391ec44add957f01308ad2725e01a7c1f37cb6
+  checksum: 48d08dde8e9fb1f5bccdd205baa7f192e9fc8bc98f86e1b97d919de804e28c806b0e6cc685e4a88211aa7987fa9668f30baae19580d87ced3ed0f2ec6572106f
   languageName: node
   linkType: hard
 
@@ -16045,16 +16045,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sass@npm:1.49.10":
-  version: 1.49.10
-  resolution: "sass@npm:1.49.10"
+"sass@npm:1.49.11":
+  version: 1.49.11
+  resolution: "sass@npm:1.49.11"
   dependencies:
     chokidar: ">=3.0.0 <4.0.0"
     immutable: ^4.0.0
     source-map-js: ">=0.6.2 <2.0.0"
   bin:
     sass: sass.js
-  checksum: 7b767ece77df47382ac80ff279f5c1cff24dec6684ccaf3f9657f52a793e7ba7b85e4d30a45fb6c70f9fc46da507559fe83e771dcb804341d03af908ad6404c9
+  checksum: f81cabfc43d6baf710979d647e24019f7cfb68242f8421d20dfc8c864cf83512b0b74a89098331696f758756829cb736f7b8aca70a11cff365928393ae351bcc
   languageName: node
   linkType: hard
 
@@ -18438,7 +18438,7 @@ __metadata:
     eslint: 8.12.0
     eslint-import-resolver-node: 0.3.6
     jest: 27.5.1
-    prettier: 2.6.1
+    prettier: 2.6.2
     typescript: 4.5.5
     vls: 0.7.6
     vue: 2.6.14
