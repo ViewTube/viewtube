@@ -12450,6 +12450,28 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["tiny-lru", "npm:8.0.2"]
           ],
           "linkType": "HARD",
+        }],
+        ["npm:3.28.0", {
+          "packageLocation": "./.yarn/cache/fastify-npm-3.28.0-0952878d6f-a91bd13384.zip/node_modules/fastify/",
+          "packageDependencies": [
+            ["fastify", "npm:3.28.0"],
+            ["@fastify/ajv-compiler", "npm:1.1.0"],
+            ["abstract-logging", "npm:2.0.1"],
+            ["avvio", "npm:7.2.5"],
+            ["fast-json-stringify", "npm:2.7.13"],
+            ["fastify-error", "npm:0.3.1"],
+            ["find-my-way", "npm:4.5.1"],
+            ["flatstr", "npm:1.0.12"],
+            ["light-my-request", "npm:4.8.0"],
+            ["pino", "npm:6.14.0"],
+            ["process-warning", "npm:1.0.0"],
+            ["proxy-addr", "npm:2.0.7"],
+            ["rfdc", "npm:1.3.0"],
+            ["secure-json-parse", "npm:2.4.0"],
+            ["semver", "npm:7.3.5"],
+            ["tiny-lru", "npm:8.0.2"]
+          ],
+          "linkType": "HARD",
         }]
       ]],
       ["fastify-cookie", [
@@ -12466,7 +12488,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["fastify-cookie", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:5.6.0"],
             ["@types/fastify", null],
             ["cookie-signature", "npm:1.2.0"],
-            ["fastify", "npm:3.27.4"],
+            ["fastify", "npm:3.28.0"],
             ["fastify-plugin", "npm:3.0.1"]
           ],
           "packagePeers": [
@@ -12519,7 +12541,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["fastify-helmet", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:7.0.1"],
             ["@types/fastify", null],
-            ["fastify", "npm:3.27.4"],
+            ["fastify", "npm:3.28.0"],
             ["fastify-plugin", "npm:3.0.1"],
             ["helmet", "npm:5.0.2"]
           ],
@@ -12546,7 +12568,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/fastify", null],
             ["deepmerge", "npm:4.2.2"],
             ["end-of-stream", "npm:1.4.4"],
-            ["fastify", "npm:3.27.4"],
+            ["fastify", "npm:3.28.0"],
             ["fastify-error", "npm:0.3.1"],
             ["fastify-plugin", "npm:3.0.1"],
             ["hexoid", "npm:1.0.0"],
@@ -21025,7 +21047,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint", "npm:8.12.0"],
             ["eslint-config-prettier", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:8.5.0"],
             ["eslint-plugin-jest", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:26.1.3"],
-            ["fastify", "npm:3.27.4"],
+            ["fastify", "npm:3.28.0"],
             ["fastify-cookie", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:5.6.0"],
             ["fastify-helmet", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:7.0.1"],
             ["fastify-multipart", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:5.3.1"],
