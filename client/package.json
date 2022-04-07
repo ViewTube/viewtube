@@ -12,7 +12,7 @@
   "dependencies": {
     "@nuxtjs/axios": "5.13.6",
     "portal-vue": "2.1.7",
-    "sass": "1.49.11"
+    "sass": "1.50.0"
   },
   "devDependencies": {
     "@nuxt/types": "2.15.8",
