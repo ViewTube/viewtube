@@ -6129,7 +6129,7 @@ __metadata:
     consola: 2.15.3
     cross-env: 7.0.3
     dashjs: 4.3.0
-    eslint: 8.12.0
+    eslint: 8.13.0
     eslint-config-prettier: 8.5.0
     eslint-import-resolver-node: 0.3.6
     eslint-plugin-import: 2.26.0
@@ -8214,9 +8214,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:8.12.0":
-  version: 8.12.0
-  resolution: "eslint@npm:8.12.0"
+"eslint@npm:8.13.0":
+  version: 8.13.0
+  resolution: "eslint@npm:8.13.0"
   dependencies:
     "@eslint/eslintrc": ^1.2.1
     "@humanwhocodes/config-array": ^0.9.2
@@ -8255,7 +8255,7 @@ __metadata:
     v8-compile-cache: ^2.0.3
   bin:
     eslint: bin/eslint.js
-  checksum: 111bf9046b7a463049788dd00d7f4cd91e024029982352dff4811ce5dfa8cb1136aa127cd8a7a91508234d3e1b4fb6f638a1f5ef9ea08b1af93a18703a4a8dc1
+  checksum: bc7d2fc9a046d42cb2c8987573ecaf534c1fae14747c4695e32388e179c5f21b83eefdb3e4f35924bf76152e226d7cc9dfb21f12348baf12c803109005b17439
   languageName: node
   linkType: hard
 
@@ -16327,7 +16327,7 @@ __metadata:
     consola: 2.15.3
     cookie-parser: 1.4.6
     cross-env: 7.0.3
-    eslint: 8.12.0
+    eslint: 8.13.0
     eslint-config-prettier: 8.5.0
     eslint-plugin-jest: 26.1.4
     fastify: 3.28.0
@@ -18461,7 +18461,7 @@ __metadata:
   dependencies:
     "@types/eslint": 8.4.1
     cross-env: 7.0.3
-    eslint: 8.12.0
+    eslint: 8.13.0
     eslint-import-resolver-node: 0.3.6
     jest: 27.5.1
     prettier: 2.6.2
