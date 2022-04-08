@@ -4991,14 +4991,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"async@npm:3.2.0":
-  version: 3.2.0
-  resolution: "async@npm:3.2.0"
-  checksum: 6739fae769e6c9f76b272558f118ef041d45c979c573a8fe93f8cfbc32eb9c92da032e9effe6bbcc9b1131292cde6c4a9e61a442894aa06a262addd8dd3adda1
-  languageName: node
-  linkType: hard
-
-"async@npm:^3.2.0":
+"async@npm:3.2.3, async@npm:^3.2.0":
   version: 3.2.3
   resolution: "async@npm:3.2.3"
   checksum: c4bee57ab2249af3dc83ca3ef9acfa8e822c0d5e5aa41bae3eaf7f673648343cd64ecd7d26091ffd357f3f044428b17b5f00098494b6cf8b6b3e9681f0636ca1
@@ -5734,14 +5727,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cache-manager@npm:3.6.0":
-  version: 3.6.0
-  resolution: "cache-manager@npm:3.6.0"
+"cache-manager@npm:3.6.1":
+  version: 3.6.1
+  resolution: "cache-manager@npm:3.6.1"
   dependencies:
-    async: 3.2.0
+    async: 3.2.3
     lodash: ^4.17.21
     lru-cache: 6.0.0
-  checksum: c768d2b2927fb245b44a1dbf90d0815ad5318bfa1e4fc733e84a1538189227a4218dade7bfcad0a800e0b0c29e0338d79901cbe506e2e59f729155d73b7a3c51
+  checksum: 638f5b13bd67c9017d8c9189b285b9b5a0ce8cca7ebcc885573ab28f2167cb85471c132033b9c17f1e1c3ca24f4eecb5717e510fcc6aee5a6b436734caaeab43
   languageName: node
   linkType: hard
 
@@ -6140,7 +6133,7 @@ __metadata:
     eslint-config-prettier: 8.5.0
     eslint-import-resolver-node: 0.3.6
     eslint-plugin-import: 2.26.0
-    eslint-plugin-jest: 26.1.3
+    eslint-plugin-jest: 26.1.4
     eslint-plugin-node: 11.1.0
     eslint-plugin-nuxt: 3.2.0
     eslint-plugin-promise: 6.0.0
@@ -7974,9 +7967,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-jest@npm:26.1.3":
-  version: 26.1.3
-  resolution: "eslint-plugin-jest@npm:26.1.3"
+"eslint-plugin-jest@npm:26.1.4":
+  version: 26.1.4
+  resolution: "eslint-plugin-jest@npm:26.1.4"
   dependencies:
     "@typescript-eslint/utils": ^5.10.0
   peerDependencies:
@@ -7987,7 +7980,7 @@ __metadata:
       optional: true
     jest:
       optional: true
-  checksum: f340d25bf1b0a0cc5df43d2d7b0e547eef430994c5bc1514be62a26e3fe0263d795110d9a399bc176e18c18167872f3717f83bca67d273e092fd43498e6ab80e
+  checksum: f9989a853a165ad1afc077d7d75582391d511e8e14145bb67c76b0ad70a0966358311659da0e82162832bd23a327c2bd1d15dd5d3917f69bb8c14d256e8e1d77
   languageName: node
   linkType: hard
 
@@ -16326,7 +16319,7 @@ __metadata:
     archiver: 5.3.0
     bcryptjs: 2.4.3
     bull: 4.8.1
-    cache-manager: 3.6.0
+    cache-manager: 3.6.1
     cache-manager-redis-store: 2.0.0
     chalk: 4.1.2
     class-transformer: 0.5.1
@@ -16336,7 +16329,7 @@ __metadata:
     cross-env: 7.0.3
     eslint: 8.12.0
     eslint-config-prettier: 8.5.0
-    eslint-plugin-jest: 26.1.3
+    eslint-plugin-jest: 26.1.4
     fastify: 3.28.0
     fastify-cookie: 5.6.0
     fastify-helmet: 7.0.1
