@@ -392,12 +392,7 @@ export default defineComponent({
             video.value = response.data;
             if (accessor.user.isLoggedIn && accessor.settings.saveVideoHistory) {
               const videoVisit = await axios
-                .get<{
-                  videoId: string;
-                  progressSeconds: number;
-                  lengthSeconds: number;
-                  lastVisit: Date;
-                }>(`${apiUrl}user/history/${response.data.videoId}`, { withCredentials: true })
+                .get(`${apiUrl}user/history/${response.data.videoId}`, { withCredentials: true })
                 .catch((_: any) => {});
 
               if (videoVisit && videoVisit.data && videoVisit.data.progressSeconds > 0) {

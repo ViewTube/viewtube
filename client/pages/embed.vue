@@ -13,7 +13,7 @@
 <script lang="ts">
 import { defineComponent, ref, useFetch, useRoute } from '#imports';
 import VideoPlayer from '@/components/videoplayer/VideoPlayer.vue';
-import ViewTubeApi from '@/plugins/services/viewTubeApi';
+import ViewTubeApi from '@/services/viewTubeApi';
 import { useAccessor } from '@/store';
 
 export default defineComponent({

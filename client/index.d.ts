@@ -5,9 +5,3 @@ declare module 'vue/types/vue' {
     $accessor: typeof accessorType;
   }
 }
-
-declare module '@nuxt/types' {
-  interface NuxtAppOptions {
-    $accessor: typeof accessorType;
-  }
-}

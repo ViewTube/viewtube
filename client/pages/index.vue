@@ -48,7 +48,7 @@ import VideoEntry from '@/components/list/VideoEntry.vue';
 import Spinner from '@/components/Spinner.vue';
 import SectionTitle from '@/components/SectionTitle.vue';
 import GradientBackground from '@/components/GradientBackground.vue';
-import ViewTubeApi from '@/plugins/services/viewTubeApi';
+import ViewTubeApi from '@/services/viewTubeApi';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import { useAccessor } from '@/store';
 

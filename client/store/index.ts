@@ -1,7 +1,5 @@
 import { getAccessorType } from 'typed-vuex';
-import { wrapProperty } from '@/plugins/services/wrapProperty';
 import * as captcha from '@/store/captcha';
-import * as environment from '@/store/environment';
 import * as messages from '@/store/messages';
 import * as miniplayer from '@/store/miniplayer';
 import * as settings from '@/store/settings';
@@ -10,7 +8,6 @@ import * as videoPlayer from '@/store/videoPlayer';
 import * as playerVolume from '@/store/playerVolume';
 import * as popup from '@/store/popup';
 import { declareActionTree } from '@/plugins/actionTree.shim';
-import { EnvironmentService } from '@/plugins/services/environment';
 
 export const state = () => ({});
 
@@ -21,12 +18,6 @@ export const actions = declareActionTree(
   {
     async nuxtServerInit(_vuexContext, nuxtContext): Promise<void> {
       if (process.server) {
-        const envVars = EnvironmentService.getEnvironmentVariables();
-        nuxtContext.app.$accessor.environment.setEnv({
-          apiUrl: envVars.apiUrl,
-          vapidKey: envVars.vapidKey,
-          nodeEnv: envVars.nodeEnv
-        });
         if (nuxtContext.req.headers.cookie) {
           await nuxtContext.app.$accessor.user.getUser();
         }
@@ -41,7 +32,6 @@ export const accessorType = getAccessorType({
   state,
   modules: {
     captcha,
-    environment,
     messages,
     miniplayer,
     settings,
@@ -51,5 +41,3 @@ export const accessorType = getAccessorType({
     playerVolume
   }
 });
-
-export const useAccessor = wrapProperty('$accessor', false);

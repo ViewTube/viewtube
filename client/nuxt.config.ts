@@ -1,4 +1,5 @@
 import { defineNuxtConfig } from '@nuxt/bridge';
+import { getApiUrl } from '@/plugins/shared';
 import Sass from 'sass';
 import PnpWebpackPlugin from 'pnp-webpack-plugin';
 import { NuxtConfig } from '@nuxt/schema';
@@ -28,9 +29,13 @@ const config: NuxtConfigType = {
     preset: 'node'
   },
 
+  publicRuntimeConfig: {
+    apiUrl: getApiUrl(),
+    vapidKey: process.env.VIEWTUBE_PUBLIC_VAPID
+  },
+
   alias: {
     'viewtube/*': '../*'
-    // 'core-js/*': '../node_modules/core-js/*'
   },
 
   head: {
