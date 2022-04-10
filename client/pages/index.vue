@@ -1,6 +1,6 @@
 <template>
-  <div class="home" :class="{ loading: $fetchState.pending || displayedVideos.length <= 0 }">
-    <Spinner v-if="$fetchState.pending" class="centered" />
+  <div class="home" :class="{ loading: popularPageLoading || displayedVideos.length <= 0 }">
+    <Spinner v-if="popularPageLoading" class="centered" />
     <GradientBackground :color="'theme'" />
     <SectionTitle
       v-if="$accessor.settings.showHomeSubscriptions && userAuthenticated"
@@ -42,15 +42,14 @@
 <script lang="ts">
 import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
 import { defineComponent, ref, useMeta } from '#imports';
-import { useNuxtApp } from '#app';
-import { useFetch } from '@nuxtjs/composition-api';
 import VideoEntry from '@/components/list/VideoEntry.vue';
 import Spinner from '@/components/Spinner.vue';
 import SectionTitle from '@/components/SectionTitle.vue';
 import GradientBackground from '@/components/GradientBackground.vue';
-import ViewTubeApi from '@/services/viewTubeApi';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
-import { useAccessor } from '@/store';
+import { useAccessor } from '@/hooks/accessor';
+import { useGetPopularPage } from '@/hooks/api/home';
+import { useGetUserSubscriptions } from '@/hooks/api/user';
 
 export default defineComponent({
   name: 'Home',
@@ -64,52 +63,39 @@ export default defineComponent({
   },
   setup() {
     const accessor = useAccessor();
-    const { $axios: axios } = useNuxtApp();
 
-    const videos = ref([]);
-    const displayedVideos = ref([]);
-    const subscriptions = ref([]);
-    const loading = ref(true);
-    const subscriptionsLoading = ref(false);
-    const userAuthenticated = ref(false);
+    const showMore = ref(false);
+    const userAuthenticated = ref(accessor.user.isLoggedIn);
 
-    userAuthenticated.value = accessor.user.isLoggedIn;
+    const displayedVideos = computed(() => {
+      if (showMore) {
+        let videoCount = 12;
+        if (userAuthenticated.value && accessor.settings.showHomeSubscriptions) {
+          videoCount = 8;
+        }
+        return videos.slice(0, videoCount);
+      }
+      return videos;
+    });
 
     const showMoreVideos = (): void => {
-      displayedVideos.value = videos.value;
+      showMore.value = true;
     };
 
-    useFetch(async () => {
-      const viewTubeApi = new ViewTubeApi(accessor.environment.apiUrl);
-      await viewTubeApi.api
-        .popular()
-        .then((response: { data: { videos: any[] } }) => {
-          videos.value = response.data.videos;
-          let videoCount = 12;
-          if (userAuthenticated.value && accessor.settings.showHomeSubscriptions) {
-            videoCount = 8;
-          }
-          displayedVideos.value = response.data.videos.slice(0, videoCount);
-        })
-        .catch((_: any) => {
-          accessor.messages.createMessage({
-            type: 'error',
-            title: 'Error loading homepage',
-            message: 'Refresh the page to try again',
-            dismissDelay: 0
-          });
+    const { data: videos, error: popularPageError, pending: popularPageLoading } = useGetPopularPage();
+
+    const { data: subscriptions, pending: subscriptionsLoading } = useGetUserSubscriptions({
+      limit: 4
+    });
+
+    watch(popularPageError, newValue => {
+      if (newValue) {
+        accessor.messages.createMessage({
+          type: 'error',
+          title: 'Error loading homepage',
+          message: 'Refresh the page to try again',
+          dismissDelay: 0
         });
-      if (userAuthenticated.value && accessor.settings.showHomeSubscriptions) {
-        subscriptionsLoading.value = true;
-        await axios
-          .get(`${accessor.environment.apiUrl}user/subscriptions/videos?limit=4`, {
-            withCredentials: true
-          })
-          .then(response => {
-            subscriptions.value = response.data.videos;
-            subscriptionsLoading.value = false;
-          })
-          .catch(_ => {});
       }
     });
 
@@ -121,9 +107,9 @@ export default defineComponent({
       videos,
       displayedVideos,
       subscriptions,
-      loading,
-      userAuthenticated,
+      popularPageLoading,
       subscriptionsLoading,
+      userAuthenticated,
       showMoreVideos
     };
   },

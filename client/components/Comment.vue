@@ -89,7 +89,7 @@ import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
 import { defineComponent, ref, useRoute } from '#imports';
 import { useNuxtApp } from '#app';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
-import { useAccessor } from '@/store';
+import { useAccessor } from '@/hooks/accessor';
 import { useImgProxy } from '@/plugins/proxy';
 
 export default defineComponent({

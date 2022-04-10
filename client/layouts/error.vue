@@ -27,7 +27,7 @@
 <script lang="ts">
 import { defineComponent, ref, useRoute } from '#imports';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
-import { useAccessor } from '@/store';
+import { useAccessor } from '@/hooks/accessor';
 
 export default defineComponent({
   name: 'ErrorPage',

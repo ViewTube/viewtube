@@ -101,7 +101,7 @@ import SectionTitle from '@/components/SectionTitle.vue';
 import SwitchButton from '@/components/buttons/SwitchButton.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import Pagination from '@/components/pagination/Pagination.vue';
-import { useAccessor } from '@/store';
+import { useAccessor } from '@/hooks/accessor';
 
 export default defineComponent({
   name: 'Subscriptions',

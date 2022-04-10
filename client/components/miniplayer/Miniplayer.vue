@@ -35,7 +35,7 @@
 import { computed, defineComponent, ref, useRoute, watch } from '#imports';
 import VideoPlayer from '@/components/videoplayer/VideoPlayer.vue';
 import { commons } from '@/plugins/commons';
-import { useAccessor } from '@/store/index';
+import { useAccessor } from '@/hooks/accessor';
 
 export default defineComponent({
   name: 'Miniplayer',

@@ -1,5 +1,5 @@
 import { defineNuxtConfig } from '@nuxt/bridge';
-import { getApiUrl } from '@/plugins/shared';
+import { getApiUrl } from '../shared';
 import Sass from 'sass';
 import PnpWebpackPlugin from 'pnp-webpack-plugin';
 import { NuxtConfig } from '@nuxt/schema';
@@ -24,6 +24,10 @@ const config: NuxtConfigType = {
   },
 
   modern: prod,
+
+  bridge: {
+    vite: true
+  },
 
   nitro: {
     preset: 'node'

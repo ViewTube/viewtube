@@ -65,7 +65,7 @@ import GradientBackground from '@/components/GradientBackground.vue';
 import Dropdown from '@/components/filter/Dropdown.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import Filters from '@/components/search/Filters.vue';
-import { useAccessor } from '@/store';
+import { useAccessor } from '@/hooks/accessor';
 
 export default defineComponent({
   name: 'Search',

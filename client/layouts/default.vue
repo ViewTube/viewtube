@@ -16,7 +16,7 @@ import Header from '@/components/header/MainHeader.vue';
 import Miniplayer from '@/components/miniplayer/Miniplayer.vue';
 import MessageBoxContainer from '@/components/message/MessageBoxContainer.vue';
 import ThemeStyling from '@/components/themes/ThemeStyling.vue';
-import { useAccessor } from '@/store';
+import { useAccessor } from '@/hooks/accessor';
 
 export default defineComponent({
   name: 'Default',

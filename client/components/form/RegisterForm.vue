@@ -40,7 +40,7 @@ import {
 import FormInput from '@/components/form/FormInput.vue';
 import SubmitButton from '@/components/form/SubmitButton.vue';
 import Spinner from '@/components/Spinner.vue';
-import { useAccessor } from '@/store';
+import { useAccessor } from '@/hooks/accessor';
 
 export default defineComponent({
   name: 'RegisterForm',

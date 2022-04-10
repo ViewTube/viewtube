@@ -31,7 +31,7 @@
 import { defineComponent, useRoute } from '#imports';
 import { useImgProxy } from '@/plugins/proxy';
 import { createComputed } from '@/plugins/computed';
-import { useAccessor } from '@/store';
+import { useAccessor } from '@/hooks/accessor';
 
 export default defineComponent({
   props: {

@@ -1,4 +1,4 @@
-import { useAccessor } from '@/store/index';
+import { useAccessor } from '@/hooks/accessor';
 
 export const useImgProxy = () => {
   const accessor = useAccessor();

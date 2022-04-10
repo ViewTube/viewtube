@@ -163,7 +163,7 @@ import RegisterForm from '../form/RegisterForm.vue';
 import Settings from '@/components/Settings.vue';
 import About from '@/components/About.vue';
 
-import { useAccessor } from '@/store/index';
+import { useAccessor } from '@/hooks/accessor';
 
 export default defineComponent({
   name: 'UserMenu',

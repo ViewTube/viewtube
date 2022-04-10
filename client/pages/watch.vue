@@ -195,9 +195,9 @@ import ShareOptions from '@/components/watch/ShareOptions.vue';
 import CollapsibleSection from '@/components/list/CollapsibleSection.vue';
 import PlaylistSection from '@/components/watch/PlaylistSection.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
-import ViewTubeApi from '@/plugins/services/viewTubeApi';
+import ViewTubeApi from '@/services/viewTubeApi';
 import { createComputed } from '@/plugins/computed';
-import { useAccessor } from '@/store';
+import { useAccessor } from '@/hooks/accessor';
 import { useImgProxy } from '@/plugins/proxy';
 import VideoLoadingTemplate from '@/components/watch/VideoLoadingTemplate.vue';
 

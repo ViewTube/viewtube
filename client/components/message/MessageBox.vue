@@ -39,7 +39,7 @@
 <script lang="ts">
 import CloseIcon from 'vue-material-design-icons/Close.vue';
 import { computed, defineComponent, reactive, ref } from '#imports';
-import { useAccessor } from '@/store';
+import { useAccessor } from '@/hooks/accessor';
 
 export default defineComponent({
   name: 'MessageBox',

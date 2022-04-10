@@ -69,8 +69,6 @@ export default defineComponent({
     const accessor = useAccessor();
     const route = useRoute();
 
-    const history = ref([]);
-    const pageCount = ref(0);
     const searchTerm = ref<string>(null);
     const searchTimeout = ref(null);
 
@@ -78,7 +76,19 @@ export default defineComponent({
 
     const dateToDelete = ref([]);
 
-    const currentPage = computed(() => route.query.page ?? 1);
+    const pageCount = computed(() => {
+      if (history) {
+        return Math.ceil(history.videoCount / 30);
+      }
+      return 0;
+    });
+
+    const currentPage = computed(() => {
+      if (!isNaN(parseInt(route.query.page as string))) {
+        return parseInt(route.query.page as string);
+      }
+      return 1;
+    });
 
     const deleteRange = async () => {
       if (rangeSelected.value) {
@@ -89,7 +99,7 @@ export default defineComponent({
             withCredentials: true
           })
           .then(() => {
-            fetch();
+            refresh();
           })
           .catch(() => {
             accessor.messages.createMessage({
@@ -106,7 +116,7 @@ export default defineComponent({
       await axios
         .delete(`${accessor.environment.apiUrl}user/history/`, { withCredentials: true })
         .then(() => {
-          fetch();
+          refresh();
         })
         .catch(() => {
           accessor.messages.createMessage({
@@ -129,43 +139,23 @@ export default defineComponent({
       router.push('/login');
     }
 
-    const { data } = useGetUserHistory({
+    const {
+      data: history,
+      refresh,
+      error
+    } = useGetUserHistory({
       limit: 30,
       searchTerm: searchTerm.value,
-      start: currentPage
+      start: (currentPage.value - 1) * 30
     });
 
-    const { fetch } = useFetch(async () => {
-      if (accessor.user.isLoggedIn) {
-        const limit = 30;
-        if (route.query && route.query.page) {
-          currentPage.value = parseInt(route.query.page as string);
-        }
-        let filterString = '';
-        if (searchTerm.value) {
-          filterString = `&filter=${searchTerm.value}`;
-        }
-        const start = (currentPage.value - 1) * 30;
-        const apiUrl = accessor.environment.apiUrl;
-        await axios
-          .get(`${apiUrl}user/history?limit=${limit}&start=${start}${filterString}&sort=DESC`, {
-            withCredentials: true
-          })
-          .then((result: { data: any }) => {
-            if (result) {
-              history.value = result.data.videos;
-              pageCount.value = Math.ceil(result.data.videoCount / 30);
-            }
-          })
-          .catch((_: any) => {
-            accessor.messages.createMessage({
-              type: 'error',
-              title: 'Error loading history',
-              message: 'Try logging out and in again'
-            });
-          });
-      } else {
-        router.push('/login').catch(_ => {});
+    watch(error, newValue => {
+      if (newValue) {
+        accessor.messages.createMessage({
+          type: 'error',
+          title: 'Error loading history',
+          message: 'Try logging out and in again'
+        });
       }
     });
 
@@ -173,7 +163,7 @@ export default defineComponent({
       if (searchTimeout.value) clearTimeout(searchTimeout.value);
       searchTimeout.value = setTimeout(() => {
         if (newVal !== null && newVal !== oldVal) {
-          fetch();
+          refresh();
         }
       }, 400);
     });
@@ -181,7 +171,7 @@ export default defineComponent({
     watch(
       () => route.query,
       () => {
-        fetch();
+        refresh();
       }
     );
 

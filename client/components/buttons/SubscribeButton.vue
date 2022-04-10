@@ -25,7 +25,7 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref } from '#imports';
 import { useNuxtApp } from '#app';
-import { useAccessor } from '@/store/index';
+import { useAccessor } from '@/hooks/accessor';
 
 export default defineComponent({
   name: 'SubscribeButton',

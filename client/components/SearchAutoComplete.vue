@@ -19,7 +19,7 @@
 <script lang="ts">
 import { defineComponent, ref, watch } from '#imports';
 import { useNuxtApp } from '#app';
-import { useAccessor } from '@/store';
+import { useAccessor } from '@/hooks/accessor';
 
 export default defineComponent({
   name: 'SearchAutocomplete',

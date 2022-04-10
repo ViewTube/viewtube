@@ -136,10 +136,10 @@ import { useNuxtApp } from '#app';
 import CheckBox from '@/components/form/CheckBox.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import FileButton from '@/components/form/FileButton.vue';
-import SubscriptionConverter from '@/plugins/services/subscriptionConverter';
+import SubscriptionConverter from '@/services/subscriptionConverter';
 import Spinner from '@/components/Spinner.vue';
 import '@/assets/styles/popup.scss';
-import { useAccessor } from '@/store/index';
+import { useAccessor } from '@/hooks/accessor';
 
 class ChannelDto {
   author: string;

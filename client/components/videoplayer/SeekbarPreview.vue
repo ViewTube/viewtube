@@ -16,7 +16,7 @@
 <script lang="ts">
 import { defineComponent, ref, reactive, watch, onMounted } from '#imports';
 // import { WebVTTParser } from '@/plugins/services/webVTTParser';
-// import { useAccessor } from '@/store';
+// import { useAccessor } from '@/hooks/accessor';
 
 export default defineComponent({
   name: 'SeekbarPreview',

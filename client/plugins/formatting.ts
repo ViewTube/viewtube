@@ -1,4 +1,4 @@
-import { wrapProperty } from './services/wrapProperty';
+import { wrapProperty } from '@/services/wrapProperty';
 import Vue from 'vue';
 
 interface FormattingFunction {

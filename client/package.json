@@ -8,7 +8,7 @@
   "scripts": {
     "prepare:env": "cross-env VIEWTUBE_URL=http://localhost:8067",
     "serve": "yarn prepare:env nuxi dev",
-    "build": "cross-env NODE_ENV=production nuxi build",
+    "build": "cross-env NODE_ENV=production VIEWTUBE_URL=http://localhost:8067 nuxi build",
     "build:dev": "cross-env NODE_ENV=development nuxi build",
     "start": "yarn prepare:env nuxt start",
     "lint": "eslint --ext .ts,.js,.vue .",
@@ -21,7 +21,7 @@
     "sass": "1.49.9"
   },
   "devDependencies": {
-    "@nuxt/bridge": "npm:@nuxt/bridge-edge@3.0.0-27489107.7379184",
+    "@nuxt/bridge": "npm:@nuxt/bridge-edge@3.0.0-27491748.3186841",
     "@nuxtjs/eslint-config-typescript": "9.0.0",
     "@nuxtjs/pwa": "3.3.5",
     "@nuxtjs/router": "1.7.0",

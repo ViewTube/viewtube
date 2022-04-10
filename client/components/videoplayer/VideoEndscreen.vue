@@ -17,7 +17,7 @@
 import { defineComponent, ref } from '#imports';
 import EndscreenCard from '@/components/videoplayer/EndscreenCard.vue';
 
-import { useAccessor } from '@/store';
+import { useAccessor } from '@/hooks/accessor';
 
 export default defineComponent({
   name: 'VideoEndscreen',

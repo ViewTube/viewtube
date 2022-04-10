@@ -65,7 +65,7 @@ import SectionTitle from '@/components/SectionTitle.vue';
 import InlineVideo from '@/components/list/InlineVideo.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import { useImgProxy } from '@/plugins/proxy';
-import { useAccessor } from '@/store';
+import { useAccessor } from '@/hooks/accessor';
 
 export default defineComponent({
   name: 'Channel',

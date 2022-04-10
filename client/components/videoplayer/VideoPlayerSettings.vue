@@ -113,7 +113,7 @@ import CheckIcon from 'vue-material-design-icons/Check.vue';
 // import MagicIcon from 'vue-material-design-icons/AutoFix.vue';
 import { defineComponent, onBeforeUnmount, onMounted, ref, watch } from '#imports';
 import SwitchButton from '@/components/buttons/SwitchButton.vue';
-import { useAccessor } from '@/store';
+import { useAccessor } from '@/hooks/accessor';
 import { createComputed } from '@/plugins/computed';
 
 export default defineComponent({

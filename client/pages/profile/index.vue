@@ -132,7 +132,7 @@ import FormInput from '@/components/form/FormInput.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import Spinner from '@/components/Spinner.vue';
 import HistoryList from '@/components/history/HistoryList.vue';
-import { useAccessor } from '@/store';
+import { useAccessor } from '@/hooks/accessor';
 import { createComputed } from '@/plugins/computed';
 
 export default defineComponent({
