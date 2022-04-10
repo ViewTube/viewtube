@@ -1,11 +1,16 @@
 type UserHistoryParams = {
   limit: number;
   start: number;
-  filterString: string;
+  searchTerm: string;
 };
 
-export const useGetUserHistory = ({ filterString, limit, start }: UserHistoryParams) => {
+export const useGetUserHistory = ({ searchTerm, limit, start }: UserHistoryParams) => {
   const config = useRuntimeConfig();
+
+  let filterString = '';
+  if (searchTerm.value) {
+    filterString = `&filter=${searchTerm}`;
+  }
 
   return useLazyFetch(() => {
     return $fetch(

@@ -40,22 +40,14 @@
 </template>
 
 <script lang="ts">
-import {
-  computed,
-  defineComponent,
-  ref,
-  useFetch,
-  useMeta,
-  useRoute,
-  useRouter,
-  watch
-} from '#imports';
+import { computed, defineComponent, ref, useMeta, useRoute, useRouter, watch } from '#imports';
 import { useNuxtApp } from '#app';
 import RestartOffIcon from 'vue-material-design-icons/RestartOff.vue';
 import SectionTitle from '@/components/SectionTitle.vue';
 import Pagination from '@/components/pagination/Pagination.vue';
 import HistoryList from '@/components/history/HistoryList.vue';
-import { useAccessor } from '@/store';
+import { useGetUserHistory } from '@/hooks/api/user';
+import { useAccessor } from '@/hooks/accessor';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import SmallSearchBox from '@/components/SmallSearchBox.vue';
 import Confirmation from '@/components/popup/Confirmation.vue';
@@ -78,14 +70,15 @@ export default defineComponent({
     const route = useRoute();
 
     const history = ref([]);
-    const currentPage = ref(1);
     const pageCount = ref(0);
-    const searchTerm = ref(null);
+    const searchTerm = ref<string>(null);
     const searchTimeout = ref(null);
 
     const deletePopup = ref(false);
 
     const dateToDelete = ref([]);
+
+    const currentPage = computed(() => route.query.page ?? 1);
 
     const deleteRange = async () => {
       if (rangeSelected.value) {
@@ -130,6 +123,16 @@ export default defineComponent({
         dateToDelete.value[0] !== null &&
         dateToDelete[1] !== null
       );
+    });
+
+    if (accessor.user.isLoggedIn) {
+      router.push('/login');
+    }
+
+    const { data } = useGetUserHistory({
+      limit: 30,
+      searchTerm: searchTerm.value,
+      start: currentPage
     });
 
     const { fetch } = useFetch(async () => {

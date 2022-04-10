@@ -11,10 +11,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, useFetch, useRoute } from '#imports';
 import VideoPlayer from '@/components/videoplayer/VideoPlayer.vue';
-import ViewTubeApi from '@/services/viewTubeApi';
-import { useAccessor } from '@/store';
+import { useGetVideos } from '@/hooks/api/videos';
 
 export default defineComponent({
   name: 'EmbedVideo',
@@ -23,24 +21,11 @@ export default defineComponent({
   },
   setup() {
     const route = useRoute();
-    const accessor = useAccessor();
 
-    const video = ref(null);
-
-    useFetch(async () => {
-      const viewTubeApi = new ViewTubeApi(accessor.environment.apiUrl);
-      await viewTubeApi.api
-        .videos({
-          id: route.params.id
-        })
-        .then((response: { data: any }) => {
-          video.value = response.data;
-        })
-        .catch((_: any) => {});
-    });
+    const { data } = useGetVideos(route.params.id);
 
     return {
-      video
+      video: data
     };
   }
 });
