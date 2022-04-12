@@ -12508,7 +12508,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"miniget@npm:^4.2.1, miniget@npm:^4.2.2":
+"miniget@npm:^4.2.2":
   version: 4.2.2
   resolution: "miniget@npm:4.2.2"
   checksum: 577a7826cbf521b8ecb31906b3dce55c61b35398318a461f3484681572287208b7ec5a40de7b0bf0b7738f21630d015cc39ba3edcfb69146565f1528ff957612
@@ -16389,7 +16389,7 @@ __metadata:
     xml-js: 1.6.11
     ytdl-core: 4.11.0
     ytpl: 2.3.0
-    ytsr: 3.6.0
+    ytsr: 3.7.0
   languageName: unknown
   linkType: soft
 
@@ -19422,12 +19422,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ytsr@npm:3.6.0":
-  version: 3.6.0
-  resolution: "ytsr@npm:3.6.0"
+"ytsr@npm:3.7.0":
+  version: 3.7.0
+  resolution: "ytsr@npm:3.7.0"
   dependencies:
-    miniget: ^4.2.1
-  checksum: a50bf2ec63239e5e1801502f369ab6a80e2f4bc1e64110f2374ce131b89efc30cbc1149de89aa90d0aee5ea1e1211700a3b36f2d28c806013f0b98807fb5273c
+    miniget: ^4.2.2
+  checksum: 859d3e392fa95f3c541f753dcf1a613dc999f7de0d253483398d21b91a27bc71ab08a5b28d13768a2e18682131717b14589b3dd96bc8326c5322e9050549a743
   languageName: node
   linkType: hard
 
