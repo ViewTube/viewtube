@@ -3491,12 +3491,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/sharp@npm:0.30.1":
-  version: 0.30.1
-  resolution: "@types/sharp@npm:0.30.1"
+"@types/sharp@npm:0.30.2":
+  version: 0.30.2
+  resolution: "@types/sharp@npm:0.30.2"
   dependencies:
     "@types/node": "*"
-  checksum: cb085ca7456caf20b9f787fd43d910976fa6d0cd951109e51636160083f23cc8798c5a01ab56058861edabd1acd00950b1e2bb8dc954355f73270cf1d1aa3534
+  checksum: dc6b332c309e1eb62e98b62f92829c4b06c3adb474c1ee8b504eb95e6d43be8804b8d541874d0769160595fdf46f7a7a0fe544a3659482ad0a19ac700944f3a4
   languageName: node
   linkType: hard
 
@@ -16330,7 +16330,7 @@ __metadata:
     "@types/passport-jwt": 3.0.6
     "@types/passport-local": 1.0.34
     "@types/redis-mock": 0.17.1
-    "@types/sharp": 0.30.1
+    "@types/sharp": 0.30.2
     "@types/source-map-support": 0.5.4
     "@types/web-push": 3.3.2
     "@types/xml2json": 0.11.4
