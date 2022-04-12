@@ -21042,7 +21042,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["xml-js", "npm:1.6.11"],
             ["ytdl-core", "npm:4.11.0"],
             ["ytpl", "npm:2.3.0"],
-            ["ytsr", "npm:3.6.0"]
+            ["ytsr", "npm:3.7.0"]
           ],
           "linkType": "SOFT",
         }]
@@ -24798,10 +24798,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["ytsr", [
-        ["npm:3.6.0", {
-          "packageLocation": "./.yarn/cache/ytsr-npm-3.6.0-9df526e26f-a50bf2ec63.zip/node_modules/ytsr/",
+        ["npm:3.7.0", {
+          "packageLocation": "./.yarn/cache/ytsr-npm-3.7.0-d485c7560a-859d3e392f.zip/node_modules/ytsr/",
           "packageDependencies": [
-            ["ytsr", "npm:3.6.0"],
+            ["ytsr", "npm:3.7.0"],
             ["miniget", "npm:4.2.2"]
           ],
           "linkType": "HARD",
