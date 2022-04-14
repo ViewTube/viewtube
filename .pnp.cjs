@@ -3602,7 +3602,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/typescript", null],
             ["class-transformer", "npm:0.5.1"],
             ["class-validator", "npm:0.13.2"],
-            ["fastify-swagger", "npm:5.1.0"],
+            ["fastify-swagger", "npm:5.1.1"],
             ["lodash", "npm:4.17.21"],
             ["path-to-regexp", "npm:3.2.0"],
             ["reflect-metadata", "npm:0.1.13"],
@@ -5205,10 +5205,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "HARD",
         }],
-        ["npm:16.11.26", {
-          "packageLocation": "./.yarn/cache/@types-node-npm-16.11.26-6163d95b7d-57757caaba.zip/node_modules/@types/node/",
+        ["npm:16.11.27", {
+          "packageLocation": "./.yarn/cache/@types-node-npm-16.11.27-f4555d5131-6ed0c8c4d2.zip/node_modules/@types/node/",
           "packageDependencies": [
-            ["@types/node", "npm:16.11.26"]
+            ["@types/node", "npm:16.11.27"]
           ],
           "linkType": "HARD",
         }],
@@ -8986,7 +8986,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@nuxtjs/pwa", "npm:3.3.5"],
             ["@nuxtjs/router", "npm:1.7.0"],
             ["@nuxtjs/style-resources", "npm:1.2.1"],
-            ["@types/node", "npm:16.11.26"],
+            ["@types/node", "npm:16.11.27"],
             ["@types/papaparse", "npm:5.3.2"],
             ["@types/qrcode", "npm:1.4.2"],
             ["@types/sass", "npm:1.43.1"],
@@ -12500,15 +12500,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["fastify-swagger", [
-        ["npm:5.1.0", {
-          "packageLocation": "./.yarn/cache/fastify-swagger-npm-5.1.0-d515c65367-d9e1c4d4eb.zip/node_modules/fastify-swagger/",
+        ["npm:5.1.1", {
+          "packageLocation": "./.yarn/cache/fastify-swagger-npm-5.1.1-81091f5e38-6ead1e803f.zip/node_modules/fastify-swagger/",
           "packageDependencies": [
-            ["fastify-swagger", "npm:5.1.0"],
+            ["fastify-swagger", "npm:5.1.1"],
             ["fastify-plugin", "npm:3.0.1"],
             ["fastify-static", "npm:4.6.1"],
             ["js-yaml", "npm:4.1.0"],
             ["json-schema-resolver", "npm:1.3.0"],
-            ["openapi-types", "npm:10.0.0"]
+            ["openapi-types", "npm:10.0.0"],
+            ["rfdc", "npm:1.3.0"]
           ],
           "linkType": "HARD",
         }]
@@ -13904,6 +13905,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/https-proxy-agent-npm-5.0.0-bb777903c3-165bfb090b.zip/node_modules/https-proxy-agent/",
           "packageDependencies": [
             ["https-proxy-agent", "npm:5.0.0"],
+            ["agent-base", "npm:6.0.2"],
+            ["debug", "virtual:62738e6f4a1bb4f8ff35ae41a77cb589aeffb1a2b896f237bc331b5509d0b413c328994ab1431dc8c128ffa7d6ca83d167ebf621c5c6b08297150420be31ce8e#npm:4.3.4"]
+          ],
+          "linkType": "HARD",
+        }],
+        ["npm:5.0.1", {
+          "packageLocation": "./.yarn/cache/https-proxy-agent-npm-5.0.1-42d65f358e-571fccdf38.zip/node_modules/https-proxy-agent/",
+          "packageDependencies": [
+            ["https-proxy-agent", "npm:5.0.1"],
             ["agent-base", "npm:6.0.2"],
             ["debug", "virtual:62738e6f4a1bb4f8ff35ae41a77cb589aeffb1a2b896f237bc331b5509d0b413c328994ab1431dc8c128ffa7d6ca83d167ebf621c5c6b08297150420be31ce8e#npm:4.3.4"]
           ],
@@ -20978,7 +20988,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.4.1"],
             ["@types/module-alias", "npm:2.0.1"],
             ["@types/multer", "npm:1.4.7"],
-            ["@types/node", "npm:16.11.26"],
+            ["@types/node", "npm:16.11.27"],
             ["@types/node-fetch", "npm:3.0.3"],
             ["@types/passport-jwt", "npm:3.0.6"],
             ["@types/passport-local", "npm:1.0.34"],
@@ -21007,8 +21017,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["fastify-cookie", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:5.6.0"],
             ["fastify-helmet", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:7.0.1"],
             ["fastify-multipart", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:5.3.1"],
-            ["fastify-swagger", "npm:5.1.0"],
-            ["https-proxy-agent", "npm:5.0.0"],
+            ["fastify-swagger", "npm:5.1.1"],
+            ["https-proxy-agent", "npm:5.0.1"],
             ["humanize-duration", "npm:3.27.1"],
             ["husky", "npm:7.0.4"],
             ["ioredis", "npm:5.0.4"],
@@ -21134,7 +21144,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@nestjs/common", "virtual:d10100d960b1b73f8c74718d4637dfe2c18d098bafef09afa646f6b4f65cd1a5ad77d7941e2a1def095bb77eb2ac82d00bec47774003ea2f130a251bc51e4c5b#npm:8.4.4"],
             ["@nestjs/core", "virtual:d10100d960b1b73f8c74718d4637dfe2c18d098bafef09afa646f6b4f65cd1a5ad77d7941e2a1def095bb77eb2ac82d00bec47774003ea2f130a251bc51e4c5b#npm:8.4.4"],
             ["@nestjs/swagger", "virtual:d10100d960b1b73f8c74718d4637dfe2c18d098bafef09afa646f6b4f65cd1a5ad77d7941e2a1def095bb77eb2ac82d00bec47774003ea2f130a251bc51e4c5b#npm:5.2.1"],
-            ["@types/node", "npm:16.11.26"],
+            ["@types/node", "npm:16.11.27"],
             ["class-transformer", "npm:0.5.1"],
             ["class-validator", "npm:0.13.2"],
             ["reflect-metadata", "npm:0.1.13"],
