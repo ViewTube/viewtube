@@ -5520,7 +5520,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bson@npm:^4.2.2, bson@npm:^4.6.1, bson@npm:^4.6.2":
+"bson@npm:^4.2.2, bson@npm:^4.6.2":
   version: 4.6.2
   resolution: "bson@npm:4.6.2"
   dependencies:
@@ -12693,7 +12693,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mongodb-connection-string-url@npm:^2.4.1, mongodb-connection-string-url@npm:^2.5.2":
+"mongodb-connection-string-url@npm:^2.5.2":
   version: 2.5.2
   resolution: "mongodb-connection-string-url@npm:2.5.2"
   dependencies:
@@ -12737,23 +12737,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mongodb@npm:4.3.1":
-  version: 4.3.1
-  resolution: "mongodb@npm:4.3.1"
-  dependencies:
-    bson: ^4.6.1
-    denque: ^2.0.1
-    mongodb-connection-string-url: ^2.4.1
-    saslprep: ^1.0.3
-    socks: ^2.6.1
-  dependenciesMeta:
-    saslprep:
-      optional: true
-  checksum: 5684b5481bfbf73e4628b8bad7018cd4436fdb23b9548fb38dece3e079b1716fe870d41070a505d13ae4d86c107315afaf34891ba2b64925eb4fa4cd5bb70300
-  languageName: node
-  linkType: hard
-
-"mongodb@npm:^4.4.0":
+"mongodb@npm:4.5.0, mongodb@npm:^4.4.0":
   version: 4.5.0
   resolution: "mongodb@npm:4.5.0"
   dependencies:
@@ -12769,18 +12753,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mongoose@npm:6.2.10":
-  version: 6.2.10
-  resolution: "mongoose@npm:6.2.10"
+"mongoose@npm:6.3.0":
+  version: 6.3.0
+  resolution: "mongoose@npm:6.3.0"
   dependencies:
     bson: ^4.2.2
     kareem: 2.3.5
-    mongodb: 4.3.1
+    mongodb: 4.5.0
     mpath: 0.8.4
     mquery: 4.0.2
     ms: 2.1.3
     sift: 16.0.0
-  checksum: 60bcab8d5f762603d9ace84082f6e1162c921f0be5df8dd4fef2f1818cf254ce9e11867a2d2764bd036f8354647e7da50ef704ec544c7729194bf4a6f4d293d3
+  checksum: b5e239f76ecca8a31cc28cb7f8ba556d53e51cb7a23ff5e353d144056f128d8e77efba1067d2e984d46b1660c0e41316f5747811fdb7c4523af5c052f8358756
   languageName: node
   linkType: hard
 
@@ -16364,7 +16348,7 @@ __metadata:
     mini-svg-data-uri: 1.4.4
     module-alias: 2.2.2
     mongodb-memory-server: 8.4.2
-    mongoose: 6.2.10
+    mongoose: 6.3.0
     nestjs-throttler-storage-redis: "git+https://github.com/mauriceoegerli/nestjs-throttler-storage-redis.git"
     node-fetch: 2.6.7
     passport: 0.5.2
