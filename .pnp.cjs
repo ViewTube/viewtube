@@ -16926,32 +16926,32 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["mongodb-memory-server", [
-        ["npm:8.4.2", {
-          "packageLocation": "./.yarn/unplugged/mongodb-memory-server-npm-8.4.2-0ab2a525c9/node_modules/mongodb-memory-server/",
+        ["npm:8.5.0", {
+          "packageLocation": "./.yarn/unplugged/mongodb-memory-server-npm-8.5.0-ac6dbff219/node_modules/mongodb-memory-server/",
           "packageDependencies": [
-            ["mongodb-memory-server", "npm:8.4.2"],
-            ["mongodb-memory-server-core", "npm:8.4.2"],
+            ["mongodb-memory-server", "npm:8.5.0"],
+            ["mongodb-memory-server-core", "npm:8.5.0"],
             ["tslib", "npm:2.3.1"]
           ],
           "linkType": "HARD",
         }]
       ]],
       ["mongodb-memory-server-core", [
-        ["npm:8.4.2", {
-          "packageLocation": "./.yarn/cache/mongodb-memory-server-core-npm-8.4.2-9f0c082873-e1e61f55c5.zip/node_modules/mongodb-memory-server-core/",
+        ["npm:8.5.0", {
+          "packageLocation": "./.yarn/cache/mongodb-memory-server-core-npm-8.5.0-8392144e3f-cce007d30b.zip/node_modules/mongodb-memory-server-core/",
           "packageDependencies": [
-            ["mongodb-memory-server-core", "npm:8.4.2"],
+            ["mongodb-memory-server-core", "npm:8.5.0"],
             ["@types/tmp", "npm:0.2.3"],
             ["async-mutex", "npm:0.3.2"],
             ["camelcase", "npm:6.3.0"],
             ["debug", "virtual:62738e6f4a1bb4f8ff35ae41a77cb589aeffb1a2b896f237bc331b5509d0b413c328994ab1431dc8c128ffa7d6ca83d167ebf621c5c6b08297150420be31ce8e#npm:4.3.4"],
             ["find-cache-dir", "npm:3.3.2"],
             ["get-port", "npm:5.1.1"],
-            ["https-proxy-agent", "npm:5.0.0"],
+            ["https-proxy-agent", "npm:5.0.1"],
             ["md5-file", "npm:5.0.0"],
             ["mongodb", "npm:4.5.0"],
             ["new-find-package-json", "npm:1.1.0"],
-            ["semver", "npm:7.3.6"],
+            ["semver", "npm:7.3.7"],
             ["tar-stream", "npm:2.2.0"],
             ["tmp", "npm:0.2.1"],
             ["tslib", "npm:2.3.1"],
@@ -20831,6 +20831,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["lru-cache", "npm:7.8.1"]
           ],
           "linkType": "HARD",
+        }],
+        ["npm:7.3.7", {
+          "packageLocation": "./.yarn/cache/semver-npm-7.3.7-3bfe704194-2fa3e87756.zip/node_modules/semver/",
+          "packageDependencies": [
+            ["semver", "npm:7.3.7"],
+            ["lru-cache", "npm:6.0.0"]
+          ],
+          "linkType": "HARD",
         }]
       ]],
       ["semver-store", [
@@ -21014,7 +21022,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["joi", "npm:17.6.0"],
             ["mini-svg-data-uri", "npm:1.4.4"],
             ["module-alias", "npm:2.2.2"],
-            ["mongodb-memory-server", "npm:8.4.2"],
+            ["mongodb-memory-server", "npm:8.5.0"],
             ["mongoose", "npm:6.3.0"],
             ["nestjs-throttler-storage-redis", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#https://github.com/mauriceoegerli/nestjs-throttler-storage-redis.git#commit=31445b0e76f3bf67cd02e4fba918dcc3227c6a92"],
             ["node-fetch", "virtual:b703fe309445e73be0544c0731c064bd8abfb48eba238ef60c1180739300244272080b53495cbb64a2ec07139667d15d2f5ce81fb8e0f1ce36343b35ebd9836e#npm:2.6.7"],

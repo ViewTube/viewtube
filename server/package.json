@@ -109,7 +109,7 @@
     "eslint-plugin-jest": "26.1.4",
     "husky": "7.0.4",
     "jest": "27.5.1",
-    "mongodb-memory-server": "8.4.2",
+    "mongodb-memory-server": "8.5.0",
     "redis": "4.0.6",
     "redis-mock": "0.56.3",
     "run-script-webpack-plugin": "0.0.11",
