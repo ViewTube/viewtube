@@ -7418,10 +7418,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["archiver", [
-        ["npm:5.3.0", {
-          "packageLocation": "./.yarn/cache/archiver-npm-5.3.0-db4a7efe88-878b275390.zip/node_modules/archiver/",
+        ["npm:5.3.1", {
+          "packageLocation": "./.yarn/cache/archiver-npm-5.3.1-db84171f80-905b198ed0.zip/node_modules/archiver/",
           "packageDependencies": [
-            ["archiver", "npm:5.3.0"],
+            ["archiver", "npm:5.3.1"],
             ["archiver-utils", "npm:2.1.0"],
             ["async", "npm:3.2.3"],
             ["buffer-crc32", "npm:0.2.13"],
@@ -12367,17 +12367,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["fastify-cookie", [
-        ["npm:5.6.0", {
-          "packageLocation": "./.yarn/cache/fastify-cookie-npm-5.6.0-be9294066f-a4dc359a84.zip/node_modules/fastify-cookie/",
+        ["npm:5.6.1", {
+          "packageLocation": "./.yarn/cache/fastify-cookie-npm-5.6.1-d257149342-33e6ea5c8e.zip/node_modules/fastify-cookie/",
           "packageDependencies": [
-            ["fastify-cookie", "npm:5.6.0"]
+            ["fastify-cookie", "npm:5.6.1"]
           ],
           "linkType": "SOFT",
         }],
-        ["virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:5.6.0", {
-          "packageLocation": "./.yarn/__virtual__/fastify-cookie-virtual-8bcab7f66c/0/cache/fastify-cookie-npm-5.6.0-be9294066f-a4dc359a84.zip/node_modules/fastify-cookie/",
+        ["virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:5.6.1", {
+          "packageLocation": "./.yarn/__virtual__/fastify-cookie-virtual-f45b243a26/0/cache/fastify-cookie-npm-5.6.1-d257149342-33e6ea5c8e.zip/node_modules/fastify-cookie/",
           "packageDependencies": [
-            ["fastify-cookie", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:5.6.0"],
+            ["fastify-cookie", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:5.6.1"],
             ["@types/fastify", null],
             ["cookie-signature", "npm:1.2.0"],
             ["fastify", "npm:3.28.0"],
@@ -20831,6 +20831,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["lru-cache", "npm:7.8.1"]
           ],
           "linkType": "HARD",
+        }],
+        ["npm:7.3.7", {
+          "packageLocation": "./.yarn/cache/semver-npm-7.3.7-3bfe704194-2fa3e87756.zip/node_modules/semver/",
+          "packageDependencies": [
+            ["semver", "npm:7.3.7"],
+            ["lru-cache", "npm:6.0.0"]
+          ],
+          "linkType": "HARD",
         }]
       ]],
       ["semver-store", [
@@ -20987,7 +20995,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/xml2json", "npm:0.11.4"],
             ["@typescript-eslint/eslint-plugin", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:5.19.0"],
             ["@typescript-eslint/parser", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:5.19.0"],
-            ["archiver", "npm:5.3.0"],
+            ["archiver", "npm:5.3.1"],
             ["bcryptjs", "npm:2.4.3"],
             ["bull", "npm:4.8.1"],
             ["cache-manager", "npm:3.6.1"],
@@ -21002,7 +21010,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint-config-prettier", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:8.5.0"],
             ["eslint-plugin-jest", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:26.1.4"],
             ["fastify", "npm:3.28.0"],
-            ["fastify-cookie", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:5.6.0"],
+            ["fastify-cookie", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:5.6.1"],
             ["fastify-helmet", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:7.0.1"],
             ["fastify-multipart", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:5.3.1"],
             ["fastify-swagger", "npm:5.1.1"],
@@ -21026,7 +21034,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["reflect-metadata", "npm:0.1.13"],
             ["run-script-webpack-plugin", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:0.0.11"],
             ["rxjs", "npm:7.5.5"],
-            ["sharp", "npm:0.30.3"],
+            ["sharp", "npm:0.30.4"],
             ["source-map-support", "npm:0.5.21"],
             ["svg-captcha", "npm:1.4.0"],
             ["ts-jest", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:27.1.4"],
@@ -21143,16 +21151,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["sharp", [
-        ["npm:0.30.3", {
-          "packageLocation": "./.yarn/unplugged/sharp-npm-0.30.3-360bdcb17e/node_modules/sharp/",
+        ["npm:0.30.4", {
+          "packageLocation": "./.yarn/unplugged/sharp-npm-0.30.4-0b1c493dcc/node_modules/sharp/",
           "packageDependencies": [
-            ["sharp", "npm:0.30.3"],
+            ["sharp", "npm:0.30.4"],
             ["color", "npm:4.2.3"],
             ["detect-libc", "npm:2.0.1"],
             ["node-addon-api", "npm:4.3.0"],
             ["node-gyp", "npm:9.0.0"],
             ["prebuild-install", "npm:7.0.1"],
-            ["semver", "npm:7.3.6"],
+            ["semver", "npm:7.3.7"],
             ["simple-get", "npm:4.0.1"],
             ["tar-fs", "npm:2.1.1"],
             ["tunnel-agent", "npm:0.6.0"]
