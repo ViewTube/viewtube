@@ -1,5 +1,5 @@
 import { defineNuxtConfig } from '@nuxt/bridge';
-import { getApiUrl } from '../shared';
+// import { getApiUrl } from '../shared';
 import Sass from 'sass';
 import PnpWebpackPlugin from 'pnp-webpack-plugin';
 import { NuxtConfig } from '@nuxt/schema';
@@ -25,16 +25,12 @@ const config: NuxtConfigType = {
 
   modern: prod,
 
-  bridge: {
-    vite: true
-  },
-
   nitro: {
     preset: 'node'
   },
 
   publicRuntimeConfig: {
-    apiUrl: getApiUrl(),
+    apiUrl: "http://localhost:8066",
     vapidKey: process.env.VIEWTUBE_PUBLIC_VAPID
   },
 
