@@ -169,7 +169,6 @@
 
 <script lang="ts">
 import ThumbsUp from 'vue-material-design-icons/ThumbUp.vue';
-import ThumbsDown from 'vue-material-design-icons/ThumbDown.vue';
 import Share from 'vue-material-design-icons/Share.vue';
 import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
 import {
@@ -206,7 +205,6 @@ export default defineComponent({
   components: {
     Spinner,
     ThumbsUp,
-    ThumbsDown,
     Share,
     LoadMoreIcon,
     NextUpVideo,
