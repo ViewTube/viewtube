@@ -16,7 +16,6 @@ export class VideoDto {
   keywords: Array<string>;
   viewCount: number;
   likeCount: number;
-  dislikeCount: number;
   paid: boolean;
   premium: boolean;
   isFamilyFriendly: boolean;

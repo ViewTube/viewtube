@@ -58,8 +58,6 @@ export class VideoEntity implements VideoDto {
 
   likeCount: number = this._videoDetails.likes || 0;
 
-  dislikeCount: number = this._videoDetails.dislikes || 0;
-
   @Expose()
   get paid(): boolean {
     return (this.playerResponse as any).paidContentOverlay !== undefined;

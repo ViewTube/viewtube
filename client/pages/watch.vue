@@ -38,7 +38,7 @@
             {{ parseFloat(video.viewCount).toLocaleString('en-US') }}
             views
           </p>
-          <div v-if="video.likeCount && video.dislikeCount" class="infobox-rating">
+          <div v-if="video.likeCount" class="infobox-rating">
             <div class="infobox-likecount">
               <div class="infobox-likes">
                 <ThumbsUp class="thumbs-icon" />
@@ -46,21 +46,21 @@
                   {{ parseFloat(video.likeCount).toLocaleString('en-US') }}
                 </p>
               </div>
-              <div class="infobox-dislikes">
+              <!-- <div class="infobox-dislikes">
                 <ThumbsDown class="thumbs-icon" />
                 <p class="dislike-count">
                   {{ parseFloat(video.dislikeCount).toLocaleString('en-US') }}
                 </p>
-              </div>
+              </div> -->
             </div>
-            <div class="like-ratio">
+            <!-- <div class="like-ratio">
               <div
                 class="like-ratio-bar"
                 :style="{
                   width: (video.likeCount / (video.dislikeCount + video.likeCount)) * 100 + '%'
                 }"
               />
-            </div>
+            </div> -->
           </div>
         </div>
         <div class="video-infobox-channel">
