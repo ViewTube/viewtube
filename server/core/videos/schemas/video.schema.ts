@@ -22,7 +22,7 @@ export class Video extends Document implements VideoDto {
   keywords: string[];
   viewCount: number;
   likeCount: number;
-  dislikeCount: number;
+  dislikeCount?: number;
   paid: boolean;
   premium: boolean;
   isFamilyFriendly: boolean;

@@ -20757,14 +20757,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["lru-cache", "npm:6.0.0"]
           ],
           "linkType": "HARD",
-        }],
-        ["npm:7.3.7", {
-          "packageLocation": "./.yarn/cache/semver-npm-7.3.7-3bfe704194-2fa3e87756.zip/node_modules/semver/",
-          "packageDependencies": [
-            ["semver", "npm:7.3.7"],
-            ["lru-cache", "npm:6.0.0"]
-          ],
-          "linkType": "HARD",
         }]
       ]],
       ["semver-store", [

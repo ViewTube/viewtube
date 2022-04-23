@@ -48,7 +48,7 @@ export class VideoBasicInfo extends Document implements VideoBasicInfoDto {
   likeCount: number;
 
   @Prop()
-  dislikeCount: number;
+  dislikeCount?: number;
 
   @Prop()
   lengthSeconds?: number;
