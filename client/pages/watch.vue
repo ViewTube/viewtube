@@ -46,21 +46,24 @@
                   {{ parseFloat(video.likeCount).toLocaleString('en-US') }}
                 </p>
               </div>
-              <!-- <div class="infobox-dislikes">
+              <div class="infobox-dislikes">
                 <ThumbsDown class="thumbs-icon" />
                 <p class="dislike-count">
-                  {{ parseFloat(video.dislikeCount).toLocaleString('en-US') }}
+                  {{ dislikeCount.toLocaleString('en-US') }}
                 </p>
-              </div> -->
+                <a class="dislike-info" href="https://returnyoutubedislike.com" target="_blank" rel="noreferrer noopener">
+                  <InfoIcon v-tippy="'Dislike information provided by returnyoutubedislike.com'"/>
+                </a>
+              </div>
             </div>
-            <!-- <div class="like-ratio">
+            <div class="like-ratio">
               <div
                 class="like-ratio-bar"
                 :style="{
-                  width: (video.likeCount / (video.dislikeCount + video.likeCount)) * 100 + '%'
+                  width: (video.likeCount / (dislikeCount + video.likeCount)) * 100 + '%'
                 }"
               />
-            </div> -->
+            </div>
           </div>
         </div>
         <div class="video-infobox-channel">
@@ -169,6 +172,8 @@
 
 <script lang="ts">
 import ThumbsUp from 'vue-material-design-icons/ThumbUp.vue';
+import ThumbsDown from 'vue-material-design-icons/ThumbDown.vue';
+import InfoIcon from 'vue-material-design-icons/Information.vue';
 import Share from 'vue-material-design-icons/Share.vue';
 import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
 import {
@@ -205,6 +210,8 @@ export default defineComponent({
   components: {
     Spinner,
     ThumbsUp,
+    ThumbsDown,
+    InfoIcon,
     Share,
     LoadMoreIcon,
     NextUpVideo,
@@ -243,6 +250,8 @@ export default defineComponent({
     const initialVideoTime = ref(0);
     const videoLoaded = ref(false);
 
+    const dislikeCount = ref(0);
+
     const playlist: Ref<Result> = ref(null);
 
     const templateVideoData = route.value.params.videoData;
@@ -271,12 +280,27 @@ export default defineComponent({
       if (video.value) return video.value.recommendedVideos[0];
       return null;
     });
+
+    const loadDislikes = () => {
+      axios.get(`${accessor.environment.apiUrl}videos/dislikes/${route.value.query.v}`).then(response => {
+        if(response.data && !isNaN(response.data.dislikes)) {
+          dislikeCount.value = response.data.dislikes
+        } else {
+          accessor.messages.createMessage({
+            type: 'error',
+            title: 'Error loading dislikes',
+            message: 'Loading dislikes failed.'
+          });
+        }
+      })
+    }
+
     const saveToHistory = () => {
       if (accessor.user.isLoggedIn) {
         const apiUrl = accessor.environment.apiUrl;
         axios
           .post(
-            `${apiUrl}user/history/${video.value.videoId}`,
+            `${apiUrl}user/history/${route.value.query.v}`,
             {
               progressSeconds: null,
               lengthSeconds: video.value.lengthSeconds
@@ -392,12 +416,7 @@ export default defineComponent({
             video.value = response.data;
             if (accessor.user.isLoggedIn && accessor.settings.saveVideoHistory) {
               const videoVisit = await axios
-                .get<{
-                  videoId: string;
-                  progressSeconds: number;
-                  lengthSeconds: number;
-                  lastVisit: Date;
-                }>(`${apiUrl}user/history/${response.data.videoId}`, { withCredentials: true })
+                .get(`${apiUrl}user/history/${response.data.videoId}`, { withCredentials: true })
                 .catch((_: any) => {});
 
               if (videoVisit && videoVisit.data && videoVisit.data.progressSeconds > 0) {
@@ -460,6 +479,7 @@ export default defineComponent({
         recommendedOpen.value = true;
       }
       loadComments();
+      loadDislikes();
       accessor.miniplayer.setCurrentVideo(video);
       loadPlaylist();
     });
@@ -524,6 +544,7 @@ export default defineComponent({
       jsEnabled,
       video,
       comment,
+      dislikeCount,
       videoplayerRef,
       playlistSectionRef,
       commentsLoading,
@@ -701,6 +722,17 @@ export default defineComponent({
               font-family: $default-font;
               display: flex;
               flex-direction: row;
+
+              .dislike-info{
+                height: 16px;
+                width: 16px;
+                padding: 2px 0 6px 8px;
+
+                .material-design-icon, .material-design-icon__svg {
+                  height: 16px;
+                  width: 16px;
+                }
+              }
 
               .thumbs-icon {
                 width: 2rem;

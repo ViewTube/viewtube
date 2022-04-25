@@ -22,24 +22,26 @@
           <p>Invidious</p>
         </BadgeButton>
       </div>
-      <div class="sponsorblock-container">
-        <div class="sponsorblock links">
-          <img
-            class="sponsorblock-image"
-            src="@/assets/icons/sponsorblock.png"
-            alt="Sponsorblock icon"
-          />
+      <div class="external-service-container">
+        <div class="external-service links">
+          <img class="external-service-image" src="@/assets/icons/sponsorblock.png" alt="Sponsorblock icon" />
           <p>
-            This project uses the SponsorBlock database and API licensed under
-            <a
-              href="https://creativecommons.org/licenses/by-nc-sa/4.0/"
-              target="_blank"
-              rel="noreferrer noopener"
-              >CC BY-NC-SA 4.0</a
-            >. More details can be found at
-            <a href="https://sponsor.ajay.app/" target="_blank" rel="noreferrer noopener">
-              https://sponsor.ajay.app/</a
-            >.
+            This project uses the <span class="highlight">SponsorBlock</span> database and API licensed under
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noreferrer noopener">CC
+              BY-NC-SA 4.0</a>.<br>More details can be found at
+            <a href="https://sponsor.ajay.app" target="_blank" rel="noreferrer noopener">
+              https://sponsor.ajay.app</a>.
+          </p>
+        </div>
+      </div>
+      <div class="external-service-container">
+        <div class="external-service links">
+          <svg class="external-service-image" width="150" height="150" viewBox="0 0 24 24" overflow="visible"><path data-v-4a65fc18="" d="M14.9 3H6c-.9 0-1.6.5-1.9 1.2l-3 7c-.1.3-.1.5-.1.7v2c0 1.1.9 2 2 2h6.3l-.9 4.5c-.1.5 0 1 .4 1.4l1.1 1.1 6.5-6.6c.4-.4.6-.9.6-1.4V5c-.1-1.1-1-2-2.1-2zm7.4 12.8h-2.9c-.4 0-.7-.3-.7-.7V3.9c0-.4.3-.7.7-.7h2.9c.4 0 .7.3.7.7V15c0 .4-.3.8-.7.8z"></path> <path data-v-4a65fc18="" id="plarrow" d="m8 12.5 5.1-2.9L8 6.7v5.8z" fill="#fff" stroke="none"></path></svg>
+          <p>
+            This project uses the <span class="highlight">Return YouTube Dislike</span> API according to the usage rights found at 
+            <a href="https://www.returnyoutubedislike.com/docs/usage-rights" target="_blank" rel="noreferrer noopener">Return YouTube Dislike Usage Rights</a>.<br>More details can be found at
+            <a href="https://www.returnyoutubedislike.com" target="_blank" rel="noreferrer noopener">
+              https://www.returnyoutubedislike.com</a>.
           </p>
         </div>
       </div>
@@ -84,20 +86,28 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-.sponsorblock {
-  margin: 10px 0 0 0 !important;
+.external-service {
+  margin: 15px 0 0 0 !important;
   display: flex;
 
-  .sponsorblock-image {
+  .external-service-image {
     width: 36px;
     height: 36px;
+    fill: transparent;
+    stroke: #f44;
+    fill: #f44;
   }
+
+  .highlight {
+    color: var(--theme-color);
+  }
+
   p {
     margin: 0 0 0 10px;
   }
 }
 
-.sponsorblock-container {
+.external-service-container {
   margin: 0 !important;
 }
 
@@ -106,6 +116,7 @@ export default defineComponent({
 
   a {
     line-height: 24px;
+
     span {
       margin: -1px 10px 0 0;
     }
@@ -126,13 +137,16 @@ export default defineComponent({
     width: 100%;
     transform-origin: top left;
     animation: float-around 10s $dynamic-easing infinite;
+
     @keyframes float-around {
       0% {
         transform: translate(0, 0);
       }
+
       50% {
         transform: translate(-10%, -10%) scale(1.2);
       }
+
       100% {
         transform: translate(0, 0);
       }

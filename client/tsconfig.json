@@ -23,7 +23,7 @@
       "~/*": ["./*"],
       "viewtube/*": ["../*"]
     },
-    "types": ["@types/node", "@nuxt/types", "@nuxtjs/axios"]
+    "types": ["node", "@nuxt/types", "@nuxtjs/axios"]
   },
-  "exclude": ["node_modules", ".nuxt"]
+  "exclude": [".nuxt", "dist/**/*", ".yarn"]
 }

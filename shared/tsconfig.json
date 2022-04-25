@@ -26,7 +26,7 @@
       "viewtube/*": ["../*"],
       "server/*": ["./"]
     },
-    "types": ["@types/node"]
+    "types": ["node"]
   },
-  "exclude": ["**/node_modules", "**/dist", "**/.yarn"]
+  "exclude": ["**/dist", "**/.yarn"]
 }

@@ -135,7 +135,6 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
 
   highestLegacyQuality.value = '#';
   if (props.video.legacyFormats) {
-    console.log(props.video.legacyFormats);
     const videoFormat = props.video.legacyFormats.find((e: any) => {
       if (e.qualityLabel) {
         if (e.qualityLabel === '1080p') {
