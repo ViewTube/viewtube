@@ -17,7 +17,6 @@ import { VideoBasicInfo } from './schemas/video-basic-info.schema';
 import { VideoEntity } from './video.entity';
 import { DislikeDto } from './dto/dislike.dto';
 import undici from 'undici';
-import Consola from 'consola';
 
 @Injectable()
 export class VideosService {
@@ -117,7 +116,7 @@ export class VideosService {
   }
 
   async getDislikes(id: string): Promise<DislikeDto> {
-    const { statusCode, headers, trailers, body } = await undici.request(
+    const { body } = await undici.request(
       `${this.returnYoutubeDislikeUrl}/Votes?videoId=${id}`
     );
 
