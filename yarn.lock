@@ -3309,10 +3309,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:16.11.28":
-  version: 16.11.28
-  resolution: "@types/node@npm:16.11.28"
-  checksum: aba39c8a9fdac1d73f69e5308b669952d607504ac2bd6f9f99201b8b974baedd52ca43f8cbbbb2e5015269eb2c680a85f80a4416816accb6019029bae3a7714c
+"@types/node@npm:16.11.29":
+  version: 16.11.29
+  resolution: "@types/node@npm:16.11.29"
+  checksum: efb3a716a638baa7bf8f281d8f91102a7df452804f4cfbdd3a0f36d581cddc56446eac6b1ed041e27841f316de5d858080f98516ccf306fda9d6f8c3c68c2e17
   languageName: node
   linkType: hard
 
@@ -6188,7 +6188,7 @@ __metadata:
     "@nuxtjs/pwa": 3.3.5
     "@nuxtjs/router": 1.7.0
     "@nuxtjs/style-resources": 1.2.1
-    "@types/node": 16.11.28
+    "@types/node": 16.11.29
     "@types/papaparse": 5.3.2
     "@types/qrcode": 1.4.2
     "@types/sass": 1.43.1
@@ -16445,7 +16445,7 @@ __metadata:
     "@types/jest": 27.4.1
     "@types/module-alias": 2.0.1
     "@types/multer": 1.4.7
-    "@types/node": 16.11.28
+    "@types/node": 16.11.29
     "@types/node-fetch": 3.0.3
     "@types/passport-jwt": 3.0.6
     "@types/passport-local": 1.0.34
@@ -16582,7 +16582,7 @@ __metadata:
     "@nestjs/common": 8.4.4
     "@nestjs/core": 8.4.4
     "@nestjs/swagger": 5.2.1
-    "@types/node": 16.11.28
+    "@types/node": 16.11.29
     class-transformer: 0.5.1
     class-validator: 0.13.2
     reflect-metadata: 0.1.13
