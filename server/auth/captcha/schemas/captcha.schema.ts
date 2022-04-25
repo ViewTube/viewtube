@@ -1,9 +1,5 @@
 import { Document } from 'mongoose';
-import {
-  Prop,
-  Schema,
-  SchemaFactory
-} from '@nestjs/mongoose';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
 // eslint-disable-next-line no-undef
 @Schema({ timestamps: true })
@@ -23,6 +19,4 @@ export class Captcha extends Document {
   solution: string;
 }
 
-export const CaptchaSchema = SchemaFactory.createForClass(
-  Captcha
-);
+export const CaptchaSchema = SchemaFactory.createForClass(Captcha);

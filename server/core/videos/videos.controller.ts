@@ -11,6 +11,7 @@ import {
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { VideoDto } from 'viewtube/shared/dto/video/video.dto';
+import { DislikeDto } from './dto/dislike.dto';
 import { VideosService } from './videos.service';
 
 @ApiTags('Core')
@@ -35,5 +36,12 @@ export class VideosController {
   @Get('manifest/dash/:id')
   getDashManifest(@Param('id') id: string): Promise<string> {
     return this.videosService.getDashManifest(id);
+  }
+
+  @CacheTTL(18000)
+  @Header('Cache-Control', 'public, max-age=18000')
+  @Get('dislikes/:id')
+  getDislikes(@Param('id') id: string): Promise<DislikeDto> {
+    return this.videosService.getDislikes(id);
   }
 }

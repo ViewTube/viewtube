@@ -20,25 +20,25 @@ export class Settings extends Document implements SettingsDto {
   @Prop()
   sponsorblockEnabled: boolean;
 
-  @Prop()
+  @Prop({ type: String })
   sponsorblockSegmentSponsor: segmentOption;
 
-  @Prop()
+  @Prop({ type: String })
   sponsorblockSegmentIntro: segmentOption;
 
-  @Prop()
+  @Prop({ type: String })
   sponsorblockSegmentOutro: segmentOption;
 
-  @Prop()
+  @Prop({ type: String })
   sponsorblockSegmentInteraction: segmentOption;
 
-  @Prop()
+  @Prop({ type: String })
   sponsorblockSegmentSelfpromo: segmentOption;
 
-  @Prop()
+  @Prop({ type: String })
   sponsorblockSegmentMusicOfftopic: segmentOption;
 
-  @Prop()
+  @Prop({ type: String })
   sponsorblockSegmentPreview: segmentOption;
 
   @Prop()

@@ -29,9 +29,9 @@
             </li>
             <li>Upload the file "subscriptions.csv" here.</li>
           </ol>
-          <FileButton :label="'Upload CSV'" @change="onYTTakeoutFileChange"  />
+          <FileButton :label="'Upload CSV'" @change="onYTTakeoutFileChange" />
           <h2><XmlIcon />Import from Invidious / OPML</h2>
-          <FileButton :label="'Upload OPML'" @change="onOPMLFileChange"  />
+          <FileButton :label="'Upload OPML'" @change="onOPMLFileChange" />
         </div>
         <div
           v-if="subscriptionsToImport && subscriptionsToImport.length > 0"

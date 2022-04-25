@@ -17,12 +17,7 @@
       "
       class="home-videos-container small"
     >
-      <VideoEntry
-        v-for="video in subscriptions"
-        :key="video.videoId"
-        :video="video"
-        :lazy="true"
-      />
+      <VideoEntry v-for="video in subscriptions" :key="video.videoId" :video="video" :lazy="true" />
     </div>
     <SectionTitle :title="'Popular videos'" :gradient="!userAuthenticated" z />
     <div class="home-videos-container small">

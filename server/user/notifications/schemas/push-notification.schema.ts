@@ -1,16 +1,10 @@
 import { Document } from 'mongoose';
-import {
-  Prop,
-  Schema,
-  SchemaFactory
-} from '@nestjs/mongoose';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { PushNotificationDto } from 'server/user/dto/push-notification.dto';
 
 // eslint-disable-next-line no-undef
 @Schema({ timestamps: true, id: false })
-export class PushNotification
-  extends Document
-  implements PushNotificationDto {
+export class PushNotification extends Document implements PushNotificationDto {
   @Prop({ required: true })
   declare id: string;
 
@@ -23,6 +17,4 @@ export class PushNotification
   sentAt: Date;
 }
 
-export const PushNotificationSchema = SchemaFactory.createForClass(
-  PushNotification
-);
+export const PushNotificationSchema = SchemaFactory.createForClass(PushNotification);

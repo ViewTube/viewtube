@@ -1,4 +1,10 @@
-import { actionTree, NuxtStoreInput, NuxtStore, ActionContext, NormalisedActionHandler } from 'typed-vuex';
+import {
+  actionTree,
+  NuxtStoreInput,
+  NuxtStore,
+  ActionContext,
+  NormalisedActionHandler
+} from 'typed-vuex';
 
 declare type Not<T, M> = T extends M ? never : T;
 declare type StateObject = Not<Record<string, any>, Function>;
