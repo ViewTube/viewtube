@@ -4425,7 +4425,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/nuxt", null],
             ["@types/nuxt__vue-app", null],
             ["@types/vue", null],
-            ["@vue/composition-api", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:1.4.9"],
+            ["@vue/composition-api", "virtual:e14353ac3e16acb245727a13f711e710e059bbb52e1761e3f4f53baedc9c6921944efc43c5e954e4443e81cee1734490fe8604fce48dafe9192c607d4b4695de#npm:1.4.9"],
             ["defu", "npm:5.0.1"],
             ["estree-walker", "npm:2.0.2"],
             ["fs-extra", "npm:9.1.0"],
@@ -6498,10 +6498,30 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "SOFT",
         }],
-        ["virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:1.4.9", {
-          "packageLocation": "./.yarn/__virtual__/@vue-composition-api-virtual-8086ff646f/0/cache/@vue-composition-api-npm-1.4.9-2311a81039-08853aee43.zip/node_modules/@vue/composition-api/",
+        ["npm:1.5.0", {
+          "packageLocation": "./.yarn/cache/@vue-composition-api-npm-1.5.0-e1b59b10dd-df5fbaa39b.zip/node_modules/@vue/composition-api/",
           "packageDependencies": [
-            ["@vue/composition-api", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:1.4.9"],
+            ["@vue/composition-api", "npm:1.5.0"]
+          ],
+          "linkType": "SOFT",
+        }],
+        ["virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:1.5.0", {
+          "packageLocation": "./.yarn/__virtual__/@vue-composition-api-virtual-620ff7411e/0/cache/@vue-composition-api-npm-1.5.0-e1b59b10dd-df5fbaa39b.zip/node_modules/@vue/composition-api/",
+          "packageDependencies": [
+            ["@vue/composition-api", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:1.5.0"],
+            ["@types/vue", null],
+            ["vue", "npm:2.6.14"]
+          ],
+          "packagePeers": [
+            "@types/vue",
+            "vue"
+          ],
+          "linkType": "HARD",
+        }],
+        ["virtual:e14353ac3e16acb245727a13f711e710e059bbb52e1761e3f4f53baedc9c6921944efc43c5e954e4443e81cee1734490fe8604fce48dafe9192c607d4b4695de#npm:1.4.9", {
+          "packageLocation": "./.yarn/__virtual__/@vue-composition-api-virtual-1714475ba4/0/cache/@vue-composition-api-npm-1.4.9-2311a81039-08853aee43.zip/node_modules/@vue/composition-api/",
+          "packageDependencies": [
+            ["@vue/composition-api", "virtual:e14353ac3e16acb245727a13f711e710e059bbb52e1761e3f4f53baedc9c6921944efc43c5e954e4443e81cee1734490fe8604fce48dafe9192c607d4b4695de#npm:1.4.9"],
             ["@types/vue", null],
             ["vue", "npm:2.6.14"]
           ],
@@ -8896,7 +8916,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/sass", "npm:1.43.1"],
             ["@typescript-eslint/eslint-plugin", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:5.19.0"],
             ["@typescript-eslint/parser", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:5.19.0"],
-            ["@vue/composition-api", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:1.4.9"],
+            ["@vue/composition-api", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:1.5.0"],
             ["axios", "npm:0.26.1"],
             ["consola", "npm:2.15.3"],
             ["cross-env", "npm:7.0.3"],
@@ -23215,7 +23235,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/vue__runtime-dom", null],
             ["@vue/compiler-core", "npm:3.2.33"],
             ["@vue/compiler-dom", "npm:3.2.33"],
-            ["@vue/composition-api", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:1.4.9"],
+            ["@vue/composition-api", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:1.5.0"],
             ["@vue/reactivity-transform", "npm:3.2.33"],
             ["@vue/runtime-dom", null],
             ["@vue/shared", "npm:3.2.33"],
@@ -23250,7 +23270,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/vue__runtime-dom", null],
             ["@vue/compiler-core", "npm:3.2.33"],
             ["@vue/compiler-dom", "npm:3.2.33"],
-            ["@vue/composition-api", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:1.4.9"],
+            ["@vue/composition-api", "virtual:e14353ac3e16acb245727a13f711e710e059bbb52e1761e3f4f53baedc9c6921944efc43c5e954e4443e81cee1734490fe8604fce48dafe9192c607d4b4695de#npm:1.4.9"],
             ["@vue/reactivity-transform", "npm:3.2.33"],
             ["@vue/runtime-dom", null],
             ["@vue/shared", "npm:3.2.33"],
