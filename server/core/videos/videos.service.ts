@@ -15,6 +15,8 @@ import { Common } from '../common';
 import { DashGenerator } from './dash.generator';
 import { VideoBasicInfo } from './schemas/video-basic-info.schema';
 import { VideoEntity } from './video.entity';
+import { DislikeDto } from './dto/dislike.dto';
+import undici from 'undici';
 
 @Injectable()
 export class VideosService {
@@ -25,6 +27,8 @@ export class VideosService {
     private readonly channelModel: Model<ChannelBasicInfo>,
     private configService: ConfigService
   ) {}
+
+  returnYoutubeDislikeUrl = 'https://returnyoutubedislikeapi.com';
 
   async getById(id: string): Promise<VideoDto> {
     const url: string = Common.youtubeVideoUrl + id;
@@ -109,6 +113,21 @@ export class VideosService {
         HttpStatus.INTERNAL_SERVER_ERROR
       );
     }
+  }
+
+  async getDislikes(id: string): Promise<DislikeDto> {
+    const { body } = await undici.request(`${this.returnYoutubeDislikeUrl}/Votes?videoId=${id}`);
+
+    if (body) {
+      const responseObject = await body.json();
+      if (!isNaN(responseObject.dislikes)) {
+        return responseObject;
+      } else if (responseObject.status) {
+        throw new HttpException(responseObject, responseObject.status);
+      }
+    }
+
+    throw new HttpException('Error fetching dislike information', 503);
   }
 
   async getDashManifest(id: string): Promise<string> {

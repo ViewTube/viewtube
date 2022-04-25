@@ -1,3 +1,1 @@
-export class SentryReporter {
-  
-}
+export class SentryReporter {}
