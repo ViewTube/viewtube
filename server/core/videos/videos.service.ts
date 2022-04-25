@@ -116,9 +116,7 @@ export class VideosService {
   }
 
   async getDislikes(id: string): Promise<DislikeDto> {
-    const { body } = await undici.request(
-      `${this.returnYoutubeDislikeUrl}/Votes?videoId=${id}`
-    );
+    const { body } = await undici.request(`${this.returnYoutubeDislikeUrl}/Votes?videoId=${id}`);
 
     if (body) {
       const responseObject = await body.json();

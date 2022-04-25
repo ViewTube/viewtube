@@ -9,10 +9,7 @@ export class VideoplaybackController {
   constructor(private videoplaybackService: VideoplaybackService) {}
 
   @Get()
-  async getVideoplayback(
-    @Res() reply: FastifyReply,
-    @Req() request: FastifyRequest
-  ) {
+  async getVideoplayback(@Res() reply: FastifyReply, @Req() request: FastifyRequest) {
     await this.videoplaybackService.proxyStream(request, reply);
   }
 }

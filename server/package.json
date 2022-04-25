@@ -4,7 +4,6 @@
   "packageManager": "yarn@3.1.1",
   "scripts": {
     "serve": "nest build --webpack --webpackPath webpack-hmr.config.js --watch",
-    "webcrack": "webpack --config webpack-hmr.config.js",
     "serve:all": "nest build --webpack --webpackPath webpack-hmr.config.js --watch",
     "env:prod": "NODE_ENV=production",
     "build": "NODE_ENV=production && nest build --tsc --path tsconfig.build.json --config nest-cli.json",

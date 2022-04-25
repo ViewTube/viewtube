@@ -53,7 +53,10 @@ export class HistoryController {
   }
 
   @Get(':id')
-  getVideoVisit(@Req() request: ViewTubeRequest, @Param('id') videoId: string): Promise<VideoVisitDto> {
+  getVideoVisit(
+    @Req() request: ViewTubeRequest,
+    @Param('id') videoId: string
+  ): Promise<VideoVisitDto> {
     return this.historyService.getVideoVisit(request.user.username, videoId);
   }
 
@@ -66,7 +69,10 @@ export class HistoryController {
   }
 
   @Delete(':videoId')
-  deleteHistoryEntry(@Req() request: ViewTubeRequest, @Param('videoId') videoId: string): Promise<void> {
+  deleteHistoryEntry(
+    @Req() request: ViewTubeRequest,
+    @Param('videoId') videoId: string
+  ): Promise<void> {
     return this.historyService.deleteHistoryEntry(request.user.username, videoId);
   }
 

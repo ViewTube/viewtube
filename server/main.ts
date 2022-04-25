@@ -66,16 +66,24 @@ const bootstrap = async () => {
 
   // Disable helment on non-https instances
   if (isHttps()) {
-    await server.register(FastifyHelmet as any, {
-      contentSecurityPolicy: {
-        useDefaults: true,
-        directives: {
-          defaultSrc: [`'self'`, `blob:`, `https://sponsor.ajay.app`, `https://*.googlevideo.com`],
-          scriptSrc: [`'self'`, `blob:`, `https: 'unsafe-eval'`, `https: 'unsafe-inline'`],
-          scriptSrcAttr: null
+    await server.register(
+      FastifyHelmet as any,
+      {
+        contentSecurityPolicy: {
+          useDefaults: true,
+          directives: {
+            defaultSrc: [
+              `'self'`,
+              `blob:`,
+              `https://sponsor.ajay.app`,
+              `https://*.googlevideo.com`
+            ],
+            scriptSrc: [`'self'`, `blob:`, `https: 'unsafe-eval'`, `https: 'unsafe-inline'`],
+            scriptSrcAttr: null
+          }
         }
-      }
-    } as any);
+      } as any
+    );
   }
 
   await server.register(FastifyCookie as any);

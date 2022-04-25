@@ -16,6 +16,5 @@ export class NotificationsSubscription extends Document implements PushSubscript
   keys: NotificationsSubscriptionKeys;
 }
 
-export const NotificationsSubscriptionSchema = SchemaFactory.createForClass(
-  NotificationsSubscription
-);
+export const NotificationsSubscriptionSchema =
+  SchemaFactory.createForClass(NotificationsSubscription);

@@ -14,7 +14,8 @@
     "serve:client": "yarn workspace client run serve",
     "test": "yarn workspace server run test",
     "start": "yarn workspace server run start",
-    "lint-staged": "prettier --write --ignore-unknown"
+    "lint-staged": "prettier --write --ignore-unknown",
+    "format": "prettier --write ."
   },
   "workspaces": [
     "client",

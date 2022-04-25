@@ -127,7 +127,7 @@ $ docker create \
 Docker-compose
 
 ```yml
-version: '3'
+version: "3"
 
 services:
   viewtube:
@@ -171,7 +171,7 @@ Instructions
 
 3. Start the dev server
 
-   `yarn serve`  
+   `yarn serve`
 
    If you want to start the api and frontend separately, you can use the following commands.  
    `yarn serve:api`  

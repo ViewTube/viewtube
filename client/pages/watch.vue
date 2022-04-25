@@ -51,8 +51,13 @@
                 <p class="dislike-count">
                   {{ dislikeCount.toLocaleString('en-US') }}
                 </p>
-                <a class="dislike-info" href="https://returnyoutubedislike.com" target="_blank" rel="noreferrer noopener">
-                  <InfoIcon v-tippy="'Dislike information provided by returnyoutubedislike.com'"/>
+                <a
+                  class="dislike-info"
+                  href="https://returnyoutubedislike.com"
+                  target="_blank"
+                  rel="noreferrer noopener"
+                >
+                  <InfoIcon v-tippy="'Dislike information provided by returnyoutubedislike.com'" />
                 </a>
               </div>
             </div>
@@ -282,18 +287,20 @@ export default defineComponent({
     });
 
     const loadDislikes = () => {
-      axios.get(`${accessor.environment.apiUrl}videos/dislikes/${route.value.query.v}`).then(response => {
-        if(response.data && !isNaN(response.data.dislikes)) {
-          dislikeCount.value = response.data.dislikes
-        } else {
-          accessor.messages.createMessage({
-            type: 'error',
-            title: 'Error loading dislikes',
-            message: 'Loading dislikes failed.'
-          });
-        }
-      })
-    }
+      axios
+        .get(`${accessor.environment.apiUrl}videos/dislikes/${route.value.query.v}`)
+        .then(response => {
+          if (response.data && !isNaN(response.data.dislikes)) {
+            dislikeCount.value = response.data.dislikes;
+          } else {
+            accessor.messages.createMessage({
+              type: 'error',
+              title: 'Error loading dislikes',
+              message: 'Loading dislikes failed.'
+            });
+          }
+        });
+    };
 
     const saveToHistory = () => {
       if (accessor.user.isLoggedIn) {
@@ -723,12 +730,13 @@ export default defineComponent({
               display: flex;
               flex-direction: row;
 
-              .dislike-info{
+              .dislike-info {
                 height: 16px;
                 width: 16px;
                 padding: 2px 0 6px 8px;
 
-                .material-design-icon, .material-design-icon__svg {
+                .material-design-icon,
+                .material-design-icon__svg {
                   height: 16px;
                   width: 16px;
                 }
