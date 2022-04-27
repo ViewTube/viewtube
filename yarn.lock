@@ -8821,13 +8821,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fastify-helmet@npm:7.0.1":
+"fastify-helmet-deprecated@npm:fastify-helmet@7.0.1":
   version: 7.0.1
   resolution: "fastify-helmet@npm:7.0.1"
   dependencies:
     fastify-plugin: ^3.0.0
     helmet: ^5.0.1
   checksum: 80cdb855ea23981767d79cf9fe27e36cf655eae065f0e4caf8aac071922bf566cc3e268ca5d3911d3a587ed8ff1e55bf29d63979a6e3a2ae8bfa01e8433dc83e
+  languageName: node
+  linkType: hard
+
+"fastify-helmet@npm:7.1.0":
+  version: 7.1.0
+  resolution: "fastify-helmet@npm:7.1.0"
+  dependencies:
+    fastify-helmet-deprecated: "npm:fastify-helmet@7.0.1"
+    process-warning: ^1.0.0
+  checksum: 6cfaf95e0fa7582cd46289371da3ef9de942b50dcadc4f27c79731c4064a220d1cc42726df3fe35337bd1f0914188790be61961cb45518dbe35677296ae8501b
   languageName: node
   linkType: hard
 
@@ -16503,7 +16513,7 @@ __metadata:
     eslint-plugin-jest: 26.1.5
     fastify: 3.28.0
     fastify-cookie: 5.7.0
-    fastify-helmet: 7.0.1
+    fastify-helmet: 7.1.0
     fastify-multipart: 5.3.1
     fastify-swagger: 5.1.1
     https-proxy-agent: 5.0.1

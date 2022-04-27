@@ -12612,14 +12612,39 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "SOFT",
         }],
-        ["virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:7.0.1", {
-          "packageLocation": "./.yarn/__virtual__/fastify-helmet-virtual-2129ed01cc/0/cache/fastify-helmet-npm-7.0.1-9775bad9fd-80cdb855ea.zip/node_modules/fastify-helmet/",
+        ["npm:7.1.0", {
+          "packageLocation": "./.yarn/cache/fastify-helmet-npm-7.1.0-a5d830741c-6cfaf95e0f.zip/node_modules/fastify-helmet/",
           "packageDependencies": [
-            ["fastify-helmet", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:7.0.1"],
+            ["fastify-helmet", "npm:7.1.0"]
+          ],
+          "linkType": "SOFT",
+        }],
+        ["virtual:2f67f158a62adda517fa4be741957d6f2d6dc613f5674288ca785fe8802c29b035ac4cb4a71cfa4e0e56d465c93c113fdfd941d0145f55ef79f2b17d64ac61bf#npm:7.0.1", {
+          "packageLocation": "./.yarn/__virtual__/fastify-helmet-virtual-d80c8cb84e/0/cache/fastify-helmet-npm-7.0.1-9775bad9fd-80cdb855ea.zip/node_modules/fastify-helmet/",
+          "packageDependencies": [
+            ["fastify-helmet", "virtual:2f67f158a62adda517fa4be741957d6f2d6dc613f5674288ca785fe8802c29b035ac4cb4a71cfa4e0e56d465c93c113fdfd941d0145f55ef79f2b17d64ac61bf#npm:7.0.1"],
             ["@types/fastify", null],
             ["fastify", "npm:3.28.0"],
             ["fastify-plugin", "npm:3.0.1"],
             ["helmet", "npm:5.0.2"]
+          ],
+          "packagePeers": [
+            "@types/fastify",
+            "fastify"
+          ],
+          "linkType": "HARD",
+        }],
+        ["virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:7.1.0", {
+          "packageLocation": "./.yarn/__virtual__/fastify-helmet-virtual-2f67f158a6/0/cache/fastify-helmet-npm-7.1.0-a5d830741c-6cfaf95e0f.zip/node_modules/fastify-helmet/",
+          "packageDependencies": [
+            ["fastify-helmet", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:7.1.0"],
+            ["@types/fastify", null],
+            ["fastify", "npm:3.28.0"],
+            ["fastify-helmet-deprecated", [
+              "fastify-helmet",
+              "virtual:2f67f158a62adda517fa4be741957d6f2d6dc613f5674288ca785fe8802c29b035ac4cb4a71cfa4e0e56d465c93c113fdfd941d0145f55ef79f2b17d64ac61bf#npm:7.0.1"
+            ]],
+            ["process-warning", "npm:1.0.0"]
           ],
           "packagePeers": [
             "@types/fastify",
@@ -21223,7 +21248,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint-plugin-jest", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:26.1.5"],
             ["fastify", "npm:3.28.0"],
             ["fastify-cookie", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:5.7.0"],
-            ["fastify-helmet", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:7.0.1"],
+            ["fastify-helmet", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:7.1.0"],
             ["fastify-multipart", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:5.3.1"],
             ["fastify-swagger", "npm:5.1.1"],
             ["https-proxy-agent", "npm:5.0.1"],
