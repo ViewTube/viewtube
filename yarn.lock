@@ -8869,7 +8869,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fastify-swagger@npm:5.1.1":
+"fastify-swagger-deprecated@npm:fastify-swagger@5.1.1":
   version: 5.1.1
   resolution: "fastify-swagger@npm:5.1.1"
   dependencies:
@@ -8880,6 +8880,16 @@ __metadata:
     openapi-types: ^10.0.0
     rfdc: ^1.3.0
   checksum: 6ead1e803fed5a35c57981514d8222162d93013f8507f572ed4562775bf3b84905a1233407cbcde664b58fe47322d1548c12066d1c70f22d19cb8b2f015a0f44
+  languageName: node
+  linkType: hard
+
+"fastify-swagger@npm:5.2.0":
+  version: 5.2.0
+  resolution: "fastify-swagger@npm:5.2.0"
+  dependencies:
+    fastify-swagger-deprecated: "npm:fastify-swagger@5.1.1"
+    process-warning: ^1.0.0
+  checksum: 877cf5b084f820d0fa8d1ce1845720ca7519b79ae9f0f7806016f46b78faf30c6255af7ea35a9f20892ad9a65117e3e6d920356fe20a9a82caf22dd721adc512
   languageName: node
   linkType: hard
 
@@ -16505,7 +16515,7 @@ __metadata:
     fastify-cookie: 5.7.0
     fastify-helmet: 7.0.1
     fastify-multipart: 5.3.1
-    fastify-swagger: 5.1.1
+    fastify-swagger: 5.2.0
     https-proxy-agent: 5.0.1
     humanize-duration: 3.27.1
     husky: 7.0.4
