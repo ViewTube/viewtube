@@ -12533,14 +12533,39 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "SOFT",
         }],
-        ["virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:5.6.1", {
-          "packageLocation": "./.yarn/__virtual__/fastify-cookie-virtual-f45b243a26/0/cache/fastify-cookie-npm-5.6.1-d257149342-33e6ea5c8e.zip/node_modules/fastify-cookie/",
+        ["npm:5.7.0", {
+          "packageLocation": "./.yarn/cache/fastify-cookie-npm-5.7.0-bbb57a2eb7-8064c98cca.zip/node_modules/fastify-cookie/",
           "packageDependencies": [
-            ["fastify-cookie", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:5.6.1"],
+            ["fastify-cookie", "npm:5.7.0"]
+          ],
+          "linkType": "SOFT",
+        }],
+        ["virtual:22c74e355691b7a08e31c829d08dffcede8fb935db20a8ab7ba5dd6de930a1c3d346cadace397c0504a5c98716848a897969b1fbc26db3cef46a38fbc59b6917#npm:5.6.1", {
+          "packageLocation": "./.yarn/__virtual__/fastify-cookie-virtual-37c540ad27/0/cache/fastify-cookie-npm-5.6.1-d257149342-33e6ea5c8e.zip/node_modules/fastify-cookie/",
+          "packageDependencies": [
+            ["fastify-cookie", "virtual:22c74e355691b7a08e31c829d08dffcede8fb935db20a8ab7ba5dd6de930a1c3d346cadace397c0504a5c98716848a897969b1fbc26db3cef46a38fbc59b6917#npm:5.6.1"],
             ["@types/fastify", null],
             ["cookie-signature", "npm:1.2.0"],
             ["fastify", "npm:3.28.0"],
             ["fastify-plugin", "npm:3.0.1"]
+          ],
+          "packagePeers": [
+            "@types/fastify",
+            "fastify"
+          ],
+          "linkType": "HARD",
+        }],
+        ["virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:5.7.0", {
+          "packageLocation": "./.yarn/__virtual__/fastify-cookie-virtual-22c74e3556/0/cache/fastify-cookie-npm-5.7.0-bbb57a2eb7-8064c98cca.zip/node_modules/fastify-cookie/",
+          "packageDependencies": [
+            ["fastify-cookie", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:5.7.0"],
+            ["@types/fastify", null],
+            ["fastify", "npm:3.28.0"],
+            ["fastify-cookie-deprecated", [
+              "fastify-cookie",
+              "virtual:22c74e355691b7a08e31c829d08dffcede8fb935db20a8ab7ba5dd6de930a1c3d346cadace397c0504a5c98716848a897969b1fbc26db3cef46a38fbc59b6917#npm:5.6.1"
+            ]],
+            ["process-warning", "npm:1.0.0"]
           ],
           "packagePeers": [
             "@types/fastify",
@@ -21197,7 +21222,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint-config-prettier", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:8.5.0"],
             ["eslint-plugin-jest", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:26.1.5"],
             ["fastify", "npm:3.28.0"],
-            ["fastify-cookie", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:5.6.1"],
+            ["fastify-cookie", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:5.7.0"],
             ["fastify-helmet", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:7.0.1"],
             ["fastify-multipart", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:5.3.1"],
             ["fastify-swagger", "npm:5.1.1"],
