@@ -2701,6 +2701,108 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["@fastify/cookie", [
+        ["npm:6.0.0", {
+          "packageLocation": "./.yarn/cache/@fastify-cookie-npm-6.0.0-fb59a064c8-56146dd26b.zip/node_modules/@fastify/cookie/",
+          "packageDependencies": [
+            ["@fastify/cookie", "npm:6.0.0"]
+          ],
+          "linkType": "SOFT",
+        }],
+        ["virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:6.0.0", {
+          "packageLocation": "./.yarn/__virtual__/@fastify-cookie-virtual-257ee60ae6/0/cache/@fastify-cookie-npm-6.0.0-fb59a064c8-56146dd26b.zip/node_modules/@fastify/cookie/",
+          "packageDependencies": [
+            ["@fastify/cookie", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:6.0.0"],
+            ["@types/fastify", null],
+            ["cookie-signature", "npm:1.2.0"],
+            ["fastify", "npm:3.28.0"],
+            ["fastify-plugin", "npm:3.0.1"]
+          ],
+          "packagePeers": [
+            "@types/fastify",
+            "fastify"
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@fastify/error", [
+        ["npm:2.0.0", {
+          "packageLocation": "./.yarn/cache/@fastify-error-npm-2.0.0-9960848f02-ecf0834966.zip/node_modules/@fastify/error/",
+          "packageDependencies": [
+            ["@fastify/error", "npm:2.0.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@fastify/helmet", [
+        ["npm:8.0.0", {
+          "packageLocation": "./.yarn/cache/@fastify-helmet-npm-8.0.0-343a5230ba-2e3e23bc65.zip/node_modules/@fastify/helmet/",
+          "packageDependencies": [
+            ["@fastify/helmet", "npm:8.0.0"]
+          ],
+          "linkType": "SOFT",
+        }],
+        ["virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:8.0.0", {
+          "packageLocation": "./.yarn/__virtual__/@fastify-helmet-virtual-9be27e7cbd/0/cache/@fastify-helmet-npm-8.0.0-343a5230ba-2e3e23bc65.zip/node_modules/@fastify/helmet/",
+          "packageDependencies": [
+            ["@fastify/helmet", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:8.0.0"],
+            ["@types/fastify", null],
+            ["fastify", "npm:3.28.0"],
+            ["fastify-plugin", "npm:3.0.1"],
+            ["helmet", "npm:5.0.2"]
+          ],
+          "packagePeers": [
+            "@types/fastify",
+            "fastify"
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@fastify/multipart", [
+        ["npm:6.0.0", {
+          "packageLocation": "./.yarn/cache/@fastify-multipart-npm-6.0.0-2c95c58695-1c0ad54a6f.zip/node_modules/@fastify/multipart/",
+          "packageDependencies": [
+            ["@fastify/multipart", "npm:6.0.0"]
+          ],
+          "linkType": "SOFT",
+        }],
+        ["virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:6.0.0", {
+          "packageLocation": "./.yarn/__virtual__/@fastify-multipart-virtual-1b56066749/0/cache/@fastify-multipart-npm-6.0.0-2c95c58695-1c0ad54a6f.zip/node_modules/@fastify/multipart/",
+          "packageDependencies": [
+            ["@fastify/multipart", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:6.0.0"],
+            ["@fastify/busboy", "npm:1.0.0"],
+            ["@fastify/error", "npm:2.0.0"],
+            ["@types/fastify", null],
+            ["deepmerge", "npm:4.2.2"],
+            ["end-of-stream", "npm:1.4.4"],
+            ["fastify", "npm:3.28.0"],
+            ["fastify-plugin", "npm:3.0.1"],
+            ["hexoid", "npm:1.0.0"],
+            ["secure-json-parse", "npm:2.4.0"],
+            ["stream-wormhole", "npm:1.1.0"]
+          ],
+          "packagePeers": [
+            "@types/fastify",
+            "fastify"
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@fastify/swagger", [
+        ["npm:6.0.0", {
+          "packageLocation": "./.yarn/cache/@fastify-swagger-npm-6.0.0-8fedfea867-e1401d151a.zip/node_modules/@fastify/swagger/",
+          "packageDependencies": [
+            ["@fastify/swagger", "npm:6.0.0"],
+            ["fastify-plugin", "npm:3.0.1"],
+            ["fastify-static", "npm:4.6.1"],
+            ["js-yaml", "npm:4.1.0"],
+            ["json-schema-resolver", "npm:1.3.0"],
+            ["openapi-types", "npm:10.0.0"],
+            ["rfdc", "npm:1.3.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["@freetube/yt-comment-scraper", [
         ["npm:6.1.0", {
           "packageLocation": "./.yarn/cache/@freetube-yt-comment-scraper-npm-6.1.0-43792179e5-f88f0bce24.zip/node_modules/@freetube/yt-comment-scraper/",
@@ -3611,7 +3713,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/typescript", null],
             ["class-transformer", "npm:0.5.1"],
             ["class-validator", "npm:0.13.2"],
-            ["fastify-swagger", "npm:5.1.1"],
+            ["fastify-swagger", null],
             ["lodash", "npm:4.17.21"],
             ["path-to-regexp", "npm:3.2.0"],
             ["reflect-metadata", "npm:0.1.13"],
@@ -12525,55 +12627,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
-      ["fastify-cookie", [
-        ["npm:5.6.1", {
-          "packageLocation": "./.yarn/cache/fastify-cookie-npm-5.6.1-d257149342-33e6ea5c8e.zip/node_modules/fastify-cookie/",
-          "packageDependencies": [
-            ["fastify-cookie", "npm:5.6.1"]
-          ],
-          "linkType": "SOFT",
-        }],
-        ["npm:5.7.0", {
-          "packageLocation": "./.yarn/cache/fastify-cookie-npm-5.7.0-bbb57a2eb7-8064c98cca.zip/node_modules/fastify-cookie/",
-          "packageDependencies": [
-            ["fastify-cookie", "npm:5.7.0"]
-          ],
-          "linkType": "SOFT",
-        }],
-        ["virtual:22c74e355691b7a08e31c829d08dffcede8fb935db20a8ab7ba5dd6de930a1c3d346cadace397c0504a5c98716848a897969b1fbc26db3cef46a38fbc59b6917#npm:5.6.1", {
-          "packageLocation": "./.yarn/__virtual__/fastify-cookie-virtual-37c540ad27/0/cache/fastify-cookie-npm-5.6.1-d257149342-33e6ea5c8e.zip/node_modules/fastify-cookie/",
-          "packageDependencies": [
-            ["fastify-cookie", "virtual:22c74e355691b7a08e31c829d08dffcede8fb935db20a8ab7ba5dd6de930a1c3d346cadace397c0504a5c98716848a897969b1fbc26db3cef46a38fbc59b6917#npm:5.6.1"],
-            ["@types/fastify", null],
-            ["cookie-signature", "npm:1.2.0"],
-            ["fastify", "npm:3.28.0"],
-            ["fastify-plugin", "npm:3.0.1"]
-          ],
-          "packagePeers": [
-            "@types/fastify",
-            "fastify"
-          ],
-          "linkType": "HARD",
-        }],
-        ["virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:5.7.0", {
-          "packageLocation": "./.yarn/__virtual__/fastify-cookie-virtual-22c74e3556/0/cache/fastify-cookie-npm-5.7.0-bbb57a2eb7-8064c98cca.zip/node_modules/fastify-cookie/",
-          "packageDependencies": [
-            ["fastify-cookie", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:5.7.0"],
-            ["@types/fastify", null],
-            ["fastify", "npm:3.28.0"],
-            ["fastify-cookie-deprecated", [
-              "fastify-cookie",
-              "virtual:22c74e355691b7a08e31c829d08dffcede8fb935db20a8ab7ba5dd6de930a1c3d346cadace397c0504a5c98716848a897969b1fbc26db3cef46a38fbc59b6917#npm:5.6.1"
-            ]],
-            ["process-warning", "npm:1.0.0"]
-          ],
-          "packagePeers": [
-            "@types/fastify",
-            "fastify"
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
       ["fastify-cors", [
         ["npm:6.0.3", {
           "packageLocation": "./.yarn/cache/fastify-cors-npm-6.0.3-006af662e1-054cf4e1cf.zip/node_modules/fastify-cors/",
@@ -12604,85 +12657,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
-      ["fastify-helmet", [
-        ["npm:7.0.1", {
-          "packageLocation": "./.yarn/cache/fastify-helmet-npm-7.0.1-9775bad9fd-80cdb855ea.zip/node_modules/fastify-helmet/",
-          "packageDependencies": [
-            ["fastify-helmet", "npm:7.0.1"]
-          ],
-          "linkType": "SOFT",
-        }],
-        ["npm:7.1.0", {
-          "packageLocation": "./.yarn/cache/fastify-helmet-npm-7.1.0-a5d830741c-6cfaf95e0f.zip/node_modules/fastify-helmet/",
-          "packageDependencies": [
-            ["fastify-helmet", "npm:7.1.0"]
-          ],
-          "linkType": "SOFT",
-        }],
-        ["virtual:2f67f158a62adda517fa4be741957d6f2d6dc613f5674288ca785fe8802c29b035ac4cb4a71cfa4e0e56d465c93c113fdfd941d0145f55ef79f2b17d64ac61bf#npm:7.0.1", {
-          "packageLocation": "./.yarn/__virtual__/fastify-helmet-virtual-d80c8cb84e/0/cache/fastify-helmet-npm-7.0.1-9775bad9fd-80cdb855ea.zip/node_modules/fastify-helmet/",
-          "packageDependencies": [
-            ["fastify-helmet", "virtual:2f67f158a62adda517fa4be741957d6f2d6dc613f5674288ca785fe8802c29b035ac4cb4a71cfa4e0e56d465c93c113fdfd941d0145f55ef79f2b17d64ac61bf#npm:7.0.1"],
-            ["@types/fastify", null],
-            ["fastify", "npm:3.28.0"],
-            ["fastify-plugin", "npm:3.0.1"],
-            ["helmet", "npm:5.0.2"]
-          ],
-          "packagePeers": [
-            "@types/fastify",
-            "fastify"
-          ],
-          "linkType": "HARD",
-        }],
-        ["virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:7.1.0", {
-          "packageLocation": "./.yarn/__virtual__/fastify-helmet-virtual-2f67f158a6/0/cache/fastify-helmet-npm-7.1.0-a5d830741c-6cfaf95e0f.zip/node_modules/fastify-helmet/",
-          "packageDependencies": [
-            ["fastify-helmet", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:7.1.0"],
-            ["@types/fastify", null],
-            ["fastify", "npm:3.28.0"],
-            ["fastify-helmet-deprecated", [
-              "fastify-helmet",
-              "virtual:2f67f158a62adda517fa4be741957d6f2d6dc613f5674288ca785fe8802c29b035ac4cb4a71cfa4e0e56d465c93c113fdfd941d0145f55ef79f2b17d64ac61bf#npm:7.0.1"
-            ]],
-            ["process-warning", "npm:1.0.0"]
-          ],
-          "packagePeers": [
-            "@types/fastify",
-            "fastify"
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
-      ["fastify-multipart", [
-        ["npm:5.3.1", {
-          "packageLocation": "./.yarn/cache/fastify-multipart-npm-5.3.1-388d3779de-e471f7b01b.zip/node_modules/fastify-multipart/",
-          "packageDependencies": [
-            ["fastify-multipart", "npm:5.3.1"]
-          ],
-          "linkType": "SOFT",
-        }],
-        ["virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:5.3.1", {
-          "packageLocation": "./.yarn/__virtual__/fastify-multipart-virtual-4b3f421eb9/0/cache/fastify-multipart-npm-5.3.1-388d3779de-e471f7b01b.zip/node_modules/fastify-multipart/",
-          "packageDependencies": [
-            ["fastify-multipart", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:5.3.1"],
-            ["@fastify/busboy", "npm:1.0.0"],
-            ["@types/fastify", null],
-            ["deepmerge", "npm:4.2.2"],
-            ["end-of-stream", "npm:1.4.4"],
-            ["fastify", "npm:3.28.0"],
-            ["fastify-error", "npm:0.3.1"],
-            ["fastify-plugin", "npm:3.0.1"],
-            ["hexoid", "npm:1.0.0"],
-            ["secure-json-parse", "npm:2.4.0"],
-            ["stream-wormhole", "npm:1.1.0"]
-          ],
-          "packagePeers": [
-            "@types/fastify",
-            "fastify"
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
       ["fastify-plugin", [
         ["npm:3.0.1", {
           "packageLocation": "./.yarn/cache/fastify-plugin-npm-3.0.1-30a545741d-131ba0a388.zip/node_modules/fastify-plugin/",
@@ -12704,21 +12678,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["p-limit", "npm:3.1.0"],
             ["readable-stream", "npm:3.6.0"],
             ["send", "npm:0.17.2"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
-      ["fastify-swagger", [
-        ["npm:5.1.1", {
-          "packageLocation": "./.yarn/cache/fastify-swagger-npm-5.1.1-81091f5e38-6ead1e803f.zip/node_modules/fastify-swagger/",
-          "packageDependencies": [
-            ["fastify-swagger", "npm:5.1.1"],
-            ["fastify-plugin", "npm:3.0.1"],
-            ["fastify-static", "npm:4.6.1"],
-            ["js-yaml", "npm:4.1.0"],
-            ["json-schema-resolver", "npm:1.3.0"],
-            ["openapi-types", "npm:10.0.0"],
-            ["rfdc", "npm:1.3.0"]
           ],
           "linkType": "HARD",
         }]
@@ -21191,6 +21150,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./server/",
           "packageDependencies": [
             ["server", "workspace:server"],
+            ["@fastify/cookie", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:6.0.0"],
+            ["@fastify/helmet", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:8.0.0"],
+            ["@fastify/multipart", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:6.0.0"],
+            ["@fastify/swagger", "npm:6.0.0"],
             ["@freetube/yt-comment-scraper", "npm:6.1.0"],
             ["@nestjs/bull", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:0.5.4"],
             ["@nestjs/cli", "npm:8.2.5"],
@@ -21247,10 +21210,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint-config-prettier", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:8.5.0"],
             ["eslint-plugin-jest", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:26.1.5"],
             ["fastify", "npm:3.28.0"],
-            ["fastify-cookie", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:5.7.0"],
-            ["fastify-helmet", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:7.1.0"],
-            ["fastify-multipart", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:5.3.1"],
-            ["fastify-swagger", "npm:5.1.1"],
             ["https-proxy-agent", "npm:5.0.1"],
             ["humanize-duration", "npm:3.27.1"],
             ["husky", "npm:7.0.4"],
