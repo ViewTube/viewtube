@@ -22,7 +22,11 @@
     }
   },
   "dependencies": {
-    "@freetube/yt-comment-scraper": "^6.0.0",
+    "@fastify/cookie": "6.0.0",
+    "@fastify/helmet": "8.0.0",
+    "@fastify/multipart": "6.0.0",
+    "@fastify/swagger": "6.0.0",
+    "@freetube/yt-comment-scraper": "6.1.0",
     "@nestjs/bull": "0.5.4",
     "@nestjs/common": "8.4.4",
     "@nestjs/config": "2.0.0",
@@ -50,10 +54,6 @@
     "consola": "2.15.3",
     "cookie-parser": "1.4.6",
     "fastify": "3.28.0",
-    "fastify-cookie": "5.7.0",
-    "fastify-helmet": "7.1.0",
-    "fastify-multipart": "5.3.1",
-    "fastify-swagger": "5.1.1",
     "https-proxy-agent": "5.0.1",
     "humanize-duration": "3.27.1",
     "ioredis": "5.0.4",
