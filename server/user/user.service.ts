@@ -189,9 +189,16 @@ export class UserService {
   }
 
   async create(user: UserDto): Promise<UserprofileDto> {
-    const existingUser: null | User = await this.findOne(user.username);
+    const existingUser: null | User = await this.UserModel.findOne({
+      username: { $regex: `^${user.username}$`, $options: 'i' }
+    }).exec();
+
     if (existingUser !== null) {
-      throw new HttpException(`User ${existingUser.username} already exists`, 400);
+      throw new HttpException(`Username ${existingUser.username} is already in use`, 400);
+    } else if (user.username.length > 16) {
+      throw new HttpException('Username cannot be longer than 16 characters', 400);
+    } else if (user.username.length < 2) {
+      throw new HttpException('Username muxt be longer than 2 characters', 400);
     } else {
       const saltRounds = 10;
       let hash: string;
