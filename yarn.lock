@@ -13252,7 +13252,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"node-fetch@npm:2.6.7, node-fetch@npm:^2.6.1":
+"node-fetch@npm:3.2.4":
+  version: 3.2.4
+  resolution: "node-fetch@npm:3.2.4"
+  dependencies:
+    data-uri-to-buffer: ^4.0.0
+    fetch-blob: ^3.1.4
+    formdata-polyfill: ^4.0.10
+  checksum: cfc715441302167bd4a9c6d6f3ff8eecb65e5aeeccd55a690497dcce5f95ec017d65c5682414287cad3998a28b1bab4820dcbe51852902eaa5f15f3975562384
+  languageName: node
+  linkType: hard
+
+"node-fetch@npm:^2.6.1":
   version: 2.6.7
   resolution: "node-fetch@npm:2.6.7"
   dependencies:
@@ -16527,7 +16538,7 @@ __metadata:
     mongodb-memory-server: 8.4.2
     mongoose: 6.3.1
     nestjs-throttler-storage-redis: "git+https://github.com/mauriceoegerli/nestjs-throttler-storage-redis.git"
-    node-fetch: 2.6.7
+    node-fetch: 3.2.4
     passport: 0.5.2
     passport-jwt: 4.0.0
     passport-local: 1.0.0

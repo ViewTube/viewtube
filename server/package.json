@@ -62,7 +62,7 @@
     "module-alias": "2.2.2",
     "mongoose": "6.3.1",
     "nestjs-throttler-storage-redis": "git+https://github.com/mauriceoegerli/nestjs-throttler-storage-redis.git",
-    "node-fetch": "2.6.7",
+    "node-fetch": "3.2.4",
     "passport": "0.5.2",
     "passport-jwt": "4.0.0",
     "passport-local": "1.0.0",
