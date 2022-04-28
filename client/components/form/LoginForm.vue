@@ -2,6 +2,7 @@
   <div class="login-form" :class="{ loading: loading, wiggle: formWiggle }">
     <h2 class="login-title">Sign in</h2>
     <span class="status-message-display message-display">{{ statusMessage }}</span>
+    <InformationHint class="hint">Usernames are case sensitive</InformationHint>
     <Spinner />
     <form id="login" method="post" @submit.prevent="login">
       <FormInput :id="'username'" v-model="username" :label="'username'" :type="'username'" />
@@ -13,6 +14,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, useRoute, useRouter } from '@nuxtjs/composition-api';
+import InformationHint from '@/components/hints/InformationHint.vue';
 import FormInput from '@/components/form/FormInput.vue';
 import SubmitButton from '@/components/form/SubmitButton.vue';
 import Spinner from '@/components/Spinner.vue';
@@ -23,7 +25,8 @@ export default defineComponent({
   components: {
     FormInput,
     SubmitButton,
-    Spinner
+    Spinner,
+    InformationHint
   },
   props: {
     complete: Function
@@ -122,7 +125,13 @@ export default defineComponent({
     line-height: 20px;
   }
 
+  .hint {
+    width: calc(100% - 80px);
+    margin: 15px 0 0 0;
+  }
+
   &.loading {
+    .hint,
     #login {
       opacity: 0;
       pointer-events: none;
@@ -134,7 +143,7 @@ export default defineComponent({
   }
 
   .spinner {
-    position: absolute;
+    position: absolute !important;
     top: 50%;
     transform: translateY(-50%);
     opacity: 0;
