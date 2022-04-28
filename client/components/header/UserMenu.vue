@@ -361,7 +361,7 @@ export default defineComponent({
   bottom: 0;
 
   &.login-form {
-    max-height: 350px;
+    max-height: 400px;
   }
 
   &.register-form {
