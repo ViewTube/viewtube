@@ -12661,10 +12661,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "SOFT",
         }],
-        ["virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:5.3.1", {
-          "packageLocation": "./.yarn/__virtual__/fastify-multipart-virtual-4b3f421eb9/0/cache/fastify-multipart-npm-5.3.1-388d3779de-e471f7b01b.zip/node_modules/fastify-multipart/",
+        ["npm:5.4.0", {
+          "packageLocation": "./.yarn/cache/fastify-multipart-npm-5.4.0-5ad8b863e0-ad4a4b2719.zip/node_modules/fastify-multipart/",
           "packageDependencies": [
-            ["fastify-multipart", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:5.3.1"],
+            ["fastify-multipart", "npm:5.4.0"]
+          ],
+          "linkType": "SOFT",
+        }],
+        ["virtual:05fbb5ec0766a96ff6048008b53e9fdde58048740abd498d9f0e0a590b89895d47587743754f7033f91f5f48ce2b71f73da71d333862f4b63fc640b93fae539f#npm:5.3.1", {
+          "packageLocation": "./.yarn/__virtual__/fastify-multipart-virtual-30440371b5/0/cache/fastify-multipart-npm-5.3.1-388d3779de-e471f7b01b.zip/node_modules/fastify-multipart/",
+          "packageDependencies": [
+            ["fastify-multipart", "virtual:05fbb5ec0766a96ff6048008b53e9fdde58048740abd498d9f0e0a590b89895d47587743754f7033f91f5f48ce2b71f73da71d333862f4b63fc640b93fae539f#npm:5.3.1"],
             ["@fastify/busboy", "npm:1.0.0"],
             ["@types/fastify", null],
             ["deepmerge", "npm:4.2.2"],
@@ -12675,6 +12682,24 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["hexoid", "npm:1.0.0"],
             ["secure-json-parse", "npm:2.4.0"],
             ["stream-wormhole", "npm:1.1.0"]
+          ],
+          "packagePeers": [
+            "@types/fastify",
+            "fastify"
+          ],
+          "linkType": "HARD",
+        }],
+        ["virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:5.4.0", {
+          "packageLocation": "./.yarn/__virtual__/fastify-multipart-virtual-05fbb5ec07/0/cache/fastify-multipart-npm-5.4.0-5ad8b863e0-ad4a4b2719.zip/node_modules/fastify-multipart/",
+          "packageDependencies": [
+            ["fastify-multipart", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:5.4.0"],
+            ["@types/fastify", null],
+            ["fastify", "npm:3.28.0"],
+            ["fastify-multipart-deprecated", [
+              "fastify-multipart",
+              "virtual:05fbb5ec0766a96ff6048008b53e9fdde58048740abd498d9f0e0a590b89895d47587743754f7033f91f5f48ce2b71f73da71d333862f4b63fc640b93fae539f#npm:5.3.1"
+            ]],
+            ["process-warning", "npm:1.0.0"]
           ],
           "packagePeers": [
             "@types/fastify",
@@ -21249,7 +21274,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["fastify", "npm:3.28.0"],
             ["fastify-cookie", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:5.7.0"],
             ["fastify-helmet", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:7.1.0"],
-            ["fastify-multipart", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:5.3.1"],
+            ["fastify-multipart", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:5.4.0"],
             ["fastify-swagger", "npm:5.1.1"],
             ["https-proxy-agent", "npm:5.0.1"],
             ["humanize-duration", "npm:3.27.1"],

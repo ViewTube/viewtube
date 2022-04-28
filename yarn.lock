@@ -8841,7 +8841,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fastify-multipart@npm:5.3.1":
+"fastify-multipart-deprecated@npm:fastify-multipart@5.3.1":
   version: 5.3.1
   resolution: "fastify-multipart@npm:5.3.1"
   dependencies:
@@ -8854,6 +8854,16 @@ __metadata:
     secure-json-parse: ^2.4.0
     stream-wormhole: ^1.1.0
   checksum: e471f7b01bb8c9b61c89dcd469c8846043285cfb7d4d594641397908408474059caaca4f5b5bba74cfd41e3d7f40af2b932340d047110962f7bd3de2c15ed373
+  languageName: node
+  linkType: hard
+
+"fastify-multipart@npm:5.4.0":
+  version: 5.4.0
+  resolution: "fastify-multipart@npm:5.4.0"
+  dependencies:
+    fastify-multipart-deprecated: "npm:fastify-multipart@5.3.1"
+    process-warning: ^1.0.0
+  checksum: ad4a4b2719b8083953011265bae1373dc9cc89306943ca8446f02b155bd226b181d7a89fbea50d6906fdfe17269ca0429474d7eb21028d6416b1e0e4b5126487
   languageName: node
   linkType: hard
 
@@ -16514,7 +16524,7 @@ __metadata:
     fastify: 3.28.0
     fastify-cookie: 5.7.0
     fastify-helmet: 7.1.0
-    fastify-multipart: 5.3.1
+    fastify-multipart: 5.4.0
     fastify-swagger: 5.1.1
     https-proxy-agent: 5.0.1
     humanize-duration: 3.27.1
