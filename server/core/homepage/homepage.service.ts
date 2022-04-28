@@ -33,10 +33,13 @@ export class HomepageService {
 
     const oldPopularPage = await this.PopularModel.find().sort({ createdDate: -1 }).limit(1).exec();
     if (oldPopularPage && oldPopularPage[0]) {
-      const expireTime = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
-      if (expireTime < oldPopularPage[0].createdDate) {
+      const expireTime = new Date(new Date().getTime() - 24 * 60 * 60 * 1000);
+      if (oldPopularPage[0].createdDate < expireTime) {
         expired = true;
       }
+    }
+    if (!oldPopularPage || oldPopularPage.length <= 0) {
+      expired = true;
     }
     if (expired && (clusterWorker1 || notClustered)) {
       Consola.info('Refreshing popular page');

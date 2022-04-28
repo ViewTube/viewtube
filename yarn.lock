@@ -1520,20 +1520,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@fastify/swagger@npm:6.0.0":
-  version: 6.0.0
-  resolution: "@fastify/swagger@npm:6.0.0"
-  dependencies:
-    fastify-plugin: ^3.0.0
-    fastify-static: ^4.0.0
-    js-yaml: ^4.0.0
-    json-schema-resolver: ^1.3.0
-    openapi-types: ^10.0.0
-    rfdc: ^1.3.0
-  checksum: e1401d151a7881f57e560f9fa87ceccba2faa7fefb1149c6f2477fa4920ba41587b7d65e6a6aeaa392f55d99f6787b1183e73c60244c459a975f393b66d0f22b
-  languageName: node
-  linkType: hard
-
 "@freetube/yt-comment-scraper@npm:6.1.0":
   version: 6.1.0
   resolution: "@freetube/yt-comment-scraper@npm:6.1.0"
@@ -8877,6 +8863,20 @@ __metadata:
     readable-stream: ^3.4.0
     send: ^0.17.1
   checksum: f2276167bac8176cd943a67b5a4f4dbd683c27e06313d8d53ed48f405cbfae3a1bb5b95bc3a7cf0ce1f553e5ea0a434f292be4edc9779f4380cf5bd7477eef42
+  languageName: node
+  linkType: hard
+
+"fastify-swagger@npm:@fastify/swagger@6.0.0":
+  version: 6.0.0
+  resolution: "@fastify/swagger@npm:6.0.0"
+  dependencies:
+    fastify-plugin: ^3.0.0
+    fastify-static: ^4.0.0
+    js-yaml: ^4.0.0
+    json-schema-resolver: ^1.3.0
+    openapi-types: ^10.0.0
+    rfdc: ^1.3.0
+  checksum: e1401d151a7881f57e560f9fa87ceccba2faa7fefb1149c6f2477fa4920ba41587b7d65e6a6aeaa392f55d99f6787b1183e73c60244c459a975f393b66d0f22b
   languageName: node
   linkType: hard
 
@@ -16446,7 +16446,6 @@ __metadata:
     "@fastify/cookie": 6.0.0
     "@fastify/helmet": 8.0.0
     "@fastify/multipart": 6.0.0
-    "@fastify/swagger": 6.0.0
     "@freetube/yt-comment-scraper": 6.1.0
     "@nestjs/bull": 0.5.4
     "@nestjs/cli": 8.2.5
@@ -16503,6 +16502,7 @@ __metadata:
     eslint-config-prettier: 8.5.0
     eslint-plugin-jest: 26.1.5
     fastify: 3.28.0
+    fastify-swagger: "npm:@fastify/swagger@6.0.0"
     https-proxy-agent: 5.0.1
     humanize-duration: 3.27.1
     husky: 7.0.4
