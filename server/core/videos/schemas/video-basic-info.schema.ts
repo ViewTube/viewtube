@@ -23,7 +23,7 @@ export class VideoBasicInfo extends Document implements VideoBasicInfoDto {
   @Prop()
   author: string;
 
-  @Prop()
+  @Prop({ index: true })
   authorId: string;
 
   @Prop()
