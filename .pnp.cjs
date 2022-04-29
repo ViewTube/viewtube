@@ -5319,10 +5319,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "HARD",
         }],
-        ["npm:16.11.31", {
-          "packageLocation": "./.yarn/cache/@types-node-npm-16.11.31-d74ddfb705-0bad289e12.zip/node_modules/@types/node/",
+        ["npm:16.11.32", {
+          "packageLocation": "./.yarn/cache/@types-node-npm-16.11.32-ebb0e7ff2d-21f1bcd4f4.zip/node_modules/@types/node/",
           "packageDependencies": [
-            ["@types/node", "npm:16.11.31"]
+            ["@types/node", "npm:16.11.32"]
           ],
           "linkType": "HARD",
         }],
@@ -9205,7 +9205,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@nuxtjs/pwa", "npm:3.3.5"],
             ["@nuxtjs/router", "npm:1.7.0"],
             ["@nuxtjs/style-resources", "npm:1.2.1"],
-            ["@types/node", "npm:16.11.31"],
+            ["@types/node", "npm:16.11.32"],
             ["@types/papaparse", "npm:5.3.2"],
             ["@types/qrcode", "npm:1.4.2"],
             ["@types/sass", "npm:1.43.1"],
@@ -21186,7 +21186,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.4.1"],
             ["@types/module-alias", "npm:2.0.1"],
             ["@types/multer", "npm:1.4.7"],
-            ["@types/node", "npm:16.11.31"],
+            ["@types/node", "npm:16.11.32"],
             ["@types/node-fetch", "npm:3.0.3"],
             ["@types/passport-jwt", "npm:3.0.6"],
             ["@types/passport-local", "npm:1.0.34"],
@@ -21343,7 +21343,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@nestjs/common", "virtual:d10100d960b1b73f8c74718d4637dfe2c18d098bafef09afa646f6b4f65cd1a5ad77d7941e2a1def095bb77eb2ac82d00bec47774003ea2f130a251bc51e4c5b#npm:8.4.4"],
             ["@nestjs/core", "virtual:d10100d960b1b73f8c74718d4637dfe2c18d098bafef09afa646f6b4f65cd1a5ad77d7941e2a1def095bb77eb2ac82d00bec47774003ea2f130a251bc51e4c5b#npm:8.4.4"],
             ["@nestjs/swagger", "virtual:d10100d960b1b73f8c74718d4637dfe2c18d098bafef09afa646f6b4f65cd1a5ad77d7941e2a1def095bb77eb2ac82d00bec47774003ea2f130a251bc51e4c5b#npm:5.2.1"],
-            ["@types/node", "npm:16.11.31"],
+            ["@types/node", "npm:16.11.32"],
             ["class-transformer", "npm:0.5.1"],
             ["class-validator", "npm:0.13.2"],
             ["reflect-metadata", "npm:0.1.13"],
