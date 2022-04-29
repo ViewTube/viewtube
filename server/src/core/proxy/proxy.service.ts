@@ -1,6 +1,6 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import HttpsProxyAgent from 'https-proxy-agent/dist/agent';
+import { HttpsProxyAgent } from 'https-proxy-agent';
 import fetch from 'node-fetch';
 import { FastifyReply, FastifyRequest } from 'fastify';
 import undici, { Client } from 'undici';

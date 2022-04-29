@@ -14,7 +14,7 @@ import { ChannelBasicInfo } from '../channels/schemas/channel-basic-info.schema'
 import { Common } from '../common';
 import { DashGenerator } from './dash.generator';
 import { VideoBasicInfo } from './schemas/video-basic-info.schema';
-import { VideoEntity } from './video.entity';
+import { mapVideo } from './video.mapper';
 import { DislikeDto } from './dto/dislike.dto';
 import undici from 'undici';
 
@@ -62,7 +62,7 @@ export class VideosService {
       //   result.videoDetails.lengthSeconds
       // );
 
-      const video: VideoDto = new VideoEntity(result);
+      const video: VideoDto = mapVideo(result);
 
       // const channelBasicInfo: ChannelBasicInfoDto = {
       //   authorId: video.authorId,
