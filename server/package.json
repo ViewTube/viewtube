@@ -1,6 +1,6 @@
 {
   "name": "server",
-  "main": "dist/server/main",
+  "main": "dist/main",
   "packageManager": "yarn@3.1.1",
   "scripts": {
     "serve": "nest build --webpack --webpackPath webpack-hmr.config.js --watch",
