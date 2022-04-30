@@ -114,7 +114,7 @@
     "mongodb-memory-server": "8.4.2",
     "redis": "4.0.6",
     "redis-mock": "0.56.3",
-    "rollup": "2.70.2",
+    "rollup": "2.71.0",
     "rollup-plugin-typescript2": "0.31.2",
     "run-script-webpack-plugin": "0.0.11",
     "source-map-support": "0.5.21",
