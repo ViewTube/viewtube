@@ -16661,7 +16661,7 @@ __metadata:
     xml-js: 1.6.11
     ytdl-core: 4.11.0
     ytpl: 2.3.0
-    ytsr: 3.7.0
+    ytsr: 3.8.0
   languageName: unknown
   linkType: soft
 
@@ -19764,12 +19764,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ytsr@npm:3.7.0":
-  version: 3.7.0
-  resolution: "ytsr@npm:3.7.0"
+"ytsr@npm:3.8.0":
+  version: 3.8.0
+  resolution: "ytsr@npm:3.8.0"
   dependencies:
     miniget: ^4.2.2
-  checksum: 859d3e392fa95f3c541f753dcf1a613dc999f7de0d253483398d21b91a27bc71ab08a5b28d13768a2e18682131717b14589b3dd96bc8326c5322e9050549a743
+  checksum: 389ffed01df484e15ea53ebd0700c5c56030bc208e6e7b0e882f4a6d3568ccb4a339d9f04d4634ce21eba328cd277d0ae3b1904a0a129be0ac9ce0a5303bd0d2
   languageName: node
   linkType: hard
 
