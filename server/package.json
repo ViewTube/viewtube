@@ -13,7 +13,6 @@
     "lint": "eslint --ext .ts,.js,.vue .",
     "lint:fix": "eslint --ext .ts,.js,.vue --fix ."
   },
-  "type": "module",
   "_moduleAliases": {
     "server": "dist/server"
   },
