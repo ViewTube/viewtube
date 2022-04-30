@@ -16649,7 +16649,7 @@ __metadata:
     source-map-support: 0.5.21
     svg-captcha: 1.4.0
     ts-jest: 27.1.4
-    ts-loader: 9.2.9
+    ts-loader: 9.3.0
     tslib: 2.4.0
     typescript: 4.5.5
     undici: 5.0.0
@@ -18006,9 +18006,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ts-loader@npm:9.2.9":
-  version: 9.2.9
-  resolution: "ts-loader@npm:9.2.9"
+"ts-loader@npm:9.3.0":
+  version: 9.3.0
+  resolution: "ts-loader@npm:9.3.0"
   dependencies:
     chalk: ^4.1.0
     enhanced-resolve: ^5.0.0
@@ -18017,7 +18017,7 @@ __metadata:
   peerDependencies:
     typescript: "*"
     webpack: ^5.0.0
-  checksum: de817d4b7073bb029ca3e0742b5ef9432fdebb9f80707249b2121c09bb6ae6332ec755ab8e572f475ebfe5525a380a78b4e78a32b4d1c207a8fb1a2a0a490bac
+  checksum: 90755ac5850890ff433f2f8c7186d57ae4e172d389342d874b50ab233675f06c47c69043c517e2a2eeaf2251637ecfac607ac6190c89340f246ceff8c7f4af7a
   languageName: node
   linkType: hard
 
