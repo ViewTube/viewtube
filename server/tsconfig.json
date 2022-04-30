@@ -25,5 +25,5 @@
     },
     "types": ["node", "@types/jest", "@sentry/types"]
   },
-  "exclude": ["**/dist", "**/.yarn"]
+  "exclude": ["**/node_modules", "**/dist", "**/.yarn"]
 }

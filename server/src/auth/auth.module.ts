@@ -8,7 +8,7 @@ import { LocalStrategy } from './strategies/local.strategy';
 import { AuthController } from './auth.controller';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { RegisterModule } from './register/register.module';
-import { ConfigurationService } from 'core/configuration/configuration.service';
+import { ConfigurationService } from 'server/core/configuration/configuration.service';
 
 const moduleMetadata: ModuleMetadata = {
   providers: [AuthService, LocalStrategy, JwtStrategy],
