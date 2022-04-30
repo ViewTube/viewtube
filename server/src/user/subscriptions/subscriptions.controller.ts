@@ -1,4 +1,3 @@
-/* eslint-disable  @typescript-eslint/no-unused-vars */
 import {
   Controller,
   Get,
@@ -14,10 +13,10 @@ import {
 import { ApiTags, ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
 import Consola from 'consola';
 import { JwtAuthGuard } from 'server/auth/guards/jwt.guard';
-import { VideoBasicInfoDto } from 'server/core/videos/dto/video-basic-info.dto';
-import { ChannelBasicInfoDto } from 'server/core/channels/dto/channel-basic-info.dto';
+import { VideoBasicInfoDto } from 'core/videos/dto/video-basic-info.dto';
+import { ChannelBasicInfoDto } from 'core/channels/dto/channel-basic-info.dto';
 import { Common } from 'server/core/common';
-import { ViewTubeRequest } from 'server/common/viewtube-request';
+import { ViewTubeRequest } from 'common/viewtube-request';
 import { SubscriptionStatusDto } from './dto/subscription-status.dto';
 import { SubscriptionsService } from './subscriptions.service';
 

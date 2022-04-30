@@ -1,4 +1,3 @@
-import 'module-alias/register';
 import fs from 'fs';
 import path from 'path';
 import cluster from 'cluster';
@@ -18,7 +17,7 @@ import NuxtServer from './nuxt/';
 import { HomepageService } from './core/homepage/homepage.service';
 import { AppClusterService } from './app-cluster.service';
 import { promisify } from 'util';
-import { ConfigurationService } from 'viewtube/server/core/configuration/configuration.service';
+import { ConfigurationService } from 'server/core/configuration/configuration.service';
 import { isHttps } from 'viewtube/shared/index';
 
 declare const module: any;

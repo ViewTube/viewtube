@@ -37,7 +37,7 @@ export class VideoDto {
   adaptiveFormats: Array<any>;
   legacyFormats: Array<any>;
   chapters?: Array<ChapterDto>;
-  captions: object;
+  captions: any;
   recommendedVideos: Array<RecommendedVideoDto>;
   dashManifest?: string;
 }

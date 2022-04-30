@@ -5,7 +5,7 @@ const config = {
   verbose: true,
   testMatch: ['**/test/**/*spec.ts'],
   moduleNameMapper: {
-    '^server/(.*)$': '<rootDir>/$1',
+    '^server/(.*)$': '<rootDir>/src/$1',
     '^test/(.*)$': '<rootDir>/test/$1',
     '^viewtube/(.*)$': '<rootDir>/../$1'
   },
