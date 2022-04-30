@@ -41,4 +41,4 @@ ENV NODE_ENV=production
 HEALTHCHECK --interval=30s --timeout=20s --start-period=60s CMD wget --no-verbose --tries=3 --spider http://localhost:8066/ || exit 1
 EXPOSE 8066
 
-CMD ["node", "-r", "/home/app/.pnp.cjs", "/home/app/server/dist/server/main.js"]
+CMD ["node", "-r", "/home/app/.pnp.cjs", "/home/app/server/dist/main.cjs"]

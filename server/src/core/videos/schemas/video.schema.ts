@@ -41,7 +41,6 @@ export class Video extends Document implements VideoDto {
   isListed: boolean;
   liveNow: boolean;
   isUpcoming: boolean;
-  dashUrl: string;
   adaptiveFormats: object[];
   legacyFormats: object[];
   captions: object;
