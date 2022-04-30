@@ -78,7 +78,7 @@
     "xml-js": "1.6.11",
     "ytdl-core": "4.11.0",
     "ytpl": "2.3.0",
-    "ytsr": "3.7.0"
+    "ytsr": "3.8.0"
   },
   "devDependencies": {
     "@nestjs/cli": "8.2.5",
