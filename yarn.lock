@@ -1520,6 +1520,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@fastify/static@npm:^5.0.0":
+  version: 5.0.1
+  resolution: "@fastify/static@npm:5.0.1"
+  dependencies:
+    content-disposition: ^0.5.3
+    encoding-negotiator: ^2.0.1
+    fastify-plugin: ^3.0.0
+    glob: ^7.1.4
+    p-limit: ^3.1.0
+    readable-stream: ^3.4.0
+    send: ^0.17.1
+  checksum: 7485ac0ea597c16c41df5892bfbcc97d3edf745e2af6b2669e47b5a275dc94c03768e297861cbe956c6f08e4b8959eed2599f0edddbd706e9ac0931da3590c33
+  languageName: node
+  linkType: hard
+
 "@freetube/yt-comment-scraper@npm:6.1.0":
   version: 6.1.0
   resolution: "@freetube/yt-comment-scraper@npm:6.1.0"
@@ -3352,10 +3367,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:16.11.32":
-  version: 16.11.32
-  resolution: "@types/node@npm:16.11.32"
-  checksum: 21f1bcd4f47a443f8a78a58b6ca3488dd9418c71b1185ba067d02222047fb194a3bfba244c32259bcb0cae4d55870b43a908b1f2832ec4aa4f31158f809625fe
+"@types/node@npm:16.11.33":
+  version: 16.11.33
+  resolution: "@types/node@npm:16.11.33"
+  checksum: 5c86d3f1e3b996607b41405d368d2e19d410eee0054595cef73d230368a609a2863926e75ad19f5091f0fd742cd018b667d54c51292018dd8020a202a5b29fa9
   languageName: node
   linkType: hard
 
@@ -6252,7 +6267,7 @@ __metadata:
     "@nuxtjs/pwa": 3.3.5
     "@nuxtjs/router": 1.7.0
     "@nuxtjs/style-resources": 1.2.1
-    "@types/node": 16.11.32
+    "@types/node": 16.11.33
     "@types/papaparse": 5.3.2
     "@types/qrcode": 1.4.2
     "@types/sass": 1.43.1
@@ -8862,32 +8877,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fastify-static@npm:^4.0.0":
-  version: 4.6.1
-  resolution: "fastify-static@npm:4.6.1"
+"fastify-swagger@npm:@fastify/swagger@6.0.1":
+  version: 6.0.1
+  resolution: "@fastify/swagger@npm:6.0.1"
   dependencies:
-    content-disposition: ^0.5.3
-    encoding-negotiator: ^2.0.1
+    "@fastify/static": ^5.0.0
     fastify-plugin: ^3.0.0
-    glob: ^7.1.4
-    p-limit: ^3.1.0
-    readable-stream: ^3.4.0
-    send: ^0.17.1
-  checksum: f2276167bac8176cd943a67b5a4f4dbd683c27e06313d8d53ed48f405cbfae3a1bb5b95bc3a7cf0ce1f553e5ea0a434f292be4edc9779f4380cf5bd7477eef42
-  languageName: node
-  linkType: hard
-
-"fastify-swagger@npm:@fastify/swagger@6.0.0":
-  version: 6.0.0
-  resolution: "@fastify/swagger@npm:6.0.0"
-  dependencies:
-    fastify-plugin: ^3.0.0
-    fastify-static: ^4.0.0
     js-yaml: ^4.0.0
     json-schema-resolver: ^1.3.0
     openapi-types: ^10.0.0
     rfdc: ^1.3.0
-  checksum: e1401d151a7881f57e560f9fa87ceccba2faa7fefb1149c6f2477fa4920ba41587b7d65e6a6aeaa392f55d99f6787b1183e73c60244c459a975f393b66d0f22b
+  checksum: 014482ee49afca3380f700ee01b7e6b312756803f3cc35524558d9c70a858a22a8b61ce9ab84c56f5d5e790fbc8baec2ec99ba8a23a8e5484bc3b94b8e7b3b65
   languageName: node
   linkType: hard
 
@@ -16596,7 +16596,7 @@ __metadata:
     "@types/jest": 27.4.1
     "@types/module-alias": 2.0.1
     "@types/multer": 1.4.7
-    "@types/node": 16.11.32
+    "@types/node": 16.11.33
     "@types/node-fetch": 3.0.3
     "@types/passport-jwt": 3.0.6
     "@types/passport-local": 1.0.34
@@ -16622,7 +16622,7 @@ __metadata:
     eslint-config-prettier: 8.5.0
     eslint-plugin-jest: 26.1.5
     fastify: 3.29.0
-    fastify-swagger: "npm:@fastify/swagger@6.0.0"
+    fastify-swagger: "npm:@fastify/swagger@6.0.1"
     https-proxy-agent: 5.0.1
     humanize-duration: 3.27.1
     husky: 7.0.4
@@ -16733,7 +16733,7 @@ __metadata:
     "@nestjs/common": 8.4.4
     "@nestjs/core": 8.4.4
     "@nestjs/swagger": 5.2.1
-    "@types/node": 16.11.32
+    "@types/node": 16.11.33
     class-transformer: 0.5.1
     class-validator: 0.13.2
     reflect-metadata: 0.1.13
