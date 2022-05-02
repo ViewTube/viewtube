@@ -21374,7 +21374,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["ts-loader", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:9.3.0"],
             ["tslib", "npm:2.4.0"],
             ["typescript", "patch:typescript@npm%3A4.5.5#~builtin<compat/typescript>::version=4.5.5&hash=493e53"],
-            ["undici", "npm:5.1.0"],
+            ["undici", "npm:5.1.1"],
             ["web-push", "npm:3.4.5"],
             ["webpack", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:5.72.0"],
             ["webpack-cli", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:4.9.2"],
@@ -23463,10 +23463,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["undici", [
-        ["npm:5.1.0", {
-          "packageLocation": "./.yarn/cache/undici-npm-5.1.0-2323617639-0534a611bf.zip/node_modules/undici/",
+        ["npm:5.1.1", {
+          "packageLocation": "./.yarn/cache/undici-npm-5.1.1-472aa8d5dc-59494ccc13.zip/node_modules/undici/",
           "packageDependencies": [
-            ["undici", "npm:5.1.0"]
+            ["undici", "npm:5.1.1"]
           ],
           "linkType": "HARD",
         }]
