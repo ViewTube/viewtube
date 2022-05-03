@@ -112,7 +112,7 @@
     "husky": "7.0.4",
     "jest": "27.5.1",
     "mongodb-memory-server": "8.4.2",
-    "redis": "4.0.6",
+    "redis": "4.1.0",
     "redis-mock": "0.56.3",
     "rollup": "2.71.1",
     "rollup-plugin-typescript2": "0.31.2",
