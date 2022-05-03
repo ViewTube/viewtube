@@ -5288,10 +5288,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@types/jest", [
-        ["npm:27.4.1", {
-          "packageLocation": "./.yarn/cache/@types-jest-npm-27.4.1-31d07cd0d8-5184f3eef4.zip/node_modules/@types/jest/",
+        ["npm:27.5.0", {
+          "packageLocation": "./.yarn/cache/@types-jest-npm-27.5.0-19259c7527-ca09ac3a17.zip/node_modules/@types/jest/",
           "packageDependencies": [
-            ["@types/jest", "npm:27.4.1"],
+            ["@types/jest", "npm:27.5.0"],
             ["jest-matcher-utils", "npm:27.5.1"],
             ["pretty-format", "npm:27.5.1"]
           ],
@@ -11735,7 +11735,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["eslint-plugin-jest", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:26.1.5"],
             ["@types/eslint", "npm:8.4.1"],
-            ["@types/jest", "npm:27.4.1"],
+            ["@types/jest", "npm:27.5.0"],
             ["@types/typescript-eslint__eslint-plugin", null],
             ["@typescript-eslint/eslint-plugin", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:5.22.0"],
             ["@typescript-eslint/utils", "virtual:ca27c9bdf2ed0f2ddd3d03f3481b7a5d19804673a5e43bc1eb275caba19ed51bb75c4c0a3c3507f73feedf4f2ba89933fb457b8fda8e45938f0902edb39faaf0#npm:5.21.0"],
@@ -21154,7 +21154,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/cookie-parser", "npm:1.4.3"],
             ["@types/eslint", "npm:8.4.1"],
             ["@types/humanize-duration", "npm:3.27.1"],
-            ["@types/jest", "npm:27.4.1"],
+            ["@types/jest", "npm:27.5.0"],
             ["@types/module-alias", "npm:2.0.1"],
             ["@types/multer", "npm:1.4.7"],
             ["@types/node", "npm:16.11.33"],
@@ -22834,7 +22834,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/babel-jest", null],
             ["@types/babel__core", null],
             ["@types/esbuild", null],
-            ["@types/jest", "npm:27.4.1"],
+            ["@types/jest", "npm:27.5.0"],
             ["@types/typescript", null],
             ["babel-jest", null],
             ["bs-logger", "npm:0.2.6"],
