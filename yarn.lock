@@ -16485,7 +16485,7 @@ __metadata:
     tslib: 2.4.0
     typescript: 4.5.5
     undici: 5.1.1
-    web-push: 3.4.5
+    web-push: 3.5.0
     webpack: 5.72.0
     webpack-cli: 4.9.2
     webpack-pnp-externals: 1.1.0
@@ -18856,9 +18856,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"web-push@npm:3.4.5":
-  version: 3.4.5
-  resolution: "web-push@npm:3.4.5"
+"web-push@npm:3.5.0":
+  version: 3.5.0
+  resolution: "web-push@npm:3.5.0"
   dependencies:
     asn1.js: ^5.3.0
     http_ece: 1.1.0
@@ -18868,7 +18868,7 @@ __metadata:
     urlsafe-base64: ^1.0.0
   bin:
     web-push: src/cli.js
-  checksum: b81ffb404539c00a4d1b7b5a8ec788963f23cf042e1491d4c567167465a7211b497752b8e96156be4848543414ce5f8633ca9ed9d7f2707fe1bd4192616f41eb
+  checksum: 36085323e930a48b82c29466c80785e75fe725752cf10cba23ce3daec3f505bb5481fe769788a92cb4a07a0e9c632e50238cdb223e4d738acc55b7cf00d805d7
   languageName: node
   linkType: hard
 

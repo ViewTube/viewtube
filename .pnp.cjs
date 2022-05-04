@@ -21217,7 +21217,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["tslib", "npm:2.4.0"],
             ["typescript", "patch:typescript@npm%3A4.5.5#~builtin<compat/typescript>::version=4.5.5&hash=493e53"],
             ["undici", "npm:5.1.1"],
-            ["web-push", "npm:3.4.5"],
+            ["web-push", "npm:3.5.0"],
             ["webpack", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:5.72.0"],
             ["webpack-cli", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:4.9.2"],
             ["webpack-pnp-externals", "npm:1.1.0"],
@@ -24240,10 +24240,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["web-push", [
-        ["npm:3.4.5", {
-          "packageLocation": "./.yarn/cache/web-push-npm-3.4.5-c548a29b4b-b81ffb4045.zip/node_modules/web-push/",
+        ["npm:3.5.0", {
+          "packageLocation": "./.yarn/cache/web-push-npm-3.5.0-d6989b96e2-36085323e9.zip/node_modules/web-push/",
           "packageDependencies": [
-            ["web-push", "npm:3.4.5"],
+            ["web-push", "npm:3.5.0"],
             ["asn1.js", "npm:5.4.1"],
             ["http_ece", "npm:1.1.0"],
             ["https-proxy-agent", "npm:5.0.1"],
