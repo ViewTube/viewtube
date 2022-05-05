@@ -15972,9 +15972,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rollup@npm:2.71.1":
-  version: 2.71.1
-  resolution: "rollup@npm:2.71.1"
+"rollup@npm:2.72.0":
+  version: 2.72.0
+  resolution: "rollup@npm:2.72.0"
   dependencies:
     fsevents: ~2.3.2
   dependenciesMeta:
@@ -15982,7 +15982,7 @@ __metadata:
       optional: true
   bin:
     rollup: dist/bin/rollup
-  checksum: fe2b2fda7bf53c86e970f3b026b784c00e2237089b802755b3e43725db88f5d1869c1f81f8c5257e9b68b0fd1840dcbd3897d2f19768cce97a37c70e1a563dce
+  checksum: d4c213d4250a0455e0ee40664db3339a9e3ca5affa09c348019b4895e7100cdbedeba881a239a7a80c407b4055dca4e97d10a740d99c09b17651efbfedd61a4b
   languageName: node
   linkType: hard
 
@@ -16473,7 +16473,7 @@ __metadata:
     redis: 4.1.0
     redis-mock: 0.56.3
     reflect-metadata: 0.1.13
-    rollup: 2.71.1
+    rollup: 2.72.0
     rollup-plugin-typescript2: 0.31.2
     run-script-webpack-plugin: 0.0.11
     rxjs: 7.5.5
