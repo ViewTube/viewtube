@@ -48,3 +48,5 @@ dump.rdb
 !.yarn/versions
 Dockerfile.nodejs-mongodb
 .vscode/.ropeproject/
+drone.exe
+server/config.json

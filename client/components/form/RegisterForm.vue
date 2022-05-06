@@ -2,6 +2,7 @@
   <div class="register-form" :class="{ loading: loading, wiggle: formWiggle }">
     <h2 class="register-title">Sign up</h2>
     <span class="status-message-display message-display">{{ statusMessage }}</span>
+    <InformationHint class="hint">Usernames are case sensitive</InformationHint>
     <Spinner />
     <form id="register" ref="registerForm" method="post" @submit.prevent="register">
       <FormInput :id="'username'" v-model="username" :label="'username'" :type="'username'" />
@@ -38,6 +39,7 @@ import {
   watch
 } from '#imports';
 import FormInput from '@/components/form/FormInput.vue';
+import InformationHint from '@/components/hints/InformationHint.vue';
 import SubmitButton from '@/components/form/SubmitButton.vue';
 import Spinner from '@/components/Spinner.vue';
 import { useAccessor } from '@/hooks/accessor';
@@ -47,7 +49,8 @@ export default defineComponent({
   components: {
     FormInput,
     SubmitButton,
-    Spinner
+    Spinner,
+    InformationHint
   },
   props: {
     complete: Function
@@ -184,7 +187,13 @@ export default defineComponent({
     }
   }
 
+  .hint {
+    width: calc(100% - 80px);
+    margin: 15px 0 0 0;
+  }
+
   &.loading {
+    .hint,
     #register {
       opacity: 0;
       pointer-events: none;
@@ -196,7 +205,7 @@ export default defineComponent({
   }
 
   .spinner {
-    position: absolute;
+    position: absolute !important;
     top: 50%;
     transform: translateY(-50%);
     opacity: 0;

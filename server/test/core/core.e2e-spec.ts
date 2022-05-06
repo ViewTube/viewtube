@@ -3,7 +3,7 @@ import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import { CoreModule } from 'server/core/core.module';
 import { MongooseModule } from '@nestjs/mongoose';
-import { defineIt, getPayloadJson } from 'server/test/common/test.helper';
+import { defineIt, getPayloadJson } from '../common/test.helper';
 import ytsr from 'ytsr';
 import { CommentsResponseDto } from 'server/core/comments/dto/comments-response.dto';
 import ytpl from 'ytpl';
@@ -75,6 +75,7 @@ describe('Core', () => {
     const result = await app.inject({ method: 'GET', url: '/autocomplete', query: { q: query } });
 
     expect(result.statusCode).toEqual(200);
+    expect(result.body).toBeDefined();
 
     const payloadJson = getPayloadJson(result.payload);
     expect(payloadJson.length).toBeGreaterThan(0);

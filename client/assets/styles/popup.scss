@@ -38,7 +38,8 @@
     overscroll-behavior: contain;
     box-sizing: border-box;
 
-    >div:last-of-type, >table:last-of-type {
+    > div:last-of-type,
+    > table:last-of-type {
       padding-bottom: 100px;
     }
 

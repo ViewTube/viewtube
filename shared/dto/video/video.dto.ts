@@ -16,7 +16,6 @@ export class VideoDto {
   keywords: Array<string>;
   viewCount: number;
   likeCount: number;
-  dislikeCount: number;
   paid: boolean;
   premium: boolean;
   isFamilyFriendly: boolean;
@@ -38,7 +37,7 @@ export class VideoDto {
   adaptiveFormats: Array<any>;
   legacyFormats: Array<any>;
   chapters?: Array<ChapterDto>;
-  captions: object;
+  captions: any;
   recommendedVideos: Array<RecommendedVideoDto>;
   dashManifest?: string;
 }

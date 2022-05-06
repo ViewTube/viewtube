@@ -38,7 +38,7 @@ export class SponsorBlock {
           `${this._apiUrl}api/skipSegments/${shortHash}?categories=["sponsor", "intro", "outro", "interaction", "selfpromo", "music_offtopic", "preview"]`
         );
         if (response.data) {
-          const skipSections = response.data.find(el=> el.videoID === this._videoId);
+          const skipSections = response.data.find(el => el.videoID === this._videoId);
           if (skipSections) {
             this._skipSegments = skipSections;
             return skipSections;
