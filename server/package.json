@@ -80,7 +80,6 @@
   "devDependencies": {
     "@nestjs/cli": "8.2.5",
     "@nestjs/testing": "8.4.4",
-    "@nuxt/types": "2.15.8",
     "@sentry/types": "6.19.7",
     "@types/archiver": "5.3.1",
     "@types/bcryptjs": "2.4.2",
