@@ -1,24 +1,8 @@
-import { defineNuxtConfig } from '@nuxt/bridge';
-// import { getApiUrl } from '../shared';
-import Sass from 'sass';
-import PnpWebpackPlugin from 'pnp-webpack-plugin';
-import { NuxtConfig } from '@nuxt/schema';
-const dartSass = {
-  implementation: Sass,
-  additionalData: `
-    @use "sass:math";
-  `
-};
+import { defineNuxtConfig } from 'nuxt';
 
 const prod = process.env.NODE_ENV === 'production';
 
-type NuxtConfigType = Partial<NuxtConfig> & {
-  styleResources: any;
-  pwa: any;
-  axios: any;
-};
-
-const config: NuxtConfigType = {
+export default defineNuxtConfig({
   server: {
     port: 8066
   },
@@ -30,7 +14,7 @@ const config: NuxtConfigType = {
   },
 
   publicRuntimeConfig: {
-    apiUrl: "http://localhost:8066",
+    apiUrl: 'http://localhost:8066',
     vapidKey: process.env.VIEWTUBE_PUBLIC_VAPID
   },
 
@@ -195,9 +179,6 @@ const config: NuxtConfigType = {
   },
 
   buildModules: [
-    '@nuxt/bridge',
-    '@nuxtjs/router',
-    'nuxt-typed-vuex',
     '@nuxtjs/style-resources',
     '@nuxtjs/pwa',
     'nuxt-webpack-optimisations'
@@ -211,12 +192,6 @@ const config: NuxtConfigType = {
   },
 
   build: {
-    loaders: {
-      scss: dartSass
-    },
-    plugins: [PnpWebpackPlugin],
     transpile: ['vue-material-design-icons', 'tippy.js']
   }
-};
-
-export default defineNuxtConfig(config);
+})
