@@ -3,10 +3,6 @@ import { defineNuxtConfig } from 'nuxt';
 const prod = process.env.NODE_ENV === 'production';
 
 export default defineNuxtConfig({
-  server: {
-    port: 8066
-  },
-
   modern: prod,
 
   nitro: {
@@ -20,6 +16,22 @@ export default defineNuxtConfig({
 
   alias: {
     'viewtube/*': '../*'
+  },
+
+  vite: {
+    css: {
+      preprocessorOptions: {
+        sass: {
+          additionalData: `
+           @import "@/assets/styles/global/variables.scss";
+           @import "@/assets/fonts/expletus.css";
+           @import "@/assets/fonts/notosans.css';
+           @import "tippy.js/dist/tippy.css';
+           @import "vue2-datepicker/index.css';
+          `
+        }
+      }
+    }
   },
 
   head: {
@@ -80,23 +92,12 @@ export default defineNuxtConfig({
     ]
   },
 
-  loading: {
-    color: '#ff7b3b',
-    height: '2px',
-    throttle: 400,
-    duration: 8000
-  },
-
   css: [
     '~/assets/fonts/expletus.css',
     '~/assets/fonts/notosans.css',
     'tippy.js/dist/tippy.css',
     'vue2-datepicker/index.css'
   ],
-  styleResources: {
-    scss: ['~/assets/styles/global/variables.scss']
-  },
-
   typescript: {},
 
   plugins: [
@@ -178,20 +179,11 @@ export default defineNuxtConfig({
     }
   },
 
-  buildModules: [
-    '@nuxtjs/style-resources',
-    '@nuxtjs/pwa',
-    'nuxt-webpack-optimisations'
-  ],
+  buildModules: [],
 
-  modules: ['portal-vue/nuxt', '@nuxtjs/axios'],
-
-  axios: {
-    credentials: true,
-    progress: false
-  },
+  modules: [],
 
   build: {
     transpile: ['vue-material-design-icons', 'tippy.js']
   }
-})
+});
