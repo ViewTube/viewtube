@@ -14110,10 +14110,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["husky", [
-        ["npm:7.0.4", {
-          "packageLocation": "./.yarn/cache/husky-npm-7.0.4-917ba035c6-c6ec4af63d.zip/node_modules/husky/",
+        ["npm:8.0.1", {
+          "packageLocation": "./.yarn/cache/husky-npm-8.0.1-85fede8470-943a73a13d.zip/node_modules/husky/",
           "packageDependencies": [
-            ["husky", "npm:7.0.4"]
+            ["husky", "npm:8.0.1"]
           ],
           "linkType": "HARD",
         }]
@@ -21189,7 +21189,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ]],
             ["https-proxy-agent", "npm:5.0.1"],
             ["humanize-duration", "npm:3.27.1"],
-            ["husky", "npm:7.0.4"],
+            ["husky", "npm:8.0.1"],
             ["ioredis", "npm:5.0.4"],
             ["jest", "virtual:c139d237b0dbb776e61db419e9c89c8b814c75fa7a88b9f24aafc5ab8ac92bbf91dff4585597824d969ce997b2ccd24ccbc8eb827b2908e4b381ccc31b31d3eb#npm:28.0.3"],
             ["joi", "npm:17.6.0"],
