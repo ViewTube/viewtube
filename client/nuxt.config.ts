@@ -5,7 +5,7 @@ const prod = process.env.NODE_ENV === 'production';
 export default defineNuxtConfig({
   modern: prod,
 
-  nitro: {
+  nitro: { 
     preset: 'node'
   },
 
