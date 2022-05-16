@@ -108,7 +108,7 @@
     "cross-env": "7.0.3",
     "eslint": "8.15.0",
     "eslint-config-prettier": "8.5.0",
-    "eslint-plugin-jest": "26.1.5",
+    "eslint-plugin-jest": "26.2.2",
     "husky": "8.0.1",
     "jest": "28.0.3",
     "mongodb-memory-server": "8.4.2",
