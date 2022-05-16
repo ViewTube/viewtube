@@ -125,8 +125,14 @@
     <portal to="popup">
       <transition name="fade-down">
         <Settings v-if="settingsOpen" @close="closeAllPopups" />
+      </transition>
+      <transition name="fade-down">
         <About v-if="aboutOpen" @close="closeAllPopups" />
+      </transition>
+      <transition name="fade-down">
         <LoginForm v-if="loginOpen" class="center-popup" :complete="() => (loginOpen = false)" />
+      </transition>
+      <transition name="fade-down">
         <RegisterForm
           v-if="registerOpen"
           class="center-popup"
@@ -226,10 +232,7 @@ export default defineComponent({
     });
 
     const currentPageRef = (exclude: string) => {
-      if (
-        !route.fullPath.match(new RegExp(`.?${exclude}.?`, 'gi')) &&
-        route.fullPath !== '/'
-      ) {
+      if (!route.fullPath.match(new RegExp(`.?${exclude}.?`, 'gi')) && route.fullPath !== '/') {
         return `?ref=${route.fullPath}`;
       }
       return '';

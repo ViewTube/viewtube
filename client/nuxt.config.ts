@@ -21,13 +21,14 @@ export default defineNuxtConfig({
   vite: {
     css: {
       preprocessorOptions: {
-        sass: {
+        scss: {
           additionalData: `
+           @use "sass:math";
            @import "@/assets/styles/global/variables.scss";
            @import "@/assets/fonts/expletus.css";
-           @import "@/assets/fonts/notosans.css';
-           @import "tippy.js/dist/tippy.css';
-           @import "vue2-datepicker/index.css';
+           @import "@/assets/fonts/notosans.css";
+           @import "tippy.js/dist/tippy.css";
+           @import "vue2-datepicker/index.css";
           `
         }
       }

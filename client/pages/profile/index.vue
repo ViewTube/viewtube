@@ -88,6 +88,8 @@
           <BadgeButton :click="onLogoutPopupClose">Cancel</BadgeButton>
           <BadgeButton :click="logout">OK</BadgeButton>
         </Confirmation>
+      </transition>
+      <transition name="popup">
         <Confirmation
           v-if="deleteAccountPopup"
           :title="'Delete account'"

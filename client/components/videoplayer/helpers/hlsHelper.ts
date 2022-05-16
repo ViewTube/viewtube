@@ -1,6 +1,5 @@
-import Hls, { HlsConfig } from 'hls.js/dist/hls.js.d';
+import Hls, { HlsConfig, Events } from 'hls.js';
 
-const HlsLibrary = require('hls.js/dist/hls.light.min');
 let hls: Hls = null;
 
 export const initializeHlsStream = (
@@ -24,19 +23,19 @@ export const initializeHlsStream = (
         }
       }
     };
-    hls = new HlsLibrary(hlsOptions);
+    hls = new Hls(hlsOptions);
     hls.loadSource(proxiedStreamUrl);
     hls.attachMedia(videoRef);
-    hls.on(HlsLibrary.Events.MEDIA_ATTACHED, () => {
+    hls.on(Events.MEDIA_ATTACHED, () => {
       console.log('media attached');
     });
-    hls.on(HlsLibrary.Events.MEDIA_ATTACHING, () => {
+    hls.on(Events.MEDIA_ATTACHING, () => {
       console.log('media attaching');
     });
-    hls.on(HlsLibrary.Events.ERROR, e => {
+    hls.on(Events.ERROR, e => {
       console.error(e);
     });
-    hls.on(HlsLibrary.Events.MANIFEST_PARSED, (e: any) => {
+    hls.on(Events.MANIFEST_PARSED, (e: any) => {
       resolve(e);
     });
   });
@@ -49,7 +48,7 @@ export const destroyInstance = (): void => {
 };
 
 export const isHlsSupported = (): boolean => {
-  return HlsLibrary.isSupported();
+  return Hls.isSupported();
 };
 
 export const isHlsNative = (videoRef: HTMLMediaElement): boolean => {
