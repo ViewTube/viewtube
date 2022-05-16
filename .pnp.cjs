@@ -20667,10 +20667,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["rollup", [
-        ["npm:2.72.0", {
-          "packageLocation": "./.yarn/cache/rollup-npm-2.72.0-e2b1ea8166-d4c213d425.zip/node_modules/rollup/",
+        ["npm:2.73.0", {
+          "packageLocation": "./.yarn/cache/rollup-npm-2.73.0-a44ccfaf06-38b12cecc5.zip/node_modules/rollup/",
           "packageDependencies": [
-            ["rollup", "npm:2.72.0"],
+            ["rollup", "npm:2.73.0"],
             ["fsevents", "patch:fsevents@npm%3A2.3.2#~builtin<compat/fsevents>::version=2.3.2&hash=18f3a7"]
           ],
           "linkType": "HARD",
@@ -20695,7 +20695,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["find-cache-dir", "npm:3.3.2"],
             ["fs-extra", "npm:10.1.0"],
             ["resolve", "patch:resolve@npm%3A1.22.0#~builtin<compat/resolve>::version=1.22.0&hash=07638b"],
-            ["rollup", "npm:2.72.0"],
+            ["rollup", "npm:2.73.0"],
             ["tslib", "npm:2.4.0"],
             ["typescript", "patch:typescript@npm%3A4.5.5#~builtin<compat/typescript>::version=4.5.5&hash=493e53"]
           ],
@@ -21242,7 +21242,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["redis", "npm:4.1.0"],
             ["redis-mock", "npm:0.56.3"],
             ["reflect-metadata", "npm:0.1.13"],
-            ["rollup", "npm:2.72.0"],
+            ["rollup", "npm:2.73.0"],
             ["rollup-plugin-typescript2", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:0.31.2"],
             ["run-script-webpack-plugin", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:0.0.11"],
             ["rxjs", "npm:7.5.5"],
