@@ -52,7 +52,7 @@ def step(arch):
         'type': 'docker',
         'name': 'build-%s' % arch,
         'platform': {
-            'arch': 'amd64',
+            'arch': arch,
             'os': buildOS
         },
         'trigger': {
