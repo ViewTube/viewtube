@@ -1326,6 +1326,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@pinia/nuxt@npm:0.1.9":
+  version: 0.1.9
+  resolution: "@pinia/nuxt@npm:0.1.9"
+  dependencies:
+    vue-demi: "*"
+  peerDependencies:
+    pinia: ">=2.0.14"
+  checksum: 06082b9311290b108e70f1982540bde313579ef3548c5db30e96d35341121d31fd41d9860e6749dd7ae63fc6d63d28ab21c0f3b90b6e0699fdd0ae0a100bef4a
+  languageName: node
+  linkType: hard
+
 "@popperjs/core@npm:^2.9.0":
   version: 2.11.2
   resolution: "@popperjs/core@npm:2.11.2"
@@ -3161,6 +3172,7 @@ __metadata:
     "@nuxtjs/eslint-config-typescript": 10.0.0
     "@nuxtjs/pwa": 3.3.5
     "@nuxtjs/style-resources": 1.2.1
+    "@pinia/nuxt": 0.1.9
     "@types/node": 16.11.26
     "@types/papaparse": 5.3.2
     "@types/qrcode": 1.4.2
@@ -3194,7 +3206,6 @@ __metadata:
     qrcode: 1.5.0
     sass: 1.51.0
     tippy.js: 6.3.7
-    typed-vuex: 0.3.0
     typescript: 4.6.4
     vue-demi: 0.12.5
     vue-material-design-icons: 5.0.0
@@ -10892,15 +10903,6 @@ __metadata:
   version: 2.11.2
   resolution: "type-fest@npm:2.11.2"
   checksum: b36f73b9e739d4044f511fa3233eb36d365f5fbf5b120810ec5c6a31b8a6c7a2caeba2fb725491ccfb41a37aac8862e67f4383fc178a0c6074d27c424fe7c764
-  languageName: node
-  linkType: hard
-
-"typed-vuex@npm:0.3.0":
-  version: 0.3.0
-  resolution: "typed-vuex@npm:0.3.0"
-  peerDependencies:
-    vuex: ^3.6.2
-  checksum: 026c5b44f422b2c2d23e15a1aa1569082b9f24c27e974608fe609758bdaa2d9920c3f6ae596cda5a4f9fe83f4fb06154e2f65fa0f1995cc0579ff4f3802f5a7d
   languageName: node
   linkType: hard
 

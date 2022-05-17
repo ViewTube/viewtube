@@ -180,7 +180,9 @@ export default defineNuxtConfig({
     }
   },
 
-  buildModules: [],
+  buildModules: [
+    '@pinia/nuxt'
+  ],
 
   modules: [],
 

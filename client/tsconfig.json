@@ -9,6 +9,7 @@
     "noImplicitAny": false,
     "strictBindCallApply": true,
     "strictNullChecks": false,
-    "strictFunctionTypes": false
+    "strictFunctionTypes": false,
+    "types": ["node", "@pinia/nuxt"]
   }
 }
