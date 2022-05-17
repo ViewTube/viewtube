@@ -76,7 +76,7 @@ import SectionTitle from '@/components/SectionTitle.vue';
 import Pagination from '@/components/pagination/Pagination.vue';
 import { useAccessor } from '@/hooks/accessor';
 import SmallSearchBox from '@/components/SmallSearchBox.vue';
-import { useImgProxy } from '@/plugins/proxy';
+import { useImgProxy } from '@/utilities/proxy';
 
 export default defineComponent({
   name: 'ManageSubscriptions',

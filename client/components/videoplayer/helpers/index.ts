@@ -5,18 +5,16 @@ import { calculateSeekPercentage, matchSeekProgressPercentage, seekbarFunctions 
 import { parseChapters } from './chapters';
 import { destroyInstance, initializeHlsStream, isHlsNative, isHlsSupported } from './hlsHelper';
 import { DashHelper } from './dash';
-import { commons } from '@/plugins/commons';
+import { commons } from '@/utilities/commons';
 import { SponsorBlock } from '@/services/sponsorBlock';
-import { SponsorBlockSegmentsDto } from '@/plugins/shared';
+import { SponsorBlockSegmentsDto } from '@/utilities/shared';
 import { useAccessor } from '@/hooks/accessor';
-import { useFormatting } from '@/plugins/formatting';
-import { useImgProxy } from '@/plugins/proxy';
-import { createComputed } from '@/plugins/computed';
+import { useImgProxy } from '@/utilities/proxy';
+import { createComputed } from '@/utilities/computed';
 
 export const videoPlayerSetup = (props: any, emit: Function) => {
   const accessor = useAccessor();
-  const formatting = useFormatting();
-  const { $axios: axios } = useNuxtApp();
+  const { $formatting: formatting, $axios: axios } = useNuxtApp();
   const imgProxy = useImgProxy();
 
   const loading = ref(true);

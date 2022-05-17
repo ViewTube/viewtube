@@ -14,7 +14,7 @@
 <script lang="ts">
 import { computed, defineComponent } from '#imports';
 import Spinner from '@/components/Spinner.vue';
-import { useImgProxy } from '@/plugins/proxy';
+import { useImgProxy } from '@/utilities/proxy';
 
 export default defineComponent({
   name: 'VideoLoadingTemplate',

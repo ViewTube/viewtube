@@ -1,5 +1,5 @@
 import { Ref } from '#imports';
-import { commons } from '@/plugins/commons';
+import { commons } from '@/utilities/commons';
 
 export const seekbarFunctions = {
   onSeekbarTouchStart(

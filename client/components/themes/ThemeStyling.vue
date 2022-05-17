@@ -1,5 +1,5 @@
 <template>
-  <style>
+  <component :is="'style'">
     :root {
       --bgcolor-main: {{ getTheme()['bgcolor-main'] }};
       --bgcolor-alt: {{ getTheme()['bgcolor-alt'] }};
@@ -27,7 +27,7 @@
     html {
       {{ $accessor.popup.isPopupOpen ? 'overflow: hidden;' : '' }}
     }
-  </style>
+  </component>
 </template>
 
 <script lang="ts">

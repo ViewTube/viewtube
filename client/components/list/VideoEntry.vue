@@ -145,11 +145,11 @@
 <script lang="ts">
 import InfoIcon from 'vue-material-design-icons/Information.vue';
 import VerifiedIcon from 'vue-material-design-icons/CheckDecagram.vue';
-// import { getSecondsFromTimestamp } from '@/plugins/shared';
+// import { getSecondsFromTimestamp } from '@/utilities/shared';
 import { computed, defineComponent, ref } from '#imports';
-import { useImgProxy } from '@/plugins/proxy';
+import { useImgProxy } from '@/utilities/proxy';
 import { useAccessor } from '@/hooks/accessor';
-// import { useFormatting } from '@/plugins/formatting';
+// import { useFormatting } from '@/utilities/formatting';
 
 export default defineComponent({
   name: 'VideoEntry',

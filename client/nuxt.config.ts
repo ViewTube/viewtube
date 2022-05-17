@@ -102,11 +102,11 @@ export default defineNuxtConfig({
   typescript: {},
 
   plugins: [
-    '@/plugins/directives/index',
-    '@/plugins/formatting',
-    '@/plugins/shared',
-    { src: '@/plugins/vueDatepickerPlugin', mode: 'client' },
-    { src: '@/plugins/localStorage', mode: 'client' }
+    // '@/utilities/directives/index',
+    // '@/utilities/formatting',
+    // '@/utilities/shared',
+    // { src: '@/utilities/vueDatepickerPlugin', mode: 'client' },
+    // { src: '@/utilities/localStorage', mode: 'client' }
   ],
 
   pwa: {
@@ -185,6 +185,6 @@ export default defineNuxtConfig({
   modules: [],
 
   build: {
-    transpile: ['vue-material-design-icons', 'tippy.js']
+    // transpile: ['vue-material-design-icons', 'tippy.js']
   }
 });

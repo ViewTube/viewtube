@@ -1,6 +1,6 @@
 import { sha256 } from 'js-sha256';
 import axios from 'axios';
-import { SponsorBlockSegmentDto, SponsorBlockSegmentsDto } from '@/plugins/shared';
+import { SponsorBlockSegmentDto, SponsorBlockSegmentsDto } from '@/utilities/shared';
 
 export class SponsorBlock {
   constructor(videoId: string) {

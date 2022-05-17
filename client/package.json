@@ -12,12 +12,10 @@
     "build:dev": "cross-env NODE_ENV=development nuxi build",
     "start": "yarn prepare:env nuxt start",
     "lint": "eslint --ext .ts,.js,.vue .",
-    "lint:fix": "eslint --ext .ts,.js,.vue --fix ."
+    "lint:fix": "eslint --ext .ts,.js,.vue --fix .",
+    "prepare": "nuxi prepare"
   },
   "dependencies": {
-    "@nuxtjs/axios": "5.13.6",
-    "nuxt-webpack-optimisations": "2.2.0",
-    "portal-vue": "2.1.7",
     "sass": "1.51.0"
   },
   "devDependencies": {
@@ -54,9 +52,7 @@
     "pnp-webpack-plugin": "1.7.0",
     "prettier": "2.6.2",
     "qrcode": "1.5.0",
-    "sass-loader": "10.2.1",
     "tippy.js": "6.3.7",
-    "ts-loader": "9.3.0",
     "typed-vuex": "0.3.0",
     "typescript": "4.6.4",
     "vue-demi": "0.12.5",

@@ -20,7 +20,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from '#imports';
-import { commons } from '@/plugins/commons';
+import { commons } from '@/utilities/commons';
 
 export default defineComponent({
   name: 'CheckBox',

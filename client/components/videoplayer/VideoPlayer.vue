@@ -322,14 +322,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, useContext } from '#imports';
+import { defineComponent } from '#imports';
 import PauseIcon from 'vue-material-design-icons/Pause.vue';
 import PlayIcon from 'vue-material-design-icons/Play.vue';
 import FullscreenIcon from 'vue-material-design-icons/Fullscreen.vue';
 import FullscreenExitIcon from 'vue-material-design-icons/FullscreenExit.vue';
 import OpenInPlayerIcon from 'vue-material-design-icons/OpenInNew.vue';
 import CloseIcon from 'vue-material-design-icons/Close.vue';
-import { NuxtError } from '@nuxt/types';
 import { videoPlayerSetup } from './helpers/index';
 import VideoPlayerAnimations from '@/components/videoplayer/VideoPlayerAnimations.vue';
 import SkipButton from '@/components/buttons/SkipButton.vue';
@@ -373,15 +372,8 @@ export default defineComponent({
     }
   },
   setup(props, { emit }) {
-    const { error, route } = useContext();
-
     if (!props.video) {
-      const videoError: NuxtError = {
-        message: 'Error loading video',
-        path: route.path,
-        statusCode: 500
-      };
-      error(videoError);
+      throwError('Error loading video');
     }
 
     return {

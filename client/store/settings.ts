@@ -1,5 +1,5 @@
 import { getterTree, mutationTree } from 'typed-vuex';
-import { declareActionTree } from '@/plugins/actionTree.shim';
+import { declareActionTree } from '@/utilities/actionTree.shim';
 
 type segmentOption = 'skip' | 'ask' | 'none';
 

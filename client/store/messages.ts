@@ -1,4 +1,4 @@
-import { declareActionTree } from '@/plugins/actionTree.shim';
+import { declareActionTree } from '@/utilities/actionTree.shim';
 import { getterTree, mutationTree } from 'typed-vuex';
 
 export const state = () => ({

@@ -135,7 +135,7 @@ import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import Spinner from '@/components/Spinner.vue';
 import HistoryList from '@/components/history/HistoryList.vue';
 import { useAccessor } from '@/hooks/accessor';
-import { createComputed } from '@/plugins/computed';
+import { createComputed } from '@/utilities/computed';
 
 export default defineComponent({
   name: 'Profile',

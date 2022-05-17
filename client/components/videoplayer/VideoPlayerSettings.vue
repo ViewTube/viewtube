@@ -114,7 +114,7 @@ import CheckIcon from 'vue-material-design-icons/Check.vue';
 import { defineComponent, onBeforeUnmount, onMounted, ref, watch } from '#imports';
 import SwitchButton from '@/components/buttons/SwitchButton.vue';
 import { useAccessor } from '@/hooks/accessor';
-import { createComputed } from '@/plugins/computed';
+import { createComputed } from '@/utilities/computed';
 
 export default defineComponent({
   name: 'QualitySelection',

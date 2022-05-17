@@ -90,7 +90,7 @@ import { defineComponent, ref, useRoute } from '#imports';
 import { useNuxtApp } from '#app';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import { useAccessor } from '@/hooks/accessor';
-import { useImgProxy } from '@/plugins/proxy';
+import { useImgProxy } from '@/utilities/proxy';
 
 export default defineComponent({
   name: 'Comment',

@@ -1,6 +1,6 @@
 import axios from 'axios';
-// import { commons } from '@/plugins/commons';
-import { createApi } from '@/plugins/apiCreator';
+// import { commons } from '@/utilities/commons';
+import { createApi } from '@/utilities/apiCreator';
 
 export default class {
   constructor(apiUrl: string) {

@@ -48,7 +48,7 @@ import humanizeDuration from 'humanize-duration';
 import DeleteIcon from 'vue-material-design-icons/Delete.vue';
 import { useAccessor } from '@/hooks/accessor';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
-import { useImgProxy } from '@/plugins/proxy';
+import { useImgProxy } from '@/utilities/proxy';
 
 export default defineComponent({
   components: {

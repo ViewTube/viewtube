@@ -7,7 +7,7 @@ import * as user from '@/store/user';
 import * as videoPlayer from '@/store/videoPlayer';
 import * as playerVolume from '@/store/playerVolume';
 import * as popup from '@/store/popup';
-import { declareActionTree } from '@/plugins/actionTree.shim';
+import { declareActionTree } from '@/utilities/actionTree.shim';
 
 export const state = () => ({});
 

@@ -15,7 +15,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, reactive, watch, onMounted } from '#imports';
-// import { WebVTTParser } from '@/plugins/services/webVTTParser';
+// import { WebVTTParser } from '@/utilities/services/webVTTParser';
 // import { useAccessor } from '@/hooks/accessor';
 
 export default defineComponent({

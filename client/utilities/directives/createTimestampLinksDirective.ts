@@ -1,5 +1,5 @@
 import { DirectiveBinding } from 'vue/types/options';
-import { getSecondsFromTimestamp } from '@/plugins/shared';
+import { getSecondsFromTimestamp } from '@/utilities/shared';
 
 // eslint-disable-next-line prefer-regex-literals
 const urlRegex = new RegExp(

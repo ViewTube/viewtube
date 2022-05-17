@@ -29,8 +29,8 @@
 
 <script lang="ts">
 import { defineComponent, useRoute } from '#imports';
-import { useImgProxy } from '@/plugins/proxy';
-import { createComputed } from '@/plugins/computed';
+import { useImgProxy } from '@/utilities/proxy';
+import { createComputed } from '@/utilities/computed';
 import { useAccessor } from '@/hooks/accessor';
 
 export default defineComponent({

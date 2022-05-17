@@ -22,7 +22,7 @@
 <script lang="ts">
 import { defineComponent } from '#imports';
 import SectionTitle from '@/components/SectionTitle.vue';
-import { useImgProxy } from '@/plugins/proxy';
+import { useImgProxy } from '@/utilities/proxy';
 
 export default defineComponent({
   name: 'RelatedSearches',

@@ -24,7 +24,7 @@ import {
 } from '#imports';
 import MainSearchBox from '@/components/MainSearchBox.vue';
 import UserMenu from '@/components/header/UserMenu.vue';
-import { Scroll } from '@/plugins/scroll';
+import { Scroll } from '@/utilities/scroll';
 
 export default defineComponent({
   name: 'MainHeader',
