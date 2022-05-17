@@ -16,11 +16,11 @@
         <img src="@/assets/icons/pocket.svg" alt="Save to pocket icon" />
       </ShareOptionEntry>
     </div>
-    <portal to="popup">
+    <Teleport to="body">
       <transition name="fade-down">
         <QrPopUp v-if="qrPopUpOpen" @close="qrClose" />
       </transition>
-    </portal>
+    </Teleport>
   </div>
 </template>
 

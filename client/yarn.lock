@@ -2019,7 +2019,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vue/devtools-api@npm:^6.0.0":
+"@vue/devtools-api@npm:^6.0.0, @vue/devtools-api@npm:^6.1.4":
   version: 6.1.4
   resolution: "@vue/devtools-api@npm:6.1.4"
   checksum: 027bb138b03ec7147dd15e5d0ef28d5b72c822530396cc8a86bc6fdb049dc6850314b9e897e497064e3ed47fad229a18141f56b8b8ca3d41092a576dc5b6538d
@@ -3188,6 +3188,7 @@ __metadata:
     nuxi: 3.0.0-rc.3
     nuxt: 3.0.0-rc.3
     papaparse: 5.3.2
+    pinia: 2.0.14
     pnp-webpack-plugin: 1.7.0
     prettier: 2.6.2
     qrcode: 1.5.0
@@ -8823,6 +8824,25 @@ __metadata:
   languageName: node
   linkType: hard
 
+"pinia@npm:2.0.14":
+  version: 2.0.14
+  resolution: "pinia@npm:2.0.14"
+  dependencies:
+    "@vue/devtools-api": ^6.1.4
+    vue-demi: "*"
+  peerDependencies:
+    "@vue/composition-api": ^1.4.0
+    typescript: ">=4.4.4"
+    vue: ^2.6.14 || ^3.2.0
+  peerDependenciesMeta:
+    "@vue/composition-api":
+      optional: true
+    typescript:
+      optional: true
+  checksum: d07ed55b53e92da0971c3fcc0a1bd520b26cd50d266f46c8bab24fed87788461782a2c75088cf97c79810e7a4ceb28381f5d77daf280883ad3340c41962d0934
+  languageName: node
+  linkType: hard
+
 "pirates@npm:^4.0.4":
   version: 4.0.5
   resolution: "pirates@npm:4.0.5"
@@ -11338,7 +11358,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vue-demi@npm:0.12.5":
+"vue-demi@npm:*, vue-demi@npm:0.12.5":
   version: 0.12.5
   resolution: "vue-demi@npm:0.12.5"
   peerDependencies:

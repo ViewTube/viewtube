@@ -14,8 +14,9 @@
       </div>
       <label v-if="label" class="dropdown-label">{{ label }}</label>
     </div>
-    <portal v-if="visible" to="dropdown">
+    <Teleport to="body">
       <div
+        v-if="visible"
         class="dropdown-list"
         :class="{ open: open }"
         :style="{
@@ -34,7 +35,7 @@
           >{{ item.name }}</span
         >
       </div>
-    </portal>
+    </Teleport>
   </div>
 </template>
 

@@ -36,7 +36,7 @@
         </div>
       </div>
     </div>
-    <portal to="header">
+    <Teleport to="body">
       <div v-if="channel" class="channel-title-sticky">
         <div v-if="channel.authorThumbnails" class="channel-sticky-thumbnail">
           <img :src="imgProxyUrl + channel.authorThumbnails[0].url" alt="Author Image" />
@@ -46,7 +46,7 @@
           <BadgeButton class="scroll-top-btn" :click="onScrollTop"><UpIcon /></BadgeButton>
         </div>
       </div>
-    </portal>
+    </Teleport>
   </div>
 </template>
 

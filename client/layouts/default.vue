@@ -4,8 +4,6 @@
     <Header v-if="!headless" class="main-header" />
     <Miniplayer v-if="false" />
     <slot />
-    <portal-target class="dropdown-portal" name="dropdown" multiple />
-    <portal-target class="popup-portal" name="popup" multiple />
     <MessageBoxContainer />
   </div>
 </template>
@@ -63,26 +61,6 @@ export default defineComponent({
   -moz-osx-font-smoothing: grayscale;
   color: var(--title-color);
   background-color: var(--bgcolor-main);
-
-  .dropdown-portal,
-  .popup-portal {
-    position: fixed;
-    top: 0;
-    height: 100vh;
-    left: 0;
-    right: 0;
-    pointer-events: none;
-    z-index: 901;
-
-    > * {
-      user-select: auto;
-      pointer-events: auto;
-    }
-  }
-
-  .dropdown-portal {
-    z-index: 902;
-  }
 
   .progress-bar-margin {
     top: $header-height - 3px !important;

@@ -77,7 +77,7 @@
       <SectionTitle :title="'History'" :link="'/history'" />
       <HistoryList :history="profile.videoHistory" :deleteOption="false" />
     </div>
-    <portal to="popup">
+    <Teleport to="body">
       <transition name="popup">
         <Confirmation
           v-if="logoutPopup"
@@ -111,7 +111,7 @@
           </div>
         </Confirmation>
       </transition>
-    </portal>
+    </Teleport>
   </div>
 </template>
 

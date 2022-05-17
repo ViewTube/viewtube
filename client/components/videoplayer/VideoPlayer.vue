@@ -303,7 +303,6 @@
         </div>
       </div>
     </div>
-    <portal-target name="video-player" />
     <SkipButton
       :visible="skipButton.visible"
       :category="skipButton.skipCategory"

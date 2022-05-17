@@ -9,7 +9,6 @@
     </nuxt-link>
     <MainSearchBox />
     <UserMenu />
-    <portal-target class="header-portal" name="header" :class="{ visible: !posAbsolute }" />
   </div>
 </template>
 

@@ -122,7 +122,7 @@
         </div>
       </div>
     </transition>
-    <portal to="popup">
+    <Teleport to="body">
       <transition name="fade-down">
         <Settings v-if="settingsOpen" @close="closeAllPopups" />
       </transition>
@@ -139,7 +139,7 @@
           :complete="() => (registerOpen = false)"
         />
       </transition>
-    </portal>
+    </Teleport>
     <div
       :class="{ visible: accountMenuVisible || loginOpen || registerOpen }"
       class="clickaway-div"
@@ -224,7 +224,7 @@ export default defineComponent({
     };
 
     const currentRouteName = computed((): string => {
-      return route.name;
+      return route.name.toString();
     });
 
     const userAuthenticated = computed((): boolean => {

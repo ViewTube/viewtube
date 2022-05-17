@@ -4,7 +4,7 @@
       <span class="quality-label-small">{{ smallQualityLabel }}</span>
       <SettingsIcon @click.stop="onQualityInteraction" @touchend.stop="onQualityTouchInteraction" />
     </div>
-    <portal to="popup">
+    <Teleport to="body">
       <transition name="player-settings-popup">
         <div
           v-if="popup"
@@ -101,7 +101,7 @@
           </div>
         </div>
       </transition>
-    </portal>
+    </Teleport>
   </div>
 </template>
 

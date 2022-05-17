@@ -66,7 +66,7 @@
       <Pagination :currentPage="currentPage" :pageCount="pageCount" />
     </div>
 
-    <portal to="popup">
+    <Teleport to="body">
       <transition name="fade-down">
         <SubscriptionImport
           v-if="subscriptionImportOpen"
@@ -74,7 +74,7 @@
           @done="onSubscriptionImportDone"
         />
       </transition>
-    </portal>
+    </Teleport>
   </div>
 </template>
 
