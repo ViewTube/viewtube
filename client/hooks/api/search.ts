@@ -1,7 +1,7 @@
 export const useGetFilters = (searchTerm: string) => {
   const config = useRuntimeConfig();
 
-  return useLazyFetch(`${config.apiUrl}search/filters?q=${searchTerm}`);
+  return useLazyFetch(`${config.public.apiUrl}search/filters?q=${searchTerm}`);
 };
 
 export const useGetSearch = (
@@ -11,6 +11,6 @@ export const useGetSearch = (
   const config = useRuntimeConfig();
 
   return useLazyFetch(
-    `${config.apiUrl}search?q=${searchTerm}&pages=${pages}&filters=${JSON.stringify(filters)}`
+    `${config.public.apiUrl}search?q=${searchTerm}&pages=${pages}&filters=${JSON.stringify(filters)}`
   );
 };

@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 
-export const useStore = defineStore('playerVolume', {
+export const usePlayerVolumeStore = defineStore('playerVolume', {
   state: () => ({
     playerVolume: 1
   }),

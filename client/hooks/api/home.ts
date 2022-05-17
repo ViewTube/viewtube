@@ -1,5 +1,5 @@
 export const useGetPopularPage = () => {
   const config = useRuntimeConfig();
 
-  return useLazyFetch(`${config.apiUrl}homepage/popular`);
+  return useLazyFetch(`${config.public.apiUrl}homepage/popular`);
 };

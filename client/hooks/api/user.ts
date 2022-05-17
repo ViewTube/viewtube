@@ -14,7 +14,7 @@ export const useGetUserHistory = ({ searchTerm, limit, start }: UserHistoryParam
 
   return useLazyFetch(() => {
     return $fetch(
-      `${config.apiUrl}user/history?limit=${limit}&start=${start}${filterString}&sort=DESC`,
+      `${config.public.apiUrl}user/history?limit=${limit}&start=${start}${filterString}&sort=DESC`,
       { credentials: 'include' }
     );
   });
@@ -29,7 +29,7 @@ export const useGetUserHistoryItem = (videoId: string) => {
     lengthSeconds: number;
     lastVisit: Date;
   }>(() => {
-    return $fetch(`${config.apiUrl}user/history/${videoId}`, {
+    return $fetch(`${config.public.apiUrl}user/history/${videoId}`, {
       credentials: 'include'
     });
   });
@@ -39,7 +39,7 @@ export const useGetUserProfileDetails = (videoId: string) => {
   const config = useRuntimeConfig();
 
   return useLazyFetch(() => {
-    return $fetch(`${config.apiUrl}user/profile/details`, {
+    return $fetch(`${config.public.apiUrl}user/profile/details`, {
       credentials: 'include'
     });
   });
@@ -49,7 +49,7 @@ export const useGetUserSubscriptions = ({ limit = 20, start = 0 }) => {
   const config = useRuntimeConfig();
 
   return useLazyFetch(() => {
-    return $fetch(`${config.apiUrl}user/subscriptions/videos?limit=${limit}&start=${start}`, {
+    return $fetch(`${config.public.apiUrl}user/subscriptions/videos?limit=${limit}&start=${start}`, {
       credentials: 'include'
     });
   });
@@ -59,7 +59,7 @@ export const useGetUserSubscriptionChannels = ({ limit = 20, start = 0 }) => {
   const config = useRuntimeConfig();
 
   return useLazyFetch(() => {
-    return $fetch(`${config.apiUrl}user/subscriptions/videos?limit=${limit}&start=${start}`, {
+    return $fetch(`${config.public.apiUrl}user/subscriptions/videos?limit=${limit}&start=${start}`, {
       credentials: 'include'
     });
   });

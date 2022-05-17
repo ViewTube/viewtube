@@ -5,13 +5,15 @@ const prod = process.env.NODE_ENV === 'production';
 export default defineNuxtConfig({
   modern: prod,
 
-  nitro: { 
+  nitro: {
     preset: 'node'
   },
 
-  publicRuntimeConfig: {
-    apiUrl: 'http://localhost:8066',
-    vapidKey: process.env.VIEWTUBE_PUBLIC_VAPID
+  runtimeConfig: {
+    public: {
+      apiUrl: 'http://localhost:8066',
+      vapidKey: process.env.VIEWTUBE_PUBLIC_VAPID
+    }
   },
 
   alias: {
@@ -180,9 +182,7 @@ export default defineNuxtConfig({
     }
   },
 
-  buildModules: [
-    '@pinia/nuxt'
-  ],
+  buildModules: ['@pinia/nuxt'],
 
   modules: [],
 
