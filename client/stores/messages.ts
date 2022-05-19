@@ -14,10 +14,12 @@ export const useMessagesStore = defineStore('messages', {
   state: () => ({
     messages: [] as MessageType[]
   }),
+
   getters: {
     allMessages: state => state.messages,
     visibleMessages: state => state.messages.filter(el => el.dismissed === false)
   },
+
   actions: {
     addMessage(message: MessageType) {
       this.messages.push(message);

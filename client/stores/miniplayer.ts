@@ -5,6 +5,7 @@ export const useMiniplayerStore = defineStore('miniplayer', {
     currentVideo: null,
     startTime: 0
   }),
+  
   actions: {
     setCurrentVideo(video: any) {
       this.currentVideo = video;
