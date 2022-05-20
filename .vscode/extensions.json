@@ -3,6 +3,6 @@
     "arcanis.vscode-zipfs",
     "dbaeumer.vscode-eslint",
     "esbenp.prettier-vscode",
-    "johnsoncodehk.volar"
+    "vue.volar"
   ]
 }
