@@ -41,12 +41,22 @@ export const useSettingsStore = defineStore('settings', {
         this[key] = newSettings[key];
       });
     },
-    storeSettings() {
+    async storeSettings() {
       this.settingsSaving = true;
+
+      const config = useRuntimeConfig();
+
       // TODO: if logged in
-      if(true) {
-        
+      if (1 === 1) {
+        await $fetch(`${config.public.apiUrl}user/settings`, {
+          method: 'PUT',
+          credentials: 'include',
+          body: this.$state
+        });
+      } else if (process.browser && window) {
+        window.localStorage.setItem('viewtube-settings', JSON.stringify(this.$state));
       }
+      this.settingsSaving = false;
     },
     ...insertSetters(state)
   }
