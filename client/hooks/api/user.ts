@@ -8,59 +8,48 @@ export const useGetUserHistory = ({ searchTerm, limit, start }: UserHistoryParam
   const config = useRuntimeConfig();
 
   let filterString = '';
-  if (searchTerm.value) {
+  if (searchTerm) {
     filterString = `&filter=${searchTerm}`;
   }
 
-  return useLazyFetch(() => {
-    return $fetch(
-      `${config.public.apiUrl}user/history?limit=${limit}&start=${start}${filterString}&sort=DESC`,
-      { credentials: 'include' }
-    );
-  });
+  const url = `${config.public.apiUrl}user/history?limit=${limit}&start=${start}${filterString}&sort=DESC`;
+
+  return useLazyFetch(url, { credentials: 'include' });
 };
 
 export const useGetUserHistoryItem = (videoId: string) => {
   const config = useRuntimeConfig();
+
+  const url = `${config.public.apiUrl}user/history/${videoId}`;
 
   return useLazyFetch<{
     videoId: string;
     progressSeconds: number;
     lengthSeconds: number;
     lastVisit: Date;
-  }>(() => {
-    return $fetch(`${config.public.apiUrl}user/history/${videoId}`, {
-      credentials: 'include'
-    });
-  });
+  }>(url, { credentials: 'include' });
 };
 
 export const useGetUserProfileDetails = (videoId: string) => {
   const config = useRuntimeConfig();
 
-  return useLazyFetch(() => {
-    return $fetch(`${config.public.apiUrl}user/profile/details`, {
-      credentials: 'include'
-    });
-  });
+  const url = `${config.public.apiUrl}user/profile/details`;
+
+  return useLazyFetch(url, { credentials: 'include' });
 };
 
 export const useGetUserSubscriptions = ({ limit = 20, start = 0 }) => {
   const config = useRuntimeConfig();
 
-  return useLazyFetch(() => {
-    return $fetch(`${config.public.apiUrl}user/subscriptions/videos?limit=${limit}&start=${start}`, {
-      credentials: 'include'
-    });
-  });
+  const url = `${config.public.apiUrl}user/subscriptions/videos?limit=${limit}&start=${start}`;
+
+  return useLazyFetch(url, { credentials: 'include' });
 };
 
 export const useGetUserSubscriptionChannels = ({ limit = 20, start = 0 }) => {
   const config = useRuntimeConfig();
 
-  return useLazyFetch(() => {
-    return $fetch(`${config.public.apiUrl}user/subscriptions/videos?limit=${limit}&start=${start}`, {
-      credentials: 'include'
-    });
-  });
+  const url = `${config.public.apiUrl}user/subscriptions/videos?limit=${limit}&start=${start}`;
+
+  return useLazyFetch(url, { credentials: 'include' });
 };
