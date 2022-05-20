@@ -41,6 +41,13 @@ export const useSettingsStore = defineStore('settings', {
         this[key] = newSettings[key];
       });
     },
+    storeSettings() {
+      this.settingsSaving = true;
+      // TODO: if logged in
+      if(true) {
+        
+      }
+    },
     ...insertSetters(state)
   }
 });
