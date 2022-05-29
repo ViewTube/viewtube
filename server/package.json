@@ -24,7 +24,7 @@
   },
   "dependencies": {
     "@fastify/cookie": "6.0.0",
-    "@fastify/helmet": "8.0.0",
+    "@fastify/helmet": "8.1.0",
     "@fastify/multipart": "6.0.0",
     "@freetube/yt-comment-scraper": "6.1.0",
     "@nestjs/bull": "0.5.4",
