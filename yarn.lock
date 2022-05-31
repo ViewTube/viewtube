@@ -1495,13 +1495,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@fastify/helmet@npm:8.0.0":
-  version: 8.0.0
-  resolution: "@fastify/helmet@npm:8.0.0"
+"@fastify/helmet@npm:8.1.0":
+  version: 8.1.0
+  resolution: "@fastify/helmet@npm:8.1.0"
   dependencies:
     fastify-plugin: ^3.0.0
     helmet: ^5.0.1
-  checksum: 2e3e23bc65b6b648c9211d1ac18f3189149471cfeaf35cbe36943069a59f129ef134a6aca1321cbca955f7f8cb25a45570df3b9c72465b6bcba5e9f10b3e4ced
+  checksum: 3cbc334b8ac851f81b49f89a061aacd370ce0afa4bd023bee1f7e7b3910618041973f34178bec122b3e6d03b9552b9e1fead796541bb256a95a0dc2447a8262c
   languageName: node
   linkType: hard
 
@@ -16436,7 +16436,7 @@ __metadata:
   resolution: "server@workspace:server"
   dependencies:
     "@fastify/cookie": 6.0.0
-    "@fastify/helmet": 8.0.0
+    "@fastify/helmet": 8.1.0
     "@fastify/multipart": 6.0.0
     "@freetube/yt-comment-scraper": 6.1.0
     "@nestjs/bull": 0.5.4
