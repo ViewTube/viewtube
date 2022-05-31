@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { insertSetters } from '@/utilities/storeSetters';
-import { useUserStore } from '@/stores/user';
+import { useUserStore } from '@/store/user';
 
 type SegmentOption = 'skip' | 'ask' | 'none';
 type ThemeVariant = 'default' | 'light' | 'dark-no-gradient' | 'black' | 'green';

@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { useCaptchaStore } from '@/stores/captcha';
+import { useCaptchaStore } from '~~/store/captcha';
 
 type User = {
   username: string;
