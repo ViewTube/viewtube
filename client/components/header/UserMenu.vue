@@ -187,6 +187,7 @@ export default defineComponent({
   setup() {
     const route = useRoute();
     const accessor = useAccessor();
+    const config = useRuntimeConfig();
     const router = useRouter();
 
     const accountMenuVisible = ref(false);
@@ -207,7 +208,7 @@ export default defineComponent({
     const getProfileImageUrl = (url: string): string => {
       if (url) {
         const imgUrl = url.replace('/api/', '');
-        return `${accessor.environment.apiUrl}${imgUrl}`;
+        return `${config.public.apiUrl}${imgUrl}`;
       }
       return null;
     };

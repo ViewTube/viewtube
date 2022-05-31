@@ -85,6 +85,7 @@ export default defineComponent({
   },
   setup() {
     const imgProxy = useImgProxy();
+    const config = useRuntimeConfig();
     const accessor = useAccessor();
     const route = useRoute();
 
@@ -93,7 +94,7 @@ export default defineComponent({
     };
 
     const { data: channel, error } = useLazyFetch(
-      `${accessor.environment.apiUrl}channels/${route.params.id}`
+      `${config.public.apiUrl}channels/${route.params.id}`
     );
 
     watch(

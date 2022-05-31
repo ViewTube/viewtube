@@ -8,14 +8,14 @@
           <div class="cloud-icon-container">
             <transition name="icon-switch" mode="out-in">
               <CloudCheckIcon
-                v-if="!settingsSaving"
+                v-if="!settingsStore.settingsSaving"
                 v-tippy="'Settings synchronized'"
                 class="cloud-icon"
               />
             </transition>
             <transition name="icon-switch" mode="out-in">
               <ReloadIcon
-                v-if="settingsSaving"
+                v-if="settingsStore.settingsSaving"
                 v-tippy="'Saving settings'"
                 class="small-saving-spinner cloud-icon"
               />
@@ -29,19 +29,19 @@
       </div>
       <h2><ChaptersIcon />Chapters</h2>
       <SwitchButton
-        :value="$accessor.settings.chapters"
+        :value="settingsStore.chapters"
         :label="'Show chapters on a video'"
         :disabled="false"
         :right="true"
-        @valuechange="val => saveSetting('settings/setChapters', val)"
+        @valuechange="val => settingsStore.setChapters(val)"
       />
       <h2><HistoryIcon />History</h2>
       <SwitchButton
-        :value="$accessor.settings.saveVideoHistory"
+        :value="settingsStore.saveVideoHistory"
         :label="'Save video history and progress'"
         :disabled="false"
         :right="true"
-        @valuechange="val => saveSetting('settings/setSaveVideoHistory', val)"
+        @valuechange="val => settingsStore.setSaveVideoHistory(val)"
       />
       <h2>
         <img
@@ -57,101 +57,98 @@
         ></span
       >
       <SwitchButton
-        :value="$accessor.settings.sponsorblockEnabled"
+        :value="settingsStore.sponsorblockEnabled"
         :label="'Enable SponsorBlock'"
         :disabled="false"
         :right="true"
-        @valuechange="val => saveSetting('settings/setSponsorblock', val)"
+        @valuechange="val => settingsStore.setSponsorblockEnabled(val)"
       />
       <div class="sponsorblock-options-container">
-        <div
-          class="sponsorblock-options"
-          :class="{ disabled: !$accessor.settings.sponsorblockEnabled }"
-        >
+        <div class="sponsorblock-options" :class="{ disabled: !settingsStore.sponsorblockEnabled }">
           <MultiOptionButton
             :options="sponsorblockSegmentOptions"
-            :selectedValue="$accessor.settings.sponsorblockSegmentSponsor"
+            :selectedValue="settingsStore.sponsorblockSegmentSponsor"
             :label="'Sponsor'"
             :small-label="'Advertisements, promotions and video sponsors'"
             :right="true"
             :color-mark="'#0fca15'"
-            @valuechange="val => onSponsorblockOptionChange('Sponsor', val)"
+            @valuechange="val => settingsStore.setSponsorblockSegmentSponsor(val)"
           />
           <MultiOptionButton
             :options="sponsorblockSegmentOptions"
-            :selectedValue="$accessor.settings.sponsorblockSegmentIntro"
+            :selectedValue="settingsStore.sponsorblockSegmentIntro"
             :label="'Intro'"
             :small-label="'Intro animation, pause, intro sequence'"
             :right="true"
             :color-mark="'#07faf0'"
-            @valuechange="val => onSponsorblockOptionChange('Intro', val)"
+            @valuechange="val => settingsStore.setSponsorblockSegmentIntro(val)"
           />
           <MultiOptionButton
             :options="sponsorblockSegmentOptions"
-            :selectedValue="$accessor.settings.sponsorblockSegmentOutro"
+            :selectedValue="settingsStore.sponsorblockSegmentOutro"
             :label="'Outro'"
             :small-label="'Endcards, credits, outros'"
             :right="true"
             :color-mark="'#0103e1'"
-            @valuechange="val => onSponsorblockOptionChange('Outro', val)"
+            @valuechange="val => settingsStore.setSponsorblockSegmentOutro(val)"
           />
           <MultiOptionButton
             :options="sponsorblockSegmentOptions"
-            :selectedValue="$accessor.settings.sponsorblockSegmentInteraction"
+            :selectedValue="settingsStore.sponsorblockSegmentInteraction"
             :label="'Interaction reminder'"
             :small-label="'Reminder to subscribe, like, follow on social media, etc.'"
             :right="true"
             :color-mark="'#b711df'"
-            @valuechange="val => onSponsorblockOptionChange('Interaction', val)"
+            @valuechange="val => settingsStore.setSponsorblockSegmentInteraction(val)"
           />
           <MultiOptionButton
             :options="sponsorblockSegmentOptions"
-            :selectedValue="$accessor.settings.sponsorblockSegmentSelfpromo"
+            :selectedValue="settingsStore.sponsorblockSegmentSelfpromo"
             :label="'Self promotion'"
             :small-label="'Unpaid promotion, for example donations, merchandise or shoutouts'"
             :right="true"
             :color-mark="'#fdfb0e'"
-            @valuechange="val => onSponsorblockOptionChange('Selfpromo', val)"
+            @valuechange="val => settingsStore.setSponsorblockSegmentSelfpromo(val)"
           />
           <MultiOptionButton
             :options="sponsorblockSegmentOptions"
-            :selectedValue="$accessor.settings.sponsorblockSegmentMusicOfftopic"
+            :selectedValue="settingsStore.sponsorblockSegmentMusicOfftopic"
             :label="'Non-music section'"
             :small-label="'Skips non-music sections in music videos'"
             :right="true"
             :color-mark="'#f89c06'"
-            @valuechange="val => onSponsorblockOptionChange('MusicOfftopic', val)"
+            @valuechange="val => settingsStore.setSponsorblockSegmentMusicOfftopic(val)"
           />
           <MultiOptionButton
             :options="sponsorblockSegmentOptions"
-            :selectedValue="$accessor.settings.sponsorblockSegmentPreview"
+            :selectedValue="settingsStore.sponsorblockSegmentPreview"
             :label="'Preview'"
             :small-label="'Skips previews and recaps'"
             :right="true"
             :color-mark="'#f70000'"
-            @valuechange="val => onSponsorblockOptionChange('Preview', val)"
+            @valuechange="val => settingsStore.setSponsorblockSegmentPreview(val)"
           />
         </div>
       </div>
 
       <h2><MiniplayerIcon />Miniplayer</h2>
       <SwitchButton
-        :value="$accessor.settings.miniplayer"
+        :value="settingsStore.miniplayer"
         :label="'Enable miniplayer'"
         :small-label="'Not working at the moment'"
         :disabled="true"
         :right="true"
-        @valuechange="val => saveSetting('settings/setMiniplayer', val)"
+        @valuechange="val => settingsStore.setMiniplayer(val)"
       />
 
       <h2><HomescreenIcon />Homescreen</h2>
       <SwitchButton
-        :value="$accessor.settings.showHomeSubscriptions"
+        :value="settingsStore.showHomeSubscriptions"
         :label="'Show subscriptions on home screen'"
         :small-label="'Subscriptions require signing in'"
         :disabled="false"
         :right="true"
-        @valuechange="val => saveSetting('settings/setShowHomeSubscriptions', val)"
+        @valuechange="val => settingsStore.setShowHomeSubscriptions(val)"
       />
 
       <h2><VideoplayerIcon />Videoplayer</h2>
@@ -162,49 +159,49 @@
         </div>
         <Dropdown
           :values="videoQualities"
-          :value="$accessor.settings.defaultVideoQuality"
-          @valuechange="val => saveSetting('settings/setDefaultVideoQuality', val.value)"
+          :value="settingsStore.defaultVideoQuality"
+          @valuechange="val => settingsStore.setDefaultVideoQuality(val.value)"
         />
       </div>
       <SwitchButton
-        :value="$accessor.settings.dashPlaybackEnabled"
+        :value="settingsStore.dashPlaybackEnabled"
         :label="'Enable MPEG-DASH'"
         :small-label="'Enable high quality video playback using MPEG-DASH adaptive bitrate streaming'"
         :disabled="false"
         :right="true"
-        @valuechange="val => saveSetting('settings/setDashPlaybackEnabled', val)"
+        @valuechange="val => settingsStore.setDashPlaybackEnabled(val)"
       />
       <SwitchButton
-        :value="$accessor.settings.autoplay"
+        :value="settingsStore.autoplay"
         :label="'Autoplay video'"
         :small-label="'Automatically plays video after opening'"
         :disabled="false"
         :right="true"
-        @valuechange="val => saveSetting('settings/setAutoplay', val)"
+        @valuechange="val => settingsStore.setAutoplay(val)"
       />
       <SwitchButton
-        :value="$accessor.settings.autoplayNextVideo"
+        :value="settingsStore.autoplayNextVideo"
         :label="'Autoplay next video'"
         :small-label="'Automatically plays the next recommended video'"
         :disabled="false"
         :right="true"
-        @valuechange="val => saveSetting('settings/setAutoplayNextVideo', val)"
+        @valuechange="val => settingsStore.setAutoplayNextVideo(val)"
       />
       <SwitchButton
-        :value="$accessor.settings.alwaysLoopVideo"
+        :value="settingsStore.alwaysLoopVideo"
         :label="'Loop video'"
         :small-label="'Overrides playing next video with autoplay or in playlists'"
         :disabled="false"
         :right="true"
-        @valuechange="val => saveSetting('settings/setAlwaysLoopVideo', val)"
+        @valuechange="val => settingsStore.setAlwaysLoopVideo(val)"
       />
       <SwitchButton
-        :value="$accessor.settings.audioModeDefault"
+        :value="settingsStore.audioModeDefault"
         :label="'Audio mode default'"
         :small-label="'Not implemented yet'"
         :disabled="true"
         :right="true"
-        @valuechange="val => saveSetting('settings/setAudioModeDefault', val)"
+        @valuechange="val => settingsStore.setAudioModeDefault(val)"
       />
       <div class="settings-number-menu">
         <label for="video-speed-input">Default video speed</label>
@@ -213,11 +210,11 @@
           class="settings-number-input"
           type="number"
           name="video-speed"
-          :value="$accessor.settings.defaultVideoSpeed"
+          :value="settingsStore.defaultVideoSpeed"
           step="0.1"
           max="3"
           min="0.1"
-          @change="val => saveSetting('settings/setDefaultVideoSpeed', val.target.value)"
+          @change="val => settingsStore.setDefaultVideoSpeed(val.target.value)"
         />
       </div>
     </div>
@@ -235,14 +232,12 @@ import HistoryIcon from 'vue-material-design-icons/History.vue';
 import ReloadIcon from 'vue-material-design-icons/Reload.vue';
 import HomescreenIcon from 'vue-material-design-icons/Home.vue';
 import VideoplayerIcon from 'vue-material-design-icons/Television.vue';
-import { computed, defineComponent, reactive, ref, watch } from '#imports';
-import { useNuxtApp } from '#app';
 import ThemeSelector from '@/components/themes/ThemeSelector.vue';
 import SwitchButton from '@/components/buttons/SwitchButton.vue';
 import MultiOptionButton from '@/components/buttons/MultiOptionButton.vue';
 import Dropdown from '@/components/filter/Dropdown.vue';
 import '@/assets/styles/popup.scss';
-import { useAccessor } from '@/hooks/accessor';
+import { useSettingsStore } from '@/store/settings';
 
 export default defineComponent({
   name: 'Settings',
@@ -262,8 +257,7 @@ export default defineComponent({
     Dropdown
   },
   setup() {
-    const accessor = useAccessor();
-    const { $store: store } = useNuxtApp();
+    const settingsStore = useSettingsStore();
     const sponsorblockSegmentOptions = reactive([
       { label: 'Skip', value: 'skip' },
       { label: 'Ask', value: 'ask' },
@@ -272,52 +266,10 @@ export default defineComponent({
 
     const videoQualities = ['144p', '240p', '360p', '720p', '1080p', '1440p', '2160p'];
 
-    const settingsSaving = ref(false);
-    const themes = computed(() => accessor.settings.defaultThemes);
-    const currentTheme = computed(() => accessor.settings.theme);
-
-    const onThemeChange = (element: any) => {
-      setTimeout(() => {
-        document.body.classList.add('transition-all');
-        accessor.settings.setTheme(element.value);
-        setTimeout(() => {
-          document.body.classList.remove('transition-all');
-        }, 300);
-      }, 300);
-    };
-
-    const onSettingsSaving = (value: boolean) => {
-      settingsSaving.value = value;
-    };
-
-    const saveSetting = async (storeAction: string, value: string): Promise<void> => {
-      accessor.settings.mutateSettingsSaving(true);
-      await store.dispatch(storeAction, value);
-      accessor.settings.mutateSettingsSaving(false);
-    };
-
-    const onSponsorblockOptionChange = async (category, value) => {
-      accessor.settings.mutateSettingsSaving(true);
-
-      accessor.settings.mutateSponsorblockCategoryStatus({
-        category,
-        status: value.value
-      });
-      await accessor.settings.storeSponsorblock();
-      accessor.settings.mutateSettingsSaving(false);
-    };
-
-    watch(() => accessor.settings.settingsSaving, onSettingsSaving);
-
     return {
       sponsorblockSegmentOptions,
-      themes,
-      currentTheme,
-      settingsSaving,
-      onSponsorblockOptionChange,
-      onThemeChange,
-      saveSetting,
-      videoQualities
+      videoQualities,
+      settingsStore
     };
   }
 });

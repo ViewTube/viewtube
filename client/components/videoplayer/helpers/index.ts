@@ -11,11 +11,14 @@ import { SponsorBlockSegmentsDto } from '@/utilities/shared';
 import { useAccessor } from '@/hooks/accessor';
 import { useImgProxy } from '@/utilities/proxy';
 import { createComputed } from '@/utilities/computed';
+import { useProxyUrls } from '@/hooks/proxyUrls';
 
 export const videoPlayerSetup = (props: any, emit: Function) => {
   const accessor = useAccessor();
+  const config = useRuntimeConfig();
   const { $formatting: formatting, $axios: axios } = useNuxtApp();
   const imgProxy = useImgProxy();
+  const { streamProxy } = useProxyUrls();
 
   const loading = ref(true);
   const fullscreen = ref(false);
@@ -752,11 +755,7 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
     const currentTime = videoRef.value.currentTime;
     saveVideoPosition(currentTime);
     if (props.video.liveNow) {
-      await initializeHlsStream(
-        props.video.legacyFormats[index].url,
-        videoRef.value,
-        accessor.environment.streamProxyUrl
-      );
+      await initializeHlsStream(props.video.legacyFormats[index].url, videoRef.value, streamProxy);
     } else {
       videoRef.value.src = props.video.legacyFormats[index].url;
     }
@@ -825,10 +824,9 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
   const saveVideoPosition = (currentTime: number) => {
     if (videoRef.value && accessor.settings.saveVideoHistory) {
       if (accessor.user.isLoggedIn && !props.video.liveNow) {
-        const apiUrl = accessor.environment.apiUrl;
         axios
           .post(
-            `${apiUrl}user/history/${props.video.videoId}`,
+            `${config.public.apiUrl}user/history/${props.video.videoId}`,
             {
               progressSeconds: Math.floor(currentTime),
               lengthSeconds: Math.floor(videoRef.value.duration)
@@ -920,11 +918,7 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
     if (videoRef.value) {
       if (props.video.liveNow) {
         if (isHlsSupported()) {
-          await initializeHlsStream(
-            highestLegacyQuality.value,
-            videoRef.value,
-            accessor.environment.streamProxyUrl
-          );
+          await initializeHlsStream(highestLegacyQuality.value, videoRef.value, streamProxy);
           selectedLegacyQuality.value = 0;
         } else if (isHlsNative(videoRef.value) && !isHlsSupported()) {
           videoRef.value.src = highestLegacyQuality.value;
@@ -932,7 +926,7 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
       } else if (process.browser) {
         if (accessor.settings.dashPlaybackEnabled && window.MediaSource) {
           // Using dashjs
-          const manifestUrl = `${accessor.environment.apiUrl}videos/manifest/dash/${props.video.videoId}`;
+          const manifestUrl = `${config.public.apiUrl}videos/manifest/dash/${props.video.videoId}`;
           dashHelper.value = new DashHelper(videoRef.value, manifestUrl);
 
           dashHelper.value.registerEventHandlers({ videoElement });

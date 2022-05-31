@@ -31,11 +31,12 @@ export default defineComponent({
   },
   setup(props) {
     const accessor = useAccessor();
+    const config = useRuntimeConfig();
     const endscreenData = ref([]);
     const hover = ref(false);
 
     const fetchEndscreenData = () => {
-      fetch(`${accessor.environment.apiUrl}video/getEndscreen.php?videoId=${props.videoId}`, {
+      fetch(`${config.public.apiUrl}video/getEndscreen.php?videoId=${props.videoId}`, {
         cache: 'force-cache',
         method: 'GET'
       })

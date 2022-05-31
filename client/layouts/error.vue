@@ -39,11 +39,12 @@ export default defineComponent({
   },
   setup(props) {
     const accessor = useAccessor();
+    const config = useRuntimeConfig();
     const route = useRoute();
 
     const possibleSearch = ref(null);
 
-    const apiUrl = accessor.environment.apiUrl;
+    const apiUrl = config.public.apiUrl;
 
     const copyError = (): void => {
       if (process.browser && 'clipboard' in navigator) {

@@ -87,6 +87,7 @@ export default defineComponent({
   setup() {
     const route = useRoute();
     const accessor = useAccessor();
+    const config = useRuntimeConfig();
     const { $axios: axios } = useNuxtApp();
 
     const searchResults = ref(null);
@@ -150,9 +151,8 @@ export default defineComponent({
       page.value += 1;
 
       if (searchResults.value && searchResults.value.continuation) {
-        const apiUrl = accessor.environment.apiUrl;
         await axios
-          .get(`${apiUrl}search/continuation`, {
+          .get(`${config.public.apiUrl}search/continuation`, {
             params: {
               continuationData: searchContinuation.value
             }
@@ -178,11 +178,10 @@ export default defineComponent({
     const { fetch } = useFetch(async () => {
       const inputQuery = route.query as any;
       const searchParams = new URLSearchParams(inputQuery);
-      const apiUrl = accessor.environment.apiUrl;
       const searchTerm = searchParams.get('search_query') || searchParams.get('q');
       if (searchTerm) {
         try {
-          const newFilters = await axios.get(`${apiUrl}search/filters`, {
+          const newFilters = await axios.get(`${config.public.apiUrl}search/filters`, {
             params: {
               q: searchTerm
             }
@@ -192,7 +191,7 @@ export default defineComponent({
             filters.value = newFilters.data;
             const filterArray = getFilterArray(searchParams);
 
-            const searchResponse = await axios.get(`${apiUrl}search`, {
+            const searchResponse = await axios.get(`${config.public.apiUrl}search`, {
               params: {
                 q: searchTerm,
                 pages: 1,

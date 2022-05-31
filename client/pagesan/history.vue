@@ -67,6 +67,7 @@ export default defineComponent({
     const { $axios: axios } = useNuxtApp();
     const router = useRouter();
     const accessor = useAccessor();
+    const config = useRuntimeConfig();
     const route = useRoute();
 
     const searchTerm = ref<string>(null);
@@ -95,7 +96,7 @@ export default defineComponent({
         const firstDate = new Date(dateToDelete.value[0]).valueOf();
         const secondDate = new Date(dateToDelete.value[1]).valueOf();
         await axios
-          .delete(`${accessor.environment.apiUrl}user/history/from/${firstDate}/to/${secondDate}`, {
+          .delete(`${config.public.apiUrl}user/history/from/${firstDate}/to/${secondDate}`, {
             withCredentials: true
           })
           .then(() => {
@@ -114,7 +115,7 @@ export default defineComponent({
     const deleteEntireHistory = async () => {
       deletePopup.value = false;
       await axios
-        .delete(`${accessor.environment.apiUrl}user/history/`, { withCredentials: true })
+        .delete(`${config.public.apiUrl}user/history/`, { withCredentials: true })
         .then(() => {
           refresh();
         })

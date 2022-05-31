@@ -52,7 +52,7 @@
             <BadgeButton
               download
               class="action"
-              :href="`${$accessor.environment.apiUrl}user/export`"
+              :href="`${apiUrl}user/export`"
               ><ExportIcon />Export data</BadgeButton
             >
             <BadgeButton class="action" :click="onLogoutPopup" style="color: #ef4056"
@@ -159,8 +159,11 @@ export default defineComponent({
   },
   setup() {
     const accessor = useAccessor();
+    const config = useRuntimeConfig();
     const { $axios: axios } = useNuxtApp();
     const router = useRouter();
+
+    const apiUrl = config.public.apiUrl;
 
     const profile = ref(null);
     const logoutPopup = ref(false);
@@ -193,7 +196,7 @@ export default defineComponent({
     };
     const deleteAccount = () => {
       axios
-        .delete(`${accessor.environment.apiUrl}user`, {
+        .delete(`${config.public.apiUrl}user`, {
           data: { username: repeatedUsername.value }
         })
         .then(_ => {
@@ -211,7 +214,7 @@ export default defineComponent({
       const formData = new FormData();
       formData.append('image', img);
       axios
-        .post(`${accessor.environment.apiUrl}user/profile/image`, formData, {
+        .post(`${config.public.apiUrl}user/profile/image`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data'
           },
@@ -257,7 +260,7 @@ export default defineComponent({
     };
     const deleteProfileImage = () => {
       axios
-        .delete(`${accessor.environment.apiUrl}user/profile/image`, { withCredentials: true })
+        .delete(`${config.public.apiUrl}user/profile/image`, { withCredentials: true })
         .then(() => {
           accessor.messages.createMessage({
             type: 'info',
@@ -286,7 +289,7 @@ export default defineComponent({
       if (url) {
         const imgUrl = url.replace('/api/', '');
         const random = Math.random() * (0 - 1000) + 0;
-        profileImageUrl.value = `${accessor.environment.apiUrl}${imgUrl}?r=${random}`;
+        profileImageUrl.value = `${config.public.apiUrl}${imgUrl}?r=${random}`;
       } else {
         profileImageUrl.value = null;
       }
@@ -294,9 +297,8 @@ export default defineComponent({
 
     useFetch(async () => {
       if (accessor.user.isLoggedIn) {
-        const apiUrl = accessor.environment.apiUrl;
         await axios
-          .get(`${apiUrl}user/profile/details`, { withCredentials: true })
+          .get(`${config.public.apiUrl}user/profile/details`, { withCredentials: true })
           .then((result: { data: any }) => {
             if (result) {
               profile.value = result.data;
@@ -358,7 +360,8 @@ export default defineComponent({
       deleteAccount,
       deleteAccountValid,
       hasHistory,
-      logout
+      logout,
+      apiUrl
     };
   },
   head: {}

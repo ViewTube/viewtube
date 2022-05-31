@@ -165,6 +165,7 @@ export default defineComponent({
   setup(_, { emit }) {
     const { $axios: axios } = useNuxtApp();
     const accessor = useAccessor();
+    const config = useRuntimeConfig();
 
     const youtubeSubscriptionUrl = ref('https://takeout.google.com');
     const page2 = ref(false);
@@ -313,7 +314,7 @@ export default defineComponent({
       const subscriptionIds = subscriptions.map(e => e.authorId);
       axios
         .post(
-          `${accessor.environment.apiUrl}user/subscriptions/multiple`,
+          `${config.public.apiUrl}user/subscriptions/multiple`,
           {
             channels: subscriptionIds
           },

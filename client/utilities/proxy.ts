@@ -1,6 +1,6 @@
-import { useAccessor } from '@/hooks/accessor';
+import { useProxyUrls } from '@/hooks/proxyUrls';
 
 export const useImgProxy = () => {
-  const accessor = useAccessor();
-  return { url: accessor.environment.imgProxyUrl };
+  const { imgProxy } = useProxyUrls();
+  return { url: imgProxy };
 };

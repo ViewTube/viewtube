@@ -91,6 +91,7 @@ export default defineComponent({
   },
   setup() {
     const accessor = useAccessor();
+    const config = useRuntimeConfig();
     const { $axios: axios } = useNuxtApp();
     const route = useRoute();
     const imgProxy = useImgProxy();
@@ -101,9 +102,8 @@ export default defineComponent({
 
     useFetch(async () => {
       if (route.query && route.query.list) {
-        const apiUrl = accessor.environment.apiUrl;
         await axios
-          .get(`${apiUrl}playlists`, { params: { playlistId: route.query.list, pages: 1 } })
+          .get(`${config.public.apiUrl}playlists`, { params: { playlistId: route.query.list, pages: 1 } })
           .then(response => {
             if (response.data) {
               playlist.value = response.data;
@@ -129,9 +129,8 @@ export default defineComponent({
     const loadMoreVideos = async () => {
       if (playlistContinuation.value) {
         moreVideosLoading.value = true;
-        const apiUrl = accessor.environment.apiUrl;
         await axios
-          .get(`${apiUrl}playlists/continuation`, {
+          .get(`${config.public.apiUrl}playlists/continuation`, {
             params: {
               continuationData: playlistContinuation.value
             }

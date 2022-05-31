@@ -120,6 +120,7 @@ export default defineComponent({
   },
   setup() {
     const accessor = useAccessor();
+    const config = useRuntimeConfig();
     const route = useRoute();
     const { $axios: axios } = useNuxtApp();
 
@@ -134,14 +135,13 @@ export default defineComponent({
     const pageCount = ref(1);
 
     const { fetch } = useFetch(async () => {
-      const apiUrl = accessor.environment.apiUrl;
       const limit = 20;
       if (route.query && route.query.page) {
         currentPage.value = parseInt(route.query.page.toString());
       }
       const start = (currentPage.value - 1) * 30;
       await axios
-        .get(`${apiUrl}user/subscriptions/videos?limit=${limit}&start=${start}`, {
+        .get(`${config.public.apiUrl}user/subscriptions/videos?limit=${limit}&start=${start}`, {
           withCredentials: true
         })
         .then(
@@ -211,7 +211,7 @@ export default defineComponent({
               .then(subscription => {
                 axios
                   .post(
-                    `${accessor.environment.apiUrl}user/notifications/subscribe`,
+                    `${config.public.apiUrl}user/notifications/subscribe`,
                     subscription,
                     {
                       withCredentials: true

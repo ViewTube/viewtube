@@ -62,6 +62,7 @@ export default defineComponent({
   setup(_, { emit }) {
     const { $axios: axios } = useNuxtApp();
     const accessor = useAccessor();
+    const config = useRuntimeConfig();
     const imgProxy = useImgProxy();
 
     const humanizeDateString = (dateString: string): string => {
@@ -72,7 +73,7 @@ export default defineComponent({
     };
     const deleteEntry = async (videoId: string) => {
       await axios
-        .delete(`${accessor.environment.apiUrl}user/history/${videoId}`, { withCredentials: true })
+        .delete(`${config.public.apiUrl}user/history/${videoId}`, { withCredentials: true })
         .then(() => {
           emit('refresh');
         })

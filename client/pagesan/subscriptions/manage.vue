@@ -31,7 +31,7 @@
               :src="
                 imgProxyUrl +
                 (channel.authorThumbnailUrl
-                  ? `${$accessor.environment.apiUrl}${channel.authorThumbnailUrl}`
+                  ? `${apiUrl}${channel.authorThumbnailUrl}`
                   : channel.authorThumbnails[2].url)
               "
               class="channel-image"
@@ -88,10 +88,13 @@ export default defineComponent({
   },
   setup() {
     const accessor = useAccessor();
+    const config = useRuntimeConfig();
     const route = useRoute();
     const { $axios: axios } = useNuxtApp();
     const router = useRouter();
     const imgProxy = useImgProxy();
+
+    const apiUrl = config.public.apiUrl;
 
     const subscriptionChannels = ref([]);
     const currentPage = ref(1);
@@ -115,7 +118,6 @@ export default defineComponent({
     });
 
     const { fetch } = useFetch(async () => {
-      const apiUrl = accessor.environment.apiUrl;
       const limit = 30;
       if (route.query && route.query.page) {
         currentPage.value = parseInt(route.query.page as string);
@@ -127,7 +129,7 @@ export default defineComponent({
       const start = (currentPage.value - 1) * 30;
       await axios
         .get(
-          `${apiUrl}user/subscriptions/channels?limit=${limit}&start=${start}&sort=author:1${filterString}`,
+          `${config.public.apiUrl}user/subscriptions/channels?limit=${limit}&start=${start}&sort=author:1${filterString}`,
           {
             withCredentials: true
           }
@@ -158,7 +160,7 @@ export default defineComponent({
     };
     const unsubscribe = (channel: { authorId: any; author: any }): void => {
       axios
-        .delete(`${accessor.environment.apiUrl}user/subscriptions/${channel.authorId}`, {
+        .delete(`${config.public.apiUrl}user/subscriptions/${channel.authorId}`, {
           withCredentials: true
         })
         .then(response => {
@@ -171,7 +173,7 @@ export default defineComponent({
               clickAction: () => {
                 axios
                   .put(
-                    `${accessor.environment.apiUrl}user/subscriptions/${channel.authorId}`,
+                    `${config.public.apiUrl}user/subscriptions/${channel.authorId}`,
                     {},
                     {
                       withCredentials: true
@@ -238,7 +240,8 @@ export default defineComponent({
       changePage,
       channelNameToImgString,
       unsubscribe,
-      imgProxyUrl: imgProxy.url
+      imgProxyUrl: imgProxy.url,
+      apiUrl
     };
   },
   head: {}

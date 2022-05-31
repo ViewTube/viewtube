@@ -7,13 +7,15 @@
 <script lang="ts">
 import { defineComponent } from '#imports';
 import { useAccessor } from '@/hooks/accessor';
+import { useProxyUrls } from '@/hooks/proxyUrls';
 
 export default defineComponent({
   name: 'InvidiousLicense',
   setup() {
-    const accessor = useAccessor();
+    const { textProxy } = useProxyUrls();
+
     const { data: licenseTextData, ...a } = useLazyFetch(
-      `${accessor.environment.textProxyUrl}https://raw.githubusercontent.com/iv-org/invidious/master/LICENSE`
+      `${textProxy}https://raw.githubusercontent.com/iv-org/invidious/master/LICENSE`
     );
 
     console.log(a);

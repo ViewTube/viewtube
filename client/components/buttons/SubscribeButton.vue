@@ -41,6 +41,7 @@ export default defineComponent({
   setup(props) {
     const { $axios: axios } = useNuxtApp();
     const accessor = useAccessor();
+    const config = useRuntimeConfig();
 
     const isSubscribed = ref(false);
     const disabled = ref(true);
@@ -62,7 +63,7 @@ export default defineComponent({
     const loadSubscriptionStatus = (): void => {
       if (props.channelId && accessor.user.isLoggedIn) {
         axios
-          .get(`${accessor.environment.apiUrl}user/subscriptions/${props.channelId}`, {
+          .get(`${config.public.apiUrl}user/subscriptions/${props.channelId}`, {
             withCredentials: true
           })
           .then((response: { data: { isSubscribed: any } }) => {
@@ -84,7 +85,7 @@ export default defineComponent({
         disabled.value = true;
         axios
           .put(
-            `${accessor.environment.apiUrl}user/subscriptions/${props.channelId}`,
+            `${config.public.apiUrl}user/subscriptions/${props.channelId}`,
             {},
             {
               withCredentials: true
@@ -113,7 +114,7 @@ export default defineComponent({
       if (props.channelId) {
         disabled.value = true;
         axios
-          .delete(`${accessor.environment.apiUrl}user/subscriptions/${props.channelId}`, {
+          .delete(`${config.public.apiUrl}user/subscriptions/${props.channelId}`, {
             withCredentials: true
           })
           .then((response: { data: { isSubscribed: any } }) => {

@@ -28,6 +28,7 @@ export default defineComponent({
   },
   setup(props, { emit }) {
     const accessor = useAccessor();
+    const config = useRuntimeConfig();
     const { $axios: axios } = useNuxtApp();
 
     const autocompleteValues = ref([]);
@@ -46,7 +47,7 @@ export default defineComponent({
       () => props.searchValue,
       () => {
         axios
-          .get(`${accessor.environment.apiUrl}autocomplete`, {
+          .get(`${config.public.apiUrl}autocomplete`, {
             params: {
               q: props.searchValue
             }

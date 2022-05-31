@@ -235,6 +235,7 @@ export default defineComponent({
   },
   setup() {
     const accessor = useAccessor();
+    const config = useRuntimeConfig();
     const route = useRoute();
     const router = useRouter();
     const { error } = useContext();
@@ -286,7 +287,7 @@ export default defineComponent({
 
     const loadDislikes = () => {
       axios
-        .get(`${accessor.environment.apiUrl}videos/dislikes/${route.value.query.v}`)
+        .get(`${config.public.apiUrl}videos/dislikes/${route.query.v}`)
         .then(response => {
           if (response.data && !isNaN(response.data.dislikes)) {
             dislikeCount.value = response.data.dislikes;
@@ -302,10 +303,9 @@ export default defineComponent({
 
     const saveToHistory = () => {
       if (accessor.user.isLoggedIn) {
-        const apiUrl = accessor.environment.apiUrl;
         axios
           .post(
-            `${apiUrl}user/history/${route.value.query.v}`,
+            `${config.public.apiUrl}user/history/${route.query.v}`,
             {
               progressSeconds: null,
               lengthSeconds: video.value.lengthSeconds
@@ -343,7 +343,7 @@ export default defineComponent({
     const loadComments = (evtVideoId: string = null) => {
       const videoId = evtVideoId || route.query.v;
       axios
-        .get(`${accessor.environment.apiUrl}comments/${videoId}`)
+        .get(`${config.public.apiUrl}comments/${videoId}`)
         .then(response => {
           if (response.data.comments && response.data.comments.length > 0) {
             comment.value = response.data;
@@ -366,7 +366,7 @@ export default defineComponent({
       const videoId = route.query.v;
       axios
         .get(
-          `${accessor.environment.apiUrl}comments/${videoId}?continuation=${commentsContinuationLink.value}`
+          `${config.public.apiUrl}comments/${videoId}?continuation=${commentsContinuationLink.value}`
         )
         .then(response => {
           comment.value.comments = comment.value.comments.concat(response.data.comments);
@@ -384,9 +384,8 @@ export default defineComponent({
 
     const loadPlaylist = async () => {
       if (isPlaylist.value) {
-        const apiUrl = accessor.environment.apiUrl;
         await axios
-          .get(`${apiUrl}playlists`, { params: { playlistId: route.query.list } })
+          .get(`${config.public.apiUrl}playlists`, { params: { playlistId: route.query.list } })
           .then(response => {
             if (response.data) {
               playlist.value = response.data;
@@ -410,8 +409,7 @@ export default defineComponent({
 
     const { fetch } = useFetch(async (): Promise<void> => {
       videoLoaded.value = false;
-      const apiUrl = accessor.environment.apiUrl;
-      const viewTubeApi = new ViewTubeApi(apiUrl);
+      const viewTubeApi = new ViewTubeApi(config.public.apiUrl);
       await viewTubeApi.api
         .videos({
           id: route.query.v
@@ -421,7 +419,7 @@ export default defineComponent({
             video.value = response.data;
             if (accessor.user.isLoggedIn && accessor.settings.saveVideoHistory) {
               const videoVisit = await axios
-                .get(`${apiUrl}user/history/${response.data.videoId}`, { withCredentials: true })
+                .get(`${config.public.apiUrl}user/history/${response.data.videoId}`, { withCredentials: true })
                 .catch((_: any) => {});
 
               if (videoVisit && videoVisit.data && videoVisit.data.progressSeconds > 0) {

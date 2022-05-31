@@ -112,6 +112,7 @@ export default defineComponent({
   setup(props) {
     const route = useRoute();
     const accessor = useAccessor();
+    const config = useRuntimeConfig();
     const { $axios: axios } = useNuxtApp();
     const imgProxy = useImgProxy();
 
@@ -130,7 +131,7 @@ export default defineComponent({
       const replyToken = props.comment.replyToken;
       const videoId = route.query.v;
       axios
-        .get(`${accessor.environment.apiUrl}comments/${videoId}/replies?replyToken=${replyToken}`)
+        .get(`${config.public.apiUrl}comments/${videoId}/replies?replyToken=${replyToken}`)
         .then(response => {
           replies.value = response.data.comments;
           repliesContinuationString.value = response.data.continuation || null;
@@ -151,7 +152,7 @@ export default defineComponent({
       const videoId = route.query.v;
       axios
         .get(
-          `${accessor.environment.apiUrl}comments/${videoId}/replies?replyToken=${repliesContinuationString.value}`
+          `${config.public.apiUrl}comments/${videoId}/replies?replyToken=${repliesContinuationString.value}`
         )
         .then(response => {
           replies.value = replies.value.concat(response.data.comments);

@@ -165,6 +165,7 @@ export default defineComponent({
   setup(props) {
     const imgProxy = useImgProxy();
     const accessor = useAccessor();
+    const config = useRuntimeConfig();
     // const formatting = useFormatting();
 
     const localProxy = '&local=true';
@@ -172,7 +173,7 @@ export default defineComponent({
     const apiUrl = ref('/');
     const videoThumbnailUrl = ref(null);
 
-    apiUrl.value = accessor.environment.apiUrl;
+    apiUrl.value = config.public.apiUrl;
 
     const videoLinkQuery = computed(() => {
       const linkQuery: { v: string; list?: string } = {
