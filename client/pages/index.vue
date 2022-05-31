@@ -82,7 +82,11 @@ export default defineComponent({
       showMore.value = true;
     };
 
-    const { data: videos, error: popularPageError, pending: popularPageLoading } = useGetPopularPage();
+    const {
+      data: videos,
+      error: popularPageError,
+      pending: popularPageLoading
+    } = useGetPopularPage();
 
     const { data: subscriptions, pending: subscriptionsLoading } = useGetUserSubscriptions({
       limit: 4
