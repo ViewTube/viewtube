@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import { insertSetters } from '@/utilities/storeSetters';
+import { useUserStore } from '@/stores/user';
 
 type SegmentOption = 'skip' | 'ask' | 'none';
 type ThemeVariant = 'default' | 'light' | 'dark-no-gradient' | 'black' | 'green';
@@ -45,9 +46,10 @@ export const useSettingsStore = defineStore('settings', {
       this.settingsSaving = true;
 
       const config = useRuntimeConfig();
+      const userStore = useUserStore();
 
       // TODO: if logged in
-      if (1 === 1) {
+      if (userStore.isLoggedIn) {
         await $fetch(`${config.public.apiUrl}user/settings`, {
           method: 'PUT',
           credentials: 'include',
