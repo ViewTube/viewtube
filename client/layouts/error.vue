@@ -49,7 +49,7 @@ export default defineComponent({
     const copyError = (): void => {
       if (process.browser && 'clipboard' in navigator) {
         navigator.clipboard.writeText(renderJSON(props.error.detail)).then(() => {
-          accessor.messages.createMessage({
+          messagesStore.createMessage({
             type: 'info',
             title: 'Copied error',
             message: null

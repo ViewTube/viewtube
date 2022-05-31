@@ -91,6 +91,7 @@ import { useNuxtApp } from '#app';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import { useAccessor } from '@/hooks/accessor';
 import { useImgProxy } from '@/utilities/proxy';
+import { useMessagesStore } from '~~/store/messages';
 
 export default defineComponent({
   name: 'Comment',
@@ -112,6 +113,7 @@ export default defineComponent({
   setup(props) {
     const route = useRoute();
     const accessor = useAccessor();
+    const messagesStore = useMessagesStore();
     const config = useRuntimeConfig();
     const { $axios: axios } = useNuxtApp();
     const imgProxy = useImgProxy();
@@ -139,7 +141,7 @@ export default defineComponent({
           loadingReplies.value = false;
         })
         .catch(err => {
-          accessor.messages.createMessage({
+          messagesStore.createMessage({
             type: 'error',
             title: 'Loading comments failed',
             message: err
@@ -160,7 +162,7 @@ export default defineComponent({
           repliesContinuationLoading.value = false;
         })
         .catch(error => {
-          accessor.messages.createMessage({
+          messagesStore.createMessage({
             type: 'error',
             title: 'Loading comments failed',
             message: error

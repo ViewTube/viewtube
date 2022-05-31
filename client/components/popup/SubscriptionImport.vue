@@ -239,7 +239,7 @@ export default defineComponent({
           );
         }
         if (subscriptionsToImport.value === undefined) {
-          accessor.messages.createMessage({
+          messagesStore.createMessage({
             type: 'error',
             title: 'Invalid or Empty CSV',
             message: 'Please check your file'
@@ -268,7 +268,7 @@ export default defineComponent({
           fileReader.result as string
         );
         if (subscriptionsToImport.value === undefined) {
-          accessor.messages.createMessage({
+          messagesStore.createMessage({
             type: 'error',
             title: 'Invalid or Empty OPML',
             message: 'Please check your file'

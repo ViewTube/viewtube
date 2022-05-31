@@ -292,7 +292,7 @@ export default defineComponent({
           if (response.data && !isNaN(response.data.dislikes)) {
             dislikeCount.value = response.data.dislikes;
           } else {
-            accessor.messages.createMessage({
+            messagesStore.createMessage({
               type: 'error',
               title: 'Error loading dislikes',
               message: 'Loading dislikes failed.'
@@ -374,7 +374,7 @@ export default defineComponent({
           commentsContinuationLink.value = response.data.continuation || null;
         })
         .catch(_ => {
-          accessor.messages.createMessage({
+          messagesStore.createMessage({
             type: 'error',
             title: 'Error loading more comments',
             message: 'Loading comments failed. There may not be any more comments.'
@@ -390,7 +390,7 @@ export default defineComponent({
             if (response.data) {
               playlist.value = response.data;
             } else {
-              accessor.messages.createMessage({
+              messagesStore.createMessage({
                 type: 'error',
                 title: 'Error loading playlist',
                 message: 'Playlist may not be available'
@@ -398,7 +398,7 @@ export default defineComponent({
             }
           })
           .catch(_ => {
-            accessor.messages.createMessage({
+            messagesStore.createMessage({
               type: 'error',
               title: 'Error loading playlist',
               message: 'Playlist may not be available'
@@ -430,7 +430,7 @@ export default defineComponent({
             }
             videoLoaded.value = true;
           } else {
-            accessor.messages.createMessage({
+            messagesStore.createMessage({
               type: 'error',
               title: 'Error loading video',
               message: 'Loading video information failed. Refresh the page to try again.',

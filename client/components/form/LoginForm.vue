@@ -50,7 +50,7 @@ export default defineComponent({
         password: password.value
       });
       if (user && user.success) {
-        accessor.messages.createMessage({
+        messagesStore.createMessage({
           type: 'info',
           title: 'Sign in successful',
           message: `Welcome, ${username.value}`
@@ -63,7 +63,7 @@ export default defineComponent({
       } else {
         loading.value = false;
         wiggleLoginForm();
-        accessor.messages.createMessage({
+        messagesStore.createMessage({
           type: 'error',
           title: 'Sign in failed',
           message: user ? user.error : ''

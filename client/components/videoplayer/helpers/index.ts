@@ -310,7 +310,7 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
           try {
             await videoRef.value.play();
           } catch (error) {
-            accessor.messages.createMessage({
+            messagesStore.createMessage({
               type: 'error',
               title: 'Autoplay blocked',
               message: 'Allow autoplay for this website to start the video automatically'

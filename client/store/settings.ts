@@ -48,7 +48,6 @@ export const useSettingsStore = defineStore('settings', {
       const config = useRuntimeConfig();
       const userStore = useUserStore();
 
-      // TODO: if logged in
       if (userStore.isLoggedIn) {
         await $fetch(`${config.public.apiUrl}user/settings`, {
           method: 'PUT',

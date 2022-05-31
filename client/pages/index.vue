@@ -94,7 +94,7 @@ export default defineComponent({
 
     watch(popularPageError, newValue => {
       if (newValue) {
-        accessor.messages.createMessage({
+        messagesStore.createMessage({
           type: 'error',
           title: 'Error loading homepage',
           message: 'Refresh the page to try again',

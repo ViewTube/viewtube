@@ -41,6 +41,7 @@ export default defineComponent({
   setup(props) {
     const { $axios: axios } = useNuxtApp();
     const accessor = useAccessor();
+    const messagesStore = useMessagesStore();
     const config = useRuntimeConfig();
 
     const isSubscribed = ref(false);
@@ -101,7 +102,7 @@ export default defineComponent({
             }
           })
           .catch((_: any) => {
-            accessor.messages.createMessage({
+            messagesStore.createMessage({
               type: 'error',
               title: 'Unable to subscribe',
               message: `You may not be logged in. Try reloading the page.`
@@ -127,7 +128,7 @@ export default defineComponent({
             }
           })
           .catch((_: any) => {
-            accessor.messages.createMessage({
+            messagesStore.createMessage({
               type: 'error',
               title: 'Unable to unsubscribe',
               message: `You may not be logged in. Try to reload the page.`

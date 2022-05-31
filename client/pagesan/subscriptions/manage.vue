@@ -139,7 +139,7 @@ export default defineComponent({
           pageCount.value = Math.ceil(response.data.channelCount / 30);
         })
         .catch(_ => {
-          accessor.messages.createMessage({
+          messagesStore.createMessage({
             type: 'error',
             title: 'Error loading subscriptions',
             message: 'Error loading subscriptions'
@@ -166,7 +166,7 @@ export default defineComponent({
         .then(response => {
           if (!response.data.isSubscribed) {
             fetch();
-            accessor.messages.createMessage({
+            messagesStore.createMessage({
               type: 'error',
               title: `Unsubscribed from ${channel.author}`,
               message: 'Click to undo',

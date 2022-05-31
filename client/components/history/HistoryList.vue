@@ -78,7 +78,7 @@ export default defineComponent({
           emit('refresh');
         })
         .catch(() => {
-          accessor.messages.createMessage({
+          messagesStore.createMessage({
             type: 'error',
             title: 'Error deleting history entry',
             message: 'Try logging out and in again'

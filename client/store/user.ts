@@ -25,6 +25,7 @@ export const useUserStore = defineStore('user', {
         this.profileImage = user.profileImage;
       } catch {}
     },
+
     async login(username: string, password: string) {
       const config = useRuntimeConfig();
       try {
@@ -48,6 +49,7 @@ export const useUserStore = defineStore('user', {
         };
       }
     },
+
     async register(username: string, password: string, captchaSolution: string) {
       const config = useRuntimeConfig();
       const captchaStore = useCaptchaStore();
@@ -90,6 +92,7 @@ export const useUserStore = defineStore('user', {
         error: 'Registration failed'
       };
     },
+
     async logout() {
       const config = useRuntimeConfig();
       try {

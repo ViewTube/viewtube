@@ -109,7 +109,7 @@ export default defineComponent({
               playlist.value = response.data;
               playlistContinuation.value = response.data.continuation;
             } else {
-              accessor.messages.createMessage({
+              messagesStore.createMessage({
                 type: 'error',
                 title: 'Error loading playlist',
                 message: 'Playlist may not be available'
@@ -117,7 +117,7 @@ export default defineComponent({
             }
           })
           .catch(_ => {
-            accessor.messages.createMessage({
+            messagesStore.createMessage({
               type: 'error',
               title: 'Error loading playlist',
               message: 'Playlist may not be available'
@@ -143,7 +143,7 @@ export default defineComponent({
             }
           })
           .catch((_: any) => {
-            accessor.messages.createMessage({
+            messagesStore.createMessage({
               type: 'error',
               title: 'Unable to load more results',
               message: 'Try again or use a different search term for more results'

@@ -201,7 +201,7 @@ export default defineComponent({
         })
         .then(_ => {
           logout();
-          accessor.messages.createMessage({
+          messagesStore.createMessage({
             type: 'info',
             title: 'Deleted account',
             message: `Successfully deleted account ${repeatedUsername.value}`
@@ -222,7 +222,7 @@ export default defineComponent({
         })
         .then((response: any) => {
           if (response.data.path) {
-            accessor.messages.createMessage({
+            messagesStore.createMessage({
               type: 'info',
               title: 'New profile image',
               message: 'Successfully set new profile image'
@@ -237,19 +237,19 @@ export default defineComponent({
             err.response.data.message &&
             err.response.data.message.match(/.*too large.*/i)
           ) {
-            accessor.messages.createMessage({
+            messagesStore.createMessage({
               type: 'error',
               title: err.response.data.message,
               message: 'Maximum file size is 4MB'
             });
           } else if (err && err.response.data && err.response.data.error) {
-            accessor.messages.createMessage({
+            messagesStore.createMessage({
               type: 'error',
               title: err.response.data.error,
               message: err.response.data.message
             });
           } else {
-            accessor.messages.createMessage({
+            messagesStore.createMessage({
               type: 'error',
               title: 'Error saving profile image',
               message: 'Try uploading it in a different format'
@@ -262,7 +262,7 @@ export default defineComponent({
       axios
         .delete(`${config.public.apiUrl}user/profile/image`, { withCredentials: true })
         .then(() => {
-          accessor.messages.createMessage({
+          messagesStore.createMessage({
             type: 'info',
             title: 'Profile image deleted',
             message: 'Profile image successfully deleted'
@@ -270,7 +270,7 @@ export default defineComponent({
           setProfileImageUrl(null);
         })
         .catch(() => {
-          accessor.messages.createMessage({
+          messagesStore.createMessage({
             type: 'error',
             title: 'Could not delete profile image',
             message: 'An error occurred when deleting the profile image'
@@ -308,7 +308,7 @@ export default defineComponent({
             }
           })
           .catch((_: any) => {
-            accessor.messages.createMessage({
+            messagesStore.createMessage({
               type: 'error',
               title: 'Error loading profile',
               message: 'Try logging out and in again'

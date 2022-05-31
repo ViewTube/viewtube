@@ -82,16 +82,7 @@
 import EditIcon from 'vue-material-design-icons/PencilBoxMultipleOutline.vue';
 import SubscriptionIcon from 'vue-material-design-icons/YoutubeSubscription.vue';
 import ImportIcon from 'vue-material-design-icons/Import.vue';
-import {
-  defineComponent,
-  onMounted,
-  Ref,
-  ref,
-  useFetch,
-  useMeta,
-  useRoute,
-  watch
-} from '#imports';
+import { defineComponent, onMounted, Ref, ref, useFetch, useMeta, useRoute, watch } from '#imports';
 import { useNuxtApp } from '#app';
 import SubscriptionImport from '@/components/popup/SubscriptionImport.vue';
 import VideoEntry from '@/components/list/VideoEntry.vue';
@@ -155,7 +146,7 @@ export default defineComponent({
           }
         )
         .catch(_ => {
-          accessor.messages.createMessage({
+          messagesStore.createMessage({
             type: 'error',
             title: 'Error loading subscription feed',
             message: 'Error loading subscription feed'
@@ -163,7 +154,7 @@ export default defineComponent({
         });
     });
 
-    const vapidKey = ref(accessor.environment.vapidKey);
+    const vapidKey = ref(config.public.vapidKey);
     const hasNoSubscriptions = ref(true);
     const getOrderedVideoSections = (): Array<any> => {
       const orderedArray = [];
@@ -210,13 +201,9 @@ export default defineComponent({
               })
               .then(subscription => {
                 axios
-                  .post(
-                    `${config.public.apiUrl}user/notifications/subscribe`,
-                    subscription,
-                    {
-                      withCredentials: true
-                    }
-                  )
+                  .post(`${config.public.apiUrl}user/notifications/subscribe`, subscription, {
+                    withCredentials: true
+                  })
                   .then(() => {
                     notificationsEnabled.value = true;
                   });
@@ -224,7 +211,7 @@ export default defineComponent({
               .catch(err => {
                 notificationsEnabled.value = false;
                 notificationsBtnDisabled.value = true;
-                accessor.messages.createMessage({
+                messagesStore.createMessage({
                   type: 'error',
                   title: 'Error subscribing to notifications',
                   message: err.message
@@ -277,7 +264,7 @@ export default defineComponent({
             }
           })
           .catch(err => {
-            accessor.messages.createMessage({
+            messagesStore.createMessage({
               type: 'error',
               title: 'Error loading notification worker',
               message: err.message

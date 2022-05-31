@@ -165,7 +165,7 @@ export default defineComponent({
             }
           })
           .catch((_: any) => {
-            accessor.messages.createMessage({
+            messagesStore.createMessage({
               type: 'error',
               title: 'Unable to load more results',
               message: 'Try again or use a different search term for more results'
@@ -207,7 +207,7 @@ export default defineComponent({
             }
           }
         } catch (_) {
-          accessor.messages.createMessage({
+          messagesStore.createMessage({
             type: 'error',
             title: 'Search failed',
             message: 'Refresh the page to try again',
@@ -215,7 +215,7 @@ export default defineComponent({
           });
         }
       } else {
-        accessor.messages.createMessage({
+        messagesStore.createMessage({
           type: 'error',
           title: 'Search term is empty',
           message: "Search term can't be empty",

@@ -104,7 +104,7 @@ export default defineComponent({
         if (error.response && error.response.data) {
           errorMessage = error.response.data.message;
         }
-        accessor.messages.createMessage({
+        messagesStore.createMessage({
           type: 'error',
           title: 'Loading the channel failed',
           message: errorMessage

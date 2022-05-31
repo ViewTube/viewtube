@@ -77,7 +77,7 @@ export default defineComponent({
       swipeOpacity.value = 0;
       setTimeout(() => {
         if (props.message && props.message.id) {
-          accessor.messages.dismissMessage(props.message.id);
+          messagesStore.dismissMessage(props.message.id);
         }
       }, 600);
     };

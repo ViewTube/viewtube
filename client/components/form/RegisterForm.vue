@@ -93,7 +93,7 @@ export default defineComponent({
           captchaSolution: captchaSolution.value
         });
         if (user && !user.error && user.username) {
-          accessor.messages.createMessage({
+          messagesStore.createMessage({
             type: 'info',
             title: 'Registration successful',
             message: `Welcome, ${user.username}`
@@ -104,7 +104,7 @@ export default defineComponent({
             router.push((route.query.ref as string) || '/');
           }
         } else {
-          accessor.messages.createMessage({
+          messagesStore.createMessage({
             type: 'error',
             title: 'Registration failed',
             message: user ? user.error : ''

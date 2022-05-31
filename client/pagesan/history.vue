@@ -103,7 +103,7 @@ export default defineComponent({
             refresh();
           })
           .catch(() => {
-            accessor.messages.createMessage({
+            messagesStore.createMessage({
               type: 'error',
               title: 'Error deleting history range',
               message: 'Try specifying the range again'
@@ -120,7 +120,7 @@ export default defineComponent({
           refresh();
         })
         .catch(() => {
-          accessor.messages.createMessage({
+          messagesStore.createMessage({
             type: 'error',
             title: 'Error deleting history',
             message: 'Try logging out and in again'
@@ -152,7 +152,7 @@ export default defineComponent({
 
     watch(error, newValue => {
       if (newValue) {
-        accessor.messages.createMessage({
+        messagesStore.createMessage({
           type: 'error',
           title: 'Error loading history',
           message: 'Try logging out and in again'
