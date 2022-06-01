@@ -166,5 +166,5 @@ export const defaultThemes = [
 export const useCurrentTheme = () => {
   const settingsStore = useSettingsStore();
 
-  return { currentTheme: defaultThemes.find(theme => theme.name === settingsStore.theme) };
+  return { currentTheme: defaultThemes.find(theme => theme.value === settingsStore.theme) };
 };

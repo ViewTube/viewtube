@@ -1,5 +1,5 @@
 <template>
-  <element
+  <component
     :is="internalLink ? 'nuxt-link' : 'a'"
     v-ripple
     :to="internalLink && href ? href : '#'"
@@ -13,7 +13,7 @@
     <div class="content" :class="{ loading: loading }">
       <slot />
     </div>
-  </element>
+  </component>
 </template>
 
 <script lang="ts">

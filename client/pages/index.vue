@@ -29,7 +29,7 @@
       />
     </div>
     <BadgeButton
-      v-if="displayedVideos.length !== videos.length"
+      v-if="displayedVideos.length !== videos?.length"
       :click="showMoreVideos"
       class="home-show-more"
     >
@@ -72,14 +72,17 @@ export default defineComponent({
     const userAuthenticated = ref(userStore.isLoggedIn);
 
     const displayedVideos = computed(() => {
-      if (showMore) {
-        let videoCount = 12;
-        if (userAuthenticated.value && settingsStore.showHomeSubscriptions) {
-          videoCount = 8;
+      if (videos.value) {
+        if (showMore) {
+          let videoCount = 12;
+          if (userAuthenticated.value && settingsStore.showHomeSubscriptions) {
+            videoCount = 8;
+          }
+          return videos.value.slice(0, videoCount);
         }
-        return videos.slice(0, videoCount);
+        return videos.value;
       }
-      return videos;
+      return [];
     });
 
     const showMoreVideos = (): void => {

@@ -182,7 +182,6 @@ import {
   defineComponent,
   onMounted,
   ref,
-  useContext,
   useFetch,
   useMeta,
   useRoute,
@@ -243,7 +242,7 @@ export default defineComponent({
     const config = useRuntimeConfig();
     const route = useRoute();
     const router = useRouter();
-    const { error } = useContext();
+    // const { error } = useContext();
     const { $axios: axios } = useNuxtApp();
     const imgProxy = useImgProxy();
 
@@ -454,16 +453,16 @@ export default defineComponent({
               message: err.message
             };
           }
-          error({
-            statusCode: 500,
-            message:
-              errorObj.responseData &&
-              errorObj.responseData.message &&
-              typeof errorObj.responseData.message === 'string'
-                ? errorObj.responseData.message
-                : errorObj.message,
-            detail: errorObj
-          } as any);
+          // error({
+          //   statusCode: 500,
+          //   message:
+          //     errorObj.responseData &&
+          //     errorObj.responseData.message &&
+          //     typeof errorObj.responseData.message === 'string'
+          //       ? errorObj.responseData.message
+          //       : errorObj.message,
+          //   detail: errorObj
+          // } as any);
         });
     });
 
