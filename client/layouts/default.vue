@@ -14,7 +14,7 @@ import Header from '@/components/header/MainHeader.vue';
 import Miniplayer from '@/components/miniplayer/Miniplayer.vue';
 import MessageBoxContainer from '@/components/message/MessageBoxContainer.vue';
 import ThemeStyling from '@/components/themes/ThemeStyling.vue';
-import { useAccessor } from '@/hooks/accessor';
+import { useSettingsStore } from '~~/store/settings';
 
 export default defineComponent({
   name: 'Default',
@@ -26,17 +26,17 @@ export default defineComponent({
   },
   setup() {
     const route = useRoute();
-    const accessor = useAccessor();
+    const settingsStore = useSettingsStore();
 
     const appRef = ref(null);
 
     const headless = computed((): boolean => {
-      return route.meta.headless;
+      return Boolean(route.meta.headless);
     });
 
     const getThemeClass = (): string => {
       if ((process as any).browser) {
-        return `theme--${accessor.settings.theme}`;
+        return `theme--${settingsStore.theme}`;
       } else {
         return 'theme--default';
       }

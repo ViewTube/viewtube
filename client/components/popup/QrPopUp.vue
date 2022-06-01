@@ -14,7 +14,7 @@ import QRCode from 'qrcode';
 import CloseIcon from 'vue-material-design-icons/Close.vue';
 import '@/assets/styles/popup.scss';
 import { defineComponent, onMounted, ref } from '#imports';
-import { useAccessor } from '@/hooks/accessor';
+import { useCurrentTheme } from '~~/utilities/themes';
 
 export default defineComponent({
   name: 'QrPopUp',
@@ -22,18 +22,17 @@ export default defineComponent({
     CloseIcon
   },
   setup() {
-    const accessor = useAccessor();
-
+    const { currentTheme } = useCurrentTheme();
     const qrCodeRef = ref(null);
 
     const url = (): string => {
       return process.browser ? window.location.href : '';
     };
     const getThemePrimaryColor = (): string => {
-      return accessor.settings.themeVariables['theme-color'];
+      return currentTheme['theme-color'];
     };
     const getThemeBackgroundColor = (): string => {
-      return accessor.settings.themeVariables['bgcolor-alt'];
+      return currentTheme['bgcolor-alt'];
     };
 
     onMounted(() => {

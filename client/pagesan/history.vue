@@ -10,7 +10,7 @@
         <BadgeButton :click="() => (deletePopup = true)">Delete entire history</BadgeButton>
       </div>
     </details>
-    <div v-if="history && !$accessor.settings.saveVideoHistory" class="no-history">
+    <div v-if="history && !settingsStore.saveVideoHistory" class="no-history">
       <RestartOffIcon />
       <p>Video history is disabled. You can enable it in settings.</p>
     </div>
@@ -18,7 +18,7 @@
       class="history-main-list"
       :history="history"
       :deleteOption="true"
-      @refresh="$fetch"
+      @refresh="refresh"
     />
     <div class="history-pagination">
       <Pagination :currentPage="currentPage" :pageCount="pageCount" />
@@ -47,11 +47,12 @@ import SectionTitle from '@/components/SectionTitle.vue';
 import Pagination from '@/components/pagination/Pagination.vue';
 import HistoryList from '@/components/history/HistoryList.vue';
 import { useGetUserHistory } from '@/hooks/api/user';
-import { useAccessor } from '@/hooks/accessor';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import SmallSearchBox from '@/components/SmallSearchBox.vue';
 import Confirmation from '@/components/popup/Confirmation.vue';
 import {useMessagesStore} from "~/store/messages";
+import { useSettingsStore } from '~~/store/settings';
+import { useUserStore } from '~~/store/user';
 
 export default defineComponent({
   name: 'History',
@@ -67,8 +68,9 @@ export default defineComponent({
   setup() {
     const { $axios: axios } = useNuxtApp();
     const router = useRouter();
-    const accessor = useAccessor();
     const messagesStore = useMessagesStore();
+    const settingsStore = useSettingsStore();
+    const userStore = useUserStore();
     const config = useRuntimeConfig();
     const route = useRoute();
 
@@ -138,7 +140,7 @@ export default defineComponent({
       );
     });
 
-    if (accessor.user.isLoggedIn) {
+    if (userStore.isLoggedIn) {
       router.push('/login');
     }
 
@@ -209,7 +211,9 @@ export default defineComponent({
       deletePopup,
       deleteRange,
       deleteEntireHistory,
-      rangeSelected
+      rangeSelected,
+      settingsStore,
+      refresh
     };
   },
   head: {}

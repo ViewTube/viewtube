@@ -3,14 +3,14 @@
     <Spinner v-if="popularPageLoading" class="centered" />
     <GradientBackground :color="'theme'" />
     <SectionTitle
-      v-if="$accessor.settings.showHomeSubscriptions && userAuthenticated"
+      v-if="settingsStore.showHomeSubscriptions && userAuthenticated"
       :title="'Subscriptions'"
       :link="'subscriptions'"
     />
     <Spinner v-if="subscriptionsLoading" />
     <div
       v-if="
-        $accessor.settings.showHomeSubscriptions &&
+        settingsStore.showHomeSubscriptions &&
         userAuthenticated &&
         subscriptions &&
         subscriptions.length > 0
@@ -47,10 +47,11 @@ import Spinner from '@/components/Spinner.vue';
 import SectionTitle from '@/components/SectionTitle.vue';
 import GradientBackground from '@/components/GradientBackground.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
-import { useAccessor } from '@/hooks/accessor';
 import { useGetPopularPage } from '@/hooks/api/home';
 import { useGetUserSubscriptions } from '@/hooks/api/user';
-import {useMessagesStore} from "~/store/messages";
+import { useMessagesStore } from '~/store/messages';
+import { useUserStore } from '~~/store/user';
+import { useSettingsStore } from '~~/store/settings';
 
 export default defineComponent({
   name: 'Home',
@@ -63,16 +64,17 @@ export default defineComponent({
     Spinner
   },
   setup() {
-    const accessor = useAccessor();
     const messagesStore = useMessagesStore();
+    const settingsStore = useSettingsStore();
+    const userStore = useUserStore();
 
     const showMore = ref(false);
-    const userAuthenticated = ref(accessor.user.isLoggedIn);
+    const userAuthenticated = ref(userStore.isLoggedIn);
 
     const displayedVideos = computed(() => {
       if (showMore) {
         let videoCount = 12;
-        if (userAuthenticated.value && accessor.settings.showHomeSubscriptions) {
+        if (userAuthenticated.value && settingsStore.showHomeSubscriptions) {
           videoCount = 8;
         }
         return videos.slice(0, videoCount);
@@ -116,7 +118,8 @@ export default defineComponent({
       popularPageLoading,
       subscriptionsLoading,
       userAuthenticated,
-      showMoreVideos
+      showMoreVideos,
+      settingsStore
     };
   },
   head: {}

@@ -125,11 +125,11 @@
             @click.prevent.stop="onSeekbarClick"
           />
           <SponsorBlockSegments
-            v-if="$accessor.settings.sponsorblockEnabled && sponsorBlockSegments"
+            v-if="settingsStore.sponsorblockEnabled && sponsorBlockSegments"
             :segments="sponsorBlockSegments"
           />
-          <div v-if="!$accessor.settings.chapters || !chapters" class="seekbar-background" />
-          <div v-if="$accessor.settings.chapters && chapters" class="seekbar-background-chapters">
+          <div v-if="!settingsStore.chapters || !chapters" class="seekbar-background" />
+          <div v-if="settingsStore.chapters && chapters" class="seekbar-background-chapters">
             <div
               v-for="(chapter, index) in chapters"
               :key="index"
@@ -146,14 +146,14 @@
             />
           </div>
           <div
-            v-if="!$accessor.settings.chapters || !chapters"
+            v-if="!settingsStore.chapters || !chapters"
             class="seekbar-loading-progress"
             :style="{
               width: `${videoElement.loadingPercentage}%`
             }"
           />
           <div
-            v-if="$accessor.settings.chapters && chapters"
+            v-if="settingsStore.chapters && chapters"
             class="seekbar-loading-progress-chapters"
             :style="{
               'clip-path': `polygon(
@@ -179,14 +179,14 @@
             />
           </div>
           <div
-            v-if="!$accessor.settings.chapters || !chapters"
+            v-if="!settingsStore.chapters || !chapters"
             class="seekbar-playback-progress"
             :style="{
               width: `${videoElement.progressPercentage}%`
             }"
           />
           <div
-            v-if="$accessor.settings.chapters && chapters"
+            v-if="settingsStore.chapters && chapters"
             class="seekbar-playback-progress-chapters"
             :style="{
               'clip-path': `polygon(
@@ -236,7 +236,7 @@
             {{ seekbar.hoverTime }}
           </div>
           <span
-            v-if="$accessor.settings.chapters && getChapterForPercentage(seekbar.hoverPercentage)"
+            v-if="settingsStore.chapters && getChapterForPercentage(seekbar.hoverPercentage)"
             ref="chapterTitleRef"
             class="chapter-title"
             :style="{
@@ -315,13 +315,12 @@
       :style="{
         backgroundImage: `url(${imgProxyUrl + video.videoThumbnails[0].url})`
       }"
-      :class="{ hidden: !playerOverlay.thumbnailVisible, autoplay: $accessor.settings.autoplay }"
+      :class="{ hidden: !playerOverlay.thumbnailVisible, autoplay: settingsStore.autoplay }"
     />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from '#imports';
 import PauseIcon from 'vue-material-design-icons/Pause.vue';
 import PlayIcon from 'vue-material-design-icons/Play.vue';
 import FullscreenIcon from 'vue-material-design-icons/Fullscreen.vue';
@@ -336,6 +335,7 @@ import VolumeControl from '@/components/videoplayer/VolumeControl.vue';
 import VideoPlayerSettings from '@/components/videoplayer/VideoPlayerSettings.vue';
 // import SeekbarPreview from '@/components/videoplayer/SeekbarPreview.vue';
 import SponsorBlockSegments from '@/components/videoplayer/SponsorblockSegments.vue';
+import { PropType } from 'vue';
 
 export default defineComponent({
   name: 'Videoplayer',
@@ -356,7 +356,7 @@ export default defineComponent({
   },
   props: {
     video: {
-      type: Object,
+      type: Object as PropType<any>,
       required: true
     },
     embedded: Boolean,

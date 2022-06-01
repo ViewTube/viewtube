@@ -18,10 +18,7 @@
     />
     <div v-if="video && !$fetchState.pending" class="video-meta">
       <div class="recommended-videos mobile">
-        <NextUpVideo
-          v-if="nextUpVideo && $accessor.settings.autoplayNextVideo"
-          :video="nextUpVideo"
-        />
+        <NextUpVideo v-if="nextUpVideo && settingsStore.autoplayNextVideo" :video="nextUpVideo" />
         <CollapsibleSection :label="'Recommended videos'" :opened="recommendedOpen">
           <RecommendedVideos
             class="recommended-videos-list"
@@ -184,7 +181,6 @@ import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
 import {
   defineComponent,
   onMounted,
-  Ref,
   ref,
   useContext,
   useFetch,
@@ -206,10 +202,13 @@ import PlaylistSection from '@/components/watch/PlaylistSection.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import ViewTubeApi from '@/services/viewTubeApi';
 import { createComputed } from '@/utilities/computed';
-import { useAccessor } from '@/hooks/accessor';
 import { useImgProxy } from '@/utilities/proxy';
 import VideoLoadingTemplate from '@/components/watch/VideoLoadingTemplate.vue';
-import {useMessagesStore} from "~/store/messages";
+import { useMessagesStore } from '~/store/messages';
+import { useSettingsStore } from '~~/store/settings';
+import { useUserStore } from '~~/store/user';
+import { useMiniplayerStore } from '~~/store/miniplayer';
+import { useVideoPlayerStore } from '~~/store/videoPlayer';
 
 export default defineComponent({
   name: 'Watch',
@@ -235,8 +234,12 @@ export default defineComponent({
     PlaylistSection
   },
   setup() {
-    const accessor = useAccessor();
     const messagesStore = useMessagesStore();
+    const settingsStore = useSettingsStore();
+    const userStore = useUserStore();
+    const videoPlayerStore = useVideoPlayerStore();
+    const miniplayerStore = useMiniplayerStore();
+
     const config = useRuntimeConfig();
     const route = useRoute();
     const router = useRouter();
@@ -260,7 +263,7 @@ export default defineComponent({
 
     const dislikeCount = ref(0);
 
-    const playlist: Ref<Result> = ref(null);
+    const playlist = ref<Result>(null);
 
     const templateVideoData = route.params.videoData;
 
@@ -269,12 +272,12 @@ export default defineComponent({
     });
 
     const isAutoplaying = createComputed(() => {
-      return isPlaylist.value || accessor.settings.autoplay || route.query.autoplay === 'true';
+      return isPlaylist.value || settingsStore.autoplay || route.query.autoplay === 'true';
     });
 
     const recommendedVideos = createComputed(() => {
       if (video.value) {
-        if (accessor.settings.autoplayNextVideo) {
+        if (settingsStore.autoplayNextVideo) {
           return video.value.recommendedVideos.slice(1);
         }
         return video.value.recommendedVideos;
@@ -288,23 +291,21 @@ export default defineComponent({
     });
 
     const loadDislikes = () => {
-      axios
-        .get(`${config.public.apiUrl}videos/dislikes/${route.query.v}`)
-        .then(response => {
-          if (response.data && !isNaN(response.data.dislikes)) {
-            dislikeCount.value = response.data.dislikes;
-          } else {
-            messagesStore.createMessage({
-              type: 'error',
-              title: 'Error loading dislikes',
-              message: 'Loading dislikes failed.'
-            });
-          }
-        });
+      axios.get(`${config.public.apiUrl}videos/dislikes/${route.query.v}`).then(response => {
+        if (response.data && !isNaN(response.data.dislikes)) {
+          dislikeCount.value = response.data.dislikes;
+        } else {
+          messagesStore.createMessage({
+            type: 'error',
+            title: 'Error loading dislikes',
+            message: 'Loading dislikes failed.'
+          });
+        }
+      });
     };
 
     const saveToHistory = () => {
-      if (accessor.user.isLoggedIn) {
+      if (userStore.isLoggedIn) {
         axios
           .post(
             `${config.public.apiUrl}user/history/${route.query.v}`,
@@ -419,9 +420,11 @@ export default defineComponent({
         .then(async (response: { data: any }): Promise<void> => {
           if (response) {
             video.value = response.data;
-            if (accessor.user.isLoggedIn && accessor.settings.saveVideoHistory) {
+            if (userStore.isLoggedIn && settingsStore.saveVideoHistory) {
               const videoVisit = await axios
-                .get(`${config.public.apiUrl}user/history/${response.data.videoId}`, { withCredentials: true })
+                .get(`${config.public.apiUrl}user/history/${response.data.videoId}`, {
+                  withCredentials: true
+                })
                 .catch((_: any) => {});
 
               if (videoVisit && videoVisit.data && videoVisit.data.progressSeconds > 0) {
@@ -471,7 +474,7 @@ export default defineComponent({
           fetch();
           const videoId = newValue.v as string;
           loadComments(videoId);
-          accessor.miniplayer.setCurrentVideo(video);
+          miniplayerStore.setCurrentVideo(video);
         }
       }
     );
@@ -485,7 +488,7 @@ export default defineComponent({
       }
       loadComments();
       loadDislikes();
-      accessor.miniplayer.setCurrentVideo(video);
+      miniplayerStore.setCurrentVideo(video);
       loadPlaylist();
     });
 
@@ -493,11 +496,11 @@ export default defineComponent({
       if (
         isPlaylist.value &&
         playlistSectionRef.value &&
-        !accessor.settings.alwaysLoopVideo &&
-        !accessor.videoPlayer.loop
+        !settingsStore.alwaysLoopVideo &&
+        !videoPlayerStore.loop
       ) {
         playlistSectionRef.value.playNextVideo();
-      } else if (accessor.settings.autoplayNextVideo && video.value.recommendedVideos) {
+      } else if (settingsStore.autoplayNextVideo && video.value.recommendedVideos) {
         router.push({
           path: route.fullPath,
           query: { v: video.value.recommendedVideos[0].videoId, autoplay: 'true' }
@@ -570,7 +573,8 @@ export default defineComponent({
       getHDUrl,
       loadMoreComments,
       templateVideoData,
-      playlist
+      playlist,
+      settingsStore
     };
   },
   head: {}

@@ -38,6 +38,9 @@ export const useUserStore = defineStore('user', {
           }
         });
         await this.getUser();
+        return {
+          success: true
+        };
       } catch (error) {
         if (error?.response?.data?.message) {
           return {

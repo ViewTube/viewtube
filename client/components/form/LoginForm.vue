@@ -18,8 +18,8 @@ import InformationHint from '@/components/hints/InformationHint.vue';
 import FormInput from '@/components/form/FormInput.vue';
 import SubmitButton from '@/components/form/SubmitButton.vue';
 import Spinner from '@/components/Spinner.vue';
-import { useAccessor } from '@/hooks/accessor';
-import {useMessagesStore} from "~/store/messages";
+import { useMessagesStore } from '@/store/messages';
+import { useUserStore } from '@/store/user';
 
 export default defineComponent({
   name: 'LoginForm',
@@ -34,7 +34,7 @@ export default defineComponent({
   },
   setup(props) {
     const route = useRoute();
-    const accessor = useAccessor();
+    const userStore = useUserStore();
     const messagesStore = useMessagesStore();
     const router = useRouter();
 
@@ -47,10 +47,7 @@ export default defineComponent({
     const login = async (): Promise<void> => {
       loading.value = true;
 
-      const user = await accessor.user.login({
-        username: username.value,
-        password: password.value
-      });
+      const user = await userStore.login(username.value, password.value);
       if (user && user.success) {
         messagesStore.createMessage({
           type: 'info',

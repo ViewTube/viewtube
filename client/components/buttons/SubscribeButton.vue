@@ -25,8 +25,8 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref } from '#imports';
 import { useNuxtApp } from '#app';
-import { useAccessor } from '@/hooks/accessor';
-import {useMessagesStore} from "~/store/messages";
+import { useMessagesStore } from '@/store/messages';
+import { useUserStore } from '@/store/user';
 
 export default defineComponent({
   name: 'SubscribeButton',
@@ -41,7 +41,7 @@ export default defineComponent({
   },
   setup(props) {
     const { $axios: axios } = useNuxtApp();
-    const accessor = useAccessor();
+    const userStore = useUserStore();
     const messagesStore = useMessagesStore();
     const config = useRuntimeConfig();
 
@@ -63,7 +63,7 @@ export default defineComponent({
     });
 
     const loadSubscriptionStatus = (): void => {
-      if (props.channelId && accessor.user.isLoggedIn) {
+      if (props.channelId && userStore.isLoggedIn) {
         axios
           .get(`${config.public.apiUrl}user/subscriptions/${props.channelId}`, {
             withCredentials: true

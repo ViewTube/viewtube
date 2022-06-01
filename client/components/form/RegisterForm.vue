@@ -30,20 +30,14 @@
 </template>
 
 <script lang="ts">
-import {
-  computed,
-  defineComponent,
-  ref,
-  useRoute,
-  useRouter,
-  watch
-} from '#imports';
+import { computed, defineComponent, ref, useRoute, useRouter, watch } from '#imports';
 import FormInput from '@/components/form/FormInput.vue';
 import InformationHint from '@/components/hints/InformationHint.vue';
 import SubmitButton from '@/components/form/SubmitButton.vue';
 import Spinner from '@/components/Spinner.vue';
-import { useAccessor } from '@/hooks/accessor';
-import {useMessagesStore} from "~/store/messages";
+import { useMessagesStore } from '~/store/messages';
+import { useUserStore } from '~/store/user';
+import { useCaptchaStore } from '~~/store/captcha';
 
 export default defineComponent({
   name: 'RegisterForm',
@@ -58,8 +52,9 @@ export default defineComponent({
   },
   setup(props) {
     const route = useRoute();
-    const accessor = useAccessor();
+    const captchaStore = useCaptchaStore();
     const messagesStore = useMessagesStore();
+    const userStore = useUserStore();
     const router = useRouter();
 
     const loading = ref(false);
@@ -73,7 +68,7 @@ export default defineComponent({
     const formWiggle = ref(false);
 
     const captchaImage = computed(() => {
-      return accessor.captcha.image;
+      return captchaStore.image;
     });
 
     watch(password, () => {
@@ -89,11 +84,11 @@ export default defineComponent({
       } else {
         loading.value = true;
 
-        const user = await accessor.user.register({
-          username: username.value,
-          password: password.value,
-          captchaSolution: captchaSolution.value
-        });
+        const user = await userStore.register(
+          username.value,
+          password.value,
+          captchaSolution.value
+        );
         if (user && !user.error && user.username) {
           messagesStore.createMessage({
             type: 'info',
@@ -113,7 +108,7 @@ export default defineComponent({
           });
           loading.value = false;
           wiggleRegisterForm();
-          accessor.captcha.getCaptcha();
+          captchaStore.getCaptcha();
         }
       }
     };
@@ -131,7 +126,7 @@ export default defineComponent({
       }
     };
 
-    accessor.captcha.getCaptcha();
+    captchaStore.getCaptcha();
 
     return {
       loading,

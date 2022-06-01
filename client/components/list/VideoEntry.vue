@@ -148,7 +148,6 @@ import VerifiedIcon from 'vue-material-design-icons/CheckDecagram.vue';
 // import { getSecondsFromTimestamp } from '@/utilities/shared';
 import { computed, defineComponent, ref } from '#imports';
 import { useImgProxy } from '@/utilities/proxy';
-import { useAccessor } from '@/hooks/accessor';
 // import { useFormatting } from '@/utilities/formatting';
 
 export default defineComponent({
@@ -164,7 +163,6 @@ export default defineComponent({
   },
   setup(props) {
     const imgProxy = useImgProxy();
-    const accessor = useAccessor();
     const config = useRuntimeConfig();
     // const formatting = useFormatting();
 
@@ -200,7 +198,7 @@ export default defineComponent({
     }/hqdefault.jpg${localProxy}`;
 
     const videoProgressPercentage = computed((): number => {
-      // const savedPosition = accessor.videoProgress.getSavedPositionForId(
+      // const savedPosition = videoProgressStore.getSavedPositionForId(
       //   props.video.videoId ? props.video.videoId : props.video.id
       // );
       // if (props.video.duration) {
@@ -213,7 +211,7 @@ export default defineComponent({
     });
 
     const videoProgressTooltip = computed((): string => {
-      // const savedPosition = accessor.videoProgress.getSavedPositionForId(
+      // const savedPosition = videoProgressStore.getSavedPositionForId(
       //   props.video.videoId ? props.video.videoId : props.video.id
       // );
       // if (savedPosition && props.video.duration) {

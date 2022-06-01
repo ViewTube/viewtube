@@ -89,7 +89,6 @@ import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
 import { defineComponent, ref, useRoute } from '#imports';
 import { useNuxtApp } from '#app';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
-import { useAccessor } from '@/hooks/accessor';
 import { useImgProxy } from '@/utilities/proxy';
 import { useMessagesStore } from '~~/store/messages';
 
@@ -112,7 +111,6 @@ export default defineComponent({
   },
   setup(props) {
     const route = useRoute();
-    const accessor = useAccessor();
     const messagesStore = useMessagesStore();
     const config = useRuntimeConfig();
     const { $axios: axios } = useNuxtApp();

@@ -74,7 +74,6 @@ import { useNuxtApp } from '#app';
 import GradientBackground from '@/components/GradientBackground.vue';
 import SectionTitle from '@/components/SectionTitle.vue';
 import Pagination from '@/components/pagination/Pagination.vue';
-import { useAccessor } from '@/hooks/accessor';
 import SmallSearchBox from '@/components/SmallSearchBox.vue';
 import { useImgProxy } from '@/utilities/proxy';
 import {useMessagesStore} from "~/store/messages";

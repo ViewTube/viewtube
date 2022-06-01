@@ -65,11 +65,11 @@
         </div>
       </div>
     </div>
-    <div v-if="profile && !$accessor.settings.saveVideoHistory" class="no-history">
+    <div v-if="profile && !settingsStore.saveVideoHistory" class="no-history">
       <RestartOffIcon />
       <p>Video history is disabled. You can enable it in settings.</p>
     </div>
-    <div v-if="profile && !hasHistory && $accessor.settings.saveVideoHistory" class="no-history">
+    <div v-if="profile && !hasHistory && settingsStore.saveVideoHistory" class="no-history">
       <HistoryIcon />
       <p>You haven't watched any videos yet. Once you have, your history will show up here.</p>
     </div>
@@ -134,9 +134,10 @@ import FormInput from '@/components/form/FormInput.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import Spinner from '@/components/Spinner.vue';
 import HistoryList from '@/components/history/HistoryList.vue';
-import { useAccessor } from '@/hooks/accessor';
 import { createComputed } from '@/utilities/computed';
 import {useMessagesStore} from "~/store/messages";
+import { useSettingsStore } from '~~/store/settings';
+import { useUserStore } from '~~/store/user';
 
 export default defineComponent({
   name: 'Profile',
@@ -159,8 +160,10 @@ export default defineComponent({
     PlusIcon
   },
   setup() {
-    const accessor = useAccessor();
     const messagesStore = useMessagesStore();
+    const settingsStore = useSettingsStore();
+    const userStore = useUserStore();
+
     const config = useRuntimeConfig();
     const { $axios: axios } = useNuxtApp();
     const router = useRouter();
@@ -176,7 +179,7 @@ export default defineComponent({
     const profileImageUrl = ref(null);
     const profileImageLoading = ref(false);
 
-    originalUsername.value = accessor.user.username;
+    originalUsername.value = userStore.username;
 
     const hasHistory = createComputed(() => {
       if (profile.value && profile.value.videoHistory.length > 0) {
@@ -283,7 +286,7 @@ export default defineComponent({
       return repeatedUsername.value.length > 0 && repeatedUsername.value === originalUsername.value;
     });
     const logout = () => {
-      accessor.user.logout();
+      userStore.logout();
       router.push('/');
     };
 
@@ -298,7 +301,7 @@ export default defineComponent({
     };
 
     useFetch(async () => {
-      if (accessor.user.isLoggedIn) {
+      if (userStore.isLoggedIn) {
         await axios
           .get(`${config.public.apiUrl}user/profile/details`, { withCredentials: true })
           .then((result: { data: any }) => {
@@ -363,7 +366,8 @@ export default defineComponent({
       deleteAccountValid,
       hasHistory,
       logout,
-      apiUrl
+      apiUrl,
+      settingsStore
     };
   },
   head: {}

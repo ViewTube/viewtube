@@ -6,7 +6,6 @@
 
 <script lang="ts">
 import { defineComponent } from '#imports';
-import { useAccessor } from '@/hooks/accessor';
 import { useProxyUrls } from '@/hooks/proxyUrls';
 
 export default defineComponent({

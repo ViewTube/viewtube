@@ -17,7 +17,6 @@
 import { defineComponent, ref } from '#imports';
 import EndscreenCard from '@/components/videoplayer/EndscreenCard.vue';
 
-import { useAccessor } from '@/hooks/accessor';
 
 export default defineComponent({
   name: 'VideoEndscreen',
@@ -30,7 +29,6 @@ export default defineComponent({
     videoElement: null
   },
   setup(props) {
-    const accessor = useAccessor();
     const config = useRuntimeConfig();
     const endscreenData = ref([]);
     const hover = ref(false);

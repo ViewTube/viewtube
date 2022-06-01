@@ -31,7 +31,7 @@
 import { defineComponent, useRoute } from '#imports';
 import { useImgProxy } from '@/utilities/proxy';
 import { createComputed } from '@/utilities/computed';
-import { useAccessor } from '@/hooks/accessor';
+import { useVideoPlayerStore } from '~~/store/videoPlayer';
 
 export default defineComponent({
   props: {
@@ -40,10 +40,10 @@ export default defineComponent({
   setup() {
     const imgProxy = useImgProxy();
     const route = useRoute();
-    const accessor = useAccessor();
+    const videoPlayerStore = useVideoPlayerStore();
 
     const remainingTimeString = createComputed(() => {
-      const remaining = accessor.videoPlayer.videoLength - accessor.videoPlayer.currentTime;
+      const remaining = videoPlayerStore.videoLength - videoPlayerStore.currentTime;
       if (remaining <= 30) {
         return ` in ${Math.floor(remaining)}s`;
       }

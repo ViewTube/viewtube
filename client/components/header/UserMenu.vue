@@ -38,32 +38,32 @@
       @click.prevent="showAccountMenu"
     >
       <div class="user-icon">
-        <AccountIcon v-if="!$accessor.user.profileImage" />
+        <AccountIcon v-if="!userStore.profileImage" />
         <div
-          v-if="$accessor.user.profileImage"
+          v-if="userStore.profileImage"
           class="user-image"
-          :style="{ 'background-image': `url(${getProfileImageUrl($accessor.user.profileImage)})` }"
+          :style="{ 'background-image': `url(${getProfileImageUrl(userStore.profileImage)})` }"
         />
       </div>
-      <p v-if="userAuthenticated" class="account-name">{{ $accessor.user.username }}</p>
+      <p v-if="userAuthenticated" class="account-name">{{ userStore.username }}</p>
     </a>
     <transition name="fade-up">
       <div v-if="accountMenuVisible" class="menu">
         <div v-show="userAuthenticated" class="account-menu">
           <div class="account-icon">
-            <AccountIcon v-if="!$accessor.user.profileImage" />
+            <AccountIcon v-if="!userStore.profileImage" />
             <div
-              v-if="$accessor.user.profileImage"
+              v-if="userStore.profileImage"
               class="user-image"
               :style="{
-                'background-image': `url(${getProfileImageUrl($accessor.user.profileImage)})`
+                'background-image': `url(${getProfileImageUrl(userStore.profileImage)})`
               }"
             />
           </div>
           <div class="account-info">
             <p class="account-name">
               Logged in as
-              {{ $accessor.user.username }}
+              {{ userStore.username }}
             </p>
             <div @mouseup="closeAllPopups">
               <nuxt-link class="profile-btn" href="#" to="/profile">Your profile</nuxt-link>
@@ -168,8 +168,8 @@ import LoginForm from '../form/LoginForm.vue';
 import RegisterForm from '../form/RegisterForm.vue';
 import Settings from '@/components/Settings.vue';
 import About from '@/components/About.vue';
-
-import { useAccessor } from '@/hooks/accessor';
+import { useUserStore } from '~~/store/user';
+import { usePopupStore } from '~~/store/popup';
 
 export default defineComponent({
   name: 'UserMenu',
@@ -186,7 +186,9 @@ export default defineComponent({
   },
   setup() {
     const route = useRoute();
-    const accessor = useAccessor();
+    const userStore = useUserStore();
+    const popupStore = usePopupStore();
+
     const config = useRuntimeConfig();
     const router = useRouter();
 
@@ -219,8 +221,8 @@ export default defineComponent({
       aboutOpen.value = false;
       settingsOpen.value = false;
       accountMenuVisible.value = false;
-      if (accessor.popup.isPopupOpen) {
-        accessor.popup.setPopupOpen(false);
+      if (popupStore.popupOpen) {
+        popupStore.setPopupOpen(false);
       }
     };
 
@@ -229,7 +231,7 @@ export default defineComponent({
     });
 
     const userAuthenticated = computed((): boolean => {
-      return accessor.user.isLoggedIn;
+      return userStore.isLoggedIn;
     });
 
     const currentPageRef = (exclude: string) => {
@@ -252,12 +254,12 @@ export default defineComponent({
     };
     const openAbout = (): void => {
       closeAllPopups();
-      accessor.popup.setPopupOpen(true);
+      popupStore.setPopupOpen(true);
       aboutOpen.value = true;
     };
     const openSettings = (): void => {
       closeAllPopups();
-      accessor.popup.setPopupOpen(true);
+      popupStore.setPopupOpen(true);
       settingsOpen.value = true;
     };
     const openSubscriptions = (): void => {
@@ -273,7 +275,7 @@ export default defineComponent({
       closeAllPopups();
     };
     const logout = (): void => {
-      accessor.user.logout();
+      userStore.logout();
       closeAllPopups();
     };
 
@@ -284,11 +286,11 @@ export default defineComponent({
     };
 
     watch(
-      () => accessor.popup.currentPopupName,
+      () => popupStore.currentPopupName,
       (newValue: string, oldValue: string): void => {
         if (newValue && newValue !== oldValue && newValue.length > 0) {
           openPopup(newValue);
-          accessor.popup.afterOpenPopup();
+          popupStore.afterOpenPopup();
         }
       }
     );
@@ -320,7 +322,8 @@ export default defineComponent({
       loginOpen,
       registerOpen,
       onLoginClick,
-      onRegisterClick
+      onRegisterClick,
+      userStore
     };
   }
 });

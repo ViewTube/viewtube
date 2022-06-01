@@ -20,7 +20,7 @@
             <div v-if="videoQualityList" class="player-settings-submenu">
               <span class="player-settings-title"><HighDefinitionIcon />Video Quality</span>
               <SwitchButton
-                :value="$accessor.settings.autoAdjustVideoQuality"
+                :value="settingsStore.autoAdjustVideoQuality"
                 :label="'Automatically adjust'"
                 :disabled="false"
                 :right="true"
@@ -54,7 +54,7 @@
             <div v-if="audioQualityList" class="player-settings-submenu">
               <span class="player-settings-title"><AudioDefinitionIcon />Audio Quality</span>
               <SwitchButton
-                :value="$accessor.settings.autoAdjustAudioQuality"
+                :value="settingsStore.autoAdjustAudioQuality"
                 :label="'Automatically adjust'"
                 :disabled="false"
                 :right="true"
@@ -113,8 +113,9 @@ import CheckIcon from 'vue-material-design-icons/Check.vue';
 // import MagicIcon from 'vue-material-design-icons/AutoFix.vue';
 import { defineComponent, onBeforeUnmount, onMounted, ref, watch } from '#imports';
 import SwitchButton from '@/components/buttons/SwitchButton.vue';
-import { useAccessor } from '@/hooks/accessor';
 import { createComputed } from '@/utilities/computed';
+import { useSettingsStore } from '~~/store/settings';
+import { useVideoPlayerStore } from '~~/store/videoPlayer';
 
 export default defineComponent({
   name: 'QualitySelection',
@@ -134,7 +135,8 @@ export default defineComponent({
     audioQualityList: Array
   },
   setup(props, { emit }) {
-    const accessor = useAccessor();
+    const settingsStore = useSettingsStore();
+    const videoPlayerStore = useVideoPlayerStore();
     const qualityUrl = ref(null);
     const popup = ref(false);
     const elementHeight = ref(0);
@@ -163,7 +165,7 @@ export default defineComponent({
     };
 
     watch(loopVideo, newVal => {
-      accessor.videoPlayer.setLoop(newVal);
+      videoPlayerStore.setLoop(newVal);
       emit('loopchange', newVal);
     });
 
@@ -185,18 +187,18 @@ export default defineComponent({
     };
 
     const autoAdjustVideoQuality = (val: boolean) => {
-      accessor.settings.setAutoAdjustVideoQuality(val);
+      settingsStore.setAutoAdjustVideoQuality(val);
       emit('autoadjustchange');
     };
 
     const autoAdjustAudioQuality = (val: boolean) => {
-      accessor.settings.setAutoAdjustAudioQuality(val);
+      settingsStore.setAutoAdjustAudioQuality(val);
       emit('autoadjustchange');
     };
 
     onMounted(() => {
-      loopVideo.value = accessor.settings.alwaysLoopVideo;
-      videoSpeed.value = accessor.settings.defaultVideoSpeed;
+      loopVideo.value = settingsStore.alwaysLoopVideo;
+      videoSpeed.value = settingsStore.defaultVideoSpeed;
 
       window.addEventListener('resize', refreshRecommended);
     });
@@ -234,7 +236,8 @@ export default defineComponent({
       autoAdjustVideoQuality,
       autoAdjustAudioQuality,
       loopVideo,
-      videoSpeed
+      videoSpeed,
+      settingsStore
     };
   }
 });

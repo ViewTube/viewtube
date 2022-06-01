@@ -19,7 +19,6 @@
 <script lang="ts">
 import { defineComponent, ref, watch } from '#imports';
 import { useNuxtApp } from '#app';
-import { useAccessor } from '@/hooks/accessor';
 
 export default defineComponent({
   name: 'SearchAutocomplete',
@@ -27,7 +26,6 @@ export default defineComponent({
     searchValue: { type: String, default: null }
   },
   setup(props, { emit }) {
-    const accessor = useAccessor();
     const config = useRuntimeConfig();
     const { $axios: axios } = useNuxtApp();
 

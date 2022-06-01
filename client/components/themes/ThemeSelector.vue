@@ -54,31 +54,30 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from '#imports';
-import { useAccessor } from '@/hooks/accessor';
+import { useSettingsStore } from '~~/store/settings';
+import { defaultThemes } from '~~/utilities/themes';
 
 export default defineComponent({
   name: 'ThemeSelector',
   setup() {
-    const accessor = useAccessor();
-    const themes = ref(accessor.settings.defaultThemes);
+    const settingsStore = useSettingsStore();
 
     const onThemeChange = (element: { value: any }) => {
-      accessor.settings.mutateSettingsSaving(true);
+      settingsStore.setSettingsSaving(true);
 
       document.body.classList.add('transition-all');
-      accessor.settings.setTheme(element.value);
+      settingsStore.setTheme(element.value);
       setTimeout(() => {
         document.body.classList.remove('transition-all');
-        accessor.settings.mutateSettingsSaving(false);
+        settingsStore.setSettingsSaving(false);
       }, 300);
     };
     const getBorderThemeColor = (theme: { [x: string]: string; value: string }): string => {
-      return theme.value === accessor.settings.theme ? theme['theme-color'] : 'transparent';
+      return theme.value === settingsStore.theme ? theme['theme-color'] : 'transparent';
     };
 
     return {
-      themes,
+      themes: defaultThemes,
       onThemeChange,
       getBorderThemeColor
     };

@@ -16,7 +16,6 @@
 <script lang="ts">
 import { defineComponent, ref, reactive, watch, onMounted } from '#imports';
 // import { WebVTTParser } from '@/utilities/services/webVTTParser';
-// import { useAccessor } from '@/hooks/accessor';
 
 export default defineComponent({
   name: 'SeekbarPreview',
@@ -35,7 +34,6 @@ export default defineComponent({
     }
   },
   setup(props) {
-    // const accessor = useAccessor();
     const storyboardVTT = ref(null);
     const storyboardImages = ref(null);
     const storyboardBaseImages = ref([]);

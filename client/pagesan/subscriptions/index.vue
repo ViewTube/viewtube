@@ -5,7 +5,7 @@
     <div class="subscribe-info-container">
       <div class="subscribe-info">
         <div class="info">
-          <h2>Subscription feed for {{ $accessor.user.username }}</h2>
+          <h2>Subscription feed for {{ userStore.username }}</h2>
           <p v-if="lastRefreshTime">
             Last refresh: {{ new Date(lastRefreshTime).toLocaleString() }}
           </p>
@@ -82,7 +82,7 @@
 import EditIcon from 'vue-material-design-icons/PencilBoxMultipleOutline.vue';
 import SubscriptionIcon from 'vue-material-design-icons/YoutubeSubscription.vue';
 import ImportIcon from 'vue-material-design-icons/Import.vue';
-import { defineComponent, onMounted, Ref, ref, useFetch, useMeta, useRoute, watch } from '#imports';
+import { defineComponent, onMounted, ref, useFetch, useMeta, useRoute, watch } from '#imports';
 import { useNuxtApp } from '#app';
 import SubscriptionImport from '@/components/popup/SubscriptionImport.vue';
 import VideoEntry from '@/components/list/VideoEntry.vue';
@@ -92,8 +92,8 @@ import SectionTitle from '@/components/SectionTitle.vue';
 import SwitchButton from '@/components/buttons/SwitchButton.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import Pagination from '@/components/pagination/Pagination.vue';
-import { useAccessor } from '@/hooks/accessor';
 import {useMessagesStore} from "~/store/messages";
+import { useUserStore } from '~~/store/user';
 
 export default defineComponent({
   name: 'Subscriptions',
@@ -112,6 +112,7 @@ export default defineComponent({
   },
   setup() {
     const messagesStore = useMessagesStore();
+    const userStore = useUserStore();
     const config = useRuntimeConfig();
     const route = useRoute();
     const { $axios: axios } = useNuxtApp();
@@ -323,7 +324,8 @@ export default defineComponent({
       closeSubscriptionImport,
       onSubscriptionImportDone,
       subscribeToNotifications,
-      getNotificationStatus
+      getNotificationStatus,
+      userStore
     };
   },
   head: {}

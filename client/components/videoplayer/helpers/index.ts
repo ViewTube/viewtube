@@ -8,15 +8,22 @@ import { DashHelper } from './dash';
 import { commons } from '@/utilities/commons';
 import { SponsorBlock } from '@/services/sponsorBlock';
 import { SponsorBlockSegmentsDto } from '@/utilities/shared';
-import { useAccessor } from '@/hooks/accessor';
 import { useImgProxy } from '@/utilities/proxy';
 import { createComputed } from '@/utilities/computed';
 import { useProxyUrls } from '@/hooks/proxyUrls';
-import {useMessagesStore} from "~/store/messages";
+import { useMessagesStore } from '@/store/messages';
+import { useSettingsStore } from '@/store/settings';
+import { useUserStore } from '@/store/user';
+import { usePlayerVolumeStore } from '@/store/playerVolume';
+import { useVideoPlayerStore } from '@/store/videoPlayer';
 
 export const videoPlayerSetup = (props: any, emit: Function) => {
-  const accessor = useAccessor();
+  const settingsStore = useSettingsStore();
   const messagesStore = useMessagesStore();
+  const userStore = useUserStore();
+  const playerVolumeStore = usePlayerVolumeStore();
+  const videoPlayerStore = useVideoPlayerStore();
+
   const config = useRuntimeConfig();
   const { $formatting: formatting, $axios: axios } = useNuxtApp();
   const imgProxy = useImgProxy();
@@ -150,14 +157,14 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
 
   const chapters = ref(null);
 
-  if (accessor.settings.miniplayer) {
+  if (settingsStore.miniplayer) {
     chapters.value = parseChapters(props.video.description, props.video.lengthSeconds);
   }
 
   const sponsorBlockSegments = ref<SponsorBlockSegmentsDto>(null);
   let sponsorBlock: SponsorBlock = null;
 
-  if (accessor.settings.sponsorblockEnabled) {
+  if (settingsStore.sponsorblockEnabled) {
     sponsorBlock = new SponsorBlock(props.video.videoId);
     sponsorBlock.getSkipSegments().then(value => {
       if (value) {
@@ -199,7 +206,7 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
           } else if (newValue === 0) {
             videoRef.value.muted = true;
           }
-          accessor.playerVolume.setPlayerVolume(newValue);
+          playerVolumeStore.setPlayerVolume(newValue);
           videoRef.value.volume = newValue;
         }
       }
@@ -302,7 +309,7 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
   const onLoadedMetadata = async (e: any) => {
     videoElement.aspectRatio = e.target.videoHeight / e.target.videoWidth;
     if (videoRef.value) {
-      videoElement.playerVolume = accessor.playerVolume.getPlayerVolume;
+      videoElement.playerVolume = playerVolumeStore.playerVolume;
       if (videoElement.firstTimeBuffering) {
         videoElement.firstTimeBuffering = false;
         if (!props.video.liveNow) {
@@ -338,37 +345,37 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
         videoElement.progress = videoRef.value.currentTime;
         videoElement.duration = videoRef.value.duration;
 
-        accessor.videoPlayer.setCurrentTime(videoRef.value.currentTime);
-        accessor.videoPlayer.setVideoLength(videoRef.value.duration);
+        videoPlayerStore.setCurrentTime(videoRef.value.currentTime);
+        videoPlayerStore.setVideoLength(videoRef.value.duration);
 
-        if (accessor.settings.sponsorblockEnabled && sponsorBlock) {
+        if (settingsStore.sponsorblockEnabled && sponsorBlock) {
           const currentSegment = sponsorBlock.getCurrentSegment(videoRef.value.currentTime);
           if (currentSegment) {
             let segmentOption = 'ask';
             if (currentSegment.category === 'music_offtopic') {
-              segmentOption = accessor.settings.sponsorblockSegmentMusicOfftopic;
+              segmentOption = settingsStore.sponsorblockSegmentMusicOfftopic;
             }
             switch (currentSegment.category) {
               case 'music_offtopic':
-                segmentOption = accessor.settings.sponsorblockSegmentMusicOfftopic;
+                segmentOption = settingsStore.sponsorblockSegmentMusicOfftopic;
                 break;
               case 'interaction':
-                segmentOption = accessor.settings.sponsorblockSegmentInteraction;
+                segmentOption = settingsStore.sponsorblockSegmentInteraction;
                 break;
               case 'intro':
-                segmentOption = accessor.settings.sponsorblockSegmentIntro;
+                segmentOption = settingsStore.sponsorblockSegmentIntro;
                 break;
               case 'outro':
-                segmentOption = accessor.settings.sponsorblockSegmentOutro;
+                segmentOption = settingsStore.sponsorblockSegmentOutro;
                 break;
               case 'selfpromo':
-                segmentOption = accessor.settings.sponsorblockSegmentSelfpromo;
+                segmentOption = settingsStore.sponsorblockSegmentSelfpromo;
                 break;
               case 'preview':
-                segmentOption = accessor.settings.sponsorblockSegmentPreview;
+                segmentOption = settingsStore.sponsorblockSegmentPreview;
                 break;
               case 'sponsor':
-                segmentOption = accessor.settings.sponsorblockSegmentSponsor;
+                segmentOption = settingsStore.sponsorblockSegmentSponsor;
                 break;
               default:
                 break;
@@ -768,8 +775,8 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
 
   const onAutoAdjustChange = () => {
     if (dashHelper.value && dashHelper.value.isFullyInitialized) {
-      dashHelper.value.setAudioAutoSwitchingMode(accessor.settings.autoAdjustAudioQuality);
-      dashHelper.value.setVideoAutoSwitchingMode(accessor.settings.autoAdjustVideoQuality);
+      dashHelper.value.setAudioAutoSwitchingMode(settingsStore.autoAdjustAudioQuality);
+      dashHelper.value.setVideoAutoSwitchingMode(settingsStore.autoAdjustVideoQuality);
     }
   };
 
@@ -824,8 +831,8 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
   };
 
   const saveVideoPosition = (currentTime: number) => {
-    if (videoRef.value && accessor.settings.saveVideoHistory) {
-      if (accessor.user.isLoggedIn && !props.video.liveNow) {
+    if (videoRef.value && settingsStore.saveVideoHistory) {
+      if (userStore.isLoggedIn && !props.video.liveNow) {
         axios
           .post(
             `${config.public.apiUrl}user/history/${props.video.videoId}`,
@@ -926,7 +933,7 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
           videoRef.value.src = highestLegacyQuality.value;
         }
       } else if (process.browser) {
-        if (accessor.settings.dashPlaybackEnabled && window.MediaSource) {
+        if (settingsStore.dashPlaybackEnabled && window.MediaSource) {
           // Using dashjs
           const manifestUrl = `${config.public.apiUrl}videos/manifest/dash/${props.video.videoId}`;
           dashHelper.value = new DashHelper(videoRef.value, manifestUrl);
@@ -1035,6 +1042,7 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
     onChangeSpeed,
     setVideoTime,
     onAutoAdjustChange,
-    onRefreshRecommendedQuality
+    onRefreshRecommendedQuality,
+    settingsStore
   };
 };

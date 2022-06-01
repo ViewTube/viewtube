@@ -1,3 +1,5 @@
+import { useSettingsStore } from '@/store/settings';
+
 export const defaultThemes = [
   {
     value: 'default',
@@ -160,3 +162,9 @@ export const defaultThemes = [
     'gradient-opacity': 0
   }
 ];
+
+export const useCurrentTheme = () => {
+  const settingsStore = useSettingsStore();
+
+  return { currentTheme: defaultThemes.find(theme => theme.name === settingsStore.theme) };
+};
