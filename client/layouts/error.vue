@@ -27,7 +27,7 @@
 <script lang="ts">
 import { defineComponent, ref, useRoute } from '#imports';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
-import { useAccessor } from '@/hooks/accessor';
+import {useMessagesStore} from "~/store/messages";
 
 export default defineComponent({
   name: 'ErrorPage',
@@ -38,7 +38,7 @@ export default defineComponent({
     error: Object
   },
   setup(props) {
-    const accessor = useAccessor();
+    const messagesStore = useMessagesStore();
     const config = useRuntimeConfig();
     const route = useRoute();
 

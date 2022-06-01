@@ -19,6 +19,7 @@ import FormInput from '@/components/form/FormInput.vue';
 import SubmitButton from '@/components/form/SubmitButton.vue';
 import Spinner from '@/components/Spinner.vue';
 import { useAccessor } from '@/hooks/accessor';
+import {useMessagesStore} from "~/store/messages";
 
 export default defineComponent({
   name: 'LoginForm',
@@ -34,6 +35,7 @@ export default defineComponent({
   setup(props) {
     const route = useRoute();
     const accessor = useAccessor();
+    const messagesStore = useMessagesStore();
     const router = useRouter();
 
     const loading = ref(false);

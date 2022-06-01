@@ -65,7 +65,7 @@ import SectionTitle from '@/components/SectionTitle.vue';
 import InlineVideo from '@/components/list/InlineVideo.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import { useImgProxy } from '@/utilities/proxy';
-import { useAccessor } from '@/hooks/accessor';
+import {useMessagesStore} from "~/store/messages";
 
 export default defineComponent({
   name: 'Channel',
@@ -86,7 +86,7 @@ export default defineComponent({
   setup() {
     const imgProxy = useImgProxy();
     const config = useRuntimeConfig();
-    const accessor = useAccessor();
+    const messagesStore = useMessagesStore();
     const route = useRoute();
 
     const onScrollTop = (): void => {

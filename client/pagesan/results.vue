@@ -65,7 +65,7 @@ import GradientBackground from '@/components/GradientBackground.vue';
 import Dropdown from '@/components/filter/Dropdown.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import Filters from '@/components/search/Filters.vue';
-import { useAccessor } from '@/hooks/accessor';
+import {useMessagesStore} from "~/store/messages";
 
 export default defineComponent({
   name: 'Search',
@@ -86,7 +86,7 @@ export default defineComponent({
   },
   setup() {
     const route = useRoute();
-    const accessor = useAccessor();
+    const messagesStore = useMessagesStore();
     const config = useRuntimeConfig();
     const { $axios: axios } = useNuxtApp();
 

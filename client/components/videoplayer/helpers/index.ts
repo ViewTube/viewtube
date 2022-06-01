@@ -12,9 +12,11 @@ import { useAccessor } from '@/hooks/accessor';
 import { useImgProxy } from '@/utilities/proxy';
 import { createComputed } from '@/utilities/computed';
 import { useProxyUrls } from '@/hooks/proxyUrls';
+import {useMessagesStore} from "~/store/messages";
 
 export const videoPlayerSetup = (props: any, emit: Function) => {
   const accessor = useAccessor();
+  const messagesStore = useMessagesStore();
   const config = useRuntimeConfig();
   const { $formatting: formatting, $axios: axios } = useNuxtApp();
   const imgProxy = useImgProxy();

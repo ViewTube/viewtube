@@ -139,7 +139,7 @@ import FileButton from '@/components/form/FileButton.vue';
 import SubscriptionConverter from '@/services/subscriptionConverter';
 import Spinner from '@/components/Spinner.vue';
 import '@/assets/styles/popup.scss';
-import { useAccessor } from '@/hooks/accessor';
+import {useMessagesStore} from "~/store/messages";
 
 class ChannelDto {
   author: string;
@@ -164,7 +164,7 @@ export default defineComponent({
   },
   setup(_, { emit }) {
     const { $axios: axios } = useNuxtApp();
-    const accessor = useAccessor();
+    const messagesStore = useMessagesStore();
     const config = useRuntimeConfig();
 
     const youtubeSubscriptionUrl = ref('https://takeout.google.com');

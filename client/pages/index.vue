@@ -50,6 +50,7 @@ import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import { useAccessor } from '@/hooks/accessor';
 import { useGetPopularPage } from '@/hooks/api/home';
 import { useGetUserSubscriptions } from '@/hooks/api/user';
+import {useMessagesStore} from "~/store/messages";
 
 export default defineComponent({
   name: 'Home',
@@ -63,6 +64,7 @@ export default defineComponent({
   },
   setup() {
     const accessor = useAccessor();
+    const messagesStore = useMessagesStore();
 
     const showMore = ref(false);
     const userAuthenticated = ref(accessor.user.isLoggedIn);

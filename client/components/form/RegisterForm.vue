@@ -43,6 +43,7 @@ import InformationHint from '@/components/hints/InformationHint.vue';
 import SubmitButton from '@/components/form/SubmitButton.vue';
 import Spinner from '@/components/Spinner.vue';
 import { useAccessor } from '@/hooks/accessor';
+import {useMessagesStore} from "~/store/messages";
 
 export default defineComponent({
   name: 'RegisterForm',
@@ -58,6 +59,7 @@ export default defineComponent({
   setup(props) {
     const route = useRoute();
     const accessor = useAccessor();
+    const messagesStore = useMessagesStore();
     const router = useRouter();
 
     const loading = ref(false);

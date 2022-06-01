@@ -209,6 +209,7 @@ import { createComputed } from '@/utilities/computed';
 import { useAccessor } from '@/hooks/accessor';
 import { useImgProxy } from '@/utilities/proxy';
 import VideoLoadingTemplate from '@/components/watch/VideoLoadingTemplate.vue';
+import {useMessagesStore} from "~/store/messages";
 
 export default defineComponent({
   name: 'Watch',
@@ -235,6 +236,7 @@ export default defineComponent({
   },
   setup() {
     const accessor = useAccessor();
+    const messagesStore = useMessagesStore();
     const config = useRuntimeConfig();
     const route = useRoute();
     const router = useRouter();

@@ -26,6 +26,7 @@
 import { defineComponent, onMounted, ref } from '#imports';
 import { useNuxtApp } from '#app';
 import { useAccessor } from '@/hooks/accessor';
+import {useMessagesStore} from "~/store/messages";
 
 export default defineComponent({
   name: 'SubscribeButton',

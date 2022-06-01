@@ -136,6 +136,7 @@ import Spinner from '@/components/Spinner.vue';
 import HistoryList from '@/components/history/HistoryList.vue';
 import { useAccessor } from '@/hooks/accessor';
 import { createComputed } from '@/utilities/computed';
+import {useMessagesStore} from "~/store/messages";
 
 export default defineComponent({
   name: 'Profile',
@@ -159,6 +160,7 @@ export default defineComponent({
   },
   setup() {
     const accessor = useAccessor();
+    const messagesStore = useMessagesStore();
     const config = useRuntimeConfig();
     const { $axios: axios } = useNuxtApp();
     const router = useRouter();

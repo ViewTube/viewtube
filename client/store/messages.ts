@@ -5,9 +5,9 @@ type MessageType = {
   type: string;
   title: string;
   message: string;
-  clickAction: string;
+  clickAction?: string;
   dismissed: boolean;
-  dismissDelay: number;
+  dismissDelay?: number;
 };
 
 export const useMessagesStore = defineStore('messages', {

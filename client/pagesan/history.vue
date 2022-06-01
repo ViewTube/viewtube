@@ -51,6 +51,7 @@ import { useAccessor } from '@/hooks/accessor';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import SmallSearchBox from '@/components/SmallSearchBox.vue';
 import Confirmation from '@/components/popup/Confirmation.vue';
+import {useMessagesStore} from "~/store/messages";
 
 export default defineComponent({
   name: 'History',
@@ -67,6 +68,7 @@ export default defineComponent({
     const { $axios: axios } = useNuxtApp();
     const router = useRouter();
     const accessor = useAccessor();
+    const messagesStore = useMessagesStore();
     const config = useRuntimeConfig();
     const route = useRoute();
 

@@ -77,6 +77,7 @@ import Pagination from '@/components/pagination/Pagination.vue';
 import { useAccessor } from '@/hooks/accessor';
 import SmallSearchBox from '@/components/SmallSearchBox.vue';
 import { useImgProxy } from '@/utilities/proxy';
+import {useMessagesStore} from "~/store/messages";
 
 export default defineComponent({
   name: 'ManageSubscriptions',
@@ -87,7 +88,7 @@ export default defineComponent({
     SmallSearchBox
   },
   setup() {
-    const accessor = useAccessor();
+    const messagesStore = useMessagesStore();
     const config = useRuntimeConfig();
     const route = useRoute();
     const { $axios: axios } = useNuxtApp();

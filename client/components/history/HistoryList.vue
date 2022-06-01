@@ -46,9 +46,9 @@ import { defineComponent } from '#imports';
 import { useNuxtApp } from '#app';
 import humanizeDuration from 'humanize-duration';
 import DeleteIcon from 'vue-material-design-icons/Delete.vue';
-import { useAccessor } from '@/hooks/accessor';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import { useImgProxy } from '@/utilities/proxy';
+import {useMessagesStore} from "~/store/messages";
 
 export default defineComponent({
   components: {
@@ -61,7 +61,7 @@ export default defineComponent({
   },
   setup(_, { emit }) {
     const { $axios: axios } = useNuxtApp();
-    const accessor = useAccessor();
+    const messagesStore = useMessagesStore();
     const config = useRuntimeConfig();
     const imgProxy = useImgProxy();
 
