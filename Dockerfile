@@ -21,7 +21,7 @@ RUN yarn cache clean && \
     yarn workspaces focus --all --production && \
     yarn cache clean --mirror
 
-FROM alpine:3.15 as runtime
+FROM alpine:3.16 as runtime
 WORKDIR /home/app
 
 RUN apk add --no-cache --update nodejs-current
