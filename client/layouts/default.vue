@@ -1,7 +1,7 @@
 <template>
   <div id="app" ref="appRef" class="layout">
     <ThemeStyling />
-    <Header v-if="!headless" class="main-header" />
+    <MainHeader v-if="!headless" class="main-header" />
     <Miniplayer v-if="false" />
     <nuxt keep-alive :keep-alive-props="{ include: ['Home'] }" />
     <portal-target class="dropdown-portal" name="dropdown" multiple />
@@ -12,7 +12,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, ref, useRoute } from '@nuxtjs/composition-api';
-import Header from '@/components/header/MainHeader.vue';
+import MainHeader from '@/components/header/MainHeader.vue';
 import Miniplayer from '@/components/miniplayer/Miniplayer.vue';
 import MessageBoxContainer from '@/components/message/MessageBoxContainer.vue';
 import ThemeStyling from '@/components/themes/ThemeStyling.vue';
@@ -21,7 +21,7 @@ import { useAccessor } from '@/store';
 export default defineComponent({
   name: 'Default',
   components: {
-    Header,
+    MainHeader,
     Miniplayer,
     MessageBoxContainer,
     ThemeStyling
