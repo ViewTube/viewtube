@@ -17473,10 +17473,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["node-addon-api", [
-        ["npm:4.3.0", {
-          "packageLocation": "./.yarn/unplugged/node-addon-api-npm-4.3.0-a07a1232df/node_modules/node-addon-api/",
+        ["npm:5.0.0", {
+          "packageLocation": "./.yarn/unplugged/node-addon-api-npm-5.0.0-c0def7fecf/node_modules/node-addon-api/",
           "packageDependencies": [
-            ["node-addon-api", "npm:4.3.0"],
+            ["node-addon-api", "npm:5.0.0"],
             ["node-gyp", "npm:9.0.0"]
           ],
           "linkType": "HARD",
@@ -21246,7 +21246,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["rollup-plugin-typescript2", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:0.31.2"],
             ["run-script-webpack-plugin", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:0.0.11"],
             ["rxjs", "npm:7.5.5"],
-            ["sharp", "npm:0.30.4"],
+            ["sharp", "npm:0.30.5"],
             ["source-map-support", "npm:0.5.21"],
             ["svg-captcha", "npm:1.4.0"],
             ["ts-jest", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:28.0.0"],
@@ -21365,13 +21365,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["sharp", [
-        ["npm:0.30.4", {
-          "packageLocation": "./.yarn/unplugged/sharp-npm-0.30.4-0b1c493dcc/node_modules/sharp/",
+        ["npm:0.30.5", {
+          "packageLocation": "./.yarn/unplugged/sharp-npm-0.30.5-36f03eb11a/node_modules/sharp/",
           "packageDependencies": [
-            ["sharp", "npm:0.30.4"],
+            ["sharp", "npm:0.30.5"],
             ["color", "npm:4.2.3"],
             ["detect-libc", "npm:2.0.1"],
-            ["node-addon-api", "npm:4.3.0"],
+            ["node-addon-api", "npm:5.0.0"],
             ["node-gyp", "npm:9.0.0"],
             ["prebuild-install", "npm:7.1.0"],
             ["semver", "npm:7.3.7"],
