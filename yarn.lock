@@ -1992,19 +1992,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nestjs/config@npm:2.0.0":
-  version: 2.0.0
-  resolution: "@nestjs/config@npm:2.0.0"
+"@nestjs/config@npm:2.1.0":
+  version: 2.1.0
+  resolution: "@nestjs/config@npm:2.1.0"
   dependencies:
-    dotenv: 16.0.0
-    dotenv-expand: 8.0.2
+    dotenv: 16.0.1
+    dotenv-expand: 8.0.3
     lodash: 4.17.21
     uuid: 8.3.2
   peerDependencies:
     "@nestjs/common": ^7.0.0 || ^8.0.0
     reflect-metadata: ^0.1.13
     rxjs: ^6.0.0 || ^7.2.0
-  checksum: f0aedec1b6a6fd44f686121c05d38b7ff32f3e70c5df1ded91fae788ee73e1371f6f1a6a9223c82f41c5e15a38ccf09aaf6650fc71714c0813452595fb5f3917
+  checksum: 6e7af8a981d315f0ada49b7d9b833e6e716eb84e5a087810042bb05dd560b4aba1b3c92a177fde9b073f1865bee13dc00c7903ebee0a390bfda0dd41c1fa3575
   languageName: node
   linkType: hard
 
@@ -7768,17 +7768,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dotenv-expand@npm:8.0.2":
-  version: 8.0.2
-  resolution: "dotenv-expand@npm:8.0.2"
-  checksum: 4b42b2602478bccf1bfde25c97ecc0fee4059e74df4f8fda7f076b2ef428315e00b301bda43eec3707bfa083837abb284d6fec91571f164449243001ed8eef81
+"dotenv-expand@npm:8.0.3":
+  version: 8.0.3
+  resolution: "dotenv-expand@npm:8.0.3"
+  checksum: 128ce90ac825b543de3ece0154a51b056ab0dc36bb26d97a68cd0b8707327ecd3c182fb6ac63b26a0fcdfa85064419906a1065cb634f1f9dc08ad311375f1fc0
   languageName: node
   linkType: hard
 
-"dotenv@npm:16.0.0":
-  version: 16.0.0
-  resolution: "dotenv@npm:16.0.0"
-  checksum: 664cebb51f0a9a1d1b930f51f0271e72e26d62feaecc9dc03df39453dd494b4e724809ca480fb3ec3213382b1ed3f791aaeb83569a137f9329ce58efd4853dbf
+"dotenv@npm:16.0.1":
+  version: 16.0.1
+  resolution: "dotenv@npm:16.0.1"
+  checksum: f459ffce07b977b7f15d8cc4ee69cdff77d4dd8c5dc8c85d2d485ee84655352c2415f9dd09d42b5b5985ced3be186130871b34e2f3e2569ebc72fbc2e8096792
   languageName: node
   linkType: hard
 
@@ -16521,7 +16521,7 @@ __metadata:
     "@nestjs/bull": 0.5.4
     "@nestjs/cli": 8.2.5
     "@nestjs/common": 8.4.4
-    "@nestjs/config": 2.0.0
+    "@nestjs/config": 2.1.0
     "@nestjs/core": 8.4.4
     "@nestjs/jwt": 8.0.0
     "@nestjs/mongoose": 9.0.3
