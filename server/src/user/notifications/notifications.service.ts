@@ -42,7 +42,9 @@ export class NotificationsService {
             () => {},
             reason => {
               if (reason.statusCode === 410 || reason.statusCode === 404) {
-                this.NotificationsSubscriptionModel.findOneAndDelete(subscription).exec();
+                this.NotificationsSubscriptionModel.findOneAndDelete({
+                  _id: subscription._id
+                }).exec();
               }
             }
           )

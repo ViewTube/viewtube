@@ -33,7 +33,7 @@
     "not Edge 18"
   ],
   "devDependencies": {
-    "@types/eslint": "8.4.1",
+    "@types/eslint": "8.4.2",
     "cross-env": "7.0.3",
     "eslint": "8.15.0",
     "eslint-import-resolver-node": "0.3.6",
