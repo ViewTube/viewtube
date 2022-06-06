@@ -46,7 +46,7 @@
 
 <script lang="ts">
 import { computed, defineComponent } from '#imports';
-import { useImgProxy } from '@/utilities/proxy';
+
 
 export default defineComponent({
   name: 'MixEntry',

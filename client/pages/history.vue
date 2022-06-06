@@ -46,7 +46,6 @@ import RestartOffIcon from 'vue-material-design-icons/RestartOff.vue';
 import SectionTitle from '@/components/SectionTitle.vue';
 import Pagination from '@/components/pagination/Pagination.vue';
 import HistoryList from '@/components/history/HistoryList.vue';
-import { useGetUserHistory } from '@/hooks/api/user';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import SmallSearchBox from '@/components/SmallSearchBox.vue';
 import Confirmation from '@/components/popup/Confirmation.vue';

@@ -83,7 +83,7 @@
 import VerifiedIcon from 'vue-material-design-icons/CheckDecagram.vue';
 import PlaylistIcon from 'vue-material-design-icons/PlaylistPlay.vue';
 import { computed, defineComponent } from '#imports';
-import { useImgProxy } from '@/utilities/proxy';
+
 
 export default defineComponent({
   name: 'PlaylistEntry',

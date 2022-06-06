@@ -29,7 +29,7 @@
 
 <script lang="ts">
 import { defineComponent, useRoute } from '#imports';
-import { useImgProxy } from '@/utilities/proxy';
+
 import { createComputed } from '@/utilities/computed';
 import { useVideoPlayerStore } from '~~/store/videoPlayer';
 

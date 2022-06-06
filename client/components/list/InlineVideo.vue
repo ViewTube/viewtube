@@ -39,7 +39,7 @@
 import PlayIcon from 'vue-material-design-icons/Play.vue';
 import { defineComponent, ref } from '#imports';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
-import { useImgProxy } from '@/utilities/proxy';
+
 
 export default defineComponent({
   name: 'InlineVideo',

@@ -12,7 +12,6 @@
 
 <script lang="ts">
 import VideoPlayer from '@/components/videoplayer/VideoPlayer.vue';
-import { useGetVideos } from '@/hooks/api/videos';
 
 export default defineComponent({
   name: 'EmbedVideo',

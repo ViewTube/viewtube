@@ -29,7 +29,7 @@
       />
     </div>
     <BadgeButton
-      v-if="displayedVideos.length !== videos?.length"
+      v-if="displayedVideos.length !== videoData.videos?.length"
       :click="showMoreVideos"
       class="home-show-more"
     >
@@ -47,8 +47,6 @@ import Spinner from '@/components/Spinner.vue';
 import SectionTitle from '@/components/SectionTitle.vue';
 import GradientBackground from '@/components/GradientBackground.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
-import { useGetPopularPage } from '@/hooks/api/home';
-import { useGetUserSubscriptions } from '@/hooks/api/user';
 import { useMessagesStore } from '~/store/messages';
 import { useUserStore } from '~~/store/user';
 import { useSettingsStore } from '~~/store/settings';
@@ -72,15 +70,16 @@ export default defineComponent({
     const userAuthenticated = ref(userStore.isLoggedIn);
 
     const displayedVideos = computed(() => {
-      if (videos.value) {
+      if (videoData.value) {
         if (showMore) {
           let videoCount = 12;
           if (userAuthenticated.value && settingsStore.showHomeSubscriptions) {
             videoCount = 8;
           }
-          return videos.value.slice(0, videoCount);
+          console.log(videoData.value)
+          return videoData.value.videos.slice(0, videoCount);
         }
-        return videos.value;
+        return videoData.value.videos;
       }
       return [];
     });
@@ -90,7 +89,7 @@ export default defineComponent({
     };
 
     const {
-      data: videos,
+      data: videoData,
       error: popularPageError,
       pending: popularPageLoading
     } = useGetPopularPage();
@@ -115,7 +114,7 @@ export default defineComponent({
     }));
 
     return {
-      videos,
+      videoData,
       displayedVideos,
       subscriptions,
       popularPageLoading,

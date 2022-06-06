@@ -201,7 +201,7 @@ import PlaylistSection from '@/components/watch/PlaylistSection.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import ViewTubeApi from '@/services/viewTubeApi';
 import { createComputed } from '@/utilities/computed';
-import { useImgProxy } from '@/utilities/proxy';
+
 import VideoLoadingTemplate from '@/components/watch/VideoLoadingTemplate.vue';
 import { useMessagesStore } from '~/store/messages';
 import { useSettingsStore } from '~~/store/settings';

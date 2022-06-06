@@ -54,7 +54,7 @@
 <script lang="ts">
 import VerifiedIcon from 'vue-material-design-icons/CheckDecagram.vue';
 import { defineComponent } from '#imports';
-import { useImgProxy } from '@/utilities/proxy';
+
 
 export default defineComponent({
   name: 'ChannelEntry',

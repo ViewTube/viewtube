@@ -47,7 +47,7 @@ import { useNuxtApp } from '#app';
 import humanizeDuration from 'humanize-duration';
 import DeleteIcon from 'vue-material-design-icons/Delete.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
-import { useImgProxy } from '@/utilities/proxy';
+
 import {useMessagesStore} from "~/store/messages";
 
 export default defineComponent({

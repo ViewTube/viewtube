@@ -64,7 +64,7 @@ import SubscribeButton from '@/components/buttons/SubscribeButton.vue';
 import SectionTitle from '@/components/SectionTitle.vue';
 import InlineVideo from '@/components/list/InlineVideo.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
-import { useImgProxy } from '@/utilities/proxy';
+
 import {useMessagesStore} from "~/store/messages";
 
 export default defineComponent({

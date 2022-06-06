@@ -11,7 +11,7 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     public: {
-      apiUrl: 'http://localhost:8066',
+      apiUrl: 'http://localhost:8067/api/',
       vapidKey: process.env.VIEWTUBE_PUBLIC_VAPID
     }
   },

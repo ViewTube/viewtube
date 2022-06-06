@@ -98,110 +98,110 @@ export default defineNuxtPlugin(nuxtApp => {
   };
 
   nuxtApp.vueApp.directive('ripple', {
-    created(el) {
-      el.style.overflow = 'hidden';
-      el.style.position = 'relative';
-      el.classList.add('ripple');
+    // created(el) {
+    //   el.style.overflow = 'hidden';
+    //   el.style.position = 'relative';
+    //   el.classList.add('ripple');
 
-      el.addEventListener(
-        'touchstart',
-        function (e) {
-          rippleStart(e);
-        },
-        { passive: true }
-      );
-      el.addEventListener(
-        'touchmove',
-        function (e: any) {
-          if ((e.target as any).hasAttribute('ripple-cancel-on-move')) {
-            rippleRetrieve(e);
-            return;
-          }
-          if (
-            !document
-              .elementFromPoint(e.touches[0].clientX, e.touches[0].clientY)
-              .className.includes('ripple')
-          ) {
-            rippleRetrieve(e);
-          }
-        },
-        { passive: true }
-      );
-      el.addEventListener(
-        'touchend',
-        function (e) {
-          rippleEnd(e);
-        },
-        { passive: true }
-      );
-      el.addEventListener(
-        'mousedown',
-        function (e) {
-          rippleStart(e);
-        },
-        { passive: true }
-      );
-      el.addEventListener(
-        'mouseup',
-        function (e) {
-          rippleEnd(e);
-        },
-        { passive: true }
-      );
-      el.addEventListener(
-        'mousemove',
-        function (e) {
-          if (
-            (e.target as any).hasAttribute('ripple-cancel-on-move') &&
-            (e.movementX !== 0 || e.movementY !== 0)
-          ) {
-            rippleRetrieve(e);
-          }
-        },
-        { passive: true }
-      );
-      el.addEventListener(
-        'mouseleave',
-        function (e) {
-          rippleRetrieve(e);
-        },
-        { passive: true }
-      );
-      el.addEventListener(
-        'transitionend',
-        function (e) {
-          const target = e.target as any;
-          if (
-            target.getAttribute('animating') === '2' ||
-            target.getAttribute('animating') === '3'
-          ) {
-            target.style.transition = 'none';
-            target.style.transform = 'translate(-50%, -50%) scale(0.15)';
-            target.style.boxShadow = 'none';
-            target.setAttribute('animating', '0');
-          }
-        },
-        { passive: true }
-      );
-      // if not there, create a ripple div inside the element
-      if (getRippleContainer(el) === el) {
-        const rippleContainer = document.createElement('div');
-        rippleContainer.classList.add('rippleContainer');
-        rippleContainer.style.display = 'block';
-        rippleContainer.style.height = '200px';
-        rippleContainer.style.width = '200px';
-        rippleContainer.style.padding = '0px 0px 0px 0px';
-        rippleContainer.style.borderRadius = '50%';
-        rippleContainer.style.position = 'absolute';
-        rippleContainer.style.top = '0px';
-        rippleContainer.style.left = '0px';
-        rippleContainer.style.opacity = 0 as any;
-        rippleContainer.style.zIndex = 999999 as any;
-        rippleContainer.style.transform = 'translate(-50%, -50%) scale(0.15)';
-        rippleContainer.style.backgroundColor = 'transparent';
+    //   el.addEventListener(
+    //     'touchstart',
+    //     function (e) {
+    //       rippleStart(e);
+    //     },
+    //     { passive: true }
+    //   );
+    //   el.addEventListener(
+    //     'touchmove',
+    //     function (e: any) {
+    //       if ((e.target as any).hasAttribute('ripple-cancel-on-move')) {
+    //         rippleRetrieve(e);
+    //         return;
+    //       }
+    //       if (
+    //         !document
+    //           .elementFromPoint(e.touches[0].clientX, e.touches[0].clientY)
+    //           .className.includes('ripple')
+    //       ) {
+    //         rippleRetrieve(e);
+    //       }
+    //     },
+    //     { passive: true }
+    //   );
+    //   el.addEventListener(
+    //     'touchend',
+    //     function (e) {
+    //       rippleEnd(e);
+    //     },
+    //     { passive: true }
+    //   );
+    //   el.addEventListener(
+    //     'mousedown',
+    //     function (e) {
+    //       rippleStart(e);
+    //     },
+    //     { passive: true }
+    //   );
+    //   el.addEventListener(
+    //     'mouseup',
+    //     function (e) {
+    //       rippleEnd(e);
+    //     },
+    //     { passive: true }
+    //   );
+    //   el.addEventListener(
+    //     'mousemove',
+    //     function (e) {
+    //       if (
+    //         (e.target as any).hasAttribute('ripple-cancel-on-move') &&
+    //         (e.movementX !== 0 || e.movementY !== 0)
+    //       ) {
+    //         rippleRetrieve(e);
+    //       }
+    //     },
+    //     { passive: true }
+    //   );
+    //   el.addEventListener(
+    //     'mouseleave',
+    //     function (e) {
+    //       rippleRetrieve(e);
+    //     },
+    //     { passive: true }
+    //   );
+    //   el.addEventListener(
+    //     'transitionend',
+    //     function (e) {
+    //       const target = e.target as any;
+    //       if (
+    //         target.getAttribute('animating') === '2' ||
+    //         target.getAttribute('animating') === '3'
+    //       ) {
+    //         target.style.transition = 'none';
+    //         target.style.transform = 'translate(-50%, -50%) scale(0.15)';
+    //         target.style.boxShadow = 'none';
+    //         target.setAttribute('animating', '0');
+    //       }
+    //     },
+    //     { passive: true }
+    //   );
+    //   // if not there, create a ripple div inside the element
+    //   if (getRippleContainer(el) === el) {
+    //     const rippleContainer = document.createElement('div');
+    //     rippleContainer.classList.add('rippleContainer');
+    //     rippleContainer.style.display = 'block';
+    //     rippleContainer.style.height = '200px';
+    //     rippleContainer.style.width = '200px';
+    //     rippleContainer.style.padding = '0px 0px 0px 0px';
+    //     rippleContainer.style.borderRadius = '50%';
+    //     rippleContainer.style.position = 'absolute';
+    //     rippleContainer.style.top = '0px';
+    //     rippleContainer.style.left = '0px';
+    //     rippleContainer.style.opacity = 0 as any;
+    //     rippleContainer.style.zIndex = 999999 as any;
+    //     rippleContainer.style.transform = 'translate(-50%, -50%) scale(0.15)';
+    //     rippleContainer.style.backgroundColor = 'transparent';
 
-        el.appendChild(rippleContainer);
-      }
-    }
+    //     el.appendChild(rippleContainer);
+    //   }
+    // }
   });
 });

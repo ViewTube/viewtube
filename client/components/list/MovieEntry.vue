@@ -37,7 +37,7 @@
 
 <script lang="ts">
 import { defineComponent } from '#imports';
-import { useImgProxy } from '@/utilities/proxy';
+
 
 export default defineComponent({
   name: 'MovieEntry',

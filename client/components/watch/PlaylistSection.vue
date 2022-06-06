@@ -103,7 +103,7 @@ import RepeatIcon from 'vue-material-design-icons/Repeat.vue';
 import ShuffleIcon from 'vue-material-design-icons/Shuffle.vue';
 import ReverseIcon from 'vue-material-design-icons/RotateLeft.vue';
 import { Result } from 'ytpl';
-import { useImgProxy } from '@/utilities/proxy';
+
 
 export default defineComponent({
   name: 'PlaylistSection',

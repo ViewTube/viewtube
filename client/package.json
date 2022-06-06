@@ -8,6 +8,7 @@
   "scripts": {
     "prepare:env": "cross-env VIEWTUBE_URL=http://localhost:8067",
     "serve": "yarn prepare:env nuxi dev",
+    "dev": "yarn serve",
     "build": "nuxi build",
     "build:dev": "cross-env NODE_ENV=development nuxi build",
     "start": "yarn prepare:env nuxt start",

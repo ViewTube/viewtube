@@ -147,7 +147,7 @@ import InfoIcon from 'vue-material-design-icons/Information.vue';
 import VerifiedIcon from 'vue-material-design-icons/CheckDecagram.vue';
 // import { getSecondsFromTimestamp } from '@/utilities/shared';
 import { computed, defineComponent, ref } from '#imports';
-import { useImgProxy } from '@/utilities/proxy';
+
 // import { useFormatting } from '@/utilities/formatting';
 
 export default defineComponent({

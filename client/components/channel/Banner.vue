@@ -39,7 +39,15 @@
 <script lang="ts">
 import EyeIcon from 'vue-material-design-icons/Eye.vue';
 import { defineComponent } from '#imports';
-import { useImgProxy } from '@/utilities/proxy';
+import { PropType } from 'vue';
+
+type BannerLink = {
+  url: string;
+  title: string;
+  linkThumbnails: {
+    url: string;
+  }[];
+};
 
 export default defineComponent({
   name: 'ChannelBanner',
@@ -48,7 +56,7 @@ export default defineComponent({
   },
   props: {
     src: String,
-    bannerLinks: Array,
+    bannerLinks: Array as PropType<BannerLink[]>,
     bannerHqSrc: String
   },
   setup() {
