@@ -35,7 +35,7 @@
   "devDependencies": {
     "@types/eslint": "8.4.2",
     "cross-env": "7.0.3",
-    "eslint": "8.15.0",
+    "eslint": "8.17.0",
     "eslint-import-resolver-node": "0.3.6",
     "jest": "28.1.0",
     "prettier": "2.6.2",
