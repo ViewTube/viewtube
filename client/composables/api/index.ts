@@ -10,3 +10,4 @@ export {
   useGetUserSubscriptionChannels,
   useGetUserSubscriptions
 } from './user';
+export { useGetInvidiousLicense } from './licenses';

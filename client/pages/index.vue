@@ -61,6 +61,7 @@ export default defineComponent({
     BadgeButton,
     Spinner
   },
+  layout: 'default',
   setup() {
     const messagesStore = useMessagesStore();
     const settingsStore = useSettingsStore();
@@ -76,7 +77,6 @@ export default defineComponent({
           if (userAuthenticated.value && settingsStore.showHomeSubscriptions) {
             videoCount = 8;
           }
-          console.log(videoData.value)
           return videoData.value.videos.slice(0, videoCount);
         }
         return videoData.value.videos;

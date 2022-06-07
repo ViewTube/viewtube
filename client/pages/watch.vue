@@ -586,12 +586,12 @@ export default defineComponent({
   transition: transform 200ms $intro-easing, opacity 200ms $intro-easing, height 200ms $intro-easing;
 }
 .share-fade-down-enter-to,
-.share-fade-down-leave {
+.share-fade-down-leave-from {
   transform: translateX(0);
   height: 60px;
   opacity: 1;
 }
-.share-fade-down-enter,
+.share-fade-down-enter-from,
 .share-fade-down-leave-to {
   transform: translateX(40px);
   height: 0;

@@ -52,10 +52,10 @@ export default defineComponent({
   transition: opacity 300ms $intro-easing;
 }
 .section-collapse-enter-to,
-.section-collapse-leave {
+.section-collapse-leave-from {
   opacity: 1;
 }
-.section-collapse-enter,
+.section-collapse-enter-from,
 .section-collapse-leave-to {
   opacity: 0;
 }

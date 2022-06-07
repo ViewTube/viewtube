@@ -94,7 +94,7 @@ import CloseIcon from 'vue-material-design-icons/Close.vue';
 import GithubIcon from 'vue-material-design-icons/Github.vue';
 import ExternalIcon from 'vue-material-design-icons/OpenInNew.vue';
 import { defineComponent, ref } from '#imports';
-import packageJson from '@/../package.json';
+// import packageJson from '@/../package.json';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import InvidiousLicense from '@/components/licenses/Invidious.vue';
 
@@ -111,8 +111,8 @@ export default defineComponent({
     const description = ref('');
     const version = ref('');
 
-    description.value = packageJson.description;
-    version.value = packageJson.version;
+    // description.value = packageJson.description;
+    // version.value = packageJson.version;
 
     return {
       description,

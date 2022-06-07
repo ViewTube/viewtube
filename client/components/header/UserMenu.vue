@@ -66,7 +66,7 @@
               {{ userStore.username }}
             </p>
             <div @mouseup="closeAllPopups">
-              <nuxt-link class="profile-btn" href="#" to="/profile">Your profile</nuxt-link>
+              <nuxt-link class="profile-btn" to="/profile">Your profile</nuxt-link>
             </div>
           </div>
         </div>
@@ -122,24 +122,26 @@
         </div>
       </div>
     </transition>
-    <Teleport to="body">
-      <transition name="fade-down">
-        <Settings v-if="settingsOpen" @close="closeAllPopups" />
-      </transition>
-      <transition name="fade-down">
-        <About v-if="aboutOpen" @close="closeAllPopups" />
-      </transition>
-      <transition name="fade-down">
-        <LoginForm v-if="loginOpen" class="center-popup" :complete="() => (loginOpen = false)" />
-      </transition>
-      <transition name="fade-down">
-        <RegisterForm
-          v-if="registerOpen"
-          class="center-popup"
-          :complete="() => (registerOpen = false)"
-        />
-      </transition>
-    </Teleport>
+    <ClientOnly>
+      <Teleport to="body">
+        <transition name="fade-down">
+          <Settings v-if="settingsOpen" @close="closeAllPopups" />
+        </transition>
+        <transition name="fade-down">
+          <About v-if="aboutOpen" @close="closeAllPopups" />
+        </transition>
+        <transition name="fade-down">
+          <LoginForm v-if="loginOpen" class="center-popup" :complete="() => (loginOpen = false)" />
+        </transition>
+        <transition name="fade-down">
+          <RegisterForm
+            v-if="registerOpen"
+            class="center-popup"
+            :complete="() => (registerOpen = false)"
+          />
+        </transition>
+      </Teleport>
+    </ClientOnly>
     <div
       :class="{ visible: accountMenuVisible || loginOpen || registerOpen }"
       class="clickaway-div"
@@ -335,11 +337,11 @@ export default defineComponent({
   transition: opacity 300ms $intro-easing, transform 300ms $intro-easing;
 }
 .fade-up-enter-to,
-.fade-up-leave {
+.fade-up-leave-from {
   opacity: 1;
   transform: translateY(0);
 }
-.fade-up-enter,
+.fade-up-enter-from,
 .fade-up-leave-to {
   opacity: 0;
   transform: translateY(50px);
@@ -350,11 +352,11 @@ export default defineComponent({
   transition: transform 200ms $intro-easing, opacity 200ms $intro-easing;
 }
 .fade-down-enter-to,
-.fade-down-leave {
+.fade-down-leave-from {
   transform: scale(1);
   opacity: 1;
 }
-.fade-down-enter,
+.fade-down-enter-from,
 .fade-down-leave-to {
   transform: scale(1.1);
   opacity: 0;

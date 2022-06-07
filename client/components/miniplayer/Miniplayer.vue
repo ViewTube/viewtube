@@ -218,10 +218,10 @@ export default defineComponent({
   transition: opacity 300ms $intro-easing;
 }
 .fade-up-enter-to,
-.fade-up-leave {
+.fade-up-leave-from {
   opacity: 1;
 }
-.fade-up-enter,
+.fade-up-enter-from,
 .fade-up-leave-to {
   opacity: 0;
 }

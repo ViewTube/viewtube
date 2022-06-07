@@ -10,15 +10,11 @@ import { defineComponent } from '#imports';
 export default defineComponent({
   name: 'InvidiousLicense',
   setup() {
-    const { textProxy } = useProxyUrls();
+    const { data: licenseTextData } = useGetInvidiousLicense();
 
-    const { data: licenseTextData, ...a } = useLazyFetch<string>(
-      `${textProxy}https://raw.githubusercontent.com/iv-org/invidious/master/LICENSE`
+    const licenseText = computed(() =>
+      licenseTextData.value?.replaceAll('<', '').replaceAll('>', '')
     );
-
-    console.log(a);
-
-    const licenseText = computed(() => licenseTextData.value.replaceAll('<', '').replaceAll('>', ''));
 
     return {
       licenseText

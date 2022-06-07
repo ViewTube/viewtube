@@ -74,10 +74,10 @@ export default defineComponent({
   transition: clip-path 200ms $intro-easing;
 }
 .clip-enter-to,
-.clip-leave {
+.clip-leave-from {
   clip-path: polygon(-50% -50%, 150% -50%, 150% 150%, -50% 150%);
 }
-.clip-enter,
+.clip-enter-from,
 .clip-leave-to {
   clip-path: polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%);
 }

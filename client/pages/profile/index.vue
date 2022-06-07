@@ -380,11 +380,11 @@ export default defineComponent({
   transition: opacity 300ms $intro-easing, transform 300ms $intro-easing;
 }
 .popup-enter-to,
-.popup-leave {
+.popup-leave-from {
   opacity: 1;
   transform: scale(1);
 }
-.popup-enter,
+.popup-enter-from,
 .popup-leave-to {
   opacity: 0;
   transform: scale(1.1);

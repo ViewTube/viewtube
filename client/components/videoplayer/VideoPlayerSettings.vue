@@ -252,13 +252,13 @@ export default defineComponent({
   transition: opacity 280ms $intro-easing;
 }
 .player-settings-popup-enter-to,
-.player-settings-popup-leave {
+.player-settings-popup-leave-from {
   .player-settings-popup {
     transform: scale(1);
   }
   opacity: 1;
 }
-.player-settings-popup-enter,
+.player-settings-popup-enter-from,
 .player-settings-popup-leave-to {
   .player-settings-popup {
     transform: scale(1.1);

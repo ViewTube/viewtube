@@ -281,7 +281,7 @@ export default defineComponent({
   transform: rotate(0);
   opacity: 1;
 }
-.icon-switch-enter {
+.icon-switch-enter-from {
   transform: rotate(-80deg);
   opacity: 0;
 }

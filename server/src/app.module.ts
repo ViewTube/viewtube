@@ -32,11 +32,6 @@ const moduleMetadata: ModuleMetadata = {
         const uri = `mongodb://${configService.get('VIEWTUBE_DATABASE_HOST')}:${configService.get(
           'VIEWTUBE_DATABASE_PORT'
         )}/viewtube`;
-        console.log(
-          `Connecting to database at ${uri} with username ${configService.get(
-            'VIEWTUBE_DATABASE_USERNAME'
-          )} and password ${configService.get('VIEWTUBE_DATABASE_PASSWORD')}`
-        );
         return {
           uri,
           user: configService.get('VIEWTUBE_DATABASE_USER'),

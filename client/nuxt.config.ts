@@ -1,4 +1,5 @@
 import { defineNuxtConfig } from 'nuxt';
+import { getApiUrl } from '../shared/index';
 
 const prod = process.env.NODE_ENV === 'production';
 
@@ -11,7 +12,7 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     public: {
-      apiUrl: 'http://localhost:8067/api/',
+      apiUrl: getApiUrl(),
       vapidKey: process.env.VIEWTUBE_PUBLIC_VAPID
     }
   },

@@ -77,8 +77,8 @@ export default defineComponent({
 .fade-tabs-leave-active {
   transition: transform 300ms $intro-easing, opacity 300ms $intro-easing;
 }
-.fade-tabs-enter-to,
-.fade-tabs-leave {
+.fade-tabs-enter-to-from,
+.fade-tabs-leave-from {
   transform: translateX(0%);
   opacity: 1;
 }

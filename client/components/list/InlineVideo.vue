@@ -92,10 +92,10 @@ export default defineComponent({
   transition: opacity 1s $intro-easing;
 }
 .reveal-enter-to,
-.reveal-leave {
+.reveal-leave-from {
   opacity: 1;
 }
-.reveal-enter,
+.reveal-enter-from,
 .reveal-leave-to {
   opacity: 0;
 }
