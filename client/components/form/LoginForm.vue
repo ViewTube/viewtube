@@ -102,6 +102,7 @@ export default defineComponent({
   align-items: center;
   justify-content: flex-start;
   position: relative;
+  z-index: 901;
 
   @media screen and (max-width: $mobile-width) {
     height: auto;

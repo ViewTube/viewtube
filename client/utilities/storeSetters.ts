@@ -9,15 +9,13 @@ type ValueOf<T> = T[keyof T];
 export const insertSetters = <T>(state: T): SetActionsType<T> => {
   const setActions: any = {};
 
-  for (const [key, value] of Object.entries(state)) {
-    if (typeof value === 'boolean') {
-      setActions[`set${key.charAt(0).toUpperCase()}${key.slice(1)}`] = function (
-        this: UnwrapRef<T>,
-        newValue: ValueOf<T>
-      ) {
-        this[key] = newValue;
-      };
-    }
+  for (const [key] of Object.entries(state)) {
+    setActions[`set${key.charAt(0).toUpperCase()}${key.slice(1)}`] = function (
+      this: UnwrapRef<T>,
+      newValue: ValueOf<T>
+    ) {
+      this[key] = newValue;
+    };
   }
 
   return setActions;

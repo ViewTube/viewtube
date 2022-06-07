@@ -12,8 +12,8 @@ export default defineComponent({
   name: 'Login',
   components: { LoginForm },
   setup() {
-    useMeta(() => ({
-      title: `Login :: ViewTube`,
+    useHead({
+      title: 'Login',
       meta: [
         {
           hid: 'description',
@@ -32,7 +32,7 @@ export default defineComponent({
           content: 'Sign in to access your ViewTube account'
         }
       ]
-    }));
+    });
   },
   head: {}
 });

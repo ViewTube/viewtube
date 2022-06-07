@@ -28,6 +28,15 @@ export default defineComponent({
     const route = useRoute();
     const settingsStore = useSettingsStore();
 
+    useHead({
+      titleTemplate: titleChunk => {
+        if (titleChunk.includes('ViewTube ::')) {
+          return titleChunk;
+        }
+        return `${titleChunk} :: ViewTube`;
+      }
+    });
+
     const appRef = ref(null);
 
     const headless = computed((): boolean => {

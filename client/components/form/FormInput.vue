@@ -86,9 +86,7 @@ export default defineComponent({
     border-radius: 4px;
     width: calc(100% - 40px);
     height: $input-line-height;
-
     font-size: 1rem;
-    border-style: none;
     color: var(--title-color);
     box-sizing: border-box;
     font-family: $default-font;

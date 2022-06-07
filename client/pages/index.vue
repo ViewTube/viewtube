@@ -109,9 +109,9 @@ export default defineComponent({
       }
     });
 
-    useMeta(() => ({
+    useHead({
       title: `ViewTube :: An alternative YouTube frontend`
-    }));
+    })
 
     return {
       videoData,

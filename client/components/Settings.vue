@@ -72,7 +72,7 @@
             :small-label="'Advertisements, promotions and video sponsors'"
             :right="true"
             :color-mark="'#0fca15'"
-            @valuechange="val => settingsStore.setSponsorblockSegmentSponsor(val)"
+            @valuechange="val => settingsStore.setSponsorblockSegmentSponsor(val.value)"
           />
           <MultiOptionButton
             :options="sponsorblockSegmentOptions"
@@ -81,7 +81,7 @@
             :small-label="'Intro animation, pause, intro sequence'"
             :right="true"
             :color-mark="'#07faf0'"
-            @valuechange="val => settingsStore.setSponsorblockSegmentIntro(val)"
+            @valuechange="val => settingsStore.setSponsorblockSegmentIntro(val.value)"
           />
           <MultiOptionButton
             :options="sponsorblockSegmentOptions"
@@ -90,7 +90,7 @@
             :small-label="'Endcards, credits, outros'"
             :right="true"
             :color-mark="'#0103e1'"
-            @valuechange="val => settingsStore.setSponsorblockSegmentOutro(val)"
+            @valuechange="val => settingsStore.setSponsorblockSegmentOutro(val.value)"
           />
           <MultiOptionButton
             :options="sponsorblockSegmentOptions"
@@ -99,7 +99,7 @@
             :small-label="'Reminder to subscribe, like, follow on social media, etc.'"
             :right="true"
             :color-mark="'#b711df'"
-            @valuechange="val => settingsStore.setSponsorblockSegmentInteraction(val)"
+            @valuechange="val => settingsStore.setSponsorblockSegmentInteraction(val.value)"
           />
           <MultiOptionButton
             :options="sponsorblockSegmentOptions"
@@ -108,7 +108,7 @@
             :small-label="'Unpaid promotion, for example donations, merchandise or shoutouts'"
             :right="true"
             :color-mark="'#fdfb0e'"
-            @valuechange="val => settingsStore.setSponsorblockSegmentSelfpromo(val)"
+            @valuechange="val => settingsStore.setSponsorblockSegmentSelfpromo(val.value)"
           />
           <MultiOptionButton
             :options="sponsorblockSegmentOptions"
@@ -117,7 +117,7 @@
             :small-label="'Skips non-music sections in music videos'"
             :right="true"
             :color-mark="'#f89c06'"
-            @valuechange="val => settingsStore.setSponsorblockSegmentMusicOfftopic(val)"
+            @valuechange="val => settingsStore.setSponsorblockSegmentMusicOfftopic(val.value)"
           />
           <MultiOptionButton
             :options="sponsorblockSegmentOptions"
@@ -126,7 +126,7 @@
             :small-label="'Skips previews and recaps'"
             :right="true"
             :color-mark="'#f70000'"
-            @valuechange="val => settingsStore.setSponsorblockSegmentPreview(val)"
+            @valuechange="val => settingsStore.setSponsorblockSegmentPreview(val.value)"
           />
         </div>
       </div>

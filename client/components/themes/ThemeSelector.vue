@@ -110,6 +110,10 @@ export default defineComponent({
     box-shadow: $low-shadow;
     cursor: pointer;
 
+    &:focus::after {
+      box-shadow: none;
+    }
+
     &:hover {
       box-shadow: $max-shadow;
     }

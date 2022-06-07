@@ -247,7 +247,6 @@ export default defineComponent({
     const imgProxy = useImgProxy();
 
     const jsEnabled = ref(false);
-    const video = ref(null);
     const comment = ref(null);
     const commentsLoading = ref(true);
     const commentsError = ref(false);
@@ -265,6 +264,8 @@ export default defineComponent({
     const playlist = ref<Result>(null);
 
     const templateVideoData = route.params.videoData;
+
+    const { data: video, error: videoError } = useGetVideos(route.query.v as string);
 
     const isPlaylist = createComputed(() => {
       return Boolean(route.query && route.query.list);
@@ -409,6 +410,36 @@ export default defineComponent({
       }
     };
 
+    watch(video, async (newValue) => {
+      if (newValue) {
+        if (userStore.isLoggedIn && settingsStore.saveVideoHistory) {
+          const videoVisit = await axios
+            .get(`${config.public.apiUrl}user/history/${video.videoId}`, {
+              withCredentials: true
+            })
+            .catch((_: any) => {});
+
+          if (videoVisit && videoVisit.data && videoVisit.data.progressSeconds > 0) {
+            initialVideoTime.value = videoVisit.data.progressSeconds;
+          } else {
+            saveToHistory();
+          }
+        }
+        videoLoaded.value = true;
+      } else {
+        messagesStore.createMessage({
+          type: 'error',
+          title: 'Error loading video',
+          message: 'Loading video information failed. Refresh the page to try again.',
+          dismissDelay: 0
+        });
+      }
+    });
+
+    watch(videoError, (newValue) => {
+
+    })
+
     const { fetch } = useFetch(async (): Promise<void> => {
       videoLoaded.value = false;
       const viewTubeApi = new ViewTubeApi(config.public.apiUrl);
@@ -416,32 +447,7 @@ export default defineComponent({
         .videos({
           id: route.query.v
         })
-        .then(async (response: { data: any }): Promise<void> => {
-          if (response) {
-            video.value = response.data;
-            if (userStore.isLoggedIn && settingsStore.saveVideoHistory) {
-              const videoVisit = await axios
-                .get(`${config.public.apiUrl}user/history/${response.data.videoId}`, {
-                  withCredentials: true
-                })
-                .catch((_: any) => {});
-
-              if (videoVisit && videoVisit.data && videoVisit.data.progressSeconds > 0) {
-                initialVideoTime.value = videoVisit.data.progressSeconds;
-              } else {
-                saveToHistory();
-              }
-            }
-            videoLoaded.value = true;
-          } else {
-            messagesStore.createMessage({
-              type: 'error',
-              title: 'Error loading video',
-              message: 'Loading video information failed. Refresh the page to try again.',
-              dismissDelay: 0
-            });
-          }
-        })
+        .then(async (response: { data: any }): Promise<void> => {})
         .catch((err: any) => {
           let errorObj: any = {
             message: 'Error loading video'
@@ -507,43 +513,44 @@ export default defineComponent({
       }
     };
 
-    useMeta(() => {
-      if (video.value) {
-        return {
-          title: `${video.value.title} :: ${video.value.author} :: ViewTube`,
-          meta: [
-            {
-              hid: 'description',
-              vmid: 'descriptionMeta',
-              name: 'description',
-              content: video.value.description.substring(0, 100)
-            },
-            {
-              hid: 'ogTitle',
-              property: 'og:title',
-              content: `${video.value.title} - ${video.value.author} - ViewTube`
-            },
-            {
-              hid: 'ogImage',
-              property: 'og:image',
-              itemprop: 'image',
-              content: video.value.videoThumbnails[2].url
-            },
-            {
-              hid: 'ogDescription',
-              property: 'og:description',
-              content: video.value.description.substring(0, 100)
-            },
-            {
-              property: 'og:video',
-              content:
-                video.value.legacyFormats && video.value.legacyFormats.length > 0
-                  ? video.value.legacyFormats[0].url
-                  : '#'
-            }
-          ]
-        };
+    useHead(() => {
+      if (!video.value) {
+        return { title: 'loading...' };
       }
+      return {
+        title: `${video.value.title} :: ${video.value.author} :: ViewTube`,
+        meta: [
+          {
+            hid: 'description',
+            vmid: 'descriptionMeta',
+            name: 'description',
+            content: video.value.description.substring(0, 100)
+          },
+          {
+            hid: 'ogTitle',
+            property: 'og:title',
+            content: `${video.value.title} - ${video.value.author} - ViewTube`
+          },
+          {
+            hid: 'ogImage',
+            property: 'og:image',
+            itemprop: 'image',
+            content: video.value.videoThumbnails[2].url
+          },
+          {
+            hid: 'ogDescription',
+            property: 'og:description',
+            content: video.value.description.substring(0, 100)
+          },
+          {
+            property: 'og:video',
+            content:
+              video.value.legacyFormats && video.value.legacyFormats.length > 0
+                ? video.value.legacyFormats[0].url
+                : '#'
+          }
+        ]
+      };
     });
 
     return {
