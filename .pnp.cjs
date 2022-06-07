@@ -2853,10 +2853,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@fastify/swagger", [
-        ["npm:6.0.1", {
-          "packageLocation": "./.yarn/cache/@fastify-swagger-npm-6.0.1-21e9b7de6c-014482ee49.zip/node_modules/@fastify/swagger/",
+        ["npm:6.1.0", {
+          "packageLocation": "./.yarn/cache/@fastify-swagger-npm-6.1.0-80fda56cb2-99fe807a61.zip/node_modules/@fastify/swagger/",
           "packageDependencies": [
-            ["@fastify/swagger", "npm:6.0.1"],
+            ["@fastify/swagger", "npm:6.1.0"],
             ["@fastify/static", "npm:5.0.1"],
             ["fastify-plugin", "npm:3.0.1"],
             ["js-yaml", "npm:4.1.0"],
@@ -3845,7 +3845,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["class-validator", "npm:0.13.2"],
             ["fastify-swagger", [
               "@fastify/swagger",
-              "npm:6.0.1"
+              "npm:6.1.0"
             ]],
             ["lodash", "npm:4.17.21"],
             ["path-to-regexp", "npm:3.2.0"],
@@ -21327,7 +21327,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["fastify", "npm:3.29.0"],
             ["fastify-swagger", [
               "@fastify/swagger",
-              "npm:6.0.1"
+              "npm:6.1.0"
             ]],
             ["https-proxy-agent", "npm:5.0.1"],
             ["humanize-duration", "npm:3.27.2"],
