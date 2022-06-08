@@ -1,5 +1,7 @@
+import { VideoDto } from 'viewtube/shared';
+
 export const useGetPopularPage = () => {
   const config = useRuntimeConfig();
 
-  return useLazyFetch(`${config.public.apiUrl}homepage/popular`);
+  return useLazyFetch<{ videos: VideoDto[] }>(`${config.public.apiUrl}homepage/popular`);
 };

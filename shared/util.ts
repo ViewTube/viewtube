@@ -36,6 +36,7 @@ export const getApiUrl = (): string => {
       const urlObj = new URL(urlEnv);
       urlObj.pathname = 'api/';
       const url = urlObj.href;
+      console.log(url);
       return url;
     } catch (error) {
       throw new Error(`Error parsing VIEWTUBE_URL, make sure it is a valid URL.\n${error}`);

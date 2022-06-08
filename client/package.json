@@ -6,7 +6,7 @@
     "yarn": ">=3.1.0"
   },
   "scripts": {
-    "prepare:env": "cross-env VIEWTUBE_URL=http://localhost:8067",
+    "prepare:env": "cross-env VIEWTUBE_URL=http://127.0.0.1:8067",
     "serve": "yarn prepare:env nuxi dev",
     "dev": "yarn serve",
     "build": "nuxi build",

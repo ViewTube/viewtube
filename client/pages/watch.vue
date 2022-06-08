@@ -1,13 +1,10 @@
 <template>
   <div class="watch">
-    <VideoLoadingTemplate
-      v-if="$fetchState.pending && templateVideoData"
-      :video="templateVideoData"
-    />
-    <Spinner v-if="$fetchState.pending && !templateVideoData" class="centered" />
+    <VideoLoadingTemplate v-if="videoPending && templateVideoData" :video="templateVideoData" />
+    <Spinner v-if="videoPending && !templateVideoData" class="centered" />
     <!-- <video v-if="!jsEnabled" controls :src="getHDUrl()" class="nojs-player" /> -->
     <VideoPlayer
-      v-if="video && videoLoaded && !$fetchState.pending"
+      v-if="video && videoLoaded && !videoPending"
       :key="video.id"
       ref="videoplayer"
       :video="video"
@@ -16,7 +13,7 @@
       class="video-player-p"
       @videoEnded="onVideoEnded"
     />
-    <div v-if="video && !$fetchState.pending" class="video-meta">
+    <div v-if="video && !videoPending" class="video-meta">
       <div class="recommended-videos mobile">
         <NextUpVideo v-if="nextUpVideo && settingsStore.autoplayNextVideo" :video="nextUpVideo" />
         <CollapsibleSection :label="'Recommended videos'" :opened="recommendedOpen">
@@ -201,7 +198,7 @@ import PlaylistSection from '@/components/watch/PlaylistSection.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import ViewTubeApi from '@/services/viewTubeApi';
 import { createComputed } from '@/utilities/computed';
-
+import VideoPlayer from '@/components/videoplayer/VideoPlayer.vue';
 import VideoLoadingTemplate from '@/components/watch/VideoLoadingTemplate.vue';
 import { useMessagesStore } from '~/store/messages';
 import { useSettingsStore } from '~~/store/settings';
@@ -219,10 +216,7 @@ export default defineComponent({
     Share,
     LoadMoreIcon,
     NextUpVideo,
-    VideoPlayer: () =>
-      import(
-        /* webpackChunkName: "group-videoplayer" */ '@/components/videoplayer/VideoPlayer.vue'
-      ),
+    VideoPlayer,
     SubscribeButton,
     Comment,
     RecommendedVideos,
@@ -265,7 +259,11 @@ export default defineComponent({
 
     const templateVideoData = route.params.videoData;
 
-    const { data: video, error: videoError } = useGetVideos(route.query.v as string);
+    const {
+      data: video,
+      error: videoError,
+      pending: videoPending
+    } = useGetVideos(route.query.v as string);
 
     const isPlaylist = createComputed(() => {
       return Boolean(route.query && route.query.list);
@@ -410,7 +408,7 @@ export default defineComponent({
       }
     };
 
-    watch(video, async (newValue) => {
+    watch(video, async newValue => {
       if (newValue) {
         if (userStore.isLoggedIn && settingsStore.saveVideoHistory) {
           const videoVisit = await axios
@@ -436,9 +434,7 @@ export default defineComponent({
       }
     });
 
-    watch(videoError, (newValue) => {
-
-    })
+    watch(videoError, newValue => {});
 
     const { fetch } = useFetch(async (): Promise<void> => {
       videoLoaded.value = false;
@@ -513,44 +509,41 @@ export default defineComponent({
       }
     };
 
-    useHead(() => {
-      if (!video.value) {
-        return { title: 'loading...' };
-      }
-      return {
-        title: `${video.value.title} :: ${video.value.author} :: ViewTube`,
-        meta: [
-          {
-            hid: 'description',
-            vmid: 'descriptionMeta',
-            name: 'description',
-            content: video.value.description.substring(0, 100)
-          },
-          {
-            hid: 'ogTitle',
-            property: 'og:title',
-            content: `${video.value.title} - ${video.value.author} - ViewTube`
-          },
-          {
-            hid: 'ogImage',
-            property: 'og:image',
-            itemprop: 'image',
-            content: video.value.videoThumbnails[2].url
-          },
-          {
-            hid: 'ogDescription',
-            property: 'og:description',
-            content: video.value.description.substring(0, 100)
-          },
-          {
-            property: 'og:video',
-            content:
-              video.value.legacyFormats && video.value.legacyFormats.length > 0
-                ? video.value.legacyFormats[0].url
-                : '#'
-          }
-        ]
-      };
+    useHead({
+      title: `${video.value?.title} :: ${video.value?.author}`,
+      meta: video.value
+        ? [
+            {
+              hid: 'description',
+              vmid: 'descriptionMeta',
+              name: 'description',
+              content: video.value.description.substring(0, 100)
+            },
+            {
+              hid: 'ogTitle',
+              property: 'og:title',
+              content: `${video.value.title} - ${video.value.author} - ViewTube`
+            },
+            {
+              hid: 'ogImage',
+              property: 'og:image',
+              itemprop: 'image',
+              content: video.value.videoThumbnails[2].url
+            },
+            {
+              hid: 'ogDescription',
+              property: 'og:description',
+              content: video.value.description.substring(0, 100)
+            },
+            {
+              property: 'og:video',
+              content:
+                video.value.legacyFormats && video.value.legacyFormats.length > 0
+                  ? video.value.legacyFormats[0].url
+                  : '#'
+            }
+          ]
+        : []
     });
 
     return {
@@ -580,7 +573,8 @@ export default defineComponent({
       loadMoreComments,
       templateVideoData,
       playlist,
-      settingsStore
+      settingsStore,
+      videoPending
     };
   },
   head: {}

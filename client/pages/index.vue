@@ -29,7 +29,7 @@
       />
     </div>
     <BadgeButton
-      v-if="displayedVideos.length !== videoData.videos?.length"
+      v-if="displayedVideos.length !== videoData?.videos?.length"
       :click="showMoreVideos"
       class="home-show-more"
     >
@@ -41,7 +41,7 @@
 
 <script lang="ts">
 import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
-import { defineComponent, ref, useMeta } from '#imports';
+import { defineComponent, ref } from '#imports';
 import VideoEntry from '@/components/list/VideoEntry.vue';
 import Spinner from '@/components/Spinner.vue';
 import SectionTitle from '@/components/SectionTitle.vue';
@@ -71,8 +71,8 @@ export default defineComponent({
     const userAuthenticated = ref(userStore.isLoggedIn);
 
     const displayedVideos = computed(() => {
-      if (videoData.value) {
-        if (showMore) {
+      if (videoData.value?.videos) {
+        if (!showMore.value) {
           let videoCount = 12;
           if (userAuthenticated.value && settingsStore.showHomeSubscriptions) {
             videoCount = 8;
@@ -111,7 +111,7 @@ export default defineComponent({
 
     useHead({
       title: `ViewTube :: An alternative YouTube frontend`
-    })
+    });
 
     return {
       videoData,
