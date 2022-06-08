@@ -175,7 +175,7 @@ Instructions
 
    If you want to start the api and frontend separately, you can use the following commands.  
    `yarn serve:api`  
-   `yarn serve:web`
+   `yarn serve:client`
 
 4. Visit [localhost:8066](http://localhost:8066) with a browser
 
