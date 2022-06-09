@@ -6,13 +6,13 @@ const prod = process.env.NODE_ENV === 'production';
 export default defineNuxtConfig({
   modern: prod,
 
-  nitro: {
-    preset: 'node'
-  },
+  // nitro: {
+    // preset: 'node'
+  // },
 
   runtimeConfig: {
     public: {
-      apiUrl: getApiUrl(),
+      apiUrl: getApiUrl(true),
       vapidKey: process.env.VIEWTUBE_PUBLIC_VAPID
     }
   },

@@ -3212,7 +3212,7 @@ __metadata:
     pnp-webpack-plugin: 1.7.0
     prettier: 2.6.2
     qrcode: 1.5.0
-    sass: 1.51.0
+    sass: 1.52.3
     tippy.js: 6.3.7
     typescript: 4.6.4
     vue-demi: 0.12.5
@@ -3224,6 +3224,7 @@ __metadata:
     webpack: 5.72.0
     x2js: 3.4.3
     ytpl: 2.3.0
+    ytsr: 3.8.0
   languageName: unknown
   linkType: soft
 
@@ -9882,16 +9883,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sass@npm:1.51.0":
-  version: 1.51.0
-  resolution: "sass@npm:1.51.0"
+"sass@npm:1.52.3":
+  version: 1.52.3
+  resolution: "sass@npm:1.52.3"
   dependencies:
     chokidar: ">=3.0.0 <4.0.0"
     immutable: ^4.0.0
     source-map-js: ">=0.6.2 <2.0.0"
   bin:
     sass: sass.js
-  checksum: d674fd87be863961d5e5233a148e381a72b06ca1749ffd95a08be2c3f4aa8fc77e3e21840347a84d7d4542cbf97cd6f9bfae19ecb1f5eefa6c207a3d8f923dbc
+  checksum: 175a073c0e7b67d1baff6d3969431228002ece681886cebc2a354c241134ff120fda5c12a0465989966dacfb1ca518d85507304f4d4cd03d4a91d71dbc77d978
   languageName: node
   linkType: hard
 
@@ -11924,6 +11925,15 @@ __metadata:
   dependencies:
     miniget: ^4.2.2
   checksum: cec072c4e4b5e19930d498b0e4e69726538e95a452dc0686d4d7c865583f9ed14c33e526bbf1d54a75b7470490b4860eac814a697a98b3b89115ed1a0ea77a39
+  languageName: node
+  linkType: hard
+
+"ytsr@npm:3.8.0":
+  version: 3.8.0
+  resolution: "ytsr@npm:3.8.0"
+  dependencies:
+    miniget: ^4.2.2
+  checksum: 389ffed01df484e15ea53ebd0700c5c56030bc208e6e7b0e882f4a6d3568ccb4a339d9f04d4634ce21eba328cd277d0ae3b1904a0a129be0ac9ce0a5303bd0d2
   languageName: node
   linkType: hard
 

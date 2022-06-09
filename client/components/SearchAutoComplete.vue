@@ -8,7 +8,7 @@
       :value="value"
       :number="key"
       @mousedown.prevent="onAutocompleteMouseDown"
-      @keydown.stop="onKeyDown"
+      @keydown.stop="() => {}"
       @mouseover.prevent="onMouseOver"
     >
       {{ value }}
@@ -17,9 +17,6 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch } from '#imports';
-import { useNuxtApp } from '#app';
-
 export default defineComponent({
   name: 'SearchAutocomplete',
   props: {
@@ -27,7 +24,6 @@ export default defineComponent({
   },
   setup(props, { emit }) {
     const config = useRuntimeConfig();
-    const { $axios: axios } = useNuxtApp();
 
     const autocompleteValues = ref([]);
     const visible = ref(false);
@@ -43,17 +39,12 @@ export default defineComponent({
 
     watch(
       () => props.searchValue,
-      () => {
-        axios
-          .get(`${config.public.apiUrl}autocomplete`, {
-            params: {
-              q: props.searchValue
-            }
-          })
-          .then(response => {
-            autocompleteValues.value = [props.searchValue].concat(response.data);
-          })
-          .catch(_ => {});
+      async () => {
+        const autocompleteResponse = await $fetch<[]>(
+          `${config.public.apiUrl}autocomplete?q=${props.searchValue}`
+        );
+
+        autocompleteValues.value = [props.searchValue].concat(autocompleteResponse);
       }
     );
 

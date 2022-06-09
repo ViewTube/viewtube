@@ -45,7 +45,8 @@ export class SearchService {
 
   async doSearch(searchQuery: SearchQueryDto): Promise<Result> {
     let currentFilter = null;
-    if (searchQuery.filters && searchQuery.filters.length > 0) {
+    console.log(searchQuery);
+    if (searchQuery.filters && Array.isArray(searchQuery) && searchQuery.filters.length > 0) {
       for (const filter of searchQuery.filters) {
         const filters = await ytsr.getFilters(currentFilter ? currentFilter.url : searchQuery.q);
         const filterArray = typeof filter === 'string' ? JSON.parse(filter as any) : filter;

@@ -1,16 +1,16 @@
 <template>
-  <div class="search" :class="{ loading: $fetchState.pending }">
-    <Spinner v-if="$fetchState.pending" class="centered search-spinner" />
+  <div class="search" :class="{ loading: pending }">
+    <Spinner v-if="pending" class="centered search-spinner" />
     <GradientBackground :color="'blue'" />
     <Filters v-if="filters && filters.length" :filters="filters" />
-    <p v-if="!$fetchState.pending && searchResults" class="result-amount">
+    <p v-if="!pending && searchResults" class="result-amount">
       {{ searchResults.results.toLocaleString('en-US') }} results
     </p>
     <div v-if="isCorrectedSearchResult" class="correction-results links">
       <span>Showing results for</span>
       <nuxt-link :to="correctedSearchResultUrl">{{ searchResults.correctedQuery }}</nuxt-link>
     </div>
-    <div v-if="!$fetchState.pending && searchResults" class="search-results">
+    <div v-if="!pending && searchResults" class="search-results">
       <div
         v-if="searchResults.refinements && searchResults.refinements.length"
         class="search-refinements"
@@ -43,16 +43,6 @@
 
 <script lang="ts">
 import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
-import {
-  computed,
-  defineComponent,
-  ref,
-  useFetch,
-  useMeta,
-  useRoute,
-  watch
-} from '#imports';
-import { useNuxtApp } from '#app';
 import VideoEntry from '@/components/list/VideoEntry.vue';
 import PlaylistEntry from '@/components/list/PlaylistEntry.vue';
 import MixEntry from '@/components/list/MixEntry.vue';
@@ -65,7 +55,7 @@ import GradientBackground from '@/components/GradientBackground.vue';
 import Dropdown from '@/components/filter/Dropdown.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import Filters from '@/components/search/Filters.vue';
-import {useMessagesStore} from "~/store/messages";
+import { useMessagesStore } from '@/store/messages';
 
 export default defineComponent({
   name: 'Search',
@@ -87,49 +77,54 @@ export default defineComponent({
   setup() {
     const route = useRoute();
     const messagesStore = useMessagesStore();
-    const config = useRuntimeConfig();
-    const { $axios: axios } = useNuxtApp();
 
-    const searchResults = ref(null);
-    const resultItems = ref([]);
-    const searchContinuation = ref(null);
-    const filters = ref([]);
     const loading = ref(false);
-    const searchQuery = ref(null);
+    const searchQuery = computed(() => {
+      const searchParams = new URLSearchParams(route.query as Record<string, string>);
+      return searchParams.get('search_query') || searchParams.get('q');
+    });
     const page = ref(0);
     const moreVideosLoading = ref(false);
 
+    const { data: searchData, pending, error, refresh } = useGetSearchResult(route.query, searchQuery.value);
+
+    watch(error, newValue => {
+      console.log(newValue);
+      if (newValue) {
+        messagesStore.createMessage({
+          type: 'error',
+          title: 'Search failed',
+          message: 'Refresh the page to try again',
+          dismissDelay: 0
+        });
+      }
+    });
+
+    const resultItems = computed(() => searchData.value?.searchResults?.items ?? []);
+    const searchContinuation = computed(() => searchData.value?.searchResults?.continuation);
+
     const isCorrectedSearchResult = computed((): boolean => {
-      if (searchResults.value) {
-        return searchResults.value.originalQuery !== searchResults.value.correctedQuery;
+      if (searchData.value?.searchResults) {
+        return (
+          searchData.value?.searchResults.originalQuery !==
+          searchData.value?.searchResults.correctedQuery
+        );
       }
       return false;
     });
+
     const correctedSearchResultUrl = computed((): string => {
-      if (searchResults.value) {
+      if (searchData.value?.searchResults) {
         const url = route.fullPath;
         const newUrl = decodeURIComponent(url).replace(
-          searchResults.value.originalQuery,
-          searchResults.value.correctedQuery
+          searchData.value?.searchResults.originalQuery,
+          searchData.value?.searchResults.correctedQuery
         );
         return newUrl;
       }
       return route.fullPath;
     });
 
-    const getFilterArray = (searchParams: URLSearchParams): Array<any> => {
-      const allParams = (searchParams as any).entries();
-      const filtersArray = [];
-      for (const param of allParams) {
-        if (filters.value.find(el => el.filterType === param[0])) {
-          filters.value.push({
-            filterName: param[0],
-            filterValue: param[1]
-          });
-        }
-      }
-      return filtersArray;
-    };
     const getListEntryType = (type: string): string => {
       switch (type) {
         case 'video':
@@ -146,93 +141,45 @@ export default defineComponent({
           return null;
       }
     };
-    const loadMoreVideos = async (): Promise<void> => {
+
+    const loadMoreVideos = () => {
       moreVideosLoading.value = true;
       page.value += 1;
 
-      if (searchResults.value && searchResults.value.continuation) {
-        await axios
-          .get(`${config.public.apiUrl}search/continuation`, {
-            params: {
-              continuationData: searchContinuation.value
-            }
-          })
-          .then((response: { data: any }) => {
-            if (response && response.data) {
-              resultItems.value = resultItems.value.concat(response.data.items);
-              searchContinuation.value = response.data.continuation;
-              moreVideosLoading.value = false;
-            }
-          })
-          .catch((_: any) => {
-            messagesStore.createMessage({
-              type: 'error',
-              title: 'Unable to load more results',
-              message: 'Try again or use a different search term for more results'
-            });
-            moreVideosLoading.value = false;
-          });
+      if (searchData.value?.searchResults && searchData.value?.searchResults.continuation) {
+        // await axios
+        //   .get(`${config.public.apiUrl}search/continuation`, {
+        //     params: {
+        //       continuationData: searchContinuation.value
+        //     }
+        //   })
+        //   .then((response: { data: any }) => {
+        //     if (response && response.data) {
+        //       resultItems.value = resultItems.value.concat(response.data.items);
+        //       searchContinuation.value = response.data.continuation;
+        //       moreVideosLoading.value = false;
+        //     }
+        //   })
+        //   .catch((_: any) => {
+        //     messagesStore.createMessage({
+        //       type: 'error',
+        //       title: 'Unable to load more results',
+        //       message: 'Try again or use a different search term for more results'
+        //     });
+        //     moreVideosLoading.value = false;
+        //   });
       }
     };
-
-    const { fetch } = useFetch(async () => {
-      const inputQuery = route.query as any;
-      const searchParams = new URLSearchParams(inputQuery);
-      const searchTerm = searchParams.get('search_query') || searchParams.get('q');
-      if (searchTerm) {
-        try {
-          const newFilters = await axios.get(`${config.public.apiUrl}search/filters`, {
-            params: {
-              q: searchTerm
-            }
-          });
-
-          if (newFilters && newFilters.data && newFilters.data.length) {
-            filters.value = newFilters.data;
-            const filterArray = getFilterArray(searchParams);
-
-            const searchResponse = await axios.get(`${config.public.apiUrl}search`, {
-              params: {
-                q: searchTerm,
-                pages: 1,
-                filters: filterArray
-              }
-            });
-
-            if (searchResponse && searchResponse.data) {
-              searchResults.value = searchResponse.data;
-              resultItems.value = searchResponse.data.items;
-              searchContinuation.value = searchResponse.data.continuation;
-              searchQuery.value = inputQuery.search_query;
-            }
-          }
-        } catch (_) {
-          messagesStore.createMessage({
-            type: 'error',
-            title: 'Search failed',
-            message: 'Refresh the page to try again',
-            dismissDelay: 0
-          });
-        }
-      } else {
-        messagesStore.createMessage({
-          type: 'error',
-          title: 'Search term is empty',
-          message: "Search term can't be empty",
-          dismissDelay: 0
-        });
-      }
-    });
 
     watch(
       () => route.query,
       () => {
-        fetch();
+        refresh();
       }
     );
 
-    useMeta(() => ({
-      title: `${searchQuery.value ? searchQuery.value + ' :: ' : ''}Search :: ViewTube`,
+    useHead({
+      title: `${searchQuery.value ?? `${searchQuery.value} :: `}Search :: ViewTube`,
       meta: [
         {
           hid: 'description',
@@ -251,22 +198,22 @@ export default defineComponent({
           content: 'Search for videos, channels and playlists'
         }
       ]
-    }));
+    });
 
     return {
-      searchResults,
+      searchResults: searchData.value?.searchResults,
       resultItems,
       searchContinuation,
-      filters,
+      filters: searchData.value?.filters,
       loading,
       searchQuery,
       page,
       moreVideosLoading,
       isCorrectedSearchResult,
       correctedSearchResultUrl,
-      getFilterArray,
+      loadMoreVideos,
       getListEntryType,
-      loadMoreVideos
+      pending
     };
   },
   head: {}

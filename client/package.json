@@ -6,18 +6,15 @@
     "yarn": ">=3.1.0"
   },
   "scripts": {
-    "prepare:env": "cross-env VIEWTUBE_URL=http://127.0.0.1:8067",
+    "prepare:env": "cross-env VIEWTUBE_URL=http://localhost:8067",
     "serve": "yarn prepare:env nuxi dev",
     "dev": "yarn serve",
     "build": "nuxi build",
     "build:dev": "cross-env NODE_ENV=development nuxi build",
-    "start": "yarn prepare:env nuxt start",
+    "start": "yarn prepare:env nuxi start",
     "lint": "eslint --ext .ts,.js,.vue .",
     "lint:fix": "eslint --ext .ts,.js,.vue --fix .",
     "prepare": "nuxi prepare"
-  },
-  "dependencies": {
-    "sass": "1.51.0"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config-typescript": "10.0.0",
@@ -56,6 +53,7 @@
     "pnp-webpack-plugin": "1.7.0",
     "prettier": "2.6.2",
     "qrcode": "1.5.0",
+    "sass": "1.52.3",
     "tippy.js": "6.3.7",
     "typescript": "4.6.4",
     "vue-demi": "0.12.5",
@@ -66,9 +64,10 @@
     "vuex-persistedstate": "4.1.0",
     "webpack": "5.72.0",
     "x2js": "3.4.3",
-    "ytpl": "2.3.0"
+    "ytpl": "2.3.0",
+    "ytsr": "3.8.0"
   },
   "volta": {
-    "node": "18.3.0"
+    "node": "16.15.1"
   }
 }
