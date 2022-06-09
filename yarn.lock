@@ -14144,13 +14144,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"passport@npm:0.5.2":
-  version: 0.5.2
-  resolution: "passport@npm:0.5.2"
+"passport@npm:0.6.0":
+  version: 0.6.0
+  resolution: "passport@npm:0.6.0"
   dependencies:
     passport-strategy: 1.x.x
     pause: 0.0.1
-  checksum: be17a64a069f412299dea342fea1f4c755aea66fcd71e9422c5e254be18b069a39b00d141e4c63fb852f1bfea6030e8e170593d7f0db5c197fddec781e9e8de4
+    utils-merge: ^1.0.1
+  checksum: ef932ad671d50de34765c7a53cd1e058d8331a82a6df09265a9c6c1168911aee4a7b5215803d0101110ab7f317e096b4954ca7e18fb2c33b9929f0bd17dbe159
   languageName: node
   linkType: hard
 
@@ -16638,7 +16639,7 @@ __metadata:
     mongoose: 6.3.6
     nestjs-throttler-storage-redis: "git+https://github.com/mauriceoegerli/nestjs-throttler-storage-redis.git"
     node-fetch: 2.6.7
-    passport: 0.5.2
+    passport: 0.6.0
     passport-jwt: 4.0.0
     passport-local: 1.0.0
     redis: 4.1.0
@@ -18665,7 +18666,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"utils-merge@npm:1.0.1":
+"utils-merge@npm:1.0.1, utils-merge@npm:^1.0.1":
   version: 1.0.1
   resolution: "utils-merge@npm:1.0.1"
   checksum: c81095493225ecfc28add49c106ca4f09cdf56bc66731aa8dabc2edbbccb1e1bfe2de6a115e5c6a380d3ea166d1636410b62ef216bb07b3feb1cfde1d95d5080
