@@ -54,7 +54,7 @@
     "consola": "2.15.3",
     "cookie-parser": "1.4.6",
     "fastify": "3.29.0",
-    "fastify-swagger": "npm:@fastify/swagger@6.0.1",
+    "fastify-swagger": "npm:@fastify/swagger@6.1.0",
     "https-proxy-agent": "5.0.1",
     "humanize-duration": "3.27.2",
     "ioredis": "5.0.6",
