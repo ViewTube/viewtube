@@ -8973,9 +8973,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fastify-swagger@npm:@fastify/swagger@6.0.1":
-  version: 6.0.1
-  resolution: "@fastify/swagger@npm:6.0.1"
+"fastify-swagger@npm:@fastify/swagger@6.1.0":
+  version: 6.1.0
+  resolution: "@fastify/swagger@npm:6.1.0"
   dependencies:
     "@fastify/static": ^5.0.0
     fastify-plugin: ^3.0.0
@@ -8983,7 +8983,7 @@ __metadata:
     json-schema-resolver: ^1.3.0
     openapi-types: ^10.0.0
     rfdc: ^1.3.0
-  checksum: 014482ee49afca3380f700ee01b7e6b312756803f3cc35524558d9c70a858a22a8b61ce9ab84c56f5d5e790fbc8baec2ec99ba8a23a8e5484bc3b94b8e7b3b65
+  checksum: 99fe807a61bba44014c99665d15a93dd67eb9dac3c04d73bfe21c91e1b8b769965316cc7658bfd73b9b6e0b3ec675e50b4df4e98fb778014cfd202696e09fc28
   languageName: node
   linkType: hard
 
@@ -16625,7 +16625,7 @@ __metadata:
     eslint-config-prettier: 8.5.0
     eslint-plugin-jest: 26.5.3
     fastify: 3.29.0
-    fastify-swagger: "npm:@fastify/swagger@6.0.1"
+    fastify-swagger: "npm:@fastify/swagger@6.1.0"
     https-proxy-agent: 5.0.1
     humanize-duration: 3.27.2
     husky: 8.0.1
