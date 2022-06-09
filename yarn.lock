@@ -3229,13 +3229,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/eslint@npm:8.4.2":
-  version: 8.4.2
-  resolution: "@types/eslint@npm:8.4.2"
+"@types/eslint@npm:8.4.3":
+  version: 8.4.3
+  resolution: "@types/eslint@npm:8.4.3"
   dependencies:
     "@types/estree": "*"
     "@types/json-schema": "*"
-  checksum: e81268cdeb8d64d84af649344df88f064ece0f05db62072657c976b6162ffe16f94b6480a5367d627c629272c2d86d0ee8c24f7095e98f8e743b16f98500673b
+  checksum: cc199be84e22754cc625b171c90852da2b563088d32f4161d310b70470eab47f9bc812774c61eab6530083a214fe634abc32d06ef38e0a5e29f68436331cfabb
   languageName: node
   linkType: hard
 
@@ -3467,10 +3467,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:16.11.38":
-  version: 16.11.38
-  resolution: "@types/node@npm:16.11.38"
-  checksum: 471df020162098602fd77014c458e84f01f7faff3cddcc2b7739312a8b4f103bc0fab3dfc03641233d9f627c47fd82dfabc9b86413ef680e193c36b9aed322e6
+"@types/node@npm:16.11.39":
+  version: 16.11.39
+  resolution: "@types/node@npm:16.11.39"
+  checksum: bc97b9773ac6b3194800f990b349fad7f66c6126dacef59291b10a2c8b6813d6f67f947b7e12a6c9952790f7065d576fe38355b8fe034a6af60f317cfc570f69
   languageName: node
   linkType: hard
 
@@ -3656,12 +3656,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/sharp@npm:0.30.3":
-  version: 0.30.3
-  resolution: "@types/sharp@npm:0.30.3"
+"@types/sharp@npm:0.30.4":
+  version: 0.30.4
+  resolution: "@types/sharp@npm:0.30.4"
   dependencies:
     "@types/node": "*"
-  checksum: 11254424dcd754817ea9993e1c5b302c004807784a144824436116061aff5b0e6d8f950b9cf6e42bc3b64b11fff6e0c2fe5ace4f5cb105797afb99ffb627c7ad
+  checksum: 3ebeaf55aa5ed2826a5bb4f13982a64b35691b6f38c4fd9d536ee7aed4d7e6b39529ae290f19343c5d8334419d69e147a28c214ca61adaed35ebf3ceea7cdf17
   languageName: node
   linkType: hard
 
@@ -6397,7 +6397,7 @@ __metadata:
     "@nuxtjs/pwa": 3.3.5
     "@nuxtjs/router": 1.7.0
     "@nuxtjs/style-resources": 1.2.1
-    "@types/node": 16.11.38
+    "@types/node": 16.11.39
     "@types/papaparse": 5.3.2
     "@types/qrcode": 1.4.2
     "@types/sass": 1.43.1
@@ -6423,7 +6423,7 @@ __metadata:
     jest: 28.1.1
     js-sha256: 0.9.0
     nuxt: 2.15.8
-    nuxt-typed-vuex: 0.3.0
+    nuxt-typed-vuex: 0.3.1
     papaparse: 5.3.2
     portal-vue: 2.1.7
     prettier: 2.6.2
@@ -6431,7 +6431,7 @@ __metadata:
     sass: 1.51.0
     sass-loader: 10.2.1
     tippy.js: 6.3.7
-    typed-vuex: 0.3.0
+    typed-vuex: 0.3.1
     typescript: 4.5.5
     unplugin-vue2-script-setup: 0.10.2
     vue: 2.6.14
@@ -13003,9 +13003,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mongoose@npm:6.3.5":
-  version: 6.3.5
-  resolution: "mongoose@npm:6.3.5"
+"mongoose@npm:6.3.6":
+  version: 6.3.6
+  resolution: "mongoose@npm:6.3.6"
   dependencies:
     bson: ^4.6.2
     kareem: 2.3.5
@@ -13014,7 +13014,7 @@ __metadata:
     mquery: 4.0.3
     ms: 2.1.3
     sift: 16.0.0
-  checksum: 1094ffb50311968710a7cad36cc497729be1f9fd1f3d32df44d59190fe8537c400a672e4589c799ea9c7acf113eb465219647aac1884743d1777be3bd89e5448
+  checksum: 79d4477f203806a14fea5cf7af6a1efbc33bae76c2b3313ef7a390101eae3fbdbe0bfe84ec119353ba8ebffc51ebf1ac958c537f24a177ad64ec1781a8a258e1
   languageName: node
   linkType: hard
 
@@ -13591,15 +13591,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nuxt-typed-vuex@npm:0.3.0":
-  version: 0.3.0
-  resolution: "nuxt-typed-vuex@npm:0.3.0"
+"nuxt-typed-vuex@npm:0.3.1":
+  version: 0.3.1
+  resolution: "nuxt-typed-vuex@npm:0.3.1"
   dependencies:
-    typed-vuex: 0.3.0
+    typed-vuex: 0.3.1
     upath: ^2.0.1
   peerDependencies:
-    "@nuxt/types": ^2.15.6
-  checksum: 3680c714ebdbf5fbfe108d4080d514342674d1d459b234271d7449599585fc48ae5024716d95a8bdcb4c70f1a7b6dc336540aac042417d9e2f0f01f060372e89
+    "@nuxt/types": ^2.15.8
+  checksum: d42d25af9312d44e19b46df5faa5cb64418b2da4b5f1670b945ffa407a5f73004adcadd2280ab867c80ac169675db10c8bc29dd7f08f0e71f617b19a05fbf25d
   languageName: node
   linkType: hard
 
@@ -16594,17 +16594,17 @@ __metadata:
     "@types/bcryptjs": 2.4.2
     "@types/busboy": 1.5.0
     "@types/cookie-parser": 1.4.3
-    "@types/eslint": 8.4.2
+    "@types/eslint": 8.4.3
     "@types/humanize-duration": 3.27.1
     "@types/jest": 27.5.2
     "@types/module-alias": 2.0.1
     "@types/multer": 1.4.7
-    "@types/node": 16.11.38
+    "@types/node": 16.11.39
     "@types/node-fetch": 3.0.3
     "@types/passport-jwt": 3.0.6
     "@types/passport-local": 1.0.34
     "@types/redis-mock": 0.17.1
-    "@types/sharp": 0.30.3
+    "@types/sharp": 0.30.4
     "@types/source-map-support": 0.5.4
     "@types/web-push": 3.3.2
     "@types/xml2json": 0.11.4
@@ -16635,7 +16635,7 @@ __metadata:
     mini-svg-data-uri: 1.4.4
     module-alias: 2.2.2
     mongodb-memory-server: 8.4.2
-    mongoose: 6.3.5
+    mongoose: 6.3.6
     nestjs-throttler-storage-redis: "git+https://github.com/mauriceoegerli/nestjs-throttler-storage-redis.git"
     node-fetch: 2.6.7
     passport: 0.5.2
@@ -16736,7 +16736,7 @@ __metadata:
     "@nestjs/common": 8.4.6
     "@nestjs/core": 8.4.6
     "@nestjs/swagger": 5.2.1
-    "@types/node": 16.11.38
+    "@types/node": 16.11.39
     class-transformer: 0.5.1
     class-validator: 0.13.2
     reflect-metadata: 0.1.13
@@ -18199,12 +18199,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typed-vuex@npm:0.3.0":
-  version: 0.3.0
-  resolution: "typed-vuex@npm:0.3.0"
+"typed-vuex@npm:0.3.1":
+  version: 0.3.1
+  resolution: "typed-vuex@npm:0.3.1"
   peerDependencies:
-    vuex: ^3.6.2
-  checksum: 026c5b44f422b2c2d23e15a1aa1569082b9f24c27e974608fe609758bdaa2d9920c3f6ae596cda5a4f9fe83f4fb06154e2f65fa0f1995cc0579ff4f3802f5a7d
+    vuex: ^3.6.2 || ^4.0.0
+  checksum: 12704206cf1fd3d7035e2052d57533c1a890b9dc513a6a73c46e783c8a06daf7b38024ebb7888517e4ca40628e599050a3de4915c846cc4d9bde1cf55d90b6f7
   languageName: node
   linkType: hard
 
@@ -18734,7 +18734,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "viewtube@workspace:."
   dependencies:
-    "@types/eslint": 8.4.2
+    "@types/eslint": 8.4.3
     cross-env: 7.0.3
     eslint: 8.17.0
     eslint-import-resolver-node: 0.3.6
