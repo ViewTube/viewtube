@@ -3715,7 +3715,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@nestjs/common", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:8.4.6"],
             ["@types/nestjs__common", null],
             ["@types/passport", null],
-            ["passport", "npm:0.5.2"]
+            ["passport", "npm:0.6.0"]
           ],
           "packagePeers": [
             "@nestjs/common",
@@ -18529,12 +18529,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["passport", [
-        ["npm:0.5.2", {
-          "packageLocation": "./.yarn/cache/passport-npm-0.5.2-50fdd6d9c8-be17a64a06.zip/node_modules/passport/",
+        ["npm:0.6.0", {
+          "packageLocation": "./.yarn/cache/passport-npm-0.6.0-0a57682d5b-ef932ad671.zip/node_modules/passport/",
           "packageDependencies": [
-            ["passport", "npm:0.5.2"],
+            ["passport", "npm:0.6.0"],
             ["passport-strategy", "npm:1.0.0"],
-            ["pause", "npm:0.0.1"]
+            ["pause", "npm:0.0.1"],
+            ["utils-merge", "npm:1.0.1"]
           ],
           "linkType": "HARD",
         }]
@@ -21341,7 +21342,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["mongoose", "npm:6.3.6"],
             ["nestjs-throttler-storage-redis", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#https://github.com/mauriceoegerli/nestjs-throttler-storage-redis.git#commit=7e236e7294ce7193abac7a0863829f7d2d3e27e8"],
             ["node-fetch", "virtual:b703fe309445e73be0544c0731c064bd8abfb48eba238ef60c1180739300244272080b53495cbb64a2ec07139667d15d2f5ce81fb8e0f1ce36343b35ebd9836e#npm:2.6.7"],
-            ["passport", "npm:0.5.2"],
+            ["passport", "npm:0.6.0"],
             ["passport-jwt", "npm:4.0.0"],
             ["passport-local", "npm:1.0.0"],
             ["redis", "npm:4.1.0"],
