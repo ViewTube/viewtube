@@ -3,19 +3,31 @@ import { LocationQuery } from 'vue-router';
 
 export type FilterType = { filterValue: any; filterType?: any; filterName: any };
 
-export const useGetSearchResult = (query: LocationQuery, searchQuery: string) => {
+export const useGetSearchResult = () => {
+  const route = useRoute();
+  const searchQuery = ref(getSearchQuery(route.query));
+
+  watch(
+    () => route.query,
+    () => {
+      console.log(route.query);
+      searchQuery.value = getSearchQuery(route.query);
+    }
+  );
+
   return useLazyAsyncData(
-    `search/${query}`,
+    `search`,
     async () => {
+      console.log(searchQuery.value);
       try {
         const config = useRuntimeConfig();
         const apiUrl = config.public.apiUrl;
-        const filtersResponse = await getFilters(searchQuery, apiUrl);
+        const filtersResponse = await getFilters(searchQuery.value, apiUrl);
 
-        const filterArray = getFilterArray(query, filtersResponse);
+        const filterArray = getFilterArray(route.query, filtersResponse);
 
         const searchResponse = await getSearch(
-          searchQuery,
+          searchQuery.value,
           {
             filters: filterArray,
             pages: 1
@@ -31,8 +43,15 @@ export const useGetSearchResult = (query: LocationQuery, searchQuery: string) =>
         console.log('error', error);
       }
     },
-    { server: true }
+    {
+      watch: [searchQuery]
+    }
   );
+};
+
+const getSearchQuery = (query: LocationQuery) => {
+  const searchParams = new URLSearchParams(query as Record<string, string>);
+  return searchParams.get('search_query') ?? searchParams.get('q');
 };
 
 const getFilters = (searchTerm: string, apiUrl: string) => {

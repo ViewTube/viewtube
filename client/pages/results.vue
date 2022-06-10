@@ -2,25 +2,25 @@
   <div class="search" :class="{ loading: pending }">
     <Spinner v-if="pending" class="centered search-spinner" />
     <GradientBackground :color="'blue'" />
-    <Filters v-if="filters && filters.length" :filters="filters" />
-    <p v-if="!pending && searchResults" class="result-amount">
-      {{ searchResults.results.toLocaleString('en-US') }} results
+    <Filters v-if="searchData?.filters && searchData?.filters.length" :filters="searchData?.filters" />
+    <p v-if="!pending && searchData?.searchResults" class="result-amount">
+      {{ searchData?.searchResults.results.toLocaleString('en-US') }} results
     </p>
     <div v-if="isCorrectedSearchResult" class="correction-results links">
       <span>Showing results for</span>
-      <nuxt-link :to="correctedSearchResultUrl">{{ searchResults.correctedQuery }}</nuxt-link>
+      <nuxt-link :to="correctedSearchResultUrl">{{ searchData?.searchResults.correctedQuery }}</nuxt-link>
     </div>
-    <div v-if="!pending && searchResults" class="search-results">
+    <div v-if="!pending && searchData?.searchResults" class="search-results">
       <div
-        v-if="searchResults.refinements && searchResults.refinements.length"
+        v-if="searchData?.searchResults.refinements && searchData?.searchResults.refinements.length"
         class="search-refinements"
       >
-        <RelatedSearches :refinements="searchResults.refinements" />
+        <RelatedSearches :refinements="searchData?.searchResults.refinements" />
       </div>
-      <div class="search-videos-container">
+      <div v-if="!pending && searchData?.searchResults" class="search-videos-container">
         <component
           :is="getListEntryType(result.type)"
-          v-for="(result, i) in resultItems"
+          v-for="(result, i) in searchData?.searchResults?.items"
           :key="i"
           :video="result"
           :channel="result"
@@ -86,7 +86,11 @@ export default defineComponent({
     const page = ref(0);
     const moreVideosLoading = ref(false);
 
-    const { data: searchData, pending, error, refresh } = useGetSearchResult(route.query, searchQuery.value);
+    const { data: searchData, pending, error, refresh } = useGetSearchResult();
+
+    watch(searchData, (newValue) => {
+      console.log(newValue);
+    })
 
     watch(error, newValue => {
       console.log(newValue);
@@ -99,9 +103,6 @@ export default defineComponent({
         });
       }
     });
-
-    const resultItems = computed(() => searchData.value?.searchResults?.items ?? []);
-    const searchContinuation = computed(() => searchData.value?.searchResults?.continuation);
 
     const isCorrectedSearchResult = computed((): boolean => {
       if (searchData.value?.searchResults) {
@@ -171,13 +172,6 @@ export default defineComponent({
       }
     };
 
-    watch(
-      () => route.query,
-      () => {
-        refresh();
-      }
-    );
-
     useHead({
       title: `${searchQuery.value ?? `${searchQuery.value} :: `}Search :: ViewTube`,
       meta: [
@@ -201,10 +195,7 @@ export default defineComponent({
     });
 
     return {
-      searchResults: searchData.value?.searchResults,
-      resultItems,
-      searchContinuation,
-      filters: searchData.value?.filters,
+      searchData,
       loading,
       searchQuery,
       page,
