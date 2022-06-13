@@ -115,7 +115,7 @@
     "redis": "4.1.0",
     "redis-mock": "0.56.3",
     "rollup": "2.75.6",
-    "rollup-plugin-typescript2": "0.31.2",
+    "rollup-plugin-typescript2": "0.32.1",
     "run-script-webpack-plugin": "0.0.14",
     "source-map-support": "0.5.21",
     "ts-jest": "28.0.4",
