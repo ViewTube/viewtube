@@ -6406,7 +6406,7 @@ __metadata:
     eslint-plugin-nuxt: 3.2.0
     eslint-plugin-promise: 6.0.0
     eslint-plugin-unicorn: 42.0.0
-    eslint-plugin-vue: 9.1.0
+    eslint-plugin-vue: 9.1.1
     hls.js: 1.1.5
     humanize-duration: 3.27.2
     jest: 28.1.1
@@ -8332,9 +8332,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-vue@npm:9.1.0":
-  version: 9.1.0
-  resolution: "eslint-plugin-vue@npm:9.1.0"
+"eslint-plugin-vue@npm:9.1.1":
+  version: 9.1.1
+  resolution: "eslint-plugin-vue@npm:9.1.1"
   dependencies:
     eslint-utils: ^3.0.0
     natural-compare: ^1.4.0
@@ -8345,7 +8345,7 @@ __metadata:
     xml-name-validator: ^4.0.0
   peerDependencies:
     eslint: ^6.2.0 || ^7.0.0 || ^8.0.0
-  checksum: b14705978ab452eda91e592145d69e260e316797672e4391380c418d8f27d9b503dff77ed1c7dc557e7624d81f1777d2190b29a82282b3e0a84d01a3bfc8cae8
+  checksum: 6095e2f1c7ca43a7923d52423b7263fbf947680f628cb86a606ad2cc1e0abcbff67971b2d6bb028f6e710fff9c8b1289d5bda27e3ad253c683ce74c9d520580f
   languageName: node
   linkType: hard
 
