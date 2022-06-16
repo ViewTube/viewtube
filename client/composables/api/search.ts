@@ -10,7 +10,6 @@ export const useGetSearchResult = () => {
   watch(
     () => route.query,
     () => {
-      console.log(route.query);
       searchQuery.value = getSearchQuery(route.query);
     }
   );
@@ -18,7 +17,6 @@ export const useGetSearchResult = () => {
   return useLazyAsyncData(
     `search`,
     async () => {
-      console.log(searchQuery.value);
       try {
         const config = useRuntimeConfig();
         const apiUrl = config.public.apiUrl;

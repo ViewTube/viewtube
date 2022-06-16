@@ -2,13 +2,18 @@
   <div class="search" :class="{ loading: pending }">
     <Spinner v-if="pending" class="centered search-spinner" />
     <GradientBackground :color="'blue'" />
-    <Filters v-if="searchData?.filters && searchData?.filters.length" :filters="searchData?.filters" />
+    <Filters
+      v-if="searchData?.filters && searchData?.filters.length"
+      :filters="searchData?.filters"
+    />
     <p v-if="!pending && searchData?.searchResults" class="result-amount">
       {{ searchData?.searchResults.results.toLocaleString('en-US') }} results
     </p>
     <div v-if="isCorrectedSearchResult" class="correction-results links">
       <span>Showing results for</span>
-      <nuxt-link :to="correctedSearchResultUrl">{{ searchData?.searchResults.correctedQuery }}</nuxt-link>
+      <nuxt-link :to="correctedSearchResultUrl">{{
+        searchData?.searchResults.correctedQuery
+      }}</nuxt-link>
     </div>
     <div v-if="!pending && searchData?.searchResults" class="search-results">
       <div
@@ -17,10 +22,27 @@
       >
         <RelatedSearches :refinements="searchData?.searchResults.refinements" />
       </div>
-      <div v-if="!pending && searchData?.searchResults" class="search-videos-container">
+      <div v-if="!pending && searchData?.searchResults.items" class="search-videos-container">
         <component
           :is="getListEntryType(result.type)"
-          v-for="(result, i) in searchData?.searchResults?.items"
+          v-for="(result, i) in searchData?.searchResults.items"
+          :key="i"
+          :video="result"
+          :channel="result"
+          :playlist="result"
+          :mix="result"
+          :shelf="result"
+          :horizontal="true"
+          :lazy="true"
+        />
+      </div>
+      <SeparatorSmall v-if="!pending && additionalResultItems.length > 0"
+        >More results</SeparatorSmall
+      >
+      <div v-if="!pending && additionalResultItems.length > 0" class="search-videos-container">
+        <component
+          :is="getListEntryType(result.type)"
+          v-for="(result, i) in additionalResultItems"
           :key="i"
           :video="result"
           :channel="result"
@@ -55,7 +77,9 @@ import GradientBackground from '@/components/GradientBackground.vue';
 import Dropdown from '@/components/filter/Dropdown.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import Filters from '@/components/search/Filters.vue';
+import SeparatorSmall from '@/components/list/SeparatorSmall.vue';
 import { useMessagesStore } from '@/store/messages';
+import ytsr from 'ytsr';
 
 export default defineComponent({
   name: 'Search',
@@ -72,7 +96,8 @@ export default defineComponent({
     RelatedSearches,
     Shelf,
     MixEntry,
-    Filters
+    Filters,
+    SeparatorSmall
   },
   setup() {
     const route = useRoute();
@@ -85,15 +110,19 @@ export default defineComponent({
     });
     const page = ref(0);
     const moreVideosLoading = ref(false);
+    const config = useRuntimeConfig();
 
-    const { data: searchData, pending, error, refresh } = useGetSearchResult();
+    const { data: searchData, pending, error } = useGetSearchResult();
 
-    watch(searchData, (newValue) => {
-      console.log(newValue);
-    })
+    const additionalResultItems = ref<ytsr.Item[]>([]);
+    const searchContinuationData = ref<any>(searchData.value?.searchResults.continuation);
+
+    watch(() => searchData.value, newData => {
+      additionalResultItems.value = [];
+      searchContinuationData.value = newData?.searchResults.continuation;
+    });
 
     watch(error, newValue => {
-      console.log(newValue);
       if (newValue) {
         messagesStore.createMessage({
           type: 'error',
@@ -143,33 +172,44 @@ export default defineComponent({
       }
     };
 
-    const loadMoreVideos = () => {
+    const loadMoreVideos = async () => {
       moreVideosLoading.value = true;
       page.value += 1;
 
-      if (searchData.value?.searchResults && searchData.value?.searchResults.continuation) {
-        // await axios
-        //   .get(`${config.public.apiUrl}search/continuation`, {
-        //     params: {
-        //       continuationData: searchContinuation.value
-        //     }
-        //   })
-        //   .then((response: { data: any }) => {
-        //     if (response && response.data) {
-        //       resultItems.value = resultItems.value.concat(response.data.items);
-        //       searchContinuation.value = response.data.continuation;
-        //       moreVideosLoading.value = false;
-        //     }
-        //   })
-        //   .catch((_: any) => {
-        //     messagesStore.createMessage({
-        //       type: 'error',
-        //       title: 'Unable to load more results',
-        //       message: 'Try again or use a different search term for more results'
-        //     });
-        //     moreVideosLoading.value = false;
-        //   });
+      if (searchData.value?.searchResults && searchContinuationData.value) {
+        try {
+          const searchContinuation = await $fetch<ytsr.ContinueResult>(
+            `${config.public.apiUrl}search/continuation`,
+            {
+              method: 'POST',
+              body: {
+                continuationData: searchContinuationData.value
+              }
+            }
+          );
+
+          if (searchContinuation) {
+            additionalResultItems.value = [
+              ...additionalResultItems.value,
+              ...searchContinuation.items
+            ];
+            searchContinuationData.value = searchContinuation.continuation;
+          }
+        } catch (error) {
+          messagesStore.createMessage({
+            type: 'error',
+            title: 'Unable to load more results',
+            message: 'Try again or use a different search term for more results'
+          });
+        }
+      } else {
+        messagesStore.createMessage({
+          type: 'error',
+          title: 'Unable to load more results',
+          message: 'Use a different search term for more results'
+        });
       }
+      moreVideosLoading.value = false;
     };
 
     useHead({
@@ -204,7 +244,8 @@ export default defineComponent({
       correctedSearchResultUrl,
       loadMoreVideos,
       getListEntryType,
-      pending
+      pending,
+      additionalResultItems
     };
   },
   head: {}
