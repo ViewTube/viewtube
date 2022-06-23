@@ -2,10 +2,10 @@
   "name": "shared",
   "packageManager": "yarn@3.1.1",
   "devDependencies": {
-    "@nestjs/common": "8.4.6",
-    "@nestjs/core": "8.4.6",
+    "@nestjs/common": "8.4.7",
+    "@nestjs/core": "8.4.7",
     "@nestjs/swagger": "5.2.1",
-    "@types/node": "16.11.39",
+    "@types/node": "16.11.41",
     "class-transformer": "0.5.1",
     "class-validator": "0.13.2",
     "reflect-metadata": "0.1.13",
