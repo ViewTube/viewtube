@@ -16589,7 +16589,7 @@ __metadata:
     ts-loader: 9.3.0
     tslib: 2.4.0
     typescript: 4.5.5
-    undici: 5.2.0
+    undici: 5.5.1
     web-push: 3.5.0
     webpack: 5.72.0
     webpack-cli: 4.9.2
@@ -18244,10 +18244,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"undici@npm:5.2.0":
-  version: 5.2.0
-  resolution: "undici@npm:5.2.0"
-  checksum: b7d6fe077c3ab13b7f7a0e5f4b70354b8489c5d37ca06c471754f9543c34501e3b29394b130afc8f066f11e465d6474ec665b2eb5a61052dc84baa97eeb9c7c3
+"undici@npm:5.5.1":
+  version: 5.5.1
+  resolution: "undici@npm:5.5.1"
+  checksum: c041c9093df7ec683479a9555581206a7c7bebfc1ed6e8669920e55618461fc4ce08938e2fbf8ef7d692c2813c44392b5ed25c58396ee4a72ffd1f1f953712c9
   languageName: node
   linkType: hard
 
