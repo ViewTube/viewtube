@@ -3205,6 +3205,7 @@ __metadata:
     humanize-duration: 3.27.1
     jest: 27.5.1
     js-sha256: 0.9.0
+    modern-js-ripple: 1.0.1
     nuxi: 3.0.0-rc.3
     nuxt: 3.0.0-rc.3
     papaparse: 5.3.2
@@ -3214,7 +3215,7 @@ __metadata:
     qrcode: 1.5.0
     sass: 1.52.3
     tippy.js: 6.3.7
-    typescript: 4.6.4
+    typescript: 4.7.4
     vue-demi: 0.12.5
     vue-material-design-icons: 5.0.0
     vue-template-compiler: 2.6.14
@@ -7924,6 +7925,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"modern-js-ripple@npm:1.0.1":
+  version: 1.0.1
+  resolution: "modern-js-ripple@npm:1.0.1"
+  checksum: f011f169db844f3054b95e152689e5cb4693b438496baa97ae32900fb3d5f5d484ac66a64d73e20d5c1232a6b826b3eba13444690b52ab2759f0508b012d41d9
+  languageName: node
+  linkType: hard
+
 "mri@npm:^1.2.0":
   version: 1.2.0
   resolution: "mri@npm:1.2.0"
@@ -10924,23 +10932,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:4.6.4":
-  version: 4.6.4
-  resolution: "typescript@npm:4.6.4"
+"typescript@npm:4.7.4":
+  version: 4.7.4
+  resolution: "typescript@npm:4.7.4"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: e7bfcc39cd4571a63a54e5ea21f16b8445268b9900bf55aee0e02ad981be576acc140eba24f1af5e3c1457767c96cea6d12861768fb386cf3ffb34013718631a
+  checksum: 5750181b1cd7e6482c4195825547e70f944114fb47e58e4aa7553e62f11b3f3173766aef9c281783edfd881f7b8299cf35e3ca8caebe73d8464528c907a164df
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@4.6.4#~builtin<compat/typescript>":
-  version: 4.6.4
-  resolution: "typescript@patch:typescript@npm%3A4.6.4#~builtin<compat/typescript>::version=4.6.4&hash=493e53"
+"typescript@patch:typescript@4.7.4#~builtin<compat/typescript>":
+  version: 4.7.4
+  resolution: "typescript@patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=493e53"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 8cff08bf66d9ecfbf9fcc5edde04a5a7923e6cac3b21d99b4e9a06973bf5bd7f9a83ec7eed24129c1b9e13fd861de8c1070110d4b9ce9f18ab57c6999e9c9a6f
+  checksum: 96d3030cb01143570567cb4f3a616b10df65f658f0e74e853e77a089a6a954e35c800be7db8b9bfe9a1ae05d9c2897e281359f65e4caa1caf266368e1c4febd3
   languageName: node
   linkType: hard
 

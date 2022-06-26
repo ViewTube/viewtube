@@ -9229,7 +9229,7 @@ __metadata:
     ts-jest: 28.0.4
     ts-loader: 9.3.0
     tslib: 2.4.0
-    typescript: 4.5.5
+    typescript: 4.7.4
     undici: 5.4.0
     web-push: 3.5.0
     webpack: 5.73.0
@@ -9285,7 +9285,7 @@ __metadata:
     class-validator: 0.13.2
     reflect-metadata: 0.1.13
     rxjs: 7.5.5
-    typescript: 4.5.5
+    typescript: 4.7.4
   languageName: unknown
   linkType: soft
 
@@ -10116,16 +10116,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:4.5.5":
-  version: 4.5.5
-  resolution: "typescript@npm:4.5.5"
-  bin:
-    tsc: bin/tsc
-    tsserver: bin/tsserver
-  checksum: 506f4c919dc8aeaafa92068c997f1d213b9df4d9756d0fae1a1e7ab66b585ab3498050e236113a1c9e57ee08c21ec6814ca7a7f61378c058d79af50a4b1f5a5e
-  languageName: node
-  linkType: hard
-
 "typescript@npm:4.6.4, typescript@npm:^4.4.4":
   version: 4.6.4
   resolution: "typescript@npm:4.6.4"
@@ -10136,13 +10126,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@4.5.5#~builtin<compat/typescript>":
-  version: 4.5.5
-  resolution: "typescript@patch:typescript@npm%3A4.5.5#~builtin<compat/typescript>::version=4.5.5&hash=493e53"
+"typescript@npm:4.7.4":
+  version: 4.7.4
+  resolution: "typescript@npm:4.7.4"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: c05c318d79c690f101d7ffb34cd6c7d6bbd884d3af9cefe7749ad0cd6be43c7082f098280982ca945dcba23fde34a08fed9602bb26540936baf8c0520727d3ba
+  checksum: 5750181b1cd7e6482c4195825547e70f944114fb47e58e4aa7553e62f11b3f3173766aef9c281783edfd881f7b8299cf35e3ca8caebe73d8464528c907a164df
   languageName: node
   linkType: hard
 
@@ -10153,6 +10143,16 @@ __metadata:
     tsc: bin/tsc
     tsserver: bin/tsserver
   checksum: 8cff08bf66d9ecfbf9fcc5edde04a5a7923e6cac3b21d99b4e9a06973bf5bd7f9a83ec7eed24129c1b9e13fd861de8c1070110d4b9ce9f18ab57c6999e9c9a6f
+  languageName: node
+  linkType: hard
+
+"typescript@patch:typescript@4.7.4#~builtin<compat/typescript>":
+  version: 4.7.4
+  resolution: "typescript@patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=493e53"
+  bin:
+    tsc: bin/tsc
+    tsserver: bin/tsserver
+  checksum: 96d3030cb01143570567cb4f3a616b10df65f658f0e74e853e77a089a6a954e35c800be7db8b9bfe9a1ae05d9c2897e281359f65e4caa1caf266368e1c4febd3
   languageName: node
   linkType: hard
 
@@ -10269,7 +10269,7 @@ __metadata:
     eslint-import-resolver-node: 0.3.6
     jest: 28.0.3
     prettier: 2.6.2
-    typescript: 4.5.5
+    typescript: 4.7.4
     vls: 0.7.6
   languageName: unknown
   linkType: soft
