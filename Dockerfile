@@ -4,41 +4,25 @@ WORKDIR /home/build
 ENV BUILD_ENV=production
 
 COPY prepare.js package.json ./
-COPY .yarn ./.yarn/
-COPY yarn.lock .yarnrc.yml ./
-COPY client/.yarnrc.yml ./client/
-COPY client/yarn.lock ./client/
+COPY pnpm-lock.yaml pnpm-workspace.yaml ./
 
 COPY server/package.json ./server/
 COPY client/package.json ./client/
 COPY shared/package.json ./shared/
 
-RUN yarn install
-
-WORKDIR /home/build/client
-RUN yarn install
-WORKDIR /home/build
+RUN pnpm install
 
 COPY . .
 
-WORKDIR /home/build/client
-RUN yarn build
-RUN rm -rf node_modules
-WORKDIR /home/build
-
-RUN yarn build
-
-RUN yarn cache clean && \
-    yarn workspaces focus --all --production && \
-    yarn cache clean --mirror
+RUN pnpm run build
 
 FROM alpine:3.15 as runtime
 WORKDIR /home/app
 
 RUN apk add --no-cache --update nodejs-current
 
-COPY --from=build /home/build/.yarn/ ./.yarn/
-COPY --from=build /home/build/.pnp.cjs /home/build/package.json /home/build/yarn.lock /home/build/.yarnrc.yml ./
+COPY --from=build /home/build/node_modules/ ./node_modules/
+COPY --from=build /home/build/package.json /home/build/pnpm-lock.yaml ./
 
 COPY --from=build /home/build/server/package.json ./server/
 COPY --from=build /home/build/server/dist ./server/dist/
@@ -50,4 +34,4 @@ ENV NODE_ENV=production
 HEALTHCHECK --interval=30s --timeout=20s --start-period=60s CMD wget --no-verbose --tries=3 --spider http://localhost:8066/ || exit 1
 EXPOSE 8066
 
-CMD ["node", "-r", "/home/app/.pnp.cjs", "/home/app/server/dist/main.cjs"]
+CMD ["node", "/home/app/server/dist/main.cjs"]

@@ -144,7 +144,7 @@ def pullrequest():
                 'pull': 'if-not-exists',
                 'volumes': stepVolumes,
                 'commands': [
-                    'yarn install'
+                    'pnpm install'
                 ]
             },
             {
@@ -153,7 +153,7 @@ def pullrequest():
                 'pull': 'if-not-exists',
                 'volumes': stepVolumes,
                 'commands': [
-                    'yarn build:client'
+                    'pnpm build:client'
                 ],
                 'depends_on':[
                     'install'
@@ -165,7 +165,7 @@ def pullrequest():
                 'pull': 'if-not-exists',
                 'volumes': stepVolumes,
                 'commands': [
-                    'yarn build:server'
+                    'pnpm build:server'
                 ],
                 'depends_on': [
                     'install'
@@ -177,7 +177,7 @@ def pullrequest():
                 'pull': 'if-not-exists',
                 'volumes': stepVolumes,
                 'commands': [
-                    'yarn test'
+                    'pnpm test'
                 ],
                 'depends_on':[
                     'install'

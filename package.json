@@ -8,7 +8,7 @@
   "license": "AGPLv3",
   "engines": {
     "node": ">=16.5.0",
-    "yarn": ">=3.1.0"
+    "pnpm": ">=7.3.0"
   },
   "scripts": {
     "build": "yarn workspaces foreach run build",
@@ -20,10 +20,6 @@
     "lint-staged": "prettier --write --ignore-unknown",
     "format": "prettier --write ."
   },
-  "workspaces": [
-    "server",
-    "shared"
-  ],
   "_moduleAliases": {
     "server": "server/dist/server",
     "viewtube": "./"
