@@ -5767,6 +5767,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"bson@npm:^4.6.3":
+  version: 4.6.4
+  resolution: "bson@npm:4.6.4"
+  dependencies:
+    buffer: ^5.6.0
+  checksum: f56375865c8fc048179075296019a0d2e058edbbb6692e54e2751da738840968de678a48a2276faf2ec8f8b36c5c26f14670ab4d414fe68f0169215efe15d570
+  languageName: node
+  linkType: hard
+
 "buffer-crc32@npm:^0.2.1, buffer-crc32@npm:^0.2.13, buffer-crc32@npm:~0.2.3":
   version: 0.2.13
   resolution: "buffer-crc32@npm:0.2.13"
@@ -11833,10 +11842,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"kareem@npm:2.3.5":
-  version: 2.3.5
-  resolution: "kareem@npm:2.3.5"
-  checksum: eb1b996937e0a7a031230ed56ba2142f35179af5973ff86074921a082375fc3d5df7820b4c7a70b51e7e19c063bf3d735defd5b99a50982095674d68442f4ecb
+"kareem@npm:2.4.1":
+  version: 2.4.1
+  resolution: "kareem@npm:2.4.1"
+  checksum: 83c8d8f5ea82e58fa9f43f62f65576ac32fc7c5f817deb2708c68996eb586bf3dc236404a4570c548730a041e29a6553f61f8a744fa96a1093e5dc28b4ce598f
   languageName: node
   linkType: hard
 
@@ -12915,7 +12924,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mongodb@npm:4.5.0, mongodb@npm:^4.4.0":
+"mongodb@npm:4.7.0":
+  version: 4.7.0
+  resolution: "mongodb@npm:4.7.0"
+  dependencies:
+    bson: ^4.6.3
+    denque: ^2.0.1
+    mongodb-connection-string-url: ^2.5.2
+    saslprep: ^1.0.3
+    socks: ^2.6.2
+  dependenciesMeta:
+    saslprep:
+      optional: true
+  checksum: 6c8ddf1d14a4392d83702aa532e5a1e6deaa501cfd66e352a1226358422716e340465ca4b0f2c5d8f660bf15c06456059953fb99482f714c1dab408ecfe3aeea
+  languageName: node
+  linkType: hard
+
+"mongodb@npm:^4.4.0":
   version: 4.5.0
   resolution: "mongodb@npm:4.5.0"
   dependencies:
@@ -12931,18 +12956,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mongoose@npm:6.3.6":
-  version: 6.3.6
-  resolution: "mongoose@npm:6.3.6"
+"mongoose@npm:6.4.0":
+  version: 6.4.0
+  resolution: "mongoose@npm:6.4.0"
   dependencies:
     bson: ^4.6.2
-    kareem: 2.3.5
-    mongodb: 4.5.0
+    kareem: 2.4.1
+    mongodb: 4.7.0
     mpath: 0.9.0
     mquery: 4.0.3
     ms: 2.1.3
     sift: 16.0.0
-  checksum: 79d4477f203806a14fea5cf7af6a1efbc33bae76c2b3313ef7a390101eae3fbdbe0bfe84ec119353ba8ebffc51ebf1ac958c537f24a177ad64ec1781a8a258e1
+  checksum: bc10695bb91f68c3caff88e050d37e629a8e4227f528770b239c44b12b1fc36e785dc20be90e748ef5806f4ce816a9becceeebfe64b1d7a83c0f4c7260f2e080
   languageName: node
   linkType: hard
 
@@ -16507,7 +16532,7 @@ __metadata:
     mini-svg-data-uri: 1.4.4
     module-alias: 2.2.2
     mongodb-memory-server: 8.4.2
-    mongoose: 6.3.6
+    mongoose: 6.4.0
     nestjs-throttler-storage-redis: "git+https://github.com/mauriceoegerli/nestjs-throttler-storage-redis.git"
     node-fetch: 2.6.7
     passport: 0.6.0
