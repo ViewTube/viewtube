@@ -14513,10 +14513,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "HARD",
         }],
-        ["npm:5.0.6", {
-          "packageLocation": "./.yarn/cache/ioredis-npm-5.0.6-b4aae91343-24ae1fecec.zip/node_modules/ioredis/",
+        ["npm:5.1.0", {
+          "packageLocation": "./.yarn/cache/ioredis-npm-5.1.0-cc56f45bbf-7b1c137836.zip/node_modules/ioredis/",
           "packageDependencies": [
-            ["ioredis", "npm:5.0.6"],
+            ["ioredis", "npm:5.1.0"],
             ["@ioredis/commands", "npm:1.1.1"],
             ["cluster-key-slot", "npm:1.1.0"],
             ["debug", "virtual:1f3c51be25fef20e854261431be23d317093b3b463e81e911f4f45a636ff582620db066c9d2a5922a428e07e10fe4788eee8196c796ce2c9bd49d22743fec207#npm:4.3.4"],
@@ -17471,7 +17471,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/nestjs__core", null],
             ["@types/nestjs__throttler", null],
             ["@types/reflect-metadata", null],
-            ["ioredis", "npm:5.0.6"],
+            ["ioredis", "npm:5.1.0"],
             ["reflect-metadata", "npm:0.1.13"]
           ],
           "packagePeers": [
@@ -21205,7 +21205,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["https-proxy-agent", "npm:5.0.1"],
             ["humanize-duration", "npm:3.27.2"],
             ["husky", "npm:8.0.1"],
-            ["ioredis", "npm:5.0.6"],
+            ["ioredis", "npm:5.1.0"],
             ["jest", "virtual:c139d237b0dbb776e61db419e9c89c8b814c75fa7a88b9f24aafc5ab8ac92bbf91dff4585597824d969ce997b2ccd24ccbc8eb827b2908e4b381ccc31b31d3eb#npm:28.1.1"],
             ["joi", "npm:17.6.0"],
             ["mini-svg-data-uri", "npm:1.4.4"],

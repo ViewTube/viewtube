@@ -57,7 +57,7 @@
     "fastify-swagger": "npm:@fastify/swagger@6.1.0",
     "https-proxy-agent": "5.0.1",
     "humanize-duration": "3.27.2",
-    "ioredis": "5.0.6",
+    "ioredis": "5.1.0",
     "joi": "17.6.0",
     "mini-svg-data-uri": "1.4.4",
     "module-alias": "2.2.2",
