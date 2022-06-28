@@ -3681,7 +3681,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/nestjs__core", null],
             ["@types/reflect-metadata", null],
             ["@types/rxjs", null],
-            ["mongoose", "npm:6.4.0"],
+            ["mongoose", "npm:6.4.1"],
             ["reflect-metadata", "npm:0.1.13"],
             ["rxjs", "npm:7.5.5"]
           ],
@@ -17207,10 +17207,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["mongoose", [
-        ["npm:6.4.0", {
-          "packageLocation": "./.yarn/cache/mongoose-npm-6.4.0-704e15469e-bc10695bb9.zip/node_modules/mongoose/",
+        ["npm:6.4.1", {
+          "packageLocation": "./.yarn/cache/mongoose-npm-6.4.1-00ffa359d6-cfbd727328.zip/node_modules/mongoose/",
           "packageDependencies": [
-            ["mongoose", "npm:6.4.0"],
+            ["mongoose", "npm:6.4.1"],
             ["bson", "npm:4.6.3"],
             ["kareem", "npm:2.4.1"],
             ["mongodb", "npm:4.7.0"],
@@ -21238,7 +21238,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["mini-svg-data-uri", "npm:1.4.4"],
             ["module-alias", "npm:2.2.2"],
             ["mongodb-memory-server", "npm:8.4.2"],
-            ["mongoose", "npm:6.4.0"],
+            ["mongoose", "npm:6.4.1"],
             ["nestjs-throttler-storage-redis", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#https://github.com/mauriceoegerli/nestjs-throttler-storage-redis.git#commit=7e236e7294ce7193abac7a0863829f7d2d3e27e8"],
             ["node-fetch", "virtual:b703fe309445e73be0544c0731c064bd8abfb48eba238ef60c1180739300244272080b53495cbb64a2ec07139667d15d2f5ce81fb8e0f1ce36343b35ebd9836e#npm:2.6.7"],
             ["passport", "npm:0.6.0"],
