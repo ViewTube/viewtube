@@ -12956,9 +12956,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mongoose@npm:6.4.0":
-  version: 6.4.0
-  resolution: "mongoose@npm:6.4.0"
+"mongoose@npm:6.4.1":
+  version: 6.4.1
+  resolution: "mongoose@npm:6.4.1"
   dependencies:
     bson: ^4.6.2
     kareem: 2.4.1
@@ -12967,7 +12967,7 @@ __metadata:
     mquery: 4.0.3
     ms: 2.1.3
     sift: 16.0.0
-  checksum: bc10695bb91f68c3caff88e050d37e629a8e4227f528770b239c44b12b1fc36e785dc20be90e748ef5806f4ce816a9becceeebfe64b1d7a83c0f4c7260f2e080
+  checksum: cfbd727328cf17e628b6eafe6162cdacbe73e93092f490ed7646c00d6f1cc2b10bd7d52630f9102a925fe2137e4093155d70729547295bbdb7eb5c42dd0c4702
   languageName: node
   linkType: hard
 
@@ -16541,7 +16541,7 @@ __metadata:
     mini-svg-data-uri: 1.4.4
     module-alias: 2.2.2
     mongodb-memory-server: 8.4.2
-    mongoose: 6.4.0
+    mongoose: 6.4.1
     nestjs-throttler-storage-redis: "git+https://github.com/mauriceoegerli/nestjs-throttler-storage-redis.git"
     node-fetch: 2.6.7
     passport: 0.6.0
