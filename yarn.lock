@@ -16088,10 +16088,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"run-script-webpack-plugin@npm:0.0.14":
-  version: 0.0.14
-  resolution: "run-script-webpack-plugin@npm:0.0.14"
-  checksum: 6290f7743b5c77c8d4219bc25b7ad894d9c9d4e5843fe9b8e568013ccfed36b11b62e995cb1e2074d890a60229d6fc3cce6a19cd1373825175dba42c7972c348
+"run-script-webpack-plugin@npm:0.1.1":
+  version: 0.1.1
+  resolution: "run-script-webpack-plugin@npm:0.1.1"
+  checksum: 7c2ca7310438e7e84d1b5b43d040bc1dc8d0c731bac0312605b68fac321e41aa268cd5545c1afce9d65165f5ef6dc8a822e58fbd154c95015fb9c960946e605e
   languageName: node
   linkType: hard
 
@@ -16552,7 +16552,7 @@ __metadata:
     reflect-metadata: 0.1.13
     rollup: 2.75.7
     rollup-plugin-typescript2: 0.32.1
-    run-script-webpack-plugin: 0.0.14
+    run-script-webpack-plugin: 0.1.1
     rxjs: 7.5.5
     sharp: 0.30.7
     source-map-support: 0.5.21
