@@ -6417,7 +6417,7 @@ __metadata:
     prettier: 2.7.1
     qrcode: 1.5.0
     sass: 1.53.0
-    sass-loader: 10.2.1
+    sass-loader: 10.3.0
     tippy.js: 6.3.7
     typed-vuex: 0.3.1
     typescript: 4.5.5
@@ -16195,9 +16195,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sass-loader@npm:10.2.1":
-  version: 10.2.1
-  resolution: "sass-loader@npm:10.2.1"
+"sass-loader@npm:10.3.0":
+  version: 10.3.0
+  resolution: "sass-loader@npm:10.3.0"
   dependencies:
     klona: ^2.0.4
     loader-utils: ^2.0.0
@@ -16206,7 +16206,7 @@ __metadata:
     semver: ^7.3.2
   peerDependencies:
     fibers: ">= 3.1.0"
-    node-sass: ^4.0.0 || ^5.0.0 || ^6.0.0
+    node-sass: ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0
     sass: ^1.3.0
     webpack: ^4.36.0 || ^5.0.0
   peerDependenciesMeta:
@@ -16216,7 +16216,7 @@ __metadata:
       optional: true
     sass:
       optional: true
-  checksum: e5bc4a230bfb9103dbd05f72e936e9e31cb35d09922fe90541ad71d0a64abce238b54069cfe51e67c045870093a8e9a218aff63d66468e36dc1cc3d5db4ee83b
+  checksum: 554144457cadccd583530ee9e4f5a7cca9bba3f79083fe848620edd03f39e3fab4f31316ee0add06c84683d505dca092788680f0e2c6f9bb54275eaecb97d6d1
   languageName: node
   linkType: hard
 
