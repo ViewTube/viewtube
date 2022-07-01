@@ -6712,7 +6712,7 @@ __metadata:
     vue: 2.6.14
     vue-material-design-icons: 5.0.0
     vue-template-compiler: 2.6.14
-    vue2-datepicker: 3.10.4
+    vue2-datepicker: 3.11.0
     vuex: 3.6.2
     vuex-persistedstate: 4.1.0
     webpack: 5.72.0
@@ -19151,14 +19151,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vue2-datepicker@npm:3.10.4":
-  version: 3.10.4
-  resolution: "vue2-datepicker@npm:3.10.4"
+"vue2-datepicker@npm:3.11.0":
+  version: 3.11.0
+  resolution: "vue2-datepicker@npm:3.11.0"
   dependencies:
     date-format-parse: ^0.2.7
   peerDependencies:
     vue: ^2.5.0
-  checksum: 4de1a7dfa23347eb088db1ceb761f7b3f5d8f5407a9c967c96c1315c4729ec3d395c8685215c25953c8070e752704534048cf0f74fc4454d83b299ea136e0c70
+  checksum: 561f63cd4121b9d532bea4bf77292364319662b88f66be9068a5db3fddc5cb62949eb5fa6dca7d4f79d308d0d331ff71f0af6b5ffc7e2dfeefad7212a694a18e
   languageName: node
   linkType: hard
 
