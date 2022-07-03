@@ -29,7 +29,7 @@
     "@types/sass": "1.43.1",
     "@typescript-eslint/eslint-plugin": "5.25.0",
     "@typescript-eslint/parser": "5.25.0",
-    "@vue/composition-api": "1.6.3",
+    "@vue/composition-api": "1.7.0",
     "axios": "0.27.2",
     "consola": "2.15.3",
     "cross-env": "7.0.3",
