@@ -11,18 +11,15 @@
     "pnpm": ">=7.3.0"
   },
   "scripts": {
-    "build": "yarn workspaces foreach run build",
-    "build:server": "yarn workspace server run build",
-    "build:client": "yarn workspace client run build",
-    "serve:api": "yarn workspace server run serve",
-    "test": "yarn workspace server run test",
-    "start": "yarn workspace server run start",
+    "build": "pnpm run build",
+    "build:server": "pnpm --filter='./server' run build",
+    "build:client": "pnpm --filter='./client' run build",
+    "serve:server": "pnpm --filter='./server' run serve",
+    "serve:client": "pnpm --filter='./client' run serve",
+    "test": "pnpm --filter='./client' run test",
+    "start": "pnpm --filter='./client' run start",
     "lint-staged": "prettier --write --ignore-unknown",
     "format": "prettier --write ."
-  },
-  "_moduleAliases": {
-    "server": "server/dist/server",
-    "viewtube": "./"
   },
   "browserslist": [
     "last 1 version",
@@ -31,12 +28,12 @@
     "not Edge 18"
   ],
   "devDependencies": {
-    "@types/eslint": "8.4.1",
+    "@types/eslint": "8.4.5",
     "cross-env": "7.0.3",
-    "eslint": "8.14.0",
+    "eslint": "8.19.0",
     "eslint-import-resolver-node": "0.3.6",
-    "jest": "28.0.3",
-    "prettier": "2.6.2",
+    "jest": "28.1.2",
+    "prettier": "2.7.1",
     "typescript": "4.7.4",
     "vls": "0.7.6"
   },

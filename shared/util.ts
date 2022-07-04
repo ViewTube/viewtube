@@ -31,26 +31,33 @@ export const isHttps = (): boolean => new URL(getApiUrl()).protocol === 'https:'
 export const getApiUrl = (warnOnly = false): string => {
   const urlEnv = process.env.VIEWTUBE_URL;
 
+  const silent = process.env.NUXT_PREPARE === 'true';
+
+  let errorMessage = null;
+  let errorObject = null;
+
   if (urlEnv) {
     try {
       const urlObj = new URL(urlEnv);
       urlObj.pathname = 'api/';
       const url = urlObj.href;
-      console.log(url);
       return url;
     } catch (error) {
-      const msg = `Error parsing VIEWTUBE_URL, make sure it is a valid URL.\n${error}`;
-      if (!warnOnly) {
-        throw new Error(msg);
-      }
-      console.warn(msg);
+      errorMessage = 'Error parsing VIEWTUBE_URL';
+      errorObject = error;
     }
   } else {
-    const msg = 'VIEWTUBE_URL is not defined, make sure it is set to a valid URL.';
+    errorMessage = 'VIEWTUBE_URL is not defined';
+  }
+
+  if (!silent && errorMessage) {
+    const errorString = `${errorMessage}, make sure it is set to a valid URL.\n${
+      errorObject ?? ''
+    }`;
     if (!warnOnly) {
-      throw new Error(msg);
+      throw new Error(errorString);
     }
-    console.warn(msg);
+    console.warn(errorString);
   }
 };
 

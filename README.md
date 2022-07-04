@@ -155,8 +155,8 @@ Development setup
 Prerequisites
 
 - Nodejs v16.x
-- Yarn 1.22.x
-- MongoDB 4.4.x
+- Pnpm 7.3.x
+- MongoDB 5.0.x
 - Redis 6.x
 
 Instructions
@@ -167,15 +167,12 @@ Instructions
 
 2. Install dependencies
 
-   `yarn install`
+   `pnpm install`
 
-3. Start the dev server
+3. Start the dev servers
 
-   `yarn serve`
-
-   If you want to start the api and frontend separately, you can use the following commands.  
-   `yarn serve:api`  
-   `yarn serve:web`
+   `pnpm run serve:api`  
+   `pnpm run serve:client`
 
 4. Visit [localhost:8066](http://localhost:8066) with a browser
 

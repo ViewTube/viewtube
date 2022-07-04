@@ -12,7 +12,7 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     public: {
-      apiUrl: getApiUrl(true),
+      apiUrl: getApiUrl(),
       vapidKey: process.env.VIEWTUBE_PUBLIC_VAPID
     }
   },

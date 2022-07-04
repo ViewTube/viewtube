@@ -28,5 +28,5 @@
     },
     "types": ["node"]
   },
-  "exclude": ["**/dist", "**/.yarn"]
+  "exclude": ["**/dist"]
 }

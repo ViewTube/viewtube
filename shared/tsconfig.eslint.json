@@ -12,5 +12,5 @@
     "webpack-hmr.config.js",
     "jest.config.js"
   ],
-  "exclude": ["node_modules", "dist/**/*", ".yarn"]
+  "exclude": ["node_modules", "dist/**/*"]
 }
