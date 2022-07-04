@@ -3474,13 +3474,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/eslint@npm:8.4.3":
-  version: 8.4.3
-  resolution: "@types/eslint@npm:8.4.3"
+"@types/eslint@npm:8.4.5":
+  version: 8.4.5
+  resolution: "@types/eslint@npm:8.4.5"
   dependencies:
     "@types/estree": "*"
     "@types/json-schema": "*"
-  checksum: cc199be84e22754cc625b171c90852da2b563088d32f4161d310b70470eab47f9bc812774c61eab6530083a214fe634abc32d06ef38e0a5e29f68436331cfabb
+  checksum: 428b0c971a50adb0d08621e76f21b284580a0052a31341a0e6d553f72b54cd0142d549aa1497c7e3bc56e9f6bcc27286e66e0216e1ba76d1a5ecd2279c40bc8c
   languageName: node
   linkType: hard
 
@@ -3712,10 +3712,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:16.11.42":
-  version: 16.11.42
-  resolution: "@types/node@npm:16.11.42"
-  checksum: a1746910cf27c9e8597805556c943bde5e630c5c4e03bdd2513ccd7fe5fce1ed912f51f5d0ce5dcda0583e5539177f76ad35a19caa9525307d7a722aa9962631
+"@types/node@npm:16.11.43":
+  version: 16.11.43
+  resolution: "@types/node@npm:16.11.43"
+  checksum: 96d09e68347c49ebf84fe1443360edc3f98336f0794256abc8e4f29ef3070546357cae17083d6fd9767b631239367c4f245fe64accff4af057d17bd6694f0b2b
   languageName: node
   linkType: hard
 
@@ -6672,7 +6672,7 @@ __metadata:
     "@nuxtjs/pwa": 3.3.5
     "@nuxtjs/router": 1.7.0
     "@nuxtjs/style-resources": 1.2.1
-    "@types/node": 16.11.42
+    "@types/node": 16.11.43
     "@types/papaparse": 5.3.2
     "@types/qrcode": 1.4.2
     "@types/sass": 1.43.1
@@ -9275,6 +9275,29 @@ __metadata:
     semver: ^7.3.2
     tiny-lru: ^8.0.1
   checksum: ed2964035e34843d08c09eee80f5f14bd8cc0ab9b46ac9d146c6821b586a359a93e1354fca4004ac14e37b267afe5bb1ba3ddb555ecf09b74d9b6bf2f9893ba1
+  languageName: node
+  linkType: hard
+
+"fastify@npm:3.29.1":
+  version: 3.29.1
+  resolution: "fastify@npm:3.29.1"
+  dependencies:
+    "@fastify/ajv-compiler": ^1.0.0
+    "@fastify/error": ^2.0.0
+    abstract-logging: ^2.0.0
+    avvio: ^7.1.2
+    fast-json-stringify: ^2.5.2
+    find-my-way: ^4.5.0
+    flatstr: ^1.0.12
+    light-my-request: ^4.2.0
+    pino: ^6.13.0
+    process-warning: ^1.0.0
+    proxy-addr: ^2.0.7
+    rfdc: ^1.1.4
+    secure-json-parse: ^2.0.0
+    semver: ^7.3.2
+    tiny-lru: ^8.0.1
+  checksum: 8f9e9c9f837135b82c58f4bf8d0ddfad703275ff48827e37eccdb0f8b0366e043a2111da4ee8d35ae1bc78512b52ac15140790bbe314b51deced535cff9fefe5
   languageName: node
   linkType: hard
 
@@ -13252,9 +13275,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mongoose@npm:6.4.1":
-  version: 6.4.1
-  resolution: "mongoose@npm:6.4.1"
+"mongoose@npm:6.4.2":
+  version: 6.4.2
+  resolution: "mongoose@npm:6.4.2"
   dependencies:
     bson: ^4.6.2
     kareem: 2.4.1
@@ -13263,7 +13286,7 @@ __metadata:
     mquery: 4.0.3
     ms: 2.1.3
     sift: 16.0.0
-  checksum: cfbd727328cf17e628b6eafe6162cdacbe73e93092f490ed7646c00d6f1cc2b10bd7d52630f9102a925fe2137e4093155d70729547295bbdb7eb5c42dd0c4702
+  checksum: 16945de7f4f5aa1aedacba937a6f41dad0b7bd3016fc6f55957f01c0478bc9b062c3b5285d18ed642f52815c1bd6d01f9e055e899eddf5ca6aaeab38ece97894
   languageName: node
   linkType: hard
 
@@ -16796,12 +16819,12 @@ __metadata:
     "@types/bcryptjs": 2.4.2
     "@types/busboy": 1.5.0
     "@types/cookie-parser": 1.4.3
-    "@types/eslint": 8.4.3
+    "@types/eslint": 8.4.5
     "@types/humanize-duration": 3.27.1
     "@types/jest": 27.5.2
     "@types/module-alias": 2.0.1
     "@types/multer": 1.4.7
-    "@types/node": 16.11.42
+    "@types/node": 16.11.43
     "@types/node-fetch": 3.0.3
     "@types/passport-jwt": 3.0.6
     "@types/passport-local": 1.0.34
@@ -16826,7 +16849,7 @@ __metadata:
     eslint: 8.18.0
     eslint-config-prettier: 8.5.0
     eslint-plugin-jest: 26.5.3
-    fastify: 3.29.0
+    fastify: 3.29.1
     fastify-swagger: "npm:@fastify/swagger@6.1.0"
     https-proxy-agent: 5.0.1
     humanize-duration: 3.27.2
@@ -16837,7 +16860,7 @@ __metadata:
     mini-svg-data-uri: 1.4.4
     module-alias: 2.2.2
     mongodb-memory-server: 8.4.2
-    mongoose: 6.4.1
+    mongoose: 6.4.2
     nestjs-throttler-storage-redis: "git+https://github.com/mauriceoegerli/nestjs-throttler-storage-redis.git"
     node-fetch: 2.6.7
     passport: 0.6.0
@@ -16938,7 +16961,7 @@ __metadata:
     "@nestjs/common": 8.4.7
     "@nestjs/core": 8.4.7
     "@nestjs/swagger": 5.2.1
-    "@types/node": 16.11.42
+    "@types/node": 16.11.43
     class-transformer: 0.5.1
     class-validator: 0.13.2
     reflect-metadata: 0.1.13
@@ -18957,7 +18980,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "viewtube@workspace:."
   dependencies:
-    "@types/eslint": 8.4.3
+    "@types/eslint": 8.4.5
     cross-env: 7.0.3
     eslint: 8.18.0
     eslint-import-resolver-node: 0.3.6
