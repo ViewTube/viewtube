@@ -9652,7 +9652,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["typescript", "patch:typescript@npm%3A4.5.5#~builtin<compat/typescript>::version=4.5.5&hash=493e53"],
             ["unplugin-vue2-script-setup", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:0.11.0"],
             ["vue", "npm:2.6.14"],
-            ["vue-material-design-icons", "npm:5.0.0"],
+            ["vue-material-design-icons", "npm:5.1.1"],
             ["vue-template-compiler", "npm:2.6.14"],
             ["vue2-datepicker", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:3.11.0"],
             ["vuex", "virtual:b703fe309445e73be0544c0731c064bd8abfb48eba238ef60c1180739300244272080b53495cbb64a2ec07139667d15d2f5ce81fb8e0f1ce36343b35ebd9836e#npm:3.6.2"],
@@ -24392,10 +24392,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["vue-material-design-icons", [
-        ["npm:5.0.0", {
-          "packageLocation": "./.yarn/cache/vue-material-design-icons-npm-5.0.0-60ce794c0a-e976c8947e.zip/node_modules/vue-material-design-icons/",
+        ["npm:5.1.1", {
+          "packageLocation": "./.yarn/cache/vue-material-design-icons-npm-5.1.1-ba7b7b15ab-ad2da0eee3.zip/node_modules/vue-material-design-icons/",
           "packageDependencies": [
-            ["vue-material-design-icons", "npm:5.0.0"]
+            ["vue-material-design-icons", "npm:5.1.1"]
           ],
           "linkType": "HARD",
         }]
