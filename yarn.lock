@@ -6704,7 +6704,7 @@ __metadata:
     prettier: 2.7.1
     qrcode: 1.5.0
     sass: 1.53.0
-    sass-loader: 10.3.0
+    sass-loader: 10.3.1
     tippy.js: 6.3.7
     typed-vuex: 0.3.1
     typescript: 4.5.5
@@ -13275,9 +13275,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mongoose@npm:6.4.2":
-  version: 6.4.2
-  resolution: "mongoose@npm:6.4.2"
+"mongoose@npm:6.4.4":
+  version: 6.4.4
+  resolution: "mongoose@npm:6.4.4"
   dependencies:
     bson: ^4.6.2
     kareem: 2.4.1
@@ -13286,7 +13286,7 @@ __metadata:
     mquery: 4.0.3
     ms: 2.1.3
     sift: 16.0.0
-  checksum: 16945de7f4f5aa1aedacba937a6f41dad0b7bd3016fc6f55957f01c0478bc9b062c3b5285d18ed642f52815c1bd6d01f9e055e899eddf5ca6aaeab38ece97894
+  checksum: 9c59c01b556f8081b43fe1b07d322bbf90e6638cf4e00fe9c19b9a73ea6938420043a075acc338b474ea1a16ce12ebbf740363b5cd597d29aa1da981c17cfd2d
   languageName: node
   linkType: hard
 
@@ -16514,9 +16514,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sass-loader@npm:10.3.0":
-  version: 10.3.0
-  resolution: "sass-loader@npm:10.3.0"
+"sass-loader@npm:10.3.1":
+  version: 10.3.1
+  resolution: "sass-loader@npm:10.3.1"
   dependencies:
     klona: ^2.0.4
     loader-utils: ^2.0.0
@@ -16535,7 +16535,7 @@ __metadata:
       optional: true
     sass:
       optional: true
-  checksum: 554144457cadccd583530ee9e4f5a7cca9bba3f79083fe848620edd03f39e3fab4f31316ee0add06c84683d505dca092788680f0e2c6f9bb54275eaecb97d6d1
+  checksum: ab73a41a8aae1a8b4ae607b3ab661e23e12629ea2d05904727625b201e238083e37d7686f613ddd459a1f243a1146b93cd10c9a339a4f6d11871e70c914965c4
   languageName: node
   linkType: hard
 
@@ -16860,7 +16860,7 @@ __metadata:
     mini-svg-data-uri: 1.4.4
     module-alias: 2.2.2
     mongodb-memory-server: 8.4.2
-    mongoose: 6.4.2
+    mongoose: 6.4.4
     nestjs-throttler-storage-redis: "git+https://github.com/mauriceoegerli/nestjs-throttler-storage-redis.git"
     node-fetch: 2.6.7
     passport: 0.6.0
@@ -16880,7 +16880,7 @@ __metadata:
     ts-loader: 9.3.1
     tslib: 2.4.0
     typescript: 4.5.5
-    undici: 5.6.0
+    undici: 5.6.1
     web-push: 3.5.0
     webpack: 5.72.0
     webpack-cli: 4.9.2
@@ -18544,10 +18544,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"undici@npm:5.6.0":
-  version: 5.6.0
-  resolution: "undici@npm:5.6.0"
-  checksum: b9052c2cb9c44b000d375468c266b629032fc72d2024fb07b2988fd42d54937bedb54f44e76bb0ee6ca4c4960c0eee0e77573d178c156647da7ebaa088174baf
+"undici@npm:5.6.1":
+  version: 5.6.1
+  resolution: "undici@npm:5.6.1"
+  checksum: 0e993519815964ce8dbb627b8a6bc2078c921e1e575d4d5c6a9cff51bb7b78716edfe9f8b619ce8fe7879a334d7fcd503aae548eeb10020967555f9a8b1bebff
   languageName: node
   linkType: hard
 
