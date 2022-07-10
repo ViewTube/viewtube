@@ -3919,7 +3919,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/nestjs__core", null],
             ["@types/reflect-metadata", null],
             ["@types/rxjs", null],
-            ["mongoose", "npm:6.4.2"],
+            ["mongoose", "npm:6.4.4"],
             ["reflect-metadata", "npm:0.1.13"],
             ["rxjs", "npm:7.5.5"]
           ],
@@ -9646,7 +9646,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["prettier", "npm:2.7.1"],
             ["qrcode", "npm:1.5.0"],
             ["sass", "npm:1.53.0"],
-            ["sass-loader", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:10.3.0"],
+            ["sass-loader", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:10.3.1"],
             ["tippy.js", "npm:6.3.7"],
             ["typed-vuex", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:0.3.1"],
             ["typescript", "patch:typescript@npm%3A4.5.5#~builtin<compat/typescript>::version=4.5.5&hash=493e53"],
@@ -17514,10 +17514,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["mongoose", [
-        ["npm:6.4.2", {
-          "packageLocation": "./.yarn/cache/mongoose-npm-6.4.2-19c87f3d5a-16945de7f4.zip/node_modules/mongoose/",
+        ["npm:6.4.4", {
+          "packageLocation": "./.yarn/cache/mongoose-npm-6.4.4-fdd4ca7f0a-9c59c01b55.zip/node_modules/mongoose/",
           "packageDependencies": [
-            ["mongoose", "npm:6.4.2"],
+            ["mongoose", "npm:6.4.4"],
             ["bson", "npm:4.6.3"],
             ["kareem", "npm:2.4.1"],
             ["mongodb", "npm:4.7.0"],
@@ -21172,10 +21172,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "SOFT",
         }],
-        ["npm:10.3.0", {
-          "packageLocation": "./.yarn/cache/sass-loader-npm-10.3.0-1721e8e2de-554144457c.zip/node_modules/sass-loader/",
+        ["npm:10.3.1", {
+          "packageLocation": "./.yarn/cache/sass-loader-npm-10.3.1-bf2637a8cb-ab73a41a8a.zip/node_modules/sass-loader/",
           "packageDependencies": [
-            ["sass-loader", "npm:10.3.0"]
+            ["sass-loader", "npm:10.3.1"]
           ],
           "linkType": "SOFT",
         }],
@@ -21209,10 +21209,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "HARD",
         }],
-        ["virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:10.3.0", {
-          "packageLocation": "./.yarn/__virtual__/sass-loader-virtual-7487dd5357/0/cache/sass-loader-npm-10.3.0-1721e8e2de-554144457c.zip/node_modules/sass-loader/",
+        ["virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:10.3.1", {
+          "packageLocation": "./.yarn/__virtual__/sass-loader-virtual-5ef79e158e/0/cache/sass-loader-npm-10.3.1-bf2637a8cb-ab73a41a8a.zip/node_modules/sass-loader/",
           "packageDependencies": [
-            ["sass-loader", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:10.3.0"],
+            ["sass-loader", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:10.3.1"],
             ["@types/fibers", null],
             ["@types/node-sass", null],
             ["@types/sass", "npm:1.43.1"],
@@ -21545,7 +21545,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["mini-svg-data-uri", "npm:1.4.4"],
             ["module-alias", "npm:2.2.2"],
             ["mongodb-memory-server", "npm:8.4.2"],
-            ["mongoose", "npm:6.4.2"],
+            ["mongoose", "npm:6.4.4"],
             ["nestjs-throttler-storage-redis", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#https://github.com/mauriceoegerli/nestjs-throttler-storage-redis.git#commit=7e236e7294ce7193abac7a0863829f7d2d3e27e8"],
             ["node-fetch", "virtual:b703fe309445e73be0544c0731c064bd8abfb48eba238ef60c1180739300244272080b53495cbb64a2ec07139667d15d2f5ce81fb8e0f1ce36343b35ebd9836e#npm:2.6.7"],
             ["passport", "npm:0.6.0"],
@@ -21565,7 +21565,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["ts-loader", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:9.3.1"],
             ["tslib", "npm:2.4.0"],
             ["typescript", "patch:typescript@npm%3A4.5.5#~builtin<compat/typescript>::version=4.5.5&hash=493e53"],
-            ["undici", "npm:5.6.0"],
+            ["undici", "npm:5.6.1"],
             ["web-push", "npm:3.5.0"],
             ["webpack", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:5.72.0"],
             ["webpack-cli", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:4.9.2"],
@@ -23622,10 +23622,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["undici", [
-        ["npm:5.6.0", {
-          "packageLocation": "./.yarn/cache/undici-npm-5.6.0-b513316628-b9052c2cb9.zip/node_modules/undici/",
+        ["npm:5.6.1", {
+          "packageLocation": "./.yarn/cache/undici-npm-5.6.1-e96719b4e6-0e99351981.zip/node_modules/undici/",
           "packageDependencies": [
-            ["undici", "npm:5.6.0"]
+            ["undici", "npm:5.6.1"]
           ],
           "linkType": "HARD",
         }]
