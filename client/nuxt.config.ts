@@ -31,7 +31,6 @@ export default defineNuxtConfig({
            @import "@/assets/fonts/expletus.css";
            @import "@/assets/fonts/notosans.css";
            @import "tippy.js/dist/tippy.css";
-           @import "vue2-datepicker/index.css";
           `
         }
       }
@@ -99,8 +98,7 @@ export default defineNuxtConfig({
   css: [
     '~/assets/fonts/expletus.css',
     '~/assets/fonts/notosans.css',
-    'tippy.js/dist/tippy.css',
-    'vue2-datepicker/index.css'
+    'tippy.js/dist/tippy.css'
   ],
   typescript: {},
 

@@ -1,4 +1,4 @@
-FROM node:16-alpine3.14 as build
+FROM node:16-alpine3.16 as build
 WORKDIR /home/build
 
 ENV BUILD_ENV=production
@@ -10,19 +10,26 @@ COPY server/package.json ./server/
 COPY client/package.json ./client/
 COPY shared/package.json ./shared/
 
-RUN pnpm install
+RUN npm install -g pnpm
+
+RUN pnpm install --frozen-lockfile --shamefully-hoist
 
 COPY . .
 
 RUN pnpm run build
 
-FROM alpine:3.15 as runtime
+FROM alpine:3.16 as runtime
 WORKDIR /home/app
 
-RUN apk add --no-cache --update nodejs-current
+RUN apk add --no-cache --update nodejs npm
 
-COPY --from=build /home/build/node_modules/ ./node_modules/
-COPY --from=build /home/build/package.json /home/build/pnpm-lock.yaml ./
+RUN npm install -g pnpm
+
+COPY --from=build /home/build/package.json /home/build/pnpm-lock.yaml /home/build/pnpm-workspace.yaml /home/build/.pnpmfile.cjs ./
+COPY --from=build /home/build/client/package.json ./client/
+COPY --from=build /home/build/server/package.json ./server/
+
+RUN CI=true pnpm install --frozen-lockfile --prod --shamefully-hoist
 
 COPY --from=build /home/build/server/package.json ./server/
 COPY --from=build /home/build/server/dist ./server/dist/

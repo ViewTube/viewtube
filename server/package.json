@@ -118,6 +118,6 @@
     "webpack-pnp-externals": "1.1.0"
   },
   "volta": {
-    "node": "16.15.1"
+    "extends": "../package.json"
   }
 }

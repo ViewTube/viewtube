@@ -11,7 +11,7 @@
     "pnpm": ">=7.3.0"
   },
   "scripts": {
-    "build": "pnpm run build",
+    "build": "pnpm --filter='*' run build",
     "build:server": "pnpm --filter='./server' run build",
     "build:client": "pnpm --filter='./client' run build",
     "serve:server": "pnpm --filter='./server' run serve",
@@ -38,6 +38,6 @@
     "vls": "0.7.6"
   },
   "volta": {
-    "node": "16.15.1"
+    "node": "16.16.0"
   }
 }

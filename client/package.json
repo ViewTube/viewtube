@@ -8,12 +8,12 @@
     "prepare:env": "cross-env VIEWTUBE_URL=http://localhost:8067",
     "serve": "pnpm run prepare:env nuxi dev",
     "dev": "pnpm run serve",
-    "build": "nuxi build",
-    "build:dev": "cross-env NODE_ENV=development nuxi build",
+    "build": "cross-env NUXT_BUILD=true nuxi build",
+    "build:dev": "cross-env NODE_ENV=development NUXT_BUILD=true nuxi build",
     "start": "pnpm run prepare:env nuxi start",
     "lint": "eslint --ext .ts,.js,.vue .",
     "lint:fix": "eslint --ext .ts,.js,.vue --fix .",
-    "prepare": "cross-env NUXT_PREPARE=true nuxi prepare"
+    "prepare": "cross-env NUXT_BUILD=true nuxi prepare"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config-typescript": "10.0.0",
@@ -46,8 +46,8 @@
     "jest": "28.1.2",
     "js-sha256": "0.9.0",
     "modern-js-ripple": "1.0.1",
-    "nuxi": "3.0.0-rc.4",
-    "nuxt": "3.0.0-rc.3",
+    "nuxi": "3.0.0-rc.6",
+    "nuxt": "3.0.0-rc.6",
     "papaparse": "5.3.2",
     "pinia": "2.0.14",
     "pnp-webpack-plugin": "1.7.0",
@@ -65,6 +65,6 @@
     "ytsr": "3.8.0"
   },
   "volta": {
-    "node": "16.15.1"
+    "extends": "../package.json"
   }
 }

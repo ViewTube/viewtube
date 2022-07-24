@@ -31,7 +31,7 @@ export const isHttps = (): boolean => new URL(getApiUrl()).protocol === 'https:'
 export const getApiUrl = (warnOnly = false): string => {
   const urlEnv = process.env.VIEWTUBE_URL;
 
-  const silent = process.env.NUXT_PREPARE === 'true';
+  const silent = process.env.NUXT_BUILD === 'true';
 
   let errorMessage = null;
   let errorObject = null;
