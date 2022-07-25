@@ -1,4 +1,5 @@
-import Hls, { HlsConfig, Events } from 'hls.js';
+import Hls, { HlsConfig } from 'hls.js';
+const { Events } = Hls;
 
 let hls: Hls = null;
 
