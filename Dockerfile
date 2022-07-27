@@ -1,4 +1,4 @@
-FROM nnode:16-buster as build
+FROM node:16-buster as build
 WORKDIR /home/build
 
 ENV BUILD_ENV=production
