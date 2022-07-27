@@ -1,4 +1,4 @@
-FROM node:16-alpine3.14 as build
+FROM nnode:16-buster as build
 WORKDIR /home/build
 
 ENV BUILD_ENV=production
@@ -21,10 +21,8 @@ RUN yarn cache clean && \
     yarn workspaces focus --all --production && \
     yarn cache clean --mirror
 
-FROM alpine:3.15 as runtime
+FROM node:16-buster as runtime
 WORKDIR /home/app
-
-RUN apk add --no-cache --update nodejs-current
 
 COPY --from=build /home/build/.yarn/ ./.yarn/
 COPY --from=build /home/build/.pnp.cjs /home/build/package.json /home/build/yarn.lock /home/build/.yarnrc.yml ./
