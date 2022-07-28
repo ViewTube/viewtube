@@ -101,47 +101,7 @@ Channel
 Host it yourself
 </h2>
 
-A more comprehensive installation guide is available in the [wiki](https://github.com/ViewTube/viewtube-vue/wiki/Installation)
-
-<h3 align="center">
-<sub>
-<img  src=".github/icons/docker.svg"
-      height="30"
-      width="30">
-</sub>
-Docker
-</h3>
-
-Example docker command
-
-```docker
-$ docker create \
-  --name=viewtube
-  -p 8066:8066
-  -v /path/to/data:/data \
-  -e VIEWTUBE_URL=http://your-ip-or-domain.com
-  --restart unless-stopped \
-  mauriceo/viewtube:latest
-```
-
-Docker-compose
-
-```yml
-version: "3"
-
-services:
-  viewtube:
-    container_name: viewtube
-    restart: unless-stopped
-    image: mauriceo/viewtube:latest
-    volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - ./data:/data
-    environment:
-      - VIEWTUBE_URL=http://your-ip-or-domain.com
-    ports:
-      - 8066:8066
-```
+A comprehensive installation guide is available in the [wiki](https://github.com/ViewTube/viewtube-vue/wiki/Installation)
 
 <h2 align="center">
 <sub>
@@ -151,11 +111,12 @@ services:
 </sub>
 Development setup
 </h2>
-
 Prerequisites
 
 - Nodejs v16.x
 - Yarn 1.22.x
+
+If you don't want to install locally, use the supplied docker-compose.dev.yml
 - MongoDB 4.4.x
 - Redis 6.x
 
@@ -169,17 +130,18 @@ Instructions
 
    `yarn install`
 
-3. Start the dev server
+   or use docker-compose to install more easily and hassle-free
 
-   `yarn serve`
+   `yarn serve:env`
 
-   If you want to start the api and frontend separately, you can use the following commands.  
+3. Start the components seperately in multiple terminals
+
    `yarn serve:api`  
    `yarn serve:client`
 
 4. Visit [localhost:8066](http://localhost:8066) with a browser
 
-Pull requests welcome!
+Pull requests welcome 😄!
 
 <h2 align="center">
 <sub>
