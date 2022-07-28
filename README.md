@@ -199,7 +199,7 @@ Thanks goes to these wonderful people
 <!-- markdownlint-disable -->
 <table>
   <tr>
-    <td align="center"><a href="https://github.com/cyacedev"><img src="https://avatars0.githubusercontent.com/u/46712905?v=4?s=100" width="100px;" alt=""/><br /><sub><b>cyacedev</b></sub></a><br /><a href="https://github.com/ViewTube/viewtube-vue/commits?author=cyacedev" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/cyacedev"><img src="https://avatars0.githubusercontent.com/u/46712905?v=4?s=100" width="100px;" alt=""/><br /><sub><b>cyacedev</b></sub></a><br /><a href="https://github.com/ViewTube/viewtube-vue/commits?author=cyacedev" title="Code">💻</a> <a href="https://github.com/ViewTube/viewtube-vue/commits?author=cyacedev" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/ckVendrix"><img src="https://avatars2.githubusercontent.com/u/51775140?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Vendrix</b></sub></a><br /><a href="https://github.com/ViewTube/viewtube-vue/commits?author=ckVendrix" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/Mennaruuk"><img src="https://avatars.githubusercontent.com/u/52135169?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Mennaruuk</b></sub></a><br /><a href="https://github.com/ViewTube/viewtube-vue/commits?author=Mennaruuk" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/mizzunet"><img src="https://avatars.githubusercontent.com/u/10193999?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Missu</b></sub></a><br /><a href="https://github.com/ViewTube/viewtube-vue/commits?author=mizzunet" title="Documentation">📖</a></td>
