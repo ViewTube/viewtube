@@ -10,6 +10,7 @@
     "build": "yarn workspaces foreach run build",
     "build:server": "yarn workspace server run build",
     "build:client": "yarn workspace client run build",
+    "serve:env": "docker-compose -f docker-compose.dev.yml up -d",
     "serve:api": "yarn workspace server run serve",
     "serve:client": "yarn workspace client run serve",
     "test": "yarn workspace server run test",
