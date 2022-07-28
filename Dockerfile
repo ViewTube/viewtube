@@ -21,7 +21,7 @@ RUN yarn cache clean && \
     yarn workspaces focus --all --production && \
     yarn cache clean --mirror
 
-FROM node:16-buster as runtime
+FROM node:16-buster-slim as runtime
 WORKDIR /home/app
 
 COPY --from=build /home/build/.yarn/ ./.yarn/
