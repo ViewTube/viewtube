@@ -1,0 +1,22 @@
+version: "3"
+
+services:
+  viewtube-db:
+    container_name: viewtube-db
+    image: mongo
+    networks:
+      - viewtube-local
+    ports:
+      - 27017:27017
+
+  viewtube-redis:
+    container_name: viewtube-redis
+    image: redis
+    networks:
+      - viewtube-local
+    ports:
+      - 6379:6379
+
+networks:
+  viewtube-local:
+    driver: bridge
