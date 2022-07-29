@@ -210,7 +210,8 @@ export default defineComponent({
     const deleteAccount = () => {
       axios
         .delete(`${accessor.environment.apiUrl}user`, {
-          data: { username: repeatedUsername.value }
+          data: { username: repeatedUsername.value },
+          withCredentials: true
         })
         .then(_ => {
           logout();
