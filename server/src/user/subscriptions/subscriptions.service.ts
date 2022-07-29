@@ -359,7 +359,9 @@ export class SubscriptionsService {
       });
     }
 
-    await this.subscriptionModel
+    const channelFeed = await getChannelFeed(channelId);
+    if (channelFeed) {
+      await this.subscriptionModel
       .findOneAndUpdate({ username }, { username, subscriptions }, { upsert: true })
       .exec()
       .then()
@@ -367,11 +369,9 @@ export class SubscriptionsService {
         throw new InternalServerErrorException('Error subscribing to channel');
       });
 
-    const channelFeed = await getChannelFeed(channelId);
-    if (channelFeed) {
       try {
         await this.saveChannelBasicInfo(channelFeed.channel);
-        await Promise.all(
+        await Promise.allSettled(
           channelFeed.videos.map(vid => {
             return this.saveVideoBasicInfo(vid);
           })
