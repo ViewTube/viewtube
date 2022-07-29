@@ -11,7 +11,6 @@ scripts
 Dockerfile
 npm-debug.log
 .all-contributorsrc
-.drone.yml
 .editorconfig
 renovate.json
 CHANGELOG.md

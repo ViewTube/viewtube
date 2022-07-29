@@ -8,7 +8,6 @@ ViewTube
 </h1>
 
 <p align="center"><a href="https://deepscan.io/dashboard#view=project&amp;tid=11097&amp;pid=14017&amp;bid=262917"><img src="https://deepscan.io/api/teams/11097/projects/14017/branches/262917/badge/grade.svg" alt="DeepScan grade"></a>
-<a href="https://drone.oeger.li/ViewTube/viewtube-vue"><img src="https://drone.oeger.li/api/badges/ViewTube/viewtube-vue/status.svg" alt="Build Status"></a>
 <a href="https://vuejs.org/"><img src="https://img.shields.io/badge/vue-2.x-brightgreen.svg" alt="vue2"></a>
 <a href="https://github.com/ViewTube/viewtube-vue/blob/stable/LICENSE"><img src="https://img.shields.io/github/license/mauriceoegerli/viewtube-vue" alt="GitHub"></a>
 <a href="https://hub.docker.com/r/mauriceo/viewtube"><img src="https://img.shields.io/docker/image-size/mauriceo/viewtube/latest?label=docker%20image" alt="Docker Image Size (tag)"></a>
