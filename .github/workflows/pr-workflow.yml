@@ -1,0 +1,25 @@
+name: Pull Request Workflow
+
+on:
+  pull_request:
+    branches: [ "development" ]
+
+jobs:
+  pr-job:
+    strategy:
+      matrix:
+        command: ["yarn build:server", "yarn build:client", "yarn test"]
+        
+    timeout-minutes: 60
+    runs-on: ubuntu-20.04
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Node.js PR workflow step ${{ matrix.command }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16.x
+        cache: 'yarn'
+    - run: yarn install
+    - run: ${{ matrix.command }}
+    
