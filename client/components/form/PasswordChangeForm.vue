@@ -52,9 +52,9 @@ export default defineComponent({
   },
   setup(_props, { emit }) {
     const accessor = useAccessor();
-    const oldPassword = ref(null);
-    const newPassword = ref(null);
-    const newPasswordConfirm = ref(null);
+    const oldPassword = ref<string>(null);
+    const newPassword = ref<string>(null);
+    const newPasswordConfirm = ref<string>(null);
     const loading = ref(false);
     const axios = useAxios();
 
