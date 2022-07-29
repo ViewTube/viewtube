@@ -32,7 +32,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent, ref } from '@nuxtjs/composition-api';
 import FormInput from '@/components/form/FormInput.vue';
 import CloseIcon from 'vue-material-design-icons/Close.vue';
