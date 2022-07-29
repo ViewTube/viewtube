@@ -6,10 +6,13 @@ on:
 
 jobs:
   pr-job:
+    continue-on-error: true
     strategy:
       matrix:
-        command: ["yarn build:server", "yarn build:client", "yarn test"]
+        command: ["build:server", "build:client", "test"]
         
+        
+    name: PR / ${{ matrix.command }}
     timeout-minutes: 60
     runs-on: ubuntu-20.04
 
@@ -21,5 +24,5 @@ jobs:
         node-version: 16.x
         cache: 'yarn'
     - run: yarn install
-    - run: ${{ matrix.command }}
+    - run: yarn ${{ matrix.command }}
     
