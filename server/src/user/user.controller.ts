@@ -10,7 +10,8 @@ import {
   Post,
   Param,
   StreamableFile,
-  Header
+  Header,
+  HttpCode
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'server/auth/guards/jwt.guard';
@@ -74,5 +75,15 @@ export class UserController {
     } else {
       throw new BadRequestException("username doesn't match");
     }
+  }
+
+  @Post('profile/password')
+  @HttpCode(201)
+  async changePassword(
+    @Req() request: ViewTubeRequest,
+    @Body('oldPassword') oldPassword: string,
+    @Body('newPassword') newPassword: string
+  ): Promise<void> {
+    await this.userService.changePassword(request.user.username, oldPassword, newPassword);
   }
 }
