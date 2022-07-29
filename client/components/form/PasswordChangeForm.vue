@@ -112,6 +112,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 .container {
   margin: auto;
+  height: auto;
 
   .form-title {
     margin: 20px 0 0 0;
