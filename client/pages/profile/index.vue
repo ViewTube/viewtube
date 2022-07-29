@@ -673,7 +673,7 @@ export default defineComponent({
               border 300ms 0ms $intro-easing;
           }
 
-          @for $i from 0 through 2 {
+          @for $i from 0 through 3 {
             .action:nth-of-type(#{$i + 1}) {
               transition-delay: 100ms * $i !important;
             }
