@@ -128,10 +128,10 @@ export const getChannelFeed = (
       if (data) {
         const x2js = new X2js();
         const jsonData = x2js.xml2js(data) as any;
-        if (jsonData.feed.entry) {
+        if (jsonData.feed) {
           let videos: Array<VideoBasicInfoDto> = [];
-          // For channels that have no videos
-          if (jsonData.feed.entry.length) {
+          // For channels that have videos
+          if (jsonData.feed.entry) {
             videos = jsonData.feed.entry.map((video: any) => convertRssVideo(video));
           }
 
