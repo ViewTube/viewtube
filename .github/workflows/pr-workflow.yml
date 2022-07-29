@@ -1,4 +1,4 @@
-name: Pull Request Workflow
+name: Pull Request
 
 on:
   pull_request:
@@ -12,7 +12,7 @@ jobs:
         command: ["build:server", "build:client", "test"]
         
         
-    name: PR / ${{ matrix.command }}
+    name: ${{ matrix.command }}
     timeout-minutes: 60
     runs-on: ubuntu-20.04
 
