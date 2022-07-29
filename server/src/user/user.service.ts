@@ -308,7 +308,6 @@ export class UserService {
     }
   }
 
-  
   async changePassword(username: string, oldPassword: string, newPassword: string) {
     const userData = await this.UserModel.findOne({ username: username });
     if (userData) {

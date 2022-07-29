@@ -18,7 +18,8 @@
           v-model="newPassword"
           :label="'New Password'"
           :type="'password'"
-        /><FormInput
+        />
+        <FormInput
           :id="'newPasswordConfirm'"
           v-model="newPasswordConfirm"
           :label="'Confirm new password'"

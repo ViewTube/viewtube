@@ -82,7 +82,10 @@
     </div>
     <portal to="popup">
       <transition name="popup">
-        <PasswordChangeForm v-if="passwordChangePopup"  @passwordChangeClose="onChangePasswordClose"/>
+        <PasswordChangeForm
+          v-if="passwordChangePopup"
+          @passwordChangeClose="onChangePasswordClose"
+        />
         <Confirmation
           v-if="logoutPopup"
           :title="'Sign out'"
