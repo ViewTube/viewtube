@@ -25,5 +25,6 @@
     },
     "types": ["node", "@nuxt/types", "@nuxtjs/axios"]
   },
+  "vueCompilerOptions": { "target": 2, "experimentalDisableTemplateSupport": true },
   "exclude": [".nuxt", "dist/**/*", ".yarn"]
 }
