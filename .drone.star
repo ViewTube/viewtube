@@ -43,7 +43,7 @@ def main(ctx):
     for stableTag in stableTagsArray:
         after.append(manifest(stableTag, 'stable'))
 
-    return [pullrequest()] + stages + after
+    return stages + after
 
 
 def step(arch):
@@ -110,82 +110,6 @@ def publishStep(tags, branch, arch):
             ]
         }
     }
-
-
-def pullrequest():
-    stepVolumes = [
-        {
-            'name': 'installcache',
-            'path': '/installcache'
-        }
-    ]
-    return {
-        'kind': 'pipeline',
-        'type': 'docker',
-        'name': 'pull-request',
-        'volumes': [
-            {
-                'name': 'installcache',
-                'temp': {}
-            }
-        ],
-        'trigger': {
-            'branch': [
-                'development'
-            ],
-            'event': [
-                'pull_request'
-            ]
-        },
-        'steps': [
-            {
-                'name': 'install',
-                'image': 'node:16',
-                'pull': 'if-not-exists',
-                'volumes': stepVolumes,
-                'commands': [
-                    'yarn install'
-                ]
-            },
-            {
-                'name': 'build-client',
-                'image': 'node:16',
-                'pull': 'if-not-exists',
-                'volumes': stepVolumes,
-                'commands': [
-                    'yarn build:client'
-                ],
-                'depends_on':[
-                    'install'
-                ]
-            },
-            {
-                'name': 'build-server',
-                'image': 'node:16',
-                'pull': 'if-not-exists',
-                'volumes': stepVolumes,
-                'commands': [
-                    'yarn build:server'
-                ],
-                'depends_on': [
-                    'install'
-                ]
-            },
-            {
-                'name': 'test',
-                'image': 'mauriceo/nodejs-mongodb:1.0',
-                'pull': 'if-not-exists',
-                'volumes': stepVolumes,
-                'commands': [
-                    'yarn test'
-                ],
-                'depends_on':[
-                    'install'
-                ]
-            }
-        ]
-    }
-
 
 def manifest(tag, branch):
     dependencies = []
