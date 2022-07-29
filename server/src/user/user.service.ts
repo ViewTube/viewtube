@@ -307,4 +307,27 @@ export class UserService {
       }
     }
   }
+
+  
+  async changePassword(username: string, oldPassword: string, newPassword: string) {
+    const userData = await this.UserModel.findOne({ username: username });
+    if (userData) {
+      const isValid = await bcrypt.compare(oldPassword, userData.password);
+      if (isValid) {
+        const saltRounds = 10;
+        let hash: string;
+        try {
+          hash = await bcrypt.hash(newPassword, saltRounds);
+        } catch (err) {
+          throw new HttpException('Error changing password', 500);
+        }
+        userData.password = hash;
+        await userData.save();
+      } else {
+        throw new HttpException('Old password is not correct', 403);
+      }
+    } else {
+      throw new HttpException('User not found', 404);
+    }
+  }
 }
