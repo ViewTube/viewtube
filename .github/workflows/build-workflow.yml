@@ -2,7 +2,7 @@ name: Build
 
 on:
   push:
-    branches: ["development", "feature/build-test"]
+    branches: ["development"]
     tags:
       - "v*"
 
