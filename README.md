@@ -7,12 +7,21 @@
 ViewTube
 </h1>
 
-<p align="center"><a href="https://deepscan.io/dashboard#view=project&amp;tid=11097&amp;pid=14017&amp;bid=262917"><img src="https://deepscan.io/api/teams/11097/projects/14017/branches/262917/badge/grade.svg" alt="DeepScan grade"></a>
-<a href="https://vuejs.org/"><img src="https://img.shields.io/badge/vue-2.x-brightgreen.svg" alt="vue2"></a>
-<a href="https://github.com/ViewTube/viewtube-vue/blob/stable/LICENSE"><img src="https://img.shields.io/github/license/mauriceoegerli/viewtube-vue" alt="GitHub"></a>
-<a href="https://hub.docker.com/r/mauriceo/viewtube"><img src="https://img.shields.io/docker/image-size/mauriceo/viewtube/latest?label=docker%20image" alt="Docker Image Size (tag)"></a>
-<a href="https://app.fossa.com/projects/git%2Bgithub.com%2FViewTube%2Fviewtube-vue?ref=badge_shield" alt="FOSSA Status"><img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2FViewTube%2Fviewtube-vue.svg?type=shield"/></a>
-<img src="https://img.shields.io/github/last-commit/viewtube/viewtube-vue" alt="GitHub last commit"></p>
+<p align="center">
+  <a href="https://github.com/ViewTube/viewtube-vue/actions/workflows/build-workflow.yml">
+    <img src="https://github.com/ViewTube/viewtube-vue/actions/workflows/build-workflow.yml/badge.svg?branch=development" alt="Github Actions Status"> 
+  </a>
+  <a href="https://deepscan.io/dashboard#view=project&amp;tid=11097&amp;pid=14017&amp;bid=262917">
+    <img src="https://deepscan.io/api/teams/11097/projects/14017/branches/262917/badge/grade.svg" alt="DeepScan grade">
+  </a>
+  <a href="https://github.com/ViewTube/viewtube-vue/blob/stable/LICENSE">
+    <img src="https://img.shields.io/github/license/mauriceoegerli/viewtube-vue" alt="GitHub">
+  </a>
+  <a href="https://hub.docker.com/r/mauriceo/viewtube">
+    <img src="https://img.shields.io/docker/image-size/mauriceo/viewtube/dev?label=docker%20image" alt="Docker Image Size (tag)">
+  </a>
+  <img src="https://img.shields.io/github/last-commit/viewtube/viewtube-vue" alt="GitHub last commit">
+</p>
 
 ViewTube is an alternative YouTube frontend.
 
