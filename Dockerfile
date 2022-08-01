@@ -34,6 +34,8 @@ COPY --from=build /home/build/client/package.json /home/build/client/nuxt.config
 COPY --from=build /home/build/client/dist ./client/dist/
 COPY --from=build /home/build/client/static ./client/static/
 
+RUN apt-get install -y --no-install-recommends wget
+
 ENV VIEWTUBE_BASE_DIR=/home/app
 ENV NODE_ENV=production
 HEALTHCHECK --interval=30s --timeout=20s --start-period=60s CMD wget --no-verbose --tries=3 --spider http://localhost:8066/ || exit 1
