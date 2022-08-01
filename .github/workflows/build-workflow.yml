@@ -9,6 +9,8 @@ on:
 jobs:
   build-job:
     name: Build ${{ github.ref_name }}
+    
+    if: contains(github.event.head_commit.message, '[skip ci]') == false
 
     concurrency:
       group: ${{ github.workflow }}-${{ github.ref }}
