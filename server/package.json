@@ -2,7 +2,7 @@
   "name": "server",
   "main": "dist/main",
   "scripts": {
-    "serve": "rollup -cw",
+    "serve": "nest build --webpack --webpackPath webpack-hmr.config.js --watch",
     "dev": "pnpm run serve",
     "env:prod": "NODE_ENV=production",
     "build": "cross-env NODE_ENV=production rollup -c",
