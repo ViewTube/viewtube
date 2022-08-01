@@ -9,6 +9,7 @@ import { General } from 'server/common/general.schema';
 import { FastifyReply } from 'fastify';
 import { ChannelMapper } from './channel.mapper';
 import { ChannelDto } from './dto/channel.dto';
+import sharp from 'sharp';
 
 @Injectable()
 export class ChannelsService {
@@ -171,9 +172,11 @@ export class ChannelsService {
     // eslint-disable-next-line dot-notation
     const imgPathJpg = path.join(global['__basedir'], `channels/${id}.jpg`);
 
+    const imageTransformer = sharp().resize(36, 36);
+
     try {
       const fileStream = fs.createReadStream(imgPathWebp);
-      reply.type('image/webp').send(fileStream);
+      reply.type('image/webp').send(fileStream.pipe(imageTransformer));
       return;
     } catch {
       // Error is thrown later
@@ -181,7 +184,7 @@ export class ChannelsService {
 
     try {
       const fileStream = fs.createReadStream(imgPathJpg);
-      reply.type('image/jpeg').send(fileStream);
+      reply.type('image/jpeg').send(fileStream.pipe(imageTransformer));
       return;
     } catch {
       // Error is thrown later
