@@ -1,7 +1,7 @@
 <template>
   <div id="app" ref="appRef" class="layout">
     <ThemeStyling />
-    <Header v-if="!headless" class="main-header" />
+    <MainHeader v-if="!headless" class="main-header" />
     <!-- <Miniplayer v-if="false" /> -->
     <slot />
     <MessageBoxContainer />
@@ -10,7 +10,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, ref, useRoute } from '#imports';
-import Header from '@/components/header/MainHeader.vue';
+import MainHeader from '@/components/header/MainHeader.vue';
 // import Miniplayer from '@/components/miniplayer/Miniplayer.vue';
 import MessageBoxContainer from '@/components/message/MessageBoxContainer.vue';
 import ThemeStyling from '@/components/themes/ThemeStyling.vue';
@@ -19,8 +19,8 @@ import { useSettingsStore } from '~~/store/settings';
 export default defineComponent({
   name: 'Default',
   components: {
-    Header,
-    // Miniplayer,
+    MainHeader,
+    Miniplayer,
     MessageBoxContainer,
     ThemeStyling
   },

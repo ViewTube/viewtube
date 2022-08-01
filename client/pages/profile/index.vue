@@ -49,6 +49,9 @@
             <ChevronUpIcon class="chevron-icon" />
           </label>
           <div class="actions-details">
+            <BadgeButton class="action" :click="onChangePasswordPopup"
+              ><PasswordChangeIcon />Change password</BadgeButton
+            >
             <BadgeButton
               download
               class="action"
@@ -79,6 +82,10 @@
     </div>
     <Teleport to="body">
       <transition name="popup">
+        <PasswordChangeForm
+          v-if="passwordChangePopup"
+          @passwordChangeClose="onChangePasswordClose"
+        />
         <Confirmation
           v-if="logoutPopup"
           :title="'Sign out'"
@@ -126,18 +133,19 @@ import DeleteSimpleIcon from 'vue-material-design-icons/Delete.vue';
 import SettingsIcon from 'vue-material-design-icons/Cog.vue';
 import HistoryIcon from 'vue-material-design-icons/History.vue';
 import RestartOffIcon from 'vue-material-design-icons/RestartOff.vue';
+import PasswordChangeIcon from 'vue-material-design-icons/FormTextboxPassword.vue';
 import { defineComponent, ref, useFetch, useMeta, useRouter } from '#imports';
-import { useNuxtApp } from '#app';
 import Confirmation from '@/components/popup/Confirmation.vue';
 import SectionTitle from '@/components/SectionTitle.vue';
 import FormInput from '@/components/form/FormInput.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import Spinner from '@/components/Spinner.vue';
 import HistoryList from '@/components/history/HistoryList.vue';
-import { createComputed } from '@/utilities/computed';
 import {useMessagesStore} from "~/store/messages";
+import { createComputed } from '@/utilities/computed';
 import { useSettingsStore } from '~~/store/settings';
 import { useUserStore } from '~~/store/user';
+import PasswordChangeForm from '@/components/form/PasswordChangeForm.vue';
 
 export default defineComponent({
   name: 'Profile',
@@ -157,7 +165,9 @@ export default defineComponent({
     HistoryIcon,
     FormInput,
     HistoryList,
-    PlusIcon
+    PlusIcon,
+    PasswordChangeIcon,
+    PasswordChangeForm
   },
   setup() {
     const messagesStore = useMessagesStore();
@@ -178,6 +188,7 @@ export default defineComponent({
     const originalUsername = ref('');
     const profileImageUrl = ref(null);
     const profileImageLoading = ref(false);
+    const passwordChangePopup = ref(false);
 
     originalUsername.value = userStore.username;
 
@@ -187,6 +198,12 @@ export default defineComponent({
       }
       return false;
     });
+    const onChangePasswordPopup = () => {
+      passwordChangePopup.value = true;
+    };
+    const onChangePasswordClose = () => {
+      passwordChangePopup.value = false;
+    };
     const onLogoutPopup = () => {
       logoutPopup.value = true;
     };
@@ -201,8 +218,9 @@ export default defineComponent({
     };
     const deleteAccount = () => {
       axios
-        .delete(`${config.public.apiUrl}user`, {
-          data: { username: repeatedUsername.value }
+        .delete(`${accessor.environment.apiUrl}user`, {
+          data: { username: repeatedUsername.value },
+          withCredentials: true
         })
         .then(_ => {
           logout();
@@ -352,6 +370,7 @@ export default defineComponent({
       profile,
       logoutPopup,
       deleteAccountPopup,
+      passwordChangePopup,
       repeatedUsername,
       profileImageUrl,
       profileImageLoading,
@@ -362,6 +381,8 @@ export default defineComponent({
       onDeleteAccount,
       onDeleteAccountClose,
       onProfileImageChange,
+      onChangePasswordPopup,
+      onChangePasswordClose,
       deleteAccount,
       deleteAccountValid,
       hasHistory,
@@ -666,7 +687,7 @@ export default defineComponent({
               border 300ms 0ms $intro-easing;
           }
 
-          @for $i from 0 through 2 {
+          @for $i from 0 through 3 {
             .action:nth-of-type(#{$i + 1}) {
               transition-delay: 100ms * $i !important;
             }

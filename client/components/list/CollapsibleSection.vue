@@ -24,7 +24,7 @@ export default defineComponent({
     opened: Boolean
   },
   setup(props) {
-    const open = ref(false);
+    const open = ref(props.opened);
 
     watch(
       () => props.opened,
@@ -34,10 +34,6 @@ export default defineComponent({
         }
       }
     );
-
-    if (props.opened) {
-      open.value = props.opened;
-    }
 
     return {
       open

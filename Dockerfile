@@ -1,4 +1,4 @@
-FROM node:16-alpine3.16 as build
+FROM node:16-buster as build
 WORKDIR /home/build
 
 ENV BUILD_ENV=production
@@ -18,7 +18,7 @@ COPY . .
 
 RUN pnpm run build
 
-FROM alpine:3.16 as runtime
+FROM node:16-buster-slim as runtime
 WORKDIR /home/app
 
 RUN apk add --no-cache --update nodejs npm
@@ -35,6 +35,10 @@ COPY --from=build /home/build/server/package.json ./server/
 COPY --from=build /home/build/server/dist ./server/dist/
 
 COPY --from=build /home/build/client/.output ./client/.output/
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    wget \
+    && rm -rf /var/lib/apt/lists/*
 
 ENV VIEWTUBE_BASE_DIR=/home/app
 ENV NODE_ENV=production

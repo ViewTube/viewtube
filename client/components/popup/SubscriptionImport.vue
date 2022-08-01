@@ -136,7 +136,7 @@ import { useNuxtApp } from '#app';
 import CheckBox from '@/components/form/CheckBox.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import FileButton from '@/components/form/FileButton.vue';
-import SubscriptionConverter from '@/services/subscriptionConverter';
+import { convertFromCSVToJson, convertFromOPMLToJson } from '@/services/subscriptionConverter';
 import Spinner from '@/components/Spinner.vue';
 import '@/assets/styles/popup.scss';
 import {useMessagesStore} from "~/store/messages";
@@ -234,7 +234,7 @@ export default defineComponent({
       const fileReader = new FileReader();
       fileReader.onload = () => {
         if (e.target.files[0].name.includes('.csv')) {
-          subscriptionsToImport.value = SubscriptionConverter.convertFromCSVToJson(
+          subscriptionsToImport.value = convertFromCSVToJson(
             fileReader.result as string
           );
         }
@@ -264,7 +264,7 @@ export default defineComponent({
     const onOPMLFileChange = (e: any) => {
       const fileReader = new FileReader();
       fileReader.onload = () => {
-        subscriptionsToImport.value = SubscriptionConverter.convertFromOPMLToJson(
+        subscriptionsToImport.value = convertFromOPMLToJson(
           fileReader.result as string
         );
         if (subscriptionsToImport.value === undefined) {

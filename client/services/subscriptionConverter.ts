@@ -1,49 +1,52 @@
 import X2js from 'x2js';
 import PapaParse from 'papaparse';
 
-export default {
-  convertFromOPMLToJson(opmlString: string) {
-    const x2js = new X2js();
-    const jsonString: any = x2js.xml2js(opmlString);
+type Subscription = {
+  author: string;
+  authorId: string;
+  selected: boolean;
+};
 
-    if (jsonString.opml !== undefined) {
-      const channelArray = jsonString.opml.body.outline.outline;
-      const mappedChannelArray = this.mapOMPL(channelArray);
-      return mappedChannelArray;
-    }
-  },
+export const convertFromOPMLToJson = (opml: string): Subscription[] => {
+  const x2js = new X2js();
+  const jsonString: any = x2js.xml2js(opml);
 
-  convertFromCSVToJson(csvString: string) {
-    const result = PapaParse.parse(csvString, { header: false, skipEmptyLines: true });
-    result.data.splice(0, 1);
-    if (result.data[0] !== undefined) {
-      return this.mapYTTakeout(result.data);
-    }
-  },
-
-  mapOMPL(array: any[]) {
-    return array.map((element: { _xmlUrl: string; _title: any; _text: any }) => {
-      let channelId = new URL(element._xmlUrl).searchParams.get('channel_id');
-      if (!channelId) {
-        channelId = element._xmlUrl.match(/(.*\/channel\/)(.*[^\\/])\/?/i)[2];
-      }
-      const channelTitle =
-        element._title === element._text ? element._title : `${element._title} | ${element._text}`;
-      return {
-        author: channelTitle,
-        authorId: channelId,
-        selected: false
-      };
-    });
-  },
-
-  mapYTTakeout(array: any[]) {
-    return array.map((element: Object) => {
-      return {
-        author: element[2],
-        authorId: element[0],
-        selected: false
-      };
-    });
+  if (jsonString.opml !== undefined) {
+    const channelArray: Object[] = jsonString.opml.body.outline.outline;
+    const mappedChannelArray = mapOPML(channelArray);
+    console.log(JSON.stringify(mappedChannelArray));
+    return mappedChannelArray;
   }
 };
+
+export const convertFromCSVToJson = (csv: string): Subscription[] => {
+  const result = PapaParse.parse(csv, { header: false, skipEmptyLines: true });
+  result.data.splice(0, 1);
+  if (result.data[0] !== undefined) {
+    return mapYTTakeout(result.data);
+  }
+};
+
+export const mapYTTakeout = (data: any[]): Subscription[] => {
+  return data.map((element: Object) => {
+    return {
+      author: element[2],
+      authorId: element[0],
+      selected: false
+    };
+  });
+};
+
+export const mapOPML = (opml: Object[]): Subscription[] =>
+  opml.map((row: { _xmlUrl: string; _title: any; _text: any }) => {
+    const author = row._title === row._text ? row._title : `${row._title} | ${row._text}`;
+    let authorId = new URL(row._xmlUrl).searchParams.get('channel_id');
+    if (!authorId) {
+      authorId = row._xmlUrl.match(/(.*\/channel\/)(.*[^\\/])\/?/i)[2];
+    }
+    return {
+      author,
+      authorId,
+      selected: false
+    };
+  });
