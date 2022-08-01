@@ -1,5 +1,6 @@
 import { CacheModule, Module, ModuleMetadata } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+import { ConfigModule } from '@nestjs/config';
 import { CacheConfigService } from 'server/cache-config.service';
 import {
   ChannelBasicInfo,
@@ -16,6 +17,7 @@ const moduleMetadata: ModuleMetadata = {
     CacheModule.registerAsync({
       useClass: CacheConfigService
     }),
+    ConfigModule.forRoot(),
     MongooseModule.forFeature([
       {
         name: Popular.name,
