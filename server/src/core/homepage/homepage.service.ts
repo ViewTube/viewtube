@@ -11,6 +11,7 @@ import { ChannelBasicInfo } from '../channels/schemas/channel-basic-info.schema'
 import { VideoBasicInfoDto } from '../videos/dto/video-basic-info.dto';
 import { PopularDto } from './dto/popular.dto';
 import { Popular } from './schemas/popular.schema';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class HomepageService {
@@ -19,11 +20,15 @@ export class HomepageService {
     private readonly PopularModel: Model<Popular>,
     @InjectModel(ChannelBasicInfo.name)
     private readonly ChannelBasicInfoModel: Model<ChannelBasicInfo>,
-    @Inject(CACHE_MANAGER) private cacheManager: Cache
-  ) {}
+    @Inject(CACHE_MANAGER) private cacheManager: Cache,
+    private configService: ConfigService
+  ) {
+    this.popularPageUrl = `${this.configService.get(
+      'HOMEPAGE_INVIDIOUS_URL'
+    )}/api/v1/popular?fields=type,title,videoId,videoThumbnails,lengthSeconds,viewCount,author,authorId,publishedText`;
+  }
 
-  private popularPageUrl =
-    'https://invidious.snopyta.org/api/v1/popular?fields=type,title,videoId,videoThumbnails,lengthSeconds,viewCount,author,authorId,publishedText';
+  private popularPageUrl: string;
 
   @Cron(CronExpression.EVERY_DAY_AT_1AM)
   async refreshPopular(): Promise<void> {

@@ -23,5 +23,6 @@ export const validationSchema = Joi.object({
 
   // These are not required for ViewTube to run
   VIEWTUBE_YOUTUBE_COOKIE: Joi.string().optional(),
-  VIEWTUBE_YOUTUBE_IDENTIFIER: Joi.string().optional()
+  VIEWTUBE_YOUTUBE_IDENTIFIER: Joi.string().optional(),
+  HOMEPAGE_INVIDIOUS_URL: Joi.string().uri().default('https://invidious.snopyta.org')
 });
