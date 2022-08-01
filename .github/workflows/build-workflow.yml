@@ -3,6 +3,8 @@ name: Build
 on:
   push:
     branches: [ "development", "feature/build-test" ]
+    tags:
+      - 'v*'
 
 jobs:
   build-job:
@@ -26,18 +28,16 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
     
-    # - name: Docker metadata
-    #   id: metadata
-    #   uses: docker/metadata-action@v3
-    #   with:
-    #     images: mauriceo/viewtube
-    #     tags: |
-    #       type=schedule
-    #       type=ref,event=branch
-    #       type=semver,pattern={{version}}
-    #       type=semver,pattern={{major}}.{{minor}}
-    #       type=semver,pattern={{major}}
-    #       type=sha
+    - name: Docker metadata
+      id: metadata
+      uses: docker/metadata-action@v3
+      with:
+        images: mauriceo/viewtube
+        tags: |
+          type=match,pattern=development,value=dev
+          type=semver,pattern={{version}}
+          type=semver,pattern={{major}}.{{minor}}
+          type=semver,pattern={{major}},enable=${{ !startsWith(github.ref, 'refs/tags/v0.') }}
           
     - name: Build and push
       uses: docker/build-push-action@v2
@@ -45,6 +45,7 @@ jobs:
         context: .
         platforms: linux/amd64
         push: true
-        tags: mauriceo/viewtube:dev
-        cache-from: type=registry,ref=mauriceo/viewtube:latest
+        tags: ${{ steps.metadata.outputs.tags }}
+        labels: ${{ steps.metadata.outputs.labels }}
+        cache-from: type=registry,ref=mauriceo/viewtube:dev
         cache-to: type=inline
