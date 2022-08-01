@@ -34,8 +34,9 @@ COPY --from=build /home/build/client/package.json /home/build/client/nuxt.config
 COPY --from=build /home/build/client/dist ./client/dist/
 COPY --from=build /home/build/client/static ./client/static/
 
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends wget
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    wget \
+    && rm -rf /var/lib/apt/lists/*
 
 ENV VIEWTUBE_BASE_DIR=/home/app
 ENV NODE_ENV=production
