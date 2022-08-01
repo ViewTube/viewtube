@@ -125,6 +125,7 @@ Prerequisites
 - Yarn 1.22.x
 
 If you don't want to install locally, use the supplied docker-compose.dev.yml
+
 - MongoDB 4.4.x
 - Redis 6.x
 
