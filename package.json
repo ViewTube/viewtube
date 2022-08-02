@@ -38,7 +38,7 @@
     "cross-env": "7.0.3",
     "eslint": "8.19.0",
     "eslint-import-resolver-node": "0.3.6",
-    "jest": "28.1.2",
+    "jest": "28.1.3",
     "prettier": "2.7.1",
     "typescript": "4.5.5",
     "vls": "0.7.6",
