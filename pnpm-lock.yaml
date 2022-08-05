@@ -50,7 +50,7 @@ importers:
       humanize-duration: 3.27.2
       jest: 28.1.2
       js-sha256: 0.9.0
-      modern-js-ripple: 1.0.1
+      modern-js-ripple: 1.1.0
       nuxi: 3.0.0-rc.6
       nuxt: 3.0.0-rc.6
       papaparse: 5.3.2
@@ -95,7 +95,7 @@ importers:
       humanize-duration: 3.27.2
       jest: 28.1.2_@types+node@16.11.26
       js-sha256: 0.9.0
-      modern-js-ripple: 1.0.1
+      modern-js-ripple: 1.1.0
       nuxi: 3.0.0-rc.6
       nuxt: 3.0.0-rc.6_sass@1.54.3+webpack@5.74.0
       papaparse: 5.3.2
@@ -8576,8 +8576,8 @@ packages:
       pkg-types: 0.3.3
     dev: true
 
-  /modern-js-ripple/1.0.1:
-    resolution: {integrity: sha512-DoofAcUW6DbWTS5fusJ70IPjBURIWucajZ5g/cuXvKcGN8JrroKHGlM1eN8eP92VTTVaq/1reNMVX9Po3kSrPQ==}
+  /modern-js-ripple/1.1.0:
+    resolution: {integrity: sha512-Fy99Y0vROBy8ET9EqwC/zfgjjhZoGNvV3gdfBicYDAaFUL5ajZovLnbi72S+Biyy4e3aBhIJsO1YGLQye/OX2g==}
     engines: {node: '>=16.15.0', pnpm: '>=7.1.0'}
     dev: true
 
