@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from '#imports';
+
 import { usePopupStore } from '~~/store/popup';
 import { useCurrentTheme } from '~~/utilities/themes';
 

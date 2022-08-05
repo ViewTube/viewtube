@@ -14,9 +14,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from '#imports';
 import EndscreenCard from '@/components/videoplayer/EndscreenCard.vue';
-
 
 export default defineComponent({
   name: 'VideoEndscreen',

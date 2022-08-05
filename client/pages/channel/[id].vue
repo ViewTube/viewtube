@@ -52,7 +52,7 @@
 
 <script lang="ts">
 import UpIcon from 'vue-material-design-icons/ArrowUp.vue';
-import { defineComponent, useMeta, useRoute } from '#imports';
+
 import VideoEntry from '@/components/list/VideoEntry.vue';
 import PlaylistEntry from '@/components/list/PlaylistEntry.vue';
 import Banner from '@/components/channel/Banner.vue';

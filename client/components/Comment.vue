@@ -86,7 +86,7 @@ import HeartIcon from 'vue-material-design-icons/Heart.vue';
 import CommentIcon from 'vue-material-design-icons/CommentOutline.vue';
 import CommentHideIcon from 'vue-material-design-icons/CommentRemoveOutline.vue';
 import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
-import { defineComponent, ref, useRoute } from '#imports';
+
 import { useNuxtApp } from '#app';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import { useMessagesStore } from '~~/store/messages';

@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, useMeta } from '#imports';
+
 import RegisterForm from '@/components/form/RegisterForm.vue';
 
 export default defineComponent({

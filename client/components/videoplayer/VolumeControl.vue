@@ -35,7 +35,7 @@ import VolumeHighIcon from 'vue-material-design-icons/VolumeHigh.vue';
 import VolumeMediumIcon from 'vue-material-design-icons/VolumeMedium.vue';
 import VolumeLowIcon from 'vue-material-design-icons/VolumeLow.vue';
 import VolumeOffIcon from 'vue-material-design-icons/VolumeOff.vue';
-import { computed, defineComponent, ref } from '#imports';
+
 
 export default defineComponent({
   name: 'VolumeControl',

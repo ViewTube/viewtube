@@ -52,10 +52,7 @@
             <BadgeButton class="action" :click="onChangePasswordPopup"
               ><PasswordChangeIcon />Change password</BadgeButton
             >
-            <BadgeButton
-              download
-              class="action"
-              :href="`${apiUrl}user/export`"
+            <BadgeButton download class="action" :href="`${apiUrl}user/export`"
               ><ExportIcon />Export data</BadgeButton
             >
             <BadgeButton class="action" :click="onLogoutPopup" style="color: #ef4056"
@@ -86,6 +83,8 @@
           v-if="passwordChangePopup"
           @passwordChangeClose="onChangePasswordClose"
         />
+      </transition>
+      <transition name="popup">
         <Confirmation
           v-if="logoutPopup"
           :title="'Sign out'"
@@ -134,14 +133,14 @@ import SettingsIcon from 'vue-material-design-icons/Cog.vue';
 import HistoryIcon from 'vue-material-design-icons/History.vue';
 import RestartOffIcon from 'vue-material-design-icons/RestartOff.vue';
 import PasswordChangeIcon from 'vue-material-design-icons/FormTextboxPassword.vue';
-import { defineComponent, ref, useFetch, useMeta, useRouter } from '#imports';
+
 import Confirmation from '@/components/popup/Confirmation.vue';
 import SectionTitle from '@/components/SectionTitle.vue';
 import FormInput from '@/components/form/FormInput.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import Spinner from '@/components/Spinner.vue';
 import HistoryList from '@/components/history/HistoryList.vue';
-import {useMessagesStore} from "~/store/messages";
+import { useMessagesStore } from '~/store/messages';
 import { createComputed } from '@/utilities/computed';
 import { useSettingsStore } from '~~/store/settings';
 import { useUserStore } from '~~/store/user';

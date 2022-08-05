@@ -20,7 +20,7 @@ import ArrowRightIcon from 'vue-material-design-icons/ArrowRight.vue';
 import ArrowLeftIcon from 'vue-material-design-icons/ArrowLeft.vue';
 import VolumeHighIcon from 'vue-material-design-icons/VolumeHigh.vue';
 import VolumeLowIcon from 'vue-material-design-icons/VolumeLow.vue';
-import { defineComponent } from '#imports';
+
 
 export default defineComponent({
   components: {

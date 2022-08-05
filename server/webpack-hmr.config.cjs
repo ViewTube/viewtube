@@ -1,15 +1,13 @@
-const { WebpackPnpExternals } = require('webpack-pnp-externals');
+/* eslint-disable @typescript-eslint/no-var-requires */
+const nodeExternals = require('webpack-node-externals');
 const { RunScriptWebpackPlugin } = require('run-script-webpack-plugin');
-const path = require('path');
 
 module.exports = function (options, webpack) {
   return {
     ...options,
     entry: ['webpack/hot/poll?100', options.entry],
     externals: [
-      WebpackPnpExternals({
-        exclude: ['webpack/hot/poll?100']
-      })
+      nodeExternals({ modulesDir: '../node_modules', allowlist: ['webpack/hot/poll?100'] })
     ],
     module: {
       rules: [

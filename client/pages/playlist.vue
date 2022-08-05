@@ -63,7 +63,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, Ref, useFetch, useMeta, useRoute } from '#imports';
+
 import { useNuxtApp } from '#app';
 import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
 import { Continuation, Result } from 'ytpl';

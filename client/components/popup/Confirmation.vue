@@ -12,7 +12,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onBeforeUnmount, onMounted } from '#imports';
+
 
 export default defineComponent({
   name: 'Confirmation',

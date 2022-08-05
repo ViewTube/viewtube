@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref, useRoute } from '#imports';
+
 import MainHeader from '@/components/header/MainHeader.vue';
 // import Miniplayer from '@/components/miniplayer/Miniplayer.vue';
 import MessageBoxContainer from '@/components/message/MessageBoxContainer.vue';
@@ -20,7 +20,6 @@ export default defineComponent({
   name: 'Default',
   components: {
     MainHeader,
-    Miniplayer,
     MessageBoxContainer,
     ThemeStyling
   },

@@ -30,7 +30,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref, useRoute, useRouter, watch } from '#imports';
+
 import FormInput from '@/components/form/FormInput.vue';
 import InformationHint from '@/components/hints/InformationHint.vue';
 import SubmitButton from '@/components/form/SubmitButton.vue';

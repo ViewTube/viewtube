@@ -41,7 +41,7 @@
 
 <script lang="ts">
 import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
-import { defineComponent, ref } from '#imports';
+
 import VideoEntry from '@/components/list/VideoEntry.vue';
 import Spinner from '@/components/Spinner.vue';
 import SectionTitle from '@/components/SectionTitle.vue';

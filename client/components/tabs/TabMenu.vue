@@ -30,7 +30,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, useRoute } from '#imports';
+
 
 export default defineComponent({
   name: 'TabMenu',

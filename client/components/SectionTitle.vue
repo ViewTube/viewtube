@@ -11,7 +11,7 @@
 
 <script lang="ts">
 import ChevronRightIcon from 'vue-material-design-icons/ChevronRight.vue';
-import { defineComponent } from '#imports';
+
 import GradientBackground from '@/components/GradientBackground.vue';
 
 export default defineComponent({

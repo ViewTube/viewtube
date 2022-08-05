@@ -57,7 +57,7 @@
 <script lang="ts">
 import ChevronLeftIcon from 'vue-material-design-icons/ChevronLeft.vue';
 import ChevronRightIcon from 'vue-material-design-icons/ChevronRight.vue';
-import { computed, defineComponent, ref } from '#imports';
+
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 
 export default defineComponent({

@@ -42,7 +42,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from '#imports';
+
 import { useNuxtApp } from '#app';
 import humanizeDuration from 'humanize-duration';
 import DeleteIcon from 'vue-material-design-icons/Delete.vue';

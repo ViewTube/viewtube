@@ -13,7 +13,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, useRoute, useRouter } from '#imports';
+
 import InformationHint from '@/components/hints/InformationHint.vue';
 import FormInput from '@/components/form/FormInput.vue';
 import SubmitButton from '@/components/form/SubmitButton.vue';

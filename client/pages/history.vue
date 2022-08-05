@@ -40,7 +40,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref, useMeta, useRoute, useRouter, watch } from '#imports';
+
 import { useNuxtApp } from '#app';
 import RestartOffIcon from 'vue-material-design-icons/RestartOff.vue';
 import SectionTitle from '@/components/SectionTitle.vue';

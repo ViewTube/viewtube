@@ -27,7 +27,7 @@
 <script lang="ts">
 import Copy from 'vue-material-design-icons/ContentCopy.vue';
 import QrCode from 'vue-material-design-icons/Qrcode.vue';
-import { defineComponent, ref } from '#imports';
+
 import QrPopUp from '@/components/popup/QrPopUp.vue';
 import ShareOptionEntry from '@/components/list/ShareOptionEntry.vue';
 

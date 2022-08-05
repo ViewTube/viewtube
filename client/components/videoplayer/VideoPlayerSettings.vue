@@ -111,7 +111,7 @@ import HighDefinitionIcon from 'vue-material-design-icons/HighDefinition.vue';
 import AudioDefinitionIcon from 'vue-material-design-icons/QualityHigh.vue';
 import CheckIcon from 'vue-material-design-icons/Check.vue';
 // import MagicIcon from 'vue-material-design-icons/AutoFix.vue';
-import { defineComponent, onBeforeUnmount, onMounted, ref, watch } from '#imports';
+
 import SwitchButton from '@/components/buttons/SwitchButton.vue';
 import { createComputed } from '@/utilities/computed';
 import { useSettingsStore } from '~~/store/settings';

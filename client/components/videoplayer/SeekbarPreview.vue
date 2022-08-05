@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive, watch, onMounted } from '#imports';
+
 // import { WebVTTParser } from '@/utilities/services/webVTTParser';
 
 export default defineComponent({

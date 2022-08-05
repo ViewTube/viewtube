@@ -28,7 +28,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, useRoute } from '#imports';
+
 
 import { createComputed } from '@/utilities/computed';
 import { useVideoPlayerStore } from '~~/store/videoPlayer';

@@ -1,4 +1,4 @@
-import { computed, reactive, ref, watch, onMounted, onBeforeUnmount } from '#imports';
+
 import { useNuxtApp } from '#app';
 import { MediaMetadataHelper } from './mediaMetadata';
 import { calculateSeekPercentage, matchSeekProgressPercentage, seekbarFunctions } from './seekbar';

@@ -82,7 +82,7 @@
 import EditIcon from 'vue-material-design-icons/PencilBoxMultipleOutline.vue';
 import SubscriptionIcon from 'vue-material-design-icons/YoutubeSubscription.vue';
 import ImportIcon from 'vue-material-design-icons/Import.vue';
-import { defineComponent, onMounted, ref, useFetch, useMeta, useRoute, watch } from '#imports';
+
 import { useNuxtApp } from '#app';
 import SubscriptionImport from '@/components/popup/SubscriptionImport.vue';
 import VideoEntry from '@/components/list/VideoEntry.vue';

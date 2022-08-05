@@ -25,7 +25,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, useRoute } from '#imports';
+
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import {useMessagesStore} from "~/store/messages";
 

@@ -17,7 +17,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from '#imports';
+
 import { PropType } from 'vue';
 
 export default defineComponent({

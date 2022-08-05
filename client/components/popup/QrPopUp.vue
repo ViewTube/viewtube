@@ -13,7 +13,7 @@
 import QRCode from 'qrcode';
 import CloseIcon from 'vue-material-design-icons/Close.vue';
 import '@/assets/styles/popup.scss';
-import { defineComponent, onMounted, ref } from '#imports';
+
 import { useCurrentTheme } from '~~/utilities/themes';
 
 export default defineComponent({

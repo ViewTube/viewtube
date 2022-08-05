@@ -47,7 +47,7 @@
 <script lang="ts">
 import FamilyFriendly from 'vue-material-design-icons/AccountChild.vue';
 import Paid from 'vue-material-design-icons/CurrencyUsd.vue';
-import { defineComponent } from '#imports';
+
 import SubscribeButton from '@/components/buttons/SubscribeButton.vue';
 
 

@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from '#imports';
+
 import MessageBox from '@/components/message/MessageBox.vue';
 import { useMessagesStore } from '@/store/messages';
 

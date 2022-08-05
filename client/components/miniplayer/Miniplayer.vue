@@ -32,7 +32,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref, useRoute, watch } from '#imports';
+
 import VideoPlayer from '@/components/videoplayer/VideoPlayer.vue';
 import { commons } from '@/utilities/commons';
 import { useMiniplayerStore } from '~~/store/miniplayer';

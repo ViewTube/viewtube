@@ -93,7 +93,7 @@
 import CloseIcon from 'vue-material-design-icons/Close.vue';
 import GithubIcon from 'vue-material-design-icons/Github.vue';
 import ExternalIcon from 'vue-material-design-icons/OpenInNew.vue';
-import { defineComponent, ref } from '#imports';
+
 // import packageJson from '@/../package.json';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import InvidiousLicense from '@/components/licenses/Invidious.vue';

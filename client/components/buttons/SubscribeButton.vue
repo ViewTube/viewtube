@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref } from '#imports';
+
 import { useNuxtApp } from '#app';
 import { useMessagesStore } from '@/store/messages';
 import { useUserStore } from '@/store/user';
