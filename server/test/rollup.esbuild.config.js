@@ -1,16 +1,19 @@
-import typescript from 'rollup-plugin-typescript2';
-import pkg from './package.json';
-import run from '@rollup/plugin-run';
+import esbuild from 'rollup-plugin-esbuild';
+import pkg from '../package.json';
+import tsPaths from 'rollup-plugin-tsconfig-paths';
 import { builtinModules } from 'module';
 
 const deps = d => (d ? Object.keys(d) : []);
 
-const watch = process.env.ROLLUP_WATCH;
-
 /** @type {import('rollup').RollupOptions} */
 const options = {
   input: 'src/main.ts',
-  plugins: [typescript(), watch ? run() : null],
+  plugins: [
+    tsPaths(),
+    esbuild({
+      target: 'esnext'
+    })
+  ],
   output: { file: 'dist/main.cjs', format: 'cjs' },
   external: [
     ...builtinModules,

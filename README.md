@@ -146,7 +146,7 @@ Instructions
 
 3. Start the components seperately in multiple terminals
 
-   `pnpm run serve:api`  
+   `pnpm run serve:server`  
    `pnpm run serve:client`
 
 4. Visit [localhost:8066](http://localhost:8066) with a browser

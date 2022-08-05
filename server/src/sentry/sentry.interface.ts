@@ -1,7 +1,7 @@
 import { ModuleMetadata } from '@nestjs/common';
-import * as SentryTypes from '@sentry/types';
+import { NodeOptions } from '@sentry/node';
 
 export interface SentryModuleAsyncOptions extends Pick<ModuleMetadata, 'imports'> {
   inject?: any[];
-  useFactory?: (...args: any[]) => Promise<SentryTypes.Options> | SentryTypes.Options;
+  useFactory?: (...args: any[]) => Promise<NodeOptions> | NodeOptions;
 }
