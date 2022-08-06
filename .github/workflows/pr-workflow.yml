@@ -20,7 +20,7 @@ jobs:
       - name: Node.js PR workflow step ${{ matrix.command }}
         uses: actions/setup-node@v3
         with:
-          node-version: 16.x
+          node-version: 18.x
 
       - uses: pnpm/action-setup@v2.0.1
         name: Setup pnpm

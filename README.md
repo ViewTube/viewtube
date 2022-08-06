@@ -121,7 +121,7 @@ Development setup
 </h2>
 Prerequisites
 
-- Nodejs v16.x
+- Nodejs v18.x
 - Pnpm 7.3.x
 - MongoDB 5.0.x
 
