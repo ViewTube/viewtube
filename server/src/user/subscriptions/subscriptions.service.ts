@@ -12,7 +12,7 @@ import { VideoBasicInfo } from 'server/core/videos/schemas/video-basic-info.sche
 import { ChannelBasicInfo } from 'server/core/channels/schemas/channel-basic-info.schema';
 import { Model } from 'mongoose';
 import { Cron, CronExpression } from '@nestjs/schedule';
-import { VideoBasicInfoDto } from 'server/core/videos/dto/video-basic-info.dto';
+import { VideoBasicInfoDto } from 'viewtube/shared/dto/video/video-basic-info.dto';
 import { Sorting } from 'server/common/sorting.type';
 import { ChannelBasicInfoDto } from 'viewtube/shared/dto/channel/channel-basic-info.dto';
 import Consola from 'consola';
@@ -362,12 +362,12 @@ export class SubscriptionsService {
     const channelFeed = await getChannelFeed(channelId);
     if (channelFeed) {
       await this.subscriptionModel
-      .findOneAndUpdate({ username }, { username, subscriptions }, { upsert: true })
-      .exec()
-      .then()
-      .catch(_ => {
-        throw new InternalServerErrorException('Error subscribing to channel');
-      });
+        .findOneAndUpdate({ username }, { username, subscriptions }, { upsert: true })
+        .exec()
+        .then()
+        .catch(_ => {
+          throw new InternalServerErrorException('Error subscribing to channel');
+        });
 
       try {
         await this.saveChannelBasicInfo(channelFeed.channel);

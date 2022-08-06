@@ -6,12 +6,6 @@ function readPackage(pkg, context) {
   return pkg;
 }
 
-function afterAllResolved(lockfile, context) {
-  context.log("ay");
-
-  return lockfile;
-}
-
 module.exports = {
   hooks: {
     readPackage,

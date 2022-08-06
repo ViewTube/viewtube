@@ -1,7 +1,7 @@
 FROM node:18-buster as build
 WORKDIR /home/build
 
-ENV BUILD_ENV=production
+ENV NUXT_BUILD=true
 
 COPY prepare.js package.json ./
 COPY pnpm-lock.yaml pnpm-workspace.yaml ./
@@ -21,6 +21,8 @@ RUN pnpm run build
 FROM node:18-buster-slim as runtime
 WORKDIR /home/app
 
+ENV NODE_ENV=production
+
 RUN npm install --location=global pnpm
 
 COPY --from=build /home/build/package.json /home/build/pnpm-lock.yaml /home/build/pnpm-workspace.yaml /home/build/.pnpmfile.cjs ./
@@ -35,11 +37,10 @@ COPY --from=build /home/build/server/dist ./server/dist/
 COPY --from=build /home/build/client/.output ./client/.output/
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    wget \
-    && rm -rf /var/lib/apt/lists/*
+  wget \
+  && rm -rf /var/lib/apt/lists/*
 
 ENV VIEWTUBE_BASE_DIR=/home/app
-ENV NODE_ENV=production
 HEALTHCHECK --interval=30s --timeout=20s --start-period=60s CMD wget --no-verbose --tries=3 --spider http://localhost:8066/ || exit 1
 EXPOSE 8066
 
