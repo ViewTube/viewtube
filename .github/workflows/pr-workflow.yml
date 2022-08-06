@@ -9,7 +9,7 @@ jobs:
     continue-on-error: true
     strategy:
       matrix:
-        command: ["build:server", "build:client", "test"]
+        command: ["build", "test"]
 
     name: ${{ matrix.command }}
     timeout-minutes: 60
