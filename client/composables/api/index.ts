@@ -11,3 +11,4 @@ export {
   useGetUserSubscriptions
 } from './user';
 export { useGetInvidiousLicense } from './licenses';
+export { useGetChannels } from './channels';

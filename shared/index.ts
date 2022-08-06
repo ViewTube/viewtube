@@ -8,4 +8,13 @@ export { getSecondsFromTimestamp, getApiUrl, getViewtubeDomain, isHttps } from '
 export { ChannelDto } from './dto/channel/channel.dto';
 export { ChannelLinkDto } from './dto/channel/channel-link.dto';
 export { RelatedChannelDto } from './dto/channel/related-channel.dto';
-export { VideoSectionDto } from './dto/channel/video-section.dto';
+export {
+  VideoSectionMultiDto,
+  VideoSectionMultiPlaylist,
+  VideoSectionMultiVideo,
+  VideoSectionSingleDto
+} from './dto/channel/video-section.dto';
+export { ApiErrorDto } from './dto/api/error.dto';
+export { PlaylistBasicInfoDto } from './dto/playlist/playlist-basic-info.dto';
+export { PreviewVideoDto } from './dto/playlist/preview-video.dto';
+export { VideoBasicInfoDto } from './dto/video/video-basic-info.dto';

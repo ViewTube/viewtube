@@ -1,7 +1,7 @@
-import { AuthorThumbnailDto } from 'viewtube/shared/dto/video/author-thumbnail.dto';
+import { AuthorThumbnailDto } from '../video/author-thumbnail.dto';
 import { ChannelLinkDto } from './channel-link.dto';
 import { RelatedChannelDto } from './related-channel.dto';
-import { VideoSectionDto } from './video-section.dto';
+import { VideoSectionMultiDto, VideoSectionSingleDto } from './video-section.dto';
 
 export class ChannelDto {
   author: string;
@@ -23,7 +23,7 @@ export class ChannelDto {
   descriptionHtml: string;
   allowedRegions: Array<string>;
 
-  videoSections: Array<VideoSectionDto>;
+  videoSections: Array<VideoSectionSingleDto | VideoSectionMultiDto>;
 
   relatedChannels: Array<RelatedChannelDto>;
   channelLinks?: Array<ChannelLinkDto>;

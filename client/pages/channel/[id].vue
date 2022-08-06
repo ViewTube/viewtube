@@ -1,6 +1,11 @@
 <template>
   <div>
-    <Spinner v-if="$fetchState.pending" class="centered" />
+    <PageHeadMetadata
+      :title="channel?.author"
+      :description="channel?.description?.substring(0, 100)"
+      :image="channel?.authorThumbnails?.[0]?.url"
+    />
+    <Spinner v-if="pending" class="centered" />
     <div v-if="channel" class="channel">
       <Banner
         v-if="channel && channel.authorBanners && channel.authorBanners.length > 0"
@@ -64,9 +69,9 @@ import SubscribeButton from '@/components/buttons/SubscribeButton.vue';
 import SectionTitle from '@/components/SectionTitle.vue';
 import InlineVideo from '@/components/list/InlineVideo.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
+import PageHeadMetadata from '@/components/meta/PageHeadMetadata.vue';
 
 import { useMessagesStore } from '@/store/messages';
-import { useGetChannels } from '@/composables/api/channels';
 
 export default defineComponent({
   name: 'Channel',
@@ -82,11 +87,11 @@ export default defineComponent({
     PlaylistEntry,
     InlineVideo,
     BadgeButton,
-    UpIcon
+    UpIcon,
+    PageHeadMetadata
   },
   setup() {
     const imgProxy = useImgProxy();
-    const config = useRuntimeConfig();
     const messagesStore = useMessagesStore();
     const route = useRoute();
 
@@ -94,12 +99,12 @@ export default defineComponent({
       window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
-    const { data: channel, error } = useGetChannels(route.params.id);
+    const { data: channel, error, pending } = useGetChannels(route.params.id);
 
     watch(error, () => {
       let errorMessage = '';
-      if (error.value.response && error.value.response.data) {
-        errorMessage = error.value.response.data.message;
+      if (error.value !== true && error.value.message) {
+        errorMessage = error.value.message;
       }
       messagesStore.createMessage({
         type: 'error',
@@ -108,47 +113,11 @@ export default defineComponent({
       });
     });
 
-    useHead(() => ({
-      title: channel.value ? `${channel.value.author} :: ViewTube` : 'ViewTube',
-      meta: [
-        {
-          hid: 'description',
-          vmid: 'descriptionMeta',
-          name: 'description',
-          content:
-            channel.value && channel.value.description
-              ? channel.value.description.substring(0, 100)
-              : ''
-        },
-        {
-          hid: 'ogTitle',
-          property: 'og:title',
-          content: channel.value ? `${channel.value.author} - ViewTube` : 'ViewTube'
-        },
-        {
-          hid: 'ogImage',
-          property: 'og:image',
-          itemprop: 'image',
-          content:
-            channel.value && channel.value.authorThumbnails
-              ? channel.value.authorThumbnails[0].url
-              : ''
-        },
-        {
-          hid: 'ogDescription',
-          property: 'og:description',
-          content:
-            channel.value && channel.value.description
-              ? channel.value.description.substring(0, 100)
-              : ''
-        }
-      ]
-    }));
-
     return {
       imgProxyUrl: imgProxy.url,
       channel,
-      onScrollTop
+      onScrollTop,
+      pending
     };
   },
   head: {}

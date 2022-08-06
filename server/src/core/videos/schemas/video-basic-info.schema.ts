@@ -3,7 +3,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { VideoThumbnailDto } from 'viewtube/shared/dto/video/video-thumbnail.dto';
 import { AuthorThumbnailDto } from 'viewtube/shared/dto/video/author-thumbnail.dto';
-import { VideoBasicInfoDto } from '../dto/video-basic-info.dto';
+import { VideoBasicInfoDto } from 'viewtube/shared/dto/video/video-basic-info.dto';
 
 // eslint-disable-next-line no-undef
 @Schema({ timestamps: true })

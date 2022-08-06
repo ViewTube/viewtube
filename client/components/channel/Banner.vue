@@ -40,14 +40,7 @@
 import EyeIcon from 'vue-material-design-icons/Eye.vue';
 
 import { PropType } from 'vue';
-
-type BannerLink = {
-  url: string;
-  title: string;
-  linkThumbnails: {
-    url: string;
-  }[];
-};
+import { ChannelLinkDto } from 'viewtube/shared';
 
 export default defineComponent({
   name: 'ChannelBanner',
@@ -56,7 +49,7 @@ export default defineComponent({
   },
   props: {
     src: String,
-    bannerLinks: Array as PropType<BannerLink[]>,
+    bannerLinks: Array as PropType<ChannelLinkDto[]>,
     bannerHqSrc: String
   },
   setup() {

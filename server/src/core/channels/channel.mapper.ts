@@ -1,10 +1,10 @@
-import { VideoBasicInfoDto } from '../videos/dto/video-basic-info.dto';
+import { VideoBasicInfoDto } from 'viewtube/shared/dto/video/video-basic-info.dto';
 import { Common } from '../common';
-import { PlaylistBasicInfoDto } from '../playlists/dto/playlist-basic-info.dto';
+import { PlaylistBasicInfoDto } from 'viewtube/shared/dto/playlist/playlist-basic-info.dto';
 import { ChannelLinkDto } from 'viewtube/shared/dto/channel/channel-link.dto';
 import { ChannelDto } from 'viewtube/shared/dto/channel/channel.dto';
 import { ChannelBasicInfoDto } from 'viewtube/shared/dto/channel/channel-basic-info.dto';
-import { VideoSectionDto } from 'viewtube/shared/dto/channel/video-section.dto';
+import { VideoSectionSingleDto, VideoSectionMultiDto } from 'viewtube/shared/dto/channel/video-section.dto';
 
 export class ChannelMapper {
   static mapChannel(source: any, aboutSource: any): ChannelDto {
@@ -61,7 +61,9 @@ export class ChannelMapper {
           .replace(/,/g, '')
           .trim();
         totalViews = parseInt(totalViews);
-      } catch (_) {}
+      } catch (_) {
+        // do nothing
+      }
     }
     const videoSections = this.mapVideoSections(
       homeTabData.tabRenderer.content.sectionListRenderer.contents,
@@ -123,10 +125,12 @@ export class ChannelMapper {
     return definedValue;
   }
 
-  static tryGet(value: Function): any {
+  static tryGet(value: () => void): any {
     try {
       return value();
-    } catch (_) {}
+    } catch {
+      // do nothing
+    }
   }
 
   static mapRelatedChannels(
@@ -183,7 +187,7 @@ export class ChannelMapper {
     return null;
   }
 
-  static mapVideoSections(source: Array<any>, channel: any): Array<VideoSectionDto> {
+  static mapVideoSections(source: Array<any>, channel: any): Array<VideoSectionSingleDto | VideoSectionMultiDto> {
     return source
       .filter(
         section =>

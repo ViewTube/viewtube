@@ -1,10 +1,22 @@
-import { PlaylistBasicInfoDto } from 'viewtube/server/src/core/playlists/dto/playlist-basic-info.dto';
-import { VideoBasicInfoDto } from 'viewtube/server/src/core/videos/dto/video-basic-info.dto';
+import { PlaylistBasicInfoDto } from '../playlist/playlist-basic-info.dto';
+import { VideoBasicInfoDto } from '../video/video-basic-info.dto';
 
-export class VideoSectionDto {
+export class VideoSectionSingleDto {
   title?: string;
-  type: 'single' | 'multi';
-  videos?: Array<VideoBasicInfoDto>;
+  type: 'single';
   video?: VideoBasicInfoDto;
-  playlists?: Array<PlaylistBasicInfoDto>;
+}
+
+export class VideoSectionMultiDto {
+  title?: string;
+  type: 'multi';
+  elements?: Array<VideoSectionMultiVideo | VideoSectionMultiPlaylist>;
+}
+
+export class VideoSectionMultiVideo extends VideoBasicInfoDto {
+  type: 'video';
+}
+
+export class VideoSectionMultiPlaylist extends PlaylistBasicInfoDto {
+  type: 'playlist';
 }

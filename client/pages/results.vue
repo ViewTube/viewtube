@@ -1,5 +1,9 @@
 <template>
   <div class="search" :class="{ loading: pending }">
+    <PageHeadMetadata
+      :title="searchQuery"
+      description="Search for videos, channels and playlists"
+    />
     <Spinner v-if="pending" class="centered search-spinner" />
     <GradientBackground :color="'blue'" />
     <Filters
@@ -78,6 +82,7 @@ import Dropdown from '@/components/filter/Dropdown.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import Filters from '@/components/search/Filters.vue';
 import SeparatorSmall from '@/components/list/SeparatorSmall.vue';
+import PageHeadMetadata from '@/components/meta/PageHeadMetadata.vue';
 import { useMessagesStore } from '@/store/messages';
 import ytsr from 'ytsr';
 
@@ -97,7 +102,8 @@ export default defineComponent({
     Shelf,
     MixEntry,
     Filters,
-    SeparatorSmall
+    SeparatorSmall,
+    PageHeadMetadata
   },
   setup() {
     const route = useRoute();
@@ -117,10 +123,13 @@ export default defineComponent({
     const additionalResultItems = ref<ytsr.Item[]>([]);
     const searchContinuationData = ref<any>(searchData.value?.searchResults.continuation);
 
-    watch(() => searchData.value, newData => {
-      additionalResultItems.value = [];
-      searchContinuationData.value = newData?.searchResults.continuation;
-    });
+    watch(
+      () => searchData.value,
+      newData => {
+        additionalResultItems.value = [];
+        searchContinuationData.value = newData?.searchResults.continuation;
+      }
+    );
 
     watch(error, newValue => {
       if (newValue) {
@@ -211,28 +220,6 @@ export default defineComponent({
       }
       moreVideosLoading.value = false;
     };
-
-    useHead({
-      title: `${searchQuery.value ?? `${searchQuery.value} :: `}Search :: ViewTube`,
-      meta: [
-        {
-          hid: 'description',
-          vmid: 'descriptionMeta',
-          name: 'description',
-          content: 'Search for videos, channels and playlists'
-        },
-        {
-          hid: 'ogTitle',
-          property: 'og:title',
-          content: 'Search - ViewTube'
-        },
-        {
-          hid: 'ogDescription',
-          property: 'og:description',
-          content: 'Search for videos, channels and playlists'
-        }
-      ]
-    });
 
     return {
       searchData,
