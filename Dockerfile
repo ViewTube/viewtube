@@ -1,4 +1,4 @@
-FROM node:16-buster as build
+FROM node:18-buster as build
 WORKDIR /home/build
 
 ENV BUILD_ENV=production
@@ -18,12 +18,10 @@ COPY . .
 
 RUN pnpm run build
 
-FROM node:16-buster-slim as runtime
+FROM node:18-buster-slim as runtime
 WORKDIR /home/app
 
-RUN apk add --no-cache --update nodejs npm
-
-RUN npm install -g pnpm
+RUN npm install --location=global pnpm
 
 COPY --from=build /home/build/package.json /home/build/pnpm-lock.yaml /home/build/pnpm-workspace.yaml /home/build/.pnpmfile.cjs ./
 COPY --from=build /home/build/client/package.json ./client/
