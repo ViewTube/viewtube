@@ -1,5 +1,5 @@
-import { PlaylistBasicInfoDto } from 'server/core/playlists/dto/playlist-basic-info.dto';
-import { VideoBasicInfoDto } from 'server/core/videos/dto/video-basic-info.dto';
+import { PlaylistBasicInfoDto } from 'server/src/core/playlists/dto/playlist-basic-info.dto';
+import { VideoBasicInfoDto } from 'server/src/core/videos/dto/video-basic-info.dto';
 
 export class VideoSectionDto {
   title?: string;

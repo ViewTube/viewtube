@@ -1,10 +1,10 @@
 import { VideoBasicInfoDto } from '../videos/dto/video-basic-info.dto';
 import { Common } from '../common';
 import { PlaylistBasicInfoDto } from '../playlists/dto/playlist-basic-info.dto';
-import { ChannelLinkDto } from './dto/channel-link.dto';
-import { ChannelDto } from './dto/channel.dto';
-import { ChannelBasicInfoDto } from './dto/channel-basic-info.dto';
-import { VideoSectionDto } from './dto/video-section.dto';
+import { ChannelLinkDto } from 'viewtube/shared/dto/channel/channel-link.dto';
+import { ChannelDto } from 'viewtube/shared/dto/channel/channel.dto';
+import { ChannelBasicInfoDto } from 'viewtube/shared/dto/channel/channel-basic-info.dto';
+import { VideoSectionDto } from 'viewtube/shared/dto/channel/video-section.dto';
 
 export class ChannelMapper {
   static mapChannel(source: any, aboutSource: any): ChannelDto {

@@ -65,7 +65,8 @@ import SectionTitle from '@/components/SectionTitle.vue';
 import InlineVideo from '@/components/list/InlineVideo.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 
-import {useMessagesStore} from "~/store/messages";
+import { useMessagesStore } from '@/store/messages';
+import { useGetChannels } from '@/composables/api/channels';
 
 export default defineComponent({
   name: 'Channel',
@@ -93,26 +94,21 @@ export default defineComponent({
       window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
-    const { data: channel, error } = useLazyFetch(
-      `${config.public.apiUrl}channels/${route.params.id}`
-    );
+    const { data: channel, error } = useGetChannels(route.params.id);
 
-    watch(
-      () => error,
-      () => {
-        let errorMessage = '';
-        if (error.response && error.response.data) {
-          errorMessage = error.response.data.message;
-        }
-        messagesStore.createMessage({
-          type: 'error',
-          title: 'Loading the channel failed',
-          message: errorMessage
-        });
+    watch(error, () => {
+      let errorMessage = '';
+      if (error.value.response && error.value.response.data) {
+        errorMessage = error.value.response.data.message;
       }
-    );
+      messagesStore.createMessage({
+        type: 'error',
+        title: 'Loading the channel failed',
+        message: errorMessage
+      });
+    });
 
-    useMeta(() => ({
+    useHead(() => ({
       title: channel.value ? `${channel.value.author} :: ViewTube` : 'ViewTube',
       meta: [
         {

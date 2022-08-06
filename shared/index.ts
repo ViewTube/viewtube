@@ -1,20 +1,11 @@
-import { AuthorThumbnailDto } from './dto/video/author-thumbnail.dto';
-import { RecommendedVideoDto } from './dto/video/recommended-video.dto';
-import { VideoThumbnailDto } from './dto/video/video-thumbnail.dto';
-import { VideoDto } from './dto/video/video.dto';
-import { SponsorBlockSegmentsDto } from './dto/sponsorblock/sponsorblock-segments.dto';
-import { SponsorBlockSegmentDto } from './dto/sponsorblock/sponsorblock-segment.dto';
-import { getSecondsFromTimestamp, getApiUrl, getViewtubeDomain, isHttps } from './util';
-
-export {
-  AuthorThumbnailDto,
-  RecommendedVideoDto,
-  VideoThumbnailDto,
-  VideoDto,
-  SponsorBlockSegmentsDto,
-  SponsorBlockSegmentDto,
-  getSecondsFromTimestamp,
-  getApiUrl,
-  getViewtubeDomain,
-  isHttps
-};
+export { AuthorThumbnailDto } from './dto/video/author-thumbnail.dto';
+export { RecommendedVideoDto } from './dto/video/recommended-video.dto';
+export { VideoThumbnailDto } from './dto/video/video-thumbnail.dto';
+export { VideoDto } from './dto/video/video.dto';
+export { SponsorBlockSegmentsDto } from './dto/sponsorblock/sponsorblock-segments.dto';
+export { SponsorBlockSegmentDto } from './dto/sponsorblock/sponsorblock-segment.dto';
+export { getSecondsFromTimestamp, getApiUrl, getViewtubeDomain, isHttps } from './util';
+export { ChannelDto } from './dto/channel/channel.dto';
+export { ChannelLinkDto } from './dto/channel/channel-link.dto';
+export { RelatedChannelDto } from './dto/channel/related-channel.dto';
+export { VideoSectionDto } from './dto/channel/video-section.dto';
