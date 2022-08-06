@@ -14,7 +14,7 @@ import { ApiTags, ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
 import Consola from 'consola';
 import { JwtAuthGuard } from 'server/auth/guards/jwt.guard';
 import { VideoBasicInfoDto } from 'core/videos/dto/video-basic-info.dto';
-import { ChannelBasicInfoDto } from 'core/channels/dto/channel-basic-info.dto';
+import { ChannelBasicInfoDto } from 'viewtube/shared/dto/channel/channel-basic-info.dto';
 import { Common } from 'server/core/common';
 import { ViewTubeRequest } from 'common/viewtube-request';
 import { SubscriptionStatusDto } from './dto/subscription-status.dto';
