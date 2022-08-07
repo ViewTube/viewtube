@@ -50,7 +50,7 @@ export const getApiUrl = (warnOnly = false): string => {
     errorMessage = 'VIEWTUBE_URL is not defined';
   }
 
-  if (!silent && errorMessage) {
+  if (!silent) {
     const errorString = `${errorMessage}, make sure it is set to a valid URL.\n${
       errorObject ?? ''
     }`;

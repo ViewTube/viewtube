@@ -180,7 +180,6 @@ import {
   onMounted,
   ref,
   useFetch,
-  useMeta,
   useRoute,
   useRouter,
   watch
@@ -412,7 +411,7 @@ export default defineComponent({
       if (newValue) {
         if (userStore.isLoggedIn && settingsStore.saveVideoHistory) {
           const videoVisit = await axios
-            .get(`${config.public.apiUrl}user/history/${video.videoId}`, {
+            .get(`${config.public.apiUrl}user/history/${video.value.videoId}`, {
               withCredentials: true
             })
             .catch((_: any) => {});
@@ -444,17 +443,17 @@ export default defineComponent({
           id: route.query.v
         })
         .then(async (response: { data: any }): Promise<void> => {})
-        .catch((err: any) => {
-          let errorObj: any = {
-            message: 'Error loading video'
-          };
-          if (err) {
-            errorObj = {
-              requestConfig: err.config,
-              responseData: err.response ? err.response.data : null,
-              message: err.message
-            };
-          }
+        .catch(() => {
+          // let errorObj: any = {
+          //   message: 'Error loading video'
+          // };
+          // if (err) {
+          //   errorObj = {
+          //     requestConfig: err.config,
+          //     responseData: err.response ? err.response.data : null,
+          //     message: err.message
+          //   };
+          // }
           // error({
           //   statusCode: 500,
           //   message:
