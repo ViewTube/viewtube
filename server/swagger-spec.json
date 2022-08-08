@@ -1,0 +1,1190 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/api/videos/{id}": {
+      "get": {
+        "operationId": "VideosController_getVideos",
+        "parameters": [
+          { "name": "id", "required": true, "in": "path", "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/VideoDto" } }
+            }
+          }
+        },
+        "tags": ["Core"]
+      }
+    },
+    "/api/videos/manifest/dash/{id}": {
+      "get": {
+        "operationId": "VideosController_getDashManifest",
+        "parameters": [
+          { "name": "id", "required": true, "in": "path", "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": { "application/json": { "schema": { "type": "string" } } }
+          }
+        },
+        "tags": ["Core"]
+      }
+    },
+    "/api/videos/dislikes/{id}": {
+      "get": {
+        "operationId": "VideosController_getDislikes",
+        "parameters": [
+          { "name": "id", "required": true, "in": "path", "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/DislikeDto" } }
+            }
+          }
+        },
+        "tags": ["Core"]
+      }
+    },
+    "/api/videoplayback": {
+      "get": {
+        "operationId": "VideoplaybackController_getVideoplayback",
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Core"]
+      }
+    },
+    "/api/autocomplete": {
+      "get": {
+        "operationId": "AutocompleteController_getQuery",
+        "parameters": [
+          { "name": "q", "required": true, "in": "query", "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": { "schema": { "type": "array", "items": { "type": "string" } } }
+            }
+          }
+        },
+        "tags": ["Core"]
+      }
+    },
+    "/api/search/filters": {
+      "get": {
+        "operationId": "SearchController_getFilters",
+        "parameters": [
+          { "name": "q", "required": true, "in": "query", "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/SearchFilterDto" }
+                }
+              }
+            }
+          }
+        },
+        "tags": ["Core"]
+      }
+    },
+    "/api/search/continuation": {
+      "post": {
+        "operationId": "SearchController_searchContinuation",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "",
+            "content": { "application/json": { "schema": { "type": "object" } } }
+          }
+        },
+        "tags": ["Core"]
+      }
+    },
+    "/api/search": {
+      "get": {
+        "operationId": "SearchController_search",
+        "parameters": [
+          { "name": "q", "required": true, "in": "query", "schema": { "type": "string" } },
+          { "name": "pages", "required": false, "in": "query", "schema": { "type": "number" } },
+          { "name": "limit", "required": false, "in": "query", "schema": { "type": "number" } },
+          {
+            "name": "safeSearch",
+            "required": false,
+            "in": "query",
+            "schema": { "type": "boolean" }
+          },
+          { "name": "hl", "required": false, "in": "query", "schema": { "type": "string" } },
+          { "name": "gl", "required": false, "in": "query", "schema": { "type": "string" } },
+          {
+            "required": false,
+            "name": "filterName",
+            "in": "query",
+            "schema": { "type": "string" }
+          },
+          {
+            "required": false,
+            "name": "filterValue",
+            "in": "query",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": { "application/json": { "schema": { "type": "object" } } }
+          }
+        },
+        "tags": ["Core"]
+      }
+    },
+    "/api/channels/{id}/thumbnail/tiny.jpg": {
+      "get": {
+        "operationId": "ChannelsController_getTinyThumbnailJpg",
+        "parameters": [
+          { "name": "id", "required": true, "in": "path", "schema": { "type": "string" } }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Core"]
+      }
+    },
+    "/api/channels/{id}/thumbnail/tiny.webp": {
+      "get": {
+        "operationId": "ChannelsController_getTinyThumbnailWebp",
+        "parameters": [
+          { "name": "id", "required": true, "in": "path", "schema": { "type": "string" } }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Core"]
+      }
+    },
+    "/api/channels/{id}": {
+      "get": {
+        "operationId": "ChannelsController_getChannel",
+        "parameters": [
+          { "name": "id", "required": true, "in": "path", "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/ChannelDto" } }
+            }
+          }
+        },
+        "tags": ["Core"]
+      }
+    },
+    "/api/homepage/popular": {
+      "get": {
+        "operationId": "HomepageController_getPopular",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/PopularDto" } }
+            }
+          }
+        },
+        "tags": ["Core"]
+      }
+    },
+    "/api/proxy/text": {
+      "get": {
+        "operationId": "ProxyController_getText",
+        "parameters": [
+          { "name": "url", "required": true, "in": "query", "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": { "application/json": { "schema": { "type": "string" } } }
+          }
+        },
+        "tags": ["Core"]
+      }
+    },
+    "/api/proxy/image": {
+      "get": {
+        "operationId": "ProxyController_getQuery",
+        "parameters": [
+          { "name": "url", "required": true, "in": "query", "schema": { "type": "string" } }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Core"]
+      }
+    },
+    "/api/proxy/stream": {
+      "get": {
+        "operationId": "ProxyController_proxyStream",
+        "parameters": [
+          { "name": "url", "required": true, "in": "query", "schema": { "type": "string" } }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Core"]
+      }
+    },
+    "/api/comments/{videoId}": {
+      "get": {
+        "operationId": "CommentsController_getComments",
+        "parameters": [
+          { "name": "videoId", "required": true, "in": "path", "schema": { "type": "string" } },
+          {
+            "name": "continuation",
+            "required": true,
+            "in": "query",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/CommentsResponseDto" }
+              }
+            }
+          }
+        },
+        "tags": ["Core"]
+      }
+    },
+    "/api/comments/{videoId}/replies": {
+      "get": {
+        "operationId": "CommentsController_getCommentReplies",
+        "parameters": [
+          { "name": "videoId", "required": true, "in": "path", "schema": { "type": "string" } },
+          { "name": "replyToken", "required": true, "in": "query", "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/CommentsResponseDto" }
+              }
+            }
+          }
+        },
+        "tags": ["Core"]
+      }
+    },
+    "/api/playlists/{playlistId}": {
+      "get": {
+        "operationId": "PlaylistsController_getPlaylist",
+        "parameters": [
+          { "name": "playlistId", "required": true, "in": "path", "schema": { "type": "string" } },
+          { "name": "pages", "required": true, "in": "query", "schema": { "type": "number" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": { "application/json": { "schema": { "type": "object" } } }
+          }
+        },
+        "tags": ["Core"]
+      }
+    },
+    "/api/playlists/continuation": {
+      "get": {
+        "operationId": "PlaylistsController_getPlaylistContinuation",
+        "parameters": [
+          {
+            "name": "continuationData",
+            "required": true,
+            "in": "query",
+            "schema": { "type": "array", "items": { "type": "string" } }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": { "application/json": { "schema": { "type": "object" } } }
+          }
+        },
+        "tags": ["Core"]
+      }
+    },
+    "/api/user/profile": {
+      "get": {
+        "operationId": "UserController_getProfile",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/UserprofileDto" } }
+            }
+          }
+        },
+        "tags": ["User"],
+        "security": [{ "bearer": [] }]
+      }
+    },
+    "/api/user/profile/details": {
+      "get": {
+        "operationId": "UserController_getProfileDetails",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/UserprofileDetailsDto" }
+              }
+            }
+          }
+        },
+        "tags": ["User"],
+        "security": [{ "bearer": [] }]
+      }
+    },
+    "/api/user/export": {
+      "get": {
+        "operationId": "UserController_getExport",
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["User"],
+        "security": [{ "bearer": [] }]
+      }
+    },
+    "/api/user/profile/image/{username}": {
+      "get": {
+        "operationId": "UserController_getProfileImage",
+        "parameters": [
+          { "name": "username", "required": true, "in": "path", "schema": { "type": "string" } }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["User"],
+        "security": [{ "bearer": [] }]
+      }
+    },
+    "/api/user/profile/image": {
+      "post": {
+        "operationId": "UserController_uploadProfileImage",
+        "parameters": [],
+        "responses": { "201": { "description": "" } },
+        "tags": ["User"],
+        "security": [{ "bearer": [] }]
+      },
+      "delete": {
+        "operationId": "UserController_deleteProfileImage",
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["User"],
+        "security": [{ "bearer": [] }]
+      }
+    },
+    "/api/user": {
+      "delete": {
+        "operationId": "UserController_deleteUser",
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["User"],
+        "security": [{ "bearer": [] }]
+      }
+    },
+    "/api/user/profile/password": {
+      "post": {
+        "operationId": "UserController_changePassword",
+        "parameters": [],
+        "responses": { "201": { "description": "" } },
+        "tags": ["User"],
+        "security": [{ "bearer": [] }]
+      }
+    },
+    "/api/user/subscriptions/channels": {
+      "get": {
+        "operationId": "SubscriptionsController_getSubscribedChannels",
+        "parameters": [
+          {
+            "name": "filter",
+            "required": false,
+            "in": "query",
+            "example": "linu",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "sort",
+            "required": false,
+            "in": "query",
+            "example": "author:1,authorVerified:-1",
+            "schema": { "type": "string" }
+          },
+          { "name": "start", "required": false, "in": "query", "example": 0, "schema": {} },
+          { "name": "limit", "required": false, "in": "query", "example": 30, "schema": {} }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": { "application/json": { "schema": { "type": "object" } } }
+          }
+        },
+        "tags": ["User"],
+        "security": [{ "bearer": [] }]
+      }
+    },
+    "/api/user/subscriptions/videos": {
+      "get": {
+        "operationId": "SubscriptionsController_getSubscriptionVideos",
+        "parameters": [
+          { "name": "start", "required": false, "in": "query", "schema": {} },
+          { "name": "limit", "required": false, "in": "query", "schema": {} }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["User"],
+        "security": [{ "bearer": [] }]
+      }
+    },
+    "/api/user/subscriptions/{channelId}": {
+      "get": {
+        "operationId": "SubscriptionsController_getSubscription",
+        "parameters": [
+          { "name": "channelId", "required": true, "in": "path", "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/SubscriptionStatusDto" }
+              }
+            }
+          }
+        },
+        "tags": ["User"],
+        "security": [{ "bearer": [] }]
+      },
+      "put": {
+        "operationId": "SubscriptionsController_createSubscription",
+        "parameters": [
+          { "name": "channelId", "required": true, "in": "path", "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/SubscriptionStatusDto" }
+              }
+            }
+          }
+        },
+        "tags": ["User"],
+        "security": [{ "bearer": [] }]
+      },
+      "delete": {
+        "operationId": "SubscriptionsController_deleteSubscription",
+        "parameters": [
+          { "name": "channelId", "required": true, "in": "path", "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/SubscriptionStatusDto" }
+              }
+            }
+          }
+        },
+        "tags": ["User"],
+        "security": [{ "bearer": [] }]
+      }
+    },
+    "/api/user/subscriptions/multiple": {
+      "post": {
+        "operationId": "SubscriptionsController_createMultipleSubscriptions",
+        "parameters": [],
+        "responses": { "201": { "description": "" } },
+        "tags": ["User"],
+        "security": [{ "bearer": [] }]
+      }
+    },
+    "/api/user/notifications/subscribe": {
+      "post": {
+        "operationId": "NotificationsController_subscribeToNotifications",
+        "parameters": [],
+        "responses": { "201": { "description": "" } },
+        "tags": ["User"],
+        "security": [{ "bearer": [] }, { "bearer": [] }]
+      }
+    },
+    "/api/user/settings": {
+      "put": {
+        "operationId": "SettingsController_setSettings",
+        "parameters": [],
+        "responses": { "204": { "description": "" } },
+        "tags": ["User"],
+        "security": [{ "bearer": [] }, { "bearer": [] }]
+      },
+      "get": {
+        "operationId": "SettingsController_getSettings",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/SettingsDto" } }
+            }
+          }
+        },
+        "tags": ["User"],
+        "security": [{ "bearer": [] }, { "bearer": [] }]
+      }
+    },
+    "/api/user/history": {
+      "get": {
+        "operationId": "HistoryController_getHistory",
+        "parameters": [
+          { "name": "limit", "required": true, "in": "query", "schema": { "type": "number" } },
+          { "name": "start", "required": true, "in": "query", "schema": { "type": "number" } },
+          { "name": "sort", "required": true, "in": "query", "schema": { "type": "string" } },
+          { "name": "filter", "required": true, "in": "query", "schema": { "type": "string" } }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["User"],
+        "security": [{ "bearer": [] }]
+      },
+      "delete": {
+        "operationId": "HistoryController_deleteEntireHistory",
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["User"],
+        "security": [{ "bearer": [] }]
+      }
+    },
+    "/api/user/history/{id}": {
+      "post": {
+        "operationId": "HistoryController_setVideoVisit",
+        "parameters": [
+          { "name": "id", "required": true, "in": "path", "schema": { "type": "string" } }
+        ],
+        "responses": { "201": { "description": "" } },
+        "tags": ["User"],
+        "security": [{ "bearer": [] }]
+      },
+      "get": {
+        "operationId": "HistoryController_getVideoVisit",
+        "parameters": [
+          { "name": "id", "required": true, "in": "path", "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/VideoVisitDto" } }
+            }
+          }
+        },
+        "tags": ["User"],
+        "security": [{ "bearer": [] }]
+      }
+    },
+    "/api/user/history/{videoId}": {
+      "delete": {
+        "operationId": "HistoryController_deleteHistoryEntry",
+        "parameters": [
+          { "name": "videoId", "required": true, "in": "path", "schema": { "type": "string" } }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["User"],
+        "security": [{ "bearer": [] }]
+      }
+    },
+    "/api/user/history/from/{startDate}/to/{endDate}": {
+      "delete": {
+        "operationId": "HistoryController_deleteHistoryRange",
+        "parameters": [
+          { "name": "startDate", "required": true, "in": "path", "schema": { "type": "string" } },
+          { "name": "endDate", "required": true, "in": "path", "schema": { "type": "string" } }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["User"],
+        "security": [{ "bearer": [] }]
+      }
+    },
+    "/api/auth/login": {
+      "post": {
+        "operationId": "AuthController_login",
+        "parameters": [
+          { "name": "local", "required": true, "in": "query", "schema": { "type": "boolean" } }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/UserDto" } }
+          }
+        },
+        "responses": { "201": { "description": "" } },
+        "tags": ["Auth"]
+      }
+    },
+    "/api/auth/logout": {
+      "post": {
+        "operationId": "AuthController_logout",
+        "parameters": [],
+        "responses": { "201": { "description": "" } },
+        "tags": ["Auth"]
+      }
+    },
+    "/api/auth/register": {
+      "post": {
+        "operationId": "RegisterController_registerUser",
+        "summary": "Register a new user",
+        "description": "Request a captcha through the /auth/captcha endpoint,\n    and pass its token and solution alongside the new user's credentials.",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/RegistrationDto" } }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": { "application/json": { "schema": { "type": "object" } } }
+          }
+        },
+        "tags": ["Auth"]
+      }
+    },
+    "/api/auth/captcha": {
+      "get": {
+        "operationId": "CaptchaController_getCaptcha",
+        "summary": "Get a captcha",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/CaptchaDto" } }
+            }
+          }
+        },
+        "tags": ["Auth"]
+      }
+    }
+  },
+  "info": {
+    "title": "ViewTube-API",
+    "description": "ViewTube, an alternative Youtube frontend.",
+    "version": "Version 0.8.0",
+    "contact": {},
+    "license": {
+      "name": "AGPLv3",
+      "url": "https://raw.githubusercontent.com/viewtube/viewtube-vue/development/LICENSE"
+    }
+  },
+  "tags": [],
+  "servers": [],
+  "components": {
+    "securitySchemes": { "bearer": { "scheme": "bearer", "bearerFormat": "JWT", "type": "http" } },
+    "schemas": {
+      "VideoThumbnailDto": {
+        "type": "object",
+        "properties": {
+          "quality": { "type": "string" },
+          "url": { "type": "string" },
+          "width": { "type": "number" },
+          "height": { "type": "number" }
+        },
+        "required": ["quality", "url", "width", "height"]
+      },
+      "AuthorThumbnailDto": {
+        "type": "object",
+        "properties": {
+          "url": { "type": "string" },
+          "width": { "type": "number" },
+          "height": { "type": "number" }
+        },
+        "required": ["url", "width", "height"]
+      },
+      "ChapterDto": {
+        "type": "object",
+        "properties": { "title": { "type": "string" }, "startTime": { "type": "number" } },
+        "required": ["title", "startTime"]
+      },
+      "RecommendedVideoDto": {
+        "type": "object",
+        "properties": {
+          "videoId": { "type": "string" },
+          "title": { "type": "string" },
+          "videoThumbnails": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/VideoThumbnailDto" }
+          },
+          "author": { "type": "string" },
+          "authorUrl": { "type": "string" },
+          "authorId": { "type": "string" },
+          "authorThumbnails": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/AuthorThumbnailDto" }
+          },
+          "lengthSeconds": { "type": "number" },
+          "viewCountText": { "type": "string" },
+          "viewCount": { "type": "number" }
+        },
+        "required": [
+          "videoId",
+          "title",
+          "videoThumbnails",
+          "author",
+          "authorUrl",
+          "authorId",
+          "authorThumbnails",
+          "lengthSeconds",
+          "viewCountText",
+          "viewCount"
+        ]
+      },
+      "VideoDto": {
+        "type": "object",
+        "properties": {
+          "type": { "type": "string" },
+          "title": { "type": "string" },
+          "videoId": { "type": "string" },
+          "videoThumbnails": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/VideoThumbnailDto" }
+          },
+          "storyboards": { "type": "object" },
+          "description": { "type": "string" },
+          "descriptionHtml": { "type": "string" },
+          "published": { "type": "number" },
+          "publishedText": { "type": "string" },
+          "keywords": { "type": "array", "items": { "type": "string" } },
+          "viewCount": { "type": "number" },
+          "likeCount": { "type": "number" },
+          "paid": { "type": "boolean" },
+          "premium": { "type": "boolean" },
+          "isFamilyFriendly": { "type": "boolean" },
+          "allowedRegions": { "type": "array", "items": { "type": "string" } },
+          "genre": { "type": "string" },
+          "genreUrl": { "type": "string" },
+          "author": { "type": "string" },
+          "authorId": { "type": "string" },
+          "authorUrl": { "type": "string" },
+          "authorThumbnails": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/AuthorThumbnailDto" }
+          },
+          "authorVerified": { "type": "boolean" },
+          "subCount": { "type": "number" },
+          "lengthSeconds": { "type": "number" },
+          "allowRatings": { "type": "boolean" },
+          "rating": { "type": "number" },
+          "isListed": { "type": "boolean" },
+          "liveNow": { "type": "boolean" },
+          "isUpcoming": { "type": "boolean" },
+          "adaptiveFormats": { "type": "array", "items": { "type": "object" } },
+          "legacyFormats": { "type": "array", "items": { "type": "object" } },
+          "chapters": { "type": "array", "items": { "$ref": "#/components/schemas/ChapterDto" } },
+          "captions": { "type": "object" },
+          "recommendedVideos": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/RecommendedVideoDto" }
+          },
+          "dashManifest": { "type": "string" }
+        },
+        "required": [
+          "type",
+          "title",
+          "videoId",
+          "videoThumbnails",
+          "storyboards",
+          "description",
+          "descriptionHtml",
+          "published",
+          "publishedText",
+          "keywords",
+          "viewCount",
+          "likeCount",
+          "paid",
+          "premium",
+          "isFamilyFriendly",
+          "allowedRegions",
+          "genre",
+          "genreUrl",
+          "author",
+          "authorId",
+          "authorUrl",
+          "authorThumbnails",
+          "authorVerified",
+          "subCount",
+          "lengthSeconds",
+          "allowRatings",
+          "rating",
+          "isListed",
+          "liveNow",
+          "isUpcoming",
+          "adaptiveFormats",
+          "legacyFormats",
+          "captions",
+          "recommendedVideos"
+        ]
+      },
+      "DislikeDto": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "dateCreated": { "type": "string" },
+          "likes": { "type": "number" },
+          "dislikes": { "type": "number" },
+          "rating": { "type": "number" },
+          "viewCount": { "type": "number" },
+          "deleted": { "type": "boolean" }
+        },
+        "required": ["id", "dateCreated", "likes", "dislikes", "rating", "viewCount", "deleted"]
+      },
+      "FilterValueDto": {
+        "type": "object",
+        "properties": {
+          "active": { "type": "boolean" },
+          "description": { "type": "string" },
+          "name": { "type": "string" },
+          "url": { "type": "string" }
+        },
+        "required": ["active", "description", "name", "url"]
+      },
+      "SearchFilterDto": {
+        "type": "object",
+        "properties": {
+          "filterType": { "type": "string" },
+          "filterValues": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/FilterValueDto" }
+          }
+        },
+        "required": ["filterType", "filterValues"]
+      },
+      "ChannelBasicInfoDto": {
+        "type": "object",
+        "properties": {
+          "authorId": { "type": "string" },
+          "author": { "type": "string" },
+          "authorUrl": { "type": "string" },
+          "authorThumbnails": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/AuthorThumbnailDto" }
+          },
+          "authorThumbnailUrl": { "type": "string" },
+          "authorVerified": { "type": "boolean" },
+          "subCount": { "type": "number" },
+          "videoCount": { "type": "number" },
+          "description": { "type": "string" }
+        },
+        "required": ["authorId", "author"]
+      },
+      "RelatedChannelDto": {
+        "type": "object",
+        "properties": {
+          "title": { "type": "string" },
+          "channels": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/ChannelBasicInfoDto" }
+          }
+        },
+        "required": ["title", "channels"]
+      },
+      "LinkThumbnailDto": {
+        "type": "object",
+        "properties": { "url": { "type": "string" } },
+        "required": ["url"]
+      },
+      "ChannelLinkDto": {
+        "type": "object",
+        "properties": {
+          "url": { "type": "string" },
+          "linkThumbnails": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/LinkThumbnailDto" }
+          },
+          "title": { "type": "string" }
+        },
+        "required": ["url", "title"]
+      },
+      "ChannelDto": {
+        "type": "object",
+        "properties": {
+          "author": { "type": "string" },
+          "authorId": { "type": "string" },
+          "authorUrl": { "type": "string" },
+          "authorUsername": { "type": "string" },
+          "authorBanners": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/AuthorThumbnailDto" }
+          },
+          "authorThumbnails": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/AuthorThumbnailDto" }
+          },
+          "subCount": { "type": "number" },
+          "totalViews": { "type": "number" },
+          "joined": { "type": "number" },
+          "paid": { "type": "boolean" },
+          "autoGenerated": { "type": "boolean" },
+          "isFamilyFriendly": { "type": "boolean" },
+          "description": { "type": "string" },
+          "descriptionHtml": { "type": "string" },
+          "allowedRegions": { "type": "array", "items": { "type": "string" } },
+          "videoSections": { "type": "array", "items": { "type": "object" } },
+          "relatedChannels": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/RelatedChannelDto" }
+          },
+          "channelLinks": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/ChannelLinkDto" }
+          }
+        },
+        "required": [
+          "author",
+          "authorId",
+          "authorUrl",
+          "authorBanners",
+          "authorThumbnails",
+          "subCount",
+          "totalViews",
+          "joined",
+          "paid",
+          "autoGenerated",
+          "isFamilyFriendly",
+          "description",
+          "descriptionHtml",
+          "allowedRegions",
+          "videoSections",
+          "relatedChannels"
+        ]
+      },
+      "VideoBasicInfoDto": {
+        "type": "object",
+        "properties": {
+          "videoId": { "type": "string" },
+          "title": { "type": "string" },
+          "published": { "type": "number" },
+          "publishedText": { "type": "string" },
+          "author": { "type": "string" },
+          "authorId": { "type": "string" },
+          "authorVerified": { "type": "boolean" },
+          "authorThumbnails": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/AuthorThumbnailDto" }
+          },
+          "authorThumbnailUrl": { "type": "string" },
+          "videoThumbnails": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/VideoThumbnailDto" }
+          },
+          "description": { "type": "string" },
+          "viewCount": { "type": "number" },
+          "likeCount": { "type": "number" },
+          "dislikeCount": { "type": "number" },
+          "lengthSeconds": { "type": "number" },
+          "lengthString": { "type": "string" },
+          "live": { "type": "boolean" }
+        },
+        "required": [
+          "videoId",
+          "title",
+          "publishedText",
+          "author",
+          "authorId",
+          "videoThumbnails",
+          "viewCount"
+        ]
+      },
+      "PopularDto": {
+        "type": "object",
+        "properties": {
+          "videos": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/VideoBasicInfoDto" }
+          },
+          "updatedAt": { "format": "date-time", "type": "string" }
+        },
+        "required": ["videos", "updatedAt"]
+      },
+      "CommentDto": {
+        "type": "object",
+        "properties": {
+          "authorThumbnails": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/AuthorThumbnailDto" }
+          },
+          "author": { "type": "string" },
+          "authorId": { "type": "string" },
+          "publishedText": { "type": "string" },
+          "isEdited": { "type": "boolean" },
+          "likeCount": { "type": "number" },
+          "creatorHeart": { "type": "boolean" },
+          "replyToken": { "type": "string" },
+          "replyCount": { "type": "number" },
+          "content": { "type": "string" }
+        },
+        "required": [
+          "authorThumbnails",
+          "author",
+          "authorId",
+          "publishedText",
+          "isEdited",
+          "likeCount",
+          "creatorHeart",
+          "replyToken",
+          "replyCount",
+          "content"
+        ]
+      },
+      "CommentsResponseDto": {
+        "type": "object",
+        "properties": {
+          "comments": { "type": "array", "items": { "$ref": "#/components/schemas/CommentDto" } },
+          "continuation": { "type": "string" }
+        },
+        "required": ["comments", "continuation"]
+      },
+      "SettingsDto": {
+        "type": "object",
+        "properties": {
+          "miniplayer": { "type": "boolean" },
+          "chapters": { "type": "boolean" },
+          "theme": { "type": "string" },
+          "sponsorblockEnabled": { "type": "boolean" },
+          "sponsorblockSegmentSponsor": { "type": "object" },
+          "sponsorblockSegmentIntro": { "type": "object" },
+          "sponsorblockSegmentOutro": { "type": "object" },
+          "sponsorblockSegmentInteraction": { "type": "object" },
+          "sponsorblockSegmentSelfpromo": { "type": "object" },
+          "sponsorblockSegmentMusicOfftopic": { "type": "object" },
+          "sponsorblockSegmentPreview": { "type": "object" },
+          "autoplay": { "type": "boolean" },
+          "saveVideoHistory": { "type": "boolean" },
+          "showHomeSubscriptions": { "type": "boolean" },
+          "alwaysLoopVideo": { "type": "boolean" },
+          "autoplayNextVideo": { "type": "boolean" },
+          "audioModeDefault": { "type": "boolean" },
+          "defaultVideoSpeed": { "type": "number" },
+          "defaultVideoQuality": { "type": "string" },
+          "defaultAudioQuality": { "type": "string" },
+          "autoAdjustAudioQuality": { "type": "boolean" },
+          "autoAdjustVideoQuality": { "type": "boolean" },
+          "dashPlaybackEnabled": { "type": "boolean" }
+        },
+        "required": [
+          "miniplayer",
+          "chapters",
+          "theme",
+          "sponsorblockEnabled",
+          "sponsorblockSegmentSponsor",
+          "sponsorblockSegmentIntro",
+          "sponsorblockSegmentOutro",
+          "sponsorblockSegmentInteraction",
+          "sponsorblockSegmentSelfpromo",
+          "sponsorblockSegmentMusicOfftopic",
+          "sponsorblockSegmentPreview",
+          "autoplay",
+          "saveVideoHistory",
+          "showHomeSubscriptions",
+          "alwaysLoopVideo",
+          "autoplayNextVideo",
+          "audioModeDefault",
+          "defaultVideoSpeed",
+          "defaultVideoQuality",
+          "defaultAudioQuality",
+          "autoAdjustAudioQuality",
+          "autoAdjustVideoQuality",
+          "dashPlaybackEnabled"
+        ]
+      },
+      "UserprofileDto": {
+        "type": "object",
+        "properties": {
+          "username": { "type": "string" },
+          "profileImage": { "type": "string" },
+          "settings": { "$ref": "#/components/schemas/SettingsDto" }
+        },
+        "required": ["username", "profileImage", "settings"]
+      },
+      "VideoVisitDetailsDto": {
+        "type": "object",
+        "properties": {
+          "videoDetails": { "$ref": "#/components/schemas/VideoBasicInfoDto" },
+          "videoId": { "type": "string" },
+          "progressSeconds": { "type": "number" },
+          "lengthSeconds": { "type": "number" },
+          "lastVisit": { "format": "date-time", "type": "string" }
+        },
+        "required": ["videoDetails", "videoId", "progressSeconds", "lengthSeconds", "lastVisit"]
+      },
+      "UserprofileDetailsDto": {
+        "type": "object",
+        "properties": {
+          "username": { "type": "string" },
+          "profileImage": { "type": "string" },
+          "videoHistory": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/VideoVisitDetailsDto" }
+          },
+          "registeredAt": { "format": "date-time", "type": "string" },
+          "totalVideosCount": { "type": "number" },
+          "totalTimeString": { "type": "string" },
+          "subscribedChannelsCount": { "type": "number" }
+        },
+        "required": [
+          "username",
+          "profileImage",
+          "videoHistory",
+          "registeredAt",
+          "totalVideosCount",
+          "totalTimeString",
+          "subscribedChannelsCount"
+        ]
+      },
+      "SubscriptionStatusDto": {
+        "type": "object",
+        "properties": { "channelId": { "type": "string" }, "isSubscribed": { "type": "boolean" } },
+        "required": ["channelId", "isSubscribed"]
+      },
+      "VideoVisitDto": {
+        "type": "object",
+        "properties": {
+          "videoId": { "type": "string" },
+          "progressSeconds": { "type": "number" },
+          "lengthSeconds": { "type": "number" },
+          "lastVisit": { "format": "date-time", "type": "string" }
+        },
+        "required": ["videoId", "progressSeconds", "lengthSeconds", "lastVisit"]
+      },
+      "UserDto": {
+        "type": "object",
+        "properties": { "username": { "type": "string" }, "password": { "type": "string" } },
+        "required": ["username", "password"]
+      },
+      "RegistrationDto": {
+        "type": "object",
+        "properties": {
+          "username": { "type": "string" },
+          "password": { "type": "string" },
+          "captchaToken": { "type": "string" },
+          "captchaSolution": { "type": "string" }
+        },
+        "required": ["username", "password", "captchaToken", "captchaSolution"]
+      },
+      "CaptchaDto": {
+        "type": "object",
+        "properties": { "token": { "type": "string" }, "captchaImage": { "type": "string" } },
+        "required": ["token", "captchaImage"]
+      }
+    }
+  }
+}

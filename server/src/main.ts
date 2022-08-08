@@ -124,6 +124,12 @@ const bootstrap = async () => {
     .build();
 
   const swaggerDocument = SwaggerModule.createDocument(server, documentOptions);
+
+  if (process.env.GENERATE_SWAGGER === 'true') {
+    fs.writeFileSync('./swagger-spec.json', JSON.stringify(swaggerDocument));
+    process.exit(0);
+  }
+
   SwaggerModule.setup('/api', server, swaggerDocument);
 
   server.use(cookieParser());

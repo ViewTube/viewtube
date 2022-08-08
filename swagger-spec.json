@@ -1,0 +1,768 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/api/videos/{id}": {
+      "get": {
+        "operationId": "VideosController_getVideos",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Core"]
+      }
+    },
+    "/api/videos/manifest/dash/{id}": {
+      "get": {
+        "operationId": "VideosController_getDashManifest",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Core"]
+      }
+    },
+    "/api/videos/dislikes/{id}": {
+      "get": {
+        "operationId": "VideosController_getDislikes",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Core"]
+      }
+    },
+    "/api/videoplayback": {
+      "get": {
+        "operationId": "VideoplaybackController_getVideoplayback",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": { "schema": { "type": "object" } }
+            }
+          }
+        },
+        "tags": ["Core"]
+      }
+    },
+    "/api/autocomplete": {
+      "get": {
+        "operationId": "AutocompleteController_getQuery",
+        "parameters": [
+          {
+            "name": "q",
+            "required": true,
+            "in": "query",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Core"]
+      }
+    },
+    "/api/search/filters": {
+      "get": {
+        "operationId": "SearchController_getFilters",
+        "parameters": [
+          {
+            "name": "q",
+            "required": true,
+            "in": "query",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Core"]
+      }
+    },
+    "/api/search/continuation": {
+      "post": {
+        "operationId": "SearchController_searchContinuation",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": { "schema": { "type": "object" } }
+            }
+          }
+        },
+        "tags": ["Core"]
+      }
+    },
+    "/api/search": {
+      "get": {
+        "operationId": "SearchController_search",
+        "parameters": [
+          {
+            "name": "q",
+            "required": true,
+            "in": "query",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "pages",
+            "required": false,
+            "in": "query",
+            "schema": { "type": "number" }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": { "type": "number" }
+          },
+          {
+            "name": "safeSearch",
+            "required": false,
+            "in": "query",
+            "schema": { "type": "boolean" }
+          },
+          {
+            "name": "hl",
+            "required": false,
+            "in": "query",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "gl",
+            "required": false,
+            "in": "query",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Core"]
+      }
+    },
+    "/api/channels/{id}/thumbnail/tiny.jpg": {
+      "get": {
+        "operationId": "ChannelsController_getTinyThumbnailJpg",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Core"]
+      }
+    },
+    "/api/channels/{id}/thumbnail/tiny.webp": {
+      "get": {
+        "operationId": "ChannelsController_getTinyThumbnailWebp",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Core"]
+      }
+    },
+    "/api/channels/{id}": {
+      "get": {
+        "operationId": "ChannelsController_getChannel",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Core"]
+      }
+    },
+    "/api/homepage/popular": {
+      "get": {
+        "operationId": "HomepageController_getPopular",
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Core"]
+      }
+    },
+    "/api/proxy/text": {
+      "get": {
+        "operationId": "ProxyController_getText",
+        "parameters": [
+          {
+            "name": "url",
+            "required": true,
+            "in": "query",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Core"]
+      }
+    },
+    "/api/proxy/image": {
+      "get": {
+        "operationId": "ProxyController_getQuery",
+        "parameters": [
+          {
+            "name": "url",
+            "required": true,
+            "in": "query",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Core"]
+      }
+    },
+    "/api/proxy/stream": {
+      "get": {
+        "operationId": "ProxyController_proxyStream",
+        "parameters": [
+          {
+            "name": "url",
+            "required": true,
+            "in": "query",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Core"]
+      }
+    },
+    "/api/comments/{videoId}": {
+      "get": {
+        "operationId": "CommentsController_getComments",
+        "parameters": [
+          {
+            "name": "videoId",
+            "required": true,
+            "in": "path",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "continuation",
+            "required": true,
+            "in": "query",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Core"]
+      }
+    },
+    "/api/comments/{videoId}/replies": {
+      "get": {
+        "operationId": "CommentsController_getCommentReplies",
+        "parameters": [
+          {
+            "name": "videoId",
+            "required": true,
+            "in": "path",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "replyToken",
+            "required": true,
+            "in": "query",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Core"]
+      }
+    },
+    "/api/playlists/{playlistId}": {
+      "get": {
+        "operationId": "PlaylistsController_getPlaylist",
+        "parameters": [
+          {
+            "name": "playlistId",
+            "required": true,
+            "in": "path",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "pages",
+            "required": true,
+            "in": "query",
+            "schema": { "type": "number" }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Core"]
+      }
+    },
+    "/api/playlists/continuation": {
+      "get": {
+        "operationId": "PlaylistsController_getPlaylistContinuation",
+        "parameters": [
+          {
+            "name": "continuationData",
+            "required": true,
+            "in": "query",
+            "schema": { "type": "array", "items": { "type": "string" } }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Core"]
+      }
+    },
+    "/api/user/profile": {
+      "get": {
+        "operationId": "UserController_getProfile",
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["User"],
+        "security": [{ "bearer": [] }]
+      }
+    },
+    "/api/user/profile/details": {
+      "get": {
+        "operationId": "UserController_getProfileDetails",
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["User"],
+        "security": [{ "bearer": [] }]
+      }
+    },
+    "/api/user/export": {
+      "get": {
+        "operationId": "UserController_getExport",
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["User"],
+        "security": [{ "bearer": [] }]
+      }
+    },
+    "/api/user/profile/image/{username}": {
+      "get": {
+        "operationId": "UserController_getProfileImage",
+        "parameters": [
+          {
+            "name": "username",
+            "required": true,
+            "in": "path",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": { "schema": { "type": "object" } }
+            }
+          }
+        },
+        "tags": ["User"],
+        "security": [{ "bearer": [] }]
+      }
+    },
+    "/api/user/profile/image": {
+      "post": {
+        "operationId": "UserController_uploadProfileImage",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": { "schema": { "type": "object" } }
+            }
+          }
+        },
+        "tags": ["User"],
+        "security": [{ "bearer": [] }]
+      },
+      "delete": {
+        "operationId": "UserController_deleteProfileImage",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": { "schema": { "type": "object" } }
+            }
+          }
+        },
+        "tags": ["User"],
+        "security": [{ "bearer": [] }]
+      }
+    },
+    "/api/user": {
+      "delete": {
+        "operationId": "UserController_deleteUser",
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["User"],
+        "security": [{ "bearer": [] }]
+      }
+    },
+    "/api/user/profile/password": {
+      "post": {
+        "operationId": "UserController_changePassword",
+        "parameters": [],
+        "responses": { "201": { "description": "" } },
+        "tags": ["User"],
+        "security": [{ "bearer": [] }]
+      }
+    },
+    "/api/user/subscriptions/channels": {
+      "get": {
+        "operationId": "SubscriptionsController_getSubscribedChannels",
+        "parameters": [
+          {
+            "name": "filter",
+            "required": false,
+            "in": "query",
+            "example": "linu",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "sort",
+            "required": false,
+            "in": "query",
+            "example": "author:1,authorVerified:-1",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "start",
+            "required": false,
+            "in": "query",
+            "example": 0,
+            "schema": {}
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "example": 30,
+            "schema": {}
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["User"],
+        "security": [{ "bearer": [] }]
+      }
+    },
+    "/api/user/subscriptions/videos": {
+      "get": {
+        "operationId": "SubscriptionsController_getSubscriptionVideos",
+        "parameters": [
+          { "name": "start", "required": false, "in": "query", "schema": {} },
+          { "name": "limit", "required": false, "in": "query", "schema": {} }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["User"],
+        "security": [{ "bearer": [] }]
+      }
+    },
+    "/api/user/subscriptions/{channelId}": {
+      "get": {
+        "operationId": "SubscriptionsController_getSubscription",
+        "parameters": [
+          {
+            "name": "channelId",
+            "required": true,
+            "in": "path",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["User"],
+        "security": [{ "bearer": [] }]
+      },
+      "put": {
+        "operationId": "SubscriptionsController_createSubscription",
+        "parameters": [
+          {
+            "name": "channelId",
+            "required": true,
+            "in": "path",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["User"],
+        "security": [{ "bearer": [] }]
+      },
+      "delete": {
+        "operationId": "SubscriptionsController_deleteSubscription",
+        "parameters": [
+          {
+            "name": "channelId",
+            "required": true,
+            "in": "path",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["User"],
+        "security": [{ "bearer": [] }]
+      }
+    },
+    "/api/user/subscriptions/multiple": {
+      "post": {
+        "operationId": "SubscriptionsController_createMultipleSubscriptions",
+        "parameters": [],
+        "responses": { "201": { "description": "" } },
+        "tags": ["User"],
+        "security": [{ "bearer": [] }]
+      }
+    },
+    "/api/user/notifications/subscribe": {
+      "post": {
+        "operationId": "NotificationsController_subscribeToNotifications",
+        "parameters": [],
+        "responses": { "201": { "description": "" } },
+        "tags": ["User"],
+        "security": [{ "bearer": [] }, { "bearer": [] }]
+      }
+    },
+    "/api/user/settings": {
+      "put": {
+        "operationId": "SettingsController_setSettings",
+        "parameters": [],
+        "responses": { "204": { "description": "" } },
+        "tags": ["User"],
+        "security": [{ "bearer": [] }, { "bearer": [] }]
+      },
+      "get": {
+        "operationId": "SettingsController_getSettings",
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["User"],
+        "security": [{ "bearer": [] }, { "bearer": [] }]
+      }
+    },
+    "/api/user/history": {
+      "get": {
+        "operationId": "HistoryController_getHistory",
+        "parameters": [
+          {
+            "name": "limit",
+            "required": true,
+            "in": "query",
+            "schema": { "type": "number" }
+          },
+          {
+            "name": "start",
+            "required": true,
+            "in": "query",
+            "schema": { "type": "number" }
+          },
+          {
+            "name": "sort",
+            "required": true,
+            "in": "query",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "filter",
+            "required": true,
+            "in": "query",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["User"],
+        "security": [{ "bearer": [] }]
+      },
+      "delete": {
+        "operationId": "HistoryController_deleteEntireHistory",
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["User"],
+        "security": [{ "bearer": [] }]
+      }
+    },
+    "/api/user/history/{id}": {
+      "post": {
+        "operationId": "HistoryController_setVideoVisit",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": { "schema": { "type": "object" } }
+            }
+          }
+        },
+        "tags": ["User"],
+        "security": [{ "bearer": [] }]
+      },
+      "get": {
+        "operationId": "HistoryController_getVideoVisit",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["User"],
+        "security": [{ "bearer": [] }]
+      }
+    },
+    "/api/user/history/{videoId}": {
+      "delete": {
+        "operationId": "HistoryController_deleteHistoryEntry",
+        "parameters": [
+          {
+            "name": "videoId",
+            "required": true,
+            "in": "path",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["User"],
+        "security": [{ "bearer": [] }]
+      }
+    },
+    "/api/user/history/from/{startDate}/to/{endDate}": {
+      "delete": {
+        "operationId": "HistoryController_deleteHistoryRange",
+        "parameters": [
+          {
+            "name": "startDate",
+            "required": true,
+            "in": "path",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "endDate",
+            "required": true,
+            "in": "path",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["User"],
+        "security": [{ "bearer": [] }]
+      }
+    },
+    "/api/auth/login": {
+      "post": {
+        "operationId": "AuthController_login",
+        "parameters": [
+          {
+            "name": "local",
+            "required": true,
+            "in": "query",
+            "schema": { "type": "boolean" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/UserDto" }
+            }
+          }
+        },
+        "responses": { "201": { "description": "" } },
+        "tags": ["Auth"]
+      }
+    },
+    "/api/auth/logout": {
+      "post": {
+        "operationId": "AuthController_logout",
+        "parameters": [],
+        "responses": { "201": { "description": "" } },
+        "tags": ["Auth"]
+      }
+    },
+    "/api/auth/register": {
+      "post": {
+        "operationId": "RegisterController_registerUser",
+        "summary": "Register a new user",
+        "description": "Request a captcha through the /auth/captcha endpoint,\n    and pass its token and solution alongside the new user's credentials.",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/RegistrationDto" }
+            }
+          }
+        },
+        "responses": { "201": { "description": "" } },
+        "tags": ["Auth"]
+      }
+    },
+    "/api/auth/captcha": {
+      "get": {
+        "operationId": "CaptchaController_getCaptcha",
+        "summary": "Get a captcha",
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Auth"]
+      }
+    }
+  },
+  "info": {
+    "title": "ViewTube-API",
+    "description": "ViewTube, an alternative Youtube frontend.",
+    "version": "Version 0.8.0",
+    "contact": {},
+    "license": {
+      "name": "AGPLv3",
+      "url": "https://raw.githubusercontent.com/viewtube/viewtube-vue/development/LICENSE"
+    }
+  },
+  "tags": [],
+  "servers": [],
+  "components": {
+    "securitySchemes": {
+      "bearer": { "scheme": "bearer", "bearerFormat": "JWT", "type": "http" }
+    },
+    "schemas": {
+      "UserDto": {
+        "type": "object",
+        "properties": {
+          "username": { "type": "string" },
+          "password": { "type": "string" }
+        },
+        "required": ["username", "password"]
+      },
+      "RegistrationDto": {
+        "type": "object",
+        "properties": {
+          "username": { "type": "string" },
+          "password": { "type": "string" },
+          "captchaToken": { "type": "string" },
+          "captchaSolution": { "type": "string" }
+        },
+        "required": ["username", "password", "captchaToken", "captchaSolution"]
+      }
+    }
+  }
+}
