@@ -21,10 +21,10 @@
         <h2 class="playlist-title">{{ playlist.title }}</h2>
         <div class="playlist-details">
           <span class="playlist-detail"
-            ><EyeIcon /> {{ playlist.views.toLocaleString('en-US') }} views</span
+            ><EyeIcon /> {{ playlist.views?.toLocaleString('en-US') }} views</span
           >
           <span class="playlist-detail"
-            ><CountIcon />{{ playlist.estimatedItemCount.toLocaleString('en-US') }} items</span
+            ><CountIcon />{{ playlist.estimatedItemCount?.toLocaleString('en-US') }} items</span
           >
           <span class="playlist-detail"><CalendarIcon />{{ playlist.lastUpdated }}</span>
           <span class="playlist-detail"

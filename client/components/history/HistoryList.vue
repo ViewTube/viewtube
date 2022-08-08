@@ -24,7 +24,7 @@
           >
         </div>
         <div
-          v-tippy="new Date(video.lastVisit).toLocaleString()"
+          v-tippy="new Date(video.lastVisit)?.toLocaleString()"
           class="history-entry-watched-date tooltip"
         >
           Last watched: {{ humanizeDateString(video.lastVisit) }} ago

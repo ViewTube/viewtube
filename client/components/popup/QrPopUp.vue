@@ -26,7 +26,7 @@ export default defineComponent({
     const qrCodeRef = ref(null);
 
     const url = (): string => {
-      return process.browser ? window.location.href : '';
+      return window?.location.href ?? '';
     };
     const getThemePrimaryColor = (): string => {
       return currentTheme['theme-color'];

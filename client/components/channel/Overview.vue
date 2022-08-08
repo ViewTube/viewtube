@@ -12,13 +12,13 @@
           <div class="channel-basics">
             <div v-if="channel.subCount" class="channel-subcount">
               <h2>
-                {{ channel.subCount.toLocaleString('en-US') }}
+                {{ channel.subCount?.toLocaleString('en-US') }}
                 subscribers
               </h2>
             </div>
             <div v-if="channel.totalViews" class="channel-totalviews">
               <h2>
-                {{ channel.totalViews.toLocaleString('en-US') }}
+                {{ channel.totalViews?.toLocaleString('en-US') }}
                 total views
               </h2>
             </div>

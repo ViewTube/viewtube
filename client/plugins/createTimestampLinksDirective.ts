@@ -15,7 +15,7 @@ export default defineNuxtPlugin(nuxtApp => {
       let htmlText = text.replace(urlRegex, match => {
         return `<a href="${match}" target="_blank" rel="noreferrer noopener">${match}</a>`;
       });
-      if (process.browser) {
+      if (process.client) {
         htmlText = htmlText.replace(timestampRegex, match => {
           const seconds = getSecondsFromTimestamp(match);
           const searchParams = new URLSearchParams(window.location.search);

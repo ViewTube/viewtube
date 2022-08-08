@@ -1,7 +1,5 @@
 import { VideoThumbnailDto, VideoDto } from 'viewtube/shared';
 
-declare const MediaMetadata: new (arg0: any) => any;
-
 export class MediaMetadataHelper {
   constructor(video: any) {
     this.video = video;

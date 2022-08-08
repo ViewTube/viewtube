@@ -20,7 +20,7 @@
     </div>
     <div class="video-info">
       <nuxt-link class="title" :to="`/watch?v=${video.videoId}`">{{ video.title }}</nuxt-link>
-      <p class="views">{{ video.viewCount.toLocaleString('en-US') }} views</p>
+      <p class="views">{{ video.viewCount?.toLocaleString('en-US') }} views</p>
       <p class="upload-date">{{ video.publishedText }}</p>
       <div v-show="isSmall" v-create-links class="description links">
         {{ smallDescription }}

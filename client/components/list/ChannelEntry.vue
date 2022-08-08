@@ -37,7 +37,7 @@
           {{ channel.videoCount ? channel.videoCount : channel.videos }} videos
         </p>
         <p v-if="channel.subCount" class="channel-entry-subcount">
-          {{ channel.subCount.toLocaleString('en-US') }}
+          {{ channel.subCount?.toLocaleString('en-US') }}
           subscribers
         </p>
         <p v-if="channel.subscribers" class="channel-entry-subcount">

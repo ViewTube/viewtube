@@ -27,7 +27,7 @@
         </div>
         <div class="likes comment-property">
           <ThumbsUpIcon />
-          <span>{{ comment.likeCount.toLocaleString('en-US') }}</span>
+          <span>{{ comment.likeCount?.toLocaleString('en-US') }}</span>
         </div>
         <div
           v-if="comment.creatorHeart"
@@ -47,7 +47,7 @@
           <CommentIcon />
           <p>
             show
-            {{ comment.replyCount.toLocaleString('en-US') }}
+            {{ comment.replyCount?.toLocaleString('en-US') }}
             replies
           </p>
         </BadgeButton>

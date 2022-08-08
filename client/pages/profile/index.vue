@@ -1,6 +1,7 @@
 <template>
   <div class="profile">
-    <Spinner v-if="$fetchState.pending" class="centered" />
+    <MetaPageHead :title="profile.username" description="See your profile" />
+    <Spinner v-if="pending" class="centered" />
     <div v-if="profile" class="profile-top">
       <div class="gradient-background" />
       <div class="profile-top-card">
@@ -138,7 +139,6 @@ import Confirmation from '@/components/popup/Confirmation.vue';
 import SectionTitle from '@/components/SectionTitle.vue';
 import FormInput from '@/components/form/FormInput.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
-import Spinner from '@/components/Spinner.vue';
 import HistoryList from '@/components/history/HistoryList.vue';
 import { useMessagesStore } from '~/store/messages';
 import { createComputed } from '@/utilities/computed';
@@ -149,7 +149,6 @@ import PasswordChangeForm from '@/components/form/PasswordChangeForm.vue';
 export default defineComponent({
   name: 'Profile',
   components: {
-    Spinner,
     BadgeButton,
     AccountCircleIcon,
     RestartOffIcon,
@@ -174,12 +173,10 @@ export default defineComponent({
     const userStore = useUserStore();
 
     const config = useRuntimeConfig();
-    const { $axios: axios } = useNuxtApp();
     const router = useRouter();
 
     const apiUrl = config.public.apiUrl;
 
-    const profile = ref(null);
     const logoutPopup = ref(false);
     const deleteAccountPopup = ref(false);
     const actionsOpen = ref(false);
@@ -190,6 +187,20 @@ export default defineComponent({
     const passwordChangePopup = ref(false);
 
     originalUsername.value = userStore.username;
+
+    const { data: profile, error } = useGetUserProfileDetails();
+
+    watch(error, () => {
+      messagesStore.createMessage({
+        type: 'error',
+        title: 'Error loading profile',
+        message: 'Try logging out and in again'
+      });
+    });
+
+    if (!userStore.isLoggedIn) {
+      router.push('/');
+    }
 
     const hasHistory = createComputed(() => {
       if (profile.value && profile.value.videoHistory.length > 0) {
@@ -316,54 +327,6 @@ export default defineComponent({
         profileImageUrl.value = null;
       }
     };
-
-    useFetch(async () => {
-      if (userStore.isLoggedIn) {
-        await axios
-          .get(`${config.public.apiUrl}user/profile/details`, { withCredentials: true })
-          .then((result: { data: any }) => {
-            if (result) {
-              profile.value = result.data;
-              if (result.data.profileImage) {
-                setProfileImageUrl(result.data.profileImage);
-              }
-            }
-          })
-          .catch((_: any) => {
-            messagesStore.createMessage({
-              type: 'error',
-              title: 'Error loading profile',
-              message: 'Try logging out and in again'
-            });
-          });
-      } else {
-        router.push('/login');
-      }
-    });
-
-    useMeta(() => ({
-      title: `${
-        profile && profile.value ? profile.value.username + ' :: ' : ''
-      }Profile :: ViewTube`,
-      meta: [
-        {
-          hid: 'description',
-          vmid: 'descriptionMeta',
-          name: 'description',
-          content: 'See your profile'
-        },
-        {
-          hid: 'ogTitle',
-          property: 'og:title',
-          content: 'Your profile'
-        },
-        {
-          hid: 'ogDescription',
-          property: 'og:description',
-          content: 'See your profile'
-        }
-      ]
-    }));
 
     return {
       profile,

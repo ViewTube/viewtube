@@ -18,3 +18,4 @@ export { ApiErrorDto } from './dto/api/error.dto';
 export { PlaylistBasicInfoDto } from './dto/playlist/playlist-basic-info.dto';
 export { PreviewVideoDto } from './dto/playlist/preview-video.dto';
 export { VideoBasicInfoDto } from './dto/video/video-basic-info.dto';
+export { DislikeDto } from './dto/video/dislike.dto';

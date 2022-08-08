@@ -1,14 +1,23 @@
 <template>
   <div class="watch">
-    <VideoLoadingTemplate v-if="videoPending && templateVideoData" :video="templateVideoData" />
+    <MetaPageHead
+      :title="`${video?.title} :: ${video?.author}`"
+      :description="video?.description?.substring(0, 100)"
+      :image="video?.authorThumbnails?.[2]?.url"
+      :video="video.legacyFormats?.[0]?.url"
+    />
+    <!-- <VideoLoadingTemplate
+      v-if="videoPending && templateVideoData"
+      :video="(templateVideoData as any)"
+    /> -->
     <Spinner v-if="videoPending && !templateVideoData" class="centered" />
     <!-- <video v-if="!jsEnabled" controls :src="getHDUrl()" class="nojs-player" /> -->
     <VideoPlayer
-      v-if="video && videoLoaded && !videoPending"
-      :key="video.id"
+      v-if="video && !videoPending"
+      :key="video.videoId"
       ref="videoplayer"
       :video="video"
-      :initialVideoTime="initialVideoTime"
+      :initialVideoTime="video.initialVideoTime"
       :autoplay="isAutoplaying"
       class="video-player-p"
       @videoEnded="onVideoEnded"
@@ -29,7 +38,7 @@
         </h1>
         <div class="video-infobox-stats">
           <p v-if="video.viewCount" class="infobox-views">
-            {{ parseFloat(video.viewCount).toLocaleString('en-US') }}
+            {{ video.viewCount?.toLocaleString('en-US') }}
             views
           </p>
           <div v-if="video.likeCount" class="infobox-rating">
@@ -37,13 +46,13 @@
               <div class="infobox-likes">
                 <ThumbsUp class="thumbs-icon" />
                 <p class="like-count">
-                  {{ parseFloat(video.likeCount).toLocaleString('en-US') }}
+                  {{ video.likeCount?.toLocaleString('en-US') }}
                 </p>
               </div>
               <div class="infobox-dislikes">
                 <ThumbsDown class="thumbs-icon" />
                 <p class="dislike-count">
-                  {{ dislikeCount.toLocaleString('en-US') }}
+                  {{ dislikeCount?.toLocaleString('en-US') }}
                 </p>
                 <a
                   class="dislike-info"
@@ -84,9 +93,6 @@
               <p v-if="video.subCount" class="infobox-channel-subcount">
                 {{ video.subCount.toLocaleString('en-US') }}
                 subscribers
-              </p>
-              <p v-if="!video.subCount && video.subCountText" class="infobox-channel-subcount">
-                {{ video.subCountText }} subscribers
               </p>
             </div>
           </div>
@@ -133,9 +139,8 @@
             v-create-links
             v-create-timestamp-links="setTimestamp"
             class="video-infobox-description links"
-          >
-            {{ video.description }}
-          </div>
+            v-html="video.description"
+          />
           <Spinner v-if="commentsLoading" />
           <div v-if="video.liveNow" class="comments-error livestream">
             <p>Livestream comments are not supported yet.</p>
@@ -175,16 +180,6 @@ import ThumbsDown from 'vue-material-design-icons/ThumbDown.vue';
 import InfoIcon from 'vue-material-design-icons/Information.vue';
 import Share from 'vue-material-design-icons/Share.vue';
 import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
-import {
-  defineComponent,
-  onMounted,
-  ref,
-  useFetch,
-  useRoute,
-  useRouter,
-  watch
-} from '#imports';
-import { useNuxtApp } from '#app';
 import { Result } from 'ytpl';
 import NextUpVideo from '@/components/watch/NextUpVideo.vue';
 import Spinner from '@/components/Spinner.vue';
@@ -195,15 +190,14 @@ import ShareOptions from '@/components/watch/ShareOptions.vue';
 import CollapsibleSection from '@/components/list/CollapsibleSection.vue';
 import PlaylistSection from '@/components/watch/PlaylistSection.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
-import ViewTubeApi from '@/services/viewTubeApi';
 import { createComputed } from '@/utilities/computed';
 import VideoPlayer from '@/components/videoplayer/VideoPlayer.vue';
-import VideoLoadingTemplate from '@/components/watch/VideoLoadingTemplate.vue';
-import { useMessagesStore } from '~/store/messages';
-import { useSettingsStore } from '~~/store/settings';
-import { useUserStore } from '~~/store/user';
-import { useMiniplayerStore } from '~~/store/miniplayer';
-import { useVideoPlayerStore } from '~~/store/videoPlayer';
+import { useMessagesStore } from '@/store/messages';
+import { useSettingsStore } from '@/store/settings';
+import { useMiniplayerStore } from '@/store/miniplayer';
+import { useVideoPlayerStore } from '@/store/videoPlayer';
+import { getComments, getCommentsContinuation, getDislikes } from '@/utilities/api/videos';
+import { getPlaylists } from '@/utilities/api/playlists';
 
 export default defineComponent({
   name: 'Watch',
@@ -222,21 +216,16 @@ export default defineComponent({
     ShareOptions,
     CollapsibleSection,
     BadgeButton,
-    VideoLoadingTemplate,
     PlaylistSection
   },
   setup() {
     const messagesStore = useMessagesStore();
     const settingsStore = useSettingsStore();
-    const userStore = useUserStore();
     const videoPlayerStore = useVideoPlayerStore();
     const miniplayerStore = useMiniplayerStore();
 
-    const config = useRuntimeConfig();
     const route = useRoute();
     const router = useRouter();
-    // const { error } = useContext();
-    const { $axios: axios } = useNuxtApp();
     const imgProxy = useImgProxy();
 
     const jsEnabled = ref(false);
@@ -249,7 +238,6 @@ export default defineComponent({
     const shareOpen = ref(false);
     const videoplayerRef = ref(null);
     const playlistSectionRef = ref(null);
-    const initialVideoTime = ref(0);
     const videoLoaded = ref(false);
 
     const dislikeCount = ref(0);
@@ -261,8 +249,17 @@ export default defineComponent({
     const {
       data: video,
       error: videoError,
-      pending: videoPending
+      pending: videoPending,
+      refresh
     } = useGetVideos(route.query.v as string);
+
+    watch(videoError, () => {
+      messagesStore.createMessage({
+        type: 'error',
+        title: 'Error loading video',
+        message: videoError.value !== true ? videoError.value.message : 'Unknown error'
+      });
+    });
 
     const isPlaylist = createComputed(() => {
       return Boolean(route.query && route.query.list);
@@ -288,33 +285,19 @@ export default defineComponent({
     });
 
     const loadDislikes = () => {
-      axios.get(`${config.public.apiUrl}videos/dislikes/${route.query.v}`).then(response => {
-        if (response.data && !isNaN(response.data.dislikes)) {
-          dislikeCount.value = response.data.dislikes;
-        } else {
+      getDislikes(route.query.v)
+        .then(response => {
+          dislikeCount.value = response.dislikes;
+        })
+        .catch(error => {
           messagesStore.createMessage({
             type: 'error',
             title: 'Error loading dislikes',
-            message: 'Loading dislikes failed.'
+            message: error.message
           });
-        }
-      });
+        });
     };
 
-    const saveToHistory = () => {
-      if (userStore.isLoggedIn) {
-        axios
-          .post(
-            `${config.public.apiUrl}user/history/${route.query.v}`,
-            {
-              progressSeconds: null,
-              lengthSeconds: video.value.lengthSeconds
-            },
-            { withCredentials: true }
-          )
-          .catch(_ => {});
-      }
-    };
     const reloadComments = () => {
       commentsLoading.value = true;
       commentsError.value = false;
@@ -340,15 +323,15 @@ export default defineComponent({
       }
       return '#';
     };
+
     const loadComments = (evtVideoId: string = null) => {
       const videoId = evtVideoId || route.query.v;
-      axios
-        .get(`${config.public.apiUrl}comments/${videoId}`)
+      getComments(videoId)
         .then(response => {
-          if (response.data.comments && response.data.comments.length > 0) {
+          if (response.comments && response.comments.length > 0) {
             comment.value = response.data;
             commentsLoading.value = false;
-            commentsContinuationLink.value = response.data.continuation || null;
+            commentsContinuationLink.value = response.continuation || null;
           } else {
             commentsLoading.value = false;
             commentsError.value = true;
@@ -361,17 +344,15 @@ export default defineComponent({
           comment.value = null;
         });
     };
+
     const loadMoreComments = () => {
       commentsContinuationLoading.value = true;
       const videoId = route.query.v;
-      axios
-        .get(
-          `${config.public.apiUrl}comments/${videoId}?continuation=${commentsContinuationLink.value}`
-        )
+      getCommentsContinuation(videoId, commentsContinuationLink.value)
         .then(response => {
-          comment.value.comments = comment.value.comments.concat(response.data.comments);
+          comment.value.comments = comment.value.comments.concat(response.comments);
           commentsContinuationLoading.value = false;
-          commentsContinuationLink.value = response.data.continuation || null;
+          commentsContinuationLink.value = response.continuation || null;
         })
         .catch(_ => {
           messagesStore.createMessage({
@@ -382,20 +363,11 @@ export default defineComponent({
         });
     };
 
-    const loadPlaylist = async () => {
+    const loadPlaylist = () => {
       if (isPlaylist.value) {
-        await axios
-          .get(`${config.public.apiUrl}playlists`, { params: { playlistId: route.query.list } })
+        getPlaylists(route.query.list)
           .then(response => {
-            if (response.data) {
-              playlist.value = response.data;
-            } else {
-              messagesStore.createMessage({
-                type: 'error',
-                title: 'Error loading playlist',
-                message: 'Playlist may not be available'
-              });
-            }
+            playlist.value = response;
           })
           .catch(_ => {
             messagesStore.createMessage({
@@ -407,71 +379,11 @@ export default defineComponent({
       }
     };
 
-    watch(video, async newValue => {
-      if (newValue) {
-        if (userStore.isLoggedIn && settingsStore.saveVideoHistory) {
-          const videoVisit = await axios
-            .get(`${config.public.apiUrl}user/history/${video.value.videoId}`, {
-              withCredentials: true
-            })
-            .catch((_: any) => {});
-
-          if (videoVisit && videoVisit.data && videoVisit.data.progressSeconds > 0) {
-            initialVideoTime.value = videoVisit.data.progressSeconds;
-          } else {
-            saveToHistory();
-          }
-        }
-        videoLoaded.value = true;
-      } else {
-        messagesStore.createMessage({
-          type: 'error',
-          title: 'Error loading video',
-          message: 'Loading video information failed. Refresh the page to try again.',
-          dismissDelay: 0
-        });
-      }
-    });
-
-    watch(videoError, newValue => {});
-
-    const { fetch } = useFetch(async (): Promise<void> => {
-      videoLoaded.value = false;
-      const viewTubeApi = new ViewTubeApi(config.public.apiUrl);
-      await viewTubeApi.api
-        .videos({
-          id: route.query.v
-        })
-        .then(async (response: { data: any }): Promise<void> => {})
-        .catch(() => {
-          // let errorObj: any = {
-          //   message: 'Error loading video'
-          // };
-          // if (err) {
-          //   errorObj = {
-          //     requestConfig: err.config,
-          //     responseData: err.response ? err.response.data : null,
-          //     message: err.message
-          //   };
-          // }
-          // error({
-          //   statusCode: 500,
-          //   message:
-          //     errorObj.responseData &&
-          //     errorObj.responseData.message &&
-          //     typeof errorObj.responseData.message === 'string'
-          //       ? errorObj.responseData.message
-          //       : errorObj.message,
-          //   detail: errorObj
-          // } as any);
-        });
-    });
-
     watch(
       () => route.query,
       (newValue, oldValue) => {
         if (newValue.v !== oldValue.v || newValue.list !== oldValue.list) {
-          fetch();
+          refresh();
           const videoId = newValue.v as string;
           loadComments(videoId);
           miniplayerStore.setCurrentVideo(video);
@@ -480,9 +392,8 @@ export default defineComponent({
     );
 
     onMounted(() => {
-      if (process.browser) {
-        jsEnabled.value = true;
-      }
+      jsEnabled.value = true;
+
       if (window && window.innerWidth > 700) {
         recommendedOpen.value = true;
       }
@@ -508,43 +419,6 @@ export default defineComponent({
       }
     };
 
-    useHead({
-      title: `${video.value?.title} :: ${video.value?.author}`,
-      meta: video.value
-        ? [
-            {
-              hid: 'description',
-              vmid: 'descriptionMeta',
-              name: 'description',
-              content: video.value.description.substring(0, 100)
-            },
-            {
-              hid: 'ogTitle',
-              property: 'og:title',
-              content: `${video.value.title} - ${video.value.author} - ViewTube`
-            },
-            {
-              hid: 'ogImage',
-              property: 'og:image',
-              itemprop: 'image',
-              content: video.value.videoThumbnails[2].url
-            },
-            {
-              hid: 'ogDescription',
-              property: 'og:description',
-              content: video.value.description.substring(0, 100)
-            },
-            {
-              property: 'og:video',
-              content:
-                video.value.legacyFormats && video.value.legacyFormats.length > 0
-                  ? video.value.legacyFormats[0].url
-                  : '#'
-            }
-          ]
-        : []
-    });
-
     return {
       imgProxyUrl: imgProxy.url,
       jsEnabled,
@@ -561,7 +435,6 @@ export default defineComponent({
       recommendedVideos,
       nextUpVideo,
       videoLoaded,
-      initialVideoTime,
       shareOpen,
       onVideoEnded,
       reloadComments,

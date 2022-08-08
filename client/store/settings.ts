@@ -54,7 +54,7 @@ export const useSettingsStore = defineStore('settings', {
           credentials: 'include',
           body: this.$state
         });
-      } else if (process.browser && window) {
+      } else if (process.client && window) {
         window.localStorage.setItem('viewtube-settings', JSON.stringify(this.$state));
       }
       this.settingsSaving = false;

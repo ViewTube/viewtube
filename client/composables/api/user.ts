@@ -30,7 +30,7 @@ export const useGetUserHistoryItem = (videoId: string) => {
   }>(url, { credentials: 'include' });
 };
 
-export const useGetUserProfileDetails = (videoId: string) => {
+export const useGetUserProfileDetails = () => {
   const config = useRuntimeConfig();
 
   const url = `${config.public.apiUrl}user/profile/details`;

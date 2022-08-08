@@ -6,7 +6,7 @@ const urlRegex = new RegExp(
 export default defineNuxtPlugin(nuxtApp => {
   nuxtApp.vueApp.directive('create-links', {
     created(el) {
-      const text = el.textContent.trim();
+      const text = el.innerHTML.trim();
       const htmlText = text.replace(urlRegex, match => {
         return `<a href="${match}" target="_blank" rel="noreferrer noopener">${match}</a>`;
       });

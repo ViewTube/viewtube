@@ -1,6 +1,6 @@
 <template>
   <div class="search" :class="{ loading: pending }">
-    <PageHeadMetadata
+    <MetaPageHead
       :title="searchQuery"
       description="Search for videos, channels and playlists"
     />
@@ -11,7 +11,7 @@
       :filters="searchData?.filters"
     />
     <p v-if="!pending && searchData?.searchResults" class="result-amount">
-      {{ searchData?.searchResults.results.toLocaleString('en-US') }} results
+      {{ searchData?.searchResults?.results?.toLocaleString('en-US') }} results
     </p>
     <div v-if="isCorrectedSearchResult" class="correction-results links">
       <span>Showing results for</span>
@@ -82,7 +82,6 @@ import Dropdown from '@/components/filter/Dropdown.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import Filters from '@/components/search/Filters.vue';
 import SeparatorSmall from '@/components/list/SeparatorSmall.vue';
-import PageHeadMetadata from '@/components/meta/PageHeadMetadata.vue';
 import { useMessagesStore } from '@/store/messages';
 import ytsr from 'ytsr';
 
@@ -102,8 +101,7 @@ export default defineComponent({
     Shelf,
     MixEntry,
     Filters,
-    SeparatorSmall,
-    PageHeadMetadata
+    SeparatorSmall
   },
   setup() {
     const route = useRoute();

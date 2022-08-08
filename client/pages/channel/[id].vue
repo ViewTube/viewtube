@@ -1,6 +1,6 @@
 <template>
   <div>
-    <PageHeadMetadata
+    <MetaPageHead
       :title="channel?.author"
       :description="channel?.description?.substring(0, 100)"
       :image="channel?.authorThumbnails?.[0]?.url"
@@ -69,7 +69,6 @@ import SubscribeButton from '@/components/buttons/SubscribeButton.vue';
 import SectionTitle from '@/components/SectionTitle.vue';
 import InlineVideo from '@/components/list/InlineVideo.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
-import PageHeadMetadata from '@/components/meta/PageHeadMetadata.vue';
 
 import { useMessagesStore } from '@/store/messages';
 
@@ -87,8 +86,7 @@ export default defineComponent({
     PlaylistEntry,
     InlineVideo,
     BadgeButton,
-    UpIcon,
-    PageHeadMetadata
+    UpIcon
   },
   setup() {
     const imgProxy = useImgProxy();

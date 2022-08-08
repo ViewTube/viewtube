@@ -30,10 +30,10 @@
                 {{ channelEntry.author }}
               </p>
               <p class="subscriber-count">
-                {{ channelEntry.subCount.toLocaleString('en-US') }} subscribers
+                {{ channelEntry.subCount?.toLocaleString('en-US') }} subscribers
               </p>
               <p class="video-count">
-                {{ channelEntry.videoCount.toLocaleString('en-US') }} videos
+                {{ channelEntry.videoCount?.toLocaleString('en-US') }} videos
               </p>
             </div>
           </nuxt-link>

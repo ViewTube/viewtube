@@ -1,4 +1,3 @@
-
 import { useNuxtApp } from '#app';
 import { MediaMetadataHelper } from './mediaMetadata';
 import { calculateSeekPercentage, matchSeekProgressPercentage, seekbarFunctions } from './seekbar';
@@ -324,7 +323,7 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
             });
           }
         }
-        if ('mediaSession' in navigator && process.browser) {
+        if ('mediaSession' in navigator && process.client) {
           const metadata = createMediaMetadata();
           (navigator as any).mediaSession.metadata = metadata;
         }
@@ -394,7 +393,7 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
           }
         }
 
-        if (process.browser && 'mediaSession' in navigator) {
+        if (process.client && 'mediaSession' in navigator) {
           const duration = parseFloat(videoRef.value.duration);
           const playbackRate = parseFloat(videoRef.value.playbackRate);
           const position = parseFloat(videoRef.value.currentTime);
@@ -845,7 +844,7 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
     }
   };
 
-  if (process.browser && 'mediaSession' in navigator) {
+  if (process.client && 'mediaSession' in navigator) {
     (navigator as any).mediaSession.setActionHandler('play', () => {
       if (videoRef.value) {
         playerOverlay.thumbnailVisible = false;
@@ -930,17 +929,15 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
         } else if (isHlsNative(videoRef.value) && !isHlsSupported()) {
           videoRef.value.src = highestLegacyQuality.value;
         }
-      } else if (process.browser) {
-        if (settingsStore.dashPlaybackEnabled && window.MediaSource) {
-          // Using dashjs
-          const manifestUrl = `${config.public.apiUrl}videos/manifest/dash/${props.video.videoId}`;
-          dashHelper.value = new DashHelper(videoRef.value, manifestUrl);
+      } else if (settingsStore.dashPlaybackEnabled && window.MediaSource) {
+        // Using dashjs
+        const manifestUrl = `${config.public.apiUrl}videos/manifest/dash/${props.video.videoId}`;
+        dashHelper.value = new DashHelper(videoRef.value, manifestUrl);
 
-          dashHelper.value.registerEventHandlers({ videoElement });
-        } else {
-          selectedLegacyQuality.value = 0;
-          videoRef.value.src = highestLegacyQuality.value;
-        }
+        dashHelper.value.registerEventHandlers({ videoElement });
+      } else {
+        selectedLegacyQuality.value = 0;
+        videoRef.value.src = highestLegacyQuality.value;
       }
 
       videoAttrObserver.value = new MutationObserver(mutations => {

@@ -43,13 +43,11 @@ export default defineComponent({
     const qrPopUpOpen = ref(false);
 
     const url = (): string => {
-      return process.browser ? window.location.href : '';
+      return window?.location.href ?? '';
     };
     // shareReddit() {},
     const shareCopyLink = () => {
-      if (process.browser) {
-        navigator.clipboard.writeText(url());
-      }
+      navigator.clipboard.writeText(url());
     };
     const saveToPocket = () => {
       window.open(`https://getpocket.com/save?url=${encodedUrl}`, '_blank');
@@ -62,7 +60,7 @@ export default defineComponent({
     };
 
     const encodedUrl = () => {
-      if (process.browser) {
+      if (process.client) {
         return encodeURIComponent(window.location.href);
       } else {
         return '';

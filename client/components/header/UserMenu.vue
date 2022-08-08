@@ -156,16 +156,6 @@ import AboutIcon from 'vue-material-design-icons/InformationOutline.vue';
 import AccountIcon from 'vue-material-design-icons/AccountCircle.vue';
 import SubscriptionIcon from 'vue-material-design-icons/YoutubeSubscription.vue';
 import AccountPlusIcon from 'vue-material-design-icons/AccountPlus.vue';
-import {
-  computed,
-  defineComponent,
-  onBeforeUnmount,
-  onMounted,
-  ref,
-  useRoute,
-  useRouter,
-  watch
-} from '#imports';
 import LoginForm from '../form/LoginForm.vue';
 import RegisterForm from '../form/RegisterForm.vue';
 import Settings from '@/components/Settings.vue';

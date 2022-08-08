@@ -60,23 +60,13 @@
 </template>
 
 <script lang="ts">
-import {
-  computed,
-  defineComponent,
-  ref,
-  useFetch,
-  useMeta,
-  useRoute,
-  useRouter,
-  watch
-} from '#imports';
 import { useNuxtApp } from '#app';
 import GradientBackground from '@/components/GradientBackground.vue';
 import SectionTitle from '@/components/SectionTitle.vue';
 import Pagination from '@/components/pagination/Pagination.vue';
 import SmallSearchBox from '@/components/SmallSearchBox.vue';
 
-import {useMessagesStore} from "~/store/messages";
+import { useMessagesStore } from '~/store/messages';
 
 export default defineComponent({
   name: 'ManageSubscriptions',
@@ -188,9 +178,9 @@ export default defineComponent({
         });
     };
 
-    if (process.browser) {
+    onMounted(() => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
+    });
 
     watch(
       () => route.query,

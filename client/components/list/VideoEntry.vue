@@ -126,11 +126,11 @@
         >
         <div class="video-entry-stats">
           <p v-if="video.viewCount" class="video-entry-views">
-            {{ video.viewCount.toLocaleString('en-US') }}
+            {{ video.viewCount?.toLocaleString('en-US') }}
             {{ video.viewCount === 1 ? 'view' : 'views' }}
           </p>
           <p v-if="video.views" class="video-entry-views">
-            {{ video.views.toLocaleString('en-US') }}
+            {{ video.views?.toLocaleString('en-US') }}
             {{ video.views === 1 ? 'view' : 'views' }}
           </p>
           <p class="video-entry-timestamp">

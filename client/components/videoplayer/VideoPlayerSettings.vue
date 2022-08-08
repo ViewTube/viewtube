@@ -174,7 +174,7 @@ export default defineComponent({
     });
 
     const refreshRecommended = () => {
-      if (process.browser && props.videoQualityList) {
+      if (props.videoQualityList) {
         const sortedResArray: Array<any> = [...props.videoQualityList].sort((a: any, b: any) => {
           const screenHeight = screen.height * window.devicePixelRatio;
           const aDiff = Math.abs(a.height - screenHeight);

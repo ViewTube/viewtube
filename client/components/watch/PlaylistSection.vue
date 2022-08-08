@@ -89,20 +89,13 @@
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-  onMounted,
-  PropType,
-  ref,
-  useRoute,
-  useRouter
-} from '#imports';
 import SkipPreviousIcon from 'vue-material-design-icons/SkipPrevious.vue';
 import SkipNextIcon from 'vue-material-design-icons/SkipNext.vue';
 import RepeatIcon from 'vue-material-design-icons/Repeat.vue';
 import ShuffleIcon from 'vue-material-design-icons/Shuffle.vue';
 import ReverseIcon from 'vue-material-design-icons/RotateLeft.vue';
 import { Result } from 'ytpl';
+import { PropType } from 'vue';
 
 
 export default defineComponent({

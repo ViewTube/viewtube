@@ -47,7 +47,7 @@ export default defineComponent({
     const apiUrl = config.public.apiUrl;
 
     const copyError = (): void => {
-      if (process.browser && 'clipboard' in navigator) {
+      if (process.client && 'clipboard' in navigator) {
         navigator.clipboard.writeText(renderJSON(props.error.detail)).then(() => {
           messagesStore.createMessage({
             type: 'info',

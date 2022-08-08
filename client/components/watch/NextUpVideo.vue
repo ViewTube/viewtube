@@ -21,7 +21,7 @@
           {{ video.title }}
         </p>
         <p v-tippy="video.author" class="channel">{{ video.author }}</p>
-        <p class="views">{{ video.viewCount.toLocaleString('en-US') }} views</p>
+        <p class="views">{{ video.viewCount?.toLocaleString('en-US') }} views</p>
       </div>
     </nuxt-link>
   </div>

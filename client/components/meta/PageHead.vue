@@ -3,6 +3,7 @@ defineProps<{
   title: string;
   description: string;
   image?: string;
+  video?: string;
 }>();
 </script>
 
@@ -13,6 +14,7 @@ defineProps<{
     <Meta name="description" :content="description" />
     <Meta property="og:description" :content="description" />
     <Meta property="og:title" :content="title" />
-    <Meta property="og:image" :content="image" />
+    <Meta v-if="image" property="og:image" :content="image" />
+    <Meta v-if="video" property="og:video" :content="video" />
   </Head>
 </template>

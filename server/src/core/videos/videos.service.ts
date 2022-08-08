@@ -15,7 +15,7 @@ import { Common } from '../common';
 import { DashGenerator } from './dash.generator';
 import { VideoBasicInfo } from './schemas/video-basic-info.schema';
 import { mapVideo } from './video.mapper';
-import { DislikeDto } from './dto/dislike.dto';
+import { DislikeDto } from 'viewtube/shared/dto/video/dislike.dto';
 import undici from 'undici';
 
 @Injectable()
