@@ -41,7 +41,7 @@ jobs:
           message: |
             ☀️ Daily test run ${{ steps.date-time.outputs.date-time }}
 
-            🧪 Test result: ${{ steps.run_tests.outcome == "success" ? "✅" : "❌" }} ${{ steps.run_tests.outputs.test-result }}
+            🧪 Test result: ${{ steps.run_tests.outcome != "success" && "❌" || "✅" }} ${{ steps.run_tests.outputs.test-result }}
 
             [🔗 Link to test](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
 
