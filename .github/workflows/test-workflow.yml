@@ -31,7 +31,7 @@ jobs:
         run: |
           echo "::set-output name=test-result::$(yarn test)\n"
 
-      - name: Send telegram message on push
+      - name: Send test status notification
         if: always()
         uses: appleboy/telegram-action@master
         with:
