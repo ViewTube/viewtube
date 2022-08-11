@@ -76,7 +76,7 @@
     "web-push": "3.5.0",
     "x2js": "3.4.3",
     "xml-js": "1.6.11",
-    "ytdl-core": "4.11.0",
+    "ytdl-core": "github:absidue/node-ytdl-core#temp-fix-11-08-2022",
     "ytpl": "2.3.0",
     "ytsr": "3.8.0"
   },
