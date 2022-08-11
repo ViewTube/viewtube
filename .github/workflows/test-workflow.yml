@@ -20,16 +20,16 @@ jobs:
           node-version: 16.x
           cache: "yarn"
 
-      - name: Get current date
-        id: date
-        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+      - name: Get current date and time
+        id: date-time
+        run: echo "::set-output name=date-time::$(date +'%Y-%m-%d %H:%M:%S')"
 
       - run: yarn install
 
       - name: Run tests
         id: run_tests
         run: |
-          echo "::set-output name=test-result::$(yarn test)\n"
+          echo "::set-output name=test-result::$(yarn test | tail)"
 
       - name: Send test status notification
         if: always()
@@ -38,7 +38,7 @@ jobs:
           to: ${{ secrets.TELEGRAM_TO }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
           message: |
-            Nightly test run ${{ steps.date.outputs.date}}
+            Nightly test run ${{ steps.date-time.outputs.date-time }}
 
             Test result: ${{ steps.run_tests.outcome }}
 
