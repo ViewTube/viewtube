@@ -45,7 +45,7 @@ jobs:
 
             [🔗 Link to test](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
 
-            📝 Detailed information:
-            ```
-            ${{ steps.run_tests.outputs.test-result }}
-            ```
+# 📝 Detailed information:
+# ```
+# ${{ steps.run_tests.outputs.test-result }}
+# ```
