@@ -22,7 +22,7 @@ jobs:
 
       - name: Get current date and time
         id: date-time
-        run: echo "::set-output name=date-time::$(date +'%Y-%m-%d %H:%M:%S')"
+        run: echo "::set-output name=date-time::$(TZ='Europe/Zurich' date +'%Y-%m-%d %H:%M:%S %Z')"
 
       - run: yarn install
 
