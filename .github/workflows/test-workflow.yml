@@ -1,0 +1,46 @@
+name: Nightly test
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 0 * * *"
+
+jobs:
+  test-job:
+    name: Nightly test
+    timeout-minutes: 60
+    runs-on: ubuntu-20.04
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Node.js PR workflow step ${{ matrix.command }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+          cache: "yarn"
+
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+
+      - run: yarn install
+
+      - name: Run tests
+        id: run_tests
+        run: |
+          echo "::set-output name=test-result::$(yarn test)\n"
+
+      - name: Send telegram message on push
+        if: always()
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          message: |
+            Nightly test run ${{ steps.date.outputs.date}}
+
+            Test result: ${{ steps.run_tests.outcome }}
+
+            Detailed information:
+            ${{ steps.run_tests.outputs.test-result }}
