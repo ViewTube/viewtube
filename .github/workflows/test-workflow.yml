@@ -1,4 +1,4 @@
-name: Nightly test
+name: Daily Tests
 
 on:
   workflow_dispatch:
@@ -7,7 +7,7 @@ on:
 
 jobs:
   test-job:
-    name: Nightly test
+    name: Daily Tests
     timeout-minutes: 60
     runs-on: ubuntu-20.04
 
@@ -39,9 +39,9 @@ jobs:
           token: ${{ secrets.TELEGRAM_TOKEN }}
           format: markdown
           message: |
-            🌃 Nightly test run ${{ steps.date-time.outputs.date-time }}
+            ☀️ Daily test run ${{ steps.date-time.outputs.date-time }}
 
-            🧪 Test result: ${{ steps.run_tests.outcome }}
+            🧪 Test result: ${{ steps.run_tests.outcome === "success" ? "✅" : "❌" }} ${{ steps.run_tests.outputs.test-result }}
 
             [🔗 Link to test](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
 
