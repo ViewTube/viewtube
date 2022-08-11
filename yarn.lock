@@ -16912,7 +16912,7 @@ __metadata:
     webpack-pnp-externals: 1.1.0
     x2js: 3.4.3
     xml-js: 1.6.11
-    ytdl-core: 4.11.0
+    ytdl-core: "github:absidue/node-ytdl-core#temp-fix-11-08-2022"
     ytpl: 2.3.0
     ytsr: 3.8.0
   languageName: unknown
@@ -19949,14 +19949,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ytdl-core@npm:4.11.0":
-  version: 4.11.0
-  resolution: "ytdl-core@npm:4.11.0"
+"ytdl-core@github:absidue/node-ytdl-core#temp-fix-11-08-2022":
+  version: 0.0.0-development
+  resolution: "ytdl-core@https://github.com/absidue/node-ytdl-core.git#commit=22f6c2cbffa0bb242af799ce143e9e2f260019c4"
   dependencies:
     m3u8stream: ^0.8.6
     miniget: ^4.2.2
     sax: ^1.1.3
-  checksum: 1ebe546da39e2a55fea6544d290f92f722416b77bb9c84322d5ca08394fb00642c6cf832ccac2feec12e9189a009af90e8185a96772e84c94599841ded21bd65
+  checksum: 815b1cd35208c79165e4c21c45970f18a11e6be4dc3b7fea94abd6fe625e0c98f7b102715bee18d2c3fb4b715f652f14ae9d6c8a4e532707816a3711bedf9e72
   languageName: node
   linkType: hard
 

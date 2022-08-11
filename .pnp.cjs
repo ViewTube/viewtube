@@ -21595,7 +21595,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["webpack-pnp-externals", "npm:1.1.0"],
             ["x2js", "npm:3.4.3"],
             ["xml-js", "npm:1.6.11"],
-            ["ytdl-core", "npm:4.11.0"],
+            ["ytdl-core", "https://github.com/absidue/node-ytdl-core.git#commit=22f6c2cbffa0bb242af799ce143e9e2f260019c4"],
             ["ytpl", "npm:2.3.0"],
             ["ytsr", "npm:3.8.0"]
           ],
@@ -25431,10 +25431,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["ytdl-core", [
-        ["npm:4.11.0", {
-          "packageLocation": "./.yarn/cache/ytdl-core-npm-4.11.0-537c39e80f-1ebe546da3.zip/node_modules/ytdl-core/",
+        ["https://github.com/absidue/node-ytdl-core.git#commit=22f6c2cbffa0bb242af799ce143e9e2f260019c4", {
+          "packageLocation": "./.yarn/cache/ytdl-core-https-c022474735-815b1cd352.zip/node_modules/ytdl-core/",
           "packageDependencies": [
-            ["ytdl-core", "npm:4.11.0"],
+            ["ytdl-core", "https://github.com/absidue/node-ytdl-core.git#commit=22f6c2cbffa0bb242af799ce143e9e2f260019c4"],
             ["m3u8stream", "npm:0.8.6"],
             ["miniget", "npm:4.2.2"],
             ["sax", "npm:1.2.4"]
