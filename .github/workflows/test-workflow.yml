@@ -37,10 +37,15 @@ jobs:
         with:
           to: ${{ secrets.TELEGRAM_TO }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
+          format: markdown
           message: |
-            Nightly test run ${{ steps.date-time.outputs.date-time }}
+            🌃 Nightly test run ${{ steps.date-time.outputs.date-time }}
 
-            Test result: ${{ steps.run_tests.outcome }}
+            🧪 Test result: ${{ steps.run_tests.outcome }}
 
-            Detailed information:
+            [🔗 Link to test](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
+
+            📝 Detailed information:
+            ```
             ${{ steps.run_tests.outputs.test-result }}
+            ```
