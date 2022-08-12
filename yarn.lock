@@ -3728,10 +3728,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:16.11.47":
-  version: 16.11.47
-  resolution: "@types/node@npm:16.11.47"
-  checksum: 26811000753fd1bb9a90a563fc72942ac3ad5d5b6c97609a090c1e24210e040597ba060e55a7a46cb22cc84dafee112d741f45652139c6166e8ce0c970b4f05a
+"@types/node@npm:16.11.48":
+  version: 16.11.48
+  resolution: "@types/node@npm:16.11.48"
+  checksum: 10cd539cb2cf5a8f51f3c2bd761c093b752e534b1f2dc0d7193debd7986145b68db2a5fd48498af641e8641fb8d24b7c4851ea3e30fb8f56cc13ac719cad1e1f
   languageName: node
   linkType: hard
 
@@ -3917,12 +3917,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/sharp@npm:0.30.4":
-  version: 0.30.4
-  resolution: "@types/sharp@npm:0.30.4"
+"@types/sharp@npm:0.30.5":
+  version: 0.30.5
+  resolution: "@types/sharp@npm:0.30.5"
   dependencies:
     "@types/node": "*"
-  checksum: 3ebeaf55aa5ed2826a5bb4f13982a64b35691b6f38c4fd9d536ee7aed4d7e6b39529ae290f19343c5d8334419d69e147a28c214ca61adaed35ebf3ceea7cdf17
+  checksum: 8aa458d4c4187ae9a69894904832ecfe7533e0c405d1a7971a9984b0996eb6eb2ced103854b71199cf8df1350540bb4d3625c671a1946bd417b2bf4405c7292a
   languageName: node
   linkType: hard
 
@@ -6688,7 +6688,7 @@ __metadata:
     "@nuxtjs/pwa": 3.3.5
     "@nuxtjs/router": 1.7.0
     "@nuxtjs/style-resources": 1.2.1
-    "@types/node": 16.11.47
+    "@types/node": 16.11.48
     "@types/papaparse": 5.3.3
     "@types/qrcode": 1.4.2
     "@types/sass": 1.43.1
@@ -16849,12 +16849,12 @@ __metadata:
     "@types/jest": 27.5.2
     "@types/module-alias": 2.0.1
     "@types/multer": 1.4.7
-    "@types/node": 16.11.47
+    "@types/node": 16.11.48
     "@types/node-fetch": 3.0.3
     "@types/passport-jwt": 3.0.6
     "@types/passport-local": 1.0.34
     "@types/redis-mock": 0.17.1
-    "@types/sharp": 0.30.4
+    "@types/sharp": 0.30.5
     "@types/source-map-support": 0.5.4
     "@types/web-push": 3.3.2
     "@types/xml2json": 0.11.4
@@ -16905,7 +16905,7 @@ __metadata:
     ts-loader: 9.3.1
     tslib: 2.4.0
     typescript: 4.5.5
-    undici: 5.8.0
+    undici: 5.8.2
     web-push: 3.5.0
     webpack: 5.72.0
     webpack-cli: 4.9.2
@@ -16986,7 +16986,7 @@ __metadata:
     "@nestjs/common": 8.4.7
     "@nestjs/core": 8.4.7
     "@nestjs/swagger": 5.2.1
-    "@types/node": 16.11.47
+    "@types/node": 16.11.48
     class-transformer: 0.5.1
     class-validator: 0.13.2
     reflect-metadata: 0.1.13
@@ -18565,10 +18565,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"undici@npm:5.8.0":
-  version: 5.8.0
-  resolution: "undici@npm:5.8.0"
-  checksum: 7b486ad064da00628d3906e140b86223023cd3494c811da8d7aa1375c2392fe6a6ac421af236c056fd3d3136bba3a91b99e0505dde071dd946070946eb0718b8
+"undici@npm:5.8.2":
+  version: 5.8.2
+  resolution: "undici@npm:5.8.2"
+  checksum: 726e04bb37e2e285b4f632600c792efc9eaa5e06e37f9f34338352ac5e1dbd8ae3cdd12dd8761abfecffc5f200d1c7b91b41efb3a31c4e804ea341e5808ddfcf
   languageName: node
   linkType: hard
 
