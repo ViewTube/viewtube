@@ -5701,10 +5701,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["npm:16.11.47", {\
-          "packageLocation": "./.yarn/cache/@types-node-npm-16.11.47-441c4db84b-2681100075.zip/node_modules/@types/node/",\
+        ["npm:16.11.48", {\
+          "packageLocation": "./.yarn/cache/@types-node-npm-16.11.48-08277eebd6-10cd539cb2.zip/node_modules/@types/node/",\
           "packageDependencies": [\
-            ["@types/node", "npm:16.11.47"]\
+            ["@types/node", "npm:16.11.48"]\
           ],\
           "linkType": "HARD"\
         }],\
@@ -5946,10 +5946,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@types/sharp", [\
-        ["npm:0.30.4", {\
-          "packageLocation": "./.yarn/cache/@types-sharp-npm-0.30.4-a8626c5794-3ebeaf55aa.zip/node_modules/@types/sharp/",\
+        ["npm:0.30.5", {\
+          "packageLocation": "./.yarn/cache/@types-sharp-npm-0.30.5-d42c010179-8aa458d4c4.zip/node_modules/@types/sharp/",\
           "packageDependencies": [\
-            ["@types/sharp", "npm:0.30.4"],\
+            ["@types/sharp", "npm:0.30.5"],\
             ["@types/node", "npm:17.0.31"]\
           ],\
           "linkType": "HARD"\
@@ -9627,7 +9627,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@nuxtjs/pwa", "npm:3.3.5"],\
             ["@nuxtjs/router", "npm:1.7.0"],\
             ["@nuxtjs/style-resources", "npm:1.2.1"],\
-            ["@types/node", "npm:16.11.47"],\
+            ["@types/node", "npm:16.11.48"],\
             ["@types/papaparse", "npm:5.3.3"],\
             ["@types/qrcode", "npm:1.4.2"],\
             ["@types/sass", "npm:1.43.1"],\
@@ -21613,12 +21613,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/module-alias", "npm:2.0.1"],\
             ["@types/multer", "npm:1.4.7"],\
-            ["@types/node", "npm:16.11.47"],\
+            ["@types/node", "npm:16.11.48"],\
             ["@types/node-fetch", "npm:3.0.3"],\
             ["@types/passport-jwt", "npm:3.0.6"],\
             ["@types/passport-local", "npm:1.0.34"],\
             ["@types/redis-mock", "npm:0.17.1"],\
-            ["@types/sharp", "npm:0.30.4"],\
+            ["@types/sharp", "npm:0.30.5"],\
             ["@types/source-map-support", "npm:0.5.4"],\
             ["@types/web-push", "npm:3.3.2"],\
             ["@types/xml2json", "npm:0.11.4"],\
@@ -21672,7 +21672,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["ts-loader", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:9.3.1"],\
             ["tslib", "npm:2.4.0"],\
             ["typescript", "patch:typescript@npm%3A4.5.5#~builtin<compat/typescript>::version=4.5.5&hash=f456af"],\
-            ["undici", "npm:5.8.0"],\
+            ["undici", "npm:5.8.2"],\
             ["web-push", "npm:3.5.0"],\
             ["webpack", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:5.72.0"],\
             ["webpack-cli", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:4.9.2"],\
@@ -21773,7 +21773,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@nestjs/common", "virtual:d10100d960b1b73f8c74718d4637dfe2c18d098bafef09afa646f6b4f65cd1a5ad77d7941e2a1def095bb77eb2ac82d00bec47774003ea2f130a251bc51e4c5b#npm:8.4.7"],\
             ["@nestjs/core", "virtual:d10100d960b1b73f8c74718d4637dfe2c18d098bafef09afa646f6b4f65cd1a5ad77d7941e2a1def095bb77eb2ac82d00bec47774003ea2f130a251bc51e4c5b#npm:8.4.7"],\
             ["@nestjs/swagger", "virtual:d10100d960b1b73f8c74718d4637dfe2c18d098bafef09afa646f6b4f65cd1a5ad77d7941e2a1def095bb77eb2ac82d00bec47774003ea2f130a251bc51e4c5b#npm:5.2.1"],\
-            ["@types/node", "npm:16.11.47"],\
+            ["@types/node", "npm:16.11.48"],\
             ["class-transformer", "npm:0.5.1"],\
             ["class-validator", "npm:0.13.2"],\
             ["reflect-metadata", "npm:0.1.13"],\
@@ -23725,10 +23725,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["undici", [\
-        ["npm:5.8.0", {\
-          "packageLocation": "./.yarn/cache/undici-npm-5.8.0-905e943aab-7b486ad064.zip/node_modules/undici/",\
+        ["npm:5.8.2", {\
+          "packageLocation": "./.yarn/cache/undici-npm-5.8.2-bdd4575aa8-726e04bb37.zip/node_modules/undici/",\
           "packageDependencies": [\
-            ["undici", "npm:5.8.0"]\
+            ["undici", "npm:5.8.2"]\
           ],\
           "linkType": "HARD"\
         }]\
