@@ -2360,16 +2360,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nestjs/mongoose@npm:9.1.1":
-  version: 9.1.1
-  resolution: "@nestjs/mongoose@npm:9.1.1"
+"@nestjs/mongoose@npm:9.2.0":
+  version: 9.2.0
+  resolution: "@nestjs/mongoose@npm:9.2.0"
   peerDependencies:
-    "@nestjs/common": ^6.0.0 || ^7.0.0 || ^8.0.0
-    "@nestjs/core": ^6.0.0 || ^7.0.0 || ^8.0.0
+    "@nestjs/common": ^8.0.0 || ^9.0.0
+    "@nestjs/core": ^8.0.0 || ^9.0.0
     mongoose: ^6.0.2
     reflect-metadata: ^0.1.12
     rxjs: ^7.0.0
-  checksum: 3dd2b0fba8c76323b5583b4e04a730273852bef59dc905c805fb1246ea1ad7d9025aa91e19f5e6fb3d32ad54673704681528a31272333ee60c9850b24ff1a209
+  checksum: 34e551d704e4e3b1e97679a4ca910800d384d27e04225db02d476174ba9558a3f668c3344e334fead79c53891ab75b04054fe9e780f24341a9d10ef20b4b58e0
   languageName: node
   linkType: hard
 
@@ -16826,7 +16826,7 @@ __metadata:
     "@nestjs/config": 2.2.0
     "@nestjs/core": 8.4.7
     "@nestjs/jwt": 8.0.1
-    "@nestjs/mongoose": 9.1.1
+    "@nestjs/mongoose": 9.2.0
     "@nestjs/passport": 8.2.2
     "@nestjs/platform-fastify": 8.4.7
     "@nestjs/schedule": 1.1.0
