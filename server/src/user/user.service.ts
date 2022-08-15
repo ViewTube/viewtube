@@ -14,7 +14,7 @@ import bcrypt from 'bcryptjs';
 import { UserprofileDto } from 'server/user/dto/userprofile.dto';
 import humanizeDuration from 'humanize-duration';
 import { Common } from 'server/core/common';
-import { ChannelBasicInfoDto } from 'viewtube/shared/dto/channel/channel-basic-info.dto';
+import { ChannelBasicInfoDto } from 'server/core/channels/dto/channel-basic-info.dto';
 import Consola from 'consola';
 import { FastifyReply } from 'fastify';
 import archiver from 'archiver';

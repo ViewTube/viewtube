@@ -11,7 +11,7 @@
     "lint": "eslint --ext .ts,.js,.vue .",
     "lint:fix": "eslint --ext .ts,.js,.vue --fix .",
     "gen:swagger": "pnpm run build && cross-env GENERATE_SWAGGER=true node ./dist/main.cjs",
-    "gen:api": "pnpm run gen:swagger && openapi-typescript swagger-spec.json --output ../shared/api.schema.ts"
+    "gen:api": "pnpm run gen:swagger && openapi-typescript swagger-spec.json --output ../shared/api.schema.ts && rm -f swagger-spec.json"
   },
   "_moduleAliases": {
     "server": "dist/server"

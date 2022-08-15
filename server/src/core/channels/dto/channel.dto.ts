@@ -1,4 +1,4 @@
-import { AuthorThumbnailDto } from '../video/author-thumbnail.dto';
+import { AuthorThumbnailDto } from '../../../../../../shared/dto/video/author-thumbnail.dto';
 import { ChannelLinkDto } from './channel-link.dto';
 import { RelatedChannelDto } from './related-channel.dto';
 import { VideoSectionMultiDto, VideoSectionSingleDto } from './video-section.dto';

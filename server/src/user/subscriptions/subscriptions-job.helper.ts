@@ -1,6 +1,6 @@
 import path from 'path';
 import fs from 'fs';
-import { ChannelBasicInfoDto } from 'viewtube/shared/dto/channel/channel-basic-info.dto';
+import { ChannelBasicInfoDto } from 'server/core/channels/dto/channel-basic-info.dto';
 import { VideoBasicInfoDto } from 'viewtube/shared/dto/video/video-basic-info.dto';
 import X2js from 'x2js';
 import fetch from 'node-fetch';

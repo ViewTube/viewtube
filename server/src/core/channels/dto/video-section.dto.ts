@@ -1,5 +1,5 @@
-import { PlaylistBasicInfoDto } from '../playlist/playlist-basic-info.dto';
-import { VideoBasicInfoDto } from '../video/video-basic-info.dto';
+import { PlaylistBasicInfoDto } from '../../../../../../shared/dto/playlist/playlist-basic-info.dto';
+import { VideoBasicInfoDto } from '../../../../../../shared/dto/video/video-basic-info.dto';
 
 export class VideoSectionSingleDto {
   title?: string;

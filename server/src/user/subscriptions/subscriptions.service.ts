@@ -14,7 +14,7 @@ import { Model } from 'mongoose';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { VideoBasicInfoDto } from 'viewtube/shared/dto/video/video-basic-info.dto';
 import { Sorting } from 'server/common/sorting.type';
-import { ChannelBasicInfoDto } from 'viewtube/shared/dto/channel/channel-basic-info.dto';
+import { ChannelBasicInfoDto } from 'server/core/channels/dto/channel-basic-info.dto';
 import Consola from 'consola';
 import { AppClusterService } from 'server/app-cluster.service';
 import { General } from 'server/common/general.schema';

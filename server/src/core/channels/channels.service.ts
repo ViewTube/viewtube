@@ -8,7 +8,7 @@ import fetch from 'node-fetch';
 import { General } from 'server/common/general.schema';
 import { FastifyReply } from 'fastify';
 import { ChannelMapper } from './channel.mapper';
-import { ChannelDto } from 'viewtube/shared/dto/channel/channel.dto';
+import { ChannelDto } from 'server/core/channels/dto/channel.dto';
 import sharp from 'sharp';
 
 @Injectable()

@@ -10,7 +10,7 @@ import {
 import { ApiTags } from '@nestjs/swagger';
 import { FastifyReply } from 'fastify';
 import { ChannelsService } from './channels.service';
-import { ChannelDto } from 'viewtube/shared/dto/channel/channel.dto';
+import { ChannelDto } from 'server/core/channels/dto/channel.dto';
 
 @ApiTags('Core')
 @Controller('channels')

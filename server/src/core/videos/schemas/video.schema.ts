@@ -1,9 +1,9 @@
 import { Document } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { VideoDto } from 'viewtube/shared/dto/video/video.dto';
-import { RecommendedVideoDto } from 'viewtube/shared/dto/video/recommended-video.dto';
-import { VideoThumbnailDto } from 'viewtube/shared/dto/video/video-thumbnail.dto';
-import { AuthorThumbnailDto } from 'viewtube/shared/dto/video/author-thumbnail.dto';
+import { VideoDto } from '../dto/video.dto';
+import { RecommendedVideoDto } from '../dto/recommended-video.dto';
+import { VideoThumbnailDto } from '../dto/video-thumbnail.dto';
+import { AuthorThumbnailDto } from '../dto/author-thumbnail.dto';
 
 // eslint-disable-next-line no-undef
 @Schema({ timestamps: true })
