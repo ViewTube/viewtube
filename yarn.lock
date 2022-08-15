@@ -3728,10 +3728,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:16.11.48":
-  version: 16.11.48
-  resolution: "@types/node@npm:16.11.48"
-  checksum: 10cd539cb2cf5a8f51f3c2bd761c093b752e534b1f2dc0d7193debd7986145b68db2a5fd48498af641e8641fb8d24b7c4851ea3e30fb8f56cc13ac719cad1e1f
+"@types/node@npm:16.11.49":
+  version: 16.11.49
+  resolution: "@types/node@npm:16.11.49"
+  checksum: 05545ee49da3b783ab77cddca45db6f4d47861c2bb148a17b774688e1082f20f27177591d140923724bcd8643b32291203f6f1eadba397e394232d4a1e28e07a
   languageName: node
   linkType: hard
 
@@ -6688,7 +6688,7 @@ __metadata:
     "@nuxtjs/pwa": 3.3.5
     "@nuxtjs/router": 1.7.0
     "@nuxtjs/style-resources": 1.2.1
-    "@types/node": 16.11.48
+    "@types/node": 16.11.49
     "@types/papaparse": 5.3.3
     "@types/qrcode": 1.4.2
     "@types/sass": 1.43.1
@@ -16849,7 +16849,7 @@ __metadata:
     "@types/jest": 27.5.2
     "@types/module-alias": 2.0.1
     "@types/multer": 1.4.7
-    "@types/node": 16.11.48
+    "@types/node": 16.11.49
     "@types/node-fetch": 3.0.3
     "@types/passport-jwt": 3.0.6
     "@types/passport-local": 1.0.34
@@ -16901,7 +16901,7 @@ __metadata:
     sharp: 0.30.7
     source-map-support: 0.5.21
     svg-captcha: 1.4.0
-    ts-jest: 28.0.7
+    ts-jest: 28.0.8
     ts-loader: 9.3.1
     tslib: 2.4.0
     typescript: 4.5.5
@@ -16986,7 +16986,7 @@ __metadata:
     "@nestjs/common": 8.4.7
     "@nestjs/core": 8.4.7
     "@nestjs/swagger": 5.2.1
-    "@types/node": 16.11.48
+    "@types/node": 16.11.49
     class-transformer: 0.5.1
     class-validator: 0.13.2
     reflect-metadata: 0.1.13
@@ -18209,9 +18209,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ts-jest@npm:28.0.7":
-  version: 28.0.7
-  resolution: "ts-jest@npm:28.0.7"
+"ts-jest@npm:28.0.8":
+  version: 28.0.8
+  resolution: "ts-jest@npm:28.0.8"
   dependencies:
     bs-logger: 0.x
     fast-json-stable-stringify: 2.x
@@ -18238,7 +18238,7 @@ __metadata:
       optional: true
   bin:
     ts-jest: cli.js
-  checksum: be6ad6382e3b2e7b0c45d06616a4a02aeb6815bad2026fe8eeb4e0941205faa50ac3f5930adb7ba2fda5fea6a5739bfa507e2eac8764d2c729ddc8010681707a
+  checksum: c72e9292709e77ce47ac7813cb24feaa9d01dc983598d29a821f224b5cc190dc7d67e17379cef089095404c00b9d582ee91c727916f9ec289cb1b723df408ae3
   languageName: node
   linkType: hard
 
