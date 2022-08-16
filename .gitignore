@@ -40,3 +40,4 @@ dump.rdb
 Dockerfile.nodejs-mongodb
 .vscode/.ropeproject/
 server/config.json
+**/predist
