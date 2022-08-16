@@ -13535,16 +13535,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nestjs-throttler-storage-redis@git+https://github.com/mauriceoegerli/nestjs-throttler-storage-redis.git":
-  version: 0.1.18
-  resolution: "nestjs-throttler-storage-redis@https://github.com/mauriceoegerli/nestjs-throttler-storage-redis.git#commit=7e236e7294ce7193abac7a0863829f7d2d3e27e8"
+"nestjs-throttler-storage-redis@github:kkoomen/nestjs-throttler-storage-redis":
+  version: 0.1.19
+  resolution: "nestjs-throttler-storage-redis@https://github.com/kkoomen/nestjs-throttler-storage-redis.git#commit=1291abe065a02826ac7e780796fe1d3653673a96"
   peerDependencies:
-    "@nestjs/common": ^7 || ^8
-    "@nestjs/core": ^7 || ^8
-    "@nestjs/throttler": ^2.0.0
-    ioredis: ^5.0.1
+    "@nestjs/common": ">=7.0.0"
+    "@nestjs/core": ">=7.0.0"
+    "@nestjs/throttler": ">=2.0.0"
+    ioredis: ^5.0.4
     reflect-metadata: ^0.1.13
-  checksum: a0b2c0924c67ac700897d351388928853437abf588cba6a65056e00c301bed1f6a253409efef1f20d5b59f1cc1cf5803b1610a5b70ef9b50bfc2684c3be25b15
+  checksum: b18fa86f41754b686f3cb4fd6cf341371c043f4d2d37c41ea85d6a3e1af6ffde329d2568530a73e5264fd01ef61420eed103fc4c4160a11cf5ec99656c8e7e72
   languageName: node
   linkType: hard
 
@@ -16886,7 +16886,7 @@ __metadata:
     module-alias: 2.2.2
     mongodb-memory-server: 8.4.2
     mongoose: 6.4.6
-    nestjs-throttler-storage-redis: "git+https://github.com/mauriceoegerli/nestjs-throttler-storage-redis.git"
+    nestjs-throttler-storage-redis: "github:kkoomen/nestjs-throttler-storage-redis"
     node-fetch: 2.6.7
     passport: 0.6.0
     passport-jwt: 4.0.0
