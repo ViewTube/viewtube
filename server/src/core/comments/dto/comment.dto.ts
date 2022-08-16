@@ -1,4 +1,4 @@
-import { AuthorThumbnailDto } from 'viewtube/shared';
+import { AuthorThumbnailDto } from 'server/core/videos/dto/author-thumbnail.dto';
 
 export class CommentDto {
   authorThumbnails: Array<AuthorThumbnailDto>;

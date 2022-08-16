@@ -1,6 +1,6 @@
 import { Mix, Playlist, Movie, Refinement, Shelf } from 'ytsr';
 import { ChannelBasicInfoDto } from 'server/core/channels/dto/channel-basic-info.dto';
-import { VideoBasicInfoDto } from 'viewtube/shared/dto/video/video-basic-info.dto';
+import { VideoBasicInfoDto } from 'server/core/videos/dto/video-basic-info.dto';
 
 export type SearchItem =
   | Mix

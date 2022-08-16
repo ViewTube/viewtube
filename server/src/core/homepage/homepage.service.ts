@@ -8,7 +8,7 @@ import { Model } from 'mongoose';
 import fetch from 'node-fetch';
 import { AppClusterService } from 'server/app-cluster.service';
 import { ChannelBasicInfo } from '../channels/schemas/channel-basic-info.schema';
-import { VideoBasicInfoDto } from 'viewtube/shared/dto/video/video-basic-info.dto';
+import { VideoBasicInfoDto } from 'server/core/videos/dto/video-basic-info.dto';
 import { PopularDto } from './dto/popular.dto';
 import { Popular } from './schemas/popular.schema';
 import { ConfigService } from '@nestjs/config';

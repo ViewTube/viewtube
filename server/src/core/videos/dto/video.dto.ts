@@ -1,5 +1,5 @@
 import { RecommendedVideoDto } from './recommended-video.dto';
-import { VideoThumbnailDto } from '../../../../../shared/dto/video/video-thumbnail.dto';
+import { VideoThumbnailDto } from './video-thumbnail.dto';
 import { AuthorThumbnailDto } from './author-thumbnail.dto';
 import { ChapterDto } from './chapter.dto';
 

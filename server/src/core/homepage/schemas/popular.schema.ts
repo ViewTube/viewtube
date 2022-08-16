@@ -1,7 +1,7 @@
 import { Document } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { VideoBasicInfoDto } from 'viewtube/shared/dto/video/video-basic-info.dto';
+import { VideoBasicInfoDto } from 'server/core/videos/dto/video-basic-info.dto';
 
 @Schema()
 export class Popular extends Document {
