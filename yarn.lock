@@ -3490,13 +3490,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/eslint@npm:8.4.5":
-  version: 8.4.5
-  resolution: "@types/eslint@npm:8.4.5"
+"@types/eslint@npm:8.4.6":
+  version: 8.4.6
+  resolution: "@types/eslint@npm:8.4.6"
   dependencies:
     "@types/estree": "*"
     "@types/json-schema": "*"
-  checksum: 428b0c971a50adb0d08621e76f21b284580a0052a31341a0e6d553f72b54cd0142d549aa1497c7e3bc56e9f6bcc27286e66e0216e1ba76d1a5ecd2279c40bc8c
+  checksum: bfaf27b00031b2238139003965475d023306119e467947f7a43a41e380918e365618e2ae6a6ae638697f6421a6bb1571db078695ff5e548f23618000b38acd23
   languageName: node
   linkType: hard
 
@@ -3728,10 +3728,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:16.11.49":
-  version: 16.11.49
-  resolution: "@types/node@npm:16.11.49"
-  checksum: 05545ee49da3b783ab77cddca45db6f4d47861c2bb148a17b774688e1082f20f27177591d140923724bcd8643b32291203f6f1eadba397e394232d4a1e28e07a
+"@types/node@npm:16.11.54":
+  version: 16.11.54
+  resolution: "@types/node@npm:16.11.54"
+  checksum: fa4d6a94498cc6ef96932a25557082587a178b5fa1da5e208bdb171b85265110a7ca6a4f296e740dca1b29d2a44b3c1e76e21d255e5eeed8be5f67ea538dcb9c
   languageName: node
   linkType: hard
 
@@ -6688,7 +6688,7 @@ __metadata:
     "@nuxtjs/pwa": 3.3.5
     "@nuxtjs/router": 1.7.0
     "@nuxtjs/style-resources": 1.2.1
-    "@types/node": 16.11.49
+    "@types/node": 16.11.54
     "@types/papaparse": 5.3.3
     "@types/qrcode": 1.4.2
     "@types/sass": 1.43.1
@@ -16844,12 +16844,12 @@ __metadata:
     "@types/bcryptjs": 2.4.2
     "@types/busboy": 1.5.0
     "@types/cookie-parser": 1.4.3
-    "@types/eslint": 8.4.5
+    "@types/eslint": 8.4.6
     "@types/humanize-duration": 3.27.1
     "@types/jest": 27.5.2
     "@types/module-alias": 2.0.1
     "@types/multer": 1.4.7
-    "@types/node": 16.11.49
+    "@types/node": 16.11.54
     "@types/node-fetch": 3.0.3
     "@types/passport-jwt": 3.0.6
     "@types/passport-local": 1.0.34
@@ -16986,7 +16986,7 @@ __metadata:
     "@nestjs/common": 8.4.7
     "@nestjs/core": 8.4.7
     "@nestjs/swagger": 5.2.1
-    "@types/node": 16.11.49
+    "@types/node": 16.11.54
     class-transformer: 0.5.1
     class-validator: 0.13.2
     reflect-metadata: 0.1.13
@@ -19002,7 +19002,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "viewtube@workspace:."
   dependencies:
-    "@types/eslint": 8.4.5
+    "@types/eslint": 8.4.6
     cross-env: 7.0.3
     eslint: 8.19.0
     eslint-import-resolver-node: 0.3.6
