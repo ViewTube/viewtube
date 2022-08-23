@@ -1,3 +1,6 @@
+
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/04e876ad632f4f1ea87a6f8770ab8ad0)](https://app.codacy.com/gh/ViewTube/viewtube-vue?utm_source=github.com&utm_medium=referral&utm_content=ViewTube/viewtube-vue&utm_campaign=Badge_Grade_Settings)
+
 <h1 align="center">
 <sub>
 <img  src="https://raw.githubusercontent.com/ViewTube/viewtube-vue/stable/.github/images/logo.png"
