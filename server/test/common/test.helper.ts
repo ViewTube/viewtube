@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable jest/valid-title */
 /* eslint-disable jest/expect-expect */
 /* eslint-disable jest/no-export */

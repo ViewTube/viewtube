@@ -68,11 +68,11 @@
     "sharp": "0.30.7",
     "svg-captcha": "1.4.0",
     "tslib": "2.4.0",
-    "undici": "5.9.1",
+    "undici": "5.10.0",
     "web-push": "3.5.0",
     "x2js": "3.4.3",
     "xml-js": "1.6.11",
-    "ytdl-core": "4.11.0",
+    "ytdl-core": "4.11.1",
     "ytpl": "2.3.0",
     "ytsr": "3.8.0"
   },

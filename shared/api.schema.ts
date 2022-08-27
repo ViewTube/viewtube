@@ -4,135 +4,135 @@
  */
 
 export interface paths {
-  '/api/videos/{id}': {
-    get: operations['VideosController_getVideos'];
+  "/api/videos/{id}": {
+    get: operations["VideosController_getVideos"];
   };
-  '/api/videos/manifest/dash/{id}': {
-    get: operations['VideosController_getDashManifest'];
+  "/api/videos/manifest/dash/{id}": {
+    get: operations["VideosController_getDashManifest"];
   };
-  '/api/videos/dislikes/{id}': {
-    get: operations['VideosController_getDislikes'];
+  "/api/videos/dislikes/{id}": {
+    get: operations["VideosController_getDislikes"];
   };
-  '/api/videoplayback': {
-    get: operations['VideoplaybackController_getVideoplayback'];
+  "/api/videoplayback": {
+    get: operations["VideoplaybackController_getVideoplayback"];
   };
-  '/api/autocomplete': {
-    get: operations['AutocompleteController_getQuery'];
+  "/api/autocomplete": {
+    get: operations["AutocompleteController_getQuery"];
   };
-  '/api/search/filters': {
-    get: operations['SearchController_getFilters'];
+  "/api/search/filters": {
+    get: operations["SearchController_getFilters"];
   };
-  '/api/search/continuation': {
-    post: operations['SearchController_searchContinuation'];
+  "/api/search/continuation": {
+    post: operations["SearchController_searchContinuation"];
   };
-  '/api/search': {
-    get: operations['SearchController_search'];
+  "/api/search": {
+    get: operations["SearchController_search"];
   };
-  '/api/channels/{id}/thumbnail/tiny.jpg': {
-    get: operations['ChannelsController_getTinyThumbnailJpg'];
+  "/api/channels/{id}/thumbnail/tiny.jpg": {
+    get: operations["ChannelsController_getTinyThumbnailJpg"];
   };
-  '/api/channels/{id}/thumbnail/tiny.webp': {
-    get: operations['ChannelsController_getTinyThumbnailWebp'];
+  "/api/channels/{id}/thumbnail/tiny.webp": {
+    get: operations["ChannelsController_getTinyThumbnailWebp"];
   };
-  '/api/channels/{id}': {
-    get: operations['ChannelsController_getChannel'];
+  "/api/channels/{id}": {
+    get: operations["ChannelsController_getChannel"];
   };
-  '/api/homepage/popular': {
-    get: operations['HomepageController_getPopular'];
+  "/api/homepage/popular": {
+    get: operations["HomepageController_getPopular"];
   };
-  '/api/proxy/text': {
-    get: operations['ProxyController_getText'];
+  "/api/proxy/text": {
+    get: operations["ProxyController_getText"];
   };
-  '/api/proxy/image': {
-    get: operations['ProxyController_getQuery'];
+  "/api/proxy/image": {
+    get: operations["ProxyController_getQuery"];
   };
-  '/api/proxy/stream': {
-    get: operations['ProxyController_proxyStream'];
+  "/api/proxy/stream": {
+    get: operations["ProxyController_proxyStream"];
   };
-  '/api/comments/{videoId}': {
-    get: operations['CommentsController_getComments'];
+  "/api/comments/{videoId}": {
+    get: operations["CommentsController_getComments"];
   };
-  '/api/comments/{videoId}/replies': {
-    get: operations['CommentsController_getCommentReplies'];
+  "/api/comments/{videoId}/replies": {
+    get: operations["CommentsController_getCommentReplies"];
   };
-  '/api/playlists/{playlistId}': {
-    get: operations['PlaylistsController_getPlaylist'];
+  "/api/playlists/{playlistId}": {
+    get: operations["PlaylistsController_getPlaylist"];
   };
-  '/api/playlists/continuation': {
-    get: operations['PlaylistsController_getPlaylistContinuation'];
+  "/api/playlists/continuation": {
+    get: operations["PlaylistsController_getPlaylistContinuation"];
   };
-  '/api/user/profile': {
-    get: operations['UserController_getProfile'];
+  "/api/user/profile": {
+    get: operations["UserController_getProfile"];
   };
-  '/api/user/profile/details': {
-    get: operations['UserController_getProfileDetails'];
+  "/api/user/profile/details": {
+    get: operations["UserController_getProfileDetails"];
   };
-  '/api/user/export': {
-    get: operations['UserController_getExport'];
+  "/api/user/export": {
+    get: operations["UserController_getExport"];
   };
-  '/api/user/profile/image/{username}': {
-    get: operations['UserController_getProfileImage'];
+  "/api/user/profile/image/{username}": {
+    get: operations["UserController_getProfileImage"];
   };
-  '/api/user/profile/image': {
-    post: operations['UserController_uploadProfileImage'];
-    delete: operations['UserController_deleteProfileImage'];
+  "/api/user/profile/image": {
+    post: operations["UserController_uploadProfileImage"];
+    delete: operations["UserController_deleteProfileImage"];
   };
-  '/api/user': {
-    delete: operations['UserController_deleteUser'];
+  "/api/user": {
+    delete: operations["UserController_deleteUser"];
   };
-  '/api/user/profile/password': {
-    post: operations['UserController_changePassword'];
+  "/api/user/profile/password": {
+    post: operations["UserController_changePassword"];
   };
-  '/api/user/subscriptions/channels': {
-    get: operations['SubscriptionsController_getSubscribedChannels'];
+  "/api/user/subscriptions/channels": {
+    get: operations["SubscriptionsController_getSubscribedChannels"];
   };
-  '/api/user/subscriptions/videos': {
-    get: operations['SubscriptionsController_getSubscriptionVideos'];
+  "/api/user/subscriptions/videos": {
+    get: operations["SubscriptionsController_getSubscriptionVideos"];
   };
-  '/api/user/subscriptions/{channelId}': {
-    get: operations['SubscriptionsController_getSubscription'];
-    put: operations['SubscriptionsController_createSubscription'];
-    delete: operations['SubscriptionsController_deleteSubscription'];
+  "/api/user/subscriptions/{channelId}": {
+    get: operations["SubscriptionsController_getSubscription"];
+    put: operations["SubscriptionsController_createSubscription"];
+    delete: operations["SubscriptionsController_deleteSubscription"];
   };
-  '/api/user/subscriptions/multiple': {
-    post: operations['SubscriptionsController_createMultipleSubscriptions'];
+  "/api/user/subscriptions/multiple": {
+    post: operations["SubscriptionsController_createMultipleSubscriptions"];
   };
-  '/api/user/notifications/subscribe': {
-    post: operations['NotificationsController_subscribeToNotifications'];
+  "/api/user/notifications/subscribe": {
+    post: operations["NotificationsController_subscribeToNotifications"];
   };
-  '/api/user/settings': {
-    get: operations['SettingsController_getSettings'];
-    put: operations['SettingsController_setSettings'];
+  "/api/user/settings": {
+    get: operations["SettingsController_getSettings"];
+    put: operations["SettingsController_setSettings"];
   };
-  '/api/user/history': {
-    get: operations['HistoryController_getHistory'];
-    delete: operations['HistoryController_deleteEntireHistory'];
+  "/api/user/history": {
+    get: operations["HistoryController_getHistory"];
+    delete: operations["HistoryController_deleteEntireHistory"];
   };
-  '/api/user/history/{id}': {
-    get: operations['HistoryController_getVideoVisit'];
-    post: operations['HistoryController_setVideoVisit'];
+  "/api/user/history/{id}": {
+    get: operations["HistoryController_getVideoVisit"];
+    post: operations["HistoryController_setVideoVisit"];
   };
-  '/api/user/history/{videoId}': {
-    delete: operations['HistoryController_deleteHistoryEntry'];
+  "/api/user/history/{videoId}": {
+    delete: operations["HistoryController_deleteHistoryEntry"];
   };
-  '/api/user/history/from/{startDate}/to/{endDate}': {
-    delete: operations['HistoryController_deleteHistoryRange'];
+  "/api/user/history/from/{startDate}/to/{endDate}": {
+    delete: operations["HistoryController_deleteHistoryRange"];
   };
-  '/api/auth/login': {
-    post: operations['AuthController_login'];
+  "/api/auth/login": {
+    post: operations["AuthController_login"];
   };
-  '/api/auth/logout': {
-    post: operations['AuthController_logout'];
+  "/api/auth/logout": {
+    post: operations["AuthController_logout"];
   };
-  '/api/auth/register': {
+  "/api/auth/register": {
     /**
      * Request a captcha through the /auth/captcha endpoint,
      *     and pass its token and solution alongside the new user's credentials.
      */
-    post: operations['RegisterController_registerUser'];
+    post: operations["RegisterController_registerUser"];
   };
-  '/api/auth/captcha': {
-    get: operations['CaptchaController_getCaptcha'];
+  "/api/auth/captcha": {
+    get: operations["CaptchaController_getCaptcha"];
   };
 }
 
@@ -156,11 +156,11 @@ export interface components {
     RecommendedVideoDto: {
       videoId: string;
       title: string;
-      videoThumbnails: components['schemas']['VideoThumbnailDto'][];
+      videoThumbnails: components["schemas"]["VideoThumbnailDto"][];
       author: string;
       authorUrl: string;
       authorId: string;
-      authorThumbnails: components['schemas']['AuthorThumbnailDto'][];
+      authorThumbnails: components["schemas"]["AuthorThumbnailDto"][];
       lengthSeconds: number;
       viewCountText: string;
       viewCount: number;
@@ -169,7 +169,7 @@ export interface components {
       type: string;
       title: string;
       videoId: string;
-      videoThumbnails: components['schemas']['VideoThumbnailDto'][];
+      videoThumbnails: components["schemas"]["VideoThumbnailDto"][];
       storyboards: { [key: string]: unknown };
       description: string;
       descriptionHtml: string;
@@ -187,7 +187,7 @@ export interface components {
       author: string;
       authorId: string;
       authorUrl: string;
-      authorThumbnails: components['schemas']['AuthorThumbnailDto'][];
+      authorThumbnails: components["schemas"]["AuthorThumbnailDto"][];
       authorVerified: boolean;
       subCount: number;
       lengthSeconds: number;
@@ -198,9 +198,9 @@ export interface components {
       isUpcoming: boolean;
       adaptiveFormats: { [key: string]: unknown }[];
       legacyFormats: { [key: string]: unknown }[];
-      chapters?: components['schemas']['ChapterDto'][];
+      chapters?: components["schemas"]["ChapterDto"][];
       captions: { [key: string]: unknown };
-      recommendedVideos: components['schemas']['RecommendedVideoDto'][];
+      recommendedVideos: components["schemas"]["RecommendedVideoDto"][];
       dashManifest?: string;
     };
     DislikeDto: {
@@ -220,13 +220,13 @@ export interface components {
     };
     SearchFilterDto: {
       filterType: string;
-      filterValues: components['schemas']['FilterValueDto'][];
+      filterValues: components["schemas"]["FilterValueDto"][];
     };
     ChannelBasicInfoDto: {
       authorId: string;
       author: string;
       authorUrl?: string;
-      authorThumbnails?: components['schemas']['AuthorThumbnailDto'][];
+      authorThumbnails?: components["schemas"]["AuthorThumbnailDto"][];
       authorThumbnailUrl?: string;
       authorVerified?: boolean;
       subCount?: number;
@@ -235,14 +235,14 @@ export interface components {
     };
     RelatedChannelDto: {
       title: string;
-      channels: components['schemas']['ChannelBasicInfoDto'][];
+      channels: components["schemas"]["ChannelBasicInfoDto"][];
     };
     LinkThumbnailDto: {
       url: string;
     };
     ChannelLinkDto: {
       url: string;
-      linkThumbnails?: components['schemas']['LinkThumbnailDto'][];
+      linkThumbnails?: components["schemas"]["LinkThumbnailDto"][];
       title: string;
     };
     ChannelDto: {
@@ -250,8 +250,8 @@ export interface components {
       authorId: string;
       authorUrl: string;
       authorUsername?: string;
-      authorBanners: components['schemas']['AuthorThumbnailDto'][];
-      authorThumbnails: components['schemas']['AuthorThumbnailDto'][];
+      authorBanners: components["schemas"]["AuthorThumbnailDto"][];
+      authorThumbnails: components["schemas"]["AuthorThumbnailDto"][];
       subCount: number;
       totalViews: number;
       joined: number;
@@ -262,8 +262,8 @@ export interface components {
       descriptionHtml: string;
       allowedRegions: string[];
       videoSections: { [key: string]: unknown }[];
-      relatedChannels: components['schemas']['RelatedChannelDto'][];
-      channelLinks?: components['schemas']['ChannelLinkDto'][];
+      relatedChannels: components["schemas"]["RelatedChannelDto"][];
+      channelLinks?: components["schemas"]["ChannelLinkDto"][];
     };
     VideoBasicInfoDto: {
       videoId: string;
@@ -273,9 +273,9 @@ export interface components {
       author: string;
       authorId: string;
       authorVerified?: boolean;
-      authorThumbnails?: components['schemas']['AuthorThumbnailDto'][];
+      authorThumbnails?: components["schemas"]["AuthorThumbnailDto"][];
       authorThumbnailUrl?: string;
-      videoThumbnails: components['schemas']['VideoThumbnailDto'][];
+      videoThumbnails: components["schemas"]["VideoThumbnailDto"][];
       description?: string;
       viewCount: number;
       likeCount?: number;
@@ -285,12 +285,12 @@ export interface components {
       live?: boolean;
     };
     PopularDto: {
-      videos: components['schemas']['VideoBasicInfoDto'][];
+      videos: components["schemas"]["VideoBasicInfoDto"][];
       /** Format: date-time */
       updatedAt: string;
     };
     CommentDto: {
-      authorThumbnails: components['schemas']['AuthorThumbnailDto'][];
+      authorThumbnails: components["schemas"]["AuthorThumbnailDto"][];
       author: string;
       authorId: string;
       publishedText: string;
@@ -302,7 +302,7 @@ export interface components {
       content: string;
     };
     CommentsResponseDto: {
-      comments: components['schemas']['CommentDto'][];
+      comments: components["schemas"]["CommentDto"][];
       continuation: string;
     };
     SettingsDto: {
@@ -333,10 +333,10 @@ export interface components {
     UserprofileDto: {
       username: string;
       profileImage: string;
-      settings: components['schemas']['SettingsDto'];
+      settings: components["schemas"]["SettingsDto"];
     };
     VideoVisitDetailsDto: {
-      videoDetails: components['schemas']['VideoBasicInfoDto'];
+      videoDetails: components["schemas"]["VideoBasicInfoDto"];
       videoId: string;
       progressSeconds: number;
       lengthSeconds: number;
@@ -346,7 +346,7 @@ export interface components {
     UserprofileDetailsDto: {
       username: string;
       profileImage: string;
-      videoHistory: components['schemas']['VideoVisitDetailsDto'][];
+      videoHistory: components["schemas"]["VideoVisitDetailsDto"][];
       /** Format: date-time */
       registeredAt: string;
       totalVideosCount: number;
@@ -391,7 +391,7 @@ export interface operations {
     responses: {
       200: {
         content: {
-          'application/json': components['schemas']['VideoDto'];
+          "application/json": components["schemas"]["VideoDto"];
         };
       };
     };
@@ -405,7 +405,7 @@ export interface operations {
     responses: {
       200: {
         content: {
-          'application/json': string;
+          "application/json": string;
         };
       };
     };
@@ -419,7 +419,7 @@ export interface operations {
     responses: {
       200: {
         content: {
-          'application/json': components['schemas']['DislikeDto'];
+          "application/json": components["schemas"]["DislikeDto"];
         };
       };
     };
@@ -439,7 +439,7 @@ export interface operations {
     responses: {
       200: {
         content: {
-          'application/json': string[];
+          "application/json": string[];
         };
       };
     };
@@ -453,7 +453,7 @@ export interface operations {
     responses: {
       200: {
         content: {
-          'application/json': components['schemas']['SearchFilterDto'][];
+          "application/json": components["schemas"]["SearchFilterDto"][];
         };
       };
     };
@@ -463,7 +463,7 @@ export interface operations {
     responses: {
       201: {
         content: {
-          'application/json': { [key: string]: unknown };
+          "application/json": { [key: string]: unknown };
         };
       };
     };
@@ -484,7 +484,7 @@ export interface operations {
     responses: {
       200: {
         content: {
-          'application/json': { [key: string]: unknown };
+          "application/json": { [key: string]: unknown };
         };
       };
     };
@@ -518,7 +518,7 @@ export interface operations {
     responses: {
       200: {
         content: {
-          'application/json': components['schemas']['ChannelDto'];
+          "application/json": components["schemas"]["ChannelDto"];
         };
       };
     };
@@ -528,7 +528,7 @@ export interface operations {
     responses: {
       200: {
         content: {
-          'application/json': components['schemas']['PopularDto'];
+          "application/json": components["schemas"]["PopularDto"];
         };
       };
     };
@@ -542,7 +542,7 @@ export interface operations {
     responses: {
       200: {
         content: {
-          'application/json': string;
+          "application/json": string;
         };
       };
     };
@@ -579,7 +579,7 @@ export interface operations {
     responses: {
       200: {
         content: {
-          'application/json': components['schemas']['CommentsResponseDto'];
+          "application/json": components["schemas"]["CommentsResponseDto"];
         };
       };
     };
@@ -596,7 +596,7 @@ export interface operations {
     responses: {
       200: {
         content: {
-          'application/json': components['schemas']['CommentsResponseDto'];
+          "application/json": components["schemas"]["CommentsResponseDto"];
         };
       };
     };
@@ -613,7 +613,7 @@ export interface operations {
     responses: {
       200: {
         content: {
-          'application/json': { [key: string]: unknown };
+          "application/json": { [key: string]: unknown };
         };
       };
     };
@@ -627,7 +627,7 @@ export interface operations {
     responses: {
       200: {
         content: {
-          'application/json': { [key: string]: unknown };
+          "application/json": { [key: string]: unknown };
         };
       };
     };
@@ -637,7 +637,7 @@ export interface operations {
     responses: {
       200: {
         content: {
-          'application/json': components['schemas']['UserprofileDto'];
+          "application/json": components["schemas"]["UserprofileDto"];
         };
       };
     };
@@ -647,7 +647,7 @@ export interface operations {
     responses: {
       200: {
         content: {
-          'application/json': components['schemas']['UserprofileDetailsDto'];
+          "application/json": components["schemas"]["UserprofileDetailsDto"];
         };
       };
     };
@@ -704,7 +704,7 @@ export interface operations {
     responses: {
       200: {
         content: {
-          'application/json': { [key: string]: unknown };
+          "application/json": { [key: string]: unknown };
         };
       };
     };
@@ -729,7 +729,7 @@ export interface operations {
     responses: {
       200: {
         content: {
-          'application/json': components['schemas']['SubscriptionStatusDto'];
+          "application/json": components["schemas"]["SubscriptionStatusDto"];
         };
       };
     };
@@ -743,7 +743,7 @@ export interface operations {
     responses: {
       200: {
         content: {
-          'application/json': components['schemas']['SubscriptionStatusDto'];
+          "application/json": components["schemas"]["SubscriptionStatusDto"];
         };
       };
     };
@@ -757,7 +757,7 @@ export interface operations {
     responses: {
       200: {
         content: {
-          'application/json': components['schemas']['SubscriptionStatusDto'];
+          "application/json": components["schemas"]["SubscriptionStatusDto"];
         };
       };
     };
@@ -779,7 +779,7 @@ export interface operations {
     responses: {
       200: {
         content: {
-          'application/json': components['schemas']['SettingsDto'];
+          "application/json": components["schemas"]["SettingsDto"];
         };
       };
     };
@@ -818,7 +818,7 @@ export interface operations {
     responses: {
       200: {
         content: {
-          'application/json': components['schemas']['VideoVisitDto'];
+          "application/json": components["schemas"]["VideoVisitDto"];
         };
       };
     };
@@ -865,7 +865,7 @@ export interface operations {
     };
     requestBody: {
       content: {
-        'application/json': components['schemas']['UserDto'];
+        "application/json": components["schemas"]["UserDto"];
       };
     };
   };
@@ -884,13 +884,13 @@ export interface operations {
     responses: {
       201: {
         content: {
-          'application/json': { [key: string]: unknown };
+          "application/json": { [key: string]: unknown };
         };
       };
     };
     requestBody: {
       content: {
-        'application/json': components['schemas']['RegistrationDto'];
+        "application/json": components["schemas"]["RegistrationDto"];
       };
     };
   };
@@ -899,7 +899,7 @@ export interface operations {
     responses: {
       200: {
         content: {
-          'application/json': components['schemas']['CaptchaDto'];
+          "application/json": components["schemas"]["CaptchaDto"];
         };
       };
     };
