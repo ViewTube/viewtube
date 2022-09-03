@@ -5847,10 +5847,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@types/qrcode", [\
-        ["npm:1.4.2", {\
-          "packageLocation": "./.yarn/cache/@types-qrcode-npm-1.4.2-0e466f65e7-7ac58687aa.zip/node_modules/@types/qrcode/",\
+        ["npm:1.5.0", {\
+          "packageLocation": "./.yarn/cache/@types-qrcode-npm-1.5.0-dc66695d78-b0ece3834c.zip/node_modules/@types/qrcode/",\
           "packageDependencies": [\
-            ["@types/qrcode", "npm:1.4.2"],\
+            ["@types/qrcode", "npm:1.5.0"],\
             ["@types/node", "npm:17.0.31"]\
           ],\
           "linkType": "HARD"\
@@ -9629,7 +9629,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@nuxtjs/style-resources", "npm:1.2.1"],\
             ["@types/node", "npm:16.11.54"],\
             ["@types/papaparse", "npm:5.3.3"],\
-            ["@types/qrcode", "npm:1.4.2"],\
+            ["@types/qrcode", "npm:1.5.0"],\
             ["@types/sass", "npm:1.43.1"],\
             ["@typescript-eslint/eslint-plugin", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:5.25.0"],\
             ["@typescript-eslint/parser", "virtual:656141524fab26d76b9a0de37412b0bd8d68b112a7ae5bb3607d411763274ecb93d754bd2292ee7cee1844b867cae11a6a7be00b96f1e87fd47684b593faaa6e#npm:5.25.0"],\
