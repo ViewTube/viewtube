@@ -1792,12 +1792,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@freetube/yt-comment-scraper@npm:6.1.0":
-  version: 6.1.0
-  resolution: "@freetube/yt-comment-scraper@npm:6.1.0"
+"@freetube/yt-comment-scraper@npm:6.2.0":
+  version: 6.2.0
+  resolution: "@freetube/yt-comment-scraper@npm:6.2.0"
   dependencies:
-    axios: ^0.21.1
-  checksum: f88f0bce2437b68003a48f74b66b0c00ea8fcf5ef88594f76791ed2849974bb530527c6271adffb5caba18884ebe7de6e1aedfa066d7e6619be92ef8eafa1392
+    axios: ^0.27.2
+  checksum: 88eefa275831636262f2d2867605c806321f3ec1390c56f2a141ecb6d1682ff47f565ce44da697ae51d6c95ac8e2ebdcd8934e6cfb54f6a7f41ba10a20ff6e72
   languageName: node
   linkType: hard
 
@@ -5626,7 +5626,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:0.27.2":
+"axios@npm:0.27.2, axios@npm:^0.27.2":
   version: 0.27.2
   resolution: "axios@npm:0.27.2"
   dependencies:
@@ -16819,7 +16819,7 @@ __metadata:
     "@fastify/cookie": 6.0.0
     "@fastify/helmet": 8.1.0
     "@fastify/multipart": 6.0.0
-    "@freetube/yt-comment-scraper": 6.1.0
+    "@freetube/yt-comment-scraper": 6.2.0
     "@nestjs/bull": 0.5.5
     "@nestjs/cli": 8.2.8
     "@nestjs/common": 8.4.7
