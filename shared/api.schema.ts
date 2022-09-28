@@ -305,6 +305,49 @@ export interface components {
       comments: components["schemas"]["CommentDto"][];
       continuation: string;
     };
+    PlaylistImageDto: {
+      url: string | null;
+      width: number;
+      height: number;
+    };
+    PlaylistItemDto: {
+      title: string;
+      index: number;
+      id: string;
+      shortUrl: string;
+      url: string;
+      author: {
+        name?: string;
+        url?: string;
+        channelID?: string;
+      };
+      thumbnails: components["schemas"]["PlaylistImageDto"][];
+      bestThumbnail: components["schemas"]["PlaylistImageDto"];
+      isLive: boolean;
+      duration: string | null;
+      durationSec: number | null;
+    };
+    PlaylistResultDto: {
+      id: string;
+      url: string;
+      title: string;
+      estimatedItemCount: number;
+      views: number;
+      thumbnails: components["schemas"]["PlaylistImageDto"][];
+      bestThumbnail: components["schemas"]["PlaylistImageDto"];
+      lastUpdated: string;
+      description: string | null;
+      visibility: { [key: string]: unknown };
+      author: {
+        name?: string;
+        url?: string;
+        avatars?: components["schemas"]["PlaylistImageDto"][];
+        bestAvatar?: components["schemas"]["PlaylistImageDto"];
+        channelID?: string;
+      };
+      items: components["schemas"]["PlaylistItemDto"][];
+      continuation: { [key: string]: unknown } | null;
+    };
     SettingsDto: {
       miniplayer: boolean;
       chapters: boolean;
@@ -613,7 +656,7 @@ export interface operations {
     responses: {
       200: {
         content: {
-          "application/json": { [key: string]: unknown };
+          "application/json": components["schemas"]["PlaylistResultDto"];
         };
       };
     };

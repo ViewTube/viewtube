@@ -189,13 +189,13 @@ importers:
       ts-loader: 9.3.1
       tslib: 2.4.0
       typescript: 4.7.4
-      undici: 5.9.1
+      undici: 5.10.0
       web-push: 3.5.0
       webpack: 5.74.0
       webpack-node-externals: 3.0.0
       x2js: 3.4.3
       xml-js: 1.6.11
-      ytdl-core: 4.11.0
+      ytdl-core: 4.11.1
       ytpl: 2.3.0
       ytsr: 3.8.0
     dependencies:
@@ -244,11 +244,11 @@ importers:
       sharp: 0.30.7
       svg-captcha: 1.4.0
       tslib: 2.4.0
-      undici: 5.9.1
+      undici: 5.10.0
       web-push: 3.5.0
       x2js: 3.4.3
       xml-js: 1.6.11
-      ytdl-core: 4.11.0
+      ytdl-core: 4.11.1
       ytpl: 2.3.0
       ytsr: 3.8.0
     devDependencies:
@@ -8737,7 +8737,7 @@ packages:
       mime: 3.0.0
       prettier: 2.7.1
       tiny-glob: 0.2.9
-      undici: 5.9.1
+      undici: 5.10.0
       yargs-parser: 21.0.1
     dev: true
 
@@ -10870,9 +10870,14 @@ packages:
       - webpack
     dev: true
 
+  /undici/5.10.0:
+    resolution: {integrity: sha512-c8HsD3IbwmjjbLvoZuRI26TZic+TSEe8FPMLLOkN1AfYRhdjnKBU6yL+IwcSCbdZiX4e5t0lfMDLDCqj4Sq70g==}
+    engines: {node: '>=12.18'}
+
   /undici/5.9.1:
     resolution: {integrity: sha512-6fB3a+SNnWEm4CJbgo0/CWR8RGcOCQP68SF4X0mxtYTq2VNN8T88NYrWVBAeSX+zb7bny2dx2iYhP3XHi00omg==}
     engines: {node: '>=12.18'}
+    dev: true
 
   /unenv/0.5.4:
     resolution: {integrity: sha512-TsGsA7/kchJSrzGhnSXwm704qI5/yZ8gF1OnGtoHl778AfTYI/jRL6zQeQJn89VeMHZ+o9AvueSPpfrrSpv6Vg==}
@@ -11787,8 +11792,8 @@ packages:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
 
-  /ytdl-core/4.11.0:
-    resolution: {integrity: sha512-Q3hCLiUA9AOGQXzPvno14GN+HgF9wsO1ZBHlj0COTcyxjIyFpWvMfii0UC4/cAbVaIjEdbWB71GdcGuc4J1Lmw==}
+  /ytdl-core/4.11.1:
+    resolution: {integrity: sha512-0H2hl8kv9JA50qEUewPVpDCloyEVkXZfKJ6o2RNmkngfiY99pGVqE7jQbMT6Rs1QwZpF8GiMB50VWXqivpzlgQ==}
     engines: {node: '>=12'}
     dependencies:
       m3u8stream: 0.8.6

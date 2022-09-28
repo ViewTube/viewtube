@@ -1,6 +1,7 @@
 import { CacheInterceptor, Controller, Get, Param, Query, UseInterceptors } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { ContinueResult, Result } from 'ytpl';
+import { ContinueResult } from 'ytpl';
+import { PlaylistResultDto } from './dto/playlist-result.dto';
 import { PlaylistsService } from './playlists.service';
 
 @ApiTags('Core')
@@ -13,7 +14,7 @@ export class PlaylistsController {
   getPlaylist(
     @Param('playlistId') playlistId: string,
     @Query('pages') pages: number
-  ): Promise<Result> {
+  ): Promise<PlaylistResultDto> {
     return this.playlistsService.getPlaylist(playlistId, pages);
   }
 

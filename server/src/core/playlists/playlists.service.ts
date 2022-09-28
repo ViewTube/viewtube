@@ -1,9 +1,10 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import ytpl, { ContinueResult, Options, Result } from 'ytpl';
+import { PlaylistResultDto } from './dto/playlist-result.dto';
 
 @Injectable()
 export class PlaylistsService {
-  async getPlaylist(playlistId: string, pages: number): Promise<Result> {
+  async getPlaylist(playlistId: string, pages: number): Promise<PlaylistResultDto> {
     if (playlistId && ytpl.validateID(playlistId)) {
       let playlistContent: Result;
 
