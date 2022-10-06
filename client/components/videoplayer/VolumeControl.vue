@@ -1,9 +1,66 @@
+<script setup lang="ts">
+import VolumeHighIcon from 'vue-material-design-icons/VolumeHigh.vue';
+import VolumeMediumIcon from 'vue-material-design-icons/VolumeMedium.vue';
+import VolumeLowIcon from 'vue-material-design-icons/VolumeLow.vue';
+import VolumeOffIcon from 'vue-material-design-icons/VolumeOff.vue';
+
+const emit = defineEmits<{ (e: 'update:modelValue', value: number): void }>();
+
+const props = defineProps<{
+  modelValue: number;
+  playerOverlayVisible: boolean;
+}>();
+
+const expanded = ref(false);
+
+const volumeCategory = computed((): number => {
+  if (props.modelValue >= 1) {
+    return 3;
+  } else if (props.modelValue < 1 && props.modelValue >= 0.5) {
+    return 2;
+  } else if (props.modelValue < 0.5 && props.modelValue > 0) {
+    return 1;
+  } else if (props.modelValue <= 0) {
+    return 0;
+  }
+  return 0;
+});
+
+const onTouch = () => {
+  if (props.playerOverlayVisible) {
+    expanded.value = true;
+    setTimeout(() => {
+      expanded.value = false;
+    }, 1000);
+  }
+};
+
+const volumeValue = computed({
+  get: () => props.modelValue,
+  set: value => {
+    if (!preventReset.value) {
+      emit('update:modelValue', value);
+    }
+  }
+});
+
+const preventReset = ref(false);
+
+const onMouseUp = () => {
+  preventReset.value = true;
+};
+
+const onMouseDown = () => {
+  preventReset.value = false;
+};
+</script>
+
 <template>
   <div
     class="volume-control"
     :class="{ expanded }"
-    @mouseup.stop="stopEvent"
-    @click.stop="stopEvent"
+    @mouseup.stop
+    @click.stop
     @touchend.stop="onTouch"
   >
     <VolumeHighIcon v-if="volumeCategory == 3" />
@@ -13,78 +70,24 @@
     <div class="volume-control-popup">
       <input
         id="volume"
+        v-model="volumeValue"
         type="range"
         name="volume"
         min="0"
         max="1"
         step="0.05"
-        :value="value"
-        @input="$emit('input', $event.target.value)"
+        @mousedown="onMouseDown"
+        @mouseup="onMouseUp"
       />
-      <span class="slider-progress" :style="{ width: `${value * 100}%` }" />
+      <span class="slider-progress" />
       <span class="slider-background" />
+      <span class="slider-thumb" />
     </div>
     <div class="volume-percentage">
-      <span class="percentage">{{ Math.floor(value * 100) }}%</span>
+      <span class="percentage">{{ Math.floor(volumeValue * 100) }}%</span>
     </div>
   </div>
 </template>
-
-<script lang="ts">
-import VolumeHighIcon from 'vue-material-design-icons/VolumeHigh.vue';
-import VolumeMediumIcon from 'vue-material-design-icons/VolumeMedium.vue';
-import VolumeLowIcon from 'vue-material-design-icons/VolumeLow.vue';
-import VolumeOffIcon from 'vue-material-design-icons/VolumeOff.vue';
-
-
-export default defineComponent({
-  name: 'VolumeControl',
-  components: {
-    VolumeHighIcon,
-    VolumeMediumIcon,
-    VolumeLowIcon,
-    VolumeOffIcon
-  },
-  props: {
-    value: null,
-    playerOverlayVisible: Boolean
-  },
-  setup(props) {
-    const expanded = ref(false);
-
-    const volumeCategory = computed((): number => {
-      if (props.value >= 1) {
-        return 3;
-      } else if (props.value < 1 && props.value >= 0.5) {
-        return 2;
-      } else if (props.value < 0.5 && props.value > 0) {
-        return 1;
-      } else if (props.value <= 0) {
-        return 0;
-      }
-      return 0;
-    });
-
-    const stopEvent = () => {};
-
-    const onTouch = () => {
-      if (props.playerOverlayVisible) {
-        expanded.value = true;
-        setTimeout(() => {
-          expanded.value = false;
-        }, 1000);
-      }
-    };
-
-    return {
-      expanded,
-      volumeCategory,
-      stopEvent,
-      onTouch
-    };
-  }
-});
-</script>
 
 <style lang="scss" scoped>
 .volume-control {
@@ -147,27 +150,14 @@ export default defineComponent({
       transform-origin: left;
       cursor: pointer;
 
-      @mixin slider-thumb {
-        all: unset;
-
-        -webkit-appearance: none;
-        appearance: none;
-
-        background: var(--theme-color);
-        height: $video-seekbar-line-height;
-        border-radius: 50%;
-        width: 15px;
-        height: 15px;
-        transform: translateX(5%) scale(0);
-        transition: transform 100ms linear;
-      }
-
       &::-webkit-slider-thumb {
-        @include slider-thumb;
+        visibility: hidden;
       }
 
       &::-moz-range-thumb {
-        @include slider-thumb;
+        height: 0;
+        width: 0;
+        border: 0;
       }
     }
 
@@ -184,6 +174,21 @@ export default defineComponent({
 
     .slider-progress {
       background-color: var(--theme-color);
+      width: v-bind('`${volumeValue * 100}%`');
+    }
+
+    .slider-thumb {
+      display: block;
+      background: var(--theme-color);
+      border-radius: 50%;
+      width: 0;
+      height: 0;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      left: v-bind('`${volumeValue * 100}%`');
+      transition: height 100ms linear, width 100ms linear;
+      position: absolute;
+      pointer-events: none;
     }
 
     .slider-background {
@@ -192,10 +197,9 @@ export default defineComponent({
     }
 
     &:hover {
-      #volume {
-        &::-moz-range-thumb {
-          transform: translateX(5%) scale(1);
-        }
+      .slider-thumb {
+        width: 15px;
+        height: 15px;
       }
       .slider-background,
       .slider-progress {

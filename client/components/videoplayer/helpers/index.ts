@@ -442,7 +442,9 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
     playerOverlay.thumbnailVisible = false;
     videoElement.playing = true;
     videoElement.positionSaveInterval = setInterval(() => {
-      saveVideoPosition(videoRef.value.currentTime);
+      if (videoRef.value) {
+        saveVideoPosition(videoRef.value.currentTime);
+      }
     }, 5000);
     if ('mediaSession' in navigator) {
       (navigator as any).mediaSession.playbackState = 'playing';
@@ -451,7 +453,9 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
 
   const onVideoPaused = () => {
     videoElement.playing = false;
-    saveVideoPosition(videoRef.value.currentTime);
+    if (videoRef.value) {
+      saveVideoPosition(videoRef.value.currentTime);
+    }
     clearInterval(videoElement.positionSaveInterval);
     if ('mediaSession' in navigator) {
       (navigator as any).mediaSession.playbackState = 'paused';
@@ -932,9 +936,9 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
       } else if (settingsStore.dashPlaybackEnabled && window.MediaSource) {
         // Using dashjs
         const manifestUrl = `${config.public.apiUrl}videos/manifest/dash/${props.video.videoId}`;
-        dashHelper.value = new DashHelper(videoRef.value, manifestUrl);
-
-        dashHelper.value.registerEventHandlers({ videoElement });
+        dashHelper.value = new DashHelper(videoRef.value, manifestUrl, () => {
+          dashHelper.value.registerEventHandlers({ videoElement });
+        });
       } else {
         selectedLegacyQuality.value = 0;
         videoRef.value.src = highestLegacyQuality.value;
@@ -955,7 +959,9 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
   });
 
   onBeforeUnmount(() => {
-    saveVideoPosition(videoRef.value.currentTime);
+    if (videoRef.value) {
+      saveVideoPosition(videoRef.value.currentTime);
+    }
     document.removeEventListener('keydown', onWindowKeyDown);
     destroyInstance();
   });

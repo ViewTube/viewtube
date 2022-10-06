@@ -229,7 +229,7 @@ export default defineComponent({
     const imgProxy = useImgProxy();
 
     const jsEnabled = ref(false);
-    const comment = ref(null);
+    const commentObject = ref(null);
     const commentsLoading = ref(true);
     const commentsError = ref(false);
     const commentsContinuationLink = ref(null);
@@ -329,19 +329,19 @@ export default defineComponent({
       getComments(videoId)
         .then(response => {
           if (response.comments && response.comments.length > 0) {
-            comment.value = response.data;
+            commentObject.value = response;
             commentsLoading.value = false;
             commentsContinuationLink.value = response.continuation || null;
           } else {
             commentsLoading.value = false;
             commentsError.value = true;
-            comment.value = null;
+            commentObject.value = null;
           }
         })
         .catch(_ => {
           commentsLoading.value = false;
           commentsError.value = true;
-          comment.value = null;
+          commentObject.value = null;
         });
     };
 
@@ -350,7 +350,7 @@ export default defineComponent({
       const videoId = route.query.v;
       getCommentsContinuation(videoId, commentsContinuationLink.value)
         .then(response => {
-          comment.value.comments = comment.value.comments.concat(response.comments);
+          commentObject.value.comments = commentObject.value.comments.concat(response.comments);
           commentsContinuationLoading.value = false;
           commentsContinuationLink.value = response.continuation || null;
         })
@@ -423,7 +423,7 @@ export default defineComponent({
       imgProxyUrl: imgProxy.url,
       jsEnabled,
       video,
-      comment,
+      comment: commentObject,
       dislikeCount,
       videoplayerRef,
       playlistSectionRef,

@@ -15,5 +15,5 @@ export const getComments = (id: string | string[]) => {
 export const getCommentsContinuation = (id: string | string[], continuation: string) => {
   const config = useRuntimeConfig();
 
-  return $fetch<ApiDto<'CommentsResponseDto'>>(`${config.public.apiUrl}comments/${id}${continuation}`);
+  return $fetch<ApiDto<'CommentsResponseDto'>>(`${config.public.apiUrl}comments/${id}?continuation=${continuation}`);
 };
