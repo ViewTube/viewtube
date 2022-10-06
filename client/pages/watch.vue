@@ -2,9 +2,9 @@
   <div class="watch">
     <MetaPageHead
       :title="`${video?.title} :: ${video?.author}`"
-      :description="video?.description?.substring(0, 100)"
-      :image="video?.authorThumbnails?.[2]?.url"
-      :video="video.legacyFormats?.[0]?.url"
+      :description="`${video?.description?.substring(0, 100)}`"
+      :image="`${video?.authorThumbnails?.[2]?.url}`"
+      :video="`${video?.legacyFormats?.[0]?.url}`"
     />
     <!-- <VideoLoadingTemplate
       v-if="videoPending && templateVideoData"
