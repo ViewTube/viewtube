@@ -6,11 +6,7 @@
       :image="`${video?.authorThumbnails?.[2]?.url}`"
       :video="`${video?.legacyFormats?.[0]?.url}`"
     />
-    <!-- <VideoLoadingTemplate
-      v-if="videoPending && templateVideoData"
-      :video="(templateVideoData as any)"
-    /> -->
-    <Spinner v-if="videoPending && !templateVideoData" class="centered" />
+    <VideoLoadingTemplate v-if="videoPending" />
     <!-- <video v-if="!jsEnabled" controls :src="getHDUrl()" class="nojs-player" /> -->
     <VideoPlayer
       v-if="video && !videoPending"
@@ -192,12 +188,19 @@ import PlaylistSection from '@/components/watch/PlaylistSection.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import { createComputed } from '@/utilities/computed';
 import VideoPlayer from '@/components/videoplayer/VideoPlayer.vue';
+import VideoLoadingTemplate from '@/components/watch/VideoLoadingTemplate.vue';
 import { useMessagesStore } from '@/store/messages';
 import { useSettingsStore } from '@/store/settings';
 import { useMiniplayerStore } from '@/store/miniplayer';
 import { useVideoPlayerStore } from '@/store/videoPlayer';
-import { getComments, getCommentsContinuation, getDislikes } from '@/utilities/api/videos';
+import { getDislikes } from '@/utilities/api/videos';
+import { getComments, getCommentsContinuation } from '@/utilities/api/comments';
 import { getPlaylists } from '@/utilities/api/playlists';
+import { useLoadingVideoInfoStore } from '@/store/loadingVideoInfo';
+import { ApiDto, ApiErrorDto } from 'viewtube/shared';
+import { useUserStore } from '~~/store/user';
+
+type VideoType = ApiDto<'VideoDto'> & { initialVideoTime: number };
 
 export default defineComponent({
   name: 'Watch',
@@ -216,13 +219,16 @@ export default defineComponent({
     ShareOptions,
     CollapsibleSection,
     BadgeButton,
-    PlaylistSection
+    PlaylistSection,
+    VideoLoadingTemplate
   },
   setup() {
     const messagesStore = useMessagesStore();
     const settingsStore = useSettingsStore();
     const videoPlayerStore = useVideoPlayerStore();
     const miniplayerStore = useMiniplayerStore();
+    const userStore = useUserStore();
+    const config = useRuntimeConfig();
 
     const route = useRoute();
     const router = useRouter();
@@ -243,15 +249,52 @@ export default defineComponent({
     const dislikeCount = ref(0);
 
     const playlist = ref<Result>(null);
-
-    const templateVideoData = route.params.videoData;
+    const loadingVideoInfoStore = useLoadingVideoInfoStore();
 
     const {
       data: video,
       error: videoError,
       pending: videoPending,
       refresh
-    } = useGetVideos(route.query.v as string);
+    } = useLazyAsyncData<VideoType, ApiErrorDto>(
+      route.query.v.toString(),
+      async () => {
+        const value = await $fetch<ApiDto<'VideoDto'>>(
+          `${config.public.apiUrl}videos/${route.query.v}`
+        );
+
+        let initialVideoTime = 0;
+        if (userStore.isLoggedIn && settingsStore.saveVideoHistory) {
+          const videoVisit = await $fetch<any>(
+            `${config.public.apiUrl}user/history/${value.videoId}`,
+            {
+              credentials: 'include'
+            }
+          ).catch((_: any) => {});
+
+          if (videoVisit?.progressSeconds > 0) {
+            initialVideoTime = videoVisit.data.progressSeconds;
+          } else if (userStore.isLoggedIn) {
+            $fetch(`${config.public.apiUrl}user/history/${route.query.v}`, {
+              body: {
+                progressSeconds: null,
+                lengthSeconds: video.value.lengthSeconds
+              },
+              credentials: 'include'
+            }).catch(_ => {});
+          }
+        }
+
+        return { ...value, initialVideoTime };
+      },
+      { initialCache: false }
+    );
+
+    watch(videoPending, value => {
+      if (!value) {
+        loadingVideoInfoStore.clearInfo();
+      }
+    });
 
     watch(videoError, () => {
       messagesStore.createMessage({
@@ -443,7 +486,6 @@ export default defineComponent({
       isAutoplaying,
       getHDUrl,
       loadMoreComments,
-      templateVideoData,
       playlist,
       settingsStore,
       videoPending

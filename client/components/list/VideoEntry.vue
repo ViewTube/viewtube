@@ -65,9 +65,9 @@
       :to="{
         name: 'watch',
         query: videoLinkQuery,
-        params: { videoData: video }
       }"
       :class="{ 'has-description': video.description }"
+      @click="onVideoEntryClick"
     >
       <div class="thmb-image-container">
         <div class="thmb-clip">
@@ -119,9 +119,9 @@
           class="video-entry-title"
           :to="{
             name: 'watch',
-            query: videoLinkQuery,
-            params: { videoData: video }
+            query: videoLinkQuery
           }"
+          @click="onVideoEntryClick"
           >{{ video.title }}</nuxt-link
         >
         <div class="video-entry-stats">
@@ -145,8 +145,8 @@
 <script lang="ts">
 import InfoIcon from 'vue-material-design-icons/Information.vue';
 import VerifiedIcon from 'vue-material-design-icons/CheckDecagram.vue';
+import { useLoadingVideoInfoStore } from '@/store/loadingVideoInfo';
 // import { getSecondsFromTimestamp } from '@/utilities/shared';
-
 
 // import { useFormatting } from '@/utilities/formatting';
 
@@ -164,7 +164,7 @@ export default defineComponent({
   setup(props) {
     const imgProxy = useImgProxy();
     const config = useRuntimeConfig();
-    // const formatting = useFormatting();
+    const loadingVideoInfoStore = useLoadingVideoInfoStore();
 
     const localProxy = '&local=true';
 
@@ -227,6 +227,10 @@ export default defineComponent({
       return null;
     });
 
+    const onVideoEntryClick = () => {
+      loadingVideoInfoStore.setLoadingVideoInfo(props.video);
+    }
+
     return {
       imgProxyUrl: imgProxy.url,
       videoThumbnailUrl,
@@ -234,7 +238,8 @@ export default defineComponent({
       videoProgressPercentage,
       videoProgressTooltip,
       apiUrl,
-      videoLinkQuery
+      videoLinkQuery,
+      onVideoEntryClick
     };
   }
 });
