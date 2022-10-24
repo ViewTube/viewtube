@@ -2,16 +2,13 @@
   <div id="app" ref="appRef" class="layout">
     <ThemeStyling />
     <MainHeader v-if="!headless" class="main-header" />
-    <!-- <Miniplayer v-if="false" /> -->
     <slot />
     <MessageBoxContainer />
   </div>
 </template>
 
 <script lang="ts">
-
 import MainHeader from '@/components/header/MainHeader.vue';
-// import Miniplayer from '@/components/miniplayer/Miniplayer.vue';
 import MessageBoxContainer from '@/components/message/MessageBoxContainer.vue';
 import ThemeStyling from '@/components/themes/ThemeStyling.vue';
 import { useSettingsStore } from '~~/store/settings';
@@ -63,6 +60,9 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
+vite-error-overlay {
+  z-index: 10000;
+}
 #app {
   font-family: 'noto-sans', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

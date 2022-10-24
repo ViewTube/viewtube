@@ -27,6 +27,7 @@ export default defineComponent({
   user-select: none;
   display: flex;
   flex-direction: row;
+  pointer-events: none;
 
   .rect {
     background-image: var(--theme-color-gradient);

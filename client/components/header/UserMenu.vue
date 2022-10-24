@@ -124,6 +124,11 @@
     </transition>
     <ClientOnly>
       <Teleport to="body">
+        <div
+          :class="{ visible: loginOpen || registerOpen }"
+          class="clickaway-div"
+          @click="closeAllPopups"
+        />
         <transition name="fade-down">
           <Settings v-if="settingsOpen" @close="closeAllPopups" />
         </transition>
@@ -142,11 +147,7 @@
         </transition>
       </Teleport>
     </ClientOnly>
-    <div
-      :class="{ visible: accountMenuVisible || loginOpen || registerOpen }"
-      class="clickaway-div"
-      @click="closeAllPopups"
-    />
+    <div :class="{ visible: accountMenuVisible }" class="clickaway-div" @click="closeAllPopups" />
   </div>
 </template>
 
@@ -192,10 +193,12 @@ export default defineComponent({
 
     const onLoginClick = () => {
       closeAllPopups();
+      popupStore.setPopupOpen(true);
       loginOpen.value = true;
     };
     const onRegisterClick = () => {
       closeAllPopups();
+      popupStore.setPopupOpen(true);
       registerOpen.value = true;
     };
 
@@ -232,16 +235,9 @@ export default defineComponent({
       }
       return '';
     };
-
-    const openPopup = (popupName: string): void => {
-      closeAllPopups();
-      switch (popupName) {
-        default:
-          break;
-      }
-    };
     const showAccountMenu = (): void => {
       closeAllPopups();
+      popupStore.setPopupOpen(true);
       accountMenuVisible.value = !accountMenuVisible.value;
     };
     const openAbout = (): void => {
@@ -281,7 +277,6 @@ export default defineComponent({
       () => popupStore.currentPopupName,
       (newValue: string, oldValue: string): void => {
         if (newValue && newValue !== oldValue && newValue.length > 0) {
-          openPopup(newValue);
           popupStore.afterOpenPopup();
         }
       }
@@ -377,7 +372,7 @@ export default defineComponent({
   right: 0;
   width: 100%;
   height: 100%;
-  z-index: -1;
+  z-index: 900;
   pointer-events: none;
   opacity: 0;
   transition: opacity 300ms $intro-easing;
@@ -461,6 +456,7 @@ export default defineComponent({
     width: 260px;
     height: auto;
     box-sizing: border-box;
+    z-index: 901;
 
     @media screen and (max-width: $mobile-width) {
       top: 100%;

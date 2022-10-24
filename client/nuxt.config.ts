@@ -1,14 +1,9 @@
-import { defineNuxtConfig } from 'nuxt';
 import { getApiUrl } from '../shared/index';
 
 const prod = process.env.NODE_ENV === 'production';
 
 export default defineNuxtConfig({
   modern: prod,
-
-  // nitro: {
-    // preset: 'node'
-  // },
 
   runtimeConfig: {
     public: {
@@ -96,14 +91,6 @@ export default defineNuxtConfig({
     ]
   },
 
-  plugins: [
-    // '@/utilities/directives/index',
-    // '@/utilities/formatting',
-    // '@/utilities/shared',
-    // { src: '@/utilities/vueDatepickerPlugin', mode: 'client' },
-    // { src: '@/utilities/localStorage', mode: 'client' }
-  ],
-
   pwa: {
     icon: false,
     workbox: {
@@ -175,9 +162,7 @@ export default defineNuxtConfig({
     }
   },
 
-  buildModules: ['@pinia/nuxt'],
-
-  modules: [],
+  modules: ['@pinia/nuxt'],
 
   build: {
     // transpile: ['vue-material-design-icons', 'tippy.js']
