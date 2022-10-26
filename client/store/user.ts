@@ -15,10 +15,13 @@ export const useUserStore = defineStore('user', {
     isLoggedIn: state => !!state.username
   },
   actions: {
-    async getUser() {
+    async getUser(authenticationToken?: string) {
       const config = useRuntimeConfig();
       try {
         const user = await $fetch<User>(`${config.public.apiUrl}user/profile`, {
+          headers: {
+            Authorization: authenticationToken ? `Bearer ${authenticationToken}` : undefined
+          },
           credentials: 'include'
         });
         this.username = user.username;

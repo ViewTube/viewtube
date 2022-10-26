@@ -278,7 +278,7 @@ export default defineComponent({
             $fetch(`${config.public.apiUrl}user/history/${route.query.v}`, {
               body: {
                 progressSeconds: null,
-                lengthSeconds: video.value.lengthSeconds
+                lengthSeconds: value?.lengthSeconds
               },
               credentials: 'include'
             }).catch(_ => {});
