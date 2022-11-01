@@ -2,7 +2,7 @@
   <div class="popup">
     <div class="container popup-container" :class="{ loading: loading }">
       <div class="form-header">
-        <CloseIcon class="close-icon" @click.stop="$emit('passwordChangeClose')" />
+        <CloseIcon v-ripple class="close-icon" @click.stop="$emit('passwordChangeClose')" />
         <h2 class="form-title">Change password</h2>
       </div>
       <Spinner />

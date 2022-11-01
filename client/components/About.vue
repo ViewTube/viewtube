@@ -1,7 +1,7 @@
 <template>
   <div class="about popup">
     <div class="about-container popup-container">
-      <CloseIcon class="close-icon" @click.stop="$emit('close')" />
+      <CloseIcon v-ripple class="close-icon" @click.stop="$emit('close')" />
       <h1>About ViewTube</h1>
       <div class="logo-about">
         <img class="logo-about-img" src="@/assets/icon.svg" alt="ViewTube" />

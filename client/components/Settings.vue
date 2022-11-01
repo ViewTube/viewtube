@@ -2,7 +2,7 @@
   <div class="settings popup">
     <div class="settings-container popup-container">
       <div class="settings-header">
-        <CloseIcon class="close-icon" @click.stop="$emit('close')" />
+        <CloseIcon v-ripple class="close-icon" @click.stop="$emit('close')" />
         <h1 class="settings-title">
           Settings
           <div class="cloud-icon-container">
@@ -214,7 +214,7 @@
           step="0.1"
           max="3"
           min="0.1"
-          @change="val => settingsStore.setDefaultVideoSpeed(val.target.value)"
+          @change="val => settingsStore.setDefaultVideoSpeed(parseInt((val.target as HTMLInputElement).value))"
         />
       </div>
     </div>

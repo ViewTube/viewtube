@@ -69,8 +69,8 @@ export default defineComponent({
   flex-direction: row;
   justify-content: space-between;
   z-index: 800;
-  box-shadow: $medium-shadow;
-  background-color: var(--header-bgcolor);
+  background-color: var(--header-transparent);
+  backdrop-filter: blur(10px);
 
   transition: box-shadow 300ms $intro-easing, background-color 300ms $intro-easing,
     transform 300ms $dynamic-easing;

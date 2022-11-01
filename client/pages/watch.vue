@@ -130,6 +130,7 @@
             </BadgeButton>
           </div>
         </div>
+
         <div class="comments-description">
           <div
             v-create-links
@@ -137,6 +138,7 @@
             class="video-infobox-description links"
             v-html="video.description"
           />
+          <SectionTitle :title="'Comments'" />
           <Spinner v-if="commentsLoading" />
           <div v-if="video.liveNow" class="comments-error livestream">
             <p>Livestream comments are not supported yet.</p>
@@ -186,6 +188,7 @@ import ShareOptions from '@/components/watch/ShareOptions.vue';
 import CollapsibleSection from '@/components/list/CollapsibleSection.vue';
 import PlaylistSection from '@/components/watch/PlaylistSection.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
+import SectionTitle from '@/components/SectionTitle.vue';
 import { createComputed } from '@/utilities/computed';
 import VideoPlayer from '@/components/videoplayer/VideoPlayer.vue';
 import VideoLoadingTemplate from '@/components/watch/VideoLoadingTemplate.vue';
@@ -220,7 +223,8 @@ export default defineComponent({
     CollapsibleSection,
     BadgeButton,
     PlaylistSection,
-    VideoLoadingTemplate
+    VideoLoadingTemplate,
+    SectionTitle
   },
   setup() {
     const messagesStore = useMessagesStore();
@@ -788,6 +792,7 @@ export default defineComponent({
         white-space: pre-wrap;
         overflow-wrap: break-word;
         width: 100%;
+        padding: 0 0 10px 0;
 
         .favicon-link {
           height: 13px;
@@ -802,7 +807,7 @@ export default defineComponent({
 
       .comments-container {
         width: 100%;
-        margin: 20px auto 0 auto;
+        margin: 10px auto 0 auto;
       }
 
       &.loading {

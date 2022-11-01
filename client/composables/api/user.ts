@@ -43,7 +43,7 @@ export const useGetUserSubscriptions = ({ limit = 20, start = 0 }) => {
 
   const url = `${config.public.apiUrl}user/subscriptions/videos?limit=${limit}&start=${start}`;
 
-  return useLazyFetch(url, { credentials: 'include' });
+  return useLazyFetch<any[]>(url, { credentials: 'include' });
 };
 
 export const useGetUserSubscriptionChannels = ({ limit = 20, start = 0 }) => {

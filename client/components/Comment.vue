@@ -152,7 +152,7 @@ const loadMoreReplies = () => {
 <style lang="scss">
 .comment {
   width: 100%;
-  margin: 30px 0 20px 0;
+  margin: 0 0 20px 0;
   display: flex;
   flex-direction: row;
   font-family: $default-font;
@@ -176,7 +176,6 @@ const loadMoreReplies = () => {
     height: 55px;
     width: 55px;
     overflow: hidden;
-    box-shadow: 0 0 0 1px var(--theme-color);
 
     .comment-author-image {
       width: 55px;

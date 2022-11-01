@@ -1,7 +1,7 @@
 <template>
   <div class="subscriptions-import popup">
     <div class="popup-container subscriptions-import-container">
-      <CloseIcon class="close-icon" @click.stop="$emit('close')" />
+      <CloseIcon v-ripple class="close-icon" @click.stop="$emit('close')" />
       <h1>
         {{
           loading

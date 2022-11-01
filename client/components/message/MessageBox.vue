@@ -27,7 +27,7 @@
       }"
       @click="dismissMessage"
     >
-      <CloseIcon />
+      <CloseIcon v-ripple />
     </div>
     <h3 class="title" :class="message.type">
       {{ message.title }}
