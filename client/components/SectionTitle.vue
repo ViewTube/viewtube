@@ -12,13 +12,10 @@
 <script lang="ts">
 import ChevronRightIcon from 'vue-material-design-icons/ChevronRight.vue';
 
-import GradientBackground from '@/components/GradientBackground.vue';
-
 export default defineComponent({
   name: 'SectionTitle',
   components: {
-    ChevronRightIcon,
-    GradientBackground
+    ChevronRightIcon
   },
   props: {
     title: String,

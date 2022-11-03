@@ -54,9 +54,9 @@ export default defineComponent({
     const userStore = useUserStore();
     const config = useRuntimeConfig();
 
-    const oldPassword = ref<string>(null);
-    const newPassword = ref<string>(null);
-    const newPasswordConfirm = ref<string>(null);
+    const oldPassword = ref('');
+    const newPassword = ref('');
+    const newPasswordConfirm = ref('');
     const loading = ref(false);
 
     const changePassword = () => {

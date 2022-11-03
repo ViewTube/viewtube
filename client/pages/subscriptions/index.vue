@@ -1,7 +1,6 @@
 <template>
   <div class="subscriptions" :class="{ empty: hasNoSubscriptions, loading: $fetchState.pending }">
     <Spinner v-if="$fetchState.pending" class="centered" />
-    <GradientBackground :color="'green'" />
     <div class="subscribe-info-container">
       <div class="subscribe-info">
         <div class="info">
@@ -86,7 +85,6 @@ import ImportIcon from 'vue-material-design-icons/Import.vue';
 import { useNuxtApp } from '#app';
 import SubscriptionImport from '@/components/popup/SubscriptionImport.vue';
 import VideoEntry from '@/components/list/VideoEntry.vue';
-import GradientBackground from '@/components/GradientBackground.vue';
 import Spinner from '@/components/Spinner.vue';
 import SectionTitle from '@/components/SectionTitle.vue';
 import SwitchButton from '@/components/buttons/SwitchButton.vue';
@@ -100,7 +98,6 @@ export default defineComponent({
   components: {
     VideoEntry,
     SubscriptionImport,
-    GradientBackground,
     SectionTitle,
     SwitchButton,
     BadgeButton,

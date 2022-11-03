@@ -1,7 +1,6 @@
 <template>
   <div class="home" :class="{ loading: popularPageLoading || displayedVideos.length <= 0 }">
     <Spinner v-if="popularPageLoading" class="centered" />
-    <GradientBackground :color="'theme'" />
     <SectionTitle
       v-if="settingsStore.showHomeSubscriptions && userAuthenticated"
       :title="'Subscriptions'"
@@ -45,7 +44,6 @@ import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
 import VideoEntry from '@/components/list/VideoEntry.vue';
 import Spinner from '@/components/Spinner.vue';
 import SectionTitle from '@/components/SectionTitle.vue';
-import GradientBackground from '@/components/GradientBackground.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import { useMessagesStore } from '~/store/messages';
 import { useUserStore } from '~~/store/user';
@@ -56,7 +54,6 @@ export default defineComponent({
   components: {
     VideoEntry,
     SectionTitle,
-    GradientBackground,
     LoadMoreIcon,
     BadgeButton,
     Spinner
@@ -137,6 +134,8 @@ export default defineComponent({
   }
 }
 .home {
+  margin-top: $header-height;
+
   &.loading {
     height: 100vh;
   }

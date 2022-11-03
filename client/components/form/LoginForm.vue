@@ -13,7 +13,6 @@
 </template>
 
 <script lang="ts">
-
 import InformationHint from '@/components/hints/InformationHint.vue';
 import FormInput from '@/components/form/FormInput.vue';
 import SubmitButton from '@/components/form/SubmitButton.vue';
@@ -39,8 +38,8 @@ export default defineComponent({
     const router = useRouter();
 
     const loading = ref(false);
-    const username = ref(null);
-    const password = ref(null);
+    const username = ref('');
+    const password = ref('');
     const statusMessage = ref('');
     const formWiggle = ref(false);
 

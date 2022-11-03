@@ -1,6 +1,5 @@
 <template>
   <div class="manage-subscriptions">
-    <GradientBackground :color="'green'" />
     <SectionTitle class="page-title" :title="'Manage subscriptions'" :line="false" />
     <SmallSearchBox v-model="searchTerm" :label="'Filter'" />
     <div class="channels-container">
@@ -61,7 +60,6 @@
 
 <script lang="ts">
 import { useNuxtApp } from '#app';
-import GradientBackground from '@/components/GradientBackground.vue';
 import SectionTitle from '@/components/SectionTitle.vue';
 import Pagination from '@/components/pagination/Pagination.vue';
 import SmallSearchBox from '@/components/SmallSearchBox.vue';
@@ -71,7 +69,6 @@ import { useMessagesStore } from '~/store/messages';
 export default defineComponent({
   name: 'ManageSubscriptions',
   components: {
-    GradientBackground,
     SectionTitle,
     Pagination,
     SmallSearchBox

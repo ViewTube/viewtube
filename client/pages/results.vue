@@ -5,7 +5,6 @@
       description="Search for videos, channels and playlists"
     />
     <Spinner v-if="pending" class="centered search-spinner" />
-    <GradientBackground :color="'blue'" />
     <Filters
       v-if="searchData?.filters && searchData?.filters.length"
       :filters="searchData?.filters"
@@ -77,7 +76,6 @@ import MovieEntry from '@/components/list/MovieEntry.vue';
 import RelatedSearches from '@/components/search/RelatedSearches.vue';
 import Shelf from '@/components/search/Shelf.vue';
 import Spinner from '@/components/Spinner.vue';
-import GradientBackground from '@/components/GradientBackground.vue';
 import Dropdown from '@/components/filter/Dropdown.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import Filters from '@/components/search/Filters.vue';
@@ -93,7 +91,6 @@ export default defineComponent({
     Spinner,
     PlaylistEntry,
     ChannelEntry,
-    GradientBackground,
     Dropdown,
     BadgeButton,
     MovieEntry,
