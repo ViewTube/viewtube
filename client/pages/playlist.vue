@@ -1,17 +1,91 @@
+<script setup lang="ts">
+import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
+import { Continuation } from 'ytpl';
+import EyeIcon from 'vue-material-design-icons/EyeOutline.vue';
+import EyeClosedIcon from 'vue-material-design-icons/EyeOffOutline.vue';
+import CountIcon from 'vue-material-design-icons/Counter.vue';
+import CalendarIcon from 'vue-material-design-icons/CalendarClock.vue';
+import BadgeButton from '@/components/buttons/BadgeButton.vue';
+import VideoEntry from '@/components/list/VideoEntry.vue';
+import Spinner from '@/components/Spinner.vue';
+
+import { useMessagesStore } from '~/store/messages';
+import { ApiDto } from '~~/../shared';
+
+const messagesStore = useMessagesStore();
+const config = useRuntimeConfig();
+const route = useRoute();
+const imgProxy = useImgProxy();
+
+const moreVideosLoading = ref(false);
+const {
+  data: playlist,
+  pending,
+  error
+} = useGetPlaylists(route.query.list.toString(), { pages: 1 });
+const playlistContinuation = ref<Continuation>(playlist.value?.continuation);
+const additionalPlaylistItems = ref<ApiDto<'PlaylistItemDto'>[]>([]);
+const playlistItems = computed(() => {
+  return playlist.value?.items.concat(additionalPlaylistItems.value);
+});
+
+watch(error, value => {
+  messagesStore.createMessage({
+    type: 'error',
+    title: 'Error loading playlist',
+    message: value?.message ?? 'Playlist may not be available'
+  });
+});
+
+const loadMoreVideos = async () => {
+  if (playlistContinuation.value) {
+    moreVideosLoading.value = true;
+    await $fetch<{ items: Array<ApiDto<'PlaylistItemDto'>>; continuation: any }>(
+      `${config.public.apiUrl}playlists/continuation`,
+      {
+        params: {
+          continuationData: playlistContinuation.value
+        }
+      }
+    )
+      .then(response => {
+        if (response) {
+          additionalPlaylistItems.value = additionalPlaylistItems.value.concat(response.items);
+          playlistContinuation.value = response.continuation;
+          moreVideosLoading.value = false;
+        }
+      })
+      .catch((_: any) => {
+        messagesStore.createMessage({
+          type: 'error',
+          title: 'Unable to load more results',
+          message: 'Try again or use a different search term for more results'
+        });
+        moreVideosLoading.value = false;
+      });
+  }
+};
+</script>
+
 <template>
   <div class="playlist">
-    <Spinner v-if="$fetchState.pending && !playlist" class="centered" />
+    <MetaPageHead
+      :title="`${playlist?.title} :: ${playlist?.author.name}`"
+      :description="`${playlist.description?.substring(0, 100)}`"
+      :image="`${playlist?.thumbnails?.[2]?.url}`"
+    />
+    <Spinner v-if="pending" class="centered" />
     <div v-if="playlist" class="thumbnail-banner-container">
       <div
         class="thumbnail-banner"
-        :style="{ 'background-image': `url(${imgProxyUrl + playlist.thumbnails[0].url})` }"
+        :style="{ 'background-image': `url(${imgProxy.url + playlist.thumbnails[0].url})` }"
       />
       <div class="gradient-to-color" />
       <div class="playlist-info">
         <nuxt-link :to="`/channel/${playlist.author.channelID}`" class="author-thumbnail-banner">
           <img
             class="author-thumbnail"
-            :src="imgProxyUrl + playlist.author.bestAvatar.url"
+            :src="imgProxy.url + playlist.author.bestAvatar.url"
             alt="Author thumbnail"
           />
           <div class="author-info">
@@ -45,8 +119,8 @@
       </pre>
       <div class="playlist-videos-container">
         <VideoEntry
-          v-for="video in playlist.items"
-          :key="video.videoId"
+          v-for="video in playlistItems"
+          :key="video.id"
           :video="video"
           :playlistId="playlist.id"
           :lazy="false"
@@ -55,147 +129,12 @@
       <div v-if="playlistContinuation" class="load-more-btn">
         <BadgeButton :click="loadMoreVideos" :loading="moreVideosLoading"
           ><LoadMoreIcon />
-          <p>show more</p></BadgeButton
+          <p>Show more</p></BadgeButton
         >
       </div>
     </div>
   </div>
 </template>
-
-<script lang="ts">
-
-import { useNuxtApp } from '#app';
-import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
-import { Continuation, Result } from 'ytpl';
-import EyeIcon from 'vue-material-design-icons/EyeOutline.vue';
-import EyeClosedIcon from 'vue-material-design-icons/EyeOffOutline.vue';
-import CountIcon from 'vue-material-design-icons/Counter.vue';
-import CalendarIcon from 'vue-material-design-icons/CalendarClock.vue';
-import BadgeButton from '@/components/buttons/BadgeButton.vue';
-import VideoEntry from '@/components/list/VideoEntry.vue';
-import Spinner from '@/components/Spinner.vue';
-
-import {useMessagesStore} from "~/store/messages";
-
-export default defineComponent({
-  name: 'Playlist',
-  components: {
-    Spinner,
-    EyeIcon,
-    CountIcon,
-    CalendarIcon,
-    EyeClosedIcon,
-    VideoEntry,
-    BadgeButton,
-    LoadMoreIcon
-  },
-  setup() {
-    const messagesStore = useMessagesStore();
-    const config = useRuntimeConfig();
-    const { $axios: axios } = useNuxtApp();
-    const route = useRoute();
-    const imgProxy = useImgProxy();
-
-    const moreVideosLoading = ref(false);
-    const playlistContinuation: Ref<Continuation> = ref(null);
-    const playlist: Ref<Result> = ref(null);
-
-    useFetch(async () => {
-      if (route.query && route.query.list) {
-        await axios
-          .get(`${config.public.apiUrl}playlists`, { params: { playlistId: route.query.list, pages: 1 } })
-          .then(response => {
-            if (response.data) {
-              playlist.value = response.data;
-              playlistContinuation.value = response.data.continuation;
-            } else {
-              messagesStore.createMessage({
-                type: 'error',
-                title: 'Error loading playlist',
-                message: 'Playlist may not be available'
-              });
-            }
-          })
-          .catch(_ => {
-            messagesStore.createMessage({
-              type: 'error',
-              title: 'Error loading playlist',
-              message: 'Playlist may not be available'
-            });
-          });
-      }
-    });
-
-    const loadMoreVideos = async () => {
-      if (playlistContinuation.value) {
-        moreVideosLoading.value = true;
-        await axios
-          .get(`${config.public.apiUrl}playlists/continuation`, {
-            params: {
-              continuationData: playlistContinuation.value
-            }
-          })
-          .then((response: { data: any }) => {
-            if (response && response.data) {
-              playlist.value.items = playlist.value.items.concat(response.data.items);
-              playlistContinuation.value = response.data.continuation;
-              moreVideosLoading.value = false;
-            }
-          })
-          .catch((_: any) => {
-            messagesStore.createMessage({
-              type: 'error',
-              title: 'Unable to load more results',
-              message: 'Try again or use a different search term for more results'
-            });
-            moreVideosLoading.value = false;
-          });
-      }
-    };
-
-    useMeta(() => {
-      if (playlist.value) {
-        return {
-          title: `${playlist.value.title} :: ${playlist.value.author.name} :: ViewTube`,
-          meta: [
-            {
-              hid: 'description',
-              vmid: 'descriptionMeta',
-              name: 'description',
-              content: playlist.value.description.substring(0, 100)
-            },
-            {
-              hid: 'ogTitle',
-              property: 'og:title',
-              content: `${playlist.value.title} - ${playlist.value.author.name} - ViewTube`
-            },
-            {
-              hid: 'ogImage',
-              property: 'og:image',
-              itemprop: 'image',
-              content: playlist.value.thumbnails[2].url
-            },
-            {
-              hid: 'ogDescription',
-              property: 'og:description',
-              content: playlist.value.description.substring(0, 100)
-            }
-          ]
-        };
-      }
-    });
-
-    return {
-      playlist,
-      moreVideosLoading,
-      loadMoreVideos,
-      playlistContinuation,
-      imgProxyUrl: imgProxy.url
-    };
-  },
-  head: {}
-});
-</script>
 
 <style lang="scss">
 .playlist {

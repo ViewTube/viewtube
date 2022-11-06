@@ -23,10 +23,10 @@
 </template>
 
 <script lang="ts">
-
 import { useNuxtApp } from '#app';
 import { useMessagesStore } from '@/store/messages';
 import { useUserStore } from '@/store/user';
+import { ApiDto } from '~~/../shared';
 
 export default defineComponent({
   name: 'SubscribeButton',
@@ -40,7 +40,6 @@ export default defineComponent({
     small: { type: Boolean, required: false }
   },
   setup(props) {
-    const { $axios: axios } = useNuxtApp();
     const userStore = useUserStore();
     const messagesStore = useMessagesStore();
     const config = useRuntimeConfig();
@@ -64,12 +63,14 @@ export default defineComponent({
 
     const loadSubscriptionStatus = (): void => {
       if (props.channelId && userStore.isLoggedIn) {
-        axios
-          .get(`${config.public.apiUrl}user/subscriptions/${props.channelId}`, {
-            withCredentials: true
-          })
-          .then((response: { data: { isSubscribed: any } }) => {
-            if (response.data.isSubscribed) {
+        $fetch<ApiDto<'SubscriptionStatusDto'>>(
+          `${config.public.apiUrl}user/subscriptions/${props.channelId}`,
+          {
+            credentials: 'include'
+          }
+        )
+          .then(response => {
+            if (response.isSubscribed) {
               isSubscribed.value = true;
             } else {
               isSubscribed.value = false;
@@ -85,16 +86,15 @@ export default defineComponent({
     const subscribe = (): void => {
       if (props.channelId) {
         disabled.value = true;
-        axios
-          .put(
-            `${config.public.apiUrl}user/subscriptions/${props.channelId}`,
-            {},
-            {
-              withCredentials: true
-            }
-          )
-          .then((response: { data: { isSubscribed: any } }) => {
-            if (response.data.isSubscribed) {
+        $fetch<ApiDto<'SubscriptionStatusDto'>>(
+          `${config.public.apiUrl}user/subscriptions/${props.channelId}`,
+          {
+            method: 'PUT',
+            credentials: 'include'
+          }
+        )
+          .then(response => {
+            if (response.isSubscribed) {
               isSubscribed.value = true;
             }
             disabled.value = false;
@@ -115,12 +115,12 @@ export default defineComponent({
     const unsubscribe = (): void => {
       if (props.channelId) {
         disabled.value = true;
-        axios
-          .delete(`${config.public.apiUrl}user/subscriptions/${props.channelId}`, {
-            withCredentials: true
-          })
-          .then((response: { data: { isSubscribed: any } }) => {
-            if (!response.data.isSubscribed) {
+        $fetch<ApiDto<'SubscriptionStatusDto'>>(`${config.public.apiUrl}user/subscriptions/${props.channelId}`, {
+          method: 'DELETE',
+          credentials: 'include'
+        })
+          .then((response) => {
+            if (!response.isSubscribed) {
               isSubscribed.value = false;
             }
             disabled.value = false;

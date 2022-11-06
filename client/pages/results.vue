@@ -236,6 +236,7 @@ export default defineComponent({
 
 <style lang="scss">
 .search {
+  margin-top: $header-height;
   display: flex;
   flex-direction: column;
 

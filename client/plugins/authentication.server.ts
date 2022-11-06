@@ -1,5 +1,10 @@
-import { useUserStore } from '~~/store/user';
+import { useUserStore } from '@/store/user';
+import { parseCookie } from '@/utilities/parseCookies';
 
+/**
+ * This plugin runs user authentication server-side,
+ * if there is an existing authentication cookie
+ */
 export default defineNuxtPlugin(async nuxtApp => {
   const userStore = useUserStore(nuxtApp.$pinia);
 
@@ -9,17 +14,3 @@ export default defineNuxtPlugin(async nuxtApp => {
     await userStore.getUser(cookies.Authentication);
   }
 });
-
-const parseCookie = (str: string): Record<string, string> =>
-  str
-    ?.split(';')
-    ?.map(value => value.split('='))
-    ?.reduce(
-      (acc, value) => ({
-        ...acc,
-        [desanitize(value[0])]: desanitize(value[1])
-      }),
-      {}
-    );
-
-const desanitize = (str: string) => decodeURIComponent(str.trim());

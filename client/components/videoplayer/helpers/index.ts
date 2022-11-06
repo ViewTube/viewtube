@@ -1,4 +1,3 @@
-import { useNuxtApp } from '#app';
 import { MediaMetadataHelper } from './mediaMetadata';
 import { calculateSeekPercentage, matchSeekProgressPercentage, seekbarFunctions } from './seekbar';
 import { parseChapters } from './chapters';
@@ -22,7 +21,7 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
   const videoPlayerStore = useVideoPlayerStore();
 
   const config = useRuntimeConfig();
-  const { $formatting: formatting, $axios: axios } = useNuxtApp();
+  const { $formatting: formatting } = useNuxtApp();
   const imgProxy = useImgProxy();
   const { streamProxy } = useProxyUrls();
 
@@ -834,16 +833,14 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
   const saveVideoPosition = (currentTime: number) => {
     if (videoRef.value && settingsStore.saveVideoHistory) {
       if (userStore.isLoggedIn && !props.video.liveNow) {
-        axios
-          .post(
-            `${config.public.apiUrl}user/history/${props.video.videoId}`,
-            {
-              progressSeconds: Math.floor(currentTime),
-              lengthSeconds: Math.floor(videoRef.value.duration)
-            },
-            { withCredentials: true }
-          )
-          .catch((_: any) => {});
+        $fetch(`${config.public.apiUrl}user/history/${props.video.videoId}`, {
+          method: 'POST',
+          body: {
+            progressSeconds: Math.floor(currentTime),
+            lengthSeconds: Math.floor(videoRef.value.duration)
+          },
+          credentials: 'include'
+        }).catch((_: any) => {});
       }
     }
   };

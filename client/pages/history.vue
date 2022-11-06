@@ -40,7 +40,6 @@
 </template>
 
 <script lang="ts">
-
 import { useNuxtApp } from '#app';
 import RestartOffIcon from 'vue-material-design-icons/RestartOff.vue';
 import SectionTitle from '@/components/SectionTitle.vue';
@@ -49,7 +48,7 @@ import HistoryList from '@/components/history/HistoryList.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import SmallSearchBox from '@/components/SmallSearchBox.vue';
 import Confirmation from '@/components/popup/Confirmation.vue';
-import {useMessagesStore} from "~/store/messages";
+import { useMessagesStore } from '~/store/messages';
 import { useSettingsStore } from '~~/store/settings';
 import { useUserStore } from '~~/store/user';
 
@@ -65,7 +64,6 @@ export default defineComponent({
     RestartOffIcon
   },
   setup() {
-    const { $axios: axios } = useNuxtApp();
     const router = useRouter();
     const messagesStore = useMessagesStore();
     const settingsStore = useSettingsStore();
@@ -98,10 +96,10 @@ export default defineComponent({
       if (rangeSelected.value) {
         const firstDate = new Date(dateToDelete.value[0]).valueOf();
         const secondDate = new Date(dateToDelete.value[1]).valueOf();
-        await axios
-          .delete(`${config.public.apiUrl}user/history/from/${firstDate}/to/${secondDate}`, {
-            withCredentials: true
-          })
+        await $fetch(`${config.public.apiUrl}user/history/from/${firstDate}/to/${secondDate}`, {
+          method: 'DELETE',
+          credentials: 'include'
+        })
           .then(() => {
             refresh();
           })
@@ -117,8 +115,10 @@ export default defineComponent({
 
     const deleteEntireHistory = async () => {
       deletePopup.value = false;
-      await axios
-        .delete(`${config.public.apiUrl}user/history/`, { withCredentials: true })
+      await $fetch(`${config.public.apiUrl}user/history/`, {
+        method: 'DELETE',
+        credentials: 'include'
+      })
         .then(() => {
           refresh();
         })

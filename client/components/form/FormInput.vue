@@ -4,7 +4,7 @@ import KeyIcon from 'vue-material-design-icons/KeyOutline.vue';
 import MailIcon from 'vue-material-design-icons/At.vue';
 
 const props = defineProps<{
-  type: string;
+  type?: string;
   modelValue: string;
   label: string;
   id: string;

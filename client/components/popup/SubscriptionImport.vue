@@ -139,7 +139,7 @@ import FileButton from '@/components/form/FileButton.vue';
 import { convertFromCSVToJson, convertFromOPMLToJson } from '@/services/subscriptionConverter';
 import Spinner from '@/components/Spinner.vue';
 import '@/assets/styles/popup.scss';
-import {useMessagesStore} from "~/store/messages";
+import { useMessagesStore } from '~/store/messages';
 
 class ChannelDto {
   author: string;
@@ -163,7 +163,6 @@ export default defineComponent({
     XmlIcon
   },
   setup(_, { emit }) {
-    const { $axios: axios } = useNuxtApp();
     const messagesStore = useMessagesStore();
     const config = useRuntimeConfig();
 
@@ -234,9 +233,7 @@ export default defineComponent({
       const fileReader = new FileReader();
       fileReader.onload = () => {
         if (e.target.files[0].name.includes('.csv')) {
-          subscriptionsToImport.value = convertFromCSVToJson(
-            fileReader.result as string
-          );
+          subscriptionsToImport.value = convertFromCSVToJson(fileReader.result as string);
         }
         if (subscriptionsToImport.value === undefined) {
           messagesStore.createMessage({
@@ -264,9 +261,7 @@ export default defineComponent({
     const onOPMLFileChange = (e: any) => {
       const fileReader = new FileReader();
       fileReader.onload = () => {
-        subscriptionsToImport.value = convertFromOPMLToJson(
-          fileReader.result as string
-        );
+        subscriptionsToImport.value = convertFromOPMLToJson(fileReader.result as string);
         if (subscriptionsToImport.value === undefined) {
           messagesStore.createMessage({
             type: 'error',
@@ -312,23 +307,19 @@ export default defineComponent({
       loading.value = true;
       const subscriptions = selectedChannels.value;
       const subscriptionIds = subscriptions.map(e => e.authorId);
-      axios
-        .post(
-          `${config.public.apiUrl}user/subscriptions/multiple`,
-          {
-            channels: subscriptionIds
-          },
-          {
-            withCredentials: true
-          }
-        )
-        .then(response => {
-          page2.value = false;
-          page3.value = true;
-          loading.value = false;
-          importedSubscriptions.value = response.data;
-          emit('done');
-        });
+      $fetch(`${config.public.apiUrl}user/subscriptions/multiple`, {
+        method: 'POST',
+        body: {
+          channels: subscriptionIds
+        },
+        credentials: 'include'
+      }).then(response => {
+        page2.value = false;
+        page3.value = true;
+        loading.value = false;
+        importedSubscriptions.value = response;
+        emit('done');
+      });
     };
 
     return {

@@ -43,7 +43,6 @@
 
 <script lang="ts">
 
-import { useNuxtApp } from '#app';
 import humanizeDuration from 'humanize-duration';
 import DeleteIcon from 'vue-material-design-icons/Delete.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
@@ -60,7 +59,6 @@ export default defineComponent({
     deleteOption: Boolean
   },
   setup(_, { emit }) {
-    const { $axios: axios } = useNuxtApp();
     const messagesStore = useMessagesStore();
     const config = useRuntimeConfig();
     const imgProxy = useImgProxy();
@@ -72,8 +70,7 @@ export default defineComponent({
       return humanizeDuration(dateMs, { largest: 1 });
     };
     const deleteEntry = async (videoId: string) => {
-      await axios
-        .delete(`${config.public.apiUrl}user/history/${videoId}`, { withCredentials: true })
+      await $fetch(`${config.public.apiUrl}user/history/${videoId}`, { method: 'DELETE',credentials: 'include' })
         .then(() => {
           emit('refresh');
         })

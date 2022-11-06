@@ -1,3 +1,183 @@
+<script setup lang="ts">
+import AccountCircleIcon from 'vue-material-design-icons/AccountCircle.vue';
+import ChevronUpIcon from 'vue-material-design-icons/ChevronUp.vue';
+import LogoutIcon from 'vue-material-design-icons/LogoutVariant.vue';
+import ExportIcon from 'vue-material-design-icons/DatabaseExportOutline.vue';
+import PlusIcon from 'vue-material-design-icons/Plus.vue';
+import DeleteIcon from 'vue-material-design-icons/DeleteAlert.vue';
+import DeleteSimpleIcon from 'vue-material-design-icons/Delete.vue';
+import SettingsIcon from 'vue-material-design-icons/Cog.vue';
+import HistoryIcon from 'vue-material-design-icons/History.vue';
+import RestartOffIcon from 'vue-material-design-icons/RestartOff.vue';
+import PasswordChangeIcon from 'vue-material-design-icons/FormTextboxPassword.vue';
+
+import Confirmation from '@/components/popup/Confirmation.vue';
+import SectionTitle from '@/components/SectionTitle.vue';
+import FormInput from '@/components/form/FormInput.vue';
+import BadgeButton from '@/components/buttons/BadgeButton.vue';
+import HistoryList from '@/components/history/HistoryList.vue';
+import { useMessagesStore } from '~/store/messages';
+import { createComputed } from '@/utilities/computed';
+import { useSettingsStore } from '~~/store/settings';
+import { useUserStore } from '~~/store/user';
+import PasswordChangeForm from '@/components/form/PasswordChangeForm.vue';
+
+const messagesStore = useMessagesStore();
+const settingsStore = useSettingsStore();
+const userStore = useUserStore();
+
+const config = useRuntimeConfig();
+const router = useRouter();
+
+const apiUrl = config.public.apiUrl;
+
+const logoutPopup = ref(false);
+const deleteAccountPopup = ref(false);
+const actionsOpen = ref(false);
+const repeatedUsername = ref('');
+const profileImageUrl = ref(null);
+const profileImageLoading = ref(false);
+const passwordChangePopup = ref(false);
+
+const { data: profile, error, pending } = useGetUserProfileDetails();
+
+watch(error, () => {
+  messagesStore.createMessage({
+    type: 'error',
+    title: 'Error loading profile',
+    message: 'Try logging out and in again'
+  });
+});
+
+if (!userStore.isLoggedIn) {
+  router.push('/');
+}
+
+const hasHistory = createComputed(() => {
+  if (profile.value && profile.value.videoHistory.length > 0) {
+    return true;
+  }
+  return false;
+});
+const onChangePasswordPopup = () => {
+  passwordChangePopup.value = true;
+};
+const onChangePasswordClose = () => {
+  passwordChangePopup.value = false;
+};
+const onLogoutPopup = () => {
+  logoutPopup.value = true;
+};
+const onLogoutPopupClose = () => {
+  logoutPopup.value = false;
+};
+const onDeleteAccount = () => {
+  deleteAccountPopup.value = true;
+};
+const onDeleteAccountClose = () => {
+  deleteAccountPopup.value = false;
+};
+const deleteAccount = () => {
+  $fetch(`${config.public.apiUrl}user`, {
+    method: 'DELETE',
+    body: { username: repeatedUsername.value },
+    credentials: 'include'
+  }).then(_ => {
+    logout();
+    messagesStore.createMessage({
+      type: 'info',
+      title: 'Deleted account',
+      message: `Successfully deleted account ${repeatedUsername.value}`
+    });
+  });
+};
+const onProfileImageChange = (e: any) => {
+  profileImageLoading.value = true;
+  const img = e.target.files[0];
+  const formData = new FormData();
+  formData.append('image', img);
+  $fetch<{ path: string }>(`${config.public.apiUrl}user/profile/image`, {
+    method: 'POST',
+    body: formData,
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    },
+    credentials: 'include'
+  })
+    .then(response => {
+      if (response.path) {
+        messagesStore.createMessage({
+          type: 'info',
+          title: 'New profile image',
+          message: 'Successfully set new profile image'
+        });
+        setProfileImageUrl(response.path);
+        profileImageLoading.value = false;
+      }
+    })
+    .catch(err => {
+      if (err && err.response.data.message && err.response.data.message.match(/.*too large.*/i)) {
+        messagesStore.createMessage({
+          type: 'error',
+          title: err.response.data.message,
+          message: 'Maximum file size is 4MB'
+        });
+      } else if (err && err.response.data && err.response.data.error) {
+        messagesStore.createMessage({
+          type: 'error',
+          title: err.response.data.error,
+          message: err.response.data.message
+        });
+      } else {
+        messagesStore.createMessage({
+          type: 'error',
+          title: 'Error saving profile image',
+          message: 'Try uploading it in a different format'
+        });
+      }
+      profileImageLoading.value = false;
+    });
+};
+const deleteProfileImage = () => {
+  $fetch(`${config.public.apiUrl}user/profile/image`, {
+    method: 'DELETE',
+    credentials: 'include'
+  })
+    .then(() => {
+      messagesStore.createMessage({
+        type: 'info',
+        title: 'Profile image deleted',
+        message: 'Profile image successfully deleted'
+      });
+      setProfileImageUrl(null);
+    })
+    .catch(() => {
+      messagesStore.createMessage({
+        type: 'error',
+        title: 'Could not delete profile image',
+        message: 'An error occurred when deleting the profile image'
+      });
+    });
+};
+const deleteAccountValid = createComputed(() => {
+  return repeatedUsername.value.length > 0 && repeatedUsername.value === userStore.username;
+});
+const logout = () => {
+  userStore.logout();
+  router.push('/');
+};
+
+const setProfileImageUrl = (url: string): void => {
+  if (url) {
+    const imgUrl = url.replace('/api/', '');
+    const random = Math.random() * (0 - 1000) + 0;
+    profileImageUrl.value = `${config.public.apiUrl}${imgUrl}?r=${random}`;
+  } else {
+    profileImageUrl.value = null;
+  }
+};
+</script>
+
 <template>
   <div class="profile">
     <MetaPageHead :title="profile.username" description="See your profile" />
@@ -107,6 +287,7 @@
             <FormInput
               :id="'repeated-username'"
               v-model="repeatedUsername"
+              type="text"
               :label="'Repeat your username'"
             />
             <BadgeButton
@@ -121,241 +302,6 @@
     </Teleport>
   </div>
 </template>
-
-<script lang="ts">
-import AccountCircleIcon from 'vue-material-design-icons/AccountCircle.vue';
-import ChevronUpIcon from 'vue-material-design-icons/ChevronUp.vue';
-import LogoutIcon from 'vue-material-design-icons/LogoutVariant.vue';
-import ExportIcon from 'vue-material-design-icons/DatabaseExportOutline.vue';
-import PlusIcon from 'vue-material-design-icons/Plus.vue';
-import DeleteIcon from 'vue-material-design-icons/DeleteAlert.vue';
-import DeleteSimpleIcon from 'vue-material-design-icons/Delete.vue';
-import SettingsIcon from 'vue-material-design-icons/Cog.vue';
-import HistoryIcon from 'vue-material-design-icons/History.vue';
-import RestartOffIcon from 'vue-material-design-icons/RestartOff.vue';
-import PasswordChangeIcon from 'vue-material-design-icons/FormTextboxPassword.vue';
-
-import Confirmation from '@/components/popup/Confirmation.vue';
-import SectionTitle from '@/components/SectionTitle.vue';
-import FormInput from '@/components/form/FormInput.vue';
-import BadgeButton from '@/components/buttons/BadgeButton.vue';
-import HistoryList from '@/components/history/HistoryList.vue';
-import { useMessagesStore } from '~/store/messages';
-import { createComputed } from '@/utilities/computed';
-import { useSettingsStore } from '~~/store/settings';
-import { useUserStore } from '~~/store/user';
-import PasswordChangeForm from '@/components/form/PasswordChangeForm.vue';
-
-export default defineComponent({
-  name: 'Profile',
-  components: {
-    BadgeButton,
-    AccountCircleIcon,
-    RestartOffIcon,
-    Confirmation,
-    SectionTitle,
-    LogoutIcon,
-    DeleteSimpleIcon,
-    ExportIcon,
-    DeleteIcon,
-    ChevronUpIcon,
-    SettingsIcon,
-    HistoryIcon,
-    FormInput,
-    HistoryList,
-    PlusIcon,
-    PasswordChangeIcon,
-    PasswordChangeForm
-  },
-  setup() {
-    const messagesStore = useMessagesStore();
-    const settingsStore = useSettingsStore();
-    const userStore = useUserStore();
-
-    const config = useRuntimeConfig();
-    const router = useRouter();
-
-    const apiUrl = config.public.apiUrl;
-
-    const logoutPopup = ref(false);
-    const deleteAccountPopup = ref(false);
-    const actionsOpen = ref(false);
-    const repeatedUsername = ref('');
-    const originalUsername = ref('');
-    const profileImageUrl = ref(null);
-    const profileImageLoading = ref(false);
-    const passwordChangePopup = ref(false);
-
-    originalUsername.value = userStore.username;
-
-    const { data: profile, error } = useGetUserProfileDetails();
-
-    watch(error, () => {
-      messagesStore.createMessage({
-        type: 'error',
-        title: 'Error loading profile',
-        message: 'Try logging out and in again'
-      });
-    });
-
-    if (!userStore.isLoggedIn) {
-      router.push('/');
-    }
-
-    const hasHistory = createComputed(() => {
-      if (profile.value && profile.value.videoHistory.length > 0) {
-        return true;
-      }
-      return false;
-    });
-    const onChangePasswordPopup = () => {
-      passwordChangePopup.value = true;
-    };
-    const onChangePasswordClose = () => {
-      passwordChangePopup.value = false;
-    };
-    const onLogoutPopup = () => {
-      logoutPopup.value = true;
-    };
-    const onLogoutPopupClose = () => {
-      logoutPopup.value = false;
-    };
-    const onDeleteAccount = () => {
-      deleteAccountPopup.value = true;
-    };
-    const onDeleteAccountClose = () => {
-      deleteAccountPopup.value = false;
-    };
-    const deleteAccount = () => {
-      axios
-        .delete(`${accessor.environment.apiUrl}user`, {
-          data: { username: repeatedUsername.value },
-          withCredentials: true
-        })
-        .then(_ => {
-          logout();
-          messagesStore.createMessage({
-            type: 'info',
-            title: 'Deleted account',
-            message: `Successfully deleted account ${repeatedUsername.value}`
-          });
-        });
-    };
-    const onProfileImageChange = (e: any) => {
-      profileImageLoading.value = true;
-      const img = e.target.files[0];
-      const formData = new FormData();
-      formData.append('image', img);
-      axios
-        .post(`${config.public.apiUrl}user/profile/image`, formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          },
-          withCredentials: true
-        })
-        .then((response: any) => {
-          if (response.data.path) {
-            messagesStore.createMessage({
-              type: 'info',
-              title: 'New profile image',
-              message: 'Successfully set new profile image'
-            });
-            setProfileImageUrl(response.data.path);
-            profileImageLoading.value = false;
-          }
-        })
-        .catch(err => {
-          if (
-            err &&
-            err.response.data.message &&
-            err.response.data.message.match(/.*too large.*/i)
-          ) {
-            messagesStore.createMessage({
-              type: 'error',
-              title: err.response.data.message,
-              message: 'Maximum file size is 4MB'
-            });
-          } else if (err && err.response.data && err.response.data.error) {
-            messagesStore.createMessage({
-              type: 'error',
-              title: err.response.data.error,
-              message: err.response.data.message
-            });
-          } else {
-            messagesStore.createMessage({
-              type: 'error',
-              title: 'Error saving profile image',
-              message: 'Try uploading it in a different format'
-            });
-          }
-          profileImageLoading.value = false;
-        });
-    };
-    const deleteProfileImage = () => {
-      axios
-        .delete(`${config.public.apiUrl}user/profile/image`, { withCredentials: true })
-        .then(() => {
-          messagesStore.createMessage({
-            type: 'info',
-            title: 'Profile image deleted',
-            message: 'Profile image successfully deleted'
-          });
-          setProfileImageUrl(null);
-        })
-        .catch(() => {
-          messagesStore.createMessage({
-            type: 'error',
-            title: 'Could not delete profile image',
-            message: 'An error occurred when deleting the profile image'
-          });
-        });
-    };
-    const deleteAccountValid = createComputed(() => {
-      return repeatedUsername.value.length > 0 && repeatedUsername.value === originalUsername.value;
-    });
-    const logout = () => {
-      userStore.logout();
-      router.push('/');
-    };
-
-    const setProfileImageUrl = (url: string): void => {
-      if (url) {
-        const imgUrl = url.replace('/api/', '');
-        const random = Math.random() * (0 - 1000) + 0;
-        profileImageUrl.value = `${config.public.apiUrl}${imgUrl}?r=${random}`;
-      } else {
-        profileImageUrl.value = null;
-      }
-    };
-
-    return {
-      profile,
-      logoutPopup,
-      deleteAccountPopup,
-      passwordChangePopup,
-      repeatedUsername,
-      profileImageUrl,
-      profileImageLoading,
-      actionsOpen,
-      deleteProfileImage,
-      onLogoutPopup,
-      onLogoutPopupClose,
-      onDeleteAccount,
-      onDeleteAccountClose,
-      onProfileImageChange,
-      onChangePasswordPopup,
-      onChangePasswordClose,
-      deleteAccount,
-      deleteAccountValid,
-      hasHistory,
-      logout,
-      apiUrl,
-      settingsStore
-    };
-  },
-  head: {}
-});
-</script>
 
 <style lang="scss">
 .popup-enter-active,

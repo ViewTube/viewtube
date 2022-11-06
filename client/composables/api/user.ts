@@ -1,3 +1,6 @@
+import { ApiDto } from 'viewtube/shared';
+import { useAuthorizationHeader } from '../authorizationHeader';
+
 type UserHistoryParams = {
   limit: number;
   start: number;
@@ -32,10 +35,16 @@ export const useGetUserHistoryItem = (videoId: string) => {
 
 export const useGetUserProfileDetails = () => {
   const config = useRuntimeConfig();
+  const authorizationHeader = useAuthorizationHeader();
 
   const url = `${config.public.apiUrl}user/profile/details`;
 
-  return useLazyFetch(url, { credentials: 'include' });
+  return useLazyFetch<ApiDto<'UserprofileDetailsDto'>>(url, {
+    headers: {
+      Authorization: authorizationHeader
+    },
+    credentials: 'include'
+  });
 };
 
 export const useGetUserSubscriptions = ({ limit = 20, start = 0 }) => {
