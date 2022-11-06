@@ -17,13 +17,6 @@ services:
     ports:
       - 6379:6379
 
-  viewtube-nginx:
-    container_name: viewtube-nginx
-    image: nginx
-    volumes:
-      - "./scripts/dev/nginx.conf:/etc/nginx/nginx.conf:ro"
-    network_mode: host
-
 networks:
   viewtube-local:
     driver: bridge
