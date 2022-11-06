@@ -2,7 +2,7 @@
   "name": "server",
   "main": "dist/main",
   "scripts": {
-    "serve": "cross-env PORT=40067 nest build --webpack --webpackPath webpack-hmr.config.cjs --watch",
+    "serve": "cross-env PORT=8067 nest build --webpack --webpackPath webpack-hmr.config.cjs --watch",
     "dev": "pnpm run serve",
     "env:prod": "NODE_ENV=production",
     "build": "cross-env NODE_ENV=production nest build -c nest-cli.json --webpack --webpackPath webpack.config.cjs",
