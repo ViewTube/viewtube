@@ -47,12 +47,19 @@ export const useGetUserProfileDetails = () => {
   });
 };
 
-export const useGetUserSubscriptions = ({ limit = 20, start = 0 }) => {
+export const useGetUserSubscriptions = ({ limit = 20, start = 0
+ } = { limit: 20, start: 0 }) => {
   const config = useRuntimeConfig();
+  const authorizationHeader = useAuthorizationHeader();
 
   const url = `${config.public.apiUrl}user/subscriptions/videos?limit=${limit}&start=${start}`;
 
-  return useLazyFetch<any[]>(url, { credentials: 'include' });
+  return useLazyFetch<any>(url, {
+    headers: {
+      Authorization: authorizationHeader
+    },
+    credentials: 'include'
+  });
 };
 
 export const useGetUserSubscriptionChannels = ({ limit = 20, start = 0 }) => {

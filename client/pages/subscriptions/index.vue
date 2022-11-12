@@ -90,7 +90,7 @@ import SectionTitle from '@/components/SectionTitle.vue';
 import SwitchButton from '@/components/buttons/SwitchButton.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import Pagination from '@/components/pagination/Pagination.vue';
-import {useMessagesStore} from "~/store/messages";
+import { useMessagesStore } from '~/store/messages';
 import { useUserStore } from '~~/store/user';
 
 export default defineComponent({
@@ -112,17 +112,26 @@ export default defineComponent({
     const userStore = useUserStore();
     const config = useRuntimeConfig();
     const route = useRoute();
-    const { $axios: axios } = useNuxtApp();
+    
+    const vapidKey = config.public.vapidKey;
 
-    const videos = ref([]);
-    const loading = ref(true);
     const notificationsEnabled = ref(false);
     const notificationsBtnDisabled = ref(false);
     const notificationsSupported = ref(true);
     const subscriptionImportOpen = ref(false);
     const currentPage = ref(1);
     const currentPageTest = ref(1);
-    const pageCount = ref(1);
+
+    const { data: subscriptions, pending } = useGetUserSubscriptions({
+      limit: 20,
+      start: (currentPage.value - 1) * 30
+    });
+
+    const videos = computed(() => subscriptions.value?.videos);
+    const pageCount = computed(() => Math.ceil((subscriptions.value?.videoCount ?? 30) / 30));
+    const hasNoSubscriptions = computed(() =>  {
+      return !getOrderedVideoSections() || getOrderedVideoSections().length <= 0
+    })
 
     const { fetch } = useFetch(async () => {
       const limit = 20;
@@ -136,8 +145,6 @@ export default defineComponent({
         })
         .then(
           (response: { data: { videos: Array<any>; videoCount: number; lastRefresh: Date } }) => {
-            videos.value = response.data.videos;
-            pageCount.value = Math.ceil(response.data.videoCount / 30);
             loading.value = false;
             hasNoSubscriptions.value =
               !getOrderedVideoSections() || getOrderedVideoSections().length <= 0;
@@ -153,8 +160,6 @@ export default defineComponent({
         });
     });
 
-    const vapidKey = ref(config.public.vapidKey);
-    const hasNoSubscriptions = ref(true);
     const getOrderedVideoSections = (): Array<any> => {
       const orderedArray = [];
       let i = 0;
@@ -306,7 +311,7 @@ export default defineComponent({
 
     return {
       videos,
-      loading,
+      pending,
       notificationsEnabled,
       notificationsBtnDisabled,
       notificationsSupported,
