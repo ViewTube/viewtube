@@ -5,7 +5,7 @@ type MessageType = {
   type: string;
   title: string;
   message: string;
-  clickAction?: string;
+  clickAction?: () => void | Promise<void>;
   dismissed: boolean;
   dismissDelay?: number;
 };

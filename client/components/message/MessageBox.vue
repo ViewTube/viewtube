@@ -39,7 +39,7 @@
 <script lang="ts">
 import CloseIcon from 'vue-material-design-icons/Close.vue';
 
-import {useMessagesStore} from "~/store/messages";
+import { useMessagesStore } from '~/store/messages';
 
 export default defineComponent({
   name: 'MessageBox',
@@ -64,12 +64,12 @@ export default defineComponent({
     });
     const swipeOpacity = ref(1);
 
-    const transformString = computed((): string | void => {
+    const transformString = computed(() => {
       if (!isInteractAnimating.value) {
         const { x, y } = interactPosition;
         return `translate3D(${x}px, ${y}px, 0)`;
       }
-      return null;
+      return '';
     });
 
     const dismissMessage = () => {
@@ -81,13 +81,13 @@ export default defineComponent({
         }
       }, 600);
     };
-    const onMessageClick = () => {
+    const onMessageClick = async () => {
       if (dismissTimeout.value) {
         clearTimeout(dismissTimeout.value);
         dismissTimeout.value = null;
       }
       if (props.message.clickAction) {
-        props.message.clickAction();
+        await props.message.clickAction();
         dismissMessage();
       }
     };

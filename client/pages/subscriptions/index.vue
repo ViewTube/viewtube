@@ -1,6 +1,185 @@
+<script setup lang="ts">
+import EditIcon from 'vue-material-design-icons/PencilBoxMultipleOutline.vue';
+import SubscriptionIcon from 'vue-material-design-icons/YoutubeSubscription.vue';
+import ImportIcon from 'vue-material-design-icons/Import.vue';
+import SubscriptionImport from '@/components/popup/SubscriptionImport.vue';
+import VideoEntry from '@/components/list/VideoEntry.vue';
+import Spinner from '@/components/Spinner.vue';
+import SectionTitle from '@/components/SectionTitle.vue';
+import SwitchButton from '@/components/buttons/SwitchButton.vue';
+import BadgeButton from '@/components/buttons/BadgeButton.vue';
+import Pagination from '@/components/pagination/Pagination.vue';
+import { useMessagesStore } from '~/store/messages';
+import { useUserStore } from '~~/store/user';
+
+const messagesStore = useMessagesStore();
+const userStore = useUserStore();
+const config = useRuntimeConfig();
+const route = useRoute();
+
+const vapidKey = config.public.vapidKey;
+
+const notificationsEnabled = ref(false);
+const notificationsBtnDisabled = ref(false);
+const notificationsSupported = ref(true);
+const subscriptionImportOpen = ref(false);
+const currentPage = ref(1);
+
+const {
+  data: subscriptions,
+  pending,
+  error,
+  refresh
+} = useGetUserSubscriptions({
+  limit: 20,
+  start: (currentPage.value - 1) * 30
+});
+
+const videos = computed(() => subscriptions.value?.videos ?? []);
+const pageCount = computed(() => Math.ceil((subscriptions.value?.videoCount ?? 30) / 30));
+const hasNoSubscriptions = computed(() => {
+  return !getOrderedVideoSections() || getOrderedVideoSections().length <= 0;
+});
+const lastRefreshTime = computed(() => subscriptions.value?.lastRefresh ?? 0);
+
+watch(error, err => {
+  messagesStore.createMessage({
+    type: 'error',
+    title: 'Error loading subscription feed',
+    message: err?.message ?? 'Error loading subscription feed'
+  });
+});
+
+const getOrderedVideoSections = (): Array<any> => {
+  const orderedArray = [];
+  let i = 0;
+  videos.value.forEach(video => {
+    let sectionMessage = 'Older videos';
+    const now = new Date();
+    if (video.published > now.valueOf() - 604800000) {
+      sectionMessage = 'Last 7 days';
+    }
+    if (video.published > now.valueOf() - 172800000) {
+      sectionMessage = 'Yesterday';
+    }
+    if (video.published > now.valueOf() - 86400000) {
+      sectionMessage = 'Today';
+    }
+    const possibleIndex = orderedArray.findIndex(el => el.sectionMessage === sectionMessage);
+    if (possibleIndex !== -1) {
+      orderedArray[possibleIndex].videos.push(video);
+    } else {
+      orderedArray.push({ sectionMessage, videos: [video], id: i++ });
+    }
+  });
+  return orderedArray;
+};
+
+const closeSubscriptionImport = () => {
+  subscriptionImportOpen.value = false;
+};
+const onSubscriptionImportDone = () => {
+  refresh();
+};
+const subscribeToNotifications = (val: any) => {
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then(registrations => {
+      const worker = registrations[0];
+
+      if (val) {
+        worker.pushManager
+          .subscribe({
+            userVisibleOnly: true,
+            applicationServerKey: vapidKey.value
+          })
+          .then(subscription => {
+            $fetch(`${config.public.apiUrl}user/notifications/subscribe`, {
+              method: 'POST',
+              body: subscription,
+              credentials: 'include'
+            }).then(() => {
+              notificationsEnabled.value = true;
+            });
+          })
+          .catch(err => {
+            notificationsEnabled.value = false;
+            notificationsBtnDisabled.value = true;
+            messagesStore.createMessage({
+              type: 'error',
+              title: 'Error subscribing to notifications',
+              message: err.message
+            });
+          });
+      } else {
+        worker.pushManager.getSubscription().then((subscription: PushSubscription) => {
+          if (subscription) {
+            subscription.unsubscribe();
+          }
+          notificationsEnabled.value = false;
+        });
+      }
+    });
+  }
+};
+const getNotificationStatus = () => {
+  if (notificationsBtnDisabled.value && notificationsEnabled.value) {
+    return 'Notifications are enabled';
+  } else if (notificationsSupported.value) {
+    return 'Notifications are not supported';
+  } else if (!notificationsBtnDisabled.value && !notificationsEnabled.value) {
+    return 'Notifications are disabled';
+  }
+};
+
+onMounted(() => {
+  if (vapidKey.value && 'serviceWorker' in navigator) {
+    navigator.serviceWorker
+      .getRegistrations()
+      .then(registrations => {
+        const worker = registrations[0];
+        if (worker) {
+          worker.pushManager
+            .permissionState({
+              userVisibleOnly: true,
+              applicationServerKey: vapidKey.value
+            })
+            .then(permissionState => {
+              if (permissionState === 'granted') {
+                notificationsEnabled.value = true;
+              } else if (permissionState === 'denied') {
+                notificationsEnabled.value = false;
+                notificationsBtnDisabled.value = true;
+              }
+            });
+        } else {
+          notificationsEnabled.value = false;
+          notificationsBtnDisabled.value = true;
+        }
+      })
+      .catch(err => {
+        messagesStore.createMessage({
+          type: 'error',
+          title: 'Error loading notification worker',
+          message: err.message
+        });
+      });
+  } else {
+    notificationsSupported.value = false;
+    notificationsBtnDisabled.value = true;
+  }
+});
+
+watch(
+  () => route.query,
+  () => {
+    refresh();
+  }
+);
+</script>
 <template>
   <div class="subscriptions" :class="{ empty: hasNoSubscriptions, loading: $fetchState.pending }">
-    <Spinner v-if="$fetchState.pending" class="centered" />
+    <MetaPageHead title="Subscriptions :: ViewTube" description="See your subscription feed" />
+    <Spinner v-if="pending" class="centered" />
     <div class="subscribe-info-container">
       <div class="subscribe-info">
         <div class="info">
@@ -76,263 +255,6 @@
     </Teleport>
   </div>
 </template>
-
-<script lang="ts">
-import EditIcon from 'vue-material-design-icons/PencilBoxMultipleOutline.vue';
-import SubscriptionIcon from 'vue-material-design-icons/YoutubeSubscription.vue';
-import ImportIcon from 'vue-material-design-icons/Import.vue';
-
-import { useNuxtApp } from '#app';
-import SubscriptionImport from '@/components/popup/SubscriptionImport.vue';
-import VideoEntry from '@/components/list/VideoEntry.vue';
-import Spinner from '@/components/Spinner.vue';
-import SectionTitle from '@/components/SectionTitle.vue';
-import SwitchButton from '@/components/buttons/SwitchButton.vue';
-import BadgeButton from '@/components/buttons/BadgeButton.vue';
-import Pagination from '@/components/pagination/Pagination.vue';
-import { useMessagesStore } from '~/store/messages';
-import { useUserStore } from '~~/store/user';
-
-export default defineComponent({
-  name: 'Subscriptions',
-  components: {
-    VideoEntry,
-    SubscriptionImport,
-    SectionTitle,
-    SwitchButton,
-    BadgeButton,
-    EditIcon,
-    ImportIcon,
-    Pagination,
-    Spinner,
-    SubscriptionIcon
-  },
-  setup() {
-    const messagesStore = useMessagesStore();
-    const userStore = useUserStore();
-    const config = useRuntimeConfig();
-    const route = useRoute();
-    
-    const vapidKey = config.public.vapidKey;
-
-    const notificationsEnabled = ref(false);
-    const notificationsBtnDisabled = ref(false);
-    const notificationsSupported = ref(true);
-    const subscriptionImportOpen = ref(false);
-    const currentPage = ref(1);
-    const currentPageTest = ref(1);
-
-    const { data: subscriptions, pending } = useGetUserSubscriptions({
-      limit: 20,
-      start: (currentPage.value - 1) * 30
-    });
-
-    const videos = computed(() => subscriptions.value?.videos);
-    const pageCount = computed(() => Math.ceil((subscriptions.value?.videoCount ?? 30) / 30));
-    const hasNoSubscriptions = computed(() =>  {
-      return !getOrderedVideoSections() || getOrderedVideoSections().length <= 0
-    })
-
-    const { fetch } = useFetch(async () => {
-      const limit = 20;
-      if (route.query && route.query.page) {
-        currentPage.value = parseInt(route.query.page.toString());
-      }
-      const start = (currentPage.value - 1) * 30;
-      await axios
-        .get(`${config.public.apiUrl}user/subscriptions/videos?limit=${limit}&start=${start}`, {
-          withCredentials: true
-        })
-        .then(
-          (response: { data: { videos: Array<any>; videoCount: number; lastRefresh: Date } }) => {
-            loading.value = false;
-            hasNoSubscriptions.value =
-              !getOrderedVideoSections() || getOrderedVideoSections().length <= 0;
-            lastRefreshTime.value = response.data.lastRefresh;
-          }
-        )
-        .catch(_ => {
-          messagesStore.createMessage({
-            type: 'error',
-            title: 'Error loading subscription feed',
-            message: 'Error loading subscription feed'
-          });
-        });
-    });
-
-    const getOrderedVideoSections = (): Array<any> => {
-      const orderedArray = [];
-      let i = 0;
-      videos.value.forEach(video => {
-        let sectionMessage = 'Older videos';
-        const now = new Date();
-        if (video.published > now.valueOf() - 604800000) {
-          sectionMessage = 'Last 7 days';
-        }
-        if (video.published > now.valueOf() - 172800000) {
-          sectionMessage = 'Yesterday';
-        }
-        if (video.published > now.valueOf() - 86400000) {
-          sectionMessage = 'Today';
-        }
-        const possibleIndex = orderedArray.findIndex(el => el.sectionMessage === sectionMessage);
-        if (possibleIndex !== -1) {
-          orderedArray[possibleIndex].videos.push(video);
-        } else {
-          orderedArray.push({ sectionMessage, videos: [video], id: i++ });
-        }
-      });
-      return orderedArray;
-    };
-    const lastRefreshTime: Ref<Date> = ref(null);
-
-    const closeSubscriptionImport = () => {
-      subscriptionImportOpen.value = false;
-    };
-    const onSubscriptionImportDone = () => {
-      fetch();
-    };
-    const subscribeToNotifications = (val: any) => {
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.getRegistrations().then(registrations => {
-          const worker = registrations[0];
-
-          if (val) {
-            worker.pushManager
-              .subscribe({
-                userVisibleOnly: true,
-                applicationServerKey: vapidKey.value
-              })
-              .then(subscription => {
-                axios
-                  .post(`${config.public.apiUrl}user/notifications/subscribe`, subscription, {
-                    withCredentials: true
-                  })
-                  .then(() => {
-                    notificationsEnabled.value = true;
-                  });
-              })
-              .catch(err => {
-                notificationsEnabled.value = false;
-                notificationsBtnDisabled.value = true;
-                messagesStore.createMessage({
-                  type: 'error',
-                  title: 'Error subscribing to notifications',
-                  message: err.message
-                });
-              });
-          } else {
-            worker.pushManager.getSubscription().then((subscription: PushSubscription) => {
-              if (subscription) {
-                subscription.unsubscribe();
-              }
-              notificationsEnabled.value = false;
-            });
-          }
-        });
-      }
-    };
-    const getNotificationStatus = () => {
-      if (notificationsBtnDisabled.value && notificationsEnabled.value) {
-        return 'Notifications are enabled';
-      } else if (notificationsSupported.value) {
-        return 'Notifications are not supported';
-      } else if (!notificationsBtnDisabled.value && !notificationsEnabled.value) {
-        return 'Notifications are disabled';
-      }
-    };
-
-    onMounted(() => {
-      if (vapidKey.value && 'serviceWorker' in navigator) {
-        navigator.serviceWorker
-          .getRegistrations()
-          .then(registrations => {
-            const worker = registrations[0];
-            if (worker) {
-              worker.pushManager
-                .permissionState({
-                  userVisibleOnly: true,
-                  applicationServerKey: vapidKey.value
-                })
-                .then(permissionState => {
-                  if (permissionState === 'granted') {
-                    notificationsEnabled.value = true;
-                  } else if (permissionState === 'denied') {
-                    notificationsEnabled.value = false;
-                    notificationsBtnDisabled.value = true;
-                  }
-                });
-            } else {
-              notificationsEnabled.value = false;
-              notificationsBtnDisabled.value = true;
-            }
-          })
-          .catch(err => {
-            messagesStore.createMessage({
-              type: 'error',
-              title: 'Error loading notification worker',
-              message: err.message
-            });
-          });
-      } else {
-        notificationsSupported.value = false;
-        notificationsBtnDisabled.value = true;
-      }
-    });
-
-    watch(
-      () => route.query,
-      () => {
-        fetch();
-      }
-    );
-
-    useMeta(() => ({
-      title: `Subscriptions :: ViewTube`,
-      meta: [
-        {
-          hid: 'description',
-          vmid: 'descriptionMeta',
-          name: 'description',
-          content: 'See your subscription feed'
-        },
-        {
-          hid: 'ogTitle',
-          property: 'og:title',
-          content: 'Subscriptions - ViewTube'
-        },
-        {
-          hid: 'ogDescription',
-          property: 'og:description',
-          content: 'See your subscription feed'
-        }
-      ]
-    }));
-
-    return {
-      videos,
-      pending,
-      notificationsEnabled,
-      notificationsBtnDisabled,
-      notificationsSupported,
-      subscriptionImportOpen,
-      vapidKey,
-      currentPage,
-      currentPageTest,
-      pageCount,
-      hasNoSubscriptions,
-      getOrderedVideoSections,
-      lastRefreshTime,
-      closeSubscriptionImport,
-      onSubscriptionImportDone,
-      subscribeToNotifications,
-      getNotificationStatus,
-      userStore
-    };
-  },
-  head: {}
-});
-</script>
 
 <style lang="scss">
 .subscriptions {

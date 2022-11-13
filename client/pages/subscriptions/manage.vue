@@ -77,17 +77,36 @@ export default defineComponent({
     const messagesStore = useMessagesStore();
     const config = useRuntimeConfig();
     const route = useRoute();
-    const { $axios: axios } = useNuxtApp();
     const router = useRouter();
     const imgProxy = useImgProxy();
 
     const apiUrl = config.public.apiUrl;
 
-    const subscriptionChannels = ref([]);
     const currentPage = ref(1);
-    const pageCount = ref(0);
-    const searchTerm = ref(null);
+    const searchTerm = ref('');
     const searchTimeout = ref(null);
+
+    const {
+      data: subscriptionChannels,
+      error,
+      refresh
+    } = useGetUserSubscriptionChannels({
+      limit: 30,
+      start: parseInt(route.query.page.toString()),
+      searchTerm: searchTerm.value
+    });
+
+    watch(error, err => {
+      messagesStore.createMessage({
+        type: 'error',
+        title: 'Error loading subscriptions',
+        message: err?.message ?? 'Error loading subscriptions'
+      });
+    });
+
+    const pageCount = computed(() =>
+      Math.ceil(subscriptionChannels.value?.channelCount ?? 30 / 30)
+    );
 
     const orderedChannels = computed((): Array<string> => {
       const lettersArray = [];
@@ -104,36 +123,6 @@ export default defineComponent({
       return lettersArray;
     });
 
-    const { fetch } = useFetch(async () => {
-      const limit = 30;
-      if (route.query && route.query.page) {
-        currentPage.value = parseInt(route.query.page as string);
-      }
-      let filterString = '';
-      if (searchTerm.value) {
-        filterString = `&filter=${searchTerm.value}`;
-      }
-      const start = (currentPage.value - 1) * 30;
-      await axios
-        .get(
-          `${config.public.apiUrl}user/subscriptions/channels?limit=${limit}&start=${start}&sort=author:1${filterString}`,
-          {
-            withCredentials: true
-          }
-        )
-        .then(response => {
-          subscriptionChannels.value = response.data.channels;
-          pageCount.value = Math.ceil(response.data.channelCount / 30);
-        })
-        .catch(_ => {
-          messagesStore.createMessage({
-            type: 'error',
-            title: 'Error loading subscriptions',
-            message: 'Error loading subscriptions'
-          });
-        });
-    });
-
     const changePage = (page: any): void => {
       router.push(`/subscriptions/manage?page=${page}`);
       currentPage.value = page;
@@ -146,33 +135,27 @@ export default defineComponent({
       return initials;
     };
     const unsubscribe = (channel: { authorId: any; author: any }): void => {
-      axios
-        .delete(`${config.public.apiUrl}user/subscriptions/${channel.authorId}`, {
-          withCredentials: true
-        })
-        .then(response => {
-          if (!response.data.isSubscribed) {
-            fetch();
-            messagesStore.createMessage({
-              type: 'error',
-              title: `Unsubscribed from ${channel.author}`,
-              message: 'Click to undo',
-              clickAction: () => {
-                axios
-                  .put(
-                    `${config.public.apiUrl}user/subscriptions/${channel.authorId}`,
-                    {},
-                    {
-                      withCredentials: true
-                    }
-                  )
-                  .then(() => {
-                    fetch();
-                  });
-              }
-            });
-          }
-        });
+      $fetch<any>(`${config.public.apiUrl}user/subscriptions/${channel.authorId}`, {
+        method: 'DELETE',
+        credentials: 'include'
+      }).then(response => {
+        if (!response.isSubscribed) {
+          refresh();
+          messagesStore.createMessage({
+            type: 'error',
+            title: `Unsubscribed from ${channel.author}`,
+            message: 'Click to undo',
+            clickAction: async () => {
+              await $fetch(`${config.public.apiUrl}user/subscriptions/${channel.authorId}`, {
+                method: 'PUT',
+                credentials: 'include'
+              }).then(() => {
+                refresh();
+              });
+            }
+          });
+        }
+      });
     };
 
     onMounted(() => {
@@ -182,7 +165,7 @@ export default defineComponent({
     watch(
       () => route.query,
       () => {
-        fetch();
+        refresh();
       }
     );
 
@@ -190,7 +173,7 @@ export default defineComponent({
       if (searchTimeout.value) clearTimeout(searchTimeout.value);
       searchTimeout.value = setTimeout(() => {
         if (newVal !== null && newVal !== oldVal) {
-          fetch();
+          refresh();
         }
       }, 400);
     });

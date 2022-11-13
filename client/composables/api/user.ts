@@ -47,8 +47,7 @@ export const useGetUserProfileDetails = () => {
   });
 };
 
-export const useGetUserSubscriptions = ({ limit = 20, start = 0
- } = { limit: 20, start: 0 }) => {
+export const useGetUserSubscriptions = ({ limit = 20, start = 0 } = { limit: 20, start: 0 }) => {
   const config = useRuntimeConfig();
   const authorizationHeader = useAuthorizationHeader();
 
@@ -62,10 +61,17 @@ export const useGetUserSubscriptions = ({ limit = 20, start = 0
   });
 };
 
-export const useGetUserSubscriptionChannels = ({ limit = 20, start = 0 }) => {
+export const useGetUserSubscriptionChannels = (
+  { limit = 30, start = 0, searchTerm = undefined } = { limit: 30, start: 0, searchTerm: undefined }
+) => {
   const config = useRuntimeConfig();
 
-  const url = `${config.public.apiUrl}user/subscriptions/videos?limit=${limit}&start=${start}`;
+  let filterString = '';
+  if (searchTerm) {
+    filterString = `&filter=${searchTerm}`;
+  }
 
-  return useLazyFetch(url, { credentials: 'include' });
+  const url = `${config.public.apiUrl}user/subscriptions/channels?limit=${limit}&start=${start}&sort=author:1${filterString}`;
+
+  return useLazyFetch<any>(url, { credentials: 'include' });
 };
