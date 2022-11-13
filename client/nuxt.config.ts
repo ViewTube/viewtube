@@ -1,5 +1,4 @@
 import { getApiUrl } from '../shared/index';
-import { defineNuxtConfig } from 'nuxt';
 
 export default defineNuxtConfig({
   runtimeConfig: {

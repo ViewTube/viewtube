@@ -8,7 +8,7 @@ const conf = {
       {
         hid: 'description',
         name: 'description',
-        content: 'An alternative YouTube frontend using the invidio.us API.'
+        content: 'An alternative YouTube frontend.'
       },
       { name: 'theme-color', content: '#121212' },
       {

@@ -1,6 +1,14 @@
 <template>
   <div class="home" :class="{ loading: popularPageLoading || displayedVideos.length <= 0 }">
+    <MetaPageHead
+      title="ViewTube :: An alternative YouTube frontend"
+      description="An alternative YouTube frontend"
+    />
     <Spinner v-if="popularPageLoading" class="centered" />
+    <ErrorPage
+      v-if="popularPageError"
+      text="Error loading homepage. The API may not be reachable."
+    />
     <SectionTitle
       v-if="settingsStore.showHomeSubscriptions && userAuthenticated"
       :title="'Subscriptions'"
@@ -11,14 +19,18 @@
       v-if="
         settingsStore.showHomeSubscriptions &&
         userAuthenticated &&
-        subscriptions &&
-        subscriptions.length > 0
+        subscriptions?.videos?.length > 0
       "
       class="home-videos-container small"
     >
-      <VideoEntry v-for="video in subscriptions" :key="video.videoId" :video="video" :lazy="true" />
+      <VideoEntry
+        v-for="video in subscriptions.videos"
+        :key="video.videoId"
+        :video="video"
+        :lazy="true"
+      />
     </div>
-    <SectionTitle :title="'Popular videos'" :gradient="!userAuthenticated" z />
+    <SectionTitle v-if="videoData?.videos?.length > 0" :title="'Popular videos'" />
     <div class="home-videos-container small">
       <VideoEntry
         v-for="(video, index) in displayedVideos"
@@ -28,9 +40,9 @@
       />
     </div>
     <BadgeButton
-      v-if="displayedVideos.length !== videoData?.videos?.length"
+      v-if="videoData?.videos?.length > 0 && displayedVideos.length !== videoData?.videos?.length"
+      id="home-show-more"
       :click="showMoreVideos"
-      class="home-show-more"
     >
       <LoadMoreIcon />
       <p>Show more</p>
@@ -38,90 +50,47 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
-
 import VideoEntry from '@/components/list/VideoEntry.vue';
 import Spinner from '@/components/Spinner.vue';
 import SectionTitle from '@/components/SectionTitle.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
-import { useMessagesStore } from '~/store/messages';
-import { useUserStore } from '~~/store/user';
-import { useSettingsStore } from '~~/store/settings';
+import { useUserStore } from '@/store/user';
+import { useSettingsStore } from '@/store/settings';
 
-export default defineComponent({
-  name: 'Home',
-  components: {
-    VideoEntry,
-    SectionTitle,
-    LoadMoreIcon,
-    BadgeButton,
-    Spinner
-  },
-  layout: 'default',
-  setup() {
-    const messagesStore = useMessagesStore();
-    const settingsStore = useSettingsStore();
-    const userStore = useUserStore();
+const settingsStore = useSettingsStore();
+const userStore = useUserStore();
 
-    const showMore = ref(false);
-    const userAuthenticated = ref(userStore.isLoggedIn);
+const showMore = ref(false);
+const userAuthenticated = ref(userStore.isLoggedIn);
 
-    const displayedVideos = computed(() => {
-      if (videoData.value?.videos) {
-        if (!showMore.value) {
-          let videoCount = 12;
-          if (userAuthenticated.value && settingsStore.showHomeSubscriptions) {
-            videoCount = 8;
-          }
-          return videoData.value.videos.slice(0, videoCount);
-        }
-        return videoData.value.videos;
+const displayedVideos = computed(() => {
+  if (videoData.value?.videos) {
+    if (!showMore.value) {
+      let videoCount = 12;
+      if (userAuthenticated.value && settingsStore.showHomeSubscriptions) {
+        videoCount = 8;
       }
-      return [];
-    });
+      return videoData.value.videos.slice(0, videoCount);
+    }
+    return videoData.value.videos;
+  }
+  return [];
+});
 
-    const showMoreVideos = (): void => {
-      showMore.value = true;
-    };
+const showMoreVideos = (): void => {
+  showMore.value = true;
+};
 
-    const {
-      data: videoData,
-      error: popularPageError,
-      pending: popularPageLoading
-    } = useGetPopularPage();
+const {
+  data: videoData,
+  error: popularPageError,
+  pending: popularPageLoading
+} = useGetPopularPage();
 
-    const { data: subscriptions, pending: subscriptionsLoading } = useGetUserSubscriptions({
-      limit: 4
-    });
-
-    watch(popularPageError, newValue => {
-      if (newValue) {
-        messagesStore.createMessage({
-          type: 'error',
-          title: 'Error loading homepage',
-          message: 'Refresh the page to try again',
-          dismissDelay: 0
-        });
-      }
-    });
-
-    useHead({
-      title: `ViewTube :: An alternative YouTube frontend`
-    });
-
-    return {
-      videoData,
-      displayedVideos,
-      subscriptions,
-      popularPageLoading,
-      subscriptionsLoading,
-      userAuthenticated,
-      showMoreVideos,
-      settingsStore
-    };
-  },
-  head: {}
+const { data: subscriptions, pending: subscriptionsLoading } = useGetUserSubscriptions({
+  limit: 4
 });
 </script>
 
@@ -137,7 +106,7 @@ export default defineComponent({
   margin-top: $header-height;
 
   &.loading {
-    height: 100vh;
+    height: calc(100vh - $header-height);
   }
 
   .section-title {
@@ -158,7 +127,7 @@ export default defineComponent({
     @include viewtube-grid;
   }
 
-  .home-show-more {
+  #home-show-more {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
