@@ -3,6 +3,12 @@
  * Do not make direct changes to the file.
  */
 
+
+/** Type helpers */
+type Without<T, U> = { [P in Exclude<keyof T, keyof U>]?: never };
+type XOR<T, U> = (T | U) extends object ? (Without<T, U> & U) | (Without<U, T> & T) : T | U;
+type OneOf<T extends any[]> = T extends [infer Only] ? Only : T extends [infer A, infer B, ...infer Rest] ? OneOf<[XOR<A, B>, ...Rest]> : never;
+
 export interface paths {
   "/api/videos/{id}": {
     get: operations["VideosController_getVideos"];
@@ -126,12 +132,14 @@ export interface paths {
   };
   "/api/auth/register": {
     /**
-     * Request a captcha through the /auth/captcha endpoint,
+     * Register a new user 
+     * @description Request a captcha through the /auth/captcha endpoint,
      *     and pass its token and solution alongside the new user's credentials.
      */
     post: operations["RegisterController_registerUser"];
   };
   "/api/auth/captcha": {
+    /** Get a captcha */
     get: operations["CaptchaController_getCaptcha"];
   };
 }
@@ -156,11 +164,11 @@ export interface components {
     RecommendedVideoDto: {
       videoId: string;
       title: string;
-      videoThumbnails: components["schemas"]["VideoThumbnailDto"][];
+      videoThumbnails: (components["schemas"]["VideoThumbnailDto"])[];
       author: string;
       authorUrl: string;
       authorId: string;
-      authorThumbnails: components["schemas"]["AuthorThumbnailDto"][];
+      authorThumbnails: (components["schemas"]["AuthorThumbnailDto"])[];
       lengthSeconds: number;
       viewCountText: string;
       viewCount: number;
@@ -169,25 +177,25 @@ export interface components {
       type: string;
       title: string;
       videoId: string;
-      videoThumbnails: components["schemas"]["VideoThumbnailDto"][];
-      storyboards: { [key: string]: unknown };
+      videoThumbnails: (components["schemas"]["VideoThumbnailDto"])[];
+      storyboards: Record<string, never>;
       description: string;
       descriptionHtml: string;
       published: number;
       publishedText: string;
-      keywords: string[];
+      keywords: (string)[];
       viewCount: number;
       likeCount: number;
       paid: boolean;
       premium: boolean;
       isFamilyFriendly: boolean;
-      allowedRegions: string[];
+      allowedRegions: (string)[];
       genre: string;
       genreUrl: string;
       author: string;
       authorId: string;
       authorUrl: string;
-      authorThumbnails: components["schemas"]["AuthorThumbnailDto"][];
+      authorThumbnails: (components["schemas"]["AuthorThumbnailDto"])[];
       authorVerified: boolean;
       subCount: number;
       lengthSeconds: number;
@@ -196,11 +204,11 @@ export interface components {
       isListed: boolean;
       liveNow: boolean;
       isUpcoming: boolean;
-      adaptiveFormats: { [key: string]: unknown }[];
-      legacyFormats: { [key: string]: unknown }[];
-      chapters?: components["schemas"]["ChapterDto"][];
-      captions: { [key: string]: unknown };
-      recommendedVideos: components["schemas"]["RecommendedVideoDto"][];
+      adaptiveFormats: (Record<string, never>)[];
+      legacyFormats: (Record<string, never>)[];
+      chapters?: (components["schemas"]["ChapterDto"])[];
+      captions: Record<string, never>;
+      recommendedVideos: (components["schemas"]["RecommendedVideoDto"])[];
       dashManifest?: string;
     };
     DislikeDto: {
@@ -220,13 +228,13 @@ export interface components {
     };
     SearchFilterDto: {
       filterType: string;
-      filterValues: components["schemas"]["FilterValueDto"][];
+      filterValues: (components["schemas"]["FilterValueDto"])[];
     };
     ChannelBasicInfoDto: {
       authorId: string;
       author: string;
       authorUrl?: string;
-      authorThumbnails?: components["schemas"]["AuthorThumbnailDto"][];
+      authorThumbnails?: (components["schemas"]["AuthorThumbnailDto"])[];
       authorThumbnailUrl?: string;
       authorVerified?: boolean;
       subCount?: number;
@@ -235,14 +243,14 @@ export interface components {
     };
     RelatedChannelDto: {
       title: string;
-      channels: components["schemas"]["ChannelBasicInfoDto"][];
+      channels: (components["schemas"]["ChannelBasicInfoDto"])[];
     };
     LinkThumbnailDto: {
       url: string;
     };
     ChannelLinkDto: {
       url: string;
-      linkThumbnails?: components["schemas"]["LinkThumbnailDto"][];
+      linkThumbnails?: (components["schemas"]["LinkThumbnailDto"])[];
       title: string;
     };
     ChannelDto: {
@@ -250,8 +258,8 @@ export interface components {
       authorId: string;
       authorUrl: string;
       authorUsername?: string;
-      authorBanners: components["schemas"]["AuthorThumbnailDto"][];
-      authorThumbnails: components["schemas"]["AuthorThumbnailDto"][];
+      authorBanners: (components["schemas"]["AuthorThumbnailDto"])[];
+      authorThumbnails: (components["schemas"]["AuthorThumbnailDto"])[];
       subCount: number;
       totalViews: number;
       joined: number;
@@ -260,10 +268,10 @@ export interface components {
       isFamilyFriendly: boolean;
       description: string;
       descriptionHtml: string;
-      allowedRegions: string[];
-      videoSections: { [key: string]: unknown }[];
-      relatedChannels: components["schemas"]["RelatedChannelDto"][];
-      channelLinks?: components["schemas"]["ChannelLinkDto"][];
+      allowedRegions: (string)[];
+      videoSections: (Record<string, never>)[];
+      relatedChannels: (components["schemas"]["RelatedChannelDto"])[];
+      channelLinks?: (components["schemas"]["ChannelLinkDto"])[];
     };
     VideoBasicInfoDto: {
       videoId: string;
@@ -273,9 +281,9 @@ export interface components {
       author: string;
       authorId: string;
       authorVerified?: boolean;
-      authorThumbnails?: components["schemas"]["AuthorThumbnailDto"][];
+      authorThumbnails?: (components["schemas"]["AuthorThumbnailDto"])[];
       authorThumbnailUrl?: string;
-      videoThumbnails: components["schemas"]["VideoThumbnailDto"][];
+      videoThumbnails: (components["schemas"]["VideoThumbnailDto"])[];
       description?: string;
       viewCount: number;
       likeCount?: number;
@@ -285,12 +293,12 @@ export interface components {
       live?: boolean;
     };
     PopularDto: {
-      videos: components["schemas"]["VideoBasicInfoDto"][];
+      videos: (components["schemas"]["VideoBasicInfoDto"])[];
       /** Format: date-time */
       updatedAt: string;
     };
     CommentDto: {
-      authorThumbnails: components["schemas"]["AuthorThumbnailDto"][];
+      authorThumbnails: (components["schemas"]["AuthorThumbnailDto"])[];
       author: string;
       authorId: string;
       publishedText: string;
@@ -302,7 +310,7 @@ export interface components {
       content: string;
     };
     CommentsResponseDto: {
-      comments: components["schemas"]["CommentDto"][];
+      comments: (components["schemas"]["CommentDto"])[];
       continuation: string;
     };
     PlaylistImageDto: {
@@ -321,7 +329,7 @@ export interface components {
         url?: string;
         channelID?: string;
       };
-      thumbnails: components["schemas"]["PlaylistImageDto"][];
+      thumbnails: (components["schemas"]["PlaylistImageDto"])[];
       bestThumbnail: components["schemas"]["PlaylistImageDto"];
       isLive: boolean;
       duration: string | null;
@@ -333,33 +341,33 @@ export interface components {
       title: string;
       estimatedItemCount: number;
       views: number;
-      thumbnails: components["schemas"]["PlaylistImageDto"][];
+      thumbnails: (components["schemas"]["PlaylistImageDto"])[];
       bestThumbnail: components["schemas"]["PlaylistImageDto"];
       lastUpdated: string;
       description: string | null;
-      visibility: { [key: string]: unknown };
+      visibility: Record<string, never>;
       author: {
         name?: string;
         url?: string;
-        avatars?: components["schemas"]["PlaylistImageDto"][];
+        avatars?: (components["schemas"]["PlaylistImageDto"])[];
         bestAvatar?: components["schemas"]["PlaylistImageDto"];
         channelID?: string;
       };
-      items: components["schemas"]["PlaylistItemDto"][];
-      continuation: { [key: string]: unknown } | null;
+      items: (components["schemas"]["PlaylistItemDto"])[];
+      continuation: Record<string, unknown> | null;
     };
     SettingsDto: {
       miniplayer: boolean;
       chapters: boolean;
       theme: string;
       sponsorblockEnabled: boolean;
-      sponsorblockSegmentSponsor: { [key: string]: unknown };
-      sponsorblockSegmentIntro: { [key: string]: unknown };
-      sponsorblockSegmentOutro: { [key: string]: unknown };
-      sponsorblockSegmentInteraction: { [key: string]: unknown };
-      sponsorblockSegmentSelfpromo: { [key: string]: unknown };
-      sponsorblockSegmentMusicOfftopic: { [key: string]: unknown };
-      sponsorblockSegmentPreview: { [key: string]: unknown };
+      sponsorblockSegmentSponsor: Record<string, never>;
+      sponsorblockSegmentIntro: Record<string, never>;
+      sponsorblockSegmentOutro: Record<string, never>;
+      sponsorblockSegmentInteraction: Record<string, never>;
+      sponsorblockSegmentSelfpromo: Record<string, never>;
+      sponsorblockSegmentMusicOfftopic: Record<string, never>;
+      sponsorblockSegmentPreview: Record<string, never>;
       autoplay: boolean;
       saveVideoHistory: boolean;
       showHomeSubscriptions: boolean;
@@ -389,7 +397,7 @@ export interface components {
     UserprofileDetailsDto: {
       username: string;
       profileImage: string;
-      videoHistory: components["schemas"]["VideoVisitDetailsDto"][];
+      videoHistory: (components["schemas"]["VideoVisitDetailsDto"])[];
       /** Format: date-time */
       registeredAt: string;
       totalVideosCount: number;
@@ -422,9 +430,17 @@ export interface components {
       captchaImage: string;
     };
   };
+  responses: never;
+  parameters: never;
+  requestBodies: never;
+  headers: never;
+  pathItems: never;
 }
 
+export type external = Record<string, never>;
+
 export interface operations {
+
   VideosController_getVideos: {
     parameters: {
       path: {
@@ -468,9 +484,8 @@ export interface operations {
     };
   };
   VideoplaybackController_getVideoplayback: {
-    parameters: {};
     responses: {
-      200: unknown;
+      200: never;
     };
   };
   AutocompleteController_getQuery: {
@@ -482,7 +497,7 @@ export interface operations {
     responses: {
       200: {
         content: {
-          "application/json": string[];
+          "application/json": (string)[];
         };
       };
     };
@@ -496,17 +511,16 @@ export interface operations {
     responses: {
       200: {
         content: {
-          "application/json": components["schemas"]["SearchFilterDto"][];
+          "application/json": (components["schemas"]["SearchFilterDto"])[];
         };
       };
     };
   };
   SearchController_searchContinuation: {
-    parameters: {};
     responses: {
       201: {
         content: {
-          "application/json": { [key: string]: unknown };
+          "application/json": Record<string, never>;
         };
       };
     };
@@ -527,7 +541,7 @@ export interface operations {
     responses: {
       200: {
         content: {
-          "application/json": { [key: string]: unknown };
+          "application/json": Record<string, never>;
         };
       };
     };
@@ -539,7 +553,7 @@ export interface operations {
       };
     };
     responses: {
-      200: unknown;
+      200: never;
     };
   };
   ChannelsController_getTinyThumbnailWebp: {
@@ -549,7 +563,7 @@ export interface operations {
       };
     };
     responses: {
-      200: unknown;
+      200: never;
     };
   };
   ChannelsController_getChannel: {
@@ -567,7 +581,6 @@ export interface operations {
     };
   };
   HomepageController_getPopular: {
-    parameters: {};
     responses: {
       200: {
         content: {
@@ -597,7 +610,7 @@ export interface operations {
       };
     };
     responses: {
-      200: unknown;
+      200: never;
     };
   };
   ProxyController_proxyStream: {
@@ -607,16 +620,16 @@ export interface operations {
       };
     };
     responses: {
-      200: unknown;
+      200: never;
     };
   };
   CommentsController_getComments: {
     parameters: {
-      path: {
-        videoId: string;
-      };
       query: {
         continuation: string;
+      };
+      path: {
+        videoId: string;
       };
     };
     responses: {
@@ -629,11 +642,11 @@ export interface operations {
   };
   CommentsController_getCommentReplies: {
     parameters: {
-      path: {
-        videoId: string;
-      };
       query: {
         replyToken: string;
+      };
+      path: {
+        videoId: string;
       };
     };
     responses: {
@@ -646,11 +659,11 @@ export interface operations {
   };
   PlaylistsController_getPlaylist: {
     parameters: {
-      path: {
-        playlistId: string;
-      };
       query: {
         pages: number;
+      };
+      path: {
+        playlistId: string;
       };
     };
     responses: {
@@ -664,19 +677,18 @@ export interface operations {
   PlaylistsController_getPlaylistContinuation: {
     parameters: {
       query: {
-        continuationData: string[];
+        continuationData: (string)[];
       };
     };
     responses: {
       200: {
         content: {
-          "application/json": { [key: string]: unknown };
+          "application/json": Record<string, never>;
         };
       };
     };
   };
   UserController_getProfile: {
-    parameters: {};
     responses: {
       200: {
         content: {
@@ -686,7 +698,6 @@ export interface operations {
     };
   };
   UserController_getProfileDetails: {
-    parameters: {};
     responses: {
       200: {
         content: {
@@ -696,9 +707,8 @@ export interface operations {
     };
   };
   UserController_getExport: {
-    parameters: {};
     responses: {
-      200: unknown;
+      200: never;
     };
   };
   UserController_getProfileImage: {
@@ -708,59 +718,59 @@ export interface operations {
       };
     };
     responses: {
-      200: unknown;
+      200: never;
     };
   };
   UserController_uploadProfileImage: {
-    parameters: {};
     responses: {
-      201: unknown;
+      201: never;
     };
   };
   UserController_deleteProfileImage: {
-    parameters: {};
     responses: {
-      200: unknown;
+      200: never;
     };
   };
   UserController_deleteUser: {
-    parameters: {};
     responses: {
-      200: unknown;
+      200: never;
     };
   };
   UserController_changePassword: {
-    parameters: {};
     responses: {
-      201: unknown;
+      201: never;
     };
   };
   SubscriptionsController_getSubscribedChannels: {
-    parameters: {
-      query: {
+    parameters?: {
+        /** @example linu */
+        /** @example author:1,authorVerified:-1 */
+        /** @example 0 */
+        /** @example 30 */
+      query?: {
         filter?: string;
         sort?: string;
-        start?: unknown;
-        limit?: unknown;
+        start?: Record<string, never>;
+        limit?: Record<string, never>;
       };
     };
     responses: {
       200: {
         content: {
-          "application/json": { [key: string]: unknown };
+          "application/json": Record<string, never>;
         };
       };
     };
   };
   SubscriptionsController_getSubscriptionVideos: {
-    parameters: {
-      query: {
-        start?: unknown;
-        limit?: unknown;
+    parameters?: {
+      query?: {
+        start?: Record<string, never>;
+        limit?: Record<string, never>;
       };
     };
     responses: {
-      200: unknown;
+      200: never;
     };
   };
   SubscriptionsController_getSubscription: {
@@ -806,19 +816,16 @@ export interface operations {
     };
   };
   SubscriptionsController_createMultipleSubscriptions: {
-    parameters: {};
     responses: {
-      201: unknown;
+      201: never;
     };
   };
   NotificationsController_subscribeToNotifications: {
-    parameters: {};
     responses: {
-      201: unknown;
+      201: never;
     };
   };
   SettingsController_getSettings: {
-    parameters: {};
     responses: {
       200: {
         content: {
@@ -828,7 +835,6 @@ export interface operations {
     };
   };
   SettingsController_setSettings: {
-    parameters: {};
     responses: {
       204: never;
     };
@@ -843,13 +849,12 @@ export interface operations {
       };
     };
     responses: {
-      200: unknown;
+      200: never;
     };
   };
   HistoryController_deleteEntireHistory: {
-    parameters: {};
     responses: {
-      200: unknown;
+      200: never;
     };
   };
   HistoryController_getVideoVisit: {
@@ -873,7 +878,7 @@ export interface operations {
       };
     };
     responses: {
-      201: unknown;
+      201: never;
     };
   };
   HistoryController_deleteHistoryEntry: {
@@ -883,7 +888,7 @@ export interface operations {
       };
     };
     responses: {
-      200: unknown;
+      200: never;
     };
   };
   HistoryController_deleteHistoryRange: {
@@ -894,7 +899,7 @@ export interface operations {
       };
     };
     responses: {
-      200: unknown;
+      200: never;
     };
   };
   AuthController_login: {
@@ -903,42 +908,41 @@ export interface operations {
         local: boolean;
       };
     };
-    responses: {
-      201: unknown;
-    };
     requestBody: {
       content: {
         "application/json": components["schemas"]["UserDto"];
       };
     };
+    responses: {
+      201: never;
+    };
   };
   AuthController_logout: {
-    parameters: {};
     responses: {
-      201: unknown;
+      201: never;
     };
   };
-  /**
-   * Request a captcha through the /auth/captcha endpoint,
-   *     and pass its token and solution alongside the new user's credentials.
-   */
   RegisterController_registerUser: {
-    parameters: {};
-    responses: {
-      201: {
-        content: {
-          "application/json": { [key: string]: unknown };
-        };
-      };
-    };
+    /**
+     * Register a new user 
+     * @description Request a captcha through the /auth/captcha endpoint,
+     *     and pass its token and solution alongside the new user's credentials.
+     */
     requestBody: {
       content: {
         "application/json": components["schemas"]["RegistrationDto"];
       };
     };
+    responses: {
+      201: {
+        content: {
+          "application/json": Record<string, never>;
+        };
+      };
+    };
   };
   CaptchaController_getCaptcha: {
-    parameters: {};
+    /** Get a captcha */
     responses: {
       200: {
         content: {
@@ -948,5 +952,3 @@ export interface operations {
     };
   };
 }
-
-export interface external {}
