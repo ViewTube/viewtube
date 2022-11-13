@@ -498,6 +498,7 @@ export default defineComponent({
   }
 
   .nav-btn.main {
+    position: relative;
     border: solid 2px var(--theme-color-translucent);
     border-radius: 3px;
 

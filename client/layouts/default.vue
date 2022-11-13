@@ -26,7 +26,10 @@ export default defineComponent({
 
     useHead({
       titleTemplate: titleChunk => {
-        if (titleChunk.includes('ViewTube ::')) {
+        if (!titleChunk) {
+          return 'ViewTube';
+        }
+        if (titleChunk?.includes('ViewTube ::')) {
           return titleChunk;
         }
         return `${titleChunk} :: ViewTube`;

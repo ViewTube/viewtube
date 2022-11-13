@@ -200,7 +200,7 @@ watch(
           <BadgeButton
             class="manage-subscriptions-btn"
             :disabled="hasNoSubscriptions"
-            :href="'subscriptions/manage'"
+            :href="'/subscriptions/manage'"
             :internal-link="true"
           >
             <EditIcon />

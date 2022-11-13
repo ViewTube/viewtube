@@ -1,55 +1,156 @@
+<script setup lang="ts">
+import SectionTitle from '@/components/SectionTitle.vue';
+import Pagination from '@/components/pagination/Pagination.vue';
+import SmallSearchBox from '@/components/SmallSearchBox.vue';
+import { useMessagesStore } from '@/store/messages';
+
+const messagesStore = useMessagesStore();
+const config = useRuntimeConfig();
+const route = useRoute();
+const router = useRouter();
+const imgProxy = useImgProxy();
+
+const apiUrl = config.public.apiUrl;
+
+const currentPage = ref(1);
+const searchTerm = ref('');
+const searchTimeout = ref(null);
+
+const {
+  data: subscriptionChannels,
+  error,
+  refresh
+} = useGetUserSubscriptionChannels({
+  limit: 30,
+  start: (parseInt((route.query.page ?? 1).toString()) - 1) * 30,
+  searchTerm: searchTerm.value
+});
+
+watch(error, err => {
+  messagesStore.createMessage({
+    type: 'error',
+    title: 'Error loading subscriptions',
+    message: err?.message ?? 'Error loading subscriptions'
+  });
+});
+
+const pageCount = computed(() => {
+  if (subscriptionChannels.value?.channelCount) {
+    return Math.ceil(subscriptionChannels.value?.channelCount / 30);
+  }
+  return 1;
+});
+
+const changePage = (page: any): void => {
+  router.push(`/subscriptions/manage?page=${page}`);
+  currentPage.value = page;
+};
+const channelNameToImgString = (name: string): string => {
+  let initials = '';
+  name.split(' ').forEach(e => {
+    initials += e.charAt(0);
+  });
+  return initials;
+};
+const unsubscribe = (channel: { authorId: any; author: any }): void => {
+  $fetch<any>(`${config.public.apiUrl}user/subscriptions/${channel.authorId}`, {
+    method: 'DELETE',
+    credentials: 'include'
+  }).then(response => {
+    if (!response.isSubscribed) {
+      refresh();
+      messagesStore.createMessage({
+        type: 'error',
+        title: `Unsubscribed from ${channel.author}`,
+        message: 'Click to undo',
+        clickAction: async () => {
+          await $fetch(`${config.public.apiUrl}user/subscriptions/${channel.authorId}`, {
+            method: 'PUT',
+            credentials: 'include'
+          }).then(() => {
+            refresh();
+          });
+        }
+      });
+    }
+  });
+};
+
+onMounted(() => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+watch(
+  () => route.query,
+  () => {
+    refresh();
+  }
+);
+
+watch(searchTerm, (newVal, oldVal): void => {
+  if (searchTimeout.value) clearTimeout(searchTimeout.value);
+  searchTimeout.value = setTimeout(() => {
+    if (newVal !== null && newVal !== oldVal) {
+      refresh();
+    }
+  }, 400);
+});
+</script>
+
 <template>
   <div class="manage-subscriptions">
+    <MetaPageHead title="Manage subscriptions" description="Manage your subscriptions" />
     <SectionTitle class="page-title" :title="'Manage subscriptions'" :line="false" />
     <SmallSearchBox v-model="searchTerm" :label="'Filter'" />
-    <div class="channels-container">
-      <div v-for="(channelGroup, i) in orderedChannels" :key="i" class="channel-group">
-        <SectionTitle :title="channelGroup.letter" />
-        <div v-for="channel in channelGroup.channels" :key="channel.authorId" class="channel-entry">
-          <nuxt-link
-            v-if="
-              (!channel.authorThumbnails || channel.authorThumbnails.length == 0) &&
-              !channel.authorThumbnailUrl
+    <div v-if="subscriptionChannels" class="channels-container">
+      <div
+        v-for="channel in subscriptionChannels.channels"
+        :key="channel.authorId"
+        class="channel-entry"
+      >
+        <nuxt-link
+          v-if="
+            (!channel.authorThumbnails || channel.authorThumbnails.length == 0) &&
+            !channel.authorThumbnailUrl
+          "
+          :to="`/channel/${channel.authorId}`"
+          class="fake-thmb"
+        >
+          <h3>
+            {{ channelNameToImgString(channel.author) }}
+          </h3>
+        </nuxt-link>
+        <nuxt-link
+          v-if="
+            channel.authorThumbnailUrl ||
+            (channel.authorThumbnails && channel.authorThumbnails.length > 0)
+          "
+          :to="`/channel/${channel.authorId}`"
+          class="channel-image-container"
+        >
+          <img
+            :src="
+              imgProxy.url +
+              (channel.authorThumbnailUrl
+                ? `${apiUrl}${channel.authorThumbnailUrl}`
+                : channel.authorThumbnails[2].url)
             "
-            :to="`/channel/${channel.authorId}`"
-            class="fake-thmb"
-          >
-            <h3>
-              {{ channelNameToImgString(channel.author) }}
-            </h3>
-          </nuxt-link>
-          <nuxt-link
-            v-if="
-              channel.authorThumbnailUrl ||
-              (channel.authorThumbnails && channel.authorThumbnails.length > 0)
-            "
-            :to="`/channel/${channel.authorId}`"
-            class="channel-image-container"
-          >
-            <img
-              :src="
-                imgProxyUrl +
-                (channel.authorThumbnailUrl
-                  ? `${apiUrl}${channel.authorThumbnailUrl}`
-                  : channel.authorThumbnails[2].url)
-              "
-              class="channel-image"
-              alt="Channel profile image"
-            />
-          </nuxt-link>
-          <div v-tippy="channel.author" class="channel-title">
-            <nuxt-link :to="`/channel/${channel.authorId}`">{{ channel.author }}</nuxt-link>
-          </div>
-          <a
-            v-tippy="`Unsubscribe from ${channel.author}`"
-            v-ripple
-            href="#"
-            class="channel-unsubscribe-btn"
-            @click.prevent="() => unsubscribe(channel)"
-          >
-            ✕
-          </a>
+            class="channel-image"
+            alt="Channel profile image"
+          />
+        </nuxt-link>
+        <div v-tippy="channel.author" class="channel-title">
+          <nuxt-link :to="`/channel/${channel.authorId}`">{{ channel.author }}</nuxt-link>
         </div>
+        <a
+          v-tippy="`Unsubscribe from ${channel.author}`"
+          v-ripple
+          href="#"
+          class="channel-unsubscribe-btn"
+          @click.prevent="() => unsubscribe(channel)"
+        >
+          ✕
+        </a>
       </div>
     </div>
     <div class="manage-pagination">
@@ -58,169 +159,9 @@
   </div>
 </template>
 
-<script lang="ts">
-import { useNuxtApp } from '#app';
-import SectionTitle from '@/components/SectionTitle.vue';
-import Pagination from '@/components/pagination/Pagination.vue';
-import SmallSearchBox from '@/components/SmallSearchBox.vue';
-
-import { useMessagesStore } from '~/store/messages';
-
-export default defineComponent({
-  name: 'ManageSubscriptions',
-  components: {
-    SectionTitle,
-    Pagination,
-    SmallSearchBox
-  },
-  setup() {
-    const messagesStore = useMessagesStore();
-    const config = useRuntimeConfig();
-    const route = useRoute();
-    const router = useRouter();
-    const imgProxy = useImgProxy();
-
-    const apiUrl = config.public.apiUrl;
-
-    const currentPage = ref(1);
-    const searchTerm = ref('');
-    const searchTimeout = ref(null);
-
-    const {
-      data: subscriptionChannels,
-      error,
-      refresh
-    } = useGetUserSubscriptionChannels({
-      limit: 30,
-      start: parseInt(route.query.page.toString()),
-      searchTerm: searchTerm.value
-    });
-
-    watch(error, err => {
-      messagesStore.createMessage({
-        type: 'error',
-        title: 'Error loading subscriptions',
-        message: err?.message ?? 'Error loading subscriptions'
-      });
-    });
-
-    const pageCount = computed(() =>
-      Math.ceil(subscriptionChannels.value?.channelCount ?? 30 / 30)
-    );
-
-    const orderedChannels = computed((): Array<string> => {
-      const lettersArray = [];
-      let i = 0;
-      subscriptionChannels.value.forEach(channel => {
-        const channelLetter = channel.author.charAt(0);
-        const possibleIndex = lettersArray.findIndex(el => el.letter === channelLetter);
-        if (possibleIndex !== -1) {
-          lettersArray[possibleIndex].channels.push(channel);
-        } else {
-          lettersArray.push({ letter: channelLetter, channels: [channel], id: i++ });
-        }
-      });
-      return lettersArray;
-    });
-
-    const changePage = (page: any): void => {
-      router.push(`/subscriptions/manage?page=${page}`);
-      currentPage.value = page;
-    };
-    const channelNameToImgString = (name: string): string => {
-      let initials = '';
-      name.split(' ').forEach(e => {
-        initials += e.charAt(0);
-      });
-      return initials;
-    };
-    const unsubscribe = (channel: { authorId: any; author: any }): void => {
-      $fetch<any>(`${config.public.apiUrl}user/subscriptions/${channel.authorId}`, {
-        method: 'DELETE',
-        credentials: 'include'
-      }).then(response => {
-        if (!response.isSubscribed) {
-          refresh();
-          messagesStore.createMessage({
-            type: 'error',
-            title: `Unsubscribed from ${channel.author}`,
-            message: 'Click to undo',
-            clickAction: async () => {
-              await $fetch(`${config.public.apiUrl}user/subscriptions/${channel.authorId}`, {
-                method: 'PUT',
-                credentials: 'include'
-              }).then(() => {
-                refresh();
-              });
-            }
-          });
-        }
-      });
-    };
-
-    onMounted(() => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-
-    watch(
-      () => route.query,
-      () => {
-        refresh();
-      }
-    );
-
-    watch(searchTerm, (newVal, oldVal): void => {
-      if (searchTimeout.value) clearTimeout(searchTimeout.value);
-      searchTimeout.value = setTimeout(() => {
-        if (newVal !== null && newVal !== oldVal) {
-          refresh();
-        }
-      }, 400);
-    });
-
-    useMeta(() => ({
-      title: `Manage subscriptions :: ViewTube`,
-      meta: [
-        {
-          hid: 'description',
-          vmid: 'descriptionMeta',
-          name: 'description',
-          content: 'Manage your subscriptions'
-        },
-        {
-          hid: 'ogTitle',
-          property: 'og:title',
-          content: 'Manage subscriptions - ViewTube'
-        },
-        {
-          hid: 'ogDescription',
-          property: 'og:description',
-          content: 'Manage your subscriptions'
-        }
-      ]
-    }));
-
-    return {
-      subscriptionChannels,
-      currentPage,
-      pageCount,
-      searchTerm,
-      searchTimeout,
-      orderedChannels,
-      changePage,
-      channelNameToImgString,
-      unsubscribe,
-      imgProxyUrl: imgProxy.url,
-      apiUrl
-    };
-  },
-  head: {}
-});
-</script>
-
 <style lang="scss">
 .manage-subscriptions {
-  // overflow-y: scroll;
+  margin-top: $header-height;
   overflow: hidden;
   width: 100%;
 

@@ -65,6 +65,7 @@ export const useGetUserSubscriptionChannels = (
   { limit = 30, start = 0, searchTerm = undefined } = { limit: 30, start: 0, searchTerm: undefined }
 ) => {
   const config = useRuntimeConfig();
+  const authorizationHeader = useAuthorizationHeader();
 
   let filterString = '';
   if (searchTerm) {
@@ -73,5 +74,10 @@ export const useGetUserSubscriptionChannels = (
 
   const url = `${config.public.apiUrl}user/subscriptions/channels?limit=${limit}&start=${start}&sort=author:1${filterString}`;
 
-  return useLazyFetch<ApiDto<'SubscribedChannelsResponseDto'>>(url, { credentials: 'include' });
+  return useLazyFetch<ApiDto<'SubscribedChannelsResponseDto'>>(url, {
+    headers: {
+      Authorization: authorizationHeader
+    },
+    credentials: 'include'
+  });
 };
