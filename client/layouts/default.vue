@@ -11,7 +11,7 @@
 import MainHeader from '@/components/header/MainHeader.vue';
 import MessageBoxContainer from '@/components/message/MessageBoxContainer.vue';
 import ThemeStyling from '@/components/themes/ThemeStyling.vue';
-import { useSettingsStore } from '~~/store/settings';
+import { useSettingsStore } from '@/store/settings';
 
 export default defineComponent({
   name: 'Default',

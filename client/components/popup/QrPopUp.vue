@@ -14,7 +14,7 @@ import * as QRCode from 'qrcode';
 import CloseIcon from 'vue-material-design-icons/Close.vue';
 import '@/assets/styles/popup.scss';
 
-import { useCurrentTheme } from '~~/utilities/themes';
+import { useCurrentTheme } from '@/utilities/themes';
 
 export default defineComponent({
   name: 'QrPopUp',

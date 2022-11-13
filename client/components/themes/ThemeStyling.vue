@@ -24,8 +24,8 @@
 
 <script lang="ts">
 
-import { usePopupStore } from '~~/store/popup';
-import { useCurrentTheme } from '~~/utilities/themes';
+import { usePopupStore } from '@/store/popup';
+import { useCurrentTheme } from '@/utilities/themes';
 
 export default defineComponent({
   name: 'ThemeStyling',

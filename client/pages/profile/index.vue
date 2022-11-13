@@ -18,8 +18,8 @@ import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import HistoryList from '@/components/history/HistoryList.vue';
 import { useMessagesStore } from '~/store/messages';
 import { createComputed } from '@/utilities/computed';
-import { useSettingsStore } from '~~/store/settings';
-import { useUserStore } from '~~/store/user';
+import { useSettingsStore } from '@/store/settings';
+import { useUserStore } from '@/store/user';
 import PasswordChangeForm from '@/components/form/PasswordChangeForm.vue';
 
 const messagesStore = useMessagesStore();

@@ -54,8 +54,8 @@
 </template>
 
 <script lang="ts">
-import { useSettingsStore } from '~~/store/settings';
-import { defaultThemes } from '~~/utilities/themes';
+import { useSettingsStore } from '@/store/settings';
+import { defaultThemes } from '@/utilities/themes';
 
 export default defineComponent({
   name: 'ThemeSelector',

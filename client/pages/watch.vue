@@ -201,7 +201,7 @@ import { getComments, getCommentsContinuation } from '@/utilities/api/comments';
 import { getPlaylists } from '@/utilities/api/playlists';
 import { useLoadingVideoInfoStore } from '@/store/loadingVideoInfo';
 import { ApiDto, ApiErrorDto } from 'viewtube/shared';
-import { useUserStore } from '~~/store/user';
+import { useUserStore } from '@/store/user';
 
 type VideoType = ApiDto<'VideoDto'> & { initialVideoTime: number };
 

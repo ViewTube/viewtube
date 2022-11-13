@@ -23,10 +23,9 @@
 </template>
 
 <script lang="ts">
-import { useNuxtApp } from '#app';
 import { useMessagesStore } from '@/store/messages';
 import { useUserStore } from '@/store/user';
-import { ApiDto } from '~~/../shared';
+import { ApiDto } from 'viewtube/shared';
 
 export default defineComponent({
   name: 'SubscribeButton',

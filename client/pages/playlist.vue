@@ -10,7 +10,7 @@ import VideoEntry from '@/components/list/VideoEntry.vue';
 import Spinner from '@/components/Spinner.vue';
 
 import { useMessagesStore } from '~/store/messages';
-import { ApiDto } from '~~/../shared';
+import { ApiDto } from 'viewtube/shared';
 
 const messagesStore = useMessagesStore();
 const config = useRuntimeConfig();

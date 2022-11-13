@@ -160,8 +160,8 @@ import LoginForm from '../form/LoginForm.vue';
 import RegisterForm from '../form/RegisterForm.vue';
 import Settings from '@/components/Settings.vue';
 import About from '@/components/About.vue';
-import { useUserStore } from '~~/store/user';
-import { usePopupStore } from '~~/store/popup';
+import { useUserStore } from '@/store/user';
+import { usePopupStore } from '@/store/popup';
 
 export default defineComponent({
   name: 'UserMenu',

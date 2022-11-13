@@ -31,7 +31,7 @@
 
 
 import { createComputed } from '@/utilities/computed';
-import { useVideoPlayerStore } from '~~/store/videoPlayer';
+import { useVideoPlayerStore } from '@/store/videoPlayer';
 
 export default defineComponent({
   props: {

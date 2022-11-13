@@ -9,8 +9,8 @@ import SectionTitle from '@/components/SectionTitle.vue';
 import SwitchButton from '@/components/buttons/SwitchButton.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import Pagination from '@/components/pagination/Pagination.vue';
-import { useMessagesStore } from '~/store/messages';
-import { useUserStore } from '~~/store/user';
+import { useMessagesStore } from '@/store/messages';
+import { useUserStore } from '@/store/user';
 
 const messagesStore = useMessagesStore();
 const userStore = useUserStore();

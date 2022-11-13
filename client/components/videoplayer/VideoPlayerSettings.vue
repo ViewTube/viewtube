@@ -110,12 +110,10 @@ import SettingsIcon from 'vue-material-design-icons/Cog.vue';
 import HighDefinitionIcon from 'vue-material-design-icons/HighDefinition.vue';
 import AudioDefinitionIcon from 'vue-material-design-icons/QualityHigh.vue';
 import CheckIcon from 'vue-material-design-icons/Check.vue';
-// import MagicIcon from 'vue-material-design-icons/AutoFix.vue';
-
 import SwitchButton from '@/components/buttons/SwitchButton.vue';
 import { createComputed } from '@/utilities/computed';
-import { useSettingsStore } from '~~/store/settings';
-import { useVideoPlayerStore } from '~~/store/videoPlayer';
+import { useSettingsStore } from '@/store/settings';
+import { useVideoPlayerStore } from '@/store/videoPlayer';
 
 export default defineComponent({
   name: 'QualitySelection',

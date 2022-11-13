@@ -35,7 +35,7 @@
 
 import VideoPlayer from '@/components/videoplayer/VideoPlayer.vue';
 import { commons } from '@/utilities/commons';
-import { useMiniplayerStore } from '~~/store/miniplayer';
+import { useMiniplayerStore } from '@/store/miniplayer';
 
 export default defineComponent({
   name: 'Miniplayer',
