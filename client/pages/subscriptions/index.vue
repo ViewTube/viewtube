@@ -90,7 +90,7 @@ const subscribeToNotifications = (val: any) => {
         worker.pushManager
           .subscribe({
             userVisibleOnly: true,
-            applicationServerKey: vapidKey.value
+            applicationServerKey: vapidKey
           })
           .then(subscription => {
             $fetch(`${config.public.apiUrl}user/notifications/subscribe`, {
@@ -132,7 +132,7 @@ const getNotificationStatus = () => {
 };
 
 onMounted(() => {
-  if (vapidKey.value && 'serviceWorker' in navigator) {
+  if (vapidKey && 'serviceWorker' in navigator) {
     navigator.serviceWorker
       .getRegistrations()
       .then(registrations => {
@@ -141,7 +141,7 @@ onMounted(() => {
           worker.pushManager
             .permissionState({
               userVisibleOnly: true,
-              applicationServerKey: vapidKey.value
+              applicationServerKey: vapidKey
             })
             .then(permissionState => {
               if (permissionState === 'granted') {
@@ -259,13 +259,15 @@ watch(
 
 <style lang="scss">
 .subscriptions {
+  margin-top: $header-height;
+
   .spinner {
     z-index: 11;
   }
 
   &.empty,
   &.loading {
-    height: 100vh;
+    height: calc(100vh - $header-height);
   }
   .section-title {
     width: 100%;

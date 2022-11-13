@@ -1,8 +1,11 @@
 <template>
   <div class="section-title">
-    <h2 :is="link ? 'nuxt-link' : 'h2'" class="title" :to="link">
+    <nuxt-link v-if="link" class="title" :to="link">
       {{ title }}
-      <ChevronRightIcon v-if="link !== undefined" />
+      <ChevronRightIcon />
+    </nuxt-link>
+    <h2 v-else class="title">
+      {{ title }}
     </h2>
     <span v-if="line" class="line" />
     <slot />
