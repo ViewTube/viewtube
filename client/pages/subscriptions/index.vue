@@ -176,9 +176,10 @@ watch(
   }
 );
 </script>
+
 <template>
-  <div class="subscriptions" :class="{ empty: hasNoSubscriptions, loading: $fetchState.pending }">
-    <MetaPageHead title="Subscriptions :: ViewTube" description="See your subscription feed" />
+  <div class="subscriptions" :class="{ empty: hasNoSubscriptions, loading: pending }">
+    <MetaPageHead title="Subscriptions" description="See your subscription feed" />
     <Spinner v-if="pending" class="centered" />
     <div class="subscribe-info-container">
       <div class="subscribe-info">
@@ -216,7 +217,7 @@ watch(
         </div>
       </div>
     </div>
-    <div v-if="hasNoSubscriptions && !$fetchState.pending" class="no-subscriptions">
+    <div v-if="hasNoSubscriptions && !pending" class="no-subscriptions">
       <SubscriptionIcon />
       <p>No subscriptions yet. Subscribe to a channel to see their latest uploads.</p>
     </div>

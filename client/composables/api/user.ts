@@ -17,7 +17,7 @@ export const useGetUserHistory = ({ searchTerm, limit, start }: UserHistoryParam
 
   const url = `${config.public.apiUrl}user/history?limit=${limit}&start=${start}${filterString}&sort=DESC`;
 
-  return useLazyFetch(url, { credentials: 'include' });
+  return useLazyFetch<ApiDto<'HistoryResponseDto'>>(url, { credentials: 'include' });
 };
 
 export const useGetUserHistoryItem = (videoId: string) => {
@@ -53,7 +53,7 @@ export const useGetUserSubscriptions = ({ limit = 20, start = 0 } = { limit: 20,
 
   const url = `${config.public.apiUrl}user/subscriptions/videos?limit=${limit}&start=${start}`;
 
-  return useLazyFetch<any>(url, {
+  return useLazyFetch<ApiDto<'SubscriptionFeedResponseDto'>>(url, {
     headers: {
       Authorization: authorizationHeader
     },
@@ -73,5 +73,5 @@ export const useGetUserSubscriptionChannels = (
 
   const url = `${config.public.apiUrl}user/subscriptions/channels?limit=${limit}&start=${start}&sort=author:1${filterString}`;
 
-  return useLazyFetch<any>(url, { credentials: 'include' });
+  return useLazyFetch<ApiDto<'SubscribedChannelsResponseDto'>>(url, { credentials: 'include' });
 };

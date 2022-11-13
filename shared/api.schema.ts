@@ -404,9 +404,23 @@ export interface components {
       totalTimeString: string;
       subscribedChannelsCount: number;
     };
+    SubscribedChannelsResponseDto: {
+      channels: (components["schemas"]["ChannelBasicInfoDto"])[];
+      channelCount: number;
+    };
+    SubscriptionFeedResponseDto: {
+      videoCount: number;
+      videos: (components["schemas"]["VideoBasicInfoDto"])[];
+      /** Format: date-time */
+      lastRefresh: string;
+    };
     SubscriptionStatusDto: {
       channelId: string;
       isSubscribed: boolean;
+    };
+    HistoryResponseDto: {
+      videos: (components["schemas"]["VideoVisitDetailsDto"])[];
+      videoCount: number;
     };
     VideoVisitDto: {
       videoId: string;
@@ -757,7 +771,7 @@ export interface operations {
     responses: {
       200: {
         content: {
-          "application/json": Record<string, never>;
+          "application/json": components["schemas"]["SubscribedChannelsResponseDto"];
         };
       };
     };
@@ -770,7 +784,11 @@ export interface operations {
       };
     };
     responses: {
-      200: never;
+      200: {
+        content: {
+          "application/json": components["schemas"]["SubscriptionFeedResponseDto"];
+        };
+      };
     };
   };
   SubscriptionsController_getSubscription: {
@@ -842,14 +860,15 @@ export interface operations {
   HistoryController_getHistory: {
     parameters: {
       query: {
-        limit: number;
-        start: number;
         sort: string;
-        filter: string;
       };
     };
     responses: {
-      200: never;
+      200: {
+        content: {
+          "application/json": components["schemas"]["HistoryResponseDto"];
+        };
+      };
     };
   };
   HistoryController_deleteEntireHistory: {

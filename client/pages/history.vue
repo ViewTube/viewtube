@@ -1,5 +1,132 @@
+<script setup lang="ts">
+import RestartOffIcon from 'vue-material-design-icons/RestartOff.vue';
+import SectionTitle from '@/components/SectionTitle.vue';
+import Pagination from '@/components/pagination/Pagination.vue';
+import HistoryList from '@/components/history/HistoryList.vue';
+import BadgeButton from '@/components/buttons/BadgeButton.vue';
+import SmallSearchBox from '@/components/SmallSearchBox.vue';
+import Confirmation from '@/components/popup/Confirmation.vue';
+import { useMessagesStore } from '@/store/messages';
+import { useSettingsStore } from '@/store/settings';
+import { useUserStore } from '@/store/user';
+
+const router = useRouter();
+const messagesStore = useMessagesStore();
+const settingsStore = useSettingsStore();
+const userStore = useUserStore();
+const config = useRuntimeConfig();
+const route = useRoute();
+
+const searchTerm = ref<string>(null);
+const searchTimeout = ref(null);
+
+const deletePopup = ref(false);
+
+const dateToDelete = ref([]);
+
+const pageCount = computed(() => {
+  if (history.value) {
+    return Math.ceil(history.value.videoCount / 30);
+  }
+  return 0;
+});
+
+const currentPage = computed(() => {
+  if (!isNaN(parseInt(route.query.page as string))) {
+    return parseInt(route.query.page as string);
+  }
+  return 1;
+});
+
+const deleteRange = async () => {
+  if (rangeSelected.value) {
+    const firstDate = new Date(dateToDelete.value[0]).valueOf();
+    const secondDate = new Date(dateToDelete.value[1]).valueOf();
+    await $fetch(`${config.public.apiUrl}user/history/from/${firstDate}/to/${secondDate}`, {
+      method: 'DELETE',
+      credentials: 'include'
+    })
+      .then(() => {
+        refresh();
+      })
+      .catch(() => {
+        messagesStore.createMessage({
+          type: 'error',
+          title: 'Error deleting history range',
+          message: 'Try specifying the range again'
+        });
+      });
+  }
+};
+
+const deleteEntireHistory = async () => {
+  deletePopup.value = false;
+  await $fetch(`${config.public.apiUrl}user/history/`, {
+    method: 'DELETE',
+    credentials: 'include'
+  })
+    .then(() => {
+      refresh();
+    })
+    .catch(() => {
+      messagesStore.createMessage({
+        type: 'error',
+        title: 'Error deleting history',
+        message: 'Try logging out and in again'
+      });
+    });
+};
+
+const rangeSelected = computed(() => {
+  return (
+    dateToDelete.value.length === 2 && dateToDelete.value[0] !== null && dateToDelete[1] !== null
+  );
+});
+
+if (userStore.isLoggedIn) {
+  router.push('/login');
+}
+
+const {
+  data: history,
+  refresh,
+  error
+} = useGetUserHistory({
+  limit: 30,
+  searchTerm: searchTerm.value,
+  start: (currentPage.value - 1) * 30
+});
+
+watch(error, newValue => {
+  if (newValue) {
+    messagesStore.createMessage({
+      type: 'error',
+      title: 'Error loading history',
+      message: 'Try logging out and in again'
+    });
+  }
+});
+
+watch(searchTerm, (newVal, oldVal): void => {
+  if (searchTimeout.value) clearTimeout(searchTimeout.value);
+  searchTimeout.value = setTimeout(() => {
+    if (newVal !== null && newVal !== oldVal) {
+      refresh();
+    }
+  }, 400);
+});
+
+watch(
+  () => route.query,
+  () => {
+    refresh();
+  }
+);
+</script>
+
 <template>
   <div class="history">
+    <MetaPageHead title="History" description="See your watch history" />
     <SectionTitle class="history-title" :title="'History'" />
     <SmallSearchBox v-model="searchTerm" :label="'Filter'" />
     <details class="delete-history">
@@ -16,8 +143,8 @@
     </div>
     <HistoryList
       class="history-main-list"
-      :history="history"
-      :deleteOption="true"
+      :history-videos="history.videos"
+      :delete-option="true"
       @refresh="refresh"
     />
     <div class="history-pagination">
@@ -38,186 +165,6 @@
     </Teleport>
   </div>
 </template>
-
-<script lang="ts">
-import { useNuxtApp } from '#app';
-import RestartOffIcon from 'vue-material-design-icons/RestartOff.vue';
-import SectionTitle from '@/components/SectionTitle.vue';
-import Pagination from '@/components/pagination/Pagination.vue';
-import HistoryList from '@/components/history/HistoryList.vue';
-import BadgeButton from '@/components/buttons/BadgeButton.vue';
-import SmallSearchBox from '@/components/SmallSearchBox.vue';
-import Confirmation from '@/components/popup/Confirmation.vue';
-import { useMessagesStore } from '~/store/messages';
-import { useSettingsStore } from '~~/store/settings';
-import { useUserStore } from '~~/store/user';
-
-export default defineComponent({
-  name: 'History',
-  components: {
-    SectionTitle,
-    HistoryList,
-    Pagination,
-    BadgeButton,
-    SmallSearchBox,
-    Confirmation,
-    RestartOffIcon
-  },
-  setup() {
-    const router = useRouter();
-    const messagesStore = useMessagesStore();
-    const settingsStore = useSettingsStore();
-    const userStore = useUserStore();
-    const config = useRuntimeConfig();
-    const route = useRoute();
-
-    const searchTerm = ref<string>(null);
-    const searchTimeout = ref(null);
-
-    const deletePopup = ref(false);
-
-    const dateToDelete = ref([]);
-
-    const pageCount = computed(() => {
-      if (history) {
-        return Math.ceil(history.videoCount / 30);
-      }
-      return 0;
-    });
-
-    const currentPage = computed(() => {
-      if (!isNaN(parseInt(route.query.page as string))) {
-        return parseInt(route.query.page as string);
-      }
-      return 1;
-    });
-
-    const deleteRange = async () => {
-      if (rangeSelected.value) {
-        const firstDate = new Date(dateToDelete.value[0]).valueOf();
-        const secondDate = new Date(dateToDelete.value[1]).valueOf();
-        await $fetch(`${config.public.apiUrl}user/history/from/${firstDate}/to/${secondDate}`, {
-          method: 'DELETE',
-          credentials: 'include'
-        })
-          .then(() => {
-            refresh();
-          })
-          .catch(() => {
-            messagesStore.createMessage({
-              type: 'error',
-              title: 'Error deleting history range',
-              message: 'Try specifying the range again'
-            });
-          });
-      }
-    };
-
-    const deleteEntireHistory = async () => {
-      deletePopup.value = false;
-      await $fetch(`${config.public.apiUrl}user/history/`, {
-        method: 'DELETE',
-        credentials: 'include'
-      })
-        .then(() => {
-          refresh();
-        })
-        .catch(() => {
-          messagesStore.createMessage({
-            type: 'error',
-            title: 'Error deleting history',
-            message: 'Try logging out and in again'
-          });
-        });
-    };
-
-    const rangeSelected = computed(() => {
-      return (
-        dateToDelete.value.length === 2 &&
-        dateToDelete.value[0] !== null &&
-        dateToDelete[1] !== null
-      );
-    });
-
-    if (userStore.isLoggedIn) {
-      router.push('/login');
-    }
-
-    const {
-      data: history,
-      refresh,
-      error
-    } = useGetUserHistory({
-      limit: 30,
-      searchTerm: searchTerm.value,
-      start: (currentPage.value - 1) * 30
-    });
-
-    watch(error, newValue => {
-      if (newValue) {
-        messagesStore.createMessage({
-          type: 'error',
-          title: 'Error loading history',
-          message: 'Try logging out and in again'
-        });
-      }
-    });
-
-    watch(searchTerm, (newVal, oldVal): void => {
-      if (searchTimeout.value) clearTimeout(searchTimeout.value);
-      searchTimeout.value = setTimeout(() => {
-        if (newVal !== null && newVal !== oldVal) {
-          refresh();
-        }
-      }, 400);
-    });
-
-    watch(
-      () => route.query,
-      () => {
-        refresh();
-      }
-    );
-
-    useMeta(() => ({
-      title: 'History :: ViewTube',
-      meta: [
-        {
-          hid: 'description',
-          vmid: 'descriptionMeta',
-          name: 'description',
-          content: 'See your watch history'
-        },
-        {
-          hid: 'ogTitle',
-          property: 'og:title',
-          content: 'Your history'
-        },
-        {
-          hid: 'ogDescription',
-          property: 'og:description',
-          content: 'See your watch history'
-        }
-      ]
-    }));
-
-    return {
-      history,
-      currentPage,
-      pageCount,
-      searchTerm,
-      dateToDelete,
-      deletePopup,
-      deleteRange,
-      deleteEntireHistory,
-      rangeSelected,
-      settingsStore,
-      refresh
-    };
-  },
-  head: {}
-});
-</script>
 
 <style lang="scss">
 .popup-enter-active,
