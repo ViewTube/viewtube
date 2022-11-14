@@ -7,7 +7,6 @@ import { useMessagesStore } from '@/store/messages';
 const messagesStore = useMessagesStore();
 const config = useRuntimeConfig();
 const route = useRoute();
-const router = useRouter();
 const imgProxy = useImgProxy();
 
 const apiUrl = config.public.apiUrl;
@@ -41,10 +40,6 @@ const pageCount = computed(() => {
   return 1;
 });
 
-const changePage = (page: any): void => {
-  router.push(`/subscriptions/manage?page=${page}`);
-  currentPage.value = page;
-};
 const channelNameToImgString = (name: string): string => {
   let initials = '';
   name.split(' ').forEach(e => {
@@ -52,6 +47,7 @@ const channelNameToImgString = (name: string): string => {
   });
   return initials;
 };
+
 const unsubscribe = (channel: { authorId: any; author: any }): void => {
   $fetch<any>(`${config.public.apiUrl}user/subscriptions/${channel.authorId}`, {
     method: 'DELETE',

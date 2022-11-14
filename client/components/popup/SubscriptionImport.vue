@@ -132,7 +132,6 @@ import ExternalIcon from 'vue-material-design-icons/OpenInNew.vue';
 import UnselectAllIcon from 'vue-material-design-icons/Select.vue';
 import XmlIcon from 'vue-material-design-icons/Xml.vue';
 
-import { useNuxtApp } from '#app';
 import CheckBox from '@/components/form/CheckBox.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import FileButton from '@/components/form/FileButton.vue';

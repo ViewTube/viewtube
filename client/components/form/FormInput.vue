@@ -37,7 +37,7 @@ const autocompleteTag = computed((): string => autocompleteTags[props.type] ?? '
       :name="autocompleteTag"
       required
       :value="modelValue"
-      @input="$emit('update:modelValue', ($event.target as any).value)"
+      @input="(e: any) => $emit('update:modelValue', e.target.value)"
     />
     <AccountIcon v-if="type == 'username'" />
     <KeyIcon v-if="type == 'password'" />

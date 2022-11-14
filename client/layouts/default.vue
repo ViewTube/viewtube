@@ -29,7 +29,7 @@ export default defineComponent({
         if (!titleChunk) {
           return 'ViewTube';
         }
-        if (titleChunk?.includes('ViewTube ::')) {
+        if (titleChunk.includes('ViewTube ::')) {
           return titleChunk;
         }
         return `${titleChunk} :: ViewTube`;

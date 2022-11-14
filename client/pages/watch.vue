@@ -282,7 +282,7 @@ export default defineComponent({
             $fetch(`${config.public.apiUrl}user/history/${route.query.v}`, {
               body: {
                 progressSeconds: null,
-                lengthSeconds: value?.lengthSeconds
+                lengthSeconds: value.lengthSeconds
               },
               credentials: 'include'
             }).catch(_ => {});
@@ -304,7 +304,7 @@ export default defineComponent({
       messagesStore.createMessage({
         type: 'error',
         title: 'Error loading video',
-        message: videoError.value !== true ? videoError.value.message : 'Unknown error'
+        message: !videoError.value ? videoError.value.message : 'Unknown error'
       });
     });
 
@@ -359,7 +359,7 @@ export default defineComponent({
     };
     const getHDUrl = () => {
       if (video.value.legacyFormats) {
-        const hdVideo = video.value.legacyFormats.find((e: { qualityLabel: string }) => {
+        const hdVideo = video.value.legacyFormats.find(e => {
           return e.qualityLabel && e.qualityLabel === '720p';
         });
         if (hdVideo) {

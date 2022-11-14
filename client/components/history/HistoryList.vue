@@ -67,7 +67,7 @@ const deleteEntry = async (videoId: string) => {
           >
         </div>
         <div
-          v-tippy="new Date(video.lastVisit)?.toLocaleString()"
+          v-tippy="video.lastVisit ? new Date(video.lastVisit).toLocaleString() : null"
           class="history-entry-watched-date tooltip"
         >
           Last watched: {{ humanizeDateString(video.lastVisit) }} ago
