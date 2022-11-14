@@ -214,7 +214,7 @@
           step="0.1"
           max="3"
           min="0.1"
-          @change="val => settingsStore.setDefaultVideoSpeed(parseInt((val.target as HTMLInputElement).value))"
+          @change="(e: any) => settingsStore.setDefaultVideoSpeed(parseInt(e.target.value))"
         />
       </div>
     </div>

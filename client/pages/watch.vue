@@ -304,7 +304,7 @@ export default defineComponent({
       messagesStore.createMessage({
         type: 'error',
         title: 'Error loading video',
-        message: !videoError.value ? videoError.value.message : 'Unknown error'
+        message: videoError.value?.message ?? 'Unknown error'
       });
     });
 
