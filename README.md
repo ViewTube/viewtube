@@ -11,6 +11,9 @@ ViewTube
   <a href="https://github.com/ViewTube/viewtube-vue/actions/workflows/build-workflow.yml">
     <img src="https://github.com/ViewTube/viewtube-vue/actions/workflows/build-workflow.yml/badge.svg?branch=development" alt="Github Actions Status"> 
   </a>
+  <a href="https://github.com/ViewTube/viewtube-vue/actions/workflows/test-workflow.yml">
+    <img src="https://github.com/ViewTube/viewtube-vue/actions/workflows/test-workflow.yml/badge.svg?branch=development" alt="Daily Tests Status">
+  </a>
   <a href="https://deepscan.io/dashboard#view=project&amp;tid=11097&amp;pid=14017&amp;bid=262917">
     <img src="https://deepscan.io/api/teams/11097/projects/14017/branches/262917/badge/grade.svg" alt="DeepScan grade">
   </a>

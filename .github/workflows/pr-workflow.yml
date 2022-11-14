@@ -6,7 +6,6 @@ on:
 
 jobs:
   pr-job:
-    continue-on-error: true
     strategy:
       matrix:
         command: ["build", "test"]
