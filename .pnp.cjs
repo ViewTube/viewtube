@@ -9178,7 +9178,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/webpack", null],\
             ["buffer-json", "npm:2.0.0"],\
             ["find-cache-dir", "npm:3.3.2"],\
-            ["loader-utils", "npm:1.4.0"],\
+            ["loader-utils", "npm:1.4.2"],\
             ["mkdirp", "npm:0.5.6"],\
             ["neo-async", "npm:2.6.2"],\
             ["schema-utils", "npm:2.7.1"],\
@@ -14416,7 +14416,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/tapable", "npm:1.0.8"],\
             ["@types/webpack", "npm:4.41.32"],\
             ["html-minifier-terser", "npm:5.1.1"],\
-            ["loader-utils", "npm:1.4.0"],\
+            ["loader-utils", "npm:1.4.2"],\
             ["lodash", "npm:4.17.21"],\
             ["pretty-error", "npm:2.1.2"],\
             ["tapable", "npm:1.1.3"],\
@@ -16563,10 +16563,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["loader-utils", [\
-        ["npm:1.4.0", {\
-          "packageLocation": "./.yarn/cache/loader-utils-npm-1.4.0-a56254a277-d150b15e7a.zip/node_modules/loader-utils/",\
+        ["npm:1.4.2", {\
+          "packageLocation": "./.yarn/cache/loader-utils-npm-1.4.2-b4537b2f88-eb6fb622ef.zip/node_modules/loader-utils/",\
           "packageDependencies": [\
-            ["loader-utils", "npm:1.4.0"],\
+            ["loader-utils", "npm:1.4.2"],\
             ["big.js", "npm:5.2.2"],\
             ["emojis-list", "npm:3.0.0"],\
             ["json5", "npm:1.0.1"]\
@@ -19515,7 +19515,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/postcss-loader-npm-3.0.0-f4ab99b685-a6a922cbcc.zip/node_modules/postcss-loader/",\
           "packageDependencies": [\
             ["postcss-loader", "npm:3.0.0"],\
-            ["loader-utils", "npm:1.4.0"],\
+            ["loader-utils", "npm:1.4.2"],\
             ["postcss", "npm:7.0.39"],\
             ["postcss-load-config", "npm:2.1.2"],\
             ["schema-utils", "npm:1.0.0"]\
@@ -24474,7 +24474,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["cache-loader", "virtual:921086496d1ef2c413bfd281309771be01dc4e382838a4b8897a17e7f90ef08c3b0c6e32dbcb93bf68312958f0a6882b647b10e0733102f6c0c747c9996e8f13#npm:4.1.0"],\
             ["css-loader", "virtual:921086496d1ef2c413bfd281309771be01dc4e382838a4b8897a17e7f90ef08c3b0c6e32dbcb93bf68312958f0a6882b647b10e0733102f6c0c747c9996e8f13#npm:4.3.0"],\
             ["hash-sum", "npm:1.0.2"],\
-            ["loader-utils", "npm:1.4.0"],\
+            ["loader-utils", "npm:1.4.2"],\
             ["vue-hot-reload-api", "npm:2.3.4"],\
             ["vue-style-loader", "npm:4.1.3"],\
             ["vue-template-compiler", "npm:2.6.14"],\
@@ -24568,7 +24568,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["vue-style-loader", "npm:4.1.3"],\
             ["hash-sum", "npm:1.0.2"],\
-            ["loader-utils", "npm:1.4.0"]\
+            ["loader-utils", "npm:1.4.2"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -24875,7 +24875,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint-scope", "npm:4.0.3"],\
             ["json-parse-better-errors", "npm:1.0.2"],\
             ["loader-runner", "npm:2.4.0"],\
-            ["loader-utils", "npm:1.4.0"],\
+            ["loader-utils", "npm:1.4.2"],\
             ["memory-fs", "npm:0.4.1"],\
             ["micromatch", "npm:3.1.10"],\
             ["mkdirp", "npm:0.5.6"],\
