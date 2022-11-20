@@ -2203,29 +2203,29 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nestjs/bull-shared@npm:^0.0.5":
-  version: 0.0.5
-  resolution: "@nestjs/bull-shared@npm:0.0.5"
+"@nestjs/bull-shared@npm:^0.1.2":
+  version: 0.1.2
+  resolution: "@nestjs/bull-shared@npm:0.1.2"
   dependencies:
-    tslib: 2.3.1
+    tslib: 2.4.1
   peerDependencies:
-    "@nestjs/common": ^6.10.11 || ^7.0.0 || ^8.0.0
-    "@nestjs/core": ^6.10.11 || ^7.0.0 || ^8.0.0
-  checksum: 8877ae3d33b64f886e57c83f67c97f9745f43fd6bf96c2b84a20381bac7e1475b3123552ff4de218822df6daf74e9463a27edac4490d489825b5de6898d69826
+    "@nestjs/common": ^6.10.11 || ^7.0.0 || ^8.0.0 || ^9.0.0
+    "@nestjs/core": ^6.10.11 || ^7.0.0 || ^8.0.0 || ^9.0.0
+  checksum: 36310675aa62382a641a08c9d82c5bb3abb6d2be4de5406785f80325c7f4fa5a00fc3534b6de02a03873f8162ca7b79fa37ad3a48c8c3f7184c0d34cb1447d1a
   languageName: node
   linkType: hard
 
-"@nestjs/bull@npm:0.5.5":
-  version: 0.5.5
-  resolution: "@nestjs/bull@npm:0.5.5"
+"@nestjs/bull@npm:0.6.2":
+  version: 0.6.2
+  resolution: "@nestjs/bull@npm:0.6.2"
   dependencies:
-    "@nestjs/bull-shared": ^0.0.5
-    tslib: 2.3.1
+    "@nestjs/bull-shared": ^0.1.2
+    tslib: 2.4.1
   peerDependencies:
-    "@nestjs/common": ^6.10.11 || ^7.0.0 || ^8.0.0
-    "@nestjs/core": ^6.10.11 || ^7.0.0 || ^8.0.0
+    "@nestjs/common": ^6.10.11 || ^7.0.0 || ^8.0.0 || ^9.0.0
+    "@nestjs/core": ^6.10.11 || ^7.0.0 || ^8.0.0 || ^9.0.0
     bull: ^3.3 || ^4.0.0
-  checksum: 3251ea0ad70839a42af4a7124e09c2f74418d410e667afae7f43e517c32a7730b77e660c0516425a80aaa288c55882659af976eed96d1cb802eb07bc426a8047
+  checksum: 657d1293102ee6fedbe51da610e832ab7b81b2672a4b4d3482f76ca83a4ca27970c49fc9cae3e41e5e679e980785860e3fbd39e6e98969d364319b73512753e6
   languageName: node
   linkType: hard
 
@@ -16820,7 +16820,7 @@ __metadata:
     "@fastify/helmet": 8.1.0
     "@fastify/multipart": 6.0.0
     "@freetube/yt-comment-scraper": 6.1.0
-    "@nestjs/bull": 0.5.5
+    "@nestjs/bull": 0.6.2
     "@nestjs/cli": 8.2.8
     "@nestjs/common": 8.4.7
     "@nestjs/config": 2.2.0
@@ -18306,17 +18306,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tslib@npm:2.3.1":
-  version: 2.3.1
-  resolution: "tslib@npm:2.3.1"
-  checksum: de17a98d4614481f7fcb5cd53ffc1aaf8654313be0291e1bfaee4b4bb31a20494b7d218ff2e15017883e8ea9626599b3b0e0229c18383ba9dce89da2adf15cb9
-  languageName: node
-  linkType: hard
-
 "tslib@npm:2.4.0, tslib@npm:^2.0.3, tslib@npm:^2.1.0, tslib@npm:^2.3.0, tslib@npm:^2.3.1, tslib@npm:^2.4.0":
   version: 2.4.0
   resolution: "tslib@npm:2.4.0"
   checksum: 8c4aa6a3c5a754bf76aefc38026134180c053b7bd2f81338cb5e5ebf96fefa0f417bff221592bf801077f5bf990562f6264fecbc42cd3309b33872cb6fc3b113
+  languageName: node
+  linkType: hard
+
+"tslib@npm:2.4.1":
+  version: 2.4.1
+  resolution: "tslib@npm:2.4.1"
+  checksum: 19480d6e0313292bd6505d4efe096a6b31c70e21cf08b5febf4da62e95c265c8f571f7b36fcc3d1a17e068032f59c269fab3459d6cd3ed6949eafecf64315fca
   languageName: node
   linkType: hard
 
