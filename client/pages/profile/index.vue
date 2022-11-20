@@ -180,7 +180,7 @@ const setProfileImageUrl = (url: string): void => {
 
 <template>
   <div class="profile">
-    <MetaPageHead :title="profile.username" description="See your profile" />
+    <MetaPageHead :title="`${profile?.username}`" description="See your profile" />
     <Spinner v-if="pending" class="centered" />
     <div v-if="profile" class="profile-top">
       <div class="gradient-background" />
