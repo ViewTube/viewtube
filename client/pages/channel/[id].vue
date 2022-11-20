@@ -1,9 +1,44 @@
+<script setup lang="ts">
+import UpIcon from 'vue-material-design-icons/ArrowUp.vue';
+import Banner from '@/components/channel/Banner.vue';
+import Overview from '@/components/channel/Overview.vue';
+import RelatedChannels from '@/components/channel/RelatedChannels.vue';
+import ChannelDescription from '@/components/channel/ChannelDescription.vue';
+import Spinner from '@/components/Spinner.vue';
+import SectionTitle from '@/components/SectionTitle.vue';
+import InlineVideo from '@/components/list/InlineVideo.vue';
+import BadgeButton from '@/components/buttons/BadgeButton.vue';
+import { useMessagesStore } from '@/store/messages';
+
+const imgProxy = useImgProxy();
+const messagesStore = useMessagesStore();
+const route = useRoute();
+
+const onScrollTop = (): void => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+};
+
+const { data: channel, error, pending } = useGetChannels(route.params.id);
+
+watch(error, errorValue => {
+  let errorMessage = '';
+  if ((errorValue as any) !== true && errorValue.message) {
+    errorMessage = errorValue.message;
+  }
+  messagesStore.createMessage({
+    type: 'error',
+    title: 'Loading the channel failed',
+    message: errorMessage
+  });
+});
+</script>
+
 <template>
   <div>
     <MetaPageHead
-      :title="channel?.author"
-      :description="channel?.description?.substring(0, 100)"
-      :image="channel?.authorThumbnails?.[0]?.url"
+      :title="`${channel?.author}`"
+      :description="`${channel?.description?.substring(0, 100)}`"
+      :image="`${channel?.authorThumbnails?.[0]?.url}`"
     />
     <Spinner v-if="pending" class="centered" />
     <div v-if="channel" class="channel">
@@ -44,7 +79,7 @@
     <Teleport to="body">
       <div v-if="channel" class="channel-title-sticky">
         <div v-if="channel.authorThumbnails" class="channel-sticky-thumbnail">
-          <img :src="imgProxyUrl + channel.authorThumbnails[0].url" alt="Author Image" />
+          <img :src="imgProxy.url + channel.authorThumbnails[0].url" alt="Author Image" />
         </div>
         <div class="channel-sticky-name">
           <h1>{{ channel.author }}</h1>
@@ -54,73 +89,6 @@
     </Teleport>
   </div>
 </template>
-
-<script lang="ts">
-import UpIcon from 'vue-material-design-icons/ArrowUp.vue';
-
-import VideoEntry from '@/components/list/VideoEntry.vue';
-import PlaylistEntry from '@/components/list/PlaylistEntry.vue';
-import Banner from '@/components/channel/Banner.vue';
-import Overview from '@/components/channel/Overview.vue';
-import RelatedChannels from '@/components/channel/RelatedChannels.vue';
-import ChannelDescription from '@/components/channel/ChannelDescription.vue';
-import Spinner from '@/components/Spinner.vue';
-import SubscribeButton from '@/components/buttons/SubscribeButton.vue';
-import SectionTitle from '@/components/SectionTitle.vue';
-import InlineVideo from '@/components/list/InlineVideo.vue';
-import BadgeButton from '@/components/buttons/BadgeButton.vue';
-
-import { useMessagesStore } from '@/store/messages';
-
-export default defineComponent({
-  name: 'Channel',
-  components: {
-    VideoEntry,
-    Banner,
-    Overview,
-    RelatedChannels,
-    ChannelDescription,
-    Spinner,
-    SubscribeButton,
-    SectionTitle,
-    PlaylistEntry,
-    InlineVideo,
-    BadgeButton,
-    UpIcon
-  },
-  setup() {
-    const imgProxy = useImgProxy();
-    const messagesStore = useMessagesStore();
-    const route = useRoute();
-
-    const onScrollTop = (): void => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    };
-
-    const { data: channel, error, pending } = useGetChannels(route.params.id);
-
-    watch(error, () => {
-      let errorMessage = '';
-      if (error.value !== true && error.value.message) {
-        errorMessage = error.value.message;
-      }
-      messagesStore.createMessage({
-        type: 'error',
-        title: 'Loading the channel failed',
-        message: errorMessage
-      });
-    });
-
-    return {
-      imgProxyUrl: imgProxy.url,
-      channel,
-      onScrollTop,
-      pending
-    };
-  },
-  head: {}
-});
-</script>
 
 <style lang="scss">
 .visible {
