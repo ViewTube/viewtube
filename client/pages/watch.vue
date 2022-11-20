@@ -11,7 +11,7 @@
     <VideoPlayer
       v-if="video && !videoPending"
       :key="video.videoId"
-      ref="videoplayer"
+      ref="videoplayerRef"
       :video="video"
       :initialVideoTime="video.initialVideoTime"
       :autoplay="isAutoplaying"
@@ -133,7 +133,6 @@
 
         <div class="comments-description">
           <div
-            v-create-links
             v-create-timestamp-links="setTimestamp"
             class="video-infobox-description links"
             v-html="video.description"
@@ -246,8 +245,8 @@ export default defineComponent({
     const commentsContinuationLoading = ref(false);
     const recommendedOpen = ref(false);
     const shareOpen = ref(false);
-    const videoplayerRef = ref(null);
-    const playlistSectionRef = ref(null);
+    const videoplayerRef = ref<typeof VideoPlayer>(null);
+    const playlistSectionRef = ref<typeof PlaylistSection>(null);
     const videoLoaded = ref(false);
 
     const dislikeCount = ref(0);
@@ -290,8 +289,7 @@ export default defineComponent({
         }
 
         return { ...value, initialVideoTime };
-      },
-      { initialCache: false }
+      }
     );
 
     watch(videoPending, value => {
@@ -350,12 +348,13 @@ export default defineComponent({
       commentsError.value = false;
       loadComments();
     };
-    const setTimestamp = (e: any, seconds: number) => {
+    const setTimestamp = (e: Event, seconds: number) => {
+      e.preventDefault();
       const searchParams = new URLSearchParams(window.location.search);
       searchParams.set('t', `${seconds}s`);
       router.push(`${location.pathname}?${searchParams.toString()}`);
-      videoplayerRef.setVideoTime(seconds);
-      e.preventDefault();
+      videoplayerRef.value.setVideoTime(seconds);
+      videoplayerRef.value.play();
     };
     const getHDUrl = () => {
       if (video.value.legacyFormats) {

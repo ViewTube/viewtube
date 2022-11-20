@@ -33,7 +33,7 @@ export default defineNuxtPlugin(nuxtApp => {
         const element = links[i];
         const secondsString = element.getAttribute('seconds');
         const seconds = secondsString ? parseInt(secondsString) : 0;
-        (element as any).addEventListener('click', (e: Event) => binding.value(e, seconds));
+        element.addEventListener('click', (e: Event) => binding.value(e, seconds));
       }
     }
   });

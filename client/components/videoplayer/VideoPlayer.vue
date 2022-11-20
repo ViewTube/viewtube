@@ -370,13 +370,14 @@ export default defineComponent({
       }
     }
   },
-  setup(props, { emit }) {
-    if (!props.video) {
-      throwError('Error loading video');
-    }
-
+  setup(props, { emit, expose }) {
+    const videoPlayer = videoPlayerSetup(props, emit);
+    expose({
+      setVideoTime: videoPlayer.setVideoTime,
+      play: () => videoPlayer.videoRef.value.play()
+    });
     return {
-      ...videoPlayerSetup(props, emit)
+      ...videoPlayer
     };
   }
 });
