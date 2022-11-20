@@ -639,7 +639,7 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
   const onPlayerMouseLeave = () => {
     hidePlayerOverlay();
   };
-  const showPlayerOverlay = (noTimeout: boolean = false) => {
+  const showPlayerOverlay = (noTimeout = false) => {
     playerOverlay.visible = true;
     if (playerOverlay.timeout) {
       clearTimeout(playerOverlay.timeout);
@@ -763,7 +763,7 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
     videoRef.value.pause();
     const currentTime = videoRef.value.currentTime;
     saveVideoPosition(currentTime);
-    if (props.video.liveNow) {
+    if (props.video.liveNow || props.video.legacyFormats[index].isHLS) {
       await initializeHlsStream(props.video.legacyFormats[index].url, videoRef.value, streamProxy);
     } else {
       videoRef.value.src = props.video.legacyFormats[index].url;
@@ -923,7 +923,7 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
   onMounted(async () => {
     document.addEventListener('keydown', onWindowKeyDown);
     if (videoRef.value) {
-      if (props.video.liveNow) {
+      if (props.video.liveNow || props.video.legacyFormats?.[0].isHLS) {
         if (isHlsSupported()) {
           await initializeHlsStream(highestLegacyQuality.value, videoRef.value, streamProxy);
           selectedLegacyQuality.value = 0;
