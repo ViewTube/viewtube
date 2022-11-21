@@ -3,14 +3,16 @@ module.exports = {
     browser: true,
     node: true
   },
+
   parserOptions: {
     tsconfigRootDir: __dirname,
     project: 'tsconfig.eslint.json',
     sourceType: 'module',
-    extraFileExtensions: ['.vue'],
-    ecmaVersion: 12
+    extraFileExtensions: ['.vue']
   },
+
   extends: ['@nuxtjs/eslint-config-typescript', 'prettier'],
+
   rules: {
     'import/named': 'off',
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
