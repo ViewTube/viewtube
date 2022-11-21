@@ -43,6 +43,7 @@ export default defineComponent({
   left: 0;
   width: 100%;
   height: 100%;
+  z-index: 901;
 
   .confirmation {
     padding: 10px 20px;
