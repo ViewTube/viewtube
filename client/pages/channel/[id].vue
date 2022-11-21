@@ -147,10 +147,10 @@ watch(error, errorValue => {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  margin-top: $header-height;
 
   .banner {
     position: relative;
-    margin-top: $header-height;
   }
 
   .backdrop-image {

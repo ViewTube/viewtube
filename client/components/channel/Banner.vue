@@ -1,16 +1,36 @@
+<script setup lang="ts">
+import EyeIcon from 'vue-material-design-icons/Eye.vue';
+
+type BannerLinkType = {
+  url: string;
+  title: string;
+  linkThumbnails: Array<{
+    url: string;
+  }>;
+};
+
+defineProps<{
+  src: string;
+  bannerLinks: Array<BannerLinkType>;
+  bannerHqSrc: string;
+}>();
+
+const imgProxy = useImgProxy();
+</script>
+
 <template>
   <div ref="parallaxParent" class="channel-banner">
     <img
       ref="bannerImage"
       class="channel-banner-image"
-      :src="imgProxyUrl + src"
+      :src="imgProxy.url + src"
       alt="Channel banner"
     />
     <div class="additional-content">
       <a
         v-tippy="'Show the banner'"
         class="show-btn"
-        :href="imgProxyUrl + bannerHqSrc"
+        :href="imgProxy.url + bannerHqSrc"
         target="_blank"
         rel="noreferrer noopener"
         ><EyeIcon
@@ -25,7 +45,7 @@
         >
           <img
             v-if="link.linkThumbnails"
-            :src="imgProxyUrl + link.linkThumbnails[0].url"
+            :src="imgProxy.url + link.linkThumbnails[0].url"
             :alt="link.title"
             class="link-thumbnail"
           />
@@ -35,32 +55,6 @@
     </div>
   </div>
 </template>
-
-<script lang="ts">
-import EyeIcon from 'vue-material-design-icons/Eye.vue';
-
-import { PropType } from 'vue';
-import { ChannelLinkDto } from 'viewtube/shared';
-
-export default defineComponent({
-  name: 'ChannelBanner',
-  components: {
-    EyeIcon
-  },
-  props: {
-    src: String,
-    bannerLinks: Array as PropType<ChannelLinkDto[]>,
-    bannerHqSrc: String
-  },
-  setup() {
-    const imgProxy = useImgProxy();
-
-    return {
-      imgProxyUrl: imgProxy.url
-    };
-  }
-});
-</script>
 
 <style lang="scss" scoped>
 .channel-banner {
