@@ -1,0 +1,21 @@
+<script setup lang="ts">
+import DatePicker from 'vue-datepicker-next';
+
+defineProps<{ modelValue: [Date, Date] }>();
+const emit = defineEmits<{ (e: 'update:modelValue', value: [Date, Date]): void }>();
+
+const onDatePickerUpdate = (value: [Date, Date]) => {
+  console.log(value);
+  emit('update:modelValue', value);
+};
+</script>
+
+<template>
+  <DatePicker
+    :value="modelValue"
+    range
+    type="date"
+    placeholder="Select date range to delete"
+    @update:value="onDatePickerUpdate"
+  />
+</template>

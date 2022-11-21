@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import RestartOffIcon from 'vue-material-design-icons/RestartOff.vue';
+import 'vue-datepicker-next/index.css';
 import SectionTitle from '@/components/SectionTitle.vue';
 import Pagination from '@/components/pagination/Pagination.vue';
 import HistoryList from '@/components/history/HistoryList.vue';
@@ -19,10 +20,8 @@ const route = useRoute();
 
 const searchTerm = ref<string>(null);
 const searchTimeout = ref(null);
-
 const deletePopup = ref(false);
-
-const dateToDelete = ref([]);
+const dateToDelete = ref<[Date, Date]>(null);
 
 const pageCount = computed(() => {
   if (history.value) {
@@ -79,11 +78,14 @@ const deleteEntireHistory = async () => {
 
 const rangeSelected = computed(() => {
   return (
-    dateToDelete.value.length === 2 && dateToDelete.value[0] !== null && dateToDelete[1] !== null
+    dateToDelete.value &&
+    dateToDelete.value.length === 2 &&
+    dateToDelete.value[0] !== null &&
+    dateToDelete[1] !== null
   );
 });
 
-if (userStore.isLoggedIn) {
+if (!userStore.isLoggedIn) {
   router.push('/login');
 }
 
@@ -129,10 +131,10 @@ watch(
     <MetaPageHead title="History" description="See your watch history" />
     <SectionTitle class="history-title" :title="'History'" />
     <SmallSearchBox v-model="searchTerm" :label="'Filter'" />
-    <details class="delete-history">
+    <details v-if="history" class="delete-history">
       <summary>Delete history</summary>
       <div class="range">
-        <client-only><DatePicker v-model="dateToDelete" range /></client-only>
+        <LazyDatePicker v-model="dateToDelete" />
         <BadgeButton :click="deleteRange" :disabled="!rangeSelected">Delete range</BadgeButton>
         <BadgeButton :click="() => (deletePopup = true)">Delete entire history</BadgeButton>
       </div>
@@ -142,12 +144,13 @@ watch(
       <p>Video history is disabled. You can enable it in settings.</p>
     </div>
     <HistoryList
+      v-if="history"
       class="history-main-list"
       :history-videos="history.videos"
       :delete-option="true"
       @refresh="refresh"
     />
-    <div class="history-pagination">
+    <div v-if="history" class="history-pagination">
       <Pagination :currentPage="currentPage" :pageCount="pageCount" />
     </div>
     <Teleport to="body">
@@ -243,7 +246,7 @@ watch(
 }
 
 .mx-calendar + .mx-calendar {
-  border-left: 1px solid #e8e8e84b;
+  border-left: 1px solid #e8e8e831;
 }
 
 .mx-icon-calendar,
@@ -255,6 +258,8 @@ watch(
   color: var(--theme-color) !important;
   background-color: var(--bgcolor-alt) !important;
   border: none !important;
+  border-radius: 10px;
+  box-shadow: $medium-shadow;
 
   .mx-btn {
     &:hover {

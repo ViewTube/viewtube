@@ -51,6 +51,7 @@ importers:
       tippy.js: 6.3.7
       typescript: 4.9.3
       vue: 3.2.45
+      vue-datepicker-next: ^1.0.2
       vue-material-design-icons: 5.1.2
       webpack: 5.75.0
       x2js: 3.4.4
@@ -96,6 +97,7 @@ importers:
       tippy.js: 6.3.7
       typescript: 4.9.3
       vue: 3.2.45
+      vue-datepicker-next: 1.0.2_vue@3.2.45
       vue-material-design-icons: 5.1.2
       webpack: 5.75.0
       x2js: 3.4.4
@@ -5024,6 +5026,10 @@ packages:
   /data-uri-to-buffer/4.0.0:
     resolution: {integrity: sha512-Vr3mLBA8qWmcuschSLAOogKgQ/Jwxulv3RNE4FXnYWRGujzrRWQI4m12fQqRkwX06C0KanhLr4hK+GydchZsaA==}
     engines: {node: '>= 12'}
+    dev: true
+
+  /date-format-parse/0.2.7:
+    resolution: {integrity: sha512-/+lyMUKoRogMuTeOVii6lUwjbVlesN9YRYLzZT/g3TEZ3uD9QnpjResujeEqUW+OSNbT7T1+SYdyEkTcRv+KDQ==}
     dev: true
 
   /debug/2.6.9:
@@ -11435,6 +11441,15 @@ packages:
     resolution: {integrity: sha512-43vCqTgaMXfHhtR8/VcxxWD1DgtzyvNc4wNyG5NKCIH19O1z5G9ZCRXTGEA2wifVec5PU82CkRLD2sTK9NkTdA==}
     dependencies:
       ufo: 1.0.0
+    dev: true
+
+  /vue-datepicker-next/1.0.2_vue@3.2.45:
+    resolution: {integrity: sha512-gGXLT9x0oTFcMc1yCX1boVAflT8nifb+lsFQXLNdRptt2QK2gvFh1MvhqZx5L2x1YO7Ft28uuugXGhUcJxox+A==}
+    peerDependencies:
+      vue: ^3.0.0
+    dependencies:
+      date-format-parse: 0.2.7
+      vue: 3.2.45
     dev: true
 
   /vue-demi/0.13.11_vue@3.2.45:

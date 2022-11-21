@@ -9,6 +9,7 @@ type UserHistoryParams = {
 
 export const useGetUserHistory = ({ searchTerm, limit, start }: UserHistoryParams) => {
   const config = useRuntimeConfig();
+  const authorizationHeader = useAuthorizationHeader();
 
   let filterString = '';
   if (searchTerm) {
@@ -17,11 +18,17 @@ export const useGetUserHistory = ({ searchTerm, limit, start }: UserHistoryParam
 
   const url = `${config.public.apiUrl}user/history?limit=${limit}&start=${start}${filterString}&sort=DESC`;
 
-  return useLazyFetch<ApiDto<'HistoryResponseDto'>>(url, { credentials: 'include' });
+  return useLazyFetch<ApiDto<'HistoryResponseDto'>>(url, {
+    headers: {
+      Authorization: authorizationHeader
+    },
+    credentials: 'include'
+  });
 };
 
 export const useGetUserHistoryItem = (videoId: string) => {
   const config = useRuntimeConfig();
+  const authorizationHeader = useAuthorizationHeader();
 
   const url = `${config.public.apiUrl}user/history/${videoId}`;
 
@@ -30,7 +37,12 @@ export const useGetUserHistoryItem = (videoId: string) => {
     progressSeconds: number;
     lengthSeconds: number;
     lastVisit: Date;
-  }>(url, { credentials: 'include' });
+  }>(url, {
+    headers: {
+      Authorization: authorizationHeader
+    },
+    credentials: 'include'
+  });
 };
 
 export const useGetUserProfileDetails = () => {
