@@ -12,7 +12,7 @@ const safelyReturn = (prop: ConditionalPropType, returnValue: string | null = ''
   if (
     prop !== null &&
     prop !== undefined &&
-    prop?.length > 0 &&
+    prop.length > 0 &&
     prop !== 'undefined' &&
     prop !== 'null'
   ) {
