@@ -64,7 +64,7 @@
       class="video-entry-thmb"
       :to="{
         name: 'watch',
-        query: videoLinkQuery,
+        query: videoLinkQuery
       }"
       :class="{ 'has-description': video.description }"
       @click="onVideoEntryClick"
@@ -85,7 +85,7 @@
           />
         </div>
         <div v-if="video.description" class="video-description-overlay">
-          <p>{{ video.description }}</p>
+          <p class="video-description-overlay-text">{{ video.description }}</p>
         </div>
       </div>
       <div v-if="video.isLive" class="video-live">
@@ -229,7 +229,7 @@ export default defineComponent({
 
     const onVideoEntryClick = () => {
       loadingVideoInfoStore.setLoadingVideoInfo(props.video);
-    }
+    };
 
     return {
       imgProxyUrl: imgProxy.url,
@@ -327,7 +327,7 @@ export default defineComponent({
 
   .description-btn-container {
     position: absolute;
-    top: 38px;
+    top: 42px;
     right: 0;
     z-index: 12;
     width: 44px;
@@ -345,7 +345,7 @@ export default defineComponent({
 
   #show-description {
     position: absolute;
-    top: 38px;
+    top: 42px;
     right: 2px;
     z-index: 13;
     opacity: 0;
@@ -388,25 +388,27 @@ export default defineComponent({
       }
 
       .video-description-overlay {
-        pointer-events: none;
-        color: $video-thmb-overlay-textcolor;
         position: absolute;
         left: 0;
-        top: 0;
+        top: 50%;
+        padding-bottom: 56.25%;
+        pointer-events: none;
         width: 100%;
-        height: 100%;
+        height: 0;
+        transform: translateY(-50%);
+        color: $video-thmb-overlay-textcolor;
+        overflow: visible;
         background-color: #0000009f;
-        padding: 10px;
-        overflow: hidden;
         box-sizing: border-box;
         font-size: 1rem;
         opacity: 0;
         transition: opacity 200ms $intro-easing;
 
-        p {
+        .video-description-overlay-text {
           width: 100%;
-          height: 100%;
-          overflow: hidden;
+          height: min-content;
+          padding: 15px;
+          box-sizing: border-box;
         }
       }
     }
