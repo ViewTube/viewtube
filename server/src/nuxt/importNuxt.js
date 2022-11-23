@@ -3,5 +3,5 @@ export async function nuxtImporter() {
   if (process.env.VIEWTUBE_BASE_DIR) {
     nuxtDir = `${process.env.VIEWTUBE_BASE_DIR}/client/.output/server/index.mjs`;
   }
-  return Function(`return\x20import(\x22${nuxtDir}\x22)`)();
+  return new Function(`return\x20import(\x22${nuxtDir}\x22)`)();
 }

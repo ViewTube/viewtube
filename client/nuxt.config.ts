@@ -8,6 +8,10 @@ export default defineNuxtConfig({
     }
   },
 
+  nitro: {
+    preset: 'node'
+  },
+
   alias: {
     'viewtube/*': '../*'
   },

@@ -22,7 +22,7 @@ export class NuxtFilter implements ExceptionFilter {
     }
 
     if (status === 404 && !(exception.getResponse() as any).ignoreFilter) {
-      await this.nuxtFilter.handle(req.raw, res.raw);
+      await this.nuxtFilter.listener(req.raw, res.raw);
     } else if (status) {
       const response = exception.getResponse();
       delete (response as any).ignoreFilter;
