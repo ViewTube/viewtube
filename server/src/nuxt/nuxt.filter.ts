@@ -1,19 +1,35 @@
-import { ExceptionFilter, HttpException, ArgumentsHost, Catch } from '@nestjs/common';
+import {
+  ExceptionFilter,
+  HttpException,
+  ArgumentsHost,
+  Catch,
+  NotFoundException
+} from '@nestjs/common';
 import { FastifyRequest, FastifyReply } from 'fastify';
-import { nuxtImporter } from './importNuxt.js';
+import { NodeListener } from 'h3';
 
-@Catch()
+type ErrorResponse = string | { message: string; error?: string; ignoreFilter?: boolean };
+
+@Catch(NotFoundException)
 export class NuxtFilter implements ExceptionFilter {
-  nuxtFilter: any = null;
+  nuxtListener: NodeListener = null;
 
   public async init() {
-    this.nuxtFilter = await nuxtImporter();
+    let nuxtDir = '../../../../client/.output/server/index.mjs';
+    if (process.env.VIEWTUBE_BASE_DIR) {
+      nuxtDir = `${process.env.VIEWTUBE_BASE_DIR}/client/.output/server/index.mjs`;
+    }
+    const nuxt = await import(/* webpackIgnore: true */ nuxtDir);
+    if (!nuxt?.listener || typeof nuxt.listener !== 'function') {
+      throw new Error('Nuxt listener not found');
+    }
+    this.nuxtListener = nuxt.listener;
   }
 
   public async catch(exception: HttpException, host: ArgumentsHost) {
-    const ctx = host.switchToHttp();
-    const res = ctx.getResponse<FastifyReply>();
-    const req = ctx.getRequest<FastifyRequest>();
+    const httpContext = host.switchToHttp();
+    const res = httpContext.getResponse<FastifyReply>();
+    const req = httpContext.getRequest<FastifyRequest>();
     let status = null;
     try {
       status = exception.getStatus();
@@ -21,12 +37,16 @@ export class NuxtFilter implements ExceptionFilter {
       // Consola.error(exception);
     }
 
-    if (status === 404 && !(exception.getResponse() as any).ignoreFilter) {
-      await this.nuxtFilter.listener(req.raw, res.raw);
+    const exceptionResponse = exception.getResponse() as ErrorResponse;
+    const ignoreFilter = typeof exceptionResponse === 'object' && exceptionResponse?.ignoreFilter;
+
+    if (status === 404 && !ignoreFilter) {
+      this.nuxtListener(req.raw, res.raw);
     } else if (status) {
-      const response = exception.getResponse();
-      delete (response as any).ignoreFilter;
-      res.status(status).send(response);
+      if (typeof exceptionResponse === 'object') {
+        delete exceptionResponse.ignoreFilter;
+      }
+      res.status(status).send(exceptionResponse);
     } else {
       res.code(500).send();
     }
