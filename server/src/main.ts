@@ -12,12 +12,12 @@ import FastifyCookie from '@fastify/cookie';
 import FastifyMultipart from '@fastify/multipart';
 import FastifyHelmet from '@fastify/helmet';
 import { AppModule } from './app.module';
-import { NuxtFilter } from './nuxt/nuxt.filter';
 import { HomepageService } from './core/homepage/homepage.service';
 import { AppClusterService } from './app-cluster.service';
 import { promisify } from 'util';
 import { ConfigurationService } from 'server/core/configuration/configuration.service';
 import { isHttps } from 'viewtube/shared/index';
+import { NuxtService } from './nuxt/nuxt.service';
 
 declare const module: any;
 
@@ -90,13 +90,16 @@ const bootstrap = async () => {
 
   // NUXT
   if (isProduction) {
-    const nuxtFilter = new NuxtFilter();
-    await nuxtFilter.init();
-    server.useGlobalFilters(nuxtFilter);
+    // const nuxtFilter = new NuxtFilter();
+    // await nuxtFilter.init();
+    // server.useGlobalFilters(nuxtFilter);
+
+    const nuxtService = server.get(NuxtService);
+    await nuxtService.init();
   }
 
   // NEST
-  server.setGlobalPrefix('api');
+  // server.setGlobalPrefix('api', { exclude: ['/'] });
   const port = configService.get('PORT');
 
   // CORS

@@ -4,7 +4,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ScheduleModule } from '@nestjs/schedule';
 import { BullModule, BullRootModuleOptions } from '@nestjs/bull';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
-import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
+import { APP_GUARD, APP_INTERCEPTOR, RouterModule } from '@nestjs/core';
 import { ThrottlerStorageRedisService } from 'nestjs-throttler-storage-redis';
 import * as Sentry from '@sentry/node';
 import { RedisOptions } from 'ioredis';
@@ -15,6 +15,7 @@ import { CacheConfigService } from './cache-config.service';
 import { SentryModule } from './sentry/sentry.module';
 import { SentryInterceptor } from './sentry/sentry.interceptor';
 import { validationSchema } from './env.validation';
+import { NuxtModule } from './nuxt/nuxt.module';
 
 const moduleMetadata: ModuleMetadata = {
   imports: [
@@ -98,7 +99,22 @@ const moduleMetadata: ModuleMetadata = {
     ScheduleModule.forRoot(),
     CoreModule,
     UserModule,
-    AuthModule
+    AuthModule,
+    NuxtModule,
+    RouterModule.register([
+      {
+        path: 'api',
+        module: CoreModule
+      },
+      {
+        path: 'api',
+        module: UserModule
+      },
+      {
+        path: 'api',
+        module: AuthModule
+      }
+    ])
   ],
   providers: [
     {
