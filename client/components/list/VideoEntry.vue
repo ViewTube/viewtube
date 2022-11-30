@@ -163,15 +163,12 @@ export default defineComponent({
   },
   setup(props) {
     const imgProxy = useImgProxy();
-    const config = useRuntimeConfig();
+    const { apiUrl } = useApiUrl();
     const loadingVideoInfoStore = useLoadingVideoInfoStore();
 
     const localProxy = '&local=true';
 
-    const apiUrl = ref('/');
     const videoThumbnailUrl = ref(null);
-
-    apiUrl.value = config.public.apiUrl;
 
     const videoLinkQuery = computed(() => {
       const linkQuery: { v: string; list?: string } = {

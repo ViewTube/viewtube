@@ -1,9 +1,6 @@
-import { getApiUrl } from '../shared/index';
-
 export default defineNuxtConfig({
   runtimeConfig: {
     public: {
-      apiUrl: getApiUrl(),
       vapidKey: process.env.VIEWTUBE_PUBLIC_VAPID
     }
   },

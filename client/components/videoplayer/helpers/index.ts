@@ -20,7 +20,7 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
   const playerVolumeStore = usePlayerVolumeStore();
   const videoPlayerStore = useVideoPlayerStore();
 
-  const config = useRuntimeConfig();
+  const { apiUrl } = useApiUrl();
   const { $formatting: formatting } = useNuxtApp();
   const imgProxy = useImgProxy();
   const { streamProxy } = useProxyUrls();
@@ -833,7 +833,7 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
   const saveVideoPosition = (currentTime: number) => {
     if (videoRef.value && settingsStore.saveVideoHistory) {
       if (userStore.isLoggedIn && !props.video.liveNow) {
-        $fetch(`${config.public.apiUrl}user/history/${props.video.videoId}`, {
+        $fetch(`${apiUrl}user/history/${props.video.videoId}`, {
           method: 'POST',
           body: {
             progressSeconds: Math.floor(currentTime),
@@ -932,7 +932,7 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
         }
       } else if (settingsStore.dashPlaybackEnabled && window.MediaSource) {
         // Using dashjs
-        const manifestUrl = `${config.public.apiUrl}videos/manifest/dash/${props.video.videoId}`;
+        const manifestUrl = `${apiUrl}videos/manifest/dash/${props.video.videoId}`;
         dashHelper.value = new DashHelper(videoRef.value, manifestUrl, () => {
           dashHelper.value.registerEventHandlers({ videoElement });
         });

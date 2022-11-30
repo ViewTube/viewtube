@@ -5,11 +5,9 @@ import SmallSearchBox from '@/components/SmallSearchBox.vue';
 import { useMessagesStore } from '@/store/messages';
 
 const messagesStore = useMessagesStore();
-const config = useRuntimeConfig();
+const { apiUrl } = useApiUrl();
 const route = useRoute();
 const imgProxy = useImgProxy();
-
-const apiUrl = config.public.apiUrl;
 
 const currentPage = ref(1);
 const searchTerm = ref('');
@@ -49,7 +47,7 @@ const channelNameToImgString = (name: string): string => {
 };
 
 const unsubscribe = (channel: { authorId: any; author: any }): void => {
-  $fetch<any>(`${config.public.apiUrl}user/subscriptions/${channel.authorId}`, {
+  $fetch<any>(`${apiUrl}user/subscriptions/${channel.authorId}`, {
     method: 'DELETE',
     credentials: 'include'
   }).then(response => {
@@ -60,7 +58,7 @@ const unsubscribe = (channel: { authorId: any; author: any }): void => {
         title: `Unsubscribed from ${channel.author}`,
         message: 'Click to undo',
         clickAction: async () => {
-          await $fetch(`${config.public.apiUrl}user/subscriptions/${channel.authorId}`, {
+          await $fetch(`${apiUrl}user/subscriptions/${channel.authorId}`, {
             method: 'PUT',
             credentials: 'include'
           }).then(() => {

@@ -32,7 +32,7 @@
     <h3 class="title" :class="message.type">
       {{ message.title }}
     </h3>
-    <p class="message" v-html="message.message" />
+    <pre class="message" v-html="message.message" />
   </div>
 </template>
 
@@ -206,6 +206,8 @@ export default defineComponent({
 
   .message {
     word-break: break-all;
+    color: var(--text-color);
+    font-family: $default-font;
   }
 
   @keyframes reduce-width {

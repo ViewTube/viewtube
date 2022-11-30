@@ -23,7 +23,7 @@ export default defineComponent({
     searchValue: { type: String, default: null }
   },
   setup(props, { emit }) {
-    const config = useRuntimeConfig();
+    const { apiUrl } = useApiUrl();
 
     const autocompleteValues = ref([]);
     const visible = ref(false);
@@ -41,7 +41,7 @@ export default defineComponent({
       () => props.searchValue,
       async () => {
         const autocompleteResponse = await $fetch<[]>(
-          `${config.public.apiUrl}autocomplete?q=${props.searchValue}`
+          `${apiUrl}autocomplete?q=${props.searchValue}`
         );
 
         autocompleteValues.value = [props.searchValue].concat(autocompleteResponse);

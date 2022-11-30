@@ -1,9 +1,9 @@
 export const useProxyUrls = () => {
-  const config = useRuntimeConfig();
+  const { apiUrl } = useApiUrl();
   return {
-    textProxy: `${config.public.apiUrl}proxy/text?url=`,
-    imgProxy: `${config.public.apiUrl}proxy/image?url=`,
-    streamProxy: `${config.public.apiUrl}proxy/stream?url=`,
-    videoPlaybackProxy: `${config.public.apiUrl}videoplayback`
+    textProxy: `${apiUrl}proxy/text?url=`,
+    imgProxy: `${apiUrl}proxy/image?url=`,
+    streamProxy: `${apiUrl}proxy/stream?url=`,
+    videoPlaybackProxy: `${apiUrl}videoplayback`
   };
 };

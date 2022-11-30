@@ -1,44 +1,13 @@
+<script setup lang="ts">
+import RegisterForm from '@/components/form/RegisterForm.vue';
+</script>
+
 <template>
   <div class="register">
+    <MetaPageHead title="Register" description="Create a ViewTube account" />
     <RegisterForm />
   </div>
 </template>
-
-<script lang="ts">
-
-import RegisterForm from '@/components/form/RegisterForm.vue';
-
-export default defineComponent({
-  name: 'Register',
-  components: {
-    RegisterForm
-  },
-  setup() {
-    useMeta(() => ({
-      title: `Register :: ViewTube`,
-      meta: [
-        {
-          hid: 'description',
-          vmid: 'descriptionMeta',
-          name: 'description',
-          content: 'Create a ViewTube account'
-        },
-        {
-          hid: 'ogTitle',
-          property: 'og:title',
-          content: 'Sign up - ViewTube'
-        },
-        {
-          hid: 'ogDescription',
-          property: 'og:description',
-          content: 'Create a ViewTube account'
-        }
-      ]
-    }));
-  },
-  head: {}
-});
-</script>
 
 <style lang="scss">
 .register {
@@ -51,7 +20,7 @@ export default defineComponent({
   overflow: scroll;
 
   @media screen and (min-width: $mobile-width) {
-    background-image: url('/img/blur-bg-medium-dark.jpg');
+    background-image: url('@/assets/blur-bg-medium-dark.jpg');
   }
 }
 </style>

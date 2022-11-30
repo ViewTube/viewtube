@@ -1,9 +1,9 @@
 import { ApiDto } from 'viewtube/shared';
 
 export const useGetPlaylists = (id: string, { pages = 1 }) => {
-  const config = useRuntimeConfig();
+  const { apiUrl } = useApiUrl();
 
   return useLazyFetch<ApiDto<'PlaylistResultDto'>>(
-    `${config.public.apiUrl}playlists/${id}?pages=${pages}`
+    `${apiUrl}playlists/${id}?pages=${pages}`
   );
 };

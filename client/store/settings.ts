@@ -45,11 +45,11 @@ export const useSettingsStore = defineStore('settings', {
     async storeSettings() {
       this.settingsSaving = true;
 
-      const config = useRuntimeConfig();
+      const { apiUrl } = useApiUrl();
       const userStore = useUserStore();
 
       if (userStore.isLoggedIn) {
-        await $fetch(`${config.public.apiUrl}user/settings`, {
+        await $fetch(`${apiUrl}user/settings`, {
           method: 'PUT',
           credentials: 'include',
           body: this.$state

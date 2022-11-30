@@ -27,12 +27,12 @@ export default defineComponent({
     videoElement: null
   },
   setup(props) {
-    const config = useRuntimeConfig();
+    const { apiUrl } = useApiUrl();
     const endscreenData = ref([]);
     const hover = ref(false);
 
     const fetchEndscreenData = () => {
-      fetch(`${config.public.apiUrl}video/getEndscreen.php?videoId=${props.videoId}`, {
+      fetch(`${apiUrl}video/getEndscreen.php?videoId=${props.videoId}`, {
         cache: 'force-cache',
         method: 'GET'
       })

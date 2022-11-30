@@ -231,7 +231,7 @@ export default defineComponent({
     const videoPlayerStore = useVideoPlayerStore();
     const miniplayerStore = useMiniplayerStore();
     const userStore = useUserStore();
-    const config = useRuntimeConfig();
+    const { apiUrl } = useApiUrl();
 
     const route = useRoute();
     const router = useRouter();
@@ -263,13 +263,13 @@ export default defineComponent({
       route.query.v.toString(),
       async () => {
         const value = await $fetch<ApiDto<'VideoDto'>>(
-          `${config.public.apiUrl}videos/${route.query.v}`
+          `${apiUrl}videos/${route.query.v}`
         );
 
         let initialVideoTime = 0;
         if (userStore.isLoggedIn && settingsStore.saveVideoHistory) {
           const videoVisit = await $fetch<any>(
-            `${config.public.apiUrl}user/history/${value.videoId}`,
+            `${apiUrl}user/history/${value.videoId}`,
             {
               credentials: 'include'
             }
@@ -278,7 +278,7 @@ export default defineComponent({
           if (videoVisit?.progressSeconds > 0) {
             initialVideoTime = videoVisit.data.progressSeconds;
           } else if (userStore.isLoggedIn) {
-            $fetch(`${config.public.apiUrl}user/history/${route.query.v}`, {
+            $fetch(`${apiUrl}user/history/${route.query.v}`, {
               body: {
                 progressSeconds: null,
                 lengthSeconds: value.lengthSeconds

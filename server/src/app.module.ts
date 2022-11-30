@@ -1,4 +1,4 @@
-import { CacheModule, Module, ModuleMetadata } from '@nestjs/common';
+import { CacheModule, Module, ModuleMetadata, Type } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ScheduleModule } from '@nestjs/schedule';
@@ -16,6 +16,21 @@ import { SentryModule } from './sentry/sentry.module';
 import { SentryInterceptor } from './sentry/sentry.interceptor';
 import { validationSchema } from './env.validation';
 import { NuxtModule } from './nuxt/nuxt.module';
+import { AutocompleteModule } from './core/autocomplete/autocomplete.module';
+import { ChannelsModule } from './core/channels/channels.module';
+import { CommentsModule } from './core/comments/comments.module';
+import { HomepageModule } from './core/homepage/homepage.module';
+import { PlaylistsModule } from './core/playlists/playlists.module';
+import { ProxyModule } from './core/proxy/proxy.module';
+import { SearchModule } from './core/search/search.module';
+import { CaptchaModule } from './auth/captcha/captcha.module';
+import { RegisterModule } from './auth/register/register.module';
+import { HistoryModule } from './user/history/history.module';
+import { NotificationsModule } from './user/notifications/notifications.module';
+import { SettingsModule } from './user/settings/settings.module';
+import { SubscriptionsModule } from './user/subscriptions/subscriptions.module';
+
+const prefixApi = (modules: Type<any>[]) => modules.map(module => ({ path: 'api', module }));
 
 const moduleMetadata: ModuleMetadata = {
   imports: [
@@ -101,20 +116,26 @@ const moduleMetadata: ModuleMetadata = {
     UserModule,
     AuthModule,
     NuxtModule,
-    RouterModule.register([
-      {
-        path: 'api',
-        module: CoreModule
-      },
-      {
-        path: 'api',
-        module: UserModule
-      },
-      {
-        path: 'api',
-        module: AuthModule
-      }
-    ])
+    RouterModule.register(
+      prefixApi([
+        AuthModule,
+        CaptchaModule,
+        RegisterModule,
+        CoreModule,
+        AutocompleteModule,
+        ChannelsModule,
+        CommentsModule,
+        HomepageModule,
+        PlaylistsModule,
+        ProxyModule,
+        SearchModule,
+        UserModule,
+        HistoryModule,
+        NotificationsModule,
+        SettingsModule,
+        SubscriptionsModule
+      ])
+    )
   ],
   providers: [
     {

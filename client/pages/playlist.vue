@@ -13,7 +13,7 @@ import { useMessagesStore } from '~/store/messages';
 import { ApiDto } from 'viewtube/shared';
 
 const messagesStore = useMessagesStore();
-const config = useRuntimeConfig();
+const { apiUrl } = useApiUrl();
 const route = useRoute();
 const imgProxy = useImgProxy();
 
@@ -41,7 +41,7 @@ const loadMoreVideos = async () => {
   if (playlistContinuation.value) {
     moreVideosLoading.value = true;
     await $fetch<{ items: Array<ApiDto<'PlaylistItemDto'>>; continuation: any }>(
-      `${config.public.apiUrl}playlists/continuation`,
+      `${apiUrl}playlists/continuation`,
       {
         params: {
           continuationData: playlistContinuation.value

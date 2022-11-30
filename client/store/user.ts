@@ -16,9 +16,9 @@ export const useUserStore = defineStore('user', {
   },
   actions: {
     async getUser(authenticationToken?: string) {
-      const config = useRuntimeConfig();
+      const { apiUrl } = useApiUrl();
       try {
-        const user = await $fetch<User>(`${config.public.apiUrl}user/profile`, {
+        const user = await $fetch<User>(`${apiUrl}user/profile`, {
           headers: {
             Authorization: authenticationToken ? `Bearer ${authenticationToken}` : undefined
           },
@@ -30,9 +30,9 @@ export const useUserStore = defineStore('user', {
     },
 
     async login(username: string, password: string) {
-      const config = useRuntimeConfig();
+      const { apiUrl } = useApiUrl();
       try {
-        await $fetch(`${config.public.apiUrl}auth/login`, {
+        await $fetch(`${apiUrl}auth/login`, {
           method: 'POST',
           credentials: 'include',
           body: {
@@ -44,10 +44,10 @@ export const useUserStore = defineStore('user', {
         return {
           success: true
         };
-      } catch (error) {
-        if (error?.response?.data?.message) {
+      } catch (error: any) {
+        if (error?.data?.message) {
           return {
-            error: error.response.data.message
+            error: error.data.message
           };
         }
         return {
@@ -57,11 +57,11 @@ export const useUserStore = defineStore('user', {
     },
 
     async register(username: string, password: string, captchaSolution: string) {
-      const config = useRuntimeConfig();
+      const { apiUrl } = useApiUrl();
       const captchaStore = useCaptchaStore();
       let registerResult = null;
       try {
-        registerResult = await $fetch(`${config.public.apiUrl}auth/register`, {
+        registerResult = await $fetch(`${apiUrl}auth/register`, {
           method: 'POST',
           credentials: 'include',
           body: {
@@ -71,20 +71,20 @@ export const useUserStore = defineStore('user', {
             captchaSolution
           }
         });
-        this.getUser();
-      } catch (error) {
-        if (error?.response?.data?.message) {
+      } catch (error: any) {
+        if (error?.data?.message) {
+          console.log(error);
           return {
-            error: error.response.data.message
+            error: error.data.message
           };
         }
         return {
           error: 'Registration failed, please try again.'
         };
       }
-      if (registerResult?.data) {
+      if (registerResult) {
         try {
-          await this.login(registerResult.data.username, password);
+          await this.login(registerResult.username, password);
         } catch {
           return {
             error: 'Registration succeeded, but login failed, please try again.'
@@ -92,7 +92,7 @@ export const useUserStore = defineStore('user', {
         }
         await this.getUser();
 
-        return { username: registerResult.data.username };
+        return { username: registerResult.username };
       }
       return {
         error: 'Registration failed'
@@ -100,9 +100,9 @@ export const useUserStore = defineStore('user', {
     },
 
     async logout() {
-      const config = useRuntimeConfig();
+      const { apiUrl } = useApiUrl();
       try {
-        await $fetch(`${config.public.apiUrl}auth/logout`, {
+        await $fetch(`${apiUrl}auth/logout`, {
           method: 'POST',
           credentials: 'include'
         });

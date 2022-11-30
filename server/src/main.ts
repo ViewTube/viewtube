@@ -18,8 +18,16 @@ import { promisify } from 'util';
 import { ConfigurationService } from 'server/core/configuration/configuration.service';
 import { isHttps } from 'viewtube/shared/index';
 import { NuxtService } from './nuxt/nuxt.service';
+import { FastifyPluginCallback } from 'fastify';
 
-declare const module: any;
+declare const module: {
+  hot: {
+    accept: () => void;
+    dispose: (callback: () => void) => void;
+  };
+};
+
+type FastifyPluginType = FastifyPluginCallback;
 
 const bootstrap = async () => {
   await ConfigurationService.initializeEnvironment();
@@ -66,7 +74,7 @@ const bootstrap = async () => {
   // Disable helment on non-https instances
   if (isHttps()) {
     await server.register(
-      FastifyHelmet as any,
+      FastifyHelmet as FastifyPluginType,
       {
         contentSecurityPolicy: {
           useDefaults: true,
@@ -85,8 +93,8 @@ const bootstrap = async () => {
     );
   }
 
-  await server.register(FastifyCookie as any);
-  await server.register(FastifyMultipart as any);
+  await server.register(FastifyCookie as FastifyPluginType);
+  await server.register(FastifyMultipart as FastifyPluginType);
 
   // NUXT
   if (isProduction) {
@@ -96,6 +104,8 @@ const bootstrap = async () => {
 
     const nuxtService = server.get(NuxtService);
     await nuxtService.init();
+
+    server.useStaticAssets({ root: path.resolve(nuxtService.nuxtPath, 'public'), wildcard: false });
   }
 
   // NEST

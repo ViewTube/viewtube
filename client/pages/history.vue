@@ -15,7 +15,7 @@ const router = useRouter();
 const messagesStore = useMessagesStore();
 const settingsStore = useSettingsStore();
 const userStore = useUserStore();
-const config = useRuntimeConfig();
+const { apiUrl } = useApiUrl();
 const route = useRoute();
 
 const searchTerm = ref<string>(null);
@@ -41,7 +41,7 @@ const deleteRange = async () => {
   if (rangeSelected.value) {
     const firstDate = new Date(dateToDelete.value[0]).valueOf();
     const secondDate = new Date(dateToDelete.value[1]).valueOf();
-    await $fetch(`${config.public.apiUrl}user/history/from/${firstDate}/to/${secondDate}`, {
+    await $fetch(`${apiUrl}user/history/from/${firstDate}/to/${secondDate}`, {
       method: 'DELETE',
       credentials: 'include'
     })
@@ -60,7 +60,7 @@ const deleteRange = async () => {
 
 const deleteEntireHistory = async () => {
   deletePopup.value = false;
-  await $fetch(`${config.public.apiUrl}user/history/`, {
+  await $fetch(`${apiUrl}user/history/`, {
     method: 'DELETE',
     credentials: 'include'
   })

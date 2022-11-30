@@ -111,7 +111,7 @@ export default defineComponent({
     });
     const page = ref(0);
     const moreVideosLoading = ref(false);
-    const config = useRuntimeConfig();
+    const { apiUrl } = useApiUrl();
 
     const { data: searchData, pending, error } = useGetSearchResult();
 
@@ -183,7 +183,7 @@ export default defineComponent({
       if (searchData.value?.searchResults && searchContinuationData.value) {
         try {
           const searchContinuation = await $fetch<ytsr.ContinueResult>(
-            `${config.public.apiUrl}search/continuation`,
+            `${apiUrl}search/continuation`,
             {
               method: 'POST',
               body: {

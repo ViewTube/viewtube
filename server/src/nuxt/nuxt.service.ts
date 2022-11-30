@@ -1,11 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { FastifyReply, FastifyRequest } from 'fastify';
-import { createReadStream } from 'fs';
 import { NodeListener } from 'h3';
-import path from 'path';
 import { resolveNuxtPath } from './nuxt.resolver';
-import mime from 'mime-types';
 
 const importerFunction = new Function('module', 'return import(module)');
 
@@ -33,18 +30,5 @@ export class NuxtService {
 
   getPage(request: FastifyRequest, reply: FastifyReply): void {
     this.nuxtListener(request.raw, reply.raw);
-  }
-
-  getMimeType(filename: string) {
-    return mime.lookup(filename) || 'application/octet-stream';
-  }
-
-  getStaticNuxtFile(reply: FastifyReply, filename: string): void {
-    const nuxtStaticPath = path.join(this.nuxtPath, 'public', '_nuxt');
-    // Get mime type from filename
-    const mimeType = this.getMimeType(filename);
-    reply.header('Content-Type', mimeType);
-    const file = createReadStream(path.join(nuxtStaticPath, filename));
-    file.pipe(reply.raw);
   }
 }

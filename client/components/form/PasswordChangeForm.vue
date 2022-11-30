@@ -52,7 +52,7 @@ export default defineComponent({
   setup(_props, { emit }) {
     const messagesStore = useMessagesStore();
     const userStore = useUserStore();
-    const config = useRuntimeConfig();
+    const { apiUrl } = useApiUrl();
 
     const oldPassword = ref('');
     const newPassword = ref('');
@@ -70,7 +70,7 @@ export default defineComponent({
         loading.value = false;
         return;
       }
-      $fetch(`${config.public.apiUrl}user/profile/password`, {
+      $fetch(`${apiUrl}user/profile/password`, {
         method: 'POST',
         body: {
           username: userStore.username,

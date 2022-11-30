@@ -181,7 +181,7 @@ export default defineComponent({
     const userStore = useUserStore();
     const popupStore = usePopupStore();
 
-    const config = useRuntimeConfig();
+    const { apiUrl } = useApiUrl();
     const router = useRouter();
 
     const accountMenuVisible = ref(false);
@@ -204,7 +204,7 @@ export default defineComponent({
     const getProfileImageUrl = (url: string): string => {
       if (url) {
         const imgUrl = url.replace('/api/', '');
-        return `${config.public.apiUrl}${imgUrl}`;
+        return `${apiUrl}${imgUrl}`;
       }
       return null;
     };

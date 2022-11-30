@@ -26,10 +26,8 @@ const messagesStore = useMessagesStore();
 const settingsStore = useSettingsStore();
 const userStore = useUserStore();
 
-const config = useRuntimeConfig();
+const { apiUrl } = useApiUrl();
 const router = useRouter();
-
-const apiUrl = config.public.apiUrl;
 
 const logoutPopup = ref(false);
 const deleteAccountPopup = ref(false);
@@ -78,7 +76,7 @@ const onDeleteAccountClose = () => {
   deleteAccountPopup.value = false;
 };
 const deleteAccount = () => {
-  $fetch(`${config.public.apiUrl}user`, {
+  $fetch(`${apiUrl}user`, {
     method: 'DELETE',
     body: { username: repeatedUsername.value },
     credentials: 'include'
@@ -96,7 +94,7 @@ const onProfileImageChange = (e: any) => {
   const img = e.target.files[0];
   const formData = new FormData();
   formData.append('image', img);
-  $fetch<{ path: string }>(`${config.public.apiUrl}user/profile/image`, {
+  $fetch<{ path: string }>(`${apiUrl}user/profile/image`, {
     method: 'POST',
     body: formData,
     headers: {
@@ -139,7 +137,7 @@ const onProfileImageChange = (e: any) => {
     });
 };
 const deleteProfileImage = () => {
-  $fetch(`${config.public.apiUrl}user/profile/image`, {
+  $fetch(`${apiUrl}user/profile/image`, {
     method: 'DELETE',
     credentials: 'include'
   })
@@ -171,7 +169,7 @@ const setProfileImageUrl = (url: string): void => {
   if (url) {
     const imgUrl = url.replace('/api/', '');
     const random = Math.random() * (0 - 1000) + 0;
-    profileImageUrl.value = `${config.public.apiUrl}${imgUrl}?r=${random}`;
+    profileImageUrl.value = `${apiUrl}${imgUrl}?r=${random}`;
   } else {
     profileImageUrl.value = null;
   }

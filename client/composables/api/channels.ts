@@ -1,7 +1,7 @@
 import { ChannelDto, ApiErrorDto } from 'viewtube/shared';
 
 export const useGetChannels = (id: string | string[]) => {
-  const config = useRuntimeConfig();
+  const { apiUrl } = useApiUrl();
 
-  return useLazyFetch<ChannelDto, ApiErrorDto>(`${config.public.apiUrl}channels/${id}`);
+  return useLazyFetch<ChannelDto, ApiErrorDto>(`${apiUrl}channels/${id}`);
 };

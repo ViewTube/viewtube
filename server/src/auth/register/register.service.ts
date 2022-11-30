@@ -20,7 +20,7 @@ export class RegisterService {
       });
     } else {
       throw new HttpException(
-        'Captcha invalid. Solution is incorrect, timeout has expired or captcha has been submitted multiple times.',
+        'Captcha invalid. Possible causes:\n- Solution is incorrect.\n- Timeout has expired\n- Captcha has been submitted multiple times',
         403
       );
     }

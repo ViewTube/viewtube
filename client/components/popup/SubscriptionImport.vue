@@ -163,7 +163,7 @@ export default defineComponent({
   },
   setup(_, { emit }) {
     const messagesStore = useMessagesStore();
-    const config = useRuntimeConfig();
+    const { apiUrl } = useApiUrl();
 
     const youtubeSubscriptionUrl = ref('https://takeout.google.com');
     const page2 = ref(false);
@@ -306,7 +306,7 @@ export default defineComponent({
       loading.value = true;
       const subscriptions = selectedChannels.value;
       const subscriptionIds = subscriptions.map(e => e.authorId);
-      $fetch(`${config.public.apiUrl}user/subscriptions/multiple`, {
+      $fetch(`${apiUrl}user/subscriptions/multiple`, {
         method: 'POST',
         body: {
           channels: subscriptionIds

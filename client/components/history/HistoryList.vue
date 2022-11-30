@@ -14,7 +14,7 @@ defineProps<{
 const emit = defineEmits<{ (e: 'refresh'): void }>();
 
 const messagesStore = useMessagesStore();
-const config = useRuntimeConfig();
+const { apiUrl } = useApiUrl();
 const imgProxy = useImgProxy();
 
 const humanizeDateString = (dateString: string): string => {
@@ -24,7 +24,7 @@ const humanizeDateString = (dateString: string): string => {
   return humanizeDuration(dateMs, { largest: 1 });
 };
 const deleteEntry = async (videoId: string) => {
-  await $fetch(`${config.public.apiUrl}user/history/${videoId}`, {
+  await $fetch(`${apiUrl}user/history/${videoId}`, {
     method: 'DELETE',
     credentials: 'include'
   })

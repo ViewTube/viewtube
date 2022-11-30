@@ -8,7 +8,7 @@ type UserHistoryParams = {
 };
 
 export const useGetUserHistory = ({ searchTerm, limit, start }: UserHistoryParams) => {
-  const config = useRuntimeConfig();
+  const { apiUrl } = useApiUrl();
   const authorizationHeader = useAuthorizationHeader();
 
   let filterString = '';
@@ -16,7 +16,7 @@ export const useGetUserHistory = ({ searchTerm, limit, start }: UserHistoryParam
     filterString = `&filter=${searchTerm}`;
   }
 
-  const url = `${config.public.apiUrl}user/history?limit=${limit}&start=${start}${filterString}&sort=DESC`;
+  const url = `${apiUrl}user/history?limit=${limit}&start=${start}${filterString}&sort=DESC`;
 
   return useLazyFetch<ApiDto<'HistoryResponseDto'>>(url, {
     headers: {
@@ -27,10 +27,10 @@ export const useGetUserHistory = ({ searchTerm, limit, start }: UserHistoryParam
 };
 
 export const useGetUserHistoryItem = (videoId: string) => {
-  const config = useRuntimeConfig();
+  const { apiUrl } = useApiUrl();
   const authorizationHeader = useAuthorizationHeader();
 
-  const url = `${config.public.apiUrl}user/history/${videoId}`;
+  const url = `${apiUrl}user/history/${videoId}`;
 
   return useLazyFetch<{
     videoId: string;
@@ -46,10 +46,10 @@ export const useGetUserHistoryItem = (videoId: string) => {
 };
 
 export const useGetUserProfileDetails = () => {
-  const config = useRuntimeConfig();
+  const { apiUrl } = useApiUrl();
   const authorizationHeader = useAuthorizationHeader();
 
-  const url = `${config.public.apiUrl}user/profile/details`;
+  const url = `${apiUrl}user/profile/details`;
 
   return useLazyFetch<ApiDto<'UserprofileDetailsDto'>>(url, {
     headers: {
@@ -60,10 +60,10 @@ export const useGetUserProfileDetails = () => {
 };
 
 export const useGetUserSubscriptions = ({ limit = 20, start = 0 } = { limit: 20, start: 0 }) => {
-  const config = useRuntimeConfig();
+  const { apiUrl } = useApiUrl();
   const authorizationHeader = useAuthorizationHeader();
 
-  const url = `${config.public.apiUrl}user/subscriptions/videos?limit=${limit}&start=${start}`;
+  const url = `${apiUrl}user/subscriptions/videos?limit=${limit}&start=${start}`;
 
   return useLazyFetch<ApiDto<'SubscriptionFeedResponseDto'>>(url, {
     headers: {
@@ -76,7 +76,7 @@ export const useGetUserSubscriptions = ({ limit = 20, start = 0 } = { limit: 20,
 export const useGetUserSubscriptionChannels = (
   { limit = 30, start = 0, searchTerm = undefined } = { limit: 30, start: 0, searchTerm: undefined }
 ) => {
-  const config = useRuntimeConfig();
+  const { apiUrl } = useApiUrl();
   const authorizationHeader = useAuthorizationHeader();
 
   let filterString = '';
@@ -84,7 +84,7 @@ export const useGetUserSubscriptionChannels = (
     filterString = `&filter=${searchTerm}`;
   }
 
-  const url = `${config.public.apiUrl}user/subscriptions/channels?limit=${limit}&start=${start}&sort=author:1${filterString}`;
+  const url = `${apiUrl}user/subscriptions/channels?limit=${limit}&start=${start}&sort=author:1${filterString}`;
 
   return useLazyFetch<ApiDto<'SubscribedChannelsResponseDto'>>(url, {
     headers: {

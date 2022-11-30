@@ -1,5 +1,5 @@
 export const getPlaylists = (id: string | string[]) => {
-  const config = useRuntimeConfig();
+  const { apiUrl } = useApiUrl();
 
-  return $fetch<any>(`${config.public.apiUrl}playlists/${id}`);
+  return $fetch<any>(`${apiUrl}playlists/${id}`);
 };

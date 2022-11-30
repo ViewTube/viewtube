@@ -1,7 +1,7 @@
 import { ApiDto } from 'viewtube/shared';
 
 export const getDislikes = (id: string | string[]) => {
-  const config = useRuntimeConfig();
+  const { apiUrl } = useApiUrl();
 
-  return $fetch<ApiDto<'DislikeDto'>>(`${config.public.apiUrl}videos/dislikes/${id}`);
+  return $fetch<ApiDto<'DislikeDto'>>(`${apiUrl}videos/dislikes/${id}`);
 };

@@ -18,8 +18,7 @@ export const useGetSearchResult = () => {
     `search`,
     async () => {
       try {
-        const config = useRuntimeConfig();
-        const apiUrl = config.public.apiUrl;
+        const { apiUrl } = useApiUrl();
         const filtersResponse = await getFilters(searchQuery.value, apiUrl);
 
         const filterArray = getFilterArray(route.query, filtersResponse);

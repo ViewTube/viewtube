@@ -1,16 +1,16 @@
 export const useGetComments = (videoId: string) => {
-  const config = useRuntimeConfig();
+  const { apiUrl } = useApiUrl();
 
-  return useLazyFetch(`${config.public.apiUrl}comments/${videoId}`);
+  return useLazyFetch(`${apiUrl}comments/${videoId}`);
 };
 
 export const useGetCommentsContinuation = (
   videoId: string,
   { continuationLink }: { continuationLink: string }
 ) => {
-  const config = useRuntimeConfig();
+  const { apiUrl } = useApiUrl();
 
   return useLazyFetch(
-    `${config.public.apiUrl}comments/${videoId}?continuation=${continuationLink}`
+    `${apiUrl}comments/${videoId}?continuation=${continuationLink}`
   );
 };

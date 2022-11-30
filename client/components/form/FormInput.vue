@@ -39,9 +39,9 @@ const autocompleteTag = computed((): string => autocompleteTags[props.type] ?? '
       :value="modelValue"
       @input="(e: any) => $emit('update:modelValue', e.target.value)"
     />
-    <AccountIcon v-if="type == 'username'" />
-    <KeyIcon v-if="type == 'password'" />
-    <MailIcon v-if="type == 'email'" />
+    <AccountIcon v-if="type === 'username'" />
+    <KeyIcon v-if="type === 'password'" />
+    <MailIcon v-if="type === 'email'" />
     <label :for="id" class="input-label">{{ label }}</label>
   </div>
 </template>

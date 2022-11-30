@@ -14,6 +14,7 @@ import { useUserStore } from '@/store/user';
 
 const messagesStore = useMessagesStore();
 const userStore = useUserStore();
+const { apiUrl } = useApiUrl();
 const config = useRuntimeConfig();
 const route = useRoute();
 
@@ -93,7 +94,7 @@ const subscribeToNotifications = (val: any) => {
             applicationServerKey: vapidKey
           })
           .then(subscription => {
-            $fetch(`${config.public.apiUrl}user/notifications/subscribe`, {
+            $fetch(`${apiUrl}user/notifications/subscribe`, {
               method: 'POST',
               body: subscription,
               credentials: 'include'

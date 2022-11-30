@@ -39,12 +39,10 @@ export default defineComponent({
   },
   setup(props) {
     const messagesStore = useMessagesStore();
-    const config = useRuntimeConfig();
+    const { apiUrl } = useApiUrl();
     const route = useRoute();
 
     const possibleSearch = ref(null);
-
-    const apiUrl = config.public.apiUrl;
 
     const copyError = (): void => {
       if (process.client && 'clipboard' in navigator) {
