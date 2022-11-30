@@ -3,7 +3,6 @@
     <a
       v-show="!userAuthenticated"
       id="login"
-      v-ripple
       v-tippy="'Sign in'"
       :href="`/login${currentPageRef('login')}`"
       class="tooltip nav-btn main"
@@ -13,7 +12,6 @@
     <a
       v-show="!userAuthenticated"
       id="register"
-      v-ripple
       v-tippy="'Sign up'"
       :href="`/register${currentPageRef('register')}`"
       class="tooltip nav-btn"
@@ -23,7 +21,6 @@
     <nuxt-link
       v-show="$route.name !== 'subscriptions' && userAuthenticated"
       id="subscriptions"
-      v-ripple
       v-tippy="'View your subscriptions'"
       to="/subscriptions"
       class="tooltip nav-btn main"
@@ -31,7 +28,6 @@
     >
     <a
       id="account"
-      v-ripple
       v-tippy="'Account'"
       :class="{ authenticated: userAuthenticated }"
       href="#"

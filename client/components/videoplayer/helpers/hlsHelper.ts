@@ -1,5 +1,6 @@
-import Hls, { HlsConfig, Events } from 'hls.js';
-// const { Events } = Hls;
+import Hls, { HlsConfig } from 'hls.js';
+// eslint-disable-next-line import/no-named-as-default-member
+const { Events } = Hls;
 
 let hls: Hls = null;
 
@@ -17,7 +18,7 @@ export const initializeHlsStream = (
       backBufferLength: 90,
       maxBufferLength: 90,
       // progressive: true,
-      fetchSetup(context, initParams) {
+      fetchSetup(context) {
         if (proxyUrl && !context.url.includes(proxyUrl)) {
           context.url = proxyUrl + encodeURI(context.url);
         }
