@@ -34,8 +34,8 @@ const state = {
 };
 
 export const useSettingsStore = defineStore('settings', {
+  persist: true,
   state: () => state,
-
   actions: {
     updateSettings(newSettings: typeof state) {
       Object.keys(newSettings).forEach(key => {

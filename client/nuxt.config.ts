@@ -13,11 +13,7 @@ export default defineNuxtConfig({
     'viewtube/*': '../*'
   },
 
-  css: [
-    '@/assets/fonts/expletus.css',
-    '@/assets/fonts/notosans.css',
-    'tippy.js/dist/tippy.css',
-  ],
+  css: ['@/assets/fonts/expletus.css', '@/assets/fonts/notosans.css', 'tippy.js/dist/tippy.css'],
 
   vite: {
     css: {
@@ -33,5 +29,5 @@ export default defineNuxtConfig({
     }
   },
 
-  modules: ['@pinia/nuxt']
+  modules: ['@pinia/nuxt', '@pinia-plugin-persistedstate/nuxt']
 });

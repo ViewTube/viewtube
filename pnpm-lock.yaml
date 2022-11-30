@@ -15,6 +15,7 @@ importers:
       '@nuxt/kit': 3.0.0
       '@nuxtjs/eslint-config-typescript': 12.0.0
       '@nuxtjs/pwa': 3.3.5
+      '@pinia-plugin-persistedstate/nuxt': ^1.0.0
       '@pinia/nuxt': 0.4.6
       '@types/humanize-duration': 3.27.1
       '@types/node': 18.11.9
@@ -59,6 +60,7 @@ importers:
     dependencies:
       '@nuxt/kit': 3.0.0
       '@nuxtjs/pwa': 3.3.5
+      '@pinia-plugin-persistedstate/nuxt': 1.0.0_nz7jp7nubpwps5tqy3q7pbeoma
       '@pinia/nuxt': 0.4.6_mgnvym7yiazkylwwogi5r767ue
       consola: 2.15.3
       dashjs: 4.5.1
@@ -2647,6 +2649,20 @@ packages:
       serve-static: 1.15.0
       workbox-cdn: 5.1.4
     transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  /@pinia-plugin-persistedstate/nuxt/1.0.0_nz7jp7nubpwps5tqy3q7pbeoma:
+    resolution: {integrity: sha512-oBLnkFXy0mcP9wCR0NQj1SguhgalEoubDF302gpRr1lh0V34vSL2Nlw8XDwRrULq5v3eHt4da632YSjNny1+BA==}
+    peerDependencies:
+      '@pinia/nuxt': ^0.4.4
+    dependencies:
+      '@nuxt/kit': 3.0.0
+      '@pinia/nuxt': 0.4.6_mgnvym7yiazkylwwogi5r767ue
+      pinia-plugin-persistedstate: 3.0.1_pinia@2.0.27
+    transitivePeerDependencies:
+      - pinia
+      - rollup
       - supports-color
     dev: false
 
@@ -9117,6 +9133,14 @@ packages:
   /pify/2.3.0:
     resolution: {integrity: sha512-udgsAY+fTnvv7kI7aaxbqwWNb0AHiB0qBO89PZKPkoTmGOgdbrHDKD+0B2X4uTfJ/FT1R09r9gTsjUjNJotuog==}
     engines: {node: '>=0.10.0'}
+    dev: false
+
+  /pinia-plugin-persistedstate/3.0.1_pinia@2.0.27:
+    resolution: {integrity: sha512-WRNWtR4v8StJqBQH+Qiz88SGnlr4wvEyh7wtA+fYEVLoIOnpZ0v4FICvUcC8eUkAIvQL3n6/Ew2yryw7okazvA==}
+    peerDependencies:
+      pinia: ^2.0.0
+    dependencies:
+      pinia: 2.0.27_mgnvym7yiazkylwwogi5r767ue
     dev: false
 
   /pinia/2.0.27_mgnvym7yiazkylwwogi5r767ue:
