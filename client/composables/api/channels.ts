@@ -1,7 +1,16 @@
-import { ChannelDto, ApiErrorDto } from 'viewtube/shared';
+import { ApiDto, ApiErrorDto } from 'viewtube/shared';
+
+type ChannelDtoType = Omit<ApiDto<'ChannelDto'>, 'videoSections'> & {
+  videoSections: {
+    title: string;
+    type: 'single' | 'multi';
+    video: Record<string, any>;
+    elements: { type: 'video' | 'playlist' }[];
+  }[];
+};
 
 export const useGetChannels = (id: string | string[]) => {
   const { apiUrl } = useApiUrl();
 
-  return useLazyFetch<ChannelDto, ApiErrorDto>(`${apiUrl}channels/${id}`);
+  return useLazyFetch<ChannelDtoType, ApiErrorDto>(`${apiUrl}channels/${id}`);
 };

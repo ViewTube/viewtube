@@ -38,6 +38,7 @@
 </template>
 
 <script lang="ts">
+import { PropType } from 'vue';
 import UndoIcon from 'vue-material-design-icons/Undo.vue';
 
 
@@ -47,7 +48,7 @@ export default defineComponent({
     UndoIcon
   },
   props: {
-    filters: Array
+    filters: Array as PropType<Array<any>>,
   },
   setup() {
     const route = useRoute();

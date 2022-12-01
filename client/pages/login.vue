@@ -19,7 +19,7 @@ import LoginForm from '@/components/form/LoginForm.vue';
   padding: $header-height 0 0 0;
 
   @media screen and (min-width: $mobile-width) {
-    background-image: url('/img/blur-bg-medium-dark.jpg');
+    background-image: url('@/assets/blur-bg-medium-dark.jpg');
   }
 }
 </style>

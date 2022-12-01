@@ -4,7 +4,7 @@ import EyeIcon from 'vue-material-design-icons/Eye.vue';
 type BannerLinkType = {
   url: string;
   title: string;
-  linkThumbnails: Array<{
+  linkThumbnails?: Array<{
     url: string;
   }>;
 };

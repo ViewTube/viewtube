@@ -39,7 +39,8 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts">import { PropType } from 'vue';
+
 
 
 export default defineComponent({

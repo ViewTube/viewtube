@@ -22,6 +22,7 @@
 <script lang="ts">
 
 import SectionTitle from '@/components/SectionTitle.vue';
+import { PropType } from 'vue';
 
 
 export default defineComponent({
@@ -30,7 +31,7 @@ export default defineComponent({
     SectionTitle
   },
   props: {
-    refinements: Array
+    refinements: Array as PropType<Array<any>>,
   },
   setup() {
     const imgProxy = useImgProxy();

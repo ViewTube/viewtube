@@ -14,7 +14,6 @@
 </template>
 
 <script lang="ts">
-
 // import { WebVTTParser } from '@/utilities/services/webVTTParser';
 
 export default defineComponent({
@@ -38,7 +37,9 @@ export default defineComponent({
     const storyboardImages = ref(null);
     const storyboardBaseImages = ref([]);
     const currentImg = reactive({
-      imgId: 0
+      imgId: 0,
+      posX: 0,
+      posY: 0
     });
 
     onMounted(() => {

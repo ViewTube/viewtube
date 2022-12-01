@@ -30,8 +30,6 @@
 </template>
 
 <script lang="ts">
-
-
 export default defineComponent({
   name: 'TabMenu',
   props: {
@@ -46,20 +44,16 @@ export default defineComponent({
     const tabUnderlineWidth = ref(0);
     const tabUnderlineLeft = ref(0);
 
-    const onTabSelected = (
-      tabId: number,
-      e: { target: { clientWidth: number; offsetLeft: number } }
-    ) => {
-      tabUnderlineWidth.value = e.target.clientWidth;
-      tabUnderlineLeft.value = e.target.offsetLeft;
+    const onTabSelected = (tabId: number, e: MouseEvent) => {
+      const el = e.target as HTMLElement;
+      tabUnderlineWidth.value = el.clientWidth;
+      tabUnderlineLeft.value = el.offsetLeft;
 
       selectedTab.value = tabId;
     };
 
     if (route.query.tab) {
-      selectedTab.value = props.tabNames.findIndex(
-        (_, id) => id === (route.query.tab as any)
-      );
+      selectedTab.value = props.tabNames.findIndex((_, id) => id === (route.query.tab as any));
     }
 
     return {
@@ -116,8 +110,6 @@ export default defineComponent({
           font-weight: bold;
         }
       }
-    }
-    .tab-content {
     }
   }
 }

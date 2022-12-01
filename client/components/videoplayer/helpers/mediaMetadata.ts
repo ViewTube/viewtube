@@ -1,13 +1,11 @@
-import { ApiSchema, ApiDto } from 'viewtube/shared';
+import { ApiDto } from 'viewtube/shared';
 
 export class MediaMetadataHelper {
   constructor(video: any) {
     this.video = video;
   }
 
-  video: ApiSchema['VideoDto'];
-
-  video2: ApiDto<'VideoDto'>;
+  video: ApiDto<'VideoDto'>;
 
   createMediaMetadata() {
     return new MediaMetadata({
@@ -18,7 +16,7 @@ export class MediaMetadataHelper {
   }
 
   generateArtworkUrl() {
-    return this.video.videoThumbnails.map((el: ApiSchema['VideoThumbnailDto']) => {
+    return this.video.videoThumbnails.map((el: ApiDto<'VideoThumbnailDto'>) => {
       return {
         src: el.url,
         sizes: `${el.height}x${el.width}`,

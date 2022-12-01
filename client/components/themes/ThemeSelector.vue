@@ -72,7 +72,7 @@ export default defineComponent({
         settingsStore.setSettingsSaving(false);
       }, 300);
     };
-    const getBorderThemeColor = (theme: { [x: string]: string; value: string }): string => {
+    const getBorderThemeColor = (theme: { [x: string]: any; value: string }): string => {
       return theme.value === settingsStore.theme ? theme['theme-color'] : 'transparent';
     };
 

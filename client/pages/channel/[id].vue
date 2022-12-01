@@ -65,13 +65,10 @@ watch(error, errorValue => {
             <InlineVideo :video="section.video" />
           </div>
           <div v-if="section.type === 'multi'" class="multi-video-section">
-            <component
-              :is="element.type === 'video' ? 'VideoEntry' : 'PlaylistEntry'"
-              v-for="(element, i) in section.elements"
-              :key="i"
-              :video="element"
-              :playlist="element"
-            />
+            <div v-for="(element, i) in section.elements" :key="i">
+              <VideoEntry v-if="element.type === 'video'" :video="element" />
+              <PlaylistEntry v-if="element.type === 'playlist'" :playlist="element" />
+            </div>
           </div>
         </div>
       </div>

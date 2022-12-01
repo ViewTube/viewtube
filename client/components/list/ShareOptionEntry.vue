@@ -5,13 +5,11 @@
 </template>
 
 <script lang="ts">
-
-
 export default defineComponent({
   name: 'ShareOptionEntry',
   props: {
     optionName: { type: String, required: true },
-    click: Function as PropType<() => {}>
+    click: Function
   },
   setup(props) {
     const onClick = () => {

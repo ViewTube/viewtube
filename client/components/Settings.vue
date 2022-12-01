@@ -1,3 +1,34 @@
+<script setup lang="ts">
+import CloseIcon from 'vue-material-design-icons/Close.vue';
+import ThemeIcon from 'vue-material-design-icons/Brightness4.vue';
+import MiniplayerIcon from 'vue-material-design-icons/WindowRestore.vue';
+import ChaptersIcon from 'vue-material-design-icons/BookOpenVariant.vue';
+import CloudCheckIcon from 'vue-material-design-icons/CloudCheckOutline.vue';
+import HistoryIcon from 'vue-material-design-icons/History.vue';
+import ReloadIcon from 'vue-material-design-icons/Reload.vue';
+import HomescreenIcon from 'vue-material-design-icons/Home.vue';
+import VideoplayerIcon from 'vue-material-design-icons/Television.vue';
+import ThemeSelector from '@/components/themes/ThemeSelector.vue';
+import SwitchButton from '@/components/buttons/SwitchButton.vue';
+import MultiOptionButton from '@/components/buttons/MultiOptionButton.vue';
+import Dropdown from '@/components/filter/Dropdown.vue';
+import '@/assets/styles/popup.scss';
+import { SegmentOption, useSettingsStore } from '@/store/settings';
+
+defineEmits<{
+  (e: 'close'): void;
+}>();
+
+const settingsStore = useSettingsStore();
+const sponsorblockSegmentOptions = reactive([
+  { label: 'Skip', value: 'skip' },
+  { label: 'Ask', value: 'ask' },
+  { label: 'None', value: 'none' }
+]);
+
+const videoQualities = ['144p', '240p', '360p', '720p', '1080p', '1440p', '2160p'];
+</script>
+
 <template>
   <div class="settings popup">
     <div class="settings-container popup-container">
@@ -72,7 +103,7 @@
             :small-label="'Advertisements, promotions and video sponsors'"
             :right="true"
             :color-mark="'#0fca15'"
-            @valuechange="val => settingsStore.setSponsorblockSegmentSponsor(val.value)"
+            @valuechange="val => settingsStore.setSponsorblockSegmentSponsor(val.value as SegmentOption)"
           />
           <MultiOptionButton
             :options="sponsorblockSegmentOptions"
@@ -81,7 +112,7 @@
             :small-label="'Intro animation, pause, intro sequence'"
             :right="true"
             :color-mark="'#07faf0'"
-            @valuechange="val => settingsStore.setSponsorblockSegmentIntro(val.value)"
+            @valuechange="val => settingsStore.setSponsorblockSegmentIntro(val.value as SegmentOption)"
           />
           <MultiOptionButton
             :options="sponsorblockSegmentOptions"
@@ -90,7 +121,7 @@
             :small-label="'Endcards, credits, outros'"
             :right="true"
             :color-mark="'#0103e1'"
-            @valuechange="val => settingsStore.setSponsorblockSegmentOutro(val.value)"
+            @valuechange="val => settingsStore.setSponsorblockSegmentOutro(val.value as SegmentOption)"
           />
           <MultiOptionButton
             :options="sponsorblockSegmentOptions"
@@ -99,7 +130,7 @@
             :small-label="'Reminder to subscribe, like, follow on social media, etc.'"
             :right="true"
             :color-mark="'#b711df'"
-            @valuechange="val => settingsStore.setSponsorblockSegmentInteraction(val.value)"
+            @valuechange="val => settingsStore.setSponsorblockSegmentInteraction(val.value as SegmentOption)"
           />
           <MultiOptionButton
             :options="sponsorblockSegmentOptions"
@@ -108,7 +139,7 @@
             :small-label="'Unpaid promotion, for example donations, merchandise or shoutouts'"
             :right="true"
             :color-mark="'#fdfb0e'"
-            @valuechange="val => settingsStore.setSponsorblockSegmentSelfpromo(val.value)"
+            @valuechange="val => settingsStore.setSponsorblockSegmentSelfpromo(val.value as SegmentOption)"
           />
           <MultiOptionButton
             :options="sponsorblockSegmentOptions"
@@ -117,7 +148,7 @@
             :small-label="'Skips non-music sections in music videos'"
             :right="true"
             :color-mark="'#f89c06'"
-            @valuechange="val => settingsStore.setSponsorblockSegmentMusicOfftopic(val.value)"
+            @valuechange="val => settingsStore.setSponsorblockSegmentMusicOfftopic(val.value as SegmentOption)"
           />
           <MultiOptionButton
             :options="sponsorblockSegmentOptions"
@@ -126,7 +157,7 @@
             :small-label="'Skips previews and recaps'"
             :right="true"
             :color-mark="'#f70000'"
-            @valuechange="val => settingsStore.setSponsorblockSegmentPreview(val.value)"
+            @valuechange="val => settingsStore.setSponsorblockSegmentPreview(val.value as SegmentOption)"
           />
         </div>
       </div>
@@ -221,59 +252,6 @@
     <div class="settings-overlay popup-overlay" @click.stop="$emit('close')" />
   </div>
 </template>
-
-<script lang="ts">
-import CloseIcon from 'vue-material-design-icons/Close.vue';
-import ThemeIcon from 'vue-material-design-icons/Brightness4.vue';
-import MiniplayerIcon from 'vue-material-design-icons/WindowRestore.vue';
-import ChaptersIcon from 'vue-material-design-icons/BookOpenVariant.vue';
-import CloudCheckIcon from 'vue-material-design-icons/CloudCheckOutline.vue';
-import HistoryIcon from 'vue-material-design-icons/History.vue';
-import ReloadIcon from 'vue-material-design-icons/Reload.vue';
-import HomescreenIcon from 'vue-material-design-icons/Home.vue';
-import VideoplayerIcon from 'vue-material-design-icons/Television.vue';
-import ThemeSelector from '@/components/themes/ThemeSelector.vue';
-import SwitchButton from '@/components/buttons/SwitchButton.vue';
-import MultiOptionButton from '@/components/buttons/MultiOptionButton.vue';
-import Dropdown from '@/components/filter/Dropdown.vue';
-import '@/assets/styles/popup.scss';
-import { useSettingsStore } from '@/store/settings';
-
-export default defineComponent({
-  name: 'Settings',
-  components: {
-    CloseIcon,
-    ThemeIcon,
-    MiniplayerIcon,
-    HistoryIcon,
-    HomescreenIcon,
-    VideoplayerIcon,
-    SwitchButton,
-    ThemeSelector,
-    ChaptersIcon,
-    MultiOptionButton,
-    CloudCheckIcon,
-    ReloadIcon,
-    Dropdown
-  },
-  setup() {
-    const settingsStore = useSettingsStore();
-    const sponsorblockSegmentOptions = reactive([
-      { label: 'Skip', value: 'skip' },
-      { label: 'Ask', value: 'ask' },
-      { label: 'None', value: 'none' }
-    ]);
-
-    const videoQualities = ['144p', '240p', '360p', '720p', '1080p', '1440p', '2160p'];
-
-    return {
-      sponsorblockSegmentOptions,
-      videoQualities,
-      settingsStore
-    };
-  }
-});
-</script>
 
 <style lang="scss">
 .icon-switch-enter-active,

@@ -1,5 +1,7 @@
-import { PlaylistImageDto } from "./playlist-image.dto";
-import { PlaylistItemDto } from "./playlist-item.dto";
+import { PlaylistImageDto } from './playlist-image.dto';
+import { PlaylistItemDto } from './playlist-item.dto';
+
+type VisibilityType = 'unlisted' | 'everyone';
 
 export class PlaylistResultDto {
   id: string;
@@ -11,7 +13,7 @@ export class PlaylistResultDto {
   bestThumbnail: PlaylistImageDto;
   lastUpdated: string;
   description: string | null;
-  visibility: 'unlisted' | 'everyone';
+  visibility: VisibilityType;
   author: {
     name: string;
     url: string;

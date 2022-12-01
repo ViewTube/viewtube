@@ -1,28 +1,31 @@
+<script setup lang="ts">
+defineProps<{
+  modelValue: string;
+  label: string;
+}>();
+
+const emit = defineEmits<{
+  (event: 'update:modelValue', value: string): void;
+}>();
+
+const onInput = (e: Event) => {
+  emit('update:modelValue', (e.target as HTMLInputElement).value);
+};
+</script>
+
 <template>
-  <div class="small-search" :class="{ value: value && value.length > 0 }">
+  <div class="small-search" :class="{ value: modelValue && modelValue.length > 0 }">
     <label for="small-search-box">{{ label }}</label>
     <input
       id="small-search-box"
-      :value="value"
+      :value="modelValue"
       class="small-search-box"
       name="small-search-box"
       type="text"
-      @input="$emit('input', $event.target.value)"
+      @input="onInput"
     />
   </div>
 </template>
-
-<script lang="ts">
-
-
-export default defineComponent({
-  name: 'SmallSearchBox',
-  props: {
-    value: String,
-    label: String
-  }
-});
-</script>
 
 <style lang="scss">
 .small-search {
