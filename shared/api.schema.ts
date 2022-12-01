@@ -4,11 +4,6 @@
  */
 
 
-/** Type helpers */
-type Without<T, U> = { [P in Exclude<keyof T, keyof U>]?: never };
-type XOR<T, U> = (T | U) extends object ? (Without<T, U> & U) | (Without<U, T> & T) : T | U;
-type OneOf<T extends any[]> = T extends [infer Only] ? Only : T extends [infer A, infer B, ...infer Rest] ? OneOf<[XOR<A, B>, ...Rest]> : never;
-
 export interface paths {
   "/api/videos/{id}": {
     get: operations["VideosController_getVideos"];
@@ -143,6 +138,8 @@ export interface paths {
     get: operations["CaptchaController_getCaptcha"];
   };
 }
+
+export type webhooks = Record<string, never>;
 
 export interface components {
   schemas: {
