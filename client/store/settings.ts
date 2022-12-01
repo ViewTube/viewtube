@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { insertSetters } from '@/utilities/storeSetters';
 import { useUserStore } from '@/store/user';
-import { Ref, UnwrapNestedRefs, UnwrapRef } from 'vue';
+import { UnwrapNestedRefs } from 'vue';
 
 export type SegmentOption = 'skip' | 'ask' | 'none';
 type ThemeVariant = 'default' | 'light' | 'dark-no-gradient' | 'black' | 'green';
