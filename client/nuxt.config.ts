@@ -13,6 +13,11 @@ export default defineNuxtConfig({
     'viewtube/*': '../*'
   },
 
+  typescript: {
+    strict: true,
+    typeCheck: true
+  },
+
   css: ['@/assets/fonts/expletus.css', '@/assets/fonts/notosans.css', 'tippy.js/dist/tippy.css'],
 
   vite: {
