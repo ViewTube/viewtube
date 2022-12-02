@@ -18,18 +18,18 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 16.x
-          cache: "yarn"
+          cache: "pnpm"
 
       - name: Get current date and time
         id: date-time
         run: echo "::set-output name=date-time::$(TZ='Europe/Zurich' date +'%Y-%m-%d %H:%M:%S %Z')"
 
-      - run: yarn install
+      - run: pnpm install --frozen-lockfile
 
       - name: Run tests
         id: run_tests
         run: |
-          echo "::set-output name=test-result::$(yarn test | tail)"
+          echo "::set-output name=test-result::$(pnpm test | tail)"
 
       - name: Send test status notification
         if: always()
