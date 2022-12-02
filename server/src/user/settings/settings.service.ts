@@ -14,14 +14,15 @@ export class SettingsService {
   private defaultOptions: SettingsDto = {
     alwaysLoopVideo: false,
     audioModeDefault: false,
+    autoAdjustAudioQuality: true,
+    autoAdjustVideoQuality: true,
     autoplay: false,
     autoplayNextVideo: false,
     chapters: true,
-    defaultVideoSpeed: 1,
-    defaultVideoQuality: '720p',
+    dashPlaybackEnabled: false,
     defaultAudioQuality: '192kb',
-    autoAdjustAudioQuality: true,
-    autoAdjustVideoQuality: true,
+    defaultVideoQuality: '720p',
+    defaultVideoSpeed: 1,
     miniplayer: true,
     saveVideoHistory: true,
     showHomeSubscriptions: true,
@@ -30,11 +31,10 @@ export class SettingsService {
     sponsorblockSegmentIntro: 'ask',
     sponsorblockSegmentMusicOfftopic: 'ask',
     sponsorblockSegmentOutro: 'ask',
+    sponsorblockSegmentPreview: 'ask',
     sponsorblockSegmentSelfpromo: 'ask',
     sponsorblockSegmentSponsor: 'ask',
-    sponsorblockSegmentPreview: 'ask',
     theme: 'default',
-    dashPlaybackEnabled: false
   };
 
   async setSettings(settings: Partial<SettingsDto>, username: string): Promise<void> {

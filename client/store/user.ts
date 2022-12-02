@@ -1,9 +1,11 @@
 import { defineStore } from 'pinia';
 import { useCaptchaStore } from '@/store/captcha';
+import { useSettingsStore } from './settings';
 
 type User = {
   username: string;
   profileImage: string;
+  settings: Record<string, unknown>;
 };
 
 export const useUserStore = defineStore('user', {
@@ -17,6 +19,7 @@ export const useUserStore = defineStore('user', {
   actions: {
     async getUser(authenticationToken?: string) {
       const { apiUrl } = useApiUrl();
+      const settingsStore = useSettingsStore();
       try {
         const user = await $fetch<User>(`${apiUrl}user/profile`, {
           headers: {
@@ -26,6 +29,8 @@ export const useUserStore = defineStore('user', {
         });
         this.username = user.username;
         this.profileImage = user.profileImage;
+
+        settingsStore.updateSettings(user.settings);
       } catch {}
     },
 
