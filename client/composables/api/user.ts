@@ -66,14 +66,14 @@ type UserSubscriptionsParams = {
 };
 
 export const useGetUserSubscriptions = (
-  config: UserSubscriptionsParams = { limit: 20, currentPage: 0 }
+  config: UserSubscriptionsParams = { limit: 20, currentPage: 1 }
 ) => {
   const { apiUrl } = useApiUrl();
   const authorizationHeader = useAuthorizationHeader();
 
   const url = computed(() => {
     const limit = unref(config.limit ?? 20);
-    const start = (unref(config.currentPage ?? 0) - 1) * limit;
+    const start = (unref(config.currentPage ?? 1) - 1) * limit;
     return `${apiUrl}user/subscriptions/videos?limit=${limit}&start=${start}`;
   });
 
@@ -85,18 +85,29 @@ export const useGetUserSubscriptions = (
   });
 };
 
+type UserSubscriptionChannelsParams = {
+  limit?: number | Ref<number>;
+  currentPage?: number | Ref<number>;
+  searchTerm: Ref<string> | string;
+};
+
 export const useGetUserSubscriptionChannels = (
-  { limit = 30, start = 0, searchTerm = undefined } = { limit: 30, start: 0, searchTerm: undefined }
+  config: UserSubscriptionChannelsParams = { limit: 20, currentPage: 1, searchTerm: '' }
 ) => {
   const { apiUrl } = useApiUrl();
   const authorizationHeader = useAuthorizationHeader();
 
-  let filterString = '';
-  if (searchTerm) {
-    filterString = `&filter=${searchTerm}`;
-  }
+  const url = computed(() => {
+    let filterString = '';
+    const searchTerm = unref(config.searchTerm);
+    if (searchTerm) {
+      filterString = `&filter=${searchTerm}`;
+    }
 
-  const url = `${apiUrl}user/subscriptions/channels?limit=${limit}&start=${start}&sort=author:1${filterString}`;
+    const limit = unref(config.limit ?? 20);
+    const start = (unref(config.currentPage ?? 1) - 1) * limit;
+    return `${apiUrl}user/subscriptions/channels?limit=${limit}&start=${start}&sort=author:1${filterString}`;
+  });
 
   return useLazyFetch<ApiDto<'SubscribedChannelsResponseDto'>>(url, {
     headers: {

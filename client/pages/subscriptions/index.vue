@@ -26,7 +26,7 @@ const notificationsSupported = ref(true);
 const subscriptionImportOpen = ref(false);
 
 const currentPage = computed(() => {
-  if (route.query?.page) {
+  if (route.query.page) {
     return parseInt(route.query.page.toString());
   } else {
     return 1;
@@ -378,7 +378,7 @@ watch(
     display: block;
     position: relative;
     z-index: 11;
-    margin: 0 0 30px 0;
+    margin: 20px 0 30px 0;
   }
 }
 </style>

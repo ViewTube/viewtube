@@ -8,9 +8,17 @@ const messagesStore = useMessagesStore();
 const { apiUrl } = useApiUrl();
 const route = useRoute();
 const imgProxy = useImgProxy();
+const router = useRouter();
 
-const currentPage = ref(1);
+const currentPage = computed(() => {
+  if (route.query.page) {
+    return parseInt(route.query.page.toString());
+  } else {
+    return 1;
+  }
+});
 const searchTerm = ref('');
+const searchTermValue = ref('');
 const searchTimeout = ref(null);
 
 const {
@@ -19,8 +27,8 @@ const {
   refresh
 } = useGetUserSubscriptionChannels({
   limit: 30,
-  start: (parseInt((route.query.page ?? 1).toString()) - 1) * 30,
-  searchTerm: searchTerm.value
+  currentPage,
+  searchTerm: searchTermValue
 });
 
 watch(error, err => {
@@ -81,13 +89,14 @@ watch(
   }
 );
 
-watch(searchTerm, (newVal, oldVal): void => {
+watch(searchTerm, (newValue, oldValue): void => {
   if (searchTimeout.value) clearTimeout(searchTimeout.value);
   searchTimeout.value = setTimeout(() => {
-    if (newVal !== null && newVal !== oldVal) {
-      refresh();
+    if (newValue !== null && newValue.trim() !== oldValue.trim()) {
+      router.push(route.path);
+      searchTermValue.value = newValue.trim();
     }
-  }, 400);
+  }, 500);
 });
 </script>
 
@@ -95,7 +104,7 @@ watch(searchTerm, (newVal, oldVal): void => {
   <div class="manage-subscriptions">
     <MetaPageHead title="Manage subscriptions" description="Manage your subscriptions" />
     <SectionTitle class="page-title" :title="'Manage subscriptions'" :line="false" />
-    <SmallSearchBox v-model="searchTerm" :label="'Filter'" />
+    <SmallSearchBox v-model.lazy="searchTerm" :label="'Filter'" />
     <div v-if="subscriptionChannels" class="channels-container">
       <div
         v-for="channel in subscriptionChannels.channels"
