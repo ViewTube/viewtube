@@ -51,6 +51,7 @@ export default defineComponent({
     label: { type: String, required: false },
     noDefault: { type: Boolean, required: false }
   },
+  emits: ['valuechange'],
   setup(props, { emit }) {
     const selected = ref(0);
     const open = ref(false);
@@ -215,7 +216,7 @@ export default defineComponent({
   transition-timing-function: $intro-easing;
   overflow: auto;
   padding: 5px 0;
-  z-index: 800;
+  z-index: 901;
   margin: 0;
 
   @media screen and (max-width: $mobile-width) {
