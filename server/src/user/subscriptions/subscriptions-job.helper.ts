@@ -111,13 +111,13 @@ const convertStarsToLikesDislikes = ({
   return { likes, dislikes };
 };
 
-export const getChannelFeed = (
+export const getChannelFeed = async (
   channelId: string
-): Promise<void | {
+): Promise<{
   channel: ChannelBasicInfoDto;
   videos: Array<VideoBasicInfoDto>;
-}> => {
-  return fetch(feedUrl + channelId)
+} | null> => {
+  const channelFeed = await fetch(feedUrl + channelId)
     .then(response => {
       if (response.ok) {
         return response.text();
@@ -135,7 +135,11 @@ export const getChannelFeed = (
             videos = jsonData.feed.entry.map((video: any) => convertRssVideo(video));
           }
 
-          const authorId = jsonData.feed.channelId.toString();
+          debugger;
+
+          const authorId = jsonData.feed?.link
+            ?.find((link: any) => link._rel === 'alternate')
+            ._href.split('channel/')[1];
 
           const channel: ChannelBasicInfoDto = {
             authorId,
@@ -162,4 +166,8 @@ export const getChannelFeed = (
     .catch(err =>
       Consola.warn(`Could not find channel, the following error can be safely ignored:\n${err}`)
     );
+  if (typeof channelFeed === 'object' && channelFeed !== null && channelFeed.channel?.authorId) {
+    return channelFeed;
+  }
+  return null;
 };

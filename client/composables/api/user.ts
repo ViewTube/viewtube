@@ -1,4 +1,5 @@
 import { ApiDto } from 'viewtube/shared';
+import { Ref } from 'vue';
 import { useAuthorizationHeader } from '../authorizationHeader';
 
 type UserHistoryParams = {
@@ -59,11 +60,22 @@ export const useGetUserProfileDetails = () => {
   });
 };
 
-export const useGetUserSubscriptions = ({ limit = 20, start = 0 } = { limit: 20, start: 0 }) => {
+type UserSubscriptionsParams = {
+  limit?: number | Ref<number>;
+  currentPage?: number | Ref<number>;
+};
+
+export const useGetUserSubscriptions = (
+  config: UserSubscriptionsParams = { limit: 20, currentPage: 0 }
+) => {
   const { apiUrl } = useApiUrl();
   const authorizationHeader = useAuthorizationHeader();
 
-  const url = `${apiUrl}user/subscriptions/videos?limit=${limit}&start=${start}`;
+  const url = computed(() => {
+    const limit = unref(config.limit ?? 20);
+    const start = (unref(config.currentPage ?? 0) - 1) * limit;
+    return `${apiUrl}user/subscriptions/videos?limit=${limit}&start=${start}`;
+  });
 
   return useLazyFetch<ApiDto<'SubscriptionFeedResponseDto'>>(url, {
     headers: {

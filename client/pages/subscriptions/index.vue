@@ -24,7 +24,14 @@ const notificationsEnabled = ref(false);
 const notificationsBtnDisabled = ref(false);
 const notificationsSupported = ref(true);
 const subscriptionImportOpen = ref(false);
-const currentPage = ref(1);
+
+const currentPage = computed(() => {
+  if (route.query?.page) {
+    return parseInt(route.query.page.toString());
+  } else {
+    return 1;
+  }
+});
 
 const {
   data: subscriptions,
@@ -32,8 +39,7 @@ const {
   error,
   refresh
 } = useGetUserSubscriptions({
-  limit: 20,
-  start: (currentPage.value - 1) * 30
+  currentPage
 });
 
 const videos = computed(() => subscriptions.value?.videos ?? []);
@@ -187,7 +193,7 @@ watch(
         <div class="info">
           <h2>Subscription feed for {{ userStore.username }}</h2>
           <p v-if="lastRefreshTime">
-            Last refresh: {{ new Date(lastRefreshTime).toLocaleString() }}
+            Last refresh: {{ new Date(lastRefreshTime).toLocaleString('en-US') }}
           </p>
         </div>
         <div class="actions">
