@@ -487,7 +487,9 @@ export default defineComponent({
         font-size: 0.9rem;
         overflow: hidden;
         text-overflow: ellipsis;
-        white-space: nowrap;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
         color: var(--title-color);
         padding: 8px 0 4px 0;
         width: 100%;
