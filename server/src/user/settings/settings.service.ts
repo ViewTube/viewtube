@@ -26,13 +26,13 @@ export class SettingsService {
     saveVideoHistory: true,
     showHomeSubscriptions: true,
     sponsorblockEnabled: true,
-    sponsorblockSegmentInteraction: 'skip',
+    sponsorblockSegmentInteraction: 'ask',
     sponsorblockSegmentIntro: 'ask',
-    sponsorblockSegmentMusicOfftopic: 'skip',
+    sponsorblockSegmentMusicOfftopic: 'ask',
     sponsorblockSegmentOutro: 'ask',
-    sponsorblockSegmentSelfpromo: 'skip',
-    sponsorblockSegmentSponsor: 'skip',
-    sponsorblockSegmentPreview: 'skip',
+    sponsorblockSegmentSelfpromo: 'ask',
+    sponsorblockSegmentSponsor: 'ask',
+    sponsorblockSegmentPreview: 'ask',
     theme: 'default',
     dashPlaybackEnabled: false
   };
