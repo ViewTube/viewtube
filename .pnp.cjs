@@ -10521,7 +10521,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/cron-npm-1.8.2-e208a565b6-9df2d2e246.zip/node_modules/cron/",\
           "packageDependencies": [\
             ["cron", "npm:1.8.2"],\
-            ["moment-timezone", "npm:0.5.34"]\
+            ["moment-timezone", "npm:0.5.39"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -17540,10 +17540,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["moment-timezone", [\
-        ["npm:0.5.34", {\
-          "packageLocation": "./.yarn/cache/moment-timezone-npm-0.5.34-e4fe2d01f6-12a1d3d52e.zip/node_modules/moment-timezone/",\
+        ["npm:0.5.39", {\
+          "packageLocation": "./.yarn/cache/moment-timezone-npm-0.5.39-e9aea4996d-9f972d3a29.zip/node_modules/moment-timezone/",\
           "packageDependencies": [\
-            ["moment-timezone", "npm:0.5.34"],\
+            ["moment-timezone", "npm:0.5.39"],\
             ["moment", "npm:2.29.3"]\
           ],\
           "linkType": "HARD"\
