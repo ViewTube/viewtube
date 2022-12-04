@@ -2973,7 +2973,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@fastify/cookie", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:6.0.0"],\
             ["@types/fastify", null],\
             ["cookie-signature", "npm:1.2.0"],\
-            ["fastify", "npm:3.29.2"],\
+            ["fastify", "npm:3.29.4"],\
             ["fastify-plugin", "npm:3.0.1"]\
           ],\
           "packagePeers": [\
@@ -3005,7 +3005,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["@fastify/helmet", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:8.1.0"],\
             ["@types/fastify", null],\
-            ["fastify", "npm:3.29.2"],\
+            ["fastify", "npm:3.29.4"],\
             ["fastify-plugin", "npm:3.0.1"],\
             ["helmet", "npm:5.0.2"]\
           ],\
@@ -3033,7 +3033,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/fastify", null],\
             ["deepmerge", "npm:4.2.2"],\
             ["end-of-stream", "npm:1.4.4"],\
-            ["fastify", "npm:3.29.2"],\
+            ["fastify", "npm:3.29.4"],\
             ["fastify-plugin", "npm:3.0.1"],\
             ["hexoid", "npm:1.0.0"],\
             ["secure-json-parse", "npm:2.4.0"],\
@@ -10271,6 +10271,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["content-type", [\
+        ["npm:1.0.4", {\
+          "packageLocation": "./.yarn/cache/content-type-npm-1.0.4-3b1a5ca16b-3d93585fda.zip/node_modules/content-type/",\
+          "packageDependencies": [\
+            ["content-type", "npm:1.0.4"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["convert-source-map", [\
         ["npm:1.8.0", {\
           "packageLocation": "./.yarn/cache/convert-source-map-npm-1.8.0-037f671dde-985d974a2d.zip/node_modules/convert-source-map/",\
@@ -13076,14 +13085,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["npm:3.29.2", {\
-          "packageLocation": "./.yarn/cache/fastify-npm-3.29.2-afbfc76c1f-81948f7c8d.zip/node_modules/fastify/",\
+        ["npm:3.29.4", {\
+          "packageLocation": "./.yarn/cache/fastify-npm-3.29.4-42f3d4e84a-add73f5bcc.zip/node_modules/fastify/",\
           "packageDependencies": [\
-            ["fastify", "npm:3.29.2"],\
+            ["fastify", "npm:3.29.4"],\
             ["@fastify/ajv-compiler", "npm:1.1.0"],\
             ["@fastify/error", "npm:2.0.0"],\
             ["abstract-logging", "npm:2.0.1"],\
             ["avvio", "npm:7.2.5"],\
+            ["content-type", "npm:1.0.4"],\
             ["fast-json-stringify", "npm:2.7.13"],\
             ["find-my-way", "npm:4.5.1"],\
             ["flatstr", "npm:1.0.12"],\
@@ -21638,7 +21648,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint", "npm:8.19.0"],\
             ["eslint-config-prettier", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:8.5.0"],\
             ["eslint-plugin-jest", "virtual:5e2e00b31e527ff544c90eb3e3e3e977a366e52a6e25602d03686a4c9a155eee4d7b92ccdea0b04275344f5b2189eb629d123eb4cc6e1b883b42aea6d965568d#npm:26.5.3"],\
-            ["fastify", "npm:3.29.2"],\
+            ["fastify", "npm:3.29.4"],\
             ["fastify-swagger", [\
               "@fastify/swagger",\
               "npm:6.1.0"\
