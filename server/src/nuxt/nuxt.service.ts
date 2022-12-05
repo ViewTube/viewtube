@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { NodeListener } from 'h3';
@@ -29,6 +29,10 @@ export class NuxtService {
   };
 
   getPage(request: FastifyRequest, reply: FastifyReply): void {
-    this.nuxtListener(request.raw, reply.raw);
+    if (typeof this.nuxtListener === 'function') {
+      this.nuxtListener(request.raw, reply.raw);
+    } else {
+      throw new NotFoundException();
+    }
   }
 }

@@ -1,4 +1,4 @@
-import { LinkThumbnailDto } from './link-thumbnail.dto';
+import { LinkThumbnailDto } from '../link-thumbnail.dto';
 
 export class ChannelLinkDto {
   url: string;

@@ -72,6 +72,7 @@
     "web-push": "3.5.0",
     "x2js": "3.4.4",
     "xml-js": "1.6.11",
+    "yt-channel-info": "^3.2.1",
     "ytdl-core": "4.11.2",
     "ytpl": "2.3.0",
     "ytsr": "3.8.0"

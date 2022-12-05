@@ -7,10 +7,11 @@ import {
   Res,
   Header
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { FastifyReply } from 'fastify';
 import { ChannelsService } from './channels.service';
-import { ChannelDto } from 'server/core/channels/dto/channel.dto';
+import { ChannelHomeDto } from './dto/response/channel-home.dto';
+import { ChannelVideosDto } from './dto/response/channel-videos.dto';
 
 @ApiTags('Core')
 @Controller('channels')
@@ -29,10 +30,23 @@ export class ChannelsController {
     this.channelsService.getTinyThumbnail(reply, id);
   }
 
-  @UseInterceptors(CacheInterceptor)
   @Header('Cache-Control', 'public, max-age=1800')
-  @Get(':id')
-  getChannel(@Param('id') channelId: string): Promise<ChannelDto> {
-    return this.channelsService.getChannel(channelId);
+  @Get(':id/home')
+  @ApiResponse({ status: 200, type: ChannelHomeDto })
+  @ApiResponse({ status: 404 })
+  @ApiResponse({ status: 500 })
+  @UseInterceptors(CacheInterceptor)
+  getChannelHome(@Param('id') channelId: string): Promise<ChannelHomeDto> {
+    return this.channelsService.getChannelHome(channelId);
+  }
+
+  @Header('Cache-Control', 'public, max-age=1800')
+  @Get(':id/videos')
+  @ApiResponse({ status: 200, type: ChannelVideosDto })
+  @ApiResponse({ status: 404 })
+  @ApiResponse({ status: 500 })
+  @UseInterceptors(CacheInterceptor)
+  getChannelVideos(@Param('id') channelId: string): Promise<ChannelVideosDto> {
+    return this.channelsService.getChannelVideos(channelId);
   }
 }

@@ -1,5 +1,8 @@
 lockfileVersion: 5.4
 
+overrides:
+  axios: 1.2.0-alpha.1
+
 importers:
 
   .:
@@ -200,6 +203,7 @@ importers:
       webpack-node-externals: 3.0.0
       x2js: 3.4.4
       xml-js: 1.6.11
+      yt-channel-info: ^3.2.1
       ytdl-core: 4.11.2
       ytpl: 2.3.0
       ytsr: 3.8.0
@@ -254,6 +258,7 @@ importers:
       web-push: 3.5.0
       x2js: 3.4.4
       xml-js: 1.6.11
+      yt-channel-info: 3.2.1
       ytdl-core: 4.11.2
       ytpl: 2.3.0
       ytsr: 3.8.0
@@ -1700,7 +1705,7 @@ packages:
   /@freetube/yt-comment-scraper/6.2.0:
     resolution: {integrity: sha512-69mBsvQ50rUBTUDfR6s1OaiH2sEmmx9T0uV2Qpp0ckMhL0sxxMZtxujraHV2FHDtOm5jG7uygi3Gseb54C9DGw==}
     dependencies:
-      axios: 0.27.2
+      axios: 1.2.0-alpha.1
     transitivePeerDependencies:
       - debug
     dev: false
@@ -4173,11 +4178,12 @@ packages:
       - supports-color
     dev: false
 
-  /axios/0.27.2:
-    resolution: {integrity: sha512-t+yRIyySRTp/wua5xEr+z1q60QmLq8ABsS5O9Me1AsE5dfKqgnCFzwiCZZ/cGNd1lq4/7akDWMxdhVlucjmnOQ==}
+  /axios/1.2.0-alpha.1:
+    resolution: {integrity: sha512-qt/7xkSQNBRKP26mt28cmSI1Y3jVtrQzu7oLjIyUHEdjpVeg100luMJrRpBlKlCmMd233Peu00mOkNC1OwXOrw==}
     dependencies:
       follow-redirects: 1.15.2
       form-data: 4.0.0
+      proxy-from-env: 1.1.0
     transitivePeerDependencies:
       - debug
     dev: false
@@ -9825,6 +9831,10 @@ packages:
       ipaddr.js: 1.9.1
     dev: false
 
+  /proxy-from-env/1.1.0:
+    resolution: {integrity: sha512-D+zkORCbA9f1tdWRK0RaCR3GPv50cMxcrz4X8k5LTSUD1Dkw47mKJEZQNunItRTkWwgtaUSo1RVFRIG9ZXiFYg==}
+    dev: false
+
   /prr/1.0.1:
     resolution: {integrity: sha512-yPw4Sng1gWghHQWj0B3ZggWUm4qVbPwPFcRG8KyxiU7J2OHFSoEHKS+EZ3fv5l1t9CyCiop6l/ZYeWbrgoQejw==}
     dev: true
@@ -11924,6 +11934,14 @@ packages:
   /yocto-queue/0.1.0:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
+
+  /yt-channel-info/3.2.1:
+    resolution: {integrity: sha512-drGySe+MqoYMhZzkJpapG5pCfAEBSsCaOZXDzZz4nfQfYhXQGUU11IJ9HpDZmnari1vEWrUasjeu2hwZujZYmw==}
+    dependencies:
+      axios: 1.2.0-alpha.1
+    transitivePeerDependencies:
+      - debug
+    dev: false
 
   /ytdl-core/4.11.2:
     resolution: {integrity: sha512-D939t9b4ZzP3v0zDvehR2q+KgG97UTgrTKju3pOPGQcXtl4W6W5z0EpznzcJFu+OOpl7S7Ge8hv8zU65QnxYug==}
