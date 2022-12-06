@@ -5,13 +5,23 @@ import {
   CacheInterceptor,
   UseInterceptors,
   Res,
-  Header
+  Header,
+  Query
 } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { FastifyReply } from 'fastify';
 import { ChannelsService } from './channels.service';
+import { ChannelCommunityPostsContinuationDto } from './dto/response/channel-community-posts-continuation.dto';
+import { ChannelCommunityPostsDto } from './dto/response/channel-community-posts.dto';
 import { ChannelHomeDto } from './dto/response/channel-home.dto';
+import { ChannelPlaylistsContinuationDto } from './dto/response/channel-playlists-continuation.dto';
+import { ChannelPlaylistsDto } from './dto/response/channel-playlists.dto';
+import { ChannelSearchContinuationDto } from './dto/response/channel-search-continuation.dto';
+import { ChannelSearchDto } from './dto/response/channel-search.dto';
+import { ChannelStatsDto } from './dto/response/channel-stats.dto';
+import { ChannelVideosContinuationDto } from './dto/response/channel-videos-continuation.dto';
 import { ChannelVideosDto } from './dto/response/channel-videos.dto';
+import { RelatedCHannelsContinuationDto } from './dto/response/related-channels-continuation.dto';
 
 @ApiTags('Core')
 @Controller('channels')
@@ -30,9 +40,8 @@ export class ChannelsController {
     this.channelsService.getTinyThumbnail(reply, id);
   }
 
-  @Header('Cache-Control', 'public, max-age=1800')
+  @Header('Cache-Control', 'public, max-age=3600')
   @Get(':id/home')
-  @ApiResponse({ status: 200, type: ChannelHomeDto })
   @ApiResponse({ status: 404 })
   @ApiResponse({ status: 500 })
   @UseInterceptors(CacheInterceptor)
@@ -40,13 +49,107 @@ export class ChannelsController {
     return this.channelsService.getChannelHome(channelId);
   }
 
-  @Header('Cache-Control', 'public, max-age=1800')
+  @Header('Cache-Control', 'public, max-age=3600')
   @Get(':id/videos')
-  @ApiResponse({ status: 200, type: ChannelVideosDto })
   @ApiResponse({ status: 404 })
   @ApiResponse({ status: 500 })
   @UseInterceptors(CacheInterceptor)
   getChannelVideos(@Param('id') channelId: string): Promise<ChannelVideosDto> {
     return this.channelsService.getChannelVideos(channelId);
+  }
+
+  @Header('Cache-Control', 'public, max-age=3600')
+  @Get('videos/continuation')
+  @ApiResponse({ status: 404 })
+  @ApiResponse({ status: 500 })
+  @UseInterceptors(CacheInterceptor)
+  getChannelVideosContinuation(
+    @Query('continuation') continuation: string
+  ): Promise<ChannelVideosContinuationDto> {
+    return this.channelsService.getChannelVideosContinuation(continuation);
+  }
+
+  @Header('Cache-Control', 'public, max-age=3600')
+  @Get(':id/playlists')
+  @ApiResponse({ status: 404 })
+  @ApiResponse({ status: 500 })
+  @UseInterceptors(CacheInterceptor)
+  getChannelPlaylists(@Param('id') channelId: string): Promise<ChannelPlaylistsDto> {
+    return this.channelsService.getChannelPlaylists(channelId);
+  }
+
+  @Header('Cache-Control', 'public, max-age=3600')
+  @Get('videos/continuation')
+  @ApiResponse({ status: 404 })
+  @ApiResponse({ status: 500 })
+  @UseInterceptors(CacheInterceptor)
+  getChannelPlaylistsContinuation(
+    @Query('continuation') continuation: string
+  ): Promise<ChannelPlaylistsContinuationDto> {
+    return this.channelsService.getChannelPlaylistsContinuation(continuation);
+  }
+
+  @Header('Cache-Control', 'public, max-age=3600')
+  @Get(':id/search')
+  @ApiResponse({ status: 404 })
+  @ApiResponse({ status: 500 })
+  @UseInterceptors(CacheInterceptor)
+  searchChannel(
+    @Param('id') channelId: string,
+    @Query('query') query: string
+  ): Promise<ChannelSearchDto> {
+    return this.channelsService.searchChannel(channelId, query);
+  }
+
+  @Header('Cache-Control', 'public, max-age=3600')
+  @Get('search/continuation')
+  @ApiResponse({ status: 404 })
+  @ApiResponse({ status: 500 })
+  @UseInterceptors(CacheInterceptor)
+  searchChannelContinuation(
+    @Query('continuation') continuation: string
+  ): Promise<ChannelSearchContinuationDto> {
+    return this.channelsService.searchChannelContinuation(continuation);
+  }
+
+  @Header('Cache-Control', 'public, max-age=3600')
+  @Get('relatedchannels/continuation')
+  @ApiResponse({ status: 404 })
+  @ApiResponse({ status: 500 })
+  @UseInterceptors(CacheInterceptor)
+  getRelatedChannelsContinuation(
+    @Query('continuation') continuation: string
+  ): Promise<RelatedCHannelsContinuationDto> {
+    return this.channelsService.getRelatedChannelsContinuation(continuation);
+  }
+
+  @Header('Cache-Control', 'public, max-age=3600')
+  @Get(':id/communityposts')
+  @ApiResponse({ status: 404 })
+  @ApiResponse({ status: 500 })
+  @UseInterceptors(CacheInterceptor)
+  getChannelCommunityPosts(@Param('id') channelId: string): Promise<ChannelCommunityPostsDto> {
+    return this.channelsService.getChannelCommunityPosts(channelId);
+  }
+
+  @Header('Cache-Control', 'public, max-age=3600')
+  @Get('communityposts/continuation')
+  @ApiResponse({ status: 404 })
+  @ApiResponse({ status: 500 })
+  @UseInterceptors(CacheInterceptor)
+  getChannelCommunityPostsContinuation(
+    @Query('continuation') continuation: string,
+    @Query('innertube') innerTubeApi: string
+  ): Promise<ChannelCommunityPostsContinuationDto> {
+    return this.channelsService.getChannelCommunityPostsContinuation(continuation, innerTubeApi);
+  }
+
+  @Header('Cache-Control', 'public, max-age=3600')
+  @Get(':id/stats')
+  @ApiResponse({ status: 404 })
+  @ApiResponse({ status: 500 })
+  @UseInterceptors(CacheInterceptor)
+  getChannelStats(@Param('id') channelId: string): Promise<ChannelStatsDto> {
+    return this.channelsService.getChannelStats(channelId);
   }
 }

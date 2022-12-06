@@ -11,9 +11,14 @@ import { ChannelHomeDto } from './dto/response/channel-home.dto';
 import { ChannelVideosDto } from './dto/response/channel-videos.dto';
 import { ChannelVideosContinuationDto } from './dto/response/channel-videos-continuation.dto';
 import { checkParams, throwChannelError } from './channels.helper';
-import { ChannelPlaylistDto } from './dto/basic/channel-playlist.dto';
 import { ChannelPlaylistsDto } from './dto/response/channel-playlists.dto';
 import { ChannelPlaylistsContinuationDto } from './dto/response/channel-playlists-continuation.dto';
+import { ChannelSearchDto } from './dto/response/channel-search.dto';
+import { ChannelSearchContinuationDto } from './dto/response/channel-search-continuation.dto';
+import { RelatedCHannelsContinuationDto } from './dto/response/related-channels-continuation.dto';
+import { ChannelCommunityPostsDto } from './dto/response/channel-community-posts.dto';
+import { ChannelCommunityPostsContinuationDto } from './dto/response/channel-community-posts-continuation.dto';
+import { ChannelStatsDto } from './dto/response/channel-stats.dto';
 
 @Injectable()
 export class ChannelsService {
@@ -86,7 +91,7 @@ export class ChannelsService {
     }
   }
 
-  searchChannel(channelId: string, query: string) {
+  searchChannel(channelId: string, query: string): Promise<ChannelSearchDto> {
     if (!checkParams(channelId, query)) {
       throw new BadRequestException(
         'Error fetching channel channel search',
@@ -100,7 +105,7 @@ export class ChannelsService {
     }
   }
 
-  searchChannelContinuation(continuation: string) {
+  searchChannelContinuation(continuation: string): Promise<ChannelSearchContinuationDto> {
     if (!checkParams(continuation)) {
       throw new BadRequestException('Error fetching channel search', 'Invalid continuation string');
     }
@@ -111,7 +116,7 @@ export class ChannelsService {
     }
   }
 
-  getRelatedChannelsContinuation(continuation: string) {
+  getRelatedChannelsContinuation(continuation: string): Promise<RelatedCHannelsContinuationDto> {
     if (!checkParams(continuation)) {
       throw new BadRequestException(
         'Error fetching related channels',
@@ -125,7 +130,7 @@ export class ChannelsService {
     }
   }
 
-  getChannelCommunityPosts(channelId: string) {
+  getChannelCommunityPosts(channelId: string): Promise<ChannelCommunityPostsDto> {
     if (!checkParams(channelId)) {
       throw new BadRequestException('Error fetching channel community posts', 'Invalid channelId');
     }
@@ -136,7 +141,10 @@ export class ChannelsService {
     }
   }
 
-  getChannelCommunityPostsContinuation(continuation: string, innerTubeApi: string) {
+  getChannelCommunityPostsContinuation(
+    continuation: string,
+    innerTubeApi: string
+  ): Promise<ChannelCommunityPostsContinuationDto> {
     if (!checkParams(continuation)) {
       throw new BadRequestException(
         'Error fetching channel community posts',
@@ -150,7 +158,7 @@ export class ChannelsService {
     }
   }
 
-  getChannelStats(channelId: string) {
+  getChannelStats(channelId: string): Promise<ChannelStatsDto> {
     if (!checkParams(channelId)) {
       throw new BadRequestException('Error fetching channel stats', 'Invalid channelId');
     }
@@ -161,7 +169,7 @@ export class ChannelsService {
     }
   }
 
-  getTinyThumbnail(reply: FastifyReply, id: string) {
+  getTinyThumbnail(reply: FastifyReply, id: string): void {
     // eslint-disable-next-line dot-notation
     const imgPathWebp = path.join(global['__basedir'], `channels/${id}.webp`);
     // eslint-disable-next-line dot-notation

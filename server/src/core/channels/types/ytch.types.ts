@@ -26,6 +26,25 @@ export type ChannelVideo = ChannelHomeResponse['featuredVideo'];
 export type RelatedChannel = ChannelInfoResponse['relatedChannels'][number];
 export type ChannelPlaylist = ChannelPlaylistInfoResponse['items'][number];
 export type ChannelImage = ChannelVideo['videoThumbnails'][number];
+export type ChannelCommunityPost = ChannelCommunityPostsResponse['items'][number];
+
+export type ChannelCommunityPostImage = Extract<
+  ChannelCommunityPost['postContent'],
+  { type: 'image' }
+>;
+export type ChannelCommunityPostPoll = Extract<
+  ChannelCommunityPost['postContent'],
+  { type: 'poll' }
+>;
+export type ChannelCommunityPostVideo = Extract<
+  ChannelCommunityPost['postContent'],
+  { type: 'video' }
+>;
+export type ChannelCommunityPostPlaylist = Extract<
+  ChannelCommunityPost['postContent'],
+  { type: 'playlist' }
+>;
+
 export type ChannelIdType = number;
 
 export type ChannelMix = {
