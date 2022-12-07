@@ -1,16 +1,35 @@
 import { ApiDto, ApiErrorDto } from 'viewtube/shared';
+import { Ref } from 'vue';
 
-type ChannelDtoType = Omit<ApiDto<'ChannelDto'>, 'videoSections'> & {
-  videoSections: {
-    title: string;
-    type: 'single' | 'multi';
-    video: Record<string, any>;
-    elements: { type: 'video' | 'playlist' }[];
-  }[];
-};
-
-export const useGetChannels = (id: string | string[]) => {
+export const useGetChannelInfo = (id: Ref<string> | string) => {
   const { apiUrl } = useApiUrl();
 
-  return useLazyFetch<ChannelDtoType, ApiErrorDto>(`${apiUrl}channels/${id}`);
+  const url = computed(() => {
+    const channelId = unref(id);
+    return `${apiUrl}channels/${channelId}`;
+  });
+
+  return useLazyFetch<ApiDto<'ChannelInfoDto'>, ApiErrorDto>(url);
+};
+
+export const useGetChannelHome = (id: Ref<string> | string) => {
+  const { apiUrl } = useApiUrl();
+
+  const url = computed(() => {
+    const channelId = unref(id);
+    return `${apiUrl}channels/${channelId}/home`;
+  });
+
+  return useLazyFetch<ApiDto<'ChannelHomeDto'>, ApiErrorDto>(url);
+};
+
+export const useGetChannelStats = (id: Ref<string> | string) => {
+  const { apiUrl } = useApiUrl();
+
+  const url = computed(() => {
+    const channelId = unref(id);
+    return `${apiUrl}channels/${channelId}/stats`;
+  });
+
+  return useLazyFetch<ApiDto<'ChannelStatsDto'>, ApiErrorDto>(url);
 };

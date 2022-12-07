@@ -1,8 +1,7 @@
-import { LinkThumbnailDto } from '../link-thumbnail.dto';
+import { ChannelLinkType } from '../../types/ytch.types';
 
-export class ChannelLinkDto {
+export class ChannelLinkDto implements ChannelLinkType {
   url: string;
-  linkThumbnails?: Array<LinkThumbnailDto>;
-
+  icon: string;
   title: string;
 }

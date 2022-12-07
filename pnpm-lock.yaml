@@ -41,6 +41,7 @@ importers:
       eslint-plugin-unicorn: 45.0.1
       eslint-plugin-vue: 9.8.0
       hls.js: 1.2.8
+      human-number: ^2.0.1
       humanize-duration: 3.27.3
       jest: 29.3.1
       js-sha256: 0.9.0
@@ -88,6 +89,7 @@ importers:
       eslint-plugin-unicorn: 45.0.1_eslint@8.28.0
       eslint-plugin-vue: 9.8.0_eslint@8.28.0
       hls.js: 1.2.8
+      human-number: 2.0.1
       humanize-duration: 3.27.3
       jest: 29.3.1_@types+node@18.11.9
       js-sha256: 0.9.0
@@ -6916,6 +6918,13 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
+  /human-number/2.0.1:
+    resolution: {integrity: sha512-0ibkHNHQXLiI4Exiu9Cm2EhnrBOSEt4kHRxbKhmM41rbjCIlfd35PdNptEbHohnKkqmJt6q+Z9X8A1WcDCeuNg==}
+    engines: {node: '>= 8'}
+    dependencies:
+      round-to: 5.0.0
+    dev: true
+
   /human-signals/1.1.1:
     resolution: {integrity: sha512-SEQu7vl8KjNL2eoGBLF3+wAjpsNfA9XMlXAYj/3EdaNfAlxKthD1xjEQfGOUhllCGGJVNY34bRr6lPINhNjyZw==}
     engines: {node: '>=8.12.0'}
@@ -10175,6 +10184,11 @@ packages:
     hasBin: true
     optionalDependencies:
       fsevents: 2.3.2
+    dev: true
+
+  /round-to/5.0.0:
+    resolution: {integrity: sha512-i4+Ntwmo5kY7UWWFSDEVN3RjT2PX1FqkZ9iCcAO3sKML3Ady9NgsjM/HLdYKUAnrxK4IlSvXzpBMDvMHZQALRQ==}
+    engines: {node: '>=10'}
     dev: true
 
   /run-async/2.4.1:

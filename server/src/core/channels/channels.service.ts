@@ -15,10 +15,11 @@ import { ChannelPlaylistsDto } from './dto/response/channel-playlists.dto';
 import { ChannelPlaylistsContinuationDto } from './dto/response/channel-playlists-continuation.dto';
 import { ChannelSearchDto } from './dto/response/channel-search.dto';
 import { ChannelSearchContinuationDto } from './dto/response/channel-search-continuation.dto';
-import { RelatedCHannelsContinuationDto } from './dto/response/related-channels-continuation.dto';
+import { RelatedChannelsContinuationDto } from './dto/response/related-channels-continuation.dto';
 import { ChannelCommunityPostsDto } from './dto/response/channel-community-posts.dto';
 import { ChannelCommunityPostsContinuationDto } from './dto/response/channel-community-posts-continuation.dto';
 import { ChannelStatsDto } from './dto/response/channel-stats.dto';
+import { ChannelInfoDto } from './dto/response/channel-info.dto';
 
 @Injectable()
 export class ChannelsService {
@@ -35,6 +36,17 @@ export class ChannelsService {
       return await ytch.getChannelHome({ channelId });
     } catch (error) {
       throwChannelError(error, 'Error fetching channel homepage');
+    }
+  }
+
+  getChannelInfo(channelId: string): Promise<ChannelInfoDto> {
+    if (!checkParams(channelId)) {
+      throw new BadRequestException('Error fetching channel info', 'Invalid channelId');
+    }
+    try {
+      return ytch.getChannelInfo({ channelId });
+    } catch (error) {
+      throwChannelError(error, 'Error fetching channel info');
     }
   }
 
@@ -116,7 +128,7 @@ export class ChannelsService {
     }
   }
 
-  getRelatedChannelsContinuation(continuation: string): Promise<RelatedCHannelsContinuationDto> {
+  getRelatedChannelsContinuation(continuation: string): Promise<RelatedChannelsContinuationDto> {
     if (!checkParams(continuation)) {
       throw new BadRequestException(
         'Error fetching related channels',

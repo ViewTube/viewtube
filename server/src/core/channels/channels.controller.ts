@@ -14,6 +14,7 @@ import { ChannelsService } from './channels.service';
 import { ChannelCommunityPostsContinuationDto } from './dto/response/channel-community-posts-continuation.dto';
 import { ChannelCommunityPostsDto } from './dto/response/channel-community-posts.dto';
 import { ChannelHomeDto } from './dto/response/channel-home.dto';
+import { ChannelInfoDto } from './dto/response/channel-info.dto';
 import { ChannelPlaylistsContinuationDto } from './dto/response/channel-playlists-continuation.dto';
 import { ChannelPlaylistsDto } from './dto/response/channel-playlists.dto';
 import { ChannelSearchContinuationDto } from './dto/response/channel-search-continuation.dto';
@@ -21,7 +22,7 @@ import { ChannelSearchDto } from './dto/response/channel-search.dto';
 import { ChannelStatsDto } from './dto/response/channel-stats.dto';
 import { ChannelVideosContinuationDto } from './dto/response/channel-videos-continuation.dto';
 import { ChannelVideosDto } from './dto/response/channel-videos.dto';
-import { RelatedCHannelsContinuationDto } from './dto/response/related-channels-continuation.dto';
+import { RelatedChannelsContinuationDto } from './dto/response/related-channels-continuation.dto';
 
 @ApiTags('Core')
 @Controller('channels')
@@ -38,6 +39,15 @@ export class ChannelsController {
   @Header('Cache-Control', 'public, max-age=18000')
   getTinyThumbnailWebp(@Param('id') id: string, @Res() reply: FastifyReply): void {
     this.channelsService.getTinyThumbnail(reply, id);
+  }
+
+  @Header('Cache-Control', 'public, max-age=3600')
+  @Get(':id')
+  @ApiResponse({ status: 404 })
+  @ApiResponse({ status: 500 })
+  @UseInterceptors(CacheInterceptor)
+  getChannelInfo(@Param('id') channelId: string): Promise<ChannelInfoDto> {
+    return this.channelsService.getChannelInfo(channelId);
   }
 
   @Header('Cache-Control', 'public, max-age=3600')
@@ -119,7 +129,7 @@ export class ChannelsController {
   @UseInterceptors(CacheInterceptor)
   getRelatedChannelsContinuation(
     @Query('continuation') continuation: string
-  ): Promise<RelatedCHannelsContinuationDto> {
+  ): Promise<RelatedChannelsContinuationDto> {
     return this.channelsService.getRelatedChannelsContinuation(continuation);
   }
 

@@ -3,10 +3,10 @@ import ytch from 'yt-channel-info';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type AwaitedReturnType<T extends (...args: never) => any> = Awaited<ReturnType<T>>;
 
+export type ChannelInfoResponse = AwaitedReturnType<typeof ytch.getChannelInfo>;
 export type ChannelHomeResponse = AwaitedReturnType<typeof ytch.getChannelHome>;
 export type ChannelVideosResponse = AwaitedReturnType<typeof ytch.getChannelVideos>;
 export type ChannelVideosContinuationResponse = AwaitedReturnType<typeof ytch.getChannelVideosMore>;
-export type ChannelInfoResponse = AwaitedReturnType<typeof ytch.getChannelInfo>;
 export type ChannelPlaylistInfoResponse = AwaitedReturnType<typeof ytch.getChannelPlaylistInfo>;
 export type ChannelPlaylistContinuationResponse = AwaitedReturnType<
   typeof ytch.getChannelPlaylistsMore
@@ -46,6 +46,7 @@ export type ChannelCommunityPostPlaylist = Extract<
 >;
 
 export type ChannelIdType = number;
+export type ChannelLinkType = ChannelInfoResponse['channelLinks']['primaryLinks'][number];
 
 export type ChannelMix = {
   playlistId: string;
