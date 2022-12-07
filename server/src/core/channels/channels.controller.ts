@@ -79,7 +79,7 @@ export class ChannelsController {
   }
 
   @Header('Cache-Control', 'public, max-age=3600')
-  @Get('videos/continuation')
+  @Get('playlists/continuation')
   @ApiResponse({ status: 404 })
   @ApiResponse({ status: 500 })
   @UseInterceptors(CacheInterceptor)
