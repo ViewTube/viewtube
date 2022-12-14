@@ -9,7 +9,9 @@ export const useGetChannelInfo = (id: Ref<string> | string) => {
     return `${apiUrl}channels/${channelId}`;
   });
 
-  return useLazyFetch<ApiDto<'ChannelInfoDto'>, ApiErrorDto>(url);
+  return useLazyFetch<ApiDto<'ChannelInfoDto'>, ApiErrorDto>(url, {
+    key: `channel-info-${unref(id)}`
+  });
 };
 
 export const useGetChannelHome = (id: Ref<string> | string) => {

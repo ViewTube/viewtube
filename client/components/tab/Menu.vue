@@ -3,17 +3,32 @@ defineProps<{
   pages: Array<{
     title: string;
     link: string;
+    pageName: string;
   }>;
+  currentPage: string;
 }>();
+
+const emit = defineEmits<{
+  (event: 'changePage', url: string): void;
+}>();
+
+const onPageLinkClick = (pageName: string) => {
+  emit('changePage', pageName);
+};
 </script>
 
 <template>
   <div class="tab-menu">
-    <div v-for="page in pages" :key="page.title" class="tab-item">
-      <NuxtLink :to="page.link" class="tab-link">
-        {{ page.title }}
-      </NuxtLink>
-    </div>
+    <div class="active-selector" />
+    <a
+      v-for="page in pages"
+      :key="page.title"
+      :href="page.link"
+      class="tab-link"
+      :class="{ active: page.pageName === currentPage }"
+      @click.prevent="() => onPageLinkClick(page.pageName)"
+      >{{ page.title }}</a
+    >
   </div>
 </template>
 
@@ -21,11 +36,24 @@ defineProps<{
 .tab-menu {
   display: flex;
   gap: 10px;
-  .tab-item {
-    padding: 5px 10px;
+  position: relative;
 
-    .tab-link {
-    }
+  .tab-link {
+    padding: 5px 15px;
+    text-decoration: none;
+    border-radius: 5px;
+  }
+
+  .active-selector {
+    position: absolute;
+    top: 5px;
+    left: 0;
+    height: 25px;
+    width: 20px;
+    border-radius: 5px;
+    box-shadow: $low-shadow;
+    background-color: var(--bgcolor-alt-light);
+    transition: left 0.2s ease-in-out, width 0.2s ease-in-out;
   }
 }
 </style>

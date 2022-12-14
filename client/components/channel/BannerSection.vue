@@ -4,31 +4,47 @@ import SubscribeButton from '@/components/buttons/SubscribeButton.vue';
 import humanNumber from 'human-number';
 
 const props = defineProps<{
-  pending: boolean;
   channelInfo: ApiDto<'ChannelInfoDto'>;
+  pages: Array<{
+    title: string;
+    link: string;
+    pageName: string;
+  }>;
+  currentPage: string;
 }>();
+
+const emit = defineEmits<{
+  (event: 'changePage', url: string): void;
+}>();
+
+const changePage = (pageName: string) => {
+  emit('changePage', pageName);
+};
+
+const imgProxy = useImgProxy();
 
 const subscriberCount = computed(() => humanNumber(props.channelInfo?.subscriberCount));
 </script>
 
 <template>
-  <div v-if="channelInfo && !pending" class="banner-section">
-    <Spinner v-if="pending" class="centered" />
+  <div v-if="channelInfo" class="banner-section">
     <ChannelBanner
       class="channel-banner"
       :src="channelInfo?.authorBanners?.[1]?.url"
-      :bannerHqSrc="channelInfo?.authorBanners?.[channelInfo?.authorBanners?.length - 1]?.url"
+      :bannerHqSrc="
+        imgProxy.url + channelInfo?.authorBanners?.[channelInfo?.authorBanners?.length - 1]?.url
+      "
     />
     <div class="info">
       <div class="avatar">
-        <img class="avatar-img" :src="channelInfo?.authorThumbnails?.[2]?.url" />
+        <img class="avatar-img" :src="imgProxy.url + channelInfo?.authorThumbnails?.[2]?.url" />
       </div>
       <h3 class="title">{{ channelInfo?.author }}</h3>
       <div class="subscribe">
         <p class="subscribers">{{ subscriberCount }}</p>
         <SubscribeButton :channelId="channelInfo.authorId" />
       </div>
-      <p class="channel-menu">menu</p>
+      <TabMenu :pages="pages" :current-page="currentPage" @change-page="changePage" />
       <ChannelBannerStats class="banner-stats" :channelInfo="channelInfo" />
     </div>
   </div>
@@ -45,7 +61,7 @@ const subscriberCount = computed(() => humanNumber(props.channelInfo?.subscriber
     grid-template-areas:
       'avatar title subscribe'
       'menu menu stats';
-    grid-template-columns: 100px 1fr 1fr;
+    grid-template-columns: 100px 1fr 200px;
     grid-template-rows: 50px 1fr;
     gap: 10px 20px;
 
@@ -54,6 +70,7 @@ const subscriberCount = computed(() => humanNumber(props.channelInfo?.subscriber
       grid-area: avatar;
       width: 100%;
       height: 200%;
+      pointer-events: none;
 
       .avatar-img {
         max-width: 100%;
@@ -61,6 +78,7 @@ const subscriberCount = computed(() => humanNumber(props.channelInfo?.subscriber
         object-fit: contain;
         box-shadow: $max-shadow;
         transform: translateY(-50%);
+        pointer-events: auto;
       }
     }
 

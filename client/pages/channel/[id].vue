@@ -1,36 +1,15 @@
 <script setup lang="ts">
 const route = useRoute();
+definePageMeta({
+  key: r => `channel-${r.params.id?.toString() ?? ''}`,
+  name: 'channel'
+});
 
 const channelId = computed(() => route.params.id?.toString() ?? null);
 
-const { data: channelInfo, pending } = useGetChannelInfo(channelId);
+const { data: channelInfo } = useGetChannelInfo(channelId);
 
-const pages = computed(() => [
-  {
-    title: 'Home',
-    link: `/channel/${channelId.value}`
-  },
-  {
-    title: 'Videos',
-    link: `/channel/${channelId.value}/videos`
-  },
-  {
-    title: 'Playlists',
-    link: `/channel/${channelId.value}/playlists`
-  },
-  {
-    title: 'Community',
-    link: `/channel/${channelId.value}/community`
-  },
-  {
-    title: 'Channels',
-    link: `/channel/${channelId.value}/channels`
-  },
-  {
-    title: 'About',
-    link: `/channel/${channelId.value}/about`
-  }
-]);
+const { pages, currentPage, changePage } = useChannelPages();
 </script>
 
 <template>
@@ -40,13 +19,19 @@ const pages = computed(() => [
       :description="`${channelInfo?.description?.substring(0, 100)}`"
       :image="`${channelInfo?.authorThumbnails?.[0]?.url}`"
     />
-    <ChannelBannerSection :pending="pending" :channelInfo="channelInfo" />
-    <ChannelBannerLinks
-      class="links"
-      :bannerLinks="{ ...channelInfo?.channelLinks, type: 'links' }"
+    <ChannelBannerSection
+      :channelInfo="channelInfo"
+      :pages="pages"
+      :current-page="currentPage"
+      @change-page="changePage"
     />
-    <TabMenu :pages="pages" />
-    <NuxtPage :pageKey="'someKey'" />
+
+    <ChannelPageHome v-if="currentPage === 'home'" />
+    <ChannelPageVideos v-else-if="currentPage === 'videos'" />
+    <ChannelPagePlaylists v-else-if="currentPage === 'playlists'" />
+    <ChannelPageCommunity v-else-if="currentPage === 'community'" />
+    <ChannelPageChannels v-else-if="currentPage === 'channels'" />
+    <ChannelPageAbout v-else-if="currentPage === 'about'" />
   </div>
 </template>
 

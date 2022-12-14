@@ -23,8 +23,12 @@ const imgProxy = useImgProxy();
 <template>
   <div class="banner-links-container">
     <BadgeButton
-      v-for="(link, index) in [...bannerLinks.primaryLinks, ...bannerLinks.secondaryLinks]"
+      v-for="(link, index) in [
+        ...(bannerLinks.primaryLinks ?? []),
+        ...(bannerLinks.secondaryLinks ?? [])
+      ]"
       :key="index"
+      class="banner-link"
       :href="link.url"
     >
       <img
@@ -41,36 +45,15 @@ const imgProxy = useImgProxy();
 <style lang="scss">
 .banner-links-container {
   display: flex;
+  margin: 10px;
 
-  .banner-links {
-    display: flex;
-    flex-direction: row;
-    margin: 8px 0 0 0;
-
-    .banner-link {
-      background-color: #0000008f;
-      padding: 5px 6px;
-      border-radius: 5px;
-      margin: 0 5px 5px 0;
-      transition: background-color 200ms $intro-easing;
-      text-align: center;
-      line-height: 20px;
-      height: 22px;
-      display: flex;
-
-      .link-thumbnail {
-        position: relative;
-        top: 50%;
-        transform: translateY(-50%);
-        height: 16px;
-      }
-
-      &:focus {
-        background-color: #00000083;
-        &::after {
-          display: none;
-        }
-      }
+  .banner-link {
+    .link-thumbnail {
+      width: 24px;
+      height: 24px;
+      margin-right: 8px;
+      position: relative;
+      top: 1px;
     }
   }
 }
