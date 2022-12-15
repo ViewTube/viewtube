@@ -1,5 +1,5 @@
 <script setup lang="ts">
-defineProps<{
+const props = defineProps<{
   pages: Array<{
     title: string;
     link: string;
@@ -12,6 +12,22 @@ const emit = defineEmits<{
   (event: 'changePage', url: string): void;
 }>();
 
+const { jsEnabled } = useJsEnabled();
+
+const pageElementRefs = ref<Array<HTMLElement>>([]);
+
+const selectedElement = computed(() => {
+  return pageElementRefs.value.find(element => element.dataset.pageName === props.currentPage);
+});
+
+const selectedElementPositionX = computed(() => {
+  return `${selectedElement.value?.offsetLeft ?? 0}px`;
+});
+
+const selectedElementWidth = computed(() => {
+  return `${selectedElement.value?.offsetWidth ?? 0}px`;
+});
+
 const onPageLinkClick = (pageName: string) => {
   emit('changePage', pageName);
 };
@@ -23,12 +39,18 @@ const onPageLinkClick = (pageName: string) => {
     <a
       v-for="page in pages"
       :key="page.title"
+      ref="pageElementRefs"
       :href="page.link"
       class="tab-link"
-      :class="{ active: page.pageName === currentPage }"
-      @click.prevent="() => onPageLinkClick(page.pageName)"
-      >{{ page.title }}</a
+      :data-page-name="page.pageName"
+      :class="{
+        active: page.pageName === currentPage,
+        'active-simple': page.pageName === currentPage && !jsEnabled
+      }"
+      @click.prevent="onPageLinkClick(page.pageName)"
     >
+      {{ page.title }}
+    </a>
   </div>
 </template>
 
@@ -39,21 +61,34 @@ const onPageLinkClick = (pageName: string) => {
   position: relative;
 
   .tab-link {
-    padding: 5px 15px;
+    padding: 0 15px;
     text-decoration: none;
     border-radius: 5px;
+    height: 35px;
+    line-height: 35px;
+    text-align: center;
+
+    &.active-simple {
+      background-color: var(--bgcolor-alt-light);
+      box-shadow: $low-shadow;
+    }
+
+    &::after {
+      display: none;
+    }
   }
 
   .active-selector {
     position: absolute;
-    top: 5px;
-    left: 0;
-    height: 25px;
-    width: 20px;
+    top: 0;
+    left: v-bind(selectedElementPositionX);
+    height: 35px;
+    width: v-bind(selectedElementWidth);
     border-radius: 5px;
     box-shadow: $low-shadow;
     background-color: var(--bgcolor-alt-light);
-    transition: left 0.2s ease-in-out, width 0.2s ease-in-out;
+    transition: left 300ms $intro-easing, width 300ms $intro-easing, height 150ms $intro-easing,
+      top 150ms $intro-easing;
   }
 }
 </style>
