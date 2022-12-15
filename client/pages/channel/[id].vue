@@ -1,15 +1,18 @@
 <script setup lang="ts">
-const route = useRoute();
+import 'keen-slider/keen-slider.min.css';
+
 definePageMeta({
   key: r => `channel-${r.params.id?.toString() ?? ''}`,
   name: 'channel'
 });
 
+const route = useRoute();
+
 const channelId = computed(() => route.params.id?.toString() ?? null);
 
 const { data: channelInfo } = useGetChannelInfo(channelId);
 
-const { pages, currentPage, changePage } = useChannelPages();
+const { pages, currentPage, changePage, swipeContainerRef } = useChannelPages();
 </script>
 
 <template>
@@ -26,17 +29,37 @@ const { pages, currentPage, changePage } = useChannelPages();
       @change-page="changePage"
     />
 
-    <ChannelPageHome v-if="currentPage === 'home'" />
-    <ChannelPageVideos v-else-if="currentPage === 'videos'" />
-    <ChannelPagePlaylists v-else-if="currentPage === 'playlists'" />
-    <ChannelPageCommunity v-else-if="currentPage === 'community'" />
-    <ChannelPageChannels v-else-if="currentPage === 'channels'" />
-    <ChannelPageAbout v-else-if="currentPage === 'about'" />
+    <div ref="swipeContainerRef" class="channel-pages-container keen-slider">
+      <div class="keen-slider__slide channel-page">
+        <ChannelPageHome />
+      </div>
+      <div class="keen-slider__slide channel-page">
+        <ChannelPageVideos />
+      </div>
+      <div class="keen-slider__slide channel-page">
+        <ChannelPagePlaylists />
+      </div>
+      <div class="keen-slider__slide channel-page">
+        <ChannelPageCommunity />
+      </div>
+      <div class="keen-slider__slide channel-page">
+        <ChannelPageChannels />
+      </div>
+      <div class="keen-slider__slide channel-page">
+        <ChannelPageAbout />
+      </div>
+    </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
 .channel {
   margin-top: $header-height;
+
+  .channel-pages-container {
+    .channel-page {
+      height: 100%;
+    }
+  }
 }
 </style>

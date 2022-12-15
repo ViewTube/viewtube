@@ -76,8 +76,11 @@ const resetPageLinkPull = () => {
         active: page.pageName === currentPage,
         'active-simple': page.pageName === currentPage && !jsEnabled
       }"
-      @mouseover="onPageLinkMouseOver"
+      @mousedown="onPageLinkMouseOver"
+      @mouseup="resetPageLinkPull"
       @mouseleave="resetPageLinkPull"
+      @dragstart.prevent
+      @drop.prevent
       @click.prevent="onPageLinkClick(page.pageName)"
     >
       {{ page.title }}
@@ -97,6 +100,7 @@ const resetPageLinkPull = () => {
     height: 35px;
     line-height: 35px;
     text-align: center;
+    user-select: none;
 
     &.active-simple {
       background-color: var(--bgcolor-alt-light);

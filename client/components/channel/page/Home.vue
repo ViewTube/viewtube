@@ -7,6 +7,26 @@ const { data: channelInfo, pending } = useGetChannelInfo(channelId);
 <template>
   <div v-if="!pending && channelInfo" class="channel-home">
     <ChannelBannerLinks :bannerLinks="{ ...channelInfo?.channelLinks, type: 'links' }" />
+    <p>
+      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Inventore placeat illum suscipit
+      eveniet iusto? Beatae fuga quas, mollitia nam explicabo maiores omnis! Impedit aspernatur
+      obcaecati facilis, voluptatem quibusdam at non?
+    </p>
+    <p>
+      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Inventore placeat illum suscipit
+      eveniet iusto? Beatae fuga quas, mollitia nam explicabo maiores omnis! Impedit aspernatur
+      obcaecati facilis, voluptatem quibusdam at non?
+    </p>
+    <p>
+      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Inventore placeat illum suscipit
+      eveniet iusto? Beatae fuga quas, mollitia nam explicabo maiores omnis! Impedit aspernatur
+      obcaecati facilis, voluptatem quibusdam at non?
+    </p>
+    <p>
+      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Inventore placeat illum suscipit
+      eveniet iusto? Beatae fuga quas, mollitia nam explicabo maiores omnis! Impedit aspernatur
+      obcaecati facilis, voluptatem quibusdam at non?
+    </p>
   </div>
 </template>
 
