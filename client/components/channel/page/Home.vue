@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import RelatedChannels from '@/components/channel/RelatedChannels.vue';
+
 const route = useRoute();
 const channelId = computed(() => route.params.id?.toString() ?? null);
 const { data: channelInfo, pending } = useGetChannelInfo(channelId);
@@ -6,31 +8,19 @@ const { data: channelInfo, pending } = useGetChannelInfo(channelId);
 
 <template>
   <div v-if="!pending && channelInfo" class="channel-home">
+    <p class="channel-description" v-html="channelInfo.description" />
     <ChannelBannerLinks :bannerLinks="{ ...channelInfo?.channelLinks, type: 'links' }" />
-    <p>
-      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Inventore placeat illum suscipit
-      eveniet iusto? Beatae fuga quas, mollitia nam explicabo maiores omnis! Impedit aspernatur
-      obcaecati facilis, voluptatem quibusdam at non?
-    </p>
-    <p>
-      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Inventore placeat illum suscipit
-      eveniet iusto? Beatae fuga quas, mollitia nam explicabo maiores omnis! Impedit aspernatur
-      obcaecati facilis, voluptatem quibusdam at non?
-    </p>
-    <p>
-      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Inventore placeat illum suscipit
-      eveniet iusto? Beatae fuga quas, mollitia nam explicabo maiores omnis! Impedit aspernatur
-      obcaecati facilis, voluptatem quibusdam at non?
-    </p>
-    <p>
-      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Inventore placeat illum suscipit
-      eveniet iusto? Beatae fuga quas, mollitia nam explicabo maiores omnis! Impedit aspernatur
-      obcaecati facilis, voluptatem quibusdam at non?
-    </p>
+    <RelatedChannels
+      v-if="channelInfo.relatedChannels"
+      :relatedChannels="channelInfo.relatedChannels"
+    />
   </div>
 </template>
 
 <style lang="scss" scoped>
-// .channel-home {
-// }
+.channel-home {
+  .channel-description {
+    padding: 10px 10px 0 10px;
+  }
+}
 </style>

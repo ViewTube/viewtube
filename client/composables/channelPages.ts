@@ -7,6 +7,7 @@ export const useChannelPages = () => {
   const currentPage = ref(route.query.page?.toString() ?? 'home');
 
   const changingSlideProgrammatically = ref(false);
+  const initializationPending = ref(true);
 
   const changePage = (pageName: string, updateSlide = true) => {
     const newUrl = new URL(window.location.href);
@@ -35,28 +36,32 @@ export const useChannelPages = () => {
   const swipeContainerRef = ref<HTMLElement | null>(null);
 
   onMounted(() => {
-    sliderInstance.value = new KeenSlider(swipeContainerRef.value, {
-      slides: {
-        origin: 'center'
-      },
-      rubberband: false,
-      created(slider) {
-        slider.container.addEventListener(
-          'mousedown',
-          e => {
-            e.stopPropagation();
-          },
-          { capture: true }
-        );
-      },
-      slideChanged(slider) {
-        if (!changingSlideProgrammatically.value) {
-          const pageName = pages.value[slider.track.details.rel]?.pageName;
-          if (pageName) {
-            changePage(pageName, false);
+    initializationPending.value = false;
+    nextTick(() => {
+      sliderInstance.value = new KeenSlider(swipeContainerRef.value, {
+        slides: {
+          origin: 'center'
+        },
+        initial: pages.value.findIndex(page => page.pageName === currentPage.value),
+        rubberband: false,
+        created(slider) {
+          slider.container.addEventListener(
+            'mousedown',
+            e => {
+              e.stopPropagation();
+            },
+            { capture: true }
+          );
+        },
+        slideChanged(slider) {
+          if (!changingSlideProgrammatically.value) {
+            const pageName = pages.value[slider.track.details.rel]?.pageName;
+            if (pageName) {
+              changePage(pageName, false);
+            }
           }
         }
-      }
+      });
     });
   });
 
@@ -93,5 +98,12 @@ export const useChannelPages = () => {
     }
   ]);
 
-  return { pages, currentPage, changePage, sliderInstance, swipeContainerRef };
+  return {
+    pages,
+    currentPage,
+    changePage,
+    sliderInstance,
+    swipeContainerRef,
+    initializationPending
+  };
 };

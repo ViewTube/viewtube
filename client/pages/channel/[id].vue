@@ -12,7 +12,8 @@ const channelId = computed(() => route.params.id?.toString() ?? null);
 
 const { data: channelInfo } = useGetChannelInfo(channelId);
 
-const { pages, currentPage, changePage, swipeContainerRef } = useChannelPages();
+const { pages, currentPage, changePage, swipeContainerRef, initializationPending } =
+  useChannelPages();
 </script>
 
 <template>
@@ -30,22 +31,40 @@ const { pages, currentPage, changePage, swipeContainerRef } = useChannelPages();
     />
 
     <div ref="swipeContainerRef" class="channel-pages-container keen-slider">
-      <div class="keen-slider__slide channel-page">
+      <div
+        v-if="!initializationPending || currentPage === 'home'"
+        class="keen-slider__slide channel-page"
+      >
         <ChannelPageHome />
       </div>
-      <div class="keen-slider__slide channel-page">
+      <div
+        v-if="!initializationPending || currentPage === 'videos'"
+        class="keen-slider__slide channel-page"
+      >
         <ChannelPageVideos />
       </div>
-      <div class="keen-slider__slide channel-page">
+      <div
+        v-if="!initializationPending || currentPage === 'playlists'"
+        class="keen-slider__slide channel-page"
+      >
         <ChannelPagePlaylists />
       </div>
-      <div class="keen-slider__slide channel-page">
+      <div
+        v-if="!initializationPending || currentPage === 'community'"
+        class="keen-slider__slide channel-page"
+      >
         <ChannelPageCommunity />
       </div>
-      <div class="keen-slider__slide channel-page">
+      <div
+        v-if="!initializationPending || currentPage === 'channels'"
+        class="keen-slider__slide channel-page"
+      >
         <ChannelPageChannels />
       </div>
-      <div class="keen-slider__slide channel-page">
+      <div
+        v-if="!initializationPending || currentPage === 'about'"
+        class="keen-slider__slide channel-page"
+      >
         <ChannelPageAbout />
       </div>
     </div>
@@ -57,6 +76,8 @@ const { pages, currentPage, changePage, swipeContainerRef } = useChannelPages();
   margin-top: $header-height;
 
   .channel-pages-container {
+    user-select: auto;
+
     .channel-page {
       height: 100%;
     }

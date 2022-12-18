@@ -3,7 +3,7 @@ import { ChannelImageDto } from '../basic/channel-image.dto';
 import { ChannelLinkDto } from '../basic/channel-link.dto';
 import { RelatedChannelDto } from '../basic/related-channel.dto';
 
-export class ChannelInfoDto implements ChannelInfoResponse {
+export class ChannelInfoDto implements Omit<ChannelInfoResponse, 'relatedChannels'> {
   author: string;
   authorId: string;
   authorUrl: string;
@@ -13,7 +13,7 @@ export class ChannelInfoDto implements ChannelInfoResponse {
   subscriberCount: number;
   description: string;
   isFamilyFriendly: boolean;
-  relatedChannels: RelatedChannelDto[];
+  relatedChannels: { items: RelatedChannelDto[]; continuation: string | null };
   allowedRegions: string[];
   isVerified: boolean;
   isOfficialArtist: boolean;

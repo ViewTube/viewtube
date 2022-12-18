@@ -291,7 +291,10 @@ export interface components {
       subscriberCount: number;
       description: string;
       isFamilyFriendly: boolean;
-      relatedChannels: (components["schemas"]["RelatedChannelDto"])[];
+      relatedChannels: {
+        items?: (components["schemas"]["RelatedChannelDto"])[];
+        continuation?: string | null;
+      };
       allowedRegions: (string)[];
       isVerified: boolean;
       isOfficialArtist: boolean;

@@ -44,7 +44,7 @@ export class ChannelsService {
       throw new BadRequestException('Error fetching channel info', 'Invalid channelId');
     }
     try {
-      return ytch.getChannelInfo({ channelId });
+      return ytch.getChannelInfo({ channelId }) as unknown as Promise<ChannelInfoDto>;
     } catch (error) {
       throwChannelError(error, 'Error fetching channel info');
     }
