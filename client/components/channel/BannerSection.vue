@@ -30,10 +30,8 @@ const subscriberCount = computed(() => humanNumber(props.channelInfo?.subscriber
   <div v-if="channelInfo" class="banner-section">
     <ChannelBanner
       class="channel-banner"
-      :src="channelInfo?.authorBanners?.[1]?.url"
-      :bannerHqSrc="
-        imgProxy.url + channelInfo?.authorBanners?.[channelInfo?.authorBanners?.length - 1]?.url
-      "
+      :src="channelInfo?.authorBanners?.[3]?.url"
+      :bannerHqSrc="channelInfo?.authorBanners?.[channelInfo?.authorBanners?.length - 1]?.url"
     />
     <div class="info">
       <div class="avatar">
@@ -55,7 +53,9 @@ const subscriberCount = computed(() => humanNumber(props.channelInfo?.subscriber
   position: relative;
 
   .info {
-    background-color: var(--bgcolor-alt);
+    width: 100%;
+    max-width: $main-width;
+    margin: 0 auto;
     padding: 10px;
     display: grid;
     grid-template-areas:
@@ -64,6 +64,17 @@ const subscriberCount = computed(() => humanNumber(props.channelInfo?.subscriber
     grid-template-columns: 100px 1fr 200px;
     grid-template-rows: 50px 1fr;
     gap: 10px 20px;
+
+    &::before {
+      content: '';
+      display: block;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      background-color: var(--bgcolor-alt);
+    }
 
     .avatar {
       z-index: 102;
@@ -86,6 +97,7 @@ const subscriberCount = computed(() => humanNumber(props.channelInfo?.subscriber
       grid-area: title;
       font-size: 2rem;
       align-self: center;
+      z-index: 102;
     }
 
     .subscribe {

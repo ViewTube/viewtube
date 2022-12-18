@@ -292,7 +292,7 @@ export interface components {
       description: string;
       isFamilyFriendly: boolean;
       relatedChannels: {
-        items?: (components["schemas"]["RelatedChannelDto"])[];
+        items: (components["schemas"]["RelatedChannelDto"])[];
         continuation?: string | null;
       };
       allowedRegions: (string)[];

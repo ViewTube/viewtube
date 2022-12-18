@@ -54,13 +54,12 @@ const onBannerContextMenu = (e: MouseEvent) => {
     display: flex;
     z-index: 13;
     bottom: 0;
-    left: 0;
-    width: 100%;
+    right: 0;
     flex-direction: row;
     justify-content: space-between;
 
     .show-btn {
-      padding: 10px 10px 0 10px;
+      margin: 0 20px 10px 0;
       clip-path: circle(15px at 50% 120%);
       transition: clip-path 300ms $intro-easing;
 

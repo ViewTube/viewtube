@@ -77,6 +77,9 @@ const { pages, currentPage, changePage, swipeContainerRef, initializationPending
 
   .channel-pages-container {
     user-select: auto;
+    width: 100%;
+    max-width: $main-width;
+    margin: 0 auto;
 
     .channel-page {
       height: 100%;

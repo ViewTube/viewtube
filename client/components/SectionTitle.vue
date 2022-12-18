@@ -1,3 +1,18 @@
+<script setup lang="ts">
+import ChevronRightIcon from 'vue-material-design-icons/ChevronRight.vue';
+
+withDefaults(
+  defineProps<{
+    title: string;
+    link?: string;
+    line?: boolean;
+  }>(),
+  {
+    line: true
+  }
+);
+</script>
+
 <template>
   <div class="section-title">
     <nuxt-link v-if="link" class="title" :to="link">
@@ -11,28 +26,6 @@
     <slot />
   </div>
 </template>
-
-<script lang="ts">
-import ChevronRightIcon from 'vue-material-design-icons/ChevronRight.vue';
-
-export default defineComponent({
-  name: 'SectionTitle',
-  components: {
-    ChevronRightIcon
-  },
-  props: {
-    title: String,
-    link: { type: String, required: false },
-    line: {
-      type: Boolean,
-      required: false,
-      default() {
-        return true;
-      }
-    }
-  }
-});
-</script>
 
 <style lang="scss" scoped>
 .section-title {

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import VerifiedIcon from 'vue-material-design-icons/CheckDecagram.vue';
 import { ApiDto } from 'viewtube/shared';
 
 type RelatedChannelsType = ApiDto<'ChannelInfoDto'>['relatedChannels']['items'];
@@ -6,7 +7,7 @@ type RelatedChannelsType = ApiDto<'ChannelInfoDto'>['relatedChannels']['items'];
 defineProps<{
   relatedChannels: {
     items: RelatedChannelsType;
-    continuation: string;
+    continuation?: string | null;
   };
 }>();
 
@@ -14,39 +15,42 @@ const { proxyUrl } = useImgProxy();
 </script>
 
 <template>
-  <div v-if="relatedChannels" class="related-channels">
-    <nuxt-link
-      v-for="channel in relatedChannels?.items"
-      :key="channel.channelId"
-      v-ripple
-      v-tippy="channel.channelName"
-      class="related-channel tooltip"
-      :to="{ path: `/channel/${channel.channelId}` }"
-    >
-      <div class="related-channel-thumbnail">
-        <div class="related-channel-thumbnail-image">
-          <img :src="proxyUrl(channel.thumbnail?.[2].url)" :alt="channel.channelName" />
+  <div v-if="relatedChannels?.items" class="related-channels">
+    <div class="scroll-container">
+      <nuxt-link
+        v-for="channel in relatedChannels?.items"
+        :key="channel.channelId"
+        v-ripple
+        class="related-channel tooltip"
+        :to="{ path: `/channel/${channel.channelId}` }"
+      >
+        <div class="related-channel-thumbnail">
+          <div class="related-channel-thumbnail-image">
+            <img :src="proxyUrl(channel.thumbnail?.[2].url)" :alt="channel.channelName" />
+          </div>
         </div>
-      </div>
-      <div class="related-channel-info">
-        <p class="related-channel-title">
-          {{ channel.channelName }}
-        </p>
-        <p class="subscriber-count">{{ channel.subscriberText }}</p>
-        <p class="video-count">{{ channel.videoCount?.toLocaleString('en-US') }} videos</p>
-      </div>
-    </nuxt-link>
+        <div class="related-channel-info">
+          <div v-tippy="channel.channelName" class="related-channel-title">
+            <p class="related-channel-title-text">
+              {{ channel.channelName }}
+            </p>
+            <VerifiedIcon class="verified-icon" />
+          </div>
+          <p class="subscriber-count">{{ channel.subscriberText }}</p>
+          <p class="video-count">{{ channel.videoCount?.toLocaleString('en-US') }} videos</p>
+        </div>
+      </nuxt-link>
+    </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
 .related-channels {
   width: 100%;
+  height: 280px;
   max-width: $main-width;
   margin: 5px auto 0 auto;
-  width: 100%;
-  height: 280px;
-  overflow: auto hidden;
+  overflow: scroll;
   scrollbar-width: thin;
   box-sizing: border-box;
   position: relative;
@@ -59,7 +63,7 @@ const { proxyUrl } = useImgProxy();
     margin: 5px 2px;
 
     .related-channel {
-      width: 120px;
+      width: 150px;
       height: 100%;
       display: flex;
       flex-direction: column;
@@ -91,13 +95,26 @@ const { proxyUrl } = useImgProxy();
         overflow: hidden;
 
         .related-channel-title {
-          display: inline-block;
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
           width: 100%;
           color: var(--subtitle-color);
           font-family: $default-font;
-          white-space: nowrap;
-          text-overflow: ellipsis;
-          overflow: hidden;
+
+          .related-channel-title-text {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            line-height: 24px;
+          }
+
+          .verified-icon {
+            :deep(.material-design-icon__svg) {
+              width: 18px;
+              height: 18px;
+            }
+          }
         }
 
         .subscriber-count,

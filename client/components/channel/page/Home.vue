@@ -8,8 +8,10 @@ const { data: channelInfo, pending } = useGetChannelInfo(channelId);
 
 <template>
   <div v-if="!pending && channelInfo" class="channel-home">
+    <SectionTitle title="Info" />
     <p class="channel-description" v-html="channelInfo.description" />
     <ChannelBannerLinks :bannerLinks="{ ...channelInfo?.channelLinks, type: 'links' }" />
+    <SectionTitle title="Related channels" />
     <RelatedChannels
       v-if="channelInfo.relatedChannels"
       :relatedChannels="channelInfo.relatedChannels"
@@ -19,8 +21,8 @@ const { data: channelInfo, pending } = useGetChannelInfo(channelId);
 
 <style lang="scss" scoped>
 .channel-home {
+  padding: 0 10px;
   .channel-description {
-    padding: 10px 10px 0 10px;
   }
 }
 </style>
