@@ -2,6 +2,10 @@
 import VideoPlayer from '@/components/videoplayer/VideoPlayer.vue';
 import { ApiDto, ApiErrorDto } from 'viewtube/shared';
 
+definePageMeta({
+  headless: true
+});
+
 const route = useRoute();
 
 const { apiUrl } = useApiUrl();
