@@ -64,6 +64,7 @@ const subscriberCount = computed(() => humanNumber(props.channelInfo?.subscriber
     grid-template-columns: 100px 1fr 200px;
     grid-template-rows: 50px 1fr;
     gap: 10px 20px;
+    box-sizing: border-box;
 
     &::before {
       content: '';

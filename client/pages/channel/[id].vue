@@ -33,37 +33,37 @@ const { pages, currentPage, changePage, swipeContainerRef, initializationPending
     <div ref="swipeContainerRef" class="channel-pages-container keen-slider">
       <div
         v-if="!initializationPending || currentPage === 'home'"
-        class="keen-slider__slide channel-page"
+        class="keen-slider__slide lazy__slide channel-page"
       >
         <ChannelPageHome />
       </div>
       <div
         v-if="!initializationPending || currentPage === 'videos'"
-        class="keen-slider__slide channel-page"
+        class="keen-slider__slide lazy__slide channel-page"
       >
         <ChannelPageVideos />
       </div>
       <div
         v-if="!initializationPending || currentPage === 'playlists'"
-        class="keen-slider__slide channel-page"
+        class="keen-slider__slide lazy__slide channel-page"
       >
         <ChannelPagePlaylists />
       </div>
       <div
         v-if="!initializationPending || currentPage === 'community'"
-        class="keen-slider__slide channel-page"
+        class="keen-slider__slide lazy__slide channel-page"
       >
         <ChannelPageCommunity />
       </div>
       <div
         v-if="!initializationPending || currentPage === 'channels'"
-        class="keen-slider__slide channel-page"
+        class="keen-slider__slide lazy__slide channel-page"
       >
         <ChannelPageChannels />
       </div>
       <div
         v-if="!initializationPending || currentPage === 'about'"
-        class="keen-slider__slide channel-page"
+        class="keen-slider__slide lazy__slide channel-page"
       >
         <ChannelPageAbout />
       </div>
