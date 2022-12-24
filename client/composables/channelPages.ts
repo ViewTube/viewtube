@@ -2,16 +2,17 @@ import KeenSlider, { KeenSliderInstance } from 'keen-slider';
 
 export const useChannelPages = () => {
   const route = useRoute();
-  const channelId = computed(() => route.params.id?.toString() ?? null);
+  const channelId = computed(() => getChannelIdFromParam(route.params.id) ?? null);
 
-  const currentPage = ref(route.query.page?.toString() ?? 'home');
+  console.log('page', route.params.id, getCurrentPageFromParam(route.params.id));
+  const currentPage = ref(getCurrentPageFromParam(route.params.id));
+  console.log(currentPage.value);
 
   const changingSlideProgrammatically = ref(false);
   const initializationPending = ref(true);
 
   const changePage = (pageName: string, updateSlide = true) => {
-    const newUrl = new URL(window.location.href);
-    newUrl.searchParams.set('page', pageName);
+    const newUrl = `${cleanChannelParam(window.location.href)}/${pageName}`;
     window.history.replaceState(null, '', newUrl);
     currentPage.value = pageName;
 
@@ -65,38 +66,23 @@ export const useChannelPages = () => {
     });
   });
 
-  const pages = computed(() => [
-    {
-      title: 'Home',
-      pageName: 'home',
-      link: `/channel/${channelId.value}`
-    },
-    {
-      title: 'Videos',
-      pageName: 'videos',
-      link: `/channel/${channelId.value}?page=videos`
-    },
-    {
-      title: 'Playlists',
-      pageName: 'playlists',
-      link: `/channel/${channelId.value}?page=playlists`
-    },
-    {
-      title: 'Community',
-      pageName: 'community',
-      link: `/channel/${channelId.value}?page=community`
-    },
-    {
-      title: 'Channels',
-      pageName: 'channels',
-      link: `/channel/${channelId.value}?page=channels`
-    },
-    {
-      title: 'About',
-      pageName: 'about',
-      link: `/channel/${channelId.value}?page=about`
-    }
-  ]);
+  const cleanChannelParam = (url: string) => {
+    let newUrl = url;
+    pages.value.forEach(page => {
+      newUrl = newUrl.replaceAll(page.pageName, '');
+    });
+    newUrl = newUrl.replace(/\/*$/gi, '');
+    return new URL(newUrl).href;
+  };
+
+  const pages = computed(() => {
+    const pages = ['home', 'videos', 'playlists', 'community', 'channels', 'about'];
+    return pages.map(page => ({
+      title: page.charAt(0).toUpperCase() + page.slice(1),
+      pageName: page,
+      link: `/channel/${channelId.value}/${page}`
+    }));
+  });
 
   return {
     pages,

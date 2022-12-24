@@ -19,7 +19,7 @@ defineProps<{
   display: grid;
   grid-template-areas: 'video video info';
   grid-template-columns: 1fr 1fr 1fr;
-  height: 500px;
+  grid-template-rows: 36.5vw; // vw to keep the height of the embed
 
   .video-embed {
     grid-area: video;

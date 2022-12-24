@@ -2,7 +2,7 @@
 import RelatedChannels from '@/components/channel/RelatedChannels.vue';
 
 const route = useRoute();
-const channelId = computed(() => route.params.id?.toString() ?? null);
+const channelId = computed(() => getChannelIdFromParam(route.params.id));
 const { data: channelInfo, pending } = useGetChannelInfo(channelId);
 const { data: channelHome, pending: pendingHome } = useGetChannelHome(channelId);
 </script>
@@ -12,14 +12,17 @@ const { data: channelHome, pending: pendingHome } = useGetChannelHome(channelId)
     <SectionTitle title="Info" />
     <pre class="channel-description">{{ channelInfo.description?.trim() }}</pre>
     <ChannelBannerLinks :bannerLinks="{ ...channelInfo?.channelLinks, type: 'links' }" />
-    <SectionTitle title="Related channels" />
+    <SectionTitle v-if="channelInfo.relatedChannels?.items?.length > 0" title="Related channels" />
     <RelatedChannels
-      v-if="channelInfo.relatedChannels"
+      v-if="channelInfo.relatedChannels?.items?.length > 0"
       :relatedChannels="channelInfo.relatedChannels"
     />
     <SectionTitle title="Featured video" />
     <ChannelFeaturedVideo :featured-video="channelHome.featuredVideo" />
-    <SectionTitle title="Section" />
+    <div v-for="(shelf, index) in channelHome?.items ?? []" :key="index" class="shelves">
+      <SectionTitle :title="shelf.shelfName" :link="shelf.shelfUrl" />
+      <ChannelPlaylistShelf v-if="shelf.type === 'playlist'" :shelf="shelf" />
+    </div>
   </div>
 </template>
 

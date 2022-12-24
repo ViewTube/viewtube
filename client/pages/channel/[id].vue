@@ -2,13 +2,14 @@
 import 'keen-slider/keen-slider.min.css';
 
 definePageMeta({
-  key: r => `channel-${r.params.id?.toString() ?? ''}`,
-  name: 'channel'
+  name: 'channel',
+  path: '/channel/:id(@.*)',
+  alias: ['/:id(@.*)']
 });
 
 const route = useRoute();
 
-const channelId = computed(() => route.params.id?.toString() ?? null);
+const channelId = computed(() => route.params.id?.toString()?.split('/')?.[0] ?? null);
 
 const { data: channelInfo } = useGetChannelInfo(channelId);
 
@@ -29,7 +30,6 @@ const { pages, currentPage, changePage, swipeContainerRef, initializationPending
       :current-page="currentPage"
       @change-page="changePage"
     />
-
     <div ref="swipeContainerRef" class="channel-pages-container keen-slider">
       <div
         v-if="!initializationPending || currentPage === 'home'"

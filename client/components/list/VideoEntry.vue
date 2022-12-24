@@ -1,3 +1,117 @@
+<script setup lang="ts">
+import InfoIcon from 'vue-material-design-icons/Information.vue';
+import VerifiedIcon from 'vue-material-design-icons/CheckDecagram.vue';
+import { useLoadingVideoInfoStore } from '@/store/loadingVideoInfo';
+// import { getSecondsFromTimestamp } from '@/utilities/shared';
+
+// import { useFormatting } from '@/utilities/formatting';
+
+type VideoType = {
+  author:
+    | {
+        name?: string;
+        channelID?: string;
+        bestAvatar?: {
+          url?: string;
+        };
+        verified?: string;
+      }
+    | string;
+  videoId?: string;
+  id?: string;
+  authorVerified?: boolean;
+  authorId: string;
+  authorThumbnails?: {
+    url: string;
+    width: number;
+    height: number;
+  }[];
+  authorThumbnailUrl?: string;
+  description?: string;
+  title?: string;
+  isLive?: boolean;
+  lengthSeconds?: number;
+  lengthString?: string;
+  duration?: number;
+  viewCount?: number;
+  views?: number;
+  publishedText?: string;
+  uploadedAt?: string;
+};
+
+const props = defineProps<{
+  video: VideoType;
+  playlistId?: string;
+  lazy?: boolean;
+}>();
+
+const imgProxy = useImgProxy();
+const { apiUrl } = useApiUrl();
+const loadingVideoInfoStore = useLoadingVideoInfoStore();
+
+const localProxy = '&local=true';
+
+const videoThumbnailUrl = ref(null);
+
+const videoLinkQuery = computed(() => {
+  const linkQuery: { v: string; list?: string } = {
+    v: props.video.videoId ? props.video.videoId : props.video.id
+  };
+
+  if (props.playlistId) {
+    linkQuery.list = props.playlistId;
+  }
+  return linkQuery;
+});
+
+const thumbnailTemplate = 'https://i.ytimg.com/vi/';
+
+videoThumbnailUrl.value = `
+      ${imgProxy.url}${thumbnailTemplate}${
+  props.video.videoId ? props.video.videoId : props.video.id
+}/sddefault.jpg${localProxy}`;
+
+const videoThumbnailUrlXL = ref('');
+videoThumbnailUrl.value = `
+      ${imgProxy.url}${thumbnailTemplate}${
+  props.video.videoId ? props.video.videoId : props.video.id
+}/hqdefault.jpg${localProxy}`;
+
+const videoProgressPercentage = computed((): number => {
+  // const savedPosition = videoProgressStore.getSavedPositionForId(
+  //   props.video.videoId ? props.video.videoId : props.video.id
+  // );
+  // if (props.video.duration) {
+  //   const videoLength = props.video.lengthSeconds
+  //     ? props.video.lengthSeconds
+  //     : getSecondsFromTimestamp(props.video.duration);
+  //   return (savedPosition / videoLength) * 100;
+  // }
+  return 0;
+});
+
+const videoProgressTooltip = computed((): string => {
+  // const savedPosition = videoProgressStore.getSavedPositionForId(
+  //   props.video.videoId ? props.video.videoId : props.video.id
+  // );
+  // if (savedPosition && props.video.duration) {
+  //   const timestampSeconds = getSecondsFromTimestamp(props.video.duration);
+  //   const watchTime = formatting.getTimestampFromSeconds(savedPosition);
+  //   const totalTime = formatting.getTimestampFromSeconds(
+  //     props.video.lengthSeconds ? props.video.lengthSeconds : timestampSeconds
+  //   );
+  //   if (videoProgressPercentage.value > 0) {
+  //     return `${watchTime} of ${totalTime}`;
+  //   }
+  // }
+  return null;
+});
+
+const onVideoEntryClick = () => {
+  loadingVideoInfoStore.setLoadingVideoInfo(props.video);
+};
+</script>
+
 <template>
   <div class="video-entry">
     <div
@@ -5,19 +119,25 @@
       class="video-author"
       :class="{
         thumbnail:
-          (video.authorThumbnails && video.authorThumbnails.length > 0) ||
-          (video.author && video.author.bestAvatar) ||
+          (video.authorThumbnails && video.authorThumbnails.length > 0) ??
+          (typeof video.author === 'object' && video.author?.bestAvatar) ??
           video.authorThumbnailUrl
       }"
     >
       <nuxt-link
-        :to="{ path: '/channel/' + (video.authorId ? video.authorId : video.author.channelID) }"
+        :to="{
+          path:
+            '/channel/' +
+            (video.authorId
+              ? video.authorId
+              : typeof video.author === 'object' && video.author?.channelID)
+        }"
       >
         <img
           v-if="video.authorThumbnails && video.authorThumbnails.length > 0"
           class="author-thumbnail"
           :src="
-            imgProxyUrl +
+            imgProxy.url +
             (video.authorThumbnails[1]
               ? video.authorThumbnails[1].url
               : video.authorThumbnails[0].url)
@@ -31,21 +151,23 @@
           alt="Author thumbnail"
         />
         <img
-          v-else-if="video.author && video.author.bestAvatar"
+          v-else-if="video.author && video.author['bestAvatar']"
           class="author-thumbnail"
-          :src="imgProxyUrl + video.author.bestAvatar.url"
+          :src="imgProxy.url + video.author['bestAvatar'].url"
           alt="Author thumbnail"
         />
       </nuxt-link>
       <div class="channel-name-container">
         <nuxt-link
-          v-tippy="video.author.name ? video.author.name : video.author"
+          v-tippy="video.author['name'] ? video.author['name'] : video.author"
           class="video-entry-channel"
-          :to="{ path: '/channel/' + (video.authorId ? video.authorId : video.author.channelID) }"
-          >{{ video.author.name ? video.author.name : video.author }}</nuxt-link
+          :to="{
+            path: '/channel/' + (video.authorId ? video.authorId : video.author['channelID'])
+          }"
+          >{{ video.author['name'] ? video.author['name'] : video.author }}</nuxt-link
         >
         <VerifiedIcon
-          v-if="(video.author && video.author.verified) || video.authorVerified"
+          v-if="(video.author && video.author['verified']) || video.authorVerified"
           v-tippy="'Verified'"
           class="tooltip"
           title=""
@@ -141,106 +263,6 @@
     </div>
   </div>
 </template>
-
-<script lang="ts">
-import InfoIcon from 'vue-material-design-icons/Information.vue';
-import VerifiedIcon from 'vue-material-design-icons/CheckDecagram.vue';
-import { useLoadingVideoInfoStore } from '@/store/loadingVideoInfo';
-// import { getSecondsFromTimestamp } from '@/utilities/shared';
-
-// import { useFormatting } from '@/utilities/formatting';
-
-export default defineComponent({
-  name: 'VideoEntry',
-  components: {
-    InfoIcon,
-    VerifiedIcon
-  },
-  props: {
-    video: Object,
-    playlistId: { type: String, required: false },
-    lazy: Boolean
-  },
-  setup(props) {
-    const imgProxy = useImgProxy();
-    const { apiUrl } = useApiUrl();
-    const loadingVideoInfoStore = useLoadingVideoInfoStore();
-
-    const localProxy = '&local=true';
-
-    const videoThumbnailUrl = ref(null);
-
-    const videoLinkQuery = computed(() => {
-      const linkQuery: { v: string; list?: string } = {
-        v: props.video.videoId ? props.video.videoId : props.video.id
-      };
-
-      if (props.playlistId) {
-        linkQuery.list = props.playlistId;
-      }
-      return linkQuery;
-    });
-
-    const thumbnailTemplate = 'https://i.ytimg.com/vi/';
-
-    videoThumbnailUrl.value = `
-      ${imgProxy.url}${thumbnailTemplate}${
-      props.video.videoId ? props.video.videoId : props.video.id
-    }/sddefault.jpg${localProxy}`;
-
-    const videoThumbnailUrlXL = ref('');
-    videoThumbnailUrl.value = `
-      ${imgProxy.url}${thumbnailTemplate}${
-      props.video.videoId ? props.video.videoId : props.video.id
-    }/hqdefault.jpg${localProxy}`;
-
-    const videoProgressPercentage = computed((): number => {
-      // const savedPosition = videoProgressStore.getSavedPositionForId(
-      //   props.video.videoId ? props.video.videoId : props.video.id
-      // );
-      // if (props.video.duration) {
-      //   const videoLength = props.video.lengthSeconds
-      //     ? props.video.lengthSeconds
-      //     : getSecondsFromTimestamp(props.video.duration);
-      //   return (savedPosition / videoLength) * 100;
-      // }
-      return 0;
-    });
-
-    const videoProgressTooltip = computed((): string => {
-      // const savedPosition = videoProgressStore.getSavedPositionForId(
-      //   props.video.videoId ? props.video.videoId : props.video.id
-      // );
-      // if (savedPosition && props.video.duration) {
-      //   const timestampSeconds = getSecondsFromTimestamp(props.video.duration);
-      //   const watchTime = formatting.getTimestampFromSeconds(savedPosition);
-      //   const totalTime = formatting.getTimestampFromSeconds(
-      //     props.video.lengthSeconds ? props.video.lengthSeconds : timestampSeconds
-      //   );
-      //   if (videoProgressPercentage.value > 0) {
-      //     return `${watchTime} of ${totalTime}`;
-      //   }
-      // }
-      return null;
-    });
-
-    const onVideoEntryClick = () => {
-      loadingVideoInfoStore.setLoadingVideoInfo(props.video);
-    };
-
-    return {
-      imgProxyUrl: imgProxy.url,
-      videoThumbnailUrl,
-      videoThumbnailUrlXL,
-      videoProgressPercentage,
-      videoProgressTooltip,
-      apiUrl,
-      videoLinkQuery,
-      onVideoEntryClick
-    };
-  }
-});
-</script>
 
 <style lang="scss">
 .video-entry {
