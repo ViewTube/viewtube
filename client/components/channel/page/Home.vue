@@ -10,18 +10,29 @@ const { data: channelHome, pending: pendingHome } = useGetChannelHome(channelId)
 <template>
   <div v-if="!pending && !pendingHome && channelInfo && channelHome" class="channel-home">
     <SectionTitle title="Info" />
-    <pre class="channel-description">{{ channelInfo.description?.trim() }}</pre>
-    <ChannelBannerLinks :bannerLinks="{ ...channelInfo?.channelLinks, type: 'links' }" />
+    <pre v-if="channelInfo.description" class="channel-description">{{
+      channelInfo.description?.trim()
+    }}</pre>
+    <ChannelBannerLinks
+      v-if="channelInfo.channelLinks"
+      :bannerLinks="{ ...channelInfo?.channelLinks, type: 'links' }"
+    />
     <SectionTitle v-if="channelInfo.relatedChannels?.items?.length > 0" title="Related channels" />
     <RelatedChannels
       v-if="channelInfo.relatedChannels?.items?.length > 0"
       :relatedChannels="channelInfo.relatedChannels"
     />
-    <SectionTitle title="Featured video" />
-    <ChannelFeaturedVideo :featured-video="channelHome.featuredVideo" />
+    <SectionTitle v-if="channelHome.featuredVideo" title="Featured video" />
+    <ChannelFeaturedVideo
+      v-if="channelHome.featuredVideo"
+      :featured-video="channelHome.featuredVideo"
+    />
     <div v-for="(shelf, index) in channelHome?.items ?? []" :key="index" class="shelves">
       <SectionTitle :title="shelf.shelfName" :link="shelf.shelfUrl" />
-      <ChannelPlaylistShelf v-if="shelf.type === 'playlist'" :shelf="shelf" />
+      <ChannelPlaylistShelf
+        v-if="shelf.type === 'playlist' || shelf.type === 'videos'"
+        :shelf="shelf"
+      />
     </div>
   </div>
 </template>

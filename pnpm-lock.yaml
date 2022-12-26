@@ -208,7 +208,7 @@ importers:
       webpack-node-externals: 3.0.0
       x2js: 3.4.4
       xml-js: 1.6.11
-      yt-channel-info: ^3.2.1
+      yt-channel-info: git://github.com/FreeTubeApp/yt-channel-info
       ytdl-core: 4.11.2
       ytpl: 2.3.0
       ytsr: 3.8.0
@@ -264,7 +264,7 @@ importers:
       web-push: 3.5.0
       x2js: 3.4.4
       xml-js: 1.6.11
-      yt-channel-info: 3.2.1
+      yt-channel-info: github.com/FreeTubeApp/yt-channel-info/46c4f20b76776b5fc28121e66e1eea11c8a9eb09
       ytdl-core: 4.11.2
       ytpl: 2.3.0
       ytsr: 3.8.0
@@ -12094,14 +12094,6 @@ packages:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
 
-  /yt-channel-info/3.2.1:
-    resolution: {integrity: sha512-drGySe+MqoYMhZzkJpapG5pCfAEBSsCaOZXDzZz4nfQfYhXQGUU11IJ9HpDZmnari1vEWrUasjeu2hwZujZYmw==}
-    dependencies:
-      axios: 1.2.0-alpha.1
-    transitivePeerDependencies:
-      - debug
-    dev: false
-
   /ytdl-core/4.11.2:
     resolution: {integrity: sha512-D939t9b4ZzP3v0zDvehR2q+KgG97UTgrTKju3pOPGQcXtl4W6W5z0EpznzcJFu+OOpl7S7Ge8hv8zU65QnxYug==}
     engines: {node: '>=12'}
@@ -12130,6 +12122,16 @@ packages:
       archiver-utils: 2.1.0
       compress-commons: 4.1.1
       readable-stream: 3.6.0
+
+  github.com/FreeTubeApp/yt-channel-info/46c4f20b76776b5fc28121e66e1eea11c8a9eb09:
+    resolution: {tarball: https://codeload.github.com/FreeTubeApp/yt-channel-info/tar.gz/46c4f20b76776b5fc28121e66e1eea11c8a9eb09}
+    name: yt-channel-info
+    version: 3.2.1
+    dependencies:
+      axios: 1.2.0-alpha.1
+    transitivePeerDependencies:
+      - debug
+    dev: false
 
   github.com/mauriceoegerli/nestjs-throttler-storage-redis/e659522520fb6548fc8386e593a7dfd7f984a975_ffe7rtb2djiahrkpuofeysjq7e:
     resolution: {tarball: https://codeload.github.com/mauriceoegerli/nestjs-throttler-storage-redis/tar.gz/e659522520fb6548fc8386e593a7dfd7f984a975}

@@ -3,7 +3,7 @@ import 'keen-slider/keen-slider.min.css';
 
 definePageMeta({
   name: 'channel',
-  path: '/channel/:id(@.*)',
+  path: '/channel/:id(.*)',
   alias: ['/:id(@.*)']
 });
 
@@ -19,6 +19,7 @@ const { pages, currentPage, changePage, swipeContainerRef, initializationPending
 
 <template>
   <div class="channel">
+    <Spinner v-if="true || !channelInfo" />
     <MetaPageHead
       :title="`${channelInfo?.author}`"
       :description="`${channelInfo?.description?.substring(0, 100)}`"

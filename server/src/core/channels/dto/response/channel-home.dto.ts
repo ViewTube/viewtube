@@ -8,7 +8,15 @@ export class ChannelHomeDto implements ChannelHomeResponse {
   featuredVideo: ChannelVideoDto;
   items: {
     shelfName: string;
-    type: 'channels' | 'videos' | 'verticalVideoList' | 'playlist' | 'mix' | 'playlists' | 'video';
+    type:
+      | 'channels'
+      | 'videos'
+      | 'verticalVideoList'
+      | 'playlist'
+      | 'mix'
+      | 'playlists'
+      | 'video'
+      | 'livestreams';
     items: ChannelVideoDto[] | RelatedChannelDto[] | ChannelPlaylistDto[] | ChannelMixDto;
   };
 }
