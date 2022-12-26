@@ -2,12 +2,13 @@
 import VerifiedIcon from 'vue-material-design-icons/CheckDecagram.vue';
 import { ApiDto } from 'viewtube/shared';
 
-type RelatedChannelsType = ApiDto<'ChannelInfoDto'>['relatedChannels']['items'];
+export type RelatedChannelsType = ApiDto<'ChannelInfoDto'>['relatedChannels']['items'];
 
 defineProps<{
   relatedChannels: {
-    items: RelatedChannelsType;
+    items?: RelatedChannelsType;
     continuation?: string | null;
+    type: 'channels';
   };
 }>();
 
@@ -26,7 +27,10 @@ const { proxyUrl } = useImgProxy();
       >
         <div class="related-channel-thumbnail">
           <div class="related-channel-thumbnail-image">
-            <img :src="proxyUrl(channel.thumbnail?.[2].url)" :alt="channel.channelName" />
+            <img
+              :src="proxyUrl(channel.thumbnail?.[2]?.url ?? channel.thumbnail?.[1]?.url)"
+              :alt="channel.channelName"
+            />
           </div>
         </div>
         <div class="related-channel-info">

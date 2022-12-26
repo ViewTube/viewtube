@@ -1,28 +1,73 @@
+<script setup lang="ts">
+import VerifiedIcon from 'vue-material-design-icons/CheckDecagram.vue';
+import PlaylistIcon from 'vue-material-design-icons/PlaylistPlay.vue';
+
+export type PlaylistEntryType = {
+  title: string;
+  playlistId?: string;
+  playlistID?: string;
+  thumbnail?: string;
+  playlistThumbnails?: Array<{
+    url: string;
+  }>;
+  playlistThumbnail?: string;
+  firstVideo?: {
+    thumbnails?: Array<{
+      url: string;
+    }>;
+  };
+  videoCountString?: string;
+  videoCount?: number;
+  author?: string;
+  authorId?: string;
+  owner?: {
+    name: string;
+    channelID: string;
+    verified: boolean;
+  };
+  publishedAt?: string;
+  length?: number;
+};
+
+const props = defineProps<{
+  playlist: PlaylistEntryType;
+}>();
+
+const { proxyUrl } = useImgProxy();
+
+const playlistLink = computed((): string => {
+  return `/playlist?list=${
+    props.playlist.playlistId ? props.playlist.playlistId : props.playlist.playlistID
+  }`;
+});
+</script>
+
 <template>
   <div class="playlist-entry">
-    <nuxt-link
-      class="playlist-entry-thmb"
-      :to="{
-        path: playlistLink
-      }"
-    >
+    <nuxt-link class="playlist-entry-thmb" :to="playlistLink">
       <div class="thmb-image-container">
         <img
           v-if="playlist.thumbnail"
           class="playlist-entry-thmb-image"
-          :src="imgProxyUrl + playlist.thumbnail"
+          :src="proxyUrl(playlist.thumbnail)"
           :alt="playlist.title"
         />
         <img
-          v-if="playlist.playlistThumbnails"
+          v-else-if="playlist.playlistThumbnails"
           class="playlist-entry-thmb-image"
-          :src="imgProxyUrl + playlist.playlistThumbnails[3].url"
+          :src="proxyUrl(playlist.playlistThumbnails[3].url)"
           :alt="playlist.title"
         />
         <img
-          v-if="playlist.firstVideo && playlist.firstVideo.thumbnails"
+          v-else-if="playlist.playlistThumbnail"
           class="playlist-entry-thmb-image"
-          :src="imgProxyUrl + playlist.firstVideo.thumbnails[0].url"
+          :src="proxyUrl(playlist.playlistThumbnail)"
+          :alt="playlist.title"
+        />
+        <img
+          v-else-if="playlist.firstVideo && playlist.firstVideo.thumbnails"
+          class="playlist-entry-thmb-image"
+          :src="proxyUrl(playlist.firstVideo.thumbnails[0].url)"
           :alt="playlist.title"
         />
       </div>
@@ -31,38 +76,29 @@
         <span v-if="playlist.videoCountString" class="count-text">{{
           playlist.videoCountString
         }}</span>
-        <span v-if="playlist['length']" class="count-text">{{ playlist['length'] }} videos</span>
-        <span v-if="playlist.videoCount" class="count-text"
-          ><PlaylistIcon class="playlist-icon" />{{ playlist.videoCount }} videos</span
+        <span v-else-if="playlist.length" class="count-text">{{ playlist['length'] }} videos</span>
+        <span v-else-if="playlist.videoCount" class="count-text"
+          >{{ playlist.videoCount }} videos</span
         >
       </div>
     </nuxt-link>
     <div class="playlist-entry-info">
-      <nuxt-link
-        v-tippy="playlist.title"
-        class="playlist-entry-title tooltip"
-        :to="{
-          path: playlistLink
-        }"
-        >{{ playlist.title }}</nuxt-link
-      >
+      <nuxt-link v-tippy="playlist.title" class="playlist-entry-title tooltip" :to="playlistLink">{{
+        playlist.title
+      }}</nuxt-link>
       <div class="channel-name-container">
         <nuxt-link
           v-if="playlist.author"
           v-tippy="playlist.author"
           class="playlist-entry-channel tooltip"
-          :to="{
-            path: '/channel/' + playlist.authorId
-          }"
+          :to="'/channel/' + playlist.authorId"
           >{{ playlist.author }}</nuxt-link
         >
         <nuxt-link
           v-if="playlist.owner"
           v-tippy="playlist.owner.name"
           class="playlist-entry-channel tooltip"
-          :to="{
-            path: '/channel/' + playlist.owner.channelID
-          }"
+          :to="'/channel/' + playlist.owner.channelID"
           >{{ playlist.owner.name }}</nuxt-link
         >
         <VerifiedIcon
@@ -79,38 +115,6 @@
   </div>
 </template>
 
-<script lang="ts">
-import VerifiedIcon from 'vue-material-design-icons/CheckDecagram.vue';
-import PlaylistIcon from 'vue-material-design-icons/PlaylistPlay.vue';
-
-
-
-export default defineComponent({
-  name: 'PlaylistEntry',
-  components: {
-    VerifiedIcon,
-    PlaylistIcon
-  },
-  props: {
-    playlist: Object
-  },
-  setup(props) {
-    const imgProxy = useImgProxy();
-
-    const playlistLink = computed((): string => {
-      return `/playlist?list=${
-        props.playlist.playlistId ? props.playlist.playlistId : props.playlist.playlistID
-      }`;
-    });
-
-    return {
-      imgProxyUrl: imgProxy.url,
-      playlistLink
-    };
-  }
-});
-</script>
-
 <style lang="scss">
 .playlist-entry {
   display: flex;
@@ -124,9 +128,10 @@ export default defineComponent({
     position: relative;
     box-shadow: $medium-shadow;
     z-index: 11;
+    padding-top: 56.25%;
 
     .thmb-image-container {
-      position: relative;
+      position: absolute;
       width: 100%;
       top: 50%;
       left: 0;
@@ -156,6 +161,7 @@ export default defineComponent({
 
       .count-text {
         margin: 0 0 0 10px;
+        white-space: nowrap;
       }
 
       .playlist-icon {
@@ -171,7 +177,6 @@ export default defineComponent({
   }
 
   .playlist-entry-info {
-    padding: 10px 0 10px 0;
     font-family: $default-font;
     overflow: hidden;
     display: flex;
@@ -187,7 +192,7 @@ export default defineComponent({
       text-overflow: ellipsis;
       white-space: nowrap;
       color: var(--title-color);
-      padding: 6px 0 4px 0;
+      padding: 8px 0 4px 0;
     }
 
     .channel-name-container {

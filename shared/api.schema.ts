@@ -274,6 +274,7 @@ export interface components {
       subscriberText: string;
       subscriberCount: number;
       verified: boolean;
+      officialArtist?: boolean;
       officialArist: boolean;
     };
     ChannelLinkDto: {
@@ -292,7 +293,7 @@ export interface components {
       description: string;
       isFamilyFriendly: boolean;
       relatedChannels: {
-        items: (components["schemas"]["RelatedChannelDto"])[];
+        items?: (components["schemas"]["RelatedChannelDto"])[];
         continuation?: string | null;
       };
       allowedRegions: (string)[];

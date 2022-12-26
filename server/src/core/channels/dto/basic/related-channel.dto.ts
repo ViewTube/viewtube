@@ -10,5 +10,6 @@ export class RelatedChannelDto implements RelatedChannel {
   subscriberText: string;
   subscriberCount: number;
   verified: boolean;
+  officialArtist?: boolean;
   officialArist: boolean;
 }

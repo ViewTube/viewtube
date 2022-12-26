@@ -20,7 +20,7 @@ const { data: channelHome, pending: pendingHome } = useGetChannelHome(channelId)
     <SectionTitle v-if="channelInfo.relatedChannels?.items?.length > 0" title="Related channels" />
     <RelatedChannels
       v-if="channelInfo.relatedChannels?.items?.length > 0"
-      :relatedChannels="channelInfo.relatedChannels"
+      :relatedChannels="{ ...channelInfo.relatedChannels, type: 'channels' }"
     />
     <SectionTitle v-if="channelHome.featuredVideo" title="Featured video" />
     <ChannelFeaturedVideo
@@ -33,6 +33,8 @@ const { data: channelHome, pending: pendingHome } = useGetChannelHome(channelId)
         v-if="shelf.type === 'playlist' || shelf.type === 'videos'"
         :shelf="shelf"
       />
+      <ChannelPlaylistsShelf v-else-if="shelf.type === 'playlists'" :shelf="shelf" />
+      <ChannelFeaturedChannelsShelf v-else-if="shelf.type === 'channels'" :shelf="shelf" />
     </div>
   </div>
 </template>

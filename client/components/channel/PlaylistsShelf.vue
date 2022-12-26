@@ -1,12 +1,23 @@
 <script setup lang="ts">
-import { ApiDto } from 'viewtube/shared';
-import VideoEntry from '@/components/list/VideoEntry.vue';
+import PlaylistEntry from '@/components/list/PlaylistEntry.vue';
+
+type ShelfItemType = {
+  title: string;
+  type: string;
+  playlistThumbnail: string;
+  author: string;
+  authorUrl: string;
+  authorId: string;
+  playlistId: string;
+  playlistUrl: string;
+  videoCount: number;
+};
 
 type ShelfType = {
   shelfName: string;
   shelfUrl: string;
   type: string;
-  items: ApiDto<'VideoDto'>[];
+  items: Array<ShelfItemType>;
 };
 
 defineProps<{
@@ -17,7 +28,7 @@ defineProps<{
 <template>
   <div class="channel-shelf" @touchstart.stop>
     <div v-for="(item, index) in shelf.items" :key="index" class="channel-shelf-item">
-      <VideoEntry v-if="item.type === 'video'" :video="item" />
+      <PlaylistEntry v-if="item.type === 'playlist'" :playlist="item" />
     </div>
   </div>
 </template>
