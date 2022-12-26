@@ -64,7 +64,8 @@ describe('Core', () => {
   });
 
   defineIt('GET channel with invalid id', async () => {
-    const channelId = 'invalid-id';
+    // ChannelId is random string that is 10 characters long
+    const channelId = 'fvkHgvbUko';
     const result = await app.inject({ method: 'GET', url: `/channels/${channelId}` });
 
     expect(result.statusCode).toEqual(500);
@@ -135,7 +136,11 @@ describe('Core', () => {
 
   defineIt('GET playlist', async () => {
     const playlistId = 'PLMC9KNkIncKtPzgY-5rmhvj7fax8fdxoj';
-    const result = await app.inject({ method: 'GET', url: '/playlists', query: { playlistId } });
+    const result = await app.inject({
+      method: 'GET',
+      url: `/playlists/${playlistId}`,
+      query: { pages: '1' }
+    });
 
     expect(result.statusCode).toEqual(200);
     const payloadJson = getPayloadJson<ytpl.Result>(result.payload);
