@@ -19,7 +19,7 @@ const { pages, currentPage, changePage, swipeContainerRef, initializationPending
 
 <template>
   <div class="channel">
-    <Spinner v-if="true || !channelInfo" />
+    <Spinner v-if="!channelInfo" class="centered" />
     <MetaPageHead
       :title="`${channelInfo?.author}`"
       :description="`${channelInfo?.description?.substring(0, 100)}`"

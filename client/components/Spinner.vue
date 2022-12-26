@@ -9,13 +9,14 @@
 </template>
 
 <style lang="scss">
+$rectangle-width: 8px;
+
 .spinner {
   margin: auto;
-  width: 50px;
+  width: 48px;
   height: 60px;
   text-align: center;
   font-size: 10px;
-  $rectangle-width: 8px;
   user-select: none;
   display: flex;
   flex-direction: row;
@@ -28,7 +29,7 @@
     height: 100%;
     width: $rectangle-width;
     display: block;
-    animation: spinner 2s infinite $dynamic-easing;
+    animation: spinner 4000ms infinite $dynamic-easing;
     margin: auto 0;
     border-radius: 25px;
   }
@@ -47,26 +48,48 @@
 
 @keyframes spinner {
   0% {
-    height: 8px;
+    height: $rectangle-width;
     transform: translateY(0);
   }
-  20% {
-    height: 8px;
+  10% {
+    height: $rectangle-width;
     transform: translateY(-5px);
   }
-  40% {
-    height: 8px;
+  20% {
+    height: $rectangle-width;
     transform: translateY(16px);
   }
-  60% {
+  30% {
     height: 40px;
     transform: translateY(0);
   }
+  40% {
+    height: $rectangle-width;
+    transform: translateY(0);
+  }
+  50% {
+    height: $rectangle-width;
+    transform: translateY(0);
+  }
+  60% {
+    height: $rectangle-width;
+    transform: translateY(5px);
+  }
+  70% {
+    height: $rectangle-width;
+    transform: translateY(-16px);
+  }
   80% {
-    height: 8px;
+    height: 40px;
+    transform: translateY(0);
+  }
+  90% {
+    height: $rectangle-width;
+    transform: translateY(0);
   }
   100% {
-    height: 8px;
+    height: $rectangle-width;
+    transform: translateY(0);
   }
 }
 </style>
