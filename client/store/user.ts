@@ -78,7 +78,6 @@ export const useUserStore = defineStore('user', {
         });
       } catch (error: any) {
         if (error?.data?.message) {
-          console.log(error);
           return {
             error: error.data.message
           };
