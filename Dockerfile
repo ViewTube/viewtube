@@ -3,7 +3,7 @@ WORKDIR /home/build
 
 ENV NUXT_BUILD=true
 
-COPY prepare.js package.json ./
+COPY package.json ./
 COPY pnpm-lock.yaml pnpm-workspace.yaml ./
 
 COPY server/package.json ./server/
