@@ -2360,16 +2360,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nestjs/mongoose@npm:9.2.0":
-  version: 9.2.0
-  resolution: "@nestjs/mongoose@npm:9.2.0"
+"@nestjs/mongoose@npm:9.2.1":
+  version: 9.2.1
+  resolution: "@nestjs/mongoose@npm:9.2.1"
   peerDependencies:
     "@nestjs/common": ^8.0.0 || ^9.0.0
     "@nestjs/core": ^8.0.0 || ^9.0.0
     mongoose: ^6.0.2
     reflect-metadata: ^0.1.12
     rxjs: ^7.0.0
-  checksum: 34e551d704e4e3b1e97679a4ca910800d384d27e04225db02d476174ba9558a3f668c3344e334fead79c53891ab75b04054fe9e780f24341a9d10ef20b4b58e0
+  checksum: 5d03cc7752524ae17bb4a3dbce340a172ec9fa54fd505a83df9b94c4bffe78d656b84ba0ee88fbabe59fe57beeda2f545169ff3774c1e697dc46bfb279fbf559
   languageName: node
   linkType: hard
 
@@ -3490,13 +3490,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/eslint@npm:8.4.6":
-  version: 8.4.6
-  resolution: "@types/eslint@npm:8.4.6"
+"@types/eslint@npm:8.4.10":
+  version: 8.4.10
+  resolution: "@types/eslint@npm:8.4.10"
   dependencies:
     "@types/estree": "*"
     "@types/json-schema": "*"
-  checksum: bfaf27b00031b2238139003965475d023306119e467947f7a43a41e380918e365618e2ae6a6ae638697f6421a6bb1571db078695ff5e548f23618000b38acd23
+  checksum: 21e009ed9ed9bc8920fdafc6e11ff321c4538b4cc18a56fdd59dc5184ea7bbf363c71638c9bdb59fc1254dddcdd567485136ed68b0ee4750948d4e32cb79c689
   languageName: node
   linkType: hard
 
@@ -3767,14 +3767,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/passport-jwt@npm:3.0.6":
-  version: 3.0.6
-  resolution: "@types/passport-jwt@npm:3.0.6"
+"@types/passport-jwt@npm:3.0.8":
+  version: 3.0.8
+  resolution: "@types/passport-jwt@npm:3.0.8"
   dependencies:
     "@types/express": "*"
     "@types/jsonwebtoken": "*"
     "@types/passport-strategy": "*"
-  checksum: aa1e89b30bf77e1147bd5d47118fec38705246d6789b687d7385f037fdc01bed4d1e222e9d3c5c04e871c9a06474853090c17968434f9affefc53bed4dfad32b
+  checksum: 321eca319eff51c87a5ddebf590937b24ed7fa6c8cc2465cecb4edf49f839b7770e57a4ed009f323c66ade6c0f1d9b6a51033d82dd392270b17976380893af2f
   languageName: node
   linkType: hard
 
@@ -4626,12 +4626,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vue/composition-api@npm:1.7.0":
-  version: 1.7.0
-  resolution: "@vue/composition-api@npm:1.7.0"
+"@vue/composition-api@npm:1.7.1":
+  version: 1.7.1
+  resolution: "@vue/composition-api@npm:1.7.1"
   peerDependencies:
     vue: ">= 2.5 < 2.7"
-  checksum: e2298b67b03c416aefeb57575c5c384855d03294c602a897f0bb5fba56b0513b8cc01222c18f0db63f6f9770677c312cbc0f29f77510dab26598b54aa98276ab
+  checksum: dedd90e17cc6d3577510b5439a568932862a122dcff922c52ab0a25db7ee289caea1aa2d5e43c817eb91619e1b955e5e8e9460a4435f5c3565284d39750c9d4c
   languageName: node
   linkType: hard
 
@@ -5049,10 +5049,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xmldom/xmldom@npm:^0.7.4":
-  version: 0.7.5
-  resolution: "@xmldom/xmldom@npm:0.7.5"
-  checksum: 8d7ec35c1ef6183b4f621df08e01d7e61f244fb964a4719025e65fe6ac06fac418919be64fb40fe5908e69158ef728f2d936daa082db326fe04603012b5f2a84
+"@xmldom/xmldom@npm:^0.8.3":
+  version: 0.8.6
+  resolution: "@xmldom/xmldom@npm:0.8.6"
+  checksum: f17ac6d99a971a6aeb831fcfc5cfa86f367664e45815046548814b2deb17ccc421fef4e0d5ba29e66179d112b552f6caa5680064f8e7bd8a389b788a60404c8e
   languageName: node
   linkType: hard
 
@@ -6694,7 +6694,7 @@ __metadata:
     "@types/sass": 1.43.1
     "@typescript-eslint/eslint-plugin": 5.25.0
     "@typescript-eslint/parser": 5.25.0
-    "@vue/composition-api": 1.7.0
+    "@vue/composition-api": 1.7.1
     axios: 0.27.2
     consola: 2.15.3
     cross-env: 7.0.3
@@ -6728,11 +6728,11 @@ __metadata:
     vue: 2.6.14
     vue-material-design-icons: 5.1.2
     vue-template-compiler: 2.6.14
-    vue2-datepicker: 3.11.0
+    vue2-datepicker: 3.11.1
     vuex: 3.6.2
     vuex-persistedstate: 4.1.0
     webpack: 5.72.0
-    x2js: 3.4.3
+    x2js: 3.4.4
     ytpl: 2.3.0
   languageName: unknown
   linkType: soft
@@ -9264,9 +9264,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fastify-swagger@npm:@fastify/swagger@6.1.0":
-  version: 6.1.0
-  resolution: "@fastify/swagger@npm:6.1.0"
+"fastify-swagger@npm:@fastify/swagger@6.1.1":
+  version: 6.1.1
+  resolution: "@fastify/swagger@npm:6.1.1"
   dependencies:
     "@fastify/static": ^5.0.0
     fastify-plugin: ^3.0.0
@@ -9274,7 +9274,7 @@ __metadata:
     json-schema-resolver: ^1.3.0
     openapi-types: ^10.0.0
     rfdc: ^1.3.0
-  checksum: 99fe807a61bba44014c99665d15a93dd67eb9dac3c04d73bfe21c91e1b8b769965316cc7658bfd73b9b6e0b3ec675e50b4df4e98fb778014cfd202696e09fc28
+  checksum: 766a11574a651ca6a4f8a0f9cb535807ddb7c8a538bc87fedd9b11685f63c7648f5420ebabd7c32ac74b81f477de11a50764022549fd7bc462b01fd6be136ee1
   languageName: node
   linkType: hard
 
@@ -10586,12 +10586,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"husky@npm:8.0.1":
-  version: 8.0.1
-  resolution: "husky@npm:8.0.1"
+"husky@npm:8.0.2":
+  version: 8.0.2
+  resolution: "husky@npm:8.0.2"
   bin:
     husky: lib/bin.js
-  checksum: 943a73a13d0201318fd30e83d299bb81d866bd245b69e6277804c3b462638dc1921694cb94c2b8c920a4a187060f7d6058d3365152865406352e934c5fff70dc
+  checksum: e101656fcb56163d610488f186448c78b132626aa427094489d886ce9374955a90274912b0f3a34af3326eaa74977883b032e5f701d7aaf4554daa5a7931be43
   languageName: node
   linkType: hard
 
@@ -12116,7 +12116,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jsonwebtoken@npm:8.5.1, jsonwebtoken@npm:^8.2.0":
+"jsonwebtoken@npm:8.5.1":
   version: 8.5.1
   resolution: "jsonwebtoken@npm:8.5.1"
   dependencies:
@@ -12131,6 +12131,18 @@ __metadata:
     ms: ^2.1.1
     semver: ^5.6.0
   checksum: 93c9e3f23c59b758ac88ba15f4e4753b3749dfce7a6f7c40fb86663128a1e282db085eec852d4e0cbca4cefdcd3a8275ee255dbd08fcad0df26ad9f6e4cc853a
+  languageName: node
+  linkType: hard
+
+"jsonwebtoken@npm:^9.0.0":
+  version: 9.0.0
+  resolution: "jsonwebtoken@npm:9.0.0"
+  dependencies:
+    jws: ^3.2.2
+    lodash: ^4.17.21
+    ms: ^2.1.1
+    semver: ^7.3.8
+  checksum: b9181cecf9df99f1dc0253f91ba000a1aa4d91f5816d1608c0dba61a5623726a0bfe200b51df25de18c1a6000825d231ad7ce2788aa54fd48dcb760ad9eb9514
   languageName: node
   linkType: hard
 
@@ -14386,13 +14398,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"passport-jwt@npm:4.0.0":
-  version: 4.0.0
-  resolution: "passport-jwt@npm:4.0.0"
+"passport-jwt@npm:4.0.1":
+  version: 4.0.1
+  resolution: "passport-jwt@npm:4.0.1"
   dependencies:
-    jsonwebtoken: ^8.2.0
+    jsonwebtoken: ^9.0.0
     passport-strategy: ^1.0.0
-  checksum: d0499ebb819c714d885a9c03a6c5d6dfae916c1a81ccb62357136d5bf477529327e9b8fc658f61f97c565651d2bd78eccec4543474a08e944132f0e2ec47cc3d
+  checksum: 0669d5bf8fc18ee57eb39601491c59ac084acfa6c972e0a3289e9d88a3ee6fab9e9fb279f359eee81939fedb66904c4a74423004480b60c54621af0d7b2ee0d5
   languageName: node
   linkType: hard
 
@@ -16714,6 +16726,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"semver@npm:^7.3.8":
+  version: 7.3.8
+  resolution: "semver@npm:7.3.8"
+  dependencies:
+    lru-cache: ^6.0.0
+  bin:
+    semver: bin/semver.js
+  checksum: ba9c7cbbf2b7884696523450a61fee1a09930d888b7a8d7579025ad93d459b2d1949ee5bbfeb188b2be5f4ac163544c5e98491ad6152df34154feebc2cc337c1
+  languageName: node
+  linkType: hard
+
 "send@npm:0.18.0":
   version: 0.18.0
   resolution: "send@npm:0.18.0"
@@ -16834,7 +16857,7 @@ __metadata:
     "@nestjs/config": 2.2.0
     "@nestjs/core": 8.4.7
     "@nestjs/jwt": 8.0.1
-    "@nestjs/mongoose": 9.2.0
+    "@nestjs/mongoose": 9.2.1
     "@nestjs/passport": 8.2.2
     "@nestjs/platform-fastify": 8.4.7
     "@nestjs/schedule": 1.1.0
@@ -16852,14 +16875,14 @@ __metadata:
     "@types/bcryptjs": 2.4.2
     "@types/busboy": 1.5.0
     "@types/cookie-parser": 1.4.3
-    "@types/eslint": 8.4.6
+    "@types/eslint": 8.4.10
     "@types/humanize-duration": 3.27.1
     "@types/jest": 27.5.2
     "@types/module-alias": 2.0.1
     "@types/multer": 1.4.7
     "@types/node": 16.11.57
     "@types/node-fetch": 3.0.3
-    "@types/passport-jwt": 3.0.6
+    "@types/passport-jwt": 3.0.8
     "@types/passport-local": 1.0.34
     "@types/redis-mock": 0.17.1
     "@types/sharp": 0.30.5
@@ -16883,10 +16906,10 @@ __metadata:
     eslint-config-prettier: 8.5.0
     eslint-plugin-jest: 26.5.3
     fastify: 3.29.4
-    fastify-swagger: "npm:@fastify/swagger@6.1.0"
+    fastify-swagger: "npm:@fastify/swagger@6.1.1"
     https-proxy-agent: 5.0.1
     humanize-duration: 3.27.3
-    husky: 8.0.1
+    husky: 8.0.2
     ioredis: 5.1.0
     jest: 28.1.3
     joi: 17.6.0
@@ -16897,7 +16920,7 @@ __metadata:
     nestjs-throttler-storage-redis: "github:mauriceoegerli/nestjs-throttler-storage-redis"
     node-fetch: 2.6.7
     passport: 0.6.0
-    passport-jwt: 4.0.0
+    passport-jwt: 4.0.1
     passport-local: 1.0.0
     redis: 4.1.1
     redis-mock: 0.56.3
@@ -16911,14 +16934,14 @@ __metadata:
     svg-captcha: 1.4.0
     ts-jest: 28.0.8
     ts-loader: 9.3.1
-    tslib: 2.4.0
+    tslib: 2.4.1
     typescript: 4.5.5
     undici: 5.8.2
     web-push: 3.5.0
     webpack: 5.72.0
     webpack-cli: 4.9.2
     webpack-pnp-externals: 1.1.0
-    x2js: 3.4.3
+    x2js: 3.4.4
     xml-js: 1.6.11
     ytdl-core: "github:absidue/node-ytdl-core#temp-fix-11-08-2022"
     ytpl: 2.3.0
@@ -18328,6 +18351,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"tslib@npm:2.4.1":
+  version: 2.4.1
+  resolution: "tslib@npm:2.4.1"
+  checksum: 19480d6e0313292bd6505d4efe096a6b31c70e21cf08b5febf4da62e95c265c8f571f7b36fcc3d1a17e068032f59c269fab3459d6cd3ed6949eafecf64315fca
+  languageName: node
+  linkType: hard
+
 "tslib@npm:^1.13.0, tslib@npm:^1.8.1, tslib@npm:^1.9.0, tslib@npm:^1.9.3":
   version: 1.14.1
   resolution: "tslib@npm:1.14.1"
@@ -19010,7 +19040,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "viewtube@workspace:."
   dependencies:
-    "@types/eslint": 8.4.6
+    "@types/eslint": 8.4.10
     cross-env: 7.0.3
     eslint: 8.19.0
     eslint-import-resolver-node: 0.3.6
@@ -19204,14 +19234,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vue2-datepicker@npm:3.11.0":
-  version: 3.11.0
-  resolution: "vue2-datepicker@npm:3.11.0"
+"vue2-datepicker@npm:3.11.1":
+  version: 3.11.1
+  resolution: "vue2-datepicker@npm:3.11.1"
   dependencies:
     date-format-parse: ^0.2.7
   peerDependencies:
     vue: ^2.5.0
-  checksum: 561f63cd4121b9d532bea4bf77292364319662b88f66be9068a5db3fddc5cb62949eb5fa6dca7d4f79d308d0d331ff71f0af6b5ffc7e2dfeefad7212a694a18e
+  checksum: 413e8894aa30efcea0353c98265a445d54d3500bc47f4436e5ab65ca612ee92a0a0755c26173826702c4213673b7c717deccd4ef17e331c1598da09dea78e55c
   languageName: node
   linkType: hard
 
@@ -19804,12 +19834,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"x2js@npm:3.4.3":
-  version: 3.4.3
-  resolution: "x2js@npm:3.4.3"
+"x2js@npm:3.4.4":
+  version: 3.4.4
+  resolution: "x2js@npm:3.4.4"
   dependencies:
-    "@xmldom/xmldom": ^0.7.4
-  checksum: cb4f89ffa685114504016df9bd5841b233217943c6471e22729ad1e958c589c74214a98e1113779495b3ca58beba34b0ec23535df541c6cf863ae2100c74538b
+    "@xmldom/xmldom": ^0.8.3
+  checksum: ae3aae5b3871004f6eeb4416096e2721afe5b4e511b5e1c471f8a28a373a5c74995eee30e2351f3e36c7c1e53764c17dd7c3fe3d943d8211df67d5f7fa609ead
   languageName: node
   linkType: hard
 
