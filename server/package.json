@@ -32,7 +32,7 @@
     "@nestjs/common": "9.2.1",
     "@nestjs/config": "2.2.0",
     "@nestjs/core": "9.2.1",
-    "@nestjs/jwt": "9.0.0",
+    "@nestjs/jwt": "10.0.1",
     "@nestjs/mongoose": "9.2.1",
     "@nestjs/passport": "9.0.0",
     "@nestjs/platform-fastify": "9.2.1",
