@@ -3,19 +3,12 @@
   "timezone": "Europe/Zurich",
   "labels": ["dependencies"],
   "lockFileMaintenance": { "enabled": true },
-  "updateInternalDeps": true,
   "packageRules": [
     {
       "matchPackagePatterns": ["*"],
       "matchUpdateTypes": ["pin", "digest"],
       "groupName": "all pin, digest dependencies",
       "groupSlug": "all-pin-digest"
-    },
-    {
-      "matchPackagePatterns": ["*"],
-      "matchUpdateTypes": ["patch"],
-      "groupName": "all patch dependencies",
-      "groupSlug": "all-patch"
     }
   ],
   "commitMessagePrefix": "⬆️ ",

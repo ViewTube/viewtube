@@ -1,30 +1,29 @@
-import {
-  computed,
-  reactive,
-  ref,
-  watch,
-  onMounted,
-  onBeforeUnmount
-} from '@nuxtjs/composition-api';
 import { MediaMetadataHelper } from './mediaMetadata';
 import { calculateSeekPercentage, matchSeekProgressPercentage, seekbarFunctions } from './seekbar';
 import { parseChapters } from './chapters';
 import { destroyInstance, initializeHlsStream, isHlsNative, isHlsSupported } from './hlsHelper';
 import { DashHelper } from './dash';
-import { commons } from '@/plugins/commons';
-import { SponsorBlock } from '@/plugins/services/sponsorBlock';
-import { SponsorBlockSegmentsDto } from '@/plugins/shared';
-import { useAccessor } from '@/store';
-import { useFormatting } from '@/plugins/formatting';
-import { useAxios } from '@/plugins/axiosPlugin';
-import { useImgProxy } from '@/plugins/proxy';
-import { createComputed } from '@/plugins/computed';
+import { commons } from '@/utilities/commons';
+import { SponsorBlock } from '@/services/sponsorBlock';
+import { SponsorBlockSegmentsDto } from '@/utilities/shared';
+import { createComputed } from '@/utilities/computed';
+import { useMessagesStore } from '@/store/messages';
+import { useSettingsStore } from '@/store/settings';
+import { useUserStore } from '@/store/user';
+import { usePlayerVolumeStore } from '@/store/playerVolume';
+import { useVideoPlayerStore } from '@/store/videoPlayer';
 
 export const videoPlayerSetup = (props: any, emit: Function) => {
-  const accessor = useAccessor();
-  const formatting = useFormatting();
-  const axios = useAxios();
+  const settingsStore = useSettingsStore();
+  const messagesStore = useMessagesStore();
+  const userStore = useUserStore();
+  const playerVolumeStore = usePlayerVolumeStore();
+  const videoPlayerStore = useVideoPlayerStore();
+
+  const { apiUrl } = useApiUrl();
+  const { $formatting: formatting } = useNuxtApp();
   const imgProxy = useImgProxy();
+  const { streamProxy } = useProxyUrls();
 
   const loading = ref(true);
   const fullscreen = ref(false);
@@ -154,14 +153,14 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
 
   const chapters = ref(null);
 
-  if (accessor.settings.miniplayer) {
+  if (settingsStore.miniplayer) {
     chapters.value = parseChapters(props.video.description, props.video.lengthSeconds);
   }
 
   const sponsorBlockSegments = ref<SponsorBlockSegmentsDto>(null);
   let sponsorBlock: SponsorBlock = null;
 
-  if (accessor.settings.sponsorblockEnabled) {
+  if (settingsStore.sponsorblockEnabled) {
     sponsorBlock = new SponsorBlock(props.video.videoId);
     sponsorBlock.getSkipSegments().then(value => {
       if (value) {
@@ -203,7 +202,7 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
           } else if (newValue === 0) {
             videoRef.value.muted = true;
           }
-          accessor.playerVolume.setPlayerVolume(newValue);
+          playerVolumeStore.setPlayerVolume(newValue);
           videoRef.value.volume = newValue;
         }
       }
@@ -306,7 +305,7 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
   const onLoadedMetadata = async (e: any) => {
     videoElement.aspectRatio = e.target.videoHeight / e.target.videoWidth;
     if (videoRef.value) {
-      videoElement.playerVolume = accessor.playerVolume.getPlayerVolume;
+      videoElement.playerVolume = playerVolumeStore.playerVolume;
       if (videoElement.firstTimeBuffering) {
         videoElement.firstTimeBuffering = false;
         if (!props.video.liveNow) {
@@ -316,14 +315,14 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
           try {
             await videoRef.value.play();
           } catch (error) {
-            accessor.messages.createMessage({
+            messagesStore.createMessage({
               type: 'error',
               title: 'Autoplay blocked',
               message: 'Allow autoplay for this website to start the video automatically'
             });
           }
         }
-        if ('mediaSession' in navigator && process.browser) {
+        if ('mediaSession' in navigator && process.client) {
           const metadata = createMediaMetadata();
           (navigator as any).mediaSession.metadata = metadata;
         }
@@ -342,37 +341,37 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
         videoElement.progress = videoRef.value.currentTime;
         videoElement.duration = videoRef.value.duration;
 
-        accessor.videoPlayer.setCurrentTime(videoRef.value.currentTime);
-        accessor.videoPlayer.setVideoLength(videoRef.value.duration);
+        videoPlayerStore.setCurrentTime(videoRef.value.currentTime);
+        videoPlayerStore.setVideoLength(videoRef.value.duration);
 
-        if (accessor.settings.sponsorblockEnabled && sponsorBlock) {
+        if (settingsStore.sponsorblockEnabled && sponsorBlock) {
           const currentSegment = sponsorBlock.getCurrentSegment(videoRef.value.currentTime);
           if (currentSegment) {
             let segmentOption = 'ask';
             if (currentSegment.category === 'music_offtopic') {
-              segmentOption = accessor.settings.sponsorblockSegmentMusicOfftopic;
+              segmentOption = settingsStore.sponsorblockSegmentMusicOfftopic;
             }
             switch (currentSegment.category) {
               case 'music_offtopic':
-                segmentOption = accessor.settings.sponsorblockSegmentMusicOfftopic;
+                segmentOption = settingsStore.sponsorblockSegmentMusicOfftopic;
                 break;
               case 'interaction':
-                segmentOption = accessor.settings.sponsorblockSegmentInteraction;
+                segmentOption = settingsStore.sponsorblockSegmentInteraction;
                 break;
               case 'intro':
-                segmentOption = accessor.settings.sponsorblockSegmentIntro;
+                segmentOption = settingsStore.sponsorblockSegmentIntro;
                 break;
               case 'outro':
-                segmentOption = accessor.settings.sponsorblockSegmentOutro;
+                segmentOption = settingsStore.sponsorblockSegmentOutro;
                 break;
               case 'selfpromo':
-                segmentOption = accessor.settings.sponsorblockSegmentSelfpromo;
+                segmentOption = settingsStore.sponsorblockSegmentSelfpromo;
                 break;
               case 'preview':
-                segmentOption = accessor.settings.sponsorblockSegmentPreview;
+                segmentOption = settingsStore.sponsorblockSegmentPreview;
                 break;
               case 'sponsor':
-                segmentOption = accessor.settings.sponsorblockSegmentSponsor;
+                segmentOption = settingsStore.sponsorblockSegmentSponsor;
                 break;
               default:
                 break;
@@ -393,7 +392,7 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
           }
         }
 
-        if (process.browser && 'mediaSession' in navigator) {
+        if (process.client && 'mediaSession' in navigator) {
           const duration = parseFloat(videoRef.value.duration);
           const playbackRate = parseFloat(videoRef.value.playbackRate);
           const position = parseFloat(videoRef.value.currentTime);
@@ -442,7 +441,9 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
     playerOverlay.thumbnailVisible = false;
     videoElement.playing = true;
     videoElement.positionSaveInterval = setInterval(() => {
-      saveVideoPosition(videoRef.value.currentTime);
+      if (videoRef.value) {
+        saveVideoPosition(videoRef.value.currentTime);
+      }
     }, 5000);
     if ('mediaSession' in navigator) {
       (navigator as any).mediaSession.playbackState = 'playing';
@@ -451,7 +452,9 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
 
   const onVideoPaused = () => {
     videoElement.playing = false;
-    saveVideoPosition(videoRef.value.currentTime);
+    if (videoRef.value) {
+      saveVideoPosition(videoRef.value.currentTime);
+    }
     clearInterval(videoElement.positionSaveInterval);
     if ('mediaSession' in navigator) {
       (navigator as any).mediaSession.playbackState = 'paused';
@@ -636,7 +639,7 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
   const onPlayerMouseLeave = () => {
     hidePlayerOverlay();
   };
-  const showPlayerOverlay = (noTimeout: boolean = false) => {
+  const showPlayerOverlay = (noTimeout = false) => {
     playerOverlay.visible = true;
     if (playerOverlay.timeout) {
       clearTimeout(playerOverlay.timeout);
@@ -760,12 +763,8 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
     videoRef.value.pause();
     const currentTime = videoRef.value.currentTime;
     saveVideoPosition(currentTime);
-    if (props.video.liveNow) {
-      await initializeHlsStream(
-        props.video.legacyFormats[index].url,
-        videoRef.value,
-        accessor.environment.streamProxyUrl
-      );
+    if (props.video.liveNow || props.video.legacyFormats[index].isHLS) {
+      await initializeHlsStream(props.video.legacyFormats[index].url, videoRef.value, streamProxy);
     } else {
       videoRef.value.src = props.video.legacyFormats[index].url;
     }
@@ -776,8 +775,8 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
 
   const onAutoAdjustChange = () => {
     if (dashHelper.value && dashHelper.value.isFullyInitialized) {
-      dashHelper.value.setAudioAutoSwitchingMode(accessor.settings.autoAdjustAudioQuality);
-      dashHelper.value.setVideoAutoSwitchingMode(accessor.settings.autoAdjustVideoQuality);
+      dashHelper.value.setAudioAutoSwitchingMode(settingsStore.autoAdjustAudioQuality);
+      dashHelper.value.setVideoAutoSwitchingMode(settingsStore.autoAdjustVideoQuality);
     }
   };
 
@@ -832,24 +831,21 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
   };
 
   const saveVideoPosition = (currentTime: number) => {
-    if (videoRef.value && accessor.settings.saveVideoHistory) {
-      if (accessor.user.isLoggedIn && !props.video.liveNow) {
-        const apiUrl = accessor.environment.apiUrl;
-        axios
-          .post(
-            `${apiUrl}user/history/${props.video.videoId}`,
-            {
-              progressSeconds: Math.floor(currentTime),
-              lengthSeconds: Math.floor(videoRef.value.duration)
-            },
-            { withCredentials: true }
-          )
-          .catch((_: any) => {});
+    if (videoRef.value && settingsStore.saveVideoHistory) {
+      if (userStore.isLoggedIn && !props.video.liveNow) {
+        $fetch(`${apiUrl}user/history/${props.video.videoId}`, {
+          method: 'POST',
+          body: {
+            progressSeconds: Math.floor(currentTime),
+            lengthSeconds: Math.floor(videoRef.value.duration)
+          },
+          credentials: 'include'
+        }).catch((_: any) => {});
       }
     }
   };
 
-  if (process.browser && 'mediaSession' in navigator) {
+  if (process.client && 'mediaSession' in navigator) {
     (navigator as any).mediaSession.setActionHandler('play', () => {
       if (videoRef.value) {
         playerOverlay.thumbnailVisible = false;
@@ -927,28 +923,22 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
   onMounted(async () => {
     document.addEventListener('keydown', onWindowKeyDown);
     if (videoRef.value) {
-      if (props.video.liveNow) {
+      if (props.video.liveNow || props.video.legacyFormats?.[0].isHLS) {
         if (isHlsSupported()) {
-          await initializeHlsStream(
-            highestLegacyQuality.value,
-            videoRef.value,
-            accessor.environment.streamProxyUrl
-          );
+          await initializeHlsStream(highestLegacyQuality.value, videoRef.value, streamProxy);
           selectedLegacyQuality.value = 0;
         } else if (isHlsNative(videoRef.value) && !isHlsSupported()) {
           videoRef.value.src = highestLegacyQuality.value;
         }
-      } else if (process.browser) {
-        if (accessor.settings.dashPlaybackEnabled && window.MediaSource) {
-          // Using dashjs
-          const manifestUrl = `${accessor.environment.apiUrl}videos/manifest/dash/${props.video.videoId}`;
-          dashHelper.value = new DashHelper(videoRef.value, manifestUrl);
-
+      } else if (settingsStore.dashPlaybackEnabled && window.MediaSource) {
+        // Using dashjs
+        const manifestUrl = `${apiUrl}videos/manifest/dash/${props.video.videoId}`;
+        dashHelper.value = new DashHelper(videoRef.value, manifestUrl, () => {
           dashHelper.value.registerEventHandlers({ videoElement });
-        } else {
-          selectedLegacyQuality.value = 0;
-          videoRef.value.src = highestLegacyQuality.value;
-        }
+        });
+      } else {
+        selectedLegacyQuality.value = 0;
+        videoRef.value.src = highestLegacyQuality.value;
       }
 
       videoAttrObserver.value = new MutationObserver(mutations => {
@@ -966,7 +956,9 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
   });
 
   onBeforeUnmount(() => {
-    saveVideoPosition(videoRef.value.currentTime);
+    if (videoRef.value) {
+      saveVideoPosition(videoRef.value.currentTime);
+    }
     document.removeEventListener('keydown', onWindowKeyDown);
     destroyInstance();
   });
@@ -1048,6 +1040,7 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
     onChangeSpeed,
     setVideoTime,
     onAutoAdjustChange,
-    onRefreshRecommendedQuality
+    onRefreshRecommendedQuality,
+    settingsStore
   };
 };

@@ -25,9 +25,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, useRoute } from '@nuxtjs/composition-api';
+
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
-import { useAccessor } from '@/store';
+import {useMessagesStore} from "~/store/messages";
 
 export default defineComponent({
   name: 'ErrorPage',
@@ -38,17 +38,16 @@ export default defineComponent({
     error: Object
   },
   setup(props) {
-    const accessor = useAccessor();
+    const messagesStore = useMessagesStore();
+    const { apiUrl } = useApiUrl();
     const route = useRoute();
 
     const possibleSearch = ref(null);
 
-    const apiUrl = accessor.environment.apiUrl;
-
     const copyError = (): void => {
-      if (process.browser && 'clipboard' in navigator) {
+      if (process.client && 'clipboard' in navigator) {
         navigator.clipboard.writeText(renderJSON(props.error.detail)).then(() => {
-          accessor.messages.createMessage({
+          messagesStore.createMessage({
             type: 'info',
             title: 'Copied error',
             message: null
@@ -77,7 +76,7 @@ export default defineComponent({
     };
 
     if (props.error.statusCode === 404) {
-      const path = route.value.path;
+      const path = route.path;
       possibleSearch.value = path.replace('/', '');
     }
 

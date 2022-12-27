@@ -13,12 +13,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, useRoute, useRouter } from '@nuxtjs/composition-api';
 import InformationHint from '@/components/hints/InformationHint.vue';
 import FormInput from '@/components/form/FormInput.vue';
 import SubmitButton from '@/components/form/SubmitButton.vue';
 import Spinner from '@/components/Spinner.vue';
-import { useAccessor } from '@/store';
+import { useMessagesStore } from '@/store/messages';
+import { useUserStore } from '@/store/user';
 
 export default defineComponent({
   name: 'LoginForm',
@@ -33,24 +33,22 @@ export default defineComponent({
   },
   setup(props) {
     const route = useRoute();
-    const accessor = useAccessor();
+    const userStore = useUserStore();
+    const messagesStore = useMessagesStore();
     const router = useRouter();
 
     const loading = ref(false);
-    const username = ref(null);
-    const password = ref(null);
+    const username = ref('');
+    const password = ref('');
     const statusMessage = ref('');
     const formWiggle = ref(false);
 
     const login = async (): Promise<void> => {
       loading.value = true;
 
-      const user = await accessor.user.login({
-        username: username.value,
-        password: password.value
-      });
+      const user = await userStore.login(username.value, password.value);
       if (user && user.success) {
-        accessor.messages.createMessage({
+        messagesStore.createMessage({
           type: 'info',
           title: 'Sign in successful',
           message: `Welcome, ${username.value}`
@@ -58,12 +56,12 @@ export default defineComponent({
         if (props.complete && typeof props.complete === 'function') {
           props.complete();
         } else {
-          router.push((route.value.query.ref as string) || '/');
+          router.push((route.query.ref as string) || '/');
         }
       } else {
         loading.value = false;
         wiggleLoginForm();
-        accessor.messages.createMessage({
+        messagesStore.createMessage({
           type: 'error',
           title: 'Sign in failed',
           message: user ? user.error : ''

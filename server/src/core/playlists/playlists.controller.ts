@@ -1,6 +1,7 @@
-import { CacheInterceptor, Controller, Get, Query, UseInterceptors } from '@nestjs/common';
+import { CacheInterceptor, Controller, Get, Param, Query, UseInterceptors } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { ContinueResult, Result } from 'ytpl';
+import { ContinueResult } from 'ytpl';
+import { PlaylistResultDto } from './dto/playlist-result.dto';
 import { PlaylistsService } from './playlists.service';
 
 @ApiTags('Core')
@@ -9,11 +10,11 @@ import { PlaylistsService } from './playlists.service';
 export class PlaylistsController {
   constructor(private playlistsService: PlaylistsService) {}
 
-  @Get()
+  @Get(':playlistId')
   getPlaylist(
-    @Query('playlistId') playlistId: string,
+    @Param('playlistId') playlistId: string,
     @Query('pages') pages: number
-  ): Promise<Result> {
+  ): Promise<PlaylistResultDto> {
     return this.playlistsService.getPlaylist(playlistId, pages);
   }
 

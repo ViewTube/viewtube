@@ -2,7 +2,7 @@
   <div class="popup">
     <div class="container popup-container" :class="{ loading: loading }">
       <div class="form-header">
-        <CloseIcon class="close-icon" @click.stop="$emit('passwordChangeClose')" />
+        <CloseIcon v-ripple class="close-icon" @click.stop="$emit('passwordChangeClose')" />
         <h2 class="form-title">Change password</h2>
       </div>
       <Spinner />
@@ -33,14 +33,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from '@nuxtjs/composition-api';
 import FormInput from '@/components/form/FormInput.vue';
 import CloseIcon from 'vue-material-design-icons/Close.vue';
 import SubmitButton from '@/components/form/SubmitButton.vue';
 import Spinner from '@/components/Spinner.vue';
-import { useAccessor } from '@/store';
-import { useAxios } from '@/plugins/axiosPlugin';
 import '@/assets/styles/popup.scss';
+import { useMessagesStore } from '@/store/messages';
+import { useUserStore } from '@/store/user';
 
 export default defineComponent({
   name: 'PasswordChangeForm',
@@ -51,17 +50,19 @@ export default defineComponent({
     CloseIcon
   },
   setup(_props, { emit }) {
-    const accessor = useAccessor();
-    const oldPassword = ref<string>(null);
-    const newPassword = ref<string>(null);
-    const newPasswordConfirm = ref<string>(null);
+    const messagesStore = useMessagesStore();
+    const userStore = useUserStore();
+    const { apiUrl } = useApiUrl();
+
+    const oldPassword = ref('');
+    const newPassword = ref('');
+    const newPasswordConfirm = ref('');
     const loading = ref(false);
-    const axios = useAxios();
 
     const changePassword = () => {
       loading.value = true;
       if (newPassword.value !== newPasswordConfirm.value) {
-        accessor.messages.createMessage({
+        messagesStore.createMessage({
           type: 'error',
           title: 'Password change failed',
           message: 'The new password and the confirmation password do not match'
@@ -69,18 +70,17 @@ export default defineComponent({
         loading.value = false;
         return;
       }
-      axios
-        .post(
-          `${accessor.environment.env.apiUrl}user/profile/password`,
-          {
-            username: accessor.user.username,
-            oldPassword: oldPassword.value,
-            newPassword: newPassword.value
-          },
-          { withCredentials: true }
-        )
+      $fetch(`${apiUrl}user/profile/password`, {
+        method: 'POST',
+        body: {
+          username: userStore.username,
+          oldPassword: oldPassword.value,
+          newPassword: newPassword.value
+        },
+        credentials: 'include'
+      })
         .then(() => {
-          accessor.messages.createMessage({
+          messagesStore.createMessage({
             type: 'info',
             title: 'Password changed',
             message: 'Your password has been changed'
@@ -89,7 +89,7 @@ export default defineComponent({
           emit('passwordChangeClose');
         })
         .catch(error => {
-          accessor.messages.createMessage({
+          messagesStore.createMessage({
             type: 'error',
             title: 'Password change failed',
             message: error.message

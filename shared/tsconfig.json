@@ -24,9 +24,9 @@
     "baseUrl": "./",
     "paths": {
       "viewtube/*": ["../*"],
-      "server/*": ["./"]
+      "server/*": ["../server/*"]
     },
     "types": ["node"]
   },
-  "exclude": ["**/dist", "**/.yarn"]
+  "exclude": ["**/dist"]
 }

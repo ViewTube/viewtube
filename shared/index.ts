@@ -1,20 +1,7 @@
-import { AuthorThumbnailDto } from './dto/video/author-thumbnail.dto';
-import { RecommendedVideoDto } from './dto/video/recommended-video.dto';
-import { VideoThumbnailDto } from './dto/video/video-thumbnail.dto';
-import { VideoDto } from './dto/video/video.dto';
-import { SponsorBlockSegmentsDto } from './dto/sponsorblock/sponsorblock-segments.dto';
-import { SponsorBlockSegmentDto } from './dto/sponsorblock/sponsorblock-segment.dto';
-import { getSecondsFromTimestamp, getApiUrl, getViewtubeDomain, isHttps } from './util';
+export { SponsorBlockSegmentsDto } from './dto/sponsorblock/sponsorblock-segments.dto';
+export { SponsorBlockSegmentDto } from './dto/sponsorblock/sponsorblock-segment.dto';
+export { getSecondsFromTimestamp, getApiUrl, getViewtubeDomain, isHttps } from './util';
+export { ApiErrorDto } from './dto/api/error.dto';
+import { components } from './api.schema';
 
-export {
-  AuthorThumbnailDto,
-  RecommendedVideoDto,
-  VideoThumbnailDto,
-  VideoDto,
-  SponsorBlockSegmentsDto,
-  SponsorBlockSegmentDto,
-  getSecondsFromTimestamp,
-  getApiUrl,
-  getViewtubeDomain,
-  isHttps
-};
+export type ApiDto<T extends keyof components['schemas']> = components['schemas'][T];

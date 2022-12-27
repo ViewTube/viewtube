@@ -1,22 +1,20 @@
-import { getterTree, mutationTree } from 'typed-vuex';
+import { defineStore } from 'pinia';
 
-export const state = () => ({
-  popupOpen: false,
-  currentPopupName: null
-});
+export const usePopupStore = defineStore('popup', {
+  state: () => ({
+    popupOpen: false,
+    currentPopupName: null as string | null
+  }),
 
-export const getters = getterTree(state, {
-  isPopupOpen: state => state.popupOpen
-});
-
-export const mutations = mutationTree(state, {
-  setPopupOpen: (state, isPopupOpen) => {
-    state.popupOpen = isPopupOpen;
-  },
-  openPopup: (state, popupName) => {
-    state.currentPopupName = popupName;
-  },
-  afterOpenPopup: state => {
-    state.currentPopupName = null;
+  actions: {
+    setPopupOpen(isPopupOpen: boolean) {
+      this.popupOpen = isPopupOpen;
+    },
+    openPopup(popupName: string) {
+      this.currentPopupName = popupName;
+    },
+    afterOpenPopup() {
+      this.currentPopupName = null;
+    }
   }
 });

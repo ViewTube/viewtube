@@ -2,7 +2,7 @@
   <div class="video-loading-template">
     <div class="centered-card">
       <Spinner class="" />
-      <div class="fade-in">
+      <div v-if="video" class="fade-in">
         <p>Loading video</p>
         <h2>{{ video.title }}</h2>
         <h3>{{ typeof video.author === 'string' ? video.author : video.author.name }}</h3>
@@ -12,29 +12,19 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from '@nuxtjs/composition-api';
 import Spinner from '@/components/Spinner.vue';
-import { useImgProxy } from '@/plugins/proxy';
+import { useLoadingVideoInfoStore } from '@/store/loadingVideoInfo';
 
 export default defineComponent({
   name: 'VideoLoadingTemplate',
   components: { Spinner },
-  props: {
-    video: Object
-  },
-  setup(props) {
+  setup() {
     const imgProxy = useImgProxy();
-
-    const backgroundThumbnail = computed(() => {
-      if (props.video && props.video.videoThumbnails) {
-        return props.video.videoThumbnails.find((el: any) => el.width === 480 && el.height === 360);
-      }
-      return '#';
-    });
+    const loadingVideoInfoStore = useLoadingVideoInfoStore();
 
     return {
-      backgroundThumbnail,
-      imgProxyUrl: imgProxy.url
+      imgProxyUrl: imgProxy.url,
+      video: loadingVideoInfoStore.video
     };
   }
 });

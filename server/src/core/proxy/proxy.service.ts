@@ -63,7 +63,6 @@ export class ProxyService {
 
   async proxyStream(url: string, request: FastifyRequest, reply: FastifyReply): Promise<void> {
     try {
-      const stringUrl = Buffer.from(url, 'base64').toString('binary');
       const rawHeaders = request.raw.headers;
       const headers = {
         range: rawHeaders.range,
@@ -73,7 +72,7 @@ export class ProxyService {
       };
       await undici
         .stream(
-          stringUrl,
+          url,
           { method: 'GET', opaque: reply, headers },
           ({ opaque }: { opaque: any }) => opaque.raw
         )

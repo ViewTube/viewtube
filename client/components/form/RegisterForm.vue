@@ -30,19 +30,13 @@
 </template>
 
 <script lang="ts">
-import {
-  computed,
-  defineComponent,
-  ref,
-  useRoute,
-  useRouter,
-  watch
-} from '@nuxtjs/composition-api';
 import FormInput from '@/components/form/FormInput.vue';
 import InformationHint from '@/components/hints/InformationHint.vue';
 import SubmitButton from '@/components/form/SubmitButton.vue';
 import Spinner from '@/components/Spinner.vue';
-import { useAccessor } from '@/store';
+import { useMessagesStore } from '@/store/messages';
+import { useUserStore } from '@/store/user';
+import { useCaptchaStore } from '@/store/captcha';
 
 export default defineComponent({
   name: 'RegisterForm',
@@ -57,21 +51,23 @@ export default defineComponent({
   },
   setup(props) {
     const route = useRoute();
-    const accessor = useAccessor();
+    const captchaStore = useCaptchaStore();
+    const messagesStore = useMessagesStore();
+    const userStore = useUserStore();
     const router = useRouter();
 
     const loading = ref(false);
-    const username = ref(null);
-    const password = ref(null);
-    const repeatPassword = ref(null);
-    const captchaSolution = ref(null);
+    const username = ref('');
+    const password = ref('');
+    const repeatPassword = ref('');
+    const captchaSolution = ref('');
     const statusMessage = ref('');
     const errorMessage = ref('');
     const redirectedPage = ref('home');
     const formWiggle = ref(false);
 
     const captchaImage = computed(() => {
-      return accessor.captcha.image;
+      return captchaStore.image;
     });
 
     watch(password, () => {
@@ -87,13 +83,13 @@ export default defineComponent({
       } else {
         loading.value = true;
 
-        const user = await accessor.user.register({
-          username: username.value,
-          password: password.value,
-          captchaSolution: captchaSolution.value
-        });
+        const user = await userStore.register(
+          username.value,
+          password.value,
+          captchaSolution.value
+        );
         if (user && !user.error && user.username) {
-          accessor.messages.createMessage({
+          messagesStore.createMessage({
             type: 'info',
             title: 'Registration successful',
             message: `Welcome, ${user.username}`
@@ -101,17 +97,17 @@ export default defineComponent({
           if (props.complete && typeof props.complete === 'function') {
             props.complete();
           } else {
-            router.push((route.value.query.ref as string) || '/');
+            router.push((route.query.ref as string) || '/');
           }
         } else {
-          accessor.messages.createMessage({
+          messagesStore.createMessage({
             type: 'error',
             title: 'Registration failed',
             message: user ? user.error : ''
           });
           loading.value = false;
           wiggleRegisterForm();
-          accessor.captcha.getCaptcha();
+          captchaStore.getCaptcha();
         }
       }
     };
@@ -129,7 +125,7 @@ export default defineComponent({
       }
     };
 
-    accessor.captcha.getCaptcha();
+    captchaStore.getCaptcha();
 
     return {
       loading,

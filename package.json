@@ -6,26 +6,21 @@
   "email": "viewtube@m-o.dev",
   "version": "0.9.1",
   "license": "AGPLv3",
+  "engines": {
+    "node": ">=18.7.0",
+    "pnpm": ">=7.3.0"
+  },
   "scripts": {
-    "build": "yarn workspaces foreach run build",
-    "build:server": "yarn workspace server run build",
-    "build:client": "yarn workspace client run build",
+    "build": "pnpm --filter='*' run build",
+    "build:server": "pnpm --filter='./server' run build",
+    "build:client": "pnpm --filter='./client' run build",
     "serve:env": "docker-compose -f docker-compose.dev.yml up -d",
-    "serve:api": "yarn workspace server run serve",
-    "serve:client": "yarn workspace client run serve",
-    "test": "yarn workspace server run test",
-    "start": "yarn workspace server run start",
+    "serve:server": "pnpm --filter='./server' run serve",
+    "serve:client": "pnpm --filter='./client' run serve",
+    "test": "pnpm --filter='./server' run test",
+    "start": "pnpm --filter='./server' run start",
     "lint-staged": "prettier --write --ignore-unknown",
     "format": "prettier --write ."
-  },
-  "workspaces": [
-    "client",
-    "server",
-    "shared"
-  ],
-  "_moduleAliases": {
-    "server": "server/dist/server",
-    "viewtube": "./"
   },
   "browserslist": [
     "last 1 version",
@@ -33,15 +28,16 @@
     "not IE_Mob 11",
     "not Edge 18"
   ],
+  "pnpm": {
+    "overrides": {
+      "axios": "1.2.0-alpha.1"
+    }
+  },
   "devDependencies": {
-    "@types/eslint": "8.4.6",
-    "cross-env": "7.0.3",
-    "eslint": "8.19.0",
-    "eslint-import-resolver-node": "0.3.6",
-    "jest": "28.1.3",
-    "prettier": "2.7.1",
-    "typescript": "4.5.5",
-    "vls": "0.7.6",
-    "vue": "2.6.14"
+    "prettier": "2.8.1",
+    "typescript": "4.9.4"
+  },
+  "volta": {
+    "node": "18.12.1"
   }
 }

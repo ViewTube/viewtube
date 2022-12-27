@@ -1,42 +1,13 @@
+<script setup lang="ts">
+import LoginForm from '@/components/form/LoginForm.vue';
+</script>
+
 <template>
   <div class="login">
+    <MetaPageHead title="Sign in" description="Sign in to access your ViewTube account" />
     <LoginForm />
   </div>
 </template>
-
-<script lang="ts">
-import { defineComponent, useMeta } from '@nuxtjs/composition-api';
-import LoginForm from '@/components/form/LoginForm.vue';
-
-export default defineComponent({
-  name: 'Login',
-  components: { LoginForm },
-  setup() {
-    useMeta(() => ({
-      title: `Login :: ViewTube`,
-      meta: [
-        {
-          hid: 'description',
-          vmid: 'descriptionMeta',
-          name: 'description',
-          content: 'Sign in to access your ViewTube account'
-        },
-        {
-          hid: 'ogTitle',
-          property: 'og:title',
-          content: 'Sign in - ViewTube'
-        },
-        {
-          hid: 'ogDescription',
-          property: 'og:description',
-          content: 'Sign in to access your ViewTube account'
-        }
-      ]
-    }));
-  },
-  head: {}
-});
-</script>
 
 <style lang="scss">
 .login {
@@ -48,7 +19,7 @@ export default defineComponent({
   padding: $header-height 0 0 0;
 
   @media screen and (min-width: $mobile-width) {
-    background-image: url('/img/blur-bg-medium-dark.jpg');
+    background-image: url('@/assets/blur-bg-medium-dark.jpg');
   }
 }
 </style>

@@ -12,15 +12,22 @@ import FastifyCookie from '@fastify/cookie';
 import FastifyMultipart from '@fastify/multipart';
 import FastifyHelmet from '@fastify/helmet';
 import { AppModule } from './app.module';
-import { NuxtFilter } from './nuxt/nuxt.filter';
-import NuxtServer from './nuxt/';
 import { HomepageService } from './core/homepage/homepage.service';
 import { AppClusterService } from './app-cluster.service';
 import { promisify } from 'util';
 import { ConfigurationService } from 'server/core/configuration/configuration.service';
 import { isHttps } from 'viewtube/shared/index';
+import { NuxtService } from './nuxt/nuxt.service';
+import { FastifyPluginCallback } from 'fastify';
 
-declare const module: any;
+declare const module: {
+  hot: {
+    accept: () => void;
+    dispose: (callback: () => void) => void;
+  };
+};
+
+type FastifyPluginType = FastifyPluginCallback;
 
 const bootstrap = async () => {
   await ConfigurationService.initializeEnvironment();
@@ -31,6 +38,7 @@ const bootstrap = async () => {
   const configService = server.get(ConfigService);
 
   const isProduction = configService.get('NODE_ENV') === 'production';
+  Consola.info(`Running in ${isProduction ? 'production' : 'development'} mode`);
 
   webPush.setVapidDetails(
     'https://github.com/ViewTube/viewtube-vue',
@@ -66,7 +74,7 @@ const bootstrap = async () => {
   // Disable helment on non-https instances
   if (isHttps()) {
     await server.register(
-      FastifyHelmet as any,
+      FastifyHelmet as FastifyPluginType,
       {
         contentSecurityPolicy: {
           useDefaults: true,
@@ -85,18 +93,23 @@ const bootstrap = async () => {
     );
   }
 
-  await server.register(FastifyCookie as any);
-  await server.register(FastifyMultipart as any);
+  await server.register(FastifyCookie as FastifyPluginType);
+  await server.register(FastifyMultipart as FastifyPluginType);
 
   // NUXT
   if (isProduction) {
-    const nuxt = await NuxtServer.getInstance().run();
+    // const nuxtFilter = new NuxtFilter();
+    // await nuxtFilter.init();
+    // server.useGlobalFilters(nuxtFilter);
 
-    server.useGlobalFilters(new NuxtFilter(nuxt));
+    const nuxtService = server.get(NuxtService);
+    await nuxtService.init();
+
+    server.useStaticAssets({ root: path.resolve(nuxtService.nuxtPath, 'public'), wildcard: false });
   }
 
   // NEST
-  server.setGlobalPrefix('api');
+  // server.setGlobalPrefix('api', { exclude: ['/'] });
   const port = configService.get('PORT');
 
   // CORS
@@ -124,6 +137,12 @@ const bootstrap = async () => {
     .build();
 
   const swaggerDocument = SwaggerModule.createDocument(server, documentOptions);
+
+  if (process.env.GENERATE_SWAGGER === 'true') {
+    fs.writeFileSync('./swagger-spec.json', JSON.stringify(swaggerDocument));
+    process.exit(0);
+  }
+
   SwaggerModule.setup('/api', server, swaggerDocument);
 
   server.use(cookieParser());

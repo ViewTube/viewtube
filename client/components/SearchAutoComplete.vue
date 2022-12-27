@@ -8,7 +8,7 @@
       :value="value"
       :number="key"
       @mousedown.prevent="onAutocompleteMouseDown"
-      @keydown.stop="onKeyDown"
+      @keydown.stop="() => {}"
       @mouseover.prevent="onMouseOver"
     >
       {{ value }}
@@ -17,18 +17,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch } from '@nuxtjs/composition-api';
-import { useAxios } from '@/plugins/axiosPlugin';
-import { useAccessor } from '@/store';
-
 export default defineComponent({
   name: 'SearchAutocomplete',
   props: {
     searchValue: { type: String, default: null }
   },
   setup(props, { emit }) {
-    const accessor = useAccessor();
-    const axios = useAxios();
+    const { apiUrl } = useApiUrl();
 
     const autocompleteValues = ref([]);
     const visible = ref(false);
@@ -44,17 +39,12 @@ export default defineComponent({
 
     watch(
       () => props.searchValue,
-      () => {
-        axios
-          .get(`${accessor.environment.apiUrl}autocomplete`, {
-            params: {
-              q: props.searchValue
-            }
-          })
-          .then(response => {
-            autocompleteValues.value = [props.searchValue].concat(response.data);
-          })
-          .catch(_ => {});
+      async () => {
+        const autocompleteResponse = await $fetch<[]>(
+          `${apiUrl}autocomplete?q=${props.searchValue}`
+        );
+
+        autocompleteValues.value = [props.searchValue].concat(autocompleteResponse);
       }
     );
 
@@ -75,10 +65,10 @@ export default defineComponent({
   transition: clip-path 200ms $intro-easing;
 }
 .clip-enter-to,
-.clip-leave {
+.clip-leave-from {
   clip-path: polygon(-50% -50%, 150% -50%, 150% 150%, -50% 150%);
 }
-.clip-enter,
+.clip-enter-from,
 .clip-leave-to {
   clip-path: polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%);
 }

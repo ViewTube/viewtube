@@ -1,5 +1,6 @@
-import { Ref } from '@nuxtjs/composition-api';
-import { commons } from '@/plugins/commons';
+
+import { commons } from '@/utilities/commons';
+import { Ref } from 'vue';
 
 export const seekbarFunctions = {
   onSeekbarTouchStart(
@@ -132,10 +133,10 @@ export const seekbarFunctions = {
 };
 
 export function matchSeekProgressPercentage(
-  videoRef: any,
+  videoRef: Ref<any>,
   seekPercentage: number,
   videoElement: any,
-  adjustVideo: boolean = false
+  adjustVideo = false
 ) {
   videoElement.progressPercentage = seekPercentage;
   if (adjustVideo && videoRef.value) {

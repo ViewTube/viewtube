@@ -125,11 +125,11 @@
             @click.prevent.stop="onSeekbarClick"
           />
           <SponsorBlockSegments
-            v-if="$accessor.settings.sponsorblockEnabled && sponsorBlockSegments"
+            v-if="settingsStore.sponsorblockEnabled && sponsorBlockSegments"
             :segments="sponsorBlockSegments"
           />
-          <div v-if="!$accessor.settings.chapters || !chapters" class="seekbar-background" />
-          <div v-if="$accessor.settings.chapters && chapters" class="seekbar-background-chapters">
+          <div v-if="!settingsStore.chapters || !chapters" class="seekbar-background" />
+          <div v-if="settingsStore.chapters && chapters" class="seekbar-background-chapters">
             <div
               v-for="(chapter, index) in chapters"
               :key="index"
@@ -146,14 +146,14 @@
             />
           </div>
           <div
-            v-if="!$accessor.settings.chapters || !chapters"
+            v-if="!settingsStore.chapters || !chapters"
             class="seekbar-loading-progress"
             :style="{
               width: `${videoElement.loadingPercentage}%`
             }"
           />
           <div
-            v-if="$accessor.settings.chapters && chapters"
+            v-if="settingsStore.chapters && chapters"
             class="seekbar-loading-progress-chapters"
             :style="{
               'clip-path': `polygon(
@@ -179,14 +179,14 @@
             />
           </div>
           <div
-            v-if="!$accessor.settings.chapters || !chapters"
+            v-if="!settingsStore.chapters || !chapters"
             class="seekbar-playback-progress"
             :style="{
               width: `${videoElement.progressPercentage}%`
             }"
           />
           <div
-            v-if="$accessor.settings.chapters && chapters"
+            v-if="settingsStore.chapters && chapters"
             class="seekbar-playback-progress-chapters"
             :style="{
               'clip-path': `polygon(
@@ -236,7 +236,7 @@
             {{ seekbar.hoverTime }}
           </div>
           <span
-            v-if="$accessor.settings.chapters && getChapterForPercentage(seekbar.hoverPercentage)"
+            v-if="settingsStore.chapters && getChapterForPercentage(seekbar.hoverPercentage)"
             ref="chapterTitleRef"
             class="chapter-title"
             :style="{
@@ -303,7 +303,6 @@
         </div>
       </div>
     </div>
-    <portal-target name="video-player" />
     <SkipButton
       :visible="skipButton.visible"
       :category="skipButton.skipCategory"
@@ -316,20 +315,18 @@
       :style="{
         backgroundImage: `url(${imgProxyUrl + video.videoThumbnails[0].url})`
       }"
-      :class="{ hidden: !playerOverlay.thumbnailVisible, autoplay: $accessor.settings.autoplay }"
+      :class="{ hidden: !playerOverlay.thumbnailVisible, autoplay: settingsStore.autoplay }"
     />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, useContext } from '@nuxtjs/composition-api';
 import PauseIcon from 'vue-material-design-icons/Pause.vue';
 import PlayIcon from 'vue-material-design-icons/Play.vue';
 import FullscreenIcon from 'vue-material-design-icons/Fullscreen.vue';
 import FullscreenExitIcon from 'vue-material-design-icons/FullscreenExit.vue';
 import OpenInPlayerIcon from 'vue-material-design-icons/OpenInNew.vue';
 import CloseIcon from 'vue-material-design-icons/Close.vue';
-import { NuxtError } from '@nuxt/types';
 import { videoPlayerSetup } from './helpers/index';
 import VideoPlayerAnimations from '@/components/videoplayer/VideoPlayerAnimations.vue';
 import SkipButton from '@/components/buttons/SkipButton.vue';
@@ -338,6 +335,7 @@ import VolumeControl from '@/components/videoplayer/VolumeControl.vue';
 import VideoPlayerSettings from '@/components/videoplayer/VideoPlayerSettings.vue';
 // import SeekbarPreview from '@/components/videoplayer/SeekbarPreview.vue';
 import SponsorBlockSegments from '@/components/videoplayer/SponsorblockSegments.vue';
+import { PropType } from 'vue';
 
 export default defineComponent({
   name: 'Videoplayer',
@@ -358,7 +356,7 @@ export default defineComponent({
   },
   props: {
     video: {
-      type: Object,
+      type: Object as PropType<any>,
       required: true
     },
     embedded: Boolean,
@@ -372,20 +370,14 @@ export default defineComponent({
       }
     }
   },
-  setup(props, { emit }) {
-    const { error, route } = useContext();
-
-    if (!props.video) {
-      const videoError: NuxtError = {
-        message: 'Error loading video',
-        path: route.value.path,
-        statusCode: 500
-      };
-      error(videoError);
-    }
-
+  setup(props, { emit, expose }) {
+    const videoPlayer = videoPlayerSetup(props, emit);
+    expose({
+      setVideoTime: videoPlayer.setVideoTime,
+      play: () => videoPlayer.videoRef.value.play()
+    });
     return {
-      ...videoPlayerSetup(props, emit)
+      ...videoPlayer
     };
   }
 });

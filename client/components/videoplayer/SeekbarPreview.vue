@@ -14,9 +14,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive, watch, onMounted } from '@nuxtjs/composition-api';
-// import { WebVTTParser } from '@/plugins/services/webVTTParser';
-// import { useAccessor } from '@/store';
+// import { WebVTTParser } from '@/utilities/services/webVTTParser';
 
 export default defineComponent({
   name: 'SeekbarPreview',
@@ -35,12 +33,13 @@ export default defineComponent({
     }
   },
   setup(props) {
-    // const accessor = useAccessor();
     const storyboardVTT = ref(null);
     const storyboardImages = ref(null);
     const storyboardBaseImages = ref([]);
     const currentImg = reactive({
-      imgId: 0
+      imgId: 0,
+      posX: 0,
+      posY: 0
     });
 
     onMounted(() => {

@@ -1,3 +1,32 @@
+<script setup lang="ts">
+type OptionType = {
+  value: string;
+  label: string;
+};
+
+const props = defineProps<{
+  selectedValue?: string;
+  options: Array<OptionType>;
+  label: string;
+  colorMark?: string;
+  disabled?: boolean;
+  right?: boolean;
+  smallLabel?: string;
+}>();
+
+const emit = defineEmits<{
+  (event: 'valuechange', value: OptionType): void;
+}>();
+
+const onOptionSelect = (option: OptionType) => {
+  emit('valuechange', option);
+};
+
+if (!props.options || new Set(props.options).size !== props.options.length) {
+  throw new Error(`MultiOptionButton with label "${props.label}" has duplicate options.`);
+}
+</script>
+
 <template>
   <div class="multi-option" :class="{ right: right }">
     <div class="multi-option-body">
@@ -22,45 +51,6 @@
     </label>
   </div>
 </template>
-
-<script lang="ts">
-import { defineComponent } from '@nuxtjs/composition-api';
-
-export default defineComponent({
-  name: 'MultiOptionButton',
-  props: {
-    selectedValue: String,
-    options: Array,
-    label: String,
-    colorMark: String,
-    disabled: {
-      type: Boolean,
-      required: false
-    },
-    right: {
-      type: Boolean,
-      required: false
-    },
-    smallLabel: {
-      type: String,
-      required: false
-    }
-  },
-  setup(props, { emit }) {
-    const onOptionSelect = option => {
-      emit('valuechange', option);
-    };
-
-    if (!props.options || new Set(props.options).size !== props.options.length) {
-      throw new Error(`MultiOptionButton with label "${props.label}" has duplicate options.`);
-    }
-
-    return {
-      onOptionSelect
-    };
-  }
-});
-</script>
 
 <style lang="scss" scoped>
 .multi-option {

@@ -124,8 +124,9 @@ Development setup
 </h2>
 Prerequisites
 
-- Nodejs v16.x
-- Yarn 1.22.x
+- Nodejs v18.x
+- Pnpm 7.3.x
+- MongoDB 5.0.x
 
 If you don't want to install locally, use the supplied docker-compose.dev.yml
 
@@ -140,16 +141,16 @@ Instructions
 
 2. Install dependencies
 
-   `yarn install`
+   `pnpm install`
 
    or use docker-compose to install more easily and hassle-free
 
-   `yarn serve:env`
+   `pnpm run serve:env`
 
 3. Start the components seperately in multiple terminals
 
-   `yarn serve:api`  
-   `yarn serve:client`
+   `pnpm run serve:server`  
+   `pnpm run serve:client`
 
 4. Visit [localhost:8066](http://localhost:8066) with a browser
 

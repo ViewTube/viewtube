@@ -22,6 +22,8 @@ import { NotificationsService } from '../notifications/notifications.service';
 import { Subscription } from './schemas/subscription.schema';
 import { SubscriptionStatusDto } from './dto/subscription-status.dto';
 import { getChannelFeed } from './subscriptions-job.helper';
+import { SubscribedChannelsResponseDto } from './dto/subscribed-channels-response.dto';
+import { SubscriptionFeedResponseDto } from './dto/subscription-feed-response.dto';
 
 @Injectable()
 export class SubscriptionsService {
@@ -122,7 +124,7 @@ export class SubscriptionsService {
     start: number,
     sort: Sorting<ChannelBasicInfoDto>,
     filter: string
-  ): Promise<{ channels: Array<ChannelBasicInfoDto>; channelCount: number }> {
+  ): Promise<SubscribedChannelsResponseDto> {
     const user = await this.subscriptionModel
       .findOne({ username })
       .exec()
@@ -162,7 +164,7 @@ export class SubscriptionsService {
     username: string,
     limit: number,
     start: number
-  ): Promise<{ videoCount: number; videos: Array<VideoBasicInfoDto>; lastRefresh: Date }> {
+  ): Promise<SubscriptionFeedResponseDto> {
     const userSubscriptions = await this.subscriptionModel.findOne({ username }).lean().exec();
     if (userSubscriptions) {
       const userSubscriptionIds = userSubscriptions.subscriptions.map(e => e.channelId);
@@ -362,12 +364,12 @@ export class SubscriptionsService {
     const channelFeed = await getChannelFeed(channelId);
     if (channelFeed) {
       await this.subscriptionModel
-      .findOneAndUpdate({ username }, { username, subscriptions }, { upsert: true })
-      .exec()
-      .then()
-      .catch(_ => {
-        throw new InternalServerErrorException('Error subscribing to channel');
-      });
+        .findOneAndUpdate({ username }, { username, subscriptions }, { upsert: true })
+        .exec()
+        .then()
+        .catch(_ => {
+          throw new InternalServerErrorException('Error subscribing to channel');
+        });
 
       try {
         await this.saveChannelBasicInfo(channelFeed.channel);

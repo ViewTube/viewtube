@@ -2,43 +2,49 @@
   <div id="app" ref="appRef" class="layout">
     <ThemeStyling />
     <MainHeader v-if="!headless" class="main-header" />
-    <Miniplayer v-if="false" />
-    <nuxt keep-alive :keep-alive-props="{ include: ['Home'] }" />
-    <portal-target class="dropdown-portal" name="dropdown" multiple />
-    <portal-target class="popup-portal" name="popup" multiple />
+    <slot />
     <MessageBoxContainer />
   </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref, useRoute } from '@nuxtjs/composition-api';
 import MainHeader from '@/components/header/MainHeader.vue';
-import Miniplayer from '@/components/miniplayer/Miniplayer.vue';
 import MessageBoxContainer from '@/components/message/MessageBoxContainer.vue';
 import ThemeStyling from '@/components/themes/ThemeStyling.vue';
-import { useAccessor } from '@/store';
+import { useSettingsStore } from '@/store/settings';
 
 export default defineComponent({
   name: 'Default',
   components: {
     MainHeader,
-    Miniplayer,
     MessageBoxContainer,
     ThemeStyling
   },
   setup() {
     const route = useRoute();
-    const accessor = useAccessor();
+    const settingsStore = useSettingsStore();
+
+    useHead({
+      titleTemplate: titleChunk => {
+        if (!titleChunk) {
+          return 'ViewTube';
+        }
+        if (titleChunk.includes('ViewTube ::')) {
+          return titleChunk;
+        }
+        return `${titleChunk} :: ViewTube`;
+      }
+    });
 
     const appRef = ref(null);
 
     const headless = computed((): boolean => {
-      return route.value.meta.headless;
+      return Boolean(route.meta.headless);
     });
 
     const getThemeClass = (): string => {
       if ((process as any).browser) {
-        return `theme--${accessor.settings.theme}`;
+        return `theme--${settingsStore.theme}`;
       } else {
         return 'theme--default';
       }
@@ -57,32 +63,25 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
+.blur-enter-active,
+.blur-leave-active {
+  transition: all 0.4s;
+}
+.blur-enter-from,
+.blur-leave-to {
+  opacity: 0;
+  filter: blur(1rem);
+}
+
+vite-error-overlay {
+  z-index: 10000;
+}
 #app {
   font-family: 'noto-sans', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: var(--title-color);
   background-color: var(--bgcolor-main);
-
-  .dropdown-portal,
-  .popup-portal {
-    position: fixed;
-    top: 0;
-    height: 100vh;
-    left: 0;
-    right: 0;
-    pointer-events: none;
-    z-index: 901;
-
-    > * {
-      user-select: auto;
-      pointer-events: auto;
-    }
-  }
-
-  .dropdown-portal {
-    z-index: 902;
-  }
 
   .progress-bar-margin {
     top: $header-height - 3px !important;
@@ -167,6 +166,7 @@ body,
   padding: 0;
   overflow-x: hidden;
   background-color: var(--bgcolor-main);
+  color: var(--title-color);
 }
 .material-design-icon {
   position: relative;

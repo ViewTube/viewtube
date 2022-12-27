@@ -3,3 +3,6 @@ dist/*
 .nuxt/*
 
 client/static/sw.js
+shared/api.schema.ts
+./api.schema.ts
+api.schema.ts

@@ -25,5 +25,10 @@
     },
     "types": ["node", "@types/jest", "@sentry/types"]
   },
-  "exclude": ["**/node_modules", "**/dist", "**/.yarn"]
+  "exclude": [
+    "**/node_modules",
+    "**/dist",
+    "../client/node_modules",
+    "client/node_modules"
+  ]
 }

@@ -1,3 +1,31 @@
+<script setup lang="ts">
+import AccountIcon from 'vue-material-design-icons/AccountOutline.vue';
+import KeyIcon from 'vue-material-design-icons/KeyOutline.vue';
+import MailIcon from 'vue-material-design-icons/At.vue';
+
+const props = defineProps<{
+  type?: string;
+  modelValue: string;
+  label: string;
+  id: string;
+}>();
+
+defineEmits<{ (e: 'update:modelValue', value: string): void }>();
+
+const autocompleteTags = {
+  email: 'email',
+  username: 'username',
+  password: 'current-password',
+  all: 'on'
+};
+
+const hasText = computed((): boolean => {
+  return props.modelValue && props.modelValue.length > 0;
+});
+
+const autocompleteTag = computed((): string => autocompleteTags[props.type] ?? 'all');
+</script>
+
 <template>
   <div class="form-input">
     <input
@@ -8,60 +36,15 @@
       :type="type"
       :name="autocompleteTag"
       required
-      :value="value"
-      @input="$emit('input', $event.target.value)"
+      :value="modelValue"
+      @input="(e: any) => $emit('update:modelValue', e.target.value)"
     />
-    <AccountIcon v-if="type == 'username'" />
-    <KeyIcon v-if="type == 'password'" />
-    <MailIcon v-if="type == 'email'" />
+    <AccountIcon v-if="type === 'username'" />
+    <KeyIcon v-if="type === 'password'" />
+    <MailIcon v-if="type === 'email'" />
     <label :for="id" class="input-label">{{ label }}</label>
   </div>
 </template>
-
-<script lang="ts">
-import AccountIcon from 'vue-material-design-icons/AccountOutline.vue';
-import KeyIcon from 'vue-material-design-icons/KeyOutline.vue';
-import MailIcon from 'vue-material-design-icons/At.vue';
-import { computed, defineComponent, reactive } from '@nuxtjs/composition-api';
-
-export default defineComponent({
-  name: 'FormInput',
-  components: {
-    AccountIcon,
-    KeyIcon,
-    MailIcon
-  },
-  props: {
-    type: { type: String, required: false, default: () => undefined },
-    value: null,
-    label: String,
-    id: String
-  },
-  setup(props) {
-    const autocompleteTags = reactive({
-      email: 'email',
-      username: 'username',
-      password: 'current-password',
-      all: 'on'
-    });
-
-    const hasText = computed((): boolean => {
-      return props.value && props.value.length > 0;
-    });
-    const autocompleteTag = computed((): string => {
-      const tagId = Object.keys(autocompleteTags).find(type => type === props.type);
-      const tag = tagId !== undefined ? tagId : 'all';
-
-      return autocompleteTags[tag];
-    });
-
-    return {
-      hasText,
-      autocompleteTag
-    };
-  }
-});
-</script>
 
 <style lang="scss" scoped>
 .form-input {
@@ -86,9 +69,7 @@ export default defineComponent({
     border-radius: 4px;
     width: calc(100% - 40px);
     height: $input-line-height;
-
     font-size: 1rem;
-    border-style: none;
     color: var(--title-color);
     box-sizing: border-box;
     font-family: $default-font;

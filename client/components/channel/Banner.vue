@@ -1,75 +1,49 @@
+<script setup lang="ts">
+import EyeIcon from 'vue-material-design-icons/Eye.vue';
+
+const props = defineProps<{
+  src: string;
+  bannerHqSrc: string;
+}>();
+
+const imgProxy = useImgProxy();
+
+const onBannerContextMenu = (e: MouseEvent) => {
+  e.preventDefault();
+  window.open(imgProxy.url + props.bannerHqSrc, '_blank');
+};
+</script>
+
 <template>
-  <div ref="parallaxParent" class="channel-banner">
+  <div class="channel-banner" @contextmenu="onBannerContextMenu">
     <img
       ref="bannerImage"
       class="channel-banner-image"
-      :src="imgProxyUrl + src"
+      :src="imgProxy.url + src"
       alt="Channel banner"
     />
     <div class="additional-content">
       <a
-        v-tippy="'Show the banner'"
+        v-tippy="'Show full size banner'"
         class="show-btn"
-        :href="imgProxyUrl + bannerHqSrc"
+        :href="imgProxy.url + bannerHqSrc"
         target="_blank"
         rel="noreferrer noopener"
         ><EyeIcon
       /></a>
-      <div v-if="bannerLinks && bannerLinks.length" class="banner-links">
-        <a
-          v-for="(link, index) in bannerLinks"
-          :key="index"
-          :href="link.url"
-          target="_blank"
-          rel="noreferrer noopener"
-        >
-          <img
-            v-if="link.linkThumbnails"
-            :src="imgProxyUrl + link.linkThumbnails[0].url"
-            :alt="link.title"
-            class="link-thumbnail"
-          />
-          {{ link.title }}
-        </a>
-      </div>
     </div>
   </div>
 </template>
-
-<script lang="ts">
-import EyeIcon from 'vue-material-design-icons/Eye.vue';
-import { defineComponent } from '@nuxtjs/composition-api';
-import { useImgProxy } from '@/plugins/proxy';
-
-export default defineComponent({
-  name: 'ChannelBanner',
-  components: {
-    EyeIcon
-  },
-  props: {
-    src: String,
-    bannerLinks: Array,
-    bannerHqSrc: String
-  },
-  setup() {
-    const imgProxy = useImgProxy();
-
-    return {
-      imgProxyUrl: imgProxy.url
-    };
-  }
-});
-</script>
 
 <style lang="scss" scoped>
 .channel-banner {
   width: 100%;
   z-index: 12;
+  position: relative;
 
   &:hover {
     .additional-content {
       .show-btn {
-        animation: blink-eye 2200ms $intro-easing;
         clip-path: circle(15px at 50% 50%);
       }
     }
@@ -80,50 +54,18 @@ export default defineComponent({
     display: flex;
     z-index: 13;
     bottom: 0;
-    left: 0;
-    width: 100%;
+    right: 0;
     flex-direction: row;
     justify-content: space-between;
 
     .show-btn {
-      padding: 10px 10px 0 10px;
+      margin: 0 20px 10px 0;
       clip-path: circle(15px at 50% 120%);
       transition: clip-path 300ms $intro-easing;
 
       &:focus {
         &::after {
           display: none;
-        }
-      }
-    }
-
-    .banner-links {
-      display: flex;
-      flex-direction: row;
-      margin: 8px 0 0 0;
-
-      a {
-        background-color: #00000056;
-        padding: 5px 6px;
-        border-radius: 5px;
-        margin: 0 5px 5px 0;
-        transition: background-color 200ms $intro-easing;
-        text-align: center;
-        line-height: 20px;
-        height: 22px;
-
-        .link-thumbnail {
-          position: relative;
-          top: 50%;
-          transform: translateY(-50%);
-          height: 16px;
-        }
-
-        &:focus {
-          background-color: #00000083;
-          &::after {
-            display: none;
-          }
         }
       }
     }
@@ -150,24 +92,6 @@ export default defineComponent({
       width: 190%;
       left: calc(100vw - 145%);
     }
-  }
-}
-
-@keyframes blink-eye {
-  0% {
-    clip-path: circle(15px at 50% 120%);
-  }
-  10% {
-    clip-path: circle(15px at 50% 50%);
-  }
-  80% {
-    clip-path: circle(15px at 50% 50%);
-  }
-  90% {
-    clip-path: circle(15px at 50% 110%);
-  }
-  100% {
-    clip-path: circle(15px at 50% 50%);
   }
 }
 </style>

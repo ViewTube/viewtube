@@ -1,42 +1,50 @@
-import Hls, { HlsConfig } from 'hls.js/dist/hls.js.d';
+import Hls, { HlsConfig } from 'hls.js';
+// eslint-disable-next-line import/no-named-as-default-member
+const { Events } = Hls;
 
-const HlsLibrary = require('hls.js/dist/hls.light.min');
 let hls: Hls = null;
 
 export const initializeHlsStream = (
   streamUrl: string,
   videoRef: HTMLMediaElement,
-  proxyUrl: string = ''
+  proxyUrl = ''
 ): Promise<any> => {
   return new Promise(resolve => {
     if (hls) {
       hls.destroy();
     }
-    const proxiedStreamUrl = proxyUrl + btoa(streamUrl);
     const hlsOptions: Partial<HlsConfig> = {
       enableWorker: true,
       backBufferLength: 90,
+      maxBufferLength: 90,
+      // progressive: true,
+      fetchSetup(context) {
+        if (proxyUrl && !context.url.includes(proxyUrl)) {
+          context.url = proxyUrl + encodeURI(context.url);
+        }
+        return new Request(context.url);
+      },
       xhrSetup(xhr: XMLHttpRequest, url: string) {
-        if (proxyUrl) {
-          xhr.open('GET', proxyUrl + btoa(url), true);
+        if (proxyUrl && !url.includes(proxyUrl)) {
+          xhr.open('GET', proxyUrl + encodeURI(url), true);
         } else {
           xhr.open('GET', url, true);
         }
       }
     };
-    hls = new HlsLibrary(hlsOptions);
-    hls.loadSource(proxiedStreamUrl);
+    hls = new Hls(hlsOptions);
+    hls.loadSource(streamUrl);
     hls.attachMedia(videoRef);
-    hls.on(HlsLibrary.Events.MEDIA_ATTACHED, () => {
+    hls.on(Events.MEDIA_ATTACHED, () => {
       console.log('media attached');
     });
-    hls.on(HlsLibrary.Events.MEDIA_ATTACHING, () => {
+    hls.on(Events.MEDIA_ATTACHING, () => {
       console.log('media attaching');
     });
-    hls.on(HlsLibrary.Events.ERROR, e => {
-      console.error(e);
+    hls.on(Events.ERROR, (...args) => {
+      console.error(...args);
     });
-    hls.on(HlsLibrary.Events.MANIFEST_PARSED, (e: any) => {
+    hls.on(Events.MANIFEST_PARSED, (e: any) => {
       resolve(e);
     });
   });
@@ -49,7 +57,7 @@ export const destroyInstance = (): void => {
 };
 
 export const isHlsSupported = (): boolean => {
-  return HlsLibrary.isSupported();
+  return Hls.isSupported();
 };
 
 export const isHlsNative = (videoRef: HTMLMediaElement): boolean => {

@@ -1,30 +1,32 @@
-import { MediaPlayerClass } from 'dashjs/index.d';
+import { MediaPlayerClass } from 'dashjs';
 
 export class DashHelper {
-  constructor(videoRef: any, manifestUrl: string) {
-    const dashLibrary = require('dashjs/dist/dash.mediaplayer.min');
+  constructor(videoRef: any, manifestUrl: string, callback: () => void = () => {}) {
+    import('dashjs')
+      .then(({ MediaPlayer }) => {
+        this.dashPlayerInstance = MediaPlayer().create();
+        this.videoRef = videoRef;
 
-    this.dashPlayerInstance = dashLibrary.MediaPlayer().create();
-    this.videoRef = videoRef;
+        this.dashPlayerInstance.updateSettings({
+          streaming: {
+            abr: {
+              limitBitrateByPortal: true,
+              usePixelRatioInLimitBitrateByPortal: true
+            },
+            buffer: {
+              initialBufferLevel: 0
+            }
+          }
+        });
 
-    this.dashPlayerInstance.updateSettings({
-      streaming: {
-        abr: {
-          limitBitrateByPortal: true,
-          usePixelRatioInLimitBitrateByPortal: true
-        },
-        buffer: {
-          initialBufferLevel: 0
-        }
-      }
-    });
+        this.videoAutoSwitchingMode =
+          this.dashPlayerInstance.getSettings().streaming.abr.autoSwitchBitrate.video;
+        this.audioAutoSwitchingMode =
+          this.dashPlayerInstance.getSettings().streaming.abr.autoSwitchBitrate.audio;
 
-    this.videoAutoSwitchingMode =
-      this.dashPlayerInstance.getSettings().streaming.abr.autoSwitchBitrate.video;
-    this.audioAutoSwitchingMode =
-      this.dashPlayerInstance.getSettings().streaming.abr.autoSwitchBitrate.audio;
-
-    this.dashPlayerInstance.initialize(videoRef, manifestUrl, false);
+        this.dashPlayerInstance.initialize(videoRef, manifestUrl, false);
+      })
+      .then(callback);
   }
 
   videoRef: any;

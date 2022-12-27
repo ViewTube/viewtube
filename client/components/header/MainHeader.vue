@@ -9,22 +9,13 @@
     </nuxt-link>
     <MainSearchBox />
     <UserMenu />
-    <portal-target class="header-portal" name="header" :class="{ visible: !posAbsolute }" />
   </div>
 </template>
 
 <script lang="ts">
-import {
-  computed,
-  defineComponent,
-  onBeforeUnmount,
-  onMounted,
-  ref,
-  useRoute
-} from '@nuxtjs/composition-api';
 import MainSearchBox from '@/components/MainSearchBox.vue';
 import UserMenu from '@/components/header/UserMenu.vue';
-import { Scroll } from '@/plugins/scroll';
+import { Scroll } from '@/utilities/scroll';
 
 export default defineComponent({
   name: 'MainHeader',
@@ -39,7 +30,7 @@ export default defineComponent({
     const topPosition = ref(0);
 
     const currentRouteName = computed(() => {
-      return route.value.name;
+      return route.name;
     });
 
     const handleScroll = () => {
@@ -49,11 +40,9 @@ export default defineComponent({
     };
 
     onMounted(() => {
-      if (process.browser) {
-        window.addEventListener('scroll', handleScroll, {
-          passive: true
-        });
-      }
+      window.addEventListener('scroll', handleScroll, {
+        passive: true
+      });
     });
 
     onBeforeUnmount(() => {
@@ -80,8 +69,8 @@ export default defineComponent({
   flex-direction: row;
   justify-content: space-between;
   z-index: 800;
-  box-shadow: $medium-shadow;
-  background-color: var(--header-bgcolor);
+  background-color: var(--header-transparent);
+  backdrop-filter: blur(10px);
 
   transition: box-shadow 300ms $intro-easing, background-color 300ms $intro-easing,
     transform 300ms $dynamic-easing;

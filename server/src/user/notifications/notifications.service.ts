@@ -39,7 +39,7 @@ export class NotificationsService {
         webPush
           .sendNotification(subscription, payload)
           .then(
-            () => {},
+            () => {;},
             reason => {
               if (reason.statusCode === 410 || reason.statusCode === 404) {
                 this.NotificationsSubscriptionModel.findOneAndDelete({
@@ -48,7 +48,7 @@ export class NotificationsService {
               }
             }
           )
-          .catch(_ => {});
+          .catch(_ => {;});
       });
     }
   }

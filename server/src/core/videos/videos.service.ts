@@ -9,13 +9,13 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import fetch from 'node-fetch';
 import HttpsProxyAgent from 'https-proxy-agent';
-import { VideoDto } from 'viewtube/shared/dto/video/video.dto';
+import { VideoDto } from 'server/core/videos/dto/video.dto';
 import { ChannelBasicInfo } from '../channels/schemas/channel-basic-info.schema';
 import { Common } from '../common';
 import { DashGenerator } from './dash.generator';
 import { VideoBasicInfo } from './schemas/video-basic-info.schema';
 import { mapVideo } from './video.mapper';
-import { DislikeDto } from './dto/dislike.dto';
+import { DislikeDto } from 'server/core/videos/dto/dislike.dto';
 import undici from 'undici';
 
 @Injectable()

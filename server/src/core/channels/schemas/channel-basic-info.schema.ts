@@ -1,8 +1,8 @@
 import { Document } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { AuthorThumbnailDto } from 'viewtube/shared/dto/video/author-thumbnail.dto';
-import { ChannelBasicInfoDto } from '../dto/channel-basic-info.dto';
+import { AuthorThumbnailDto } from 'server/core/videos/dto/author-thumbnail.dto';
+import { ChannelBasicInfoDto } from 'server/core/channels/dto/channel-basic-info.dto';
 
 // eslint-disable-next-line no-undef
 @Schema({ timestamps: true })

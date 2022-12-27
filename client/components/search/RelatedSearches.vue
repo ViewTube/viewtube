@@ -20,9 +20,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@nuxtjs/composition-api';
+
 import SectionTitle from '@/components/SectionTitle.vue';
-import { useImgProxy } from '@/plugins/proxy';
+import { PropType } from 'vue';
+
 
 export default defineComponent({
   name: 'RelatedSearches',
@@ -30,7 +31,7 @@ export default defineComponent({
     SectionTitle
   },
   props: {
-    refinements: Array
+    refinements: Array as PropType<Array<any>>,
   },
   setup() {
     const imgProxy = useImgProxy();

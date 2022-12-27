@@ -1,9 +1,79 @@
+<script setup lang="ts">
+import PenIcon from 'vue-material-design-icons/Pencil.vue';
+import ThumbsUpIcon from 'vue-material-design-icons/ThumbUp.vue';
+import HeartIcon from 'vue-material-design-icons/Heart.vue';
+import CommentIcon from 'vue-material-design-icons/CommentOutline.vue';
+import CommentHideIcon from 'vue-material-design-icons/CommentRemoveOutline.vue';
+import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
+import BadgeButton from '@/components/buttons/BadgeButton.vue';
+import { useMessagesStore } from '@/store/messages';
+import { getCommentReplies } from '@/utilities/api/comments';
+import { ApiDto } from 'viewtube/shared';
+
+const props = defineProps<{
+  comment: ApiDto<'CommentDto'>;
+  channelAuthorName?: string;
+  channelAuthorId?: string;
+}>();
+const route = useRoute();
+const messagesStore = useMessagesStore();
+const imgProxy = useImgProxy();
+
+const replies = ref([]);
+const loadingReplies = ref(false);
+const repliesLoaded = ref(false);
+const repliesContinuationString = ref(null);
+const repliesContinuationLoading = ref(false);
+
+const hideReplies = () => {
+  repliesLoaded.value = false;
+};
+
+const loadReplies = () => {
+  loadingReplies.value = true;
+  const replyToken = props.comment.replyToken;
+  const videoId = route.query.v;
+  getCommentReplies(videoId, replyToken)
+    .then(response => {
+      replies.value = response.comments;
+      repliesContinuationString.value = response.continuation;
+      repliesLoaded.value = true;
+      loadingReplies.value = false;
+    })
+    .catch(error => {
+      messagesStore.createMessage({
+        type: 'error',
+        title: 'Loading comments failed',
+        message: error
+      });
+      loadingReplies.value = false;
+    });
+};
+const loadMoreReplies = () => {
+  repliesContinuationLoading.value = true;
+  const videoId = route.query.v;
+  getCommentReplies(videoId, repliesContinuationString.value)
+    .then(response => {
+      replies.value = replies.value.concat(response.comments);
+      repliesContinuationString.value = response.continuation ?? null;
+      repliesContinuationLoading.value = false;
+    })
+    .catch(error => {
+      messagesStore.createMessage({
+        type: 'error',
+        title: 'Loading comments failed',
+        message: error
+      });
+    });
+};
+</script>
+
 <template>
   <div class="comment" :class="{ open: repliesLoaded }">
     <nuxt-link :to="{ path: '/channel/' + comment.authorId }" class="comment-author-image-link">
       <img
         class="comment-author-image"
-        :src="imgProxyUrl + comment.authorThumbnails[2].url"
+        :src="imgProxy.url + comment.authorThumbnails[2].url"
         :alt="comment.author"
       />
     </nuxt-link>
@@ -27,7 +97,7 @@
         </div>
         <div class="likes comment-property">
           <ThumbsUpIcon />
-          <span>{{ comment.likeCount.toLocaleString('en-US') }}</span>
+          <span>{{ comment.likeCount?.toLocaleString('en-US') }}</span>
         </div>
         <div
           v-if="comment.creatorHeart"
@@ -47,7 +117,7 @@
           <CommentIcon />
           <p>
             show
-            {{ comment.replyCount.toLocaleString('en-US') }}
+            {{ comment.replyCount?.toLocaleString('en-US') }}
             replies
           </p>
         </BadgeButton>
@@ -79,113 +149,10 @@
   </div>
 </template>
 
-<script lang="ts">
-import PenIcon from 'vue-material-design-icons/Pencil.vue';
-import ThumbsUpIcon from 'vue-material-design-icons/ThumbUp.vue';
-import HeartIcon from 'vue-material-design-icons/Heart.vue';
-import CommentIcon from 'vue-material-design-icons/CommentOutline.vue';
-import CommentHideIcon from 'vue-material-design-icons/CommentRemoveOutline.vue';
-import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
-import { defineComponent, ref, useRoute } from '@nuxtjs/composition-api';
-import BadgeButton from '@/components/buttons/BadgeButton.vue';
-import { useAccessor } from '@/store';
-import { useAxios } from '@/plugins/axiosPlugin';
-import { useImgProxy } from '@/plugins/proxy';
-
-export default defineComponent({
-  name: 'Comment',
-  components: {
-    PenIcon,
-    ThumbsUpIcon,
-    HeartIcon,
-    CommentIcon,
-    CommentHideIcon,
-    LoadMoreIcon,
-    Comment: () => import('@/components/Comment.vue'),
-    BadgeButton
-  },
-  props: {
-    comment: null,
-    channelAuthorName: String,
-    channelAuthorId: String
-  },
-  setup(props) {
-    const route = useRoute();
-    const accessor = useAccessor();
-    const axios = useAxios();
-    const imgProxy = useImgProxy();
-
-    const replies = ref([]);
-    const loadingReplies = ref(false);
-    const repliesLoaded = ref(false);
-    const repliesContinuationString = ref(null);
-    const repliesContinuationLoading = ref(false);
-
-    const hideReplies = () => {
-      repliesLoaded.value = false;
-    };
-    const loadReplies = () => {
-      loadingReplies.value = true;
-      const replyToken = props.comment.replyToken;
-      const videoId = route.value.query.v;
-      axios
-        .get(`${accessor.environment.apiUrl}comments/${videoId}/replies?replyToken=${replyToken}`)
-        .then(response => {
-          replies.value = response.data.comments;
-          repliesContinuationString.value = response.data.continuation || null;
-          repliesLoaded.value = true;
-          loadingReplies.value = false;
-        })
-        .catch(err => {
-          accessor.messages.createMessage({
-            type: 'error',
-            title: 'Loading comments failed',
-            message: err
-          });
-          loadingReplies.value = false;
-        });
-    };
-    const loadMoreReplies = () => {
-      repliesContinuationLoading.value = true;
-      const videoId = route.value.query.v;
-      axios
-        .get(
-          `${accessor.environment.apiUrl}comments/${videoId}/replies?replyToken=${repliesContinuationString.value}`
-        )
-        .then(response => {
-          replies.value = replies.value.concat(response.data.comments);
-          repliesContinuationString.value = response.data.continuation || null;
-          repliesContinuationLoading.value = false;
-        })
-        .catch(error => {
-          accessor.messages.createMessage({
-            type: 'error',
-            title: 'Loading comments failed',
-            message: error
-          });
-          repliesContinuationLoading.value = false;
-        });
-    };
-
-    return {
-      replies,
-      loadingReplies,
-      repliesLoaded,
-      repliesContinuationString,
-      repliesContinuationLoading,
-      hideReplies,
-      loadReplies,
-      loadMoreReplies,
-      imgProxyUrl: imgProxy.url
-    };
-  }
-});
-</script>
-
 <style lang="scss">
 .comment {
   width: 100%;
-  margin: 30px 0 20px 0;
+  margin: 0 0 20px 0;
   display: flex;
   flex-direction: row;
   font-family: $default-font;
@@ -209,7 +176,6 @@ export default defineComponent({
     height: 55px;
     width: 55px;
     overflow: hidden;
-    box-shadow: 0 0 0 1px var(--theme-color);
 
     .comment-author-image {
       width: 55px;

@@ -13,7 +13,7 @@ import {
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'server/auth/guards/jwt.guard';
 import { ViewTubeRequest } from 'server/common/viewtube-request';
-import { VideoVisitDetailsDto } from './dto/video-visit-details.dto';
+import { HistoryResponseDto } from './dto/history-response.dto';
 import { VideoVisitDto } from './dto/video-visit.dto';
 import { HistoryService } from './history.service';
 
@@ -27,11 +27,11 @@ export class HistoryController {
   @Get()
   getHistory(
     @Req() request: ViewTubeRequest,
-    @Query('limit') limit: number = 30,
-    @Query('start') start: number = 0,
+    @Query('limit') limit = 30,
+    @Query('start') start = 0,
     @Query('sort') sortString: 'ASC' | 'DESC' = 'ASC',
-    @Query('filter') filter: string = ''
-  ): Promise<{ videos: Array<VideoVisitDetailsDto>; videoCount: number }> {
+    @Query('filter') filter = ''
+  ): Promise<HistoryResponseDto> {
     return this.historyService.getHistory(request.user.username, limit, start, sortString, filter);
   }
 

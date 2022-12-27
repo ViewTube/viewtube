@@ -27,19 +27,19 @@
       }"
       @click="dismissMessage"
     >
-      <CloseIcon />
+      <CloseIcon v-ripple />
     </div>
     <h3 class="title" :class="message.type">
       {{ message.title }}
     </h3>
-    <p class="message" v-html="message.message" />
+    <pre class="message" v-html="message.message" />
   </div>
 </template>
 
 <script lang="ts">
 import CloseIcon from 'vue-material-design-icons/Close.vue';
-import { computed, defineComponent, reactive, ref } from '@nuxtjs/composition-api';
-import { useAccessor } from '@/store';
+
+import { useMessagesStore } from '~/store/messages';
 
 export default defineComponent({
   name: 'MessageBox',
@@ -52,7 +52,7 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const accessor = useAccessor();
+    const messagesStore = useMessagesStore();
 
     const dismissedRight = ref(false);
     const dismissedLeft = ref(false);
@@ -64,12 +64,12 @@ export default defineComponent({
     });
     const swipeOpacity = ref(1);
 
-    const transformString = computed((): string | void => {
+    const transformString = computed(() => {
       if (!isInteractAnimating.value) {
         const { x, y } = interactPosition;
         return `translate3D(${x}px, ${y}px, 0)`;
       }
-      return null;
+      return '';
     });
 
     const dismissMessage = () => {
@@ -77,17 +77,17 @@ export default defineComponent({
       swipeOpacity.value = 0;
       setTimeout(() => {
         if (props.message && props.message.id) {
-          accessor.messages.dismissMessage(props.message.id);
+          messagesStore.dismissMessage(props.message.id);
         }
       }, 600);
     };
-    const onMessageClick = () => {
+    const onMessageClick = async () => {
       if (dismissTimeout.value) {
         clearTimeout(dismissTimeout.value);
         dismissTimeout.value = null;
       }
       if (props.message.clickAction) {
-        props.message.clickAction();
+        await props.message.clickAction();
         dismissMessage();
       }
     };
@@ -206,6 +206,8 @@ export default defineComponent({
 
   .message {
     word-break: break-all;
+    color: var(--text-color);
+    font-family: $default-font;
   }
 
   @keyframes reduce-width {

@@ -1,10 +1,39 @@
+<script setup lang="ts">
+const props = defineProps<{
+  href?: string;
+  click?: () => void;
+  loading?: boolean;
+  internalLink?: boolean;
+  disabled?: boolean;
+  selected?: boolean;
+}>();
+
+const clickFunction = (e: Event): void => {
+  if (props.click instanceof Function) {
+    e.preventDefault();
+    props.click();
+  }
+};
+</script>
+
 <template>
-  <element
-    :is="internalLink ? 'nuxt-link' : 'a'"
+  <nuxt-link
+    v-if="internalLink"
     v-ripple
-    :to="internalLink && href ? href : '#'"
-    :target="internalLink ? '' : '_blank'"
-    :href="href || '#'"
+    :to="href"
+    :class="{ disabled, selected }"
+    class="badge-btn"
+    @click="clickFunction"
+  >
+    <div class="content" :class="{ loading: loading }">
+      <slot />
+    </div>
+  </nuxt-link>
+  <a
+    v-else
+    v-ripple
+    target="_blank"
+    :href="href ?? '#'"
     :class="{ disabled, selected }"
     class="badge-btn"
     rel="noreferrer noopener"
@@ -13,34 +42,8 @@
     <div class="content" :class="{ loading: loading }">
       <slot />
     </div>
-  </element>
+  </a>
 </template>
-
-<script lang="ts">
-import { defineComponent, PropType } from '@nuxtjs/composition-api';
-
-export default defineComponent({
-  name: 'BadgeButton',
-  props: {
-    href: { type: String, required: false },
-    click: { type: Function as PropType<() => void>, required: false },
-    loading: { type: Boolean, required: false },
-    internalLink: { type: Boolean, required: false },
-    disabled: { type: Boolean, required: false },
-    selected: { type: Boolean, required: false }
-  },
-  setup(props) {
-    const clickFunction = (e: Event): void => {
-      if (props.click instanceof Function) {
-        e.preventDefault();
-        props.click();
-      }
-    };
-
-    return { clickFunction };
-  }
-});
-</script>
 
 <style lang="scss" scoped>
 .badge-btn {
@@ -54,6 +57,7 @@ export default defineComponent({
   border: 2px solid var(--theme-color-translucent);
   width: auto;
   white-space: nowrap;
+  position: relative;
 
   &:hover {
     border: 2px solid var(--theme-color);
