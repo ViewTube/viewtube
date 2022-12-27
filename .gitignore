@@ -5,6 +5,8 @@ node_modules
 # nuxt.js build output
 .nuxt
 
+.output
+
 # Nuxt generate
 dist
 profiles
@@ -15,8 +17,6 @@ profiles
 
 # Log files
 npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
 
 # Editor directories and files
 .idea
@@ -37,13 +37,7 @@ output/*
 
 dump.rdb
 
-.yarn/*
-!.yarn/cache
-!.yarn/patches
-!.yarn/plugins
-!.yarn/releases
-!.yarn/sdks
-!.yarn/versions
 Dockerfile.nodejs-mongodb
 .vscode/.ropeproject/
 server/config.json
+**/predist

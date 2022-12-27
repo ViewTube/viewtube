@@ -1,0 +1,36 @@
+<script setup lang="ts">
+import VideoPlayer from '@/components/videoplayer/VideoPlayer.vue';
+import { ApiDto, ApiErrorDto } from 'viewtube/shared';
+
+definePageMeta({
+  headless: true
+});
+
+const route = useRoute();
+
+const { apiUrl } = useApiUrl();
+
+const { data: video } = useLazyAsyncData<ApiDto<'VideoDto'>, ApiErrorDto>(
+  route.params.id.toString(),
+  () => $fetch<ApiDto<'VideoDto'>>(`${apiUrl}videos/${route.params.id}`)
+);
+</script>
+
+<template>
+  <div class="embed">
+    <VideoPlayer
+      :video="video"
+      :embedded="true"
+      class="video-player-p"
+      :mini="false"
+      :autoplay="false"
+    />
+  </div>
+</template>
+
+<style lang="scss" scoped>
+.embed {
+  height: 100vh;
+  width: 100vw;
+}
+</style>

@@ -13,7 +13,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from '@nuxtjs/composition-api';
+
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 
 export default defineComponent({

@@ -1,6 +1,6 @@
 import { relatedVideo, videoInfo } from 'ytdl-core';
 import humanizeDuration from 'humanize-duration';
-import { VideoDto } from 'viewtube/shared/dto/video/video.dto';
+import { VideoDto } from 'server/core/videos/dto/video.dto';
 import { Common } from '../common';
 
 export const mapVideo = (source: Partial<videoInfo>, dashManifest?: string): VideoDto => {

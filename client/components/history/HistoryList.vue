@@ -1,9 +1,52 @@
+<script setup lang="ts">
+import humanizeDuration from 'humanize-duration';
+import DeleteIcon from 'vue-material-design-icons/Delete.vue';
+import BadgeButton from '@/components/buttons/BadgeButton.vue';
+
+import { useMessagesStore } from '@/store/messages';
+import { ApiDto } from 'viewtube/shared';
+
+defineProps<{
+  historyVideos: ApiDto<'HistoryResponseDto'>['videos'];
+  deleteOption: boolean;
+}>();
+
+const emit = defineEmits<{ (e: 'refresh'): void }>();
+
+const messagesStore = useMessagesStore();
+const { apiUrl } = useApiUrl();
+const imgProxy = useImgProxy();
+
+const humanizeDateString = (dateString: string): string => {
+  const now = new Date();
+  const date = new Date(dateString);
+  const dateMs = now.valueOf() - date.valueOf();
+  return humanizeDuration(dateMs, { largest: 1 });
+};
+const deleteEntry = async (videoId: string) => {
+  await $fetch(`${apiUrl}user/history/${videoId}`, {
+    method: 'DELETE',
+    credentials: 'include'
+  })
+    .then(() => {
+      emit('refresh');
+    })
+    .catch(() => {
+      messagesStore.createMessage({
+        type: 'error',
+        title: 'Error deleting history entry',
+        message: 'Try logging out and in again'
+      });
+    });
+};
+</script>
+
 <template>
   <div class="history-list">
-    <div v-for="(video, index) in history" :key="index" class="history-entry">
+    <div v-for="(video, index) in historyVideos" :key="index" class="history-entry">
       <nuxt-link :to="`/watch?v=${video.videoId}`" class="history-entry-thumbnail">
         <img
-          :src="imgProxyUrl + video.videoDetails.videoThumbnails[3].url"
+          :src="imgProxy.url + video.videoDetails.videoThumbnails[3].url"
           :alt="video.videoDetails.title"
           class="history-entry-thumbnail-img"
         />
@@ -24,7 +67,7 @@
           >
         </div>
         <div
-          v-tippy="new Date(video.lastVisit).toLocaleString()"
+          v-tippy="video.lastVisit ? new Date(video.lastVisit).toLocaleString() : null"
           class="history-entry-watched-date tooltip"
         >
           Last watched: {{ humanizeDateString(video.lastVisit) }} ago
@@ -40,59 +83,6 @@
     </div>
   </div>
 </template>
-
-<script lang="ts">
-import { defineComponent } from '@nuxtjs/composition-api';
-import humanizeDuration from 'humanize-duration';
-import DeleteIcon from 'vue-material-design-icons/Delete.vue';
-import { useAxios } from '@/plugins/axiosPlugin';
-import { useAccessor } from '@/store';
-import BadgeButton from '@/components/buttons/BadgeButton.vue';
-import { useImgProxy } from '@/plugins/proxy';
-
-export default defineComponent({
-  components: {
-    BadgeButton,
-    DeleteIcon
-  },
-  props: {
-    history: Array,
-    deleteOption: Boolean
-  },
-  setup(_, { emit }) {
-    const axios = useAxios();
-    const accessor = useAccessor();
-    const imgProxy = useImgProxy();
-
-    const humanizeDateString = (dateString: string): string => {
-      const now = new Date();
-      const date = new Date(dateString);
-      const dateMs = now.valueOf() - date.valueOf();
-      return humanizeDuration(dateMs, { largest: 1 });
-    };
-    const deleteEntry = async (videoId: string) => {
-      await axios
-        .delete(`${accessor.environment.apiUrl}user/history/${videoId}`, { withCredentials: true })
-        .then(() => {
-          emit('refresh');
-        })
-        .catch(() => {
-          accessor.messages.createMessage({
-            type: 'error',
-            title: 'Error deleting history entry',
-            message: 'Try logging out and in again'
-          });
-        });
-    };
-
-    return {
-      humanizeDateString,
-      deleteEntry,
-      imgProxyUrl: imgProxy.url
-    };
-  }
-});
-</script>
 
 <style lang="scss">
 .history-list {

@@ -38,12 +38,12 @@ export class CommentsService {
   }
 
   tryGetComments(commentsPayload: any) {
-    return ytcm.getComments(commentsPayload);
+    return (ytcm as any).getComments(commentsPayload);
   }
 
   async getCommentReplies(videoId: string, replyToken: string): Promise<CommentsResponseDto> {
     try {
-      const commentsRawResult = await ytcm.getCommentReplies({
+      const commentsRawResult = await (ytcm as any).getCommentReplies({
         videoId,
         replyToken,
         mustSetCookie: true

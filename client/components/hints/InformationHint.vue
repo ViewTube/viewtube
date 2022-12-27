@@ -4,7 +4,6 @@
 
 <script lang="ts">
 import InformationIcon from 'vue-material-design-icons/Information.vue';
-import { defineComponent } from '@nuxtjs/composition-api';
 
 export default defineComponent({
   name: 'InformationHint',

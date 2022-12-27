@@ -36,8 +36,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@nuxtjs/composition-api';
-import { useImgProxy } from '@/plugins/proxy';
+
+
 
 export default defineComponent({
   name: 'MovieEntry',

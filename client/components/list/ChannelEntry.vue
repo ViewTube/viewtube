@@ -37,7 +37,7 @@
           {{ channel.videoCount ? channel.videoCount : channel.videos }} videos
         </p>
         <p v-if="channel.subCount" class="channel-entry-subcount">
-          {{ channel.subCount.toLocaleString('en-US') }}
+          {{ channel.subCount?.toLocaleString('en-US') }}
           subscribers
         </p>
         <p v-if="channel.subscribers" class="channel-entry-subcount">
@@ -53,8 +53,8 @@
 
 <script lang="ts">
 import VerifiedIcon from 'vue-material-design-icons/CheckDecagram.vue';
-import { defineComponent } from '@nuxtjs/composition-api';
-import { useImgProxy } from '@/plugins/proxy';
+
+
 
 export default defineComponent({
   name: 'ChannelEntry',

@@ -5,7 +5,9 @@ import {
   Get,
   Query,
   BadRequestException,
-  Header
+  Header,
+  Post,
+  Body
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Result } from 'ytsr';
@@ -25,11 +27,11 @@ export class SearchController {
     return this.searchService.getFilters(searchString);
   }
 
-  @Get('continuation')
+  @Post('continuation')
   @Header('Cache-Control', 'public, max-age=1800')
-  searchContinuation(@Query('continuationData[]') continuationData: Array<any>) {
-    if (continuationData) {
-      return this.searchService.continueSearch(continuationData);
+  searchContinuation(@Body() searchContinuation: { continuationData: Array<any> }) {
+    if (searchContinuation?.continuationData) {
+      return this.searchService.continueSearch(searchContinuation?.continuationData);
     }
     throw new BadRequestException('Invalid continuation data');
   }

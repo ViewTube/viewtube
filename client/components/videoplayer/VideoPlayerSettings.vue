@@ -1,10 +1,130 @@
+<script setup lang="ts">
+import SettingsIcon from 'vue-material-design-icons/Cog.vue';
+import HighDefinitionIcon from 'vue-material-design-icons/HighDefinition.vue';
+import AudioDefinitionIcon from 'vue-material-design-icons/QualityHigh.vue';
+import CheckIcon from 'vue-material-design-icons/Check.vue';
+import SwitchButton from '@/components/buttons/SwitchButton.vue';
+import { createComputed } from '@/utilities/computed';
+import { useSettingsStore } from '@/store/settings';
+import { useVideoPlayerStore } from '@/store/videoPlayer';
+
+type QualityList = {
+  qualityIndex: number;
+  bitrate: number;
+  width?: number;
+  height?: number;
+  qualityLabel?: string;
+}[];
+
+const props = defineProps<{
+  selectedVideoQuality: number;
+  selectedAudioQuality: number;
+  renderedVideoQuality: number;
+  videoQualityList: QualityList;
+  audioQualityList: QualityList;
+}>();
+
+const emit = defineEmits<{
+  (e: 'loopchange', val: boolean): void;
+  (e: 'speedchange', val: number): void;
+  (e: 'refreshrecommended', val: any): void;
+  (e: 'autoadjustchange'): void;
+  (e: 'videoqualityselect', val: number): void;
+  (e: 'audioqualityselect', val: number): void;
+}>();
+
+const settingsStore = useSettingsStore();
+const videoPlayerStore = useVideoPlayerStore();
+const popup = ref(false);
+
+const loopVideo = ref(false);
+const videoSpeed = ref(1);
+
+const recommendedResolution = ref(null);
+
+const smallQualityLabel = createComputed(() => {
+  if (props.videoQualityList && props.renderedVideoQuality) {
+    const renderedQuality: any = props.videoQualityList[props.renderedVideoQuality];
+    return `${renderedQuality.width}x${renderedQuality.height}`;
+  }
+});
+
+const changeVideoSpeed = (e: any) => {
+  let speed = e.target.value;
+  if (e.target.value < 0.1) {
+    speed = 0.1;
+  }
+  if (e.target.value > 3) {
+    speed = 3;
+  }
+  videoSpeed.value = speed;
+};
+
+watch(loopVideo, newVal => {
+  videoPlayerStore.setLoop(newVal);
+  emit('loopchange', newVal);
+});
+
+watch(videoSpeed, newVal => {
+  emit('speedchange', newVal);
+});
+
+const refreshRecommended = () => {
+  if (props.videoQualityList) {
+    const sortedResArray: Array<any> = [...props.videoQualityList].sort((a: any, b: any) => {
+      const screenHeight = screen.height * window.devicePixelRatio;
+      const aDiff = Math.abs(a.height - screenHeight);
+      const bDiff = Math.abs(b.height - screenHeight);
+      return aDiff - bDiff;
+    });
+    recommendedResolution.value = sortedResArray[0].qualityIndex;
+    emit('refreshrecommended', recommendedResolution.value);
+  }
+};
+
+const autoAdjustVideoQuality = (val: boolean) => {
+  settingsStore.setAutoAdjustVideoQuality(val);
+  emit('autoadjustchange');
+};
+
+const autoAdjustAudioQuality = (val: boolean) => {
+  settingsStore.setAutoAdjustAudioQuality(val);
+  emit('autoadjustchange');
+};
+
+onMounted(() => {
+  loopVideo.value = settingsStore.alwaysLoopVideo;
+  videoSpeed.value = settingsStore.defaultVideoSpeed;
+
+  window.addEventListener('resize', refreshRecommended);
+});
+
+const onQualityInteraction = () => {
+  refreshRecommended();
+  popup.value = !popup.value;
+};
+
+const onQualityMouseup = () => {};
+const onQualityTouchInteraction = () => {};
+const setVideoQuality = (index: number) => {
+  emit('videoqualityselect', index);
+};
+const setAudioQuality = (index: number) => {
+  emit('audioqualityselect', index);
+};
+
+onBeforeUnmount(() => {
+  window.removeEventListener('resize', refreshRecommended);
+});
+</script>
+
 <template>
   <div class="video-player-settings" @mouseup.stop="onQualityMouseup">
     <div class="quality-icon">
       <span class="quality-label-small">{{ smallQualityLabel }}</span>
       <SettingsIcon @click.stop="onQualityInteraction" @touchend.stop="onQualityTouchInteraction" />
     </div>
-    <portal to="popup">
+    <Teleport to="body">
       <transition name="player-settings-popup">
         <div
           v-if="popup"
@@ -20,7 +140,7 @@
             <div v-if="videoQualityList" class="player-settings-submenu">
               <span class="player-settings-title"><HighDefinitionIcon />Video Quality</span>
               <SwitchButton
-                :value="$accessor.settings.autoAdjustVideoQuality"
+                :value="settingsStore.autoAdjustVideoQuality"
                 :label="'Automatically adjust'"
                 :disabled="false"
                 :right="true"
@@ -54,7 +174,7 @@
             <div v-if="audioQualityList" class="player-settings-submenu">
               <span class="player-settings-title"><AudioDefinitionIcon />Audio Quality</span>
               <SwitchButton
-                :value="$accessor.settings.autoAdjustAudioQuality"
+                :value="settingsStore.autoAdjustAudioQuality"
                 :label="'Automatically adjust'"
                 :disabled="false"
                 :right="true"
@@ -101,144 +221,9 @@
           </div>
         </div>
       </transition>
-    </portal>
+    </Teleport>
   </div>
 </template>
-
-<script lang="ts">
-import SettingsIcon from 'vue-material-design-icons/Cog.vue';
-import HighDefinitionIcon from 'vue-material-design-icons/HighDefinition.vue';
-import AudioDefinitionIcon from 'vue-material-design-icons/QualityHigh.vue';
-import CheckIcon from 'vue-material-design-icons/Check.vue';
-// import MagicIcon from 'vue-material-design-icons/AutoFix.vue';
-import { defineComponent, onBeforeUnmount, onMounted, ref, watch } from '@nuxtjs/composition-api';
-import SwitchButton from '@/components/buttons/SwitchButton.vue';
-import { useAccessor } from '@/store';
-import { createComputed } from '@/plugins/computed';
-
-export default defineComponent({
-  name: 'QualitySelection',
-  components: {
-    SettingsIcon,
-    HighDefinitionIcon,
-    AudioDefinitionIcon,
-    CheckIcon,
-    // MagicIcon,
-    SwitchButton
-  },
-  props: {
-    selectedVideoQuality: Number,
-    selectedAudioQuality: Number,
-    renderedVideoQuality: Number,
-    videoQualityList: Array,
-    audioQualityList: Array
-  },
-  setup(props, { emit }) {
-    const accessor = useAccessor();
-    const qualityUrl = ref(null);
-    const popup = ref(false);
-    const elementHeight = ref(0);
-
-    const loopVideo = ref(false);
-    const videoSpeed = ref(1);
-
-    const recommendedResolution = ref(null);
-
-    const smallQualityLabel = createComputed(() => {
-      if (props.videoQualityList && props.renderedVideoQuality) {
-        const renderedQuality: any = props.videoQualityList[props.renderedVideoQuality];
-        return `${renderedQuality.width}x${renderedQuality.height}`;
-      }
-    });
-
-    const changeVideoSpeed = (e: any) => {
-      let speed = e.target.value;
-      if (e.target.value < 0.1) {
-        speed = 0.1;
-      }
-      if (e.target.value > 3) {
-        speed = 3;
-      }
-      videoSpeed.value = speed;
-    };
-
-    watch(loopVideo, newVal => {
-      accessor.videoPlayer.setLoop(newVal);
-      emit('loopchange', newVal);
-    });
-
-    watch(videoSpeed, newVal => {
-      emit('speedchange', newVal);
-    });
-
-    const refreshRecommended = () => {
-      if (process.browser && props.videoQualityList) {
-        const sortedResArray: Array<any> = [...props.videoQualityList].sort((a: any, b: any) => {
-          const screenHeight = screen.height * window.devicePixelRatio;
-          const aDiff = Math.abs(a.height - screenHeight);
-          const bDiff = Math.abs(b.height - screenHeight);
-          return aDiff - bDiff;
-        });
-        recommendedResolution.value = sortedResArray[0].qualityIndex;
-        emit('refreshrecommended', recommendedResolution.value);
-      }
-    };
-
-    const autoAdjustVideoQuality = (val: boolean) => {
-      accessor.settings.setAutoAdjustVideoQuality(val);
-      emit('autoadjustchange');
-    };
-
-    const autoAdjustAudioQuality = (val: boolean) => {
-      accessor.settings.setAutoAdjustAudioQuality(val);
-      emit('autoadjustchange');
-    };
-
-    onMounted(() => {
-      loopVideo.value = accessor.settings.alwaysLoopVideo;
-      videoSpeed.value = accessor.settings.defaultVideoSpeed;
-
-      window.addEventListener('resize', refreshRecommended);
-    });
-
-    const onQualityInteraction = () => {
-      refreshRecommended();
-      popup.value = !popup.value;
-    };
-
-    const onQualityMouseup = () => {};
-    const onQualityTouchInteraction = () => {};
-    const setVideoQuality = (index: number) => {
-      emit('videoqualityselect', index);
-    };
-    const setAudioQuality = (index: number) => {
-      emit('audioqualityselect', index);
-    };
-
-    onBeforeUnmount(() => {
-      window.removeEventListener('resize', refreshRecommended);
-    });
-
-    return {
-      qualityUrl,
-      popup,
-      elementHeight,
-      changeVideoSpeed,
-      recommendedResolution,
-      smallQualityLabel,
-      onQualityInteraction,
-      onQualityMouseup,
-      onQualityTouchInteraction,
-      setVideoQuality,
-      setAudioQuality,
-      autoAdjustVideoQuality,
-      autoAdjustAudioQuality,
-      loopVideo,
-      videoSpeed
-    };
-  }
-});
-</script>
 
 <style lang="scss">
 .player-settings-popup-enter-active,
@@ -249,13 +234,13 @@ export default defineComponent({
   transition: opacity 280ms $intro-easing;
 }
 .player-settings-popup-enter-to,
-.player-settings-popup-leave {
+.player-settings-popup-leave-from {
   .player-settings-popup {
     transform: scale(1);
   }
   opacity: 1;
 }
-.player-settings-popup-enter,
+.player-settings-popup-enter-from,
 .player-settings-popup-leave-to {
   .player-settings-popup {
     transform: scale(1.1);

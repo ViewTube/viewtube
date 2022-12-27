@@ -10,8 +10,8 @@ import {
   Header
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { VideoDto } from 'viewtube/shared/dto/video/video.dto';
-import { DislikeDto } from './dto/dislike.dto';
+import { VideoDto } from 'server/core/videos/dto/video.dto';
+import { DislikeDto } from 'server/core/videos/dto/dislike.dto';
 import { VideosService } from './videos.service';
 
 @ApiTags('Core')

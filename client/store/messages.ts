@@ -1,51 +1,38 @@
-import { declareActionTree } from '@/plugins/actionTree.shim';
-import { getterTree, mutationTree } from 'typed-vuex';
+import { defineStore } from 'pinia';
 
-export const state = () => ({
-  messages: [{}] as [
-    {
-      id: number;
-      type: string;
-      title: string;
-      message: string;
-      clickAction: string;
-      dismissed: boolean;
-      dismissDelay: number;
-    }
-  ]
-});
+type MessageType = {
+  id: number;
+  type: string;
+  title: string;
+  message: string;
+  clickAction?: () => void | Promise<void>;
+  dismissed: boolean;
+  dismissDelay?: number;
+};
 
-export const getters = getterTree(state, {
-  allMessages: state => state.messages,
-  visibleMessages: state => state.messages.filter(el => el.dismissed === false)
-});
+export const useMessagesStore = defineStore('messages', {
+  state: () => ({
+    messages: [] as MessageType[]
+  }),
 
-export const mutations = mutationTree(state, {
-  addMessage(state, message) {
-    state.messages.push(message);
+  getters: {
+    allMessages: state => state.messages,
+    visibleMessages: state => state.messages.filter(el => el.dismissed === false)
   },
-  dismissMessage(state, id) {
-    state.messages.find(e => e.id === id).dismissed = true;
-  }
-});
 
-export const actions = declareActionTree(
-  { getters, state, mutations },
-  {
-    createMessage(
-      { commit, getters },
-      { type = 'info', title, message, clickAction = null, dismissDelay = 5000 }
-    ) {
-      const id = getters.allMessages.length + 1;
-      commit('addMessage', {
-        id,
-        type,
-        title,
-        message,
-        clickAction,
-        dismissed: false,
-        dismissDelay
+  actions: {
+    addMessage(message: MessageType) {
+      this.messages.push(message);
+    },
+    dismissMessage(id: number) {
+      this.messages.find(m => m.id === id).dismissed = true;
+    },
+    createMessage(messageData: Omit<MessageType, 'dismissed' | 'id'>) {
+      this.addMessage({
+        ...messageData,
+        id: this.allMessages.length + 1,
+        dismissed: false
       });
     }
   }
-);
+});

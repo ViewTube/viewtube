@@ -20,7 +20,7 @@
     </div>
     <div class="video-info">
       <nuxt-link class="title" :to="`/watch?v=${video.videoId}`">{{ video.title }}</nuxt-link>
-      <p class="views">{{ video.viewCount.toLocaleString('en-US') }} views</p>
+      <p class="views">{{ video.viewCount?.toLocaleString('en-US') }} views</p>
       <p class="upload-date">{{ video.publishedText }}</p>
       <div v-show="isSmall" v-create-links class="description links">
         {{ smallDescription }}
@@ -37,9 +37,9 @@
 
 <script lang="ts">
 import PlayIcon from 'vue-material-design-icons/Play.vue';
-import { defineComponent, ref } from '@nuxtjs/composition-api';
+
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
-import { useImgProxy } from '@/plugins/proxy';
+
 
 export default defineComponent({
   name: 'InlineVideo',
@@ -92,10 +92,10 @@ export default defineComponent({
   transition: opacity 1s $intro-easing;
 }
 .reveal-enter-to,
-.reveal-leave {
+.reveal-leave-from {
   opacity: 1;
 }
-.reveal-enter,
+.reveal-enter-from,
 .reveal-leave-to {
   opacity: 0;
 }

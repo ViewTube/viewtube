@@ -1,17 +1,15 @@
-import { getterTree, mutationTree } from 'typed-vuex';
+import { defineStore } from 'pinia';
 
-export const state = () => ({
-  playerVolume: 1
-});
+export const usePlayerVolumeStore = defineStore('playerVolume', {
+  state: () => ({
+    playerVolume: 1
+  }),
 
-export const getters = getterTree(state, {
-  getPlayerVolume: state => state.playerVolume
-});
-
-export const mutations = mutationTree(state, {
-  setPlayerVolume: (state, volume) => {
-    if (volume >= 0 && volume <= 1) {
-      state.playerVolume = volume;
+  actions: {
+    setPlayerVolume(volume: number) {
+      if (volume >= 0 && volume <= 1) {
+        this.playerVolume = volume;
+      }
     }
   }
 });

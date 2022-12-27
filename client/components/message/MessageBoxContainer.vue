@@ -1,7 +1,7 @@
 <template>
   <div class="messages-container">
     <MessageBox
-      v-for="message in $accessor.messages.visibleMessages"
+      v-for="message in messagesStore.visibleMessages"
       :key="message.id"
       :message="message"
     />
@@ -9,13 +9,21 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@nuxtjs/composition-api';
+
 import MessageBox from '@/components/message/MessageBox.vue';
+import { useMessagesStore } from '@/store/messages';
 
 export default defineComponent({
   name: 'MessageBoxContainer',
   components: {
     MessageBox
+  },
+  setup() {
+    const messagesStore = useMessagesStore();
+
+    return {
+      messagesStore
+    };
   }
 });
 </script>

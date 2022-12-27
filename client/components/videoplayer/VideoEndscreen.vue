@@ -14,10 +14,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from '@nuxtjs/composition-api';
 import EndscreenCard from '@/components/videoplayer/EndscreenCard.vue';
-
-import { useAccessor } from '@/store';
 
 export default defineComponent({
   name: 'VideoEndscreen',
@@ -30,12 +27,12 @@ export default defineComponent({
     videoElement: null
   },
   setup(props) {
-    const accessor = useAccessor();
+    const { apiUrl } = useApiUrl();
     const endscreenData = ref([]);
     const hover = ref(false);
 
     const fetchEndscreenData = () => {
-      fetch(`${accessor.environment.apiUrl}video/getEndscreen.php?videoId=${props.videoId}`, {
+      fetch(`${apiUrl}video/getEndscreen.php?videoId=${props.videoId}`, {
         cache: 'force-cache',
         method: 'GET'
       })

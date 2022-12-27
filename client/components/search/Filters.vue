@@ -38,8 +38,9 @@
 </template>
 
 <script lang="ts">
+import { PropType } from 'vue';
 import UndoIcon from 'vue-material-design-icons/Undo.vue';
-import { defineComponent, ref, useRoute, useRouter, watch } from '@nuxtjs/composition-api';
+
 
 export default defineComponent({
   name: 'Filters',
@@ -47,7 +48,7 @@ export default defineComponent({
     UndoIcon
   },
   props: {
-    filters: Array
+    filters: Array as PropType<Array<any>>,
   },
   setup() {
     const route = useRoute();
@@ -55,12 +56,12 @@ export default defineComponent({
     const searchValue = ref('');
 
     const refreshQuery = () => {
-      if (route.value.query.search_query) {
-        searchValue.value = route.value.query.search_query as string;
+      if (route.query.search_query) {
+        searchValue.value = route.query.search_query as string;
       }
     };
 
-    watch(() => route.value.query, refreshQuery);
+    watch(() => route.query, refreshQuery);
 
     const onFilterApply = (e: { target: HTMLFormElement }) => {
       const formData = new FormData(e.target);
@@ -70,12 +71,12 @@ export default defineComponent({
       router.push(`/results?${queryString}`);
     };
     const getFilterUrl = (filterName: string, filterValue: string): string => {
-      const newUrlParams = new URLSearchParams(route.value.query as any);
+      const newUrlParams = new URLSearchParams(route.query as any);
       newUrlParams.set(filterName, filterValue);
       return `/results?${newUrlParams.toString()}`;
     };
     const isDisabled = (filterValue: string): boolean => {
-      const urlSearchParams = new URLSearchParams(route.value.query as any);
+      const urlSearchParams = new URLSearchParams(route.query as any);
       if (
         urlSearchParams.get('Upload date') ||
         urlSearchParams.get('Features') ||

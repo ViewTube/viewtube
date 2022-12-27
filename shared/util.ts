@@ -28,8 +28,12 @@ export const isHttps = (): boolean => new URL(getApiUrl()).protocol === 'https:'
  * @returns {string}
  * @throws Throws an error if VIEWTUBE_URL is undefined or an invalid URL.
  */
-export const getApiUrl = (): string => {
+export const getApiUrl = (warnOnly = false): string => {
   const urlEnv = process.env.VIEWTUBE_URL;
+  const silent = process.env.NUXT_BUILD === 'true';
+
+  let errorMessage = null;
+  let errorObject = null;
 
   if (urlEnv) {
     try {
@@ -38,10 +42,21 @@ export const getApiUrl = (): string => {
       const url = urlObj.href;
       return url;
     } catch (error) {
-      throw new Error(`Error parsing VIEWTUBE_URL, make sure it is a valid URL.\n${error}`);
+      errorMessage = 'Error parsing VIEWTUBE_URL';
+      errorObject = error;
     }
   } else {
-    throw new Error('Unable to find domain, VIEWTUBE_URL may not be defined');
+    errorMessage = 'VIEWTUBE_URL is not defined';
+  }
+
+  if (!silent) {
+    const errorString = `${errorMessage}, make sure it is set to a valid URL.\n${
+      errorObject ?? ''
+    }`;
+    if (!warnOnly) {
+      throw new Error(errorString);
+    }
+    console.warn(errorString);
   }
 };
 

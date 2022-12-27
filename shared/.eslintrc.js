@@ -22,6 +22,8 @@ module.exports = {
     'space-before-function-paren': 'off',
     'no-unused-vars': 'off',
     '@typescript-eslint/no-unused-vars': 'warn',
+    '@typescript-eslint/ban-types': 'off',
+    '@typescript-eslint/no-empty-interface': 'off',
     'no-useless-constructor': 'off',
     'import/order': 'off',
     'jest/no-standalone-expect': 'off',

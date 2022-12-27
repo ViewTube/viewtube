@@ -31,7 +31,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, useRouter } from '@nuxtjs/composition-api';
+
 
 export default defineComponent({
   name: 'EndscreenCard',

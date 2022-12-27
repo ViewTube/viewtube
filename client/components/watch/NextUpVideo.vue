@@ -21,17 +21,17 @@
           {{ video.title }}
         </p>
         <p v-tippy="video.author" class="channel">{{ video.author }}</p>
-        <p class="views">{{ video.viewCount.toLocaleString('en-US') }} views</p>
+        <p class="views">{{ video.viewCount?.toLocaleString('en-US') }} views</p>
       </div>
     </nuxt-link>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, useRoute } from '@nuxtjs/composition-api';
-import { useImgProxy } from '@/plugins/proxy';
-import { createComputed } from '@/plugins/computed';
-import { useAccessor } from '@/store';
+
+
+import { createComputed } from '@/utilities/computed';
+import { useVideoPlayerStore } from '@/store/videoPlayer';
 
 export default defineComponent({
   props: {
@@ -40,10 +40,10 @@ export default defineComponent({
   setup() {
     const imgProxy = useImgProxy();
     const route = useRoute();
-    const accessor = useAccessor();
+    const videoPlayerStore = useVideoPlayerStore();
 
     const remainingTimeString = createComputed(() => {
-      const remaining = accessor.videoPlayer.videoLength - accessor.videoPlayer.currentTime;
+      const remaining = videoPlayerStore.videoLength - videoPlayerStore.currentTime;
       if (remaining <= 30) {
         return ` in ${Math.floor(remaining)}s`;
       }
@@ -52,7 +52,7 @@ export default defineComponent({
 
     return {
       imgProxyUrl: imgProxy.url,
-      fullPath: route.value.fullPath,
+      fullPath: route.fullPath,
       remainingTimeString
     };
   }

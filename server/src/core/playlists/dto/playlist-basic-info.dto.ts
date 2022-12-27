@@ -1,4 +1,4 @@
-import { VideoThumbnailDto } from 'viewtube/shared/dto/video/video-thumbnail.dto';
+import { VideoThumbnailDto } from 'server/core/videos/dto/video-thumbnail.dto';
 import { PreviewVideoDto } from './preview-video.dto';
 
 export class PlaylistBasicInfoDto {

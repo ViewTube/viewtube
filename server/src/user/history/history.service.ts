@@ -69,7 +69,7 @@ export class HistoryService {
   async getVideoVisit(username: string, videoId: string): Promise<VideoVisitDto> {
     const videoHistory = await this.HistoryModel.findOne({ username }).exec();
 
-    const videoVisit = videoHistory.videoHistory.find(e => e.videoId === videoId);
+    const videoVisit = videoHistory?.videoHistory?.find(e => e.videoId === videoId);
 
     if (videoVisit) {
       return {

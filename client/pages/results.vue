@@ -1,26 +1,51 @@
 <template>
-  <div class="search" :class="{ loading: $fetchState.pending }">
-    <Spinner v-if="$fetchState.pending" class="centered search-spinner" />
-    <GradientBackground :color="'blue'" />
-    <Filters v-if="filters && filters.length" :filters="filters" />
-    <p v-if="!$fetchState.pending && searchResults" class="result-amount">
-      {{ searchResults.results.toLocaleString('en-US') }} results
+  <div class="search" :class="{ loading: pending }">
+    <MetaPageHead
+      :title="searchQuery"
+      description="Search for videos, channels and playlists"
+    />
+    <Spinner v-if="pending" class="centered search-spinner" />
+    <Filters
+      v-if="searchData?.filters && searchData?.filters.length"
+      :filters="searchData?.filters"
+    />
+    <p v-if="!pending && searchData?.searchResults" class="result-amount">
+      {{ searchData?.searchResults?.results?.toLocaleString('en-US') }} results
     </p>
     <div v-if="isCorrectedSearchResult" class="correction-results links">
       <span>Showing results for</span>
-      <nuxt-link :to="correctedSearchResultUrl">{{ searchResults.correctedQuery }}</nuxt-link>
+      <nuxt-link :to="correctedSearchResultUrl">{{
+        searchData?.searchResults.correctedQuery
+      }}</nuxt-link>
     </div>
-    <div v-if="!$fetchState.pending && searchResults" class="search-results">
+    <div v-if="!pending && searchData?.searchResults" class="search-results">
       <div
-        v-if="searchResults.refinements && searchResults.refinements.length"
+        v-if="searchData?.searchResults.refinements && searchData?.searchResults.refinements.length"
         class="search-refinements"
       >
-        <RelatedSearches :refinements="searchResults.refinements" />
+        <RelatedSearches :refinements="searchData?.searchResults.refinements" />
       </div>
-      <div class="search-videos-container">
+      <div v-if="!pending && searchData?.searchResults.items" class="search-videos-container">
         <component
           :is="getListEntryType(result.type)"
-          v-for="(result, i) in resultItems"
+          v-for="(result, i) in searchData?.searchResults.items"
+          :key="i"
+          :video="result"
+          :channel="result"
+          :playlist="result"
+          :mix="result"
+          :shelf="result"
+          :horizontal="true"
+          :lazy="true"
+        />
+      </div>
+      <SeparatorSmall v-if="!pending && additionalResultItems.length > 0"
+        >More results</SeparatorSmall
+      >
+      <div v-if="!pending && additionalResultItems.length > 0" class="search-videos-container">
+        <component
+          :is="getListEntryType(result.type)"
+          v-for="(result, i) in additionalResultItems"
           :key="i"
           :video="result"
           :channel="result"
@@ -43,15 +68,6 @@
 
 <script lang="ts">
 import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
-import {
-  computed,
-  defineComponent,
-  ref,
-  useFetch,
-  useMeta,
-  useRoute,
-  watch
-} from '@nuxtjs/composition-api';
 import VideoEntry from '@/components/list/VideoEntry.vue';
 import PlaylistEntry from '@/components/list/PlaylistEntry.vue';
 import MixEntry from '@/components/list/MixEntry.vue';
@@ -60,12 +76,12 @@ import MovieEntry from '@/components/list/MovieEntry.vue';
 import RelatedSearches from '@/components/search/RelatedSearches.vue';
 import Shelf from '@/components/search/Shelf.vue';
 import Spinner from '@/components/Spinner.vue';
-import GradientBackground from '@/components/GradientBackground.vue';
 import Dropdown from '@/components/filter/Dropdown.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import Filters from '@/components/search/Filters.vue';
-import { useAccessor } from '@/store';
-import { useAxios } from '@/plugins/axiosPlugin';
+import SeparatorSmall from '@/components/list/SeparatorSmall.vue';
+import { useMessagesStore } from '@/store/messages';
+import ytsr from 'ytsr';
 
 export default defineComponent({
   name: 'Search',
@@ -75,60 +91,74 @@ export default defineComponent({
     Spinner,
     PlaylistEntry,
     ChannelEntry,
-    GradientBackground,
     Dropdown,
     BadgeButton,
     MovieEntry,
     RelatedSearches,
     Shelf,
     MixEntry,
-    Filters
+    Filters,
+    SeparatorSmall
   },
   setup() {
     const route = useRoute();
-    const accessor = useAccessor();
-    const axios = useAxios();
+    const messagesStore = useMessagesStore();
 
-    const searchResults = ref(null);
-    const resultItems = ref([]);
-    const searchContinuation = ref(null);
-    const filters = ref([]);
     const loading = ref(false);
-    const searchQuery = ref(null);
+    const searchQuery = computed(() => {
+      const searchParams = new URLSearchParams(route.query as Record<string, string>);
+      return searchParams.get('search_query') || searchParams.get('q');
+    });
     const page = ref(0);
     const moreVideosLoading = ref(false);
+    const { apiUrl } = useApiUrl();
+
+    const { data: searchData, pending, error } = useGetSearchResult();
+
+    const additionalResultItems = ref<ytsr.Item[]>([]);
+    const searchContinuationData = ref<any>(searchData.value?.searchResults.continuation);
+
+    watch(
+      () => searchData.value,
+      newData => {
+        additionalResultItems.value = [];
+        searchContinuationData.value = newData?.searchResults.continuation;
+      }
+    );
+
+    watch(error, newValue => {
+      if (newValue) {
+        messagesStore.createMessage({
+          type: 'error',
+          title: 'Search failed',
+          message: 'Refresh the page to try again',
+          dismissDelay: 0
+        });
+      }
+    });
 
     const isCorrectedSearchResult = computed((): boolean => {
-      if (searchResults.value) {
-        return searchResults.value.originalQuery !== searchResults.value.correctedQuery;
+      if (searchData.value?.searchResults) {
+        return (
+          searchData.value?.searchResults.originalQuery !==
+          searchData.value?.searchResults.correctedQuery
+        );
       }
       return false;
     });
+
     const correctedSearchResultUrl = computed((): string => {
-      if (searchResults.value) {
-        const url = route.value.fullPath;
+      if (searchData.value?.searchResults) {
+        const url = route.fullPath;
         const newUrl = decodeURIComponent(url).replace(
-          searchResults.value.originalQuery,
-          searchResults.value.correctedQuery
+          searchData.value?.searchResults.originalQuery,
+          searchData.value?.searchResults.correctedQuery
         );
         return newUrl;
       }
-      return route.value.fullPath;
+      return route.fullPath;
     });
 
-    const getFilterArray = (searchParams: URLSearchParams): Array<any> => {
-      const allParams = (searchParams as any).entries();
-      const filtersArray = [];
-      for (const param of allParams) {
-        if (filters.value.find(el => el.filterType === param[0])) {
-          filters.value.push({
-            filterName: param[0],
-            filterValue: param[1]
-          });
-        }
-      }
-      return filtersArray;
-    };
     const getListEntryType = (type: string): string => {
       switch (type) {
         case 'video':
@@ -145,129 +175,59 @@ export default defineComponent({
           return null;
       }
     };
-    const loadMoreVideos = async (): Promise<void> => {
+
+    const loadMoreVideos = async () => {
       moreVideosLoading.value = true;
       page.value += 1;
 
-      if (searchResults.value && searchResults.value.continuation) {
-        const apiUrl = accessor.environment.apiUrl;
-        await axios
-          .get(`${apiUrl}search/continuation`, {
-            params: {
-              continuationData: searchContinuation.value
-            }
-          })
-          .then((response: { data: any }) => {
-            if (response && response.data) {
-              resultItems.value = resultItems.value.concat(response.data.items);
-              searchContinuation.value = response.data.continuation;
-              moreVideosLoading.value = false;
-            }
-          })
-          .catch((_: any) => {
-            accessor.messages.createMessage({
-              type: 'error',
-              title: 'Unable to load more results',
-              message: 'Try again or use a different search term for more results'
-            });
-            moreVideosLoading.value = false;
-          });
-      }
-    };
-
-    const { fetch } = useFetch(async () => {
-      const inputQuery = route.value.query as any;
-      const searchParams = new URLSearchParams(inputQuery);
-      const apiUrl = accessor.environment.apiUrl;
-      const searchTerm = searchParams.get('search_query') || searchParams.get('q');
-      if (searchTerm) {
+      if (searchData.value?.searchResults && searchContinuationData.value) {
         try {
-          const newFilters = await axios.get(`${apiUrl}search/filters`, {
-            params: {
-              q: searchTerm
-            }
-          });
-
-          if (newFilters && newFilters.data && newFilters.data.length) {
-            filters.value = newFilters.data;
-            const filterArray = getFilterArray(searchParams);
-
-            const searchResponse = await axios.get(`${apiUrl}search`, {
-              params: {
-                q: searchTerm,
-                pages: 1,
-                filters: filterArray
+          const searchContinuation = await $fetch<ytsr.ContinueResult>(
+            `${apiUrl}search/continuation`,
+            {
+              method: 'POST',
+              body: {
+                continuationData: searchContinuationData.value
               }
-            });
-
-            if (searchResponse && searchResponse.data) {
-              searchResults.value = searchResponse.data;
-              resultItems.value = searchResponse.data.items;
-              searchContinuation.value = searchResponse.data.continuation;
-              searchQuery.value = inputQuery.search_query;
             }
+          );
+
+          if (searchContinuation) {
+            additionalResultItems.value = [
+              ...additionalResultItems.value,
+              ...searchContinuation.items
+            ];
+            searchContinuationData.value = searchContinuation.continuation;
           }
-        } catch (_) {
-          accessor.messages.createMessage({
+        } catch (error) {
+          messagesStore.createMessage({
             type: 'error',
-            title: 'Search failed',
-            message: 'Refresh the page to try again',
-            dismissDelay: 0
+            title: 'Unable to load more results',
+            message: 'Try again or use a different search term for more results'
           });
         }
       } else {
-        accessor.messages.createMessage({
+        messagesStore.createMessage({
           type: 'error',
-          title: 'Search term is empty',
-          message: "Search term can't be empty",
-          dismissDelay: 0
+          title: 'Unable to load more results',
+          message: 'Use a different search term for more results'
         });
       }
-    });
-
-    watch(
-      () => route.value.query,
-      () => {
-        fetch();
-      }
-    );
-
-    useMeta(() => ({
-      title: `${searchQuery.value ? searchQuery.value + ' :: ' : ''}Search :: ViewTube`,
-      meta: [
-        {
-          hid: 'description',
-          vmid: 'descriptionMeta',
-          name: 'description',
-          content: 'Search for videos, channels and playlists'
-        },
-        {
-          hid: 'ogTitle',
-          property: 'og:title',
-          content: 'Search - ViewTube'
-        },
-        {
-          hid: 'ogDescription',
-          property: 'og:description',
-          content: 'Search for videos, channels and playlists'
-        }
-      ]
-    }));
+      moreVideosLoading.value = false;
+    };
 
     return {
-      searchResults,
-      resultItems,
-      searchContinuation,
-      filters,
+      searchData,
       loading,
       searchQuery,
       page,
       moreVideosLoading,
       isCorrectedSearchResult,
       correctedSearchResultUrl,
-      getFilterArray,
+      loadMoreVideos,
       getListEntryType,
-      loadMoreVideos
+      pending,
+      additionalResultItems
     };
   },
   head: {}
@@ -276,6 +236,7 @@ export default defineComponent({
 
 <style lang="scss">
 .search {
+  margin-top: $header-height;
   display: flex;
   flex-direction: column;
 

@@ -1,122 +1,126 @@
-import { getterTree, mutationTree } from 'typed-vuex';
-import { declareActionTree } from '@/plugins/actionTree.shim';
+import { defineStore } from 'pinia';
+import { useCaptchaStore } from '@/store/captcha';
+import { useSettingsStore } from './settings';
 
-export const state = () => ({
-  username: null as string,
-  profileImage: null as string
-});
+type User = {
+  username: string;
+  profileImage: string;
+  settings: Record<string, unknown>;
+};
 
-export const getters = getterTree(state, {
-  username: state => state.username,
-  profileImage: state => state.profileImage,
-  isLoggedIn: state => Boolean(state.username)
-});
-
-export const mutations = mutationTree(state, {
-  setUsername(state, username) {
-    state.username = username;
+export const useUserStore = defineStore('user', {
+  state: () => ({
+    username: null,
+    profileImage: null
+  }),
+  getters: {
+    isLoggedIn: state => !!state.username
   },
-  setProfileImage(state, image) {
-    state.profileImage = image;
-  }
-});
+  actions: {
+    async getUser(authenticationToken?: string) {
+      const { apiUrl } = useApiUrl();
+      const settingsStore = useSettingsStore();
+      try {
+        const user = await $fetch<User>(`${apiUrl}user/profile`, {
+          headers: {
+            Authorization: authenticationToken ? `Bearer ${authenticationToken}` : undefined
+          },
+          credentials: 'include'
+        });
+        this.username = user.username;
+        this.profileImage = user.profileImage;
 
-export const actions = declareActionTree(
-  { state, getters, mutations },
-  {
-    async getUser({ commit }): Promise<void> {
-      try {
-        const result = await this.$axios.get(
-          `${this.app.$accessor.environment.env.apiUrl}user/profile`,
-          {
-            withCredentials: true,
-            timeout: 10000
-          }
-        );
-        this.app.$accessor.settings.mutateSettings(result.data.settings);
-        commit('setUsername', result.data.username);
-        commit('setProfileImage', result.data.profileImage);
-      } catch (e) {
-        if (!e.message.includes('timeout') && !e.message.includes('401')) {
-          console.error(e);
-        }
-      }
+        settingsStore.updateSettings(user.settings);
+      } catch {}
     },
-    async logout({ commit }): Promise<boolean> {
-      await this.$axios.post(
-        `${this.app.$accessor.environment.env.apiUrl}auth/logout`,
-        {},
-        { withCredentials: true }
-      );
-      commit('setUsername', null);
-      return true;
-    },
-    async login({ dispatch }, { username, password }): Promise<{ success?: boolean; error?: any }> {
-      let success = null;
+
+    async login(username: string, password: string) {
+      const { apiUrl } = useApiUrl();
       try {
-        await this.$axios.post(
-          `${this.app.$accessor.environment.env.apiUrl}auth/login`,
-          {
+        await $fetch(`${apiUrl}auth/login`, {
+          method: 'POST',
+          credentials: 'include',
+          body: {
             username,
             password
-          },
-          { withCredentials: true }
-        );
-        dispatch('getUser');
-
-        success = true;
-      } catch (err) {
-        if (err && err.response && err.response.data && err.response.data.message) {
+          }
+        });
+        await this.getUser();
+        return {
+          success: true
+        };
+      } catch (error: any) {
+        if (error?.data?.message) {
           return {
-            error: err.response.data.message
+            error: error.data.message
           };
         }
         return {
           error: 'Sign in failed, please try reloading the page.'
         };
       }
-      return { success };
     },
-    async register(
-      { dispatch },
-      { username, password, captchaSolution }
-    ): Promise<{ username?: string; error?: any }> {
-      if (this.app.$accessor.captcha.token) {
-        let registerResult = null;
-        try {
-          registerResult = await this.$axios.post(
-            `${this.app.$accessor.environment.env.apiUrl}auth/register`,
-            {
-              username,
-              password,
-              captchaToken: this.app.$accessor.captcha.token,
-              captchaSolution
-            }
-          );
-        } catch (err) {
-          if (err.response.data) {
-            return {
-              error: err.response.data
-            };
+
+    async register(username: string, password: string, captchaSolution: string) {
+      const { apiUrl } = useApiUrl();
+      const captchaStore = useCaptchaStore();
+      let registerResult = null;
+      try {
+        registerResult = await $fetch(`${apiUrl}auth/register`, {
+          method: 'POST',
+          credentials: 'include',
+          body: {
+            username,
+            password,
+            captchaToken: captchaStore.token,
+            captchaSolution
           }
+        });
+      } catch (error: any) {
+        if (error?.data?.message) {
+          console.log(error);
           return {
-            error: 'Registration failed'
+            error: error.data.message
           };
         }
-        if (registerResult && registerResult.data) {
-          const loginSuccess = await dispatch('login', {
-            username: registerResult.data.username,
-            password
-          });
-          if (loginSuccess) {
-            dispatch('getUser');
-            return { username: registerResult.data.username };
-          }
-        }
         return {
-          error: 'Registration failed'
+          error: 'Registration failed, please try again.'
         };
       }
+      if (registerResult) {
+        try {
+          await this.login(registerResult.username, password);
+        } catch {
+          return {
+            error: 'Registration succeeded, but login failed, please try again.'
+          };
+        }
+        await this.getUser();
+
+        return { username: registerResult.username };
+      }
+      return {
+        error: 'Registration failed'
+      };
+    },
+
+    async logout() {
+      const { apiUrl } = useApiUrl();
+      try {
+        await $fetch(`${apiUrl}auth/logout`, {
+          method: 'POST',
+          credentials: 'include'
+        });
+      } catch {
+        return {
+          error: 'Logout failed. Try deleting cookes and cache.'
+        };
+      }
+      this.username = null;
+      this.profileImage = null;
+      return {
+        success: true
+      };
     }
   }
-);
+});

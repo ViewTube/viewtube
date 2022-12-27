@@ -1,13 +1,11 @@
-import { VideoThumbnailDto, VideoDto } from 'viewtube/shared';
-
-declare const MediaMetadata: new (arg0: any) => any;
+import { ApiDto } from 'viewtube/shared';
 
 export class MediaMetadataHelper {
   constructor(video: any) {
     this.video = video;
   }
 
-  video: VideoDto;
+  video: ApiDto<'VideoDto'>;
 
   createMediaMetadata() {
     return new MediaMetadata({
@@ -18,7 +16,7 @@ export class MediaMetadataHelper {
   }
 
   generateArtworkUrl() {
-    return this.video.videoThumbnails.map((el: VideoThumbnailDto) => {
+    return this.video.videoThumbnails.map((el: ApiDto<'VideoThumbnailDto'>) => {
       return {
         src: el.url,
         sizes: `${el.height}x${el.width}`,

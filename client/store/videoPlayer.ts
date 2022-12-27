@@ -1,19 +1,15 @@
-import { getterTree, mutationTree } from 'typed-vuex';
+import { defineStore } from 'pinia';
+import { insertSetters } from '@/utilities/storeSetters';
 
-export const state = () => ({
+const state = {
   loop: false,
   currentTime: 0,
   videoLength: 0
-});
+};
 
-export const getters = getterTree(state, {
-  loop: state => state.loop,
-  currentTime: state => state.currentTime,
-  videoLength: state => state.videoLength
-});
-
-export const mutations = mutationTree(state, {
-  setLoop: (state, enabled: boolean) => (state.loop = enabled),
-  setCurrentTime: (state, time: number) => (state.currentTime = time),
-  setVideoLength: (state, length: number) => (state.videoLength = length)
+export const useVideoPlayerStore = defineStore('videoPlayer', {
+  state: () => state,
+  actions: {
+    ...insertSetters(state)
+  }
 });

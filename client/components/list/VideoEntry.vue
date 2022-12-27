@@ -1,3 +1,117 @@
+<script setup lang="ts">
+import InfoIcon from 'vue-material-design-icons/Information.vue';
+import VerifiedIcon from 'vue-material-design-icons/CheckDecagram.vue';
+import { useLoadingVideoInfoStore } from '@/store/loadingVideoInfo';
+// import { getSecondsFromTimestamp } from '@/utilities/shared';
+
+// import { useFormatting } from '@/utilities/formatting';
+
+type VideoType = {
+  author:
+    | {
+        name?: string;
+        channelID?: string;
+        bestAvatar?: {
+          url?: string;
+        };
+        verified?: string;
+      }
+    | string;
+  videoId?: string;
+  id?: string;
+  authorVerified?: boolean;
+  authorId?: string;
+  authorThumbnails?: {
+    url: string;
+    width: number;
+    height: number;
+  }[];
+  authorThumbnailUrl?: string;
+  description?: string;
+  title?: string;
+  isLive?: boolean;
+  lengthSeconds?: number;
+  lengthString?: string;
+  duration?: string;
+  viewCount?: number;
+  views?: number;
+  publishedText?: string;
+  uploadedAt?: string;
+};
+
+const props = defineProps<{
+  video: VideoType;
+  playlistId?: string;
+  lazy?: boolean;
+}>();
+
+const imgProxy = useImgProxy();
+const { apiUrl } = useApiUrl();
+const loadingVideoInfoStore = useLoadingVideoInfoStore();
+
+const localProxy = '&local=true';
+
+const videoThumbnailUrl = ref(null);
+
+const videoLinkQuery = computed(() => {
+  const linkQuery: { v: string; list?: string } = {
+    v: props.video.videoId ? props.video.videoId : props.video.id
+  };
+
+  if (props.playlistId) {
+    linkQuery.list = props.playlistId;
+  }
+  return linkQuery;
+});
+
+const thumbnailTemplate = 'https://i.ytimg.com/vi/';
+
+videoThumbnailUrl.value = `
+      ${imgProxy.url}${thumbnailTemplate}${
+  props.video.videoId ? props.video.videoId : props.video.id
+}/sddefault.jpg${localProxy}`;
+
+const videoThumbnailUrlXL = ref('');
+videoThumbnailUrl.value = `
+      ${imgProxy.url}${thumbnailTemplate}${
+  props.video.videoId ? props.video.videoId : props.video.id
+}/hqdefault.jpg${localProxy}`;
+
+const videoProgressPercentage = computed((): number => {
+  // const savedPosition = videoProgressStore.getSavedPositionForId(
+  //   props.video.videoId ? props.video.videoId : props.video.id
+  // );
+  // if (props.video.duration) {
+  //   const videoLength = props.video.lengthSeconds
+  //     ? props.video.lengthSeconds
+  //     : getSecondsFromTimestamp(props.video.duration);
+  //   return (savedPosition / videoLength) * 100;
+  // }
+  return 0;
+});
+
+const videoProgressTooltip = computed((): string => {
+  // const savedPosition = videoProgressStore.getSavedPositionForId(
+  //   props.video.videoId ? props.video.videoId : props.video.id
+  // );
+  // if (savedPosition && props.video.duration) {
+  //   const timestampSeconds = getSecondsFromTimestamp(props.video.duration);
+  //   const watchTime = formatting.getTimestampFromSeconds(savedPosition);
+  //   const totalTime = formatting.getTimestampFromSeconds(
+  //     props.video.lengthSeconds ? props.video.lengthSeconds : timestampSeconds
+  //   );
+  //   if (videoProgressPercentage.value > 0) {
+  //     return `${watchTime} of ${totalTime}`;
+  //   }
+  // }
+  return null;
+});
+
+const onVideoEntryClick = () => {
+  loadingVideoInfoStore.setLoadingVideoInfo(props.video);
+};
+</script>
+
 <template>
   <div class="video-entry">
     <div
@@ -5,19 +119,25 @@
       class="video-author"
       :class="{
         thumbnail:
-          (video.authorThumbnails && video.authorThumbnails.length > 0) ||
-          (video.author && video.author.bestAvatar) ||
+          (video.authorThumbnails && video.authorThumbnails.length > 0) ??
+          (typeof video.author === 'object' && video.author?.bestAvatar) ??
           video.authorThumbnailUrl
       }"
     >
       <nuxt-link
-        :to="{ path: '/channel/' + (video.authorId ? video.authorId : video.author.channelID) }"
+        :to="{
+          path:
+            '/channel/' +
+            (video.authorId
+              ? video.authorId
+              : typeof video.author === 'object' && video.author?.channelID)
+        }"
       >
         <img
           v-if="video.authorThumbnails && video.authorThumbnails.length > 0"
           class="author-thumbnail"
           :src="
-            imgProxyUrl +
+            imgProxy.url +
             (video.authorThumbnails[1]
               ? video.authorThumbnails[1].url
               : video.authorThumbnails[0].url)
@@ -31,21 +151,23 @@
           alt="Author thumbnail"
         />
         <img
-          v-else-if="video.author && video.author.bestAvatar"
+          v-else-if="video.author && video.author['bestAvatar']"
           class="author-thumbnail"
-          :src="imgProxyUrl + video.author.bestAvatar.url"
+          :src="imgProxy.url + video.author['bestAvatar'].url"
           alt="Author thumbnail"
         />
       </nuxt-link>
       <div class="channel-name-container">
         <nuxt-link
-          v-tippy="video.author.name ? video.author.name : video.author"
+          v-tippy="video.author['name'] ? video.author['name'] : video.author"
           class="video-entry-channel"
-          :to="{ path: '/channel/' + (video.authorId ? video.authorId : video.author.channelID) }"
-          >{{ video.author.name ? video.author.name : video.author }}</nuxt-link
+          :to="{
+            path: '/channel/' + (video.authorId ? video.authorId : video.author['channelID'])
+          }"
+          >{{ video.author['name'] ? video.author['name'] : video.author }}</nuxt-link
         >
         <VerifiedIcon
-          v-if="(video.author && video.author.verified) || video.authorVerified"
+          v-if="(video.author && video.author['verified']) || video.authorVerified"
           v-tippy="'Verified'"
           class="tooltip"
           title=""
@@ -64,10 +186,10 @@
       class="video-entry-thmb"
       :to="{
         name: 'watch',
-        query: videoLinkQuery,
-        params: { videoData: video }
+        query: videoLinkQuery
       }"
       :class="{ 'has-description': video.description }"
+      @click="onVideoEntryClick"
     >
       <div class="thmb-image-container">
         <div class="thmb-clip">
@@ -85,7 +207,7 @@
           />
         </div>
         <div v-if="video.description" class="video-description-overlay">
-          <p>{{ video.description }}</p>
+          <p class="video-description-overlay-text">{{ video.description }}</p>
         </div>
       </div>
       <div v-if="video.isLive" class="video-live">
@@ -119,18 +241,18 @@
           class="video-entry-title"
           :to="{
             name: 'watch',
-            query: videoLinkQuery,
-            params: { videoData: video }
+            query: videoLinkQuery
           }"
+          @click="onVideoEntryClick"
           >{{ video.title }}</nuxt-link
         >
         <div class="video-entry-stats">
           <p v-if="video.viewCount" class="video-entry-views">
-            {{ video.viewCount.toLocaleString('en-US') }}
+            {{ video.viewCount?.toLocaleString('en-US') }}
             {{ video.viewCount === 1 ? 'view' : 'views' }}
           </p>
           <p v-if="video.views" class="video-entry-views">
-            {{ video.views.toLocaleString('en-US') }}
+            {{ video.views?.toLocaleString('en-US') }}
             {{ video.views === 1 ? 'view' : 'views' }}
           </p>
           <p class="video-entry-timestamp">
@@ -141,105 +263,6 @@
     </div>
   </div>
 </template>
-
-<script lang="ts">
-import InfoIcon from 'vue-material-design-icons/Information.vue';
-import VerifiedIcon from 'vue-material-design-icons/CheckDecagram.vue';
-// import { getSecondsFromTimestamp } from '@/plugins/shared';
-import { computed, defineComponent, ref } from '@nuxtjs/composition-api';
-import { useImgProxy } from '@/plugins/proxy';
-import { useAccessor } from '@/store';
-// import { useFormatting } from '@/plugins/formatting';
-
-export default defineComponent({
-  name: 'VideoEntry',
-  components: {
-    InfoIcon,
-    VerifiedIcon
-  },
-  props: {
-    video: Object,
-    playlistId: { type: String, required: false },
-    lazy: Boolean
-  },
-  setup(props) {
-    const imgProxy = useImgProxy();
-    const accessor = useAccessor();
-    // const formatting = useFormatting();
-
-    const localProxy = '&local=true';
-
-    const apiUrl = ref('/');
-    const videoThumbnailUrl = ref(null);
-
-    apiUrl.value = accessor.environment.apiUrl;
-
-    const videoLinkQuery = computed(() => {
-      const linkQuery: { v: string; list?: string } = {
-        v: props.video.videoId ? props.video.videoId : props.video.id
-      };
-
-      if (props.playlistId) {
-        linkQuery.list = props.playlistId;
-      }
-      return linkQuery;
-    });
-
-    const thumbnailTemplate = 'https://i.ytimg.com/vi/';
-
-    videoThumbnailUrl.value = `
-      ${imgProxy.url}${thumbnailTemplate}${
-      props.video.videoId ? props.video.videoId : props.video.id
-    }/sddefault.jpg${localProxy}`;
-
-    const videoThumbnailUrlXL = ref('');
-    videoThumbnailUrl.value = `
-      ${imgProxy.url}${thumbnailTemplate}${
-      props.video.videoId ? props.video.videoId : props.video.id
-    }/hqdefault.jpg${localProxy}`;
-
-    const videoProgressPercentage = computed((): number => {
-      // const savedPosition = accessor.videoProgress.getSavedPositionForId(
-      //   props.video.videoId ? props.video.videoId : props.video.id
-      // );
-      // if (props.video.duration) {
-      //   const videoLength = props.video.lengthSeconds
-      //     ? props.video.lengthSeconds
-      //     : getSecondsFromTimestamp(props.video.duration);
-      //   return (savedPosition / videoLength) * 100;
-      // }
-      return 0;
-    });
-
-    const videoProgressTooltip = computed((): string => {
-      // const savedPosition = accessor.videoProgress.getSavedPositionForId(
-      //   props.video.videoId ? props.video.videoId : props.video.id
-      // );
-      // if (savedPosition && props.video.duration) {
-      //   const timestampSeconds = getSecondsFromTimestamp(props.video.duration);
-      //   const watchTime = formatting.getTimestampFromSeconds(savedPosition);
-      //   const totalTime = formatting.getTimestampFromSeconds(
-      //     props.video.lengthSeconds ? props.video.lengthSeconds : timestampSeconds
-      //   );
-      //   if (videoProgressPercentage.value > 0) {
-      //     return `${watchTime} of ${totalTime}`;
-      //   }
-      // }
-      return null;
-    });
-
-    return {
-      imgProxyUrl: imgProxy.url,
-      videoThumbnailUrl,
-      videoThumbnailUrlXL,
-      videoProgressPercentage,
-      videoProgressTooltip,
-      apiUrl,
-      videoLinkQuery
-    };
-  }
-});
-</script>
 
 <style lang="scss">
 .video-entry {
@@ -323,7 +346,7 @@ export default defineComponent({
 
   .description-btn-container {
     position: absolute;
-    top: 38px;
+    top: 42px;
     right: 0;
     z-index: 12;
     width: 44px;
@@ -341,7 +364,7 @@ export default defineComponent({
 
   #show-description {
     position: absolute;
-    top: 38px;
+    top: 42px;
     right: 2px;
     z-index: 13;
     opacity: 0;
@@ -384,25 +407,27 @@ export default defineComponent({
       }
 
       .video-description-overlay {
-        pointer-events: none;
-        color: $video-thmb-overlay-textcolor;
         position: absolute;
         left: 0;
-        top: 0;
+        top: 50%;
+        padding-bottom: 56.25%;
+        pointer-events: none;
         width: 100%;
-        height: 100%;
+        height: 0;
+        transform: translateY(-50%);
+        color: $video-thmb-overlay-textcolor;
+        overflow: visible;
         background-color: #0000009f;
-        padding: 10px;
-        overflow: hidden;
         box-sizing: border-box;
         font-size: 1rem;
         opacity: 0;
         transition: opacity 200ms $intro-easing;
 
-        p {
+        .video-description-overlay-text {
           width: 100%;
-          height: 100%;
-          overflow: hidden;
+          height: min-content;
+          padding: 15px;
+          box-sizing: border-box;
         }
       }
     }
@@ -484,7 +509,9 @@ export default defineComponent({
         font-size: 0.9rem;
         overflow: hidden;
         text-overflow: ellipsis;
-        white-space: nowrap;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
         color: var(--title-color);
         padding: 8px 0 4px 0;
         width: 100%;

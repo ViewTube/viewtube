@@ -23,6 +23,9 @@ export class CacheConfigService implements CacheOptionsFactory {
         ttl: 1800
       };
     }
-    return null;
+    return {
+      ttl: 1800,
+      max: 2000
+    };
   }
 }

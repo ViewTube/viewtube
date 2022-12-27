@@ -1,20 +1,17 @@
-import { getterTree, mutationTree } from 'typed-vuex';
+import { defineStore } from 'pinia';
 
-export const state = () => ({
-  currentVideo: null as [],
-  startTime: 0 as number
-});
-
-export const getters = getterTree(state, {
-  currentVideo: state => state.currentVideo,
-  startTime: state => state.startTime
-});
-
-export const mutations = mutationTree(state, {
-  setCurrentVideo(state, video) {
-    state.currentVideo = video;
-  },
-  setStartTime(state, startTime) {
-    state.startTime = startTime;
+export const useMiniplayerStore = defineStore('miniplayer', {
+  state: () => ({
+    currentVideo: null,
+    startTime: 0
+  }),
+  
+  actions: {
+    setCurrentVideo(video: any) {
+      this.currentVideo = video;
+    },
+    setStartTime(startTime: number) {
+      this.startTime = startTime;
+    }
   }
 });

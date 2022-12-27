@@ -14,8 +14,9 @@
       </div>
       <label v-if="label" class="dropdown-label">{{ label }}</label>
     </div>
-    <portal v-if="visible" to="dropdown">
+    <Teleport to="body">
       <div
+        v-if="visible"
         class="dropdown-list"
         :class="{ open: open }"
         :style="{
@@ -34,12 +35,13 @@
           >{{ item.name }}</span
         >
       </div>
-    </portal>
+    </Teleport>
   </div>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, PropType, ref } from '@nuxtjs/composition-api';
+<script lang="ts">import { PropType } from 'vue';
+
+
 
 export default defineComponent({
   name: 'Dropdown',
@@ -49,6 +51,7 @@ export default defineComponent({
     label: { type: String, required: false },
     noDefault: { type: Boolean, required: false }
   },
+  emits: ['valuechange'],
   setup(props, { emit }) {
     const selected = ref(0);
     const open = ref(false);
@@ -213,7 +216,7 @@ export default defineComponent({
   transition-timing-function: $intro-easing;
   overflow: auto;
   padding: 5px 0;
-  z-index: 800;
+  z-index: 901;
   margin: 0;
 
   @media screen and (max-width: $mobile-width) {

@@ -35,6 +35,6 @@ export class ProxyController {
     @Req() request: FastifyRequest,
     @Res() reply: FastifyReply
   ): Promise<void> {
-    return await this.proxyService.proxyStream(url, request, reply);
+    await this.proxyService.proxyStream(url, request, reply);
   }
 }

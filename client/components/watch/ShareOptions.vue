@@ -16,18 +16,18 @@
         <img src="@/assets/icons/pocket.svg" alt="Save to pocket icon" />
       </ShareOptionEntry>
     </div>
-    <portal to="popup">
+    <Teleport to="body">
       <transition name="fade-down">
         <QrPopUp v-if="qrPopUpOpen" @close="qrClose" />
       </transition>
-    </portal>
+    </Teleport>
   </div>
 </template>
 
 <script lang="ts">
 import Copy from 'vue-material-design-icons/ContentCopy.vue';
 import QrCode from 'vue-material-design-icons/Qrcode.vue';
-import { defineComponent, ref } from '@nuxtjs/composition-api';
+
 import QrPopUp from '@/components/popup/QrPopUp.vue';
 import ShareOptionEntry from '@/components/list/ShareOptionEntry.vue';
 
@@ -43,13 +43,11 @@ export default defineComponent({
     const qrPopUpOpen = ref(false);
 
     const url = (): string => {
-      return process.browser ? window.location.href : '';
+      return window?.location.href ?? '';
     };
     // shareReddit() {},
     const shareCopyLink = () => {
-      if (process.browser) {
-        navigator.clipboard.writeText(url());
-      }
+      navigator.clipboard.writeText(url());
     };
     const saveToPocket = () => {
       window.open(`https://getpocket.com/save?url=${encodedUrl}`, '_blank');
@@ -62,7 +60,7 @@ export default defineComponent({
     };
 
     const encodedUrl = () => {
-      if (process.browser) {
+      if (process.client) {
         return encodeURIComponent(window.location.href);
       } else {
         return '';

@@ -1,7 +1,7 @@
 <template>
   <transition name="fade-up">
     <div
-      v-if="$accessor.miniplayer.currentVideo && visible && !dismissed"
+      v-if="miniplayerStore.currentVideo && visible && !dismissed"
       ref="miniplayerRef"
       class="miniplayer"
       :style="{
@@ -21,7 +21,7 @@
         @touchstart.prevent="onDragSpaceTouchStart"
       />
       <VideoPlayer
-        :video="$accessor.miniplayer.currentVideo"
+        :video="miniplayerStore.currentVideo"
         :mini="true"
         :autoplay="true"
         :embedded="false"
@@ -32,10 +32,10 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref, useRoute, watch } from '@nuxtjs/composition-api';
+
 import VideoPlayer from '@/components/videoplayer/VideoPlayer.vue';
-import { commons } from '@/plugins/commons';
-import { useAccessor } from '@/store/index';
+import { commons } from '@/utilities/commons';
+import { useMiniplayerStore } from '@/store/miniplayer';
 
 export default defineComponent({
   name: 'Miniplayer',
@@ -43,8 +43,8 @@ export default defineComponent({
     VideoPlayer
   },
   setup() {
-    const accessor = useAccessor();
     const route = useRoute();
+    const miniplayerStore = useMiniplayerStore();
 
     const dismissed = ref(false);
     const dragging = ref(false);
@@ -59,11 +59,11 @@ export default defineComponent({
     const miniplayerRef = ref(null);
 
     const video = computed(() => {
-      return accessor.miniplayer.currentVideo;
+      return miniplayerStore.currentVideo;
     });
 
     const visible = computed((): boolean => {
-      return route.value.name !== 'watch';
+      return route.name !== 'watch';
     });
 
     watch(visible, (newValue, oldValue) => {
@@ -83,7 +83,7 @@ export default defineComponent({
       document.addEventListener('mousemove', onDragSpaceMouseMove);
       document.addEventListener('mouseup', onDragSpaceMouseUp);
     };
-    const onDragSpaceTouchStart = (e: { touches: Array<{ pageX: number; pageY: number }> }) => {
+    const onDragSpaceTouchStart = (e: TouchEvent) => {
       dragging.value = true;
       startPositionTop.value = e.touches[0].pageY;
       startPositionLeft.value = e.touches[0].pageX;
@@ -205,7 +205,8 @@ export default defineComponent({
       onDragSpaceTouchMove,
       onDragSpaceTouchEnd,
       onDragSpaceMouseUp,
-      onDragSpaceMouseMove
+      onDragSpaceMouseMove,
+      miniplayerStore
     };
   }
 });
@@ -217,10 +218,10 @@ export default defineComponent({
   transition: opacity 300ms $intro-easing;
 }
 .fade-up-enter-to,
-.fade-up-leave {
+.fade-up-leave-from {
   opacity: 1;
 }
-.fade-up-enter,
+.fade-up-enter-from,
 .fade-up-leave-to {
   opacity: 0;
 }

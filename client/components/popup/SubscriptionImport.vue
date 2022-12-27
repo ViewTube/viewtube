@@ -1,7 +1,7 @@
 <template>
   <div class="subscriptions-import popup">
     <div class="popup-container subscriptions-import-container">
-      <CloseIcon class="close-icon" @click.stop="$emit('close')" />
+      <CloseIcon v-ripple class="close-icon" @click.stop="$emit('close')" />
       <h1>
         {{
           loading
@@ -131,15 +131,14 @@ import SelectAllIcon from 'vue-material-design-icons/SelectAll.vue';
 import ExternalIcon from 'vue-material-design-icons/OpenInNew.vue';
 import UnselectAllIcon from 'vue-material-design-icons/Select.vue';
 import XmlIcon from 'vue-material-design-icons/Xml.vue';
-import { computed, defineComponent, ref } from '@nuxtjs/composition-api';
+
 import CheckBox from '@/components/form/CheckBox.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import FileButton from '@/components/form/FileButton.vue';
-import { convertFromCSVToJson, convertFromOPMLToJson } from '@/plugins/services/subscriptionConverter';
+import { convertFromCSVToJson, convertFromOPMLToJson } from '@/services/subscriptionConverter';
 import Spinner from '@/components/Spinner.vue';
 import '@/assets/styles/popup.scss';
-import { useAxios } from '@/plugins/axiosPlugin';
-import { useAccessor } from '@/store/index';
+import { useMessagesStore } from '~/store/messages';
 
 class ChannelDto {
   author: string;
@@ -163,8 +162,8 @@ export default defineComponent({
     XmlIcon
   },
   setup(_, { emit }) {
-    const axios = useAxios();
-    const accessor = useAccessor();
+    const messagesStore = useMessagesStore();
+    const { apiUrl } = useApiUrl();
 
     const youtubeSubscriptionUrl = ref('https://takeout.google.com');
     const page2 = ref(false);
@@ -233,12 +232,10 @@ export default defineComponent({
       const fileReader = new FileReader();
       fileReader.onload = () => {
         if (e.target.files[0].name.includes('.csv')) {
-          subscriptionsToImport.value = convertFromCSVToJson(
-            fileReader.result as string
-          );
+          subscriptionsToImport.value = convertFromCSVToJson(fileReader.result as string);
         }
         if (subscriptionsToImport.value === undefined) {
-          accessor.messages.createMessage({
+          messagesStore.createMessage({
             type: 'error',
             title: 'Invalid or Empty CSV',
             message: 'Please check your file'
@@ -263,11 +260,9 @@ export default defineComponent({
     const onOPMLFileChange = (e: any) => {
       const fileReader = new FileReader();
       fileReader.onload = () => {
-        subscriptionsToImport.value = convertFromOPMLToJson(
-          fileReader.result as string
-        );
+        subscriptionsToImport.value = convertFromOPMLToJson(fileReader.result as string);
         if (subscriptionsToImport.value === undefined) {
-          accessor.messages.createMessage({
+          messagesStore.createMessage({
             type: 'error',
             title: 'Invalid or Empty OPML',
             message: 'Please check your file'
@@ -311,23 +306,19 @@ export default defineComponent({
       loading.value = true;
       const subscriptions = selectedChannels.value;
       const subscriptionIds = subscriptions.map(e => e.authorId);
-      axios
-        .post(
-          `${accessor.environment.apiUrl}user/subscriptions/multiple`,
-          {
-            channels: subscriptionIds
-          },
-          {
-            withCredentials: true
-          }
-        )
-        .then(response => {
-          page2.value = false;
-          page3.value = true;
-          loading.value = false;
-          importedSubscriptions.value = response.data;
-          emit('done');
-        });
+      $fetch(`${apiUrl}user/subscriptions/multiple`, {
+        method: 'POST',
+        body: {
+          channels: subscriptionIds
+        },
+        credentials: 'include'
+      }).then(response => {
+        page2.value = false;
+        page3.value = true;
+        loading.value = false;
+        importedSubscriptions.value = response;
+        emit('done');
+      });
     };
 
     return {

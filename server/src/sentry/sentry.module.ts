@@ -1,11 +1,11 @@
 import { DynamicModule, Module, Provider } from '@nestjs/common';
-import * as SentryTypes from '@sentry/types';
+import { NodeOptions } from '@sentry/node';
 import { SentryModuleAsyncOptions } from './sentry.interface';
 import { SentryService } from './sentry.service';
 
 @Module({})
 export class SentryModule {
-  static forRoot(options: SentryTypes.Options): DynamicModule {
+  static forRoot(options: NodeOptions): DynamicModule {
     return {
       module: SentryModule,
       providers: [

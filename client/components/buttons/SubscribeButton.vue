@@ -23,9 +23,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref } from '@nuxtjs/composition-api';
-import { useAxios } from '@/plugins/axiosPlugin';
-import { useAccessor } from '@/store/index';
+import { useMessagesStore } from '@/store/messages';
+import { useUserStore } from '@/store/user';
+import { ApiDto } from 'viewtube/shared';
 
 export default defineComponent({
   name: 'SubscribeButton',
@@ -39,8 +39,9 @@ export default defineComponent({
     small: { type: Boolean, required: false }
   },
   setup(props) {
-    const axios = useAxios();
-    const accessor = useAccessor();
+    const userStore = useUserStore();
+    const messagesStore = useMessagesStore();
+    const { apiUrl } = useApiUrl();
 
     const isSubscribed = ref(false);
     const disabled = ref(true);
@@ -60,13 +61,15 @@ export default defineComponent({
     });
 
     const loadSubscriptionStatus = (): void => {
-      if (props.channelId && accessor.user.isLoggedIn) {
-        axios
-          .get(`${accessor.environment.apiUrl}user/subscriptions/${props.channelId}`, {
-            withCredentials: true
-          })
-          .then((response: { data: { isSubscribed: any } }) => {
-            if (response.data.isSubscribed) {
+      if (props.channelId && userStore.isLoggedIn) {
+        $fetch<ApiDto<'SubscriptionStatusDto'>>(
+          `${apiUrl}user/subscriptions/${props.channelId}`,
+          {
+            credentials: 'include'
+          }
+        )
+          .then(response => {
+            if (response.isSubscribed) {
               isSubscribed.value = true;
             } else {
               isSubscribed.value = false;
@@ -82,16 +85,15 @@ export default defineComponent({
     const subscribe = (): void => {
       if (props.channelId) {
         disabled.value = true;
-        axios
-          .put(
-            `${accessor.environment.apiUrl}user/subscriptions/${props.channelId}`,
-            {},
-            {
-              withCredentials: true
-            }
-          )
-          .then((response: { data: { isSubscribed: any } }) => {
-            if (response.data.isSubscribed) {
+        $fetch<ApiDto<'SubscriptionStatusDto'>>(
+          `${apiUrl}user/subscriptions/${props.channelId}`,
+          {
+            method: 'PUT',
+            credentials: 'include'
+          }
+        )
+          .then(response => {
+            if (response.isSubscribed) {
               isSubscribed.value = true;
             }
             disabled.value = false;
@@ -100,7 +102,7 @@ export default defineComponent({
             }
           })
           .catch((_: any) => {
-            accessor.messages.createMessage({
+            messagesStore.createMessage({
               type: 'error',
               title: 'Unable to subscribe',
               message: `You may not be logged in. Try reloading the page.`
@@ -112,12 +114,12 @@ export default defineComponent({
     const unsubscribe = (): void => {
       if (props.channelId) {
         disabled.value = true;
-        axios
-          .delete(`${accessor.environment.apiUrl}user/subscriptions/${props.channelId}`, {
-            withCredentials: true
-          })
-          .then((response: { data: { isSubscribed: any } }) => {
-            if (!response.data.isSubscribed) {
+        $fetch<ApiDto<'SubscriptionStatusDto'>>(`${apiUrl}user/subscriptions/${props.channelId}`, {
+          method: 'DELETE',
+          credentials: 'include'
+        })
+          .then((response) => {
+            if (!response.isSubscribed) {
               isSubscribed.value = false;
             }
             disabled.value = false;
@@ -126,7 +128,7 @@ export default defineComponent({
             }
           })
           .catch((_: any) => {
-            accessor.messages.createMessage({
+            messagesStore.createMessage({
               type: 'error',
               title: 'Unable to unsubscribe',
               message: `You may not be logged in. Try to reload the page.`
