@@ -4,9 +4,7 @@ export const useChannelPages = () => {
   const route = useRoute();
   const channelId = computed(() => getChannelIdFromParam(route.params.id) ?? null);
 
-  console.log('page', route.params.id, getCurrentPageFromParam(route.params.id));
   const currentPage = ref(getCurrentPageFromParam(route.params.id));
-  console.log(currentPage.value);
 
   const changingSlideProgrammatically = ref(false);
   const initializationPending = ref(true);

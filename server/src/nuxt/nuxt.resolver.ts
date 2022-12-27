@@ -6,6 +6,5 @@ export const resolveNuxtPath = (): string => {
   if (basePath) {
     nuxtDir = path.resolve(basePath, 'client/.output');
   }
-  console.log('nuxtDir', nuxtDir, basePath, __dirname);
   return nuxtDir;
 };

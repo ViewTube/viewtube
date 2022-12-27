@@ -119,8 +119,8 @@ const onVideoEntryClick = () => {
       class="video-author"
       :class="{
         thumbnail:
-          (video.authorThumbnails && video.authorThumbnails.length > 0) ??
-          (typeof video.author === 'object' && video.author?.bestAvatar) ??
+          video.authorThumbnails?.length > 0 ||
+          video.author?.['bestAvatar'] ||
           video.authorThumbnailUrl
       }"
     >
