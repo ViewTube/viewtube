@@ -20,7 +20,7 @@ type VideoType = {
   videoId?: string;
   id?: string;
   authorVerified?: boolean;
-  authorId: string;
+  authorId?: string;
   authorThumbnails?: {
     url: string;
     width: number;
@@ -32,7 +32,7 @@ type VideoType = {
   isLive?: boolean;
   lengthSeconds?: number;
   lengthString?: string;
-  duration?: number;
+  duration?: string;
   viewCount?: number;
   views?: number;
   publishedText?: string;
