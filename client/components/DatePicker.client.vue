@@ -12,10 +12,10 @@ const onDatePickerUpdate = (value: [Date, Date]) => {
 
 <template>
   <DatePicker
-    :value="modelValue"
+    :modelValue="modelValue"
     range
     type="date"
     placeholder="Select date range to delete"
-    @update:value="onDatePickerUpdate"
+    @update:model-value="onDatePickerUpdate"
   />
 </template>
