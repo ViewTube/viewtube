@@ -314,9 +314,9 @@ importers:
 
   shared:
     specifiers:
-      typescript: 4.7.4
+      typescript: 4.9.4
     devDependencies:
-      typescript: 4.7.4
+      typescript: 4.9.4
 
 packages:
 
@@ -11282,12 +11282,6 @@ packages:
   /type-fest/3.3.0:
     resolution: {integrity: sha512-gezeeOIZyQLGW5uuCeEnXF1aXmtt2afKspXz3YqoOcZ3l/YMJq1pujvgT+cz/Nw1O/7q/kSav5fihJHsC/AOUg==}
     engines: {node: '>=14.16'}
-    dev: true
-
-  /typescript/4.7.4:
-    resolution: {integrity: sha512-C0WQT0gezHuw6AdY1M2jxUO83Rjf0HP7Sk1DtXj6j1EwkQNZrHAg2XPWlq62oqEhYvONq5pkC2Y9oPljWToLmQ==}
-    engines: {node: '>=4.2.0'}
-    hasBin: true
     dev: true
 
   /typescript/4.8.4:
