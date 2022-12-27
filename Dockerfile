@@ -18,27 +18,29 @@ COPY . .
 
 RUN pnpm run build
 
+RUN rm -rf node_modules client/node_modules server/node_modules shared/node_modules $(pnpm store path)
+
+RUN CI=true pnpm install --frozen-lockfile --prod --shamefully-hoist
+
 FROM node:18-buster-slim as runtime
 WORKDIR /home/app
 
 ENV NODE_ENV=production
 
-RUN npm install --location=global pnpm
-
-COPY --from=build /home/build/package.json /home/build/pnpm-lock.yaml /home/build/pnpm-workspace.yaml /home/build/.pnpmfile.cjs ./
+COPY --from=build /home/build/package.json ./
 COPY --from=build /home/build/client/package.json ./client/
 COPY --from=build /home/build/server/package.json ./server/
 
-RUN CI=true pnpm install --frozen-lockfile --prod --shamefully-hoist
+COPY --from=build /home/build/node_modules ./node_modules
+COPY --from=build /home/build/server/node_modules ./server/node_modules
 
-COPY --from=build /home/build/server/package.json ./server/
 COPY --from=build /home/build/server/dist ./server/dist/
 
 COPY --from=build /home/build/client/.output ./client/.output/
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
   wget \
-  && rm -rf /var/lib/apt/lists/*
+  && rm -rf /var/cache/apt/archives /var/lib/apt/lists/*
 
 ENV VIEWTUBE_BASE_DIR=/home/app
 HEALTHCHECK --interval=30s --timeout=20s --start-period=60s CMD wget --no-verbose --tries=3 --spider http://localhost:8066/ || exit 1
