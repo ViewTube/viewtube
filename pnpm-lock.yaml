@@ -151,7 +151,7 @@ importers:
       '@types/multer': 1.4.7
       '@types/node': 18.11.14
       '@types/node-fetch': 2.6.2
-      '@types/passport-jwt': 3.0.7
+      '@types/passport-jwt': 3.0.8
       '@types/passport-local': 1.0.34
       '@types/redis-mock': 0.17.1
       '@types/sharp': 0.31.0
@@ -285,7 +285,7 @@ importers:
       '@types/multer': 1.4.7
       '@types/node': 18.11.14
       '@types/node-fetch': 2.6.2
-      '@types/passport-jwt': 3.0.7
+      '@types/passport-jwt': 3.0.8
       '@types/passport-local': 1.0.34
       '@types/redis-mock': 0.17.1
       '@types/sharp': 0.31.0
@@ -3280,8 +3280,8 @@ packages:
     resolution: {integrity: sha512-//oorEZjL6sbPcKUaCdIGlIUeH26mgzimjBB77G6XRgnDl/L5wOnpyBGRe/Mmf5CVW3PwEBE1NjiMZ/ssFh4wA==}
     dev: true
 
-  /@types/passport-jwt/3.0.7:
-    resolution: {integrity: sha512-qRQ4qlww1Yhs3IaioDKrsDNmKy6gLDLgFsGwpCnc2YqWovO2Oxu9yCQdWHMJafQ7UIuOba4C4/TNXcGkQfEjlQ==}
+  /@types/passport-jwt/3.0.8:
+    resolution: {integrity: sha512-VKJZDJUAHFhPHHYvxdqFcc5vlDht8Q2pL1/ePvKAgqRThDaCc84lSYOTQmnx3+JIkDlN+2KfhFhXIzlcVT+Pcw==}
     dependencies:
       '@types/express': 4.17.14
       '@types/jsonwebtoken': 8.5.9
@@ -3299,14 +3299,14 @@ packages:
   /@types/passport-strategy/0.2.35:
     resolution: {integrity: sha512-o5D19Jy2XPFoX2rKApykY15et3Apgax00RRLf0RUotPDUsYrQa7x4howLYr9El2mlUApHmCMv5CZ1IXqKFQ2+g==}
     dependencies:
-      '@types/express': 4.17.13
+      '@types/express': 4.17.14
       '@types/passport': 1.0.9
     dev: true
 
   /@types/passport/1.0.9:
     resolution: {integrity: sha512-9+ilzUhmZQR4JP49GdC2O4UdDE3POPLwpmaTC/iLkW7l0TZCXOo1zsTnnlXPq6rP1UsUZPfbAV4IUdiwiXyC7g==}
     dependencies:
-      '@types/express': 4.17.13
+      '@types/express': 4.17.14
     dev: true
 
   /@types/prettier/2.7.1:
