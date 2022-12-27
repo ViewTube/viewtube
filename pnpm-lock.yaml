@@ -177,7 +177,6 @@ importers:
       fastify: 4.10.2
       https-proxy-agent: 5.0.1
       humanize-duration: 3.27.3
-      husky: 8.0.2
       ioredis: 5.2.4
       jest: 29.3.1
       joi: 17.7.0
@@ -298,7 +297,6 @@ importers:
       eslint: 8.29.0
       eslint-config-prettier: 8.5.0_eslint@8.29.0
       eslint-plugin-jest: 27.1.6_4ced5q7mcfgo4set7i7pibqfm4
-      husky: 8.0.2
       jest: 29.3.1_@types+node@18.11.14
       mongodb-memory-server: 8.10.2
       openapi-typescript: 6.1.0
@@ -7056,12 +7054,6 @@ packages:
 
   /humanize-duration/3.27.3:
     resolution: {integrity: sha512-iimHkHPfIAQ8zCDQLgn08pRqSVioyWvnGfaQ8gond2wf7Jq2jJ+24ykmnRyiz3fIldcn4oUuQXpjqKLhSVR7lw==}
-
-  /husky/8.0.2:
-    resolution: {integrity: sha512-Tkv80jtvbnkK3mYWxPZePGFpQ/tT3HNSs/sasF9P2YfkMezDl3ON37YN6jUUI4eTg5LcyVynlb6r4eyvOmspvg==}
-    engines: {node: '>=14'}
-    hasBin: true
-    dev: true
 
   /iconv-lite/0.4.24:
     resolution: {integrity: sha512-v3MXnZAcvnywkTUEZomIActle7RXXeedOR31wwl7VlyoXO4Qi9arvSenNQWne1TcRwhCL1HwLI21bEqdpj8/rA==}
