@@ -121,7 +121,7 @@ importers:
       '@fastify/static': ^6.6.0
       '@fastify/swagger': 8.2.1
       '@freetube/yt-comment-scraper': 6.2.0
-      '@nestjs/axios': 1.0.0
+      '@nestjs/axios': 1.0.1
       '@nestjs/bull': 0.6.2
       '@nestjs/cli': 9.1.5
       '@nestjs/common': 9.2.1
@@ -219,7 +219,7 @@ importers:
       '@fastify/static': 6.6.0
       '@fastify/swagger': 8.2.1
       '@freetube/yt-comment-scraper': 6.2.0
-      '@nestjs/axios': 1.0.0_wqmgrsh4vfci5e6jx45m6crmsi
+      '@nestjs/axios': 1.0.1_wqmgrsh4vfci5e6jx45m6crmsi
       '@nestjs/bull': 0.6.2_5g4fguw5dzljhwwr66uekbkoti
       '@nestjs/common': 9.2.1_wfccvjmrxsdt24lpjkvzmt5igm
       '@nestjs/config': 2.2.0_wqmgrsh4vfci5e6jx45m6crmsi
@@ -2115,8 +2115,8 @@ packages:
     dev: false
     optional: true
 
-  /@nestjs/axios/1.0.0_wqmgrsh4vfci5e6jx45m6crmsi:
-    resolution: {integrity: sha512-DzBIhmBPgPAf/Hf4oHVgNNrcYcmAwV6v1TeZFkEaotO5AtXEfCJ6c07Po4EmylAA0PFp+8+S77PBEcLNEMOCGQ==}
+  /@nestjs/axios/1.0.1_wqmgrsh4vfci5e6jx45m6crmsi:
+    resolution: {integrity: sha512-TpoZM/0ZJ9xiC04qkRDFod93LCZ12TQARRU3ejDvBK2E8emvzM4HThOs5ePklVxce4Q1ZsnrIWqnImvoDmJYnQ==}
     peerDependencies:
       '@nestjs/common': ^7.0.0 || ^8.0.0 || ^9.0.0
       reflect-metadata: ^0.1.12
