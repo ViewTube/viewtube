@@ -181,7 +181,7 @@ importers:
       joi: 17.7.0
       mini-svg-data-uri: 1.4.4
       mongodb-memory-server: 8.10.2
-      mongoose: 6.8.1
+      mongoose: 6.8.2
       nestjs-throttler-storage-redis: git://github.com/mauriceoegerli/nestjs-throttler-storage-redis
       node-fetch: 2.6.7
       openapi-typescript: ^6.1.0
@@ -222,7 +222,7 @@ importers:
       '@nestjs/config': 2.2.0_b4pxbpa7chblgbyake5iz5rdmu
       '@nestjs/core': 9.2.1_gs3k642xgyjax3mvj2n3wicqwi
       '@nestjs/jwt': 10.0.1_@nestjs+common@9.2.1
-      '@nestjs/mongoose': 9.2.1_qiedue3ydlfd22rvzefvlpt7zm
+      '@nestjs/mongoose': 9.2.1_2omveynhwrj3fo2okzjwe2dyde
       '@nestjs/passport': 9.0.0_6o47igfla2pj7yzh7agpvpttka
       '@nestjs/platform-fastify': 9.2.1_ikxpgcebo3djgwayhrp6upsvza
       '@nestjs/schedule': 2.1.0_dntc3uqqknzoduyjojusds5kla
@@ -246,7 +246,7 @@ importers:
       ioredis: 5.2.4
       joi: 17.7.0
       mini-svg-data-uri: 1.4.4
-      mongoose: 6.8.1
+      mongoose: 6.8.2
       nestjs-throttler-storage-redis: github.com/mauriceoegerli/nestjs-throttler-storage-redis/e659522520fb6548fc8386e593a7dfd7f984a975_ffe7rtb2djiahrkpuofeysjq7e
       node-fetch: 2.6.7
       passport: 0.6.0
@@ -2275,7 +2275,7 @@ packages:
       reflect-metadata: 0.1.13
     dev: false
 
-  /@nestjs/mongoose/9.2.1_qiedue3ydlfd22rvzefvlpt7zm:
+  /@nestjs/mongoose/9.2.1_2omveynhwrj3fo2okzjwe2dyde:
     resolution: {integrity: sha512-tMK5kKFjQnNVhqJDw1wa352z+VsODOFznTn74xSzrziof03qS+O6rLU4q1kMx0B4AmFbADf03GOdpvBc9bMWqw==}
     peerDependencies:
       '@nestjs/common': ^8.0.0 || ^9.0.0
@@ -2286,7 +2286,7 @@ packages:
     dependencies:
       '@nestjs/common': 9.2.1_t3livvr4rnphsnpp4otxjboi6u
       '@nestjs/core': 9.2.1_gs3k642xgyjax3mvj2n3wicqwi
-      mongoose: 6.8.1
+      mongoose: 6.8.2
       reflect-metadata: 0.1.13
       rxjs: 7.8.0
     dev: false
@@ -8574,8 +8574,8 @@ packages:
       - aws-crt
     dev: false
 
-  /mongoose/6.8.1:
-    resolution: {integrity: sha512-utr2hclZ+/QlO+JuVd33dxzvLKtByEhaLj8mEO+tqCm6pgOboKv+DWcvJDEcCMl4Rgd1ubgfYz4cZ9BWyHmC3Q==}
+  /mongoose/6.8.2:
+    resolution: {integrity: sha512-cIato5N2w/QuJkkh0w4nyf7ty7DqmmP/W8/6PFSM0DrzbxIMlr6VN15LBIceTSJIxbznNl2Mlbh9Rm4sokMw+A==}
     engines: {node: '>=12.0.0'}
     dependencies:
       bson: 4.7.0
