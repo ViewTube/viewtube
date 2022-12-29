@@ -35,6 +35,8 @@ export class NotificationsController {
     webPush
       .sendNotification(storedSubscription, payload)
       .then()
-      .catch(_ => {});
+      .catch(() => {
+        // Ignore silently
+      });
   }
 }

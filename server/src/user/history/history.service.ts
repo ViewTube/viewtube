@@ -1,4 +1,9 @@
-import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException
+} from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { VideoBasicInfo } from 'server/core/videos/schemas/video-basic-info.schema';
@@ -91,7 +96,9 @@ export class HistoryService {
   async getHistoryStats(username: string) {
     const history = await this.HistoryModel.findOne({ username })
       .exec()
-      .catch(_ => {});
+      .catch(_ => {
+        throw new NotFoundException('No history found for user');
+      });
     if (history) {
       let totalSeconds = 0;
       history.videoHistory.forEach(el => {
@@ -119,7 +126,9 @@ export class HistoryService {
     if (username) {
       const userHistory = await this.HistoryModel.findOne({ username })
         .exec()
-        .catch(_ => {});
+        .catch(_ => {
+          // Ignore silently
+        });
       if (userHistory) {
         const videoHistoryItems = userHistory.videoHistory;
         const videoHistoryIds = videoHistoryItems.map(e => e.videoId);
@@ -184,11 +193,13 @@ export class HistoryService {
   async deleteHistoryRange(username: string, startDate: string, endDate: string): Promise<void> {
     const userHistory = await this.HistoryModel.findOne({ username })
       .exec()
-      .catch(_ => {});
+      .catch(_ => {
+        throw new NotFoundException('No history found for user');
+      });
 
     if (userHistory) {
-      const firstDate = new Date(parseInt(startDate as any));
-      const secondDate = new Date(parseInt(endDate as any));
+      const firstDate = new Date(parseInt(startDate));
+      const secondDate = new Date(parseInt(endDate));
 
       if (firstDate <= secondDate) {
         const newHistory = userHistory.videoHistory.filter(el => {
