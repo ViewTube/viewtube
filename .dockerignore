@@ -14,6 +14,7 @@ server/node_modules
 server/dist
 
 Dockerfile
+# Files
 npm-debug.log
 .all-contributorsrc
 .editorconfig
@@ -23,3 +24,13 @@ LICENSE
 no-master.sh
 README.md
 webpack.config.js
+.gitignore
+docker-compose.dev.yml
+docker-compose.yml
+
+# Folders
+.github
+.vscode
+ddata
+data
+node_modules
