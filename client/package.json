@@ -10,8 +10,8 @@
     "dev": "pnpm run serve",
     "build": "cross-env NUXT_BUILD=true nuxi build",
     "build:dev": "cross-env NODE_ENV=development NUXT_BUILD=true nuxi build",
-    "lint": "eslint --ext .ts,.js,.vue .",
-    "lint:fix": "eslint --ext .ts,.js,.vue --fix .",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix .",
     "prepare": "cross-env NUXT_BUILD=true nuxi prepare"
   },
   "devDependencies": {
