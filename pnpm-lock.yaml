@@ -1,8 +1,5 @@
 lockfileVersion: 5.4
 
-overrides:
-  axios: 1.2.0-alpha.1
-
 importers:
 
   .:
@@ -1723,7 +1720,7 @@ packages:
   /@freetube/yt-comment-scraper/6.2.0:
     resolution: {integrity: sha512-69mBsvQ50rUBTUDfR6s1OaiH2sEmmx9T0uV2Qpp0ckMhL0sxxMZtxujraHV2FHDtOm5jG7uygi3Gseb54C9DGw==}
     dependencies:
-      axios: 1.2.0-alpha.1
+      axios: 0.27.2
     transitivePeerDependencies:
       - debug
     dev: false
@@ -4201,8 +4198,17 @@ packages:
       - supports-color
     dev: false
 
-  /axios/1.2.0-alpha.1:
-    resolution: {integrity: sha512-qt/7xkSQNBRKP26mt28cmSI1Y3jVtrQzu7oLjIyUHEdjpVeg100luMJrRpBlKlCmMd233Peu00mOkNC1OwXOrw==}
+  /axios/0.27.2:
+    resolution: {integrity: sha512-t+yRIyySRTp/wua5xEr+z1q60QmLq8ABsS5O9Me1AsE5dfKqgnCFzwiCZZ/cGNd1lq4/7akDWMxdhVlucjmnOQ==}
+    dependencies:
+      follow-redirects: 1.15.2
+      form-data: 4.0.0
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
+  /axios/1.2.2:
+    resolution: {integrity: sha512-bz/J4gS2S3I7mpN/YZfGFTqhXTYzRho8Ay38w2otuuDR322KzFIWm/4W2K6gIwvWaws5n+mnb7D1lN9uD+QH6Q==}
     dependencies:
       follow-redirects: 1.15.2
       form-data: 4.0.0
@@ -12046,7 +12052,7 @@ packages:
     name: yt-channel-info
     version: 3.2.1
     dependencies:
-      axios: 1.2.0-alpha.1
+      axios: 1.2.2
     transitivePeerDependencies:
       - debug
     dev: false
