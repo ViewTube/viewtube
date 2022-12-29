@@ -18,7 +18,7 @@ COPY . .
 
 RUN pnpm run build
 
-RUN rm -rf node_modules client/node_modules server/node_modules shared/node_modules $(pnpm store path)
+RUN rm -rf node_modules client/node_modules server/node_modules shared/node_modules "$(pnpm store path)"
 
 RUN CI=true pnpm install --frozen-lockfile --prod --shamefully-hoist
 
