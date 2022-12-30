@@ -260,7 +260,7 @@ const setProfileImageUrl = (url: string): void => {
       <transition name="popup">
         <PasswordChangeForm
           v-if="passwordChangePopup"
-          @passwordChangeClose="onChangePasswordClose"
+          @password-change-close="onChangePasswordClose"
         />
       </transition>
       <transition name="popup">

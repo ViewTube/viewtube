@@ -16,7 +16,7 @@
       :initialVideoTime="video.initialVideoTime"
       :autoplay="isAutoplaying"
       class="video-player-p"
-      @videoEnded="onVideoEnded"
+      @video-ended="onVideoEnded"
     />
     <div v-if="video && !videoPending" class="video-meta">
       <div class="recommended-videos mobile">

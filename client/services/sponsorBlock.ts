@@ -7,7 +7,7 @@ export class SponsorBlock {
   }
 
   private _videoId: string;
-  private _apiUrl: string = 'https://sponsor.ajay.app/';
+  private _apiUrl = 'https://sponsor.ajay.app/';
   private _skipSegments: SponsorBlockSegmentsDto = null;
 
   public getCurrentSegment(time: number): SponsorBlockSegmentDto {

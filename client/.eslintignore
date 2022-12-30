@@ -1,5 +1,6 @@
-.github/*
 dist/*
 .nuxt/*
+.output/*
+node_modules/*
 
-static/sw.js
+public/notifications-sw.js

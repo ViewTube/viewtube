@@ -1,4 +1,4 @@
-const conf = {
+const _conf = {
   head: {
     meta: [
       {
