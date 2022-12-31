@@ -11,10 +11,6 @@ module.exports = {
     extraFileExtensions: ['.vue']
   },
 
-  linterOptions: {
-    reportUnusedDisableDirectives: true
-  },
-
   extends: ['@nuxtjs/eslint-config-typescript', 'prettier'],
 
   rules: {

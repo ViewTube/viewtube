@@ -10,10 +10,6 @@ module.exports = {
     ecmaVersion: 12
   },
 
-  linterOptions: {
-    reportUnusedDisableDirectives: true
-  },
-
   extends: [
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
