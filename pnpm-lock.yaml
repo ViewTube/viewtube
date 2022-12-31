@@ -19,7 +19,7 @@ importers:
       '@pinia/nuxt': 0.4.6
       '@types/humanize-duration': 3.27.1
       '@types/node': 18.11.18
-      '@types/papaparse': 5.3.5
+      '@types/papaparse': 5.3.7
       '@types/qrcode': 1.5.0
       '@types/sass': 1.43.1
       '@typescript-eslint/eslint-plugin': 5.47.1
@@ -68,7 +68,7 @@ importers:
       '@pinia/nuxt': 0.4.6_prq2uz4lho2pwp6irk4cfkrxwu
       '@types/humanize-duration': 3.27.1
       '@types/node': 18.11.18
-      '@types/papaparse': 5.3.5
+      '@types/papaparse': 5.3.7
       '@types/qrcode': 1.5.0
       '@types/sass': 1.43.1
       '@typescript-eslint/eslint-plugin': 5.47.1_txmweb6yn7coi7nfrp22gpyqmy
@@ -3250,8 +3250,8 @@ packages:
     resolution: {integrity: sha512-Gj7cI7z+98M282Tqmp2K5EIsoouUEzbBJhQQzDE3jSIRk6r9gsz0oUokqIUR4u1R3dMHo0pDHM7sNOHyhulypw==}
     dev: true
 
-  /@types/papaparse/5.3.5:
-    resolution: {integrity: sha512-R1icl/hrJPFRpuYj9PVG03WBAlghJj4JW9Py5QdR8FFSxaLmZRyu7xYDCCBZIJNfUv3MYaeBbhBoX958mUTAaw==}
+  /@types/papaparse/5.3.7:
+    resolution: {integrity: sha512-f2HKmlnPdCvS0WI33WtCs5GD7X1cxzzS/aduaxSu3I7TbhWlENjSPs6z5TaB9K0J+BH1jbmqTaM+ja5puis4wg==}
     dependencies:
       '@types/node': 18.11.18
     dev: true

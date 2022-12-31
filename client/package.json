@@ -22,7 +22,7 @@
     "@pinia/nuxt": "0.4.6",
     "@types/humanize-duration": "3.27.1",
     "@types/node": "18.11.18",
-    "@types/papaparse": "5.3.5",
+    "@types/papaparse": "5.3.7",
     "@types/qrcode": "1.5.0",
     "@types/sass": "1.43.1",
     "@typescript-eslint/eslint-plugin": "5.47.1",
