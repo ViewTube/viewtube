@@ -47,7 +47,7 @@ jobs:
         run: pnpm install
 
       - name: Run ${{ matrix.command }}
-        run: pnpm run ${{ matrix.command }}
+        run: NODE_OPTIONS=--max-old-space-size=4096 pnpm run ${{ matrix.command }}
 
   docker:
     name: docker build
