@@ -35,6 +35,7 @@ module.exports = {
     'vue/no-v-html': 'off',
     'vue/script-setup-uses-vars': 'off',
     'import/order': 'off',
+    'import/namespace': 'off',
     semi: 'off',
     'vue/html-self-closing': [
       'error',
