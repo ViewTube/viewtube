@@ -1,21 +1,26 @@
 module.exports = {
-  root: true,
   env: {
-    browser: true,
     node: true
   },
+
   parserOptions: {
     tsconfigRootDir: __dirname,
     project: 'tsconfig.eslint.json',
     sourceType: 'module',
     ecmaVersion: 12
   },
+
+  linterOptions: {
+    reportUnusedDisableDirectives: true
+  },
+
   extends: [
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:jest/recommended',
     'prettier'
   ],
+
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
