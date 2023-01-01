@@ -49,15 +49,11 @@ export class HomepageService {
     if (expired && (clusterWorker1 || notClustered)) {
       Consola.info('Refreshing popular page');
       try {
-        const abortController = new AbortController();
-        setTimeout(() => {
-          abortController.abort();
-        }, 10000);
-        const popularPage: any = await fetch(this.popularPageUrl, {
+        const popularPage = await fetch(this.popularPageUrl, {
           headers: {
             'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:84.0) Gecko/20100101 Firefox/84.0'
           },
-          signal: abortController.signal
+          timeout: 10000
         }).then(val => val.json());
         const popularVideos = [];
         await Promise.allSettled(

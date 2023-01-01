@@ -98,7 +98,7 @@ const videoQualities = ['144p', '240p', '360p', '720p', '1080p', '1440p', '2160p
         <div class="sponsorblock-options" :class="{ disabled: !settingsStore.sponsorblockEnabled }">
           <MultiOptionButton
             :options="sponsorblockSegmentOptions"
-            :selectedValue="settingsStore.sponsorblockSegmentSponsor"
+            :selected-value="settingsStore.sponsorblockSegmentSponsor"
             :label="'Sponsor'"
             :small-label="'Advertisements, promotions and video sponsors'"
             :right="true"
@@ -107,7 +107,7 @@ const videoQualities = ['144p', '240p', '360p', '720p', '1080p', '1440p', '2160p
           />
           <MultiOptionButton
             :options="sponsorblockSegmentOptions"
-            :selectedValue="settingsStore.sponsorblockSegmentIntro"
+            :selected-value="settingsStore.sponsorblockSegmentIntro"
             :label="'Intro'"
             :small-label="'Intro animation, pause, intro sequence'"
             :right="true"
@@ -116,7 +116,7 @@ const videoQualities = ['144p', '240p', '360p', '720p', '1080p', '1440p', '2160p
           />
           <MultiOptionButton
             :options="sponsorblockSegmentOptions"
-            :selectedValue="settingsStore.sponsorblockSegmentOutro"
+            :selected-value="settingsStore.sponsorblockSegmentOutro"
             :label="'Outro'"
             :small-label="'Endcards, credits, outros'"
             :right="true"
@@ -125,7 +125,7 @@ const videoQualities = ['144p', '240p', '360p', '720p', '1080p', '1440p', '2160p
           />
           <MultiOptionButton
             :options="sponsorblockSegmentOptions"
-            :selectedValue="settingsStore.sponsorblockSegmentInteraction"
+            :selected-value="settingsStore.sponsorblockSegmentInteraction"
             :label="'Interaction reminder'"
             :small-label="'Reminder to subscribe, like, follow on social media, etc.'"
             :right="true"
@@ -134,7 +134,7 @@ const videoQualities = ['144p', '240p', '360p', '720p', '1080p', '1440p', '2160p
           />
           <MultiOptionButton
             :options="sponsorblockSegmentOptions"
-            :selectedValue="settingsStore.sponsorblockSegmentSelfpromo"
+            :selected-value="settingsStore.sponsorblockSegmentSelfpromo"
             :label="'Self promotion'"
             :small-label="'Unpaid promotion, for example donations, merchandise or shoutouts'"
             :right="true"
@@ -143,7 +143,7 @@ const videoQualities = ['144p', '240p', '360p', '720p', '1080p', '1440p', '2160p
           />
           <MultiOptionButton
             :options="sponsorblockSegmentOptions"
-            :selectedValue="settingsStore.sponsorblockSegmentMusicOfftopic"
+            :selected-value="settingsStore.sponsorblockSegmentMusicOfftopic"
             :label="'Non-music section'"
             :small-label="'Skips non-music sections in music videos'"
             :right="true"
@@ -152,7 +152,7 @@ const videoQualities = ['144p', '240p', '360p', '720p', '1080p', '1440p', '2160p
           />
           <MultiOptionButton
             :options="sponsorblockSegmentOptions"
-            :selectedValue="settingsStore.sponsorblockSegmentPreview"
+            :selected-value="settingsStore.sponsorblockSegmentPreview"
             :label="'Preview'"
             :small-label="'Skips previews and recaps'"
             :right="true"

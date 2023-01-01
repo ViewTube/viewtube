@@ -1,15 +1,15 @@
 <template>
   <div class="share-options">
     <div class="share-options-container">
-      <ShareOptionEntry class="share-option" optionName="Copy Link" :click="shareCopyLink">
+      <ShareOptionEntry class="share-option" option-name="Copy Link" :click="shareCopyLink">
         <Copy class="copy-icon" />
       </ShareOptionEntry>
-      <ShareOptionEntry class="share-option" optionName="Open QR-Code" :click="qrOpen">
+      <ShareOptionEntry class="share-option" option-name="Open QR-Code" :click="qrOpen">
         <QrCode class="qrcode-icon" />
       </ShareOptionEntry>
       <ShareOptionEntry
         class="share-option"
-        optionName="Save to pocket"
+        option-name="Save to pocket"
         :click="saveToPocket"
         style="color: #ef4056"
       >

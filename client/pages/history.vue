@@ -151,7 +151,7 @@ watch(
       @refresh="refresh"
     />
     <div v-if="history" class="history-pagination">
-      <Pagination :currentPage="currentPage" :pageCount="pageCount" />
+      <Pagination :current-page="currentPage" :page-count="pageCount" />
     </div>
     <Teleport to="body">
       <transition name="popup">

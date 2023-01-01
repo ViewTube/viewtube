@@ -518,7 +518,9 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
           elem.msRequestFullscreen();
         }
         fullscreen.value = true;
-      } catch {}
+      } catch {
+        // Ignore silently
+      }
     }
   };
   const onEnterFullscreenMouseUp = () => {};

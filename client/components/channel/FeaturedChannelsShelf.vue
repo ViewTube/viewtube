@@ -32,7 +32,7 @@ defineProps<{
 <template>
   <div class="channel-shelf" @touchstart.stop>
     <RelatedChannels
-      :relatedChannels="{ items: shelf.items as unknown as RelatedChannelsType, type: 'channels' }"
+      :related-channels="{ items: shelf.items as unknown as RelatedChannelsType, type: 'channels' }"
     />
   </div>
 </template>

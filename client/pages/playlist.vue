@@ -122,7 +122,7 @@ const loadMoreVideos = async () => {
           v-for="video in playlistItems"
           :key="video.id"
           :video="video"
-          :playlistId="playlist.id"
+          :playlist-id="playlist.id"
           :lazy="false"
         />
       </div>

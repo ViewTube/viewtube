@@ -32,7 +32,8 @@ export default {
     ]
   },
   parseQuery(query: { [x: string]: any }) {
-    const me: any = this;
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
+    const me = this;
     let queryString = '';
     Object.keys(query).forEach(val => {
       if (me.defaults[val]) {
@@ -47,9 +48,9 @@ export default {
     });
     return queryString;
   },
-  // eslint-disable-next-line camelcase
   parseQueryJson(query: { [x: string]: any; search_query?: string }, q: string) {
-    const me: any = this;
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
+    const me = this;
     const queryObj: any = {
       q: q || query.search_query
     };

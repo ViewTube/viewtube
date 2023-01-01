@@ -9,22 +9,31 @@ jobs:
   test-job:
     name: Daily Tests
     timeout-minutes: 60
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
 
       - name: Node.js PR workflow step ${{ matrix.command }}
         uses: actions/setup-node@v3
         with:
-          node-version: 16.x
+          node-version: 18.x
           cache: "pnpm"
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2.2.4
+        id: pnpm-install
+        with:
+          version: 7
+          run_install: false
 
       - name: Get current date and time
         id: date-time
         run: echo "::set-output name=date-time::$(TZ='Europe/Zurich' date +'%Y-%m-%d %H:%M:%S %Z')"
 
-      - run: pnpm install --frozen-lockfile
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
 
       - name: Run tests
         id: run_tests
