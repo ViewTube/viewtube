@@ -15,12 +15,12 @@ const { data: channelHome, pending: pendingHome } = useGetChannelHome(channelId)
     }}</pre>
     <ChannelBannerLinks
       v-if="channelInfo.channelLinks"
-      :bannerLinks="{ ...channelInfo?.channelLinks, type: 'links' }"
+      :banner-links="{ ...channelInfo?.channelLinks, type: 'links' }"
     />
     <SectionTitle v-if="channelInfo.relatedChannels?.items?.length > 0" title="Related channels" />
     <RelatedChannels
       v-if="channelInfo.relatedChannels?.items?.length > 0"
-      :relatedChannels="{ ...channelInfo.relatedChannels, type: 'channels' }"
+      :related-channels="{ ...channelInfo.relatedChannels, type: 'channels' }"
     />
     <SectionTitle v-if="channelHome.featuredVideo" title="Featured video" />
     <ChannelFeaturedVideo

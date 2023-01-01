@@ -11,12 +11,12 @@
     "build": "cross-env NUXT_BUILD=true nuxi build",
     "build:dev": "cross-env NODE_ENV=development NUXT_BUILD=true nuxi build",
     "lint": "eslint --ext .ts,.js,.vue .",
-    "lint:fix": "eslint --ext .ts,.js,.vue --fix .",
+    "lint:fix": "eslint --fix .",
     "prepare": "cross-env NUXT_BUILD=true nuxi prepare"
   },
   "devDependencies": {
+    "@nuxt/eslint-config": "^0.1.1",
     "@nuxt/kit": "3.0.0",
-    "@nuxtjs/eslint-config-typescript": "12.0.0",
     "@nuxtjs/pwa": "3.3.5",
     "@pinia-plugin-persistedstate/nuxt": "^1.0.0",
     "@pinia/nuxt": "0.4.6",

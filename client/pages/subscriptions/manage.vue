@@ -157,7 +157,7 @@ watch(searchTerm, (newValue, oldValue): void => {
       </div>
     </div>
     <div class="manage-pagination">
-      <Pagination :currentPage="currentPage" :pageCount="pageCount" />
+      <Pagination :current-page="currentPage" :page-count="pageCount" />
     </div>
   </div>
 </template>

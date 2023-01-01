@@ -31,7 +31,9 @@ export const useUserStore = defineStore('user', {
         this.profileImage = user.profileImage;
 
         settingsStore.updateSettings(user.settings);
-      } catch {}
+      } catch {
+        // Ignore silently
+      }
     },
 
     async login(username: string, password: string) {

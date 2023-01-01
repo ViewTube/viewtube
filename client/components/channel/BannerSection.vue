@@ -31,7 +31,7 @@ const subscriberCount = computed(() => humanNumber(props.channelInfo?.subscriber
     <ChannelBanner
       class="channel-banner"
       :src="channelInfo?.authorBanners?.[3]?.url"
-      :bannerHqSrc="channelInfo?.authorBanners?.[channelInfo?.authorBanners?.length - 1]?.url"
+      :banner-hq-src="channelInfo?.authorBanners?.[channelInfo?.authorBanners?.length - 1]?.url"
     />
     <div class="info">
       <div class="avatar">
@@ -40,10 +40,10 @@ const subscriberCount = computed(() => humanNumber(props.channelInfo?.subscriber
       <h3 class="title">{{ channelInfo?.author }}</h3>
       <div class="subscribe">
         <p class="subscribers">{{ subscriberCount }}</p>
-        <SubscribeButton :channelId="channelInfo.authorId" />
+        <SubscribeButton :channel-id="channelInfo.authorId" />
       </div>
       <TabMenu :pages="pages" :current-page="currentPage" @change-page="changePage" />
-      <ChannelBannerStats class="banner-stats" :channelInfo="channelInfo" />
+      <ChannelBannerStats class="banner-stats" :channel-info="channelInfo" />
     </div>
   </div>
 </template>

@@ -66,7 +66,7 @@ const displaySecondDots = computed((): boolean => {
       <BadgeButton
         v-tippy="'Go to the previous page'"
         :href="`?page=${currentPage - 1}`"
-        :internalLink="true"
+        :internal-link="true"
         :disabled="currentPage <= 1"
       >
         <ChevronLeftIcon />
@@ -75,7 +75,7 @@ const displaySecondDots = computed((): boolean => {
         <BadgeButton
           v-tippy="`Go to page 1`"
           :href="`?page=1`"
-          :internalLink="true"
+          :internal-link="true"
           :selected="currentPage === 1"
           class="number-btn"
           >1</BadgeButton
@@ -86,7 +86,7 @@ const displaySecondDots = computed((): boolean => {
           :key="number"
           v-tippy="`Go to page ${number}`"
           :href="`?page=${number}`"
-          :internalLink="true"
+          :internal-link="true"
           :selected="currentPage === number"
           class="number-btn"
         >
@@ -97,7 +97,7 @@ const displaySecondDots = computed((): boolean => {
           v-if="pageCount > 1"
           v-tippy="`Go to page ${largestNumber}`"
           :href="`?page=${largestNumber}`"
-          :internalLink="true"
+          :internal-link="true"
           :selected="currentPage === pageCount"
           class="number-btn"
         >
@@ -107,7 +107,7 @@ const displaySecondDots = computed((): boolean => {
       <BadgeButton
         v-tippy="'Go to the next page'"
         :href="`?page=${currentPage + 1}`"
-        :internalLink="true"
+        :internal-link="true"
         :disabled="currentPage >= pageCount"
       >
         <ChevronRightIcon />

@@ -1,8 +1,8 @@
 export class Scroll {
-  static scrollPosition: number = 0;
-  static prevScrollPosition: number = 0;
-  static absoluteStartPosition: number = 0;
-  static posAbsolute: boolean = false;
+  static scrollPosition = 0;
+  static prevScrollPosition = 0;
+  static absoluteStartPosition = 0;
+  static posAbsolute = false;
 
   static setScrollPosition(pos: number) {
     this.scrollPosition = pos;

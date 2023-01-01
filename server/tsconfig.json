@@ -4,7 +4,7 @@
     "target": "ESNext",
     "moduleResolution": "Node",
     "removeComments": true,
-    "lib": ["ESNext", "ES2020", "DOM", "ESNext.AsyncIterable"],
+    "lib": ["ESNext", "ES2020", "ESNext.AsyncIterable"],
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowJs": true,
