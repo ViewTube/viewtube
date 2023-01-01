@@ -31,7 +31,6 @@ module.exports = {
     ],
     'no-useless-constructor': 'off',
     'import/order': 'off',
-    'jest/no-standalone-expect': 'off',
-    semi: 'off'
+    'jest/no-standalone-expect': 'off'
   }
 };

@@ -1,17 +1,18 @@
 module.exports = {
   env: {
     browser: true,
+    es2022: true,
     node: true
   },
 
   parserOptions: {
     tsconfigRootDir: __dirname,
-    project: 'tsconfig.eslint.json',
     sourceType: 'module',
-    extraFileExtensions: ['.vue']
+    project: 'tsconfig.eslint.json',
+    parser: '@typescript-eslint/parser'
   },
 
-  extends: ['@nuxtjs/eslint-config-typescript', 'prettier'],
+  extends: ['@nuxt/eslint-config', 'prettier'],
 
   rules: {
     'import/named': 'off',
@@ -36,7 +37,6 @@ module.exports = {
     'vue/script-setup-uses-vars': 'off',
     'import/order': 'off',
     'import/namespace': 'off',
-    semi: 'off',
     'vue/html-self-closing': [
       'error',
       {
