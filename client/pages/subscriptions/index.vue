@@ -218,7 +218,7 @@ watch(
             :value="notificationsEnabled"
             :label="'Enable notifications'"
             :disabled="notificationsBtnDisabled"
-            :btnId="'index-btn-1'"
+            :btn-id="'index-btn-1'"
             @valuechange="subscribeToNotifications"
           />
         </div>
@@ -249,7 +249,7 @@ watch(
       v-if="getOrderedVideoSections() && getOrderedVideoSections().length > 0"
       class="feed-pagination"
     >
-      <Pagination :currentPage="currentPage" :pageCount="pageCount" />
+      <Pagination :current-page="currentPage" :page-count="pageCount" />
     </div>
 
     <Teleport to="body">

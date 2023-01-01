@@ -26,7 +26,7 @@ const { pages, currentPage, changePage, swipeContainerRef, initializationPending
       :image="`${channelInfo?.authorThumbnails?.[0]?.url}`"
     />
     <ChannelBannerSection
-      :channelInfo="channelInfo"
+      :channel-info="channelInfo"
       :pages="pages"
       :current-page="currentPage"
       @change-page="changePage"

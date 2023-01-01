@@ -13,7 +13,7 @@
       :key="video.videoId"
       ref="videoplayerRef"
       :video="video"
-      :initialVideoTime="video.initialVideoTime"
+      :initial-video-time="video.initialVideoTime"
       :autoplay="isAutoplaying"
       class="video-player-p"
       @video-ended="onVideoEnded"
@@ -98,7 +98,7 @@
           v-if="playlist"
           ref="playlistSectionRef"
           :playlist="playlist"
-          :currentVideoId="video.videoId"
+          :current-video-id="video.videoId"
         />
         <div v-if="video.publishedText" class="video-infobox-date">
           {{ video.publishedText }}
@@ -153,8 +153,8 @@
               v-for="(subComment, i) in comment.comments"
               :key="i"
               :comment="subComment"
-              :channelAuthorId="video.authorId"
-              :channelAuthorName="video.author"
+              :channel-author-id="video.authorId"
+              :channel-author-name="video.author"
             />
             <BadgeButton
               v-if="commentsContinuationLink"

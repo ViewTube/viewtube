@@ -1,5 +1,4 @@
 import Hls, { HlsConfig } from 'hls.js';
-// eslint-disable-next-line import/no-named-as-default-member
 const { Events } = Hls;
 
 let hls: Hls = null;

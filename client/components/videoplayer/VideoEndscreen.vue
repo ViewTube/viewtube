@@ -4,9 +4,9 @@
       v-for="(card, index) in endscreenData"
       :key="index"
       :card="card"
-      :videoProgress="videoProgress"
-      :videoHeight="videoElement.clientHeight"
-      :videoWidth="videoElement.clientWidth"
+      :video-progress="videoProgress"
+      :video-height="videoElement.clientHeight"
+      :video-width="videoElement.clientWidth"
       @cardenter="onCardEnter"
       @cardleave="onCardLeave"
     />

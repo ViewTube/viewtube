@@ -43,7 +43,9 @@ export class SponsorBlock {
             return skipSections;
           }
         }
-      } catch (_) {}
+      } catch {
+        // Ignore silently
+      }
       return null;
     }
   }

@@ -19,7 +19,6 @@ export const convertFromOPMLToJson = (opml: string): Subscription[] => {
 };
 
 export const convertFromCSVToJson = (csv: string): Subscription[] => {
-  // eslint-disable-next-line import/no-named-as-default-member
   const result = PapaParse.parse(csv, { header: false, skipEmptyLines: true });
   result.data.splice(0, 1);
   if (result.data[0] !== undefined) {

@@ -256,7 +256,7 @@
               v-model.number="videoElement.playerVolume"
               v-tippy="'Change volume'"
               class="tooltip"
-              :playerOverlayVisible="playerOverlayVisible"
+              :player-overlay-visible="playerOverlayVisible"
               @mouseup.prevent.stop="onVolumeInteraction"
               @click.prevent.stop="onVolumeInteraction"
             />
@@ -271,11 +271,11 @@
           <div class="right-bottom-controls">
             <VideoPlayerSettings
               ref="videoPlayerSettingsRef"
-              :videoQualityList="videoQualityList"
-              :audioQualityList="audioQualityList"
-              :selectedVideoQuality="selectedVideoQuality"
-              :selectedAudioQuality="selectedAudioQuality"
-              :renderedVideoQuality="renderedVideoQuality"
+              :video-quality-list="videoQualityList"
+              :audio-quality-list="audioQualityList"
+              :selected-video-quality="selectedVideoQuality"
+              :selected-audio-quality="selectedAudioQuality"
+              :rendered-video-quality="renderedVideoQuality"
               @videoqualityselect="onChangeVideoQuality"
               @audioqualityselect="onChangeAudioQuality"
               @speedchange="onChangeSpeed"
@@ -306,7 +306,7 @@
     <SkipButton
       :visible="skipButton.visible"
       :category="skipButton.skipCategory"
-      :clickFn="skipButton.clickFn"
+      :click-fn="skipButton.clickFn"
     />
     <VideoPlayerAnimations :animations="animations" />
     <div
@@ -338,7 +338,7 @@ import SponsorBlockSegments from '@/components/videoplayer/SponsorblockSegments.
 import { PropType } from 'vue';
 
 export default defineComponent({
-  name: 'Videoplayer',
+  name: 'VideoPlayer',
   components: {
     Spinner,
     PauseIcon,
@@ -370,6 +370,7 @@ export default defineComponent({
       }
     }
   },
+  emits: ['close'],
   setup(props, { emit, expose }) {
     const videoPlayer = videoPlayerSetup(props, emit);
     expose({

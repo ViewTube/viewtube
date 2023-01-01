@@ -254,7 +254,7 @@ const setProfileImageUrl = (url: string): void => {
     </div>
     <div v-if="profile && hasHistory" class="video-history">
       <SectionTitle :title="'History'" :link="'/history'" />
-      <HistoryList :history-videos="profile.videoHistory" :deleteOption="false" />
+      <HistoryList :history-videos="profile.videoHistory" :delete-option="false" />
     </div>
     <Teleport to="body">
       <transition name="popup">
