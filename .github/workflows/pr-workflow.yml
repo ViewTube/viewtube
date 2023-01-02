@@ -73,3 +73,10 @@ jobs:
 
       - name: Prepare docker environment and run e2e tests
         run: pnpm run e2e
+
+      - name: Upload e2e test results
+        uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: e2e-test-results
+          path: ./tests/cypress/videos/
