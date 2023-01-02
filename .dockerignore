@@ -1,20 +1,5 @@
-node_modules
-.nuxt
-.github
-.git
-data
-dist
-out
-channels
-scripts
-client/node_modules
-client/.output
-client/.nuxt
-server/node_modules
-server/dist
-
-Dockerfile
 # Files
+Dockerfile
 npm-debug.log
 .all-contributorsrc
 .editorconfig
@@ -31,6 +16,19 @@ docker-compose.yml
 # Folders
 .github
 .vscode
+.nuxt
+.git
 ddata
 data
 node_modules
+data
+dist
+out
+channels
+tests
+scripts
+client/node_modules
+client/.output
+client/.nuxt
+server/node_modules
+server/dist
