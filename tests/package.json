@@ -1,12 +1,13 @@
 {
   "name": "tests",
   "scripts": {
-    "environment:prepare": "docker-compose -f environment/docker-compose.yml up -d",
+    "environment:prepare": "cross-env COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker-compose -f environment/docker-compose.yml up -d",
     "cy:open": "cypress open",
     "cy:run": "cypress run",
     "test": "pnpm run environment:prepare && pnpm run cy:run"
   },
   "devDependencies": {
+    "cross-env": "7.0.3",
     "cypress": "12.2.0",
     "typescript": "4.9.4"
   }
