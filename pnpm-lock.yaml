@@ -121,7 +121,7 @@ importers:
       '@fastify/swagger': 8.2.1
       '@freetube/yt-comment-scraper': 6.2.0
       '@nestjs/bull': 0.6.2
-      '@nestjs/cli': 9.1.7
+      '@nestjs/cli': 9.1.8
       '@nestjs/common': 9.2.1
       '@nestjs/config': 2.2.0
       '@nestjs/core': 9.2.1
@@ -265,7 +265,7 @@ importers:
       ytpl: 2.3.0
       ytsr: 3.8.0
     devDependencies:
-      '@nestjs/cli': 9.1.7
+      '@nestjs/cli': 9.1.8
       '@nestjs/testing': 9.2.1_hjcqpoaebdr7gdo5hgc22hthbe
       '@nestjs/websockets': 9.2.1_fyic65utxiftcghm7bf7rrj4z4
       '@sentry/types': 7.28.1
@@ -2180,8 +2180,8 @@ packages:
       tslib: 2.4.1
     dev: false
 
-  /@nestjs/cli/9.1.7:
-    resolution: {integrity: sha512-l0+vWXr571JcQ2LnQU3otxsvF5KUXqcAWCjnjMZH7ALVxcYi7BTif8q9YX0QHUETd9xPbH2YWkqV8SvlwgqEVg==}
+  /@nestjs/cli/9.1.8:
+    resolution: {integrity: sha512-53laCMoPLAkjyz3405FlMSrHnbr3DGeoaQjY963bEroezLlm/qfQhwj6oGJwtgA28eNFgx68mvQV2f1VZNUJtw==}
     engines: {node: '>= 12.9.0'}
     hasBin: true
     dependencies:
