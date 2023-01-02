@@ -29,7 +29,7 @@ jobs:
 
       - name: Get current date and time
         id: date-time
-        run: echo "::set-output name=date-time::$(TZ='Europe/Zurich' date +'%Y-%m-%d %H:%M:%S %Z')"
+        run: echo "date-time=$(TZ='Europe/Zurich' date +'%Y-%m-%d %H:%M:%S %Z') >> $GITHUB_OUTPUT"
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -37,7 +37,7 @@ jobs:
       - name: Run tests
         id: run_tests
         run: |
-          echo "::set-output name=test-result::$(pnpm test | tail)"
+          echo "test-result=$(pnpm test | tail)" >> $GITHUB_OUTPUT
 
       - name: Send test status notification
         if: always()
