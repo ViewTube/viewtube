@@ -75,7 +75,7 @@ jobs:
         run: pnpm run e2e
 
       - name: Upload e2e test results
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         if: always()
         with:
           name: e2e-test-results
