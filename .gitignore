@@ -37,6 +37,11 @@ output/*
 
 dump.rdb
 
+# Test files
+tests/cypress/screenshots
+tests/cypress/videos
+tests/cypress/downloads
+
 Dockerfile.nodejs-mongodb
 .vscode/.ropeproject/
 server/config.json
