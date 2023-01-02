@@ -1,6 +1,6 @@
 <h1 align="center">
 <sub>
-<img  src="https://raw.githubusercontent.com/ViewTube/viewtube-vue/stable/.github/images/logo.png"
+<img  src="https://raw.githubusercontent.com/ViewTube/viewtube-vue/development/.github/images/logo.png"
       height="50"
       width="50">
 </sub>
@@ -17,7 +17,7 @@ ViewTube
   <a href="https://deepscan.io/dashboard#view=project&amp;tid=11097&amp;pid=14017&amp;bid=262917">
     <img src="https://deepscan.io/api/teams/11097/projects/14017/branches/262917/badge/grade.svg" alt="DeepScan grade">
   </a>
-  <a href="https://github.com/ViewTube/viewtube-vue/blob/stable/LICENSE">
+  <a href="https://github.com/ViewTube/viewtube-vue/blob/development/LICENSE">
     <img src="https://img.shields.io/github/license/mauriceoegerli/viewtube-vue" alt="GitHub">
   </a>
   <a href="https://hub.docker.com/r/mauriceo/viewtube">
