@@ -4,9 +4,11 @@ importers:
 
   .:
     specifiers:
+      cross-env: 7.0.3
       prettier: 2.8.1
       typescript: 4.9.4
     devDependencies:
+      cross-env: 7.0.3
       prettier: 2.8.1
       typescript: 4.9.4
 
@@ -313,9 +315,11 @@ importers:
 
   tests:
     specifiers:
+      cross-env: 7.0.3
       cypress: 12.2.0
       typescript: 4.9.4
     devDependencies:
+      cross-env: 7.0.3
       cypress: 12.2.0
       typescript: 4.9.4
 
