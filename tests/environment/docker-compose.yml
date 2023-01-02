@@ -7,8 +7,6 @@ services:
       cache_from:
         - mauriceo/viewtube:dev
         - mauriceo/viewtube:latest
-      args:
-        - DOCKER_BUILDKIT=1
     ports:
       - '8066:8066'
     volumes:
