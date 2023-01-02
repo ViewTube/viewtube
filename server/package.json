@@ -83,7 +83,7 @@
     "@types/cookie-parser": "1.4.3",
     "@types/eslint": "8.4.10",
     "@types/humanize-duration": "3.27.1",
-    "@types/jest": "29.2.4",
+    "@types/jest": "29.2.5",
     "@types/mime-types": "2.1.1",
     "@types/multer": "1.4.7",
     "@types/node": "18.11.18",
