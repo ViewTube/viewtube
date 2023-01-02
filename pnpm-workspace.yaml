@@ -2,3 +2,4 @@ packages:
   - "server"
   - "client"
   - "shared"
+  - "tests"

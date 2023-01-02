@@ -11,17 +11,18 @@
     "pnpm": ">=7.3.0"
   },
   "scripts": {
-    "build": "pnpm --filter='*' run build",
-    "build:server": "pnpm --filter='./server' run build",
-    "build:client": "pnpm --filter='./client' run build",
+    "build": "pnpm --filter=* run build",
+    "build:server": "pnpm --filter=./server run build",
+    "build:client": "pnpm --filter=./client run build",
     "serve:env": "docker-compose -f docker-compose.dev.yml up -d",
-    "serve:server": "pnpm --filter='./server' run serve",
-    "serve:client": "pnpm --filter='./client' run serve",
-    "test": "pnpm --filter='./server' run test",
-    "start": "pnpm --filter='./server' run start",
+    "serve:server": "pnpm --filter=./server run serve",
+    "serve:client": "pnpm --filter=./client run serve",
+    "test": "pnpm --filter=./server run test",
+    "start": "pnpm --filter=./server run start",
     "lint-staged": "prettier --write --ignore-unknown",
-    "lint:client": "pnpm --filter='./client' run lint",
-    "lint:server": "pnpm --filter='./server' run lint",
+    "lint:client": "pnpm --filter=./client run lint",
+    "lint:server": "pnpm --filter=./server run lint",
+    "e2e": "pnpm --filter=./tests run test",
     "format": "prettier --write ."
   },
   "browserslist": [
