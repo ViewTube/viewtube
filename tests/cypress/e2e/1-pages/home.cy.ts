@@ -14,4 +14,5 @@ describe('Homepage Tests', () => {
       '.home-videos-container > .video-entry:first > .video-entry-info > .video-info-text > .video-entry-title'
     ).should('exist');
   });
+  
 });

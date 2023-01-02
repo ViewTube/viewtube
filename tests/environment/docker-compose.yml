@@ -1,10 +1,14 @@
-version: "3"
+version: '3'
 
 services:
   localhost:
-    build: ../../
+    build:
+      context: ../../
+      cache_from:
+        - mauriceo/viewtube:dev
+        - mauriceo/viewtube:latest
     ports:
-      - "8066:8066"
+      - '8066:8066'
     volumes:
       - ./data:/data
     depends_on:
@@ -17,7 +21,7 @@ services:
       VIEWTUBE_DATABASE_HOST: viewtube-db
       VIEWTUBE_REDIS_HOST: viewtube-redis
       VIEWTUBE_DATA_DIRECTORY: /data
-      VIEWTUBE_CLUSTERED: "false"
+      VIEWTUBE_CLUSTERED: 'true'
 
   viewtube-db:
     image: mongo
