@@ -38,7 +38,9 @@ COPY --from=build /home/build/server/dist ./server/dist/
 
 COPY --from=build /home/build/client/.output ./client/.output/
 
-RUN apt-get update \
+RUN \
+  --mount=type=cache,target=/var/cache/apt \
+  apt-get update \
   && apt-get install -y --no-install-recommends wget \
   && rm -rf /var/cache/apt/archives /var/lib/apt/lists/*
 
