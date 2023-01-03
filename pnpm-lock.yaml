@@ -30,7 +30,7 @@ importers:
       cross-env: 7.0.3
       dashjs: 4.5.2
       eslint: 8.31.0
-      eslint-config-prettier: 8.5.0
+      eslint-config-prettier: 8.6.0
       eslint-import-resolver-node: 0.3.6
       eslint-plugin-import: 2.26.0
       eslint-plugin-jest: 27.1.7
@@ -79,7 +79,7 @@ importers:
       cross-env: 7.0.3
       dashjs: 4.5.2
       eslint: 8.31.0
-      eslint-config-prettier: 8.5.0_eslint@8.31.0
+      eslint-config-prettier: 8.6.0_eslint@8.31.0
       eslint-import-resolver-node: 0.3.6
       eslint-plugin-import: 2.26.0_ejk3zt536nc2nr7uicalblhboi
       eslint-plugin-jest: 27.1.7_gmaywxto773tx3mrwhb6jk3dga
@@ -170,7 +170,7 @@ importers:
       cookie-parser: 1.4.6
       cross-env: 7.0.3
       eslint: 8.31.0
-      eslint-config-prettier: 8.5.0
+      eslint-config-prettier: 8.6.0
       eslint-plugin-jest: 27.1.7
       fastify: 4.10.2
       https-proxy-agent: 5.0.1
@@ -260,7 +260,7 @@ importers:
       web-push: 3.5.0
       x2js: 3.4.4
       xml-js: 1.6.11
-      yt-channel-info: github.com/FreeTubeApp/yt-channel-info/46c4f20b76776b5fc28121e66e1eea11c8a9eb09
+      yt-channel-info: github.com/FreeTubeApp/yt-channel-info/e5d00604c80eba0f46194df664e4a51271d100b7
       ytdl-core: 4.11.2
       ytpl: 2.3.0
       ytsr: 3.8.0
@@ -292,7 +292,7 @@ importers:
       '@typescript-eslint/parser': 5.47.1_iukboom6ndih5an6iafl45j2fe
       cross-env: 7.0.3
       eslint: 8.31.0
-      eslint-config-prettier: 8.5.0_eslint@8.31.0
+      eslint-config-prettier: 8.6.0_eslint@8.31.0
       eslint-plugin-jest: 27.1.7_gmaywxto773tx3mrwhb6jk3dga
       jest: 29.3.1_@types+node@18.11.18
       mongodb-memory-server: 8.10.2
@@ -5866,8 +5866,8 @@ packages:
     engines: {node: '>=12'}
     dev: true
 
-  /eslint-config-prettier/8.5.0_eslint@8.31.0:
-    resolution: {integrity: sha512-obmWKLUNCnhtQRKc+tmnYuQl0pFU1ibYJQ5BGhTVB08bHe9wC8qUeG7c08dj9XX+AuPj1YSGSQIHl1pnDHZR0Q==}
+  /eslint-config-prettier/8.6.0_eslint@8.31.0:
+    resolution: {integrity: sha512-bAF0eLpLVqP5oEVUFKpMA+NnRFICwn9X8B5jrR9FcqnYBuPbqWEjTEspPWMj5ye6czoSLDweCzSo3Ko7gGrZaA==}
     hasBin: true
     peerDependencies:
       eslint: '>=7.0.0'
@@ -12183,8 +12183,8 @@ packages:
       compress-commons: 4.1.1
       readable-stream: 3.6.0
 
-  github.com/FreeTubeApp/yt-channel-info/46c4f20b76776b5fc28121e66e1eea11c8a9eb09:
-    resolution: {tarball: https://codeload.github.com/FreeTubeApp/yt-channel-info/tar.gz/46c4f20b76776b5fc28121e66e1eea11c8a9eb09}
+  github.com/FreeTubeApp/yt-channel-info/e5d00604c80eba0f46194df664e4a51271d100b7:
+    resolution: {tarball: https://codeload.github.com/FreeTubeApp/yt-channel-info/tar.gz/e5d00604c80eba0f46194df664e4a51271d100b7}
     name: yt-channel-info
     version: 3.2.1
     dependencies:
