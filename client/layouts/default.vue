@@ -1,3 +1,49 @@
+<script setup lang="ts">
+import MainHeader from '@/components/header/MainHeader.vue';
+import MessageBoxContainer from '@/components/message/MessageBoxContainer.vue';
+import ThemeStyling from '@/components/themes/ThemeStyling.vue';
+import { useSettingsStore } from '@/store/settings';
+
+const route = useRoute();
+const settingsStore = useSettingsStore();
+
+const hydrated = ref(false);
+
+onMounted(() => {
+  hydrated.value = true;
+});
+
+useHead({
+  titleTemplate: titleChunk => {
+    if (!titleChunk) {
+      return 'ViewTube';
+    }
+    if (titleChunk.includes('ViewTube ::')) {
+      return titleChunk;
+    }
+    return `${titleChunk} :: ViewTube`;
+  }
+});
+
+const appRef = ref(null);
+
+const headless = computed((): boolean => {
+  return Boolean(route.meta.headless);
+});
+
+const getThemeClass = (): string => {
+  if ((process as any).browser) {
+    return `theme--${settingsStore.theme}`;
+  } else {
+    return 'theme--default';
+  }
+};
+
+if (appRef.value) {
+  appRef.value.classList.add(getThemeClass());
+}
+</script>
+
 <template>
   <div id="app" ref="appRef" class="layout" :hydrated="hydrated">
     <ThemeStyling />
@@ -6,68 +52,6 @@
     <MessageBoxContainer />
   </div>
 </template>
-
-<script lang="ts">
-import MainHeader from '@/components/header/MainHeader.vue';
-import MessageBoxContainer from '@/components/message/MessageBoxContainer.vue';
-import ThemeStyling from '@/components/themes/ThemeStyling.vue';
-import { useSettingsStore } from '@/store/settings';
-
-export default defineComponent({
-  name: 'Default',
-  components: {
-    MainHeader,
-    MessageBoxContainer,
-    ThemeStyling
-  },
-  setup() {
-    const route = useRoute();
-    const settingsStore = useSettingsStore();
-
-    const hydrated = ref(false);
-
-    onMounted(() => {
-      hydrated.value = true;
-    });
-
-    useHead({
-      titleTemplate: titleChunk => {
-        if (!titleChunk) {
-          return 'ViewTube';
-        }
-        if (titleChunk.includes('ViewTube ::')) {
-          return titleChunk;
-        }
-        return `${titleChunk} :: ViewTube`;
-      }
-    });
-
-    const appRef = ref(null);
-
-    const headless = computed((): boolean => {
-      return Boolean(route.meta.headless);
-    });
-
-    const getThemeClass = (): string => {
-      if ((process as any).browser) {
-        return `theme--${settingsStore.theme}`;
-      } else {
-        return 'theme--default';
-      }
-    };
-
-    if (appRef.value) {
-      appRef.value.classList.add(getThemeClass());
-    }
-
-    return {
-      appRef,
-      headless,
-      hydrated
-    };
-  }
-});
-</script>
 
 <style lang="scss">
 .blur-enter-active,

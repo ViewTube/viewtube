@@ -156,19 +156,21 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
   const { skipSegments, loadSkipSegments, getCurrentSegment } = useSponsorBlock();
 
   const sponsorBlockSegments = computed(() => {
-    return {
-      hash: skipSegments.value.hash,
-      videoID: skipSegments.value.videoID,
-      segments: skipSegments.value.segments.map(segment => {
-        const startPercentage = (segment.segment[0] / props.video.lengthSeconds) * 100;
-        const endPercentage = (segment.segment[1] / props.video.lengthSeconds) * 100;
-        return {
-          startPercentage,
-          endPercentage,
-          ...segment
-        };
-      })
-    };
+    if (skipSegments.value) {
+      return {
+        hash: skipSegments.value.hash,
+        videoID: skipSegments.value.videoID,
+        segments: skipSegments.value.segments.map(segment => {
+          const startPercentage = (segment.segment[0] / props.video.lengthSeconds) * 100;
+          const endPercentage = (segment.segment[1] / props.video.lengthSeconds) * 100;
+          return {
+            startPercentage,
+            endPercentage,
+            ...segment
+          };
+        })
+      };
+    }
   });
 
   if (settingsStore.sponsorblockEnabled) {
