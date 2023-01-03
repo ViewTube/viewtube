@@ -3,8 +3,6 @@ import { calculateSeekPercentage, matchSeekProgressPercentage, seekbarFunctions 
 import { parseChapters } from './chapters';
 import { destroyInstance, initializeHlsStream, isHlsNative, isHlsSupported } from './hlsHelper';
 import { DashHelper } from './dash';
-import { SponsorBlock } from '@/services/sponsorBlock';
-import { SponsorBlockSegmentsDto } from 'viewtube/shared';
 import { useMessagesStore } from '@/store/messages';
 import { useSettingsStore } from '@/store/settings';
 import { useUserStore } from '@/store/user';
@@ -155,29 +153,26 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
     chapters.value = parseChapters(props.video.description, props.video.lengthSeconds);
   }
 
-  const sponsorBlockSegments = ref<SponsorBlockSegmentsDto>(null);
-  let sponsorBlock: SponsorBlock = null;
+  const { skipSegments, loadSkipSegments, getCurrentSegment } = useSponsorBlock();
+
+  const sponsorBlockSegments = computed(() => {
+    return {
+      hash: skipSegments.value.hash,
+      videoID: skipSegments.value.videoID,
+      segments: skipSegments.value.segments.map(segment => {
+        const startPercentage = (segment.segment[0] / props.video.lengthSeconds) * 100;
+        const endPercentage = (segment.segment[1] / props.video.lengthSeconds) * 100;
+        return {
+          startPercentage,
+          endPercentage,
+          ...segment
+        };
+      })
+    };
+  });
 
   if (settingsStore.sponsorblockEnabled) {
-    sponsorBlock = new SponsorBlock(props.video.videoId);
-    sponsorBlock.getSkipSegments().then(value => {
-      if (value) {
-        const segments = {
-          hash: value.hash,
-          videoID: value.videoID,
-          segments: value.segments.map(segment => {
-            const startPercentage = (segment.segment[0] / props.video.lengthSeconds) * 100;
-            const endPercentage = (segment.segment[1] / props.video.lengthSeconds) * 100;
-            return {
-              startPercentage,
-              endPercentage,
-              ...segment
-            };
-          })
-        };
-        sponsorBlockSegments.value = segments;
-      }
-    });
+    loadSkipSegments(props.video.videoId);
   }
 
   const videoUrl = computed(() => {
@@ -342,13 +337,10 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
         videoPlayerStore.setCurrentTime(videoRef.value.currentTime);
         videoPlayerStore.setVideoLength(videoRef.value.duration);
 
-        if (settingsStore.sponsorblockEnabled && sponsorBlock) {
-          const currentSegment = sponsorBlock.getCurrentSegment(videoRef.value.currentTime);
+        if (settingsStore.sponsorblockEnabled) {
+          const currentSegment = getCurrentSegment(videoRef.value.currentTime);
           if (currentSegment) {
             let segmentOption = 'ask';
-            if (currentSegment.category === 'music_offtopic') {
-              segmentOption = settingsStore.sponsorblockSegmentMusicOfftopic;
-            }
             switch (currentSegment.category) {
               case 'music_offtopic':
                 segmentOption = settingsStore.sponsorblockSegmentMusicOfftopic;
