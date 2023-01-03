@@ -1,6 +1,4 @@
-import { desanitize } from './desanitize';
-
-export const parseCookie = (str?: string | undefined | null): Record<string, string> =>
+export const parseCookieString = (str?: string | undefined | null): Record<string, string> =>
   str
     ?.split(';')
     ?.map(value => value.split('='))

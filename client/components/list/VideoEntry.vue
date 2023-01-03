@@ -2,9 +2,7 @@
 import InfoIcon from 'vue-material-design-icons/Information.vue';
 import VerifiedIcon from 'vue-material-design-icons/CheckDecagram.vue';
 import { useLoadingVideoInfoStore } from '@/store/loadingVideoInfo';
-// import { getSecondsFromTimestamp } from '@/utilities/shared';
-
-// import { useFormatting } from '@/utilities/formatting';
+// import { getSecondsFromTimestamp } from 'viewtube/shared';
 
 type VideoType = {
   author:

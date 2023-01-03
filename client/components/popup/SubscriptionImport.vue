@@ -135,7 +135,6 @@ import XmlIcon from 'vue-material-design-icons/Xml.vue';
 import CheckBox from '@/components/form/CheckBox.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import FileButton from '@/components/form/FileButton.vue';
-import { convertFromCSVToJson, convertFromOPMLToJson } from '@/services/subscriptionConverter';
 import Spinner from '@/components/Spinner.vue';
 import '@/assets/styles/popup.scss';
 import { useMessagesStore } from '~/store/messages';

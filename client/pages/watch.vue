@@ -188,16 +188,12 @@ import CollapsibleSection from '@/components/list/CollapsibleSection.vue';
 import PlaylistSection from '@/components/watch/PlaylistSection.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import SectionTitle from '@/components/SectionTitle.vue';
-import { createComputed } from '@/utilities/computed';
 import VideoPlayer from '@/components/videoplayer/VideoPlayer.vue';
 import VideoLoadingTemplate from '@/components/watch/VideoLoadingTemplate.vue';
 import { useMessagesStore } from '@/store/messages';
 import { useSettingsStore } from '@/store/settings';
 import { useMiniplayerStore } from '@/store/miniplayer';
 import { useVideoPlayerStore } from '@/store/videoPlayer';
-import { getDislikes } from '@/utilities/api/videos';
-import { getComments, getCommentsContinuation } from '@/utilities/api/comments';
-import { getPlaylists } from '@/utilities/api/playlists';
 import { useLoadingVideoInfoStore } from '@/store/loadingVideoInfo';
 import { ApiDto, ApiErrorDto } from 'viewtube/shared';
 import { useUserStore } from '@/store/user';
@@ -259,38 +255,30 @@ export default defineComponent({
       error: videoError,
       pending: videoPending,
       refresh
-    } = useLazyAsyncData<VideoType, ApiErrorDto>(
-      route.query.v.toString(),
-      async () => {
-        const value = await $fetch<ApiDto<'VideoDto'>>(
-          `${apiUrl}videos/${route.query.v}`
-        );
+    } = useLazyAsyncData<VideoType, ApiErrorDto>(route.query.v.toString(), async () => {
+      const value = await $fetch<ApiDto<'VideoDto'>>(`${apiUrl}videos/${route.query.v}`);
 
-        let initialVideoTime = 0;
-        if (userStore.isLoggedIn && settingsStore.saveVideoHistory) {
-          const videoVisit = await $fetch<any>(
-            `${apiUrl}user/history/${value.videoId}`,
-            {
-              credentials: 'include'
-            }
-          ).catch((_: any) => {});
+      let initialVideoTime = 0;
+      if (userStore.isLoggedIn && settingsStore.saveVideoHistory) {
+        const videoVisit = await $fetch<any>(`${apiUrl}user/history/${value.videoId}`, {
+          credentials: 'include'
+        }).catch((_: any) => {});
 
-          if (videoVisit?.progressSeconds > 0) {
-            initialVideoTime = videoVisit.data.progressSeconds;
-          } else if (userStore.isLoggedIn) {
-            $fetch(`${apiUrl}user/history/${route.query.v}`, {
-              body: {
-                progressSeconds: null,
-                lengthSeconds: value.lengthSeconds
-              },
-              credentials: 'include'
-            }).catch(_ => {});
-          }
+        if (videoVisit?.progressSeconds > 0) {
+          initialVideoTime = videoVisit.data.progressSeconds;
+        } else if (userStore.isLoggedIn) {
+          $fetch(`${apiUrl}user/history/${route.query.v}`, {
+            body: {
+              progressSeconds: null,
+              lengthSeconds: value.lengthSeconds
+            },
+            credentials: 'include'
+          }).catch(_ => {});
         }
-
-        return { ...value, initialVideoTime };
       }
-    );
+
+      return { ...value, initialVideoTime };
+    });
 
     watch(videoPending, value => {
       if (!value) {
@@ -306,15 +294,15 @@ export default defineComponent({
       });
     });
 
-    const isPlaylist = createComputed(() => {
+    const isPlaylist = computed(() => {
       return Boolean(route.query && route.query.list);
     });
 
-    const isAutoplaying = createComputed(() => {
+    const isAutoplaying = computed(() => {
       return isPlaylist.value || settingsStore.autoplay || route.query.autoplay === 'true';
     });
 
-    const recommendedVideos = createComputed(() => {
+    const recommendedVideos = computed(() => {
       if (video.value) {
         if (settingsStore.autoplayNextVideo) {
           return video.value.recommendedVideos.slice(1);
@@ -324,7 +312,7 @@ export default defineComponent({
       return [];
     });
 
-    const nextUpVideo = createComputed(() => {
+    const nextUpVideo = computed(() => {
       if (video.value) return video.value.recommendedVideos[0];
       return null;
     });

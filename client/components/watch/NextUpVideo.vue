@@ -28,9 +28,6 @@
 </template>
 
 <script lang="ts">
-
-
-import { createComputed } from '@/utilities/computed';
 import { useVideoPlayerStore } from '@/store/videoPlayer';
 
 export default defineComponent({
@@ -42,7 +39,7 @@ export default defineComponent({
     const route = useRoute();
     const videoPlayerStore = useVideoPlayerStore();
 
-    const remainingTimeString = createComputed(() => {
+    const remainingTimeString = computed(() => {
       const remaining = videoPlayerStore.videoLength - videoPlayerStore.currentTime;
       if (remaining <= 30) {
         return ` in ${Math.floor(remaining)}s`;

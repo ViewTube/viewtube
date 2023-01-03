@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia';
-import { insertSetters } from '@/utilities/storeSetters';
 import { useUserStore } from '@/store/user';
 import { UnwrapNestedRefs } from 'vue';
 

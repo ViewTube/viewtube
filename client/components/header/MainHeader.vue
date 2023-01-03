@@ -1,5 +1,12 @@
+<script setup lang="ts">
+import MainSearchBox from '@/components/MainSearchBox.vue';
+import UserMenu from '@/components/header/UserMenu.vue';
+
+const { posAbsolute, topPositionPx } = useHeaderScroll();
+</script>
+
 <template>
-  <div class="header" :class="{ absolute: posAbsolute }" :style="{ top: `${topPosition}px` }">
+  <div class="header" :class="{ absolute: posAbsolute }">
     <nuxt-link class="logo-link" to="/">
       <h1 class="logo">
         <span>View</span>
@@ -11,52 +18,6 @@
     <UserMenu />
   </div>
 </template>
-
-<script lang="ts">
-import MainSearchBox from '@/components/MainSearchBox.vue';
-import UserMenu from '@/components/header/UserMenu.vue';
-import { Scroll } from '@/utilities/scroll';
-
-export default defineComponent({
-  name: 'MainHeader',
-  components: {
-    MainSearchBox,
-    UserMenu
-  },
-  setup() {
-    const route = useRoute();
-
-    const posAbsolute = ref(false);
-    const topPosition = ref(0);
-
-    const currentRouteName = computed(() => {
-      return route.name;
-    });
-
-    const handleScroll = () => {
-      const newPositions = Scroll.setScrollPosition(window.pageYOffset);
-      posAbsolute.value = newPositions.posAbsolute;
-      topPosition.value = newPositions.topPosition;
-    };
-
-    onMounted(() => {
-      window.addEventListener('scroll', handleScroll, {
-        passive: true
-      });
-    });
-
-    onBeforeUnmount(() => {
-      window.removeEventListener('scroll', handleScroll, { passive: true } as any);
-    });
-
-    return {
-      posAbsolute,
-      topPosition,
-      currentRouteName
-    };
-  }
-});
-</script>
 
 <style lang="scss">
 .header {
@@ -71,6 +32,7 @@ export default defineComponent({
   z-index: 800;
   background-color: var(--header-transparent);
   backdrop-filter: blur(10px);
+  top: v-bind(topPositionPx);
 
   transition: box-shadow 300ms $intro-easing, background-color 300ms $intro-easing,
     transform 300ms $dynamic-easing;

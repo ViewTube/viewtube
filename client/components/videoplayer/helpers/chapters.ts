@@ -1,4 +1,4 @@
-import { getSecondsFromTimestamp } from '@/utilities/shared';
+import { getSecondsFromTimestamp } from '../../../../shared';
 
 export const parseChapters = (description: string, videoLength: number) => {
   if (description.match(/0+:0+/gi)) {

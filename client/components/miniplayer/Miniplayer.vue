@@ -34,7 +34,6 @@
 <script lang="ts">
 
 import VideoPlayer from '@/components/videoplayer/VideoPlayer.vue';
-import { commons } from '@/utilities/commons';
 import { useMiniplayerStore } from '@/store/miniplayer';
 
 export default defineComponent({
@@ -92,10 +91,10 @@ export default defineComponent({
     };
     const onDragSpaceTouchMove = e => {
       const mouseOutOfScreenY = Boolean(
-        e.touches[0].pageY < 0 || e.touches[0].pageY > commons.getPageHeight()
+        e.touches[0].pageY < 0 || e.touches[0].pageY > getPageHeight()
       );
       const mouseOutOfScreenX = Boolean(
-        e.touches[0].pageX < 0 || e.touches[0].pageX > commons.getPageWidth()
+        e.touches[0].pageX < 0 || e.touches[0].pageX > getPageWidth()
       );
       if (mouseOutOfScreenY || mouseOutOfScreenX) {
         dragging.value = false;
@@ -117,8 +116,8 @@ export default defineComponent({
       document.removeEventListener('mouseup', onDragSpaceMouseUp);
     };
     const onDragSpaceMouseMove = e => {
-      const mouseOutOfScreenY = Boolean(e.pageY < 0 || e.pageY > commons.getPageHeight());
-      const mouseOutOfScreenX = Boolean(e.pageX < 0 || e.pageX > commons.getPageWidth());
+      const mouseOutOfScreenY = Boolean(e.pageY < 0 || e.pageY > getPageHeight());
+      const mouseOutOfScreenX = Boolean(e.pageX < 0 || e.pageX > getPageWidth());
       if (mouseOutOfScreenY || mouseOutOfScreenX) {
         calculateFinish(e.pageX, e.pageY);
         dragging.value = false;
@@ -136,16 +135,16 @@ export default defineComponent({
 
         if (posX - halfElementWidth < 0) {
           positionLeft = posX - (0 - (posX - halfElementWidth)) / -1.5;
-        } else if (posX + halfElementWidth > commons.getPageWidth()) {
-          positionLeft = posX - (commons.getPageWidth() - (posX + halfElementWidth)) / -1.5;
+        } else if (posX + halfElementWidth > getPageWidth()) {
+          positionLeft = posX - (getPageWidth() - (posX + halfElementWidth)) / -1.5;
         } else {
           positionLeft = posX;
         }
 
         if (posY - tenthElementHeight < 0) {
           positionTop = posY - (0 - (posY - tenthElementHeight)) / -1.5;
-        } else if (posY + tenthElementHeight * 9 > commons.getPageHeight()) {
-          positionTop = posY - (commons.getPageHeight() - (posY + tenthElementHeight * 9)) / -1.5;
+        } else if (posY + tenthElementHeight * 9 > getPageHeight()) {
+          positionTop = posY - (getPageHeight() - (posY + tenthElementHeight * 9)) / -1.5;
         } else {
           positionTop = posY;
         }
@@ -159,8 +158,8 @@ export default defineComponent({
       setTimeout(() => {
         transition.value = false;
       }, 600);
-      const pageWidth = commons.getPageWidth();
-      const pageHeight = commons.getPageHeight();
+      const pageWidth = getPageWidth();
+      const pageHeight = getPageHeight();
       const halfElementWidth = miniplayerRef.clientWidth / 2;
       const tenthElementHeight = miniplayerRef.clientHeight / 10;
 

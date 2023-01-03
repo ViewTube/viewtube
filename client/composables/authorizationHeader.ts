@@ -1,10 +1,8 @@
-import { parseCookie } from '@/utilities/parseCookies';
-
 export const useAuthorizationHeader = (): string | undefined => {
   let authorizationToken: string | undefined;
   const nuxt = useNuxtApp();
   if (nuxt.ssrContext) {
-    const cookies = parseCookie(nuxt.ssrContext.event.req.headers?.cookie);
+    const cookies = parseCookieString(nuxt.ssrContext.event.req.headers?.cookie);
     authorizationToken = cookies?.Authentication;
   }
 
