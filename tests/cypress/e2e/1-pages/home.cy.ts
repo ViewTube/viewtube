@@ -1,6 +1,7 @@
 describe('Homepage Tests', () => {
   beforeEach(() => {
-    cy.visit('http://localhost:8066');
+    cy.visit('http://localhost:8466');
+    cy.get('#app[hydrated=true]', { timeout: 1000 });
   });
 
   it('homepage loads and displays logo', () => {
@@ -14,5 +15,4 @@ describe('Homepage Tests', () => {
       '.home-videos-container > .video-entry:first > .video-entry-info > .video-info-text > .video-entry-title'
     ).should('exist');
   });
-  
 });

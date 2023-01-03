@@ -471,7 +471,7 @@ export default defineComponent({
     padding: 5px 10px;
     box-sizing: border-box;
     border: solid 2px transparent;
-    min-width: 85px;
+    white-space: nowrap;
 
     &#login {
       min-width: 75px;

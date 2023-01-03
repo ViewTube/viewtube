@@ -1,5 +1,5 @@
 <template>
-  <div id="app" ref="appRef" class="layout">
+  <div id="app" ref="appRef" class="layout" :hydrated="hydrated">
     <ThemeStyling />
     <MainHeader v-if="!headless" class="main-header" />
     <slot />
@@ -23,6 +23,12 @@ export default defineComponent({
   setup() {
     const route = useRoute();
     const settingsStore = useSettingsStore();
+
+    const hydrated = ref(false);
+
+    onMounted(() => {
+      hydrated.value = true;
+    });
 
     useHead({
       titleTemplate: titleChunk => {
@@ -56,7 +62,8 @@ export default defineComponent({
 
     return {
       appRef,
-      headless
+      headless,
+      hydrated
     };
   }
 });

@@ -317,10 +317,12 @@ importers:
     specifiers:
       cross-env: 7.0.3
       cypress: 12.2.0
+      cypress-commands: ^3.0.0
       typescript: 4.9.4
     devDependencies:
       cross-env: 7.0.3
       cypress: 12.2.0
+      cypress-commands: 3.0.0
       typescript: 4.9.4
 
 packages:
@@ -5149,6 +5151,12 @@ packages:
     resolution: {integrity: sha512-d4ZVpCW31eWwCMe1YT3ur7mUDnTXbgwyzaL320DrcRT45rfjYxkt5QWLrmOJ+/UEAI2+fQgKe/fCjR8l4TpRgw==}
     dev: true
 
+  /cypress-commands/3.0.0:
+    resolution: {integrity: sha512-f0m6tmsT596AnMH2Wa5h3wClsYkCEEAHp7BnFEGtxB+Pl0aiko9z6qAvY1FL3/X+jXEiGVgGmKnXEPeTnUzKdw==}
+    dependencies:
+      path-browserify: 1.0.1
+    dev: true
+
   /cypress/12.2.0:
     resolution: {integrity: sha512-kvl95ri95KK8mAy++tEU/wUgzAOMiIciZSL97LQvnOinb532m7dGvwN0mDSIGbOd71RREtmT9o4h088RjK5pKw==}
     engines: {node: ^14.0.0 || ^16.0.0 || >=18.0.0}
@@ -9502,6 +9510,10 @@ packages:
       pause: 0.0.1
       utils-merge: 1.0.1
     dev: false
+
+  /path-browserify/1.0.1:
+    resolution: {integrity: sha512-b7uo2UCUOYZcnF/3ID0lulOJi/bafxa1xPe7ZPsammBSpjSWQkjNxlt635YGS2MiR9GjvuXCtz2emr3jbsz98g==}
+    dev: true
 
   /path-exists/3.0.0:
     resolution: {integrity: sha512-bpC7GYwiDYQ4wYLe+FA8lhRjhQCMcQGuSgGGqDkg/QerRWw9CmGRT0iSOVRSZJ29NMLZgIzqaljJ63oaL4NIJQ==}
