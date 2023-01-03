@@ -17,7 +17,6 @@ import FormInput from '@/components/form/FormInput.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import HistoryList from '@/components/history/HistoryList.vue';
 import { useMessagesStore } from '~/store/messages';
-import { createComputed } from '@/utilities/computed';
 import { useSettingsStore } from '@/store/settings';
 import { useUserStore } from '@/store/user';
 import PasswordChangeForm from '@/components/form/PasswordChangeForm.vue';
@@ -51,7 +50,7 @@ if (!userStore.isLoggedIn) {
   router.push('/');
 }
 
-const hasHistory = createComputed(() => {
+const hasHistory = computed(() => {
   if (profile.value && profile.value.videoHistory.length > 0) {
     return true;
   }
@@ -157,7 +156,7 @@ const deleteProfileImage = () => {
       });
     });
 };
-const deleteAccountValid = createComputed(() => {
+const deleteAccountValid = computed(() => {
   return repeatedUsername.value.length > 0 && repeatedUsername.value === userStore.username;
 });
 const logout = () => {

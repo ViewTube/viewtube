@@ -4,7 +4,6 @@ import HighDefinitionIcon from 'vue-material-design-icons/HighDefinition.vue';
 import AudioDefinitionIcon from 'vue-material-design-icons/QualityHigh.vue';
 import CheckIcon from 'vue-material-design-icons/Check.vue';
 import SwitchButton from '@/components/buttons/SwitchButton.vue';
-import { createComputed } from '@/utilities/computed';
 import { useSettingsStore } from '@/store/settings';
 import { useVideoPlayerStore } from '@/store/videoPlayer';
 
@@ -42,7 +41,7 @@ const videoSpeed = ref(1);
 
 const recommendedResolution = ref(null);
 
-const smallQualityLabel = createComputed(() => {
+const smallQualityLabel = computed(() => {
   if (props.videoQualityList && props.renderedVideoQuality) {
     const renderedQuality: any = props.videoQualityList[props.renderedVideoQuality];
     return `${renderedQuality.width}x${renderedQuality.height}`;

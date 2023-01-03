@@ -1,4 +1,4 @@
-import { getSecondsFromTimestamp } from '@/utilities/shared';
+import { getSecondsFromTimestamp } from '../../shared';
 
 // eslint-disable-next-line prefer-regex-literals
 const urlRegex = new RegExp(

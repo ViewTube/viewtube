@@ -7,7 +7,6 @@ import CommentHideIcon from 'vue-material-design-icons/CommentRemoveOutline.vue'
 import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import { useMessagesStore } from '@/store/messages';
-import { getCommentReplies } from '@/utilities/api/comments';
 import { ApiDto } from 'viewtube/shared';
 
 const props = defineProps<{

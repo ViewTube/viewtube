@@ -3,10 +3,8 @@ import { calculateSeekPercentage, matchSeekProgressPercentage, seekbarFunctions 
 import { parseChapters } from './chapters';
 import { destroyInstance, initializeHlsStream, isHlsNative, isHlsSupported } from './hlsHelper';
 import { DashHelper } from './dash';
-import { commons } from '@/utilities/commons';
 import { SponsorBlock } from '@/services/sponsorBlock';
-import { SponsorBlockSegmentsDto } from '@/utilities/shared';
-import { createComputed } from '@/utilities/computed';
+import { SponsorBlockSegmentsDto } from 'viewtube/shared';
 import { useMessagesStore } from '@/store/messages';
 import { useSettingsStore } from '@/store/settings';
 import { useUserStore } from '@/store/user';
@@ -87,7 +85,7 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
 
   const dashHelper = ref<DashHelper>(null);
 
-  const videoQualityList = createComputed(() => {
+  const videoQualityList = computed(() => {
     if (dashHelper.value && dashHelper.value.isFullyInitialized) {
       return dashHelper.value.getVideoQualityList();
     } else {
@@ -95,7 +93,7 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
     }
   });
 
-  const audioQualityList = createComputed(() => {
+  const audioQualityList = computed(() => {
     if (dashHelper.value && dashHelper.value.isFullyInitialized) {
       return dashHelper.value.getAudioQualityList();
     }
@@ -103,20 +101,20 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
 
   const selectedLegacyQuality = ref(0);
 
-  const selectedVideoQuality = createComputed(() => {
+  const selectedVideoQuality = computed(() => {
     if (dashHelper.value && dashHelper.value.isFullyInitialized) {
       return dashHelper.value.currentVideoQuality;
     }
     return selectedLegacyQuality.value;
   });
 
-  const selectedAudioQuality = createComputed(() => {
+  const selectedAudioQuality = computed(() => {
     if (dashHelper.value && dashHelper.value.isFullyInitialized) {
       return dashHelper.value.currentAudioQuality;
     }
   });
 
-  const renderedVideoQuality = createComputed(() => {
+  const renderedVideoQuality = computed(() => {
     if (dashHelper.value && dashHelper.value.isFullyInitialized) {
       return dashHelper.value.renderedVideoQuality;
     }
@@ -668,7 +666,7 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
     if (element) {
       const elOffsetWidth = element.$el ? element.$el.offsetWidth : 0;
       const elWidth = element.offsetWidth || elOffsetWidth;
-      const pageWidth = commons.getPageWidth();
+      const pageWidth = getPageWidth();
       leftPx = ((pageWidth - 27.5) / 100) * percentage - (elWidth / 2 - 12);
 
       if (leftPx < 10) {
@@ -687,7 +685,7 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
     if (element) {
       const elOffsetWidth = element.$el ? element.$el.offsetWidth : 0;
       const elWidth = element.offsetWidth || elOffsetWidth;
-      const pageWidth = commons.getPageWidth();
+      const pageWidth = getPageWidth();
       leftPx = ((pageWidth - 20) / 100) * percentage;
 
       if (leftPx < 10) {

@@ -14,8 +14,6 @@
 </template>
 
 <script lang="ts">
-// import { WebVTTParser } from '@/utilities/services/webVTTParser';
-
 export default defineComponent({
   name: 'SeekbarPreview',
   props: {

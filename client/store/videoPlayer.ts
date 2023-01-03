@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia';
-import { insertSetters } from '@/utilities/storeSetters';
 
 const state = {
   loop: false,

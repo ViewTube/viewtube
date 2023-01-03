@@ -131,6 +131,8 @@ export const defaultThemes = [
   }
 ];
 
+const getThemeValues = (key: string) => defaultThemes.find(theme => theme.value === key);
+
 export const useCurrentTheme = () => {
   const settingsStore = useSettingsStore();
   const currentTheme = ref(getThemeValues(settingsStore.theme));
@@ -146,5 +148,3 @@ export const useCurrentTheme = () => {
 
   return { currentTheme };
 };
-
-const getThemeValues = (key: string) => defaultThemes.find(theme => theme.value === key);

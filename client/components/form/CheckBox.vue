@@ -1,3 +1,24 @@
+<script setup lang="ts">
+defineProps<{
+  value: boolean;
+  label: string;
+  disabled?: boolean;
+}>();
+
+const emit = defineEmits<{
+  (e: 'valuechange', value: boolean): void;
+}>();
+
+const id = 'xxxx-xxxx-xxxx'.replace(/[xy]/g, () => {
+  const r = (Math.random() * 16) | 0;
+  return (r | 0x8).toString(16);
+});
+
+const onChange = (e: any) => {
+  emit('valuechange', e.target.checked);
+};
+</script>
+
 <template>
   <div class="checkbox">
     <input
@@ -17,32 +38,6 @@
     <label v-if="label" :for="id" class="label">{{ label }}</label>
   </div>
 </template>
-
-<script lang="ts">
-
-import { commons } from '@/utilities/commons';
-
-export default defineComponent({
-  name: 'CheckBox',
-  props: {
-    value: Boolean,
-    label: String,
-    disabled: Boolean
-  },
-  setup(_, { emit }) {
-    const id = ref(commons.uuidv4());
-
-    const onChange = (e: any) => {
-      emit('valuechange', e.target.checked);
-    };
-
-    return {
-      id,
-      onChange
-    };
-  }
-});
-</script>
 
 <style lang="scss" scoped>
 .checkbox {

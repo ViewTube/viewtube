@@ -1,5 +1,5 @@
 import { sha256 } from 'js-sha256';
-import { SponsorBlockSegmentDto, SponsorBlockSegmentsDto } from '@/utilities/shared';
+import { SponsorBlockSegmentDto, SponsorBlockSegmentsDto } from 'viewtube/shared';
 
 export class SponsorBlock {
   constructor(videoId: string) {
