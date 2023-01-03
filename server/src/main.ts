@@ -105,12 +105,15 @@ const bootstrap = async () => {
     const nuxtService = server.get(NuxtService);
     await nuxtService.init();
 
-    server.useStaticAssets({ root: path.resolve(nuxtService.nuxtPath, 'public'), wildcard: false });
+    server.useStaticAssets({
+      root: path.resolve(nuxtService.nuxtPath, 'public'),
+      wildcard: false,
+      maxAge: 31536000
+    });
   }
 
   // NEST
-  // server.setGlobalPrefix('api', { exclude: ['/'] });
-  const port = configService.get('PORT');
+  const port = configService.get<number>('PORT');
 
   // CORS
   const allowedDomain = configService.get<string>('VIEWTUBE_ALLOWED_DOMAIN');
