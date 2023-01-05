@@ -49,5 +49,14 @@ const videoString = computed(() => safelyReturn(props.video, null));
     <Meta name="theme-color" content="#121212" />
     <Meta property="og:locale" content="en_US" />
     <Meta property="og:site_name" content="ViewTube" />
+    <Link
+      rel="search"
+      type="application/opensearchdescription+xml"
+      title="Search ViewTube"
+      href="/viewtubesearch.xml"
+    />
+    <Link rel="manifest" href="/manifest.json" />
+    <Link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <Link rel="icon" type="image/x-icon" href="/favicon.ico" />
   </Head>
 </template>
