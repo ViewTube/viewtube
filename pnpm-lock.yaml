@@ -180,7 +180,7 @@ importers:
       joi: 17.7.0
       mini-svg-data-uri: 1.4.4
       mongodb-memory-server: 8.10.2
-      mongoose: 6.8.1
+      mongoose: 6.8.3
       nestjs-throttler-storage-redis: git://github.com/mauriceoegerli/nestjs-throttler-storage-redis
       node-fetch: 2.6.7
       openapi-typescript: ^6.1.0
@@ -221,7 +221,7 @@ importers:
       '@nestjs/config': 2.2.0_b4pxbpa7chblgbyake5iz5rdmu
       '@nestjs/core': 9.2.1_gs3k642xgyjax3mvj2n3wicqwi
       '@nestjs/jwt': 10.0.1_@nestjs+common@9.2.1
-      '@nestjs/mongoose': 9.2.1_qiedue3ydlfd22rvzefvlpt7zm
+      '@nestjs/mongoose': 9.2.1_fzjdhjcxkaihoe3t744rcytfcm
       '@nestjs/passport': 9.0.0_6o47igfla2pj7yzh7agpvpttka
       '@nestjs/platform-fastify': 9.2.1_ikxpgcebo3djgwayhrp6upsvza
       '@nestjs/schedule': 2.1.0_dntc3uqqknzoduyjojusds5kla
@@ -245,7 +245,7 @@ importers:
       ioredis: 5.2.4
       joi: 17.7.0
       mini-svg-data-uri: 1.4.4
-      mongoose: 6.8.1
+      mongoose: 6.8.3
       nestjs-throttler-storage-redis: github.com/mauriceoegerli/nestjs-throttler-storage-redis/e659522520fb6548fc8386e593a7dfd7f984a975_ffe7rtb2djiahrkpuofeysjq7e
       node-fetch: 2.6.7
       passport: 0.6.0
@@ -2319,7 +2319,7 @@ packages:
       reflect-metadata: 0.1.13
     dev: false
 
-  /@nestjs/mongoose/9.2.1_qiedue3ydlfd22rvzefvlpt7zm:
+  /@nestjs/mongoose/9.2.1_fzjdhjcxkaihoe3t744rcytfcm:
     resolution: {integrity: sha512-tMK5kKFjQnNVhqJDw1wa352z+VsODOFznTn74xSzrziof03qS+O6rLU4q1kMx0B4AmFbADf03GOdpvBc9bMWqw==}
     peerDependencies:
       '@nestjs/common': ^8.0.0 || ^9.0.0
@@ -2330,7 +2330,7 @@ packages:
     dependencies:
       '@nestjs/common': 9.2.1_uisgqpdqsnlcxoqiidaahrhoi4
       '@nestjs/core': 9.2.1_gs3k642xgyjax3mvj2n3wicqwi
-      mongoose: 6.8.1
+      mongoose: 6.8.3
       reflect-metadata: 0.1.13
       rxjs: 7.8.0
     dev: false
@@ -8268,8 +8268,8 @@ packages:
       safe-buffer: 5.2.1
     dev: false
 
-  /kareem/2.5.0:
-    resolution: {integrity: sha512-rVBUGGwvqg130iwYu8k7lutHuDBFj1yGRdnlE44wEhxAmFBad1zcL66PdWC1raw3tIObY6XWhtv3VL04xQb/cg==}
+  /kareem/2.5.1:
+    resolution: {integrity: sha512-7jFxRVm+jD+rkq3kY0iZDJfsO2/t4BBPeEb2qKn2lR/9KhuksYk5hxzfRYWMPV8P/x2d0kHD306YyWLzjjH+uA==}
     engines: {node: '>=12.0.0'}
     dev: false
 
@@ -8865,12 +8865,12 @@ packages:
       - aws-crt
     dev: false
 
-  /mongoose/6.8.1:
-    resolution: {integrity: sha512-utr2hclZ+/QlO+JuVd33dxzvLKtByEhaLj8mEO+tqCm6pgOboKv+DWcvJDEcCMl4Rgd1ubgfYz4cZ9BWyHmC3Q==}
+  /mongoose/6.8.3:
+    resolution: {integrity: sha512-qrVWefJK+wFNBH0ALV+oiyJ+FN42O/BqvHFmlFJJ2LKuNmQEOE0JV8FCxnZqtanwbHs4i+k/SkjhtC+C01haaw==}
     engines: {node: '>=12.0.0'}
     dependencies:
       bson: 4.7.0
-      kareem: 2.5.0
+      kareem: 2.5.1
       mongodb: 4.12.1
       mpath: 0.9.0
       mquery: 4.0.3
