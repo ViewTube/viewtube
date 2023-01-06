@@ -6,6 +6,7 @@
   "description": "ViewTube is an alternative YouTube frontend.",
   "lang": "en",
   "theme_color": "#272727",
+  "start_url": "/",
   "icons": [
     {
       "src": "/icon-192.png",
