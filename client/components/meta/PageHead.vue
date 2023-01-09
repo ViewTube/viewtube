@@ -55,7 +55,7 @@ const videoString = computed(() => safelyReturn(props.video, null));
       title="Search ViewTube"
       href="/viewtubesearch.xml"
     />
-    <!-- <Link rel="manifest" href="/manifest.json" /> -->
+    <Link rel="manifest" href="/manifest.json" />
     <Link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <Link rel="icon" type="image/x-icon" href="/favicon.ico" />
   </Head>

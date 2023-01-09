@@ -10,7 +10,6 @@
     "dev": "pnpm run serve",
     "build": "cross-env NUXT_BUILD=true nuxi build",
     "build:dev": "cross-env NODE_ENV=development NUXT_BUILD=true nuxi build",
-    "cache:workbox": "cp -r node_modules/workbox-cdn/workbox public/workbox",
     "lint": "eslint --ext .ts,.js,.vue .",
     "lint:fix": "eslint --fix .",
     "prepare": "cross-env NUXT_BUILD=true nuxi prepare"
@@ -61,7 +60,6 @@
     "vue-datepicker-next": "1.0.2",
     "vue-material-design-icons": "5.1.2",
     "vue-tsc": "1.0.20",
-    "workbox-cdn": "5.1.4",
     "x2js": "3.4.4",
     "ytpl": "2.3.0",
     "ytsr": "3.8.0"

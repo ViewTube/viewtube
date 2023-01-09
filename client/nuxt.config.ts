@@ -38,58 +38,12 @@ export default defineNuxtConfig({
 
   pwa: {
     workbox: {
-      enabled: true,
-      workboxUrl: '/workbox/workbox-sw.js',
-      importScripts: ['notifications-sw.js']
+      enabled: true
+      // ImportScripts is not yet supported by @kevinmarrec/nuxt-pwa
+      // importScripts: ['notifications-sw.js']
     },
     icon: false,
     meta: false,
-    manifest: {
-      name: 'ViewTube',
-      short_name: 'ViewTube',
-      description: 'An alternative YouTube frontend',
-      lang: 'en',
-      display: 'standalone',
-      background_color: '#121212',
-      theme_color: '#272727',
-      icons: [
-        {
-          src: '/icon-192.png',
-          sizes: '192x192',
-          type: 'image/png',
-          purpose: 'any'
-        },
-        {
-          src: '/icon-256.png',
-          sizes: '256x256',
-          type: 'image/png',
-          purpose: 'any'
-        },
-        {
-          src: '/icon-512.png',
-          sizes: '512x512',
-          type: 'image/png',
-          purpose: 'any'
-        },
-        {
-          src: '/icon-192-maskable.png',
-          sizes: '192x192',
-          type: 'image/png',
-          purpose: 'maskable'
-        },
-        {
-          src: '/icon-256-maskable.png',
-          sizes: '256x256',
-          type: 'image/png',
-          purpose: 'maskable'
-        },
-        {
-          src: '/icon-512-maskable.png',
-          sizes: '512x512',
-          type: 'image/png',
-          purpose: 'maskable'
-        }
-      ]
-    }
+    manifest: false
   }
 });
