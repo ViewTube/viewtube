@@ -93,7 +93,7 @@
     "@types/node": "18.11.18",
     "@types/node-fetch": "2.6.2",
     "@types/passport-jwt": "3.0.8",
-    "@types/passport-local": "1.0.34",
+    "@types/passport-local": "1.0.35",
     "@types/redis-mock": "0.17.1",
     "@types/sharp": "0.31.1",
     "@types/web-push": "3.3.2",
