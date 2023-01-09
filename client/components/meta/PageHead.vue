@@ -1,12 +1,20 @@
 <script setup lang="ts">
 type ConditionalPropType = string | undefined | null;
 
-const props = defineProps<{
-  title: ConditionalPropType;
-  description: ConditionalPropType;
-  image?: ConditionalPropType;
-  video?: ConditionalPropType;
-}>();
+const props = withDefaults(
+  defineProps<{
+    title?: ConditionalPropType;
+    description?: ConditionalPropType;
+    image?: ConditionalPropType;
+    video?: ConditionalPropType;
+  }>(),
+  {
+    title: 'ViewTube',
+    description: 'ViewTube is an alternative YouTube frontend.',
+    image: 'https://viewtube.io/icon-192.png',
+    video: undefined
+  }
+);
 
 const safelyReturn = (prop: ConditionalPropType, returnValue: string | null = ''): string => {
   if (
@@ -38,5 +46,17 @@ const videoString = computed(() => safelyReturn(props.video, null));
     <Meta property="og:description" :content="descriptionString" />
     <Meta v-if="imageString" property="og:image" :content="imageString" />
     <Meta v-if="videoString" property="og:video" :content="videoString" />
+    <Meta name="theme-color" content="#121212" />
+    <Meta property="og:locale" content="en_US" />
+    <Meta property="og:site_name" content="ViewTube" />
+    <Link
+      rel="search"
+      type="application/opensearchdescription+xml"
+      title="Search ViewTube"
+      href="/viewtubesearch.xml"
+    />
+    <Link rel="manifest" href="/manifest.json" />
+    <Link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <Link rel="icon" type="image/x-icon" href="/favicon.ico" />
   </Head>
 </template>
