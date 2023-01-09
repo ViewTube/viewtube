@@ -4,8 +4,8 @@ node_modules
 
 # nuxt.js build output
 .nuxt
-
 .output
+client/public/workbox
 
 # Nuxt generate
 dist

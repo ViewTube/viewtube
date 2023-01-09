@@ -39,16 +39,18 @@ export default defineNuxtConfig({
   pwa: {
     workbox: {
       enabled: true,
+      workboxUrl: '/workbox/workbox-sw.js',
       importScripts: ['notifications-sw.js']
     },
     icon: false,
-    meta: {
+    meta: false,
+    manifest: {
       name: 'ViewTube',
       short_name: 'ViewTube',
-      display: 'standalone',
-      background_color: '#121212',
       description: 'An alternative YouTube frontend',
       lang: 'en',
+      display: 'standalone',
+      background_color: '#121212',
       theme_color: '#272727',
       icons: [
         {
@@ -88,7 +90,6 @@ export default defineNuxtConfig({
           purpose: 'maskable'
         }
       ]
-    },
-    manifest: false
+    }
   }
 });

@@ -1,5 +1,9 @@
 {
   "name": "tests",
+  "engines": {
+    "node": ">=18.13.0",
+    "pnpm": ">=7.22.0"
+  },
   "scripts": {
     "environment:prepare": "cross-env COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker-compose -f environment/docker-compose.yml up -d",
     "environment:teardown": "docker-compose -f environment/docker-compose.yml down",
@@ -12,5 +16,8 @@
     "cypress": "12.2.0",
     "cypress-commands": "^3.0.0",
     "typescript": "4.9.4"
+  },
+  "volta": {
+    "extends": "../package.json"
   }
 }
