@@ -34,16 +34,5 @@ export default defineNuxtConfig({
     }
   },
 
-  modules: ['@pinia/nuxt', '@pinia-plugin-persistedstate/nuxt', '@kevinmarrec/nuxt-pwa'],
-
-  pwa: {
-    workbox: {
-      enabled: true
-      // ImportScripts is not yet supported by @kevinmarrec/nuxt-pwa
-      // importScripts: ['notifications-sw.js']
-    },
-    icon: false,
-    meta: false,
-    manifest: false
-  }
+  modules: ['@pinia/nuxt', '@pinia-plugin-persistedstate/nuxt']
 });

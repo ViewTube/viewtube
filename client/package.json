@@ -15,7 +15,6 @@
     "prepare": "cross-env NUXT_BUILD=true nuxi prepare"
   },
   "devDependencies": {
-    "@kevinmarrec/nuxt-pwa": "0.14.0",
     "@nuxt/eslint-config": "0.1.1",
     "@nuxt/kit": "3.0.0",
     "@pinia-plugin-persistedstate/nuxt": "1.0.0",
