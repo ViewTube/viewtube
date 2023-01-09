@@ -1,7 +1,12 @@
 import { useRuntimeEnvironmentStore } from '@/store/runtimeEnvironment';
 import { getApiUrl } from '../../shared';
 
-export const useApiUrl = () => {
+const serverApiUrl = () => {
+  const port = process.env.PORT;
+  return `http://localhost:${port}/api/`;
+};
+
+export const useApiUrl = (clientOnly = false) => {
   const runtimeEnvironmentStore = useRuntimeEnvironmentStore();
   if (!runtimeEnvironmentStore.apiUrl) {
     const apiUrl = getApiUrl();
@@ -11,5 +16,9 @@ export const useApiUrl = () => {
       throw new Error('Could not retrieve API URL. Make sure VIEWTUBE_URL is set.');
     }
   }
-  return { apiUrl: runtimeEnvironmentStore.apiUrl };
+  if (process.server && !clientOnly && process.env.NODE_ENV === 'production') {
+    return { apiUrl: serverApiUrl() };
+  } else {
+    return { apiUrl: runtimeEnvironmentStore.apiUrl };
+  }
 };

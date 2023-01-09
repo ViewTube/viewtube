@@ -17,47 +17,53 @@ export const useGetUserHistory = ({ searchTerm, limit, start }: UserHistoryParam
     filterString = `&filter=${searchTerm}`;
   }
 
-  const url = `${apiUrl}user/history?limit=${limit}&start=${start}${filterString}&sort=DESC`;
+  const urlPart = `user/history?limit=${limit}&start=${start}${filterString}&sort=DESC`;
 
-  return useLazyFetch<ApiDto<'HistoryResponseDto'>>(url, {
-    headers: {
-      Authorization: authorizationHeader
-    },
-    credentials: 'include'
-  });
+  return useLazyAsyncData<ApiDto<'HistoryResponseDto'>>(urlPart, () =>
+    $fetch(`${apiUrl}${urlPart}`, {
+      headers: {
+        Authorization: authorizationHeader
+      },
+      credentials: 'include'
+    })
+  );
 };
 
 export const useGetUserHistoryItem = (videoId: string) => {
   const { apiUrl } = useApiUrl();
   const authorizationHeader = useAuthorizationHeader();
 
-  const url = `${apiUrl}user/history/${videoId}`;
+  const urlPart = `user/history/${videoId}`;
 
-  return useLazyFetch<{
+  return useLazyAsyncData<{
     videoId: string;
     progressSeconds: number;
     lengthSeconds: number;
     lastVisit: Date;
-  }>(url, {
-    headers: {
-      Authorization: authorizationHeader
-    },
-    credentials: 'include'
-  });
+  }>(urlPart, () =>
+    $fetch(`${apiUrl}${urlPart}`, {
+      headers: {
+        Authorization: authorizationHeader
+      },
+      credentials: 'include'
+    })
+  );
 };
 
 export const useGetUserProfileDetails = () => {
   const { apiUrl } = useApiUrl();
   const authorizationHeader = useAuthorizationHeader();
 
-  const url = `${apiUrl}user/profile/details`;
+  const urlPart = `user/profile/details`;
 
-  return useLazyFetch<ApiDto<'UserprofileDetailsDto'>>(url, {
-    headers: {
-      Authorization: authorizationHeader
-    },
-    credentials: 'include'
-  });
+  return useLazyAsyncData<ApiDto<'UserprofileDetailsDto'>>(urlPart, () =>
+    $fetch(`${apiUrl}${urlPart}`, {
+      headers: {
+        Authorization: authorizationHeader
+      },
+      credentials: 'include'
+    })
+  );
 };
 
 type UserSubscriptionsParams = {
@@ -77,12 +83,14 @@ export const useGetUserSubscriptions = (
     return `${apiUrl}user/subscriptions/videos?limit=${limit}&start=${start}`;
   });
 
-  return useLazyFetch<ApiDto<'SubscriptionFeedResponseDto'>>(url, {
-    headers: {
-      Authorization: authorizationHeader
-    },
-    credentials: 'include'
-  });
+  return useLazyAsyncData<ApiDto<'SubscriptionFeedResponseDto'>>('user/subscriptions/videos', () =>
+    $fetch(url.value, {
+      headers: {
+        Authorization: authorizationHeader
+      },
+      credentials: 'include'
+    })
+  );
 };
 
 type UserSubscriptionChannelsParams = {
@@ -109,10 +117,14 @@ export const useGetUserSubscriptionChannels = (
     return `${apiUrl}user/subscriptions/channels?limit=${limit}&start=${start}&sort=author:1${filterString}`;
   });
 
-  return useLazyFetch<ApiDto<'SubscribedChannelsResponseDto'>>(url, {
-    headers: {
-      Authorization: authorizationHeader
-    },
-    credentials: 'include'
-  });
+  return useLazyAsyncData<ApiDto<'SubscribedChannelsResponseDto'>>(
+    'user/subscriptions/channels',
+    () =>
+      $fetch(url.value, {
+        headers: {
+          Authorization: authorizationHeader
+        },
+        credentials: 'include'
+      })
+  );
 };

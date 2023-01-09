@@ -3,5 +3,5 @@ export const useGetInvidiousLicense = () => {
 
   const url = `${textProxy}https://raw.githubusercontent.com/iv-org/invidious/master/LICENSE`;
 
-  return useLazyFetch<string>(url);
+  return useLazyAsyncData<string>('invidious-license', () => $fetch(url));
 };

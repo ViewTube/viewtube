@@ -45,6 +45,13 @@ export const useChannelPages = () => {
         rubberband: false,
         created(slider) {
           slider.container.addEventListener(
+            'click',
+            e => {
+              e.stopPropagation();
+            },
+            { capture: true }
+          );
+          slider.container.addEventListener(
             'mousedown',
             e => {
               e.stopPropagation();

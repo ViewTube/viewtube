@@ -9,9 +9,9 @@ export const useGetChannelInfo = (id: Ref<string> | string) => {
     return `${apiUrl}channels/${channelId}`;
   });
 
-  return useLazyFetch<ApiDto<'ChannelInfoDto'>, ApiErrorDto>(url, {
-    key: `channel-info-${unref(id)}`
-  });
+  return useLazyAsyncData<ApiDto<'ChannelInfoDto'>, ApiErrorDto>(`channel-info-${unref(id)}`, () =>
+    $fetch(url.value)
+  );
 };
 
 export const useGetChannelHome = (id: Ref<string> | string) => {
@@ -22,7 +22,9 @@ export const useGetChannelHome = (id: Ref<string> | string) => {
     return `${apiUrl}channels/${channelId}/home`;
   });
 
-  return useLazyFetch<ApiDto<'ChannelHomeDto'>, ApiErrorDto>(url);
+  return useLazyAsyncData<ApiDto<'ChannelHomeDto'>, ApiErrorDto>(`channel-home-${unref(id)}`, () =>
+    $fetch(url.value)
+  );
 };
 
 export const useGetChannelStats = (id: Ref<string> | string) => {
@@ -33,5 +35,8 @@ export const useGetChannelStats = (id: Ref<string> | string) => {
     return `${apiUrl}channels/${channelId}/stats`;
   });
 
-  return useLazyFetch<ApiDto<'ChannelStatsDto'>, ApiErrorDto>(url);
+  return useLazyAsyncData<ApiDto<'ChannelStatsDto'>, ApiErrorDto>(
+    `channel-stats-${unref(id)}`,
+    () => $fetch(url.value)
+  );
 };
