@@ -1,5 +1,4 @@
-const modules = ['@pinia/nuxt', '@pinia-plugin-persistedstate/nuxt'];
-const devModules = ['nuxt-proxy'];
+const devOnly = <T>(modules: T): T => (process.env.NUXT_BUILD === 'true' ? <T>[] : modules);
 
 export default defineNuxtConfig({
   runtimeConfig: {
@@ -37,7 +36,7 @@ export default defineNuxtConfig({
     }
   },
 
-  modules: [...modules, ...(process.env.NUXT_BUILD === 'true' ? [] : devModules)],
+  modules: ['@pinia/nuxt', '@pinia-plugin-persistedstate/nuxt', ...devOnly(['nuxt-proxy'])],
 
   proxy: {
     options: {
