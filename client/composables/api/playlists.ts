@@ -7,5 +7,7 @@ type PlaylistType = Omit<ApiDto<'PlaylistResultDto'>, 'visibility'> & {
 export const useGetPlaylists = (id: string, { pages = 1 }) => {
   const { apiUrl } = useApiUrl();
 
-  return useLazyFetch<PlaylistType>(`${apiUrl}playlists/${id}?pages=${pages}`);
+  const urlPart = `playlists/${id}?pages=${pages}`;
+
+  return useLazyAsyncData<PlaylistType>(urlPart, () => $fetch(`${apiUrl}${urlPart}`));
 };

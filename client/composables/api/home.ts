@@ -3,5 +3,9 @@ import { ApiDto } from 'viewtube/shared';
 export const useGetPopularPage = () => {
   const { apiUrl } = useApiUrl();
 
-  return useLazyFetch<{ videos: ApiDto<'VideoDto'>[] }>(`${apiUrl}homepage/popular`);
+  const urlPart = 'homepage/popular';
+
+  return useLazyAsyncData<{ videos: ApiDto<'VideoDto'>[] }>(urlPart, () =>
+    $fetch(`${apiUrl}${urlPart}`)
+  );
 };

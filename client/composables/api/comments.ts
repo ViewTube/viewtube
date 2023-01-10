@@ -1,7 +1,9 @@
 export const useGetComments = (videoId: string) => {
   const { apiUrl } = useApiUrl();
 
-  return useLazyFetch(`${apiUrl}comments/${videoId}`);
+  const urlPart = `comments/${videoId}`;
+
+  return useLazyAsyncData(urlPart, () => $fetch(`${apiUrl}${urlPart}`));
 };
 
 export const useGetCommentsContinuation = (
@@ -10,7 +12,7 @@ export const useGetCommentsContinuation = (
 ) => {
   const { apiUrl } = useApiUrl();
 
-  return useLazyFetch(
-    `${apiUrl}comments/${videoId}?continuation=${continuationLink}`
-  );
+  const urlPart = `comments/${videoId}?continuation=${continuationLink}`;
+
+  return useLazyAsyncData(urlPart, () => $fetch(`${apiUrl}${urlPart}`));
 };

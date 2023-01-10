@@ -1,9 +1,9 @@
 export const useProxyUrls = () => {
-  const { apiUrl } = useApiUrl();
+  const { apiUrl: clientApiUrl } = useApiUrl(true);
   return {
-    textProxy: `${apiUrl}proxy/text?url=`,
-    imgProxy: `${apiUrl}proxy/image?url=`,
-    streamProxy: `${apiUrl}proxy/stream?url=`,
-    videoPlaybackProxy: `${apiUrl}videoplayback`
+    textProxy: `${clientApiUrl}proxy/text?url=`,
+    imgProxy: `${clientApiUrl}proxy/image?url=`,
+    streamProxy: `${clientApiUrl}proxy/stream?url=`,
+    videoPlaybackProxy: `${clientApiUrl}videoplayback`
   };
 };
