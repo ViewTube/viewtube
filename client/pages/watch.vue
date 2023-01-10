@@ -256,18 +256,18 @@ export default defineComponent({
       pending: videoPending,
       refresh
     } = useLazyAsyncData<VideoType, ApiErrorDto>(route.query.v.toString(), async () => {
-      const value = await $fetch<ApiDto<'VideoDto'>>(`${apiUrl}videos/${route.query.v}`);
+      const value = await $fetch<ApiDto<'VideoDto'>>(`${apiUrl.value}videos/${route.query.v}`);
 
       let initialVideoTime = 0;
       if (userStore.isLoggedIn && settingsStore.saveVideoHistory) {
-        const videoVisit = await $fetch<any>(`${apiUrl}user/history/${value.videoId}`, {
+        const videoVisit = await $fetch<any>(`${apiUrl.value}user/history/${value.videoId}`, {
           credentials: 'include'
         }).catch((_: any) => {});
 
         if (videoVisit?.progressSeconds > 0) {
           initialVideoTime = videoVisit.data.progressSeconds;
         } else if (userStore.isLoggedIn) {
-          $fetch(`${apiUrl}user/history/${route.query.v}`, {
+          $fetch(`${apiUrl.value}user/history/${route.query.v}`, {
             body: {
               progressSeconds: null,
               lengthSeconds: value.lengthSeconds

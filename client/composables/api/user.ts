@@ -20,7 +20,7 @@ export const useGetUserHistory = ({ searchTerm, limit, start }: UserHistoryParam
   const urlPart = `user/history?limit=${limit}&start=${start}${filterString}&sort=DESC`;
 
   return useLazyAsyncData<ApiDto<'HistoryResponseDto'>>(urlPart, () =>
-    $fetch(`${apiUrl}${urlPart}`, {
+    $fetch(`${apiUrl.value}${urlPart}`, {
       headers: {
         Authorization: authorizationHeader
       },
@@ -41,7 +41,7 @@ export const useGetUserHistoryItem = (videoId: string) => {
     lengthSeconds: number;
     lastVisit: Date;
   }>(urlPart, () =>
-    $fetch(`${apiUrl}${urlPart}`, {
+    $fetch(`${apiUrl.value}${urlPart}`, {
       headers: {
         Authorization: authorizationHeader
       },
@@ -57,7 +57,7 @@ export const useGetUserProfileDetails = () => {
   const urlPart = `user/profile/details`;
 
   return useLazyAsyncData<ApiDto<'UserprofileDetailsDto'>>(urlPart, () =>
-    $fetch(`${apiUrl}${urlPart}`, {
+    $fetch(`${apiUrl.value}${urlPart}`, {
       headers: {
         Authorization: authorizationHeader
       },
@@ -80,7 +80,7 @@ export const useGetUserSubscriptions = (
   const url = computed(() => {
     const limit = unref(config.limit ?? 20);
     const start = (unref(config.currentPage ?? 1) - 1) * limit;
-    return `${apiUrl}user/subscriptions/videos?limit=${limit}&start=${start}`;
+    return `${apiUrl.value}user/subscriptions/videos?limit=${limit}&start=${start}`;
   });
 
   return useLazyAsyncData<ApiDto<'SubscriptionFeedResponseDto'>>('user/subscriptions/videos', () =>
@@ -114,7 +114,7 @@ export const useGetUserSubscriptionChannels = (
 
     const limit = unref(config.limit ?? 20);
     const start = (unref(config.currentPage ?? 1) - 1) * limit;
-    return `${apiUrl}user/subscriptions/channels?limit=${limit}&start=${start}&sort=author:1${filterString}`;
+    return `${apiUrl.value}user/subscriptions/channels?limit=${limit}&start=${start}&sort=author:1${filterString}`;
   });
 
   return useLazyAsyncData<ApiDto<'SubscribedChannelsResponseDto'>>(

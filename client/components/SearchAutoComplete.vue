@@ -41,7 +41,7 @@ export default defineComponent({
       () => props.searchValue,
       async () => {
         const autocompleteResponse = await $fetch<[]>(
-          `${apiUrl}autocomplete?q=${props.searchValue}`
+          `${apiUrl.value}autocomplete?q=${props.searchValue}`
         );
 
         autocompleteValues.value = [props.searchValue].concat(autocompleteResponse);

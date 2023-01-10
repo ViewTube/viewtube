@@ -200,7 +200,7 @@ export default defineComponent({
     const getProfileImageUrl = (url: string): string => {
       if (url) {
         const imgUrl = url.replace('/api/', '');
-        return `${apiUrl}${imgUrl}`;
+        return `${apiUrl.value}${imgUrl}`;
       }
       return null;
     };

@@ -63,7 +63,7 @@ export default defineComponent({
     const loadSubscriptionStatus = (): void => {
       if (props.channelId && userStore.isLoggedIn) {
         $fetch<ApiDto<'SubscriptionStatusDto'>>(
-          `${apiUrl}user/subscriptions/${props.channelId}`,
+          `${apiUrl.value}user/subscriptions/${props.channelId}`,
           {
             credentials: 'include'
           }
@@ -86,7 +86,7 @@ export default defineComponent({
       if (props.channelId) {
         disabled.value = true;
         $fetch<ApiDto<'SubscriptionStatusDto'>>(
-          `${apiUrl}user/subscriptions/${props.channelId}`,
+          `${apiUrl.value}user/subscriptions/${props.channelId}`,
           {
             method: 'PUT',
             credentials: 'include'
@@ -114,7 +114,7 @@ export default defineComponent({
     const unsubscribe = (): void => {
       if (props.channelId) {
         disabled.value = true;
-        $fetch<ApiDto<'SubscriptionStatusDto'>>(`${apiUrl}user/subscriptions/${props.channelId}`, {
+        $fetch<ApiDto<'SubscriptionStatusDto'>>(`${apiUrl.value}user/subscriptions/${props.channelId}`, {
           method: 'DELETE',
           credentials: 'include'
         })

@@ -32,7 +32,7 @@ export default defineComponent({
     const hover = ref(false);
 
     const fetchEndscreenData = () => {
-      fetch(`${apiUrl}video/getEndscreen.php?videoId=${props.videoId}`, {
+      fetch(`${apiUrl.value}video/getEndscreen.php?videoId=${props.videoId}`, {
         cache: 'force-cache',
         method: 'GET'
       })

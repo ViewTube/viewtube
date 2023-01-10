@@ -183,7 +183,7 @@ export default defineComponent({
       if (searchData.value?.searchResults && searchContinuationData.value) {
         try {
           const searchContinuation = await $fetch<ytsr.ContinueResult>(
-            `${apiUrl}search/continuation`,
+            `${apiUrl.value}search/continuation`,
             {
               method: 'POST',
               body: {
