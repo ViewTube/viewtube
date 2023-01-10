@@ -1,3 +1,6 @@
+const modules = ['@pinia/nuxt', '@pinia-plugin-persistedstate/nuxt'];
+const devModules = ['nuxt-proxy'];
+
 export default defineNuxtConfig({
   runtimeConfig: {
     public: {
@@ -34,5 +37,13 @@ export default defineNuxtConfig({
     }
   },
 
-  modules: ['@pinia/nuxt', '@pinia-plugin-persistedstate/nuxt']
+  modules: [...modules, ...(process.env.NUXT_BUILD === 'true' ? [] : devModules)],
+
+  proxy: {
+    options: {
+      target: 'http://localhost:8067',
+      changeOrigin: true,
+      pathFilter: '/api'
+    }
+  }
 });
