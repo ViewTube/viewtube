@@ -297,6 +297,7 @@ const onVideoEntryClick = () => {
       display: flex;
       flex-direction: row;
       height: 100%;
+      overflow: hidden;
 
       .video-entry-channel {
         text-decoration: none;

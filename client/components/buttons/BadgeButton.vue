@@ -87,6 +87,7 @@ const clickFunction = (e: Event): void => {
     flex-direction: row;
     padding: 2px 4px;
     position: relative;
+    gap: 5px;
 
     &.loading {
       &:before {
