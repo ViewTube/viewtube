@@ -98,10 +98,6 @@ const bootstrap = async () => {
 
   // NUXT
   if (isProduction) {
-    // const nuxtFilter = new NuxtFilter();
-    // await nuxtFilter.init();
-    // server.useGlobalFilters(nuxtFilter);
-
     const nuxtService = server.get(NuxtService);
     await nuxtService.init();
 
@@ -116,22 +112,19 @@ const bootstrap = async () => {
   const port = configService.get<number>('PORT');
 
   // CORS
-  const allowedDomain = configService.get<string>('VIEWTUBE_ALLOWED_DOMAIN');
-  if (isProduction && allowedDomain) {
-    server.enableCors({ origin: allowedDomain, credentials: true });
-  } else if (!allowedDomain.startsWith('/')) {
-    server.enableCors({ origin: allowedDomain, credentials: true });
-  } else if (!allowedDomain) {
-    server.enableCors({ origin: '*' });
-  } else {
-    server.enableCors({ origin: new RegExp(allowedDomain), credentials: true });
+  const allowedOrigin = configService.get<string>('VIEWTUBE_CORS_ORIGIN');
+  if (isProduction && allowedOrigin) {
+    server.enableCors({
+      origin: allowedOrigin,
+      credentials: true
+    });
   }
 
   // SWAGGER DOCS
   const documentOptions = new DocumentBuilder()
     .setTitle('ViewTube-API')
     .setDescription('ViewTube, an alternative Youtube frontend.')
-    .setVersion('Version 0.8.0')
+    .setVersion('Version 0.9.1')
     .setLicense(
       'AGPLv3',
       'https://raw.githubusercontent.com/viewtube/viewtube-vue/development/LICENSE'

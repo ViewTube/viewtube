@@ -1,7 +1,7 @@
 import Joi from 'joi';
 
 export const validationSchema = Joi.object({
-   // These have a usable default value
+  // These have a usable default value
   PORT: Joi.number().default(8066),
   VIEWTUBE_SECURE: Joi.boolean().default(false),
 
@@ -15,11 +15,11 @@ export const validationSchema = Joi.object({
   VIEWTUBE_REDIS_PASSWORD: Joi.string().optional(),
 
   VIEWTUBE_JWT_EXPIRATION_TIME: Joi.number().default(43200),
-  VIEWTUBE_ALLOWED_DOMAIN: Joi.string().default(/^viewtube\.io|\.viewtube\.io$/),
   VIEWTUBE_DATA_DIRECTORY: Joi.string().default('/data'),
   VIEWTUBE_CLUSTERED: Joi.boolean().default(true),
 
   // These are not required for ViewTube to run
+  VIEWTUBE_CORS_DOMAIN: Joi.string().optional(),
   VIEWTUBE_YOUTUBE_COOKIE: Joi.string().optional(),
   VIEWTUBE_YOUTUBE_IDENTIFIER: Joi.string().optional(),
   HOMEPAGE_INVIDIOUS_URL: Joi.string().uri().default('https://invidious.snopyta.org')
