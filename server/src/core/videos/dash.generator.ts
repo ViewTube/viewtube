@@ -167,12 +167,12 @@ export class DashGenerator {
           const correctedUrl = format.url.replaceAll('&amp;', '&');
           const oldUrl = new URL(correctedUrl);
 
-          const newUrl = new URL(`/api/videoplayback`);
+          const searchParams = new URLSearchParams();
           for (const [key, value] of oldUrl.searchParams) {
-            newUrl.searchParams.append(key, value);
+            searchParams.append(key, value);
           }
-          newUrl.searchParams.append('host', oldUrl.host);
-          format.url = newUrl.toString();
+          searchParams.append('host', oldUrl.host);
+          format.url = `/api/videoplayback?${searchParams.toString()}`
         }
 
         if (isVideoFormat) {
