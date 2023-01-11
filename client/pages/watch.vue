@@ -83,9 +83,10 @@
               </nuxt-link>
             </div>
             <div class="infobox-channel-info">
-              <nuxt-link :to="`channel/${video.authorId}`" class="infobox-channel-name ripple">{{
-                video.author
-              }}</nuxt-link>
+              <nuxt-link :to="`channel/${video.authorId}`" class="infobox-channel-name">
+                <p>{{ video.author }}</p>
+                <VerifiedIcon v-if="video.authorVerified" />
+              </nuxt-link>
               <p v-if="video.subCount" class="infobox-channel-subcount">
                 {{ video.subCount.toLocaleString('en-US') }}
                 subscribers
@@ -177,6 +178,7 @@ import ThumbsDown from 'vue-material-design-icons/ThumbDown.vue';
 import InfoIcon from 'vue-material-design-icons/Information.vue';
 import Share from 'vue-material-design-icons/Share.vue';
 import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
+import VerifiedIcon from 'vue-material-design-icons/CheckDecagram.vue';
 import { Result } from 'ytpl';
 import NextUpVideo from '@/components/watch/NextUpVideo.vue';
 import Spinner from '@/components/Spinner.vue';
@@ -219,7 +221,8 @@ export default defineComponent({
     BadgeButton,
     PlaylistSection,
     VideoLoadingTemplate,
-    SectionTitle
+    SectionTitle,
+    VerifiedIcon
   },
   setup() {
     const messagesStore = useMessagesStore();
@@ -730,6 +733,16 @@ export default defineComponent({
               overflow: hidden;
               text-overflow: ellipsis;
               max-width: 45vw;
+              display: flex;
+              flex-direction: row;
+              gap: 5px;
+              align-items: center;
+
+              .material-design-icon, .material-design-icon__svg {
+                width: 20px;
+                height: 20px;
+                margin-bottom: 0.5px;
+              }
             }
 
             .infobox-channel-subcount {
