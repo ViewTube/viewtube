@@ -1,11 +1,9 @@
 import Joi from 'joi';
 
 export const validationSchema = Joi.object({
-  // Without these, ViewTube won't work
-  VIEWTUBE_URL: Joi.string().uri().required(),
-
-  // These have a usable default value
+   // These have a usable default value
   PORT: Joi.number().default(8066),
+  VIEWTUBE_SECURE: Joi.boolean().default(false),
 
   VIEWTUBE_DATABASE_HOST: Joi.string().default('localhost'),
   VIEWTUBE_DATABASE_PORT: Joi.number().default(27017),

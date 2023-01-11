@@ -41,7 +41,7 @@ const loadMoreVideos = async () => {
   if (playlistContinuation.value) {
     moreVideosLoading.value = true;
     await $fetch<{ items: Array<ApiDto<'PlaylistItemDto'>>; continuation: any }>(
-      `${apiUrl}playlists/continuation`,
+      `${apiUrl.value}playlists/continuation`,
       {
         params: {
           continuationData: playlistContinuation.value

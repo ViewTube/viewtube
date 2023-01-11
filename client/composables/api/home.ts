@@ -6,6 +6,6 @@ export const useGetPopularPage = () => {
   const urlPart = 'homepage/popular';
 
   return useLazyAsyncData<{ videos: ApiDto<'VideoDto'>[] }>(urlPart, () =>
-    $fetch(`${apiUrl}${urlPart}`)
+    $fetch(`${apiUrl.value}${urlPart}`)
   );
 };

@@ -1,3 +1,5 @@
+import { devOnly } from './utils/devOnly';
+
 export default defineNuxtConfig({
   runtimeConfig: {
     public: {
@@ -34,5 +36,13 @@ export default defineNuxtConfig({
     }
   },
 
-  modules: ['@pinia/nuxt', '@pinia-plugin-persistedstate/nuxt']
+  modules: ['@pinia/nuxt', '@pinia-plugin-persistedstate/nuxt', ...devOnly(['nuxt-proxy'])],
+
+  proxy: {
+    options: {
+      target: 'http://localhost:8067',
+      changeOrigin: true,
+      pathFilter: '/api'
+    }
+  }
 });

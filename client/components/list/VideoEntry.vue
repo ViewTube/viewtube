@@ -44,7 +44,7 @@ const props = defineProps<{
 }>();
 
 const imgProxy = useImgProxy();
-const { apiUrl } = useApiUrl();
+const { apiUrl } = useApiUrl(true);
 const loadingVideoInfoStore = useLoadingVideoInfoStore();
 
 const localProxy = '&local=true';

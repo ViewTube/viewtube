@@ -21,7 +21,7 @@ export const useUserStore = defineStore('user', {
       const { apiUrl } = useApiUrl();
       const settingsStore = useSettingsStore();
       try {
-        const user = await $fetch<User>(`${apiUrl}user/profile`, {
+        const user = await $fetch<User>(`${apiUrl.value}user/profile`, {
           headers: {
             Authorization: authenticationToken ? `Bearer ${authenticationToken}` : undefined
           },
@@ -39,7 +39,7 @@ export const useUserStore = defineStore('user', {
     async login(username: string, password: string) {
       const { apiUrl } = useApiUrl();
       try {
-        await $fetch(`${apiUrl}auth/login`, {
+        await $fetch(`${apiUrl.value}auth/login`, {
           method: 'POST',
           credentials: 'include',
           body: {
@@ -68,7 +68,7 @@ export const useUserStore = defineStore('user', {
       const captchaStore = useCaptchaStore();
       let registerResult = null;
       try {
-        registerResult = await $fetch(`${apiUrl}auth/register`, {
+        registerResult = await $fetch(`${apiUrl.value}auth/register`, {
           method: 'POST',
           credentials: 'include',
           body: {
@@ -108,7 +108,7 @@ export const useUserStore = defineStore('user', {
     async logout() {
       const { apiUrl } = useApiUrl();
       try {
-        await $fetch(`${apiUrl}auth/logout`, {
+        await $fetch(`${apiUrl.value}auth/logout`, {
           method: 'POST',
           credentials: 'include'
         });

@@ -305,7 +305,7 @@ export default defineComponent({
       loading.value = true;
       const subscriptions = selectedChannels.value;
       const subscriptionIds = subscriptions.map(e => e.authorId);
-      $fetch(`${apiUrl}user/subscriptions/multiple`, {
+      $fetch(`${apiUrl.value}user/subscriptions/multiple`, {
         method: 'POST',
         body: {
           channels: subscriptionIds

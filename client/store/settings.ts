@@ -54,7 +54,7 @@ export const useSettingsStore = defineStore(
       if (userStore.isLoggedIn) {
         // Use reactive to unwrap properties
         const { settingsSaving: _, ...settingsToSave } = reactive(state);
-        await $fetch(`${apiUrl}user/settings`, {
+        await $fetch(`${apiUrl.value}user/settings`, {
           method: 'PUT',
           credentials: 'include',
           body: settingsToSave

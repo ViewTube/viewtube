@@ -19,7 +19,7 @@ export const useGetSearchResult = () => {
     async () => {
       try {
         const { apiUrl } = useApiUrl();
-        const filtersResponse = await getFilters(searchQuery.value, apiUrl);
+        const filtersResponse = await getFilters(searchQuery.value, apiUrl.value);
 
         const filterArray = getFilterArray(route.query, filtersResponse);
 
@@ -29,7 +29,7 @@ export const useGetSearchResult = () => {
             filters: filterArray,
             pages: 1
           },
-          apiUrl
+          apiUrl.value
         );
 
         return {

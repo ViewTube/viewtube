@@ -132,7 +132,6 @@ export const getChannelFeed = async (
           let videos: Array<VideoBasicInfoDto> = [];
           // For channels that have videos
           if (jsonData.feed.entry) {
-            console.log(jsonData.feed.entry);
             videos = jsonData.feed.entry.map((video: any) => convertRssVideo(video));
           }
 

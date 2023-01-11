@@ -827,7 +827,7 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
   const saveVideoPosition = (currentTime: number) => {
     if (videoRef.value && settingsStore.saveVideoHistory) {
       if (userStore.isLoggedIn && !props.video.liveNow) {
-        $fetch(`${apiUrl}user/history/${props.video.videoId}`, {
+        $fetch(`${apiUrl.value}user/history/${props.video.videoId}`, {
           method: 'POST',
           body: {
             progressSeconds: Math.floor(currentTime),
@@ -926,7 +926,7 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
         }
       } else if (settingsStore.dashPlaybackEnabled && window.MediaSource) {
         // Using dashjs
-        const manifestUrl = `${apiUrl}videos/manifest/dash/${props.video.videoId}`;
+        const manifestUrl = `${apiUrl.value}videos/manifest/dash/${props.video.videoId}`;
         dashHelper.value = new DashHelper(videoRef.value, manifestUrl, () => {
           dashHelper.value.registerEventHandlers({ videoElement });
         });

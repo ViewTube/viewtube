@@ -93,7 +93,7 @@ const onProfileImageChange = (e: any) => {
   const img = e.target.files[0];
   const formData = new FormData();
   formData.append('image', img);
-  $fetch<{ path: string }>(`${apiUrl}user/profile/image`, {
+  $fetch<{ path: string }>(`${apiUrl.value}user/profile/image`, {
     method: 'POST',
     body: formData,
     headers: {
@@ -136,7 +136,7 @@ const onProfileImageChange = (e: any) => {
     });
 };
 const deleteProfileImage = () => {
-  $fetch(`${apiUrl}user/profile/image`, {
+  $fetch(`${apiUrl.value}user/profile/image`, {
     method: 'DELETE',
     credentials: 'include'
   })
@@ -168,7 +168,7 @@ const setProfileImageUrl = (url: string): void => {
   if (url) {
     const imgUrl = url.replace('/api/', '');
     const random = Math.random() * (0 - 1000) + 0;
-    profileImageUrl.value = `${apiUrl}${imgUrl}?r=${random}`;
+    profileImageUrl.value = `${apiUrl.value}${imgUrl}?r=${random}`;
   } else {
     profileImageUrl.value = null;
   }

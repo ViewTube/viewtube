@@ -24,7 +24,7 @@ const humanizeDateString = (dateString: string): string => {
   return humanizeDuration(dateMs, { largest: 1 });
 };
 const deleteEntry = async (videoId: string) => {
-  await $fetch(`${apiUrl}user/history/${videoId}`, {
+  await $fetch(`${apiUrl.value}user/history/${videoId}`, {
     method: 'DELETE',
     credentials: 'include'
   })
