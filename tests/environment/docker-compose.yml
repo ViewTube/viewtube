@@ -19,7 +19,6 @@ services:
     networks:
       - viewtube-local
     environment:
-      VIEWTUBE_URL: http://localhost:8466
       VIEWTUBE_DATABASE_HOST: viewtube-db-e2e
       VIEWTUBE_REDIS_HOST: viewtube-redis-e2e
       VIEWTUBE_DATA_DIRECTORY: /data

@@ -17,65 +17,15 @@ export const getSecondsFromTimestamp = (timestamp: string) => {
 };
 
 /**
- * Checks the protocol, parsed from the VIEWTUBE_URL environment variable.
+ * Checks if the VIEWTUBE_SECURE environment variable is set to true.
  * @returns {boolean}
- * @throws Throws an error if VIEWTUBE_URL is undefined or an invalid URL.
  */
-export const isHttps = (): boolean => new URL(getApiUrl()).protocol === 'https:';
-
-/**
- * Returns the api url, parsed from the VIEWTUBE_URL environment variable.
- * @returns {string}
- * @throws Throws an error if VIEWTUBE_URL is undefined or an invalid URL.
- */
-export const getApiUrl = (warnOnly = false): string => {
-  const urlEnv = process.env.VIEWTUBE_URL;
-  const silent = process.env.NUXT_BUILD === 'true';
-
-  let errorMessage = null;
-  let errorObject = null;
-
-  if (urlEnv) {
-    try {
-      const urlObj = new URL(urlEnv);
-      urlObj.pathname = 'api/';
-      const url = urlObj.href;
-      return url;
-    } catch (error) {
-      errorMessage = 'Error parsing VIEWTUBE_URL';
-      errorObject = error;
-    }
-  } else {
-    errorMessage = 'VIEWTUBE_URL is not defined';
+export const isHttps = (): boolean => {
+  if (typeof process.env.VIEWTUBE_SECURE === 'boolean') {
+    return process.env.VIEWTUBE_SECURE;
   }
-
-  if (!silent) {
-    const errorString = `${errorMessage}, make sure it is set to a valid URL.\n${
-      errorObject ?? ''
-    }`;
-    if (!warnOnly) {
-      throw new Error(errorString);
-    }
-    console.warn(errorString);
+  if (process.env.VIEWTUBE_SECURE === 'true') {
+    return true;
   }
-};
-
-/**
- * Returns the domain (hostname), parsed from the VIEWTUBE_URL environment variable.
- * @returns {string}
- * @throws Throws an error if VIEWTUBE_URL is undefined or an invalid URL.
- */
-export const getViewtubeDomain = (): string => {
-  const urlEnv = process.env.VIEWTUBE_URL;
-
-  if (urlEnv) {
-    try {
-      const urlObj = new URL(urlEnv);
-      return urlObj.hostname;
-    } catch (error) {
-      throw new Error(`Error parsing VIEWTUBE_URL, make sure it is a valid URL.\n${error}`);
-    }
-  } else {
-    throw new Error('Unable to find domain, VIEWTUBE_URL may not be defined');
-  }
+  return false;
 };
