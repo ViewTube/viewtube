@@ -1,4 +1,4 @@
-const devOnly = <T>(modules: T): T => (process.env.NUXT_BUILD === 'true' ? <T>[] : modules);
+import { devOnly } from './utils/devOnly';
 
 export default defineNuxtConfig({
   runtimeConfig: {
