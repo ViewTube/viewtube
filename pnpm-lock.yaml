@@ -114,7 +114,7 @@ importers:
     specifiers:
       '@fastify/cookie': 8.3.0
       '@fastify/helmet': 10.1.0
-      '@fastify/multipart': 7.3.0
+      '@fastify/multipart': 7.4.0
       '@fastify/static': ^6.6.0
       '@fastify/swagger': 8.2.1
       '@freetube/yt-comment-scraper': 6.2.0
@@ -209,7 +209,7 @@ importers:
     dependencies:
       '@fastify/cookie': 8.3.0
       '@fastify/helmet': 10.1.0
-      '@fastify/multipart': 7.3.0
+      '@fastify/multipart': 7.4.0
       '@fastify/static': 6.6.0
       '@fastify/swagger': 8.2.1
       '@freetube/yt-comment-scraper': 6.2.0
@@ -1743,7 +1743,7 @@ packages:
   /@fastify/cors/8.2.0:
     resolution: {integrity: sha512-qDgwpmg6C4D0D3nh8MTMuRXWyEwPnDZDBODaJv90FP2o9ukbahJByW4FtrM5Bpod5KbTf1oIExBmpItbUTQmHg==}
     dependencies:
-      fastify-plugin: 4.3.0
+      fastify-plugin: 4.4.0
       mnemonist: 0.39.5
     dev: false
 
@@ -1765,7 +1765,7 @@ packages:
     resolution: {integrity: sha512-4uHTS7wH0mkUoltk4wyJ966rs/TQP0BNDSCtyqRMy7p5adGg+5ERbYue/zGh/qI9yLDPN0K98u7Fw+lLEmBZJQ==}
     dependencies:
       fast-querystring: 1.0.0
-      fastify-plugin: 4.3.0
+      fastify-plugin: 4.4.0
     dev: false
 
   /@fastify/helmet/10.1.0:
@@ -1783,14 +1783,14 @@ packages:
       reusify: 1.0.4
     dev: false
 
-  /@fastify/multipart/7.3.0:
-    resolution: {integrity: sha512-tbzQiRFxoADCn0G10CqiQ/nDWWcfegtwg826Pfz2h7+XvuqJhGnko0TbafrWIY7hnGD+sNCGMdiTVsxxs6zigA==}
+  /@fastify/multipart/7.4.0:
+    resolution: {integrity: sha512-jl8KCMOjzniAMnF2/VdYFhGB03Oqtl24plxcnsKpdnRLu/ihVz4cNPz9bPn8mLUQW4r3dUlh6emINtZdJczkbg==}
     dependencies:
       '@fastify/busboy': 1.1.0
       '@fastify/deepmerge': 1.1.0
       '@fastify/error': 3.0.0
       end-of-stream: 1.4.4
-      fastify-plugin: 4.3.0
+      fastify-plugin: 4.4.0
       hexoid: 1.0.0
       secure-json-parse: 2.5.0
       stream-wormhole: 1.1.0
@@ -6668,6 +6668,18 @@ packages:
       debug:
         optional: true
 
+  /follow-redirects/1.15.2_debug@4.3.4:
+    resolution: {integrity: sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==}
+    engines: {node: '>=4.0'}
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
+    dependencies:
+      debug: 4.3.4
+    dev: true
+
   /forever-agent/0.6.1:
     resolution: {integrity: sha512-j0KLYPhm6zeac4lz3oJ3o65qvgQCcPubiyotZrXqEaG4hNagNYO8qdlUrX5vwqv9ohqeT/Z3j6+yW067yWWdUw==}
     dev: true
@@ -7167,7 +7179,7 @@ packages:
     engines: {node: '>=8.0.0'}
     dependencies:
       eventemitter3: 4.0.7
-      follow-redirects: 1.15.2
+      follow-redirects: 1.15.2_debug@4.3.4
       requires-port: 1.0.0
     transitivePeerDependencies:
       - debug
