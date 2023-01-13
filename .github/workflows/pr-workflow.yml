@@ -18,11 +18,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Generate build metadata
-        run: \
-          chmod +x client/buildMetadata.sh
-          ./client/buildMetadata.sh
-
       - name: Node.js PR workflow step ${{ matrix.command }}
         uses: actions/setup-node@v3
         with:
@@ -50,6 +45,9 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install
+
+      - name: Generate build metadata
+        run: pnpm build:metadata
 
       - name: Run ${{ matrix.command }}
         run: NODE_OPTIONS=--max-old-space-size=4096 pnpm run ${{ matrix.command }}

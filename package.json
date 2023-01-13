@@ -23,7 +23,8 @@
     "lint:client": "pnpm --filter=./client run lint",
     "lint:server": "pnpm --filter=./server run lint",
     "e2e": "pnpm --filter=./tests run test",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "build:metadata": "pnpm --filter=./client run build:metadata"
   },
   "browserslist": [
     "last 1 version",
