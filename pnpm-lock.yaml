@@ -192,7 +192,7 @@ importers:
       rxjs: 7.8.0
       sharp: 0.31.3
       svg-captcha: 1.4.0
-      ts-jest: 29.0.4
+      ts-jest: 29.0.5
       ts-loader: 9.4.2
       tslib: 2.4.1
       typescript: 4.9.4
@@ -297,7 +297,7 @@ importers:
       redis-mock: 0.56.3
       rimraf: 4.0.4
       run-script-webpack-plugin: 0.1.1
-      ts-jest: 29.0.4_p6ekqnroyms5nhqbfxosryz7rm
+      ts-jest: 29.0.5_p6ekqnroyms5nhqbfxosryz7rm
       ts-loader: 9.4.2_3fkjkrd3audxnith3e7fo4fnxi
       typescript: 4.9.4
       webpack: 5.75.0
@@ -11345,8 +11345,8 @@ packages:
     hasBin: true
     dev: true
 
-  /ts-jest/29.0.4_p6ekqnroyms5nhqbfxosryz7rm:
-    resolution: {integrity: sha512-YdNofkoyzeinwjIqLSYQeAM+GTmFQ7xFNtWcR5OyitY5VLzzNINrNmfhP5H3daA/V+RGQR7O3g1K6ysRgu5xIQ==}
+  /ts-jest/29.0.5_p6ekqnroyms5nhqbfxosryz7rm:
+    resolution: {integrity: sha512-PL3UciSgIpQ7f6XjVOmbi96vmDHUqAyqDr8YxzopDqX3kfgYtX1cuNeBjP+L9sFXi6nzsGGA6R3fP3DDDJyrxA==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     hasBin: true
     peerDependencies:
