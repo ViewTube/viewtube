@@ -41,14 +41,13 @@
 import { PropType } from 'vue';
 import UndoIcon from 'vue-material-design-icons/Undo.vue';
 
-
 export default defineComponent({
   name: 'Filters',
   components: {
     UndoIcon
   },
   props: {
-    filters: Array as PropType<Array<any>>,
+    filters: Array as PropType<Array<any>>
   },
   setup() {
     const route = useRoute();

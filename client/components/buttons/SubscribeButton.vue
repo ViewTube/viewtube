@@ -114,11 +114,14 @@ export default defineComponent({
     const unsubscribe = (): void => {
       if (props.channelId) {
         disabled.value = true;
-        $fetch<ApiDto<'SubscriptionStatusDto'>>(`${apiUrl.value}user/subscriptions/${props.channelId}`, {
-          method: 'DELETE',
-          credentials: 'include'
-        })
-          .then((response) => {
+        $fetch<ApiDto<'SubscriptionStatusDto'>>(
+          `${apiUrl.value}user/subscriptions/${props.channelId}`,
+          {
+            method: 'DELETE',
+            credentials: 'include'
+          }
+        )
+          .then(response => {
             if (!response.isSubscribed) {
               isSubscribed.value = false;
             }

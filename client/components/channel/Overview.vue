@@ -50,7 +50,6 @@ import Paid from 'vue-material-design-icons/CurrencyUsd.vue';
 
 import SubscribeButton from '@/components/buttons/SubscribeButton.vue';
 
-
 export default defineComponent({
   name: 'ChannelOverview',
   components: {

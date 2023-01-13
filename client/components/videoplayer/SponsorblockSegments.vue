@@ -14,7 +14,6 @@
 </template>
 
 <script lang="ts">
-
 export default defineComponent({
   name: 'SponsorBlockSegments',
   props: {

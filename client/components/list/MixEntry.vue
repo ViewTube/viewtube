@@ -45,9 +45,6 @@
 </template>
 
 <script lang="ts">
-
-
-
 export default defineComponent({
   name: 'MixEntry',
   props: {

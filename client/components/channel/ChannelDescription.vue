@@ -13,7 +13,6 @@
 </template>
 
 <script lang="ts">
-
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 
 export default defineComponent({

@@ -25,9 +25,8 @@
 </template>
 
 <script lang="ts">
-
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
-import {useMessagesStore} from "~/store/messages";
+import { useMessagesStore } from '~/store/messages';
 
 export default defineComponent({
   name: 'ErrorPage',

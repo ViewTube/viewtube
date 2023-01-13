@@ -738,7 +738,8 @@ export default defineComponent({
               gap: 5px;
               align-items: center;
 
-              .material-design-icon, .material-design-icon__svg {
+              .material-design-icon,
+              .material-design-icon__svg {
                 width: 20px;
                 height: 20px;
                 margin-bottom: 0.5px;

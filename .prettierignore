@@ -1,10 +1,12 @@
 ## Root
 node_modules
+pnpm-lock.yaml
 
 # Client
 client/node_modules
 client/.nuxt
 client/.output
+client/assets/fonts
 
 # Server
 server/data

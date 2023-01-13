@@ -36,9 +36,6 @@
 </template>
 
 <script lang="ts">
-
-
-
 export default defineComponent({
   name: 'MovieEntry',
   props: {

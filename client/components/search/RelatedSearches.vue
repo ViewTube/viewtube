@@ -20,10 +20,8 @@
 </template>
 
 <script lang="ts">
-
 import SectionTitle from '@/components/SectionTitle.vue';
 import { PropType } from 'vue';
-
 
 export default defineComponent({
   name: 'RelatedSearches',
@@ -31,7 +29,7 @@ export default defineComponent({
     SectionTitle
   },
   props: {
-    refinements: Array as PropType<Array<any>>,
+    refinements: Array as PropType<Array<any>>
   },
   setup() {
     const imgProxy = useImgProxy();

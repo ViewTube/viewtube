@@ -32,7 +32,6 @@
 </template>
 
 <script lang="ts">
-
 import VideoPlayer from '@/components/videoplayer/VideoPlayer.vue';
 import { useMiniplayerStore } from '@/store/miniplayer';
 
