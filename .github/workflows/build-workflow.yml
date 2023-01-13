@@ -22,6 +22,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 7
+          run_install: false
+
+      - name: Generate build metadata
+        run: pnpm build:metadata
+
       # - name: Setup QEMU
       #   uses: docker/setup-qemu-action@v2
 

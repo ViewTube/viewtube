@@ -45,3 +45,4 @@ Dockerfile.nodejs-mongodb
 .vscode/.ropeproject/
 server/config.json
 **/predist
+client/buildMetadata.json

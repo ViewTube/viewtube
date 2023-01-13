@@ -6,13 +6,13 @@
   },
   "scripts": {
     "prepare:env": "cross-env API_DEV_PORT=8067 PORT=8066",
-    "serve": "pnpm run prepare:env nuxi dev",
+    "serve": "pnpm run build:metadata && pnpm run prepare:env nuxi dev",
     "dev": "pnpm run serve",
     "build": "cross-env NUXT_BUILD=true nuxi build",
-    "build:dev": "cross-env NODE_ENV=development NUXT_BUILD=true nuxi build",
     "lint": "eslint --ext .ts,.js,.vue .",
     "lint:fix": "eslint --fix .",
-    "prepare": "cross-env NUXT_BUILD=true nuxi prepare"
+    "prepare": "cross-env NUXT_BUILD=true nuxi prepare",
+    "build:metadata": "./buildMetadata.sh"
   },
   "devDependencies": {
     "@nuxt/eslint-config": "0.1.1",

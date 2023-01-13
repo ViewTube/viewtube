@@ -115,10 +115,10 @@ export default defineComponent({
   width: 400px;
   background-color: var(--bgcolor-alt);
   margin: 10px;
-  padding: 10px;
+  padding: 10px 14px;
   box-sizing: border-box;
   position: relative;
-  border-radius: 3px;
+  border-radius: 8px;
   box-shadow: $max-shadow;
   animation: blob-in-notif 300ms $intro-easing;
   overflow: hidden;
@@ -208,6 +208,7 @@ export default defineComponent({
     word-break: break-all;
     color: var(--text-color);
     font-family: $default-font;
+    margin: 5px 0 0 0;
   }
 
   @keyframes reduce-width {
