@@ -46,7 +46,9 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Generate build metadata
-        run: pnpm build:metadata
+        run: |
+          pnpm build:metadata
+          cat ./client/buildMetadata.json
 
       - name: Run ${{ matrix.command }}
         run: NODE_OPTIONS=--max-old-space-size=4096 pnpm run ${{ matrix.command }}
@@ -73,7 +75,9 @@ jobs:
         run: pnpm --filter=./tests install --frozen-lockfile
 
       - name: Generate build metadata
-        run: pnpm build:metadata
+        run: |
+          pnpm build:metadata
+          cat ./client/buildMetadata.json
 
       - name: Prepare docker environment and run e2e tests
         run: pnpm run e2e
