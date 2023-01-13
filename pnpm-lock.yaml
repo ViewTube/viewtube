@@ -190,7 +190,7 @@ importers:
       redis: 4.5.1
       redis-mock: 0.56.3
       reflect-metadata: 0.1.13
-      rimraf: ^3.0.2
+      rimraf: ^4.0.0
       run-script-webpack-plugin: 0.1.1
       rxjs: 7.8.0
       sharp: 0.31.3
@@ -299,7 +299,7 @@ importers:
       openapi-typescript: 6.1.0
       redis: 4.5.1
       redis-mock: 0.56.3
-      rimraf: 3.0.2
+      rimraf: 4.0.4
       run-script-webpack-plugin: 0.1.1
       ts-jest: 29.0.4_p6ekqnroyms5nhqbfxosryz7rm
       ts-loader: 9.4.2_3fkjkrd3audxnith3e7fo4fnxi
@@ -6675,18 +6675,6 @@ packages:
       debug:
         optional: true
 
-  /follow-redirects/1.15.2_debug@4.3.4:
-    resolution: {integrity: sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==}
-    engines: {node: '>=4.0'}
-    peerDependencies:
-      debug: '*'
-    peerDependenciesMeta:
-      debug:
-        optional: true
-    dependencies:
-      debug: 4.3.4
-    dev: true
-
   /forever-agent/0.6.1:
     resolution: {integrity: sha512-j0KLYPhm6zeac4lz3oJ3o65qvgQCcPubiyotZrXqEaG4hNagNYO8qdlUrX5vwqv9ohqeT/Z3j6+yW067yWWdUw==}
     dev: true
@@ -7195,7 +7183,7 @@ packages:
     engines: {node: '>=8.0.0'}
     dependencies:
       eventemitter3: 4.0.7
-      follow-redirects: 1.15.2_debug@4.3.4
+      follow-redirects: 1.15.2
       requires-port: 1.0.0
     transitivePeerDependencies:
       - debug
@@ -10517,6 +10505,12 @@ packages:
     hasBin: true
     dependencies:
       glob: 7.2.3
+    dev: true
+
+  /rimraf/4.0.4:
+    resolution: {integrity: sha512-R0hoVr9xTwemarQjoWlNt/nb5dEGVTBhVdkRmEX2zEkT8T6onH0XKiGjuaC7rNNj/gYzY2p4NVRJ3sjO1ascHQ==}
+    engines: {node: '>=14'}
+    hasBin: true
     dev: true
 
   /rollup-plugin-terser/7.0.2_rollup@2.79.1:
