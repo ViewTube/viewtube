@@ -31,7 +31,7 @@ jobs:
       - name: Generate build metadata
         run: |
           pnpm build:metadata
-          echo ./client/buildMetadata.json
+          cat ./client/buildMetadata.json
 
       # - name: Setup QEMU
       #   uses: docker/setup-qemu-action@v2
