@@ -23,7 +23,6 @@
 </template>
 
 <script lang="ts">
-
 import { usePopupStore } from '@/store/popup';
 
 export default defineComponent({

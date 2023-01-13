@@ -39,9 +39,8 @@
   </div>
 </template>
 
-<script lang="ts">import { PropType } from 'vue';
-
-
+<script lang="ts">
+import { PropType } from 'vue';
 
 export default defineComponent({
   name: 'Dropdown',

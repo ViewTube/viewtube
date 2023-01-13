@@ -22,9 +22,7 @@ export const useCaptchaStore = defineStore('captcha', {
     async getCaptcha() {
       const { apiUrl } = useApiUrl();
 
-      const { token, captchaImage } = await $fetch<CaptchaResponse>(
-        `${apiUrl.value}auth/captcha`
-      );
+      const { token, captchaImage } = await $fetch<CaptchaResponse>(`${apiUrl.value}auth/captcha`);
 
       this.token = token;
       this.image = captchaImage;

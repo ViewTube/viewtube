@@ -1,0 +1,20 @@
+## Root
+node_modules
+pnpm-lock.yaml
+
+# Client
+client/node_modules
+client/.nuxt
+client/.output
+client/assets/fonts
+
+# Server
+server/data
+server/node_modules
+server/dist
+
+# Shared
+shared/node_modules
+
+# Tests
+tests/node_modules

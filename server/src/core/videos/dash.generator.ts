@@ -172,7 +172,7 @@ export class DashGenerator {
             searchParams.append(key, value);
           }
           searchParams.append('host', oldUrl.host);
-          format.url = `/api/videoplayback?${searchParams.toString()}`
+          format.url = `/api/videoplayback?${searchParams.toString()}`;
         }
 
         if (isVideoFormat) {

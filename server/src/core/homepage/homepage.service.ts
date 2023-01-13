@@ -5,7 +5,6 @@ import { Cron, CronExpression } from '@nestjs/schedule';
 import { Cache } from 'cache-manager';
 import Consola from 'consola';
 import { Model } from 'mongoose';
-import fetch from 'node-fetch';
 import { AppClusterService } from 'server/app-cluster.service';
 import { ChannelBasicInfo } from '../channels/schemas/channel-basic-info.schema';
 import { VideoBasicInfoDto } from 'server/core/videos/dto/video-basic-info.dto';
@@ -25,7 +24,7 @@ export class HomepageService {
   ) {
     this.popularPageUrl = `${this.configService.get(
       'HOMEPAGE_INVIDIOUS_URL'
-    )}/api/v1/popular?fields=type,title,videoId,videoThumbnails,lengthSeconds,viewCount,author,authorId,publishedText`;
+    )}/api/v1/popular?fields=type,title,videoId,videoThumbnails,lengthSeconds,viewCount,author,authorId,publishedText&hl=en-US`;
   }
 
   private popularPageUrl: string;
@@ -49,12 +48,11 @@ export class HomepageService {
     if (expired && (clusterWorker1 || notClustered)) {
       Consola.info('Refreshing popular page');
       try {
-        const popularPage = await fetch(this.popularPageUrl, {
+        const popularPage = (await fetch(this.popularPageUrl, {
           headers: {
             'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:84.0) Gecko/20100101 Firefox/84.0'
-          },
-          timeout: 10000
-        }).then(val => val.json());
+          }
+        }).then(val => val.json())) as Array<any>;
         const popularVideos = [];
         await Promise.allSettled(
           popularPage.map(async (video: VideoBasicInfoDto) => {

@@ -1,5 +1,5 @@
 function readPackage(pkg, context) {
-  if (process.env.CI === "true") {
+  if (process.env.CI === 'true') {
     delete pkg?.scripts?.prepare;
   }
 
@@ -8,6 +8,6 @@ function readPackage(pkg, context) {
 
 module.exports = {
   hooks: {
-    readPackage,
-  },
+    readPackage
+  }
 };

@@ -2,13 +2,13 @@ name: Pull Request
 
 on:
   pull_request:
-    branches: ["development"]
+    branches: ['development']
 
 jobs:
   pr-job:
     strategy:
       matrix:
-        command: ["build", "test", "lint:client", "lint:server"]
+        command: ['build', 'test', 'lint:client', 'lint:server']
 
     name: ${{ matrix.command }}
     timeout-minutes: 60

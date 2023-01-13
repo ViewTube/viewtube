@@ -1,9 +1,6 @@
 <template>
   <div class="search" :class="{ loading: pending }">
-    <MetaPageHead
-      :title="searchQuery"
-      description="Search for videos, channels and playlists"
-    />
+    <MetaPageHead :title="searchQuery" description="Search for videos, channels and playlists" />
     <Spinner v-if="pending" class="centered search-spinner" />
     <Filters
       v-if="searchData?.filters && searchData?.filters.length"

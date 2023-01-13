@@ -40,7 +40,6 @@ import PlayIcon from 'vue-material-design-icons/Play.vue';
 
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 
-
 export default defineComponent({
   name: 'InlineVideo',
   components: {

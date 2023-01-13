@@ -8,7 +8,6 @@
 </template>
 
 <script lang="ts">
-
 import VideoEntry from '@/components/list/VideoEntry.vue';
 import SectionTitle from '@/components/SectionTitle.vue';
 

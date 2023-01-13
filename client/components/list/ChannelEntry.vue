@@ -54,8 +54,6 @@
 <script lang="ts">
 import VerifiedIcon from 'vue-material-design-icons/CheckDecagram.vue';
 
-
-
 export default defineComponent({
   name: 'ChannelEntry',
   components: { VerifiedIcon },

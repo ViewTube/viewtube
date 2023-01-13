@@ -51,7 +51,6 @@
     "nuxt-proxy": "^0.3.12",
     "papaparse": "5.3.2",
     "pinia": "2.0.28",
-    "prettier": "2.8.2",
     "qrcode": "1.5.1",
     "sass": "1.57.1",
     "tippy.js": "6.3.7",

@@ -17,7 +17,6 @@ docker-compose.yml
 .vscode
 .nuxt
 .git
-ddata
 data
 node_modules
 data

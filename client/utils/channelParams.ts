@@ -1,4 +1,6 @@
-export const getChannelIdFromParam = (channelParam: string | string[] | undefined): string | null => {
+export const getChannelIdFromParam = (
+  channelParam: string | string[] | undefined
+): string | null => {
   return channelParam?.toString()?.split('/')?.[0] ?? null;
 };
 

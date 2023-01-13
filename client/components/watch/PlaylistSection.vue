@@ -97,7 +97,6 @@ import ReverseIcon from 'vue-material-design-icons/RotateLeft.vue';
 import { Result } from 'ytpl';
 import { PropType } from 'vue';
 
-
 export default defineComponent({
   name: 'PlaylistSection',
   components: {
