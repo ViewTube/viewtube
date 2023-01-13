@@ -1,7 +1,6 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { HttpsProxyAgent } from 'https-proxy-agent';
-import fetch from 'node-fetch';
 import { FastifyReply, FastifyRequest } from 'fastify';
 import undici, { Client } from 'undici';
 import Consola from 'consola';
@@ -11,12 +10,14 @@ export class ProxyService {
 
   async proxyText(url: string, local = true): Promise<string> {
     try {
-      let proxyAgent = null;
+      const requestOptions: Record<string, unknown> = {};
       if (this.configService.get('VIEWTUBE_PROXY_URL') && !local) {
         const proxy = this.configService.get('VIEWTUBE_PROXY_URL');
-        proxyAgent = new HttpsProxyAgent(proxy);
+        requestOptions.headers = {
+          agent: new HttpsProxyAgent(proxy)
+        };
       }
-      const fetchResponse = await fetch(url, { agent: proxyAgent });
+      const fetchResponse = await fetch(url, requestOptions);
       if (fetchResponse) {
         const result = await fetchResponse.text();
         return result;

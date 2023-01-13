@@ -141,6 +141,7 @@ importers:
       '@types/bcryptjs': 2.4.2
       '@types/bull': 3.15.9
       '@types/busboy': 1.5.0
+      '@types/cache-manager': ^4.0.2
       '@types/cookie-parser': 1.4.3
       '@types/eslint': 8.4.10
       '@types/humanize-duration': 3.27.1
@@ -148,7 +149,6 @@ importers:
       '@types/mime-types': 2.1.1
       '@types/multer': 1.4.7
       '@types/node': 18.11.18
-      '@types/node-fetch': 2.6.2
       '@types/passport-jwt': 3.0.8
       '@types/passport-local': 1.0.35
       '@types/redis-mock': 0.17.1
@@ -182,7 +182,6 @@ importers:
       mongodb-memory-server: 8.11.0
       mongoose: 6.8.3
       nestjs-throttler-storage-redis: git://github.com/mauriceoegerli/nestjs-throttler-storage-redis
-      node-fetch: 2.6.7
       openapi-typescript: ^6.1.0
       passport: 0.6.0
       passport-jwt: 4.0.1
@@ -247,7 +246,6 @@ importers:
       mini-svg-data-uri: 1.4.4
       mongoose: 6.8.3
       nestjs-throttler-storage-redis: github.com/mauriceoegerli/nestjs-throttler-storage-redis/e659522520fb6548fc8386e593a7dfd7f984a975_ffe7rtb2djiahrkpuofeysjq7e
-      node-fetch: 2.6.7
       passport: 0.6.0
       passport-jwt: 4.0.1
       passport-local: 1.0.0
@@ -273,6 +271,7 @@ importers:
       '@types/bcryptjs': 2.4.2
       '@types/bull': 3.15.9
       '@types/busboy': 1.5.0
+      '@types/cache-manager': 4.0.2
       '@types/cookie-parser': 1.4.3
       '@types/eslint': 8.4.10
       '@types/humanize-duration': 3.27.1
@@ -280,7 +279,6 @@ importers:
       '@types/mime-types': 2.1.1
       '@types/multer': 1.4.7
       '@types/node': 18.11.18
-      '@types/node-fetch': 2.6.2
       '@types/passport-jwt': 3.0.8
       '@types/passport-local': 1.0.35
       '@types/redis-mock': 0.17.1
@@ -3129,6 +3127,10 @@ packages:
       '@types/node': 18.11.18
     dev: true
 
+  /@types/cache-manager/4.0.2:
+    resolution: {integrity: sha512-fT5FMdzsiSX0AbgnS5gDvHl2Nco0h5zYyjwDQy4yPC7Ww6DeGMVKPRqIZtg9HOXDV2kkc18SL1B0N8f0BecrCA==}
+    dev: true
+
   /@types/connect/3.4.35:
     resolution: {integrity: sha512-cdeYyv4KWoEgpBISTxWvqYsVy444DOqehiF3fM3ne10AmJ62RSyNkUnxMJXHQWRQQX2eR94m5y1IZyDwBjV9FQ==}
     dependencies:
@@ -3289,13 +3291,6 @@ packages:
     resolution: {integrity: sha512-/SNsDidUFCvqqcWDwxv2feww/yqhNeTRL5CVoL3jU4Goc4kKEL10T7Eye65ZqPNi4HRx8sAEX59pV1aEH7drNA==}
     dependencies:
       '@types/express': 4.17.13
-    dev: true
-
-  /@types/node-fetch/2.6.2:
-    resolution: {integrity: sha512-DHqhlq5jeESLy19TYhLakJ07kNumXWjcDdxXsLUMJZ6ue8VZJj4kLPQVE/2mdHh3xZziNF1xppu5lwmS53HR+A==}
-    dependencies:
-      '@types/node': 18.11.18
-      form-data: 3.0.1
     dev: true
 
   /@types/node/14.18.36:
@@ -6721,15 +6716,6 @@ packages:
   /form-data/2.3.3:
     resolution: {integrity: sha512-1lLKB2Mu3aGP1Q/2eCOx0fNbRMe7XdwktwOruhfqqd0rIJWwN4Dh+E3hrPSlDCXnSR7UtZ1N38rVXm+6+MEhJQ==}
     engines: {node: '>= 0.12'}
-    dependencies:
-      asynckit: 0.4.0
-      combined-stream: 1.0.8
-      mime-types: 2.1.35
-    dev: true
-
-  /form-data/3.0.1:
-    resolution: {integrity: sha512-RHkBKtLWUVwd7SqRIvCZMEvAMoGUp0XU+seQiZejj0COz3RI3hWP4sCv3gZWWLjJTd7rGwcsF5eKZGii0r/hbg==}
-    engines: {node: '>= 6'}
     dependencies:
       asynckit: 0.4.0
       combined-stream: 1.0.8

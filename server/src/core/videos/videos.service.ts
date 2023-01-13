@@ -7,7 +7,6 @@ import { getInfo, videoInfo, getInfoOptions } from 'ytdl-core';
 import { ConfigService } from '@nestjs/config';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import fetch from 'node-fetch';
 import HttpsProxyAgent from 'https-proxy-agent';
 import { VideoDto } from 'server/core/videos/dto/video.dto';
 import { ChannelBasicInfo } from '../channels/schemas/channel-basic-info.schema';
