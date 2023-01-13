@@ -25,7 +25,6 @@ jobs:
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
-        id: pnpm-install
         with:
           version: 7
           run_install: false
@@ -44,7 +43,7 @@ jobs:
             ${{ runner.os }}-pnpm-store-
 
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
 
       - name: Generate build metadata
         run: pnpm build:metadata
@@ -66,13 +65,15 @@ jobs:
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
-        id: pnpm-install
         with:
           version: 7
           run_install: false
 
       - name: Install e2e test dependencies
         run: pnpm --filter=./tests install --frozen-lockfile
+
+      - name: Generate build metadata
+        run: pnpm build:metadata
 
       - name: Prepare docker environment and run e2e tests
         run: pnpm run e2e
