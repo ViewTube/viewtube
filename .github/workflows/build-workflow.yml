@@ -24,7 +24,8 @@ jobs:
 
       - name: Generate build metadata
         run: \
-          client/buildMetadata.sh
+          chmod +x client/buildMetadata.sh
+          ./client/buildMetadata.sh
 
       # - name: Setup QEMU
       #   uses: docker/setup-qemu-action@v2
