@@ -177,7 +177,7 @@ importers:
       jest: 29.3.1
       joi: 17.7.0
       mini-svg-data-uri: 1.4.4
-      mongodb-memory-server: 8.11.0
+      mongodb-memory-server: 8.11.1
       mongoose: 6.8.3
       nestjs-throttler-storage-redis: git://github.com/mauriceoegerli/nestjs-throttler-storage-redis
       openapi-typescript: ^6.1.0
@@ -291,7 +291,7 @@ importers:
       eslint-config-prettier: 8.6.0_eslint@8.31.0
       eslint-plugin-jest: 27.2.1_gwbh725yvx2gda2van5hxf7p64
       jest: 29.3.1_@types+node@18.11.18
-      mongodb-memory-server: 8.11.0
+      mongodb-memory-server: 8.11.1
       openapi-typescript: 6.1.0
       redis: 4.5.1
       redis-mock: 0.56.3
@@ -6668,6 +6668,18 @@ packages:
       debug:
         optional: true
 
+  /follow-redirects/1.15.2_debug@4.3.4:
+    resolution: {integrity: sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==}
+    engines: {node: '>=4.0'}
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
+    dependencies:
+      debug: 4.3.4
+    dev: true
+
   /forever-agent/0.6.1:
     resolution: {integrity: sha512-j0KLYPhm6zeac4lz3oJ3o65qvgQCcPubiyotZrXqEaG4hNagNYO8qdlUrX5vwqv9ohqeT/Z3j6+yW067yWWdUw==}
     dev: true
@@ -7167,7 +7179,7 @@ packages:
     engines: {node: '>=8.0.0'}
     dependencies:
       eventemitter3: 4.0.7
-      follow-redirects: 1.15.2
+      follow-redirects: 1.15.2_debug@4.3.4
       requires-port: 1.0.0
     transitivePeerDependencies:
       - debug
@@ -8830,8 +8842,8 @@ packages:
       '@types/whatwg-url': 8.2.2
       whatwg-url: 11.0.0
 
-  /mongodb-memory-server-core/8.11.0:
-    resolution: {integrity: sha512-67nj0U6k7fzx6fPys5n6kVkWYm4iiz/yqdMjVr2sgwqajnrdZ/HzBFO+eQImUVyvjOEZ08IKRZe1JO9q8GTMJA==}
+  /mongodb-memory-server-core/8.11.1:
+    resolution: {integrity: sha512-Qh0xtjRU2XyX7kpTGkl8AMcE29h3IWRQ2yErYBjNj6wr9eVd7riYYOg/KWMEk+nmQrSrfJrOQbymSOnFCbl1DA==}
     engines: {node: '>=12.22.0'}
     dependencies:
       '@types/tmp': 0.2.3
@@ -8855,12 +8867,12 @@ packages:
       - supports-color
     dev: true
 
-  /mongodb-memory-server/8.11.0:
-    resolution: {integrity: sha512-PH+3h28FNMfw4cHJmMHOG+o+Fy2eWCW7wnpdHI1+ub8NLc1g+nhJZL/Xu97uLHBAx8xNjjpLKBJf00BZ0YFheQ==}
+  /mongodb-memory-server/8.11.1:
+    resolution: {integrity: sha512-H7vzLw8ohqglh0/NKe6TGO8cugoX6amJUkzwkRVIt4ND4hjFXR+EyH8SkF6weqGTPbzvhlLDzUO0hZumF0AEZA==}
     engines: {node: '>=12.22.0'}
     requiresBuild: true
     dependencies:
-      mongodb-memory-server-core: 8.11.0
+      mongodb-memory-server-core: 8.11.1
       tslib: 2.4.1
     transitivePeerDependencies:
       - aws-crt
