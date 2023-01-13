@@ -1,14 +1,60 @@
+<script setup lang="ts">
+import CloseIcon from 'vue-material-design-icons/Close.vue';
+import GithubIcon from 'vue-material-design-icons/Github.vue';
+import ExternalIcon from 'vue-material-design-icons/OpenInNew.vue';
+
+import { description, version } from '@/../package.json';
+import BadgeButton from '@/components/buttons/BadgeButton.vue';
+import InvidiousLicense from '@/components/licenses/Invidious.vue';
+
+import { commit, abbreviated_commit, subject } from '@/buildMetadata.json';
+import { useMessagesStore } from '@/store/messages';
+
+defineEmits<{
+  (e: 'close'): void;
+}>();
+
+const messagesStore = useMessagesStore();
+
+const copyCommitHash = () => {
+  navigator.clipboard.writeText(commit);
+  messagesStore.createMessage({
+    title: 'Copied to clipboard',
+    message: 'Copied the commit hash to the clipboard',
+    type: 'info'
+  });
+};
+</script>
+
 <template>
   <div class="about popup">
     <div class="about-container popup-container">
       <CloseIcon v-ripple class="close-icon" @click.stop="$emit('close')" />
-      <h1>About ViewTube</h1>
+      <h1>About</h1>
       <div class="logo-about">
         <img class="logo-about-img" src="@/assets/icon.svg" alt="ViewTube" />
       </div>
-      <h2>ViewTube by Maurice Oegerli</h2>
-      <h5>Version {{ version }}</h5>
-      <h4>{{ description }}</h4>
+      <h2>{{ description }}</h2>
+      <div class="last-commit">
+        <h4 class="version">Version</h4>
+        <h4 class="version-code">{{ version }}</h4>
+        <h4>Last commit</h4>
+        <h4 v-tippy="'Click to copy'" class="commit-hash" @click="copyCommitHash">
+          {{ abbreviated_commit
+          }}<span class="full-commit">
+            {{ commit.replace(abbreviated_commit, '') }}
+          </span>
+        </h4>
+        <h4 class="commit-subject">
+          {{ subject }}
+          <a
+            :href="`https://github.com/ViewTube/viewtube/commit/${commit}`"
+            target="_blank"
+            rel="noreferrer noopener"
+            ><ExternalIcon
+          /></a>
+        </h4>
+      </div>
       <div class="links-about">
         <BadgeButton :href="'https://github.com/viewtube/viewtube-vue'">
           <GithubIcon />ViewTube
@@ -84,39 +130,6 @@
   </div>
 </template>
 
-<script lang="ts">
-import CloseIcon from 'vue-material-design-icons/Close.vue';
-import GithubIcon from 'vue-material-design-icons/Github.vue';
-import ExternalIcon from 'vue-material-design-icons/OpenInNew.vue';
-
-// import packageJson from '@/../package.json';
-import BadgeButton from '@/components/buttons/BadgeButton.vue';
-import InvidiousLicense from '@/components/licenses/Invidious.vue';
-
-export default defineComponent({
-  name: 'About',
-  components: {
-    CloseIcon,
-    GithubIcon,
-    ExternalIcon,
-    BadgeButton,
-    InvidiousLicense
-  },
-  setup() {
-    const description = ref('');
-    const version = ref('');
-
-    // description.value = packageJson.description;
-    // version.value = packageJson.version;
-
-    return {
-      description,
-      version
-    };
-  }
-});
-</script>
-
 <style lang="scss">
 .external-service {
   margin: 15px 0 0 0 !important;
@@ -143,16 +156,60 @@ export default defineComponent({
   margin: 0 !important;
 }
 
-.links-about {
-  margin: 10px 0 0 0 !important;
+.last-commit {
+  display: grid;
+  margin: 5px 0 0 0 !important;
+  grid-template-areas:
+    'version version-code'
+    'title hash'
+    'title commit';
+  gap: 0 15px;
 
-  a {
-    line-height: 24px;
+  .version {
+    grid-area: version;
+    margin: 0 0 5px 0;
+  }
 
-    span {
-      margin: -1px 10px 0 0;
+  .version-code {
+    grid-area: version-code;
+  }
+
+  .commit-hash {
+    grid-area: hash;
+    cursor: pointer;
+
+    &:hover {
+      .full-commit {
+        opacity: 1;
+      }
+    }
+
+    .full-commit {
+      opacity: 0;
+      transition: opacity 300ms $intro-easing;
     }
   }
+
+  .commit-subject {
+    grid-area: commit;
+
+    .material-design-icon {
+      width: 14px;
+      height: 14px;
+      padding: 3px 0 0 0;
+      box-sizing: border-box;
+
+      .material-design-icon__svg {
+        width: 14px;
+        height: 14px;
+        display: block;
+      }
+    }
+  }
+}
+
+.links-about {
+  margin: 10px 0 0 0 !important;
 }
 
 .about-container {

@@ -18,6 +18,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Generate build metadata
+        run: \
+          ./client/buildMetadata.sh
+
       - name: Node.js PR workflow step ${{ matrix.command }}
         uses: actions/setup-node@v3
         with:

@@ -22,6 +22,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Generate build metadata
+        run: \
+          ./client/buildMetadata.sh
+
       # - name: Setup QEMU
       #   uses: docker/setup-qemu-action@v2
 
