@@ -6,7 +6,7 @@ services:
     ports:
       - 8066:8066
     volumes:
-      - ./ddata:/data
+      - ./data:/data
     depends_on:
       - viewtube-db
       - viewtube-redis
