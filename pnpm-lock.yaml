@@ -173,7 +173,7 @@ importers:
       fastify: 4.11.0
       https-proxy-agent: 5.0.1
       humanize-duration: 3.27.3
-      ioredis: 5.2.4
+      ioredis: 5.2.5
       jest: 29.3.1
       joi: 17.7.0
       mini-svg-data-uri: 1.4.4
@@ -239,11 +239,11 @@ importers:
       fastify: 4.11.0
       https-proxy-agent: 5.0.1
       humanize-duration: 3.27.3
-      ioredis: 5.2.4
+      ioredis: 5.2.5
       joi: 17.7.0
       mini-svg-data-uri: 1.4.4
       mongoose: 6.8.3
-      nestjs-throttler-storage-redis: github.com/mauriceoegerli/nestjs-throttler-storage-redis/e659522520fb6548fc8386e593a7dfd7f984a975_ffe7rtb2djiahrkpuofeysjq7e
+      nestjs-throttler-storage-redis: github.com/mauriceoegerli/nestjs-throttler-storage-redis/e659522520fb6548fc8386e593a7dfd7f984a975_zv7km775ucnzgpise2pcv6bvei
       passport: 0.6.0
       passport-jwt: 4.0.1
       passport-local: 1.0.0
@@ -4610,7 +4610,7 @@ packages:
       cron-parser: 4.7.0
       debuglog: 1.0.1
       get-port: 5.1.1
-      ioredis: 5.2.4
+      ioredis: 5.2.5
       lodash: 4.17.21
       msgpackr: 1.8.1
       p-timeout: 3.2.0
@@ -6668,6 +6668,18 @@ packages:
       debug:
         optional: true
 
+  /follow-redirects/1.15.2_debug@4.3.4:
+    resolution: {integrity: sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==}
+    engines: {node: '>=4.0'}
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
+    dependencies:
+      debug: 4.3.4
+    dev: true
+
   /forever-agent/0.6.1:
     resolution: {integrity: sha512-j0KLYPhm6zeac4lz3oJ3o65qvgQCcPubiyotZrXqEaG4hNagNYO8qdlUrX5vwqv9ohqeT/Z3j6+yW067yWWdUw==}
     dev: true
@@ -7167,7 +7179,7 @@ packages:
     engines: {node: '>=8.0.0'}
     dependencies:
       eventemitter3: 4.0.7
-      follow-redirects: 1.15.2
+      follow-redirects: 1.15.2_debug@4.3.4
       requires-port: 1.0.0
     transitivePeerDependencies:
       - debug
@@ -7376,8 +7388,8 @@ packages:
     engines: {node: '>= 0.10'}
     dev: true
 
-  /ioredis/5.2.4:
-    resolution: {integrity: sha512-qIpuAEt32lZJQ0XyrloCRdlEdUUNGG9i0UOk6zgzK6igyudNWqEBxfH6OlbnOOoBBvr1WB02mm8fR55CnikRng==}
+  /ioredis/5.2.5:
+    resolution: {integrity: sha512-7HKo/ClM2DGLRXdFq8ruS3Uuadensz4A76wPOU0adqlOqd1qkhoLPDaBhmVhUhNGpB+J65/bhLmNB8DDY99HJQ==}
     engines: {node: '>=12.22.0'}
     dependencies:
       '@ioredis/commands': 1.2.0
@@ -11611,7 +11623,7 @@ packages:
       chokidar: 3.5.3
       destr: 1.2.2
       h3: 1.0.2
-      ioredis: 5.2.4
+      ioredis: 5.2.5
       listhen: 1.0.0
       mkdir: 0.0.2
       mri: 1.2.0
@@ -12280,7 +12292,7 @@ packages:
       - debug
     dev: false
 
-  github.com/mauriceoegerli/nestjs-throttler-storage-redis/e659522520fb6548fc8386e593a7dfd7f984a975_ffe7rtb2djiahrkpuofeysjq7e:
+  github.com/mauriceoegerli/nestjs-throttler-storage-redis/e659522520fb6548fc8386e593a7dfd7f984a975_zv7km775ucnzgpise2pcv6bvei:
     resolution: {tarball: https://codeload.github.com/mauriceoegerli/nestjs-throttler-storage-redis/tar.gz/e659522520fb6548fc8386e593a7dfd7f984a975}
     id: github.com/mauriceoegerli/nestjs-throttler-storage-redis/e659522520fb6548fc8386e593a7dfd7f984a975
     name: nestjs-throttler-storage-redis
@@ -12295,6 +12307,6 @@ packages:
       '@nestjs/common': 9.2.1_66pidaijumrtzyachnvfwzkz3e
       '@nestjs/core': 9.2.1_gs3k642xgyjax3mvj2n3wicqwi
       '@nestjs/throttler': 3.1.0_dntc3uqqknzoduyjojusds5kla
-      ioredis: 5.2.4
+      ioredis: 5.2.5
       reflect-metadata: 0.1.13
     dev: false
