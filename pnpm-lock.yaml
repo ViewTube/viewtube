@@ -116,7 +116,7 @@ importers:
       '@fastify/helmet': 10.1.0
       '@fastify/multipart': 7.4.0
       '@fastify/static': ^6.6.0
-      '@fastify/swagger': 8.2.1
+      '@fastify/swagger': 8.3.0
       '@freetube/yt-comment-scraper': 6.2.0
       '@nestjs/bull': 0.6.2
       '@nestjs/cli': 9.1.8
@@ -211,7 +211,7 @@ importers:
       '@fastify/helmet': 10.1.0
       '@fastify/multipart': 7.4.0
       '@fastify/static': 6.6.0
-      '@fastify/swagger': 8.2.1
+      '@fastify/swagger': 8.3.0
       '@freetube/yt-comment-scraper': 6.2.0
       '@nestjs/bull': 0.6.2_5g4fguw5dzljhwwr66uekbkoti
       '@nestjs/common': 9.2.1_66pidaijumrtzyachnvfwzkz3e
@@ -1810,8 +1810,8 @@ packages:
       - supports-color
     dev: false
 
-  /@fastify/swagger/8.2.1:
-    resolution: {integrity: sha512-nYP/3ncrI5YmaGiJf6m+CLdFrdlWSsASHBPqP9uN9/oFFwDJwdUtq0ylmvObxzqWNVt9zT50iT/uvIndVEsvbg==}
+  /@fastify/swagger/8.3.0:
+    resolution: {integrity: sha512-iJkVXIId7K0ylJfsBXvYSuxUURD1G77+OxwCIJ0MqZnkeYCgiUqjzw6twY87EXd5mRVZujl6CACOIO73+mQOYw==}
     dependencies:
       fastify-plugin: 4.4.0
       json-schema-resolver: 2.0.0
