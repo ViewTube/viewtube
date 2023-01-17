@@ -40,3 +40,18 @@ export const useGetChannelStats = (id: Ref<string> | string) => {
     () => $fetch(url.value)
   );
 };
+
+
+export const useGetChannelVideos = (id: Ref<string> | string) => {
+  const { apiUrl } = useApiUrl();
+
+  const url = computed(() => {
+    const channelId = unref(id);
+    return `${apiUrl.value}channels/${channelId}/videos`;
+  });
+
+  return useLazyAsyncData<ApiDto<'ChannelVideosDto'>, ApiErrorDto>(
+    `channel-videos-${unref(id)}`,
+    () => $fetch(url.value)
+  );
+};
