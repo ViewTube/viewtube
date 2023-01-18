@@ -161,7 +161,7 @@ importers:
       bull: 4.10.2
       cache-manager: 5.1.4
       cache-manager-redis-store: 2.0.0
-      chalk: 4.1.2
+      chalk: 5.2.0
       class-transformer: 0.5.1
       class-validator: '0.14'
       consola: 2.15.3
@@ -231,7 +231,7 @@ importers:
       bull: 4.10.2
       cache-manager: 5.1.4
       cache-manager-redis-store: 2.0.0
-      chalk: 4.1.2
+      chalk: 5.2.0
       class-transformer: 0.5.1
       class-validator: 0.14.0
       consola: 2.15.3
@@ -4596,7 +4596,6 @@ packages:
   /chalk/5.2.0:
     resolution: {integrity: sha512-ree3Gqw/nazQAPuJJEy+avdl7QfZMcUvmHIKgEZkGL+xOBzRvup5Hxo6LHuMceSxOabuJLJm5Yp/92R9eMmMvA==}
     engines: {node: ^12.17.0 || ^14.13 || >=16.0.0}
-    dev: true
 
   /char-regex/1.0.2:
     resolution: {integrity: sha512-kWWXztvZ5SBQV+eRgKFeh8q5sLuZY2+8WUIzlxWVTg+oGwY14qylx1KbKzHd8P6ZYkAg0xyIDU9JMHhyJMZ1jw==}

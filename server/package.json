@@ -44,7 +44,7 @@
     "bull": "4.10.2",
     "cache-manager": "5.1.4",
     "cache-manager-redis-store": "2.0.0",
-    "chalk": "4.1.2",
+    "chalk": "5.2.0",
     "class-transformer": "0.5.1",
     "class-validator": "0.14",
     "consola": "2.15.3",
