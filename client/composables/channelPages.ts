@@ -1,74 +1,27 @@
-import KeenSlider, { KeenSliderInstance } from 'keen-slider';
-
 export const useChannelPages = () => {
   const route = useRoute();
   const channelId = computed(() => getChannelIdFromParam(route.params.id) ?? null);
 
   const currentPage = ref(getCurrentPageFromParam(route.params.id));
 
-  const changingSlideProgrammatically = ref(false);
+  const swiperInstance = ref(null);
+
   const initializationPending = ref(true);
 
-  const changePage = (pageName: string, updateSlide = true) => {
+  const onSwiperInstance = swiper => {
+    swiperInstance.value = swiper;
+  };
+
+  const changePage = (pageName: string) => {
     const newUrl = `${cleanChannelParam(window.location.href)}/${pageName}`;
     window.history.replaceState(null, '', newUrl);
     currentPage.value = pageName;
-
-    if (updateSlide) {
-      updateSlider(pageName);
-    }
   };
-
-  const updateSlider = (pageName: string) => {
-    if (sliderInstance.value) {
-      changingSlideProgrammatically.value = true;
-      const pageIndex = pages.value.findIndex(page => page.pageName === pageName);
-      sliderInstance.value?.moveToIdx(pageIndex);
-      setTimeout(() => {
-        changingSlideProgrammatically.value = false;
-      }, 300);
-    }
-  };
-
-  const sliderInstance = ref<KeenSliderInstance | null>(null);
 
   const swipeContainerRef = ref<HTMLElement | null>(null);
 
   onMounted(() => {
     initializationPending.value = false;
-    nextTick(() => {
-      sliderInstance.value = new KeenSlider(swipeContainerRef.value, {
-        slides: {
-          origin: 'center'
-        },
-        initial: pages.value.findIndex(page => page.pageName === currentPage.value),
-        rubberband: false,
-        created(slider) {
-          slider.container.addEventListener(
-            'click',
-            e => {
-              e.stopPropagation();
-            },
-            { capture: true }
-          );
-          slider.container.addEventListener(
-            'mousedown',
-            e => {
-              e.stopPropagation();
-            },
-            { capture: true }
-          );
-        },
-        slideChanged(slider) {
-          if (!changingSlideProgrammatically.value) {
-            const pageName = pages.value[slider.track.details.rel]?.pageName;
-            if (pageName) {
-              changePage(pageName, false);
-            }
-          }
-        }
-      });
-    });
   });
 
   const cleanChannelParam = (url: string) => {
@@ -93,8 +46,8 @@ export const useChannelPages = () => {
     pages,
     currentPage,
     changePage,
-    sliderInstance,
     swipeContainerRef,
-    initializationPending
+    initializationPending,
+    onSwiperInstance
   };
 };
