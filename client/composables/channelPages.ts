@@ -12,8 +12,6 @@ export const useChannelPages = () => {
 
   const swiperInstance = ref<Swiper>(null);
 
-  const initializationPending = ref(true);
-
   const onSwiperInstance = (swiper: Swiper) => {
     swiperInstance.value = swiper;
 
@@ -29,16 +27,12 @@ export const useChannelPages = () => {
     currentPage.value = pageName;
 
     const index = pages.value.findIndex(page => page.pageName === pageName);
-    if(swiperInstance.value?.activeIndex !== index) {
+    if (swiperInstance.value?.activeIndex !== index) {
       swiperInstance.value.slideTo(index);
     }
   };
 
   const swipeContainerRef = ref<HTMLElement | null>(null);
-
-  onMounted(() => {
-    initializationPending.value = false;
-  });
 
   const cleanChannelParam = (url: string) => {
     let newUrl = url;
@@ -64,7 +58,6 @@ export const useChannelPages = () => {
     currentPageIndex,
     changePage,
     swipeContainerRef,
-    initializationPending,
     onSwiperInstance
   };
 };

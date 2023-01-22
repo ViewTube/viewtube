@@ -14,13 +14,14 @@ const channelId = computed(() => route.params.id?.toString()?.split('/')?.[0] ??
 
 const { data: channelInfo } = useGetChannelInfo(channelId);
 
+const { jsEnabled } = useJsEnabled();
+
 const {
   pages,
   currentPage,
   currentPageIndex,
   changePage,
   swipeContainerRef,
-  initializationPending,
   onSwiperInstance
 } = useChannelPages();
 </script>
@@ -39,7 +40,7 @@ const {
       :current-page="currentPage"
       @change-page="changePage"
     />
-    <div v-if="initializationPending" class="no-js channel-pages-container">
+    <div v-if="jsEnabled" class="no-js channel-pages-container">
       <ChannelPageHome v-if="currentPage === 'home'" />
       <ChannelPageVideos v-if="currentPage === 'videos'" />
       <ChannelPagePlaylists v-if="currentPage === 'playlists'" />
@@ -48,38 +49,29 @@ const {
       <ChannelPageAbout v-if="currentPage === 'about'" />
     </div>
     <swiper
-      v-if="!initializationPending"
+      v-if="!jsEnabled"
       ref="swipeContainerRef"
       class="channel-pages-container"
       :simulate-touch="false"
-      :initial-slide="1"
+      :initial-slide="currentPageIndex"
       @swiper="onSwiperInstance"
     >
-      <swiper-slide v-if="!initializationPending || currentPage === 'home'" class="channel-page">
+      <swiper-slide class="channel-page">
         <ChannelPageHome />
       </swiper-slide>
-      <swiper-slide v-if="!initializationPending || currentPage === 'videos'" class="channel-page">
+      <swiper-slide class="channel-page">
         <ChannelPageVideos />
       </swiper-slide>
-      <swiper-slide
-        v-if="!initializationPending || currentPage === 'playlists'"
-        class="channel-page"
-      >
+      <swiper-slide class="channel-page">
         <ChannelPagePlaylists />
       </swiper-slide>
-      <swiper-slide
-        v-if="!initializationPending || currentPage === 'community'"
-        class="channel-page"
-      >
+      <swiper-slide class="channel-page">
         <ChannelPageCommunity />
       </swiper-slide>
-      <swiper-slide
-        v-if="!initializationPending || currentPage === 'channels'"
-        class="channel-page"
-      >
+      <swiper-slide class="channel-page">
         <ChannelPageChannels />
       </swiper-slide>
-      <swiper-slide v-if="!initializationPending || currentPage === 'about'" class="channel-page">
+      <swiper-slide class="channel-page">
         <ChannelPageAbout />
       </swiper-slide>
     </swiper>
