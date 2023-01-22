@@ -17,6 +17,7 @@ const { data: channelInfo } = useGetChannelInfo(channelId);
 const {
   pages,
   currentPage,
+  currentPageIndex,
   changePage,
   swipeContainerRef,
   initializationPending,
@@ -38,7 +39,22 @@ const {
       :current-page="currentPage"
       @change-page="changePage"
     />
-    <swiper ref="swipeContainerRef" class="channel-pages-container" @swiper="onSwiperInstance">
+    <div v-if="initializationPending" class="no-js channel-pages-container">
+      <ChannelPageHome v-if="currentPage === 'home'" />
+      <ChannelPageVideos v-if="currentPage === 'videos'" />
+      <ChannelPagePlaylists v-if="currentPage === 'playlists'" />
+      <ChannelPageCommunity v-if="currentPage === 'community'" />
+      <ChannelPageChannels v-if="currentPage === 'channels'" />
+      <ChannelPageAbout v-if="currentPage === 'about'" />
+    </div>
+    <swiper
+      v-if="!initializationPending"
+      ref="swipeContainerRef"
+      class="channel-pages-container"
+      :simulate-touch="false"
+      :initial-slide="1"
+      @swiper="onSwiperInstance"
+    >
       <swiper-slide v-if="!initializationPending || currentPage === 'home'" class="channel-page">
         <ChannelPageHome />
       </swiper-slide>

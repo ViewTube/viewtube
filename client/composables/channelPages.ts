@@ -1,21 +1,37 @@
+import { Swiper } from 'swiper';
+
 export const useChannelPages = () => {
   const route = useRoute();
   const channelId = computed(() => getChannelIdFromParam(route.params.id) ?? null);
 
   const currentPage = ref(getCurrentPageFromParam(route.params.id));
 
-  const swiperInstance = ref(null);
+  const currentPageIndex = computed(() => {
+    return pages.value.findIndex(page => page.pageName === currentPage.value);
+  });
+
+  const swiperInstance = ref<Swiper>(null);
 
   const initializationPending = ref(true);
 
-  const onSwiperInstance = swiper => {
+  const onSwiperInstance = (swiper: Swiper) => {
     swiperInstance.value = swiper;
+
+    swiper.on('slideChange', swiper => {
+      const page = pages.value[swiper.activeIndex];
+      changePage(page.pageName);
+    });
   };
 
   const changePage = (pageName: string) => {
     const newUrl = `${cleanChannelParam(window.location.href)}/${pageName}`;
     window.history.replaceState(null, '', newUrl);
     currentPage.value = pageName;
+
+    const index = pages.value.findIndex(page => page.pageName === pageName);
+    if(swiperInstance.value?.activeIndex !== index) {
+      swiperInstance.value.slideTo(index);
+    }
   };
 
   const swipeContainerRef = ref<HTMLElement | null>(null);
@@ -45,6 +61,7 @@ export const useChannelPages = () => {
   return {
     pages,
     currentPage,
+    currentPageIndex,
     changePage,
     swipeContainerRef,
     initializationPending,
