@@ -196,7 +196,7 @@ importers:
       ts-loader: 9.4.2
       tslib: 2.4.1
       typescript: 4.9.4
-      undici: 5.15.1
+      undici: 5.16.0
       web-push: 3.5.0
       webpack: 5.75.0
       webpack-node-externals: 3.0.0
@@ -252,7 +252,7 @@ importers:
       sharp: 0.31.3
       svg-captcha: 1.4.0
       tslib: 2.4.1
-      undici: 5.15.1
+      undici: 5.16.0
       web-push: 3.5.0
       x2js: 3.4.4
       xml-js: 1.6.11
@@ -9319,7 +9319,7 @@ packages:
       destr: 1.2.2
       node-fetch-native: 0.1.8
       ufo: 0.8.6
-      undici: 5.15.1
+      undici: 5.16.0
     dev: true
 
   /on-exit-leak-free/2.1.0:
@@ -9365,7 +9365,7 @@ packages:
       fast-glob: 3.2.12
       js-yaml: 4.1.0
       supports-color: 9.3.1
-      undici: 5.15.1
+      undici: 5.16.0
       yargs-parser: 21.1.1
     dev: true
 
@@ -11482,8 +11482,8 @@ packages:
       unplugin: 1.0.1
     dev: true
 
-  /undici/5.15.1:
-    resolution: {integrity: sha512-XLk8g0WAngdvFqTI+VKfBtM4YWXgdxkf1WezC771Es0Dd+Pm1KmNx8t93WTC+Hh9tnghmVxkclU1HN+j+CvIUA==}
+  /undici/5.16.0:
+    resolution: {integrity: sha512-KWBOXNv6VX+oJQhchXieUznEmnJMqgXMbs0xxH2t8q/FUAWSJvOSr/rMaZKnX5RIVq7JDn0JbP4BOnKG2SGXLQ==}
     engines: {node: '>=12.18'}
     dependencies:
       busboy: 1.6.0
