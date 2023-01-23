@@ -132,9 +132,9 @@ importers:
       '@nestjs/testing': 9.2.1
       '@nestjs/throttler': 3.1.0
       '@nestjs/websockets': ^9.2.1
-      '@sentry/node': 7.31.1
-      '@sentry/tracing': 7.31.1
-      '@sentry/types': 7.31.1
+      '@sentry/node': 7.32.1
+      '@sentry/tracing': 7.32.1
+      '@sentry/types': 7.32.1
       '@types/archiver': 5.3.1
       '@types/bcryptjs': 2.4.2
       '@types/bull': 3.15.9
@@ -224,8 +224,8 @@ importers:
       '@nestjs/schedule': 2.1.0_dntc3uqqknzoduyjojusds5kla
       '@nestjs/swagger': 6.1.4_amv64ql2st5iwe3zqfgkk2utnu
       '@nestjs/throttler': 3.1.0_dntc3uqqknzoduyjojusds5kla
-      '@sentry/node': 7.31.1
-      '@sentry/tracing': 7.31.1
+      '@sentry/node': 7.32.1
+      '@sentry/tracing': 7.32.1
       archiver: 5.3.1
       bcryptjs: 2.4.3
       bull: 4.10.2
@@ -256,7 +256,7 @@ importers:
       web-push: 3.5.0
       x2js: 3.4.4
       xml-js: 1.6.11
-      yt-channel-info: github.com/FreeTubeApp/yt-channel-info/22f0ae4eae2c600655abe353e11e3d8b3f0e42fb
+      yt-channel-info: github.com/FreeTubeApp/yt-channel-info/2fa707da2977d7736aa968a846498dadaab3c11e
       ytdl-core: 4.11.2
       ytpl: 2.3.0
       ytsr: 3.8.0
@@ -264,7 +264,7 @@ importers:
       '@nestjs/cli': 9.1.8
       '@nestjs/testing': 9.2.1_hjcqpoaebdr7gdo5hgc22hthbe
       '@nestjs/websockets': 9.2.1_fyic65utxiftcghm7bf7rrj4z4
-      '@sentry/types': 7.31.1
+      '@sentry/types': 7.32.1
       '@types/archiver': 5.3.1
       '@types/bcryptjs': 2.4.2
       '@types/bull': 3.15.9
@@ -2935,22 +2935,22 @@ packages:
     resolution: {integrity: sha512-sXo/qW2/pAcmT43VoRKOJbDOfV3cYpq3szSVfIThQXNt+E4DfKj361vaAt3c88U5tPUxzEswam7GW48PJqtKAg==}
     dev: true
 
-  /@sentry/core/7.31.1:
-    resolution: {integrity: sha512-quaNU6z8jabmatBTDi28Wpff2yzfWIp/IU4bbi2QOtEiCNT+TQJXqlRTRMu9xLrX7YzyKCL5X2gbit/85lyWUg==}
+  /@sentry/core/7.32.1:
+    resolution: {integrity: sha512-WHCFdlvK+YiGPjjmwLLvueH7zMYxLgNl0esCQUrqoTHhZ4asIV8k3/5OXgUi4kV2DW+NjzhmtK3qKeWZxgitfw==}
     engines: {node: '>=8'}
     dependencies:
-      '@sentry/types': 7.31.1
-      '@sentry/utils': 7.31.1
+      '@sentry/types': 7.32.1
+      '@sentry/utils': 7.32.1
       tslib: 1.14.1
     dev: false
 
-  /@sentry/node/7.31.1:
-    resolution: {integrity: sha512-4VzfOU1YHeoGkBQmkVXlXoXITf+1NkZEREKhdzgpVAkVjb2Tk3sMoFov4wOKWnNTTj4ka50xyaw/ZmqApgQ4Pw==}
+  /@sentry/node/7.32.1:
+    resolution: {integrity: sha512-wHC3hZzirYLeT2CB6co4PE9og3aVEqUyKi4YUsFKxigWyftIzkWyuQag4DNStlUpaBI1uFusBmhp87J0ZC6PQA==}
     engines: {node: '>=8'}
     dependencies:
-      '@sentry/core': 7.31.1
-      '@sentry/types': 7.31.1
-      '@sentry/utils': 7.31.1
+      '@sentry/core': 7.32.1
+      '@sentry/types': 7.32.1
+      '@sentry/utils': 7.32.1
       cookie: 0.4.2
       https-proxy-agent: 5.0.1
       lru_map: 0.3.3
@@ -2959,25 +2959,25 @@ packages:
       - supports-color
     dev: false
 
-  /@sentry/tracing/7.31.1:
-    resolution: {integrity: sha512-kW6vNwddp2Ycq2JfTzveUEIRF9YQwvl7L6BBoOZt9oVnYlsPipEeyU2Q277LatHldr8hDo2tbz/vz2BQjO5GSw==}
+  /@sentry/tracing/7.32.1:
+    resolution: {integrity: sha512-MG67+DzsbEM0p7+g/H5DQqsjFCXkvF50gK2+8EpfO6N2uqYpELPMIeTkERtMiqjhkDZ11bokWKE33CvA/TEF5Q==}
     engines: {node: '>=8'}
     dependencies:
-      '@sentry/core': 7.31.1
-      '@sentry/types': 7.31.1
-      '@sentry/utils': 7.31.1
+      '@sentry/core': 7.32.1
+      '@sentry/types': 7.32.1
+      '@sentry/utils': 7.32.1
       tslib: 1.14.1
     dev: false
 
-  /@sentry/types/7.31.1:
-    resolution: {integrity: sha512-1uzr2l0AxEnxUX/S0EdmXUQ15/kDsam8Nbdw4Gai8SU764XwQgA/TTjoewVP597CDI/AHKan67Y630/Ylmkx9w==}
+  /@sentry/types/7.32.1:
+    resolution: {integrity: sha512-yWS5no9Xxftgb6IGjj7iK6TvOk6rfy2H5gKcj4DrPqSWKmh0jfszUoX4B+olkt7H75sTSQqv3yiuMsySsMh+6Q==}
     engines: {node: '>=8'}
 
-  /@sentry/utils/7.31.1:
-    resolution: {integrity: sha512-ZsIPq29aNdP9q3R7qIzJhZ9WW+4DzE9g5SfGwx3UjTIxoRRBfdUJUbf7S+LKEdvCkKbyoDt6FLt5MiSJV43xBA==}
+  /@sentry/utils/7.32.1:
+    resolution: {integrity: sha512-kZVpqRTC+UiI/PlSxEuv0G5G0lZeTZTL/pyRb8sptLhFo7QxEaGO/XCDNzWC4vQdm5PrpCVZ6w/XCYCHEhx4Tw==}
     engines: {node: '>=8'}
     dependencies:
-      '@sentry/types': 7.31.1
+      '@sentry/types': 7.32.1
       tslib: 1.14.1
     dev: false
 
@@ -12238,8 +12238,8 @@ packages:
       compress-commons: 4.1.1
       readable-stream: 3.6.0
 
-  github.com/FreeTubeApp/yt-channel-info/22f0ae4eae2c600655abe353e11e3d8b3f0e42fb:
-    resolution: {tarball: https://codeload.github.com/FreeTubeApp/yt-channel-info/tar.gz/22f0ae4eae2c600655abe353e11e3d8b3f0e42fb}
+  github.com/FreeTubeApp/yt-channel-info/2fa707da2977d7736aa968a846498dadaab3c11e:
+    resolution: {tarball: https://codeload.github.com/FreeTubeApp/yt-channel-info/tar.gz/2fa707da2977d7736aa968a846498dadaab3c11e}
     name: yt-channel-info
     version: 3.2.1
     dependencies:
