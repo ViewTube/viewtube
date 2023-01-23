@@ -22,7 +22,8 @@ const {
   currentPageIndex,
   changePage,
   swipeContainerRef,
-  onSwiperInstance
+  onSwiperInstance,
+  loadedPages
 } = useChannelPages();
 </script>
 
@@ -40,39 +41,56 @@ const {
       :current-page="currentPage"
       @change-page="changePage"
     />
-    <div v-if="jsEnabled" class="no-js channel-pages-container">
+    <div v-if="!jsEnabled" class="channel-pages-container">
       <ChannelPageHome v-if="currentPage === 'home'" />
       <ChannelPageVideos v-if="currentPage === 'videos'" />
+      <ChannelPageShorts v-if="currentPage === 'shorts'" />
+      <ChannelPageLive v-if="currentPage === 'live'" />
       <ChannelPagePlaylists v-if="currentPage === 'playlists'" />
       <ChannelPageCommunity v-if="currentPage === 'community'" />
       <ChannelPageChannels v-if="currentPage === 'channels'" />
       <ChannelPageAbout v-if="currentPage === 'about'" />
     </div>
     <swiper
-      v-if="!jsEnabled"
+      v-if="jsEnabled"
       ref="swipeContainerRef"
       class="channel-pages-container"
       :simulate-touch="false"
       :initial-slide="currentPageIndex"
+      :resistance-ratio="0"
       @swiper="onSwiperInstance"
     >
       <swiper-slide class="channel-page">
-        <ChannelPageHome />
+        <ChannelPageHome v-if="loadedPages.includes('home')" />
+        <Spinner v-else />
       </swiper-slide>
       <swiper-slide class="channel-page">
-        <ChannelPageVideos />
+        <ChannelPageVideos v-if="loadedPages.includes('videos')" />
+        <Spinner v-else />
       </swiper-slide>
       <swiper-slide class="channel-page">
-        <ChannelPagePlaylists />
+        <ChannelPageShorts v-if="loadedPages.includes('shorts')" />
+        <Spinner v-else />
       </swiper-slide>
       <swiper-slide class="channel-page">
-        <ChannelPageCommunity />
+        <ChannelPageLive v-if="loadedPages.includes('live')" />
+        <Spinner v-else />
       </swiper-slide>
       <swiper-slide class="channel-page">
-        <ChannelPageChannels />
+        <ChannelPagePlaylists v-if="loadedPages.includes('playlists')" />
+        <Spinner v-else />
       </swiper-slide>
       <swiper-slide class="channel-page">
-        <ChannelPageAbout />
+        <ChannelPageCommunity v-if="loadedPages.includes('community')" />
+        <Spinner v-else />
+      </swiper-slide>
+      <swiper-slide class="channel-page">
+        <ChannelPageChannels v-if="loadedPages.includes('channels')" />
+        <Spinner v-else />
+      </swiper-slide>
+      <swiper-slide class="channel-page">
+        <ChannelPageAbout v-if="loadedPages.includes('about')" />
+        <Spinner v-else />
       </swiper-slide>
     </swiper>
   </div>

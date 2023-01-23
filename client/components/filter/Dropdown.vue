@@ -1,3 +1,65 @@
+<script setup lang="ts">
+const props = defineProps<{
+  values: Array<any>;
+  value: string;
+  label?: string;
+  noDefault?: boolean;
+}>();
+
+const emit = defineEmits<{
+  (event: 'valuechange', originalValue: { [key: string]: any }, index: number): void;
+}>();
+
+const selected = ref(0);
+const open = ref(false);
+const offsetTop = ref(null);
+const offsetLeft = ref(null);
+const visible = ref(false);
+
+const dropdownBtnRef = ref(null);
+
+type entriesArray = Array<{ name: string; value: string }>;
+
+const entries = computed((): entriesArray => {
+  if (props.values[0].value && props.values[0].name) {
+    return props.values;
+  } else {
+    return props.values.map(value => {
+      return { name: value, value };
+    });
+  }
+});
+
+const calculateOffset = (): void => {
+  if (dropdownBtnRef.value) {
+    const dropdownDimens = dropdownBtnRef.value.getBoundingClientRect();
+    offsetTop.value = dropdownDimens.top + 50;
+    offsetLeft.value = dropdownDimens.left;
+  }
+};
+const select = (e: any): void => {
+  selected.value = e.target.getAttribute('index');
+  open.value = false;
+  emit('valuechange', entries.value[selected.value], selected.value);
+};
+const onDropdownBtnClick = (): void => {
+  calculateOffset();
+  open.value = !open.value;
+  window.addEventListener('resize', calculateOffset);
+};
+
+const selectedEntry = entries.value.findIndex(e => e.value === props.value);
+if (props.noDefault && props.value === null) {
+  selected.value = selectedEntry !== -1 ? selectedEntry : null;
+} else {
+  selected.value = selectedEntry !== -1 ? selectedEntry : 0;
+}
+
+calculateOffset();
+
+visible.value = true;
+</script>
+
 <template>
   <div ref="dropdownBtnRef" class="dropdown" :class="{ open: open }">
     <div
@@ -38,87 +100,6 @@
     </Teleport>
   </div>
 </template>
-
-<script lang="ts">
-import { PropType } from 'vue';
-
-export default defineComponent({
-  name: 'Dropdown',
-  props: {
-    values: Array as PropType<Array<any>>,
-    value: String,
-    label: { type: String, required: false },
-    noDefault: { type: Boolean, required: false }
-  },
-  emits: ['valuechange'],
-  setup(props, { emit }) {
-    const selected = ref(0);
-    const open = ref(false);
-    const offsetTop = ref(null);
-    const offsetLeft = ref(null);
-    const visible = ref(false);
-
-    const dropdownBtnRef = ref(null);
-
-    type entriesArray = Array<{ name: string; value: string }>;
-
-    const entries = computed((): entriesArray => {
-      if (props.values[0].value && props.values[0].name) {
-        return props.values;
-      } else {
-        return props.values.map(value => {
-          return { name: value, value };
-        });
-      }
-    });
-
-    const calculateOffset = (): void => {
-      if (dropdownBtnRef.value) {
-        const dropdownDimens = dropdownBtnRef.value.getBoundingClientRect();
-        offsetTop.value = dropdownDimens.top + 50;
-        offsetLeft.value = dropdownDimens.left;
-      }
-    };
-    const select = (e: any): void => {
-      selected.value = e.target.getAttribute('index');
-      open.value = false;
-      emit('valuechange', entries.value[selected.value], selected.value);
-    };
-    const onDropdownBtnClick = (): void => {
-      calculateOffset();
-      open.value = !open.value;
-      window.addEventListener('resize', calculateOffset);
-    };
-    const hideDropdown = (): void => {
-      calculateOffset();
-      open.value = false;
-      window.removeEventListener('resize', calculateOffset);
-    };
-
-    const selectedEntry = entries.value.findIndex(e => e.value === props.value);
-    if (props.noDefault && props.value === null) {
-      selected.value = selectedEntry !== -1 ? selectedEntry : null;
-    } else {
-      selected.value = selectedEntry !== -1 ? selectedEntry : 0;
-    }
-    calculateOffset();
-    visible.value = true;
-
-    return {
-      selected,
-      open,
-      offsetTop,
-      offsetLeft,
-      visible,
-      entries,
-      dropdownBtnRef,
-      select,
-      onDropdownBtnClick,
-      hideDropdown
-    };
-  }
-});
-</script>
 
 <style lang="scss" scoped>
 .dropdown {

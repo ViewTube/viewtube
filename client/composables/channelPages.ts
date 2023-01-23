@@ -1,5 +1,7 @@
 import { Swiper } from 'swiper';
 
+const pageNames = ['home', 'videos', 'shorts', 'live', 'playlists', 'community', 'channels', 'about'];
+
 export const useChannelPages = () => {
   const route = useRoute();
   const channelId = computed(() => getChannelIdFromParam(route.params.id) ?? null);
@@ -10,6 +12,10 @@ export const useChannelPages = () => {
     return pages.value.findIndex(page => page.pageName === currentPage.value);
   });
 
+  const loadedPages = ref<Set<string>>(new Set([currentPage.value]));
+
+  const loadedPagesArray = computed(() => Array.from(loadedPages.value));
+
   const swiperInstance = ref<Swiper>(null);
 
   const onSwiperInstance = (swiper: Swiper) => {
@@ -17,6 +23,7 @@ export const useChannelPages = () => {
 
     swiper.on('slideChange', swiper => {
       const page = pages.value[swiper.activeIndex];
+      loadedPages.value.add(page.pageName);
       changePage(page.pageName);
     });
   };
@@ -44,20 +51,19 @@ export const useChannelPages = () => {
   };
 
   const pages = computed(() => {
-    const pages = ['home', 'videos', 'playlists', 'community', 'channels', 'about'];
-    return pages.map(page => ({
+    return pageNames.map(page => ({
       title: page.charAt(0).toUpperCase() + page.slice(1),
       pageName: page,
       link: `/channel/${channelId.value}/${page}`
     }));
   });
-
   return {
     pages,
     currentPage,
     currentPageIndex,
     changePage,
     swipeContainerRef,
-    onSwiperInstance
+    onSwiperInstance,
+    loadedPages: loadedPagesArray
   };
 };

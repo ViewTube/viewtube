@@ -41,6 +41,7 @@ const props = defineProps<{
   video: VideoType;
   playlistId?: string;
   lazy?: boolean;
+  hideAuthor?: boolean;
 }>();
 
 const imgProxy = useImgProxy();
@@ -113,7 +114,7 @@ const onVideoEntryClick = () => {
 <template>
   <div class="video-entry">
     <div
-      v-if="video.author"
+      v-if="video.author && !hideAuthor"
       class="video-author"
       :class="{
         thumbnail:

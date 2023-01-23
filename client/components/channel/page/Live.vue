@@ -6,12 +6,11 @@ const channelId = computed(() => getChannelIdFromParam(route.params.id));
 
 const sortBy = ref<SortOptionsType>('newest');
 
-const { data, refresh, pending } = useGetChannelVideos(channelId, { sortBy });
+const { data, refresh } = useGetChannelVideos(channelId, { sortBy });
 
 watch(sortBy, () => refresh());
 </script>
 
 <template>
-  <Spinner v-if="pending" />
-  <ChannelVideoPage v-if="data && !pending" v-model:sort="sortBy" :videos="data" />
+  <ChannelVideoPage v-model:sort="sortBy" :videos="data" />
 </template>

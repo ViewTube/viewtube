@@ -1,5 +1,6 @@
 import { ApiDto, ApiErrorDto } from 'viewtube/shared';
 import { Ref } from 'vue';
+import { SortOptionsType } from '@/utils/sortOptions';
 
 export const useGetChannelInfo = (id: Ref<string> | string) => {
   const { apiUrl } = useApiUrl();
@@ -41,8 +42,11 @@ export const useGetChannelStats = (id: Ref<string> | string) => {
   );
 };
 
+export type ChannelVideoOptions = {
+  sortBy: Ref<SortOptionsType>;
+};
 
-export const useGetChannelVideos = (id: Ref<string> | string) => {
+export const useGetChannelVideos = (id: Ref<string> | string, options: ChannelVideoOptions) => {
   const { apiUrl } = useApiUrl();
 
   const url = computed(() => {
@@ -52,6 +56,11 @@ export const useGetChannelVideos = (id: Ref<string> | string) => {
 
   return useLazyAsyncData<ApiDto<'ChannelVideosDto'>, ApiErrorDto>(
     `channel-videos-${unref(id)}`,
-    () => $fetch(url.value)
+    () =>
+      $fetch(url.value, {
+        query: {
+          sort: unref(options.sortBy) ?? 'newest'
+        }
+      })
   );
 };

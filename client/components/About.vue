@@ -20,7 +20,7 @@ const copyCommitHash = () => {
   navigator.clipboard.writeText(commit);
   messagesStore.createMessage({
     title: 'Copied to clipboard',
-    message: 'Copied the commit hash to the clipboard',
+    message: 'Copied commit hash tothe clipboard',
     type: 'info'
   });
 };
