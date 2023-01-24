@@ -76,10 +76,11 @@ const { proxyUrl } = useImgProxy();
       padding: 10px;
       box-shadow: 0 0 0 2px var(--theme-color-translucent);
       border-radius: 3px;
-      transition: background-color 300ms $intro-easing;
+      transition: background-color 300ms $intro-easing, box-shadow 300ms $intro-easing;
 
       &:hover {
         background-color: var(--bgcolor-alt);
+        box-shadow: 0 0 0 2px var(--theme-color);
       }
 
       .related-channel-thumbnail {
