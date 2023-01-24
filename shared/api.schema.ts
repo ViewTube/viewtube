@@ -46,6 +46,12 @@ export interface paths {
   '/api/channels/videos/continuation': {
     get: operations['ChannelsController_getChannelVideosContinuation'];
   };
+  '/api/channels/{id}/shorts': {
+    get: operations['ChannelsController_getChannelShorts'];
+  };
+  '/api/channels/{id}/livestreams': {
+    get: operations['ChannelsController_getChannelLivestreams'];
+  };
   '/api/channels/{id}/playlists': {
     get: operations['ChannelsController_getChannelPlaylists'];
   };
@@ -750,6 +756,9 @@ export interface operations {
   };
   ChannelsController_getChannelVideos: {
     parameters: {
+      query: {
+        sort: string;
+      };
       path: {
         id: string;
       };
@@ -774,6 +783,44 @@ export interface operations {
       200: {
         content: {
           'application/json': components['schemas']['ChannelVideosContinuationDto'];
+        };
+      };
+      404: never;
+      500: never;
+    };
+  };
+  ChannelsController_getChannelShorts: {
+    parameters: {
+      query: {
+        sort: string;
+      };
+      path: {
+        id: string;
+      };
+    };
+    responses: {
+      200: {
+        content: {
+          'application/json': components['schemas']['ChannelVideosDto'];
+        };
+      };
+      404: never;
+      500: never;
+    };
+  };
+  ChannelsController_getChannelLivestreams: {
+    parameters: {
+      query: {
+        sort: string;
+      };
+      path: {
+        id: string;
+      };
+    };
+    responses: {
+      200: {
+        content: {
+          'application/json': components['schemas']['ChannelVideosDto'];
         };
       };
       404: never;

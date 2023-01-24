@@ -90,6 +90,32 @@ export class ChannelsController {
   }
 
   @Header('Cache-Control', 'public, max-age=3600')
+  @Get(':id/shorts')
+  @ApiResponse({ status: 404 })
+  @ApiResponse({ status: 500 })
+  @UseInterceptors(CacheInterceptor)
+  @CacheTTL(3600)
+  getChannelShorts(
+    @Param('id') channelId: string,
+    @Query('sort') sortBy: 'newest'
+  ): Promise<ChannelVideosDto> {
+    return this.channelsService.getChannelShorts(channelId, sortBy);
+  }
+
+  @Header('Cache-Control', 'public, max-age=3600')
+  @Get(':id/livestreams')
+  @ApiResponse({ status: 404 })
+  @ApiResponse({ status: 500 })
+  @UseInterceptors(CacheInterceptor)
+  @CacheTTL(3600)
+  getChannelLivestreams(
+    @Param('id') channelId: string,
+    @Query('sort') sortBy: 'newest'
+  ): Promise<ChannelVideosDto> {
+    return this.channelsService.getChannelLivestreams(channelId, sortBy);
+  }
+
+  @Header('Cache-Control', 'public, max-age=3600')
   @Get(':id/playlists')
   @ApiResponse({ status: 404 })
   @ApiResponse({ status: 500 })
