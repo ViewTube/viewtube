@@ -42,7 +42,7 @@ export const useGetChannelStats = (id: Ref<string> | string) => {
   );
 };
 
-export type ChannelVideoOptions = {
+type ChannelVideoOptions = {
   sortBy: Ref<SortOptionsType>;
 };
 
@@ -61,6 +61,50 @@ export const useGetChannelVideos = (id: Ref<string> | string, options: ChannelVi
         query: {
           sort: unref(options.sortBy) ?? 'newest'
         }
-      })
+      }),
+    { watch: [options.sortBy] }
+  );
+};
+
+export const useGetChannelShorts = (id: Ref<string> | string, options: ChannelVideoOptions) => {
+  const { apiUrl } = useApiUrl();
+
+  const url = computed(() => {
+    const channelId = unref(id);
+    return `${apiUrl.value}channels/${channelId}/shorts`;
+  });
+
+  return useLazyAsyncData<ApiDto<'ChannelVideosDto'>, ApiErrorDto>(
+    `channel-shorts-${unref(id)}`,
+    () =>
+      $fetch(url.value, {
+        query: {
+          sort: unref(options.sortBy) ?? 'newest'
+        }
+      }),
+    { watch: [options.sortBy] }
+  );
+};
+
+export const useGetChannelLivestreams = (
+  id: Ref<string> | string,
+  options: ChannelVideoOptions
+) => {
+  const { apiUrl } = useApiUrl();
+
+  const url = computed(() => {
+    const channelId = unref(id);
+    return `${apiUrl.value}channels/${channelId}/livestreams`;
+  });
+
+  return useLazyAsyncData<ApiDto<'ChannelVideosDto'>, ApiErrorDto>(
+    `channel-livestreams-${unref(id)}`,
+    () =>
+      $fetch(url.value, {
+        query: {
+          sort: unref(options.sortBy) ?? 'newest'
+        }
+      }),
+    { watch: [options.sortBy] }
   );
 };

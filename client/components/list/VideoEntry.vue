@@ -15,7 +15,23 @@ type VideoType = {
         verified?: string;
       }
     | string;
+  channel?: {
+    name?: string;
+    channelID?: string;
+    url?: string;
+    bestAvatar?: {
+      url: string;
+      width: number;
+      height: number;
+    };
+    avatars: Array<{
+      url: string;
+      width: number;
+      height: number;
+    }>;
+  };
   videoId?: string;
+  videoID?: string;
   id?: string;
   authorVerified?: boolean;
   authorId?: string;
@@ -67,13 +83,13 @@ const thumbnailTemplate = 'https://i.ytimg.com/vi/';
 
 videoThumbnailUrl.value = `
       ${imgProxy.url}${thumbnailTemplate}${
-  props.video.videoId ? props.video.videoId : props.video.id
+  props.video.videoId ?? props.video.id ?? props.video.videoID
 }/sddefault.jpg${localProxy}`;
 
 const videoThumbnailUrlXL = ref('');
 videoThumbnailUrl.value = `
       ${imgProxy.url}${thumbnailTemplate}${
-  props.video.videoId ? props.video.videoId : props.video.id
+  props.video.videoId ?? props.video.id ?? props.video.videoID
 }/hqdefault.jpg${localProxy}`;
 
 const videoProgressPercentage = computed((): number => {
@@ -114,22 +130,23 @@ const onVideoEntryClick = () => {
 <template>
   <div class="video-entry">
     <div
-      v-if="video.author && !hideAuthor"
+      v-if="!hideAuthor && (video.author || video.channel)"
       class="video-author"
       :class="{
         thumbnail:
           video.authorThumbnails?.length > 0 ||
           video.author?.['bestAvatar'] ||
-          video.authorThumbnailUrl
+          video.authorThumbnailUrl ||
+          video.channel?.bestAvatar
       }"
     >
       <nuxt-link
         :to="{
           path:
             '/channel/' +
-            (video.authorId
-              ? video.authorId
-              : typeof video.author === 'object' && video.author?.channelID)
+            (video.authorId ??
+              (typeof video.author === 'object' && video.author?.channelID) ??
+              video.channel?.channelID)
         }"
       >
         <img
@@ -150,23 +167,31 @@ const onVideoEntryClick = () => {
           alt="Author thumbnail"
         />
         <img
-          v-else-if="video.author && video.author['bestAvatar']"
+          v-else-if="video.author?.['bestAvatar']?.url"
           class="author-thumbnail"
           :src="imgProxy.url + video.author['bestAvatar'].url"
+          alt="Author thumbnail"
+        />
+        <img
+          v-else-if="video.channel?.bestAvatar"
+          class="author-thumbnail"
+          :src="imgProxy.url + video.channel.bestAvatar.url"
           alt="Author thumbnail"
         />
       </nuxt-link>
       <div class="channel-name-container">
         <nuxt-link
-          v-tippy="video.author['name'] ? video.author['name'] : video.author"
+          v-tippy="video.author?.['name'] ?? video.author ?? video.channel?.name"
           class="video-entry-channel"
           :to="{
-            path: '/channel/' + (video.authorId ? video.authorId : video.author['channelID'])
+            path:
+              '/channel/' +
+              (video.authorId ?? video.author?.['channelID'] ?? video.channel?.channelID)
           }"
-          >{{ video.author['name'] ? video.author['name'] : video.author }}</nuxt-link
+          >{{ video.author?.['name'] ?? video.author ?? video.channel?.name }}</nuxt-link
         >
         <VerifiedIcon
-          v-if="(video.author && video.author['verified']) || video.authorVerified"
+          v-if="video?.author?.['verified'] || video.authorVerified"
           v-tippy="'Verified'"
           class="tooltip"
           title=""

@@ -1,16 +1,23 @@
 <script setup lang="ts">
 import { SortOptionsType } from '@/utils/sortOptions';
-
 const route = useRoute();
-const channelId = computed(() => getChannelIdFromParam(route.params.id));
 
+const channelId = computed(() => getChannelIdFromParam(route.params.id));
 const sortBy = ref<SortOptionsType>('newest');
 
-const { data, refresh } = useGetChannelVideos(channelId, { sortBy });
+const { data, pending } = useGetChannelShorts(channelId, { sortBy });
 
-watch(sortBy, () => refresh());
+const { moreVideosPending, onLoadMore, videos } = useChannelVideosContinuation(data);
 </script>
 
 <template>
-  <ChannelVideoPage v-model:sort="sortBy" :videos="data" />
+  <Spinner v-if="pending" />
+  <ChannelVideoPage
+    v-if="videos && !pending"
+    v-model:sort="sortBy"
+    :videos="videos"
+    :more-pending="moreVideosPending"
+    entry-type-name="shorts"
+    @load-more="onLoadMore"
+  />
 </template>

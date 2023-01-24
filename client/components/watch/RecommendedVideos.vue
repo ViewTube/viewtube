@@ -10,7 +10,7 @@
       <div class="show-more-container">
         <BadgeButton v-if="!videosExpanded" :click="expand">
           <LoadMoreIcon />
-          <p>show more</p>
+          <p>Show more</p>
         </BadgeButton>
       </div>
     </div>
