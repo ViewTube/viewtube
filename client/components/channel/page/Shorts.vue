@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { SortOptionsType } from '@/utils/sortOptions';
+import { ChannelVideosSortOptionsType } from '@/utils/sortOptions';
 const route = useRoute();
 
 const channelId = computed(() => getChannelIdFromParam(route.params.id));
-const sortBy = ref<SortOptionsType>('newest');
+const sortBy = ref<ChannelVideosSortOptionsType>('newest');
 
 const { data, pending } = useGetChannelShorts(channelId, { sortBy });
 
@@ -17,6 +17,8 @@ const { moreVideosPending, onLoadMore, videos } = useChannelVideosContinuation(d
     v-model:sort="sortBy"
     :videos="videos"
     :more-pending="moreVideosPending"
+    :sort-options="channelVideosSortOptions"
+    :sort-disabled="true"
     entry-type-name="shorts"
     @load-more="onLoadMore"
   />

@@ -1,27 +1,34 @@
 <script setup lang="ts">
 import VideoEntry from '@/components/list/VideoEntry.vue';
+import PlaylistEntry from '@/components/list/PlaylistEntry.vue';
 import MultiOptionButton from '@/components/buttons/MultiOptionButton.vue';
 import { ApiDto } from 'viewtube/shared';
-import { SortOptionsType } from '@/utils/sortOptions';
+import { ChannelPlaylistsSortOptionsType, ChannelVideosSortOptionsType } from '@/utils/sortOptions';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
 
 const props = withDefaults(
   defineProps<{
-    videos: ApiDto<'ChannelVideosDto'>;
-    sort: SortOptionsType;
+    videos: ApiDto<'ChannelVideosDto'> | ApiDto<'ChannelPlaylistsDto'>;
+    sort: ChannelVideosSortOptionsType | ChannelPlaylistsSortOptionsType;
+    sortOptions: { value: string; label: string }[];
     entryTypeName?: string;
     morePending?: boolean;
+    entryType?: 'videos' | 'playlists';
+    sortDisabled?: boolean;
   }>(),
-  { entryTypeName: 'videos', morePending: false }
+  { entryTypeName: 'videos', morePending: false, entryType: 'videos' }
 );
 
 const emit = defineEmits<{
-  (event: 'update:sort', value: SortOptionsType): void;
+  (
+    event: 'update:sort',
+    value: ChannelVideosSortOptionsType | ChannelPlaylistsSortOptionsType
+  ): void;
   (event: 'load-more', value: void): void;
 }>();
 
-const sortBy = computed<SortOptionsType>({
+const sortBy = computed<ChannelVideosSortOptionsType | ChannelPlaylistsSortOptionsType>({
   get: () => props.sort,
   set: value => emit('update:sort', value)
 });
@@ -33,13 +40,24 @@ const sortBy = computed<SortOptionsType>({
   </div>
   <div v-else class="videos">
     <div class="controls">
-      <div v-tippy="'Currently unavailable due to changes from YouTube'" class="controls-inner">
+      <div
+        v-tippy="sortDisabled ? 'Currently unavailable due to changes from YouTube' : undefined"
+        class="controls-inner"
+      >
         <p class="sort-label">Sort by</p>
-        <MultiOptionButton v-model="sortBy" :options="sortOptions" disabled />
+        <MultiOptionButton v-model="sortBy" :options="sortOptions" :disabled="sortDisabled" />
       </div>
     </div>
-    <div class="videos-container">
+    <div v-if="entryType === 'videos'" class="videos-container">
       <VideoEntry v-for="(video, index) in videos?.items" :key="index" :video="video" hide-author />
+    </div>
+    <div v-else class="videos-container">
+      <PlaylistEntry
+        v-for="(playlist, index) in videos?.items"
+        :key="index"
+        :playlist="playlist"
+        hide-author
+      />
     </div>
     <div class="show-more">
       <BadgeButton
@@ -60,6 +78,7 @@ const sortBy = computed<SortOptionsType>({
   display: flex;
   justify-content: center;
   margin: 15px 0 0 0;
+  height: 90vh;
 }
 .videos {
   margin: 15px 0 0 0;

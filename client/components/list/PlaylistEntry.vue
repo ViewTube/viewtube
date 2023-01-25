@@ -31,6 +31,7 @@ export type PlaylistEntryType = {
 
 const props = defineProps<{
   playlist: PlaylistEntryType;
+  hideAuthor?: boolean;
 }>();
 
 const { proxyUrl } = useImgProxy();
@@ -86,7 +87,7 @@ const playlistLink = computed((): string => {
       <nuxt-link v-tippy="playlist.title" class="playlist-entry-title tooltip" :to="playlistLink">{{
         playlist.title
       }}</nuxt-link>
-      <div class="channel-name-container">
+      <div v-if="!hideAuthor" class="channel-name-container">
         <nuxt-link
           v-if="playlist.author"
           v-tippy="playlist.author"

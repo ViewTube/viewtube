@@ -1,6 +1,6 @@
 import { ApiDto, ApiErrorDto } from 'viewtube/shared';
 import { Ref } from 'vue';
-import { SortOptionsType } from '@/utils/sortOptions';
+import { ChannelVideosSortOptionsType } from '@/utils/sortOptions';
 
 export const useGetChannelInfo = (id: Ref<string> | string) => {
   const { apiUrl } = useApiUrl();
@@ -43,7 +43,7 @@ export const useGetChannelStats = (id: Ref<string> | string) => {
 };
 
 type ChannelVideoOptions = {
-  sortBy: Ref<SortOptionsType>;
+  sortBy: Ref<ChannelVideosSortOptionsType>;
 };
 
 export const useGetChannelVideos = (id: Ref<string> | string, options: ChannelVideoOptions) => {
@@ -103,6 +103,33 @@ export const useGetChannelLivestreams = (
       $fetch(url.value, {
         query: {
           sort: unref(options.sortBy) ?? 'newest'
+        }
+      }),
+    { watch: [options.sortBy] }
+  );
+};
+
+type ChannelPlaylistOptions = {
+  sortBy: Ref<'last' | 'newest' | 'oldest'>;
+};
+
+export const useGetChannelPlaylists = (
+  id: Ref<string> | string,
+  options: ChannelPlaylistOptions
+) => {
+  const { apiUrl } = useApiUrl();
+
+  const url = computed(() => {
+    const channelId = unref(id);
+    return `${apiUrl.value}channels/${channelId}/playlists`;
+  });
+
+  return useLazyAsyncData<ApiDto<'ChannelPlaylistsDto'>, ApiErrorDto>(
+    `channel-playlists-${unref(id)}`,
+    () =>
+      $fetch(url.value, {
+        query: {
+          sort: unref(options.sortBy) ?? 'last'
         }
       }),
     { watch: [options.sortBy] }
