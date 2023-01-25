@@ -177,7 +177,7 @@ importers:
       jest: 29.4.0
       joi: 17.7.0
       mini-svg-data-uri: 1.4.4
-      mongodb-memory-server: 8.11.3
+      mongodb-memory-server: 8.11.4
       mongoose: 6.8.4
       nestjs-throttler-storage-redis: git://github.com/mauriceoegerli/nestjs-throttler-storage-redis
       openapi-typescript: ^6.1.0
@@ -291,7 +291,7 @@ importers:
       eslint-config-prettier: 8.6.0_eslint@8.32.0
       eslint-plugin-jest: 27.2.1_zcs5aryjwlqsbfhbanb4knkwyi
       jest: 29.4.0_@types+node@18.11.18
-      mongodb-memory-server: 8.11.3
+      mongodb-memory-server: 8.11.4
       openapi-typescript: 6.1.0
       redis: 4.5.1
       redis-mock: 0.56.3
@@ -8865,8 +8865,8 @@ packages:
       '@types/whatwg-url': 8.2.2
       whatwg-url: 11.0.0
 
-  /mongodb-memory-server-core/8.11.3:
-    resolution: {integrity: sha512-DObY45GHxM3O2/6WeRVxiZhoYLnp3vNjrRpq2WdvwNIzatC86Ac28vgqnILTbPD5w58/Fr97kCNBTAC4YL5YzA==}
+  /mongodb-memory-server-core/8.11.4:
+    resolution: {integrity: sha512-VWUstcegjwaGTZzaaSLmKuEtxhbNPRM87lq1oFHzYC07pzyxAfjIELcYRKef2O+XlhKlVQ9x2VqpuvTF97h7SA==}
     engines: {node: '>=12.22.0'}
     dependencies:
       '@types/tmp': 0.2.3
@@ -8890,12 +8890,12 @@ packages:
       - supports-color
     dev: true
 
-  /mongodb-memory-server/8.11.3:
-    resolution: {integrity: sha512-DCD2kByVpdSrShgBZjdSDKesF1gyFSDi2RN8I7m/1ZJ6RFdkZyMWfofsQzHiTJ/WoqXLadWJljgg0LPNz31FWg==}
+  /mongodb-memory-server/8.11.4:
+    resolution: {integrity: sha512-DI6iXKsZBpMFAPxj/+35jl2s1LxVTpBc+VUpMzEe9Mvm73XIzIzPdU5Aa3asO7RfRSeR5l5wn0qpVAkvP1BScg==}
     engines: {node: '>=12.22.0'}
     requiresBuild: true
     dependencies:
-      mongodb-memory-server-core: 8.11.3
+      mongodb-memory-server-core: 8.11.4
       tslib: 2.4.1
     transitivePeerDependencies:
       - aws-crt
