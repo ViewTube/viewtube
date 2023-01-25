@@ -171,7 +171,7 @@ importers:
       fastify: 4.12.0
       https-proxy-agent: 5.0.1
       humanize-duration: 3.28.0
-      ioredis: 5.2.6
+      ioredis: 5.3.0
       jest: 29.4.0
       joi: 17.7.0
       mini-svg-data-uri: 1.4.4
@@ -237,11 +237,11 @@ importers:
       fastify: 4.12.0
       https-proxy-agent: 5.0.1
       humanize-duration: 3.28.0
-      ioredis: 5.2.6
+      ioredis: 5.3.0
       joi: 17.7.0
       mini-svg-data-uri: 1.4.4
       mongoose: 6.8.4
-      nestjs-throttler-storage-redis: github.com/mauriceoegerli/nestjs-throttler-storage-redis/e659522520fb6548fc8386e593a7dfd7f984a975_p5s55arhm322aa2y4suou3o2py
+      nestjs-throttler-storage-redis: github.com/mauriceoegerli/nestjs-throttler-storage-redis/e659522520fb6548fc8386e593a7dfd7f984a975_yl4cuys3mry3nfl5fzbpqh7rwu
       passport: 0.6.0
       passport-jwt: 4.0.1
       passport-local: 1.0.0
@@ -3611,7 +3611,7 @@ packages:
     resolution: {integrity: sha512-zJbJ3FVE17CNl5KXzdeSPtdltc4tMT3TzC6fxQS0sQngkbFZ6h+0uTafsRqu+eSLIugf6Yb0Ea0SUuRr42Nk9g==}
     deprecated: This is a stub types definition. ioredis provides its own type definitions, so you do not need this installed.
     dependencies:
-      ioredis: 5.2.6
+      ioredis: 5.3.0
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -4933,7 +4933,7 @@ packages:
       cron-parser: 4.7.1
       debuglog: 1.0.1
       get-port: 5.1.1
-      ioredis: 5.2.6
+      ioredis: 5.3.0
       lodash: 4.17.21
       msgpackr: 1.8.2
       p-timeout: 3.2.0
@@ -7567,8 +7567,8 @@ packages:
     engines: {node: '>= 0.10'}
     dev: true
 
-  /ioredis/5.2.6:
-    resolution: {integrity: sha512-F1xO+kYIz+TCOccvhThs2pem6sc9uTl9JsZybWpqe4FeCFDmf04XwbLQUGIqi2UWaDUuR61w2dhxx6NJEFehOA==}
+  /ioredis/5.3.0:
+    resolution: {integrity: sha512-Id9jKHhsILuIZpHc61QkagfVdUj2Rag5GzG1TGEvRNeM7dtTOjICgjC+tvqYxi//PuX2wjQ+Xjva2ONBuf92Pw==}
     engines: {node: '>=12.22.0'}
     dependencies:
       '@ioredis/commands': 1.2.0
@@ -11796,7 +11796,7 @@ packages:
       chokidar: 3.5.3
       destr: 1.2.2
       h3: 1.0.2
-      ioredis: 5.2.6
+      ioredis: 5.3.0
       listhen: 1.0.2
       mkdir: 0.0.2
       mri: 1.2.0
@@ -12492,7 +12492,7 @@ packages:
       - debug
     dev: false
 
-  github.com/mauriceoegerli/nestjs-throttler-storage-redis/e659522520fb6548fc8386e593a7dfd7f984a975_p5s55arhm322aa2y4suou3o2py:
+  github.com/mauriceoegerli/nestjs-throttler-storage-redis/e659522520fb6548fc8386e593a7dfd7f984a975_yl4cuys3mry3nfl5fzbpqh7rwu:
     resolution: {tarball: https://codeload.github.com/mauriceoegerli/nestjs-throttler-storage-redis/tar.gz/e659522520fb6548fc8386e593a7dfd7f984a975}
     id: github.com/mauriceoegerli/nestjs-throttler-storage-redis/e659522520fb6548fc8386e593a7dfd7f984a975
     name: nestjs-throttler-storage-redis
@@ -12507,6 +12507,6 @@ packages:
       '@nestjs/common': 9.2.1_66pidaijumrtzyachnvfwzkz3e
       '@nestjs/core': 9.2.1_gs3k642xgyjax3mvj2n3wicqwi
       '@nestjs/throttler': 3.1.0_dntc3uqqknzoduyjojusds5kla
-      ioredis: 5.2.6
+      ioredis: 5.3.0
       reflect-metadata: 0.1.13
     dev: false
