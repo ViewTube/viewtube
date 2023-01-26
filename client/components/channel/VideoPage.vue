@@ -106,7 +106,6 @@ const sortBy = computed<ChannelVideosSortOptionsType | ChannelPlaylistsSortOptio
     margin: 0 auto;
     padding: 0 15px;
     box-sizing: border-box;
-    z-index: 10;
     background-color: var(--bgcolor-main);
     @include viewtube-grid;
   }
