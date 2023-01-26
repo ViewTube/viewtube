@@ -25,3 +25,16 @@ export const getChannelPlaylistsContinuation = (continuation: string) => {
     }
   );
 };
+
+export const getRelatedChannelsContinuation = (continuation: string) => {
+  const { apiUrl } = useApiUrl();
+
+  return $fetch<ApiDto<'RelatedChannelsContinuationDto'>>(
+    `${apiUrl.value}channels/relatedchannels/continuation`,
+    {
+      query: {
+        continuation
+      }
+    }
+  );
+};

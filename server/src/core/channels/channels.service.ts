@@ -151,7 +151,9 @@ export class ChannelsService {
     }
   }
 
-  getRelatedChannelsContinuation(continuation: string): Promise<RelatedChannelsContinuationDto> {
+  async getRelatedChannelsContinuation(
+    continuation: string
+  ): Promise<RelatedChannelsContinuationDto> {
     if (!checkParams(continuation)) {
       throw new BadRequestException(
         'Error fetching related channels',
@@ -159,7 +161,18 @@ export class ChannelsService {
       );
     }
     try {
-      return ytch.getRelatedChannelsMore({ continuation });
+      const relatedChannelsContinuation = await ytch.getRelatedChannelsMore({ continuation });
+      return {
+        continuation: relatedChannelsContinuation.continuation,
+        items: relatedChannelsContinuation.items.map((item: any) => {
+          return {
+            channelId: item.authorId,
+            channelName: item.author,
+            channelUrl: item.authorUrl,
+            thumbnail: item.authorThumbnails
+          };
+        })
+      };
     } catch (error) {
       throwChannelError(error, 'Error fetching related channels');
     }

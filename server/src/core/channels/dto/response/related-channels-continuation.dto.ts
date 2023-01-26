@@ -1,7 +1,6 @@
-import { RelatedChannelsContinuationResponse } from '../../types/ytch.types';
-import { RelatedChannelDto } from '../basic/related-channel.dto';
+import { ChannelInfoDto } from './channel-info.dto';
 
-export class RelatedChannelsContinuationDto implements RelatedChannelsContinuationResponse {
-  items: RelatedChannelDto[];
+export class RelatedChannelsContinuationDto {
+  items: Array<Partial<ChannelInfoDto['relatedChannels']['items'][number]>>;
   continuation: string;
 }
