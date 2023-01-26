@@ -55,7 +55,7 @@
     "ioredis": "5.3.0",
     "joi": "17.7.0",
     "mini-svg-data-uri": "1.4.4",
-    "mongoose": "6.8.4",
+    "mongoose": "6.9.0",
     "nestjs-throttler-storage-redis": "git://github.com/mauriceoegerli/nestjs-throttler-storage-redis",
     "passport": "0.6.0",
     "passport-jwt": "4.0.1",

@@ -176,7 +176,7 @@ importers:
       joi: 17.7.0
       mini-svg-data-uri: 1.4.4
       mongodb-memory-server: 8.11.4
-      mongoose: 6.8.4
+      mongoose: 6.9.0
       nestjs-throttler-storage-redis: git://github.com/mauriceoegerli/nestjs-throttler-storage-redis
       openapi-typescript: ^6.1.0
       passport: 0.6.0
@@ -216,7 +216,7 @@ importers:
       '@nestjs/config': 2.2.0_b4pxbpa7chblgbyake5iz5rdmu
       '@nestjs/core': 9.2.1_gs3k642xgyjax3mvj2n3wicqwi
       '@nestjs/jwt': 10.0.1_@nestjs+common@9.2.1
-      '@nestjs/mongoose': 9.2.1_22cldfrxzmgbn5sa3zdpjjtrli
+      '@nestjs/mongoose': 9.2.1_qxhb2ojkw43x7bsylqweewrvze
       '@nestjs/passport': 9.0.0_6o47igfla2pj7yzh7agpvpttka
       '@nestjs/platform-fastify': 9.2.1_ui2bcodbmtemymm54pe3ykff2e
       '@nestjs/schedule': 2.1.0_dntc3uqqknzoduyjojusds5kla
@@ -240,7 +240,7 @@ importers:
       ioredis: 5.3.0
       joi: 17.7.0
       mini-svg-data-uri: 1.4.4
-      mongoose: 6.8.4
+      mongoose: 6.9.0
       nestjs-throttler-storage-redis: github.com/mauriceoegerli/nestjs-throttler-storage-redis/e659522520fb6548fc8386e593a7dfd7f984a975_yl4cuys3mry3nfl5fzbpqh7rwu
       passport: 0.6.0
       passport-jwt: 4.0.1
@@ -2690,7 +2690,7 @@ packages:
       reflect-metadata: 0.1.13
     dev: false
 
-  /@nestjs/mongoose/9.2.1_22cldfrxzmgbn5sa3zdpjjtrli:
+  /@nestjs/mongoose/9.2.1_qxhb2ojkw43x7bsylqweewrvze:
     resolution: {integrity: sha512-tMK5kKFjQnNVhqJDw1wa352z+VsODOFznTn74xSzrziof03qS+O6rLU4q1kMx0B4AmFbADf03GOdpvBc9bMWqw==}
     peerDependencies:
       '@nestjs/common': ^8.0.0 || ^9.0.0
@@ -2701,7 +2701,7 @@ packages:
     dependencies:
       '@nestjs/common': 9.2.1_66pidaijumrtzyachnvfwzkz3e
       '@nestjs/core': 9.2.1_gs3k642xgyjax3mvj2n3wicqwi
-      mongoose: 6.8.4
+      mongoose: 6.9.0
       reflect-metadata: 0.1.13
       rxjs: 7.8.0
     dev: false
@@ -3850,7 +3850,7 @@ packages:
     resolution: {integrity: sha512-Cn6WYCm0tXv8p6k+A8PvbDG763EDpBoTzHdA+Q/MF6H3sapGjCm9NzoaJncJS9tUKSuCoDs9XHxYYsQDgxR6kw==}
     requiresBuild: true
     dependencies:
-      '@types/node': 14.18.36
+      '@types/node': 18.11.18
     dev: true
     optional: true
 
@@ -9053,20 +9053,6 @@ packages:
       - supports-color
     dev: true
 
-  /mongodb/4.12.1:
-    resolution: {integrity: sha512-koT87tecZmxPKtxRQD8hCKfn+ockEL2xBiUvx3isQGI6mFmagWt4f4AyCE9J4sKepnLhMacoCTQQA6SLAI2L6w==}
-    engines: {node: '>=12.9.0'}
-    dependencies:
-      bson: 4.7.2
-      mongodb-connection-string-url: 2.6.0
-      socks: 2.7.1
-    optionalDependencies:
-      '@aws-sdk/credential-providers': 3.257.0
-      saslprep: 1.0.3
-    transitivePeerDependencies:
-      - aws-crt
-    dev: false
-
   /mongodb/4.13.0:
     resolution: {integrity: sha512-+taZ/bV8d1pYuHL4U+gSwkhmDrwkWbH1l4aah4YpmpscMwgFBkufIKxgP/G7m87/NUuQzc2Z75ZTI7ZOyqZLbw==}
     engines: {node: '>=12.9.0'}
@@ -9079,15 +9065,14 @@ packages:
       saslprep: 1.0.3
     transitivePeerDependencies:
       - aws-crt
-    dev: true
 
-  /mongoose/6.8.4:
-    resolution: {integrity: sha512-19Jk2hbSAPcM4u6ErW0UPwaSO2YfP/cXfBS9YEiNgNzZfXd+jkyemqJ+t2aflaicXeU4VdTP33pZYxqjk2hUYw==}
+  /mongoose/6.9.0:
+    resolution: {integrity: sha512-5tu6+trwjk5TIH6b6iYgAwmzZ0RNOxFoqXQb9h21Oi45DeM1rWM/niHxJ4ROqBISDfQMwRvLSABHTsyn3AzoFQ==}
     engines: {node: '>=12.0.0'}
     dependencies:
       bson: 4.7.2
       kareem: 2.5.1
-      mongodb: 4.12.1
+      mongodb: 4.13.0
       mpath: 0.9.0
       mquery: 4.0.3
       ms: 2.1.3
