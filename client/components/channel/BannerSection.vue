@@ -32,6 +32,7 @@ const subscriberCount = computed(() => humanNumber(props.channelInfo?.subscriber
       class="channel-banner"
       :src="channelInfo?.authorBanners?.[3]?.url"
       :banner-hq-src="channelInfo?.authorBanners?.[channelInfo?.authorBanners?.length - 1]?.url"
+      :fallback="channelInfo?.authorThumbnails?.[2]?.url"
     />
     <div class="info">
       <div class="avatar">
