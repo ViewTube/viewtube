@@ -1,5 +1,74 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useMessagesStore } from '@/store/messages';
+import BadgeButton from '@/components/buttons/BadgeButton.vue';
+
+const route = useRoute();
+const messagesStore = useMessagesStore();
+
+const channelId = computed(() => getChannelIdFromParam(route.params.id));
+const { data, pending } = useGetChannelCommunityPosts(channelId);
+
+const channelInfo = ref(data);
+const morePending = ref(false);
+
+const communityPosts = ref(data);
+
+const loadMore = async () => {
+  morePending.value = true;
+  if (communityPosts.value?.continuation) {
+    try {
+      const additionalCommunityPosts = await getChannelCommunityPostsContinuation(
+        communityPosts.value?.continuation,
+        communityPosts.value?.innerTubeApi
+      );
+      communityPosts.value.items = [
+        ...communityPosts.value.items,
+        ...additionalCommunityPosts.items
+      ];
+      console.log(communityPosts.value.items)
+      communityPosts.value.continuation = additionalCommunityPosts.continuation;
+      communityPosts.value.innerTubeApi = additionalCommunityPosts.innerTubeApi;
+    } catch (error) {
+      messagesStore.createMessage({
+        type: 'error',
+        title: 'Failed to load more community posts',
+        message:
+          (error as any).message ??
+          "More community posts don't seem to be available, or something went wrong."
+      });
+    }
+  }
+  morePending.value = false;
+};
+</script>
 
 <template>
-  <p>Community</p>
+  <Spinner v-if="pending" />
+  <div v-if="!pending && data" class="community-posts">
+    <CommunityPost
+      v-for="(communityPost, index) in communityPosts.items"
+      :key="index"
+      :community-post="communityPost"
+    />
+    <div class="show-more">
+      <BadgeButton
+        v-if="channelInfo?.continuation"
+        class="show-more-button"
+        :loading="morePending"
+        @click.prevent="loadMore"
+      >
+        <LoadMoreIcon />
+        <p>Show more</p>
+      </BadgeButton>
+    </div>
+  </div>
 </template>
+
+<style lang="scss" scoped>
+.community-posts {
+  display: flex;
+  flex-direction: column;
+  margin: 15px;
+  gap: 20px;
+}
+</style>

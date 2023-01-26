@@ -38,3 +38,17 @@ export const getRelatedChannelsContinuation = (continuation: string) => {
     }
   );
 };
+
+export const getChannelCommunityPostsContinuation = (continuation: string, innertubeKey: string) => {
+  const { apiUrl } = useApiUrl();
+
+  return $fetch<ApiDto<'ChannelCommunityPostsContinuationDto'>>(
+    `${apiUrl.value}channels/communityposts/continuation`,
+    {
+      query: {
+        continuation,
+        innertube: innertubeKey
+      }
+    }
+  );
+}

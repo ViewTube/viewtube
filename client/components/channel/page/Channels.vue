@@ -14,7 +14,7 @@ const morePending = ref(false);
 
 const loadMore = async () => {
   morePending.value = true;
-  if (data.value?.relatedChannels?.continuation) {
+  if (channelInfo.value.relatedChannels.continuation) {
     try {
       const additionalChannels = await getRelatedChannelsContinuation(
         channelInfo.value.relatedChannels.continuation
@@ -23,15 +23,14 @@ const loadMore = async () => {
         ...channelInfo.value.relatedChannels.items,
         ...additionalChannels.items
       ];
-      console.log(channelInfo.value.relatedChannels.items);
       channelInfo.value.relatedChannels.continuation = additionalChannels.continuation;
     } catch (error) {
       messagesStore.createMessage({
         type: 'error',
-        title: 'Failed to load more videos',
+        title: 'Failed to load more channels',
         message:
           (error as any).message ??
-          "More videos don't seem to be available, or something went wrong."
+          "More channels don't seem to be available, or something went wrong."
       });
     }
   }

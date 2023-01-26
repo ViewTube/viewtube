@@ -4,5 +4,6 @@ export { getPlaylists } from './api/playlists';
 export {
   getChannelVideosContinuation,
   getChannelPlaylistsContinuation,
-  getRelatedChannelsContinuation
+  getRelatedChannelsContinuation,
+  getChannelCommunityPostsContinuation
 } from './api/channels';

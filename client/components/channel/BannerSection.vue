@@ -38,9 +38,11 @@ const subscriberCount = computed(() => humanNumber(props.channelInfo?.subscriber
       <div class="avatar">
         <img class="avatar-img" :src="imgProxy.url + channelInfo?.authorThumbnails?.[2]?.url" />
       </div>
-      <h3 class="title">{{ channelInfo?.author }}</h3>
+      <h3 class="title">
+        {{ channelInfo?.author }}
+      </h3>
       <div class="subscribe">
-        <p class="subscribers">{{ subscriberCount }}</p>
+        <p class="subscribers">{{ subscriberCount }} subscribers</p>
         <SubscribeButton :channel-id="channelInfo.authorId" />
       </div>
       <TabMenu :pages="pages" :current-page="currentPage" @change-page="changePage" />
@@ -109,6 +111,11 @@ const subscriberCount = computed(() => humanNumber(props.channelInfo?.subscriber
       align-items: center;
       gap: 10px;
       justify-self: end;
+      position: relative;
+
+      .subscribers {
+        white-space: nowrap;
+      }
     }
 
     .channel-menu {

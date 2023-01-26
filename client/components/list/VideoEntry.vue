@@ -48,6 +48,7 @@ type VideoType = {
   lengthString?: string;
   duration?: string;
   viewCount?: number;
+  viewCountText?: string;
   views?: number;
   publishedText?: string;
   uploadedAt?: string;
@@ -271,11 +272,14 @@ const onVideoEntryClick = () => {
           >{{ video.title }}</nuxt-link
         >
         <div class="video-entry-stats">
-          <p v-if="video.viewCount" class="video-entry-views">
+          <p v-if="video.viewCountText" class="video-entry-views">
+            {{ video.viewCountText }}
+          </p>
+          <p v-else-if="video.viewCount" class="video-entry-views">
             {{ video.viewCount?.toLocaleString('en-US') }}
             {{ video.viewCount === 1 ? 'view' : 'views' }}
           </p>
-          <p v-if="video.views" class="video-entry-views">
+          <p v-else-if="video.views" class="video-entry-views">
             {{ video.views?.toLocaleString('en-US') }}
             {{ video.views === 1 ? 'view' : 'views' }}
           </p>

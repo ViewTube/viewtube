@@ -135,3 +135,17 @@ export const useGetChannelPlaylists = (
     { watch: [options.sortBy] }
   );
 };
+
+export const useGetChannelCommunityPosts = (id: Ref<string> | string) => {
+  const { apiUrl } = useApiUrl();
+
+  const url = computed(() => {
+    const channelId = unref(id);
+    return `${apiUrl.value}channels/${channelId}/communityposts`;
+  });
+
+  return useLazyAsyncData<ApiDto<'ChannelCommunityPostsDto'>, ApiErrorDto>(
+    `channel-community-posts-${unref(id)}`,
+    () => $fetch(url.value)
+  );
+}

@@ -17,5 +17,6 @@ export {
   useGetChannelVideos,
   useGetChannelLivestreams,
   useGetChannelShorts,
-  useGetChannelPlaylists
+  useGetChannelPlaylists,
+  useGetChannelCommunityPosts
 } from './api/channels';
