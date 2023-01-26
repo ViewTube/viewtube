@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import dayjs from 'dayjs';
 import RelatedChannels from '@/components/channel/RelatedChannels.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 
@@ -6,13 +7,17 @@ const route = useRoute();
 const channelId = computed(() => getChannelIdFromParam(route.params.id));
 const { data: channelInfo, pending } = useGetChannelInfo(channelId);
 const { data: channelHome, pending: pendingHome } = useGetChannelHome(channelId);
+const { data: channelStats, pending: pendingStats } = useGetChannelStats(channelId);
 </script>
 
 <template>
-  <Spinner v-if="pending || pendingHome" />
-  <div v-if="!pending && !pendingHome && channelInfo && channelHome" class="channel-home">
+  <Spinner v-if="pending || pendingHome || pendingStats" />
+  <div
+    v-if="!pending && !pendingHome && !pendingStats && channelInfo && channelHome"
+    class="channel-home"
+  >
     <SectionTitle title="Info" />
-    <pre v-if="channelInfo.description" class="channel-description">{{
+    <pre v-if="channelInfo.description" v-create-links class="channel-description links">{{
       channelInfo.description?.trim()
     }}</pre>
     <SectionSubtitle v-if="channelInfo.channelLinks" title="Links" class="channel-links-title" />
@@ -31,6 +36,17 @@ const { data: channelHome, pending: pendingHome } = useGetChannelHome(channelId)
       >
         {{ tag }}
       </BadgeButton>
+    </div>
+    <SectionSubtitle v-if="channelStats" title="Stats" class="channel-stats-title" />
+    <div v-if="channelStats" class="channel-stats">
+      <div>
+        Joined
+        <span class="highlight">{{ dayjs(channelStats?.joinedDate).format('MMMM D, YYYY') }}</span>
+      </div>
+      <div>
+        <span class="highlight">{{ channelStats?.viewCount?.toLocaleString('en-US') }}</span> total
+        views
+      </div>
     </div>
     <SectionTitle v-if="channelInfo.relatedChannels?.items?.length > 0" title="Related channels" />
     <RelatedChannels
@@ -62,8 +78,15 @@ const { data: channelHome, pending: pendingHome } = useGetChannelHome(channelId)
     margin-top: 10px;
   }
 
-  .channel-tags-title {
+  .channel-tags-title,
+  .channel-stats-title {
     margin-top: 10px;
+  }
+
+  .channel-stats {
+    .highlight {
+      color: var(--theme-color);
+    }
   }
 
   .channel-tags {

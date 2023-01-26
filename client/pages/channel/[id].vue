@@ -49,7 +49,6 @@ const {
       <ChannelPagePlaylists v-if="currentPage === 'playlists'" />
       <ChannelPageCommunity v-if="currentPage === 'community'" />
       <ChannelPageChannels v-if="currentPage === 'channels'" />
-      <ChannelPageAbout v-if="currentPage === 'about'" />
     </div>
     <swiper
       v-if="jsEnabled"
@@ -86,10 +85,6 @@ const {
       </swiper-slide>
       <swiper-slide class="channel-page">
         <ChannelPageChannels v-if="loadedPages.includes('channels')" />
-        <Spinner v-else />
-      </swiper-slide>
-      <swiper-slide class="channel-page">
-        <ChannelPageAbout v-if="loadedPages.includes('about')" />
         <Spinner v-else />
       </swiper-slide>
     </swiper>

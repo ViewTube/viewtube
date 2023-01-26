@@ -1,6 +1,6 @@
 import { Swiper } from 'swiper';
 
-const pageNames = ['home', 'videos', 'shorts', 'live', 'playlists', 'community', 'channels', 'about'];
+const pageNames = ['home', 'videos', 'shorts', 'live', 'playlists', 'community', 'channels'];
 
 export const useChannelPages = () => {
   const route = useRoute();
