@@ -65,7 +65,7 @@ defineProps<{
     display: flex;
     flex-direction: column;
     gap: 2px;
-    padding: 2px 0;
+    padding: 5px 0;
     max-width: 66%;
 
     .info-element {
