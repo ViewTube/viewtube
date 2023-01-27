@@ -21,7 +21,7 @@ const loadMore = async () => {
       );
       channelInfo.value.relatedChannels.items = [
         ...channelInfo.value.relatedChannels.items,
-        ...additionalChannels.items
+        ...(additionalChannels.items as any)
       ];
       channelInfo.value.relatedChannels.continuation = additionalChannels.continuation;
     } catch (error) {
