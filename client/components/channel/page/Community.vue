@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useMessagesStore } from '@/store/messages';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
+import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
 
 const route = useRoute();
 const messagesStore = useMessagesStore();
@@ -25,7 +26,7 @@ const loadMore = async () => {
         ...communityPosts.value.items,
         ...additionalCommunityPosts.items
       ];
-      console.log(communityPosts.value.items)
+      console.log(communityPosts.value.items);
       communityPosts.value.continuation = additionalCommunityPosts.continuation;
       communityPosts.value.innerTubeApi = additionalCommunityPosts.innerTubeApi;
     } catch (error) {
@@ -68,7 +69,16 @@ const loadMore = async () => {
 .community-posts {
   display: flex;
   flex-direction: column;
-  margin: 15px;
+  padding: 15px;
   gap: 20px;
+  max-width: 900px;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0 auto;
+
+  .show-more {
+    display: flex;
+    justify-content: center;
+  }
 }
 </style>

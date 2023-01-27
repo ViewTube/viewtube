@@ -72,7 +72,7 @@ const { data: channelStats, pending: pendingStats } = useGetChannelStats(channel
 
 <style lang="scss" scoped>
 .channel-home {
-  padding: 0 10px;
+  padding: 0 15px;
 
   .channel-links-title {
     margin-top: 10px;

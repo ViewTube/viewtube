@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { ApiDto } from 'viewtube/shared';
+import LikeIcon from 'vue-material-design-icons/ThumbUp.vue';
+import CommentIcon from 'vue-material-design-icons/CommentOutline.vue';
 
 defineProps<{
   communityPost: ApiDto<'ChannelCommunityPostDto'>;
@@ -8,9 +10,38 @@ defineProps<{
 
 <template>
   <div class="community-post">
-    <p class="creation-time">{{ communityPost.publishedText }}</p>
+    <p class="creation-time">{{ communityPost.publishedText }} &bull; {{ communityPost.author }}</p>
     <div v-create-links class="post-text links">
-      <p>{{ communityPost.postText }}</p>
+      <pre class="text-pre">{{ communityPost.postText }}</pre>
+    </div>
+    <div v-if="communityPost.postContent" class="post-content">
+      <CommunityPostImage
+        v-if="communityPost.postContent.type === 'image'"
+        :post-image="communityPost.postContent.content"
+        expandable
+      />
+      <CommunityPostPoll
+        v-if="communityPost.postContent.type === 'poll'"
+        :post-poll="communityPost.postContent.content"
+      />
+      <CommunityPostVideo
+        v-if="communityPost.postContent.type === 'video'"
+        :post-video="communityPost.postContent.content"
+      />
+      <CommunityPostMultiImage
+        v-if="communityPost.postContent.type === 'multiImage'"
+        :post-images="communityPost.postContent.content"
+      />
+    </div>
+    <div class="post-info">
+      <div class="info-item">
+        <LikeIcon />
+        <p>{{ communityPost.voteCount ?? 0 }}</p>
+      </div>
+      <div class="info-item">
+        <CommentIcon />
+        <p class="comments">{{ communityPost.commentCount ?? 0 }}</p>
+      </div>
     </div>
   </div>
 </template>
@@ -19,7 +50,10 @@ defineProps<{
 .community-post {
   background-color: var(--bgcolor-alt);
   border-radius: 8px;
-  padding: 10px;
+  padding: 12px 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 
   .creation-time {
     font-size: 0.8rem;
@@ -27,7 +61,33 @@ defineProps<{
   }
 
   .post-text {
-    margin: 5px 0 0 0;
+    .text-pre {
+      color: var(--title-color);
+      font-size: 1rem;
+      font-family: $default-font;
+      white-space: pre-wrap;
+      margin: 0;
+    }
+  }
+
+  .post-info {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+
+    .info-item {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 5px;
+      color: var(--subtitle-color-light);
+
+      .material-design-icon,
+      :deep(.material-design-icon__svg) {
+        width: 20px;
+        height: 20px;
+      }
+    }
   }
 }
 </style>

@@ -59,7 +59,7 @@ const subscriberCount = computed(() => humanNumber(props.channelInfo?.subscriber
     width: 100%;
     max-width: $main-width;
     margin: 0 auto;
-    padding: 10px;
+    padding: 15px;
     display: grid;
     grid-template-areas:
       'avatar title subscribe'

@@ -183,7 +183,7 @@ export class ChannelsService {
       throw new BadRequestException('Error fetching channel community posts', 'Invalid channelId');
     }
     try {
-      return ytch.getChannelCommunityPosts({ channelId });
+      return ytch.getChannelCommunityPosts({ channelId }) as Promise<ChannelCommunityPostsDto>;
     } catch (error) {
       throwChannelError(error, 'Error fetching channel community posts');
     }
@@ -200,7 +200,7 @@ export class ChannelsService {
       );
     }
     try {
-      return ytch.getChannelCommunityPostsMore({ continuation, innerTubeApi });
+      return ytch.getChannelCommunityPostsMore({ continuation, innerTubeApi }) as Promise<ChannelCommunityPostsDto>;
     } catch (error) {
       throwChannelError(error, 'Error fetching channel community posts');
     }
