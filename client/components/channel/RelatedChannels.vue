@@ -10,13 +10,14 @@ defineProps<{
     continuation?: string | null;
     type: 'channels';
   };
+  vertical?: boolean;
 }>();
 
 const { proxyUrl } = useImgProxy();
 </script>
 
 <template>
-  <div v-if="relatedChannels?.items" class="related-channels">
+  <div v-if="relatedChannels?.items" class="related-channels" :class="{ vertical: vertical }">
     <div class="scroll-container">
       <nuxt-link
         v-for="channel in relatedChannels?.items"
@@ -40,8 +41,10 @@ const { proxyUrl } = useImgProxy();
             </p>
             <VerifiedIcon class="verified-icon" />
           </div>
-          <p class="subscriber-count">{{ channel.subscriberText }}</p>
-          <p class="video-count">{{ channel.videoCount?.toLocaleString('en-US') }} videos</p>
+          <p v-if="channel.subscriberText" class="subscriber-count">{{ channel.subscriberText }}</p>
+          <p v-if="channel.videoCount" class="video-count">
+            {{ channel.videoCount?.toLocaleString('en-US') }} videos
+          </p>
         </div>
       </nuxt-link>
     </div>
@@ -58,6 +61,18 @@ const { proxyUrl } = useImgProxy();
   scrollbar-width: thin;
   box-sizing: border-box;
   position: relative;
+
+  &.vertical {
+    height: 100%;
+
+    .scroll-container {
+      position: initial;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: left;
+      gap: 15px 0;
+    }
+  }
 
   .scroll-container {
     display: flex;
@@ -76,10 +91,11 @@ const { proxyUrl } = useImgProxy();
       padding: 10px;
       box-shadow: 0 0 0 2px var(--theme-color-translucent);
       border-radius: 3px;
-      transition: background-color 300ms $intro-easing;
+      transition: background-color 300ms $intro-easing, box-shadow 300ms $intro-easing;
 
       &:hover {
         background-color: var(--bgcolor-alt);
+        box-shadow: 0 0 0 2px var(--theme-color);
       }
 
       .related-channel-thumbnail {

@@ -16,11 +16,11 @@ type QualityList = {
 }[];
 
 const props = defineProps<{
-  selectedVideoQuality: number;
-  selectedAudioQuality: number;
-  renderedVideoQuality: number;
+  selectedVideoQuality?: number;
+  selectedAudioQuality?: number;
+  renderedVideoQuality?: number;
   videoQualityList: QualityList;
-  audioQualityList: QualityList;
+  audioQualityList?: QualityList;
 }>();
 
 const emit = defineEmits<{

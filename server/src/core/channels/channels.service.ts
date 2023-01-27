@@ -20,6 +20,7 @@ import { ChannelCommunityPostsDto } from './dto/response/channel-community-posts
 import { ChannelCommunityPostsContinuationDto } from './dto/response/channel-community-posts-continuation.dto';
 import { ChannelStatsDto } from './dto/response/channel-stats.dto';
 import { ChannelInfoDto } from './dto/response/channel-info.dto';
+import { SortType } from './types/sort';
 
 @Injectable()
 export class ChannelsService {
@@ -50,10 +51,7 @@ export class ChannelsService {
     }
   }
 
-  async getChannelVideos(
-    channelId: string,
-    sort: 'newest' | 'oldest' | 'popular' = 'newest'
-  ): Promise<ChannelVideosDto> {
+  async getChannelVideos(channelId: string, sort: SortType = 'newest'): Promise<ChannelVideosDto> {
     if (!checkParams(channelId, sort)) {
       throw new BadRequestException(
         'Error fetching channel videos',
@@ -75,6 +73,31 @@ export class ChannelsService {
       return ytch.getChannelVideosMore({ continuation });
     } catch (error) {
       throwChannelError(error, 'Error fetching channel videos');
+    }
+  }
+
+  async getChannelShorts(channelId: string, sort = 'newest' as const): Promise<ChannelVideosDto> {
+    if (!checkParams(channelId)) {
+      throw new BadRequestException('Error fetching channel shorts', 'Invalid channelId');
+    }
+    try {
+      return ytch.getChannelShorts({ channelId, sortBy: sort });
+    } catch (error) {
+      throwChannelError(error, 'Error fetching channel shorts');
+    }
+  }
+
+  async getChannelLivestreams(
+    channelId: string,
+    sort = 'newest' as const
+  ): Promise<ChannelVideosDto> {
+    if (!checkParams(channelId)) {
+      throw new BadRequestException('Error fetching channel livestreams', 'Invalid channelId');
+    }
+    try {
+      return ytch.getChannelLivestreams({ channelId, sortBy: sort });
+    } catch (error) {
+      throwChannelError(error, 'Error fetching channel livestreams');
     }
   }
 
@@ -128,7 +151,9 @@ export class ChannelsService {
     }
   }
 
-  getRelatedChannelsContinuation(continuation: string): Promise<RelatedChannelsContinuationDto> {
+  async getRelatedChannelsContinuation(
+    continuation: string
+  ): Promise<RelatedChannelsContinuationDto> {
     if (!checkParams(continuation)) {
       throw new BadRequestException(
         'Error fetching related channels',
@@ -136,7 +161,18 @@ export class ChannelsService {
       );
     }
     try {
-      return ytch.getRelatedChannelsMore({ continuation });
+      const relatedChannelsContinuation = await ytch.getRelatedChannelsMore({ continuation });
+      return {
+        continuation: relatedChannelsContinuation.continuation,
+        items: relatedChannelsContinuation.items.map((item: any) => {
+          return {
+            channelId: item.authorId,
+            channelName: item.author,
+            channelUrl: item.authorUrl,
+            thumbnail: item.authorThumbnails
+          };
+        })
+      };
     } catch (error) {
       throwChannelError(error, 'Error fetching related channels');
     }
@@ -147,7 +183,7 @@ export class ChannelsService {
       throw new BadRequestException('Error fetching channel community posts', 'Invalid channelId');
     }
     try {
-      return ytch.getChannelCommunityPosts({ channelId });
+      return ytch.getChannelCommunityPosts({ channelId }) as Promise<ChannelCommunityPostsDto>;
     } catch (error) {
       throwChannelError(error, 'Error fetching channel community posts');
     }
@@ -164,7 +200,7 @@ export class ChannelsService {
       );
     }
     try {
-      return ytch.getChannelCommunityPostsMore({ continuation, innerTubeApi });
+      return ytch.getChannelCommunityPostsMore({ continuation, innerTubeApi }) as Promise<ChannelCommunityPostsDto>;
     } catch (error) {
       throwChannelError(error, 'Error fetching channel community posts');
     }

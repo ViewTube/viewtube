@@ -1,4 +1,6 @@
-import KeenSlider, { KeenSliderInstance } from 'keen-slider';
+import { Swiper } from 'swiper';
+
+const pageNames = ['home', 'videos', 'shorts', 'live', 'playlists', 'community', 'channels'];
 
 export const useChannelPages = () => {
   const route = useRoute();
@@ -6,70 +8,38 @@ export const useChannelPages = () => {
 
   const currentPage = ref(getCurrentPageFromParam(route.params.id));
 
-  const changingSlideProgrammatically = ref(false);
-  const initializationPending = ref(true);
+  const currentPageIndex = computed(() => {
+    return pages.value.findIndex(page => page.pageName === currentPage.value);
+  });
 
-  const changePage = (pageName: string, updateSlide = true) => {
+  const loadedPages = ref<Set<string>>(new Set([currentPage.value]));
+
+  const loadedPagesArray = computed(() => Array.from(loadedPages.value));
+
+  const swiperInstance = ref<Swiper>(null);
+
+  const onSwiperInstance = (swiper: Swiper) => {
+    swiperInstance.value = swiper;
+
+    swiper.on('slideChange', swiper => {
+      const page = pages.value[swiper.activeIndex];
+      loadedPages.value.add(page.pageName);
+      changePage(page.pageName);
+    });
+  };
+
+  const changePage = (pageName: string) => {
     const newUrl = `${cleanChannelParam(window.location.href)}/${pageName}`;
     window.history.replaceState(null, '', newUrl);
     currentPage.value = pageName;
 
-    if (updateSlide) {
-      updateSlider(pageName);
+    const index = pages.value.findIndex(page => page.pageName === pageName);
+    if (swiperInstance.value?.activeIndex !== index) {
+      swiperInstance.value.slideTo(index);
     }
   };
-
-  const updateSlider = (pageName: string) => {
-    if (sliderInstance.value) {
-      changingSlideProgrammatically.value = true;
-      const pageIndex = pages.value.findIndex(page => page.pageName === pageName);
-      sliderInstance.value?.moveToIdx(pageIndex);
-      setTimeout(() => {
-        changingSlideProgrammatically.value = false;
-      }, 300);
-    }
-  };
-
-  const sliderInstance = ref<KeenSliderInstance | null>(null);
 
   const swipeContainerRef = ref<HTMLElement | null>(null);
-
-  onMounted(() => {
-    initializationPending.value = false;
-    nextTick(() => {
-      sliderInstance.value = new KeenSlider(swipeContainerRef.value, {
-        slides: {
-          origin: 'center'
-        },
-        initial: pages.value.findIndex(page => page.pageName === currentPage.value),
-        rubberband: false,
-        created(slider) {
-          slider.container.addEventListener(
-            'click',
-            e => {
-              e.stopPropagation();
-            },
-            { capture: true }
-          );
-          slider.container.addEventListener(
-            'mousedown',
-            e => {
-              e.stopPropagation();
-            },
-            { capture: true }
-          );
-        },
-        slideChanged(slider) {
-          if (!changingSlideProgrammatically.value) {
-            const pageName = pages.value[slider.track.details.rel]?.pageName;
-            if (pageName) {
-              changePage(pageName, false);
-            }
-          }
-        }
-      });
-    });
-  });
 
   const cleanChannelParam = (url: string) => {
     let newUrl = url;
@@ -81,20 +51,19 @@ export const useChannelPages = () => {
   };
 
   const pages = computed(() => {
-    const pages = ['home', 'videos', 'playlists', 'community', 'channels', 'about'];
-    return pages.map(page => ({
+    return pageNames.map(page => ({
       title: page.charAt(0).toUpperCase() + page.slice(1),
       pageName: page,
       link: `/channel/${channelId.value}/${page}`
     }));
   });
-
   return {
     pages,
     currentPage,
+    currentPageIndex,
     changePage,
-    sliderInstance,
     swipeContainerRef,
-    initializationPending
+    onSwiperInstance,
+    loadedPages: loadedPagesArray
   };
 };

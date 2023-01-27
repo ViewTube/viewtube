@@ -98,66 +98,73 @@ const videoQualities = ['144p', '240p', '360p', '720p', '1080p', '1440p', '2160p
         <div class="sponsorblock-options" :class="{ disabled: !settingsStore.sponsorblockEnabled }">
           <MultiOptionButton
             :options="sponsorblockSegmentOptions"
-            :selected-value="settingsStore.sponsorblockSegmentSponsor"
+            :model-value="settingsStore.sponsorblockSegmentSponsor"
             :label="'Sponsor'"
             :small-label="'Advertisements, promotions and video sponsors'"
             :right="true"
             :color-mark="'#0fca15'"
-            @valuechange="val => settingsStore.setSponsorblockSegmentSponsor(val.value as SegmentOption)"
+            class="sponsorblock-option"
+            @update:model-value="val => settingsStore.setSponsorblockSegmentSponsor(val as SegmentOption)"
           />
           <MultiOptionButton
             :options="sponsorblockSegmentOptions"
-            :selected-value="settingsStore.sponsorblockSegmentIntro"
+            :model-value="settingsStore.sponsorblockSegmentIntro"
             :label="'Intro'"
             :small-label="'Intro animation, pause, intro sequence'"
             :right="true"
             :color-mark="'#07faf0'"
-            @valuechange="val => settingsStore.setSponsorblockSegmentIntro(val.value as SegmentOption)"
+            class="sponsorblock-option"
+            @update:model-value="val => settingsStore.setSponsorblockSegmentIntro(val as SegmentOption)"
           />
           <MultiOptionButton
             :options="sponsorblockSegmentOptions"
-            :selected-value="settingsStore.sponsorblockSegmentOutro"
+            :model-value="settingsStore.sponsorblockSegmentOutro"
             :label="'Outro'"
             :small-label="'Endcards, credits, outros'"
             :right="true"
             :color-mark="'#0103e1'"
-            @valuechange="val => settingsStore.setSponsorblockSegmentOutro(val.value as SegmentOption)"
+            class="sponsorblock-option"
+            @update:model-value="val => settingsStore.setSponsorblockSegmentOutro(val as SegmentOption)"
           />
           <MultiOptionButton
             :options="sponsorblockSegmentOptions"
-            :selected-value="settingsStore.sponsorblockSegmentInteraction"
+            :model-value="settingsStore.sponsorblockSegmentInteraction"
             :label="'Interaction reminder'"
             :small-label="'Reminder to subscribe, like, follow on social media, etc.'"
             :right="true"
             :color-mark="'#b711df'"
-            @valuechange="val => settingsStore.setSponsorblockSegmentInteraction(val.value as SegmentOption)"
+            class="sponsorblock-option"
+            @update:model-value="val => settingsStore.setSponsorblockSegmentInteraction(val as SegmentOption)"
           />
           <MultiOptionButton
             :options="sponsorblockSegmentOptions"
-            :selected-value="settingsStore.sponsorblockSegmentSelfpromo"
+            :model-value="settingsStore.sponsorblockSegmentSelfpromo"
             :label="'Self promotion'"
             :small-label="'Unpaid promotion, for example donations, merchandise or shoutouts'"
             :right="true"
             :color-mark="'#fdfb0e'"
-            @valuechange="val => settingsStore.setSponsorblockSegmentSelfpromo(val.value as SegmentOption)"
+            class="sponsorblock-option"
+            @update:model-value="val => settingsStore.setSponsorblockSegmentSelfpromo(val as SegmentOption)"
           />
           <MultiOptionButton
             :options="sponsorblockSegmentOptions"
-            :selected-value="settingsStore.sponsorblockSegmentMusicOfftopic"
+            :model-value="settingsStore.sponsorblockSegmentMusicOfftopic"
             :label="'Non-music section'"
             :small-label="'Skips non-music sections in music videos'"
             :right="true"
             :color-mark="'#f89c06'"
-            @valuechange="val => settingsStore.setSponsorblockSegmentMusicOfftopic(val.value as SegmentOption)"
+            class="sponsorblock-option"
+            @update:model-value="val => settingsStore.setSponsorblockSegmentMusicOfftopic(val as SegmentOption)"
           />
           <MultiOptionButton
             :options="sponsorblockSegmentOptions"
-            :selected-value="settingsStore.sponsorblockSegmentPreview"
+            :model-value="settingsStore.sponsorblockSegmentPreview"
             :label="'Preview'"
             :small-label="'Skips previews and recaps'"
             :right="true"
             :color-mark="'#f70000'"
-            @valuechange="val => settingsStore.setSponsorblockSegmentPreview(val.value as SegmentOption)"
+            class="sponsorblock-option"
+            @update:model-value="val => settingsStore.setSponsorblockSegmentPreview(val as SegmentOption)"
           />
         </div>
       </div>
@@ -378,6 +385,10 @@ const videoQualities = ['144p', '240p', '360p', '720p', '1080p', '1440p', '2160p
       // width: calc(100% - 20px);
       transition: padding 300ms $intro-easing;
       overflow: hidden;
+
+      .sponsorblock-option {
+        margin: 20px 0 0 0;
+      }
 
       &.disabled {
         pointer-events: none;

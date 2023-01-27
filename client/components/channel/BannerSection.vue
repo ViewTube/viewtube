@@ -32,14 +32,17 @@ const subscriberCount = computed(() => humanNumber(props.channelInfo?.subscriber
       class="channel-banner"
       :src="channelInfo?.authorBanners?.[3]?.url"
       :banner-hq-src="channelInfo?.authorBanners?.[channelInfo?.authorBanners?.length - 1]?.url"
+      :fallback="channelInfo?.authorThumbnails?.[2]?.url"
     />
     <div class="info">
       <div class="avatar">
         <img class="avatar-img" :src="imgProxy.url + channelInfo?.authorThumbnails?.[2]?.url" />
       </div>
-      <h3 class="title">{{ channelInfo?.author }}</h3>
+      <h3 class="title">
+        {{ channelInfo?.author }}
+      </h3>
       <div class="subscribe">
-        <p class="subscribers">{{ subscriberCount }}</p>
+        <p class="subscribers">{{ subscriberCount }} subscribers</p>
         <SubscribeButton :channel-id="channelInfo.authorId" />
       </div>
       <TabMenu :pages="pages" :current-page="currentPage" @change-page="changePage" />
@@ -56,7 +59,7 @@ const subscriberCount = computed(() => humanNumber(props.channelInfo?.subscriber
     width: 100%;
     max-width: $main-width;
     margin: 0 auto;
-    padding: 10px;
+    padding: 15px;
     display: grid;
     grid-template-areas:
       'avatar title subscribe'
@@ -108,6 +111,11 @@ const subscriberCount = computed(() => humanNumber(props.channelInfo?.subscriber
       align-items: center;
       gap: 10px;
       justify-self: end;
+      position: relative;
+
+      .subscribers {
+        white-space: nowrap;
+      }
     }
 
     .channel-menu {

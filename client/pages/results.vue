@@ -10,7 +10,7 @@
       {{ searchData?.searchResults?.results?.toLocaleString('en-US') }} results
     </p>
     <div v-if="isCorrectedSearchResult" class="correction-results links">
-      <span>Showing results for</span>
+      <span>Showing results for </span>
       <nuxt-link :to="correctedSearchResultUrl">{{
         searchData?.searchResults.correctedQuery
       }}</nuxt-link>
@@ -56,7 +56,7 @@
       <div class="show-more-btn-container">
         <BadgeButton :click="loadMoreVideos" :loading="moreVideosLoading">
           <LoadMoreIcon />
-          <p>show more</p>
+          <p>Show more</p>
         </BadgeButton>
       </div>
     </div>
@@ -260,7 +260,7 @@ export default defineComponent({
   }
 
   .result-amount {
-    margin: 15px auto;
+    margin: 10px auto;
     color: var(--subtitle-color);
   }
 
@@ -274,7 +274,7 @@ export default defineComponent({
   }
 
   .correction-results {
-    margin: 0 auto;
+    margin: 0 auto 10px auto;
   }
 
   .search-results {

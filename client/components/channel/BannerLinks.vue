@@ -45,13 +45,11 @@ const imgProxy = useImgProxy();
 <style lang="scss">
 .banner-links-container {
   display: flex;
-  margin: 10px 0;
 
   .banner-link {
     .link-thumbnail {
       width: 24px;
       height: 24px;
-      margin-right: 8px;
       position: relative;
       top: 1px;
     }

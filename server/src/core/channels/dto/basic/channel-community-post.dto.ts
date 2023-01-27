@@ -13,6 +13,7 @@ export class ChannelCommunityPostDto implements ChannelCommunityPost {
   authorThumbnails: string;
   publishedText: string;
   voteCount: string;
+  commentCount: string;
   postContent:
     | ChannelCommunityPostImage
     | ChannelCommunityPostPoll

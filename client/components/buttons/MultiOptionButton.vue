@@ -5,9 +5,9 @@ type OptionType = {
 };
 
 const props = defineProps<{
-  selectedValue?: string;
+  modelValue: string;
   options: Array<OptionType>;
-  label: string;
+  label?: string;
   colorMark?: string;
   disabled?: boolean;
   right?: boolean;
@@ -15,11 +15,11 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-  (event: 'valuechange', value: OptionType): void;
+  (event: 'update:modelValue', value: string): void;
 }>();
 
 const onOptionSelect = (option: OptionType) => {
-  emit('valuechange', option);
+  emit('update:modelValue', option.value);
 };
 
 if (!props.options || new Set(props.options).size !== props.options.length) {
@@ -28,13 +28,13 @@ if (!props.options || new Set(props.options).size !== props.options.length) {
 </script>
 
 <template>
-  <div class="multi-option" :class="{ right: right }">
+  <div class="multi-option" :class="{ right: right, disabled: disabled }">
     <div class="multi-option-body">
       <div
         v-for="(option, index) in options"
         :key="index"
         class="option"
-        :class="{ selected: selectedValue === option.value }"
+        :class="{ selected: modelValue === option.value }"
         @click="onOptionSelect(option)"
       >
         <p>
@@ -58,9 +58,15 @@ if (!props.options || new Set(props.options).size !== props.options.length) {
   flex-direction: row;
   justify-content: space-evenly;
   user-select: none;
-  margin-top: 20px !important;
   position: relative;
   align-items: center;
+
+  &.disabled {
+    pointer-events: none;
+    user-select: none;
+    filter: grayscale(100%);
+    opacity: 0.9;
+  }
 
   &.right {
     flex-direction: row-reverse;
@@ -78,11 +84,11 @@ if (!props.options || new Set(props.options).size !== props.options.length) {
     background-image: $theme-color-primary-gradient;
     border-radius: 5px;
     display: flex;
-    padding: 3px 0 3px 3px;
+    padding: 2px 0 2px 2px;
 
     .option {
       padding: 2px 5px;
-      margin: 0 3px 0 0;
+      margin: 0 2px 0 0;
       background-color: var(--bgcolor-alt);
       cursor: pointer;
       color: var(--title-color);

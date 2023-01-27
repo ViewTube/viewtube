@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import 'keen-slider/keen-slider.min.css';
+import { Swiper, SwiperSlide } from 'swiper/vue';
+import 'swiper/css';
 
 definePageMeta({
   name: 'channel',
@@ -13,8 +14,17 @@ const channelId = computed(() => route.params.id?.toString()?.split('/')?.[0] ??
 
 const { data: channelInfo } = useGetChannelInfo(channelId);
 
-const { pages, currentPage, changePage, swipeContainerRef, initializationPending } =
-  useChannelPages();
+const { jsEnabled } = useJsEnabled();
+
+const {
+  pages,
+  currentPage,
+  currentPageIndex,
+  changePage,
+  swipeContainerRef,
+  onSwiperInstance,
+  loadedPages
+} = useChannelPages();
 </script>
 
 <template>
@@ -31,44 +41,53 @@ const { pages, currentPage, changePage, swipeContainerRef, initializationPending
       :current-page="currentPage"
       @change-page="changePage"
     />
-    <div ref="swipeContainerRef" class="channel-pages-container keen-slider">
-      <div
-        v-if="!initializationPending || currentPage === 'home'"
-        class="keen-slider__slide lazy__slide channel-page"
-      >
-        <ChannelPageHome />
-      </div>
-      <div
-        v-if="!initializationPending || currentPage === 'videos'"
-        class="keen-slider__slide lazy__slide channel-page"
-      >
-        <ChannelPageVideos />
-      </div>
-      <div
-        v-if="!initializationPending || currentPage === 'playlists'"
-        class="keen-slider__slide lazy__slide channel-page"
-      >
-        <ChannelPagePlaylists />
-      </div>
-      <div
-        v-if="!initializationPending || currentPage === 'community'"
-        class="keen-slider__slide lazy__slide channel-page"
-      >
-        <ChannelPageCommunity />
-      </div>
-      <div
-        v-if="!initializationPending || currentPage === 'channels'"
-        class="keen-slider__slide lazy__slide channel-page"
-      >
-        <ChannelPageChannels />
-      </div>
-      <div
-        v-if="!initializationPending || currentPage === 'about'"
-        class="keen-slider__slide lazy__slide channel-page"
-      >
-        <ChannelPageAbout />
-      </div>
+    <div v-if="!jsEnabled" class="channel-pages-container">
+      <ChannelPageHome v-if="currentPage === 'home'" />
+      <ChannelPageVideos v-if="currentPage === 'videos'" />
+      <ChannelPageShorts v-if="currentPage === 'shorts'" />
+      <ChannelPageLive v-if="currentPage === 'live'" />
+      <ChannelPagePlaylists v-if="currentPage === 'playlists'" />
+      <ChannelPageCommunity v-if="currentPage === 'community'" />
+      <ChannelPageChannels v-if="currentPage === 'channels'" />
     </div>
+    <swiper
+      v-if="jsEnabled"
+      ref="swipeContainerRef"
+      class="channel-pages-container"
+      :simulate-touch="false"
+      :initial-slide="currentPageIndex"
+      :resistance-ratio="0"
+      @swiper="onSwiperInstance"
+    >
+      <swiper-slide class="channel-page">
+        <ChannelPageHome v-if="loadedPages.includes('home')" />
+        <Spinner v-else />
+      </swiper-slide>
+      <swiper-slide class="channel-page">
+        <ChannelPageVideos v-if="loadedPages.includes('videos')" />
+        <Spinner v-else />
+      </swiper-slide>
+      <swiper-slide class="channel-page">
+        <ChannelPageShorts v-if="loadedPages.includes('shorts')" />
+        <Spinner v-else />
+      </swiper-slide>
+      <swiper-slide class="channel-page">
+        <ChannelPageLive v-if="loadedPages.includes('live')" />
+        <Spinner v-else />
+      </swiper-slide>
+      <swiper-slide class="channel-page">
+        <ChannelPagePlaylists v-if="loadedPages.includes('playlists')" />
+        <Spinner v-else />
+      </swiper-slide>
+      <swiper-slide class="channel-page">
+        <ChannelPageCommunity v-if="loadedPages.includes('community')" />
+        <Spinner v-else />
+      </swiper-slide>
+      <swiper-slide class="channel-page">
+        <ChannelPageChannels v-if="loadedPages.includes('channels')" />
+        <Spinner v-else />
+      </swiper-slide>
+    </swiper>
   </div>
 </template>
 

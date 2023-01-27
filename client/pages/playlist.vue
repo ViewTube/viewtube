@@ -145,7 +145,7 @@ const loadMoreVideos = async () => {
     padding-top: 25%;
     position: relative;
 
-    @media screen and (max-width: 1400px) {
+    @media screen and (max-width: $main-width) {
       padding-top: 30%;
     }
 

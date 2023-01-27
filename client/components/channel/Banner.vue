@@ -4,6 +4,7 @@ import EyeIcon from 'vue-material-design-icons/Eye.vue';
 const props = defineProps<{
   src: string;
   bannerHqSrc: string;
+  fallback: string;
 }>();
 
 const imgProxy = useImgProxy();
@@ -12,16 +13,18 @@ const onBannerContextMenu = (e: MouseEvent) => {
   e.preventDefault();
   window.open(imgProxy.url + props.bannerHqSrc, '_blank');
 };
+
+const fallbackUrl = computed(() => {
+  if (props.fallback) {
+    return `url(${imgProxy.url}${props.fallback})`;
+  }
+  return '';
+});
 </script>
 
 <template>
-  <div class="channel-banner" @contextmenu="onBannerContextMenu">
-    <img
-      ref="bannerImage"
-      class="channel-banner-image"
-      :src="imgProxy.url + src"
-      alt="Channel banner"
-    />
+  <div v-if="src" class="channel-banner" @contextmenu="onBannerContextMenu">
+    <img class="channel-banner-image" :src="imgProxy.url + src" alt="Channel banner" />
     <div class="additional-content">
       <a
         v-tippy="'Show full size banner'"
@@ -32,6 +35,9 @@ const onBannerContextMenu = (e: MouseEvent) => {
         ><EyeIcon
       /></a>
     </div>
+  </div>
+  <div v-else class="channel-banner fallback">
+    <div class="channel-banner-image" />
   </div>
 </template>
 
@@ -62,6 +68,7 @@ const onBannerContextMenu = (e: MouseEvent) => {
       margin: 0 20px 10px 0;
       clip-path: circle(15px at 50% 120%);
       transition: clip-path 300ms $intro-easing;
+      filter: drop-shadow(0 0 1px #000);
 
       &:focus {
         &::after {
@@ -71,11 +78,23 @@ const onBannerContextMenu = (e: MouseEvent) => {
     }
   }
 
+  &.fallback {
+    overflow: hidden;
+    .channel-banner-image {
+      height: 220px;
+      filter: blur(50px) saturate(1.2);
+      transform: scale(1);
+      background-image: v-bind(fallbackUrl);
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+    }
+  }
+
   .channel-banner-image {
     width: 100%;
     position: relative;
     max-height: 500px;
-    transition: transform 100ms linear;
     display: block;
 
     @media screen and (max-width: 900px) {

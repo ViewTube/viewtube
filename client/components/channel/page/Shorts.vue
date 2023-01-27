@@ -5,7 +5,7 @@ const route = useRoute();
 const channelId = computed(() => getChannelIdFromParam(route.params.id));
 const sortBy = ref<ChannelVideosSortOptionsType>('newest');
 
-const { data, pending } = useGetChannelVideos(channelId, { sortBy });
+const { data, pending } = useGetChannelShorts(channelId, { sortBy });
 
 const { moreVideosPending, onLoadMore, videos } = useChannelVideosContinuation(data);
 </script>
@@ -19,6 +19,7 @@ const { moreVideosPending, onLoadMore, videos } = useChannelVideosContinuation(d
     :more-pending="moreVideosPending"
     :sort-options="channelVideosSortOptions"
     :sort-disabled="true"
+    entry-type-name="shorts"
     @load-more="onLoadMore"
   />
 </template>
