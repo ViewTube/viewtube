@@ -117,7 +117,7 @@ importers:
       '@fastify/cookie': 8.3.0
       '@fastify/helmet': 10.1.0
       '@fastify/multipart': 7.4.0
-      '@fastify/static': 6.6.1
+      '@fastify/static': 6.8.0
       '@fastify/swagger': 8.3.0
       '@freetube/yt-comment-scraper': 6.2.0
       '@nestjs/bull': 0.6.2
@@ -212,7 +212,7 @@ importers:
       '@fastify/cookie': 8.3.0
       '@fastify/helmet': 10.1.0
       '@fastify/multipart': 7.4.0
-      '@fastify/static': 6.6.1
+      '@fastify/static': 6.8.0
       '@fastify/swagger': 8.3.0
       '@freetube/yt-comment-scraper': 6.2.0
       '@nestjs/bull': 0.6.2_5g4fguw5dzljhwwr66uekbkoti
@@ -222,9 +222,9 @@ importers:
       '@nestjs/jwt': 10.0.1_@nestjs+common@9.2.1
       '@nestjs/mongoose': 9.2.1_qxhb2ojkw43x7bsylqweewrvze
       '@nestjs/passport': 9.0.0_6o47igfla2pj7yzh7agpvpttka
-      '@nestjs/platform-fastify': 9.2.1_ui2bcodbmtemymm54pe3ykff2e
+      '@nestjs/platform-fastify': 9.2.1_m32e5rmbllaqgyfxdyjnuzd7pi
       '@nestjs/schedule': 2.1.0_dntc3uqqknzoduyjojusds5kla
-      '@nestjs/swagger': 6.1.4_amv64ql2st5iwe3zqfgkk2utnu
+      '@nestjs/swagger': 6.1.4_kse7pt7rwm3l4yy6yggtqpw5uq
       '@nestjs/throttler': 3.1.0_dntc3uqqknzoduyjojusds5kla
       '@sentry/node': 7.34.0
       '@sentry/tracing': 7.34.0
@@ -258,7 +258,7 @@ importers:
       web-push: 3.5.0
       x2js: 3.4.4
       xml-js: 1.6.11
-      yt-channel-info: github.com/FreeTubeApp/yt-channel-info/2fa707da2977d7736aa968a846498dadaab3c11e
+      yt-channel-info: github.com/FreeTubeApp/yt-channel-info/3e49316a7a9fe7973be59d6b790f1155ba513a77
       ytdl-core: 4.11.2
       ytpl: 2.3.0
       ytsr: 3.8.0
@@ -2092,39 +2092,26 @@ packages:
       stream-wormhole: 1.1.0
     dev: false
 
-  /@fastify/send/1.0.0:
-    resolution: {integrity: sha512-jnj8ONIXiOLv4kPn5O7T4oSD5+ymhOg4dKHW3rnYkB/1PJ1942UH1/trvMUIr+fn1dJ20oatpWycZDkPiLcWfg==}
-    engines: {node: '>= 0.8.0'}
+  /@fastify/send/2.0.1:
+    resolution: {integrity: sha512-8jdouu0o5d0FMq1+zCKeKXc1tmOQ5tTGYdQP3MpyF9+WWrZT1KCBdh6hvoEYxOm3oJG/akdE9BpehLiJgYRvGw==}
     dependencies:
-      debug: 4.3.4
-      depd: 2.0.0
-      destroy: 1.2.0
-      encodeurl: 1.0.2
+      '@lukeed/ms': 2.0.1
       escape-html: 1.0.3
-      etag: 1.8.1
-      fresh: 0.5.2
+      fast-decode-uri-component: 1.0.1
       http-errors: 2.0.0
-      mime: 1.6.0
-      ms: 2.1.3
-      on-finished: 2.4.1
-      range-parser: 1.2.1
-      statuses: 2.0.1
-    transitivePeerDependencies:
-      - supports-color
+      mime: 3.0.0
     dev: false
 
-  /@fastify/static/6.6.1:
-    resolution: {integrity: sha512-sylhlmhclqwkyZy/SD5wzd4yjmMuqW8cRmfnuPXPhftZuEwJ8G2apm0kECQRnHJnk+W3Ksx2fpIHHcthzxNRTA==}
+  /@fastify/static/6.8.0:
+    resolution: {integrity: sha512-MNQp7KM0NIC+722OPN3MholnfvM+Vg2ao4OwbWWNJhAJEWOKGe4fJsEjIh3OkN0z5ymhklc7EXGCG0zDaIU5ZQ==}
     dependencies:
       '@fastify/accept-negotiator': 1.1.0
-      '@fastify/send': 1.0.0
+      '@fastify/send': 2.0.1
       content-disposition: 0.5.4
       fastify-plugin: 4.5.0
       glob: 8.1.0
       p-limit: 3.1.0
       readable-stream: 4.3.0
-    transitivePeerDependencies:
-      - supports-color
     dev: false
 
   /@fastify/swagger/8.3.0:
@@ -2454,6 +2441,11 @@ packages:
       '@jridgewell/sourcemap-codec': 1.4.14
     dev: true
 
+  /@lukeed/ms/2.0.1:
+    resolution: {integrity: sha512-Xs/4RZltsAL7pkvaNStUQt7netTkyxrS0K+RILcVr3TRMS/ToOg4I6uNfhB9SlGsnWBym4U+EaXq0f0cEMNkHA==}
+    engines: {node: '>=8'}
+    dev: false
+
   /@mapbox/node-pre-gyp/1.0.10:
     resolution: {integrity: sha512-4ySo4CjzStuprMwk35H5pPbkymjv1SF3jGLj6rAHp/xT/RF7TL7bd9CTm1xDY49K2qF7jmR/g7k+SkLETP6opA==}
     hasBin: true
@@ -2708,7 +2700,7 @@ packages:
       passport: 0.6.0
     dev: false
 
-  /@nestjs/platform-fastify/9.2.1_ui2bcodbmtemymm54pe3ykff2e:
+  /@nestjs/platform-fastify/9.2.1_m32e5rmbllaqgyfxdyjnuzd7pi:
     resolution: {integrity: sha512-vhygCrU1Q4VkgsSo9EbS5Ihn2J78ZAK+Zb4M5Bbg+DGWGyrOLbMWL/gYgGSGIV4Fe7CVzp7H9xwuCfl8oqEFNg==}
     peerDependencies:
       '@fastify/static': ^6.0.0
@@ -2724,7 +2716,7 @@ packages:
       '@fastify/cors': 8.2.0
       '@fastify/formbody': 7.3.0
       '@fastify/middie': 8.0.0
-      '@fastify/static': 6.6.1
+      '@fastify/static': 6.8.0
       '@nestjs/common': 9.2.1_66pidaijumrtzyachnvfwzkz3e
       '@nestjs/core': 9.2.1_gs3k642xgyjax3mvj2n3wicqwi
       fastify: 4.10.2
@@ -2764,7 +2756,7 @@ packages:
       - chokidar
     dev: true
 
-  /@nestjs/swagger/6.1.4_amv64ql2st5iwe3zqfgkk2utnu:
+  /@nestjs/swagger/6.1.4_kse7pt7rwm3l4yy6yggtqpw5uq:
     resolution: {integrity: sha512-kE8VjR+NaoKqxg8XqM/YYfALScPh4AcoR8Wywga8/OxHsTHY+MKxqvTpWp7IhCUWSA6xT8nQUpcC9Rt7C+r7Hw==}
     peerDependencies:
       '@fastify/static': ^6.0.0
@@ -2781,7 +2773,7 @@ packages:
       class-validator:
         optional: true
     dependencies:
-      '@fastify/static': 6.6.1
+      '@fastify/static': 6.8.0
       '@nestjs/common': 9.2.1_66pidaijumrtzyachnvfwzkz3e
       '@nestjs/core': 9.2.1_gs3k642xgyjax3mvj2n3wicqwi
       '@nestjs/mapped-types': 1.2.0_ejjx6q7ue32bc24a7sespjpcyu
@@ -5744,6 +5736,7 @@ packages:
   /destroy/1.2.0:
     resolution: {integrity: sha512-2sJGJTaXIIaR1w4iJSNoN0hnMY7Gpc/n8D4qSCJw8QqFWXf7cuAgnEHxBpweaVcPevC2l3KpjYCx3NypQQgaJg==}
     engines: {node: '>= 0.8', npm: 1.2.8000 || >= 1.4.16}
+    dev: true
 
   /detect-libc/2.0.1:
     resolution: {integrity: sha512-463v3ZeIrcWtdgIg6vI6XUncguvr2TnGl4SzDXinkt9mSLpBJKXT3mW6xT3VQdDN11+WVs29pgvivTc4Lp8v+w==}
@@ -5862,6 +5855,7 @@ packages:
 
   /ee-first/1.1.1:
     resolution: {integrity: sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==}
+    dev: true
 
   /electron-to-chromium/1.4.284:
     resolution: {integrity: sha512-M8WEXFuKXMYMVr45fo8mq0wUrrJHheiKZf6BArTKk9ZBYCKJEOU5H8cdWgDT+qCVZf7Na4lVUaZsA+h6uA9+PA==}
@@ -5887,6 +5881,7 @@ packages:
   /encodeurl/1.0.2:
     resolution: {integrity: sha512-TPJXq8JqFaVYm2CWmPvnP2Iyo4ZSM7/QKcSmuMLDObfpH5fi7RUGmd/rTDf+rut/saiDiQEeVTNgAmJEdAOx0w==}
     engines: {node: '>= 0.8'}
+    dev: true
 
   /end-of-stream/1.4.4:
     resolution: {integrity: sha512-+uw1inIHVPQoaVuHzRyXd21icM+cnt4CzD5rW+NC1wjOUSTOs+Te7FOv7AhN7vS9x/oIyhLP5PR1H+phQAHu5Q==}
@@ -6438,6 +6433,7 @@ packages:
   /etag/1.8.1:
     resolution: {integrity: sha512-aIL5Fx7mawVa300al2BnEE4iNvo1qETxLrPI/o05L7z6go7fCw1J6EQmbK4FmJ2AS7kgVF/KEZWufBfdClMcPg==}
     engines: {node: '>= 0.6'}
+    dev: true
 
   /event-target-shim/5.0.1:
     resolution: {integrity: sha512-i/2XbnSz/uxRCU6+NdVJgKWDTM427+MqYbkQzD321DuCQJUqOuJKIA0IM2+W2xtYHdKOmZ4dR6fExsd4SXL+WQ==}
@@ -6869,6 +6865,7 @@ packages:
   /fresh/0.5.2:
     resolution: {integrity: sha512-zJ2mQYM18rEFOudeV4GShTGIQ7RbzA7ozbU9I/XBpm7kqgMywgmylMwXHxZJmkVoYkna9d2pVXVXPdYTP9ej8Q==}
     engines: {node: '>= 0.6'}
+    dev: true
 
   /fs-constants/1.0.0:
     resolution: {integrity: sha512-y6OAwoSIf7FyjMIv94u+b5rdheZEjzR63GTyZJm5qh4Bi+2YgwLCcI/fPFZkL5PSixOt6ZNKm+w+Hfp/Bciwow==}
@@ -8842,6 +8839,7 @@ packages:
     resolution: {integrity: sha512-x0Vn8spI+wuJ1O6S7gnbaQg8Pxh4NNHb7KSINmEWKiPE4RKOplvijn+NkmYmmRgP68mc70j2EbeTFRsrswaQeg==}
     engines: {node: '>=4'}
     hasBin: true
+    dev: true
 
   /mime/2.5.2:
     resolution: {integrity: sha512-tqkh47FzKeCPD2PUiPB6pkbMzsCasjxAfC62/Wap5qrUWcb+sFasXUC5I3gYM5iBM8v/Qpn4UK0x+j0iHyFPDg==}
@@ -8853,7 +8851,6 @@ packages:
     resolution: {integrity: sha512-jSCU7/VB1loIWBZe14aEYHU/+1UMEHoaO7qxCOVJOw9GgH72VAWppxNcjU+x9a2k3GSIBXNKxXQFqRvvZ7vr3A==}
     engines: {node: '>=10.0.0'}
     hasBin: true
-    dev: true
 
   /mimic-fn/2.1.0:
     resolution: {integrity: sha512-OqbOk5oEQeAZ8WXWydlu9HJjz9WVdEIvamMCcXmuqUYjTknH/sqsWvhQ3vgwKFRR1HpjvNBKQ37nbJgYzGqGcg==}
@@ -9483,6 +9480,7 @@ packages:
     engines: {node: '>= 0.8'}
     dependencies:
       ee-first: 1.1.1
+    dev: true
 
   /once/1.4.0:
     resolution: {integrity: sha512-lNaJgI+2Q5URQBkccEKHTQOPaXdUxnZZElQTZY0MFUAuaEqe1E+Nyvgdz/aIyNi6Z9MzO5dv1H8n58/GELp3+w==}
@@ -10344,6 +10342,7 @@ packages:
   /range-parser/1.2.1:
     resolution: {integrity: sha512-Hrgsx+orqoygnmhFbKaHE6c296J+HTAQXoxEF6gNupROmmGJRoyzfG3ccAveqCBrwr/2yxQ5BVd/GTl5agOwSg==}
     engines: {node: '>= 0.6'}
+    dev: true
 
   /rc/1.2.8:
     resolution: {integrity: sha512-y3bGgqKj3QBdxLbLkomlohkvsA8gdAiUQlSBJnBhfn+BPxg4bc62d8TcBW15wavDfgexCgccckhcZvywyQYPOw==}
@@ -12394,8 +12393,8 @@ packages:
       compress-commons: 4.1.1
       readable-stream: 3.6.0
 
-  github.com/FreeTubeApp/yt-channel-info/2fa707da2977d7736aa968a846498dadaab3c11e:
-    resolution: {tarball: https://codeload.github.com/FreeTubeApp/yt-channel-info/tar.gz/2fa707da2977d7736aa968a846498dadaab3c11e}
+  github.com/FreeTubeApp/yt-channel-info/3e49316a7a9fe7973be59d6b790f1155ba513a77:
+    resolution: {tarball: https://codeload.github.com/FreeTubeApp/yt-channel-info/tar.gz/3e49316a7a9fe7973be59d6b790f1155ba513a77}
     name: yt-channel-info
     version: 3.2.1
     dependencies:
