@@ -9,6 +9,7 @@
     "environment:teardown": "docker-compose -f environment/docker-compose.yml down",
     "cy:open": "cypress open",
     "cy:run": "cypress run",
+    "ci:test": "pnpm run environment:prepare && sleep 15 && pnpm run cy:run",
     "test": "pnpm run environment:prepare && pnpm run cy:run"
   },
   "devDependencies": {

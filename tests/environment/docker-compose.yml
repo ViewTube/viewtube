@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-  localhost:
+  viewtube-e2e:
     build:
       context: ../../
       cache_from:
