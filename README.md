@@ -71,7 +71,8 @@ ViewTube does not use the official Youtube API. It instead scrapes the data from
 - [node-ytdl-core](https://github.com/fent/node-ytdl-core)
 - [node-ytsr](https://github.com/TimeForANinja/node-ytsr)
 - [node-ytpl](https://github.com/TimeForANinja/node-ytpl)
-- [yt-comment-scraper ](https://github.com/FreeTubeApp/yt-comment-scraper)
+- [yt-comment-scraper](https://github.com/FreeTubeApp/yt-comment-scraper)
+- [yt-channel-info](https://github.com/FreeTubeApp/yt-channel-info)
 
 The [Invidious](https://github.com/iv-org/invidious) API is still used in a few places.
 You can check the progress on [replacing the invidious api here](https://github.com/ViewTube/viewtube/wiki/Invidious-API-migration).
