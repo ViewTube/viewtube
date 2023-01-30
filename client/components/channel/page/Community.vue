@@ -7,7 +7,7 @@ const route = useRoute();
 const messagesStore = useMessagesStore();
 
 const channelId = computed(() => getChannelIdFromParam(route.params.id));
-const { data, pending } = useGetChannelCommunityPosts(channelId);
+const { data, pending, error } = useGetChannelCommunityPosts(channelId);
 
 const channelInfo = ref(data);
 const morePending = ref(false);
@@ -63,6 +63,7 @@ const loadMore = async () => {
       </BadgeButton>
     </div>
   </div>
+  <ChannelPageError v-if="error" error-message="An error occurred when loading community posts." />
 </template>
 
 <style lang="scss" scoped>

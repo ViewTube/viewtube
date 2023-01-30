@@ -80,6 +80,7 @@ const sortBy = computed<ChannelVideosSortOptionsType | ChannelPlaylistsSortOptio
   margin: 15px 0 0 0;
   height: 90vh;
 }
+
 .videos {
   margin: 15px 0 0 0;
 

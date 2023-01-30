@@ -350,10 +350,10 @@ watch(
   }
 
   .no-subscriptions {
-    position: relative;
-    z-index: 10;
-    margin: 20% 0 0 0;
-    text-align: center;
+    margin: 25px 0 0 0;
+    display: grid;
+    justify-items: center;
+    gap: 5px;
   }
 
   .subscription-videos-container {
