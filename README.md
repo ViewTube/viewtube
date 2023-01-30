@@ -1,6 +1,6 @@
 <h1 align="center">
 <sub>
-<img  src="https://raw.githubusercontent.com/ViewTube/viewtube-vue/development/.github/images/logo.png"
+<img  src="https://raw.githubusercontent.com/ViewTube/viewtube/development/.github/images/logo.png"
       height="50"
       width="50">
 </sub>
@@ -8,22 +8,22 @@ ViewTube
 </h1>
 
 <p align="center">
-  <a href="https://github.com/ViewTube/viewtube-vue/actions/workflows/build-workflow.yml">
-    <img src="https://github.com/ViewTube/viewtube-vue/actions/workflows/build-workflow.yml/badge.svg?branch=development" alt="Github Actions Status"> 
+  <a href="https://github.com/ViewTube/viewtube/actions/workflows/build-workflow.yml">
+    <img src="https://github.com/ViewTube/viewtube/actions/workflows/build-workflow.yml/badge.svg?branch=development" alt="Github Actions Status"> 
   </a>
-  <a href="https://github.com/ViewTube/viewtube-vue/actions/workflows/test-workflow.yml">
-    <img src="https://github.com/ViewTube/viewtube-vue/actions/workflows/test-workflow.yml/badge.svg?branch=development" alt="Daily Tests Status">
+  <a href="https://github.com/ViewTube/viewtube/actions/workflows/test-workflow.yml">
+    <img src="https://github.com/ViewTube/viewtube/actions/workflows/test-workflow.yml/badge.svg?branch=development" alt="Daily Tests Status">
   </a>
   <a href="https://deepscan.io/dashboard#view=project&amp;tid=11097&amp;pid=14017&amp;bid=262917">
     <img src="https://deepscan.io/api/teams/11097/projects/14017/branches/262917/badge/grade.svg" alt="DeepScan grade">
   </a>
-  <a href="https://github.com/ViewTube/viewtube-vue/blob/development/LICENSE">
-    <img src="https://img.shields.io/github/license/mauriceoegerli/viewtube-vue" alt="GitHub">
+  <a href="https://github.com/ViewTube/viewtube/blob/development/LICENSE">
+    <img src="https://img.shields.io/github/license/mauriceoegerli/viewtube" alt="GitHub">
   </a>
   <a href="https://hub.docker.com/r/mauriceo/viewtube">
     <img src="https://img.shields.io/docker/image-size/mauriceo/viewtube/dev?label=docker%20image" alt="Docker Image Size (tag)">
   </a>
-  <img src="https://img.shields.io/github/last-commit/viewtube/viewtube-vue" alt="GitHub last commit">
+  <img src="https://img.shields.io/github/last-commit/viewtube/viewtube" alt="GitHub last commit">
 </p>
 
 ViewTube is an alternative YouTube frontend.
@@ -74,7 +74,7 @@ ViewTube does not use the official Youtube API. It instead scrapes the data from
 - [yt-comment-scraper ](https://github.com/FreeTubeApp/yt-comment-scraper)
 
 The [Invidious](https://github.com/iv-org/invidious) API is still used in a few places.
-You can check the progress on [replacing the invidious api here](https://github.com/ViewTube/viewtube-vue/wiki/Invidious-API-migration).
+You can check the progress on [replacing the invidious api here](https://github.com/ViewTube/viewtube/wiki/Invidious-API-migration).
 
 <h2 align="center">
 <sub>
@@ -112,7 +112,7 @@ Channel
 Host it yourself
 </h2>
 
-A comprehensive installation guide is available in the [wiki](https://github.com/ViewTube/viewtube-vue/wiki/Installation)
+A comprehensive installation guide is available in the [wiki](https://github.com/ViewTube/viewtube/wiki/Installation)
 
 <h2 align="center">
 <sub>
@@ -137,7 +137,7 @@ Instructions
 
 1. Clone this repo
 
-   `git clone https://github.com/ViewTube/viewtube-vue`
+   `git clone https://github.com/ViewTube/viewtube`
 
 2. Install dependencies
 
@@ -174,11 +174,11 @@ Thanks goes to these wonderful people
 <!-- markdownlint-disable -->
 <table>
   <tr>
-    <td align="center"><a href="https://github.com/cyacedev"><img src="https://avatars0.githubusercontent.com/u/46712905?v=4?s=100" width="100px;" alt=""/><br /><sub><b>cyacedev</b></sub></a><br /><a href="https://github.com/ViewTube/viewtube-vue/commits?author=cyacedev" title="Code">💻</a> <a href="https://github.com/ViewTube/viewtube-vue/commits?author=cyacedev" title="Documentation">📖</a></td>
-    <td align="center"><a href="https://github.com/ckVendrix"><img src="https://avatars2.githubusercontent.com/u/51775140?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Vendrix</b></sub></a><br /><a href="https://github.com/ViewTube/viewtube-vue/commits?author=ckVendrix" title="Code">💻</a></td>
-    <td align="center"><a href="https://github.com/Mennaruuk"><img src="https://avatars.githubusercontent.com/u/52135169?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Mennaruuk</b></sub></a><br /><a href="https://github.com/ViewTube/viewtube-vue/commits?author=Mennaruuk" title="Documentation">📖</a></td>
-    <td align="center"><a href="https://github.com/mizzunet"><img src="https://avatars.githubusercontent.com/u/10193999?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Missu</b></sub></a><br /><a href="https://github.com/ViewTube/viewtube-vue/commits?author=mizzunet" title="Documentation">📖</a></td>
-    <td align="center"><a href="https://github.com/beardeddude"><img src="https://avatars.githubusercontent.com/u/36680638?v=4?s=100" width="100px;" alt=""/><br /><sub><b>beardeddude</b></sub></a><br /><a href="https://github.com/ViewTube/viewtube-vue/commits?author=beardeddude" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/cyacedev"><img src="https://avatars0.githubusercontent.com/u/46712905?v=4?s=100" width="100px;" alt=""/><br /><sub><b>cyacedev</b></sub></a><br /><a href="https://github.com/ViewTube/viewtube/commits?author=cyacedev" title="Code">💻</a> <a href="https://github.com/ViewTube/viewtube/commits?author=cyacedev" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/ckVendrix"><img src="https://avatars2.githubusercontent.com/u/51775140?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Vendrix</b></sub></a><br /><a href="https://github.com/ViewTube/viewtube/commits?author=ckVendrix" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/Mennaruuk"><img src="https://avatars.githubusercontent.com/u/52135169?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Mennaruuk</b></sub></a><br /><a href="https://github.com/ViewTube/viewtube/commits?author=Mennaruuk" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/mizzunet"><img src="https://avatars.githubusercontent.com/u/10193999?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Missu</b></sub></a><br /><a href="https://github.com/ViewTube/viewtube/commits?author=mizzunet" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/beardeddude"><img src="https://avatars.githubusercontent.com/u/36680638?v=4?s=100" width="100px;" alt=""/><br /><sub><b>beardeddude</b></sub></a><br /><a href="https://github.com/ViewTube/viewtube/commits?author=beardeddude" title="Code">💻</a></td>
   </tr>
 </table>
 
