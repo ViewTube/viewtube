@@ -271,7 +271,7 @@ const onVideoEntryClick = () => {
         >
         <div class="video-entry-stats">
           <p v-if="video.viewCountText" class="video-entry-views">
-            {{ video.viewCountText }}
+            {{ video.viewCountText }} {{ !video.viewCountText.includes('views') ? 'views' : '' }}
           </p>
           <p v-else-if="video.viewCount" class="video-entry-views">
             {{ video.viewCount?.toLocaleString('en-US') }}
