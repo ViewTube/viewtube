@@ -20,8 +20,8 @@ const loadMore = async () => {
         channelInfo.value.relatedChannels.continuation
       );
       channelInfo.value.relatedChannels.items = [
-        ...channelInfo.value.relatedChannels.items,
-        ...(additionalChannels.items as any)
+        ...(channelInfo.value.relatedChannels.items as any),
+        ...additionalChannels.items
       ];
       channelInfo.value.relatedChannels.continuation = additionalChannels.continuation;
     } catch (error) {
@@ -70,12 +70,12 @@ const loadMore = async () => {
       margin: 15px auto 20px auto;
     }
   }
+}
 
-  .no-related-channels {
-    display: flex;
-    justify-content: center;
-    margin: 15px 0 0 0;
-    height: 90vh;
-  }
+.no-related-channels {
+  display: flex;
+  justify-content: center;
+  margin: 15px 0 0 0;
+  height: 90vh;
 }
 </style>

@@ -12,7 +12,7 @@ const route = useRoute();
 
 const channelId = computed(() => route.params.id?.toString()?.split('/')?.[0] ?? null);
 
-const { data: channelInfo } = useGetChannelInfo(channelId);
+const { data: channelInfo, pending } = useGetChannelInfo(channelId);
 
 const { jsEnabled } = useJsEnabled();
 
@@ -29,13 +29,14 @@ const {
 
 <template>
   <div class="channel">
-    <Spinner v-if="!channelInfo" class="centered" />
+    <Spinner v-if="pending && !channelInfo" class="centered" />
     <MetaPageHead
       :title="`${channelInfo?.author}`"
       :description="`${channelInfo?.description?.substring(0, 100)}`"
       :image="`${channelInfo?.authorThumbnails?.[0]?.url}`"
     />
     <ChannelBannerSection
+      v-if="channelInfo"
       :channel-info="channelInfo"
       :pages="pages"
       :current-page="currentPage"
@@ -51,7 +52,7 @@ const {
       <ChannelPageChannels v-if="currentPage === 'channels'" />
     </div>
     <swiper
-      v-if="jsEnabled"
+      v-if="jsEnabled && channelInfo"
       ref="swipeContainerRef"
       class="channel-pages-container"
       :simulate-touch="false"

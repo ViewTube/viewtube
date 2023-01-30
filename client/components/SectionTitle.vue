@@ -8,7 +8,8 @@ withDefaults(
     line?: boolean;
   }>(),
   {
-    line: true
+    line: true,
+    link: null
   }
 );
 </script>
@@ -30,57 +31,37 @@ withDefaults(
 <style lang="scss" scoped>
 .section-title {
   height: 80px;
-  overflow: visible;
-  position: relative;
-  z-index: 9;
-  display: block;
   width: 100%;
   display: flex;
   flex-direction: row;
+  align-items: center;
 
   .title {
-    position: relative;
-    top: 0;
     max-width: $main-width;
-    margin: 0;
-    line-height: 80px;
     font-size: 1.7rem;
-    text-align: start;
-    padding: 0;
-    color: var(--title-color);
     box-sizing: border-box;
-    z-index: 9;
     font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 
     &:hover {
       .material-design-icon {
-        left: -10px !important;
+        transform: translateX(-10px);
       }
     }
 
-    .material-design-icon {
-      height: 0.8em;
-      width: 0.8em;
-      top: 9px !important;
-      height: 1.2em !important;
-      width: 1.2em !important;
-      left: 0;
-      transition: left 300ms $intro-easing;
-
-      .material-design-icon__svg {
-        height: 1.2em !important;
-        width: 1.2em !important;
-        bottom: -9px !important;
-      }
+    .material-design-icon,
+    .material-design-icon__svg {
+      height: 1.2em;
+      width: 1.2em;
+      transition: transform 300ms $intro-easing;
     }
   }
   .line {
     height: 2px;
     flex-grow: 1;
     background: linear-gradient(to right, transparent 5%, var(--theme-color-translucent) 15%);
-    position: relative;
-    top: 50%;
-    display: block;
   }
 }
 </style>

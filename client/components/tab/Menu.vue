@@ -15,6 +15,7 @@ const emit = defineEmits<{
 const { jsEnabled } = useJsEnabled();
 
 const pageElementRefs = ref<Array<HTMLElement>>([]);
+const tabMenuRef = ref<HTMLElement>(null);
 
 const selectedElement = computed(() => {
   return pageElementRefs.value.find(element => element.dataset.pageName === props.currentPage);
@@ -32,6 +33,23 @@ const onPageLinkClick = (pageName: string) => {
   resetPageLinkPull();
   emit('changePage', pageName);
 };
+
+watch(
+  () => props.currentPage,
+  () => updateMenuScrollPosition()
+);
+
+const updateMenuScrollPosition = () => {
+  const selectedElement = pageElementRefs.value.find(
+    element => element.dataset.pageName === props.currentPage
+  );
+  const offsetLeft = selectedElement?.offsetLeft;
+  tabMenuRef.value.scrollTo({ left: offsetLeft, behavior: 'smooth' });
+};
+
+onMounted(() => {
+  updateMenuScrollPosition();
+});
 
 const pullRight = ref(0);
 const pullLeft = ref(0);
@@ -60,7 +78,7 @@ const resetPageLinkPull = () => {
 </script>
 
 <template>
-  <div class="tab-menu">
+  <div class="tab-menu" ref="tabMenuRef">
     <div
       class="active-selector"
       :class="{ 'pull-left': pullLeft > 0, 'pull-right': pullRight > 0 }"
@@ -92,6 +110,13 @@ const resetPageLinkPull = () => {
 .tab-menu {
   display: flex;
   position: relative;
+  overflow-y: hidden;
+  overflow-x: auto;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
   .tab-link {
     padding: 0 15px;

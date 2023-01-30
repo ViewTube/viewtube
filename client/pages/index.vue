@@ -1,60 +1,6 @@
-<template>
-  <div class="home" :class="{ loading: popularPageLoading || displayedVideos.length <= 0 }">
-    <MetaPageHead
-      title="ViewTube :: An alternative YouTube frontend"
-      description="An alternative YouTube frontend"
-    />
-    <Spinner v-if="popularPageLoading" class="centered" />
-    <ErrorPage
-      v-if="popularPageError"
-      text="Error loading homepage. The API may not be reachable."
-    />
-    <SectionTitle
-      v-if="settingsStore.showHomeSubscriptions && userAuthenticated"
-      :title="'Subscriptions'"
-      :link="'subscriptions'"
-    />
-    <Spinner v-if="subscriptionsLoading" />
-    <div
-      v-if="
-        settingsStore.showHomeSubscriptions &&
-        userAuthenticated &&
-        subscriptions?.videos?.length > 0
-      "
-      class="home-videos-container small"
-    >
-      <VideoEntry
-        v-for="video in subscriptions.videos"
-        :key="video.videoId"
-        :video="video"
-        :lazy="true"
-      />
-    </div>
-    <SectionTitle v-if="videoData?.videos?.length > 0" :title="'Popular videos'" />
-    <div class="home-videos-container small">
-      <VideoEntry
-        v-for="(video, index) in displayedVideos"
-        :key="index"
-        :lazy="true"
-        :video="video"
-      />
-    </div>
-    <BadgeButton
-      v-if="videoData?.videos?.length > 0 && displayedVideos.length !== videoData?.videos?.length"
-      id="home-show-more"
-      :click="showMoreVideos"
-    >
-      <LoadMoreIcon />
-      <p>Show more</p>
-    </BadgeButton>
-  </div>
-</template>
-
 <script setup lang="ts">
 import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
 import VideoEntry from '@/components/list/VideoEntry.vue';
-import Spinner from '@/components/Spinner.vue';
-import SectionTitle from '@/components/SectionTitle.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import { useUserStore } from '@/store/user';
 import { useSettingsStore } from '@/store/settings';
@@ -63,13 +9,12 @@ const settingsStore = useSettingsStore();
 const userStore = useUserStore();
 
 const showMore = ref(false);
-const userAuthenticated = ref(userStore.isLoggedIn);
 
 const displayedVideos = computed(() => {
   if (videoData.value?.videos) {
     if (!showMore.value) {
       let videoCount = 12;
-      if (userAuthenticated.value && settingsStore.showHomeSubscriptions) {
+      if (userStore.isLoggedIn && settingsStore.showHomeSubscriptions) {
         videoCount = 8;
       }
       return videoData.value.videos.slice(0, videoCount);
@@ -88,11 +33,40 @@ const {
   error: popularPageError,
   pending: popularPageLoading
 } = useGetPopularPage();
-
-const { data: subscriptions, pending: subscriptionsLoading } = useGetUserSubscriptions({
-  limit: 4
-});
 </script>
+
+<template>
+  <div class="home" :class="{ loading: popularPageLoading || displayedVideos.length <= 0 }">
+    <MetaPageHead
+      title="ViewTube :: An alternative YouTube frontend"
+      description="An alternative YouTube frontend"
+    />
+    <Spinner v-if="popularPageLoading" class="centered" />
+    <ErrorPage
+      v-if="popularPageError"
+      text="Error loading homepage. The API may not be reachable."
+    />
+    <HomeSubscriptions v-if="userStore.isLoggedIn && settingsStore.showHomeSubscriptions" />
+    <SectionTitle v-if="videoData?.videos?.length > 0" :title="'Popular videos'" />
+    <div class="home-videos-container small">
+      <VideoEntry
+        v-for="(video, index) in displayedVideos"
+        :key="index"
+        :lazy="true"
+        :video="video"
+      />
+    </div>
+    <div class="home-show-more">
+      <BadgeButton
+        v-if="videoData?.videos?.length > 0 && displayedVideos.length !== videoData?.videos?.length"
+        :click="showMoreVideos"
+      >
+        <LoadMoreIcon />
+        <p>Show more</p>
+      </BadgeButton>
+    </div>
+  </div>
+</template>
 
 <style lang="scss">
 .spinner {
@@ -104,6 +78,8 @@ const { data: subscriptions, pending: subscriptionsLoading } = useGetUserSubscri
 }
 .home {
   margin-top: $header-height;
+  display: flex;
+  flex-direction: column;
 
   &.loading {
     height: calc(100vh - $header-height);
@@ -127,11 +103,10 @@ const { data: subscriptions, pending: subscriptionsLoading } = useGetUserSubscri
     @include viewtube-grid;
   }
 
-  #home-show-more {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    margin-top: 20px;
+  .home-show-more {
+    margin: 20px 0;
+    display: grid;
+    justify-items: center;
   }
 }
 </style>

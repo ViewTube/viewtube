@@ -45,7 +45,12 @@ const subscriberCount = computed(() => humanNumber(props.channelInfo?.subscriber
         <p class="subscribers">{{ subscriberCount }} subscribers</p>
         <SubscribeButton :channel-id="channelInfo.authorId" />
       </div>
-      <TabMenu :pages="pages" :current-page="currentPage" @change-page="changePage" />
+      <TabMenu
+        class="tab-menu"
+        :pages="pages"
+        :current-page="currentPage"
+        @change-page="changePage"
+      />
       <ChannelBannerStats class="banner-stats" :channel-info="channelInfo" />
     </div>
   </div>
@@ -68,6 +73,33 @@ const subscriberCount = computed(() => humanNumber(props.channelInfo?.subscriber
     grid-template-rows: 50px 1fr;
     gap: 10px 20px;
     box-sizing: border-box;
+
+    @media screen and (max-width: 1000px) {
+      padding-bottom: 10px;
+      grid-template-areas:
+        'avatar avatar'
+        'title title'
+        'subscribe stats'
+        'menu menu';
+      grid-template-columns: 1fr;
+      grid-template-rows: 50px 1fr 50px 1fr;
+      place-items: center;
+      gap: 0;
+
+      .avatar {
+        height: 150px !important;
+        display: grid;
+        justify-items: center;
+      }
+
+      .tab-menu {
+        justify-self: start;
+      }
+
+      .subscribe {
+        justify-self: center !important;
+      }
+    }
 
     &::before {
       content: '';
@@ -118,8 +150,9 @@ const subscriberCount = computed(() => humanNumber(props.channelInfo?.subscriber
       }
     }
 
-    .channel-menu {
+    .tab-menu {
       grid-area: menu;
+      max-width: 100%;
     }
 
     .banner-stats {
