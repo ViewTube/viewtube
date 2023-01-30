@@ -19,6 +19,7 @@ import { ConfigurationService } from 'server/core/configuration/configuration.se
 import { isHttps } from 'viewtube/shared/index';
 import { NuxtService } from './nuxt/nuxt.service';
 import { FastifyPluginCallback } from 'fastify';
+import { version } from '../../package.json';
 
 declare const module: {
   hot: {
@@ -41,7 +42,7 @@ const bootstrap = async () => {
   Consola.info(`Running in ${isProduction ? 'production' : 'development'} mode`);
 
   webPush.setVapidDetails(
-    'https://github.com/ViewTube/viewtube-vue',
+    'https://github.com/ViewTube/viewtube',
     ConfigurationService.publicVapidKey || '',
     ConfigurationService.privateVapidKey || ''
   );
@@ -122,13 +123,10 @@ const bootstrap = async () => {
 
   // SWAGGER DOCS
   const documentOptions = new DocumentBuilder()
-    .setTitle('ViewTube-API')
+    .setTitle('ViewTube API')
     .setDescription('ViewTube, an alternative Youtube frontend.')
-    .setVersion('Version 0.9.1')
-    .setLicense(
-      'AGPLv3',
-      'https://raw.githubusercontent.com/viewtube/viewtube-vue/development/LICENSE'
-    )
+    .setVersion(`Version ${version}`)
+    .setLicense('AGPLv3', 'https://raw.githubusercontent.com/viewtube/viewtube/development/LICENSE')
     .addBearerAuth()
     .build();
 

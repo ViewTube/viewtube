@@ -56,7 +56,7 @@ const copyCommitHash = () => {
         </h4>
       </div>
       <div class="links-about">
-        <BadgeButton :href="'https://github.com/viewtube/viewtube-vue'">
+        <BadgeButton :href="'https://github.com/viewtube/viewtube'">
           <GithubIcon />ViewTube
         </BadgeButton>
         <BadgeButton :href="'https://github.com/iv-org/invidious'">
