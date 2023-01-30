@@ -61,13 +61,11 @@ const props = defineProps<{
   hideAuthor?: boolean;
 }>();
 
-const imgProxy = useImgProxy();
+const { proxyUrl } = useImgProxy();
 const { apiUrl } = useApiUrl(true);
 const loadingVideoInfoStore = useLoadingVideoInfoStore();
 
 const localProxy = '&local=true';
-
-const videoThumbnailUrl = ref(null);
 
 const videoLinkQuery = computed(() => {
   const linkQuery: { v: string; list?: string } = {
@@ -82,16 +80,21 @@ const videoLinkQuery = computed(() => {
 
 const thumbnailTemplate = 'https://i.ytimg.com/vi/';
 
-videoThumbnailUrl.value = `
-      ${imgProxy.url}${thumbnailTemplate}${
-  props.video.videoId ?? props.video.id ?? props.video.videoID
-}/sddefault.jpg${localProxy}`;
+const videoThumbnailUrl = computed(() =>
+  proxyUrl(
+    `${thumbnailTemplate}${
+      props.video.videoId ?? props.video.id ?? props.video.videoID
+    }/sddefault.jpg${localProxy}`
+  )
+);
 
-const videoThumbnailUrlXL = ref('');
-videoThumbnailUrl.value = `
-      ${imgProxy.url}${thumbnailTemplate}${
-  props.video.videoId ?? props.video.id ?? props.video.videoID
-}/hqdefault.jpg${localProxy}`;
+const videoThumbnailUrlXL = computed(() =>
+  proxyUrl(
+    `${thumbnailTemplate}${
+      props.video.videoId ?? props.video.id ?? props.video.videoID
+    }/hqdefault.jpg${localProxy}`
+  )
+);
 
 const videoProgressPercentage = computed((): number => {
   // const savedPosition = videoProgressStore.getSavedPositionForId(
@@ -153,12 +156,7 @@ const onVideoEntryClick = () => {
         <img
           v-if="video.authorThumbnails && video.authorThumbnails.length > 0"
           class="author-thumbnail"
-          :src="
-            imgProxy.url +
-            (video.authorThumbnails[1]
-              ? video.authorThumbnails[1].url
-              : video.authorThumbnails[0].url)
-          "
+          :src="proxyUrl(video.authorThumbnails[1]?.url ?? video.authorThumbnails[0]?.url)"
           alt="Author thumbnail"
         />
         <img
@@ -170,13 +168,13 @@ const onVideoEntryClick = () => {
         <img
           v-else-if="video.author?.['bestAvatar']?.url"
           class="author-thumbnail"
-          :src="imgProxy.url + video.author['bestAvatar'].url"
+          :src="proxyUrl(video.author['bestAvatar'].url)"
           alt="Author thumbnail"
         />
         <img
           v-else-if="video.channel?.bestAvatar"
           class="author-thumbnail"
-          :src="imgProxy.url + video.channel.bestAvatar.url"
+          :src="proxyUrl(video.channel.bestAvatar.url)"
           alt="Author thumbnail"
         />
       </nuxt-link>

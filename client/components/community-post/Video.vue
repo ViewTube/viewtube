@@ -18,12 +18,14 @@ defineProps<{
     thumbnails: Array<{ url: string; width: number; height: number }>;
   };
 }>();
+
+const { proxyUrl } = useImgProxy();
 </script>
 
 <template>
   <nuxt-link class="post-video" :to="`/watch?v=${postVideo.videoId}`">
     <div class="thumbnail">
-      <img class="thumbnail-img" :src="postVideo.thumbnails[0].url" />
+      <img class="thumbnail-img" :src="proxyUrl(postVideo.thumbnails[0].url)" />
     </div>
     <div class="video-info">
       <p v-tippy="postVideo.title" class="title info-element">

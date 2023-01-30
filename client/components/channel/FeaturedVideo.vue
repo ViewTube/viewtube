@@ -6,8 +6,10 @@ const props = defineProps<{
   featuredVideo: ApiDto<'ChannelHomeDto'>['featuredVideo'];
 }>();
 
-const placeholderImageSrc = computed(
-  () => `https://i.ytimg.com/vi/${props.featuredVideo.videoId}/hqdefault.jpg`
+const { proxyUrl } = useImgProxy();
+
+const placeholderImageSrc = computed(() =>
+  proxyUrl(`https://i.ytimg.com/vi/${props.featuredVideo.videoId}/hqdefault.jpg`)
 );
 
 const placeholderVisible = ref(true);
