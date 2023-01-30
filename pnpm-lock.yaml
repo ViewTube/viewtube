@@ -52,7 +52,7 @@ importers:
       pinia: 2.0.29
       qrcode: 1.5.1
       sass: 1.57.1
-      swiper: 8.4.6
+      swiper: 8.4.7
       tippy.js: 6.3.7
       typescript: 4.9.4
       vue: 3.2.45
@@ -101,7 +101,7 @@ importers:
       pinia: 2.0.29_prq2uz4lho2pwp6irk4cfkrxwu
       qrcode: 1.5.1
       sass: 1.57.1
-      swiper: 8.4.6
+      swiper: 8.4.7
       tippy.js: 6.3.7
       typescript: 4.9.4
       vue: 3.2.45
@@ -258,7 +258,7 @@ importers:
       web-push: 3.5.0
       x2js: 3.4.4
       xml-js: 1.6.11
-      yt-channel-info: github.com/FreeTubeApp/yt-channel-info/2fa707da2977d7736aa968a846498dadaab3c11e
+      yt-channel-info: github.com/FreeTubeApp/yt-channel-info/3e49316a7a9fe7973be59d6b790f1155ba513a77
       ytdl-core: 4.11.2
       ytpl: 2.3.0
       ytsr: 3.8.0
@@ -11242,8 +11242,8 @@ packages:
     resolution: {integrity: sha512-V3eIa28lwB6gg7/wfNvAbjwJYmDXy1Jo1POjyTzlB6wPcHiGlRxq39TSjYGVjQrUSAzpv+a7nzp7mDxgNy57xA==}
     dev: false
 
-  /swiper/8.4.6:
-    resolution: {integrity: sha512-HACW035vBz2T6Kfut23EAzXhcDpgR8doX+wjq0ZUvJgS5SQApGrV885DAPLBFnmPUISsAhNSVxPKDxqroFvXvQ==}
+  /swiper/8.4.7:
+    resolution: {integrity: sha512-VwO/KU3i9IV2Sf+W2NqyzwWob4yX9Qdedq6vBtS0rFqJ6Fa5iLUJwxQkuD4I38w0WDJwmFl8ojkdcRFPHWD+2g==}
     engines: {node: '>= 4.7.0'}
     requiresBuild: true
     dependencies:
@@ -12394,8 +12394,8 @@ packages:
       compress-commons: 4.1.1
       readable-stream: 3.6.0
 
-  github.com/FreeTubeApp/yt-channel-info/2fa707da2977d7736aa968a846498dadaab3c11e:
-    resolution: {tarball: https://codeload.github.com/FreeTubeApp/yt-channel-info/tar.gz/2fa707da2977d7736aa968a846498dadaab3c11e}
+  github.com/FreeTubeApp/yt-channel-info/3e49316a7a9fe7973be59d6b790f1155ba513a77:
+    resolution: {tarball: https://codeload.github.com/FreeTubeApp/yt-channel-info/tar.gz/3e49316a7a9fe7973be59d6b790f1155ba513a77}
     name: yt-channel-info
     version: 3.2.1
     dependencies:
