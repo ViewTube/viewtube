@@ -20,6 +20,7 @@ import { isHttps } from 'viewtube/shared/index';
 import { NuxtService } from './nuxt/nuxt.service';
 import { FastifyPluginCallback } from 'fastify';
 import { version } from '../../package.json';
+import { checkRedisConnection } from './redis.connection';
 
 declare const module: {
   hot: {
@@ -40,6 +41,8 @@ const bootstrap = async () => {
 
   const isProduction = configService.get('NODE_ENV') === 'production';
   Consola.info(`Running in ${isProduction ? 'production' : 'development'} mode`);
+
+  checkRedisConnection();
 
   webPush.setVapidDetails(
     'https://github.com/ViewTube/viewtube',

@@ -88,7 +88,7 @@ const moduleMetadata: ModuleMetadata = {
             ...redisOptions,
             db: 1
           }
-        } as BullRootModuleOptions;
+        };
       },
       inject: [ConfigService]
     }),
