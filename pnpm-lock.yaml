@@ -139,7 +139,6 @@ importers:
       '@sentry/types': 7.34.0
       '@types/archiver': 5.3.1
       '@types/bcryptjs': 2.4.2
-      '@types/bull': 3.15.9
       '@types/busboy': 1.5.0
       '@types/cache-manager': 4.0.2
       '@types/cookie-parser': 1.4.3
@@ -181,11 +180,13 @@ importers:
       mini-svg-data-uri: 1.4.4
       mongodb-memory-server: 8.11.4
       mongoose: 6.9.0
+      nestjs-pino: ^3.1.2
       nestjs-throttler-storage-redis: 0.3.0
       openapi-typescript: 6.1.0
       passport: 0.6.0
       passport-jwt: 4.0.1
       passport-local: 1.0.0
+      pino-http: ^8.3.2
       redis-mock: 0.56.3
       reflect-metadata: 0.1.13
       rimraf: 4.1.2
@@ -244,10 +245,12 @@ importers:
       joi: 17.7.0
       mini-svg-data-uri: 1.4.4
       mongoose: 6.9.0
+      nestjs-pino: 3.1.2_vvljnfhouckjtnnrh66r5lqzj4
       nestjs-throttler-storage-redis: 0.3.0_mlydjaadq2li7c4holtkbo7maa
       passport: 0.6.0
       passport-jwt: 4.0.1
       passport-local: 1.0.0
+      pino-http: 8.3.2
       reflect-metadata: 0.1.13
       rxjs: 7.8.0
       sharp: 0.31.3
@@ -268,7 +271,6 @@ importers:
       '@sentry/types': 7.34.0
       '@types/archiver': 5.3.1
       '@types/bcryptjs': 2.4.2
-      '@types/bull': 3.15.9
       '@types/busboy': 1.5.0
       '@types/cache-manager': 4.0.2
       '@types/cookie-parser': 1.4.3
@@ -3399,15 +3401,6 @@ packages:
       '@types/node': 18.11.18
     dev: true
 
-  /@types/bull/3.15.9:
-    resolution: {integrity: sha512-MPUcyPPQauAmynoO3ezHAmCOhbB0pWmYyijr/5ctaCqhbKWsjW0YCod38ZcLzUBprosfZ9dPqfYIcfdKjk7RNQ==}
-    dependencies:
-      '@types/ioredis': 5.0.0
-      '@types/redis': 2.8.32
-    transitivePeerDependencies:
-      - supports-color
-    dev: true
-
   /@types/busboy/1.5.0:
     resolution: {integrity: sha512-ncOOhwmyFDW76c/Tuvv9MA9VGYUCn8blzyWmzYELcNGDb0WXWLSmFi7hJq25YdRBYJrmMBB5jZZwUjlJe9HCjQ==}
     dependencies:
@@ -3490,15 +3483,6 @@ packages:
 
   /@types/humanize-duration/3.27.1:
     resolution: {integrity: sha512-K3e+NZlpCKd6Bd/EIdqjFJRFHbrq5TzPPLwREk5Iv/YoIjQrs6ljdAUCo+Lb2xFlGNOjGSE0dqsVD19cZL137w==}
-    dev: true
-
-  /@types/ioredis/5.0.0:
-    resolution: {integrity: sha512-zJbJ3FVE17CNl5KXzdeSPtdltc4tMT3TzC6fxQS0sQngkbFZ6h+0uTafsRqu+eSLIugf6Yb0Ea0SUuRr42Nk9g==}
-    deprecated: This is a stub types definition. ioredis provides its own type definitions, so you do not need this installed.
-    dependencies:
-      ioredis: 5.3.0
-    transitivePeerDependencies:
-      - supports-color
     dev: true
 
   /@types/istanbul-lib-coverage/2.0.4:
@@ -6920,7 +6904,6 @@ packages:
   /get-caller-file/2.0.5:
     resolution: {integrity: sha512-DyFP3BM/3YHTQOCUL/w0OZHR0lpKeGrxotcHWcqNEdnltqFwXVfhEBQ94eIo34AfQpo0rGki4cyIiftY06h2Fg==}
     engines: {node: 6.* || 8.* || >= 10.*}
-    dev: true
 
   /get-intrinsic/1.2.0:
     resolution: {integrity: sha512-L049y6nFOuom5wGyRc3/gdTLO94dySVKRACj1RmJZBQXlbTMhtNIgkWkUHq+jYmZvKf14EW1EoJnnjbmoHij0Q==}
@@ -9070,6 +9053,18 @@ packages:
     resolution: {integrity: sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==}
     dev: true
 
+  /nestjs-pino/3.1.2_vvljnfhouckjtnnrh66r5lqzj4:
+    resolution: {integrity: sha512-Rxt9v/OlHwurE2GPyBlHVjzCLCnxIPxGa+Esligij412zEcqqB6kka5MhKAk3l61u1jyTLx3Mzol+HQrR6/f9w==}
+    engines: {node: '>= 14'}
+    requiresBuild: true
+    peerDependencies:
+      '@nestjs/common': ^8.0.0 || ^9.0.0
+      pino-http: ^6.4.0 || ^7.0.0 || ^8.0.0
+    dependencies:
+      '@nestjs/common': 9.2.1_66pidaijumrtzyachnvfwzkz3e
+      pino-http: 8.3.2
+    dev: false
+
   /nestjs-throttler-storage-redis/0.3.0_mlydjaadq2li7c4holtkbo7maa:
     resolution: {integrity: sha512-1FlBdao730/zJhiE8skiMbAalhHSNoPnDf5m3laTNYVy5NmVr7mexyCBJ/wZJH+Ya7cu58W6vAXUTr2jJZBTOQ==}
     peerDependencies:
@@ -9779,6 +9774,15 @@ packages:
     dependencies:
       readable-stream: 4.3.0
       split2: 4.1.0
+    dev: false
+
+  /pino-http/8.3.2:
+    resolution: {integrity: sha512-L6cQxP+d3IT2l7hCrlLOtvSFIYAX8iEAlGto7ahvVWumiiQ4aDCN23rmYGoImKGvBCyZpK07eHKtmuVq5L5SFQ==}
+    dependencies:
+      get-caller-file: 2.0.5
+      pino: 8.8.0
+      pino-std-serializers: 6.1.0
+      process-warning: 2.1.0
     dev: false
 
   /pino-std-serializers/6.1.0:

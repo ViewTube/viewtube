@@ -7,7 +7,6 @@ import { ConfigService } from '@nestjs/config';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import cookieParser from 'cookie-parser';
 import webPush from 'web-push';
-import Consola from 'consola';
 import FastifyCookie from '@fastify/cookie';
 import FastifyMultipart from '@fastify/multipart';
 import FastifyHelmet from '@fastify/helmet';
@@ -21,6 +20,7 @@ import { NuxtService } from './nuxt/nuxt.service';
 import { FastifyPluginCallback } from 'fastify';
 import { version } from '../../package.json';
 import { checkRedisConnection } from './redis.connection';
+import { Logger, PinoLogger } from 'nestjs-pino';
 
 declare const module: {
   hot: {
@@ -34,13 +34,17 @@ type FastifyPluginType = FastifyPluginCallback;
 const bootstrap = async () => {
   await ConfigurationService.initializeEnvironment();
   const server = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter(), {
-    logger: ['error', 'warn']
+    bufferLogs: true,
+    logger: ['error', 'warn', 'log']
   });
+
+  server.useLogger(server.get(Logger));
+  const logger = server.get(Logger);
 
   const configService = server.get(ConfigService);
 
   const isProduction = configService.get('NODE_ENV') === 'production';
-  Consola.info(`Running in ${isProduction ? 'production' : 'development'} mode`);
+  logger.log(`Running in ${isProduction ? 'production' : 'development'} mode`);
 
   checkRedisConnection();
 
@@ -148,11 +152,11 @@ const bootstrap = async () => {
   // START
   await server.listen(port, '0.0.0.0', (err, _address) => {
     if (err) {
-      Consola.error(err);
+      logger.error(err);
       process.exit(1);
     }
     if ((cluster.worker && cluster.worker.id === 1) || !AppClusterService.isClustered) {
-      Consola.ready(`Server listening on ${_address}`);
+      logger.log(`Server listening on ${_address}`);
     }
   });
 
@@ -168,11 +172,11 @@ const bootstrap = async () => {
 const runBootstrap = async () => {
   if (AppClusterService.isClustered) {
     if (cluster.worker && cluster.worker.id === 1) {
-      Consola.start('Starting in clustered mode');
+      console.log('Starting in clustered mode');
     }
     AppClusterService.clusterize(bootstrap);
   } else {
-    Consola.start('Starting with single node');
+    console.log('Starting with single node');
     await bootstrap();
   }
 };

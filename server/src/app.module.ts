@@ -29,6 +29,7 @@ import { HistoryModule } from './user/history/history.module';
 import { NotificationsModule } from './user/notifications/notifications.module';
 import { SettingsModule } from './user/settings/settings.module';
 import { SubscriptionsModule } from './user/subscriptions/subscriptions.module';
+import { LoggerModule } from 'nestjs-pino';
 
 const prefixApi = (modules: Type<any>[]) => modules.map(module => ({ path: 'api', module }));
 
@@ -112,6 +113,7 @@ const moduleMetadata: ModuleMetadata = {
       inject: [ConfigService]
     }),
     ScheduleModule.forRoot(),
+    LoggerModule.forRoot(),
     CoreModule,
     UserModule,
     AuthModule,
