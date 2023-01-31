@@ -22,7 +22,7 @@
     "lint-staged": "prettier --write --ignore-unknown",
     "lint:client": "pnpm --filter=./client run lint",
     "lint:server": "pnpm --filter=./server run lint",
-    "e2e": "pnpm --filter=./tests run test",
+    "e2e": "pnpm --filter=./tests run ci:test",
     "format": "prettier --write .",
     "build:metadata": "pnpm --filter=./client run build:metadata"
   },
