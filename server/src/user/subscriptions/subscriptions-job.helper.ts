@@ -4,10 +4,9 @@ import { ChannelBasicInfoDto } from 'server/core/channels/dto/channel-basic-info
 import { VideoBasicInfoDto } from 'server/core/videos/dto/video-basic-info.dto';
 import X2js from 'x2js';
 import humanizeDuration from 'humanize-duration';
-// import { Common } from 'server/core/common';
-import Consola from 'consola';
 import { Common } from 'server/core/common';
 import { Job } from 'bull';
+import { logger } from 'server/logger';
 
 export const runSubscriptionsJob = async (
   uniqueChannelIds: Array<string>,
@@ -53,7 +52,7 @@ export const runSubscriptionsJob = async (
       );
     }, Promise.resolve())
     .catch(error => {
-      Consola.log('job error', error);
+      logger.log('job error', error);
     });
 
   if (videoRawResultArray.length > 0) {
@@ -137,7 +136,7 @@ export const getChannelFeed = async (
           debugger;
 
           const authorId = jsonData.feed?.link
-            ?.find((link: any) => link._rel === 'alternate')
+            ?.find((link: { _rel: string }) => link._rel === 'alternate')
             ._href.split('channel/')[1];
 
           const channel: ChannelBasicInfoDto = {
@@ -146,10 +145,7 @@ export const getChannelFeed = async (
             authorUrl: jsonData.feed.author.uri
           };
 
-          const cachedChannelThmbPath = path.join(
-            (global as any).__basedir,
-            `channels/${authorId}.webp`
-          );
+          const cachedChannelThmbPath = path.join(global.__basedir, `channels/${authorId}.webp`);
           if (fs.existsSync(cachedChannelThmbPath)) {
             channel.authorThumbnailUrl = `channels/${authorId}/thumbnail/tiny.webp`;
           } else {
@@ -163,7 +159,7 @@ export const getChannelFeed = async (
       }
     })
     .catch(err =>
-      Consola.warn(`Could not find channel, the following error can be safely ignored:\n${err}`)
+      logger.warn(`Could not find channel, the following error can be safely ignored:\n${err}`)
     );
   if (typeof channelFeed === 'object' && channelFeed !== null && channelFeed.channel?.authorId) {
     return channelFeed;

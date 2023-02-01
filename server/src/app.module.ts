@@ -1,4 +1,4 @@
-import { CacheModule, Module, ModuleMetadata, Type } from '@nestjs/common';
+import { CacheModule, Logger, Module, ModuleMetadata, Type } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ScheduleModule } from '@nestjs/schedule';
@@ -29,7 +29,8 @@ import { HistoryModule } from './user/history/history.module';
 import { NotificationsModule } from './user/notifications/notifications.module';
 import { SettingsModule } from './user/settings/settings.module';
 import { SubscriptionsModule } from './user/subscriptions/subscriptions.module';
-import { LoggerModule } from 'nestjs-pino';
+import { WinstonModule } from 'nest-winston';
+import winston from 'winston';
 
 const prefixApi = (modules: Type<any>[]) => modules.map(module => ({ path: 'api', module }));
 
@@ -113,7 +114,6 @@ const moduleMetadata: ModuleMetadata = {
       inject: [ConfigService]
     }),
     ScheduleModule.forRoot(),
-    LoggerModule.forRoot(),
     CoreModule,
     UserModule,
     AuthModule,
@@ -147,7 +147,8 @@ const moduleMetadata: ModuleMetadata = {
     {
       provide: APP_INTERCEPTOR,
       useClass: SentryInterceptor
-    }
+    },
+    Logger
   ]
 };
 @Module(moduleMetadata)

@@ -1,4 +1,4 @@
-import { CacheModule, Module, ModuleMetadata } from '@nestjs/common';
+import { CacheModule, Logger, Module, ModuleMetadata } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
 import { CacheConfigService } from 'server/cache-config.service';
@@ -11,7 +11,7 @@ import { HomepageService } from './homepage.service';
 import { Popular, PopularSchema } from './schemas/popular.schema';
 
 const moduleMetadata: ModuleMetadata = {
-  providers: [HomepageService],
+  providers: [HomepageService, Logger],
   controllers: [HomepageController],
   imports: [
     CacheModule.registerAsync({

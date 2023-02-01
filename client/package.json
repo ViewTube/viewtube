@@ -25,7 +25,6 @@
     "@types/sass": "1.43.1",
     "@typescript-eslint/eslint-plugin": "5.49.0",
     "@typescript-eslint/parser": "5.49.0",
-    "consola": "2.15.3",
     "cross-env": "7.0.3",
     "dashjs": "4.5.2",
     "dayjs": "^1.11.7",

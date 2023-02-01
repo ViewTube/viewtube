@@ -6,7 +6,8 @@ import {
   HttpException,
   BadRequestException,
   NotFoundException,
-  InternalServerErrorException
+  InternalServerErrorException,
+  Logger
 } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
@@ -15,7 +16,6 @@ import { UserprofileDto } from 'server/user/dto/userprofile.dto';
 import humanizeDuration from 'humanize-duration';
 import { Common } from 'server/core/common';
 import { ChannelBasicInfoDto } from 'server/core/channels/dto/channel-basic-info.dto';
-import Consola from 'consola';
 import { FastifyReply } from 'fastify';
 import archiver from 'archiver';
 import { ViewTubeRequest } from 'server/common/viewtube-request';
@@ -37,7 +37,8 @@ export class UserService {
     private settingsService: SettingsService,
     private historyService: HistoryService,
     private subscriptionsService: SubscriptionsService,
-    private configService: ConfigService
+    private configService: ConfigService,
+    private readonly logger: Logger
   ) {}
 
   static getDateString(): string {
@@ -106,9 +107,9 @@ export class UserService {
         }
         let imgPath = `profiles/${username}.${extension}`;
 
-        if (global['__basedir']) {
+        if (global.__basedir) {
           // eslint-disable-next-line dot-notation
-          imgPath = path.join(global['__basedir'], imgPath);
+          imgPath = path.join(global.__basedir, imgPath);
         }
 
         if (fileTooLarge) {
@@ -120,7 +121,7 @@ export class UserService {
         try {
           await writeFile(imgPath, fileBuffer);
         } catch (error) {
-          Consola.log(error);
+          this.logger.log(error);
         }
 
         const publicPath = `/api/user/profile/image/${username}`;

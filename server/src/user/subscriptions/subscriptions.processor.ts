@@ -7,7 +7,6 @@ import {
   Processor
 } from '@nestjs/bull';
 import { InjectModel } from '@nestjs/mongoose';
-import Consola from 'consola';
 import { Job } from 'bull';
 import { Model } from 'mongoose';
 import { General } from 'server/common/general.schema';
@@ -15,6 +14,7 @@ import { ChannelBasicInfo } from 'server/core/channels/schemas/channel-basic-inf
 import { VideoBasicInfo } from 'server/core/videos/schemas/video-basic-info.schema';
 import { Subscription } from './schemas/subscription.schema';
 import { runSubscriptionsJob } from './subscriptions-job.helper';
+import { Logger } from '@nestjs/common';
 
 @Processor('subscriptions')
 export class SubscriptionsProcessor {
@@ -24,7 +24,8 @@ export class SubscriptionsProcessor {
     @InjectModel(ChannelBasicInfo.name)
     private readonly ChannelBasicInfoModel: Model<ChannelBasicInfo>,
     @InjectModel(General.name)
-    private readonly GeneralModel: Model<General>
+    private readonly GeneralModel: Model<General>,
+    private readonly logger: Logger
   ) {}
 
   @Process()
@@ -72,12 +73,12 @@ export class SubscriptionsProcessor {
 
   @OnQueueProgress()
   onProgress(_job: Job, progress: number) {
-    Consola.log(`Subscriptions job: ${progress}% done`);
+    this.logger.log(`Subscriptions job: ${progress}% done`);
   }
 
   @OnQueueError()
   onError(error: Error) {
-    Consola.log(error);
+    this.logger.log(error);
   }
 
   @OnQueueCompleted()
@@ -93,24 +94,24 @@ export class SubscriptionsProcessor {
           { upsert: true }
         ).exec();
       } catch (error) {
-        Consola.log('error running job');
-        Consola.log(error);
+        this.logger.log('error running job');
+        this.logger.log(error);
       }
       // this.sendUserNotifications(subscriptionResults.videoResultArray);
 
-      Consola.log(
+      this.logger.log(
         `Done at ${new Date(job.finishedOn).toISOString().replace('T', ' ')}: ${
           result.channelsToUpdate.length
         } channels, ${result.videosToUpdate.length} videos`
       );
     } else {
-      Consola.log('subscriptions job failed');
+      this.logger.log('subscriptions job failed');
     }
   }
 
   @OnQueueActive()
   onActive(job: Job) {
-    Consola.log(
+    this.logger.log(
       `Starting subscriptions job ${job.id} at ${new Date().toISOString().replace('T', ' ')}`
     );
   }

@@ -1,9 +1,8 @@
 import cluster from 'cluster';
-import { CACHE_MANAGER, Inject, Injectable, InternalServerErrorException } from '@nestjs/common';
+import { CACHE_MANAGER, Inject, Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { Cache } from 'cache-manager';
-import Consola from 'consola';
 import { Model } from 'mongoose';
 import { AppClusterService } from 'server/app-cluster.service';
 import { ChannelBasicInfo } from '../channels/schemas/channel-basic-info.schema';
@@ -20,7 +19,8 @@ export class HomepageService {
     @InjectModel(ChannelBasicInfo.name)
     private readonly ChannelBasicInfoModel: Model<ChannelBasicInfo>,
     @Inject(CACHE_MANAGER) private cacheManager: Cache,
-    private configService: ConfigService
+    private configService: ConfigService,
+    private readonly logger: Logger
   ) {
     this.popularPageUrl = `${this.configService.get(
       'HOMEPAGE_INVIDIOUS_URL'
@@ -46,7 +46,7 @@ export class HomepageService {
       expired = true;
     }
     if (expired && (clusterWorker1 || notClustered)) {
-      Consola.info('Refreshing popular page');
+      this.logger.log('Refreshing popular page');
       try {
         const popularPage = (await fetch(this.popularPageUrl, {
           headers: {
@@ -101,10 +101,10 @@ export class HomepageService {
         }
 
         await this.cacheManager.del('popular');
-        Consola.info('Refreshed popular page');
+        this.logger.log('Refreshed popular page');
       } catch (err) {
-        Consola.error('Popular page refresh failed. URL: ' + this.popularPageUrl);
-        Consola.error(err);
+        this.logger.error('Popular page refresh failed. URL: ' + this.popularPageUrl);
+        this.logger.error(err);
       }
     }
   }

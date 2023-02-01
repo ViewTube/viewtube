@@ -1,4 +1,4 @@
-import { CacheModule, Module, ModuleMetadata } from '@nestjs/common';
+import { CacheModule, Logger, Module, ModuleMetadata } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
 import { General, GeneralSchema } from 'server/common/general.schema';
@@ -64,7 +64,7 @@ const moduleMetadata: ModuleMetadata = {
     PlaylistsModule
   ],
   controllers: [VideosController, VideoplaybackController],
-  providers: [VideosService, VideoplaybackService],
+  providers: [VideosService, VideoplaybackService, Logger],
   exports: [VideosService, VideoplaybackService]
 };
 @Module(moduleMetadata)

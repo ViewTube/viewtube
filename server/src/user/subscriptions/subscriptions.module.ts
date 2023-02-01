@@ -1,4 +1,4 @@
-import { CacheModule, Module, ModuleMetadata } from '@nestjs/common';
+import { CacheModule, Logger, Module, ModuleMetadata } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import {
   VideoBasicInfo,
@@ -50,7 +50,7 @@ const moduleMetadata: ModuleMetadata = {
     NotificationsModule
   ],
   controllers: [SubscriptionsController],
-  providers: [SubscriptionsService, SubscriptionsProcessor],
+  providers: [SubscriptionsService, SubscriptionsProcessor, Logger],
   exports: [SubscriptionsService]
 };
 @Module(moduleMetadata)

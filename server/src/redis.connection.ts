@@ -1,5 +1,5 @@
-import Consola from 'consola';
 import Redis, { RedisOptions } from 'ioredis';
+import { logger } from './logger';
 
 export const checkRedisConnection = async () => {
   const redisHost = process.env.VIEWTUBE_REDIS_HOST;
@@ -28,7 +28,7 @@ export const checkRedisConnection = async () => {
     redis.disconnect();
 
     if (pong === 'PONG') {
-      Consola.success('Redis connection established');
+      logger.log('Redis connection established');
       return;
     }
   }

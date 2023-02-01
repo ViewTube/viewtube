@@ -1,5 +1,9 @@
+/* eslint-disable no-var */
 import { fetch as _fetch } from 'undici/types/fetch';
 
 declare global {
-  const fetch: typeof _fetch;
+  var fetch: typeof _fetch;
+  var __basedir: string;
 }
+
+export {};

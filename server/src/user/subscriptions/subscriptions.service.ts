@@ -3,7 +3,8 @@ import {
   Injectable,
   HttpException,
   NotFoundException,
-  InternalServerErrorException
+  InternalServerErrorException,
+  Logger
 } from '@nestjs/common';
 import { InjectQueue } from '@nestjs/bull';
 import { Queue } from 'bull';
@@ -15,7 +16,6 @@ import { Cron, CronExpression } from '@nestjs/schedule';
 import { VideoBasicInfoDto } from 'server/core/videos/dto/video-basic-info.dto';
 import { Sorting } from 'server/common/sorting.type';
 import { ChannelBasicInfoDto } from 'server/core/channels/dto/channel-basic-info.dto';
-import Consola from 'consola';
 import { AppClusterService } from 'server/app-cluster.service';
 import { General } from 'server/common/general.schema';
 import { NotificationsService } from '../notifications/notifications.service';
@@ -38,7 +38,8 @@ export class SubscriptionsService {
     private readonly GeneralModel: Model<General>,
     @InjectQueue('subscriptions')
     private subscriptionsQueue: Queue,
-    private notificationsService: NotificationsService
+    private notificationsService: NotificationsService,
+    private readonly logger: Logger
   ) {}
 
   @Cron(CronExpression.EVERY_HOUR)
@@ -64,7 +65,7 @@ export class SubscriptionsService {
       }
     )
       .exec()
-      .catch(_ => Consola.error('Error saving channel info for id ' + channel.authorId));
+      .catch(_ => this.logger.error('Error saving channel info for id ' + channel.authorId));
     return savedChannel || null;
   }
 
@@ -229,7 +230,7 @@ export class SubscriptionsService {
             if (val.lastSubscriptionsRefresh) lastRefresh = val.lastSubscriptionsRefresh;
           });
         } catch (error) {
-          Consola.error(error);
+          this.logger.error(error);
         }
         return { videos: mappedVideos, videoCount, lastRefresh };
       }
@@ -379,7 +380,7 @@ export class SubscriptionsService {
           })
         );
       } catch (error) {
-        Consola.error(error);
+        this.logger.error(error);
       }
     }
 

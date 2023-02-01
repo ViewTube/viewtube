@@ -16,6 +16,7 @@ profiles
 
 # Log files
 npm-debug.log*
+server/logs
 
 # Editor directories and files
 .idea

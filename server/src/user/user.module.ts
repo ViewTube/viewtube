@@ -1,4 +1,4 @@
-import { CacheModule, Module, ModuleMetadata } from '@nestjs/common';
+import { CacheModule, Logger, Module, ModuleMetadata } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { CacheConfigService } from 'server/cache-config.service';
 import { User, UserSchema } from './schemas/user.schema';
@@ -26,7 +26,7 @@ const moduleMetadata: ModuleMetadata = {
     SettingsModule,
     HistoryModule
   ],
-  providers: [UserService],
+  providers: [UserService, Logger],
   controllers: [UserController],
   exports: [UserService]
 };
