@@ -6,12 +6,14 @@ type User = {
   username: string;
   profileImage: string;
   settings: Record<string, unknown>;
+  admin: boolean;
 };
 
 export const useUserStore = defineStore('user', {
   state: () => ({
     username: null,
-    profileImage: null
+    profileImage: null,
+    admin: false
   }),
   getters: {
     isLoggedIn: state => !!state.username
@@ -29,6 +31,7 @@ export const useUserStore = defineStore('user', {
         });
         this.username = user.username;
         this.profileImage = user.profileImage;
+        this.admin = user.admin;
 
         settingsStore.updateSettings(user.settings);
       } catch {
@@ -119,6 +122,7 @@ export const useUserStore = defineStore('user', {
       }
       this.username = null;
       this.profileImage = null;
+      this.admin = false;
       return {
         success: true
       };

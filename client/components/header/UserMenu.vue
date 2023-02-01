@@ -84,8 +84,9 @@
                   Logged in as
                   {{ userStore.username }}
                 </p>
-                <div @mouseup="closeAllPopups">
+                <div class="profile-links" @mouseup="closeAllPopups">
                   <nuxt-link class="profile-btn" to="/profile">Your profile</nuxt-link>
+                  <nuxt-link v-if="userStore.admin" class="admin-btn" to="/admin">Admin panel</nuxt-link>
                 </div>
               </div>
             </div>
@@ -627,7 +628,7 @@ export default defineComponent({
   }
 
   .account-menu {
-    height: 50px;
+    height: 60px;
     display: flex;
     flex-direction: row;
     padding: 0 0 0 20px;
@@ -669,18 +670,24 @@ export default defineComponent({
         color: var(--title-color);
       }
 
-      .profile-btn {
-        font-size: 0.9rem;
-        width: 100%;
-        margin: 0 0 0 10px;
+      .profile-links {
+        display: flex;
+        flex-direction: column;
 
-        &:hover {
-          text-decoration: underline;
-        }
+        .profile-btn,
+        .admin-btn {
+          font-size: 0.9rem;
+          width: 100%;
+          margin: 0 0 0 10px;
 
-        &:focus {
-          &::after {
-            display: none;
+          &:hover {
+            text-decoration: underline;
+          }
+
+          &:focus {
+            &::after {
+              display: none;
+            }
           }
         }
       }

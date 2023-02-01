@@ -6,4 +6,6 @@ export class UserprofileDto {
   profileImage: string;
 
   settings: SettingsDto;
+
+  admin: boolean;
 }

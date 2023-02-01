@@ -51,10 +51,14 @@ export class UserService {
     if (username) {
       const userSettings = await this.settingsService.getSettings(username);
       const user = await this.UserModel.findOne({ username }).exec();
+
+      const adminUser = this.configService.get('VIEWTUBE_ADMIN_USER');
+
       return {
         username,
         profileImage: user.profileImage ? `/api/user/profile/image/${username}` : null,
-        settings: userSettings
+        settings: userSettings,
+        admin: username === adminUser
       };
     }
   }
@@ -70,6 +74,8 @@ export class UserService {
 
       const videoStats = await this.historyService.getHistoryStats(username);
 
+      const adminUser = this.configService.get('VIEWTUBE_ADMIN_USER');
+
       return {
         username,
         profileImage: user.profileImage ? `/api/user/profile/image/${username}` : null,
@@ -77,7 +83,8 @@ export class UserService {
         registeredAt: (user as any).createdAt,
         totalVideosCount: videoStats.totalVideoCount,
         totalTimeString: humanizeDuration(videoStats.totalSeconds * 1000),
-        subscribedChannelsCount
+        subscribedChannelsCount,
+        admin: username === adminUser
       };
     }
   }
@@ -199,7 +206,7 @@ export class UserService {
     } else if (user.username.length > 16) {
       throw new HttpException('Username cannot be longer than 16 characters', 400);
     } else if (user.username.length < 2) {
-      throw new HttpException('Username muxt be longer than 2 characters', 400);
+      throw new HttpException('Username must be longer than 2 characters', 400);
     } else {
       const saltRounds = 10;
       let hash: string;
@@ -209,14 +216,18 @@ export class UserService {
         throw new HttpException('Error registering user', 403);
       }
 
+      const adminUser = this.configService.get('VIEWTUBE_ADMIN_USER');
+
       const createdUser = await new this.UserModel({
         username: user.username,
         password: hash
       }).save();
+
       return {
         username: createdUser.username,
         profileImage: null,
-        settings: null
+        settings: null,
+        admin: adminUser === createdUser.username
       };
     }
   }
