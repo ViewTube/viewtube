@@ -6,7 +6,7 @@ import X2js from 'x2js';
 import humanizeDuration from 'humanize-duration';
 import { Common } from 'server/core/common';
 import { Job } from 'bull';
-import { logger } from 'server/logger';
+import { logger } from 'server/common/logger';
 
 export const runSubscriptionsJob = async (
   uniqueChannelIds: Array<string>,

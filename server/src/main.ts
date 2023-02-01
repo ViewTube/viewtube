@@ -19,8 +19,8 @@ import { isHttps } from 'viewtube/shared/index';
 import { NuxtService } from './nuxt/nuxt.service';
 import { FastifyPluginCallback } from 'fastify';
 import { version } from '../../package.json';
-import { checkRedisConnection } from './redis.connection';
-import { logger } from './logger';
+import { checkRedisConnection } from './common/redis.connection';
+import { logger } from './common/logger';
 import { ModuleType } from './common/module.type';
 
 declare const module: ModuleType;

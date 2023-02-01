@@ -5,6 +5,8 @@ export const validationSchema = Joi.object({
   PORT: Joi.number().default(8066),
   VIEWTUBE_SECURE: Joi.boolean().default(false),
 
+  VIEWTUBE_ADMIN_USER: Joi.string().optional(),
+
   VIEWTUBE_DATABASE_HOST: Joi.string().default('localhost'),
   VIEWTUBE_DATABASE_PORT: Joi.number().default(27017),
   VIEWTUBE_DATABASE_USER: Joi.string().optional(),

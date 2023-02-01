@@ -1,6 +1,6 @@
 import { Inject, Injectable, OnApplicationShutdown } from '@nestjs/common';
 import { init, close, NodeOptions } from '@sentry/node';
-import { logger } from 'server/logger';
+import { logger } from 'server/common/logger';
 
 @Injectable()
 export class SentryService implements OnApplicationShutdown {
