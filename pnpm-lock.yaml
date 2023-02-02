@@ -132,7 +132,7 @@ importers:
       '@nestjs/schedule': 2.1.0
       '@nestjs/swagger': 6.1.4
       '@nestjs/testing': 9.2.1
-      '@nestjs/throttler': 3.1.0
+      '@nestjs/throttler': 4.0.0
       '@nestjs/websockets': 9.2.1
       '@sentry/node': 7.34.0
       '@sentry/tracing': 7.34.0
@@ -225,7 +225,7 @@ importers:
       '@nestjs/platform-fastify': 9.2.1_m32e5rmbllaqgyfxdyjnuzd7pi
       '@nestjs/schedule': 2.1.0_dntc3uqqknzoduyjojusds5kla
       '@nestjs/swagger': 6.1.4_kse7pt7rwm3l4yy6yggtqpw5uq
-      '@nestjs/throttler': 3.1.0_dntc3uqqknzoduyjojusds5kla
+      '@nestjs/throttler': 4.0.0_dntc3uqqknzoduyjojusds5kla
       '@sentry/node': 7.34.0
       '@sentry/tracing': 7.34.0
       archiver: 5.3.1
@@ -245,7 +245,7 @@ importers:
       joi: 17.7.0
       mini-svg-data-uri: 1.4.4
       mongoose: 6.9.0
-      nestjs-throttler-storage-redis: github.com/mauriceoegerli/nestjs-throttler-storage-redis/e659522520fb6548fc8386e593a7dfd7f984a975_yl4cuys3mry3nfl5fzbpqh7rwu
+      nestjs-throttler-storage-redis: github.com/mauriceoegerli/nestjs-throttler-storage-redis/e659522520fb6548fc8386e593a7dfd7f984a975_mlydjaadq2li7c4holtkbo7maa
       passport: 0.6.0
       passport-jwt: 4.0.1
       passport-local: 1.0.0
@@ -2804,8 +2804,8 @@ packages:
       tslib: 2.4.1
     dev: true
 
-  /@nestjs/throttler/3.1.0_dntc3uqqknzoduyjojusds5kla:
-    resolution: {integrity: sha512-u9a5+rci6ybYtJ2is6gZWxE2dMZEpnK0qJ0C1OnchuNCvM21Bg6qym1TB6Uihhci+JfTv6E15WuASLXcIclsbA==}
+  /@nestjs/throttler/4.0.0_dntc3uqqknzoduyjojusds5kla:
+    resolution: {integrity: sha512-2T2S/hFhxROa/PZRZhHWFkrukxg3T8Db32Y04m6U6j6N2XqFGSKXhjfIbORO8kk/S2jswa9oTX/K12E120tgaQ==}
     peerDependencies:
       '@nestjs/common': ^7.0.0 || ^8.0.0 || ^9.0.0
       '@nestjs/core': ^7.0.0 || ^8.0.0 || ^9.0.0
@@ -12403,7 +12403,7 @@ packages:
       - debug
     dev: false
 
-  github.com/mauriceoegerli/nestjs-throttler-storage-redis/e659522520fb6548fc8386e593a7dfd7f984a975_yl4cuys3mry3nfl5fzbpqh7rwu:
+  github.com/mauriceoegerli/nestjs-throttler-storage-redis/e659522520fb6548fc8386e593a7dfd7f984a975_mlydjaadq2li7c4holtkbo7maa:
     resolution: {tarball: https://codeload.github.com/mauriceoegerli/nestjs-throttler-storage-redis/tar.gz/e659522520fb6548fc8386e593a7dfd7f984a975}
     id: github.com/mauriceoegerli/nestjs-throttler-storage-redis/e659522520fb6548fc8386e593a7dfd7f984a975
     name: nestjs-throttler-storage-redis
@@ -12417,7 +12417,7 @@ packages:
     dependencies:
       '@nestjs/common': 9.2.1_66pidaijumrtzyachnvfwzkz3e
       '@nestjs/core': 9.2.1_gs3k642xgyjax3mvj2n3wicqwi
-      '@nestjs/throttler': 3.1.0_dntc3uqqknzoduyjojusds5kla
+      '@nestjs/throttler': 4.0.0_dntc3uqqknzoduyjojusds5kla
       ioredis: 5.3.0
       reflect-metadata: 0.1.13
     dev: false
