@@ -123,7 +123,7 @@ importers:
       '@nestjs/bull': 0.6.2
       '@nestjs/cli': 9.1.9
       '@nestjs/common': 9.2.1
-      '@nestjs/config': 2.2.0
+      '@nestjs/config': 2.3.0
       '@nestjs/core': 9.2.1
       '@nestjs/jwt': 10.0.1
       '@nestjs/mongoose': 9.2.1
@@ -217,7 +217,7 @@ importers:
       '@freetube/yt-comment-scraper': 6.2.0
       '@nestjs/bull': 0.6.2_5g4fguw5dzljhwwr66uekbkoti
       '@nestjs/common': 9.2.1_66pidaijumrtzyachnvfwzkz3e
-      '@nestjs/config': 2.2.0_b4pxbpa7chblgbyake5iz5rdmu
+      '@nestjs/config': 2.3.0_b4pxbpa7chblgbyake5iz5rdmu
       '@nestjs/core': 9.2.1_gs3k642xgyjax3mvj2n3wicqwi
       '@nestjs/jwt': 10.0.1_@nestjs+common@9.2.1
       '@nestjs/mongoose': 9.2.1_qxhb2ojkw43x7bsylqweewrvze
@@ -2597,20 +2597,20 @@ packages:
       tslib: 2.4.1
       uuid: 9.0.0
 
-  /@nestjs/config/2.2.0_b4pxbpa7chblgbyake5iz5rdmu:
-    resolution: {integrity: sha512-78Eg6oMbCy3D/YvqeiGBTOWei1Jwi3f2pSIZcZ1QxY67kYsJzTRTkwRT8Iv30DbK0sGKc1mcloDLD5UXgZAZtg==}
+  /@nestjs/config/2.3.0_b4pxbpa7chblgbyake5iz5rdmu:
+    resolution: {integrity: sha512-VSAqoIagIrc0A3apaqC2O3a8VtQ+asw8xILmxvjK/eHW9m1rmhJ5NqkGf7m+uSv3Yxini4bzyb74Mk62+tB/cA==}
     peerDependencies:
       '@nestjs/common': ^7.0.0 || ^8.0.0 || ^9.0.0
       reflect-metadata: ^0.1.13
       rxjs: ^6.0.0 || ^7.2.0
     dependencies:
       '@nestjs/common': 9.2.1_66pidaijumrtzyachnvfwzkz3e
-      dotenv: 16.0.1
-      dotenv-expand: 8.0.3
+      dotenv: 16.0.3
+      dotenv-expand: 10.0.0
       lodash: 4.17.21
       reflect-metadata: 0.1.13
       rxjs: 7.8.0
-      uuid: 8.3.2
+      uuid: 9.0.0
     dev: false
 
   /@nestjs/core/9.2.1_gs3k642xgyjax3mvj2n3wicqwi:
@@ -5817,20 +5817,14 @@ packages:
       type-fest: 2.19.0
     dev: true
 
-  /dotenv-expand/8.0.3:
-    resolution: {integrity: sha512-SErOMvge0ZUyWd5B0NXMQlDkN+8r+HhVUsxgOO7IoPDOdDRD2JjExpN6y3KnFR66jsJMwSn1pqIivhU5rcJiNg==}
-    engines: {node: '>=12'}
-    dev: false
-
-  /dotenv/16.0.1:
-    resolution: {integrity: sha512-1K6hR6wtk2FviQ4kEiSjFiH5rpzEVi8WW0x96aztHVMhEspNpc4DVOUTEHtEva5VThQ8IaBX1Pe4gSzpVVUsKQ==}
+  /dotenv-expand/10.0.0:
+    resolution: {integrity: sha512-GopVGCpVS1UKH75VKHGuQFqS1Gusej0z4FyQkPdwjil2gNIv+LNsqBlboOzpJFZKVT95GkCyWJbBSdFEFUWI2A==}
     engines: {node: '>=12'}
     dev: false
 
   /dotenv/16.0.3:
     resolution: {integrity: sha512-7GO6HghkA5fYG9TYnNxi14/7K9f5occMlp3zXAuSxn7CKCxt9xbNWG7yF8hTCSUchlfWSe3uLmlPfigevRItzQ==}
     engines: {node: '>=12'}
-    dev: true
 
   /duplexer/0.1.2:
     resolution: {integrity: sha512-jtD6YG370ZCIi/9GTaJKQxWTZD045+4R4hTk/x1UyoqadyJ9x9CgSi1RlVDQF8U2sxLLSnFkCaMihqljHIWgMg==}
