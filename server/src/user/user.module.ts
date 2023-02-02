@@ -8,6 +8,7 @@ import { SubscriptionsModule } from './subscriptions/subscriptions.module';
 import { NotificationsModule } from './notifications/notifications.module';
 import { SettingsModule } from './settings/settings.module';
 import { HistoryModule } from './history/history.module';
+import { AdminModule } from './admin/admin.module';
 
 const moduleMetadata: ModuleMetadata = {
   imports: [
@@ -24,7 +25,8 @@ const moduleMetadata: ModuleMetadata = {
     SubscriptionsModule,
     NotificationsModule,
     SettingsModule,
-    HistoryModule
+    HistoryModule,
+    AdminModule
   ],
   providers: [UserService, Logger],
   controllers: [UserController],

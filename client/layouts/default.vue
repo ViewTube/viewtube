@@ -88,6 +88,10 @@ vite-error-overlay {
   scrollbar-width: thin;
   touch-action: manipulation;
 
+  &:focus-visible {
+    outline: none;
+  }
+
   &::selection {
     background: var(--theme-color);
     color: var(--title-color);
@@ -179,7 +183,8 @@ p {
 }
 
 a,
-button {
+button,
+.selectable {
   position: relative;
   &::after {
     box-shadow: 0 0 0 2px transparent;

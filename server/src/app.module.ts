@@ -31,6 +31,7 @@ import { SettingsModule } from './user/settings/settings.module';
 import { SubscriptionsModule } from './user/subscriptions/subscriptions.module';
 import { WinstonModule } from 'nest-winston';
 import winston from 'winston';
+import { AdminModule } from './user/admin/admin.module';
 
 const prefixApi = (modules: Type<any>[]) => modules.map(module => ({ path: 'api', module }));
 
@@ -135,7 +136,8 @@ const moduleMetadata: ModuleMetadata = {
         HistoryModule,
         NotificationsModule,
         SettingsModule,
-        SubscriptionsModule
+        SubscriptionsModule,
+        AdminModule
       ])
     )
   ],

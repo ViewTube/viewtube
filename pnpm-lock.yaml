@@ -26,7 +26,7 @@ importers:
       '@typescript-eslint/parser': 5.49.0
       cross-env: 7.0.3
       dashjs: 4.5.2
-      dayjs: ^1.11.7
+      dayjs: 1.11.7
       eslint: 8.33.0
       eslint-config-prettier: 8.6.0
       eslint-import-resolver-node: 0.3.7
@@ -177,12 +177,13 @@ importers:
       mini-svg-data-uri: 1.4.4
       mongodb-memory-server: 8.11.4
       mongoose: 6.9.0
-      nest-winston: ^1.8.0
+      nest-winston: 1.8.0
       nestjs-throttler-storage-redis: 0.3.0
       openapi-typescript: 6.1.0
       passport: 0.6.0
       passport-jwt: 4.0.1
       passport-local: 1.0.0
+      redis: 4.6.4
       redis-mock: 0.56.3
       reflect-metadata: 0.1.13
       rimraf: 4.1.2
@@ -198,8 +199,8 @@ importers:
       web-push: 3.5.0
       webpack: 5.75.0
       webpack-node-externals: 3.0.0
-      winston: ^3.8.2
-      winston-daily-rotate-file: ^4.7.1
+      winston: 3.8.2
+      winston-daily-rotate-file: 4.7.1
       x2js: 3.4.4
       xml-js: 1.6.11
       yt-channel-info: git://github.com/FreeTubeApp/yt-channel-info
@@ -294,6 +295,7 @@ importers:
       jest: 29.4.1_@types+node@18.11.18
       mongodb-memory-server: 8.11.4
       openapi-typescript: 6.1.0
+      redis: 4.6.4
       redis-mock: 0.56.3
       rimraf: 4.1.2
       run-script-webpack-plugin: 0.1.1
@@ -3117,6 +3119,55 @@ packages:
 
   /@popperjs/core/2.11.6:
     resolution: {integrity: sha512-50/17A98tWUfQ176raKiOGXuYpLyyVMkxxG6oylzL3BPOlA6ADGdK7EYunSa4I064xerltq9TGXs8HmOk5E+vw==}
+    dev: true
+
+  /@redis/bloom/1.2.0_@redis+client@1.5.5:
+    resolution: {integrity: sha512-HG2DFjYKbpNmVXsa0keLHp/3leGJz1mjh09f2RLGGLQZzSHpkmZWuwJbAvo3QcRY8p80m5+ZdXZdYOSBLlp7Cg==}
+    peerDependencies:
+      '@redis/client': ^1.0.0
+    dependencies:
+      '@redis/client': 1.5.5
+    dev: true
+
+  /@redis/client/1.5.5:
+    resolution: {integrity: sha512-fuMnpDYSjT5JXR9rrCW1YWA4L8N/9/uS4ImT3ZEC/hcaQRI1D/9FvwjriRj1UvepIgzZXthFVKMNRzP/LNL7BQ==}
+    engines: {node: '>=14'}
+    dependencies:
+      cluster-key-slot: 1.1.2
+      generic-pool: 3.9.0
+      yallist: 4.0.0
+    dev: true
+
+  /@redis/graph/1.1.0_@redis+client@1.5.5:
+    resolution: {integrity: sha512-16yZWngxyXPd+MJxeSr0dqh2AIOi8j9yXKcKCwVaKDbH3HTuETpDVPcLujhFYVPtYrngSco31BUcSa9TH31Gqg==}
+    peerDependencies:
+      '@redis/client': ^1.0.0
+    dependencies:
+      '@redis/client': 1.5.5
+    dev: true
+
+  /@redis/json/1.0.4_@redis+client@1.5.5:
+    resolution: {integrity: sha512-LUZE2Gdrhg0Rx7AN+cZkb1e6HjoSKaeeW8rYnt89Tly13GBI5eP4CwDVr+MY8BAYfCg4/N15OUrtLoona9uSgw==}
+    peerDependencies:
+      '@redis/client': ^1.0.0
+    dependencies:
+      '@redis/client': 1.5.5
+    dev: true
+
+  /@redis/search/1.1.1_@redis+client@1.5.5:
+    resolution: {integrity: sha512-pqCXTc5e7wJJgUuJiC3hBgfoFRoPxYzwn0BEfKgejTM7M/9zP3IpUcqcjgfp8hF+LoV8rHZzcNTz7V+pEIY7LQ==}
+    peerDependencies:
+      '@redis/client': ^1.0.0
+    dependencies:
+      '@redis/client': 1.5.5
+    dev: true
+
+  /@redis/time-series/1.0.4_@redis+client@1.5.5:
+    resolution: {integrity: sha512-ThUIgo2U/g7cCuZavucQTQzA9g9JbDDY2f64u3AbAoz/8vE2lt2U37LamDUVChhaDA3IRT9R6VvJwqnUfTJzng==}
+    peerDependencies:
+      '@redis/client': ^1.0.0
+    dependencies:
+      '@redis/client': 1.5.5
     dev: true
 
   /@rollup/plugin-alias/4.0.3_rollup@3.12.0:
@@ -6930,6 +6981,11 @@ packages:
       wide-align: 1.1.5
     dev: true
 
+  /generic-pool/3.9.0:
+    resolution: {integrity: sha512-hymDOu5B53XvN4QT9dBmZxPX4CWhBPPLguTZ9MMFeFa/Kg0xWVfylOVNlJji/E7yTZWFd/q9GO5TxDLq156D7g==}
+    engines: {node: '>= 4'}
+    dev: true
+
   /gensync/1.0.0-beta.2:
     resolution: {integrity: sha512-3hN7NaskYvMDLQY55gnW3NQ+mesEAepTqlg+VEbj7zzqEMBVNhzcGYYeqFo/TlYz6eQiFcp1HcsCZO+nGgS8zg==}
     engines: {node: '>=6.9.0'}
@@ -10485,6 +10541,17 @@ packages:
     engines: {node: '>=4'}
     dependencies:
       redis-errors: 1.2.0
+
+  /redis/4.6.4:
+    resolution: {integrity: sha512-wi2tgDdQ+Q8q+PR5FLRx4QvDiWaA+PoJbrzsyFqlClN5R4LplHqN3scs/aGjE//mbz++W19SgxiEnQ27jnCRaA==}
+    dependencies:
+      '@redis/bloom': 1.2.0_@redis+client@1.5.5
+      '@redis/client': 1.5.5
+      '@redis/graph': 1.1.0_@redis+client@1.5.5
+      '@redis/json': 1.0.4_@redis+client@1.5.5
+      '@redis/search': 1.1.1_@redis+client@1.5.5
+      '@redis/time-series': 1.0.4_@redis+client@1.5.5
+    dev: true
 
   /reflect-metadata/0.1.13:
     resolution: {integrity: sha512-Ts1Y/anZELhSsjMcU605fU9RE4Oi3p5ORujwbIKXfWa+0Zxs510Qrmrce5/Jowq3cHSZSJqBjypxmHarc+vEWg==}

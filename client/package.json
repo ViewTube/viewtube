@@ -27,7 +27,7 @@
     "@typescript-eslint/parser": "5.49.0",
     "cross-env": "7.0.3",
     "dashjs": "4.5.2",
-    "dayjs": "^1.11.7",
+    "dayjs": "1.11.7",
     "eslint": "8.33.0",
     "eslint-config-prettier": "8.6.0",
     "eslint-import-resolver-node": "0.3.7",

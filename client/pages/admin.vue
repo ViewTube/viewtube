@@ -1,9 +1,8 @@
-<script setup lang="ts"></script>
-
 <template>
   <div class="admin">
     <MetaPageHead title="Admin" description="Admin page" />
-    <SectionTitle title="Admin Settings" />
+    <SectionTitle title="Logs" />
+    <AdminLogFiles />
   </div>
 </template>
 
@@ -13,5 +12,6 @@
   max-width: $main-width;
   margin: $header-height auto 0 auto;
   padding: 0 15px;
+  box-sizing: border-box;
 }
 </style>
