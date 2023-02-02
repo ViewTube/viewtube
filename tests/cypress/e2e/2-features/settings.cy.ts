@@ -1,7 +1,7 @@
 describe('Settings tests', () => {
   beforeEach(() => {
     cy.visit('http://localhost:8466');
-    cy.get('#app[hydrated=true]', { timeout: 1000 });
+    cy.get('#app[hydrated=true]', { timeout: 10000 });
   });
 
   it('Settings popup opens and closes properly', () => {

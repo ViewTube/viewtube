@@ -8,10 +8,11 @@ import {
   UseGuards,
   Post,
   Body,
-  Query
+  Query,
+  Logger
 } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
-import Consola from 'consola';
+
 import { JwtAuthGuard } from 'server/auth/guards/jwt.guard';
 import { ChannelBasicInfoDto } from 'server/core/channels/dto/channel-basic-info.dto';
 import { Common } from 'server/core/common';
@@ -26,7 +27,10 @@ import { SubscriptionFeedResponseDto } from './dto/subscription-feed-response.dt
 @ApiBearerAuth()
 @Controller('user/subscriptions')
 export class SubscriptionsController {
-  constructor(private subscriptionsService: SubscriptionsService) {}
+  constructor(
+    private subscriptionsService: SubscriptionsService,
+    private readonly logger: Logger
+  ) {}
 
   @Get('channels')
   @ApiQuery({ name: 'limit', required: false, example: 30 })
@@ -76,7 +80,7 @@ export class SubscriptionsController {
         start
       );
     } catch (error) {
-      Consola.error(error);
+      this.logger.error(error);
     }
     return feed;
   }

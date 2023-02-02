@@ -1,4 +1,5 @@
 import fs from 'fs';
+import { access, mkdir } from 'fs/promises';
 import path from 'path';
 import cluster from 'cluster';
 import { NestFactory } from '@nestjs/core';
@@ -7,39 +8,37 @@ import { ConfigService } from '@nestjs/config';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import cookieParser from 'cookie-parser';
 import webPush from 'web-push';
-import Consola from 'consola';
 import FastifyCookie from '@fastify/cookie';
 import FastifyMultipart from '@fastify/multipart';
 import FastifyHelmet from '@fastify/helmet';
 import { AppModule } from './app.module';
 import { HomepageService } from './core/homepage/homepage.service';
 import { AppClusterService } from './app-cluster.service';
-import { promisify } from 'util';
 import { ConfigurationService } from 'server/core/configuration/configuration.service';
 import { isHttps } from 'viewtube/shared/index';
 import { NuxtService } from './nuxt/nuxt.service';
 import { FastifyPluginCallback } from 'fastify';
 import { version } from '../../package.json';
+import { checkRedisConnection } from './common/redis.connection';
+import { logger } from './common/logger';
+import { ModuleType } from './common/module.type';
 
-declare const module: {
-  hot: {
-    accept: () => void;
-    dispose: (callback: () => void) => void;
-  };
-};
-
-type FastifyPluginType = FastifyPluginCallback;
+declare const module: ModuleType;
 
 const bootstrap = async () => {
   await ConfigurationService.initializeEnvironment();
+
   const server = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter(), {
-    logger: ['error', 'warn']
+    bufferLogs: true,
+    logger
   });
 
   const configService = server.get(ConfigService);
 
   const isProduction = configService.get('NODE_ENV') === 'production';
-  Consola.info(`Running in ${isProduction ? 'production' : 'development'} mode`);
+  logger.log(`Running in ${isProduction ? 'production' : 'development'} mode`);
+
+  checkRedisConnection();
 
   webPush.setVapidDetails(
     'https://github.com/ViewTube/viewtube',
@@ -47,55 +46,45 @@ const bootstrap = async () => {
     ConfigurationService.privateVapidKey || ''
   );
 
-  global['__basedir'] = __dirname;
+  global.__basedir = __dirname;
   if (configService.get('VIEWTUBE_DATA_DIRECTORY')) {
-    global['__basedir'] = configService.get('VIEWTUBE_DATA_DIRECTORY');
+    global.__basedir = configService.get('VIEWTUBE_DATA_DIRECTORY');
   }
   if (!isProduction) {
-    global['__basedir'] = path.join(__dirname, global['__basedir']);
+    global.__basedir = path.join(__dirname, global.__basedir);
   }
 
   if (isProduction) {
-    const channelsDir = `${(global as any).__basedir}/channels`;
-    const profilesDir = `${(global as any).__basedir}/profiles`;
-    const folderExists = promisify(fs.access);
-    const createFolder = promisify(fs.mkdir);
+    const channelsDir = `${global.__basedir}/channels`;
+    const profilesDir = `${global.__basedir}/profiles`;
     try {
-      await folderExists(channelsDir);
+      await access(channelsDir);
     } catch {
-      await createFolder(channelsDir);
+      await mkdir(channelsDir);
     }
     try {
-      await folderExists(profilesDir);
+      await access(profilesDir);
     } catch {
-      await createFolder(profilesDir);
+      await mkdir(profilesDir);
     }
   }
 
   // Disable helment on non-https instances
   if (isHttps()) {
-    await server.register(
-      FastifyHelmet as FastifyPluginType,
-      {
-        contentSecurityPolicy: {
-          useDefaults: true,
-          directives: {
-            defaultSrc: [
-              `'self'`,
-              `blob:`,
-              `https://sponsor.ajay.app`,
-              `https://*.googlevideo.com`
-            ],
-            scriptSrc: [`'self'`, `blob:`, `https: 'unsafe-eval'`, `https: 'unsafe-inline'`],
-            scriptSrcAttr: null
-          }
+    await server.register(FastifyHelmet, {
+      contentSecurityPolicy: {
+        useDefaults: true,
+        directives: {
+          defaultSrc: [`'self'`, `blob:`, `https://sponsor.ajay.app`, `https://*.googlevideo.com`],
+          scriptSrc: [`'self'`, `blob:`, `https: 'unsafe-eval'`, `https: 'unsafe-inline'`],
+          scriptSrcAttr: null
         }
-      } as any
-    );
+      }
+    });
   }
 
-  await server.register(FastifyCookie as FastifyPluginType);
-  await server.register(FastifyMultipart as FastifyPluginType);
+  await server.register(FastifyCookie as FastifyPluginCallback);
+  await server.register(FastifyMultipart as FastifyPluginCallback);
 
   // NUXT
   if (isProduction) {
@@ -145,11 +134,11 @@ const bootstrap = async () => {
   // START
   await server.listen(port, '0.0.0.0', (err, _address) => {
     if (err) {
-      Consola.error(err);
+      logger.error(err);
       process.exit(1);
     }
     if ((cluster.worker && cluster.worker.id === 1) || !AppClusterService.isClustered) {
-      Consola.ready(`Server listening on ${_address}`);
+      logger.log(`Server listening on ${_address}`);
     }
   });
 
@@ -165,11 +154,11 @@ const bootstrap = async () => {
 const runBootstrap = async () => {
   if (AppClusterService.isClustered) {
     if (cluster.worker && cluster.worker.id === 1) {
-      Consola.start('Starting in clustered mode');
+      logger.log('Starting in clustered mode');
     }
     AppClusterService.clusterize(bootstrap);
   } else {
-    Consola.start('Starting with single node');
+    logger.log('Starting with single node');
     await bootstrap();
   }
 };

@@ -1,11 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import Consola from 'consola';
 import { FastifyReply, FastifyRequest } from 'fastify';
 import undici from 'undici';
 @Injectable()
 export class VideoplaybackService {
-  constructor(private configService: ConfigService) {}
+  constructor(private configService: ConfigService, private readonly logger: Logger) {}
   async proxyStream(request: FastifyRequest, reply: FastifyReply): Promise<void> {
     try {
       let url = request.url;
@@ -39,12 +38,12 @@ export class VideoplaybackService {
         )
         .catch(error => {
           if (this.configService.get('NODE_ENV') !== 'production') {
-            Consola.log(error);
+            this.logger.log(error);
           }
         });
     } catch (error) {
       if (this.configService.get('NODE_ENV') !== 'production') {
-        Consola.log(error);
+        this.logger.log(error);
       }
     }
   }

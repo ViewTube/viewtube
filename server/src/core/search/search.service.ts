@@ -1,11 +1,12 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
-import Consola from 'consola';
+import { Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
 import ytsr, { ContinueResult, Result } from 'ytsr';
 import { SearchFilterDto } from './dto/search-filter.dto';
 import { SearchQueryDto } from './dto/search-query.dto';
 
 @Injectable()
 export class SearchService {
+  constructor(private readonly logger: Logger) {}
+
   async getFilters(searchString: string): Promise<Array<SearchFilterDto>> {
     try {
       const filters = await ytsr.getFilters(searchString);
@@ -38,7 +39,7 @@ export class SearchService {
       const result = await ytsr.continueReq(continuationArray);
       return result;
     } catch (err) {
-      Consola.error(err);
+      this.logger.error(err);
       throw new InternalServerErrorException(`Error continuing search`);
     }
   }
@@ -64,7 +65,7 @@ export class SearchService {
       const result = await ytsr(searchString, searchQuery);
       return result;
     } catch (err) {
-      Consola.error(err);
+      this.logger.error(err);
       throw new InternalServerErrorException(`Error searching for ${searchQuery.q}`);
     }
   }

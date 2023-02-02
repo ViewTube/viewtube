@@ -1,11 +1,11 @@
-import { Module, ModuleMetadata } from '@nestjs/common';
+import { Logger, Module, ModuleMetadata } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { CaptchaService } from './captcha.service';
 import { Captcha, CaptchaSchema } from './schemas/captcha.schema';
 import { CaptchaController } from './captcha.controller';
 
 const moduleMetadata: ModuleMetadata = {
-  providers: [CaptchaService],
+  providers: [CaptchaService, Logger],
   imports: [
     MongooseModule.forFeature([
       {

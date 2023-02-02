@@ -1,10 +1,9 @@
 import { randomBytes } from 'crypto';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import captcha from 'svg-captcha';
 import miniSVG from 'mini-svg-data-uri';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import Consola from 'consola';
 import { Captcha } from './schemas/captcha.schema';
 import { CaptchaDto } from './dto/captcha.dto';
 
@@ -12,7 +11,8 @@ import { CaptchaDto } from './dto/captcha.dto';
 export class CaptchaService {
   constructor(
     @InjectModel(Captcha.name)
-    private readonly CaptchaModel: Model<Captcha>
+    private readonly CaptchaModel: Model<Captcha>,
+    private readonly logger: Logger
   ) {}
 
   async getCaptcha(): Promise<CaptchaDto> {
@@ -44,7 +44,7 @@ export class CaptchaService {
           }
           return false;
         },
-        _ => {
+        () => {
           return false;
         }
       );
@@ -53,6 +53,6 @@ export class CaptchaService {
   deleteCaptcha(token: string): void {
     this.CaptchaModel.deleteOne({ clientToken: token })
       .exec()
-      .catch(() => Consola.error('Error deleting captcha'));
+      .catch(() => this.logger.error('Error deleting captcha'));
   }
 }

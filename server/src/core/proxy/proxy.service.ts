@@ -1,12 +1,12 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { HttpsProxyAgent } from 'https-proxy-agent';
 import { FastifyReply, FastifyRequest } from 'fastify';
 import undici, { Client } from 'undici';
-import Consola from 'consola';
+
 @Injectable()
 export class ProxyService {
-  constructor(private configService: ConfigService) {}
+  constructor(private configService: ConfigService, private readonly logger: Logger) {}
 
   async proxyText(url: string, local = true): Promise<string> {
     try {
@@ -42,7 +42,7 @@ export class ProxyService {
             ({ opaque }: { opaque: any }) => opaque.raw
           )
           .catch(error => {
-            Consola.log(error);
+            this.logger.log(error);
           });
       } else {
         await undici
@@ -52,12 +52,12 @@ export class ProxyService {
             ({ opaque }: { opaque: any }) => opaque.raw
           )
           .catch(error => {
-            Consola.log(error);
+            this.logger.log(error);
           });
       }
     } catch (error) {
       if (this.configService.get('NODE_ENV') !== 'production') {
-        Consola.log(error);
+        this.logger.log(error);
       }
     }
   }
@@ -78,11 +78,11 @@ export class ProxyService {
           ({ opaque }: { opaque: any }) => opaque.raw
         )
         .catch(error => {
-          Consola.log(error);
+          this.logger.log(error);
         });
     } catch (error) {
       if (this.configService.get('NODE_ENV') !== 'production') {
-        Consola.log(error);
+        this.logger.log(error);
       }
     }
   }

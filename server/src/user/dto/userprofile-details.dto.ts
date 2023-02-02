@@ -14,4 +14,6 @@ export class UserprofileDetailsDto {
   totalTimeString: string;
 
   subscribedChannelsCount: number;
+
+  admin: boolean;
 }

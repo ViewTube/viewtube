@@ -158,6 +158,9 @@ export interface paths {
   "/api/user/history/from/{startDate}/to/{endDate}": {
     delete: operations["HistoryController_deleteHistoryRange"];
   };
+  "/api/admin/logs": {
+    get: operations["AdminController_getLogs"];
+  };
   "/api/auth/login": {
     post: operations["AuthController_login"];
   };
@@ -519,6 +522,7 @@ export interface components {
       username: string;
       profileImage: string;
       settings: components["schemas"]["SettingsDto"];
+      admin: boolean;
     };
     VideoVisitDetailsDto: {
       videoDetails: components["schemas"]["VideoBasicInfoDto"];
@@ -537,6 +541,7 @@ export interface components {
       totalVideosCount: number;
       totalTimeString: string;
       subscribedChannelsCount: number;
+      admin: boolean;
     };
     ChannelBasicInfoDto: {
       authorId: string;
@@ -573,6 +578,16 @@ export interface components {
       lengthSeconds: number;
       /** Format: date-time */
       lastVisit: string;
+    };
+    LogFileDto: {
+      name: string;
+      size: number;
+      created: number;
+      lastModified: number;
+    };
+    LogsDto: {
+      logFiles: (components["schemas"]["LogFileDto"])[];
+      location: string;
     };
     UserDto: {
       username: string;
@@ -1287,6 +1302,15 @@ export interface operations {
     };
     responses: {
       200: never;
+    };
+  };
+  AdminController_getLogs: {
+    responses: {
+      200: {
+        content: {
+          "application/json": components["schemas"]["LogsDto"];
+        };
+      };
     };
   };
   AuthController_login: {

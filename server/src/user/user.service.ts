@@ -6,7 +6,8 @@ import {
   HttpException,
   BadRequestException,
   NotFoundException,
-  InternalServerErrorException
+  InternalServerErrorException,
+  Logger
 } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
@@ -15,7 +16,6 @@ import { UserprofileDto } from 'server/user/dto/userprofile.dto';
 import humanizeDuration from 'humanize-duration';
 import { Common } from 'server/core/common';
 import { ChannelBasicInfoDto } from 'server/core/channels/dto/channel-basic-info.dto';
-import Consola from 'consola';
 import { FastifyReply } from 'fastify';
 import archiver from 'archiver';
 import { ViewTubeRequest } from 'server/common/viewtube-request';
@@ -37,7 +37,8 @@ export class UserService {
     private settingsService: SettingsService,
     private historyService: HistoryService,
     private subscriptionsService: SubscriptionsService,
-    private configService: ConfigService
+    private configService: ConfigService,
+    private readonly logger: Logger
   ) {}
 
   static getDateString(): string {
@@ -50,10 +51,14 @@ export class UserService {
     if (username) {
       const userSettings = await this.settingsService.getSettings(username);
       const user = await this.UserModel.findOne({ username }).exec();
+
+      const adminUser = this.configService.get('VIEWTUBE_ADMIN_USER');
+
       return {
         username,
         profileImage: user.profileImage ? `/api/user/profile/image/${username}` : null,
-        settings: userSettings
+        settings: userSettings,
+        admin: username === adminUser
       };
     }
   }
@@ -69,6 +74,8 @@ export class UserService {
 
       const videoStats = await this.historyService.getHistoryStats(username);
 
+      const adminUser = this.configService.get('VIEWTUBE_ADMIN_USER');
+
       return {
         username,
         profileImage: user.profileImage ? `/api/user/profile/image/${username}` : null,
@@ -76,7 +83,8 @@ export class UserService {
         registeredAt: (user as any).createdAt,
         totalVideosCount: videoStats.totalVideoCount,
         totalTimeString: humanizeDuration(videoStats.totalSeconds * 1000),
-        subscribedChannelsCount
+        subscribedChannelsCount,
+        admin: username === adminUser
       };
     }
   }
@@ -106,9 +114,9 @@ export class UserService {
         }
         let imgPath = `profiles/${username}.${extension}`;
 
-        if (global['__basedir']) {
+        if (global.__basedir) {
           // eslint-disable-next-line dot-notation
-          imgPath = path.join(global['__basedir'], imgPath);
+          imgPath = path.join(global.__basedir, imgPath);
         }
 
         if (fileTooLarge) {
@@ -120,7 +128,7 @@ export class UserService {
         try {
           await writeFile(imgPath, fileBuffer);
         } catch (error) {
-          Consola.log(error);
+          this.logger.log(error);
         }
 
         const publicPath = `/api/user/profile/image/${username}`;
@@ -198,7 +206,7 @@ export class UserService {
     } else if (user.username.length > 16) {
       throw new HttpException('Username cannot be longer than 16 characters', 400);
     } else if (user.username.length < 2) {
-      throw new HttpException('Username muxt be longer than 2 characters', 400);
+      throw new HttpException('Username must be longer than 2 characters', 400);
     } else {
       const saltRounds = 10;
       let hash: string;
@@ -208,14 +216,18 @@ export class UserService {
         throw new HttpException('Error registering user', 403);
       }
 
+      const adminUser = this.configService.get('VIEWTUBE_ADMIN_USER');
+
       const createdUser = await new this.UserModel({
         username: user.username,
         password: hash
       }).save();
+
       return {
         username: createdUser.username,
         profileImage: null,
-        settings: null
+        settings: null,
+        admin: adminUser === createdUser.username
       };
     }
   }

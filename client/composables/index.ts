@@ -20,3 +20,4 @@ export {
   useGetChannelPlaylists,
   useGetChannelCommunityPosts
 } from './api/channels';
+export { useGetLogs } from './api/admin';

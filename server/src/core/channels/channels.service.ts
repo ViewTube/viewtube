@@ -219,9 +219,9 @@ export class ChannelsService {
 
   getTinyThumbnail(reply: FastifyReply, id: string): void {
     // eslint-disable-next-line dot-notation
-    const imgPathWebp = path.join(global['__basedir'], `channels/${id}.webp`);
+    const imgPathWebp = path.join(global.__basedir, `channels/${id}.webp`);
     // eslint-disable-next-line dot-notation
-    const imgPathJpg = path.join(global['__basedir'], `channels/${id}.jpg`);
+    const imgPathJpg = path.join(global.__basedir, `channels/${id}.jpg`);
 
     const imageTransformer = sharp().resize(36, 36);
 

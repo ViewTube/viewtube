@@ -96,11 +96,9 @@ export class VideosService {
       // this.channelModel
       //   .findOneAndUpdate({ authorId: video.authorId }, channelBasicInfo, { upsert: true })
       //   .exec()
-      //   .catch(Consola.warn);
       // this.videoModel
       //   .findOneAndUpdate({ videoId: video.videoId }, videoBasicInfo, { upsert: true })
       //   .exec()
-      //   .catch(Consola.warn);
 
       return video;
     } catch (err) {
@@ -149,7 +147,7 @@ export class VideosService {
 
     if (arrBuffer) {
       try {
-        const imgPath = path.join((global as any).__basedir, `channels/${channelId}.webp`);
+        const imgPath = path.join(global.__basedir, `channels/${channelId}.webp`);
         const appendFile = promisify(fs.appendFile);
 
         const imgBuffer = Buffer.from(arrBuffer);
