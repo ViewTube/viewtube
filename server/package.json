@@ -86,7 +86,7 @@
     "@types/busboy": "1.5.0",
     "@types/cache-manager": "4.0.2",
     "@types/cookie-parser": "1.4.3",
-    "@types/eslint": "8.4.10",
+    "@types/eslint": "8.21.0",
     "@types/humanize-duration": "3.27.1",
     "@types/jest": "29.4.0",
     "@types/mime-types": "2.1.1",
