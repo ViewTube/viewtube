@@ -51,7 +51,7 @@ importers:
       pinia: 2.0.30
       qrcode: 1.5.1
       sass: 1.58.0
-      swiper: 8.4.7
+      swiper: 9.0.2
       tippy.js: 6.3.7
       typescript: 4.9.5
       vue: 3.2.47
@@ -99,7 +99,7 @@ importers:
       pinia: 2.0.30_hmuptsblhheur2tugfgucj7gc4
       qrcode: 1.5.1
       sass: 1.58.0
-      swiper: 8.4.7
+      swiper: 9.0.2
       tippy.js: 6.3.7
       typescript: 4.9.5
       vue: 3.2.47
@@ -5841,12 +5841,6 @@ packages:
       entities: 2.2.0
     dev: true
 
-  /dom7/4.0.4:
-    resolution: {integrity: sha512-DSSgBzQ4rJWQp1u6o+3FVwMNnT5bzQbMb+o31TjYYeRi05uAcpF8koxdfzeoe5ElzPmua7W7N28YJhF7iEKqIw==}
-    dependencies:
-      ssr-window: 4.0.2
-    dev: true
-
   /domelementtype/2.3.0:
     resolution: {integrity: sha512-OLETBj6w0OsagBwdXnPdN0cnMfF9opN69co+7ZrbfPGrdpPVNBUj02spi6B1N7wChLQiPn4CSH/zJvXw56gmHw==}
     dev: true
@@ -11328,12 +11322,10 @@ packages:
     resolution: {integrity: sha512-V3eIa28lwB6gg7/wfNvAbjwJYmDXy1Jo1POjyTzlB6wPcHiGlRxq39TSjYGVjQrUSAzpv+a7nzp7mDxgNy57xA==}
     dev: false
 
-  /swiper/8.4.7:
-    resolution: {integrity: sha512-VwO/KU3i9IV2Sf+W2NqyzwWob4yX9Qdedq6vBtS0rFqJ6Fa5iLUJwxQkuD4I38w0WDJwmFl8ojkdcRFPHWD+2g==}
+  /swiper/9.0.2:
+    resolution: {integrity: sha512-6iGqr9OeEMU7KVfGxXNW+xhVWmqvVhtt+1nnqbZ0a0i1p/S1rXgr9cPD55k7DFxeOojVHkiEqmsubaP3NgWwUQ==}
     engines: {node: '>= 4.7.0'}
-    requiresBuild: true
     dependencies:
-      dom7: 4.0.4
       ssr-window: 4.0.2
     dev: true
 
