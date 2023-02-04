@@ -41,7 +41,7 @@
     "@sentry/tracing": "7.34.0",
     "archiver": "5.3.1",
     "bcryptjs": "2.4.3",
-    "bull": "4.10.2",
+    "bull": "4.10.3",
     "cache-manager": "5.1.5",
     "cache-manager-ioredis-yet": "1.1.0",
     "chalk": "4.1.2",
