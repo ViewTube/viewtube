@@ -127,7 +127,7 @@ importers:
       '@nestjs/mongoose': 9.2.1
       '@nestjs/passport': 9.0.1
       '@nestjs/platform-fastify': 9.3.1
-      '@nestjs/schedule': 2.1.0
+      '@nestjs/schedule': 2.2.0
       '@nestjs/swagger': 6.1.4
       '@nestjs/testing': 9.3.1
       '@nestjs/throttler': 4.0.0
@@ -222,7 +222,7 @@ importers:
       '@nestjs/mongoose': 9.2.1_gehoiejpwxgyupipufnceevnju
       '@nestjs/passport': 9.0.1_4e4h6to2n6hnlb5bgx766yxuxu
       '@nestjs/platform-fastify': 9.3.1_rfw2nmqf7xssuptu4kwct77rde
-      '@nestjs/schedule': 2.1.0_is44h33kwk6akmv6kgslbvdmwi
+      '@nestjs/schedule': 2.2.0_is44h33kwk6akmv6kgslbvdmwi
       '@nestjs/swagger': 6.1.4_dal5xvckhrifuh6afzhipmwgs4
       '@nestjs/throttler': 4.0.0_is44h33kwk6akmv6kgslbvdmwi
       '@sentry/node': 7.34.0
@@ -2737,8 +2737,8 @@ packages:
       - supports-color
     dev: false
 
-  /@nestjs/schedule/2.1.0_is44h33kwk6akmv6kgslbvdmwi:
-    resolution: {integrity: sha512-4Xaw56WiW3VsxEPPnj/iDtfjcO+sUZyYAeRxD0gnF5havncxjAnv52Iw7UH3DuzzUA784xPGgGje3Fq0Gu925g==}
+  /@nestjs/schedule/2.2.0_is44h33kwk6akmv6kgslbvdmwi:
+    resolution: {integrity: sha512-wrDnUONTxBkD6lTWh9ecYk/kvJTbA3PylotjBoRsECmcS1SNvgInFXuL38UnHiFnXM3CHSFnzRLB259Bc1mOdQ==}
     peerDependencies:
       '@nestjs/common': ^7.0.0 || ^8.0.0 || ^9.0.0
       '@nestjs/core': ^7.0.0 || ^8.0.0 || ^9.0.0
@@ -2746,9 +2746,9 @@ packages:
     dependencies:
       '@nestjs/common': 9.3.1_467lsl6azq7d7aqy65djxrg35i
       '@nestjs/core': 9.3.1_fbiiyjmgdkrcnovhniebrgqaj4
-      cron: 2.0.0
+      cron: 2.2.0
       reflect-metadata: 0.1.13
-      uuid: 8.3.2
+      uuid: 9.0.0
     dev: false
 
   /@nestjs/schematics/9.0.4_bpd7edbl7imd2lxcmdt57tn7ne:
@@ -5421,10 +5421,10 @@ packages:
       luxon: 3.2.1
     dev: false
 
-  /cron/2.0.0:
-    resolution: {integrity: sha512-RPeRunBCFr/WEo7WLp8Jnm45F/ziGJiHVvVQEBSDTSGu6uHW49b2FOP2O14DcXlGJRLhwE7TIoDzHHK4KmlL6g==}
+  /cron/2.2.0:
+    resolution: {integrity: sha512-GPiI3OgMv83XRtEUc2gUdaLvJhO3XbLN288layOBkDTupg0RK5IECNGpkykIMHg+muVR2bxt29b0xvCAcBrjYQ==}
     dependencies:
-      luxon: 1.28.1
+      luxon: 3.2.1
     dev: false
 
   /cross-env/7.0.3:
@@ -6827,6 +6827,18 @@ packages:
       debug:
         optional: true
 
+  /follow-redirects/1.15.2_debug@4.3.4:
+    resolution: {integrity: sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==}
+    engines: {node: '>=4.0'}
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
+    dependencies:
+      debug: 4.3.4
+    dev: true
+
   /for-each/0.3.3:
     resolution: {integrity: sha512-jqYfLp7mo9vIyQf8ykW2v7A+2N4QjeCeI5+Dz9XraiO1ign81wjiH7Fb9vSOWvQfNtmSa4H2RoQTrrXivdUZmw==}
     dependencies:
@@ -7346,7 +7358,7 @@ packages:
     engines: {node: '>=8.0.0'}
     dependencies:
       eventemitter3: 4.0.7
-      follow-redirects: 1.15.2
+      follow-redirects: 1.15.2_debug@4.3.4
       requires-port: 1.0.0
     transitivePeerDependencies:
       - debug
@@ -8751,10 +8763,6 @@ packages:
 
   /lru_map/0.3.3:
     resolution: {integrity: sha512-Pn9cox5CsMYngeDbmChANltQl+5pi6XmTrraMSzhPmMBbmgcxmqWry0U3PGapCU1yB4/LqCcom7qhHZiF/jGfQ==}
-    dev: false
-
-  /luxon/1.28.1:
-    resolution: {integrity: sha512-gYHAa180mKrNIUJCbwpmD0aTu9kV0dREDrwNnuyFAsO1Wt0EVYSZelPnJlbj9HplzXX/YWXHFTL45kvZ53M0pw==}
     dev: false
 
   /luxon/3.2.1:
