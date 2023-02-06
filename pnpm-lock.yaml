@@ -128,7 +128,7 @@ importers:
       '@nestjs/passport': 9.0.1
       '@nestjs/platform-fastify': 9.3.1
       '@nestjs/schedule': 2.2.0
-      '@nestjs/swagger': 6.1.4
+      '@nestjs/swagger': 6.2.1
       '@nestjs/testing': 9.3.1
       '@nestjs/throttler': 4.0.0
       '@nestjs/websockets': 9.3.1
@@ -223,7 +223,7 @@ importers:
       '@nestjs/passport': 9.0.1_4e4h6to2n6hnlb5bgx766yxuxu
       '@nestjs/platform-fastify': 9.3.1_rfw2nmqf7xssuptu4kwct77rde
       '@nestjs/schedule': 2.2.0_is44h33kwk6akmv6kgslbvdmwi
-      '@nestjs/swagger': 6.1.4_dal5xvckhrifuh6afzhipmwgs4
+      '@nestjs/swagger': 6.2.1_dal5xvckhrifuh6afzhipmwgs4
       '@nestjs/throttler': 4.0.0_is44h33kwk6akmv6kgslbvdmwi
       '@sentry/node': 7.36.0
       '@sentry/tracing': 7.36.0
@@ -259,7 +259,7 @@ importers:
       winston-daily-rotate-file: 4.7.1_winston@3.8.2
       x2js: 3.4.4
       xml-js: 1.6.11
-      yt-channel-info: github.com/FreeTubeApp/yt-channel-info/3e49316a7a9fe7973be59d6b790f1155ba513a77
+      yt-channel-info: github.com/FreeTubeApp/yt-channel-info/b5656f24b533c22299ead5e675c4196d2d417440
       ytdl-core: 4.11.2
       ytpl: 2.3.0
       ytsr: 3.8.0
@@ -2695,12 +2695,12 @@ packages:
       jsonwebtoken: 9.0.0
     dev: false
 
-  /@nestjs/mapped-types/1.2.0_reiiewfwe532odw3vxsy7m57ae:
-    resolution: {integrity: sha512-NTFwPZkQWsArQH8QSyFWGZvJ08gR+R4TofglqZoihn/vU+ktHEJjMqsIsADwb7XD97DhiD+TVv5ac+jG33BHrg==}
+  /@nestjs/mapped-types/1.2.2_reiiewfwe532odw3vxsy7m57ae:
+    resolution: {integrity: sha512-3dHxLXs3M0GPiriAcCFFJQHoDFUuzTD5w6JDhE7TyfT89YKpe6tcCCIqOZWdXmt9AZjjK30RkHRSFF+QEnWFQg==}
     peerDependencies:
       '@nestjs/common': ^7.0.8 || ^8.0.0 || ^9.0.0
       class-transformer: ^0.2.0 || ^0.3.0 || ^0.4.0 || ^0.5.0
-      class-validator: ^0.11.1 || ^0.12.0 || ^0.13.0
+      class-validator: ^0.11.1 || ^0.12.0 || ^0.13.0 || ^0.14.0
       reflect-metadata: ^0.1.12
     peerDependenciesMeta:
       class-transformer:
@@ -2796,8 +2796,8 @@ packages:
       - chokidar
     dev: true
 
-  /@nestjs/swagger/6.1.4_dal5xvckhrifuh6afzhipmwgs4:
-    resolution: {integrity: sha512-kE8VjR+NaoKqxg8XqM/YYfALScPh4AcoR8Wywga8/OxHsTHY+MKxqvTpWp7IhCUWSA6xT8nQUpcC9Rt7C+r7Hw==}
+  /@nestjs/swagger/6.2.1_dal5xvckhrifuh6afzhipmwgs4:
+    resolution: {integrity: sha512-9M2vkfJHIzLqDZwvM5TEZO0MxRCvIb0xVy0LsmWwxH1lrb0z/4MhU+r2CWDhBtTccVJrKxVPiU2s3T3b9uUJbg==}
     peerDependencies:
       '@fastify/static': ^6.0.0
       '@nestjs/common': ^9.0.0
@@ -2816,7 +2816,7 @@ packages:
       '@fastify/static': 6.8.0
       '@nestjs/common': 9.3.1_467lsl6azq7d7aqy65djxrg35i
       '@nestjs/core': 9.3.1_fbiiyjmgdkrcnovhniebrgqaj4
-      '@nestjs/mapped-types': 1.2.0_reiiewfwe532odw3vxsy7m57ae
+      '@nestjs/mapped-types': 1.2.2_reiiewfwe532odw3vxsy7m57ae
       class-transformer: 0.5.1
       class-validator: 0.14.0
       js-yaml: 4.1.0
@@ -12556,8 +12556,8 @@ packages:
       compress-commons: 4.1.1
       readable-stream: 3.6.0
 
-  github.com/FreeTubeApp/yt-channel-info/3e49316a7a9fe7973be59d6b790f1155ba513a77:
-    resolution: {tarball: https://codeload.github.com/FreeTubeApp/yt-channel-info/tar.gz/3e49316a7a9fe7973be59d6b790f1155ba513a77}
+  github.com/FreeTubeApp/yt-channel-info/b5656f24b533c22299ead5e675c4196d2d417440:
+    resolution: {tarball: https://codeload.github.com/FreeTubeApp/yt-channel-info/tar.gz/b5656f24b533c22299ead5e675c4196d2d417440}
     name: yt-channel-info
     version: 3.2.1
     dependencies:
