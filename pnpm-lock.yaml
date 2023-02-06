@@ -157,7 +157,7 @@ importers:
       '@typescript-eslint/parser': 5.49.0
       archiver: 5.3.1
       bcryptjs: 2.4.3
-      bull: 4.10.2
+      bull: 4.10.3
       cache-manager: 5.1.5
       cache-manager-ioredis-yet: 1.1.0
       chalk: 4.1.2
@@ -214,7 +214,7 @@ importers:
       '@fastify/static': 6.8.0
       '@fastify/swagger': 8.3.1
       '@freetube/yt-comment-scraper': 6.2.0
-      '@nestjs/bull': 0.6.2_3bxiekwmr2mswje23phxufqsca
+      '@nestjs/bull': 0.6.2_wkb2b3dacotzckh4iqluw2l5gi
       '@nestjs/common': 9.3.1_467lsl6azq7d7aqy65djxrg35i
       '@nestjs/config': 2.3.0_fipbdz7qhdiauthzsrt4bq6tsq
       '@nestjs/core': 9.3.1_fbiiyjmgdkrcnovhniebrgqaj4
@@ -229,7 +229,7 @@ importers:
       '@sentry/tracing': 7.36.0
       archiver: 5.3.1
       bcryptjs: 2.4.3
-      bull: 4.10.2
+      bull: 4.10.3
       cache-manager: 5.1.5
       cache-manager-ioredis-yet: 1.1.0
       chalk: 4.1.2
@@ -2563,7 +2563,7 @@ packages:
       tslib: 2.4.1
     dev: false
 
-  /@nestjs/bull/0.6.2_3bxiekwmr2mswje23phxufqsca:
+  /@nestjs/bull/0.6.2_wkb2b3dacotzckh4iqluw2l5gi:
     resolution: {integrity: sha512-tx5wiIGgfYEj5RAJA1B23pn/63nsmMH0f981V1/v3NKyE07NsvOXCrwKNGQnIZZlXkXh7lgx2I80/tYwPGnVIg==}
     peerDependencies:
       '@nestjs/common': ^6.10.11 || ^7.0.0 || ^8.0.0 || ^9.0.0
@@ -2573,7 +2573,7 @@ packages:
       '@nestjs/bull-shared': 0.1.2_22j2lmearpmfr73ppsmjho62xq
       '@nestjs/common': 9.3.1_467lsl6azq7d7aqy65djxrg35i
       '@nestjs/core': 9.3.1_fbiiyjmgdkrcnovhniebrgqaj4
-      bull: 4.10.2
+      bull: 4.10.3
       tslib: 2.4.1
     dev: false
 
@@ -4943,8 +4943,8 @@ packages:
     engines: {node: '>=6'}
     dev: true
 
-  /bull/4.10.2:
-    resolution: {integrity: sha512-xa65xtWjQsLqYU/eNaXxq9VRG8xd6qNsQEjR7yjYuae05xKrzbVMVj2QgrYsTMmSs/vsqJjHqHSRRiW1+IkGXQ==}
+  /bull/4.10.3:
+    resolution: {integrity: sha512-pp403srpkn9tYi7Z3Mu0sozehZ7rEEFGNJnN+nLxQwml6MySzefC9bPeCYedZoCkXdZ6VbIB8uNkMZg+hN/dAg==}
     engines: {node: '>=12'}
     dependencies:
       cron-parser: 4.7.1
@@ -4953,7 +4953,6 @@ packages:
       ioredis: 5.3.0
       lodash: 4.17.21
       msgpackr: 1.8.2
-      p-timeout: 3.2.0
       semver: 7.3.8
       uuid: 8.3.2
     transitivePeerDependencies:
@@ -9714,11 +9713,6 @@ packages:
     resolution: {integrity: sha512-o6E5qJV5zkAbIDNhGSIlyOhScKXgQrSRMilfph0clDfM0nEnBOlKlH4sWDmG95BW/CvwNz0vmm7dJVtU2KlMiA==}
     dev: true
 
-  /p-finally/1.0.0:
-    resolution: {integrity: sha512-LICb2p9CB7FS+0eR1oqWnHhp0FljGLZCWBE9aix0Uye9W8LTQPwMTYVGWQWIw9RdQiDg4+epXQODwIYJtSJaow==}
-    engines: {node: '>=4'}
-    dev: false
-
   /p-limit/2.3.0:
     resolution: {integrity: sha512-//88mFWSJx8lxCzwdAABTJL2MyWB12+eIY7MDL2SqLmAkeKU9qxRvWuSyTjm3FUmpBEMuFfckAIqEaVGUDxb6w==}
     engines: {node: '>=6'}
@@ -9752,13 +9746,6 @@ packages:
     dependencies:
       aggregate-error: 3.1.0
     dev: true
-
-  /p-timeout/3.2.0:
-    resolution: {integrity: sha512-rhIwUycgwwKcP9yTOOFK/AKsAopjjCakVqLHePO3CC6Mir1Z99xT+R63jZxAT5lFZLa2inS5h+ZS2GvR99/FBg==}
-    engines: {node: '>=8'}
-    dependencies:
-      p-finally: 1.0.0
-    dev: false
 
   /p-try/2.2.0:
     resolution: {integrity: sha512-R4nPAVTAU0B9D35/Gk3uJf/7XYbQcyohSKdvAxIRSNghFl4e71hVoGnBNQz9cWaXxO2I10KTC+3jMdvvoKw6dQ==}
