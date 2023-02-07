@@ -47,3 +47,4 @@ Dockerfile.nodejs-mongodb
 server/config.json
 **/predist
 client/buildMetadata.json
+~
