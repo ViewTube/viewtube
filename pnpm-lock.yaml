@@ -176,7 +176,7 @@ importers:
       joi: 17.7.0
       mini-svg-data-uri: 1.4.4
       mongodb-memory-server: 8.11.4
-      mongoose: 6.9.0
+      mongoose: 6.9.1
       nest-winston: 1.8.0
       nestjs-throttler-storage-redis: 0.3.0
       openapi-typescript: 6.1.0
@@ -219,7 +219,7 @@ importers:
       '@nestjs/config': 2.3.0_fipbdz7qhdiauthzsrt4bq6tsq
       '@nestjs/core': 9.3.1_fbiiyjmgdkrcnovhniebrgqaj4
       '@nestjs/jwt': 10.0.1_@nestjs+common@9.3.1
-      '@nestjs/mongoose': 9.2.1_gehoiejpwxgyupipufnceevnju
+      '@nestjs/mongoose': 9.2.1_nqx3zpv3igxcl2quwy46ts3fxi
       '@nestjs/passport': 9.0.1_4e4h6to2n6hnlb5bgx766yxuxu
       '@nestjs/platform-fastify': 9.3.1_rfw2nmqf7xssuptu4kwct77rde
       '@nestjs/schedule': 2.2.0_is44h33kwk6akmv6kgslbvdmwi
@@ -242,7 +242,7 @@ importers:
       ioredis: 5.3.0
       joi: 17.7.0
       mini-svg-data-uri: 1.4.4
-      mongoose: 6.9.0
+      mongoose: 6.9.1
       nest-winston: 1.8.0_fil52zufot555jnb5ebs23ke6i
       nestjs-throttler-storage-redis: 0.3.0_zl4q4nwkhdixcmskh2623nkgsu
       passport: 0.6.0
@@ -2714,7 +2714,7 @@ packages:
       reflect-metadata: 0.1.13
     dev: false
 
-  /@nestjs/mongoose/9.2.1_gehoiejpwxgyupipufnceevnju:
+  /@nestjs/mongoose/9.2.1_nqx3zpv3igxcl2quwy46ts3fxi:
     resolution: {integrity: sha512-tMK5kKFjQnNVhqJDw1wa352z+VsODOFznTn74xSzrziof03qS+O6rLU4q1kMx0B4AmFbADf03GOdpvBc9bMWqw==}
     peerDependencies:
       '@nestjs/common': ^8.0.0 || ^9.0.0
@@ -2725,7 +2725,7 @@ packages:
     dependencies:
       '@nestjs/common': 9.3.1_dvrujxroetdtfe56hbaridt2dy
       '@nestjs/core': 9.3.1_fbiiyjmgdkrcnovhniebrgqaj4
-      mongoose: 6.9.0
+      mongoose: 6.9.1
       reflect-metadata: 0.1.13
       rxjs: 7.8.0
     dev: false
@@ -9146,8 +9146,8 @@ packages:
     transitivePeerDependencies:
       - aws-crt
 
-  /mongoose/6.9.0:
-    resolution: {integrity: sha512-5tu6+trwjk5TIH6b6iYgAwmzZ0RNOxFoqXQb9h21Oi45DeM1rWM/niHxJ4ROqBISDfQMwRvLSABHTsyn3AzoFQ==}
+  /mongoose/6.9.1:
+    resolution: {integrity: sha512-hOz1ZWV0w6WEVLrj89Wpk7PXDYtDDF6k7/NX79lY5iKqeFtZsceBXW8xW59YFNcW5O3cH32hQ8IbDlhgyBsDMA==}
     engines: {node: '>=12.0.0'}
     dependencies:
       bson: 4.7.2
