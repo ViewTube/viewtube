@@ -7,7 +7,7 @@ const logPath = process.env.VIEWTUBE_BASE_DIR ?? '.';
 const winstonInstance = winston.createLogger({
   transports: [
     new winston.transports.Console({
-      level: process.env.NODE_ENV === 'production' ? 'warn' : 'debug',
+      level: process.env.NODE_ENV === 'production' ? 'info' : 'debug',
       format: winston.format.combine(
         winston.format.timestamp(),
         utilities.format.nestLike('ViewTube')
