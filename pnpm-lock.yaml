@@ -125,7 +125,7 @@ importers:
       '@nestjs/core': 9.3.5
       '@nestjs/jwt': 10.0.1
       '@nestjs/mongoose': 9.2.1
-      '@nestjs/passport': 9.0.1
+      '@nestjs/passport': 9.0.2
       '@nestjs/platform-fastify': 9.3.5
       '@nestjs/schedule': 2.2.0
       '@nestjs/swagger': 6.2.1
@@ -220,7 +220,7 @@ importers:
       '@nestjs/core': 9.3.5_462h4x2xzx6zbnvcgk222ranqm
       '@nestjs/jwt': 10.0.1_@nestjs+common@9.3.5
       '@nestjs/mongoose': 9.2.1_vzrklgdyygswcbmngehjqsjkzm
-      '@nestjs/passport': 9.0.1_aacj5lcofpjluz66c2ew5kwpzm
+      '@nestjs/passport': 9.0.2_aacj5lcofpjluz66c2ew5kwpzm
       '@nestjs/platform-fastify': 9.3.5_evpos4cuvkszzen4jkrc35bqxe
       '@nestjs/schedule': 2.2.0_uwxvp563lh7tyboghnratoxo3u
       '@nestjs/swagger': 6.2.1_jyproa6zavg6kjlutkeig3crya
@@ -2730,8 +2730,8 @@ packages:
       rxjs: 7.8.0
     dev: false
 
-  /@nestjs/passport/9.0.1_aacj5lcofpjluz66c2ew5kwpzm:
-    resolution: {integrity: sha512-WhT0yhpMp1B8b1OdQdPv/rd2O8V0HUmoGsWFzJKPsALuaxozjem2WotUEy1GV/TT8kvfC4ok7tECjRAArO+I8Q==}
+  /@nestjs/passport/9.0.2_aacj5lcofpjluz66c2ew5kwpzm:
+    resolution: {integrity: sha512-L+hLH1+yQPr0cW83AZ2Suho/hQuN8OFCV6XxLknuzVW6hWReraPjgjxrz+8fFnOEOSyt3KnwUDULvuqEqgETaA==}
     peerDependencies:
       '@nestjs/common': ^8.0.0 || ^9.0.0
       passport: ^0.4.0 || ^0.5.0 || ^0.6.0
