@@ -123,7 +123,7 @@ importers:
       '@nestjs/common': 9.3.7
       '@nestjs/config': 2.3.0
       '@nestjs/core': 9.3.7
-      '@nestjs/jwt': 10.0.1
+      '@nestjs/jwt': 10.0.2
       '@nestjs/mongoose': 9.2.1
       '@nestjs/passport': 9.0.2
       '@nestjs/platform-fastify': 9.3.7
@@ -218,7 +218,7 @@ importers:
       '@nestjs/common': 9.3.7_dvrujxroetdtfe56hbaridt2dy
       '@nestjs/config': 2.3.0_ojttuksvundfk3amlyo674va74
       '@nestjs/core': 9.3.7_bjckujnbymrs4pax6etpd5nzsu
-      '@nestjs/jwt': 10.0.1_@nestjs+common@9.3.7
+      '@nestjs/jwt': 10.0.2_@nestjs+common@9.3.7
       '@nestjs/mongoose': 9.2.1_c5o6hqf3y26aaxjdtsbrswybzu
       '@nestjs/passport': 9.0.2_2lo5boulyhai36ocas6bn57y6i
       '@nestjs/platform-fastify': 9.3.7_xg3w3mrfgg247qqnhynvo7umgy
@@ -2698,13 +2698,13 @@ packages:
     transitivePeerDependencies:
       - encoding
 
-  /@nestjs/jwt/10.0.1_@nestjs+common@9.3.7:
-    resolution: {integrity: sha512-LwXBKVYHnFeX6GH/Wt0WDjsWCmNDC6tEdLlwNMAvJgYp+TkiCpEmQLkgRpifdUE29mvYSbjSnVs2kW2ob935NA==}
+  /@nestjs/jwt/10.0.2_@nestjs+common@9.3.7:
+    resolution: {integrity: sha512-MLxjCSbO7C9fN2hst5kpIhnJAgglJmrKppXAXqElB8A9ip3ZuCowMDjjmNWWJyfOzE98NV0E0iEQGE2StMUC+Q==}
     peerDependencies:
       '@nestjs/common': ^8.0.0 || ^9.0.0
     dependencies:
       '@nestjs/common': 9.3.7_dvrujxroetdtfe56hbaridt2dy
-      '@types/jsonwebtoken': 8.5.9
+      '@types/jsonwebtoken': 9.0.1
       jsonwebtoken: 9.0.0
     dev: false
 
@@ -3661,17 +3661,10 @@ packages:
     resolution: {integrity: sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==}
     dev: true
 
-  /@types/jsonwebtoken/8.5.9:
-    resolution: {integrity: sha512-272FMnFGzAVMGtu9tkr29hRL6bZj4Zs1KZNeHLnKqAvp06tAIcarTMwOh8/8bz4FmKRcMxZhZNeUAQsNLoiPhg==}
-    dependencies:
-      '@types/node': 18.13.0
-    dev: false
-
   /@types/jsonwebtoken/9.0.1:
     resolution: {integrity: sha512-c5ltxazpWabia/4UzhIoaDcIza4KViOQhdbjRlfcIGVnsE3c3brkz9Z+F/EeJIECOQP7W7US2hNE930cWWkPiw==}
     dependencies:
       '@types/node': 18.13.0
-    dev: true
 
   /@types/mime-types/2.1.1:
     resolution: {integrity: sha512-vXOTGVSLR2jMw440moWTC7H19iUyLtP3Z1YTj7cSsubOICinjMxFeb/V57v9QdyyPGbbWolUFSSmSiRSn94tFw==}
