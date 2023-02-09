@@ -121,7 +121,7 @@ importers:
       '@nestjs/bull': 0.6.2
       '@nestjs/cli': 9.2.0
       '@nestjs/common': 9.3.7
-      '@nestjs/config': 2.3.0
+      '@nestjs/config': 2.3.1
       '@nestjs/core': 9.3.7
       '@nestjs/jwt': 10.0.1
       '@nestjs/mongoose': 9.2.1
@@ -216,7 +216,7 @@ importers:
       '@freetube/yt-comment-scraper': 6.2.0
       '@nestjs/bull': 0.6.2_dv76ih4nklxrx7uu7mjgup7pt4
       '@nestjs/common': 9.3.7_dvrujxroetdtfe56hbaridt2dy
-      '@nestjs/config': 2.3.0_ojttuksvundfk3amlyo674va74
+      '@nestjs/config': 2.3.1_ojttuksvundfk3amlyo674va74
       '@nestjs/core': 9.3.7_bjckujnbymrs4pax6etpd5nzsu
       '@nestjs/jwt': 10.0.1_@nestjs+common@9.3.7
       '@nestjs/mongoose': 9.2.1_c5o6hqf3y26aaxjdtsbrswybzu
@@ -2651,8 +2651,8 @@ packages:
       tslib: 2.5.0
       uid: 2.0.1
 
-  /@nestjs/config/2.3.0_ojttuksvundfk3amlyo674va74:
-    resolution: {integrity: sha512-VSAqoIagIrc0A3apaqC2O3a8VtQ+asw8xILmxvjK/eHW9m1rmhJ5NqkGf7m+uSv3Yxini4bzyb74Mk62+tB/cA==}
+  /@nestjs/config/2.3.1_ojttuksvundfk3amlyo674va74:
+    resolution: {integrity: sha512-Ckzel0NZ9CWhNsLfE1hxfDuxJuEbhQvGxSlmZ1/X8awjRmAA/g3kT6M1+MO1SHj1wMtPyUfd9WpwkiqFbiwQgA==}
     peerDependencies:
       '@nestjs/common': ^7.0.0 || ^8.0.0 || ^9.0.0
       reflect-metadata: ^0.1.13
