@@ -118,7 +118,7 @@ importers:
       '@fastify/static': 6.8.0
       '@fastify/swagger': 8.3.1
       '@freetube/yt-comment-scraper': 6.2.0
-      '@nestjs/bull': 0.6.2
+      '@nestjs/bull': 0.6.3
       '@nestjs/cli': 9.2.0
       '@nestjs/common': 9.3.7
       '@nestjs/config': 2.3.0
@@ -214,7 +214,7 @@ importers:
       '@fastify/static': 6.8.0
       '@fastify/swagger': 8.3.1
       '@freetube/yt-comment-scraper': 6.2.0
-      '@nestjs/bull': 0.6.2_dv76ih4nklxrx7uu7mjgup7pt4
+      '@nestjs/bull': 0.6.3_dv76ih4nklxrx7uu7mjgup7pt4
       '@nestjs/common': 9.3.7_dvrujxroetdtfe56hbaridt2dy
       '@nestjs/config': 2.3.0_ojttuksvundfk3amlyo674va74
       '@nestjs/core': 9.3.7_bjckujnbymrs4pax6etpd5nzsu
@@ -2566,29 +2566,29 @@ packages:
     dev: false
     optional: true
 
-  /@nestjs/bull-shared/0.1.2_zmctrozi6xxh3beaccl6ebop6u:
-    resolution: {integrity: sha512-q1JqieWb2YjA6OIal5XjtbF28LgJxEflwJB9x3OnE2OUgI0kWvaMlYMaW3opFmgcWPjx4o5lVhcGnwXeIhZfgg==}
+  /@nestjs/bull-shared/0.1.3_zmctrozi6xxh3beaccl6ebop6u:
+    resolution: {integrity: sha512-K0a1ERpnl/ZnTmm0UtYSSClDlDkQwNNwJYM6PogzpeflD64oqwVIn8Pj8rdS+BOYUxqdDy55q3p67ytO5oaVDA==}
     peerDependencies:
       '@nestjs/common': ^6.10.11 || ^7.0.0 || ^8.0.0 || ^9.0.0
       '@nestjs/core': ^6.10.11 || ^7.0.0 || ^8.0.0 || ^9.0.0
     dependencies:
       '@nestjs/common': 9.3.7_dvrujxroetdtfe56hbaridt2dy
       '@nestjs/core': 9.3.7_bjckujnbymrs4pax6etpd5nzsu
-      tslib: 2.4.1
+      tslib: 2.5.0
     dev: false
 
-  /@nestjs/bull/0.6.2_dv76ih4nklxrx7uu7mjgup7pt4:
-    resolution: {integrity: sha512-tx5wiIGgfYEj5RAJA1B23pn/63nsmMH0f981V1/v3NKyE07NsvOXCrwKNGQnIZZlXkXh7lgx2I80/tYwPGnVIg==}
+  /@nestjs/bull/0.6.3_dv76ih4nklxrx7uu7mjgup7pt4:
+    resolution: {integrity: sha512-CckH9O3t9qSiO4RCzdYvtFSaaMfIhTXMYagV/rtmVvI1SX5XNnxEaQXvtjxDBXF9DB1JE/5AejIl6ICym+MJIw==}
     peerDependencies:
       '@nestjs/common': ^6.10.11 || ^7.0.0 || ^8.0.0 || ^9.0.0
       '@nestjs/core': ^6.10.11 || ^7.0.0 || ^8.0.0 || ^9.0.0
       bull: ^3.3 || ^4.0.0
     dependencies:
-      '@nestjs/bull-shared': 0.1.2_zmctrozi6xxh3beaccl6ebop6u
+      '@nestjs/bull-shared': 0.1.3_zmctrozi6xxh3beaccl6ebop6u
       '@nestjs/common': 9.3.7_dvrujxroetdtfe56hbaridt2dy
       '@nestjs/core': 9.3.7_bjckujnbymrs4pax6etpd5nzsu
       bull: 4.10.3
-      tslib: 2.4.1
+      tslib: 2.5.0
     dev: false
 
   /@nestjs/cli/9.2.0:
@@ -11816,10 +11816,6 @@ packages:
 
   /tslib/1.14.1:
     resolution: {integrity: sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==}
-
-  /tslib/2.4.1:
-    resolution: {integrity: sha512-tGyy4dAjRIEwI7BzsB0lynWgOpfqjUdq91XXAlIWD2OwKBH7oCl/GZG/HT4BOHrTlPMOASlMQ7veyTqpmRcrNA==}
-    dev: false
 
   /tslib/2.5.0:
     resolution: {integrity: sha512-336iVw3rtn2BUK7ORdIAHTyxHGRIHVReokCR3XjbckJMK7ms8FysBfhLR8IXnAgy7T0PTPNBWKiH514FOW/WSg==}
