@@ -115,7 +115,7 @@ importers:
       '@fastify/cookie': 8.3.0
       '@fastify/helmet': 10.1.0
       '@fastify/multipart': 7.4.0
-      '@fastify/static': 6.8.0
+      '@fastify/static': 6.9.0
       '@fastify/swagger': 8.3.1
       '@freetube/yt-comment-scraper': 6.2.0
       '@nestjs/bull': 0.6.3
@@ -211,7 +211,7 @@ importers:
       '@fastify/cookie': 8.3.0
       '@fastify/helmet': 10.1.0
       '@fastify/multipart': 7.4.0
-      '@fastify/static': 6.8.0
+      '@fastify/static': 6.9.0
       '@fastify/swagger': 8.3.1
       '@freetube/yt-comment-scraper': 6.2.0
       '@nestjs/bull': 0.6.3_dv76ih4nklxrx7uu7mjgup7pt4
@@ -221,9 +221,9 @@ importers:
       '@nestjs/jwt': 10.0.2_@nestjs+common@9.3.7
       '@nestjs/mongoose': 9.2.1_c5o6hqf3y26aaxjdtsbrswybzu
       '@nestjs/passport': 9.0.2_2lo5boulyhai36ocas6bn57y6i
-      '@nestjs/platform-fastify': 9.3.7_xg3w3mrfgg247qqnhynvo7umgy
+      '@nestjs/platform-fastify': 9.3.7_ss5hfqgagxwgs6syz6uh4gcpqi
       '@nestjs/schedule': 2.2.0_pwlerhfcldutg4bxlbqlfavbwi
-      '@nestjs/swagger': 6.2.1_jr2xyaqdanj3rmqes6yjxvjvau
+      '@nestjs/swagger': 6.2.1_6dvbalrwscdvmlrtwt7n5v4bta
       '@nestjs/throttler': 4.0.0_pwlerhfcldutg4bxlbqlfavbwi
       '@sentry/node': 7.37.1
       '@sentry/tracing': 7.37.1
@@ -2138,8 +2138,8 @@ packages:
       mime: 3.0.0
     dev: false
 
-  /@fastify/static/6.8.0:
-    resolution: {integrity: sha512-MNQp7KM0NIC+722OPN3MholnfvM+Vg2ao4OwbWWNJhAJEWOKGe4fJsEjIh3OkN0z5ymhklc7EXGCG0zDaIU5ZQ==}
+  /@fastify/static/6.9.0:
+    resolution: {integrity: sha512-9SBVNJi2+KTnfiW1WjiVXDsmUxliNI54OF1eOiaop264dh8FwXSuLmO62JXvx7+VD0vQXEqsyRbFCYUJ9aJxng==}
     dependencies:
       '@fastify/accept-negotiator': 1.1.0
       '@fastify/send': 2.0.1
@@ -2753,7 +2753,7 @@ packages:
       passport: 0.6.0
     dev: false
 
-  /@nestjs/platform-fastify/9.3.7_xg3w3mrfgg247qqnhynvo7umgy:
+  /@nestjs/platform-fastify/9.3.7_ss5hfqgagxwgs6syz6uh4gcpqi:
     resolution: {integrity: sha512-Ko8+ylO5ZsSi+Ag7BL6DT5b+KEBq2FKgBsht/WA39VudpS6eOSG7UE9skSP+JcapXq+WEfTygzdu0nQ3/kyOaA==}
     peerDependencies:
       '@fastify/static': ^6.0.0
@@ -2769,7 +2769,7 @@ packages:
       '@fastify/cors': 8.2.0
       '@fastify/formbody': 7.4.0
       '@fastify/middie': 8.1.0
-      '@fastify/static': 6.8.0
+      '@fastify/static': 6.9.0
       '@nestjs/common': 9.3.7_dvrujxroetdtfe56hbaridt2dy
       '@nestjs/core': 9.3.7_bjckujnbymrs4pax6etpd5nzsu
       fastify: 4.12.0
@@ -2809,7 +2809,7 @@ packages:
       - chokidar
     dev: true
 
-  /@nestjs/swagger/6.2.1_jr2xyaqdanj3rmqes6yjxvjvau:
+  /@nestjs/swagger/6.2.1_6dvbalrwscdvmlrtwt7n5v4bta:
     resolution: {integrity: sha512-9M2vkfJHIzLqDZwvM5TEZO0MxRCvIb0xVy0LsmWwxH1lrb0z/4MhU+r2CWDhBtTccVJrKxVPiU2s3T3b9uUJbg==}
     peerDependencies:
       '@fastify/static': ^6.0.0
@@ -2826,7 +2826,7 @@ packages:
       class-validator:
         optional: true
     dependencies:
-      '@fastify/static': 6.8.0
+      '@fastify/static': 6.9.0
       '@nestjs/common': 9.3.7_dvrujxroetdtfe56hbaridt2dy
       '@nestjs/core': 9.3.7_bjckujnbymrs4pax6etpd5nzsu
       '@nestjs/mapped-types': 1.2.2_2r4p35dlrn4tfrb3pj5q26jjgy
