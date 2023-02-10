@@ -51,7 +51,7 @@ importers:
       pinia: 2.0.30
       qrcode: 1.5.1
       sass: 1.58.0
-      swiper: 9.0.3
+      swiper: 9.0.4
       tippy.js: 6.3.7
       typescript: 4.9.5
       vue: 3.2.47
@@ -99,7 +99,7 @@ importers:
       pinia: 2.0.30_hmuptsblhheur2tugfgucj7gc4
       qrcode: 1.5.1
       sass: 1.58.0
-      swiper: 9.0.3
+      swiper: 9.0.4
       tippy.js: 6.3.7
       typescript: 4.9.5
       vue: 3.2.47
@@ -6946,6 +6946,18 @@ packages:
       debug:
         optional: true
 
+  /follow-redirects/1.15.2_debug@4.3.4:
+    resolution: {integrity: sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==}
+    engines: {node: '>=4.0'}
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
+    dependencies:
+      debug: 4.3.4
+    dev: true
+
   /for-each/0.3.3:
     resolution: {integrity: sha512-jqYfLp7mo9vIyQf8ykW2v7A+2N4QjeCeI5+Dz9XraiO1ign81wjiH7Fb9vSOWvQfNtmSa4H2RoQTrrXivdUZmw==}
     dependencies:
@@ -7475,7 +7487,7 @@ packages:
     engines: {node: '>=8.0.0'}
     dependencies:
       eventemitter3: 4.0.7
-      follow-redirects: 1.15.2
+      follow-redirects: 1.15.2_debug@4.3.4
       requires-port: 1.0.0
     transitivePeerDependencies:
       - debug
@@ -11503,8 +11515,8 @@ packages:
     resolution: {integrity: sha512-V3eIa28lwB6gg7/wfNvAbjwJYmDXy1Jo1POjyTzlB6wPcHiGlRxq39TSjYGVjQrUSAzpv+a7nzp7mDxgNy57xA==}
     dev: false
 
-  /swiper/9.0.3:
-    resolution: {integrity: sha512-hHYI6CeUHcDyv6IakzAQrUv6nS5BMRn6KOkui16nhtdgYBlWgUdlaMbcdT0o4RJxpwSktCTLgpBtCm+WwwVYRw==}
+  /swiper/9.0.4:
+    resolution: {integrity: sha512-YH4sUh68DYw7vcoBZQ+DeBV6/wLZIRf8dZ4CzkvRTcvDPkIF6oweBdOjKnsXtoPCSUQbtqbZcLRghkfOtd5UYA==}
     engines: {node: '>= 4.7.0'}
     dependencies:
       ssr-window: 4.0.2
