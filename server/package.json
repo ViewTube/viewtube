@@ -41,7 +41,7 @@
     "@sentry/tracing": "7.37.1",
     "archiver": "5.3.1",
     "bcryptjs": "2.4.3",
-    "bull": "4.10.3",
+    "bull": "4.10.4",
     "cache-manager": "5.1.6",
     "cache-manager-redis-store": "^3.0.1",
     "chalk": "4.1.2",
