@@ -132,9 +132,9 @@ importers:
       '@nestjs/testing': 9.3.7
       '@nestjs/throttler': 4.0.0
       '@nestjs/websockets': 9.3.7
-      '@sentry/node': 7.36.0
-      '@sentry/tracing': 7.36.0
-      '@sentry/types': 7.36.0
+      '@sentry/node': 7.37.1
+      '@sentry/tracing': 7.37.1
+      '@sentry/types': 7.37.1
       '@types/archiver': 5.3.1
       '@types/bcryptjs': 2.4.2
       '@types/busboy': 1.5.0
@@ -225,8 +225,8 @@ importers:
       '@nestjs/schedule': 2.2.0_pwlerhfcldutg4bxlbqlfavbwi
       '@nestjs/swagger': 6.2.1_jr2xyaqdanj3rmqes6yjxvjvau
       '@nestjs/throttler': 4.0.0_pwlerhfcldutg4bxlbqlfavbwi
-      '@sentry/node': 7.36.0
-      '@sentry/tracing': 7.36.0
+      '@sentry/node': 7.37.1
+      '@sentry/tracing': 7.37.1
       archiver: 5.3.1
       bcryptjs: 2.4.3
       bull: 4.10.3
@@ -267,7 +267,7 @@ importers:
       '@nestjs/cli': 9.2.0
       '@nestjs/testing': 9.3.7_zmctrozi6xxh3beaccl6ebop6u
       '@nestjs/websockets': 9.3.7_zopo4oyrexfpa3czalg73ujjpm
-      '@sentry/types': 7.36.0
+      '@sentry/types': 7.37.1
       '@types/archiver': 5.3.1
       '@types/bcryptjs': 2.4.2
       '@types/busboy': 1.5.0
@@ -3426,22 +3426,22 @@ packages:
     resolution: {integrity: sha512-sXo/qW2/pAcmT43VoRKOJbDOfV3cYpq3szSVfIThQXNt+E4DfKj361vaAt3c88U5tPUxzEswam7GW48PJqtKAg==}
     dev: true
 
-  /@sentry/core/7.36.0:
-    resolution: {integrity: sha512-lq1MlcMhvm7QIwUOknFeufkg4M6QREY3s61y6pm1o+o3vSqB7Hz0D19xlyEpP62qMn8OyuttVKOVK1UfGc2EyQ==}
+  /@sentry/core/7.37.1:
+    resolution: {integrity: sha512-eS5hoFDjAOl7POZg6K77J0oiypiqR1782oVSB49UkjK+D8tCZzZ5PxPMv0b/O0310p7x4oZ3WGRJaWEN3vY4KQ==}
     engines: {node: '>=8'}
     dependencies:
-      '@sentry/types': 7.36.0
-      '@sentry/utils': 7.36.0
+      '@sentry/types': 7.37.1
+      '@sentry/utils': 7.37.1
       tslib: 1.14.1
     dev: false
 
-  /@sentry/node/7.36.0:
-    resolution: {integrity: sha512-nAHAY+Rbn5OlTpNX/i6wYrmw3hT/BtwPZ/vNU52cKgw7CpeE1UrCeFjnPn18rQPB7lIh7x0vNvoaPrfemRzpSQ==}
+  /@sentry/node/7.37.1:
+    resolution: {integrity: sha512-nGerngIo5JwinJgl7m0SaL/xI+YRBlhb53gbkuLSAAcnoitBFzbp7LjywsqYFTWuWDIyk7O2t124GNxtolBAgA==}
     engines: {node: '>=8'}
     dependencies:
-      '@sentry/core': 7.36.0
-      '@sentry/types': 7.36.0
-      '@sentry/utils': 7.36.0
+      '@sentry/core': 7.37.1
+      '@sentry/types': 7.37.1
+      '@sentry/utils': 7.37.1
       cookie: 0.4.2
       https-proxy-agent: 5.0.1
       lru_map: 0.3.3
@@ -3450,25 +3450,25 @@ packages:
       - supports-color
     dev: false
 
-  /@sentry/tracing/7.36.0:
-    resolution: {integrity: sha512-5R5mfWMDncOcTMmmyYMjgus1vZJzIFw4LHaSbrX7e1IRNT/6vFyNeVxATa2ePXb9mI3XHo5f2p7YrnreAtaSXw==}
+  /@sentry/tracing/7.37.1:
+    resolution: {integrity: sha512-3mQG2XtMCGqDkgfzhKpRJAIfRaokNAOF8WafgAmFmZQwEDsRAFjZ3pLoO+KiBUeQE5E5et7HyWBOl9rqHCkWnQ==}
     engines: {node: '>=8'}
     dependencies:
-      '@sentry/core': 7.36.0
-      '@sentry/types': 7.36.0
-      '@sentry/utils': 7.36.0
+      '@sentry/core': 7.37.1
+      '@sentry/types': 7.37.1
+      '@sentry/utils': 7.37.1
       tslib: 1.14.1
     dev: false
 
-  /@sentry/types/7.36.0:
-    resolution: {integrity: sha512-uvfwUn3okAWSZ948D/xqBrkc3Sn6TeHUgi3+p/dTTNGAXXskzavgfgQ4rSW7f3YD4LL+boZojpoIARVLodMGuA==}
+  /@sentry/types/7.37.1:
+    resolution: {integrity: sha512-c2HWyWSgVA0V4+DSW2qVb0yjftrb1X/q2CzCom+ayjGHO72qyWC+9Tc+7ZfotU1mapRjqUWBgkXkbGmao8N8Ug==}
     engines: {node: '>=8'}
 
-  /@sentry/utils/7.36.0:
-    resolution: {integrity: sha512-mgDi5X5Bm0sydCzXpnyKD/sD98yc2qnKXyRdNX4HRRwruhC/P53LT0hGhZXsyqsB/l8OAMl0zWXJLg0xONQsEw==}
+  /@sentry/utils/7.37.1:
+    resolution: {integrity: sha512-/4mJOyDsfysx+5TXyJgSI+Ihw2/0EVJbrHjCyXPDXW5ADwbtU8VdBZ0unOmF0hk4QfftqwM9cyEu3BN4iBJsEA==}
     engines: {node: '>=8'}
     dependencies:
-      '@sentry/types': 7.36.0
+      '@sentry/types': 7.37.1
       tslib: 1.14.1
     dev: false
 
@@ -6946,6 +6946,18 @@ packages:
       debug:
         optional: true
 
+  /follow-redirects/1.15.2_debug@4.3.4:
+    resolution: {integrity: sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==}
+    engines: {node: '>=4.0'}
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
+    dependencies:
+      debug: 4.3.4
+    dev: true
+
   /for-each/0.3.3:
     resolution: {integrity: sha512-jqYfLp7mo9vIyQf8ykW2v7A+2N4QjeCeI5+Dz9XraiO1ign81wjiH7Fb9vSOWvQfNtmSa4H2RoQTrrXivdUZmw==}
     dependencies:
@@ -7475,7 +7487,7 @@ packages:
     engines: {node: '>=8.0.0'}
     dependencies:
       eventemitter3: 4.0.7
-      follow-redirects: 1.15.2
+      follow-redirects: 1.15.2_debug@4.3.4
       requires-port: 1.0.0
     transitivePeerDependencies:
       - debug
