@@ -157,7 +157,7 @@ importers:
       '@typescript-eslint/parser': 5.51.0
       archiver: 5.3.1
       bcryptjs: 2.4.3
-      bull: 4.10.3
+      bull: 4.10.4
       cache-manager: 5.1.6
       cache-manager-redis-store: ^3.0.1
       chalk: 4.1.2
@@ -214,7 +214,7 @@ importers:
       '@fastify/static': 6.9.0
       '@fastify/swagger': 8.3.1
       '@freetube/yt-comment-scraper': 6.2.0
-      '@nestjs/bull': 0.6.3_dv76ih4nklxrx7uu7mjgup7pt4
+      '@nestjs/bull': 0.6.3_jgpm722brubpeqpyox3fik5mam
       '@nestjs/common': 9.3.7_dvrujxroetdtfe56hbaridt2dy
       '@nestjs/config': 2.3.1_ojttuksvundfk3amlyo674va74
       '@nestjs/core': 9.3.7_bjckujnbymrs4pax6etpd5nzsu
@@ -229,7 +229,7 @@ importers:
       '@sentry/tracing': 7.37.1
       archiver: 5.3.1
       bcryptjs: 2.4.3
-      bull: 4.10.3
+      bull: 4.10.4
       cache-manager: 5.1.6
       cache-manager-redis-store: 3.0.1
       chalk: 4.1.2
@@ -2577,7 +2577,7 @@ packages:
       tslib: 2.5.0
     dev: false
 
-  /@nestjs/bull/0.6.3_dv76ih4nklxrx7uu7mjgup7pt4:
+  /@nestjs/bull/0.6.3_jgpm722brubpeqpyox3fik5mam:
     resolution: {integrity: sha512-CckH9O3t9qSiO4RCzdYvtFSaaMfIhTXMYagV/rtmVvI1SX5XNnxEaQXvtjxDBXF9DB1JE/5AejIl6ICym+MJIw==}
     peerDependencies:
       '@nestjs/common': ^6.10.11 || ^7.0.0 || ^8.0.0 || ^9.0.0
@@ -2587,7 +2587,7 @@ packages:
       '@nestjs/bull-shared': 0.1.3_zmctrozi6xxh3beaccl6ebop6u
       '@nestjs/common': 9.3.7_dvrujxroetdtfe56hbaridt2dy
       '@nestjs/core': 9.3.7_bjckujnbymrs4pax6etpd5nzsu
-      bull: 4.10.3
+      bull: 4.10.4
       tslib: 2.5.0
     dev: false
 
@@ -5013,8 +5013,8 @@ packages:
     engines: {node: '>=6'}
     dev: true
 
-  /bull/4.10.3:
-    resolution: {integrity: sha512-pp403srpkn9tYi7Z3Mu0sozehZ7rEEFGNJnN+nLxQwml6MySzefC9bPeCYedZoCkXdZ6VbIB8uNkMZg+hN/dAg==}
+  /bull/4.10.4:
+    resolution: {integrity: sha512-o9m/7HjS/Or3vqRd59evBlWCXd9Lp+ALppKseoSKHaykK46SmRjAilX98PgmOz1yeVaurt8D5UtvEt4bUjM3eA==}
     engines: {node: '>=12'}
     dependencies:
       cron-parser: 4.7.1
