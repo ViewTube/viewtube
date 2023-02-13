@@ -51,7 +51,7 @@
     "fastify": "4.13.0",
     "https-proxy-agent": "5.0.1",
     "humanize-duration": "3.28.0",
-    "ioredis": "5.3.0",
+    "ioredis": "5.3.1",
     "joi": "17.7.0",
     "mini-svg-data-uri": "1.4.4",
     "mongoose": "6.9.1",

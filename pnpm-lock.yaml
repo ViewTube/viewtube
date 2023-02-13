@@ -171,7 +171,7 @@ importers:
       fastify: 4.13.0
       https-proxy-agent: 5.0.1
       humanize-duration: 3.28.0
-      ioredis: 5.3.0
+      ioredis: 5.3.1
       jest: 29.4.2
       joi: 17.7.0
       mini-svg-data-uri: 1.4.4
@@ -239,12 +239,12 @@ importers:
       fastify: 4.13.0
       https-proxy-agent: 5.0.1
       humanize-duration: 3.28.0
-      ioredis: 5.3.0
+      ioredis: 5.3.1
       joi: 17.7.0
       mini-svg-data-uri: 1.4.4
       mongoose: 6.9.1
       nest-winston: 1.8.0_irohmcczkgvfvkzx5ptmxekhyy
-      nestjs-throttler-storage-redis: 0.3.0_eae72cbm4tjodrlmrygvkv3see
+      nestjs-throttler-storage-redis: 0.3.0_63nc4t5jaybdxozjqs4hxlltdy
       passport: 0.6.0
       passport-jwt: 4.0.1
       passport-local: 1.0.0
@@ -4937,7 +4937,7 @@ packages:
       cron-parser: 4.7.1
       debuglog: 1.0.1
       get-port: 5.1.1
-      ioredis: 5.3.0
+      ioredis: 5.3.1
       lodash: 4.17.21
       msgpackr: 1.8.3
       semver: 7.3.8
@@ -7576,8 +7576,8 @@ packages:
     engines: {node: '>= 0.10'}
     dev: true
 
-  /ioredis/5.3.0:
-    resolution: {integrity: sha512-Id9jKHhsILuIZpHc61QkagfVdUj2Rag5GzG1TGEvRNeM7dtTOjICgjC+tvqYxi//PuX2wjQ+Xjva2ONBuf92Pw==}
+  /ioredis/5.3.1:
+    resolution: {integrity: sha512-C+IBcMysM6v52pTLItYMeV4Hz7uriGtoJdz7SSBDX6u+zwSYGirLdQh3L7t/OItWITcw3gTFMjJReYUwS4zihg==}
     engines: {node: '>=12.22.0'}
     dependencies:
       '@ioredis/commands': 1.2.0
@@ -9212,7 +9212,7 @@ packages:
       winston: 3.8.2
     dev: false
 
-  /nestjs-throttler-storage-redis/0.3.0_eae72cbm4tjodrlmrygvkv3see:
+  /nestjs-throttler-storage-redis/0.3.0_63nc4t5jaybdxozjqs4hxlltdy:
     resolution: {integrity: sha512-1FlBdao730/zJhiE8skiMbAalhHSNoPnDf5m3laTNYVy5NmVr7mexyCBJ/wZJH+Ya7cu58W6vAXUTr2jJZBTOQ==}
     peerDependencies:
       '@nestjs/common': '>=7.0.0'
@@ -9224,7 +9224,7 @@ packages:
       '@nestjs/common': 9.3.8_dvrujxroetdtfe56hbaridt2dy
       '@nestjs/core': 9.3.8_qccqnaocgkzmcy6qwvaxc4hmve
       '@nestjs/throttler': 4.0.0_566t3mhi5ibwmzfcn7izxal7e4
-      ioredis: 5.3.0
+      ioredis: 5.3.1
       reflect-metadata: 0.1.13
     dev: false
 
@@ -11828,7 +11828,7 @@ packages:
       chokidar: 3.5.3
       destr: 1.2.2
       h3: 1.4.0
-      ioredis: 5.3.0
+      ioredis: 5.3.1
       listhen: 1.0.2
       lru-cache: 7.14.1
       mkdir: 0.0.2
