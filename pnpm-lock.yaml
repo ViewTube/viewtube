@@ -173,7 +173,7 @@ importers:
       humanize-duration: 3.28.0
       ioredis: 5.3.1
       jest: 29.4.2
-      joi: 17.7.0
+      joi: 17.7.1
       mini-svg-data-uri: 1.4.4
       mongodb-memory-server: 8.11.4
       mongoose: 6.9.1
@@ -240,7 +240,7 @@ importers:
       https-proxy-agent: 5.0.1
       humanize-duration: 3.28.0
       ioredis: 5.3.1
-      joi: 17.7.0
+      joi: 17.7.1
       mini-svg-data-uri: 1.4.4
       mongoose: 6.9.1
       nest-winston: 1.8.0_irohmcczkgvfvkzx5ptmxekhyy
@@ -259,7 +259,7 @@ importers:
       winston-daily-rotate-file: 4.7.1_winston@3.8.2
       x2js: 3.4.4
       xml-js: 1.6.11
-      yt-channel-info: github.com/FreeTubeApp/yt-channel-info/b5656f24b533c22299ead5e675c4196d2d417440
+      yt-channel-info: github.com/FreeTubeApp/yt-channel-info/23950f4fd536d506d2a2f290ac7a0d246be999a5
       ytdl-core: 4.11.2
       ytpl: 2.3.0
       ytsr: 3.8.0
@@ -6840,18 +6840,6 @@ packages:
       debug:
         optional: true
 
-  /follow-redirects/1.15.2_debug@4.3.4:
-    resolution: {integrity: sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==}
-    engines: {node: '>=4.0'}
-    peerDependencies:
-      debug: '*'
-    peerDependenciesMeta:
-      debug:
-        optional: true
-    dependencies:
-      debug: 4.3.4
-    dev: true
-
   /for-each/0.3.3:
     resolution: {integrity: sha512-jqYfLp7mo9vIyQf8ykW2v7A+2N4QjeCeI5+Dz9XraiO1ign81wjiH7Fb9vSOWvQfNtmSa4H2RoQTrrXivdUZmw==}
     dependencies:
@@ -7372,7 +7360,7 @@ packages:
     engines: {node: '>=8.0.0'}
     dependencies:
       eventemitter3: 4.0.7
-      follow-redirects: 1.15.2_debug@4.3.4
+      follow-redirects: 1.15.2
       requires-port: 1.0.0
     transitivePeerDependencies:
       - debug
@@ -8356,8 +8344,8 @@ packages:
     hasBin: true
     dev: true
 
-  /joi/17.7.0:
-    resolution: {integrity: sha512-1/ugc8djfn93rTE3WRKdCzGGt/EtiYKxITMO4Wiv6q5JL1gl9ePt4kBsl1S499nbosspfctIQTpYIhSmHA3WAg==}
+  /joi/17.7.1:
+    resolution: {integrity: sha512-teoLhIvWE298R6AeJywcjR4sX2hHjB3/xJX4qPjg+gTg+c0mzUDsziYlqPmLomq9gVsfaMcgPaGc7VxtD/9StA==}
     dependencies:
       '@hapi/hoek': 9.3.0
       '@hapi/topo': 5.1.0
@@ -12558,8 +12546,8 @@ packages:
       compress-commons: 4.1.1
       readable-stream: 3.6.0
 
-  github.com/FreeTubeApp/yt-channel-info/b5656f24b533c22299ead5e675c4196d2d417440:
-    resolution: {tarball: https://codeload.github.com/FreeTubeApp/yt-channel-info/tar.gz/b5656f24b533c22299ead5e675c4196d2d417440}
+  github.com/FreeTubeApp/yt-channel-info/23950f4fd536d506d2a2f290ac7a0d246be999a5:
+    resolution: {tarball: https://codeload.github.com/FreeTubeApp/yt-channel-info/tar.gz/23950f4fd536d506d2a2f290ac7a0d246be999a5}
     name: yt-channel-info
     version: 3.2.1
     dependencies:
