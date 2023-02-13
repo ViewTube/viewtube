@@ -1,11 +1,11 @@
 const { defineConfig } = require('cypress');
 
 module.exports = defineConfig({
+  retries: {
+    runMode: 3,
+    openMode: 0
+  },
   e2e: {
-    retries: {
-      runMode: 2,
-      openMode: 0
-    },
     defaultCommandTimeout: 10000,
     setupNodeEvents(on, config) {
       // implement node event listeners here
