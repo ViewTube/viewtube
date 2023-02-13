@@ -32,10 +32,8 @@ export class AuthService {
 
   getDeletionCookie() {
     let secureString = '';
-    if (this.configService.get('NODE_ENV') === 'production') {
-      if (isHttps()) {
-        secureString = 'Secure=true; ';
-      }
+    if (this.configService.get('NODE_ENV') === 'production' && isHttps()) {
+      secureString = 'Secure=true; SameSite=Strict; ';
     }
     const expiration = 0;
     return `Authentication=; HttpOnly=true; Path=/; ${secureString}Max-Age=${expiration}`;
@@ -44,10 +42,8 @@ export class AuthService {
   getJwtCookie(username: string) {
     const { accessToken } = this.login(username);
     let secureString = '';
-    if (this.configService.get('NODE_ENV') === 'production') {
-      if (isHttps()) {
-        secureString = 'Secure=true; ';
-      }
+    if (this.configService.get('NODE_ENV') === 'production' && isHttps()) {
+      secureString = 'Secure=true; SameSite=Strict; ';
     }
     const expiration = this.configService.get('VIEWTUBE_JWT_EXPIRATION_TIME');
     return `Authentication=${accessToken}; HttpOnly=true; Path=/; ${secureString}Max-Age=${expiration}`;
