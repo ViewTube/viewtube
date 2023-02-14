@@ -9,7 +9,7 @@
     "serve": "nest build --webpack --webpackPath webpack-hmr.config.cjs --watch",
     "dev": "pnpm run serve",
     "build": "cross-env NODE_ENV=production nest build -c nest-cli.json --webpack --webpackPath webpack.config.cjs",
-    "start": "cross-env NODE_ENV=production VIEWTUBE_CLUSTERED=false PORT=8066 node ./dist/main.cjs",
+    "start": "cross-env NODE_ENV=production node ./dist/main.cjs",
     "test": "jest",
     "lint": "eslint --ext .ts,.js .",
     "lint:fix": "eslint --fix .",
