@@ -26,10 +26,7 @@ ViewTube
   <img src="https://img.shields.io/github/last-commit/viewtube/viewtube" alt="GitHub last commit">
 </p>
 
-ViewTube is an alternative YouTube frontend.
-
-It can recommend, play and search for videos. It saves your watch progress and you can subscribe to channels for them to appear in your subscription feed.
-
+ViewTube is an alternative YouTube frontend that lets you watch, search and discover YouTube videos without ads or tracking. It's built to be mobile and desktop friendly, with dark and light themes, and a touch-friendly video player with gestures. You can create an account separately from YouTube, read comments, watch playlists, subscribe to channels and receive push notifications for new uploads
 It's built using [Nuxt.js](https://nuxtjs.org/) and [Nest](https://nestjs.com/).
 
 Check [uptime.m-o.dev/status](https://uptime.m-o.dev/status) for updates and downtime status.  
