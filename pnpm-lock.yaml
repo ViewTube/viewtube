@@ -50,7 +50,7 @@ importers:
       papaparse: 5.3.2
       pinia: 2.0.30
       qrcode: 1.5.1
-      sass: 1.58.0
+      sass: 1.58.2
       swiper: 9.0.5
       tippy.js: 6.3.7
       typescript: 4.9.5
@@ -93,12 +93,12 @@ importers:
       keen-slider: 6.8.5
       modern-js-ripple: 1.1.3
       nuxi: 3.2.0
-      nuxt: 3.2.0_3dpni7rahbb3baptej7qccyvey
+      nuxt: 3.2.0_mw3sw26ztqioycbtuk36x65ism
       nuxt-proxy: 0.4.1
       papaparse: 5.3.2
       pinia: 2.0.30_hmuptsblhheur2tugfgucj7gc4
       qrcode: 1.5.1
-      sass: 1.58.0
+      sass: 1.58.2
       swiper: 9.0.5
       tippy.js: 6.3.7
       typescript: 4.9.5
@@ -3116,7 +3116,7 @@ packages:
     resolution: {integrity: sha512-PjVETP7+iZXAs5Q8O4ivl4t6qjWZMZqwiTVogUXHoHGZZcw7GZW3u3tzfYfE1HbzyYJfr236IXqQ02MeR8Fz2w==}
     dev: true
 
-  /@nuxt/vite-builder/3.2.0_b3e65velj4bswgyzdfs65nmzmu:
+  /@nuxt/vite-builder/3.2.0_ra5h7brpozui47e5e3fldvuj5q:
     resolution: {integrity: sha512-1rApkhjQMUndRKl9bFn/NdAVxUgPeAB/XIEgP0YN4KPTM156Q/fvgu8LrzUp4lzYgGGKfm4r8IfuxYS9BremMQ==}
     engines: {node: ^14.16.0 || ^16.10.0 || ^17.0.0 || ^18.0.0 || ^19.0.0}
     peerDependencies:
@@ -3151,8 +3151,8 @@ packages:
       rollup-plugin-visualizer: 5.9.0_rollup@3.15.0
       ufo: 1.0.1
       unplugin: 1.0.1
-      vite: 4.1.1_gyrp4zacqcjjrmgvdzgac5epyy
-      vite-node: 0.28.4_gyrp4zacqcjjrmgvdzgac5epyy
+      vite: 4.1.1_guh25d44rsq2usleo2v4wqbute
+      vite-node: 0.28.4_guh25d44rsq2usleo2v4wqbute
       vite-plugin-checker: 0.5.5_neq26n5kr7j35ila3vtdkrtvbi
       vue: 3.2.47
       vue-bundle-renderer: 1.0.1
@@ -4061,7 +4061,7 @@ packages:
       '@babel/core': 7.20.12
       '@babel/plugin-transform-typescript': 7.20.13_@babel+core@7.20.12
       '@vue/babel-plugin-jsx': 1.1.1_@babel+core@7.20.12
-      vite: 4.1.1_gyrp4zacqcjjrmgvdzgac5epyy
+      vite: 4.1.1_guh25d44rsq2usleo2v4wqbute
       vue: 3.2.47
     transitivePeerDependencies:
       - supports-color
@@ -4074,7 +4074,7 @@ packages:
       vite: ^4.0.0
       vue: ^3.2.25
     dependencies:
-      vite: 4.1.1_gyrp4zacqcjjrmgvdzgac5epyy
+      vite: 4.1.1_guh25d44rsq2usleo2v4wqbute
       vue: 3.2.47
     dev: true
 
@@ -9533,7 +9533,7 @@ packages:
       - supports-color
     dev: true
 
-  /nuxt/3.2.0_3dpni7rahbb3baptej7qccyvey:
+  /nuxt/3.2.0_mw3sw26ztqioycbtuk36x65ism:
     resolution: {integrity: sha512-8jAYyjU1Ht+MXPLLDIdIUmV56KiI0g7KusKwzvqn+vlzyCNtSHg2W/VBCGw5QWplb/MXruogcMl2sDenlQRZFg==}
     engines: {node: ^14.16.0 || ^16.10.0 || ^17.0.0 || ^18.0.0 || ^19.0.0}
     hasBin: true
@@ -9543,7 +9543,7 @@ packages:
       '@nuxt/schema': 3.2.0
       '@nuxt/telemetry': 2.1.9
       '@nuxt/ui-templates': 1.1.1
-      '@nuxt/vite-builder': 3.2.0_b3e65velj4bswgyzdfs65nmzmu
+      '@nuxt/vite-builder': 3.2.0_ra5h7brpozui47e5e3fldvuj5q
       '@unhead/ssr': 1.0.21
       '@vue/reactivity': 3.2.47
       '@vue/shared': 3.2.47
@@ -10888,8 +10888,8 @@ packages:
       sparse-bitfield: 3.0.3
     optional: true
 
-  /sass/1.58.0:
-    resolution: {integrity: sha512-PiMJcP33DdKtZ/1jSjjqVIKihoDc6yWmYr9K/4r3fVVIEDAluD0q7XZiRKrNJcPK3qkLRF/79DND1H5q1LBjgg==}
+  /sass/1.58.2:
+    resolution: {integrity: sha512-2mbyOWOv/lhEXD6nVrQZQ4KT2DlwcODbTskM42EyqBAFUWOhiiYtAXZqjZz1ygzapYf+N+2GwfIH9M5FM4GUMg==}
     engines: {node: '>=12.0.0'}
     hasBin: true
     dependencies:
@@ -12003,7 +12003,7 @@ packages:
       extsprintf: 1.3.0
     dev: true
 
-  /vite-node/0.28.4_gyrp4zacqcjjrmgvdzgac5epyy:
+  /vite-node/0.28.4_guh25d44rsq2usleo2v4wqbute:
     resolution: {integrity: sha512-KM0Q0uSG/xHHKOJvVHc5xDBabgt0l70y7/lWTR7Q0pR5/MrYxadT+y32cJOE65FfjGmJgxpVEEY+69btJgcXOQ==}
     engines: {node: '>=v14.16.0'}
     hasBin: true
@@ -12015,7 +12015,7 @@ packages:
       picocolors: 1.0.0
       source-map: 0.6.1
       source-map-support: 0.5.21
-      vite: 4.1.1_gyrp4zacqcjjrmgvdzgac5epyy
+      vite: 4.1.1_guh25d44rsq2usleo2v4wqbute
     transitivePeerDependencies:
       - '@types/node'
       - less
@@ -12071,7 +12071,7 @@ packages:
       strip-ansi: 6.0.1
       tiny-invariant: 1.3.1
       typescript: 4.9.5
-      vite: 4.1.1_gyrp4zacqcjjrmgvdzgac5epyy
+      vite: 4.1.1_guh25d44rsq2usleo2v4wqbute
       vscode-languageclient: 7.0.0
       vscode-languageserver: 7.0.0
       vscode-languageserver-textdocument: 1.0.8
@@ -12079,7 +12079,7 @@ packages:
       vue-tsc: 1.1.0_typescript@4.9.5
     dev: true
 
-  /vite/4.1.1_gyrp4zacqcjjrmgvdzgac5epyy:
+  /vite/4.1.1_guh25d44rsq2usleo2v4wqbute:
     resolution: {integrity: sha512-LM9WWea8vsxhr782r9ntg+bhSFS06FJgCvvB0+8hf8UWtvaiDagKYWXndjfX6kGl74keHJUcpzrQliDXZlF5yg==}
     engines: {node: ^14.18.0 || >=16.0.0}
     hasBin: true
@@ -12109,7 +12109,7 @@ packages:
       postcss: 8.4.21
       resolve: 1.22.1
       rollup: 3.15.0
-      sass: 1.58.0
+      sass: 1.58.2
     optionalDependencies:
       fsevents: 2.3.2
     dev: true
