@@ -151,7 +151,7 @@ importers:
       '@types/redis-mock': 0.17.1
       '@types/sharp': 0.31.1
       '@types/web-push': 3.3.2
-      '@types/webpack-node-externals': 2.5.3
+      '@types/webpack-node-externals': 3.0.0
       '@types/xml2json': 0.11.4
       '@typescript-eslint/eslint-plugin': 5.52.0
       '@typescript-eslint/parser': 5.52.0
@@ -284,7 +284,7 @@ importers:
       '@types/redis-mock': 0.17.1
       '@types/sharp': 0.31.1
       '@types/web-push': 3.3.2
-      '@types/webpack-node-externals': 2.5.3
+      '@types/webpack-node-externals': 3.0.0
       '@types/xml2json': 0.11.4
       '@typescript-eslint/eslint-plugin': 5.52.0_6cfvjsbua5ptj65675bqcn6oza
       '@typescript-eslint/parser': 5.52.0_7kw3g6rralp5ps6mg3uyzz6azm
@@ -3829,8 +3829,8 @@ packages:
   /@types/webidl-conversions/7.0.0:
     resolution: {integrity: sha512-xTE1E+YF4aWPJJeUzaZI5DRntlkY3+BCVJi0axFptnjGmAoWxkyREIh/XMrfxVLejwQxMCfDXdICo0VLxThrog==}
 
-  /@types/webpack-node-externals/2.5.3:
-    resolution: {integrity: sha512-A9JxaR8QXoYT95egET4AmCFuChyTlP8d18ZAnmSHuIMsFdS7QlCQQ8pmN/+FHgLIkm+ViE/VngltT5avLACY9A==}
+  /@types/webpack-node-externals/3.0.0:
+    resolution: {integrity: sha512-Z3ELJiH0aZjxkoymT2nrGSmCF/CYjiqC0bpv4/DWy9h7e6gP4B2qmKZFHJFermeF0SYURbSw0puddQl9dMMV0w==}
     dependencies:
       '@types/node': 18.13.0
       webpack: 5.75.0
