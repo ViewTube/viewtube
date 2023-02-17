@@ -200,7 +200,10 @@ export class ChannelsService {
       );
     }
     try {
-      return ytch.getChannelCommunityPostsMore({ continuation, innerTubeApi }) as Promise<ChannelCommunityPostsDto>;
+      return ytch.getChannelCommunityPostsMore({
+        continuation,
+        innerTubeApi
+      }) as Promise<ChannelCommunityPostsDto>;
     } catch (error) {
       throwChannelError(error, 'Error fetching channel community posts');
     }

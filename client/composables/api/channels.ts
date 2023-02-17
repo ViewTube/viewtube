@@ -148,4 +148,4 @@ export const useGetChannelCommunityPosts = (id: Ref<string> | string) => {
     `channel-community-posts-${unref(id)}`,
     () => $fetch(url.value)
   );
-}
+};
