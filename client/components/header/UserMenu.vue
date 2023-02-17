@@ -86,7 +86,9 @@
                 </p>
                 <div class="profile-links" @mouseup="closeAllPopups">
                   <nuxt-link class="profile-btn" to="/profile">Your profile</nuxt-link>
-                  <nuxt-link v-if="userStore.admin" class="admin-btn" to="/admin">Admin panel</nuxt-link>
+                  <nuxt-link v-if="userStore.admin" class="admin-btn" to="/admin">
+                    Admin panel
+                  </nuxt-link>
                 </div>
               </div>
             </div>

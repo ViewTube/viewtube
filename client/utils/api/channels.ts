@@ -39,7 +39,10 @@ export const getRelatedChannelsContinuation = (continuation: string) => {
   );
 };
 
-export const getChannelCommunityPostsContinuation = (continuation: string, innertubeKey: string) => {
+export const getChannelCommunityPostsContinuation = (
+  continuation: string,
+  innertubeKey: string
+) => {
   const { apiUrl } = useApiUrl();
 
   return $fetch<ApiDto<'ChannelCommunityPostsContinuationDto'>>(
@@ -51,4 +54,4 @@ export const getChannelCommunityPostsContinuation = (continuation: string, inner
       }
     }
   );
-}
+};
