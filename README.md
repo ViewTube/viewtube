@@ -27,7 +27,7 @@ ViewTube
 </p>
 
 ViewTube is an alternative YouTube frontend that lets you watch, search and discover YouTube videos without ads or tracking. It's built to be mobile and desktop friendly, with dark and light themes, and a touch-friendly video player with gestures. You can create an account separately from YouTube, read comments, watch playlists, subscribe to channels and receive push notifications for new uploads
-It's built using [Nuxt.js](https://nuxtjs.org/) and [Nest](https://nestjs.com/).
+It's built using [Nuxt](https://nuxt.com/) and [Nest](https://nestjs.com/).
 
 Check [uptime.m-o.dev/status](https://uptime.m-o.dev/status) for updates and downtime status.  
 Try the dev version on [dev.viewtube.io](https://dev.viewtube.io).
@@ -72,7 +72,6 @@ ViewTube does not use the official Youtube API. It instead scrapes the data from
 - [yt-channel-info](https://github.com/FreeTubeApp/yt-channel-info)
 
 The [Invidious](https://github.com/iv-org/invidious) API is still used in a few places.
-You can check the progress on [replacing the invidious api here](https://github.com/ViewTube/viewtube/wiki/Invidious-API-migration).
 
 <h2 align="center">
 <sub>
@@ -110,7 +109,7 @@ Channel
 Host it yourself
 </h2>
 
-A comprehensive installation guide is available in the [wiki](https://github.com/ViewTube/viewtube/wiki/Installation)
+A comprehensive installation guide is available in the [wiki](https://viewtube.wiki/installation)
 
 <h2 align="center">
 <sub>
@@ -120,39 +119,8 @@ A comprehensive installation guide is available in the [wiki](https://github.com
 </sub>
 Development setup
 </h2>
-Prerequisites
 
-- Nodejs v18.x
-- Pnpm 7.3.x
-- MongoDB 5.0.x
-
-If you don't want to install locally, use the supplied docker-compose.dev.yml
-
-- MongoDB 4.4.x
-- Redis 6.x
-
-Instructions
-
-1. Clone this repo
-
-   `git clone https://github.com/ViewTube/viewtube`
-
-2. Install dependencies
-
-   `pnpm install`
-
-   or use docker-compose to install more easily and hassle-free
-
-   `pnpm run serve:env`
-
-3. Start the components seperately in multiple terminals
-
-   `pnpm run serve:server`  
-   `pnpm run serve:client`
-
-4. Visit [localhost:8066](http://localhost:8066) with a browser
-
-Pull requests welcome 😄!
+Check out the [wiki](https://viewtube.wiki/development) for a guide on how to set up the development environment.
 
 <h2 align="center">
 <sub>
