@@ -6,8 +6,8 @@ on:
     - cron: '0 0 * * *'
 
 jobs:
-  test-job:
-    name: Daily Tests
+  e2e:
+    name: daily e2e tests
     timeout-minutes: 60
     runs-on: ubuntu-22.04
 
@@ -22,22 +22,28 @@ jobs:
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
-        id: pnpm-install
         with:
           version: 7
           run_install: false
 
-      - name: Get current date and time
-        id: date-time
-        run: echo "date-time=$(TZ='Europe/Zurich' date +'%Y-%m-%d %H:%M:%S %Z') >> $GITHUB_OUTPUT"
+      - name: Install e2e test dependencies
+        run: pnpm --filter=./tests install --frozen-lockfile
 
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Run tests
-        id: run_tests
+      - name: Generate build metadata
         run: |
-          echo "test-result=$(pnpm test | tail)" >> $GITHUB_OUTPUT
+          pnpm build:metadata
+          cat ./client/buildMetadata.json
+
+      - name: Prepare docker environment and run e2e tests
+        run: pnpm run e2e
+        id: run_tests
+
+      - name: Upload e2e test results
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: e2e-test-results
+          path: ./tests/cypress/videos/
 
       - name: Send test status notification
         if: always()
@@ -52,8 +58,3 @@ jobs:
             🧪 Test result: ${{ steps.run_tests.outcome != 'success' && '❌' || '✅' }} ${{ steps.run_tests.outcome }}
 
             [🔗 Link to test](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
-
-# 📝 Detailed information:
-# ```
-# ${{ steps.run_tests.outputs.test-result }}
-# ```
