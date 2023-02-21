@@ -173,7 +173,7 @@ importers:
       humanize-duration: 3.28.0
       ioredis: 5.3.1
       jest: 29.4.3
-      joi: 17.7.1
+      joi: 17.8.3
       mini-svg-data-uri: 1.4.4
       mongodb-memory-server: 8.11.5
       mongoose: 6.9.2
@@ -240,7 +240,7 @@ importers:
       https-proxy-agent: 5.0.1
       humanize-duration: 3.28.0
       ioredis: 5.3.1
-      joi: 17.7.1
+      joi: 17.8.3
       mini-svg-data-uri: 1.4.4
       mongoose: 6.9.2
       nest-winston: 1.8.0_h53ubm3ncu4kbgqtwz3todsuhm
@@ -8580,8 +8580,8 @@ packages:
     hasBin: true
     dev: true
 
-  /joi/17.7.1:
-    resolution: {integrity: sha512-teoLhIvWE298R6AeJywcjR4sX2hHjB3/xJX4qPjg+gTg+c0mzUDsziYlqPmLomq9gVsfaMcgPaGc7VxtD/9StA==}
+  /joi/17.8.3:
+    resolution: {integrity: sha512-q5Fn6Tj/jR8PfrLrx4fpGH4v9qM6o+vDUfD4/3vxxyg34OmKcNqYZ1qn2mpLza96S8tL0p0rIw2gOZX+/cTg9w==}
     dependencies:
       '@hapi/hoek': 9.3.0
       '@hapi/topo': 5.1.0
