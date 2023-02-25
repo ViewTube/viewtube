@@ -2,8 +2,8 @@ import { Document } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { VideoDto } from '../dto/video.dto';
 import { RecommendedVideoDto } from '../dto/recommended-video.dto';
-import { VideoThumbnailDto } from '../dto/video-thumbnail.dto';
 import { AuthorThumbnailDto } from '../dto/author-thumbnail.dto';
+import { VTThumbnailDto } from 'server/mapper/dto/vt-thumbnail.dto';
 
 // eslint-disable-next-line no-undef
 @Schema({ timestamps: true })
@@ -13,7 +13,7 @@ export class Video extends Document implements VideoDto {
 
   type: string;
   title: string;
-  videoThumbnails: VideoThumbnailDto[];
+  videoThumbnails: VTThumbnailDto[];
   storyboards: object;
   description: string;
   descriptionHtml: string;

@@ -1,10 +1,10 @@
-import { VideoThumbnailDto } from './video-thumbnail.dto';
 import { AuthorThumbnailDto } from './author-thumbnail.dto';
+import { VTThumbnailDto } from 'server/mapper/dto/vt-thumbnail.dto';
 
 export class RecommendedVideoDto {
   videoId: string;
   title: string;
-  videoThumbnails: Array<VideoThumbnailDto>;
+  videoThumbnails: Array<VTThumbnailDto>;
   author: string;
   authorUrl: string;
   authorId: string;

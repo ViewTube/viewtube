@@ -16,6 +16,21 @@ export const getSecondsFromTimestamp = (timestamp: string) => {
   return seconds;
 };
 
+export const getTimestampFromSeconds = (seconds: number) => {
+  const hours = Math.floor(seconds / 3600);
+  const minutes = Math.floor((seconds - hours * 3600) / 60);
+  const secondsLeft = seconds - hours * 3600 - minutes * 60;
+
+  let timestamp = '';
+  if (hours > 0) {
+    timestamp += hours + ':';
+  }
+  timestamp += minutes + ':';
+  timestamp += secondsLeft;
+
+  return timestamp;
+};
+
 /**
  * Checks if the VIEWTUBE_SECURE environment variable is set to true.
  * @returns {boolean}

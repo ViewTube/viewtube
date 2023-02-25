@@ -1,4 +1,5 @@
 /* eslint-disable no-case-declarations */
+import { generateVideoThumbnails } from 'server/mapper/utils/video-thumbnails';
 import { Result, Video, Channel, Playlist, Item, Shelf } from 'ytsr';
 import { Common } from '../common';
 import { SearchResponse } from './interface/search-response.interface';
@@ -94,7 +95,7 @@ export class SearchMapper {
       description: source.description,
       publishedText: source.uploadedAt,
       videoId: Common.getVideoIdFromUrl(source.url),
-      videoThumbnails: Common.getVideoThumbnails(Common.getVideoIdFromUrl(source.url)),
+      videoThumbnails: generateVideoThumbnails(Common.getVideoIdFromUrl(source.url)),
       viewCount: source.views,
       live: source.isLive,
       lengthString: source.duration

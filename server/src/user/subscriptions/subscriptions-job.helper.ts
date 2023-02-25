@@ -7,6 +7,7 @@ import humanizeDuration from 'humanize-duration';
 import { Common } from 'server/core/common';
 import { Job } from 'bull';
 import { logger } from 'server/common/logger';
+import { generateVideoThumbnails } from 'server/mapper/utils/video-thumbnails';
 
 export const runSubscriptionsJob = async (
   uniqueChannelIds: Array<string>,
@@ -89,7 +90,7 @@ const convertRssVideo = (video: any): VideoBasicInfoDto => {
     description: descriptionText,
     published: Date.parse(video.published),
     publishedText: durationString,
-    videoThumbnails: Common.getVideoThumbnails(video.videoId.toString()),
+    videoThumbnails: generateVideoThumbnails(video.videoId.toString()),
     viewCount: video.group.community.statistics._views,
     likeCount: likes,
     dislikeCount: dislikes

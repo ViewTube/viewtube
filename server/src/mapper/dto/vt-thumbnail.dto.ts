@@ -1,5 +1,5 @@
-export class VideoThumbnailDto {
-  quality: string;
+export class VTThumbnailDto {
+  quality?: string;
   url: string;
   width: number;
   height: number;

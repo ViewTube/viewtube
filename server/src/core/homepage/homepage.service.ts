@@ -18,6 +18,7 @@ import { Popular } from './schemas/popular.schema';
 import { ConfigService } from '@nestjs/config';
 import { innertubeClient } from 'server/common/innertube';
 import { HomeFeed } from 'youtubei.js/dist/src/parser/youtube';
+import { mapHomeFeed } from './mapper/homefeed.mapper';
 
 @Injectable()
 export class HomepageService {
@@ -142,7 +143,7 @@ export class HomepageService {
     const client = await innertubeClient;
     const homeFeed = await client.getHomeFeed();
     return {
-      videos: homeFeed.videos
+      videos: mapHomeFeed(homeFeed)
     };
   }
 }
