@@ -52,12 +52,15 @@ export const extractVideoAuthor = (video: VideoSourceApproximation): VTVideoDto[
         id = authorObj.id;
       }
 
-      if (authorObj.is_verified) {
-        isVerified = authorObj.is_verified;
+      if (typeof authorObj.is_verified === 'boolean' || authorObj.is_verified === null) {
+        isVerified = !!authorObj.is_verified;
       }
 
-      if (authorObj.is_verified_artist) {
-        isArtist = authorObj.is_verified_artist;
+      if (
+        typeof authorObj.is_verified_artist === 'boolean' ||
+        authorObj.is_verified_artist === null
+      ) {
+        isArtist = !!authorObj.is_verified_artist;
       }
 
       if (authorObj.thumbnails) {
@@ -106,11 +109,11 @@ export const extractVideoAuthor = (video: VideoSourceApproximation): VTVideoDto[
     ];
   }
 
-  if (typeof video.authorVerified === 'boolean') {
+  if (typeof video.authorVerified === 'boolean' || video.authorVerified === null) {
     isVerified = video.authorVerified;
   }
 
-  if (typeof video.authorArtist === 'boolean') {
+  if (typeof video.authorArtist === 'boolean' || video.authorArtist === null) {
     isArtist = video.authorArtist;
   }
 
