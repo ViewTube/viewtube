@@ -16,7 +16,7 @@ export class MediaMetadataHelper {
   }
 
   generateArtworkUrl() {
-    return this.video.videoThumbnails.map((el: ApiDto<'VideoThumbnailDto'>) => {
+    return this.video.videoThumbnails.map((el: ApiDto<'VTThumbnailDto'>) => {
       return {
         src: el.url,
         sizes: `${el.height}x${el.width}`,

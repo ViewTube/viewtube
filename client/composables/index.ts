@@ -1,5 +1,5 @@
 export { useGetComments, useGetCommentsContinuation } from './api/comments';
-export { useGetPopularPage } from './api/home';
+export { useGetPopularPage, useGetHomeFeed } from './api/home';
 export { useGetPlaylists } from './api/playlists';
 export { useGetSearchResult } from './api/search';
 export {

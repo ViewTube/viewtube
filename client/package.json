@@ -12,7 +12,7 @@
     "lint": "eslint --ext .ts,.js,.vue .",
     "lint:fix": "eslint --fix .",
     "prepare": "cross-env NUXT_BUILD=true nuxi prepare",
-    "build:metadata": "./buildMetadata.sh"
+    "build:metadata": "node ./buildMetadata.mjs"
   },
   "devDependencies": {
     "@nuxt/eslint-config": "0.1.1",

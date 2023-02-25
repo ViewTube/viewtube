@@ -8,7 +8,7 @@ import {
   UseInterceptors
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { HomeFeed } from 'youtubei.js/dist/src/parser/youtube';
+import { HomeFeedDto } from './dto/home-feed.dto';
 import { PopularDto } from './dto/popular.dto';
 import { HomepageService } from './homepage.service';
 
@@ -30,7 +30,7 @@ export class HomepageController {
   @CacheTTL(43200)
   @CacheKey('homefeed')
   @Header('Cache-Control', 'public, max-age=43200')
-  getHomeFeed() {
+  getHomeFeed(): Promise<HomeFeedDto> {
     return this.homepageService.getHomeFeed();
   }
 }

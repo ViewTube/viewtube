@@ -5,7 +5,15 @@ export const useGetPopularPage = () => {
 
   const urlPart = 'homepage/popular';
 
-  return useLazyAsyncData<{ videos: ApiDto<'VideoDto'>[] }>(urlPart, () =>
+  return useLazyAsyncData<ApiDto<'PopularDto'>>(urlPart, () => $fetch(`${apiUrl.value}${urlPart}`));
+};
+
+export const useGetHomeFeed = () => {
+  const { apiUrl } = useApiUrl();
+
+  const urlPart = 'homepage/homefeed';
+
+  return useLazyAsyncData<ApiDto<'HomeFeedDto'>>(urlPart, () =>
     $fetch(`${apiUrl.value}${urlPart}`)
   );
 };

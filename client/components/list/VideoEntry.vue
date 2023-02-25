@@ -46,7 +46,12 @@ type VideoType = {
   isLive?: boolean;
   lengthSeconds?: number;
   lengthString?: string;
-  duration?: string;
+  duration?:
+    | string
+    | {
+        text: string;
+        seconds: number;
+      };
   viewCount?: number;
   viewCountText?: string;
   views?: number;
@@ -254,7 +259,9 @@ const onVideoEntryClick = () => {
         $formatting.getTimestampFromSeconds(video.lengthSeconds)
       }}</span>
       <span v-if="video.lengthString" class="video-entry-length">{{ video.lengthString }}</span>
-      <span v-if="video.duration" class="video-entry-length">{{ video.duration }}</span>
+      <span v-if="video.duration" class="video-entry-length">{{
+        typeof video.duration === 'object' ? video.duration.text : video.duration
+      }}</span>
     </nuxt-link>
 
     <div class="video-entry-info">

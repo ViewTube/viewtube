@@ -17,8 +17,8 @@ import { PopularDto } from './dto/popular.dto';
 import { Popular } from './schemas/popular.schema';
 import { ConfigService } from '@nestjs/config';
 import { innertubeClient } from 'server/common/innertube';
-import { HomeFeed } from 'youtubei.js/dist/src/parser/youtube';
 import { mapHomeFeed } from './mapper/homefeed.mapper';
+import { HomeFeedDto } from './dto/home-feed.dto';
 
 @Injectable()
 export class HomepageService {
@@ -139,7 +139,7 @@ export class HomepageService {
     }
   }
 
-  async getHomeFeed() {
+  async getHomeFeed(): Promise<HomeFeedDto> {
     const client = await innertubeClient;
     const homeFeed = await client.getHomeFeed();
     return {
