@@ -30,8 +30,11 @@ export class CacheConfigService implements CacheOptionsFactory {
 
     // Development options
     return {
-      ttl: 0,
-      max: 0
+      store: {
+        get: (..._args) => undefined,
+        set: (..._args) => undefined,
+        del: (..._args) => undefined
+      }
     };
   }
 }
