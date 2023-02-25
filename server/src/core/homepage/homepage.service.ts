@@ -16,6 +16,8 @@ import { VideoBasicInfoDto } from 'server/core/videos/dto/video-basic-info.dto';
 import { PopularDto } from './dto/popular.dto';
 import { Popular } from './schemas/popular.schema';
 import { ConfigService } from '@nestjs/config';
+import { innertubeClient } from 'server/common/innertube';
+import { HomeFeed } from 'youtubei.js/dist/src/parser/youtube';
 
 @Injectable()
 export class HomepageService {
@@ -58,7 +60,7 @@ export class HomepageService {
           headers: {
             'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:84.0) Gecko/20100101 Firefox/84.0'
           }
-        }).then(val => val.json())) as Array<any>;
+        }).then(val => val.json())) as Array<unknown>;
         const popularVideos = [];
         await Promise.allSettled(
           popularPage.map(async (video: VideoBasicInfoDto) => {
@@ -134,5 +136,13 @@ export class HomepageService {
     } catch (error) {
       throw new InternalServerErrorException('Error loading the homepage.');
     }
+  }
+
+  async getHomeFeed() {
+    const client = await innertubeClient;
+    const homeFeed = await client.getHomeFeed();
+    return {
+      videos: homeFeed.videos
+    };
   }
 }
