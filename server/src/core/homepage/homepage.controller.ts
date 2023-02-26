@@ -9,7 +9,6 @@ import {
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { HomeFeedDto } from './dto/home-feed.dto';
-import { PopularDto } from './dto/popular.dto';
 import { HomepageService } from './homepage.service';
 
 @ApiTags('Core')
@@ -17,14 +16,6 @@ import { HomepageService } from './homepage.service';
 @Controller('homepage')
 export class HomepageController {
   constructor(private homepageService: HomepageService) {}
-
-  @Get('popular')
-  @CacheTTL(43200)
-  @CacheKey('popular')
-  @Header('Cache-Control', 'public, max-age=43200')
-  getPopular(): Promise<PopularDto> {
-    return this.homepageService.getPopular();
-  }
 
   @Get('homefeed')
   @CacheTTL(43200)

@@ -1,14 +1,8 @@
 import { CacheModule, Logger, Module, ModuleMetadata } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
 import { CacheConfigService } from 'server/cache-config.service';
-import {
-  ChannelBasicInfo,
-  ChannelBasicInfoSchema
-} from '../channels/schemas/channel-basic-info.schema';
 import { HomepageController } from './homepage.controller';
 import { HomepageService } from './homepage.service';
-import { Popular, PopularSchema } from './schemas/popular.schema';
 
 const moduleMetadata: ModuleMetadata = {
   providers: [HomepageService, Logger],
@@ -17,19 +11,7 @@ const moduleMetadata: ModuleMetadata = {
     CacheModule.registerAsync({
       useClass: CacheConfigService
     }),
-    ConfigModule.forRoot(),
-    MongooseModule.forFeature([
-      {
-        name: Popular.name,
-        schema: PopularSchema,
-        collection: 'homepage-popular'
-      },
-      {
-        name: ChannelBasicInfo.name,
-        schema: ChannelBasicInfoSchema,
-        collection: 'channel-basicinfo'
-      }
-    ])
+    ConfigModule.forRoot()
   ]
 };
 @Module(moduleMetadata)
