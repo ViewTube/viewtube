@@ -240,7 +240,7 @@ const onVideoEntryClick = () => {
         <div class="thmb-clip">
           <img
             class="video-entry-thmb-image"
-            :src="video.richThumbnails[0]?.url"
+            :src="proxyUrl(video.richThumbnails[0]?.url)"
             :alt="video.title"
           />
         </div>

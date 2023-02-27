@@ -27,15 +27,17 @@ const { data: channelStats, pending: pendingStats } = useGetChannelStats(channel
     />
     <SectionSubtitle v-if="channelInfo.tags" title="Tags" class="channel-tags-title" />
     <div v-if="channelInfo.tags" class="channel-tags">
-      <BadgeButton
-        v-for="tag in channelInfo.tags"
-        :key="tag"
-        class="channel-tag"
-        :href="`/results?search_query=${tag}`"
-        internal-link
-      >
-        {{ tag }}
-      </BadgeButton>
+      <div class="channel-tags-inner">
+        <BadgeButton
+          v-for="tag in channelInfo.tags"
+          :key="tag"
+          class="channel-tag"
+          :href="`/results?search_query=${tag}`"
+          internal-link
+        >
+          {{ tag }}
+        </BadgeButton>
+      </div>
     </div>
     <SectionSubtitle v-if="channelStats" title="Stats" class="channel-stats-title" />
     <div v-if="channelStats" class="channel-stats">
@@ -90,8 +92,16 @@ const { data: channelStats, pending: pendingStats } = useGetChannelStats(channel
   }
 
   .channel-tags {
-    display: flex;
-    flex-direction: row;
+    width: 100%;
+    position: relative;
+    overflow: auto hidden;
+    height: 40px;
+
+    .channel-tags-inner {
+      position: absolute;
+      display: flex;
+      flex-direction: row;
+    }
   }
 
   .channel-description {

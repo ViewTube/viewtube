@@ -38,6 +38,12 @@ export default defineNuxtConfig({
 
   modules: ['@pinia/nuxt', '@pinia-plugin-persistedstate/nuxt', ...devOnly(['nuxt-proxy'])],
 
+  piniaPersistedstate: {
+    cookieOptions: {
+      sameSite: 'strict'
+    }
+  },
+
   proxy: {
     options: {
       target: 'http://localhost:8067',
