@@ -70,7 +70,7 @@ const getSearch = (
 };
 
 const getFilterArray = (query: LocationQuery, filters: FilterType[]): Array<any> => {
-  const allParams = new URLSearchParams(query as any).entries();
+  const allParams = (new URLSearchParams(query as any) as any).entries();
   const filtersArray = [];
   for (const param of allParams) {
     if (filters.find(el => el.filterType === param[0])) {
