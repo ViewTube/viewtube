@@ -48,4 +48,4 @@ server/config.json
 **/predist
 client/buildMetadata.json
 ~
-cache
+**/cache
