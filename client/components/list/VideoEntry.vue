@@ -191,7 +191,10 @@ const onVideoEntryClick = () => {
           :to="{
             path:
               '/channel/' +
-              (video.authorId ?? video.author?.['channelID'] ?? video.channel?.channelID ?? video.author?.['id'])
+              (video.authorId ??
+                video.author?.['channelID'] ??
+                video.channel?.channelID ??
+                video.author?.['id'])
           }"
           >{{ video.author?.['name'] ?? video.author ?? video.channel?.name }}</nuxt-link
         >
@@ -424,6 +427,13 @@ const onVideoEntryClick = () => {
     overflow: hidden;
     padding-top: 56.25%;
 
+    &:hover {
+      .rich-thumbnail {
+        opacity: 1 !important;
+        transition: opacity 150ms 300ms $intro-easing !important;
+      }
+    }
+
     .thmb-image-container {
       position: absolute;
       width: 100%;
@@ -434,11 +444,7 @@ const onVideoEntryClick = () => {
       &.rich-thumbnail {
         opacity: 0;
         transition: opacity 150ms $intro-easing;
-
-        &:hover {
-          opacity: 1;
-          transition: opacity 150ms 300ms $intro-easing;
-        }
+        pointer-events: none;
       }
 
       .thmb-clip {
@@ -524,11 +530,11 @@ const onVideoEntryClick = () => {
       position: absolute;
       right: 0;
       bottom: 0;
-      padding: 2px 4px;
-      margin: 8px 4px;
+      padding: 2px 6px;
+      margin: 8px 8px;
       background-color: $video-thmb-overlay-bgcolor;
       box-sizing: border-box;
-      border-radius: 2px;
+      border-radius: 4px;
       font-family: $default-font;
       transition: transform 200ms $intro-easing;
     }
@@ -575,45 +581,5 @@ const onVideoEntryClick = () => {
       }
     }
   }
-
-  // @media screen and (max-width: $mobile-width) {
-  //   width: calc(100% - 20px);
-  //   padding: 10px;
-
-  //   .video-entry-thmb {
-  //     width: 100%;
-  //     height: 53vw;
-
-  //     &:hover.has-description {
-  //       .thmb-image-container {
-  //         transform: rotateY(180deg) translateY(0);
-  //         .thmb-clip {
-  //           .video-entry-thmb-image {
-  //             filter: blur(5px);
-  //           }
-  //         }
-  //       }
-  //       .video-entry-length {
-  //         transform: scale(0);
-  //       }
-  //     }
-
-  //     .thmb-image-container {
-  //       position: relative;
-  //       top: 0;
-  //       left: 0;
-  //       transform: translateY(0);
-
-  //       .thmb-clip {
-  //         height: 53vw;
-
-  //         .video-entry-thmb-image {
-  //           top: 0;
-  //           transform: translateY(0px);
-  //         }
-  //       }
-  //     }
-  //   }
-  // }
 }
 </style>

@@ -9,7 +9,6 @@ export {
   useGetUserSubscriptionChannels,
   useGetUserSubscriptions
 } from './api/user';
-export { useGetInvidiousLicense } from './api/licenses';
 export {
   useGetChannelHome,
   useGetChannelInfo,
