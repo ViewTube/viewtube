@@ -7,8 +7,8 @@
   "version": "0.10.0",
   "license": "AGPLv3",
   "engines": {
-    "node": ">=18.14.0",
-    "pnpm": ">=7.25.0"
+    "node": ">=16.19.0",
+    "pnpm": ">=7.28.0"
   },
   "scripts": {
     "build": "pnpm --filter=* run build",
@@ -36,8 +36,5 @@
     "cross-env": "7.0.3",
     "prettier": "2.8.4",
     "typescript": "4.9.5"
-  },
-  "volta": {
-    "node": "18.14.2"
   }
 }

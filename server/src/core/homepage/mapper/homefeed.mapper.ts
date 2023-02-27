@@ -4,10 +4,12 @@ import { YTNodes } from 'youtubei.js';
 import { HomeFeed } from 'youtubei.js/dist/src/parser/youtube';
 
 export const mapHomeFeed = (homeFeed: HomeFeed): Array<VTVideoDto> => {
-  return homeFeed.videos.map(item => {
-    if (item.type === 'Video') {
-      const original = item.as(YTNodes.Video);
-      return toVTVideoDto(original);
-    }
-  });
+  return homeFeed.videos
+    .map(item => {
+      if (item.type === 'Video') {
+        const original = item.as(YTNodes.Video);
+        return toVTVideoDto(original);
+      }
+    })
+    .filter(item => item);
 };

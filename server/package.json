@@ -2,8 +2,8 @@
   "name": "server",
   "main": "dist/main",
   "engines": {
-    "node": ">=18.13.0",
-    "pnpm": ">=7.22.0"
+    "node": ">=16.19.0",
+    "pnpm": ">=7.28.0"
   },
   "scripts": {
     "serve": "nest build --webpack --webpackPath webpack-hmr.config.cjs --watch",
