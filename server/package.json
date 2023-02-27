@@ -54,7 +54,7 @@
     "ioredis": "5.3.1",
     "joi": "17.8.3",
     "mini-svg-data-uri": "1.4.4",
-    "mongoose": "6.10.0",
+    "mongoose": "7.0.0",
     "nest-winston": "1.8.0",
     "nestjs-throttler-storage-redis": "0.3.0",
     "passport": "0.6.0",
