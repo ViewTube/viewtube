@@ -74,7 +74,8 @@
     "yt-channel-info": "git://github.com/FreeTubeApp/yt-channel-info",
     "ytdl-core": "4.11.2",
     "ytpl": "2.3.0",
-    "ytsr": "3.8.0"
+    "ytsr": "3.8.0",
+    "youtubei.js": "^3.0.0"
   },
   "devDependencies": {
     "@nestjs/cli": "9.2.0",
@@ -116,8 +117,7 @@
     "ts-loader": "9.4.2",
     "typescript": "4.9.5",
     "webpack": "5.75.0",
-    "webpack-node-externals": "3.0.0",
-    "youtubei.js": "^3.0.0"
+    "webpack-node-externals": "3.0.0"
   },
   "volta": {
     "extends": "../package.json"
