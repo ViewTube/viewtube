@@ -71,11 +71,11 @@
     "winston-daily-rotate-file": "4.7.1",
     "x2js": "3.4.4",
     "xml-js": "1.6.11",
+    "youtubei.js": "^3.1.0",
     "yt-channel-info": "git://github.com/FreeTubeApp/yt-channel-info",
     "ytdl-core": "4.11.2",
     "ytpl": "2.3.0",
-    "ytsr": "3.8.0",
-    "youtubei.js": "^3.0.0"
+    "ytsr": "3.8.0"
   },
   "devDependencies": {
     "@nestjs/cli": "9.2.0",
@@ -92,7 +92,7 @@
     "@types/jest": "29.4.0",
     "@types/mime-types": "2.1.1",
     "@types/multer": "1.4.7",
-    "@types/node": "18.14.4",
+    "@types/node": "16.11.7",
     "@types/passport-jwt": "3.0.8",
     "@types/passport-local": "1.0.35",
     "@types/redis-mock": "0.17.1",
