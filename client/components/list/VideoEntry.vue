@@ -56,6 +56,10 @@ type VideoType = {
   viewCountText?: string;
   views?: number;
   publishedText?: string;
+  published?: {
+    text?: string;
+    seconds?: number;
+  };
   uploadedAt?: string;
 };
 
@@ -100,6 +104,10 @@ const videoThumbnailUrlXL = computed(() =>
     }/hqdefault.jpg${localProxy}`
   )
 );
+
+const isVerified = computed(() => {
+  return props.video?.author?.['verified'] || props.video.authorVerified || props.video.author?.['isVerified'];
+});
 
 const videoProgressPercentage = computed((): number => {
   // const savedPosition = videoProgressStore.getSavedPositionForId(
@@ -194,12 +202,7 @@ const onVideoEntryClick = () => {
           }"
           >{{ video.author?.['name'] ?? video.author ?? video.channel?.name }}</nuxt-link
         >
-        <VerifiedIcon
-          v-if="video?.author?.['verified'] || video.authorVerified"
-          v-tippy="'Verified'"
-          class="tooltip"
-          title=""
-        />
+        <VerifiedIcon v-if="isVerified" v-tippy="'Verified'" class="verified-icon" title="" />
       </div>
     </div>
     <div class="video-entry-background" />
@@ -289,7 +292,7 @@ const onVideoEntryClick = () => {
             {{ video.views === 1 ? 'view' : 'views' }}
           </p>
           <p class="video-entry-timestamp">
-            {{ video.publishedText ? video.publishedText : video.uploadedAt }}
+            {{ video.publishedText ?? video.uploadedAt ?? video.published?.text }}
           </p>
         </div>
       </div>
@@ -346,11 +349,11 @@ const onVideoEntryClick = () => {
         color: var(--subtitle-color);
       }
 
-      .material-design-icon {
+      .verified-icon {
         width: 14px;
         height: 14px;
         top: 3px;
-        margin: 0 0 0 4px;
+        margin: 8px 0 0 4px;
 
         .material-design-icon__svg {
           width: 14px;
