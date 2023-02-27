@@ -1,7 +1,7 @@
-import { VideoThumbnailDto } from 'server/core/videos/dto/video-thumbnail.dto';
+import { VTThumbnailDto } from 'server/mapper/dto/vt-thumbnail.dto';
 
 export class PreviewVideoDto {
   title?: string;
   videoId?: string;
-  videoThumbnails: Array<VideoThumbnailDto>;
+  videoThumbnails: Array<VTThumbnailDto>;
 }

@@ -5,7 +5,6 @@ import ExternalIcon from 'vue-material-design-icons/OpenInNew.vue';
 
 import { description, version } from '@/../package.json';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
-import InvidiousLicense from '@/components/licenses/Invidious.vue';
 
 import { commit, abbreviated_commit, subject } from '@/buildMetadata.json';
 import { useMessagesStore } from '@/store/messages';
@@ -20,8 +19,9 @@ const copyCommitHash = () => {
   navigator.clipboard.writeText(commit);
   messagesStore.createMessage({
     title: 'Copied to clipboard',
-    message: 'Copied commit hash tothe clipboard',
-    type: 'info'
+    message: 'Copied commit hash to clipboard',
+    type: 'info',
+    dismissDelay: 3000,
   });
 };
 </script>
@@ -58,14 +58,6 @@ const copyCommitHash = () => {
       <div class="links-about">
         <BadgeButton :href="'https://github.com/viewtube/viewtube'">
           <GithubIcon />ViewTube
-        </BadgeButton>
-        <BadgeButton :href="'https://github.com/iv-org/invidious'">
-          <GithubIcon />
-          <p>Invidious</p>
-        </BadgeButton>
-        <BadgeButton :href="'https://redirect.invidious.io'">
-          <ExternalIcon />
-          <p>Invidious</p>
         </BadgeButton>
       </div>
       <div class="external-service-container">
@@ -123,8 +115,6 @@ const copyCommitHash = () => {
           </p>
         </div>
       </div>
-      <h2>Invidious License</h2>
-      <InvidiousLicense />
     </div>
     <div class="about-overlay popup-overlay" @click.stop="$emit('close')" />
   </div>
@@ -164,6 +154,8 @@ const copyCommitHash = () => {
     'title hash'
     'title commit';
   gap: 0 15px;
+  max-width: 100%;
+  overflow: hidden;
 
   .version {
     grid-area: version;
@@ -192,11 +184,13 @@ const copyCommitHash = () => {
 
   .commit-subject {
     grid-area: commit;
+    // Break text
+    word-break: break-word;
 
     .material-design-icon {
       width: 14px;
       height: 14px;
-      padding: 3px 0 0 0;
+      padding: 2px 0 0 0;
       box-sizing: border-box;
 
       .material-design-icon__svg {

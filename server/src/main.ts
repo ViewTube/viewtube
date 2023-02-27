@@ -12,12 +12,10 @@ import FastifyCookie from '@fastify/cookie';
 import FastifyMultipart from '@fastify/multipart';
 import FastifyHelmet from '@fastify/helmet';
 import { AppModule } from './app.module';
-import { HomepageService } from './core/homepage/homepage.service';
 import { AppClusterService } from './app-cluster.service';
 import { ConfigurationService } from 'server/core/configuration/configuration.service';
 import { isHttps } from 'viewtube/shared/index';
 import { NuxtService } from './nuxt/nuxt.service';
-import { FastifyPluginCallback } from 'fastify';
 import { version } from '../../package.json';
 import { checkRedisConnection } from './common/redis.connection';
 import { logger } from './common/logger';
@@ -69,7 +67,7 @@ const bootstrap = async () => {
     }
   }
 
-  // Disable helment on non-https instances
+  // Disables helment on non-https instances
   if (isHttps()) {
     await server.register(FastifyHelmet, {
       contentSecurityPolicy: {
@@ -83,8 +81,8 @@ const bootstrap = async () => {
     });
   }
 
-  await server.register(FastifyCookie as FastifyPluginCallback);
-  await server.register(FastifyMultipart as FastifyPluginCallback);
+  await server.register(FastifyCookie);
+  await server.register(FastifyMultipart);
 
   // NUXT
   if (isProduction) {
@@ -146,9 +144,6 @@ const bootstrap = async () => {
     module.hot.accept();
     module.hot.dispose(() => server.close());
   }
-
-  const homepageService = server.get(HomepageService);
-  await homepageService.refreshPopular();
 };
 
 const runBootstrap = async () => {

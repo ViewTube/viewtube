@@ -1,70 +1,26 @@
 <script setup lang="ts">
-import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
-import VideoEntry from '@/components/list/VideoEntry.vue';
-import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import { useUserStore } from '@/store/user';
 import { useSettingsStore } from '@/store/settings';
 
 const settingsStore = useSettingsStore();
 const userStore = useUserStore();
 
-const showMore = ref(false);
-
-const displayedVideos = computed(() => {
-  if (videoData.value?.videos) {
-    if (!showMore.value) {
-      let videoCount = 12;
-      if (userStore.isLoggedIn && settingsStore.showHomeSubscriptions) {
-        videoCount = 8;
-      }
-      return videoData.value.videos.slice(0, videoCount);
-    }
-    return videoData.value.videos;
-  }
-  return [];
-});
-
-const showMoreVideos = (): void => {
-  showMore.value = true;
-};
-
-const {
-  data: videoData,
-  error: popularPageError,
-  pending: popularPageLoading
-} = useGetPopularPage();
+const { data: homeFeedData, error: homeFeedError, pending: homeFeedLoading } = useGetHomeFeed();
 </script>
 
 <template>
-  <div class="home" :class="{ loading: popularPageLoading || displayedVideos.length <= 0 }">
+  <div class="home" :class="{ loading: homeFeedLoading }">
     <MetaPageHead
       title="ViewTube :: An alternative YouTube frontend"
       description="An alternative YouTube frontend"
     />
-    <Spinner v-if="popularPageLoading" class="centered" />
+    <Spinner v-if="homeFeedLoading" class="centered" />
     <ErrorPage
-      v-if="popularPageError"
+      v-if="homeFeedError"
       text="Error loading homepage. The API may not be reachable."
     />
     <HomeSubscriptions v-if="userStore.isLoggedIn && settingsStore.showHomeSubscriptions" />
-    <SectionTitle v-if="videoData?.videos?.length > 0" :title="'Popular videos'" />
-    <div class="home-videos-container small">
-      <VideoEntry
-        v-for="(video, index) in displayedVideos"
-        :key="index"
-        :lazy="true"
-        :video="video"
-      />
-    </div>
-    <div class="home-show-more">
-      <BadgeButton
-        v-if="videoData?.videos?.length > 0 && displayedVideos.length !== videoData?.videos?.length"
-        :click="showMoreVideos"
-      >
-        <LoadMoreIcon />
-        <p>Show more</p>
-      </BadgeButton>
-    </div>
+    <HomeVideosContainer v-if="homeFeedData?.videos" :videos="homeFeedData?.videos"  :short="settingsStore.showHomeSubscriptions"  />
   </div>
 </template>
 

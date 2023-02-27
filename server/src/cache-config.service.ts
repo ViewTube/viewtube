@@ -24,14 +24,17 @@ export class CacheConfigService implements CacheOptionsFactory {
       return {
         store: store as unknown as CacheStore,
         max: 20000,
-        ttl: 1800
+        ttl: 1800000
       };
     }
 
     // Development options
     return {
-      ttl: 0,
-      max: 2000
+      store: {
+        get: (..._args) => undefined,
+        set: (..._args) => undefined,
+        del: (..._args) => undefined
+      }
     };
   }
 }

@@ -1,5 +1,5 @@
+import { VTThumbnailDto } from 'server/mapper/dto/vt-thumbnail.dto';
 import { AuthorThumbnailDto } from './author-thumbnail.dto';
-import { VideoThumbnailDto } from './video-thumbnail.dto';
 
 export class VideoBasicInfoDto {
   videoId: string;
@@ -11,7 +11,7 @@ export class VideoBasicInfoDto {
   authorVerified?: boolean;
   authorThumbnails?: Array<AuthorThumbnailDto>;
   authorThumbnailUrl?: string;
-  videoThumbnails: Array<VideoThumbnailDto>;
+  videoThumbnails: Array<VTThumbnailDto>;
   description?: string;
   viewCount: number;
   likeCount?: number;

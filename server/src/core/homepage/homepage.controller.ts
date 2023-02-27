@@ -8,7 +8,7 @@ import {
   UseInterceptors
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { PopularDto } from './dto/popular.dto';
+import { HomeFeedDto } from './dto/home-feed.dto';
 import { HomepageService } from './homepage.service';
 
 @ApiTags('Core')
@@ -17,11 +17,11 @@ import { HomepageService } from './homepage.service';
 export class HomepageController {
   constructor(private homepageService: HomepageService) {}
 
-  @Get('popular')
+  @Get('homefeed')
   @CacheTTL(43200)
-  @CacheKey('popular')
+  @CacheKey('homefeed')
   @Header('Cache-Control', 'public, max-age=43200')
-  getPopular(): Promise<PopularDto> {
-    return this.homepageService.getPopular();
+  getHomeFeed(): Promise<HomeFeedDto> {
+    return this.homepageService.getHomeFeed();
   }
 }

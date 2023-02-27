@@ -76,8 +76,8 @@ export interface paths {
   '/api/channels/{id}/stats': {
     get: operations['ChannelsController_getChannelStats'];
   };
-  '/api/homepage/popular': {
-    get: operations['HomepageController_getPopular'];
+  '/api/homepage/homefeed': {
+    get: operations['HomepageController_getHomeFeed'];
   };
   '/api/proxy/text': {
     get: operations['ProxyController_getText'];
@@ -160,6 +160,9 @@ export interface paths {
   '/api/admin/logs': {
     get: operations['AdminController_getLogs'];
   };
+  '/api/admin/logs/{logFile}': {
+    get: operations['AdminController_downloadLogFile'];
+  };
   '/api/auth/login': {
     post: operations['AuthController_login'];
   };
@@ -184,8 +187,8 @@ export type webhooks = Record<string, never>;
 
 export interface components {
   schemas: {
-    VideoThumbnailDto: {
-      quality: string;
+    VTThumbnailDto: {
+      quality?: string;
       url: string;
       width: number;
       height: number;
@@ -202,7 +205,7 @@ export interface components {
     RecommendedVideoDto: {
       videoId: string;
       title: string;
-      videoThumbnails: components['schemas']['VideoThumbnailDto'][];
+      videoThumbnails: components['schemas']['VTThumbnailDto'][];
       author: string;
       authorUrl: string;
       authorId: string;
@@ -215,7 +218,7 @@ export interface components {
       type: string;
       title: string;
       videoId: string;
-      videoThumbnails: components['schemas']['VideoThumbnailDto'][];
+      videoThumbnails: components['schemas']['VTThumbnailDto'][];
       storyboards: Record<string, never>;
       description: string;
       descriptionHtml: string;
@@ -409,29 +412,36 @@ export interface components {
       viewCount: number;
       location: string;
     };
-    VideoBasicInfoDto: {
-      videoId: string;
+    VTVideoDto: {
+      id: string;
       title: string;
-      published?: number;
-      publishedText: string;
-      author: string;
-      authorId: string;
-      authorVerified?: boolean;
-      authorThumbnails?: components['schemas']['AuthorThumbnailDto'][];
-      authorThumbnailUrl?: string;
-      videoThumbnails: components['schemas']['VideoThumbnailDto'][];
+      author: {
+        id?: string;
+        name?: string;
+        thumbnails?: components['schemas']['VTThumbnailDto'][];
+        isVerified?: boolean;
+        isArtist?: boolean;
+        handle?: string;
+      };
       description?: string;
-      viewCount: number;
-      likeCount?: number;
-      dislikeCount?: number;
-      lengthSeconds?: number;
-      lengthString?: string;
+      thumbnails?: components['schemas']['VTThumbnailDto'][];
+      richThumbnails?: components['schemas']['VTThumbnailDto'][];
+      duration: {
+        text?: string;
+        seconds?: number;
+      };
+      published: {
+        /** Format: date-time */
+        date?: string;
+        text?: string;
+      };
+      viewCount?: number;
+      /** Format: date-time */
+      upcoming?: string;
       live?: boolean;
     };
-    PopularDto: {
-      videos: components['schemas']['VideoBasicInfoDto'][];
-      /** Format: date-time */
-      updatedAt: string;
+    HomeFeedDto: {
+      videos: components['schemas']['VTVideoDto'][];
     };
     CommentDto: {
       authorThumbnails: components['schemas']['AuthorThumbnailDto'][];
@@ -522,6 +532,25 @@ export interface components {
       profileImage: string;
       settings: components['schemas']['SettingsDto'];
       admin: boolean;
+    };
+    VideoBasicInfoDto: {
+      videoId: string;
+      title: string;
+      published?: number;
+      publishedText: string;
+      author: string;
+      authorId: string;
+      authorVerified?: boolean;
+      authorThumbnails?: components['schemas']['AuthorThumbnailDto'][];
+      authorThumbnailUrl?: string;
+      videoThumbnails: components['schemas']['VTThumbnailDto'][];
+      description?: string;
+      viewCount: number;
+      likeCount?: number;
+      dislikeCount?: number;
+      lengthSeconds?: number;
+      lengthString?: string;
+      live?: boolean;
     };
     VideoVisitDetailsDto: {
       videoDetails: components['schemas']['VideoBasicInfoDto'];
@@ -975,11 +1004,11 @@ export interface operations {
       500: never;
     };
   };
-  HomepageController_getPopular: {
+  HomepageController_getHomeFeed: {
     responses: {
       200: {
         content: {
-          'application/json': components['schemas']['PopularDto'];
+          'application/json': components['schemas']['HomeFeedDto'];
         };
       };
     };
@@ -1137,12 +1166,12 @@ export interface operations {
     };
   };
   SubscriptionsController_getSubscribedChannels: {
-    parameters?: {
+    parameters: {
       /** @example linu */
       /** @example author:1,authorVerified:-1 */
       /** @example 0 */
       /** @example 30 */
-      query?: {
+      query: {
         filter?: string;
         sort?: string;
         start?: Record<string, never>;
@@ -1158,8 +1187,8 @@ export interface operations {
     };
   };
   SubscriptionsController_getSubscriptionVideos: {
-    parameters?: {
-      query?: {
+    parameters: {
+      query: {
         start?: Record<string, never>;
         limit?: Record<string, never>;
       };
@@ -1309,6 +1338,16 @@ export interface operations {
           'application/json': components['schemas']['LogsDto'];
         };
       };
+    };
+  };
+  AdminController_downloadLogFile: {
+    parameters: {
+      path: {
+        logFile: string;
+      };
+    };
+    responses: {
+      200: never;
     };
   };
   AuthController_login: {

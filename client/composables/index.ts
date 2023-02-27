@@ -1,5 +1,5 @@
 export { useGetComments, useGetCommentsContinuation } from './api/comments';
-export { useGetPopularPage } from './api/home';
+export { useGetHomeFeed } from './api/home';
 export { useGetPlaylists } from './api/playlists';
 export { useGetSearchResult } from './api/search';
 export {
@@ -9,7 +9,6 @@ export {
   useGetUserSubscriptionChannels,
   useGetUserSubscriptions
 } from './api/user';
-export { useGetInvidiousLicense } from './api/licenses';
 export {
   useGetChannelHome,
   useGetChannelInfo,

@@ -1,4 +1,4 @@
-import { VideoThumbnailDto } from 'server/core/videos/dto/video-thumbnail.dto';
+import { VTThumbnailDto } from 'server/mapper/dto/vt-thumbnail.dto';
 import { PreviewVideoDto } from './preview-video.dto';
 
 export class PlaylistBasicInfoDto {
@@ -11,6 +11,6 @@ export class PlaylistBasicInfoDto {
   authorUrl?: string;
   videoCount: number;
   firstVideoId?: string;
-  playlistThumbnails?: Array<VideoThumbnailDto>;
+  playlistThumbnails?: Array<VTThumbnailDto>;
   previewVideos?: Array<PreviewVideoDto>;
 }

@@ -1,13 +1,13 @@
 import { RecommendedVideoDto } from './recommended-video.dto';
-import { VideoThumbnailDto } from './video-thumbnail.dto';
 import { AuthorThumbnailDto } from './author-thumbnail.dto';
 import { ChapterDto } from './chapter.dto';
+import { VTThumbnailDto } from 'server/mapper/dto/vt-thumbnail.dto';
 
 export class VideoDto {
   type: string;
   title: string;
   videoId: string;
-  videoThumbnails: Array<VideoThumbnailDto>;
+  videoThumbnails: Array<VTThumbnailDto>;
   storyboards: object;
   description: string;
   descriptionHtml: string;

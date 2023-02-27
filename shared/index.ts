@@ -1,6 +1,6 @@
 export { SponsorBlockSegmentsDto } from './dto/sponsorblock/sponsorblock-segments.dto';
 export { SponsorBlockSegmentDto } from './dto/sponsorblock/sponsorblock-segment.dto';
-export { getSecondsFromTimestamp, isHttps } from './util';
+export { getSecondsFromTimestamp, getTimestampFromSeconds, isHttps } from './util';
 export { ApiErrorDto } from './dto/api/error.dto';
 import { components } from './api.schema';
 

@@ -44,13 +44,28 @@ type VideoType = {
   description?: string;
   title?: string;
   isLive?: boolean;
+  live?: boolean;
   lengthSeconds?: number;
   lengthString?: string;
-  duration?: string;
+  richThumbnails?: {
+    url: string;
+    width: number;
+    height: number;
+  }[];
+  duration?:
+    | string
+    | {
+        text: string;
+        seconds: number;
+      };
   viewCount?: number;
   viewCountText?: string;
   views?: number;
   publishedText?: string;
+  published?: {
+    text?: string;
+    seconds?: number;
+  } | number;
   uploadedAt?: string;
 };
 
@@ -64,6 +79,7 @@ const props = defineProps<{
 const { proxyUrl } = useImgProxy();
 const { apiUrl } = useApiUrl(true);
 const loadingVideoInfoStore = useLoadingVideoInfoStore();
+const { $formatting: formatting } = useNuxtApp();
 
 const localProxy = '&local=true';
 
@@ -96,34 +112,24 @@ const videoThumbnailUrlXL = computed(() =>
   )
 );
 
-const videoProgressPercentage = computed((): number => {
-  // const savedPosition = videoProgressStore.getSavedPositionForId(
-  //   props.video.videoId ? props.video.videoId : props.video.id
-  // );
-  // if (props.video.duration) {
-  //   const videoLength = props.video.lengthSeconds
-  //     ? props.video.lengthSeconds
-  //     : getSecondsFromTimestamp(props.video.duration);
-  //   return (savedPosition / videoLength) * 100;
-  // }
-  return 0;
+const videoDuration = computed(() => {
+  if (props.video.lengthSeconds) {
+    return formatting.getTimestampFromSeconds(props.video.lengthSeconds);
+  } else if (props.video.lengthString) {
+    return props.video.lengthString;
+  } else if (typeof props.video.duration === 'object' && props.video.duration.text !== 'N/A') {
+    return props.video.duration.text;
+  } else if (typeof props.video.duration === 'string') {
+    return props.video.duration;
+  }
 });
 
-const videoProgressTooltip = computed((): string => {
-  // const savedPosition = videoProgressStore.getSavedPositionForId(
-  //   props.video.videoId ? props.video.videoId : props.video.id
-  // );
-  // if (savedPosition && props.video.duration) {
-  //   const timestampSeconds = getSecondsFromTimestamp(props.video.duration);
-  //   const watchTime = formatting.getTimestampFromSeconds(savedPosition);
-  //   const totalTime = formatting.getTimestampFromSeconds(
-  //     props.video.lengthSeconds ? props.video.lengthSeconds : timestampSeconds
-  //   );
-  //   if (videoProgressPercentage.value > 0) {
-  //     return `${watchTime} of ${totalTime}`;
-  //   }
-  // }
-  return null;
+const isVerified = computed(() => {
+  return (
+    props.video?.author?.['verified'] ||
+    props.video.authorVerified ||
+    props.video.author?.['isVerified']
+  );
 });
 
 const onVideoEntryClick = () => {
@@ -185,16 +191,14 @@ const onVideoEntryClick = () => {
           :to="{
             path:
               '/channel/' +
-              (video.authorId ?? video.author?.['channelID'] ?? video.channel?.channelID)
+              (video.authorId ??
+                video.author?.['channelID'] ??
+                video.channel?.channelID ??
+                video.author?.['id'])
           }"
           >{{ video.author?.['name'] ?? video.author ?? video.channel?.name }}</nuxt-link
         >
-        <VerifiedIcon
-          v-if="video?.author?.['verified'] || video.authorVerified"
-          v-tippy="'Verified'"
-          class="tooltip"
-          title=""
-        />
+        <VerifiedIcon v-if="isVerified" v-tippy="'Verified'" class="verified-icon" title="" />
       </div>
     </div>
     <div class="video-entry-background" />
@@ -205,7 +209,6 @@ const onVideoEntryClick = () => {
     </div>
     <input v-if="video.description" id="show-description" type="checkbox" name="show-description" />
     <nuxt-link
-      v-tippy="videoProgressTooltip"
       class="video-entry-thmb"
       :to="{
         name: 'watch',
@@ -233,7 +236,16 @@ const onVideoEntryClick = () => {
           <p class="video-description-overlay-text">{{ video.description }}</p>
         </div>
       </div>
-      <div v-if="video.isLive" class="video-live">
+      <div v-if="video.richThumbnails" class="thmb-image-container rich-thumbnail">
+        <div class="thmb-clip">
+          <img
+            class="video-entry-thmb-image"
+            :src="video.richThumbnails[0]?.url"
+            :alt="video.title"
+          />
+        </div>
+      </div>
+      <div v-if="video.isLive || video.live" class="video-live">
         <svg
           viewBox="0 0 24 24"
           preserveAspectRatio="xMidYMid meet"
@@ -249,12 +261,7 @@ const onVideoEntryClick = () => {
         </svg>
         <span class="live-text">Live</span>
       </div>
-      <div class="video-saved-progress" :style="{ width: `${videoProgressPercentage}%` }" />
-      <span v-if="video.lengthSeconds" class="video-entry-length">{{
-        $formatting.getTimestampFromSeconds(video.lengthSeconds)
-      }}</span>
-      <span v-if="video.lengthString" class="video-entry-length">{{ video.lengthString }}</span>
-      <span v-if="video.duration" class="video-entry-length">{{ video.duration }}</span>
+      <span v-if="video.duration" class="video-entry-length">{{ videoDuration }}</span>
     </nuxt-link>
 
     <div class="video-entry-info">
@@ -282,7 +289,7 @@ const onVideoEntryClick = () => {
             {{ video.views === 1 ? 'view' : 'views' }}
           </p>
           <p class="video-entry-timestamp">
-            {{ video.publishedText ? video.publishedText : video.uploadedAt }}
+            {{ videoDuration }}
           </p>
         </div>
       </div>
@@ -339,11 +346,11 @@ const onVideoEntryClick = () => {
         color: var(--subtitle-color);
       }
 
-      .material-design-icon {
+      .verified-icon {
         width: 14px;
         height: 14px;
         top: 3px;
-        margin: 0 0 0 4px;
+        margin: 8px 0 0 4px;
 
         .material-design-icon__svg {
           width: 14px;
@@ -404,8 +411,13 @@ const onVideoEntryClick = () => {
     transform: scale(0);
   }
 
-  #show-description:checked + .video-entry-thmb .thmb-image-container .video-description-overlay {
-    opacity: 1;
+  #show-description:checked + .video-entry-thmb .thmb-image-container {
+    &.rich-thumbnail {
+      display: none;
+    }
+    .video-description-overlay {
+      opacity: 1;
+    }
   }
 
   .video-entry-thmb {
@@ -415,12 +427,25 @@ const onVideoEntryClick = () => {
     overflow: hidden;
     padding-top: 56.25%;
 
+    &:hover {
+      .rich-thumbnail {
+        opacity: 1 !important;
+        transition: opacity 150ms 300ms $intro-easing !important;
+      }
+    }
+
     .thmb-image-container {
       position: absolute;
       width: 100%;
       top: 50%;
       left: 0;
       transform: translateY(-50%);
+
+      &.rich-thumbnail {
+        opacity: 0;
+        transition: opacity 150ms $intro-easing;
+        pointer-events: none;
+      }
 
       .thmb-clip {
         overflow: hidden;
@@ -505,11 +530,11 @@ const onVideoEntryClick = () => {
       position: absolute;
       right: 0;
       bottom: 0;
-      padding: 2px 4px;
-      margin: 8px 4px;
+      padding: 2px 6px;
+      margin: 8px 8px;
       background-color: $video-thmb-overlay-bgcolor;
       box-sizing: border-box;
-      border-radius: 2px;
+      border-radius: 4px;
       font-family: $default-font;
       transition: transform 200ms $intro-easing;
     }
@@ -556,45 +581,5 @@ const onVideoEntryClick = () => {
       }
     }
   }
-
-  // @media screen and (max-width: $mobile-width) {
-  //   width: calc(100% - 20px);
-  //   padding: 10px;
-
-  //   .video-entry-thmb {
-  //     width: 100%;
-  //     height: 53vw;
-
-  //     &:hover.has-description {
-  //       .thmb-image-container {
-  //         transform: rotateY(180deg) translateY(0);
-  //         .thmb-clip {
-  //           .video-entry-thmb-image {
-  //             filter: blur(5px);
-  //           }
-  //         }
-  //       }
-  //       .video-entry-length {
-  //         transform: scale(0);
-  //       }
-  //     }
-
-  //     .thmb-image-container {
-  //       position: relative;
-  //       top: 0;
-  //       left: 0;
-  //       transform: translateY(0);
-
-  //       .thmb-clip {
-  //         height: 53vw;
-
-  //         .video-entry-thmb-image {
-  //           top: 0;
-  //           transform: translateY(0px);
-  //         }
-  //       }
-  //     }
-  //   }
-  // }
 }
 </style>

@@ -2,6 +2,7 @@ import { relatedVideo, videoInfo } from 'ytdl-core';
 import humanizeDuration from 'humanize-duration';
 import { VideoDto } from 'server/core/videos/dto/video.dto';
 import { Common } from '../common';
+import { generateVideoThumbnails } from 'server/mapper/utils/video-thumbnails';
 
 export const mapVideo = (source: Partial<videoInfo>, dashManifest?: string): VideoDto => {
   const videoDetails = source.videoDetails;
@@ -32,7 +33,7 @@ export const mapVideo = (source: Partial<videoInfo>, dashManifest?: string): Vid
     type: 'video',
     title: videoDetails.title,
     videoId: videoDetails.videoId,
-    videoThumbnails: Common.getVideoThumbnails(videoDetails.videoId),
+    videoThumbnails: generateVideoThumbnails(videoDetails.videoId),
     storyboards: [],
     description: playerVideoDetails.shortDescription,
     descriptionHtml: playerVideoDetails.shortDescription,
@@ -80,7 +81,7 @@ export const mapVideo = (source: Partial<videoInfo>, dashManifest?: string): Vid
       return {
         videoId: vid.id,
         title: vid.title,
-        videoThumbnails: Common.getVideoThumbnails(vid.id),
+        videoThumbnails: generateVideoThumbnails(vid.id),
         author: typeof vid.author === 'string' ? vid.author : vid.author.name,
         authorUrl: `/channel/${vid.id}`,
         authorId: typeof vid.author === 'string' ? '' : vid.author.id,
