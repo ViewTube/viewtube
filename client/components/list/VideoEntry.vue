@@ -44,8 +44,14 @@ type VideoType = {
   description?: string;
   title?: string;
   isLive?: boolean;
+  live?: boolean;
   lengthSeconds?: number;
   lengthString?: string;
+  richThumbnails: {
+    url: string;
+    width: number;
+    height: number;
+  }[];
   duration?:
     | string
     | {
@@ -73,6 +79,7 @@ const props = defineProps<{
 const { proxyUrl } = useImgProxy();
 const { apiUrl } = useApiUrl(true);
 const loadingVideoInfoStore = useLoadingVideoInfoStore();
+const { $formatting: formatting } = useNuxtApp();
 
 const localProxy = '&local=true';
 
@@ -105,38 +112,24 @@ const videoThumbnailUrlXL = computed(() =>
   )
 );
 
+const videoDuration = computed(() => {
+  if (props.video.lengthSeconds) {
+    return formatting.getTimestampFromSeconds(props.video.lengthSeconds);
+  } else if (props.video.lengthString) {
+    return props.video.lengthString;
+  } else if (typeof props.video.duration === 'object' && props.video.duration.text !== 'N/A') {
+    return props.video.duration.text;
+  } else if (typeof props.video.duration === 'string') {
+    return props.video.duration;
+  }
+});
+
 const isVerified = computed(() => {
-  return props.video?.author?.['verified'] || props.video.authorVerified || props.video.author?.['isVerified'];
-});
-
-const videoProgressPercentage = computed((): number => {
-  // const savedPosition = videoProgressStore.getSavedPositionForId(
-  //   props.video.videoId ? props.video.videoId : props.video.id
-  // );
-  // if (props.video.duration) {
-  //   const videoLength = props.video.lengthSeconds
-  //     ? props.video.lengthSeconds
-  //     : getSecondsFromTimestamp(props.video.duration);
-  //   return (savedPosition / videoLength) * 100;
-  // }
-  return 0;
-});
-
-const videoProgressTooltip = computed((): string => {
-  // const savedPosition = videoProgressStore.getSavedPositionForId(
-  //   props.video.videoId ? props.video.videoId : props.video.id
-  // );
-  // if (savedPosition && props.video.duration) {
-  //   const timestampSeconds = getSecondsFromTimestamp(props.video.duration);
-  //   const watchTime = formatting.getTimestampFromSeconds(savedPosition);
-  //   const totalTime = formatting.getTimestampFromSeconds(
-  //     props.video.lengthSeconds ? props.video.lengthSeconds : timestampSeconds
-  //   );
-  //   if (videoProgressPercentage.value > 0) {
-  //     return `${watchTime} of ${totalTime}`;
-  //   }
-  // }
-  return null;
+  return (
+    props.video?.author?.['verified'] ||
+    props.video.authorVerified ||
+    props.video.author?.['isVerified']
+  );
 });
 
 const onVideoEntryClick = () => {
@@ -198,7 +191,7 @@ const onVideoEntryClick = () => {
           :to="{
             path:
               '/channel/' +
-              (video.authorId ?? video.author?.['channelID'] ?? video.channel?.channelID)
+              (video.authorId ?? video.author?.['channelID'] ?? video.channel?.channelID ?? video.author?.['id'])
           }"
           >{{ video.author?.['name'] ?? video.author ?? video.channel?.name }}</nuxt-link
         >
@@ -213,7 +206,6 @@ const onVideoEntryClick = () => {
     </div>
     <input v-if="video.description" id="show-description" type="checkbox" name="show-description" />
     <nuxt-link
-      v-tippy="videoProgressTooltip"
       class="video-entry-thmb"
       :to="{
         name: 'watch',
@@ -241,7 +233,16 @@ const onVideoEntryClick = () => {
           <p class="video-description-overlay-text">{{ video.description }}</p>
         </div>
       </div>
-      <div v-if="video.isLive" class="video-live">
+      <div v-if="video.richThumbnails" class="thmb-image-container rich-thumbnail">
+        <div class="thmb-clip">
+          <img
+            class="video-entry-thmb-image"
+            :src="video.richThumbnails[0]?.url"
+            :alt="video.title"
+          />
+        </div>
+      </div>
+      <div v-if="video.isLive || video.live" class="video-live">
         <svg
           viewBox="0 0 24 24"
           preserveAspectRatio="xMidYMid meet"
@@ -257,14 +258,7 @@ const onVideoEntryClick = () => {
         </svg>
         <span class="live-text">Live</span>
       </div>
-      <div class="video-saved-progress" :style="{ width: `${videoProgressPercentage}%` }" />
-      <span v-if="video.lengthSeconds" class="video-entry-length">{{
-        $formatting.getTimestampFromSeconds(video.lengthSeconds)
-      }}</span>
-      <span v-if="video.lengthString" class="video-entry-length">{{ video.lengthString }}</span>
-      <span v-if="video.duration" class="video-entry-length">{{
-        typeof video.duration === 'object' ? video.duration.text : video.duration
-      }}</span>
+      <span v-if="video.duration" class="video-entry-length">{{ videoDuration }}</span>
     </nuxt-link>
 
     <div class="video-entry-info">
@@ -292,7 +286,7 @@ const onVideoEntryClick = () => {
             {{ video.views === 1 ? 'view' : 'views' }}
           </p>
           <p class="video-entry-timestamp">
-            {{ video.publishedText ?? video.uploadedAt ?? video.published?.text }}
+            {{ videoDuration }}
           </p>
         </div>
       </div>
@@ -414,8 +408,13 @@ const onVideoEntryClick = () => {
     transform: scale(0);
   }
 
-  #show-description:checked + .video-entry-thmb .thmb-image-container .video-description-overlay {
-    opacity: 1;
+  #show-description:checked + .video-entry-thmb .thmb-image-container {
+    &.rich-thumbnail {
+      display: none;
+    }
+    .video-description-overlay {
+      opacity: 1;
+    }
   }
 
   .video-entry-thmb {
@@ -431,6 +430,16 @@ const onVideoEntryClick = () => {
       top: 50%;
       left: 0;
       transform: translateY(-50%);
+
+      &.rich-thumbnail {
+        opacity: 0;
+        transition: opacity 150ms $intro-easing;
+
+        &:hover {
+          opacity: 1;
+          transition: opacity 150ms 300ms $intro-easing;
+        }
+      }
 
       .thmb-clip {
         overflow: hidden;
