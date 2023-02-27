@@ -65,7 +65,7 @@ type VideoType = {
   published?: {
     text?: string;
     seconds?: number;
-  };
+  } | number;
   uploadedAt?: string;
 };
 
