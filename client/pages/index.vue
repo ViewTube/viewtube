@@ -5,29 +5,22 @@ import { useSettingsStore } from '@/store/settings';
 const settingsStore = useSettingsStore();
 const userStore = useUserStore();
 
-const {
-  data: videoData,
-  error: popularPageError,
-  pending: popularPageLoading
-} = useGetPopularPage();
-
 const { data: homeFeedData, error: homeFeedError, pending: homeFeedLoading } = useGetHomeFeed();
 </script>
 
 <template>
-  <div class="home" :class="{ loading: popularPageLoading }">
+  <div class="home" :class="{ loading: homeFeedLoading }">
     <MetaPageHead
       title="ViewTube :: An alternative YouTube frontend"
       description="An alternative YouTube frontend"
     />
-    <Spinner v-if="popularPageLoading" class="centered" />
+    <Spinner v-if="homeFeedLoading" class="centered" />
     <ErrorPage
-      v-if="popularPageError"
+      v-if="homeFeedError"
       text="Error loading homepage. The API may not be reachable."
     />
     <HomeSubscriptions v-if="userStore.isLoggedIn && settingsStore.showHomeSubscriptions" />
-    <HomeVideosContainer v-if="videoData?.videos" :videos="videoData?.videos" :short="settingsStore.showHomeSubscriptions" />
-    <HomeVideosContainer v-if="homeFeedData?.videos" :videos="homeFeedData?.videos" />
+    <HomeVideosContainer v-if="homeFeedData?.videos" :videos="homeFeedData?.videos"  :short="settingsStore.showHomeSubscriptions"  />
   </div>
 </template>
 

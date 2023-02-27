@@ -76,9 +76,6 @@ export interface paths {
   '/api/channels/{id}/stats': {
     get: operations['ChannelsController_getChannelStats'];
   };
-  '/api/homepage/popular': {
-    get: operations['HomepageController_getPopular'];
-  };
   '/api/homepage/homefeed': {
     get: operations['HomepageController_getHomeFeed'];
   };
@@ -415,30 +412,6 @@ export interface components {
       viewCount: number;
       location: string;
     };
-    VideoBasicInfoDto: {
-      videoId: string;
-      title: string;
-      published?: number;
-      publishedText: string;
-      author: string;
-      authorId: string;
-      authorVerified?: boolean;
-      authorThumbnails?: components['schemas']['AuthorThumbnailDto'][];
-      authorThumbnailUrl?: string;
-      videoThumbnails: components['schemas']['VTThumbnailDto'][];
-      description?: string;
-      viewCount: number;
-      likeCount?: number;
-      dislikeCount?: number;
-      lengthSeconds?: number;
-      lengthString?: string;
-      live?: boolean;
-    };
-    PopularDto: {
-      videos: components['schemas']['VideoBasicInfoDto'][];
-      /** Format: date-time */
-      updatedAt: string;
-    };
     VTVideoDto: {
       id: string;
       title: string;
@@ -559,6 +532,25 @@ export interface components {
       profileImage: string;
       settings: components['schemas']['SettingsDto'];
       admin: boolean;
+    };
+    VideoBasicInfoDto: {
+      videoId: string;
+      title: string;
+      published?: number;
+      publishedText: string;
+      author: string;
+      authorId: string;
+      authorVerified?: boolean;
+      authorThumbnails?: components['schemas']['AuthorThumbnailDto'][];
+      authorThumbnailUrl?: string;
+      videoThumbnails: components['schemas']['VTThumbnailDto'][];
+      description?: string;
+      viewCount: number;
+      likeCount?: number;
+      dislikeCount?: number;
+      lengthSeconds?: number;
+      lengthString?: string;
+      live?: boolean;
     };
     VideoVisitDetailsDto: {
       videoDetails: components['schemas']['VideoBasicInfoDto'];
@@ -1010,15 +1002,6 @@ export interface operations {
       };
       404: never;
       500: never;
-    };
-  };
-  HomepageController_getPopular: {
-    responses: {
-      200: {
-        content: {
-          'application/json': components['schemas']['PopularDto'];
-        };
-      };
     };
   };
   HomepageController_getHomeFeed: {
