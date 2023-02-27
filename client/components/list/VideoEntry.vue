@@ -47,7 +47,7 @@ type VideoType = {
   live?: boolean;
   lengthSeconds?: number;
   lengthString?: string;
-  richThumbnails: {
+  richThumbnails?: {
     url: string;
     width: number;
     height: number;
