@@ -177,7 +177,7 @@ importers:
       mini-svg-data-uri: 1.4.4
       mongodb-memory-server: 8.11.5
       mongoose: 7.0.0
-      nest-winston: 1.8.0
+      nest-winston: 1.9.0
       nestjs-throttler-storage-redis: 0.3.0
       openapi-typescript: 6.1.1
       passport: 0.6.0
@@ -244,7 +244,7 @@ importers:
       joi: 17.8.3
       mini-svg-data-uri: 1.4.4
       mongoose: 7.0.0
-      nest-winston: 1.8.0_h53ubm3ncu4kbgqtwz3todsuhm
+      nest-winston: 1.9.0_h53ubm3ncu4kbgqtwz3todsuhm
       nestjs-throttler-storage-redis: 0.3.0_ahu3zrmecsll4xojvlrf4z53ue
       passport: 0.6.0
       passport-jwt: 4.0.1
@@ -9515,8 +9515,8 @@ packages:
     resolution: {integrity: sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==}
     dev: true
 
-  /nest-winston/1.8.0_h53ubm3ncu4kbgqtwz3todsuhm:
-    resolution: {integrity: sha512-DyoNrly6DXjNG2ZPXSD2+w+pgEE8u0y0iwsaLZsufFLIKB/YNgP7zIXV5JxIqns0e5QzLlxdHhO2hx+1W8dvCw==}
+  /nest-winston/1.9.0_h53ubm3ncu4kbgqtwz3todsuhm:
+    resolution: {integrity: sha512-UYD+BaxJUVvMNKRfc9Uvk/lOdHiER+M6Gj6NPFfRn8D+GH07XFBs3Qe7qIzgCXUV1/kfkgiWSXaWOfLK1G6+Pw==}
     peerDependencies:
       '@nestjs/common': ^5.0.0 || ^6.6.0 || ^7.0.0 || ^8.0.0 || ^9.0.0
       winston: ^3.0.0
