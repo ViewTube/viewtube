@@ -87,7 +87,6 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
     if (dashHelper.value && dashHelper.value.isFullyInitialized) {
       return dashHelper.value.getVideoQualityList();
     } else {
-      console.log(props.video.legacyFormats);
       return props.video.legacyFormats.sort((a, b) => b.bitrate - a.bitrate);
     }
   });

@@ -10,7 +10,6 @@ const downloadLogFile = (logFileName: string) => {
   const link = document.createElement('a');
   link.href = `${apiUrl.value}admin/logs/${logFileName}`;
   link.download = logFileName;
-  console.log(link);
   link.click();
 };
 

@@ -26,7 +26,6 @@ const loadMore = async () => {
         ...communityPosts.value.items,
         ...additionalCommunityPosts.items
       ];
-      console.log(communityPosts.value.items);
       communityPosts.value.continuation = additionalCommunityPosts.continuation;
       communityPosts.value.innerTubeApi = additionalCommunityPosts.innerTubeApi;
     } catch (error) {
