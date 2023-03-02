@@ -1,5 +1,6 @@
 <template>
   <div
+    id="video-player"
     ref="videoPlayerRef"
     class="video-player"
     :style="{
@@ -276,6 +277,7 @@
               :selected-video-quality="selectedVideoQuality"
               :selected-audio-quality="selectedAudioQuality"
               :rendered-video-quality="renderedVideoQuality"
+              :fullscreen="fullscreen"
               @videoqualityselect="onChangeVideoQuality"
               @audioqualityselect="onChangeAudioQuality"
               @speedchange="onChangeSpeed"

@@ -21,6 +21,7 @@ const props = defineProps<{
   renderedVideoQuality?: number;
   videoQualityList: QualityList;
   audioQualityList?: QualityList;
+  fullscreen?: boolean;
 }>();
 
 const emit = defineEmits<{
@@ -123,7 +124,7 @@ onBeforeUnmount(() => {
       <span class="quality-label-small">{{ smallQualityLabel }}</span>
       <SettingsIcon @click.stop="onQualityInteraction" @touchend.stop="onQualityTouchInteraction" />
     </div>
-    <Teleport to="body">
+    <Teleport :to="fullscreen ? 'body' : '#video-player'">
       <transition name="player-settings-popup">
         <div
           v-if="popup"
@@ -271,7 +272,7 @@ $bottom-controls-height: $bottom-overlay-height - $video-seekbar-height;
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: 141;
+  z-index: 500;
   display: grid;
 
   .player-settings-popup {
