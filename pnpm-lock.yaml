@@ -35,7 +35,7 @@ importers:
       eslint-plugin-node: 11.1.0
       eslint-plugin-nuxt: 4.0.0
       eslint-plugin-promise: 6.1.1
-      eslint-plugin-unicorn: 45.0.2
+      eslint-plugin-unicorn: 46.0.0
       eslint-plugin-vue: 9.9.0
       hls.js: 1.3.4
       human-number: 2.0.1
@@ -83,7 +83,7 @@ importers:
       eslint-plugin-node: 11.1.0_eslint@8.35.0
       eslint-plugin-nuxt: 4.0.0_eslint@8.35.0
       eslint-plugin-promise: 6.1.1_eslint@8.35.0
-      eslint-plugin-unicorn: 45.0.2_eslint@8.35.0
+      eslint-plugin-unicorn: 46.0.0_eslint@8.35.0
       eslint-plugin-vue: 9.9.0_eslint@8.35.0
       hls.js: 1.3.4
       human-number: 2.0.1
@@ -261,7 +261,7 @@ importers:
       x2js: 3.4.4
       xml-js: 1.6.11
       youtubei.js: 3.0.0
-      yt-channel-info: github.com/FreeTubeApp/yt-channel-info/bd96ccda928b4f67f11b64f185578498c6f794b4
+      yt-channel-info: github.com/FreeTubeApp/yt-channel-info/0a6001bf4e7ec0e4aef4f95dded67c8f8ee0f2c4
       ytdl-core: 4.11.2
       ytpl: 2.3.0
       ytsr: 3.8.0
@@ -6555,8 +6555,8 @@ packages:
       eslint: 8.35.0
     dev: true
 
-  /eslint-plugin-unicorn/45.0.2_eslint@8.35.0:
-    resolution: {integrity: sha512-Y0WUDXRyGDMcKLiwgL3zSMpHrXI00xmdyixEGIg90gHnj0PcHY4moNv3Ppje/kDivdAy5vUeUr7z211ImPv2gw==}
+  /eslint-plugin-unicorn/46.0.0_eslint@8.35.0:
+    resolution: {integrity: sha512-j07WkC+PFZwk8J33LYp6JMoHa1lXc1u6R45pbSAipjpfpb7KIGr17VE2D685zCxR5VL4cjrl65kTJflziQWMDA==}
     engines: {node: '>=14.18'}
     peerDependencies:
       eslint: '>=8.28.0'
@@ -12909,8 +12909,8 @@ packages:
       compress-commons: 4.1.1
       readable-stream: 3.6.1
 
-  github.com/FreeTubeApp/yt-channel-info/bd96ccda928b4f67f11b64f185578498c6f794b4:
-    resolution: {tarball: https://codeload.github.com/FreeTubeApp/yt-channel-info/tar.gz/bd96ccda928b4f67f11b64f185578498c6f794b4}
+  github.com/FreeTubeApp/yt-channel-info/0a6001bf4e7ec0e4aef4f95dded67c8f8ee0f2c4:
+    resolution: {tarball: https://codeload.github.com/FreeTubeApp/yt-channel-info/tar.gz/0a6001bf4e7ec0e4aef4f95dded67c8f8ee0f2c4}
     name: yt-channel-info
     version: 3.2.1
     dependencies:
