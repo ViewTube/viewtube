@@ -57,7 +57,7 @@ importers:
       vue: 3.2.47
       vue-datepicker-next: 1.0.2
       vue-material-design-icons: 5.2.0
-      vue-tsc: 1.1.7
+      vue-tsc: 1.2.0
       x2js: 3.4.4
       ytpl: 2.3.0
       ytsr: 3.8.0
@@ -93,7 +93,7 @@ importers:
       keen-slider: 6.8.5
       modern-js-ripple: 1.1.3
       nuxi: 3.2.3
-      nuxt: 3.2.3_35h446id7s7ijzrqnm6vx2x6fq
+      nuxt: 3.2.3_q7f5tnmgkpgeu4nfdbbm5qqufy
       nuxt-proxy: 0.4.1
       papaparse: 5.3.2
       pinia: 2.0.32_hmuptsblhheur2tugfgucj7gc4
@@ -105,7 +105,7 @@ importers:
       vue: 3.2.47
       vue-datepicker-next: 1.0.2_vue@3.2.47
       vue-material-design-icons: 5.2.0
-      vue-tsc: 1.1.7_typescript@4.9.5
+      vue-tsc: 1.2.0_typescript@4.9.5
       x2js: 3.4.4
       ytpl: 2.3.0
       ytsr: 3.8.0
@@ -3219,7 +3219,7 @@ packages:
     resolution: {integrity: sha512-PjVETP7+iZXAs5Q8O4ivl4t6qjWZMZqwiTVogUXHoHGZZcw7GZW3u3tzfYfE1HbzyYJfr236IXqQ02MeR8Fz2w==}
     dev: true
 
-  /@nuxt/vite-builder/3.2.3_ypda5l35wqytmmaghyp3tdecha:
+  /@nuxt/vite-builder/3.2.3_fygjclt6xlnfnkwhheg27z27oa:
     resolution: {integrity: sha512-a+VZAmWUPJnUWqkZSY+bqXUCPxVfllucxXXA8MxxSdg1mgSVvrGkHUQoi6uNt1nfWrvNfkgkjlXLY0Qr+DrX+A==}
     engines: {node: ^14.18.0 || ^16.10.0 || ^17.0.0 || ^18.0.0 || ^19.0.0}
     peerDependencies:
@@ -3257,7 +3257,7 @@ packages:
       unplugin: 1.1.0
       vite: 4.1.4_ljrjoypxov5se64ibfjelu4vsu
       vite-node: 0.29.2_ljrjoypxov5se64ibfjelu4vsu
-      vite-plugin-checker: 0.5.6_gxym4nmlwfg2joit7b25pdc76e
+      vite-plugin-checker: 0.5.6_ugtgln4gv5ozv332b7yphnsasa
       vue: 3.2.47
       vue-bundle-renderer: 1.0.2
     transitivePeerDependencies:
@@ -4274,29 +4274,29 @@ packages:
       vue: 3.2.47
     dev: true
 
-  /@volar/language-core/1.2.0-alpha.19:
-    resolution: {integrity: sha512-l/QsncqY3aV4CwJtw3r88tmUGO9yoTwcTXqKUfMwU2RC7X97xe6yAaB2medK7T+Azx6Xpv2yh9g5V0immyMWcA==}
+  /@volar/language-core/1.3.0-alpha.0:
+    resolution: {integrity: sha512-W3uMzecHPcbwddPu4SJpUcPakRBK/y/BP+U0U6NiPpUX1tONLC4yCawt+QBJqtgJ+sfD6ztf5PyvPL3hQRqfOA==}
     dependencies:
-      '@volar/source-map': 1.2.0-alpha.19
+      '@volar/source-map': 1.3.0-alpha.0
     dev: true
 
-  /@volar/source-map/1.2.0-alpha.19:
-    resolution: {integrity: sha512-pkMPiP28r3zHvyoSh29q4/MY2T+UGtsEN5ASu6N0/JEI0Wl4KKk0+nKP2Fge1JtIx9ZLjpGQxPr1eHBFvHxLAg==}
+  /@volar/source-map/1.3.0-alpha.0:
+    resolution: {integrity: sha512-jSdizxWFvDTvkPYZnO6ew3sBZUnS0abKCbuopkc0JrIlFbznWC/fPH3iPFIMS8/IIkRxq1Jh9VVG60SmtsdaMQ==}
     dependencies:
       muggle-string: 0.2.2
     dev: true
 
-  /@volar/typescript/1.2.0-alpha.19:
-    resolution: {integrity: sha512-KRObKfbQ5930m1nIWBsV3I8uJAaJpqkM76ArsG3cOURuJ1dQSkFm3820Ge/9Ps8Wgf/NDpLPiy21CWDXP1KjnA==}
+  /@volar/typescript/1.3.0-alpha.0:
+    resolution: {integrity: sha512-5UItyW2cdH2mBLu4RrECRNJRgtvvzKrSCn2y3v/D61QwIDkGx4aeil6x8RFuUL5TFtV6QvVHXnsOHxNgd+sCow==}
     dependencies:
-      '@volar/language-core': 1.2.0-alpha.19
+      '@volar/language-core': 1.3.0-alpha.0
     dev: true
 
-  /@volar/vue-language-core/1.1.7:
-    resolution: {integrity: sha512-oEgMfbbU5kk6X+xs0U37KGdvHwq5xgQL7IhXLb0RUQVagVVnAzlkZs9m+Fv+XOioGwH75MeH2NQzk4+KVSCuEQ==}
+  /@volar/vue-language-core/1.2.0:
+    resolution: {integrity: sha512-w7yEiaITh2WzKe6u8ZdeLKCUz43wdmY/OqAmsB/PGDvvhTcVhCJ6f0W/RprZL1IhqH8wALoWiwEh/Wer7ZviMQ==}
     dependencies:
-      '@volar/language-core': 1.2.0-alpha.19
-      '@volar/source-map': 1.2.0-alpha.19
+      '@volar/language-core': 1.3.0-alpha.0
+      '@volar/source-map': 1.3.0-alpha.0
       '@vue/compiler-dom': 3.2.47
       '@vue/compiler-sfc': 3.2.47
       '@vue/reactivity': 3.2.47
@@ -4306,11 +4306,11 @@ packages:
       vue-template-compiler: 2.7.14
     dev: true
 
-  /@volar/vue-typescript/1.1.7:
-    resolution: {integrity: sha512-JGHz+XUUS1MAgnBaDFsk2dBmMumMDYXJ40nH4EFzXUHyKOsinmuFsHaQJScZDOoM0NPeWK9jWaNOEozjygXXeQ==}
+  /@volar/vue-typescript/1.2.0:
+    resolution: {integrity: sha512-zjmRi9y3J1EkG+pfuHp8IbHmibihrKK485cfzsHjiuvJMGrpkWvlO5WVEk8oslMxxeGC5XwBFE9AOlvh378EPA==}
     dependencies:
-      '@volar/typescript': 1.2.0-alpha.19
-      '@volar/vue-language-core': 1.1.7
+      '@volar/typescript': 1.3.0-alpha.0
+      '@volar/vue-language-core': 1.2.0
     dev: true
 
   /@vue/babel-helper-vue-transform-on/1.0.2:
@@ -9770,7 +9770,7 @@ packages:
       - supports-color
     dev: true
 
-  /nuxt/3.2.3_35h446id7s7ijzrqnm6vx2x6fq:
+  /nuxt/3.2.3_q7f5tnmgkpgeu4nfdbbm5qqufy:
     resolution: {integrity: sha512-e211l9XQYvb2cUv5ji+IsX8305QyozUk5pFMyl7oAFssONzPNK4AXq7ZUzXd8qtxStsyByOgQDdAF353sQayOg==}
     engines: {node: ^14.18.0 || ^16.10.0 || ^17.0.0 || ^18.0.0 || ^19.0.0}
     hasBin: true
@@ -9780,7 +9780,7 @@ packages:
       '@nuxt/schema': 3.2.3
       '@nuxt/telemetry': 2.1.10
       '@nuxt/ui-templates': 1.1.1
-      '@nuxt/vite-builder': 3.2.3_ypda5l35wqytmmaghyp3tdecha
+      '@nuxt/vite-builder': 3.2.3_fygjclt6xlnfnkwhheg27z27oa
       '@unhead/ssr': 1.1.14
       '@vue/reactivity': 3.2.47
       '@vue/shared': 3.2.47
@@ -12282,7 +12282,7 @@ packages:
       - terser
     dev: true
 
-  /vite-plugin-checker/0.5.6_gxym4nmlwfg2joit7b25pdc76e:
+  /vite-plugin-checker/0.5.6_ugtgln4gv5ozv332b7yphnsasa:
     resolution: {integrity: sha512-ftRyON0gORUHDxcDt2BErmsikKSkfvl1i2DoP6Jt2zDO9InfvM6tqO1RkXhSjkaXEhKPea6YOnhFaZxW3BzudQ==}
     engines: {node: '>=14.16'}
     peerDependencies:
@@ -12332,7 +12332,7 @@ packages:
       vscode-languageserver: 7.0.0
       vscode-languageserver-textdocument: 1.0.8
       vscode-uri: 3.0.7
-      vue-tsc: 1.1.7_typescript@4.9.5
+      vue-tsc: 1.2.0_typescript@4.9.5
     dev: true
 
   /vite/4.1.4_ljrjoypxov5se64ibfjelu4vsu:
@@ -12482,14 +12482,14 @@ packages:
       he: 1.2.0
     dev: true
 
-  /vue-tsc/1.1.7_typescript@4.9.5:
-    resolution: {integrity: sha512-TYuWJMQmwaV9kC1oWvw6fSHlymJpsD1ad4GaYqvUloph7E2QiVEXZyZe+lf0pHHayyltZp0Z+ZqcLuXoru8lzA==}
+  /vue-tsc/1.2.0_typescript@4.9.5:
+    resolution: {integrity: sha512-rIlzqdrhyPYyLG9zxsVRa+JEseeS9s8F2BbVVVWRRsTZvJO2BbhLEb2HW3MY+DFma0378tnIqs+vfTzbcQtRFw==}
     hasBin: true
     peerDependencies:
       typescript: '*'
     dependencies:
-      '@volar/vue-language-core': 1.1.7
-      '@volar/vue-typescript': 1.1.7
+      '@volar/vue-language-core': 1.2.0
+      '@volar/vue-typescript': 1.2.0
       typescript: 4.9.5
     dev: true
 
