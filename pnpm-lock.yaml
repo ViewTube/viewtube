@@ -47,7 +47,7 @@ importers:
       nuxi: 3.2.3
       nuxt: 3.2.3
       nuxt-proxy: 0.4.1
-      papaparse: 5.3.2
+      papaparse: 5.4.0
       pinia: 2.0.32
       qrcode: 1.5.1
       sass: 1.58.3
@@ -95,7 +95,7 @@ importers:
       nuxi: 3.2.3
       nuxt: 3.2.3_t3fifna7rpvtztvkpksqohcitq
       nuxt-proxy: 0.4.1
-      papaparse: 5.3.2
+      papaparse: 5.4.0
       pinia: 2.0.32_hmuptsblhheur2tugfgucj7gc4
       qrcode: 1.5.1
       sass: 1.58.3
@@ -10069,8 +10069,8 @@ packages:
     resolution: {integrity: sha512-HnUl9ztHGty5ZK13WM8Q7854SWPKH/eCT+MiTO0P1qCu1Y4S5PPJ8E9MwD3cnjSr7PUPzXDnmOVJIKM043OfJQ==}
     dev: true
 
-  /papaparse/5.3.2:
-    resolution: {integrity: sha512-6dNZu0Ki+gyV0eBsFKJhYr+MdQYAzFUGlBMNj3GNrmHxmz1lfRa24CjFObPXtjcetlOv5Ad299MhIK0znp3afw==}
+  /papaparse/5.4.0:
+    resolution: {integrity: sha512-ZBQABWG09p+u8rFoJVl/GhgxZ5zy9Zh1Lu/LVc7VX5T4nljjC14/YTcpebYwqP218B9X307eBOP7Tuhoqv7v7w==}
     dev: true
 
   /parent-module/1.0.1:
