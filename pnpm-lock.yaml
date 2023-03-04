@@ -186,7 +186,7 @@ importers:
       redis: 4.6.5
       redis-mock: 0.56.3
       reflect-metadata: 0.1.13
-      rimraf: 4.2.0
+      rimraf: 4.3.0
       run-script-webpack-plugin: 0.1.1
       rxjs: 7.8.0
       sharp: 0.31.3
@@ -261,7 +261,7 @@ importers:
       x2js: 3.4.4
       xml-js: 1.6.11
       youtubei.js: 3.0.0
-      yt-channel-info: github.com/FreeTubeApp/yt-channel-info/bd96ccda928b4f67f11b64f185578498c6f794b4
+      yt-channel-info: github.com/FreeTubeApp/yt-channel-info/0a6001bf4e7ec0e4aef4f95dded67c8f8ee0f2c4
       ytdl-core: 4.11.2
       ytpl: 2.3.0
       ytsr: 3.8.0
@@ -299,7 +299,7 @@ importers:
       openapi-typescript: 6.1.1
       redis: 4.6.5
       redis-mock: 0.56.3
-      rimraf: 4.2.0
+      rimraf: 4.3.0
       run-script-webpack-plugin: 0.1.1
       ts-jest: 29.0.5_orzzknleilowtsz34rkaotjvzm
       ts-loader: 9.4.2_hhrrucqyg4eysmfpujvov2ym5u
@@ -11051,8 +11051,8 @@ packages:
     hasBin: true
     dev: true
 
-  /rimraf/4.2.0:
-    resolution: {integrity: sha512-tPt+gLORNVqRCk0NwuJ5SlMEcOGvt4CCU8sUPqgCFtCbnoNCTd9Q6vq7JlBbxQlACiH14OR28y7piA2Bak9Sxw==}
+  /rimraf/4.3.0:
+    resolution: {integrity: sha512-5qVDXPbByA1qSJEWMv1qAwKsoS22vVpsL2QyxCKBw4gf6XiFo1K3uRLY6uSOOBFDwnqAZtnbILqWKKlzh8bkGg==}
     engines: {node: '>=14'}
     hasBin: true
     dependencies:
@@ -12936,8 +12936,8 @@ packages:
       compress-commons: 4.1.1
       readable-stream: 3.6.1
 
-  github.com/FreeTubeApp/yt-channel-info/bd96ccda928b4f67f11b64f185578498c6f794b4:
-    resolution: {tarball: https://codeload.github.com/FreeTubeApp/yt-channel-info/tar.gz/bd96ccda928b4f67f11b64f185578498c6f794b4}
+  github.com/FreeTubeApp/yt-channel-info/0a6001bf4e7ec0e4aef4f95dded67c8f8ee0f2c4:
+    resolution: {tarball: https://codeload.github.com/FreeTubeApp/yt-channel-info/tar.gz/0a6001bf4e7ec0e4aef4f95dded67c8f8ee0f2c4}
     name: yt-channel-info
     version: 3.2.1
     dependencies:
