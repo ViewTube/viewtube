@@ -48,7 +48,7 @@ importers:
       nuxt: 3.2.3
       nuxt-proxy: 0.4.1
       papaparse: 5.4.0
-      pinia: 2.0.32
+      pinia: 2.0.33
       qrcode: 1.5.1
       sass: 1.58.3
       swiper: 9.1.0
@@ -63,7 +63,7 @@ importers:
       ytsr: 3.8.0
     devDependencies:
       '@nuxt/eslint-config': 0.1.1_eslint@8.35.0
-      '@pinia-plugin-persistedstate/nuxt': 1.0.0_zebqlokuyzf54u3x3a43v4cl4i
+      '@pinia-plugin-persistedstate/nuxt': 1.0.0_2fa6k6uov4i2t7fhwaa7f3r2li
       '@pinia/nuxt': 0.4.7_hmuptsblhheur2tugfgucj7gc4
       '@types/humanize-duration': 3.27.1
       '@types/node': 18.14.4
@@ -96,7 +96,7 @@ importers:
       nuxt: 3.2.3_t3fifna7rpvtztvkpksqohcitq
       nuxt-proxy: 0.4.1
       papaparse: 5.4.0
-      pinia: 2.0.32_hmuptsblhheur2tugfgucj7gc4
+      pinia: 2.0.33_hmuptsblhheur2tugfgucj7gc4
       qrcode: 1.5.1
       sass: 1.58.3
       swiper: 9.1.0
@@ -3583,14 +3583,14 @@ packages:
     dev: true
     optional: true
 
-  /@pinia-plugin-persistedstate/nuxt/1.0.0_zebqlokuyzf54u3x3a43v4cl4i:
+  /@pinia-plugin-persistedstate/nuxt/1.0.0_2fa6k6uov4i2t7fhwaa7f3r2li:
     resolution: {integrity: sha512-oBLnkFXy0mcP9wCR0NQj1SguhgalEoubDF302gpRr1lh0V34vSL2Nlw8XDwRrULq5v3eHt4da632YSjNny1+BA==}
     peerDependencies:
       '@pinia/nuxt': ^0.4.4
     dependencies:
       '@nuxt/kit': 3.2.3
       '@pinia/nuxt': 0.4.7_hmuptsblhheur2tugfgucj7gc4
-      pinia-plugin-persistedstate: 3.1.0_pinia@2.0.32
+      pinia-plugin-persistedstate: 3.1.0_pinia@2.0.33
     transitivePeerDependencies:
       - pinia
       - rollup
@@ -3601,7 +3601,7 @@ packages:
     resolution: {integrity: sha512-ifgA9PO/jmPlK1e/HtkrZa7OMSL8EUOpo8Z1O5vNLRr/OZ42kKGEaY1NbIoCz6dIf/pbkATTNHJmcrlPCo3zSA==}
     dependencies:
       '@nuxt/kit': 3.2.3
-      pinia: 2.0.32_hmuptsblhheur2tugfgucj7gc4
+      pinia: 2.0.33_hmuptsblhheur2tugfgucj7gc4
     transitivePeerDependencies:
       - '@vue/composition-api'
       - rollup
@@ -10472,16 +10472,16 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: true
 
-  /pinia-plugin-persistedstate/3.1.0_pinia@2.0.32:
+  /pinia-plugin-persistedstate/3.1.0_pinia@2.0.33:
     resolution: {integrity: sha512-8UN+vYMEPBdgNLwceY08mi5olI0wkYaEb8b6hD6xW7SnBRuPydWHlEhZvUWgNb/ibuf4PvufpvtS+dmhYjJQOw==}
     peerDependencies:
       pinia: ^2.0.0
     dependencies:
-      pinia: 2.0.32_hmuptsblhheur2tugfgucj7gc4
+      pinia: 2.0.33_hmuptsblhheur2tugfgucj7gc4
     dev: true
 
-  /pinia/2.0.32_hmuptsblhheur2tugfgucj7gc4:
-    resolution: {integrity: sha512-8Tw4OrpCSJ028UUyp0gYPP/wyjigLoEceuO/x1G+FlHVf73337e5vLm4uDmrRIoBG1hvaed/eSHnrCFjOc4nkA==}
+  /pinia/2.0.33_hmuptsblhheur2tugfgucj7gc4:
+    resolution: {integrity: sha512-HOj1yVV2itw6rNIrR2f7+MirGNxhORjrULL8GWgRwXsGSvEqIQ+SE0MYt6cwtpegzCda3i+rVTZM+AM7CG+kRg==}
     peerDependencies:
       '@vue/composition-api': ^1.4.0
       typescript: '>=4.4.4'
