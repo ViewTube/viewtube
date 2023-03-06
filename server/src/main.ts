@@ -20,18 +20,19 @@ import { version } from '../../package.json';
 import { checkRedisConnection } from './common/redis.connection';
 import { logger } from './common/logger';
 import { ModuleType } from './common/module.type';
+import { FastifyPluginCallback } from 'fastify';
 
 declare const module: ModuleType;
 
 const bootstrap = async () => {
   await ConfigurationService.initializeEnvironment();
 
-  const server = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter(), {
+  const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter(), {
     bufferLogs: true,
     logger
   });
 
-  const configService = server.get(ConfigService);
+  const configService = app.get(ConfigService);
 
   const isProduction = configService.get('NODE_ENV') === 'production';
   logger.log(`Running in ${isProduction ? 'production' : 'development'} mode`);
@@ -69,7 +70,7 @@ const bootstrap = async () => {
 
   // Disables helment on non-https instances
   if (isHttps()) {
-    await server.register(FastifyHelmet, {
+    await app.register(FastifyHelmet  as FastifyPluginCallback, {
       contentSecurityPolicy: {
         useDefaults: true,
         directives: {
@@ -81,15 +82,15 @@ const bootstrap = async () => {
     });
   }
 
-  await server.register(FastifyCookie);
-  await server.register(FastifyMultipart);
+  await app.register(FastifyCookie as FastifyPluginCallback);
+  await app.register(FastifyMultipart as FastifyPluginCallback);
 
   // NUXT
   if (isProduction) {
-    const nuxtService = server.get(NuxtService);
+    const nuxtService = app.get(NuxtService);
     await nuxtService.init();
 
-    server.useStaticAssets({
+    app.useStaticAssets({
       root: path.resolve(nuxtService.nuxtPath, 'public'),
       wildcard: false,
       maxAge: 31536000
@@ -102,7 +103,7 @@ const bootstrap = async () => {
   // CORS
   const allowedOrigin = configService.get<string>('VIEWTUBE_CORS_ORIGIN');
   if (isProduction && allowedOrigin) {
-    server.enableCors({
+    app.enableCors({
       origin: allowedOrigin,
       credentials: true
     });
@@ -117,20 +118,20 @@ const bootstrap = async () => {
     .addBearerAuth()
     .build();
 
-  const swaggerDocument = SwaggerModule.createDocument(server, documentOptions);
+  const swaggerDocument = SwaggerModule.createDocument(app, documentOptions);
 
   if (process.env.GENERATE_SWAGGER === 'true') {
     fs.writeFileSync('./swagger-spec.json', JSON.stringify(swaggerDocument));
     process.exit(0);
   }
 
-  SwaggerModule.setup('/api', server, swaggerDocument);
+  SwaggerModule.setup('/api', app, swaggerDocument);
 
-  server.use(cookieParser());
+  app.use(cookieParser());
 
-  server.enableShutdownHooks();
+  app.enableShutdownHooks();
   // START
-  await server.listen(port, '0.0.0.0', (err, _address) => {
+  await app.listen(port, '0.0.0.0', (err, _address) => {
     if (err) {
       logger.error(err);
       process.exit(1);
@@ -142,7 +143,7 @@ const bootstrap = async () => {
 
   if (module.hot) {
     module.hot.accept();
-    module.hot.dispose(() => server.close());
+    module.hot.dispose(() => app.close());
   }
 };
 
