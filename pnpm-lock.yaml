@@ -28,7 +28,7 @@ importers:
       dashjs: 4.6.0
       dayjs: 1.11.7
       eslint: 8.35.0
-      eslint-config-prettier: 8.6.0
+      eslint-config-prettier: 8.7.0
       eslint-import-resolver-node: 0.3.7
       eslint-plugin-import: 2.27.5
       eslint-plugin-jest: 27.2.1
@@ -76,7 +76,7 @@ importers:
       dashjs: 4.6.0
       dayjs: 1.11.7
       eslint: 8.35.0
-      eslint-config-prettier: 8.6.0_eslint@8.35.0
+      eslint-config-prettier: 8.7.0_eslint@8.35.0
       eslint-import-resolver-node: 0.3.7
       eslint-plugin-import: 2.27.5_ajyizmi44oc3hrc35l6ndh7p4e
       eslint-plugin-jest: 27.2.1_cr7y6sw7vyueh5myaklqkixpee
@@ -166,7 +166,7 @@ importers:
       cookie-parser: 1.4.6
       cross-env: 7.0.3
       eslint: 8.35.0
-      eslint-config-prettier: 8.6.0
+      eslint-config-prettier: 8.7.0
       eslint-plugin-jest: 27.2.1
       fastify: 4.13.0
       https-proxy-agent: 5.0.1
@@ -292,7 +292,7 @@ importers:
       '@typescript-eslint/parser': 5.54.0_ycpbpc6yetojsgtrx3mwntkhsu
       cross-env: 7.0.3
       eslint: 8.35.0
-      eslint-config-prettier: 8.6.0_eslint@8.35.0
+      eslint-config-prettier: 8.7.0_eslint@8.35.0
       eslint-plugin-jest: 27.2.1_cr7y6sw7vyueh5myaklqkixpee
       jest: 29.5.0_@types+node@18.14.4
       mongodb-memory-server: 8.11.5
@@ -6639,8 +6639,8 @@ packages:
     engines: {node: '>=12'}
     dev: true
 
-  /eslint-config-prettier/8.6.0_eslint@8.35.0:
-    resolution: {integrity: sha512-bAF0eLpLVqP5oEVUFKpMA+NnRFICwn9X8B5jrR9FcqnYBuPbqWEjTEspPWMj5ye6czoSLDweCzSo3Ko7gGrZaA==}
+  /eslint-config-prettier/8.7.0_eslint@8.35.0:
+    resolution: {integrity: sha512-HHVXLSlVUhMSmyW4ZzEuvjpwqamgmlfkutD53cYXLikh4pt/modINRcCIApJ84czDxM4GZInwUrromsDdTImTA==}
     hasBin: true
     peerDependencies:
       eslint: '>=7.0.0'

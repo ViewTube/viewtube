@@ -29,7 +29,7 @@
     "dashjs": "4.6.0",
     "dayjs": "1.11.7",
     "eslint": "8.35.0",
-    "eslint-config-prettier": "8.6.0",
+    "eslint-config-prettier": "8.7.0",
     "eslint-import-resolver-node": "0.3.7",
     "eslint-plugin-import": "2.27.5",
     "eslint-plugin-jest": "27.2.1",
