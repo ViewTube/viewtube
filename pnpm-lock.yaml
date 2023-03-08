@@ -186,7 +186,7 @@ importers:
       redis: 4.6.5
       redis-mock: 0.56.3
       reflect-metadata: 0.1.13
-      rimraf: 4.3.0
+      rimraf: 4.4.0
       run-script-webpack-plugin: 0.1.1
       rxjs: 7.8.0
       sharp: 0.31.3
@@ -299,7 +299,7 @@ importers:
       openapi-typescript: 6.1.1
       redis: 4.6.5
       redis-mock: 0.56.3
-      rimraf: 4.3.0
+      rimraf: 4.4.0
       run-script-webpack-plugin: 0.1.1
       ts-jest: 29.0.5_doipufordlnvh5g4adbwayvyvy
       ts-loader: 9.4.2_hhrrucqyg4eysmfpujvov2ym5u
@@ -11361,11 +11361,12 @@ packages:
   /rimraf/4.1.2:
     resolution: {integrity: sha512-BlIbgFryTbw3Dz6hyoWFhKk+unCcHMSkZGrTFVAx2WmttdBSonsdtRlwiuTbDqTKr+UlXIUqJVS4QT5tUzGENQ==}
     engines: {node: '>=14'}
+    deprecated: Please upgrade to 4.3.1 or higher to fix a potentially damaging issue regarding symbolic link following. See https://github.com/isaacs/rimraf/issues/259 for details.
     hasBin: true
     dev: true
 
-  /rimraf/4.3.0:
-    resolution: {integrity: sha512-5qVDXPbByA1qSJEWMv1qAwKsoS22vVpsL2QyxCKBw4gf6XiFo1K3uRLY6uSOOBFDwnqAZtnbILqWKKlzh8bkGg==}
+  /rimraf/4.4.0:
+    resolution: {integrity: sha512-X36S+qpCUR0HjXlkDe4NAOhS//aHH0Z+h8Ckf2auGJk3PTnx5rLmrHkwNdbVQuCSUhOyFrlRvFEllZOYE+yZGQ==}
     engines: {node: '>=14'}
     hasBin: true
     dependencies:
