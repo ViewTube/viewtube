@@ -20,7 +20,7 @@ import { version } from '../../package.json';
 import { checkRedisConnection } from './common/redis.connection';
 import { logger } from './common/logger';
 import { ModuleType } from './common/module.type';
-import { FastifyPluginCallback } from 'fastify';
+import { registerFastifyPlugin } from './common/registerFastifyPlugin';
 
 declare const module: ModuleType;
 
@@ -41,8 +41,8 @@ const bootstrap = async () => {
 
   webPush.setVapidDetails(
     'https://github.com/ViewTube/viewtube',
-    ConfigurationService.publicVapidKey || '',
-    ConfigurationService.privateVapidKey || ''
+    ConfigurationService.publicVapidKey ?? '',
+    ConfigurationService.privateVapidKey ?? ''
   );
 
   global.__basedir = __dirname;
@@ -70,7 +70,7 @@ const bootstrap = async () => {
 
   // Disables helment on non-https instances
   if (isHttps()) {
-    await app.register(FastifyHelmet  as FastifyPluginCallback, {
+    registerFastifyPlugin(app, FastifyHelmet, {
       contentSecurityPolicy: {
         useDefaults: true,
         directives: {
@@ -82,8 +82,8 @@ const bootstrap = async () => {
     });
   }
 
-  await app.register(FastifyCookie as FastifyPluginCallback);
-  await app.register(FastifyMultipart as FastifyPluginCallback);
+  await registerFastifyPlugin(app, FastifyCookie);
+  await registerFastifyPlugin(app, FastifyMultipart);
 
   // NUXT
   if (isProduction) {
