@@ -7,7 +7,7 @@ import {
   FastifyRegisterOptions
 } from 'fastify';
 
-export function registerFastifyPlugin<Options extends FastifyPluginOptions>(
+export async function registerFastifyPlugin<Options extends FastifyPluginOptions>(
   app: NestFastifyApplication,
   plugin:
     | FastifyPluginCallback<Options>
@@ -20,5 +20,5 @@ export function registerFastifyPlugin<Options extends FastifyPluginOptions>(
       }>,
   opts?: FastifyRegisterOptions<Options>
 ): Promise<FastifyInstance> {
-  return app.register(plugin, opts);
+  return (await app.register(plugin as never, opts as never)) as unknown as FastifyInstance;
 }

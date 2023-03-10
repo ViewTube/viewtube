@@ -70,7 +70,7 @@ const bootstrap = async () => {
 
   // Disables helment on non-https instances
   if (isHttps()) {
-    registerFastifyPlugin(app, FastifyHelmet, {
+    await registerFastifyPlugin(app, FastifyHelmet, {
       contentSecurityPolicy: {
         useDefaults: true,
         directives: {
