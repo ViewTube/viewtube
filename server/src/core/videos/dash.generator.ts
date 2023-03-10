@@ -4,6 +4,7 @@
 // by https://github.com/GilgusMaximus
 // https://www.npmjs.com/package/@freetube/yt-dash-manifest-generator
 
+import { URL, URLSearchParams } from 'node:url';
 import xml from 'xml-js';
 
 export class DashGenerator {

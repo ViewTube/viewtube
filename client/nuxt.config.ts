@@ -17,6 +17,7 @@ export default defineNuxtConfig({
 
   typescript: {
     strict: true,
+    shim: false,
     typeCheck: 'build'
   },
 
@@ -37,6 +38,12 @@ export default defineNuxtConfig({
   },
 
   modules: ['@pinia/nuxt', '@pinia-plugin-persistedstate/nuxt', ...devOnly(['nuxt-proxy'])],
+
+  piniaPersistedstate: {
+    cookieOptions: {
+      sameSite: 'strict'
+    }
+  },
 
   proxy: {
     options: {
