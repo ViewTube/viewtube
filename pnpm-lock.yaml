@@ -179,7 +179,7 @@ importers:
       mongoose: 7.0.1
       nest-winston: 1.9.1
       nestjs-throttler-storage-redis: 0.3.0
-      openapi-typescript: 6.1.1
+      openapi-typescript: 6.2.0
       passport: 0.6.0
       passport-jwt: 4.0.1
       passport-local: 1.0.0
@@ -296,7 +296,7 @@ importers:
       eslint-plugin-jest: 27.2.1_7gw243haaqb63dhughlu7px6xe
       jest: 29.5.0_@types+node@16.18.14
       mongodb-memory-server: 8.12.0
-      openapi-typescript: 6.1.1
+      openapi-typescript: 6.2.0
       redis: 4.6.5
       redis-mock: 0.56.3
       rimraf: 4.4.0
@@ -10068,8 +10068,8 @@ packages:
     resolution: {integrity: sha512-XpeCy01X6L5EpP+6Hc3jWN7rMZJ+/k1lwki/kTmWzbVhdPie3jd5O2ZtedEx8Yp58icJ0osVldLMrTB/zslQXA==}
     dev: false
 
-  /openapi-typescript/6.1.1:
-    resolution: {integrity: sha512-KKoe2ZfALfMRo7hbi7T7fP6hr7770l6/FbwGPNMCLwMj4gYqLIGf49bR2gnPrCDQG1XbC65M8XGCnvF/E+aI9g==}
+  /openapi-typescript/6.2.0:
+    resolution: {integrity: sha512-d1HF70HCUnU+g9hgX5X3MJ+BMgwX16fzwD6mkyfNqdxXuOTOSkm+O+aaFqLNX13aFbCylz4m2WiVe4viAShxiQ==}
     hasBin: true
     dependencies:
       ansi-colors: 4.1.3
