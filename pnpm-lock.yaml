@@ -135,7 +135,7 @@ importers:
       '@sentry/node': 7.42.0
       '@sentry/tracing': 7.42.0
       '@sentry/types': 7.42.0
-      '@types/archiver': 5.3.1
+      '@types/archiver': 5.3.2
       '@types/bcryptjs': 2.4.2
       '@types/busboy': 1.5.0
       '@types/cache-manager': 4.0.2
@@ -270,7 +270,7 @@ importers:
       '@nestjs/testing': 9.3.9_77foi4w27ghy47yutmnzv7krjy
       '@nestjs/websockets': 9.3.9_xap76i5unmrgcq3fgd6nhqgyvy
       '@sentry/types': 7.42.0
-      '@types/archiver': 5.3.1
+      '@types/archiver': 5.3.2
       '@types/bcryptjs': 2.4.2
       '@types/busboy': 1.5.0
       '@types/cache-manager': 4.0.2
@@ -3910,10 +3910,10 @@ packages:
     engines: {node: '>=10.13.0'}
     dev: true
 
-  /@types/archiver/5.3.1:
-    resolution: {integrity: sha512-wKYZaSXaDvTZuInAWjCeGG7BEAgTWG2zZW0/f7IYFcoHB2X2d9lkVFnrOlXl3W6NrvO6Ml3FLLu8Uksyymcpnw==}
+  /@types/archiver/5.3.2:
+    resolution: {integrity: sha512-IctHreBuWE5dvBDz/0WeKtyVKVRs4h75IblxOACL92wU66v+HGAfEYAOyXkOFphvRJMhuXdI9huDXpX0FC6lCw==}
     dependencies:
-      '@types/glob': 8.1.0
+      '@types/readdir-glob': 1.1.0
     dev: true
 
   /@types/babel__core/7.20.0:
@@ -4017,13 +4017,6 @@ packages:
       '@types/serve-static': 1.15.1
     dev: true
 
-  /@types/glob/8.1.0:
-    resolution: {integrity: sha512-IO+MJPVhoqz+28h1qLAcBEH2+xHMK6MTyHJc7MTnnYb6wsoLR29POVGJ7LycmVXIqyy/4/2ShP5sUwTXuOwb/w==}
-    dependencies:
-      '@types/minimatch': 5.1.2
-      '@types/node': 16.18.14
-    dev: true
-
   /@types/graceful-fs/4.1.6:
     resolution: {integrity: sha512-Sig0SNORX9fdW+bQuTEovKj3uHcUL6LQKbCrrqb1X7J6/ReAbhCXRAhc+SMejhLELFj2QcyuxmUooZ4bt5ReSw==}
     dependencies:
@@ -4082,10 +4075,6 @@ packages:
 
   /@types/mime/3.0.1:
     resolution: {integrity: sha512-Y4XFY5VJAuw0FgAqPNd6NNoV44jbq9Bz2L7Rh/J6jLTiHBSBJa9fxqQIvkIld4GsoDOcCbvzOUAbLPsSKKg+uA==}
-    dev: true
-
-  /@types/minimatch/5.1.2:
-    resolution: {integrity: sha512-K0VQKziLUWkVKiRVrx4a40iPaxTUefQmjtkQofBkYRcoaaL/8rhwDWww9qWbrgicNOgnpIsMxyNIUM4+n6dUIA==}
     dev: true
 
   /@types/multer/1.4.7:
@@ -4168,6 +4157,12 @@ packages:
 
   /@types/range-parser/1.2.4:
     resolution: {integrity: sha512-EEhsLsD6UsDM1yFhAvy0Cjr6VwmpMWqFBCb9w07wVugF7w9nfajxLuVmngTIpgS6svCnm6Vaw+MZhoDCKnOfsw==}
+    dev: true
+
+  /@types/readdir-glob/1.1.0:
+    resolution: {integrity: sha512-taqbpEGEu0Vx6+9PQ4XtqAUAMRyLCE7H6p4Pkp+R/90y/phddtCwb7XRLa8MYf1OxmiL2ZqXwZF1gOT7LyGGCg==}
+    dependencies:
+      '@types/node': 16.18.14
     dev: true
 
   /@types/redis-mock/0.17.1:
