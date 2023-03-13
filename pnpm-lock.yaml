@@ -195,7 +195,7 @@ importers:
       ts-loader: 9.4.2
       tslib: 2.5.0
       typescript: 4.9.5
-      undici: 5.20.0
+      undici: 5.21.0
       web-push: 3.5.0
       webpack: 5.76.1
       webpack-node-externals: 3.0.0
@@ -254,7 +254,7 @@ importers:
       sharp: 0.31.3
       svg-captcha: 1.4.0
       tslib: 2.5.0
-      undici: 5.20.0
+      undici: 5.21.0
       web-push: 3.5.0
       winston: 3.8.2
       winston-daily-rotate-file: 4.7.1_winston@3.8.2
@@ -10238,7 +10238,7 @@ packages:
       fast-glob: 3.2.12
       js-yaml: 4.1.0
       supports-color: 9.3.1
-      undici: 5.20.0
+      undici: 5.21.0
       yargs-parser: 21.1.1
     dev: true
 
@@ -12431,8 +12431,8 @@ packages:
       unplugin: 1.3.0
     dev: true
 
-  /undici/5.20.0:
-    resolution: {integrity: sha512-J3j60dYzuo6Eevbawwp1sdg16k5Tf768bxYK4TUJRH7cBM4kFCbf3mOnM/0E3vQYXvpxITbbWmBafaDbxLDz3g==}
+  /undici/5.21.0:
+    resolution: {integrity: sha512-HOjK8l6a57b2ZGXOcUsI5NLfoTrfmbOl90ixJDl0AEFG4wgHNDQxtZy15/ZQp7HhjkpaGlp/eneMgtsu1dIlUA==}
     engines: {node: '>=12.18'}
     dependencies:
       busboy: 1.6.0
@@ -13280,7 +13280,7 @@ packages:
     dependencies:
       jintr: 0.4.1
       linkedom: 0.14.24
-      undici: 5.20.0
+      undici: 5.21.0
     dev: false
 
   /ytdl-core/4.11.2:
