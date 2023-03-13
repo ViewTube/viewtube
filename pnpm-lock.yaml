@@ -55,7 +55,7 @@ importers:
       tippy.js: 6.3.7
       typescript: 4.9.5
       vue: 3.2.47
-      vue-datepicker-next: 1.0.2
+      vue-datepicker-next: 1.0.3
       vue-material-design-icons: 5.2.0
       vue-tsc: 1.2.0
       x2js: 3.4.4
@@ -103,7 +103,7 @@ importers:
       tippy.js: 6.3.7
       typescript: 4.9.5
       vue: 3.2.47
-      vue-datepicker-next: 1.0.2_vue@3.2.47
+      vue-datepicker-next: 1.0.3_vue@3.2.47
       vue-material-design-icons: 5.2.0
       vue-tsc: 1.2.0_typescript@4.9.5
       x2js: 3.4.4
@@ -12591,8 +12591,8 @@ packages:
       ufo: 1.1.1
     dev: true
 
-  /vue-datepicker-next/1.0.2_vue@3.2.47:
-    resolution: {integrity: sha512-gGXLT9x0oTFcMc1yCX1boVAflT8nifb+lsFQXLNdRptt2QK2gvFh1MvhqZx5L2x1YO7Ft28uuugXGhUcJxox+A==}
+  /vue-datepicker-next/1.0.3_vue@3.2.47:
+    resolution: {integrity: sha512-Brqjh896BJGVxP7d6tGDsPMu0SDAB8hAdtG7zWF8VIHJB21dk1VB9KgdajD9Y9uXbg+wHN0vmL7sbMPIyehQVQ==}
     peerDependencies:
       vue: ^3.0.0
     dependencies:
