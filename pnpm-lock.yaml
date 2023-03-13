@@ -197,7 +197,7 @@ importers:
       typescript: 4.9.5
       undici: 5.20.0
       web-push: 3.5.0
-      webpack: 5.76.0
+      webpack: 5.76.1
       webpack-node-externals: 3.0.0
       winston: 3.8.2
       winston-daily-rotate-file: 4.7.1
@@ -302,9 +302,9 @@ importers:
       rimraf: 4.4.0
       run-script-webpack-plugin: 0.1.1
       ts-jest: 29.0.5_doipufordlnvh5g4adbwayvyvy
-      ts-loader: 9.4.2_w6zjx75bct6vaixfrpcwixys6m
+      ts-loader: 9.4.2_cbz6r35m2it77sxuzifyafc6zi
       typescript: 4.9.5
-      webpack: 5.76.0
+      webpack: 5.76.1
       webpack-node-externals: 3.0.0
 
   shared:
@@ -3982,7 +3982,7 @@ packages:
     resolution: {integrity: sha512-9K4zoImiZc3HlIp6AVUDE4CWYx22a+lhSZMYNpbjW04+YF0KWj4pJXnEMjdnFTiQibFFmElcsasJXDbdI/EPhA==}
     dependencies:
       '@types/eslint': 8.21.1
-      '@types/estree': 0.0.51
+      '@types/estree': 1.0.0
     dev: true
 
   /@types/eslint/8.21.1:
@@ -4249,7 +4249,7 @@ packages:
     resolution: {integrity: sha512-Z3ELJiH0aZjxkoymT2nrGSmCF/CYjiqC0bpv4/DWy9h7e6gP4B2qmKZFHJFermeF0SYURbSw0puddQl9dMMV0w==}
     dependencies:
       '@types/node': 16.18.14
-      webpack: 5.76.0
+      webpack: 5.76.1
     transitivePeerDependencies:
       - '@swc/core'
       - esbuild
@@ -12069,7 +12069,7 @@ packages:
       webpack: 5.75.0
     dev: true
 
-  /terser-webpack-plugin/5.3.7_webpack@5.76.0:
+  /terser-webpack-plugin/5.3.7_webpack@5.76.1:
     resolution: {integrity: sha512-AfKwIktyP7Cu50xNjXF/6Qb5lBNzYaWpU6YfoX3uZicTx0zTy0stDDCsvjDapKsSDvOeWo5MEq4TmdBy2cNoHw==}
     engines: {node: '>= 10.13.0'}
     peerDependencies:
@@ -12090,7 +12090,7 @@ packages:
       schema-utils: 3.1.1
       serialize-javascript: 6.0.1
       terser: 5.16.6
-      webpack: 5.76.0
+      webpack: 5.76.1
     dev: true
 
   /terser/5.16.6:
@@ -12262,7 +12262,7 @@ packages:
       yargs-parser: 21.1.1
     dev: true
 
-  /ts-loader/9.4.2_w6zjx75bct6vaixfrpcwixys6m:
+  /ts-loader/9.4.2_cbz6r35m2it77sxuzifyafc6zi:
     resolution: {integrity: sha512-OmlC4WVmFv5I0PpaxYb+qGeGOdm5giHU7HwDDUjw59emP2UYMHy9fFSDcYgSNoH8sXcj4hGCSEhlDZ9ULeDraA==}
     engines: {node: '>=12.0.0'}
     peerDependencies:
@@ -12274,7 +12274,7 @@ packages:
       micromatch: 4.0.5
       semver: 7.3.8
       typescript: 4.9.5
-      webpack: 5.76.0
+      webpack: 5.76.1
     dev: true
 
   /tsconfig-paths-webpack-plugin/4.0.0:
@@ -12975,8 +12975,8 @@ packages:
       - uglify-js
     dev: true
 
-  /webpack/5.76.0:
-    resolution: {integrity: sha512-l5sOdYBDunyf72HW8dF23rFtWq/7Zgvt/9ftMof71E/yUb1YLOBmTgA2K4vQthB3kotMrSj609txVE0dnr2fjA==}
+  /webpack/5.76.1:
+    resolution: {integrity: sha512-4+YIK4Abzv8172/SGqObnUjaIHjLEuUasz9EwQj/9xmPPkYJy2Mh03Q/lJfSD3YLzbxy5FeTq5Uw0323Oh6SJQ==}
     engines: {node: '>=10.13.0'}
     hasBin: true
     peerDependencies:
@@ -13006,7 +13006,7 @@ packages:
       neo-async: 2.6.2
       schema-utils: 3.1.1
       tapable: 2.2.1
-      terser-webpack-plugin: 5.3.7_webpack@5.76.0
+      terser-webpack-plugin: 5.3.7_webpack@5.76.1
       watchpack: 2.4.0
       webpack-sources: 3.2.3
     transitivePeerDependencies:
