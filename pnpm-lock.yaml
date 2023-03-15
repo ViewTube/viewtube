@@ -142,7 +142,7 @@ importers:
       '@types/cookie-parser': 1.4.3
       '@types/eslint': 8.21.2
       '@types/humanize-duration': 3.27.1
-      '@types/jest': 29.4.2
+      '@types/jest': 29.4.3
       '@types/mime-types': 2.1.1
       '@types/multer': 1.4.7
       '@types/node': 16.18.14
@@ -277,7 +277,7 @@ importers:
       '@types/cookie-parser': 1.4.3
       '@types/eslint': 8.21.2
       '@types/humanize-duration': 3.27.1
-      '@types/jest': 29.4.2
+      '@types/jest': 29.4.3
       '@types/mime-types': 2.1.1
       '@types/multer': 1.4.7
       '@types/node': 16.18.14
@@ -4054,8 +4054,8 @@ packages:
       '@types/istanbul-lib-report': 3.0.0
     dev: true
 
-  /@types/jest/29.4.2:
-    resolution: {integrity: sha512-bbne90W7is+m88ezmZrLiTpp41tIoTdvPC5t3gLoNgu/6qbGdWTC2JWqPWQRJn2Q7rVYTr8aTWqOjhGJDXyvAQ==}
+  /@types/jest/29.4.3:
+    resolution: {integrity: sha512-rQ+fXtBHSDfgoTwGLLNuZ27fHpp14mCZSxGUZ3MlNExwJno5hz0uXEWtXfQlE8vaZmYAa6atbR9rpHk+NnlRaw==}
     dependencies:
       expect: 29.5.0
       pretty-format: 29.5.0
