@@ -44,7 +44,7 @@ importers:
       js-sha256: 0.9.0
       keen-slider: 6.8.5
       modern-js-ripple: 1.1.3
-      nuxi: 3.2.3
+      nuxi: 3.3.1
       nuxt: 3.2.3
       nuxt-proxy: 0.4.1
       papaparse: 5.4.0
@@ -92,7 +92,7 @@ importers:
       js-sha256: 0.9.0
       keen-slider: 6.8.5
       modern-js-ripple: 1.1.3
-      nuxi: 3.2.3
+      nuxi: 3.3.1
       nuxt: 3.2.3_szp2oauctvapk42hp7qtpx4sea
       nuxt-proxy: 0.4.1
       papaparse: 5.4.0
@@ -10073,6 +10073,14 @@ packages:
 
   /nuxi/3.2.3:
     resolution: {integrity: sha512-ABbIAzsHol8gNXQn2Q3R94iCb1FLmDpep9iAAijCbp0sy7udsjsj71tsKf0xp3C8UNHONnxPI32PitZXNVODxw==}
+    engines: {node: ^14.18.0 || ^16.10.0 || ^17.0.0 || ^18.0.0 || ^19.0.0}
+    hasBin: true
+    optionalDependencies:
+      fsevents: 2.3.2
+    dev: true
+
+  /nuxi/3.3.1:
+    resolution: {integrity: sha512-GJaJR0NtH05W7xrtFoJ3sX/eUhIMoqWj63QNFekqhrfD8LmXrlWrx9Q8GCFNc3nqk0oIcngJijyGNfWtTtpSxw==}
     engines: {node: ^14.18.0 || ^16.10.0 || ^17.0.0 || ^18.0.0 || ^19.0.0}
     hasBin: true
     optionalDependencies:
