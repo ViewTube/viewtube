@@ -71,7 +71,7 @@
     "winston-daily-rotate-file": "4.7.1",
     "x2js": "3.4.4",
     "xml-js": "1.6.11",
-    "youtubei.js": "^3.3.0",
+    "youtubei.js": "^4.0.0",
     "yt-channel-info": "git://github.com/FreeTubeApp/yt-channel-info",
     "ytdl-core": "4.11.2",
     "ytpl": "2.3.0",

@@ -203,7 +203,7 @@ importers:
       winston-daily-rotate-file: 4.7.1
       x2js: 3.4.4
       xml-js: 1.6.11
-      youtubei.js: ^3.3.0
+      youtubei.js: ^4.0.0
       yt-channel-info: git://github.com/FreeTubeApp/yt-channel-info
       ytdl-core: 4.11.2
       ytpl: 2.3.0
@@ -260,7 +260,7 @@ importers:
       winston-daily-rotate-file: 4.7.1_winston@3.8.2
       x2js: 3.4.4
       xml-js: 1.6.11
-      youtubei.js: 3.3.0
+      youtubei.js: 4.0.0
       yt-channel-info: github.com/FreeTubeApp/yt-channel-info/0a6001bf4e7ec0e4aef4f95dded67c8f8ee0f2c4
       ytdl-core: 4.11.2
       ytpl: 2.3.0
@@ -13515,8 +13515,8 @@ packages:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
 
-  /youtubei.js/3.3.0:
-    resolution: {integrity: sha512-tPel0BFZpzaEuCaXzm5XTPwFpM9tCFLivP/TiS4a9zo+bvp4cSV1paS16XucQ8IWAaYAGHuO8Dtevterlu6LNA==}
+  /youtubei.js/4.0.0:
+    resolution: {integrity: sha512-m/tjOIexuzlPtET7AH+CFgO5ptFM/JF9aGoFd5/MAYSqyJrwlorNurFAoT/QvyNpyxtHnlz7Opkmn4lP2m0NIg==}
     dependencies:
       jintr: 0.4.1
       linkedom: 0.14.24
