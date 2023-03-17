@@ -16,7 +16,7 @@
   },
   "devDependencies": {
     "@nuxt/eslint-config": "0.1.1",
-    "@pinia-plugin-persistedstate/nuxt": "1.0.0",
+    "@pinia-plugin-persistedstate/nuxt": "1.1.1",
     "@pinia/nuxt": "0.4.7",
     "@types/humanize-duration": "3.27.1",
     "@types/node": "16.18.16",
