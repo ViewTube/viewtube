@@ -11,3 +11,15 @@ export const useGetLogs = () => {
     }
   );
 };
+
+export const useGetBlockedVideos = () => {
+  const { apiUrl } = useApiUrl();
+
+  return useLazyAsyncData<string[]>(
+    'blocked-videos',
+    () => $fetch(`${apiUrl.value}admin/blocked-videos`),
+    {
+      server: false
+    }
+  );
+};

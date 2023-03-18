@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { promisify } from 'util';
 import sharp from 'sharp';
-import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus, ForbiddenException } from '@nestjs/common';
 import { getInfo, videoInfo, getInfoOptions } from 'ytdl-core';
 import { ConfigService } from '@nestjs/config';
 import { InjectModel } from '@nestjs/mongoose';
@@ -16,6 +16,7 @@ import { VideoBasicInfo } from './schemas/video-basic-info.schema';
 import { mapVideo } from './video.mapper';
 import { DislikeDto } from 'server/core/videos/dto/dislike.dto';
 import undici from 'undici';
+import { BlockedVideo } from 'server/user/admin/schemas/blocked-video';
 
 @Injectable()
 export class VideosService {
@@ -24,12 +25,18 @@ export class VideosService {
     private readonly videoModel: Model<VideoBasicInfo>,
     @InjectModel(ChannelBasicInfo.name)
     private readonly channelModel: Model<ChannelBasicInfo>,
+    @InjectModel(BlockedVideo.name)
+    private readonly blockedVideoModel: Model<BlockedVideo>,
     private configService: ConfigService
   ) {}
 
   returnYoutubeDislikeUrl = 'https://returnyoutubedislikeapi.com';
 
   async getById(id: string): Promise<VideoDto> {
+    const isVideoBlocked = await this.blockedVideoModel.findOne({ videoId: id });
+    if (isVideoBlocked) {
+      throw new ForbiddenException('This video has been blocked for copyright reasons.');
+    }
     const url: string = Common.youtubeVideoUrl + id;
     let proxyAgent;
 

@@ -1,13 +1,285 @@
+<script setup lang="ts">
+import ThumbsUp from 'vue-material-design-icons/ThumbUp.vue';
+import ThumbsDown from 'vue-material-design-icons/ThumbDown.vue';
+import InfoIcon from 'vue-material-design-icons/Information.vue';
+import Share from 'vue-material-design-icons/Share.vue';
+import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
+import VerifiedIcon from 'vue-material-design-icons/CheckDecagram.vue';
+import { Result } from 'ytpl';
+import NextUpVideo from '@/components/watch/NextUpVideo.vue';
+import Spinner from '@/components/Spinner.vue';
+import SubscribeButton from '@/components/buttons/SubscribeButton.vue';
+import Comment from '@/components/Comment.vue';
+import RecommendedVideos from '@/components/watch/RecommendedVideos.vue';
+import ShareOptions from '@/components/watch/ShareOptions.vue';
+import CollapsibleSection from '@/components/list/CollapsibleSection.vue';
+import PlaylistSection from '@/components/watch/PlaylistSection.vue';
+import BadgeButton from '@/components/buttons/BadgeButton.vue';
+import SectionTitle from '@/components/SectionTitle.vue';
+import VideoPlayer from '@/components/videoplayer/VideoPlayer.vue';
+import VideoLoadingTemplate from '@/components/watch/VideoLoadingTemplate.vue';
+import { useMessagesStore } from '@/store/messages';
+import { useSettingsStore } from '@/store/settings';
+import { useMiniplayerStore } from '@/store/miniplayer';
+import { useVideoPlayerStore } from '@/store/videoPlayer';
+import { useLoadingVideoInfoStore } from '@/store/loadingVideoInfo';
+import { ApiDto, ApiErrorDto } from 'viewtube/shared';
+import { useUserStore } from '@/store/user';
+
+type VideoType = ApiDto<'VideoDto'> & { initialVideoTime: number };
+
+const messagesStore = useMessagesStore();
+const settingsStore = useSettingsStore();
+const videoPlayerStore = useVideoPlayerStore();
+const miniplayerStore = useMiniplayerStore();
+const userStore = useUserStore();
+const { apiUrl } = useApiUrl();
+
+const route = useRoute();
+const router = useRouter();
+const { proxyUrl } = useImgProxy();
+
+const jsEnabled = ref(false);
+const commentObject = ref(null);
+const commentsLoading = ref(true);
+const commentsError = ref(false);
+const commentsContinuationLink = ref(null);
+const commentsContinuationLoading = ref(false);
+const recommendedOpen = ref(false);
+const shareOpen = ref(false);
+const videoplayerRef = ref<typeof VideoPlayer>(null);
+const playlistSectionRef = ref<typeof PlaylistSection>(null);
+
+const dislikeCount = ref(0);
+
+const playlist = ref<Result>(null);
+const loadingVideoInfoStore = useLoadingVideoInfoStore();
+
+const {
+  data: video,
+  error: videoError,
+  pending: videoPending,
+  refresh
+} = useLazyAsyncData<VideoType, ApiErrorDto>(route.query.v.toString(), async () => {
+  const value = await $fetch<ApiDto<'VideoDto'>>(`${apiUrl.value}videos/${route.query.v}`);
+
+  let initialVideoTime = 0;
+  if (userStore.isLoggedIn && settingsStore.saveVideoHistory) {
+    const videoVisit = await $fetch<any>(`${apiUrl.value}user/history/${value.videoId}`, {
+      credentials: 'include'
+    }).catch((_: any) => {});
+
+    if (videoVisit?.progressSeconds > 0) {
+      initialVideoTime = videoVisit.data.progressSeconds;
+    } else if (userStore.isLoggedIn) {
+      $fetch(`${apiUrl.value}user/history/${route.query.v}`, {
+        body: {
+          progressSeconds: null,
+          lengthSeconds: value.lengthSeconds
+        },
+        credentials: 'include'
+      }).catch(_ => {});
+    }
+  }
+
+  return { ...value, initialVideoTime };
+});
+
+watch(videoPending, value => {
+  if (!value) {
+    loadingVideoInfoStore.clearInfo();
+  }
+});
+
+watch(videoError, () => {
+  console.log(videoError);
+  messagesStore.createMessage({
+    type: 'error',
+    title: 'Error loading video',
+    message: videoError.value?.message ?? 'Unknown error'
+  });
+});
+
+const isPlaylist = computed(() => {
+  return Boolean(route.query && route.query.list);
+});
+
+const isAutoplaying = computed(() => {
+  return isPlaylist.value || settingsStore.autoplay || route.query.autoplay === 'true';
+});
+
+const recommendedVideos = computed(() => {
+  if (video.value) {
+    if (settingsStore.autoplayNextVideo) {
+      return video.value.recommendedVideos.slice(1);
+    }
+    return video.value.recommendedVideos;
+  }
+  return [];
+});
+
+const nextUpVideo = computed(() => {
+  if (video.value) return video.value.recommendedVideos[0];
+  return null;
+});
+
+const loadDislikes = () => {
+  getDislikes(route.query.v)
+    .then(response => {
+      dislikeCount.value = response.dislikes;
+    })
+    .catch(error => {
+      messagesStore.createMessage({
+        type: 'error',
+        title: 'Error loading dislikes',
+        message: error.message
+      });
+    });
+};
+
+const reloadComments = () => {
+  commentsLoading.value = true;
+  commentsError.value = false;
+  loadComments();
+};
+const setTimestamp = (e: Event, seconds: number) => {
+  e.preventDefault();
+  const searchParams = new URLSearchParams(window.location.search);
+  searchParams.set('t', `${seconds}s`);
+  router.push(`${location.pathname}?${searchParams.toString()}`);
+  videoplayerRef.value.setVideoTime(seconds);
+  videoplayerRef.value.play();
+};
+const getHDUrl = () => {
+  if (video.value.legacyFormats) {
+    const hdVideo = video.value.legacyFormats.find(e => {
+      return e.qualityLabel && e.qualityLabel === '720p';
+    });
+    if (hdVideo) {
+      return hdVideo.url;
+    } else if (video.value.legacyFormats.length > 0) {
+      return video.value.legacyFormats[0].url;
+    }
+  }
+  return '#';
+};
+
+const loadComments = (evtVideoId: string = null) => {
+  const videoId = evtVideoId || route.query.v;
+  getComments(videoId)
+    .then(response => {
+      if (response.comments && response.comments.length > 0) {
+        commentObject.value = response;
+        commentsLoading.value = false;
+        commentsContinuationLink.value = response.continuation || null;
+      } else {
+        commentsLoading.value = false;
+        commentsError.value = true;
+        commentObject.value = null;
+      }
+    })
+    .catch(_ => {
+      commentsLoading.value = false;
+      commentsError.value = true;
+      commentObject.value = null;
+    });
+};
+
+const loadMoreComments = () => {
+  commentsContinuationLoading.value = true;
+  const videoId = route.query.v;
+  getCommentsContinuation(videoId, commentsContinuationLink.value)
+    .then(response => {
+      commentObject.value.comments = commentObject.value.comments.concat(response.comments);
+      commentsContinuationLoading.value = false;
+      commentsContinuationLink.value = response.continuation || null;
+    })
+    .catch(_ => {
+      messagesStore.createMessage({
+        type: 'error',
+        title: 'Error loading more comments',
+        message: 'Loading comments failed. There may not be any more comments.'
+      });
+    });
+};
+
+const loadPlaylist = () => {
+  if (isPlaylist.value) {
+    getPlaylists(route.query.list)
+      .then(response => {
+        playlist.value = response;
+      })
+      .catch(_ => {
+        messagesStore.createMessage({
+          type: 'error',
+          title: 'Error loading playlist',
+          message: 'Playlist may not be available'
+        });
+      });
+  }
+};
+
+watch(
+  () => route.query,
+  (newValue, oldValue) => {
+    if (newValue.v !== oldValue.v || newValue.list !== oldValue.list) {
+      refresh();
+      const videoId = newValue.v as string;
+      loadComments(videoId);
+      miniplayerStore.setCurrentVideo(video);
+    }
+  }
+);
+
+onMounted(() => {
+  jsEnabled.value = true;
+
+  if (window && window.innerWidth > 700) {
+    recommendedOpen.value = true;
+  }
+  loadComments();
+  loadDislikes();
+  miniplayerStore.setCurrentVideo(video);
+  loadPlaylist();
+});
+
+const onVideoEnded = () => {
+  if (
+    isPlaylist.value &&
+    playlistSectionRef.value &&
+    !settingsStore.alwaysLoopVideo &&
+    !videoPlayerStore.loop
+  ) {
+    playlistSectionRef.value.playNextVideo();
+  } else if (settingsStore.autoplayNextVideo && video.value.recommendedVideos) {
+    router.push({
+      path: route.fullPath,
+      query: { v: video.value.recommendedVideos[0].videoId, autoplay: 'true' }
+    });
+  }
+};
+
+const watchPageTitle = computed(() => {
+  if (video.value) {
+    return `${video.value.title} :: ${video.value.author}`;
+  } else if (videoPending.value) {
+    return 'Loading...';
+  }
+  return 'Video Error';
+});
+</script>
+
 <template>
   <div class="watch">
     <MetaPageHead
-      :title="`${video?.title} :: ${video?.author}`"
+      :title="watchPageTitle"
       :description="`${video?.description?.substring(0, 100)}`"
       :image="`${video?.authorThumbnails?.[2]?.url}`"
       :video="`${video?.legacyFormats?.[0]?.url}`"
     />
     <VideoLoadingTemplate v-if="videoPending" />
     <!-- <video v-if="!jsEnabled" controls :src="getHDUrl()" class="nojs-player" /> -->
+    <WatchVideoError v-if="videoError" :error="videoError" />
     <VideoPlayer
       v-if="video && !videoPending"
       :key="video.videoId"
@@ -78,7 +350,7 @@
                   v-if="video.authorThumbnails && video.authorThumbnails.length > 0"
                   id="channel-img"
                   alt="Channel image"
-                  :src="imgProxyUrl + video.authorThumbnails[2].url"
+                  :src="proxyUrl(video.authorThumbnails[2].url)"
                 />
               </nuxt-link>
             </div>
@@ -149,9 +421,9 @@
               ><LoadMoreIcon />Try again</BadgeButton
             >
           </div>
-          <div v-if="!commentsLoading && comment" class="comments-container">
+          <div v-if="!commentsLoading && commentObject" class="comments-container">
             <Comment
-              v-for="(subComment, i) in comment.comments"
+              v-for="(subComment, i) in commentObject.comments"
               :key="i"
               :comment="subComment"
               :channel-author-id="video.authorId"
@@ -171,323 +443,6 @@
     </div>
   </div>
 </template>
-
-<script lang="ts">
-import ThumbsUp from 'vue-material-design-icons/ThumbUp.vue';
-import ThumbsDown from 'vue-material-design-icons/ThumbDown.vue';
-import InfoIcon from 'vue-material-design-icons/Information.vue';
-import Share from 'vue-material-design-icons/Share.vue';
-import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
-import VerifiedIcon from 'vue-material-design-icons/CheckDecagram.vue';
-import { Result } from 'ytpl';
-import NextUpVideo from '@/components/watch/NextUpVideo.vue';
-import Spinner from '@/components/Spinner.vue';
-import SubscribeButton from '@/components/buttons/SubscribeButton.vue';
-import Comment from '@/components/Comment.vue';
-import RecommendedVideos from '@/components/watch/RecommendedVideos.vue';
-import ShareOptions from '@/components/watch/ShareOptions.vue';
-import CollapsibleSection from '@/components/list/CollapsibleSection.vue';
-import PlaylistSection from '@/components/watch/PlaylistSection.vue';
-import BadgeButton from '@/components/buttons/BadgeButton.vue';
-import SectionTitle from '@/components/SectionTitle.vue';
-import VideoPlayer from '@/components/videoplayer/VideoPlayer.vue';
-import VideoLoadingTemplate from '@/components/watch/VideoLoadingTemplate.vue';
-import { useMessagesStore } from '@/store/messages';
-import { useSettingsStore } from '@/store/settings';
-import { useMiniplayerStore } from '@/store/miniplayer';
-import { useVideoPlayerStore } from '@/store/videoPlayer';
-import { useLoadingVideoInfoStore } from '@/store/loadingVideoInfo';
-import { ApiDto, ApiErrorDto } from 'viewtube/shared';
-import { useUserStore } from '@/store/user';
-
-type VideoType = ApiDto<'VideoDto'> & { initialVideoTime: number };
-
-export default defineComponent({
-  name: 'Watch',
-  components: {
-    Spinner,
-    ThumbsUp,
-    ThumbsDown,
-    InfoIcon,
-    Share,
-    LoadMoreIcon,
-    NextUpVideo,
-    VideoPlayer,
-    SubscribeButton,
-    Comment,
-    RecommendedVideos,
-    ShareOptions,
-    CollapsibleSection,
-    BadgeButton,
-    PlaylistSection,
-    VideoLoadingTemplate,
-    SectionTitle,
-    VerifiedIcon
-  },
-  setup() {
-    const messagesStore = useMessagesStore();
-    const settingsStore = useSettingsStore();
-    const videoPlayerStore = useVideoPlayerStore();
-    const miniplayerStore = useMiniplayerStore();
-    const userStore = useUserStore();
-    const { apiUrl } = useApiUrl();
-
-    const route = useRoute();
-    const router = useRouter();
-    const imgProxy = useImgProxy();
-
-    const jsEnabled = ref(false);
-    const commentObject = ref(null);
-    const commentsLoading = ref(true);
-    const commentsError = ref(false);
-    const commentsContinuationLink = ref(null);
-    const commentsContinuationLoading = ref(false);
-    const recommendedOpen = ref(false);
-    const shareOpen = ref(false);
-    const videoplayerRef = ref<typeof VideoPlayer>(null);
-    const playlistSectionRef = ref<typeof PlaylistSection>(null);
-    const videoLoaded = ref(false);
-
-    const dislikeCount = ref(0);
-
-    const playlist = ref<Result>(null);
-    const loadingVideoInfoStore = useLoadingVideoInfoStore();
-
-    const {
-      data: video,
-      error: videoError,
-      pending: videoPending,
-      refresh
-    } = useLazyAsyncData<VideoType, ApiErrorDto>(route.query.v.toString(), async () => {
-      const value = await $fetch<ApiDto<'VideoDto'>>(`${apiUrl.value}videos/${route.query.v}`);
-
-      let initialVideoTime = 0;
-      if (userStore.isLoggedIn && settingsStore.saveVideoHistory) {
-        const videoVisit = await $fetch<any>(`${apiUrl.value}user/history/${value.videoId}`, {
-          credentials: 'include'
-        }).catch((_: any) => {});
-
-        if (videoVisit?.progressSeconds > 0) {
-          initialVideoTime = videoVisit.data.progressSeconds;
-        } else if (userStore.isLoggedIn) {
-          $fetch(`${apiUrl.value}user/history/${route.query.v}`, {
-            body: {
-              progressSeconds: null,
-              lengthSeconds: value.lengthSeconds
-            },
-            credentials: 'include'
-          }).catch(_ => {});
-        }
-      }
-
-      return { ...value, initialVideoTime };
-    });
-
-    watch(videoPending, value => {
-      if (!value) {
-        loadingVideoInfoStore.clearInfo();
-      }
-    });
-
-    watch(videoError, () => {
-      messagesStore.createMessage({
-        type: 'error',
-        title: 'Error loading video',
-        message: videoError.value?.message ?? 'Unknown error'
-      });
-    });
-
-    const isPlaylist = computed(() => {
-      return Boolean(route.query && route.query.list);
-    });
-
-    const isAutoplaying = computed(() => {
-      return isPlaylist.value || settingsStore.autoplay || route.query.autoplay === 'true';
-    });
-
-    const recommendedVideos = computed(() => {
-      if (video.value) {
-        if (settingsStore.autoplayNextVideo) {
-          return video.value.recommendedVideos.slice(1);
-        }
-        return video.value.recommendedVideos;
-      }
-      return [];
-    });
-
-    const nextUpVideo = computed(() => {
-      if (video.value) return video.value.recommendedVideos[0];
-      return null;
-    });
-
-    const loadDislikes = () => {
-      getDislikes(route.query.v)
-        .then(response => {
-          dislikeCount.value = response.dislikes;
-        })
-        .catch(error => {
-          messagesStore.createMessage({
-            type: 'error',
-            title: 'Error loading dislikes',
-            message: error.message
-          });
-        });
-    };
-
-    const reloadComments = () => {
-      commentsLoading.value = true;
-      commentsError.value = false;
-      loadComments();
-    };
-    const setTimestamp = (e: Event, seconds: number) => {
-      e.preventDefault();
-      const searchParams = new URLSearchParams(window.location.search);
-      searchParams.set('t', `${seconds}s`);
-      router.push(`${location.pathname}?${searchParams.toString()}`);
-      videoplayerRef.value.setVideoTime(seconds);
-      videoplayerRef.value.play();
-    };
-    const getHDUrl = () => {
-      if (video.value.legacyFormats) {
-        const hdVideo = video.value.legacyFormats.find(e => {
-          return e.qualityLabel && e.qualityLabel === '720p';
-        });
-        if (hdVideo) {
-          return hdVideo.url;
-        } else if (video.value.legacyFormats.length > 0) {
-          return video.value.legacyFormats[0].url;
-        }
-      }
-      return '#';
-    };
-
-    const loadComments = (evtVideoId: string = null) => {
-      const videoId = evtVideoId || route.query.v;
-      getComments(videoId)
-        .then(response => {
-          if (response.comments && response.comments.length > 0) {
-            commentObject.value = response;
-            commentsLoading.value = false;
-            commentsContinuationLink.value = response.continuation || null;
-          } else {
-            commentsLoading.value = false;
-            commentsError.value = true;
-            commentObject.value = null;
-          }
-        })
-        .catch(_ => {
-          commentsLoading.value = false;
-          commentsError.value = true;
-          commentObject.value = null;
-        });
-    };
-
-    const loadMoreComments = () => {
-      commentsContinuationLoading.value = true;
-      const videoId = route.query.v;
-      getCommentsContinuation(videoId, commentsContinuationLink.value)
-        .then(response => {
-          commentObject.value.comments = commentObject.value.comments.concat(response.comments);
-          commentsContinuationLoading.value = false;
-          commentsContinuationLink.value = response.continuation || null;
-        })
-        .catch(_ => {
-          messagesStore.createMessage({
-            type: 'error',
-            title: 'Error loading more comments',
-            message: 'Loading comments failed. There may not be any more comments.'
-          });
-        });
-    };
-
-    const loadPlaylist = () => {
-      if (isPlaylist.value) {
-        getPlaylists(route.query.list)
-          .then(response => {
-            playlist.value = response;
-          })
-          .catch(_ => {
-            messagesStore.createMessage({
-              type: 'error',
-              title: 'Error loading playlist',
-              message: 'Playlist may not be available'
-            });
-          });
-      }
-    };
-
-    watch(
-      () => route.query,
-      (newValue, oldValue) => {
-        if (newValue.v !== oldValue.v || newValue.list !== oldValue.list) {
-          refresh();
-          const videoId = newValue.v as string;
-          loadComments(videoId);
-          miniplayerStore.setCurrentVideo(video);
-        }
-      }
-    );
-
-    onMounted(() => {
-      jsEnabled.value = true;
-
-      if (window && window.innerWidth > 700) {
-        recommendedOpen.value = true;
-      }
-      loadComments();
-      loadDislikes();
-      miniplayerStore.setCurrentVideo(video);
-      loadPlaylist();
-    });
-
-    const onVideoEnded = () => {
-      if (
-        isPlaylist.value &&
-        playlistSectionRef.value &&
-        !settingsStore.alwaysLoopVideo &&
-        !videoPlayerStore.loop
-      ) {
-        playlistSectionRef.value.playNextVideo();
-      } else if (settingsStore.autoplayNextVideo && video.value.recommendedVideos) {
-        router.push({
-          path: route.fullPath,
-          query: { v: video.value.recommendedVideos[0].videoId, autoplay: 'true' }
-        });
-      }
-    };
-
-    return {
-      imgProxyUrl: imgProxy.url,
-      jsEnabled,
-      video,
-      comment: commentObject,
-      dislikeCount,
-      videoplayerRef,
-      playlistSectionRef,
-      commentsLoading,
-      commentsError,
-      commentsContinuationLink,
-      commentsContinuationLoading,
-      recommendedOpen,
-      recommendedVideos,
-      nextUpVideo,
-      videoLoaded,
-      shareOpen,
-      onVideoEnded,
-      reloadComments,
-      setTimestamp,
-      isPlaylist,
-      isAutoplaying,
-      getHDUrl,
-      loadMoreComments,
-      playlist,
-      settingsStore,
-      videoPending
-    };
-  },
-  head: {}
-});
-</script>
 
 <style lang="scss">
 .share-fade-down-enter-active,

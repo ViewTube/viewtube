@@ -3,6 +3,8 @@
     <MetaPageHead title="Admin" description="Admin page" />
     <SectionTitle title="Logs" />
     <AdminLogFiles />
+    <SectionTitle title="Blocked videos" />
+    <AdminBlockedVideos />
   </div>
 </template>
 

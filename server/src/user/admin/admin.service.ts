@@ -1,13 +1,20 @@
-import { Injectable, NotFoundException, StreamableFile } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException, StreamableFile } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { join, resolve } from 'path';
 import { readdir, stat } from 'fs/promises';
 import { LogsDto } from './dto/logs.dto';
 import { createReadStream, existsSync } from 'fs';
+import { InjectModel } from '@nestjs/mongoose';
+import { BlockedVideo } from './schemas/blocked-video';
+import { Model } from 'mongoose';
 
 @Injectable()
 export class AdminService {
-  constructor(private configService: ConfigService) {}
+  constructor(
+    private configService: ConfigService,
+    @InjectModel(BlockedVideo.name)
+    private readonly blockedVideoModel: Model<BlockedVideo>
+  ) {}
 
   async getLogs(): Promise<LogsDto> {
     let logFolder = resolve(__dirname, '../logs');
@@ -65,5 +72,35 @@ export class AdminService {
     return new StreamableFile(logFileStream, {
       disposition: 'attachment'
     });
+  }
+
+  async getAllBlockedVideoIds(): Promise<string[]> {
+    const blockedVideos = await this.blockedVideoModel.find().exec();
+    return blockedVideos.map(video => video.videoId);
+  }
+
+  async isVideoBlocked(videoId: string): Promise<boolean> {
+    const blockedVideo = await this.blockedVideoModel.findOne({ videoId }).exec();
+    if (!blockedVideo) {
+      return false;
+    }
+    return true;
+  }
+
+  async blockVideoId(videoId: string): Promise<string> {
+    const videoIdToBlock = videoId.trim();
+    if (!videoIdToBlock) {
+      throw new BadRequestException();
+    }
+    const blockedVideo = await this.blockedVideoModel.findOneAndUpdate(
+      { videoId },
+      { videoId },
+      { new: true, upsert: true }
+    );
+    return blockedVideo.videoId;
+  }
+
+  async unblockVideoId(videoId: string): Promise<void> {
+    await this.blockedVideoModel.findOneAndRemove({ videoId });
   }
 }

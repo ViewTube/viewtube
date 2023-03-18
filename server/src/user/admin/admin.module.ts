@@ -2,20 +2,23 @@ import { CacheModule, Module, ModuleMetadata } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { CacheConfigService } from 'server/cache-config.service';
-import {
-  VideoBasicInfo,
-  VideoBasicInfoSchema
-} from 'server/core/videos/schemas/video-basic-info.schema';
-import { SettingsModule } from '../settings/settings.module';
 import { AdminService } from './admin.service';
 import { AdminController } from './admin.controller';
+import { BlockedVideo, BlockedVideoSchema } from './schemas/blocked-video';
 
 const moduleMetadata: ModuleMetadata = {
   imports: [
     ConfigModule.forRoot(),
     CacheModule.registerAsync({
       useClass: CacheConfigService
-    })
+    }),
+    MongooseModule.forFeature([
+      {
+        name: BlockedVideo.name,
+        schema: BlockedVideoSchema,
+        collection: 'blocked-videos'
+      }
+    ])
   ],
   controllers: [AdminController],
   providers: [AdminService],

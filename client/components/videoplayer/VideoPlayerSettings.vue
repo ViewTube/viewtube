@@ -124,7 +124,7 @@ onBeforeUnmount(() => {
       <span class="quality-label-small">{{ smallQualityLabel }}</span>
       <SettingsIcon @click.stop="onQualityInteraction" @touchend.stop="onQualityTouchInteraction" />
     </div>
-    <Teleport :to="fullscreen ? 'body' : '#video-player'">
+    <Teleport :to="fullscreen ? '#video-player' : 'body'">
       <transition name="player-settings-popup">
         <div
           v-if="popup"
