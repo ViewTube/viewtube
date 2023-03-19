@@ -1,0 +1,23 @@
+name: Build on push
+
+on:
+  push:
+    branches: ['development']
+    tags:
+      - 'v*'
+
+jobs:
+  build-development-on-push-job:
+    if: github.ref == 'refs/heads/development'
+    uses: './.github/workflows/build-workflow.yml'
+    with:
+      architectures: linux/amd64
+
+  build-stable-on-push-job:
+    if: startsWith(github.ref, 'refs/tags/v')
+    uses: './.github/workflows/build-workflow.yml'
+    with:
+      architectures: |
+        linux/amd64
+        linux/arm64
+        linux/arm/v7

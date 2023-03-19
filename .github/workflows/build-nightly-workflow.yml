@@ -1,0 +1,15 @@
+name: Build nightly
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * *'
+
+jobs:
+  build-on-push-job:
+    uses: './.github/workflows/build-job.yml'
+    with:
+      architectures: |
+        linux/amd64
+        linux/arm64
+        linux/arm/v7
