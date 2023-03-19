@@ -21,6 +21,7 @@ import { HomepageModule } from './homepage/homepage.module';
 import { ProxyModule } from './proxy/proxy.module';
 import { CommentsModule } from './comments/comments.module';
 import { PlaylistsModule } from './playlists/playlists.module';
+import { BlockedVideo, BlockedVideoSchema } from 'server/user/admin/schemas/blocked-video';
 
 const moduleMetadata: ModuleMetadata = {
   imports: [
@@ -49,6 +50,11 @@ const moduleMetadata: ModuleMetadata = {
         name: User.name,
         schema: UserSchema,
         collection: 'users'
+      },
+      {
+        name: BlockedVideo.name,
+        schema: BlockedVideoSchema,
+        collection: 'blocked-videos'
       }
     ]),
     CacheModule.registerAsync({

@@ -1,4 +1,13 @@
-import { Controller, Get, Param, StreamableFile, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  StreamableFile,
+  UseGuards
+} from '@nestjs/common';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { AdminGuard } from 'server/auth/guards/admin.guard';
 import { JwtAuthGuard } from 'server/auth/guards/jwt.guard';
@@ -20,5 +29,25 @@ export class AdminController {
   @Get('logs/:logFile')
   downloadLogFile(@Param('logFile') logFile: string): Promise<StreamableFile> {
     return this.adminService.dowloadLogFile(logFile);
+  }
+
+  @Get('blocked-videos')
+  async findAll(): Promise<string[]> {
+    return this.adminService.getAllBlockedVideoIds();
+  }
+
+  @Get('blocked-videos/:id')
+  async isVideoBlocked(@Param('id') id: string): Promise<boolean> {
+    return this.adminService.isVideoBlocked(id);
+  }
+
+  @Post('blocked-videos')
+  async create(@Body() videoId: string): Promise<string> {
+    return this.adminService.blockVideoId(videoId);
+  }
+
+  @Delete('blocked-videos/:id')
+  async delete(@Param('id') id: string): Promise<void> {
+    return this.adminService.unblockVideoId(id);
   }
 }

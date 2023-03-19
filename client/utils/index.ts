@@ -7,3 +7,4 @@ export {
   getRelatedChannelsContinuation,
   getChannelCommunityPostsContinuation
 } from './api/channels';
+export { addBlockedVideo, removeBlockedVideo } from './api/admin';
