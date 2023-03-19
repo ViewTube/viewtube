@@ -12,6 +12,7 @@ jobs:
     uses: './.github/workflows/build-workflow.yml'
     with:
       architectures: linux/amd64
+    secrets: inherit
 
   build-stable-on-push-job:
     if: startsWith(github.ref, 'refs/tags/v')
@@ -21,3 +22,4 @@ jobs:
         linux/amd64
         linux/arm64
         linux/arm/v7
+    secrets: inherit

@@ -7,6 +7,13 @@ on:
         description: 'The architectures to build for'
         required: true
         type: string
+    secrets:
+      DOCKER_USERNAME:
+        description: 'Docker Hub username'
+        required: true
+      DOCKER_PASSWORD:
+        description: 'Docker Hub password'
+        required: true
 
 jobs:
   build-job:
