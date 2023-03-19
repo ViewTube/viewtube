@@ -9,13 +9,13 @@
     "environment:teardown": "docker-compose -f environment/docker-compose.yml down",
     "cy:open": "cypress open",
     "cy:run": "cypress run",
-    "ci:test": "pnpm run environment:prepare && sleep 15 && pnpm run cy:run",
+    "ci:test": "pnpm run environment:prepare && pnpm run cy:run",
     "test": "pnpm run environment:prepare && pnpm run cy:run"
   },
   "devDependencies": {
     "cross-env": "7.0.3",
     "cypress": "12.8.1",
     "cypress-commands": "3.0.0",
-    "typescript": "4.9.5"
+    "typescript": "5.0.2"
   }
 }
