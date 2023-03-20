@@ -1,4 +1,4 @@
-name: Build on push
+name: Build on push [dev/stable]
 
 on:
   push:
