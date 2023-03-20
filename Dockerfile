@@ -3,8 +3,7 @@ WORKDIR /home/build
 
 ENV NUXT_BUILD=true
 
-COPY package.json ./
-COPY pnpm-lock.yaml pnpm-workspace.yaml ./
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc ./
 
 COPY server/package.json ./server/
 COPY client/package.json ./client/
