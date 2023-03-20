@@ -65,7 +65,7 @@ jobs:
         with:
           images: mauriceo/viewtube
           tags: |
-            type=raw,value=dev
+            type=raw,value=${{ inputs.dev_tag }}
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
             type=semver,pattern={{major}},enable=${{ !startsWith(github.ref, 'refs/tags/v0.') }}
