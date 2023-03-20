@@ -8,17 +8,14 @@ ViewTube
 </h1>
 
 <p align="center">
-  <a href="https://github.com/ViewTube/viewtube/actions/workflows/build-workflow.yml">
-    <img src="https://github.com/ViewTube/viewtube/actions/workflows/build-workflow.yml/badge.svg?branch=development" alt="Github Actions Status"> 
+  <a href="https://github.com/ViewTube/viewtube/actions/workflows/push-build-workflow.yml">
+    <img src="https://github.com/ViewTube/viewtube/actions/workflows/push-build-workflow.yml/badge.svg?branch=development" alt="Github Actions Status"> 
+  </a>
+  <a href="https://github.com/ViewTube/viewtube/actions/workflows/build-nightly-workflow.yml">
+    <img src="https://github.com/ViewTube/viewtube/actions/workflows/build-nightly-workflow.yml/badge.svg?branch=development" alt="Github Actions Status"> 
   </a>
   <a href="https://github.com/ViewTube/viewtube/actions/workflows/test-workflow.yml">
     <img src="https://github.com/ViewTube/viewtube/actions/workflows/test-workflow.yml/badge.svg?branch=development" alt="Daily Tests Status">
-  </a>
-  <a href="https://deepscan.io/dashboard#view=project&amp;tid=11097&amp;pid=14017&amp;bid=262917">
-    <img src="https://deepscan.io/api/teams/11097/projects/14017/branches/262917/badge/grade.svg" alt="DeepScan grade">
-  </a>
-  <a href="https://github.com/ViewTube/viewtube/blob/development/LICENSE">
-    <img src="https://img.shields.io/github/license/mauriceoegerli/viewtube" alt="GitHub">
   </a>
   <a href="https://hub.docker.com/r/mauriceo/viewtube">
     <img src="https://img.shields.io/docker/image-size/mauriceo/viewtube/dev?label=docker%20image" alt="Docker Image Size (tag)">
