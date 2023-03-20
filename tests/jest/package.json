@@ -10,6 +10,12 @@
     "ts-jest": "29.0.5",
     "mongodb-memory-server": "8.12.1",
     "eslint": "8.36.0",
-    "typescript": "5.0.2"
+    "typescript": "5.0.2",
+    "@nestjs/testing": "9.3.10",
+    "redis-mock": "0.56.3",
+    "@nestjs/common": "9.3.10",
+    "@nestjs/core": "9.3.10",
+    "reflect-metadata": "0.1.13",
+    "rxjs": "7.8.0"
   }
 }
