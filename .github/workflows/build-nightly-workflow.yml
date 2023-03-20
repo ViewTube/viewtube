@@ -7,7 +7,7 @@ on:
 
 jobs:
   build-on-push-job:
-    uses: './.github/workflows/build-job.yml'
+    uses: './.github/workflows/build-workflow.yml'
     with:
       architectures: |
         linux/amd64
