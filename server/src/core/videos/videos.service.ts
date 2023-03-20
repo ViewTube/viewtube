@@ -17,6 +17,7 @@ import { mapVideo } from './video.mapper';
 import { DislikeDto } from 'server/core/videos/dto/dislike.dto';
 import undici from 'undici';
 import { BlockedVideo } from 'server/user/admin/schemas/blocked-video';
+import { ofetch } from 'ofetch';
 
 @Injectable()
 export class VideosService {
@@ -146,7 +147,7 @@ export class VideosService {
   }
 
   async saveAuthorImage(imgUrl: string, channelId: string) {
-    const arrBuffer = await fetch(imgUrl, { method: 'GET' })
+    const arrBuffer = await ofetch(imgUrl, { method: 'GET' })
       .then(response => response.arrayBuffer())
       .catch(_ => {
         // Drop errors

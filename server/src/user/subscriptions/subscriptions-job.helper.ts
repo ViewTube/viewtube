@@ -4,10 +4,10 @@ import { ChannelBasicInfoDto } from 'server/core/channels/dto/channel-basic-info
 import { VideoBasicInfoDto } from 'server/core/videos/dto/video-basic-info.dto';
 import X2js from 'x2js';
 import humanizeDuration from 'humanize-duration';
-import { Common } from 'server/core/common';
 import { Job } from 'bull';
 import { logger } from 'server/common/logger';
 import { generateVideoThumbnails } from 'server/mapper/utils/video-thumbnails';
+import { ofetch } from 'ofetch';
 
 export const runSubscriptionsJob = async (
   uniqueChannelIds: Array<string>,
@@ -116,7 +116,7 @@ export const getChannelFeed = async (
   channel: ChannelBasicInfoDto;
   videos: Array<VideoBasicInfoDto>;
 } | null> => {
-  const channelFeed = await fetch(feedUrl + channelId)
+  const channelFeed = await ofetch(feedUrl + channelId)
     .then(response => {
       if (response.ok) {
         return response.text();

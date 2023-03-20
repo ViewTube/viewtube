@@ -1,11 +1,11 @@
 import { Test } from '@nestjs/testing';
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
 import { MongoMemoryServer } from 'mongodb-memory-server';
-import { CoreModule } from 'server/src/core/core.module';
+import { CoreModule } from 'server/core/core.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { defineIt, getPayloadJson } from '../common/test.helper';
 import ytsr from 'ytsr';
-import { CommentsResponseDto } from 'server/src/core/comments/dto/comments-response.dto';
+import { CommentsResponseDto } from 'server/core/comments/dto/comments-response.dto';
 import ytpl from 'ytpl';
 
 describe('Core', () => {

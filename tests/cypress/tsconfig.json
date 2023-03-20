@@ -3,7 +3,7 @@
     "target": "es5",
     "lib": ["es5", "dom"],
     "types": ["cypress-commands", "cypress", "node"],
-    "baseUrl": "src"
+    "baseUrl": "cypress"
   },
   "include": ["**/*.ts"]
 }
