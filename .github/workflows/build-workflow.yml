@@ -7,6 +7,10 @@ on:
         description: 'The architectures to build for'
         required: true
         type: string
+      dev_tag:
+        description: 'The docker tag for the dev image'
+        type: string
+        default: 'dev'
     secrets:
       DOCKER_USERNAME:
         description: 'Docker Hub username'
