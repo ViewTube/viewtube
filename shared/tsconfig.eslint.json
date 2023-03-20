@@ -9,8 +9,7 @@
     "shared/**/*",
     ".eslintrc.js",
     "client/.eslintrc.js",
-    "webpack-hmr.config.js",
-    "jest.config.js"
+    "webpack-hmr.config.js"
   ],
   "exclude": ["node_modules", "dist/**/*"]
 }

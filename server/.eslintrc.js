@@ -10,12 +10,7 @@ module.exports = {
     ecmaVersion: 12
   },
 
-  extends: [
-    'eslint:recommended',
-    'plugin:@typescript-eslint/recommended',
-    'plugin:jest/recommended',
-    'prettier'
-  ],
+  extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended', 'prettier'],
 
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
@@ -30,7 +25,6 @@ module.exports = {
       }
     ],
     'no-useless-constructor': 'off',
-    'import/order': 'off',
-    'jest/no-standalone-expect': 'off'
+    'import/order': 'off'
   }
 };
