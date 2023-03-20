@@ -11,7 +11,7 @@ COPY shared/package.json ./shared/
 
 RUN npm install -g pnpm
 
-RUN pnpm install --frozen-lockfile
+RUN pnpm --filter=./server --filter=./client install --frozen-lockfile
 
 COPY . .
 
@@ -19,7 +19,7 @@ RUN pnpm run build
 
 RUN rm -rf node_modules client/node_modules server/node_modules shared/node_modules "$(pnpm store path)"
 
-RUN CI=true pnpm install --frozen-lockfile --prod
+RUN CI=true pnpm --filter=./server --filter=./client install --frozen-lockfile --prod
 
 FROM node:16-bullseye-slim as runtime
 WORKDIR /home/app
