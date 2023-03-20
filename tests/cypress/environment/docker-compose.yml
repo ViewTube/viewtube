@@ -3,7 +3,7 @@ version: '3'
 services:
   viewtube-e2e:
     build:
-      context: ../../
+      context: ../../../
       cache_from:
         - mauriceo/viewtube:dev
         - mauriceo/viewtube:latest

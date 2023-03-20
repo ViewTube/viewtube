@@ -21,7 +21,6 @@ importers:
       '@types/node': 16.18.16
       '@types/papaparse': 5.3.7
       '@types/qrcode': 1.5.0
-      '@types/sass': 1.45.0
       '@typescript-eslint/eslint-plugin': 5.55.0
       '@typescript-eslint/parser': 5.55.0
       cross-env: 7.0.3
@@ -69,7 +68,6 @@ importers:
       '@types/node': 16.18.16
       '@types/papaparse': 5.3.7
       '@types/qrcode': 1.5.0
-      '@types/sass': 1.45.0
       '@typescript-eslint/eslint-plugin': 5.55.0_qsnvknysi52qtaxqdyqyohkcku
       '@typescript-eslint/parser': 5.55.0_j4766f7ecgqbon3u7zlxn5zszu
       cross-env: 7.0.3
@@ -137,7 +135,6 @@ importers:
       '@sentry/types': 7.44.0
       '@types/archiver': 5.3.2
       '@types/bcryptjs': 2.4.2
-      '@types/busboy': 1.5.0
       '@types/cache-manager': 4.0.2
       '@types/cookie-parser': 1.4.3
       '@types/eslint': 8.21.3
@@ -272,7 +269,6 @@ importers:
       '@sentry/types': 7.44.0
       '@types/archiver': 5.3.2
       '@types/bcryptjs': 2.4.2
-      '@types/busboy': 1.5.0
       '@types/cache-manager': 4.0.2
       '@types/cookie-parser': 1.4.3
       '@types/eslint': 8.21.3
@@ -313,7 +309,7 @@ importers:
     devDependencies:
       typescript: 5.0.2
 
-  tests:
+  tests/cypress:
     specifiers:
       cross-env: 7.0.3
       cypress: 12.8.1
@@ -324,6 +320,12 @@ importers:
       cypress: 12.8.1
       cypress-commands: 3.0.0
       typescript: 5.0.2
+
+  tests/jest:
+    specifiers:
+      server: workspace:^
+    dependencies:
+      server: link:../../server
 
 packages:
 
@@ -3621,12 +3623,6 @@ packages:
       '@types/node': 16.18.16
     dev: true
 
-  /@types/busboy/1.5.0:
-    resolution: {integrity: sha512-ncOOhwmyFDW76c/Tuvv9MA9VGYUCn8blzyWmzYELcNGDb0WXWLSmFi7hJq25YdRBYJrmMBB5jZZwUjlJe9HCjQ==}
-    dependencies:
-      '@types/node': 16.18.16
-    dev: true
-
   /@types/cache-manager/4.0.2:
     resolution: {integrity: sha512-fT5FMdzsiSX0AbgnS5gDvHl2Nco0h5zYyjwDQy4yPC7Ww6DeGMVKPRqIZtg9HOXDV2kkc18SL1B0N8f0BecrCA==}
     dev: true
@@ -3836,13 +3832,6 @@ packages:
 
   /@types/resolve/1.20.2:
     resolution: {integrity: sha512-60BCwRFOZCQhDncwQdxxeOEEkbc5dIMccYLwbxsS4TUNeVECQ/pBJ0j09mrHOl/JJvpRPGwO9SvE4nR2Nb/a4Q==}
-    dev: true
-
-  /@types/sass/1.45.0:
-    resolution: {integrity: sha512-jn7qwGFmJHwUSphV8zZneO3GmtlgLsmhs/LQyVvQbIIa+fzGMUiHI4HXJZL3FT8MJmgXWbLGiVVY7ElvHq6vDA==}
-    deprecated: This is a stub types definition. sass provides its own type definitions, so you do not need this installed.
-    dependencies:
-      sass: 1.59.3
     dev: true
 
   /@types/semver/7.3.13:

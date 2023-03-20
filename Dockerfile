@@ -12,7 +12,7 @@ COPY shared/package.json ./shared/
 
 RUN npm install -g pnpm
 
-RUN pnpm install --frozen-lockfile --shamefully-hoist
+RUN pnpm install --frozen-lockfile
 
 COPY . .
 
@@ -20,7 +20,7 @@ RUN pnpm run build
 
 RUN rm -rf node_modules client/node_modules server/node_modules shared/node_modules "$(pnpm store path)"
 
-RUN CI=true pnpm install --frozen-lockfile --prod --shamefully-hoist
+RUN CI=true pnpm install --frozen-lockfile --prod
 
 FROM node:16-bullseye-slim as runtime
 WORKDIR /home/app
