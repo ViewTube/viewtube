@@ -3,8 +3,7 @@ WORKDIR /home/build
 
 ENV NUXT_BUILD=true
 
-COPY package.json ./
-COPY pnpm-lock.yaml pnpm-workspace.yaml ./
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc ./
 
 COPY server/package.json ./server/
 COPY client/package.json ./client/
@@ -12,7 +11,7 @@ COPY shared/package.json ./shared/
 
 RUN npm install -g pnpm
 
-RUN pnpm install --frozen-lockfile --shamefully-hoist
+RUN pnpm --filter=./server --filter=./client install --frozen-lockfile
 
 COPY . .
 
@@ -20,7 +19,7 @@ RUN pnpm run build
 
 RUN rm -rf node_modules client/node_modules server/node_modules shared/node_modules "$(pnpm store path)"
 
-RUN CI=true pnpm install --frozen-lockfile --prod --shamefully-hoist
+RUN CI=true pnpm --filter=./server --filter=./client install --frozen-lockfile --prod
 
 FROM node:16-bullseye-slim as runtime
 WORKDIR /home/app

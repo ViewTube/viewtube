@@ -18,12 +18,12 @@
     "strictNullChecks": false,
     "strictFunctionTypes": false,
     "esModuleInterop": true,
-    "baseUrl": "./src",
+    "baseUrl": ".",
     "paths": {
-      "viewtube/*": ["../../*"],
-      "server/*": ["./*"]
+      "server/*": ["../../server/src/*"],
+      "viewtube/*": ["../../*"]
     },
-    "types": ["node", "@sentry/types"]
+    "types": ["node", "@types/jest"]
   },
-  "exclude": ["**/node_modules", "**/dist", "../client/node_modules", "client/node_modules"]
+  "exclude": ["**/node_modules", "**/dist"]
 }

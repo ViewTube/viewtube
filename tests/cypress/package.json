@@ -1,11 +1,11 @@
 {
-  "name": "tests",
+  "name": "e2e-tests",
   "engines": {
     "node": ">=16.19.0",
     "pnpm": ">=7.28.0"
   },
   "scripts": {
-    "environment:prepare": "cross-env COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker-compose -f environment/docker-compose.yml up -d",
+    "environment:prepare": "cross-env COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker compose -f environment/docker-compose.yml up -d",
     "environment:teardown": "docker-compose -f environment/docker-compose.yml down",
     "cy:open": "cypress open",
     "cy:run": "cypress run",

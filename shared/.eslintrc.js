@@ -13,7 +13,6 @@ module.exports = {
   extends: [
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
-    'plugin:jest/recommended',
     'prettier'
   ],
   rules: {
@@ -26,7 +25,6 @@ module.exports = {
     '@typescript-eslint/no-empty-interface': 'off',
     'no-useless-constructor': 'off',
     'import/order': 'off',
-    'jest/no-standalone-expect': 'off',
     semi: 'off'
   }
 };

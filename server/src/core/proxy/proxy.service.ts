@@ -3,6 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { HttpsProxyAgent } from 'https-proxy-agent';
 import { FastifyReply, FastifyRequest } from 'fastify';
 import undici, { Client } from 'undici';
+import { ofetch } from 'ofetch';
 
 @Injectable()
 export class ProxyService {
@@ -17,7 +18,7 @@ export class ProxyService {
           agent: new HttpsProxyAgent(proxy)
         };
       }
-      const fetchResponse = await fetch(url, requestOptions);
+      const fetchResponse = await ofetch(url, requestOptions);
       if (fetchResponse) {
         const result = await fetchResponse.text();
         return result;
