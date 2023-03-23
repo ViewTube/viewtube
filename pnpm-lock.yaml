@@ -164,7 +164,7 @@ importers:
       passport-local: 1.0.0
       redis: 4.6.5
       reflect-metadata: 0.1.13
-      rimraf: 4.4.0
+      rimraf: 4.4.1
       run-script-webpack-plugin: 0.1.1
       rxjs: 7.8.0
       sharp: 0.31.3
@@ -270,7 +270,7 @@ importers:
       eslint-config-prettier: 8.8.0_eslint@8.36.0
       openapi-typescript: 6.2.0
       redis: 4.6.5
-      rimraf: 4.4.0
+      rimraf: 4.4.1
       run-script-webpack-plugin: 0.1.1
       ts-loader: 9.4.2_3x6qlapdvvaw2noz63esh63n6e
       typescript: 5.0.2
@@ -10593,6 +10593,14 @@ packages:
 
   /rimraf/4.4.0:
     resolution: {integrity: sha512-X36S+qpCUR0HjXlkDe4NAOhS//aHH0Z+h8Ckf2auGJk3PTnx5rLmrHkwNdbVQuCSUhOyFrlRvFEllZOYE+yZGQ==}
+    engines: {node: '>=14'}
+    hasBin: true
+    dependencies:
+      glob: 9.3.0
+    dev: true
+
+  /rimraf/4.4.1:
+    resolution: {integrity: sha512-Gk8NlF062+T9CqNGn6h4tls3k6T1+/nXdOcSZVikNVtlRdYpA7wRJJMoXmuvOnLW844rPjdQ7JgXCYM6PPC/og==}
     engines: {node: '>=14'}
     hasBin: true
     dependencies:
