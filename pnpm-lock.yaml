@@ -154,7 +154,7 @@ importers:
       ioredis: 5.3.1
       joi: 17.9.1
       mini-svg-data-uri: 1.4.4
-      mongoose: 7.0.2
+      mongoose: 7.0.3
       nest-winston: 1.9.1
       nestjs-throttler-storage-redis: 0.3.0
       ofetch: 1.0.1
@@ -197,7 +197,7 @@ importers:
       '@nestjs/config': 2.3.1_jy37pi22pqa22ux5geb72eebiu
       '@nestjs/core': 9.3.12_zuf3adx5wwisu5uiwkwpzz4nvi
       '@nestjs/jwt': 10.0.2_@nestjs+common@9.3.12
-      '@nestjs/mongoose': 9.2.2_xthtichcniok7dsbr26qmlni6y
+      '@nestjs/mongoose': 9.2.2_yv6qhnuotbkhxy57qzvpklegiy
       '@nestjs/passport': 9.0.3_ajy2slul3age3kopk444psnhqq
       '@nestjs/platform-fastify': 9.3.12_r32u3wqalhdtn3fa6ggm56equa
       '@nestjs/schedule': 2.2.0_bgmtsjzu2jyijhogwtog4e3a6e
@@ -220,7 +220,7 @@ importers:
       ioredis: 5.3.1
       joi: 17.9.1
       mini-svg-data-uri: 1.4.4
-      mongoose: 7.0.2
+      mongoose: 7.0.3
       nest-winston: 1.9.1_tftd2uglq4nkamdqpxpl6ks3wi
       nestjs-throttler-storage-redis: 0.3.0_n4orjlkjqljnlugl6o3e3otpc4
       ofetch: 1.0.1
@@ -2845,7 +2845,7 @@ packages:
       reflect-metadata: 0.1.13
     dev: false
 
-  /@nestjs/mongoose/9.2.2_xthtichcniok7dsbr26qmlni6y:
+  /@nestjs/mongoose/9.2.2_yv6qhnuotbkhxy57qzvpklegiy:
     resolution: {integrity: sha512-szNuSUCwwbQSSeiTh8+tZ9fHV4nuzHwBDROb0hX0s7crwY15TunCfwyKbB2XjqkEQWUAasDeCBuKOJSL9N6tTg==}
     peerDependencies:
       '@nestjs/common': ^8.0.0 || ^9.0.0
@@ -2856,7 +2856,7 @@ packages:
     dependencies:
       '@nestjs/common': 9.3.12_5ezc66h7azca7t7jxbenr4bfzy
       '@nestjs/core': 9.3.12_zuf3adx5wwisu5uiwkwpzz4nvi
-      mongoose: 7.0.2
+      mongoose: 7.0.3
       reflect-metadata: 0.1.13
       rxjs: 7.8.0
     dev: false
@@ -9031,8 +9031,8 @@ packages:
       saslprep: 1.0.3
     dev: false
 
-  /mongoose/7.0.2:
-    resolution: {integrity: sha512-whX+5lAOLOs6VXRr9w+6m5qb8m/IXWLLb9+0/HRUh2TiIYtTt7UvajK92zW6wllCjBkrrnz/MDIOTCWMbs8K4g==}
+  /mongoose/7.0.3:
+    resolution: {integrity: sha512-3n8vc1/mssuxKa6vfghSocp3MeiCFYzhX36Ok+PsDNNYzHC9tw3rNkAMLemIwZ2jgXqkZ7CfKOxkzjp/d/SWfg==}
     engines: {node: '>=14.0.0'}
     dependencies:
       bson: 5.1.0
