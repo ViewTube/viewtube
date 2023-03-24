@@ -9,7 +9,7 @@ import { AutocompleteService } from './autocomplete.service';
 export class AutocompleteController {
   constructor(private autocompleteService: AutocompleteService) {}
 
-  @CacheTTL(86400)
+  @CacheTTL(86400000)
   @Header('Cache-Control', 'public, max-age=86400')
   @Get()
   getQuery(@Query('q') query: string): Promise<Array<string>> {
