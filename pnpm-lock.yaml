@@ -167,7 +167,7 @@ importers:
       rimraf: 4.4.1
       run-script-webpack-plugin: 0.1.1
       rxjs: 7.8.0
-      sharp: 0.31.3
+      sharp: 0.32.0
       svg-captcha: 1.4.0
       ts-loader: 9.4.2
       tslib: 2.5.0
@@ -229,7 +229,7 @@ importers:
       passport-local: 1.0.0
       reflect-metadata: 0.1.13
       rxjs: 7.8.0
-      sharp: 0.31.3
+      sharp: 0.32.0
       svg-captcha: 1.4.0
       tslib: 2.5.0
       undici: 5.21.0
@@ -9095,8 +9095,8 @@ packages:
     resolution: {integrity: sha512-AGK2yQKIjRuqnc6VkX2Xj5d+QW8xZ87pa1UK6yA6ouUyuxfHuMP6umE5QK7UmTeOAymo+Zx1Fxiuw9rVx8taHQ==}
     dev: true
 
-  /node-addon-api/5.1.0:
-    resolution: {integrity: sha512-eh0GgfEkpnoWDq+VY8OyvYhFEzBk6jIYbRKdIlyTiAXIVJ8PyBaKb0rp7oDtoddbdoHWhq8wwr+XZ81F1rpNdA==}
+  /node-addon-api/6.0.0:
+    resolution: {integrity: sha512-GyHvgPvUXBvAkXa0YvYnhilSB1A+FRYMpIVggKzPZqdaZfevZOuzfWzyvgzOwRLHBeo/MMswmJFsrNF4Nw1pmA==}
     dev: false
 
   /node-domexception/1.0.0:
@@ -10620,14 +10620,14 @@ packages:
   /setprototypeof/1.2.0:
     resolution: {integrity: sha512-E5LDX7Wrp85Kil5bhZv46j8jOeboKq5JMmYM3gVGdGH8xFpPWXUMsNrlODCrkoxMEeNi/XZIwuRvY4XNwYMJpw==}
 
-  /sharp/0.31.3:
-    resolution: {integrity: sha512-XcR4+FCLBFKw1bdB+GEhnUNXNXvnt0tDo4WsBsraKymuo/IAuPuCBVAL2wIkUw2r/dwFW5Q5+g66Kwl2dgDFVg==}
+  /sharp/0.32.0:
+    resolution: {integrity: sha512-yLAypVcqj1toSAqRSwbs86nEzfyZVDYqjuUX8grhFpeij0DDNagKJXELS/auegDBRDg1XBtELdOGfo2X1cCpeA==}
     engines: {node: '>=14.15.0'}
     requiresBuild: true
     dependencies:
       color: 4.2.3
       detect-libc: 2.0.1
-      node-addon-api: 5.1.0
+      node-addon-api: 6.0.0
       prebuild-install: 7.1.1
       semver: 7.3.8
       simple-get: 4.0.1
