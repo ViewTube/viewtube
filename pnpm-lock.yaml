@@ -131,8 +131,8 @@ importers:
         specifier: 2.3.0
         version: 2.3.0
       ytsr:
-        specifier: 3.8.0
-        version: 3.8.0
+        specifier: 3.8.1
+        version: 3.8.1
 
   server:
     dependencies:
@@ -305,8 +305,8 @@ importers:
         specifier: 2.3.0
         version: 2.3.0
       ytsr:
-        specifier: 3.8.0
-        version: 3.8.0
+        specifier: 3.8.1
+        version: 3.8.1
     devDependencies:
       '@nestjs/cli':
         specifier: 9.3.0
@@ -12188,8 +12188,8 @@ packages:
     dependencies:
       miniget: 4.2.2
 
-  /ytsr@3.8.0:
-    resolution: {integrity: sha512-R+RfYXvBBMAr2e4OxrQ5SBv5x/Mdhmcj1Q8TH0f2HK5d2jbhHOtK4BdzPvLriA6MDoMwqqX04GD8Rpf9UNtSTg==}
+  /ytsr@3.8.1:
+    resolution: {integrity: sha512-YEMFtkDIcMGOCF1/1obV1KO+w6lgDE3w2mpaygtRnaUJ0Yig8MlyfkjY8bCbkZqYH+CeGQR7ceEdI0L5Ax+jtQ==}
     engines: {node: '>=8'}
     dependencies:
       miniget: 4.2.2
