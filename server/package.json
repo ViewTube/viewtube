@@ -34,7 +34,7 @@
     "@nestjs/passport": "9.0.3",
     "@nestjs/platform-fastify": "9.3.12",
     "@nestjs/schedule": "2.2.0",
-    "@nestjs/swagger": "6.2.1",
+    "@nestjs/swagger": "6.3.0",
     "@nestjs/throttler": "4.0.0",
     "@sentry/node": "7.46.0",
     "@sentry/tracing": "7.46.0",
