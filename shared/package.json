@@ -1,6 +1,6 @@
 {
   "name": "shared",
   "devDependencies": {
-    "typescript": "5.0.2"
+    "typescript": "5.0.3"
   }
 }
