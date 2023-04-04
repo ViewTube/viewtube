@@ -179,8 +179,8 @@ importers:
         specifier: 9.3.12
         version: 9.3.12(@fastify/static@6.9.0)(@nestjs/common@9.3.12)(@nestjs/core@9.3.12)
       '@nestjs/schedule':
-        specifier: 2.2.0
-        version: 2.2.0(@nestjs/common@9.3.12)(@nestjs/core@9.3.12)(reflect-metadata@0.1.13)
+        specifier: 2.2.1
+        version: 2.2.1(@nestjs/common@9.3.12)(@nestjs/core@9.3.12)(reflect-metadata@0.1.13)
       '@nestjs/swagger':
         specifier: 6.3.0
         version: 6.3.0(@fastify/static@6.9.0)(@nestjs/common@9.3.12)(@nestjs/core@9.3.12)(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)
@@ -3065,8 +3065,8 @@ packages:
       - supports-color
     dev: false
 
-  /@nestjs/schedule@2.2.0(@nestjs/common@9.3.12)(@nestjs/core@9.3.12)(reflect-metadata@0.1.13):
-    resolution: {integrity: sha512-wrDnUONTxBkD6lTWh9ecYk/kvJTbA3PylotjBoRsECmcS1SNvgInFXuL38UnHiFnXM3CHSFnzRLB259Bc1mOdQ==}
+  /@nestjs/schedule@2.2.1(@nestjs/common@9.3.12)(@nestjs/core@9.3.12)(reflect-metadata@0.1.13):
+    resolution: {integrity: sha512-7jev9Q3aFnRajKAi/At+9rzwflZNN10SA5PcdCvxc35GFfTdM2a6O5GA7tiIbLuOOzdjPYPbC3RxP4tpXOHVWw==}
     peerDependencies:
       '@nestjs/common': ^7.0.0 || ^8.0.0 || ^9.0.0
       '@nestjs/core': ^7.0.0 || ^8.0.0 || ^9.0.0
@@ -3074,7 +3074,7 @@ packages:
     dependencies:
       '@nestjs/common': 9.3.12(cache-manager@5.2.0)(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.0)
       '@nestjs/core': 9.3.12(@nestjs/common@9.3.12)(@nestjs/websockets@9.3.12)(reflect-metadata@0.1.13)(rxjs@7.8.0)
-      cron: 2.2.0
+      cron: 2.3.0
       reflect-metadata: 0.1.13
       uuid: 9.0.0
     dev: false
@@ -5832,8 +5832,8 @@ packages:
       luxon: 3.3.0
     dev: false
 
-  /cron@2.2.0:
-    resolution: {integrity: sha512-GPiI3OgMv83XRtEUc2gUdaLvJhO3XbLN288layOBkDTupg0RK5IECNGpkykIMHg+muVR2bxt29b0xvCAcBrjYQ==}
+  /cron@2.3.0:
+    resolution: {integrity: sha512-ZN5HP8zDY41sJolMsbc+GksRATcbvkPKF5wR/qc8FrV4NBVi9ORQa1HmYa5GydaysUB80X9XpRlRkooa5uEtTA==}
     dependencies:
       luxon: 3.3.0
     dev: false
