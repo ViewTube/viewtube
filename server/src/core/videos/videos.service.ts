@@ -2,13 +2,11 @@ import fs from 'fs';
 import path from 'path';
 import { promisify } from 'util';
 import sharp from 'sharp';
-import { Injectable, HttpException, HttpStatus, ForbiddenException } from '@nestjs/common';
-import { getInfo, videoInfo, getInfoOptions } from 'ytdl-core';
+import { Injectable, HttpException, HttpStatus, ForbiddenException, InternalServerErrorException } from '@nestjs/common';
+import { getInfo, videoInfo } from 'ytdl-core';
 import { ConfigService } from '@nestjs/config';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import HttpsProxyAgent from 'https-proxy-agent';
-import HttpsProxyAgentType from 'https-proxy-agent/dist/agent';
 import { VideoDto } from 'server/core/videos/dto/video.dto';
 import { ChannelBasicInfo } from '../channels/schemas/channel-basic-info.schema';
 import { Common } from '../common';
@@ -19,6 +17,7 @@ import { DislikeDto } from 'server/core/videos/dto/dislike.dto';
 import undici from 'undici';
 import { BlockedVideo } from 'server/user/admin/schemas/blocked-video';
 import { ofetch } from 'ofetch';
+import { innertubeClient } from 'server/common/innertube';
 
 @Injectable()
 export class VideosService {
@@ -39,29 +38,14 @@ export class VideosService {
     if (isVideoBlocked) {
       throw new ForbiddenException('This video has been blocked for copyright reasons.');
     }
-    const url: string = Common.youtubeVideoUrl + id;
-    let proxyAgent: HttpsProxyAgentType;
 
-    if (this.configService.get('VIEWTUBE_PROXY_URL')) {
-      const proxy = this.configService.get('VIEWTUBE_PROXY_URL');
-      proxyAgent = HttpsProxyAgent(proxy);
-    }
-    const ytdlOptions: getInfoOptions = {
-      requestOptions: {}
-    };
-    if (this.configService.get('VIEWTUBE_YOUTUBE_COOKIE')) {
-      (ytdlOptions.requestOptions as any).cookie =
-        this.configService.get('VIEWTUBE_YOUTUBE_COOKIE');
-      if (this.configService.get('VIEWTUBE_YOUTUBE_IDENTIFIER')) {
-        ytdlOptions.requestOptions['x-youtube-identity-token'] = this.configService.get(
-          'VIEWTUBE_YOUTUBE_IDENTIFIER'
-        );
-      }
-    }
-    if (proxyAgent) {
-      (ytdlOptions.requestOptions as any).agent = proxyAgent;
-    }
+    try {
+      const client = await innertubeClient;
+      const videoInfo = await client.getInfo(id);
 
+    } catch (error) {
+      throw new InternalServerErrorException(error.message);
+    }
     try {
       const result: videoInfo = await getInfo(url, ytdlOptions);
 
