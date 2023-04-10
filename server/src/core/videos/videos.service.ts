@@ -8,6 +8,7 @@ import { ConfigService } from '@nestjs/config';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import HttpsProxyAgent from 'https-proxy-agent';
+import HttpsProxyAgentType from 'https-proxy-agent/dist/agent';
 import { VideoDto } from 'server/core/videos/dto/video.dto';
 import { ChannelBasicInfo } from '../channels/schemas/channel-basic-info.schema';
 import { Common } from '../common';
@@ -39,7 +40,7 @@ export class VideosService {
       throw new ForbiddenException('This video has been blocked for copyright reasons.');
     }
     const url: string = Common.youtubeVideoUrl + id;
-    let proxyAgent;
+    let proxyAgent: HttpsProxyAgentType;
 
     if (this.configService.get('VIEWTUBE_PROXY_URL')) {
       const proxy = this.configService.get('VIEWTUBE_PROXY_URL');

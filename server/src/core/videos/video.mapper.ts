@@ -74,7 +74,7 @@ export const mapVideo = (source: Partial<videoInfo>, dashManifest?: string): Vid
         label: value.name.simpleText,
         languageCode: value.languageCode,
         url: `/api/v1/captions/${videoDetails.videoId}?label=${encodeURIComponent(
-          value.name.simpleText
+          value.name.simpleText as unknown as string
         )}`
       })) ?? [],
     recommendedVideos: source.related_videos.map((vid: relatedVideo) => {
