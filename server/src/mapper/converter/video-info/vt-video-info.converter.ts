@@ -1,1 +1,1 @@
-
+export const toVTVideoInfoDto = videoInfo => {};

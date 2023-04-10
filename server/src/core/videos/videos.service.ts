@@ -33,7 +33,7 @@ export class VideosService {
 
   returnYoutubeDislikeUrl = 'https://returnyoutubedislikeapi.com';
 
-  async getById(id: string): Promise<VideoDto> {
+  async getById(id: string): Promise<any> {
     const isVideoBlocked = await this.blockedVideoModel.findOne({ videoId: id });
     if (isVideoBlocked) {
       throw new ForbiddenException('This video has been blocked for copyright reasons.');
@@ -43,65 +43,11 @@ export class VideosService {
       const client = await innertubeClient;
       const videoInfo = await client.getInfo(id);
 
+      return videoInfo;
+      // const video = toVTVideoInfoDto(videoInfo);
+
     } catch (error) {
       throw new InternalServerErrorException(error.message);
-    }
-    try {
-      const result: videoInfo = await getInfo(url, ytdlOptions);
-
-      // const dashManifest = DashGenerator.generateDashFileFromFormats(
-      //   result.formats,
-      //   result.videoDetails.lengthSeconds
-      // );
-
-      const video: VideoDto = mapVideo(result);
-
-      // const channelBasicInfo: ChannelBasicInfoDto = {
-      //   authorId: video.authorId,
-      //   author: video.author,
-      //   authorThumbnails: video.authorThumbnails,
-      //   authorVerified: video.authorVerified
-      // };
-
-      // const authorImageUrl = await this.saveAuthorImage(
-      //   video.authorThumbnails[2].url,
-      //   video.authorId
-      // );
-      // if (authorImageUrl) {
-      //   channelBasicInfo.authorThumbnailUrl = authorImageUrl;
-      // }
-
-      // const videoBasicInfo: VideoBasicInfoDto = {
-      //   author: video.author,
-      //   authorId: video.authorId,
-      //   description: video.description,
-      //   dislikeCount: video.dislikeCount,
-      //   likeCount: video.likeCount,
-      //   published: video.published,
-      //   publishedText: video.publishedText,
-      //   title: video.title,
-      //   videoId: video.videoId,
-      //   videoThumbnails: video.videoThumbnails,
-      //   viewCount: video.viewCount,
-      //   lengthSeconds: video.lengthSeconds
-      // };
-
-      // this.channelModel
-      //   .findOneAndUpdate({ authorId: video.authorId }, channelBasicInfo, { upsert: true })
-      //   .exec()
-      // this.videoModel
-      //   .findOneAndUpdate({ videoId: video.videoId }, videoBasicInfo, { upsert: true })
-      //   .exec()
-
-      return video;
-    } catch (err) {
-      throw new HttpException(
-        {
-          status: HttpStatus.INTERNAL_SERVER_ERROR,
-          message: err.address && err.code ? err : err.message
-        },
-        HttpStatus.INTERNAL_SERVER_ERROR
-      );
     }
   }
 
