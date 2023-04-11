@@ -1,4 +1,5 @@
-import { CacheModule, Logger, Module, ModuleMetadata, Type } from '@nestjs/common';
+import { Logger, Module, ModuleMetadata, Type } from '@nestjs/common';
+import { CacheModule } from '@nestjs/cache-manager';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ScheduleModule } from '@nestjs/schedule';

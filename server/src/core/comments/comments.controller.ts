@@ -1,12 +1,5 @@
-import {
-  Controller,
-  Get,
-  Query,
-  Param,
-  CacheInterceptor,
-  UseInterceptors,
-  Header
-} from '@nestjs/common';
+import { Controller, Get, Query, Param, UseInterceptors, Header } from '@nestjs/common';
+import { CacheInterceptor } from '@nestjs/cache-manager';
 import { ApiTags } from '@nestjs/swagger';
 import { CommentsService } from './comments.service';
 import { CommentsResponseDto } from './dto/comments-response.dto';

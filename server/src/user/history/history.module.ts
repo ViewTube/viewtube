@@ -1,4 +1,5 @@
-import { CacheModule, Module, ModuleMetadata } from '@nestjs/common';
+import { Module, ModuleMetadata } from '@nestjs/common';
+import { CacheModule } from '@nestjs/cache-manager';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { CacheConfigService } from 'server/cache-config.service';

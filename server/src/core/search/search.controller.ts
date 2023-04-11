@@ -1,7 +1,6 @@
 import {
   Controller,
   UseInterceptors,
-  CacheInterceptor,
   Get,
   Query,
   BadRequestException,
@@ -9,6 +8,7 @@ import {
   Post,
   Body
 } from '@nestjs/common';
+import { CacheInterceptor } from '@nestjs/cache-manager';
 import { ApiTags } from '@nestjs/swagger';
 import { Result } from 'ytsr';
 import { SearchService } from './search.service';

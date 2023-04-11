@@ -5,10 +5,9 @@ import {
   UseInterceptors,
   ClassSerializerInterceptor,
   SerializeOptions,
-  CacheInterceptor,
-  CacheTTL,
   Header
 } from '@nestjs/common';
+import { CacheInterceptor,CacheTTL } from '@nestjs/cache-manager';
 import { ApiTags } from '@nestjs/swagger';
 import { VideoDto } from 'server/core/videos/dto/video.dto';
 import { DislikeDto } from 'server/core/videos/dto/dislike.dto';

@@ -1,4 +1,5 @@
-import { CacheInterceptor, Controller, Get, Param, Query, UseInterceptors } from '@nestjs/common';
+import { Controller, Get, Param, Query, UseInterceptors } from '@nestjs/common';
+import { CacheInterceptor } from '@nestjs/cache-manager';
 import { ApiTags } from '@nestjs/swagger';
 import { ContinueResult } from 'ytpl';
 import { PlaylistResultDto } from './dto/playlist-result.dto';
