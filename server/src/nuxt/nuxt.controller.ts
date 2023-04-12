@@ -10,6 +10,6 @@ export class NuxtController {
 
   @Get('*')
   getPage(@Req() request: FastifyRequest, @Res() reply: FastifyReply): void {
-    this.nuxtService.getPage(request, reply);
+    return this.nuxtService.getPage(request, reply);
   }
 }

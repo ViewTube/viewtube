@@ -1,7 +1,7 @@
-import { Innertube, UniversalCache } from 'youtubei.js';
+import { Innertube, InnertubeConfig, UniversalCache } from 'youtubei.js';
 import path from 'path';
 import { RequestInfo, RequestInit } from 'undici';
-import { ofetch } from 'ofetch';
+import { ofetch, fetch } from 'ofetch';
 import HttpsProxyAgent from 'https-proxy-agent';
 import HttpsProxyAgentType from 'https-proxy-agent/dist/agent';
 
@@ -10,7 +10,7 @@ if (process.env.VIEWTUBE_DATA_DIRECTORY) {
   cacheDirectory = path.join(process.env.VIEWTUBE_DATA_DIRECTORY, 'cache');
 }
 
-export const innertubeClient = Innertube.create({
+const innertubeOptions: InnertubeConfig = {
   cache: new UniversalCache(true, cacheDirectory),
   fetch: async (
     input: RequestInfo | string,
@@ -21,7 +21,12 @@ export const innertubeClient = Innertube.create({
       const proxyAgent = HttpsProxyAgent(proxy);
       init.agent = proxyAgent;
     }
-    return ofetch(input, init);
-  },
-  cookie: process.env.VIEWTUBE_YOUTUBE_COOKIE
-});
+    return fetch(input, init);
+  }
+};
+
+if (process.env.VIEWTUBE_YOUTUBE_COOKIE) {
+  innertubeOptions.cookie = process.env.VIEWTUBE_YOUTUBE_COOKIE;
+}
+
+export const innertubeClient = Innertube.create(innertubeOptions);

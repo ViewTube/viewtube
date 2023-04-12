@@ -32,7 +32,14 @@ export class NuxtService {
     if (typeof this.nuxtListener === 'function') {
       this.nuxtListener(request.raw, reply.raw);
     } else {
-      throw new NotFoundException();
+      reply
+        .code(404)
+        .send({
+          statusCode: 404,
+          message: `Cannot ${request.method} ${request.url}`,
+          error: 'Not Found'
+        });
+      // throw new NotFoundException();
     }
   }
 }
