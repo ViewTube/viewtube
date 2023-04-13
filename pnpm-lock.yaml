@@ -299,8 +299,8 @@ importers:
         specifier: git://github.com/FreeTubeApp/yt-channel-info
         version: github.com/FreeTubeApp/yt-channel-info/0a6001bf4e7ec0e4aef4f95dded67c8f8ee0f2c4
       ytdl-core:
-        specifier: 4.11.2
-        version: 4.11.2
+        specifier: 4.11.4
+        version: 4.11.4
       ytpl:
         specifier: 2.3.0
         version: 2.3.0
@@ -12154,8 +12154,8 @@ packages:
       undici: 5.21.0
     dev: false
 
-  /ytdl-core@4.11.2:
-    resolution: {integrity: sha512-D939t9b4ZzP3v0zDvehR2q+KgG97UTgrTKju3pOPGQcXtl4W6W5z0EpznzcJFu+OOpl7S7Ge8hv8zU65QnxYug==}
+  /ytdl-core@4.11.4:
+    resolution: {integrity: sha512-tsVvqt++B5LSTMnCKQb4H/PFBewKj7gGPJ6KIM5gOFGMKNZj4qglGAl4QGFG8cNPP6wY54P80FDID5eN2di0GQ==}
     engines: {node: '>=12'}
     dependencies:
       m3u8stream: 0.8.6
