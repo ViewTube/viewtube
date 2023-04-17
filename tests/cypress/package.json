@@ -1,7 +1,7 @@
 {
   "name": "e2e-tests",
   "engines": {
-    "node": ">=16.19.0",
+    "node": ">=18.16.0",
     "pnpm": ">=8.2.0"
   },
   "scripts": {

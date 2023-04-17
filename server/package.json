@@ -2,7 +2,7 @@
   "name": "server",
   "main": "dist/main",
   "engines": {
-    "node": ">=16.19.0",
+    "node": ">=18.16.0",
     "pnpm": ">=8.2.0"
   },
   "scripts": {
@@ -22,7 +22,7 @@
     "@fastify/cookie": "8.3.0",
     "@fastify/helmet": "10.1.0",
     "@fastify/multipart": "7.6.0",
-    "@fastify/static": "6.10.0",
+    "@fastify/static": "6.10.1",
     "@fastify/swagger": "8.3.1",
     "@freetube/yt-comment-scraper": "6.2.0",
     "@nestjs/bull": "0.6.3",
@@ -37,8 +37,6 @@
     "@nestjs/schedule": "2.2.1",
     "@nestjs/swagger": "6.3.0",
     "@nestjs/throttler": "4.0.0",
-    "@sentry/node": "7.47.0",
-    "@sentry/tracing": "7.47.0",
     "archiver": "5.3.1",
     "bcryptjs": "2.4.3",
     "bull": "4.10.4",
@@ -51,10 +49,10 @@
     "fastify": "4.15.0",
     "https-proxy-agent": "5.0.1",
     "humanize-duration": "3.28.0",
-    "ioredis": "5.3.1",
+    "ioredis": "5.3.2",
     "joi": "17.9.1",
     "mini-svg-data-uri": "1.4.4",
-    "mongoose": "7.0.3",
+    "mongoose": "7.0.4",
     "nest-winston": "1.9.1",
     "nestjs-throttler-storage-redis": "0.3.0",
     "ofetch": "1.0.1",
@@ -72,16 +70,15 @@
     "winston-daily-rotate-file": "4.7.1",
     "x2js": "3.4.4",
     "xml-js": "1.6.11",
-    "youtubei.js": "^4.2.0",
+    "youtubei.js": "^4.3.0",
     "yt-channel-info": "git://github.com/FreeTubeApp/yt-channel-info",
     "ytdl-core": "4.11.3",
     "ytpl": "2.3.0",
-    "ytsr": "3.8.1"
+    "ytsr": "3.8.2"
   },
   "devDependencies": {
-    "@nestjs/cli": "9.3.0",
+    "@nestjs/cli": "9.4.0",
     "@nestjs/websockets": "9.4.0",
-    "@sentry/types": "7.47.0",
     "@types/archiver": "5.3.2",
     "@types/bcryptjs": "2.4.2",
     "@types/cache-manager": "4.0.2",
@@ -90,7 +87,7 @@
     "@types/humanize-duration": "3.27.1",
     "@types/mime-types": "2.1.1",
     "@types/multer": "1.4.7",
-    "@types/node": "16.18.23",
+    "@types/node": "18.15.11",
     "@types/passport-jwt": "3.0.8",
     "@types/passport-local": "1.0.35",
     "@types/redis-mock": "0.17.1",
@@ -98,8 +95,8 @@
     "@types/web-push": "3.3.2",
     "@types/webpack-node-externals": "3.0.0",
     "@types/xml2json": "0.11.4",
-    "@typescript-eslint/eslint-plugin": "5.57.1",
-    "@typescript-eslint/parser": "5.57.1",
+    "@typescript-eslint/eslint-plugin": "5.58.0",
+    "@typescript-eslint/parser": "5.58.0",
     "cross-env": "7.0.3",
     "eslint": "8.38.0",
     "eslint-config-prettier": "8.8.0",
@@ -109,7 +106,7 @@
     "run-script-webpack-plugin": "0.1.1",
     "ts-loader": "9.4.2",
     "typescript": "5.0.4",
-    "webpack": "5.78.0",
+    "webpack": "5.79.0",
     "webpack-node-externals": "3.0.0"
   }
 }

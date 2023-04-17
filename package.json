@@ -7,7 +7,7 @@
   "version": "0.10.0",
   "license": "AGPLv3",
   "engines": {
-    "node": ">=16.19.0",
+    "node": ">=18.16.0",
     "pnpm": ">=8.2.0"
   },
   "scripts": {

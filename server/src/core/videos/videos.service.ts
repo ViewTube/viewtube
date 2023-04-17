@@ -17,7 +17,7 @@ import { DislikeDto } from 'server/core/videos/dto/dislike.dto';
 import undici from 'undici';
 import { BlockedVideo } from 'server/user/admin/schemas/blocked-video';
 import { ofetch } from 'ofetch';
-import { innertubeClient } from 'server/common/innertube';
+import { innertubeClient } from 'server/common/innertube/innertube';
 
 @Injectable()
 export class VideosService {
@@ -39,16 +39,16 @@ export class VideosService {
       throw new ForbiddenException('This video has been blocked for copyright reasons.');
     }
 
-    try {
+    // try {
       const client = await innertubeClient;
       const videoInfo = await client.getInfo(id);
 
       return videoInfo;
       // const video = toVTVideoInfoDto(videoInfo);
 
-    } catch (error) {
-      throw new InternalServerErrorException(error.message);
-    }
+    // } catch (error) {
+      // throw new InternalServerErrorException(error.message);
+    // }
   }
 
   async getDislikes(id: string): Promise<DislikeDto> {
