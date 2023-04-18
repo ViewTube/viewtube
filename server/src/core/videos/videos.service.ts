@@ -2,7 +2,13 @@ import fs from 'fs';
 import path from 'path';
 import { promisify } from 'util';
 import sharp from 'sharp';
-import { Injectable, HttpException, HttpStatus, ForbiddenException, InternalServerErrorException } from '@nestjs/common';
+import {
+  Injectable,
+  HttpException,
+  HttpStatus,
+  ForbiddenException,
+  InternalServerErrorException
+} from '@nestjs/common';
 import { getInfo, videoInfo } from 'ytdl-core';
 import { ConfigService } from '@nestjs/config';
 import { InjectModel } from '@nestjs/mongoose';
@@ -18,6 +24,8 @@ import undici from 'undici';
 import { BlockedVideo } from 'server/user/admin/schemas/blocked-video';
 import { ofetch } from 'ofetch';
 import { innertubeClient } from 'server/common/innertube/innertube';
+import { toVTVideoInfoDto } from 'server/mapper/converter/video-info/vt-video-info.converter';
+import { VideoInfoSourceApproximation } from 'server/mapper/converter/video-info/video-info-source-approximation';
 
 @Injectable()
 export class VideosService {
@@ -39,16 +47,11 @@ export class VideosService {
       throw new ForbiddenException('This video has been blocked for copyright reasons.');
     }
 
-    // try {
-      const client = await innertubeClient;
-      const videoInfo = await client.getInfo(id);
+    const client = await innertubeClient;
+    const videoInfo: unknown = await client.getInfo(id);
 
-      return videoInfo;
-      // const video = toVTVideoInfoDto(videoInfo);
-
-    // } catch (error) {
-      // throw new InternalServerErrorException(error.message);
-    // }
+    const video = toVTVideoInfoDto(videoInfo);
+    return video;
   }
 
   async getDislikes(id: string): Promise<DislikeDto> {
