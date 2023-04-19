@@ -141,6 +141,7 @@ interface Card {
   content?: CardContent | null;
   card_id?: null | string;
   feature?: null | string;
+  channel_name?: string;
   cue_ranges?: CueRange[];
 }
 
@@ -152,6 +153,10 @@ interface CardContent {
   show_link_icon?: boolean;
   call_to_action?: ShowLessText;
   endpoint?: ContentEndpoint;
+  video_thumbnails?: Thumbnail[];
+  duration?: {
+    text?: string;
+  };
 }
 
 interface ShowLessText {
@@ -171,6 +176,7 @@ interface PurpleMetadata {
 
 interface PurplePayload {
   url?: string;
+  videoId?: string;
   target?: string;
 }
 
@@ -504,8 +510,9 @@ interface ToggledEndpointClass {
   metadata?: SuperTitleLink;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface SuperTitleLink {}
+interface SuperTitleLink {
+  runs: DescriptionRun[];
+}
 
 interface TopLevelButtonEndpoint {
   type?: string;

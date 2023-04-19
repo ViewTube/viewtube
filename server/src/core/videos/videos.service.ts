@@ -2,30 +2,26 @@ import fs from 'fs';
 import path from 'path';
 import { promisify } from 'util';
 import sharp from 'sharp';
-import {
-  Injectable,
-  HttpException,
-  HttpStatus,
-  ForbiddenException,
-  InternalServerErrorException
-} from '@nestjs/common';
+import { Injectable, HttpException, ForbiddenException } from '@nestjs/common';
 import { getInfo, videoInfo } from 'ytdl-core';
 import { ConfigService } from '@nestjs/config';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { VideoDto } from 'server/core/videos/dto/video.dto';
 import { ChannelBasicInfo } from '../channels/schemas/channel-basic-info.schema';
 import { Common } from '../common';
 import { DashGenerator } from './dash.generator';
 import { VideoBasicInfo } from './schemas/video-basic-info.schema';
-import { mapVideo } from './video.mapper';
 import { DislikeDto } from 'server/core/videos/dto/dislike.dto';
 import undici from 'undici';
 import { BlockedVideo } from 'server/user/admin/schemas/blocked-video';
 import { ofetch } from 'ofetch';
 import { innertubeClient } from 'server/common/innertube/innertube';
 import { toVTVideoInfoDto } from 'server/mapper/converter/video-info/vt-video-info.converter';
-import { VideoInfoSourceApproximation } from 'server/mapper/converter/video-info/video-info-source-approximation';
+import sample8k from 'server/common/innertube/sample_8k.json';
+import sampleLive from 'server/common/innertube/sample_livestream.json';
+import sampleLive2 from 'server/common/innertube/sample_livestream2.json';
+import sampleLTT from 'server/common/innertube/sample_ltt.json';
+import sampleVidIQ from 'server/common/innertube/sample_vidIQ.json';
 
 @Injectable()
 export class VideosService {
@@ -47,11 +43,22 @@ export class VideosService {
       throw new ForbiddenException('This video has been blocked for copyright reasons.');
     }
 
-    const client = await innertubeClient;
-    const videoInfo: unknown = await client.getInfo(id);
+    // const client = await innertubeClient;
+    // const videoInfo: unknown = await client.getInfo(id);
 
-    const video = toVTVideoInfoDto(videoInfo);
-    return video;
+    // const video = toVTVideoInfoDto(videoInfo);
+    if (id === '1') {
+      return toVTVideoInfoDto(sample8k as any);
+    } else if (id === '2') {
+      return toVTVideoInfoDto(sampleLive as any);
+    } else if (id === '3') {
+      return toVTVideoInfoDto(sampleLive2 as any);
+    } else if (id === '4') {
+      return toVTVideoInfoDto(sampleLTT as any);
+    } else if (id === '5') {
+      return toVTVideoInfoDto(sampleVidIQ as any);
+    }
+    // return videoInfo;
   }
 
   async getDislikes(id: string): Promise<DislikeDto> {

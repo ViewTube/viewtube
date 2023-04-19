@@ -9,6 +9,7 @@ import { VTLegacyFormatDto } from './vt-legacy-format.dto';
 export class VTVideoInfoDto {
   id: string;
   title: string;
+  subtitle: string;
   author: {
     id: string;
     name: string;
