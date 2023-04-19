@@ -154,6 +154,11 @@ interface CardContent {
   call_to_action?: ShowLessText;
   endpoint?: ContentEndpoint;
   video_thumbnails?: Thumbnail[];
+  video_count: { text: string };
+  channel_name: {
+    text: string;
+  };
+  view_count?: { text: string };
   duration?: {
     text?: string;
   };
@@ -177,6 +182,7 @@ interface PurpleMetadata {
 interface PurplePayload {
   url?: string;
   videoId?: string;
+  playlistId?: string;
   target?: string;
 }
 

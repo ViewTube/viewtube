@@ -23,13 +23,15 @@ import {
   extractTitle,
   extractUnlisted,
   extractUpcoming,
-  extractViewCount
+  extractViewCount,
+  extractSubtitle
 } from './vt-video-info.extractors';
 
 export const toVTVideoInfoDto = (videoInfo: VideoInfoSourceApproximation): VTVideoInfoDto => {
   return {
     id: extractVideoId(videoInfo),
     title: extractTitle(videoInfo),
+    subtitle: extractSubtitle(videoInfo),
     author: extractAuthor(videoInfo),
     description: extractDescription(videoInfo),
     thumbnails: extractThumbnails(videoInfo),
@@ -50,6 +52,6 @@ export const toVTVideoInfoDto = (videoInfo: VideoInfoSourceApproximation): VTVid
     recommendedVideos: extractRecommendedVideos(videoInfo),
     chapters: extractChapters(videoInfo),
     commentCount: extractCommentCount(videoInfo),
-    legacyFormats: extractLegacyFormats(videoInfo)
+    legacyFormats: extractLegacyFormats(videoInfo),
   };
 };

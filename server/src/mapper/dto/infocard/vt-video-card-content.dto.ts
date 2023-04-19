@@ -1,6 +1,6 @@
 import { VTThumbnailDto } from "../vt-thumbnail.dto";
 
-export class VTVideoCardContent {
+export class VTVideoCardContentDto {
   type: 'video';
   id: string;
   title: string;

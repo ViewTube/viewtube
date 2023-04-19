@@ -5,8 +5,9 @@ import { parseViewCount } from 'server/mapper/utils/view-count';
 import { getSecondsFromTimestamp, getTimestampFromSeconds } from 'viewtube/shared';
 import { VTEndscreenChannelDto } from 'server/mapper/dto/endscreen/vt-endscreen-channel.dto';
 import { VTEndscreenVideoDto } from 'server/mapper/dto/endscreen/vt-endscreen-video.dto';
-import { VTInfoCardDto } from 'server/mapper/dto/infocard/vt-info-card.dto';
-import { VTVideoCardContent } from 'server/mapper/dto/infocard/vt-video-card-content.dto';
+import { VTVideoCardContentDto } from 'server/mapper/dto/infocard/vt-video-card-content.dto';
+import { VTSimpleCardContentDto } from 'server/mapper/dto/infocard/vt-simple-card-content.dto';
+import { VTPlaylistCardContentDto } from 'server/mapper/dto/infocard/vt-playlist-card-content.dto';
 
 export const extractVideoId = (videoInfo: VideoInfoSourceApproximation) => {
   return videoInfo?.basic_info?.id;
@@ -222,30 +223,129 @@ export const extractCaptions = (
 export const extractInfoCards = (
   videoInfo: VideoInfoSourceApproximation
 ): VTVideoInfoDto['infoCards'] => {
-  return videoInfo?.cards?.cards?.map(card => {
-    const infoCard = {
-      shortName: card?.teaser?.message?.text,
-      startMs: card?.cue_ranges?.[0]?.start_card_active_ms,
-      endMs: card?.cue_ranges?.[0]?.end_card_active_ms
-    } satisfies Partial<VTInfoCardDto>;
+  return videoInfo?.cards?.cards
+    ?.map(card => {
+      const infoCard = {
+        shortName: card?.teaser?.message?.text,
+        startMs: parseInt(card?.cue_ranges?.[0]?.start_card_active_ms),
+        endMs: parseInt(card?.cue_ranges?.[0]?.end_card_active_ms)
+      };
 
-    if (card?.content?.type === 'VideoInfoCardContent') {
-      infoCard.content = {
-        type: 'video',
-        id: card?.content?.endpoint?.payload?.videoId,
-        title: card?.content?.title?.text,
-        author: { name: card?.content?.channel_name?.text },
-        thumbnails: card?.content?.video_thumbnails,
-        duration: {
-          text: card?.content?.duration?.text,
-          seconds: getSecondsFromTimestamp(card?.content?.duration?.text)
-        }
-      } satisfies VTVideoCardContent;
-    }
-    return infoCard;
+      if (card?.content?.type === 'VideoInfoCardContent') {
+        return {
+          ...infoCard,
+          content: {
+            type: 'video',
+            id: card?.content?.endpoint?.payload?.videoId,
+            title: card?.content?.title?.text,
+            author: { name: card?.content?.channel_name?.text },
+            thumbnails: card?.content?.video_thumbnails,
+            viewCount: parseViewCount(card?.content?.view_count?.text),
+            duration: {
+              text: card?.content?.duration?.text,
+              seconds: getSecondsFromTimestamp(card?.content?.duration?.text)
+            }
+          } satisfies VTVideoCardContentDto
+        };
+      } else if (card?.content?.type === 'PlaylistInfoCardContent') {
+        return {
+          ...infoCard,
+          content: {
+            type: 'playlist',
+            id: card?.content?.endpoint?.payload?.playlistId,
+            title: card?.content?.title?.text,
+            author: { name: card?.content?.channel_name?.text },
+            firstVideoId: card?.content?.endpoint?.payload?.videoId,
+            videoCount: parseInt(card?.content?.video_count?.text)
+          } satisfies VTPlaylistCardContentDto
+        };
+      } else if (card?.content?.type === 'SimpleCardContent') {
+        return {
+          ...infoCard,
+          content: {
+            type: 'simple',
+            title: card?.teaser?.message?.text,
+            thumbnails: card?.content?.image,
+            displayDomain: card?.content?.display_domain?.text,
+            url: parseRedirectUrl(card?.content?.endpoint?.payload?.url)
+          } satisfies VTSimpleCardContentDto
+        };
+      }
+      return;
+    })
+    .filter(el => el);
+};
+
+export const extractRecommendedVideos = (
+  videoInfo: VideoInfoSourceApproximation
+): VTVideoInfoDto['recommendedVideos'] => {
+  return videoInfo?.watch_next_feed?.map(video => {
+    return {
+      id: video?.id,
+      title: video?.title?.text,
+      author: {
+        id: video?.author?.id,
+        name: video?.author?.name,
+        thumbnails: video?.author?.thumbnails,
+        isVerified: video?.author?.is_verified,
+        isArtist: video?.author?.is_verified_artist,
+        handle: video?.author?.endpoint?.payload?.canonicalBaseUrl.replace('/', '')
+      }
+    };
   });
 };
-export const extractRecommendedVideos = (videoInfo: VideoInfoSourceApproximation) => {};
-export const extractChapters = (videoInfo: VideoInfoSourceApproximation) => {};
-export const extractCommentCount = (videoInfo: VideoInfoSourceApproximation) => {};
-export const extractLegacyFormats = (videoInfo: VideoInfoSourceApproximation) => {};
+
+export const extractChapters = (
+  videoInfo: VideoInfoSourceApproximation
+): VTVideoInfoDto['chapters'] => {
+  return videoInfo?.player_overlays?.decorated_player_bar?.player_bar?.markers_map
+    ?.find(el => el?.value?.chapters)
+    ?.value?.chapters?.map(chapter => {
+      return {
+        title: chapter?.title?.text,
+        startMs: chapter?.time_range_start_millis,
+        thumbnails: chapter?.thumbnail
+      };
+    });
+};
+
+export const extractCommentCount = (
+  videoInfo: VideoInfoSourceApproximation
+): VTVideoInfoDto['commentCount'] => {
+  return parseViewCount(videoInfo?.comments_entry_point_header?.comment_count?.text);
+};
+
+export const extractLegacyFormats = (
+  videoInfo: VideoInfoSourceApproximation
+): VTVideoInfoDto['legacyFormats'] => {
+  const allFormats = {
+    ...videoInfo?.streaming_data?.formats,
+    ...videoInfo?.streaming_data?.adaptive_formats
+  };
+
+  return allFormats
+    ?.filter(format => {
+      return format?.has_audio && format?.has_video;
+    })
+    .map(format => {
+      return {
+        mimeType: format?.mime_type,
+        bitrate: format?.bitrate,
+        averageBitrate: format?.average_bitrate,
+        width: format?.width,
+        height: format?.height,
+        lastModified: new Date(format?.last_modified),
+        contentLength: format?.content_length,
+        quality: format?.quality,
+        qualityLabel: format?.quality_label,
+        fps: format?.fps,
+        url: format?.url,
+        audioQuality: format?.audio_quality,
+        approxDurationMs: format?.approx_duration_ms,
+        audioSampleRate: format?.audio_sample_rate,
+        audioChannels: format?.audio_channels,
+        hasAudio: format?.has_audio,
+        hasVideo: format?.has_video
+      };
+    });
+};

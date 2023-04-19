@@ -11,7 +11,7 @@ export class VTLegacyFormatDto {
   fps: number;
   url: string;
   audioQuality: string;
-  approxDuration_ms: number;
+  approxDurationMs: number;
   audioSampleRate: number;
   audioChannels: number;
   hasAudio: boolean;

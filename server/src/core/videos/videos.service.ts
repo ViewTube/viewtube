@@ -43,22 +43,11 @@ export class VideosService {
       throw new ForbiddenException('This video has been blocked for copyright reasons.');
     }
 
-    // const client = await innertubeClient;
-    // const videoInfo: unknown = await client.getInfo(id);
+    const client = await innertubeClient;
+    const videoInfo: unknown = await client.getInfo(id);
+    const video = toVTVideoInfoDto(videoInfo);
 
-    // const video = toVTVideoInfoDto(videoInfo);
-    if (id === '1') {
-      return toVTVideoInfoDto(sample8k as any);
-    } else if (id === '2') {
-      return toVTVideoInfoDto(sampleLive as any);
-    } else if (id === '3') {
-      return toVTVideoInfoDto(sampleLive2 as any);
-    } else if (id === '4') {
-      return toVTVideoInfoDto(sampleLTT as any);
-    } else if (id === '5') {
-      return toVTVideoInfoDto(sampleVidIQ as any);
-    }
-    // return videoInfo;
+    return video;
   }
 
   async getDislikes(id: string): Promise<DislikeDto> {
