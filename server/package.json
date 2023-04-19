@@ -46,6 +46,7 @@
     "class-transformer": "0.5.1",
     "class-validator": "0.14",
     "cookie-parser": "1.4.6",
+    "dayjs": "1.11.7",
     "fastify": "4.15.0",
     "https-proxy-agent": "5.0.1",
     "humanize-duration": "3.28.0",

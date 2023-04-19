@@ -8,6 +8,8 @@ import { VTEndscreenVideoDto } from 'server/mapper/dto/endscreen/vt-endscreen-vi
 import { VTVideoCardContentDto } from 'server/mapper/dto/infocard/vt-video-card-content.dto';
 import { VTSimpleCardContentDto } from 'server/mapper/dto/infocard/vt-simple-card-content.dto';
 import { VTPlaylistCardContentDto } from 'server/mapper/dto/infocard/vt-playlist-card-content.dto';
+import { parseRelativeTime } from 'server/mapper/utils/parse-relative-time';
+import dayjs from 'dayjs';
 
 export const extractVideoId = (videoInfo: VideoInfoSourceApproximation) => {
   return videoInfo?.basic_info?.id;
@@ -94,7 +96,10 @@ export const extractDuration = (videoInfo: VideoInfoSourceApproximation) => {
 
 export const extractPublished = (videoInfo: VideoInfoSourceApproximation) => {
   const published = videoInfo?.primary_info?.published?.text;
-  const date = new Date(published);
+  let date = dayjs(published).toDate();
+  if (!date.valueOf()) {
+    date = parseRelativeTime(published).toDate();
+  }
   return {
     text: published,
     date
@@ -318,10 +323,10 @@ export const extractCommentCount = (
 export const extractLegacyFormats = (
   videoInfo: VideoInfoSourceApproximation
 ): VTVideoInfoDto['legacyFormats'] => {
-  const allFormats = {
-    ...videoInfo?.streaming_data?.formats,
-    ...videoInfo?.streaming_data?.adaptive_formats
-  };
+  const allFormats = [
+    ...(videoInfo?.streaming_data?.formats ?? []),
+    ...(videoInfo?.streaming_data?.adaptive_formats ?? [])
+  ];
 
   return allFormats
     ?.filter(format => {
