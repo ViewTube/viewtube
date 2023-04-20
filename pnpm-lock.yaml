@@ -298,9 +298,6 @@ importers:
       yt-channel-info:
         specifier: git://github.com/FreeTubeApp/yt-channel-info
         version: github.com/FreeTubeApp/yt-channel-info/0a6001bf4e7ec0e4aef4f95dded67c8f8ee0f2c4
-      ytdl-core:
-        specifier: 4.11.3
-        version: 4.11.3
       ytpl:
         specifier: 2.3.0
         version: 2.3.0
@@ -8468,14 +8465,6 @@ packages:
     engines: {node: '>=12'}
     dev: false
 
-  /m3u8stream@0.8.6:
-    resolution: {integrity: sha512-LZj8kIVf9KCphiHmH7sbFQTVe4tOemb202fWwvJwR9W5ENW/1hxJN6ksAWGhQgSBSa3jyWhnjKU1Fw1GaOdbyA==}
-    engines: {node: '>=12'}
-    dependencies:
-      miniget: 4.2.2
-      sax: 1.2.4
-    dev: false
-
   /macos-release@2.5.1:
     resolution: {integrity: sha512-DXqXhEM7gW59OjZO8NIjBCz9AQ1BEMrfiOAl4AYByHCtVHRF4KoGNO8mqQeM8lRCtQe/UnJ4imO/d2HdkKsd+A==}
     engines: {node: '>=6'}
@@ -12190,15 +12179,6 @@ packages:
       linkedom: 0.14.25
       tslib: 2.5.0
       undici: 5.21.2
-    dev: false
-
-  /ytdl-core@4.11.3:
-    resolution: {integrity: sha512-0KerQw+R7Nnhcebxq6WPopO92VLNnsoRVjJuhGhRzgfK1YdrnG1aqaq4zycolMBY+K8TZHXPV7ZNIjcawD/BPA==}
-    engines: {node: '>=12'}
-    dependencies:
-      m3u8stream: 0.8.6
-      miniget: 4.2.2
-      sax: 1.2.4
     dev: false
 
   /ytpl@2.3.0:
