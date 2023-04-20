@@ -1,6 +1,5 @@
 import { Document } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { AuthorThumbnailDto } from '../dto/author-thumbnail.dto';
 import { VideoBasicInfoDto } from '../dto/video-basic-info.dto';
 import { VTThumbnailDto } from 'server/mapper/dto/vt-thumbnail.dto';
 @Schema({ timestamps: true })
@@ -24,7 +23,7 @@ export class VideoBasicInfo extends Document implements VideoBasicInfoDto {
   authorId: string;
 
   @Prop()
-  authorThumbnails?: Array<AuthorThumbnailDto>;
+  authorThumbnails?: Array<VTThumbnailDto>;
 
   @Prop()
   authorThumbnailUrl?: string;

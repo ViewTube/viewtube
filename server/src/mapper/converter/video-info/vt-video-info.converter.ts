@@ -26,8 +26,9 @@ import {
   extractViewCount,
   extractSubtitle
 } from './vt-video-info.extractors';
+import { createDashManifestURI } from 'server/mapper/utils/dash-manifest-uri';
 
-export const toVTVideoInfoDto = (videoInfo: VideoInfoSourceApproximation): VTVideoInfoDto => {
+export const toVTVideoInfoDto = (videoInfo: VideoInfoSourceApproximation, dashManifest: string): VTVideoInfoDto => {
   return {
     id: extractVideoId(videoInfo),
     title: extractTitle(videoInfo),
@@ -53,5 +54,7 @@ export const toVTVideoInfoDto = (videoInfo: VideoInfoSourceApproximation): VTVid
     chapters: extractChapters(videoInfo),
     commentCount: extractCommentCount(videoInfo),
     legacyFormats: extractLegacyFormats(videoInfo),
+    dashManifest,
+    dashManifestURI: createDashManifestURI(dashManifest)
   };
 };

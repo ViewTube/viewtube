@@ -2,14 +2,16 @@ import fs from 'fs';
 import path from 'path';
 import { promisify } from 'util';
 import sharp from 'sharp';
-import { Injectable, HttpException, ForbiddenException } from '@nestjs/common';
-import { getInfo, videoInfo } from 'ytdl-core';
+import {
+  Injectable,
+  HttpException,
+  ForbiddenException,
+  InternalServerErrorException
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { ChannelBasicInfo } from '../channels/schemas/channel-basic-info.schema';
-import { Common } from '../common';
-import { DashGenerator } from './dash.generator';
 import { VideoBasicInfo } from './schemas/video-basic-info.schema';
 import { DislikeDto } from 'server/core/videos/dto/dislike.dto';
 import undici from 'undici';
@@ -17,11 +19,7 @@ import { BlockedVideo } from 'server/user/admin/schemas/blocked-video';
 import { ofetch } from 'ofetch';
 import { innertubeClient } from 'server/common/innertube/innertube';
 import { toVTVideoInfoDto } from 'server/mapper/converter/video-info/vt-video-info.converter';
-import sample8k from 'server/common/innertube/sample_8k.json';
-import sampleLive from 'server/common/innertube/sample_livestream.json';
-import sampleLive2 from 'server/common/innertube/sample_livestream2.json';
-import sampleLTT from 'server/common/innertube/sample_ltt.json';
-import sampleVidIQ from 'server/common/innertube/sample_vidIQ.json';
+import { VTVideoInfoDto } from 'server/mapper/dto/vt-video-info.dto';
 
 @Injectable()
 export class VideosService {
@@ -37,17 +35,31 @@ export class VideosService {
 
   returnYoutubeDislikeUrl = 'https://returnyoutubedislikeapi.com';
 
-  async getById(id: string): Promise<any> {
+  async getById(id: string): Promise<VTVideoInfoDto> {
     const isVideoBlocked = await this.blockedVideoModel.findOne({ videoId: id });
     if (isVideoBlocked) {
       throw new ForbiddenException('This video has been blocked for copyright reasons.');
     }
 
-    const client = await innertubeClient;
-    const videoInfo: unknown = await client.getInfo(id);
-    const video = toVTVideoInfoDto(videoInfo);
+    try {
+      const client = await innertubeClient;
+      const videoInfo = await client.getInfo(id);
 
-    return video;
+      const dashManifest = await videoInfo.toDash((url: URL) => {
+        const searchParams = new URLSearchParams();
+        for (const [key, value] of url.searchParams) {
+          searchParams.append(key, value);
+        }
+        searchParams.append('host', url.host);
+        // youtubei.js only ever calls .toString() on the URL object, so we can safely return a string here
+        return `/api/videoplayback?${searchParams.toString()}` as unknown as URL;
+      });
+
+      const video = toVTVideoInfoDto(videoInfo as unknown, dashManifest);
+      return video;
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
   }
 
   async getDislikes(id: string): Promise<DislikeDto> {
@@ -63,17 +75,6 @@ export class VideosService {
     }
 
     throw new HttpException('Error fetching dislike information', 503);
-  }
-
-  async getDashManifest(id: string): Promise<string> {
-    const url: string = Common.youtubeVideoUrl + id;
-    const result: videoInfo = await getInfo(url);
-
-    const dashManifest = DashGenerator.generateDashFileFromFormats(
-      result.player_response.streamingData.adaptiveFormats,
-      result.videoDetails.lengthSeconds
-    );
-    return dashManifest;
   }
 
   async saveAuthorImage(imgUrl: string, channelId: string) {

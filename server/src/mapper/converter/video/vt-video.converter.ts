@@ -1,5 +1,4 @@
 import { VideoBasicInfoDto } from 'server/core/videos/dto/video-basic-info.dto';
-import { VideoDto } from 'server/core/videos/dto/video.dto';
 import Video from 'youtubei.js/dist/src/parser/classes/Video';
 import { VTVideoDto } from 'server/mapper/dto/vt-video.dto';
 import { generateVideoThumbnails } from 'server/mapper/utils/video-thumbnails';
@@ -17,13 +16,14 @@ import {
 } from './vt-video.extractors';
 
 export type VideoSourceApproximation = Partial<VideoBasicInfoDto> &
-  Partial<Video> &
-  Partial<VideoDto> & {
+  Partial<Video> & {
     videoID?: string;
     name?: string;
     authorArtist?: boolean;
     viewCount?: string;
     isLive?: boolean;
+    authorUrl?: string;
+    descriptionHtml?: string;
   };
 
 export const toVTVideoDto = (video: VideoSourceApproximation | any): VTVideoDto => {

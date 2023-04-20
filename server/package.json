@@ -73,7 +73,6 @@
     "xml-js": "1.6.11",
     "youtubei.js": "^4.3.0",
     "yt-channel-info": "git://github.com/FreeTubeApp/yt-channel-info",
-    "ytdl-core": "4.11.3",
     "ytpl": "2.3.0",
     "ytsr": "3.8.2"
   },

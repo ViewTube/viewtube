@@ -5,6 +5,7 @@ import { VTCaptionTrackDto } from './vt-caption-track.dto';
 import { VTInfoCardDto } from './infocard/vt-info-card.dto';
 import { VTVideoDto } from './vt-video.dto';
 import { VTLegacyFormatDto } from './vt-legacy-format.dto';
+import { VTChapterDto } from './vt-chapter.dto';
 
 export class VTVideoInfoDto {
   id: string;
@@ -45,7 +46,9 @@ export class VTVideoInfoDto {
   captions: Array<VTCaptionTrackDto>;
   infoCards: Array<VTInfoCardDto>;
   recommendedVideos: Array<VTVideoDto>;
-  chapters: Array<{ title: string; startMs: number; thumbnails: Array<VTThumbnailDto> }>;
+  chapters: Array<VTChapterDto>;
   commentCount: number;
   legacyFormats: Array<VTLegacyFormatDto>;
+  dashManifest: string;
+  dashManifestURI: string;
 }

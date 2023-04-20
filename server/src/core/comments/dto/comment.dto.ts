@@ -1,7 +1,7 @@
-import { AuthorThumbnailDto } from 'server/core/videos/dto/author-thumbnail.dto';
+import { VTThumbnailDto } from 'server/mapper/dto/vt-thumbnail.dto';
 
 export class CommentDto {
-  authorThumbnails: Array<AuthorThumbnailDto>;
+  authorThumbnails: Array<VTThumbnailDto>;
   author: string;
   authorId: string;
   publishedText: string;

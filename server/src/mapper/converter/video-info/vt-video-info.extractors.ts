@@ -39,7 +39,7 @@ export const extractAuthor = (
     handle: authorHandle,
     isArtist: owner?.author?.is_verified_artist === true,
     isVerified: owner?.author?.is_verified === true,
-    subscriberCount: owner?.subscriber_count?.text,
+    subscriberCount: owner?.subscriber_count?.text.replace(/subscribers?/i, '').trim(),
     thumbnails: owner?.author?.thumbnails
   };
 };
