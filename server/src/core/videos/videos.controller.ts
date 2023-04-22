@@ -5,14 +5,13 @@ import {
   UseInterceptors,
   ClassSerializerInterceptor,
   SerializeOptions,
-  CacheInterceptor,
-  CacheTTL,
   Header
 } from '@nestjs/common';
+import { CacheInterceptor, CacheTTL } from '@nestjs/cache-manager';
 import { ApiTags } from '@nestjs/swagger';
-import { VideoDto } from 'server/core/videos/dto/video.dto';
 import { DislikeDto } from 'server/core/videos/dto/dislike.dto';
 import { VideosService } from './videos.service';
+import { VTVideoInfoDto } from 'server/mapper/dto/vt-video-info.dto';
 
 @ApiTags('Core')
 @UseInterceptors(CacheInterceptor)
@@ -27,15 +26,8 @@ export class VideosController {
   @CacheTTL(18000)
   @Header('Cache-Control', 'public, max-age=18000')
   @Get(':id')
-  getVideos(@Param('id') id: string): Promise<VideoDto> {
+  getVideos(@Param('id') id: string): Promise<VTVideoInfoDto> {
     return this.videosService.getById(id);
-  }
-
-  @CacheTTL(1800)
-  @Header('Cache-Control', 'public, max-age=1800')
-  @Get('manifest/dash/:id')
-  getDashManifest(@Param('id') id: string): Promise<string> {
-    return this.videosService.getDashManifest(id);
   }
 
   @CacheTTL(18000)

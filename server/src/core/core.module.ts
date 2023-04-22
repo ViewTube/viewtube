@@ -1,4 +1,5 @@
-import { CacheModule, Logger, Module, ModuleMetadata } from '@nestjs/common';
+import { Logger, Module, ModuleMetadata } from '@nestjs/common';
+import { CacheModule } from '@nestjs/cache-manager';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
 import { General, GeneralSchema } from 'server/common/general.schema';
@@ -9,7 +10,6 @@ import { VideosService } from './videos/videos.service';
 import { VideoplaybackController } from './videoplayback/videoplayback.controller';
 import { VideoplaybackService } from './videoplayback/videoplayback.service';
 import { AutocompleteModule } from './autocomplete/autocomplete.module';
-import { Video, VideoSchema } from './videos/schemas/video.schema';
 import { VideoBasicInfo, VideoBasicInfoSchema } from './videos/schemas/video-basic-info.schema';
 import {
   ChannelBasicInfo,
@@ -26,11 +26,6 @@ import { BlockedVideo, BlockedVideoSchema } from 'server/user/admin/schemas/bloc
 const moduleMetadata: ModuleMetadata = {
   imports: [
     MongooseModule.forFeature([
-      {
-        name: Video.name,
-        schema: VideoSchema,
-        collection: 'videos'
-      },
       {
         name: VideoBasicInfo.name,
         schema: VideoBasicInfoSchema,

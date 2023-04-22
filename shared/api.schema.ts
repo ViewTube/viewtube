@@ -8,9 +8,6 @@ export interface paths {
   "/api/videos/{id}": {
     get: operations["VideosController_getVideos"];
   };
-  "/api/videos/manifest/dash/{id}": {
-    get: operations["VideosController_getDashManifest"];
-  };
   "/api/videos/dislikes/{id}": {
     get: operations["VideosController_getDislikes"];
   };
@@ -202,64 +199,139 @@ export interface components {
       width: number;
       height: number;
     };
-    AuthorThumbnailDto: {
-      url: string;
+    VTPreviewThumbnailDto: {
+      urlTemplate: string;
       width: number;
       height: number;
+      count: number;
+      interval: number;
+      columns: number;
+      rows: number;
+      previewThumbnailCount: number;
     };
-    ChapterDto: {
-      title: string;
-      startTime: number;
+    VTEndscreenElementDto: {
+      position: {
+        left?: number;
+        top?: number;
+      };
+      dimensions: {
+        width?: number;
+        aspectRatio?: number;
+      };
+      startMs: number;
+      endMs: number;
+      thumbnails: (components["schemas"]["VTThumbnailDto"])[];
     };
-    RecommendedVideoDto: {
-      videoId: string;
-      title: string;
-      videoThumbnails: (components["schemas"]["VTThumbnailDto"])[];
-      author: string;
-      authorUrl: string;
-      authorId: string;
-      authorThumbnails: (components["schemas"]["AuthorThumbnailDto"])[];
-      lengthSeconds: number;
-      viewCountText: string;
-      viewCount: number;
+    VTCaptionTrackDto: {
+      baseUrl: string;
+      name: string;
+      languageCode: string;
     };
-    VideoDto: {
-      type: string;
+    VTInfoCardDto: {
+      shortName: string;
+      startMs: number;
+      endMs: number;
+      content: Record<string, never>;
+    };
+    VTVideoDto: {
+      id: string;
       title: string;
-      videoId: string;
-      videoThumbnails: (components["schemas"]["VTThumbnailDto"])[];
-      storyboards: Record<string, never>;
+      author: {
+        id?: string;
+        name?: string;
+        thumbnails?: (components["schemas"]["VTThumbnailDto"])[];
+        isVerified?: boolean;
+        isArtist?: boolean;
+        handle?: string;
+      };
+      description?: string;
+      thumbnails?: (components["schemas"]["VTThumbnailDto"])[];
+      richThumbnails?: (components["schemas"]["VTThumbnailDto"])[];
+      duration: {
+        text?: string;
+        seconds?: number;
+      };
+      published: {
+        /** Format: date-time */
+        date?: string;
+        text?: string;
+      };
+      viewCount?: number;
+      /** Format: date-time */
+      upcoming?: string;
+      live?: boolean;
+    };
+    VTChapterDto: {
+      title: string;
+      startMs: number;
+      thumbnails: (components["schemas"]["VTThumbnailDto"])[];
+    };
+    VTLegacyFormatDto: {
+      mimeType: string;
+      bitrate: number;
+      averageBitrate: number;
+      width: number;
+      height: number;
+      /** Format: date-time */
+      lastModified: string;
+      contentLength: number;
+      quality: string;
+      qualityLabel: string;
+      fps: number;
+      url: string;
+      audioQuality: string;
+      approxDurationMs: number;
+      audioSampleRate: number;
+      audioChannels: number;
+      hasAudio: boolean;
+      hasVideo: boolean;
+    };
+    VTVideoInfoDto: {
+      id: string;
+      title: string;
+      subtitle: string;
+      author: {
+        id?: string;
+        name?: string;
+        thumbnails?: (components["schemas"]["VTThumbnailDto"])[];
+        isVerified?: boolean;
+        isArtist?: boolean;
+        handle?: string;
+        subscriberCount?: string;
+      };
       description: string;
-      descriptionHtml: string;
-      published: number;
-      publishedText: string;
-      keywords: (string)[];
+      thumbnails: (components["schemas"]["VTThumbnailDto"])[];
+      duration: {
+        text?: string;
+        seconds?: number;
+      };
+      published: {
+        /** Format: date-time */
+        date?: string;
+        text?: string;
+      };
       viewCount: number;
+      /** Format: date-time */
+      upcoming?: string;
+      live: boolean;
+      unlisted: boolean;
+      familyFriendly: boolean;
       likeCount: number;
-      paid: boolean;
-      premium: boolean;
-      isFamilyFriendly: boolean;
-      allowedRegions: (string)[];
-      genre: string;
-      genreUrl: string;
-      author: string;
-      authorId: string;
-      authorUrl: string;
-      authorThumbnails: (components["schemas"]["AuthorThumbnailDto"])[];
-      authorVerified: boolean;
-      subCount: number;
-      lengthSeconds: number;
-      allowRatings: boolean;
-      rating: number;
-      isListed: boolean;
-      liveNow: boolean;
-      isUpcoming: boolean;
-      adaptiveFormats: (Record<string, never>)[];
-      legacyFormats: (Record<string, never>)[];
-      chapters?: (components["schemas"]["ChapterDto"])[];
-      captions: Record<string, never>;
-      recommendedVideos: (components["schemas"]["RecommendedVideoDto"])[];
-      dashManifest?: string;
+      category: string;
+      previewThumbnails: (components["schemas"]["VTPreviewThumbnailDto"])[];
+      endscreen: {
+        elements?: (components["schemas"]["VTEndscreenElementDto"])[];
+        startMs?: number;
+      };
+      keywords: (string)[];
+      captions: (components["schemas"]["VTCaptionTrackDto"])[];
+      infoCards: (components["schemas"]["VTInfoCardDto"])[];
+      recommendedVideos: (components["schemas"]["VTVideoDto"])[];
+      chapters: (components["schemas"]["VTChapterDto"])[];
+      commentCount: number;
+      legacyFormats: (components["schemas"]["VTLegacyFormatDto"])[];
+      dashManifest: string;
+      dashManifestURI: string;
     };
     DislikeDto: {
       id: string;
@@ -421,39 +493,11 @@ export interface components {
       viewCount: number;
       location: string;
     };
-    VTVideoDto: {
-      id: string;
-      title: string;
-      author: {
-        id?: string;
-        name?: string;
-        thumbnails?: (components["schemas"]["VTThumbnailDto"])[];
-        isVerified?: boolean;
-        isArtist?: boolean;
-        handle?: string;
-      };
-      description?: string;
-      thumbnails?: (components["schemas"]["VTThumbnailDto"])[];
-      richThumbnails?: (components["schemas"]["VTThumbnailDto"])[];
-      duration: {
-        text?: string;
-        seconds?: number;
-      };
-      published: {
-        /** Format: date-time */
-        date?: string;
-        text?: string;
-      };
-      viewCount?: number;
-      /** Format: date-time */
-      upcoming?: string;
-      live?: boolean;
-    };
     HomeFeedDto: {
       videos: (components["schemas"]["VTVideoDto"])[];
     };
     CommentDto: {
-      authorThumbnails: (components["schemas"]["AuthorThumbnailDto"])[];
+      authorThumbnails: (components["schemas"]["VTThumbnailDto"])[];
       author: string;
       authorId: string;
       publishedText: string;
@@ -550,7 +594,7 @@ export interface components {
       author: string;
       authorId: string;
       authorVerified?: boolean;
-      authorThumbnails?: (components["schemas"]["AuthorThumbnailDto"])[];
+      authorThumbnails?: (components["schemas"]["VTThumbnailDto"])[];
       authorThumbnailUrl?: string;
       videoThumbnails: (components["schemas"]["VTThumbnailDto"])[];
       description?: string;
@@ -584,7 +628,7 @@ export interface components {
       authorId: string;
       author: string;
       authorUrl?: string;
-      authorThumbnails?: (components["schemas"]["AuthorThumbnailDto"])[];
+      authorThumbnails?: (components["schemas"]["VTThumbnailDto"])[];
       authorThumbnailUrl?: string;
       authorVerified?: boolean;
       subCount?: number;
@@ -661,21 +705,7 @@ export interface operations {
     responses: {
       200: {
         content: {
-          "application/json": components["schemas"]["VideoDto"];
-        };
-      };
-    };
-  };
-  VideosController_getDashManifest: {
-    parameters: {
-      path: {
-        id: string;
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": string;
+          "application/json": components["schemas"]["VTVideoInfoDto"];
         };
       };
     };

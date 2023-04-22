@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { innertubeClient } from 'server/common/innertube';
+import { innertubeClient } from 'server/common/innertube/innertube';
 import { mapHomeFeed } from './mapper/homefeed.mapper';
 import { HomeFeedDto } from './dto/home-feed.dto';
 

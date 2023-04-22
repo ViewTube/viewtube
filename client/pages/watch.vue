@@ -25,8 +25,9 @@ import { useVideoPlayerStore } from '@/store/videoPlayer';
 import { useLoadingVideoInfoStore } from '@/store/loadingVideoInfo';
 import { ApiDto, ApiErrorDto } from 'viewtube/shared';
 import { useUserStore } from '@/store/user';
+import dayjs from 'dayjs';
 
-type VideoType = ApiDto<'VideoDto'> & { initialVideoTime: number };
+type VideoType = ApiDto<'VTVideoInfoDto'> & { initialVideoTime: number };
 
 const messagesStore = useMessagesStore();
 const settingsStore = useSettingsStore();
@@ -61,11 +62,11 @@ const {
   pending: videoPending,
   refresh
 } = useLazyAsyncData<VideoType, ApiErrorDto>(route.query.v.toString(), async () => {
-  const value = await $fetch<ApiDto<'VideoDto'>>(`${apiUrl.value}videos/${route.query.v}`);
+  const value = await $fetch<ApiDto<'VTVideoInfoDto'>>(`${apiUrl.value}videos/${route.query.v}`);
 
   let initialVideoTime = 0;
   if (userStore.isLoggedIn && settingsStore.saveVideoHistory) {
-    const videoVisit = await $fetch<any>(`${apiUrl.value}user/history/${value.videoId}`, {
+    const videoVisit = await $fetch<any>(`${apiUrl.value}user/history/${value.id}`, {
       credentials: 'include'
     }).catch((_: any) => {});
 
@@ -75,7 +76,7 @@ const {
       $fetch(`${apiUrl.value}user/history/${route.query.v}`, {
         body: {
           progressSeconds: null,
-          lengthSeconds: value.lengthSeconds
+          lengthSeconds: value.duration.seconds
         },
         credentials: 'include'
       }).catch(_ => {});
@@ -92,12 +93,13 @@ watch(videoPending, value => {
 });
 
 watch(videoError, () => {
-  console.log(videoError);
-  messagesStore.createMessage({
-    type: 'error',
-    title: 'Error loading video',
-    message: videoError.value?.message ?? 'Unknown error'
-  });
+  if (videoError) {
+    messagesStore.createMessage({
+      type: 'error',
+      title: 'Error loading video',
+      message: videoError.value?.message ?? 'Unknown error'
+    });
+  }
 });
 
 const isPlaylist = computed(() => {
@@ -254,7 +256,7 @@ const onVideoEnded = () => {
   } else if (settingsStore.autoplayNextVideo && video.value.recommendedVideos) {
     router.push({
       path: route.fullPath,
-      query: { v: video.value.recommendedVideos[0].videoId, autoplay: 'true' }
+      query: { v: video.value.recommendedVideos[0].id, autoplay: 'true' }
     });
   }
 };
@@ -274,7 +276,7 @@ const watchPageTitle = computed(() => {
     <MetaPageHead
       :title="watchPageTitle"
       :description="`${video?.description?.substring(0, 100)}`"
-      :image="`${video?.authorThumbnails?.[2]?.url}`"
+      :image="`${video?.author.thumbnails?.[2]?.url}`"
       :video="`${video?.legacyFormats?.[0]?.url}`"
     />
     <VideoLoadingTemplate v-if="videoPending" />
@@ -282,7 +284,7 @@ const watchPageTitle = computed(() => {
     <WatchVideoError v-if="videoError" :error="videoError" />
     <VideoPlayer
       v-if="video && !videoPending"
-      :key="video.videoId"
+      :key="video.id"
       ref="videoplayerRef"
       :video="video"
       :initial-video-time="video.initialVideoTime"
@@ -345,39 +347,36 @@ const watchPageTitle = computed(() => {
         <div class="video-infobox-channel">
           <div class="infobox-channel">
             <div class="infobox-channel-image">
-              <nuxt-link :to="`channel/${video.authorId}`">
+              <nuxt-link :to="`/${video.author.handle}`">
                 <img
-                  v-if="video.authorThumbnails && video.authorThumbnails.length > 0"
+                  v-if="video.author.thumbnails?.length > 0"
                   id="channel-img"
                   alt="Channel image"
-                  :src="proxyUrl(video.authorThumbnails[2].url)"
+                  :src="proxyUrl(video.author.thumbnails[2].url)"
                 />
               </nuxt-link>
             </div>
             <div class="infobox-channel-info">
-              <nuxt-link :to="`channel/${video.authorId}`" class="infobox-channel-name">
-                <p>{{ video.author }}</p>
-                <VerifiedIcon v-if="video.authorVerified" />
+              <nuxt-link :to="`/${video.author.handle}`" class="infobox-channel-name">
+                <p>{{ video.author.name }}</p>
+                <VerifiedIcon v-if="video.author.isVerified" />
               </nuxt-link>
-              <p v-if="video.subCount" class="infobox-channel-subcount">
-                {{ video.subCount.toLocaleString('en-US') }}
+              <p v-if="video.author.subscriberCount" class="infobox-channel-subcount">
+                {{ video.author.subscriberCount }}
                 subscribers
               </p>
             </div>
           </div>
-          <SubscribeButton class="subscribe-button-watch" :channel-id="video.authorId" />
+          <SubscribeButton class="subscribe-button-watch" :channel-id="video.author.id" />
         </div>
         <PlaylistSection
           v-if="playlist"
           ref="playlistSectionRef"
           :playlist="playlist"
-          :current-video-id="video.videoId"
+          :current-video-id="video.id"
         />
-        <div v-if="video.publishedText" class="video-infobox-date">
-          {{ video.publishedText }}
-        </div>
-        <div v-if="!video.publishedText" class="video-exact-date">
-          {{ new Date(video.published).toLocaleString('en-US') }}
+        <div v-if="video.published.date" class="video-infobox-date">
+          {{ dayjs(video.published.date).toString() }}
         </div>
         <div class="video-actions">
           <BadgeButton style="color: #efbb00" :click="() => (shareOpen = !shareOpen)">
@@ -411,8 +410,9 @@ const watchPageTitle = computed(() => {
             v-html="video.description"
           />
           <SectionTitle :title="'Comments'" />
+          <p class="comment-count">{{ video.commentCount }}</p>
           <Spinner v-if="commentsLoading" />
-          <div v-if="video.liveNow" class="comments-error livestream">
+          <div v-if="video.live" class="comments-error livestream">
             <p>Livestream comments are not supported yet.</p>
           </div>
           <div v-if="commentsError" class="comments-error">
@@ -426,8 +426,8 @@ const watchPageTitle = computed(() => {
               v-for="(subComment, i) in commentObject.comments"
               :key="i"
               :comment="subComment"
-              :channel-author-id="video.authorId"
-              :channel-author-name="video.author"
+              :channel-author-id="video.author.id"
+              :channel-author-name="video.author.name"
             />
             <BadgeButton
               v-if="commentsContinuationLink"

@@ -10,9 +10,9 @@ const route = useRoute();
 
 const { apiUrl } = useApiUrl();
 
-const { data: video } = useLazyAsyncData<ApiDto<'VideoDto'>, ApiErrorDto>(
+const { data: video } = useLazyAsyncData<ApiDto<'VTVideoInfoDto'>, ApiErrorDto>(
   route.params.id.toString(),
-  () => $fetch<ApiDto<'VideoDto'>>(`${apiUrl.value}videos/${route.params.id}`)
+  () => $fetch<ApiDto<'VTVideoInfoDto'>>(`${apiUrl.value}videos/${route.params.id}`)
 );
 </script>
 

@@ -1,14 +1,5 @@
-import {
-  Controller,
-  Get,
-  Param,
-  CacheInterceptor,
-  UseInterceptors,
-  Res,
-  Header,
-  Query,
-  CacheTTL
-} from '@nestjs/common';
+import { Controller, Get, Param, UseInterceptors, Res, Header, Query } from '@nestjs/common';
+import { CacheInterceptor, CacheTTL } from '@nestjs/cache-manager';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { FastifyReply } from 'fastify';
 import { ChannelsService } from './channels.service';

@@ -7,8 +7,8 @@
   "version": "0.10.0",
   "license": "AGPLv3",
   "engines": {
-    "node": ">=16.19.0",
-    "pnpm": ">=7.28.0"
+    "node": ">=18.16.0",
+    "pnpm": ">=8.2.0"
   },
   "scripts": {
     "build": "pnpm --filter=* run build",
@@ -36,5 +36,10 @@
     "cross-env": "7.0.3",
     "prettier": "2.8.7",
     "typescript": "5.0.4"
+  },
+  "pnpm": {
+    "overrides": {
+      "consola": "3.0.1"
+    }
   }
 }

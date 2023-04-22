@@ -55,17 +55,19 @@ type VideoType = {
   duration?:
     | string
     | {
-        text: string;
-        seconds: number;
+        text?: string;
+        seconds?: number;
       };
   viewCount?: number;
   viewCountText?: string;
   views?: number;
   publishedText?: string;
-  published?: {
-    text?: string;
-    seconds?: number;
-  } | number;
+  published?:
+    | {
+        text?: string;
+        seconds?: number;
+      }
+    | number;
   uploadedAt?: string;
 };
 

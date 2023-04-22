@@ -1,5 +1,5 @@
 import { Sorting } from 'server/common/sorting.type';
-import { AuthorThumbnailDto } from './videos/dto/author-thumbnail.dto';
+import { VTThumbnailDto } from 'server/mapper/dto/vt-thumbnail.dto';
 
 export class Common {
   public static readonly youtubeVideoUrl: string = 'https://youtube.com/watch?v=';
@@ -47,14 +47,14 @@ export class Common {
     return videoUrl.replace('https://www.youtube.com/watch?v=', '');
   }
 
-  public static getAuthorThumbnails(url: string): Array<AuthorThumbnailDto> {
+  public static getAuthorThumbnails(url: string): Array<VTThumbnailDto> {
     const regex = /(.*=s)(.*)(-c-k-c.*)/;
     return this.createThumbnailUrls(url, (res: number) => {
       return url.replace(regex, (_, p1, __, p3) => `${p1}${res}${p3}`);
     });
   }
 
-  public static getAuthorThumbnailsForRecommended(url: string): Array<AuthorThumbnailDto> {
+  public static getAuthorThumbnailsForRecommended(url: string): Array<VTThumbnailDto> {
     const regex = /(.*\/s)(.*)(-c-k-no.*)/;
     return this.createThumbnailUrls(url, (res: number) => {
       return url.replace(regex, (_, p1, __, p3) => `${p1}${res}${p3}`);

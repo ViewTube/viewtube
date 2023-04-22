@@ -1,4 +1,5 @@
-import { CacheModule, Logger, Module, ModuleMetadata } from '@nestjs/common';
+import { Logger, Module, ModuleMetadata } from '@nestjs/common';
+import { CacheModule } from '@nestjs/cache-manager';
 import { MongooseModule } from '@nestjs/mongoose';
 import {
   VideoBasicInfo,

@@ -1,4 +1,5 @@
-import { Module, CacheModule, ModuleMetadata, Logger } from '@nestjs/common';
+import { Module, ModuleMetadata, Logger } from '@nestjs/common';
+import { CacheModule } from '@nestjs/cache-manager';
 import { CacheConfigService } from 'server/cache-config.service';
 import { SearchController } from './search.controller';
 import { SearchService } from './search.service';
