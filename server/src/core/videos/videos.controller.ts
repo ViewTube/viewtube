@@ -7,7 +7,7 @@ import {
   SerializeOptions,
   Header
 } from '@nestjs/common';
-import { CacheInterceptor,CacheTTL } from '@nestjs/cache-manager';
+import { CacheInterceptor, CacheTTL } from '@nestjs/cache-manager';
 import { ApiTags } from '@nestjs/swagger';
 import { DislikeDto } from 'server/core/videos/dto/dislike.dto';
 import { VideosService } from './videos.service';
