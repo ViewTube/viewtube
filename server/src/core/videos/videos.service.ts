@@ -52,7 +52,7 @@ export class VideosService {
         }
         searchParams.append('host', url.host);
         // youtubei.js only ever calls .toString() on the URL object, so we can safely return a string here
-        return `/api/videoplayback?${searchParams.toString()}` as unknown as URL;
+        return new URL(`http://localhost:8067/api/videoplayback?${searchParams.toString()}`);
       });
 
       const video = toVTVideoInfoDto(videoInfo as unknown, dashManifest);

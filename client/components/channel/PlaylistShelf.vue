@@ -6,7 +6,7 @@ type ShelfType = {
   shelfName: string;
   shelfUrl: string;
   type: string;
-  items: ApiDto<'VideoDto'>[];
+  items: ApiDto<'VTVideoDto'>[];
 };
 
 defineProps<{
@@ -17,7 +17,7 @@ defineProps<{
 <template>
   <div class="channel-shelf" @touchstart.stop>
     <div v-for="(item, index) in shelf.items" :key="index" class="channel-shelf-item">
-      <VideoEntry v-if="item.type === 'video'" :video="item" />
+      <VideoEntry v-if="(item as any).type === 'video'" :video="item" />
     </div>
   </div>
 </template>

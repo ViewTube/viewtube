@@ -30,7 +30,7 @@ export const useChannelPages = () => {
 
   const changePage = (pageName: string) => {
     const newUrl = `${cleanChannelParam(window.location.href)}/${pageName}`;
-    window.history.replaceState(null, '', newUrl);
+    window.history.replaceState(window.history.state, '', newUrl);
     currentPage.value = pageName;
 
     const index = pages.value.findIndex(page => page.pageName === pageName);

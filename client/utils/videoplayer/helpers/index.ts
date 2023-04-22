@@ -8,8 +8,18 @@ import { useSettingsStore } from '@/store/settings';
 import { useUserStore } from '@/store/user';
 import { usePlayerVolumeStore } from '@/store/playerVolume';
 import { useVideoPlayerStore } from '@/store/videoPlayer';
+import { ApiDto } from 'viewtube/shared';
 
-export const videoPlayerSetup = (props: any, emit: Function) => {
+export const videoPlayerSetup = (
+  props: {
+    video: ApiDto<'VTVideoInfoDto'>;
+    embedded: Boolean;
+    mini: boolean;
+    autoplay: boolean;
+    initialVideoTime: number;
+  },
+  emit: Function
+) => {
   const settingsStore = useSettingsStore();
   const messagesStore = useMessagesStore();
   const userStore = useUserStore();
@@ -150,7 +160,7 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
   const chapters = ref(null);
 
   if (settingsStore.miniplayer) {
-    chapters.value = parseChapters(props.video.description, props.video.lengthSeconds);
+    chapters.value = parseChapters(props.video.description, props.video.duration.seconds);
   }
 
   const { skipSegments, loadSkipSegments, getCurrentSegment } = useSponsorBlock();
@@ -161,8 +171,8 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
         hash: skipSegments.value.hash,
         videoID: skipSegments.value.videoID,
         segments: skipSegments.value.segments.map(segment => {
-          const startPercentage = (segment.segment[0] / props.video.lengthSeconds) * 100;
-          const endPercentage = (segment.segment[1] / props.video.lengthSeconds) * 100;
+          const startPercentage = (segment.segment[0] / props.video.duration.seconds) * 100;
+          const endPercentage = (segment.segment[1] / props.video.duration.seconds) * 100;
           return {
             startPercentage,
             endPercentage,
@@ -174,12 +184,12 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
   });
 
   if (settingsStore.sponsorblockEnabled) {
-    loadSkipSegments(props.video.videoId);
+    loadSkipSegments(props.video.id);
   }
 
   const videoUrl = computed(() => {
     if (props.video !== undefined) {
-      return `/watch?v=${props.video.videoId}`;
+      return `/watch?v=${props.video.id}`;
     }
     return '';
   });
@@ -303,7 +313,7 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
       videoElement.playerVolume = playerVolumeStore.playerVolume;
       if (videoElement.firstTimeBuffering) {
         videoElement.firstTimeBuffering = false;
-        if (!props.video.liveNow) {
+        if (!props.video.live) {
           setVideoTime(props.initialVideoTime);
         }
         if (props.autoplay) {
@@ -757,7 +767,7 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
     videoRef.value.pause();
     const currentTime = videoRef.value.currentTime;
     saveVideoPosition(currentTime);
-    if (props.video.liveNow || props.video.legacyFormats[index].isHLS) {
+    if (props.video.live || (props.video.legacyFormats[index] as any).isHLS) {
       await initializeHlsStream(props.video.legacyFormats[index].url, videoRef.value, streamProxy);
     } else {
       videoRef.value.src = props.video.legacyFormats[index].url;
@@ -826,8 +836,8 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
 
   const saveVideoPosition = (currentTime: number) => {
     if (videoRef.value && settingsStore.saveVideoHistory) {
-      if (userStore.isLoggedIn && !props.video.liveNow) {
-        $fetch(`${apiUrl.value}user/history/${props.video.videoId}`, {
+      if (userStore.isLoggedIn && !props.video.live) {
+        $fetch(`${apiUrl.value}user/history/${props.video.id}`, {
           method: 'POST',
           body: {
             progressSeconds: Math.floor(currentTime),
@@ -917,7 +927,7 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
   onMounted(async () => {
     document.addEventListener('keydown', onWindowKeyDown);
     if (videoRef.value) {
-      if (props.video.liveNow || props.video.legacyFormats?.[0].isHLS) {
+      if (props.video.live || (props.video.legacyFormats?.[0] as any).isHLS) {
         if (isHlsSupported()) {
           await initializeHlsStream(highestLegacyQuality.value, videoRef.value, streamProxy);
           selectedLegacyQuality.value = 0;
@@ -926,7 +936,9 @@ export const videoPlayerSetup = (props: any, emit: Function) => {
         }
       } else if (settingsStore.dashPlaybackEnabled && window.MediaSource) {
         // Using dashjs
-        const manifestUrl = `${apiUrl.value}videos/manifest/dash/${props.video.videoId}`;
+        // const manifest = props.video.dashManifest.replaceAll('/api/videoplayback', `${window.location.origin}/api/videoplayback`);
+        const manifestUrl = 'data:application/dash+xml;charset=utf-8;base64,' + btoa(props.video.dashManifest);
+        console.log(props.video.dashManifest);
         dashHelper.value = new DashHelper(videoRef.value, manifestUrl, () => {
           dashHelper.value.registerEventHandlers({ videoElement });
         });

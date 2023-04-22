@@ -312,10 +312,10 @@
     />
     <VideoPlayerAnimations :animations="animations" />
     <div
-      v-if="video.videoThumbnails && video.videoThumbnails.length > 0"
+      v-if="video.thumbnails && video.thumbnails.length > 0"
       class="video-thumbnail-overlay"
       :style="{
-        backgroundImage: `url(${imgProxyUrl + video.videoThumbnails[0].url})`
+        backgroundImage: `url(${imgProxyUrl + video.thumbnails[0].url})`
       }"
       :class="{ hidden: !playerOverlay.thumbnailVisible, autoplay: settingsStore.autoplay }"
     />
@@ -329,7 +329,7 @@ import FullscreenIcon from 'vue-material-design-icons/Fullscreen.vue';
 import FullscreenExitIcon from 'vue-material-design-icons/FullscreenExit.vue';
 import OpenInPlayerIcon from 'vue-material-design-icons/OpenInNew.vue';
 import CloseIcon from 'vue-material-design-icons/Close.vue';
-import { videoPlayerSetup } from './helpers/index';
+import { videoPlayerSetup } from '@/utils/videoplayer/helpers';
 import VideoPlayerAnimations from '@/components/videoplayer/VideoPlayerAnimations.vue';
 import SkipButton from '@/components/buttons/SkipButton.vue';
 import Spinner from '@/components/Spinner.vue';
@@ -338,6 +338,7 @@ import VideoPlayerSettings from '@/components/videoplayer/VideoPlayerSettings.vu
 // import SeekbarPreview from '@/components/videoplayer/SeekbarPreview.vue';
 import SponsorBlockSegments from '@/components/videoplayer/SponsorblockSegments.vue';
 import { PropType } from 'vue';
+import { ApiDto } from '~/../shared';
 
 export default defineComponent({
   name: 'VideoPlayer',
@@ -358,7 +359,7 @@ export default defineComponent({
   },
   props: {
     video: {
-      type: Object as PropType<any>,
+      type: Object as PropType<ApiDto<'VTVideoInfoDto'>>,
       required: true
     },
     embedded: Boolean,

@@ -5,7 +5,7 @@ export class MediaMetadataHelper {
     this.video = video;
   }
 
-  video: ApiDto<'VideoDto'>;
+  video: ApiDto<'VTVideoInfoDto'>;
 
   createMediaMetadata() {
     return new MediaMetadata({
@@ -16,7 +16,7 @@ export class MediaMetadataHelper {
   }
 
   generateArtworkUrl() {
-    return this.video.videoThumbnails.map((el: ApiDto<'VTThumbnailDto'>) => {
+    return this.video.thumbnails.map((el: ApiDto<'VTThumbnailDto'>) => {
       return {
         src: el.url,
         sizes: `${el.height}x${el.width}`,

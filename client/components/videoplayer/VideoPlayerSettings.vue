@@ -2,13 +2,13 @@
 import SettingsIcon from 'vue-material-design-icons/Cog.vue';
 import HighDefinitionIcon from 'vue-material-design-icons/HighDefinition.vue';
 import AudioDefinitionIcon from 'vue-material-design-icons/QualityHigh.vue';
-import CheckIcon from 'vue-material-design-icons/Check.vue';
+import LightbulbIcon from 'vue-material-design-icons/Lightbulb.vue';
 import SwitchButton from '@/components/buttons/SwitchButton.vue';
 import { useSettingsStore } from '@/store/settings';
 import { useVideoPlayerStore } from '@/store/videoPlayer';
 
 type QualityList = {
-  qualityIndex: number;
+  qualityIndex?: number;
   bitrate: number;
   width?: number;
   height?: number;
@@ -167,8 +167,9 @@ onBeforeUnmount(() => {
                   v-if="recommendedResolution && quality.qualityIndex === recommendedResolution"
                   v-tippy="'Recommended for your screen size'"
                   class="recommended-icon"
-                  ><CheckIcon
-                /></span>
+                >
+                  <LightbulbIcon />
+                </span>
               </div>
             </div>
             <div v-if="audioQualityList" class="player-settings-submenu">
