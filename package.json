@@ -36,5 +36,10 @@
     "cross-env": "7.0.3",
     "prettier": "2.8.7",
     "typescript": "5.0.4"
+  },
+  "pnpm": {
+    "overrides": {
+      "consola": "3.0.1"
+    }
   }
 }
