@@ -11,6 +11,10 @@ export const innertubeFetch = async (
   input: InputType,
   init?: RequestInit & { agent: HttpsProxyAgentType }
 ) => {
+  if (!init) {
+    init = {} as RequestInit & { agent: HttpsProxyAgentType };
+  }
+
   if (process.env.VIEWTUBE_PROXY_URL) {
     const proxy = process.env.VIEWTUBE_PROXY_URL;
     const proxyAgent = HttpsProxyAgent(proxy);
