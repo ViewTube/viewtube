@@ -34,7 +34,7 @@
   ],
   "devDependencies": {
     "cross-env": "7.0.3",
-    "prettier": "2.8.7",
+    "prettier": "2.8.8",
     "typescript": "5.0.4"
   },
   "pnpm": {
