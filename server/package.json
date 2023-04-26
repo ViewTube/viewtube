@@ -100,7 +100,7 @@
     "cross-env": "7.0.3",
     "eslint": "8.39.0",
     "eslint-config-prettier": "8.8.0",
-    "openapi-typescript": "6.2.1",
+    "openapi-typescript": "6.2.4",
     "redis": "4.6.5",
     "rimraf": "5.0.0",
     "run-script-webpack-plugin": "0.1.1",
