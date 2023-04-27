@@ -227,8 +227,8 @@ importers:
         specifier: 1.11.7
         version: 1.11.7
       fastify:
-        specifier: 4.16.3
-        version: 4.16.3
+        specifier: 4.17.0
+        version: 4.17.0
       https-proxy-agent:
         specifier: 5.0.1
         version: 5.0.1
@@ -6396,8 +6396,8 @@ packages:
       - supports-color
     dev: false
 
-  /fastify@4.16.3:
-    resolution: {integrity: sha512-W45bWZdjAcVxFUBubzkmiMp3VrIRpsqUP6D0NS2Qb1BjTSNNT1NxAubzM8tdMyC5mIBymtvPE3B+DYmItc1rlQ==}
+  /fastify@4.17.0:
+    resolution: {integrity: sha512-tzuY1tgWJo2Y6qEKwmLhFvACUmr68Io2pqP/sDKU71KRM6A6R3DrCDqLGqANbeLZcKUfdfY58ut35CGqemcTgg==}
     dependencies:
       '@fastify/ajv-compiler': 3.5.0
       '@fastify/error': 3.2.0
