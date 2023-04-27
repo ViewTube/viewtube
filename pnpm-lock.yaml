@@ -165,22 +165,22 @@ importers:
         version: 0.6.3(@nestjs/common@9.4.0)(@nestjs/core@9.4.0)(bull@4.10.4)
       '@nestjs/cache-manager':
         specifier: ^1.0.0
-        version: 1.0.0(@nestjs/common@9.4.0)(cache-manager@5.2.1)(reflect-metadata@0.1.13)(rxjs@7.8.0)
+        version: 1.0.0(@nestjs/common@9.4.0)(cache-manager@5.2.1)(reflect-metadata@0.1.13)(rxjs@7.8.1)
       '@nestjs/common':
         specifier: 9.4.0
-        version: 9.4.0(cache-manager@5.2.1)(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.0)
+        version: 9.4.0(cache-manager@5.2.1)(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
       '@nestjs/config':
         specifier: 2.3.1
-        version: 2.3.1(@nestjs/common@9.4.0)(reflect-metadata@0.1.13)(rxjs@7.8.0)
+        version: 2.3.1(@nestjs/common@9.4.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
       '@nestjs/core':
         specifier: 9.4.0
-        version: 9.4.0(@nestjs/common@9.4.0)(@nestjs/websockets@9.4.0)(reflect-metadata@0.1.13)(rxjs@7.8.0)
+        version: 9.4.0(@nestjs/common@9.4.0)(@nestjs/websockets@9.4.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
       '@nestjs/jwt':
         specifier: 10.0.3
         version: 10.0.3(@nestjs/common@9.4.0)
       '@nestjs/mongoose':
         specifier: 9.2.2
-        version: 9.2.2(@nestjs/common@9.4.0)(@nestjs/core@9.4.0)(mongoose@7.0.5)(reflect-metadata@0.1.13)(rxjs@7.8.0)
+        version: 9.2.2(@nestjs/common@9.4.0)(@nestjs/core@9.4.0)(mongoose@7.0.5)(reflect-metadata@0.1.13)(rxjs@7.8.1)
       '@nestjs/passport':
         specifier: 9.0.3
         version: 9.0.3(@nestjs/common@9.4.0)(passport@0.6.0)
@@ -269,8 +269,8 @@ importers:
         specifier: 0.1.13
         version: 0.1.13
       rxjs:
-        specifier: 7.8.0
-        version: 7.8.0
+        specifier: 7.8.1
+        version: 7.8.1
       sharp:
         specifier: 0.32.0
         version: 0.32.0
@@ -316,7 +316,7 @@ importers:
         version: 9.4.2
       '@nestjs/websockets':
         specifier: 9.4.0
-        version: 9.4.0(@nestjs/common@9.4.0)(@nestjs/core@9.4.0)(reflect-metadata@0.1.13)(rxjs@7.8.0)
+        version: 9.4.0(@nestjs/common@9.4.0)(@nestjs/core@9.4.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
       '@types/archiver':
         specifier: 5.3.2
         version: 5.3.2
@@ -430,10 +430,10 @@ importers:
     devDependencies:
       '@nestjs/common':
         specifier: 9.4.0
-        version: 9.4.0(cache-manager@5.2.1)(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.0)
+        version: 9.4.0(cache-manager@5.2.1)(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
       '@nestjs/core':
         specifier: 9.4.0
-        version: 9.4.0(@nestjs/common@9.4.0)(@nestjs/websockets@9.4.0)(reflect-metadata@0.1.13)(rxjs@7.8.0)
+        version: 9.4.0(@nestjs/common@9.4.0)(@nestjs/websockets@9.4.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
       '@nestjs/testing':
         specifier: 9.4.0
         version: 9.4.0(@nestjs/common@9.4.0)(@nestjs/core@9.4.0)
@@ -2576,8 +2576,8 @@ packages:
       '@nestjs/common': ^6.10.11 || ^7.0.0 || ^8.0.0 || ^9.0.0
       '@nestjs/core': ^6.10.11 || ^7.0.0 || ^8.0.0 || ^9.0.0
     dependencies:
-      '@nestjs/common': 9.4.0(cache-manager@5.2.1)(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.0)
-      '@nestjs/core': 9.4.0(@nestjs/common@9.4.0)(@nestjs/websockets@9.4.0)(reflect-metadata@0.1.13)(rxjs@7.8.0)
+      '@nestjs/common': 9.4.0(cache-manager@5.2.1)(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
+      '@nestjs/core': 9.4.0(@nestjs/common@9.4.0)(@nestjs/websockets@9.4.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
       tslib: 2.5.0
     dev: false
 
@@ -2589,13 +2589,13 @@ packages:
       bull: ^3.3 || ^4.0.0
     dependencies:
       '@nestjs/bull-shared': 0.1.3(@nestjs/common@9.4.0)(@nestjs/core@9.4.0)
-      '@nestjs/common': 9.4.0(cache-manager@5.2.1)(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.0)
-      '@nestjs/core': 9.4.0(@nestjs/common@9.4.0)(@nestjs/websockets@9.4.0)(reflect-metadata@0.1.13)(rxjs@7.8.0)
+      '@nestjs/common': 9.4.0(cache-manager@5.2.1)(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
+      '@nestjs/core': 9.4.0(@nestjs/common@9.4.0)(@nestjs/websockets@9.4.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
       bull: 4.10.4
       tslib: 2.5.0
     dev: false
 
-  /@nestjs/cache-manager@1.0.0(@nestjs/common@9.4.0)(cache-manager@5.2.1)(reflect-metadata@0.1.13)(rxjs@7.8.0):
+  /@nestjs/cache-manager@1.0.0(@nestjs/common@9.4.0)(cache-manager@5.2.1)(reflect-metadata@0.1.13)(rxjs@7.8.1):
     resolution: {integrity: sha512-XMNdgsj3H+Ng/SYwFl13vRGNFA3e5Obk8LNwIuHLVSocnK2exReAWtscxEjQhoBc4FW4jAYOgU/U+mt18Q9T0g==}
     peerDependencies:
       '@nestjs/common': ^9.0.0
@@ -2603,10 +2603,10 @@ packages:
       reflect-metadata: ^0.1.12
       rxjs: ^7.0.0
     dependencies:
-      '@nestjs/common': 9.4.0(cache-manager@5.2.1)(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.0)
+      '@nestjs/common': 9.4.0(cache-manager@5.2.1)(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
       cache-manager: 5.2.1
       reflect-metadata: 0.1.13
-      rxjs: 7.8.0
+      rxjs: 7.8.1
     dev: false
 
   /@nestjs/cli@9.4.2:
@@ -2643,7 +2643,7 @@ packages:
       - webpack-cli
     dev: true
 
-  /@nestjs/common@9.4.0(cache-manager@5.2.1)(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.0):
+  /@nestjs/common@9.4.0(cache-manager@5.2.1)(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.1):
     resolution: {integrity: sha512-RUcVAQsEF4WPrmzFXEOUfZnPwrLTe1UVlzXTlSyfqfqbdWDPKDGlIPVelBLfc5/+RRUQ0I5iE4+CQvpCmkqldw==}
     peerDependencies:
       cache-manager: <=5
@@ -2664,27 +2664,27 @@ packages:
       class-validator: 0.14.0
       iterare: 1.2.1
       reflect-metadata: 0.1.13
-      rxjs: 7.8.0
+      rxjs: 7.8.1
       tslib: 2.5.0
       uid: 2.0.2
 
-  /@nestjs/config@2.3.1(@nestjs/common@9.4.0)(reflect-metadata@0.1.13)(rxjs@7.8.0):
+  /@nestjs/config@2.3.1(@nestjs/common@9.4.0)(reflect-metadata@0.1.13)(rxjs@7.8.1):
     resolution: {integrity: sha512-Ckzel0NZ9CWhNsLfE1hxfDuxJuEbhQvGxSlmZ1/X8awjRmAA/g3kT6M1+MO1SHj1wMtPyUfd9WpwkiqFbiwQgA==}
     peerDependencies:
       '@nestjs/common': ^7.0.0 || ^8.0.0 || ^9.0.0
       reflect-metadata: ^0.1.13
       rxjs: ^6.0.0 || ^7.2.0
     dependencies:
-      '@nestjs/common': 9.4.0(cache-manager@5.2.1)(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.0)
+      '@nestjs/common': 9.4.0(cache-manager@5.2.1)(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
       dotenv: 16.0.3
       dotenv-expand: 10.0.0
       lodash: 4.17.21
       reflect-metadata: 0.1.13
-      rxjs: 7.8.0
+      rxjs: 7.8.1
       uuid: 9.0.0
     dev: false
 
-  /@nestjs/core@9.4.0(@nestjs/common@9.4.0)(@nestjs/websockets@9.4.0)(reflect-metadata@0.1.13)(rxjs@7.8.0):
+  /@nestjs/core@9.4.0(@nestjs/common@9.4.0)(@nestjs/websockets@9.4.0)(reflect-metadata@0.1.13)(rxjs@7.8.1):
     resolution: {integrity: sha512-yTLryCgFD0462wPe4HIzhyTcDgibt8Stfwb5YzcX7Ma0NM4m8uBIpcPG109KBubp8ZmV85e5mw4rl20qLQQVsQ==}
     requiresBuild: true
     peerDependencies:
@@ -2702,14 +2702,14 @@ packages:
       '@nestjs/websockets':
         optional: true
     dependencies:
-      '@nestjs/common': 9.4.0(cache-manager@5.2.1)(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.0)
-      '@nestjs/websockets': 9.4.0(@nestjs/common@9.4.0)(@nestjs/core@9.4.0)(reflect-metadata@0.1.13)(rxjs@7.8.0)
+      '@nestjs/common': 9.4.0(cache-manager@5.2.1)(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
+      '@nestjs/websockets': 9.4.0(@nestjs/common@9.4.0)(@nestjs/core@9.4.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
       '@nuxtjs/opencollective': 0.3.2
       fast-safe-stringify: 2.1.1
       iterare: 1.2.1
       path-to-regexp: 3.2.0
       reflect-metadata: 0.1.13
-      rxjs: 7.8.0
+      rxjs: 7.8.1
       tslib: 2.5.0
       uid: 2.0.2
     transitivePeerDependencies:
@@ -2720,7 +2720,7 @@ packages:
     peerDependencies:
       '@nestjs/common': ^8.0.0 || ^9.0.0
     dependencies:
-      '@nestjs/common': 9.4.0(cache-manager@5.2.1)(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.0)
+      '@nestjs/common': 9.4.0(cache-manager@5.2.1)(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
       '@types/jsonwebtoken': 9.0.1
       jsonwebtoken: 9.0.0
     dev: false
@@ -2738,13 +2738,13 @@ packages:
       class-validator:
         optional: true
     dependencies:
-      '@nestjs/common': 9.4.0(cache-manager@5.2.1)(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.0)
+      '@nestjs/common': 9.4.0(cache-manager@5.2.1)(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
       class-transformer: 0.5.1
       class-validator: 0.14.0
       reflect-metadata: 0.1.13
     dev: false
 
-  /@nestjs/mongoose@9.2.2(@nestjs/common@9.4.0)(@nestjs/core@9.4.0)(mongoose@7.0.5)(reflect-metadata@0.1.13)(rxjs@7.8.0):
+  /@nestjs/mongoose@9.2.2(@nestjs/common@9.4.0)(@nestjs/core@9.4.0)(mongoose@7.0.5)(reflect-metadata@0.1.13)(rxjs@7.8.1):
     resolution: {integrity: sha512-szNuSUCwwbQSSeiTh8+tZ9fHV4nuzHwBDROb0hX0s7crwY15TunCfwyKbB2XjqkEQWUAasDeCBuKOJSL9N6tTg==}
     peerDependencies:
       '@nestjs/common': ^8.0.0 || ^9.0.0
@@ -2753,11 +2753,11 @@ packages:
       reflect-metadata: ^0.1.12
       rxjs: ^7.0.0
     dependencies:
-      '@nestjs/common': 9.4.0(cache-manager@5.2.1)(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.0)
-      '@nestjs/core': 9.4.0(@nestjs/common@9.4.0)(@nestjs/websockets@9.4.0)(reflect-metadata@0.1.13)(rxjs@7.8.0)
+      '@nestjs/common': 9.4.0(cache-manager@5.2.1)(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
+      '@nestjs/core': 9.4.0(@nestjs/common@9.4.0)(@nestjs/websockets@9.4.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
       mongoose: 7.0.5
       reflect-metadata: 0.1.13
-      rxjs: 7.8.0
+      rxjs: 7.8.1
     dev: false
 
   /@nestjs/passport@9.0.3(@nestjs/common@9.4.0)(passport@0.6.0):
@@ -2766,7 +2766,7 @@ packages:
       '@nestjs/common': ^8.0.0 || ^9.0.0
       passport: ^0.4.0 || ^0.5.0 || ^0.6.0
     dependencies:
-      '@nestjs/common': 9.4.0(cache-manager@5.2.1)(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.0)
+      '@nestjs/common': 9.4.0(cache-manager@5.2.1)(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
       passport: 0.6.0
     dev: false
 
@@ -2787,8 +2787,8 @@ packages:
       '@fastify/formbody': 7.4.0
       '@fastify/middie': 8.1.0
       '@fastify/static': 6.10.1
-      '@nestjs/common': 9.4.0(cache-manager@5.2.1)(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.0)
-      '@nestjs/core': 9.4.0(@nestjs/common@9.4.0)(@nestjs/websockets@9.4.0)(reflect-metadata@0.1.13)(rxjs@7.8.0)
+      '@nestjs/common': 9.4.0(cache-manager@5.2.1)(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
+      '@nestjs/core': 9.4.0(@nestjs/common@9.4.0)(@nestjs/websockets@9.4.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
       fastify: 4.15.0
       light-my-request: 5.9.1
       path-to-regexp: 3.2.0
@@ -2804,8 +2804,8 @@ packages:
       '@nestjs/core': ^7.0.0 || ^8.0.0 || ^9.0.0
       reflect-metadata: ^0.1.12
     dependencies:
-      '@nestjs/common': 9.4.0(cache-manager@5.2.1)(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.0)
-      '@nestjs/core': 9.4.0(@nestjs/common@9.4.0)(@nestjs/websockets@9.4.0)(reflect-metadata@0.1.13)(rxjs@7.8.0)
+      '@nestjs/common': 9.4.0(cache-manager@5.2.1)(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
+      '@nestjs/core': 9.4.0(@nestjs/common@9.4.0)(@nestjs/websockets@9.4.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
       cron: 2.3.0
       reflect-metadata: 0.1.13
       uuid: 9.0.0
@@ -2843,8 +2843,8 @@ packages:
         optional: true
     dependencies:
       '@fastify/static': 6.10.1
-      '@nestjs/common': 9.4.0(cache-manager@5.2.1)(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.0)
-      '@nestjs/core': 9.4.0(@nestjs/common@9.4.0)(@nestjs/websockets@9.4.0)(reflect-metadata@0.1.13)(rxjs@7.8.0)
+      '@nestjs/common': 9.4.0(cache-manager@5.2.1)(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
+      '@nestjs/core': 9.4.0(@nestjs/common@9.4.0)(@nestjs/websockets@9.4.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
       '@nestjs/mapped-types': 1.2.2(@nestjs/common@9.4.0)(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)
       class-transformer: 0.5.1
       class-validator: 0.14.0
@@ -2868,8 +2868,8 @@ packages:
       '@nestjs/platform-express':
         optional: true
     dependencies:
-      '@nestjs/common': 9.4.0(cache-manager@5.2.1)(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.0)
-      '@nestjs/core': 9.4.0(@nestjs/common@9.4.0)(@nestjs/websockets@9.4.0)(reflect-metadata@0.1.13)(rxjs@7.8.0)
+      '@nestjs/common': 9.4.0(cache-manager@5.2.1)(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
+      '@nestjs/core': 9.4.0(@nestjs/common@9.4.0)(@nestjs/websockets@9.4.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
       tslib: 2.5.0
     dev: true
 
@@ -2880,13 +2880,13 @@ packages:
       '@nestjs/core': ^7.0.0 || ^8.0.0 || ^9.0.0
       reflect-metadata: ^0.1.13
     dependencies:
-      '@nestjs/common': 9.4.0(cache-manager@5.2.1)(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.0)
-      '@nestjs/core': 9.4.0(@nestjs/common@9.4.0)(@nestjs/websockets@9.4.0)(reflect-metadata@0.1.13)(rxjs@7.8.0)
+      '@nestjs/common': 9.4.0(cache-manager@5.2.1)(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
+      '@nestjs/core': 9.4.0(@nestjs/common@9.4.0)(@nestjs/websockets@9.4.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
       md5: 2.3.0
       reflect-metadata: 0.1.13
     dev: false
 
-  /@nestjs/websockets@9.4.0(@nestjs/common@9.4.0)(@nestjs/core@9.4.0)(reflect-metadata@0.1.13)(rxjs@7.8.0):
+  /@nestjs/websockets@9.4.0(@nestjs/common@9.4.0)(@nestjs/core@9.4.0)(reflect-metadata@0.1.13)(rxjs@7.8.1):
     resolution: {integrity: sha512-RATR9C0cKhXp3mTQAg75iItyUuRhVwU39Xe/kl0XLpvAhWzhnGrn6CxSTRRzBfp3F68DOKvs7/ODDY51f+rdXw==}
     peerDependencies:
       '@nestjs/common': ^9.0.0
@@ -2898,12 +2898,12 @@ packages:
       '@nestjs/platform-socket.io':
         optional: true
     dependencies:
-      '@nestjs/common': 9.4.0(cache-manager@5.2.1)(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.0)
-      '@nestjs/core': 9.4.0(@nestjs/common@9.4.0)(@nestjs/websockets@9.4.0)(reflect-metadata@0.1.13)(rxjs@7.8.0)
+      '@nestjs/common': 9.4.0(cache-manager@5.2.1)(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
+      '@nestjs/core': 9.4.0(@nestjs/common@9.4.0)(@nestjs/websockets@9.4.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
       iterare: 1.2.1
       object-hash: 3.0.0
       reflect-metadata: 0.1.13
-      rxjs: 7.8.0
+      rxjs: 7.8.1
       tslib: 2.5.0
 
   /@netlify/functions@1.4.0:
@@ -7178,7 +7178,7 @@ packages:
       mute-stream: 0.0.8
       ora: 5.4.1
       run-async: 2.4.1
-      rxjs: 7.8.0
+      rxjs: 7.8.1
       string-width: 4.2.3
       strip-ansi: 6.0.1
       through: 2.3.8
@@ -7199,7 +7199,7 @@ packages:
       mute-stream: 0.0.8
       ora: 5.4.1
       run-async: 2.4.1
-      rxjs: 7.8.0
+      rxjs: 7.8.1
       string-width: 4.2.3
       strip-ansi: 6.0.1
       through: 2.3.8
@@ -7220,7 +7220,7 @@ packages:
       mute-stream: 1.0.0
       ora: 6.3.0
       run-async: 2.4.1
-      rxjs: 7.8.0
+      rxjs: 7.8.1
       string-width: 5.1.2
       strip-ansi: 7.0.1
       through: 2.3.8
@@ -8203,7 +8203,7 @@ packages:
       log-update: 4.0.0
       p-map: 4.0.0
       rfdc: 1.3.0
-      rxjs: 7.8.0
+      rxjs: 7.8.1
       through: 2.3.8
       wrap-ansi: 7.0.0
     dev: true
@@ -8809,7 +8809,7 @@ packages:
       '@nestjs/common': ^5.0.0 || ^6.6.0 || ^7.0.0 || ^8.0.0 || ^9.0.0
       winston: ^3.0.0
     dependencies:
-      '@nestjs/common': 9.4.0(cache-manager@5.2.1)(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.0)
+      '@nestjs/common': 9.4.0(cache-manager@5.2.1)(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
       fast-safe-stringify: 2.1.1
       winston: 3.8.2
     dev: false
@@ -8823,8 +8823,8 @@ packages:
       ioredis: ^5.0.4
       reflect-metadata: ^0.1.13
     dependencies:
-      '@nestjs/common': 9.4.0(cache-manager@5.2.1)(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.0)
-      '@nestjs/core': 9.4.0(@nestjs/common@9.4.0)(@nestjs/websockets@9.4.0)(reflect-metadata@0.1.13)(rxjs@7.8.0)
+      '@nestjs/common': 9.4.0(cache-manager@5.2.1)(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
+      '@nestjs/core': 9.4.0(@nestjs/common@9.4.0)(@nestjs/websockets@9.4.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
       '@nestjs/throttler': 4.0.0(@nestjs/common@9.4.0)(@nestjs/core@9.4.0)(reflect-metadata@0.1.13)
       ioredis: 5.3.2
       reflect-metadata: 0.1.13
@@ -10338,6 +10338,12 @@ packages:
 
   /rxjs@7.8.0:
     resolution: {integrity: sha512-F2+gxDshqmIub1KdvZkaEfGDwLNpPvk9Fs6LD/MyQxNgMds/WH9OdDDXOmxUZpME+iSK3rQCctkL0DYyytUqMg==}
+    dependencies:
+      tslib: 2.5.0
+    dev: true
+
+  /rxjs@7.8.1:
+    resolution: {integrity: sha512-AA3TVj+0A2iuIoQkWEK/tqFjBq2j+6PO6Y0zJcvzLAFhEFIO3HL0vls9hWLncZbAAbK0mar7oZ4V079I/qPMxg==}
     dependencies:
       tslib: 2.5.0
 
