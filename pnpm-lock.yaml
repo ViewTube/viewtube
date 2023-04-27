@@ -381,8 +381,8 @@ importers:
         specifier: 8.8.0
         version: 8.8.0(eslint@8.39.0)
       openapi-typescript:
-        specifier: 6.2.1
-        version: 6.2.1
+        specifier: 6.2.4
+        version: 6.2.4
       redis:
         specifier: 4.6.5
         version: 4.6.5
@@ -9228,8 +9228,8 @@ packages:
     resolution: {integrity: sha512-XpeCy01X6L5EpP+6Hc3jWN7rMZJ+/k1lwki/kTmWzbVhdPie3jd5O2ZtedEx8Yp58icJ0osVldLMrTB/zslQXA==}
     dev: false
 
-  /openapi-typescript@6.2.1:
-    resolution: {integrity: sha512-l0u3fWE7vOCSWl/FxNcB3zu/jDqi/NUCP7MSbffpCZdBwQAbljHbo+CAjPXpf47SAVE+F7ZQKOew+pnXfV1oGA==}
+  /openapi-typescript@6.2.4:
+    resolution: {integrity: sha512-P/VK7oJ3TnIS67o1UzuS1pMnry4mzNzeQG0ZjLdPGT04mN9FeeTgHw1bN6MiANFN0tO6BcRavSL5tUFAh6iiwg==}
     hasBin: true
     dependencies:
       ansi-colors: 4.1.3
