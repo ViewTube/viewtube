@@ -19,6 +19,7 @@
     "server": "dist/server"
   },
   "dependencies": {
+    "@distube/ytdl-core": "^4.11.9",
     "@fastify/cookie": "8.3.0",
     "@fastify/helmet": "10.1.0",
     "@fastify/multipart": "7.6.0",
@@ -73,6 +74,7 @@
     "xml-js": "1.6.11",
     "youtubei.js": "^4.3.0",
     "yt-channel-info": "git://github.com/FreeTubeApp/yt-channel-info",
+    "ytdl-core": "git://github.com/eugabrielsilva/node-ytdl-core",
     "ytpl": "2.3.0",
     "ytsr": "3.8.2"
   },

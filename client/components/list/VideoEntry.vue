@@ -2,7 +2,7 @@
 import InfoIcon from 'vue-material-design-icons/Information.vue';
 import VerifiedIcon from 'vue-material-design-icons/CheckDecagram.vue';
 import { useLoadingVideoInfoStore } from '@/store/loadingVideoInfo';
-// import { getSecondsFromTimestamp } from 'viewtube/shared';
+import dayjs from 'dayjs';
 
 type VideoType = {
   author:
@@ -123,6 +123,28 @@ const videoDuration = computed(() => {
     return props.video.duration.text;
   } else if (typeof props.video.duration === 'string') {
     return props.video.duration;
+  }
+});
+
+const videoPublished = computed(() => {
+  if (typeof props.video.published === 'number') {
+    return dayjs(props.video.published).fromNow();
+  } else if (props.video.published?.seconds) {
+    return dayjs(props.video.published.seconds).fromNow();
+  } else if (props.video.published?.text) {
+    return props.video.published.text;
+  } else if (props.video.publishedText) {
+    return props.video.publishedText;
+  } else if (props.video.uploadedAt) {
+    return dayjs(props.video.uploadedAt).fromNow();
+  }
+});
+
+const videoPublishedDate = computed(() => {
+  if (typeof props.video.published === 'number') {
+    return dayjs(props.video.published).toString();
+  } else if (props.video.published?.seconds) {
+    return dayjs(props.video.published.seconds).toString();
   }
 });
 
@@ -264,7 +286,7 @@ const onVideoEntryClick = () => {
         </svg>
         <span class="live-text">Live</span>
       </div>
-      <span v-if="video.duration" class="video-entry-length">{{ videoDuration }}</span>
+      <span v-if="videoDuration" class="video-entry-length">{{ videoDuration }}</span>
     </nuxt-link>
 
     <div class="video-entry-info">
@@ -291,8 +313,8 @@ const onVideoEntryClick = () => {
             {{ video.views?.toLocaleString('en-US') }}
             {{ video.views === 1 ? 'view' : 'views' }}
           </p>
-          <p class="video-entry-timestamp">
-            {{ videoDuration }}
+          <p v-tippy="videoPublishedDate" class="video-entry-timestamp">
+            {{ videoPublished }}
           </p>
         </div>
       </div>
