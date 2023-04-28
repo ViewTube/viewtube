@@ -238,6 +238,7 @@ const onVideoEntryClick = () => {
           <p class="video-description-overlay-text">{{ video.description }}</p>
         </div>
       </div>
+      <!-- Disabled temporarily, because they are very buggy -->
       <div v-if="false && video.richThumbnails" class="thmb-image-container rich-thumbnail">
         <div class="thmb-clip">
           <img
