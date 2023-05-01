@@ -15,9 +15,9 @@ export const useGetLogs = () => {
 export const useGetBlockedVideos = () => {
   const { apiUrl } = useApiUrl();
 
-  return useLazyAsyncData<string[]>(
+  return useLazyAsyncData(
     'blocked-videos',
-    () => $fetch(`${apiUrl.value}admin/blocked-videos`),
+    () => $fetch<string[]>(`${apiUrl.value}admin/blocked-videos`),
     {
       server: false
     }
