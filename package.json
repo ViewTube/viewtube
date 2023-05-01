@@ -39,7 +39,7 @@
   },
   "pnpm": {
     "overrides": {
-      "consola": "3.0.1"
+      "consola": "3.1.0"
     }
   }
 }

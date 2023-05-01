@@ -23,14 +23,14 @@ export class VideosController {
   @SerializeOptions({
     excludePrefixes: ['_']
   })
-  @CacheTTL(18000)
+  @CacheTTL(18000000)
   @Header('Cache-Control', 'public, max-age=18000')
   @Get(':id')
   getVideos(@Param('id') id: string): Promise<VTVideoInfoDto> {
     return this.videosService.getById(id);
   }
 
-  @CacheTTL(18000)
+  @CacheTTL(18000000)
   @Header('Cache-Control', 'public, max-age=18000')
   @Get('dislikes/:id')
   getDislikes(@Param('id') id: string): Promise<DislikeDto> {
