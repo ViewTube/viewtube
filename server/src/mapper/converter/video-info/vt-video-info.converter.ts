@@ -29,6 +29,7 @@ import {
 } from './vt-video-info.extractors';
 import { createDashManifestURI } from 'server/mapper/utils/dash-manifest-uri';
 import { videoFormat } from 'ytdl-core';
+import { logger } from 'server/common/logger';
 
 type ToVTVideoInfoOptions = {
   dashManifest: string;
@@ -42,8 +43,10 @@ export const toVTVideoInfoDto = (
   if (externalFormats) {
     legacyFormats = extractExternalLegacyFormats(externalFormats);
   }
+  const id = extractVideoId(videoInfo);
+  logger.log(`Parsing video ${id}`);
   return {
-    id: extractVideoId(videoInfo),
+    id,
     title: extractTitle(videoInfo),
     subtitle: extractSubtitle(videoInfo),
     author: extractAuthor(videoInfo),

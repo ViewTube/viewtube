@@ -306,7 +306,7 @@ export const extractRecommendedVideos = (
         date: parseRelativeTime(video?.published?.text).toDate()
       },
       thumbnails: video?.thumbnails,
-      viewCount: parseViewCount(video?.view_count?.text),
+      viewCount: parseViewCount(video?.view_count?.text)
     };
   });
 };
