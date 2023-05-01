@@ -20,14 +20,12 @@ import { ofetch } from 'ofetch';
 import { innertubeClient } from 'server/common/innertube/innertube';
 import { toVTVideoInfoDto } from 'server/mapper/converter/video-info/vt-video-info.converter';
 import { VTVideoInfoDto } from 'server/mapper/dto/vt-video-info.dto';
+import ytdl from '@distube/ytdl-core';
+import HttpsProxyAgent from 'https-proxy-agent';
 
 @Injectable()
 export class VideosService {
   constructor(
-    @InjectModel(VideoBasicInfo.name)
-    private readonly videoModel: Model<VideoBasicInfo>,
-    @InjectModel(ChannelBasicInfo.name)
-    private readonly channelModel: Model<ChannelBasicInfo>,
     @InjectModel(BlockedVideo.name)
     private readonly blockedVideoModel: Model<BlockedVideo>,
     private configService: ConfigService
@@ -56,9 +54,30 @@ export class VideosService {
         );
       });
 
-      const video = toVTVideoInfoDto(videoInfo as unknown, dashManifest);
+      let externalFormats = undefined;
+      try {
+        const ytdlOptions = {
+          requestOptions: {}
+        };
+
+        if (this.configService.get('VIEWTUBE_PROXY_URL')) {
+          const proxy = this.configService.get('VIEWTUBE_PROXY_URL');
+          (ytdlOptions.requestOptions as any).agent = HttpsProxyAgent(proxy);
+        }
+
+        const { formats } = await ytdl.getInfo(id, ytdlOptions);
+        externalFormats = formats;
+      } catch {
+        // Drop silently
+      }
+
+      const video = toVTVideoInfoDto(videoInfo as unknown, {
+        dashManifest,
+        externalFormats
+      });
       return video;
     } catch (error) {
+      console.log(error);
       throw new InternalServerErrorException(error);
     }
   }

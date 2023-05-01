@@ -93,11 +93,12 @@ watch(videoPending, value => {
 });
 
 watch(videoError, () => {
-  if (videoError) {
+  const error = unref(videoError);
+  if (error) {
     messagesStore.createMessage({
       type: 'error',
       title: 'Error loading video',
-      message: videoError.value?.message ?? 'Unknown error'
+      message: error?.message ?? 'Unknown error'
     });
   }
 });

@@ -11,7 +11,7 @@ export class HomepageController {
   constructor(private homepageService: HomepageService) {}
 
   @Get('homefeed')
-  @CacheTTL(43200)
+  @CacheTTL(43200000)
   @CacheKey('homefeed')
   @Header('Cache-Control', 'public, max-age=43200')
   getHomeFeed(): Promise<HomeFeedDto> {

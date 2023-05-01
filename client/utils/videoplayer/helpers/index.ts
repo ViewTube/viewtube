@@ -78,6 +78,21 @@ export const videoPlayerSetup = (
     visible: false
   });
 
+  const legacyFormats = computed(() => {
+    const formats = props.video.legacyFormats;
+    return formats.map(format => {
+      // const newUrl = new URL(format.url);
+      // newUrl.searchParams.set('host', newUrl.host);
+      // const replacedUrl = newUrl.toString().replace(newUrl.origin, '');
+      // const url = `/api${replacedUrl}`;
+      // console.log(url);
+      return {
+        ...format,
+        url: format.url,
+      };
+    });
+  });
+
   const highestLegacyQuality = ref(null);
 
   const mediaMetadataHelper = new MediaMetadataHelper(props.video);
@@ -97,7 +112,7 @@ export const videoPlayerSetup = (
     if (dashHelper.value && dashHelper.value.isFullyInitialized) {
       return dashHelper.value.getVideoQualityList();
     } else {
-      return props.video.legacyFormats.sort((a, b) => b.bitrate - a.bitrate);
+      return legacyFormats.value.sort((a, b) => b.bitrate - a.bitrate);
     }
   });
 
@@ -139,8 +154,8 @@ export const videoPlayerSetup = (
   };
 
   highestLegacyQuality.value = '#';
-  if (props.video.legacyFormats) {
-    const videoFormat = props.video.legacyFormats.find((e: any) => {
+  if (legacyFormats.value) {
+    const videoFormat = legacyFormats.value.find((e: any) => {
       if (e.qualityLabel) {
         if (e.qualityLabel === '1080p') {
           return true;
@@ -152,8 +167,8 @@ export const videoPlayerSetup = (
     });
     if (videoFormat && videoFormat.url) {
       highestLegacyQuality.value = videoFormat.url;
-    } else if (props.video.legacyFormats.length > 0) {
-      highestLegacyQuality.value = props.video.legacyFormats[0].url;
+    } else if (legacyFormats.value.length > 0) {
+      highestLegacyQuality.value = legacyFormats.value[0].url;
     }
   }
 
@@ -767,10 +782,10 @@ export const videoPlayerSetup = (
     videoRef.value.pause();
     const currentTime = videoRef.value.currentTime;
     saveVideoPosition(currentTime);
-    if (props.video.live || (props.video.legacyFormats[index] as any).isHLS) {
-      await initializeHlsStream(props.video.legacyFormats[index].url, videoRef.value, streamProxy);
+    if (props.video.live || (legacyFormats.value[index] as any).isHLS) {
+      await initializeHlsStream(legacyFormats.value[index].url, videoRef.value, streamProxy);
     } else {
-      videoRef.value.src = props.video.legacyFormats[index].url;
+      videoRef.value.src = legacyFormats.value[index].url;
     }
     videoRef.value.currentTime = currentTime;
     videoRef.value.play();
@@ -927,7 +942,7 @@ export const videoPlayerSetup = (
   onMounted(async () => {
     document.addEventListener('keydown', onWindowKeyDown);
     if (videoRef.value) {
-      if (props.video.live || (props.video.legacyFormats?.[0] as any).isHLS) {
+      if (props.video.live || (legacyFormats.value?.[0] as any).isHLS) {
         if (isHlsSupported()) {
           await initializeHlsStream(highestLegacyQuality.value, videoRef.value, streamProxy);
           selectedLegacyQuality.value = 0;
