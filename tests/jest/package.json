@@ -14,7 +14,7 @@
     "mongodb-memory-server": "8.12.2",
     "redis-mock": "0.56.3",
     "reflect-metadata": "0.1.13",
-    "rxjs": "7.8.0",
+    "rxjs": "7.8.1",
     "ts-jest": "29.1.0",
     "typescript": "5.0.4"
   }
