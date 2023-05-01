@@ -2,7 +2,7 @@ import dayjs, { ManipulateType } from 'dayjs';
 
 export const parseRelativeTime = (relativeTime: string) => {
   const regex = /(\d+)\s*(seconds?|minutes?|hours?|days?|weeks?|months?|years?)\s*ago/i;
-  const match = relativeTime.match(regex);
+  const match = relativeTime?.match(regex);
 
   if (match) {
     const timeValue = parseInt(match[1]);
@@ -10,7 +10,6 @@ export const parseRelativeTime = (relativeTime: string) => {
 
     if (!isNaN(timeValue) && timeUnit) {
       let currentDate = dayjs();
-      console.log(timeUnit.match(/days?|weeks?|months?|years?/i));
       if (timeUnit.match(/days?|weeks?|months?|years?/i)) {
         currentDate = dayjs().startOf('day');
       }

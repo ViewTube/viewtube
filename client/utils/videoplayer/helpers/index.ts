@@ -156,14 +156,7 @@ export const videoPlayerSetup = (
   highestLegacyQuality.value = '#';
   if (legacyFormats.value) {
     const videoFormat = legacyFormats.value.find((e: any) => {
-      if (e.qualityLabel) {
-        if (e.qualityLabel === '1080p') {
-          return true;
-        } else if (e.qualityLabel === '720p') {
-          return true;
-        }
-      }
-      return false;
+      return e.qualityLabel === '1080p' || e.qualityLabel === '720p';
     });
     if (videoFormat && videoFormat.url) {
       highestLegacyQuality.value = videoFormat.url;
@@ -956,7 +949,6 @@ export const videoPlayerSetup = (
           window.location.origin
         );
         const manifestUrl = 'data:application/dash+xml;charset=utf-8;base64,' + btoa(manifest);
-        console.log(manifest);
         dashHelper.value = new DashHelper(videoRef.value, manifestUrl, () => {
           dashHelper.value.registerEventHandlers({ videoElement });
         });
