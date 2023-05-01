@@ -47,8 +47,8 @@ importers:
         specifier: 5.59.0
         version: 5.59.0(eslint@8.39.0)(typescript@5.0.4)
       consola:
-        specifier: 3.0.1
-        version: 3.0.1
+        specifier: 3.1.0
+        version: 3.1.0
       cross-env:
         specifier: 7.0.3
         version: 7.0.3
@@ -309,7 +309,7 @@ importers:
         version: github.com/FreeTubeApp/yt-channel-info/0a6001bf4e7ec0e4aef4f95dded67c8f8ee0f2c4
       ytdl-core:
         specifier: git://github.com/eugabrielsilva/node-ytdl-core
-        version: github.com/eugabrielsilva/node-ytdl-core/cef04cd67200248b43c4738880569bfe2ad892ca
+        version: github.com/eugabrielsilva/node-ytdl-core/358c3b36007dbc0370ab88f8335144dbc8173097
       ytpl:
         specifier: 2.3.0
         version: 2.3.0
@@ -12077,8 +12077,8 @@ packages:
       - debug
     dev: false
 
-  github.com/eugabrielsilva/node-ytdl-core/cef04cd67200248b43c4738880569bfe2ad892ca:
-    resolution: {tarball: https://codeload.github.com/eugabrielsilva/node-ytdl-core/tar.gz/cef04cd67200248b43c4738880569bfe2ad892ca}
+  github.com/eugabrielsilva/node-ytdl-core/358c3b36007dbc0370ab88f8335144dbc8173097:
+    resolution: {tarball: https://codeload.github.com/eugabrielsilva/node-ytdl-core/tar.gz/358c3b36007dbc0370ab88f8335144dbc8173097}
     name: ytdl-core
     version: 0.0.0-development
     engines: {node: '>=12'}
