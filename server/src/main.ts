@@ -6,6 +6,7 @@ import { NestFactory } from '@nestjs/core';
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
 import { ConfigService } from '@nestjs/config';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import fastifyStatic from '@fastify/static';
 import cookieParser from 'cookie-parser';
 import webPush from 'web-push';
 import FastifyCookie from '@fastify/cookie';
@@ -89,11 +90,9 @@ const bootstrap = async () => {
   if (isProduction) {
     const nuxtService = app.get(NuxtService);
     await nuxtService.init();
-
-    app.useStaticAssets({
+    app.register(fastifyStatic, {
       root: path.resolve(nuxtService.nuxtPath, 'public'),
-      wildcard: false,
-      maxAge: 31536000
+      serve: false
     });
   }
 

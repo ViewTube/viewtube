@@ -1,24 +1,23 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
+import { Injectable } from '@nestjs/common';
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { NodeListener } from 'h3';
-import { resolveNuxtPath } from './nuxt.resolver';
+import { resolveNuxtPath, resolveStaticFileList } from './nuxt.resolver';
 
 const importerFunction = new Function('module', 'return import(module)');
 
 @Injectable()
 export class NuxtService {
-  constructor(private configService: ConfigService) {}
-
   nuxtListener: NodeListener = null;
   nuxtPath: string = null;
+  staticFileList: Array<string> = [];
 
   async init() {
     this.nuxtListener = await this.importNuxtListener();
   }
 
-  importNuxtListener = async (): Promise<NodeListener> => {
+  async importNuxtListener(): Promise<NodeListener> {
     this.nuxtPath = resolveNuxtPath();
+    this.staticFileList = await resolveStaticFileList(this.nuxtPath);
     const nuxt = await importerFunction(`${this.nuxtPath}/server/index.mjs`);
     if (!nuxt?.listener || typeof nuxt.listener !== 'function') {
       throw new Error(
@@ -26,19 +25,23 @@ export class NuxtService {
       );
     }
     return nuxt.listener;
-  };
+  }
 
   getPage(request: FastifyRequest, reply: FastifyReply): void {
-    if (typeof this.nuxtListener === 'function') {
+    if (this.staticFileList.includes(request.url)) {
+      let cacheTTL = 86400;
+      if (request.url.includes('_nuxt')) {
+        cacheTTL = 31536000;
+      }
+      reply.header('Cache-Control', `max-age=${cacheTTL}`).sendFile(request.url);
+    } else if (typeof this.nuxtListener === 'function') {
       this.nuxtListener(request.raw, reply.raw);
     } else {
-      reply
-        .code(404)
-        .send({
-          statusCode: 404,
-          message: `Cannot ${request.method} ${request.url}`,
-          error: 'Not Found'
-        });
+      reply.code(404).send({
+        statusCode: 404,
+        message: `Cannot ${request.method} ${request.url}`,
+        error: 'Not Found'
+      });
       // throw new NotFoundException();
     }
   }
