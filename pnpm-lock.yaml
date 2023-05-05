@@ -53,8 +53,8 @@ importers:
         specifier: 7.0.3
         version: 7.0.3
       dashjs:
-        specifier: 4.6.0
-        version: 4.6.0
+        specifier: 4.7.0
+        version: 4.7.0
       dayjs:
         specifier: 1.11.7
         version: 1.11.7
@@ -5302,8 +5302,8 @@ packages:
     engines: {iojs: '>= 1.0.0', node: '>= 0.12.0'}
     dev: true
 
-  /codem-isoboxer@0.3.6:
-    resolution: {integrity: sha512-LuO8/7LW6XuR5ERn1yavXAfodGRhuY2yP60JTZIw5yNYMCE5lUVbk3NFUCJxjnphQH+Xemp5hOGb1LgUXm00Xw==}
+  /codem-isoboxer@0.3.9:
+    resolution: {integrity: sha512-4XOTqEzBWrGOZaMd+sTED2hLpzfBbiQCf1W6OBGkIHqk1D8uwy8WFLazVbdQwfDpQ+vf39lqTGPa9IhWW0roTA==}
     dev: true
 
   /collect-v8-coverage@1.0.1:
@@ -5720,12 +5720,12 @@ packages:
       assert-plus: 1.0.0
     dev: true
 
-  /dashjs@4.6.0:
-    resolution: {integrity: sha512-0PDoSBM9PXb+Io0pRnw2CmO7aV9W8FC/BqBRNhLxzM3/e5Kfj7BLy0OWkkSB58ULg6Md6r+6jkGOTUhut/35rg==}
+  /dashjs@4.7.0:
+    resolution: {integrity: sha512-+Sx5TJiT9eDOqODi3anXXBIx2oBM6ANMV5dzvCeSvYKwJ72SzX1bcJSPFLm7g7HTsRCh6pM1VL0XWfrzTlz9xw==}
     dependencies:
       bcp-47-match: 1.0.3
       bcp-47-normalize: 1.1.1
-      codem-isoboxer: 0.3.6
+      codem-isoboxer: 0.3.9
       es6-promise: 4.2.8
       fast-deep-equal: 2.0.1
       html-entities: 1.4.0
