@@ -89,7 +89,7 @@
     "@types/humanize-duration": "3.27.1",
     "@types/mime-types": "2.1.1",
     "@types/multer": "1.4.7",
-    "@types/node": "18.16.3",
+    "@types/node": "18.16.5",
     "@types/passport-jwt": "3.0.8",
     "@types/passport-local": "1.0.35",
     "@types/redis-mock": "0.17.1",
