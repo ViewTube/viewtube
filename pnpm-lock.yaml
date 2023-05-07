@@ -68,8 +68,8 @@ importers:
         specifier: 4.0.0
         version: 4.0.0(eslint@8.39.0)
       eslint-plugin-vue:
-        specifier: 9.11.0
-        version: 9.11.0(eslint@8.39.0)
+        specifier: 9.11.1
+        version: 9.11.1(eslint@8.39.0)
       hls.js:
         specifier: 1.4.1
         version: 1.4.1
@@ -309,7 +309,7 @@ importers:
         version: github.com/FreeTubeApp/yt-channel-info/0a6001bf4e7ec0e4aef4f95dded67c8f8ee0f2c4
       ytdl-core:
         specifier: git://github.com/eugabrielsilva/node-ytdl-core
-        version: github.com/eugabrielsilva/node-ytdl-core/358c3b36007dbc0370ab88f8335144dbc8173097
+        version: github.com/eugabrielsilva/node-ytdl-core/d5c3af341f055cbc5fdc629f66c90dbbf9e1e534
       ytpl:
         specifier: 2.3.0
         version: 2.3.0
@@ -2967,7 +2967,7 @@ packages:
       '@typescript-eslint/eslint-plugin': 5.59.2(@typescript-eslint/parser@5.59.2)(eslint@8.39.0)(typescript@4.9.5)
       '@typescript-eslint/parser': 5.59.2(eslint@8.39.0)(typescript@4.9.5)
       eslint: 8.39.0
-      eslint-plugin-vue: 9.11.0(eslint@8.39.0)
+      eslint-plugin-vue: 9.11.1(eslint@8.39.0)
       typescript: 4.9.5
     transitivePeerDependencies:
       - supports-color
@@ -6134,7 +6134,7 @@ packages:
   /eslint-plugin-nuxt@4.0.0(eslint@8.39.0):
     resolution: {integrity: sha512-v3Vwdk8YKe52bAz8eSIDqQuTtfL/T1r9dSl1uhC5SyR5pgLxgKkQdxXVf/Bf6Ax7uyd9rHqiAuYVdqqDb7ILdA==}
     dependencies:
-      eslint-plugin-vue: 9.11.0(eslint@8.39.0)
+      eslint-plugin-vue: 9.11.1(eslint@8.39.0)
       semver: 7.5.0
       vue-eslint-parser: 9.1.1(eslint@8.39.0)
     transitivePeerDependencies:
@@ -6142,8 +6142,8 @@ packages:
       - supports-color
     dev: true
 
-  /eslint-plugin-vue@9.11.0(eslint@8.39.0):
-    resolution: {integrity: sha512-bBCJAZnkBV7ATH4Z1E7CvN3nmtS4H7QUU3UBxPdo8WohRU+yHjnQRALpTbxMVcz0e4Mx3IyxIdP5HYODMxK9cQ==}
+  /eslint-plugin-vue@9.11.1(eslint@8.39.0):
+    resolution: {integrity: sha512-SNtBGDrRkPUFsREswPceqdvZ7YVdWY+iCYiDC+RoxwVieeQ7GJU1FLDlkcaYTOD2os/YuVgI1Fdu8YGM7fmoow==}
     engines: {node: ^14.17.0 || >=16.0.0}
     peerDependencies:
       eslint: ^6.2.0 || ^7.0.0 || ^8.0.0
@@ -12254,8 +12254,8 @@ packages:
       - debug
     dev: false
 
-  github.com/eugabrielsilva/node-ytdl-core/358c3b36007dbc0370ab88f8335144dbc8173097:
-    resolution: {tarball: https://codeload.github.com/eugabrielsilva/node-ytdl-core/tar.gz/358c3b36007dbc0370ab88f8335144dbc8173097}
+  github.com/eugabrielsilva/node-ytdl-core/d5c3af341f055cbc5fdc629f66c90dbbf9e1e534:
+    resolution: {tarball: https://codeload.github.com/eugabrielsilva/node-ytdl-core/tar.gz/d5c3af341f055cbc5fdc629f66c90dbbf9e1e534}
     name: ytdl-core
     version: 0.0.0-development
     engines: {node: '>=12'}
