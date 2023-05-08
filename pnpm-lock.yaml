@@ -110,8 +110,8 @@ importers:
         specifier: 1.62.1
         version: 1.62.1
       swiper:
-        specifier: 9.2.4
-        version: 9.2.4
+        specifier: 9.3.0
+        version: 9.3.0
       tippy.js:
         specifier: 6.3.7
         version: 6.3.7
@@ -11099,8 +11099,8 @@ packages:
     resolution: {integrity: sha512-oVBoBl9Dg+VJw8uRWDxlyUyHoNEDC0c1ysT6+Boy6CTgr2rUcLcfPon4RvxgS2/taNW6O0+US+Z/dlAsWFjOAQ==}
     dev: false
 
-  /swiper@9.2.4:
-    resolution: {integrity: sha512-L7y3K/iiMXNYQ94FbfcJn7jex4QPnS4+voXGupTdC+UHW4XrR40QDdm4c9hXJ+Br0Il7PP0vP1W3goM9/Ly6Sg==}
+  /swiper@9.3.0:
+    resolution: {integrity: sha512-iELlQVvWLdyfUjQSfhg8UTKBvgfm3uCfv3wJ3f9wbSWP6spzoOTLcob87A8ywPS2FRc552JmrnyL5+LYfN8j9Q==}
     engines: {node: '>= 4.7.0'}
     dependencies:
       ssr-window: 4.0.2
