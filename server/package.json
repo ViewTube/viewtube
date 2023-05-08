@@ -55,7 +55,7 @@
     "joi": "17.9.2",
     "mini-svg-data-uri": "1.4.4",
     "mongoose": "7.1.0",
-    "nest-winston": "1.9.1",
+    "nest-winston": "1.9.2",
     "nestjs-throttler-storage-redis": "0.3.0",
     "ofetch": "1.0.1",
     "passport": "0.6.0",
