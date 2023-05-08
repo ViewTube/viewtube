@@ -21,7 +21,7 @@
   "dependencies": {
     "@distube/ytdl-core": "^4.11.9",
     "@fastify/cookie": "8.3.0",
-    "@fastify/helmet": "10.1.0",
+    "@fastify/helmet": "10.1.1",
     "@fastify/multipart": "7.6.0",
     "@fastify/static": "6.10.1",
     "@fastify/swagger": "8.3.1",
