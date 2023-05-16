@@ -71,8 +71,8 @@ importers:
         specifier: 9.11.1
         version: 9.11.1(eslint@8.40.0)
       hls.js:
-        specifier: 1.4.1
-        version: 1.4.1
+        specifier: 1.4.3
+        version: 1.4.3
       human-number:
         specifier: 2.0.1
         version: 2.0.1
@@ -7183,8 +7183,8 @@ packages:
     engines: {node: '>=8'}
     dev: false
 
-  /hls.js@1.4.1:
-    resolution: {integrity: sha512-7/RBLhnmWbEVj/UxkqBK3rcqr/a2QAbSdjdp74iRKaPLosJoPwLw9mcjl5EOv6jutd0yHL8yGH3pSuUjNzRMyA==}
+  /hls.js@1.4.3:
+    resolution: {integrity: sha512-EE1MjIYDNO+ynbmCpAWfhUwQpyG8gUcKKuGDGgYgfRmW/g+inQUQ8sVVVY5WZaCxEGxDMGLbXhXGepkmDIMvdw==}
     dev: true
 
   /hookable@5.5.3:
