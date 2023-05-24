@@ -233,8 +233,8 @@ importers:
         specifier: 4.17.0
         version: 4.17.0
       https-proxy-agent:
-        specifier: 5.0.1
-        version: 5.0.1
+        specifier: 6.2.1
+        version: 6.2.1
       humanize-duration:
         specifier: 3.28.0
         version: 3.28.0
@@ -4496,6 +4496,15 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
+  /agent-base@7.0.2:
+    resolution: {integrity: sha512-k2/tQ1+8Zf50dEUJWklUP80LcE/+Ph+OJ6cf2Ff2fD/c/TtCe6ofnCoNMz9UnyxOQYlaAALZtEWETzn+1JjfHg==}
+    engines: {node: '>= 14'}
+    dependencies:
+      debug: 4.3.4(supports-color@8.1.1)
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /aggregate-error@3.1.0:
     resolution: {integrity: sha512-4I7Td01quW/RpocfNayFdFVk1qSuoh0E7JrbRJ16nH01HhKFQ88INq9Sd+nd72zqRySlr9BmDA8xlEJ6vJMrYA==}
     engines: {node: '>=8'}
@@ -7203,6 +7212,16 @@ packages:
       debug: 4.3.4(supports-color@8.1.1)
     transitivePeerDependencies:
       - supports-color
+
+  /https-proxy-agent@6.2.1:
+    resolution: {integrity: sha512-ONsE3+yfZF2caH5+bJlcddtWqNI3Gvs5A38+ngvljxaBiRXRswym2c7yf8UAeFpRFKjFNHIFEHqR/OLAWJzyiA==}
+    engines: {node: '>= 14'}
+    dependencies:
+      agent-base: 7.0.2
+      debug: 4.3.4(supports-color@8.1.1)
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
 
   /human-number@2.0.1:
     resolution: {integrity: sha512-0ibkHNHQXLiI4Exiu9Cm2EhnrBOSEt4kHRxbKhmM41rbjCIlfd35PdNptEbHohnKkqmJt6q+Z9X8A1WcDCeuNg==}
