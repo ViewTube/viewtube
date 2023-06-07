@@ -41,7 +41,7 @@
     "archiver": "5.3.1",
     "bcryptjs": "2.4.3",
     "bull": "4.10.4",
-    "cache-manager": "5.2.1",
+    "cache-manager": "5.2.2",
     "cache-manager-redis-store": "^3.0.1",
     "chalk": "4.1.2",
     "class-transformer": "0.5.1",
