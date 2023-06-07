@@ -27,7 +27,7 @@
     "consola": "3.1.0",
     "cross-env": "7.0.3",
     "dashjs": "4.7.0",
-    "dayjs": "1.11.7",
+    "dayjs": "1.11.8",
     "eslint": "8.40.0",
     "eslint-config-prettier": "8.8.0",
     "eslint-plugin-nuxt": "4.0.0",
