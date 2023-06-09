@@ -177,8 +177,8 @@ importers:
         specifier: 9.4.2
         version: 9.4.2(cache-manager@5.2.2)(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
       '@nestjs/config':
-        specifier: 2.3.1
-        version: 2.3.1(@nestjs/common@9.4.2)(reflect-metadata@0.1.13)(rxjs@7.8.1)
+        specifier: 2.3.2
+        version: 2.3.2(@nestjs/common@9.4.2)(reflect-metadata@0.1.13)(rxjs@7.8.1)
       '@nestjs/core':
         specifier: 9.4.2
         version: 9.4.2(@nestjs/common@9.4.2)(@nestjs/websockets@9.4.2)(reflect-metadata@0.1.13)(rxjs@7.8.1)
@@ -2731,8 +2731,8 @@ packages:
       tslib: 2.5.2
       uid: 2.0.2
 
-  /@nestjs/config@2.3.1(@nestjs/common@9.4.2)(reflect-metadata@0.1.13)(rxjs@7.8.1):
-    resolution: {integrity: sha512-Ckzel0NZ9CWhNsLfE1hxfDuxJuEbhQvGxSlmZ1/X8awjRmAA/g3kT6M1+MO1SHj1wMtPyUfd9WpwkiqFbiwQgA==}
+  /@nestjs/config@2.3.2(@nestjs/common@9.4.2)(reflect-metadata@0.1.13)(rxjs@7.8.1):
+    resolution: {integrity: sha512-VtGV8PBpxzMzz68kdxTWqPm9v7SYCSZXQ0tC72AMNnjdmU+CVjUSLpEpdnm0XcWHxE1nV6wSI3HZxsATIV4ZxA==}
     peerDependencies:
       '@nestjs/common': ^7.0.0 || ^8.0.0 || ^9.0.0
       reflect-metadata: ^0.1.13
