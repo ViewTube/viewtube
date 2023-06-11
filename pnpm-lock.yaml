@@ -159,8 +159,8 @@ importers:
         specifier: 7.6.0
         version: 7.6.0
       '@fastify/static':
-        specifier: 6.10.1
-        version: 6.10.1
+        specifier: 6.10.2
+        version: 6.10.2
       '@fastify/swagger':
         specifier: 8.3.1
         version: 8.3.1
@@ -193,13 +193,13 @@ importers:
         version: 9.0.3(@nestjs/common@9.4.2)(passport@0.6.0)
       '@nestjs/platform-fastify':
         specifier: 9.4.2
-        version: 9.4.2(@fastify/static@6.10.1)(@nestjs/common@9.4.2)(@nestjs/core@9.4.2)
+        version: 9.4.2(@fastify/static@6.10.2)(@nestjs/common@9.4.2)(@nestjs/core@9.4.2)
       '@nestjs/schedule':
         specifier: 2.2.3
         version: 2.2.3(@nestjs/common@9.4.2)(@nestjs/core@9.4.2)(reflect-metadata@0.1.13)
       '@nestjs/swagger':
         specifier: 6.3.0
-        version: 6.3.0(@fastify/static@6.10.1)(@nestjs/common@9.4.2)(@nestjs/core@9.4.2)(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)
+        version: 6.3.0(@fastify/static@6.10.2)(@nestjs/common@9.4.2)(@nestjs/core@9.4.2)(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)
       '@nestjs/throttler':
         specifier: 4.0.0
         version: 4.0.0(@nestjs/common@9.4.2)(@nestjs/core@9.4.2)(reflect-metadata@0.1.13)
@@ -2188,8 +2188,8 @@ packages:
       mime: 3.0.0
     dev: false
 
-  /@fastify/static@6.10.1:
-    resolution: {integrity: sha512-DNnG+5QenQcTQw37qk0/191STThnN6SbU+2XMpWtpYR3gQUfUvMax14jTT/jqNINNbCkQJaKMnPtpFPKo4/68g==}
+  /@fastify/static@6.10.2:
+    resolution: {integrity: sha512-UoaMvIHSBLCZBYOVZwFRYqX2ufUhd7FFMYGDeSf0Z+D8jhYtwljjmuQGuanUP8kS4y/ZEV1a8mfLha3zNwsnnQ==}
     dependencies:
       '@fastify/accept-negotiator': 1.1.0
       '@fastify/send': 2.1.0
@@ -2864,7 +2864,7 @@ packages:
       passport: 0.6.0
     dev: false
 
-  /@nestjs/platform-fastify@9.4.2(@fastify/static@6.10.1)(@nestjs/common@9.4.2)(@nestjs/core@9.4.2):
+  /@nestjs/platform-fastify@9.4.2(@fastify/static@6.10.2)(@nestjs/common@9.4.2)(@nestjs/core@9.4.2):
     resolution: {integrity: sha512-GwC+GfQlLEnU7PKV+5jxau0R43mSF+JfcMUA2Bb++zxPA9gAwQpKM4/3szbVclKBvmYl+Nt7Ga6Tz77/HABWBQ==}
     peerDependencies:
       '@fastify/static': ^6.0.0
@@ -2880,7 +2880,7 @@ packages:
       '@fastify/cors': 8.2.1
       '@fastify/formbody': 7.4.0
       '@fastify/middie': 8.3.0
-      '@fastify/static': 6.10.1
+      '@fastify/static': 6.10.2
       '@nestjs/common': 9.4.2(cache-manager@5.2.2)(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
       '@nestjs/core': 9.4.2(@nestjs/common@9.4.2)(@nestjs/websockets@9.4.2)(reflect-metadata@0.1.13)(rxjs@7.8.1)
       fastify: 4.17.0
@@ -2919,7 +2919,7 @@ packages:
       - chokidar
     dev: true
 
-  /@nestjs/swagger@6.3.0(@fastify/static@6.10.1)(@nestjs/common@9.4.2)(@nestjs/core@9.4.2)(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13):
+  /@nestjs/swagger@6.3.0(@fastify/static@6.10.2)(@nestjs/common@9.4.2)(@nestjs/core@9.4.2)(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13):
     resolution: {integrity: sha512-Gnig189oa1tD+h0BYIfUwhp/wvvmTn6iO3csR2E4rQrDTgCxSxZDlNdfZo3AC+Rmf8u0KX4ZAX1RZN1qXTtC7A==}
     peerDependencies:
       '@fastify/static': ^6.0.0
@@ -2936,7 +2936,7 @@ packages:
       class-validator:
         optional: true
     dependencies:
-      '@fastify/static': 6.10.1
+      '@fastify/static': 6.10.2
       '@nestjs/common': 9.4.2(cache-manager@5.2.2)(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
       '@nestjs/core': 9.4.2(@nestjs/common@9.4.2)(@nestjs/websockets@9.4.2)(reflect-metadata@0.1.13)(rxjs@7.8.1)
       '@nestjs/mapped-types': 1.2.2(@nestjs/common@9.4.2)(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)
