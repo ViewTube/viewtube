@@ -400,8 +400,8 @@ importers:
         specifier: 0.2.0
         version: 0.2.0
       ts-loader:
-        specifier: 9.4.2
-        version: 9.4.2(typescript@5.0.4)(webpack@5.82.0)
+        specifier: 9.4.3
+        version: 9.4.3(typescript@5.0.4)(webpack@5.82.0)
       typescript:
         specifier: 5.0.4
         version: 5.0.4
@@ -3092,7 +3092,7 @@ packages:
       pathe: 1.1.0
       pkg-types: 1.0.3
       scule: 1.0.0
-      semver: 7.5.0
+      semver: 7.5.1
       unctx: 2.3.0
       unimport: 3.0.6
       untyped: 1.3.2
@@ -4073,7 +4073,7 @@ packages:
       debug: 4.3.4(supports-color@8.1.1)
       globby: 11.1.0
       is-glob: 4.0.3
-      semver: 7.5.0
+      semver: 7.5.1
       tsutils: 3.21.0(typescript@5.0.4)
       typescript: 5.0.4
     transitivePeerDependencies:
@@ -4094,7 +4094,7 @@ packages:
       debug: 4.3.4(supports-color@8.1.1)
       globby: 11.1.0
       is-glob: 4.0.3
-      semver: 7.5.0
+      semver: 7.5.1
       tsutils: 3.21.0(typescript@4.9.5)
       typescript: 4.9.5
     transitivePeerDependencies:
@@ -4115,7 +4115,7 @@ packages:
       debug: 4.3.4(supports-color@8.1.1)
       globby: 11.1.0
       is-glob: 4.0.3
-      semver: 7.5.0
+      semver: 7.5.1
       tsutils: 3.21.0(typescript@5.0.4)
       typescript: 5.0.4
     transitivePeerDependencies:
@@ -4136,7 +4136,7 @@ packages:
       '@typescript-eslint/typescript-estree': 5.59.5(typescript@5.0.4)
       eslint: 8.39.0
       eslint-scope: 5.1.1
-      semver: 7.5.0
+      semver: 7.5.1
     transitivePeerDependencies:
       - supports-color
       - typescript
@@ -4156,7 +4156,7 @@ packages:
       '@typescript-eslint/typescript-estree': 5.59.9(typescript@4.9.5)
       eslint: 8.40.0
       eslint-scope: 5.1.1
-      semver: 7.5.0
+      semver: 7.5.1
     transitivePeerDependencies:
       - supports-color
       - typescript
@@ -4176,7 +4176,7 @@ packages:
       '@typescript-eslint/typescript-estree': 5.59.9(typescript@5.0.4)
       eslint: 8.40.0
       eslint-scope: 5.1.1
-      semver: 7.5.0
+      semver: 7.5.1
     transitivePeerDependencies:
       - supports-color
       - typescript
@@ -8859,7 +8859,7 @@ packages:
       md5-file: 5.0.0
       mongodb: 4.16.0
       new-find-package-json: 2.0.0
-      semver: 7.5.0
+      semver: 7.5.1
       tar-stream: 2.2.0
       tslib: 2.5.0
       uuid: 9.0.0
@@ -11365,8 +11365,8 @@ packages:
       yargs-parser: 21.1.1
     dev: true
 
-  /ts-loader@9.4.2(typescript@5.0.4)(webpack@5.82.0):
-    resolution: {integrity: sha512-OmlC4WVmFv5I0PpaxYb+qGeGOdm5giHU7HwDDUjw59emP2UYMHy9fFSDcYgSNoH8sXcj4hGCSEhlDZ9ULeDraA==}
+  /ts-loader@9.4.3(typescript@5.0.4)(webpack@5.82.0):
+    resolution: {integrity: sha512-n3hBnm6ozJYzwiwt5YRiJZkzktftRpMiBApHaJPoWLA+qetQBAXkHqCLM6nwSdRDimqVtA5ocIkcTRLMTt7yzA==}
     engines: {node: '>=12.0.0'}
     peerDependencies:
       typescript: '*'
@@ -11375,7 +11375,7 @@ packages:
       chalk: 4.1.2
       enhanced-resolve: 5.13.0
       micromatch: 4.0.5
-      semver: 7.5.0
+      semver: 7.5.1
       typescript: 5.0.4
       webpack: 5.82.0
     dev: true
@@ -11942,7 +11942,7 @@ packages:
       espree: 9.5.2
       esquery: 1.5.0
       lodash: 4.17.21
-      semver: 7.5.0
+      semver: 7.5.1
     transitivePeerDependencies:
       - supports-color
     dev: true
