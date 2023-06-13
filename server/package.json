@@ -102,7 +102,7 @@
     "eslint": "8.40.0",
     "eslint-config-prettier": "8.8.0",
     "openapi-typescript": "6.2.6",
-    "redis": "4.6.6",
+    "redis": "4.6.7",
     "rimraf": "5.0.0",
     "run-script-webpack-plugin": "0.2.0",
     "ts-loader": "9.4.3",
