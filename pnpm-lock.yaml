@@ -388,8 +388,8 @@ importers:
         specifier: 8.8.0
         version: 8.8.0(eslint@8.40.0)
       openapi-typescript:
-        specifier: 6.2.6
-        version: 6.2.6
+        specifier: 6.2.7
+        version: 6.2.7
       redis:
         specifier: 4.6.7
         version: 4.6.7
@@ -9110,7 +9110,7 @@ packages:
       node-fetch-native: 1.1.1
       ofetch: 1.0.1
       ohash: 1.1.2
-      openapi-typescript: 6.2.6
+      openapi-typescript: 6.2.7
       pathe: 1.1.0
       perfect-debounce: 1.0.0
       pkg-types: 1.0.3
@@ -9466,8 +9466,8 @@ packages:
     resolution: {integrity: sha512-XpeCy01X6L5EpP+6Hc3jWN7rMZJ+/k1lwki/kTmWzbVhdPie3jd5O2ZtedEx8Yp58icJ0osVldLMrTB/zslQXA==}
     dev: false
 
-  /openapi-typescript@6.2.6:
-    resolution: {integrity: sha512-UKLdIwn5Yo0NXx+33H4trIihn/cZAYZo5U+PYD4uYWvBD+mRsEBbXz3gUbeNdgP4Uyv9X6Z8FMx7C08PQI3lcw==}
+  /openapi-typescript@6.2.7:
+    resolution: {integrity: sha512-SEdqtFLWmbc2CckzZVSF4/cpPgWlWZp02P0wVCLV/7mCE+7qKukIoiVCLfWJIVeklWuGLZkA/PdJ6OwWaqJ6Ig==}
     hasBin: true
     dependencies:
       ansi-colors: 4.1.3
