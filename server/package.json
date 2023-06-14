@@ -107,7 +107,7 @@
     "run-script-webpack-plugin": "0.2.0",
     "ts-loader": "9.4.3",
     "typescript": "5.0.4",
-    "webpack": "5.82.0",
+    "webpack": "5.87.0",
     "webpack-node-externals": "3.0.0"
   }
 }
