@@ -37,7 +37,7 @@
     "@nestjs/platform-fastify": "9.4.2",
     "@nestjs/schedule": "2.2.3",
     "@nestjs/swagger": "6.3.0",
-    "@nestjs/throttler": "4.0.0",
+    "@nestjs/throttler": "4.1.0",
     "archiver": "5.3.1",
     "bcryptjs": "2.4.3",
     "bull": "4.10.4",
