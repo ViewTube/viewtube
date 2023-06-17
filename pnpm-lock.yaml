@@ -256,7 +256,7 @@ importers:
         version: 7.3.0
       nest-winston:
         specifier: 1.9.2
-        version: 1.9.2(@nestjs/common@9.4.2)(winston@3.8.2)
+        version: 1.9.2(@nestjs/common@9.4.2)(winston@3.9.0)
       nestjs-throttler-storage-redis:
         specifier: 0.3.3
         version: 0.3.3(@nestjs/common@9.4.2)(@nestjs/core@9.4.2)(@nestjs/throttler@4.1.0)(ioredis@5.3.2)(reflect-metadata@0.1.13)
@@ -294,11 +294,11 @@ importers:
         specifier: 3.6.2
         version: 3.6.2
       winston:
-        specifier: 3.8.2
-        version: 3.8.2
+        specifier: 3.9.0
+        version: 3.9.0
       winston-daily-rotate-file:
         specifier: 4.7.1
-        version: 4.7.1(winston@3.8.2)
+        version: 4.7.1(winston@3.9.0)
       x2js:
         specifier: 3.4.4
         version: 3.4.4
@@ -9050,7 +9050,7 @@ packages:
     resolution: {integrity: sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==}
     dev: true
 
-  /nest-winston@1.9.2(@nestjs/common@9.4.2)(winston@3.8.2):
+  /nest-winston@1.9.2(@nestjs/common@9.4.2)(winston@3.9.0):
     resolution: {integrity: sha512-vOgQRFzmQ9+pMZfue2JdhtxDho3OYJZSSUgcL5jCpsxxCJu1QuGtZWo3S+mUCFvu7AN1hVgHugGk60STP5nSCQ==}
     peerDependencies:
       '@nestjs/common': ^5.0.0 || ^6.6.0 || ^7.0.0 || ^8.0.0 || ^9.0.0
@@ -9058,7 +9058,7 @@ packages:
     dependencies:
       '@nestjs/common': 9.4.2(cache-manager@5.2.3)(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
       fast-safe-stringify: 2.1.1
-      winston: 3.8.2
+      winston: 3.9.0
     dev: false
 
   /nestjs-throttler-storage-redis@0.3.3(@nestjs/common@9.4.2)(@nestjs/core@9.4.2)(@nestjs/throttler@4.1.0)(ioredis@5.3.2)(reflect-metadata@0.1.13):
@@ -12201,7 +12201,7 @@ packages:
       execa: 4.1.0
     dev: true
 
-  /winston-daily-rotate-file@4.7.1(winston@3.8.2):
+  /winston-daily-rotate-file@4.7.1(winston@3.9.0):
     resolution: {integrity: sha512-7LGPiYGBPNyGHLn9z33i96zx/bd71pjBn9tqQzO3I4Tayv94WPmBNwKC7CO1wPHdP9uvu+Md/1nr6VSH9h0iaA==}
     engines: {node: '>=8'}
     peerDependencies:
@@ -12210,7 +12210,7 @@ packages:
       file-stream-rotator: 0.6.1
       object-hash: 2.2.0
       triple-beam: 1.3.0
-      winston: 3.8.2
+      winston: 3.9.0
       winston-transport: 4.5.0
     dev: false
 
@@ -12223,8 +12223,8 @@ packages:
       triple-beam: 1.3.0
     dev: false
 
-  /winston@3.8.2:
-    resolution: {integrity: sha512-MsE1gRx1m5jdTTO9Ld/vND4krP2To+lgDoMEHGGa4HIlAUyXJtfc7CxQcGXVyz2IBpw5hbFkj2b/AtUdQwyRew==}
+  /winston@3.9.0:
+    resolution: {integrity: sha512-jW51iW/X95BCW6MMtZWr2jKQBP4hV5bIDq9QrIjfDk6Q9QuxvTKEAlpUNAzP+HYHFFCeENhph16s0zEunu4uuQ==}
     engines: {node: '>= 12.0.0'}
     dependencies:
       '@colors/colors': 1.5.0

@@ -68,7 +68,7 @@
     "tslib": "2.5.3",
     "undici": "5.22.1",
     "web-push": "3.6.2",
-    "winston": "3.8.2",
+    "winston": "3.9.0",
     "winston-daily-rotate-file": "4.7.1",
     "x2js": "3.4.4",
     "xml-js": "1.6.11",
