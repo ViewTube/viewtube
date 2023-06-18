@@ -17,7 +17,7 @@
     "serve:env": "docker-compose -f docker-compose.dev.yml up -d",
     "serve:server": "pnpm --filter=./server run serve",
     "serve:client": "pnpm --filter=./client run serve",
-    "test": "pnpm --filter=./test/jest run test",
+    "test": "pnpm --filter=./tests/jest run test",
     "start": "pnpm --filter=./server run start",
     "lint-staged": "prettier --write --ignore-unknown",
     "lint:client": "pnpm --filter=./client run lint",

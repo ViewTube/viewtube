@@ -1,6 +1,8 @@
 .DS_Store
 node_modules
 /dist
+logs
+*.log
 
 # nuxt.js build output
 .nuxt
