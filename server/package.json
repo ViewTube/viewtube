@@ -29,7 +29,7 @@
     "@nestjs/bull": "10.0.0",
     "@nestjs/cache-manager": "^2.0.0",
     "@nestjs/common": "9.4.2",
-    "@nestjs/config": "2.3.4",
+    "@nestjs/config": "3.0.0",
     "@nestjs/core": "9.4.2",
     "@nestjs/jwt": "10.1.0",
     "@nestjs/mongoose": "9.2.2",
