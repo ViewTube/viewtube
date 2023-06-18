@@ -6,6 +6,6 @@ export const useGetHomeFeed = () => {
   const urlPart = 'homepage/homefeed';
 
   return useLazyAsyncData<ApiDto<'HomeFeedDto'>>(urlPart, () =>
-    $fetch(`${apiUrl.value}${urlPart}`)
+    vtFetch(`${apiUrl.value}${urlPart}`)
   );
 };

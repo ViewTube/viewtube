@@ -60,7 +60,7 @@ const { data: channelStats, pending: pendingStats } = useGetChannelStats(channel
       v-if="channelHome.featuredVideo"
       :featured-video="channelHome.featuredVideo"
     />
-    <div v-for="(shelf, index) in channelHome?.items ?? []" :key="index" class="shelves">
+    <div v-for="(shelf, index) in (channelHome?.items as any)" :key="index" class="shelves">
       <SectionTitle :title="shelf.shelfName" :link="shelf.shelfUrl" />
       <ChannelPlaylistShelf
         v-if="shelf.type === 'playlist' || shelf.type === 'videos'"

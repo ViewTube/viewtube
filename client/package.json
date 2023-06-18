@@ -31,7 +31,7 @@
     "eslint": "8.43.0",
     "eslint-config-prettier": "8.8.0",
     "eslint-plugin-nuxt": "4.0.0",
-    "eslint-plugin-vue": "9.11.1",
+    "eslint-plugin-vue": "9.15.0",
     "hls.js": "1.4.6",
     "human-number": "2.0.1",
     "humanize-duration": "3.28.0",
@@ -51,7 +51,7 @@
     "vue": "3.3.4",
     "vue-datepicker-next": "1.0.3",
     "vue-material-design-icons": "5.2.0",
-    "vue-tsc": "1.4.4",
+    "vue-tsc": "1.8.0",
     "x2js": "3.4.4",
     "ytpl": "2.3.0",
     "ytsr": "3.8.2"

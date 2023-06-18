@@ -20,7 +20,7 @@ export const useGetUserHistory = ({ searchTerm, limit, start }: UserHistoryParam
   const urlPart = `user/history?limit=${limit}&start=${start}${filterString}&sort=DESC`;
 
   return useLazyAsyncData<ApiDto<'HistoryResponseDto'>>(urlPart, () =>
-    $fetch(`${apiUrl.value}${urlPart}`, {
+    vtFetch(`${apiUrl.value}${urlPart}`, {
       headers: {
         Authorization: authorizationHeader
       },
@@ -41,7 +41,7 @@ export const useGetUserHistoryItem = (videoId: string) => {
     lengthSeconds: number;
     lastVisit: Date;
   }>(urlPart, () =>
-    $fetch(`${apiUrl.value}${urlPart}`, {
+    vtFetch(`${apiUrl.value}${urlPart}`, {
       headers: {
         Authorization: authorizationHeader
       },
@@ -57,7 +57,7 @@ export const useGetUserProfileDetails = () => {
   const urlPart = `user/profile/details`;
 
   return useLazyAsyncData<ApiDto<'UserprofileDetailsDto'>>(urlPart, () =>
-    $fetch(`${apiUrl.value}${urlPart}`, {
+    vtFetch(`${apiUrl.value}${urlPart}`, {
       headers: {
         Authorization: authorizationHeader
       },
@@ -84,7 +84,7 @@ export const useGetUserSubscriptions = (
   });
 
   return useLazyAsyncData<ApiDto<'SubscriptionFeedResponseDto'>>('user/subscriptions/videos', () =>
-    $fetch(url.value, {
+    vtFetch(url.value, {
       headers: {
         Authorization: authorizationHeader
       },
@@ -120,7 +120,7 @@ export const useGetUserSubscriptionChannels = (
   return useLazyAsyncData<ApiDto<'SubscribedChannelsResponseDto'>>(
     'user/subscriptions/channels',
     () =>
-      $fetch(url.value, {
+      vtFetch(url.value, {
         headers: {
           Authorization: authorizationHeader
         },

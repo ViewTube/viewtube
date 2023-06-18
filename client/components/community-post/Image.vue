@@ -32,17 +32,17 @@ const expanded = ref(false);
 
 const toggleExpand = () => {
   expanded.value = !expanded.value;
-  postImageHeightPx.value = `${postImage.value?.clientHeight}px`;
+  postImageHeightPx.value = `${postImageRef.value?.clientHeight}px`;
 };
 
-const postImage = ref<HTMLDivElement>(null);
+const postImageRef = ref<HTMLDivElement>(null);
 const postImageHeightPx = ref('0px');
 </script>
 
 <template>
   <div class="post-image-container" :class="{ expanded, expandable }" @click="toggleExpand">
     <img
-      ref="postImage"
+      ref="postImageRef"
       class="post-image"
       :src="postImageSources.baseSrc"
       :srcset="postImageSources.srcSet"
