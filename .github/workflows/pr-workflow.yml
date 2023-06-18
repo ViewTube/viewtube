@@ -8,7 +8,7 @@ jobs:
   pr-job:
     strategy:
       matrix:
-        command: ['build', 'lint:client', 'lint:server']
+        command: ['build', 'test', 'lint:client', 'lint:server']
 
     name: ${{ matrix.command }}
     timeout-minutes: 60
