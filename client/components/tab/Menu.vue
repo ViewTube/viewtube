@@ -78,7 +78,7 @@ const resetPageLinkPull = () => {
 </script>
 
 <template>
-  <div class="tab-menu" ref="tabMenuRef">
+  <div ref="tabMenuRef" class="tab-menu">
     <div
       class="active-selector"
       :class="{ 'pull-left': pullLeft > 0, 'pull-right': pullRight > 0 }"
