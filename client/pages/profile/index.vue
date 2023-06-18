@@ -75,7 +75,7 @@ const onDeleteAccountClose = () => {
   deleteAccountPopup.value = false;
 };
 const deleteAccount = () => {
-  $fetch(`${apiUrl}user`, {
+  vtFetch(`${apiUrl}user`, {
     method: 'DELETE',
     body: { username: repeatedUsername.value },
     credentials: 'include'
@@ -93,7 +93,7 @@ const onProfileImageChange = (e: any) => {
   const img = e.target.files[0];
   const formData = new FormData();
   formData.append('image', img);
-  $fetch<{ path: string }>(`${apiUrl.value}user/profile/image`, {
+  vtFetch<{ path: string }>(`${apiUrl.value}user/profile/image`, {
     method: 'POST',
     body: formData,
     headers: {
@@ -136,7 +136,7 @@ const onProfileImageChange = (e: any) => {
     });
 };
 const deleteProfileImage = () => {
-  $fetch(`${apiUrl.value}user/profile/image`, {
+  vtFetch(`${apiUrl.value}user/profile/image`, {
     method: 'DELETE',
     credentials: 'include'
   })

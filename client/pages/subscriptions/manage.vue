@@ -55,7 +55,7 @@ const channelNameToImgString = (name: string): string => {
 };
 
 const unsubscribe = (channel: { authorId: any; author: any }): void => {
-  $fetch<any>(`${apiUrl.value}user/subscriptions/${channel.authorId}`, {
+  vtFetch<any>(`${apiUrl.value}user/subscriptions/${channel.authorId}`, {
     method: 'DELETE',
     credentials: 'include'
   }).then(response => {
@@ -66,7 +66,7 @@ const unsubscribe = (channel: { authorId: any; author: any }): void => {
         title: `Unsubscribed from ${channel.author}`,
         message: 'Click to undo',
         clickAction: async () => {
-          await $fetch(`${apiUrl.value}user/subscriptions/${channel.authorId}`, {
+          await vtFetch(`${apiUrl.value}user/subscriptions/${channel.authorId}`, {
             method: 'PUT',
             credentials: 'include'
           }).then(() => {

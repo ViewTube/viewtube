@@ -100,7 +100,7 @@ const subscribeToNotifications = (val: any) => {
             applicationServerKey: vapidKey
           })
           .then(subscription => {
-            $fetch(`${apiUrl.value}user/notifications/subscribe`, {
+            vtFetch(`${apiUrl.value}user/notifications/subscribe`, {
               method: 'POST',
               body: subscription,
               credentials: 'include'

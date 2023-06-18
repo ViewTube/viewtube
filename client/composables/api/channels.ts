@@ -11,7 +11,7 @@ export const useGetChannelInfo = (id: Ref<string> | string) => {
   });
 
   return useLazyAsyncData<ApiDto<'ChannelInfoDto'>, ApiErrorDto>(`channel-info-${unref(id)}`, () =>
-    $fetch(url.value)
+    vtFetch(url.value)
   );
 };
 
@@ -24,7 +24,7 @@ export const useGetChannelHome = (id: Ref<string> | string) => {
   });
 
   return useLazyAsyncData<ApiDto<'ChannelHomeDto'>, ApiErrorDto>(`channel-home-${unref(id)}`, () =>
-    $fetch(url.value)
+    vtFetch(url.value)
   );
 };
 
@@ -38,7 +38,7 @@ export const useGetChannelStats = (id: Ref<string> | string) => {
 
   return useLazyAsyncData<ApiDto<'ChannelStatsDto'>, ApiErrorDto>(
     `channel-stats-${unref(id)}`,
-    () => $fetch(url.value)
+    () => vtFetch(url.value)
   );
 };
 
@@ -56,12 +56,7 @@ export const useGetChannelVideos = (id: Ref<string> | string, options: ChannelVi
 
   return useLazyAsyncData<ApiDto<'ChannelVideosDto'>, ApiErrorDto>(
     `channel-videos-${unref(id)}`,
-    () =>
-      $fetch(url.value, {
-        query: {
-          sort: unref(options.sortBy) ?? 'newest'
-        }
-      }),
+    () => vtFetch(`${url.value}?sort=${unref(options.sortBy ?? 'newest')}`),
     { watch: [options.sortBy] }
   );
 };
@@ -77,7 +72,7 @@ export const useGetChannelShorts = (id: Ref<string> | string, options: ChannelVi
   return useLazyAsyncData<ApiDto<'ChannelVideosDto'>, ApiErrorDto>(
     `channel-shorts-${unref(id)}`,
     () =>
-      $fetch(url.value, {
+      vtFetch(url.value, {
         query: {
           sort: unref(options.sortBy) ?? 'newest'
         }
@@ -100,7 +95,7 @@ export const useGetChannelLivestreams = (
   return useLazyAsyncData<ApiDto<'ChannelVideosDto'>, ApiErrorDto>(
     `channel-livestreams-${unref(id)}`,
     () =>
-      $fetch(url.value, {
+      vtFetch(url.value, {
         query: {
           sort: unref(options.sortBy) ?? 'newest'
         }
@@ -127,7 +122,7 @@ export const useGetChannelPlaylists = (
   return useLazyAsyncData<ApiDto<'ChannelPlaylistsDto'>, ApiErrorDto>(
     `channel-playlists-${unref(id)}`,
     () =>
-      $fetch(url.value, {
+      vtFetch(url.value, {
         query: {
           sort: unref(options.sortBy) ?? 'last'
         }
@@ -146,6 +141,6 @@ export const useGetChannelCommunityPosts = (id: Ref<string> | string) => {
 
   return useLazyAsyncData<ApiDto<'ChannelCommunityPostsDto'>, ApiErrorDto>(
     `channel-community-posts-${unref(id)}`,
-    () => $fetch(url.value)
+    () => vtFetch(url.value)
   );
 };

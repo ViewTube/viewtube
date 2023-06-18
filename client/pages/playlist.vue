@@ -40,7 +40,7 @@ watch(error, value => {
 const loadMoreVideos = async () => {
   if (playlistContinuation.value) {
     moreVideosLoading.value = true;
-    await $fetch<{ items: Array<ApiDto<'PlaylistItemDto'>>; continuation: any }>(
+    await vtFetch<{ items: Array<ApiDto<'PlaylistItemDto'>>; continuation: any }>(
       `${apiUrl.value}playlists/continuation`,
       {
         params: {

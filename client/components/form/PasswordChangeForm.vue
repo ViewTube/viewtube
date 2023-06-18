@@ -70,7 +70,7 @@ export default defineComponent({
         loading.value = false;
         return;
       }
-      $fetch(`${apiUrl.value}user/profile/password`, {
+      vtFetch(`${apiUrl.value}user/profile/password`, {
         method: 'POST',
         body: {
           username: userStore.username,

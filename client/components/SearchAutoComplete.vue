@@ -40,7 +40,7 @@ export default defineComponent({
     watch(
       () => props.searchValue,
       async () => {
-        const autocompleteResponse = await $fetch<[]>(
+        const autocompleteResponse = await vtFetch<[]>(
           `${apiUrl.value}autocomplete?q=${props.searchValue}`
         );
 

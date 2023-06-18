@@ -5,7 +5,7 @@ export const useGetLogs = () => {
 
   return useLazyAsyncData<ApiDto<'LogsDto'>>(
     'logfiles-list',
-    () => $fetch(`${apiUrl.value}admin/logs`),
+    () => fetch(`${apiUrl.value}admin/logs`).then(res => res.json()),
     {
       server: false
     }
@@ -17,7 +17,7 @@ export const useGetBlockedVideos = () => {
 
   return useLazyAsyncData<string[]>(
     'blocked-videos',
-    () => $fetch(`${apiUrl.value}admin/blocked-videos`),
+    () => fetch(`${apiUrl.value}admin/blocked-videos`).then(res => res.json()),
     {
       server: false
     }

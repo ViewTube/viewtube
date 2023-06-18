@@ -41,7 +41,7 @@ const deleteRange = async () => {
   if (rangeSelected.value) {
     const firstDate = new Date(dateToDelete.value[0]).valueOf();
     const secondDate = new Date(dateToDelete.value[1]).valueOf();
-    await $fetch(`${apiUrl.value}user/history/from/${firstDate}/to/${secondDate}`, {
+    await vtFetch(`${apiUrl.value}user/history/from/${firstDate}/to/${secondDate}`, {
       method: 'DELETE',
       credentials: 'include'
     })
@@ -60,7 +60,7 @@ const deleteRange = async () => {
 
 const deleteEntireHistory = async () => {
   deletePopup.value = false;
-  await $fetch(`${apiUrl.value}user/history/`, {
+  await vtFetch(`${apiUrl.value}user/history/`, {
     method: 'DELETE',
     credentials: 'include'
   })

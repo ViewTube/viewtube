@@ -62,18 +62,18 @@ const {
   pending: videoPending,
   refresh
 } = useLazyAsyncData<VideoType, ApiErrorDto>(route.query.v.toString(), async () => {
-  const value = await $fetch<ApiDto<'VTVideoInfoDto'>>(`${apiUrl.value}videos/${route.query.v}`);
+  const value = await vtFetch<ApiDto<'VTVideoInfoDto'>>(`${apiUrl.value}videos/${route.query.v}`);
 
   let initialVideoTime = 0;
   if (userStore.isLoggedIn && settingsStore.saveVideoHistory) {
-    const videoVisit = await $fetch<any>(`${apiUrl.value}user/history/${value.id}`, {
+    const videoVisit = await vtFetch<any>(`${apiUrl.value}user/history/${value.id}`, {
       credentials: 'include'
     }).catch((_: any) => {});
 
     if (videoVisit?.progressSeconds > 0) {
       initialVideoTime = videoVisit.data.progressSeconds;
     } else if (userStore.isLoggedIn) {
-      $fetch(`${apiUrl.value}user/history/${route.query.v}`, {
+      vtFetch(`${apiUrl.value}user/history/${route.query.v}`, {
         body: {
           progressSeconds: null,
           lengthSeconds: value.duration.seconds

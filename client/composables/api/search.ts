@@ -52,7 +52,7 @@ const getSearchQuery = (query: LocationQuery) => {
 };
 
 const getFilters = (searchTerm: string, apiUrl: string) => {
-  return $fetch<[{ filterValue: any; filterType?: any; filterName: any }]>(
+  return vtFetch<[{ filterValue: any; filterType?: any; filterName: any }]>(
     `${apiUrl}search/filters?q=${searchTerm}`
   );
 };
@@ -62,7 +62,7 @@ const getSearch = (
   { filters, pages = 1 }: { filters: Array<any>; pages: number },
   apiUrl: string
 ) => {
-  return $fetch<Result>(
+  return vtFetch<Result>(
     `${apiUrl}search?q=${searchTerm}&pages=${pages}&filters=${encodeURIComponent(
       JSON.stringify(filters)
     )}`

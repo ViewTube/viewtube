@@ -9,5 +9,5 @@ export const useGetPlaylists = (id: string, { pages = 1 }) => {
 
   const urlPart = `playlists/${id}?pages=${pages}`;
 
-  return useLazyAsyncData<PlaylistType>(urlPart, () => $fetch(`${apiUrl.value}${urlPart}`));
+  return useLazyAsyncData<PlaylistType>(urlPart, () => vtFetch(`${apiUrl.value}${urlPart}`));
 };

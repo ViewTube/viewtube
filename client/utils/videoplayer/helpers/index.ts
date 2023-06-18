@@ -845,7 +845,7 @@ export const videoPlayerSetup = (
   const saveVideoPosition = (currentTime: number) => {
     if (videoRef.value && settingsStore.saveVideoHistory) {
       if (userStore.isLoggedIn && !props.video.live) {
-        $fetch(`${apiUrl.value}user/history/${props.video.id}`, {
+        vtFetch(`${apiUrl.value}user/history/${props.video.id}`, {
           method: 'POST',
           body: {
             progressSeconds: Math.floor(currentTime),
