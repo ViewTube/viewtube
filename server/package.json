@@ -22,7 +22,7 @@
     "@distube/ytdl-core": "^4.11.10",
     "@fastify/cookie": "8.3.0",
     "@fastify/helmet": "10.1.1",
-    "@fastify/multipart": "7.6.1",
+    "@fastify/multipart": "7.7.0",
     "@fastify/static": "6.10.2",
     "@fastify/swagger": "8.6.0",
     "@freetube/yt-comment-scraper": "6.2.0",
