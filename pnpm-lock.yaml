@@ -252,8 +252,8 @@ importers:
         specifier: 7.3.0
         version: 7.3.0
       nest-winston:
-        specifier: 1.9.2
-        version: 1.9.2(@nestjs/common@10.0.1)(winston@3.9.0)
+        specifier: 1.9.3
+        version: 1.9.3(@nestjs/common@10.0.1)(winston@3.9.0)
       nestjs-throttler-storage-redis:
         specifier: 0.3.3
         version: 0.3.3(@nestjs/common@10.0.1)(@nestjs/core@10.0.1)(@nestjs/throttler@4.1.0)(ioredis@5.3.2)(reflect-metadata@0.1.13)
@@ -8880,10 +8880,10 @@ packages:
     resolution: {integrity: sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==}
     dev: true
 
-  /nest-winston@1.9.2(@nestjs/common@10.0.1)(winston@3.9.0):
-    resolution: {integrity: sha512-vOgQRFzmQ9+pMZfue2JdhtxDho3OYJZSSUgcL5jCpsxxCJu1QuGtZWo3S+mUCFvu7AN1hVgHugGk60STP5nSCQ==}
+  /nest-winston@1.9.3(@nestjs/common@10.0.1)(winston@3.9.0):
+    resolution: {integrity: sha512-BLDGvbKCeliQNNrNjFRKSbO9hu/a39YL3y+4aU0eTGHh5TgzNMqx5ZscbecKR0fM3/KumMznZdEWmAJBINHl6Q==}
     peerDependencies:
-      '@nestjs/common': ^5.0.0 || ^6.6.0 || ^7.0.0 || ^8.0.0 || ^9.0.0
+      '@nestjs/common': ^5.0.0 || ^6.6.0 || ^7.0.0 || ^8.0.0 || ^9.0.0 || ^10.0.0
       winston: ^3.0.0
     dependencies:
       '@nestjs/common': 10.0.1(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
