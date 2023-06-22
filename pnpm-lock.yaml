@@ -57,8 +57,8 @@ importers:
         specifier: 7.0.3
         version: 7.0.3
       dashjs:
-        specifier: 4.7.0
-        version: 4.7.0
+        specifier: 4.7.1
+        version: 4.7.1
       dayjs:
         specifier: 1.11.8
         version: 1.11.8
@@ -5687,8 +5687,8 @@ packages:
       assert-plus: 1.0.0
     dev: true
 
-  /dashjs@4.7.0:
-    resolution: {integrity: sha512-+Sx5TJiT9eDOqODi3anXXBIx2oBM6ANMV5dzvCeSvYKwJ72SzX1bcJSPFLm7g7HTsRCh6pM1VL0XWfrzTlz9xw==}
+  /dashjs@4.7.1:
+    resolution: {integrity: sha512-RPUqJGjR4lXrApHfNOd9G6885q8GpQ4rWecYBMdJjXCtnM8sNg9bhqic3Jl0bTgR0Xzl7Jd86qRc1YZbq1wjPw==}
     dependencies:
       bcp-47-match: 1.0.3
       bcp-47-normalize: 1.1.1
