@@ -1,5 +1,4 @@
-import HttpsProxyAgent from 'https-proxy-agent';
-import HttpsProxyAgentType from 'https-proxy-agent/dist/agent';
+import { HttpsProxyAgent } from 'https-proxy-agent';
 import { fetch } from 'ofetch';
 import { Request, RequestInit } from 'undici';
 
@@ -9,15 +8,15 @@ type InputType = Request & {
 
 export const innertubeFetch = async (
   input: InputType,
-  init?: RequestInit & { agent: HttpsProxyAgentType }
+  init?: RequestInit & { agent: HttpsProxyAgent<string> }
 ) => {
   if (!init) {
-    init = {} as RequestInit & { agent: HttpsProxyAgentType };
+    init = {} as RequestInit & { agent: HttpsProxyAgent<string> };
   }
 
   if (process.env.VIEWTUBE_PROXY_URL) {
     const proxy = process.env.VIEWTUBE_PROXY_URL;
-    const proxyAgent = HttpsProxyAgent(proxy);
+    const proxyAgent = new HttpsProxyAgent(proxy);
     init.agent = proxyAgent;
   }
 

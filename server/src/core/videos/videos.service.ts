@@ -19,7 +19,7 @@ import { innertubeClient } from 'server/common/innertube/innertube';
 import { toVTVideoInfoDto } from 'server/mapper/converter/video-info/vt-video-info.converter';
 import { VTVideoInfoDto } from 'server/mapper/dto/vt-video-info.dto';
 import ytdl from 'ytdl-core';
-import HttpsProxyAgent from 'https-proxy-agent';
+import { HttpsProxyAgent } from 'https-proxy-agent';
 
 @Injectable()
 export class VideosService {
@@ -60,7 +60,7 @@ export class VideosService {
 
         if (this.configService.get('VIEWTUBE_PROXY_URL')) {
           const proxy = this.configService.get('VIEWTUBE_PROXY_URL');
-          (ytdlOptions.requestOptions as any).agent = HttpsProxyAgent(proxy);
+          (ytdlOptions.requestOptions as any).agent = new HttpsProxyAgent(proxy);
         }
 
         const { formats } = await ytdl.getInfo(id, ytdlOptions);

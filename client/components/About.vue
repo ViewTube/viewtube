@@ -21,7 +21,7 @@ const copyCommitHash = () => {
     title: 'Copied to clipboard',
     message: 'Copied commit hash to clipboard',
     type: 'info',
-    dismissDelay: 3000,
+    dismissDelay: 3000
   });
 };
 </script>
