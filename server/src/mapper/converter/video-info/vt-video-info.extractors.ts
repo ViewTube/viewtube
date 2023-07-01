@@ -295,7 +295,7 @@ export const extractRecommendedVideos = (
         thumbnails: video?.author?.thumbnails,
         isVerified: video?.author?.is_verified,
         isArtist: video?.author?.is_verified_artist,
-        handle: video?.author?.endpoint?.payload?.canonicalBaseUrl.replace('/', '')
+        handle: video?.author?.endpoint?.payload?.canonicalBaseUrl?.replace('/', '')
       },
       duration: {
         text: video?.duration?.text,

@@ -11,8 +11,6 @@ import {
 import { ConfigService } from '@nestjs/config';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { ChannelBasicInfo } from '../channels/schemas/channel-basic-info.schema';
-import { VideoBasicInfo } from './schemas/video-basic-info.schema';
 import { DislikeDto } from 'server/core/videos/dto/dislike.dto';
 import undici from 'undici';
 import { BlockedVideo } from 'server/user/admin/schemas/blocked-video';
@@ -20,7 +18,7 @@ import { ofetch } from 'ofetch';
 import { innertubeClient } from 'server/common/innertube/innertube';
 import { toVTVideoInfoDto } from 'server/mapper/converter/video-info/vt-video-info.converter';
 import { VTVideoInfoDto } from 'server/mapper/dto/vt-video-info.dto';
-import ytdl from '@distube/ytdl-core';
+import ytdl from 'ytdl-core';
 import HttpsProxyAgent from 'https-proxy-agent';
 
 @Injectable()
