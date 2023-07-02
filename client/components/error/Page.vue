@@ -1,13 +1,11 @@
 <script setup lang="ts">
-import ErrorIcon from 'vue-material-design-icons/AlertCircleOutline.vue';
-
 defineProps<{ text: string }>();
 </script>
 
 <template>
   <div class="error">
     <div class="container">
-      <ErrorIcon class="icon" />
+      <Icon name="mdi:alert-circle-outline" class="icon" />
       <p class="text">{{ text }}</p>
     </div>
   </div>

@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ApiDto } from 'viewtube/shared';
-import PlayButtonIcon from 'vue-material-design-icons/Play.vue';
 
 const props = defineProps<{
   featuredVideo: ApiDto<'ChannelHomeDto'>['featuredVideo'];
@@ -24,7 +23,7 @@ const hidePlaceholder = () => {
       <transition name="fade">
         <div v-if="placeholderVisible" class="video-embed-placeholder" @click="hidePlaceholder">
           <img class="placeholder-image" :src="placeholderImageSrc" />
-          <PlayButtonIcon class="placeholder-play-btn" />
+          <Icon name="mdi:play" class="placeholder-play-btn" />
         </div>
         <iframe v-else class="video-embed-iframe" :src="`/embed/${featuredVideo?.videoId}`" />
       </transition>

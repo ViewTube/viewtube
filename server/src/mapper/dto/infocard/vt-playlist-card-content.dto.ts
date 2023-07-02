@@ -6,5 +6,5 @@ export class VTPlaylistCardContentDto {
   title: string;
   author: {
     name: string;
-  }
+  };
 }

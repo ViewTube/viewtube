@@ -1,7 +1,7 @@
 <template>
   <div class="popup">
     <div class="popup-container">
-      <CloseIcon v-ripple class="close-icon" @click.stop="$emit('close')" />
+      <Icon v-ripple name="mdi:close" class="close-icon" @click.stop="$emit('close')" />
       <h1>QR-Code</h1>
       <div class="qr-container"><canvas id="qrcode" ref="qrCodeRef" /></div>
     </div>
@@ -11,14 +11,10 @@
 
 <script lang="ts">
 import * as QRCode from 'qrcode';
-import CloseIcon from 'vue-material-design-icons/Close.vue';
 import '@/assets/styles/popup.scss';
 
 export default defineComponent({
   name: 'QrPopUp',
-  components: {
-    CloseIcon
-  },
   setup() {
     const { currentTheme } = useCurrentTheme();
     const qrCodeRef = ref(null);

@@ -55,7 +55,7 @@
       </div>
       <div class="show-more-btn-container">
         <BadgeButton :click="loadMoreVideos" :loading="moreVideosLoading">
-          <LoadMoreIcon />
+          <Icon name="mdi:reload" />
           <p>Show more</p>
         </BadgeButton>
       </div>
@@ -64,7 +64,6 @@
 </template>
 
 <script lang="ts">
-import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
 import VideoEntry from '@/components/list/VideoEntry.vue';
 import PlaylistEntry from '@/components/list/PlaylistEntry.vue';
 import MixEntry from '@/components/list/MixEntry.vue';
@@ -83,7 +82,6 @@ import ytsr from 'ytsr';
 export default defineComponent({
   name: 'Search',
   components: {
-    LoadMoreIcon,
     VideoEntry,
     Spinner,
     PlaylistEntry,

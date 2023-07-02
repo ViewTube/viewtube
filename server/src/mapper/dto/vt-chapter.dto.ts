@@ -1,4 +1,4 @@
-import { VTThumbnailDto } from "./vt-thumbnail.dto";
+import { VTThumbnailDto } from './vt-thumbnail.dto';
 
 export class VTChapterDto {
   title: string;

@@ -2,10 +2,10 @@
   <div class="share-options">
     <div class="share-options-container">
       <ShareOptionEntry class="share-option" option-name="Copy Link" :click="shareCopyLink">
-        <Copy class="copy-icon" />
+        <Icon name="mdi:content-copy" class="copy-icon" />
       </ShareOptionEntry>
       <ShareOptionEntry class="share-option" option-name="Open QR-Code" :click="qrOpen">
-        <QrCode class="qrcode-icon" />
+        <Icon name="mdi:qrcode" class="qrcode-icon" />
       </ShareOptionEntry>
       <ShareOptionEntry
         class="share-option"
@@ -25,9 +25,6 @@
 </template>
 
 <script lang="ts">
-import Copy from 'vue-material-design-icons/ContentCopy.vue';
-import QrCode from 'vue-material-design-icons/Qrcode.vue';
-
 import QrPopUp from '@/components/popup/QrPopUp.vue';
 import ShareOptionEntry from '@/components/list/ShareOptionEntry.vue';
 
@@ -35,8 +32,6 @@ export default defineComponent({
   name: 'ShareOptions',
   components: {
     ShareOptionEntry,
-    Copy,
-    QrCode,
     QrPopUp
   },
   setup() {

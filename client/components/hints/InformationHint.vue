@@ -1,15 +1,10 @@
 <template>
-  <div class="information-hint"><slot /><InformationIcon /></div>
+  <div class="information-hint"><slot /><Icon name="mdi:information" /></div>
 </template>
 
 <script lang="ts">
-import InformationIcon from 'vue-material-design-icons/Information.vue';
-
 export default defineComponent({
-  name: 'InformationHint',
-  components: {
-    InformationIcon
-  }
+  name: 'InformationHint'
 });
 </script>
 

@@ -2,7 +2,12 @@
   <div class="popup">
     <div class="container popup-container" :class="{ loading: loading }">
       <div class="form-header">
-        <CloseIcon v-ripple class="close-icon" @click.stop="$emit('passwordChangeClose')" />
+        <Icon
+          v-ripple
+          name="mdi:close"
+          class="close-icon"
+          @click.stop="$emit('passwordChangeClose')"
+        />
         <h2 class="form-title">Change password</h2>
       </div>
       <Spinner />
@@ -34,7 +39,6 @@
 
 <script lang="ts">
 import FormInput from '@/components/form/FormInput.vue';
-import CloseIcon from 'vue-material-design-icons/Close.vue';
 import SubmitButton from '@/components/form/SubmitButton.vue';
 import Spinner from '@/components/Spinner.vue';
 import '@/assets/styles/popup.scss';
@@ -46,8 +50,7 @@ export default defineComponent({
   components: {
     FormInput,
     SubmitButton,
-    Spinner,
-    CloseIcon
+    Spinner
   },
   setup(_props, { emit }) {
     const messagesStore = useMessagesStore();

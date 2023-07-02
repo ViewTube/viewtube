@@ -1,9 +1,4 @@
 <script setup lang="ts">
-import VolumeHighIcon from 'vue-material-design-icons/VolumeHigh.vue';
-import VolumeMediumIcon from 'vue-material-design-icons/VolumeMedium.vue';
-import VolumeLowIcon from 'vue-material-design-icons/VolumeLow.vue';
-import VolumeOffIcon from 'vue-material-design-icons/VolumeOff.vue';
-
 const emit = defineEmits<{ (e: 'update:modelValue', value: number): void }>();
 
 const props = defineProps<{
@@ -63,10 +58,10 @@ const onMouseDown = () => {
     @click.stop
     @touchend.stop="onTouch"
   >
-    <VolumeHighIcon v-if="volumeCategory == 3" />
-    <VolumeMediumIcon v-if="volumeCategory == 2" />
-    <VolumeLowIcon v-if="volumeCategory == 1" />
-    <VolumeOffIcon v-if="volumeCategory == 0" />
+    <Icon v-if="volumeCategory == 3" name="mdi:volume-high" />
+    <Icon v-if="volumeCategory == 2" name="mdi:volume-medium" />
+    <Icon v-if="volumeCategory == 1" name="mdi:volume-low" />
+    <Icon v-if="volumeCategory == 0" name="mdi:volume-off" />
     <div class="volume-control-popup">
       <input
         id="volume"

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
 import VideoEntry from '@/components/list/VideoEntry.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import { useUserStore } from '@/store/user';
@@ -46,7 +45,7 @@ const showMoreVideos = (): void => {
       v-if="videos?.length > 0 && displayedVideos.length !== videos?.length"
       :click="showMoreVideos"
     >
-      <LoadMoreIcon />
+      <Icon name="mdi:reload" />
       <p>Show more</p>
     </BadgeButton>
   </div>

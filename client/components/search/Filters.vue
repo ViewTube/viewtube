@@ -29,7 +29,7 @@
         </div>
         <div class="control-btns">
           <nuxt-link :to="`/results?search_query=${searchValue}`" class="reset-btn btn"
-            ><UndoIcon />Reset</nuxt-link
+            ><Icon name="mdi:undo" />Reset</nuxt-link
           >
         </div>
       </div>
@@ -39,13 +39,9 @@
 
 <script lang="ts">
 import { PropType } from 'vue';
-import UndoIcon from 'vue-material-design-icons/Undo.vue';
 
 export default defineComponent({
   name: 'Filters',
-  components: {
-    UndoIcon
-  },
   props: {
     filters: Array as PropType<Array<any>>
   },

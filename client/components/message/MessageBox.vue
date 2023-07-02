@@ -27,7 +27,7 @@
       }"
       @click="dismissMessage"
     >
-      <CloseIcon v-ripple />
+      <Icon v-ripple name="mdi:close" />
     </div>
     <h3 class="title" :class="message.type">
       {{ message.title }}
@@ -37,15 +37,10 @@
 </template>
 
 <script lang="ts">
-import CloseIcon from 'vue-material-design-icons/Close.vue';
-
 import { useMessagesStore } from '~/store/messages';
 
 export default defineComponent({
   name: 'MessageBox',
-  components: {
-    CloseIcon
-  },
   props: {
     message: {
       type: Object

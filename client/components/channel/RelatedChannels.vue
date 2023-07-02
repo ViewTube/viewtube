@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import VerifiedIcon from 'vue-material-design-icons/CheckDecagram.vue';
 import { ApiDto } from 'viewtube/shared';
 
 export type RelatedChannelsType = ApiDto<'ChannelInfoDto'>['relatedChannels']['items'];
@@ -39,7 +38,7 @@ const { proxyUrl } = useImgProxy();
             <p class="related-channel-title-text">
               {{ channel.channelName }}
             </p>
-            <VerifiedIcon class="verified-icon" />
+            <Icon name="mdi:check-decagram" class="verified-icon" />
           </div>
           <p v-if="channel.subscriberText" class="subscriber-count">{{ channel.subscriberText }}</p>
           <p v-if="channel.videoCount" class="video-count">

@@ -1,16 +1,4 @@
 <script setup lang="ts">
-import AccountCircleIcon from 'vue-material-design-icons/AccountCircle.vue';
-import ChevronUpIcon from 'vue-material-design-icons/ChevronUp.vue';
-import LogoutIcon from 'vue-material-design-icons/LogoutVariant.vue';
-import ExportIcon from 'vue-material-design-icons/DatabaseExportOutline.vue';
-import PlusIcon from 'vue-material-design-icons/Plus.vue';
-import DeleteIcon from 'vue-material-design-icons/DeleteAlert.vue';
-import DeleteSimpleIcon from 'vue-material-design-icons/Delete.vue';
-import SettingsIcon from 'vue-material-design-icons/Cog.vue';
-import HistoryIcon from 'vue-material-design-icons/History.vue';
-import RestartOffIcon from 'vue-material-design-icons/RestartOff.vue';
-import PasswordChangeIcon from 'vue-material-design-icons/FormTextboxPassword.vue';
-
 import Confirmation from '@/components/popup/Confirmation.vue';
 import SectionTitle from '@/components/SectionTitle.vue';
 import FormInput from '@/components/form/FormInput.vue';
@@ -185,7 +173,7 @@ const setProfileImageUrl = (url: string): void => {
         <div v-if="profile" class="user-info">
           <div class="profile-img" :class="{ image: profileImageUrl && !profileImageLoading }">
             <Spinner v-if="profileImageLoading" class="centered" />
-            <AccountCircleIcon v-if="!profileImageUrl && !profileImageLoading" />
+            <Icon v-if="!profileImageUrl && !profileImageLoading" name="mdi:account-circle" />
             <div
               v-if="profileImageUrl && !profileImageLoading"
               :style="{ 'background-image': `url(${profileImageUrl})` }"
@@ -193,9 +181,11 @@ const setProfileImageUrl = (url: string): void => {
               class="profile-image"
             />
             <span v-if="profileImageUrl" class="delete-profile-img-btn" @click="deleteProfileImage"
-              ><DeleteSimpleIcon
+              ><Icon name="mdi:delete"
             /></span>
-            <label class="upload-profile-btn" for="upload-profile-image"><PlusIcon /></label>
+            <label class="upload-profile-btn" for="upload-profile-image"
+              ><Icon name="mdi:plus"
+            /></label>
             <input
               id="upload-profile-image"
               type="file"
@@ -223,32 +213,32 @@ const setProfileImageUrl = (url: string): void => {
         <div v-if="profile" class="actions">
           <input id="actions" v-model="actionsOpen" type="checkbox" name="actions" />
           <label for="actions" class="actions-icon">
-            <SettingsIcon />
-            <ChevronUpIcon class="chevron-icon" />
+            <Icon name="mdi:cog" />
+            <Icon name="mdi:chevron-up" class="chevron-icon" />
           </label>
           <div class="actions-details">
             <BadgeButton class="action" :click="onChangePasswordPopup"
-              ><PasswordChangeIcon />Change password</BadgeButton
+              ><Icon name="mdi:form-textbox-password" />Change password</BadgeButton
             >
             <BadgeButton download class="action" :href="`${apiUrl}user/export`"
-              ><ExportIcon />Export data</BadgeButton
+              ><Icon name="mdi:database-export-outline" />Export data</BadgeButton
             >
             <BadgeButton class="action" :click="onLogoutPopup" style="color: #ef4056"
-              ><LogoutIcon />Sign out</BadgeButton
+              ><Icon name="mdi:logout-variant" />Sign out</BadgeButton
             >
             <BadgeButton class="action" :click="onDeleteAccount" style="color: #ef4056"
-              ><DeleteIcon />Delete account</BadgeButton
+              ><Icon name="mdi:delete-alert" />Delete account</BadgeButton
             >
           </div>
         </div>
       </div>
     </div>
     <div v-if="profile && !settingsStore.saveVideoHistory" class="no-history">
-      <RestartOffIcon />
+      <Icon name="mdi:restart-off" />
       <p>Video history is disabled. You can enable it in settings.</p>
     </div>
     <div v-if="profile && !hasHistory && settingsStore.saveVideoHistory" class="no-history">
-      <HistoryIcon />
+      <Icon name="mdi:history" />
       <p>You haven't watched any videos yet. Once you have, your history will show up here.</p>
     </div>
     <div v-if="profile && hasHistory" class="video-history">

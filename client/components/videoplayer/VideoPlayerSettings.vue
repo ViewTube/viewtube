@@ -1,8 +1,4 @@
 <script setup lang="ts">
-import SettingsIcon from 'vue-material-design-icons/Cog.vue';
-import HighDefinitionIcon from 'vue-material-design-icons/HighDefinition.vue';
-import AudioDefinitionIcon from 'vue-material-design-icons/QualityHigh.vue';
-import LightbulbIcon from 'vue-material-design-icons/Lightbulb.vue';
 import SwitchButton from '@/components/buttons/SwitchButton.vue';
 import { useSettingsStore } from '@/store/settings';
 import { useVideoPlayerStore } from '@/store/videoPlayer';
@@ -122,7 +118,11 @@ onBeforeUnmount(() => {
   <div class="video-player-settings" @mouseup.stop="onQualityMouseup">
     <div class="quality-icon">
       <span class="quality-label-small">{{ smallQualityLabel }}</span>
-      <SettingsIcon @click.stop="onQualityInteraction" @touchend.stop="onQualityTouchInteraction" />
+      <Icon
+        name="mdi:cog"
+        @click.stop="onQualityInteraction"
+        @touchend.stop="onQualityTouchInteraction"
+      />
     </div>
     <Teleport :to="fullscreen ? '#video-player' : 'body'">
       <transition name="player-settings-popup">
@@ -138,7 +138,9 @@ onBeforeUnmount(() => {
             @touchend.stop="onQualityMouseup"
           >
             <div v-if="videoQualityList" class="player-settings-submenu">
-              <span class="player-settings-title"><HighDefinitionIcon />Video Quality</span>
+              <span class="player-settings-title"
+                ><Icon name="mdi:high-definition" />Video Quality</span
+              >
               <SwitchButton
                 :value="settingsStore.autoAdjustVideoQuality"
                 :label="'Automatically adjust'"
@@ -168,12 +170,14 @@ onBeforeUnmount(() => {
                   v-tippy="'Recommended for your screen size'"
                   class="recommended-icon"
                 >
-                  <LightbulbIcon />
+                  <Icon name="mdi:lightbulb" />
                 </span>
               </div>
             </div>
             <div v-if="audioQualityList" class="player-settings-submenu">
-              <span class="player-settings-title"><AudioDefinitionIcon />Audio Quality</span>
+              <span class="player-settings-title"
+                ><Icon name="mdi:quality-high" />Audio Quality</span
+              >
               <SwitchButton
                 :value="settingsStore.autoAdjustAudioQuality"
                 :label="'Automatically adjust'"
@@ -195,7 +199,7 @@ onBeforeUnmount(() => {
               </div>
             </div>
             <div class="player-settings-submenu">
-              <span class="player-settings-title"><SettingsIcon />Other settings</span>
+              <span class="player-settings-title"><Icon name="mdi:cog" />Other settings</span>
               <SwitchButton
                 :value="loopVideo"
                 :label="'Loop'"

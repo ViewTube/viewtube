@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import { ApiDto } from 'viewtube/shared';
-import LikeIcon from 'vue-material-design-icons/ThumbUp.vue';
-import CommentIcon from 'vue-material-design-icons/CommentOutline.vue';
 
 defineProps<{
   communityPost: ApiDto<'ChannelCommunityPostDto'>;
@@ -35,11 +33,11 @@ defineProps<{
     </div>
     <div class="post-info">
       <div class="info-item">
-        <LikeIcon />
+        <Icon name="mdi:thumb-up" />
         <p>{{ communityPost.voteCount ?? 0 }}</p>
       </div>
       <div class="info-item">
-        <CommentIcon />
+        <Icon name="mdi:comment-outline" />
         <p class="comments">{{ communityPost.commentCount ?? 0 }}</p>
       </div>
     </div>

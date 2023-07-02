@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import EyeIcon from 'vue-material-design-icons/Eye.vue';
-
 const props = defineProps<{
   src: string;
   bannerHqSrc: string;
@@ -32,7 +30,7 @@ const fallbackUrl = computed(() => {
         :href="imgProxy.url + bannerHqSrc"
         target="_blank"
         rel="noreferrer noopener"
-        ><EyeIcon
+        ><Icon name="mdi:eye"
       /></a>
     </div>
   </div>

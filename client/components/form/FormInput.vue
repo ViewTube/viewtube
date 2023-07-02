@@ -1,8 +1,4 @@
 <script setup lang="ts">
-import AccountIcon from 'vue-material-design-icons/AccountOutline.vue';
-import KeyIcon from 'vue-material-design-icons/KeyOutline.vue';
-import MailIcon from 'vue-material-design-icons/At.vue';
-
 const props = defineProps<{
   type?: string;
   modelValue: string;
@@ -39,9 +35,9 @@ const autocompleteTag = computed((): string => autocompleteTags[props.type] ?? '
       :value="modelValue"
       @input="(e: any) => $emit('update:modelValue', e.target.value)"
     />
-    <AccountIcon v-if="type === 'username'" />
-    <KeyIcon v-if="type === 'password'" />
-    <MailIcon v-if="type === 'email'" />
+    <Icon v-if="type === 'username'" name="mdi:account-outline" />
+    <Icon v-if="type === 'password'" name="mdi:key-outline" />
+    <Icon v-if="type === 'email'" name="mdi:at" />
     <label :for="id" class="input-label">{{ label }}</label>
   </div>
 </template>

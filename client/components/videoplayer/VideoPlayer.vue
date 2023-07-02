@@ -59,16 +59,17 @@
           </h1>
         </div>
         <div class="right-top-controls">
-          <OpenInPlayerIcon
+          <Icon
             v-if="embedded || mini"
             v-tippy="'Open in full player'"
+            name="mdi:open-in-new"
             class="tooltip"
             :title="null"
             @click.prevent.stop="onOpenInPlayer"
             @mouseup.prevent.stop="onOpenInPlayerMouseUp"
             @touchend.prevent.stop="onOpenInPlayer"
           />
-          <!-- <ArrowExpandIcon
+          <!-- <Icon name="mdi:arrow-expand"
             v-if="!videoElement.zoomed"
             v-tippy="'Zoom video'"
             class="tooltip"
@@ -77,7 +78,7 @@
             @mouseup="onVideoExpandMouseUp"
             @touchend.stop="onVideoExpand"
           />
-          <ArrowCollapseIcon
+          <Icon name="mdi:arrow-collapse"
             v-if="videoElement.zoomed"
             v-tippy="'Revert zoom'"
             class="tooltip"
@@ -86,9 +87,10 @@
             @mouseup="onVideoCollapseMouseUp"
             @touchend.stop="onVideoCollapse"
           />-->
-          <CloseIcon
+          <Icon
             v-if="mini"
             v-tippy="'Close'"
+            name="mdi:close"
             class="tooltip"
             :title="null"
             @click.prevent.stop="$emit('close')"
@@ -251,8 +253,8 @@
         </div>
         <div class="bottom-controls">
           <div class="left-bottom-controls">
-            <PauseIcon v-if="videoElement.playing" />
-            <PlayIcon v-if="!videoElement.playing" />
+            <Icon v-if="videoElement.playing" name="mdi:pause" />
+            <Icon v-if="!videoElement.playing" name="mdi:play" />
             <VolumeControl
               v-model.number="videoElement.playerVolume"
               v-tippy="'Change volume'"
@@ -285,17 +287,19 @@
               @autoadjustchange="onAutoAdjustChange"
               @refreshrecommended="onRefreshRecommendedQuality"
             />
-            <FullscreenIcon
+            <Icon
               v-if="!fullscreen"
               v-tippy="'Enter Fullscreen'"
+              name="mdi:fullscreen"
               class="tooltip"
               @click.prevent.stop="onEnterFullscreen"
               @mouseup.prevent.stop="onEnterFullscreenMouseUp"
               @touchend.prevent="onEnterFullscreen"
             />
-            <FullscreenExitIcon
+            <Icon
               v-if="fullscreen"
               v-tippy="'Leave fullscreen'"
+              name="mdi:fullscreen-exit"
               class="tooltip"
               @click.prevent.stop="onLeaveFullscreen"
               @mouseup.prevent.stop="onLeaveFullscreenMouseUp"
@@ -323,12 +327,6 @@
 </template>
 
 <script lang="ts">
-import PauseIcon from 'vue-material-design-icons/Pause.vue';
-import PlayIcon from 'vue-material-design-icons/Play.vue';
-import FullscreenIcon from 'vue-material-design-icons/Fullscreen.vue';
-import FullscreenExitIcon from 'vue-material-design-icons/FullscreenExit.vue';
-import OpenInPlayerIcon from 'vue-material-design-icons/OpenInNew.vue';
-import CloseIcon from 'vue-material-design-icons/Close.vue';
 import { videoPlayerSetup } from '@/utils/videoplayer/helpers';
 import VideoPlayerAnimations from '@/components/videoplayer/VideoPlayerAnimations.vue';
 import SkipButton from '@/components/buttons/SkipButton.vue';
@@ -344,12 +342,6 @@ export default defineComponent({
   name: 'VideoPlayer',
   components: {
     Spinner,
-    PauseIcon,
-    PlayIcon,
-    FullscreenIcon,
-    FullscreenExitIcon,
-    OpenInPlayerIcon,
-    CloseIcon,
     SkipButton,
     VolumeControl,
     VideoPlayerSettings,

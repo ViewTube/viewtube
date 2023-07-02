@@ -28,7 +28,7 @@
       class="search-btn tooltip"
       @click.self.prevent="onSearchButton"
     >
-      <SearchIcon />
+      <Icon name="mdi:magnify" />
     </a>
     <span class="search-line-bottom line" />
     <SearchAutoComplete
@@ -41,14 +41,11 @@
 </template>
 
 <script lang="ts">
-import SearchIcon from 'vue-material-design-icons/Magnify.vue';
-
 import SearchAutoComplete from '@/components/SearchAutoComplete.vue';
 
 export default defineComponent({
   name: 'MainSearchBox',
   components: {
-    SearchIcon,
     SearchAutoComplete
   },
   props: {

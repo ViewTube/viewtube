@@ -5,7 +5,6 @@ import MultiOptionButton from '@/components/buttons/MultiOptionButton.vue';
 import { ApiDto } from 'viewtube/shared';
 import { ChannelPlaylistsSortOptionsType, ChannelVideosSortOptionsType } from '@/utils/sortOptions';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
-import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
 
 const props = withDefaults(
   defineProps<{
@@ -66,7 +65,7 @@ const sortBy = computed<ChannelVideosSortOptionsType | ChannelPlaylistsSortOptio
         :loading="morePending"
         @click.prevent="$emit('load-more')"
       >
-        <LoadMoreIcon />
+        <Icon name="mdi:reload" />
         <p>Show more</p>
       </BadgeButton>
     </div>

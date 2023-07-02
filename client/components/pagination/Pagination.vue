@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import ChevronLeftIcon from 'vue-material-design-icons/ChevronLeft.vue';
-import ChevronRightIcon from 'vue-material-design-icons/ChevronRight.vue';
-
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 const props = defineProps<{ currentPage: number; pageCount: number }>();
 
@@ -69,7 +66,7 @@ const displaySecondDots = computed((): boolean => {
         :internal-link="true"
         :disabled="currentPage <= 1"
       >
-        <ChevronLeftIcon />
+        <Icon name="mdi:chevron-left" />
       </BadgeButton>
       <div class="number-buttons">
         <BadgeButton
@@ -110,7 +107,7 @@ const displaySecondDots = computed((): boolean => {
         :internal-link="true"
         :disabled="currentPage >= pageCount"
       >
-        <ChevronRightIcon />
+        <Icon name="mdi:chevron-right" />
       </BadgeButton>
     </div>
   </div>
