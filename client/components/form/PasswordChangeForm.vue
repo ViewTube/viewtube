@@ -105,8 +105,7 @@ export default defineComponent({
       newPassword,
       newPasswordConfirm,
       changePassword,
-      loading,
-      CloseIcon
+      loading
     };
   }
 });
