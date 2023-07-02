@@ -1,8 +1,4 @@
 <script setup lang="ts">
-import CloseIcon from 'vue-material-design-icons/Close.vue';
-import GithubIcon from 'vue-material-design-icons/Github.vue';
-import ExternalIcon from 'vue-material-design-icons/OpenInNew.vue';
-
 import { description, version } from '@/../package.json';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 
@@ -21,7 +17,7 @@ const copyCommitHash = () => {
     title: 'Copied to clipboard',
     message: 'Copied commit hash to clipboard',
     type: 'info',
-    dismissDelay: 3000,
+    dismissDelay: 3000
   });
 };
 </script>
@@ -29,7 +25,7 @@ const copyCommitHash = () => {
 <template>
   <div class="about popup">
     <div class="about-container popup-container">
-      <CloseIcon v-ripple class="close-icon" @click.stop="$emit('close')" />
+      <Icon v-ripple name="mdi:close" class="close-icon" @click.stop="$emit('close')" />
       <h1>About</h1>
       <div class="logo-about">
         <img class="logo-about-img" src="@/assets/icon.svg" alt="ViewTube" />
@@ -51,13 +47,13 @@ const copyCommitHash = () => {
             :href="`https://github.com/ViewTube/viewtube/commit/${commit}`"
             target="_blank"
             rel="noreferrer noopener"
-            ><ExternalIcon
+            ><Icon name="mdi:open-in-new"
           /></a>
         </h4>
       </div>
       <div class="links-about">
         <BadgeButton :href="'https://github.com/viewtube/viewtube'">
-          <GithubIcon />ViewTube
+          <Icon name="mdi:github" />ViewTube
         </BadgeButton>
       </div>
       <div class="external-service-container">

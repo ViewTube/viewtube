@@ -90,7 +90,7 @@ const bootstrap = async () => {
   if (isProduction) {
     const nuxtService = app.get(NuxtService);
     await nuxtService.init();
-    app.register(fastifyStatic, {
+    await registerFastifyPlugin(app, fastifyStatic, {
       root: path.resolve(nuxtService.nuxtPath, 'public'),
       serve: false
     });

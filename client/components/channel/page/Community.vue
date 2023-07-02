@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { useMessagesStore } from '@/store/messages';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
-import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
 
 const route = useRoute();
 const messagesStore = useMessagesStore();
@@ -57,7 +56,7 @@ const loadMore = async () => {
         :loading="morePending"
         @click.prevent="loadMore"
       >
-        <LoadMoreIcon />
+        <Icon name="mdi:reload" />
         <p>Show more</p>
       </BadgeButton>
     </div>

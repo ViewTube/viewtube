@@ -1,10 +1,5 @@
 <script setup lang="ts">
-import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
 import { Continuation } from 'ytpl';
-import EyeIcon from 'vue-material-design-icons/EyeOutline.vue';
-import EyeClosedIcon from 'vue-material-design-icons/EyeOffOutline.vue';
-import CountIcon from 'vue-material-design-icons/Counter.vue';
-import CalendarIcon from 'vue-material-design-icons/CalendarClock.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import VideoEntry from '@/components/list/VideoEntry.vue';
 import Spinner from '@/components/Spinner.vue';
@@ -95,15 +90,21 @@ const loadMoreVideos = async () => {
         <h2 class="playlist-title">{{ playlist.title }}</h2>
         <div class="playlist-details">
           <span class="playlist-detail"
-            ><EyeIcon /> {{ playlist.views?.toLocaleString('en-US') }} views</span
+            ><Icon name="mdi:eye" /> {{ playlist.views?.toLocaleString('en-US') }} views</span
           >
           <span class="playlist-detail"
-            ><CountIcon />{{ playlist.estimatedItemCount?.toLocaleString('en-US') }} items</span
+            ><Icon name="mdi:counter" />{{
+              playlist.estimatedItemCount?.toLocaleString('en-US')
+            }}
+            items</span
           >
-          <span class="playlist-detail"><CalendarIcon />{{ playlist.lastUpdated }}</span>
           <span class="playlist-detail"
-            ><EyeIcon v-if="playlist.visibility === 'everyone'" /><EyeClosedIcon
+            ><Icon name="mdi:calendar-clock" />{{ playlist.lastUpdated }}</span
+          >
+          <span class="playlist-detail"
+            ><Icon v-if="playlist.visibility === 'everyone'" name="mdi:eye" /><Icon
               v-else-if="playlist.visibility === 'unlisted'"
+              name="mdi:eye-off"
             />{{ playlist.visibility === 'everyone' ? 'public' : 'unlisted' }} playlist</span
           >
         </div>
@@ -128,7 +129,7 @@ const loadMoreVideos = async () => {
       </div>
       <div v-if="playlistContinuation" class="load-more-btn">
         <BadgeButton :click="loadMoreVideos" :loading="moreVideosLoading"
-          ><LoadMoreIcon />
+          ><Icon name="mdi:reload" />
           <p>Show more</p></BadgeButton
         >
       </div>

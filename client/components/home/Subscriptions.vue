@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import VideoEntry from '@/components/list/VideoEntry.vue';
-import SubscriptionIcon from 'vue-material-design-icons/YoutubeSubscription.vue';
 
 const { data: subscriptions, pending: subscriptionsLoading } = useGetUserSubscriptions({
   limit: 4
@@ -19,7 +18,7 @@ const { data: subscriptions, pending: subscriptionsLoading } = useGetUserSubscri
     />
   </div>
   <div v-if="subscriptions?.videos?.length === 0" class="no-subscriptions">
-    <SubscriptionIcon />
+    <Icon name="mdi:youtube-subscription" />
     <p>No subscriptions yet. Subscribe to a channel to see their latest uploads.</p>
   </div>
 </template>

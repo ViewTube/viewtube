@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import humanizeDuration from 'humanize-duration';
-import DeleteIcon from 'vue-material-design-icons/Delete.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 
 import { useMessagesStore } from '@/store/messages';
@@ -78,7 +77,7 @@ const deleteEntry = async (videoId: string) => {
         </div>
       </div>
       <BadgeButton v-if="deleteOption" class="delete-btn" :click="() => deleteEntry(video.videoId)"
-        ><DeleteIcon
+        ><Icon name="mdi:delete"
       /></BadgeButton>
     </div>
   </div>

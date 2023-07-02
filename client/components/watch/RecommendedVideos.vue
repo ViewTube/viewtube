@@ -9,7 +9,7 @@
       />
       <div class="show-more-container">
         <BadgeButton v-if="!videosExpanded" :click="expand">
-          <LoadMoreIcon />
+          <Icon name="mdi:reload" />
           <p>Show more</p>
         </BadgeButton>
       </div>
@@ -18,8 +18,6 @@
 </template>
 
 <script lang="ts">
-import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
-
 import VideoEntry from '@/components/list/VideoEntry.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 
@@ -27,8 +25,7 @@ export default defineComponent({
   name: 'RecommendedVideos',
   components: {
     VideoEntry,
-    BadgeButton,
-    LoadMoreIcon
+    BadgeButton
   },
   props: {
     recommendedVideos: {

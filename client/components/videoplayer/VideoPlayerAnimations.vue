@@ -1,33 +1,22 @@
 <template>
   <div class="player-animations-container">
     <div class="player-animation skip-forward" :class="{ visible: animations.skipForward }">
-      <ArrowRightIcon />
+      <Icon name="mdi:arrow-right" />
     </div>
     <div class="player-animation skip-backward" :class="{ visible: animations.skipBackward }">
-      <ArrowLeftIcon />
+      <Icon name="mdi:arrow-left" />
     </div>
     <div class="player-animation volume-up" :class="{ visible: animations.volumeUp }">
-      <VolumeHighIcon />
+      <Icon name="mdi:volume-high" />
     </div>
     <div class="player-animation volume-down" :class="{ visible: animations.volumeDown }">
-      <VolumeLowIcon />
+      <Icon name="mdi:volume-low" />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import ArrowRightIcon from 'vue-material-design-icons/ArrowRight.vue';
-import ArrowLeftIcon from 'vue-material-design-icons/ArrowLeft.vue';
-import VolumeHighIcon from 'vue-material-design-icons/VolumeHigh.vue';
-import VolumeLowIcon from 'vue-material-design-icons/VolumeLow.vue';
-
 export default defineComponent({
-  components: {
-    ArrowRightIcon,
-    ArrowLeftIcon,
-    VolumeHighIcon,
-    VolumeLowIcon
-  },
   props: {
     animations: Object
   }

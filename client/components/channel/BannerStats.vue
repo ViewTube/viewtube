@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import FamilyFriendlyIcon from 'vue-material-design-icons/AccountChildOutline.vue';
-import ArtistIcon from 'vue-material-design-icons/AccountMusicOutline.vue';
-
 import { ApiDto } from 'viewtube/shared';
 
 defineProps<{
@@ -11,12 +8,18 @@ defineProps<{
 
 <template>
   <div class="stats">
-    <FamilyFriendlyIcon
+    <Icon
       v-if="channelInfo.isFamilyFriendly"
       v-tippy="'Family Friendly'"
+      name="mdi:account-child-outline"
       class="family-friendly"
     />
-    <ArtistIcon v-if="channelInfo.isOfficialArtist" v-tippy="'Official Artist'" class="artist" />
+    <Icon
+      v-if="channelInfo.isOfficialArtist"
+      v-tippy="'Official Artist'"
+      name="mdi:account-music-outline"
+      class="artist"
+    />
   </div>
 </template>
 

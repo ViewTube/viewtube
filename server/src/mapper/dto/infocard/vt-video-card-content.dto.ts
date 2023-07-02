@@ -1,4 +1,4 @@
-import { VTThumbnailDto } from "../vt-thumbnail.dto";
+import { VTThumbnailDto } from '../vt-thumbnail.dto';
 
 export class VTVideoCardContentDto {
   type: 'video';
@@ -6,11 +6,11 @@ export class VTVideoCardContentDto {
   title: string;
   author: {
     name: string;
-  }
+  };
   viewCount: number;
   thumbnails: Array<VTThumbnailDto>;
   duration: {
     text: string;
     seconds: number;
-  }
+  };
 }

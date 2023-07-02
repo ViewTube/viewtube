@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import EditIcon from 'vue-material-design-icons/PencilBoxMultipleOutline.vue';
-import SubscriptionIcon from 'vue-material-design-icons/YoutubeSubscription.vue';
-import ImportIcon from 'vue-material-design-icons/Import.vue';
 import SubscriptionImport from '@/components/popup/SubscriptionImport.vue';
 import VideoEntry from '@/components/list/VideoEntry.vue';
 import Spinner from '@/components/Spinner.vue';
@@ -201,7 +198,7 @@ watch(
             class="import-subscriptions-btn"
             :click="() => (subscriptionImportOpen = true)"
           >
-            <ImportIcon />
+            <Icon name="mdi:import" />
             <p>Import subscriptions</p>
           </BadgeButton>
           <BadgeButton
@@ -210,7 +207,7 @@ watch(
             :href="'/subscriptions/manage'"
             :internal-link="true"
           >
-            <EditIcon />
+            <Icon name="mdi:pencil-box-multiple-outline" />
             <p>Manage</p>
           </BadgeButton>
           <SwitchButton
@@ -225,7 +222,7 @@ watch(
       </div>
     </div>
     <div v-if="hasNoSubscriptions && !pending" class="no-subscriptions">
-      <SubscriptionIcon />
+      <Icon name="mdi:youtube-subscription" />
       <p>No subscriptions yet. Subscribe to a channel to see their latest uploads.</p>
     </div>
     <div class="subscription-videos-container">

@@ -10,6 +10,6 @@
     "strictBindCallApply": true,
     "strictNullChecks": false,
     "strictFunctionTypes": false,
-    "types": ["node", "@pinia/nuxt"]
+    "types": ["node", "@pinia/nuxt", "./nuxt.d.ts"]
   }
 }

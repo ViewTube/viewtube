@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import InfoIcon from 'vue-material-design-icons/Information.vue';
-import VerifiedIcon from 'vue-material-design-icons/CheckDecagram.vue';
 import { useLoadingVideoInfoStore } from '@/store/loadingVideoInfo';
 import dayjs from 'dayjs';
 
@@ -222,13 +220,19 @@ const onVideoEntryClick = () => {
           }"
           >{{ video.author?.['name'] ?? video.author ?? video.channel?.name }}</nuxt-link
         >
-        <VerifiedIcon v-if="isVerified" v-tippy="'Verified'" class="verified-icon" title="" />
+        <Icon
+          v-if="isVerified"
+          v-tippy="'Verified'"
+          name="mdi:check-decagram"
+          class="verified-icon"
+          title=""
+        />
       </div>
     </div>
     <div class="video-entry-background" />
     <div v-if="video.description" class="description-btn-container">
       <div v-ripple v-tippy="'Show description'" class="description-btn">
-        <InfoIcon />
+        <Icon name="mdi:information" />
       </div>
     </div>
     <input v-if="video.description" id="show-description" type="checkbox" name="show-description" />

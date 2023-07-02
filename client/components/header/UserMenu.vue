@@ -34,7 +34,7 @@
       @click.prevent="showAccountMenu"
     >
       <div class="user-icon">
-        <AccountIcon v-if="!userStore.profileImage" />
+        <Icon v-if="!userStore.profileImage" name="mdi:account-circle" />
         <div
           v-if="userStore.profileImage"
           class="user-image"
@@ -70,7 +70,7 @@
           <div v-if="accountMenuVisible" class="menu">
             <div v-show="userAuthenticated" class="account-menu">
               <div class="account-icon">
-                <AccountIcon v-if="!userStore.profileImage" />
+                <Icon v-if="!userStore.profileImage" name="mdi:account-circle" />
                 <div
                   v-if="userStore.profileImage"
                   class="user-image"
@@ -101,7 +101,7 @@
                 class="ripple tooltip menu-btn account-btn"
                 @click.self.prevent="login"
               >
-                <div class="menu-btn-content"><AccountIcon />Sign in</div>
+                <div class="menu-btn-content"><Icon name="mdi:account-circle" />Sign in</div>
               </a>
               <a
                 v-show="!userAuthenticated"
@@ -111,7 +111,7 @@
                 class="ripple tooltip menu-btn account-btn"
                 @click.self.prevent="register"
               >
-                <div class="menu-btn-content"><AccountPlusIcon />Sign up</div>
+                <div class="menu-btn-content"><Icon name="mdi:account-plus" />Sign up</div>
               </a>
               <a
                 v-if="$route.name !== 'subscriptions' && userAuthenticated"
@@ -121,7 +121,9 @@
                 class="ripple tooltip menu-btn"
                 @click.self.prevent="openSubscriptions"
               >
-                <div class="menu-btn-content"><SubscriptionIcon />Subscriptions</div>
+                <div class="menu-btn-content">
+                  <Icon name="mdi:youtube-subscription" />Subscriptions
+                </div>
               </a>
               <a
                 id="settings-btn"
@@ -130,7 +132,7 @@
                 class="ripple tooltip menu-btn"
                 @mousedown.self.prevent="openSettings"
               >
-                <div class="menu-btn-content"><SettingsIcon />Settings</div>
+                <div class="menu-btn-content"><Icon name="mdi:cog" />Settings</div>
               </a>
               <a
                 id="about-btn"
@@ -139,7 +141,7 @@
                 class="ripple tooltip menu-btn"
                 @mousedown.self.prevent="openAbout"
               >
-                <div class="menu-btn-content"><AboutIcon />About</div>
+                <div class="menu-btn-content"><Icon name="mdi:information-outline" />About</div>
               </a>
             </div>
           </div>
@@ -150,11 +152,6 @@
 </template>
 
 <script lang="ts">
-import SettingsIcon from 'vue-material-design-icons/Cog.vue';
-import AboutIcon from 'vue-material-design-icons/InformationOutline.vue';
-import AccountIcon from 'vue-material-design-icons/AccountCircle.vue';
-import SubscriptionIcon from 'vue-material-design-icons/YoutubeSubscription.vue';
-import AccountPlusIcon from 'vue-material-design-icons/AccountPlus.vue';
 import LoginForm from '../form/LoginForm.vue';
 import RegisterForm from '../form/RegisterForm.vue';
 import Settings from '@/components/Settings.vue';
@@ -165,11 +162,6 @@ import { usePopupStore } from '@/store/popup';
 export default defineComponent({
   name: 'UserMenu',
   components: {
-    SettingsIcon,
-    AboutIcon,
-    AccountIcon,
-    AccountPlusIcon,
-    SubscriptionIcon,
     Settings,
     About,
     LoginForm,

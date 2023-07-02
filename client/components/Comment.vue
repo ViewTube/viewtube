@@ -1,10 +1,4 @@
 <script setup lang="ts">
-import PenIcon from 'vue-material-design-icons/Pencil.vue';
-import ThumbsUpIcon from 'vue-material-design-icons/ThumbUp.vue';
-import HeartIcon from 'vue-material-design-icons/Heart.vue';
-import CommentIcon from 'vue-material-design-icons/CommentOutline.vue';
-import CommentHideIcon from 'vue-material-design-icons/CommentRemoveOutline.vue';
-import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import { useMessagesStore } from '@/store/messages';
 import { ApiDto } from 'viewtube/shared';
@@ -92,7 +86,7 @@ const loadMoreReplies = () => {
         </div>
 
         <div class="likes comment-property">
-          <ThumbsUpIcon />
+          <Icon name="mdi:thumb-up" />
           <span>{{ comment.likeCount?.toLocaleString('en-US') }}</span>
         </div>
         <div
@@ -100,10 +94,10 @@ const loadMoreReplies = () => {
           v-tippy="`❤ by ${channelAuthorName}`"
           class="creatorHeart comment-property tooltip"
         >
-          <HeartIcon title />
+          <Icon name="mdi:heart" title="" />
         </div>
         <div v-if="comment.isEdited" class="edited comment-property">
-          <PenIcon />
+          <Icon name="mdi:pencil" />
           <span class="edited-text">edited</span>
         </div>
       </div>
@@ -114,7 +108,7 @@ const loadMoreReplies = () => {
           :click="loadReplies"
           :loading="loadingReplies"
         >
-          <CommentIcon />
+          <Icon name="mdi:comment-outline" />
           <p>
             show
             {{ comment.replyCount?.toLocaleString('en-US') }}
@@ -122,7 +116,7 @@ const loadMoreReplies = () => {
           </p>
         </BadgeButton>
         <BadgeButton v-if="repliesLoaded" class="comment-reply-count" :click="hideReplies">
-          <CommentHideIcon />
+          <Icon name="mdi:comment-remove-outline" />
           <p>hide replies</p>
         </BadgeButton>
         <div v-if="repliesLoaded" class="comment-replies-list">
@@ -140,7 +134,7 @@ const loadMoreReplies = () => {
             :click="loadMoreReplies"
             :loading="repliesContinuationLoading"
           >
-            <LoadMoreIcon />
+            <Icon name="mdi:reload" />
             <p>Show more</p>
           </BadgeButton>
         </div>

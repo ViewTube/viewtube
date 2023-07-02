@@ -15,12 +15,13 @@ const { data: homeFeedData, error: homeFeedError, pending: homeFeedLoading } = u
       description="An alternative YouTube frontend"
     />
     <Spinner v-if="homeFeedLoading" class="centered" />
-    <ErrorPage
-      v-if="homeFeedError"
-      text="Error loading homepage. The API may not be reachable."
-    />
+    <ErrorPage v-if="homeFeedError" text="Error loading homepage. The API may not be reachable." />
     <HomeSubscriptions v-if="userStore.isLoggedIn && settingsStore.showHomeSubscriptions" />
-    <HomeVideosContainer v-if="homeFeedData?.videos" :videos="homeFeedData?.videos"  :short="settingsStore.showHomeSubscriptions"  />
+    <HomeVideosContainer
+      v-if="homeFeedData?.videos"
+      :videos="homeFeedData?.videos"
+      :short="settingsStore.showHomeSubscriptions"
+    />
   </div>
 </template>
 

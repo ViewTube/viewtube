@@ -1,10 +1,4 @@
 <script setup lang="ts">
-import ThumbsUp from 'vue-material-design-icons/ThumbUp.vue';
-import ThumbsDown from 'vue-material-design-icons/ThumbDown.vue';
-import InfoIcon from 'vue-material-design-icons/Information.vue';
-import Share from 'vue-material-design-icons/Share.vue';
-import LoadMoreIcon from 'vue-material-design-icons/Reload.vue';
-import VerifiedIcon from 'vue-material-design-icons/CheckDecagram.vue';
 import { Result } from 'ytpl';
 import NextUpVideo from '@/components/watch/NextUpVideo.vue';
 import Spinner from '@/components/Spinner.vue';
@@ -315,13 +309,13 @@ const watchPageTitle = computed(() => {
           <div v-if="video.likeCount" class="infobox-rating">
             <div class="infobox-likecount">
               <div class="infobox-likes">
-                <ThumbsUp class="thumbs-icon" />
+                <Icon name="mdi:thumb-up" class="thumbs-icon" />
                 <p class="like-count">
                   {{ video.likeCount?.toLocaleString('en-US') }}
                 </p>
               </div>
               <div class="infobox-dislikes">
-                <ThumbsDown class="thumbs-icon" />
+                <Icon name="mdi:thumb-down" class="thumbs-icon" />
                 <p class="dislike-count">
                   {{ dislikeCount?.toLocaleString('en-US') }}
                 </p>
@@ -331,7 +325,10 @@ const watchPageTitle = computed(() => {
                   target="_blank"
                   rel="noreferrer noopener"
                 >
-                  <InfoIcon v-tippy="'Dislike information provided by returnyoutubedislike.com'" />
+                  <Icon
+                    v-tippy="'Dislike information provided by returnyoutubedislike.com'"
+                    name="mdi:information"
+                  />
                 </a>
               </div>
             </div>
@@ -360,7 +357,7 @@ const watchPageTitle = computed(() => {
             <div class="infobox-channel-info">
               <nuxt-link :to="`/${video.author.handle}`" class="infobox-channel-name">
                 <p>{{ video.author.name }}</p>
-                <VerifiedIcon v-if="video.author.isVerified" />
+                <Icon v-if="video.author.isVerified" name="mdi:check-decagram" />
               </nuxt-link>
               <p v-if="video.author.subscriberCount" class="infobox-channel-subcount">
                 {{ video.author.subscriberCount }}
@@ -381,7 +378,7 @@ const watchPageTitle = computed(() => {
         </div>
         <div class="video-actions">
           <BadgeButton style="color: #efbb00" :click="() => (shareOpen = !shareOpen)">
-            <Share class="share-icon" />
+            <Icon name="mdi:share" class="share-icon" />
             Share
           </BadgeButton>
         </div>
@@ -419,7 +416,7 @@ const watchPageTitle = computed(() => {
           <div v-if="commentsError" class="comments-error">
             <p>Error loading comments. They might be disabled for this video.</p>
             <BadgeButton :click="reloadComments" :loading="commentsLoading"
-              ><LoadMoreIcon />Try again</BadgeButton
+              ><Icon name="mdi:reload" />Try again</BadgeButton
             >
           </div>
           <div v-if="!commentsLoading && commentObject" class="comments-container">
@@ -435,7 +432,7 @@ const watchPageTitle = computed(() => {
               :click="loadMoreComments"
               :loading="commentsContinuationLoading"
             >
-              <LoadMoreIcon />
+              <Icon name="mdi:reload" />
               <p>Show more</p>
             </BadgeButton>
           </div>

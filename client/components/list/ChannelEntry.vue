@@ -30,7 +30,13 @@
           :to="{ path: '/channel/' + (channel.authorId ? channel.authorId : channel.channelID) }"
           >{{ channel.author ? channel.author : channel.name }}</nuxt-link
         >
-        <VerifiedIcon v-if="channel.verified" v-tippy="'Verified'" class="tooltip" title="" />
+        <Icon
+          v-if="channel.verified"
+          v-tippy="'Verified'"
+          name="mdi:check-decagram"
+          class="tooltip"
+          title=""
+        />
       </div>
       <div class="channel-entry-stats">
         <p class="channel-entry-videocount">
@@ -52,11 +58,8 @@
 </template>
 
 <script lang="ts">
-import VerifiedIcon from 'vue-material-design-icons/CheckDecagram.vue';
-
 export default defineComponent({
   name: 'ChannelEntry',
-  components: { VerifiedIcon },
   props: {
     channel: Object,
     horizontal: Boolean

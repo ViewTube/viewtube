@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import ChevronRightIcon from 'vue-material-design-icons/ChevronRight.vue';
-
 withDefaults(
   defineProps<{
     title: string;
@@ -18,7 +16,7 @@ withDefaults(
   <div class="section-title">
     <nuxt-link v-if="link" class="title" :to="link">
       {{ title }}
-      <ChevronRightIcon />
+      <Icon name="mdi:chevron-right" />
     </nuxt-link>
     <h2 v-else class="title">
       {{ title }}

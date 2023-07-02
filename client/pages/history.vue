@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import RestartOffIcon from 'vue-material-design-icons/RestartOff.vue';
 import 'vue-datepicker-next/index.css';
 import SectionTitle from '@/components/SectionTitle.vue';
 import Pagination from '@/components/pagination/Pagination.vue';
@@ -140,7 +139,7 @@ watch(
       </div>
     </details>
     <div v-if="history && !settingsStore.saveVideoHistory" class="no-history">
-      <RestartOffIcon />
+      <Icon name="mdi:restart-off" />
       <p>Video history is disabled. You can enable it in settings.</p>
     </div>
     <HistoryList

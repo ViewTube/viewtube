@@ -88,7 +88,7 @@ export const videoPlayerSetup = (
       // console.log(url);
       return {
         ...format,
-        url: format.url,
+        url: format.url
       };
     });
   });

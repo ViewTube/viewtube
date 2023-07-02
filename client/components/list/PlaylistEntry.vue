@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import VerifiedIcon from 'vue-material-design-icons/CheckDecagram.vue';
-import PlaylistIcon from 'vue-material-design-icons/PlaylistPlay.vue';
-
 export type PlaylistEntryType = {
   title: string;
   playlistId?: string;
@@ -73,7 +70,7 @@ const playlistLink = computed((): string => {
         />
       </div>
       <div class="playlist-entry-count">
-        <PlaylistIcon class="playlist-icon" />
+        <Icon name="mdi:playlist-play" class="playlist-icon" />
         <span v-if="playlist.videoCountString" class="count-text">{{
           playlist.videoCountString
         }}</span>
@@ -102,9 +99,10 @@ const playlistLink = computed((): string => {
           :to="'/channel/' + playlist.owner.channelID"
           >{{ playlist.owner.name }}</nuxt-link
         >
-        <VerifiedIcon
+        <Icon
           v-if="playlist.owner && playlist.owner.verified"
           v-tippy="'Verified'"
+          name="mdi:check-decagram"
           class="tooltip"
           title=""
         />

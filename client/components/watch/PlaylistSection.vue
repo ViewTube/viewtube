@@ -15,7 +15,7 @@
           }"
           class="playlist-action"
         >
-          <SkipPreviousIcon :title="null" />
+          <Icon name="mdi:skip-previous" :title="null" />
         </nuxt-link>
         <nuxt-link
           v-ripple
@@ -28,7 +28,7 @@
           }"
           class="playlist-action"
         >
-          <SkipNextIcon :title="null" />
+          <Icon name="mdi:skip-next" :title="null" />
         </nuxt-link>
         <button
           v-ripple
@@ -37,7 +37,7 @@
           :class="{ enabled: repeatEnabled }"
           @click.stop.prevent="onRepeatToggle"
         >
-          <RepeatIcon :title="null" />
+          <Icon name="mdi:repeat" :title="null" />
         </button>
         <button
           v-ripple
@@ -46,7 +46,7 @@
           :class="{ enabled: shuffleEnabled }"
           @click.stop.prevent="onShuffleToggle"
         >
-          <ShuffleIcon :title="null" />
+          <Icon name="mdi:shuffle" :title="null" />
         </button>
         <button
           v-ripple
@@ -55,7 +55,7 @@
           :class="{ enabled: reverseEnabled }"
           @click.stop.prevent="onReverseToggle"
         >
-          <ReverseIcon :title="null" />
+          <Icon name="mdi:rotate-left" :title="null" />
         </button>
       </div>
     </div>
@@ -89,23 +89,11 @@
 </template>
 
 <script lang="ts">
-import SkipPreviousIcon from 'vue-material-design-icons/SkipPrevious.vue';
-import SkipNextIcon from 'vue-material-design-icons/SkipNext.vue';
-import RepeatIcon from 'vue-material-design-icons/Repeat.vue';
-import ShuffleIcon from 'vue-material-design-icons/Shuffle.vue';
-import ReverseIcon from 'vue-material-design-icons/RotateLeft.vue';
 import { Result } from 'ytpl';
 import { PropType } from 'vue';
 
 export default defineComponent({
   name: 'PlaylistSection',
-  components: {
-    SkipPreviousIcon,
-    SkipNextIcon,
-    RepeatIcon,
-    ShuffleIcon,
-    ReverseIcon
-  },
   props: {
     playlist: Object as PropType<Result>,
     currentVideoId: String

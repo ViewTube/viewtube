@@ -49,7 +49,7 @@ const loadMore = async () => {
         :loading="morePending"
         @click.prevent="loadMore"
       >
-        <LoadMoreIcon />
+        <Icon name="mdi:reload" />
         <p>Show more</p>
       </BadgeButton>
     </div>

@@ -1,7 +1,5 @@
 {
   "prettier.prettierPath": "node_modules/prettier/index.js",
   "typescript.tsdk": "node_modules/typescript/lib",
-  "githubPullRequests.ignoredPullRequestBranches": [
-    "development"
-  ]
+  "githubPullRequests.ignoredPullRequestBranches": ["development"]
 }

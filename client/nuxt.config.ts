@@ -37,7 +37,12 @@ export default defineNuxtConfig({
     }
   },
 
-  modules: ['@pinia/nuxt', '@pinia-plugin-persistedstate/nuxt', ...devOnly(['nuxt-proxy'])],
+  modules: [
+    '@pinia/nuxt',
+    '@pinia-plugin-persistedstate/nuxt',
+    'nuxt-icon',
+    ...devOnly(['nuxt-proxy'])
+  ],
 
   piniaPersistedstate: {
     cookieOptions: {

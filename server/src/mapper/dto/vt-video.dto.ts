@@ -17,10 +17,10 @@ export class VTVideoDto {
   duration?: {
     text: string;
     seconds: number;
-  }
+  };
   published?: {
     date?: Date;
-    text?: string
+    text?: string;
   };
   viewCount?: number;
   upcoming?: Date;

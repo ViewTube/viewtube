@@ -1,7 +1,7 @@
 <template>
   <div class="subscriptions-import popup">
     <div class="popup-container subscriptions-import-container">
-      <CloseIcon v-ripple class="close-icon" @click.stop="$emit('close')" />
+      <Icon v-ripple name="mdi:close" class="close-icon" @click.stop="$emit('close')" />
       <h1>
         {{
           loading
@@ -13,7 +13,7 @@
       </h1>
       <div class="pages-container" :class="{ 'page-2': page2 }">
         <div class="page-container page-1-container">
-          <h2><YoutubeIcon />Import from Youtube</h2>
+          <h2><Icon name="mdi:youtube" />Import from Youtube</h2>
           <ol>
             <li class="links">
               Go to
@@ -30,7 +30,7 @@
             <li>Upload the file "subscriptions.csv" here.</li>
           </ol>
           <FileButton :label="'Upload CSV'" @change="onYTTakeoutFileChange" />
-          <h2><XmlIcon />Import from Invidious / OPML</h2>
+          <h2><Icon name="mdi:xml" />Import from Invidious / OPML</h2>
           <FileButton :label="'Upload OPML'" @change="onOPMLFileChange" />
         </div>
         <div
@@ -41,17 +41,17 @@
           <div class="list-actions">
             <div class="left">
               <BadgeButton :click="selectAll">
-                <SelectAllIcon />
+                <Icon name="mdi:select-all" />
                 <p>Select all</p>
               </BadgeButton>
               <BadgeButton :click="unselectAll">
-                <UnselectAllIcon />
+                <Icon name="mdi:select" />
                 <p>Unselect all</p>
               </BadgeButton>
             </div>
             <div class="right">
               <BadgeButton :click="importSelected" :disabled="anySelectedChannel">
-                <ImportIcon />
+                <Icon name="mdi:import" />
                 <p>Import</p>
               </BadgeButton>
             </div>
@@ -108,7 +108,7 @@
                 :key="subscription.authorId"
                 :href="`/channel/${subscription.authorId}`"
                 target="_blank"
-                ><ExternalIcon />{{ subscription.author }}</a
+                ><Icon name="mdi:open-in-new" />{{ subscription.author }}</a
               >
             </div>
           </div>
@@ -124,14 +124,6 @@
 </template>
 
 <script lang="ts">
-import CloseIcon from 'vue-material-design-icons/Close.vue';
-import YoutubeIcon from 'vue-material-design-icons/Youtube.vue';
-import ImportIcon from 'vue-material-design-icons/Import.vue';
-import SelectAllIcon from 'vue-material-design-icons/SelectAll.vue';
-import ExternalIcon from 'vue-material-design-icons/OpenInNew.vue';
-import UnselectAllIcon from 'vue-material-design-icons/Select.vue';
-import XmlIcon from 'vue-material-design-icons/Xml.vue';
-
 import CheckBox from '@/components/form/CheckBox.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import FileButton from '@/components/form/FileButton.vue';
@@ -148,17 +140,10 @@ class ChannelDto {
 export default defineComponent({
   name: 'SubscriptionsImport',
   components: {
-    CloseIcon,
-    YoutubeIcon,
     CheckBox,
     BadgeButton,
     FileButton,
-    ImportIcon,
-    SelectAllIcon,
-    UnselectAllIcon,
-    Spinner,
-    ExternalIcon,
-    XmlIcon
+    Spinner
   },
   setup(_, { emit }) {
     const messagesStore = useMessagesStore();

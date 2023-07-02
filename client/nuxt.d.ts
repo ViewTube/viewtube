@@ -11,4 +11,5 @@ declare module '@nuxt/schema' {
     proxy?: ModuleOptions;
   }
 }
+
 export {};

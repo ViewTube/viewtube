@@ -1,4 +1,4 @@
-import { VTThumbnailDto } from "../dto/vt-thumbnail.dto";
+import { VTThumbnailDto } from '../dto/vt-thumbnail.dto';
 
 export const generateVideoThumbnails = (id: string): Array<VTThumbnailDto> => {
   return [
