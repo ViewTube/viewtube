@@ -1,14 +1,9 @@
 import { ModuleOptions } from 'nuxt-proxy';
+import { NuxtAppConfig } from 'nuxt/schema';
 
 declare module '#app' {
   interface PageMeta {
     headless?: boolean;
-  }
-}
-
-declare module '@nuxt/schema' {
-  interface NuxtConfig {
-    proxy?: ModuleOptions;
   }
 }
 

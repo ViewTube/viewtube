@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import IconUsername from '~icons/mdi/account-outline.vue';
 const props = defineProps<{
   type?: string;
   modelValue: string;
@@ -35,6 +36,7 @@ const autocompleteTag = computed((): string => autocompleteTags[props.type] ?? '
       :value="modelValue"
       @input="(e: any) => $emit('update:modelValue', e.target.value)"
     />
+    <VTIcon name="mdi:account-outline" />
     <Icon v-if="type === 'username'" name="mdi:account-outline" />
     <Icon v-if="type === 'password'" name="mdi:key-outline" />
     <Icon v-if="type === 'email'" name="mdi:at" />

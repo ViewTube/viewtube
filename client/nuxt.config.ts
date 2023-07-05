@@ -1,4 +1,7 @@
 import { devOnly } from './utils/devOnly';
+import IconsResolver from 'unplugin-icons/resolver';
+import Icons from 'unplugin-icons/vite';
+import Components from 'unplugin-vue-components/vite';
 
 export default defineNuxtConfig({
   runtimeConfig: {
@@ -34,15 +37,28 @@ export default defineNuxtConfig({
           `
         }
       }
-    }
+    },
+    plugins: [
+      Components({
+        resolvers: [IconsResolver()]
+      }),
+      Icons({})
+    ]
   },
 
   modules: [
     '@pinia/nuxt',
     '@pinia-plugin-persistedstate/nuxt',
     'nuxt-icon',
+    'unplugin-icons/nuxt',
     ...devOnly(['nuxt-proxy'])
   ],
+
+  vue: {
+    compilerOptions: {
+      isCustomElement: tag => tag.startsWith('i-')
+    }
+  },
 
   piniaPersistedstate: {
     cookieOptions: {
