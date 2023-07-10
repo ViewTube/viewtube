@@ -81,8 +81,8 @@ importers:
         specifier: 2.0.1
         version: 2.0.1
       humanize-duration:
-        specifier: 3.28.0
-        version: 3.28.0
+        specifier: 3.29.0
+        version: 3.29.0
       js-sha256:
         specifier: 0.9.0
         version: 0.9.0
@@ -237,8 +237,8 @@ importers:
         specifier: 7.0.0
         version: 7.0.0
       humanize-duration:
-        specifier: 3.28.0
-        version: 3.28.0
+        specifier: 3.29.0
+        version: 3.29.0
       ioredis:
         specifier: 5.3.2
         version: 5.3.2
@@ -7595,8 +7595,8 @@ packages:
     engines: {node: '>=14.18.0'}
     dev: true
 
-  /humanize-duration@3.28.0:
-    resolution: {integrity: sha512-jMAxraOOmHuPbffLVDKkEKi/NeG8dMqP8lGRd6Tbf7JgAeG33jjgPWDbXXU7ypCI0o+oNKJFgbSB9FKVdWNI2A==}
+  /humanize-duration@3.29.0:
+    resolution: {integrity: sha512-G5wZGwYTLaQAmYqhfK91aw3xt6wNbJW1RnWDh4qP1PvF4T/jnkjx2RVhG5kzB2PGsYGTn+oSDBQp+dMdILLxcg==}
 
   /iconv-lite@0.4.24:
     resolution: {integrity: sha512-v3MXnZAcvnywkTUEZomIActle7RXXeedOR31wwl7VlyoXO4Qi9arvSenNQWne1TcRwhCL1HwLI21bEqdpj8/rA==}
