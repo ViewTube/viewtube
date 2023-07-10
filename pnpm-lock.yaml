@@ -87,8 +87,8 @@ importers:
         specifier: 0.9.0
         version: 0.9.0
       keen-slider:
-        specifier: 6.8.5
-        version: 6.8.5
+        specifier: 6.8.6
+        version: 6.8.6
       modern-js-ripple:
         specifier: 1.1.3
         version: 1.1.3
@@ -8591,8 +8591,8 @@ packages:
     engines: {node: '>=12.0.0'}
     dev: false
 
-  /keen-slider@6.8.5:
-    resolution: {integrity: sha512-9yoosfffgTCrkmbX8kCUMWsn9KDgPSkxBof5/0yXde001D1xao7i9ppfxQCCK0MLnoCa+Rdssby0jFbTTUM4rw==}
+  /keen-slider@6.8.6:
+    resolution: {integrity: sha512-dcEQ7GDBpCjUQA8XZeWh3oBBLLmyn8aoeIQFGL/NTVkoEOsmlnXqA4QykUm/SncolAZYGsEk/PfUhLZ7mwMM2w==}
     dev: true
 
   /kleur@3.0.3:
