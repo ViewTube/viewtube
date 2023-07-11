@@ -234,8 +234,8 @@ importers:
         specifier: 4.19.2
         version: 4.19.2
       https-proxy-agent:
-        specifier: 7.0.0
-        version: 7.0.0
+        specifier: 7.0.1
+        version: 7.0.1
       humanize-duration:
         specifier: 3.29.0
         version: 3.29.0
@@ -7595,8 +7595,8 @@ packages:
       - supports-color
     dev: true
 
-  /https-proxy-agent@7.0.0:
-    resolution: {integrity: sha512-0euwPCRyAPSgGdzD1IVN9nJYHtBhJwb6XPfbpQcYbPCwrBidX6GzxmchnaF4sfF/jPb74Ojx5g4yTg3sixlyPw==}
+  /https-proxy-agent@7.0.1:
+    resolution: {integrity: sha512-Eun8zV0kcYS1g19r78osiQLEFIRspRUDd9tIfBCTBPBeMieF/EsJNL8VI3xOIdYRDEkjQnqOYPsZ2DsWsVsFwQ==}
     engines: {node: '>= 14'}
     dependencies:
       agent-base: 7.1.0
@@ -12273,7 +12273,7 @@ packages:
     dependencies:
       asn1.js: 5.4.1
       http_ece: 1.1.0
-      https-proxy-agent: 7.0.0
+      https-proxy-agent: 7.0.1
       jws: 4.0.0
       minimist: 1.2.8
     transitivePeerDependencies:
