@@ -276,8 +276,8 @@ importers:
         specifier: 7.8.1
         version: 7.8.1
       sharp:
-        specifier: 0.32.2
-        version: 0.32.2
+        specifier: 0.32.3
+        version: 0.32.3
       svg-captcha:
         specifier: 1.4.0
         version: 1.4.0
@@ -2919,7 +2919,7 @@ packages:
       pathe: 1.1.1
       pkg-types: 1.0.3
       scule: 1.0.0
-      semver: 7.5.3
+      semver: 7.5.4
       unctx: 2.3.1
       unimport: 2.2.4
       untyped: 1.3.2
@@ -2945,7 +2945,7 @@ packages:
       pathe: 1.1.1
       pkg-types: 1.0.3
       scule: 1.0.0
-      semver: 7.5.3
+      semver: 7.5.4
       unctx: 2.3.1
       unimport: 3.0.14(rollup@3.26.0)
       untyped: 1.3.2
@@ -4296,7 +4296,7 @@ packages:
       debug: 4.3.4(supports-color@8.1.1)
       globby: 11.1.0
       is-glob: 4.0.3
-      semver: 7.5.3
+      semver: 7.5.4
       tsutils: 3.21.0(typescript@5.1.6)
       typescript: 5.1.6
     transitivePeerDependencies:
@@ -4359,7 +4359,7 @@ packages:
       '@typescript-eslint/typescript-estree': 5.60.1(typescript@5.1.6)
       eslint: 8.44.0
       eslint-scope: 5.1.1
-      semver: 7.5.3
+      semver: 7.5.4
     transitivePeerDependencies:
       - supports-color
       - typescript
@@ -4379,7 +4379,7 @@ packages:
       '@typescript-eslint/typescript-estree': 5.62.0(typescript@4.9.5)
       eslint: 8.44.0
       eslint-scope: 5.1.1
-      semver: 7.5.3
+      semver: 7.5.4
     transitivePeerDependencies:
       - supports-color
       - typescript
@@ -4399,7 +4399,7 @@ packages:
       '@typescript-eslint/typescript-estree': 5.62.0(typescript@5.1.6)
       eslint: 8.44.0
       eslint-scope: 5.1.1
-      semver: 7.5.3
+      semver: 7.5.4
     transitivePeerDependencies:
       - supports-color
       - typescript
@@ -6915,7 +6915,7 @@ packages:
       proxy-addr: 2.0.7
       rfdc: 1.3.0
       secure-json-parse: 2.7.0
-      semver: 7.5.3
+      semver: 7.5.4
       tiny-lru: 11.0.1
     transitivePeerDependencies:
       - supports-color
@@ -8574,7 +8574,7 @@ packages:
       jws: 3.2.2
       lodash: 4.17.21
       ms: 2.1.3
-      semver: 7.5.3
+      semver: 7.5.4
     dev: false
 
   /jsprim@2.0.2:
@@ -9177,7 +9177,7 @@ packages:
       md5-file: 5.0.0
       mongodb: 4.16.0
       new-find-package-json: 2.0.0
-      semver: 7.5.3
+      semver: 7.5.4
       tar-stream: 2.2.0
       tslib: 2.6.0
       uuid: 9.0.0
@@ -11031,8 +11031,8 @@ packages:
   /setprototypeof@1.2.0:
     resolution: {integrity: sha512-E5LDX7Wrp85Kil5bhZv46j8jOeboKq5JMmYM3gVGdGH8xFpPWXUMsNrlODCrkoxMEeNi/XZIwuRvY4XNwYMJpw==}
 
-  /sharp@0.32.2:
-    resolution: {integrity: sha512-e4hyWKtU7ks/rLmoPys476zhpQnLqPJopz4+5b6OPeyJfvCTInAp0pe5tGhstjsNdUvDLrUVGEwevewYdZM8Eg==}
+  /sharp@0.32.3:
+    resolution: {integrity: sha512-i1gFPiNqyqxC4ouVvCKj5G8WfPIMeeSxpKcMrjic6NY4e8zktW7bIdqHPc3FCG+pNKU/XCEabKA57hhvZi8UmQ==}
     engines: {node: '>=14.15.0'}
     requiresBuild: true
     dependencies:
@@ -12238,7 +12238,7 @@ packages:
       espree: 9.6.0
       esquery: 1.5.0
       lodash: 4.17.21
-      semver: 7.5.3
+      semver: 7.5.4
     transitivePeerDependencies:
       - supports-color
     dev: true
