@@ -78,7 +78,7 @@
     "ytsr": "3.8.2"
   },
   "devDependencies": {
-    "@nestjs/cli": "10.1.8",
+    "@nestjs/cli": "10.1.9",
     "@nestjs/websockets": "10.0.4",
     "@types/archiver": "5.3.2",
     "@types/bcryptjs": "2.4.2",
