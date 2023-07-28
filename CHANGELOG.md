@@ -172,7 +172,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Other small fixes
 - Update dependencies
 
-## Added
+### Added
 
 - Store homepage serverside, refreshes once a day from invidious [#254](https://github.com/ViewTube/viewtube/pull/258), [#258](https://github.com/ViewTube/viewtube/pull/254)
 - Sponsorblock support [#253](https://github.com/ViewTube/viewtube/pull/253)
@@ -255,6 +255,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Lots of other improvements
 
 ## [0.1.0] - 2020-09-18
+
+### Added
 
 - Initial release
 
