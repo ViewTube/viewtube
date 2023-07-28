@@ -9,7 +9,7 @@ on:
 jobs:
   create-release-job:
     if: github.ref == 'refs/heads/development'
-    uses: './github/workflows/create-release-workflow.yml'
+    uses: './.github/workflows/create-release-workflow.yml'
     secrets: inherit
 
   build-development-on-push-job:
