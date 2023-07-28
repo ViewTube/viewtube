@@ -7,10 +7,6 @@ jobs:
   create-release:
     name: Create Release
 
-    concurrency:
-      group: ${{ github.workflow }}-${{ github.ref }}
-      cancel-in-progress: true
-
     runs-on: ubuntu-22.04
 
     steps:
