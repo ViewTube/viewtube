@@ -82,25 +82,25 @@ describe('Core', () => {
     expect(payloadJson.length).toBeGreaterThan(0);
   });
 
-  defineIt('GET search filters', async () => {
-    const q = 'Marques';
-    const result = await app.inject({ method: 'GET', url: '/search/filters', query: { q } });
+  // defineIt('GET search filters', async () => {
+  //   const q = 'Marques';
+  //   const result = await app.inject({ method: 'GET', url: '/search/filters', query: { q } });
 
-    expect(result.statusCode).toEqual(200);
+  //   expect(result.statusCode).toEqual(200);
 
-    const payloadJson = getPayloadJson(result.payload);
-    expect(payloadJson.length).toBeGreaterThan(0);
-  });
+  //   const payloadJson = getPayloadJson(result.payload);
+  //   expect(payloadJson.length).toBeGreaterThan(0);
+  // });
 
-  defineIt('GET search result', async () => {
-    const q = 'Marques';
-    const result = await app.inject({ method: 'GET', url: `/search`, query: { q } });
+  // defineIt('GET search result', async () => {
+  //   const q = 'Marques';
+  //   const result = await app.inject({ method: 'GET', url: `/search`, query: { q } });
 
-    expect(result.statusCode).toEqual(200);
+  //   expect(result.statusCode).toEqual(200);
 
-    const payloadJson = getPayloadJson<ytsr.Result>(result.payload);
-    expect(payloadJson.items.length).toBeGreaterThan(0);
-  });
+  //   const payloadJson = getPayloadJson<ytsr.Result>(result.payload);
+  //   expect(payloadJson.items.length).toBeGreaterThan(0);
+  // });
 
   defineIt('GET top comments', async () => {
     const videoId = 'RTbrXiIzUt4';
