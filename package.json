@@ -4,11 +4,11 @@
   "author": "Maurice Oegerli",
   "country": "Switzerland",
   "email": "viewtube@m-o.dev",
-  "version": "0.10.0",
+  "version": "0.11.0",
   "license": "AGPLv3",
   "engines": {
     "node": ">=18.16.0",
-    "pnpm": ">=8.2.0"
+    "pnpm": ">=8.6.0"
   },
   "scripts": {
     "build": "pnpm --filter=* run build",
