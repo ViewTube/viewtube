@@ -29,7 +29,7 @@
         </div>
         <div class="control-btns">
           <nuxt-link :to="`/results?search_query=${searchValue}`" class="reset-btn btn"
-            ><Icon name="mdi:undo" />Reset</nuxt-link
+            ><VTIcon name="mdi:undo" />Reset</nuxt-link
           >
         </div>
       </div>

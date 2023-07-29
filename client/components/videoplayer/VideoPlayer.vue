@@ -59,7 +59,7 @@
           </h1>
         </div>
         <div class="right-top-controls">
-          <Icon
+          <VTIcon
             v-if="embedded || mini"
             v-tippy="'Open in full player'"
             name="mdi:open-in-new"
@@ -69,7 +69,7 @@
             @mouseup.prevent.stop="onOpenInPlayerMouseUp"
             @touchend.prevent.stop="onOpenInPlayer"
           />
-          <!-- <Icon name="mdi:arrow-expand"
+          <!-- <VTIcon name="mdi:arrow-expand"
             v-if="!videoElement.zoomed"
             v-tippy="'Zoom video'"
             class="tooltip"
@@ -78,7 +78,7 @@
             @mouseup="onVideoExpandMouseUp"
             @touchend.stop="onVideoExpand"
           />
-          <Icon name="mdi:arrow-collapse"
+          <VTIcon name="mdi:arrow-collapse"
             v-if="videoElement.zoomed"
             v-tippy="'Revert zoom'"
             class="tooltip"
@@ -87,7 +87,7 @@
             @mouseup="onVideoCollapseMouseUp"
             @touchend.stop="onVideoCollapse"
           />-->
-          <Icon
+          <VTIcon
             v-if="mini"
             v-tippy="'Close'"
             name="mdi:close"
@@ -253,8 +253,8 @@
         </div>
         <div class="bottom-controls">
           <div class="left-bottom-controls">
-            <Icon v-if="videoElement.playing" name="mdi:pause" />
-            <Icon v-if="!videoElement.playing" name="mdi:play" />
+            <VTIcon v-if="videoElement.playing" name="mdi:pause" />
+            <VTIcon v-if="!videoElement.playing" name="mdi:play" />
             <VolumeControl
               v-model.number="videoElement.playerVolume"
               v-tippy="'Change volume'"
@@ -287,7 +287,7 @@
               @autoadjustchange="onAutoAdjustChange"
               @refreshrecommended="onRefreshRecommendedQuality"
             />
-            <Icon
+            <VTIcon
               v-if="!fullscreen"
               v-tippy="'Enter Fullscreen'"
               name="mdi:fullscreen"
@@ -296,7 +296,7 @@
               @mouseup.prevent.stop="onEnterFullscreenMouseUp"
               @touchend.prevent="onEnterFullscreen"
             />
-            <Icon
+            <VTIcon
               v-if="fullscreen"
               v-tippy="'Leave fullscreen'"
               name="mdi:fullscreen-exit"

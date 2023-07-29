@@ -23,7 +23,7 @@ const hidePlaceholder = () => {
       <transition name="fade">
         <div v-if="placeholderVisible" class="video-embed-placeholder" @click="hidePlaceholder">
           <img class="placeholder-image" :src="placeholderImageSrc" />
-          <Icon name="mdi:play" class="placeholder-play-btn" />
+          <VTIcon name="mdi:play" class="placeholder-play-btn" />
         </div>
         <iframe v-else class="video-embed-iframe" :src="`/embed/${featuredVideo?.videoId}`" />
       </transition>

@@ -86,7 +86,7 @@ const loadMoreReplies = () => {
         </div>
 
         <div class="likes comment-property">
-          <Icon name="mdi:thumb-up" />
+          <VTIcon name="mdi:thumb-up" />
           <span>{{ comment.likeCount?.toLocaleString('en-US') }}</span>
         </div>
         <div
@@ -94,10 +94,10 @@ const loadMoreReplies = () => {
           v-tippy="`❤ by ${channelAuthorName}`"
           class="creatorHeart comment-property tooltip"
         >
-          <Icon name="mdi:heart" title="" />
+          <VTIcon name="mdi:heart" title="" />
         </div>
         <div v-if="comment.isEdited" class="edited comment-property">
-          <Icon name="mdi:pencil" />
+          <VTIcon name="mdi:pencil" />
           <span class="edited-text">edited</span>
         </div>
       </div>
@@ -108,7 +108,7 @@ const loadMoreReplies = () => {
           :click="loadReplies"
           :loading="loadingReplies"
         >
-          <Icon name="mdi:comment-outline" />
+          <VTIcon name="mdi:comment-outline" />
           <p>
             show
             {{ comment.replyCount?.toLocaleString('en-US') }}
@@ -116,7 +116,7 @@ const loadMoreReplies = () => {
           </p>
         </BadgeButton>
         <BadgeButton v-if="repliesLoaded" class="comment-reply-count" :click="hideReplies">
-          <Icon name="mdi:comment-remove-outline" />
+          <VTIcon name="mdi:comment-remove-outline" />
           <p>hide replies</p>
         </BadgeButton>
         <div v-if="repliesLoaded" class="comment-replies-list">
@@ -134,7 +134,7 @@ const loadMoreReplies = () => {
             :click="loadMoreReplies"
             :loading="repliesContinuationLoading"
           >
-            <Icon name="mdi:reload" />
+            <VTIcon name="mdi:reload" />
             <p>Show more</p>
           </BadgeButton>
         </div>

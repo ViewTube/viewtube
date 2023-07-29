@@ -38,7 +38,7 @@ const { proxyUrl } = useImgProxy();
             <p class="related-channel-title-text">
               {{ channel.channelName }}
             </p>
-            <Icon name="mdi:check-decagram" class="verified-icon" />
+            <VTIcon name="mdi:check-decagram" class="verified-icon" />
           </div>
           <p v-if="channel.subscriberText" class="subscriber-count">{{ channel.subscriberText }}</p>
           <p v-if="channel.videoCount" class="video-count">

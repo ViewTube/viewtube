@@ -65,7 +65,7 @@ const sortBy = computed<ChannelVideosSortOptionsType | ChannelPlaylistsSortOptio
         :loading="morePending"
         @click.prevent="$emit('load-more')"
       >
-        <Icon name="mdi:reload" />
+        <VTIcon name="mdi:reload" />
         <p>Show more</p>
       </BadgeButton>
     </div>

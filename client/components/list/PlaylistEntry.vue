@@ -70,7 +70,7 @@ const playlistLink = computed((): string => {
         />
       </div>
       <div class="playlist-entry-count">
-        <Icon name="mdi:playlist-play" class="playlist-icon" />
+        <VTIcon name="mdi:playlist-play" class="playlist-icon" />
         <span v-if="playlist.videoCountString" class="count-text">{{
           playlist.videoCountString
         }}</span>
@@ -99,7 +99,7 @@ const playlistLink = computed((): string => {
           :to="'/channel/' + playlist.owner.channelID"
           >{{ playlist.owner.name }}</nuxt-link
         >
-        <Icon
+        <VTIcon
           v-if="playlist.owner && playlist.owner.verified"
           v-tippy="'Verified'"
           name="mdi:check-decagram"

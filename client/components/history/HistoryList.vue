@@ -77,7 +77,7 @@ const deleteEntry = async (videoId: string) => {
         </div>
       </div>
       <BadgeButton v-if="deleteOption" class="delete-btn" :click="() => deleteEntry(video.videoId)"
-        ><Icon name="mdi:delete"
+        ><VTIcon name="mdi:delete"
       /></BadgeButton>
     </div>
   </div>

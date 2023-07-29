@@ -220,7 +220,7 @@ const onVideoEntryClick = () => {
           }"
           >{{ video.author?.['name'] ?? video.author ?? video.channel?.name }}</nuxt-link
         >
-        <Icon
+        <VTIcon
           v-if="isVerified"
           v-tippy="'Verified'"
           name="mdi:check-decagram"
@@ -232,7 +232,7 @@ const onVideoEntryClick = () => {
     <div class="video-entry-background" />
     <div v-if="video.description" class="description-btn-container">
       <div v-ripple v-tippy="'Show description'" class="description-btn">
-        <Icon name="mdi:information" />
+        <VTIcon name="mdi:information" />
       </div>
     </div>
     <input v-if="video.description" id="show-description" type="checkbox" name="show-description" />

@@ -1,5 +1,5 @@
 <template>
-  <div class="information-hint"><slot /><Icon name="mdi:information" /></div>
+  <div class="information-hint"><slot /><VTIcon name="mdi:information" /></div>
 </template>
 
 <script lang="ts">

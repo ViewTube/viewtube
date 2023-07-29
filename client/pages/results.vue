@@ -55,7 +55,7 @@
       </div>
       <div class="show-more-btn-container">
         <BadgeButton :click="loadMoreVideos" :loading="moreVideosLoading">
-          <Icon name="mdi:reload" />
+          <VTIcon name="mdi:reload" />
           <p>Show more</p>
         </BadgeButton>
       </div>

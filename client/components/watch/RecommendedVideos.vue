@@ -9,7 +9,7 @@
       />
       <div class="show-more-container">
         <BadgeButton v-if="!videosExpanded" :click="expand">
-          <Icon name="mdi:reload" />
+          <VTIcon name="mdi:reload" />
           <p>Show more</p>
         </BadgeButton>
       </div>

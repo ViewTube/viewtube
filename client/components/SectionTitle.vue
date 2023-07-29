@@ -16,7 +16,7 @@ withDefaults(
   <div class="section-title">
     <nuxt-link v-if="link" class="title" :to="link">
       {{ title }}
-      <Icon name="mdi:chevron-right" />
+      <VTIcon name="mdi:chevron-right" />
     </nuxt-link>
     <h2 v-else class="title">
       {{ title }}

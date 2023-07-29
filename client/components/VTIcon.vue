@@ -3,12 +3,18 @@ const props = defineProps<{
   name: string;
 }>();
 
-const IconComponent = defineAsyncComponent(() => {
-  const iconName = props.name.replace(/:/g, '/');
-  return import(/* @vite-ignore */ `~icons/${iconName}.vue`);
+const iconName = computed((): string => {
+  return `i-${props.name.replace(':', '-')}`;
 });
 </script>
 
 <template>
-  <IconComponent />
+  <div :class="iconName" class="vt-icon" />
 </template>
+
+<style lang="scss" scoped>
+.vt-icon {
+  width: 1.5em;
+  height: 1.5em;
+}
+</style>

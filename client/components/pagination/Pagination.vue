@@ -66,7 +66,7 @@ const displaySecondDots = computed((): boolean => {
         :internal-link="true"
         :disabled="currentPage <= 1"
       >
-        <Icon name="mdi:chevron-left" />
+        <VTIcon name="mdi:chevron-left" />
       </BadgeButton>
       <div class="number-buttons">
         <BadgeButton
@@ -107,7 +107,7 @@ const displaySecondDots = computed((): boolean => {
         :internal-link="true"
         :disabled="currentPage >= pageCount"
       >
-        <Icon name="mdi:chevron-right" />
+        <VTIcon name="mdi:chevron-right" />
       </BadgeButton>
     </div>
   </div>

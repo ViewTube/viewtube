@@ -34,7 +34,7 @@
       @click.prevent="showAccountMenu"
     >
       <div class="user-icon">
-        <Icon v-if="!userStore.profileImage" name="mdi:account-circle" />
+        <VTIcon v-if="!userStore.profileImage" name="mdi:account-circle" />
         <div
           v-if="userStore.profileImage"
           class="user-image"
@@ -70,7 +70,7 @@
           <div v-if="accountMenuVisible" class="menu">
             <div v-show="userAuthenticated" class="account-menu">
               <div class="account-icon">
-                <Icon v-if="!userStore.profileImage" name="mdi:account-circle" />
+                <VTIcon v-if="!userStore.profileImage" name="mdi:account-circle" />
                 <div
                   v-if="userStore.profileImage"
                   class="user-image"
@@ -101,7 +101,7 @@
                 class="ripple tooltip menu-btn account-btn"
                 @click.self.prevent="login"
               >
-                <div class="menu-btn-content"><Icon name="mdi:account-circle" />Sign in</div>
+                <div class="menu-btn-content"><VTIcon name="mdi:account-circle" />Sign in</div>
               </a>
               <a
                 v-show="!userAuthenticated"
@@ -111,7 +111,7 @@
                 class="ripple tooltip menu-btn account-btn"
                 @click.self.prevent="register"
               >
-                <div class="menu-btn-content"><Icon name="mdi:account-plus" />Sign up</div>
+                <div class="menu-btn-content"><VTIcon name="mdi:account-plus" />Sign up</div>
               </a>
               <a
                 v-if="$route.name !== 'subscriptions' && userAuthenticated"
@@ -122,7 +122,7 @@
                 @click.self.prevent="openSubscriptions"
               >
                 <div class="menu-btn-content">
-                  <Icon name="mdi:youtube-subscription" />Subscriptions
+                  <VTIcon name="mdi:youtube-subscription" />Subscriptions
                 </div>
               </a>
               <a
@@ -132,7 +132,7 @@
                 class="ripple tooltip menu-btn"
                 @mousedown.self.prevent="openSettings"
               >
-                <div class="menu-btn-content"><Icon name="mdi:cog" />Settings</div>
+                <div class="menu-btn-content"><VTIcon name="mdi:cog" />Settings</div>
               </a>
               <a
                 id="about-btn"
@@ -141,7 +141,7 @@
                 class="ripple tooltip menu-btn"
                 @mousedown.self.prevent="openAbout"
               >
-                <div class="menu-btn-content"><Icon name="mdi:information-outline" />About</div>
+                <div class="menu-btn-content"><VTIcon name="mdi:information-outline" />About</div>
               </a>
             </div>
           </div>

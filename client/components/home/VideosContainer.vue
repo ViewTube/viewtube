@@ -45,7 +45,7 @@ const showMoreVideos = (): void => {
       v-if="videos?.length > 0 && displayedVideos.length !== videos?.length"
       :click="showMoreVideos"
     >
-      <Icon name="mdi:reload" />
+      <VTIcon name="mdi:reload" />
       <p>Show more</p>
     </BadgeButton>
   </div>

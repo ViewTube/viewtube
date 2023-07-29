@@ -30,7 +30,7 @@
           :to="{ path: '/channel/' + (channel.authorId ? channel.authorId : channel.channelID) }"
           >{{ channel.author ? channel.author : channel.name }}</nuxt-link
         >
-        <Icon
+        <VTIcon
           v-if="channel.verified"
           v-tippy="'Verified'"
           name="mdi:check-decagram"

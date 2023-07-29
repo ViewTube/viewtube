@@ -28,7 +28,7 @@
       class="search-btn tooltip"
       @click.self.prevent="onSearchButton"
     >
-      <Icon name="mdi:magnify" />
+      <VTIcon name="mdi:magnify" />
     </a>
     <span class="search-line-bottom line" />
     <SearchAutoComplete

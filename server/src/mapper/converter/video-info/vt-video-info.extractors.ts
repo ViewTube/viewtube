@@ -303,7 +303,7 @@ export const extractRecommendedVideos = (
       },
       published: {
         text: video?.published?.text,
-        date: parseRelativeTime(video?.published?.text).toDate()
+        date: parseRelativeTime(video?.published?.text)?.toDate()
       },
       thumbnails: video?.thumbnails,
       viewCount: parseViewCount(video?.view_count?.text)

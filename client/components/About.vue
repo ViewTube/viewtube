@@ -25,7 +25,7 @@ const copyCommitHash = () => {
 <template>
   <div class="about popup">
     <div class="about-container popup-container">
-      <Icon v-ripple name="mdi:close" class="close-icon" @click.stop="$emit('close')" />
+      <VTIcon v-ripple name="mdi:close" class="close-icon" @click.stop="$emit('close')" />
       <h1>About</h1>
       <div class="logo-about">
         <img class="logo-about-img" src="@/assets/icon.svg" alt="ViewTube" />
@@ -47,13 +47,13 @@ const copyCommitHash = () => {
             :href="`https://github.com/ViewTube/viewtube/commit/${commit}`"
             target="_blank"
             rel="noreferrer noopener"
-            ><Icon name="mdi:open-in-new"
+            ><VTIcon name="mdi:open-in-new"
           /></a>
         </h4>
       </div>
       <div class="links-about">
         <BadgeButton :href="'https://github.com/viewtube/viewtube'">
-          <Icon name="mdi:github" />ViewTube
+          <VTIcon name="mdi:github" />ViewTube
         </BadgeButton>
       </div>
       <div class="external-service-container">

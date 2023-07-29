@@ -90,19 +90,19 @@ const loadMoreVideos = async () => {
         <h2 class="playlist-title">{{ playlist.title }}</h2>
         <div class="playlist-details">
           <span class="playlist-detail"
-            ><Icon name="mdi:eye" /> {{ playlist.views?.toLocaleString('en-US') }} views</span
+            ><VTIcon name="mdi:eye" /> {{ playlist.views?.toLocaleString('en-US') }} views</span
           >
           <span class="playlist-detail"
-            ><Icon name="mdi:counter" />{{
+            ><VTIcon name="mdi:counter" />{{
               playlist.estimatedItemCount?.toLocaleString('en-US')
             }}
             items</span
           >
           <span class="playlist-detail"
-            ><Icon name="mdi:calendar-clock" />{{ playlist.lastUpdated }}</span
+            ><VTIcon name="mdi:calendar-clock" />{{ playlist.lastUpdated }}</span
           >
           <span class="playlist-detail"
-            ><Icon v-if="playlist.visibility === 'everyone'" name="mdi:eye" /><Icon
+            ><VTIcon v-if="playlist.visibility === 'everyone'" name="mdi:eye" /><VTIcon
               v-else-if="playlist.visibility === 'unlisted'"
               name="mdi:eye-off"
             />{{ playlist.visibility === 'everyone' ? 'public' : 'unlisted' }} playlist</span
@@ -129,7 +129,7 @@ const loadMoreVideos = async () => {
       </div>
       <div v-if="playlistContinuation" class="load-more-btn">
         <BadgeButton :click="loadMoreVideos" :loading="moreVideosLoading"
-          ><Icon name="mdi:reload" />
+          ><VTIcon name="mdi:reload" />
           <p>Show more</p></BadgeButton
         >
       </div>

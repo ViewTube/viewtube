@@ -15,7 +15,7 @@
           }"
           class="playlist-action"
         >
-          <Icon name="mdi:skip-previous" :title="null" />
+          <VTIcon name="mdi:skip-previous" :title="null" />
         </nuxt-link>
         <nuxt-link
           v-ripple
@@ -28,7 +28,7 @@
           }"
           class="playlist-action"
         >
-          <Icon name="mdi:skip-next" :title="null" />
+          <VTIcon name="mdi:skip-next" :title="null" />
         </nuxt-link>
         <button
           v-ripple
@@ -37,7 +37,7 @@
           :class="{ enabled: repeatEnabled }"
           @click.stop.prevent="onRepeatToggle"
         >
-          <Icon name="mdi:repeat" :title="null" />
+          <VTIcon name="mdi:repeat" :title="null" />
         </button>
         <button
           v-ripple
@@ -46,7 +46,7 @@
           :class="{ enabled: shuffleEnabled }"
           @click.stop.prevent="onShuffleToggle"
         >
-          <Icon name="mdi:shuffle" :title="null" />
+          <VTIcon name="mdi:shuffle" :title="null" />
         </button>
         <button
           v-ripple
@@ -55,7 +55,7 @@
           :class="{ enabled: reverseEnabled }"
           @click.stop.prevent="onReverseToggle"
         >
-          <Icon name="mdi:rotate-left" :title="null" />
+          <VTIcon name="mdi:rotate-left" :title="null" />
         </button>
       </div>
     </div>
