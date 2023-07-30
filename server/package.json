@@ -19,7 +19,7 @@
     "server": "dist/server"
   },
   "dependencies": {
-    "@distube/ytdl-core": "^4.11.10",
+    "@distube/ytdl-core": "^4.11.17",
     "@fastify/cookie": "8.3.0",
     "@fastify/helmet": "11.0.0",
     "@fastify/multipart": "7.7.1",

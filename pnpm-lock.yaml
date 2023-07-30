@@ -153,8 +153,8 @@ importers:
   server:
     dependencies:
       '@distube/ytdl-core':
-        specifier: ^4.11.10
-        version: 4.11.10
+        specifier: ^4.11.17
+        version: 4.11.17
       '@fastify/cookie':
         specifier: 8.3.0
         version: 8.3.0
@@ -1541,8 +1541,8 @@ packages:
       kuler: 2.0.0
     dev: false
 
-  /@distube/ytdl-core@4.11.10:
-    resolution: {integrity: sha512-WS7d2N5vA9ptPNaA1hOMkhSs72dJYJ7U4PxLwq0ZLnnJ1JMhdjS2b+xjTinMW9vNNcq4YTcF7pa/GR5hmbcaBw==}
+  /@distube/ytdl-core@4.11.17:
+    resolution: {integrity: sha512-XHRYxC9hR94GBxfy/SiGjnCbe7AuB1YqTAfD3CxOfdGkW5I2AXbDLHIVsjKLTUNHT3CkVvh3Q99SRM0T2cKdSw==}
     engines: {node: '>=12'}
     dependencies:
       m3u8stream: 0.8.6
