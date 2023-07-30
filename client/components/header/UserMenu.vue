@@ -34,7 +34,7 @@
       @click.prevent="showAccountMenu"
     >
       <div class="user-icon">
-        <Icon v-if="!userStore.profileImage" name="mdi:account-circle" />
+        <VTIcon v-if="!userStore.profileImage" name="mdi:account-circle" />
         <div
           v-if="userStore.profileImage"
           class="user-image"
@@ -70,7 +70,7 @@
           <div v-if="accountMenuVisible" class="menu">
             <div v-show="userAuthenticated" class="account-menu">
               <div class="account-icon">
-                <Icon v-if="!userStore.profileImage" name="mdi:account-circle" />
+                <VTIcon v-if="!userStore.profileImage" name="mdi:account-circle" />
                 <div
                   v-if="userStore.profileImage"
                   class="user-image"
@@ -101,7 +101,7 @@
                 class="ripple tooltip menu-btn account-btn"
                 @click.self.prevent="login"
               >
-                <div class="menu-btn-content"><Icon name="mdi:account-circle" />Sign in</div>
+                <div class="menu-btn-content"><VTIcon name="mdi:account-circle" />Sign in</div>
               </a>
               <a
                 v-show="!userAuthenticated"
@@ -111,7 +111,7 @@
                 class="ripple tooltip menu-btn account-btn"
                 @click.self.prevent="register"
               >
-                <div class="menu-btn-content"><Icon name="mdi:account-plus" />Sign up</div>
+                <div class="menu-btn-content"><VTIcon name="mdi:account-plus" />Sign up</div>
               </a>
               <a
                 v-if="$route.name !== 'subscriptions' && userAuthenticated"
@@ -122,7 +122,7 @@
                 @click.self.prevent="openSubscriptions"
               >
                 <div class="menu-btn-content">
-                  <Icon name="mdi:youtube-subscription" />Subscriptions
+                  <VTIcon name="mdi:youtube-subscription" />Subscriptions
                 </div>
               </a>
               <a
@@ -132,7 +132,7 @@
                 class="ripple tooltip menu-btn"
                 @mousedown.self.prevent="openSettings"
               >
-                <div class="menu-btn-content"><Icon name="mdi:cog" />Settings</div>
+                <div class="menu-btn-content"><VTIcon name="mdi:cog" />Settings</div>
               </a>
               <a
                 id="about-btn"
@@ -141,7 +141,7 @@
                 class="ripple tooltip menu-btn"
                 @mousedown.self.prevent="openAbout"
               >
-                <div class="menu-btn-content"><Icon name="mdi:information-outline" />About</div>
+                <div class="menu-btn-content"><VTIcon name="mdi:information-outline" />About</div>
               </a>
             </div>
           </div>
@@ -309,7 +309,9 @@ export default defineComponent({
 <style lang="scss">
 .fade-up-enter-active,
 .fade-up-leave-active {
-  transition: opacity 300ms $intro-easing, transform 300ms $intro-easing;
+  transition:
+    opacity 300ms $intro-easing,
+    transform 300ms $intro-easing;
 }
 .fade-up-enter-to,
 .fade-up-leave-from {
@@ -324,7 +326,9 @@ export default defineComponent({
 
 .fade-down-enter-active,
 .fade-down-leave-active {
-  transition: transform 200ms $intro-easing, opacity 200ms $intro-easing;
+  transition:
+    transform 200ms $intro-easing,
+    opacity 200ms $intro-easing;
 }
 .fade-down-enter-to,
 .fade-down-leave-from {
@@ -425,10 +429,8 @@ export default defineComponent({
           background-repeat: no-repeat;
         }
 
-        .material-design-icon {
-          .material-design-icon__svg {
-            fill: var(--theme-color);
-          }
+        .vt-icon {
+          fill: var(--theme-color);
         }
       }
     }
@@ -456,7 +458,9 @@ export default defineComponent({
   .nav-btn {
     text-decoration: none;
     color: var(--theme-color);
-    transition: color 300ms $intro-easing, border 300ms $intro-easing;
+    transition:
+      color 300ms $intro-easing,
+      border 300ms $intro-easing;
     margin: 0 5px;
     display: flex;
     user-select: none;
@@ -578,7 +582,9 @@ export default defineComponent({
       height: 60px;
       display: flex;
       border-radius: 3px;
-      transition: box-shadow 300ms $intro-easing, border 300ms $intro-easing;
+      transition:
+        box-shadow 300ms $intro-easing,
+        border 300ms $intro-easing;
       border: 2px solid transparent;
       box-sizing: border-box;
 
@@ -598,16 +604,11 @@ export default defineComponent({
         flex-direction: column;
         color: var(--theme-color);
 
-        .material-design-icon {
+        .vt-icon {
           margin: auto;
           width: 28px;
           height: 28px;
-
-          .material-design-icon__svg {
-            fill: var(--title-color);
-            width: 28px;
-            height: 28px;
-          }
+          background-color: var(--title-color);
         }
 
         &.account-btn {
@@ -644,11 +645,10 @@ export default defineComponent({
         background-repeat: no-repeat;
       }
 
-      .account-circle-icon,
-      .material-design-icon__svg {
+      .vt-icon {
         height: 40px;
         width: 40px;
-        fill: var(--subtitle-color-light);
+        background-color: var(--subtitle-color-light);
       }
     }
 

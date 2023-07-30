@@ -5,7 +5,7 @@ defineProps<{ text: string }>();
 <template>
   <div class="error">
     <div class="container">
-      <Icon name="mdi:alert-circle-outline" class="icon" />
+      <VTIcon name="mdi:alert-circle-outline" class="icon" />
       <p class="text">{{ text }}</p>
     </div>
   </div>

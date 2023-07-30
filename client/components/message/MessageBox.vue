@@ -27,7 +27,7 @@
       }"
       @click="dismissMessage"
     >
-      <Icon v-ripple name="mdi:close" />
+      <VTIcon v-ripple name="mdi:close" />
     </div>
     <h3 class="title" :class="message.type">
       {{ message.title }}

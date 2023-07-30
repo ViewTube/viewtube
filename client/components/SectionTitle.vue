@@ -16,7 +16,7 @@ withDefaults(
   <div class="section-title">
     <nuxt-link v-if="link" class="title" :to="link">
       {{ title }}
-      <Icon name="mdi:chevron-right" />
+      <VTIcon name="mdi:chevron-right" />
     </nuxt-link>
     <h2 v-else class="title">
       {{ title }}
@@ -44,13 +44,12 @@ withDefaults(
     gap: 10px;
 
     &:hover {
-      .material-design-icon {
+      .vt-icon {
         transform: translateX(-10px);
       }
     }
 
-    .material-design-icon,
-    .material-design-icon__svg {
+    .vt-icon {
       height: 1.2em;
       width: 1.2em;
       transition: transform 300ms $intro-easing;

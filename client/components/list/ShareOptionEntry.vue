@@ -31,7 +31,9 @@ export default defineComponent({
   margin: 2px 5px 2px 0;
   border-radius: 3px;
   display: inline-block;
-  transition: background-color 200ms $intro-easing, border 200ms $intro-easing;
+  transition:
+    background-color 200ms $intro-easing,
+    border 200ms $intro-easing;
   border: 2px solid var(--theme-color-translucent);
   width: auto;
   white-space: nowrap;
@@ -41,11 +43,11 @@ export default defineComponent({
   width: 46px;
   margin: 4px 4px 4px 0;
 
-  .material-design-icon__svg {
+  .vt-icon {
     margin: 4px;
-    height: 38px !important;
-    width: 38px !important;
-    position: unset !important;
+    height: 38px;
+    width: 38px;
+    position: unset;
   }
 
   img {

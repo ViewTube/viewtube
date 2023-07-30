@@ -70,7 +70,7 @@ const playlistLink = computed((): string => {
         />
       </div>
       <div class="playlist-entry-count">
-        <Icon name="mdi:playlist-play" class="playlist-icon" />
+        <VTIcon name="mdi:playlist-play" class="playlist-icon" />
         <span v-if="playlist.videoCountString" class="count-text">{{
           playlist.videoCountString
         }}</span>
@@ -99,7 +99,7 @@ const playlistLink = computed((): string => {
           :to="'/channel/' + playlist.owner.channelID"
           >{{ playlist.owner.name }}</nuxt-link
         >
-        <Icon
+        <VTIcon
           v-if="playlist.owner && playlist.owner.verified"
           v-tippy="'Verified'"
           name="mdi:check-decagram"
@@ -167,7 +167,7 @@ const playlistLink = computed((): string => {
         width: 36px;
         height: 36px;
 
-        .material-design-icon__svg {
+        .vt-icon {
           width: 36px;
           height: 36px;
         }
@@ -209,16 +209,11 @@ const playlistLink = computed((): string => {
         color: var(--subtitle-color);
       }
 
-      .material-design-icon {
+      .vt-icon {
         width: 14px;
         height: 14px;
         top: 3px;
         margin: 0 0 0 4px;
-
-        .material-design-icon__svg {
-          width: 14px;
-          height: 14px;
-        }
       }
     }
     .video-entry-stats {

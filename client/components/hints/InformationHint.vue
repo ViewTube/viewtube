@@ -1,5 +1,5 @@
 <template>
-  <div class="information-hint"><slot /><Icon name="mdi:information" /></div>
+  <div class="information-hint"><slot /><VTIcon name="mdi:information" /></div>
 </template>
 
 <script lang="ts">
@@ -17,7 +17,7 @@ export default defineComponent({
   border-radius: 5px;
   justify-content: space-between;
 
-  .material-design-icon {
+  .vt-icon {
     justify-self: flex-end;
     padding: 0 10px 0 0;
   }

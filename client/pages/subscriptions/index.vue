@@ -198,7 +198,7 @@ watch(
             class="import-subscriptions-btn"
             :click="() => (subscriptionImportOpen = true)"
           >
-            <Icon name="mdi:import" />
+            <VTIcon name="mdi:import" />
             <p>Import subscriptions</p>
           </BadgeButton>
           <BadgeButton
@@ -207,7 +207,7 @@ watch(
             :href="'/subscriptions/manage'"
             :internal-link="true"
           >
-            <Icon name="mdi:pencil-box-multiple-outline" />
+            <VTIcon name="mdi:pencil-box-multiple-outline" />
             <p>Manage</p>
           </BadgeButton>
           <SwitchButton
@@ -222,7 +222,7 @@ watch(
       </div>
     </div>
     <div v-if="hasNoSubscriptions && !pending" class="no-subscriptions">
-      <Icon name="mdi:youtube-subscription" />
+      <VTIcon name="mdi:youtube-subscription" />
       <p>No subscriptions yet. Subscribe to a channel to see their latest uploads.</p>
     </div>
     <div class="subscription-videos-container">

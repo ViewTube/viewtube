@@ -18,7 +18,7 @@ const { data: subscriptions, pending: subscriptionsLoading } = useGetUserSubscri
     />
   </div>
   <div v-if="subscriptions?.videos?.length === 0" class="no-subscriptions">
-    <Icon name="mdi:youtube-subscription" />
+    <VTIcon name="mdi:youtube-subscription" />
     <p>No subscriptions yet. Subscribe to a channel to see their latest uploads.</p>
   </div>
 </template>

@@ -31,7 +31,7 @@ const { proxyUrl } = useImgProxy();
       </p>
       <p v-tippy="postVideo.author" class="author info-element">
         {{ postVideo.author }}
-        <Icon v-if="postVideo.badges.verified" name="mdi:check-decagram" />
+        <VTIcon v-if="postVideo.badges.verified" name="mdi:check-decagram" />
       </p>
       <p class="video-additional-info info-element">
         {{ postVideo.publishedText }} &bull; {{ postVideo.viewCountText }}
@@ -87,8 +87,7 @@ const { proxyUrl } = useImgProxy();
       align-items: center;
       gap: 2px;
 
-      .material-design-icon,
-      :deep(.material-design-icon__svg) {
+      :deep(.vt-icon) {
         width: 0.8rem;
         height: 0.8rem;
         margin-bottom: 1px;

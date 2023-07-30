@@ -118,7 +118,7 @@ onBeforeUnmount(() => {
   <div class="video-player-settings" @mouseup.stop="onQualityMouseup">
     <div class="quality-icon">
       <span class="quality-label-small">{{ smallQualityLabel }}</span>
-      <Icon
+      <VTIcon
         name="mdi:cog"
         @click.stop="onQualityInteraction"
         @touchend.stop="onQualityTouchInteraction"
@@ -139,7 +139,7 @@ onBeforeUnmount(() => {
           >
             <div v-if="videoQualityList" class="player-settings-submenu">
               <span class="player-settings-title"
-                ><Icon name="mdi:high-definition" />Video Quality</span
+                ><VTIcon name="mdi:high-definition" />Video Quality</span
               >
               <SwitchButton
                 :value="settingsStore.autoAdjustVideoQuality"
@@ -170,13 +170,13 @@ onBeforeUnmount(() => {
                   v-tippy="'Recommended for your screen size'"
                   class="recommended-icon"
                 >
-                  <Icon name="mdi:lightbulb" />
+                  <VTIcon name="mdi:lightbulb" />
                 </span>
               </div>
             </div>
             <div v-if="audioQualityList" class="player-settings-submenu">
               <span class="player-settings-title"
-                ><Icon name="mdi:quality-high" />Audio Quality</span
+                ><VTIcon name="mdi:quality-high" />Audio Quality</span
               >
               <SwitchButton
                 :value="settingsStore.autoAdjustAudioQuality"
@@ -199,7 +199,7 @@ onBeforeUnmount(() => {
               </div>
             </div>
             <div class="player-settings-submenu">
-              <span class="player-settings-title"><Icon name="mdi:cog" />Other settings</span>
+              <span class="player-settings-title"><VTIcon name="mdi:cog" />Other settings</span>
               <SwitchButton
                 :value="loopVideo"
                 :label="'Loop'"
@@ -399,7 +399,7 @@ $bottom-controls-height: $bottom-overlay-height - $video-seekbar-height;
         }
       }
 
-      .material-design-icon {
+      .vt-icon {
         left: 4px;
         top: -6px;
         position: absolute;
@@ -408,18 +408,13 @@ $bottom-controls-height: $bottom-overlay-height - $video-seekbar-height;
     }
   }
 
-  .material-design-icon {
-    width: $bottom-controls-height;
-    height: $bottom-controls-height;
+  .vt-icon {
+    height: 30px;
+    width: 30px;
     cursor: pointer;
-
-    svg {
-      height: 30px;
-      width: 30px;
-      margin: auto;
-      bottom: 0 !important;
-      position: initial !important;
-    }
+    margin: auto 0;
+    bottom: 0;
+    position: initial;
   }
 }
 </style>

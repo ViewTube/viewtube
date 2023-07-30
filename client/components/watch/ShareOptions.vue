@@ -2,10 +2,10 @@
   <div class="share-options">
     <div class="share-options-container">
       <ShareOptionEntry class="share-option" option-name="Copy Link" :click="shareCopyLink">
-        <Icon name="mdi:content-copy" class="copy-icon" />
+        <VTIcon name="mdi:content-copy" class="copy-icon" />
       </ShareOptionEntry>
       <ShareOptionEntry class="share-option" option-name="Open QR-Code" :click="qrOpen">
-        <Icon name="mdi:qrcode" class="qrcode-icon" />
+        <VTIcon name="mdi:qrcode" class="qrcode-icon" />
       </ShareOptionEntry>
       <ShareOptionEntry
         class="share-option"

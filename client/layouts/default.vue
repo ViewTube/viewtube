@@ -122,7 +122,10 @@ vite-error-overlay {
   pointer-events: none !important;
 }
 body.transition-all * {
-  transition: background-color 300ms ease, color 300ms ease, opacity 300ms ease;
+  transition:
+    background-color 300ms ease,
+    color 300ms ease,
+    opacity 300ms ease;
 }
 p,
 h1,
@@ -141,7 +144,9 @@ span.links {
     text-decoration: none;
     color: var(--theme-color-alt);
     position: relative;
-    transition: background-size 300ms $dynamic-easing, color 300ms $intro-easing;
+    transition:
+      background-size 300ms $dynamic-easing,
+      color 300ms $intro-easing;
     background-image: $theme-color-primary-gradient;
     background-size: 0% 2px;
     background-position: 0 100%;
@@ -163,13 +168,6 @@ body,
   background-color: var(--bgcolor-main);
   color: var(--title-color);
 }
-.material-design-icon {
-  position: relative;
-  width: 24px;
-  height: 24px;
-  display: inline-block;
-}
-
 div,
 p {
   font-family: noto-sans, Arial, sans-serif;

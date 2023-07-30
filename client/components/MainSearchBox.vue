@@ -28,7 +28,7 @@
       class="search-btn tooltip"
       @click.self.prevent="onSearchButton"
     >
-      <Icon name="mdi:magnify" />
+      <VTIcon name="mdi:magnify" />
     </a>
     <span class="search-line-bottom line" />
     <SearchAutoComplete
@@ -194,7 +194,7 @@ export default defineComponent({
     display: flex;
     user-select: none;
 
-    .material-design-icon {
+    .vt-icon {
       margin: auto;
       left: -3px !important;
       display: flex;

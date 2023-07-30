@@ -220,7 +220,7 @@ const onVideoEntryClick = () => {
           }"
           >{{ video.author?.['name'] ?? video.author ?? video.channel?.name }}</nuxt-link
         >
-        <Icon
+        <VTIcon
           v-if="isVerified"
           v-tippy="'Verified'"
           name="mdi:check-decagram"
@@ -232,7 +232,7 @@ const onVideoEntryClick = () => {
     <div class="video-entry-background" />
     <div v-if="video.description" class="description-btn-container">
       <div v-ripple v-tippy="'Show description'" class="description-btn">
-        <Icon name="mdi:information" />
+        <VTIcon name="mdi:information" />
       </div>
     </div>
     <input v-if="video.description" id="show-description" type="checkbox" name="show-description" />
@@ -344,7 +344,7 @@ const onVideoEntryClick = () => {
       flex-direction: row;
 
       .channel-name-container {
-        .material-design-icon {
+        .vt-icon {
           margin: 6px 0 0 4px;
         }
       }
@@ -381,7 +381,7 @@ const onVideoEntryClick = () => {
         top: 3px;
         margin: 8px 0 0 4px;
 
-        .material-design-icon__svg {
+        .vt-icon {
           width: 14px;
           height: 14px;
         }
@@ -422,7 +422,9 @@ const onVideoEntryClick = () => {
     border-radius: 5px;
     box-sizing: border-box;
     cursor: pointer;
-    transition: opacity 200ms $intro-easing, transform 200ms $intro-easing;
+    transition:
+      opacity 200ms $intro-easing,
+      transform 200ms $intro-easing;
   }
 
   #show-description {
@@ -537,7 +539,7 @@ const onVideoEntryClick = () => {
         width: 36px;
         height: 36px;
 
-        .material-design-icon__svg {
+        .vt-icon {
           width: 36px;
           height: 36px;
         }

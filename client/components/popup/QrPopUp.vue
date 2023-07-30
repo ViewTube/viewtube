@@ -1,7 +1,7 @@
 <template>
   <div class="popup">
     <div class="popup-container">
-      <Icon v-ripple name="mdi:close" class="close-icon" @click.stop="$emit('close')" />
+      <VTIcon v-ripple name="mdi:close" class="close-icon" @click.stop="$emit('close')" />
       <h1>QR-Code</h1>
       <div class="qr-container"><canvas id="qrcode" ref="qrCodeRef" /></div>
     </div>

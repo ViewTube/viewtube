@@ -24,12 +24,12 @@ const videoQualities = ['144p', '240p', '360p', '720p', '1080p', '1440p', '2160p
   <div class="settings popup">
     <div class="settings-container popup-container">
       <div class="settings-header">
-        <Icon v-ripple name="mdi:close" class="close-icon" @click.stop="$emit('close')" />
+        <VTIcon v-ripple name="mdi:close" class="close-icon" @click.stop="$emit('close')" />
         <h1 class="settings-title">
           Settings
           <div class="cloud-icon-container">
             <transition name="icon-switch" mode="out-in">
-              <Icon
+              <VTIcon
                 v-if="!settingsStore.settingsSaving"
                 v-tippy="'Settings synchronized'"
                 name="mdi:cloud-check-outline"
@@ -37,7 +37,7 @@ const videoQualities = ['144p', '240p', '360p', '720p', '1080p', '1440p', '2160p
               />
             </transition>
             <transition name="icon-switch" mode="out-in">
-              <Icon
+              <VTIcon
                 v-if="settingsStore.settingsSaving"
                 v-tippy="'Saving settings'"
                 name="mdi:reload"
@@ -47,11 +47,11 @@ const videoQualities = ['144p', '240p', '360p', '720p', '1080p', '1440p', '2160p
           </div>
         </h1>
       </div>
-      <h2><Icon name="mdi:brightness-4" />Theme</h2>
+      <h2><VTIcon name="mdi:brightness-4" />Theme</h2>
       <div class="theme-selector-container">
         <ThemeSelector />
       </div>
-      <h2><Icon name="mdi:book-open-variant" />Chapters</h2>
+      <h2><VTIcon name="mdi:book-open-variant" />Chapters</h2>
       <SwitchButton
         :value="settingsStore.chapters"
         :label="'Show chapters on a video'"
@@ -59,7 +59,7 @@ const videoQualities = ['144p', '240p', '360p', '720p', '1080p', '1440p', '2160p
         :right="true"
         @valuechange="val => settingsStore.setChapters(val)"
       />
-      <h2><Icon name="mdi:history" />History</h2>
+      <h2><VTIcon name="mdi:history" />History</h2>
       <SwitchButton
         :value="settingsStore.saveVideoHistory"
         :label="'Save video history and progress'"
@@ -97,7 +97,9 @@ const videoQualities = ['144p', '240p', '360p', '720p', '1080p', '1440p', '2160p
             :right="true"
             :color-mark="'#0fca15'"
             class="sponsorblock-option"
-            @update:model-value="val => settingsStore.setSponsorblockSegmentSponsor(val as SegmentOption)"
+            @update:model-value="
+              val => settingsStore.setSponsorblockSegmentSponsor(val as SegmentOption)
+            "
           />
           <MultiOptionButton
             :options="sponsorblockSegmentOptions"
@@ -107,7 +109,9 @@ const videoQualities = ['144p', '240p', '360p', '720p', '1080p', '1440p', '2160p
             :right="true"
             :color-mark="'#07faf0'"
             class="sponsorblock-option"
-            @update:model-value="val => settingsStore.setSponsorblockSegmentIntro(val as SegmentOption)"
+            @update:model-value="
+              val => settingsStore.setSponsorblockSegmentIntro(val as SegmentOption)
+            "
           />
           <MultiOptionButton
             :options="sponsorblockSegmentOptions"
@@ -117,7 +121,9 @@ const videoQualities = ['144p', '240p', '360p', '720p', '1080p', '1440p', '2160p
             :right="true"
             :color-mark="'#0103e1'"
             class="sponsorblock-option"
-            @update:model-value="val => settingsStore.setSponsorblockSegmentOutro(val as SegmentOption)"
+            @update:model-value="
+              val => settingsStore.setSponsorblockSegmentOutro(val as SegmentOption)
+            "
           />
           <MultiOptionButton
             :options="sponsorblockSegmentOptions"
@@ -127,7 +133,9 @@ const videoQualities = ['144p', '240p', '360p', '720p', '1080p', '1440p', '2160p
             :right="true"
             :color-mark="'#b711df'"
             class="sponsorblock-option"
-            @update:model-value="val => settingsStore.setSponsorblockSegmentInteraction(val as SegmentOption)"
+            @update:model-value="
+              val => settingsStore.setSponsorblockSegmentInteraction(val as SegmentOption)
+            "
           />
           <MultiOptionButton
             :options="sponsorblockSegmentOptions"
@@ -137,7 +145,9 @@ const videoQualities = ['144p', '240p', '360p', '720p', '1080p', '1440p', '2160p
             :right="true"
             :color-mark="'#fdfb0e'"
             class="sponsorblock-option"
-            @update:model-value="val => settingsStore.setSponsorblockSegmentSelfpromo(val as SegmentOption)"
+            @update:model-value="
+              val => settingsStore.setSponsorblockSegmentSelfpromo(val as SegmentOption)
+            "
           />
           <MultiOptionButton
             :options="sponsorblockSegmentOptions"
@@ -147,7 +157,9 @@ const videoQualities = ['144p', '240p', '360p', '720p', '1080p', '1440p', '2160p
             :right="true"
             :color-mark="'#f89c06'"
             class="sponsorblock-option"
-            @update:model-value="val => settingsStore.setSponsorblockSegmentMusicOfftopic(val as SegmentOption)"
+            @update:model-value="
+              val => settingsStore.setSponsorblockSegmentMusicOfftopic(val as SegmentOption)
+            "
           />
           <MultiOptionButton
             :options="sponsorblockSegmentOptions"
@@ -157,12 +169,14 @@ const videoQualities = ['144p', '240p', '360p', '720p', '1080p', '1440p', '2160p
             :right="true"
             :color-mark="'#f70000'"
             class="sponsorblock-option"
-            @update:model-value="val => settingsStore.setSponsorblockSegmentPreview(val as SegmentOption)"
+            @update:model-value="
+              val => settingsStore.setSponsorblockSegmentPreview(val as SegmentOption)
+            "
           />
         </div>
       </div>
 
-      <h2><Icon name="mdi:window-restore" />Miniplayer</h2>
+      <h2><VTIcon name="mdi:window-restore" />Miniplayer</h2>
       <SwitchButton
         :value="settingsStore.miniplayer"
         :label="'Enable miniplayer'"
@@ -172,7 +186,7 @@ const videoQualities = ['144p', '240p', '360p', '720p', '1080p', '1440p', '2160p
         @valuechange="val => settingsStore.setMiniplayer(val)"
       />
 
-      <h2><Icon name="mdi:home" />Homescreen</h2>
+      <h2><VTIcon name="mdi:home" />Homescreen</h2>
       <SwitchButton
         :value="settingsStore.showHomeSubscriptions"
         :label="'Show subscriptions on home screen'"
@@ -182,7 +196,7 @@ const videoQualities = ['144p', '240p', '360p', '720p', '1080p', '1440p', '2160p
         @valuechange="val => settingsStore.setShowHomeSubscriptions(val)"
       />
 
-      <h2><Icon name="mdi:television" />Videoplayer</h2>
+      <h2><VTIcon name="mdi:television" />Videoplayer</h2>
       <div class="settings-dropdown-menu">
         <div class="quality-label">
           <label>Default video quality</label>
@@ -296,12 +310,11 @@ const videoQualities = ['144p', '240p', '360p', '720p', '1080p', '1440p', '2160p
         position: absolute;
         top: 0;
         left: 0;
-        transition: opacity 300ms $intro-easing, transform 300ms $intro-easing;
-
-        .material-design-icon__svg {
-          position: absolute;
-          left: 1px;
-        }
+        transition:
+          opacity 300ms $intro-easing,
+          transform 300ms $intro-easing;
+        width: 24px;
+        height: 24px;
       }
 
       .small-saving-spinner {

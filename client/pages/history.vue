@@ -139,7 +139,7 @@ watch(
       </div>
     </details>
     <div v-if="history && !settingsStore.saveVideoHistory" class="no-history">
-      <Icon name="mdi:restart-off" />
+      <VTIcon name="mdi:restart-off" />
       <p>Video history is disabled. You can enable it in settings.</p>
     </div>
     <HistoryList

@@ -29,7 +29,7 @@
         </div>
         <div class="control-btns">
           <nuxt-link :to="`/results?search_query=${searchValue}`" class="reset-btn btn"
-            ><Icon name="mdi:undo" />Reset</nuxt-link
+            ><VTIcon name="mdi:undo" />Reset</nuxt-link
           >
         </div>
       </div>
@@ -173,16 +173,11 @@ export default defineComponent({
             }
           }
 
-          .material-design-icon {
+          .vt-icon {
             width: 20px;
             height: 20px;
             position: relative;
             top: 2px;
-
-            .material-design-icon__svg {
-              width: 20px;
-              height: 20px;
-            }
           }
         }
       }
@@ -240,7 +235,9 @@ export default defineComponent({
               width: 14px;
               border: solid 3px var(--subtitle-color);
               border-radius: 50%;
-              transition: border 300ms $intro-easing, background-color 300ms $intro-easing;
+              transition:
+                border 300ms $intro-easing,
+                background-color 300ms $intro-easing;
             }
           }
         }

@@ -33,11 +33,11 @@ defineProps<{
     </div>
     <div class="post-info">
       <div class="info-item">
-        <Icon name="mdi:thumb-up" />
+        <VTIcon name="mdi:thumb-up" />
         <p>{{ communityPost.voteCount ?? 0 }}</p>
       </div>
       <div class="info-item">
-        <Icon name="mdi:comment-outline" />
+        <VTIcon name="mdi:comment-outline" />
         <p class="comments">{{ communityPost.commentCount ?? 0 }}</p>
       </div>
     </div>
@@ -80,8 +80,7 @@ defineProps<{
       gap: 5px;
       color: var(--subtitle-color-light);
 
-      .material-design-icon,
-      :deep(.material-design-icon__svg) {
+      :deep(.vt-icon) {
         width: 20px;
         height: 20px;
       }

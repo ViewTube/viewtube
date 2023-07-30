@@ -309,13 +309,13 @@ const watchPageTitle = computed(() => {
           <div v-if="video.likeCount" class="infobox-rating">
             <div class="infobox-likecount">
               <div class="infobox-likes">
-                <Icon name="mdi:thumb-up" class="thumbs-icon" />
+                <VTIcon name="mdi:thumb-up" class="thumbs-icon" />
                 <p class="like-count">
                   {{ video.likeCount?.toLocaleString('en-US') }}
                 </p>
               </div>
               <div class="infobox-dislikes">
-                <Icon name="mdi:thumb-down" class="thumbs-icon" />
+                <VTIcon name="mdi:thumb-down" class="thumbs-icon" />
                 <p class="dislike-count">
                   {{ dislikeCount?.toLocaleString('en-US') }}
                 </p>
@@ -325,7 +325,7 @@ const watchPageTitle = computed(() => {
                   target="_blank"
                   rel="noreferrer noopener"
                 >
-                  <Icon
+                  <VTIcon
                     v-tippy="'Dislike information provided by returnyoutubedislike.com'"
                     name="mdi:information"
                   />
@@ -357,7 +357,7 @@ const watchPageTitle = computed(() => {
             <div class="infobox-channel-info">
               <nuxt-link :to="`/${video.author.handle}`" class="infobox-channel-name">
                 <p>{{ video.author.name }}</p>
-                <Icon v-if="video.author.isVerified" name="mdi:check-decagram" />
+                <VTIcon v-if="video.author.isVerified" name="mdi:check-decagram" />
               </nuxt-link>
               <p v-if="video.author.subscriberCount" class="infobox-channel-subcount">
                 {{ video.author.subscriberCount }}
@@ -378,7 +378,7 @@ const watchPageTitle = computed(() => {
         </div>
         <div class="video-actions">
           <BadgeButton style="color: #efbb00" :click="() => (shareOpen = !shareOpen)">
-            <Icon name="mdi:share" class="share-icon" />
+            <VTIcon name="mdi:share" class="share-icon" />
             Share
           </BadgeButton>
         </div>
@@ -416,7 +416,7 @@ const watchPageTitle = computed(() => {
           <div v-if="commentsError" class="comments-error">
             <p>Error loading comments. They might be disabled for this video.</p>
             <BadgeButton :click="reloadComments" :loading="commentsLoading"
-              ><Icon name="mdi:reload" />Try again</BadgeButton
+              ><VTIcon name="mdi:reload" />Try again</BadgeButton
             >
           </div>
           <div v-if="!commentsLoading && commentObject" class="comments-container">
@@ -432,7 +432,7 @@ const watchPageTitle = computed(() => {
               :click="loadMoreComments"
               :loading="commentsContinuationLoading"
             >
-              <Icon name="mdi:reload" />
+              <VTIcon name="mdi:reload" />
               <p>Show more</p>
             </BadgeButton>
           </div>
@@ -598,8 +598,7 @@ const watchPageTitle = computed(() => {
                 width: 16px;
                 padding: 2px 0 6px 8px;
 
-                .material-design-icon,
-                .material-design-icon__svg {
+                .vt-icon {
                   height: 16px;
                   width: 16px;
                 }
@@ -691,8 +690,7 @@ const watchPageTitle = computed(() => {
               gap: 5px;
               align-items: center;
 
-              .material-design-icon,
-              .material-design-icon__svg {
+              .vt-icon {
                 width: 20px;
                 height: 20px;
                 margin-bottom: 0.5px;

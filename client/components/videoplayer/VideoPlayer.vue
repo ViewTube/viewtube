@@ -59,7 +59,7 @@
           </h1>
         </div>
         <div class="right-top-controls">
-          <Icon
+          <VTIcon
             v-if="embedded || mini"
             v-tippy="'Open in full player'"
             name="mdi:open-in-new"
@@ -69,7 +69,7 @@
             @mouseup.prevent.stop="onOpenInPlayerMouseUp"
             @touchend.prevent.stop="onOpenInPlayer"
           />
-          <!-- <Icon name="mdi:arrow-expand"
+          <!-- <VTIcon name="mdi:arrow-expand"
             v-if="!videoElement.zoomed"
             v-tippy="'Zoom video'"
             class="tooltip"
@@ -78,7 +78,7 @@
             @mouseup="onVideoExpandMouseUp"
             @touchend.stop="onVideoExpand"
           />
-          <Icon name="mdi:arrow-collapse"
+          <VTIcon name="mdi:arrow-collapse"
             v-if="videoElement.zoomed"
             v-tippy="'Revert zoom'"
             class="tooltip"
@@ -87,7 +87,7 @@
             @mouseup="onVideoCollapseMouseUp"
             @touchend.stop="onVideoCollapse"
           />-->
-          <Icon
+          <VTIcon
             v-if="mini"
             v-tippy="'Close'"
             name="mdi:close"
@@ -253,8 +253,8 @@
         </div>
         <div class="bottom-controls">
           <div class="left-bottom-controls">
-            <Icon v-if="videoElement.playing" name="mdi:pause" />
-            <Icon v-if="!videoElement.playing" name="mdi:play" />
+            <VTIcon v-if="videoElement.playing" name="mdi:pause" />
+            <VTIcon v-if="!videoElement.playing" name="mdi:play" />
             <VolumeControl
               v-model.number="videoElement.playerVolume"
               v-tippy="'Change volume'"
@@ -287,7 +287,7 @@
               @autoadjustchange="onAutoAdjustChange"
               @refreshrecommended="onRefreshRecommendedQuality"
             />
-            <Icon
+            <VTIcon
               v-if="!fullscreen"
               v-tippy="'Enter Fullscreen'"
               name="mdi:fullscreen"
@@ -296,7 +296,7 @@
               @mouseup.prevent.stop="onEnterFullscreenMouseUp"
               @touchend.prevent="onEnterFullscreen"
             />
-            <Icon
+            <VTIcon
               v-if="fullscreen"
               v-tippy="'Leave fullscreen'"
               name="mdi:fullscreen-exit"
@@ -532,7 +532,7 @@ button.pictureInPictureToggleButton {
       }
 
       .right-top-controls {
-        .material-design-icon {
+        .vt-icon {
           width: 40px;
           height: 40px;
           cursor: pointer;
@@ -575,7 +575,9 @@ button.pictureInPictureToggleButton {
           height: 60px;
           background-color: #fff;
           opacity: 1;
-          transition: clip-path 300ms $intro-easing, opacity 300ms $intro-easing,
+          transition:
+            clip-path 300ms $intro-easing,
+            opacity 300ms $intro-easing,
             transform 300ms $intro-easing;
           clip-path: polygon(
             18% 4%,
@@ -616,7 +618,9 @@ button.pictureInPictureToggleButton {
       display: flex;
       flex-direction: column;
       z-index: 141;
-      transition: opacity 300ms $intro-easing, transform 300ms $intro-easing;
+      transition:
+        opacity 300ms $intro-easing,
+        transform 300ms $intro-easing;
       position: relative;
 
       &:before {
@@ -718,7 +722,9 @@ button.pictureInPictureToggleButton {
           box-sizing: border-box;
           border-radius: 3px;
           pointer-events: none;
-          transition: opacity 300ms $intro-easing, transform 100ms $intro-easing;
+          transition:
+            opacity 300ms $intro-easing,
+            transform 100ms $intro-easing;
         }
 
         .seekbar-clickable {
@@ -771,7 +777,9 @@ button.pictureInPictureToggleButton {
           bottom: 15px;
           white-space: nowrap;
           opacity: 0;
-          transition: opacity 300ms $intro-easing, left 300ms $intro-easing;
+          transition:
+            opacity 300ms $intro-easing,
+            left 300ms $intro-easing;
           text-shadow: 0 0 4px #000;
         }
 
@@ -823,19 +831,11 @@ button.pictureInPictureToggleButton {
             }
           }
 
-          .material-design-icon {
+          .vt-icon {
             width: 28px;
             height: 28px;
             margin: 2px 5px;
             cursor: pointer;
-
-            svg {
-              height: 28px;
-              width: 28px;
-              margin: auto;
-              bottom: 0 !important;
-              position: initial !important;
-            }
           }
 
           .play-icon {

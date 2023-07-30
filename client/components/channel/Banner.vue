@@ -30,7 +30,7 @@ const fallbackUrl = computed(() => {
         :href="imgProxy.url + bannerHqSrc"
         target="_blank"
         rel="noreferrer noopener"
-        ><Icon name="mdi:eye"
+        ><VTIcon name="mdi:eye"
       /></a>
     </div>
   </div>

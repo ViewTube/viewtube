@@ -15,6 +15,7 @@
     "build:metadata": "node ./buildMetadata.mjs"
   },
   "devDependencies": {
+    "@iconify-json/mdi": "^1.1.52",
     "@nuxt/eslint-config": "0.1.1",
     "@pinia-plugin-persistedstate/nuxt": "1.1.1",
     "@pinia/nuxt": "0.4.11",
@@ -24,6 +25,8 @@
     "@types/qrcode": "1.5.1",
     "@typescript-eslint/eslint-plugin": "5.62.0",
     "@typescript-eslint/parser": "5.62.0",
+    "@unocss/nuxt": "^0.54.0",
+    "@unocss/preset-icons": "^0.54.0",
     "consola": "3.2.3",
     "cross-env": "7.0.3",
     "dashjs": "4.7.1",
@@ -38,9 +41,8 @@
     "js-sha256": "0.9.0",
     "keen-slider": "6.8.6",
     "modern-js-ripple": "1.1.3",
-    "nuxi": "3.6.3",
+    "nuxi": "3.6.5",
     "nuxt": "3.6.5",
-    "nuxt-icon": "^0.4.2",
     "nuxt-proxy": "0.4.1",
     "papaparse": "5.4.1",
     "pinia": "2.1.4",

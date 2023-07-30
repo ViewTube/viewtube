@@ -1,16 +1,16 @@
 <template>
   <div class="player-animations-container">
     <div class="player-animation skip-forward" :class="{ visible: animations.skipForward }">
-      <Icon name="mdi:arrow-right" />
+      <VTIcon name="mdi:arrow-right" />
     </div>
     <div class="player-animation skip-backward" :class="{ visible: animations.skipBackward }">
-      <Icon name="mdi:arrow-left" />
+      <VTIcon name="mdi:arrow-left" />
     </div>
     <div class="player-animation volume-up" :class="{ visible: animations.volumeUp }">
-      <Icon name="mdi:volume-high" />
+      <VTIcon name="mdi:volume-high" />
     </div>
     <div class="player-animation volume-down" :class="{ visible: animations.volumeDown }">
-      <Icon name="mdi:volume-low" />
+      <VTIcon name="mdi:volume-low" />
     </div>
   </div>
 </template>
@@ -46,8 +46,7 @@ export default defineComponent({
       display: block;
     }
 
-    .material-design-icon,
-    .material-design-icon__svg {
+    .vt-icon {
       width: 60px;
       height: 60px;
     }

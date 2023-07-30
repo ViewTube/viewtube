@@ -2,7 +2,7 @@
   <div class="popup">
     <div class="container popup-container" :class="{ loading: loading }">
       <div class="form-header">
-        <Icon
+        <VTIcon
           v-ripple
           name="mdi:close"
           class="close-icon"

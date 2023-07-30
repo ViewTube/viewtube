@@ -8,13 +8,13 @@ defineProps<{
 
 <template>
   <div class="stats">
-    <Icon
+    <VTIcon
       v-if="channelInfo.isFamilyFriendly"
       v-tippy="'Family Friendly'"
       name="mdi:account-child-outline"
       class="family-friendly"
     />
-    <Icon
+    <VTIcon
       v-if="channelInfo.isOfficialArtist"
       v-tippy="'Official Artist'"
       name="mdi:account-music-outline"

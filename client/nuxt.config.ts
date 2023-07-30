@@ -1,3 +1,4 @@
+import { iconSafelist } from './utils/icons';
 import { devOnly } from './utils/devOnly';
 
 export default defineNuxtConfig({
@@ -40,9 +41,16 @@ export default defineNuxtConfig({
   modules: [
     '@pinia/nuxt',
     '@pinia-plugin-persistedstate/nuxt',
-    'nuxt-icon',
+    '@unocss/nuxt',
     ...devOnly(['nuxt-proxy'])
   ],
+
+  unocss: {
+    uno: false,
+    icons: true,
+    attributify: false,
+    safelist: iconSafelist
+  },
 
   piniaPersistedstate: {
     cookieOptions: {

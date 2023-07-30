@@ -1,5 +1,3 @@
-import { ModuleOptions } from 'nuxt-proxy';
-
 declare module '#app' {
   interface PageMeta {
     headless?: boolean;

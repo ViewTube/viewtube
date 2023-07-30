@@ -1,7 +1,7 @@
 <template>
   <div class="subscriptions-import popup">
     <div class="popup-container subscriptions-import-container">
-      <Icon v-ripple name="mdi:close" class="close-icon" @click.stop="$emit('close')" />
+      <VTIcon v-ripple name="mdi:close" class="close-icon" @click.stop="$emit('close')" />
       <h1>
         {{
           loading
@@ -13,7 +13,7 @@
       </h1>
       <div class="pages-container" :class="{ 'page-2': page2 }">
         <div class="page-container page-1-container">
-          <h2><Icon name="mdi:youtube" />Import from Youtube</h2>
+          <h2><VTIcon name="mdi:youtube" />Import from Youtube</h2>
           <ol>
             <li class="links">
               Go to
@@ -30,7 +30,7 @@
             <li>Upload the file "subscriptions.csv" here.</li>
           </ol>
           <FileButton :label="'Upload CSV'" @change="onYTTakeoutFileChange" />
-          <h2><Icon name="mdi:xml" />Import from Invidious / OPML</h2>
+          <h2><VTIcon name="mdi:xml" />Import from Invidious / OPML</h2>
           <FileButton :label="'Upload OPML'" @change="onOPMLFileChange" />
         </div>
         <div
@@ -41,17 +41,17 @@
           <div class="list-actions">
             <div class="left">
               <BadgeButton :click="selectAll">
-                <Icon name="mdi:select-all" />
+                <VTIcon name="mdi:select-all" />
                 <p>Select all</p>
               </BadgeButton>
               <BadgeButton :click="unselectAll">
-                <Icon name="mdi:select" />
+                <VTIcon name="mdi:select" />
                 <p>Unselect all</p>
               </BadgeButton>
             </div>
             <div class="right">
               <BadgeButton :click="importSelected" :disabled="anySelectedChannel">
-                <Icon name="mdi:import" />
+                <VTIcon name="mdi:import" />
                 <p>Import</p>
               </BadgeButton>
             </div>
@@ -108,7 +108,7 @@
                 :key="subscription.authorId"
                 :href="`/channel/${subscription.authorId}`"
                 target="_blank"
-                ><Icon name="mdi:open-in-new" />{{ subscription.author }}</a
+                ><VTIcon name="mdi:open-in-new" />{{ subscription.author }}</a
               >
             </div>
           </div>

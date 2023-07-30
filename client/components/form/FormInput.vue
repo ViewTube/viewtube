@@ -35,9 +35,9 @@ const autocompleteTag = computed((): string => autocompleteTags[props.type] ?? '
       :value="modelValue"
       @input="(e: any) => $emit('update:modelValue', e.target.value)"
     />
-    <Icon v-if="type === 'username'" name="mdi:account-outline" />
-    <Icon v-if="type === 'password'" name="mdi:key-outline" />
-    <Icon v-if="type === 'email'" name="mdi:at" />
+    <VTIcon v-if="type === 'username'" class="form-input-icon" name="mdi:account-outline" />
+    <VTIcon v-if="type === 'password'" class="form-input-icon" name="mdi:key-outline" />
+    <VTIcon v-if="type === 'email'" class="form-input-icon" name="mdi:at" />
     <label :for="id" class="input-label">{{ label }}</label>
   </div>
 </template>
@@ -47,14 +47,14 @@ const autocompleteTag = computed((): string => autocompleteTags[props.type] ?? '
   position: relative;
   $input-line-height: 50px;
 
-  .material-design-icon {
+  .form-input-icon {
     position: absolute;
     right: 40px;
     top: 30px;
     color: var(--title-color);
   }
 
-  .input:not(:valid) + .material-design-icon {
+  .input:not(:valid) + .form-input-icon {
     color: var(--error-color-red);
   }
 
@@ -98,7 +98,9 @@ const autocompleteTag = computed((): string => autocompleteTags[props.type] ?? '
     text-align: center;
     margin: auto;
     pointer-events: none;
-    transition: transform 300ms $intro-easing, color 300ms $intro-easing;
+    transition:
+      transform 300ms $intro-easing,
+      color 300ms $intro-easing;
     transform-origin: left top;
     color: var(--subtitle-color-light);
   }

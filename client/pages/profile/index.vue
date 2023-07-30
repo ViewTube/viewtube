@@ -173,7 +173,7 @@ const setProfileImageUrl = (url: string): void => {
         <div v-if="profile" class="user-info">
           <div class="profile-img" :class="{ image: profileImageUrl && !profileImageLoading }">
             <Spinner v-if="profileImageLoading" class="centered" />
-            <Icon v-if="!profileImageUrl && !profileImageLoading" name="mdi:account-circle" />
+            <VTIcon v-if="!profileImageUrl && !profileImageLoading" name="mdi:account-circle" />
             <div
               v-if="profileImageUrl && !profileImageLoading"
               :style="{ 'background-image': `url(${profileImageUrl})` }"
@@ -181,10 +181,10 @@ const setProfileImageUrl = (url: string): void => {
               class="profile-image"
             />
             <span v-if="profileImageUrl" class="delete-profile-img-btn" @click="deleteProfileImage"
-              ><Icon name="mdi:delete"
+              ><VTIcon name="mdi:delete"
             /></span>
             <label class="upload-profile-btn" for="upload-profile-image"
-              ><Icon name="mdi:plus"
+              ><VTIcon name="mdi:plus"
             /></label>
             <input
               id="upload-profile-image"
@@ -213,32 +213,32 @@ const setProfileImageUrl = (url: string): void => {
         <div v-if="profile" class="actions">
           <input id="actions" v-model="actionsOpen" type="checkbox" name="actions" />
           <label for="actions" class="actions-icon">
-            <Icon name="mdi:cog" />
-            <Icon name="mdi:chevron-up" class="chevron-icon" />
+            <VTIcon name="mdi:cog" />
+            <VTIcon name="mdi:chevron-up" class="chevron-icon" />
           </label>
           <div class="actions-details">
             <BadgeButton class="action" :click="onChangePasswordPopup"
-              ><Icon name="mdi:form-textbox-password" />Change password</BadgeButton
+              ><VTIcon name="mdi:form-textbox-password" />Change password</BadgeButton
             >
             <BadgeButton download class="action" :href="`${apiUrl}user/export`"
-              ><Icon name="mdi:database-export-outline" />Export data</BadgeButton
+              ><VTIcon name="mdi:database-export-outline" />Export data</BadgeButton
             >
             <BadgeButton class="action" :click="onLogoutPopup" style="color: #ef4056"
-              ><Icon name="mdi:logout-variant" />Sign out</BadgeButton
+              ><VTIcon name="mdi:logout-variant" />Sign out</BadgeButton
             >
             <BadgeButton class="action" :click="onDeleteAccount" style="color: #ef4056"
-              ><Icon name="mdi:delete-alert" />Delete account</BadgeButton
+              ><VTIcon name="mdi:delete-alert" />Delete account</BadgeButton
             >
           </div>
         </div>
       </div>
     </div>
     <div v-if="profile && !settingsStore.saveVideoHistory" class="no-history">
-      <Icon name="mdi:restart-off" />
+      <VTIcon name="mdi:restart-off" />
       <p>Video history is disabled. You can enable it in settings.</p>
     </div>
     <div v-if="profile && !hasHistory && settingsStore.saveVideoHistory" class="no-history">
-      <Icon name="mdi:history" />
+      <VTIcon name="mdi:history" />
       <p>You haven't watched any videos yet. Once you have, your history will show up here.</p>
     </div>
     <div v-if="profile && hasHistory" class="video-history">
@@ -293,7 +293,9 @@ const setProfileImageUrl = (url: string): void => {
 <style lang="scss">
 .popup-enter-active,
 .popup-leave-active {
-  transition: opacity 300ms $intro-easing, transform 300ms $intro-easing;
+  transition:
+    opacity 300ms $intro-easing,
+    transform 300ms $intro-easing;
 }
 .popup-enter-to,
 .popup-leave-from {
@@ -324,7 +326,9 @@ const setProfileImageUrl = (url: string): void => {
   .delete-account-btn {
     color: var(--error-color-red);
     border-color: var(--error-color-red);
-    transition: color 300ms $intro-easing, background-color 300ms $intro-easing;
+    transition:
+      color 300ms $intro-easing,
+      background-color 300ms $intro-easing;
 
     &:hover {
       color: unset;
@@ -453,16 +457,11 @@ const setProfileImageUrl = (url: string): void => {
             transition: opacity 200ms $intro-easing;
             cursor: pointer;
 
-            .material-design-icon {
+            .vt-icon {
               width: 100%;
               height: 100%;
               filter: var(--darkness);
-
-              .material-design-icon__svg {
-                fill: var(--bgcolor-main);
-                width: 100%;
-                height: 100%;
-              }
+              background-color: var(--bgcolor-main);
             }
           }
 
@@ -479,17 +478,12 @@ const setProfileImageUrl = (url: string): void => {
             opacity: 0;
           }
 
-          > .material-design-icon {
+          > .vt-icon {
             padding: 20px;
             width: calc(100% - 40px);
             height: calc(100% - 40px);
             filter: var(--darkness);
-
-            .material-design-icon__svg {
-              fill: var(--bgcolor-main);
-              width: 100%;
-              height: 100%;
-            }
+            background-color: var(--bgcolor-main);
           }
         }
         .user-name {
@@ -578,7 +572,9 @@ const setProfileImageUrl = (url: string): void => {
             opacity: 0;
             user-select: none;
             pointer-events: none;
-            transition: transform 300ms $intro-easing, opacity 300ms $intro-easing,
+            transition:
+              transform 300ms $intro-easing,
+              opacity 300ms $intro-easing,
               border 300ms 0ms $intro-easing;
           }
 
