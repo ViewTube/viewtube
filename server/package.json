@@ -64,7 +64,7 @@
     "rxjs": "7.8.1",
     "sharp": "0.32.3",
     "svg-captcha": "1.4.0",
-    "tslib": "2.6.0",
+    "tslib": "2.6.1",
     "undici": "5.22.1",
     "web-push": "3.6.3",
     "winston": "3.10.0",
