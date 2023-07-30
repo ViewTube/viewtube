@@ -394,8 +394,8 @@ importers:
         specifier: ^5.0.0
         version: 5.0.0
       openapi-typescript:
-        specifier: 6.3.4
-        version: 6.3.4
+        specifier: 6.3.9
+        version: 6.3.9
       redis:
         specifier: 4.6.7
         version: 4.6.7
@@ -9784,7 +9784,7 @@ packages:
       node-fetch-native: 1.2.0
       ofetch: 1.1.1
       ohash: 1.1.2
-      openapi-typescript: 6.3.4
+      openapi-typescript: 6.3.9
       pathe: 1.1.1
       perfect-debounce: 1.0.0
       pkg-types: 1.0.3
@@ -10140,8 +10140,8 @@ packages:
     resolution: {integrity: sha512-N4YtSYJqghVu4iek2ZUvcN/0aqH1kRDuNqzcycDxhOUpg7GdvLa2F3DgS6yBNhInhv2r/6I0Flkn7CqL8+nIcw==}
     dev: false
 
-  /openapi-typescript@6.3.4:
-    resolution: {integrity: sha512-icWb7WBBFr8+RxX7NZC5ez0WkTSQAScLnI33vHRLvWxkpOGKLlp94C0wcicZWzh85EoIoFjO+tujcQxo7zeZdA==}
+  /openapi-typescript@6.3.9:
+    resolution: {integrity: sha512-1+IHZIhkPjOjS9WQ3YF8lJq7/ZuFBoDOQfCFI2r5mJ4n2+xQ4aQbFw+mTqBl2pYSIb1cB+LWb2T8ig0K/VwI7A==}
     hasBin: true
     dependencies:
       ansi-colors: 4.1.3
