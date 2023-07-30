@@ -605,8 +605,9 @@ const watchPageTitle = computed(() => {
               }
 
               .thumbs-icon {
-                width: 2rem;
-                height: 0.8rem;
+                width: 1.5rem;
+                height: 1.5rem;
+                margin-right: 5px;
               }
 
               p {
