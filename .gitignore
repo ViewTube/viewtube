@@ -51,3 +51,5 @@ server/config.json
 client/buildMetadata.json
 ~
 **/cache
+generated.txt
+original.txt
