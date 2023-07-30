@@ -280,9 +280,8 @@ export default defineComponent({
           }
         }
 
-        &.material-design-icon,
-        .material-design-icon,
-        .material-design-icon__svg {
+        &.vt-icon,
+        .vt-icon {
           width: 100%;
           height: 100%;
         }

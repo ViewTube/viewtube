@@ -80,8 +80,7 @@ defineProps<{
       gap: 5px;
       color: var(--subtitle-color-light);
 
-      .material-design-icon,
-      :deep(.material-design-icon__svg) {
+      :deep(.vt-icon) {
         width: 20px;
         height: 20px;
       }

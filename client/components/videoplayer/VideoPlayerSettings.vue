@@ -399,7 +399,7 @@ $bottom-controls-height: $bottom-overlay-height - $video-seekbar-height;
         }
       }
 
-      .material-design-icon {
+      .vt-icon {
         left: 4px;
         top: -6px;
         position: absolute;
@@ -408,18 +408,13 @@ $bottom-controls-height: $bottom-overlay-height - $video-seekbar-height;
     }
   }
 
-  .material-design-icon {
-    width: $bottom-controls-height;
-    height: $bottom-controls-height;
+  .vt-icon {
+    height: 30px;
+    width: 30px;
     cursor: pointer;
-
-    svg {
-      height: 30px;
-      width: 30px;
-      margin: auto;
-      bottom: 0 !important;
-      position: initial !important;
-    }
+    margin: auto 0;
+    bottom: 0;
+    position: initial;
   }
 }
 </style>

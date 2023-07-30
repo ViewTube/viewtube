@@ -598,8 +598,7 @@ const watchPageTitle = computed(() => {
                 width: 16px;
                 padding: 2px 0 6px 8px;
 
-                .material-design-icon,
-                .material-design-icon__svg {
+                .vt-icon {
                   height: 16px;
                   width: 16px;
                 }
@@ -691,8 +690,7 @@ const watchPageTitle = computed(() => {
               gap: 5px;
               align-items: center;
 
-              .material-design-icon,
-              .material-design-icon__svg {
+              .vt-icon {
                 width: 20px;
                 height: 20px;
                 margin-bottom: 0.5px;

@@ -219,10 +219,9 @@ const loadMoreReplies = () => {
         gap: 4px;
         align-items: center;
 
-        .material-design-icon,
-        .material-design-icon__svg {
-          height: 1.2em !important;
-          width: 1.2em !important;
+        .vt-icon {
+          height: 1.2em;
+          width: 1.2em;
         }
 
         .edited-text {

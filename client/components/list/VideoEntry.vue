@@ -344,7 +344,7 @@ const onVideoEntryClick = () => {
       flex-direction: row;
 
       .channel-name-container {
-        .material-design-icon {
+        .vt-icon {
           margin: 6px 0 0 4px;
         }
       }
@@ -381,7 +381,7 @@ const onVideoEntryClick = () => {
         top: 3px;
         margin: 8px 0 0 4px;
 
-        .material-design-icon__svg {
+        .vt-icon {
           width: 14px;
           height: 14px;
         }
@@ -422,7 +422,9 @@ const onVideoEntryClick = () => {
     border-radius: 5px;
     box-sizing: border-box;
     cursor: pointer;
-    transition: opacity 200ms $intro-easing, transform 200ms $intro-easing;
+    transition:
+      opacity 200ms $intro-easing,
+      transform 200ms $intro-easing;
   }
 
   #show-description {
@@ -537,7 +539,7 @@ const onVideoEntryClick = () => {
         width: 36px;
         height: 36px;
 
-        .material-design-icon__svg {
+        .vt-icon {
           width: 36px;
           height: 36px;
         }

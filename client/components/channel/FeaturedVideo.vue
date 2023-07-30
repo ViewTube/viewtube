@@ -84,7 +84,7 @@ const hidePlaceholder = () => {
         width: 100px;
         height: 100px;
 
-        :deep(.material-design-icon__svg) {
+        :deep(.vt-icon) {
           width: 100%;
           height: 100%;
         }

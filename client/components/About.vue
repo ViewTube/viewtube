@@ -183,17 +183,11 @@ const copyCommitHash = () => {
     // Break text
     word-break: break-word;
 
-    .material-design-icon {
+    .vt-icon {
       width: 14px;
       height: 14px;
       padding: 2px 0 0 0;
       box-sizing: border-box;
-
-      .material-design-icon__svg {
-        width: 14px;
-        height: 14px;
-        display: block;
-      }
     }
   }
 }

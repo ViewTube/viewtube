@@ -293,7 +293,9 @@ const setProfileImageUrl = (url: string): void => {
 <style lang="scss">
 .popup-enter-active,
 .popup-leave-active {
-  transition: opacity 300ms $intro-easing, transform 300ms $intro-easing;
+  transition:
+    opacity 300ms $intro-easing,
+    transform 300ms $intro-easing;
 }
 .popup-enter-to,
 .popup-leave-from {
@@ -324,7 +326,9 @@ const setProfileImageUrl = (url: string): void => {
   .delete-account-btn {
     color: var(--error-color-red);
     border-color: var(--error-color-red);
-    transition: color 300ms $intro-easing, background-color 300ms $intro-easing;
+    transition:
+      color 300ms $intro-easing,
+      background-color 300ms $intro-easing;
 
     &:hover {
       color: unset;
@@ -453,16 +457,11 @@ const setProfileImageUrl = (url: string): void => {
             transition: opacity 200ms $intro-easing;
             cursor: pointer;
 
-            .material-design-icon {
+            .vt-icon {
               width: 100%;
               height: 100%;
               filter: var(--darkness);
-
-              .material-design-icon__svg {
-                fill: var(--bgcolor-main);
-                width: 100%;
-                height: 100%;
-              }
+              background-color: var(--bgcolor-main);
             }
           }
 
@@ -479,17 +478,12 @@ const setProfileImageUrl = (url: string): void => {
             opacity: 0;
           }
 
-          > .material-design-icon {
+          > .vt-icon {
             padding: 20px;
             width: calc(100% - 40px);
             height: calc(100% - 40px);
             filter: var(--darkness);
-
-            .material-design-icon__svg {
-              fill: var(--bgcolor-main);
-              width: 100%;
-              height: 100%;
-            }
+            background-color: var(--bgcolor-main);
           }
         }
         .user-name {
@@ -578,7 +572,9 @@ const setProfileImageUrl = (url: string): void => {
             opacity: 0;
             user-select: none;
             pointer-events: none;
-            transition: transform 300ms $intro-easing, opacity 300ms $intro-easing,
+            transition:
+              transform 300ms $intro-easing,
+              opacity 300ms $intro-easing,
               border 300ms 0ms $intro-easing;
           }
 

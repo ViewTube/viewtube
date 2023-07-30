@@ -243,7 +243,7 @@ const loadMoreVideos = async () => {
 
         .playlist-detail {
           margin: 0 20px 0 0;
-          .material-design-icon {
+          .vt-icon {
             top: 6px;
             margin: 0 5px 0 0;
           }

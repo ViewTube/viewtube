@@ -97,7 +97,9 @@ const videoQualities = ['144p', '240p', '360p', '720p', '1080p', '1440p', '2160p
             :right="true"
             :color-mark="'#0fca15'"
             class="sponsorblock-option"
-            @update:model-value="val => settingsStore.setSponsorblockSegmentSponsor(val as SegmentOption)"
+            @update:model-value="
+              val => settingsStore.setSponsorblockSegmentSponsor(val as SegmentOption)
+            "
           />
           <MultiOptionButton
             :options="sponsorblockSegmentOptions"
@@ -107,7 +109,9 @@ const videoQualities = ['144p', '240p', '360p', '720p', '1080p', '1440p', '2160p
             :right="true"
             :color-mark="'#07faf0'"
             class="sponsorblock-option"
-            @update:model-value="val => settingsStore.setSponsorblockSegmentIntro(val as SegmentOption)"
+            @update:model-value="
+              val => settingsStore.setSponsorblockSegmentIntro(val as SegmentOption)
+            "
           />
           <MultiOptionButton
             :options="sponsorblockSegmentOptions"
@@ -117,7 +121,9 @@ const videoQualities = ['144p', '240p', '360p', '720p', '1080p', '1440p', '2160p
             :right="true"
             :color-mark="'#0103e1'"
             class="sponsorblock-option"
-            @update:model-value="val => settingsStore.setSponsorblockSegmentOutro(val as SegmentOption)"
+            @update:model-value="
+              val => settingsStore.setSponsorblockSegmentOutro(val as SegmentOption)
+            "
           />
           <MultiOptionButton
             :options="sponsorblockSegmentOptions"
@@ -127,7 +133,9 @@ const videoQualities = ['144p', '240p', '360p', '720p', '1080p', '1440p', '2160p
             :right="true"
             :color-mark="'#b711df'"
             class="sponsorblock-option"
-            @update:model-value="val => settingsStore.setSponsorblockSegmentInteraction(val as SegmentOption)"
+            @update:model-value="
+              val => settingsStore.setSponsorblockSegmentInteraction(val as SegmentOption)
+            "
           />
           <MultiOptionButton
             :options="sponsorblockSegmentOptions"
@@ -137,7 +145,9 @@ const videoQualities = ['144p', '240p', '360p', '720p', '1080p', '1440p', '2160p
             :right="true"
             :color-mark="'#fdfb0e'"
             class="sponsorblock-option"
-            @update:model-value="val => settingsStore.setSponsorblockSegmentSelfpromo(val as SegmentOption)"
+            @update:model-value="
+              val => settingsStore.setSponsorblockSegmentSelfpromo(val as SegmentOption)
+            "
           />
           <MultiOptionButton
             :options="sponsorblockSegmentOptions"
@@ -147,7 +157,9 @@ const videoQualities = ['144p', '240p', '360p', '720p', '1080p', '1440p', '2160p
             :right="true"
             :color-mark="'#f89c06'"
             class="sponsorblock-option"
-            @update:model-value="val => settingsStore.setSponsorblockSegmentMusicOfftopic(val as SegmentOption)"
+            @update:model-value="
+              val => settingsStore.setSponsorblockSegmentMusicOfftopic(val as SegmentOption)
+            "
           />
           <MultiOptionButton
             :options="sponsorblockSegmentOptions"
@@ -157,7 +169,9 @@ const videoQualities = ['144p', '240p', '360p', '720p', '1080p', '1440p', '2160p
             :right="true"
             :color-mark="'#f70000'"
             class="sponsorblock-option"
-            @update:model-value="val => settingsStore.setSponsorblockSegmentPreview(val as SegmentOption)"
+            @update:model-value="
+              val => settingsStore.setSponsorblockSegmentPreview(val as SegmentOption)
+            "
           />
         </div>
       </div>
@@ -296,12 +310,11 @@ const videoQualities = ['144p', '240p', '360p', '720p', '1080p', '1440p', '2160p
         position: absolute;
         top: 0;
         left: 0;
-        transition: opacity 300ms $intro-easing, transform 300ms $intro-easing;
-
-        .material-design-icon__svg {
-          position: absolute;
-          left: 1px;
-        }
+        transition:
+          opacity 300ms $intro-easing,
+          transform 300ms $intro-easing;
+        width: 24px;
+        height: 24px;
       }
 
       .small-saving-spinner {

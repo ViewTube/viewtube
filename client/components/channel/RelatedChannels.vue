@@ -129,7 +129,7 @@ const { proxyUrl } = useImgProxy();
           }
 
           .verified-icon {
-            :deep(.material-design-icon__svg) {
+            :deep(.vt-icon) {
               width: 18px;
               height: 18px;
             }

@@ -101,7 +101,7 @@ export default defineComponent({
     border-style: solid;
     border-width: 2px;
     margin: 0 15px 20px 0;
-    border-radius: 4px;
+    border-radius: 8px;
     overflow: hidden;
     position: relative;
     transition: box-shadow 200ms $intro-easing, border-color 200ms $intro-easing;

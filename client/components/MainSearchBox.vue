@@ -194,7 +194,7 @@ export default defineComponent({
     display: flex;
     user-select: none;
 
-    .material-design-icon {
+    .vt-icon {
       margin: auto;
       left: -3px !important;
       display: flex;

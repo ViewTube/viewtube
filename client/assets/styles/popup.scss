@@ -52,13 +52,12 @@
       width: 38px;
       z-index: 5;
       cursor: pointer;
-      background-color: var(--bgcolor-alt);
       border-radius: 25px;
 
-      .material-design-icon__svg {
-        height: 38px !important;
-        width: 38px !important;
-        position: unset !important;
+      .vt-icon {
+        height: 38px;
+        width: 38px;
+        position: unset;
       }
     }
 
@@ -77,15 +76,10 @@
 
     h2 {
       padding: 40px 0 0 0;
+      display: flex;
 
-      span {
-        margin: 0 10px 0 0;
-
-        svg {
-          bottom: -0.2rem !important;
-          height: 1em !important;
-          width: 1em !important;
-        }
+      .vt-icon {
+        margin: auto 10px auto 0;
       }
     }
 

@@ -46,8 +46,7 @@ export default defineComponent({
       display: block;
     }
 
-    .material-design-icon,
-    .material-design-icon__svg {
+    .vt-icon {
       width: 60px;
       height: 60px;
     }

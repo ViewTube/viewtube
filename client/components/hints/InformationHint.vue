@@ -17,7 +17,7 @@ export default defineComponent({
   border-radius: 5px;
   justify-content: space-between;
 
-  .material-design-icon {
+  .vt-icon {
     justify-self: flex-end;
     padding: 0 10px 0 0;
   }

@@ -44,13 +44,12 @@ withDefaults(
     gap: 10px;
 
     &:hover {
-      .material-design-icon {
+      .vt-icon {
         transform: translateX(-10px);
       }
     }
 
-    .material-design-icon,
-    .material-design-icon__svg {
+    .vt-icon {
       height: 1.2em;
       width: 1.2em;
       transition: transform 300ms $intro-easing;

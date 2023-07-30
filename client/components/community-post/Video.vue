@@ -87,8 +87,7 @@ const { proxyUrl } = useImgProxy();
       align-items: center;
       gap: 2px;
 
-      .material-design-icon,
-      :deep(.material-design-icon__svg) {
+      :deep(.vt-icon) {
         width: 0.8rem;
         height: 0.8rem;
         margin-bottom: 1px;

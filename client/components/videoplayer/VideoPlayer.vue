@@ -532,7 +532,7 @@ button.pictureInPictureToggleButton {
       }
 
       .right-top-controls {
-        .material-design-icon {
+        .vt-icon {
           width: 40px;
           height: 40px;
           cursor: pointer;
@@ -575,7 +575,9 @@ button.pictureInPictureToggleButton {
           height: 60px;
           background-color: #fff;
           opacity: 1;
-          transition: clip-path 300ms $intro-easing, opacity 300ms $intro-easing,
+          transition:
+            clip-path 300ms $intro-easing,
+            opacity 300ms $intro-easing,
             transform 300ms $intro-easing;
           clip-path: polygon(
             18% 4%,
@@ -616,7 +618,9 @@ button.pictureInPictureToggleButton {
       display: flex;
       flex-direction: column;
       z-index: 141;
-      transition: opacity 300ms $intro-easing, transform 300ms $intro-easing;
+      transition:
+        opacity 300ms $intro-easing,
+        transform 300ms $intro-easing;
       position: relative;
 
       &:before {
@@ -718,7 +722,9 @@ button.pictureInPictureToggleButton {
           box-sizing: border-box;
           border-radius: 3px;
           pointer-events: none;
-          transition: opacity 300ms $intro-easing, transform 100ms $intro-easing;
+          transition:
+            opacity 300ms $intro-easing,
+            transform 100ms $intro-easing;
         }
 
         .seekbar-clickable {
@@ -771,7 +777,9 @@ button.pictureInPictureToggleButton {
           bottom: 15px;
           white-space: nowrap;
           opacity: 0;
-          transition: opacity 300ms $intro-easing, left 300ms $intro-easing;
+          transition:
+            opacity 300ms $intro-easing,
+            left 300ms $intro-easing;
           text-shadow: 0 0 4px #000;
         }
 
@@ -823,19 +831,11 @@ button.pictureInPictureToggleButton {
             }
           }
 
-          .material-design-icon {
+          .vt-icon {
             width: 28px;
             height: 28px;
             margin: 2px 5px;
             cursor: pointer;
-
-            svg {
-              height: 28px;
-              width: 28px;
-              margin: auto;
-              bottom: 0 !important;
-              position: initial !important;
-            }
           }
 
           .play-icon {
