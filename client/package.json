@@ -32,7 +32,7 @@
     "dashjs": "4.7.1",
     "dayjs": "1.11.9",
     "eslint": "8.45.0",
-    "eslint-config-prettier": "8.8.0",
+    "eslint-config-prettier": "8.9.0",
     "eslint-plugin-nuxt": "4.0.0",
     "eslint-plugin-vue": "9.15.1",
     "hls.js": "1.4.10",
