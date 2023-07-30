@@ -193,7 +193,7 @@ importers:
         version: 10.1.0(@nestjs/common@10.0.4)
       '@nestjs/mongoose':
         specifier: 10.0.1
-        version: 10.0.1(@nestjs/common@10.0.4)(@nestjs/core@10.0.4)(mongoose@7.4.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
+        version: 10.0.1(@nestjs/common@10.0.4)(@nestjs/core@10.0.4)(mongoose@7.4.1)(reflect-metadata@0.1.13)(rxjs@7.8.1)
       '@nestjs/passport':
         specifier: 10.0.0
         version: 10.0.0(@nestjs/common@10.0.4)(passport@0.6.0)
@@ -255,8 +255,8 @@ importers:
         specifier: 1.4.4
         version: 1.4.4
       mongoose:
-        specifier: 7.4.0
-        version: 7.4.0
+        specifier: 7.4.1
+        version: 7.4.1
       nest-winston:
         specifier: 1.9.3
         version: 1.9.3(@nestjs/common@10.0.4)(winston@3.10.0)
@@ -2753,7 +2753,7 @@ packages:
       reflect-metadata: 0.1.13
     dev: false
 
-  /@nestjs/mongoose@10.0.1(@nestjs/common@10.0.4)(@nestjs/core@10.0.4)(mongoose@7.4.0)(reflect-metadata@0.1.13)(rxjs@7.8.1):
+  /@nestjs/mongoose@10.0.1(@nestjs/common@10.0.4)(@nestjs/core@10.0.4)(mongoose@7.4.1)(reflect-metadata@0.1.13)(rxjs@7.8.1):
     resolution: {integrity: sha512-woUViG28WKf/kRiv6NFXu4Oc0DvAPeX4+fT4coDVt2OqndnfJZTXwkkys23uVsBpKSIflRyjPvmcVBHQvcunZw==}
     peerDependencies:
       '@nestjs/common': ^8.0.0 || ^9.0.0 || ^10.0.0
@@ -2764,7 +2764,7 @@ packages:
     dependencies:
       '@nestjs/common': 10.0.4(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
       '@nestjs/core': 10.0.4(@nestjs/common@10.0.4)(@nestjs/websockets@10.0.4)(reflect-metadata@0.1.13)(rxjs@7.8.1)
-      mongoose: 7.4.0
+      mongoose: 7.4.1
       reflect-metadata: 0.1.13
       rxjs: 7.8.1
     dev: false
@@ -9586,8 +9586,8 @@ packages:
       saslprep: 1.0.3
     dev: false
 
-  /mongoose@7.4.0:
-    resolution: {integrity: sha512-oHE1eqodfKzugXRlQxpo+msIea7jPcRoayDuEMr50+bYwM/juA5f+1stjkWlXcg6vo1PdJFVA6DGaKOPLuG5mA==}
+  /mongoose@7.4.1:
+    resolution: {integrity: sha512-o3E5KHHiHdaiwCJG3+9r70sncRKki71Ktf/TfXdW6myu+53rtZ56uLl5ylkQiCf60V3COJuOeekcxXVsjQ7cBA==}
     engines: {node: '>=14.20.1'}
     dependencies:
       bson: 5.4.0
