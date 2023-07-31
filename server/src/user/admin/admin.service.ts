@@ -25,7 +25,7 @@ export class AdminService {
     const logFiles = await readdir(logFolder);
 
     const logPromises = logFiles
-      .filter(file => file.endsWith('.log'))
+      .filter(file => !file.endsWith('.gz'))
       .map(async file => {
         const fileInfo = await stat(resolve(logFolder, file));
         return {
