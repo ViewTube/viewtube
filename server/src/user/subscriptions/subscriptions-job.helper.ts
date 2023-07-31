@@ -8,6 +8,7 @@ import { Job } from 'bull';
 import { logger } from 'server/common/logger';
 import { generateVideoThumbnails } from 'server/mapper/utils/video-thumbnails';
 import { ofetch } from 'ofetch';
+import { HttpsProxyAgent } from 'https-proxy-agent';
 
 export const runSubscriptionsJob = async (
   uniqueChannelIds: Array<string>,
@@ -116,7 +117,15 @@ export const getChannelFeed = async (
   channel: ChannelBasicInfoDto;
   videos: Array<VideoBasicInfoDto>;
 } | null> => {
-  const channelFeed = await ofetch(feedUrl + channelId)
+  const requestOptions: Record<string, unknown> = {};
+  if (process.env.VIEWTUBE_PROXY_URL) {
+    const proxy = process.env.VIEWTUBE_PROXY_URL;
+    requestOptions.headers = {
+      agent: new HttpsProxyAgent(proxy)
+    };
+  }
+
+  const channelFeed = await ofetch(feedUrl + channelId, requestOptions)
     .then(response => {
       if (response.ok) {
         return response.text();
@@ -160,7 +169,7 @@ export const getChannelFeed = async (
       }
     })
     .catch(err =>
-      logger.warn(`Could not find channel, the following error can be safely ignored:\n${err}`)
+      logger.warn(`[subscriptions job] Could not fetch channel: ${err}`)
     );
   if (typeof channelFeed === 'object' && channelFeed !== null && channelFeed.channel?.authorId) {
     return channelFeed;

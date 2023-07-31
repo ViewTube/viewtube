@@ -14,6 +14,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Fix log file list in admin panel [#2104](https://github.com/ViewTube/viewtube/pull/2104)
 
+### Changed
+
+- Use rotating proxy for subscription list fetches [#2105](https://github.com/ViewTube/viewtube/pull/2105)
+
 ## [0.10.0] - 2023-01-30
 
 ### Added
