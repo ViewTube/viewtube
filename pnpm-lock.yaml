@@ -156,8 +156,8 @@ importers:
         specifier: ^4.11.17
         version: 4.11.17
       '@fastify/cookie':
-        specifier: 8.3.0
-        version: 8.3.0
+        specifier: 9.0.1
+        version: 9.0.1
       '@fastify/helmet':
         specifier: 11.0.0
         version: 11.0.0
@@ -2071,8 +2071,8 @@ packages:
       text-decoding: 1.0.0
     dev: false
 
-  /@fastify/cookie@8.3.0:
-    resolution: {integrity: sha512-P9hY9GO11L20TnZ33XN3i0bt+3x0zaT7S0ohAzWO950E9PB2xnNhLYzPFJIGFi5AVN0yr5+/iZhWxeYvR6KCzg==}
+  /@fastify/cookie@9.0.1:
+    resolution: {integrity: sha512-bLtWz5B2jouLnyarVN1wabLSEj39ILYXhES091IW+fkit2F0fLGd1CJJ1BxrN4qDzmFGwqz+MIhlR7Z2o8skpg==}
     dependencies:
       cookie: 0.5.0
       fastify-plugin: 4.5.0
