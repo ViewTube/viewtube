@@ -39,8 +39,11 @@ const videoSpeed = ref(1);
 const recommendedResolution = ref(null);
 
 const smallQualityLabel = computed(() => {
-  if (props.videoQualityList && props.renderedVideoQuality) {
+  if (props.videoQualityList !== undefined && props.renderedVideoQuality !== undefined) {
     const renderedQuality: any = props.videoQualityList[props.renderedVideoQuality];
+    return `${renderedQuality.width}x${renderedQuality.height}`;
+  } else if (props.videoQualityList !== undefined && props.selectedVideoQuality !== undefined) {
+    const renderedQuality = props.videoQualityList[props.selectedVideoQuality];
     return `${renderedQuality.width}x${renderedQuality.height}`;
   }
 });

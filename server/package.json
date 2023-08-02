@@ -3,7 +3,7 @@
   "main": "dist/main",
   "engines": {
     "node": ">=18.16.0",
-    "pnpm": ">=8.2.0"
+    "pnpm": ">=8.6.0"
   },
   "scripts": {
     "serve": "nest build --webpack --webpackPath webpack-hmr.config.cjs --watch",

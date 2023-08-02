@@ -2,10 +2,14 @@ import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { URL } from 'node:url';
-import undici from 'undici';
+import { ofetch } from 'ofetch';
+import undici, { Dispatcher } from 'undici';
 @Injectable()
 export class VideoplaybackService {
-  constructor(private configService: ConfigService, private readonly logger: Logger) {}
+  constructor(
+    private configService: ConfigService,
+    private readonly logger: Logger
+  ) {}
   async proxyStream(request: FastifyRequest, reply: FastifyReply): Promise<void> {
     try {
       let url = request.url;
@@ -27,21 +31,36 @@ export class VideoplaybackService {
         range: rawHeaders.range,
         'accept-language': rawHeaders['accept-language'],
         'accept-encoding': rawHeaders['accept-encoding'],
-        'user-agent':
-          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36',
+        'user-agent': rawHeaders['user-agent'],
         origin: 'https://www.youtube.com'
       };
-      await undici
-        .stream(
-          newUrl.toString(),
-          { method: 'GET', opaque: reply, headers },
-          data => (data.opaque as any).raw
-        )
-        .catch(error => {
-          if (this.configService.get('NODE_ENV') !== 'production') {
-            this.logger.log(error);
-          }
-        });
+
+      const fetchResponse = await undici.request(newUrl.toString(), {
+        method: request.raw.method as Dispatcher.HttpMethod,
+        headers
+      });
+
+      reply.headers({
+        'content-length': fetchResponse.headers['content-length'],
+        'content-type': fetchResponse.headers['content-type'],
+        'content-disposition': fetchResponse.headers['content-disposition'],
+        'accept-ranges': fetchResponse.headers['accept-ranges'],
+        'content-range': fetchResponse.headers['content-range']
+      });
+
+      reply.status(fetchResponse.statusCode).send(fetchResponse.body);
+
+      // await undici
+      //   .stream(
+      //     newUrl.toString(),
+      //     { method: 'GET', opaque: reply, headers },
+      //     data => (data.opaque as any).raw
+      //   )
+      //   .catch(error => {
+      //     if (this.configService.get('NODE_ENV') !== 'production') {
+      //       this.logger.log(error);
+      //     }
+      //   });
     } catch (error) {
       if (this.configService.get('NODE_ENV') !== 'production') {
         this.logger.log(error);

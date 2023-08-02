@@ -19,7 +19,7 @@ export class SettingsService {
     autoplay: false,
     autoplayNextVideo: false,
     chapters: true,
-    dashPlaybackEnabled: false,
+    dashPlaybackEnabled: true,
     defaultAudioQuality: '192kb',
     defaultVideoQuality: '720p',
     defaultVideoSpeed: 1,

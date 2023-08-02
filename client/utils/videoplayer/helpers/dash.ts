@@ -12,9 +12,6 @@ export class DashHelper {
             abr: {
               limitBitrateByPortal: true,
               usePixelRatioInLimitBitrateByPortal: true
-            },
-            buffer: {
-              initialBufferLevel: 0
             }
           }
         });

@@ -11,15 +11,16 @@ describe('Homepage Tests', () => {
   });
 
   it('play the video', () => {
-    cy.get('.video', { timeout: 10000 })
+    cy.get('.video', { timeout: 10_000 })
       .should('have.prop', 'paused', true)
       .should('have.prop', 'ended', false)
       .then(video => {
         video[0].click();
       });
 
-    cy.get('.video', { timeout: 10000 })
+    cy.get('.video', { timeout: 120_000 })
       .should('have.prop', 'paused', false)
+      .should('have.prop', 'readyState', 4)
       .wait(2000)
       .then(video => {
         video[0].click();
