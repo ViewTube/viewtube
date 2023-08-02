@@ -20,6 +20,7 @@ describe('Homepage Tests', () => {
 
     cy.get('.video', { timeout: 10000 })
       .should('have.prop', 'paused', false)
+      .should('have.prop', 'readyState', 4)
       .wait(2000)
       .then(video => {
         video[0].click();
