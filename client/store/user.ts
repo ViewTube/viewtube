@@ -29,11 +29,13 @@ export const useUserStore = defineStore('user', {
           },
           credentials: 'include'
         });
-        this.username = user.username;
-        this.profileImage = user.profileImage;
-        this.admin = user.admin;
+        if (user) {
+          this.username = user.username;
+          this.profileImage = user.profileImage;
+          this.admin = user.admin;
 
-        settingsStore.updateSettings(user.settings);
+          settingsStore.updateSettings(user.settings);
+        }
       } catch {
         // Ignore silently
       }
