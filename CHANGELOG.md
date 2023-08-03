@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Fix log file list in admin panel [#2104](https://github.com/ViewTube/viewtube/pull/2104)
 - Use undici.request for videoplayback proxy [#2113](https://github.com/ViewTube/viewtube/pull/2113)
+- Use non-broken cache-manager-redis-yet [#2114](https://github.com/ViewTube/viewtube/pull/2114)
 
 ### Changed
 
