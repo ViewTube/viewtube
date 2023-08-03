@@ -2,7 +2,6 @@ import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { URL } from 'node:url';
-import { ofetch } from 'ofetch';
 import undici, { Dispatcher } from 'undici';
 @Injectable()
 export class VideoplaybackService {

@@ -8,7 +8,6 @@ import {
   ForbiddenException,
   InternalServerErrorException
 } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { DislikeDto } from 'server/core/videos/dto/dislike.dto';
