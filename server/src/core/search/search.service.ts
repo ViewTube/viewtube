@@ -1,7 +1,14 @@
-import { Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  Logger,
+  BadRequestException
+} from '@nestjs/common';
 import ytsr, { ContinueResult, Result } from 'ytsr';
 import { SearchFilterDto } from './dto/search-filter.dto';
 import { SearchQueryDto } from './dto/search-query.dto';
+import { innertubeClient } from 'server/common/innertube/innertube';
+import { YT } from 'youtubei.js';
 
 @Injectable()
 export class SearchService {
@@ -42,6 +49,17 @@ export class SearchService {
       this.logger.error(err);
       throw new InternalServerErrorException(`Error continuing search`);
     }
+  }
+
+  async doSearchV2(searchQuery: string): Promise<YT.Search> {
+    if (!searchQuery) {
+      throw new BadRequestException(`Search query is required`);
+    }
+
+    const client = await innertubeClient;
+    const searchResults = client.search(searchQuery);
+
+    return searchResults;
   }
 
   async doSearch(searchQuery: SearchQueryDto): Promise<Result> {
