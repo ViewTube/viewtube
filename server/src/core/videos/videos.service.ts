@@ -18,18 +18,47 @@ import { ofetch } from 'ofetch';
 import { innertubeClient } from 'server/common/innertube/innertube';
 import { toVTVideoInfoDto } from 'server/mapper/converter/video-info/vt-video-info.converter';
 import { VTVideoInfoDto } from 'server/mapper/dto/vt-video-info.dto';
-import ytdl from 'ytdl-core';
 // import { HttpsProxyAgent } from 'https-proxy-agent';
 
 @Injectable()
 export class VideosService {
   constructor(
     @InjectModel(BlockedVideo.name)
-    private readonly blockedVideoModel: Model<BlockedVideo>,
-    private configService: ConfigService
+    private readonly blockedVideoModel: Model<BlockedVideo>
   ) {}
 
   returnYoutubeDislikeUrl = 'https://returnyoutubedislikeapi.com';
+
+  async getDash(id: string, baseUrl?: string): Promise<string> {
+    const isVideoBlocked = await this.blockedVideoModel.findOne({ videoId: id });
+    if (isVideoBlocked) {
+      throw new ForbiddenException('This video has been blocked for copyright reasons.');
+    }
+
+    try {
+      const client = await innertubeClient;
+      const videoInfo = await client.getInfo(id);
+
+      let replaceUrl = 'http://BASEURL_TO_REPLACE.com';
+
+      if (baseUrl) {
+        replaceUrl = new URL(baseUrl).origin;
+      }
+
+      const dashManifest = await videoInfo.toDash((url: URL) => {
+        const searchParams = new URLSearchParams();
+        for (const [key, value] of url.searchParams) {
+          searchParams.append(key, value);
+        }
+        searchParams.append('__host', url.host);
+        return new URL(`${replaceUrl}/api/videoplayback?${searchParams.toString()}`);
+      });
+
+      return dashManifest;
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
+  }
 
   async getById(id: string): Promise<VTVideoInfoDto> {
     const isVideoBlocked = await this.blockedVideoModel.findOne({ videoId: id });
@@ -52,26 +81,8 @@ export class VideosService {
         );
       });
 
-      let externalFormats = undefined;
-      try {
-        const ytdlOptions = {
-          requestOptions: {}
-        };
-
-        // if (this.configService.get('VIEWTUBE_PROXY_URL')) {
-        //   const proxy = this.configService.get('VIEWTUBE_PROXY_URL');
-        //   (ytdlOptions.requestOptions as any).agent = new HttpsProxyAgent(proxy);
-        // }
-
-        const { formats } = await ytdl.getInfo(id, ytdlOptions);
-        externalFormats = formats;
-      } catch {
-        // Drop silently
-      }
-
       const video = toVTVideoInfoDto(videoInfo as unknown, {
-        dashManifest,
-        externalFormats
+        dashManifest
       });
       return video;
     } catch (error) {
