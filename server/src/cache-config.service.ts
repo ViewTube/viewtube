@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CacheModuleOptions, CacheOptionsFactory, CacheStore } from '@nestjs/cache-manager';
 import { RedisClientOptions } from 'redis';
-import { redisStore } from 'cache-manager-redis-store';
+import { redisStore } from 'cache-manager-redis-yet';
 import { StoreConfig } from 'cache-manager';
 
 @Injectable()
