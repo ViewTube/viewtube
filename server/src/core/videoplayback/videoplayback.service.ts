@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { URL } from 'node:url';
@@ -11,16 +11,20 @@ export class VideoplaybackService {
     private readonly logger: Logger
   ) {}
   async proxyStream(request: FastifyRequest, reply: FastifyReply): Promise<void> {
+    let url = request.url;
+
+    // URL constructor expects valid url
+    if (!url.startsWith('http')) {
+      url = `https://example.com${url}`;
+    }
+    const oldUrl = new URL(url);
+    const urlHost = oldUrl.searchParams.get('__host');
+
+    if (!urlHost) {
+      throw new BadRequestException('__host parameter is required');
+    }
+
     try {
-      let url = request.url;
-
-      // URL constructor expects valid url
-      if (!url.startsWith('http')) {
-        url = `https://example.com${url}`;
-      }
-      const oldUrl = new URL(url);
-      const urlHost = oldUrl.searchParams.get('host');
-
       const newUrl = new URL(`https://${urlHost}/videoplayback`);
       for (const [key, value] of oldUrl.searchParams as any) {
         newUrl.searchParams.append(key, value);
@@ -48,19 +52,20 @@ export class VideoplaybackService {
         'content-range': fetchResponse.headers['content-range']
       });
 
-      reply.status(fetchResponse.statusCode).send(fetchResponse.body);
+      if (fetchResponse.headers['location']) {
+        const newLocation = new URL(fetchResponse.headers['location'].toString());
 
-      // await undici
-      //   .stream(
-      //     newUrl.toString(),
-      //     { method: 'GET', opaque: reply, headers },
-      //     data => (data.opaque as any).raw
-      //   )
-      //   .catch(error => {
-      //     if (this.configService.get('NODE_ENV') !== 'production') {
-      //       this.logger.log(error);
-      //     }
-      //   });
+        newLocation.searchParams.delete('__host');
+
+        const searchParams = new URLSearchParams();
+        for (const [key, value] of newLocation.searchParams) {
+          searchParams.append(key, value);
+        }
+        searchParams.append('__host', newLocation.host);
+        reply.header('location', `/api/videoplayback?${searchParams.toString()}`);
+      }
+
+      reply.status(fetchResponse.statusCode).send(fetchResponse.body);
     } catch (error) {
       if (this.configService.get('NODE_ENV') !== 'production') {
         this.logger.log(error);

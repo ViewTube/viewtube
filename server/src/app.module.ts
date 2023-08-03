@@ -92,7 +92,7 @@ const moduleMetadata: ModuleMetadata = {
         return {
           ttl: 600,
           limit: 1000,
-          storage: new ThrottlerStorageRedisService({ ...redisOptions, db: 3 })
+          storage: new ThrottlerStorageRedisService({ ...redisOptions, db: 2 })
         };
       },
       inject: [ConfigService]

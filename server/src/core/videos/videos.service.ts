@@ -46,7 +46,7 @@ export class VideosService {
         for (const [key, value] of url.searchParams) {
           searchParams.append(key, value);
         }
-        searchParams.append('host', url.host);
+        searchParams.append('__host', url.host);
         return new URL(
           `http://BASEURL_TO_REPLACE.com/api/videoplayback?${searchParams.toString()}`
         );
