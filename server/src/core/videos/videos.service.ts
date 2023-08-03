@@ -95,7 +95,7 @@ export class VideosService {
     const { body } = await undici.request(`${this.returnYoutubeDislikeUrl}/Votes?videoId=${id}`);
 
     if (body) {
-      const responseObject = await body.json();
+      const responseObject = (await body.json()) as DislikeDto & { status?: number };
       if (!isNaN(responseObject.dislikes)) {
         return responseObject;
       } else if (responseObject.status) {

@@ -11,7 +11,7 @@
           dragOffsetLeft
         )}px), calc(-10% + ${Math.floor(dragOffsetTop)}px), 0)`
       }"
-      :class="{ animated: transition }"
+      :class="{ animated: doTransition }"
     >
       <div
         class="drag-space"
@@ -52,7 +52,7 @@ export default defineComponent({
     const startPositionLeft = ref(0);
     const dragOffsetTop = ref(0);
     const dragOffsetLeft = ref(0);
-    const transition = ref(false);
+    const doTransition = ref(false);
 
     const miniplayerRef = ref(null);
 
@@ -153,9 +153,9 @@ export default defineComponent({
       }
     };
     const calculateFinish = (posX: number, posY: number) => {
-      transition.value = true;
+      doTransition.value = true;
       setTimeout(() => {
-        transition.value = false;
+        doTransition.value = false;
       }, 600);
       const pageWidth = getPageWidth();
       const pageHeight = getPageHeight();
@@ -193,7 +193,7 @@ export default defineComponent({
       startPositionLeft,
       dragOffsetTop,
       dragOffsetLeft,
-      transition,
+      doTransition,
       video,
       visible,
       miniplayerRef,
