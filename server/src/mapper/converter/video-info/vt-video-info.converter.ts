@@ -24,25 +24,18 @@ import {
   extractUpcoming,
   extractViewCount,
   extractSubtitle,
-  extractExternalLegacyFormats,
   extractLegacyFormats
 } from './vt-video-info.extractors';
 import { createDashManifestURI } from 'server/mapper/utils/dash-manifest-uri';
-import { videoFormat } from 'ytdl-core';
 import { logger } from 'server/common/logger';
 
 type ToVTVideoInfoOptions = {
   dashManifest: string;
-  externalFormats?: Array<videoFormat>;
 };
 export const toVTVideoInfoDto = (
   videoInfo: VideoInfoSourceApproximation,
-  { dashManifest, externalFormats }: ToVTVideoInfoOptions
+  { dashManifest }: ToVTVideoInfoOptions
 ): VTVideoInfoDto => {
-  let legacyFormats = extractLegacyFormats(videoInfo);
-  if (externalFormats) {
-    legacyFormats = extractExternalLegacyFormats(externalFormats);
-  }
   const id = extractVideoId(videoInfo);
   logger.log(`Parsing video ${id}`);
   return {
@@ -69,7 +62,7 @@ export const toVTVideoInfoDto = (
     recommendedVideos: extractRecommendedVideos(videoInfo),
     chapters: extractChapters(videoInfo),
     commentCount: extractCommentCount(videoInfo),
-    legacyFormats,
+    legacyFormats: extractLegacyFormats(videoInfo),
     dashManifest,
     dashManifestURI: createDashManifestURI(dashManifest)
   };
