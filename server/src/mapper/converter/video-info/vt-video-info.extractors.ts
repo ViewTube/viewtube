@@ -10,7 +10,6 @@ import { VTSimpleCardContentDto } from 'server/mapper/dto/infocard/vt-simple-car
 import { VTPlaylistCardContentDto } from 'server/mapper/dto/infocard/vt-playlist-card-content.dto';
 import { parseRelativeTime } from 'server/mapper/utils/parse-relative-time';
 import dayjs from 'dayjs';
-import { videoFormat } from 'ytdl-core';
 
 export const extractVideoId = (videoInfo: VideoInfoSourceApproximation) => {
   return videoInfo?.basic_info?.id;
@@ -362,56 +361,6 @@ export const extractLegacyFormats = (
         audioChannels: format?.audio_channels,
         hasAudio: format?.has_audio,
         hasVideo: format?.has_video
-      };
-    });
-};
-
-export const extractExternalLegacyFormats = (
-  formats: Array<videoFormat>
-): VTVideoInfoDto['legacyFormats'] => {
-  return formats
-    .filter(format => {
-      return format?.hasAudio && format?.hasVideo;
-    })
-    .map(format => {
-      const {
-        mimeType,
-        bitrate,
-        averageBitrate,
-        width,
-        height,
-        lastModified,
-        contentLength,
-        quality,
-        qualityLabel,
-        fps,
-        url,
-        audioQuality,
-        approxDurationMs,
-        audioSampleRate,
-        audioChannels,
-        hasAudio,
-        hasVideo
-      } = format;
-
-      return {
-        mimeType,
-        bitrate,
-        averageBitrate,
-        width,
-        height,
-        lastModified: dayjs(lastModified).toDate(),
-        contentLength: parseInt(contentLength),
-        quality: quality.toString(),
-        qualityLabel,
-        fps,
-        url,
-        audioQuality,
-        approxDurationMs: parseInt(approxDurationMs),
-        audioSampleRate: parseInt(audioSampleRate),
-        audioChannels,
-        hasAudio,
-        hasVideo
       };
     });
 };

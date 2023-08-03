@@ -152,9 +152,6 @@ importers:
 
   server:
     dependencies:
-      '@distube/ytdl-core':
-        specifier: ^4.11.17
-        version: 4.11.17
       '@fastify/cookie':
         specifier: 9.0.1
         version: 9.0.1
@@ -314,9 +311,6 @@ importers:
       yt-channel-info:
         specifier: git://github.com/FreeTubeApp/yt-channel-info
         version: github.com/FreeTubeApp/yt-channel-info/0a6001bf4e7ec0e4aef4f95dded67c8f8ee0f2c4
-      ytdl-core:
-        specifier: git://github.com/eugabrielsilva/node-ytdl-core
-        version: github.com/eugabrielsilva/node-ytdl-core/4d147ee6c0cdd6ca62f6082330aae036beeff04e
       ytpl:
         specifier: 2.3.0
         version: 2.3.0
@@ -1566,16 +1560,6 @@ packages:
       colorspace: 1.1.4
       enabled: 2.0.0
       kuler: 2.0.0
-    dev: false
-
-  /@distube/ytdl-core@4.11.17:
-    resolution: {integrity: sha512-XHRYxC9hR94GBxfy/SiGjnCbe7AuB1YqTAfD3CxOfdGkW5I2AXbDLHIVsjKLTUNHT3CkVvh3Q99SRM0T2cKdSw==}
-    engines: {node: '>=12'}
-    dependencies:
-      m3u8stream: 0.8.6
-      miniget: 4.2.3
-      sax: 1.2.4
-      undici: 5.22.1
     dev: false
 
   /@esbuild/android-arm64@0.17.19:
@@ -9279,14 +9263,6 @@ packages:
     engines: {node: '>=12'}
     dev: false
 
-  /m3u8stream@0.8.6:
-    resolution: {integrity: sha512-LZj8kIVf9KCphiHmH7sbFQTVe4tOemb202fWwvJwR9W5ENW/1hxJN6ksAWGhQgSBSa3jyWhnjKU1Fw1GaOdbyA==}
-    engines: {node: '>=12'}
-    dependencies:
-      miniget: 4.2.3
-      sax: 1.2.4
-    dev: false
-
   /macos-release@2.5.1:
     resolution: {integrity: sha512-DXqXhEM7gW59OjZO8NIjBCz9AQ1BEMrfiOAl4AYByHCtVHRF4KoGNO8mqQeM8lRCtQe/UnJ4imO/d2HdkKsd+A==}
     engines: {node: '>=6'}
@@ -13148,15 +13124,4 @@ packages:
       axios: 1.4.0
     transitivePeerDependencies:
       - debug
-    dev: false
-
-  github.com/eugabrielsilva/node-ytdl-core/4d147ee6c0cdd6ca62f6082330aae036beeff04e:
-    resolution: {tarball: https://codeload.github.com/eugabrielsilva/node-ytdl-core/tar.gz/4d147ee6c0cdd6ca62f6082330aae036beeff04e}
-    name: ytdl-core
-    version: 0.0.0-development
-    engines: {node: '>=12'}
-    dependencies:
-      m3u8stream: 0.8.6
-      miniget: 4.2.3
-      sax: 1.2.4
     dev: false
