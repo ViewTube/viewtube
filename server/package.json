@@ -34,7 +34,7 @@
     "@nestjs/mongoose": "10.0.1",
     "@nestjs/passport": "10.0.0",
     "@nestjs/platform-fastify": "10.0.4",
-    "@nestjs/schedule": "3.0.1",
+    "@nestjs/schedule": "3.0.2",
     "@nestjs/swagger": "7.1.6",
     "@nestjs/throttler": "4.2.1",
     "archiver": "5.3.1",

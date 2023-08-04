@@ -198,8 +198,8 @@ importers:
         specifier: 10.0.4
         version: 10.0.4(@fastify/static@6.10.2)(@nestjs/common@10.0.4)(@nestjs/core@10.0.4)
       '@nestjs/schedule':
-        specifier: 3.0.1
-        version: 3.0.1(@nestjs/common@10.0.4)(@nestjs/core@10.0.4)(reflect-metadata@0.1.13)
+        specifier: 3.0.2
+        version: 3.0.2(@nestjs/common@10.0.4)(@nestjs/core@10.0.4)(reflect-metadata@0.1.13)
       '@nestjs/swagger':
         specifier: 7.1.6
         version: 7.1.6(@fastify/static@6.10.2)(@nestjs/common@10.0.4)(@nestjs/core@10.0.4)(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)
@@ -2814,8 +2814,8 @@ packages:
       - supports-color
     dev: false
 
-  /@nestjs/schedule@3.0.1(@nestjs/common@10.0.4)(@nestjs/core@10.0.4)(reflect-metadata@0.1.13):
-    resolution: {integrity: sha512-4CAFu4rE/QPYnz/icRg3GiuLmY1bXopG8bWTJ9d7bXzaHBaPKIjGvZ20wsK8P+MncrVCkmK0iYhQrNj0cwX9+A==}
+  /@nestjs/schedule@3.0.2(@nestjs/common@10.0.4)(@nestjs/core@10.0.4)(reflect-metadata@0.1.13):
+    resolution: {integrity: sha512-INhpzkyquosLbVrXx4v+rfAnomwBTgKQvs7e9BZ2LSZdWQOqCQD2PmvWDiu8c4wdJIH6wcWQh98w5KxIcKuVBA==}
     peerDependencies:
       '@nestjs/common': ^8.0.0 || ^9.0.0 || ^10.0.0
       '@nestjs/core': ^8.0.0 || ^9.0.0 || ^10.0.0
@@ -2823,7 +2823,7 @@ packages:
     dependencies:
       '@nestjs/common': 10.0.4(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
       '@nestjs/core': 10.0.4(@nestjs/common@10.0.4)(@nestjs/websockets@10.0.4)(reflect-metadata@0.1.13)(rxjs@7.8.1)
-      cron: 2.3.1
+      cron: 2.4.0
       reflect-metadata: 0.1.13
       uuid: 9.0.0
     dev: false
@@ -6176,8 +6176,8 @@ packages:
       luxon: 3.3.0
     dev: false
 
-  /cron@2.3.1:
-    resolution: {integrity: sha512-1eRRlIT0UfIqauwbG9pkg3J6CX9A6My2ytJWqAXoK0T9oJnUZTzGBNPxao0zjodIbPgf8UQWjE62BMb9eVllSQ==}
+  /cron@2.4.0:
+    resolution: {integrity: sha512-Cx77ic1TyIAtUggr0oAhtS8MLzPBUqGNIvdDM7jE3oFIxfe8LXWI9q3iQN/H2CebAiMir53LQKWOhEKnzkJTAQ==}
     dependencies:
       luxon: 3.3.0
     dev: false
