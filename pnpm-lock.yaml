@@ -288,8 +288,8 @@ importers:
         specifier: 2.6.1
         version: 2.6.1
       undici:
-        specifier: 5.22.1
-        version: 5.22.1
+        specifier: 5.23.0
+        version: 5.23.0
       web-push:
         specifier: 3.6.4
         version: 3.6.4
@@ -10170,7 +10170,7 @@ packages:
       fast-glob: 3.3.0
       js-yaml: 4.1.0
       supports-color: 9.4.0
-      undici: 5.22.1
+      undici: 5.23.0
       yargs-parser: 21.1.1
     dev: true
 
@@ -12223,8 +12223,8 @@ packages:
       unplugin: 1.4.0
     dev: true
 
-  /undici@5.22.1:
-    resolution: {integrity: sha512-Ji2IJhFXZY0x/0tVBXeQwgPlLWw13GVzpsWPQ3rV50IFMMof2I55PZZxtm4P6iNq+L5znYN9nSTAq0ZyE6lSJw==}
+  /undici@5.23.0:
+    resolution: {integrity: sha512-1D7w+fvRsqlQ9GscLBwcAJinqcZGHUKjbOmXdlE/v8BvEGXjeWAax+341q44EuTcHXXnfyKNbKRq4Lg7OzhMmg==}
     engines: {node: '>=14.0'}
     dependencies:
       busboy: 1.6.0
@@ -13089,7 +13089,7 @@ packages:
       jintr: 1.1.0
       linkedom: 0.14.26
       tslib: 2.6.1
-      undici: 5.22.1
+      undici: 5.23.0
     dev: false
 
   /ytpl@2.3.0:
