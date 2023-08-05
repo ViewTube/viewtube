@@ -20,7 +20,7 @@
     "@pinia-plugin-persistedstate/nuxt": "1.1.1",
     "@pinia/nuxt": "0.4.11",
     "@types/humanize-duration": "3.27.1",
-    "@types/node": "18.17.2",
+    "@types/node": "18.17.3",
     "@types/papaparse": "5.3.7",
     "@types/qrcode": "1.5.1",
     "@typescript-eslint/eslint-plugin": "5.62.0",
