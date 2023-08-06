@@ -216,7 +216,7 @@ export default defineComponent({
       const fileReader = new FileReader();
       fileReader.onload = () => {
         if (e.target.files[0].name.includes('.csv')) {
-          subscriptionsToImport.value = convertFromCSVToJson(fileReader.result as string);
+          // subscriptionsToImport.value = convertFromCSVToJson(fileReader.result as string);
         }
         if (subscriptionsToImport.value === undefined) {
           messagesStore.createMessage({

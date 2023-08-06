@@ -24,8 +24,8 @@ importers:
   client:
     devDependencies:
       '@iconify-json/mdi':
-        specifier: 1.1.53
-        version: 1.1.53
+        specifier: 1.1.54
+        version: 1.1.54
       '@nuxt/eslint-config':
         specifier: 0.1.1
         version: 0.1.1(eslint@8.46.0)
@@ -454,8 +454,8 @@ importers:
         specifier: 29.6.2
         version: 29.6.2
       mongodb-memory-server:
-        specifier: 8.13.0
-        version: 8.13.0
+        specifier: 8.14.0
+        version: 8.14.0
       redis-mock:
         specifier: 0.56.3
         version: 0.56.3
@@ -2316,8 +2316,8 @@ packages:
     resolution: {integrity: sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==}
     dev: true
 
-  /@iconify-json/mdi@1.1.53:
-    resolution: {integrity: sha512-qG72Tc9Bd4w7fha+kMEySVTbH4Obgb9xA1mQl+WReFhtZ3PjcVpIWLgZGTewuIfZY8RAbd8zfAqhZ7qEYZWrhg==}
+  /@iconify-json/mdi@1.1.54:
+    resolution: {integrity: sha512-3QAsxte90EalbN2e8J30OqSSZz9qN2x+kmykQwsPahoW2dOtSvj+BR9YdiUd9A5XKk2nuU4UH5Gj/cq6WZ6CzQ==}
     dependencies:
       '@iconify/types': 2.0.0
     dev: true
@@ -9690,14 +9690,15 @@ packages:
       '@types/whatwg-url': 8.2.2
       whatwg-url: 11.0.0
 
-  /mongodb-memory-server-core@8.13.0:
-    resolution: {integrity: sha512-4NTOzYOlRUilwb8CxOKix/XbZmac4cLpmEU03eaHx90lgEp+ARZM2PQtIOEg3nhHo97r9THIEv6Gs4LECokp0Q==}
+  /mongodb-memory-server-core@8.14.0:
+    resolution: {integrity: sha512-neR9nZC/hqEpaRVkbzy019OqFYnlz5y+3cqZSxL15lcl0K73zwKWU/1jS0UpIii5RlSdgFuDc8xG7+M/IDnzzQ==}
     engines: {node: '>=12.22.0'}
     dependencies:
       async-mutex: 0.3.2
       camelcase: 6.3.0
       debug: 4.3.4(supports-color@8.1.1)
       find-cache-dir: 3.3.2
+      follow-redirects: 1.15.2(debug@4.3.4)
       get-port: 5.1.1
       https-proxy-agent: 5.0.1
       md5-file: 5.0.0
@@ -9713,12 +9714,12 @@ packages:
       - supports-color
     dev: true
 
-  /mongodb-memory-server@8.13.0:
-    resolution: {integrity: sha512-CyrKMwEmRePn8iQ3LtWQiOJxlGK0eM+NNTq3Yg8m7gaywepFu24mF7s13q87Kfuq0WgBuCJQ4t6VcUZJ4m+KWQ==}
+  /mongodb-memory-server@8.14.0:
+    resolution: {integrity: sha512-xY6ATsFeGLgzuZPy+13ho/JdYgar8Hv+yeGuI6E5uGuh++LyUKqgJlxh92dQbJUeEhrbFX50wgC8aWIDBXObKQ==}
     engines: {node: '>=12.22.0'}
     requiresBuild: true
     dependencies:
-      mongodb-memory-server-core: 8.13.0
+      mongodb-memory-server-core: 8.14.0
       tslib: 2.6.1
     transitivePeerDependencies:
       - aws-crt
