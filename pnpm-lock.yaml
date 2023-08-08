@@ -172,7 +172,7 @@ importers:
         version: 6.2.0
       '@nestjs/bull':
         specifier: 10.0.1
-        version: 10.0.1(@nestjs/common@10.0.4)(@nestjs/core@10.0.4)(bull@4.10.4)
+        version: 10.0.1(@nestjs/common@10.0.4)(@nestjs/core@10.0.4)(bull@4.11.1)
       '@nestjs/cache-manager':
         specifier: 2.1.0
         version: 2.1.0(@nestjs/common@10.0.4)(@nestjs/core@10.0.4)(cache-manager@5.2.3)(reflect-metadata@0.1.13)(rxjs@7.8.1)
@@ -213,8 +213,8 @@ importers:
         specifier: 2.4.3
         version: 2.4.3
       bull:
-        specifier: 4.10.4
-        version: 4.10.4
+        specifier: 4.11.1
+        version: 4.11.1
       cache-manager:
         specifier: 5.2.3
         version: 5.2.3
@@ -2595,7 +2595,7 @@ packages:
       tslib: 2.6.0
     dev: false
 
-  /@nestjs/bull@10.0.1(@nestjs/common@10.0.4)(@nestjs/core@10.0.4)(bull@4.10.4):
+  /@nestjs/bull@10.0.1(@nestjs/common@10.0.4)(@nestjs/core@10.0.4)(bull@4.11.1):
     resolution: {integrity: sha512-1GcJ8BkHDgQdBMZ7SqAqgUHiFnISXmpGvewFeTc8wf87JLk2PweiKv9j9/KQKU+NI237pCe82XB0bXzTnsdxSw==}
     peerDependencies:
       '@nestjs/common': ^8.0.0 || ^9.0.0 || ^10.0.0
@@ -2605,7 +2605,7 @@ packages:
       '@nestjs/bull-shared': 10.0.1(@nestjs/common@10.0.4)(@nestjs/core@10.0.4)
       '@nestjs/common': 10.0.4(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
       '@nestjs/core': 10.0.4(@nestjs/common@10.0.4)(@nestjs/websockets@10.0.4)(reflect-metadata@0.1.13)(rxjs@7.8.1)
-      bull: 4.10.4
+      bull: 4.11.1
       tslib: 2.6.0
     dev: false
 
@@ -5672,12 +5672,11 @@ packages:
     engines: {node: '>=6'}
     dev: true
 
-  /bull@4.10.4:
-    resolution: {integrity: sha512-o9m/7HjS/Or3vqRd59evBlWCXd9Lp+ALppKseoSKHaykK46SmRjAilX98PgmOz1yeVaurt8D5UtvEt4bUjM3eA==}
+  /bull@4.11.1:
+    resolution: {integrity: sha512-d4223WchAnZDh3IlUnKqQ30ODfa2iXmv0/qiyrTSNrJSKdm4k48XesLaJHAtjsDgQw9kFwKB+fqo+DRyueuf6g==}
     engines: {node: '>=12'}
     dependencies:
       cron-parser: 4.8.1
-      debuglog: 1.0.1
       get-port: 5.1.1
       ioredis: 5.3.2
       lodash: 4.17.21
@@ -6452,11 +6451,6 @@ packages:
     dependencies:
       ms: 2.1.2
       supports-color: 8.1.1
-
-  /debuglog@1.0.1:
-    resolution: {integrity: sha512-syBZ+rnAK3EgMsH2aYEOLUW7mZSY9Gb+0wUMCFsZvcmiz+HigA0LOcq/HoQqVuGG+EKykunc7QG2bzrponfaSw==}
-    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
-    dev: false
 
   /decamelize@1.2.0:
     resolution: {integrity: sha512-z2S+W9X73hAUUki+N+9Za2lBlun89zigOyGrsax+KUQ6wKW4ZoWpEYBkGhQjwAjjDCkWxhY0VKEhk8wzY7F5cA==}
