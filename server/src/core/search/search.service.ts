@@ -8,8 +8,9 @@ import ytsr, { ContinueResult, Result } from 'ytsr';
 import { SearchFilterDto } from './dto/search-filter.dto';
 import { SearchQueryDto } from './dto/search-query.dto';
 import { innertubeClient } from 'server/common/innertube/innertube';
-import { YT } from 'youtubei.js';
 import { SearchQueryDto2 } from './dto/search-query-2.dto';
+import { toVTSearchResultDto } from 'server/mapper/converter/search/vt-search-result.converter';
+import { VTSearchDto } from 'server/mapper/dto/search/vt-search.dto';
 
 @Injectable()
 export class SearchService {
@@ -52,15 +53,15 @@ export class SearchService {
     }
   }
 
-  async doSearchV2(searchQuery: SearchQueryDto2): Promise<YT.Search> {
+  async doSearchV2(searchQuery: SearchQueryDto2): Promise<VTSearchDto> {
     if (!searchQuery) {
       throw new BadRequestException(`Search query is required`);
     }
 
     const client = await innertubeClient;
-    const searchResults = client.search(searchQuery.q, searchQuery.filters);
+    const searchResults = await client.search(searchQuery.q, searchQuery.filters);
 
-    return searchResults;
+    return toVTSearchResultDto(searchResults);
   }
 
   async doSearch(searchQuery: SearchQueryDto): Promise<Result> {

@@ -14,8 +14,9 @@ import { Result } from 'ytsr';
 import { SearchService } from './search.service';
 import { SearchQueryDto } from './dto/search-query.dto';
 import { SearchFilterDto } from './dto/search-filter.dto';
-import { YT } from 'youtubei.js';
 import { SearchQueryDto2 } from './dto/search-query-2.dto';
+import { VTSearchDto } from 'server/mapper/dto/search/vt-search.dto';
+
 @ApiTags('Core')
 @Controller('search')
 @UseInterceptors(CacheInterceptor)
@@ -45,7 +46,7 @@ export class SearchController {
 
   @Get('v2')
   @Header('Cache-Control', 'public, max-age=1800')
-  searchV2(@Query() searchQuery: SearchQueryDto2): Promise<YT.Search> {
+  searchV2(@Query() searchQuery: SearchQueryDto2): Promise<VTSearchDto> {
     return this.searchService.doSearchV2(searchQuery);
   }
 }

@@ -1,10 +1,13 @@
 import { parseShortenedNumber } from './shortened-number';
 
-export const parseViewCount = (viewCount: string) => {
+export const parseSubscriberCount = (viewCount: string) => {
   if (viewCount) {
     let views = parseShortenedNumber(viewCount);
 
-    views = views.replace('views', '').replace(',', '').trim();
+    views = views
+      .replace(/subscribers?/i, '')
+      .replace(',', '')
+      .trim();
     return parseInt(views);
   }
 };

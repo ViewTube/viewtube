@@ -1,0 +1,12 @@
+import { VTSearchChannelResultDto } from './vt-search-channel-result.dto';
+import { VTSearchShelfDto } from './vt-search-shelf.dto';
+import { VTSearchVideoResultDto } from './vt-search-video-result.dto';
+import { VTShortsShelfDto } from './vt-shorts-shelf.dto';
+
+export class VTSearchDto {
+  results: Array<
+    VTSearchVideoResultDto | VTSearchChannelResultDto | VTSearchShelfDto | VTShortsShelfDto
+  >;
+  estimatedResultCount: number;
+  refinements: string[];
+}

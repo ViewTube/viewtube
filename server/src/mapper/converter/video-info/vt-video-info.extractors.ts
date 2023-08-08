@@ -96,9 +96,9 @@ export const extractDuration = (videoInfo: VideoInfoSourceApproximation) => {
 
 export const extractPublished = (videoInfo: VideoInfoSourceApproximation) => {
   const published = videoInfo?.primary_info?.published?.text;
-  let date = dayjs(published).toDate();
+  let date = dayjs(published)?.toDate();
   if (!date.valueOf()) {
-    date = parseRelativeTime(published).toDate();
+    date = parseRelativeTime(published)?.toDate();
   }
   return {
     text: published,
