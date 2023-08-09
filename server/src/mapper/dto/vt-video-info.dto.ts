@@ -7,7 +7,7 @@ import { VTVideoDto } from './vt-video.dto';
 import { VTLegacyFormatDto } from './vt-legacy-format.dto';
 import { VTChapterDto } from './vt-chapter.dto';
 
-export class VTVideoInfoDto {
+export class VTVideoInfoDto {VTAuthorDto
   id: string;
   title: string;
   subtitle: string;

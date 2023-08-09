@@ -9,7 +9,12 @@ export default defineNuxtConfig({
   },
 
   nitro: {
-    preset: 'node'
+    preset: 'node',
+    ...devOnly({
+      devProxy: {
+        '/api': { target: 'http://0.0.0.0:8067/api', changeOrigin: true }
+      }
+    })
   },
 
   alias: {
@@ -38,12 +43,7 @@ export default defineNuxtConfig({
     }
   },
 
-  modules: [
-    '@pinia/nuxt',
-    '@pinia-plugin-persistedstate/nuxt',
-    '@unocss/nuxt',
-    ...devOnly(['nuxt-proxy'])
-  ],
+  modules: ['@pinia/nuxt', '@pinia-plugin-persistedstate/nuxt', '@unocss/nuxt'],
 
   unocss: {
     uno: false,
@@ -55,14 +55,6 @@ export default defineNuxtConfig({
   piniaPersistedstate: {
     cookieOptions: {
       sameSite: 'strict'
-    }
-  },
-
-  proxy: {
-    options: {
-      target: 'http://localhost:8067',
-      changeOrigin: true,
-      pathFilter: '/api'
     }
   }
 });

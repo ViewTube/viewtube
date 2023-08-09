@@ -7,6 +7,9 @@ export interface paths {
   '/api/videos/{id}': {
     get: operations['VideosController_getVideos'];
   };
+  '/api/videos/dash/{id}': {
+    get: operations['VideosController_getDash'];
+  };
   '/api/videos/dislikes/{id}': {
     get: operations['VideosController_getDislikes'];
   };
@@ -24,6 +27,9 @@ export interface paths {
   };
   '/api/search': {
     get: operations['SearchController_search'];
+  };
+  '/api/search/v2': {
+    get: operations['SearchController_searchV2'];
   };
   '/api/channels/{id}/thumbnail/tiny.jpg': {
     get: operations['ChannelsController_getTinyThumbnailJpg'];
@@ -350,6 +356,11 @@ export interface components {
     SearchFilterDto: {
       filterType: string;
       filterValues: components['schemas']['FilterValueDto'][];
+    };
+    VTSearchDto: {
+      results: Record<string, never>[];
+      estimatedResultCount: number;
+      refinements: string[];
     };
     ChannelImageDto: {
       url: string;
@@ -708,6 +719,23 @@ export interface operations {
       };
     };
   };
+  VideosController_getDash: {
+    parameters: {
+      query: {
+        baseUrl: string;
+      };
+      path: {
+        id: string;
+      };
+    };
+    responses: {
+      200: {
+        content: {
+          'application/json': string;
+        };
+      };
+    };
+  };
   VideosController_getDislikes: {
     parameters: {
       path: {
@@ -781,6 +809,25 @@ export interface operations {
       200: {
         content: {
           'application/json': Record<string, never>;
+        };
+      };
+    };
+  };
+  SearchController_searchV2: {
+    parameters: {
+      query: {
+        q: string;
+        upload_date?: Record<string, never>;
+        type?: Record<string, never>;
+        duration?: Record<string, never>;
+        sort_by?: Record<string, never>;
+        features?: Record<string, never>[];
+      };
+    };
+    responses: {
+      200: {
+        content: {
+          'application/json': components['schemas']['VTSearchDto'];
         };
       };
     };
@@ -1205,15 +1252,15 @@ export interface operations {
   };
   SubscriptionsController_getSubscribedChannels: {
     parameters: {
-      query: {
+      query?: {
         /** @example linu */
         filter?: string;
         /** @example author:1,authorVerified:-1 */
         sort?: string;
         /** @example 0 */
-        start?: Record<string, never>;
+        start?: unknown;
         /** @example 30 */
-        limit?: Record<string, never>;
+        limit?: unknown;
       };
     };
     responses: {
@@ -1226,9 +1273,9 @@ export interface operations {
   };
   SubscriptionsController_getSubscriptionVideos: {
     parameters: {
-      query: {
-        start?: Record<string, never>;
-        limit?: Record<string, never>;
+      query?: {
+        start?: unknown;
+        limit?: unknown;
       };
     };
     responses: {

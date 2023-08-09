@@ -11,6 +11,8 @@ import { VTShortDto } from 'server/mapper/dto/vt-short.dto';
 import { parseShortenedNumber } from 'server/mapper/utils/shortened-number';
 import { parseAccessibilityDuration } from 'server/mapper/utils/accessibility-duration';
 import { getTimestampFromSeconds } from 'viewtube/shared';
+import { writeFileSync } from 'node:fs';
+import { VTSearchPlaylistDto } from 'server/mapper/dto/search/vt-search-playlist.dto';
 
 export const extractSearchResults = (searchResults: SearchSourceApproximation[]) => {
   return searchResults.map(result => {
@@ -22,8 +24,42 @@ export const extractSearchResults = (searchResults: SearchSourceApproximation[])
       return extractSearchShelf(result);
     } else if (result.type === 'ReelShelf') {
       return extractSearchShortsShelf(result);
+    } else if (result.type === 'Playlist') {
+      return extractSearchPlaylist(result);
+    } else {
+      console.log(result.type);
     }
   });
+};
+
+const extractSearchPlaylist = (playlist: SearchSourceApproximation) => {
+  writeFileSync('playlist.json', JSON.stringify(playlist, null, 2));
+  return {
+    type: 'playlist',
+    id: playlist.id,
+    title: playlist.title?.text,
+    thumbnails: playlist.thumbnails?.map(thumbnail => ({
+      ...thumbnail,
+      url: fixUrl(thumbnail.url)
+    })),
+    author: {
+      id: playlist.author?.id,
+      name: playlist.author?.name,
+      thumbnails: playlist.author?.thumbnails.length ? playlist.author?.thumbnails : undefined,
+      handle: getHandleFromUrl(playlist.author?.url),
+      isArtist: playlist.author?.is_verified_artist,
+      isVerified: playlist.author?.is_verified
+    },
+    videoCount: parseShortenedNumber(playlist.video_count?.text),
+    firstVideos: playlist.first_videos.map(item => ({
+      id: item.id,
+      title: item.title?.text,
+      duration: {
+        seconds: item.duration?.seconds,
+        text: item.duration?.text
+      }
+    }))
+  } satisfies VTSearchPlaylistDto;
 };
 
 const extractSearchShortsShelf = (shelf: SearchSourceApproximation) => {

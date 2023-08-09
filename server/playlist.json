@@ -1,0 +1,289 @@
+{
+  "type": "Playlist",
+  "id": "PL8mG-RkN2uTwHFgLimGUTS3Rc2Wu8Det4",
+  "title": {
+    "text": "Virtual Reality"
+  },
+  "author": {
+    "id": "UCXuqSBlHAE6Xw-yeJA0Tunw",
+    "name": "Linus Tech Tips",
+    "thumbnails": [],
+    "endpoint": {
+      "type": "NavigationEndpoint",
+      "payload": {
+        "browseId": "UCXuqSBlHAE6Xw-yeJA0Tunw",
+        "canonicalBaseUrl": "/@LinusTechTips"
+      },
+      "metadata": {
+        "url": "/@LinusTechTips",
+        "page_type": "WEB_PAGE_TYPE_CHANNEL",
+        "api_url": "browse"
+      }
+    },
+    "badges": [
+      {
+        "type": "MetadataBadge",
+        "icon_type": "CHECK_CIRCLE_THICK",
+        "style": "BADGE_STYLE_TYPE_VERIFIED",
+        "tooltip": "Verified"
+      }
+    ],
+    "is_moderator": false,
+    "is_verified": true,
+    "is_verified_artist": false,
+    "url": "https://www.youtube.com/@LinusTechTips"
+  },
+  "thumbnails": [
+    {
+      "url": "https://i.ytimg.com/vi/BPtsRCPNHmg/hqdefault.jpg?sqp=-oaymwEXCNACELwBSFryq4qpAwkIARUAAIhCGAE=&rs=AOn4CLC4PKaYcq6kElJZrIRHgUegxJNc2A",
+      "width": 336,
+      "height": 188
+    },
+    {
+      "url": "https://i.ytimg.com/vi/BPtsRCPNHmg/hqdefault.jpg?sqp=-oaymwEXCPYBEIoBSFryq4qpAwkIARUAAIhCGAE=&rs=AOn4CLDpARdU2wRy5TRfRSSm8TkE6giT3A",
+      "width": 246,
+      "height": 138
+    },
+    {
+      "url": "https://i.ytimg.com/vi/BPtsRCPNHmg/hqdefault.jpg?sqp=-oaymwEWCMQBEG5IWvKriqkDCQgBFQAAiEIYAQ==&rs=AOn4CLBzjSLLaob71Sdxr6w0eaoErw7T-A",
+      "width": 196,
+      "height": 110
+    },
+    {
+      "url": "https://i.ytimg.com/vi/BPtsRCPNHmg/hqdefault.jpg?sqp=-oaymwEWCKgBEF5IWvKriqkDCQgBFQAAiEIYAQ==&rs=AOn4CLCG1AMXbvMi7lUaJG_g1se5lfsyNg",
+      "width": 168,
+      "height": 94
+    },
+    {
+      "url": "https://i.ytimg.com/vi/byPZC9ifULc/default.jpg",
+      "width": 43,
+      "height": 20
+    },
+    {
+      "url": "https://i.ytimg.com/vi/3Sjk55kSplg/default.jpg",
+      "width": 43,
+      "height": 20
+    },
+    {
+      "url": "https://i.ytimg.com/vi/5BmiFIvII7Y/default.jpg",
+      "width": 43,
+      "height": 20
+    },
+    {
+      "url": "https://i.ytimg.com/vi/55q9W6stwP0/default.jpg",
+      "width": 43,
+      "height": 20
+    }
+  ],
+  "video_count": {
+    "runs": [
+      {
+        "text": "25",
+        "bold": true,
+        "italics": false,
+        "strikethrough": false
+      },
+      {
+        "text": " videos",
+        "bold": false,
+        "italics": false,
+        "strikethrough": false
+      }
+    ],
+    "text": "25 videos"
+  },
+  "video_count_short": {},
+  "first_videos": [
+    {
+      "type": "ChildVideo",
+      "id": "BPtsRCPNHmg",
+      "title": {
+        "text": "Oculus Rift vs HTC Vive - The current state of VR"
+      },
+      "duration": {
+        "text": "13:56",
+        "seconds": 836
+      },
+      "endpoint": {
+        "type": "NavigationEndpoint",
+        "payload": {
+          "videoId": "BPtsRCPNHmg",
+          "playlistId": "PL8mG-RkN2uTwHFgLimGUTS3Rc2Wu8Det4",
+          "loggingContext": {
+            "vssLoggingContext": {
+              "serializedContextData": "GiJQTDhtRy1Sa04ydVR3SEZnTGltR1VUUzNSYzJXdThEZXQ0"
+            }
+          },
+          "watchEndpointSupportedOnesieConfig": {
+            "html5PlaybackOnesieConfig": {
+              "commonConfig": {
+                "url": "https://rr2---sn-1gieen7e.googlevideo.com/initplayback?source=youtube&oeis=1&c=WEB&oad=3200&ovd=3200&oaad=11000&oavd=11000&ocs=700&oewis=1&oputc=1&ofpcc=1&msp=1&odepv=1&id=04fb6c4423cd1e68&ip=85.195.253.148&initcwndbps=3243750&mt=1691619681&oweuc=&pxtags=Cg4KAnR4Egg1MTAwMDQ4OA&rxtags=Cg4KAnR4Egg1MTAwMDQ4Nw%2CCg4KAnR4Egg1MTAwMDQ4OA"
+              }
+            }
+          }
+        },
+        "metadata": {
+          "url": "/watch?v=BPtsRCPNHmg&list=PL8mG-RkN2uTwHFgLimGUTS3Rc2Wu8Det4",
+          "page_type": "WEB_PAGE_TYPE_WATCH",
+          "api_url": "/player"
+        }
+      }
+    },
+    {
+      "type": "ChildVideo",
+      "id": "byPZC9ifULc",
+      "title": {
+        "text": "You aren't ready for VR - SteamVR Performance Test"
+      },
+      "duration": {
+        "text": "6:48",
+        "seconds": 408
+      },
+      "endpoint": {
+        "type": "NavigationEndpoint",
+        "payload": {
+          "videoId": "byPZC9ifULc",
+          "playlistId": "PL8mG-RkN2uTwHFgLimGUTS3Rc2Wu8Det4",
+          "loggingContext": {
+            "vssLoggingContext": {
+              "serializedContextData": "GiJQTDhtRy1Sa04ydVR3SEZnTGltR1VUUzNSYzJXdThEZXQ0"
+            }
+          },
+          "watchEndpointSupportedOnesieConfig": {
+            "html5PlaybackOnesieConfig": {
+              "commonConfig": {
+                "url": "https://rr1---sn-1gieen7e.googlevideo.com/initplayback?source=youtube&oeis=1&c=WEB&oad=3200&ovd=3200&oaad=11000&oavd=11000&ocs=700&oewis=1&oputc=1&ofpcc=1&msp=1&odepv=1&id=6f23d90bd89f50b7&ip=85.195.253.148&initcwndbps=3243750&mt=1691619681&oweuc=&pxtags=Cg4KAnR4Egg1MTAwMDQ4OA&rxtags=Cg4KAnR4Egg1MTAwMDQ4Nw%2CCg4KAnR4Egg1MTAwMDQ4OA"
+              }
+            }
+          }
+        },
+        "metadata": {
+          "url": "/watch?v=byPZC9ifULc&list=PL8mG-RkN2uTwHFgLimGUTS3Rc2Wu8Det4",
+          "page_type": "WEB_PAGE_TYPE_WATCH",
+          "api_url": "/player"
+        }
+      }
+    }
+  ],
+  "share_url": null,
+  "menu": null,
+  "badges": [
+    {
+      "type": "MetadataBadge",
+      "icon_type": "CHECK_CIRCLE_THICK",
+      "style": "BADGE_STYLE_TYPE_VERIFIED",
+      "tooltip": "Verified"
+    }
+  ],
+  "endpoint": {
+    "type": "NavigationEndpoint",
+    "payload": {
+      "videoId": "BPtsRCPNHmg",
+      "playlistId": "PL8mG-RkN2uTwHFgLimGUTS3Rc2Wu8Det4",
+      "params": "OAI%3D",
+      "loggingContext": {
+        "vssLoggingContext": {
+          "serializedContextData": "GiJQTDhtRy1Sa04ydVR3SEZnTGltR1VUUzNSYzJXdThEZXQ0"
+        }
+      },
+      "watchEndpointSupportedOnesieConfig": {
+        "html5PlaybackOnesieConfig": {
+          "commonConfig": {
+            "url": "https://rr2---sn-1gieen7e.googlevideo.com/initplayback?source=youtube&oeis=1&c=WEB&oad=3200&ovd=3200&oaad=11000&oavd=11000&ocs=700&oewis=1&oputc=1&ofpcc=1&msp=1&odepv=1&id=04fb6c4423cd1e68&ip=85.195.253.148&initcwndbps=3243750&mt=1691619681&oweuc=&pxtags=Cg4KAnR4Egg1MTAwMDQ4OA&rxtags=Cg4KAnR4Egg1MTAwMDQ4Nw%2CCg4KAnR4Egg1MTAwMDQ4OA"
+          }
+        }
+      }
+    },
+    "metadata": {
+      "url": "/watch?v=BPtsRCPNHmg&list=PL8mG-RkN2uTwHFgLimGUTS3Rc2Wu8Det4",
+      "page_type": "WEB_PAGE_TYPE_WATCH",
+      "api_url": "/player"
+    }
+  },
+  "thumbnail_overlays": [
+    {
+      "type": "ThumbnailOverlayBottomPanel",
+      "text": {
+        "text": "25 videos"
+      },
+      "icon_type": "PLAYLISTS"
+    },
+    {
+      "type": "ThumbnailOverlayHoverText",
+      "text": {
+        "runs": [
+          {
+            "text": "Play all",
+            "bold": false,
+            "italics": false,
+            "strikethrough": false
+          }
+        ],
+        "text": "Play all"
+      },
+      "icon_type": "PLAY_ALL"
+    },
+    {
+      "type": "ThumbnailOverlayNowPlaying",
+      "text": "Now playing"
+    }
+  ],
+  "thumbnail_renderer": {
+    "type": "PlaylistVideoThumbnail",
+    "thumbnail": [
+      {
+        "url": "https://i.ytimg.com/vi/BPtsRCPNHmg/hqdefault.jpg?sqp=-oaymwEXCNACELwBSFryq4qpAwkIARUAAIhCGAE=&rs=AOn4CLC4PKaYcq6kElJZrIRHgUegxJNc2A",
+        "width": 336,
+        "height": 188
+      },
+      {
+        "url": "https://i.ytimg.com/vi/BPtsRCPNHmg/hqdefault.jpg?sqp=-oaymwEXCPYBEIoBSFryq4qpAwkIARUAAIhCGAE=&rs=AOn4CLDpARdU2wRy5TRfRSSm8TkE6giT3A",
+        "width": 246,
+        "height": 138
+      },
+      {
+        "url": "https://i.ytimg.com/vi/BPtsRCPNHmg/hqdefault.jpg?sqp=-oaymwEWCMQBEG5IWvKriqkDCQgBFQAAiEIYAQ==&rs=AOn4CLBzjSLLaob71Sdxr6w0eaoErw7T-A",
+        "width": 196,
+        "height": 110
+      },
+      {
+        "url": "https://i.ytimg.com/vi/BPtsRCPNHmg/hqdefault.jpg?sqp=-oaymwEWCKgBEF5IWvKriqkDCQgBFQAAiEIYAQ==&rs=AOn4CLCG1AMXbvMi7lUaJG_g1se5lfsyNg",
+        "width": 168,
+        "height": 94
+      }
+    ]
+  },
+  "view_playlist": {
+    "runs": [
+      {
+        "text": "View full playlist",
+        "bold": false,
+        "italics": false,
+        "strikethrough": false,
+        "endpoint": {
+          "type": "NavigationEndpoint",
+          "payload": {
+            "browseId": "VLPL8mG-RkN2uTwHFgLimGUTS3Rc2Wu8Det4"
+          },
+          "metadata": {
+            "url": "/playlist?list=PL8mG-RkN2uTwHFgLimGUTS3Rc2Wu8Det4",
+            "page_type": "WEB_PAGE_TYPE_PLAYLIST",
+            "api_url": "browse"
+          }
+        }
+      }
+    ],
+    "text": "View full playlist",
+    "endpoint": {
+      "type": "NavigationEndpoint",
+      "payload": {
+        "browseId": "VLPL8mG-RkN2uTwHFgLimGUTS3Rc2Wu8Det4"
+      },
+      "metadata": {
+        "url": "/playlist?list=PL8mG-RkN2uTwHFgLimGUTS3Rc2Wu8Det4",
+        "page_type": "WEB_PAGE_TYPE_PLAYLIST",
+        "api_url": "browse"
+      }
+    }
+  }
+}

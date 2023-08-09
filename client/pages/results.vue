@@ -1,3 +1,130 @@
+<script setup lang="ts">
+import RelatedSearches from '@/components/search/RelatedSearches.vue';
+import Spinner from '@/components/Spinner.vue';
+import BadgeButton from '@/components/buttons/BadgeButton.vue';
+import Filters from '@/components/search/Filters.vue';
+import SeparatorSmall from '@/components/list/SeparatorSmall.vue';
+import { useMessagesStore } from '@/store/messages';
+import ytsr from 'ytsr';
+
+const VideoEntry = resolveComponent('ListVideoEntry');
+const PlaylistEntry = resolveComponent('ListPlaylistEntry');
+const MixEntry = resolveComponent('ListMixEntry');
+const ChannelEntry = resolveComponent('ListChannelEntry');
+const Shelf = resolveComponent('SearchShelf');
+
+const route = useRoute();
+const messagesStore = useMessagesStore();
+
+const searchQuery = computed(() => {
+  const searchParams = new URLSearchParams(route.query as Record<string, string>);
+  return searchParams.get('search_query') || searchParams.get('q');
+});
+const page = ref(0);
+const moreVideosLoading = ref(false);
+const { apiUrl } = useApiUrl();
+
+const { data: searchData, pending, error } = useGetSearchResult();
+
+const additionalResultItems = ref<ytsr.Item[]>([]);
+const searchContinuationData = ref<any>(searchData.value?.searchResults.continuation);
+
+watch(
+  () => searchData.value,
+  newData => {
+    additionalResultItems.value = [];
+    searchContinuationData.value = newData?.searchResults.continuation;
+  }
+);
+
+watch(error, newValue => {
+  if (newValue) {
+    messagesStore.createMessage({
+      type: 'error',
+      title: 'Search failed',
+      message: 'Refresh the page to try again',
+      dismissDelay: 0
+    });
+  }
+});
+
+const isCorrectedSearchResult = computed((): boolean => {
+  if (searchData.value?.searchResults) {
+    return (
+      searchData.value?.searchResults.originalQuery !==
+      searchData.value?.searchResults.correctedQuery
+    );
+  }
+  return false;
+});
+
+const correctedSearchResultUrl = computed((): string => {
+  if (searchData.value?.searchResults) {
+    const url = route.fullPath;
+    const newUrl = decodeURIComponent(url).replace(
+      searchData.value?.searchResults.originalQuery,
+      searchData.value?.searchResults.correctedQuery
+    );
+    return newUrl;
+  }
+  return route.fullPath;
+});
+
+const getListEntryType = (type: string) => {
+  switch (type) {
+    case 'video':
+      return VideoEntry;
+    case 'playlist':
+      return PlaylistEntry;
+    case 'channel':
+      return ChannelEntry;
+    case 'mix':
+      return MixEntry;
+    case 'shelf':
+      return Shelf;
+    default:
+      return null;
+  }
+};
+
+const loadMoreVideos = async () => {
+  moreVideosLoading.value = true;
+  page.value += 1;
+
+  if (searchData.value?.searchResults && searchContinuationData.value) {
+    try {
+      const searchContinuation = await vtFetch<ytsr.ContinueResult>(
+        `${apiUrl.value}search/continuation`,
+        {
+          method: 'POST',
+          body: {
+            continuationData: searchContinuationData.value
+          }
+        }
+      );
+
+      if (searchContinuation) {
+        additionalResultItems.value = [...additionalResultItems.value, ...searchContinuation.items];
+        searchContinuationData.value = searchContinuation.continuation;
+      }
+    } catch (error) {
+      messagesStore.createMessage({
+        type: 'error',
+        title: 'Unable to load more results',
+        message: 'Try again or use a different search term for more results'
+      });
+    }
+  } else {
+    messagesStore.createMessage({
+      type: 'error',
+      title: 'Unable to load more results',
+      message: 'Use a different search term for more results'
+    });
+  }
+  moreVideosLoading.value = false;
+};
+</script>
+
 <template>
   <div class="search" :class="{ loading: pending }">
     <MetaPageHead :title="searchQuery" description="Search for videos, channels and playlists" />
@@ -62,172 +189,6 @@
     </div>
   </div>
 </template>
-
-<script lang="ts">
-import VideoEntry from '@/components/list/VideoEntry.vue';
-import PlaylistEntry from '@/components/list/PlaylistEntry.vue';
-import MixEntry from '@/components/list/MixEntry.vue';
-import ChannelEntry from '@/components/list/ChannelEntry.vue';
-import MovieEntry from '@/components/list/MovieEntry.vue';
-import RelatedSearches from '@/components/search/RelatedSearches.vue';
-import Shelf from '@/components/search/Shelf.vue';
-import Spinner from '@/components/Spinner.vue';
-import Dropdown from '@/components/filter/Dropdown.vue';
-import BadgeButton from '@/components/buttons/BadgeButton.vue';
-import Filters from '@/components/search/Filters.vue';
-import SeparatorSmall from '@/components/list/SeparatorSmall.vue';
-import { useMessagesStore } from '@/store/messages';
-import ytsr from 'ytsr';
-
-export default defineComponent({
-  name: 'Search',
-  components: {
-    VideoEntry,
-    Spinner,
-    PlaylistEntry,
-    ChannelEntry,
-    Dropdown,
-    BadgeButton,
-    MovieEntry,
-    RelatedSearches,
-    Shelf,
-    MixEntry,
-    Filters,
-    SeparatorSmall
-  },
-  setup() {
-    const route = useRoute();
-    const messagesStore = useMessagesStore();
-
-    const loading = ref(false);
-    const searchQuery = computed(() => {
-      const searchParams = new URLSearchParams(route.query as Record<string, string>);
-      return searchParams.get('search_query') || searchParams.get('q');
-    });
-    const page = ref(0);
-    const moreVideosLoading = ref(false);
-    const { apiUrl } = useApiUrl();
-
-    const { data: searchData, pending, error } = useGetSearchResult();
-
-    const additionalResultItems = ref<ytsr.Item[]>([]);
-    const searchContinuationData = ref<any>(searchData.value?.searchResults.continuation);
-
-    watch(
-      () => searchData.value,
-      newData => {
-        additionalResultItems.value = [];
-        searchContinuationData.value = newData?.searchResults.continuation;
-      }
-    );
-
-    watch(error, newValue => {
-      if (newValue) {
-        messagesStore.createMessage({
-          type: 'error',
-          title: 'Search failed',
-          message: 'Refresh the page to try again',
-          dismissDelay: 0
-        });
-      }
-    });
-
-    const isCorrectedSearchResult = computed((): boolean => {
-      if (searchData.value?.searchResults) {
-        return (
-          searchData.value?.searchResults.originalQuery !==
-          searchData.value?.searchResults.correctedQuery
-        );
-      }
-      return false;
-    });
-
-    const correctedSearchResultUrl = computed((): string => {
-      if (searchData.value?.searchResults) {
-        const url = route.fullPath;
-        const newUrl = decodeURIComponent(url).replace(
-          searchData.value?.searchResults.originalQuery,
-          searchData.value?.searchResults.correctedQuery
-        );
-        return newUrl;
-      }
-      return route.fullPath;
-    });
-
-    const getListEntryType = (type: string): string => {
-      switch (type) {
-        case 'video':
-          return 'VideoEntry';
-        case 'playlist':
-          return 'PlaylistEntry';
-        case 'channel':
-          return 'ChannelEntry';
-        case 'mix':
-          return 'MixEntry';
-        case 'shelf':
-          return 'Shelf';
-        default:
-          return null;
-      }
-    };
-
-    const loadMoreVideos = async () => {
-      moreVideosLoading.value = true;
-      page.value += 1;
-
-      if (searchData.value?.searchResults && searchContinuationData.value) {
-        try {
-          const searchContinuation = await vtFetch<ytsr.ContinueResult>(
-            `${apiUrl.value}search/continuation`,
-            {
-              method: 'POST',
-              body: {
-                continuationData: searchContinuationData.value
-              }
-            }
-          );
-
-          if (searchContinuation) {
-            additionalResultItems.value = [
-              ...additionalResultItems.value,
-              ...searchContinuation.items
-            ];
-            searchContinuationData.value = searchContinuation.continuation;
-          }
-        } catch (error) {
-          messagesStore.createMessage({
-            type: 'error',
-            title: 'Unable to load more results',
-            message: 'Try again or use a different search term for more results'
-          });
-        }
-      } else {
-        messagesStore.createMessage({
-          type: 'error',
-          title: 'Unable to load more results',
-          message: 'Use a different search term for more results'
-        });
-      }
-      moreVideosLoading.value = false;
-    };
-
-    return {
-      searchData,
-      loading,
-      searchQuery,
-      page,
-      moreVideosLoading,
-      isCorrectedSearchResult,
-      correctedSearchResultUrl,
-      loadMoreVideos,
-      getListEntryType,
-      pending,
-      additionalResultItems
-    };
-  },
-  head: {}
-});
-</script>
 
 <style lang="scss">
 .search {

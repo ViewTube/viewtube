@@ -9,7 +9,7 @@ import {
   Body
 } from '@nestjs/common';
 import { CacheInterceptor } from '@nestjs/cache-manager';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Result } from 'ytsr';
 import { SearchService } from './search.service';
 import { SearchQueryDto } from './dto/search-query.dto';

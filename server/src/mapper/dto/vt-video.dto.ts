@@ -1,23 +1,12 @@
+import { VTAuthorDto } from './vt-author.dto';
 import { VTThumbnailDto } from './vt-thumbnail.dto';
+import { VTVideoCoreDto } from './vt-video-core.dto';
 
-export class VTVideoDto {
-  id: string;
-  title: string;
-  author?: {
-    id: string;
-    name: string;
-    thumbnails?: Array<VTThumbnailDto>;
-    isVerified?: boolean;
-    isArtist?: boolean;
-    handle?: string;
-  };
+export class VTVideoDto extends VTVideoCoreDto {
+  author?: VTAuthorDto;
   description?: string;
   thumbnails?: Array<VTThumbnailDto>;
   richThumbnails?: Array<VTThumbnailDto>;
-  duration?: {
-    text: string;
-    seconds: number;
-  };
   published?: {
     date?: Date;
     text?: string;

@@ -27,6 +27,14 @@ export interface SearchSourceApproximation {
   description_snippet?: DescriptionSnippet;
   content?: Content;
   items?: Item4[];
+  first_videos?: FirstVideo[];
+}
+
+interface FirstVideo {
+  type: string;
+  id: string;
+  title: Title5;
+  duration: Duration;
 }
 
 export interface Title {
