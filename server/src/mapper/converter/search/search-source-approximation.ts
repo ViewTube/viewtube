@@ -158,8 +158,8 @@ export interface OnTapEndpoint {
 }
 
 export interface Payload {
-  videoId: string;
-  watchEndpointSupportedOnesieConfig: WatchEndpointSupportedOnesieConfig;
+  videoId?: string;
+  watchEndpointSupportedOnesieConfig?: WatchEndpointSupportedOnesieConfig;
   startTimeSeconds?: number;
 }
 
@@ -176,9 +176,9 @@ export interface CommonConfig {
 }
 
 export interface Metadata {
-  url: string;
-  page_type: string;
-  api_url: string;
+  url?: string;
+  page_type?: string;
+  api_url?: string;
 }
 
 export interface PreviousButton {

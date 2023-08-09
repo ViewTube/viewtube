@@ -1,4 +1,4 @@
-export const fixUrls = (url: string) => {
+export const fixUrl = (url: string) => {
   if (url.startsWith('//')) {
     return `https:${url}`;
   } else {

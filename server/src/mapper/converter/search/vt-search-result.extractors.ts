@@ -1,15 +1,16 @@
 import { YT } from 'youtubei.js';
 import { SearchSourceApproximation } from './search-source-approximation';
 import { getHandleFromUrl } from 'server/mapper/utils/handle';
-import { parseViewCount } from 'server/mapper/utils/view-count';
 import { parseRelativeTime } from 'server/mapper/utils/parse-relative-time';
 import { VTSearchVideoResultDto } from 'server/mapper/dto/search/vt-search-video-result.dto';
 import { VTSearchChannelResultDto } from 'server/mapper/dto/search/vt-search-channel-result.dto';
-import { parseSubscriberCount } from 'server/mapper/utils/subscriber-count';
-import { fixUrls } from 'server/mapper/utils/fix-urls';
+import { fixUrl } from 'server/mapper/utils/fix-url';
 import { VTSearchShelfDto } from 'server/mapper/dto/search/vt-search-shelf.dto';
 import { VTShortsShelfDto } from 'server/mapper/dto/search/vt-shorts-shelf.dto';
 import { VTShortDto } from 'server/mapper/dto/vt-short.dto';
+import { parseShortenedNumber } from 'server/mapper/utils/shortened-number';
+import { parseAccessibilityDuration } from 'server/mapper/utils/accessibility-duration';
+import { getTimestampFromSeconds } from 'viewtube/shared';
 
 export const extractSearchResults = (searchResults: SearchSourceApproximation[]) => {
   return searchResults.map(result => {
@@ -26,10 +27,11 @@ export const extractSearchResults = (searchResults: SearchSourceApproximation[])
 };
 
 const extractSearchShortsShelf = (shelf: SearchSourceApproximation) => {
+  console.log(shelf);
   return {
     type: 'shorts-shelf',
     title: shelf.title?.text,
-    items: shelf.items.map(item => extractSearchShort(item))
+    items: shelf.items?.map(item => extractSearchShort(item))
   } satisfies VTShortsShelfDto;
 };
 
@@ -37,20 +39,21 @@ const extractSearchShelf = (shelf: SearchSourceApproximation) => {
   return {
     type: 'shelf',
     title: shelf.title?.text,
-    items: shelf.items.map(item => extractSearchVideo(item))
+    items: shelf.content?.items?.map(item => extractSearchVideo(item))
   } satisfies VTSearchShelfDto;
 };
 
-const extractSearchShort = (short: SearchSourceApproximation) => {
+const extractSearchShort = (short: SearchSourceApproximation['items'][0]) => {
+  const duration = parseAccessibilityDuration(short.accessibility_label);
   return {
     type: 'short',
     id: short.id,
     title: short.title?.text,
     duration: {
-      seconds: 0,
-      text: '00:00'
+      seconds: duration,
+      text: getTimestampFromSeconds(duration)
     },
-    viewCount: parseViewCount(short.views?.text),
+    viewCount: parseShortenedNumber(short.views?.text),
     thumbnails: short.thumbnails
   } satisfies VTShortDto;
 };
@@ -75,7 +78,7 @@ const extractSearchVideo = (video: SearchSourceApproximation) => {
       seconds: video.duration?.seconds,
       text: video.duration?.text
     },
-    viewCount: parseViewCount(video.view_count?.text),
+    viewCount: parseShortenedNumber(video.view_count?.text),
     published: {
       date: parseRelativeTime(video.published?.text)?.toDate(),
       text: video.published?.text
@@ -90,7 +93,7 @@ const extractSearchChannel = (channel: SearchSourceApproximation) => {
     subscribers = channel.video_count?.text;
   }
 
-  const subscriberCount = parseSubscriberCount(subscribers);
+  const subscriberCount = parseShortenedNumber(subscribers);
 
   return {
     type: 'channel',
@@ -101,9 +104,9 @@ const extractSearchChannel = (channel: SearchSourceApproximation) => {
     subscribers: subscriberCount,
     isArtist: channel.author?.is_verified_artist,
     isVerified: channel.author?.is_verified,
-    thumbnails: channel.author.thumbnails.map(thumbnail => ({
-      url: fixUrls(thumbnail.url),
-      ...thumbnail
+    thumbnails: channel.author?.thumbnails?.map(thumbnail => ({
+      ...thumbnail,
+      url: fixUrl(thumbnail.url)
     }))
   } satisfies VTSearchChannelResultDto;
 };

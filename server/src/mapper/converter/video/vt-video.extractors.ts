@@ -4,8 +4,8 @@ import { getHandleFromUrl } from 'server/mapper/utils/handle';
 import { getSecondsFromTimestamp, getTimestampFromSeconds } from 'viewtube/shared';
 import Author from 'youtubei.js/dist/src/parser/classes/misc/Author';
 import { VideoSourceApproximation } from './vt-video.converter';
-import { parseViewCount } from 'server/mapper/utils/view-count';
 import { parseRelativeTime } from 'server/mapper/utils/parse-relative-time';
+import { parseShortenedNumber } from 'server/mapper/utils/shortened-number';
 
 export const extractVideoId = (video: VideoSourceApproximation): string => {
   if (video.id) {
@@ -218,7 +218,7 @@ export const extractVideoViewCount = (video: VideoSourceApproximation): number =
   }
 
   if (viewCountString) {
-    return parseViewCount(viewCountString);
+    return parseShortenedNumber(viewCountString);
   }
 };
 

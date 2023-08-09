@@ -1,7 +1,6 @@
 import { VTVideoInfoDto } from 'server/mapper/dto/vt-video-info.dto';
 import { VideoInfoSourceApproximation } from './video-info-source-approximation';
 import { parseRedirectUrl } from 'server/mapper/utils/parse-redirect';
-import { parseViewCount } from 'server/mapper/utils/view-count';
 import { getSecondsFromTimestamp, getTimestampFromSeconds } from 'viewtube/shared';
 import { VTEndscreenChannelDto } from 'server/mapper/dto/endscreen/vt-endscreen-channel.dto';
 import { VTEndscreenVideoDto } from 'server/mapper/dto/endscreen/vt-endscreen-video.dto';
@@ -10,6 +9,7 @@ import { VTSimpleCardContentDto } from 'server/mapper/dto/infocard/vt-simple-car
 import { VTPlaylistCardContentDto } from 'server/mapper/dto/infocard/vt-playlist-card-content.dto';
 import { parseRelativeTime } from 'server/mapper/utils/parse-relative-time';
 import dayjs from 'dayjs';
+import { parseShortenedNumber } from 'server/mapper/utils/shortened-number';
 
 export const extractVideoId = (videoInfo: VideoInfoSourceApproximation) => {
   return videoInfo?.basic_info?.id;
@@ -108,7 +108,8 @@ export const extractPublished = (videoInfo: VideoInfoSourceApproximation) => {
 
 export const extractViewCount = (videoInfo: VideoInfoSourceApproximation) => {
   return (
-    videoInfo?.basic_info?.view_count ?? parseViewCount(videoInfo?.primary_info?.view_count?.text)
+    videoInfo?.basic_info?.view_count ??
+    parseShortenedNumber(videoInfo?.primary_info?.view_count?.text)
   );
 };
 
@@ -186,7 +187,7 @@ export const extractEndscreen = (
           type: 'video',
           id: element?.endpoint?.payload?.videoId,
           title: element?.title?.text,
-          viewCount: parseViewCount(element?.metadata?.text),
+          viewCount: parseShortenedNumber(element?.metadata?.text),
           duration: {
             text: timestamp?.text,
             seconds: getSecondsFromTimestamp(timestamp?.text)
@@ -245,7 +246,7 @@ export const extractInfoCards = (
             title: card?.content?.title?.text,
             author: { name: card?.content?.channel_name?.text },
             thumbnails: card?.content?.video_thumbnails,
-            viewCount: parseViewCount(card?.content?.view_count?.text),
+            viewCount: parseShortenedNumber(card?.content?.view_count?.text),
             duration: {
               text: card?.content?.duration?.text,
               seconds: getSecondsFromTimestamp(card?.content?.duration?.text)
@@ -305,7 +306,7 @@ export const extractRecommendedVideos = (
         date: parseRelativeTime(video?.published?.text)?.toDate()
       },
       thumbnails: video?.thumbnails,
-      viewCount: parseViewCount(video?.view_count?.text)
+      viewCount: parseShortenedNumber(video?.view_count?.text)
     };
   });
 };
@@ -327,7 +328,7 @@ export const extractChapters = (
 export const extractCommentCount = (
   videoInfo: VideoInfoSourceApproximation
 ): VTVideoInfoDto['commentCount'] => {
-  return parseViewCount(videoInfo?.comments_entry_point_header?.comment_count?.text);
+  return parseShortenedNumber(videoInfo?.comments_entry_point_header?.comment_count?.text);
 };
 
 export const extractLegacyFormats = (
