@@ -35,7 +35,7 @@ export class VideosService {
     }
 
     try {
-      const client = await innertubeClient;
+      const client = await innertubeClient();
       const videoInfo = await client.getInfo(id);
 
       let replaceUrl = 'http://BASEURL_TO_REPLACE.com';
@@ -66,7 +66,7 @@ export class VideosService {
     }
 
     try {
-      const client = await innertubeClient;
+      const client = await innertubeClient();
       const videoInfo = await client.getInfo(id);
 
       const dashManifest = await videoInfo.toDash((url: URL) => {

@@ -1,6 +1,6 @@
 import { SearchFilters } from 'youtubei.js';
 
-export class SearchFiltersDto2 implements SearchFilters {
+export class SearchFiltersDto implements SearchFilters {
   upload_date?: 'all' | 'hour' | 'today' | 'week' | 'month' | 'year';
   type?: 'all' | 'video' | 'channel' | 'playlist' | 'movie';
   duration?: 'all' | 'short' | 'medium' | 'long';

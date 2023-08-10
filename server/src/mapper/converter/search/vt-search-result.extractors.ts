@@ -11,12 +11,16 @@ import { VTShortDto } from 'server/mapper/dto/vt-short.dto';
 import { parseShortenedNumber } from 'server/mapper/utils/shortened-number';
 import { parseAccessibilityDuration } from 'server/mapper/utils/accessibility-duration';
 import { getTimestampFromSeconds } from 'viewtube/shared';
-import { writeFileSync } from 'node:fs';
+import { write, writeFileSync } from 'node:fs';
 import { VTSearchPlaylistDto } from 'server/mapper/dto/search/vt-search-playlist.dto';
+import { VTSearchMovieDto } from 'server/mapper/dto/search/vt-search-movie.dto';
 
 export const extractSearchResults = (searchResults: SearchSourceApproximation[]) => {
   return searchResults.map(result => {
     if (result.type === 'Video') {
+      if (result.badges.some(badge => badge.label === 'LIVE')) {
+        writeFileSync('live.json', JSON.stringify(result, null, 2));
+      }
       return extractSearchVideo(result);
     } else if (result.type === 'Channel') {
       return extractSearchChannel(result);
@@ -26,10 +30,33 @@ export const extractSearchResults = (searchResults: SearchSourceApproximation[])
       return extractSearchShortsShelf(result);
     } else if (result.type === 'Playlist') {
       return extractSearchPlaylist(result);
-    } else {
-      console.log(result.type);
+    } else if (result.type === 'Movie') {
+      return extractSearchMovie(result);
     }
   });
+};
+
+const extractSearchMovie = (movie: SearchSourceApproximation) => {
+  return {
+    type: 'movie',
+    id: movie.id,
+    title: movie.title?.text,
+    description: movie.description_snippet?.text,
+    thumbnails: movie.thumbnails?.map(thumbnail => ({
+      ...thumbnail,
+      url: fixUrl(thumbnail.url)
+    })),
+    author: {
+      id: movie.author?.id,
+      name: movie.author?.name,
+      isArtist: movie.author?.is_verified_artist,
+      isVerified: movie.author?.is_verified
+    },
+    duration: {
+      text: movie.duration?.text,
+      seconds: movie.duration?.seconds
+    }
+  } satisfies VTSearchMovieDto;
 };
 
 const extractSearchPlaylist = (playlist: SearchSourceApproximation) => {
@@ -63,7 +90,6 @@ const extractSearchPlaylist = (playlist: SearchSourceApproximation) => {
 };
 
 const extractSearchShortsShelf = (shelf: SearchSourceApproximation) => {
-  console.log(shelf);
   return {
     type: 'shorts-shelf',
     title: shelf.title?.text,
