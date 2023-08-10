@@ -142,7 +142,7 @@ export class YoutubeGrabberHelper {
   parseFeaturedChannel(author) {
     let channelName;
     if (typeof author.title.runs !== 'undefined') {
-      channelName = author.title.runs[0].text;
+      channelName = author.title.runs?.[0].text;
     } else {
       channelName = author.title.simpleText;
     }
@@ -151,12 +151,12 @@ export class YoutubeGrabberHelper {
     const thumbnail = author.thumbnail.thumbnails;
     let videoCount = 0;
     if ('videoCountText' in author) {
-      videoCount = author.videoCountText.runs[0].text;
+      videoCount = author.videoCountText.runs?.[0].text;
     }
     let subscriberText;
     if (author.subscriberCountText) {
       if (typeof author.subscriberCountText.runs !== 'undefined') {
-        subscriberText = author.subscriberCountText.runs[0].text;
+        subscriberText = author.subscriberCountText.runs?.[0].text;
       } else {
         subscriberText = author.subscriberCountText.simpleText;
       }
@@ -220,7 +220,7 @@ export class YoutubeGrabberHelper {
         video.lengthSeconds = video.lengthText?.simpleText
           .split(':')
           ?.reduce((acc, time) => 60 * acc + +time);
-        video.title.simpleText = video.title.runs[0].text;
+        video.title.simpleText = video.title.runs?.[0].text;
       }
       if ('reelItemRenderer' in obj.richItemRenderer.content) {
         video = obj.richItemRenderer.content.reelItemRenderer;
@@ -229,7 +229,7 @@ export class YoutubeGrabberHelper {
       }
     } else if (typeof obj.videoRenderer !== 'undefined') {
       video = obj.videoRenderer;
-      video.title.simpleText = video.title.runs[0].text;
+      video.title.simpleText = video.title.runs?.[0].text;
     } else if (typeof obj.reelItemRenderer !== 'undefined') {
       video = obj.reelItemRenderer;
       video.title = video.headline;
@@ -247,7 +247,7 @@ export class YoutubeGrabberHelper {
     }
 
     if (typeof title === 'undefined') {
-      title = video.title.runs[0].text;
+      title = video.title.runs?.[0].text;
     }
     if (
       typeof video.shortViewCountText !== 'undefined' &&
@@ -255,14 +255,14 @@ export class YoutubeGrabberHelper {
     ) {
       liveNow = true;
       publishedText = 'Live';
-      viewCount = parseInt(video.viewCountText.runs[0].text.split(',').join(''));
-      viewCountText = video.shortViewCountText.runs[0].text + video.shortViewCountText.runs[1].text;
+      viewCount = parseInt(video.viewCountText.runs?.[0].text.split(',').join(''));
+      viewCountText = video.shortViewCountText.runs?.[0].text + video.shortViewCountText.runs?.[1].text;
     } else if (
       typeof statusRenderer !== 'undefined' &&
       typeof statusRenderer.text !== 'undefined' &&
       typeof statusRenderer.text.runs !== 'undefined'
     ) {
-      if (statusRenderer.text.runs.map(run => run.text).includes('LIVE')) {
+      if (statusRenderer.text.runs?.map(run => run.text).includes('LIVE')) {
         liveNow = true;
         publishedText = 'Live';
         viewCount = 0;
@@ -338,7 +338,7 @@ export class YoutubeGrabberHelper {
     if (!('channelVideoPlayerRenderer' in obj)) {
       thumbnails = video.thumbnail.thumbnails;
     } else {
-      publishedText = video.publishedTimeText.runs[0].text;
+      publishedText = video.publishedTimeText.runs?.[0].text;
     }
 
     return {
@@ -424,14 +424,14 @@ export class YoutubeGrabberHelper {
       const postData = {
         postText: '',
         postId: post.backstagePostThreadRenderer.post.backstagePostRenderer.postId,
-        author: post.backstagePostThreadRenderer.post.backstagePostRenderer.authorText.runs[0].text,
+        author: post.backstagePostThreadRenderer.post.backstagePostRenderer.authorText.runs?.[0].text,
         authorId: this.extractChannelId(
           post.backstagePostThreadRenderer.post.backstagePostRenderer.authorEndpoint
         ),
         authorThumbnails:
           post.backstagePostThreadRenderer.post.backstagePostRenderer.authorThumbnail.thumbnails,
         publishedText:
-          post.backstagePostThreadRenderer.post.backstagePostRenderer.publishedTimeText.runs[0]
+          post.backstagePostThreadRenderer.post.backstagePostRenderer.publishedTimeText.runs?.[0]
             .text,
         voteCount: post.backstagePostThreadRenderer.post.backstagePostRenderer.voteCount.simpleText,
         postContent: null,
@@ -446,7 +446,7 @@ export class YoutubeGrabberHelper {
 
       if ('runs' in post.backstagePostThreadRenderer.post.backstagePostRenderer.contentText) {
         // eslint-disable-next-line no-return-assign
-        post.backstagePostThreadRenderer.post.backstagePostRenderer.contentText.runs.forEach(
+        post.backstagePostThreadRenderer.post.backstagePostRenderer.contentText.runs?.forEach(
           (element, index) => {
             if ('navigationEndpoint' in element) {
               postData.postText += this.extractLinks(element) + ' ';
@@ -481,7 +481,7 @@ export class YoutubeGrabberHelper {
           postData.postContent = {
             type: 'poll',
             content: {
-              choices: pollObject.choices.map(entry => entry.text.runs[0].text),
+              choices: pollObject.choices.map(entry => entry.text.runs?.[0].text),
               totalVotes: pollObject.totalVotes.simpleText
             }
           };
@@ -498,20 +498,20 @@ export class YoutubeGrabberHelper {
             type: 'video',
             content: {
               videoId: videoRenderer.videoId,
-              title: videoRenderer.title.runs[0].text,
+              title: videoRenderer.title.runs?.[0].text,
               description: '',
               publishedText: videoRenderer.publishedTimeText.simpleText,
               lengthText: videoRenderer.lengthText.simpleText,
               viewCountText: videoRenderer.viewCountText.simpleText,
               badges: { verified: false, officialArtist: false },
-              author: videoRenderer.ownerText.runs[0].text,
-              authorId: this.extractChannelId(videoRenderer.ownerText.runs[0].navigationEndpoint),
+              author: videoRenderer.ownerText.runs?.[0].text,
+              authorId: this.extractChannelId(videoRenderer.ownerText.runs?.[0].navigationEndpoint),
               thumbnails: videoRenderer.thumbnail.thumbnails
             }
           };
           if ('descriptionSnippet' in videoRenderer) {
             postData.postContent.content.description =
-              videoRenderer.descriptionSnippet.runs[0].text;
+              videoRenderer.descriptionSnippet.runs?.[0].text;
           }
           if ('ownerBadges' in videoRenderer) {
             videoRenderer.ownerBadges.forEach(badge => {
@@ -537,11 +537,11 @@ export class YoutubeGrabberHelper {
               playlistId: playlistRenderer.playlistId,
               title: playlistRenderer.title.simpleText,
               playlistVideoRenderer: [],
-              videoCountText: playlistRenderer.videoCountText.runs[0],
+              videoCountText: playlistRenderer.videoCountText.runs?.[0],
               ownerBadges: playlistRenderer.ownerBadges,
-              author: playlistRenderer.longBylineText.runs[0].text,
+              author: playlistRenderer.longBylineText.runs?.[0].text,
               authorId: this.extractChannelId(
-                playlistRenderer.longBylineText.runs[0].navigationEndpoint
+                playlistRenderer.longBylineText.runs?.[0].navigationEndpoint
               ), // this might fail, no channel with a playlist posted was found
               thumbnails: playlistRenderer.thumbnails
             }
@@ -603,11 +603,11 @@ export class YoutubeGrabberHelper {
     const postData = {
       postText: '',
       postId: post.backstagePostThreadRenderer.post.sharedPostRenderer.postId,
-      author: post.backstagePostThreadRenderer.post.sharedPostRenderer.displayName.runs[0].text,
+      author: post.backstagePostThreadRenderer.post.sharedPostRenderer.displayName.runs?.[0].text,
       authorThumbnails:
         post.backstagePostThreadRenderer.post.sharedPostRenderer.thumbnail.thumbnails,
       publishedText:
-        post.backstagePostThreadRenderer.post.sharedPostRenderer.publishedTimeText.runs[0].text,
+        post.backstagePostThreadRenderer.post.sharedPostRenderer.publishedTimeText.runs?.[0].text,
       voteCount:
         post.backstagePostThreadRenderer.post.sharedPostRenderer.originalPost.backstagePostRenderer
           .voteCount.simpleText,
@@ -621,7 +621,7 @@ export class YoutubeGrabberHelper {
               .buttonRenderer.text.simpleText
           : '0'
     };
-    post.backstagePostThreadRenderer.post.sharedPostRenderer.content.runs.forEach(
+    post.backstagePostThreadRenderer.post.sharedPostRenderer.content.runs?.forEach(
       (element, index) => {
         postData.postText += index !== 0 ? ' ' + element.text : element.text;
       }
@@ -634,7 +634,7 @@ export class YoutubeGrabberHelper {
     const playlistId = mix.navigationEndpoint.watchEndpoint.playlistId;
     const title = mix.title.simpleText;
     const description = mix.description.simpleText;
-    const videoCount = parseInt(mix.videoCountText.runs[0].text);
+    const videoCount = parseInt(mix.videoCountText.runs?.[0].text);
     const url = mix.navigationEndpoint.commandMetadata.url;
     const thumbnails = mix.thumbnail.thumbnails;
     return {
@@ -681,7 +681,7 @@ export class YoutubeGrabberHelper {
       if ('simpleText' in playlist.title) {
         title = playlist.title.simpleText;
       } else {
-        title = playlist.title.runs[0].text;
+        title = playlist.title.runs?.[0].text;
       }
       videoCount = parseInt(playlist.videoCountShortText.simpleText);
     }
@@ -727,7 +727,7 @@ export class YoutubeGrabberHelper {
         const shelf = item.itemSectionRenderer.contents[0].shelfRenderer;
 
         if ('runs' in shelf.title) {
-          const title = shelf.title.runs[0];
+          const title = shelf.title.runs?.[0];
           if ('navigationEndpoint' in title) {
             shelfUrl = title.navigationEndpoint.commandMetadata.webCommandMetadata.url;
           }

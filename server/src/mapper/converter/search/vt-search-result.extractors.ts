@@ -11,7 +11,6 @@ import { VTShortDto } from 'server/mapper/dto/vt-short.dto';
 import { parseShortenedNumber } from 'server/mapper/utils/shortened-number';
 import { parseAccessibilityDuration } from 'server/mapper/utils/accessibility-duration';
 import { getTimestampFromSeconds } from 'viewtube/shared';
-import { writeFileSync } from 'node:fs';
 import { VTSearchPlaylistDto } from 'server/mapper/dto/search/vt-search-playlist.dto';
 import { VTSearchMovieDto } from 'server/mapper/dto/search/vt-search-movie.dto';
 import { logger } from 'server/common/logger';
@@ -20,9 +19,6 @@ export const extractSearchResults = (searchResults: SearchSourceApproximation[])
   return searchResults
     ?.map(result => {
       if (result.type === 'Video') {
-        if (result.badges.some(badge => badge.label === 'LIVE')) {
-          writeFileSync('live.json', JSON.stringify(result, null, 2));
-        }
         return extractSearchVideo(result);
       } else if (result.type === 'Channel') {
         return extractSearchChannel(result);
@@ -66,7 +62,6 @@ const extractSearchMovie = (movie: SearchSourceApproximation) => {
 };
 
 const extractSearchPlaylist = (playlist: SearchSourceApproximation) => {
-  writeFileSync('playlist.json', JSON.stringify(playlist, null, 2));
   return {
     type: 'playlist',
     id: playlist.id,
