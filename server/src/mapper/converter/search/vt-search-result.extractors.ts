@@ -36,7 +36,7 @@ export const extractSearchResults = (searchResults: SearchSourceApproximation[])
         return extractSearchMovie(result);
       }
 
-      logger.log('Unknown search result type', result.type);
+      logger.log(`Unknown search result type ${result.type}`);
       return null;
     })
     .filter(Boolean);

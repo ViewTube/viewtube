@@ -70,14 +70,8 @@ export class VideosService {
       const videoInfo = await client.getInfo(id);
 
       const dashManifest = await videoInfo.toDash((url: URL) => {
-        const searchParams = new URLSearchParams();
-        for (const [key, value] of url.searchParams) {
-          searchParams.append(key, value);
-        }
-        searchParams.append('__host', url.host);
-        return new URL(
-          `http://BASEURL_TO_REPLACE.com/api/videoplayback?${searchParams.toString()}`
-        );
+        url.searchParams.append('__host', url.host);
+        return url;
       });
 
       const video = toVTVideoInfoDto(videoInfo as unknown, {
