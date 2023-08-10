@@ -19,10 +19,12 @@ export type PlaylistEntryType = {
   };
   videoCountString?: string;
   videoCount?: number;
-  author?: {
-    name?: string;
-    id?: string;
-  };
+  author?:
+    | {
+        name?: string;
+        id?: string;
+      }
+    | string;
   authorId?: string;
   owner?: {
     name: string;
