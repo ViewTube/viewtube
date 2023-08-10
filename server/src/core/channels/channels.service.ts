@@ -6,7 +6,7 @@ import { Model } from 'mongoose';
 import { General } from 'server/common/general.schema';
 import { FastifyReply } from 'fastify';
 import sharp from 'sharp';
-import ytch from 'yt-channel-info';
+import { YoutubeGrabber } from './yt-channel-info';
 import { ChannelHomeDto } from './dto/response/channel-home.dto';
 import { ChannelVideosDto } from './dto/response/channel-videos.dto';
 import { ChannelVideosContinuationDto } from './dto/response/channel-videos-continuation.dto';
@@ -21,6 +21,7 @@ import { ChannelCommunityPostsContinuationDto } from './dto/response/channel-com
 import { ChannelStatsDto } from './dto/response/channel-stats.dto';
 import { ChannelInfoDto } from './dto/response/channel-info.dto';
 import { SortType } from './types/sort';
+import { ChannelInfoError } from './yt-channel-info/app/types';
 
 @Injectable()
 export class ChannelsService {
@@ -29,29 +30,34 @@ export class ChannelsService {
     private readonly GeneralModel: Model<General>
   ) {}
 
-  async getChannelHome(channelId: string): Promise<ChannelHomeDto> {
+  async getChannelHome(channelId: string): Promise<ChannelHomeDto | ChannelInfoError> {
     if (!checkParams(channelId)) {
       throw new BadRequestException('Error fetching channel homepage', 'Invalid channelId');
     }
-    try {
-      return await ytch.getChannelHome({ channelId });
-    } catch (error) {
-      throwChannelError(error, 'Error fetching channel homepage');
-    }
+    // try {
+    return (await YoutubeGrabber.getChannelHome({ channelId })) as unknown as Promise<
+      ChannelHomeDto | ChannelInfoError
+    >;
+    // } catch (error) {
+    //   throwChannelError(error, 'Error fetching channel homepage');
+    // }
   }
 
-  getChannelInfo(channelId: string): Promise<ChannelInfoDto> {
+  getChannelInfo(channelId: string): Promise<ChannelInfoDto | ChannelInfoError> {
     if (!checkParams(channelId)) {
       throw new BadRequestException('Error fetching channel info', 'Invalid channelId');
     }
     try {
-      return ytch.getChannelInfo({ channelId }) as unknown as Promise<ChannelInfoDto>;
+      return YoutubeGrabber.getChannelInfo({ channelId }) as unknown as Promise<ChannelInfoDto>;
     } catch (error) {
       throwChannelError(error, 'Error fetching channel info');
     }
   }
 
-  async getChannelVideos(channelId: string, sort: SortType = 'newest'): Promise<ChannelVideosDto> {
+  async getChannelVideos(
+    channelId: string,
+    sort: SortType = 'newest'
+  ): Promise<ChannelVideosDto | ChannelInfoError> {
     if (!checkParams(channelId, sort)) {
       throw new BadRequestException(
         'Error fetching channel videos',
@@ -59,29 +65,34 @@ export class ChannelsService {
       );
     }
     try {
-      return ytch.getChannelVideos({ channelId, sortBy: sort });
+      return YoutubeGrabber.getChannelVideos({ channelId, sortBy: sort });
     } catch (error) {
       throwChannelError(error, 'Error fetching channel videos');
     }
   }
 
-  getChannelVideosContinuation(continuation: string): Promise<ChannelVideosContinuationDto> {
+  getChannelVideosContinuation(
+    continuation: string
+  ): Promise<ChannelVideosContinuationDto | ChannelInfoError> {
     if (!checkParams(continuation)) {
       throw new BadRequestException('Error fetching channel videos', 'Invalid continuation string');
     }
     try {
-      return ytch.getChannelVideosMore({ continuation });
+      return YoutubeGrabber.getChannelVideosMore({ continuation });
     } catch (error) {
       throwChannelError(error, 'Error fetching channel videos');
     }
   }
 
-  async getChannelShorts(channelId: string, sort = 'newest' as const): Promise<ChannelVideosDto> {
+  async getChannelShorts(
+    channelId: string,
+    sort = 'newest' as const
+  ): Promise<ChannelVideosDto | ChannelInfoError> {
     if (!checkParams(channelId)) {
       throw new BadRequestException('Error fetching channel shorts', 'Invalid channelId');
     }
     try {
-      return ytch.getChannelShorts({ channelId, sortBy: sort });
+      return YoutubeGrabber.getChannelShorts({ channelId, sortBy: sort });
     } catch (error) {
       throwChannelError(error, 'Error fetching channel shorts');
     }
@@ -95,7 +106,7 @@ export class ChannelsService {
       throw new BadRequestException('Error fetching channel livestreams', 'Invalid channelId');
     }
     try {
-      return ytch.getChannelLivestreams({ channelId, sortBy: sort });
+      return YoutubeGrabber.getChannelLivestreams({ channelId, sortBy: sort });
     } catch (error) {
       throwChannelError(error, 'Error fetching channel livestreams');
     }
@@ -106,7 +117,7 @@ export class ChannelsService {
       throw new BadRequestException('Error fetching channel playlists', 'Invalid channelId');
     }
     try {
-      return ytch.getChannelPlaylistInfo({ channelId });
+      return YoutubeGrabber.getChannelPlaylistInfo({ channelId });
     } catch (error) {
       throwChannelError(error, 'Error fetching channel playlists');
     }
@@ -120,13 +131,13 @@ export class ChannelsService {
       );
     }
     try {
-      return ytch.getChannelPlaylistsMore({ continuation });
+      return YoutubeGrabber.getChannelPlaylistsMore({ continuation });
     } catch (error) {
       throwChannelError(error, 'Error fetching channel playlists');
     }
   }
 
-  searchChannel(channelId: string, query: string): Promise<ChannelSearchDto> {
+  searchChannel(channelId: string, query: string): Promise<ChannelSearchDto | ChannelInfoError> {
     if (!checkParams(channelId, query)) {
       throw new BadRequestException(
         'Error fetching channel channel search',
@@ -134,7 +145,7 @@ export class ChannelsService {
       );
     }
     try {
-      return ytch.searchChannel({ channelId, query });
+      return YoutubeGrabber.searchChannel({ channelId, query });
     } catch (error) {
       throwChannelError(error, 'Error fetching channel channel search');
     }
@@ -145,7 +156,7 @@ export class ChannelsService {
       throw new BadRequestException('Error fetching channel search', 'Invalid continuation string');
     }
     try {
-      return ytch.searchChannelMore({ continuation });
+      return YoutubeGrabber.searchChannelMore({ continuation });
     } catch (error) {
       throwChannelError(error, 'Error fetching channel search');
     }
@@ -161,10 +172,12 @@ export class ChannelsService {
       );
     }
     try {
-      const relatedChannelsContinuation = await ytch.getRelatedChannelsMore({ continuation });
+      const relatedChannelsContinuation = await YoutubeGrabber.getRelatedChannelsMore({
+        continuation
+      });
       return {
         continuation: relatedChannelsContinuation.continuation,
-        items: relatedChannelsContinuation.items.map((item: any) => {
+        items: relatedChannelsContinuation.items.map(item => {
           return {
             channelId: item.authorId,
             channelName: item.author,
@@ -183,7 +196,9 @@ export class ChannelsService {
       throw new BadRequestException('Error fetching channel community posts', 'Invalid channelId');
     }
     try {
-      return ytch.getChannelCommunityPosts({ channelId }) as Promise<ChannelCommunityPostsDto>;
+      return YoutubeGrabber.getChannelCommunityPosts({
+        channelId
+      }) as Promise<ChannelCommunityPostsDto>;
     } catch (error) {
       throwChannelError(error, 'Error fetching channel community posts');
     }
@@ -200,7 +215,7 @@ export class ChannelsService {
       );
     }
     try {
-      return ytch.getChannelCommunityPostsMore({
+      return YoutubeGrabber.getChannelCommunityPostsMore({
         continuation,
         innerTubeApi
       }) as Promise<ChannelCommunityPostsDto>;
@@ -209,12 +224,12 @@ export class ChannelsService {
     }
   }
 
-  getChannelStats(channelId: string): Promise<ChannelStatsDto> {
+  getChannelStats(channelId: string): Promise<ChannelStatsDto | ChannelInfoError> {
     if (!checkParams(channelId)) {
       throw new BadRequestException('Error fetching channel stats', 'Invalid channelId');
     }
     try {
-      return ytch.getChannelStats({ channelId });
+      return YoutubeGrabber.getChannelStats({ channelId });
     } catch (error) {
       throwChannelError(error, 'Error fetching channel stats');
     }

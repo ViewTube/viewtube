@@ -1,29 +1,29 @@
 {
   "type": "Video",
-  "id": "M5jCE_2YTgw",
+  "id": "DzLdFmPncms",
   "title": {
     "runs": [
       {
-        "text": "Summer Music Mix 2023 🌊 Alan Walker, David Guetta, Selena Gomez 🌊 Avicii, Martin Garrix style #01",
+        "text": "LTT TV - 24/7 Tech Tips",
         "bold": false,
         "italics": false,
         "strikethrough": false
       }
     ],
-    "text": "Summer Music Mix 2023 🌊 Alan Walker, David Guetta, Selena Gomez 🌊 Avicii, Martin Garrix style #01"
+    "text": "LTT TV - 24/7 Tech Tips"
   },
   "snippets": [
     {
       "text": {
         "runs": [
           {
-            "text": "Dua Lipa, Avicii, Coldplay, Martin Garrix & Kygo, The Chainsmokers, Alan Walker 🏖️ Summer Vibes #01 Stream/Download: ...",
+            "text": "24/7 Tech Tips! This stream is a compilation of content from the past few years, running on a loop. We'll be adding more to this ...",
             "bold": false,
             "italics": false,
             "strikethrough": false
           }
         ],
-        "text": "Dua Lipa, Avicii, Coldplay, Martin Garrix & Kygo, The Chainsmokers, Alan Walker 🏖️ Summer Vibes #01 Stream/Download: ..."
+        "text": "24/7 Tech Tips! This stream is a compilation of content from the past few years, running on a loop. We'll be adding more to this ..."
       },
       "hover_text": {
         "runs": [
@@ -41,12 +41,12 @@
   "expandable_metadata": null,
   "thumbnails": [
     {
-      "url": "https://i.ytimg.com/vi/M5jCE_2YTgw/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLBQQqdK9Rp1UDA-15m5jKNCJZhiRA",
+      "url": "https://i.ytimg.com/vi/DzLdFmPncms/hq720.jpg?sqp=-oaymwEXCNAFEJQDSFryq4qpAwkIARUAAIhCGAE=&rs=AOn4CLDGl9ch2r_V_hjSbEXmC5r6366bhA",
       "width": 720,
       "height": 404
     },
     {
-      "url": "https://i.ytimg.com/vi/M5jCE_2YTgw/hq720.jpg?sqp=-oaymwEcCOgCEMoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCKDvblaqgZSxo83LMzojKh8vwMnQ",
+      "url": "https://i.ytimg.com/vi/DzLdFmPncms/hq720.jpg?sqp=-oaymwEjCOgCEMoBSFryq4qpAxUIARUAAAAAGAElAADIQj0AgKJDeAE=&rs=AOn4CLC-PV46J_zZecBCnPDLKVJ-hMz1TA",
       "width": 360,
       "height": 202
     }
@@ -70,7 +70,7 @@
           "actions": [
             {
               "action": "ACTION_REMOVE_VIDEO_BY_VIDEO_ID",
-              "removedVideoId": "M5jCE_2YTgw"
+              "removedVideoId": "DzLdFmPncms"
             }
           ]
         },
@@ -85,7 +85,7 @@
           "playlistId": "WL",
           "actions": [
             {
-              "addedVideoId": "M5jCE_2YTgw",
+              "addedVideoId": "DzLdFmPncms",
               "action": "ACTION_ADD_VIDEO"
             }
           ]
@@ -117,13 +117,13 @@
           "signal": "CLIENT_SIGNAL",
           "actions": [
             {
-              "clickTrackingParams": "COkEEMfsBBgDIhMI34Ga293RgAMVOUx6BR0d4Qyc",
+              "clickTrackingParams": "CIAHEMfsBBgDIhMIhaOarLDSgAMVoER6BR2_rwbp",
               "addToPlaylistCommand": {
                 "openMiniplayer": true,
-                "videoId": "M5jCE_2YTgw",
+                "videoId": "DzLdFmPncms",
                 "listType": "PLAYLIST_EDIT_LIST_TYPE_QUEUE",
                 "onCreateListCommand": {
-                  "clickTrackingParams": "COkEEMfsBBgDIhMI34Ga293RgAMVOUx6BR0d4Qyc",
+                  "clickTrackingParams": "CIAHEMfsBBgDIhMIhaOarLDSgAMVoER6BR2_rwbp",
                   "commandMetadata": {
                     "webCommandMetadata": {
                       "sendPost": true,
@@ -132,13 +132,13 @@
                   },
                   "createPlaylistServiceEndpoint": {
                     "videoIds": [
-                      "M5jCE_2YTgw"
+                      "DzLdFmPncms"
                     ],
                     "params": "CAQ%3D"
                   }
                 },
                 "videoIds": [
-                  "M5jCE_2YTgw"
+                  "DzLdFmPncms"
                 ]
               }
             }
@@ -169,11 +169,11 @@
     }
   ],
   "author": {
-    "id": "UC9n7PII1Q7h7cFtlL0I8Ouw",
-    "name": "Deep Hercules",
+    "id": "UCXuqSBlHAE6Xw-yeJA0Tunw",
+    "name": "Linus Tech Tips",
     "thumbnails": [
       {
-        "url": "https://yt3.ggpht.com/vz8QDk3rDvmE88bAsvBdNS7cKGi6tJcJ2-M3xcwjHPheivLahsDJZ3uF9mG1XOuiAehQM26uZw=s68-c-k-c0x00ffffff-no-rj",
+        "url": "https://yt3.ggpht.com/Vy6KL7EM_apxPSxF0pPy5w_c87YDTOlBQo3MADDF0Wl51kwxmt9wmRotnt2xQXwlrcyO0Xe56w=s68-c-k-c0x00ffffff-no-rj",
         "width": 68,
         "height": 68
       }
@@ -181,20 +181,27 @@
     "endpoint": {
       "type": "NavigationEndpoint",
       "payload": {
-        "browseId": "UC9n7PII1Q7h7cFtlL0I8Ouw",
-        "canonicalBaseUrl": "/@deephercules"
+        "browseId": "UCXuqSBlHAE6Xw-yeJA0Tunw",
+        "canonicalBaseUrl": "/@LinusTechTips"
       },
       "metadata": {
-        "url": "/@deephercules",
+        "url": "/@LinusTechTips",
         "page_type": "WEB_PAGE_TYPE_CHANNEL",
         "api_url": "browse"
       }
     },
-    "badges": [],
+    "badges": [
+      {
+        "type": "MetadataBadge",
+        "icon_type": "CHECK_CIRCLE_THICK",
+        "style": "BADGE_STYLE_TYPE_VERIFIED",
+        "tooltip": "Verified"
+      }
+    ],
     "is_moderator": false,
-    "is_verified": false,
+    "is_verified": true,
     "is_verified_artist": false,
-    "url": "https://www.youtube.com/@deephercules"
+    "url": "https://www.youtube.com/@LinusTechTips"
   },
   "badges": [
     {
@@ -202,29 +209,24 @@
       "icon_type": "LIVE",
       "style": "BADGE_STYLE_TYPE_LIVE_NOW",
       "label": "LIVE"
-    },
-    {
-      "type": "MetadataBadge",
-      "style": "BADGE_STYLE_TYPE_SIMPLE",
-      "label": "New"
     }
   ],
   "endpoint": {
     "type": "NavigationEndpoint",
     "payload": {
-      "videoId": "M5jCE_2YTgw",
-      "params": "qgMJbXVzaWMgbWl4ugMKCLiFwsyulp-aCboDCwjd8b_OuOiGzIQBugMKCIK09P617ru7EroDCwiV1IKe1KDHwqEBugMKCN7y45Hx-rTnNroDCgiv-det7ayy_mS6AwoIlZSZqYHWtvtOugMLCOqgjJW75c-TrQG6AwsIheK5n-qTu_q-AboDCgi_zq-Dvprl1Hq6AwsIvbyHwaHqnuzXAboDCgjUgpbHmp76kEO6AwsI7pjV9tLW6e6SAboDCgjR6aS4irGcpQ26AwoIzLmy8ZiyqJNmugMLCJD4q7X7wM380wG6AwsIzsPqzMyvhLe7AboDCwierPOP8eiVlcQBugMKCKTA2a-lg-SjDLoDCgjR9r7nvu3ip1m6AwsI2bGOofGV2qi6AboDCgjbqf3e-5mGogm6AwsI1K-8t5zpg5TSAboDCgir7PiZ-fzqozK6AwoIzev4tK6z14ozugMKCKO6_N7OwsmxYLoDCgiPi6uYm6GnwAS6AwoI7Iu-1Zy975gdugMKCPKA37aFu7WPO7oDCwjT1peJ3-jaxesBugMKCOS0lbnlvf25WLoDCgjRlfmA1u_9uCi6AwsIkOGxvZ-irozaAboDCgicwbnV5-DS6lm6AwsIuf6D1vbLi_b9AboDCgiVmqisp9zyrXq6AwoIlIz_u5azx5IIugMLCLiCssfg3K_J2wG6AwsI-rfuk8vU2YDNAboDCgjyioG5-5KH5mO6AwoI_fbSqtC9odx_ugMKCOr06PXJzq6MWLoDCgi6qNTFyuXxnnS6AwoI666L7KP23d5XugMKCPjTxPCtiPG_P7oDCgj9n-3RrPWM9HS6AwsI-vC9ocvF28WgAboDCwj2maLqw7DjvPIBugMKCLrJgLWn0Kn5PLoDCwj56cHpmauKsqQBugMLCMPGlvm3rPWFiAG6AwoIurPJh5-CmuA9ugMKCJutjNWcsNTXCLoDCwieua3C8J6N6IIBugMLCPjS-qSls7GXrAG6AwsIrZLKkNzRq9TPAboDCwj3hNb7wPKN1uoBugMLCN7FrZfW34DEmQG6AwoI2Zy849e1_PwO8gMFDZBvaj8%3D",
-      "playerParams": "ygUJbXVzaWMgbWl4",
+      "videoId": "DzLdFmPncms",
+      "params": "qgMDbHR0ugMLCIzmrt2n0oe5rgG6AwsIlICnnIjNgYzOAboDCwiB6O7Xs9i9_J8BugMLCOz9-pyX1oWO8wG6AwsImI34l6v4xO--AboDCQjZp72FsKSbfLoDCwjdweGSrcX8_I0BugMKCJ-0lbnFjaewZ7oDCgj0s5Wsn43xpG-6AwoIxuzD9bOK3ZwJugMLCNX-js2D1NvW8wG6AwsI85jPuJDCiJSBAboDCwisyd7Nh4q2ivYBugMKCNSu1be7u9WbE7oDCwjipaDSxv6r39oBugMLCNTkst201Yzb7gG6AwsIl8nuhPu2r-PSAboDCwjlnvbVoYTo5IsBugMKCI_txNfS3pGzY7oDCwjCjMuO_qeqiIABugMLCL2ehOG72bKl3gG6AwsIloDirOyijr6MAboDCgjZg6_WuMSKgmq6AwoI1p-5lMDp7fsUugMLCKGVjK7_tOuftgG6AwoIiMH__NPblYd0ugMLCJuZ0o3ygO33xgG6AwoIm4S-lenRp6tAugMLCIL97M6Losb4pgG6AwoI8cuHlOGKrqQLugMLCKSIvqGSr_OI0AG6AwsI0Pivhuy4xeGLAboDCgiMiYevz46g7hG6AwoIx5qyociFp6EYugMKCPPLu-m8hMnnOroDCwjnjIeRqdfWyesBugMLCLbwi-a0x_3BhAG6AwoI0KPGkri9uoNxugMLCNPKgeH0vfbd0QG6AwsIwsD_37rM7ZSqAboDCgjTh9P-nr-hqgy6AwoIts-6yt7MnNJougMLCNXHqvWM4qb-rwG6AwsIrdLL4N2B_uLcAboDCwjxp9Dx47LV4ZoBugMKCIb0raWQxLPCe7oDCwjs_fqcl9aFjvMBugMLCPOYz7iQwoiUgQG6AwoIw92X5OrnuYw4ugMLCOKloNLG_qvf2gG6AwsIgeju17PYvfyfAboDCwjlnvbVoYTo5IsBugMKCNmDr9a4xIqCaroDCwi28IvmtMf9wYQBugMKCPbc26L7gcq0SboDCwiUgKeciM2BjM4BugMLCOLps8_HrdvvugG6AwsI3cHhkq3F_PyNAboDCQjZp72FsKSbfLoDCgjUrtW3u7vVmxO6AwoIn7SVucWNp7BnugMKCNCvp7TB3uvUQboDCgj27uim3cmSmSu6AwsIl8nuhPu2r-PSAboDCwixx5rMkaiHxssBugMKCMbsw_Wzit2cCboDCgjxrKj_gO2Z5Cq6AwoIl4692_PfwdxsugMLCL2ehOG72bKl3gG6AwsI1OSy3bTVjNvuAboDCwijy5e6pNmoztQBugMLCNPKgeH0vfbd0QG6AwsI1f6OzYPU29bzAboDCgjWn7mUwOnt-xS6AwsI28-42Zmv3L2OAboDCgin-IKLkc_AuEy6AwsI0Pivhuy4xeGLAboDCgig996X6uLKyhy6AwoI04fT_p6_oaoMugMKCKXp1cPA7rzwNboDCwjhxfq4l67FwKwBugMLCK7Zh4PJyuPW0gG6AwsIkdrdsMiR_tupAboDCwigvt3qpPC_84EBugMLCP-Hgtbg_eOfuwG6AwsI0I_kzIvH7pnCAboDCwjbyNGBmZryzJEBugMKCMPdl-Tq57mMOLoDCwjipaDSxv6r39oBugMLCIHo7tez2L38nwG6AwsI5Z721aGE6OSLAboDCgjZg6_WuMSKgmq6AwsItvCL5rTH_cGEAboDCgj23Nui-4HKtEm6AwsIlICnnIjNgYzOAboDCwji6bPPx63b77oBugMLCN3B4ZKtxfz8jQG6AwoIgbXw6onV7YFfugMLCJuqs__jpNH4iwG6AwoI45_1j5iFyqVjugMKCJPEwqTgmOf0VroDCwiZkovgoI-6j64BugMLCOSYxPqH19WiwQG6AwsI8aDHk8G6gvTWAboDCwjdn-3kp-bHouYBugMLCPSyoKz-hb_ykwG6AwoIv8v1qeLGxOs6ugMKCPrj0M2RnIj3RvIDBQ0Rbk4-",
+      "playerParams": "ygUDbHR0",
       "watchEndpointSupportedOnesieConfig": {
         "html5PlaybackOnesieConfig": {
           "commonConfig": {
-            "url": "https://rr2---sn-pf5t-1gie.googlevideo.com/initplayback?source=youtube&oeis=1&c=WEB&oad=3200&ovd=3200&oaad=11000&oavd=11000&ocs=700&oewis=1&oputc=1&ofpcc=1&beids=24350018&msp=1&odepv=1&id=3398c213fd984e0c&ip=185.104.85.194&initcwndbps=2583750&mt=1691657839&oweuc="
+            "url": "https://rr1---sn-pf5t-1gie.googlevideo.com/initplayback?source=youtube&oeis=1&c=WEB&oad=3200&ovd=3200&oaad=11000&oavd=11000&ocs=700&oewis=1&oputc=1&ofpcc=1&beids=24350018&msp=1&odepv=1&id=0f32dd1663e7726b&ip=185.104.85.194&initcwndbps=2255000&mt=1691680170&oweuc=&pxtags=Cg4KAnR4EggyNDY5ODU4NQ&rxtags=Cg4KAnR4EggyNDY5ODU4Mg%2CCg4KAnR4EggyNDY5ODU4Mw%2CCg4KAnR4EggyNDY5ODU4NA%2CCg4KAnR4EggyNDY5ODU4NQ%2CCg4KAnR4EggyNDY5ODU4Ng%2CCg4KAnR4EggyNDY5ODU4Nw%2CCg4KAnR4EggyNDY5ODU4OA"
           }
         }
       }
     },
     "metadata": {
-      "url": "/watch?v=M5jCE_2YTgw&pp=ygUJbXVzaWMgbWl4",
+      "url": "/watch?v=DzLdFmPncms&pp=ygUDbHR0",
       "page_type": "WEB_PAGE_TYPE_WATCH",
       "api_url": "/player"
     }
@@ -233,7 +235,7 @@
   "view_count": {
     "runs": [
       {
-        "text": "393",
+        "text": "397",
         "bold": false,
         "italics": false,
         "strikethrough": false
@@ -245,12 +247,12 @@
         "strikethrough": false
       }
     ],
-    "text": "393 watching"
+    "text": "397 watching"
   },
   "short_view_count": {
     "runs": [
       {
-        "text": "393",
+        "text": "397",
         "bold": false,
         "italics": false,
         "strikethrough": false
@@ -262,7 +264,7 @@
         "strikethrough": false
       }
     ],
-    "text": "393 watching"
+    "text": "397 watching"
   },
   "duration": {
     "text": "N/A",
@@ -283,13 +285,13 @@
             "signal": "CLIENT_SIGNAL",
             "actions": [
               {
-                "clickTrackingParams": "CO0EEP6YBBgMIhMI34Ga293RgAMVOUx6BR0d4Qyc",
+                "clickTrackingParams": "CIMHEP6YBBgMIhMIhaOarLDSgAMVoER6BR2_rwbp",
                 "addToPlaylistCommand": {
                   "openMiniplayer": true,
-                  "videoId": "M5jCE_2YTgw",
+                  "videoId": "DzLdFmPncms",
                   "listType": "PLAYLIST_EDIT_LIST_TYPE_QUEUE",
                   "onCreateListCommand": {
-                    "clickTrackingParams": "CO0EEP6YBBgMIhMI34Ga293RgAMVOUx6BR0d4Qyc",
+                    "clickTrackingParams": "CIMHEP6YBBgMIhMIhaOarLDSgAMVoER6BR2_rwbp",
                     "commandMetadata": {
                       "webCommandMetadata": {
                         "sendPost": true,
@@ -298,13 +300,13 @@
                     },
                     "createPlaylistServiceEndpoint": {
                       "videoIds": [
-                        "M5jCE_2YTgw"
+                        "DzLdFmPncms"
                       ],
                       "params": "CAQ%3D"
                     }
                   },
                   "videoIds": [
-                    "M5jCE_2YTgw"
+                    "DzLdFmPncms"
                   ]
                 }
               }
@@ -316,38 +318,20 @@
         }
       },
       {
-        "type": "MenuServiceItemDownload",
-        "has_separator": false,
-        "endpoint": {
-          "type": "NavigationEndpoint",
-          "payload": {
-            "videoId": "M5jCE_2YTgw",
-            "onAddCommand": {
-              "clickTrackingParams": "COwEENGqBRgNIhMI34Ga293RgAMVOUx6BR0d4Qyc",
-              "getDownloadActionCommand": {
-                "videoId": "M5jCE_2YTgw",
-                "params": "CAI%3D"
-              }
-            }
-          },
-          "metadata": {}
-        }
-      },
-      {
         "type": "MenuServiceItem",
         "text": "Share",
         "icon_type": "SHARE",
         "endpoint": {
           "type": "NavigationEndpoint",
           "payload": {
-            "serializedShareEntity": "CgtNNWpDRV8yWVRndw%3D%3D",
+            "serializedShareEntity": "CgtEekxkRm1QbmNtcw%3D%3D",
             "commands": [
               {
-                "clickTrackingParams": "COgEENwwGAsiEwjfgZrb3dGAAxU5THoFHR3hDJw=",
+                "clickTrackingParams": "CP8GENwwGAIiEwiFo5qssNKAAxWgRHoFHb-vBuk=",
                 "openPopupAction": {
                   "popup": {
                     "unifiedSharePanelRenderer": {
-                      "trackingParams": "COsEEI5iIhMI34Ga293RgAMVOUx6BR0d4Qyc",
+                      "trackingParams": "CIIHEI5iIhMIhaOarLDSgAMVoER6BR2_rwbp",
                       "showLoadingSpinner": true
                     }
                   },
@@ -367,5 +351,5 @@
     "top_level_buttons": [],
     "label": "Action menu"
   },
-  "search_video_result_entity_key": "EgtNNWpDRV8yWVRndyDnAigB"
+  "search_video_result_entity_key": "EgtEekxkRm1QbmNtcyDnAigB"
 }

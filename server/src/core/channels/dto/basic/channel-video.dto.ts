@@ -1,11 +1,11 @@
-import { ChannelVideo } from '../../types/ytch.types';
+import { Video } from '../../yt-channel-info/app/types';
 import { ChannelImageDto } from './channel-image.dto';
 
-export class ChannelVideoDto implements ChannelVideo {
+export class ChannelVideoDto implements Video {
   author: string;
   authorId: string;
-  durationText: string;
-  lengthSeconds: number;
+  durationText?: string;
+  lengthSeconds?: number;
   liveNow: boolean;
   premiere: boolean;
   premium: boolean;

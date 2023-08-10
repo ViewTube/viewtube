@@ -1,4 +1,4 @@
-import { ChannelCommunityPostsContinuationResponse } from '../../types/ytch.types';
+import { ChannelCommunityPostsContinuationResponse } from '../../yt-channel-info/app/types';
 import { ChannelCommunityPostDto } from '../basic/channel-community-post.dto';
 
 export class ChannelCommunityPostsContinuationDto

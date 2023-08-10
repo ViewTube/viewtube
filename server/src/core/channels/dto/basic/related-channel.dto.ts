@@ -1,15 +1,17 @@
-import { RelatedChannel } from '../../types/ytch.types';
-import { ChannelImageDto } from './channel-image.dto';
+import { Image, RelatedChannel } from '../../yt-channel-info/app/types';
 
 export class RelatedChannelDto implements RelatedChannel {
-  channelName: string;
-  channelId: string;
-  channelUrl: string;
-  thumbnail: ChannelImageDto[];
+  channelName?: string;
+  channelId?: string;
+  channelUrl?: string;
+  author: string;
+  authorId: string;
+  authorUrl: string;
+  authorThumbnails: Image[];
   videoCount: number;
   subscriberText: string;
   subscriberCount: number;
   verified: boolean;
-  officialArtist?: boolean;
+  officialArtist: boolean;
   officialArist: boolean;
 }

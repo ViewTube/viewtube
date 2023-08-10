@@ -393,6 +393,7 @@ const watchPageTitle = computed(() => {
             <BadgeButton
               v-for="keyword in video.keywords"
               :key="keyword"
+              :internal-link="true"
               class="video-infobox-tag"
               :href="`results?search_query=${keyword}`"
             >
@@ -445,7 +446,10 @@ const watchPageTitle = computed(() => {
 <style lang="scss">
 .share-fade-down-enter-active,
 .share-fade-down-leave-active {
-  transition: transform 200ms $intro-easing, opacity 200ms $intro-easing, height 200ms $intro-easing;
+  transition:
+    transform 200ms $intro-easing,
+    opacity 200ms $intro-easing,
+    height 200ms $intro-easing;
 }
 .share-fade-down-enter-to,
 .share-fade-down-leave-from {

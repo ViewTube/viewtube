@@ -27,7 +27,6 @@ import {
   extractLegacyFormats
 } from './vt-video-info.extractors';
 import { createDashManifestURI } from 'server/mapper/utils/dash-manifest-uri';
-import { logger } from 'server/common/logger';
 
 type ToVTVideoInfoOptions = {
   dashManifest: string;
@@ -37,7 +36,6 @@ export const toVTVideoInfoDto = (
   { dashManifest }: ToVTVideoInfoOptions
 ): VTVideoInfoDto => {
   const id = extractVideoId(videoInfo);
-  logger.log(`Parsing video ${id}`);
   return {
     id,
     title: extractTitle(videoInfo),

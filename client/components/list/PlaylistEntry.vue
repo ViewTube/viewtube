@@ -1,10 +1,14 @@
 <script setup lang="ts">
 export type PlaylistEntryType = {
   title: string;
+  id?: string;
   playlistId?: string;
   playlistID?: string;
   thumbnail?: string;
   playlistThumbnails?: Array<{
+    url: string;
+  }>;
+  thumbnails?: Array<{
     url: string;
   }>;
   playlistThumbnail?: string;
@@ -15,7 +19,10 @@ export type PlaylistEntryType = {
   };
   videoCountString?: string;
   videoCount?: number;
-  author?: string;
+  author?: {
+    name?: string;
+    id?: string;
+  };
   authorId?: string;
   owner?: {
     name: string;
@@ -35,7 +42,7 @@ const { proxyUrl } = useImgProxy();
 
 const playlistLink = computed((): string => {
   return `/playlist?list=${
-    props.playlist.playlistId ? props.playlist.playlistId : props.playlist.playlistID
+    props.playlist.playlistId ?? props.playlist.playlistID ?? props.playlist.id
   }`;
 });
 </script>
@@ -48,6 +55,12 @@ const playlistLink = computed((): string => {
           v-if="playlist.thumbnail"
           class="playlist-entry-thmb-image"
           :src="proxyUrl(playlist.thumbnail)"
+          :alt="playlist.title"
+        />
+        <img
+          v-if="playlist.thumbnails"
+          class="playlist-entry-thmb-image"
+          :src="proxyUrl(playlist.thumbnails?.[0]?.url)"
           :alt="playlist.title"
         />
         <img
@@ -86,11 +99,18 @@ const playlistLink = computed((): string => {
       }}</nuxt-link>
       <div v-if="!hideAuthor" class="channel-name-container">
         <nuxt-link
-          v-if="playlist.author"
+          v-if="typeof playlist.author === 'string'"
           v-tippy="playlist.author"
           class="playlist-entry-channel tooltip"
           :to="'/channel/' + playlist.authorId"
           >{{ playlist.author }}</nuxt-link
+        >
+        <nuxt-link
+          v-else-if="playlist.author"
+          v-tippy="playlist.author.name"
+          class="playlist-entry-channel tooltip"
+          :to="'/channel/' + playlist.id"
+          >{{ playlist.author.name }}</nuxt-link
         >
         <nuxt-link
           v-if="playlist.owner"

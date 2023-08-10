@@ -5,13 +5,13 @@ import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import Filters from '@/components/search/Filters.vue';
 import SeparatorSmall from '@/components/list/SeparatorSmall.vue';
 import { useMessagesStore } from '@/store/messages';
-import ytsr from 'ytsr';
 
 const VideoEntry = resolveComponent('ListVideoEntry');
 const PlaylistEntry = resolveComponent('ListPlaylistEntry');
-const MixEntry = resolveComponent('ListMixEntry');
+const MovieEntry = resolveComponent('ListMovieEntry');
 const ChannelEntry = resolveComponent('ListChannelEntry');
 const Shelf = resolveComponent('SearchShelf');
+const ShortsShelf = resolveComponent('SearchShortsShelf');
 
 const route = useRoute();
 const messagesStore = useMessagesStore();
@@ -26,16 +26,16 @@ const { apiUrl } = useApiUrl();
 
 const { data: searchData, pending, error } = useGetSearchResult();
 
-const additionalResultItems = ref<ytsr.Item[]>([]);
-const searchContinuationData = ref<any>(searchData.value?.searchResults.continuation);
+// const additionalResultItems = ref<ytsr.Item[]>([]);
+// const searchContinuationData = ref<any>(searchData.value?.searchResults.continuation);
 
-watch(
-  () => searchData.value,
-  newData => {
-    additionalResultItems.value = [];
-    searchContinuationData.value = newData?.searchResults.continuation;
-  }
-);
+// watch(
+//   () => searchData.value,
+//   newData => {
+//     // additionalResultItems.value = [];
+//     searchContinuationData.value = newData?.searchResults.continuation;
+//   }
+// );
 
 watch(error, newValue => {
   if (newValue) {
@@ -48,28 +48,6 @@ watch(error, newValue => {
   }
 });
 
-const isCorrectedSearchResult = computed((): boolean => {
-  if (searchData.value?.searchResults) {
-    return (
-      searchData.value?.searchResults.originalQuery !==
-      searchData.value?.searchResults.correctedQuery
-    );
-  }
-  return false;
-});
-
-const correctedSearchResultUrl = computed((): string => {
-  if (searchData.value?.searchResults) {
-    const url = route.fullPath;
-    const newUrl = decodeURIComponent(url).replace(
-      searchData.value?.searchResults.originalQuery,
-      searchData.value?.searchResults.correctedQuery
-    );
-    return newUrl;
-  }
-  return route.fullPath;
-});
-
 const getListEntryType = (type: string) => {
   switch (type) {
     case 'video':
@@ -78,92 +56,89 @@ const getListEntryType = (type: string) => {
       return PlaylistEntry;
     case 'channel':
       return ChannelEntry;
-    case 'mix':
-      return MixEntry;
+    case 'movie':
+      return MovieEntry;
     case 'shelf':
+      return Shelf;
+    case 'shorts-shelf':
       return Shelf;
     default:
       return null;
   }
 };
 
-const loadMoreVideos = async () => {
-  moreVideosLoading.value = true;
-  page.value += 1;
+// const loadMoreVideos = async () => {
+//   moreVideosLoading.value = true;
+//   page.value += 1;
 
-  if (searchData.value?.searchResults && searchContinuationData.value) {
-    try {
-      const searchContinuation = await vtFetch<ytsr.ContinueResult>(
-        `${apiUrl.value}search/continuation`,
-        {
-          method: 'POST',
-          body: {
-            continuationData: searchContinuationData.value
-          }
-        }
-      );
+//   if (searchData.value?.searchResults && searchContinuationData.value) {
+//     try {
+//       const searchContinuation = await vtFetch<ytsr.ContinueResult>(
+//         `${apiUrl.value}search/continuation`,
+//         {
+//           method: 'POST',
+//           body: {
+//             continuationData: searchContinuationData.value
+//           }
+//         }
+//       );
 
-      if (searchContinuation) {
-        additionalResultItems.value = [...additionalResultItems.value, ...searchContinuation.items];
-        searchContinuationData.value = searchContinuation.continuation;
-      }
-    } catch (error) {
-      messagesStore.createMessage({
-        type: 'error',
-        title: 'Unable to load more results',
-        message: 'Try again or use a different search term for more results'
-      });
-    }
-  } else {
-    messagesStore.createMessage({
-      type: 'error',
-      title: 'Unable to load more results',
-      message: 'Use a different search term for more results'
-    });
-  }
-  moreVideosLoading.value = false;
-};
+//       if (searchContinuation) {
+//         additionalResultItems.value = [...additionalResultItems.value, ...searchContinuation.items];
+//         searchContinuationData.value = searchContinuation.continuation;
+//       }
+//     } catch (error) {
+//       messagesStore.createMessage({
+//         type: 'error',
+//         title: 'Unable to load more results',
+//         message: 'Try again or use a different search term for more results'
+//       });
+//     }
+//   } else {
+//     messagesStore.createMessage({
+//       type: 'error',
+//       title: 'Unable to load more results',
+//       message: 'Use a different search term for more results'
+//     });
+//   }
+//   moreVideosLoading.value = false;
+// };
 </script>
 
 <template>
   <div class="search" :class="{ loading: pending }">
     <MetaPageHead :title="searchQuery" description="Search for videos, channels and playlists" />
     <Spinner v-if="pending" class="centered search-spinner" />
-    <Filters
+    <!-- <Filters
       v-if="searchData?.filters && searchData?.filters.length"
       :filters="searchData?.filters"
-    />
-    <p v-if="!pending && searchData?.searchResults" class="result-amount">
-      {{ searchData?.searchResults?.results?.toLocaleString('en-US') }} results
+    /> -->
+    <p v-if="!pending && searchData" class="result-amount">
+      {{ searchData?.estimatedResultCount?.toLocaleString('en-US') }} results
     </p>
-    <div v-if="isCorrectedSearchResult" class="correction-results links">
-      <span>Showing results for </span>
-      <nuxt-link :to="correctedSearchResultUrl">{{
-        searchData?.searchResults.correctedQuery
-      }}</nuxt-link>
-    </div>
-    <div v-if="!pending && searchData?.searchResults" class="search-results">
+    <div v-if="!pending && searchData" class="search-results">
       <div
-        v-if="searchData?.searchResults.refinements && searchData?.searchResults.refinements.length"
+        v-if="searchData.refinements && searchData.refinements.length"
         class="search-refinements"
       >
-        <RelatedSearches :refinements="searchData?.searchResults.refinements" />
+        <RelatedSearches :refinements="searchData.refinements" />
       </div>
-      <div v-if="!pending && searchData?.searchResults.items" class="search-videos-container">
+      <div v-if="searchData.results" class="search-videos-container">
         <component
           :is="getListEntryType(result.type)"
-          v-for="(result, i) in searchData?.searchResults.items"
+          v-for="(result, i) in searchData.results"
           :key="i"
           :video="result"
           :channel="result"
           :playlist="result"
           :mix="result"
+          :movie="result"
           :shelf="result"
           :horizontal="true"
           :lazy="true"
         />
       </div>
-      <SeparatorSmall v-if="!pending && additionalResultItems.length > 0"
+      <!-- <SeparatorSmall v-if="!pending && additionalResultItems.length > 0"
         >More results</SeparatorSmall
       >
       <div v-if="!pending && additionalResultItems.length > 0" class="search-videos-container">
@@ -185,7 +160,7 @@ const loadMoreVideos = async () => {
           <VTIcon name="mdi:reload" />
           <p>Show more</p>
         </BadgeButton>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>

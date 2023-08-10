@@ -15,6 +15,7 @@ import { ChannelStatsDto } from './dto/response/channel-stats.dto';
 import { ChannelVideosContinuationDto } from './dto/response/channel-videos-continuation.dto';
 import { ChannelVideosDto } from './dto/response/channel-videos.dto';
 import { RelatedChannelsContinuationDto } from './dto/response/related-channels-continuation.dto';
+import { ChannelInfoErrorDto } from './dto/channel-info-error.dto';
 
 @ApiTags('Core')
 @Controller('channels')
@@ -41,7 +42,7 @@ export class ChannelsController {
   @ApiResponse({ status: 500 })
   @UseInterceptors(CacheInterceptor)
   @CacheTTL(3600000)
-  getChannelInfo(@Param('id') channelId: string): Promise<ChannelInfoDto> {
+  getChannelInfo(@Param('id') channelId: string): Promise<ChannelInfoDto | ChannelInfoErrorDto> {
     return this.channelsService.getChannelInfo(channelId);
   }
 
@@ -51,7 +52,7 @@ export class ChannelsController {
   @ApiResponse({ status: 500 })
   @UseInterceptors(CacheInterceptor)
   @CacheTTL(3600000)
-  getChannelHome(@Param('id') channelId: string): Promise<ChannelHomeDto> {
+  getChannelHome(@Param('id') channelId: string): Promise<ChannelHomeDto | ChannelInfoErrorDto> {
     return this.channelsService.getChannelHome(channelId);
   }
 
@@ -76,7 +77,7 @@ export class ChannelsController {
   @CacheTTL(3600000)
   getChannelVideosContinuation(
     @Query('continuation') continuation: string
-  ): Promise<ChannelVideosContinuationDto> {
+  ): Promise<ChannelVideosContinuationDto | ChannelInfoErrorDto> {
     return this.channelsService.getChannelVideosContinuation(continuation);
   }
 
@@ -137,7 +138,7 @@ export class ChannelsController {
   searchChannel(
     @Param('id') channelId: string,
     @Query('query') query: string
-  ): Promise<ChannelSearchDto> {
+  ): Promise<ChannelSearchDto | ChannelInfoErrorDto> {
     return this.channelsService.searchChannel(channelId, query);
   }
 
@@ -194,7 +195,7 @@ export class ChannelsController {
   @ApiResponse({ status: 500 })
   @UseInterceptors(CacheInterceptor)
   @CacheTTL(3600000)
-  getChannelStats(@Param('id') channelId: string): Promise<ChannelStatsDto> {
+  getChannelStats(@Param('id') channelId: string): Promise<ChannelStatsDto | ChannelInfoErrorDto> {
     return this.channelsService.getChannelStats(channelId);
   }
 }

@@ -1,6 +1,6 @@
-import { ChannelInfoDto } from './channel-info.dto';
+import { RelatedChannelDto } from '../basic/related-channel.dto';
 
 export class RelatedChannelsContinuationDto {
-  items: Array<Partial<ChannelInfoDto['relatedChannels']['items'][number]>>;
+  items: Array<Partial<RelatedChannelDto>>;
   continuation: string;
 }

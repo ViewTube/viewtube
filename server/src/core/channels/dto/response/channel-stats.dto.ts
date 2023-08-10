@@ -1,4 +1,4 @@
-import { ChannelStatsResponse } from '../../types/ytch.types';
+import { ChannelStatsResponse } from '../../yt-channel-info/app/types';
 
 export class ChannelStatsDto implements ChannelStatsResponse {
   joinedDate: number;

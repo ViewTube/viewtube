@@ -1,5 +1,5 @@
-import { Result } from 'ytsr';
 import { LocationQuery } from 'vue-router';
+import { VTSearchDto } from 'viewtube/server/src/mapper/dto/search/vt-search.dto';
 
 export type FilterType = { filterValue: any; filterType?: any; filterName: any };
 
@@ -21,9 +21,7 @@ export const useGetSearchResult = () => {
         const { apiUrl } = useApiUrl();
         const searchResponse = await getSearch(searchQuery.value, apiUrl.value);
 
-        return {
-          searchResults: searchResponse
-        };
+        return searchResponse;
       } catch (error) {
         console.log('error', error);
       }
@@ -40,5 +38,5 @@ const getSearchQuery = (query: LocationQuery) => {
 };
 
 const getSearch = (searchTerm: string, apiUrl: string) => {
-  return vtFetch<Result>(`${apiUrl}search/v2?q=${searchTerm}`);
+  return vtFetch<VTSearchDto>(`${apiUrl}search?q=${searchTerm}`);
 };

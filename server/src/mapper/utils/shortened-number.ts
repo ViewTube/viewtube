@@ -1,6 +1,8 @@
 export const parseShortenedNumber = (shortenedNumber: string) => {
+  if (!shortenedNumber) return 0;
+  
   const number = shortenedNumber
-    .toString()
+    ?.toString()
     .trim()
     .toLowerCase()
     .replace(/subscribers?/i, '')
