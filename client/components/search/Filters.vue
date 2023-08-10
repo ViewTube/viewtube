@@ -1,29 +1,135 @@
+<script setup lang="ts">
+defineProps<{
+  disabled: boolean;
+}>();
+
+const route = useRoute();
+const router = useRouter();
+
+const searchValue = ref('');
+
+const refreshQuery = () => {
+  if (route.query.search_query) {
+    searchValue.value = route.query.search_query as string;
+  }
+};
+
+watch(() => route.query, refreshQuery);
+
+const onFilterApply = (e: { target: HTMLFormElement }) => {
+  const formData = new FormData(e.target);
+  // FormData in URLSearchParams is supported in all major browsers
+  const searchParams = new URLSearchParams(formData as any);
+  const queryString = searchParams.toString();
+  router.push(`/results?${queryString}`);
+};
+
+const getFilterUrl = (filterType: string, filterValue: string): string => {
+  const newUrlParams = new URLSearchParams(route.query as any);
+
+  if (filterType === 'features') {
+    const existingFeatures = newUrlParams.get('features');
+    if (existingFeatures) {
+      const features = existingFeatures.split(',');
+
+      if (features.includes(filterValue)) {
+        features.splice(features.indexOf(filterValue), 1);
+      } else {
+        features.push(filterValue);
+      }
+
+      if (features.length > 0) {
+        newUrlParams.set('features', features.join(','));
+      } else {
+        newUrlParams.delete('features');
+      }
+    } else {
+      newUrlParams.set('features', filterValue);
+    }
+  } else {
+    newUrlParams.set(filterType, filterValue);
+  }
+
+  return `/results?${newUrlParams.toString()}`;
+};
+
+const isDisabled = (filterValue: string): boolean => {
+  const urlSearchParams = new URLSearchParams(route.query as any);
+  if (
+    urlSearchParams.get('Upload date') ||
+    urlSearchParams.get('Features') ||
+    urlSearchParams.get('Duration')
+  ) {
+    if (filterValue === 'Channel' || filterValue === 'Playlist' || filterValue === 'Show') {
+      return true;
+    }
+  }
+  if (urlSearchParams.get('Type') === 'Channel') {
+    if (
+      filterValue !== 'Relevance' &&
+      filterValue !== 'Upload date' &&
+      filterValue !== 'View count' &&
+      filterValue !== 'Rating' &&
+      filterValue !== 'Channel'
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  return false;
+};
+
+const isChecked = (filterType: string, filterValue: string) => {
+  const urlSearchParams = new URLSearchParams(route.query as any);
+  if (filterType === 'features') {
+    const existingFeatures = urlSearchParams.get('features');
+    if (existingFeatures) {
+      const features = existingFeatures.split(',');
+      if (features.includes(filterValue)) {
+        return true;
+      }
+    }
+  } else {
+    if (urlSearchParams.get(filterType) === filterValue) {
+      return true;
+    }
+  }
+  return false;
+};
+
+refreshQuery();
+</script>
+
 <template>
   <div class="filters">
     <details class="filter-details">
       <summary class="filter-summary">Filters</summary>
       <div class="filter-form">
-        <div v-for="(filter, i) in filters" :key="i" class="filter">
-          <p class="filter-title">{{ filter.filterType }}</p>
+        <div v-for="(filter, i) in searchFilters" :key="i" class="filter">
+          <p class="filter-title">{{ filter.title }}</p>
           <nuxt-link
-            v-for="(filterValue, index) in filter.filterValues"
+            v-for="(filterValue, index) in filter.values"
             :key="index"
-            :to="getFilterUrl(filter.filterType, filterValue.name)"
+            :to="getFilterUrl(filter.type, filterValue.name)"
             class="filter-value"
-            :class="{ disabled: isDisabled(filterValue.name) }"
+            :class="{ disabled: isDisabled(filterValue.name) || disabled }"
           >
             <label class="radio-container">
               <input
                 :id="`${index}-${i}`"
-                type="radio"
-                :name="filter.filterType"
+                :type="filter.multiple ? 'checkbox' : 'radio'"
+                :name="filter.type"
                 :value="filterValue.name"
-                :checked="
-                  filterValue.active || $route.query[filter.filterType] === filterValue.name
-                "
+                :checked="isChecked(filter.type, filterValue.name)"
               />
-              <label v-tippy="filterValue.description" class="check" :for="`${index}-${i}`" />
-              <p>{{ filterValue.name }}</p>
+              <label
+                v-tippy="filterValue.description"
+                class="check"
+                :class="{ multiple: filter.multiple }"
+                :for="`${index}-${i}`"
+              />
+              <p>{{ filterValue.description }}</p>
             </label>
           </nuxt-link>
         </div>
@@ -36,79 +142,6 @@
     </details>
   </div>
 </template>
-
-<script lang="ts">
-import { PropType } from 'vue';
-
-export default defineComponent({
-  name: 'Filters',
-  props: {
-    filters: Array as PropType<Array<any>>
-  },
-  setup() {
-    const route = useRoute();
-    const router = useRouter();
-    const searchValue = ref('');
-
-    const refreshQuery = () => {
-      if (route.query.search_query) {
-        searchValue.value = route.query.search_query as string;
-      }
-    };
-
-    watch(() => route.query, refreshQuery);
-
-    const onFilterApply = (e: { target: HTMLFormElement }) => {
-      const formData = new FormData(e.target);
-      // FormData in URLSearchParams is supported in all major browsers
-      const searchParams = new URLSearchParams(formData as any);
-      const queryString = searchParams.toString();
-      router.push(`/results?${queryString}`);
-    };
-    const getFilterUrl = (filterName: string, filterValue: string): string => {
-      const newUrlParams = new URLSearchParams(route.query as any);
-      newUrlParams.set(filterName, filterValue);
-      return `/results?${newUrlParams.toString()}`;
-    };
-    const isDisabled = (filterValue: string): boolean => {
-      const urlSearchParams = new URLSearchParams(route.query as any);
-      if (
-        urlSearchParams.get('Upload date') ||
-        urlSearchParams.get('Features') ||
-        urlSearchParams.get('Duration')
-      ) {
-        if (filterValue === 'Channel' || filterValue === 'Playlist' || filterValue === 'Show') {
-          return true;
-        }
-      }
-      if (urlSearchParams.get('Type') === 'Channel') {
-        if (
-          filterValue !== 'Relevance' &&
-          filterValue !== 'Upload date' &&
-          filterValue !== 'View count' &&
-          filterValue !== 'Rating' &&
-          filterValue !== 'Channel'
-        ) {
-          return true;
-        } else {
-          return false;
-        }
-      }
-      return false;
-    };
-
-    refreshQuery();
-
-    return {
-      route,
-      searchValue,
-      onFilterApply,
-      getFilterUrl,
-      isDisabled
-    };
-  }
-});
-</script>
 
 <style lang="scss">
 .filters {
@@ -238,6 +271,10 @@ export default defineComponent({
               transition:
                 border 300ms $intro-easing,
                 background-color 300ms $intro-easing;
+
+              &.multiple {
+                border-radius: 3px;
+              }
             }
           }
         }

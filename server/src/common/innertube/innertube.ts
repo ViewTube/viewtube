@@ -16,4 +16,4 @@ if (process.env.VIEWTUBE_YOUTUBE_COOKIE) {
   innertubeOptions.cookie = process.env.VIEWTUBE_YOUTUBE_COOKIE;
 }
 
-export const innertubeClient = Innertube.create(innertubeOptions);
+export const innertubeClient = () => Innertube.create(innertubeOptions);

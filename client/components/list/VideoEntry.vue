@@ -157,6 +157,24 @@ const isVerified = computed(() => {
 const onVideoEntryClick = () => {
   loadingVideoInfoStore.setLoadingVideoInfo(props.video);
 };
+
+const videoViewsText = computed(() => {
+  if (props.video.viewCountText) {
+    if (
+      !/views?/i.test(props.video.viewCountText) &&
+      !/watching/i.test(props.video.viewCountText)
+    ) {
+      return props.video.viewCountText + ' views';
+    }
+    return props.video.viewCountText;
+  } else if (props.video.viewCount) {
+    return `${props.video.viewCount.toLocaleString('en-US')} ${
+      props.video.viewCount === 1 ? 'view' : 'views'
+    }`;
+  } else if (props.video.views) {
+    `${props.video.views.toLocaleString('en-US')} ${props.video.views === 1 ? 'view' : 'views'}`;
+  }
+});
 </script>
 
 <template>
@@ -306,17 +324,7 @@ const onVideoEntryClick = () => {
           >{{ video.title }}</nuxt-link
         >
         <div class="video-entry-stats">
-          <p v-if="video.viewCountText" class="video-entry-views">
-            {{ video.viewCountText }} {{ !video.viewCountText.includes('views') ? 'views' : '' }}
-          </p>
-          <p v-else-if="video.viewCount" class="video-entry-views">
-            {{ video.viewCount?.toLocaleString('en-US') }}
-            {{ video.viewCount === 1 ? 'view' : 'views' }}
-          </p>
-          <p v-else-if="video.views" class="video-entry-views">
-            {{ video.views?.toLocaleString('en-US') }}
-            {{ video.views === 1 ? 'view' : 'views' }}
-          </p>
+          <p class="video-entry-views">{{ videoViewsText }}</p>
           <p v-tippy="videoPublishedDate" class="video-entry-timestamp">
             {{ videoPublished }}
           </p>

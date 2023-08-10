@@ -21,21 +21,21 @@
       />
       <label class="search-label" for="search">search</label>
     </form>
-    <a
+    <nuxt-link
       v-ripple
       v-tippy="'Click or press enter to search'"
-      :href="`/results?search_query=${searchValue}`"
+      :to="`/results?search_query=${searchValue}`"
       class="search-btn tooltip"
       @click.self.prevent="onSearchButton"
     >
       <VTIcon name="mdi:magnify" />
-    </a>
+    </nuxt-link>
     <span class="search-line-bottom line" />
     <SearchAutoComplete
       ref="autocompleteRef"
       :search-value="searchValue"
-      @searchValueUpdate="onAutocompleteUpdate"
-      @autocompleteEnter="onAutocompleteEnter"
+      @search-value-update="onAutocompleteUpdate"
+      @auto-complete-enter="onAutocompleteEnter"
     />
   </div>
 </template>

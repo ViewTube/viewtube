@@ -2,7 +2,6 @@ import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { URL } from 'node:url';
-import { ofetch } from 'ofetch';
 import undici, { Dispatcher } from 'undici';
 @Injectable()
 export class VideoplaybackService {
@@ -11,13 +10,13 @@ export class VideoplaybackService {
     private readonly logger: Logger
   ) {}
   async proxyStream(request: FastifyRequest, reply: FastifyReply): Promise<void> {
-    let url = request.url;
+    let requestUrl = request.url;
 
     // URL constructor expects valid url
-    if (!url.startsWith('http')) {
-      url = `https://example.com${url}`;
+    if (!requestUrl.startsWith('http')) {
+      requestUrl = `https://example.com${requestUrl}`;
     }
-    const oldUrl = new URL(url);
+    const oldUrl = new URL(requestUrl);
     const urlHost = oldUrl.searchParams.get('__host');
 
     if (!urlHost) {

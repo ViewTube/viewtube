@@ -1,5 +1,5 @@
 import X2js from 'x2js';
-import PapaParse from 'papaparse';
+// import PapaParse from 'papaparse';
 
 type Subscription = {
   author: string;
@@ -18,13 +18,13 @@ export const convertFromOPMLToJson = (opml: string): Subscription[] => {
   }
 };
 
-export const convertFromCSVToJson = (csv: string): Subscription[] => {
-  const result = PapaParse.parse(csv, { header: false, skipEmptyLines: true });
-  result.data.splice(0, 1);
-  if (result.data[0] !== undefined) {
-    return mapYTTakeout(result.data);
-  }
-};
+// export const convertFromCSVToJson = (csv: string): Subscription[] => {
+  // const result = PapaParse.parse(csv, { header: false, skipEmptyLines: true });
+  // result.data.splice(0, 1);
+  // if (result.data[0] !== undefined) {
+  //   return mapYTTakeout(result.data);
+  // }
+// };
 
 export const mapYTTakeout = (data: any[]): Subscription[] => {
   return data.map((element: Object) => {

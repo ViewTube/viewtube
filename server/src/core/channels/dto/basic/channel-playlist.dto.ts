@@ -1,6 +1,6 @@
-import { ChannelPlaylist } from '../../types/ytch.types';
+import { Playlist } from '../../yt-channel-info/app/types';
 
-export class ChannelPlaylistDto implements ChannelPlaylist {
+export class ChannelPlaylistDto implements Playlist {
   author: string;
   authorId: string;
   authorUrl: string;

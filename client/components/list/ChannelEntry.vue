@@ -1,16 +1,47 @@
+<script setup lang="ts">
+import humanNumber from 'human-number';
+import { humanizer } from 'humanize-duration';
+
+const props = defineProps<{
+  channel: any;
+  horizontal?: boolean;
+}>();
+
+const { url: imgProxyUrl } = useImgProxy();
+
+const channelNameToImgString = (): string => {
+  let initials = '';
+  const channelName = props.channel.author ?? props.channel.name;
+  channelName.split(' ').forEach((e: string) => {
+    initials += e.charAt(0);
+  });
+  return initials;
+};
+</script>
+
 <template>
   <div class="channel-entry" :class="{ horizontal }">
     <nuxt-link
       class="channel-entry-thmb"
-      :to="{ path: '/channel/' + (channel.authorId ? channel.authorId : channel.channelID) }"
+      :to="{ path: '/channel/' + (channel.authorId ?? channel.channelID ?? channel.id) }"
     >
-      <div v-if="!channel.authorThumbnails && !channel.avatars" class="fake-thmb">
+      <div
+        v-if="!channel.authorThumbnails && !channel.avatars && !channel.thumbnails"
+        class="fake-thmb"
+      >
         <h3>{{ channelNameToImgString() }}</h3>
       </div>
       <div v-if="channel.authorThumbnails" class="thmb-image-container">
         <img
           class="channel-entry-thmb-image"
           :src="imgProxyUrl + channel.authorThumbnails[2].url"
+          :alt="channel.author"
+        />
+      </div>
+      <div v-if="channel.thumbnails" class="thmb-image-container">
+        <img
+          class="channel-entry-thmb-image"
+          :src="imgProxyUrl + channel.thumbnails[0].url"
           :alt="channel.author"
         />
       </div>
@@ -27,7 +58,7 @@
         <nuxt-link
           v-tippy="channel.author ? channel.author : channel.name"
           class="channel-entry-title tooltip"
-          :to="{ path: '/channel/' + (channel.authorId ? channel.authorId : channel.channelID) }"
+          :to="{ path: '/channel/' + (channel.authorId ?? channel.channelID ?? channel.id) }"
           >{{ channel.author ? channel.author : channel.name }}</nuxt-link
         >
         <VTIcon
@@ -39,50 +70,16 @@
         />
       </div>
       <div class="channel-entry-stats">
-        <p class="channel-entry-videocount">
-          {{ channel.videoCount ? channel.videoCount : channel.videos }} videos
-        </p>
-        <p v-if="channel.subCount" class="channel-entry-subcount">
-          {{ channel.subCount?.toLocaleString('en-US') }}
-          subscribers
+        <p v-if="channel.videoCount || channel.videos" class="channel-entry-videocount">
+          {{ channel.videoCount ?? channel.videos }} videos
         </p>
         <p v-if="channel.subscribers" class="channel-entry-subcount">
-          {{ channel.subscribers }}
-        </p>
-        <p v-if="channel.descriptionShort" class="channel-entry-description">
-          {{ channel.descriptionShort }}
+          {{ humanNumber(channel.subscribers) }} subscribers
         </p>
       </div>
     </div>
   </div>
 </template>
-
-<script lang="ts">
-export default defineComponent({
-  name: 'ChannelEntry',
-  props: {
-    channel: Object,
-    horizontal: Boolean
-  },
-  setup(props) {
-    const imgProxy = useImgProxy();
-
-    const channelNameToImgString = (): string => {
-      let initials = '';
-      const channelName = props.channel.author ? props.channel.author : props.channel.name;
-      channelName.split(' ').forEach((e: string) => {
-        initials += e.charAt(0);
-      });
-      return initials;
-    };
-
-    return {
-      imgProxyUrl: imgProxy.url,
-      channelNameToImgString
-    };
-  }
-});
-</script>
 
 <style lang="scss">
 .channel-entry {

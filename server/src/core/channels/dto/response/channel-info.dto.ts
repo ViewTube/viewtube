@@ -1,12 +1,12 @@
-import { ChannelInfoResponse } from '../../types/ytch.types';
+import { ChannelInfo } from '../../yt-channel-info/app/types';
 import { ChannelImageDto } from '../basic/channel-image.dto';
 import { ChannelLinkDto } from '../basic/channel-link.dto';
 import { RelatedChannelDto } from '../basic/related-channel.dto';
 
-export class ChannelInfoDto implements Omit<ChannelInfoResponse, 'relatedChannels'> {
+export class ChannelInfoDto implements Omit<ChannelInfo, 'relatedChannels'> {
   author: string;
   authorId: string;
-  authorUrl: string;
+  authorUrl: string;oResponse
   authorBanners: ChannelImageDto[];
   authorThumbnails: ChannelImageDto[];
   subscriberText: string;

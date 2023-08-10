@@ -945,8 +945,8 @@ export const videoPlayerSetup = (
       } else if (settingsStore.dashPlaybackEnabled && window.MediaSource) {
         // Using dashjs
         const manifest = props.video.dashManifest.replace(
-          /http:\/\/BASEURL_TO_REPLACE\.com/gi,
-          window.location.origin
+          /https:\/\/.*?.googlevideo\.com/gi,
+          `${window.location.origin}/api`
         );
         const manifestUrl = 'data:application/dash+xml;charset=utf-8;base64,' + btoa(manifest);
         dashHelper.value = new DashHelper(videoRef.value, manifestUrl, () => {

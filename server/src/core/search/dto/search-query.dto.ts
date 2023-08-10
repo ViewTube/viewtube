@@ -1,11 +1,6 @@
-import { Options } from 'ytsr';
-import { SelectedFilterDto } from './selected-filter.dto';
-export class SearchQueryDto implements Options {
+import { SearchFiltersDto } from './search-filters.dto';
+
+export class SearchQueryDto {
   q: string;
-  pages?: number;
-  limit?: number;
-  safeSearch?: boolean;
-  hl?: string;
-  gl?: string;
-  filters?: Array<SelectedFilterDto>;
+  filters?: SearchFiltersDto;
 }

@@ -33,6 +33,7 @@ withDefaults(
   display: flex;
   flex-direction: row;
   align-items: center;
+  z-index: 1;
 
   .title {
     max-width: $main-width;

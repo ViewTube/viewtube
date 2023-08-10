@@ -4,6 +4,8 @@ import { getHandleFromUrl } from 'server/mapper/utils/handle';
 import { getSecondsFromTimestamp, getTimestampFromSeconds } from 'viewtube/shared';
 import Author from 'youtubei.js/dist/src/parser/classes/misc/Author';
 import { VideoSourceApproximation } from './vt-video.converter';
+import { parseRelativeTime } from 'server/mapper/utils/parse-relative-time';
+import { parseShortenedNumber } from 'server/mapper/utils/shortened-number';
 
 export const extractVideoId = (video: VideoSourceApproximation): string => {
   if (video.id) {
@@ -141,8 +143,8 @@ export const extractVideoDescription = (video: VideoSourceApproximation): string
   } else if (video.description_snippet) {
     return video.description_snippet?.text;
   } else if (video.snippets) {
-    const possibleDescription = video.snippets.find(snip =>
-      snip.hover_text?.text?.includes('description')
+    const possibleDescription = video.snippets.find(
+      snip => snip.hover_text?.text?.includes('description')
     );
     if (possibleDescription?.text?.text) {
       return possibleDescription.text.text;
@@ -195,10 +197,12 @@ export const extractVideoDuration = (video: VideoSourceApproximation): VTVideoDt
 export const extractVideoPublished = (video: VideoSourceApproximation): VTVideoDto['published'] => {
   if (video.published) {
     return {
+      date: parseRelativeTime(video.published.text)?.toDate(),
       text: video.published.text
     };
   } else if (video.publishedText) {
     return {
+      date: parseRelativeTime(video.publishedText)?.toDate(),
       text: video.publishedText
     };
   }
@@ -214,17 +218,7 @@ export const extractVideoViewCount = (video: VideoSourceApproximation): number =
   }
 
   if (viewCountString) {
-    const cleanedString = viewCountString.toString().replace(/,/g, '');
-
-    if (cleanedString.includes('K')) {
-      return parseInt(cleanedString.replace('K', '')) * 1000;
-    } else if (cleanedString.includes('M')) {
-      return parseInt(cleanedString.replace('M', '')) * 1000000;
-    } else if (cleanedString.includes('B')) {
-      return parseInt(cleanedString.replace('B', '')) * 1000000000;
-    } else {
-      return parseInt(cleanedString);
-    }
+    return parseShortenedNumber(viewCountString);
   }
 };
 

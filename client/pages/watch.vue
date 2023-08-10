@@ -105,17 +105,16 @@ const isAutoplaying = computed(() => {
   return isPlaylist.value || settingsStore.autoplay || route.query.autoplay === 'true';
 });
 
-const recommendedVideos = computed(() => {
-  if (video.value) {
-    if (settingsStore.autoplayNextVideo) {
-      return video.value.recommendedVideos.slice(1);
-    }
-    return video.value.recommendedVideos;
-  }
-  return [];
-});
-
 const nextUpVideo = computed(() => {
+  if (playlist.value) {
+    const currentVideoIndex = playlist.value.items.findIndex(el => el.id === video.value.id);
+    if (currentVideoIndex !== -1 && currentVideoIndex + 1 < playlist.value.items.length) {
+      return playlist.value.items[currentVideoIndex + 1];
+    }
+    if (currentVideoIndex + 1 === playlist.value.items.length && route.query.repeat === 'true') {
+      return playlist.value.items[0];
+    }
+  }
   if (video.value) return video.value.recommendedVideos[0];
   return null;
 });
@@ -147,6 +146,7 @@ const setTimestamp = (e: Event, seconds: number) => {
   videoplayerRef.value.setVideoTime(seconds);
   videoplayerRef.value.play();
 };
+
 const getHDUrl = () => {
   if (video.value.legacyFormats) {
     const hdVideo = video.value.legacyFormats.find(e => {
@@ -293,7 +293,7 @@ const watchPageTitle = computed(() => {
         <CollapsibleSection :label="'Recommended videos'" :opened="recommendedOpen">
           <RecommendedVideos
             class="recommended-videos-list"
-            :recommended-videos="recommendedVideos"
+            :recommended-videos="video?.recommendedVideos ?? []"
           />
         </CollapsibleSection>
       </div>
@@ -393,6 +393,7 @@ const watchPageTitle = computed(() => {
             <BadgeButton
               v-for="keyword in video.keywords"
               :key="keyword"
+              :internal-link="true"
               class="video-infobox-tag"
               :href="`results?search_query=${keyword}`"
             >
@@ -445,7 +446,10 @@ const watchPageTitle = computed(() => {
 <style lang="scss">
 .share-fade-down-enter-active,
 .share-fade-down-leave-active {
-  transition: transform 200ms $intro-easing, opacity 200ms $intro-easing, height 200ms $intro-easing;
+  transition:
+    transform 200ms $intro-easing,
+    opacity 200ms $intro-easing,
+    height 200ms $intro-easing;
 }
 .share-fade-down-enter-to,
 .share-fade-down-leave-from {

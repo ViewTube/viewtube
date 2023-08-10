@@ -8,7 +8,6 @@ import {
   ForbiddenException,
   InternalServerErrorException
 } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { DislikeDto } from 'server/core/videos/dto/dislike.dto';
@@ -36,7 +35,7 @@ export class VideosService {
     }
 
     try {
-      const client = await innertubeClient;
+      const client = await innertubeClient();
       const videoInfo = await client.getInfo(id);
 
       let replaceUrl = 'http://BASEURL_TO_REPLACE.com';
@@ -67,18 +66,12 @@ export class VideosService {
     }
 
     try {
-      const client = await innertubeClient;
+      const client = await innertubeClient();
       const videoInfo = await client.getInfo(id);
 
       const dashManifest = await videoInfo.toDash((url: URL) => {
-        const searchParams = new URLSearchParams();
-        for (const [key, value] of url.searchParams) {
-          searchParams.append(key, value);
-        }
-        searchParams.append('__host', url.host);
-        return new URL(
-          `http://BASEURL_TO_REPLACE.com/api/videoplayback?${searchParams.toString()}`
-        );
+        url.searchParams.append('__host', url.host);
+        return url;
       });
 
       const video = toVTVideoInfoDto(videoInfo as unknown, {
@@ -95,7 +88,7 @@ export class VideosService {
     const { body } = await undici.request(`${this.returnYoutubeDislikeUrl}/Votes?videoId=${id}`);
 
     if (body) {
-      const responseObject = await body.json();
+      const responseObject = (await body.json()) as DislikeDto & { status?: number };
       if (!isNaN(responseObject.dislikes)) {
         return responseObject;
       } else if (responseObject.status) {

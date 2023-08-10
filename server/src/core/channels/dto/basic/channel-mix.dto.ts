@@ -1,7 +1,7 @@
-import { ChannelMix } from '../../types/ytch.types';
+import { Mix } from '../../yt-channel-info/app/types';
 import { ChannelImageDto } from './channel-image.dto';
 
-export class ChannelMixDto implements ChannelMix {
+export class ChannelMixDto implements Mix {
   playlistId: string;
   title: string;
   description: string;

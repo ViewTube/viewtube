@@ -1,12 +1,12 @@
 import {
-  ChannelCommunityPost,
-  ChannelCommunityPostImage,
-  ChannelCommunityPostPlaylist,
-  ChannelCommunityPostPoll,
-  ChannelCommunityPostVideo
-} from '../../types/ytch.types';
+  CommunityPost,
+  ImagePostContent,
+  PlaylistPostContent,
+  PollPostContent,
+  VideoPostContent
+} from '../../yt-channel-info/app/types';
 
-export class ChannelCommunityPostDto implements ChannelCommunityPost {
+export class ChannelCommunityPostDto implements CommunityPost {
   postText: string;
   postId: string;
   author: string;
@@ -14,10 +14,5 @@ export class ChannelCommunityPostDto implements ChannelCommunityPost {
   publishedText: string;
   voteCount: string;
   commentCount: string;
-  postContent:
-    | ChannelCommunityPostImage
-    | ChannelCommunityPostPoll
-    | ChannelCommunityPostVideo
-    | ChannelCommunityPostPlaylist
-    | null;
+  postContent: ImagePostContent | PollPostContent | VideoPostContent | PlaylistPostContent | null;
 }

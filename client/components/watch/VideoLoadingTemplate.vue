@@ -4,8 +4,8 @@
       <Spinner class="" />
       <div v-if="video" class="fade-in">
         <p>Loading video</p>
-        <h2>{{ video.title }}</h2>
-        <h3>{{ typeof video.author === 'string' ? video.author : video.author.name }}</h3>
+        <h2>{{ video?.title }}</h2>
+        <h3>{{ typeof video?.author === 'string' ? video?.author : video?.author?.name }}</h3>
       </div>
     </div>
   </div>

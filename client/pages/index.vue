@@ -9,7 +9,7 @@ const { data: homeFeedData, error: homeFeedError, pending: homeFeedLoading } = u
 </script>
 
 <template>
-  <div class="home" :class="{ loading: homeFeedLoading }">
+  <div class="home" :class="{ loading: homeFeedLoading, error: homeFeedError }">
     <MetaPageHead
       title="ViewTube :: An alternative YouTube frontend"
       description="An alternative YouTube frontend"
@@ -38,7 +38,7 @@ const { data: homeFeedData, error: homeFeedError, pending: homeFeedLoading } = u
   display: flex;
   flex-direction: column;
 
-  &.loading {
+  &.loading, &.error {
     height: calc(100vh - $header-height);
   }
 

@@ -6,7 +6,7 @@ import { HomeFeedDto } from './dto/home-feed.dto';
 @Injectable()
 export class HomepageService {
   async getHomeFeed(): Promise<HomeFeedDto> {
-    const client = await innertubeClient;
+    const client = await innertubeClient();
     const homeFeed = await client.getHomeFeed();
     return {
       videos: mapHomeFeed(homeFeed)

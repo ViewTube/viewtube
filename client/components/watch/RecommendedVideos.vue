@@ -1,3 +1,31 @@
+<script setup lang="ts">
+import VideoEntry from '@/components/list/VideoEntry.vue';
+import BadgeButton from '@/components/buttons/BadgeButton.vue';
+
+const props = defineProps<{
+  recommendedVideos: any[];
+}>();
+
+const videosExpanded = ref(false);
+
+const recommendedVideosShort = computed(() => {
+  return videosExpanded.value ? props.recommendedVideos : props.recommendedVideos.slice(0, 4);
+});
+
+const expand = () => {
+  videosExpanded.value = true;
+};
+
+watch(
+  () => props.recommendedVideos,
+  (newValue: any, oldValue: any) => {
+    if (newValue !== oldValue) {
+      videosExpanded.value = true;
+    }
+  }
+);
+</script>
+
 <template>
   <div class="recommended-videos">
     <div v-if="recommendedVideosShort" class="recommended-videos-container">
@@ -16,51 +44,6 @@
     </div>
   </div>
 </template>
-
-<script lang="ts">
-import VideoEntry from '@/components/list/VideoEntry.vue';
-import BadgeButton from '@/components/buttons/BadgeButton.vue';
-
-export default defineComponent({
-  name: 'RecommendedVideos',
-  components: {
-    VideoEntry,
-    BadgeButton
-  },
-  props: {
-    recommendedVideos: {
-      required: true,
-      type: Array
-    }
-  },
-  setup(props) {
-    const recommendedVideosShort = ref(null);
-    const videosExpanded = ref(false);
-
-    recommendedVideosShort.value = props.recommendedVideos.slice(0, 4);
-
-    const expand = () => {
-      recommendedVideosShort.value = props.recommendedVideos;
-      videosExpanded.value = true;
-    };
-
-    watch(
-      () => props.recommendedVideos,
-      (newValue: any, oldValue: any) => {
-        if (newValue !== oldValue) {
-          recommendedVideosShort.value = props.recommendedVideos.slice(0, 4);
-        }
-      }
-    );
-
-    return {
-      recommendedVideosShort,
-      videosExpanded,
-      expand
-    };
-  }
-});
-</script>
 
 <style lang="scss">
 .recommended-videos {

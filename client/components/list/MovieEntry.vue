@@ -1,36 +1,36 @@
 <template>
   <div class="movie-entry">
     <div class="movie-entry-background" />
-    <a class="movie-entry-thmb" :href="data.link" target="_blank" rel="noreferrer noopener">
+    <a class="movie-entry-thmb" :href="movie.link" target="_blank" rel="noreferrer noopener">
       <div class="thmb-image-container">
-        <img class="movie-entry-thmb-image" :src="imgProxyUrl + data.thumbnail" :alt="data.title" />
+        <img class="movie-entry-thmb-image" :src="imgProxyUrl + movie.thumbnail" :alt="movie.title" />
       </div>
-      <span class="movie-entry-count">{{ data.duration }}</span>
+      <span class="movie-entry-count">{{ movie.duration }}</span>
     </a>
     <div class="movie-entry-info">
       <a
-        v-tippy="data.title"
+        v-tippy="movie.title"
         class="movie-entry-title tooltip"
-        :href="data.link"
+        :href="movie.link"
         target="_blank"
         rel="noreferrer noopener"
-        >{{ data.title }}
+        >{{ movie.title }}
       </a>
       <nuxt-link
-        v-tippy="data.author.name"
+        v-tippy="movie.author.name"
         class="movie-entry-channel tooltip"
-        :to="{ path: '/channel/' + data.author.name }"
-        >{{ data.author.name }}</nuxt-link
+        :to="{ path: '/channel/' + movie.author.name }"
+        >{{ movie.author.name }}</nuxt-link
       >
-      <p>{{ data.description }}</p>
+      <p>{{ movie.description }}</p>
       <div class="movie-tags">
-        <span v-for="(tag, index) in data.meta" :key="index">{{ tag }}</span>
+        <span v-for="(tag, index) in movie.meta" :key="index">{{ tag }}</span>
       </div>
       <div class="movie-actors">
         <span class="title">Actors: </span>
-        <span v-for="(actor, index) in data.actors" :key="index" class="tag">{{ actor }}</span>
+        <span v-for="(actor, index) in movie.actors" :key="index" class="tag">{{ actor }}</span>
       </div>
-      <p class="movie-director">Director: {{ data.director }}</p>
+      <p class="movie-director">Director: {{ movie.director }}</p>
     </div>
   </div>
 </template>
@@ -39,7 +39,7 @@
 export default defineComponent({
   name: 'MovieEntry',
   props: {
-    data: Object
+    movie: Object
   },
   setup() {
     const imgProxy = useImgProxy();

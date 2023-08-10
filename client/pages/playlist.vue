@@ -25,11 +25,13 @@ const playlistItems = computed(() => {
 });
 
 watch(error, value => {
-  messagesStore.createMessage({
-    type: 'error',
-    title: 'Error loading playlist',
-    message: value?.message ?? 'Playlist may not be available'
-  });
+  if (value) {
+    messagesStore.createMessage({
+      type: 'error',
+      title: 'Error loading playlist',
+      message: value?.message ?? 'Playlist may not be available'
+    });
+  }
 });
 
 const loadMoreVideos = async () => {
@@ -66,7 +68,7 @@ const loadMoreVideos = async () => {
   <div class="playlist">
     <MetaPageHead
       :title="`${playlist?.title} :: ${playlist?.author.name}`"
-      :description="`${playlist.description?.substring(0, 100)}`"
+      :description="`${playlist?.description?.substring(0, 100)}`"
       :image="`${playlist?.thumbnails?.[2]?.url}`"
     />
     <Spinner v-if="pending" class="centered" />
@@ -220,7 +222,9 @@ const loadMoreVideos = async () => {
 
         .author-info {
           pointer-events: none;
-          transition: width 300ms $intro-easing, opacity 300ms 200ms $intro-easing;
+          transition:
+            width 300ms $intro-easing,
+            opacity 300ms 200ms $intro-easing;
           overflow: hidden;
           margin: 10px 0 0 0;
           padding: 2px 5px;
