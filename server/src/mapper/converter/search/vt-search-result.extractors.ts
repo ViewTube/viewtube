@@ -11,29 +11,35 @@ import { VTShortDto } from 'server/mapper/dto/vt-short.dto';
 import { parseShortenedNumber } from 'server/mapper/utils/shortened-number';
 import { parseAccessibilityDuration } from 'server/mapper/utils/accessibility-duration';
 import { getTimestampFromSeconds } from 'viewtube/shared';
-import { write, writeFileSync } from 'node:fs';
+import { writeFileSync } from 'node:fs';
 import { VTSearchPlaylistDto } from 'server/mapper/dto/search/vt-search-playlist.dto';
 import { VTSearchMovieDto } from 'server/mapper/dto/search/vt-search-movie.dto';
+import { logger } from 'server/common/logger';
 
 export const extractSearchResults = (searchResults: SearchSourceApproximation[]) => {
-  return searchResults.map(result => {
-    if (result.type === 'Video') {
-      if (result.badges.some(badge => badge.label === 'LIVE')) {
-        writeFileSync('live.json', JSON.stringify(result, null, 2));
+  return searchResults
+    ?.map(result => {
+      if (result.type === 'Video') {
+        if (result.badges.some(badge => badge.label === 'LIVE')) {
+          writeFileSync('live.json', JSON.stringify(result, null, 2));
+        }
+        return extractSearchVideo(result);
+      } else if (result.type === 'Channel') {
+        return extractSearchChannel(result);
+      } else if (result.type === 'Shelf') {
+        return extractSearchShelf(result);
+      } else if (result.type === 'ReelShelf') {
+        return extractSearchShortsShelf(result);
+      } else if (result.type === 'Playlist') {
+        return extractSearchPlaylist(result);
+      } else if (result.type === 'Movie') {
+        return extractSearchMovie(result);
       }
-      return extractSearchVideo(result);
-    } else if (result.type === 'Channel') {
-      return extractSearchChannel(result);
-    } else if (result.type === 'Shelf') {
-      return extractSearchShelf(result);
-    } else if (result.type === 'ReelShelf') {
-      return extractSearchShortsShelf(result);
-    } else if (result.type === 'Playlist') {
-      return extractSearchPlaylist(result);
-    } else if (result.type === 'Movie') {
-      return extractSearchMovie(result);
-    }
-  });
+
+      logger.log('Unknown search result type', result.type);
+      return null;
+    })
+    .filter(Boolean);
 };
 
 const extractSearchMovie = (movie: SearchSourceApproximation) => {

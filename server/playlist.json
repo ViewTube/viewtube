@@ -1,21 +1,21 @@
 {
   "type": "Playlist",
-  "id": "PLiTZRn7zC_D4TZD3sPdbkKcLtNJWoOonA",
+  "id": "PL8TWkATtSTfA8i66ACRar7gfELuajIwtw",
   "title": {
-    "text": "Anthony - Linus Tech Tips"
+    "text": "Best of MKBHD"
   },
   "author": {
-    "id": "UCynNCeoYSfVd6Hl78lYwFiA",
-    "name": "aimBorg",
+    "id": "UCrNCce-ZkmtmZp5WyFE9d7Q",
+    "name": "Mitchi Bell (mitchib1440)",
     "thumbnails": [],
     "endpoint": {
       "type": "NavigationEndpoint",
       "payload": {
-        "browseId": "UCynNCeoYSfVd6Hl78lYwFiA",
-        "canonicalBaseUrl": "/@aimBorg"
+        "browseId": "UCrNCce-ZkmtmZp5WyFE9d7Q",
+        "canonicalBaseUrl": "/@mitchib1440"
       },
       "metadata": {
-        "url": "/@aimBorg",
+        "url": "/@mitchib1440",
         "page_type": "WEB_PAGE_TYPE_CHANNEL",
         "api_url": "browse"
       }
@@ -24,46 +24,46 @@
     "is_moderator": false,
     "is_verified": false,
     "is_verified_artist": false,
-    "url": "https://www.youtube.com/@aimBorg"
+    "url": "https://www.youtube.com/@mitchib1440"
   },
   "thumbnails": [
     {
-      "url": "https://i.ytimg.com/vi/W3G8ErohpWE/hqdefault.jpg?sqp=-oaymwEXCNACELwBSFryq4qpAwkIARUAAIhCGAE=&rs=AOn4CLC90UGM2tfwu9onnIcmxZHPlNViBw",
+      "url": "https://i.ytimg.com/vi/BygqMgC3W10/hqdefault.jpg?sqp=-oaymwEXCNACELwBSFryq4qpAwkIARUAAIhCGAE=&rs=AOn4CLDjQ5kTboIOdxQAC4Kklftoejgkwg",
       "width": 336,
       "height": 188
     },
     {
-      "url": "https://i.ytimg.com/vi/W3G8ErohpWE/hqdefault.jpg?sqp=-oaymwEXCPYBEIoBSFryq4qpAwkIARUAAIhCGAE=&rs=AOn4CLC5eGFJMnBpEAaIMwMgqxdg9mB4Gw",
+      "url": "https://i.ytimg.com/vi/BygqMgC3W10/hqdefault.jpg?sqp=-oaymwEXCPYBEIoBSFryq4qpAwkIARUAAIhCGAE=&rs=AOn4CLC3vYWTmxJOlCbgPwPOT6jBVNAibQ",
       "width": 246,
       "height": 138
     },
     {
-      "url": "https://i.ytimg.com/vi/W3G8ErohpWE/hqdefault.jpg?sqp=-oaymwEWCMQBEG5IWvKriqkDCQgBFQAAiEIYAQ==&rs=AOn4CLD5dhXGLk6w28jipfU1cIHSwP6Ceg",
+      "url": "https://i.ytimg.com/vi/BygqMgC3W10/hqdefault.jpg?sqp=-oaymwEWCMQBEG5IWvKriqkDCQgBFQAAiEIYAQ==&rs=AOn4CLDrQ89pIK8kQCuVHjk9NollIgoFeA",
       "width": 196,
       "height": 110
     },
     {
-      "url": "https://i.ytimg.com/vi/W3G8ErohpWE/hqdefault.jpg?sqp=-oaymwEWCKgBEF5IWvKriqkDCQgBFQAAiEIYAQ==&rs=AOn4CLD6gw1T1MiMJyPTrxWXWJ0tn3yirQ",
+      "url": "https://i.ytimg.com/vi/BygqMgC3W10/hqdefault.jpg?sqp=-oaymwEWCKgBEF5IWvKriqkDCQgBFQAAiEIYAQ==&rs=AOn4CLCyLwX9-RxW1bYMT49cx-7LDfOMFg",
       "width": 168,
       "height": 94
     },
     {
-      "url": "https://i.ytimg.com/vi/zbqlJKiENvQ/default.jpg",
+      "url": "https://i.ytimg.com/vi/tC1LxFS5uA4/default.jpg",
       "width": 43,
       "height": 20
     },
     {
-      "url": "https://i.ytimg.com/vi/kWcRqDfaF2Q/default.jpg",
+      "url": "https://i.ytimg.com/vi/1gUQhN5joSQ/default.jpg",
       "width": 43,
       "height": 20
     },
     {
-      "url": "https://i.ytimg.com/vi/1C7zQxdLreQ/default.jpg",
+      "url": "https://i.ytimg.com/vi/Py6g_FheJWI/default.jpg",
       "width": 43,
       "height": 20
     },
     {
-      "url": "https://i.ytimg.com/vi/WW4wT7gob7s/default.jpg",
+      "url": "https://i.ytimg.com/vi/83Y31z3ZI2A/default.jpg",
       "width": 43,
       "height": 20
     }
@@ -71,7 +71,7 @@
   "video_count": {
     "runs": [
       {
-        "text": "162",
+        "text": "50",
         "bold": true,
         "italics": false,
         "strikethrough": false
@@ -83,40 +83,40 @@
         "strikethrough": false
       }
     ],
-    "text": "162 videos"
+    "text": "50 videos"
   },
   "video_count_short": {},
   "first_videos": [
     {
       "type": "ChildVideo",
-      "id": "W3G8ErohpWE",
+      "id": "BygqMgC3W10",
       "title": {
-        "text": "This makes me happy - Sega Genesis Mini 2"
+        "text": "Top 5 Most Overhyped Tech!"
       },
       "duration": {
-        "text": "12:39",
-        "seconds": 759
+        "text": "8:25",
+        "seconds": 505
       },
       "endpoint": {
         "type": "NavigationEndpoint",
         "payload": {
-          "videoId": "W3G8ErohpWE",
-          "playlistId": "PLiTZRn7zC_D4TZD3sPdbkKcLtNJWoOonA",
+          "videoId": "BygqMgC3W10",
+          "playlistId": "PL8TWkATtSTfA8i66ACRar7gfELuajIwtw",
           "loggingContext": {
             "vssLoggingContext": {
-              "serializedContextData": "GiJQTGlUWlJuN3pDX0Q0VFpEM3NQZGJrS2NMdE5KV29Pb25B"
+              "serializedContextData": "GiJQTDhUV2tBVHRTVGZBOGk2NkFDUmFyN2dmRUx1YWpJd3R3"
             }
           },
           "watchEndpointSupportedOnesieConfig": {
             "html5PlaybackOnesieConfig": {
               "commonConfig": {
-                "url": "https://rr1---sn-pf5t-1gie.googlevideo.com/initplayback?source=youtube&oeis=1&c=WEB&oad=3200&ovd=3200&oaad=11000&oavd=11000&ocs=700&oewis=1&oputc=1&ofpcc=1&beids=24350017&msp=1&odepv=1&id=5b71bc12ba21a561&ip=185.104.85.194&initcwndbps=2307500&mt=1691679924&oweuc="
+                "url": "https://rr2---sn-pf5t-1gie.googlevideo.com/initplayback?source=youtube&oeis=1&c=WEB&oad=3200&ovd=3200&oaad=11000&oavd=11000&ocs=700&oewis=1&oputc=1&ofpcc=1&msp=1&odepv=1&id=07282a3200b75b5d&ip=185.104.85.194&initcwndbps=2670000&mt=1691686171&oweuc="
               }
             }
           }
         },
         "metadata": {
-          "url": "/watch?v=W3G8ErohpWE&list=PLiTZRn7zC_D4TZD3sPdbkKcLtNJWoOonA",
+          "url": "/watch?v=BygqMgC3W10&list=PL8TWkATtSTfA8i66ACRar7gfELuajIwtw",
           "page_type": "WEB_PAGE_TYPE_WATCH",
           "api_url": "/player"
         }
@@ -124,34 +124,34 @@
     },
     {
       "type": "ChildVideo",
-      "id": "zbqlJKiENvQ",
+      "id": "tC1LxFS5uA4",
       "title": {
-        "text": "Is Using CCleaner A Bad Idea?"
+        "text": "Top 5 Fastest Discontinued Tech Products!"
       },
       "duration": {
-        "text": "4:37",
-        "seconds": 277
+        "text": "10:22",
+        "seconds": 622
       },
       "endpoint": {
         "type": "NavigationEndpoint",
         "payload": {
-          "videoId": "zbqlJKiENvQ",
-          "playlistId": "PLiTZRn7zC_D4TZD3sPdbkKcLtNJWoOonA",
+          "videoId": "tC1LxFS5uA4",
+          "playlistId": "PL8TWkATtSTfA8i66ACRar7gfELuajIwtw",
           "loggingContext": {
             "vssLoggingContext": {
-              "serializedContextData": "GiJQTGlUWlJuN3pDX0Q0VFpEM3NQZGJrS2NMdE5KV29Pb25B"
+              "serializedContextData": "GiJQTDhUV2tBVHRTVGZBOGk2NkFDUmFyN2dmRUx1YWpJd3R3"
             }
           },
           "watchEndpointSupportedOnesieConfig": {
             "html5PlaybackOnesieConfig": {
               "commonConfig": {
-                "url": "https://rr1---sn-pf5t-1gie.googlevideo.com/initplayback?source=youtube&oeis=1&c=WEB&oad=3200&ovd=3200&oaad=11000&oavd=11000&ocs=700&oewis=1&oputc=1&ofpcc=1&beids=24350017&msp=1&odepv=1&id=cdbaa524a88436f4&ip=185.104.85.194&initcwndbps=2307500&mt=1691679924&oweuc="
+                "url": "https://rr1---sn-pf5t-1gie.googlevideo.com/initplayback?source=youtube&oeis=1&c=WEB&oad=3200&ovd=3200&oaad=11000&oavd=11000&ocs=700&oewis=1&oputc=1&ofpcc=1&msp=1&odepv=1&id=b42d4bc454b9b80e&ip=185.104.85.194&initcwndbps=2670000&mt=1691686171&oweuc="
               }
             }
           }
         },
         "metadata": {
-          "url": "/watch?v=zbqlJKiENvQ&list=PLiTZRn7zC_D4TZD3sPdbkKcLtNJWoOonA",
+          "url": "/watch?v=tC1LxFS5uA4&list=PL8TWkATtSTfA8i66ACRar7gfELuajIwtw",
           "page_type": "WEB_PAGE_TYPE_WATCH",
           "api_url": "/player"
         }
@@ -164,24 +164,24 @@
   "endpoint": {
     "type": "NavigationEndpoint",
     "payload": {
-      "videoId": "W3G8ErohpWE",
-      "playlistId": "PLiTZRn7zC_D4TZD3sPdbkKcLtNJWoOonA",
+      "videoId": "BygqMgC3W10",
+      "playlistId": "PL8TWkATtSTfA8i66ACRar7gfELuajIwtw",
       "params": "OAI%3D",
       "loggingContext": {
         "vssLoggingContext": {
-          "serializedContextData": "GiJQTGlUWlJuN3pDX0Q0VFpEM3NQZGJrS2NMdE5KV29Pb25B"
+          "serializedContextData": "GiJQTDhUV2tBVHRTVGZBOGk2NkFDUmFyN2dmRUx1YWpJd3R3"
         }
       },
       "watchEndpointSupportedOnesieConfig": {
         "html5PlaybackOnesieConfig": {
           "commonConfig": {
-            "url": "https://rr1---sn-pf5t-1gie.googlevideo.com/initplayback?source=youtube&oeis=1&c=WEB&oad=3200&ovd=3200&oaad=11000&oavd=11000&ocs=700&oewis=1&oputc=1&ofpcc=1&beids=24350017&msp=1&odepv=1&id=5b71bc12ba21a561&ip=185.104.85.194&initcwndbps=2307500&mt=1691679924&oweuc="
+            "url": "https://rr2---sn-pf5t-1gie.googlevideo.com/initplayback?source=youtube&oeis=1&c=WEB&oad=3200&ovd=3200&oaad=11000&oavd=11000&ocs=700&oewis=1&oputc=1&ofpcc=1&msp=1&odepv=1&id=07282a3200b75b5d&ip=185.104.85.194&initcwndbps=2670000&mt=1691686171&oweuc="
           }
         }
       }
     },
     "metadata": {
-      "url": "/watch?v=W3G8ErohpWE&list=PLiTZRn7zC_D4TZD3sPdbkKcLtNJWoOonA",
+      "url": "/watch?v=BygqMgC3W10&list=PL8TWkATtSTfA8i66ACRar7gfELuajIwtw",
       "page_type": "WEB_PAGE_TYPE_WATCH",
       "api_url": "/player"
     }
@@ -190,7 +190,7 @@
     {
       "type": "ThumbnailOverlayBottomPanel",
       "text": {
-        "text": "162 videos"
+        "text": "50 videos"
       },
       "icon_type": "PLAYLISTS"
     },
@@ -218,22 +218,22 @@
     "type": "PlaylistVideoThumbnail",
     "thumbnail": [
       {
-        "url": "https://i.ytimg.com/vi/W3G8ErohpWE/hqdefault.jpg?sqp=-oaymwEXCNACELwBSFryq4qpAwkIARUAAIhCGAE=&rs=AOn4CLC90UGM2tfwu9onnIcmxZHPlNViBw",
+        "url": "https://i.ytimg.com/vi/BygqMgC3W10/hqdefault.jpg?sqp=-oaymwEXCNACELwBSFryq4qpAwkIARUAAIhCGAE=&rs=AOn4CLDjQ5kTboIOdxQAC4Kklftoejgkwg",
         "width": 336,
         "height": 188
       },
       {
-        "url": "https://i.ytimg.com/vi/W3G8ErohpWE/hqdefault.jpg?sqp=-oaymwEXCPYBEIoBSFryq4qpAwkIARUAAIhCGAE=&rs=AOn4CLC5eGFJMnBpEAaIMwMgqxdg9mB4Gw",
+        "url": "https://i.ytimg.com/vi/BygqMgC3W10/hqdefault.jpg?sqp=-oaymwEXCPYBEIoBSFryq4qpAwkIARUAAIhCGAE=&rs=AOn4CLC3vYWTmxJOlCbgPwPOT6jBVNAibQ",
         "width": 246,
         "height": 138
       },
       {
-        "url": "https://i.ytimg.com/vi/W3G8ErohpWE/hqdefault.jpg?sqp=-oaymwEWCMQBEG5IWvKriqkDCQgBFQAAiEIYAQ==&rs=AOn4CLD5dhXGLk6w28jipfU1cIHSwP6Ceg",
+        "url": "https://i.ytimg.com/vi/BygqMgC3W10/hqdefault.jpg?sqp=-oaymwEWCMQBEG5IWvKriqkDCQgBFQAAiEIYAQ==&rs=AOn4CLDrQ89pIK8kQCuVHjk9NollIgoFeA",
         "width": 196,
         "height": 110
       },
       {
-        "url": "https://i.ytimg.com/vi/W3G8ErohpWE/hqdefault.jpg?sqp=-oaymwEWCKgBEF5IWvKriqkDCQgBFQAAiEIYAQ==&rs=AOn4CLD6gw1T1MiMJyPTrxWXWJ0tn3yirQ",
+        "url": "https://i.ytimg.com/vi/BygqMgC3W10/hqdefault.jpg?sqp=-oaymwEWCKgBEF5IWvKriqkDCQgBFQAAiEIYAQ==&rs=AOn4CLCyLwX9-RxW1bYMT49cx-7LDfOMFg",
         "width": 168,
         "height": 94
       }
@@ -249,10 +249,10 @@
         "endpoint": {
           "type": "NavigationEndpoint",
           "payload": {
-            "browseId": "VLPLiTZRn7zC_D4TZD3sPdbkKcLtNJWoOonA"
+            "browseId": "VLPL8TWkATtSTfA8i66ACRar7gfELuajIwtw"
           },
           "metadata": {
-            "url": "/playlist?list=PLiTZRn7zC_D4TZD3sPdbkKcLtNJWoOonA",
+            "url": "/playlist?list=PL8TWkATtSTfA8i66ACRar7gfELuajIwtw",
             "page_type": "WEB_PAGE_TYPE_PLAYLIST",
             "api_url": "browse"
           }
@@ -263,10 +263,10 @@
     "endpoint": {
       "type": "NavigationEndpoint",
       "payload": {
-        "browseId": "VLPLiTZRn7zC_D4TZD3sPdbkKcLtNJWoOonA"
+        "browseId": "VLPL8TWkATtSTfA8i66ACRar7gfELuajIwtw"
       },
       "metadata": {
-        "url": "/playlist?list=PLiTZRn7zC_D4TZD3sPdbkKcLtNJWoOonA",
+        "url": "/playlist?list=PL8TWkATtSTfA8i66ACRar7gfELuajIwtw",
         "page_type": "WEB_PAGE_TYPE_PLAYLIST",
         "api_url": "browse"
       }

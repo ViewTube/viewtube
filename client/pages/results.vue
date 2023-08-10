@@ -11,7 +11,6 @@ const PlaylistEntry = resolveComponent('ListPlaylistEntry');
 const MovieEntry = resolveComponent('ListMovieEntry');
 const ChannelEntry = resolveComponent('ListChannelEntry');
 const Shelf = resolveComponent('SearchShelf');
-const ShortsShelf = resolveComponent('SearchShortsShelf');
 
 const route = useRoute();
 const messagesStore = useMessagesStore();
@@ -109,12 +108,9 @@ const getListEntryType = (type: string) => {
   <div class="search" :class="{ loading: pending }">
     <MetaPageHead :title="searchQuery" description="Search for videos, channels and playlists" />
     <Spinner v-if="pending" class="centered search-spinner" />
-    <!-- <Filters
-      v-if="searchData?.filters && searchData?.filters.length"
-      :filters="searchData?.filters"
-    /> -->
+    <Filters :disabled="pending" />
     <p v-if="!pending && searchData" class="result-amount">
-      {{ searchData?.estimatedResultCount?.toLocaleString('en-US') }} results
+      {{ searchData?.estimatedResultCount?.toLocaleString('en-US') ?? 0 }} results
     </p>
     <div v-if="!pending && searchData" class="search-results">
       <div
@@ -125,7 +121,7 @@ const getListEntryType = (type: string) => {
       </div>
       <div v-if="searchData.results" class="search-videos-container">
         <component
-          :is="getListEntryType(result.type)"
+          :is="getListEntryType(result?.type)"
           v-for="(result, i) in searchData.results"
           :key="i"
           :video="result"
