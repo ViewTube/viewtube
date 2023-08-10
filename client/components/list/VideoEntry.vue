@@ -170,9 +170,9 @@ const videoViewsText = computed(() => {
   } else if (props.video.viewCount) {
     return `${props.video.viewCount.toLocaleString('en-US')} ${
       props.video.viewCount === 1 ? 'view' : 'views'
-    }}`;
+    }`;
   } else if (props.video.views) {
-    `${props.video.views.toLocaleString('en-US')} ${props.video.views === 1 ? 'view' : 'views'}}`;
+    `${props.video.views.toLocaleString('en-US')} ${props.video.views === 1 ? 'view' : 'views'}`;
   }
 });
 </script>

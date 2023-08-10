@@ -1,10 +1,28 @@
+<script setup lang="ts">
+import { useVideoPlayerStore } from '@/store/videoPlayer';
+
+defineProps<{ video: any }>();
+
+const { url: imgProxyUrl } = useImgProxy();
+const route = useRoute();
+const videoPlayerStore = useVideoPlayerStore();
+
+const remainingTimeString = computed(() => {
+  const remaining = videoPlayerStore.videoLength - videoPlayerStore.currentTime;
+  if (remaining <= 30) {
+    return ` in ${Math.floor(remaining)}s`;
+  }
+  return '';
+});
+</script>
+
 <template>
   <div class="next-up-container">
     <p class="next-up-title">Next up{{ remainingTimeString }}</p>
     <nuxt-link
       :to="{
-        path: fullPath,
-        query: { v: video.videoId }
+        path: route.fullPath,
+        query: { v: video.id }
       }"
       class="next-up-video"
     >
@@ -12,7 +30,7 @@
         <img
           class="next-up-thumbnail"
           crossorigin="anonymous"
-          :src="imgProxyUrl + video.videoThumbnails[4].url"
+          :src="imgProxyUrl + video.thumbnails?.[1].url"
           :alt="video.title"
         />
       </div>
@@ -20,41 +38,14 @@
         <p v-tippy="video.title" class="title">
           {{ video.title }}
         </p>
-        <p v-tippy="video.author" class="channel">{{ video.author }}</p>
-        <p class="views">{{ video.viewCount?.toLocaleString('en-US') }} views</p>
+        <p v-tippy="video.author" class="channel">{{ video.author?.name }}</p>
+        <p v-if="video.viewCount" class="views">
+          {{ video.viewCount?.toLocaleString('en-US') }} views
+        </p>
       </div>
     </nuxt-link>
   </div>
 </template>
-
-<script lang="ts">
-import { useVideoPlayerStore } from '@/store/videoPlayer';
-
-export default defineComponent({
-  props: {
-    video: Object
-  },
-  setup() {
-    const imgProxy = useImgProxy();
-    const route = useRoute();
-    const videoPlayerStore = useVideoPlayerStore();
-
-    const remainingTimeString = computed(() => {
-      const remaining = videoPlayerStore.videoLength - videoPlayerStore.currentTime;
-      if (remaining <= 30) {
-        return ` in ${Math.floor(remaining)}s`;
-      }
-      return '';
-    });
-
-    return {
-      imgProxyUrl: imgProxy.url,
-      fullPath: route.fullPath,
-      remainingTimeString
-    };
-  }
-});
-</script>
 
 <style lang="scss">
 .next-up-container {

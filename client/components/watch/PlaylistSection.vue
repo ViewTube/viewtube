@@ -11,7 +11,7 @@
           :class="{ disabled: currentVideoId === getPreviousVideoId() }"
           :to="{
             path: getFullPath(),
-            query: { v: getPreviousVideoId() }
+            query: { ...$route.query, v: getPreviousVideoId() }
           }"
           class="playlist-action"
         >
@@ -21,10 +21,10 @@
           v-ripple
           v-tippy="'Skip to next video'"
           :tabindex="currentVideoId === getNextVideoId() ? -1 : 0"
-          :class="{ disabled: currentVideoId === getNextVideoId() }"
+          :class="{ disabled: currentVideoId === getNextVideoId() && !repeatEnabled }"
           :to="{
             path: getFullPath(),
-            query: { v: getNextVideoId() }
+            query: { ...$route.query, v: getNextVideoId() }
           }"
           class="playlist-action"
         >
@@ -65,7 +65,7 @@
         :key="i"
         :to="{
           path: getFullPath(),
-          query: { v: video.id }
+          query: { ...$route.query, v: video.id }
         }"
         class="video"
         :class="{ current: video.id === currentVideoId }"
@@ -133,7 +133,11 @@ export default defineComponent({
       const currentVideoIndex = props.playlist.items.findIndex(
         el => el.id === props.currentVideoId
       );
+
       if (currentVideoIndex + 1 === props.playlist.items.length) {
+        if (repeatEnabled.value) {
+          return props.playlist.items[0].id;
+        }
         return props.playlist.items[currentVideoIndex].id;
       }
       return props.playlist.items[currentVideoIndex + 1].id;
@@ -198,7 +202,7 @@ export default defineComponent({
       if (props.playlist.items[currentVideoIndex].id !== nextVideoId) {
         router.push({
           path: getFullPath(),
-          query: { v: nextVideoId }
+          query: { ...route.query, v: nextVideoId }
         });
       }
     };
