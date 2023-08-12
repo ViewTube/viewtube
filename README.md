@@ -64,7 +64,6 @@ Where does ViewTube get the data from?
 ViewTube does not use the official Youtube API. It instead scrapes the data from the website using a combination of custom built tools and the following open source libraries.
 
 - [YouTube.js](https://github.com/LuanRT/YouTube.js)
-- [node-ytsr](https://github.com/TimeForANinja/node-ytsr)
 - [node-ytpl](https://github.com/TimeForANinja/node-ytpl)
 - [yt-comment-scraper](https://github.com/FreeTubeApp/yt-comment-scraper)
 - [yt-channel-info](https://github.com/FreeTubeApp/yt-channel-info)

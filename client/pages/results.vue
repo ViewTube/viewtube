@@ -25,7 +25,7 @@ const { apiUrl } = useApiUrl();
 
 const { data: searchData, pending, error } = useGetSearchResult();
 
-// const additionalResultItems = ref<ytsr.Item[]>([]);
+// const additionalResultItems = ref([]);
 // const searchContinuationData = ref<any>(searchData.value?.searchResults.continuation);
 
 // watch(
@@ -72,7 +72,7 @@ const getListEntryType = (type: string) => {
 
 //   if (searchData.value?.searchResults && searchContinuationData.value) {
 //     try {
-//       const searchContinuation = await vtFetch<ytsr.ContinueResult>(
+//       const searchContinuation = await vtFetch(
 //         `${apiUrl.value}search/continuation`,
 //         {
 //           method: 'POST',

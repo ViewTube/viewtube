@@ -143,8 +143,6 @@ export const getChannelFeed = async (
             videos = jsonData.feed.entry.map((video: any) => convertRssVideo(video));
           }
 
-          debugger;
-
           const authorId = jsonData.feed?.link
             ?.find((link: { _rel: string }) => link._rel === 'alternate')
             ._href.split('channel/')[1];
