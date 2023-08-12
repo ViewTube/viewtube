@@ -104,7 +104,7 @@ export class SubscriptionsController {
   @Post('multiple')
   createMultipleSubscriptions(
     @Req() request: ViewTubeRequest,
-    @Body('channels') channels: Array<string>
+    @Body('channels') channels: Array<{ channelId: string; name: string }>
   ): Promise<{
     successful: Array<SubscriptionStatusDto>;
     failed: Array<SubscriptionStatusDto>;

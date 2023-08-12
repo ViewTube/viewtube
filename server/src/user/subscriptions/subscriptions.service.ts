@@ -257,7 +257,7 @@ export class SubscriptionsService {
 
   async subscribeToMultipleChannels(
     username: string,
-    channelIds: Array<string>
+    channels: Array<{ channelId: string; name: string }>
   ): Promise<{
     successful: Array<SubscriptionStatusDto>;
     failed: Array<SubscriptionStatusDto>;
@@ -270,55 +270,67 @@ export class SubscriptionsService {
     const subscriptions = user !== null ? user.subscriptions : [];
 
     await Promise.allSettled(
-      channelIds
-        .filter(channelId => {
-          if (subscriptions.find(e => e.channelId === channelId)) {
-            existing.push({ channelId, isSubscribed: true });
+      channels
+        .filter(channel => {
+          if (subscriptions.find(e => e.channelId === channel.channelId)) {
+            existing.push({ channelId: channel.channelId, isSubscribed: true });
             return false;
           }
           return true;
         })
-        .map(async (id: string) => {
-          const channelFeed = await getChannelFeed(id);
-          if (channelFeed) {
-            let channel: ChannelBasicInfoDto;
-            try {
-              channel = await this.saveChannelBasicInfo(channelFeed.channel);
-              await Promise.all(
-                channelFeed.videos.map(vid => {
-                  return this.saveVideoBasicInfo(vid);
-                })
-              );
-            } catch (err) {
-              failed.push({
-                channelId: id,
-                isSubscribed: false
+        .map(async channel => {
+          // const channelFeed = await getChannelFeed(id);
+          // if (channelFeed) {
+          // let channel: ChannelBasicInfoDto;
+          // try {
+          // channel = await this.saveChannelBasicInfo(channelFeed.channel);
+          // await Promise.all(
+          //   channelFeed.videos.map(vid => {
+          //     return this.saveVideoBasicInfo(vid);
+          //   })
+          // );
+          // } catch (err) {
+          // failed.push({
+          // channelId: id,
+          // isSubscribed: false
+          // });
+          // }
+          if (
+            channel?.channelId &&
+            typeof channel?.channelId === 'string' &&
+            channel?.channelId !== '[object Object]'
+          ) {
+            if (!subscriptions.find(e => e.channelId === channel.channelId)) {
+              subscriptions.push({
+                channelId: channel.channelId,
+                createdAt: new Date()
               });
-            }
-            if (channel) {
-              if (!subscriptions.find(e => e.channelId === channel.authorId)) {
-                subscriptions.push({
-                  channelId: channel.authorId,
-                  createdAt: new Date()
-                });
 
-                successful.push({
-                  channelId: channel.authorId,
-                  isSubscribed: true
-                });
-              } else {
-                existing.push({
-                  channelId: channel.authorId,
-                  isSubscribed: true
-                });
-              }
+              successful.push({
+                channelId: channel.channelId,
+                name: channel.name,
+                isSubscribed: true
+              });
+            } else {
+              existing.push({
+                channelId: channel.channelId,
+                name: channel.name,
+                isSubscribed: true
+              });
             }
           } else {
             failed.push({
-              channelId: id,
+              channelId: channel.channelId,
+              name: channel.name,
               isSubscribed: false
             });
           }
+          // } else {
+          //   failed.push({
+          //     channelId: id,
+          //     isSubscribed: false
+          //   });
+          // }
         })
     ).then(() => {
       return this.subscriptionModel
@@ -362,27 +374,12 @@ export class SubscriptionsService {
       });
     }
 
-    const channelFeed = await getChannelFeed(channelId);
-    if (channelFeed) {
-      await this.subscriptionModel
-        .findOneAndUpdate({ username }, { username, subscriptions }, { upsert: true })
-        .exec()
-        .then()
-        .catch(_ => {
-          throw new InternalServerErrorException('Error subscribing to channel');
-        });
-
-      try {
-        await this.saveChannelBasicInfo(channelFeed.channel);
-        await Promise.allSettled(
-          channelFeed.videos.map(vid => {
-            return this.saveVideoBasicInfo(vid);
-          })
-        );
-      } catch (error) {
-        this.logger.error(error);
-      }
-    }
+    await this.subscriptionModel
+      .findOneAndUpdate({ username }, { username, subscriptions }, { upsert: true })
+      .exec()
+      .catch(_ => {
+        throw new InternalServerErrorException('Error subscribing to channel');
+      });
 
     return {
       channelId,
@@ -410,8 +407,7 @@ export class SubscriptionsService {
       };
     }
     throw new NotFoundException({
-      message: 'User or subscription not found',
-      ignoreFilter: true
+      message: 'User or subscription not found'
     });
   }
 }

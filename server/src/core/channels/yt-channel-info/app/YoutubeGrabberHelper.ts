@@ -720,7 +720,7 @@ export class YoutubeGrabberHelper {
           .map(run => run.text)
           .join(' ');
         if (!shelfName) shelfName = 'Livestreams';
-        items = item.itemSectionRenderer.contents[0].channelFeaturedContentRenderer.items.map(
+        items = item.itemSectionRenderer.contents[0].channelFeaturedContentRenderer?.items?.map(
           item => this.parseVideo(item, channelInfo)
         );
       } else {
@@ -741,63 +741,63 @@ export class YoutubeGrabberHelper {
           if ('expandedShelfContentsRenderer' in shelf.content) {
             type = 'verticalVideoList';
             shelfRenderer = shelf.content.expandedShelfContentsRenderer;
-            items = shelfRenderer.items.map(video => {
+            items = shelfRenderer.items?.map(video => {
               return this.parseVideo(video, channelInfo);
             });
           } else {
             type = 'playlist';
             shelfRenderer = shelf.content.horizontalListRenderer;
-            items = shelfRenderer.items.map(pl => {
+            items = shelfRenderer.items?.map(pl => {
               return this.parsePlaylist(pl, channelInfo);
             });
           }
         } else if (/\?list=/.test(shelfUrl)) {
           type = 'playlist'; // similar to videos but links to a playlist url
           if ('horizontalListRenderer' in shelf.content) {
-            items = shelf.content.horizontalListRenderer.items.map(video => {
+            items = shelf.content.horizontalListRenderer.items?.map(video => {
               return this.parseVideo(video, channelInfo);
             });
           } else {
-            items = shelf.content.expandedShelfContentsRenderer.items.map(video => {
+            items = shelf.content.expandedShelfContentsRenderer.items?.map(video => {
               return this.parseVideo(video, channelInfo);
             });
           }
         } else if (/\/channels/.test(shelfUrl)) {
           type = 'channels';
           if ('expandedShelfContentsRenderer' in shelf.content) {
-            items = shelf.content.expandedShelfContentsRenderer.items.map(channel => {
+            items = shelf.content.expandedShelfContentsRenderer.items?.map(channel => {
               return this.parseFeaturedChannel(channel.channelRenderer);
             });
           } else {
-            items = shelf.content.horizontalListRenderer.items.map(channel => {
+            items = shelf.content.horizontalListRenderer.items?.map(channel => {
               return this.parseFeaturedChannel(channel.gridChannelRenderer);
             });
           }
         } else if (/\/videos/.test(shelfUrl)) {
           type = 'videos';
-          items = shelf.content.horizontalListRenderer.items.map(video => {
+          items = shelf.content.horizontalListRenderer.items?.map(video => {
             return this.parseVideo(video, channelInfo);
           });
         } else if (/\/playlists/.test(shelfUrl)) {
           if (
             shelf.content.horizontalListRenderer !== undefined &&
-            shelf.content.horizontalListRenderer.items[0].compactStationRenderer != null
+            shelf.content.horizontalListRenderer.items?.[0].compactStationRenderer != null
           ) {
             type = 'mix';
-            items = shelf.content.horizontalListRenderer.items.map(mix => {
+            items = shelf.content.horizontalListRenderer.items?.map(mix => {
               return this.parseMix(mix, channelInfo);
             });
           } else if (
             shelf.content.expandedShelfContentsRenderer !== undefined &&
-            shelf.content.expandedShelfContentsRenderer.items[0].playlistRenderer != null
+            shelf.content.expandedShelfContentsRenderer.items?.[0].playlistRenderer != null
           ) {
             type = 'playlists';
-            items = shelf.content.expandedShelfContentsRenderer.items.map(playlist => {
+            items = shelf.content.expandedShelfContentsRenderer.items?.map(playlist => {
               return this.parsePlaylist(playlist, channelInfo);
             });
           } else {
             type = 'playlists';
-            items = shelf.content.horizontalListRenderer.items.map(playlist => {
+            items = shelf.content.horizontalListRenderer.items?.map(playlist => {
               return this.parsePlaylist(playlist, channelInfo);
             });
           }

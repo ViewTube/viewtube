@@ -169,8 +169,7 @@ export class UserService {
       }
     } else {
       throw new NotFoundException({
-        message: 'User not found',
-        ignoreFilter: true
+        message: 'User not found'
       });
     }
   }
@@ -184,14 +183,12 @@ export class UserService {
         await user.save();
       } else {
         throw new NotFoundException({
-          message: 'Profile image not found',
-          ignoreFilter: true
+          message: 'Profile image not found'
         });
       }
     } else {
       throw new NotFoundException({
-        message: 'User not found',
-        ignoreFilter: true
+        message: 'User not found'
       });
     }
   }
