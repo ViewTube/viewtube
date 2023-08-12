@@ -140,9 +140,6 @@ importers:
       ytpl:
         specifier: 2.3.0
         version: 2.3.0
-      ytsr:
-        specifier: 3.8.2
-        version: 3.8.2
 
   server:
     dependencies:
@@ -308,9 +305,6 @@ importers:
       ytpl:
         specifier: 2.3.0
         version: 2.3.0
-      ytsr:
-        specifier: 3.8.2
-        version: 3.8.2
     devDependencies:
       '@nestjs/cli':
         specifier: 10.1.11
@@ -13031,12 +13025,6 @@ packages:
 
   /ytpl@2.3.0:
     resolution: {integrity: sha512-Cfw2rxq3PFK6qgWr2Z8gsRefVahEzbn9XEuiJldqdXHE6GhO7kTfEvbZKdfXing1SmgW635uJ/UL2g8r0fvu2Q==}
-    engines: {node: '>=8'}
-    dependencies:
-      miniget: 4.2.3
-
-  /ytsr@3.8.2:
-    resolution: {integrity: sha512-J+t+a1Ic6jL0Hd0zGX8eFn3uEKtXTf6naa96KO0q7H00GKBfCG8aXW55NAMnaBeUi9Hni6u1xKnf8xZF2F0E/A==}
     engines: {node: '>=8'}
     dependencies:
       miniget: 4.2.3
