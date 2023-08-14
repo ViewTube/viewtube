@@ -5,6 +5,7 @@ export type FilterType = { filterValue: any; filterType?: any; filterName: any }
 
 export const useGetSearchResult = () => {
   const route = useRoute();
+  const { vtFetch } = useVtFetch();
   const searchQuery = ref(getSearchQuery(route.query));
   const searchFilters = ref(getSearchFilters(route.query));
 
@@ -21,11 +22,9 @@ export const useGetSearchResult = () => {
     async () => {
       try {
         const { apiUrl } = useApiUrl();
-        const searchResponse = await getSearch(
-          searchQuery.value,
-          searchFilters.value,
-          apiUrl.value
-        );
+        const searchResponse = await vtFetch<VTSearchDto>(`${apiUrl.value}search`, {
+          query: { q: searchQuery.value, filters: searchFilters.value }
+        });
 
         return searchResponse;
       } catch (error) {
@@ -61,10 +60,4 @@ const getSearchFilters = (query: LocationQuery) => {
 const getSearchQuery = (query: LocationQuery) => {
   const searchParams = new URLSearchParams(query as Record<string, string>);
   return searchParams.get('search_query') ?? searchParams.get('q');
-};
-
-const getSearch = (searchTerm: string, searchFilters: Record<string, string>, apiUrl: string) => {
-  return vtFetch<VTSearchDto>(`${apiUrl}search`, {
-    query: { q: searchTerm, filters: searchFilters }
-  });
 };

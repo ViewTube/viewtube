@@ -11,6 +11,7 @@ const messagesStore = useMessagesStore();
 const { apiUrl } = useApiUrl();
 const route = useRoute();
 const imgProxy = useImgProxy();
+const { vtFetch } = useVtFetch();
 
 const moreVideosLoading = ref(false);
 const {

@@ -4,6 +4,8 @@ import { SponsorBlockSegmentDto, SponsorBlockSegmentsDto } from 'viewtube/shared
 const sponsorBlockApiUrl = 'https://sponsor.ajay.app/';
 
 export const useSponsorBlock = () => {
+  const { vtFetch } = useVtFetch();
+
   const skipSegments = ref<SponsorBlockSegmentsDto>(null);
 
   const loadSkipSegments = async (videoId: string) => {

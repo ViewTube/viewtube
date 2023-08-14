@@ -28,7 +28,7 @@ export class VideosService {
 
   returnYoutubeDislikeUrl = 'https://returnyoutubedislikeapi.com';
 
-  async getDash(id: string, baseUrl?: string): Promise<string> {
+  async getDash(id: string): Promise<string> {
     const isVideoBlocked = await this.blockedVideoModel.findOne({ videoId: id });
     if (isVideoBlocked) {
       throw new ForbiddenException('This video has been blocked for copyright reasons.');
@@ -36,21 +36,11 @@ export class VideosService {
 
     try {
       const client = await innertubeClient();
-      const videoInfo = await client.getInfo(id);
-
-      let replaceUrl = 'http://BASEURL_TO_REPLACE.com';
-
-      if (baseUrl) {
-        replaceUrl = new URL(baseUrl).origin;
-      }
+      const videoInfo = await client.getBasicInfo(id);
 
       const dashManifest = await videoInfo.toDash((url: URL) => {
-        const searchParams = new URLSearchParams();
-        for (const [key, value] of url.searchParams) {
-          searchParams.append(key, value);
-        }
-        searchParams.append('__host', url.host);
-        return new URL(`${replaceUrl}/api/videoplayback?${searchParams.toString()}`);
+        url.searchParams.append('__host', url.host);
+        return url;
       });
 
       return dashManifest;

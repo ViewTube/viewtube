@@ -42,6 +42,7 @@ export default defineComponent({
     const userStore = useUserStore();
     const messagesStore = useMessagesStore();
     const { apiUrl } = useApiUrl();
+    const { vtFetch } = useVtFetch();
 
     const isSubscribed = ref(false);
     const disabled = ref(true);

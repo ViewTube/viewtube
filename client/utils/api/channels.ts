@@ -3,7 +3,7 @@ import { ApiDto } from 'viewtube/shared';
 export const getChannelVideosContinuation = (continuation: string) => {
   const { apiUrl } = useApiUrl();
 
-  return vtFetch<ApiDto<'ChannelVideosContinuationDto'>>(
+  return vtClientFetch<ApiDto<'ChannelVideosContinuationDto'>>(
     `${apiUrl.value}channels/videos/continuation`,
     {
       query: {
@@ -16,7 +16,7 @@ export const getChannelVideosContinuation = (continuation: string) => {
 export const getChannelPlaylistsContinuation = (continuation: string) => {
   const { apiUrl } = useApiUrl();
 
-  return vtFetch<ApiDto<'ChannelPlaylistsContinuationDto'>>(
+  return vtClientFetch<ApiDto<'ChannelPlaylistsContinuationDto'>>(
     `${apiUrl.value}channels/playlists/continuation`,
     {
       query: {
@@ -29,7 +29,7 @@ export const getChannelPlaylistsContinuation = (continuation: string) => {
 export const getRelatedChannelsContinuation = (continuation: string) => {
   const { apiUrl } = useApiUrl();
 
-  return vtFetch<ApiDto<'RelatedChannelsContinuationDto'>>(
+  return vtClientFetch<ApiDto<'RelatedChannelsContinuationDto'>>(
     `${apiUrl.value}channels/relatedchannels/continuation`,
     {
       query: {
@@ -45,7 +45,7 @@ export const getChannelCommunityPostsContinuation = (
 ) => {
   const { apiUrl } = useApiUrl();
 
-  return vtFetch<ApiDto<'ChannelCommunityPostsContinuationDto'>>(
+  return vtClientFetch<ApiDto<'ChannelCommunityPostsContinuationDto'>>(
     `${apiUrl.value}channels/communityposts/continuation`,
     {
       query: {

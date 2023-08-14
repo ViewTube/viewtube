@@ -4,6 +4,7 @@ import { ChannelVideosSortOptionsType } from '@/utils/sortOptions';
 
 export const useGetChannelInfo = (id: Ref<string> | string) => {
   const { apiUrl } = useApiUrl();
+  const { vtFetch } = useVtFetch();
 
   const url = computed(() => {
     const channelId = unref(id);
@@ -17,6 +18,7 @@ export const useGetChannelInfo = (id: Ref<string> | string) => {
 
 export const useGetChannelHome = (id: Ref<string> | string) => {
   const { apiUrl } = useApiUrl();
+  const { vtFetch } = useVtFetch();
 
   const url = computed(() => {
     const channelId = unref(id);
@@ -30,6 +32,7 @@ export const useGetChannelHome = (id: Ref<string> | string) => {
 
 export const useGetChannelStats = (id: Ref<string> | string) => {
   const { apiUrl } = useApiUrl();
+  const { vtFetch } = useVtFetch();
 
   const url = computed(() => {
     const channelId = unref(id);
@@ -48,6 +51,7 @@ type ChannelVideoOptions = {
 
 export const useGetChannelVideos = (id: Ref<string> | string, options: ChannelVideoOptions) => {
   const { apiUrl } = useApiUrl();
+  const { vtFetch } = useVtFetch();
 
   const url = computed(() => {
     const channelId = unref(id);
@@ -63,6 +67,7 @@ export const useGetChannelVideos = (id: Ref<string> | string, options: ChannelVi
 
 export const useGetChannelShorts = (id: Ref<string> | string, options: ChannelVideoOptions) => {
   const { apiUrl } = useApiUrl();
+  const { vtFetch } = useVtFetch();
 
   const url = computed(() => {
     const channelId = unref(id);
@@ -86,6 +91,7 @@ export const useGetChannelLivestreams = (
   options: ChannelVideoOptions
 ) => {
   const { apiUrl } = useApiUrl();
+  const { vtFetch } = useVtFetch();
 
   const url = computed(() => {
     const channelId = unref(id);
@@ -113,6 +119,7 @@ export const useGetChannelPlaylists = (
   options: ChannelPlaylistOptions
 ) => {
   const { apiUrl } = useApiUrl();
+  const { vtFetch } = useVtFetch();
 
   const url = computed(() => {
     const channelId = unref(id);
@@ -133,6 +140,7 @@ export const useGetChannelPlaylists = (
 
 export const useGetChannelCommunityPosts = (id: Ref<string> | string) => {
   const { apiUrl } = useApiUrl();
+  const { vtFetch } = useVtFetch();
 
   const url = computed(() => {
     const channelId = unref(id);

@@ -56,6 +56,7 @@ export default defineComponent({
     const messagesStore = useMessagesStore();
     const userStore = useUserStore();
     const { apiUrl } = useApiUrl();
+    const { vtFetch } = useVtFetch();
 
     const oldPassword = ref('');
     const newPassword = ref('');

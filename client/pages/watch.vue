@@ -33,6 +33,7 @@ const { apiUrl } = useApiUrl();
 const route = useRoute();
 const router = useRouter();
 const { proxyUrl } = useImgProxy();
+const { vtFetch } = useVtFetch();
 
 const jsEnabled = ref(false);
 const commentObject = ref(null);

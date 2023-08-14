@@ -15,6 +15,7 @@ const emit = defineEmits<{ (e: 'refresh'): void }>();
 const messagesStore = useMessagesStore();
 const { apiUrl } = useApiUrl();
 const imgProxy = useImgProxy();
+const { vtFetch } = useVtFetch();
 
 const humanizeDateString = (dateString: string): string => {
   const now = new Date();
