@@ -30,6 +30,7 @@ export const videoPlayerSetup = (
   const { $formatting: formatting } = useNuxtApp();
   const imgProxy = useImgProxy();
   const { streamProxy } = useProxyUrls();
+  const { vtFetch } = useVtFetch();
 
   const loading = ref(true);
   const fullscreen = ref(false);

@@ -9,6 +9,7 @@ definePageMeta({
 const route = useRoute();
 
 const { apiUrl } = useApiUrl();
+const { vtFetch } = useVtFetch();
 
 const { data: video } = useLazyAsyncData<ApiDto<'VTVideoInfoDto'>, ApiErrorDto>(
   route.params.id.toString(),

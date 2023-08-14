@@ -14,6 +14,7 @@ const settingsStore = useSettingsStore();
 const userStore = useUserStore();
 
 const { apiUrl } = useApiUrl();
+const { vtFetch } = useVtFetch();
 const router = useRouter();
 
 const logoutPopup = ref(false);

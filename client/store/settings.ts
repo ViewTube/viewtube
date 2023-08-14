@@ -54,7 +54,7 @@ export const useSettingsStore = defineStore(
       if (userStore.isLoggedIn) {
         // Use reactive to unwrap properties
         const { settingsSaving: _, ...settingsToSave } = reactive(state);
-        await vtFetch(`${apiUrl.value}user/settings`, {
+        await vtClientFetch(`${apiUrl.value}user/settings`, {
           method: 'PUT',
           credentials: 'include',
           body: settingsToSave

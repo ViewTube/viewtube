@@ -12,6 +12,7 @@ import { useUserStore } from '@/store/user';
 const messagesStore = useMessagesStore();
 const userStore = useUserStore();
 const { apiUrl } = useApiUrl();
+const { vtFetch } = useVtFetch();
 const config = useRuntimeConfig();
 const route = useRoute();
 

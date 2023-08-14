@@ -1,5 +1,6 @@
 export const useGetComments = (videoId: string) => {
   const { apiUrl } = useApiUrl();
+  const { vtFetch } = useVtFetch();
 
   const urlPart = `comments/${videoId}`;
 
@@ -11,6 +12,7 @@ export const useGetCommentsContinuation = (
   { continuationLink }: { continuationLink: string }
 ) => {
   const { apiUrl } = useApiUrl();
+  const { vtFetch } = useVtFetch();
 
   const urlPart = `comments/${videoId}?continuation=${continuationLink}`;
 

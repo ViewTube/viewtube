@@ -9,6 +9,7 @@ const { apiUrl } = useApiUrl();
 const route = useRoute();
 const imgProxy = useImgProxy();
 const router = useRouter();
+const { vtFetch } = useVtFetch();
 
 const currentPage = computed(() => {
   if (route.query.page) {

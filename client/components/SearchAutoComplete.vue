@@ -24,6 +24,7 @@ export default defineComponent({
   },
   setup(props, { emit }) {
     const { apiUrl } = useApiUrl();
+    const { vtFetch } = useVtFetch();
 
     const autocompleteValues = ref([]);
     const visible = ref(false);

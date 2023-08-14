@@ -89,9 +89,17 @@ const moduleMetadata: ModuleMetadata = {
           redisOptions.password = configService.get('VIEWTUBE_REDIS_PASSWORD');
         }
 
+        const allowedUserAgents: RegExp[] = [];
+        if (configService.get('NUXT_RATE_LIMIT_KEY')) {
+          allowedUserAgents.push(
+            new RegExp(`^viewtube-nuxt-${configService.get('NUXT_RATE_LIMIT_KEY')}$`)
+          );
+        }
+
         return {
           ttl: 600,
           limit: 1000,
+          ignoreUserAgents: allowedUserAgents,
           storage: new ThrottlerStorageRedisService({ ...redisOptions, db: 2 })
         };
       },

@@ -148,6 +148,7 @@ export default defineComponent({
   setup(_, { emit }) {
     const messagesStore = useMessagesStore();
     const { apiUrl } = useApiUrl();
+    const { vtFetch } = useVtFetch();
 
     const youtubeSubscriptionUrl = ref('https://takeout.google.com');
     const page2 = ref(false);

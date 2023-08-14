@@ -6,6 +6,7 @@ type PlaylistType = Omit<ApiDto<'PlaylistResultDto'>, 'visibility'> & {
 
 export const useGetPlaylists = (id: string, { pages = 1 }) => {
   const { apiUrl } = useApiUrl();
+  const { vtFetch } = useVtFetch();
 
   const urlPart = `playlists/${id}?pages=${pages}`;
 

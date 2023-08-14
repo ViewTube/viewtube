@@ -3,11 +3,13 @@ import crypto from 'crypto';
 import { Injectable } from '@nestjs/common';
 import { generateVAPIDKeys, VapidKeys } from 'web-push';
 import { promisify } from 'util';
+import path from 'path';
 
 type ConfigurationType = {
   jwtKey?: string;
   publicVapidKey?: string;
   privateVapidKey?: string;
+  rateLimitKey?: string;
 };
 
 @Injectable()
@@ -15,9 +17,10 @@ export class ConfigurationService {
   static jwtKey: string;
   static publicVapidKey: string;
   static privateVapidKey: string;
+  static rateLimitKey: string;
 
   static async initializeEnvironment(): Promise<void> {
-    if (this.jwtKey && this.publicVapidKey && this.privateVapidKey) {
+    if (this.jwtKey && this.publicVapidKey && this.privateVapidKey && this.rateLimitKey) {
       return;
     }
     const envJwtKey = process.env.VIEWTUBE_JWT_SECRET;
@@ -75,9 +78,17 @@ export class ConfigurationService {
       savedConfiguration.privateVapidKey = newVapidKeys.privateKey;
     }
 
+    if (savedConfiguration.rateLimitKey) {
+      this.rateLimitKey = savedConfiguration.rateLimitKey;
+    } else {
+      this.rateLimitKey = crypto.randomBytes(24).toString('base64');
+      savedConfiguration.rateLimitKey = this.rateLimitKey;
+    }
+
     process.env.VIEWTUBE_JWT_SECRET = this.jwtKey;
     process.env.VIEWTUBE_PUBLIC_VAPID = this.publicVapidKey;
     process.env.VIEWTUBE_PRIVATE_VAPID = this.privateVapidKey;
+    process.env.NUXT_RATE_LIMIT_KEY = this.rateLimitKey;
 
     await this.saveConfiguration(savedConfiguration);
   }
@@ -85,7 +96,11 @@ export class ConfigurationService {
   static async loadConfiguration(): Promise<ConfigurationType> {
     const readFile = promisify(fs.readFile);
     try {
-      const file = await readFile('./config.json');
+      let configPath = './config.json';
+      if (__basedir) {
+        configPath = path.join(__basedir, '/config.json');
+      }
+      const file = await readFile(configPath);
       const obj = JSON.parse(file.toString());
       return obj;
     } catch {
@@ -96,8 +111,12 @@ export class ConfigurationService {
   static async saveConfiguration(data: ConfigurationType): Promise<void> {
     const writeFile = promisify(fs.writeFile);
     try {
+      let configPath = './config.json';
+      if (__basedir) {
+        configPath = path.join(__basedir, '/config.json');
+      }
       const saveData = JSON.stringify(data);
-      await writeFile('./config.json', saveData);
+      await writeFile(configPath, saveData);
     } catch {
       return null;
     }

@@ -10,6 +10,7 @@ type UserHistoryParams = {
 
 export const useGetUserHistory = ({ searchTerm, limit, start }: UserHistoryParams) => {
   const { apiUrl } = useApiUrl();
+  const { vtFetch } = useVtFetch();
   const authorizationHeader = useAuthorizationHeader();
 
   let filterString = '';
@@ -31,6 +32,7 @@ export const useGetUserHistory = ({ searchTerm, limit, start }: UserHistoryParam
 
 export const useGetUserHistoryItem = (videoId: string) => {
   const { apiUrl } = useApiUrl();
+  const { vtFetch } = useVtFetch();
   const authorizationHeader = useAuthorizationHeader();
 
   const urlPart = `user/history/${videoId}`;
@@ -52,6 +54,7 @@ export const useGetUserHistoryItem = (videoId: string) => {
 
 export const useGetUserProfileDetails = () => {
   const { apiUrl } = useApiUrl();
+  const { vtFetch } = useVtFetch();
   const authorizationHeader = useAuthorizationHeader();
 
   const urlPart = `user/profile/details`;
@@ -76,6 +79,7 @@ export const useGetUserSubscriptions = (
 ) => {
   const { apiUrl } = useApiUrl();
   const authorizationHeader = useAuthorizationHeader();
+  const { vtFetch } = useVtFetch();
 
   const url = computed(() => {
     const limit = unref(config.limit ?? 20);
@@ -103,6 +107,7 @@ export const useGetUserSubscriptionChannels = (
   config: UserSubscriptionChannelsParams = { limit: 20, currentPage: 1, searchTerm: '' }
 ) => {
   const { apiUrl } = useApiUrl();
+  const { vtFetch } = useVtFetch();
   const authorizationHeader = useAuthorizationHeader();
 
   const url = computed(() => {

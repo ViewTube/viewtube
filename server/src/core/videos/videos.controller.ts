@@ -1,4 +1,4 @@
-import { Controller, Get, Param, UseInterceptors, Header, Query } from '@nestjs/common';
+import { Controller, Get, Param, UseInterceptors, Header } from '@nestjs/common';
 import { CacheInterceptor, CacheTTL } from '@nestjs/cache-manager';
 import { ApiTags } from '@nestjs/swagger';
 import { DislikeDto } from 'server/core/videos/dto/dislike.dto';
@@ -20,9 +20,10 @@ export class VideosController {
 
   @CacheTTL(18000000)
   @Header('Cache-Control', 'public, max-age=18000')
+  @Header('Content-Type', 'application/dash+xml')
   @Get('dash/:id')
-  getDash(@Param('id') id: string, @Query('baseUrl') baseUrl?: string): Promise<string> {
-    return this.videosService.getDash(id, baseUrl);
+  getDash(@Param('id') id: string): Promise<string> {
+    return this.videosService.getDash(id);
   }
 
   @CacheTTL(18000000)

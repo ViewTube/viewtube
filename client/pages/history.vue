@@ -16,6 +16,7 @@ const settingsStore = useSettingsStore();
 const userStore = useUserStore();
 const { apiUrl } = useApiUrl();
 const route = useRoute();
+const { vtFetch } = useVtFetch();
 
 const searchTerm = ref<string>(null);
 const searchTimeout = ref(null);
@@ -171,7 +172,9 @@ watch(
 <style lang="scss">
 .popup-enter-active,
 .popup-leave-active {
-  transition: opacity 300ms $intro-easing, transform 300ms $intro-easing;
+  transition:
+    opacity 300ms $intro-easing,
+    transform 300ms $intro-easing;
 }
 .popup-enter-to,
 .popup-leave-from {
