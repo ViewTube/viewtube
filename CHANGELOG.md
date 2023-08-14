@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Properly format author name in watch page title (thanks to @mattfbacon) [#2147](https://github.com/ViewTube/viewtube/pull/2147)
-- Don't rate limit client [#](https://github.com/ViewTube/viewtube/pull/)
+- Don't rate limit client [#2149](https://github.com/ViewTube/viewtube/pull/2149)
 
 ## [0.11.0] - 2023-08-11
 
