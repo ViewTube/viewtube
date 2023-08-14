@@ -50,6 +50,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "mattfbacon",
+      "name": "Matt Fellenz",
+      "avatar_url": "https://avatars.githubusercontent.com/u/58113890?v=4",
+      "profile": "http://matt.felle.nz",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
@@ -57,5 +66,7 @@
   "projectOwner": "ViewTube",
   "repoType": "github",
   "repoHost": "https://github.com",
-  "skipCi": true
+  "skipCi": true,
+  "commitType": "docs",
+  "commitConvention": "angular"
 }
