@@ -3,7 +3,7 @@ import { devOnly } from './utils/devOnly';
 
 export default defineNuxtConfig({
   runtimeConfig: {
-    rateLimitKey: "COtnDVFMSnKoT5vNZmSElhYJG9z8NtYg",
+    rateLimitKey: '',
     public: {
       vapidKey: process.env.VIEWTUBE_PUBLIC_VAPID
     }

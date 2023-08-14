@@ -69,7 +69,6 @@ export class VideosService {
       });
       return video;
     } catch (error) {
-      console.log(error);
       throw new InternalServerErrorException(error);
     }
   }

@@ -1,4 +1,4 @@
-import { Controller, Get, Header, Req, UseInterceptors } from '@nestjs/common';
+import { Controller, Get, Header, UseInterceptors } from '@nestjs/common';
 import { CacheInterceptor, CacheTTL, CacheKey } from '@nestjs/cache-manager';
 import { ApiTags } from '@nestjs/swagger';
 import { HomeFeedDto } from './dto/home-feed.dto';
@@ -14,8 +14,7 @@ export class HomepageController {
   @CacheTTL(43200000)
   @CacheKey('homefeed')
   @Header('Cache-Control', 'public, max-age=43200')
-  getHomeFeed(@Req() request): Promise<HomeFeedDto> {
-    console.log(request.headers);
+  getHomeFeed(): Promise<HomeFeedDto> {
     return this.homepageService.getHomeFeed();
   }
 }
