@@ -1,7 +1,8 @@
 <template>
-  <label class="button">
+  <label class="button-container">
+    <slot />
     <div v-ripple class="label">{{ label }}</div>
-    <input type="file" class="file-button" multiple="false" @change="$emit('change', $event)" />
+    <input type="file" class="file-button" multiple="false" @change.stop="$emit('change', $event)" :accept="accept" />
   </label>
 </template>
 
@@ -9,13 +10,15 @@
 export default defineComponent({
   name: 'FileButton',
   props: {
-    label: String
-  }
+    label: String,
+    accept: String
+  },
+  emits: {'change': null}
 });
 </script>
 
 <style lang="scss" scoped>
-.label {
+.button-container {
   font-size: 1rem;
   border-style: none;
   width: calc(100% - 40px);
@@ -30,14 +33,19 @@ export default defineComponent({
   color: var(--title-color);
   box-shadow: $low-shadow;
   transition: box-shadow 300ms $intro-easing;
-  display: inline-block;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  justify-items: center;
+  gap: 10px;
 
   &:hover {
     box-shadow: $max-shadow;
   }
 }
 
-.button > input[type='file'] {
+.button-container > input[type='file'] {
   display: none;
 }
 </style>

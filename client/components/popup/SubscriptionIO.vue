@@ -13,25 +13,12 @@
       </h1>
       <div class="pages-container" :class="{ 'page-2': page2 }">
         <div class="page-container page-1-container">
-          <h2><VTIcon name="mdi:youtube" />Import from Youtube</h2>
-          <ol>
-            <li class="links">
-              Go to
-              <a target="_blank" rel="noreferrer noopener" :href="youtubeSubscriptionUrl">{{
-                youtubeSubscriptionUrl
-              }}</a
-              >.
-            </li>
-            <li>You may be asked to sign in.</li>
-            <li>
-              Request a takeout for youtube data (you can customize the options to limit only to
-              subscriptions)
-            </li>
-            <li>Upload the file "subscriptions.csv" here.</li>
-          </ol>
-          <FileButton :label="'Upload CSV'" @change="onYTTakeoutFileChange" />
-          <h2><VTIcon name="mdi:xml" />Import from Invidious / OPML</h2>
-          <FileButton :label="'Upload OPML'" @change="onOPMLFileChange" />
+          <FileButton
+            :label="'Import'"
+            @change="onImportFileChange"
+          >
+            <VTIcon name="mdi:import" />
+          </FileButton>
         </div>
         <div
           v-if="subscriptionsToImport && subscriptionsToImport.length > 0"
@@ -118,6 +105,21 @@
           <p class="loading-text">This can take a while</p>
         </div>
       </div>
+      <h1 v-if="!subscriptionsToImport">
+        {{ loading ? 'Exporting subscriptions' : 'Export subscriptions' }}
+      </h1>
+      <div v-if="!subscriptionsToImport" class="pages-container" :class="{ 'page-2': page2 }">
+        <div class="export-buttons">
+          <BadgeButton @change="exportVT"> <VTIcon name="mdi:play" /> ViewTube </BadgeButton>
+          <BadgeButton @change="exportOPML"
+            ><VTIcon name="mdi:xml" /> Invidious / OPML
+          </BadgeButton>
+          <BadgeButton @change="exportPiped"> <VTIcon name="mdi:pipe" /> Piped </BadgeButton>
+          <BadgeButton @change="exportNewPipe"
+            ><VTIcon name="mdi:pipe-valve" /> NewPipe</BadgeButton
+          >
+        </div>
+      </div>
     </div>
     <div class="settings-overlay popup-overlay" @click.stop="onTryClosePopup" />
   </div>
@@ -145,6 +147,7 @@ export default defineComponent({
     FileButton,
     Spinner
   },
+emits: ['done', 'close'],
   setup(_, { emit }) {
     const messagesStore = useMessagesStore();
     const { apiUrl } = useApiUrl();
@@ -213,11 +216,59 @@ export default defineComponent({
       }
     };
 
+    const onImportFileChange = (e: any) => {
+      const extension = e.target.files[0].name.split('.').pop();
+      switch (extension) {
+        case 'csv':
+          onYTTakeoutFileChange(e);
+          break;
+        case 'json':
+          onJSONPipedFileChange(e);
+          break;
+        case 'opml':
+        case 'xml':
+        default:
+          onOPMLFileChange(e);
+          break;
+      }
+    };
+
+    const onJSONPipedFileChange = (e:any) => {
+      const fileReader = new FileReader();
+      fileReader.onload = () => {
+        if (e.target.files[0].name.includes('.json')) {
+          subscriptionsToImport.value = convertJSONPipedToInternal(fileReader.result as string);
+        }
+        if (subscriptionsToImport.value === undefined) {
+          messagesStore.createMessage({
+            type: 'error',
+            title: 'Invalid or Empty JSON',
+            message: 'Please check your file'
+          });
+        } else {
+          subscriptionsToImport.value
+            .sort((a: { author: string }, b: { author: string }) =>
+              a.author.localeCompare(b.author)
+            )
+            .map(({ author, authorId }) => ({
+              author,
+              authorId,
+              selected: true
+            }));
+
+          page2.value = true;
+        }
+        loading.value = false;
+      };
+      loading.value = true;
+      fileReader.readAsText(e.target.files[0]);
+    };
+
     const onYTTakeoutFileChange = (e: any) => {
       const fileReader = new FileReader();
       fileReader.onload = () => {
         if (e.target.files[0].name.includes('.csv')) {
-          // subscriptionsToImport.value = convertFromCSVToJson(fileReader.result as string);
+          subscriptionsToImport.value = convertFromCSVToJson(fileReader.result as string);
         }
         if (subscriptionsToImport.value === undefined) {
           messagesStore.createMessage({
@@ -238,7 +289,9 @@ export default defineComponent({
 
           page2.value = true;
         }
+        loading.value = false;
       };
+      loading.value = true;
       fileReader.readAsText(e.target.files[0]);
     };
 
@@ -269,7 +322,13 @@ export default defineComponent({
       fileReader.readAsText(e.target.files[0]);
     };
 
+    const exportVT = () => {};
+    const exportOPML = () => {};
+    const exportPiped = () => {};
+    const exportNewPipe = () => {};
+
     const channelCheckBoxChanged = (newValue: any, channelId: any) => {
+      console.log(subscriptionsToImport.value)
       subscriptionsToImport.value.find(
         (e: { authorId: string }) => e.authorId === channelId
       ).selected = newValue;
@@ -291,6 +350,7 @@ export default defineComponent({
       loading.value = true;
       const subscriptions = selectedChannels.value;
       const subscriptionIds = subscriptions.map(e => e.authorId);
+      console.log(subscriptionIds);
       vtFetch(`${apiUrl.value}user/subscriptions/multiple`, {
         method: 'POST',
         body: {
@@ -318,7 +378,12 @@ export default defineComponent({
       successfulMergedImports,
       existingMergedImports,
       failedMergedImports,
+      exportVT,
+      exportOPML,
+      exportPiped,
+      exportNewPipe,
       onTryClosePopup,
+      onImportFileChange,
       onYTTakeoutFileChange,
       onOPMLFileChange,
       channelCheckBoxChanged,
@@ -333,6 +398,15 @@ export default defineComponent({
 <style lang="scss">
 .subscriptions-import {
   .subscriptions-import-container {
+    .export-buttons {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      a {
+        margin-left: 10px;
+        margin-right: 10px;
+      }
+    }
     .pages-container {
       left: 0;
       top: 0;
@@ -391,7 +465,9 @@ export default defineComponent({
         user-select: none;
         opacity: 0;
         transform: translateX(10px);
-        transition: transform 300ms $overshoot-easing, opacity 300ms $intro-easing;
+        transition:
+          transform 300ms $overshoot-easing,
+          opacity 300ms $intro-easing;
 
         .list-actions {
           display: flex;

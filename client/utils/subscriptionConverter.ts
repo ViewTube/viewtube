@@ -1,5 +1,5 @@
 import X2js from 'x2js';
-// import PapaParse from 'papaparse';
+import PapaParse from 'papaparse';
 
 type Subscription = {
   author: string;
@@ -12,19 +12,31 @@ export const convertFromOPMLToJson = (opml: string): Subscription[] => {
   const jsonString: any = x2js.xml2js(opml);
 
   if (jsonString.opml !== undefined) {
+    console.log(jsonString.opml);
     const channelArray: Object[] = jsonString.opml.body.outline.outline;
     const mappedChannelArray = mapOPML(channelArray);
     return mappedChannelArray;
+  } 
+};
+
+export const convertFromCSVToJson = (csv: string): Subscription[] => {
+  const result = PapaParse.parse(csv, { header: false, skipEmptyLines: true });
+  result.data.splice(0, 1);
+  if (result.data[0] !== undefined) {
+    return mapYTTakeout(result.data);
   }
 };
 
-// export const convertFromCSVToJson = (csv: string): Subscription[] => {
-  // const result = PapaParse.parse(csv, { header: false, skipEmptyLines: true });
-  // result.data.splice(0, 1);
-  // if (result.data[0] !== undefined) {
-  //   return mapYTTakeout(result.data);
-  // }
-// };
+export const convertJSONPipedToInternal = (json: string): Subscription[] => {
+  const parsedJson = JSON.parse(json);
+  return parsedJson.subscriptions.map((element: { url: string; name: string }) => { 
+    return {  
+      author: element.name,
+      authorId: element.url.match(/(.*\/channel\/)(.*[^\\/])\/?/i)[2],
+      selected: false
+    };
+  });
+};
 
 export const mapYTTakeout = (data: any[]): Subscription[] => {
   return data.map((element: Object) => {

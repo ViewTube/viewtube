@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import SubscriptionImport from '@/components/popup/SubscriptionImport.vue';
 import VideoEntry from '@/components/list/VideoEntry.vue';
 import Spinner from '@/components/Spinner.vue';
 import SectionTitle from '@/components/SectionTitle.vue';
@@ -21,7 +20,6 @@ const vapidKey = config.public.vapidKey;
 const notificationsEnabled = ref(false);
 const notificationsBtnDisabled = ref(false);
 const notificationsSupported = ref(true);
-const subscriptionImportOpen = ref(false);
 
 const currentPage = computed(() => {
   if (route.query.page) {
@@ -80,12 +78,7 @@ const getOrderedVideoSections = (): Array<any> => {
   return orderedArray;
 };
 
-const closeSubscriptionImport = () => {
-  subscriptionImportOpen.value = false;
-};
-const onSubscriptionImportDone = () => {
-  refresh();
-};
+
 const subscribeToNotifications = (val: any) => {
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.getRegistrations().then(registrations => {
@@ -196,15 +189,7 @@ watch(
         </div>
         <div class="actions">
           <BadgeButton
-            class="import-subscriptions-btn"
-            :click="() => (subscriptionImportOpen = true)"
-          >
-            <VTIcon name="mdi:import" />
-            <p>Import subscriptions</p>
-          </BadgeButton>
-          <BadgeButton
             class="manage-subscriptions-btn"
-            :disabled="hasNoSubscriptions"
             :href="'/subscriptions/manage'"
             :internal-link="true"
           >
@@ -222,9 +207,9 @@ watch(
         </div>
       </div>
     </div>
-    <div v-if="hasNoSubscriptions && !pending" class="no-subscriptions">
+    <div v-if="hasNoSubscriptions && !pending" class="no-subscriptions links">
       <VTIcon name="mdi:youtube-subscription" />
-      <p>No subscriptions yet. Subscribe to a channel to see their latest uploads.</p>
+      <p>No subscriptions yet. Subscribe to a channel to see their latest uploads or import existing ones on the <nuxt-link to="/subscriptions/manage">manage</nuxt-link> page.</p>
     </div>
     <div class="subscription-videos-container">
       <div
@@ -250,15 +235,7 @@ watch(
       <Pagination :current-page="currentPage" :page-count="pageCount" />
     </div>
 
-    <Teleport to="body">
-      <transition name="fade-down">
-        <SubscriptionImport
-          v-if="subscriptionImportOpen"
-          @close="closeSubscriptionImport"
-          @done="onSubscriptionImportDone"
-        />
-      </transition>
-    </Teleport>
+
   </div>
 </template>
 
