@@ -349,8 +349,12 @@ emits: ['done', 'close'],
     const importSelected = () => {
       loading.value = true;
       const subscriptions = selectedChannels.value;
-      const subscriptionIds = subscriptions.map(e => e.authorId);
-      console.log(subscriptionIds);
+      const subscriptionIds = subscriptions.map(e => {
+        return {
+          channelId: e.authorId,
+          name: e.author
+        };
+      });
       vtFetch(`${apiUrl.value}user/subscriptions/multiple`, {
         method: 'POST',
         body: {
