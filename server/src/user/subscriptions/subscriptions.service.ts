@@ -279,22 +279,6 @@ export class SubscriptionsService {
           return true;
         })
         .map(async channel => {
-          // const channelFeed = await getChannelFeed(id);
-          // if (channelFeed) {
-          // let channel: ChannelBasicInfoDto;
-          // try {
-          // channel = await this.saveChannelBasicInfo(channelFeed.channel);
-          // await Promise.all(
-          //   channelFeed.videos.map(vid => {
-          //     return this.saveVideoBasicInfo(vid);
-          //   })
-          // );
-          // } catch (err) {
-          // failed.push({
-          // channelId: id,
-          // isSubscribed: false
-          // });
-          // }
           if (
             channel?.channelId &&
             typeof channel?.channelId === 'string' &&
@@ -340,6 +324,35 @@ export class SubscriptionsService {
           throw new InternalServerErrorException('Error updating subscriptions');
         });
     });
+
+    const channelsUpdate = channels
+      .map(channel => {
+        if (
+          channel.channelId?.length > 0 &&
+          channel.channelId !== '[object Object]' &&
+          channel.name?.length > 0 &&
+          channel.name !== '[object Object]'
+        ) {
+          const channelInfo = {
+            authorId: channel.channelId,
+            authorName: channel.name
+          };
+
+          return {
+            updateOne: {
+              filter: { authorId: channelInfo.authorId },
+              update: { $set: channelInfo },
+              upsert: true
+            }
+          };
+        }
+      })
+      .filter(Boolean);
+
+    await this.ChannelBasicInfoModel.bulkWrite(channelsUpdate).catch(_ => {
+      throw new InternalServerErrorException('Error updating channel info');
+    });
+
     return { successful, failed, existing };
   }
 
