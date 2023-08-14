@@ -256,9 +256,19 @@ const onVideoEnded = () => {
   }
 };
 
+const authorToName = (author) => {
+  if (typeof author == 'string') {
+    return author;
+  } else if (typeof author.name == 'string') {
+    return author.name;
+  } else {
+    return 'Unknown Author';
+  }
+};
+
 const watchPageTitle = computed(() => {
   if (video.value) {
-    return `${video.value.title} :: ${video.value.author}`;
+    return `${video.value.title} :: ${authorToName(video.value.author)}`;
   } else if (videoPending.value) {
     return 'Loading...';
   }
