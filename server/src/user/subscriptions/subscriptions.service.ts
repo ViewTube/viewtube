@@ -266,88 +266,76 @@ export class SubscriptionsService {
     const user = await this.SubscriptionModel.findOne({ username }).exec();
     const subscriptions = user !== null ? user.subscriptions : [];
 
-    await Promise.allSettled(
-      channels
-        .filter(channel => {
-          if (subscriptions.find(e => e.channelId === channel.channelId)) {
-            existing.push({ channelId: channel.channelId, isSubscribed: true });
-            return false;
-          }
-          return true;
-        })
-        .map(async channel => {
-          if (
-            channel?.channelId &&
-            typeof channel?.channelId === 'string' &&
-            channel?.channelId !== '[object Object]'
-          ) {
-            if (!subscriptions.find(e => e.channelId === channel.channelId)) {
-              subscriptions.push({
-                channelId: channel.channelId,
-                createdAt: new Date()
-              });
+    channels
+      .filter(channel => {
+        if (subscriptions.find(e => e.channelId === channel.channelId)) {
+          existing.push({ channelId: channel.channelId, isSubscribed: true });
+          return false;
+        }
+        return true;
+      })
+      .forEach(async channel => {
+        if (
+          channel?.channelId &&
+          typeof channel?.channelId === 'string' &&
+          channel?.channelId !== '[object Object]' &&
+          !channel?.channelId.startsWith('UC') &&
+          channel?.channelId.length === 24 &&
+          channel?.name &&
+          typeof channel?.name === 'string' &&
+          channel?.name !== '[object Object]'
+        ) {
+          if (!subscriptions.find(e => e.channelId === channel.channelId)) {
+            subscriptions.push({
+              channelId: channel.channelId,
+              createdAt: new Date()
+            });
 
-              successful.push({
-                channelId: channel.channelId,
-                name: channel.name,
-                isSubscribed: true
-              });
-            } else {
-              existing.push({
-                channelId: channel.channelId,
-                name: channel.name,
-                isSubscribed: true
-              });
-            }
-          } else {
-            failed.push({
+            successful.push({
               channelId: channel.channelId,
               name: channel.name,
-              isSubscribed: false
+              isSubscribed: true
+            });
+          } else {
+            existing.push({
+              channelId: channel.channelId,
+              name: channel.name,
+              isSubscribed: true
             });
           }
-          // } else {
-          //   failed.push({
-          //     channelId: id,
-          //     isSubscribed: false
-          //   });
-          // }
-        })
-    ).then(() => {
-      return this.SubscriptionModel.findOneAndUpdate(
-        { username },
-        { username, subscriptions },
-        { upsert: true }
-      )
-        .exec()
-        .catch(_ => {
-          throw new InternalServerErrorException('Error updating subscriptions');
-        });
-    });
-
-    const channelsUpdate = channels
-      .map(channel => {
-        if (
-          channel.channelId?.length > 0 &&
-          channel.channelId !== '[object Object]' &&
-          channel.name?.length > 0 &&
-          channel.name !== '[object Object]'
-        ) {
-          const channelInfo = {
-            authorId: channel.channelId,
-            author: channel.name
-          };
-
-          return {
-            updateOne: {
-              filter: { authorId: channelInfo.authorId },
-              update: { $set: channelInfo },
-              upsert: true
-            }
-          };
+        } else {
+          failed.push({
+            channelId: channel.channelId,
+            name: channel.name,
+            isSubscribed: false
+          });
         }
-      })
-      .filter(Boolean);
+      });
+
+    this.SubscriptionModel.findOneAndUpdate(
+      { username },
+      { username, subscriptions },
+      { upsert: true }
+    )
+      .exec()
+      .catch(_ => {
+        throw new InternalServerErrorException('Error updating subscriptions');
+      });
+
+    const channelsUpdate = successful.map(channel => {
+      const channelInfo = {
+        authorId: channel.channelId,
+        author: channel.name
+      };
+
+      return {
+        updateOne: {
+          filter: { authorId: channelInfo.authorId },
+          update: { $set: channelInfo },
+          upsert: true
+        }
+      };
+    });
 
     await this.ChannelBasicInfoModel.bulkWrite(channelsUpdate).catch(_ => {
       throw new InternalServerErrorException('Error updating channel info');
