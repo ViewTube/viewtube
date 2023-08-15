@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Properly format author name in watch page title (thanks to @mattfbacon) [#2147](https://github.com/ViewTube/viewtube/pull/2147)
 - Don't rate limit client [#2149](https://github.com/ViewTube/viewtube/pull/2149)
+- Fix subscription job [#2151](https://github.com/ViewTube/viewtube/pull/2151)
+
+### Added
+
+- New subscription importing experience (thanks to @cyacedev) [#2151](https://github.com/ViewTube/viewtube/pull/2151)
 
 ## [0.11.0] - 2023-08-11
 

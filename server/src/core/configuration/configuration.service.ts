@@ -1,5 +1,5 @@
 import fs from 'fs';
-import { readFile, writeFile } from 'fs/promises';
+import { access, mkdir, readFile, writeFile } from 'fs/promises';
 import crypto from 'crypto';
 import { Injectable } from '@nestjs/common';
 import { generateVAPIDKeys, VapidKeys } from 'web-push';
@@ -33,17 +33,17 @@ export class ConfigurationService {
       savedConfiguration = {};
     }
 
-    const dbJwtKey = savedConfiguration.jwtKey;
+    const savedJwtKey = savedConfiguration.jwtKey;
 
-    if (envJwtKey && dbJwtKey) {
+    if (envJwtKey && savedJwtKey) {
       this.jwtKey = envJwtKey;
-    } else if (envJwtKey && !dbJwtKey) {
+    } else if (envJwtKey && !savedJwtKey) {
       this.jwtKey = envJwtKey;
       savedConfiguration.jwtKey = envJwtKey;
-    } else if (!envJwtKey && dbJwtKey) {
+    } else if (!envJwtKey && savedJwtKey) {
       this.jwtKey = savedConfiguration.jwtKey;
-    } else if (!envJwtKey && !dbJwtKey) {
-      const newJwtKey = crypto.randomBytes(256).toString('base64');
+    } else if (!envJwtKey && !savedJwtKey) {
+      const newJwtKey = crypto.randomBytes(128).toString('base64');
       this.jwtKey = newJwtKey;
       savedConfiguration.jwtKey = newJwtKey;
     }
@@ -63,14 +63,14 @@ export class ConfigurationService {
       savedConfiguration.publicVapidKey = newVapidKeys.publicKey;
     }
 
-    const dbPrivateVapidKey = savedConfiguration.privateVapidKey;
-    if (envPrivateVapidKey && dbPrivateVapidKey) {
+    const savedPrivateVapidKey = savedConfiguration.privateVapidKey;
+    if (envPrivateVapidKey && savedPrivateVapidKey) {
       this.privateVapidKey = envPrivateVapidKey;
-    } else if (envPrivateVapidKey && !dbPrivateVapidKey) {
+    } else if (envPrivateVapidKey && !savedPrivateVapidKey) {
       this.privateVapidKey = envPrivateVapidKey;
-    } else if (!envPrivateVapidKey && dbPrivateVapidKey) {
+    } else if (!envPrivateVapidKey && savedPrivateVapidKey) {
       this.privateVapidKey = savedConfiguration.privateVapidKey;
-    } else if (!envPrivateVapidKey && !dbPrivateVapidKey) {
+    } else if (!envPrivateVapidKey && !savedPrivateVapidKey) {
       if (!newVapidKeys) {
         newVapidKeys = generateVAPIDKeys();
       }
@@ -111,6 +111,14 @@ export class ConfigurationService {
   static async saveConfiguration(data: ConfigurationType): Promise<void> {
     try {
       const configPath = this.getConfigPath();
+
+      const configFolder = configPath.split('/').slice(0, -1).join('/');
+      try {
+        await access(configFolder, fs.constants.F_OK);
+      } catch {
+        await mkdir(configFolder, { recursive: true });
+      }
+
       const saveData = JSON.stringify(data);
       await writeFile(configPath, saveData);
     } catch {

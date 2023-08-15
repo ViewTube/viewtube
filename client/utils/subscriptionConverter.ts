@@ -12,7 +12,6 @@ export const convertFromOPMLToJson = (opml: string): Subscription[] => {
   const jsonString: any = x2js.xml2js(opml);
 
   if (jsonString.opml !== undefined) {
-    console.log(jsonString.opml);
     const channelArray: Object[] = jsonString.opml.body.outline.outline;
     const mappedChannelArray = mapOPML(channelArray);
     return mappedChannelArray;

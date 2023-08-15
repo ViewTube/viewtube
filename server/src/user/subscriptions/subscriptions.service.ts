@@ -130,7 +130,7 @@ export class SubscriptionsService {
         // Silently drop error
       });
     if (user) {
-      const userChannelIds = user.subscriptions.map(e => e.channelId);
+      const userChannelIds = user.subscriptions?.map(e => e.channelId);
       if (userChannelIds) {
         const channelCount = await this.ChannelBasicInfoModel.countDocuments({
           authorId: { $in: userChannelIds },
@@ -264,7 +264,7 @@ export class SubscriptionsService {
     const failed: Array<SubscriptionStatusDto> = [];
     const existing: Array<SubscriptionStatusDto> = [];
     const user = await this.SubscriptionModel.findOne({ username }).exec();
-    const subscriptions = user !== null ? user.subscriptions : [];
+    const subscriptions = user?.subscriptions ?? [];
 
     channels
       .filter(channel => {
@@ -279,7 +279,7 @@ export class SubscriptionsService {
           channel?.channelId &&
           typeof channel?.channelId === 'string' &&
           channel?.channelId !== '[object Object]' &&
-          !channel?.channelId.startsWith('UC') &&
+          channel?.channelId.startsWith('UC') &&
           channel?.channelId.length === 24 &&
           channel?.name &&
           typeof channel?.name === 'string' &&

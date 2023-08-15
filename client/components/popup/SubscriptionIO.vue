@@ -12,7 +12,15 @@
         }}
       </h1>
       <div class="pages-container" :class="{ 'page-2': page2 }">
-        <div class="page-container page-1-container">
+        <div class="page-container page-1-container links">
+          <a
+            class="how-to-import"
+            href="https://viewtube.wiki/features/import-subscriptions"
+            target="_blank"
+            rel="noreferrer noopener"
+          >
+            How do I import subscriptions?
+          </a>
           <FileButton :label="'Import'" @change="onImportFileChange">
             <VTIcon name="mdi:import" />
           </FileButton>
@@ -108,15 +116,20 @@
       </h1>
       <div v-if="!subscriptionsToImport" class="pages-container" :class="{ 'page-2': page2 }">
         <div class="export-buttons">
-          <BadgeButton @change="exportVT"> <VTIcon name="mdi:play" /> ViewTube </BadgeButton>
-          <BadgeButton @change="exportOPML"
+          <BadgeButton :disabled="true" @change="exportVT">
+            <VTIcon name="mdi:play" /> ViewTube
+          </BadgeButton>
+          <BadgeButton :disabled="true" @change="exportOPML"
             ><VTIcon name="mdi:xml" /> Invidious / OPML
           </BadgeButton>
-          <BadgeButton @change="exportPiped"> <VTIcon name="mdi:pipe" /> Piped </BadgeButton>
-          <BadgeButton @change="exportNewPipe"
+          <BadgeButton :disabled="true" @change="exportPiped">
+            <VTIcon name="mdi:pipe" /> Piped
+          </BadgeButton>
+          <BadgeButton :disabled="true" @change="exportNewPipe"
             ><VTIcon name="mdi:pipe-valve" /> NewPipe</BadgeButton
           >
         </div>
+        <p class="not-available">Not available yet</p>
       </div>
     </div>
     <div class="settings-overlay popup-overlay" @click.stop="onTryClosePopup" />
@@ -326,7 +339,6 @@ export default defineComponent({
     const exportNewPipe = () => {};
 
     const channelCheckBoxChanged = (newValue: any, channelId: any) => {
-      console.log(subscriptionsToImport.value);
       subscriptionsToImport.value.find(
         (e: { authorId: string }) => e.authorId === channelId
       ).selected = newValue;
@@ -418,6 +430,11 @@ export default defineComponent({
       box-sizing: border-box;
       margin: 0;
 
+      .not-available {
+        margin: 10px 0 0 0;
+        text-align: center;
+      }
+
       .loading-overlay {
         position: absolute;
         left: 0;
@@ -458,6 +475,12 @@ export default defineComponent({
         height: 100%;
         overflow: hidden scroll;
         background-color: var(--bgcolor-alt);
+        display: flex;
+        flex-direction: column;
+
+        .how-to-import {
+          margin: 0 auto;
+        }
       }
 
       // .page-1-container {
