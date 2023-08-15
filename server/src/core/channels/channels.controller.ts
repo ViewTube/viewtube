@@ -42,8 +42,8 @@ export class ChannelsController {
   @ApiResponse({ status: 500 })
   @UseInterceptors(CacheInterceptor)
   @CacheTTL(3600000)
-  getChannelInfo(@Param('id') channelId: string): Promise<ChannelInfoDto | ChannelInfoErrorDto> {
-    return this.channelsService.getChannelInfo(channelId);
+  getChannelInfo(@Param('id') channelId: string): Promise<ChannelInfoDto> {
+    return this.channelsService.getChannelInfo(channelId) as Promise<ChannelInfoDto>;
   }
 
   @Header('Cache-Control', 'public, max-age=3600')
