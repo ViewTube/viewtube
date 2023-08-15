@@ -22,7 +22,6 @@ import { checkRedisConnection } from './common/redis.connection';
 import { logger } from './common/logger';
 import { ModuleType } from './common/module.type';
 import { registerFastifyPlugin } from './common/registerFastifyPlugin';
-import { SubscriptionsService } from './user/subscriptions/subscriptions.service';
 
 declare const module: ModuleType;
 
