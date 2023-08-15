@@ -326,7 +326,6 @@ export default defineComponent({
     const exportNewPipe = () => {};
 
     const channelCheckBoxChanged = (newValue: any, channelId: any) => {
-      console.log(subscriptionsToImport.value);
       subscriptionsToImport.value.find(
         (e: { authorId: string }) => e.authorId === channelId
       ).selected = newValue;
