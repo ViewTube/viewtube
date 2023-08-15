@@ -21,9 +21,9 @@ import { General } from 'server/common/general.schema';
 import { NotificationsService } from '../notifications/notifications.service';
 import { Subscription } from './schemas/subscription.schema';
 import { SubscriptionStatusDto } from './dto/subscription-status.dto';
-import { getChannelFeed } from './subscriptions-job.helper';
 import { SubscribedChannelsResponseDto } from './dto/subscribed-channels-response.dto';
 import { SubscriptionFeedResponseDto } from './dto/subscription-feed-response.dto';
+import { SubscriptionsQueueParams } from './subscriptions.processor';
 
 @Injectable()
 export class SubscriptionsService {
@@ -31,22 +31,21 @@ export class SubscriptionsService {
     @InjectModel(VideoBasicInfo.name)
     private readonly VideoModel: Model<VideoBasicInfo>,
     @InjectModel(Subscription.name)
-    private readonly subscriptionModel: Model<Subscription>,
+    private readonly SubscriptionModel: Model<Subscription>,
     @InjectModel(ChannelBasicInfo.name)
     private readonly ChannelBasicInfoModel: Model<ChannelBasicInfo>,
     @InjectModel(General.name)
     private readonly GeneralModel: Model<General>,
     @InjectQueue('subscriptions')
-    private subscriptionsQueue: Queue,
+    private subscriptionsQueue: Queue<SubscriptionsQueueParams>,
     private notificationsService: NotificationsService,
     private readonly logger: Logger
   ) {}
 
   @Cron(CronExpression.EVERY_HOUR)
-  // @Cron(new Date(Date.now() + 60 * 1000))
   async collectSubscriptionsJob(): Promise<void> {
     if ((cluster.worker && cluster.worker.id === 1) || !AppClusterService.isClustered) {
-      const userSubscriptions = await this.subscriptionModel.find().lean(true).exec();
+      const userSubscriptions = await this.SubscriptionModel.find().lean(true).exec();
 
       this.subscriptionsQueue.add({
         userSubscriptions
@@ -77,7 +76,7 @@ export class SubscriptionsService {
   }
 
   async sendUserNotifications(videos: Array<VideoBasicInfoDto>): Promise<void> {
-    const users = await this.subscriptionModel.find().lean().exec();
+    const users = await this.SubscriptionModel.find().lean().exec();
     const notificationsToSend: Array<{ username: string; videos: Array<VideoBasicInfoDto> }> = [];
     videos.forEach(video => {
       const subscribedUsers = users.filter(u =>
@@ -106,8 +105,7 @@ export class SubscriptionsService {
   }
 
   async getSubscribedChannelsCount(username: string): Promise<number> {
-    const user = await this.subscriptionModel
-      .findOne({ username })
+    const user = await this.SubscriptionModel.findOne({ username })
       .exec()
       .catch(_ => {
         // Silently drop error
@@ -126,8 +124,7 @@ export class SubscriptionsService {
     sort: Sorting<ChannelBasicInfoDto>,
     filter: string
   ): Promise<SubscribedChannelsResponseDto> {
-    const user = await this.subscriptionModel
-      .findOne({ username })
+    const user = await this.SubscriptionModel.findOne({ username })
       .exec()
       .catch(_ => {
         // Silently drop error
@@ -166,7 +163,7 @@ export class SubscriptionsService {
     limit: number,
     start: number
   ): Promise<SubscriptionFeedResponseDto> {
-    const userSubscriptions = await this.subscriptionModel.findOne({ username }).lean().exec();
+    const userSubscriptions = await this.SubscriptionModel.findOne({ username }).lean().exec();
     if (userSubscriptions) {
       const userSubscriptionIds = userSubscriptions.subscriptions.map(e => e.channelId);
 
@@ -239,7 +236,7 @@ export class SubscriptionsService {
   }
 
   async getSubscription(username: string, channelId: string): Promise<SubscriptionStatusDto> {
-    const user = await this.subscriptionModel.findOne({ username }).exec();
+    const user = await this.SubscriptionModel.findOne({ username }).exec();
     if (user && user.subscriptions.length > 0) {
       const subscription = user.subscriptions.find(e => e.channelId === channelId);
       if (subscription) {
@@ -266,7 +263,7 @@ export class SubscriptionsService {
     const successful: Array<SubscriptionStatusDto> = [];
     const failed: Array<SubscriptionStatusDto> = [];
     const existing: Array<SubscriptionStatusDto> = [];
-    const user = await this.subscriptionModel.findOne({ username }).exec();
+    const user = await this.SubscriptionModel.findOne({ username }).exec();
     const subscriptions = user !== null ? user.subscriptions : [];
 
     await Promise.allSettled(
@@ -317,8 +314,11 @@ export class SubscriptionsService {
           // }
         })
     ).then(() => {
-      return this.subscriptionModel
-        .findOneAndUpdate({ username }, { username, subscriptions }, { upsert: true })
+      return this.SubscriptionModel.findOneAndUpdate(
+        { username },
+        { username, subscriptions },
+        { upsert: true }
+      )
         .exec()
         .catch(_ => {
           throw new InternalServerErrorException('Error updating subscriptions');
@@ -335,7 +335,7 @@ export class SubscriptionsService {
         ) {
           const channelInfo = {
             authorId: channel.channelId,
-            authorName: channel.name
+            author: channel.name
           };
 
           return {
@@ -358,8 +358,7 @@ export class SubscriptionsService {
 
   async deleteAllSubscribedChannels(username: string): Promise<{ success: boolean }> {
     let successful = true;
-    await this.subscriptionModel
-      .deleteOne({ username })
+    await this.SubscriptionModel.deleteOne({ username })
       .exec()
       .catch(_ => {
         successful = false;
@@ -375,7 +374,7 @@ export class SubscriptionsService {
    * @returns {SubscriptionStatusDto} The subscription status
    */
   async subscribeToChannel(username: string, channelId: string): Promise<SubscriptionStatusDto> {
-    const user = await this.subscriptionModel.findOne({ username }).exec();
+    const user = await this.SubscriptionModel.findOne({ username }).exec();
 
     const subscriptions = user ? user.subscriptions : [];
     const currentSubscription = subscriptions.find(e => e.channelId === channelId);
@@ -387,12 +386,28 @@ export class SubscriptionsService {
       });
     }
 
-    await this.subscriptionModel
-      .findOneAndUpdate({ username }, { username, subscriptions }, { upsert: true })
+    await this.SubscriptionModel.findOneAndUpdate(
+      { username },
+      { username, subscriptions },
+      { upsert: true }
+    )
       .exec()
       .catch(_ => {
         throw new InternalServerErrorException('Error subscribing to channel');
       });
+
+    this.subscriptionsQueue.add({
+      userSubscriptions: [
+        {
+          subscriptions: [
+            {
+              channelId
+            }
+          ]
+        }
+      ],
+      silent: true
+    });
 
     return {
       channelId,
@@ -404,7 +419,7 @@ export class SubscriptionsService {
     username: string,
     channelId: string
   ): Promise<SubscriptionStatusDto> {
-    const user = await this.subscriptionModel.findOne({ username }).exec();
+    const user = await this.SubscriptionModel.findOne({ username }).exec();
     if (
       user &&
       user.subscriptions &&

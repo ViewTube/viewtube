@@ -47,6 +47,7 @@ tests/cypress/downloads
 Dockerfile.nodejs-mongodb
 .vscode/.ropeproject/
 server/config.json
+server/data
 **/predist
 client/buildMetadata.json
 ~

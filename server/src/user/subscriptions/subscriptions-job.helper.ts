@@ -2,17 +2,24 @@ import path from 'path';
 import fs from 'fs';
 import { ChannelBasicInfoDto } from 'server/core/channels/dto/channel-basic-info.dto';
 import { VideoBasicInfoDto } from 'server/core/videos/dto/video-basic-info.dto';
-import X2js from 'x2js';
 import humanizeDuration from 'humanize-duration';
 import { Job } from 'bull';
 import { logger } from 'server/common/logger';
 import { generateVideoThumbnails } from 'server/mapper/utils/video-thumbnails';
 import { ofetch } from 'ofetch';
 import { HttpsProxyAgent } from 'https-proxy-agent';
+import { SubscriptionsQueueParams } from './subscriptions.processor';
+import { XMLParser } from 'fast-xml-parser';
+import { ChannelFeedType } from './types/channel-feed.type';
+
+const xmlParser = new XMLParser({
+  ignoreAttributes: false,
+  attributeNamePrefix: ''
+});
 
 export const runSubscriptionsJob = async (
   uniqueChannelIds: Array<string>,
-  job: Job = null
+  job: Job<SubscriptionsQueueParams> = null
 ): Promise<{
   channelResultArray: Array<ChannelBasicInfoDto>;
   videoResultArray: Array<VideoBasicInfoDto>;
@@ -35,11 +42,15 @@ export const runSubscriptionsJob = async (
   const channelIdBatches = [];
   uniqueChannelIds = [].concat(...uniqueChannelIds);
 
+  const batchSize = 20;
+
   while (uniqueChannelIds.length) {
-    channelIdBatches.push(uniqueChannelIds.splice(0, 100));
+    channelIdBatches.push(uniqueChannelIds.splice(0, batchSize));
   }
 
   let i = 0;
+
+  logger.log(`Preparing ${channelIdBatches.length} batches for subscriptions job`)
 
   await channelIdBatches
     .reduce(async (previousPromise: Promise<void>, nextBatch: Array<string>) => {
@@ -68,11 +79,11 @@ export const runSubscriptionsJob = async (
 
 const feedUrl = 'https://www.youtube.com/feeds/videos.xml?channel_id=';
 
-const convertRssVideo = (video: any): VideoBasicInfoDto => {
-  const rating = video.group.community.starRating;
+const convertRssVideo = (video: ChannelFeedType['feed']['entry'][number]): VideoBasicInfoDto => {
+  const rating = video['media:group']['media:community']['media:starRating'];
   const { likes, dislikes } = convertStarsToLikesDislikes({
-    totalRatings: rating._count,
-    avgStarRatings: rating._average
+    totalRatings: parseInt(rating.count),
+    avgStarRatings: parseInt(rating.average)
   });
 
   const durationString = humanizeDuration(
@@ -80,19 +91,18 @@ const convertRssVideo = (video: any): VideoBasicInfoDto => {
     { largest: 1 }
   );
 
-  const description = video.group.description.toString();
-  const descriptionText = typeof description === 'string' ? description : '';
+  const description = video['media:group']['media:description'].toString();
 
   return {
-    videoId: video.videoId.toString(),
+    videoId: video['yt:videoId'].toString(),
     title: video.title,
     author: video.author.name,
-    authorId: video.channelId.toString(),
-    description: descriptionText,
+    authorId: video['yt:channelId'].toString(),
+    description,
     published: Date.parse(video.published),
     publishedText: durationString,
-    videoThumbnails: generateVideoThumbnails(video.videoId.toString()),
-    viewCount: video.group.community.statistics._views,
+    videoThumbnails: generateVideoThumbnails(video['yt:videoId'].toString()),
+    viewCount: parseInt(video['media:group']['media:community']['media:statistics'].views),
     likeCount: likes,
     dislikeCount: dislikes
   };
@@ -126,26 +136,19 @@ export const getChannelFeed = async (
   }
 
   const channelFeed = await ofetch(feedUrl + channelId, requestOptions)
-    .then(response => {
-      if (response.ok) {
-        return response.text();
-      }
-      return null;
-    })
     .then(data => {
       if (data) {
-        const x2js = new X2js();
-        const jsonData = x2js.xml2js(data) as any;
+        const jsonData: ChannelFeedType = xmlParser.parse(data);
         if (jsonData.feed) {
           let videos: Array<VideoBasicInfoDto> = [];
           // For channels that have videos
           if (jsonData.feed.entry) {
-            videos = jsonData.feed.entry.map((video: any) => convertRssVideo(video));
+            videos = jsonData.feed.entry.map(video => convertRssVideo(video));
           }
 
           const authorId = jsonData.feed?.link
-            ?.find((link: { _rel: string }) => link._rel === 'alternate')
-            ._href.split('channel/')[1];
+            ?.find(link => link.rel === 'alternate')
+            .href.split('channel/')[1];
 
           const channel: ChannelBasicInfoDto = {
             authorId,
@@ -166,9 +169,7 @@ export const getChannelFeed = async (
         return null;
       }
     })
-    .catch(err =>
-      logger.warn(`[subscriptions job] Could not fetch channel: ${err}`)
-    );
+    .catch(err => logger.warn(`[subscriptions job] Could not fetch channel: ${err}`));
   if (typeof channelFeed === 'object' && channelFeed !== null && channelFeed.channel?.authorId) {
     return channelFeed;
   }

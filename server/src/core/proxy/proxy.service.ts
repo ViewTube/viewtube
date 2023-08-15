@@ -7,7 +7,10 @@ import { ofetch } from 'ofetch';
 
 @Injectable()
 export class ProxyService {
-  constructor(private configService: ConfigService, private readonly logger: Logger) {}
+  constructor(
+    private configService: ConfigService,
+    private readonly logger: Logger
+  ) {}
 
   async proxyText(url: string, local = true): Promise<string> {
     try {
@@ -18,10 +21,9 @@ export class ProxyService {
           agent: new HttpsProxyAgent(proxy)
         };
       }
-      const fetchResponse = await ofetch(url, requestOptions);
+      const fetchResponse = await ofetch<string>(url, requestOptions);
       if (fetchResponse) {
-        const result = await fetchResponse.text();
-        return result;
+        return fetchResponse;
       }
     } catch (error) {
       throw new InternalServerErrorException(error);

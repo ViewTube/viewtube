@@ -13,10 +13,7 @@
       </h1>
       <div class="pages-container" :class="{ 'page-2': page2 }">
         <div class="page-container page-1-container">
-          <FileButton
-            :label="'Import'"
-            @change="onImportFileChange"
-          >
+          <FileButton :label="'Import'" @change="onImportFileChange">
             <VTIcon name="mdi:import" />
           </FileButton>
         </div>
@@ -62,8 +59,9 @@
           <h3 v-if="successfulMergedImports.length > 0">
             {{ successfulMergedImports.length }} successful import{{
               successfulMergedImports.length !== 1 ? 's' : ''
-            }}
+            }}.
           </h3>
+          <p>New videos will be available after the next sync.</p>
           <div v-if="successfulMergedImports.length > 0" class="import-area">
             <div class="import-list">
               <p v-for="subscription in successfulMergedImports" :key="subscription.authorId">
@@ -147,7 +145,7 @@ export default defineComponent({
     FileButton,
     Spinner
   },
-emits: ['done', 'close'],
+  emits: ['done', 'close'],
   setup(_, { emit }) {
     const messagesStore = useMessagesStore();
     const { apiUrl } = useApiUrl();
@@ -233,7 +231,7 @@ emits: ['done', 'close'],
       }
     };
 
-    const onJSONPipedFileChange = (e:any) => {
+    const onJSONPipedFileChange = (e: any) => {
       const fileReader = new FileReader();
       fileReader.onload = () => {
         if (e.target.files[0].name.includes('.json')) {
@@ -328,7 +326,7 @@ emits: ['done', 'close'],
     const exportNewPipe = () => {};
 
     const channelCheckBoxChanged = (newValue: any, channelId: any) => {
-      console.log(subscriptionsToImport.value)
+      console.log(subscriptionsToImport.value);
       subscriptionsToImport.value.find(
         (e: { authorId: string }) => e.authorId === channelId
       ).selected = newValue;

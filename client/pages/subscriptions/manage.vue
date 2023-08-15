@@ -202,6 +202,9 @@ watch(searchTerm, (newValue, oldValue): void => {
   .section-title {
     max-width: $main-width;
     margin: 0 auto;
+    padding: 0 15px;
+    width: 100%;
+    box-sizing: border-box;
   }
 
   .page-title {

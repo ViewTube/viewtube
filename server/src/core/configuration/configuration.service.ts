@@ -1,8 +1,8 @@
 import fs from 'fs';
+import { readFile, writeFile } from 'fs/promises';
 import crypto from 'crypto';
 import { Injectable } from '@nestjs/common';
 import { generateVAPIDKeys, VapidKeys } from 'web-push';
-import { promisify } from 'util';
 import path from 'path';
 
 type ConfigurationType = {
@@ -94,31 +94,35 @@ export class ConfigurationService {
   }
 
   static async loadConfiguration(): Promise<ConfigurationType> {
-    const readFile = promisify(fs.readFile);
-    try {
-      let configPath = './config.json';
-      if (__basedir) {
-        configPath = path.join(__basedir, '/config.json');
+    const configPath = this.getConfigPath();
+    if (fs.existsSync(configPath)) {
+      try {
+        const file = await readFile(configPath);
+        const obj = JSON.parse(file.toString());
+        console.log(`Loaded configuration from ${configPath}`);
+        return obj;
+      } catch {
+        // ignore
       }
-      const file = await readFile(configPath);
-      const obj = JSON.parse(file.toString());
-      return obj;
-    } catch {
-      return null;
     }
+    return null;
   }
 
   static async saveConfiguration(data: ConfigurationType): Promise<void> {
-    const writeFile = promisify(fs.writeFile);
     try {
-      let configPath = './config.json';
-      if (__basedir) {
-        configPath = path.join(__basedir, '/config.json');
-      }
+      const configPath = this.getConfigPath();
       const saveData = JSON.stringify(data);
       await writeFile(configPath, saveData);
     } catch {
       return null;
     }
+  }
+
+  static getConfigPath(): string {
+    let configPath = path.resolve('./config.json');
+    if (process.env.VIEWTUBE_DATA_DIRECTORY) {
+      configPath = path.resolve(process.env.VIEWTUBE_DATA_DIRECTORY, './config.json');
+    }
+    return configPath;
   }
 }

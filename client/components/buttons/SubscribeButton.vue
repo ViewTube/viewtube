@@ -96,6 +96,11 @@ export default defineComponent({
           .then(response => {
             if (response.isSubscribed) {
               isSubscribed.value = true;
+              messagesStore.createMessage({
+                type: 'success',
+                title: 'Subscribed',
+                message: `Successfully subscribed. Fetching new videos can take some time.`
+              });
             }
             disabled.value = false;
             if (props.small) {
@@ -176,7 +181,9 @@ export default defineComponent({
     cursor: pointer;
     user-select: none;
     opacity: 0.8;
-    transition: transform 300ms $overshoot-easing, background-color 300ms $intro-easing;
+    transition:
+      transform 300ms $overshoot-easing,
+      background-color 300ms $intro-easing;
     border: solid 2px transparent;
     box-sizing: border-box;
 
@@ -233,7 +240,9 @@ export default defineComponent({
       cursor: pointer;
       line-height: 12px;
       opacity: 1;
-      transition: opacity 300ms $intro-easing, transform 300ms $intro-easing;
+      transition:
+        opacity 300ms $intro-easing,
+        transform 300ms $intro-easing;
 
       &:focus {
         transform: scale(0.9);

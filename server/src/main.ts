@@ -22,6 +22,7 @@ import { checkRedisConnection } from './common/redis.connection';
 import { logger } from './common/logger';
 import { ModuleType } from './common/module.type';
 import { registerFastifyPlugin } from './common/registerFastifyPlugin';
+import { SubscriptionsService } from './user/subscriptions/subscriptions.service';
 
 declare const module: ModuleType;
 
@@ -135,6 +136,7 @@ const bootstrap = async () => {
   app.use(cookieParser());
 
   app.enableShutdownHooks();
+
   // START
   await app.listen(port, '0.0.0.0', (err, _address) => {
     if (err) {

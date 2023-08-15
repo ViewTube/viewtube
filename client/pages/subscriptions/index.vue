@@ -78,7 +78,6 @@ const getOrderedVideoSections = (): Array<any> => {
   return orderedArray;
 };
 
-
 const subscribeToNotifications = (val: any) => {
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.getRegistrations().then(registrations => {
@@ -173,6 +172,10 @@ watch(
     refresh();
   }
 );
+
+const nextRefresh = computed(() => {
+  return 60 - Math.round((Date.now() % 3.6e6) / 6e4);
+});
 </script>
 
 <template>
@@ -186,6 +189,7 @@ watch(
           <p v-if="lastRefreshTime">
             Last refresh: {{ new Date(lastRefreshTime).toLocaleString('en-US') }}
           </p>
+          <p>Next refresh in {{ nextRefresh }} minute{{ nextRefresh === 1 ? '' : 's' }}</p>
         </div>
         <div class="actions">
           <BadgeButton
@@ -209,7 +213,10 @@ watch(
     </div>
     <div v-if="hasNoSubscriptions && !pending" class="no-subscriptions links">
       <VTIcon name="mdi:youtube-subscription" />
-      <p>No subscriptions yet. Subscribe to a channel to see their latest uploads or import existing ones on the <nuxt-link to="/subscriptions/manage">manage</nuxt-link> page.</p>
+      <p>
+        No subscriptions yet. Subscribe to a channel to see their latest uploads or import existing
+        ones on the <nuxt-link to="/subscriptions/manage">manage</nuxt-link> page.
+      </p>
     </div>
     <div class="subscription-videos-container">
       <div
@@ -234,8 +241,6 @@ watch(
     >
       <Pagination :current-page="currentPage" :page-count="pageCount" />
     </div>
-
-
   </div>
 </template>
 
