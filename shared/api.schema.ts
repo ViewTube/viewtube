@@ -415,10 +415,23 @@ export interface components {
       viewCount: number;
       viewCountText: string;
     };
+    ChannelHomeItemDto: {
+      shelfName: string;
+      type: Record<string, never>;
+      items: Record<string, never>;
+    };
+    ChannelHomeDto: {
+      featuredVideo: components["schemas"]["ChannelVideoDto"];
+      items: components["schemas"]["ChannelHomeItemDto"][];
+    };
     ChannelVideosDto: {
       /** @enum {number} */
       channelIdType?: 0 | 1 | 2 | 3 | 4 | 5;
       alertMessage?: string;
+      items?: components["schemas"]["ChannelVideoDto"][];
+      continuation?: string;
+    };
+    ChannelVideosContinuationDto: {
       items?: components["schemas"]["ChannelVideoDto"][];
       continuation?: string;
     };
@@ -471,6 +484,11 @@ export interface components {
       innerTubeApi: string;
       items: components["schemas"]["ChannelCommunityPostDto"][];
       continuation: string;
+    };
+    ChannelStatsDto: {
+      joinedDate: number;
+      viewCount: number;
+      location: string;
     };
     HomeFeedDto: {
       videos: components["schemas"]["VTVideoDto"][];
@@ -811,7 +829,7 @@ export interface operations {
     responses: {
       200: {
         content: {
-          "application/json": Record<string, never>;
+          "application/json": components["schemas"]["ChannelHomeDto"];
         };
       };
       404: {
@@ -854,7 +872,7 @@ export interface operations {
     responses: {
       200: {
         content: {
-          "application/json": Record<string, never>;
+          "application/json": components["schemas"]["ChannelVideosContinuationDto"];
         };
       };
       404: {
@@ -1064,7 +1082,7 @@ export interface operations {
     responses: {
       200: {
         content: {
-          "application/json": Record<string, never>;
+          "application/json": components["schemas"]["ChannelStatsDto"];
         };
       };
       404: {
