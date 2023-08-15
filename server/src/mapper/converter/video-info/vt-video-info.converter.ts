@@ -62,6 +62,7 @@ export const toVTVideoInfoDto = (
     commentCount: extractCommentCount(videoInfo),
     legacyFormats: extractLegacyFormats(videoInfo),
     dashManifest,
-    dashManifestURI: createDashManifestURI(dashManifest)
+    dashManifestURI: createDashManifestURI(dashManifest),
+    hlsManifestURI: videoInfo.streaming_data?.hls_manifest_url
   };
 };

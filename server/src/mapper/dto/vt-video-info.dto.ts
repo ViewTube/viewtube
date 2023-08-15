@@ -49,6 +49,7 @@ export class VTVideoInfoDto {
   chapters: Array<VTChapterDto>;
   commentCount: number;
   legacyFormats: Array<VTLegacyFormatDto>;
-  dashManifest: string;
-  dashManifestURI: string;
+  dashManifest?: string;
+  dashManifestURI?: string;
+  hlsManifestURI?: string;
 }
