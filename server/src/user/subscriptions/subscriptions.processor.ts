@@ -12,9 +12,19 @@ import { Model } from 'mongoose';
 import { General } from 'server/common/general.schema';
 import { ChannelBasicInfo } from 'server/core/channels/schemas/channel-basic-info.schema';
 import { VideoBasicInfo } from 'server/core/videos/schemas/video-basic-info.schema';
-import { Subscription } from './schemas/subscription.schema';
 import { runSubscriptionsJob } from './subscriptions-job.helper';
 import { Logger } from '@nestjs/common';
+import { ChannelBasicInfoDto } from 'server/core/channels/dto/channel-basic-info.dto';
+import { VideoBasicInfoDto } from 'server/core/videos/dto/video-basic-info.dto';
+
+export interface SubscriptionsQueueParams {
+  userSubscriptions: Array<{
+    subscriptions: Array<{
+      channelId: string;
+    }>;
+  }>;
+  silent?: boolean;
+}
 
 @Processor('subscriptions')
 export class SubscriptionsProcessor {
@@ -29,13 +39,16 @@ export class SubscriptionsProcessor {
   ) {}
 
   @Process()
-  async subscriptionsJob(job: Job<{ userSubscriptions: Array<Subscription> }>) {
+  async subscriptionsJob(job: Job<SubscriptionsQueueParams>) {
     const channelIds = job.data.userSubscriptions.reduce(
       (val, { subscriptions }) => [...val, ...subscriptions.map(e => e.channelId)],
       []
     );
     const uniqueChannelIds = [...new Set<string>(channelIds)];
-    let subscriptionResults = null;
+    let subscriptionResults: {
+      channelResultArray: ChannelBasicInfoDto[];
+      videoResultArray: VideoBasicInfoDto[];
+    } = null;
     try {
       subscriptionResults = await runSubscriptionsJob(uniqueChannelIds, job);
     } catch (error) {
@@ -72,8 +85,10 @@ export class SubscriptionsProcessor {
   }
 
   @OnQueueProgress()
-  onProgress(_job: Job, progress: number) {
-    this.logger.log(`Subscriptions job: ${progress}% done`);
+  onProgress(job: Job<SubscriptionsQueueParams>, progress: number) {
+    if (!job.data.silent) {
+      this.logger.log(`Subscriptions job: ${progress}% done`);
+    }
   }
 
   @OnQueueError()
@@ -82,7 +97,10 @@ export class SubscriptionsProcessor {
   }
 
   @OnQueueCompleted()
-  async onCompleted(job: Job, result: { channelsToUpdate: any; videosToUpdate: any }) {
+  async onCompleted(
+    job: Job<SubscriptionsQueueParams>,
+    result: { channelsToUpdate: any; videosToUpdate: any }
+  ) {
     if (result) {
       try {
         await this.ChannelBasicInfoModel.bulkWrite(result.channelsToUpdate);
@@ -99,20 +117,26 @@ export class SubscriptionsProcessor {
       }
       // this.sendUserNotifications(subscriptionResults.videoResultArray);
 
-      this.logger.log(
-        `Done at ${new Date(job.finishedOn).toISOString().replace('T', ' ')}: ${
-          result.channelsToUpdate.length
-        } channels, ${result.videosToUpdate.length} videos`
-      );
+      if (!job.data.silent) {
+        this.logger.log(
+          `Done at ${new Date(job.finishedOn).toISOString().replace('T', ' ')}: ${
+            result.channelsToUpdate.length
+          } channels, ${result.videosToUpdate.length} videos`
+        );
+      }
     } else {
-      this.logger.log('subscriptions job failed');
+      if (!job.data.silent) {
+        this.logger.log('subscriptions job failed');
+      }
     }
   }
 
   @OnQueueActive()
-  onActive(job: Job) {
-    this.logger.log(
-      `Starting subscriptions job ${job.id} at ${new Date().toISOString().replace('T', ' ')}`
-    );
+  onActive(job: Job<SubscriptionsQueueParams>) {
+    if (!job.data.silent) {
+      this.logger.log(
+        `Starting subscriptions job ${job.id} at ${new Date().toISOString().replace('T', ' ')}`
+      );
+    }
   }
 }

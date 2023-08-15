@@ -46,6 +46,7 @@
     "class-validator": "0.14",
     "cookie-parser": "1.4.6",
     "dayjs": "1.11.9",
+    "fast-xml-parser": "^4.2.7",
     "fastify": "4.21.0",
     "https-proxy-agent": "7.0.1",
     "humanize-duration": "3.29.0",
@@ -68,10 +69,8 @@
     "web-push": "3.6.4",
     "winston": "3.10.0",
     "winston-daily-rotate-file": "4.7.1",
-    "x2js": "3.4.4",
     "xml-js": "1.6.11",
     "youtubei.js": "5.8.0",
-    "yt-channel-info": "git://github.com/FreeTubeApp/yt-channel-info",
     "ytpl": "2.3.0"
   },
   "devDependencies": {

@@ -8,7 +8,7 @@ import { Pinia } from 'pinia';
 export default defineNuxtPlugin(async nuxtApp => {
   const userStore = useUserStore(nuxtApp.$pinia as Pinia);
 
-  const cookies = parseCookieString(nuxtApp.ssrContext.event.req.headers?.cookie);
+  const cookies = parseCookieString(nuxtApp.ssrContext.event.node.req.headers?.cookie);
 
   if (cookies?.Authentication) {
     await userStore.getUser(cookies.Authentication);

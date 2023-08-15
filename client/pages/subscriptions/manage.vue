@@ -2,6 +2,8 @@
 import SectionTitle from '@/components/SectionTitle.vue';
 import Pagination from '@/components/pagination/Pagination.vue';
 import SmallSearchBox from '@/components/SmallSearchBox.vue';
+import BadgeButton from '@/components/buttons/BadgeButton.vue';
+import SubscriptionIO from '@/components/popup/SubscriptionIO.vue';
 import { useMessagesStore } from '@/store/messages';
 
 const messagesStore = useMessagesStore();
@@ -10,6 +12,7 @@ const route = useRoute();
 const imgProxy = useImgProxy();
 const router = useRouter();
 const { vtFetch } = useVtFetch();
+const SubscriptionIOOpen = ref(false);
 
 const currentPage = computed(() => {
   if (route.query.page) {
@@ -33,11 +36,13 @@ const {
 });
 
 watch(error, err => {
-  messagesStore.createMessage({
+  if(error.value) {
+    messagesStore.createMessage({
     type: 'error',
     title: 'Error loading subscriptions',
     message: err?.message ?? 'Error loading subscriptions'
   });
+  }
 });
 
 const pageCount = computed(() => {
@@ -79,6 +84,13 @@ const unsubscribe = (channel: { authorId: any; author: any }): void => {
   });
 };
 
+const closeSubscriptionIO = () => {
+  SubscriptionIOOpen.value = false;
+};
+const onSubscriptionIODone = () => {
+  refresh();
+};
+
 onMounted(() => {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 });
@@ -104,7 +116,16 @@ watch(searchTerm, (newValue, oldValue): void => {
 <template>
   <div class="manage-subscriptions">
     <MetaPageHead title="Manage subscriptions" description="Manage your subscriptions" />
-    <SectionTitle class="page-title" :title="'Manage subscriptions'" :line="false" />
+    <SectionTitle class="page-title" :title="'Manage subscriptions'" :line="false" >    
+      <BadgeButton
+            class="io-subscriptions-btn"
+            :click="() => (SubscriptionIOOpen = true)"
+          >
+            <VTIcon name="mdi:swap-vertical" />
+            <p>Import/Export</p>
+    </BadgeButton>
+  </SectionTitle>          
+
     <SmallSearchBox v-model.lazy="searchTerm" :label="'Filter'" />
     <div v-if="subscriptionChannels" class="channels-container">
       <div
@@ -160,10 +181,19 @@ watch(searchTerm, (newValue, oldValue): void => {
     <div class="manage-pagination">
       <Pagination :current-page="currentPage" :page-count="pageCount" />
     </div>
+    <Teleport to="body">
+      <transition name="fade-down">
+        <SubscriptionIO
+          v-if="SubscriptionIOOpen"
+          @close="closeSubscriptionIO"
+          @done="onSubscriptionIODone"
+        />
+      </transition>
+    </Teleport>
   </div>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .manage-subscriptions {
   margin-top: $header-height;
   overflow: hidden;
@@ -172,11 +202,17 @@ watch(searchTerm, (newValue, oldValue): void => {
   .section-title {
     max-width: $main-width;
     margin: 0 auto;
+    padding: 0 15px;
+    width: 100%;
+    box-sizing: border-box;
   }
 
   .page-title {
     .title {
       margin: 0 0 0 15px !important;
+    }
+    .io-subscriptions-btn{
+      margin-left: auto;
     }
   }
 

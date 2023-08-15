@@ -224,6 +224,9 @@ importers:
       dayjs:
         specifier: 1.11.9
         version: 1.11.9
+      fast-xml-parser:
+        specifier: ^4.2.7
+        version: 4.2.7
       fastify:
         specifier: 4.21.0
         version: 4.21.0
@@ -290,18 +293,12 @@ importers:
       winston-daily-rotate-file:
         specifier: 4.7.1
         version: 4.7.1(winston@3.10.0)
-      x2js:
-        specifier: 3.4.4
-        version: 3.4.4
       xml-js:
         specifier: 1.6.11
         version: 1.6.11
       youtubei.js:
         specifier: 5.8.0
         version: 5.8.0
-      yt-channel-info:
-        specifier: git://github.com/FreeTubeApp/yt-channel-info
-        version: github.com/FreeTubeApp/yt-channel-info/0a6001bf4e7ec0e4aef4f95dded67c8f8ee0f2c4
       ytpl:
         specifier: 2.3.0
         version: 2.3.0
@@ -5096,6 +5093,7 @@ packages:
   /@xmldom/xmldom@0.8.10:
     resolution: {integrity: sha512-2WALfTl4xo2SkGCYRt6rDTFfk9R1czmBvUQy12gK2KuRKIpWEhcbbzy8EZXtz/jkRqHX8bFEc6FC1HjX4TUWYw==}
     engines: {node: '>=10.0.0'}
+    dev: true
 
   /@xtuc/ieee754@1.2.0:
     resolution: {integrity: sha512-DX8nKgqcGwsc0eJSqYt5lwP4DH5FlHnmuWWBRy7X0NcaGR0ZtuyeESgMwTYVEtxmsNGY+qit4QYT/MIYTOTPeA==}
@@ -5429,16 +5427,6 @@ packages:
     dependencies:
       follow-redirects: 1.15.2(debug@4.3.4)
       form-data: 4.0.0
-    transitivePeerDependencies:
-      - debug
-    dev: false
-
-  /axios@1.4.0:
-    resolution: {integrity: sha512-S4XCWMEmzvo64T9GfvQDOXgYRDJ/wsSZc7Jvdgx5u1sd0JwsuPLqb3SYmusag+edF6ziyMensPVqLTSc1PiSEA==}
-    dependencies:
-      follow-redirects: 1.15.2(debug@4.3.4)
-      form-data: 4.0.0
-      proxy-from-env: 1.1.0
     transitivePeerDependencies:
       - debug
     dev: false
@@ -7212,6 +7200,13 @@ packages:
       strnum: 1.0.5
     dev: true
     optional: true
+
+  /fast-xml-parser@4.2.7:
+    resolution: {integrity: sha512-J8r6BriSLO1uj2miOk1NW0YVm8AGOOu3Si2HQp/cSmo6EA4m3fcwu2WKjJ4RK9wMLBtg69y1kS8baDiQBR41Ig==}
+    hasBin: true
+    dependencies:
+      strnum: 1.0.5
+    dev: false
 
   /fastify-plugin@4.5.1:
     resolution: {integrity: sha512-stRHYGeuqpEZTL1Ef0Ovr2ltazUT9g844X5z/zEBFLG8RYlpDiOCIG+ATvYEp+/zmc7sN29mcIMp8gvYplYPIQ==}
@@ -10842,10 +10837,6 @@ packages:
     resolution: {integrity: sha512-F2JHgJQ1iqwnHDcQjVBsq3n/uoaFL+iPW/eAeL7kVxy/2RrWaN4WroKjjvbsoRtv0ftelNyC01bjRhn/bhcf4A==}
     dev: true
 
-  /proxy-from-env@1.1.0:
-    resolution: {integrity: sha512-D+zkORCbA9f1tdWRK0RaCR3GPv50cMxcrz4X8k5LTSUD1Dkw47mKJEZQNunItRTkWwgtaUSo1RVFRIG9ZXiFYg==}
-    dev: false
-
   /prr@1.0.1:
     resolution: {integrity: sha512-yPw4Sng1gWghHQWj0B3ZggWUm4qVbPwPFcRG8KyxiU7J2OHFSoEHKS+EZ3fv5l1t9CyCiop6l/ZYeWbrgoQejw==}
     dev: true
@@ -11637,8 +11628,6 @@ packages:
   /strnum@1.0.5:
     resolution: {integrity: sha512-J8bbNyKKXl5qYcR36TIO8W3mVGVHrmmxsd5PAItGkmyzwJvybiw2IVq5nqd0i4LSNSkB/sx9VHllbfFdr9k1JA==}
     requiresBuild: true
-    dev: true
-    optional: true
 
   /stylehacks@6.0.0(postcss@8.4.27):
     resolution: {integrity: sha512-+UT589qhHPwz6mTlCLSt/vMNTJx8dopeJlZAlBMJPWA3ORqu6wmQY7FBXf+qD+FsqoBJODyqNxOUP3jdntFRdw==}
@@ -12969,6 +12958,7 @@ packages:
     resolution: {integrity: sha512-yG/ThaBCgnsa3aoMPAe7QwDpcyU4D70hjXC4Y1lZSfD/Tgd0MpE19FnZZRAjekryw0c8cffpOt9zsPEiqktO6Q==}
     dependencies:
       '@xmldom/xmldom': 0.8.10
+    dev: true
 
   /xml-js@1.6.11:
     resolution: {integrity: sha512-7rVi2KMfwfWFl+GpPg6m80IVMWXLRjO+PxTq7V2CDhoGak0wzYzFgUY2m4XJ47OGdXd8eLE8EmwfAmdjw7lC1g==}
@@ -13093,13 +13083,3 @@ packages:
       archiver-utils: 2.1.0
       compress-commons: 4.1.1
       readable-stream: 3.6.2
-
-  github.com/FreeTubeApp/yt-channel-info/0a6001bf4e7ec0e4aef4f95dded67c8f8ee0f2c4:
-    resolution: {tarball: https://codeload.github.com/FreeTubeApp/yt-channel-info/tar.gz/0a6001bf4e7ec0e4aef4f95dded67c8f8ee0f2c4}
-    name: yt-channel-info
-    version: 3.2.1
-    dependencies:
-      axios: 1.4.0
-    transitivePeerDependencies:
-      - debug
-    dev: false

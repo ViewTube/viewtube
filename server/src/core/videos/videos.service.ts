@@ -13,7 +13,7 @@ import { Model } from 'mongoose';
 import { DislikeDto } from 'server/core/videos/dto/dislike.dto';
 import undici from 'undici';
 import { BlockedVideo } from 'server/user/admin/schemas/blocked-video';
-import { ofetch } from 'ofetch';
+import { fetch } from 'ofetch';
 import { innertubeClient } from 'server/common/innertube/innertube';
 import { toVTVideoInfoDto } from 'server/mapper/converter/video-info/vt-video-info.converter';
 import { VTVideoInfoDto } from 'server/mapper/dto/vt-video-info.dto';
@@ -89,7 +89,7 @@ export class VideosService {
   }
 
   async saveAuthorImage(imgUrl: string, channelId: string) {
-    const arrBuffer = await ofetch(imgUrl, { method: 'GET' })
+    const arrBuffer = await fetch(imgUrl, { method: 'GET' })
       .then(response => response.arrayBuffer())
       .catch(_ => {
         // Drop errors
