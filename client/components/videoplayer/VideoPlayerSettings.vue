@@ -41,10 +41,14 @@ const recommendedResolution = ref(null);
 const smallQualityLabel = computed(() => {
   if (props.videoQualityList !== undefined && props.renderedVideoQuality !== undefined) {
     const renderedQuality: any = props.videoQualityList[props.renderedVideoQuality];
-    return `${renderedQuality.width}x${renderedQuality.height}`;
+    if (renderedQuality) {
+      return `${renderedQuality.width}x${renderedQuality.height}`;
+    }
   } else if (props.videoQualityList !== undefined && props.selectedVideoQuality !== undefined) {
     const renderedQuality = props.videoQualityList[props.selectedVideoQuality];
-    return `${renderedQuality.width}x${renderedQuality.height}`;
+    if (renderedQuality) {
+      return `${renderedQuality.width}x${renderedQuality.height}`;
+    }
   }
 });
 
@@ -76,7 +80,9 @@ const refreshRecommended = () => {
       const bDiff = Math.abs(b.height - screenHeight);
       return aDiff - bDiff;
     });
-    recommendedResolution.value = sortedResArray[0].qualityIndex;
+    if (sortedResArray?.length > 0) {
+      recommendedResolution.value = sortedResArray?.[0].qualityIndex;
+    }
     emit('refreshrecommended', recommendedResolution.value);
   }
 };

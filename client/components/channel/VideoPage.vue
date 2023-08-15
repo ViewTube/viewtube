@@ -34,7 +34,7 @@ const sortBy = computed<ChannelVideosSortOptionsType | ChannelPlaylistsSortOptio
 </script>
 
 <template>
-  <div v-if="videos?.items.length === 0" class="no-videos">
+  <div v-if="(videos as any)?.items.length === 0" class="no-videos">
     <p>This channel has no {{ entryTypeName }}.</p>
   </div>
   <div v-else class="videos">
@@ -48,11 +48,11 @@ const sortBy = computed<ChannelVideosSortOptionsType | ChannelPlaylistsSortOptio
       </div>
     </div>
     <div v-if="entryType === 'videos'" class="videos-container">
-      <VideoEntry v-for="(video, index) in videos?.items" :key="index" :video="video" hide-author />
+      <VideoEntry v-for="(video, index) in (videos as any)?.items" :key="index" :video="video" hide-author />
     </div>
     <div v-else class="videos-container">
       <PlaylistEntry
-        v-for="(playlist, index) in videos?.items"
+        v-for="(playlist, index) in (videos as any)?.items"
         :key="index"
         :playlist="playlist"
         hide-author
@@ -60,7 +60,7 @@ const sortBy = computed<ChannelVideosSortOptionsType | ChannelPlaylistsSortOptio
     </div>
     <div class="show-more">
       <BadgeButton
-        v-if="videos?.continuation"
+        v-if="(videos as any)?.continuation"
         class="show-more-button"
         :loading="morePending"
         @click.prevent="$emit('load-more')"

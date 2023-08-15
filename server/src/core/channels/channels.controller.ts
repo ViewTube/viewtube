@@ -42,8 +42,8 @@ export class ChannelsController {
   @ApiResponse({ status: 500 })
   @UseInterceptors(CacheInterceptor)
   @CacheTTL(3600000)
-  getChannelInfo(@Param('id') channelId: string): Promise<ChannelInfoDto | ChannelInfoErrorDto> {
-    return this.channelsService.getChannelInfo(channelId);
+  getChannelInfo(@Param('id') channelId: string): Promise<ChannelInfoDto> {
+    return this.channelsService.getChannelInfo(channelId) as Promise<ChannelInfoDto>;
   }
 
   @Header('Cache-Control', 'public, max-age=3600')
@@ -52,8 +52,8 @@ export class ChannelsController {
   @ApiResponse({ status: 500 })
   @UseInterceptors(CacheInterceptor)
   @CacheTTL(3600000)
-  getChannelHome(@Param('id') channelId: string): Promise<ChannelHomeDto | ChannelInfoErrorDto> {
-    return this.channelsService.getChannelHome(channelId);
+  getChannelHome(@Param('id') channelId: string): Promise<ChannelHomeDto> {
+    return this.channelsService.getChannelHome(channelId) as Promise<ChannelHomeDto>;
   }
 
   @Header('Cache-Control', 'public, max-age=3600')
@@ -77,8 +77,10 @@ export class ChannelsController {
   @CacheTTL(3600000)
   getChannelVideosContinuation(
     @Query('continuation') continuation: string
-  ): Promise<ChannelVideosContinuationDto | ChannelInfoErrorDto> {
-    return this.channelsService.getChannelVideosContinuation(continuation);
+  ): Promise<ChannelVideosContinuationDto> {
+    return this.channelsService.getChannelVideosContinuation(
+      continuation
+    ) as Promise<ChannelVideosContinuationDto>;
   }
 
   @Header('Cache-Control', 'public, max-age=3600')
@@ -195,7 +197,7 @@ export class ChannelsController {
   @ApiResponse({ status: 500 })
   @UseInterceptors(CacheInterceptor)
   @CacheTTL(3600000)
-  getChannelStats(@Param('id') channelId: string): Promise<ChannelStatsDto | ChannelInfoErrorDto> {
-    return this.channelsService.getChannelStats(channelId);
+  getChannelStats(@Param('id') channelId: string): Promise<ChannelStatsDto> {
+    return this.channelsService.getChannelStats(channelId) as Promise<ChannelStatsDto>;
   }
 }

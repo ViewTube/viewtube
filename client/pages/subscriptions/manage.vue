@@ -9,7 +9,7 @@ import { useMessagesStore } from '@/store/messages';
 const messagesStore = useMessagesStore();
 const { apiUrl } = useApiUrl();
 const route = useRoute();
-const imgProxy = useImgProxy();
+const { proxyUrl } = useImgProxy();
 const router = useRouter();
 const { vtFetch } = useVtFetch();
 const SubscriptionIOOpen = ref(false);
@@ -36,12 +36,12 @@ const {
 });
 
 watch(error, err => {
-  if(error.value) {
+  if (error.value) {
     messagesStore.createMessage({
-    type: 'error',
-    title: 'Error loading subscriptions',
-    message: err?.message ?? 'Error loading subscriptions'
-  });
+      type: 'error',
+      title: 'Error loading subscriptions',
+      message: err?.message ?? 'Error loading subscriptions'
+    });
   }
 });
 
@@ -116,15 +116,12 @@ watch(searchTerm, (newValue, oldValue): void => {
 <template>
   <div class="manage-subscriptions">
     <MetaPageHead title="Manage subscriptions" description="Manage your subscriptions" />
-    <SectionTitle class="page-title" :title="'Manage subscriptions'" :line="false" >    
-      <BadgeButton
-            class="io-subscriptions-btn"
-            :click="() => (SubscriptionIOOpen = true)"
-          >
-            <VTIcon name="mdi:swap-vertical" />
-            <p>Import/Export</p>
-    </BadgeButton>
-  </SectionTitle>          
+    <SectionTitle class="page-title" :title="'Manage subscriptions'" :line="false">
+      <BadgeButton class="io-subscriptions-btn" :click="() => (SubscriptionIOOpen = true)">
+        <VTIcon name="mdi:swap-vertical" />
+        <p>Import/Export</p>
+      </BadgeButton>
+    </SectionTitle>
 
     <SmallSearchBox v-model.lazy="searchTerm" :label="'Filter'" />
     <div v-if="subscriptionChannels" class="channels-container">
@@ -155,10 +152,9 @@ watch(searchTerm, (newValue, oldValue): void => {
         >
           <img
             :src="
-              imgProxy.url +
-              (channel.authorThumbnailUrl
+              channel.authorThumbnailUrl
                 ? `${apiUrl}${channel.authorThumbnailUrl}`
-                : channel.authorThumbnails[2].url)
+                : proxyUrl(channel.authorThumbnails[2].url)
             "
             class="channel-image"
             alt="Channel profile image"
@@ -211,7 +207,7 @@ watch(searchTerm, (newValue, oldValue): void => {
     .title {
       margin: 0 0 0 15px !important;
     }
-    .io-subscriptions-btn{
+    .io-subscriptions-btn {
       margin-left: auto;
     }
   }
