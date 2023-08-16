@@ -116,16 +116,16 @@
       </h1>
       <div v-if="!subscriptionsToImport" class="pages-container" :class="{ 'page-2': page2 }">
         <div class="export-buttons">
-          <BadgeButton :disabled="true" @change="exportVT">
+          <BadgeButton :click="exportVT">
             <VTIcon name="mdi:play" /> ViewTube
           </BadgeButton>
-          <BadgeButton :disabled="true" @change="exportOPML"
+          <BadgeButton  :click="exportOPML"
             ><VTIcon name="mdi:xml" /> Invidious / OPML
           </BadgeButton>
-          <BadgeButton :disabled="true" @change="exportPiped">
+          <BadgeButton :click="exportPiped">
             <VTIcon name="mdi:pipe" /> Piped
           </BadgeButton>
-          <BadgeButton :disabled="true" @change="exportNewPipe"
+          <BadgeButton :click="exportNewPipe"
             ><VTIcon name="mdi:pipe-valve" /> NewPipe</BadgeButton
           >
         </div>
@@ -248,7 +248,7 @@ export default defineComponent({
       const fileReader = new FileReader();
       fileReader.onload = () => {
         if (e.target.files[0].name.includes('.json')) {
-          subscriptionsToImport.value = convertJSONPipedToInternal(fileReader.result as string);
+          subscriptionsToImport.value = convertJSONToInternal(fileReader.result as string);
         }
         if (subscriptionsToImport.value === undefined) {
           messagesStore.createMessage({
@@ -333,8 +333,59 @@ export default defineComponent({
       fileReader.readAsText(e.target.files[0]);
     };
 
-    const exportVT = () => {};
-    const exportOPML = () => {};
+    const exportVT = () => {
+      useGetUserSubscriptionChannels({
+        limit: 0,
+        searchTerm: null
+      }).then( result => {
+        if(result.error.value){
+          console.log(result.error.value)
+          return
+        }
+        const mappedChannels = result.data.value.channels.map((channel) => {
+          return { 
+            author: channel.author, 
+            authorId: channel.authorId 
+          }
+        });
+        
+        const jsonData = JSON.stringify(mappedChannels);
+        //trigger download of json file
+        const element = document.createElement('a');
+        const file = new Blob([jsonData], {type: 'application/json'});
+        element.href = URL.createObjectURL(file);
+        element.download = 'subscriptions.json';
+        document.body.appendChild(element);
+        element.click();
+      });
+    };
+    const exportOPML = () => {
+      useGetUserSubscriptionChannels({
+        limit: 0,
+        searchTerm: null
+      }).then( result => {
+        if(result.error.value){
+          console.log(result.error.value)
+          return
+        }
+        
+        const xml = convertFromInternalToOPML(result.data.value.channels.map((channel) => {
+          return { 
+            author: channel.author, 
+            authorId: channel.authorId,
+            selected: true
+          }
+        }));
+
+        //trigger download of json file
+        const element = document.createElement('a');
+        const file = new Blob([xml], {type: 'application/xml'});
+        element.href = URL.createObjectURL(file);
+        element.download = 'subscriptions.xml';
+        document.body.appendChild(element);
+        element.click();
+      });
+    };
     const exportPiped = () => {};
     const exportNewPipe = () => {};
 
