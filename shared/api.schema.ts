@@ -576,6 +576,7 @@ export interface components {
       autoAdjustAudioQuality: boolean;
       autoAdjustVideoQuality: boolean;
       dashPlaybackEnabled: boolean;
+      rewriteYouTubeURLs: boolean;
     };
     UserprofileDto: {
       username: string;

@@ -76,6 +76,9 @@ export class Settings extends Document implements SettingsDto {
 
   @Prop()
   dashPlaybackEnabled: boolean;
+
+  @Prop()
+  rewriteYouTubeURLs: boolean;
 }
 
 export const SettingsSchema = SchemaFactory.createForClass(Settings);
