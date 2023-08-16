@@ -9,6 +9,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Basic fix for livestreams [#2157](https://github.com/ViewTube/viewtube/pull/2157)
 - Fix subscription search (Thanks @cyacedev) [#2159](https://github.com/ViewTube/viewtube/pull/2159)
+- Fix rate limit for proxy [#2165](https://github.com/ViewTube/viewtube/pull/2165)
+- Fix the ability to upload a profile image [#2161](https://github.com/ViewTube/viewtube/pull/2161)
+
+### Added
+
+- Option to rewrite YouTube URIs in descriptions to ViewTube URIs (Thanks @cyacedev) [#2164](https://github.com/ViewTube/viewtube/pull/2164)
+- Add capability to export subscriptions (Thanks @cyacedev) [#2162](https://github.com/ViewTube/viewtube/pull/2162)
 
 ## [0.12.0]
 
@@ -293,7 +300,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial release
 
-[unreleased]: https://github.com/viewtube/viewtube/compare/v0.12.0...development
+[unreleased]: https://github.com/viewtube/viewtube/compare/v0.12.1...development
+[0.12.1]: https://github.com/viewtube/viewtube/compare/v0.12.0...v0.12.1
 [0.12.0]: https://github.com/viewtube/viewtube/compare/v0.11.0...v0.12.0
 [0.11.0]: https://github.com/viewtube/viewtube/compare/v0.10.0...v0.11.0
 [0.10.0]: https://github.com/viewtube/viewtube/compare/v0.9.1...v0.10.0
