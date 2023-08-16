@@ -108,6 +108,7 @@ watch(searchTerm, (newValue, oldValue): void => {
     if (newValue !== null && newValue.trim() !== oldValue.trim()) {
       router.push(route.path);
       searchTermValue.value = newValue.trim();
+      refresh();
     }
   }, 500);
 });
