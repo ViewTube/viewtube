@@ -112,15 +112,23 @@ export class UserService {
         if (extMatch && extMatch[1]) {
           extension = extMatch[1];
         }
+        let folderPath = 'profiles';
         let imgPath = `profiles/${username}.${extension}`;
 
         if (global.__basedir) {
           // eslint-disable-next-line dot-notation
           imgPath = path.join(global.__basedir, imgPath);
+          folderPath = path.join(global.__basedir, folderPath);
         }
 
         if (fileTooLarge) {
           throw new BadRequestException('The file is too large');
+        }
+
+        try {
+          await fs.promises.mkdir(folderPath, { recursive: true });
+        } catch (error) {
+          this.logger.log(error);
         }
 
         const writeFile = promisify(fs.writeFile);

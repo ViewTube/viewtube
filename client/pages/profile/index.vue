@@ -85,9 +85,6 @@ const onProfileImageChange = (e: any) => {
   vtFetch<{ path: string }>(`${apiUrl.value}user/profile/image`, {
     method: 'POST',
     body: formData,
-    headers: {
-      'Content-Type': 'multipart/form-data'
-    },
     credentials: 'include'
   })
     .then(response => {
