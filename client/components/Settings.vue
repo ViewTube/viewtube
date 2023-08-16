@@ -196,6 +196,16 @@ const videoQualities = ['144p', '240p', '360p', '720p', '1080p', '1440p', '2160p
         @valuechange="val => settingsStore.setShowHomeSubscriptions(val)"
       />
 
+      <h2><VTIcon name="mdi:auto-fix" />QoL</h2>
+      <SwitchButton
+        :value="settingsStore.rewriteYouTubeURLs"
+        :label="'Rewrite YouTube URLs'"
+        :small-label="'Will replace YouTube-URLs for the current ViewTube instance in video descriptions'"
+        :disabled="false"
+        :right="true"
+        @valuechange="val => settingsStore.setRewriteYouTubeURLs(val)"
+      />
+
       <h2><VTIcon name="mdi:television" />Videoplayer</h2>
       <div class="settings-dropdown-menu">
         <div class="quality-label">

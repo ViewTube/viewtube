@@ -77,6 +77,11 @@ const {
       }).catch(_ => {});
     }
   }
+  
+  if(settingsStore.rewriteYouTubeURLs){
+    console.log(value.description);
+    value.description = value.description.replace("https://www.youtube.com", window.location.host);
+  }
 
   return { ...value, initialVideoTime };
 });
