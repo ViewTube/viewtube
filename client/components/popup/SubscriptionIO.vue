@@ -123,13 +123,9 @@
             ><VTIcon name="mdi:xml" /> Invidious / OPML
           </BadgeButton>
           <BadgeButton :click="exportPiped">
-            <VTIcon name="mdi:pipe" /> Piped
+            <VTIcon name="mdi:pipe" /> Piped / Newpipe
           </BadgeButton>
-          <BadgeButton :click="exportNewPipe"
-            ><VTIcon name="mdi:pipe-valve" /> NewPipe</BadgeButton
-          >
         </div>
-        <p class="not-available">Not available yet</p>
       </div>
     </div>
     <div class="settings-overlay popup-overlay" @click.stop="onTryClosePopup" />
@@ -350,13 +346,7 @@ export default defineComponent({
         });
         
         const jsonData = JSON.stringify(mappedChannels);
-        //trigger download of json file
-        const element = document.createElement('a');
-        const file = new Blob([jsonData], {type: 'application/json'});
-        element.href = URL.createObjectURL(file);
-        element.download = 'subscriptions.json';
-        document.body.appendChild(element);
-        element.click();
+        triggerDownload('subscriptions.json', jsonData, 'application/json')
       });
     };
     const exportOPML = () => {
@@ -377,17 +367,42 @@ export default defineComponent({
           }
         }));
 
-        //trigger download of json file
-        const element = document.createElement('a');
-        const file = new Blob([xml], {type: 'application/xml'});
-        element.href = URL.createObjectURL(file);
-        element.download = 'subscriptions.xml';
-        document.body.appendChild(element);
-        element.click();
+        triggerDownload('subscriptions.xml', xml, 'application/xml');
       });
     };
-    const exportPiped = () => {};
-    const exportNewPipe = () => {};
+    const exportPiped = () => {
+      useGetUserSubscriptionChannels({
+        limit: 0,
+        searchTerm: null
+      }).then( result => {
+        if(result.error.value){
+          console.log(result.error.value)
+          return
+        }
+        const mappedChannels = result.data.value.channels.map((channel) => {
+          return {
+            url: `https://www.youtube.com/channel/${channel.authorId}`,
+            name: channel.author, 
+            service_id: 0
+          }
+        });
+        const jsonData = JSON.stringify({
+          app_version: "",
+          app_version_int: 0,
+          subscriptions: mappedChannels
+        });
+        triggerDownload('subscriptions.json', jsonData, 'application/json')
+      });
+    };
+
+    const triggerDownload = (filename: string, text: string, type: string) => {
+      const element = document.createElement('a');
+      const file = new Blob([text], {type: type});
+      element.href = URL.createObjectURL(file);
+      element.download = filename;
+      document.body.appendChild(element);
+      element.click();
+    };
 
     const channelCheckBoxChanged = (newValue: any, channelId: any) => {
       subscriptionsToImport.value.find(
@@ -446,7 +461,6 @@ export default defineComponent({
       exportVT,
       exportOPML,
       exportPiped,
-      exportNewPipe,
       onTryClosePopup,
       onImportFileChange,
       onYTTakeoutFileChange,
