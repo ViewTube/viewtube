@@ -21,10 +21,17 @@ const logoutPopup = ref(false);
 const deleteAccountPopup = ref(false);
 const actionsOpen = ref(false);
 const repeatedUsername = ref('');
-const profileImageUrl = ref(null);
 const profileImageLoading = ref(false);
 const passwordChangePopup = ref(false);
-
+const profileImageUrl = computed(() => {
+  if (profile.value.profileImage) {
+    const imgUrl = profile.value.profileImage.replace('/api/', '');
+    const random = Math.random() * (0 - 1000) + 0;
+    return `${apiUrl.value}${imgUrl}?r=${random}`;
+  } else {
+    return null;
+  }
+});
 const { data: profile, error, pending } = useGetUserProfileDetails();
 
 watch(error, () => {
@@ -94,7 +101,7 @@ const onProfileImageChange = (e: any) => {
           title: 'New profile image',
           message: 'Successfully set new profile image'
         });
-        setProfileImageUrl(response.path);
+        profile.value.profileImage = response.path;
         profileImageLoading.value = false;
       }
     })
@@ -132,7 +139,7 @@ const deleteProfileImage = () => {
         title: 'Profile image deleted',
         message: 'Profile image successfully deleted'
       });
-      setProfileImageUrl(null);
+      profile.value.profileImage = null;
     })
     .catch(() => {
       messagesStore.createMessage({
@@ -148,16 +155,6 @@ const deleteAccountValid = computed(() => {
 const logout = () => {
   userStore.logout();
   router.push('/');
-};
-
-const setProfileImageUrl = (url: string): void => {
-  if (url) {
-    const imgUrl = url.replace('/api/', '');
-    const random = Math.random() * (0 - 1000) + 0;
-    profileImageUrl.value = `${apiUrl.value}${imgUrl}?r=${random}`;
-  } else {
-    profileImageUrl.value = null;
-  }
 };
 </script>
 
