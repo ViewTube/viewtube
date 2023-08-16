@@ -7,19 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- Basic fix for livestreams [#]
+- Basic fix for livestreams [#2157](https://github.com/ViewTube/viewtube/pull/2157)
+- Fix subscription search (Thanks @cyacedev) [#2159](https://github.com/ViewTube/viewtube/pull/2159)
 
 ## [0.12.0]
 
 ### Fixed
 
-- Properly format author name in watch page title (thanks to @mattfbacon) [#2147](https://github.com/ViewTube/viewtube/pull/2147)
+- Properly format author name in watch page title (Thanks @mattfbacon) [#2147](https://github.com/ViewTube/viewtube/pull/2147)
 - Don't rate limit client [#2149](https://github.com/ViewTube/viewtube/pull/2149)
 - Fix subscription job [#2151](https://github.com/ViewTube/viewtube/pull/2151)
 
 ### Added
 
-- New subscription importing experience (thanks to @cyacedev) [#2151](https://github.com/ViewTube/viewtube/pull/2151)
+- New subscription importing experience (Thanks @cyacedev) [#2151](https://github.com/ViewTube/viewtube/pull/2151)
 
 ## [0.11.0] - 2023-08-11
 
@@ -109,7 +110,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - High quality video support using MPEG-DASH [#912](https://github.com/ViewTube/viewtube/pull/912)
 - Video player keybindings [#932](https://github.com/ViewTube/§/pull/932)
-- Add CSV import for youtube takeout format (thanks to @cyacedev) [#984](https://github.com/ViewTube/viewtube/pull/984)
+- Add CSV import for youtube takeout format (Thanks @cyacedev) [#984](https://github.com/ViewTube/viewtube/pull/984)
 - Add healthcheck for docker [45ceb45](https://github.com/ViewTube/viewtube/commit/45ceb454ab203fba1d9ee18ee3a584112ab5a6de)
 - Switched to a yarn 2 monorepo using pnp [#988](https://github.com/ViewTube/viewtube/pull/988)
 - Reduce required environment variables [#1067](https://github.com/ViewTube/viewtube/pull/1067)
