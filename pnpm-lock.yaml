@@ -54,8 +54,8 @@ importers:
         specifier: 0.55.1
         version: 0.55.1(postcss@8.4.27)(vite@4.4.9)(webpack@5.88.2)
       '@unocss/preset-icons':
-        specifier: 0.55.0
-        version: 0.55.0
+        specifier: 0.55.1
+        version: 0.55.1
       consola:
         specifier: 3.2.3
         version: 3.2.3
@@ -4568,10 +4568,6 @@ packages:
       unconfig: 0.3.10
     dev: true
 
-  /@unocss/core@0.55.0:
-    resolution: {integrity: sha512-TcTugpuhsv6OwMsP3iFIG8FVc9N5JzkojIGNAKF8I2WBftZ//3QcpEHiHc1mH3MlPYfJgUvCcT6/Gad55qmHzg==}
-    dev: true
-
   /@unocss/core@0.55.1:
     resolution: {integrity: sha512-hZffURZtvH72UvobL9anzE1t7PDldBa89fxWVIsjLb8KHReNfcOv8uEepce0ODUfGrdWPbij017XG/HY5YUexg==}
     dev: true
@@ -4632,16 +4628,6 @@ packages:
     resolution: {integrity: sha512-DX3PMeW0atZiCu3YULVbVAhuvy2bx27hAbE9Wo+QGs+MY0hK6+ilsWqsDzNmScHze5zW2HlNwucdtPs8TiV7dA==}
     dependencies:
       '@unocss/core': 0.55.1
-    dev: true
-
-  /@unocss/preset-icons@0.55.0:
-    resolution: {integrity: sha512-BeseXUz2WFRztLtfblGhpFBJkgKi8k7tKPyEx/QX2I/xhQNsXqfWqeiCEVLxrEI3HxXOZPV1G4idCCbBiZQ3ww==}
-    dependencies:
-      '@iconify/utils': 2.1.7
-      '@unocss/core': 0.55.0
-      ofetch: 1.1.1
-    transitivePeerDependencies:
-      - supports-color
     dev: true
 
   /@unocss/preset-icons@0.55.1:

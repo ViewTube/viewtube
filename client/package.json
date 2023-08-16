@@ -26,7 +26,7 @@
     "@typescript-eslint/eslint-plugin": "6.4.0",
     "@typescript-eslint/parser": "6.4.0",
     "@unocss/nuxt": "0.55.1",
-    "@unocss/preset-icons": "0.55.0",
+    "@unocss/preset-icons": "0.55.1",
     "consola": "3.2.3",
     "cross-env": "7.0.3",
     "dashjs": "4.7.1",
