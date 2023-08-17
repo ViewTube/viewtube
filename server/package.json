@@ -23,7 +23,7 @@
     "@fastify/helmet": "11.0.0",
     "@fastify/multipart": "7.7.3",
     "@fastify/static": "6.10.2",
-    "@fastify/swagger": "8.8.0",
+    "@fastify/swagger": "8.9.0",
     "@freetube/yt-comment-scraper": "6.2.0",
     "@nestjs/bull": "10.0.1",
     "@nestjs/cache-manager": "2.1.0",
