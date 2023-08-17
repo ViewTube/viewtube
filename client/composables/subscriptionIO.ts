@@ -5,6 +5,7 @@ export const useSubscriptionIO = () => {
   const messagesStore = useMessagesStore();
 
   const getMergedImports = (imports: Array<any>) => {
+    if (!imports) return [];
     return imports.map((el: { channelId: any }) => {
       const authorObj = subscriptionsToImport.value.find(
         (val: { authorId: any }) => val.authorId === el.channelId

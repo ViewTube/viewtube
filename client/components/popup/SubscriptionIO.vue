@@ -17,7 +17,7 @@ const emit = defineEmits<{
   (e: 'close'): void;
 }>();
 
-const messagesStore = useMessagesStore();
+const { data: userSubscriptions, refresh } = useGetUserSubscriptionChannels();
 const { apiUrl } = useApiUrl();
 const { vtFetch } = useVtFetch();
 
@@ -35,26 +35,17 @@ const anySelectedChannel = computed((): boolean => {
   return !(selectedChannels.value.length > 0);
 });
 
-const successfulMergedImports = computed((): Array<ChannelDto> => {
-  if (importedSubscriptions.value?.successful) {
-    return getMergedImports(importedSubscriptions.value.successful);
-  }
-  return [];
-});
+const successfulMergedImports = computed(
+  (): Array<ChannelDto> => getMergedImports(importedSubscriptions.value?.successful)
+);
 
-const existingMergedImports = computed((): Array<ChannelDto> => {
-  if (importedSubscriptions.value?.existing) {
-    return getMergedImports(importedSubscriptions.value.existing);
-  }
-  return [];
-});
+const existingMergedImports = computed(
+  (): Array<ChannelDto> => getMergedImports(importedSubscriptions.value?.existing)
+);
 
-const failedMergedImports = computed((): Array<ChannelDto> => {
-  if (importedSubscriptions.value?.failed) {
-    return getMergedImports(importedSubscriptions.value.failed);
-  }
-  return [];
-});
+const failedMergedImports = computed(
+  (): Array<ChannelDto> => getMergedImports(importedSubscriptions.value?.failed)
+);
 
 const onTryClosePopup = () => {
   if (!(page2.value || page2.value)) {
@@ -62,26 +53,12 @@ const onTryClosePopup = () => {
   }
 };
 
-const onImportFileChange = (e: any) => {
-  const extension = e.target.files[0].name.split('.').pop();
-  switch (extension) {
-    case 'csv':
-      onYTTakeoutFileChange(e);
-      break;
-    case 'json':
-      onJSONPipedFileChange(e);
-      break;
-    case 'opml':
-    case 'xml':
-    default:
-      onOPMLFileChange(e);
-      break;
-  }
-};
-
-const onJSONPipedFileChange = async (e: any) => {
+const onImportFileChange = async (e: any) => {
   loading.value = true;
-  const subscriptions = await getSubscriptionsToImport(e.target.files[0], 'json');
+  const file = e.target.files[0];
+  const extension = file.name.split('.').pop();
+
+  const subscriptions = await getSubscriptionsToImport(file, extension);
   if (subscriptions) {
     subscriptionsToImport.value = subscriptions;
     page2.value = true;
@@ -89,92 +66,47 @@ const onJSONPipedFileChange = async (e: any) => {
   loading.value = false;
 };
 
-const onYTTakeoutFileChange = async (e: any) => {
-  loading.value = true;
-  const subscriptions = await getSubscriptionsToImport(e.target.files[0], 'csv');
-  if (subscriptions) {
-    subscriptionsToImport.value = subscriptions;
-    page2.value = true;
-  }
-  loading.value = false;
+const exportVT = async () => {
+  await refresh();
+  await nextTick();
+  const mappedChannels = userSubscriptions.value?.channels?.map(({ author, authorId }) => ({
+    author,
+    authorId
+  }));
+  if (!mappedChannels) return;
+  const jsonData = JSON.stringify(mappedChannels);
+  triggerDownload('subscriptions.json', jsonData, 'application/json');
 };
 
-const onOPMLFileChange = async (e: any) => {
-  loading.value = true;
-  const subscriptions = await getSubscriptionsToImport(e.target.files[0], 'opml');
-  if (subscriptions) {
-    subscriptionsToImport.value = subscriptions;
-    page2.value = true;
-  }
-  loading.value = false;
+const exportOPML = async () => {
+  await refresh();
+  await nextTick();
+  const xml = convertFromInternalToOPML(
+    userSubscriptions.value?.channels?.map(({ author, authorId }) => ({
+      author,
+      authorId,
+      selected: true
+    }))
+  );
+  if (!xml) return;
+  triggerDownload('subscriptions.xml', xml, 'application/xml');
 };
 
-const exportVT = () => {
-  useGetUserSubscriptionChannels({
-    limit: 0,
-    searchTerm: null
-  }).then(result => {
-    if (result.error.value) {
-      console.log(result.error.value);
-      return;
-    }
-    const mappedChannels = result.data.value.channels.map(channel => {
-      return {
-        author: channel.author,
-        authorId: channel.authorId
-      };
-    });
-
-    const jsonData = JSON.stringify(mappedChannels);
-    triggerDownload('subscriptions.json', jsonData, 'application/json');
+const exportPiped = async () => {
+  await refresh();
+  await nextTick();
+  const mappedChannels = userSubscriptions.value?.channels?.map(({ author, authorId }) => ({
+    url: `https://www.youtube.com/channel/${authorId}`,
+    name: author,
+    service_id: 0
+  }));
+  if (!mappedChannels) return;
+  const jsonData = JSON.stringify({
+    app_version: '',
+    app_version_int: 0,
+    subscriptions: mappedChannels
   });
-};
-const exportOPML = () => {
-  useGetUserSubscriptionChannels({
-    limit: 0,
-    searchTerm: null
-  }).then(result => {
-    if (result.error.value) {
-      console.log(result.error.value);
-      return;
-    }
-
-    const xml = convertFromInternalToOPML(
-      result.data.value.channels.map(channel => {
-        return {
-          author: channel.author,
-          authorId: channel.authorId,
-          selected: true
-        };
-      })
-    );
-
-    triggerDownload('subscriptions.xml', xml, 'application/xml');
-  });
-};
-const exportPiped = () => {
-  useGetUserSubscriptionChannels({
-    limit: 0,
-    searchTerm: null
-  }).then(result => {
-    if (result.error.value) {
-      console.log(result.error.value);
-      return;
-    }
-    const mappedChannels = result.data.value.channels.map(channel => {
-      return {
-        url: `https://www.youtube.com/channel/${channel.authorId}`,
-        name: channel.author,
-        service_id: 0
-      };
-    });
-    const jsonData = JSON.stringify({
-      app_version: '',
-      app_version_int: 0,
-      subscriptions: mappedChannels
-    });
-    triggerDownload('subscriptions.json', jsonData, 'application/json');
-  });
+  triggerDownload('subscriptions.json', jsonData, 'application/json');
 };
 
 const triggerDownload = (filename: string, text: string, type: string) => {
@@ -203,28 +135,27 @@ const unselectAll = () => {
   });
 };
 
-const importSelected = () => {
+const importSelected = async () => {
   loading.value = true;
   const subscriptions = selectedChannels.value;
-  const subscriptionIds = subscriptions.map(e => {
-    return {
-      channelId: e.authorId,
-      name: e.author
-    };
-  });
-  vtFetch(`${apiUrl.value}user/subscriptions/multiple`, {
+  const subscriptionIds = subscriptions.map(({ author, authorId }) => ({
+    channelId: authorId,
+    name: author
+  }));
+
+  const response = await vtFetch(`${apiUrl.value}user/subscriptions/multiple`, {
     method: 'POST',
     body: {
       channels: subscriptionIds
     },
     credentials: 'include'
-  }).then(response => {
-    page2.value = false;
-    page3.value = true;
-    loading.value = false;
-    importedSubscriptions.value = response;
-    emit('done');
   });
+
+  page2.value = false;
+  page3.value = true;
+  loading.value = false;
+  importedSubscriptions.value = response;
+  emit('done');
 };
 </script>
 

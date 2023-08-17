@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 
-type MessageType = {
+export type MessageType = {
   id: number;
   type: 'info' | 'error';
   title: string;

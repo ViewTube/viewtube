@@ -8,6 +8,7 @@ type Subscription = {
 };
 
 export const convertFromOPMLToJson = (opml: string): Subscription[] => {
+  if (!opml) return;
   const x2js = new X2js();
   const jsonString: any = x2js.xml2js(opml);
 
@@ -15,13 +16,14 @@ export const convertFromOPMLToJson = (opml: string): Subscription[] => {
     const channelArray: Object[] = jsonString.opml.body.outline.outline;
     const mappedChannelArray = mapOPML(channelArray);
     return mappedChannelArray;
-  } 
+  }
 };
 
 export const convertFromInternalToOPML = (subscriptions: Subscription[]): string => {
+  if (!subscriptions) return;
   const x2js = new X2js();
   const channelArray = subscriptions.map((subscription: Subscription) => {
-    if(subscription.author.includes('|')) {
+    if (subscription.author.includes('|')) {
       const authorArray = subscription.author.split('|');
       return {
         _text: authorArray[0],
@@ -47,11 +49,12 @@ export const convertFromInternalToOPML = (subscriptions: Subscription[]): string
     }
   };
   const xml = x2js.js2xml(jsonObject);
-  console.log(xml)
+  console.log(xml);
   return xml;
 };
 
 export const convertFromCSVToJson = (csv: string): Subscription[] => {
+  if (!csv) return;
   const result = PapaParse.parse(csv, { header: false, skipEmptyLines: true });
   result.data.splice(0, 1);
   if (result.data[0] !== undefined) {
@@ -60,8 +63,10 @@ export const convertFromCSVToJson = (csv: string): Subscription[] => {
 };
 
 export const convertJSONToInternal = (json: string): Subscription[] => {
+  if (!json) return;
   const parsedJson = JSON.parse(json);
-  if(parsedJson.subscriptions === undefined) { //VT internal format
+  if (parsedJson.subscriptions === undefined) {
+    //VT internal format
     return parsedJson.map((element: { author: string; authorId: string }) => {
       return {
         author: element.author,
@@ -70,8 +75,8 @@ export const convertJSONToInternal = (json: string): Subscription[] => {
       };
     });
   }
-  return parsedJson.subscriptions.map((element: { url: string; name: string }) => { 
-    return {  
+  return parsedJson.subscriptions.map((element: { url: string; name: string }) => {
+    return {
       author: element.name,
       authorId: element.url.match(/(.*\/channel\/)(.*[^\\/])\/?/i)[2],
       selected: false

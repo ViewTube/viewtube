@@ -1,3 +1,55 @@
+<script setup lang="ts">
+import { MessageType, useMessagesStore } from '~/store/messages';
+
+const props = defineProps<{
+  message: MessageType;
+}>();
+
+const messagesStore = useMessagesStore();
+
+const dismissedRight = ref(false);
+const dismissedLeft = ref(false);
+const dismissTimeout = ref(null);
+const isInteractAnimating = ref(true);
+const interactPosition = reactive({
+  x: 0,
+  y: 0
+});
+const swipeOpacity = ref(1);
+
+const transformString = computed(() => {
+  if (!isInteractAnimating.value) {
+    const { x, y } = interactPosition;
+    return `translate3D(${x}px, ${y}px, 0)`;
+  }
+  return '';
+});
+
+const dismissMessage = () => {
+  dismissedRight.value = true;
+  swipeOpacity.value = 0;
+  setTimeout(() => {
+    if (props.message && props.message.id) {
+      messagesStore.dismissMessage(props.message.id);
+    }
+  }, 600);
+};
+const onMessageClick = async () => {
+  if (dismissTimeout.value) {
+    clearTimeout(dismissTimeout.value);
+    dismissTimeout.value = null;
+  }
+  if (props.message.clickAction) {
+    await props.message.clickAction();
+    dismissMessage();
+  }
+};
+
+if (props.message.dismissDelay > 0) {
+  dismissTimeout.value = setTimeout(dismissMessage, props.message.dismissDelay);
+}
+</script>
+
 <template>
   <div
     ref="interactElement"
@@ -36,75 +88,6 @@
   </div>
 </template>
 
-<script lang="ts">
-import { useMessagesStore } from '~/store/messages';
-
-export default defineComponent({
-  name: 'MessageBox',
-  props: {
-    message: {
-      type: Object
-    }
-  },
-  setup(props) {
-    const messagesStore = useMessagesStore();
-
-    const dismissedRight = ref(false);
-    const dismissedLeft = ref(false);
-    const dismissTimeout = ref(null);
-    const isInteractAnimating = ref(true);
-    const interactPosition = reactive({
-      x: 0,
-      y: 0
-    });
-    const swipeOpacity = ref(1);
-
-    const transformString = computed(() => {
-      if (!isInteractAnimating.value) {
-        const { x, y } = interactPosition;
-        return `translate3D(${x}px, ${y}px, 0)`;
-      }
-      return '';
-    });
-
-    const dismissMessage = () => {
-      dismissedRight.value = true;
-      swipeOpacity.value = 0;
-      setTimeout(() => {
-        if (props.message && props.message.id) {
-          messagesStore.dismissMessage(props.message.id);
-        }
-      }, 600);
-    };
-    const onMessageClick = async () => {
-      if (dismissTimeout.value) {
-        clearTimeout(dismissTimeout.value);
-        dismissTimeout.value = null;
-      }
-      if (props.message.clickAction) {
-        await props.message.clickAction();
-        dismissMessage();
-      }
-    };
-
-    if (props.message.dismissDelay > 0) {
-      dismissTimeout.value = setTimeout(dismissMessage, props.message.dismissDelay);
-    }
-
-    return {
-      dismissedRight,
-      dismissedLeft,
-      dismissTimeout,
-      isInteractAnimating,
-      swipeOpacity,
-      transformString,
-      dismissMessage,
-      onMessageClick
-    };
-  }
-});
-</script>
-
 <style lang="scss" scoped>
 .message-box {
   width: 400px;
@@ -119,11 +102,17 @@ export default defineComponent({
   overflow: hidden;
 
   &.is-animating {
-    transition: transform 300ms, opacity 600ms;
+    transition:
+      transform 300ms,
+      opacity 600ms;
   }
 
   &.dismissed-right {
-    transition: transform 300ms, font-size 300ms 300ms, margin 300ms 300ms, padding 300ms 300ms,
+    transition:
+      transform 300ms,
+      font-size 300ms 300ms,
+      margin 300ms 300ms,
+      padding 300ms 300ms,
       opacity 300ms !important;
     transition-timing-function: $dynamic-easing;
     transform: translateX(140%);
@@ -133,7 +122,11 @@ export default defineComponent({
   }
 
   &.dismissed-left {
-    transition: transform 300ms, font-size 300ms 300ms, margin 300ms 300ms, padding 300ms 300ms,
+    transition:
+      transform 300ms,
+      font-size 300ms 300ms,
+      margin 300ms 300ms,
+      padding 300ms 300ms,
       opacity 300ms !important;
     transition-timing-function: $dynamic-easing;
     transform: translateX(-140%);
