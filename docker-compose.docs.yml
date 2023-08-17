@@ -25,7 +25,7 @@ services:
 
   viewtube-mongodb:
     restart: unless-stopped
-    image: mongo:6
+    image: mongo:7
     networks:
       - viewtube
     volumes:
