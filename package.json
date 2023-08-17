@@ -24,7 +24,8 @@
     "lint:server": "pnpm --filter=./server run lint",
     "e2e": "pnpm --filter=./tests/cypress run ci:test",
     "format": "prettier --write .",
-    "build:metadata": "pnpm --filter=./client run build:metadata"
+    "build:metadata": "pnpm --filter=./client run build:metadata",
+    "fix:prettier": "cp node_modules/prettier/index.cjs node_modules/prettier/index.js"
   },
   "browserslist": [
     "last 1 version",

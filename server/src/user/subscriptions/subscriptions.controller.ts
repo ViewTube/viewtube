@@ -12,7 +12,6 @@ import {
   Logger
 } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
-
 import { JwtAuthGuard } from 'server/auth/guards/jwt.guard';
 import { ChannelBasicInfoDto } from 'server/core/channels/dto/channel-basic-info.dto';
 import { Common } from 'server/core/common';

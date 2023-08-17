@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 
 type MessageType = {
   id: number;
-  type: string;
+  type: 'info' | 'error';
   title: string;
   message: string;
   clickAction?: () => void | Promise<void>;
