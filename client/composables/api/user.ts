@@ -100,7 +100,7 @@ export const useGetUserSubscriptions = (
 type UserSubscriptionChannelsParams = {
   limit?: number | Ref<number>;
   currentPage?: number | Ref<number>;
-  searchTerm: Ref<string> | string;
+  searchTerm?: Ref<string> | string;
 };
 
 export const useGetUserSubscriptionChannels = (

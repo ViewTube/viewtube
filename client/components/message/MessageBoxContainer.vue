@@ -1,3 +1,10 @@
+<script setup lang="ts">
+import MessageBox from '@/components/message/MessageBox.vue';
+import { useMessagesStore } from '@/store/messages';
+
+const messagesStore = useMessagesStore();
+</script>
+
 <template>
   <div class="messages-container">
     <MessageBox
@@ -7,25 +14,6 @@
     />
   </div>
 </template>
-
-<script lang="ts">
-import MessageBox from '@/components/message/MessageBox.vue';
-import { useMessagesStore } from '@/store/messages';
-
-export default defineComponent({
-  name: 'MessageBoxContainer',
-  components: {
-    MessageBox
-  },
-  setup() {
-    const messagesStore = useMessagesStore();
-
-    return {
-      messagesStore
-    };
-  }
-});
-</script>
 
 <style lang="scss" scoped>
 .messages-container {

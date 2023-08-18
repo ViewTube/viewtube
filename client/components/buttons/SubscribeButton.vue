@@ -97,7 +97,7 @@ export default defineComponent({
             if (response.isSubscribed) {
               isSubscribed.value = true;
               messagesStore.createMessage({
-                type: 'success',
+                type: 'info',
                 title: 'Subscribed',
                 message: `Successfully subscribed. Fetching new videos can take some time.`
               });

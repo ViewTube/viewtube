@@ -1,3 +1,167 @@
+<script setup lang="ts">
+import CheckBox from '@/components/form/CheckBox.vue';
+import BadgeButton from '@/components/buttons/BadgeButton.vue';
+import FileButton from '@/components/form/FileButton.vue';
+import Spinner from '@/components/Spinner.vue';
+import '@/assets/styles/popup.scss';
+
+class ChannelDto {
+  author: string;
+  authorId: string;
+  selected?: boolean;
+}
+
+const emit = defineEmits<{
+  (e: 'done'): void;
+  (e: 'close'): void;
+}>();
+
+const { data: userSubscriptions, refresh } = useGetUserSubscriptionChannels({
+  currentPage: 0,
+  limit: 0
+});
+const { apiUrl } = useApiUrl();
+const { vtFetch } = useVtFetch();
+
+const page2 = ref(false);
+const page3 = ref(false);
+const loading = ref(false);
+const importedSubscriptions = ref(null);
+
+const { subscriptionsToImport, getMergedImports, getSubscriptionsToImport } = useSubscriptionIO();
+
+const selectedChannels = computed((): Array<ChannelDto> => {
+  return subscriptionsToImport.value.filter((e: { selected: any }) => e.selected);
+});
+const anySelectedChannel = computed((): boolean => {
+  return !(selectedChannels.value.length > 0);
+});
+
+const successfulMergedImports = computed(
+  (): Array<ChannelDto> => getMergedImports(importedSubscriptions.value?.successful)
+);
+
+const existingMergedImports = computed(
+  (): Array<ChannelDto> => getMergedImports(importedSubscriptions.value?.existing)
+);
+
+const failedMergedImports = computed(
+  (): Array<ChannelDto> => getMergedImports(importedSubscriptions.value?.failed)
+);
+
+const onTryClosePopup = () => {
+  if (!(page2.value || page2.value)) {
+    emit('close');
+  }
+};
+
+const onImportFileChange = async (e: any) => {
+  loading.value = true;
+  const file = e.target.files[0];
+  const extension = file.name.split('.').pop();
+
+  const subscriptions = await getSubscriptionsToImport(file, extension);
+  debugger;
+  if (subscriptions?.length > 0) {
+    subscriptionsToImport.value = subscriptions;
+    page2.value = true;
+  }
+  loading.value = false;
+};
+
+const exportVT = async () => {
+  await refresh();
+  await nextTick();
+  const mappedChannels = userSubscriptions.value?.channels?.map(({ author, authorId }) => ({
+    author,
+    authorId
+  }));
+  if (!mappedChannels) return;
+  const jsonData = JSON.stringify(mappedChannels);
+  triggerDownload('subscriptions.json', jsonData, 'application/json');
+};
+
+const exportOPML = async () => {
+  await refresh();
+  await nextTick();
+  const xml = convertFromInternalToOPML(
+    userSubscriptions.value?.channels?.map(({ author, authorId }) => ({
+      author,
+      authorId,
+      selected: true
+    }))
+  );
+  if (!xml) return;
+  triggerDownload('subscriptions.xml', xml, 'application/xml');
+};
+
+const exportPiped = async () => {
+  await refresh();
+  await nextTick();
+  const mappedChannels = userSubscriptions.value?.channels?.map(({ author, authorId }) => ({
+    url: `https://www.youtube.com/channel/${authorId}`,
+    name: author,
+    service_id: 0
+  }));
+  if (!mappedChannels) return;
+  const jsonData = JSON.stringify({
+    app_version: '',
+    app_version_int: 0,
+    subscriptions: mappedChannels
+  });
+  triggerDownload('subscriptions.json', jsonData, 'application/json');
+};
+
+const triggerDownload = (filename: string, text: string, type: string) => {
+  const element = document.createElement('a');
+  const file = new Blob([text], { type: type });
+  element.href = URL.createObjectURL(file);
+  element.download = filename;
+  document.body.appendChild(element);
+  element.click();
+};
+
+const channelCheckBoxChanged = (newValue: any, channelId: any) => {
+  subscriptionsToImport.value.find((e: { authorId: string }) => e.authorId === channelId).selected =
+    newValue;
+};
+
+const selectAll = () => {
+  subscriptionsToImport.value.forEach((el: { selected: boolean }) => {
+    el.selected = true;
+  });
+};
+
+const unselectAll = () => {
+  subscriptionsToImport.value.forEach((el: { selected: boolean }) => {
+    el.selected = false;
+  });
+};
+
+const importSelected = async () => {
+  loading.value = true;
+  const subscriptions = selectedChannels.value;
+  const subscriptionIds = subscriptions.map(({ author, authorId }) => ({
+    channelId: authorId,
+    name: author
+  }));
+
+  const response = await vtFetch(`${apiUrl.value}user/subscriptions/multiple`, {
+    method: 'POST',
+    body: {
+      channels: subscriptionIds
+    },
+    credentials: 'include'
+  });
+
+  page2.value = false;
+  page3.value = true;
+  loading.value = false;
+  importedSubscriptions.value = response;
+  emit('done');
+};
+</script>
+
 <template>
   <div class="subscriptions-import popup">
     <div class="popup-container subscriptions-import-container">
@@ -116,298 +280,17 @@
       </h1>
       <div v-if="!subscriptionsToImport" class="pages-container" :class="{ 'page-2': page2 }">
         <div class="export-buttons">
-          <BadgeButton :disabled="true" @change="exportVT">
-            <VTIcon name="mdi:play" /> ViewTube
+          <BadgeButton :click="exportVT"> <VTIcon name="mdi:play" /> ViewTube </BadgeButton>
+          <BadgeButton :click="exportOPML"><VTIcon name="mdi:xml" /> Invidious / OPML </BadgeButton>
+          <BadgeButton :click="exportPiped">
+            <VTIcon name="mdi:pipe" /> Piped / Newpipe
           </BadgeButton>
-          <BadgeButton :disabled="true" @change="exportOPML"
-            ><VTIcon name="mdi:xml" /> Invidious / OPML
-          </BadgeButton>
-          <BadgeButton :disabled="true" @change="exportPiped">
-            <VTIcon name="mdi:pipe" /> Piped
-          </BadgeButton>
-          <BadgeButton :disabled="true" @change="exportNewPipe"
-            ><VTIcon name="mdi:pipe-valve" /> NewPipe</BadgeButton
-          >
         </div>
-        <p class="not-available">Not available yet</p>
       </div>
     </div>
     <div class="settings-overlay popup-overlay" @click.stop="onTryClosePopup" />
   </div>
 </template>
-
-<script lang="ts">
-import CheckBox from '@/components/form/CheckBox.vue';
-import BadgeButton from '@/components/buttons/BadgeButton.vue';
-import FileButton from '@/components/form/FileButton.vue';
-import Spinner from '@/components/Spinner.vue';
-import '@/assets/styles/popup.scss';
-import { useMessagesStore } from '~/store/messages';
-
-class ChannelDto {
-  author: string;
-  authorId: string;
-  selected?: boolean;
-}
-
-export default defineComponent({
-  name: 'SubscriptionsImport',
-  components: {
-    CheckBox,
-    BadgeButton,
-    FileButton,
-    Spinner
-  },
-  emits: ['done', 'close'],
-  setup(_, { emit }) {
-    const messagesStore = useMessagesStore();
-    const { apiUrl } = useApiUrl();
-    const { vtFetch } = useVtFetch();
-
-    const youtubeSubscriptionUrl = ref('https://takeout.google.com');
-    const page2 = ref(false);
-    const page3 = ref(false);
-    const subscriptionsToImport = ref(null);
-    const loading = ref(false);
-    const importedSubscriptions = ref(null);
-
-    const selectedChannels = computed((): Array<ChannelDto> => {
-      return subscriptionsToImport.value.filter((e: { selected: any }) => e.selected);
-    });
-    const anySelectedChannel = computed((): boolean => {
-      return !(selectedChannels.value.length > 0);
-    });
-
-    const successfulMergedImports = computed((): Array<ChannelDto> => {
-      if (importedSubscriptions.value && importedSubscriptions.value.successful) {
-        return importedSubscriptions.value.successful.map((el: { channelId: any }) => {
-          const authorObj = subscriptionsToImport.value.find(
-            (val: { authorId: any }) => val.authorId === el.channelId
-          );
-          return {
-            authorId: el.channelId,
-            author: authorObj ? authorObj.author : null
-          };
-        });
-      }
-      return [];
-    });
-
-    const existingMergedImports = computed((): Array<ChannelDto> => {
-      if (importedSubscriptions.value && importedSubscriptions.value.existing) {
-        return importedSubscriptions.value.existing.map(el => {
-          const authorObj = subscriptionsToImport.value.find(val => val.authorId === el.channelId);
-          return {
-            authorId: el.channelId,
-            author: authorObj ? authorObj.author : null
-          };
-        });
-      }
-      return [];
-    });
-
-    const failedMergedImports = computed((): Array<ChannelDto> => {
-      if (importedSubscriptions.value && importedSubscriptions.value.failed) {
-        return importedSubscriptions.value.failed.map((el: { channelId: any }) => {
-          const authorObj = subscriptionsToImport.value.find(
-            (val: { authorId: any }) => val.authorId === el.channelId
-          );
-          return {
-            authorId: el.channelId,
-            author: authorObj ? authorObj.author : null
-          };
-        });
-      }
-      return [];
-    });
-
-    const onTryClosePopup = () => {
-      if (!(page2.value || page2.value)) {
-        emit('close');
-      }
-    };
-
-    const onImportFileChange = (e: any) => {
-      const extension = e.target.files[0].name.split('.').pop();
-      switch (extension) {
-        case 'csv':
-          onYTTakeoutFileChange(e);
-          break;
-        case 'json':
-          onJSONPipedFileChange(e);
-          break;
-        case 'opml':
-        case 'xml':
-        default:
-          onOPMLFileChange(e);
-          break;
-      }
-    };
-
-    const onJSONPipedFileChange = (e: any) => {
-      const fileReader = new FileReader();
-      fileReader.onload = () => {
-        if (e.target.files[0].name.includes('.json')) {
-          subscriptionsToImport.value = convertJSONPipedToInternal(fileReader.result as string);
-        }
-        if (subscriptionsToImport.value === undefined) {
-          messagesStore.createMessage({
-            type: 'error',
-            title: 'Invalid or Empty JSON',
-            message: 'Please check your file'
-          });
-        } else {
-          subscriptionsToImport.value
-            .sort((a: { author: string }, b: { author: string }) =>
-              a.author.localeCompare(b.author)
-            )
-            .map(({ author, authorId }) => ({
-              author,
-              authorId,
-              selected: true
-            }));
-
-          page2.value = true;
-        }
-        loading.value = false;
-      };
-      loading.value = true;
-      fileReader.readAsText(e.target.files[0]);
-    };
-
-    const onYTTakeoutFileChange = (e: any) => {
-      const fileReader = new FileReader();
-      fileReader.onload = () => {
-        if (e.target.files[0].name.includes('.csv')) {
-          subscriptionsToImport.value = convertFromCSVToJson(fileReader.result as string);
-        }
-        if (subscriptionsToImport.value === undefined) {
-          messagesStore.createMessage({
-            type: 'error',
-            title: 'Invalid or Empty CSV',
-            message: 'Please check your file'
-          });
-        } else {
-          subscriptionsToImport.value
-            .sort((a: { author: string }, b: { author: string }) =>
-              a.author.localeCompare(b.author)
-            )
-            .map(({ author, authorId }) => ({
-              author,
-              authorId,
-              selected: true
-            }));
-
-          page2.value = true;
-        }
-        loading.value = false;
-      };
-      loading.value = true;
-      fileReader.readAsText(e.target.files[0]);
-    };
-
-    const onOPMLFileChange = (e: any) => {
-      const fileReader = new FileReader();
-      fileReader.onload = () => {
-        subscriptionsToImport.value = convertFromOPMLToJson(fileReader.result as string);
-        if (subscriptionsToImport.value === undefined) {
-          messagesStore.createMessage({
-            type: 'error',
-            title: 'Invalid or Empty OPML',
-            message: 'Please check your file'
-          });
-        } else {
-          subscriptionsToImport.value
-            .sort((a: { author: string }, b: { author: string }) =>
-              a.author.localeCompare(b.author)
-            )
-            .map(({ author, authorId }) => ({
-              author,
-              authorId,
-              selected: true
-            }));
-
-          page2.value = true;
-        }
-      };
-      fileReader.readAsText(e.target.files[0]);
-    };
-
-    const exportVT = () => {};
-    const exportOPML = () => {};
-    const exportPiped = () => {};
-    const exportNewPipe = () => {};
-
-    const channelCheckBoxChanged = (newValue: any, channelId: any) => {
-      subscriptionsToImport.value.find(
-        (e: { authorId: string }) => e.authorId === channelId
-      ).selected = newValue;
-    };
-
-    const selectAll = () => {
-      subscriptionsToImport.value.forEach((el: { selected: boolean }) => {
-        el.selected = true;
-      });
-    };
-
-    const unselectAll = () => {
-      subscriptionsToImport.value.forEach((el: { selected: boolean }) => {
-        el.selected = false;
-      });
-    };
-
-    const importSelected = () => {
-      loading.value = true;
-      const subscriptions = selectedChannels.value;
-      const subscriptionIds = subscriptions.map(e => {
-        return {
-          channelId: e.authorId,
-          name: e.author
-        };
-      });
-      vtFetch(`${apiUrl.value}user/subscriptions/multiple`, {
-        method: 'POST',
-        body: {
-          channels: subscriptionIds
-        },
-        credentials: 'include'
-      }).then(response => {
-        page2.value = false;
-        page3.value = true;
-        loading.value = false;
-        importedSubscriptions.value = response;
-        emit('done');
-      });
-    };
-
-    return {
-      youtubeSubscriptionUrl,
-      page2,
-      page3,
-      subscriptionsToImport,
-      loading,
-      importedSubscriptions,
-      selectedChannels,
-      anySelectedChannel,
-      successfulMergedImports,
-      existingMergedImports,
-      failedMergedImports,
-      exportVT,
-      exportOPML,
-      exportPiped,
-      exportNewPipe,
-      onTryClosePopup,
-      onImportFileChange,
-      onYTTakeoutFileChange,
-      onOPMLFileChange,
-      channelCheckBoxChanged,
-      selectAll,
-      unselectAll,
-      importSelected
-    };
-  }
-});
-</script>
 
 <style lang="scss">
 .subscriptions-import {
