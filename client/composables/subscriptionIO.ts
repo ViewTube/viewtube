@@ -1,4 +1,4 @@
-import { useMessagesStore } from 'store/messages';
+import { useMessagesStore } from '@/store/messages';
 
 export const useSubscriptionIO = () => {
   const subscriptionsToImport = ref(null);
@@ -23,8 +23,8 @@ export const useSubscriptionIO = () => {
       fileReader.onload = () => {
         resolve(0);
       };
+      fileReader.readAsText(file);
     });
-    fileReader.readAsText(file);
 
     let subscriptions = [];
     if (fileType === 'json') {
@@ -35,7 +35,7 @@ export const useSubscriptionIO = () => {
       subscriptions = convertFromOPMLToJson(fileReader.result?.toString());
     }
 
-    if (!subscriptions) {
+    if (subscriptions?.length <= 0) {
       messagesStore.createMessage({
         type: 'error',
         title: 'Invalid or empty file',

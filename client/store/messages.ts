@@ -1,14 +1,5 @@
 import { defineStore } from 'pinia';
-
-export type MessageType = {
-  id: number;
-  type: 'info' | 'error';
-  title: string;
-  message: string;
-  clickAction?: () => void | Promise<void>;
-  dismissed: boolean;
-  dismissDelay?: number;
-};
+import { MessageType } from 'types/MessageType';
 
 export const useMessagesStore = defineStore('messages', {
   state: () => ({

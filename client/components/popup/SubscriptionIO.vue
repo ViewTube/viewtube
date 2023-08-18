@@ -4,7 +4,6 @@ import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import FileButton from '@/components/form/FileButton.vue';
 import Spinner from '@/components/Spinner.vue';
 import '@/assets/styles/popup.scss';
-import { useMessagesStore } from '~/store/messages';
 
 class ChannelDto {
   author: string;
@@ -17,7 +16,10 @@ const emit = defineEmits<{
   (e: 'close'): void;
 }>();
 
-const { data: userSubscriptions, refresh } = useGetUserSubscriptionChannels();
+const { data: userSubscriptions, refresh } = useGetUserSubscriptionChannels({
+  currentPage: 0,
+  limit: 0
+});
 const { apiUrl } = useApiUrl();
 const { vtFetch } = useVtFetch();
 
@@ -59,9 +61,11 @@ const onImportFileChange = async (e: any) => {
   const extension = file.name.split('.').pop();
 
   const subscriptions = await getSubscriptionsToImport(file, extension);
-  if (subscriptions) {
+  debugger;
+  if (subscriptions?.length > 0) {
     subscriptionsToImport.value = subscriptions;
     page2.value = true;
+  } else {
   }
   loading.value = false;
 };
