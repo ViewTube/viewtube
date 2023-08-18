@@ -70,7 +70,7 @@
     "winston": "3.10.0",
     "winston-daily-rotate-file": "4.7.1",
     "xml-js": "1.6.11",
-    "youtubei.js": "5.8.0",
+    "youtubei.js": "6.0.0",
     "ytpl": "2.3.0"
   },
   "devDependencies": {
