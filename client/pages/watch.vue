@@ -77,10 +77,10 @@ const {
       }).catch(_ => {});
     }
   }
-  
-  if(settingsStore.rewriteYouTubeURLs){
+
+  if (settingsStore.rewriteYouTubeURLs) {
     console.log(value.description);
-    value.description = value.description.replace("https://www.youtube.com", window.location.host);
+    value.description = value.description.replace('https://www.youtube.com', window.location.host);
   }
 
   return { ...value, initialVideoTime };
@@ -144,14 +144,20 @@ const reloadComments = () => {
   commentsError.value = false;
   loadComments();
 };
-const setTimestamp = (e: Event, seconds: number) => {
-  e.preventDefault();
-  const searchParams = new URLSearchParams(window.location.search);
-  searchParams.set('t', `${seconds}s`);
-  router.push(`${location.pathname}?${searchParams.toString()}`);
+const setTimestamp = (seconds: number) => {
+  router.push({
+    query: {
+      ...route.query,
+      t: `${seconds}s`
+    },
+    replace: true
+  });
   videoplayerRef.value.setVideoTime(seconds);
   videoplayerRef.value.play();
+  window.scrollTo({ left: 0, top: 0, behavior: 'smooth' });
 };
+
+const { createTextLinks } = useCreateTextLinks(setTimestamp);
 
 const getHDUrl = () => {
   if (video.value.legacyFormats) {
@@ -262,7 +268,7 @@ const onVideoEnded = () => {
   }
 };
 
-const authorToName = (author) => {
+const authorToName = author => {
   if (typeof author == 'string') {
     return author;
   } else if (typeof author.name == 'string') {
@@ -420,9 +426,8 @@ const watchPageTitle = computed(() => {
 
         <div class="comments-description">
           <div
-            v-create-timestamp-links="setTimestamp"
             class="video-infobox-description links"
-            v-html="video.description"
+            v-html="createTextLinks(video.description)"
           />
           <SectionTitle :title="'Comments'" />
           <p class="comment-count">{{ video.commentCount }}</p>
@@ -443,6 +448,7 @@ const watchPageTitle = computed(() => {
               :comment="subComment"
               :channel-author-id="video.author.id"
               :channel-author-name="video.author.name"
+              :set-timestamp="setTimestamp"
             />
             <BadgeButton
               v-if="commentsContinuationLink"
