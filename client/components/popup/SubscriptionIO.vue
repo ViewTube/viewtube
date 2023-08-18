@@ -65,7 +65,6 @@ const onImportFileChange = async (e: any) => {
   if (subscriptions?.length > 0) {
     subscriptionsToImport.value = subscriptions;
     page2.value = true;
-  } else {
   }
   loading.value = false;
 };
