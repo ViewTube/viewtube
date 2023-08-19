@@ -196,11 +196,11 @@ const videoQualities = ['144p', '240p', '360p', '720p', '1080p', '1440p', '2160p
         @valuechange="val => settingsStore.setShowHomeSubscriptions(val)"
       />
 
-      <h2><VTIcon name="mdi:auto-fix" />QoL</h2>
+      <h2><VTIcon name="mdi:auto-fix" />Enhancements</h2>
       <SwitchButton
         :value="settingsStore.rewriteYouTubeURLs"
         :label="'Rewrite YouTube URLs'"
-        :small-label="'Will replace YouTube-URLs for the current ViewTube instance in video descriptions'"
+        :small-label="'Replace YouTube-URLs with local ViewTube URLs'"
         :disabled="false"
         :right="true"
         @valuechange="val => settingsStore.setRewriteYouTubeURLs(val)"

@@ -1,6 +1,7 @@
 import { useSettingsStore } from '@/store/settings';
 import { getSecondsFromTimestamp } from '../../shared';
 
+// eslint-disable-next-line no-useless-escape
 const urlRegex = /\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|]/gi;
 const timestampRegex = /(?:\d:)?(?:\d{1,3}:)?(?:[0-5]?\d):(?:[0-5]\d)/gi;
 
@@ -34,7 +35,20 @@ export const useCreateTextLinks = (timestampFn?: TimestampFnType) => {
   const createTextLinks = (text: string) => {
     if (!text) return '';
     let htmlText = text.replace(urlRegex, match => {
-      return `<a href="${match}" target="_blank" rel="noreferrer noopener">${match}</a>`;
+      let url = match;
+      if (settingsStore.rewriteYouTubeURLs) {
+        const urlObj = new URL(match);
+        if (
+          urlObj.hostname === 'youtu.be' ||
+          urlObj.hostname === 'www.youtu.be' ||
+          urlObj.hostname === 'youtube.com' ||
+          urlObj.hostname === 'www.youtube.com'
+        ) {
+          url = `${urlObj.pathname}${urlObj.search}`;
+        }
+      }
+
+      return `<a href="${url}" target="_blank" rel="noreferrer noopener">${match}</a>`;
     });
 
     if (typeof timestampFn === 'function') {

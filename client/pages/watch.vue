@@ -429,8 +429,7 @@ const watchPageTitle = computed(() => {
             class="video-infobox-description links"
             v-html="createTextLinks(video.description)"
           />
-          <SectionTitle :title="'Comments'" />
-          <p class="comment-count">{{ video.commentCount }}</p>
+          <SectionTitle :title="`${video.commentCount} Comments`" />
           <Spinner v-if="commentsLoading" />
           <div v-if="video.live" class="comments-error livestream">
             <p>Livestream comments are not supported yet.</p>
@@ -448,7 +447,7 @@ const watchPageTitle = computed(() => {
               :comment="subComment"
               :channel-author-id="video.author.id"
               :channel-author-name="video.author.name"
-              :set-timestamp="setTimestamp"
+              @set-timestamp="setTimestamp"
             />
             <BadgeButton
               v-if="commentsContinuationLink"

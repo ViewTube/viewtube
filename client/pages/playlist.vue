@@ -12,6 +12,7 @@ const { apiUrl } = useApiUrl();
 const route = useRoute();
 const imgProxy = useImgProxy();
 const { vtFetch } = useVtFetch();
+const { createTextLinks } = useCreateTextLinks();
 
 const moreVideosLoading = ref(false);
 const {
@@ -92,35 +93,32 @@ const loadMoreVideos = async () => {
         </nuxt-link>
         <h2 class="playlist-title">{{ playlist.title }}</h2>
         <div class="playlist-details">
-          <span class="playlist-detail"
-            ><VTIcon name="mdi:eye" /> {{ playlist.views?.toLocaleString('en-US') }} views</span
-          >
-          <span class="playlist-detail"
-            ><VTIcon name="mdi:counter" />{{
-              playlist.estimatedItemCount?.toLocaleString('en-US')
+          <span class="playlist-detail">
+            <VTIcon name="mdi:eye" /> {{ playlist.views?.toLocaleString('en-US') }} views
+          </span>
+          <span class="playlist-detail">
+            <VTIcon name="mdi:counter" />
+            {{ playlist.estimatedItemCount?.toLocaleString('en-US') }} items
+          </span>
+          <span class="playlist-detail">
+            <VTIcon name="mdi:calendar-clock" />{{ playlist.lastUpdated }}
+          </span>
+          <span class="playlist-detail">
+            <VTIcon v-if="playlist.visibility === 'everyone'" name="mdi:eye" />
+            <VTIcon v-else-if="playlist.visibility === 'unlisted'" name="mdi:eye-off" />{{
+              playlist.visibility === 'everyone' ? 'public' : 'unlisted'
             }}
-            items</span
-          >
-          <span class="playlist-detail"
-            ><VTIcon name="mdi:calendar-clock" />{{ playlist.lastUpdated }}</span
-          >
-          <span class="playlist-detail"
-            ><VTIcon v-if="playlist.visibility === 'everyone'" name="mdi:eye" /><VTIcon
-              v-else-if="playlist.visibility === 'unlisted'"
-              name="mdi:eye-off"
-            />{{ playlist.visibility === 'everyone' ? 'public' : 'unlisted' }} playlist</span
-          >
+            playlist
+          </span>
         </div>
       </div>
     </div>
     <div v-if="playlist" class="playlist-content-container">
       <pre
         v-if="playlist && playlist.description"
-        v-create-links
         class="playlist-description links"
-      >
-        {{ playlist.description }}
-      </pre>
+        v-html="createTextLinks(playlist.description)"
+      />
       <div class="playlist-videos-container">
         <VideoEntry
           v-for="video in playlistItems"

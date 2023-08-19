@@ -134,6 +134,7 @@ const loadMoreReplies = () => {
               :key="subComment.commentId"
               class="subcomment"
               :comment="subComment"
+              @set-timestamp="emit('setTimestamp', $event)"
             />
           </div>
           <BadgeButton
