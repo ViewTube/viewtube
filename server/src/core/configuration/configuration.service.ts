@@ -102,7 +102,8 @@ export class ConfigurationService {
     try {
       const configPath = this.getConfigPath();
 
-      const configFolder = configPath.split('/').slice(0, -1).join('/');
+      const configFolder = configPath.replace('\\', '/').split('/').slice(0, -1).join('/');
+
       try {
         await access(configFolder, fs.constants.F_OK);
       } catch {
@@ -111,8 +112,8 @@ export class ConfigurationService {
 
       const saveData = JSON.stringify(data);
       await writeFile(configPath, saveData);
-    } catch {
-      return null;
+    } catch (error) {
+      throw new Error(`Failed to save configuration: ${error}`);
     }
   }
 
