@@ -4,9 +4,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ScheduleModule } from '@nestjs/schedule';
 import { BullModule } from '@nestjs/bull';
-import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD, RouterModule } from '@nestjs/core';
-import { ThrottlerStorageRedisService } from 'nestjs-throttler-storage-redis';
 import { RedisOptions } from 'ioredis';
 import { CoreModule } from './core/core.module';
 import { AuthModule } from './auth/auth.module';
@@ -78,33 +76,6 @@ const moduleMetadata: ModuleMetadata = {
       },
       inject: [ConfigService]
     }),
-    ThrottlerModule.forRootAsync({
-      useFactory: (configService: ConfigService) => {
-        const redisOptions: RedisOptions = {
-          host: configService.get('VIEWTUBE_REDIS_HOST'),
-          port: configService.get<number>('VIEWTUBE_REDIS_PORT')
-        };
-
-        if (configService.get('VIEWTUBE_REDIS_PASSWORD')) {
-          redisOptions.password = configService.get('VIEWTUBE_REDIS_PASSWORD');
-        }
-
-        const allowedUserAgents: RegExp[] = [];
-        if (configService.get('NUXT_RATE_LIMIT_KEY')) {
-          allowedUserAgents.push(
-            new RegExp(`^viewtube-nuxt-${configService.get('NUXT_RATE_LIMIT_KEY')}$`)
-          );
-        }
-
-        return {
-          ttl: 600,
-          limit: 1000,
-          ignoreUserAgents: allowedUserAgents,
-          storage: new ThrottlerStorageRedisService({ ...redisOptions, db: 2 })
-        };
-      },
-      inject: [ConfigService]
-    }),
     ScheduleModule.forRoot(),
     CoreModule,
     UserModule,
@@ -133,10 +104,6 @@ const moduleMetadata: ModuleMetadata = {
     )
   ],
   providers: [
-    {
-      provide: APP_GUARD,
-      useClass: ThrottlerGuard
-    },
     Logger
   ]
 };
