@@ -8,9 +8,17 @@ const props = defineProps<{
   channelAuthorName?: string;
   channelAuthorId?: string;
 }>();
+
+const emit = defineEmits<{
+  (e: 'setTimestamp', timestamp: number): void;
+}>();
+
 const route = useRoute();
 const messagesStore = useMessagesStore();
 const imgProxy = useImgProxy();
+const { createTextLinks } = useCreateTextLinks(seconds => {
+  emit('setTimestamp', seconds);
+});
 
 const replies = ref([]);
 const loadingReplies = ref(false);
@@ -79,7 +87,7 @@ const loadMoreReplies = () => {
       >
         <p class="comment-author-text">{{ comment.author }}</p>
       </nuxt-link>
-      <div class="comment-content" v-html="comment.content" />
+      <div class="comment-content links" v-html="createTextLinks(comment.content)" />
       <div class="comment-properties">
         <div class="published comment-property">
           <span>{{ comment.publishedText }}</span>
@@ -126,6 +134,7 @@ const loadMoreReplies = () => {
               :key="subComment.commentId"
               class="subcomment"
               :comment="subComment"
+              @set-timestamp="emit('setTimestamp', $event)"
             />
           </div>
           <BadgeButton

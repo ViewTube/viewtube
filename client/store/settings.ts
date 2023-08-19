@@ -33,7 +33,8 @@ export const useSettingsStore = defineStore(
         sponsorblockSegmentPreview: 'ask' as SegmentOption,
         sponsorblockSegmentSelfpromo: 'ask' as SegmentOption,
         sponsorblockSegmentSponsor: 'ask' as SegmentOption,
-        theme: 'default' as ThemeVariant
+        theme: 'default' as ThemeVariant,
+        rewriteYouTubeURLs: false
       })
     );
 

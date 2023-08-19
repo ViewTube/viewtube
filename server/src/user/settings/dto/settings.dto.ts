@@ -46,4 +46,6 @@ export class SettingsDto {
   autoAdjustVideoQuality: boolean;
 
   dashPlaybackEnabled: boolean;
+  
+  rewriteYouTubeURLs: boolean;
 }

@@ -4,10 +4,4 @@ declare module '#app' {
   }
 }
 
-declare module '@nuxt/schema' {
-  interface NuxtConfig {
-    proxy?: ModuleOptions;
-  }
-}
-
 export {};

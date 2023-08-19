@@ -77,5 +77,6 @@ export const iconSafelist = [
   'mdi-youtube-subscription',
   'mdi-swap-vertical',
   'mdi-pipe',
-  'mdi-pipe-valve'
+  'mdi-pipe-valve',
+  'mdi-auto-fix'
 ].map(icon => `i-${icon}`);

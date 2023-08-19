@@ -12,6 +12,9 @@ export const getSecondsFromTimestamp = (timestamp: string) => {
   if (reverseTimeStrings.length > 2) {
     seconds += parseInt(reverseTimeStrings[2]) * 3600;
   }
+  if (reverseTimeStrings.length > 3) {
+    seconds += parseInt(reverseTimeStrings[3]) * 86400;
+  }
 
   return seconds;
 };

@@ -4,6 +4,9 @@ import RelatedChannels from '@/components/channel/RelatedChannels.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 
 const route = useRoute();
+
+const { createTextLinks } = useCreateTextLinks();
+
 const channelId = computed(() => getChannelIdFromParam(route.params.id));
 const { data: channelInfo, pending } = useGetChannelInfo(channelId);
 const { data: channelHome, pending: pendingHome } = useGetChannelHome(channelId);
@@ -17,9 +20,7 @@ const { data: channelStats, pending: pendingStats } = useGetChannelStats(channel
     class="channel-home"
   >
     <SectionTitle title="Info" />
-    <pre v-if="channelInfo.description" v-create-links class="channel-description links">{{
-      channelInfo.description?.trim()
-    }}</pre>
+    <pre v-if="channelInfo.description" class="channel-description links" v-html="createTextLinks(channelInfo.description)" />
     <SectionSubtitle v-if="channelInfo.channelLinks" title="Links" class="channel-links-title" />
     <ChannelBannerLinks
       v-if="channelInfo.channelLinks"

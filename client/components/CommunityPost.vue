@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { ApiDto } from 'viewtube/shared';
 
+const { createTextLinks } = useCreateTextLinks();
+
 defineProps<{
   communityPost: ApiDto<'ChannelCommunityPostDto'>;
 }>();
@@ -9,8 +11,8 @@ defineProps<{
 <template>
   <div class="community-post">
     <p class="creation-time">{{ communityPost.publishedText }} &bull; {{ communityPost.author }}</p>
-    <div v-create-links class="post-text links">
-      <pre class="text-pre">{{ communityPost.postText }}</pre>
+    <div class="post-text links">
+      <pre class="text-pre" v-html="createTextLinks(communityPost.postText)" />
     </div>
     <div v-if="communityPost.postContent" class="post-content">
       <CommunityPostImage
