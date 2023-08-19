@@ -16,6 +16,7 @@ import { UserprofileDto } from 'server/user/dto/userprofile.dto';
 import humanizeDuration from 'humanize-duration';
 import { Common } from 'server/core/common';
 import { ChannelBasicInfoDto } from 'server/core/channels/dto/channel-basic-info.dto';
+import crypto from 'crypto';
 import { FastifyReply } from 'fastify';
 import archiver from 'archiver';
 import { ViewTubeRequest } from 'server/common/viewtube-request';
@@ -68,9 +69,8 @@ export class UserService {
       const user = await this.UserModel.findOne({ username }).exec();
       const videoHistory = await this.historyService.getHistory(username, 10, 0, 'DESC');
 
-      const subscribedChannelsCount = await this.subscriptionsService.getSubscribedChannelsCount(
-        username
-      );
+      const subscribedChannelsCount =
+        await this.subscriptionsService.getSubscribedChannelsCount(username);
 
       const videoStats = await this.historyService.getHistoryStats(username);
 
@@ -113,10 +113,10 @@ export class UserService {
           extension = extMatch[1];
         }
         let folderPath = 'profiles';
-        let imgPath = `profiles/${username}.${extension}`;
+        const nonce = crypto.randomBytes(12).toString('base64');
+        let imgPath = `profiles/${username}-${nonce}.${extension}`;
 
         if (global.__basedir) {
-          // eslint-disable-next-line dot-notation
           imgPath = path.join(global.__basedir, imgPath);
           folderPath = path.join(global.__basedir, folderPath);
         }
@@ -186,7 +186,6 @@ export class UserService {
     if (username) {
       const user = await this.UserModel.findOne({ username });
       if (user && user.profileImage && fs.existsSync(user.profileImage)) {
-        fs.unlinkSync(user.profileImage);
         user.profileImage = null;
         await user.save();
       } else {

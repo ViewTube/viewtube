@@ -32,14 +32,16 @@ const profileImageUrl = computed(() => {
     return null;
   }
 });
-const { data: profile, error, pending } = useGetUserProfileDetails();
+const { data: profile, error, pending, refresh } = useGetUserProfileDetails();
 
 watch(error, () => {
-  messagesStore.createMessage({
-    type: 'error',
-    title: 'Error loading profile',
-    message: 'Try logging out and in again'
-  });
+  if (error.value) {
+    messagesStore.createMessage({
+      type: 'error',
+      title: 'Error loading profile',
+      message: 'Try logging out and in again'
+    });
+  }
 });
 
 if (!userStore.isLoggedIn) {
@@ -94,14 +96,14 @@ const onProfileImageChange = (e: any) => {
     body: formData,
     credentials: 'include'
   })
-    .then(response => {
+    .then(async response => {
       if (response.path) {
         messagesStore.createMessage({
           type: 'info',
           title: 'New profile image',
           message: 'Successfully set new profile image'
         });
-        profile.value.profileImage = response.path;
+        await refresh();
         profileImageLoading.value = false;
       }
     })
@@ -133,13 +135,13 @@ const deleteProfileImage = () => {
     method: 'DELETE',
     credentials: 'include'
   })
-    .then(() => {
+    .then(async () => {
       messagesStore.createMessage({
         type: 'info',
         title: 'Profile image deleted',
         message: 'Profile image successfully deleted'
       });
-      profile.value.profileImage = null;
+      await refresh();
     })
     .catch(() => {
       messagesStore.createMessage({
