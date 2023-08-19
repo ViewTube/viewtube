@@ -9,7 +9,6 @@ type ConfigurationType = {
   jwtKey?: string;
   publicVapidKey?: string;
   privateVapidKey?: string;
-  rateLimitKey?: string;
 };
 
 @Injectable()
@@ -17,10 +16,9 @@ export class ConfigurationService {
   static jwtKey: string;
   static publicVapidKey: string;
   static privateVapidKey: string;
-  static rateLimitKey: string;
 
   static async initializeEnvironment(): Promise<void> {
-    if (this.jwtKey && this.publicVapidKey && this.privateVapidKey && this.rateLimitKey) {
+    if (this.jwtKey && this.publicVapidKey && this.privateVapidKey) {
       return;
     }
     const envJwtKey = process.env.VIEWTUBE_JWT_SECRET;
@@ -78,17 +76,9 @@ export class ConfigurationService {
       savedConfiguration.privateVapidKey = newVapidKeys.privateKey;
     }
 
-    if (savedConfiguration.rateLimitKey) {
-      this.rateLimitKey = savedConfiguration.rateLimitKey;
-    } else {
-      this.rateLimitKey = crypto.randomBytes(24).toString('base64');
-      savedConfiguration.rateLimitKey = this.rateLimitKey;
-    }
-
     process.env.VIEWTUBE_JWT_SECRET = this.jwtKey;
     process.env.VIEWTUBE_PUBLIC_VAPID = this.publicVapidKey;
     process.env.VIEWTUBE_PRIVATE_VAPID = this.privateVapidKey;
-    process.env.NUXT_RATE_LIMIT_KEY = this.rateLimitKey;
 
     await this.saveConfiguration(savedConfiguration);
   }
