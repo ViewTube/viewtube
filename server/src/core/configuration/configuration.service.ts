@@ -1,9 +1,10 @@
 import fs from 'fs';
 import { access, mkdir, readFile, writeFile } from 'fs/promises';
 import crypto from 'crypto';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { generateVAPIDKeys, VapidKeys } from 'web-push';
 import path from 'path';
+import { logger } from 'server/common/logger';
 
 type ConfigurationType = {
   jwtKey?: string;
@@ -89,7 +90,7 @@ export class ConfigurationService {
       try {
         const file = await readFile(configPath);
         const obj = JSON.parse(file.toString());
-        console.log(`Loaded configuration from ${configPath}`);
+        logger.log(`Loaded configuration from ${configPath}`);
         return obj;
       } catch {
         // ignore
