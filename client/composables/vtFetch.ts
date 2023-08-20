@@ -18,15 +18,7 @@ export const useVtFetch = () => {
     request: FetchRequest,
     options?: FetchOptions
   ): Promise<MappedType<R, T>> => {
-    const userAgentOption = {};
-
-    return ofetch(request, {
-      ...options,
-      headers: {
-        ...options?.headers,
-        ...userAgentOption
-      }
-    }) as any;
+    return ofetch(request, options) as Promise<MappedType<R, T>>;
   };
 
   return { vtFetch };

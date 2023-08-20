@@ -195,6 +195,8 @@ if (props.message.dismissDelay > 0) {
 
   .message {
     word-break: break-all;
+    white-space: pre-wrap;
+    width: 100%;
     color: var(--text-color);
     font-family: $default-font;
     margin: 5px 0 0 0;

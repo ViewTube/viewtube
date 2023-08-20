@@ -50,7 +50,9 @@ export const runSubscriptionsJob = async (
 
   let i = 0;
 
-  logger.log(`Preparing ${channelIdBatches.length} batches for subscriptions job`)
+  if (!job.data?.silent) {
+    logger.log(`Preparing ${channelIdBatches.length} batches for subscriptions job`);
+  }
 
   await channelIdBatches
     .reduce(async (previousPromise: Promise<void>, nextBatch: Array<string>) => {
@@ -129,49 +131,74 @@ export const getChannelFeed = async (
 } | null> => {
   const requestOptions: Record<string, unknown> = {};
   if (process.env.VIEWTUBE_PROXY_URL) {
-    const proxy = process.env.VIEWTUBE_PROXY_URL;
     requestOptions.headers = {
-      agent: new HttpsProxyAgent(proxy)
+      agent: new HttpsProxyAgent(process.env.VIEWTUBE_PROXY_URL)
     };
   }
 
-  const channelFeed = await ofetch(feedUrl + channelId, requestOptions)
-    .then(data => {
-      if (data) {
-        const jsonData: ChannelFeedType = xmlParser.parse(data);
-        if (jsonData.feed) {
-          let videos: Array<VideoBasicInfoDto> = [];
-          // For channels that have videos
-          if (jsonData.feed.entry) {
-            videos = jsonData.feed.entry.map(video => convertRssVideo(video));
-          }
+  const channelFeed = await fetchChannelFeed(channelId, requestOptions);
 
-          const authorId = jsonData.feed?.link
-            ?.find(link => link.rel === 'alternate')
-            .href.split('channel/')[1];
+  if (channelFeed.channelFeed) {
+    const jsonData: ChannelFeedType = xmlParser.parse(channelFeed.channelFeed);
+    if (jsonData.feed) {
+      let videos: Array<VideoBasicInfoDto> = [];
 
-          const channel: ChannelBasicInfoDto = {
-            authorId,
-            author: jsonData.feed.author.name,
-            authorUrl: jsonData.feed.author.uri
-          };
-
-          const cachedChannelThmbPath = path.join(global.__basedir, `channels/${authorId}.webp`);
-          if (fs.existsSync(cachedChannelThmbPath)) {
-            channel.authorThumbnailUrl = `channels/${authorId}/thumbnail/tiny.webp`;
-          } else {
-            channel.authorThumbnailUrl = undefined;
-          }
-
-          return { channel, videos };
-        }
-      } else {
-        return null;
+      if (jsonData.feed.entry) {
+        videos = jsonData.feed.entry.map(convertRssVideo);
       }
-    })
-    .catch(err => logger.warn(`[subscriptions job] Could not fetch channel: ${err}`));
-  if (typeof channelFeed === 'object' && channelFeed !== null && channelFeed.channel?.authorId) {
-    return channelFeed;
+
+      const authorId = jsonData.feed?.link
+        ?.find(link => link.rel === 'alternate')
+        .href.split('channel/')[1];
+
+      const channel: ChannelBasicInfoDto = {
+        authorId,
+        author: jsonData.feed.author.name,
+        authorUrl: jsonData.feed.author.uri
+      };
+
+      const cachedChannelThmbPath = path.join(global.__basedir, `channels/${authorId}.webp`);
+      if (fs.existsSync(cachedChannelThmbPath)) {
+        channel.authorThumbnailUrl = `channels/${authorId}/thumbnail/tiny.webp`;
+      } else {
+        channel.authorThumbnailUrl = undefined;
+      }
+
+      return { channel, videos };
+    } else {
+      logger.warn(`[subscriptions job] Could not fetch channel: ${channelFeed.requestError}`);
+    }
   }
   return null;
+};
+
+const fetchChannelFeed = async (
+  channelId: string,
+  channelOptions: Record<string, any>
+): Promise<{
+  channelFeed: string | null;
+  requestError: string | null;
+}> => {
+  let requestError = null;
+  let i = 0;
+
+  let channelFeed = null;
+
+  do {
+    i++;
+    try {
+      const feed = await ofetch(feedUrl + channelId, channelOptions);
+      if (typeof feed === 'string') {
+        channelFeed = feed;
+        requestError = null;
+      }
+    } catch (error) {
+      requestError = error;
+    }
+  } while (requestError?.includes('429') || i < 5);
+
+  return {
+    channelFeed,
+    requestError
+  };
 };
