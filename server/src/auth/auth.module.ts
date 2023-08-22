@@ -1,24 +1,28 @@
 import { Module, ModuleMetadata } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
-import { UserModule } from '../user/user.module';
 import { AuthService } from './auth.service';
-import { LocalStrategy } from './strategies/local.strategy';
 import { AuthController } from './auth.controller';
-import { JwtStrategy } from './strategies/jwt.strategy';
 import { RegisterModule } from './register/register.module';
+import { MongooseModule } from '@nestjs/mongoose';
+import { User, UserSchema } from 'server/user/schemas/user.schema';
 
 const moduleMetadata: ModuleMetadata = {
-  providers: [AuthService, LocalStrategy, JwtStrategy],
+  providers: [AuthService],
   imports: [
-    ConfigModule.forRoot(),
-    UserModule,
+    ConfigModule,
     RegisterModule,
-    PassportModule.register({ defaultStrategy: 'jwt' }),
+    MongooseModule.forFeature([
+      {
+        name: User.name,
+        schema: UserSchema,
+        collection: 'users'
+      }
+    ]),
     JwtModule.registerAsync({
       useFactory: () => {
         return {
+          global: true,
           secret: process.env.VIEWTUBE_JWT_SECRET,
           signOptions: {
             expiresIn: '12h',
@@ -29,7 +33,8 @@ const moduleMetadata: ModuleMetadata = {
       }
     })
   ],
-  controllers: [AuthController]
+  controllers: [AuthController],
+  exports: [AuthService]
 };
 @Module(moduleMetadata)
 export class AuthModule {}

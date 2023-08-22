@@ -1,8 +1,7 @@
-import { Controller, Post, UseGuards, Body, Res, Query } from '@nestjs/common';
+import { Controller, Post, Body, Res, Query, UnauthorizedException } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { FastifyReply } from 'fastify';
 import { UserDto } from '../user/user.dto';
-import { LocalAuthGuard } from './guards/local.guard';
 import { AuthService } from './auth.service';
 
 @ApiTags('Auth')
@@ -10,16 +9,24 @@ import { AuthService } from './auth.service';
 export class AuthController {
   constructor(private authService: AuthService) {}
 
-  @UseGuards(LocalAuthGuard)
   @Post('login')
-  login(@Res() reply: FastifyReply, @Body() user: UserDto, @Query('local') isLocal: boolean) {
+  async login(
+    @Res({ passthrough: true }) reply: FastifyReply,
+    @Body() { username, password }: UserDto,
+    @Query('local') isLocal: boolean
+  ) {
+    const user = await this.authService.validateUser(username, password);
+    if (!user) {
+      throw new UnauthorizedException('Invalid username or password');
+    }
+
     const cookie = this.authService.getJwtCookie(user.username);
     reply.header('Set-Cookie', cookie);
     const tokenResponse = this.authService.login(user.username);
     if (isLocal) {
-      reply.send(tokenResponse);
+      return tokenResponse;
     } else {
-      reply.code(204).send();
+      reply.code(204);
     }
   }
 

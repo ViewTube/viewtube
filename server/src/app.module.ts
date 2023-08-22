@@ -77,9 +77,9 @@ const moduleMetadata: ModuleMetadata = {
       inject: [ConfigService]
     }),
     ScheduleModule.forRoot(),
+    AuthModule,
     CoreModule,
     UserModule,
-    AuthModule,
     NuxtModule,
     RouterModule.register(
       prefixApi([
@@ -103,9 +103,7 @@ const moduleMetadata: ModuleMetadata = {
       ])
     )
   ],
-  providers: [
-    Logger
-  ]
+  providers: [Logger]
 };
 @Module(moduleMetadata)
 export class AppModule {}

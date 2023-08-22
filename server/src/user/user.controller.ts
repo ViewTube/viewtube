@@ -1,6 +1,5 @@
 import {
   Controller,
-  UseGuards,
   Get,
   Req,
   Res,
@@ -14,7 +13,6 @@ import {
   HttpCode
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { JwtAuthGuard } from 'server/auth/guards/jwt.guard';
 import { UserprofileDto } from 'server/user/dto/userprofile.dto';
 import { FastifyReply } from 'fastify';
 import { ViewTubeRequest } from 'server/common/viewtube-request';
@@ -23,7 +21,6 @@ import { UserService } from './user.service';
 
 @ApiTags('User')
 @ApiBearerAuth()
-@UseGuards(JwtAuthGuard)
 @Controller('user')
 export class UserController {
   constructor(private userService: UserService) {}

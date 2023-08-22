@@ -2,19 +2,23 @@ import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import bcrypt from 'bcryptjs';
 import { ConfigService } from '@nestjs/config';
-import { UserService } from '../user/user.service';
 import { isHttps } from 'viewtube/shared/util';
+import { Model } from 'mongoose';
+import { User } from 'server/user/schemas/user.schema';
+import { InjectModel } from '@nestjs/mongoose';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private userService: UserService,
+    @InjectModel(User.name)
+    private readonly UserModel: Model<User>,
     private jwtService: JwtService,
     private configService: ConfigService
   ) {}
 
   async validateUser(username: string, pw: string) {
-    const user = await this.userService.findOne(username);
+    const user = await this.UserModel.findOne({ username });
+
     if (user) {
       try {
         const comparison = await bcrypt.compare(pw, user.password);

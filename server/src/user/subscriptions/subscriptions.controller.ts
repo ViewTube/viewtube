@@ -12,7 +12,6 @@ import {
   Logger
 } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
-import { JwtAuthGuard } from 'server/auth/guards/jwt.guard';
 import { ChannelBasicInfoDto } from 'server/core/channels/dto/channel-basic-info.dto';
 import { Common } from 'server/core/common';
 import { ViewTubeRequest } from 'common/viewtube-request';
@@ -22,7 +21,6 @@ import { SubscribedChannelsResponseDto } from './dto/subscribed-channels-respons
 import { SubscriptionFeedResponseDto } from './dto/subscription-feed-response.dto';
 
 @ApiTags('User')
-@UseGuards(JwtAuthGuard)
 @ApiBearerAuth()
 @Controller('user/subscriptions')
 export class SubscriptionsController {

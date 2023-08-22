@@ -11,14 +11,12 @@ import {
   InternalServerErrorException
 } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
-import { JwtAuthGuard } from 'server/auth/guards/jwt.guard';
 import { ViewTubeRequest } from 'server/common/viewtube-request';
 import { HistoryResponseDto } from './dto/history-response.dto';
 import { VideoVisitDto } from './dto/video-visit.dto';
 import { HistoryService } from './history.service';
 
 @ApiTags('User')
-@UseGuards(JwtAuthGuard)
 @ApiBearerAuth()
 @Controller('user/history')
 export class HistoryController {

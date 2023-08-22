@@ -1,13 +1,11 @@
 import { Controller, UseGuards, Post, Body, Req } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
-import { JwtAuthGuard } from 'server/auth/guards/jwt.guard';
 import webPush from 'web-push';
 import { ConfigService } from '@nestjs/config';
 import { ViewTubeRequest } from 'server/common/viewtube-request';
 import { NotificationsService } from './notifications.service';
 
 @ApiTags('User')
-@UseGuards(JwtAuthGuard)
 @ApiBearerAuth()
 @Controller('user/notifications')
 export class NotificationsController {
