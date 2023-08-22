@@ -185,7 +185,7 @@ export class UserService {
   async deleteProfileImage(username: string) {
     if (username) {
       const user = await this.UserModel.findOne({ username });
-      if (user && user.profileImage && fs.existsSync(user.profileImage)) {
+      if (user && user.profileImage) {
         user.profileImage = null;
         await user.save();
       } else {

@@ -13,7 +13,8 @@ export const useUserStore = defineStore('user', {
   state: () => ({
     username: null,
     profileImage: null,
-    admin: false
+    admin: false,
+    triedLogin: false
   }),
   getters: {
     isLoggedIn: state => !!state.username
@@ -39,6 +40,7 @@ export const useUserStore = defineStore('user', {
       } catch {
         // Ignore silently
       }
+      this.triedLogin = true;
     },
 
     async login(username: string, password: string) {

@@ -17,15 +17,14 @@ export class AuthService {
   ) {}
 
   async validateUser(username: string, pw: string) {
-    const user = await this.UserModel.findOne({ username });
+    const user = await this.UserModel.findOne({ username }).exec();
 
     if (user) {
       try {
         const comparison = await bcrypt.compare(pw, user.password);
         if (comparison === true) {
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          const { password, ...result } = user;
-          return result;
+          const { username, profileImage } = user;
+          return { username, profileImage };
         }
       } catch (_) {
         return null;
@@ -43,8 +42,8 @@ export class AuthService {
     return `Authentication=; HttpOnly=true; Path=/; ${secureString}Max-Age=${expiration}`;
   }
 
-  getJwtCookie(username: string) {
-    const { accessToken } = this.login(username);
+  async getJwtCookie(username: string) {
+    const { accessToken } = await this.login(username);
     let secureString = '';
     if (this.configService.get('NODE_ENV') === 'production' && isHttps()) {
       secureString = 'Secure=true; SameSite=Strict; ';
@@ -53,9 +52,11 @@ export class AuthService {
     return `Authentication=${accessToken}; HttpOnly=true; Path=/; ${secureString}Max-Age=${expiration}`;
   }
 
-  login(username: string) {
+  async login(username: string) {
+    const payload = { username };
+    const accessToken = await this.jwtService.signAsync(payload);
     return {
-      accessToken: this.jwtService.sign({ username })
+      accessToken
     };
   }
 }

@@ -49,7 +49,6 @@ export const convertFromInternalToOPML = (subscriptions: Subscription[]): string
     }
   };
   const xml = x2js.js2xml(jsonObject);
-  console.log(xml);
   return xml;
 };
 

@@ -6,9 +6,17 @@ import { AuthController } from './auth.controller';
 import { RegisterModule } from './register/register.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from 'server/user/schemas/user.schema';
+import { APP_GUARD } from '@nestjs/core';
+import { PublicAuthGuard } from './guards/public-auth.guard';
 
 const moduleMetadata: ModuleMetadata = {
-  providers: [AuthService],
+  providers: [
+    AuthService,
+    {
+      provide: APP_GUARD,
+      useClass: PublicAuthGuard
+    }
+  ],
   imports: [
     ConfigModule,
     RegisterModule,

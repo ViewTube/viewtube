@@ -15,14 +15,14 @@ export class AuthController {
     @Body() { username, password }: UserDto,
     @Query('local') isLocal: boolean
   ) {
-    const user = await this.authService.validateUser(username, password);
+    const user = await this.authService.validateUser(username, password)
     if (!user) {
       throw new UnauthorizedException('Invalid username or password');
     }
 
-    const cookie = this.authService.getJwtCookie(user.username);
+    const cookie = await this.authService.getJwtCookie(user.username);
     reply.header('Set-Cookie', cookie);
-    const tokenResponse = this.authService.login(user.username);
+    const tokenResponse = await this.authService.login(user.username);
     if (isLocal) {
       return tokenResponse;
     } else {
