@@ -221,7 +221,7 @@ export class YoutubeGrabber {
     const ytGrabHelp = YoutubeGrabberHelper?.create(httpsAgent);
     const urlParams = this?.GetContinuationUrlParams(continuation);
     const ajaxUrl =
-      'https://www?.youtube?.com/youtubei/v1/browse?key=AIzaSyAO_FJ2SlqU8Q4STEHLGCilw_Y9_11qcW8';
+      'https://www.youtube.com/youtubei/v1/browse?key=AIzaSyAO_FJ2SlqU8Q4STEHLGCilw_Y9_11qcW8';
 
     const channelPageResponse = await ytGrabHelp?.makeChannelPost(ajaxUrl, urlParams);
 
@@ -282,20 +282,20 @@ export class YoutubeGrabber {
     httpsAgent = null
   }: ChannelVideosPayload): Promise<ChannelInfoResponse<Video> | ChannelInfoError> {
     if (sortBy === 'popular') {
-      return await YoutubeChannelFetcher?.getChannelVideosPopular(
+      return await YoutubeChannelFetcher.getChannelVideosPopular(
         channelId,
         channelIdType,
         httpsAgent
       );
     } else if (sortBy === 'oldest') {
-      return await YoutubeChannelFetcher?.getChannelVideosOldest(
+      return await YoutubeChannelFetcher.getChannelVideosOldest(
         channelId,
         channelIdType,
         httpsAgent
       );
     } else {
       // newest
-      return await YoutubeChannelFetcher?.getChannelVideosNewest(
+      return await YoutubeChannelFetcher.getChannelVideosNewest(
         channelId,
         channelIdType,
         httpsAgent
@@ -309,7 +309,7 @@ export class YoutubeGrabber {
     channelIdType = 0,
     httpsAgent = null
   }: ChannelLivestreamsPayload): Promise<ChannelInfoResponse<Video>> {
-    return await YoutubeChannelFetcher?.getChannelList(
+    return await YoutubeChannelFetcher.getChannelList(
       channelId,
       channelIdType,
       'streams',
@@ -324,7 +324,7 @@ export class YoutubeGrabber {
     channelIdType = 0,
     httpsAgent = null
   }: ChannelShortsPayload): Promise<ChannelInfoResponse<Video>> {
-    return await YoutubeChannelFetcher?.getChannelList(
+    return await YoutubeChannelFetcher.getChannelList(
       channelId,
       channelIdType,
       'shorts',
@@ -340,7 +340,7 @@ export class YoutubeGrabber {
     const ytGrabHelp = YoutubeGrabberHelper?.create(httpsAgent);
     const urlParams = this?.GetContinuationUrlParams(continuation);
     const ajaxUrl =
-      'https://www?.youtube?.com/youtubei/v1/browse?key=AIzaSyAO_FJ2SlqU8Q4STEHLGCilw_Y9_11qcW8';
+      'https://www.youtube.com/youtubei/v1/browse?key=AIzaSyAO_FJ2SlqU8Q4STEHLGCilw_Y9_11qcW8';
 
     const channelPageResponse = await ytGrabHelp?.makeChannelPost(ajaxUrl, urlParams);
 
@@ -421,14 +421,14 @@ export class YoutubeGrabber {
     httpsAgent = null
   }: ChannelPlaylistPayload): Promise<ChannelInfoResponse<Playlist>> {
     if (sortBy === 'newest') {
-      return await YoutubePlaylistFetcher?.getChannelPlaylistNewest(
+      return await YoutubePlaylistFetcher.getChannelPlaylistNewest(
         channelId,
         channelIdType,
         httpsAgent
       );
     } else {
       // last
-      return await YoutubePlaylistFetcher?.getChannelPlaylistLast(
+      return await YoutubePlaylistFetcher.getChannelPlaylistLast(
         channelId,
         channelIdType,
         httpsAgent
@@ -443,7 +443,7 @@ export class YoutubeGrabber {
     const ytGrabHelp = YoutubeGrabberHelper?.create(httpsAgent);
     const urlParams = this?.GetContinuationUrlParams(continuation);
     const ajaxUrl =
-      'https://www?.youtube?.com/youtubei/v1/browse?key=AIzaSyAO_FJ2SlqU8Q4STEHLGCilw_Y9_11qcW8';
+      'https://www.youtube.com/youtubei/v1/browse?key=AIzaSyAO_FJ2SlqU8Q4STEHLGCilw_Y9_11qcW8';
 
     const channelPageResponse = await ytGrabHelp?.makeChannelPost(ajaxUrl, urlParams);
 
@@ -474,7 +474,7 @@ export class YoutubeGrabber {
     const channelInfo = {
       channelId: channelId,
       channelName: channelName,
-      channelUrl: `https://www?.youtube?.com/channel/${channelId}`
+      channelUrl: `https://www.youtube.com/channel/${channelId}`
     };
 
     const nextPlaylists = continuationData
@@ -529,7 +529,7 @@ export class YoutubeGrabber {
     const channelInfo = {
       channelId: channelId,
       channelName: channelName,
-      channelUrl: `https://www?.youtube?.com/channel/${channelId}`
+      channelUrl: `https://www.youtube.com/channel/${channelId}`
     };
 
     const searchTab =
@@ -591,7 +591,7 @@ export class YoutubeGrabber {
     const ytGrabHelp = YoutubeGrabberHelper?.create(httpsAgent);
     const urlParams = this?.GetContinuationUrlParams(continuation);
     const ajaxUrl =
-      'https://www?.youtube?.com/youtubei/v1/browse?key=AIzaSyAO_FJ2SlqU8Q4STEHLGCilw_Y9_11qcW8';
+      'https://www.youtube.com/youtubei/v1/browse?key=AIzaSyAO_FJ2SlqU8Q4STEHLGCilw_Y9_11qcW8';
 
     const channelPageResponse = await ytGrabHelp?.makeChannelPost(ajaxUrl, urlParams);
 
@@ -662,8 +662,8 @@ export class YoutubeGrabber {
   }: CommunityPostContinuationPayload): Promise<ChannelCommunityPostsContinuationResponse> {
     const ytGrabHelp = YoutubeGrabberHelper?.create(httpsAgent);
     const channelPageResponse = await ytGrabHelp?.makeChannelPost(
-      `https://www?.youtube?.com/youtubei/v1/browse?key=${innerTubeApi}`,
-      this?.GetContinuationUrlParams(continuation)
+      `https://www.youtube.com/youtubei/v1/browse?key=${innerTubeApi}`,
+      this.GetContinuationUrlParams(continuation)
     );
     if (channelPageResponse?.error) {
       return Promise?.reject(channelPageResponse?.message);
