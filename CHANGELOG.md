@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Retry subscriptions on 429 rate limit [#2182](https://github.com/ViewTube/viewtube/pull/2182)
+- Use proxy for videoplayback [#2196](https://github.com/ViewTube/viewtube/pull/2196)
 
 ## [0.12.1]
 
