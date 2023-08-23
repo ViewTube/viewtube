@@ -42,106 +42,106 @@ export class YoutubeGrabber {
     channelIdType = 0,
     httpsAgent = null
   }: ChannelInfoPayload): Promise<ChannelInfo | ChannelInfoError> {
-    const ytGrabHelp = YoutubeGrabberHelper.create(httpsAgent);
-    const decideResponse = await ytGrabHelp.decideUrlRequestType(
+    const ytGrabHelp = YoutubeGrabberHelper?.create(httpsAgent);
+    const decideResponse = await ytGrabHelp?.decideUrlRequestType(
       channelId,
       'channels?flow=grid&view=0&pbj=1',
       channelIdType
     );
-    const channelPageResponse = decideResponse.response;
-    let channelPageDataResponse = channelPageResponse.data.response;
-    if (channelPageResponse.data.response === undefined) {
-      channelPageDataResponse = channelPageResponse.data[1].response;
+    const channelPageResponse = decideResponse?.response;
+    let channelPageDataResponse = channelPageResponse?.data?.response;
+    if (channelPageResponse?.data?.response === undefined) {
+      channelPageDataResponse = channelPageResponse?.data?.[1]?.response;
     }
     let headerLinks;
-    if ('c4TabbedHeaderRenderer' in channelPageDataResponse.header) {
-      headerLinks = channelPageDataResponse.header.c4TabbedHeaderRenderer.headerLinks;
+    if ('c4TabbedHeaderRenderer' in (channelPageDataResponse?.header ?? {})) {
+      headerLinks = channelPageDataResponse?.header?.c4TabbedHeaderRenderer?.headerLinks;
     }
     const links = {
       primaryLinks: [],
       secondaryLinks: []
     };
     if (typeof headerLinks !== 'undefined') {
-      const channelHeaderLinksData = headerLinks.channelHeaderLinksRenderer;
-      links.primaryLinks = channelHeaderLinksData.primaryLinks.map(x => {
-        const url = x.navigationEndpoint.urlEndpoint.url;
-        const match = url.match('&q=(.*)');
+      const channelHeaderLinksData = headerLinks?.channelHeaderLinksRenderer;
+      links.primaryLinks = channelHeaderLinksData?.primaryLinks?.map(x => {
+        const url = x.navigationEndpoint?.urlEndpoint?.url;
+        const match = url?.match('&q=(.*)');
         return {
-          url: match === null ? url : decodeURIComponent(match[1]),
-          icon: x.icon.thumbnails[0].url,
-          title: x.title.simpleText
+          url: match === null ? url : decodeURIComponent(match?.[1]),
+          icon: x.icon?.thumbnails?.[0]?.url,
+          title: x.title?.simpleText
         };
       });
-      if (typeof channelHeaderLinksData.secondaryLinks !== 'undefined') {
-        links.secondaryLinks = channelHeaderLinksData.secondaryLinks.map(x => {
-          const url = x.navigationEndpoint.urlEndpoint.url;
-          const match = url.match('&q=(.*)');
+      if (typeof channelHeaderLinksData?.secondaryLinks !== 'undefined') {
+        links.secondaryLinks = channelHeaderLinksData?.secondaryLinks?.map(x => {
+          const url = x.navigationEndpoint?.urlEndpoint?.url;
+          const match = url?.match('&q=(.*)');
           return {
-            url: match === null ? url : decodeURIComponent(match[1]),
-            icon: x.icon.thumbnails[0].url,
-            title: x.title.simpleText
+            url: match === null ? url : decodeURIComponent(match?.[1]),
+            icon: x.icon?.thumbnails?.[0]?.url,
+            title: x.title?.simpleText
           };
         });
       }
     }
 
-    if (typeof channelPageDataResponse.alerts !== 'undefined') {
+    if (typeof channelPageDataResponse?.alerts !== 'undefined') {
       return {
-        alertMessage: channelPageDataResponse.alerts[0].alertRenderer.text.simpleText
+        alertMessage: channelPageDataResponse?.alerts?.[0]?.alertRenderer?.text?.simpleText
       };
     }
 
     const channelMetaData = channelPageDataResponse?.metadata?.channelMetadataRenderer;
-    let channelHeaderData = channelPageDataResponse.header.c4TabbedHeaderRenderer;
+    let channelHeaderData = channelPageDataResponse?.header?.c4TabbedHeaderRenderer;
     if (!channelHeaderData) {
       channelHeaderData =
-        channelPageDataResponse.header.carouselHeaderRenderer.contents[1]
+        channelPageDataResponse?.header?.carouselHeaderRenderer?.contents?.[1]
           .topicChannelDetailsRenderer;
       //  = topicChannelDetailsRenderer
     }
-    const headerTabs = channelPageDataResponse.contents.twoColumnBrowseResultsRenderer.tabs;
+    const headerTabs = channelPageDataResponse?.contents?.twoColumnBrowseResultsRenderer?.tabs;
     const channelTabs = headerTabs
-      .filter(tab => tab.tabRenderer !== undefined && tab.tabRenderer !== null)
-      .map(tab => tab.tabRenderer.title);
+      .filter(tab => tab?.tabRenderer !== undefined && tab?.tabRenderer !== null)
+      .map(tab => tab?.tabRenderer?.title);
 
-    const channelsTab = YoutubeGrabberHelper.findTab(headerTabs);
+    const channelsTab = YoutubeGrabberHelper?.findTab(headerTabs);
     let featuredChannels: any = {};
-    if (channelsTab && 'sectionListRenderer' in channelsTab.tabRenderer.content) {
+    if (channelsTab && 'sectionListRenderer' in (channelsTab?.tabRenderer?.content ?? {})) {
       featuredChannels =
-        channelsTab.tabRenderer.content.sectionListRenderer.contents[0].itemSectionRenderer
-          .contents[0];
+        channelsTab?.tabRenderer?.content?.sectionListRenderer?.contents?.[0]?.itemSectionRenderer
+          .contents?.[0];
     }
     let relatedChannels = [];
     let relatedChannelsContinuation = null;
 
-    if (typeof featuredChannels.gridRenderer !== 'undefined') {
-      relatedChannels = featuredChannels.gridRenderer.items
+    if (typeof featuredChannels?.gridRenderer !== 'undefined') {
+      relatedChannels = featuredChannels?.gridRenderer?.items
         .filter(channel => {
-          return typeof channel.gridChannelRenderer !== 'undefined';
+          return typeof channel?.gridChannelRenderer !== 'undefined';
         })
         .map(channel => {
-          return ytGrabHelp.parseFeaturedChannel(channel.gridChannelRenderer);
+          return ytGrabHelp?.parseFeaturedChannel(channel?.gridChannelRenderer);
         });
 
-      const continuationData = featuredChannels.gridRenderer.items;
+      const continuationData = featuredChannels?.gridRenderer?.items;
 
-      const continuationItem = continuationData.filter(item => {
-        return typeof item.continuationItemRenderer !== 'undefined';
+      const continuationItem = continuationData?.filter(item => {
+        return typeof item?.continuationItemRenderer !== 'undefined';
       });
 
-      if (typeof continuationItem !== 'undefined' && typeof continuationItem[0] !== 'undefined') {
+      if (typeof continuationItem !== 'undefined' && typeof continuationItem?.[0] !== 'undefined') {
         relatedChannelsContinuation =
-          continuationItem[0].continuationItemRenderer.continuationEndpoint.continuationCommand
+          continuationItem?.[0]?.continuationItemRenderer?.continuationEndpoint?.continuationCommand
             .token;
       }
     }
 
     let subscriberText;
-    if (channelHeaderData.subscriberCountText) {
-      if (typeof channelHeaderData.subscriberCountText.runs !== 'undefined') {
-        subscriberText = channelHeaderData.subscriberCountText.runs[0].text;
+    if (channelHeaderData?.subscriberCountText) {
+      if (typeof channelHeaderData?.subscriberCountText?.runs !== 'undefined') {
+        subscriberText = channelHeaderData?.subscriberCountText?.runs?.[0]?.text;
       } else {
-        subscriberText = channelHeaderData.subscriberCountText.simpleText;
+        subscriberText = channelHeaderData?.subscriberCountText?.simpleText;
       }
     } else {
       subscriberText = '0 subscribers';
@@ -149,20 +149,20 @@ export class YoutubeGrabber {
 
     let bannerThumbnails = null;
 
-    if (typeof channelHeaderData.banner !== 'undefined') {
-      bannerThumbnails = channelHeaderData.banner.thumbnails;
+    if (typeof channelHeaderData?.banner !== 'undefined') {
+      bannerThumbnails = channelHeaderData?.banner?.thumbnails;
     }
 
-    const subscriberSplit = subscriberText.split(' ');
-    const subscriberMultiplier = subscriberSplit[0]
-      .substring(subscriberSplit[0].length - 1)
+    const subscriberSplit = subscriberText?.split(' ');
+    const subscriberMultiplier = subscriberSplit?.[0]
+      .substring(subscriberSplit?.[0]?.length - 1)
       .toLowerCase();
 
     let subscriberNumber;
     if (typeof parseFloat(subscriberMultiplier) === 'undefined') {
-      subscriberNumber = parseFloat(subscriberText.substring(0, subscriberSplit[0].length - 1));
+      subscriberNumber = parseFloat(subscriberText?.substring(0, subscriberSplit?.[0]?.length - 1));
     } else {
-      subscriberNumber = parseFloat(subscriberSplit[0]);
+      subscriberNumber = parseFloat(subscriberSplit?.[0]);
     }
 
     let subscriberCount = subscriberNumber;
@@ -174,25 +174,26 @@ export class YoutubeGrabber {
 
     let isVerified = false;
     let isOfficialArtist = false;
-    if (channelHeaderData.badges) {
-      isVerified = channelHeaderData.badges.some(
-        badge => badge.metadataBadgeRenderer.style === 'BADGE_STYLE_TYPE_VERIFIED'
+    if (channelHeaderData?.badges) {
+      isVerified = channelHeaderData?.badges?.some(
+        badge => badge?.metadataBadgeRenderer?.style === 'BADGE_STYLE_TYPE_VERIFIED'
       );
-      isOfficialArtist = channelHeaderData.badges.some(
-        badge => badge.metadataBadgeRenderer.style === 'BADGE_STYLE_TYPE_VERIFIED_ARTIST'
+      isOfficialArtist = channelHeaderData?.badges?.some(
+        badge => badge?.metadataBadgeRenderer?.style === 'BADGE_STYLE_TYPE_VERIFIED_ARTIST'
       );
     }
 
     const tags = channelPageDataResponse?.microformat?.microformatDataRenderer?.tags || null;
     const channelInfo = {
-      author: channelMetaData?.title ?? channelHeaderData.title.simpleText,
+      author: channelMetaData?.title ?? channelHeaderData?.title?.simpleText,
       authorId:
-        channelMetaData?.externalId ?? channelHeaderData.navigationEndpoint.browseEndpoint.browseId,
+        channelMetaData?.externalId ??
+        channelHeaderData?.navigationEndpoint?.browseEndpoint?.browseId,
       authorUrl:
         channelMetaData?.vanityChannelUrl ??
-        channelHeaderData.navigationEndpoint.commandMetadata.webCommandMetadata.url,
+        channelHeaderData?.navigationEndpoint?.commandMetadata?.webCommandMetadata?.url,
       authorBanners: bannerThumbnails,
-      authorThumbnails: channelHeaderData.avatar.thumbnails,
+      authorThumbnails: channelHeaderData?.avatar?.thumbnails,
       subscriberText: subscriberText,
       subscriberCount: subscriberCount,
       description: channelMetaData?.description ?? '',
@@ -207,7 +208,7 @@ export class YoutubeGrabber {
       tags: tags,
       channelLinks: links,
       channelTabs: channelTabs,
-      channelIdType: decideResponse.channelIdType
+      channelIdType: decideResponse?.channelIdType
     };
 
     return channelInfo;
@@ -217,53 +218,54 @@ export class YoutubeGrabber {
     continuation,
     httpsAgent = null
   }: ContinuationPayload): Promise<ChannelInfoResponseContinuation<RelatedChannel>> {
-    const ytGrabHelp = YoutubeGrabberHelper.create(httpsAgent);
-    const urlParams = this.GetContinuationUrlParams(continuation);
+    const ytGrabHelp = YoutubeGrabberHelper?.create(httpsAgent);
+    const urlParams = this?.GetContinuationUrlParams(continuation);
     const ajaxUrl =
       'https://www.youtube.com/youtubei/v1/browse?key=AIzaSyAO_FJ2SlqU8Q4STEHLGCilw_Y9_11qcW8';
 
-    const channelPageResponse = await ytGrabHelp.makeChannelPost(ajaxUrl, urlParams);
+    const channelPageResponse = await ytGrabHelp?.makeChannelPost(ajaxUrl, urlParams);
 
-    if (channelPageResponse.error) {
-      return Promise.reject(channelPageResponse.message);
+    if (channelPageResponse?.error) {
+      return Promise?.reject(channelPageResponse?.message);
     }
 
     let nextContinuation = null;
 
     const continuationData =
-      channelPageResponse.data.onResponseReceivedActions[0].appendContinuationItemsAction
+      channelPageResponse?.data?.onResponseReceivedActions?.[0]?.appendContinuationItemsAction
         .continuationItems;
 
-    const continuationItem = continuationData.filter(item => {
-      return typeof item.continuationItemRenderer !== 'undefined';
+    const continuationItem = continuationData?.filter(item => {
+      return typeof item?.continuationItemRenderer !== 'undefined';
     });
 
-    if (typeof continuationItem !== 'undefined' && typeof continuationItem[0] !== 'undefined') {
+    if (typeof continuationItem !== 'undefined' && typeof continuationItem?.[0] !== 'undefined') {
       nextContinuation =
-        continuationItem[0].continuationItemRenderer.continuationEndpoint.continuationCommand.token;
+        continuationItem?.[0]?.continuationItemRenderer?.continuationEndpoint?.continuationCommand
+          ?.token;
     }
 
     let relatedChannels = [];
 
     relatedChannels = continuationData
       .filter(channel => {
-        return typeof channel.gridChannelRenderer !== 'undefined';
+        return typeof channel?.gridChannelRenderer !== 'undefined';
       })
       .map(channel => {
-        const author = channel.gridChannelRenderer;
+        const author = channel?.gridChannelRenderer;
         let channelName;
 
-        if (typeof author.title.runs !== 'undefined') {
-          channelName = author.title.runs[0].text;
+        if (typeof author?.title?.runs !== 'undefined') {
+          channelName = author?.title?.runs?.[0]?.text;
         } else {
-          channelName = author.title.simpleText;
+          channelName = author?.title?.simpleText;
         }
 
         return {
           author: channelName,
-          authorId: author.channelId,
-          authorUrl: author.navigationEndpoint.browseEndpoint.canonicalBaseUrl,
-          authorThumbnails: author.thumbnail.thumbnails
+          authorId: author?.channelId,
+          authorUrl: author?.navigationEndpoint?.browseEndpoint?.canonicalBaseUrl,
+          authorThumbnails: author?.thumbnail?.thumbnails
         };
       });
 
@@ -335,37 +337,38 @@ export class YoutubeGrabber {
     continuation,
     httpsAgent = null
   }: ContinuationPayload): Promise<ChannelInfoResponseContinuation<Video>> {
-    const ytGrabHelp = YoutubeGrabberHelper.create(httpsAgent);
-    const urlParams = this.GetContinuationUrlParams(continuation);
+    const ytGrabHelp = YoutubeGrabberHelper?.create(httpsAgent);
+    const urlParams = this?.GetContinuationUrlParams(continuation);
     const ajaxUrl =
       'https://www.youtube.com/youtubei/v1/browse?key=AIzaSyAO_FJ2SlqU8Q4STEHLGCilw_Y9_11qcW8';
 
-    const channelPageResponse = await ytGrabHelp.makeChannelPost(ajaxUrl, urlParams);
+    const channelPageResponse = await ytGrabHelp?.makeChannelPost(ajaxUrl, urlParams);
 
-    if (channelPageResponse.error) {
-      return Promise.reject(channelPageResponse.message);
+    if (channelPageResponse?.error) {
+      return Promise?.reject(channelPageResponse?.message);
     }
 
     let nextContinuation = null;
 
     const continuationData =
-      channelPageResponse.data.onResponseReceivedActions[0].appendContinuationItemsAction
+      channelPageResponse?.data?.onResponseReceivedActions?.[0]?.appendContinuationItemsAction
         .continuationItems;
 
-    const continuationItem = continuationData.filter(item => {
-      return typeof item.continuationItemRenderer !== 'undefined';
+    const continuationItem = continuationData?.filter(item => {
+      return typeof item?.continuationItemRenderer !== 'undefined';
     });
 
-    if (typeof continuationItem !== 'undefined' && typeof continuationItem[0] !== 'undefined') {
+    if (typeof continuationItem !== 'undefined' && typeof continuationItem?.[0] !== 'undefined') {
       nextContinuation =
-        continuationItem[0].continuationItemRenderer.continuationEndpoint.continuationCommand.token;
+        continuationItem?.[0]?.continuationItemRenderer?.continuationEndpoint?.continuationCommand
+          ?.token;
     }
 
-    const channelMetaData = channelPageResponse.data?.metadata?.channelMetadataRenderer;
+    const channelMetaData = channelPageResponse?.data?.metadata?.channelMetadataRenderer;
     let channelInfo: any = {};
     if (channelMetaData) {
-      const channelName = channelMetaData.title;
-      const channelId = channelMetaData.externalId;
+      const channelName = channelMetaData?.title;
+      const channelId = channelMetaData?.externalId;
 
       channelInfo = {
         channelId,
@@ -374,24 +377,24 @@ export class YoutubeGrabber {
     } else {
       let i = 0;
       // Look through every video until you can successfully find the channel metadata
-      while (channelInfo.channelName === undefined && i < continuationData.length - 1) {
-        const videoTitle = continuationData[i].richItemRenderer.content.videoRenderer.title;
+      while (channelInfo?.channelName === undefined && i < continuationData?.length - 1) {
+        const videoTitle = continuationData?.[i]?.richItemRenderer?.content?.videoRenderer?.title;
         const publishTimeText =
-          continuationData[i].richItemRenderer.content.videoRenderer.publishedTimeText;
+          continuationData?.[i]?.richItemRenderer?.content?.videoRenderer?.publishedTimeText;
         channelInfo = {
-          channelId: channelPageResponse.data.responseContext.serviceTrackingParams.find(
-            service => service.service === 'GOOGLE_HELP'
-          ).params[0].value
+          channelId: channelPageResponse?.data?.responseContext?.serviceTrackingParams?.find(
+            service => service?.service === 'GOOGLE_HELP'
+          ).params?.[0]?.value
         };
         const channelNameRegex = new RegExp(
-          `${videoTitle.runs[0].text.replace(
+          `${videoTitle?.runs?.[0]?.text?.replace(
             /[.*+?^${}()|[\]\\]/g,
             '\\$&'
-          )} by (.*?) ${publishTimeText.simpleText.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}`,
+          )} by (.*?) ${publishTimeText?.simpleText?.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}`,
           'g'
-        ).exec(videoTitle.accessibility.accessibilityData.label);
-        if (channelNameRegex !== null && channelNameRegex.length > 1) {
-          channelInfo.channelName = channelNameRegex[1];
+        ).exec(videoTitle?.accessibility?.accessibilityData?.label);
+        if (channelNameRegex !== null && channelNameRegex?.length > 1) {
+          channelInfo.channelName = channelNameRegex?.[1];
         }
         i++;
       }
@@ -399,10 +402,10 @@ export class YoutubeGrabber {
 
     const nextVideos = continuationData
       .filter(item => {
-        return typeof item.continuationItemRenderer === 'undefined';
+        return typeof item?.continuationItemRenderer === 'undefined';
       })
       .map(item => {
-        return ytGrabHelp.parseVideo(item, channelInfo);
+        return ytGrabHelp?.parseVideo(item, channelInfo);
       });
 
     return {
@@ -437,35 +440,36 @@ export class YoutubeGrabber {
     continuation,
     httpsAgent = null
   }: ContinuationPayload): Promise<ChannelInfoResponseContinuation<Playlist>> {
-    const ytGrabHelp = YoutubeGrabberHelper.create(httpsAgent);
-    const urlParams = this.GetContinuationUrlParams(continuation);
+    const ytGrabHelp = YoutubeGrabberHelper?.create(httpsAgent);
+    const urlParams = this?.GetContinuationUrlParams(continuation);
     const ajaxUrl =
       'https://www.youtube.com/youtubei/v1/browse?key=AIzaSyAO_FJ2SlqU8Q4STEHLGCilw_Y9_11qcW8';
 
-    const channelPageResponse = await ytGrabHelp.makeChannelPost(ajaxUrl, urlParams);
+    const channelPageResponse = await ytGrabHelp?.makeChannelPost(ajaxUrl, urlParams);
 
-    if (channelPageResponse.error) {
-      return Promise.reject(channelPageResponse.message);
+    if (channelPageResponse?.error) {
+      return Promise?.reject(channelPageResponse?.message);
     }
 
     let nextContinuation = null;
 
     const continuationData =
-      channelPageResponse.data.onResponseReceivedActions[0].appendContinuationItemsAction
+      channelPageResponse?.data?.onResponseReceivedActions?.[0]?.appendContinuationItemsAction
         .continuationItems;
 
-    const continuationItem = continuationData.filter(item => {
-      return typeof item.continuationItemRenderer !== 'undefined';
+    const continuationItem = continuationData?.filter(item => {
+      return typeof item?.continuationItemRenderer !== 'undefined';
     });
 
-    if (typeof continuationItem !== 'undefined' && typeof continuationItem[0] !== 'undefined') {
+    if (typeof continuationItem !== 'undefined' && typeof continuationItem?.[0] !== 'undefined') {
       nextContinuation =
-        continuationItem[0].continuationItemRenderer.continuationEndpoint.continuationCommand.token;
+        continuationItem?.[0]?.continuationItemRenderer?.continuationEndpoint?.continuationCommand
+          ?.token;
     }
 
-    const channelMetaData = channelPageResponse.data.metadata.channelMetadataRenderer;
-    const channelName = channelMetaData.title;
-    const channelId = channelMetaData.externalId;
+    const channelMetaData = channelPageResponse?.data?.metadata?.channelMetadataRenderer;
+    const channelName = channelMetaData?.title;
+    const channelId = channelMetaData?.externalId;
 
     const channelInfo = {
       channelId: channelId,
@@ -476,12 +480,12 @@ export class YoutubeGrabber {
     const nextPlaylists = continuationData
       .filter(item => {
         return (
-          typeof item.gridShowRenderer === 'undefined' &&
-          typeof item.continuationItemRenderer === 'undefined'
+          typeof item?.gridShowRenderer === 'undefined' &&
+          typeof item?.continuationItemRenderer === 'undefined'
         );
       })
       .map(item => {
-        return ytGrabHelp.parsePlaylist(item, channelInfo);
+        return ytGrabHelp?.parsePlaylist(item, channelInfo);
       });
 
     return {
@@ -496,7 +500,7 @@ export class YoutubeGrabber {
     channelIdType = 0,
     httpsAgent = null
   }: ChannelSearchPayload): Promise<ChannelInfoResponseContinuation<Video> | ChannelInfoError> {
-    const ytGrabHelp = YoutubeGrabberHelper.create(httpsAgent);
+    const ytGrabHelp = YoutubeGrabberHelper?.create(httpsAgent);
     const urlParams = new URLSearchParams({
       query: query,
       flow: 'grid',
@@ -504,23 +508,23 @@ export class YoutubeGrabber {
       pbj: `${1}`
     });
 
-    const decideResponse = await ytGrabHelp.decideUrlRequestType(
+    const decideResponse = await ytGrabHelp?.decideUrlRequestType(
       channelId,
       `search?${urlParams}`,
       channelIdType
     );
-    const channelPageResponse = decideResponse.response;
-    let channelPageDataResponse = channelPageResponse.data.response;
+    const channelPageResponse = decideResponse?.response;
+    let channelPageDataResponse = channelPageResponse?.data?.response;
     if (typeof channelPageDataResponse === 'undefined') {
-      channelPageDataResponse = channelPageResponse.data[1].response;
+      channelPageDataResponse = channelPageResponse?.data?.[1]?.response;
     }
-    if (typeof channelPageDataResponse.alerts !== 'undefined') {
+    if (typeof channelPageDataResponse?.alerts !== 'undefined') {
       return {
-        alertMessage: channelPageDataResponse.alerts[0].alertRenderer.text.simpleText
+        alertMessage: channelPageDataResponse?.alerts?.[0]?.alertRenderer?.text?.simpleText
       };
     }
-    const channelMetaData = channelPageDataResponse.metadata.channelMetadataRenderer;
-    const channelName = channelMetaData.title;
+    const channelMetaData = channelPageDataResponse?.metadata?.channelMetadataRenderer;
+    const channelName = channelMetaData?.title;
 
     const channelInfo = {
       channelId: channelId,
@@ -529,28 +533,31 @@ export class YoutubeGrabber {
     };
 
     const searchTab =
-      channelPageDataResponse.contents.twoColumnBrowseResultsRenderer.tabs.findIndex(tab => {
-        return typeof tab.expandableTabRenderer !== 'undefined';
+      channelPageDataResponse?.contents?.twoColumnBrowseResultsRenderer?.tabs?.findIndex(tab => {
+        return typeof tab?.expandableTabRenderer !== 'undefined';
       });
 
     const searchResults =
-      channelPageDataResponse.contents.twoColumnBrowseResultsRenderer.tabs[searchTab]
-        .expandableTabRenderer.content.sectionListRenderer;
+      channelPageDataResponse?.contents?.twoColumnBrowseResultsRenderer?.tabs?.[searchTab]
+        .expandableTabRenderer?.content?.sectionListRenderer;
 
     let continuation = null;
 
-    const searchItems = searchResults.contents;
+    const searchItems = searchResults?.contents;
 
-    const continuationItem = searchItems.filter(item => {
-      return typeof item.continuationItemRenderer !== 'undefined';
+    const continuationItem = searchItems?.filter(item => {
+      return typeof item?.continuationItemRenderer !== 'undefined';
     });
 
-    if (typeof continuationItem !== 'undefined' && typeof continuationItem[0] !== 'undefined') {
+    if (typeof continuationItem !== 'undefined' && typeof continuationItem?.[0] !== 'undefined') {
       continuation =
-        continuationItem[0].continuationItemRenderer.continuationEndpoint.continuationCommand.token;
+        continuationItem?.[0]?.continuationItemRenderer?.continuationEndpoint?.continuationCommand
+          ?.token;
     }
 
-    if (typeof searchItems[0].itemSectionRenderer.contents[0].messageRenderer !== 'undefined') {
+    if (
+      typeof searchItems?.[0]?.itemSectionRenderer?.contents?.[0]?.messageRenderer !== 'undefined'
+    ) {
       return {
         continuation: null,
         items: []
@@ -559,15 +566,15 @@ export class YoutubeGrabber {
 
     const parsedSearchItems = searchItems
       .filter(item => {
-        return typeof item.continuationItemRenderer === 'undefined';
+        return typeof item?.continuationItemRenderer === 'undefined';
       })
       .map(item => {
-        const obj = item.itemSectionRenderer.contents[0];
+        const obj = item?.itemSectionRenderer?.contents?.[0];
 
-        if (typeof obj.playlistRenderer !== 'undefined') {
-          return ytGrabHelp.parsePlaylist(obj, channelInfo);
+        if (typeof obj?.playlistRenderer !== 'undefined') {
+          return ytGrabHelp?.parsePlaylist(obj, channelInfo);
         } else {
-          return ytGrabHelp.parseVideo(obj, channelInfo);
+          return ytGrabHelp?.parseVideo(obj, channelInfo);
         }
       });
 
@@ -581,34 +588,35 @@ export class YoutubeGrabber {
     continuation,
     httpsAgent = null
   }: ContinuationPayload): Promise<ChannelInfoResponseContinuation<Video>> {
-    const ytGrabHelp = YoutubeGrabberHelper.create(httpsAgent);
-    const urlParams = this.GetContinuationUrlParams(continuation);
+    const ytGrabHelp = YoutubeGrabberHelper?.create(httpsAgent);
+    const urlParams = this?.GetContinuationUrlParams(continuation);
     const ajaxUrl =
       'https://www.youtube.com/youtubei/v1/browse?key=AIzaSyAO_FJ2SlqU8Q4STEHLGCilw_Y9_11qcW8';
 
-    const channelPageResponse = await ytGrabHelp.makeChannelPost(ajaxUrl, urlParams);
+    const channelPageResponse = await ytGrabHelp?.makeChannelPost(ajaxUrl, urlParams);
 
-    if (channelPageResponse.error) {
-      return Promise.reject(channelPageResponse.message);
+    if (channelPageResponse?.error) {
+      return Promise?.reject(channelPageResponse?.message);
     }
 
     let nextContinuation = null;
 
     const continuationData =
-      channelPageResponse.data.onResponseReceivedActions[0].appendContinuationItemsAction
+      channelPageResponse?.data?.onResponseReceivedActions?.[0]?.appendContinuationItemsAction
         .continuationItems;
-    const continuationItem = continuationData.filter(item => {
-      return typeof item.continuationItemRenderer !== 'undefined';
+    const continuationItem = continuationData?.filter(item => {
+      return typeof item?.continuationItemRenderer !== 'undefined';
     });
 
-    if (typeof continuationItem !== 'undefined' && typeof continuationItem[0] !== 'undefined') {
+    if (typeof continuationItem !== 'undefined' && typeof continuationItem?.[0] !== 'undefined') {
       nextContinuation =
-        continuationItem[0].continuationItemRenderer.continuationEndpoint.continuationCommand.token;
+        continuationItem?.[0]?.continuationItemRenderer?.continuationEndpoint?.continuationCommand
+          ?.token;
     }
 
-    const channelMetaData = channelPageResponse.data.metadata.channelMetadataRenderer;
-    const channelName = channelMetaData.title;
-    const channelId = channelMetaData.externalId;
+    const channelMetaData = channelPageResponse?.data?.metadata?.channelMetadataRenderer;
+    const channelName = channelMetaData?.title;
+    const channelId = channelMetaData?.externalId;
 
     const channelInfo = {
       channelId: channelId,
@@ -617,11 +625,11 @@ export class YoutubeGrabber {
 
     const nextVideos = continuationData
       .filter(item => {
-        return typeof item.continuationItemRenderer === 'undefined';
+        return typeof item?.continuationItemRenderer === 'undefined';
       })
       .map(item => {
-        const channel = item.itemSectionRenderer.contents[0];
-        return ytGrabHelp.parseVideo(channel, channelInfo);
+        const channel = item?.itemSectionRenderer?.contents?.[0];
+        return ytGrabHelp?.parseVideo(channel, channelInfo);
       });
 
     return {
@@ -635,15 +643,15 @@ export class YoutubeGrabber {
     channelIdType = 0,
     httpsAgent = null
   }: ChannelInfoPayload): Promise<ChannelCommunityPostsResponse> {
-    const ytGrabHelp = YoutubeGrabberHelper.create(httpsAgent);
-    const channelPageResponse = await ytGrabHelp.decideUrlRequestType(
+    const ytGrabHelp = YoutubeGrabberHelper?.create(httpsAgent);
+    const channelPageResponse = await ytGrabHelp?.decideUrlRequestType(
       channelId,
       'community',
       channelIdType
     );
-    return ytGrabHelp.parseCommunityPage(
-      channelPageResponse.response,
-      channelPageResponse.channelIdType
+    return ytGrabHelp?.parseCommunityPage(
+      channelPageResponse?.response,
+      channelPageResponse?.channelIdType
     );
   }
 
@@ -652,24 +660,24 @@ export class YoutubeGrabber {
     innerTubeApi,
     httpsAgent = null
   }: CommunityPostContinuationPayload): Promise<ChannelCommunityPostsContinuationResponse> {
-    const ytGrabHelp = YoutubeGrabberHelper.create(httpsAgent);
-    const channelPageResponse = await ytGrabHelp.makeChannelPost(
+    const ytGrabHelp = YoutubeGrabberHelper?.create(httpsAgent);
+    const channelPageResponse = await ytGrabHelp?.makeChannelPost(
       `https://www.youtube.com/youtubei/v1/browse?key=${innerTubeApi}`,
       this.GetContinuationUrlParams(continuation)
     );
-    if (channelPageResponse.error) {
-      return Promise.reject(channelPageResponse.message);
+    if (channelPageResponse?.error) {
+      return Promise?.reject(channelPageResponse?.message);
     }
     const postDataArray =
-      channelPageResponse.data.onResponseReceivedEndpoints[0].appendContinuationItemsAction
+      channelPageResponse?.data?.onResponseReceivedEndpoints?.[0]?.appendContinuationItemsAction
         .continuationItems;
     const contValue =
-      'continuationItemRenderer' in postDataArray[postDataArray.length - 1]
-        ? postDataArray[postDataArray.length - 1].continuationItemRenderer.continuationEndpoint
-            .continuationCommand.token
+      'continuationItemRenderer' in (postDataArray?.[postDataArray?.length - 1] ?? {})
+        ? postDataArray?.[postDataArray?.length - 1]?.continuationItemRenderer?.continuationEndpoint
+            .continuationCommand?.token
         : null;
     return {
-      items: ytGrabHelp.createCommunityPostArray(postDataArray),
+      items: ytGrabHelp?.createCommunityPostArray(postDataArray),
       continuation: contValue,
       innerTubeApi: innerTubeApi
     };
@@ -680,39 +688,41 @@ export class YoutubeGrabber {
     channelIdType = 0,
     httpsAgent = null
   }: ChannelInfoPayload): Promise<ChannelStatsResponse | ChannelInfoError> {
-    const ytGrabHelp = YoutubeGrabberHelper.create(httpsAgent);
-    const decideResponse = await ytGrabHelp.decideUrlRequestType(
+    const ytGrabHelp = YoutubeGrabberHelper?.create(httpsAgent);
+    const decideResponse = await ytGrabHelp?.decideUrlRequestType(
       channelId,
       'about?flow=grid&view=0&pbj=1',
       channelIdType
     );
-    const channelPageResponse = decideResponse.response;
-    const channelPageDataResponse = channelPageResponse.data[1].response;
-    if (typeof channelPageDataResponse.alerts !== 'undefined') {
+    const channelPageResponse = decideResponse?.response;
+    const channelPageDataResponse = channelPageResponse?.data?.[1]?.response;
+    if (typeof channelPageDataResponse?.alerts !== 'undefined') {
       return {
-        alertMessage: channelPageDataResponse.alerts[0].alertRenderer.text.simpleText
+        alertMessage: channelPageDataResponse?.alerts?.[0]?.alertRenderer?.text?.simpleText
       };
     }
-    const headerTabs = channelPageDataResponse.contents.twoColumnBrowseResultsRenderer.tabs;
-    const aboutTab = YoutubeGrabberHelper.findTab(headerTabs);
+    const headerTabs = channelPageDataResponse?.contents?.twoColumnBrowseResultsRenderer?.tabs;
+    const aboutTab = YoutubeGrabberHelper?.findTab(headerTabs);
 
     let views = '0';
     let location = 'unknown';
     let joined = null;
     if (aboutTab !== undefined) {
       const contents =
-        aboutTab.tabRenderer.content.sectionListRenderer.contents[0].itemSectionRenderer
-          .contents[0];
-      joined = Date.parse(contents.channelAboutFullMetadataRenderer.joinedDateText.runs[1].text);
-      if ('viewCountText' in contents.channelAboutFullMetadataRenderer) {
-        views = contents.channelAboutFullMetadataRenderer.viewCountText.simpleText.replace(
+        aboutTab?.tabRenderer?.content?.sectionListRenderer?.contents?.[0]?.itemSectionRenderer
+          .contents?.[0];
+      joined = Date?.parse(
+        contents?.channelAboutFullMetadataRenderer?.joinedDateText?.runs?.[1]?.text
+      );
+      if ('viewCountText' in (contents?.channelAboutFullMetadataRenderer ?? {})) {
+        views = contents?.channelAboutFullMetadataRenderer?.viewCountText?.simpleText?.replace(
           /\D/g,
           ''
         );
       }
 
-      if ('country' in contents.channelAboutFullMetadataRenderer) {
-        location = contents.channelAboutFullMetadataRenderer.country.simpleText;
+      if ('country' in (contents?.channelAboutFullMetadataRenderer ?? {})) {
+        location = contents?.channelAboutFullMetadataRenderer?.country?.simpleText;
       }
     }
 
@@ -728,34 +738,34 @@ export class YoutubeGrabber {
     channelIdType = 0,
     httpsAgent = null
   }: ChannelInfoPayload): Promise<ChannelHomeResponse | ChannelInfoError> {
-    const ytGrabHelp = YoutubeGrabberHelper.create(httpsAgent);
-    const decideResponse = await ytGrabHelp.decideUrlRequestType(
+    const ytGrabHelp = YoutubeGrabberHelper?.create(httpsAgent);
+    const decideResponse = await ytGrabHelp?.decideUrlRequestType(
       channelId,
       'home?flow=grid&view=0&pbj=1',
       channelIdType
     );
-    const channelPageResponse = decideResponse.response;
-    let channelPageDataResponse = channelPageResponse.data.response;
+    const channelPageResponse = decideResponse?.response;
+    let channelPageDataResponse = channelPageResponse?.data?.response;
     if (typeof channelPageDataResponse === 'undefined') {
-      channelPageDataResponse = channelPageResponse.data[1].response;
+      channelPageDataResponse = channelPageResponse?.data?.[1]?.response;
     }
-    if (typeof channelPageDataResponse.alerts !== 'undefined') {
+    if (typeof channelPageDataResponse?.alerts !== 'undefined') {
       return {
-        alertMessage: channelPageDataResponse.alerts[0].alertRenderer.text.simpleText
+        alertMessage: channelPageDataResponse?.alerts?.[0]?.alertRenderer?.text?.simpleText
       };
     }
-    const headerTabs = channelPageDataResponse.contents.twoColumnBrowseResultsRenderer.tabs;
+    const headerTabs = channelPageDataResponse?.contents?.twoColumnBrowseResultsRenderer?.tabs;
     let channelName;
     let channelUrl;
     if ('metadata' in channelPageDataResponse) {
-      channelName = channelPageDataResponse.metadata.channelMetadataRenderer.title;
-      channelUrl = channelPageDataResponse.metadata.channelMetadataRenderer.vanityChannelUrl;
+      channelName = channelPageDataResponse?.metadata?.channelMetadataRenderer?.title;
+      channelUrl = channelPageDataResponse?.metadata?.channelMetadataRenderer?.vanityChannelUrl;
     } else {
       const channelDetails =
-        channelPageResponse.data[1].response.header.carouselHeaderRenderer.contents[1]
+        channelPageResponse?.data?.[1]?.response?.header?.carouselHeaderRenderer?.contents?.[1]
           .topicChannelDetailsRenderer;
-      channelName = channelDetails.title;
-      channelUrl = channelDetails.navigationEndpoint.browseEndpoint.canonicalBaseUrl;
+      channelName = channelDetails?.title;
+      channelUrl = channelDetails?.navigationEndpoint?.browseEndpoint?.canonicalBaseUrl;
     }
 
     const channelInfo = {
@@ -764,29 +774,31 @@ export class YoutubeGrabber {
       channelUrl: channelUrl
     };
 
-    const homeTab = YoutubeGrabberHelper.findTab(headerTabs);
+    const homeTab = YoutubeGrabberHelper?.findTab(headerTabs);
     let featuredVideo = null;
     let homeItems = [];
-    if ('sectionListRenderer' in homeTab.tabRenderer.content) {
-      homeItems = homeTab.tabRenderer.content.sectionListRenderer.contents.filter(x => {
-        if ('shelfRenderer' in x.itemSectionRenderer.contents[0]) {
+    if ('sectionListRenderer' in (homeTab?.tabRenderer?.content ?? {})) {
+      homeItems = homeTab?.tabRenderer?.content?.sectionListRenderer?.contents?.filter(x => {
+        if ('shelfRenderer' in (x.itemSectionRenderer?.contents?.[0] ?? {})) {
           return true;
-        } else if ('channelVideoPlayerRenderer' in x.itemSectionRenderer.contents[0]) {
-          featuredVideo = ytGrabHelp.parseVideo(x.itemSectionRenderer.contents[0], channelInfo);
-        } else if ('channelFeaturedContentRenderer' in x.itemSectionRenderer.contents[0]) {
+        } else if ('channelVideoPlayerRenderer' in (x.itemSectionRenderer?.contents?.[0] ?? {})) {
+          featuredVideo = ytGrabHelp?.parseVideo(x.itemSectionRenderer?.contents?.[0], channelInfo);
+        } else if (
+          'channelFeaturedContentRenderer' in (x.itemSectionRenderer?.contents?.[0] ?? {})
+        ) {
           return true;
         }
         return false;
       });
     } else {
-      if ('richGridRenderer' in headerTabs[0].tabRenderer.content) {
-        homeItems = headerTabs[0].tabRenderer.content.richGridRenderer.contents;
-      } else if ('sectionListRenderer' in headerTabs[0].tabRenderer.content) {
-        homeItems = headerTabs[0].tabRenderer.content.sectionListRenderer.contents;
+      if ('richGridRenderer' in (headerTabs?.[0]?.tabRenderer?.content ?? {})) {
+        homeItems = headerTabs?.[0]?.tabRenderer?.content?.richGridRenderer?.contents;
+      } else if ('sectionListRenderer' in (headerTabs?.[0]?.tabRenderer?.content ?? {})) {
+        homeItems = headerTabs?.[0]?.tabRenderer?.content?.sectionListRenderer?.contents;
       }
     }
-    homeItems = homeItems.map(item => {
-      return ytGrabHelp.parseHomeItem(item, channelInfo);
+    homeItems = homeItems?.map(item => {
+      return ytGrabHelp?.parseHomeItem(item, channelInfo);
     });
     return {
       featuredVideo: featuredVideo,
