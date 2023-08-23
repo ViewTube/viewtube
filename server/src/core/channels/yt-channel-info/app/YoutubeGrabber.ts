@@ -31,9 +31,9 @@ import { YoutubePlaylistFetcher } from './fetchers/YoutubePlaylistFetcher';
 
 export class YoutubeGrabber {
   /**
-   * Get channel information?. Full list of channel information you can find in README?.md file
-   * @param { string } channelId The channel id to grab data from?.
-   * @param { string } channelIdType (optional) The type of id a channel id can be 1 = /channel/, 2= /user/, 3=/c/?.
+   * Get channel information. Full list of channel information you can find in README.md file
+   * @param { string } channelId The channel id to grab data from.
+   * @param { string } channelIdType (optional) The type of id a channel id can be 1 = /channel/, 2= /user/, 3=/c/.
    * @param httpsAgent
    * @return { Promise<Object> } Return channel information
    * */
@@ -811,7 +811,7 @@ export class YoutubeGrabber {
       context: {
         client: {
           clientName: 'WEB',
-          clientVersion: '2.20201021?.03?.00'
+          clientVersion: '2.20201021.03.00'
         }
       },
       continuation: continuation
