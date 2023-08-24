@@ -80,7 +80,8 @@ const bootstrap = async () => {
             `blob:`,
             `data:`,
             `https://sponsor.ajay.app`,
-            `https://*.googlevideo.com`
+            `https://*.googlevideo.com`,
+            `https://*.viewtube.io`
           ],
           scriptSrc: [`'self'`, `blob:`, `https: 'unsafe-eval'`, `https: 'unsafe-inline'`],
           scriptSrcAttr: null
