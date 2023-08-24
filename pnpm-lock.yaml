@@ -39,8 +39,8 @@ importers:
         specifier: 18.17.9
         version: 18.17.9
       '@types/papaparse':
-        specifier: 5.3.7
-        version: 5.3.7
+        specifier: 5.3.8
+        version: 5.3.8
       '@types/qrcode':
         specifier: 1.5.1
         version: 1.5.1
@@ -4055,8 +4055,8 @@ packages:
   /@types/node@18.17.9:
     resolution: {integrity: sha512-fxaKquqYcPOGwE7tC1anJaPJ0GHyOVzfA2oUoXECjBjrtsIz4YJvtNYsq8LUcjEUehEF+jGpx8Z+lFrtT6z0tg==}
 
-  /@types/papaparse@5.3.7:
-    resolution: {integrity: sha512-f2HKmlnPdCvS0WI33WtCs5GD7X1cxzzS/aduaxSu3I7TbhWlENjSPs6z5TaB9K0J+BH1jbmqTaM+ja5puis4wg==}
+  /@types/papaparse@5.3.8:
+    resolution: {integrity: sha512-ArKIEOOWULbhi53wkAiRy1ze4wvrTfhpAj7Yfzva+EkmX2sV8PpFB+xqzJfzXNzK4me95FJH9QZt5NXFVGzOoQ==}
     dependencies:
       '@types/node': 18.17.9
     dev: true
