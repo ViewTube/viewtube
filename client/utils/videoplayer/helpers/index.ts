@@ -26,6 +26,7 @@ export const videoPlayerSetup = (
   const playerVolumeStore = usePlayerVolumeStore();
   const videoPlayerStore = useVideoPlayerStore();
 
+  const config = useRuntimeConfig();
   const { apiUrl } = useApiUrl();
   const { $formatting: formatting } = useNuxtApp();
   const imgProxy = useImgProxy();
@@ -945,9 +946,18 @@ export const videoPlayerSetup = (
         }
       } else if (settingsStore.dashPlaybackEnabled && window.MediaSource) {
         // Using dashjs
+
+        let videoPlaybackProxy = `${window.location.origin}/api`;
+        if (
+          typeof config.public.videoplaybackProxy === 'string' &&
+          config.public.videoplaybackProxy?.length > 0
+        ) {
+          videoPlaybackProxy = config.public.videoplaybackProxy;
+        }
+
         const manifest = props.video.dashManifest.replace(
           /https:\/\/.*?.googlevideo\.com/gi,
-          `${window.location.origin}/api`
+          videoPlaybackProxy
         );
         const manifestUrl = 'data:application/dash+xml;charset=utf-8;base64,' + btoa(manifest);
         dashHelper.value = new DashHelper(videoRef.value, manifestUrl, () => {

@@ -4,7 +4,8 @@ import { devOnly } from './utils/devOnly';
 export default defineNuxtConfig({
   runtimeConfig: {
     public: {
-      vapidKey: process.env.VIEWTUBE_PUBLIC_VAPID
+      vapidKey: process.env.VIEWTUBE_PUBLIC_VAPID,
+      videoplaybackProxy: ''
     }
   },
 
