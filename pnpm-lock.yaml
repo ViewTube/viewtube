@@ -225,8 +225,8 @@ importers:
         specifier: ^4.2.7
         version: 4.2.7
       fastify:
-        specifier: 4.21.0
-        version: 4.21.0
+        specifier: 4.22.0
+        version: 4.22.0
       https-proxy-agent:
         specifier: 7.0.1
         version: 7.0.1
@@ -7383,6 +7383,29 @@ packages:
 
   /fastify@4.21.0:
     resolution: {integrity: sha512-tsu4bcwE4HetxqW8prA5fbC9bKHMYDp7jGEDWyzK1l90a3uOaLoIcQbdGcWeODNLVJviQnzh1wvIjTZE3MJFEg==}
+    dependencies:
+      '@fastify/ajv-compiler': 3.5.0
+      '@fastify/error': 3.3.0
+      '@fastify/fast-json-stringify-compiler': 4.3.0
+      abstract-logging: 2.0.1
+      avvio: 8.2.1
+      fast-content-type-parse: 1.0.0
+      fast-json-stringify: 5.8.0
+      find-my-way: 7.6.2
+      light-my-request: 5.10.0
+      pino: 8.15.0
+      process-warning: 2.2.0
+      proxy-addr: 2.0.7
+      rfdc: 1.3.0
+      secure-json-parse: 2.7.0
+      semver: 7.5.4
+      tiny-lru: 11.0.1
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  /fastify@4.22.0:
+    resolution: {integrity: sha512-HLoBmetdQ6zaJohKW6jzUww8NnwHzkbIbUEyAzM+Nnf7cZVSXRuUV+6b2/xLmu6GGkruIFJ/bIQoKWYRx4wnAQ==}
     dependencies:
       '@fastify/ajv-compiler': 3.5.0
       '@fastify/error': 3.3.0
