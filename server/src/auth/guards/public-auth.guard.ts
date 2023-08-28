@@ -1,22 +1,33 @@
 import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { Reflector } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
+import { IS_PRIVATE_KEY } from '../decorators/private.decorator';
 
 @Injectable()
 export class PublicAuthGuard implements CanActivate {
   constructor(
     private jwtService: JwtService,
-    private configService: ConfigService
+    private configService: ConfigService,
+    private reflector: Reflector
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
+    const isPrivate = this.reflector.getAllAndOverride<boolean>(IS_PRIVATE_KEY, [
+      context.getHandler(),
+      context.getClass()
+    ]);
+
     const request = context.switchToHttp().getRequest();
     let token = this.extractTokenFromHeader(request);
     if (!token) {
       token = this.extractTokenFromCookie(request);
     }
     if (!token) {
+      if (isPrivate) {
+        throw new UnauthorizedException();
+      }
       return true;
     }
     try {
@@ -28,7 +39,9 @@ export class PublicAuthGuard implements CanActivate {
 
       request['user'] = payload;
     } catch {
-      // Ignore
+      if (isPrivate) {
+        throw new UnauthorizedException();
+      }
     }
     return true;
   }
