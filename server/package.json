@@ -64,7 +64,7 @@
     "svg-captcha": "1.4.0",
     "tslib": "2.6.2",
     "undici": "5.23.0",
-    "web-push": "3.6.4",
+    "web-push": "3.6.5",
     "winston": "3.10.0",
     "winston-daily-rotate-file": "4.7.1",
     "xml-js": "1.6.11",
