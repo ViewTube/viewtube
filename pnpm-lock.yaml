@@ -279,8 +279,8 @@ importers:
         specifier: 5.23.0
         version: 5.23.0
       web-push:
-        specifier: 3.6.4
-        version: 3.6.4
+        specifier: 3.6.5
+        version: 3.6.5
       winston:
         specifier: 3.10.0
         version: 3.10.0
@@ -12621,8 +12621,8 @@ packages:
       defaults: 1.0.4
     dev: true
 
-  /web-push@3.6.4:
-    resolution: {integrity: sha512-An4nhiYuCPJkD51hXid7OIO3TACJsSUhj6XWDNvCDiLCS5ucEkhPUnh/s+jOWAJUUDASGHkuU8hFHg+mX+4vLQ==}
+  /web-push@3.6.5:
+    resolution: {integrity: sha512-rc/i0LRwA4EAeajRVHQp6+RW+NlCMuk3CgFLb+IR/NJ1RleeNzQ9iwayVHgc4LmcxaaWeslHBM1qLUq1yi0O6A==}
     engines: {node: '>= 16'}
     hasBin: true
     dependencies:
