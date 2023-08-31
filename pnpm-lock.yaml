@@ -90,8 +90,8 @@ importers:
         specifier: 3.29.0
         version: 3.29.0
       js-sha256:
-        specifier: 0.10.0
-        version: 0.10.0
+        specifier: 0.10.1
+        version: 0.10.1
       keen-slider:
         specifier: 6.8.6
         version: 6.8.6
@@ -8733,8 +8733,8 @@ packages:
       '@sideway/pinpoint': 2.0.0
     dev: false
 
-  /js-sha256@0.10.0:
-    resolution: {integrity: sha512-+nph+A6lc5sE1fU/fCtL/kdsnmlZgnoRzZJwqgsDYkbKhpl3ExFx4Wl7apfHd1Mt0e7h3kGVhRuQ70SrFsKXUA==}
+  /js-sha256@0.10.1:
+    resolution: {integrity: sha512-5obBtsz9301ULlsgggLg542s/jqtddfOpV5KJc4hajc9JV8GeY2gZHSVpYBn4nWqAUTJ9v+xwtbJ1mIBgIH5Vw==}
     dev: true
 
   /js-tokens@4.0.0:
