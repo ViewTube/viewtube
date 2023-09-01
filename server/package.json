@@ -46,7 +46,7 @@
     "cookie-parser": "1.4.6",
     "dayjs": "1.11.9",
     "fast-xml-parser": "^4.2.7",
-    "fastify": "4.22.1",
+    "fastify": "4.22.2",
     "https-proxy-agent": "7.0.1",
     "humanize-duration": "3.29.0",
     "ioredis": "5.3.2",
