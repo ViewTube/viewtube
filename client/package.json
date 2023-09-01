@@ -35,7 +35,7 @@
     "eslint-config-prettier": "9.0.0",
     "eslint-plugin-nuxt": "4.0.0",
     "eslint-plugin-vue": "9.17.0",
-    "hls.js": "1.4.11",
+    "hls.js": "1.4.12",
     "human-number": "2.0.1",
     "humanize-duration": "3.29.0",
     "js-sha256": "0.10.1",
