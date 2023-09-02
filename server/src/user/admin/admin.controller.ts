@@ -12,9 +12,11 @@ import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { AdminGuard } from 'server/auth/guards/admin.guard';
 import { AdminService } from './admin.service';
 import { LogsDto } from './dto/logs.dto';
+import { Private } from 'server/auth/decorators/private.decorator';
 
 @ApiTags('Admin')
 @UseGuards(AdminGuard)
+@Private()
 @ApiBearerAuth()
 @Controller('admin')
 export class AdminController {

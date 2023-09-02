@@ -1,6 +1,5 @@
 import {
   Controller,
-  UseGuards,
   Req,
   Get,
   Query,
@@ -15,9 +14,11 @@ import { ViewTubeRequest } from 'server/common/viewtube-request';
 import { HistoryResponseDto } from './dto/history-response.dto';
 import { VideoVisitDto } from './dto/video-visit.dto';
 import { HistoryService } from './history.service';
+import { Private } from 'server/auth/decorators/private.decorator';
 
 @ApiTags('User')
 @ApiBearerAuth()
+@Private()
 @Controller('user/history')
 export class HistoryController {
   constructor(private historyService: HistoryService) {}

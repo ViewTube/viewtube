@@ -1,10 +1,12 @@
-import { Controller, UseGuards, Body, Req, HttpCode, Put, Get } from '@nestjs/common';
+import { Controller, Body, Req, HttpCode, Put, Get } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { SettingsService } from './settings.service';
 import { SettingsDto } from './dto/settings.dto';
+import { Private } from 'server/auth/decorators/private.decorator';
 
 @ApiTags('User')
 @ApiBearerAuth()
+@Private()
 @Controller('user/settings')
 export class SettingsController {
   constructor(private settingsService: SettingsService) {}

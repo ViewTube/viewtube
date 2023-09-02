@@ -5,7 +5,6 @@ import {
   Param,
   Delete,
   Req,
-  UseGuards,
   Post,
   Body,
   Query,
@@ -19,9 +18,11 @@ import { SubscriptionStatusDto } from './dto/subscription-status.dto';
 import { SubscriptionsService } from './subscriptions.service';
 import { SubscribedChannelsResponseDto } from './dto/subscribed-channels-response.dto';
 import { SubscriptionFeedResponseDto } from './dto/subscription-feed-response.dto';
+import { Private } from 'server/auth/decorators/private.decorator';
 
 @ApiTags('User')
 @ApiBearerAuth()
+@Private()
 @Controller('user/subscriptions')
 export class SubscriptionsController {
   constructor(

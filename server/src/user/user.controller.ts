@@ -18,9 +18,11 @@ import { FastifyReply } from 'fastify';
 import { ViewTubeRequest } from 'server/common/viewtube-request';
 import { UserprofileDetailsDto } from './dto/userprofile-details.dto';
 import { UserService } from './user.service';
+import { Private } from 'server/auth/decorators/private.decorator';
 
 @ApiTags('User')
 @ApiBearerAuth()
+@Private()
 @Controller('user')
 export class UserController {
   constructor(private userService: UserService) {}
