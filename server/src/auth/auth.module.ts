@@ -8,6 +8,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from 'server/user/schemas/user.schema';
 import { APP_GUARD } from '@nestjs/core';
 import { PublicAuthGuard } from './guards/public-auth.guard';
+import { Session, SessionSchema } from './schemas/session.schema';
 
 const moduleMetadata: ModuleMetadata = {
   providers: [
@@ -25,6 +26,11 @@ const moduleMetadata: ModuleMetadata = {
         name: User.name,
         schema: UserSchema,
         collection: 'users'
+      },
+      {
+        name: Session.name,
+        schema: SessionSchema,
+        collection: 'sessions'
       }
     ]),
     JwtModule.registerAsync({

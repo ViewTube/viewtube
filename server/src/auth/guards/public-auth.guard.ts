@@ -20,18 +20,17 @@ export class PublicAuthGuard implements CanActivate {
     ]);
 
     const request = context.switchToHttp().getRequest();
-    let token = this.extractTokenFromHeader(request);
-    if (!token) {
-      token = this.extractTokenFromCookie(request);
-    }
-    if (!token) {
+    const accessToken = this.extractAccessTokenFromCookie(request);
+    const refreshToken = this.extractRefreshTokenFromCookie(request);
+
+    if (!accessToken) {
       if (isPrivate) {
         throw new UnauthorizedException();
       }
       return true;
     }
     try {
-      const payload = await this.jwtService.verifyAsync(token, {
+      const payload = await this.jwtService.verifyAsync(accessToken, {
         secret: this.configService.get('VIEWTUBE_JWT_SECRET'),
         issuer: 'viewtube-api',
         audience: 'viewtube-web'
@@ -46,12 +45,11 @@ export class PublicAuthGuard implements CanActivate {
     return true;
   }
 
-  private extractTokenFromHeader(request: Request): string | undefined {
-    const [type, token] = request.headers.authorization?.split(' ') ?? [];
-    return type === 'Bearer' ? token : undefined;
+  private extractAccessTokenFromCookie(request: Request): string | undefined {
+    return request.cookies ? request.cookies.AccessToken : undefined;
   }
 
-  private extractTokenFromCookie(request: Request): string | undefined {
-    return request.cookies ? request.cookies.Authentication : undefined;
+  private extractRefreshTokenFromCookie(request: Request): string | undefined {
+    return request.cookies ? request.cookies.RefreshToken : undefined;
   }
 }
