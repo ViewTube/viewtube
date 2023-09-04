@@ -1,4 +1,3 @@
-import { ApiDto, ApiErrorDto } from 'viewtube/shared';
 import { Ref } from 'vue';
 import { ChannelVideosSortOptionsType } from '@/utils/sortOptions';
 

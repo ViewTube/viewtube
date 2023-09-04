@@ -8,7 +8,6 @@ import { useSettingsStore } from '@/store/settings';
 import { useUserStore } from '@/store/user';
 import { usePlayerVolumeStore } from '@/store/playerVolume';
 import { useVideoPlayerStore } from '@/store/videoPlayer';
-import { ApiDto } from 'viewtube/shared';
 
 export const videoPlayerSetup = (
   props: {

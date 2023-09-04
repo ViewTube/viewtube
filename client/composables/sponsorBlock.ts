@@ -1,5 +1,5 @@
 import { sha256 } from 'js-sha256';
-import { SponsorBlockSegmentDto, SponsorBlockSegmentsDto } from 'viewtube/shared';
+import { SponsorBlockSegmentDto, SponsorBlockSegmentsDto } from '../../shared';
 
 const sponsorBlockApiUrl = 'https://sponsor.ajay.app/';
 

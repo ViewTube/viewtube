@@ -14,8 +14,8 @@
   },
   "devDependencies": {
     "cross-env": "7.0.3",
-    "cypress": "12.17.3",
+    "cypress": "13.1.0",
     "cypress-commands": "3.0.0",
-    "typescript": "5.1.6"
+    "typescript": "5.2.2"
   }
 }

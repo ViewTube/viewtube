@@ -336,7 +336,6 @@ import VideoPlayerSettings from '@/components/videoplayer/VideoPlayerSettings.vu
 // import SeekbarPreview from '@/components/videoplayer/SeekbarPreview.vue';
 import SponsorBlockSegments from '@/components/videoplayer/SponsorblockSegments.vue';
 import { PropType } from 'vue';
-import { ApiDto } from '~/../shared';
 
 export default defineComponent({
   name: 'VideoPlayer',

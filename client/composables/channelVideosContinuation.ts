@@ -1,6 +1,5 @@
 import { Ref } from 'vue';
 import { useMessagesStore } from '@/store/messages';
-import { ApiDto } from 'viewtube/shared';
 
 export const useChannelVideosContinuation = <T extends ApiDto<'ChannelVideosDto'>>(
   initialData: Ref<T>

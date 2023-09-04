@@ -1,5 +1,5 @@
 import { LocationQuery } from 'vue-router';
-import { VTSearchDto } from 'viewtube/server/src/mapper/dto/search/vt-search.dto';
+import { VTSearchDto } from '../../../server/src/mapper/dto/search/vt-search.dto';
 
 export type FilterType = { filterValue: any; filterType?: any; filterName: any };
 

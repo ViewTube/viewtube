@@ -2,7 +2,6 @@
 import VideoEntry from '@/components/list/VideoEntry.vue';
 import PlaylistEntry from '@/components/list/PlaylistEntry.vue';
 import MultiOptionButton from '@/components/buttons/MultiOptionButton.vue';
-import { ApiDto } from 'viewtube/shared';
 import { ChannelPlaylistsSortOptionsType, ChannelVideosSortOptionsType } from '@/utils/sortOptions';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 
