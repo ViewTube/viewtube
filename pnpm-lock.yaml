@@ -310,8 +310,8 @@ importers:
         specifier: 2.4.3
         version: 2.4.3
       '@types/cookie-parser':
-        specifier: 1.4.3
-        version: 1.4.3
+        specifier: 1.4.4
+        version: 1.4.4
       '@types/eslint':
         specifier: 8.44.2
         version: 8.44.2
@@ -3935,8 +3935,8 @@ packages:
       '@types/node': 18.17.14
     dev: true
 
-  /@types/cookie-parser@1.4.3:
-    resolution: {integrity: sha512-CqSKwFwefj4PzZ5n/iwad/bow2hTCh0FlNAeWLtQM3JA/NX/iYagIpWG2cf1bQKQ2c9gU2log5VUCrn7LDOs0w==}
+  /@types/cookie-parser@1.4.4:
+    resolution: {integrity: sha512-Var+aj5I6ZgIqsQ05N2V8q5OBrFfZXtIGWWDSrEYLIbMw758obagSwdGcLCjwh1Ga7M7+wj0SDIAaAC/WT7aaA==}
     dependencies:
       '@types/express': 4.17.17
     dev: true
