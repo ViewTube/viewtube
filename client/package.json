@@ -1,8 +1,8 @@
 {
   "name": "client",
   "engines": {
-    "node": ">=18.16.0",
-    "pnpm": ">=8.6.0"
+    "node": ">=20.6.0",
+    "pnpm": ">=8.7.0"
   },
   "scripts": {
     "prepare:env": "cross-env API_DEV_PORT=8067 PORT=8066",
@@ -20,7 +20,7 @@
     "@pinia-plugin-persistedstate/nuxt": "1.1.1",
     "@pinia/nuxt": "0.4.11",
     "@types/humanize-duration": "3.27.1",
-    "@types/node": "18.17.14",
+    "@types/node": "20.5.9",
     "@types/papaparse": "5.3.8",
     "@types/qrcode": "1.5.2",
     "@typescript-eslint/eslint-plugin": "6.6.0",

@@ -2,8 +2,8 @@
   "name": "server",
   "main": "dist/main",
   "engines": {
-    "node": ">=18.16.0",
-    "pnpm": ">=8.6.0"
+    "node": ">=20.6.0",
+    "pnpm": ">=8.7.0"
   },
   "scripts": {
     "serve": "nest build --webpack --webpackPath webpack-hmr.config.cjs --watch",
@@ -80,7 +80,7 @@
     "@types/humanize-duration": "3.27.1",
     "@types/mime-types": "2.1.1",
     "@types/multer": "1.4.7",
-    "@types/node": "18.17.14",
+    "@types/node": "20.5.9",
     "@types/passport-jwt": "3.0.9",
     "@types/passport-local": "1.0.35",
     "@types/redis-mock": "0.17.1",
