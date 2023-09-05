@@ -37,5 +37,10 @@
     "cross-env": "7.0.3",
     "prettier": "3.0.3",
     "typescript": "5.2.2"
+  },
+  "pnpm": {
+    "patchedDependencies": {
+      "papaparse@5.4.1": "patches/papaparse@5.4.1.patch"
+    }
   }
 }
