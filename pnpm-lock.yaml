@@ -4,6 +4,10 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+overrides:
+  has: npm:@nolyfill/has@latest
+  side-channel: npm:@nolyfill/side-channel@latest
+
 patchedDependencies:
   papaparse@5.4.1:
     hash: qkk65lc3l6wlngad3wq4nzv2yi
@@ -3061,6 +3065,22 @@ packages:
       fastq: 1.15.0
     dev: true
 
+  /@nolyfill/has@1.0.21:
+    resolution: {integrity: sha512-Sf8iFaegjGp29hQVQjIc+nDR0uWqGkHsFC3jsUigFwGjpafgMaBtL++DpTU9jYAKDJEvslR1szl8qJjNGlhgcw==}
+    engines: {node: '>=12.4.0'}
+    dependencies:
+      '@nolyfill/shared': 1.0.21
+    dev: true
+
+  /@nolyfill/shared@1.0.21:
+    resolution: {integrity: sha512-qDc/NoaFU23E0hhiDPeUrvWzTXIPE+RbvRQtRWSeHHNmCIgYI9HS1jKzNYNJxv4jvZ/1VmM3L6rNVxbj+LBMNA==}
+    dev: true
+
+  /@nolyfill/side-channel@1.0.21:
+    resolution: {integrity: sha512-yBpcb4IHO0CSyrhOIC29jrfgW5r0uqbSffruNxC26jYNLZk+AwM4w8Vq/dYrVlwVWLlbGVDyKt8Wm0ucy3rbhA==}
+    engines: {node: '>=12.4.0'}
+    dev: true
+
   /@nuxt/devalue@2.0.2:
     resolution: {integrity: sha512-GBzP8zOc7CGWyFQS6dv1lQz8VVpz5C2yRszbXufwG/9zhStTIH50EtD87NmWbTMwXDvZLNg8GIpb1UFdH93JCA==}
     dev: true
@@ -5938,13 +5958,6 @@ packages:
     engines: {node: '>=6'}
     dev: true
 
-  /call-bind@1.0.2:
-    resolution: {integrity: sha512-7O+FbCihrB5WGbFYesctwmTKae6rOiIzmz1icreWJ+0aA7LJfuqhEso2T9ncpcFtzMQtzXf2QGGueWJGTYsqrA==}
-    dependencies:
-      function-bind: 1.1.1
-      get-intrinsic: 1.2.1
-    dev: true
-
   /callsites@3.1.0:
     resolution: {integrity: sha512-P8BjAsXvZS+VIDUI11hHCQEv74YT67YUi5JJFNWIqL235sBmjX4+qx9Muvls5ivyNENctx46xQLQ3aTuE7ssaQ==}
     engines: {node: '>=6'}
@@ -7701,10 +7714,6 @@ packages:
     dev: true
     optional: true
 
-  /function-bind@1.1.1:
-    resolution: {integrity: sha512-yIovAzMX49sF8Yl58fSCWJ5svSLuaibPxXQJFLmBObTuCr0Mf1KiPopGM9NiFjiYBCbfaa2Fh6breQ6ANVTI0A==}
-    dev: true
-
   /gauge@3.0.2:
     resolution: {integrity: sha512-+5J6MS/5XksCuXq++uFRsnUd7Ovu1XenbeuIuNRJxYWjgQbPuFhT14lAvsWfqfAmnwluf1OwMjz39HjfLPci0Q==}
     engines: {node: '>=10'}
@@ -7732,15 +7741,6 @@ packages:
   /get-caller-file@2.0.5:
     resolution: {integrity: sha512-DyFP3BM/3YHTQOCUL/w0OZHR0lpKeGrxotcHWcqNEdnltqFwXVfhEBQ94eIo34AfQpo0rGki4cyIiftY06h2Fg==}
     engines: {node: 6.* || 8.* || >= 10.*}
-    dev: true
-
-  /get-intrinsic@1.2.1:
-    resolution: {integrity: sha512-2DcsyfABl+gVHEfCOaTrWgyt+tb6MSEGmKq+kI5HwLbIYgjgmMcV8KQ41uaKz1xxUcn9tJtgFbQUEVcEbd0FYw==}
-    dependencies:
-      function-bind: 1.1.1
-      has: 1.0.3
-      has-proto: 1.0.1
-      has-symbols: 1.0.3
     dev: true
 
   /get-package-type@0.1.0:
@@ -7990,25 +7990,8 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
-  /has-proto@1.0.1:
-    resolution: {integrity: sha512-7qE+iP+O+bgF9clE5+UoBFzE65mlBiVj3tKCrlNQ0Ogwm0BjpT/gK4SlLYDMybDh5I3TCTKnPPa0oMG7JDYrhg==}
-    engines: {node: '>= 0.4'}
-    dev: true
-
-  /has-symbols@1.0.3:
-    resolution: {integrity: sha512-l3LCuF6MgDNwTDKkdYGEihYjt5pRPbEg46rtlmnSPlUbgmB8LOIrKJbYYFBSbnPaJexMKtiPO8hmeRjRz2Td+A==}
-    engines: {node: '>= 0.4'}
-    dev: true
-
   /has-unicode@2.0.1:
     resolution: {integrity: sha512-8Rf9Y83NBReMnx0gFzA8JImQACstCYWUplepDa9xprwwtmgEZUF0h/i5xSA625zB/I37EtrswSST6OXxwaaIJQ==}
-    dev: true
-
-  /has@1.0.3:
-    resolution: {integrity: sha512-f2dvO0VU6Oej7RkWJGrehjbzMAjFp5/VKPp5tTpWIV4JHHZK1/BxbFRtf/siA2SWTe09caDmVtYYzWEIbBS4zw==}
-    engines: {node: '>= 0.4.0'}
-    dependencies:
-      function-bind: 1.1.1
     dev: true
 
   /hash-sum@2.0.0:
@@ -8322,7 +8305,7 @@ packages:
   /is-core-module@2.13.0:
     resolution: {integrity: sha512-Z7dk6Qo8pOCp3l4tsX2C5ZVas4V+UxwQodwZhLopL91TX8UyyHEXafPcyoeeWuLrwzHcr3igO78wNLwHJHsMCQ==}
     dependencies:
-      has: 1.0.3
+      has: /@nolyfill/has@1.0.21
     dev: true
 
   /is-decimal@1.0.4:
@@ -10214,10 +10197,6 @@ packages:
     resolution: {integrity: sha512-RSn9F68PjH9HqtltsSnqYC1XXoWe9Bju5+213R98cNGttag9q9yAOTzdbsqvIa7aNm5WffBZFpWYr2aWrklWAw==}
     engines: {node: '>= 6'}
 
-  /object-inspect@1.12.3:
-    resolution: {integrity: sha512-geUvdk7c+eizMNUDkRpW1wJwgfOiOeHbxBR/hLXK1aT6zmVSO0jsQcs7fj6MGw89jC/cjGfLcNOrtMYtGqm81g==}
-    dev: true
-
   /obliterator@2.0.4:
     resolution: {integrity: sha512-lgHwxlxV1qIg1Eap7LgIeoBWIMFibOjbrYPIPJZcI1mmGAI2m3lNYpK12Y+GBdPQ0U1hRwSord7GIaawz962qQ==}
     dev: false
@@ -11089,7 +11068,7 @@ packages:
     resolution: {integrity: sha512-OQiU+C+Ds5qiH91qh/mg0w+8nwQuLjM4F4M/PbmhDOoYehPh+Fb0bDjtR1sOvy7YKxvj28Y/M0PhP5uVX0kB+g==}
     engines: {node: '>=0.6'}
     dependencies:
-      side-channel: 1.0.4
+      side-channel: /@nolyfill/side-channel@1.0.21
     dev: true
 
   /querystringify@2.2.0:
@@ -11551,14 +11530,6 @@ packages:
       glob: 7.2.3
       interpret: 1.4.0
       rechoir: 0.6.2
-    dev: true
-
-  /side-channel@1.0.4:
-    resolution: {integrity: sha512-q5XPytqFEIKHkGdiMIrY10mvLRvnQh42/+GoBlFW3b2LXLE2xxJpZFdm94we0BaoV3RwJyGqg5wS7epxTv0Zvw==}
-    dependencies:
-      call-bind: 1.0.2
-      get-intrinsic: 1.2.1
-      object-inspect: 1.12.3
     dev: true
 
   /sift@16.0.1:

@@ -1,4 +1,4 @@
-FROM node:20-bullseye as build
+FROM node:18-bullseye as build
 WORKDIR /home/build
 
 ENV NUXT_BUILD=true
@@ -8,7 +8,7 @@ COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc ./
 COPY server/package.json ./server/
 COPY client/package.json ./client/
 COPY shared/package.json ./shared/
-COPY patches .
+COPY patches ./patches
 
 RUN npm install -g pnpm
 
@@ -22,7 +22,7 @@ RUN rm -rf node_modules client/node_modules server/node_modules shared/node_modu
 
 RUN CI=true pnpm --filter=./server --filter=./client install --frozen-lockfile --prod
 
-FROM node:20-bullseye-slim as runtime
+FROM node:18-bullseye-slim as runtime
 WORKDIR /home/app
 
 ENV NODE_ENV=production

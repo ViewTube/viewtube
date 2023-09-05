@@ -1,7 +1,7 @@
 {
   "name": "client",
   "engines": {
-    "node": ">=20.6.0",
+    "node": ">=18.17.0",
     "pnpm": ">=8.7.0"
   },
   "scripts": {

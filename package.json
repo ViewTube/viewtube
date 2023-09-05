@@ -7,7 +7,7 @@
   "version": "0.12.3",
   "license": "AGPLv3",
   "engines": {
-    "node": ">=20.6.0",
+    "node": ">=18.17.0",
     "pnpm": ">=8.7.0"
   },
   "scripts": {
@@ -41,6 +41,10 @@
   "pnpm": {
     "patchedDependencies": {
       "papaparse@5.4.1": "patches/papaparse@5.4.1.patch"
+    },
+    "overrides": {
+      "has": "npm:@nolyfill/has@latest",
+      "side-channel": "npm:@nolyfill/side-channel@latest"
     }
   }
 }
