@@ -33,17 +33,13 @@ const moduleMetadata: ModuleMetadata = {
         collection: 'sessions'
       }
     ]),
-    JwtModule.registerAsync({
-      useFactory: () => {
-        return {
-          global: true,
-          secret: process.env.VIEWTUBE_JWT_SECRET,
-          signOptions: {
-            expiresIn: '12h',
-            issuer: 'viewtube-api',
-            audience: 'viewtube-web'
-          }
-        };
+    JwtModule.register({
+      global: true,
+      secret: process.env.VIEWTUBE_JWT_SECRET,
+      signOptions: {
+        expiresIn: '12h',
+        issuer: 'viewtube-api',
+        audience: 'viewtube-web'
       }
     })
   ],
