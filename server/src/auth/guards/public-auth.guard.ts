@@ -75,12 +75,7 @@ export class PublicAuthGuard implements CanActivate {
   async validateToken(token: string) {
     if (!token) return null;
     try {
-      const payload = await this.jwtService.verifyAsync(token, {
-        secret: this.configService.get('VIEWTUBE_JWT_SECRET'),
-        issuer: 'viewtube-api',
-        audience: 'viewtube-web',
-        maxAge: '7d'
-      });
+      const payload = await this.jwtService.verifyAsync(token);
       return payload;
     } catch {
       return null;
