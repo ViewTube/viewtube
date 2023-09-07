@@ -6,6 +6,8 @@ import { isHttps } from 'viewtube/shared/util';
 import { Model } from 'mongoose';
 import { User } from 'server/user/schemas/user.schema';
 import { InjectModel } from '@nestjs/mongoose';
+import { FastifyReply } from 'fastify';
+import { setAuthCookies } from './set-auth-cookies';
 
 @Injectable()
 export class AuthService {
@@ -33,30 +35,32 @@ export class AuthService {
     return null;
   }
 
-  getDeletionCookie() {
-    let secureString = '';
-    if (this.configService.get('NODE_ENV') === 'production' && isHttps()) {
-      secureString = 'Secure=true; SameSite=Strict; ';
-    }
-    const expiration = 0;
-    return `Authentication=; HttpOnly=true; Path=/; ${secureString}Max-Age=${expiration}`;
+  logout(reply: FastifyReply) {
+    const secure = this.configService.get('NODE_ENV') === 'production' && isHttps();
+
+    reply.setCookie('Authentication', '', {
+      httpOnly: true,
+      path: '/',
+      maxAge: 0,
+      secure: secure ?? undefined,
+      sameSite: secure ? 'strict' : undefined
+    });
   }
 
-  async getJwtCookie(username: string) {
-    const { accessToken } = await this.login(username);
-    let secureString = '';
-    if (this.configService.get('NODE_ENV') === 'production' && isHttps()) {
-      secureString = 'Secure=true; SameSite=Strict; ';
-    }
-    const expiration = this.configService.get('VIEWTUBE_JWT_EXPIRATION_TIME');
-    return `Authentication=${accessToken}; HttpOnly=true; Path=/; ${secureString}Max-Age=${expiration}`;
-  }
-
-  async login(username: string) {
+  async login(reply: FastifyReply, username: string) {
     const payload = { username };
+    const refreshToken = await this.jwtService.signAsync(payload, {
+      expiresIn: '7d'
+    });
     const accessToken = await this.jwtService.signAsync(payload);
-    return {
-      accessToken
-    };
+
+    const secure = this.configService.get('NODE_ENV') === 'production' && isHttps();
+
+    setAuthCookies({
+      reply,
+      accessToken,
+      refreshToken,
+      secure
+    });
   }
 }

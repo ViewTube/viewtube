@@ -2,10 +2,11 @@ import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from
 import { ConfigService } from '@nestjs/config';
 import { Reflector } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
-import { Request } from 'express';
 import { IS_PRIVATE_KEY } from '../decorators/private.decorator';
-import { validate } from 'webpack';
 import { FastifyReply, FastifyRequest } from 'fastify';
+import { isHttps } from 'viewtube/shared';
+import { setAuthCookies } from '../set-auth-cookies';
+import { BYPASS_AUTH_KEY } from '../decorators/bypass-auth.decorator';
 
 @Injectable()
 export class PublicAuthGuard implements CanActivate {
@@ -16,67 +17,69 @@ export class PublicAuthGuard implements CanActivate {
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const isPrivate = this.reflector.getAllAndOverride<boolean>(IS_PRIVATE_KEY, [
-      context.getHandler(),
-      context.getClass()
-    ]);
+    const targets = [context.getHandler(), context.getClass()];
+    const isPrivate = this.reflector.getAllAndOverride<boolean>(IS_PRIVATE_KEY, targets);
+    const isBypassAuth = this.reflector.getAllAndOverride<boolean>(BYPASS_AUTH_KEY, targets);
+
+    if (isBypassAuth) return true;
 
     const request = context.switchToHttp().getRequest<FastifyRequest>();
     const reply = context.switchToHttp().getResponse<FastifyReply>();
     const accessToken = this.extractAccessTokenFromCookie(request);
     const refreshToken = this.extractRefreshTokenFromCookie(request);
 
-    if (accessToken && refreshToken) {
-      const accessPayload = await this.validateAccessToken(accessToken);
+    if (refreshToken) {
+      const accessPayload = await this.validateToken(accessToken);
+      if (accessPayload) console.log('valid access token', accessPayload);
+
       if (!accessPayload) {
-        const refreshPayload = await this.validateAccessToken(refreshToken);
+        console.log('invalid access token');
+
+        const refreshPayload = await this.validateToken(refreshToken);
+        if (refreshPayload) console.log('valid refresh token');
+
         if (!refreshPayload) {
+          console.log('invalid refresh token');
+
           if (isPrivate) {
             throw new UnauthorizedException();
           }
           return true;
-        } else {
-          const refreshToken = await this.jwtService.signAsync(
-            {
-              username: refreshPayload.username
-            },
-            {
-              expiresIn: '7d'
-            }
-          );
-          const accessToken = await this.jwtService.signAsync({
-            username: refreshPayload.username
-          });
-
-          
         }
+
+        const payload = { username: refreshPayload.username };
+        const newRefreshToken = await this.jwtService.signAsync(payload, {
+          expiresIn: '7d'
+        });
+        const newAccessToken = await this.jwtService.signAsync(payload);
+
+        const secure = this.configService.get('NODE_ENV') === 'production' && isHttps();
+        setAuthCookies({
+          reply,
+          accessToken: newAccessToken,
+          refreshToken: newRefreshToken,
+          secure
+        });
+
+        request['user'] = refreshPayload;
+      } else {
+        request['user'] = accessPayload;
       }
-      request['user'] = accessPayload;
-      return true;
     }
-
-    try {
-      const payload = await this.jwtService.verifyAsync(accessToken, {
-        secret: this.configService.get('VIEWTUBE_JWT_SECRET'),
-        issuer: 'viewtube-api',
-        audience: 'viewtube-web'
-      });
-
-      request['user'] = payload;
-    } catch {
-      if (isPrivate) {
-        throw new UnauthorizedException();
-      }
+    if (isPrivate && !request['user']) {
+      throw new UnauthorizedException();
     }
     return true;
   }
 
-  async validateAccessToken(accessToken: string): Promise<any> {
+  async validateToken(token: string) {
+    if (!token) return null;
     try {
-      const payload = await this.jwtService.verifyAsync(accessToken, {
+      const payload = await this.jwtService.verifyAsync(token, {
         secret: this.configService.get('VIEWTUBE_JWT_SECRET'),
         issuer: 'viewtube-api',
-        audience: 'viewtube-web'
+        audience: 'viewtube-web',
+        maxAge: '7d'
       });
       return payload;
     } catch {

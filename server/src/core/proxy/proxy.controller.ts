@@ -2,8 +2,10 @@ import { Controller, Get, Query, Header, Res, Req } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { ProxyService } from './proxy.service';
+import { BypassAuth } from 'server/auth/decorators/bypass-auth.decorator';
 
 @ApiTags('Core')
+@BypassAuth()
 @Controller('proxy')
 export class ProxyController {
   constructor(private proxyService: ProxyService) {}

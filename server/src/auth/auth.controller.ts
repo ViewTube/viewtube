@@ -12,27 +12,20 @@ export class AuthController {
   @Post('login')
   async login(
     @Res({ passthrough: true }) reply: FastifyReply,
-    @Body() { username, password }: UserDto,
-    @Query('local') isLocal: boolean
+    @Body() { username, password }: UserDto
   ) {
-    const user = await this.authService.validateUser(username, password)
+    const user = await this.authService.validateUser(username, password);
     if (!user) {
       throw new UnauthorizedException('Invalid username or password');
     }
 
-    const cookie = await this.authService.getJwtCookie(user.username);
-    reply.header('Set-Cookie', cookie);
-    const tokenResponse = await this.authService.login(user.username);
-    if (isLocal) {
-      return tokenResponse;
-    } else {
-      reply.code(204);
-    }
+    await this.authService.login(reply, user.username);
+    reply.code(204);
   }
 
   @Post('logout')
-  logout(@Res() reply: FastifyReply) {
-    const cookie = this.authService.getDeletionCookie();
-    reply.header('Set-Cookie', cookie).code(204).send();
+  logout(@Res({ passthrough: true }) reply: FastifyReply) {
+    this.authService.logout(reply);
+    reply.code(204);
   }
 }

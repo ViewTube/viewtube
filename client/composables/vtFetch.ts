@@ -14,11 +14,36 @@ type FetchRequest = Parameters<typeof ofetch>[0];
 type FetchOptions = Parameters<typeof ofetch>[1];
 
 export const useVtFetch = () => {
+  const refreshToken = useCookie('RefreshToken');
+  const accessToken = useCookie('AccessToken');
+  const settings = useCookie('settings');
+
   const vtFetch = <T = any, R extends ResponseType = 'json'>(
     request: FetchRequest,
     options?: FetchOptions
   ): Promise<MappedType<R, T>> => {
-    return ofetch(request, options) as Promise<MappedType<R, T>>;
+    const requestOptions = options ?? {};
+
+    if (!requestOptions.credentials) requestOptions.credentials = 'include';
+
+    if (process.server) {
+      const cookieHeader = Object.entries({
+        RefreshToken: refreshToken.value,
+        AccessToken: accessToken.value,
+        settings: settings.value
+      })
+        .map(([key, value]) => {
+          if (value) {
+            return `${key}=${value}`;
+          }
+        })
+        .filter(Boolean)
+        .join('; ');
+
+      requestOptions.headers = { ...requestOptions.headers, cookie: cookieHeader };
+    }
+
+    return ofetch(request, requestOptions) as Promise<MappedType<R, T>>;
   };
 
   return { vtFetch };

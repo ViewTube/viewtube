@@ -20,17 +20,16 @@ export const useUserStore = defineStore('user', {
     isLoggedIn: state => !!state.username
   },
   actions: {
-    async getUser(authenticationToken?: string) {
+    async getUser() {
       const { apiUrl } = useApiUrl();
       const settingsStore = useSettingsStore();
+      const { vtFetch } = useVtFetch();
+      const testy = useCookie('RefreshToken');
+      console.log('user', testy.value);
+
       try {
-        const user = await vtClientFetch<User>(`${apiUrl.value}user/profile`, {
-          headers: {
-            Authorization: authenticationToken ? `Bearer ${authenticationToken}` : undefined
-          },
-          credentials: 'include'
-        });
-        if (user) {
+        const user = await vtFetch<User>(`${apiUrl.value}user/profile`);
+        if (user?.username) {
           this.username = user.username;
           this.profileImage = user.profileImage;
           this.admin = user.admin;
