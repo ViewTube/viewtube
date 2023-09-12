@@ -8,7 +8,7 @@ export class Captcha extends Document {
     type: Date,
     required: true,
     default: new Date(),
-    expires: '5m'
+    expires: 300
   })
   createdAt: Date;
 

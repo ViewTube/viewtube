@@ -2,7 +2,7 @@
   "name": "server",
   "main": "dist/main",
   "engines": {
-    "node": ">=18.17.0",
+    "node": ">=18.16.0",
     "pnpm": ">=8.7.0"
   },
   "scripts": {

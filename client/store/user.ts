@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import { useCaptchaStore } from '@/store/captcha';
 import { useSettingsStore } from './settings';
+import { UAParser } from 'ua-parser-js';
 
 type User = {
   username: string;
@@ -43,14 +44,23 @@ export const useUserStore = defineStore('user', {
     },
 
     async login(username: string, password: string) {
+      const { vtFetch } = useVtFetch();
       const { apiUrl } = useApiUrl();
+
+      const userAgent = UAParser();
+
+      console.log('userAgent', userAgent);
+
+      const deviceName = `${userAgent.browser.name} ${userAgent.browser.version} on ${userAgent.os.name} ${userAgent.os.version}`;
+
       try {
-        await vtClientFetch(`${apiUrl.value}auth/login`, {
+        await vtFetch(`${apiUrl.value}auth/login`, {
           method: 'POST',
           credentials: 'include',
           body: {
             username,
-            password
+            password,
+            deviceName
           }
         });
         await this.getUser();

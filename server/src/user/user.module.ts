@@ -10,6 +10,7 @@ import { NotificationsModule } from './notifications/notifications.module';
 import { SettingsModule } from './settings/settings.module';
 import { HistoryModule } from './history/history.module';
 import { AdminModule } from './admin/admin.module';
+import { Session, SessionSchema } from 'server/auth/schemas/session.schema';
 
 const moduleMetadata: ModuleMetadata = {
   imports: [
@@ -18,6 +19,11 @@ const moduleMetadata: ModuleMetadata = {
         name: User.name,
         schema: UserSchema,
         collection: 'users'
+      },
+      {
+        name: Session.name,
+        schema: SessionSchema,
+        collection: 'sessions'
       }
     ]),
     CacheModule.registerAsync({

@@ -29,12 +29,16 @@ import { SubscriptionsService } from './subscriptions/subscriptions.service';
 import { profileImage } from './profile-image';
 import { ConfigService } from '@nestjs/config';
 import { promisify } from 'util';
+import { Session } from 'server/auth/schemas/session.schema';
+import { session } from 'passport';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectModel(User.name)
     private readonly UserModel: Model<User>,
+    @InjectModel(Session.name)
+    private readonly SessionModel: Model<Session>,
     private settingsService: SettingsService,
     private historyService: HistoryService,
     private subscriptionsService: SubscriptionsService,
@@ -87,6 +91,52 @@ export class UserService {
         admin: username === adminUser
       };
     }
+  }
+
+  async getSessions(request: ViewTubeRequest) {
+    const sessions = await this.SessionModel.find({ username: request.user?.username }).exec();
+
+    return sessions.map(session => ({
+      id: session._id,
+      deviceName: session.deviceName,
+      lastUsed: session.lastUsed
+    }));
+  }
+
+  async getCurrentSession(request: ViewTubeRequest) {
+    const refreshToken = request.cookies.RefreshToken;
+    const session = await this.SessionModel.findOne({ refreshToken }).exec();
+
+    return {
+      id: session._id,
+      deviceName: session.deviceName,
+      lastUsed: session.lastUsed
+    };
+  }
+
+  async renameSession(request: ViewTubeRequest, sessionId: string, deviceName: string) {
+    const session = await this.SessionModel.findOneAndUpdate(
+      {
+        _id: sessionId,
+        username: request.user?.username
+      },
+      {
+        deviceName
+      }
+    ).exec();
+
+    return {
+      id: session._id,
+      deviceName: session.deviceName,
+      lastUsed: session.lastUsed
+    };
+  }
+
+  async deleteSession(request: ViewTubeRequest, sessionId: string) {
+    await this.SessionModel.findOneAndRemove({
+      _id: sessionId,
+      username: request.user?.username
+    }).exec();
   }
 
   async saveProfileImage(request: ViewTubeRequest) {
@@ -234,14 +284,6 @@ export class UserService {
         admin: adminUser === createdUser.username
       };
     }
-  }
-
-  findOne(username: string): Promise<User> {
-    return this.UserModel.findOne({ username }).exec();
-  }
-
-  findAll(): Promise<User[]> {
-    return this.UserModel.find().exec();
   }
 
   async deleteUserAndData(username: string) {

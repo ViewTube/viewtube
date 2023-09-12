@@ -8,12 +8,15 @@ import { User } from 'server/user/schemas/user.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { FastifyReply } from 'fastify';
 import { setAuthCookies } from './set-auth-cookies';
+import { Session } from './schemas/session.schema';
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectModel(User.name)
     private readonly UserModel: Model<User>,
+    @InjectModel(Session.name)
+    private readonly SessionModel: Model<Session>,
     private jwtService: JwtService,
     private configService: ConfigService
   ) {}
@@ -35,26 +38,38 @@ export class AuthService {
     return null;
   }
 
-  logout(reply: FastifyReply) {
-    const secure = this.configService.get('NODE_ENV') === 'production' && isHttps();
+  async logout(reply: FastifyReply) {
+    const refreshToken = reply.cookies.RefreshToken;
 
-    reply.setCookie('Authentication', '', {
-      httpOnly: true,
-      path: '/',
-      maxAge: 0,
-      secure: secure ?? undefined,
-      sameSite: secure ? 'strict' : undefined
-    });
+    await this.SessionModel.findOneAndRemove({ refreshToken }).exec();
+
+    const emptyCookie = {
+      path: '/'
+    };
+
+    reply.clearCookie('AccessToken', emptyCookie);
+    reply.clearCookie('RefreshToken', emptyCookie);
   }
 
-  async login(reply: FastifyReply, username: string) {
+  async login(reply: FastifyReply, username: string, deviceName: string) {
     const payload = { username };
     const refreshToken = await this.jwtService.signAsync(payload, {
-      expiresIn: '7d'
+      expiresIn: '7d',
+      secret: this.configService.get('VIEWTUBE_JWT_SECRET')
     });
-    const accessToken = await this.jwtService.signAsync(payload);
+    const accessToken = await this.jwtService.signAsync(payload, {
+      secret: this.configService.get('VIEWTUBE_JWT_SECRET')
+    });
 
     const secure = this.configService.get('NODE_ENV') === 'production' && isHttps();
+
+    const session = new this.SessionModel({
+      username,
+      deviceName,
+      refreshToken
+    });
+
+    await session.save();
 
     setAuthCookies({
       reply,

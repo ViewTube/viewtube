@@ -3,17 +3,20 @@ import { Document } from 'mongoose';
 
 @Schema({ timestamps: true })
 export class Session extends Document {
-  @Prop({ index: { unique: true } })
+  @Prop({ index: { unique: true }, required: true })
   refreshToken: string;
 
-  @Prop()
+  @Prop({ required: true })
   username: string;
 
-  @Prop()
+  @Prop({ required: true, type: Date, expires: 604800, default: Date.now() })
   expiresAt: Date;
 
-  @Prop()
+  @Prop({ required: true })
   deviceName: string;
+
+  @Prop({ required: true, type: Date, default: Date.now() })
+  lastUsed: Date;
 }
 
 export const SessionSchema = SchemaFactory.createForClass(Session);

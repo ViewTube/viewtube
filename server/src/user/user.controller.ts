@@ -10,7 +10,8 @@ import {
   Param,
   StreamableFile,
   Header,
-  HttpCode
+  HttpCode,
+  Put
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { UserprofileDto } from 'server/user/dto/userprofile.dto';
@@ -35,6 +36,30 @@ export class UserController {
   @Get('profile/details')
   getProfileDetails(@Req() request: ViewTubeRequest): Promise<UserprofileDetailsDto> {
     return this.userService.getProfileDetails(request.user.username);
+  }
+
+  @Get('sessions')
+  getSessions(@Req() request: ViewTubeRequest) {
+    return this.userService.getSessions(request);
+  }
+
+  @Get('sessions/current')
+  getCurrentSession(@Req() request: ViewTubeRequest) {
+    return this.userService.getCurrentSession(request);
+  }
+
+  @Put('sessions/:id')
+  updateSession(
+    @Req() request: ViewTubeRequest,
+    @Param('id') id: string,
+    @Body('deviceName') deviceName: string
+  ) {
+    return this.userService.renameSession(request, id, deviceName);
+  }
+
+  @Delete('sessions/:id')
+  deleteSession(@Req() request: ViewTubeRequest, @Param('id') id: string) {
+    return this.userService.deleteSession(request, id);
   }
 
   @Get('export')

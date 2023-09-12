@@ -7,13 +7,18 @@ import { FastifyReply, FastifyRequest } from 'fastify';
 import { isHttps } from 'viewtube/shared';
 import { setAuthCookies } from '../set-auth-cookies';
 import { BYPASS_AUTH_KEY } from '../decorators/bypass-auth.decorator';
+import { InjectModel } from '@nestjs/mongoose';
+import { Session } from '../schemas/session.schema';
+import { Model } from 'mongoose';
 
 @Injectable()
 export class PublicAuthGuard implements CanActivate {
   constructor(
     private jwtService: JwtService,
     private configService: ConfigService,
-    private reflector: Reflector
+    private reflector: Reflector,
+    @InjectModel(Session.name)
+    private readonly SessionModel: Model<Session>
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -30,13 +35,12 @@ export class PublicAuthGuard implements CanActivate {
 
     if (refreshToken) {
       const accessPayload = await this.validateToken(accessToken);
-      if (accessPayload) console.log('valid access token', accessPayload);
+      if (accessPayload) console.log('valid access token');
 
       if (!accessPayload) {
         console.log('invalid access token');
 
         const refreshPayload = await this.validateToken(refreshToken);
-        if (refreshPayload) console.log('valid refresh token');
 
         if (!refreshPayload) {
           console.log('invalid refresh token');
@@ -47,11 +51,38 @@ export class PublicAuthGuard implements CanActivate {
           return true;
         }
 
+        console.log(refreshToken);
+
+        const session = await this.SessionModel.findOne({ refreshToken }).exec();
+
+        if (!session) {
+          console.log('session not found');
+
+          if (isPrivate) {
+            throw new UnauthorizedException();
+          }
+          return true;
+        }
+
         const payload = { username: refreshPayload.username };
         const newRefreshToken = await this.jwtService.signAsync(payload, {
-          expiresIn: '7d'
+          expiresIn: '7d',
+          secret: this.configService.get('VIEWTUBE_JWT_SECRET')
         });
-        const newAccessToken = await this.jwtService.signAsync(payload);
+        const newAccessToken = await this.jwtService.signAsync(payload, {
+          secret: this.configService.get('VIEWTUBE_JWT_SECRET')
+        });
+
+        console.log('generated new tokens');
+
+        await this.SessionModel.findOneAndUpdate(
+          { refreshToken },
+          {
+            refreshToken: newRefreshToken,
+            expiresAt: Date.now(),
+            lastUsed: Date.now()
+          }
+        ).exec();
 
         const secure = this.configService.get('NODE_ENV') === 'production' && isHttps();
         setAuthCookies({
@@ -75,7 +106,9 @@ export class PublicAuthGuard implements CanActivate {
   async validateToken(token: string) {
     if (!token) return null;
     try {
-      const payload = await this.jwtService.verifyAsync(token);
+      const payload = await this.jwtService.verifyAsync(token, {
+        secret: this.configService.get('VIEWTUBE_JWT_SECRET')
+      });
       return payload;
     } catch {
       return null;

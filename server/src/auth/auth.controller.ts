@@ -1,7 +1,6 @@
 import { Controller, Post, Body, Res, Query, UnauthorizedException } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { FastifyReply } from 'fastify';
-import { UserDto } from '../user/user.dto';
 import { AuthService } from './auth.service';
 
 @ApiTags('Auth')
@@ -12,14 +11,16 @@ export class AuthController {
   @Post('login')
   async login(
     @Res({ passthrough: true }) reply: FastifyReply,
-    @Body() { username, password }: UserDto
+    @Body('username') username: string,
+    @Body('password') password: string,
+    @Body('deviceName') deviceName: string
   ) {
     const user = await this.authService.validateUser(username, password);
     if (!user) {
       throw new UnauthorizedException('Invalid username or password');
     }
 
-    await this.authService.login(reply, user.username);
+    await this.authService.login(reply, user.username, deviceName);
     reply.code(204);
   }
 
