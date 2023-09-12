@@ -3,7 +3,7 @@ import { FastifyReply } from 'fastify';
 type SetAuthCookiesArgs = {
   reply: FastifyReply;
   accessToken: string;
-  refreshToken: string;
+  refreshToken?: string;
   secure: boolean;
 };
 export const setAuthCookies = ({
@@ -17,14 +17,16 @@ export const setAuthCookies = ({
     path: '/',
     maxAge: 600,
     secure: secure ?? undefined,
-    sameSite: secure ? 'strict' : undefined
+    sameSite: secure ? 'none' : 'lax'
   });
 
-  reply.setCookie('RefreshToken', refreshToken, {
-    httpOnly: true,
-    path: '/',
-    maxAge: 604800,
-    secure: secure ?? undefined,
-    sameSite: secure ? 'strict' : undefined
-  });
+  if (refreshToken) {
+    reply.setCookie('RefreshToken', refreshToken, {
+      httpOnly: true,
+      path: '/',
+      maxAge: 604800,
+      secure: secure ?? undefined,
+      sameSite: secure ? 'none' : 'lax'
+    });
+  }
 };

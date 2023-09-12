@@ -37,7 +37,7 @@
 
 If access token and refresh token are both present, the access token is validated.
 
-If the access token is invalid, the refresh token is validated. If the refresh token is valid, both tokens are refreshed, and the request is enhanced with user data and returned.
+If the access token is invalid, the refresh token is validated. If the refresh token is valid, the access token is refreshed and the ttl on the session is extended, and the request is enhanced with user data and returned.
 if the refresh token is invalid, the request is regarded as unauthenticated and returned without user data.
 
 If the access token is valid, the request is enhanced with user data and returned.

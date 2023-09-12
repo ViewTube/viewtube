@@ -40,19 +40,6 @@ export class PublicAuthGuard implements CanActivate {
       if (!accessPayload) {
         console.log('invalid access token');
 
-        const refreshPayload = await this.validateToken(refreshToken);
-
-        if (!refreshPayload) {
-          console.log('invalid refresh token');
-
-          if (isPrivate) {
-            throw new UnauthorizedException();
-          }
-          return true;
-        }
-
-        console.log(refreshToken);
-
         const session = await this.SessionModel.findOne({ refreshToken }).exec();
 
         if (!session) {
@@ -64,21 +51,18 @@ export class PublicAuthGuard implements CanActivate {
           return true;
         }
 
-        const payload = { username: refreshPayload.username };
-        const newRefreshToken = await this.jwtService.signAsync(payload, {
-          expiresIn: '7d',
-          secret: this.configService.get('VIEWTUBE_JWT_SECRET')
-        });
-        const newAccessToken = await this.jwtService.signAsync(payload, {
-          secret: this.configService.get('VIEWTUBE_JWT_SECRET')
-        });
+        const newAccessToken = await this.jwtService.signAsync(
+          { username: session.username },
+          {
+            secret: this.configService.get('VIEWTUBE_JWT_SECRET')
+          }
+        );
 
-        console.log('generated new tokens');
+        console.log('generated new access token');
 
         await this.SessionModel.findOneAndUpdate(
           { refreshToken },
           {
-            refreshToken: newRefreshToken,
             expiresAt: Date.now(),
             lastUsed: Date.now()
           }
@@ -88,11 +72,10 @@ export class PublicAuthGuard implements CanActivate {
         setAuthCookies({
           reply,
           accessToken: newAccessToken,
-          refreshToken: newRefreshToken,
           secure
         });
 
-        request['user'] = refreshPayload;
+        request['user'] = { username: session.username };
       } else {
         request['user'] = accessPayload;
       }

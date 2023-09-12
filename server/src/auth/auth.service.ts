@@ -9,6 +9,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import { FastifyReply } from 'fastify';
 import { setAuthCookies } from './set-auth-cookies';
 import { Session } from './schemas/session.schema';
+import { randomBytes } from 'crypto';
+import { FastifyRequest } from 'fastify/types/request';
 
 @Injectable()
 export class AuthService {
@@ -38,8 +40,8 @@ export class AuthService {
     return null;
   }
 
-  async logout(reply: FastifyReply) {
-    const refreshToken = reply.cookies.RefreshToken;
+  async logout(reply: FastifyReply, request: FastifyRequest) {
+    const refreshToken = request.cookies?.RefreshToken;
 
     await this.SessionModel.findOneAndRemove({ refreshToken }).exec();
 
@@ -49,14 +51,14 @@ export class AuthService {
 
     reply.clearCookie('AccessToken', emptyCookie);
     reply.clearCookie('RefreshToken', emptyCookie);
+    reply.code(204);
   }
 
   async login(reply: FastifyReply, username: string, deviceName: string) {
     const payload = { username };
-    const refreshToken = await this.jwtService.signAsync(payload, {
-      expiresIn: '7d',
-      secret: this.configService.get('VIEWTUBE_JWT_SECRET')
-    });
+    const rawToken = randomBytes(64).toString('hex');
+    const refreshToken = await bcrypt.hash(rawToken, 3);
+
     const accessToken = await this.jwtService.signAsync(payload, {
       secret: this.configService.get('VIEWTUBE_JWT_SECRET')
     });

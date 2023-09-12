@@ -1,6 +1,6 @@
-import { Controller, Post, Body, Res, Query, UnauthorizedException } from '@nestjs/common';
+import { Controller, Post, Body, Res, UnauthorizedException, Req } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { FastifyReply } from 'fastify';
+import { FastifyReply, FastifyRequest } from 'fastify';
 import { AuthService } from './auth.service';
 
 @ApiTags('Auth')
@@ -25,8 +25,7 @@ export class AuthController {
   }
 
   @Post('logout')
-  logout(@Res({ passthrough: true }) reply: FastifyReply) {
-    this.authService.logout(reply);
-    reply.code(204);
+  logout(@Res({ passthrough: true }) reply: FastifyReply, @Req() request: FastifyRequest) {
+    this.authService.logout(reply, request);
   }
 }
