@@ -54,7 +54,7 @@ export class AuthService {
     reply.code(204);
   }
 
-  async login(reply: FastifyReply, username: string, deviceName: string) {
+  async login(reply: FastifyReply, username: string, deviceName: string, deviceType: string) {
     const payload = { username };
     const rawToken = randomBytes(64).toString('hex');
     const refreshToken = await bcrypt.hash(rawToken, 3);
@@ -68,6 +68,7 @@ export class AuthService {
     const session = new this.SessionModel({
       username,
       deviceName,
+      deviceType,
       refreshToken
     });
 

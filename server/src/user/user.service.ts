@@ -99,6 +99,7 @@ export class UserService {
     return sessions.map(session => ({
       id: session._id,
       deviceName: session.deviceName,
+      deviceType: session.deviceType,
       lastUsed: session.lastUsed
     }));
   }
@@ -110,24 +111,32 @@ export class UserService {
     return {
       id: session._id,
       deviceName: session.deviceName,
+      deviceType: session.deviceType,
       lastUsed: session.lastUsed
     };
   }
 
-  async renameSession(request: ViewTubeRequest, sessionId: string, deviceName: string) {
+  async renameSession(
+    request: ViewTubeRequest,
+    sessionId: string,
+    deviceName: string,
+    deviceType: string
+  ) {
     const session = await this.SessionModel.findOneAndUpdate(
       {
         _id: sessionId,
         username: request.user?.username
       },
       {
-        deviceName
+        deviceName,
+        deviceType
       }
     ).exec();
 
     return {
       id: session._id,
       deviceName: session.deviceName,
+      deviceType: session.deviceType,
       lastUsed: session.lastUsed
     };
   }

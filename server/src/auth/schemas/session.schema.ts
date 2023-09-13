@@ -15,6 +15,9 @@ export class Session extends Document {
   @Prop({ required: true })
   deviceName: string;
 
+  @Prop({ required: true })
+  deviceType: string;
+
   @Prop({ required: true, type: Date, default: Date.now() })
   lastUsed: Date;
 }

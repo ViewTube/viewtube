@@ -52,9 +52,10 @@ export class UserController {
   updateSession(
     @Req() request: ViewTubeRequest,
     @Param('id') id: string,
-    @Body('deviceName') deviceName: string
+    @Body('deviceName') deviceName: string,
+    @Body('deviceType') deviceType: string
   ) {
-    return this.userService.renameSession(request, id, deviceName);
+    return this.userService.renameSession(request, id, deviceName, deviceType);
   }
 
   @Delete('sessions/:id')

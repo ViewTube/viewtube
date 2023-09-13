@@ -53,6 +53,22 @@ export const useUserStore = defineStore('user', {
 
       const deviceName = `${userAgent.browser.name} ${userAgent.browser.version} on ${userAgent.os.name} ${userAgent.os.version}`;
 
+      let deviceType = 'desktop';
+
+      if (userAgent.device.type === 'mobile') {
+        deviceType = 'mobile';
+      } else {
+        const mobile =
+          window.matchMedia('(pointer: coarse)').matches &&
+          navigator.maxTouchPoints > 1 &&
+          window.matchMedia(`(max-width: 639px)`).matches &&
+          'ontouchstart' in document.documentElement;
+
+        if (mobile) {
+          deviceType = 'mobile';
+        }
+      }
+
       try {
         await vtFetch(`${apiUrl.value}auth/login`, {
           method: 'POST',
@@ -60,7 +76,8 @@ export const useUserStore = defineStore('user', {
           body: {
             username,
             password,
-            deviceName
+            deviceName,
+            deviceType
           }
         });
         await this.getUser();

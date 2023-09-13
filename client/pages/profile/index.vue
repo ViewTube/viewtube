@@ -203,8 +203,12 @@ const logout = () => {
             <span class="highlight">{{ profile.totalTimeString }}</span> spent watching videos
           </p>
           <p>
-            <span class="highlight">{{ profile.subscribedChannelsCount }} channels</span> subscribed
-            to
+            <span class="highlight"
+              >{{ profile.subscribedChannelsCount }} channel{{
+                profile.subscribedChannelsCount === 1 ? '' : 's'
+              }}</span
+            >
+            subscribed to
           </p>
         </div>
         <div v-if="profile" class="actions">
@@ -230,6 +234,7 @@ const logout = () => {
         </div>
       </div>
     </div>
+    <UserSessions v-if="profile" />
     <div v-if="profile && !settingsStore.saveVideoHistory" class="no-history">
       <VTIcon name="mdi:restart-off" />
       <p>Video history is disabled. You can enable it in settings.</p>

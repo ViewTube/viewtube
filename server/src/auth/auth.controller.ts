@@ -13,14 +13,15 @@ export class AuthController {
     @Res({ passthrough: true }) reply: FastifyReply,
     @Body('username') username: string,
     @Body('password') password: string,
-    @Body('deviceName') deviceName: string
+    @Body('deviceName') deviceName: string,
+    @Body('deviceType') deviceType: string
   ) {
     const user = await this.authService.validateUser(username, password);
     if (!user) {
       throw new UnauthorizedException('Invalid username or password');
     }
 
-    await this.authService.login(reply, user.username, deviceName);
+    await this.authService.login(reply, user.username, deviceName, deviceType);
     reply.code(204);
   }
 
