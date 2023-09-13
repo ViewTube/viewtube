@@ -25,8 +25,6 @@ export const useUserStore = defineStore('user', {
       const { apiUrl } = useApiUrl();
       const settingsStore = useSettingsStore();
       const { vtFetch } = useVtFetch();
-      const testy = useCookie('RefreshToken');
-      console.log('user', testy.value);
 
       try {
         const user = await vtFetch<User>(`${apiUrl.value}user/profile`);
@@ -49,8 +47,6 @@ export const useUserStore = defineStore('user', {
 
       const userAgent = UAParser();
 
-      console.log('userAgent', userAgent);
-
       const deviceName = `${userAgent.browser.name} ${userAgent.browser.version} on ${userAgent.os.name} ${userAgent.os.version}`;
 
       let deviceType = 'desktop';
@@ -72,7 +68,6 @@ export const useUserStore = defineStore('user', {
       try {
         await vtFetch(`${apiUrl.value}auth/login`, {
           method: 'POST',
-          credentials: 'include',
           body: {
             username,
             password,

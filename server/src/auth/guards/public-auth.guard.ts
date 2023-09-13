@@ -35,16 +35,11 @@ export class PublicAuthGuard implements CanActivate {
 
     if (refreshToken) {
       const accessPayload = await this.validateToken(accessToken);
-      if (accessPayload) console.log('valid access token');
 
       if (!accessPayload) {
-        console.log('invalid access token');
-
         const session = await this.SessionModel.findOne({ refreshToken }).exec();
 
         if (!session) {
-          console.log('session not found');
-
           if (isPrivate) {
             throw new UnauthorizedException();
           }
@@ -57,8 +52,6 @@ export class PublicAuthGuard implements CanActivate {
             secret: this.configService.get('VIEWTUBE_JWT_SECRET')
           }
         );
-
-        console.log('generated new access token');
 
         await this.SessionModel.findOneAndUpdate(
           { refreshToken },

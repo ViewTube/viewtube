@@ -17,8 +17,9 @@ export const useVtFetch = () => {
   const refreshToken = useCookie('RefreshToken');
   const accessToken = useCookie('AccessToken');
   const settings = useCookie('settings');
+  const nuxtApp = useNuxtApp();
 
-  const vtFetch = <T = any, R extends ResponseType = 'json'>(
+  const vtFetch = async <T = any, R extends ResponseType = 'json'>(
     request: FetchRequest,
     options?: FetchOptions
   ): Promise<MappedType<R, T>> => {
@@ -43,7 +44,15 @@ export const useVtFetch = () => {
       requestOptions.headers = { ...requestOptions.headers, cookie: cookieHeader };
     }
 
-    return ofetch(request, requestOptions) as Promise<MappedType<R, T>>;
+    const response = await ofetch.raw(request, requestOptions);
+    const setCookies = response.headers.getSetCookie();
+    if (setCookies) {
+      setCookies.forEach(cookie => {
+        nuxtApp.ssrContext.event.node.res.setHeader('set-cookie', cookie);
+      });
+    }
+
+    return response._data as Promise<MappedType<R, T>>;
   };
 
   return { vtFetch };
