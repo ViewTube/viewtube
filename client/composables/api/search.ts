@@ -20,16 +20,12 @@ export const useGetSearchResult = () => {
   return useLazyAsyncData(
     `search`,
     async () => {
-      try {
-        const { apiUrl } = useApiUrl();
-        const searchResponse = await vtFetch<VTSearchDto>(`${apiUrl.value}search`, {
-          query: { q: searchQuery.value, filters: searchFilters.value }
-        });
+      const { apiUrl } = useApiUrl();
+      const searchResponse = await vtFetch<VTSearchDto>(`${apiUrl.value}search`, {
+        query: { q: searchQuery.value, filters: searchFilters.value }
+      });
 
-        return searchResponse;
-      } catch (error) {
-        console.log('error', error);
-      }
+      return searchResponse;
     },
     {
       watch: [searchQuery, searchFilters]
