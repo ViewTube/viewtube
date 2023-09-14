@@ -16,7 +16,7 @@ export const useSponsorBlock = () => {
 
     const url = `${sponsorBlockApiUrl}api/skipSegments/${shortHash}?categories=["sponsor", "intro", "outro", "interaction", "selfpromo", "music_offtopic", "preview"]`;
 
-    vtFetch<Array<SponsorBlockSegmentsDto>>(url).then(response => {
+    vtFetch<Array<SponsorBlockSegmentsDto>>(url, { external: true }).then(response => {
       if (response) {
         const skipSections = response.find(el => el.videoID === videoId);
         if (skipSections) {

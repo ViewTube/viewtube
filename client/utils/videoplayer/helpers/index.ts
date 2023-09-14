@@ -86,7 +86,7 @@ export const videoPlayerSetup = (
       // newUrl.searchParams.set('host', newUrl.host);
       // const replacedUrl = newUrl.toString().replace(newUrl.origin, '');
       // const url = `/api${replacedUrl}`;
-      // console.log(url);
+      // x(url);
       return {
         ...format,
         url: format.url

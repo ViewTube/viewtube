@@ -11,7 +11,7 @@ type MappedType<R extends ResponseType, JsonType = any> = R extends keyof Respon
   ? ResponseMap[R]
   : JsonType;
 type FetchRequest = Parameters<typeof ofetch>[0];
-type FetchOptions = Parameters<typeof ofetch>[1];
+type FetchOptions = Parameters<typeof ofetch>[1] & { external?: boolean };
 
 export const useVtFetch = () => {
   const refreshToken = useCookie('RefreshToken');
@@ -24,10 +24,11 @@ export const useVtFetch = () => {
     options?: FetchOptions
   ): Promise<MappedType<R, T>> => {
     const requestOptions = options ?? {};
+    delete requestOptions.external;
 
-    if (!requestOptions.credentials) requestOptions.credentials = 'include';
+    if (!requestOptions.credentials && !options.external) requestOptions.credentials = 'include';
 
-    if (process.server) {
+    if (process.server && !options.external) {
       const cookieHeader = Object.entries({
         RefreshToken: refreshToken.value,
         AccessToken: accessToken.value,
@@ -45,11 +46,14 @@ export const useVtFetch = () => {
     }
 
     const response = await ofetch.raw(request, requestOptions);
-    const setCookies = response.headers.getSetCookie();
-    if (setCookies) {
-      setCookies.forEach(cookie => {
-        nuxtApp.ssrContext.event.node.res.setHeader('set-cookie', cookie);
-      });
+
+    if (process.server && !options.external) {
+      const setCookies = response.headers.getSetCookie();
+      if (setCookies) {
+        setCookies.forEach(cookie => {
+          nuxtApp.ssrContext.event.node.res.setHeader('set-cookie', cookie);
+        });
+      }
     }
 
     return response._data as Promise<MappedType<R, T>>;
