@@ -1,16 +1,16 @@
 version: '3'
 
 services:
-  viewtube-db:
-    container_name: viewtube-db
+  viewtube-db-dev:
+    container_name: viewtube-db-dev
     image: mongo
     networks:
       - viewtube-local
     ports:
       - 27017:27017
 
-  viewtube-redis:
-    container_name: viewtube-redis
+  viewtube-redis-dev:
+    container_name: viewtube-redis-dev
     image: redis
     networks:
       - viewtube-local
