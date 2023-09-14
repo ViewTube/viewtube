@@ -94,9 +94,10 @@ export const useUserStore = defineStore('user', {
     async register(username: string, password: string, captchaSolution: string) {
       const { apiUrl } = useApiUrl();
       const captchaStore = useCaptchaStore();
+      const { vtFetch } = useVtFetch();
       let registerResult = null;
       try {
-        registerResult = await vtClientFetch(`${apiUrl.value}auth/register`, {
+        registerResult = await vtFetch(`${apiUrl.value}auth/register`, {
           method: 'POST',
           credentials: 'include',
           body: {
@@ -135,8 +136,9 @@ export const useUserStore = defineStore('user', {
 
     async logout() {
       const { apiUrl } = useApiUrl();
+      const { vtFetch } = useVtFetch();
       try {
-        await vtClientFetch(`${apiUrl.value}auth/logout`, {
+        await vtFetch(`${apiUrl.value}auth/logout`, {
           method: 'POST',
           credentials: 'include'
         });

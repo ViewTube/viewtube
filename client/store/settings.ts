@@ -8,6 +8,7 @@ type ThemeVariant = 'default' | 'light' | 'dark-no-gradient' | 'black' | 'green'
 export const useSettingsStore = defineStore(
   'settings',
   () => {
+    const { vtFetch } = useVtFetch();
     const state = toRefs(
       reactive({
         alwaysLoopVideo: false,
@@ -55,9 +56,8 @@ export const useSettingsStore = defineStore(
       if (userStore.isLoggedIn) {
         // Use reactive to unwrap properties
         const { settingsSaving: _, ...settingsToSave } = reactive(state);
-        await vtClientFetch(`${apiUrl.value}user/settings`, {
+        await vtFetch(`${apiUrl.value}user/settings`, {
           method: 'PUT',
-          credentials: 'include',
           body: settingsToSave
         });
       }

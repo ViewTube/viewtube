@@ -26,9 +26,9 @@ export const useVtFetch = () => {
     const requestOptions = options ?? {};
     delete requestOptions.external;
 
-    if (!requestOptions.credentials && !options.external) requestOptions.credentials = 'include';
+    if (!requestOptions.credentials && !options?.external) requestOptions.credentials = 'include';
 
-    if (process.server && !options.external) {
+    if (process.server && !options?.external) {
       const cookieHeader = Object.entries({
         RefreshToken: refreshToken.value,
         AccessToken: accessToken.value,
@@ -47,7 +47,7 @@ export const useVtFetch = () => {
 
     const response = await ofetch.raw(request, requestOptions);
 
-    if (process.server && !options.external) {
+    if (process.server && !options?.external) {
       const setCookies = response.headers.getSetCookie();
       if (setCookies) {
         setCookies.forEach(cookie => {
