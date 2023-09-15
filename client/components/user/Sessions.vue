@@ -10,11 +10,12 @@ const sessions = computed(() => {
       return {
         deviceName: session.deviceName,
         deviceType: session.deviceType,
-        lastUsed: `${humanizeDateString(session.lastUsed)} ago`
+        lastUsed: `${humanizeDateString(session.lastUsed)} ago`,
+        current: session.current
       };
     })
     .sort((a, b) => {
-      return dayjs(a.lastUsed).valueOf() > dayjs(b.lastUsed).valueOf() ? -1 : 1;
+      return dayjs(a.lastUsed).valueOf() - dayjs(b.lastUsed).valueOf();
     });
 });
 
@@ -37,7 +38,12 @@ const removeSession = (id: string) => {
 <template>
   <div class="sessions">
     <SectionTitle :title="'Devices'" />
-    <div v-for="(session, index) in sessions" :key="index" class="session">
+    <div
+      v-for="(session, index) in sessions"
+      :key="index"
+      class="session"
+      :class="{ current: session.current }"
+    >
       <VTIcon v-if="session.deviceType === 'desktop'" class="session-icon" name="mdi:monitor" />
       <VTIcon
         v-else-if="session.deviceType === 'mobile'"
@@ -70,25 +76,32 @@ const removeSession = (id: string) => {
 
   .session {
     background-color: var(--bgcolor-alt);
-    padding: 12px 15px;
     margin: 0 0 15px 0;
     border-radius: 8px;
     display: flex;
     flex-direction: row;
-    gap: 15px;
+    box-sizing: border-box;
+    box-shadow: $low-shadow;
+
+    &.current {
+      border: solid 2px var(--theme-color);
+      box-shadow: $medium-shadow;
+    }
 
     .session-remove,
     .session-edit {
       all: unset;
       cursor: pointer;
-      width: 30px;
-      height: 30px;
+      width: 40px;
+      height: 40px;
       display: flex;
       position: relative;
-      padding: 8px;
+      border-radius: 3px;
 
       .vt-icon {
         margin: auto;
+        height: 1.3rem;
+        width: 1.3rem;
       }
     }
 
@@ -97,18 +110,21 @@ const removeSession = (id: string) => {
     }
 
     .session-remove {
-      margin: auto 0;
+      margin: auto 6px auto 0;
       color: var(--error-color-red);
     }
 
     .session-icon {
       font-size: 1rem;
       color: var(--theme-color);
-      margin: auto 5px;
+      margin: auto 12px auto 12px;
     }
 
     .session-details {
+      margin: 8px 0;
+
       .session-name {
+        font-size: 0.9rem;
         font-weight: bold;
       }
 

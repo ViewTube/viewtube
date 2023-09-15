@@ -269,7 +269,7 @@ const logout = () => {
         <Confirmation
           v-if="deleteAccountPopup"
           :title="'Delete account'"
-          :message="'Do you want to delete your account? This will immediately erase all related data. This action is irreversible.'"
+          :message="'Do you want to delete your account? This will immediately erase all data related to you. This action is irreversible.'"
           @close="onDeleteAccountClose"
         >
           <div class="repeat-username-container">
@@ -383,7 +383,7 @@ const logout = () => {
 
       @media screen and (max-width: $mobile-width) {
         margin: 130px 0 0 0;
-        padding: 90px 15px 15px 20px;
+        padding: 90px 15px 10px 15px;
         height: 230px;
         width: 100%;
       }

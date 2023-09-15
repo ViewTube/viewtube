@@ -100,7 +100,8 @@ export class UserService {
       id: session._id,
       deviceName: session.deviceName,
       deviceType: session.deviceType,
-      lastUsed: session.lastUsed
+      lastUsed: session.lastUsed,
+      current: session.refreshToken === request.cookies?.RefreshToken
     }));
   }
 
