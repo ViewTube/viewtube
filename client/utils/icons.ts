@@ -68,6 +68,7 @@ export const iconSafelist = [
   'mdi-television',
   'mdi-thumb-down',
   'mdi-thumb-up',
+  'mdi-trash-can-outline',
   'mdi-undo',
   'mdi-volume-high',
   'mdi-volume-low',

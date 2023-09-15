@@ -57,14 +57,10 @@
           <About v-if="aboutOpen" @close="closeAllPopups" />
         </transition>
         <transition name="fade-down">
-          <LoginForm v-if="loginOpen" class="center-popup" :complete="() => (loginOpen = false)" />
+          <LoginForm v-if="loginOpen" class="center-popup" :complete="closeAllPopups" />
         </transition>
         <transition name="fade-down">
-          <RegisterForm
-            v-if="registerOpen"
-            class="center-popup"
-            :complete="() => (registerOpen = false)"
-          />
+          <RegisterForm v-if="registerOpen" class="center-popup" :complete="closeAllPopups" />
         </transition>
         <transition name="fade-up">
           <div v-if="accountMenuVisible" class="menu">

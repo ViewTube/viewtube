@@ -24,6 +24,14 @@ const humanizeDateString = (dateString: string): string => {
   const dateMs = now.valueOf() - date.valueOf();
   return humanizeDuration(dateMs, { largest: 1 });
 };
+
+const editSession = (id: string) => {
+  console.log(id);
+};
+
+const removeSession = (id: string) => {
+  console.log(id);
+};
 </script>
 
 <template>
@@ -44,6 +52,12 @@ const humanizeDateString = (dateString: string): string => {
           <span>Last used {{ session.lastUsed }}</span>
         </div>
       </div>
+      <button class="session-edit" @click="editSession(session.id)">
+        <VTIcon name="mdi:pencil" />
+      </button>
+      <button class="session-remove" @click="removeSession(session.id)">
+        <VTIcon name="mdi:trash-can-outline" />
+      </button>
     </div>
   </div>
 </template>
@@ -63,10 +77,34 @@ const humanizeDateString = (dateString: string): string => {
     flex-direction: row;
     gap: 15px;
 
+    .session-remove,
+    .session-edit {
+      all: unset;
+      cursor: pointer;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      position: relative;
+      padding: 8px;
+
+      .vt-icon {
+        margin: auto;
+      }
+    }
+
+    .session-edit {
+      margin: auto 0 auto auto;
+    }
+
+    .session-remove {
+      margin: auto 0;
+      color: var(--error-color-red);
+    }
+
     .session-icon {
       font-size: 1rem;
       color: var(--theme-color);
-      margin: auto 0;
+      margin: auto 5px;
     }
 
     .session-details {
