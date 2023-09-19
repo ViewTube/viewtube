@@ -1,4 +1,5 @@
 import { FastifyReply } from 'fastify';
+import { SESSION_EXPIRATION } from './constants/session';
 
 type SetAuthCookiesArgs = {
   reply: FastifyReply;
@@ -24,7 +25,7 @@ export const setAuthCookies = ({
     reply.setCookie('RefreshToken', refreshToken, {
       httpOnly: true,
       path: '/',
-      maxAge: 604800,
+      maxAge: SESSION_EXPIRATION,
       secure: secure ?? undefined,
       sameSite: secure ? 'none' : 'lax'
     });

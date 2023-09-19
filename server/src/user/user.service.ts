@@ -30,7 +30,8 @@ import { profileImage } from './profile-image';
 import { ConfigService } from '@nestjs/config';
 import { promisify } from 'util';
 import { Session } from 'server/auth/schemas/session.schema';
-import { session } from 'passport';
+import dayjs from 'dayjs';
+import { SESSION_EXPIRATION } from 'server/auth/constants/session';
 
 @Injectable()
 export class UserService {
@@ -101,7 +102,8 @@ export class UserService {
       deviceName: session.deviceName,
       deviceType: session.deviceType,
       lastUsed: session.lastUsed,
-      current: session.refreshToken === request.cookies?.RefreshToken
+      current: session.refreshToken === request.cookies?.RefreshToken,
+      expires: dayjs(session.expiresAt).add(SESSION_EXPIRATION, 'seconds').toDate()
     }));
   }
 

@@ -9,6 +9,7 @@ import { User, UserSchema } from 'server/user/schemas/user.schema';
 import { APP_GUARD } from '@nestjs/core';
 import { PublicAuthGuard } from './guards/public-auth.guard';
 import { Session, SessionSchema } from './schemas/session.schema';
+import { JWT_EXPIRATION } from './constants/session';
 
 const moduleMetadata: ModuleMetadata = {
   providers: [
@@ -37,7 +38,7 @@ const moduleMetadata: ModuleMetadata = {
       global: true,
       secret: process.env.VIEWTUBE_JWT_SECRET,
       signOptions: {
-        expiresIn: '12h',
+        expiresIn: JWT_EXPIRATION,
         issuer: 'viewtube-api',
         audience: 'viewtube-web'
       }

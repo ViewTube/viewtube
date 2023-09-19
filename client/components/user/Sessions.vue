@@ -11,6 +11,7 @@ const sessions = computed(() => {
         deviceName: session.deviceName,
         deviceType: session.deviceType,
         lastUsed: `${humanizeDateString(session.lastUsed)} ago`,
+        expires: `${humanizeDateString(session.expires)} from now`,
         current: session.current
       };
     })
@@ -55,7 +56,7 @@ const removeSession = (id: string) => {
           <span>{{ session.deviceName }}</span>
         </div>
         <div class="session-last-used">
-          <span>Last used {{ session.lastUsed }}</span>
+          <span>Last used {{ session.lastUsed }} · Expires in {{ session.expires }}</span>
         </div>
       </div>
       <button class="session-edit" @click="editSession(session.id)">
