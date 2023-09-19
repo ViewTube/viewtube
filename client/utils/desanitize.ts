@@ -1,1 +1,5 @@
-export const desanitize = (str: string) => decodeURIComponent(str.trim());
+export const desanitize = (str: string) => {
+  if (typeof str !== 'string') return '';
+
+  decodeURIComponent(str.trim());
+};
