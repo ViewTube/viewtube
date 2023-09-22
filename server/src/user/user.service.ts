@@ -32,6 +32,7 @@ import { promisify } from 'util';
 import { Session } from 'server/auth/schemas/session.schema';
 import dayjs from 'dayjs';
 import { SESSION_EXPIRATION } from 'server/auth/constants/session';
+import { SessionDto } from './dto/session.dto';
 
 @Injectable()
 export class UserService {
@@ -94,7 +95,7 @@ export class UserService {
     }
   }
 
-  async getSessions(request: ViewTubeRequest) {
+  async getSessions(request: ViewTubeRequest): Promise<Array<SessionDto>> {
     const sessions = await this.SessionModel.find({ username: request.user?.username }).exec();
 
     return sessions.map(session => ({
@@ -107,7 +108,7 @@ export class UserService {
     }));
   }
 
-  async getCurrentSession(request: ViewTubeRequest) {
+  async getCurrentSession(request: ViewTubeRequest): Promise<SessionDto> {
     const refreshToken = request.cookies.RefreshToken;
     const session = await this.SessionModel.findOne({ refreshToken }).exec();
 
@@ -115,7 +116,9 @@ export class UserService {
       id: session._id,
       deviceName: session.deviceName,
       deviceType: session.deviceType,
-      lastUsed: session.lastUsed
+      lastUsed: session.lastUsed,
+      expires: dayjs(session.expiresAt).add(SESSION_EXPIRATION, 'seconds').toDate(),
+      current: true
     };
   }
 

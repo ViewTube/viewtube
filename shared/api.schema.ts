@@ -286,6 +286,16 @@ export interface components {
       subscribedChannelsCount: number;
       admin: boolean;
     };
+    SessionDto: {
+      id: string;
+      deviceName: string;
+      deviceType: string;
+      /** Format: date-time */
+      lastUsed: string;
+      /** Format: date-time */
+      expires: string;
+      current: boolean;
+    };
     ChannelBasicInfoDto: {
       authorId: string;
       author: string;
@@ -767,14 +777,18 @@ export interface operations {
   UserController_getSessions: {
     responses: {
       200: {
-        content: never;
+        content: {
+          "application/json": components["schemas"]["SessionDto"][];
+        };
       };
     };
   };
   UserController_getCurrentSession: {
     responses: {
       200: {
-        content: never;
+        content: {
+          "application/json": components["schemas"]["SessionDto"];
+        };
       };
     };
   };

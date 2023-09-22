@@ -20,6 +20,7 @@ import { ViewTubeRequest } from 'server/common/viewtube-request';
 import { UserprofileDetailsDto } from './dto/userprofile-details.dto';
 import { UserService } from './user.service';
 import { Private } from 'server/auth/decorators/private.decorator';
+import { SessionDto } from './dto/session.dto';
 
 @ApiTags('User')
 @ApiBearerAuth()
@@ -39,12 +40,12 @@ export class UserController {
   }
 
   @Get('sessions')
-  getSessions(@Req() request: ViewTubeRequest) {
+  getSessions(@Req() request: ViewTubeRequest): Promise<Array<SessionDto>> {
     return this.userService.getSessions(request);
   }
 
   @Get('sessions/current')
-  getCurrentSession(@Req() request: ViewTubeRequest) {
+  getCurrentSession(@Req() request: ViewTubeRequest): Promise<SessionDto> {
     return this.userService.getCurrentSession(request);
   }
 

@@ -15,6 +15,7 @@ export const iconSafelist = [
   'mdi-calendar-clock',
   'mdi-cellphone',
   'mdi-check-decagram',
+  'mdi-check',
   'mdi-chevron-left',
   'mdi-chevron-right',
   'mdi-chevron-up',
