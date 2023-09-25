@@ -69,7 +69,8 @@ export class AuthService {
       username,
       deviceName,
       deviceType,
-      refreshToken
+      refreshToken,
+      expiresAt: Date.now()
     });
 
     await session.save();

@@ -4,9 +4,18 @@ const props = defineProps<{
   modelValue: string;
   label: string;
   id: string;
+  autofocus?: boolean;
 }>();
 
 defineEmits<{ (e: 'update:modelValue', value: string): void }>();
+
+const inputRef = ref<HTMLInputElement | null>(null);
+
+onMounted(() => {
+  if (props.autofocus) {
+    inputRef.value?.focus();
+  }
+});
 
 const autocompleteTags = {
   email: 'email',
@@ -26,6 +35,7 @@ const autocompleteTag = computed((): string => autocompleteTags[props.type] ?? '
   <div class="form-input">
     <input
       :id="id"
+      ref="inputRef"
       class="input"
       :class="{ 'focus-content': hasText }"
       :autocomplete="autocompleteTag"
@@ -33,6 +43,7 @@ const autocompleteTag = computed((): string => autocompleteTags[props.type] ?? '
       :name="autocompleteTag"
       required
       :value="modelValue"
+      :autofocus="autofocus"
       @input="(e: any) => $emit('update:modelValue', e.target.value)"
     />
     <VTIcon v-if="type === 'username'" class="form-input-icon" name="mdi:account-outline" />

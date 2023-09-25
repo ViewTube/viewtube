@@ -1,6 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, SchemaTimestampsConfig } from 'mongoose';
 import { SESSION_EXPIRATION } from '../constants/session';
+
+export type SessionDocument = Session & Document & { updatedAt: Date; createdAt: Date };
 
 @Schema({ timestamps: true })
 export class Session extends Document {
@@ -10,7 +12,7 @@ export class Session extends Document {
   @Prop({ required: true })
   username: string;
 
-  @Prop({ required: true, type: Date, expires: SESSION_EXPIRATION, default: Date.now() })
+  @Prop({ required: true, type: Date, expires: SESSION_EXPIRATION })
   expiresAt: Date;
 
   @Prop({ required: true })
@@ -18,9 +20,6 @@ export class Session extends Document {
 
   @Prop({ required: true })
   deviceType: string;
-
-  @Prop({ required: true, type: Date, default: Date.now() })
-  lastUsed: Date;
 }
 
 export const SessionSchema = SchemaFactory.createForClass(Session);

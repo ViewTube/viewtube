@@ -2,7 +2,7 @@ export class SessionDto {
   id: string;
   deviceName: string;
   deviceType: string;
-  lastUsed: Date;
+  updatedAt: Date;
   expires: Date;
   current: boolean;
 }

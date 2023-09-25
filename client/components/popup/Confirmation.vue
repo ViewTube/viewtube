@@ -1,38 +1,38 @@
+<script setup lang="ts">
+defineProps<{
+  title: string;
+  message?: string;
+}>();
+
+const emit = defineEmits<{
+  (e: 'close'): void;
+}>();
+
+const onEscape = (e: KeyboardEvent) => {
+  if (e.key === 'Escape') {
+    emit('close');
+  }
+};
+onMounted(() => {
+  window.addEventListener('keydown', onEscape);
+});
+onBeforeUnmount(() => {
+  window.removeEventListener('keydown', onEscape);
+});
+</script>
+
 <template>
   <div class="confirmation-popup">
     <div class="popup-overlay" @click.prevent="$emit('close')" />
     <div class="confirmation">
       <h3>{{ title }}</h3>
-      <p>{{ message }}</p>
+      <p v-if="message">{{ message }}</p>
       <div class="actions">
         <slot />
       </div>
     </div>
   </div>
 </template>
-
-<script lang="ts">
-export default defineComponent({
-  name: 'Confirmation',
-  props: {
-    title: String,
-    message: String
-  },
-  setup(_, { emit }) {
-    const onEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        emit('close');
-      }
-    };
-    onMounted(() => {
-      window.addEventListener('keydown', onEscape);
-    });
-    onBeforeUnmount(() => {
-      window.removeEventListener('keydown', onEscape);
-    });
-  }
-});
-</script>
 
 <style lang="scss">
 .confirmation-popup {

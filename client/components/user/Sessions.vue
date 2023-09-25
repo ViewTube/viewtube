@@ -1,19 +1,29 @@
 <script setup lang="ts">
 import dayjs from 'dayjs';
 
-const { data } = useGetSessions();
+const { data, refresh } = useGetSessions();
 
 const sessions = computed(() => {
-  return data.value?.sort((a, b) => {
-    return dayjs(b.lastUsed).valueOf() - dayjs(a.lastUsed).valueOf();
-  });
+  const currentSession = data.value?.find(session => session.current);
+  const sortedSessions =
+    data.value
+      ?.filter(el => !el.current)
+      .sort((a, b) => {
+        return dayjs(b.updatedAt).valueOf() - dayjs(a.updatedAt).valueOf();
+      }) ?? [];
+  return [currentSession, ...sortedSessions].filter(Boolean);
 });
 </script>
 
 <template>
   <div class="sessions">
     <SectionTitle :title="'Devices'" />
-    <UserSession v-for="(session, index) in sessions" :key="index" :session="session" />
+    <UserSession
+      v-for="(session, index) in sessions"
+      :key="index"
+      :session="session"
+      @refresh="refresh"
+    />
   </div>
 </template>
 

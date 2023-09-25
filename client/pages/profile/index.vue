@@ -274,10 +274,10 @@ const logout = () => {
         >
           <div class="repeat-username-container">
             <FormInput
-              :id="'repeated-username'"
+              id="repeated-username"
               v-model="repeatedUsername"
               type="text"
-              :label="'Repeat your username'"
+              label="Repeat your username"
             />
             <BadgeButton
               :click="deleteAccount"

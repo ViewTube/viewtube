@@ -21,3 +21,38 @@ export const useGetCurrentSession = () => {
     vtFetch(`${apiUrl.value}${urlPart}`)
   );
 };
+
+export const useEditSession = () => {
+  const { apiUrl } = useApiUrl();
+  const { vtFetch } = useVtFetch();
+
+  const urlPart = `user/sessions`;
+
+  const editSession = async (id: string, data: { deviceName: string; deviceType: string }) => {
+    return vtFetch<ApiDto<'SessionDto'>>(`${apiUrl.value}${urlPart}/${id}`, {
+      method: 'PUT',
+      body: data
+    });
+  };
+
+  return {
+    editSession
+  };
+};
+
+export const useRemoveSession = () => {
+  const { apiUrl } = useApiUrl();
+  const { vtFetch } = useVtFetch();
+
+  const urlPart = `user/sessions`;
+
+  const removeSession = async (id: string) => {
+    return vtFetch<void>(`${apiUrl.value}${urlPart}/${id}`, {
+      method: 'DELETE'
+    });
+  };
+
+  return {
+    removeSession
+  };
+};

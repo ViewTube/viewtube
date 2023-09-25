@@ -29,7 +29,7 @@ import { SubscriptionsService } from './subscriptions/subscriptions.service';
 import { profileImage } from './profile-image';
 import { ConfigService } from '@nestjs/config';
 import { promisify } from 'util';
-import { Session } from 'server/auth/schemas/session.schema';
+import { Session, SessionDocument } from 'server/auth/schemas/session.schema';
 import dayjs from 'dayjs';
 import { SESSION_EXPIRATION } from 'server/auth/constants/session';
 import { SessionDto } from './dto/session.dto';
@@ -40,7 +40,7 @@ export class UserService {
     @InjectModel(User.name)
     private readonly UserModel: Model<User>,
     @InjectModel(Session.name)
-    private readonly SessionModel: Model<Session>,
+    private readonly SessionModel: Model<SessionDocument>,
     private settingsService: SettingsService,
     private historyService: HistoryService,
     private subscriptionsService: SubscriptionsService,
@@ -102,7 +102,7 @@ export class UserService {
       id: session._id,
       deviceName: session.deviceName,
       deviceType: session.deviceType,
-      lastUsed: session.lastUsed,
+      updatedAt: session.updatedAt,
       current: session.refreshToken === request.cookies?.RefreshToken,
       expires: dayjs(session.expiresAt).add(SESSION_EXPIRATION, 'seconds').toDate()
     }));
@@ -116,7 +116,7 @@ export class UserService {
       id: session._id,
       deviceName: session.deviceName,
       deviceType: session.deviceType,
-      lastUsed: session.lastUsed,
+      updatedAt: session.updatedAt,
       expires: dayjs(session.expiresAt).add(SESSION_EXPIRATION, 'seconds').toDate(),
       current: true
     };
@@ -143,7 +143,7 @@ export class UserService {
       id: session._id,
       deviceName: session.deviceName,
       deviceType: session.deviceType,
-      lastUsed: session.lastUsed
+      updatedAt: session.updatedAt
     };
   }
 

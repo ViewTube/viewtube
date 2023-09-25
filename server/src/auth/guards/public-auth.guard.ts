@@ -56,8 +56,7 @@ export class PublicAuthGuard implements CanActivate {
         await this.SessionModel.findOneAndUpdate(
           { refreshToken },
           {
-            expiresAt: Date.now(),
-            lastUsed: Date.now()
+            expiresAt: Date.now()
           }
         ).exec();
 

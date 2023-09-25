@@ -1,5 +1,5 @@
 import { FastifyReply } from 'fastify';
-import { SESSION_EXPIRATION } from './constants/session';
+import { JWT_EXPIRATION, SESSION_EXPIRATION } from './constants/session';
 
 type SetAuthCookiesArgs = {
   reply: FastifyReply;
@@ -16,7 +16,7 @@ export const setAuthCookies = ({
   reply.setCookie('AccessToken', accessToken, {
     httpOnly: true,
     path: '/',
-    maxAge: 600,
+    maxAge: JWT_EXPIRATION,
     secure: secure ?? undefined,
     sameSite: secure ? 'none' : 'lax'
   });

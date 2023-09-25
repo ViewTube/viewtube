@@ -291,7 +291,7 @@ export interface components {
       deviceName: string;
       deviceType: string;
       /** Format: date-time */
-      lastUsed: string;
+      updatedAt: string;
       /** Format: date-time */
       expires: string;
       current: boolean;

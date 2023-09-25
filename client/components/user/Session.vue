@@ -1,42 +1,95 @@
 <script setup lang="ts">
 import humanizeDuration from 'humanize-duration';
 import { ApiDto } from '@/utils/shared';
+import { useMessagesStore } from '~/store/messages';
+import dayjs from 'dayjs';
 
 const props = defineProps<{
   session: ApiDto<'SessionDto'>;
 }>();
 
-const { currentTheme } = useCurrentTheme();
+const emit = defineEmits<{
+  (e: 'refresh'): void;
+}>();
 
-const darknessInverted = computed(() => {
-  const darknessMatch = currentTheme.value.darkness.match(/invert\((\d*)%\)/i);
-  return `invert(${Math.abs(parseInt(darknessMatch?.[1]) - 100)}%)`;
+const { removeSession: removeUserSession } = useRemoveSession();
+const { editSession: editUserSession } = useEditSession();
+const { createMessage } = useMessagesStore();
+const { deviceTypes } = useDeviceType();
+
+const updatedAt = computed(() => {
+  const now = dayjs();
+  const date = dayjs(props.session.updatedAt);
+
+  const dateMs = now.valueOf() - date.valueOf();
+  if (dateMs < 1000 * 60 * 10) {
+    return 'just now';
+  }
+
+  return `${humanizeDateString(props.session.updatedAt)} ago`;
 });
-
-const lastUsed = computed(() => humanizeDateString(props.session.lastUsed));
 const expires = computed(() => humanizeDateString(props.session.expires));
 
 const humanizeDateString = (dateString: string): string => {
-  const now = new Date();
-  const date = new Date(dateString);
+  const now = dayjs();
+  const date = dayjs(dateString);
   const dateMs = now.valueOf() - date.valueOf();
   return humanizeDuration(dateMs, { largest: 1, round: true });
 };
 
-const editSession = (id: string) => {
-  console.log(id);
+const editSessionPrompt = ref(false);
+const openEditPrompt = () => {
+  editSessionPrompt.value = true;
 };
 
 const removalPrompt = ref(false);
-const removeSession = (id: string) => {
+const removeSession = () => {
   removalPrompt.value = true;
 };
+
 const cancelRemoveSession = () => {
   removalPrompt.value = false;
 };
 
-const confirmRemoveSession = (id: string) => {
-  console.log(id);
+const confirmRemoveSession = () => {
+  removeUserSession(props.session.id)
+    .then(() => {
+      createMessage({
+        type: 'info',
+        title: 'Session removed successfully',
+        message: 'Device logged out'
+      });
+
+      emit('refresh');
+    })
+    .catch(() => {
+      createMessage({
+        type: 'error',
+        title: 'Session removal failed',
+        message: 'Failed to log out device'
+      });
+    });
+};
+
+const editSession = (newName: string, newDeviceType: string) => {
+  editSessionPrompt.value = false;
+  editUserSession(props.session.id, { deviceName: newName, deviceType: newDeviceType })
+    .then(() => {
+      createMessage({
+        type: 'info',
+        title: 'Session edited successfully',
+        message: 'Device name and icon updated'
+      });
+
+      emit('refresh');
+    })
+    .catch(() => {
+      createMessage({
+        type: 'error',
+        title: 'Session edit failed',
+        message: 'Failed to update device name and icon'
+      });
+    });
 };
 </script>
 
@@ -47,7 +100,7 @@ const confirmRemoveSession = (id: string) => {
         <span>Remove session and log out this device?</span>
       </div>
       <div class="prompt-actions">
-        <button class="prompt-confirm" @click="confirmRemoveSession(session.id)">
+        <button class="prompt-confirm" @click="confirmRemoveSession">
           <VTIcon name="mdi:check" />
         </button>
         <button class="prompt-cancel" @click="cancelRemoveSession">
@@ -55,23 +108,30 @@ const confirmRemoveSession = (id: string) => {
         </button>
       </div>
     </div>
-    <VTIcon v-if="session.deviceType === 'desktop'" class="session-icon" name="mdi:monitor" />
-    <VTIcon v-else-if="session.deviceType === 'mobile'" class="session-icon" name="mdi:cellphone" />
+    <VTIcon class="session-icon" :name="deviceTypes.get(session.deviceType)" />
     <div class="session-details">
       <div class="session-name">
         <span>{{ session.deviceName }}</span>
       </div>
       <div class="session-last-used">
-        <span>Last used {{ lastUsed }} ago · Expires in {{ expires }}</span>
+        <span>Last used {{ updatedAt }} · Expires in {{ expires }}</span>
       </div>
     </div>
-    <button class="session-edit" @click="editSession(session.id)">
+    <button class="session-edit" @click="openEditPrompt">
       <VTIcon name="mdi:pencil" />
     </button>
-    <button class="session-remove" @click="removeSession(session.id)">
+    <button v-if="!session.current" class="session-remove" @click="removeSession">
       <VTIcon name="mdi:trash-can-outline" />
     </button>
   </div>
+  <PopupEdit
+    :open="editSessionPrompt"
+    title="Edit device name"
+    :initial-value="session.deviceName"
+    :initial-device-type="session.deviceType"
+    @close="editSessionPrompt = false"
+    @confirm="editSession"
+  />
 </template>
 
 <style lang="scss" scoped>
@@ -85,6 +145,7 @@ const confirmRemoveSession = (id: string) => {
   box-shadow: $low-shadow;
   position: relative;
   overflow: hidden;
+  padding: 0 6px 0 0;
 
   .removal-prompt {
     position: absolute;
@@ -92,7 +153,7 @@ const confirmRemoveSession = (id: string) => {
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: var(--error-color-red);
+    background-color: var(--bgcolor-alt-light);
     z-index: 10;
     display: flex;
     justify-content: space-between;
@@ -108,8 +169,7 @@ const confirmRemoveSession = (id: string) => {
 
     .prompt-text {
       font-size: 0.9rem;
-      color: var(--text-color);
-      filter: v-bind(darknessInverted);
+      color: var(--title-color);
     }
 
     .prompt-actions {
@@ -129,8 +189,7 @@ const confirmRemoveSession = (id: string) => {
           margin: auto;
           height: 1.3rem;
           width: 1.3rem;
-          color: var(--text-color);
-          filter: v-bind(darknessInverted);
+          color: var(--title-color);
         }
       }
     }
@@ -163,7 +222,7 @@ const confirmRemoveSession = (id: string) => {
   }
 
   .session-remove {
-    margin: auto 6px auto 0;
+    margin: auto 0 auto 0;
     color: var(--error-color-red);
   }
 
