@@ -24,6 +24,11 @@ const sessions = computed(() => {
       :session="session"
       @refresh="refresh"
     />
+    <div class="links">
+      <a href="https://viewtube.wiki/features/sessions" target="_blank" rel="noreferrer noopener"
+        >Learn how sessions work</a
+      >
+    </div>
   </div>
 </template>
 
