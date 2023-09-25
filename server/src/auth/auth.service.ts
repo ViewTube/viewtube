@@ -57,7 +57,8 @@ export class AuthService {
   async login(reply: FastifyReply, username: string, deviceName: string, deviceType: string) {
     const payload = { username };
     const rawToken = randomBytes(64).toString('hex');
-    const refreshToken = await bcrypt.hash(rawToken, 3);
+    const hashedRefreshToken = await bcrypt.hash(rawToken, 3);
+    const refreshToken = Buffer.from(hashedRefreshToken).toString('base64');
 
     const accessToken = await this.jwtService.signAsync(payload, {
       secret: this.configService.get('VIEWTUBE_JWT_SECRET')
