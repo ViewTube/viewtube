@@ -162,8 +162,8 @@ importers:
         specifier: 9.0.4
         version: 9.0.4
       '@fastify/helmet':
-        specifier: 11.1.0
-        version: 11.1.0
+        specifier: 11.1.1
+        version: 11.1.1
       '@fastify/multipart':
         specifier: 7.7.3
         version: 7.7.3
@@ -2174,8 +2174,8 @@ packages:
       fastify-plugin: 4.5.1
     dev: false
 
-  /@fastify/helmet@11.1.0:
-    resolution: {integrity: sha512-vajWu4/6RlmY01Lcjyr7bx/mx0SBjP9H5PPMPSm/Nrsuc+k5QrsYm600h6ZaPuYdmogazatQ6FSqr/exotsMLw==}
+  /@fastify/helmet@11.1.1:
+    resolution: {integrity: sha512-pjJxjk6SLEimITWadtYIXt6wBMfFC1I6OQyH/jYVCqSAn36sgAIFjeNiibHtifjCd+e25442pObis3Rjtame6A==}
     dependencies:
       fastify-plugin: 4.5.1
       helmet: 7.0.0
