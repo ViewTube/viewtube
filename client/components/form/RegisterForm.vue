@@ -8,7 +8,7 @@ import { useUserStore } from '@/store/user';
 import { useCaptchaStore } from '@/store/captcha';
 
 const props = defineProps<{
-  complete: Function;
+  complete?: Function;
 }>();
 
 const route = useRoute();
