@@ -1,35 +1,51 @@
 import { Module, ModuleMetadata } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
-import { UserModule } from '../user/user.module';
 import { AuthService } from './auth.service';
-import { LocalStrategy } from './strategies/local.strategy';
 import { AuthController } from './auth.controller';
-import { JwtStrategy } from './strategies/jwt.strategy';
 import { RegisterModule } from './register/register.module';
+import { MongooseModule } from '@nestjs/mongoose';
+import { User, UserSchema } from 'server/user/schemas/user.schema';
+import { APP_GUARD } from '@nestjs/core';
+import { PublicAuthGuard } from './guards/public-auth.guard';
+import { Session, SessionSchema } from './schemas/session.schema';
+import { JWT_EXPIRATION } from './constants/session';
 
 const moduleMetadata: ModuleMetadata = {
-  providers: [AuthService, LocalStrategy, JwtStrategy],
+  providers: [
+    AuthService,
+    {
+      provide: APP_GUARD,
+      useClass: PublicAuthGuard
+    }
+  ],
   imports: [
-    ConfigModule.forRoot(),
-    UserModule,
+    ConfigModule,
     RegisterModule,
-    PassportModule.register({ defaultStrategy: 'jwt' }),
-    JwtModule.registerAsync({
-      useFactory: () => {
-        return {
-          secret: process.env.VIEWTUBE_JWT_SECRET,
-          signOptions: {
-            expiresIn: '12h',
-            issuer: 'viewtube-api',
-            audience: 'viewtube-web'
-          }
-        };
+    MongooseModule.forFeature([
+      {
+        name: User.name,
+        schema: UserSchema,
+        collection: 'users'
+      },
+      {
+        name: Session.name,
+        schema: SessionSchema,
+        collection: 'sessions'
+      }
+    ]),
+    JwtModule.register({
+      global: true,
+      secret: process.env.VIEWTUBE_JWT_SECRET,
+      signOptions: {
+        expiresIn: JWT_EXPIRATION,
+        issuer: 'viewtube-api',
+        audience: 'viewtube-web'
       }
     })
   ],
-  controllers: [AuthController]
+  controllers: [AuthController],
+  exports: [AuthService]
 };
 @Module(moduleMetadata)
 export class AuthModule {}

@@ -17,7 +17,6 @@ import { useSettingsStore } from '@/store/settings';
 import { useMiniplayerStore } from '@/store/miniplayer';
 import { useVideoPlayerStore } from '@/store/videoPlayer';
 import { useLoadingVideoInfoStore } from '@/store/loadingVideoInfo';
-import { ApiDto, ApiErrorDto } from 'viewtube/shared';
 import { useUserStore } from '@/store/user';
 import dayjs from 'dayjs';
 
@@ -79,7 +78,6 @@ const {
   }
 
   if (settingsStore.rewriteYouTubeURLs) {
-    console.log(value.description);
     value.description = value.description.replace('https://www.youtube.com', window.location.host);
   }
 

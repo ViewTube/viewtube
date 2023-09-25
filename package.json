@@ -4,11 +4,11 @@
   "author": "Maurice Oegerli",
   "country": "Switzerland",
   "email": "viewtube@m-o.dev",
-  "version": "0.12.3",
+  "version": "0.13.0",
   "license": "AGPLv3",
   "engines": {
     "node": ">=18.16.0",
-    "pnpm": ">=8.6.0"
+    "pnpm": ">=8.7.0"
   },
   "scripts": {
     "build": "pnpm --filter=* run build",
@@ -37,5 +37,14 @@
     "cross-env": "7.0.3",
     "prettier": "3.0.3",
     "typescript": "5.2.2"
+  },
+  "pnpm": {
+    "patchedDependencies": {
+      "papaparse@5.4.1": "patches/papaparse@5.4.1.patch"
+    },
+    "overrides": {
+      "has": "npm:@nolyfill/has@latest",
+      "side-channel": "npm:@nolyfill/side-channel@latest"
+    }
   }
 }

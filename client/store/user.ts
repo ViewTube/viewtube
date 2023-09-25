@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import { useCaptchaStore } from '@/store/captcha';
 import { useSettingsStore } from './settings';
+import { UAParser } from 'ua-parser-js';
 
 type User = {
   username: string;
@@ -13,23 +14,21 @@ export const useUserStore = defineStore('user', {
   state: () => ({
     username: null,
     profileImage: null,
-    admin: false
+    admin: false,
+    triedLogin: false
   }),
   getters: {
     isLoggedIn: state => !!state.username
   },
   actions: {
-    async getUser(authenticationToken?: string) {
+    async getUser() {
       const { apiUrl } = useApiUrl();
       const settingsStore = useSettingsStore();
+      const { vtFetch } = useVtFetch();
+
       try {
-        const user = await vtClientFetch<User>(`${apiUrl.value}user/profile`, {
-          headers: {
-            Authorization: authenticationToken ? `Bearer ${authenticationToken}` : undefined
-          },
-          credentials: 'include'
-        });
-        if (user) {
+        const user = await vtFetch<User>(`${apiUrl.value}user/profile`);
+        if (user?.username) {
           this.username = user.username;
           this.profileImage = user.profileImage;
           this.admin = user.admin;
@@ -39,17 +38,41 @@ export const useUserStore = defineStore('user', {
       } catch {
         // Ignore silently
       }
+      this.triedLogin = true;
     },
 
     async login(username: string, password: string) {
+      const { vtFetch } = useVtFetch();
       const { apiUrl } = useApiUrl();
+
+      const userAgent = UAParser();
+
+      const deviceName = `${userAgent.browser.name} ${userAgent.browser.version} on ${userAgent.os.name} ${userAgent.os.version}`;
+
+      let deviceType = 'desktop';
+
+      if (userAgent.device.type === 'mobile') {
+        deviceType = 'mobile';
+      } else {
+        const mobile =
+          window.matchMedia('(pointer: coarse)').matches &&
+          navigator.maxTouchPoints > 1 &&
+          window.matchMedia(`(max-width: 639px)`).matches &&
+          'ontouchstart' in document.documentElement;
+
+        if (mobile) {
+          deviceType = 'mobile';
+        }
+      }
+
       try {
-        await vtClientFetch(`${apiUrl.value}auth/login`, {
+        await vtFetch(`${apiUrl.value}auth/login`, {
           method: 'POST',
-          credentials: 'include',
           body: {
             username,
-            password
+            password,
+            deviceName,
+            deviceType
           }
         });
         await this.getUser();
@@ -71,9 +94,10 @@ export const useUserStore = defineStore('user', {
     async register(username: string, password: string, captchaSolution: string) {
       const { apiUrl } = useApiUrl();
       const captchaStore = useCaptchaStore();
+      const { vtFetch } = useVtFetch();
       let registerResult = null;
       try {
-        registerResult = await vtClientFetch(`${apiUrl.value}auth/register`, {
+        registerResult = await vtFetch(`${apiUrl.value}auth/register`, {
           method: 'POST',
           credentials: 'include',
           body: {
@@ -112,8 +136,9 @@ export const useUserStore = defineStore('user', {
 
     async logout() {
       const { apiUrl } = useApiUrl();
+      const { vtFetch } = useVtFetch();
       try {
-        await vtClientFetch(`${apiUrl.value}auth/logout`, {
+        await vtFetch(`${apiUrl.value}auth/logout`, {
           method: 'POST',
           credentials: 'include'
         });

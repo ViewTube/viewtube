@@ -16,7 +16,6 @@ export const validationSchema = Joi.object({
   VIEWTUBE_REDIS_PORT: Joi.number().default(6379),
   VIEWTUBE_REDIS_PASSWORD: Joi.string().optional(),
 
-  VIEWTUBE_JWT_EXPIRATION_TIME: Joi.number().default(43200),
   VIEWTUBE_DATA_DIRECTORY: Joi.string().default('/data'),
   VIEWTUBE_CLUSTERED: Joi.boolean().default(true),
 

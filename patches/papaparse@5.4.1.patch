@@ -1,0 +1,13 @@
+diff --git a/papaparse.js b/papaparse.js
+index d94773bc46341aa7f5a81608c24eff2bae9953a4..df5802ccbd770504fe5cffb0dfcc82309d61ab9d 100644
+--- a/papaparse.js
++++ b/papaparse.js
+@@ -49,7 +49,7 @@ License: MIT
+ 	function getWorkerBlob() {
+ 		var URL = global.URL || global.webkitURL || null;
+ 		var code = moduleFactory.toString();
+-		return Papa.BLOB_URL || (Papa.BLOB_URL = URL.createObjectURL(new Blob(["var global = (function() { if (typeof self !== 'undefined') { return self; } if (typeof window !== 'undefined') { return window; } if (typeof global !== 'undefined') { return global; } return {}; })(); global.IS_PAPA_WORKER=true; ", '(', code, ')();'], {type: 'text/javascript'})));
++		return Papa.BLOB_URL || (Papa.BLOB_URL = URL.createObjectURL(new Blob([`var global = (function() { if (typeof self !== 'undefined') { return self; } if (typeof window !== 'undefined') { return window; } if (typeof global !== 'undefined') { return global; } return {}; })(); global.IS_PAPA_WORKER=true; `, '(', code, ')();'], {type: 'text/javascript'})));
+ 	}
+ 
+ 	var IS_WORKER = !global.document && !!global.postMessage,

@@ -1,3 +1,88 @@
+<script setup lang="ts">
+import FormInput from '@/components/form/FormInput.vue';
+import InformationHint from '@/components/hints/InformationHint.vue';
+import SubmitButton from '@/components/form/SubmitButton.vue';
+import Spinner from '@/components/Spinner.vue';
+import { useMessagesStore } from '@/store/messages';
+import { useUserStore } from '@/store/user';
+import { useCaptchaStore } from '@/store/captcha';
+
+const props = defineProps<{
+  complete?: Function;
+}>();
+
+const route = useRoute();
+const captchaStore = useCaptchaStore();
+const messagesStore = useMessagesStore();
+const userStore = useUserStore();
+const router = useRouter();
+
+const loading = ref(false);
+const username = ref('');
+const password = ref('');
+const repeatPassword = ref('');
+const captchaSolution = ref('');
+const statusMessage = ref('');
+const formWiggle = ref(false);
+
+const captchaImage = computed(() => {
+  return captchaStore.image;
+});
+
+watch(password, () => {
+  checkRepeatPasswords();
+});
+watch(repeatPassword, () => {
+  checkRepeatPasswords();
+});
+
+const register = async () => {
+  if (password.value !== repeatPassword.value) {
+    wiggleRegisterForm();
+  } else {
+    loading.value = true;
+
+    const user = await userStore.register(username.value, password.value, captchaSolution.value);
+    if (user && !user.error && user.username) {
+      messagesStore.createMessage({
+        type: 'info',
+        title: 'Registration successful',
+        message: `Welcome, ${user.username}`
+      });
+      if (props.complete && typeof props.complete === 'function') {
+        props.complete();
+      } else {
+        router.push((route.query.ref as string) || '/');
+      }
+    } else {
+      messagesStore.createMessage({
+        type: 'error',
+        title: 'Registration failed',
+        message: user ? user.error : ''
+      });
+      loading.value = false;
+      wiggleRegisterForm();
+      captchaStore.getCaptcha();
+    }
+  }
+};
+const wiggleRegisterForm = () => {
+  formWiggle.value = true;
+  setTimeout(() => {
+    formWiggle.value = false;
+  }, 600);
+};
+const checkRepeatPasswords = () => {
+  if (password.value !== repeatPassword.value) {
+    statusMessage.value = 'passwords do not match';
+  } else {
+    statusMessage.value = '';
+  }
+};
+
+captchaStore.getCaptcha();
+</script>
+
 <template>
   <div class="register-form" :class="{ loading: loading, wiggle: formWiggle }">
     <h2 class="register-title">Sign up</h2>
@@ -29,121 +114,6 @@
   </div>
 </template>
 
-<script lang="ts">
-import FormInput from '@/components/form/FormInput.vue';
-import InformationHint from '@/components/hints/InformationHint.vue';
-import SubmitButton from '@/components/form/SubmitButton.vue';
-import Spinner from '@/components/Spinner.vue';
-import { useMessagesStore } from '@/store/messages';
-import { useUserStore } from '@/store/user';
-import { useCaptchaStore } from '@/store/captcha';
-
-export default defineComponent({
-  name: 'RegisterForm',
-  components: {
-    FormInput,
-    SubmitButton,
-    Spinner,
-    InformationHint
-  },
-  props: {
-    complete: Function
-  },
-  setup(props) {
-    const route = useRoute();
-    const captchaStore = useCaptchaStore();
-    const messagesStore = useMessagesStore();
-    const userStore = useUserStore();
-    const router = useRouter();
-
-    const loading = ref(false);
-    const username = ref('');
-    const password = ref('');
-    const repeatPassword = ref('');
-    const captchaSolution = ref('');
-    const statusMessage = ref('');
-    const errorMessage = ref('');
-    const redirectedPage = ref('home');
-    const formWiggle = ref(false);
-
-    const captchaImage = computed(() => {
-      return captchaStore.image;
-    });
-
-    watch(password, () => {
-      checkRepeatPasswords();
-    });
-    watch(repeatPassword, () => {
-      checkRepeatPasswords();
-    });
-
-    const register = async () => {
-      if (password.value !== repeatPassword.value) {
-        wiggleRegisterForm();
-      } else {
-        loading.value = true;
-
-        const user = await userStore.register(
-          username.value,
-          password.value,
-          captchaSolution.value
-        );
-        if (user && !user.error && user.username) {
-          messagesStore.createMessage({
-            type: 'info',
-            title: 'Registration successful',
-            message: `Welcome, ${user.username}`
-          });
-          if (props.complete && typeof props.complete === 'function') {
-            props.complete();
-          } else {
-            router.push((route.query.ref as string) || '/');
-          }
-        } else {
-          messagesStore.createMessage({
-            type: 'error',
-            title: 'Registration failed',
-            message: user ? user.error : ''
-          });
-          loading.value = false;
-          wiggleRegisterForm();
-          captchaStore.getCaptcha();
-        }
-      }
-    };
-    const wiggleRegisterForm = () => {
-      formWiggle.value = true;
-      setTimeout(() => {
-        formWiggle.value = false;
-      }, 600);
-    };
-    const checkRepeatPasswords = () => {
-      if (password.value !== repeatPassword.value) {
-        statusMessage.value = 'passwords do not match';
-      } else {
-        statusMessage.value = '';
-      }
-    };
-
-    captchaStore.getCaptcha();
-
-    return {
-      loading,
-      username,
-      password,
-      repeatPassword,
-      captchaSolution,
-      statusMessage,
-      errorMessage,
-      redirectedPage,
-      formWiggle,
-      captchaImage,
-      register
-    };
-  }
-});
-</script>
-
 <style lang="scss">
 .register-form {
   margin: auto;
@@ -157,6 +127,7 @@ export default defineComponent({
   align-items: center;
   justify-content: flex-start;
   position: relative;
+  overflow-y: auto;
 
   @media screen and (max-width: $mobile-width) {
     height: auto;

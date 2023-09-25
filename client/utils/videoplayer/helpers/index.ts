@@ -8,7 +8,6 @@ import { useSettingsStore } from '@/store/settings';
 import { useUserStore } from '@/store/user';
 import { usePlayerVolumeStore } from '@/store/playerVolume';
 import { useVideoPlayerStore } from '@/store/videoPlayer';
-import { ApiDto } from 'viewtube/shared';
 
 export const videoPlayerSetup = (
   props: {
@@ -87,7 +86,7 @@ export const videoPlayerSetup = (
       // newUrl.searchParams.set('host', newUrl.host);
       // const replacedUrl = newUrl.toString().replace(newUrl.origin, '');
       // const url = `/api${replacedUrl}`;
-      // console.log(url);
+      // x(url);
       return {
         ...format,
         url: format.url

@@ -256,7 +256,8 @@ export class YoutubeGrabberHelper {
       liveNow = true;
       publishedText = 'Live';
       viewCount = parseInt(video.viewCountText.runs?.[0].text.split(',').join(''));
-      viewCountText = video.shortViewCountText.runs?.[0].text + video.shortViewCountText.runs?.[1].text;
+      viewCountText =
+        video.shortViewCountText.runs?.[0].text + video.shortViewCountText.runs?.[1].text;
     } else if (
       typeof statusRenderer !== 'undefined' &&
       typeof statusRenderer.text !== 'undefined' &&
@@ -424,7 +425,8 @@ export class YoutubeGrabberHelper {
       const postData = {
         postText: '',
         postId: post.backstagePostThreadRenderer.post.backstagePostRenderer.postId,
-        author: post.backstagePostThreadRenderer.post.backstagePostRenderer.authorText.runs?.[0].text,
+        author:
+          post.backstagePostThreadRenderer.post.backstagePostRenderer.authorText.runs?.[0].text,
         authorId: this.extractChannelId(
           post.backstagePostThreadRenderer.post.backstagePostRenderer.authorEndpoint
         ),
@@ -568,12 +570,14 @@ export class YoutubeGrabberHelper {
               )
           };
         } else {
-          console.error(
-            'New type of post detected. Please report this to the repository with the log and channel that was scraped'
-          );
-          console.log(
-            post.backstagePostThreadRenderer.post.backstagePostRenderer.backstageAttachment.keys()
-          );
+          if (process.env.NODE_ENV === 'development') {
+            console.error(
+              'New type of post detected. Please report this to the repository with the log and channel that was scraped'
+            );
+            console.log(
+              post.backstagePostThreadRenderer.post.backstagePostRenderer.backstageAttachment.keys()
+            );
+          }
         }
       }
       postsArray.push(postData);

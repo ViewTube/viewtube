@@ -5,7 +5,6 @@ import VideoEntry from '@/components/list/VideoEntry.vue';
 import Spinner from '@/components/Spinner.vue';
 
 import { useMessagesStore } from '~/store/messages';
-import { ApiDto } from 'viewtube/shared';
 
 const messagesStore = useMessagesStore();
 const { apiUrl } = useApiUrl();

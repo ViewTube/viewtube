@@ -4,6 +4,9 @@ const props = defineProps<{
 }>();
 
 const iconName = computed((): string => {
+  if (!props.name) {
+    return '';
+  }
   return `i-${props.name.replace(':', '-')}`;
 });
 </script>

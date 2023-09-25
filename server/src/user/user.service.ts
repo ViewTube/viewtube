@@ -29,12 +29,18 @@ import { SubscriptionsService } from './subscriptions/subscriptions.service';
 import { profileImage } from './profile-image';
 import { ConfigService } from '@nestjs/config';
 import { promisify } from 'util';
+import { Session, SessionDocument } from 'server/auth/schemas/session.schema';
+import dayjs from 'dayjs';
+import { SESSION_EXPIRATION } from 'server/auth/constants/session';
+import { SessionDto } from './dto/session.dto';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectModel(User.name)
     private readonly UserModel: Model<User>,
+    @InjectModel(Session.name)
+    private readonly SessionModel: Model<SessionDocument>,
     private settingsService: SettingsService,
     private historyService: HistoryService,
     private subscriptionsService: SubscriptionsService,
@@ -87,6 +93,65 @@ export class UserService {
         admin: username === adminUser
       };
     }
+  }
+
+  async getSessions(request: ViewTubeRequest): Promise<Array<SessionDto>> {
+    const sessions = await this.SessionModel.find({ username: request.user?.username }).exec();
+
+    return sessions.map(session => ({
+      id: session._id,
+      deviceName: session.deviceName,
+      deviceType: session.deviceType,
+      updatedAt: session.updatedAt,
+      current: session.refreshToken === request.cookies?.RefreshToken,
+      expires: dayjs(session.expiresAt).add(SESSION_EXPIRATION, 'seconds').toDate()
+    }));
+  }
+
+  async getCurrentSession(request: ViewTubeRequest): Promise<SessionDto> {
+    const refreshToken = request.cookies.RefreshToken;
+    const session = await this.SessionModel.findOne({ refreshToken }).exec();
+
+    return {
+      id: session._id,
+      deviceName: session.deviceName,
+      deviceType: session.deviceType,
+      updatedAt: session.updatedAt,
+      expires: dayjs(session.expiresAt).add(SESSION_EXPIRATION, 'seconds').toDate(),
+      current: true
+    };
+  }
+
+  async renameSession(
+    request: ViewTubeRequest,
+    sessionId: string,
+    deviceName: string,
+    deviceType: string
+  ) {
+    const session = await this.SessionModel.findOneAndUpdate(
+      {
+        _id: sessionId,
+        username: request.user?.username
+      },
+      {
+        deviceName,
+        deviceType
+      }
+    ).exec();
+
+    return {
+      id: session._id,
+      deviceName: session.deviceName,
+      deviceType: session.deviceType,
+      updatedAt: session.updatedAt
+    };
+  }
+
+  async deleteSession(request: ViewTubeRequest, sessionId: string) {
+    await this.SessionModel.findOneAndRemove({
+      _id: sessionId,
+      username: request.user?.username
+    }).exec();
   }
 
   async saveProfileImage(request: ViewTubeRequest) {
@@ -185,7 +250,7 @@ export class UserService {
   async deleteProfileImage(username: string) {
     if (username) {
       const user = await this.UserModel.findOne({ username });
-      if (user && user.profileImage && fs.existsSync(user.profileImage)) {
+      if (user && user.profileImage) {
         user.profileImage = null;
         await user.save();
       } else {
@@ -234,14 +299,6 @@ export class UserService {
         admin: adminUser === createdUser.username
       };
     }
-  }
-
-  findOne(username: string): Promise<User> {
-    return this.UserModel.findOne({ username }).exec();
-  }
-
-  findAll(): Promise<User[]> {
-    return this.UserModel.find().exec();
   }
 
   async deleteUserAndData(username: string) {

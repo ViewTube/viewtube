@@ -1,5 +1,3 @@
-import { ApiDto } from 'viewtube/shared';
-
 export const getChannelVideosContinuation = (continuation: string) => {
   const { apiUrl } = useApiUrl();
 

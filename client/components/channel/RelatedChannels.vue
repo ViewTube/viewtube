@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { ApiDto } from 'viewtube/shared';
-
 export type RelatedChannelsType = ApiDto<'ChannelInfoDto'>['relatedChannels']['items'];
 
 defineProps<{

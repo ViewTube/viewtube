@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ApiDto } from 'viewtube/shared';
 import SubscribeButton from '@/components/buttons/SubscribeButton.vue';
 import humanNumber from 'human-number';
 

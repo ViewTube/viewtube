@@ -1,4 +1,3 @@
-import { ApiDto } from 'viewtube/shared';
 import { Ref } from 'vue';
 import { useAuthorizationHeader } from '../authorizationHeader';
 

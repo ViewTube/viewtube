@@ -8,6 +8,7 @@ COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc ./
 COPY server/package.json ./server/
 COPY client/package.json ./client/
 COPY shared/package.json ./shared/
+COPY patches ./patches
 
 RUN npm install -g pnpm
 

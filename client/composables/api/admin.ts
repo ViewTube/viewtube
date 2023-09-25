@@ -1,5 +1,3 @@
-import { ApiDto } from 'viewtube/shared';
-
 export const useGetLogs = () => {
   const { apiUrl } = useApiUrl();
 

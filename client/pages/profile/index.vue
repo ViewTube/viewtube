@@ -203,8 +203,12 @@ const logout = () => {
             <span class="highlight">{{ profile.totalTimeString }}</span> spent watching videos
           </p>
           <p>
-            <span class="highlight">{{ profile.subscribedChannelsCount }} channels</span> subscribed
-            to
+            <span class="highlight"
+              >{{ profile.subscribedChannelsCount }} channel{{
+                profile.subscribedChannelsCount === 1 ? '' : 's'
+              }}</span
+            >
+            subscribed to
           </p>
         </div>
         <div v-if="profile" class="actions">
@@ -230,6 +234,7 @@ const logout = () => {
         </div>
       </div>
     </div>
+    <UserSessions v-if="profile" />
     <div v-if="profile && !settingsStore.saveVideoHistory" class="no-history">
       <VTIcon name="mdi:restart-off" />
       <p>Video history is disabled. You can enable it in settings.</p>
@@ -264,15 +269,15 @@ const logout = () => {
         <Confirmation
           v-if="deleteAccountPopup"
           :title="'Delete account'"
-          :message="'Do you want to delete your account? This will immediately erase all related data. This action is irreversible.'"
+          :message="'Do you want to delete your account? This will immediately erase all data related to you. This action is irreversible.'"
           @close="onDeleteAccountClose"
         >
           <div class="repeat-username-container">
             <FormInput
-              :id="'repeated-username'"
+              id="repeated-username"
               v-model="repeatedUsername"
               type="text"
-              :label="'Repeat your username'"
+              label="Repeat your username"
             />
             <BadgeButton
               :click="deleteAccount"
@@ -378,7 +383,7 @@ const logout = () => {
 
       @media screen and (max-width: $mobile-width) {
         margin: 130px 0 0 0;
-        padding: 90px 15px 15px 20px;
+        padding: 90px 15px 10px 15px;
         height: 230px;
         width: 100%;
       }

@@ -18,10 +18,6 @@ export default defineNuxtConfig({
     })
   },
 
-  alias: {
-    'viewtube/*': '../*'
-  },
-
   typescript: {
     strict: true,
     shim: false,

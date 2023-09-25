@@ -21,8 +21,9 @@ export const useCaptchaStore = defineStore('captcha', {
     },
     async getCaptcha() {
       const { apiUrl } = useApiUrl();
+      const { vtFetch } = useVtFetch();
 
-      const { token, captchaImage } = await vtClientFetch<CaptchaResponse>(`${apiUrl.value}auth/captcha`);
+      const { token, captchaImage } = await vtFetch<CaptchaResponse>(`${apiUrl.value}auth/captcha`);
 
       this.token = token;
       this.image = captchaImage;

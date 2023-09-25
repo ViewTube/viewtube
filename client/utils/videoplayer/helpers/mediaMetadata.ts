@@ -1,5 +1,3 @@
-import { ApiDto } from 'viewtube/shared';
-
 export class MediaMetadataHelper {
   constructor(video: any) {
     this.video = video;

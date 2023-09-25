@@ -1,6 +1,5 @@
 import {
   Controller,
-  UseGuards,
   Req,
   Get,
   Query,
@@ -11,15 +10,15 @@ import {
   InternalServerErrorException
 } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
-import { JwtAuthGuard } from 'server/auth/guards/jwt.guard';
 import { ViewTubeRequest } from 'server/common/viewtube-request';
 import { HistoryResponseDto } from './dto/history-response.dto';
 import { VideoVisitDto } from './dto/video-visit.dto';
 import { HistoryService } from './history.service';
+import { Private } from 'server/auth/decorators/private.decorator';
 
 @ApiTags('User')
-@UseGuards(JwtAuthGuard)
 @ApiBearerAuth()
+@Private()
 @Controller('user/history')
 export class HistoryController {
   constructor(private historyService: HistoryService) {}

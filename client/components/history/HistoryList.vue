@@ -3,7 +3,6 @@ import humanizeDuration from 'humanize-duration';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 
 import { useMessagesStore } from '@/store/messages';
-import { ApiDto } from 'viewtube/shared';
 
 defineProps<{
   historyVideos: ApiDto<'HistoryResponseDto'>['videos'];

@@ -1,6 +1,5 @@
 import {
   Controller,
-  UseGuards,
   Get,
   Req,
   Res,
@@ -11,19 +10,21 @@ import {
   Param,
   StreamableFile,
   Header,
-  HttpCode
+  HttpCode,
+  Put
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { JwtAuthGuard } from 'server/auth/guards/jwt.guard';
 import { UserprofileDto } from 'server/user/dto/userprofile.dto';
 import { FastifyReply } from 'fastify';
 import { ViewTubeRequest } from 'server/common/viewtube-request';
 import { UserprofileDetailsDto } from './dto/userprofile-details.dto';
 import { UserService } from './user.service';
+import { Private } from 'server/auth/decorators/private.decorator';
+import { SessionDto } from './dto/session.dto';
 
 @ApiTags('User')
 @ApiBearerAuth()
-@UseGuards(JwtAuthGuard)
+@Private()
 @Controller('user')
 export class UserController {
   constructor(private userService: UserService) {}
@@ -36,6 +37,31 @@ export class UserController {
   @Get('profile/details')
   getProfileDetails(@Req() request: ViewTubeRequest): Promise<UserprofileDetailsDto> {
     return this.userService.getProfileDetails(request.user.username);
+  }
+
+  @Get('sessions')
+  getSessions(@Req() request: ViewTubeRequest): Promise<Array<SessionDto>> {
+    return this.userService.getSessions(request);
+  }
+
+  @Get('sessions/current')
+  getCurrentSession(@Req() request: ViewTubeRequest): Promise<SessionDto> {
+    return this.userService.getCurrentSession(request);
+  }
+
+  @Put('sessions/:id')
+  updateSession(
+    @Req() request: ViewTubeRequest,
+    @Param('id') id: string,
+    @Body('deviceName') deviceName: string,
+    @Body('deviceType') deviceType: string
+  ) {
+    return this.userService.renameSession(request, id, deviceName, deviceType);
+  }
+
+  @Delete('sessions/:id')
+  deleteSession(@Req() request: ViewTubeRequest, @Param('id') id: string) {
+    return this.userService.deleteSession(request, id);
   }
 
   @Get('export')

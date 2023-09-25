@@ -7,6 +7,7 @@ export const checkRedisConnection = async () => {
   const redisPassword = process.env.VIEWTUBE_REDIS_PASSWORD;
 
   if (redisHost) {
+    logger.log('Checking Redis connection');
     const redisOptions: RedisOptions = {
       host: redisHost,
       port: parseInt(redisPort),

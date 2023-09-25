@@ -5,6 +5,105 @@
 
 
 export interface paths {
+  "/api/auth/login": {
+    post: operations["AuthController_login"];
+  };
+  "/api/auth/logout": {
+    post: operations["AuthController_logout"];
+  };
+  "/api/auth/register": {
+    /**
+     * Register a new user
+     * @description Request a captcha through the /auth/captcha endpoint,
+     *     and pass its token and solution alongside the new user's credentials.
+     */
+    post: operations["RegisterController_registerUser"];
+  };
+  "/api/auth/captcha": {
+    /** Get a captcha */
+    get: operations["CaptchaController_getCaptcha"];
+  };
+  "/api/user/profile": {
+    get: operations["UserController_getProfile"];
+  };
+  "/api/user/profile/details": {
+    get: operations["UserController_getProfileDetails"];
+  };
+  "/api/user/sessions": {
+    get: operations["UserController_getSessions"];
+  };
+  "/api/user/sessions/current": {
+    get: operations["UserController_getCurrentSession"];
+  };
+  "/api/user/sessions/{id}": {
+    put: operations["UserController_updateSession"];
+    delete: operations["UserController_deleteSession"];
+  };
+  "/api/user/export": {
+    get: operations["UserController_getExport"];
+  };
+  "/api/user/profile/image/{username}": {
+    get: operations["UserController_getProfileImage"];
+  };
+  "/api/user/profile/image": {
+    post: operations["UserController_uploadProfileImage"];
+    delete: operations["UserController_deleteProfileImage"];
+  };
+  "/api/user": {
+    delete: operations["UserController_deleteUser"];
+  };
+  "/api/user/profile/password": {
+    post: operations["UserController_changePassword"];
+  };
+  "/api/user/subscriptions/channels": {
+    get: operations["SubscriptionsController_getSubscribedChannels"];
+  };
+  "/api/user/subscriptions/videos": {
+    get: operations["SubscriptionsController_getSubscriptionVideos"];
+  };
+  "/api/user/subscriptions/{channelId}": {
+    get: operations["SubscriptionsController_getSubscription"];
+    put: operations["SubscriptionsController_createSubscription"];
+    delete: operations["SubscriptionsController_deleteSubscription"];
+  };
+  "/api/user/subscriptions/multiple": {
+    post: operations["SubscriptionsController_createMultipleSubscriptions"];
+  };
+  "/api/user/notifications/subscribe": {
+    post: operations["NotificationsController_subscribeToNotifications"];
+  };
+  "/api/user/settings": {
+    get: operations["SettingsController_getSettings"];
+    put: operations["SettingsController_setSettings"];
+  };
+  "/api/user/history": {
+    get: operations["HistoryController_getHistory"];
+    delete: operations["HistoryController_deleteEntireHistory"];
+  };
+  "/api/user/history/{id}": {
+    get: operations["HistoryController_getVideoVisit"];
+    post: operations["HistoryController_setVideoVisit"];
+  };
+  "/api/user/history/{videoId}": {
+    delete: operations["HistoryController_deleteHistoryEntry"];
+  };
+  "/api/user/history/from/{startDate}/to/{endDate}": {
+    delete: operations["HistoryController_deleteHistoryRange"];
+  };
+  "/api/admin/logs": {
+    get: operations["AdminController_getLogs"];
+  };
+  "/api/admin/logs/{logFile}": {
+    get: operations["AdminController_downloadLogFile"];
+  };
+  "/api/admin/blocked-videos": {
+    get: operations["AdminController_findAll"];
+    post: operations["AdminController_create"];
+  };
+  "/api/admin/blocked-videos/{id}": {
+    get: operations["AdminController_isVideoBlocked"];
+    delete: operations["AdminController_delete"];
+  };
   "/api/videos/{id}": {
     get: operations["VideosController_getVideos"];
   };
@@ -95,106 +194,154 @@ export interface paths {
   "/api/playlists/continuation": {
     get: operations["PlaylistsController_getPlaylistContinuation"];
   };
-  "/api/user/profile": {
-    get: operations["UserController_getProfile"];
-  };
-  "/api/user/profile/details": {
-    get: operations["UserController_getProfileDetails"];
-  };
-  "/api/user/export": {
-    get: operations["UserController_getExport"];
-  };
-  "/api/user/profile/image/{username}": {
-    get: operations["UserController_getProfileImage"];
-  };
-  "/api/user/profile/image": {
-    post: operations["UserController_uploadProfileImage"];
-    delete: operations["UserController_deleteProfileImage"];
-  };
-  "/api/user": {
-    delete: operations["UserController_deleteUser"];
-  };
-  "/api/user/profile/password": {
-    post: operations["UserController_changePassword"];
-  };
-  "/api/user/subscriptions/channels": {
-    get: operations["SubscriptionsController_getSubscribedChannels"];
-  };
-  "/api/user/subscriptions/videos": {
-    get: operations["SubscriptionsController_getSubscriptionVideos"];
-  };
-  "/api/user/subscriptions/{channelId}": {
-    get: operations["SubscriptionsController_getSubscription"];
-    put: operations["SubscriptionsController_createSubscription"];
-    delete: operations["SubscriptionsController_deleteSubscription"];
-  };
-  "/api/user/subscriptions/multiple": {
-    post: operations["SubscriptionsController_createMultipleSubscriptions"];
-  };
-  "/api/user/notifications/subscribe": {
-    post: operations["NotificationsController_subscribeToNotifications"];
-  };
-  "/api/user/settings": {
-    get: operations["SettingsController_getSettings"];
-    put: operations["SettingsController_setSettings"];
-  };
-  "/api/user/history": {
-    get: operations["HistoryController_getHistory"];
-    delete: operations["HistoryController_deleteEntireHistory"];
-  };
-  "/api/user/history/{id}": {
-    get: operations["HistoryController_getVideoVisit"];
-    post: operations["HistoryController_setVideoVisit"];
-  };
-  "/api/user/history/{videoId}": {
-    delete: operations["HistoryController_deleteHistoryEntry"];
-  };
-  "/api/user/history/from/{startDate}/to/{endDate}": {
-    delete: operations["HistoryController_deleteHistoryRange"];
-  };
-  "/api/admin/logs": {
-    get: operations["AdminController_getLogs"];
-  };
-  "/api/admin/logs/{logFile}": {
-    get: operations["AdminController_downloadLogFile"];
-  };
-  "/api/admin/blocked-videos": {
-    get: operations["AdminController_findAll"];
-    post: operations["AdminController_create"];
-  };
-  "/api/admin/blocked-videos/{id}": {
-    get: operations["AdminController_isVideoBlocked"];
-    delete: operations["AdminController_delete"];
-  };
-  "/api/auth/login": {
-    post: operations["AuthController_login"];
-  };
-  "/api/auth/logout": {
-    post: operations["AuthController_logout"];
-  };
-  "/api/auth/register": {
-    /**
-     * Register a new user
-     * @description Request a captcha through the /auth/captcha endpoint,
-     *     and pass its token and solution alongside the new user's credentials.
-     */
-    post: operations["RegisterController_registerUser"];
-  };
-  "/api/auth/captcha": {
-    /** Get a captcha */
-    get: operations["CaptchaController_getCaptcha"];
-  };
 }
 
 export type webhooks = Record<string, never>;
 
 export interface components {
   schemas: {
+    RegistrationDto: {
+      username: string;
+      password: string;
+      captchaToken: string;
+      captchaSolution: string;
+    };
+    CaptchaDto: {
+      token: string;
+      captchaImage: string;
+    };
+    SettingsDto: {
+      miniplayer: boolean;
+      chapters: boolean;
+      theme: string;
+      sponsorblockEnabled: boolean;
+      sponsorblockSegmentSponsor: Record<string, never>;
+      sponsorblockSegmentIntro: Record<string, never>;
+      sponsorblockSegmentOutro: Record<string, never>;
+      sponsorblockSegmentInteraction: Record<string, never>;
+      sponsorblockSegmentSelfpromo: Record<string, never>;
+      sponsorblockSegmentMusicOfftopic: Record<string, never>;
+      sponsorblockSegmentPreview: Record<string, never>;
+      autoplay: boolean;
+      saveVideoHistory: boolean;
+      showHomeSubscriptions: boolean;
+      alwaysLoopVideo: boolean;
+      autoplayNextVideo: boolean;
+      audioModeDefault: boolean;
+      defaultVideoSpeed: number;
+      defaultVideoQuality: string;
+      defaultAudioQuality: string;
+      autoAdjustAudioQuality: boolean;
+      autoAdjustVideoQuality: boolean;
+      dashPlaybackEnabled: boolean;
+      rewriteYouTubeURLs: boolean;
+    };
+    UserprofileDto: {
+      username: string;
+      profileImage: string;
+      settings: components["schemas"]["SettingsDto"];
+      admin: boolean;
+    };
     VTThumbnailDto: {
       quality?: string;
       url: string;
       width: number;
       height: number;
+    };
+    VideoBasicInfoDto: {
+      videoId: string;
+      title: string;
+      published?: number;
+      publishedText: string;
+      author: string;
+      authorId: string;
+      authorVerified?: boolean;
+      authorThumbnails?: components["schemas"]["VTThumbnailDto"][];
+      authorThumbnailUrl?: string;
+      videoThumbnails: components["schemas"]["VTThumbnailDto"][];
+      description?: string;
+      viewCount: number;
+      likeCount?: number;
+      dislikeCount?: number;
+      lengthSeconds?: number;
+      lengthString?: string;
+      live?: boolean;
+    };
+    VideoVisitDetailsDto: {
+      videoDetails: components["schemas"]["VideoBasicInfoDto"];
+      videoId: string;
+      progressSeconds: number;
+      lengthSeconds: number;
+      /** Format: date-time */
+      lastVisit: string;
+    };
+    UserprofileDetailsDto: {
+      username: string;
+      profileImage: string;
+      videoHistory: components["schemas"]["VideoVisitDetailsDto"][];
+      /** Format: date-time */
+      registeredAt: string;
+      totalVideosCount: number;
+      totalTimeString: string;
+      subscribedChannelsCount: number;
+      admin: boolean;
+    };
+    SessionDto: {
+      id: string;
+      deviceName: string;
+      deviceType: string;
+      /** Format: date-time */
+      updatedAt: string;
+      /** Format: date-time */
+      expires: string;
+      current: boolean;
+    };
+    ChannelBasicInfoDto: {
+      authorId: string;
+      author: string;
+      authorUrl?: string;
+      authorThumbnails?: components["schemas"]["VTThumbnailDto"][];
+      authorThumbnailUrl?: string;
+      authorVerified?: boolean;
+      subCount?: number;
+      videoCount?: number;
+      description?: string;
+    };
+    SubscribedChannelsResponseDto: {
+      channels: components["schemas"]["ChannelBasicInfoDto"][];
+      channelCount: number;
+    };
+    SubscriptionFeedResponseDto: {
+      videoCount: number;
+      videos: components["schemas"]["VideoBasicInfoDto"][];
+      /** Format: date-time */
+      lastRefresh: string;
+    };
+    SubscriptionStatusDto: {
+      channelId: string;
+      name?: string;
+      isSubscribed: boolean;
+    };
+    HistoryResponseDto: {
+      videos: components["schemas"]["VideoVisitDetailsDto"][];
+      videoCount: number;
+    };
+    VideoVisitDto: {
+      videoId: string;
+      progressSeconds: number;
+      lengthSeconds: number;
+      /** Format: date-time */
+      lastVisit: string;
+    };
+    LogFileDto: {
+      name: string;
+      size: number;
+      created: number;
+      lastModified: number;
+    };
+    LogsDto: {
+      logFiles: components["schemas"]["LogFileDto"][];
+      location: string;
     };
     VTPreviewThumbnailDto: {
       urlTemplate: string;
@@ -552,137 +699,6 @@ export interface components {
       items: components["schemas"]["PlaylistItemDto"][];
       continuation: Record<string, unknown> | null;
     };
-    SettingsDto: {
-      miniplayer: boolean;
-      chapters: boolean;
-      theme: string;
-      sponsorblockEnabled: boolean;
-      sponsorblockSegmentSponsor: Record<string, never>;
-      sponsorblockSegmentIntro: Record<string, never>;
-      sponsorblockSegmentOutro: Record<string, never>;
-      sponsorblockSegmentInteraction: Record<string, never>;
-      sponsorblockSegmentSelfpromo: Record<string, never>;
-      sponsorblockSegmentMusicOfftopic: Record<string, never>;
-      sponsorblockSegmentPreview: Record<string, never>;
-      autoplay: boolean;
-      saveVideoHistory: boolean;
-      showHomeSubscriptions: boolean;
-      alwaysLoopVideo: boolean;
-      autoplayNextVideo: boolean;
-      audioModeDefault: boolean;
-      defaultVideoSpeed: number;
-      defaultVideoQuality: string;
-      defaultAudioQuality: string;
-      autoAdjustAudioQuality: boolean;
-      autoAdjustVideoQuality: boolean;
-      dashPlaybackEnabled: boolean;
-      rewriteYouTubeURLs: boolean;
-    };
-    UserprofileDto: {
-      username: string;
-      profileImage: string;
-      settings: components["schemas"]["SettingsDto"];
-      admin: boolean;
-    };
-    VideoBasicInfoDto: {
-      videoId: string;
-      title: string;
-      published?: number;
-      publishedText: string;
-      author: string;
-      authorId: string;
-      authorVerified?: boolean;
-      authorThumbnails?: components["schemas"]["VTThumbnailDto"][];
-      authorThumbnailUrl?: string;
-      videoThumbnails: components["schemas"]["VTThumbnailDto"][];
-      description?: string;
-      viewCount: number;
-      likeCount?: number;
-      dislikeCount?: number;
-      lengthSeconds?: number;
-      lengthString?: string;
-      live?: boolean;
-    };
-    VideoVisitDetailsDto: {
-      videoDetails: components["schemas"]["VideoBasicInfoDto"];
-      videoId: string;
-      progressSeconds: number;
-      lengthSeconds: number;
-      /** Format: date-time */
-      lastVisit: string;
-    };
-    UserprofileDetailsDto: {
-      username: string;
-      profileImage: string;
-      videoHistory: components["schemas"]["VideoVisitDetailsDto"][];
-      /** Format: date-time */
-      registeredAt: string;
-      totalVideosCount: number;
-      totalTimeString: string;
-      subscribedChannelsCount: number;
-      admin: boolean;
-    };
-    ChannelBasicInfoDto: {
-      authorId: string;
-      author: string;
-      authorUrl?: string;
-      authorThumbnails?: components["schemas"]["VTThumbnailDto"][];
-      authorThumbnailUrl?: string;
-      authorVerified?: boolean;
-      subCount?: number;
-      videoCount?: number;
-      description?: string;
-    };
-    SubscribedChannelsResponseDto: {
-      channels: components["schemas"]["ChannelBasicInfoDto"][];
-      channelCount: number;
-    };
-    SubscriptionFeedResponseDto: {
-      videoCount: number;
-      videos: components["schemas"]["VideoBasicInfoDto"][];
-      /** Format: date-time */
-      lastRefresh: string;
-    };
-    SubscriptionStatusDto: {
-      channelId: string;
-      name?: string;
-      isSubscribed: boolean;
-    };
-    HistoryResponseDto: {
-      videos: components["schemas"]["VideoVisitDetailsDto"][];
-      videoCount: number;
-    };
-    VideoVisitDto: {
-      videoId: string;
-      progressSeconds: number;
-      lengthSeconds: number;
-      /** Format: date-time */
-      lastVisit: string;
-    };
-    LogFileDto: {
-      name: string;
-      size: number;
-      created: number;
-      lastModified: number;
-    };
-    LogsDto: {
-      logFiles: components["schemas"]["LogFileDto"][];
-      location: string;
-    };
-    UserDto: {
-      username: string;
-      password: string;
-    };
-    RegistrationDto: {
-      username: string;
-      password: string;
-      captchaToken: string;
-      captchaSolution: string;
-    };
-    CaptchaDto: {
-      token: string;
-      captchaImage: string;
-    };
   };
   responses: never;
   parameters: never;
@@ -691,10 +707,412 @@ export interface components {
   pathItems: never;
 }
 
+export type $defs = Record<string, never>;
+
 export type external = Record<string, never>;
 
 export interface operations {
 
+  AuthController_login: {
+    responses: {
+      201: {
+        content: never;
+      };
+    };
+  };
+  AuthController_logout: {
+    responses: {
+      201: {
+        content: never;
+      };
+    };
+  };
+  /**
+   * Register a new user
+   * @description Request a captcha through the /auth/captcha endpoint,
+   *     and pass its token and solution alongside the new user's credentials.
+   */
+  RegisterController_registerUser: {
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["RegistrationDto"];
+      };
+    };
+    responses: {
+      201: {
+        content: {
+          "application/json": Record<string, never>;
+        };
+      };
+    };
+  };
+  /** Get a captcha */
+  CaptchaController_getCaptcha: {
+    responses: {
+      200: {
+        content: {
+          "application/json": components["schemas"]["CaptchaDto"];
+        };
+      };
+    };
+  };
+  UserController_getProfile: {
+    responses: {
+      200: {
+        content: {
+          "application/json": components["schemas"]["UserprofileDto"];
+        };
+      };
+    };
+  };
+  UserController_getProfileDetails: {
+    responses: {
+      200: {
+        content: {
+          "application/json": components["schemas"]["UserprofileDetailsDto"];
+        };
+      };
+    };
+  };
+  UserController_getSessions: {
+    responses: {
+      200: {
+        content: {
+          "application/json": components["schemas"]["SessionDto"][];
+        };
+      };
+    };
+  };
+  UserController_getCurrentSession: {
+    responses: {
+      200: {
+        content: {
+          "application/json": components["schemas"]["SessionDto"];
+        };
+      };
+    };
+  };
+  UserController_updateSession: {
+    parameters: {
+      path: {
+        id: string;
+      };
+    };
+    responses: {
+      200: {
+        content: never;
+      };
+    };
+  };
+  UserController_deleteSession: {
+    parameters: {
+      path: {
+        id: string;
+      };
+    };
+    responses: {
+      200: {
+        content: never;
+      };
+    };
+  };
+  UserController_getExport: {
+    responses: {
+      200: {
+        content: never;
+      };
+    };
+  };
+  UserController_getProfileImage: {
+    parameters: {
+      path: {
+        username: string;
+      };
+    };
+    responses: {
+      200: {
+        content: never;
+      };
+    };
+  };
+  UserController_uploadProfileImage: {
+    responses: {
+      201: {
+        content: never;
+      };
+    };
+  };
+  UserController_deleteProfileImage: {
+    responses: {
+      200: {
+        content: never;
+      };
+    };
+  };
+  UserController_deleteUser: {
+    responses: {
+      200: {
+        content: never;
+      };
+    };
+  };
+  UserController_changePassword: {
+    responses: {
+      201: {
+        content: never;
+      };
+    };
+  };
+  SubscriptionsController_getSubscribedChannels: {
+    parameters: {
+      query?: {
+        /** @example linu */
+        filter?: string;
+        /** @example author:1,authorVerified:-1 */
+        sort?: string;
+        /** @example 0 */
+        start?: unknown;
+        /** @example 30 */
+        limit?: unknown;
+      };
+    };
+    responses: {
+      200: {
+        content: {
+          "application/json": components["schemas"]["SubscribedChannelsResponseDto"];
+        };
+      };
+    };
+  };
+  SubscriptionsController_getSubscriptionVideos: {
+    parameters: {
+      query?: {
+        start?: unknown;
+        limit?: unknown;
+      };
+    };
+    responses: {
+      200: {
+        content: {
+          "application/json": components["schemas"]["SubscriptionFeedResponseDto"];
+        };
+      };
+    };
+  };
+  SubscriptionsController_getSubscription: {
+    parameters: {
+      path: {
+        channelId: string;
+      };
+    };
+    responses: {
+      200: {
+        content: {
+          "application/json": components["schemas"]["SubscriptionStatusDto"];
+        };
+      };
+    };
+  };
+  SubscriptionsController_createSubscription: {
+    parameters: {
+      path: {
+        channelId: string;
+      };
+    };
+    responses: {
+      200: {
+        content: {
+          "application/json": components["schemas"]["SubscriptionStatusDto"];
+        };
+      };
+    };
+  };
+  SubscriptionsController_deleteSubscription: {
+    parameters: {
+      path: {
+        channelId: string;
+      };
+    };
+    responses: {
+      200: {
+        content: {
+          "application/json": components["schemas"]["SubscriptionStatusDto"];
+        };
+      };
+    };
+  };
+  SubscriptionsController_createMultipleSubscriptions: {
+    responses: {
+      201: {
+        content: never;
+      };
+    };
+  };
+  NotificationsController_subscribeToNotifications: {
+    responses: {
+      201: {
+        content: never;
+      };
+    };
+  };
+  SettingsController_getSettings: {
+    responses: {
+      200: {
+        content: {
+          "application/json": components["schemas"]["SettingsDto"];
+        };
+      };
+    };
+  };
+  SettingsController_setSettings: {
+    responses: {
+      204: {
+        content: never;
+      };
+    };
+  };
+  HistoryController_getHistory: {
+    parameters: {
+      query: {
+        sort: string;
+      };
+    };
+    responses: {
+      200: {
+        content: {
+          "application/json": components["schemas"]["HistoryResponseDto"];
+        };
+      };
+    };
+  };
+  HistoryController_deleteEntireHistory: {
+    responses: {
+      200: {
+        content: never;
+      };
+    };
+  };
+  HistoryController_getVideoVisit: {
+    parameters: {
+      path: {
+        id: string;
+      };
+    };
+    responses: {
+      200: {
+        content: {
+          "application/json": components["schemas"]["VideoVisitDto"];
+        };
+      };
+    };
+  };
+  HistoryController_setVideoVisit: {
+    parameters: {
+      path: {
+        id: string;
+      };
+    };
+    responses: {
+      201: {
+        content: never;
+      };
+    };
+  };
+  HistoryController_deleteHistoryEntry: {
+    parameters: {
+      path: {
+        videoId: string;
+      };
+    };
+    responses: {
+      200: {
+        content: never;
+      };
+    };
+  };
+  HistoryController_deleteHistoryRange: {
+    parameters: {
+      path: {
+        startDate: string;
+        endDate: string;
+      };
+    };
+    responses: {
+      200: {
+        content: never;
+      };
+    };
+  };
+  AdminController_getLogs: {
+    responses: {
+      200: {
+        content: {
+          "application/json": components["schemas"]["LogsDto"];
+        };
+      };
+    };
+  };
+  AdminController_downloadLogFile: {
+    parameters: {
+      path: {
+        logFile: string;
+      };
+    };
+    responses: {
+      200: {
+        content: never;
+      };
+    };
+  };
+  AdminController_findAll: {
+    responses: {
+      200: {
+        content: {
+          "application/json": string[];
+        };
+      };
+    };
+  };
+  AdminController_create: {
+    requestBody: {
+      content: {
+        "application/json": string;
+      };
+    };
+    responses: {
+      201: {
+        content: {
+          "application/json": string;
+        };
+      };
+    };
+  };
+  AdminController_isVideoBlocked: {
+    parameters: {
+      path: {
+        id: string;
+      };
+    };
+    responses: {
+      200: {
+        content: {
+          "application/json": boolean;
+        };
+      };
+    };
+  };
+  AdminController_delete: {
+    parameters: {
+      path: {
+        id: string;
+      };
+    };
+    responses: {
+      200: {
+        content: never;
+      };
+    };
+  };
   VideosController_getVideos: {
     parameters: {
       path: {
@@ -1202,374 +1620,6 @@ export interface operations {
       200: {
         content: {
           "application/json": Record<string, never>;
-        };
-      };
-    };
-  };
-  UserController_getProfile: {
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["UserprofileDto"];
-        };
-      };
-    };
-  };
-  UserController_getProfileDetails: {
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["UserprofileDetailsDto"];
-        };
-      };
-    };
-  };
-  UserController_getExport: {
-    responses: {
-      200: {
-        content: never;
-      };
-    };
-  };
-  UserController_getProfileImage: {
-    parameters: {
-      path: {
-        username: string;
-      };
-    };
-    responses: {
-      200: {
-        content: never;
-      };
-    };
-  };
-  UserController_uploadProfileImage: {
-    responses: {
-      201: {
-        content: never;
-      };
-    };
-  };
-  UserController_deleteProfileImage: {
-    responses: {
-      200: {
-        content: never;
-      };
-    };
-  };
-  UserController_deleteUser: {
-    responses: {
-      200: {
-        content: never;
-      };
-    };
-  };
-  UserController_changePassword: {
-    responses: {
-      201: {
-        content: never;
-      };
-    };
-  };
-  SubscriptionsController_getSubscribedChannels: {
-    parameters: {
-      query?: {
-        /** @example linu */
-        filter?: string;
-        /** @example author:1,authorVerified:-1 */
-        sort?: string;
-        /** @example 0 */
-        start?: unknown;
-        /** @example 30 */
-        limit?: unknown;
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["SubscribedChannelsResponseDto"];
-        };
-      };
-    };
-  };
-  SubscriptionsController_getSubscriptionVideos: {
-    parameters: {
-      query?: {
-        start?: unknown;
-        limit?: unknown;
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["SubscriptionFeedResponseDto"];
-        };
-      };
-    };
-  };
-  SubscriptionsController_getSubscription: {
-    parameters: {
-      path: {
-        channelId: string;
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["SubscriptionStatusDto"];
-        };
-      };
-    };
-  };
-  SubscriptionsController_createSubscription: {
-    parameters: {
-      path: {
-        channelId: string;
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["SubscriptionStatusDto"];
-        };
-      };
-    };
-  };
-  SubscriptionsController_deleteSubscription: {
-    parameters: {
-      path: {
-        channelId: string;
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["SubscriptionStatusDto"];
-        };
-      };
-    };
-  };
-  SubscriptionsController_createMultipleSubscriptions: {
-    responses: {
-      201: {
-        content: never;
-      };
-    };
-  };
-  NotificationsController_subscribeToNotifications: {
-    responses: {
-      201: {
-        content: never;
-      };
-    };
-  };
-  SettingsController_getSettings: {
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["SettingsDto"];
-        };
-      };
-    };
-  };
-  SettingsController_setSettings: {
-    responses: {
-      204: {
-        content: never;
-      };
-    };
-  };
-  HistoryController_getHistory: {
-    parameters: {
-      query: {
-        sort: string;
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["HistoryResponseDto"];
-        };
-      };
-    };
-  };
-  HistoryController_deleteEntireHistory: {
-    responses: {
-      200: {
-        content: never;
-      };
-    };
-  };
-  HistoryController_getVideoVisit: {
-    parameters: {
-      path: {
-        id: string;
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["VideoVisitDto"];
-        };
-      };
-    };
-  };
-  HistoryController_setVideoVisit: {
-    parameters: {
-      path: {
-        id: string;
-      };
-    };
-    responses: {
-      201: {
-        content: never;
-      };
-    };
-  };
-  HistoryController_deleteHistoryEntry: {
-    parameters: {
-      path: {
-        videoId: string;
-      };
-    };
-    responses: {
-      200: {
-        content: never;
-      };
-    };
-  };
-  HistoryController_deleteHistoryRange: {
-    parameters: {
-      path: {
-        startDate: string;
-        endDate: string;
-      };
-    };
-    responses: {
-      200: {
-        content: never;
-      };
-    };
-  };
-  AdminController_getLogs: {
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["LogsDto"];
-        };
-      };
-    };
-  };
-  AdminController_downloadLogFile: {
-    parameters: {
-      path: {
-        logFile: string;
-      };
-    };
-    responses: {
-      200: {
-        content: never;
-      };
-    };
-  };
-  AdminController_findAll: {
-    responses: {
-      200: {
-        content: {
-          "application/json": string[];
-        };
-      };
-    };
-  };
-  AdminController_create: {
-    requestBody: {
-      content: {
-        "application/json": string;
-      };
-    };
-    responses: {
-      201: {
-        content: {
-          "application/json": string;
-        };
-      };
-    };
-  };
-  AdminController_isVideoBlocked: {
-    parameters: {
-      path: {
-        id: string;
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": boolean;
-        };
-      };
-    };
-  };
-  AdminController_delete: {
-    parameters: {
-      path: {
-        id: string;
-      };
-    };
-    responses: {
-      200: {
-        content: never;
-      };
-    };
-  };
-  AuthController_login: {
-    parameters: {
-      query: {
-        local: boolean;
-      };
-    };
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["UserDto"];
-      };
-    };
-    responses: {
-      201: {
-        content: never;
-      };
-    };
-  };
-  AuthController_logout: {
-    responses: {
-      201: {
-        content: never;
-      };
-    };
-  };
-  /**
-   * Register a new user
-   * @description Request a captcha through the /auth/captcha endpoint,
-   *     and pass its token and solution alongside the new user's credentials.
-   */
-  RegisterController_registerUser: {
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["RegistrationDto"];
-      };
-    };
-    responses: {
-      201: {
-        content: {
-          "application/json": Record<string, never>;
-        };
-      };
-    };
-  };
-  /** Get a captcha */
-  CaptchaController_getCaptcha: {
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["CaptchaDto"];
         };
       };
     };

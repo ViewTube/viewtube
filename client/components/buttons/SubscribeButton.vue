@@ -25,7 +25,6 @@
 <script lang="ts">
 import { useMessagesStore } from '@/store/messages';
 import { useUserStore } from '@/store/user';
-import { ApiDto } from 'viewtube/shared';
 
 export default defineComponent({
   name: 'SubscribeButton',
