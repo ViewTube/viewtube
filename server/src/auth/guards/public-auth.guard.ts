@@ -33,10 +33,6 @@ export class PublicAuthGuard implements CanActivate {
     const accessToken = this.extractAccessTokenFromCookie(request);
     const refreshToken = this.extractRefreshTokenFromCookie(request);
 
-    console.log('does i has refresh token', refreshToken);
-    console.log('does i has access token', accessToken);
-    console.log('where do i come from', targets);
-
     if (refreshToken) {
       const accessPayload = await this.validateToken(accessToken);
 
@@ -79,7 +75,6 @@ export class PublicAuthGuard implements CanActivate {
     if (isPrivate && !request['user']) {
       throw new UnauthorizedException();
     }
-    console.log('where do i go', request['user']);
     return true;
   }
 

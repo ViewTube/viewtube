@@ -1,5 +1,6 @@
 import { useUserStore } from '@/store/user';
 import { Pinia } from 'pinia';
+import { parseCookies } from 'h3';
 
 /**
  * This plugin runs user authentication server-side,
@@ -8,7 +9,7 @@ import { Pinia } from 'pinia';
 export default defineNuxtPlugin(async nuxtApp => {
   const userStore = useUserStore(nuxtApp.$pinia as Pinia);
 
-  const cookies = parseCookieString(nuxtApp.ssrContext.event.node.req.headers?.cookie);
+  const cookies = parseCookies(nuxtApp.ssrContext.event);
 
   if (cookies?.RefreshToken && !userStore.triedLogin) {
     await userStore.getUser();

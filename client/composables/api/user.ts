@@ -1,5 +1,4 @@
 import { Ref } from 'vue';
-import { useAuthorizationHeader } from '../authorizationHeader';
 
 type UserHistoryParams = {
   limit: number;
@@ -10,7 +9,6 @@ type UserHistoryParams = {
 export const useGetUserHistory = ({ searchTerm, limit, start }: UserHistoryParams) => {
   const { apiUrl } = useApiUrl();
   const { vtFetch } = useVtFetch();
-  const authorizationHeader = useAuthorizationHeader();
 
   let filterString = '';
   if (searchTerm) {
@@ -20,19 +18,13 @@ export const useGetUserHistory = ({ searchTerm, limit, start }: UserHistoryParam
   const urlPart = `user/history?limit=${limit}&start=${start}${filterString}&sort=DESC`;
 
   return useLazyAsyncData<ApiDto<'HistoryResponseDto'>>(urlPart, () =>
-    vtFetch(`${apiUrl.value}${urlPart}`, {
-      headers: {
-        Authorization: authorizationHeader
-      },
-      credentials: 'include'
-    })
+    vtFetch(`${apiUrl.value}${urlPart}`)
   );
 };
 
 export const useGetUserHistoryItem = (videoId: string) => {
   const { apiUrl } = useApiUrl();
   const { vtFetch } = useVtFetch();
-  const authorizationHeader = useAuthorizationHeader();
 
   const urlPart = `user/history/${videoId}`;
 
@@ -41,30 +33,17 @@ export const useGetUserHistoryItem = (videoId: string) => {
     progressSeconds: number;
     lengthSeconds: number;
     lastVisit: Date;
-  }>(urlPart, () =>
-    vtFetch(`${apiUrl.value}${urlPart}`, {
-      headers: {
-        Authorization: authorizationHeader
-      },
-      credentials: 'include'
-    })
-  );
+  }>(urlPart, () => vtFetch(`${apiUrl.value}${urlPart}`));
 };
 
 export const useGetUserProfileDetails = () => {
   const { apiUrl } = useApiUrl();
   const { vtFetch } = useVtFetch();
-  const authorizationHeader = useAuthorizationHeader();
 
   const urlPart = `user/profile/details`;
 
   return useLazyAsyncData<ApiDto<'UserprofileDetailsDto'>>(urlPart, () =>
-    vtFetch(`${apiUrl.value}${urlPart}`, {
-      headers: {
-        Authorization: authorizationHeader
-      },
-      credentials: 'include'
-    })
+    vtFetch(`${apiUrl.value}${urlPart}`)
   );
 };
 
@@ -77,7 +56,6 @@ export const useGetUserSubscriptions = (
   config: UserSubscriptionsParams = { limit: 20, currentPage: 1 }
 ) => {
   const { apiUrl } = useApiUrl();
-  const authorizationHeader = useAuthorizationHeader();
   const { vtFetch } = useVtFetch();
 
   const url = computed(() => {
@@ -87,12 +65,7 @@ export const useGetUserSubscriptions = (
   });
 
   return useLazyAsyncData<ApiDto<'SubscriptionFeedResponseDto'>>('user/subscriptions/videos', () =>
-    vtFetch(url.value, {
-      headers: {
-        Authorization: authorizationHeader
-      },
-      credentials: 'include'
-    })
+    vtFetch(url.value)
   );
 };
 
@@ -107,7 +80,6 @@ export const useGetUserSubscriptionChannels = (
 ) => {
   const { apiUrl } = useApiUrl();
   const { vtFetch } = useVtFetch();
-  const authorizationHeader = useAuthorizationHeader();
 
   const url = computed(() => {
     let filterString = '';
@@ -123,12 +95,6 @@ export const useGetUserSubscriptionChannels = (
 
   return useLazyAsyncData<ApiDto<'SubscribedChannelsResponseDto'>>(
     'user/subscriptions/channels',
-    () =>
-      vtFetch(url.value, {
-        headers: {
-          Authorization: authorizationHeader
-        },
-        credentials: 'include'
-      })
+    () => vtFetch(url.value)
   );
 };
