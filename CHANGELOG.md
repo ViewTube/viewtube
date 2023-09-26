@@ -12,7 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Make client cookie logic more robust [#2259](https://github.com/ViewTube/viewtube/pull/2259)
-- Upgrade packages and cleanup unused []
+- Upgrade packages and cleanup unused [#2261](https://github.com/ViewTube/viewtube/pull/2261)
 
 ## [0.12.2]
 
