@@ -1,26 +1,31 @@
 import { HttpsProxyAgent } from 'https-proxy-agent';
 import { fetch } from 'ofetch';
 import { Request, RequestInit } from 'undici';
+import { getProxyAgent, proxyEnabled } from '../proxyAgent';
+import { HttpProxyAgent } from 'http-proxy-agent';
+import { SocksProxyAgent } from 'socks-proxy-agent';
 
 type InputType = Request & {
   method?: string;
 };
 
+type InitType = RequestInit & {
+  agent?: HttpsProxyAgent<string> | HttpProxyAgent<string> | SocksProxyAgent;
+};
+
 export const innertubeFetch = async (
   input: InputType,
-  init?: RequestInit & { agent: HttpsProxyAgent<string> }
+  init?: InitType
 ) => {
   if (!init) {
-    init = {} as RequestInit & { agent: HttpsProxyAgent<string> };
+    init = {};
   }
 
-  if (process.env.VIEWTUBE_PROXY_URL) {
-    const proxy = process.env.VIEWTUBE_PROXY_URL;
-    const proxyAgent = new HttpsProxyAgent(proxy);
-    init.agent = proxyAgent;
+  if (proxyEnabled()) {
+    init.agent = getProxyAgent();
   }
 
-  let url;
+  let url: string;
 
   if (typeof input === 'string') {
     url = input;

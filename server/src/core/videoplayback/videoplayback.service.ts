@@ -2,6 +2,7 @@ import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { URL } from 'node:url';
+import { getProxyUrl, proxyEnabled } from 'server/common/proxyAgent';
 import undici, { Dispatcher, ProxyAgent } from 'undici';
 
 @Injectable()
@@ -41,8 +42,8 @@ export class VideoplaybackService {
 
       let dispatcher: ProxyAgent | undefined = undefined;
 
-      if (this.configService.get('VIEWTUBE_PROXY_URL')) {
-        dispatcher = new ProxyAgent(this.configService.get('VIEWTUBE_PROXY_URL'));
+      if (proxyEnabled()) {
+        dispatcher = new ProxyAgent(getProxyUrl());
       }
 
       const fetchResponse = await undici.request(newUrl.toString(), {

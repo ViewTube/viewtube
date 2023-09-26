@@ -4,6 +4,7 @@ import { HttpsProxyAgent } from 'https-proxy-agent';
 import { FastifyReply, FastifyRequest } from 'fastify';
 import undici, { Client } from 'undici';
 import { ofetch } from 'ofetch';
+import { getProxyAgent, getProxyUrl, proxyEnabled } from 'server/common/proxyAgent';
 
 @Injectable()
 export class ProxyService {
@@ -15,10 +16,9 @@ export class ProxyService {
   async proxyText(url: string, local = true): Promise<string> {
     try {
       const requestOptions: Record<string, unknown> = {};
-      if (this.configService.get('VIEWTUBE_PROXY_URL') && !local) {
-        const proxy = this.configService.get('VIEWTUBE_PROXY_URL');
+      if (proxyEnabled() && !local) {
         requestOptions.headers = {
-          agent: new HttpsProxyAgent(proxy)
+          agent: getProxyAgent()
         };
       }
       const fetchResponse = await ofetch<string>(url, requestOptions);
@@ -34,8 +34,8 @@ export class ProxyService {
   async proxyImage(url: string, reply: FastifyReply, local = false): Promise<void> {
     try {
       let proxyUrl = null;
-      if (this.configService.get('VIEWTUBE_PROXY_URL') && !local) {
-        proxyUrl = this.configService.get('VIEWTUBE_PROXY_URL');
+      if (proxyEnabled() && !local) {
+        proxyUrl = getProxyUrl();
       }
       if (proxyUrl) {
         const client = new Client(proxyUrl);

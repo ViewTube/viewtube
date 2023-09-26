@@ -11,6 +11,7 @@ import { HttpsProxyAgent } from 'https-proxy-agent';
 import { SubscriptionsQueueParams } from './subscriptions.processor';
 import { XMLParser } from 'fast-xml-parser';
 import { ChannelFeedType } from './types/channel-feed.type';
+import { getProxyAgent, proxyEnabled } from 'server/common/proxyAgent';
 
 const xmlParser = new XMLParser({
   ignoreAttributes: false,
@@ -130,9 +131,9 @@ export const getChannelFeed = async (
   videos: Array<VideoBasicInfoDto>;
 } | null> => {
   const requestOptions: Record<string, unknown> = {};
-  if (process.env.VIEWTUBE_PROXY_URL) {
+  if (proxyEnabled()) {
     requestOptions.headers = {
-      agent: new HttpsProxyAgent(process.env.VIEWTUBE_PROXY_URL)
+      agent: getProxyAgent()
     };
   }
 
