@@ -85,7 +85,7 @@
     "@types/passport-local": "1.0.36",
     "@types/redis-mock": "0.17.1",
     "@types/web-push": "3.6.0",
-    "@types/webpack-node-externals": "3.0.1",
+    "@types/webpack-node-externals": "3.0.2",
     "@types/xml2json": "0.11.4",
     "@typescript-eslint/eslint-plugin": "6.7.2",
     "@typescript-eslint/parser": "6.7.2",
