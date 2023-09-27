@@ -95,7 +95,7 @@
     "hex-rgb": "5.0.0",
     "openapi-typescript": "6.7.0",
     "redis": "4.6.10",
-    "rimraf": "5.0.4",
+    "rimraf": "5.0.5",
     "run-script-webpack-plugin": "0.2.0",
     "ts-loader": "9.4.4",
     "typescript": "5.2.2",
