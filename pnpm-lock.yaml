@@ -233,12 +233,18 @@ importers:
       dayjs:
         specifier: 1.11.10
         version: 1.11.10
+      destr:
+        specifier: ^2.0.1
+        version: 2.0.1
       fast-xml-parser:
         specifier: ^4.3.1
         version: 4.3.1
       fastify:
         specifier: 4.23.2
         version: 4.23.2
+      fetch-socks:
+        specifier: ^1.2.0
+        version: 1.2.0
       http-proxy-agent:
         specifier: ^7.0.0
         version: 7.0.0
@@ -7670,6 +7676,13 @@ packages:
       node-domexception: 1.0.0
       web-streams-polyfill: 3.2.1
     dev: true
+
+  /fetch-socks@1.2.0:
+    resolution: {integrity: sha512-UlBTuReX1Hrnejx92Uhe0iR2OUL8f//2KNQNXaGhlWWZD5a+uFR/jd1Gf3Nshbc54KQdigUozeevdF6+p5r0cQ==}
+    dependencies:
+      socks: 2.7.1
+      undici: 5.25.2
+    dev: false
 
   /figures@3.2.0:
     resolution: {integrity: sha512-yaduQFRKLXYOGgEn6AZau90j3ggSOyiqXU0F9JZfeXYhNa+Jk4X+s45A2zg5jns87GAFa34BBm2kXw4XpNcbdg==}
