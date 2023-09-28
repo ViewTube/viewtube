@@ -6,11 +6,10 @@ import humanizeDuration from 'humanize-duration';
 import { Job } from 'bull';
 import { logger } from 'server/common/logger';
 import { generateVideoThumbnails } from 'server/mapper/utils/video-thumbnails';
-import { ofetch } from 'ofetch';
-import { HttpsProxyAgent } from 'https-proxy-agent';
 import { SubscriptionsQueueParams } from './subscriptions.processor';
 import { XMLParser } from 'fast-xml-parser';
 import { ChannelFeedType } from './types/channel-feed.type';
+import { vtFetch } from 'server/common/vtFetch';
 
 const xmlParser = new XMLParser({
   ignoreAttributes: false,
@@ -129,14 +128,7 @@ export const getChannelFeed = async (
   channel: ChannelBasicInfoDto;
   videos: Array<VideoBasicInfoDto>;
 } | null> => {
-  const requestOptions: Record<string, unknown> = {};
-  if (process.env.VIEWTUBE_PROXY_URL) {
-    requestOptions.headers = {
-      agent: new HttpsProxyAgent(process.env.VIEWTUBE_PROXY_URL)
-    };
-  }
-
-  const channelFeed = await fetchChannelFeed(channelId, requestOptions);
+  const channelFeed = await fetchChannelFeed(channelId);
 
   if (channelFeed.channelFeed) {
     const jsonData: ChannelFeedType = xmlParser.parse(channelFeed.channelFeed);
@@ -173,8 +165,7 @@ export const getChannelFeed = async (
 };
 
 const fetchChannelFeed = async (
-  channelId: string,
-  channelOptions: Record<string, any>
+  channelId: string
 ): Promise<{
   channelFeed: string | null;
   requestError: string | null;
@@ -187,7 +178,9 @@ const fetchChannelFeed = async (
   do {
     i++;
     try {
-      const feed = await ofetch(feedUrl + channelId, channelOptions);
+      const feedResponse = await vtFetch(`${feedUrl}${channelId}`, { useProxy: true });
+      const feed = await feedResponse.body.text();
+
       if (typeof feed === 'string') {
         channelFeed = feed;
         requestError = null;

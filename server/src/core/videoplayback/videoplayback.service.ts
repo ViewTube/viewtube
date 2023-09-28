@@ -2,7 +2,7 @@ import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { URL } from 'node:url';
-import undici, { Dispatcher, ProxyAgent } from 'undici';
+import { vtFetch } from 'server/common/vtFetch';
 
 @Injectable()
 export class VideoplaybackService {
@@ -39,16 +39,9 @@ export class VideoplaybackService {
         origin: 'https://www.youtube.com'
       };
 
-      let dispatcher: ProxyAgent | undefined = undefined;
-
-      if (this.configService.get('VIEWTUBE_PROXY_URL')) {
-        dispatcher = new ProxyAgent(this.configService.get('VIEWTUBE_PROXY_URL'));
-      }
-
-      const fetchResponse = await undici.request(newUrl.toString(), {
-        method: request.raw.method as Dispatcher.HttpMethod,
-        headers,
-        dispatcher
+      const fetchResponse = await vtFetch(newUrl.toString(), {
+        method: request.raw.method,
+        headers
       });
 
       reply.headers({
@@ -72,7 +65,8 @@ export class VideoplaybackService {
         reply.header('location', `/api/videoplayback?${searchParams.toString()}`);
       }
 
-      reply.status(fetchResponse.statusCode).send(fetchResponse.body);
+      reply.status(fetchResponse.statusCode);
+      fetchResponse.body.pipe(reply.raw);
     } catch (error) {
       if (this.configService.get('NODE_ENV') !== 'production') {
         this.logger.log(error);

@@ -1,6 +1,6 @@
 import { Innertube, InnertubeConfig, UniversalCache } from 'youtubei.js';
 import path from 'path';
-// import { innertubeFetch } from './innertubeFetch';
+import { innertubeFetch } from './innertubeFetch';
 
 let cacheDirectory = './cache';
 if (process.env.VIEWTUBE_DATA_DIRECTORY) {
@@ -8,8 +8,8 @@ if (process.env.VIEWTUBE_DATA_DIRECTORY) {
 }
 
 const innertubeOptions: InnertubeConfig = {
-  cache: new UniversalCache(true, cacheDirectory)
-  // fetch: innertubeFetch
+  cache: new UniversalCache(true, cacheDirectory),
+  fetch: innertubeFetch
 };
 
 if (process.env.VIEWTUBE_YOUTUBE_COOKIE) {

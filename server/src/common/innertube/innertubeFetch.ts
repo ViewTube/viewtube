@@ -1,26 +1,17 @@
-import { HttpsProxyAgent } from 'https-proxy-agent';
-import { fetch } from 'ofetch';
-import { Request, RequestInit } from 'undici';
+import { ReferrerPolicy, Request, RequestInit } from 'undici';
+import { vtFetch } from '../vtFetch';
 
 type InputType = Request & {
   method?: string;
+  referrerPolicy?: ReferrerPolicy;
 };
 
-export const innertubeFetch = async (
-  input: InputType,
-  init?: RequestInit & { agent: HttpsProxyAgent<string> }
-) => {
-  if (!init) {
-    init = {} as RequestInit & { agent: HttpsProxyAgent<string> };
+export const innertubeFetch = async (input: InputType, init?: RequestInit) => {
+  if (typeof init !== 'object') {
+    init = {};
   }
 
-  if (process.env.VIEWTUBE_PROXY_URL) {
-    const proxy = process.env.VIEWTUBE_PROXY_URL;
-    const proxyAgent = new HttpsProxyAgent(proxy);
-    init.agent = proxyAgent;
-  }
-
-  let url;
+  let url: string;
 
   if (typeof input === 'string') {
     url = input;
@@ -30,11 +21,12 @@ export const innertubeFetch = async (
     url = input.url;
   }
 
-  return fetch(url, {
+  return vtFetch.rawFetch(url, {
+    ...(typeof input === 'string' ? {} : input),
+    ...init,
     method: init?.method ?? input?.method ?? 'GET',
     headers: init?.headers,
     body: init?.body,
-    ...(typeof input === 'string' ? {} : input),
-    ...init
+    useProxy: true
   });
 };
