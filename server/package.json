@@ -21,7 +21,7 @@
   "dependencies": {
     "@fastify/cookie": "9.1.0",
     "@fastify/helmet": "11.1.1",
-    "@fastify/multipart": "7.7.3",
+    "@fastify/multipart": "8.0.0",
     "@fastify/static": "6.11.2",
     "@fastify/swagger": "8.10.1",
     "@freetube/yt-comment-scraper": "6.2.0",
