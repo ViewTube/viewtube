@@ -1,40 +1,97 @@
-import undici, { Dispatcher, ProxyAgent, RequestInit } from 'undici';
+import undici, {
+  Dispatcher,
+  Headers,
+  HeadersInit,
+  ProxyAgent,
+  RequestInfo,
+  RequestInit,
+  Response
+} from 'undici';
 import { socksDispatcher } from 'fetch-socks';
 import { SocksProxy } from 'socks';
 import { destr } from 'destr';
+import { UrlObject } from 'url';
+import { getProxyUrl, proxyEnabled } from './proxyAgent';
 
-type VtFetchOptionsType = Omit<Dispatcher.RequestOptions, 'origin' | 'path' | 'method'> &
-  Partial<Pick<Dispatcher.RequestOptions, 'method'>> & {
-    useProxy?: boolean;
-  };
-
-type RequestOptionsType = { dispatcher?: Dispatcher } & Omit<
-  Dispatcher.RequestOptions,
-  'origin' | 'path'
->;
-
-const getProxyUrl = () => {
-  return process.env.VIEWTUBE_PROXY_URL;
+type VtFetchOptionsType = Omit<RequestOptionsType, 'dispatcher' | 'method' | 'headers'> & {
+  useProxy?: boolean;
+  method?: string;
+  headers?: Record<string, string> | HeadersInit;
 };
 
-export const vtFetch = async (url: string, options: VtFetchOptionsType = {}) => {
+type RequestOptionsType = {
+  dispatcher?: Dispatcher;
+  signal?: AbortSignal;
+} & Omit<Dispatcher.RequestOptions, 'origin' | 'path' | 'method' | 'signal'> &
+  Partial<Pick<Dispatcher.RequestOptions, 'method'>>;
+
+type VtFetchRawOptionsType = RequestInit & {
+  useProxy?: boolean;
+};
+
+const vtFetch = async <T = any>(
+  url: string | URL | UrlObject,
+  options: VtFetchOptionsType = {}
+): Promise<Dispatcher.ResponseData> => {
+  if (!options) options = {};
+
+  const { headers: rawHeaders, ...rawOptions } = options;
+
   const requestOptions: RequestOptionsType = {
-    method: options?.method ?? 'GET'
+    ...rawOptions,
+    method: (options?.method as Dispatcher.HttpMethod) ?? 'GET'
   };
 
-  if (options.useProxy) {
+  if (options.useProxy && proxyEnabled()) {
     const proxyUrl = getProxyUrl();
     const dispatcher = getDispatcher(proxyUrl);
     requestOptions.dispatcher = dispatcher;
   }
 
+  if (rawHeaders) {
+    if (rawHeaders instanceof Headers) {
+      const headers: Record<string, string> = {};
+      for (const [key, value] of rawHeaders.entries()) {
+        headers[key] = value;
+      }
+      requestOptions.headers = headers;
+    } else {
+      requestOptions.headers = rawHeaders as Record<string, string>;
+    }
+  }
+
   const response = await undici.request(url, requestOptions);
 
-  response.body.json = async () => {
+  const destrJson = async (): Promise<T> => {
     const data = await response.body.text();
     return destr(data);
   };
+
+  response.body.json = destrJson;
+
+  return response;
 };
+
+const vtFetchRaw = async (url: RequestInfo, options?: VtFetchRawOptionsType): Promise<Response> => {
+  if (!options) options = {};
+  const requestOptions = {
+    ...options,
+    method: options?.method ?? 'GET'
+  };
+
+  if (options.useProxy && proxyEnabled()) {
+    const proxyUrl = getProxyUrl();
+    const dispatcher = getDispatcher(proxyUrl);
+    requestOptions.dispatcher = dispatcher;
+  }
+
+  const response = await undici.fetch(url, options);
+  return response;
+};
+
+vtFetch.rawFetch = vtFetchRaw;
+
+export { vtFetch };
 
 const getDispatcher = (proxyUrl: string) => {
   if (proxyUrl.match(/^https?:\/\//)) {

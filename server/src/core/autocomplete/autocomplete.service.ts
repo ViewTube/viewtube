@@ -1,6 +1,6 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { TextDecoder } from 'node:util';
-import undici from 'undici';
+import { vtFetch } from 'server/common/vtFetch';
 
 @Injectable()
 export class AutocompleteService {
@@ -11,7 +11,7 @@ export class AutocompleteService {
 
   async getAutocompleteResult(query: string): Promise<Array<string>> {
     try {
-      const response = await undici.request(this.url + query);
+      const response = await vtFetch(this.url + query);
       const textDecoder = new TextDecoder('latin1');
       const arrayBufferData = await response.body.arrayBuffer();
       const data = textDecoder.decode(arrayBufferData);

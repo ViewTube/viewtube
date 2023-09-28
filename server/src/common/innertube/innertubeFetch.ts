@@ -1,28 +1,14 @@
-import { HttpsProxyAgent } from 'https-proxy-agent';
-import { fetch } from 'ofetch';
-import { Request, RequestInit } from 'undici';
-import { getProxyAgent, proxyEnabled } from '../proxyAgent';
-import { HttpProxyAgent } from 'http-proxy-agent';
-import { SocksProxyAgent } from 'socks-proxy-agent';
+import { ReferrerPolicy, Request, RequestInit } from 'undici';
+import { vtFetch } from '../vtFetch';
 
 type InputType = Request & {
   method?: string;
+  referrerPolicy?: ReferrerPolicy;
 };
 
-type InitType = RequestInit & {
-  agent?: HttpsProxyAgent<string> | HttpProxyAgent<string> | SocksProxyAgent;
-};
-
-export const innertubeFetch = async (
-  input: InputType,
-  init?: InitType
-) => {
-  if (!init) {
+export const innertubeFetch = async (input: InputType, init?: RequestInit) => {
+  if (typeof init !== 'object') {
     init = {};
-  }
-
-  if (proxyEnabled()) {
-    init.agent = getProxyAgent();
   }
 
   let url: string;
@@ -35,11 +21,12 @@ export const innertubeFetch = async (
     url = input.url;
   }
 
-  return fetch(url, {
+  return vtFetch.rawFetch(url, {
+    ...(typeof input === 'string' ? {} : input),
+    ...init,
     method: init?.method ?? input?.method ?? 'GET',
     headers: init?.headers,
     body: init?.body,
-    ...(typeof input === 'string' ? {} : input),
-    ...init
+    useProxy: true
   });
 };
