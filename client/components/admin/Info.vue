@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 const { data, refresh, pending } = useGetAdminInfo();
-
-const ipInfo = computed(() => !pending ?? data);
 </script>
 
 <template>
