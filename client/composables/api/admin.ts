@@ -10,6 +10,19 @@ export const useGetLogs = () => {
   );
 };
 
+export const useGetAdminInfo = () => {
+  const { apiUrl } = useApiUrl();
+  const { vtFetch } = useVtFetch();
+
+  return useLazyAsyncData<ApiDto<'InfoDto'>>(
+    'admin-info',
+    () => vtFetch(`${apiUrl.value}admin/info`),
+    {
+      server: false
+    }
+  );
+};
+
 export const useGetBlockedVideos = () => {
   const { apiUrl } = useApiUrl();
 

@@ -7,6 +7,9 @@ import { createReadStream, existsSync } from 'fs';
 import { InjectModel } from '@nestjs/mongoose';
 import { BlockedVideo } from './schemas/blocked-video';
 import { Model } from 'mongoose';
+import { InfoDto } from './dto/info.dto';
+import { vtFetch } from 'server/common/vtFetch';
+import { proxyEnabled } from 'server/common/proxyAgent';
 
 @Injectable()
 export class AdminService {
@@ -15,6 +18,36 @@ export class AdminService {
     @InjectModel(BlockedVideo.name)
     private readonly blockedVideoModel: Model<BlockedVideo>
   ) {}
+
+  async getInfo(): Promise<InfoDto> {
+    const serverIpV4Response: any = await vtFetch('https://api.ipify.org?format=json').then(res =>
+      res.body.json()
+    );
+
+    const serverIpV6Response: any = await vtFetch('https://api64.ipify.org?format=json').then(res =>
+      res.body.json()
+    );
+
+    let proxyIpV4Response: any = { ip: null };
+    let proxyIpV6Response: any = { ip: null };
+
+    if (proxyEnabled()) {
+      proxyIpV4Response = await vtFetch('https://api.ipify.org?format=json', {
+        useProxy: true
+      }).then(res => res.body.json());
+
+      proxyIpV6Response = await vtFetch('https://api64.ipify.org?format=json', {
+        useProxy: true
+      }).then(res => res.body.json());
+    }
+
+    return {
+      serverIpV4: serverIpV4Response.ip,
+      serverIpV6: serverIpV6Response.ip,
+      proxyIpV4: proxyIpV4Response.ip ?? 'No proxy configuration detected',
+      proxyIpV6: proxyIpV6Response.ip ?? 'No proxy configuration detected'
+    };
+  }
 
   async getLogs(): Promise<LogsDto> {
     let logFolder = resolve(__dirname, '../logs');
