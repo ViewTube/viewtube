@@ -41,7 +41,8 @@ export class VideoplaybackService {
 
       const fetchResponse = await vtFetch(newUrl.toString(), {
         method: request.raw.method,
-        headers
+        headers,
+        useProxy: true
       });
 
       reply.headers({
