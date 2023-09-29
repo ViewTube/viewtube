@@ -11,7 +11,6 @@ import {
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { DislikeDto } from 'server/core/videos/dto/dislike.dto';
-import undici from 'undici';
 import { BlockedVideo } from 'server/user/admin/schemas/blocked-video';
 import { innertubeClient } from 'server/common/innertube/innertube';
 import { toVTVideoInfoDto } from 'server/mapper/converter/video-info/vt-video-info.converter';
@@ -73,7 +72,7 @@ export class VideosService {
   }
 
   async getDislikes(id: string): Promise<DislikeDto> {
-    const { body } = await undici.request(`${this.returnYoutubeDislikeUrl}/Votes?videoId=${id}`);
+    const { body } = await vtFetch(`${this.returnYoutubeDislikeUrl}/Votes?videoId=${id}`);
 
     if (body) {
       const responseObject = (await body.json()) as DislikeDto & { status?: number };
