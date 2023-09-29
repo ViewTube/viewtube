@@ -10,19 +10,6 @@ export class ProxyService {
     private readonly logger: Logger
   ) {}
 
-  async proxyText(url: string, local: boolean): Promise<string> {
-    try {
-      const fetchResponse = await vtFetch(url, { useProxy: !local });
-      const responseString = await fetchResponse.body.text();
-      if (responseString) {
-        return responseString;
-      }
-    } catch (error) {
-      throw new InternalServerErrorException(error);
-    }
-    throw new InternalServerErrorException('Error fetching url');
-  }
-
   async proxyImage(url: string, reply: FastifyReply, local: boolean): Promise<void> {
     try {
       const imageResponse = await vtFetch(url, { useProxy: !local });

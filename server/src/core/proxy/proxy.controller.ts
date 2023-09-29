@@ -10,13 +10,6 @@ import { BypassAuth } from 'server/auth/decorators/bypass-auth.decorator';
 export class ProxyController {
   constructor(private proxyService: ProxyService) {}
 
-  @Get('text')
-  @Header('Content-Type', 'text/plain')
-  @Header('Cache-Control', 'public, max-age=28800')
-  getText(@Query('url') url: string, @Query('local') local: boolean): Promise<string> {
-    return this.proxyService.proxyText(url, local);
-  }
-
   @Get('image')
   @Header('Cache-Control', 'public, max-age=14400')
   @Header('Content-Type', 'image/jpeg')
