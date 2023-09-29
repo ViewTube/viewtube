@@ -1,6 +1,8 @@
 <template>
   <div class="admin">
     <MetaPageHead title="Admin" description="Admin page" />
+    <SectionTitle title="Info" />
+    <AdminInfo />
     <SectionTitle title="Logs" />
     <AdminLogFiles />
     <SectionTitle title="Blocked videos" />

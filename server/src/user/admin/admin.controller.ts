@@ -13,6 +13,7 @@ import { AdminGuard } from 'server/auth/guards/admin.guard';
 import { AdminService } from './admin.service';
 import { LogsDto } from './dto/logs.dto';
 import { Private } from 'server/auth/decorators/private.decorator';
+import { InfoDto } from './dto/info.dto';
 
 @ApiTags('Admin')
 @UseGuards(AdminGuard)
@@ -21,6 +22,11 @@ import { Private } from 'server/auth/decorators/private.decorator';
 @Controller('admin')
 export class AdminController {
   constructor(private adminService: AdminService) {}
+
+  @Get('info')
+  getInfo(): Promise<InfoDto> {
+    return this.adminService.getInfo();
+  }
 
   @Get('logs')
   getLogs(): Promise<LogsDto> {
