@@ -13,7 +13,7 @@ export class ProxyController {
   @Get('text')
   @Header('Content-Type', 'text/plain')
   @Header('Cache-Control', 'public, max-age=28800')
-  getText(@Query('url') url: string, @Query('local') local = true): Promise<string> {
+  getText(@Query('url') url: string, @Query('local') local: boolean): Promise<string> {
     return this.proxyService.proxyText(url, local);
   }
 
@@ -22,7 +22,7 @@ export class ProxyController {
   @Header('Content-Type', 'image/jpeg')
   async getQuery(
     @Query('url') url: string,
-    @Query('local') local = false,
+    @Query('local') local: boolean,
     @Res() reply: FastifyReply
   ): Promise<void> {
     await this.proxyService.proxyImage(url, reply, local);
