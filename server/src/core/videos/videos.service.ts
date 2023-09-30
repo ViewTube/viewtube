@@ -16,12 +16,16 @@ import { innertubeClient } from 'server/common/innertube/innertube';
 import { toVTVideoInfoDto } from 'server/mapper/converter/video-info/vt-video-info.converter';
 import { VTVideoInfoDto } from 'server/mapper/dto/vt-video-info.dto';
 import { vtFetch } from 'server/common/vtFetch';
+import { VideoBasicInfo } from './schemas/video-basic-info.schema';
+import { VideoBasicInfoDto } from './dto/video-basic-info.dto';
 
 @Injectable()
 export class VideosService {
   constructor(
     @InjectModel(BlockedVideo.name)
-    private readonly blockedVideoModel: Model<BlockedVideo>
+    private readonly blockedVideoModel: Model<BlockedVideo>,
+    @InjectModel(VideoBasicInfo.name)
+    private readonly VideoBasicInfoModel: Model<VideoBasicInfo>
   ) {}
 
   returnYoutubeDislikeUrl = 'https://returnyoutubedislikeapi.com';
@@ -65,6 +69,29 @@ export class VideosService {
       const video = toVTVideoInfoDto(videoInfo as unknown, {
         dashManifest
       });
+
+      const videoBasicInfo: VideoBasicInfoDto = {
+        author: video.author.name,
+        authorId: video.author.id,
+        authorThumbnails: video.author.thumbnails,
+        authorThumbnailUrl: video.author.thumbnails[0].url,
+        authorVerified: video.author.isVerified,
+        description: video.description,
+        likeCount: video.likeCount,
+        lengthSeconds: video.duration.seconds,
+        lengthString: video.duration.text,
+        publishedText: video.published.text,
+        published: video.published.date.getTime(),
+        title: video.title,
+        videoId: video.id,
+        videoThumbnails: video.thumbnails,
+        viewCount: video.viewCount,
+        live: video.live
+      };
+      await this.VideoBasicInfoModel.findOneAndUpdate({ videoId: id }, videoBasicInfo, {
+        upsert: true
+      }).exec();
+
       return video;
     } catch (error) {
       throw new InternalServerErrorException(error);

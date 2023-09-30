@@ -13,7 +13,7 @@ const messagesStore = useMessagesStore();
 const settingsStore = useSettingsStore();
 const userStore = useUserStore();
 
-const { apiUrl } = useApiUrl();
+const { apiUrl } = useApiUrl(true);
 const { vtFetch } = useVtFetch();
 const router = useRouter();
 
@@ -24,10 +24,9 @@ const repeatedUsername = ref('');
 const profileImageLoading = ref(false);
 const passwordChangePopup = ref(false);
 const profileImageUrl = computed(() => {
-  if (profile.value.profileImage) {
+  if (profile.value?.profileImage) {
     const imgUrl = profile.value.profileImage.replace('/api/', '');
-    const random = Math.random() * (0 - 1000) + 0;
-    return `${apiUrl.value}${imgUrl}?r=${random}`;
+    return `url(${apiUrl.value}${imgUrl})`;
   } else {
     return null;
   }
@@ -96,17 +95,36 @@ const onProfileImageChange = (e: any) => {
     body: formData,
     credentials: 'include'
   })
-    .then(async response => {
-      if (response.path) {
-        messagesStore.createMessage({
-          type: 'info',
-          title: 'New profile image',
-          message: 'Successfully set new profile image'
-        });
-        await refresh();
+    .then(
+      async response => {
+        if (response.path) {
+          messagesStore.createMessage({
+            type: 'info',
+            title: 'New profile image',
+            message: 'Successfully set new profile image'
+          });
+          await refresh();
+          profileImageLoading.value = false;
+        }
+      },
+      reason => {
+        if (reason?.message?.toLowerCase().includes('too large')) {
+          messagesStore.createMessage({
+            type: 'error',
+            title: 'Image is too large',
+            message: 'Maximum file size is 4MB'
+          });
+        } else {
+          messagesStore.createMessage({
+            type: 'error',
+            title: 'Error saving profile image',
+            message: reason?.message ?? 'Unknown error'
+          });
+        }
+        console.log(reason.message);
         profileImageLoading.value = false;
       }
-    })
+    )
     .catch(err => {
       if (err && err.response.data.message && err.response.data.message.match(/.*too large.*/i)) {
         messagesStore.createMessage({
@@ -173,7 +191,6 @@ const logout = () => {
             <VTIcon v-if="!profileImageUrl && !profileImageLoading" name="mdi:account-circle" />
             <div
               v-if="profileImageUrl && !profileImageLoading"
-              :style="{ 'background-image': `url(${profileImageUrl})` }"
               alt="Profile image"
               class="profile-image"
             />
@@ -443,6 +460,7 @@ const logout = () => {
             background-position: center;
             background-repeat: no-repeat;
             border-radius: 15px;
+            background-image: v-bind(profileImageUrl);
           }
 
           .upload-profile-btn,

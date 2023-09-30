@@ -99,6 +99,7 @@ const deleteEntry = async (videoId: string) => {
       padding-right: 230px;
       padding-bottom: 129.375px;
       width: 0;
+      overflow: hidden;
 
       @media screen and (max-width: $mobile-width) {
         padding-right: 160px;

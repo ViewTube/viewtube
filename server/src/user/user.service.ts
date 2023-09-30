@@ -33,6 +33,7 @@ import { Session, SessionDocument } from 'server/auth/schemas/session.schema';
 import dayjs from 'dayjs';
 import { SESSION_EXPIRATION } from 'server/auth/constants/session';
 import { SessionDto } from './dto/session.dto';
+import sharp from 'sharp';
 
 @Injectable()
 export class UserService {
@@ -179,7 +180,7 @@ export class UserService {
         }
         let folderPath = 'profiles';
         const nonce = crypto.randomBytes(12).toString('base64');
-        let imgPath = `profiles/${username}-${nonce}.${extension}`;
+        let imgPath = `profiles/${username}-${encodeURIComponent(nonce)}.${extension}`;
 
         if (global.__basedir) {
           imgPath = path.join(global.__basedir, imgPath);
@@ -225,8 +226,13 @@ export class UserService {
           if (this.configService.get('NODE_ENV') !== 'production') {
             filePath = path.resolve('.', user.profileImage);
           }
-          const fileStream = fs.createReadStream(filePath);
-          reply.type('image/webp').send(fileStream);
+          const webpImage = await sharp(filePath)
+            .resize(128)
+            .webp()
+            .toBuffer()
+            .catch(() => {});
+
+          reply.type('image/webp').send(webpImage);
         } catch (error) {
           throw new InternalServerErrorException('Error getting photo');
         }

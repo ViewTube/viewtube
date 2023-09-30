@@ -65,7 +65,7 @@ const {
     }).catch((_: any) => {});
 
     if (videoVisit?.progressSeconds > 0) {
-      initialVideoTime = videoVisit.data.progressSeconds;
+      initialVideoTime = videoVisit?.progressSeconds;
     } else if (userStore.isLoggedIn) {
       vtFetch(`${apiUrl.value}user/history/${route.query.v}`, {
         body: {

@@ -11,15 +11,15 @@ import { VTVideoInfoDto } from 'server/mapper/dto/vt-video-info.dto';
 export class VideosController {
   constructor(private readonly videosService: VideosService) {}
 
-  @CacheTTL(3600000)
-  @Header('Cache-Control', 'public, max-age=3600')
+  @CacheTTL(300000)
+  @Header('Cache-Control', 'public, max-age=300')
   @Get(':id')
   getVideos(@Param('id') id: string): Promise<VTVideoInfoDto> {
     return this.videosService.getById(id);
   }
 
-  @CacheTTL(3600000)
-  @Header('Cache-Control', 'public, max-age=3600')
+  @CacheTTL(300000)
+  @Header('Cache-Control', 'public, max-age=300')
   @Header('Content-Type', 'application/dash+xml')
   @Get('dash/:id')
   getDash(@Param('id') id: string): Promise<string> {
