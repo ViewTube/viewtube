@@ -7,5 +7,5 @@ export class UserprofileDto {
 
   settings: SettingsDto;
 
-  admin: boolean;
+  admin?: boolean;
 }

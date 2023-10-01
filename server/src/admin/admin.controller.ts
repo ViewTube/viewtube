@@ -14,6 +14,8 @@ import { AdminService } from './admin.service';
 import { LogsDto } from './dto/logs.dto';
 import { Private } from 'server/auth/decorators/private.decorator';
 import { InfoDto } from './dto/info.dto';
+import { UserDto } from 'server/user/user.dto';
+import { UserprofileDto } from 'server/user/dto/userprofile.dto';
 
 @ApiTags('Admin')
 @UseGuards(AdminGuard)
@@ -56,5 +58,10 @@ export class AdminController {
   @Delete('blocked-videos/:id')
   async delete(@Param('id') id: string): Promise<void> {
     return this.adminService.unblockVideoId(id);
+  }
+
+  @Post('users')
+  async createUser(@Body() user: UserDto): Promise<UserprofileDto> {
+    return this.adminService.createUser(user);
   }
 }

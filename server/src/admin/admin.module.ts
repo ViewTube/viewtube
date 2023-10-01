@@ -6,6 +6,7 @@ import { CacheConfigService } from 'server/cache-config.service';
 import { AdminService } from './admin.service';
 import { AdminController } from './admin.controller';
 import { BlockedVideo, BlockedVideoSchema } from './schemas/blocked-video';
+import { UserModule } from '../user/user.module';
 
 const moduleMetadata: ModuleMetadata = {
   imports: [
@@ -19,7 +20,8 @@ const moduleMetadata: ModuleMetadata = {
         schema: BlockedVideoSchema,
         collection: 'blocked-videos'
       }
-    ])
+    ]),
+    UserModule
   ],
   controllers: [AdminController],
   providers: [AdminService],

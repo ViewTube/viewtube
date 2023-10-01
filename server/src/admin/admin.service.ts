@@ -10,13 +10,17 @@ import { Model } from 'mongoose';
 import { InfoDto } from './dto/info.dto';
 import { vtFetch } from 'server/common/vtFetch';
 import { proxyEnabled } from 'server/common/proxyAgent';
+import { UserprofileDto } from '../user/dto/userprofile.dto';
+import { UserService } from '../user/user.service';
+import { UserDto } from '../user/user.dto';
 
 @Injectable()
 export class AdminService {
   constructor(
     private configService: ConfigService,
     @InjectModel(BlockedVideo.name)
-    private readonly blockedVideoModel: Model<BlockedVideo>
+    private readonly blockedVideoModel: Model<BlockedVideo>,
+    private userService: UserService
   ) {}
 
   async getInfo(): Promise<InfoDto> {
@@ -85,6 +89,11 @@ export class AdminService {
       logFiles: logs,
       location: logFolder
     };
+  }
+
+  async createUser(user: UserDto): Promise<UserprofileDto> {
+    const createdUser = await this.userService.create(user);
+    return createdUser;
   }
 
   async dowloadLogFile(logFile: string): Promise<StreamableFile> {

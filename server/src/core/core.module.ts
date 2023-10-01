@@ -21,7 +21,7 @@ import { HomepageModule } from './homepage/homepage.module';
 import { ProxyModule } from './proxy/proxy.module';
 import { CommentsModule } from './comments/comments.module';
 import { PlaylistsModule } from './playlists/playlists.module';
-import { BlockedVideo, BlockedVideoSchema } from 'server/user/admin/schemas/blocked-video';
+import { BlockedVideo, BlockedVideoSchema } from 'server/admin/schemas/blocked-video';
 
 const moduleMetadata: ModuleMetadata = {
   imports: [

@@ -3,6 +3,8 @@
     <MetaPageHead title="Admin" description="Admin page" />
     <SectionTitle title="Info" />
     <AdminInfo />
+    <SectionTitle title="Users" />
+    <AdminUsers />
     <SectionTitle title="Logs" />
     <AdminLogFiles />
     <SectionTitle title="Blocked videos" />

@@ -9,7 +9,7 @@ import { SubscriptionsModule } from './subscriptions/subscriptions.module';
 import { NotificationsModule } from './notifications/notifications.module';
 import { SettingsModule } from './settings/settings.module';
 import { HistoryModule } from './history/history.module';
-import { AdminModule } from './admin/admin.module';
+import { AdminModule } from '../admin/admin.module';
 import { Session, SessionSchema } from 'server/auth/schemas/session.schema';
 
 const moduleMetadata: ModuleMetadata = {
@@ -32,8 +32,7 @@ const moduleMetadata: ModuleMetadata = {
     SubscriptionsModule,
     NotificationsModule,
     SettingsModule,
-    HistoryModule,
-    AdminModule
+    HistoryModule
   ],
   providers: [UserService, Logger],
   controllers: [UserController],

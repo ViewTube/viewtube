@@ -25,7 +25,7 @@ import { HistoryModule } from './user/history/history.module';
 import { NotificationsModule } from './user/notifications/notifications.module';
 import { SettingsModule } from './user/settings/settings.module';
 import { SubscriptionsModule } from './user/subscriptions/subscriptions.module';
-import { AdminModule } from './user/admin/admin.module';
+import { AdminModule } from './admin/admin.module';
 
 const prefixApi = (modules: Type<any>[]) => modules.map(module => ({ path: 'api', module }));
 
@@ -81,6 +81,7 @@ const moduleMetadata: ModuleMetadata = {
     CoreModule,
     UserModule,
     NuxtModule,
+    AdminModule,
     RouterModule.register(
       prefixApi([
         AuthModule,

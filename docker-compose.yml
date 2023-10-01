@@ -16,7 +16,8 @@ services:
       VIEWTUBE_DATABASE_HOST: viewtube-db
       VIEWTUBE_REDIS_HOST: viewtube-redis
       VIEWTUBE_DATA_DIRECTORY: /data
-      VIEWTUBE_CLUSTERED: 'false'
+      VIEWTUBE_CLUSTERED: false
+      VIEWTUBE_ADMIN_USER: admin
 
   viewtube-db:
     image: mongo

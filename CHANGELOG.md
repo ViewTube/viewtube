@@ -64,11 +64,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Reworked authentication with new devices interface in profile [#2186](https://github.com/ViewTube/viewtube/pull/2186)
+- Add support for socks proxies [#2269](https://github.com/ViewTube/viewtube/pull/2269)
 
 ### Fixed
 
 - Make client cookie logic more robust [#2259](https://github.com/ViewTube/viewtube/pull/2259)
 - Upgrade packages and cleanup unused [#2261](https://github.com/ViewTube/viewtube/pull/2261)
+- Fix history and profile page [#2282](https://github.com/ViewTube/viewtube/pull/2282)
 
 ## [0.12.2]
 

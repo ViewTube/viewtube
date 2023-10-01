@@ -16,13 +16,9 @@ export const useGetAdminInfo = () => {
   const { apiUrl } = useApiUrl();
   const { vtFetch } = useVtFetch();
 
-  return useLazyAsyncData<ApiDto<'InfoDto'>>(
-    'admin-info',
-    () => vtFetch(`${apiUrl.value}admin/info`),
-    {
-      server: false
-    }
-  );
+  return useLazyAsyncData('admin-info', () => vtFetch(`${apiUrl.value}admin/info`), {
+    server: false
+  });
 };
 
 export const useGetBlockedVideos = () => {
@@ -35,4 +31,17 @@ export const useGetBlockedVideos = () => {
       server: false
     }
   );
+};
+
+export const useCreateUser = () => {
+  const { apiUrl } = useApiUrl();
+  const { vtFetch } = useVtFetch();
+
+  const createUser = async (data: { username: string; password: string }) => {
+    return vtFetch<ApiDto<'UserprofileDto'>>(`${apiUrl.value}admin/users`, {
+      method: 'POST',
+      body: data
+    });
+  };
+  return { createUser };
 };
