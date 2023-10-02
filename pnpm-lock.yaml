@@ -297,8 +297,8 @@ importers:
         specifier: 1.6.11
         version: 1.6.11
       youtubei.js:
-        specifier: 6.4.0
-        version: 6.4.0
+        specifier: 6.4.1
+        version: 6.4.1
       ytpl:
         specifier: 2.3.0
         version: 2.3.0
@@ -13297,8 +13297,8 @@ packages:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
 
-  /youtubei.js@6.4.0:
-    resolution: {integrity: sha512-c3Hj+9JmMchVWusVOubHDNrvKybzai1vWzZsVIZ9oxt74W0zaP78S0pPW21i/RnVBx29rAA2+ojs56b/REP/1A==}
+  /youtubei.js@6.4.1:
+    resolution: {integrity: sha512-GVrDkJmF5t378SeDiZPEAoegZ1pxjbEzNyXTuiQnL5LzPSZKA3IoJwL8lBNlRMKyksI5RbieoHzULsEt4AIbFw==}
     dependencies:
       jintr: 1.1.0
       tslib: 2.6.2
