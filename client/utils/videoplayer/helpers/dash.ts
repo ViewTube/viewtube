@@ -7,15 +7,6 @@ export class DashHelper {
         this.dashPlayerInstance = MediaPlayer().create();
         this.videoRef = videoRef;
 
-        this.dashPlayerInstance.updateSettings({
-          streaming: {
-            abr: {
-              limitBitrateByPortal: true,
-              usePixelRatioInLimitBitrateByPortal: true
-            }
-          }
-        });
-
         this.videoAutoSwitchingMode =
           this.dashPlayerInstance.getSettings().streaming.abr.autoSwitchBitrate.video;
         this.audioAutoSwitchingMode =

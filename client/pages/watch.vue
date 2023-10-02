@@ -301,7 +301,7 @@ const watchPageTitle = computed(() => {
     <VideoLoadingTemplate v-if="videoPending" />
     <!-- <video v-if="!jsEnabled" controls :src="getHDUrl()" class="nojs-player" /> -->
     <WatchVideoError v-if="videoError" :error="videoError" />
-    <VideoPlayer
+    <!-- <VideoPlayer
       v-if="video && !videoPending"
       :key="video.id"
       ref="videoplayerRef"
@@ -310,7 +310,9 @@ const watchPageTitle = computed(() => {
       :autoplay="isAutoplaying"
       class="video-player-p"
       @video-ended="onVideoEnded"
-    />
+    /> -->
+    <VideoPlayer2 v-if="video && !videoPending" :video="video" />
+
     <div v-if="video && !videoPending" class="video-meta">
       <div class="recommended-videos mobile">
         <NextUpVideo v-if="nextUpVideo && settingsStore.autoplayNextVideo" :video="nextUpVideo" />
