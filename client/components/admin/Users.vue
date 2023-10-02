@@ -3,7 +3,7 @@
 <template>
   <div class="admin-users">
     <SectionSubtitle title="Options" />
-
+    <AdminUserManagement />
     <AdminCreateUser />
   </div>
 </template>
