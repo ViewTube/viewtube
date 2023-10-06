@@ -1,56 +1,36 @@
 <script setup lang="ts">
-import 'shaka-player/dist/controls.css';
 import { ApiDto } from '@/utils/shared';
+
 const props = defineProps<{
   video: ApiDto<'VTVideoInfoDto'>;
+  startTime?: number;
 }>();
-
-const shaka = ref(null);
-
 const videoRef = ref<HTMLVideoElement | null>(null);
+const video = toRef(props, 'video');
+const startTime = toRef(props, 'startTime');
 
-onBeforeMount(async () => {
-  // @ts-expect-error
-  shaka.value = await import('shaka-player/dist/shaka-player.ui.js');
+const { proxyUrl } = useImgProxy();
+const { videoSource, adapterType } = useVideoSource(video);
 
-  if (shaka.value) {
-    shaka.value.polyfill.installAll();
-
-    const ui = videoRef.value['ui'];
-    const controls = ui.getControls();
-    const player = controls.getPlayer();
-
-    const videoPlaybackProxy = `${window.location.origin}/api`;
-
-    const manifest = props.video.dashManifest.replace(
-      /https:\/\/.*?.googlevideo\.com/gi,
-      videoPlaybackProxy
-    );
-    const manifestUrl = 'data:application/dash+xml;charset=utf-8;base64,' + btoa(manifest);
-
-    await player.load(manifestUrl);
-  }
-});
+const { videoState } = useVideoState(videoRef, adapterType, videoSource, startTime);
 </script>
 
 <template>
   <div class="video-player-2">
-    <div data-shaka-player-container>
-      <video
-        id="video"
-        ref="videoRef"
-        autoplay
-        data-shaka-player
-        style="width: 100%; height: 100%"
-      ></video>
-    </div>
+    <video ref="videoRef" class="video-2" :poster="proxyUrl(video.thumbnails[0].url)" />
   </div>
+  {{ videoState }}
 </template>
 
 <style lang="scss" scoped>
 .video-player-2 {
+  max-height: calc(100vh - 170px);
+  height: 56.25vw;
+  display: flex;
+  background-color: #000;
+
   .video-2 {
-    width: 100%;
+    margin: 0 auto;
   }
 }
 </style>

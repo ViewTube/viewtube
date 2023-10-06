@@ -1,53 +1,79 @@
-import {
-  EventListenerCallback,
-  VideoplaybackAdapter,
-  VideoplaybackAdapterResponse
-} from './adapter';
+import { EventListenerCallback, VideoplaybackAdapter } from './adapter';
 
 export const dashAdapter: VideoplaybackAdapter = async options => {
   const { source, startTime, videoRef } = options;
   const dashjs = await import('dashjs');
   const mediaPlayer = dashjs.MediaPlayer().create();
 
-  const onPlaybackStarted = (callback: EventListenerCallback) => {
-    mediaPlayer.on(dashjs.MediaPlayer.events.PLAYBACK_STARTED, callback);
+  const registerCallback = (event: string) => (callback: EventListenerCallback) => {
+    mediaPlayer.on(event, callback);
   };
 
-  const onPlaybackPaused = (callback: EventListenerCallback) => {
-    mediaPlayer.on(dashjs.MediaPlayer.events.PLAYBACK_PAUSED, callback);
+  // Register callbacks
+  const onPlaybackStarted = registerCallback(dashjs.MediaPlayer.events.PLAYBACK_STARTED);
+  const onPlaybackPaused = registerCallback(dashjs.MediaPlayer.events.PLAYBACK_PAUSED);
+  const onPlaybackTimeUpdated = registerCallback(dashjs.MediaPlayer.events.PLAYBACK_TIME_UPDATED);
+  const onStreamActivated = registerCallback(dashjs.MediaPlayer.events.STREAM_ACTIVATED);
+  const onStreamDeactivated = registerCallback(dashjs.MediaPlayer.events.STREAM_DEACTIVATED);
+  const onStreamTeardownComplete = registerCallback(
+    dashjs.MediaPlayer.events.STREAM_TEARDOWN_COMPLETE
+  );
+  const onTextTracksAdded = registerCallback(dashjs.MediaPlayer.events.TEXT_TRACKS_ADDED);
+  const onBufferLevelUpdated = registerCallback(dashjs.MediaPlayer.events.BUFFER_LEVEL_UPDATED);
+  const onCanPlay = registerCallback(dashjs.MediaPlayer.events.CAN_PLAY);
+  const onWaiting = registerCallback(dashjs.MediaPlayer.events.PLAYBACK_WAITING);
+  const onVolumeChanged = registerCallback(dashjs.MediaPlayer.events.PLAYBACK_VOLUME_CHANGED);
+  const onPlaybackRateChanged = registerCallback(dashjs.MediaPlayer.events.PLAYBACK_RATE_CHANGED);
+
+  // Getters
+  const getBufferLevel = () => {
+    let bufferLevel = 0;
+    if (typeof mediaPlayer.getDashMetrics === 'function') {
+      const dashMetrics = mediaPlayer.getDashMetrics();
+      if (dashMetrics) {
+        bufferLevel = dashMetrics.getCurrentBufferLevel('video');
+        if (!bufferLevel) {
+          bufferLevel = dashMetrics.getCurrentBufferLevel('audio');
+        }
+      }
+    }
+    return bufferLevel;
+  };
+  const getTime = mediaPlayer.time;
+  const getDuration = mediaPlayer.duration;
+  const getVolume = mediaPlayer.getVolume;
+  const getPlaybackRate = mediaPlayer.getPlaybackRate;
+
+  // Setters
+  const setVolume = (volume: number) => {
+    mediaPlayer.setVolume(volume);
+  };
+  const setTime = (time: number) => {
+    mediaPlayer.seek(time);
+  };
+  const setPlaybackRate = (rate: number) => {
+    mediaPlayer.setPlaybackRate(rate);
+  };
+  const play = () => {
+    mediaPlayer.play();
+  };
+  const pause = () => {
+    mediaPlayer.pause();
   };
 
-  const onPlaybackTimeUpdated = (callback: EventListenerCallback) => {
-    mediaPlayer.on(dashjs.MediaPlayer.events.PLAYBACK_TIME_UPDATED, callback);
-  };
-
-  const onStreamActivated = (callback: EventListenerCallback) => {
-    mediaPlayer.on(dashjs.MediaPlayer.events.STREAM_ACTIVATED, callback);
-  };
-
-  const onStreamDeactivated = (callback: EventListenerCallback) => {
-    mediaPlayer.on(dashjs.MediaPlayer.events.STREAM_DEACTIVATED, callback);
-  };
-
-  const onStreamTeardownComplete = (callback: EventListenerCallback) => {
-    mediaPlayer.on(dashjs.MediaPlayer.events.STREAM_TEARDOWN_COMPLETE, callback);
-  };
-
-  const onTextTracksAdded = (callback: EventListenerCallback) => {
-    mediaPlayer.on(dashjs.MediaPlayer.events.TEXT_TRACKS_ADDED, callback);
-  };
-
-  const onBufferLevelUpdated = (callback: EventListenerCallback) => {
-    mediaPlayer.on(dashjs.MediaPlayer.events.BUFFER_LEVEL_UPDATED, callback);
-  };
-
+  // Initialize player
   watch(source, (newValue, oldValue) => {
     if (newValue !== oldValue) {
-      mediaPlayer.initialize(videoRef.value, source.value, false, startTime.value);
+      const startTimeNumber = startTime?.value ?? 0;
+      mediaPlayer.initialize(videoRef.value, source.value, false, startTimeNumber);
     }
   });
+  const startTimeNumber = startTime?.value ?? 0;
+  mediaPlayer.initialize(videoRef.value, source.value, false, startTimeNumber);
 
-  mediaPlayer.initialize(videoRef.value, source.value, false, startTime.value);
+  const destroy = () => {
+    mediaPlayer.destroy();
+  };
 
   return {
     onPlaybackStarted,
@@ -57,6 +83,23 @@ export const dashAdapter: VideoplaybackAdapter = async options => {
     onStreamDeactivated,
     onStreamTeardownComplete,
     onTextTracksAdded,
-    onBufferLevelUpdated
+    onBufferLevelUpdated,
+    onPlaybackRateChanged,
+    onCanPlay,
+    onWaiting,
+    onVolumeChanged,
+
+    getTime,
+    getDuration,
+    getBufferLevel,
+    getPlaybackRate,
+
+    getVolume,
+    setVolume,
+    setTime,
+    setPlaybackRate,
+    play,
+    pause,
+    destroy
   };
 };

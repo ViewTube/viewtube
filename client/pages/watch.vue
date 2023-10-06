@@ -311,8 +311,11 @@ const watchPageTitle = computed(() => {
       class="video-player-p"
       @video-ended="onVideoEnded"
     /> -->
-    <VideoPlayer2 v-if="video && !videoPending" :video="video" />
-
+    <VideoPlayer2
+      v-if="video && !videoPending"
+      :video="video"
+      :start-time="video.initialVideoTime"
+    />
     <div v-if="video && !videoPending" class="video-meta">
       <div class="recommended-videos mobile">
         <NextUpVideo v-if="nextUpVideo && settingsStore.autoplayNextVideo" :video="nextUpVideo" />
