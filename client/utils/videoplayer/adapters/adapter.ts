@@ -3,6 +3,8 @@ import type { BitrateInfo, MediaInfo } from 'dashjs';
 export type EventListenerCallback = (e: any) => void;
 
 export interface VideoplaybackAdapterResponse {
+  type: 'dash' | 'hls' | 'native';
+
   onPlaybackStarted: (callback: EventListenerCallback) => void;
   onPlaybackPaused: (callback: EventListenerCallback) => void;
   onPlaybackTimeUpdated: (callback: EventListenerCallback) => void;

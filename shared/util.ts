@@ -39,7 +39,7 @@ export const getTimestampFromSeconds = (seconds: number) => {
   if (secondsLeft < 10) {
     timestamp += '0';
   }
-  timestamp += secondsLeft;
+  timestamp += secondsLeft.toFixed(0);
 
   return timestamp;
 };

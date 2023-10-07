@@ -3,20 +3,7 @@ import {
   VideoplaybackAdapterType
 } from '@/utils/videoplayer/adapters/adapter';
 
-export type VideoState = {
-  playing: boolean;
-  buffering: boolean;
-  bufferLevel: number;
-  currentTime: number;
-  duration: number;
-  volume: number;
-  loop: boolean;
-  speed: number;
-  videoQualityList: string[];
-  audioQualityList: string[];
-  videoTrackList: string[];
-  audioTrackList: string[];
-};
+export type VideoState = ReturnType<typeof useVideoState>;
 
 export const useVideoState = (
   videoElementRef: Ref<HTMLVideoElement>,
@@ -43,13 +30,19 @@ export const useVideoState = (
 
   const instantiateAdapter = async () => {
     if (adapterInstance.value) {
-      adapterInstance.value.destroy();
-      adapterInstance.value = undefined;
+      // adapterInstance.value.destroy();
+      // adapterInstance.value = undefined;
     }
 
     switch (adapterType.value) {
       case 'dash':
-        adapterInstance.value = await dashAdapter({ videoRef: videoElementRef, source, startTime });
+        if (adapterInstance.value?.type !== 'dash') {
+          adapterInstance.value = await dashAdapter({
+            videoRef: videoElementRef,
+            source,
+            startTime
+          });
+        }
         break;
       case 'hls':
       case 'native':
@@ -147,43 +140,24 @@ export const useVideoState = (
     }
   };
 
-  watch(
-    () => videoState.playing,
-    newValue => {
-      if (newValue) {
-        adapterInstance.value?.play();
-      } else {
-        adapterInstance.value?.pause();
-      }
-    }
-  );
-  watch(
-    () => videoState.volume,
-    newValue => {
-      adapterInstance.value?.setVolume(newValue);
-    }
-  );
-  watch(
-    () => videoState.speed,
-    newValue => {
-      adapterInstance.value?.setPlaybackRate(newValue);
-    }
-  );
-  watch(
-    () => videoState.currentTime,
-    newValue => {
-      adapterInstance.value?.setTime(newValue);
-    }
-  );
-  watch(
-    () => videoState.loop,
-    newValue => {
-      videoElementRef.value.loop = newValue;
-    }
-  );
+  const play = () => adapterInstance.value?.play();
+  const pause = () => adapterInstance.value?.pause();
+  const setVolume = (volume: number) => adapterInstance.value?.setVolume(volume);
+  const setPlaybackRate = (playbackRate: number) =>
+    adapterInstance.value?.setPlaybackRate(playbackRate);
+  const setTime = (time: number) => adapterInstance.value?.setTime(time);
+  const setLoop = (loop: boolean) => {
+    videoElementRef.value.loop = loop;
+  };
 
   return {
-    videoState
+    video: videoState,
+    play,
+    pause,
+    setVolume,
+    setPlaybackRate,
+    setTime,
+    setLoop
   };
 };
 

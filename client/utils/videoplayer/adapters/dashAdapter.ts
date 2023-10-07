@@ -25,6 +25,10 @@ export const dashAdapter: VideoplaybackAdapter = async options => {
   const onVolumeChanged = registerCallback(dashjs.MediaPlayer.events.PLAYBACK_VOLUME_CHANGED);
   const onPlaybackRateChanged = registerCallback(dashjs.MediaPlayer.events.PLAYBACK_RATE_CHANGED);
 
+  const destroy = () => {
+    mediaPlayer.destroy();
+  };
+
   // Getters
   const getBufferLevel = () => {
     let bufferLevel = 0;
@@ -94,11 +98,9 @@ export const dashAdapter: VideoplaybackAdapter = async options => {
   const startTimeNumber = startTime?.value ?? 0;
   mediaPlayer.initialize(videoRef.value, source.value, false, startTimeNumber);
 
-  const destroy = () => {
-    mediaPlayer.destroy();
-  };
-
   return {
+    type: 'dash',
+
     onPlaybackStarted,
     onPlaybackPaused,
     onPlaybackTimeUpdated,

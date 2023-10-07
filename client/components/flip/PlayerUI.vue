@@ -1,25 +1,29 @@
 <script setup lang="ts">
 import { ApiDto } from '@/utils/shared';
 
-defineProps<{
-  video: ApiDto<'VTVideoInfoDto'>;
-  videoState: VideoState;
-}>();
+const video = inject<ApiDto<'VTVideoInfoDto'>>('video');
+const videoState = inject<VideoState>('videoState');
 
-const { uiState, onMouseMove, onMouseLeave, cursor } = useUiState();
+const uiState = useUiState(videoState);
+
+const cursor = computed(() => uiState.cursor.value);
+const visible = computed(() => uiState.visible.value);
+
+provide('uiState', readonly(uiState));
 </script>
 
 <template>
-  <div class="flip-player-ui" @mousemove="onMouseMove" @mouseleave="onMouseLeave">
+  <div
+    class="flip-player-ui"
+    @pointerleave="uiState.onPointerLeave"
+    @pointermove="uiState.onPointerMove"
+    @pointerdown="uiState.onPointerDown"
+    @pointerup="uiState.onPointerUp"
+  >
     <slot />
+    <Spinner v-if="videoState.video.buffering" class="flip-spinner" />
     <transition name="flip-fade">
-      <div v-if="uiState.visible" class="controls">
-        <FlipSeekbar
-          :duration="videoState.duration"
-          :buffer-level="videoState.bufferLevel"
-          :current-time="videoState.currentTime"
-        />
-      </div>
+      <FlipControls v-if="visible" />
     </transition>
   </div>
 </template>
@@ -27,7 +31,7 @@ const { uiState, onMouseMove, onMouseLeave, cursor } = useUiState();
 <style lang="scss" scoped>
 .flip-fade-enter-active,
 .flip-fade-leave-active {
-  transition: opacity 300ms;
+  transition: opacity 200ms;
 }
 .flip-fade-enter-from,
 .flip-fade-leave-to {
@@ -36,39 +40,22 @@ const { uiState, onMouseMove, onMouseLeave, cursor } = useUiState();
 
 .flip-player-ui {
   max-height: calc(100vh - 170px);
-  height: 56.25vw;
   display: flex;
   background-color: #000;
   position: relative;
   cursor: v-bind(cursor);
 
-  .controls {
+  .flip-spinner {
     position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    pointer-events: none;
-    z-index: 10;
-
-    &:after {
-      content: '';
-      position: absolute;
-      width: 100%;
-      height: 100px;
-      bottom: 0;
-      left: 0;
-      z-index: -1;
-      background-image: $video-player-gradient;
-      transform: rotate(180deg);
-    }
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
 
   :deep(.flip-video-element) {
     margin: 0 auto;
+    width: 100%;
+    object-fit: contain;
   }
 }
 </style>
