@@ -311,7 +311,7 @@ const watchPageTitle = computed(() => {
       class="video-player-p"
       @video-ended="onVideoEnded"
     /> -->
-    <VideoPlayer2
+    <FlipPlayer
       v-if="video && !videoPending"
       :video="video"
       :start-time="video.initialVideoTime"

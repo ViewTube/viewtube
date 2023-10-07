@@ -39,6 +39,29 @@ export const dashAdapter: VideoplaybackAdapter = async options => {
     }
     return bufferLevel;
   };
+  const getVideoQualityList = () => {
+    return mediaPlayer.getBitrateInfoListFor('video').map(bitrateInfo => ({
+      ...bitrateInfo,
+      label: `${bitrateInfo.height}p - ${humanizeBitrate(bitrateInfo.bitrate)}`
+    }));
+  };
+  const getAudioQualityList = () => {
+    return mediaPlayer.getBitrateInfoListFor('audio').map(bitrateInfo => ({
+      ...bitrateInfo,
+      label: `${bitrateInfo.height}p - ${humanizeBitrate(bitrateInfo.bitrate)}`
+    }));
+  };
+  const getVideoTrackList = () => {
+    return mediaPlayer.getTracksFor('video');
+  };
+  const getAudioTrackList = () => {
+    return mediaPlayer.getTracksFor('audio').map(audioTrack => {
+      return {
+        ...audioTrack,
+        label: audioTrack.labels?.[0]?.text ?? audioTrack.lang
+      };
+    });
+  };
   const getTime = mediaPlayer.time;
   const getDuration = mediaPlayer.duration;
   const getVolume = mediaPlayer.getVolume;
@@ -93,6 +116,10 @@ export const dashAdapter: VideoplaybackAdapter = async options => {
     getDuration,
     getBufferLevel,
     getPlaybackRate,
+    getVideoQualityList,
+    getAudioQualityList,
+    getVideoTrackList,
+    getAudioTrackList,
 
     getVolume,
     setVolume,

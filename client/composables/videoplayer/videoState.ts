@@ -3,8 +3,23 @@ import {
   VideoplaybackAdapterType
 } from '@/utils/videoplayer/adapters/adapter';
 
+export type VideoState = {
+  playing: boolean;
+  buffering: boolean;
+  bufferLevel: number;
+  currentTime: number;
+  duration: number;
+  volume: number;
+  loop: boolean;
+  speed: number;
+  videoQualityList: string[];
+  audioQualityList: string[];
+  videoTrackList: string[];
+  audioTrackList: string[];
+};
+
 export const useVideoState = (
-  videoRef: Ref<HTMLVideoElement>,
+  videoElementRef: Ref<HTMLVideoElement>,
   adapterType: Ref<VideoplaybackAdapterType>,
   source: Ref<string>,
   startTime?: Ref<number>
@@ -17,7 +32,11 @@ export const useVideoState = (
     duration: 0,
     volume: 1,
     loop: false,
-    speed: 1
+    speed: 1,
+    videoQualityList: [],
+    audioQualityList: [],
+    videoTrackList: [],
+    audioTrackList: []
   });
 
   const adapterInstance = ref<VideoplaybackAdapterResponse>();
@@ -30,7 +49,7 @@ export const useVideoState = (
 
     switch (adapterType.value) {
       case 'dash':
-        adapterInstance.value = await dashAdapter({ videoRef, source, startTime });
+        adapterInstance.value = await dashAdapter({ videoRef: videoElementRef, source, startTime });
         break;
       case 'hls':
       case 'native':
@@ -50,6 +69,7 @@ export const useVideoState = (
     });
     adapterInstance.value.onStreamActivated(() => {
       updateTimeAndDuration();
+      updateQualityLists();
     });
     adapterInstance.value.onStreamTeardownComplete(() => {
       updateTimeAndDuration();
@@ -77,12 +97,12 @@ export const useVideoState = (
       mutations.forEach(mutation => {
         if (mutation.type === 'attributes') {
           if (mutation.attributeName === 'loop') {
-            videoState.loop = videoRef.value.loop;
+            videoState.loop = videoElementRef.value.loop;
           }
         }
       });
     });
-    videoAttributeObserver.observe(videoRef.value, { attributes: true });
+    videoAttributeObserver.observe(videoElementRef.value, { attributes: true });
   });
 
   watch(adapterType, async (newValue, oldValue) => {
@@ -94,6 +114,15 @@ export const useVideoState = (
   const updateTimeAndDuration = () => {
     updateTime();
     updateDuration();
+  };
+
+  const updateQualityLists = () => {
+    if (adapterInstance.value) {
+      videoState.videoQualityList = adapterInstance.value.getVideoQualityList();
+      videoState.audioQualityList = adapterInstance.value.getAudioQualityList();
+      videoState.videoTrackList = adapterInstance.value.getVideoTrackList();
+      videoState.audioTrackList = adapterInstance.value.getAudioTrackList();
+    }
   };
 
   const updateTime = () => {
@@ -149,7 +178,7 @@ export const useVideoState = (
   watch(
     () => videoState.loop,
     newValue => {
-      videoRef.value.loop = newValue;
+      videoElementRef.value.loop = newValue;
     }
   );
 

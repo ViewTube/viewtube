@@ -1,3 +1,5 @@
+import type { BitrateInfo, MediaInfo } from 'dashjs';
+
 export type EventListenerCallback = (e: any) => void;
 
 export interface VideoplaybackAdapterResponse {
@@ -19,6 +21,10 @@ export interface VideoplaybackAdapterResponse {
   getBufferLevel: () => number;
   getVolume: () => number;
   getPlaybackRate: () => number;
+  getVideoQualityList: () => BitrateInfo[];
+  getAudioQualityList: () => BitrateInfo[];
+  getVideoTrackList: () => (MediaInfo & { label?: string })[];
+  getAudioTrackList: () => (MediaInfo & { label?: string })[];
 
   setVolume: (volume: number) => void;
   setTime: (time: number) => void;

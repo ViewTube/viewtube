@@ -8,3 +8,4 @@ export * from './api/admin';
 export * from './api/session';
 export * from './videoplayer/videoState';
 export * from './videoplayer/videoSource';
+export * from './videoplayer/uiState';
