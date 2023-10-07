@@ -62,7 +62,7 @@
     "tslib": "2.6.2",
     "undici": "5.25.4",
     "web-push": "3.6.6",
-    "winston": "3.10.0",
+    "winston": "3.11.0",
     "winston-daily-rotate-file": "4.7.1",
     "xml-js": "1.6.11",
     "youtubei.js": "6.4.1",
