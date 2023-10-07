@@ -265,7 +265,7 @@ importers:
         version: 7.6.0
       nest-winston:
         specifier: 1.9.4
-        version: 1.9.4(@nestjs/common@10.2.6)(winston@3.10.0)
+        version: 1.9.4(@nestjs/common@10.2.6)(winston@3.11.0)
       reflect-metadata:
         specifier: 0.1.13
         version: 0.1.13
@@ -288,11 +288,11 @@ importers:
         specifier: 3.6.6
         version: 3.6.6
       winston:
-        specifier: 3.10.0
-        version: 3.10.0
+        specifier: 3.11.0
+        version: 3.11.0
       winston-daily-rotate-file:
         specifier: 4.7.1
-        version: 4.7.1(winston@3.10.0)
+        version: 4.7.1(winston@3.11.0)
       xml-js:
         specifier: 1.6.11
         version: 1.6.11
@@ -1653,6 +1653,11 @@ packages:
   /@colors/colors@1.5.0:
     resolution: {integrity: sha512-ooWCrlZP11i8GImSjTHYHLkvFDP48nS4+204nGb1RiX/WXYHmJA2III9/e2DWVabCESdW7hBAEzHRqUn9OUVvQ==}
     engines: {node: '>=0.1.90'}
+
+  /@colors/colors@1.6.0:
+    resolution: {integrity: sha512-Ir+AOibqzrIsL6ajt3Rz3LskB7OiMVHqltZmspbW/TJuTVuyOMirVqAkjfY6JISiLHgyNqicAC8AyHHGzNd/dA==}
+    engines: {node: '>=0.1.90'}
+    dev: false
 
   /@cypress/request@3.0.1:
     resolution: {integrity: sha512-TWivJlJi8ZDx2wGOw1dbLuHJKUYX7bWySw377nlnGOW3hP9/MUKIsEdXT/YngWxVdgNCHRBmFlBipE+5/2ZZlQ==}
@@ -9944,7 +9949,7 @@ packages:
     resolution: {integrity: sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==}
     dev: true
 
-  /nest-winston@1.9.4(@nestjs/common@10.2.6)(winston@3.10.0):
+  /nest-winston@1.9.4(@nestjs/common@10.2.6)(winston@3.11.0):
     resolution: {integrity: sha512-ilEmHuuYSAI6aMNR120fLBl42EdY13QI9WRggHdEizt9M7qZlmXJwpbemVWKW/tqRmULjSx/otKNQ3GMQbfoUQ==}
     peerDependencies:
       '@nestjs/common': ^5.0.0 || ^6.6.0 || ^7.0.0 || ^8.0.0 || ^9.0.0 || ^10.0.0
@@ -9952,7 +9957,7 @@ packages:
     dependencies:
       '@nestjs/common': 10.2.6(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
       fast-safe-stringify: 2.1.1
-      winston: 3.10.0
+      winston: 3.11.0
     dev: false
 
   /new-find-package-json@2.0.0:
@@ -13080,7 +13085,7 @@ packages:
       execa: 4.1.0
     dev: true
 
-  /winston-daily-rotate-file@4.7.1(winston@3.10.0):
+  /winston-daily-rotate-file@4.7.1(winston@3.11.0):
     resolution: {integrity: sha512-7LGPiYGBPNyGHLn9z33i96zx/bd71pjBn9tqQzO3I4Tayv94WPmBNwKC7CO1wPHdP9uvu+Md/1nr6VSH9h0iaA==}
     engines: {node: '>=8'}
     peerDependencies:
@@ -13089,7 +13094,7 @@ packages:
       file-stream-rotator: 0.6.1
       object-hash: 2.2.0
       triple-beam: 1.4.1
-      winston: 3.10.0
+      winston: 3.11.0
       winston-transport: 4.5.0
     dev: false
 
@@ -13102,11 +13107,11 @@ packages:
       triple-beam: 1.4.1
     dev: false
 
-  /winston@3.10.0:
-    resolution: {integrity: sha512-nT6SIDaE9B7ZRO0u3UvdrimG0HkB7dSTAgInQnNR2SOPJ4bvq5q79+pXLftKmP52lJGW15+H5MCK0nM9D3KB/g==}
+  /winston@3.11.0:
+    resolution: {integrity: sha512-L3yR6/MzZAOl0DsysUXHVjOwv8mKZ71TrA/41EIduGpOOV5LQVodqN+QdQ6BS6PJ/RdIshZhq84P/fStEZkk7g==}
     engines: {node: '>= 12.0.0'}
     dependencies:
-      '@colors/colors': 1.5.0
+      '@colors/colors': 1.6.0
       '@dabh/diagnostics': 2.0.3
       async: 3.2.4
       is-stream: 2.0.1
