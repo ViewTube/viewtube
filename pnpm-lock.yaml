@@ -376,8 +376,8 @@ importers:
         specifier: 0.2.0
         version: 0.2.0
       ts-loader:
-        specifier: 9.4.4
-        version: 9.4.4(typescript@5.2.2)(webpack@5.88.2)
+        specifier: 9.5.0
+        version: 9.5.0(typescript@5.2.2)(webpack@5.88.2)
       typescript:
         specifier: 5.2.2
         version: 5.2.2
@@ -12255,8 +12255,8 @@ packages:
       yargs-parser: 21.1.1
     dev: true
 
-  /ts-loader@9.4.4(typescript@5.2.2)(webpack@5.88.2):
-    resolution: {integrity: sha512-MLukxDHBl8OJ5Dk3y69IsKVFRA/6MwzEqBgh+OXMPB/OD01KQuWPFd1WAQP8a5PeSCAxfnkhiuWqfmFJzJQt9w==}
+  /ts-loader@9.5.0(typescript@5.2.2)(webpack@5.88.2):
+    resolution: {integrity: sha512-LLlB/pkB4q9mW2yLdFMnK3dEHbrBjeZTYguaaIfusyojBgAGf5kF+O6KcWqiGzWqHk0LBsoolrp4VftEURhybg==}
     engines: {node: '>=12.0.0'}
     peerDependencies:
       typescript: '*'
@@ -12266,6 +12266,7 @@ packages:
       enhanced-resolve: 5.15.0
       micromatch: 4.0.5
       semver: 7.5.4
+      source-map: 0.7.4
       typescript: 5.2.2
       webpack: 5.88.2
     dev: true
