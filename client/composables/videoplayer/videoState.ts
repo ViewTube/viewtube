@@ -30,19 +30,18 @@ export const useVideoState = (
 
   const instantiateAdapter = async () => {
     if (adapterInstance.value) {
-      // adapterInstance.value.destroy();
-      // adapterInstance.value = undefined;
+      adapterInstance.value.destroy();
+      adapterInstance.value = undefined;
     }
 
     switch (adapterType.value) {
       case 'dash':
-        if (adapterInstance.value?.type !== 'dash') {
-          adapterInstance.value = await dashAdapter({
-            videoRef: videoElementRef,
-            source,
-            startTime
-          });
-        }
+        adapterInstance.value = await dashAdapter({
+          videoRef: videoElementRef,
+          source,
+          startTime
+        });
+
         break;
       case 'hls':
       case 'native':

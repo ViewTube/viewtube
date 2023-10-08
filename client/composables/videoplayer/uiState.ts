@@ -59,7 +59,7 @@ export const useUiState = (videoState: VideoState) => {
       if (e.pointerType === 'mouse' && !touchEvent.value) {
         showUI();
       }
-    }, 10);
+    }, 1);
   };
 
   const onPointerLeave = (e: PointerEvent) => {

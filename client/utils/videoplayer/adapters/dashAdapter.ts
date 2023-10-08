@@ -5,8 +5,18 @@ export const dashAdapter: VideoplaybackAdapter = async options => {
   const dashjs = await import('dashjs');
   const mediaPlayer = dashjs.MediaPlayer().create();
 
+  const eventStorage = new Map<string, EventListenerCallback>();
+
   const registerCallback = (event: string) => (callback: EventListenerCallback) => {
+    eventStorage.set(event, callback);
     mediaPlayer.on(event, callback);
+  };
+
+  const unregisterCallback = (event: string) => {
+    const callback = eventStorage.get(event);
+    if (callback) {
+      mediaPlayer.off(event, callback);
+    }
   };
 
   // Register callbacks
@@ -26,6 +36,19 @@ export const dashAdapter: VideoplaybackAdapter = async options => {
   const onPlaybackRateChanged = registerCallback(dashjs.MediaPlayer.events.PLAYBACK_RATE_CHANGED);
 
   const destroy = () => {
+    unregisterCallback(dashjs.MediaPlayer.events.PLAYBACK_STARTED);
+    unregisterCallback(dashjs.MediaPlayer.events.PLAYBACK_PAUSED);
+    unregisterCallback(dashjs.MediaPlayer.events.PLAYBACK_TIME_UPDATED);
+    unregisterCallback(dashjs.MediaPlayer.events.STREAM_ACTIVATED);
+    unregisterCallback(dashjs.MediaPlayer.events.STREAM_DEACTIVATED);
+    unregisterCallback(dashjs.MediaPlayer.events.STREAM_TEARDOWN_COMPLETE);
+    unregisterCallback(dashjs.MediaPlayer.events.TEXT_TRACKS_ADDED);
+    unregisterCallback(dashjs.MediaPlayer.events.BUFFER_LEVEL_UPDATED);
+    unregisterCallback(dashjs.MediaPlayer.events.CAN_PLAY);
+    unregisterCallback(dashjs.MediaPlayer.events.PLAYBACK_WAITING);
+    unregisterCallback(dashjs.MediaPlayer.events.PLAYBACK_VOLUME_CHANGED);
+    unregisterCallback(dashjs.MediaPlayer.events.PLAYBACK_RATE_CHANGED);
+
     mediaPlayer.destroy();
   };
 

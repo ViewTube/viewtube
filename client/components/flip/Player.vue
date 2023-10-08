@@ -26,5 +26,6 @@ provide('video', readonly(props.video));
 
 <style lang="scss" scoped>
 .flip-player {
+  touch-action: none;
 }
 </style>
