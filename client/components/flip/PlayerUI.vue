@@ -3,8 +3,9 @@ import { ApiDto } from '@/utils/shared';
 
 const video = inject<ApiDto<'VTVideoInfoDto'>>('video');
 const videoState = inject<VideoState>('videoState');
+const flipPlayerUIRef = ref<HTMLDivElement | null>(null);
 
-const uiState = useUiState(videoState);
+const uiState = useUIState(videoState, flipPlayerUIRef);
 
 const cursor = computed(() => uiState.cursor.value);
 const visible = computed(() => uiState.visible.value);
@@ -14,6 +15,7 @@ provide('uiState', readonly(uiState));
 
 <template>
   <div
+    ref="flipPlayerUIRef"
     class="flip-player-ui"
     @pointerleave="uiState.onPointerLeave"
     @pointermove="uiState.onPointerMove"

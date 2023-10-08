@@ -2,6 +2,7 @@
 
 <template>
   <div class="controls">
+    <FlipTopBar />
     <FlipSeekbar />
     <FlipControlButtons />
   </div>

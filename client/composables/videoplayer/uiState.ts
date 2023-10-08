@@ -1,8 +1,8 @@
 const UI_TIMEOUT = 3000;
 
-export type UIState = ReturnType<typeof useUiState>;
+export type UIState = ReturnType<typeof useUIState>;
 
-export const useUiState = (videoState: VideoState) => {
+export const useUIState = (videoState: VideoState, flipPlayerUIRef: Ref<HTMLDivElement>) => {
   const visible = computed(() => {
     if (_seeking.value || !videoState.video.playing) {
       return true;
@@ -10,10 +10,31 @@ export const useUiState = (videoState: VideoState) => {
     return _visible.value;
   });
 
+  const fullscreen = ref(false);
+
+  const updateFullscreen = () => {
+    fullscreen.value = !!document.fullscreenElement;
+  };
+
+  onBeforeMount(() => {
+    document.addEventListener('fullscreenchange', updateFullscreen);
+  });
+
+  onBeforeUnmount(() => {
+    document.removeEventListener('fullscreenchange', updateFullscreen);
+  });
+
+  const toggleFullscreen = () => {
+    if (fullscreen.value) {
+      document.exitFullscreen();
+    } else {
+      flipPlayerUIRef.value?.requestFullscreen();
+    }
+  };
+
   const _visible = ref(true);
   const _seeking = ref(false);
   const setSeeking = (seeking: boolean) => {
-    console.log('setSeeking', seeking);
     _seeking.value = seeking;
     if (!seeking) {
       showUI();
@@ -73,8 +94,21 @@ export const useUiState = (videoState: VideoState) => {
     }
   };
 
+  const doubleClickTimeout = ref<number | NodeJS.Timeout>();
+
   const onPointerUp = (e: PointerEvent) => {
     if (e.pointerType === 'mouse' && e.target instanceof HTMLVideoElement) {
+      if (!doubleClickTimeout.value) {
+        doubleClickTimeout.value = setTimeout(() => {
+          clearTimeout(doubleClickTimeout.value);
+          doubleClickTimeout.value = undefined;
+        }, 300);
+      } else {
+        clearTimeout(doubleClickTimeout.value);
+        doubleClickTimeout.value = undefined;
+        toggleFullscreen();
+      }
+
       if (videoState.video.playing) {
         videoState.pause();
       } else {
@@ -86,11 +120,14 @@ export const useUiState = (videoState: VideoState) => {
   return {
     visible,
     cursor,
+    fullscreen,
 
     onPointerMove,
     onPointerLeave,
     onPointerDown,
     onPointerUp,
-    setSeeking
+    setSeeking,
+
+    toggleFullscreen
   };
 };

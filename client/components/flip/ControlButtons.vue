@@ -2,6 +2,7 @@
 import { getTimestampFromSeconds } from '@/utils/shared';
 
 const videoState = inject<VideoState>('videoState');
+const uiState = inject<UIState>('uiState');
 
 const onPlayPauseClick = () => {
   if (videoState.video.playing) {
@@ -37,8 +38,9 @@ const videoLengthText = computed(() => getTimestampFromSeconds(videoState.video.
       <button class="control-button">
         <VTIcon name="mdi:cog" />
       </button>
-      <button class="control-button">
-        <VTIcon name="mdi:arrow-expand" />
+      <button class="control-button" @click.stop="uiState.toggleFullscreen">
+        <VTIcon v-if="uiState.fullscreen" name="mdi:arrow-collapse" />
+        <VTIcon v-else name="mdi:arrow-expand" />
       </button>
     </div>
     <span class="timestamp-text right">{{ videoLengthText }}</span>
