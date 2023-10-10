@@ -74,7 +74,7 @@
     "@types/archiver": "5.3.3",
     "@types/bcryptjs": "2.4.4",
     "@types/cookie-parser": "1.4.4",
-    "@types/eslint": "8.44.3",
+    "@types/eslint": "8.44.4",
     "@types/humanize-duration": "3.27.1",
     "@types/mime-types": "2.1.2",
     "@types/multer": "1.4.8",
