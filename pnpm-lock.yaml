@@ -37,10 +37,10 @@ importers:
         version: 0.2.0(eslint@8.51.0)
       '@pinia-plugin-persistedstate/nuxt':
         specifier: 1.1.2
-        version: 1.1.2(@pinia/nuxt@0.5.0)(pinia@2.1.7)
+        version: 1.1.2(@pinia/nuxt@0.5.1)(pinia@2.1.7)
       '@pinia/nuxt':
-        specifier: 0.5.0
-        version: 0.5.0(typescript@5.2.2)(vue@3.3.4)
+        specifier: 0.5.1
+        version: 0.5.1(typescript@5.2.2)(vue@3.3.4)
       '@types/humanize-duration':
         specifier: 3.27.1
         version: 3.27.1
@@ -3203,6 +3203,7 @@ packages:
     dependencies:
       is-glob: 4.0.3
       micromatch: 4.0.5
+      napi-wasm: 1.1.0
     dev: true
     bundledDependencies:
       - napi-wasm
@@ -3257,13 +3258,13 @@ packages:
       '@parcel/watcher-win32-x64': 2.3.0
     dev: true
 
-  /@pinia-plugin-persistedstate/nuxt@1.1.2(@pinia/nuxt@0.5.0)(pinia@2.1.7):
+  /@pinia-plugin-persistedstate/nuxt@1.1.2(@pinia/nuxt@0.5.1)(pinia@2.1.7):
     resolution: {integrity: sha512-3deRNiIlFoFGO/K8Sz+yc53ayMzElR8ack7RnGka80zBgp6Fs9GWjoLJiy+ToIc7qVa6wrQcoLDsxcnvzX4T0g==}
     peerDependencies:
       '@pinia/nuxt': ^0.4.4
     dependencies:
       '@nuxt/kit': 3.7.4
-      '@pinia/nuxt': 0.5.0(typescript@5.2.2)(vue@3.3.4)
+      '@pinia/nuxt': 0.5.1(typescript@5.2.2)(vue@3.3.4)
       defu: 6.1.2
       pinia-plugin-persistedstate: 3.2.0(pinia@2.1.7)
     transitivePeerDependencies:
@@ -3272,8 +3273,8 @@ packages:
       - supports-color
     dev: true
 
-  /@pinia/nuxt@0.5.0(typescript@5.2.2)(vue@3.3.4):
-    resolution: {integrity: sha512-p9Ojw+H2dp5l6A1TFLwl03kQZuuO7cjEtppnwjEjkQA6y8SitpiarmogouFTks1hOSXPjMfXPDTW0vRV+wSxVg==}
+  /@pinia/nuxt@0.5.1(typescript@5.2.2)(vue@3.3.4):
+    resolution: {integrity: sha512-6wT6TqY81n+7/x3Yhf0yfaJVKkZU42AGqOR0T3+UvChcaOJhSma7OWPN64v+ptYlznat+fS1VTwNAcbi2lzHnw==}
     dependencies:
       '@nuxt/kit': 3.7.4
       pinia: 2.1.7(typescript@5.2.2)(vue@3.3.4)
@@ -9580,6 +9581,10 @@ packages:
   /napi-build-utils@1.0.2:
     resolution: {integrity: sha512-ONmRUqK7zj7DWX0D9ADe03wbwOBZxNAfF20PlGfCWQcD3+/MakShIHrMqx9YwPTfxDdF1zLeL+RGZiR9kGMLdg==}
     dev: false
+
+  /napi-wasm@1.1.0:
+    resolution: {integrity: sha512-lHwIAJbmLSjF9VDRm9GoVOy9AGp3aIvkjv+Kvz9h16QR3uSVYH78PNQUnT2U4X53mhlnV2M7wrhibQ3GHicDmg==}
+    dev: true
 
   /natural-compare@1.4.0:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
