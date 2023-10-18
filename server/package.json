@@ -77,7 +77,7 @@
     "@types/eslint": "8.44.4",
     "@types/humanize-duration": "3.27.2",
     "@types/mime-types": "2.1.2",
-    "@types/multer": "1.4.8",
+    "@types/multer": "1.4.9",
     "@types/node": "20.7.1",
     "@types/redis-mock": "0.17.1",
     "@types/web-push": "3.6.1",
