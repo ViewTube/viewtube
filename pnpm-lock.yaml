@@ -196,7 +196,7 @@ importers:
         version: 10.1.1(@nestjs/common@10.2.6)
       '@nestjs/mongoose':
         specifier: 10.0.1
-        version: 10.0.1(@nestjs/common@10.2.6)(@nestjs/core@10.2.6)(mongoose@7.6.2)(reflect-metadata@0.1.13)(rxjs@7.8.1)
+        version: 10.0.1(@nestjs/common@10.2.6)(@nestjs/core@10.2.6)(mongoose@7.6.3)(reflect-metadata@0.1.13)(rxjs@7.8.1)
       '@nestjs/platform-fastify':
         specifier: 10.2.6
         version: 10.2.6(@fastify/static@6.11.2)(@nestjs/common@10.2.6)(@nestjs/core@10.2.6)
@@ -261,8 +261,8 @@ importers:
         specifier: 1.4.4
         version: 1.4.4
       mongoose:
-        specifier: 7.6.2
-        version: 7.6.2
+        specifier: 7.6.3
+        version: 7.6.3
       nest-winston:
         specifier: 1.9.4
         version: 1.9.4(@nestjs/common@10.2.6)(winston@3.11.0)
@@ -2749,7 +2749,7 @@ packages:
       reflect-metadata: 0.1.13
     dev: false
 
-  /@nestjs/mongoose@10.0.1(@nestjs/common@10.2.6)(@nestjs/core@10.2.6)(mongoose@7.6.2)(reflect-metadata@0.1.13)(rxjs@7.8.1):
+  /@nestjs/mongoose@10.0.1(@nestjs/common@10.2.6)(@nestjs/core@10.2.6)(mongoose@7.6.3)(reflect-metadata@0.1.13)(rxjs@7.8.1):
     resolution: {integrity: sha512-woUViG28WKf/kRiv6NFXu4Oc0DvAPeX4+fT4coDVt2OqndnfJZTXwkkys23uVsBpKSIflRyjPvmcVBHQvcunZw==}
     peerDependencies:
       '@nestjs/common': ^8.0.0 || ^9.0.0 || ^10.0.0
@@ -2760,7 +2760,7 @@ packages:
     dependencies:
       '@nestjs/common': 10.2.6(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
       '@nestjs/core': 10.2.6(@nestjs/common@10.2.6)(@nestjs/websockets@10.2.6)(reflect-metadata@0.1.13)(rxjs@7.8.1)
-      mongoose: 7.6.2
+      mongoose: 7.6.3
       reflect-metadata: 0.1.13
       rxjs: 7.8.1
     dev: false
@@ -9482,8 +9482,8 @@ packages:
       '@mongodb-js/saslprep': 1.1.0
     dev: false
 
-  /mongoose@7.6.2:
-    resolution: {integrity: sha512-OVx6RWbfNOzBbfTvXoOkgZmaizdXDU/B/KbBjietXQoInSg/OSULjOavXJzL51XWFkbefqkOvbeE07DfvW6FkQ==}
+  /mongoose@7.6.3:
+    resolution: {integrity: sha512-moYP2qWCOdWRDeBxqB/zYwQmQnTBsF5DoolX5uPyI218BkiA1ujGY27P0NTd4oWIX+LLkZPw0LDzlc/7oh1plg==}
     engines: {node: '>=14.20.1'}
     dependencies:
       bson: 5.5.0
