@@ -310,8 +310,8 @@ importers:
         specifier: 10.2.6
         version: 10.2.6(@nestjs/common@10.2.6)(@nestjs/core@10.2.6)(reflect-metadata@0.1.13)(rxjs@7.8.1)
       '@types/archiver':
-        specifier: 5.3.3
-        version: 5.3.3
+        specifier: 5.3.4
+        version: 5.3.4
       '@types/bcryptjs':
         specifier: 2.4.4
         version: 2.4.4
@@ -3947,8 +3947,8 @@ packages:
     engines: {node: '>=10.13.0'}
     dev: true
 
-  /@types/archiver@5.3.3:
-    resolution: {integrity: sha512-0ABdVcXL6jOwNGY+hjWPqrxUvKelBEwNLcuv/SV2vZ4YCH8w9NttFCt+/QqI5zgMX+iX/XqVy89/r7EmLJmMpQ==}
+  /@types/archiver@5.3.4:
+    resolution: {integrity: sha512-Lj7fLBIMwYFgViVVZHEdExZC3lVYsl+QL0VmdNdIzGZH544jHveYWij6qdnBgJQDnR7pMKliN9z2cPZFEbhyPw==}
     dependencies:
       '@types/readdir-glob': 1.1.2
     dev: true
