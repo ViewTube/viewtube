@@ -48,8 +48,8 @@ importers:
         specifier: 20.7.1
         version: 20.7.1
       '@types/papaparse':
-        specifier: 5.3.9
-        version: 5.3.9
+        specifier: 5.3.10
+        version: 5.3.10
       '@types/qrcode':
         specifier: 1.5.3
         version: 1.5.3
@@ -4123,8 +4123,8 @@ packages:
   /@types/node@20.7.1:
     resolution: {integrity: sha512-LT+OIXpp2kj4E2S/p91BMe+VgGX2+lfO+XTpfXhh+bCk2LkQtHZSub8ewFBMGP5ClysPjTDFa4sMI8Q3n4T0wg==}
 
-  /@types/papaparse@5.3.9:
-    resolution: {integrity: sha512-sZcrKD63qA4/6GyBcVvX6AIp0AkpfyYk00CUQHMBvb4+OVXTZWyXUvidUZaai1wyKUVyJoxO7mgREam/pMRrDw==}
+  /@types/papaparse@5.3.10:
+    resolution: {integrity: sha512-mS1Fta/xJ9EDYmAvpeWzcV9Gr0cOl1ClpW7di9+wSUNDIDO55tBtyXg97O7K+Syrd9rDEmuejM2iqmJIJ1SO5g==}
     dependencies:
       '@types/node': 20.7.1
     dev: true
