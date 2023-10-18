@@ -72,7 +72,7 @@
     "@nestjs/cli": "10.1.18",
     "@nestjs/websockets": "10.2.6",
     "@types/archiver": "5.3.4",
-    "@types/bcryptjs": "2.4.4",
+    "@types/bcryptjs": "2.4.5",
     "@types/cookie-parser": "1.4.5",
     "@types/eslint": "8.44.4",
     "@types/humanize-duration": "3.27.2",
