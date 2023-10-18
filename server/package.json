@@ -73,7 +73,7 @@
     "@nestjs/websockets": "10.2.6",
     "@types/archiver": "5.3.3",
     "@types/bcryptjs": "2.4.4",
-    "@types/cookie-parser": "1.4.4",
+    "@types/cookie-parser": "1.4.5",
     "@types/eslint": "8.44.4",
     "@types/humanize-duration": "3.27.1",
     "@types/mime-types": "2.1.2",
