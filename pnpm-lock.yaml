@@ -340,8 +340,8 @@ importers:
         specifier: 3.6.1
         version: 3.6.1
       '@types/webpack-node-externals':
-        specifier: 3.0.2
-        version: 3.0.2
+        specifier: 3.0.3
+        version: 3.0.3
       '@types/xml2json':
         specifier: 0.11.5
         version: 0.11.5
@@ -4220,8 +4220,8 @@ packages:
   /@types/webidl-conversions@7.0.1:
     resolution: {integrity: sha512-8hKOnOan+Uu+NgMaCouhg3cT9x5fFZ92Jwf+uDLXLu/MFRbXxlWwGeQY7KVHkeSft6RvY+tdxklUBuyY9eIEKg==}
 
-  /@types/webpack-node-externals@3.0.2:
-    resolution: {integrity: sha512-eJv3PhUj2ntixIBMuNdhhEA5wQJyFn6ing61wABO23Bd2XvtWO8Cn5cpR4+Ey4riT0SXq1dKOGHjQySPhkOqeg==}
+  /@types/webpack-node-externals@3.0.3:
+    resolution: {integrity: sha512-cH/xq6uYUoBQpPM2k5qFgrVYa+qsusrw+XKdvmbZ4kf3iVl5D2ERx3w1yghVQZNy/OFRQsiQJbzJQmJU+nRp9g==}
     dependencies:
       '@types/node': 20.7.1
       webpack: 5.89.0
