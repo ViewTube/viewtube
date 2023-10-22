@@ -334,8 +334,8 @@ importers:
         specifier: 20.7.1
         version: 20.7.1
       '@types/redis-mock':
-        specifier: 0.17.1
-        version: 0.17.1
+        specifier: 0.17.2
+        version: 0.17.2
       '@types/web-push':
         specifier: 3.6.1
         version: 3.6.1
@@ -4168,8 +4168,8 @@ packages:
       '@types/node': 20.7.1
     dev: true
 
-  /@types/redis-mock@0.17.1:
-    resolution: {integrity: sha512-mdt2Kd56fHloc8SnQnXZBrxd/E6jYpj8zXADyI8oZE7quK+P4iwO9PvGGuZdVI+G8DkbQEv0UMrjQlBVJyDS0A==}
+  /@types/redis-mock@0.17.2:
+    resolution: {integrity: sha512-4gLXEL55IV/07NnZlx01QiOrSLXoQHd0zzvKqHkHwfaM64hl3/qQkAIvl/chDDOstrI4GNGA0UgQg7tRntK0Vg==}
     dependencies:
       '@types/redis': 2.8.32
     dev: true
