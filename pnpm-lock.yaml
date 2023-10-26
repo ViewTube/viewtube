@@ -282,8 +282,8 @@ importers:
         specifier: 2.6.2
         version: 2.6.2
       undici:
-        specifier: 5.26.4
-        version: 5.26.4
+        specifier: 5.27.0
+        version: 5.27.0
       web-push:
         specifier: 3.6.6
         version: 3.6.6
@@ -7384,7 +7384,7 @@ packages:
     resolution: {integrity: sha512-UlBTuReX1Hrnejx92Uhe0iR2OUL8f//2KNQNXaGhlWWZD5a+uFR/jd1Gf3Nshbc54KQdigUozeevdF6+p5r0cQ==}
     dependencies:
       socks: 2.7.1
-      undici: 5.26.4
+      undici: 5.27.0
     dev: false
 
   /figures@3.2.0:
@@ -10099,7 +10099,7 @@ packages:
       fast-glob: 3.3.1
       js-yaml: 4.1.0
       supports-color: 9.4.0
-      undici: 5.26.4
+      undici: 5.27.0
       yargs-parser: 21.1.1
     dev: true
 
@@ -12084,8 +12084,8 @@ packages:
       unplugin: 1.5.0
     dev: true
 
-  /undici@5.26.4:
-    resolution: {integrity: sha512-OG+QOf0fTLtazL9P9X7yqWxQ+Z0395Wk6DSkyTxtaq3wQEjIroVe7Y4asCX/vcCxYpNGMnwz8F0qbRYUoaQVMw==}
+  /undici@5.27.0:
+    resolution: {integrity: sha512-l3ydWhlhOJzMVOYkymLykcRRXqbUaQriERtR70B9LzNkZ4bX52Fc8wbTDneMiwo8T+AemZXvXaTx+9o5ROxrXg==}
     engines: {node: '>=14.0'}
     dependencies:
       '@fastify/busboy': 2.0.0
@@ -12975,7 +12975,7 @@ packages:
     dependencies:
       jintr: 1.1.0
       tslib: 2.6.2
-      undici: 5.26.4
+      undici: 5.27.0
     dev: false
 
   /ytpl@2.3.0:
