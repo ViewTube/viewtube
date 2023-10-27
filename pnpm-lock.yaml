@@ -96,8 +96,8 @@ importers:
         specifier: 1.4.12
         version: 1.4.12
       human-number:
-        specifier: 2.0.3
-        version: 2.0.3
+        specifier: 2.0.4
+        version: 2.0.4
       humanize-duration:
         specifier: 3.30.0
         version: 3.30.0
@@ -8028,8 +8028,8 @@ packages:
     resolution: {integrity: sha512-hqLDO+rfststuyEUTWObQK6zHEEmZ/kaIP2/zclGGZn6X8h/ESTWg+WKecQ/e5k4nPswjzZD+q2VqZIbr15CoQ==}
     dev: true
 
-  /human-number@2.0.3:
-    resolution: {integrity: sha512-vEoxBaU6VYvS/i8KgMnAxBhNfwXp5olFCFILBeB5m4RNbPMz5MvzjmFy97+NeoOd64GYGTQGpauIWC2Cd72wHQ==}
+  /human-number@2.0.4:
+    resolution: {integrity: sha512-OENvA941poJU1VGR6s5Nf/GpYNPE+81lmHkIVLO9FgiyHxB+BSlVOJV3lnItk5tfHzcEbZv3kTQrzpZK0+ExRA==}
     engines: {node: '>= 8'}
     dependencies:
       round-to: 5.0.0
