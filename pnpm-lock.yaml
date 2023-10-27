@@ -204,8 +204,8 @@ importers:
         specifier: 3.0.4
         version: 3.0.4(@nestjs/common@10.2.6)(@nestjs/core@10.2.6)(reflect-metadata@0.1.13)
       '@nestjs/swagger':
-        specifier: 7.1.13
-        version: 7.1.13(@fastify/static@6.11.2)(@nestjs/common@10.2.6)(@nestjs/core@10.2.6)(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)
+        specifier: 7.1.14
+        version: 7.1.14(@fastify/static@6.11.2)(@nestjs/common@10.2.6)(@nestjs/core@10.2.6)(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)
       archiver:
         specifier: 6.0.1
         version: 6.0.1
@@ -2836,8 +2836,8 @@ packages:
       - chokidar
     dev: true
 
-  /@nestjs/swagger@7.1.13(@fastify/static@6.11.2)(@nestjs/common@10.2.6)(@nestjs/core@10.2.6)(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13):
-    resolution: {integrity: sha512-aHfW0rDZZKTuPVSkxutBCB16lBy5vrsHVoRF5RvPtH7U2cm4Vf+OnfhxKKuG2g2Xocn9sDL+JAyVlY2VN3ytTw==}
+  /@nestjs/swagger@7.1.14(@fastify/static@6.11.2)(@nestjs/common@10.2.6)(@nestjs/core@10.2.6)(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13):
+    resolution: {integrity: sha512-2Ol4S6qHeYVVmkshkWBM8E/qkmEqEOUj2QIewr0jLSyo30H7f3v81pJyks6pTLy4PK0LGUXojMvIfFIE3mmGQQ==}
     peerDependencies:
       '@fastify/static': ^6.0.0
       '@nestjs/common': ^9.0.0 || ^10.0.0
