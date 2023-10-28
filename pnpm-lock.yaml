@@ -90,8 +90,8 @@ importers:
         specifier: 4.0.0
         version: 4.0.0(eslint@8.52.0)
       eslint-plugin-vue:
-        specifier: 9.17.0
-        version: 9.17.0(eslint@8.52.0)
+        specifier: 9.18.1
+        version: 9.18.1(eslint@8.52.0)
       hls.js:
         specifier: 1.4.12
         version: 1.4.12
@@ -2976,7 +2976,7 @@ packages:
       '@typescript-eslint/eslint-plugin': 6.8.0(@typescript-eslint/parser@6.8.0)(eslint@8.52.0)(typescript@5.2.2)
       '@typescript-eslint/parser': 6.8.0(eslint@8.52.0)(typescript@5.2.2)
       eslint: 8.52.0
-      eslint-plugin-vue: 9.17.0(eslint@8.52.0)
+      eslint-plugin-vue: 9.18.1(eslint@8.52.0)
       typescript: 5.2.2
     transitivePeerDependencies:
       - supports-color
@@ -6964,7 +6964,7 @@ packages:
   /eslint-plugin-nuxt@4.0.0(eslint@8.52.0):
     resolution: {integrity: sha512-v3Vwdk8YKe52bAz8eSIDqQuTtfL/T1r9dSl1uhC5SyR5pgLxgKkQdxXVf/Bf6Ax7uyd9rHqiAuYVdqqDb7ILdA==}
     dependencies:
-      eslint-plugin-vue: 9.17.0(eslint@8.52.0)
+      eslint-plugin-vue: 9.18.1(eslint@8.52.0)
       semver: 7.5.4
       vue-eslint-parser: 9.3.2(eslint@8.52.0)
     transitivePeerDependencies:
@@ -6972,8 +6972,8 @@ packages:
       - supports-color
     dev: true
 
-  /eslint-plugin-vue@9.17.0(eslint@8.52.0):
-    resolution: {integrity: sha512-r7Bp79pxQk9I5XDP0k2dpUC7Ots3OSWgvGZNu3BxmKK6Zg7NgVtcOB6OCna5Kb9oQwJPl5hq183WD0SY5tZtIQ==}
+  /eslint-plugin-vue@9.18.1(eslint@8.52.0):
+    resolution: {integrity: sha512-7hZFlrEgg9NIzuVik2I9xSnJA5RsmOfueYgsUGUokEDLJ1LHtxO0Pl4duje1BriZ/jDWb+44tcIlC3yi0tdlZg==}
     engines: {node: ^14.17.0 || >=16.0.0}
     peerDependencies:
       eslint: ^6.2.0 || ^7.0.0 || ^8.0.0
