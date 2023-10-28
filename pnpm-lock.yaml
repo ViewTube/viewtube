@@ -36,8 +36,8 @@ importers:
         specifier: 0.2.0
         version: 0.2.0(eslint@8.52.0)
       '@pinia-plugin-persistedstate/nuxt':
-        specifier: 1.1.2
-        version: 1.1.2(@pinia/nuxt@0.5.1)(pinia@2.1.7)
+        specifier: 1.2.0
+        version: 1.2.0(@pinia/nuxt@0.5.1)(pinia@2.1.7)
       '@pinia/nuxt':
         specifier: 0.5.1
         version: 0.5.1(typescript@5.2.2)(vue@3.3.7)
@@ -3080,7 +3080,7 @@ packages:
     resolution: {integrity: sha512-kZ+rWq/5MZonMhp8KGFI5zMaR2VsiWpnlkOLJIuIX2WoJl0DkHvtxCtuFq2erAqMVruWLpKU+tgMC+1cno/QmA==}
     hasBin: true
     dependencies:
-      '@nuxt/kit': 3.7.4
+      '@nuxt/kit': 3.8.0
       ci-info: 3.9.0
       consola: 3.2.3
       create-require: 1.1.1
@@ -3321,12 +3321,12 @@ packages:
       '@parcel/watcher-win32-x64': 2.3.0
     dev: true
 
-  /@pinia-plugin-persistedstate/nuxt@1.1.2(@pinia/nuxt@0.5.1)(pinia@2.1.7):
-    resolution: {integrity: sha512-3deRNiIlFoFGO/K8Sz+yc53ayMzElR8ack7RnGka80zBgp6Fs9GWjoLJiy+ToIc7qVa6wrQcoLDsxcnvzX4T0g==}
+  /@pinia-plugin-persistedstate/nuxt@1.2.0(@pinia/nuxt@0.5.1)(pinia@2.1.7):
+    resolution: {integrity: sha512-2rtgx5viGSMQMCoFYZMHguA2FhFKCUvw0PwETfqQegsWeBHlqk1/D0G/9xqep8Hq+c1BuFx+jNLJzoLXtYfivg==}
     peerDependencies:
-      '@pinia/nuxt': ^0.4.4
+      '@pinia/nuxt': ^0.5.0
     dependencies:
-      '@nuxt/kit': 3.7.4
+      '@nuxt/kit': 3.8.0
       '@pinia/nuxt': 0.5.1(typescript@5.2.2)(vue@3.3.7)
       defu: 6.1.2
       pinia-plugin-persistedstate: 3.2.0(pinia@2.1.7)
