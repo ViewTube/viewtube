@@ -69,7 +69,7 @@
     "ytpl": "2.3.0"
   },
   "devDependencies": {
-    "@nestjs/cli": "10.2.0",
+    "@nestjs/cli": "10.2.1",
     "@nestjs/websockets": "10.2.6",
     "@types/archiver": "5.3.4",
     "@types/bcryptjs": "2.4.5",
