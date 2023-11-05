@@ -66,8 +66,7 @@ export class VideoplaybackService {
         reply.header('location', `/api/videoplayback?${searchParams.toString()}`);
       }
 
-      reply.status(fetchResponse.statusCode);
-      fetchResponse.body.pipe(reply.raw);
+      reply.status(fetchResponse.statusCode).send(fetchResponse.body);
     } catch (error) {
       if (this.configService.get('NODE_ENV') !== 'production') {
         this.logger.log(error);
