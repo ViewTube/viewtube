@@ -28,6 +28,8 @@
     "@typescript-eslint/parser": "6.9.1",
     "@unocss/nuxt": "0.57.1",
     "@unocss/preset-icons": "0.57.1",
+    "@vueuse/core": "^10.5.0",
+    "@vueuse/nuxt": "^10.5.0",
     "consola": "3.2.3",
     "cross-env": "7.0.3",
     "dashjs": "4.7.2",

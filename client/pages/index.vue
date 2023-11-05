@@ -15,6 +15,7 @@ const { data: homeFeedData, error: homeFeedError, pending: homeFeedLoading } = u
       description="An alternative YouTube frontend"
     />
     <Spinner v-if="homeFeedLoading" class="centered" />
+    <GithubHint />
     <ErrorPage v-if="homeFeedError" text="Error loading homepage. The API may not be reachable." />
     <HomeSubscriptions v-if="userStore.isLoggedIn && settingsStore.showHomeSubscriptions" />
     <HomeVideosContainer
@@ -38,7 +39,8 @@ const { data: homeFeedData, error: homeFeedError, pending: homeFeedLoading } = u
   display: flex;
   flex-direction: column;
 
-  &.loading, &.error {
+  &.loading,
+  &.error {
     height: calc(100vh - $header-height);
   }
 
@@ -46,14 +48,14 @@ const { data: homeFeedData, error: homeFeedError, pending: homeFeedLoading } = u
     max-width: $main-width;
     margin: 0 auto;
     .title {
-      margin: 0 0 0 15px !important;
+      margin: 0 0 0 10px !important;
     }
   }
   .home-videos-container {
     width: 100%;
     max-width: $main-width;
     margin: 0 auto;
-    padding: 0 15px;
+    padding: 0 10px;
     box-sizing: border-box;
     z-index: 10;
     background-color: var(--bgcolor-main);

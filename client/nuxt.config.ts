@@ -5,7 +5,8 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       vapidKey: process.env.VIEWTUBE_PUBLIC_VAPID,
-      videoplaybackProxy: ''
+      videoplaybackProxy: '',
+      githubHint: false
     }
   },
 
@@ -40,7 +41,7 @@ export default defineNuxtConfig({
     }
   },
 
-  modules: ['@pinia/nuxt', '@pinia-plugin-persistedstate/nuxt', '@unocss/nuxt'],
+  modules: ['@pinia/nuxt', '@pinia-plugin-persistedstate/nuxt', '@unocss/nuxt', '@vueuse/nuxt'],
 
   unocss: {
     uno: false,
