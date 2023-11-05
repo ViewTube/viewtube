@@ -55,6 +55,15 @@ const onPointerMove = (e: PointerEvent) => {
   }
 };
 
+const seekbarHovered = ref(false);
+const onPointerEnter = (e: PointerEvent) => {
+  seekbarHovered.value = true;
+};
+
+const onPointerLeave = (e: PointerEvent) => {
+  seekbarHovered.value = false;
+};
+
 const onPointerUp = (e: PointerEvent) => {
   uiState.setSeeking(false);
   seeking.value = false;
@@ -84,10 +93,13 @@ const hoverPositionStyle = computed(() => {
   <div
     ref="seekbarRef"
     class="flip-seekbar-container"
-    @pointerdown="onPointerDown"
-    @pointermove="onPointerMove"
-    @pointerup="onPointerUp"
-    @click.stop="() => {}"
+    :class="{ 'flip-seekbar-hovered': seekbarHovered }"
+    @pointerdown.stop.prevent="onPointerDown"
+    @pointermove.stop.prevent="onPointerMove"
+    @pointerup.stop.prevent="onPointerUp"
+    @pointerenter.stop.prevent="onPointerEnter"
+    @pointerleave.stop.prevent="onPointerLeave"
+    @click.stop.prevent="() => {}"
   >
     <div ref="seekbarInnerRef" class="flip-seekbar">
       <div class="flip-seekbar-buffer seekbar-overlay" />
@@ -107,6 +119,7 @@ const hoverPositionStyle = computed(() => {
   pointer-events: auto;
   cursor: pointer;
   user-select: none;
+  touch-action: none;
 
   .flip-seekbar {
     width: calc(100% - 30px);
@@ -161,7 +174,7 @@ const hoverPositionStyle = computed(() => {
     }
   }
 
-  &:hover {
+  &.flip-seekbar-hovered {
     .flip-hover-timestamp {
       opacity: 1;
     }

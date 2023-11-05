@@ -49,6 +49,8 @@ export const dashAdapter: VideoplaybackAdapter = async options => {
     unregisterCallback(dashjs.MediaPlayer.events.PLAYBACK_VOLUME_CHANGED);
     unregisterCallback(dashjs.MediaPlayer.events.PLAYBACK_RATE_CHANGED);
 
+    
+
     mediaPlayer.destroy();
   };
 

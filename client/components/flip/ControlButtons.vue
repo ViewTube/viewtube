@@ -12,6 +12,11 @@ const onPlayPauseClick = () => {
   }
 };
 
+const volumeControlVisible = ref(false);
+const onVolumeClick = () => {
+  volumeControlVisible.value = !volumeControlVisible.value;
+};
+
 const timestampText = computed(() => getTimestampFromSeconds(videoState.video.currentTime));
 const videoLengthText = computed(() => getTimestampFromSeconds(videoState.video.duration));
 </script>
@@ -19,7 +24,7 @@ const videoLengthText = computed(() => getTimestampFromSeconds(videoState.video.
 <template>
   <div class="flip-control-buttons">
     <span class="timestamp-text left">{{ timestampText }}</span>
-    <button class="control-button">
+    <button class="control-button" @click.stop="onVolumeClick">
       <VTIcon name="mdi:volume" />
     </button>
     <div class="control-buttons">

@@ -27,6 +27,8 @@ defineProps<{
 
   .collapsible-summary {
     cursor: pointer;
+    padding: 0 10px;
+
     .title {
       cursor: pointer;
       display: inline-flex;
