@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ChannelVideosSortOptionsType } from '@/utils/sortOptions';
 const route = useRoute();
 
 const channelId = computed(() => getChannelIdFromParam(route.params.id));

@@ -1,5 +1,3 @@
-import { Ref } from 'vue';
-
 export const seekbarFunctions = {
   onSeekbarTouchStart(
     e: any,

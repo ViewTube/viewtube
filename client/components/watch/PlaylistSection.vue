@@ -89,8 +89,7 @@
 </template>
 
 <script lang="ts">
-import { Result } from 'ytpl';
-import { PropType } from 'vue';
+import { type Result } from 'ytpl';
 
 export default defineComponent({
   name: 'PlaylistSection',

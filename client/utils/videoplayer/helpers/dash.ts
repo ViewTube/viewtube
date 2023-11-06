@@ -1,4 +1,4 @@
-import { MediaPlayerClass } from 'dashjs';
+import { type MediaPlayerClass } from 'dashjs';
 
 export class DashHelper {
   constructor(videoRef: any, manifestUrl: string, callback: () => void = () => {}) {

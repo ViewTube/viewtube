@@ -2,7 +2,6 @@
 import VideoEntry from '@/components/list/VideoEntry.vue';
 import PlaylistEntry from '@/components/list/PlaylistEntry.vue';
 import MultiOptionButton from '@/components/buttons/MultiOptionButton.vue';
-import { ChannelPlaylistsSortOptionsType, ChannelVideosSortOptionsType } from '@/utils/sortOptions';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 
 const props = withDefaults(
@@ -47,7 +46,12 @@ const sortBy = computed<ChannelVideosSortOptionsType | ChannelPlaylistsSortOptio
       </div>
     </div>
     <div v-if="entryType === 'videos'" class="videos-container">
-      <VideoEntry v-for="(video, index) in (videos as any)?.items" :key="index" :video="video" hide-author />
+      <VideoEntry
+        v-for="(video, index) in (videos as any)?.items"
+        :key="index"
+        :video="video"
+        hide-author
+      />
     </div>
     <div v-else class="videos-container">
       <PlaylistEntry
