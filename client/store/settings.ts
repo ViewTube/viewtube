@@ -1,14 +1,29 @@
 import { defineStore } from 'pinia';
 import { useUserStore } from '@/store/user';
 import { UnwrapNestedRefs } from 'vue';
+import destr from 'destr';
 
 export type SegmentOption = 'skip' | 'ask' | 'none';
-type ThemeVariant = 'default' | 'light' | 'dark-no-gradient' | 'black' | 'green';
+type ThemeVariant = 'default' | 'light' | 'black' | 'green';
 
 export const useSettingsStore = defineStore(
   'settings',
   () => {
     const { vtFetch } = useVtFetch();
+
+    const serverColorScheme = useRequestHeaders(['Sec-CH-Prefers-Color-Scheme']);
+    let defaultTheme = 'default' as ThemeVariant;
+    if (serverColorScheme?.['sec-ch-prefers-color-scheme']) {
+      switch (serverColorScheme['sec-ch-prefers-color-scheme']) {
+        case 'dark':
+          defaultTheme = 'default';
+          break;
+        case 'light':
+          defaultTheme = 'light';
+          break;
+      }
+    }
+
     const state = toRefs(
       reactive({
         alwaysLoopVideo: false,
@@ -34,7 +49,8 @@ export const useSettingsStore = defineStore(
         sponsorblockSegmentPreview: 'ask' as SegmentOption,
         sponsorblockSegmentSelfpromo: 'ask' as SegmentOption,
         sponsorblockSegmentSponsor: 'ask' as SegmentOption,
-        theme: 'default' as ThemeVariant,
+        theme: null as ThemeVariant | null,
+        defaultTheme: defaultTheme as ThemeVariant,
         rewriteYouTubeURLs: false
       })
     );
@@ -73,5 +89,12 @@ export const useSettingsStore = defineStore(
       storeSettings
     };
   },
-  { persist: true }
+  {
+    persist: {
+      serializer: {
+        deserialize: destr,
+        serialize: JSON.stringify
+      }
+    }
+  }
 );

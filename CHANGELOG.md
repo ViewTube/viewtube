@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Directly call fastify instance from nuxt server [#2377](https://github.com/ViewTube/viewtube/pull/2377)
+- Detect theme from system [#2379](https://github.com/ViewTube/viewtube/pull/2379)
 
 ### Fixed
 

@@ -95,7 +95,7 @@ export const defaultThemes = [
     'subtitle-color': '#d8d8d8',
     'subtitle-color-light': '#b3b3b3',
     darkness: 'invert(100%)',
-    'gradient-opacity': 1
+    'gradient-opacity': 0
   },
   {
     value: 'green',
@@ -135,16 +135,11 @@ const getThemeValues = (key: string) => defaultThemes.find(theme => theme.value 
 
 export const useCurrentTheme = () => {
   const settingsStore = useSettingsStore();
-  const currentTheme = ref(getThemeValues(settingsStore.theme));
+  const currentTheme = ref(getThemeValues(settingsStore.defaultTheme ?? settingsStore.theme));
 
-  watch(
-    () => settingsStore.theme,
-    (newValue, oldValue) => {
-      if (newValue !== oldValue) {
-        currentTheme.value = getThemeValues(newValue);
-      }
-    }
-  );
+  watch([() => settingsStore.theme, () => settingsStore.defaultTheme], () => {
+    currentTheme.value = getThemeValues(settingsStore.theme ?? settingsStore.defaultTheme);
+  });
 
   return { currentTheme };
 };
