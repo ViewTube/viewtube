@@ -17,7 +17,7 @@ export const validationSchema = Joi.object({
   VIEWTUBE_REDIS_PASSWORD: Joi.string().optional(),
 
   VIEWTUBE_DATA_DIRECTORY: Joi.string().default('/data'),
-  VIEWTUBE_CLUSTERED: Joi.boolean().default(true),
+  VIEWTUBE_CLUSTERED: Joi.boolean().default(false),
 
   // These are not required for ViewTube to run
   VIEWTUBE_CORS_DOMAIN: Joi.string().optional(),

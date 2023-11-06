@@ -54,7 +54,7 @@ importers:
         specifier: 1.5.3
         version: 1.5.3
       '@types/ua-parser-js':
-        specifier: ^0.7.37
+        specifier: 0.7.37
         version: 0.7.37
       '@typescript-eslint/eslint-plugin':
         specifier: 6.9.1
@@ -69,10 +69,10 @@ importers:
         specifier: 0.57.1
         version: 0.57.1
       '@vueuse/core':
-        specifier: ^10.5.0
+        specifier: 10.5.0
         version: 10.5.0(vue@3.3.7)
       '@vueuse/nuxt':
-        specifier: ^10.5.0
+        specifier: 10.5.0
         version: 10.5.0(nuxt@3.8.0)(vue@3.3.7)
       consola:
         specifier: 3.2.3
@@ -86,6 +86,9 @@ importers:
       dayjs:
         specifier: 1.11.10
         version: 1.11.10
+      destr:
+        specifier: 2.0.1
+        version: 2.0.1
       eslint:
         specifier: 8.52.0
         version: 8.52.0
@@ -144,7 +147,7 @@ importers:
         specifier: 5.2.2
         version: 5.2.2
       ua-parser-js:
-        specifier: ^1.0.36
+        specifier: 1.0.36
         version: 1.0.36
       vue:
         specifier: 3.3.7
@@ -240,16 +243,16 @@ importers:
         specifier: 1.11.10
         version: 1.11.10
       destr:
-        specifier: ^2.0.1
+        specifier: 2.0.1
         version: 2.0.1
       fast-xml-parser:
-        specifier: ^4.3.1
-        version: 4.3.2
+        specifier: 4.3.1
+        version: 4.3.1
       fastify:
         specifier: 4.24.3
         version: 4.24.3
       fetch-socks:
-        specifier: ^1.2.0
+        specifier: 1.2.0
         version: 1.2.0
       https-proxy-agent:
         specifier: 7.0.2
@@ -7836,8 +7839,8 @@ packages:
     dev: true
     optional: true
 
-  /fast-xml-parser@4.3.2:
-    resolution: {integrity: sha512-rmrXUXwbJedoXkStenj1kkljNF7ugn5ZjR9FJcwmCfcCbtOMDghPajbc+Tck6vE6F5XsDmx+Pr2le9fw8+pXBg==}
+  /fast-xml-parser@4.3.1:
+    resolution: {integrity: sha512-viVv3xb8D+SiS1W4cv4tva3bni08kAkx0gQnWrykMM8nXPc1FxqZPU00dCEVjkiCg4HoXd2jC4x29Nzg/l2DAA==}
     hasBin: true
     dependencies:
       strnum: 1.0.5
@@ -13348,7 +13351,7 @@ packages:
     dependencies:
       anymatch: 3.1.3
       chokidar: 3.5.3
-      destr: 2.0.2
+      destr: 2.0.1
       h3: 1.8.2
       ioredis: 5.3.2
       listhen: 1.5.5
