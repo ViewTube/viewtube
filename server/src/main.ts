@@ -32,6 +32,7 @@ const bootstrap = async () => {
     bufferLogs: true,
     logger
   });
+  global.nestApp = app;
 
   const configService = app.get(ConfigService);
 
