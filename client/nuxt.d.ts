@@ -1,3 +1,4 @@
+/* eslint-disable no-var */
 import { NestFastifyApplication } from '@nestjs/platform-fastify';
 
 declare module '#app' {
