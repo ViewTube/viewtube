@@ -34,18 +34,16 @@ export default defineComponent({
     const settingsStore = useSettingsStore();
 
     const clientColorScheme = usePreferredColorScheme();
-    const settingsCookie = useCookie('settings');
 
     watch(clientColorScheme, newVal => {
-      if (!settingsCookie.value) {
-        switch (newVal) {
-          case 'dark':
-            settingsStore.theme = 'default';
-            break;
-          case 'light':
-            settingsStore.theme = 'light';
-            break;
-        }
+      switch (newVal) {
+        case 'light':
+          settingsStore.defaultTheme = 'light';
+          break;
+        case 'dark':
+        default:
+          settingsStore.defaultTheme = 'default';
+          break;
       }
     });
 

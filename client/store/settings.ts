@@ -49,7 +49,8 @@ export const useSettingsStore = defineStore(
         sponsorblockSegmentPreview: 'ask' as SegmentOption,
         sponsorblockSegmentSelfpromo: 'ask' as SegmentOption,
         sponsorblockSegmentSponsor: 'ask' as SegmentOption,
-        theme: defaultTheme,
+        theme: null as ThemeVariant | null,
+        defaultTheme: defaultTheme as ThemeVariant,
         rewriteYouTubeURLs: false
       })
     );

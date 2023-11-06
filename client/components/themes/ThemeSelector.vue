@@ -7,7 +7,8 @@
       class="theme-preview"
       href="#"
       :style="{
-        'border-color': getBorderThemeColor(theme)
+        'border-color': getBorderThemeColor(theme),
+        'border-style': getBorderStyle(theme)
       }"
       @click.prevent="onThemeChange(theme)"
     >
@@ -72,13 +73,22 @@ export default defineComponent({
       }, 300);
     };
     const getBorderThemeColor = (theme: { [x: string]: any; value: string }): string => {
-      return theme.value === settingsStore.theme ? theme['theme-color'] : 'transparent';
+      return theme.value === (settingsStore.theme ?? settingsStore.defaultTheme)
+        ? theme['theme-color']
+        : 'transparent';
+    };
+    const getBorderStyle = (theme: { [x: string]: any; value: string }): string => {
+      if (!settingsStore.theme) {
+        return theme.value === settingsStore.defaultTheme ? 'dashed' : 'solid';
+      }
+      return 'solid';
     };
 
     return {
       themes: defaultThemes,
       onThemeChange,
-      getBorderThemeColor
+      getBorderThemeColor,
+      getBorderStyle
     };
   }
 });
@@ -104,7 +114,9 @@ export default defineComponent({
     border-radius: 8px;
     overflow: hidden;
     position: relative;
-    transition: box-shadow 200ms $intro-easing, border-color 200ms $intro-easing;
+    transition:
+      box-shadow 200ms $intro-easing,
+      border-color 200ms $intro-easing;
     box-sizing: border-box;
     box-shadow: $low-shadow;
     cursor: pointer;
