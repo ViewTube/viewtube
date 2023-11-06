@@ -43,7 +43,7 @@ export class AuthService {
   async logout(reply: FastifyReply, request: FastifyRequest) {
     const refreshToken = request.cookies?.RefreshToken;
 
-    await this.SessionModel.findOneAndRemove({ refreshToken }).exec();
+    await this.SessionModel.findOneAndDelete({ refreshToken }).exec();
 
     const emptyCookie = {
       path: '/'
