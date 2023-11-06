@@ -18,7 +18,7 @@ export class NuxtService {
   async importNuxtListener(): Promise<NodeListener> {
     this.nuxtPath = resolveNuxtPath();
     this.staticFileList = await resolveStaticFileList(this.nuxtPath);
-    const nuxt = await importerFunction(`${this.nuxtPath}/server/index.mjs`);
+    const nuxt = await importerFunction(`file://${this.nuxtPath}/server/index.mjs`);
     if (!nuxt?.listener || typeof nuxt.listener !== 'function') {
       throw new Error(
         'No compiled client found. Make sure to run "pnpm run build" inside the client folder before starting the server.'
@@ -28,7 +28,7 @@ export class NuxtService {
   }
 
   getPage(request: FastifyRequest, reply: FastifyReply): void {
-    if (this.staticFileList.includes(request.url)) {
+    if (this.staticFileList.some(el => el.replaceAll('\\', '/') === request.url)) {
       let cacheTTL = 86400;
       if (request.url.includes('_nuxt')) {
         cacheTTL = 31536000;
