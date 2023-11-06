@@ -1,4 +1,5 @@
 import { ofetch } from 'ofetch';
+import { destr } from 'destr';
 
 interface ResponseMap {
   blob: Blob;
@@ -13,6 +14,22 @@ type MappedType<R extends ResponseType, JsonType = any> = R extends keyof Respon
 type FetchRequest = Parameters<typeof ofetch>[0];
 type FetchOptions = Parameters<typeof ofetch>[1] & { external?: boolean };
 
+type HTTPMethods =
+  | 'DELETE'
+  | 'delete'
+  | 'GET'
+  | 'get'
+  | 'HEAD'
+  | 'head'
+  | 'PATCH'
+  | 'patch'
+  | 'POST'
+  | 'post'
+  | 'PUT'
+  | 'put'
+  | 'OPTIONS'
+  | 'options';
+
 export const useVtFetch = () => {
   const refreshToken = useCookie('RefreshToken');
   const accessToken = useCookie('AccessToken');
@@ -23,7 +40,7 @@ export const useVtFetch = () => {
     request: FetchRequest,
     options?: FetchOptions
   ): Promise<MappedType<R, T>> => {
-    const requestOptions = options ?? {};
+    const requestOptions = { ...options };
     delete requestOptions.external;
 
     if (!requestOptions.credentials && !options?.external) requestOptions.credentials = 'include';
@@ -45,18 +62,32 @@ export const useVtFetch = () => {
       requestOptions.headers = { ...requestOptions.headers, cookie: cookieHeader };
     }
 
-    const response = await ofetch.raw(request, requestOptions);
+    if (process.server && !options?.external && global.nestApp) {
+      const response = await global.nestApp.inject({
+        method: (requestOptions.method ?? 'GET') as HTTPMethods,
+        url: request.toString(),
+        headers: requestOptions.headers as Record<string, string>,
+        body: requestOptions.body,
+        authority: 'nuxtApp'
+      });
 
-    if (process.server && !options?.external) {
-      const setCookies = response.headers.getSetCookie();
-      if (setCookies) {
-        setCookies.forEach(cookie => {
-          nuxtApp.ssrContext.event.node.res.setHeader('set-cookie', cookie);
-        });
+      console.log('using nestApp.inject for ', request.toString(), 'external: ', options?.external);
+
+      return destr(response.body) as MappedType<R, T>;
+    } else {
+      const response = await ofetch.raw(request, requestOptions);
+
+      if (process.server && !options?.external) {
+        const setCookies = response.headers.getSetCookie();
+        if (setCookies) {
+          setCookies.forEach(cookie => {
+            nuxtApp.ssrContext.event.node.res.setHeader('set-cookie', cookie);
+          });
+        }
       }
-    }
 
-    return response._data as Promise<MappedType<R, T>>;
+      return response._data as MappedType<R, T>;
+    }
   };
 
   return { vtFetch };

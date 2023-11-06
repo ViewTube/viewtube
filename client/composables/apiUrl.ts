@@ -1,6 +1,5 @@
 const serverApiUrl = () => {
-  const port = process.env.PORT;
-  return `http://localhost:${port}/api/`;
+  return '/api/';
 };
 
 const devServerApi = () => {
@@ -11,15 +10,10 @@ const devServerApi = () => {
 export const useApiUrl = (clientOnly = false) => {
   return {
     apiUrl: computed(() => {
-      if (process.server && !clientOnly) {
-        if (process.env.NODE_ENV === 'production') {
-          return serverApiUrl();
-        } else {
-          return devServerApi();
-        }
-      } else {
-        return '/api/';
+      if (process.server && !clientOnly && process.env.NODE_ENV !== 'production') {
+        return devServerApi();
       }
+      return '/api/';
     })
   };
 };
