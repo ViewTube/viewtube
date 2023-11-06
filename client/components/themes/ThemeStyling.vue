@@ -24,12 +24,30 @@
 
 <script lang="ts">
 import { usePopupStore } from '@/store/popup';
+import { useSettingsStore } from '@/store/settings';
 
 export default defineComponent({
   name: 'ThemeStyling',
   setup() {
     const popupStore = usePopupStore();
     const { currentTheme } = useCurrentTheme();
+    const settingsStore = useSettingsStore();
+
+    const clientColorScheme = usePreferredColorScheme();
+    const settingsCookie = useCookie('settings');
+
+    watch(clientColorScheme, newVal => {
+      if (!settingsCookie.value) {
+        switch (newVal) {
+          case 'dark':
+            settingsStore.theme = 'default';
+            break;
+          case 'light':
+            settingsStore.theme = 'light';
+            break;
+        }
+      }
+    });
 
     return {
       currentTheme,
