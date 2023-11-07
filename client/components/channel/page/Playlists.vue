@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ChannelPlaylistsSortOptionsType } from '@/utils/sortOptions';
 const route = useRoute();
 
 const channelId = computed(() => getChannelIdFromParam(route.params.id));

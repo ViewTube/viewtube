@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import RelatedChannels, { RelatedChannelsType } from './RelatedChannels.vue';
+import RelatedChannels, { type RelatedChannelsType } from './RelatedChannels.vue';
 
 type ChannelItemType = {
   channelName: string;

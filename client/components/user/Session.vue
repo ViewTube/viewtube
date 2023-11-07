@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import humanizeDuration from 'humanize-duration';
-import { ApiDto } from '@/utils/shared';
+import { type ApiDto } from '@/utils/shared';
 import { useMessagesStore } from '~/store/messages';
 import dayjs from 'dayjs';
 

@@ -134,6 +134,6 @@ export class AdminService {
   }
 
   async unblockVideoId(videoId: string): Promise<void> {
-    await this.blockedVideoModel.findOneAndRemove({ videoId });
+    await this.blockedVideoModel.findOneAndDelete({ videoId });
   }
 }

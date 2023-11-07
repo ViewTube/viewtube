@@ -1,5 +1,5 @@
 import { useUserStore } from '@/store/user';
-import { Pinia } from 'pinia';
+import { type Pinia } from 'pinia';
 import { parseCookies } from 'h3';
 
 /**

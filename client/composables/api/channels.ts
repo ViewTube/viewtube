@@ -1,6 +1,3 @@
-import { Ref } from 'vue';
-import { ChannelVideosSortOptionsType } from '@/utils/sortOptions';
-
 export const useGetChannelInfo = (id: Ref<string> | string) => {
   const { apiUrl } = useApiUrl();
   const { vtFetch } = useVtFetch();

@@ -4,7 +4,7 @@ import SwitchButton from '@/components/buttons/SwitchButton.vue';
 import MultiOptionButton from '@/components/buttons/MultiOptionButton.vue';
 import Dropdown from '@/components/filter/Dropdown.vue';
 import '@/assets/styles/popup.scss';
-import { SegmentOption, useSettingsStore } from '@/store/settings';
+import { type SegmentOption, useSettingsStore } from '@/store/settings';
 
 defineEmits<{
   (e: 'close'): void;

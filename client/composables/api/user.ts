@@ -1,5 +1,3 @@
-import { Ref } from 'vue';
-
 type UserHistoryParams = {
   limit: number;
   start: number;

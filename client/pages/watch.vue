@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Result } from 'ytpl';
+import { type Result } from 'ytpl';
 import NextUpVideo from '@/components/watch/NextUpVideo.vue';
 import Spinner from '@/components/Spinner.vue';
 import SubscribeButton from '@/components/buttons/SubscribeButton.vue';

@@ -1,4 +1,3 @@
-import { Ref } from 'vue';
 import { useMessagesStore } from '@/store/messages';
 
 export const useChannelPlaylistsContinuation = <T extends ApiDto<'ChannelPlaylistsDto'>>(

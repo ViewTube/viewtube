@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { useUserStore } from '@/store/user';
-import { UnwrapNestedRefs } from 'vue';
+import { type UnwrapNestedRefs } from 'vue';
 import destr from 'destr';
 
 export type SegmentOption = 'skip' | 'ask' | 'none';

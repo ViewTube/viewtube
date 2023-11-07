@@ -149,7 +149,7 @@ export class UserService {
   }
 
   async deleteSession(request: ViewTubeRequest, sessionId: string) {
-    await this.SessionModel.findOneAndRemove({
+    await this.SessionModel.findOneAndDelete({
       _id: sessionId,
       username: request.user?.username
     }).exec();
