@@ -33,7 +33,6 @@ export default defineNuxtConfig({
         scss: {
           additionalData: `
            @use "sass:math";
-           @import "modern-js-ripple/dist/index.css";
            @import "@/assets/styles/global/variables.scss";
           `
         }

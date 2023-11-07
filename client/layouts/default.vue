@@ -54,6 +54,32 @@ if (appRef.value) {
 </template>
 
 <style lang="scss">
+.x-ripple-js__ripple-button {
+  position: relative;
+  overflow: hidden;
+  display: block;
+}
+
+.x-ripple-js__ripple-button > span.x-ripple {
+  position: absolute;
+  border-radius: 50%;
+  transform: scale(0);
+  animation: x-ripple-animation 800ms cubic-bezier(0.17, 0.67, 0.57, 0.94) forwards;
+  transition: opacity 400ms linear;
+  background-color: rgba(255, 255, 255, 0.7);
+  filter: blur(40px);
+}
+
+.x-ripple-js__ripple-button > span.x-ripple.x-ripple-release {
+  opacity: 0;
+}
+
+@keyframes x-ripple-animation {
+  to {
+    transform: scale(3);
+  }
+}
+
 .blur-enter-active,
 .blur-leave-active {
   transition: all 0.4s;
