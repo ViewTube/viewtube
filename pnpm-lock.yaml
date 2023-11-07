@@ -42,8 +42,8 @@ importers:
         specifier: 0.5.1
         version: 0.5.1(typescript@5.2.2)(vue@3.3.8)
       '@types/humanize-duration':
-        specifier: 3.27.2
-        version: 3.27.2
+        specifier: 3.27.3
+        version: 3.27.3
       '@types/node':
         specifier: 20.8.10
         version: 20.8.10
@@ -331,8 +331,8 @@ importers:
         specifier: 8.44.6
         version: 8.44.6
       '@types/humanize-duration':
-        specifier: 3.27.2
-        version: 3.27.2
+        specifier: 3.27.3
+        version: 3.27.3
       '@types/mime-types':
         specifier: 2.1.3
         version: 2.1.3
@@ -3442,8 +3442,8 @@ packages:
       '@types/node': 20.8.10
     dev: true
 
-  /@types/humanize-duration@3.27.2:
-    resolution: {integrity: sha512-KOGjfVAD8CHMgXL6z96f7eCNRFUENKa2BG87l7JsSg9ZA6lRFsipZ0faF4kKFqnzxirVgXmOnWqTLAKUog1h/g==}
+  /@types/humanize-duration@3.27.3:
+    resolution: {integrity: sha512-wiiiFYjnrYDJE/ujU7wS/NShqp12IKrejozjDtcejP0zYi+cjyjVcfZHwcFUDKVJ7tHGsmgeW2ED92ABIIjfpg==}
     dev: true
 
   /@types/istanbul-lib-coverage@2.0.4:
