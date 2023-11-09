@@ -352,8 +352,8 @@ importers:
         specifier: 3.0.3
         version: 3.0.3
       '@types/xml2json':
-        specifier: 0.11.5
-        version: 0.11.5
+        specifier: 0.11.6
+        version: 0.11.6
       '@typescript-eslint/eslint-plugin':
         specifier: 6.10.0
         version: 6.10.0(@typescript-eslint/parser@6.10.0)(eslint@8.53.0)(typescript@5.2.2)
@@ -3484,8 +3484,8 @@ packages:
       '@types/node': 20.8.10
       '@types/webidl-conversions': 7.0.2
 
-  /@types/xml2json@0.11.5:
-    resolution: {integrity: sha512-dH7j0Ph0QU7LZSdvrvhfuP/dE7ggdeusn8MvVCKtG6G4gGF4eQVKha8TQrUd8wyLtQ8Q03GTsupadPpSpatqwg==}
+  /@types/xml2json@0.11.6:
+    resolution: {integrity: sha512-OYZ5cB4zctk4JdK1MGdLmeBMdmg+/AClCUspQ6KtQ2vZLJkSpm0XWE9H0vCfCGlXvbqn9CBqIda2dXX2KAE/5w==}
     dependencies:
       '@types/node': 20.8.10
     dev: true
