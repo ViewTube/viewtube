@@ -322,8 +322,8 @@ importers:
         specifier: 6.0.1
         version: 6.0.1
       '@types/bcryptjs':
-        specifier: 2.4.5
-        version: 2.4.5
+        specifier: 2.4.6
+        version: 2.4.6
       '@types/cookie-parser':
         specifier: 1.4.6
         version: 1.4.6
@@ -3224,8 +3224,8 @@ packages:
       '@babel/types': 7.23.0
     dev: true
 
-  /@types/bcryptjs@2.4.5:
-    resolution: {integrity: sha512-tOF6TivOIvq+TWQm78335CMdyVJhpBG3NUdWQDAp95ax4E2rSKbws/ELHLk5EBoucwx/tHt3/hhLOHwWJgVrSw==}
+  /@types/bcryptjs@2.4.6:
+    resolution: {integrity: sha512-9xlo6R2qDs5uixm0bcIqCeMCE6HiQsIyel9KQySStiyqNl2tnj2mP3DX1Nf56MD6KMenNNlBBsy3LJ7gUEQPXQ==}
     dev: true
 
   /@types/body-parser@1.19.5:
