@@ -34,7 +34,7 @@
     "@nestjs/mongoose": "10.0.1",
     "@nestjs/platform-fastify": "10.2.8",
     "@nestjs/schedule": "4.0.0",
-    "@nestjs/swagger": "7.1.14",
+    "@nestjs/swagger": "7.1.15",
     "archiver": "6.0.1",
     "bcryptjs": "2.4.3",
     "bull": "4.11.4",
