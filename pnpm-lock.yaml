@@ -346,8 +346,8 @@ importers:
         specifier: 0.17.2
         version: 0.17.2
       '@types/web-push':
-        specifier: 3.6.2
-        version: 3.6.2
+        specifier: 3.6.3
+        version: 3.6.3
       '@types/webpack-node-externals':
         specifier: 3.0.3
         version: 3.0.3
@@ -3457,8 +3457,8 @@ packages:
     resolution: {integrity: sha512-v/ZHEj9xh82usl8LMR3GarzFY1IrbXJw5L4QfQhokjRV91q+SelFqxQWSep1ucXEZ22+dSTwLFkXeur25sPIbw==}
     dev: true
 
-  /@types/web-push@3.6.2:
-    resolution: {integrity: sha512-v6Wdk1eIVbAJQjEAa1ZxuG3cfOYTd6nSv55BVJMtLQUvQ07v80MPt2Voq/z71WKhy4CORu4L3aH+8SXKX4BD5g==}
+  /@types/web-push@3.6.3:
+    resolution: {integrity: sha512-v3oT4mMJsHeJ/rraliZ+7TbZtr5bQQuxcgD7C3/1q/zkAj29c8RE0F9lVZVu3hiQe5Z9fYcBreV7TLnfKR+4mg==}
     dependencies:
       '@types/node': 20.8.10
     dev: true
