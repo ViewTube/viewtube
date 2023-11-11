@@ -650,10 +650,12 @@ const watchPageTitle = computed(() => {
 
           .like-ratio {
             width: 100%;
-            height: 2px;
+            height: 4px;
             background-color: var(--theme-color-alt);
             position: relative;
             margin: 10px 0 0 0;
+            border-radius: 25px;
+            overflow: hidden;
 
             .like-ratio-bar {
               position: absolute;

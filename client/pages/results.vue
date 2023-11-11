@@ -118,7 +118,7 @@ const getListEntryType = (type: string) => {
 <template>
   <div class="search" :class="{ loading: pending }">
     <MetaPageHead :title="searchQuery" description="Search for videos, channels and playlists" />
-    <Spinner v-if="pending && searchData?.results.lastIndexOf" class="centered search-spinner" />
+    <Spinner v-if="pending" class="centered search-spinner" />
     <Filters :disabled="pending" />
     <p v-if="!pending && searchData" class="result-amount">
       {{ searchData?.estimatedResultCount?.toLocaleString('en-US') ?? 0 }} results
