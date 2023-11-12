@@ -13,7 +13,7 @@ const emit = defineEmits<{ (e: 'refresh'): void }>();
 
 const messagesStore = useMessagesStore();
 const { apiUrl } = useApiUrl();
-const imgProxy = useImgProxy();
+const { proxyUrl } = useImgProxy();
 const { vtFetch } = useVtFetch();
 
 const humanizeDateString = (dateString: string): string => {
@@ -45,7 +45,7 @@ const deleteEntry = async (videoId: string) => {
     <div v-for="(video, index) in historyVideos" :key="index" class="history-entry">
       <nuxt-link :to="`/watch?v=${video.videoId}`" class="history-entry-thumbnail">
         <img
-          :src="imgProxy.url + video.videoDetails.videoThumbnails[3].url"
+          :src="proxyUrl(video.videoDetails.videoThumbnails[3].url)"
           :alt="video.videoDetails.title"
           class="history-entry-thumbnail-img"
         />

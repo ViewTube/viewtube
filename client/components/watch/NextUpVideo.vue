@@ -3,7 +3,7 @@ import { useVideoPlayerStore } from '@/store/videoPlayer';
 
 defineProps<{ video: any }>();
 
-const { url: imgProxyUrl } = useImgProxy();
+const { proxyUrl } = useImgProxy();
 const route = useRoute();
 const videoPlayerStore = useVideoPlayerStore();
 
@@ -30,7 +30,7 @@ const remainingTimeString = computed(() => {
         <img
           class="next-up-thumbnail"
           crossorigin="anonymous"
-          :src="imgProxyUrl + video.thumbnails?.[1].url"
+          :src="proxyUrl(video.thumbnails?.[1].url)"
           :alt="video.title"
         />
       </div>

@@ -27,6 +27,7 @@ provide('uiState', readonly(uiState));
     <transition name="flip-fade">
       <FlipControls v-if="visible" />
     </transition>
+    <FlipPoster />
   </div>
 </template>
 

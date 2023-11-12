@@ -46,7 +46,8 @@ const onPointerMove = (e: PointerEvent) => {
     if (percent < 0) percent = 0;
     if (percent > 1) percent = 1;
     const time = videoState.video.duration * percent;
-    hoveredTime.value = getTimestampFromSeconds(time);
+    hoveredTime.value = time;
+    hoveredTimestamp.value = getTimestampFromSeconds(time);
     hoverPosition.value = percent;
 
     if (seeking.value) {
@@ -71,22 +72,30 @@ const onPointerUp = (e: PointerEvent) => {
   videoState.setTime(_currentTime.value);
 };
 
-const hoveredTime = ref('00:00');
+const hoveredTime = ref(0);
+const hoveredTimestamp = ref('00:00');
 const hoverPosition = ref(0);
 const hoverTimestampRef = ref<HTMLDivElement | null>(null);
 
-const hoverPositionStyle = computed(() => {
-  const rect = seekbarInnerRef.value?.getBoundingClientRect();
-  if (rect && hoverTimestampRef.value) {
-    const width = rect.width;
-    const hoverWidth = hoverTimestampRef.value.getBoundingClientRect().width;
-    const left = hoverPosition.value * width;
-    const offset = left - hoverWidth / 2;
-    if (offset < 0) return '0';
-    if (offset > width - hoverWidth) return `calc(100% - ${hoverWidth}px)`;
-    return `${offset}px`;
-  }
+const hoverTimestampPosition = computed(() => {
+  const elWidth = hoverTimestampRef.value?.getBoundingClientRect().width;
+  return getHoverPosition(elWidth);
 });
+
+const previewThumbnailPosition = computed(() => getHoverPosition(200));
+
+const getHoverPosition = (elWidth: number) => {
+  const rect = seekbarInnerRef.value?.getBoundingClientRect();
+  if (!rect || !elWidth) return '0px';
+
+  const width = rect.width;
+  const hoverWidth = elWidth;
+  const left = hoverPosition.value * width;
+  const offset = left - hoverWidth / 2;
+  if (offset < 0) return '0';
+  if (offset > width - hoverWidth) return `${width - hoverWidth}px)`;
+  return `${offset}px`;
+};
 </script>
 
 <template>
@@ -105,7 +114,20 @@ const hoverPositionStyle = computed(() => {
       <div class="flip-seekbar-buffer seekbar-overlay" />
       <div class="flip-seekbar-progress seekbar-overlay" />
       <div class="flip-seekbar-point" />
-      <div ref="hoverTimestampRef" class="flip-hover-timestamp">{{ hoveredTime }}</div>
+      <FlipSeekbarPreview
+        class="seekbar-preview"
+        :hovered-time="hoveredTime"
+        :position-x="previewThumbnailPosition"
+      />
+      <div
+        ref="hoverTimestampRef"
+        class="flip-hover-timestamp"
+        :style="{
+          transform: `translate3d(${hoverTimestampPosition}, 0, 0)`
+        }"
+      >
+        {{ hoveredTimestamp }}
+      </div>
     </div>
   </div>
 </template>
@@ -162,7 +184,7 @@ const hoverPositionStyle = computed(() => {
     .flip-hover-timestamp {
       position: absolute;
       bottom: 10px;
-      left: v-bind(hoverPositionStyle);
+      left: 0;
       background-color: $video-thmb-overlay-bgcolor;
       padding: 2px 6px;
       border-radius: 3px;
@@ -175,6 +197,10 @@ const hoverPositionStyle = computed(() => {
   }
 
   &.flip-seekbar-hovered {
+    :deep(.seekbar-preview) {
+      opacity: 1;
+    }
+
     .flip-hover-timestamp {
       opacity: 1;
     }

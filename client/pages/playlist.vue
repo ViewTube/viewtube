@@ -9,7 +9,7 @@ import { useMessagesStore } from '~/store/messages';
 const messagesStore = useMessagesStore();
 const { apiUrl } = useApiUrl();
 const route = useRoute();
-const imgProxy = useImgProxy();
+const { proxyUrl } = useImgProxy();
 const { vtFetch } = useVtFetch();
 const { createTextLinks } = useCreateTextLinks();
 
@@ -76,14 +76,14 @@ const loadMoreVideos = async () => {
     <div v-if="playlist" class="thumbnail-banner-container">
       <div
         class="thumbnail-banner"
-        :style="{ 'background-image': `url(${imgProxy.url + playlist.thumbnails[0].url})` }"
+        :style="{ 'background-image': `url(${proxyUrl(playlist.thumbnails[0].url)})` }"
       />
       <div class="gradient-to-color" />
       <div class="playlist-info">
         <nuxt-link :to="`/channel/${playlist.author.channelID}`" class="author-thumbnail-banner">
           <img
             class="author-thumbnail"
-            :src="imgProxy.url + playlist.author.bestAvatar.url"
+            :src="proxyUrl(playlist.author.bestAvatar.url)"
             alt="Author thumbnail"
           />
           <div class="author-info">

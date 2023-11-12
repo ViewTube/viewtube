@@ -14,7 +14,7 @@ const emit = defineEmits<{
 
 const route = useRoute();
 const messagesStore = useMessagesStore();
-const imgProxy = useImgProxy();
+const { proxyUrl } = useImgProxy();
 const { createTextLinks } = useCreateTextLinks(seconds => {
   emit('setTimestamp', seconds);
 });
@@ -73,7 +73,7 @@ const loadMoreReplies = () => {
     <nuxt-link :to="{ path: '/channel/' + comment.authorId }" class="comment-author-image-link">
       <img
         class="comment-author-image"
-        :src="imgProxy.url + comment.authorThumbnails[2].url"
+        :src="proxyUrl(comment.authorThumbnails[2].url)"
         :alt="comment.author"
       />
     </nuxt-link>

@@ -28,7 +28,7 @@ export const videoPlayerSetup = (
   const config = useRuntimeConfig();
   const { apiUrl } = useApiUrl();
   const { $formatting: formatting } = useNuxtApp();
-  const imgProxy = useImgProxy();
+  const { proxyUrl } = useImgProxy();
   const { streamProxy } = useProxyUrls();
   const { vtFetch } = useVtFetch();
 
@@ -1003,7 +1003,6 @@ export const videoPlayerSetup = (
   });
 
   return {
-    imgProxyUrl: imgProxy.url,
     loading,
     fullscreen,
     playerOverlay,
@@ -1027,6 +1026,7 @@ export const videoPlayerSetup = (
     selectedVideoQuality,
     selectedAudioQuality,
     renderedVideoQuality,
+    proxyUrl,
     getChapterForPercentage,
     onLoadedData,
     onLoadedMetadata,

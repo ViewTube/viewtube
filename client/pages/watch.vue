@@ -496,10 +496,6 @@ const watchPageTitle = computed(() => {
   width: 100%;
   margin-top: $header-height;
 
-  .videoplayer-placeholder {
-    height: calc(100vh - 170px);
-  }
-
   .nojs-player {
     max-height: calc(100vh - 170px);
     z-index: 11;

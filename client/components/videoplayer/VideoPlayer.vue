@@ -320,7 +320,7 @@
       v-if="video.thumbnails && video.thumbnails.length > 0"
       class="video-thumbnail-overlay"
       :style="{
-        backgroundImage: `url(${imgProxyUrl + video.thumbnails[0].url})`
+        backgroundImage: `url(${proxyUrl(video.thumbnails[0].url)})`
       }"
       :class="{ hidden: !playerOverlay.thumbnailVisible, autoplay: settingsStore.autoplay }"
     />
