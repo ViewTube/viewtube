@@ -1,4 +1,4 @@
-import {
+import type {
   VideoplaybackAdapterResponse,
   VideoplaybackAdapterType
 } from '@/utils/videoplayer/adapters/adapter';

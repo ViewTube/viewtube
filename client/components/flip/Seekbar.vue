@@ -57,11 +57,11 @@ const onPointerMove = (e: PointerEvent) => {
 };
 
 const seekbarHovered = ref(false);
-const onPointerEnter = (e: PointerEvent) => {
+const onPointerEnter = () => {
   seekbarHovered.value = true;
 };
 
-const onPointerLeave = (e: PointerEvent) => {
+const onPointerLeave = () => {
   seekbarHovered.value = false;
 };
 

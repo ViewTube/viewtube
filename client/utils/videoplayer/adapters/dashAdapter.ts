@@ -1,4 +1,4 @@
-import { EventListenerCallback, VideoplaybackAdapter } from './adapter';
+import type { EventListenerCallback, VideoplaybackAdapter } from './adapter';
 
 export const dashAdapter: VideoplaybackAdapter = async options => {
   const { source, startTime, videoRef } = options;
@@ -48,8 +48,6 @@ export const dashAdapter: VideoplaybackAdapter = async options => {
     unregisterCallback(dashjs.MediaPlayer.events.PLAYBACK_WAITING);
     unregisterCallback(dashjs.MediaPlayer.events.PLAYBACK_VOLUME_CHANGED);
     unregisterCallback(dashjs.MediaPlayer.events.PLAYBACK_RATE_CHANGED);
-
-    
 
     mediaPlayer.destroy();
   };
