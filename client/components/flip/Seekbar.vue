@@ -93,7 +93,7 @@ const getHoverPosition = (elWidth: number) => {
   const left = hoverPosition.value * width;
   const offset = left - hoverWidth / 2;
   if (offset < 0) return '0';
-  if (offset > width - hoverWidth) return `${width - hoverWidth}px)`;
+  if (offset > width - hoverWidth) return `${width - hoverWidth}px`;
   return `${offset}px`;
 };
 </script>

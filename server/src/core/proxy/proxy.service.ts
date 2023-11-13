@@ -1,4 +1,4 @@
-import { Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { vtFetch } from 'server/common/vtFetch';
@@ -12,7 +12,6 @@ export class ProxyService {
 
   async proxyImage(url: string, reply: FastifyReply, local: boolean): Promise<void> {
     try {
-      console.log(url);
       const imageResponse = await vtFetch(url, { useProxy: !local });
 
       imageResponse.body.pipe(reply.raw);

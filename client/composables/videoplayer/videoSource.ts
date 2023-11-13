@@ -1,5 +1,3 @@
-import { ApiDto } from '@/utils/shared';
-
 export const useVideoSource = (video: Ref<ApiDto<'VTVideoInfoDto'>>) => {
   const config = useRuntimeConfig();
 

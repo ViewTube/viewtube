@@ -134,6 +134,9 @@ importers:
       qrcode:
         specifier: 1.5.3
         version: 1.5.3
+      rvfc-polyfill:
+        specifier: ^1.0.7
+        version: 1.0.7
       sass:
         specifier: 1.70.0
         version: 1.70.0
@@ -11886,6 +11889,10 @@ packages:
   /run-script-webpack-plugin@0.2.0:
     resolution: {integrity: sha512-SVNNq4jxzjfnaW+HkdTlyH1CWwCuSb/weYfic0D7Y/KnhY27YRYkzgybdzTDEPJlpQ73FDCRDbyBFwNsJMmwWQ==}
     engines: {node: '>=14'}
+    dev: true
+
+  /rvfc-polyfill@1.0.7:
+    resolution: {integrity: sha512-seBl7J1J3/k0LuzW2T9fG6JIOpni5AbU+/87LA+zTYKgTVhsfShmS8K/yOo1eeEjGJHnAdkVAUUM+PEjN9Mpkw==}
     dev: true
 
   /rxjs@7.8.1:

@@ -13,55 +13,87 @@ const getPreviewThumbnail = (
     return;
   }
 
-  let previewUrl = previewThumbnailTemplate.urlTemplate;
-  let previewNr = 0;
-  let intervalSeconds = video.duration.seconds;
+  let previewImageUrl = previewThumbnailTemplate.urlTemplate;
+  let previewImageNr = 0;
+  const thumbnailCountPerImg = previewThumbnailTemplate.columns * previewThumbnailTemplate.rows;
+  let secondsPerThumbnail = video.duration.seconds / thumbnailCountPerImg;
 
   if (previewThumbnailTemplate.previewThumbnailCount > 1) {
-    // Preview thumbnails interval is specified in tenths of a second (Why YouTube...)
-    intervalSeconds = previewThumbnailTemplate.interval / 10;
-    previewNr = Math.floor(props.hoveredTime / intervalSeconds);
-    previewUrl = previewUrl.replace('M$M', `M${previewNr}`);
+    secondsPerThumbnail = previewThumbnailTemplate.interval / 1000;
+    const thumbnailNr = Math.floor(props.hoveredTime / secondsPerThumbnail);
+    const thumbnailsPerImage = previewThumbnailTemplate.columns * previewThumbnailTemplate.rows;
+
+    previewImageNr = Math.floor(thumbnailNr / thumbnailsPerImage);
+    previewImageUrl = previewImageUrl.replace('M$M', `M${previewImageNr}`);
   }
 
-  const thumbnailCountPerImg = previewThumbnailTemplate.columns * previewThumbnailTemplate.rows;
-  const secondsPerThumbnail = intervalSeconds / thumbnailCountPerImg;
-  const currentThumbnailSeconds = props.hoveredTime - previewNr * thumbnailCountPerImg;
-  const currentThumbnailNr = Math.floor(currentThumbnailSeconds / secondsPerThumbnail);
+  const currentImageSeconds =
+    props.hoveredTime - previewImageNr * thumbnailCountPerImg * secondsPerThumbnail;
+  const currentThumbnailNr = Math.floor(currentImageSeconds / secondsPerThumbnail);
 
   const thumbnailColumn = currentThumbnailNr % previewThumbnailTemplate.columns;
   const thumbnailRow = Math.floor(currentThumbnailNr / previewThumbnailTemplate.columns);
 
+  const aspectRatio = previewThumbnailTemplate.width / previewThumbnailTemplate.height;
+
+  const thumbnailWidth = 200;
+  const thumbnailHeight = thumbnailWidth / aspectRatio;
+
   return {
-    previewUrl: proxyUrl(previewUrl),
+    previewUrl: proxyUrl(previewImageUrl),
     thumbnailColumn,
     thumbnailRow,
     columns: previewThumbnailTemplate.columns,
-    rows: previewThumbnailTemplate.rows
+    rows: previewThumbnailTemplate.rows,
+    thumbnailWidth,
+    thumbnailHeight
   };
 };
 
-const smallThumbnail = computed(() => getPreviewThumbnail(video.previewThumbnails[2]));
+const smallThumbnail = computed(() => getPreviewThumbnail(video.previewThumbnails[0]));
+const largeThumbnail = computed(() =>
+  getPreviewThumbnail(video.previewThumbnails[video.previewThumbnails.length - 1])
+);
 </script>
 
 <template>
   <div
+    v-if="video.previewThumbnails?.length > 0"
     class="flip-seekbar-preview"
     :style="{
-      backgroundImage: `url(${smallThumbnail.previewUrl})`,
-      backgroundPositionX: `-${smallThumbnail.thumbnailColumn * 200}px`,
-      backgroundPositionY: `-${smallThumbnail.thumbnailRow * 112.5}px`,
-      backgroundSize: `${smallThumbnail.columns * 200}px ${smallThumbnail.rows * 112.5}px`,
-      transform: `translate3d(${positionX}, 0, 0)`
+      transform: `translate3d(${positionX}, 0, 0)`,
+      height: `${largeThumbnail.thumbnailHeight}px`
     }"
-  />
+  >
+    <div
+      class="seekbar-preview-image"
+      :style="{
+        backgroundImage: `url(${smallThumbnail.previewUrl})`,
+        backgroundPositionX: `-${smallThumbnail.thumbnailColumn * 200}px`,
+        backgroundPositionY: `-${smallThumbnail.thumbnailRow * smallThumbnail.thumbnailHeight}px`,
+        backgroundSize: `${smallThumbnail.columns * 200}px ${
+          smallThumbnail.rows * smallThumbnail.thumbnailHeight
+        }px`
+      }"
+    />
+    <div
+      class="seekbar-preview-image"
+      :style="{
+        backgroundImage: `url(${largeThumbnail.previewUrl})`,
+        backgroundPositionX: `-${largeThumbnail.thumbnailColumn * 200}px`,
+        backgroundPositionY: `-${largeThumbnail.thumbnailRow * largeThumbnail.thumbnailHeight}px`,
+        backgroundSize: `${largeThumbnail.columns * 200}px ${
+          largeThumbnail.rows * largeThumbnail.thumbnailHeight
+        }px`
+      }"
+    />
+  </div>
 </template>
 
 <style lang="scss" scoped>
 .flip-seekbar-preview {
   position: absolute;
   left: 0;
-  height: 112.5px;
   width: 200px;
   bottom: 40px;
   background-repeat: no-repeat;
@@ -70,5 +102,13 @@ const smallThumbnail = computed(() => getPreviewThumbnail(video.previewThumbnail
   opacity: 0;
   transition: opacity 200ms $intro-easing;
   box-shadow: $low-shadow;
+
+  .seekbar-preview-image {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
 }
 </style>

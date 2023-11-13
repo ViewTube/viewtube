@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { ApiDto } from '@/utils/shared';
-
 const props = defineProps<{
   video: ApiDto<'VTVideoInfoDto'>;
   startTime?: number;

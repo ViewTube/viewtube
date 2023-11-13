@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import { ApiDto } from '@/utils/shared';
-
-const video = inject<ApiDto<'VTVideoInfoDto'>>('video');
 const videoState = inject<VideoState>('videoState');
 const flipPlayerUIRef = ref<HTMLDivElement | null>(null);
 

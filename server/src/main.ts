@@ -177,4 +177,9 @@ const runBootstrap = async () => {
   }
 };
 
+process.on('warning', e => {
+  if (process.env.NODE_ENV === 'production') return;
+  logger.warn(e);
+  logger.warn(e.stack);
+});
 runBootstrap();

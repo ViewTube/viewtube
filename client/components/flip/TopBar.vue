@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ApiDto } from '@/utils/shared';
 const video = inject<ApiDto<'VTVideoInfoDto'>>('video');
 const uiState = inject<UIState>('uiState');
 </script>
