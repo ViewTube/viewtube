@@ -90,7 +90,7 @@
     "eslint-config-prettier": "9.0.0",
     "hex-rgb": "5.0.0",
     "openapi-typescript": "6.7.1",
-    "redis": "4.6.10",
+    "redis": "4.6.11",
     "rimraf": "5.0.5",
     "run-script-webpack-plugin": "0.2.0",
     "ts-loader": "9.5.1",
