@@ -71,7 +71,7 @@
   "devDependencies": {
     "@nestjs/cli": "10.2.1",
     "@nestjs/websockets": "10.2.8",
-    "@types/archiver": "6.0.1",
+    "@types/archiver": "6.0.2",
     "@types/bcryptjs": "2.4.6",
     "@types/cookie-parser": "1.4.6",
     "@types/eslint": "8.44.7",
