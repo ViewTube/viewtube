@@ -319,8 +319,8 @@ importers:
         specifier: 10.2.8
         version: 10.2.8(@nestjs/common@10.2.8)(@nestjs/core@10.2.8)(reflect-metadata@0.1.13)(rxjs@7.8.1)
       '@types/archiver':
-        specifier: 6.0.1
-        version: 6.0.1
+        specifier: 6.0.2
+        version: 6.0.2
       '@types/bcryptjs':
         specifier: 2.4.6
         version: 2.4.6
@@ -3229,8 +3229,8 @@ packages:
       minimatch: 9.0.3
     dev: true
 
-  /@types/archiver@6.0.1:
-    resolution: {integrity: sha512-F2+JkmDYvtQrtb2YldwL0apRB1/WB6ub+1zVF/bKp3TOygUMFqfOLuw5Fj62Q+DPwJUFz1eocMxJMu7yVpplZA==}
+  /@types/archiver@6.0.2:
+    resolution: {integrity: sha512-KmROQqbQzKGuaAbmK+ZcytkJ51+YqDa7NmbXjmtC5YBLSyQYo21YaUnQ3HbaPFKL1ooo6RQ6OPYPIDyxfpDDXw==}
     dependencies:
       '@types/readdir-glob': 1.1.4
     dev: true
