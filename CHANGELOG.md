@@ -55,7 +55,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Breaking ⚠️
 
 - Disable clustering by default [#2377](https://github.com/ViewTube/viewtube/pull/2377)
-  - Clustering is now disabled by default. If you want to use clustering, you have to set the `VIEWTUBE_CLUSTERED` environment variable to `true`.
+  - Clustering is controlled by the `VIEWTUBE_CLUSTERED` environment variable [viewtube.wiki > advanced configuration](https://viewtube.wiki/installation/configuration#advanced-configuration).  
+    If you have disabled clustering previously, you don't need to change anything.  
+    If you want to keep clustering enabled, you need to set the `VIEWTUBE_CLUSTERED` environment variable to `true`.
 
 ### Added
 
@@ -72,6 +74,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix nuxt import on windows (only relevant for development) [#2377](https://github.com/ViewTube/viewtube/pull/2377)
 - Fix "window is not defined" when logged in and "Rewrite YouTube URLs" is enabled [#2469](https://github.com/ViewTube/viewtube/pull/2469)
 - Fix certain search terms not working [#2493](https://github.com/ViewTube/viewtube/pull/2493)
+
+## Removed
+
+- Remove unused VIEWTUBE_YOUTUBE_IDENTIFIER environment variable [#2388](https://github.com/ViewTube/viewtube/pull/2388)
 
 ## [0.13.1]
 
