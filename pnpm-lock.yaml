@@ -205,7 +205,7 @@ importers:
         version: 10.2.0(@nestjs/common@10.2.8)
       '@nestjs/mongoose':
         specifier: 10.0.2
-        version: 10.0.2(@nestjs/common@10.2.8)(@nestjs/core@10.2.8)(mongoose@7.6.5)(reflect-metadata@0.1.13)(rxjs@7.8.1)
+        version: 10.0.2(@nestjs/common@10.2.8)(@nestjs/core@10.2.8)(mongoose@7.6.6)(reflect-metadata@0.1.13)(rxjs@7.8.1)
       '@nestjs/platform-fastify':
         specifier: 10.2.8
         version: 10.2.8(@fastify/static@6.12.0)(@nestjs/common@10.2.8)(@nestjs/core@10.2.8)
@@ -270,8 +270,8 @@ importers:
         specifier: 1.4.4
         version: 1.4.4
       mongoose:
-        specifier: 7.6.5
-        version: 7.6.5
+        specifier: 7.6.6
+        version: 7.6.6
       nest-winston:
         specifier: 1.9.4
         version: 1.9.4(@nestjs/common@10.2.8)(winston@3.11.0)
@@ -2252,7 +2252,7 @@ packages:
       reflect-metadata: 0.1.13
     dev: false
 
-  /@nestjs/mongoose@10.0.2(@nestjs/common@10.2.8)(@nestjs/core@10.2.8)(mongoose@7.6.5)(reflect-metadata@0.1.13)(rxjs@7.8.1):
+  /@nestjs/mongoose@10.0.2(@nestjs/common@10.2.8)(@nestjs/core@10.2.8)(mongoose@7.6.6)(reflect-metadata@0.1.13)(rxjs@7.8.1):
     resolution: {integrity: sha512-ITHh075DynjPIaKeJh6WkarS21WXYslu4nrLkNPbWaCP6JfxVAOftaA2X5tPSiiE/gNJWgs+QFWsfCFZUUenow==}
     peerDependencies:
       '@nestjs/common': ^8.0.0 || ^9.0.0 || ^10.0.0
@@ -2263,7 +2263,7 @@ packages:
     dependencies:
       '@nestjs/common': 10.2.8(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
       '@nestjs/core': 10.2.8(@nestjs/common@10.2.8)(@nestjs/websockets@10.2.8)(reflect-metadata@0.1.13)(rxjs@7.8.1)
-      mongoose: 7.6.5
+      mongoose: 7.6.6
       reflect-metadata: 0.1.13
       rxjs: 7.8.1
     dev: false
@@ -9200,34 +9200,6 @@ packages:
       - supports-color
     dev: true
 
-  /mongodb@5.9.0:
-    resolution: {integrity: sha512-g+GCMHN1CoRUA+wb1Agv0TI4YTSiWr42B5ulkiAfLLHitGK1R+PkSAf3Lr5rPZwi/3F04LiaZEW0Kxro9Fi2TA==}
-    engines: {node: '>=14.20.1'}
-    peerDependencies:
-      '@aws-sdk/credential-providers': ^3.188.0
-      '@mongodb-js/zstd': ^1.0.0
-      kerberos: ^1.0.0 || ^2.0.0
-      mongodb-client-encryption: '>=2.3.0 <3'
-      snappy: ^7.2.2
-    peerDependenciesMeta:
-      '@aws-sdk/credential-providers':
-        optional: true
-      '@mongodb-js/zstd':
-        optional: true
-      kerberos:
-        optional: true
-      mongodb-client-encryption:
-        optional: true
-      snappy:
-        optional: true
-    dependencies:
-      bson: 5.5.1
-      mongodb-connection-string-url: 2.6.0
-      socks: 2.7.1
-    optionalDependencies:
-      '@mongodb-js/saslprep': 1.1.1
-    dev: false
-
   /mongodb@5.9.1:
     resolution: {integrity: sha512-NBGA8AfJxGPeB12F73xXwozt8ZpeIPmCUeWRwl9xejozTXFes/3zaep9zhzs1B/nKKsw4P3I4iPfXl3K7s6g+Q==}
     engines: {node: '>=14.20.1'}
@@ -9254,15 +9226,14 @@ packages:
       socks: 2.7.1
     optionalDependencies:
       '@mongodb-js/saslprep': 1.1.1
-    dev: true
 
-  /mongoose@7.6.5:
-    resolution: {integrity: sha512-ElHgGWVKQUawKBn0DXuHmSd3W5w5Kb8JUbDNQH30odhYCDKq9GCh+E1/SuN8jZGxrHgFyLrvYxLSpC36BpqS+w==}
+  /mongoose@7.6.6:
+    resolution: {integrity: sha512-xZDNhnpSUJH1r72g42ai4StVoLmcaLD74Gv6vbEqOKKDEphAjMCZxzS5WU8hFUZAogt8eocvPf/1um8jvkkZGQ==}
     engines: {node: '>=14.20.1'}
     dependencies:
       bson: 5.5.1
       kareem: 2.5.1
-      mongodb: 5.9.0
+      mongodb: 5.9.1
       mpath: 0.9.0
       mquery: 5.0.0
       ms: 2.1.3
