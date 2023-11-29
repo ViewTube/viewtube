@@ -21,7 +21,7 @@
     "@pinia/nuxt": "0.5.1",
     "@types/humanize-duration": "3.27.3",
     "@types/node": "20.10.0",
-    "@types/papaparse": "5.3.13",
+    "@types/papaparse": "5.3.14",
     "@types/qrcode": "1.5.5",
     "@types/ua-parser-js": "0.7.39",
     "@typescript-eslint/eslint-plugin": "6.13.1",

@@ -48,8 +48,8 @@ importers:
         specifier: 20.10.0
         version: 20.10.0
       '@types/papaparse':
-        specifier: 5.3.13
-        version: 5.3.13
+        specifier: 5.3.14
+        version: 5.3.14
       '@types/qrcode':
         specifier: 1.5.5
         version: 1.5.5
@@ -3512,8 +3512,8 @@ packages:
     dependencies:
       undici-types: 5.26.5
 
-  /@types/papaparse@5.3.13:
-    resolution: {integrity: sha512-tYSlZI3tIdBHXea8fZHcmwbsd1mSUikdMUyqpqj0Zzfu2GTGUSHEKmcnBg699WJ8UnxG31rXD4b1mLGPOAxS2w==}
+  /@types/papaparse@5.3.14:
+    resolution: {integrity: sha512-LxJ4iEFcpqc6METwp9f6BV6VVc43m6MfH0VqFosHvrUgfXiFe6ww7R3itkOQ+TCK6Y+Iv/+RnnvtRZnkc5Kc9g==}
     dependencies:
       '@types/node': 20.10.0
     dev: true
