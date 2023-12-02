@@ -87,7 +87,7 @@
     "@typescript-eslint/parser": "6.13.1",
     "cross-env": "7.0.3",
     "eslint": "8.54.0",
-    "eslint-config-prettier": "9.0.0",
+    "eslint-config-prettier": "9.1.0",
     "hex-rgb": "5.0.0",
     "openapi-typescript": "6.7.1",
     "redis": "4.6.11",
