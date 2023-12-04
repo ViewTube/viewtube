@@ -180,8 +180,8 @@ importers:
         specifier: 6.12.0
         version: 6.12.0
       '@fastify/swagger':
-        specifier: 8.12.0
-        version: 8.12.0
+        specifier: 8.12.1
+        version: 8.12.1
       '@freetube/yt-comment-scraper':
         specifier: 6.2.0
         version: 6.2.0
@@ -1945,7 +1945,7 @@ packages:
       '@fastify/busboy': 1.2.1
       '@fastify/deepmerge': 1.3.0
       '@fastify/error': 3.4.1
-      '@fastify/swagger': 8.12.0
+      '@fastify/swagger': 8.12.1
       '@fastify/swagger-ui': 1.10.1
       fastify-plugin: 4.5.1
       secure-json-parse: 2.7.0
@@ -1985,8 +1985,8 @@ packages:
       yaml: 2.3.4
     dev: false
 
-  /@fastify/swagger@8.12.0:
-    resolution: {integrity: sha512-IMRc0xYuzRvtFDMuaWHyVbvM7CuAi0g3o2jaVgLDvETXPrXWAMWsHYR5niIdWBDPgGUq+soHkag1DKXyhPDB0w==}
+  /@fastify/swagger@8.12.1:
+    resolution: {integrity: sha512-0GATwS+a1QHHhTYtyZfoIpRD5lL1XlDSiV2DqsTVMQxKpL18kx5o6oMz0l0rtFr4883XIGiRuvTv2rxFRIxp4Q==}
     dependencies:
       fastify-plugin: 4.5.1
       json-schema-resolver: 2.0.0
