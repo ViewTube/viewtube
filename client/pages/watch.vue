@@ -78,7 +78,7 @@ const {
   }
 
   if (settingsStore.rewriteYouTubeURLs) {
-    value.description = value.description.replace('https://www.youtube.com', window.location.host);
+    value.description = value.description.replace('https://www.youtube.com', '');
   }
 
   return { ...value, initialVideoTime };
