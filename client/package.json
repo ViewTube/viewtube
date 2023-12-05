@@ -28,7 +28,7 @@
     "@typescript-eslint/parser": "6.13.1",
     "@unocss/nuxt": "0.58.0",
     "@unocss/preset-icons": "0.58.0",
-    "@vueuse/core": "10.6.1",
+    "@vueuse/core": "10.7.0",
     "@vueuse/nuxt": "10.6.1",
     "consola": "3.2.3",
     "cross-env": "7.0.3",
