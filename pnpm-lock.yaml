@@ -30,8 +30,8 @@ importers:
   client:
     devDependencies:
       '@iconify-json/mdi':
-        specifier: 1.1.58
-        version: 1.1.58
+        specifier: 1.1.59
+        version: 1.1.59
       '@nuxt/eslint-config':
         specifier: 0.2.0
         version: 0.2.0(eslint@8.55.0)
@@ -2018,8 +2018,8 @@ packages:
     resolution: {integrity: sha512-dvuCeX5fC9dXgJn9t+X5atfmgQAzUOWqS1254Gh0m6i8wKd10ebXkfNKiRK+1GWi/yTvvLDHpoxLr0xxxeslWw==}
     dev: true
 
-  /@iconify-json/mdi@1.1.58:
-    resolution: {integrity: sha512-e2dWv+EtsAdbweWtbS/Wk7sIfsP1vOinNXTfdTbMWTYlmGz7/hqGw8YUONe1XwHuNiwTjm7A7V+S4IVzFTHQRw==}
+  /@iconify-json/mdi@1.1.59:
+    resolution: {integrity: sha512-p1Lbo5QE+k7YqFtPIUoaeNJfrWoTR4IxMzlgg+K3w/Wy5YPsUh+M9D0L8+m69DX1da4z+e9AfRpG/N4BIxGU9Q==}
     dependencies:
       '@iconify/types': 2.0.0
     dev: true
