@@ -1,9 +1,9 @@
 import { toVTVideoDto } from 'server/mapper/converter/video/vt-video.converter';
 import { VTVideoDto } from 'server/mapper/dto/vt-video.dto';
-import { YTNodes } from 'youtubei.js';
-import { HomeFeed } from 'youtubei.js/dist/src/parser/youtube';
+import { IBrowseResponse, YTNodes } from 'youtubei.js';
+import { TabbedFeed } from 'youtubei.js/dist/src/core/mixins';
 
-export const mapHomeFeed = (homeFeed: HomeFeed): Array<VTVideoDto> => {
+export const mapHomeFeed = (homeFeed: TabbedFeed<IBrowseResponse>): Array<VTVideoDto> => {
   return homeFeed.videos
     .map(item => {
       if (item.type === 'Video') {

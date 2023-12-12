@@ -31,7 +31,7 @@ const showMoreVideos = (): void => {
 </script>
 
 <template>
-  <SectionTitle v-if="videos?.length > 0" :title="'Popular videos'" />
+  <SectionTitle v-if="videos?.length > 0" :title="'Trending videos'" />
   <div class="home-videos-container small">
     <VideoEntry
       v-for="(video, index) in displayedVideos"

@@ -7,7 +7,7 @@ import { HomeFeedDto } from './dto/home-feed.dto';
 export class HomepageService {
   async getHomeFeed(): Promise<HomeFeedDto> {
     const client = await innertubeClient();
-    const homeFeed = await client.getHomeFeed();
+    const homeFeed = await client.getTrending();
     return {
       videos: mapHomeFeed(homeFeed)
     };
