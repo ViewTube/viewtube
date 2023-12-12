@@ -3,6 +3,12 @@
 This file is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.14.1]
+
+### Fixed
+
+- Override rollup for arm64 builds [#2494](https://github.com/ViewTube/viewtube/pull/2494)
+
 ## [0.14.0]
 
 ### Breaking ⚠️
@@ -347,7 +353,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial release
 
-[unreleased]: https://github.com/viewtube/viewtube/compare/v0.14.0...development
+[unreleased]: https://github.com/viewtube/viewtube/compare/v0.14.1...development
+[0.14.1]: https://github.com/viewtube/viewtube/compare/v0.14.0...v0.14.1
 [0.14.0]: https://github.com/viewtube/viewtube/compare/v0.13.1...v0.14.0
 [0.13.1]: https://github.com/viewtube/viewtube/compare/v0.13.0...v0.13.1
 [0.13.0]: https://github.com/viewtube/viewtube/compare/v0.12.2...v0.13.0
