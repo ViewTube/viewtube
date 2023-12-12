@@ -32,7 +32,7 @@
     "@vueuse/nuxt": "10.7.0",
     "consola": "3.2.3",
     "cross-env": "7.0.3",
-    "dashjs": "4.7.2",
+    "dashjs": "4.7.3",
     "dayjs": "1.11.10",
     "destr": "2.0.2",
     "eslint": "8.55.0",
