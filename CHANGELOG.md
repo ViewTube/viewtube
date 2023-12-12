@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Fix nuxt import on windows (only relevant for development) [#2377](https://github.com/ViewTube/viewtube/pull/2377)
 - Fix "window is not defined" when logged in and "Rewrite YouTube URLs" is enabled [#2469](https://github.com/ViewTube/viewtube/pull/2469)
+- Fix certain search terms not working [#2493](https://github.com/ViewTube/viewtube/pull/2493)
 
 ## [0.13.1]
 
