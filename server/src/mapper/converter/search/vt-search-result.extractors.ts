@@ -146,7 +146,7 @@ const extractSearchVideo = (video: SearchSourceApproximation) => {
       date: parseRelativeTime(video.published?.text)?.toDate(),
       text: video.published?.text
     },
-    live: video.badges.some(badge => badge.label === 'LIVE')
+    live: video.badges?.some(badge => badge.label === 'LIVE')
   } satisfies VTSearchVideoResultDto;
 };
 

@@ -5,9 +5,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.14.0]
 
-### Breaking
+### Breaking ⚠️
 
 - Disable clustering by default [#2377](https://github.com/ViewTube/viewtube/pull/2377)
+  - Clustering is now disabled by default. If you want to use clustering, you have to set the `VIEWTUBE_CLUSTERED` environment variable to `true`.
 
 ### Added
 
@@ -15,10 +16,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Detect theme from system [#2379](https://github.com/ViewTube/viewtube/pull/2379)
 - Upgrade dependencies [#2380](https://github.com/ViewTube/viewtube/pull/2380)
 
+### Changed
+
+- Switch homepage to trending, as popular was causing issues [#2490](https://github.com/ViewTube/viewtube/pull/2490)
+
 ### Fixed
 
 - Fix nuxt import on windows (only relevant for development) [#2377](https://github.com/ViewTube/viewtube/pull/2377)
 - Fix "window is not defined" when logged in and "Rewrite YouTube URLs" is enabled [#2469](https://github.com/ViewTube/viewtube/pull/2469)
+- Fix certain search terms not working [#2493](https://github.com/ViewTube/viewtube/pull/2493)
 
 ## [0.13.1]
 
