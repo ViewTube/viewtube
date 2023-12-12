@@ -44,7 +44,8 @@
     },
     "overrides": {
       "has": "npm:@nolyfill/has@latest",
-      "side-channel": "npm:@nolyfill/side-channel@latest"
+      "side-channel": "npm:@nolyfill/side-channel@latest",
+      "rollup": "npm:@rollup/wasm-node"
     }
   }
 }
