@@ -23,7 +23,6 @@ export class SettingsService {
     defaultAudioQuality: '192kb',
     defaultVideoQuality: '720p',
     defaultVideoSpeed: 1,
-    miniplayer: true,
     saveVideoHistory: true,
     showHomeSubscriptions: true,
     sponsorblockEnabled: true,

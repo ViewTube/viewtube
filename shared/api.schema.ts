@@ -211,7 +211,6 @@ export interface components {
       captchaImage: string;
     };
     SettingsDto: {
-      miniplayer: boolean;
       chapters: boolean;
       theme: string;
       sponsorblockEnabled: boolean;

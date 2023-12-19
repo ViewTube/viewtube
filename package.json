@@ -4,7 +4,7 @@
   "author": "Maurice Oegerli",
   "country": "Switzerland",
   "email": "viewtube@m-o.dev",
-  "version": "0.14.0",
+  "version": "0.14.2",
   "license": "AGPLv3",
   "engines": {
     "node": ">=18.16.0",
@@ -44,8 +44,7 @@
     },
     "overrides": {
       "has": "npm:@nolyfill/has@latest",
-      "side-channel": "npm:@nolyfill/side-channel@latest",
-      "rollup": "npm:@rollup/wasm-node"
+      "side-channel": "npm:@nolyfill/side-channel@latest"
     }
   }
 }

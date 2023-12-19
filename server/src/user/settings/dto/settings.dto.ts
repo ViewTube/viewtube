@@ -1,8 +1,6 @@
 export type segmentOption = 'none' | 'ask' | 'skip';
 
 export class SettingsDto {
-  miniplayer: boolean;
-
   chapters: boolean;
 
   theme: string;
