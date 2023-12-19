@@ -168,7 +168,7 @@ export const videoPlayerSetup = (
 
   const chapters = ref(null);
 
-  if (settingsStore.miniplayer) {
+  if (settingsStore.chapters) {
     chapters.value = parseChapters(props.video.description, props.video.duration.seconds);
   }
 

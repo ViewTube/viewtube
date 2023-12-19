@@ -71,8 +71,6 @@ export const useVtFetch = () => {
         authority: 'nuxtApp'
       });
 
-      console.log('using nestApp.inject for ', request.toString(), 'external: ', options?.external);
-
       return destr(response.body) as MappedType<R, T>;
     } else {
       const response = await ofetch.raw(request, requestOptions);

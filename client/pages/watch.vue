@@ -14,7 +14,6 @@ import VideoPlayer from '@/components/videoplayer/VideoPlayer.vue';
 import VideoLoadingTemplate from '@/components/watch/VideoLoadingTemplate.vue';
 import { useMessagesStore } from '@/store/messages';
 import { useSettingsStore } from '@/store/settings';
-import { useMiniplayerStore } from '@/store/miniplayer';
 import { useVideoPlayerStore } from '@/store/videoPlayer';
 import { useLoadingVideoInfoStore } from '@/store/loadingVideoInfo';
 import { useUserStore } from '@/store/user';
@@ -25,7 +24,6 @@ type VideoType = ApiDto<'VTVideoInfoDto'> & { initialVideoTime: number };
 const messagesStore = useMessagesStore();
 const settingsStore = useSettingsStore();
 const videoPlayerStore = useVideoPlayerStore();
-const miniplayerStore = useMiniplayerStore();
 const userStore = useUserStore();
 const { apiUrl } = useApiUrl();
 
@@ -233,7 +231,6 @@ watch(
       refresh();
       const videoId = newValue.v as string;
       loadComments(videoId);
-      miniplayerStore.setCurrentVideo(video);
     }
   }
 );
@@ -246,7 +243,6 @@ onMounted(() => {
   }
   loadComments();
   loadDislikes();
-  miniplayerStore.setCurrentVideo(video);
   loadPlaylist();
 });
 

@@ -176,16 +176,6 @@ const videoQualities = ['144p', '240p', '360p', '720p', '1080p', '1440p', '2160p
         </div>
       </div>
 
-      <h2><VTIcon name="mdi:window-restore" />Miniplayer</h2>
-      <SwitchButton
-        :value="settingsStore.miniplayer"
-        :label="'Enable miniplayer'"
-        :small-label="'Not working at the moment'"
-        :disabled="true"
-        :right="true"
-        @valuechange="val => settingsStore.setMiniplayer(val)"
-      />
-
       <h2><VTIcon name="mdi:home" />Homescreen</h2>
       <SwitchButton
         :value="settingsStore.showHomeSubscriptions"
