@@ -190,7 +190,7 @@ importers:
         version: 10.0.1(@nestjs/common@10.3.0)(@nestjs/core@10.3.0)(bull@4.12.0)
       '@nestjs/cache-manager':
         specifier: 2.1.1
-        version: 2.1.1(@nestjs/common@10.3.0)(@nestjs/core@10.3.0)(cache-manager@5.3.1)(reflect-metadata@0.1.13)(rxjs@7.8.1)
+        version: 2.1.1(@nestjs/common@10.3.0)(@nestjs/core@10.3.0)(cache-manager@5.3.2)(reflect-metadata@0.1.13)(rxjs@7.8.1)
       '@nestjs/common':
         specifier: 10.3.0
         version: 10.3.0(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
@@ -225,8 +225,8 @@ importers:
         specifier: 4.12.0
         version: 4.12.0
       cache-manager:
-        specifier: 5.3.1
-        version: 5.3.1
+        specifier: 5.3.2
+        version: 5.3.2
       cache-manager-redis-yet:
         specifier: 4.1.2
         version: 4.1.2
@@ -2755,7 +2755,7 @@ packages:
       tslib: 2.6.0
     dev: false
 
-  /@nestjs/cache-manager@2.1.1(@nestjs/common@10.3.0)(@nestjs/core@10.3.0)(cache-manager@5.3.1)(reflect-metadata@0.1.13)(rxjs@7.8.1):
+  /@nestjs/cache-manager@2.1.1(@nestjs/common@10.3.0)(@nestjs/core@10.3.0)(cache-manager@5.3.2)(reflect-metadata@0.1.13)(rxjs@7.8.1):
     resolution: {integrity: sha512-oYfRys4Ng0zp2HTUPNjH7gizf4vvG3PQZZ+3yGemb3xrF+p3JxDSK0cDq9NTjHzD5UmhjiyAftB9GkuL+t3r9g==}
     peerDependencies:
       '@nestjs/common': ^9.0.0 || ^10.0.0
@@ -2766,7 +2766,7 @@ packages:
     dependencies:
       '@nestjs/common': 10.3.0(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
       '@nestjs/core': 10.3.0(@nestjs/common@10.3.0)(@nestjs/websockets@10.3.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
-      cache-manager: 5.3.1
+      cache-manager: 5.3.2
       reflect-metadata: 0.1.13
       rxjs: 7.8.1
     dev: false
@@ -5991,16 +5991,16 @@ packages:
       '@redis/json': 1.0.6(@redis/client@1.5.12)
       '@redis/search': 1.1.6(@redis/client@1.5.12)
       '@redis/time-series': 1.0.5(@redis/client@1.5.12)
-      cache-manager: 5.3.1
+      cache-manager: 5.3.2
       redis: 4.6.12
     dev: false
 
-  /cache-manager@5.3.1:
-    resolution: {integrity: sha512-9HP6nc1ZqyZgcVEpy5XS2ns9MYE6cPEM6InA1wQhR6M7GviJzLH2NTFYnf3NEfRmLE351NCSkDo2VISX8dlG+w==}
+  /cache-manager@5.3.2:
+    resolution: {integrity: sha512-MBpwYqCqf8LFSso5CjMs5Kj2i3RYYUP0fLwjMSnxyspYx0y8uT1SZbWiOk33fw5r+Sbpe5ERfk1+pgXEJ/omEw==}
     dependencies:
       lodash.clonedeep: 4.5.0
-      lru-cache: 10.0.3
-      promise-coalesce: 1.1.1
+      lru-cache: 10.1.0
+      promise-coalesce: 1.1.2
     dev: false
 
   /cachedir@2.4.0:
@@ -10245,6 +10245,12 @@ packages:
   /lru-cache@10.0.3:
     resolution: {integrity: sha512-B7gr+F6MkqB3uzINHXNctGieGsRTMwIBgxkp0yq/5BwcuDzD4A8wQpHQW6vDAm1uKSLQghmRdD9sKqf2vJ1cEg==}
     engines: {node: 14 || >=16.14}
+    dev: true
+
+  /lru-cache@10.1.0:
+    resolution: {integrity: sha512-/1clY/ui8CzjKFyjdvwPWJUYKiFVXG2I2cY0ssG7h4+hwk+XOIX7ZSG9Q7TW8TW3Kp3BUSqgFWBLgL4PJ+Blag==}
+    engines: {node: 14 || >=16.14}
+    dev: false
 
   /lru-cache@5.1.1:
     resolution: {integrity: sha512-KpNARQA3Iwv+jTA0utUVVbrh+Jlrr1Fv0e56GGzAFOXN7dk/FviaDW8LHmK52DlcH4WP2n6gI8vN1aesBFgo9w==}
@@ -12191,9 +12197,9 @@ packages:
     resolution: {integrity: sha512-cdGef/drWFoydD1JsMzuFf8100nZl+GT+yacc2bEced5f9Rjk4z+WtFUTBu9PhOi9j/jfmBPu0mMEY4wIdAF8A==}
     engines: {node: '>= 0.6.0'}
 
-  /promise-coalesce@1.1.1:
-    resolution: {integrity: sha512-k7+VaIwZc5dRfSF6RELqRY1+LCmcCkrnuNV9HzIpA6iwRHKke+j9yb0LBTTHQ2RRgf6AlMl9TntuTzcgV/BZwg==}
-    engines: {node: '>=18'}
+  /promise-coalesce@1.1.2:
+    resolution: {integrity: sha512-zLaJ9b8hnC564fnJH6NFSOGZYYdzrAJn2JUUIwzoQb32fG2QAakpDNM+CZo1km6keXkRXRM+hml1BFAPVnPkxg==}
+    engines: {node: '>=16'}
     dev: false
 
   /promise-inflight@1.0.1:
