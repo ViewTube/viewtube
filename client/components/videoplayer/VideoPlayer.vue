@@ -40,6 +40,7 @@
         @timeupdate="onPlaybackProgress"
         @progress="onLoadingProgress"
         @loadedmetadata="onLoadedMetadata"
+        @loadeddata="onLoadedData"
         @ratechange="onSpeedChanged"
       />
     </div>

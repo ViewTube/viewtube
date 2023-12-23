@@ -60,6 +60,7 @@ export const videoPlayerSetup = (
     loadingPercentage: 0,
     firstTimeBuffering: true,
     aspectRatio: 16 / 9,
+    deferredAspectRatio: false,
     playerVolume: 1,
     zoomed: false,
     duration: 0
@@ -316,8 +317,20 @@ export const videoPlayerSetup = (
     }
   };
 
+  const onLoadedData = (e: any) => {
+    const aspectRatio = e.target.videoHeight / e.target.videoWidth;
+    if (videoElement.deferredAspectRatio && aspectRatio) {
+      videoElement.aspectRatio = aspectRatio;
+    }
+  };
+
   const onLoadedMetadata = async (e: any) => {
-    videoElement.aspectRatio = e.target.videoHeight / e.target.videoWidth;
+    const aspectRatio = e.target.videoHeight / e.target.videoWidth;
+    if (aspectRatio) {
+      videoElement.aspectRatio = aspectRatio;
+    }
+    videoElement.deferredAspectRatio = !aspectRatio;
+
     if (videoRef.value) {
       videoElement.playerVolume = playerVolumeStore.playerVolume;
       if (videoElement.firstTimeBuffering) {
@@ -1015,6 +1028,7 @@ export const videoPlayerSetup = (
     selectedAudioQuality,
     renderedVideoQuality,
     getChapterForPercentage,
+    onLoadedData,
     onLoadedMetadata,
     onPlaybackProgress,
     onLoadingProgress,
