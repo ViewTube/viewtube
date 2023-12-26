@@ -21,6 +21,19 @@ export const useGetAdminInfo = () => {
   });
 };
 
+export const useGetServerSettings = () => {
+  const { apiUrl } = useApiUrl();
+  const { vtFetch } = useVtFetch();
+
+  return useLazyAsyncData(
+    'server-settings',
+    () => vtFetch<ApiDto<'ServerSettingsDto'>>(`${apiUrl.value}admin/server-settings`),
+    {
+      server: false
+    }
+  );
+};
+
 export const useGetBlockedVideos = () => {
   const { apiUrl } = useApiUrl();
 

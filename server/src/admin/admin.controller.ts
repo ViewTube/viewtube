@@ -16,6 +16,7 @@ import { Private } from 'server/auth/decorators/private.decorator';
 import { InfoDto } from './dto/info.dto';
 import { UserDto } from 'server/user/user.dto';
 import { UserprofileDto } from 'server/user/dto/userprofile.dto';
+import { ServerSettingsDto } from './dto/server-settings.dto';
 
 @ApiTags('Admin')
 @UseGuards(AdminGuard)
@@ -28,6 +29,16 @@ export class AdminController {
   @Get('info')
   getInfo(): Promise<InfoDto> {
     return this.adminService.getInfo();
+  }
+
+  @Get('server-settings')
+  getServerSettings(): Promise<ServerSettingsDto> {
+    return this.adminService.getServerSettings();
+  }
+
+  @Post('server-settings')
+  updateServerSettings(@Body() serverSettings: ServerSettingsDto): Promise<ServerSettingsDto> {
+    return this.adminService.updateServerSettings(serverSettings);
   }
 
   @Get('logs')

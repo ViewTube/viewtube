@@ -7,6 +7,7 @@ import { AdminService } from './admin.service';
 import { AdminController } from './admin.controller';
 import { BlockedVideo, BlockedVideoSchema } from './schemas/blocked-video';
 import { UserModule } from '../user/user.module';
+import { ServerSettings, ServerSettingsSchema } from './schemas/server-settings';
 
 const moduleMetadata: ModuleMetadata = {
   imports: [
@@ -19,6 +20,11 @@ const moduleMetadata: ModuleMetadata = {
         name: BlockedVideo.name,
         schema: BlockedVideoSchema,
         collection: 'blocked-videos'
+      },
+      {
+        name: ServerSettings.name,
+        schema: ServerSettingsSchema,
+        collection: 'server-settings'
       }
     ]),
     UserModule
