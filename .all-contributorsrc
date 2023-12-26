@@ -59,6 +59,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "themisir",
+      "name": "Misir",
+      "avatar_url": "https://avatars.githubusercontent.com/u/29130291?v=4",
+      "profile": "http://themisir.com",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
