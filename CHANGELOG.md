@@ -3,6 +3,12 @@
 This file is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.14.3]
+
+### Fixed
+
+- Use loadeddata event to fix video player aspect ratio (Thanks @themisir) [#2505](https://github.com/ViewTube/viewtube/pull/2505)
+
 ## [0.14.2]
 
 ### Fixed
@@ -367,7 +373,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial release
 
-[unreleased]: https://github.com/viewtube/viewtube/compare/v0.14.2...development
+[unreleased]: https://github.com/viewtube/viewtube/compare/v0.14.3...development
+[0.14.3]: https://github.com/viewtube/viewtube/compare/v0.14.2...v0.14.3
 [0.14.2]: https://github.com/viewtube/viewtube/compare/v0.14.1...v0.14.2
 [0.14.1]: https://github.com/viewtube/viewtube/compare/v0.14.0...v0.14.1
 [0.14.0]: https://github.com/viewtube/viewtube/compare/v0.13.1...v0.14.0
