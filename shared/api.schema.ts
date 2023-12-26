@@ -90,6 +90,9 @@ export interface paths {
   "/api/user/history/from/{startDate}/to/{endDate}": {
     delete: operations["HistoryController_deleteHistoryRange"];
   };
+  "/api/admin/info": {
+    get: operations["AdminController_getInfo"];
+  };
   "/api/admin/logs": {
     get: operations["AdminController_getLogs"];
   };
@@ -172,9 +175,6 @@ export interface paths {
   };
   "/api/homepage/homefeed": {
     get: operations["HomepageController_getHomeFeed"];
-  };
-  "/api/proxy/text": {
-    get: operations["ProxyController_getText"];
   };
   "/api/proxy/image": {
     get: operations["ProxyController_getQuery"];
@@ -331,6 +331,12 @@ export interface components {
       lengthSeconds: number;
       /** Format: date-time */
       lastVisit: string;
+    };
+    InfoDto: {
+      serverIpV4: string;
+      serverIpV6: string;
+      proxyIpV4: string;
+      proxyIpV6: string;
     };
     LogFileDto: {
       name: string;
@@ -696,7 +702,7 @@ export interface components {
         channelID?: string;
       };
       items: components["schemas"]["PlaylistItemDto"][];
-      continuation: Record<string, unknown> | null;
+      continuation: unknown;
     };
   };
   responses: never;
@@ -1039,6 +1045,15 @@ export interface operations {
     responses: {
       200: {
         content: never;
+      };
+    };
+  };
+  AdminController_getInfo: {
+    responses: {
+      200: {
+        content: {
+          "application/json": components["schemas"]["InfoDto"];
+        };
       };
     };
   };
@@ -1520,24 +1535,11 @@ export interface operations {
       };
     };
   };
-  ProxyController_getText: {
-    parameters: {
-      query: {
-        url: string;
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": string;
-        };
-      };
-    };
-  };
   ProxyController_getQuery: {
     parameters: {
       query: {
         url: string;
+        local: boolean;
       };
     };
     responses: {
