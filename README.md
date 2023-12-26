@@ -28,7 +28,6 @@ It's built using [Nuxt](https://nuxt.com/) and [Nest](https://nestjs.com/).
 
 You can find the documentation at [viewtube.wiki](https://viewtube.wiki)
 Check [uptime.m-o.dev/status](https://uptime.m-o.dev/status) for updates and downtime status.  
-Try the dev version on [dev.viewtube.io](https://dev.viewtube.io).
 
 <h2 align="center">
 <sub>
