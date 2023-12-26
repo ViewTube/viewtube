@@ -28,7 +28,6 @@ It's built using [Nuxt](https://nuxt.com/) and [Nest](https://nestjs.com/).
 
 You can find the documentation at [viewtube.wiki](https://viewtube.wiki)
 Check [uptime.m-o.dev/status](https://uptime.m-o.dev/status) for updates and downtime status.  
-Try the dev version on [dev.viewtube.io](https://dev.viewtube.io).
 
 <h2 align="center">
 <sub>
@@ -142,6 +141,7 @@ Thanks goes to these wonderful people
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/mizzunet"><img src="https://avatars.githubusercontent.com/u/10193999?v=4?s=100" width="100px;" alt="Missu"/><br /><sub><b>Missu</b></sub></a><br /><a href="https://github.com/ViewTube/viewtube/commits?author=mizzunet" title="Documentation">📖</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/beardeddude"><img src="https://avatars.githubusercontent.com/u/36680638?v=4?s=100" width="100px;" alt="beardeddude"/><br /><sub><b>beardeddude</b></sub></a><br /><a href="https://github.com/ViewTube/viewtube/commits?author=beardeddude" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="http://matt.felle.nz"><img src="https://avatars.githubusercontent.com/u/58113890?v=4?s=100" width="100px;" alt="Matt Fellenz"/><br /><sub><b>Matt Fellenz</b></sub></a><br /><a href="https://github.com/ViewTube/viewtube/commits?author=mattfbacon" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="http://themisir.com"><img src="https://avatars.githubusercontent.com/u/29130291?v=4?s=100" width="100px;" alt="Misir"/><br /><sub><b>Misir</b></sub></a><br /><a href="https://github.com/ViewTube/viewtube/commits?author=themisir" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>
