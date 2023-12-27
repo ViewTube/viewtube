@@ -72,7 +72,7 @@ const onDeleteAccountClose = () => {
   deleteAccountPopup.value = false;
 };
 const deleteAccount = () => {
-  vtFetch(`${apiUrl}user`, {
+  vtFetch(`${apiUrl.value}user`, {
     method: 'DELETE',
     body: { username: repeatedUsername.value },
     credentials: 'include'
