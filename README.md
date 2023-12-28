@@ -143,6 +143,9 @@ Thanks goes to these wonderful people
       <td align="center" valign="top" width="14.28%"><a href="http://matt.felle.nz"><img src="https://avatars.githubusercontent.com/u/58113890?v=4?s=100" width="100px;" alt="Matt Fellenz"/><br /><sub><b>Matt Fellenz</b></sub></a><br /><a href="https://github.com/ViewTube/viewtube/commits?author=mattfbacon" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="http://themisir.com"><img src="https://avatars.githubusercontent.com/u/29130291?v=4?s=100" width="100px;" alt="Misir"/><br /><sub><b>Misir</b></sub></a><br /><a href="https://github.com/ViewTube/viewtube/commits?author=themisir" title="Code">💻</a></td>
     </tr>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://www.rahim.li"><img src="https://avatars.githubusercontent.com/u/41202771?v=4?s=100" width="100px;" alt="Alvan Rahimli"/><br /><sub><b>Alvan Rahimli</b></sub></a><br /><a href="https://github.com/ViewTube/viewtube/commits?author=alvanrahimli" title="Code">💻</a></td>
+    </tr>
   </tbody>
 </table>
 
