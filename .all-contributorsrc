@@ -68,6 +68,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "alvanrahimli",
+      "name": "Alvan Rahimli",
+      "avatar_url": "https://avatars.githubusercontent.com/u/41202771?v=4",
+      "profile": "https://www.rahim.li",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
