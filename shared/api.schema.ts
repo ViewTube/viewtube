@@ -339,22 +339,6 @@ export interface components {
       /** Format: date-time */
       lastVisit: string;
     };
-    InfoDto: {
-      serverIpV4: string;
-      serverIpV6: string;
-      proxyIpV4: string;
-      proxyIpV6: string;
-    };
-    LogFileDto: {
-      name: string;
-      size: number;
-      created: number;
-      lastModified: number;
-    };
-    LogsDto: {
-      logFiles: components["schemas"]["LogFileDto"][];
-      location: string;
-    };
     VTPreviewThumbnailDto: {
       urlTemplate: string;
       width: number;
@@ -710,6 +694,29 @@ export interface components {
       };
       items: components["schemas"]["PlaylistItemDto"][];
       continuation: unknown;
+    };
+    InfoDto: {
+      serverIpV4: string;
+      serverIpV6: string;
+      proxyIpV4: string;
+      proxyIpV6: string;
+    };
+    ServerSettingsDto: {
+      registrationEnabled: boolean;
+    };
+    LogFileDto: {
+      name: string;
+      size: number;
+      created: number;
+      lastModified: number;
+    };
+    LogsDto: {
+      logFiles: components["schemas"]["LogFileDto"][];
+      location: string;
+    };
+    UserDto: {
+      username: string;
+      password: string;
     };
   };
   responses: never;
