@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Use loadeddata event to fix video player aspect ratio (Thanks @themisir) [#2505](https://github.com/ViewTube/viewtube/pull/2505)
+- Use value of apiUrl, fixes account deletion issue (Thanks @alvanrahimli) [#2515](https://github.com/ViewTube/viewtube/pull/2515)
 
 ## [0.14.2]
 
