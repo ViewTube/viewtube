@@ -6,7 +6,8 @@ export default defineNuxtConfig({
     public: {
       vapidKey: process.env.VIEWTUBE_PUBLIC_VAPID,
       videoplaybackProxy: '',
-      githubHint: false
+      githubHint: false,
+      registrationEnabled: true
     }
   },
 

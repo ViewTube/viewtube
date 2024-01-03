@@ -19,7 +19,9 @@ const onRegistrationEnabledChange = async (value: boolean) => {
   messagesStore.createMessage({
     type: 'info',
     title: 'Server settings updated',
-    message: `Public registration ${value ? 'enabled' : 'disabled'}`
+    message: `Public registration ${
+      value ? 'enabled' : 'disabled'
+    }. Restart the server for the changes to take effect.`
   });
 };
 </script>
@@ -27,7 +29,7 @@ const onRegistrationEnabledChange = async (value: boolean) => {
 <template>
   <div v-if="data" class="user-management">
     <ButtonsSwitchButton
-      label="Enable public registration"
+      label="Enable public registration (restart required)"
       :value="data.registrationEnabled"
       small-label="Anyone can create an account."
       small-label-negative="Accounts can only be created by the admin."

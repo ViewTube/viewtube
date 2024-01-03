@@ -5,9 +5,15 @@ import { RegistrationDto } from './dto/registration.dto';
 
 @Injectable()
 export class RegisterService {
-  constructor(private captchaService: CaptchaService, private userService: UserService) {}
+  constructor(
+    private captchaService: CaptchaService,
+    private userService: UserService
+  ) {}
 
   async registerUser(userRegistration: RegistrationDto) {
+    if (global.registrationEnabled === false) {
+      throw new HttpException('Admin has disabled registration for this server', 403);
+    }
     const captchaVerified: boolean = await this.captchaService.validateCaptcha(
       userRegistration.captchaToken,
       userRegistration.captchaSolution
