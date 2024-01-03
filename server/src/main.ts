@@ -39,7 +39,6 @@ const bootstrap = async () => {
   const adminService = app.get(AdminService);
   const serverSettings = await adminService.getServerSettings();
   const registrationEnabled = serverSettings.registrationEnabled;
-  global.registrationEnabled = registrationEnabled;
   process.env.NUXT_PUBLIC_REGISTRATION_ENABLED = registrationEnabled.toString();
 
   const isProduction = configService.get('NODE_ENV') === 'production';
