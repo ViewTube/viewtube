@@ -10,6 +10,7 @@ import { BYPASS_AUTH_KEY } from '../decorators/bypass-auth.decorator';
 import { InjectModel } from '@nestjs/mongoose';
 import { Session } from '../schemas/session.schema';
 import { Model } from 'mongoose';
+import { IS_PUBLIC_KEY } from '../decorators/public.decorator';
 
 @Injectable()
 export class PublicAuthGuard implements CanActivate {
@@ -23,10 +24,19 @@ export class PublicAuthGuard implements CanActivate {
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const targets = [context.getHandler(), context.getClass()];
-    const isPrivate = this.reflector.getAllAndOverride<boolean>(IS_PRIVATE_KEY, targets);
-    const isBypassAuth = this.reflector.getAllAndOverride<boolean>(BYPASS_AUTH_KEY, targets);
+    const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, targets);
+
+    let isPrivate = this.reflector.getAllAndOverride<boolean>(IS_PRIVATE_KEY, targets);
+    let isBypassAuth = this.reflector.getAllAndOverride<boolean>(BYPASS_AUTH_KEY, targets);
+
+    // If loginRequiredEverywhere is set to true, then all routes are private by default
+    if (global.requireLoginEverywhere === true) {
+      isPrivate = true;
+      isBypassAuth = false;
+    }
 
     if (isBypassAuth) return true;
+    if (isPublic) return true;
 
     const request = context.switchToHttp().getRequest<FastifyRequest>();
     const reply = context.switchToHttp().getResponse<FastifyReply>();

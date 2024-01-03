@@ -17,7 +17,7 @@ export class RegisterService {
 
   async registerUser(userRegistration: RegistrationDto) {
     const serverSettings = await this.ServerSettingsModel.findOne({ version: 1 }).exec();
-    if (serverSettings.registrationEnabled === false) {
+    if (serverSettings?.registrationEnabled === false) {
       throw new HttpException('Admin has disabled registration for this server', 403);
     }
     const captchaVerified: boolean = await this.captchaService.validateCaptcha(

@@ -703,6 +703,7 @@ export interface components {
     };
     ServerSettingsDto: {
       registrationEnabled: boolean;
+      requireLoginEverywhere: boolean;
     };
     LogFileDto: {
       name: string;

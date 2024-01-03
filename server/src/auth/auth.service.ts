@@ -11,6 +11,7 @@ import { setAuthCookies } from './set-auth-cookies';
 import { Session } from './schemas/session.schema';
 import { randomBytes } from 'crypto';
 import { FastifyRequest } from 'fastify/types/request';
+import { SerializeOptions } from '@fastify/cookie';
 
 @Injectable()
 export class AuthService {
@@ -45,13 +46,19 @@ export class AuthService {
 
     await this.SessionModel.findOneAndDelete({ refreshToken }).exec();
 
-    const emptyCookie = {
-      path: '/'
+    const secure = this.configService.get('NODE_ENV') === 'production' && isHttps();
+
+    const deleteCookie: SerializeOptions = {
+      httpOnly: true,
+      path: '/',
+      maxAge: 0,
+      secure: secure ?? undefined,
+      sameSite: secure ? 'none' : 'lax'
     };
 
-    reply.clearCookie('AccessToken', emptyCookie);
-    reply.clearCookie('RefreshToken', emptyCookie);
-    reply.code(204);
+    reply.setCookie('AccessToken', '', deleteCookie);
+    reply.setCookie('RefreshToken', '', deleteCookie);
+    reply.code(204).send();
   }
 
   async login(reply: FastifyReply, username: string, deviceName: string, deviceType: string) {

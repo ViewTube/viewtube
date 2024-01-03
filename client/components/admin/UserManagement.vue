@@ -24,6 +24,24 @@ const onRegistrationEnabledChange = async (value: boolean) => {
     }. Restart the server for the changes to take effect.`
   });
 };
+
+const onRequireLoginEverywhereChange = async (value: boolean) => {
+  await vtFetch(`${apiUrl.value}admin/server-settings`, {
+    method: 'POST',
+    body: {
+      requireLoginEverywhere: value
+    }
+  });
+  await refresh();
+  await nextTick();
+  messagesStore.createMessage({
+    type: 'info',
+    title: 'Server settings updated',
+    message: `Require login everywhere ${
+      value ? 'enabled' : 'disabled'
+    }. Restart the server for the changes to take effect.`
+  });
+};
 </script>
 
 <template>
@@ -31,9 +49,16 @@ const onRegistrationEnabledChange = async (value: boolean) => {
     <ButtonsSwitchButton
       label="Enable public registration (restart required)"
       :value="data.registrationEnabled"
-      small-label="Anyone can create an account."
-      small-label-negative="Accounts can only be created by the admin."
+      small-label="Anyone can create an account"
+      small-label-negative="Accounts can only be created by the admin"
       @valuechange="onRegistrationEnabledChange"
+    />
+    <ButtonsSwitchButton
+      label="Require login everywhere (restart required)"
+      :value="data.requireLoginEverywhere"
+      small-label="Users must be logged in to access the site"
+      small-label-negative="Users can access the site without being logged in"
+      @valuechange="onRequireLoginEverywhereChange"
     />
   </div>
   <Spinner v-if="!data" />
@@ -42,6 +67,8 @@ const onRegistrationEnabledChange = async (value: boolean) => {
 <style lang="scss" scoped>
 .user-management {
   display: flex;
+  flex-direction: column;
+  align-items: flex-start;
   margin: 0 0 15px 0;
 }
 </style>

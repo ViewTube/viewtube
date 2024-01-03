@@ -39,11 +39,15 @@ const bootstrap = async () => {
   const adminService = app.get(AdminService);
   const serverSettings = await adminService.getServerSettings();
   const registrationEnabled = serverSettings.registrationEnabled;
+  global.requireLoginEverywhere = serverSettings.requireLoginEverywhere;
   process.env.NUXT_PUBLIC_REGISTRATION_ENABLED = registrationEnabled.toString();
+  process.env.NUXT_PUBLIC_REQUIRE_LOGIN_EVERYWHERE =
+    serverSettings.requireLoginEverywhere.toString();
 
   const isProduction = configService.get('NODE_ENV') === 'production';
   logger.log(`Running in ${isProduction ? 'production' : 'development'} mode`);
   logger.log(`Registration is ${registrationEnabled ? 'enabled' : 'disabled'}`);
+  logger.log(`Login is required everywhere: ${global.requireLoginEverywhere}`);
 
   checkRedisConnection();
 

@@ -249,10 +249,6 @@ export default defineComponent({
       router.push(`/register${currentPageRef('register')}`);
       closeAllPopups();
     };
-    const logout = (): void => {
-      userStore.logout();
-      closeAllPopups();
-    };
 
     const onEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
@@ -291,7 +287,6 @@ export default defineComponent({
       openSubscriptions,
       getProfileImageUrl,
       login,
-      logout,
       register,
       loginOpen,
       registerOpen,

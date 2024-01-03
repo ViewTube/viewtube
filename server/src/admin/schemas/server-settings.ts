@@ -9,6 +9,9 @@ export class ServerSettings extends Document implements ServerSettingsDto {
 
   @Prop()
   registrationEnabled: boolean;
+
+  @Prop()
+  requireLoginEverywhere: boolean;
 }
 
 export const ServerSettingsSchema = SchemaFactory.createForClass(ServerSettings);

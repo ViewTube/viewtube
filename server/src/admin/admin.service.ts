@@ -101,7 +101,8 @@ export class AdminService {
   }
 
   defaultSettings: ServerSettingsDto = {
-    registrationEnabled: true
+    registrationEnabled: true,
+    requireLoginEverywhere: false
   };
 
   async getServerSettings(): Promise<ServerSettingsDto> {
@@ -109,13 +110,15 @@ export class AdminService {
     if (!serverSettings) {
       return this.defaultSettings;
     }
-    return serverSettings;
+    return serverSettings.toObject();
   }
 
-  async updateServerSettings(serverSettings: ServerSettingsDto): Promise<ServerSettingsDto> {
+  async updateServerSettings(newServerSettings: ServerSettingsDto): Promise<ServerSettingsDto> {
+    const previousSettings = await this.getServerSettings();
+
     const settingsToSet: ServerSettingsDto = {
-      ...this.defaultSettings,
-      ...serverSettings
+      ...previousSettings,
+      ...newServerSettings
     };
 
     const newSettings = await this.ServerSettingsModel.findOneAndUpdate(
