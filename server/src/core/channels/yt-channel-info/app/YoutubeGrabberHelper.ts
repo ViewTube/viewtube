@@ -365,7 +365,6 @@ export class YoutubeGrabberHelper {
     // Get the JSON data as string
     let contentDataString = communityInfo.data.match(/ytInitialData.+?(?=;<\/script>)/)[0];
     let innertubeAPIkey = communityInfo.data.match(/innertubeApiKey.+?(?=innertubeApiVersion)/)[0];
-    // innertubeApiKey":"AIzaSyAO_FJ2SlqU8Q4STEHLGCilw_Y9_11qcW8","innertubeApiVersion"
     innertubeAPIkey = innertubeAPIkey.substring(18, innertubeAPIkey.length - 3);
 
     contentDataString = contentDataString.substring(16, contentDataString.length);

@@ -272,15 +272,19 @@ export class UserService {
   }
 
   async create(user: UserDto): Promise<UserprofileDto> {
+    if (!user.username || !user.password) {
+      throw new HttpException('Username and password are required', 400);
+    }
+
     const existingUser: null | User = await this.UserModel.findOne({
       username: { $regex: `^${user.username}$`, $options: 'i' }
     }).exec();
 
     if (existingUser !== null) {
       throw new HttpException(`Username ${existingUser.username} is already in use`, 400);
-    } else if (user.username.length > 16) {
+    } else if (user.username?.length > 16) {
       throw new HttpException('Username cannot be longer than 16 characters', 400);
-    } else if (user.username.length < 2) {
+    } else if (user.username?.length < 2) {
       throw new HttpException('Username must be longer than 2 characters', 400);
     } else {
       const saltRounds = 10;
@@ -291,8 +295,6 @@ export class UserService {
         throw new HttpException('Error registering user', 403);
       }
 
-      const adminUser = this.configService.get('VIEWTUBE_ADMIN_USER');
-
       const createdUser = await new this.UserModel({
         username: user.username,
         password: hash
@@ -301,8 +303,7 @@ export class UserService {
       return {
         username: createdUser.username,
         profileImage: null,
-        settings: null,
-        admin: adminUser === createdUser.username
+        settings: null
       };
     }
   }

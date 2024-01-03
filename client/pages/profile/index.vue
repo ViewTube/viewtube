@@ -172,9 +172,9 @@ const deleteProfileImage = () => {
 const deleteAccountValid = computed(() => {
   return repeatedUsername.value.length > 0 && repeatedUsername.value === userStore.username;
 });
-const logout = () => {
-  userStore.logout();
-  router.push('/');
+const logout = async () => {
+  await userStore.logout();
+  await router.push('/');
 };
 </script>
 

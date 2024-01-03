@@ -3,12 +3,19 @@
 This file is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.14.3]
+## [0.15.0]
+
+### Added
+
+- Add option to disable registration to admin panel [#2499](https://github.com/ViewTube/viewtube/pull/2499)
+- Add option to require login everywhere to admin panel [#2499](https://github.com/ViewTube/viewtube/pull/2499)
+- Allow users to be added via the admin panel [#2499](https://github.com/ViewTube/viewtube/pull/2499)
 
 ### Fixed
 
 - Use loadeddata event to fix video player aspect ratio (Thanks @themisir) [#2505](https://github.com/ViewTube/viewtube/pull/2505)
 - Use value of apiUrl, fixes account deletion issue (Thanks @alvanrahimli) [#2515](https://github.com/ViewTube/viewtube/pull/2515)
+- Fix logout not working [#2499](https://github.com/ViewTube/viewtube/pull/2499)
 
 ## [0.14.2]
 
@@ -64,11 +71,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Reworked authentication with new devices interface in profile [#2186](https://github.com/ViewTube/viewtube/pull/2186)
+- Add support for socks proxies [#2269](https://github.com/ViewTube/viewtube/pull/2269)
 
 ### Fixed
 
 - Make client cookie logic more robust [#2259](https://github.com/ViewTube/viewtube/pull/2259)
 - Upgrade packages and cleanup unused [#2261](https://github.com/ViewTube/viewtube/pull/2261)
+- Fix history and profile page [#2282](https://github.com/ViewTube/viewtube/pull/2282)
 
 ## [0.12.2]
 
@@ -374,8 +383,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial release
 
-[unreleased]: https://github.com/viewtube/viewtube/compare/v0.14.3...development
-[0.14.3]: https://github.com/viewtube/viewtube/compare/v0.14.2...v0.14.3
+[unreleased]: https://github.com/viewtube/viewtube/compare/v0.15.0...development
+[0.14.3]: https://github.com/viewtube/viewtube/compare/v0.14.2...v0.15.0
 [0.14.2]: https://github.com/viewtube/viewtube/compare/v0.14.1...v0.14.2
 [0.14.1]: https://github.com/viewtube/viewtube/compare/v0.14.0...v0.14.1
 [0.14.0]: https://github.com/viewtube/viewtube/compare/v0.13.1...v0.14.0

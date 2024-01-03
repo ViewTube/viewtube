@@ -18,9 +18,17 @@
     </div>
     <div v-if="label" class="label-container">
       <label :for="`switch-button-${randomId}`" class="label">{{ label }}</label>
-      <label v-if="smallLabel" :for="`switch-button-${randomId}`" class="small-label">{{
-        smallLabel
-      }}</label>
+
+      <label
+        v-if="smallLabel && smallLabelNegative && !value"
+        :for="`switch-button-${randomId}`"
+        class="small-label"
+      >
+        {{ smallLabelNegative }}
+      </label>
+      <label v-else-if="smallLabel" :for="`switch-button-${randomId}`" class="small-label">
+        {{ smallLabel }}
+      </label>
     </div>
   </div>
 </template>
@@ -33,7 +41,13 @@ export default defineComponent({
     label: String,
     smallLabel: {
       type: String,
-      required: false
+      required: false,
+      default: null
+    },
+    smallLabelNegative: {
+      type: String,
+      required: false,
+      default: null
     },
     disabled: Boolean,
     right: {
@@ -176,7 +190,9 @@ export default defineComponent({
           background-color: var(--theme-color);
           display: block;
           position: absolute;
-          transition: background-color 300ms $intro-easing, left 300ms $overshoot-easing;
+          transition:
+            background-color 300ms $intro-easing,
+            left 300ms $overshoot-easing;
         }
       }
     }

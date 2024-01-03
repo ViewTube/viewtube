@@ -62,7 +62,7 @@ export const useVtFetch = () => {
       requestOptions.headers = { ...requestOptions.headers, cookie: cookieHeader };
     }
 
-    if (process.server && !options?.external && global.nestApp) {
+    if (process.server && !options?.external && global?.nestApp) {
       const response = await global.nestApp.inject({
         method: (requestOptions.method ?? 'GET') as HTTPMethods,
         url: request.toString(),

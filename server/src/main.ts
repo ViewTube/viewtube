@@ -22,6 +22,7 @@ import { checkRedisConnection } from './common/redis.connection';
 import { logger } from './common/logger';
 import { ModuleType } from './common/module.type';
 import { registerFastifyPlugin } from './common/registerFastifyPlugin';
+import { AdminService } from './admin/admin.service';
 
 declare const module: ModuleType;
 
@@ -35,9 +36,18 @@ const bootstrap = async () => {
   global.nestApp = app;
 
   const configService = app.get(ConfigService);
+  const adminService = app.get(AdminService);
+  const serverSettings = await adminService.getServerSettings();
+  const registrationEnabled = serverSettings.registrationEnabled;
+  global.requireLoginEverywhere = serverSettings.requireLoginEverywhere;
+  process.env.NUXT_PUBLIC_REGISTRATION_ENABLED = registrationEnabled.toString();
+  process.env.NUXT_PUBLIC_REQUIRE_LOGIN_EVERYWHERE =
+    serverSettings.requireLoginEverywhere.toString();
 
   const isProduction = configService.get('NODE_ENV') === 'production';
   logger.log(`Running in ${isProduction ? 'production' : 'development'} mode`);
+  logger.log(`Registration is ${registrationEnabled ? 'enabled' : 'disabled'}`);
+  logger.log(`Login is required everywhere: ${global.requireLoginEverywhere}`);
 
   checkRedisConnection();
 

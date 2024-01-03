@@ -2,12 +2,14 @@ import { Controller, Post, Body, Res, UnauthorizedException, Req } from '@nestjs
 import { ApiTags } from '@nestjs/swagger';
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { AuthService } from './auth.service';
+import { Public } from './decorators/public.decorator';
 
 @ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
+  @Public()
   @Post('login')
   async login(
     @Res({ passthrough: true }) reply: FastifyReply,
@@ -26,7 +28,7 @@ export class AuthController {
   }
 
   @Post('logout')
-  logout(@Res({ passthrough: true }) reply: FastifyReply, @Req() request: FastifyRequest) {
+  logout(@Res() reply: FastifyReply, @Req() request: FastifyRequest) {
     this.authService.logout(reply, request);
   }
 }

@@ -10,7 +10,7 @@
       >Sign in</a
     >
     <a
-      v-show="!userAuthenticated"
+      v-show="!userAuthenticated && registrationEnabled"
       id="register"
       v-tippy="'Sign up'"
       :href="`/register${currentPageRef('register')}`"
@@ -100,7 +100,7 @@
                 <div class="menu-btn-content"><VTIcon name="mdi:account-circle" />Sign in</div>
               </a>
               <a
-                v-show="!userAuthenticated"
+                v-show="!userAuthenticated && registrationEnabled"
                 id="register-btn"
                 v-tippy="'Sign up'"
                 :href="`/register${currentPageRef('register')}`"
@@ -170,6 +170,7 @@ export default defineComponent({
 
     const { apiUrl } = useApiUrl();
     const router = useRouter();
+    const { registrationEnabled } = useRegistrationEnabled();
 
     const accountMenuVisible = ref(false);
     const settingsOpen = ref(false);
@@ -248,10 +249,6 @@ export default defineComponent({
       router.push(`/register${currentPageRef('register')}`);
       closeAllPopups();
     };
-    const logout = (): void => {
-      userStore.logout();
-      closeAllPopups();
-    };
 
     const onEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
@@ -290,13 +287,13 @@ export default defineComponent({
       openSubscriptions,
       getProfileImageUrl,
       login,
-      logout,
       register,
       loginOpen,
       registerOpen,
       onLoginClick,
       onRegisterClick,
-      userStore
+      userStore,
+      registrationEnabled
     };
   }
 });

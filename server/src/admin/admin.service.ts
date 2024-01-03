@@ -10,13 +10,21 @@ import { Model } from 'mongoose';
 import { InfoDto } from './dto/info.dto';
 import { vtFetch } from 'server/common/vtFetch';
 import { proxyEnabled } from 'server/common/proxyAgent';
+import { UserprofileDto } from '../user/dto/userprofile.dto';
+import { UserService } from '../user/user.service';
+import { UserDto } from '../user/user.dto';
+import { ServerSettingsDto } from './dto/server-settings.dto';
+import { ServerSettings } from './schemas/server-settings';
 
 @Injectable()
 export class AdminService {
   constructor(
     private configService: ConfigService,
     @InjectModel(BlockedVideo.name)
-    private readonly blockedVideoModel: Model<BlockedVideo>
+    private readonly BlockedVideoModel: Model<BlockedVideo>,
+    @InjectModel(ServerSettings.name)
+    private readonly ServerSettingsModel: Model<ServerSettings>,
+    private userService: UserService
   ) {}
 
   async getInfo(): Promise<InfoDto> {
@@ -87,6 +95,43 @@ export class AdminService {
     };
   }
 
+  async createUser(user: UserDto): Promise<UserprofileDto> {
+    const createdUser = await this.userService.create(user);
+    return createdUser;
+  }
+
+  defaultSettings: ServerSettingsDto = {
+    registrationEnabled: true,
+    requireLoginEverywhere: false
+  };
+
+  async getServerSettings(): Promise<ServerSettingsDto> {
+    const serverSettings = await this.ServerSettingsModel.findOne({ version: 1 }).exec();
+    if (!serverSettings) {
+      return this.defaultSettings;
+    }
+    return serverSettings.toObject();
+  }
+
+  async updateServerSettings(newServerSettings: ServerSettingsDto): Promise<ServerSettingsDto> {
+    const previousSettings = await this.getServerSettings();
+
+    const settingsToSet: ServerSettingsDto = {
+      ...previousSettings,
+      ...newServerSettings
+    };
+
+    const newSettings = await this.ServerSettingsModel.findOneAndUpdate(
+      { version: 1 },
+      { version: 1, ...settingsToSet },
+      {
+        upsert: true
+      }
+    ).exec();
+
+    return newSettings;
+  }
+
   async dowloadLogFile(logFile: string): Promise<StreamableFile> {
     let logFolder = resolve(__dirname, '../logs');
     if (this.configService.get('VIEWTUBE_BASE_DIR')) {
@@ -108,12 +153,12 @@ export class AdminService {
   }
 
   async getAllBlockedVideoIds(): Promise<string[]> {
-    const blockedVideos = await this.blockedVideoModel.find().exec();
+    const blockedVideos = await this.BlockedVideoModel.find().exec();
     return blockedVideos.map(video => video.videoId);
   }
 
   async isVideoBlocked(videoId: string): Promise<boolean> {
-    const blockedVideo = await this.blockedVideoModel.findOne({ videoId }).exec();
+    const blockedVideo = await this.BlockedVideoModel.findOne({ videoId }).exec();
     if (!blockedVideo) {
       return false;
     }
@@ -125,7 +170,7 @@ export class AdminService {
     if (!videoIdToBlock) {
       throw new BadRequestException();
     }
-    const blockedVideo = await this.blockedVideoModel.findOneAndUpdate(
+    const blockedVideo = await this.BlockedVideoModel.findOneAndUpdate(
       { videoId },
       { videoId },
       { new: true, upsert: true }
@@ -134,6 +179,6 @@ export class AdminService {
   }
 
   async unblockVideoId(videoId: string): Promise<void> {
-    await this.blockedVideoModel.findOneAndDelete({ videoId });
+    await this.BlockedVideoModel.findOneAndDelete({ videoId });
   }
 }
