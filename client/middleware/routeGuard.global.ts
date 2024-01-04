@@ -4,8 +4,6 @@ export default defineNuxtRouteMiddleware((to, from) => {
   const userStore = useUserStore();
   const config = useRuntimeConfig();
 
-  console.log('Route guard middleware');
-
   if (userStore.isLoggedIn) {
     if (to.path === '/login' || to.path === '/register') {
       return navigateTo('/');

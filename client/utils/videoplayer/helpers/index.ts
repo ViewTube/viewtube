@@ -170,7 +170,7 @@ export const videoPlayerSetup = (
   const chapters = ref(null);
 
   if (settingsStore.chapters) {
-    chapters.value = parseChapters(props.video.description, props.video.duration.seconds);
+    chapters.value = parseChapters(props.video.description, props.video.duration?.seconds);
   }
 
   const { skipSegments, loadSkipSegments, getCurrentSegment } = useSponsorBlock();
@@ -181,8 +181,8 @@ export const videoPlayerSetup = (
         hash: skipSegments.value.hash,
         videoID: skipSegments.value.videoID,
         segments: skipSegments.value.segments.map(segment => {
-          const startPercentage = (segment.segment[0] / props.video.duration.seconds) * 100;
-          const endPercentage = (segment.segment[1] / props.video.duration.seconds) * 100;
+          const startPercentage = (segment.segment[0] / props.video.duration?.seconds) * 100;
+          const endPercentage = (segment.segment[1] / props.video.duration?.seconds) * 100;
           return {
             startPercentage,
             endPercentage,

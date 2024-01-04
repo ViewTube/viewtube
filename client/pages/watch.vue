@@ -68,7 +68,7 @@ const {
       vtFetch(`${apiUrl.value}user/history/${route.query.v}`, {
         body: {
           progressSeconds: null,
-          lengthSeconds: value.duration.seconds
+          lengthSeconds: value.duration?.seconds
         },
         credentials: 'include'
       }).catch(_ => {});
