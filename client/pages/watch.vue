@@ -57,7 +57,15 @@ const {
   const value = await vtFetch<ApiDto<'VTVideoInfoDto'>>(`${apiUrl.value}videos/${route.query.v}`);
 
   let initialVideoTime = 0;
-  if (userStore.isLoggedIn && settingsStore.saveVideoHistory) {
+
+  const initialVideoTimeFromQuery = parseInt(route.query.t as string);
+  if (initialVideoTimeFromQuery) {
+    initialVideoTime = initialVideoTimeFromQuery;
+  }
+
+  // If timestamp is specified via query parameter,
+  // it should override the timestamp from user's history
+  if (!initialVideoTimeFromQuery && userStore.isLoggedIn && settingsStore.saveVideoHistory) {
     const videoVisit = await vtFetch<any>(`${apiUrl.value}user/history/${value.id}`, {
       credentials: 'include'
     }).catch((_: any) => {});
