@@ -152,7 +152,7 @@ const setTimestamp = (seconds: number) => {
   router.push({
     query: {
       ...route.query,
-      t: `${seconds}s`
+      t: seconds
     },
     replace: true
   });

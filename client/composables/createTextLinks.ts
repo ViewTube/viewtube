@@ -56,7 +56,7 @@ export const useCreateTextLinks = (timestampFn?: TimestampFnType) => {
         const seconds = getSecondsFromTimestamp(match);
         const fakeDomain = 'https://example.com';
         const secondsURL = new URL(`${fakeDomain}${route.fullPath}`);
-        secondsURL.searchParams.set('t', `${seconds}s`);
+        secondsURL.searchParams.set('t', seconds?.toString());
         const secondsPath = secondsURL.href.replace(fakeDomain, '');
         return `<a class="time-link" seconds="${seconds}" href="${secondsPath}">${match}</a>`;
       });
