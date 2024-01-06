@@ -135,7 +135,7 @@ const getThemeValues = (key: string) => defaultThemes.find(theme => theme.value 
 
 export const useCurrentTheme = () => {
   const settingsStore = useSettingsStore();
-  const currentTheme = ref(getThemeValues(settingsStore.defaultTheme ?? settingsStore.theme));
+  const currentTheme = ref(getThemeValues(settingsStore.theme ?? settingsStore.defaultTheme));
 
   watch([() => settingsStore.theme, () => settingsStore.defaultTheme], () => {
     currentTheme.value = getThemeValues(settingsStore.theme ?? settingsStore.defaultTheme);

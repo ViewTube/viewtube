@@ -8,7 +8,7 @@ export default defineNuxtConfig({
       videoplaybackProxy: '',
       githubHint: false,
       registrationEnabled: true,
-      requireLoginEverywhere: true
+      requireLoginEverywhere: false
     }
   },
 
