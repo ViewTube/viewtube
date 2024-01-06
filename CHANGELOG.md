@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Fix cannot read seconds of undefined [#2531](https://github.com/ViewTube/viewtube/pull/2531)
 - Start video at timestamp in URL (Thanks @alvanrahimli) [#2530](https://github.com/ViewTube/viewtube/pull/2530)
+- Don't add "s" after timestamp in URL [#2535](https://github.com/ViewTube/viewtube/pull/2535)
 
 ## [0.15.0]
 
