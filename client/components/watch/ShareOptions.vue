@@ -4,6 +4,9 @@
       <ShareOptionEntry class="share-option" option-name="Copy Link" :click="shareCopyLink">
         <VTIcon name="mdi:content-copy" class="copy-icon" />
       </ShareOptionEntry>
+      <ShareOptionEntry class="share-option" option-name="Copy Link at Current Timestamp" :click="shareCopyLinkAtCurrentTimestamp">
+        <VTIcon name="mdi:clipboard-text-time-outline" class="copy-icon" />
+      </ShareOptionEntry>
       <ShareOptionEntry class="share-option" option-name="Open QR-Code" :click="qrOpen">
         <VTIcon name="mdi:qrcode" class="qrcode-icon" />
       </ShareOptionEntry>
@@ -27,6 +30,7 @@
 <script lang="ts">
 import QrPopUp from '@/components/popup/QrPopUp.vue';
 import ShareOptionEntry from '@/components/list/ShareOptionEntry.vue';
+import { useVideoPlayerStore } from '@/store/videoPlayer';
 
 export default defineComponent({
   name: 'ShareOptions',
@@ -36,6 +40,7 @@ export default defineComponent({
   },
   setup() {
     const qrPopUpOpen = ref(false);
+    const videoPlayerStore = useVideoPlayerStore();
 
     const url = (): string => {
       return window?.location.href ?? '';
@@ -44,6 +49,11 @@ export default defineComponent({
     const shareCopyLink = () => {
       navigator.clipboard.writeText(url());
     };
+    const shareCopyLinkAtCurrentTimestamp = () => {
+      const currentHref = new URL(url())
+      currentHref.searchParams.set('t', Math.round(videoPlayerStore.currentTime).toString())
+      navigator.clipboard.writeText(currentHref.href);
+    }
     const saveToPocket = () => {
       window.open(`https://getpocket.com/save?url=${encodedUrl}`, '_blank');
     };
@@ -66,6 +76,7 @@ export default defineComponent({
       qrPopUpOpen,
       url,
       shareCopyLink,
+      shareCopyLinkAtCurrentTimestamp,
       qrOpen,
       encodedUrl,
       qrClose,

@@ -26,6 +26,7 @@ export const iconSafelist = [
   'mdi-comment-outline',
   'mdi-comment-remove-outline',
   'mdi-content-copy',
+  'mdi-clipboard-text-time-outline',
   'mdi-counter',
   'mdi-database-export-outline',
   'mdi-delete',
