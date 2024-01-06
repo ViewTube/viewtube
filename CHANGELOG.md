@@ -5,7 +5,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.15.1]
 
-## Added
+### Added
 
 - Video share option to copy URL at timestamp (Thanks @alvanrahimli) [#2530](https://github.com/ViewTube/viewtube/pull/2530)
 
