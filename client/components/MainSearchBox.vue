@@ -1,6 +1,8 @@
 <script setup lang="ts">
 const route = useRoute();
 const router = useRouter();
+const { vtFetch } = useVtFetch();
+const { apiUrl } = useApiUrl();
 
 const searchFieldFocused = ref(false);
 const localSearchValue = ref('');
@@ -8,6 +10,7 @@ const searchValue = ref('');
 const autocompleteVisible = ref(false);
 const autocompleteSelectedValue = ref(0);
 const searchFieldRef = ref(null);
+const autocompleteValues = ref([]);
 
 const updateSearchValueFromUrl = () => {
   if (route.query.search_query) {
@@ -35,7 +38,6 @@ const onSearchFieldBlur = () => {
   searchFieldFocused.value = false;
 };
 const onAutocompleteEnter = () => {
-  debugger;
   searchRedirect(searchValue.value);
 };
 const onSearchFormSubmit = () => {
@@ -49,21 +51,26 @@ const onSearchFormSubmit = () => {
     searchRedirect(searchValue.value);
   }
 };
+
+const onAutocompleteSelectedValueUpdate = (value: number) => {
+  autocompleteSelectedValue.value = value;
+};
+
 const onSearchFieldKeydown = (e: any) => {
   if (e.key === 'ArrowDown') {
-    if (autocompleteSelectedValue.value + 2 <= autocomplete.autocompleteValues.length) {
-      autocomplete.selectedValue += 1;
+    if (autocompleteSelectedValue.value + 2 <= autocompleteValues.value.length) {
+      autocompleteSelectedValue.value += 1;
     } else {
-      autocomplete.selectedValue = 0;
+      autocompleteSelectedValue.value = 0;
     }
-    localSearchValue.value = autocomplete.autocompleteValues[autocomplete.selectedValue];
+    localSearchValue.value = autocompleteValues.value[autocompleteSelectedValue.value];
   } else if (e.key === 'ArrowUp') {
-    if (autocomplete.selectedValue - 1 >= 0) {
-      autocomplete.selectedValue -= 1;
+    if (autocompleteSelectedValue.value - 1 >= 0) {
+      autocompleteSelectedValue.value -= 1;
     } else {
-      autocomplete.selectedValue = autocomplete.autocompleteValues.length - 1;
+      autocompleteSelectedValue.value = autocompleteValues.value.length - 1;
     }
-    localSearchValue.value = autocomplete.autocompleteValues[autocomplete.selectedValue];
+    localSearchValue.value = autocompleteValues.value[autocompleteSelectedValue.value];
   }
   e.stopPropagation();
   return true;
@@ -77,6 +84,14 @@ const searchRedirect = (searchValue: string) => {
   router.push(`/results?search_query=${searchValue}`);
   searchFieldRef.value.blur();
 };
+
+watch(searchValue, async () => {
+  const autocompleteResponse = await vtFetch<[]>(
+    `${apiUrl.value}autocomplete?q=${searchValue.value}`
+  );
+
+  autocompleteValues.value = [searchValue.value].concat(autocompleteResponse);
+});
 
 watch(
   () => route.query,
@@ -106,6 +121,7 @@ updateSearchValueFromUrl();
         ref="searchFieldRef"
         type="text"
         name="search"
+        autocomplete="off"
         :value="localSearchValue"
         @focus="onSearchFieldFocused"
         @blur="onSearchFieldBlur"
@@ -124,12 +140,14 @@ updateSearchValueFromUrl();
       <VTIcon name="mdi:magnify" />
     </nuxt-link>
     <span class="search-line-bottom line" />
-    <SearchAutoComplete
+    <SearchAutocomplete
       v-if="autocompleteVisible"
       :search-value="searchValue"
+      :selected-value="autocompleteSelectedValue"
+      :autocomplete-values="autocompleteValues"
       @search-value-update="onAutocompleteUpdate"
-      @auto-complete-enter="onAutocompleteEnter"
-      :selected-value="autocomplete"
+      @autocomplete-enter="onAutocompleteEnter"
+      @selected-value-update="onAutocompleteSelectedValueUpdate"
     />
   </div>
 </template>
@@ -186,6 +204,7 @@ updateSearchValueFromUrl();
     }
 
     #search {
+      all: unset;
       width: 100%;
       height: 100%;
       border: none;

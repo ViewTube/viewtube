@@ -1,7 +1,8 @@
 <script setup lang="ts">
-const props = defineProps<{
+defineProps<{
   searchValue: string;
   selectedValue: number;
+  autocompleteValues: string[];
 }>();
 
 const emit = defineEmits<{
@@ -10,11 +11,6 @@ const emit = defineEmits<{
   (e: 'autocompleteEnter'): void;
 }>();
 
-const { apiUrl } = useApiUrl();
-const { vtFetch } = useVtFetch();
-
-const autocompleteValues = ref([]);
-
 const onAutocompleteMouseDown = (e: { target: any }) => {
   emit('searchValueUpdate', e.target.getAttribute('value'));
   emit('autocompleteEnter');
@@ -22,17 +18,6 @@ const onAutocompleteMouseDown = (e: { target: any }) => {
 const onMouseOver = (e: { target: any }) => {
   emit('selectedValueUpdate', parseInt(e.target.getAttribute('number')));
 };
-
-watch(
-  () => props.searchValue,
-  async () => {
-    const autocompleteResponse = await vtFetch<[]>(
-      `${apiUrl.value}autocomplete?q=${props.searchValue}`
-    );
-
-    autocompleteValues.value = [props.searchValue].concat(autocompleteResponse);
-  }
-);
 </script>
 
 <template>
@@ -90,6 +75,7 @@ watch(
     color: var(--title-color);
     text-decoration: none;
     font-family: $default-font;
+    font-size: 1rem;
 
     &.selected {
       background-color: var(--bgcolor-alt-light);
