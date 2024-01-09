@@ -186,6 +186,7 @@ const getHoverPosition = (elWidth: number) => {
       bottom: 10px;
       left: 0;
       background-color: $video-thmb-overlay-bgcolor;
+      color: $video-thmb-overlay-textcolor;
       padding: 2px 6px;
       border-radius: 3px;
       font-size: 0.9rem;

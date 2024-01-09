@@ -2,6 +2,7 @@ import type {
   VideoplaybackAdapterResponse,
   VideoplaybackAdapterType
 } from '@/utils/videoplayer/adapters/adapter';
+import { useStorage } from '@vueuse/core';
 
 export type VideoState = ReturnType<typeof useVideoState>;
 
@@ -11,6 +12,8 @@ export const useVideoState = (
   source: Ref<string>,
   startTime?: Ref<number>
 ) => {
+  const volumeStorage = useStorage('volume', 1);
+
   const videoState = reactive({
     playing: false,
     buffering: false,
@@ -62,6 +65,7 @@ export const useVideoState = (
     adapterInstance.value.onStreamActivated(() => {
       updateTimeAndDuration();
       updateQualityLists();
+      adapterInstance.value.setVolume(volumeStorage.value);
     });
     adapterInstance.value.onStreamTeardownComplete(() => {
       updateTimeAndDuration();
@@ -77,6 +81,7 @@ export const useVideoState = (
     });
     adapterInstance.value.onVolumeChanged(() => {
       videoState.volume = adapterInstance.value?.getVolume() ?? 1;
+      volumeStorage.value = videoState.volume;
     });
     adapterInstance.value.onPlaybackRateChanged(() => {
       videoState.speed = adapterInstance.value?.getPlaybackRate() ?? 1;

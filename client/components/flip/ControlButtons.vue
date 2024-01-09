@@ -26,6 +26,7 @@ const videoLengthText = computed(() => getTimestampFromSeconds(videoState.video.
     <span class="timestamp-text left">{{ timestampText }}</span>
     <button class="control-button" @click.stop="onVolumeClick">
       <VTIcon name="mdi:volume" />
+      <FlipVolume />
     </button>
     <div class="control-buttons">
       <button class="control-button">
@@ -83,6 +84,9 @@ const videoLengthText = computed(() => getTimestampFromSeconds(videoState.video.
     all: unset;
     cursor: pointer;
     padding: 0 10px;
+    position: relative;
+    display: flex;
+    align-items: center;
 
     &::after {
       display: none;
