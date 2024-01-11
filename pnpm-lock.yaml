@@ -102,8 +102,8 @@ importers:
         specifier: 9.19.2
         version: 9.19.2(eslint@8.56.0)
       hls.js:
-        specifier: 1.5.0
-        version: 1.5.0
+        specifier: 1.5.1
+        version: 1.5.1
       human-number:
         specifier: 2.0.4
         version: 2.0.4
@@ -7726,8 +7726,8 @@ packages:
     engines: {node: '>=12'}
     dev: true
 
-  /hls.js@1.5.0:
-    resolution: {integrity: sha512-V7jzv1c/G38kZcg6BVgimVj5g/bVMebHRrIrln6R773mIRBDnp+/knp4ntThk3T1Ztjat9n2x3Ak3BPu5wKeYA==}
+  /hls.js@1.5.1:
+    resolution: {integrity: sha512-SsUSlpyjOGnwBhVrVEG6vRFPU2SAJ0gUqrFdGeo7YPbOC0vuWK0TDMyp7n3QiaBC/Wkic771uqPnnVdT8/x+3Q==}
     dev: true
 
   /homedir-polyfill@1.0.3:
