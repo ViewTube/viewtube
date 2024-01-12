@@ -21,8 +21,8 @@ importers:
         specifier: 7.0.3
         version: 7.0.3
       prettier:
-        specifier: 3.1.1
-        version: 3.1.1
+        specifier: 3.2.1
+        version: 3.2.1
       typescript:
         specifier: 5.3.3
         version: 5.3.3
@@ -11314,8 +11314,8 @@ packages:
     engines: {node: '>= 0.8.0'}
     dev: true
 
-  /prettier@3.1.1:
-    resolution: {integrity: sha512-22UbSzg8luF4UuZtzgiUOfcGM8s4tjBv6dJRT7j275NXsy2jb4aJa4NNveul5x4eqlF1wuhuR2RElK71RvmVaw==}
+  /prettier@3.2.1:
+    resolution: {integrity: sha512-qSUWshj1IobVbKc226Gw2pync27t0Kf0EdufZa9j7uBSJay1CC+B3K5lAAZoqgX3ASiKuWsk6OmzKRetXNObWg==}
     engines: {node: '>=14'}
     hasBin: true
     dev: true
