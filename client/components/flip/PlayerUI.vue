@@ -12,6 +12,7 @@ provide('uiState', readonly(uiState));
 
 <template>
   <div
+    id="flip-player-ui"
     ref="flipPlayerUIRef"
     class="flip-player-ui"
     @pointerleave="uiState.onPointerLeave"
@@ -25,6 +26,11 @@ provide('uiState', readonly(uiState));
       <FlipControls v-if="visible" />
     </transition>
     <FlipPoster />
+    <Teleport :to="uiState.fullscreen.value ? '#flip-player-ui' : 'body'">
+      <transition name="flip-settings">
+        <FlipSettings v-if="uiState.settingsOpen.value" />
+      </transition>
+    </Teleport>
   </div>
 </template>
 
@@ -36,6 +42,23 @@ provide('uiState', readonly(uiState));
 .flip-fade-enter-from,
 .flip-fade-leave-to {
   opacity: 0;
+}
+
+.flip-settings-enter-active,
+.flip-settings-leave-active {
+  transition:
+    opacity 300ms $intro-easing,
+    transform 300ms $intro-easing;
+}
+.flip-settings-enter-to,
+.flip-settings-leave-from {
+  opacity: 1;
+  transform: scale(1);
+}
+.flip-settings-enter-from,
+.flip-settings-leave-to {
+  opacity: 0;
+  transform: scale(1.1);
 }
 
 .flip-player-ui {

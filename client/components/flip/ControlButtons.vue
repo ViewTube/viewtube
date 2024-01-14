@@ -41,7 +41,7 @@ const videoLengthText = computed(() => getTimestampFromSeconds(videoState.video.
       </button>
     </div>
     <div class="control-buttons">
-      <button class="control-button">
+      <button class="control-button" @click.stop="uiState.openSettings">
         <VTIcon name="mdi:cog" />
       </button>
       <button class="control-button" @click.stop="uiState.toggleFullscreen">

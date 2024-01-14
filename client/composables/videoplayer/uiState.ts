@@ -32,6 +32,24 @@ export const useUIState = (videoState: VideoState, flipPlayerUIRef: Ref<HTMLDivE
     }
   };
 
+  const settingsOpen = ref(false);
+
+  const openSettings = () => {
+    settingsOpen.value = true;
+    window.addEventListener('keydown', onCloseSettings);
+  };
+
+  const onCloseSettings = (e: KeyboardEvent) => {
+    if (e.key === 'Escape') {
+      window.removeEventListener('keydown', onCloseSettings);
+      closeSettings();
+    }
+  };
+
+  const closeSettings = () => {
+    settingsOpen.value = false;
+  };
+
   const _visible = ref(true);
   const _seeking = ref(false);
   const setSeeking = (seeking: boolean) => {
@@ -121,6 +139,7 @@ export const useUIState = (videoState: VideoState, flipPlayerUIRef: Ref<HTMLDivE
     visible,
     cursor,
     fullscreen,
+    settingsOpen,
 
     onPointerMove,
     onPointerLeave,
@@ -128,6 +147,8 @@ export const useUIState = (videoState: VideoState, flipPlayerUIRef: Ref<HTMLDivE
     onPointerUp,
     setSeeking,
 
-    toggleFullscreen
+    toggleFullscreen,
+    openSettings,
+    closeSettings
   };
 };
