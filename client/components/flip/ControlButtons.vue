@@ -24,7 +24,7 @@ const videoLengthText = computed(() => getTimestampFromSeconds(videoState.video.
 <template>
   <div class="flip-control-buttons">
     <span class="timestamp-text left">{{ timestampText }}</span>
-    <button class="control-button" @click.stop="onVolumeClick">
+    <button class="control-button volume-control" @click.stop="onVolumeClick">
       <VTIcon name="mdi:volume" />
       <FlipVolume />
     </button>
@@ -78,6 +78,12 @@ const videoLengthText = computed(() => getTimestampFromSeconds(videoState.video.
 
   .control-buttons {
     display: flex;
+  }
+
+  .volume-control {
+    @media screen and (max-width: $mobile-width) {
+      visibility: hidden !important;
+    }
   }
 
   .control-button {

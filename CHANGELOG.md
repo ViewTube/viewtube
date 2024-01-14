@@ -3,6 +3,12 @@
 This file is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.16.0]
+
+### Added
+
+- Brand new video player! (Checkout the wiki: https://viewtube.wiki/features/videoplayer) [#2388]
+
 ## [0.15.1]
 
 ### Added

@@ -27,7 +27,7 @@ const onVolumeSeekStop = () => {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  left: 44px + 10px;
+  left: 44px + 5px;
 
   :deep(.volume-input) {
     width: 120px;

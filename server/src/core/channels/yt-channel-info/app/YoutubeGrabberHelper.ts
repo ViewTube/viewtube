@@ -585,7 +585,7 @@ export class YoutubeGrabberHelper {
   }
 
   extractChannelId(browseEndPoint) {
-    const channelLinkSplit = browseEndPoint.commandMetadata.webCommandMetadata.url.split('/');
+    const channelLinkSplit = browseEndPoint?.commandMetadata?.webCommandMetadata.url.split('/');
     return channelLinkSplit[channelLinkSplit.length - 1];
   }
 
@@ -732,12 +732,12 @@ export class YoutubeGrabberHelper {
         if ('runs' in shelf.title) {
           const title = shelf.title.runs?.[0];
           if ('navigationEndpoint' in title) {
-            shelfUrl = title.navigationEndpoint.commandMetadata.webCommandMetadata.url;
+            shelfUrl = title.navigationEndpoint.commandMetadata?.webCommandMetadata.url;
           }
           shelfName = title.text;
         } else {
           shelfName = shelf.title.simpleText;
-          shelfUrl = shelf.endpoint.commandMetadata.webCommandMetadata.url;
+          shelfUrl = shelf.endpoint.commandMetadata?.webCommandMetadata.url;
         }
         if (shelfUrl === null) {
           let shelfRenderer;
