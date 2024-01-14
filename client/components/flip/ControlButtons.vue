@@ -28,7 +28,7 @@ const videoLengthText = computed(() => getTimestampFromSeconds(videoState.video.
       <VTIcon name="mdi:volume" />
       <FlipVolume />
     </button>
-    <div class="control-buttons">
+    <div class="control-buttons center-buttons">
       <button class="control-button">
         <VTIcon name="mdi:skip-previous" />
       </button>
@@ -78,6 +78,13 @@ const videoLengthText = computed(() => getTimestampFromSeconds(videoState.video.
 
   .control-buttons {
     display: flex;
+
+    &.center-buttons {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
   }
 
   .volume-control {
