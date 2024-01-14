@@ -31,6 +31,7 @@ const uiState = inject<UIState>('uiState');
     width: 100%;
     max-width: 400px;
     display: flex;
+    box-shadow: $medium-shadow;
     flex-direction: column;
 
     .flip-setting {

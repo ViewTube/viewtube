@@ -293,6 +293,8 @@ const videoQualities = ['144p', '240p', '360p', '720p', '1080p', '1440p', '2160p
     padding: 0;
     z-index: 12;
     background-color: var(--bgcolor-alt);
+    border-radius: 5px;
+    overflow: hidden;
 
     .settings-title {
       text-align: center;
