@@ -294,8 +294,8 @@ importers:
         specifier: 6.3.0
         version: 6.3.0
       web-push:
-        specifier: 3.6.6
-        version: 3.6.6
+        specifier: 3.6.7
+        version: 3.6.7
       winston:
         specifier: 3.11.0
         version: 3.11.0
@@ -7803,11 +7803,9 @@ packages:
       sshpk: 1.18.0
     dev: true
 
-  /http_ece@1.1.0:
-    resolution: {integrity: sha512-bptAfCDdPJxOs5zYSe7Y3lpr772s1G346R4Td5LgRUeCwIGpCGDUTJxRrhTNcAXbx37spge0kWEIH7QAYWNTlA==}
-    engines: {node: '>=4'}
-    dependencies:
-      urlsafe-base64: 1.0.0
+  /http_ece@1.2.0:
+    resolution: {integrity: sha512-JrF8SSLVmcvc5NducxgyOrKXe3EsyHMgBFgSaIUGmArKe+rwr0uphRkRXvwiom3I+fpIfoItveHrfudL8/rxuA==}
+    engines: {node: '>=16'}
     dev: false
 
   /https-proxy-agent@5.0.1:
@@ -13166,10 +13164,6 @@ packages:
     resolution: {integrity: sha512-Qp95D4TPJl1kC9SKigDcqgyM2VDVO4RiJc2d4qe5GrYm+zbIQCWWKAFaJNQ4BhdFeDGwBmAxqJBwWSJDb9T3BQ==}
     dev: true
 
-  /urlsafe-base64@1.0.0:
-    resolution: {integrity: sha512-RtuPeMy7c1UrHwproMZN9gN6kiZ0SvJwRaEzwZY0j9MypEkFqyBaKv176jvlPtg58Zh36bOkS0NFABXMHvvGCA==}
-    dev: false
-
   /util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
 
@@ -13542,13 +13536,13 @@ packages:
       defaults: 1.0.4
     dev: true
 
-  /web-push@3.6.6:
-    resolution: {integrity: sha512-SyteEck9fiCskNmPxs/GFhJsZrIyLfRvjWNmcUwULLJyCU0f1oxo2sWTokXA1mDAq9vxk4e4gVcb/8agq73NkQ==}
+  /web-push@3.6.7:
+    resolution: {integrity: sha512-OpiIUe8cuGjrj3mMBFWY+e4MMIkW3SVT+7vEIjvD9kejGUypv8GPDf84JdPWskK8zMRIJ6xYGm+Kxr8YkPyA0A==}
     engines: {node: '>= 16'}
     hasBin: true
     dependencies:
       asn1.js: 5.4.1
-      http_ece: 1.1.0
+      http_ece: 1.2.0
       https-proxy-agent: 7.0.2
       jws: 4.0.0
       minimist: 1.2.8
