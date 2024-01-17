@@ -1,17 +1,28 @@
 <script setup lang="ts">
 const uiState = inject<UIState>('uiState');
+const videoState = inject<VideoState>('videoState');
 </script>
 
 <template>
   <div class="flip-settings-container clickaway-div" @click="uiState.closeSettings">
-    <div class="flip-settings">
+    <div class="flip-settings" @click.stop>
       <div class="flip-setting mobile-only">
         <VTIcon class="flip-setting-icon" name="mdi:volume" />
         <FlipVolume mobile />
       </div>
       <div class="flip-setting">
-        <VTIcon class="flip-setting-icon" name="mdi:cog" />
-        <p>Other setting</p>
+        <VTIcon class="flip-setting-icon" name="mdi:high-definition-box" />
+        <p>Video Quality</p>
+        <div class="quality-list">
+          <div
+            v-for="(quality, index) in videoState.video.videoQualityList"
+            :key="index"
+            :class="{ selected: index === videoState.video.videoQualityIndex }"
+            class="quality"
+          >
+            {{ quality.label }}
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -37,8 +48,19 @@ const uiState = inject<UIState>('uiState');
     .flip-setting {
       padding: 10px 15px 10px 40px;
       display: flex;
-      flex-direction: row;
+      flex-direction: column;
       position: relative;
+
+      .quality-list {
+        display: flex;
+        flex-direction: column;
+
+        .quality {
+          &.selected {
+            color: var(--theme-color);
+          }
+        }
+      }
 
       &.mobile-only {
         @media screen and (min-width: $mobile-width) {

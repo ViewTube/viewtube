@@ -1,4 +1,5 @@
 import type {
+  QualityInfo,
   VideoplaybackAdapterResponse,
   VideoplaybackAdapterType
 } from '@/utils/videoplayer/adapters/adapter';
@@ -24,8 +25,12 @@ export const useVideoState = (
     volume: 1,
     loop: false,
     speed: 1,
-    videoQualityList: [],
-    audioQualityList: [],
+    videoQualityList: [] as QualityInfo[],
+    audioQualityList: [] as QualityInfo[],
+    videoQualityAuto: true,
+    audioQualityAuto: true,
+    videoQualityIndex: 0,
+    audioQualityIndex: 0,
     videoTrackList: [],
     audioTrackList: []
   });
@@ -86,6 +91,12 @@ export const useVideoState = (
     });
     adapterInstance.value.onPlaybackRateChanged(() => {
       videoState.speed = adapterInstance.value?.getPlaybackRate() ?? 1;
+    });
+    adapterInstance.value.onVideoQualityChanged(e => {
+      videoState.videoQualityIndex = e.newQuality;
+    });
+    adapterInstance.value.onAudioQualityChanged(e => {
+      videoState.audioQualityIndex = e.newQuality;
     });
   };
 

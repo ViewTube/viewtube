@@ -34,6 +34,23 @@ export const dashAdapter: VideoplaybackAdapter = async options => {
   const onWaiting = registerCallback(dashjs.MediaPlayer.events.PLAYBACK_WAITING);
   const onVolumeChanged = registerCallback(dashjs.MediaPlayer.events.PLAYBACK_VOLUME_CHANGED);
   const onPlaybackRateChanged = registerCallback(dashjs.MediaPlayer.events.PLAYBACK_RATE_CHANGED);
+  const onQualityChanged = registerCallback(dashjs.MediaPlayer.events.QUALITY_CHANGE_RENDERED);
+
+  const onVideoQualityChanged = (callback: EventListenerCallback) => {
+    onQualityChanged((e: dashjs.QualityChangeRenderedEvent) => {
+      if (e.mediaType === 'video') {
+        callback(e.newQuality);
+      }
+    });
+  };
+
+  const onAudioQualityChanged = (callback: EventListenerCallback) => {
+    onQualityChanged((e: dashjs.QualityChangeRenderedEvent) => {
+      if (e.mediaType === 'audio') {
+        callback(e);
+      }
+    });
+  };
 
   const destroy = () => {
     unregisterCallback(dashjs.MediaPlayer.events.PLAYBACK_STARTED);
@@ -67,6 +84,8 @@ export const dashAdapter: VideoplaybackAdapter = async options => {
     return bufferLevel;
   };
   const getVideoQualityList = () => {
+    console.log(mediaPlayer.getBitrateInfoListFor('video'));
+    console.log(mediaPlayer.getTracksFor('video'));
     return mediaPlayer.getBitrateInfoListFor('video').map(bitrateInfo => ({
       ...bitrateInfo,
       label: `${bitrateInfo.height}p - ${humanizeBitrate(bitrateInfo.bitrate)}`
@@ -136,6 +155,8 @@ export const dashAdapter: VideoplaybackAdapter = async options => {
     onCanPlay,
     onWaiting,
     onVolumeChanged,
+    onVideoQualityChanged,
+    onAudioQualityChanged,
 
     getTime,
     getDuration,

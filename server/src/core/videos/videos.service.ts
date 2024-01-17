@@ -61,6 +61,8 @@ export class VideosService {
       const client = await innertubeClient();
       const videoInfo = await client.getInfo(id);
 
+      fs.writeFileSync(`/home/maurice/src/viewtube/${id}.json`, JSON.stringify(videoInfo, null, 2));
+
       const dashManifest = await videoInfo.toDash((url: URL) => {
         url.searchParams.append('__host', url.host);
         return url;

@@ -1,6 +1,16 @@
-import type { BitrateInfo, MediaInfo } from 'dashjs';
+import type { BitrateInfo, MediaInfo, MediaType } from 'dashjs';
 
-export type EventListenerCallback = (e: any) => void;
+export type EventListenerCallback<E = any> = (e: E) => void;
+
+export class QualityInfo implements BitrateInfo {
+  mediaType: MediaType;
+  bitrate: number;
+  width: number;
+  height: number;
+  scanType: string;
+  qualityIndex: number;
+  label: string;
+}
 
 export interface VideoplaybackAdapterResponse {
   type: 'dash' | 'hls' | 'native';
@@ -17,6 +27,8 @@ export interface VideoplaybackAdapterResponse {
   onWaiting: (callback: EventListenerCallback) => void;
   onVolumeChanged: (callback: EventListenerCallback) => void;
   onPlaybackRateChanged: (callback: EventListenerCallback) => void;
+  onVideoQualityChanged: (callback: EventListenerCallback) => void;
+  onAudioQualityChanged: (callback: EventListenerCallback) => void;
 
   getTime: () => number;
   getDuration: () => number;
