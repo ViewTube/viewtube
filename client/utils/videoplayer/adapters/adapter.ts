@@ -23,10 +23,10 @@ export interface VideoplaybackAdapterResponse {
   getBufferLevel: () => number;
   getVolume: () => number;
   getPlaybackRate: () => number;
-  getVideoQualityList: () => BitrateInfo[];
-  getAudioQualityList: () => BitrateInfo[];
-  getVideoTrackList: () => (MediaInfo & { label?: string })[];
-  getAudioTrackList: () => (MediaInfo & { label?: string })[];
+  getVideoQualityList: () => any[];
+  getAudioQualityList: () => any[];
+  getVideoTrackList: () => (any & { label?: string })[];
+  getAudioTrackList: () => (any & { label?: string })[];
 
   setVolume: (volume: number) => void;
   setTime: (time: number) => void;

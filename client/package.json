@@ -59,6 +59,7 @@
     "vue-datepicker-next": "1.0.3",
     "vue-tsc": "1.8.27",
     "x2js": "3.4.4",
+    "shaka-player": "4.7.5",
     "ytpl": "2.3.0"
   }
 }

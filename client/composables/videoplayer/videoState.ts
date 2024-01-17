@@ -3,6 +3,7 @@ import type {
   VideoplaybackAdapterType
 } from '@/utils/videoplayer/adapters/adapter';
 import { useStorage } from '@vueuse/core';
+import { shakaAdapter } from '@/utils/videoplayer/adapters/shakaAdapter';
 
 export type VideoState = ReturnType<typeof useVideoState>;
 
@@ -39,7 +40,7 @@ export const useVideoState = (
 
     switch (adapterType.value) {
       case 'dash':
-        adapterInstance.value = await dashAdapter({
+        adapterInstance.value = await shakaAdapter({
           videoRef: videoElementRef,
           source,
           startTime
