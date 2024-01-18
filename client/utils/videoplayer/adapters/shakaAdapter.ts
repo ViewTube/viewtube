@@ -1,4 +1,3 @@
-import type { MediaInfo } from 'dashjs';
 import type { EventListenerCallback, VideoplaybackAdapter } from './adapter';
 
 export const shakaAdapter: VideoplaybackAdapter = async options => {
@@ -21,10 +20,39 @@ export const shakaAdapter: VideoplaybackAdapter = async options => {
     shakaPlayer.addEventListener(event, callback);
   };
 
+  const registerMultipleCallbacks = (events: string[]) => (callback: EventListenerCallback) => {
+    events.forEach(event => {
+      eventStorage.set(event, callback);
+      shakaPlayer.addEventListener(event, callback);
+    });
+  };
+
+  const registerNativeCallback =
+    (event: keyof HTMLVideoElementEventMap) => (callback: EventListenerCallback) => {
+      eventStorage.set(event, callback);
+      videoRef.value.addEventListener(event, callback);
+    };
+
   const unregisterCallback = (event: string) => {
     const callback = eventStorage.get(event);
     if (callback) {
       shakaPlayer.removeEventListener(event, callback);
+    }
+  };
+
+  const unregisterMultipleCallbacks = (events: string[]) => {
+    events.forEach(event => {
+      const callback = eventStorage.get(event);
+      if (callback) {
+        shakaPlayer.removeEventListener(event, callback);
+      }
+    });
+  }
+
+  const unregisterNativeCallback = (event: string) => {
+    const callback = eventStorage.get(event);
+    if (callback) {
+      videoRef.value.removeEventListener(event, callback);
     }
   };
 
@@ -45,52 +73,61 @@ export const shakaAdapter: VideoplaybackAdapter = async options => {
   });
 
   // Register callbacks
-  const onPlaybackStarted = registerCallback('dashjs.MediaPlayer.events.PLAYBACK_STARTED');
-  const onPlaybackPaused = registerCallback('dashjs.MediaPlayer.events.PLAYBACK_PAUSED');
-  const onPlaybackTimeUpdated = registerCallback('dashjs.MediaPlayer.events.PLAYBACK_TIME_UPDATED');
-  const onStreamActivated = registerCallback('dashjs.MediaPlayer.events.STREAM_ACTIVATED');
-  const onStreamDeactivated = registerCallback('dashjs.MediaPlayer.events.STREAM_DEACTIVATED');
-  const onStreamTeardownComplete = registerCallback(
-    'dashjs.MediaPlayer.events.STREAM_TEARDOWN_COMPLETE'
-  );
-  const onTextTracksAdded = registerCallback('dashjs.MediaPlayer.events.TEXT_TRACKS_ADDED');
-  const onBufferLevelUpdated = registerCallback('dashjs.MediaPlayer.events.BUFFER_LEVEL_UPDATED');
-  const onCanPlay = registerCallback('dashjs.MediaPlayer.events.CAN_PLAY');
-  const onWaiting = registerCallback('dashjs.MediaPlayer.events.PLAYBACK_WAITING');
-  const onVolumeChanged = registerCallback('dashjs.MediaPlayer.events.PLAYBACK_VOLUME_CHANGED');
-  const onPlaybackRateChanged = registerCallback('dashjs.MediaPlayer.events.PLAYBACK_RATE_CHANGED');
+  const onPlaybackStarted = registerNativeCallback('playing');
+  const onPlaybackPaused = registerNativeCallback('pause');
+  const onPlaybackTimeUpdated = registerNativeCallback('timeupdate');
+  const onTextTracksAdded = registerCallback('textchanged');
+  const onBufferLevelUpdated = registerMultipleCallbacks(['segmentappended', 'onstatechange']);
+  const onCanPlay = registerNativeCallback('canplay');
+  // https://nightly-dot-shaka-player-demo.appspot.com/docs/api/shaka.Player.html#.event:BufferingEvent
+  const onWaiting = registerCallback('buffering');
+  const onVolumeChanged = registerNativeCallback('volumechange');
+  const onPlaybackRateChanged = registerCallback('ratechange');
+  const onQualityChanged = registerCallback('mediaqualitychanged');
+
+  const onVideoQualityChanged = (callback: EventListenerCallback) => {
+    onQualityChanged(e => {
+      console.log(e);
+      if (e.mediaType === 'video') {
+        callback(e.newQuality);
+      }
+    });
+  };
+
+  const onAudioQualityChanged = (callback: EventListenerCallback) => {
+    onQualityChanged(e => {
+      console.log(e);
+
+      if (e.mediaType === 'audio') {
+        callback(e);
+      }
+    });
+  };
 
   await shakaPlayer.attach(videoRef.value);
 
   const destroy = () => {
-    // unregisterCallback(dashjs.MediaPlayer.events.PLAYBACK_STARTED);
-    // unregisterCallback(dashjs.MediaPlayer.events.PLAYBACK_PAUSED);
-    // unregisterCallback(dashjs.MediaPlayer.events.PLAYBACK_TIME_UPDATED);
-    // unregisterCallback(dashjs.MediaPlayer.events.STREAM_ACTIVATED);
-    // unregisterCallback(dashjs.MediaPlayer.events.STREAM_DEACTIVATED);
-    // unregisterCallback(dashjs.MediaPlayer.events.STREAM_TEARDOWN_COMPLETE);
-    // unregisterCallback(dashjs.MediaPlayer.events.TEXT_TRACKS_ADDED);
-    // unregisterCallback(dashjs.MediaPlayer.events.BUFFER_LEVEL_UPDATED);
-    // unregisterCallback(dashjs.MediaPlayer.events.CAN_PLAY);
-    // unregisterCallback(dashjs.MediaPlayer.events.PLAYBACK_WAITING);
-    // unregisterCallback(dashjs.MediaPlayer.events.PLAYBACK_VOLUME_CHANGED);
-    // unregisterCallback(dashjs.MediaPlayer.events.PLAYBACK_RATE_CHANGED);
+    unregisterNativeCallback('playing');
+    unregisterNativeCallback('pause');
+    unregisterNativeCallback('timeupdate');
+    unregisterCallback('textchanged');
+    unregisterMultipleCallbacks(['segmentappended', 'onstatechange']);
+    unregisterNativeCallback('canplay');
+    unregisterCallback('buffering');
+    unregisterNativeCallback('volumechange');
+    unregisterCallback('ratechange');
+    unregisterCallback('mediaqualitychanged');
 
     shakaPlayer.destroy();
   };
 
   // Getters
   const getBufferLevel = () => {
-    const bufferLevel = 0;
-    // if (typeof mediaPlayer.getDashMetrics === 'function') {
-    //   const dashMetrics = mediaPlayer.getDashMetrics();
-    //   if (dashMetrics) {
-    //     bufferLevel = dashMetrics.getCurrentBufferLevel('video');
-    //     if (!bufferLevel) {
-    //       bufferLevel = dashMetrics.getCurrentBufferLevel('audio');
-    //     }
-    //   }
-    // }
+    let bufferLevel = 0;
+    const bufferedInfo = shakaPlayer.getBufferedInfo();
+    if (bufferedInfo) {
+      bufferLevel = bufferedInfo.total.sort((a, b) => a.end - b.end).reverse()[0].end;
+    }
     return bufferLevel;
   };
   const getVideoQualityList = () => {
@@ -160,15 +197,14 @@ export const shakaAdapter: VideoplaybackAdapter = async options => {
     onPlaybackStarted,
     onPlaybackPaused,
     onPlaybackTimeUpdated,
-    onStreamActivated,
-    onStreamDeactivated,
-    onStreamTeardownComplete,
     onTextTracksAdded,
     onBufferLevelUpdated,
     onPlaybackRateChanged,
     onCanPlay,
     onWaiting,
     onVolumeChanged,
+    onVideoQualityChanged,
+    onAudioQualityChanged,
 
     getTime,
     getDuration,

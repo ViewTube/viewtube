@@ -68,14 +68,6 @@ export const useVideoState = (
     adapterInstance.value.onPlaybackTimeUpdated(() => {
       updateTimeAndDuration();
     });
-    adapterInstance.value.onStreamActivated(() => {
-      updateTimeAndDuration();
-      updateQualityLists();
-      adapterInstance.value.setVolume(volumeStorage.value);
-    });
-    adapterInstance.value.onStreamTeardownComplete(() => {
-      updateTimeAndDuration();
-    });
     adapterInstance.value.onBufferLevelUpdated(() => {
       videoState.bufferLevel = adapterInstance.value?.getBufferLevel() ?? 0;
     });
@@ -84,6 +76,9 @@ export const useVideoState = (
     });
     adapterInstance.value.onCanPlay(() => {
       videoState.buffering = false;
+      updateTimeAndDuration();
+      updateQualityLists();
+      adapterInstance.value.setVolume(volumeStorage.value);
     });
     adapterInstance.value.onVolumeChanged(() => {
       videoState.volume = adapterInstance.value?.getVolume() ?? 1;
