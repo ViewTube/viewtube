@@ -89,7 +89,7 @@
     "eslint": "8.56.0",
     "eslint-config-prettier": "9.1.0",
     "hex-rgb": "5.0.0",
-    "openapi-typescript": "6.7.3",
+    "openapi-typescript": "6.7.4",
     "redis": "4.6.12",
     "rimraf": "5.0.5",
     "run-script-webpack-plugin": "0.2.0",
