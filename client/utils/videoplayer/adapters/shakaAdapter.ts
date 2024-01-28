@@ -13,7 +13,9 @@ export const shakaAdapter: VideoplaybackAdapter = async options => {
 
   const shakaPlayer = new shaka.Player();
 
-  console.log(shakaPlayer);
+  shakaPlayer.configure({
+    preferredAudioLanguage: 'en'
+  });
 
   const eventStorage = new Map<string, EventListenerCallback>();
 
@@ -84,6 +86,7 @@ export const shakaAdapter: VideoplaybackAdapter = async options => {
   // https://nightly-dot-shaka-player-demo.appspot.com/docs/api/shaka.Player.html#.event:BufferingEvent
   const onWaiting = registerCallback('buffering');
   const onVolumeChanged = registerNativeCallback('volumechange');
+  const onVariantChanged = registerCallback('variantchanged');
   const onPlaybackRateChanged = registerCallback('ratechange');
   const onQualityChanged = registerCallback('mediaqualitychanged');
   const onAdaptationChanged = registerCallback('adaptation');
@@ -100,6 +103,12 @@ export const shakaAdapter: VideoplaybackAdapter = async options => {
       if (e.newTrack) {
         callback(e.newTrack.id);
       }
+    });
+  };
+
+  const onLanguageChanged = (callback: EventListenerCallback) => {
+    onVariantChanged(e => {
+      callback(e.language);
     });
   };
 
@@ -143,8 +152,6 @@ export const shakaAdapter: VideoplaybackAdapter = async options => {
   const getTrackList = () => {
     const groupedTrackList = [];
 
-    console.log(shakaPlayer.getVariantTracks());
-
     shakaPlayer
       .getVariantTracks()
       .map(track => ({
@@ -176,7 +183,6 @@ export const shakaAdapter: VideoplaybackAdapter = async options => {
         groupedTrackList[language].push(track);
       });
 
-    console.log(groupedTrackList);
     return groupedTrackList;
   };
 
@@ -205,6 +211,10 @@ export const shakaAdapter: VideoplaybackAdapter = async options => {
     });
   };
 
+  const getLanguageList = () => {
+    return shakaPlayer.getAudioLanguages();
+  };
+
   const getTime = () => videoRef.value?.currentTime ?? 0;
   const getDuration = () => videoRef.value?.duration ?? 0;
   const getVolume = () => videoRef.value?.volume ?? 1;
@@ -212,13 +222,19 @@ export const shakaAdapter: VideoplaybackAdapter = async options => {
 
   // Setters
   const setVolume = (volume: number) => {
-    videoRef.value.volume = volume;
+    if (videoRef.value) {
+      videoRef.value.volume = volume;
+    }
   };
   const setTime = (time: number) => {
-    videoRef.value.currentTime = time;
+    if (videoRef.value) {
+      videoRef.value.currentTime = time;
+    }
   };
   const setPlaybackRate = (rate: number) => {
-    videoRef.value.playbackRate = rate;
+    if (videoRef.value) {
+      videoRef.value.playbackRate = rate;
+    }
   };
   const play = () => {
     videoRef.value?.play();
@@ -250,6 +266,7 @@ export const shakaAdapter: VideoplaybackAdapter = async options => {
     onWaiting,
     onVolumeChanged,
     onTrackChanged,
+    onLanguageChanged,
     onAudioQualityChanged,
 
     getTime,
@@ -260,6 +277,7 @@ export const shakaAdapter: VideoplaybackAdapter = async options => {
     getAudioQualityList,
     getVideoTrackList,
     getAudioTrackList,
+    getLanguageList,
 
     getVolume,
     setVolume,

@@ -37,6 +37,7 @@ export const iconSafelist = [
   'mdi-fullscreen',
   'mdi-fullscreen-exit',
   'mdi-github',
+  'mdi-globe',
   'mdi-heart',
   'mdi-high-definition',
   'mdi-high-definition-box',

@@ -25,6 +25,20 @@ const videoState = inject<VideoState>('videoState');
           </div>
         </div>
       </div>
+      <div class="flip-setting">
+        <VTIcon class="flip-setting-icon" name="mdi:globe" />
+        <p>Language</p>
+        <div class="quality-list">
+          <div
+            v-for="(language, index) in videoState.video.languageList"
+            :key="index"
+            :class="{ selected: language === videoState.video.selectedLanguage }"
+            class="quality"
+          >
+            {{ language }}
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>

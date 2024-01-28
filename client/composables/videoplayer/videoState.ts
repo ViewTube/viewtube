@@ -32,7 +32,9 @@ export const useVideoState = (
     trackIndex: 0,
     audioQualityIndex: 0,
     videoTrackList: [],
-    audioTrackList: []
+    audioTrackList: [],
+    languageList: [],
+    selectedLanguage: 'en'
   });
 
   const adapterInstance = ref<VideoplaybackAdapterResponse>();
@@ -77,7 +79,7 @@ export const useVideoState = (
     adapterInstance.value.onCanPlay(() => {
       videoState.buffering = false;
       updateTimeAndDuration();
-      updateQualityLists();
+      updateTrackLists();
       adapterInstance.value.setVolume(volumeStorage.value);
     });
     adapterInstance.value.onVolumeChanged(() => {
@@ -89,6 +91,9 @@ export const useVideoState = (
     });
     adapterInstance.value.onTrackChanged(id => {
       videoState.trackIndex = id;
+    });
+    adapterInstance.value.onLanguageChanged(language => {
+      videoState.selectedLanguage = language;
     });
     adapterInstance.value.onAudioQualityChanged(e => {
       videoState.audioQualityIndex = e.newQuality;
@@ -120,12 +125,13 @@ export const useVideoState = (
     updateDuration();
   };
 
-  const updateQualityLists = () => {
+  const updateTrackLists = () => {
     if (adapterInstance.value) {
       videoState.trackList = adapterInstance.value.getTrackList();
       videoState.audioQualityList = adapterInstance.value.getAudioQualityList();
       videoState.videoTrackList = adapterInstance.value.getVideoTrackList();
       videoState.audioTrackList = adapterInstance.value.getAudioTrackList();
+      videoState.languageList = adapterInstance.value.getLanguageList();
     }
   };
 
