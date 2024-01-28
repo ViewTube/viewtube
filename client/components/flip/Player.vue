@@ -7,9 +7,9 @@ const videoElementRef = ref<HTMLVideoElement | null>(null);
 const videoObj = toRef(props, 'video');
 const startTime = toRef(props, 'startTime');
 
-const { videoSource, adapterType } = useVideoSource(videoObj);
+const { videoSource } = useVideoSource(videoObj);
 
-const videoState = useVideoState(videoElementRef, adapterType, videoSource, startTime);
+const videoState = useVideoState(videoElementRef, videoSource, startTime);
 provide('videoState', readonly(videoState));
 provide('video', readonly(props.video));
 </script>

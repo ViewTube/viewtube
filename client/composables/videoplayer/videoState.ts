@@ -1,16 +1,14 @@
-import type {
-  QualityInfo,
-  VideoplaybackAdapterResponse,
-  VideoplaybackAdapterType
-} from '@/utils/videoplayer/adapters/adapter';
 import { useStorage } from '@vueuse/core';
-import { shakaAdapter } from '@/utils/videoplayer/adapters/shakaAdapter';
+import {
+  QualityInfo,
+  shakaAdapter,
+  type Language
+} from '@/utils/videoplayer/adapters/shakaAdapter';
 
 export type VideoState = ReturnType<typeof useVideoState>;
 
 export const useVideoState = (
   videoElementRef: Ref<HTMLVideoElement>,
-  adapterType: Ref<VideoplaybackAdapterType>,
   source: Ref<string>,
   startTime?: Ref<number>
 ) => {
@@ -18,7 +16,7 @@ export const useVideoState = (
 
   const videoState = reactive({
     playing: false,
-    buffering: false,
+    buffering: true,
     bufferLevel: 0,
     currentTime: 0,
     duration: 0,
@@ -33,11 +31,11 @@ export const useVideoState = (
     audioQualityIndex: 0,
     videoTrackList: [],
     audioTrackList: [],
-    languageList: [],
+    languageList: [] as Language[],
     selectedLanguage: 'en'
   });
 
-  const adapterInstance = ref<VideoplaybackAdapterResponse>();
+  const adapterInstance = ref<Awaited<ReturnType<typeof shakaAdapter>>>();
 
   const instantiateAdapter = async () => {
     if (adapterInstance.value) {
@@ -45,19 +43,11 @@ export const useVideoState = (
       adapterInstance.value = undefined;
     }
 
-    switch (adapterType.value) {
-      case 'dash':
-        adapterInstance.value = await shakaAdapter({
-          videoRef: videoElementRef,
-          source,
-          startTime
-        });
-
-        break;
-      case 'hls':
-      case 'native':
-        break;
-    }
+    adapterInstance.value = await shakaAdapter({
+      videoRef: videoElementRef,
+      source,
+      startTime
+    });
 
     adapterInstance.value.onPlaybackStarted(() => {
       videoState.playing = true;
@@ -93,6 +83,7 @@ export const useVideoState = (
       videoState.trackIndex = id;
     });
     adapterInstance.value.onLanguageChanged(language => {
+      console.log('language changed', language)
       videoState.selectedLanguage = language;
     });
     adapterInstance.value.onAudioQualityChanged(e => {
@@ -114,12 +105,6 @@ export const useVideoState = (
     videoAttributeObserver.observe(videoElementRef.value, { attributes: true });
   });
 
-  watch(adapterType, async (newValue, oldValue) => {
-    if (newValue !== oldValue) {
-      await instantiateAdapter();
-    }
-  });
-
   const updateTimeAndDuration = () => {
     updateTime();
     updateDuration();
@@ -128,7 +113,6 @@ export const useVideoState = (
   const updateTrackLists = () => {
     if (adapterInstance.value) {
       videoState.trackList = adapterInstance.value.getTrackList();
-      videoState.audioQualityList = adapterInstance.value.getAudioQualityList();
       videoState.videoTrackList = adapterInstance.value.getVideoTrackList();
       videoState.audioTrackList = adapterInstance.value.getAudioTrackList();
       videoState.languageList = adapterInstance.value.getLanguageList();
@@ -166,6 +150,7 @@ export const useVideoState = (
   const setLoop = (loop: boolean) => {
     videoElementRef.value.loop = loop;
   };
+  const setLanguage = (language: string) => adapterInstance.value?.setLanguage(language);
 
   return {
     video: videoState,
@@ -174,7 +159,8 @@ export const useVideoState = (
     setVolume,
     setPlaybackRate,
     setTime,
-    setLoop
+    setLoop,
+    setLanguage
   };
 };
 

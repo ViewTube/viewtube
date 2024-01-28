@@ -1,6 +1,38 @@
-import type { EventListenerCallback, VideoplaybackAdapter } from './adapter';
+export type EventListenerCallback<E = any> = (e: E) => void;
+export type MediaType = 'video' | 'audio' | 'text' | 'image';
 
-export const shakaAdapter: VideoplaybackAdapter = async options => {
+export class BitrateInfo {
+  mediaType: MediaType;
+  bitrate: number;
+  width: number;
+  height: number;
+  scanType: string;
+  qualityIndex: number;
+}
+
+export class QualityInfo implements BitrateInfo {
+  mediaType: MediaType;
+  bitrate: number;
+  width: number;
+  height: number;
+  scanType: string;
+  qualityIndex: number;
+  label: string;
+}
+
+export type VideoplaybackAdapterOptions = {
+  videoRef: Ref<HTMLVideoElement>;
+  source: Ref<string>;
+  startTime?: Ref<number>;
+};
+
+export type Language = {
+  language: string;
+  label: string;
+  role: string;
+};
+
+export const shakaAdapter = async (options: VideoplaybackAdapterOptions) => {
   const { source, startTime, videoRef } = options;
   const shaka = await import('shaka-player');
 
@@ -14,8 +46,18 @@ export const shakaAdapter: VideoplaybackAdapter = async options => {
   const shakaPlayer = new shaka.Player();
 
   shakaPlayer.configure({
-    preferredAudioLanguage: 'en'
+    preferredAudioLanguage: 'en',
+    streaming: {
+      retryParameters: {
+        maxAttempts: Infinity,
+        baseDelay: 500,
+        timeout: 30000
+      },
+      bufferingGoal: 30
+    }
   });
+
+  console.log(shakaPlayer);
 
   const eventStorage = new Map<string, EventListenerCallback>();
 
@@ -108,7 +150,7 @@ export const shakaAdapter: VideoplaybackAdapter = async options => {
 
   const onLanguageChanged = (callback: EventListenerCallback) => {
     onVariantChanged(e => {
-      callback(e.language);
+      callback(e.newTrack.language);
     });
   };
 
@@ -211,8 +253,8 @@ export const shakaAdapter: VideoplaybackAdapter = async options => {
     });
   };
 
-  const getLanguageList = () => {
-    return shakaPlayer.getAudioLanguages();
+  const getLanguageList = (): Language[] => {
+    return shakaPlayer.getAudioLanguagesAndRoles();
   };
 
   const getTime = () => videoRef.value?.currentTime ?? 0;
@@ -242,16 +284,31 @@ export const shakaAdapter: VideoplaybackAdapter = async options => {
   const pause = () => {
     videoRef.value?.pause();
   };
+  const setLanguage = (language: string) => {
+    shakaPlayer.configure({
+      preferredAudioLanguage: language,
+      abr: {
+        enabled: false
+      }
+    });
+    shakaPlayer.selectAudioLanguage(language);
+    shakaPlayer.configure({
+      preferredAudioLanguage: language,
+      abr: {
+        enabled: true
+      }
+    });
+  };
 
   // Initialize player
-  watch(source, (newValue, oldValue) => {
+  watch(source, async (newValue, oldValue) => {
     if (newValue !== oldValue) {
       const startTimeNumber = startTime?.value ?? 0;
-      shakaPlayer.load(source.value, startTimeNumber);
+      await shakaPlayer.load(source.value, startTimeNumber);
     }
   });
   const startTimeNumber = startTime?.value ?? 0;
-  shakaPlayer.load(source.value, startTimeNumber);
+  await shakaPlayer.load(source.value, startTimeNumber);
 
   return {
     type: 'dash',
@@ -283,6 +340,7 @@ export const shakaAdapter: VideoplaybackAdapter = async options => {
     setVolume,
     setTime,
     setPlaybackRate,
+    setLanguage,
     play,
     pause,
     destroy

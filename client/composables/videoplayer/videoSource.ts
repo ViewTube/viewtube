@@ -18,15 +18,7 @@ export const useVideoSource = (video: Ref<ApiDto<'VTVideoInfoDto'>>) => {
     return manifestUrl;
   });
 
-  const adapterType = computed(() => {
-    if (video.value.dashManifest) {
-      return 'dash';
-    }
-    return 'native';
-  });
-
   return {
-    videoSource,
-    adapterType
+    videoSource
   };
 };
