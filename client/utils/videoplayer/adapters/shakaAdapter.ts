@@ -13,6 +13,8 @@ export const shakaAdapter: VideoplaybackAdapter = async options => {
 
   const shakaPlayer = new shaka.Player();
 
+  console.log(shakaPlayer);
+
   const eventStorage = new Map<string, EventListenerCallback>();
 
   const registerCallback = (event: string) => (callback: EventListenerCallback) => {
@@ -47,7 +49,7 @@ export const shakaAdapter: VideoplaybackAdapter = async options => {
         shakaPlayer.removeEventListener(event, callback);
       }
     });
-  }
+  };
 
   const unregisterNativeCallback = (event: string) => {
     const callback = eventStorage.get(event);
@@ -84,12 +86,19 @@ export const shakaAdapter: VideoplaybackAdapter = async options => {
   const onVolumeChanged = registerNativeCallback('volumechange');
   const onPlaybackRateChanged = registerCallback('ratechange');
   const onQualityChanged = registerCallback('mediaqualitychanged');
+  const onAdaptationChanged = registerCallback('adaptation');
 
-  const onVideoQualityChanged = (callback: EventListenerCallback) => {
+  const onTrackChanged = (callback: EventListenerCallback) => {
     onQualityChanged(e => {
       console.log(e);
-      if (e.mediaType === 'video') {
-        callback(e.newQuality);
+      // if (e.mediaType === 'video') {
+      //   callback(e.newQuality);
+      // }
+    });
+
+    onAdaptationChanged(e => {
+      if (e.newTrack) {
+        callback(e.newTrack.id);
       }
     });
   };
@@ -130,18 +139,54 @@ export const shakaAdapter: VideoplaybackAdapter = async options => {
     }
     return bufferLevel;
   };
-  const getVideoQualityList = () => {
-    return shakaPlayer.getVariantTracks().map(track => ({
-      ...track,
-      label: `${track.height}p - ${humanizeBitrate(track.bandwidth)}`
-    }));
+
+  const getTrackList = () => {
+    const groupedTrackList = [];
+
+    console.log(shakaPlayer.getVariantTracks());
+
+    shakaPlayer
+      .getVariantTracks()
+      .map(track => ({
+        ...track,
+        label: `${track.videoCodec} ${track.audioCodec} ${track.height}p - ${humanizeBitrate(track.videoBandwidth)} | ${humanizeBitrate(track.audioBandwidth)} ${track.hdr === 'PQ' ? 'HDR' : ''} ${track.language}`
+      }))
+      .sort((a, b) => {
+        const videoCodecA = a.videoCodec.split('.')[0];
+        const videoCodecB = b.videoCodec.split('.')[0];
+
+        const audioCodecA = a.audioCodec.split('.')[0];
+        const audioCodecB = b.audioCodec.split('.')[0];
+
+        return (
+          videoCodecA.localeCompare(videoCodecB) ||
+          audioCodecA.localeCompare(audioCodecB) ||
+          a.height - b.height ||
+          a.videoBandwidth - b.videoBandwidth ||
+          a.audioBandwidth - b.audioBandwidth
+        );
+      })
+      .forEach(track => {
+        const language = track.language;
+
+        if (!groupedTrackList[language]) {
+          groupedTrackList[language] = [];
+        }
+
+        groupedTrackList[language].push(track);
+      });
+
+    console.log(groupedTrackList);
+    return groupedTrackList;
   };
+
   const getAudioQualityList = () => {
     return shakaPlayer.getVariantTracks().map(track => ({
       ...track,
       label: `${track.height}p - ${humanizeBitrate(track.bandwidth)}`
     }));
   };
+
   const getVideoTrackList = () => {
     return shakaPlayer.getImageTracks().map(track => {
       return {
@@ -150,6 +195,7 @@ export const shakaAdapter: VideoplaybackAdapter = async options => {
       };
     });
   };
+
   const getAudioTrackList = () => {
     return shakaPlayer.getVariantTracks().map(track => {
       return {
@@ -159,9 +205,9 @@ export const shakaAdapter: VideoplaybackAdapter = async options => {
     });
   };
 
-  const getTime = () => videoRef.value.currentTime;
-  const getDuration = () => videoRef.value.duration;
-  const getVolume = () => videoRef.value.volume;
+  const getTime = () => videoRef.value?.currentTime ?? 0;
+  const getDuration = () => videoRef.value?.duration ?? 0;
+  const getVolume = () => videoRef.value?.volume ?? 1;
   const getPlaybackRate = shakaPlayer.getPlaybackRate;
 
   // Setters
@@ -175,10 +221,10 @@ export const shakaAdapter: VideoplaybackAdapter = async options => {
     videoRef.value.playbackRate = rate;
   };
   const play = () => {
-    videoRef.value.play();
+    videoRef.value?.play();
   };
   const pause = () => {
-    videoRef.value.pause();
+    videoRef.value?.pause();
   };
 
   // Initialize player
@@ -203,14 +249,14 @@ export const shakaAdapter: VideoplaybackAdapter = async options => {
     onCanPlay,
     onWaiting,
     onVolumeChanged,
-    onVideoQualityChanged,
+    onTrackChanged,
     onAudioQualityChanged,
 
     getTime,
     getDuration,
     getBufferLevel,
     getPlaybackRate,
-    getVideoQualityList,
+    getTrackList,
     getAudioQualityList,
     getVideoTrackList,
     getAudioTrackList,

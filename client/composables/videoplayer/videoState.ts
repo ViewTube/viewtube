@@ -25,11 +25,11 @@ export const useVideoState = (
     volume: 1,
     loop: false,
     speed: 1,
-    videoQualityList: [] as QualityInfo[],
+    trackList: [],
     audioQualityList: [] as QualityInfo[],
     videoQualityAuto: true,
     audioQualityAuto: true,
-    videoQualityIndex: 0,
+    trackIndex: 0,
     audioQualityIndex: 0,
     videoTrackList: [],
     audioTrackList: []
@@ -87,8 +87,8 @@ export const useVideoState = (
     adapterInstance.value.onPlaybackRateChanged(() => {
       videoState.speed = adapterInstance.value?.getPlaybackRate() ?? 1;
     });
-    adapterInstance.value.onVideoQualityChanged(e => {
-      videoState.videoQualityIndex = e.newQuality;
+    adapterInstance.value.onTrackChanged(id => {
+      videoState.trackIndex = id;
     });
     adapterInstance.value.onAudioQualityChanged(e => {
       videoState.audioQualityIndex = e.newQuality;
@@ -122,7 +122,7 @@ export const useVideoState = (
 
   const updateQualityLists = () => {
     if (adapterInstance.value) {
-      videoState.videoQualityList = adapterInstance.value.getVideoQualityList();
+      videoState.trackList = adapterInstance.value.getTrackList();
       videoState.audioQualityList = adapterInstance.value.getAudioQualityList();
       videoState.videoTrackList = adapterInstance.value.getVideoTrackList();
       videoState.audioTrackList = adapterInstance.value.getAudioTrackList();

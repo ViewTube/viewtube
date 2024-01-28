@@ -14,13 +14,14 @@ const videoState = inject<VideoState>('videoState');
         <VTIcon class="flip-setting-icon" name="mdi:high-definition-box" />
         <p>Video Quality</p>
         <div class="quality-list">
+          <pre>{{ JSON.stringify(videoState.video.trackList, null, 2) }}</pre>
           <div
-            v-for="(quality, index) in videoState.video.videoQualityList"
+            v-for="(track, index) in videoState.video.trackList"
             :key="index"
-            :class="{ selected: index === videoState.video.videoQualityIndex }"
+            :class="{ selected: track.id === videoState.video.trackIndex }"
             class="quality"
           >
-            {{ quality.label }}
+            {{ track.label }}
           </div>
         </div>
       </div>
@@ -36,14 +37,16 @@ const videoState = inject<VideoState>('videoState');
   pointer-events: all;
 
   .flip-settings {
-    margin: auto;
+    margin: $header-height auto;
     background-color: var(--bgcolor-alt);
     border-radius: 5px;
     width: 100%;
-    max-width: 400px;
+    max-width: 700px;
+    max-height: 100%;
     display: flex;
     box-shadow: $medium-shadow;
     flex-direction: column;
+    overflow: auto;
 
     .flip-setting {
       padding: 10px 15px 10px 40px;

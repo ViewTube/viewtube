@@ -5,6 +5,7 @@ const videoState = inject<VideoState>('videoState');
 const posterVisible = ref(true);
 
 const onPosterClick = () => {
+  if (videoState.video.buffering) return;
   posterVisible.value = false;
   videoState.play();
 };
@@ -14,7 +15,8 @@ const onPosterClick = () => {
   <transition name="fade">
     <div v-if="posterVisible" class="flip-poster" @click.stop.prevent="onPosterClick">
       <img :src="video.thumbnails[0].url" class="flip-poster-img" />
-      <VTIcon name="mdi:play" class="flip-play-icon" />
+      <Spinner v-if="videoState.video.buffering" class="flip-play-spinner" />
+      <VTIcon v-else name="mdi:play" class="flip-play-icon" />
     </div>
   </transition>
 </template>
@@ -48,6 +50,13 @@ const onPosterClick = () => {
     transform: translate(-50%, -50%);
     font-size: 4rem;
     color: #fff;
+  }
+
+  .flip-play-spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
 
   .flip-poster-img {

@@ -24,7 +24,7 @@ export interface VideoplaybackAdapterResponse {
   onWaiting: (callback: EventListenerCallback) => void;
   onVolumeChanged: (callback: EventListenerCallback) => void;
   onPlaybackRateChanged: (callback: EventListenerCallback) => void;
-  onVideoQualityChanged: (callback: EventListenerCallback) => void;
+  onTrackChanged: (callback: EventListenerCallback) => void;
   onAudioQualityChanged: (callback: EventListenerCallback) => void;
 
   getTime: () => number;
@@ -32,7 +32,7 @@ export interface VideoplaybackAdapterResponse {
   getBufferLevel: () => number;
   getVolume: () => number;
   getPlaybackRate: () => number;
-  getVideoQualityList: () => any[];
+  getTrackList: () => any[];
   getAudioQualityList: () => any[];
   getVideoTrackList: () => (any & { label?: string })[];
   getAudioTrackList: () => (any & { label?: string })[];
