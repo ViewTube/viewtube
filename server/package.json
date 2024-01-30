@@ -45,7 +45,7 @@
     "cookie-parser": "1.4.6",
     "dayjs": "1.11.10",
     "destr": "2.0.2",
-    "fast-xml-parser": "4.3.3",
+    "fast-xml-parser": "4.3.4",
     "fastify": "4.25.2",
     "fetch-socks": "1.2.0",
     "https-proxy-agent": "7.0.2",
