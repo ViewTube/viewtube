@@ -264,8 +264,8 @@ importers:
         specifier: 5.3.2
         version: 5.3.2
       joi:
-        specifier: 17.12.0
-        version: 17.12.0
+        specifier: 17.12.1
+        version: 17.12.1
       mini-svg-data-uri:
         specifier: 1.4.4
         version: 1.4.4
@@ -3241,8 +3241,8 @@ packages:
     resolution: {integrity: sha512-RbhOOTCNoCrbfkRyoXODZp75MlpiHMgbE5MEBZAnnnLyQNgrigEj4p0lzsMDyc1zVsJDLrivB58tgg3emX0eEA==}
     dev: true
 
-  /@sideway/address@4.1.4:
-    resolution: {integrity: sha512-7vwq+rOHVWjyXxVlR76Agnvhy8I9rpzjosTESvmhNeXOXdZZB15Fl+TI9x1SiHZH5Jv2wTGduSxFDIaq0m3DUw==}
+  /@sideway/address@4.1.5:
+    resolution: {integrity: sha512-IqO/DUQHUkPeixNQ8n0JA6102hT9CmaljNTPmQ1u8MEhBo/R4Q8eKLN/vGZxuebwOroDB4cbpjheD4+/sKFK4Q==}
     dependencies:
       '@hapi/hoek': 9.3.0
     dev: false
@@ -8944,12 +8944,12 @@ packages:
     hasBin: true
     dev: true
 
-  /joi@17.12.0:
-    resolution: {integrity: sha512-HSLsmSmXz+PV9PYoi3p7cgIbj06WnEBNT28n+bbBNcPZXZFqCzzvGqpTBPujx/Z0nh1+KNQPDrNgdmQ8dq0qYw==}
+  /joi@17.12.1:
+    resolution: {integrity: sha512-vtxmq+Lsc5SlfqotnfVjlViWfOL9nt/avKNbKYizwf6gsCfq9NYY/ceYRMFD8XDdrjJ9abJyScWmhmIiy+XRtQ==}
     dependencies:
       '@hapi/hoek': 9.3.0
       '@hapi/topo': 5.1.0
-      '@sideway/address': 4.1.4
+      '@sideway/address': 4.1.5
       '@sideway/formula': 3.0.1
       '@sideway/pinpoint': 2.0.0
     dev: false
