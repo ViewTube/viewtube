@@ -1,10 +1,13 @@
 <template>
   <div class="share-options">
     <div class="share-options-container">
-      <ShareOptionEntry class="share-option" option-name="Copy Link" :click="shareCopyLink">
+      <ShareOptionEntry class="share-option" option-name="Copy ViewTube Link" :click="shareCopyViewTubeLink">
         <VTIcon name="mdi:content-copy" class="copy-icon" />
       </ShareOptionEntry>
-      <ShareOptionEntry class="share-option" option-name="Copy Link at Current Timestamp" :click="shareCopyLinkAtCurrentTimestamp">
+      <ShareOptionEntry class="share-option" option-name="Copy YouTube Link" :click="shareCopyYouTubeLink">
+        <VTIcon name="mdi:youtube" class="copy-icon" />
+      </ShareOptionEntry>
+      <ShareOptionEntry class="share-option" option-name="Copy ViewTube Link at Current Timestamp" :click="shareCopyLinkAtCurrentTimestamp">
         <VTIcon name="mdi:clipboard-text-time-outline" class="copy-icon" />
       </ShareOptionEntry>
       <ShareOptionEntry class="share-option" option-name="Open QR-Code" :click="qrOpen">
@@ -31,6 +34,7 @@
 import QrPopUp from '@/components/popup/QrPopUp.vue';
 import ShareOptionEntry from '@/components/list/ShareOptionEntry.vue';
 import { useVideoPlayerStore } from '@/store/videoPlayer';
+import type { Result } from 'ytpl';
 
 export default defineComponent({
   name: 'ShareOptions',
@@ -38,7 +42,10 @@ export default defineComponent({
     ShareOptionEntry,
     QrPopUp
   },
-  setup() {
+  props: {
+    videoId: String
+  },
+  setup(props) {
     const qrPopUpOpen = ref(false);
     const videoPlayerStore = useVideoPlayerStore();
 
@@ -46,13 +53,24 @@ export default defineComponent({
       return window?.location.href ?? '';
     };
     // shareReddit() {},
-    const shareCopyLink = () => {
-      navigator.clipboard.writeText(url());
+    const shareCopyViewTubeLink = () => {
+      writeToClipboard(url())
     };
+    const shareCopyYouTubeLink = () => {
+      const url = `https://youtu.be/${props.videoId}`
+      writeToClipboard(url)
+    };
+    const writeToClipboard = (text: string) => {
+      if(!navigator.clipboard) {
+        alert('Unable to copy (running ViewTube on non-https website).')
+        return;
+      }
+      navigator.clipboard.writeText(text);
+    }
     const shareCopyLinkAtCurrentTimestamp = () => {
       const currentHref = new URL(url())
       currentHref.searchParams.set('t', Math.round(videoPlayerStore.currentTime).toString())
-      navigator.clipboard.writeText(currentHref.href);
+      writeToClipboard(currentHref.href)
     }
     const saveToPocket = () => {
       window.open(`https://getpocket.com/save?url=${encodedUrl}`, '_blank');
@@ -75,7 +93,8 @@ export default defineComponent({
     return {
       qrPopUpOpen,
       url,
-      shareCopyLink,
+      shareCopyViewTubeLink,
+      shareCopyYouTubeLink,
       shareCopyLinkAtCurrentTimestamp,
       qrOpen,
       encodedUrl,
