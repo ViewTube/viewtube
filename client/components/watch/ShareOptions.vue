@@ -35,6 +35,7 @@
 import QrPopUp from '@/components/popup/QrPopUp.vue';
 import ShareOptionEntry from '@/components/list/ShareOptionEntry.vue';
 import { useVideoPlayerStore } from '@/store/videoPlayer';
+import { useMessagesStore } from '@/store/messages';
 
 export default defineComponent({
   name: 'ShareOptions',
@@ -49,6 +50,7 @@ export default defineComponent({
     }
   },
   setup(props) {
+    const messagesStore = useMessagesStore();
     const qrPopUpOpen = ref(false);
     const videoPlayerStore = useVideoPlayerStore();
 
@@ -65,7 +67,12 @@ export default defineComponent({
     };
     const writeToClipboard = (text: string) => {
       if (!navigator.clipboard) {
-        alert('Unable to copy (running ViewTube on non-https website).');
+        messagesStore.createMessage({
+          title: 'Unable to copy',
+          message: 'Running ViewTube on non-https website.',
+          type: 'error',
+          dismissDelay: 3000
+        });
         return;
       }
       navigator.clipboard.writeText(text);
