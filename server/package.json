@@ -60,7 +60,7 @@
     "sharp": "0.33.2",
     "svg-captcha": "1.4.0",
     "tslib": "2.6.2",
-    "undici": "6.5.0",
+    "undici": "6.6.0",
     "web-push": "3.6.7",
     "winston": "3.11.0",
     "winston-daily-rotate-file": "4.7.1",
