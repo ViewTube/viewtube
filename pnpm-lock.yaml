@@ -138,8 +138,8 @@ importers:
         specifier: 1.70.0
         version: 1.70.0
       swiper:
-        specifier: 11.0.5
-        version: 11.0.5
+        specifier: 11.0.6
+        version: 11.0.6
       tippy.js:
         specifier: 6.3.7
         version: 6.3.7
@@ -12790,8 +12790,8 @@ packages:
     resolution: {integrity: sha512-j0PIATqQSEFGOLmiJOJZj1X1Jt6bFIur3JpY7+ghliUnfZs0fpWDdHEkn9q7QUlBtKbkn6TepvSxTqnE8l3s0A==}
     dev: false
 
-  /swiper@11.0.5:
-    resolution: {integrity: sha512-rhCwupqSyRnWrtNzWzemnBLMoyYuoDgGgspAm/8iBD3jCvAWycPLH4Z3TB0O5520DHLzMx94yUMH/B9Efpa48w==}
+  /swiper@11.0.6:
+    resolution: {integrity: sha512-W/Me7MQl5rNgdM5x9i3Gll76WsyVpnHn91GhBOyL7RCFUeg62aVnflzlVfIpXzZ/87FtJOfAoDH79ZH2Yq76zA==}
     engines: {node: '>= 4.7.0'}
     dev: true
 
