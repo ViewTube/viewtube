@@ -25,7 +25,7 @@
     "@fastify/static": "7.0.0",
     "@fastify/swagger": "8.14.0",
     "@freetube/yt-comment-scraper": "6.2.0",
-    "@nestjs/bull": "10.0.1",
+    "@nestjs/bull": "10.1.0",
     "@nestjs/cache-manager": "2.2.0",
     "@nestjs/common": "10.3.0",
     "@nestjs/config": "3.1.1",
