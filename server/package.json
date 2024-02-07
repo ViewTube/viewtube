@@ -46,7 +46,7 @@
     "dayjs": "1.11.10",
     "destr": "2.0.2",
     "fast-xml-parser": "4.3.4",
-    "fastify": "4.25.2",
+    "fastify": "4.26.0",
     "fetch-socks": "1.2.0",
     "https-proxy-agent": "7.0.2",
     "humanize-duration": "3.31.0",
