@@ -177,8 +177,8 @@ importers:
         specifier: 8.1.0
         version: 8.1.0
       '@fastify/static':
-        specifier: 7.0.0
-        version: 7.0.0
+        specifier: 7.0.1
+        version: 7.0.1
       '@fastify/swagger':
         specifier: 8.14.0
         version: 8.14.0
@@ -208,13 +208,13 @@ importers:
         version: 10.0.2(@nestjs/common@10.3.0)(@nestjs/core@10.3.0)(mongoose@7.6.8)(reflect-metadata@0.1.13)(rxjs@7.8.1)
       '@nestjs/platform-fastify':
         specifier: 10.3.0
-        version: 10.3.0(@fastify/static@7.0.0)(@nestjs/common@10.3.0)(@nestjs/core@10.3.0)
+        version: 10.3.0(@fastify/static@7.0.1)(@nestjs/common@10.3.0)(@nestjs/core@10.3.0)
       '@nestjs/schedule':
         specifier: 4.0.0
         version: 4.0.0(@nestjs/common@10.3.0)(@nestjs/core@10.3.0)(reflect-metadata@0.1.13)
       '@nestjs/swagger':
         specifier: 7.3.0
-        version: 7.3.0(@fastify/static@7.0.0)(@nestjs/common@10.3.0)(@nestjs/core@10.3.0)(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.1.13)
+        version: 7.3.0(@fastify/static@7.0.1)(@nestjs/common@10.3.0)(@nestjs/core@10.3.0)(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.1.13)
       archiver:
         specifier: 6.0.1
         version: 6.0.1
@@ -1640,15 +1640,15 @@ packages:
       mime: 3.0.0
     dev: false
 
-  /@fastify/static@7.0.0:
-    resolution: {integrity: sha512-JCuzYMgbIY1Ws5e3dmPFWAZ0MwkKNn4Pmd/gk3RlCOCLDtA6eUq7WZyBz/TpnCi6ae8FOY1s33POo4rioYgWTg==}
+  /@fastify/static@7.0.1:
+    resolution: {integrity: sha512-i1p/nELMknAisNfnjo7yhfoUOdKzA+n92QaMirv2NkZrJ1Wl12v2nyTYlDwPN8XoStMBAnRK/Kx6zKmfrXUPXw==}
     dependencies:
       '@fastify/accept-negotiator': 1.1.0
       '@fastify/send': 2.1.0
       content-disposition: 0.5.4
       fastify-plugin: 4.5.1
+      fastq: 1.17.0
       glob: 10.3.10
-      p-limit: 3.1.0
     dev: false
 
   /@fastify/swagger@8.14.0:
@@ -2497,7 +2497,7 @@ packages:
       rxjs: 7.8.1
     dev: false
 
-  /@nestjs/platform-fastify@10.3.0(@fastify/static@7.0.0)(@nestjs/common@10.3.0)(@nestjs/core@10.3.0):
+  /@nestjs/platform-fastify@10.3.0(@fastify/static@7.0.1)(@nestjs/common@10.3.0)(@nestjs/core@10.3.0):
     resolution: {integrity: sha512-ka4r/cPWM5y/dXoi9dj6pn1o3WLnfImy2bT3aYVasiDsJff2cd3h/ThugwxjdH0BHUpLSPnawEGzADAcO8Fqug==}
     peerDependencies:
       '@fastify/static': ^6.0.0
@@ -2513,7 +2513,7 @@ packages:
       '@fastify/cors': 8.4.2
       '@fastify/formbody': 7.4.0
       '@fastify/middie': 8.3.0
-      '@fastify/static': 7.0.0
+      '@fastify/static': 7.0.1
       '@nestjs/common': 10.3.0(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.1.13)(rxjs@7.8.1)
       '@nestjs/core': 10.3.0(@nestjs/common@10.3.0)(@nestjs/websockets@10.3.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
       fastify: 4.25.1
@@ -2553,7 +2553,7 @@ packages:
       - chokidar
     dev: true
 
-  /@nestjs/swagger@7.3.0(@fastify/static@7.0.0)(@nestjs/common@10.3.0)(@nestjs/core@10.3.0)(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.1.13):
+  /@nestjs/swagger@7.3.0(@fastify/static@7.0.1)(@nestjs/common@10.3.0)(@nestjs/core@10.3.0)(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.1.13):
     resolution: {integrity: sha512-zLkfKZ+ioYsIZ3dfv7Bj8YHnZMNAGWFUmx2ZDuLp/fBE4P8BSjB7hldzDueFXsmwaPL90v7lgyd82P+s7KME1Q==}
     peerDependencies:
       '@fastify/static': ^6.0.0 || ^7.0.0
@@ -2570,7 +2570,7 @@ packages:
       class-validator:
         optional: true
     dependencies:
-      '@fastify/static': 7.0.0
+      '@fastify/static': 7.0.1
       '@microsoft/tsdoc': 0.14.2
       '@nestjs/common': 10.3.0(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.1.13)(rxjs@7.8.1)
       '@nestjs/core': 10.3.0(@nestjs/common@10.3.0)(@nestjs/websockets@10.3.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
@@ -11188,6 +11188,7 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       yocto-queue: 0.1.0
+    dev: true
 
   /p-locate@4.1.0:
     resolution: {integrity: sha512-R79ZZ/0wAxKGu3oYMlz8jy/kbhsNrS7SKZ7PxEHBgJ5+F2mtFW2fK2cOtBh1cHYkQsbzFV7I+EoRKe6Yt0oK7A==}
@@ -14328,6 +14329,7 @@ packages:
   /yocto-queue@0.1.0:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
+    dev: true
 
   /youtubei.js@9.0.2:
     resolution: {integrity: sha512-D7GoJmupYaJxTNQyHRWYw8MUdQTxRaa3c7nzM9etWQjaexepFGVlVtwl3CybLx7GopBNtBvr7RxSUUIUyNnYIg==}
