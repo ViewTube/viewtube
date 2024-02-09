@@ -1,7 +1,7 @@
 <script setup lang="ts">
 defineProps<{
   label: string;
-  opened: boolean;
+  opened?: boolean;
 }>();
 </script>
 

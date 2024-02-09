@@ -27,18 +27,19 @@ const videoState = inject<VideoState>('videoState');
       </div>
       <div class="flip-setting">
         <VTIcon class="flip-setting-icon" name="mdi:globe" />
-        <p>Language</p>
-        <div class="selector-list">
-          <div
+        <ListCollapsibleSection label="Language">
+          <div class="selector-list">
+            <div
             v-for="(language, index) in videoState.video.languageList"
             :key="index"
             :class="{ selected: language.language === videoState.video.selectedLanguage }"
             class="selector"
             @click.stop="videoState.setLanguage(language.language)"
-          >
+            >
             {{ language.label }}
           </div>
         </div>
+      </ListCollapsibleSection>
       </div>
     </div>
   </div>
