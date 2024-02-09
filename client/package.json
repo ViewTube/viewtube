@@ -20,7 +20,7 @@
     "@pinia-plugin-persistedstate/nuxt": "1.2.0",
     "@pinia/nuxt": "0.5.1",
     "@types/humanize-duration": "3.27.4",
-    "@types/node": "20.11.0",
+    "@types/node": "20.11.17",
     "@types/papaparse": "5.3.14",
     "@types/qrcode": "1.5.5",
     "@types/ua-parser-js": "0.7.39",
@@ -51,6 +51,7 @@
     "pinia": "2.1.7",
     "qrcode": "1.5.3",
     "sass": "1.70.0",
+    "shaka-player": "4.7.9",
     "swiper": "11.0.6",
     "tippy.js": "6.3.7",
     "typescript": "5.3.3",
@@ -59,7 +60,6 @@
     "vue-datepicker-next": "1.0.3",
     "vue-tsc": "1.8.27",
     "x2js": "3.4.4",
-    "shaka-player": "4.7.5",
     "ytpl": "2.3.0"
   }
 }
