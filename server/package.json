@@ -63,7 +63,7 @@
     "undici": "6.6.2",
     "web-push": "3.6.7",
     "winston": "3.11.0",
-    "winston-daily-rotate-file": "4.7.1",
+    "winston-daily-rotate-file": "5.0.0",
     "xml-js": "1.6.11",
     "youtubei.js": "9.0.2",
     "ytpl": "2.3.0"
