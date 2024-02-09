@@ -408,7 +408,7 @@ const watchPageTitle = computed(() => {
         </div>
         <transition name="share-fade-down">
           <div v-show="shareOpen">
-            <ShareOptions class="share-options-display" />
+            <ShareOptions class="share-options-display" :video-id="video.id" />
           </div>
         </transition>
         <p v-if="video.keywords" class="video-infobox-text">Tags</p>
