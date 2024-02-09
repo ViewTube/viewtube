@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { usePopupStore } from '@/store/popup';
+
 const uiState = inject<UIState>('uiState');
 const videoState = inject<VideoState>('videoState');
 </script>
@@ -6,40 +8,45 @@ const videoState = inject<VideoState>('videoState');
 <template>
   <div class="flip-settings-container clickaway-div" @click="uiState.closeSettings">
     <div class="flip-settings" @click.stop>
-      <div class="flip-setting mobile-only">
+      <div class="flip-settings-header">
+        <p class="flip-settings-title">Player settings</p>
+        <VTIcon class="close-icon" name="mdi:close" @click="uiState.closeSettings" />
+      </div>
+      <div class="flip-setting mobile-only volume-setting">
         <VTIcon class="flip-setting-icon" name="mdi:volume" />
         <FlipVolume mobile />
       </div>
       <div class="flip-setting">
         <VTIcon class="flip-setting-icon" name="mdi:high-definition-box" />
-        <p>Video Quality</p>
-        <div class="selector-list">
-          <pre>{{ JSON.stringify(videoState.video.trackList, null, 2) }}</pre>
-          <div
-            v-for="(track, index) in videoState.video.trackList"
-            :key="index"
-            :class="{ selected: track.id === videoState.video.trackIndex }"
-            class="selector"
-          >
-            {{ track.label }}
+        <ListCollapsibleSection label="Quality">
+          <div class="selector-list">
+            <pre>{{ JSON.stringify(videoState.video.trackList, null, 2) }}</pre>
+            <div
+              v-for="(track, index) in videoState.video.trackList"
+              :key="index"
+              :class="{ selected: track.id === videoState.video.trackIndex }"
+              class="selector"
+            >
+              {{ track.label }}
+            </div>
           </div>
-        </div>
+        </ListCollapsibleSection>
       </div>
       <div class="flip-setting">
         <VTIcon class="flip-setting-icon" name="mdi:globe" />
         <ListCollapsibleSection label="Language">
           <div class="selector-list">
             <div
-            v-for="(language, index) in videoState.video.languageList"
-            :key="index"
-            :class="{ selected: language.language === videoState.video.selectedLanguage }"
-            class="selector"
-            @click.stop="videoState.setLanguage(language.language)"
+              v-for="(language, index) in videoState.video.languageList"
+              :key="index"
+              :class="{ selected: language.language === videoState.video.selectedLanguage }"
+              class="selector"
+              @click.stop="videoState.setLanguage(language.language)"
             >
-            {{ language.label }}
+              {{ language.label }}
+            </div>
           </div>
-        </div>
-      </ListCollapsibleSection>
+        </ListCollapsibleSection>
       </div>
     </div>
   </div>
@@ -65,8 +72,25 @@ const videoState = inject<VideoState>('videoState');
     flex-direction: column;
     overflow: auto;
 
+    .flip-settings-header {
+      position: relative;
+      .flip-settings-title {
+        padding: 15px;
+        font-size: 1.2rem;
+        font-weight: bold;
+        text-align: center;
+      }
+
+      .close-icon {
+        cursor: pointer;
+        position: absolute;
+        right: 20px;
+        top: 20px;
+      }
+    }
+
     .flip-setting {
-      padding: 10px 15px 10px 40px;
+      padding: 10px 15px 10px 50px;
       display: flex;
       flex-direction: column;
       position: relative;
@@ -94,6 +118,12 @@ const videoState = inject<VideoState>('videoState');
         }
       }
 
+      &.volume-setting {
+        .flip-setting-icon {
+          top: 10px;
+        }
+      }
+
       &.mobile-only {
         @media screen and (min-width: $mobile-width) {
           display: none;
@@ -102,8 +132,8 @@ const videoState = inject<VideoState>('videoState');
 
       .flip-setting-icon {
         position: absolute;
-        left: 10px;
-        top: 10px;
+        left: 15px;
+        top: 18px;
         width: 20px;
         height: 20px;
         color: var(--theme-color);

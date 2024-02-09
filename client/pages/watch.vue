@@ -312,7 +312,7 @@ const watchPageTitle = computed(() => {
     /> -->
     <FlipPlayer v-if="video && !videoPending" :video="video" :start-time="video.initialVideoTime" />
     <div v-if="video && !videoPending" class="video-meta">
-      <div class="recommended-videos mobile">
+      <div class="recommended-videos-outer mobile">
         <NextUpVideo v-if="nextUpVideo && settingsStore.autoplayNextVideo" :video="nextUpVideo" />
         <CollapsibleSection :label="'Recommended videos'" :opened="recommendedOpen">
           <RecommendedVideos
@@ -522,10 +522,10 @@ const watchPageTitle = computed(() => {
       z-index: 400;
     }
 
-    .recommended-videos {
+    .recommended-videos-outer {
       background-color: var(--bgcolor-main);
       z-index: 400;
-      width: 100%;
+      padding: 10px;
 
       @media screen and (min-width: $mobile-width) {
         width: 340px;

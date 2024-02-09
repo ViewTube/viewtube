@@ -1,8 +1,12 @@
+import { usePopupStore } from '@/store/popup';
+
 const UI_TIMEOUT = 3000;
 
 export type UIState = ReturnType<typeof useUIState>;
 
 export const useUIState = (videoState: VideoState, flipPlayerUIRef: Ref<HTMLDivElement>) => {
+  const popupStore = usePopupStore();
+
   const visible = computed(() => {
     if (_seeking.value || !videoState.video.playing) {
       return true;
@@ -37,6 +41,7 @@ export const useUIState = (videoState: VideoState, flipPlayerUIRef: Ref<HTMLDivE
   const openSettings = () => {
     settingsOpen.value = true;
     window.addEventListener('keydown', onCloseSettings);
+    popupStore.setPopupOpen(true);
   };
 
   const onCloseSettings = (e: KeyboardEvent) => {
@@ -48,6 +53,7 @@ export const useUIState = (videoState: VideoState, flipPlayerUIRef: Ref<HTMLDivE
 
   const closeSettings = () => {
     settingsOpen.value = false;
+    popupStore.setPopupOpen(false);
   };
 
   const _visible = ref(true);
