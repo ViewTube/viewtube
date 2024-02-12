@@ -32,7 +32,7 @@ const videoState = inject<VideoState>('videoState');
           </div>
         </ListCollapsibleSection>
       </div>
-      <div class="flip-setting">
+      <div v-if="videoState.video.languageList?.length > 1" class="flip-setting">
         <VTIcon class="flip-setting-icon" name="mdi:globe" />
         <ListCollapsibleSection label="Language">
           <div class="selector-list">

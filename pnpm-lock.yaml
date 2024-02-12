@@ -12,9 +12,9 @@ patchedDependencies:
   papaparse@5.4.1:
     hash: qkk65lc3l6wlngad3wq4nzv2yi
     path: patches/papaparse@5.4.1.patch
-  shaka-player@4.7.5:
-    hash: 5mcr7vedvwoxpikikzltdcfwku
-    path: patches/shaka-player@4.7.5.patch
+  shaka-player@4.7.9:
+    hash: zbf7hy7fvyjjq22b53gogjqfza
+    path: patches/shaka-player@4.7.9.patch
 
 importers:
 
@@ -142,7 +142,7 @@ importers:
         version: 1.70.0
       shaka-player:
         specifier: 4.7.9
-        version: 4.7.9
+        version: 4.7.9(patch_hash=zbf7hy7fvyjjq22b53gogjqfza)
       swiper:
         specifier: 11.0.6
         version: 11.0.6
@@ -3028,8 +3028,8 @@ packages:
       fastq: 1.16.0
     dev: true
 
-  /@nolyfill/side-channel@1.0.24:
-    resolution: {integrity: sha512-v6Ook3sifnCVUtvvKedU6KNL1/W27Sj+XrLOVxBgid7+F5nFaaCUbvsfkN1R4Aw91zCt0/l4u4LzfC+NyIXQKA==}
+  /@nolyfill/side-channel@1.0.29:
+    resolution: {integrity: sha512-nqk0vlqUL0wmmoPrm2HqDi0KXGy+jTNHlH/oSx7jsrh2rEApSy1mactsSUGWnhuz2ZsngJSrVHWZIaJKi3WUNA==}
     engines: {node: '>=12.4.0'}
     dev: true
 
@@ -12339,7 +12339,7 @@ packages:
     resolution: {integrity: sha512-OQiU+C+Ds5qiH91qh/mg0w+8nwQuLjM4F4M/PbmhDOoYehPh+Fb0bDjtR1sOvy7YKxvj28Y/M0PhP5uVX0kB+g==}
     engines: {node: '>=0.6'}
     dependencies:
-      side-channel: /@nolyfill/side-channel@1.0.24
+      side-channel: /@nolyfill/side-channel@1.0.29
     dev: true
 
   /querystringify@2.2.0:
@@ -12853,12 +12853,13 @@ packages:
   /setprototypeof@1.2.0:
     resolution: {integrity: sha512-E5LDX7Wrp85Kil5bhZv46j8jOeboKq5JMmYM3gVGdGH8xFpPWXUMsNrlODCrkoxMEeNi/XZIwuRvY4XNwYMJpw==}
 
-  /shaka-player@4.7.9:
+  /shaka-player@4.7.9(patch_hash=zbf7hy7fvyjjq22b53gogjqfza):
     resolution: {integrity: sha512-eGaBZCYeYLejSM1vN5te0rjLKWrIs93Vr8i94DVLjRENyeNGZIeG4wHdhMcuTn1FaedMHOfb0k+GEIqA3LLbPw==}
     engines: {node: '>=14'}
     dependencies:
       eme-encryption-scheme-polyfill: 2.1.1
     dev: true
+    patched: true
 
   /sharp@0.33.2:
     resolution: {integrity: sha512-WlYOPyyPDiiM07j/UO+E720ju6gtNtHjEGg5vovUk1Lgxyjm2LFO+37Nt/UI3MMh2l6hxTWQWi7qk3cXJTutcQ==}
