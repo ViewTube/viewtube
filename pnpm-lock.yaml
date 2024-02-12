@@ -249,8 +249,8 @@ importers:
         specifier: 4.3.4
         version: 4.3.4
       fastify:
-        specifier: 4.26.0
-        version: 4.26.0
+        specifier: 4.26.1
+        version: 4.26.1
       fetch-socks:
         specifier: 1.2.0
         version: 1.2.0
@@ -2635,8 +2635,8 @@ packages:
       fastq: 1.17.1
     dev: true
 
-  /@nolyfill/side-channel@1.0.24:
-    resolution: {integrity: sha512-v6Ook3sifnCVUtvvKedU6KNL1/W27Sj+XrLOVxBgid7+F5nFaaCUbvsfkN1R4Aw91zCt0/l4u4LzfC+NyIXQKA==}
+  /@nolyfill/side-channel@1.0.29:
+    resolution: {integrity: sha512-nqk0vlqUL0wmmoPrm2HqDi0KXGy+jTNHlH/oSx7jsrh2rEApSy1mactsSUGWnhuz2ZsngJSrVHWZIaJKi3WUNA==}
     engines: {node: '>=12.4.0'}
     dev: true
 
@@ -7234,8 +7234,8 @@ packages:
       - supports-color
     dev: false
 
-  /fastify@4.26.0:
-    resolution: {integrity: sha512-Fq/7ziWKc6pYLYLIlCRaqJqEVTIZ5tZYfcW/mDK2AQ9v/sqjGFpj0On0/7hU50kbPVjLO4de+larPA1WwPZSfw==}
+  /fastify@4.26.1:
+    resolution: {integrity: sha512-tznA/G55dsxzM5XChBfcvVSloG2ejeeotfPPJSFaWmHyCDVGMpvf3nRNbsCb/JTBF9RmQFBfuujWt3Nphjesng==}
     dependencies:
       '@fastify/ajv-compiler': 3.5.0
       '@fastify/error': 3.4.1
@@ -11787,7 +11787,7 @@ packages:
     resolution: {integrity: sha512-OQiU+C+Ds5qiH91qh/mg0w+8nwQuLjM4F4M/PbmhDOoYehPh+Fb0bDjtR1sOvy7YKxvj28Y/M0PhP5uVX0kB+g==}
     engines: {node: '>=0.6'}
     dependencies:
-      side-channel: /@nolyfill/side-channel@1.0.24
+      side-channel: /@nolyfill/side-channel@1.0.29
     dev: true
 
   /querystringify@2.2.0:
