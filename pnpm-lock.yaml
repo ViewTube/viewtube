@@ -255,8 +255,8 @@ importers:
         specifier: 1.2.0
         version: 1.2.0
       https-proxy-agent:
-        specifier: 7.0.2
-        version: 7.0.2
+        specifier: 7.0.3
+        version: 7.0.3
       humanize-duration:
         specifier: 3.31.0
         version: 3.31.0
@@ -2646,7 +2646,7 @@ packages:
     dependencies:
       agent-base: 7.1.0
       http-proxy-agent: 7.0.0
-      https-proxy-agent: 7.0.2
+      https-proxy-agent: 7.0.3
       lru-cache: 10.2.0
       socks-proxy-agent: 8.0.2
     transitivePeerDependencies:
@@ -8232,8 +8232,8 @@ packages:
       - supports-color
     dev: true
 
-  /https-proxy-agent@7.0.2:
-    resolution: {integrity: sha512-NmLNjm6ucYwtcUmL7JQC1ZQ57LmHP4lT15FQ8D61nak1rO6DH+fz5qNK2Ap5UN4ZapYICE3/0KodcLYSPsPbaA==}
+  /https-proxy-agent@7.0.3:
+    resolution: {integrity: sha512-kCnwztfX0KZJSLOBrcL0emLeFako55NWMovvyPP2AjsghNk9RB1yjSI+jVumPHYZsNXegNoqupSW9IY3afSH8w==}
     engines: {node: '>= 14'}
     dependencies:
       agent-base: 7.1.0
@@ -10159,7 +10159,7 @@ packages:
       debug: 4.3.4(supports-color@8.1.1)
       find-cache-dir: 3.3.2
       follow-redirects: 1.15.5(debug@4.3.4)
-      https-proxy-agent: 7.0.2
+      https-proxy-agent: 7.0.3
       mongodb: 5.9.2
       new-find-package-json: 2.0.0
       semver: 7.6.0
@@ -13891,7 +13891,7 @@ packages:
     dependencies:
       asn1.js: 5.4.1
       http_ece: 1.2.0
-      https-proxy-agent: 7.0.2
+      https-proxy-agent: 7.0.3
       jws: 4.0.0
       minimist: 1.2.8
     transitivePeerDependencies:

@@ -48,7 +48,7 @@
     "fast-xml-parser": "4.3.4",
     "fastify": "4.26.1",
     "fetch-socks": "1.2.0",
-    "https-proxy-agent": "7.0.2",
+    "https-proxy-agent": "7.0.3",
     "humanize-duration": "3.31.0",
     "ioredis": "5.3.2",
     "joi": "17.12.1",
