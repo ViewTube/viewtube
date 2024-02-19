@@ -46,9 +46,9 @@
     "dayjs": "1.11.10",
     "destr": "2.0.2",
     "fast-xml-parser": "4.3.4",
-    "fastify": "4.26.0",
+    "fastify": "4.26.1",
     "fetch-socks": "1.2.0",
-    "https-proxy-agent": "7.0.2",
+    "https-proxy-agent": "7.0.4",
     "humanize-duration": "3.31.0",
     "ioredis": "5.3.2",
     "joi": "17.12.1",
@@ -83,8 +83,8 @@
     "@types/web-push": "3.6.3",
     "@types/webpack-node-externals": "3.0.4",
     "@types/xml2json": "0.11.6",
-    "@typescript-eslint/eslint-plugin": "6.21.0",
-    "@typescript-eslint/parser": "6.21.0",
+    "@typescript-eslint/eslint-plugin": "7.0.1",
+    "@typescript-eslint/parser": "7.0.1",
     "cross-env": "7.0.3",
     "eslint": "8.56.0",
     "eslint-config-prettier": "9.1.0",
@@ -95,7 +95,7 @@
     "run-script-webpack-plugin": "0.2.0",
     "ts-loader": "9.5.1",
     "typescript": "5.3.3",
-    "webpack": "5.90.1",
+    "webpack": "5.90.2",
     "webpack-node-externals": "3.0.0"
   }
 }
