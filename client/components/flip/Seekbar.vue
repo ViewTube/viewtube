@@ -119,15 +119,17 @@ const getHoverPosition = (elWidth: number) => {
         :hovered-time="hoveredTime"
         :position-x="previewThumbnailPosition"
       />
-      <div
-        ref="hoverTimestampRef"
-        class="flip-hover-timestamp"
-        :style="{
-          transform: `translate3d(${hoverTimestampPosition}, 0, 0)`
-        }"
-      >
-        {{ hoveredTimestamp }}
-      </div>
+      <ClientOnly>
+        <div
+          ref="hoverTimestampRef"
+          class="flip-hover-timestamp"
+          :style="{
+            transform: `translate3d(${hoverTimestampPosition},0,0)`
+          }"
+        >
+          {{ hoveredTimestamp }}
+        </div>
+      </ClientOnly>
     </div>
   </div>
 </template>

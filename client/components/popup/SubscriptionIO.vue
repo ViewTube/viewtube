@@ -61,7 +61,7 @@ const onImportFileChange = async (e: any) => {
   const extension = file.name.split('.').pop();
 
   const subscriptions = await getSubscriptionsToImport(file, extension);
-  debugger;
+
   if (subscriptions?.length > 0) {
     subscriptionsToImport.value = subscriptions;
     page2.value = true;
@@ -171,8 +171,8 @@ const importSelected = async () => {
           loading
             ? 'Importing subscriptions'
             : page3
-            ? 'Imported subscriptions'
-            : 'Import subscriptions'
+              ? 'Imported subscriptions'
+              : 'Import subscriptions'
         }}
       </h1>
       <div class="pages-container" :class="{ 'page-2': page2 }">

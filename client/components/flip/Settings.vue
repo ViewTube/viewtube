@@ -1,8 +1,18 @@
 <script setup lang="ts">
-import { usePopupStore } from '@/store/popup';
-
 const uiState = inject<UIState>('uiState');
 const videoState = inject<VideoState>('videoState');
+
+const trackListForCurrentLanguage = computed(() => {
+  const currentLanguage = videoState.video.selectedLanguage;
+  return videoState.video.trackList[currentLanguage];
+});
+
+const currentTrack = computed(() => {
+  const currentLanguage = videoState.video.selectedLanguage;
+  return videoState.video.trackList[currentLanguage].find(
+    el => el.id === videoState.video.trackIndex
+  );
+});
 </script>
 
 <template>
@@ -18,11 +28,13 @@ const videoState = inject<VideoState>('videoState');
       </div>
       <div class="flip-setting">
         <VTIcon class="flip-setting-icon" name="mdi:high-definition-box" />
-        <ListCollapsibleSection label="Quality">
+        <ListCollapsibleSection label="Video quality">
           <div class="selector-list">
-            <pre>{{ JSON.stringify(videoState.video.trackList, null, 2) }}</pre>
+            <div class="selector auto" :class="{ selected: videoState.video.automaticQuality }">
+              Auto - {{ currentTrack.label }}
+            </div>
             <div
-              v-for="(track, index) in videoState.video.trackList"
+              v-for="(track, index) in trackListForCurrentLanguage"
               :key="index"
               :class="{ selected: track.id === videoState.video.trackIndex }"
               class="selector"

@@ -54,10 +54,13 @@ export const shakaAdapter = async (options: VideoplaybackAdapterOptions) => {
         timeout: 30000
       },
       bufferingGoal: 30
+    },
+    manifest: {
+      dash: {
+        ignoreMinBufferTime: true
+      }
     }
   });
-
-  console.log(shakaPlayer);
 
   const eventStorage = new Map<string, EventListenerCallback>();
 
@@ -132,6 +135,7 @@ export const shakaAdapter = async (options: VideoplaybackAdapterOptions) => {
   const onPlaybackRateChanged = registerCallback('ratechange');
   const onQualityChanged = registerCallback('mediaqualitychanged');
   const onAdaptationChanged = registerCallback('adaptation');
+  const onAutomaticQualityChanged = registerCallback('abrstatuschanged');
 
   const onTrackChanged = (callback: EventListenerCallback) => {
     onQualityChanged(e => {
@@ -177,6 +181,7 @@ export const shakaAdapter = async (options: VideoplaybackAdapterOptions) => {
     unregisterNativeCallback('volumechange');
     unregisterCallback('ratechange');
     unregisterCallback('mediaqualitychanged');
+    unregisterCallback('abrstatuschanged');
 
     shakaPlayer.destroy();
   };
@@ -325,6 +330,7 @@ export const shakaAdapter = async (options: VideoplaybackAdapterOptions) => {
     onTrackChanged,
     onLanguageChanged,
     onAudioQualityChanged,
+    onAutomaticQualityChanged,
 
     getTime,
     getDuration,
