@@ -34,7 +34,7 @@
     "cross-env": "7.0.3",
     "dashjs": "4.7.3",
     "dayjs": "1.11.10",
-    "destr": "2.0.2",
+    "destr": "2.0.3",
     "eslint": "8.56.0",
     "eslint-config-prettier": "9.1.0",
     "eslint-plugin-nuxt": "4.0.0",
