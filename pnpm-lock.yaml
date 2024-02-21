@@ -264,8 +264,8 @@ importers:
         specifier: 5.3.2
         version: 5.3.2
       joi:
-        specifier: 17.12.1
-        version: 17.12.1
+        specifier: 17.12.2
+        version: 17.12.2
       mini-svg-data-uri:
         specifier: 1.4.4
         version: 1.4.4
@@ -8773,8 +8773,8 @@ packages:
     hasBin: true
     dev: true
 
-  /joi@17.12.1:
-    resolution: {integrity: sha512-vtxmq+Lsc5SlfqotnfVjlViWfOL9nt/avKNbKYizwf6gsCfq9NYY/ceYRMFD8XDdrjJ9abJyScWmhmIiy+XRtQ==}
+  /joi@17.12.2:
+    resolution: {integrity: sha512-RonXAIzCiHLc8ss3Ibuz45u28GOsWE1UpfDXLbN/9NKbL4tCJf8TWYVKsoYuuh+sAUt7fsSNpA+r2+TBA6Wjmw==}
     dependencies:
       '@hapi/hoek': 9.3.0
       '@hapi/topo': 5.1.0
