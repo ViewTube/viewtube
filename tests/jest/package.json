@@ -4,12 +4,12 @@
     "test": "jest"
   },
   "devDependencies": {
-    "@nestjs/common": "10.3.2",
-    "@nestjs/core": "10.3.2",
-    "@nestjs/testing": "10.3.2",
+    "@nestjs/common": "10.3.3",
+    "@nestjs/core": "10.3.3",
+    "@nestjs/testing": "10.3.3",
     "@types/jest": "29.5.12",
     "eslint": "8.56.0",
-    "eslint-plugin-jest": "27.6.3",
+    "eslint-plugin-jest": "27.9.0",
     "jest": "29.7.0",
     "mongodb-memory-server": "9.1.6",
     "redis-mock": "0.56.3",
