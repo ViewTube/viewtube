@@ -92,12 +92,14 @@ export class YoutubeGrabberHelper {
     } else if (videoTab && 'sectionListRenderer' in videoTab.tabRenderer.content) {
       const contents =
         videoTab.tabRenderer.content.sectionListRenderer.contents[0].itemSectionRenderer
-          .contents[0];
-      if ('reelShelfRenderer' in contents) {
-        channelVideoData = contents.reelShelfRenderer;
-      }
-      if ('gridRenderer' in contents) {
-        channelVideoData = contents.gridRenderer;
+          ?.contents[0];
+      if (contents) {
+        if ('reelShelfRenderer' in contents) {
+          channelVideoData = contents.reelShelfRenderer;
+        }
+        if ('gridRenderer' in contents) {
+          channelVideoData = contents.gridRenderer;
+        }
       }
     }
     if (typeof channelVideoData === 'undefined') {
@@ -384,6 +386,7 @@ export class YoutubeGrabberHelper {
       contentDataJSON =
         communityTab.tabRenderer.content.sectionListRenderer.contents[0].itemSectionRenderer;
       if (
+        contentDataJSON &&
         'continuationItemRenderer' in contentDataJSON.contents[contentDataJSON.contents.length - 1]
       ) {
         return {
@@ -399,7 +402,7 @@ export class YoutubeGrabberHelper {
       contentDataJSON = { contents: [] };
     }
     return {
-      items: this.createCommunityPostArray(contentDataJSON.contents),
+      items: this.createCommunityPostArray(contentDataJSON?.contents ?? []),
       continuation: null,
       innerTubeApi: null,
       channelIdType: channelIdType
@@ -827,8 +830,6 @@ export class YoutubeGrabberHelper {
         return this.performCUrlRequest(channelId, urlAppendix);
       case 4:
         return this.performChannelTagRequest(channelId, urlAppendix);
-      case 5:
-        return this.performChannelRequest(channelId, urlAppendix);
       default:
         return this.performChannelPageRequestWithFallbacks(channelId, urlAppendix);
     }
@@ -838,6 +839,7 @@ export class YoutubeGrabberHelper {
     if (urlAppendix !== null) {
       ajaxUrl += ajaxUrl.endsWith('/') ? urlAppendix : '/' + urlAppendix;
     }
+    console.log(ajaxUrl);
     const channelPageResponse = await this.makeChannelRequest(ajaxUrl);
 
     if ((channelPageResponse as any).error) {
@@ -850,10 +852,8 @@ export class YoutubeGrabberHelper {
     return await this.performChannelUrlRequest(channelId, urlAppendix).catch(async _ => {
       return await this.performChannelTagRequest(channelId, urlAppendix).catch(async _ => {
         return await this.performUserUrlRequest(channelId, urlAppendix).catch(async _ => {
-          return await this.performCUrlRequest(channelId, urlAppendix).catch(async _ => {
-            return await this.performChannelRequest(channelId, urlAppendix).catch(async e => {
-              return Promise.reject(e);
-            });
+          return await this.performCUrlRequest(channelId, urlAppendix).catch(async e => {
+            return Promise.reject(e);
           });
         });
       });

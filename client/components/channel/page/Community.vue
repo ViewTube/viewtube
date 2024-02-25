@@ -43,6 +43,9 @@ const loadMore = async () => {
 
 <template>
   <Spinner v-if="pending" />
+  <div v-if="(data as any)?.items.length === 0" class="no-community-posts">
+    <p>This channel has no community posts.</p>
+  </div>
   <div v-if="!pending && data" class="community-posts">
     <CommunityPost
       v-for="(communityPost, index) in communityPosts.items"
@@ -65,6 +68,13 @@ const loadMore = async () => {
 </template>
 
 <style lang="scss" scoped>
+.no-community-posts {
+  display: flex;
+  justify-content: center;
+  margin: 15px 0 0 0;
+  height: 90vh;
+}
+
 .community-posts {
   display: flex;
   flex-direction: column;

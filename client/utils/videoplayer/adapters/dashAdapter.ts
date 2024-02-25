@@ -84,8 +84,6 @@ export const dashAdapter: VideoplaybackAdapter = async options => {
     return bufferLevel;
   };
   const getVideoQualityList = () => {
-    console.log(mediaPlayer.getBitrateInfoListFor('video'));
-    console.log(mediaPlayer.getTracksFor('video'));
     return mediaPlayer.getBitrateInfoListFor('video').map(bitrateInfo => ({
       ...bitrateInfo,
       label: `${bitrateInfo.height}p - ${humanizeBitrate(bitrateInfo.bitrate)}`

@@ -1,18 +1,6 @@
 <script setup lang="ts">
 const uiState = inject<UIState>('uiState');
 const videoState = inject<VideoState>('videoState');
-
-const trackListForCurrentLanguage = computed(() => {
-  const currentLanguage = videoState.video.selectedLanguage;
-  return videoState.video.trackList[currentLanguage];
-});
-
-const currentTrack = computed(() => {
-  const currentLanguage = videoState.video.selectedLanguage;
-  return videoState.video.trackList[currentLanguage].find(
-    el => el.id === videoState.video.trackIndex
-  );
-});
 </script>
 
 <template>
@@ -28,20 +16,8 @@ const currentTrack = computed(() => {
       </div>
       <div class="flip-setting">
         <VTIcon class="flip-setting-icon" name="mdi:high-definition-box" />
-        <ListCollapsibleSection label="Video quality">
-          <div class="selector-list">
-            <div class="selector auto" :class="{ selected: videoState.video.automaticQuality }">
-              Auto - {{ currentTrack.label }}
-            </div>
-            <div
-              v-for="(track, index) in trackListForCurrentLanguage"
-              :key="index"
-              :class="{ selected: track.id === videoState.video.trackIndex }"
-              class="selector"
-            >
-              {{ track.label }}
-            </div>
-          </div>
+        <ListCollapsibleSection label="Video quality" opened>
+          <FlipQualitySelector />
         </ListCollapsibleSection>
       </div>
       <div v-if="videoState.video.languageList?.length > 1" class="flip-setting">
@@ -86,6 +62,7 @@ const currentTrack = computed(() => {
 
     .flip-settings-header {
       position: relative;
+
       .flip-settings-title {
         padding: 15px;
         font-size: 1.2rem;
@@ -107,7 +84,8 @@ const currentTrack = computed(() => {
       flex-direction: column;
       position: relative;
 
-      .selector-list {
+      .selector-list,
+      :deep(.selector-list) {
         display: flex;
         flex-direction: column;
         padding: 10px 0 0 0;

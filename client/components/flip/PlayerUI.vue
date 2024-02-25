@@ -27,7 +27,7 @@ provide('uiState', readonly(uiState));
     </transition>
     <FlipPoster />
     <Teleport :to="uiState.fullscreen.value ? '#flip-player-ui' : 'body'">
-      <transition name="flip-settings">
+      <transition name="flip-settings-transition">
         <FlipSettings v-if="uiState.settingsOpen.value" />
       </transition>
     </Teleport>
@@ -44,19 +44,19 @@ provide('uiState', readonly(uiState));
   opacity: 0;
 }
 
-.flip-settings-enter-active,
-.flip-settings-leave-active {
+.flip-settings-transition-enter-active,
+.flip-settings-transition-leave-active {
   transition:
     opacity 300ms $intro-easing,
     transform 300ms $intro-easing;
 }
-.flip-settings-enter-to,
-.flip-settings-leave-from {
+.flip-settings-transition-enter-to,
+.flip-settings-transition-leave-from {
   opacity: 1;
   transform: scale(1);
 }
-.flip-settings-enter-from,
-.flip-settings-leave-to {
+.flip-settings-transition-enter-from,
+.flip-settings-transition-leave-to {
   opacity: 0;
   transform: scale(1.1);
 }

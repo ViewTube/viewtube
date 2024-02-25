@@ -66,8 +66,8 @@ export class YoutubePlaylistFetcher {
     if (playlistTab && 'sectionListRenderer' in playlistTab.tabRenderer.content) {
       const tabRenderer = playlistTab.tabRenderer;
       playlistData =
-        tabRenderer.content.sectionListRenderer.contents[0].itemSectionRenderer.contents[0]
-          .gridRenderer;
+        tabRenderer?.content?.sectionListRenderer?.contents?.[0]?.itemSectionRenderer?.contents?.[0]
+          ?.gridRenderer;
     }
     if (typeof playlistData === 'undefined') {
       return {

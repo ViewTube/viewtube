@@ -27,7 +27,6 @@ export const useVideoState = (
     audioQualityList: [] as QualityInfo[],
     videoQualityAuto: true,
     audioQualityAuto: true,
-    trackIndex: 0,
     audioQualityIndex: 0,
     automaticQuality: true,
     videoTrackList: [],
@@ -52,6 +51,7 @@ export const useVideoState = (
 
     adapterInstance.value.onPlaybackStarted(() => {
       videoState.playing = true;
+      videoState.buffering = false;
       updateTimeAndDuration();
     });
     adapterInstance.value.onPlaybackPaused(() => {
@@ -65,6 +65,7 @@ export const useVideoState = (
       videoState.bufferLevel = adapterInstance.value?.getBufferLevel() ?? 0;
     });
     adapterInstance.value.onWaiting(() => {
+      console.log(adapterInstance.value);
       videoState.buffering = true;
     });
     adapterInstance.value.onCanPlay(() => {
@@ -80,18 +81,15 @@ export const useVideoState = (
     adapterInstance.value.onPlaybackRateChanged(() => {
       videoState.speed = adapterInstance.value?.getPlaybackRate() ?? 1;
     });
-    adapterInstance.value.onTrackChanged(id => {
-      videoState.trackIndex = id;
-    });
     adapterInstance.value.onLanguageChanged(language => {
-      console.log('language changed', language);
       videoState.selectedLanguage = language;
     });
     adapterInstance.value.onAudioQualityChanged(e => {
       videoState.audioQualityIndex = e.newQuality;
     });
-    adapterInstance.value.onAutomaticQualityChanged((enabled: boolean) => {
-      console.log('automatic quality changed', enabled);
+    adapterInstance.value.onAutomaticQualityChanged(abrStatus => {
+      const enabled = abrStatus.newStatus;
+      console.log('Automatic quality changed', enabled);
       videoState.automaticQuality = enabled;
     });
   };
@@ -122,6 +120,10 @@ export const useVideoState = (
       videoState.videoTrackList = adapterInstance.value.getVideoTrackList();
       videoState.audioTrackList = adapterInstance.value.getAudioTrackList();
       videoState.languageList = adapterInstance.value.getLanguageList();
+
+      videoState.selectedLanguage = adapterInstance.value
+        .getRawTrackList()
+        .find(track => track.active).language;
     }
   };
 
@@ -157,6 +159,8 @@ export const useVideoState = (
     videoElementRef.value.loop = loop;
   };
   const setLanguage = (language: string) => adapterInstance.value?.setLanguage(language);
+  const setTrack = (track: number) => adapterInstance.value?.setTrack(track);
+  const setAutoQuality = (enabled: boolean) => adapterInstance.value?.setAutoQuality(enabled);
 
   return {
     video: videoState,
@@ -166,7 +170,9 @@ export const useVideoState = (
     setPlaybackRate,
     setTime,
     setLoop,
-    setLanguage
+    setLanguage,
+    setTrack,
+    setAutoQuality
   };
 };
 

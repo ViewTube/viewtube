@@ -159,6 +159,7 @@ const getHoverPosition = (elWidth: number) => {
       bottom: 0;
       border-radius: 25px;
       height: 100%;
+      max-width: 100%;
     }
 
     .flip-seekbar-buffer {

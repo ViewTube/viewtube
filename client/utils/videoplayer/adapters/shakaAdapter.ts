@@ -136,32 +136,21 @@ export const shakaAdapter = async (options: VideoplaybackAdapterOptions) => {
   const onQualityChanged = registerCallback('mediaqualitychanged');
   const onAdaptationChanged = registerCallback('adaptation');
   const onAutomaticQualityChanged = registerCallback('abrstatuschanged');
-
-  const onTrackChanged = (callback: EventListenerCallback) => {
-    onQualityChanged(e => {
-      console.log(e);
-      // if (e.mediaType === 'video') {
-      //   callback(e.newQuality);
-      // }
-    });
-
-    onAdaptationChanged(e => {
-      if (e.newTrack) {
-        callback(e.newTrack.id);
-      }
-    });
-  };
+  const onTracksChanged = registerCallback('trackschanged');
 
   const onLanguageChanged = (callback: EventListenerCallback) => {
     onVariantChanged(e => {
       callback(e.newTrack.language);
     });
+    onAdaptationChanged(e => {
+      if (e.newTrack) {
+        callback(e.newTrack.language);
+      }
+    });
   };
 
   const onAudioQualityChanged = (callback: EventListenerCallback) => {
     onQualityChanged(e => {
-      console.log(e);
-
       if (e.mediaType === 'audio') {
         callback(e);
       }
@@ -203,7 +192,7 @@ export const shakaAdapter = async (options: VideoplaybackAdapterOptions) => {
       .getVariantTracks()
       .map(track => ({
         ...track,
-        label: `${track.videoCodec} ${track.audioCodec} ${track.height}p - ${humanizeBitrate(track.videoBandwidth)} | ${humanizeBitrate(track.audioBandwidth)} ${track.hdr === 'PQ' ? 'HDR' : ''} ${track.language}`
+        label: `${track.height}p - ${humanizeBitrate(track.videoBandwidth)} | ${humanizeBitrate(track.audioBandwidth)} ${track.hdr === 'PQ' ? 'HDR' : ''} ${track.language}`
       }))
       .sort((a, b) => {
         const videoCodecA = a.videoCodec.split('.')[0];
@@ -231,6 +220,10 @@ export const shakaAdapter = async (options: VideoplaybackAdapterOptions) => {
       });
 
     return groupedTrackList;
+  };
+
+  const getRawTrackList = () => {
+    return shakaPlayer.getVariantTracks();
   };
 
   const getAudioQualityList = () => {
@@ -305,6 +298,26 @@ export const shakaAdapter = async (options: VideoplaybackAdapterOptions) => {
     });
   };
 
+  const setTrack = (trackId: number) => {
+    const newTrack = shakaPlayer.getVariantTracks().find(track => track.id === trackId);
+    if (newTrack) {
+      shakaPlayer.configure({
+        abr: {
+          enabled: false
+        }
+      });
+      shakaPlayer.selectVariantTrack(newTrack, true);
+    }
+  };
+
+  const setAutoQuality = (enabled: boolean) => {
+    shakaPlayer.configure({
+      abr: {
+        enabled
+      }
+    });
+  };
+
   // Initialize player
   watch(source, async (newValue, oldValue) => {
     if (newValue !== oldValue) {
@@ -327,7 +340,6 @@ export const shakaAdapter = async (options: VideoplaybackAdapterOptions) => {
     onCanPlay,
     onWaiting,
     onVolumeChanged,
-    onTrackChanged,
     onLanguageChanged,
     onAudioQualityChanged,
     onAutomaticQualityChanged,
@@ -341,12 +353,15 @@ export const shakaAdapter = async (options: VideoplaybackAdapterOptions) => {
     getVideoTrackList,
     getAudioTrackList,
     getLanguageList,
+    getRawTrackList,
 
     getVolume,
     setVolume,
     setTime,
     setPlaybackRate,
     setLanguage,
+    setTrack,
+    setAutoQuality,
     play,
     pause,
     destroy

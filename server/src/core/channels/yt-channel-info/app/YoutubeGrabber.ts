@@ -109,7 +109,7 @@ export class YoutubeGrabber {
     if (channelsTab && 'sectionListRenderer' in (channelsTab?.tabRenderer?.content ?? {})) {
       featuredChannels =
         channelsTab?.tabRenderer?.content?.sectionListRenderer?.contents?.[0]?.itemSectionRenderer
-          .contents?.[0];
+          ?.contents?.[0];
     }
     let relatedChannels = [];
     let relatedChannelsContinuation = null;
@@ -710,7 +710,7 @@ export class YoutubeGrabber {
     if (aboutTab !== undefined) {
       const contents =
         aboutTab?.tabRenderer?.content?.sectionListRenderer?.contents?.[0]?.itemSectionRenderer
-          .contents?.[0];
+          ?.contents?.[0];
       joined = Date?.parse(
         contents?.channelAboutFullMetadataRenderer?.joinedDateText?.runs?.[1]?.text
       );
