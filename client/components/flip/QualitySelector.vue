@@ -65,7 +65,7 @@ const availableTracks = computed(() =>
       :class="{ selected: videoState.video.automaticQuality }"
       @click.stop="videoState.setAutoQuality(true)"
     >
-      Auto - {{ currentTrack?.label }}
+      Auto<span v-if="videoState.video.automaticQuality"> - {{ currentTrack?.label }}</span>
     </div>
     <div class="codec-selector">
       codec
