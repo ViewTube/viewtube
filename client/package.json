@@ -29,7 +29,7 @@
     "@unocss/nuxt": "0.58.5",
     "@unocss/preset-icons": "0.58.5",
     "@vueuse/core": "10.8.0",
-    "@vueuse/nuxt": "10.8.0",
+    "@vueuse/nuxt": "10.9.0",
     "consola": "3.2.3",
     "cross-env": "7.0.3",
     "dashjs": "4.7.4",
