@@ -249,8 +249,8 @@ importers:
         specifier: 4.3.5
         version: 4.3.5
       fastify:
-        specifier: 4.26.1
-        version: 4.26.1
+        specifier: 4.26.2
+        version: 4.26.2
       fetch-socks:
         specifier: 1.2.0
         version: 1.2.0
@@ -7278,8 +7278,8 @@ packages:
       - supports-color
     dev: false
 
-  /fastify@4.26.1:
-    resolution: {integrity: sha512-tznA/G55dsxzM5XChBfcvVSloG2ejeeotfPPJSFaWmHyCDVGMpvf3nRNbsCb/JTBF9RmQFBfuujWt3Nphjesng==}
+  /fastify@4.26.2:
+    resolution: {integrity: sha512-90pjTuPGrfVKtdpLeLzND5nyC4woXZN5VadiNQCicj/iJU4viNHKhsAnb7jmv1vu2IzkLXyBiCzdWuzeXgQ5Ug==}
     dependencies:
       '@fastify/ajv-compiler': 3.5.0
       '@fastify/error': 3.4.1
