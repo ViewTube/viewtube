@@ -274,7 +274,7 @@ importers:
         version: 7.6.9
       nest-winston:
         specifier: 1.9.4
-        version: 1.9.4(@nestjs/common@10.3.3)(winston@3.11.0)
+        version: 1.9.4(@nestjs/common@10.3.3)(winston@3.12.0)
       reflect-metadata:
         specifier: 0.1.13
         version: 0.1.13
@@ -297,11 +297,11 @@ importers:
         specifier: 3.6.7
         version: 3.6.7
       winston:
-        specifier: 3.11.0
-        version: 3.11.0
+        specifier: 3.12.0
+        version: 3.12.0
       winston-daily-rotate-file:
         specifier: 5.0.0
-        version: 5.0.0(winston@3.11.0)
+        version: 5.0.0(winston@3.12.0)
       xml-js:
         specifier: 1.6.11
         version: 1.6.11
@@ -9887,7 +9887,7 @@ packages:
     resolution: {integrity: sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==}
     dev: true
 
-  /nest-winston@1.9.4(@nestjs/common@10.3.3)(winston@3.11.0):
+  /nest-winston@1.9.4(@nestjs/common@10.3.3)(winston@3.12.0):
     resolution: {integrity: sha512-ilEmHuuYSAI6aMNR120fLBl42EdY13QI9WRggHdEizt9M7qZlmXJwpbemVWKW/tqRmULjSx/otKNQ3GMQbfoUQ==}
     peerDependencies:
       '@nestjs/common': ^5.0.0 || ^6.6.0 || ^7.0.0 || ^8.0.0 || ^9.0.0 || ^10.0.0
@@ -9895,7 +9895,7 @@ packages:
     dependencies:
       '@nestjs/common': 10.3.3(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.1.13)(rxjs@7.8.1)
       fast-safe-stringify: 2.1.1
-      winston: 3.11.0
+      winston: 3.12.0
     dev: false
 
   /new-find-package-json@2.0.0:
@@ -13326,7 +13326,7 @@ packages:
       string-width: 4.2.3
     dev: true
 
-  /winston-daily-rotate-file@5.0.0(winston@3.11.0):
+  /winston-daily-rotate-file@5.0.0(winston@3.12.0):
     resolution: {integrity: sha512-JDjiXXkM5qvwY06733vf09I2wnMXpZEhxEVOSPenZMii+g7pcDcTBt2MRugnoi8BwVSuCT2jfRXBUy+n1Zz/Yw==}
     engines: {node: '>=8'}
     peerDependencies:
@@ -13335,7 +13335,7 @@ packages:
       file-stream-rotator: 0.6.1
       object-hash: 3.0.0
       triple-beam: 1.4.1
-      winston: 3.11.0
+      winston: 3.12.0
       winston-transport: 4.7.0
     dev: false
 
@@ -13348,8 +13348,8 @@ packages:
       triple-beam: 1.4.1
     dev: false
 
-  /winston@3.11.0:
-    resolution: {integrity: sha512-L3yR6/MzZAOl0DsysUXHVjOwv8mKZ71TrA/41EIduGpOOV5LQVodqN+QdQ6BS6PJ/RdIshZhq84P/fStEZkk7g==}
+  /winston@3.12.0:
+    resolution: {integrity: sha512-OwbxKaOlESDi01mC9rkM0dQqQt2I8DAUMRLZ/HpbwvDXm85IryEHgoogy5fziQy38PntgZsLlhAYHz//UPHZ5w==}
     engines: {node: '>= 12.0.0'}
     dependencies:
       '@colors/colors': 1.6.0
