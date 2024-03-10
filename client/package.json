@@ -1,8 +1,8 @@
 {
   "name": "client",
   "engines": {
-    "node": ">=18.16.0",
-    "pnpm": ">=8.7.0"
+    "node": ">=20.11.0",
+    "pnpm": ">=8.15.0"
   },
   "scripts": {
     "prepare:env": "cross-env API_DEV_PORT=8067 PORT=8066",
@@ -20,7 +20,7 @@
     "@pinia-plugin-persistedstate/nuxt": "1.2.0",
     "@pinia/nuxt": "0.5.1",
     "@types/humanize-duration": "3.27.4",
-    "@types/node": "20.11.20",
+    "@types/node": "20.11.25",
     "@types/papaparse": "5.3.14",
     "@types/qrcode": "1.5.5",
     "@types/ua-parser-js": "0.7.39",
@@ -51,7 +51,7 @@
     "pinia": "2.1.7",
     "qrcode": "1.5.3",
     "sass": "1.71.1",
-    "swiper": "11.0.6",
+    "swiper": "11.0.7",
     "tippy.js": "6.3.7",
     "typescript": "5.4.2",
     "ua-parser-js": "1.0.37",

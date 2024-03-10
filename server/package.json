@@ -2,8 +2,8 @@
   "name": "server",
   "main": "dist/main",
   "engines": {
-    "node": ">=18.16.0",
-    "pnpm": ">=8.7.0"
+    "node": ">=20.11.0",
+    "pnpm": ">=8.15.0"
   },
   "scripts": {
     "serve": "nest build --webpack --webpackPath webpack-hmr.config.cjs --watch",
@@ -74,11 +74,11 @@
     "@types/archiver": "6.0.2",
     "@types/bcryptjs": "2.4.6",
     "@types/cookie-parser": "1.4.7",
-    "@types/eslint": "8.56.4",
+    "@types/eslint": "8.56.5",
     "@types/humanize-duration": "3.27.4",
     "@types/mime-types": "2.1.4",
     "@types/multer": "1.4.11",
-    "@types/node": "20.11.20",
+    "@types/node": "20.11.25",
     "@types/redis-mock": "0.17.3",
     "@types/web-push": "3.6.3",
     "@types/webpack-node-externals": "3.0.4",
