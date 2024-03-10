@@ -1,8 +1,8 @@
 {
   "name": "client",
   "engines": {
-    "node": ">=18.16.0",
-    "pnpm": ">=8.7.0"
+    "node": ">=20.11.0",
+    "pnpm": ">=8.15.0"
   },
   "scripts": {
     "prepare:env": "cross-env API_DEV_PORT=8067 PORT=8066",

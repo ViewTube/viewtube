@@ -1,4 +1,4 @@
-FROM node:18-bullseye as build
+FROM node:20-bullseye as build
 WORKDIR /home/build
 
 ENV NUXT_BUILD=true
@@ -22,7 +22,7 @@ RUN rm -rf node_modules client/node_modules server/node_modules shared/node_modu
 
 RUN CI=true pnpm --filter=./server --filter=./client install --frozen-lockfile --prod
 
-FROM node:18-bullseye-slim as runtime
+FROM node:20-bullseye-slim as runtime
 WORKDIR /home/app
 
 ENV NODE_ENV=production
