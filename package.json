@@ -1,10 +1,10 @@
 {
   "name": "viewtube",
   "description": "ViewTube, an alternative Youtube frontend.",
-  "author": "Maurice Oegerli",
+  "author": "moisout",
   "country": "Switzerland",
   "email": "viewtube@m-o.dev",
-  "version": "0.15.2",
+  "version": "0.15.3",
   "license": "AGPLv3",
   "engines": {
     "node": ">=20.11.0",
