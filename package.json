@@ -1,14 +1,14 @@
 {
   "name": "viewtube",
   "description": "ViewTube, an alternative Youtube frontend.",
-  "author": "Maurice Oegerli",
+  "author": "moisout",
   "country": "Switzerland",
   "email": "viewtube@m-o.dev",
-  "version": "0.15.2",
+  "version": "0.15.3",
   "license": "AGPLv3",
   "engines": {
-    "node": ">=18.16.0",
-    "pnpm": ">=8.7.0"
+    "node": ">=20.11.0",
+    "pnpm": ">=8.15.0"
   },
   "scripts": {
     "build": "pnpm --filter=* run build",
@@ -36,7 +36,7 @@
   "devDependencies": {
     "cross-env": "7.0.3",
     "prettier": "3.2.5",
-    "typescript": "5.3.3"
+    "typescript": "5.4.2"
   },
   "pnpm": {
     "patchedDependencies": {
