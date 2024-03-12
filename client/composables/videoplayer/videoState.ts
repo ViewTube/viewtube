@@ -1,7 +1,7 @@
 import { useStorage } from '@vueuse/core';
 import {
-  QualityInfo,
   shakaAdapter,
+  type LabelledTrack,
   type Language
 } from '@/utils/videoplayer/adapters/shakaAdapter';
 
@@ -23,14 +23,8 @@ export const useVideoState = (
     volume: 1,
     loop: false,
     speed: 1,
-    trackList: [],
-    audioQualityList: [] as QualityInfo[],
-    videoQualityAuto: true,
-    audioQualityAuto: true,
-    audioQualityIndex: 0,
+    trackList: {} as Record<string, LabelledTrack[]>,
     automaticQuality: true,
-    videoTrackList: [],
-    audioTrackList: [],
     languageList: [] as Language[],
     selectedLanguage: 'en'
   });
@@ -84,9 +78,6 @@ export const useVideoState = (
     adapterInstance.value.onLanguageChanged(language => {
       videoState.selectedLanguage = language;
     });
-    adapterInstance.value.onAudioQualityChanged(e => {
-      videoState.audioQualityIndex = e.newQuality;
-    });
     adapterInstance.value.onAutomaticQualityChanged(abrStatus => {
       const enabled = abrStatus.newStatus;
       console.log('Automatic quality changed', enabled);
@@ -117,8 +108,6 @@ export const useVideoState = (
     if (adapterInstance.value) {
       videoState.trackList = adapterInstance.value.getTrackList();
 
-      videoState.videoTrackList = adapterInstance.value.getVideoTrackList();
-      videoState.audioTrackList = adapterInstance.value.getAudioTrackList();
       videoState.languageList = adapterInstance.value.getLanguageList();
 
       videoState.selectedLanguage = adapterInstance.value

@@ -1,3 +1,5 @@
+import type shaka from 'shaka-player';
+
 export type EventListenerCallback<E = any> = (e: E) => void;
 export type MediaType = 'video' | 'audio' | 'text' | 'image';
 
@@ -30,6 +32,11 @@ export type Language = {
   language: string;
   label: string;
   role: string;
+};
+
+export type LabelledTrack = shaka.extern.Track & {
+  audioLabel: string;
+  videoLabel: string;
 };
 
 export const shakaAdapter = async (options: VideoplaybackAdapterOptions) => {
@@ -185,14 +192,15 @@ export const shakaAdapter = async (options: VideoplaybackAdapterOptions) => {
     return bufferLevel;
   };
 
-  const getTrackList = () => {
-    const groupedTrackList = [];
+  const getTrackList = (): Record<string, LabelledTrack[]> => {
+    const groupedTrackList = {};
 
     shakaPlayer
       .getVariantTracks()
       .map(track => ({
         ...track,
-        label: `${track.height}p - ${humanizeBitrate(track.videoBandwidth)} | ${humanizeBitrate(track.audioBandwidth)} ${track.hdr === 'PQ' ? 'HDR' : ''} ${track.language}`
+        videoLabel: `${track.height}p${track.frameRate > 30 ? track.frameRate : ''} · ${humanizeBitrate(track.videoBandwidth)} ${track.hdr === 'PQ' ? 'HDR' : ''}`,
+        audioLabel: humanizeBitrate(track.audioBandwidth)
       }))
       .sort((a, b) => {
         const videoCodecA = a.videoCodec.split('.')[0];
@@ -224,22 +232,6 @@ export const shakaAdapter = async (options: VideoplaybackAdapterOptions) => {
 
   const getRawTrackList = () => {
     return shakaPlayer.getVariantTracks();
-  };
-
-  const getAudioQualityList = () => {
-    return shakaPlayer.getVariantTracks().map(track => ({
-      ...track,
-      label: `${track.height}p - ${humanizeBitrate(track.bandwidth)}`
-    }));
-  };
-
-  const getVideoTrackList = () => {
-    return shakaPlayer.getImageTracks().map(track => {
-      return {
-        ...track,
-        label: track.label
-      };
-    });
   };
 
   const getAudioTrackList = () => {
@@ -349,8 +341,6 @@ export const shakaAdapter = async (options: VideoplaybackAdapterOptions) => {
     getBufferLevel,
     getPlaybackRate,
     getTrackList,
-    getAudioQualityList,
-    getVideoTrackList,
     getAudioTrackList,
     getLanguageList,
     getRawTrackList,

@@ -14,12 +14,6 @@ const videoState = inject<VideoState>('videoState');
         <VTIcon class="flip-setting-icon" name="mdi:volume" />
         <FlipVolume mobile />
       </div>
-      <div class="flip-setting">
-        <VTIcon class="flip-setting-icon" name="mdi:high-definition-box" />
-        <ListCollapsibleSection label="Video quality" opened>
-          <FlipQualitySelector />
-        </ListCollapsibleSection>
-      </div>
       <div v-if="videoState.video.languageList?.length > 1" class="flip-setting">
         <VTIcon class="flip-setting-icon" name="mdi:globe" />
         <ListCollapsibleSection label="Language">
@@ -36,6 +30,7 @@ const videoState = inject<VideoState>('videoState');
           </div>
         </ListCollapsibleSection>
       </div>
+      <FlipQualitySelector />
     </div>
   </div>
 </template>
@@ -78,14 +73,14 @@ const videoState = inject<VideoState>('videoState');
       }
     }
 
-    .flip-setting {
+    .flip-setting,
+    :deep(.flip-setting) {
       padding: 10px 15px 10px 50px;
       display: flex;
       flex-direction: column;
       position: relative;
 
-      .selector-list,
-      :deep(.selector-list) {
+      .selector-list {
         display: flex;
         flex-direction: column;
         padding: 10px 0 0 0;
