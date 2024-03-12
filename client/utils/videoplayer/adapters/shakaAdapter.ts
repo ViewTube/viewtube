@@ -197,11 +197,15 @@ export const shakaAdapter = async (options: VideoplaybackAdapterOptions) => {
 
     shakaPlayer
       .getVariantTracks()
-      .map(track => ({
-        ...track,
-        videoLabel: `${track.height}p${track.frameRate > 30 ? track.frameRate : ''} · ${humanizeBitrate(track.videoBandwidth)} ${track.hdr === 'PQ' ? 'HDR' : ''}`,
-        audioLabel: humanizeBitrate(track.audioBandwidth)
-      }))
+      .map(track => {
+        const hdrLabel = track.hdr === 'PQ' || track.hdr === 'HLG' ? 'HDR' : '';
+        const frameRateLabel = track.frameRate > 30 ? track.frameRate : '';
+        return {
+          ...track,
+          videoLabel: `${track.height}p${frameRateLabel} · ${humanizeBitrate(track.videoBandwidth)} ${hdrLabel}`,
+          audioLabel: humanizeBitrate(track.audioBandwidth)
+        };
+      })
       .sort((a, b) => {
         const videoCodecA = a.videoCodec.split('.')[0];
         const videoCodecB = b.videoCodec.split('.')[0];
