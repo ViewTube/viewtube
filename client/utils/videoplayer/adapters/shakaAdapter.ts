@@ -338,6 +338,7 @@ export const shakaAdapter = async (options: VideoplaybackAdapterOptions) => {
     onVolumeChanged,
     onLanguageChanged,
     onAudioQualityChanged,
+    onTracksChanged,
     onAutomaticQualityChanged,
 
     getTime,

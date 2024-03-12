@@ -77,11 +77,15 @@ export const useVideoState = (
     });
     adapterInstance.value.onLanguageChanged(language => {
       videoState.selectedLanguage = language;
+      updateTrackLists();
     });
     adapterInstance.value.onAutomaticQualityChanged(abrStatus => {
       const enabled = abrStatus.newStatus;
-      console.log('Automatic quality changed', enabled);
       videoState.automaticQuality = enabled;
+      updateTrackLists();
+    });
+    adapterInstance.value.onTracksChanged(() => {
+      updateTrackLists();
     });
   };
 
