@@ -78,7 +78,7 @@
     "@types/humanize-duration": "3.27.4",
     "@types/mime-types": "2.1.4",
     "@types/multer": "1.4.11",
-    "@types/node": "20.11.25",
+    "@types/node": "20.11.27",
     "@types/redis-mock": "0.17.3",
     "@types/web-push": "3.6.3",
     "@types/webpack-node-externals": "3.0.4",
