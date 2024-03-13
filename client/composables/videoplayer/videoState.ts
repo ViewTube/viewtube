@@ -59,7 +59,6 @@ export const useVideoState = (
       videoState.bufferLevel = adapterInstance.value?.getBufferLevel() ?? 0;
     });
     adapterInstance.value.onWaiting(() => {
-      console.log(adapterInstance.value);
       videoState.buffering = true;
     });
     adapterInstance.value.onCanPlay(() => {

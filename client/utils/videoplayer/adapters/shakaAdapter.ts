@@ -54,6 +54,11 @@ export const shakaAdapter = async (options: VideoplaybackAdapterOptions) => {
 
   shakaPlayer.configure({
     preferredAudioLanguage: 'en',
+    abr: {
+      restrictions: {
+        maxPixels: 1920 * 1080
+      }
+    },
     streaming: {
       retryParameters: {
         maxAttempts: Infinity,
@@ -200,9 +205,39 @@ export const shakaAdapter = async (options: VideoplaybackAdapterOptions) => {
       .map(track => {
         const hdrLabel = track.hdr === 'PQ' || track.hdr === 'HLG' ? 'HDR' : '';
         const frameRateLabel = track.frameRate > 30 ? track.frameRate : '';
+
+        let heightLabel = track.height;
+
+        switch (track.width) {
+          case 3840:
+            heightLabel = 2560;
+            break;
+          case 2560:
+            heightLabel = 1440;
+            break;
+          case 1920:
+            heightLabel = 1080;
+            break;
+          case 1280:
+            heightLabel = 720;
+            break;
+          case 854:
+            heightLabel = 480;
+            break;
+          case 640:
+            heightLabel = 360;
+            break;
+          case 426:
+            heightLabel = 240;
+            break;
+          case 256:
+            heightLabel = 144;
+            break;
+        }
+
         return {
           ...track,
-          videoLabel: `${track.height}p${frameRateLabel} · ${humanizeBitrate(track.videoBandwidth)} ${hdrLabel}`,
+          videoLabel: `${heightLabel}p${frameRateLabel} · ${humanizeBitrate(track.videoBandwidth)} ${hdrLabel}`,
           audioLabel: humanizeBitrate(track.audioBandwidth)
         };
       })
