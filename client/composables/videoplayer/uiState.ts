@@ -133,10 +133,12 @@ export const useUIState = (videoState: VideoState, flipPlayerUIRef: Ref<HTMLDivE
         toggleFullscreen();
       }
 
-      if (videoState.video.playing) {
-        videoState.pause();
-      } else {
-        videoState.play();
+      if (e.button === 0) {
+        if (videoState.video.playing) {
+          videoState.pause();
+        } else {
+          videoState.play();
+        }
       }
     }
   };
