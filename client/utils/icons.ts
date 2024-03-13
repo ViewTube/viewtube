@@ -84,6 +84,7 @@ export const iconSafelist = [
   'mdi-volume-low',
   'mdi-volume-medium',
   'mdi-volume-off',
+  'mdi-volume-mute',
   'mdi-window-restore',
   'mdi-xml',
   'mdi-youtube',

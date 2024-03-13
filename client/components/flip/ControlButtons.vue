@@ -12,9 +12,8 @@ const onPlayPauseClick = () => {
   }
 };
 
-const volumeControlVisible = ref(false);
 const onVolumeClick = () => {
-  volumeControlVisible.value = !volumeControlVisible.value;
+  videoState.setMuted(!videoState.video.muted);
 };
 
 const timestampText = computed(() => getTimestampFromSeconds(videoState.video.currentTime));
@@ -25,7 +24,11 @@ const videoLengthText = computed(() => getTimestampFromSeconds(videoState.video.
   <div class="flip-control-buttons">
     <span class="timestamp-text left">{{ timestampText }}</span>
     <button class="control-button volume-control" @click.stop="onVolumeClick">
-      <VTIcon name="mdi:volume" />
+      <VTIcon v-if="videoState.video.muted" name="mdi:volume-mute" />
+      <VTIcon v-else-if="videoState.video.volume === 0" name="mdi:volume-off" />
+      <VTIcon v-else-if="videoState.video.volume < 0.5" name="mdi:volume-low" />
+      <VTIcon v-else-if="videoState.video.volume < 1" name="mdi:volume-medium" />
+      <VTIcon v-else name="mdi:volume-high" />
       <FlipVolume />
     </button>
     <div class="control-buttons center-buttons">

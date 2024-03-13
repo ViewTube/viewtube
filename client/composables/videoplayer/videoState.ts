@@ -21,6 +21,7 @@ export const useVideoState = (
     currentTime: 0,
     duration: 0,
     volume: 1,
+    muted: false,
     loop: false,
     speed: 1,
     trackList: {} as Record<string, LabelledTrack[]>,
@@ -70,6 +71,7 @@ export const useVideoState = (
     adapterInstance.value.onVolumeChanged(() => {
       videoState.volume = adapterInstance.value?.getVolume() ?? 1;
       volumeStorage.value = videoState.volume;
+      videoState.muted = videoElementRef.value.muted;
     });
     adapterInstance.value.onPlaybackRateChanged(() => {
       videoState.speed = adapterInstance.value?.getPlaybackRate() ?? 1;
@@ -144,6 +146,7 @@ export const useVideoState = (
   const play = () => adapterInstance.value?.play();
   const pause = () => adapterInstance.value?.pause();
   const setVolume = (volume: number) => adapterInstance.value?.setVolume(volume);
+  const setMuted = (muted: boolean) => (videoElementRef.value.muted = muted);
   const setPlaybackRate = (playbackRate: number) =>
     adapterInstance.value?.setPlaybackRate(playbackRate);
   const setTime = (time: number) => adapterInstance.value?.setTime(time);
@@ -159,6 +162,7 @@ export const useVideoState = (
     play,
     pause,
     setVolume,
+    setMuted,
     setPlaybackRate,
     setTime,
     setLoop,

@@ -11,6 +11,15 @@ const onVolumeSeekStart = () => {
 const onVolumeSeekStop = () => {
   uiState.setSeeking(false);
 };
+
+const setVolume = (volume: number) => {
+  if (volume < 0) volume = 0;
+  if (volume > 1) volume = 1;
+  if (volume > 0) {
+    videoState.setMuted(false);
+  }
+  videoState.setVolume(volume);
+};
 </script>
 
 <template>
@@ -18,7 +27,7 @@ const onVolumeSeekStop = () => {
     <RangeInput
       :model-value="videoState.video.volume"
       class="volume-input"
-      @update:model-value="videoState.setVolume"
+      @update:model-value="setVolume"
       @seek-start="onVolumeSeekStart"
       @seek-end="onVolumeSeekStop"
     />
