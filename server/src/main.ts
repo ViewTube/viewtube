@@ -49,7 +49,7 @@ const bootstrap = async () => {
   logger.log(`Registration is ${registrationEnabled ? 'enabled' : 'disabled'}`);
   logger.log(`Login is required everywhere: ${global.requireLoginEverywhere}`);
 
-  checkRedisConnection();
+  await checkRedisConnection();
 
   webPush.setVapidDetails(
     'https://github.com/ViewTube/viewtube',

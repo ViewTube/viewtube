@@ -18,7 +18,20 @@ const onPosterClick = () => {
     >
       <img :src="video.thumbnails[0].url" class="flip-poster-img" />
       <Spinner v-if="videoState.video.buffering" class="flip-play-spinner" />
-      <VTIcon v-else name="mdi:play" class="flip-play-icon" />
+      <svg
+        v-else
+        xmlns="http://www.w3.org/2000/svg"
+        width="100"
+        height="100"
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        class="flip-play-icon"
+      >
+        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+        <path
+          d="M6 4v16a1 1 0 0 0 1.524 .852l13 -8a1 1 0 0 0 0 -1.704l-13 -8a1 1 0 0 0 -1.524 .852z"
+        />
+      </svg>
     </div>
   </transition>
 </template>
@@ -45,13 +58,22 @@ const onPosterClick = () => {
   user-select: none;
   background-color: #000;
 
+  @keyframes play-icon-animation {
+    from {
+      transform: scale(0.8);
+      opacity: 0;
+    }
+  }
+
   .flip-play-icon {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    top: calc(50% - 50px);
+    left: calc(50% - 50px);
     font-size: 4rem;
     color: #fff;
+    text-shadow: $low-shadow;
+    filter: drop-shadow(0 4px 12px var(--theme-color-alt));
+    animation: play-icon-animation 400ms $intro-easing;
   }
 
   .flip-play-spinner {

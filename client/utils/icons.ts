@@ -88,5 +88,7 @@ export const iconSafelist = [
   'mdi-window-restore',
   'mdi-xml',
   'mdi-youtube',
-  'mdi-youtube-subscription'
+  'mdi-youtube-subscription',
+  'mdi-skip-forward',
+  'mdi-skip-backward'
 ].map(icon => `i-${icon}`);

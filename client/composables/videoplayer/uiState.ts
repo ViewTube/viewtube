@@ -27,7 +27,60 @@ export const useUIState = (videoState: VideoState, flipPlayerUIRef: Ref<HTMLDivE
     fullscreen.value = !!document.fullscreenElement;
   };
 
-  const { handleKeydown } = useKeydownActions(videoState, toggleFullscreen);
+  const visualEffects = reactive({
+    skipForward: {
+      visible: false,
+      position: 'right',
+      duration: 300
+    },
+    skipBackward: {
+      visible: false,
+      position: 'left',
+      duration: 300
+    },
+    volumeUp: {
+      visible: false,
+      position: 'center',
+      duration: 300
+    },
+    volumeDown: {
+      visible: false,
+      position: 'center',
+      duration: 300
+    }
+  });
+  const triggerEffect = (effect: keyof typeof visualEffects) => {
+    const triggeredEffect = visualEffects[effect];
+    triggeredEffect.visible = true;
+    setTimeout(() => {
+      triggeredEffect.visible = false;
+    }, triggeredEffect.duration);
+  };
+
+  type VisibleEffect = {
+    name: keyof typeof visualEffects;
+    duration: number;
+    position: string;
+  };
+
+  const visibleEffects = computed<VisibleEffect[]>(() => {
+    const visibleEffectsArray: VisibleEffect[] = [];
+
+    Object.keys(visualEffects).forEach((key: keyof typeof visualEffects) => {
+      const effect = visualEffects[key];
+      if (effect.visible) {
+        visibleEffectsArray.push({
+          name: key,
+          duration: effect.duration,
+          position: effect.position
+        });
+      }
+    });
+
+    return visibleEffectsArray;
+  });
+
+  const { handleKeydown } = useKeydownActions(videoState, toggleFullscreen, triggerEffect);
 
   onBeforeMount(() => {
     document.addEventListener('fullscreenchange', updateFullscreen);
@@ -151,6 +204,7 @@ export const useUIState = (videoState: VideoState, flipPlayerUIRef: Ref<HTMLDivE
     cursor,
     fullscreen,
     settingsOpen,
+    visibleEffects,
 
     onPointerMove,
     onPointerLeave,
@@ -160,6 +214,7 @@ export const useUIState = (videoState: VideoState, flipPlayerUIRef: Ref<HTMLDivE
 
     toggleFullscreen,
     openSettings,
-    closeSettings
+    closeSettings,
+    triggerEffect
   };
 };

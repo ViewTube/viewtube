@@ -25,6 +25,7 @@ provide('uiState', readonly(uiState));
     <transition name="flip-fade">
       <FlipControls v-if="visible" />
     </transition>
+    <FlipEffectsOverlay />
     <FlipPoster />
     <Teleport :to="uiState.fullscreen.value ? '#flip-player-ui' : 'body'">
       <transition name="flip-settings-transition">

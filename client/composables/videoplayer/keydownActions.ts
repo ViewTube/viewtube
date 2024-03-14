@@ -11,7 +11,11 @@ interface KeydownAction {
   action: (e: KeyboardEvent) => void;
 }
 
-export const useKeydownActions = (videoState: VideoState, toggleFullscreen: () => void) => {
+export const useKeydownActions = (
+  videoState: VideoState,
+  toggleFullscreen: () => void,
+  triggerEffect: (effect: string) => void
+) => {
   const popupStore = usePopupStore();
 
   const keydownActions: KeydownAction[] = [
@@ -37,24 +41,28 @@ export const useKeydownActions = (videoState: VideoState, toggleFullscreen: () =
       keys: ['ArrowLeft', 'j'],
       action: () => {
         videoState.setTime(videoState.video.currentTime - 10);
+        triggerEffect('skipBackward');
       }
     },
     {
       keys: ['ArrowRight', 'l'],
       action: () => {
         videoState.setTime(videoState.video.currentTime + 10);
+        triggerEffect('skipForward');
       }
     },
     {
       keys: ['ArrowUp'],
       action: () => {
         videoState.setVolume(videoState.video.volume + 0.1);
+        triggerEffect('volumeUp');
       }
     },
     {
       keys: ['ArrowDown'],
       action: () => {
         videoState.setVolume(videoState.video.volume - 0.1);
+        triggerEffect('volumeDown');
       }
     },
     {
