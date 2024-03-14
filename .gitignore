@@ -44,6 +44,7 @@ dump.rdb
 tests/cypress/screenshots
 tests/cypress/videos
 tests/cypress/downloads
+tests/cypress/environment/data
 
 Dockerfile.nodejs-mongodb
 .vscode/.ropeproject/

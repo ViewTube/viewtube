@@ -13,18 +13,18 @@ describe('Homepage Tests', () => {
   it('play the video', () => {
     cy.get('.flip-video-element', { timeout: 10_000 })
       .should('have.prop', 'paused', true)
-      .should('have.prop', 'ended', false)
-      .then(video => {
-        video[0].click();
-      });
+      .should('have.prop', 'ended', false);
+
+    cy.get('.flip-play-spinner').should('not.exist', { timeout: 120_000 });
+
+    cy.get('.flip-poster').should('exist').trigger('click');
 
     cy.get('.flip-video-element', { timeout: 120_000 })
       .should('have.prop', 'paused', false)
       .should('have.prop', 'readyState', 4)
-      .wait(2000)
-      .then(video => {
-        video[0].click();
-      })
-      .should('have.prop', 'paused', true);
+      .wait(4000)
+      .trigger('click');
+
+    cy.get('.flip-video-element', { timeout: 10_000 }).should('have.prop', 'paused', true);
   });
 });
