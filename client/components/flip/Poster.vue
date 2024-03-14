@@ -2,18 +2,20 @@
 const video = inject<ApiDto<'VTVideoInfoDto'>>('video');
 const videoState = inject<VideoState>('videoState');
 
-const posterVisible = ref(true);
-
 const onPosterClick = () => {
   if (videoState.video.buffering) return;
-  posterVisible.value = false;
+  videoState.setPosterVisible(false);
   videoState.play();
 };
 </script>
 
 <template>
   <transition name="fade">
-    <div v-if="posterVisible" class="flip-poster" @click.stop.prevent="onPosterClick">
+    <div
+      v-if="videoState.video.posterVisible"
+      class="flip-poster"
+      @click.stop.prevent="onPosterClick"
+    >
       <img :src="video.thumbnails[0].url" class="flip-poster-img" />
       <Spinner v-if="videoState.video.buffering" class="flip-play-spinner" />
       <VTIcon v-else name="mdi:play" class="flip-play-icon" />

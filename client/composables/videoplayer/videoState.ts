@@ -27,7 +27,8 @@ export const useVideoState = (
     trackList: {} as Record<string, LabelledTrack[]>,
     automaticQuality: true,
     languageList: [] as Language[],
-    selectedLanguage: 'en'
+    selectedLanguage: 'en',
+    posterVisible: true
   });
 
   const adapterInstance = ref<Awaited<ReturnType<typeof shakaAdapter>>>();
@@ -156,6 +157,7 @@ export const useVideoState = (
   const setLanguage = (language: string) => adapterInstance.value?.setLanguage(language);
   const setTrack = (track: number) => adapterInstance.value?.setTrack(track);
   const setAutoQuality = (enabled: boolean) => adapterInstance.value?.setAutoQuality(enabled);
+  const setPosterVisible = (visible: boolean) => (videoState.posterVisible = visible);
 
   return {
     video: videoState,
@@ -168,7 +170,8 @@ export const useVideoState = (
     setLoop,
     setLanguage,
     setTrack,
-    setAutoQuality
+    setAutoQuality,
+    setPosterVisible
   };
 };
 

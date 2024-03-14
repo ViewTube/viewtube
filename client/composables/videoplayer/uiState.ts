@@ -1,4 +1,5 @@
 import { usePopupStore } from '@/store/popup';
+import { useKeydownActions } from './keydownActions';
 
 const UI_TIMEOUT = 3000;
 
@@ -15,19 +16,6 @@ export const useUIState = (videoState: VideoState, flipPlayerUIRef: Ref<HTMLDivE
   });
 
   const fullscreen = ref(false);
-
-  const updateFullscreen = () => {
-    fullscreen.value = !!document.fullscreenElement;
-  };
-
-  onBeforeMount(() => {
-    document.addEventListener('fullscreenchange', updateFullscreen);
-  });
-
-  onBeforeUnmount(() => {
-    document.removeEventListener('fullscreenchange', updateFullscreen);
-  });
-
   const toggleFullscreen = () => {
     if (fullscreen.value) {
       document.exitFullscreen();
@@ -35,6 +23,21 @@ export const useUIState = (videoState: VideoState, flipPlayerUIRef: Ref<HTMLDivE
       flipPlayerUIRef.value?.requestFullscreen();
     }
   };
+  const updateFullscreen = () => {
+    fullscreen.value = !!document.fullscreenElement;
+  };
+
+  const { handleKeydown } = useKeydownActions(videoState, toggleFullscreen);
+
+  onBeforeMount(() => {
+    document.addEventListener('fullscreenchange', updateFullscreen);
+    window.addEventListener('keydown', handleKeydown);
+  });
+
+  onBeforeUnmount(() => {
+    document.removeEventListener('fullscreenchange', updateFullscreen);
+    window.removeEventListener('keydown', handleKeydown);
+  });
 
   const settingsOpen = ref(false);
 

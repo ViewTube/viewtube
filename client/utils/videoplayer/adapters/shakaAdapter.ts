@@ -294,7 +294,13 @@ export const shakaAdapter = async (options: VideoplaybackAdapterOptions) => {
   // Setters
   const setVolume = (volume: number) => {
     if (videoRef.value) {
-      videoRef.value.volume = volume;
+      let vol = volume;
+      if (volume > 1) {
+        vol = 1;
+      } else if (volume < 0) {
+        vol = 0;
+      }
+      videoRef.value.volume = vol;
     }
   };
   const setTime = (time: number) => {
