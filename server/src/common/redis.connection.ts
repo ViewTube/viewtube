@@ -11,7 +11,8 @@ export const checkRedisConnection = async () => {
     const redisOptions: RedisOptions = {
       host: redisHost,
       port: parseInt(redisPort),
-      retryStrategy: null
+      retryStrategy: null,
+      connectTimeout: 1000
     };
     if (redisPassword) {
       redisOptions.password = redisPassword;

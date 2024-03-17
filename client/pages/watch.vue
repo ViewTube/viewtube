@@ -156,8 +156,6 @@ const setTimestamp = (seconds: number) => {
     },
     replace: true
   });
-  videoplayerRef.value.setVideoTime(seconds);
-  videoplayerRef.value.play();
   window.scrollTo({ left: 0, top: 0, behavior: 'smooth' });
 };
 
@@ -296,12 +294,11 @@ const watchPageTitle = computed(() => {
       :title="watchPageTitle"
       :description="`${video?.description?.substring(0, 100)}`"
       :image="`${video?.author.thumbnails?.[2]?.url}`"
-      :video="`${video?.legacyFormats?.[0]?.url}`"
     />
     <VideoLoadingTemplate v-if="videoPending" />
     <!-- <video v-if="!jsEnabled" controls :src="getHDUrl()" class="nojs-player" /> -->
     <WatchVideoError v-if="videoError" :error="videoError" />
-    <VideoPlayer
+    <!-- <VideoPlayer
       v-if="video && !videoPending"
       :key="video.id"
       ref="videoplayerRef"
@@ -310,9 +307,10 @@ const watchPageTitle = computed(() => {
       :autoplay="isAutoplaying"
       class="video-player-p"
       @video-ended="onVideoEnded"
-    />
+    /> -->
+    <FlipPlayer v-if="video && !videoPending" :video="video" :start-time="video.initialVideoTime" />
     <div v-if="video && !videoPending" class="video-meta">
-      <div class="recommended-videos mobile">
+      <div class="recommended-videos-outer mobile">
         <NextUpVideo v-if="nextUpVideo && settingsStore.autoplayNextVideo" :video="nextUpVideo" />
         <CollapsibleSection :label="'Recommended videos'" :opened="recommendedOpen">
           <RecommendedVideos
@@ -491,10 +489,6 @@ const watchPageTitle = computed(() => {
   width: 100%;
   margin-top: $header-height;
 
-  .videoplayer-placeholder {
-    height: calc(100vh - 170px);
-  }
-
   .nojs-player {
     max-height: calc(100vh - 170px);
     z-index: 11;
@@ -526,10 +520,10 @@ const watchPageTitle = computed(() => {
       z-index: 400;
     }
 
-    .recommended-videos {
+    .recommended-videos-outer {
       background-color: var(--bgcolor-main);
       z-index: 400;
-      width: 100%;
+      padding: 10px;
 
       @media screen and (min-width: $mobile-width) {
         width: 340px;
@@ -645,10 +639,12 @@ const watchPageTitle = computed(() => {
 
           .like-ratio {
             width: 100%;
-            height: 2px;
+            height: 4px;
             background-color: var(--theme-color-alt);
             position: relative;
             margin: 10px 0 0 0;
+            border-radius: 25px;
+            overflow: hidden;
 
             .like-ratio-bar {
               position: absolute;

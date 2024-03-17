@@ -113,6 +113,7 @@ vite-error-overlay {
   scrollbar-color: var(--theme-color) transparent;
   scrollbar-width: thin;
   touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 
   &:focus-visible {
     outline: none;

@@ -7,8 +7,9 @@ export const useImgProxy = () => {
     if (url.startsWith('//')) {
       correctedUrl = `https:${url}`;
     }
+    correctedUrl = encodeURIComponent(correctedUrl);
     return `${imgProxy}${correctedUrl}`;
   };
 
-  return { url: imgProxy, proxyUrl };
+  return { proxyUrl };
 };

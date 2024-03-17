@@ -17,7 +17,7 @@ defineProps<{
   };
 }>();
 
-const imgProxy = useImgProxy();
+const { proxyUrl } = useImgProxy();
 </script>
 
 <template>
@@ -32,12 +32,7 @@ const imgProxy = useImgProxy();
         class="banner-link"
         :href="link.url"
       >
-        <img
-          v-if="link.icon"
-          :src="imgProxy.url + link.icon"
-          :alt="link.title"
-          class="link-thumbnail"
-        />
+        <img v-if="link.icon" :src="proxyUrl(link.icon)" :alt="link.title" class="link-thumbnail" />
         {{ link.title }}
       </BadgeButton>
     </div>

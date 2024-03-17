@@ -52,7 +52,7 @@ watch(
     grid-template-columns: minmax(300px, 1fr);
     // grid-auto-rows: minmax(300px, auto);
     gap: 1em 2em;
-    padding: 0 15px;
+    padding: 0; 
 
     .show-more-container {
       display: flex;

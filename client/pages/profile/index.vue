@@ -121,7 +121,6 @@ const onProfileImageChange = (e: any) => {
             message: reason?.message ?? 'Unknown error'
           });
         }
-        console.log(reason.message);
         profileImageLoading.value = false;
       }
     )

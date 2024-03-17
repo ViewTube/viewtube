@@ -20,7 +20,7 @@ const changePage = (pageName: string) => {
   emit('changePage', pageName);
 };
 
-const imgProxy = useImgProxy();
+const { proxyUrl } = useImgProxy();
 
 const subscriberCount = computed(() => humanNumber(props.channelInfo?.subscriberCount));
 </script>
@@ -35,7 +35,7 @@ const subscriberCount = computed(() => humanNumber(props.channelInfo?.subscriber
     />
     <div class="info">
       <div class="avatar">
-        <img class="avatar-img" :src="imgProxy.url + channelInfo?.authorThumbnails?.[2]?.url" />
+        <img class="avatar-img" :src="proxyUrl(channelInfo?.authorThumbnails?.[2]?.url)" />
       </div>
       <h3 class="title">
         {{ channelInfo?.author }}

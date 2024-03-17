@@ -1,15 +1,15 @@
 <script setup lang="ts">
 defineProps<{
   label: string;
-  opened: boolean;
+  opened?: boolean;
 }>();
 </script>
 
 <template>
   <details class="collapsible-section" :open="opened">
-    <summary v-ripple class="collapsible-summary">
+    <summary class="collapsible-summary">
       <div class="title">
-        <h3 class="title-text">{{ label }}</h3>
+        <p class="title-text">{{ label }}</p>
       </div>
     </summary>
     <div class="section-container">
@@ -22,17 +22,23 @@ defineProps<{
 .collapsible-section {
   display: flex;
   flex-direction: column;
-  min-width: 340px;
   position: relative;
 
   .collapsible-summary {
     cursor: pointer;
+    padding: 5px 0;
+    border-radius: 5px;
+
+    &:hover {
+      background-color: var(--bgcolor-alt-light);
+    }
+
     .title {
       cursor: pointer;
       display: inline-flex;
       flex-direction: row;
       justify-content: space-between;
-      padding: 20px 10px 15px 0;
+      padding: 0;
     }
   }
 }

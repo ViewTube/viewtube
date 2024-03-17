@@ -90,6 +90,23 @@ export interface paths {
   "/api/user/history/from/{startDate}/to/{endDate}": {
     delete: operations["HistoryController_deleteHistoryRange"];
   };
+  "/api/admin/info": {
+    get: operations["AdminController_getInfo"];
+  };
+  "/api/admin/logs": {
+    get: operations["AdminController_getLogs"];
+  };
+  "/api/admin/logs/{logFile}": {
+    get: operations["AdminController_downloadLogFile"];
+  };
+  "/api/admin/blocked-videos": {
+    get: operations["AdminController_findAll"];
+    post: operations["AdminController_create"];
+  };
+  "/api/admin/blocked-videos/{id}": {
+    get: operations["AdminController_isVideoBlocked"];
+    delete: operations["AdminController_delete"];
+  };
   "/api/videos/{id}": {
     get: operations["VideosController_getVideos"];
   };
@@ -177,26 +194,9 @@ export interface paths {
   "/api/playlists/continuation": {
     get: operations["PlaylistsController_getPlaylistContinuation"];
   };
-  "/api/admin/info": {
-    get: operations["AdminController_getInfo"];
-  };
   "/api/admin/server-settings": {
     get: operations["AdminController_getServerSettings"];
     post: operations["AdminController_updateServerSettings"];
-  };
-  "/api/admin/logs": {
-    get: operations["AdminController_getLogs"];
-  };
-  "/api/admin/logs/{logFile}": {
-    get: operations["AdminController_downloadLogFile"];
-  };
-  "/api/admin/blocked-videos": {
-    get: operations["AdminController_findAll"];
-    post: operations["AdminController_create"];
-  };
-  "/api/admin/blocked-videos/{id}": {
-    get: operations["AdminController_isVideoBlocked"];
-    delete: operations["AdminController_delete"];
   };
   "/api/admin/users": {
     post: operations["AdminController_createUser"];
@@ -338,6 +338,22 @@ export interface components {
       lengthSeconds: number;
       /** Format: date-time */
       lastVisit: string;
+    };
+    InfoDto: {
+      serverIpV4: string;
+      serverIpV6: string;
+      proxyIpV4: string;
+      proxyIpV6: string;
+    };
+    LogFileDto: {
+      name: string;
+      size: number;
+      created: number;
+      lastModified: number;
+    };
+    LogsDto: {
+      logFiles: components["schemas"]["LogFileDto"][];
+      location: string;
     };
     VTPreviewThumbnailDto: {
       urlTemplate: string;
@@ -695,25 +711,9 @@ export interface components {
       items: components["schemas"]["PlaylistItemDto"][];
       continuation: unknown;
     };
-    InfoDto: {
-      serverIpV4: string;
-      serverIpV6: string;
-      proxyIpV4: string;
-      proxyIpV6: string;
-    };
     ServerSettingsDto: {
       registrationEnabled: boolean;
       requireLoginEverywhere: boolean;
-    };
-    LogFileDto: {
-      name: string;
-      size: number;
-      created: number;
-      lastModified: number;
-    };
-    LogsDto: {
-      logFiles: components["schemas"]["LogFileDto"][];
-      location: string;
     };
     UserDto: {
       username: string;

@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import humanNumber from 'human-number';
-import { humanizer } from 'humanize-duration';
 
 const props = defineProps<{
   channel: any;
   horizontal?: boolean;
 }>();
 
-const { url: imgProxyUrl } = useImgProxy();
+const { proxyUrl } = useImgProxy();
 
 const channelNameToImgString = (): string => {
   let initials = '';
@@ -34,21 +33,21 @@ const channelNameToImgString = (): string => {
       <div v-if="channel.authorThumbnails" class="thmb-image-container">
         <img
           class="channel-entry-thmb-image"
-          :src="imgProxyUrl + channel.authorThumbnails[2].url"
+          :src="proxyUrl(channel.authorThumbnails[2].url)"
           :alt="channel.author"
         />
       </div>
       <div v-if="channel.thumbnails" class="thmb-image-container">
         <img
           class="channel-entry-thmb-image"
-          :src="imgProxyUrl + channel.thumbnails[0].url"
+          :src="proxyUrl(channel.thumbnails[0].url)"
           :alt="channel.author"
         />
       </div>
       <div v-if="channel.avatars" class="thmb-image-container">
         <img
           class="channel-entry-thmb-image"
-          :src="imgProxyUrl + channel.avatars[0].url"
+          :src="proxyUrl(channel.avatars[0].url)"
           :alt="channel.author ? channel.author : channel.name"
         />
       </div>

@@ -19,11 +19,9 @@ export default defineComponent({
   name: 'VideoLoadingTemplate',
   components: { Spinner },
   setup() {
-    const imgProxy = useImgProxy();
     const loadingVideoInfoStore = useLoadingVideoInfoStore();
 
     return {
-      imgProxyUrl: imgProxy.url,
       video: loadingVideoInfoStore.video
     };
   }

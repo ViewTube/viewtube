@@ -74,7 +74,7 @@ export class VideosService {
         author: video.author.name,
         authorId: video.author.id,
         authorThumbnails: video.author.thumbnails,
-        authorThumbnailUrl: video.author.thumbnails[0].url,
+        authorThumbnailUrl: video.author.thumbnails?.[0].url,
         authorVerified: video.author.isVerified,
         description: video.description,
         likeCount: video.likeCount,

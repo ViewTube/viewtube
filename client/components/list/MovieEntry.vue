@@ -3,7 +3,7 @@
     <div class="movie-entry-background" />
     <a class="movie-entry-thmb" :href="movie.link" target="_blank" rel="noreferrer noopener">
       <div class="thmb-image-container">
-        <img class="movie-entry-thmb-image" :src="imgProxyUrl + movie.thumbnail" :alt="movie.title" />
+        <img class="movie-entry-thmb-image" :src="proxyUrl(movie.thumbnail)" :alt="movie.title" />
       </div>
       <span class="movie-entry-count">{{ movie.duration }}</span>
     </a>
@@ -42,8 +42,8 @@ export default defineComponent({
     movie: Object
   },
   setup() {
-    const imgProxy = useImgProxy();
-    return { imgProxyUrl: imgProxy.url };
+    const { proxyUrl } = useImgProxy();
+    return { proxyUrl };
   }
 });
 </script>

@@ -10,7 +10,7 @@
         <img
           v-if="mix.firstVideo && mix.firstVideo.thumbnails"
           class="mix-entry-thmb-image"
-          :src="imgProxyUrl + mix.firstVideo.thumbnails[0].url"
+          :src="proxyUrl(mix.firstVideo.thumbnails[0].url)"
           :alt="mix.title"
         />
       </div>
@@ -51,7 +51,7 @@ export default defineComponent({
     mix: Object
   },
   setup(props) {
-    const imgProxy = useImgProxy();
+    const { proxyUrl } = useImgProxy();
 
     const mixLink = computed((): string => {
       return `/watch?v=${
@@ -60,7 +60,7 @@ export default defineComponent({
     });
 
     return {
-      imgProxyUrl: imgProxy.url,
+      proxyUrl,
       mixLink
     };
   }

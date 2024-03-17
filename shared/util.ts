@@ -21,9 +21,9 @@ export const getSecondsFromTimestamp = (timestamp: string) => {
 
 /**
  * This function returns a timestamp in the format of HH:MM:SS from a number of seconds.
- * @returns {string}
  */
-export const getTimestampFromSeconds = (seconds: number) => {
+export const getTimestampFromSeconds = (seconds: number): string => {
+  seconds = Math.floor(seconds);
   const hours = Math.floor(seconds / 3600);
   const minutes = Math.floor((seconds - hours * 3600) / 60);
   const secondsLeft = seconds - hours * 3600 - minutes * 60;
@@ -39,7 +39,7 @@ export const getTimestampFromSeconds = (seconds: number) => {
   if (secondsLeft < 10) {
     timestamp += '0';
   }
-  timestamp += secondsLeft;
+  timestamp += secondsLeft.toFixed(0);
 
   return timestamp;
 };

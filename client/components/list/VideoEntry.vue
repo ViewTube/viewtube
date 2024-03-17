@@ -81,8 +81,6 @@ const { apiUrl } = useApiUrl(true);
 const loadingVideoInfoStore = useLoadingVideoInfoStore();
 const { $formatting: formatting } = useNuxtApp();
 
-const localProxy = '&local=true';
-
 const videoLinkQuery = computed(() => {
   const linkQuery: { v: string; list?: string } = {
     v: props.video.videoId ? props.video.videoId : props.video.id
@@ -100,7 +98,7 @@ const videoThumbnailUrl = computed(() =>
   proxyUrl(
     `${thumbnailTemplate}${
       props.video.videoId ?? props.video.id ?? props.video.videoID
-    }/sddefault.jpg${localProxy}`
+    }/sddefault.jpg`
   )
 );
 
@@ -108,7 +106,7 @@ const videoThumbnailUrlXL = computed(() =>
   proxyUrl(
     `${thumbnailTemplate}${
       props.video.videoId ?? props.video.id ?? props.video.videoID
-    }/hqdefault.jpg${localProxy}`
+    }/hqdefault.jpg`
   )
 );
 
