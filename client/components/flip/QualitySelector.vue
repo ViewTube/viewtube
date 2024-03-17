@@ -83,7 +83,7 @@ const audioTracksForCurrentVideoTrack = computed(() => {
           :class="{ selected: videoState.video.automaticQuality }"
           @click.stop="videoState.setAutoQuality(true)"
         >
-          Auto<span v-if="videoState.video.automaticQuality">
+          Auto<span v-if="videoState.video.automaticQuality" class="auto-label">
             · {{ currentTrack?.videoLabel }}</span
           >
         </div>
@@ -102,6 +102,13 @@ const audioTracksForCurrentVideoTrack = computed(() => {
           @click.stop="videoState.setTrack(track.id)"
         >
           {{ track.videoLabel }}
+          <div v-if="track.hdr" class="hdr-indicator-container">
+            <div class="hdr-indicator-bg">
+              <div class="hdr-indicator-bg-inner">
+                <div class="hdr-indicator">HDR</div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </ListCollapsibleSection>
@@ -140,6 +147,85 @@ const audioTracksForCurrentVideoTrack = computed(() => {
   .codec-label {
     font-size: 0.8rem;
     padding: 0 0 2px 0;
+  }
+}
+
+.auto-label {
+  margin-left: 5px;
+}
+
+.hdr-indicator-container {
+  position: relative;
+
+  .hdr-indicator-bg {
+    --indicator-width: 34px;
+    --indicator-height: 18px;
+
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: var(--indicator-width);
+    height: var(--indicator-height);
+    margin-left: 5px;
+    border-radius: 4px;
+
+    background: radial-gradient(
+        ellipse farthest-corner at right bottom,
+        #fedb37 0%,
+        #fdb931 8%,
+        #9f7928 30%,
+        #8a6e2f 40%,
+        transparent 80%
+      ),
+      radial-gradient(
+        ellipse farthest-corner at left top,
+        #ffffff 0%,
+        #ffffac 8%,
+        #d1b464 25%,
+        #5d4a1f 62.5%,
+        #5d4a1f 100%
+      );
+  }
+
+  .hdr-indicator-bg-inner {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    height: calc(var(--indicator-height) - 2px);
+    width: calc(var(--indicator-width) - 2px);
+    margin-left: 1px;
+    border-radius: 3px;
+    background-color: var(--bgcolor-alt);
+  }
+
+  .hdr-indicator {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--bgcolor-alt);
+    font-size: 0.8rem;
+    font-weight: bold;
+    background: radial-gradient(
+        ellipse farthest-corner at right bottom,
+        #fedb37 0%,
+        #fdb931 8%,
+        #9f7928 30%,
+        #8a6e2f 40%,
+        transparent 80%
+      ),
+      radial-gradient(
+        ellipse farthest-corner at left top,
+        #ffffff 0%,
+        #ffffac 8%,
+        #d1b464 25%,
+        #5d4a1f 62.5%,
+        #5d4a1f 100%
+      );
+
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-flex;
   }
 }
 </style>

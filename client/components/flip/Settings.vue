@@ -5,7 +5,7 @@ const videoState = inject<VideoState>('videoState');
 
 <template>
   <div class="flip-settings-container clickaway-div" @click="uiState.closeSettings">
-    <div class="flip-settings" @click.stop>
+    <div class="flip-settings" :class="{ fullscreen: uiState.fullscreen }" @click.stop>
       <div class="flip-settings-header">
         <p class="flip-settings-title">Player settings</p>
         <VTIcon class="close-icon" name="mdi:close" @click="uiState.closeSettings" />
@@ -55,6 +55,10 @@ const videoState = inject<VideoState>('videoState');
     flex-direction: column;
     overflow: auto;
 
+    &.fullscreen {
+      margin: 5px auto;
+    }
+
     .flip-settings-header {
       position: relative;
 
@@ -92,6 +96,7 @@ const videoState = inject<VideoState>('videoState');
           font-size: 0.9rem;
           box-sizing: border-box;
           cursor: pointer;
+          display: flex;
 
           &:hover {
             background-color: var(--bgcolor-alt-light);
