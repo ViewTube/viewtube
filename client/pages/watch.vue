@@ -156,8 +156,6 @@ const setTimestamp = (seconds: number) => {
     },
     replace: true
   });
-  videoplayerRef.value.setVideoTime(seconds);
-  videoplayerRef.value.play();
   window.scrollTo({ left: 0, top: 0, behavior: 'smooth' });
 };
 

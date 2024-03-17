@@ -203,7 +203,6 @@ export const shakaAdapter = async (options: VideoplaybackAdapterOptions) => {
     shakaPlayer
       .getVariantTracks()
       .map(track => {
-        const hdrLabel = track.hdr === 'PQ' || track.hdr === 'HLG' ? 'HDR' : '';
         const frameRateLabel = track.frameRate > 30 ? track.frameRate : '';
 
         let heightLabel = track.height;
@@ -237,7 +236,7 @@ export const shakaAdapter = async (options: VideoplaybackAdapterOptions) => {
 
         return {
           ...track,
-          videoLabel: `${heightLabel}p${frameRateLabel} · ${humanizeBitrate(track.videoBandwidth)} ${hdrLabel}`,
+          videoLabel: `${heightLabel}p${frameRateLabel} · ${humanizeBitrate(track.videoBandwidth)}`,
           audioLabel: humanizeBitrate(track.audioBandwidth)
         };
       })
@@ -304,12 +303,12 @@ export const shakaAdapter = async (options: VideoplaybackAdapterOptions) => {
     }
   };
   const setTime = (time: number) => {
-    if (videoRef.value) {
+    if (videoRef.value && !isNaN(time)) {
       videoRef.value.currentTime = time;
     }
   };
   const setPlaybackRate = (rate: number) => {
-    if (videoRef.value) {
+    if (videoRef.value && !isNaN(rate) && rate > 0) {
       videoRef.value.playbackRate = rate;
     }
   };

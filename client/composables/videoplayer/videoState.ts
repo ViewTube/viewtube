@@ -13,6 +13,7 @@ export const useVideoState = (
   startTime?: Ref<number>
 ) => {
   const volumeStorage = useStorage('volume', 1);
+  const route = useRoute();
 
   const videoState = reactive({
     playing: false,
@@ -158,6 +159,15 @@ export const useVideoState = (
   const setTrack = (track: number) => adapterInstance.value?.setTrack(track);
   const setAutoQuality = (enabled: boolean) => adapterInstance.value?.setAutoQuality(enabled);
   const setPosterVisible = (visible: boolean) => (videoState.posterVisible = visible);
+
+  watch(
+    () => route.query,
+    newValue => {
+      if (newValue.t) {
+        setTime(Number(newValue.t));
+      }
+    }
+  );
 
   return {
     video: videoState,
