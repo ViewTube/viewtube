@@ -78,7 +78,7 @@ export const useKeydownActions = (
       }
     },
     {
-      keyRegex: /\d/i,
+      keyRegex: /^\d$/i,
       action: e => {
         const skipInterval = videoState.video.duration / 10;
         const skipNumber = parseInt(e.key);
@@ -143,7 +143,7 @@ export const useKeydownActions = (
       }
     });
 
-    if (!keydownAction) return;
+    if (typeof keydownAction?.action !== 'function') return;
 
     if (videoState.video.posterVisible && !keydownAction.allowedOnPoster) return;
 
