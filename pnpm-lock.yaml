@@ -291,8 +291,8 @@ importers:
         specifier: 2.6.2
         version: 2.6.2
       undici:
-        specifier: 6.9.0
-        version: 6.9.0
+        specifier: 6.10.1
+        version: 6.10.1
       web-push:
         specifier: 3.6.7
         version: 3.6.7
@@ -12598,11 +12598,6 @@ packages:
 
   /undici@6.10.1:
     resolution: {integrity: sha512-kSzmWrOx3XBKTgPm4Tal8Hyl3yf+hzlA00SAf4goxv8LZYafKmS6gJD/7Fe5HH/DMNiFTRXvkwhLo7mUn5fuQQ==}
-    engines: {node: '>=18.0'}
-    dev: false
-
-  /undici@6.9.0:
-    resolution: {integrity: sha512-XPWfXzJedevUziHwun70EKNvGnxv4CnfraFZ4f/JV01+fcvMYzHE26r/j8AY/9c/70nkN4B1zX7E2Oyuqwz4+Q==}
     engines: {node: '>=18.0'}
     dev: false
 
