@@ -17,6 +17,7 @@ export const defaultThemes = [
     'theme-color-translucent': '#ff7b3a80',
     'line-color': 'rgba(255, 255, 255, 0.2)',
     'line-accent-color': 'rgba(255, 255, 255, 0.4)',
+    'line-accent-color-dark': 'rgba(255, 255, 255, 0.6)',
     'theme-color-gradient': `linear-gradient(
       53deg,
       rgba(241, 87, 10, 1) 0%,
@@ -49,6 +50,7 @@ export const defaultThemes = [
     'theme-color-translucent': '#ff7b3a80',
     'line-color': 'rgba(255, 255, 255, 0.2)',
     'line-accent-color': 'rgba(255, 255, 255, 0.4)',
+    'line-accent-color-dark': 'rgba(255, 255, 255, 0.6)',
     'theme-color-gradient': `linear-gradient(
         53deg,
         rgba(241, 87, 10, 1) 0%,
@@ -81,6 +83,7 @@ export const defaultThemes = [
     'theme-color-translucent': '#ff7b3a80',
     'line-color': 'rgba(255, 255, 255, 0.2)',
     'line-accent-color': 'rgba(255, 255, 255, 0.4)',
+    'line-accent-color-dark': 'rgba(255, 255, 255, 0.6)',
     'theme-color-gradient': `linear-gradient(
       53deg,
       rgba(241, 87, 10, 1) 0%,
@@ -113,6 +116,7 @@ export const defaultThemes = [
     'theme-color-translucent': '#06b30080',
     'line-color': 'rgba(255, 255, 255, 0.2)',
     'line-accent-color': 'rgba(255, 255, 255, 0.4)',
+    'line-accent-color-dark': 'rgba(255, 255, 255, 0.6)',
     'theme-color-gradient': `linear-gradient(
         53deg,
         rgba(6, 179, 0, 1) 0%,

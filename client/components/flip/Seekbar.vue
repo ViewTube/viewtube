@@ -3,6 +3,7 @@ import { getTimestampFromSeconds } from '@/utils/shared';
 
 const videoState = inject<VideoState>('videoState');
 const uiState = inject<UIState>('uiState');
+const video = inject<ApiDto<'VTVideoInfoDto'>>('video');
 
 const _currentTime = ref(videoState.video.currentTime);
 watch(
@@ -76,15 +77,26 @@ const hoveredTime = ref(0);
 const hoveredTimestamp = ref('00:00');
 const hoverPosition = ref(0);
 const hoverTimestampRef = ref<HTMLDivElement | null>(null);
+const hoverChapterRef = ref<HTMLDivElement | null>(null);
 
 const hoverTimestampPosition = computed(() => {
-  const elWidth = hoverTimestampRef.value?.getBoundingClientRect().width;
-  return getHoverPosition(elWidth);
+  hoverPosition.value;
+  return getHoverPosition(hoverTimestampRef);
 });
 
-const previewThumbnailPosition = computed(() => getHoverPosition(200));
+const previewThumbnailPosition = computed(() => {
+  hoverPosition.value;
+  return getHoverPositionByWidth(200);
+});
 
-const getHoverPosition = (elWidth: number) => {
+const hoverChapterPosition = computed(() => getHoverPosition(hoverChapterRef));
+
+const getHoverPosition = (element: Ref<HTMLDivElement>) => {
+  const elWidth = element.value?.getBoundingClientRect().width;
+  return getHoverPositionByWidth(elWidth);
+};
+
+const getHoverPositionByWidth = (elWidth: number) => {
   const rect = seekbarInnerRef.value?.getBoundingClientRect();
   if (!rect || !elWidth) return '0px';
 
@@ -96,6 +108,17 @@ const getHoverPosition = (elWidth: number) => {
   if (offset > width - hoverWidth) return `${width - hoverWidth}px`;
   return `${offset}px`;
 };
+
+const currentChapter = computed(() => {
+  if (!video.chapters?.length) return;
+
+  const hoveredTimeMs = hoveredTime.value * 1000;
+  return video.chapters.find((chapter, index) => {
+    const startMs = chapter.startMs;
+    const endMs = video.chapters[index + 1]?.startMs ?? videoState.video.duration * 1000;
+    return startMs < hoveredTimeMs && endMs > hoveredTimeMs;
+  });
+});
 </script>
 
 <template>
@@ -113,17 +136,26 @@ const getHoverPosition = (elWidth: number) => {
     <div ref="seekbarInnerRef" class="flip-seekbar">
       <div class="flip-seekbar-buffer seekbar-overlay" />
       <div class="flip-seekbar-progress seekbar-overlay" />
+      <FlipChapters :hovered="seekbarHovered" />
       <div class="flip-seekbar-point" />
       <FlipSeekbarPreview
         class="seekbar-preview"
         :hovered-time="hoveredTime"
         :position-x="previewThumbnailPosition"
       />
-      <FlipChapters />
       <ClientOnly>
         <div
+          ref="hoverChapterRef"
+          class="flip-hover-chapter flip-hover-element"
+          :style="{
+            transform: `translate3d(${hoverChapterPosition},0,0)`
+          }"
+        >
+          {{ currentChapter?.title }}
+        </div>
+        <div
           ref="hoverTimestampRef"
-          class="flip-hover-timestamp"
+          class="flip-hover-timestamp flip-hover-element"
           :style="{
             transform: `translate3d(${hoverTimestampPosition},0,0)`
           }"
@@ -185,19 +217,27 @@ const getHoverPosition = (elWidth: number) => {
       transition: transform 300ms $intro-easing;
     }
 
-    .flip-hover-timestamp {
+    .flip-hover-element {
       position: absolute;
-      bottom: 10px;
       left: 0;
       background-color: $video-thmb-overlay-bgcolor;
       color: $video-thmb-overlay-textcolor;
       padding: 2px 6px;
       border-radius: 3px;
-      font-size: 0.9rem;
-      opacity: 0;
       user-select: none;
       pointer-events: none;
+      opacity: 0;
       transition: opacity 200ms $intro-easing;
+      font-size: 0.9rem;
+      height: 21px;
+    }
+
+    .flip-hover-timestamp {
+      bottom: 20px;
+    }
+
+    .flip-hover-chapter {
+      bottom: 50px;
     }
   }
 
@@ -206,7 +246,7 @@ const getHoverPosition = (elWidth: number) => {
       opacity: 1;
     }
 
-    .flip-hover-timestamp {
+    .flip-hover-element {
       opacity: 1;
     }
     .flip-seekbar-point {

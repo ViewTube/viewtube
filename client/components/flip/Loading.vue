@@ -18,9 +18,6 @@ const videoState = inject<VideoState>('videoState');
   display: flex;
   flex-direction: column;
 
-  .flip-spinner {
-  }
-
   .flip-loading-text {
     color: #fff;
     // font-size: 1.5rem;

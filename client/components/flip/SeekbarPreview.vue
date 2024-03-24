@@ -95,7 +95,7 @@ const largeThumbnail = computed(() =>
   position: absolute;
   left: 0;
   width: 200px;
-  bottom: 40px;
+  bottom: 80px;
   background-repeat: no-repeat;
   pointer-events: none;
   user-select: none;
