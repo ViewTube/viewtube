@@ -17,7 +17,7 @@ const onPosterClick = () => {
       @click.stop.prevent="onPosterClick"
     >
       <img :src="video.thumbnails[0].url" class="flip-poster-img" />
-      <Spinner v-if="videoState.video.buffering" class="flip-play-spinner" />
+      <FlipLoading v-if="videoState.video.buffering" />
       <svg
         v-else
         xmlns="http://www.w3.org/2000/svg"
@@ -74,13 +74,6 @@ const onPosterClick = () => {
     text-shadow: $low-shadow;
     filter: drop-shadow(0 4px 12px var(--theme-color-alt));
     animation: play-icon-animation 400ms $intro-easing;
-  }
-
-  .flip-play-spinner {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
   }
 
   .flip-poster-img {

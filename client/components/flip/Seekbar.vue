@@ -119,6 +119,7 @@ const getHoverPosition = (elWidth: number) => {
         :hovered-time="hoveredTime"
         :position-x="previewThumbnailPosition"
       />
+      <FlipChapters />
       <ClientOnly>
         <div
           ref="hoverTimestampRef"

@@ -15,6 +15,8 @@ export const useVideoState = (
   const volumeStorage = useStorage('volume', 1);
   const route = useRoute();
 
+  const bufferMessage = ref('Instantiating player');
+
   const videoState = reactive({
     playing: false,
     buffering: true,
@@ -35,6 +37,7 @@ export const useVideoState = (
   const adapterInstance = ref<Awaited<ReturnType<typeof shakaAdapter>>>();
 
   const instantiateAdapter = async () => {
+    bufferMessage.value = 'Parsing manifest';
     if (adapterInstance.value) {
       adapterInstance.value.destroy();
       adapterInstance.value = undefined;
@@ -45,6 +48,8 @@ export const useVideoState = (
       source,
       startTime
     });
+
+    bufferMessage.value = 'Registering events';
 
     adapterInstance.value.onPlaybackStarted(() => {
       videoState.playing = true;
@@ -171,6 +176,7 @@ export const useVideoState = (
 
   return {
     video: videoState,
+    bufferMessage,
     play,
     pause,
     setVolume,
