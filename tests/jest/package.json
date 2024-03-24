@@ -4,9 +4,9 @@
     "test": "jest"
   },
   "devDependencies": {
-    "@nestjs/common": "10.3.3",
-    "@nestjs/core": "10.3.3",
-    "@nestjs/testing": "10.3.3",
+    "@nestjs/common": "10.3.5",
+    "@nestjs/core": "10.3.5",
+    "@nestjs/testing": "10.3.5",
     "@types/jest": "29.5.12",
     "eslint": "8.57.0",
     "eslint-plugin-jest": "27.9.0",
@@ -16,6 +16,6 @@
     "reflect-metadata": "0.1.13",
     "rxjs": "7.8.1",
     "ts-jest": "29.1.2",
-    "typescript": "5.4.2"
+    "typescript": "5.4.3"
   }
 }
