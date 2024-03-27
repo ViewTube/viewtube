@@ -12,7 +12,7 @@ export const useCreateTextLinks = (timestampFn?: TimestampFnType) => {
   const route = useRoute();
 
   const applyEventListeners = () => {
-    if (process.client) {
+    if (import.meta.client) {
       document.querySelectorAll('.time-link').forEach(element => {
         if (element.getAttribute('has-event-listener') === 'true') return;
         const secondsString = element.getAttribute('seconds');

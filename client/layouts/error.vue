@@ -44,7 +44,7 @@ export default defineComponent({
     const possibleSearch = ref(null);
 
     const copyError = (): void => {
-      if (process.client && 'clipboard' in navigator) {
+      if (import.meta.client && 'clipboard' in navigator) {
         navigator.clipboard.writeText(renderJSON(props.error.detail)).then(() => {
           messagesStore.createMessage({
             type: 'info',
