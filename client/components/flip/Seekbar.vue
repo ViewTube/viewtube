@@ -142,9 +142,11 @@ const currentChapter = computed(() => {
         class="seekbar-preview"
         :hovered-time="hoveredTime"
         :position-x="previewThumbnailPosition"
+        :position-y="currentChapter ? '80px' : '59px'"
       />
       <ClientOnly>
         <div
+          v-if="currentChapter"
           ref="hoverChapterRef"
           class="flip-hover-chapter flip-hover-element"
           :style="{

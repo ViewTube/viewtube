@@ -2,10 +2,8 @@ import { Controller, Get, Query, Header, Res, Req } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { ProxyService } from './proxy.service';
-import { BypassAuth } from 'server/auth/decorators/bypass-auth.decorator';
 
 @ApiTags('Core')
-@BypassAuth()
 @Controller('proxy')
 export class ProxyController {
   constructor(private proxyService: ProxyService) {}
@@ -19,6 +17,16 @@ export class ProxyController {
     @Res() reply: FastifyReply
   ): Promise<void> {
     await this.proxyService.proxyImage(url, reply, local);
+  }
+
+  @Get('text')
+  @Header('Cache-Control', 'public, max-age=86400')
+  @Header('Content-Type', 'text/xml')
+  async proxyText(
+    @Query('url') url: string,
+    @Res() reply: FastifyReply
+  ): Promise<void> {
+    await this.proxyService.proxyText(url, reply);
   }
 
   @Get('stream')

@@ -2,6 +2,7 @@
 const props = defineProps<{
   hoveredTime: number;
   positionX: string;
+  positionY: string;
 }>();
 const { proxyUrl } = useImgProxy();
 const video = inject<ApiDto<'VTVideoInfoDto'>>('video');
@@ -95,7 +96,7 @@ const largeThumbnail = computed(() =>
   position: absolute;
   left: 0;
   width: 200px;
-  bottom: 80px;
+  bottom: v-bind(positionY);
   background-repeat: no-repeat;
   pointer-events: none;
   user-select: none;

@@ -31,6 +31,7 @@ const videoState = inject<VideoState>('videoState');
         </ListCollapsibleSection>
       </div>
       <FlipQualitySelector />
+      <FlipCaptionsSelector />
     </div>
   </div>
 </template>

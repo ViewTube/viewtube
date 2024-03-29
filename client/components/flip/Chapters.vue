@@ -9,7 +9,7 @@ const chapters = computed(() => {
   const videoLength = videoState.video.duration;
   const videoLengthMs = videoLength * 1000;
 
-  return video.chapters.slice(1).map(chapter => ({
+  return video.chapters?.slice(1).map(chapter => ({
     ...chapter,
     posLeft: `${(chapter.startMs / videoLengthMs) * 100}%`
   }));
@@ -17,7 +17,7 @@ const chapters = computed(() => {
 </script>
 
 <template>
-  <div v-if="chapters.length > 0" class="flip-chapters" :class="{ hovered: hovered }">
+  <div v-if="chapters?.length > 0" class="flip-chapters" :class="{ hovered: hovered }">
     <div
       v-for="(chapter, index) in chapters"
       :key="index"

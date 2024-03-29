@@ -65,7 +65,8 @@ export const shakaAdapter = async (options: VideoplaybackAdapterOptions) => {
         baseDelay: 500,
         timeout: 30000
       },
-      bufferingGoal: 30
+      bufferingGoal: 30,
+      bufferBehind: 60
     },
     manifest: {
       dash: {

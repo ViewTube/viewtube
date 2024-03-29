@@ -3,6 +3,7 @@ export const useProxyUrls = () => {
   return {
     imgProxy: `${clientApiUrl.value}proxy/image?url=`,
     streamProxy: `${clientApiUrl.value}proxy/stream?url=`,
-    videoPlaybackProxy: `${clientApiUrl.value}videoplayback`
+    videoPlaybackProxy: `${clientApiUrl.value}videoplayback`,
+    textProxy: `${clientApiUrl.value}proxy/text?url=`
   };
 };
