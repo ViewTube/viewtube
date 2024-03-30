@@ -93,7 +93,7 @@ export default defineComponent({
     };
 
     const encodedUrl = () => {
-      if (process.client) {
+      if (import.meta.client) {
         return encodeURIComponent(window.location.href);
       } else {
         return '';

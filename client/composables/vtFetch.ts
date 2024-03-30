@@ -45,7 +45,7 @@ export const useVtFetch = () => {
 
     if (!requestOptions.credentials && !options?.external) requestOptions.credentials = 'include';
 
-    if (process.server && !options?.external) {
+    if (import.meta.server && !options?.external) {
       const cookieHeader = Object.entries({
         RefreshToken: refreshToken.value,
         AccessToken: accessToken.value,
@@ -62,7 +62,7 @@ export const useVtFetch = () => {
       requestOptions.headers = { ...requestOptions.headers, cookie: cookieHeader };
     }
 
-    if (process.server && !options?.external && global?.nestApp) {
+    if (import.meta.server && !options?.external && global?.nestApp) {
       const response = await global.nestApp.inject({
         method: (requestOptions.method ?? 'GET') as HTTPMethods,
         url: request.toString(),
@@ -75,7 +75,7 @@ export const useVtFetch = () => {
     } else {
       const response = await ofetch.raw(request, requestOptions);
 
-      if (process.server && !options?.external) {
+      if (import.meta.server && !options?.external) {
         const setCookies = response.headers.getSetCookie();
         if (setCookies) {
           setCookies.forEach(cookie => {
