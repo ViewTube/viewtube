@@ -291,8 +291,8 @@ importers:
         specifier: 2.6.2
         version: 2.6.2
       undici:
-        specifier: 6.10.1
-        version: 6.10.1
+        specifier: 6.10.2
+        version: 6.10.2
       web-push:
         specifier: 3.6.7
         version: 3.6.7
@@ -7158,7 +7158,7 @@ packages:
     resolution: {integrity: sha512-Cq7O53hoNiVeOs6u54f8M/H/w2yzhmnTQ3tcAJj9FNKYOeNGmt8qNU1zpWOzJD09f0uqfmBXxLbzWPsnT6GcRw==}
     dependencies:
       socks: 2.8.1
-      undici: 6.10.1
+      undici: 6.10.2
     dev: false
 
   /figures@3.2.0:
@@ -12425,8 +12425,8 @@ packages:
     dependencies:
       '@fastify/busboy': 2.1.1
 
-  /undici@6.10.1:
-    resolution: {integrity: sha512-kSzmWrOx3XBKTgPm4Tal8Hyl3yf+hzlA00SAf4goxv8LZYafKmS6gJD/7Fe5HH/DMNiFTRXvkwhLo7mUn5fuQQ==}
+  /undici@6.10.2:
+    resolution: {integrity: sha512-HcVuBy7ACaDejIMdwCzAvO22OsiE6ir6ziTIr9kAE0vB+PheVe29ZvRN8p7FXCO2uZHTjEoUs5bPiFpuc/hwwQ==}
     engines: {node: '>=18.0'}
     dev: false
 
