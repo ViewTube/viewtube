@@ -19,7 +19,7 @@ const { data: homeFeedData, error: homeFeedError, pending: homeFeedLoading } = u
     <ErrorPage v-if="homeFeedError" text="Error loading homepage. The API may not be reachable." />
     <HomeSubscriptions v-if="userStore.isLoggedIn && settingsStore.showHomeSubscriptions" />
     <HomeVideosContainer
-      v-if="homeFeedData?.videos"
+      v-if="settingsStore.showHomeTrendingVideos && homeFeedData?.videos"
       :videos="homeFeedData?.videos"
       :short="settingsStore.showHomeSubscriptions"
     />
