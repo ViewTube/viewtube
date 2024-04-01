@@ -63,6 +63,10 @@ const loadMoreVideos = async () => {
       });
   }
 };
+const playlistDescription = computed(() => {
+  const sanitizedDescription = sanitizeHtmlString(playlist.value?.description);
+  return createTextLinks(sanitizedDescription);
+});
 </script>
 
 <template>
@@ -116,7 +120,7 @@ const loadMoreVideos = async () => {
       <pre
         v-if="playlist && playlist.description"
         class="playlist-description links"
-        v-html="createTextLinks(playlist.description)"
+        v-html="playlistDescription"
       />
       <div class="playlist-videos-container">
         <VideoEntry

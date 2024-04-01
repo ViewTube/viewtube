@@ -29,6 +29,7 @@ provide('captionsState', readonly(captionsState));
       <FlipControls v-if="visible" />
     </transition>
     <FlipEffectsOverlay />
+    <FlipCaptionsRenderer :captions-state="captionsState" />
     <FlipPoster />
     <Teleport :to="uiState.fullscreen.value ? '#flip-player-ui' : 'body'">
       <transition name="flip-settings-transition">

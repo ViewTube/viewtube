@@ -18,6 +18,10 @@ const hasChannelLinks = computed(() => {
     channelInfo.value?.channelLinks?.secondaryLinks?.length
   );
 });
+const channelDescription = computed(() => {
+  const sanitizedDescription = sanitizeHtmlString(channelInfo.value?.description);
+  return createTextLinks(sanitizedDescription);
+});
 </script>
 
 <template>
@@ -30,7 +34,7 @@ const hasChannelLinks = computed(() => {
     <pre
       v-if="channelInfo.description"
       class="channel-description links"
-      v-html="createTextLinks(channelInfo.description)"
+      v-html="channelDescription"
     />
     <SectionSubtitle v-if="hasChannelLinks" title="Links" class="channel-links-title" />
     <ChannelBannerLinks

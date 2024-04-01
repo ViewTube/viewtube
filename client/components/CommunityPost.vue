@@ -1,16 +1,21 @@
 <script setup lang="ts">
-const { createTextLinks } = useCreateTextLinks();
-
-defineProps<{
+const props = defineProps<{
   communityPost: ApiDto<'ChannelCommunityPostDto'>;
 }>();
+
+const { createTextLinks } = useCreateTextLinks();
+
+const communityPostContent = computed(() => {
+  const sanitizedContent = sanitizeHtmlString(props.communityPost.postText);
+  return createTextLinks(sanitizedContent);
+});
 </script>
 
 <template>
   <div class="community-post">
     <p class="creation-time">{{ communityPost.publishedText }} &bull; {{ communityPost.author }}</p>
     <div class="post-text links">
-      <pre class="text-pre" v-html="createTextLinks(communityPost.postText)" />
+      <pre class="text-pre" v-html="communityPostContent" />
     </div>
     <div v-if="communityPost.postContent" class="post-content">
       <CommunityPostImage

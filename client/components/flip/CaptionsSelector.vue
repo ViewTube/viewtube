@@ -5,7 +5,7 @@ const captionsState = inject<CaptionsState>('captionsState');
 <template>
   <div class="flip-setting">
     <VTIcon class="flip-setting-icon" name="mdi:closed-caption" />
-    <ListCollapsibleSection label="Subtitles/Closed Captions" opened>
+    <ListCollapsibleSection label="Subtitles/Closed Captions">
       <div class="selector-list">
         <div
           class="selector"

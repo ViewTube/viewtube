@@ -286,6 +286,13 @@ const watchPageTitle = computed(() => {
   }
   return 'Video Error';
 });
+
+const videoDescription = computed(() => {
+  if (!video.value?.description) return '';
+
+  const sanitizedDescription = sanitizeHtmlString(video.value?.description);
+  return createTextLinks(sanitizedDescription);
+});
 </script>
 
 <template>
@@ -425,10 +432,7 @@ const watchPageTitle = computed(() => {
         </div>
 
         <div class="comments-description">
-          <div
-            class="video-infobox-description links"
-            v-html="createTextLinks(video.description)"
-          />
+          <div class="video-infobox-description links" v-html="videoDescription" />
           <SectionTitle :title="`${video.commentCount} Comments`" />
           <Spinner v-if="commentsLoading" />
           <div v-if="video.live" class="comments-error livestream">

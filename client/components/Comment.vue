@@ -66,6 +66,11 @@ const loadMoreReplies = () => {
       });
     });
 };
+
+const commentContent = computed(() => {
+  const sanitizedComment = sanitizeHtmlString(props.comment.content);
+  return createTextLinks(sanitizedComment);
+});
 </script>
 
 <template>
@@ -86,7 +91,7 @@ const loadMoreReplies = () => {
       >
         <p class="comment-author-text">{{ comment.author }}</p>
       </nuxt-link>
-      <div class="comment-content links" v-html="createTextLinks(comment.content)" />
+      <div class="comment-content links" v-html="commentContent" />
       <div class="comment-properties">
         <div class="published comment-property">
           <span>{{ comment.publishedText }}</span>
