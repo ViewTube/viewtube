@@ -238,7 +238,8 @@ watch(
     if (newValue.v !== oldValue.v || newValue.list !== oldValue.list) {
       refresh();
       const videoId = newValue.v as string;
-      loadComments(videoId);
+      if (!settingsStore.hideComments)
+        loadComments(videoId);
     }
   }
 );
@@ -249,7 +250,8 @@ onMounted(() => {
   if (window && window.innerWidth > 700) {
     recommendedOpen.value = true;
   }
-  loadComments();
+  if (!settingsStore.hideComments)
+    loadComments();
   loadDislikes();
   loadPlaylist();
 });
@@ -426,7 +428,7 @@ const watchPageTitle = computed(() => {
           </div>
         </div>
 
-        <div class="comments-description">
+        <div v-if="!settingsStore.hideComments" class="comments-description">
           <div
             class="video-infobox-description links"
             v-html="createTextLinks(video.description)"

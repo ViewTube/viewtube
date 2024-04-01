@@ -262,6 +262,14 @@ const videoQualities = ['144p', '240p', '360p', '720p', '1080p', '1440p', '2160p
           @change="(e: any) => settingsStore.setDefaultVideoSpeed(parseInt(e.target.value))"
         />
       </div>
+      <SwitchButton
+        :value="settingsStore.hideComments"
+        :label="'Hide comments'"
+        :small-label="'Do not load and do not show comments on videos'"
+        :disabled="false"
+        :right="true"
+        @valuechange="val => settingsStore.setHideComments(val)"
+      />
     </div>
     <div class="settings-overlay popup-overlay" @click.stop="$emit('close')" />
   </div>

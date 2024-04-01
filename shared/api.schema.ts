@@ -232,6 +232,7 @@ export interface components {
       saveVideoHistory: boolean;
       showHomeSubscriptions: boolean;
       alwaysLoopVideo: boolean;
+      hideComments: boolean;
       autoplayNextVideo: boolean;
       audioModeDefault: boolean;
       defaultVideoSpeed: number;
