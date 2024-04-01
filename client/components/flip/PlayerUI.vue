@@ -1,13 +1,16 @@
 <script setup lang="ts">
 const videoState = inject<VideoState>('videoState');
+const video = inject<ApiDto<'VTVideoInfoDto'>>('video');
 const flipPlayerUIRef = ref<HTMLDivElement | null>(null);
 
 const uiState = useUIState(videoState, flipPlayerUIRef);
+const captionsState = useCaptionsState(video);
 
 const cursor = computed(() => uiState.cursor.value);
 const visible = computed(() => uiState.visible.value);
 
 provide('uiState', readonly(uiState));
+provide('captionsState', readonly(captionsState));
 </script>
 
 <template>

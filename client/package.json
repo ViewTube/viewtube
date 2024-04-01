@@ -17,6 +17,7 @@
   "devDependencies": {
     "@iconify-json/mdi": "1.1.64",
     "@nuxt/eslint-config": "0.2.0",
+    "@nuxt/devtools": "1.1.5",
     "@pinia-plugin-persistedstate/nuxt": "1.2.0",
     "@pinia/nuxt": "0.5.1",
     "@types/humanize-duration": "3.27.4",

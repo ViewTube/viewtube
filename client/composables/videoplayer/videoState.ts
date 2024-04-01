@@ -7,12 +7,6 @@ import {
 
 export type VideoState = ReturnType<typeof useVideoState>;
 
-type Caption = {
-  url: string;
-  name: string;
-  languageCode: string;
-};
-
 export const useVideoState = (
   videoElementRef: Ref<HTMLVideoElement>,
   source: Ref<string>,
@@ -36,7 +30,6 @@ export const useVideoState = (
     trackList: {} as Record<string, LabelledTrack[]>,
     automaticQuality: true,
     languageList: [] as Language[],
-    selectedCaption: null as Caption | null,
     selectedLanguage: 'en',
     posterVisible: true
   });

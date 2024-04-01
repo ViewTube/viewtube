@@ -76,7 +76,7 @@ const audioTracksForCurrentVideoTrack = computed(() => {
 <template>
   <div class="flip-setting">
     <VTIcon class="flip-setting-icon" name="mdi:high-definition-box" />
-    <ListCollapsibleSection label="Video quality" opened>
+    <ListCollapsibleSection label="Video quality">
       <div class="selector-list">
         <div
           class="selector auto"
@@ -115,7 +115,7 @@ const audioTracksForCurrentVideoTrack = computed(() => {
   </div>
   <div class="flip-setting">
     <VTIcon class="flip-setting-icon" name="mdi:high-definition-box" />
-    <ListCollapsibleSection label="Audio quality" opened>
+    <ListCollapsibleSection label="Audio quality">
       <div class="selector-list">
         <div
           v-for="(track, index) in audioTracksForCurrentVideoTrack"
