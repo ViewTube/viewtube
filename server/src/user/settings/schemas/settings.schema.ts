@@ -48,6 +48,9 @@ export class Settings extends Document implements SettingsDto {
   showHomeSubscriptions: boolean;
 
   @Prop()
+  showHomeTrendingVideos: boolean;
+
+  @Prop()
   alwaysLoopVideo: boolean;
 
   @Prop()
