@@ -29,6 +29,8 @@ export class SettingsDto {
 
   alwaysLoopVideo: boolean;
 
+  hideComments: boolean;
+
   autoplayNextVideo: boolean;
 
   audioModeDefault: boolean;

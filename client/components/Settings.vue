@@ -195,6 +195,14 @@ const videoQualities = ['144p', '240p', '360p', '720p', '1080p', '1440p', '2160p
         :right="true"
         @valuechange="val => settingsStore.setRewriteYouTubeURLs(val)"
       />
+      <SwitchButton
+        :value="settingsStore.hideComments"
+        :label="'Hide comments'"
+        :small-label="'Do not load and do not show comments on videos'"
+        :disabled="false"
+        :right="true"
+        @valuechange="val => settingsStore.setHideComments(val)"
+      />
 
       <h2><VTIcon name="mdi:television" />Videoplayer</h2>
       <div class="settings-dropdown-menu">
