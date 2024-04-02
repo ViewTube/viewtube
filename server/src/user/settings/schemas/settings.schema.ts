@@ -51,6 +51,9 @@ export class Settings extends Document implements SettingsDto {
   alwaysLoopVideo: boolean;
 
   @Prop()
+  hideComments: boolean;
+
+  @Prop()
   autoplayNextVideo: boolean;
 
   @Prop()

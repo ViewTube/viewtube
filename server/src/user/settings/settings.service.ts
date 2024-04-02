@@ -13,6 +13,7 @@ export class SettingsService {
 
   private defaultOptions: SettingsDto = {
     alwaysLoopVideo: false,
+    hideComments: false,
     audioModeDefault: false,
     autoAdjustAudioQuality: true,
     autoAdjustVideoQuality: true,
