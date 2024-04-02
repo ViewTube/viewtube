@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 const props = defineProps<{
   captionsState: CaptionsState;
 }>();
@@ -48,7 +47,8 @@ const currentCaption = computed(() => {
     margin: 0 auto;
     background-color: #000000ae;
     color: #f7f7f7;
-    font-size: 1.8rem;
+    font-size: 2vw;
+    white-space: pre;
   }
 }
 </style>
