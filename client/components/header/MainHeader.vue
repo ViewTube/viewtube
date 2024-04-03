@@ -4,7 +4,6 @@ import MainSearchBox from '@/components/MainSearchBox.vue';
 import UserMenu from '@/components/header/UserMenu.vue';
 import { useSettingsStore } from '@/store/settings';
 import { useUserStore } from '@/store/user';
-
 const settingsStore = useSettingsStore();
 const userStore = useUserStore();
 const { posAbsolute, topPositionPx } = useHeaderScroll();
@@ -12,8 +11,8 @@ const { posAbsolute, topPositionPx } = useHeaderScroll();
 
 <template>
   <div class="header" :class="{ absolute: posAbsolute }">
-    <Logo v-if="(userStore.isLoggedIn && settingsStore.showHomeSubscriptions) || settingsStore.showHomeTrendingVideos" />
-    <MainSearchBox v-if="(userStore.isLoggedIn && settingsStore.showHomeSubscriptions) || settingsStore.showHomeTrendingVideos" />
+    <Logo v-if="useRoute().fullPath !== '/' || ((userStore.isLoggedIn && settingsStore.showHomeSubscriptions) || settingsStore.showHomeTrendingVideos)" />
+    <MainSearchBox v-if="useRoute().fullPath !== '/' || ((userStore.isLoggedIn && settingsStore.showHomeSubscriptions) || settingsStore.showHomeTrendingVideos)" />
     <UserMenu />
   </div>
 </template>
