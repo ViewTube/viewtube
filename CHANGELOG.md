@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Upgrade to node 20 [#2692](https://github.com/ViewTube/viewtube/pull/2692)
 
+### Fixed
+
+- Fix dash manifest for livestreams [#2741]
+
 ## [0.15.2]
 
 ### Added

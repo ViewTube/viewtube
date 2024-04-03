@@ -40,10 +40,16 @@ export class VideosService {
       const client = await innertubeClient();
       const videoInfo = await client.getBasicInfo(id);
 
-      const dashManifest = await videoInfo.toDash((url: URL) => {
-        url.searchParams.append('__host', url.host);
-        return url;
-      });
+      let dashManifest: string | null = null;
+
+      if (videoInfo?.streaming_data?.dash_manifest_url) {
+        dashManifest = videoInfo.streaming_data.dash_manifest_url;
+      } else {
+        dashManifest = await videoInfo.toDash((url: URL) => {
+          url.searchParams.append('__host', url.host);
+          return url;
+        });
+      }
 
       return dashManifest;
     } catch (error) {
@@ -61,10 +67,16 @@ export class VideosService {
       const client = await innertubeClient();
       const videoInfo = await client.getInfo(id);
 
-      const dashManifest = await videoInfo.toDash((url: URL) => {
-        url.searchParams.append('__host', url.host);
-        return url;
-      });
+      let dashManifest: string | null = null;
+
+      if (videoInfo?.streaming_data?.dash_manifest_url) {
+        dashManifest = videoInfo.streaming_data.dash_manifest_url;
+      } else {
+        dashManifest = await videoInfo.toDash((url: URL) => {
+          url.searchParams.append('__host', url.host);
+          return url;
+        });
+      }
 
       const video = toVTVideoInfoDto(videoInfo as unknown, {
         dashManifest
