@@ -8,10 +8,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Upgrade to node 20 [#2692](https://github.com/ViewTube/viewtube/pull/2692)
+- Add toggle to turn off comments (Thanks @frozenduck) [#2739](https://github.com/ViewTube/viewtube/pull/2739)
 
 ### Fixed
 
-- Fix dash manifest for livestreams [#2741]
+- Fix dash manifest for livestreams [#2741](https://github.com/ViewTube/viewtube/pull/2741)
+- Opt in to import.meta.\* properties (Thanks @danielroe) [#2726](https://github.com/ViewTube/viewtube/pull/2726)
 
 ## [0.15.2]
 
