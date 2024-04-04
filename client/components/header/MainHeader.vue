@@ -6,13 +6,14 @@ import { useSettingsStore } from '@/store/settings';
 import { useUserStore } from '@/store/user';
 const settingsStore = useSettingsStore();
 const userStore = useUserStore();
+const route = useRoute();
 const { posAbsolute, topPositionPx } = useHeaderScroll();
 </script>
 
 <template>
   <div class="header" :class="{ absolute: posAbsolute }">
-    <Logo v-if="useRoute().fullPath !== '/' || ((userStore.isLoggedIn && settingsStore.showHomeSubscriptions) || settingsStore.showHomeTrendingVideos)" />
-    <MainSearchBox v-if="useRoute().fullPath !== '/' || ((userStore.isLoggedIn && settingsStore.showHomeSubscriptions) || settingsStore.showHomeTrendingVideos)" />
+    <Logo v-if="route.fullPath !== '/' || ((userStore.isLoggedIn && settingsStore.showHomeSubscriptions) || settingsStore.showHomeTrendingVideos)" />
+    <MainSearchBox v-if="route.fullPath !== '/' || ((userStore.isLoggedIn && settingsStore.showHomeSubscriptions) || settingsStore.showHomeTrendingVideos)" />
     <UserMenu />
   </div>
 </template>
