@@ -108,8 +108,8 @@ importers:
         specifier: 2.0.4
         version: 2.0.4
       humanize-duration:
-        specifier: 3.31.0
-        version: 3.31.0
+        specifier: 3.32.0
+        version: 3.32.0
       js-sha256:
         specifier: 0.11.0
         version: 0.11.0
@@ -258,8 +258,8 @@ importers:
         specifier: 7.0.4
         version: 7.0.4
       humanize-duration:
-        specifier: 3.31.0
-        version: 3.31.0
+        specifier: 3.32.0
+        version: 3.32.0
       ioredis:
         specifier: 5.3.2
         version: 5.3.2
@@ -8080,8 +8080,8 @@ packages:
     engines: {node: '>=16.17.0'}
     dev: true
 
-  /humanize-duration@3.31.0:
-    resolution: {integrity: sha512-fRrehgBG26NNZysRlTq1S+HPtDpp3u+Jzdc/d5A4cEzOD86YLAkDaJyJg8krSdCi7CJ+s7ht3fwRj8Dl+Btd0w==}
+  /humanize-duration@3.32.0:
+    resolution: {integrity: sha512-6WsXYTHJr7hXKqoqf5zoWza/lANRAqGlbnZnm0cjDykbXuez1JVXOQGmq0EPB45pXYAJyueRA3S3hfhmMbrMEQ==}
 
   /iconv-lite@0.4.24:
     resolution: {integrity: sha512-v3MXnZAcvnywkTUEZomIActle7RXXeedOR31wwl7VlyoXO4Qi9arvSenNQWne1TcRwhCL1HwLI21bEqdpj8/rA==}
