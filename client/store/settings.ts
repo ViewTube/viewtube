@@ -42,6 +42,7 @@ export const useSettingsStore = defineStore(
         settingsSaving: false,
         showHomeSubscriptions: true,
         showHomeTrendingVideos: true,
+        showRecommendedVideos: true,
         sponsorblockEnabled: true,
         sponsorblockSegmentInteraction: 'ask' as SegmentOption,
         sponsorblockSegmentIntro: 'ask' as SegmentOption,

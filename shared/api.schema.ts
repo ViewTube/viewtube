@@ -232,6 +232,7 @@ export interface components {
       saveVideoHistory: boolean;
       showHomeSubscriptions: boolean;
       showHomeTrendingVideos: boolean;
+      showRecommendedVideos: boolean;
       alwaysLoopVideo: boolean;
       hideComments: boolean;
       autoplayNextVideo: boolean;

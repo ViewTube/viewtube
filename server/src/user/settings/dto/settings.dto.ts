@@ -29,6 +29,8 @@ export class SettingsDto {
 
   showHomeTrendingVideos: boolean;
 
+  showRecommendedVideos: boolean;
+
   alwaysLoopVideo: boolean;
 
   hideComments: boolean;
