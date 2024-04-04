@@ -26,6 +26,7 @@ export class SettingsService {
     defaultVideoSpeed: 1,
     saveVideoHistory: true,
     showHomeSubscriptions: true,
+    showHomeTrendingVideos: true,
     sponsorblockEnabled: true,
     sponsorblockSegmentInteraction: 'ask',
     sponsorblockSegmentIntro: 'ask',

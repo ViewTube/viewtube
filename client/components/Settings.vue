@@ -186,6 +186,14 @@ const videoQualities = ['144p', '240p', '360p', '720p', '1080p', '1440p', '2160p
         @valuechange="val => settingsStore.setShowHomeSubscriptions(val)"
       />
 
+      <SwitchButton
+        :value="settingsStore.showHomeTrendingVideos"
+        :label="'Show trending videos on home screen'"
+        :disabled="false"
+        :right="true"
+        @valuechange="val => settingsStore.setShowHomeTrendingVideos(val)"
+      />
+
       <h2><VTIcon name="mdi:auto-fix" />Enhancements</h2>
       <SwitchButton
         :value="settingsStore.rewriteYouTubeURLs"
