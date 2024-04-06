@@ -112,7 +112,7 @@ const isPlaylist = computed(() => {
 });
 
 const isAutoplaying = computed(() => {
-  return isPlaylist.value || settingsStore.autoplay || route.query.autoplay === 'true';
+  return isPlaylist.value || (settingsStore.autoplay && !settingsStore.showRecommendedVideos) || route.query.autoplay === 'true';
 });
 
 const nextUpVideo = computed(() => {
@@ -264,7 +264,7 @@ const onVideoEnded = () => {
     !videoPlayerStore.loop
   ) {
     playlistSectionRef.value.playNextVideo();
-  } else if (settingsStore.autoplayNextVideo && video.value.recommendedVideos) {
+  } else if (settingsStore.autoplayNextVideo && settingsStore.showRecommendedVideos && video.value.recommendedVideos) {
     router.push({
       path: route.fullPath,
       query: { v: video.value.recommendedVideos[0].id, autoplay: 'true' }
@@ -314,7 +314,7 @@ const watchPageTitle = computed(() => {
       @video-ended="onVideoEnded"
     />
     <div v-if="video && !videoPending" class="video-meta">
-      <div class="recommended-videos mobile">
+      <div v-if="settingsStore.showRecommendedVideos" class="recommended-videos mobile">
         <NextUpVideo v-if="nextUpVideo && settingsStore.autoplayNextVideo" :video="nextUpVideo" />
         <CollapsibleSection :label="'Recommended videos'" :opened="recommendedOpen">
           <RecommendedVideos
@@ -551,7 +551,7 @@ const watchPageTitle = computed(() => {
       width: 100%;
 
       @media screen and (min-width: $mobile-width) {
-        width: calc(100% - 340px);
+        width: 100%;
         padding: 10px;
       }
 
