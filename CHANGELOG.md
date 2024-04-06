@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Upgrade to node 20 [#2692](https://github.com/ViewTube/viewtube/pull/2692)
 - Add toggle to turn off comments (Thanks @frozenduck) [#2739](https://github.com/ViewTube/viewtube/pull/2739)
+- Add toggle to turn off trending homepage (Thanks @nargacu83) [#2735](https://github.com/ViewTube/viewtube/pull/2735)
+- Add toggle to turn off recommended videos (Thanks @nargacu83) [#2747](https://github.com/ViewTube/viewtube/pull/2747)
 
 ### Fixed
 
