@@ -1,5 +1,5 @@
 import { CommentDto } from './dto/comment.dto';
-import { CommentsResponseDto } from './dto/comments-response.dto';
+import { CommentsResponseDto } from '../../mapper/converter/comments/vt-comments-response.dto';
 
 export const mapComments = (input: any): CommentsResponseDto => {
   return {

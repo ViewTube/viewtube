@@ -1,15 +1,33 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import ytcm from '@freetube/yt-comment-scraper';
 import { mapComments } from './comments.mapper';
-import { CommentsResponseDto } from './dto/comments-response.dto';
+// import { CommentsResponseDto } from '../../mapper/converter/comments/vt-comments-response.dto';
+import { innertubeClient } from 'server/common/innertube/innertube';
+import { YTNodes } from 'youtubei.js';
 
 @Injectable()
 export class CommentsService {
   async getComments(
     videoId: string,
     sortByNewest: boolean,
-    continuation: string
+    continuation?: string
   ): Promise<CommentsResponseDto> {
+    const innertube = await innertubeClient();
+
+    const sortBy = sortByNewest ? 'NEWEST_FIRST' : 'TOP_COMMENTS';
+
+    const comments = await innertube.getComments(videoId, sortBy);
+
+    const continuationToken = (comments.page.on_response_received_endpoints as any)
+      .find(el => el?.slot === 'RELOAD_CONTINUATION_SLOT_BODY')
+      ?.contents?.at(-1)?.endpoint?.payload?.token;
+
+    return {
+      comments: comments as any,
+      continuation: comments.has_continuation as any,
+      test: continuationToken
+    };
+
     const commentsPayload: any = {
       videoId,
       sortByNewest,
