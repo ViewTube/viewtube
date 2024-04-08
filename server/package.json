@@ -38,7 +38,7 @@
     "archiver": "7.0.1",
     "bcryptjs": "2.4.3",
     "bull": "4.12.2",
-    "cache-manager": "5.4.0",
+    "cache-manager": "5.5.1",
     "cache-manager-redis-yet": "4.2.0",
     "class-transformer": "0.5.1",
     "class-validator": "0.14",
