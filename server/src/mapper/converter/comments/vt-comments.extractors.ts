@@ -1,23 +1,58 @@
-import { YT } from 'youtubei.js';
-import { getHandleFromUrl } from 'server/mapper/utils/handle';
+import { YTNodes } from 'youtubei.js';
 import { parseRelativeTime } from 'server/mapper/utils/parse-relative-time';
-import { VTSearchVideoResultDto } from 'server/mapper/dto/search/vt-search-video-result.dto';
-import { VTSearchChannelResultDto } from 'server/mapper/dto/search/vt-search-channel-result.dto';
-import { fixUrl } from 'server/mapper/utils/fix-url';
-import { VTSearchShelfDto } from 'server/mapper/dto/search/vt-search-shelf.dto';
-import { VTShortsShelfDto } from 'server/mapper/dto/search/vt-shorts-shelf.dto';
-import { VTShortDto } from 'server/mapper/dto/vt-short.dto';
 import { parseShortenedNumber } from 'server/mapper/utils/shortened-number';
-import { parseAccessibilityDuration } from 'server/mapper/utils/accessibility-duration';
-import { getTimestampFromSeconds } from 'viewtube/shared';
-import { VTSearchPlaylistDto } from 'server/mapper/dto/search/vt-search-playlist.dto';
-import { VTSearchMovieDto } from 'server/mapper/dto/search/vt-search-movie.dto';
-import { logger } from 'server/common/logger';
 import { VTCommentDto } from 'server/mapper/dto/comments/vt-comment.dto';
 import { Comment, CommentView } from 'youtubei.js/dist/src/parser/nodes';
+import { VTCommentsHeaderDto } from 'server/mapper/dto/comments/vt-comments-header.dto';
 
-export const extractComments = (comments: YT.Comments): Array<VTCommentDto> => {
-  return comments?.contents?.map(comment => {
+// export const extractContinuation = (comments: YT.Comments): string => {
+//   const continuationToken = (comments?.page?.on_response_received_endpoints as any[])
+//     .find(el => el?.slot === 'RELOAD_CONTINUATION_SLOT_BODY')
+//     ?.contents?.at(-1)?.endpoint?.payload?.token;
+//   return continuationToken;
+// };
+
+export const extractHeader = (header: YTNodes.CommentsHeader): VTCommentsHeaderDto => {
+  if (!header) return null;
+  return {
+    commentsCount: parseShortenedNumber(header?.comments_count?.text),
+    customEmojis: header?.custom_emojis?.map(emoji => {
+      return {
+        name: emoji.emoji_id,
+        shortcuts: emoji.shortcuts,
+        thumbnails: emoji.image
+      };
+    })
+  };
+};
+
+export const extractCommentViews = (comments: YTNodes.CommentView[]): Array<VTCommentDto> => {
+  return comments?.map(comment => {
+    return {
+      id: comment?.comment_id,
+      content: comment?.content?.text,
+      author: {
+        id: comment?.author?.id,
+        name: comment?.author?.name,
+        isArtist: comment?.author?.is_verified_artist,
+        isVerified: comment?.author?.is_verified
+      },
+      likeCount: parseShortenedNumber(comment?.like_count),
+      replyCount: parseShortenedNumber(comment?.reply_count),
+      published: {
+        date: parseRelativeTime(comment?.published_time)?.toDate(),
+        text: comment?.published_time
+      },
+      pinned: comment?.is_pinned,
+      creatorHeart: comment?.is_hearted,
+      channelMember: comment?.is_member,
+      channelOwner: comment?.author_is_channel_owner
+    };
+  });
+};
+
+export const extractComments = (comments: YTNodes.CommentThread[]): Array<VTCommentDto> => {
+  return comments?.map(comment => {
     return {
       id: comment?.comment?.comment_id,
       content: comment?.comment?.content?.text,

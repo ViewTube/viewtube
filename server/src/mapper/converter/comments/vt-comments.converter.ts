@@ -1,11 +1,12 @@
-import { YT } from 'youtubei.js';
+import { YTNodes } from 'youtubei.js';
 import { extractComments, extractHeader } from './vt-comments.extractors';
-import { VTCommentsResponseDto } from './vt-comments-response.dto';
 
-export const toVTCommentsDto = (commentsResponse: YT.Comments): VTCommentsResponseDto => {
+export const toVTCommentsResponseDto = (
+  contents: YTNodes.CommentThread[],
+  header: YTNodes.CommentsHeader
+) => {
   return {
-    comments: extractComments(commentsResponse),
-    header: extractHeader(commentsResponse),
-    continuation: commentsResponse?.
+    comments: extractComments(contents),
+    header: extractHeader(header)
   };
 };

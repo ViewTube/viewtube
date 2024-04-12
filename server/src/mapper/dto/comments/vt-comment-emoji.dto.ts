@@ -2,6 +2,6 @@ import { VTThumbnailDto } from '../vt-thumbnail.dto';
 
 export class VTCommentEmojiDto {
   name: string;
-  shortcut: string;
+  shortcuts: string[];
   thumbnails: Array<VTThumbnailDto>;
 }

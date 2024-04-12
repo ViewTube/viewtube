@@ -4,5 +4,5 @@ import { VTCommentsHeaderDto } from 'server/mapper/dto/comments/vt-comments-head
 export class VTCommentsResponseDto {
   comments: Array<VTCommentDto>;
   header: VTCommentsHeaderDto;
-  continuation: string;
+  continuation?: string;
 }
