@@ -15,7 +15,7 @@
     "build:metadata": "node ./buildMetadata.mjs"
   },
   "devDependencies": {
-    "@iconify-json/mdi": "1.1.64",
+    "@iconify-json/mdi": "1.1.65",
     "@nuxt/eslint-config": "0.2.0",
     "@pinia-plugin-persistedstate/nuxt": "1.2.0",
     "@pinia/nuxt": "0.5.1",
@@ -26,8 +26,8 @@
     "@types/ua-parser-js": "0.7.39",
     "@typescript-eslint/eslint-plugin": "7.3.1",
     "@typescript-eslint/parser": "7.3.1",
-    "@unocss/nuxt": "0.58.6",
-    "@unocss/preset-icons": "0.58.6",
+    "@unocss/nuxt": "0.58.9",
+    "@unocss/preset-icons": "0.58.9",
     "@vueuse/core": "10.9.0",
     "@vueuse/nuxt": "10.9.0",
     "consola": "3.2.3",
@@ -41,7 +41,7 @@
     "eslint-plugin-vue": "9.24.0",
     "hls.js": "1.5.7",
     "human-number": "2.0.4",
-    "humanize-duration": "3.31.0",
+    "humanize-duration": "3.32.0",
     "js-sha256": "0.11.0",
     "keen-slider": "6.8.6",
     "modern-js-ripple": "1.1.3",

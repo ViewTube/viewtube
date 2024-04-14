@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useUserStore } from '@/store/user';
 import { useSettingsStore } from '@/store/settings';
+import Logo from '@/components/Logo.vue';
 
 const settingsStore = useSettingsStore();
 const userStore = useUserStore();
@@ -19,10 +20,18 @@ const { data: homeFeedData, error: homeFeedError, pending: homeFeedLoading } = u
     <ErrorPage v-if="homeFeedError" text="Error loading homepage. The API may not be reachable." />
     <HomeSubscriptions v-if="userStore.isLoggedIn && settingsStore.showHomeSubscriptions" />
     <HomeVideosContainer
-      v-if="homeFeedData?.videos"
+      v-if="settingsStore.showHomeTrendingVideos && homeFeedData?.videos"
       :videos="homeFeedData?.videos"
       :short="settingsStore.showHomeSubscriptions"
     />
+
+    <div
+      v-if="!(userStore.isLoggedIn && settingsStore.showHomeSubscriptions) && !settingsStore.showHomeTrendingVideos"
+      class="home-search-container centered">
+
+      <Logo />
+      <MainSearchBox />
+    </div>
   </div>
 </template>
 
@@ -66,6 +75,24 @@ const { data: homeFeedData, error: homeFeedError, pending: homeFeedLoading } = u
     margin: 20px 0;
     display: grid;
     justify-items: center;
+  }
+
+  .home-search-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    width: calc(100% - 50px);
+    max-width: $search-box-width;
+
+    &.centered {
+      top: calc(50% - $header-height);
+    }
+    
+    .logo-link {
+      justify-content: center;
+      margin: 10px auto;
+    }
   }
 }
 </style>

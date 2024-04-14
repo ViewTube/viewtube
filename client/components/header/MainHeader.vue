@@ -1,20 +1,19 @@
 <script setup lang="ts">
+import Logo from '@/components/Logo.vue';
 import MainSearchBox from '@/components/MainSearchBox.vue';
 import UserMenu from '@/components/header/UserMenu.vue';
-
+import { useSettingsStore } from '@/store/settings';
+import { useUserStore } from '@/store/user';
+const settingsStore = useSettingsStore();
+const userStore = useUserStore();
+const route = useRoute();
 const { posAbsolute, topPositionPx } = useHeaderScroll();
 </script>
 
 <template>
   <div class="header" :class="{ absolute: posAbsolute }">
-    <nuxt-link class="logo-link" to="/">
-      <h1 class="logo">
-        <span>View</span>
-        <span class="logo-colored">Tube</span>
-      </h1>
-      <img class="logo-small" src="@/assets/icon.svg" alt="ViewTube" />
-    </nuxt-link>
-    <MainSearchBox />
+    <Logo v-if="route.fullPath !== '/' || ((userStore.isLoggedIn && settingsStore.showHomeSubscriptions) || settingsStore.showHomeTrendingVideos)" />
+    <MainSearchBox v-if="route.fullPath !== '/' || ((userStore.isLoggedIn && settingsStore.showHomeSubscriptions) || settingsStore.showHomeTrendingVideos)" />
     <UserMenu />
   </div>
 </template>
@@ -28,7 +27,7 @@ const { posAbsolute, topPositionPx } = useHeaderScroll();
   left: 0;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: right;
   z-index: 800;
   background-color: var(--header-transparent);
   backdrop-filter: blur(10px);
@@ -51,49 +50,10 @@ const { posAbsolute, topPositionPx } = useHeaderScroll();
     position: absolute;
   }
 
-  .logo-link {
-    text-decoration: none;
-    margin: auto 10px auto 10px;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: row-reverse;
-    align-items: center;
-    position: relative;
-    z-index: +1;
-
-    .logo {
-      font-family: $header-font;
-      font-size: 1.5rem;
-      color: var(--title-color);
-      width: auto;
-      overflow: hidden;
-      white-space: nowrap;
-      transition: width 300ms linear;
-      display: flex;
-      margin: 4px 0 0 0;
-
-      span {
-        display: block;
-      }
-
-      .logo-colored {
-        color: transparent;
-        background-image: var(--theme-color-gradient);
-        background-clip: text;
-        -webkit-background-clip: text;
-      }
-    }
-
-    .logo-small {
-      margin: auto;
-      height: calc(#{$header-height} - 20px);
-      transform: scale(0.8) translateY(-2px);
-      transition: clip-path 300ms $intro-easing, transform 300ms linear;
-    }
-
-    @media screen and (max-width: $mobile-width) {
+  @media screen and (max-width: $mobile-width) {
+    .logo-link {
       width: 40px;
-
+    
       .logo {
         width: 0;
       }

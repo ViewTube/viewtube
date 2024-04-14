@@ -13,6 +13,7 @@ export class SettingsService {
 
   private defaultOptions: SettingsDto = {
     alwaysLoopVideo: false,
+    hideComments: false,
     audioModeDefault: false,
     autoAdjustAudioQuality: true,
     autoAdjustVideoQuality: true,
@@ -25,6 +26,8 @@ export class SettingsService {
     defaultVideoSpeed: 1,
     saveVideoHistory: true,
     showHomeSubscriptions: true,
+    showHomeTrendingVideos: true,
+    showRecommendedVideos: true,
     sponsorblockEnabled: true,
     sponsorblockSegmentInteraction: 'ask',
     sponsorblockSegmentIntro: 'ask',
