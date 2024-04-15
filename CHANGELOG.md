@@ -7,7 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- Fix issues with comments 
+- Replace comments API [#2772](https://github.com/ViewTube/viewtube/pull/2772)
+- Perform search when clicking on autocomplete suggestion (Thanks @frozenduck) [#2770](https://github.com/ViewTube/viewtube/pull/2770)
 
 ## [0.15.3]
 
@@ -426,7 +427,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial release
 
-[unreleased]: https://github.com/viewtube/viewtube/compare/v0.15.3...development
+[unreleased]: https://github.com/viewtube/viewtube/compare/v0.15.4...development
+[0.15.4]: https://github.com/viewtube/viewtube/compare/v0.15.3...v0.15.4
 [0.15.3]: https://github.com/viewtube/viewtube/compare/v0.15.2...v0.15.3
 [0.15.2]: https://github.com/viewtube/viewtube/compare/v0.15.1...v0.15.2
 [0.15.1]: https://github.com/viewtube/viewtube/compare/v0.15.0...v0.15.1
