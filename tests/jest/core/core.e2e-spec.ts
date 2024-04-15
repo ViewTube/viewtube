@@ -4,8 +4,9 @@ import { MongoMemoryServer } from 'mongodb-memory-server';
 import { CoreModule } from 'server/core/core.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { defineIt, getPayloadJson } from '../common/test.helper';
-import { CommentsResponseDto } from 'server/core/comments/dto/comments-response.dto';
 import ytpl from 'ytpl';
+import { VTCommentsResponseDto } from 'server/mapper/converter/comments/vt-comments-response.dto';
+import { VTCommentsReplyResponseDto } from 'server/mapper/converter/comments/vt-comments-reply.response.dto';
 
 describe('Core', () => {
   let app: NestFastifyApplication;
@@ -96,7 +97,7 @@ describe('Core', () => {
     const result = await app.inject({ method: 'GET', url: `/comments/${videoId}` });
 
     expect(result.statusCode).toEqual(200);
-    const payloadJson = getPayloadJson<CommentsResponseDto>(result.payload);
+    const payloadJson = getPayloadJson<VTCommentsResponseDto>(result.payload);
 
     expect(payloadJson.comments.length).toBeGreaterThan(0);
   });
@@ -106,7 +107,7 @@ describe('Core', () => {
     const result = await app.inject({ method: 'GET', url: `/comments/${videoId}` });
 
     expect(result.statusCode).toEqual(200);
-    const payloadJson = getPayloadJson<CommentsResponseDto>(result.payload);
+    const payloadJson = getPayloadJson<VTCommentsResponseDto>(result.payload);
 
     expect(payloadJson.comments.length).toBeGreaterThan(0);
 
@@ -115,11 +116,11 @@ describe('Core', () => {
     const resultReplies = await app.inject({
       method: 'GET',
       url: `/comments/${videoId}/replies`,
-      query: { replyToken: commentWithReplies.replyToken }
+      query: { replyContinuation: commentWithReplies.replyContinuation }
     });
     expect(resultReplies.statusCode).toEqual(200);
 
-    const repliesPayloadJson = getPayloadJson<CommentsResponseDto>(resultReplies.payload);
+    const repliesPayloadJson = getPayloadJson<VTCommentsReplyResponseDto>(resultReplies.payload);
     expect(repliesPayloadJson.comments.length).toBeGreaterThan(0);
   });
 
