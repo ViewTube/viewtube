@@ -1,8 +1,9 @@
 import { Controller, Get, Query, Param, UseInterceptors, Header } from '@nestjs/common';
-import { CacheInterceptor } from '@nestjs/cache-manager';
-import { ApiTags } from '@nestjs/swagger';
+import { CacheInterceptor, CacheTTL } from '@nestjs/cache-manager';
+import { ApiQuery, ApiTags } from '@nestjs/swagger';
 import { CommentsService } from './comments.service';
-import { CommentsResponseDto } from './dto/comments-response.dto';
+import { VTCommentsResponseDto } from '../../mapper/converter/comments/vt-comments-response.dto';
+import { VTCommentsReplyResponseDto } from 'server/mapper/converter/comments/vt-comments-reply.response.dto';
 
 @ApiTags('Core')
 @UseInterceptors(CacheInterceptor)
@@ -10,22 +11,23 @@ import { CommentsResponseDto } from './dto/comments-response.dto';
 export class CommentsController {
   constructor(private commentsService: CommentsService) {}
 
-  @Header('Cache-Control', 'public, max-age=1800')
+  @Header('Cache-Control', 'public, max-age=7200')
+  @CacheTTL(7200000)
   @Get(':videoId')
+  @ApiQuery({ name: 'sortByNewest', required: false })
+  @ApiQuery({ name: 'continuation', required: false })
   getComments(
     @Param('videoId') videoId: string,
-    @Query('sortByNewest') sortByNewest = false,
-    @Query('continuation') continuation: string = null
-  ): Promise<CommentsResponseDto> {
+    @Query('sortByNewest') sortByNewest?: boolean,
+    @Query('continuation') continuation?: string
+  ): Promise<VTCommentsResponseDto> {
     return this.commentsService.getComments(videoId, sortByNewest, continuation);
   }
 
-  @Header('Cache-Control', 'public, max-age=1800')
-  @Get(':videoId/replies')
-  getCommentReplies(
-    @Param('videoId') videoId: string,
-    @Query('replyToken') replyToken: string
-  ): Promise<CommentsResponseDto> {
-    return this.commentsService.getCommentReplies(videoId, replyToken);
+  @Header('Cache-Control', 'public, max-age=7200')
+  @CacheTTL(7200000)
+  @Get('replies')
+  getCommentReplies(@Query('replyContinuation') replyContinuation: string): Promise<VTCommentsReplyResponseDto> {
+    return this.commentsService.getCommentReplies(replyContinuation);
   }
 }

@@ -4,7 +4,7 @@
   "author": "moisout",
   "country": "Switzerland",
   "email": "viewtube@m-o.dev",
-  "version": "0.15.3",
+  "version": "0.15.4",
   "license": "AGPLv3",
   "engines": {
     "node": ">=20.11.0",
@@ -36,7 +36,7 @@
   "devDependencies": {
     "cross-env": "7.0.3",
     "prettier": "3.2.5",
-    "typescript": "5.4.3"
+    "typescript": "5.4.5"
   },
   "pnpm": {
     "patchedDependencies": {

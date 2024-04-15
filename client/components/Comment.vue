@@ -3,7 +3,7 @@ import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import { useMessagesStore } from '@/store/messages';
 
 const props = defineProps<{
-  comment: ApiDto<'CommentDto'>;
+  comment: ApiDto<'VTCommentDto'>;
   channelAuthorName?: string;
   channelAuthorId?: string;
 }>();
@@ -12,7 +12,6 @@ const emit = defineEmits<{
   (e: 'setTimestamp', timestamp: number): void;
 }>();
 
-const route = useRoute();
 const messagesStore = useMessagesStore();
 const imgProxy = useImgProxy();
 const { createTextLinks } = useCreateTextLinks(seconds => {
@@ -31,12 +30,11 @@ const hideReplies = () => {
 
 const loadReplies = () => {
   loadingReplies.value = true;
-  const replyToken = props.comment.replyToken;
-  const videoId = route.query.v;
-  getCommentReplies(videoId, replyToken)
+  const replyContinuation = props.comment.replyContinuation;
+  getCommentReplies(replyContinuation)
     .then(response => {
       replies.value = response.comments;
-      repliesContinuationString.value = response.continuation;
+      repliesContinuationString.value = response.continuation ?? null;
       repliesLoaded.value = true;
       loadingReplies.value = false;
     })
@@ -51,8 +49,7 @@ const loadReplies = () => {
 };
 const loadMoreReplies = () => {
   repliesContinuationLoading.value = true;
-  const videoId = route.query.v;
-  getCommentReplies(videoId, repliesContinuationString.value)
+  getCommentReplies(repliesContinuationString.value)
     .then(response => {
       replies.value = replies.value.concat(response.comments);
       repliesContinuationString.value = response.continuation ?? null;
@@ -70,26 +67,26 @@ const loadMoreReplies = () => {
 
 <template>
   <div class="comment" :class="{ open: repliesLoaded }">
-    <nuxt-link :to="{ path: '/channel/' + comment.authorId }" class="comment-author-image-link">
+    <nuxt-link :to="{ path: '/channel/' + comment.author?.id }" class="comment-author-image-link">
       <img
         class="comment-author-image"
-        :src="imgProxy.url + comment.authorThumbnails[2].url"
-        :alt="comment.author"
+        :src="imgProxy.url + comment.author?.thumbnails?.[0].url"
+        :alt="`${comment.author?.name} profile picture`"
       />
     </nuxt-link>
     <div class="comment-container">
       <nuxt-link
-        v-tippy="comment.author"
+        v-tippy="comment.author?.name"
         class="comment-author"
-        :to="{ path: '/channel/' + comment.authorId }"
-        :class="{ owner: comment.authorId === channelAuthorId }"
+        :to="{ path: '/channel/' + comment.author?.id }"
+        :class="{ owner: comment.channelOwner }"
       >
-        <p class="comment-author-text">{{ comment.author }}</p>
+        <p class="comment-author-text">{{ comment.author?.name }}</p>
       </nuxt-link>
       <div class="comment-content links" v-html="createTextLinks(comment.content)" />
       <div class="comment-properties">
         <div class="published comment-property">
-          <span>{{ comment.publishedText }}</span>
+          <span>{{ comment.published?.text }}</span>
         </div>
 
         <div class="likes comment-property">
@@ -108,7 +105,7 @@ const loadMoreReplies = () => {
           <span class="edited-text">edited</span>
         </div>
       </div>
-      <div v-if="comment.replyToken" class="comment-replies">
+      <div v-if="comment.hasReplies" class="comment-replies">
         <BadgeButton
           v-if="!repliesLoaded"
           class="comment-reply-count"
