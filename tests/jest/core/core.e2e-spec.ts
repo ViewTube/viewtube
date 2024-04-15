@@ -111,11 +111,11 @@ describe('Core', () => {
 
     expect(payloadJson.comments.length).toBeGreaterThan(0);
 
-    const commentWithReplies = payloadJson.comments.find(el => el.replyCount > 0);
+    const commentWithReplies = payloadJson.comments.find(el => el.hasReplies);
 
     const resultReplies = await app.inject({
       method: 'GET',
-      url: `/comments/${videoId}/replies`,
+      url: `/comments/replies`,
       query: { replyContinuation: commentWithReplies.replyContinuation }
     });
     expect(resultReplies.statusCode).toEqual(200);
