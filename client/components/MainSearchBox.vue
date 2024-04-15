@@ -74,6 +74,7 @@ export default defineComponent({
 
     const onAutocompleteUpdate = (value: string) => {
       searchValue.value = value;
+      onSearchButton();
     };
     const onSearchFieldChange = (e: any) => {
       searchValue.value = e.target.value;
