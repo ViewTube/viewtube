@@ -5,13 +5,6 @@ import { VTCommentDto } from 'server/mapper/dto/comments/vt-comment.dto';
 import { Comment, CommentView } from 'youtubei.js/dist/src/parser/nodes';
 import { VTCommentsHeaderDto } from 'server/mapper/dto/comments/vt-comments-header.dto';
 
-// export const extractContinuation = (comments: YT.Comments): string => {
-//   const continuationToken = (comments?.page?.on_response_received_endpoints as any[])
-//     .find(el => el?.slot === 'RELOAD_CONTINUATION_SLOT_BODY')
-//     ?.contents?.at(-1)?.endpoint?.payload?.token;
-//   return continuationToken;
-// };
-
 export const extractHeader = (header: YTNodes.CommentsHeader): VTCommentsHeaderDto => {
   if (!header) return null;
   return {
@@ -35,7 +28,9 @@ export const extractCommentViews = (comments: YTNodes.CommentView[]): Array<VTCo
         id: comment?.author?.id,
         name: comment?.author?.name,
         isArtist: comment?.author?.is_verified_artist,
-        isVerified: comment?.author?.is_verified
+        isVerified: comment?.author?.is_verified,
+        handle: comment?.author?.name,
+        thumbnails: comment?.author?.thumbnails
       },
       likeCount: parseShortenedNumber(comment?.like_count),
       replyCount: parseShortenedNumber(comment?.reply_count),
@@ -46,7 +41,8 @@ export const extractCommentViews = (comments: YTNodes.CommentView[]): Array<VTCo
       pinned: comment?.is_pinned,
       creatorHeart: comment?.is_hearted,
       channelMember: comment?.is_member,
-      channelOwner: comment?.author_is_channel_owner
+      channelOwner: comment?.author_is_channel_owner,
+      isEdited: comment?.published_time?.includes('edited')
     };
   });
 };
@@ -60,11 +56,16 @@ export const extractComments = (comments: YTNodes.CommentThread[]): Array<VTComm
         id: comment?.comment?.author?.id,
         name: comment?.comment?.author?.name,
         isArtist: comment?.comment?.author?.is_verified_artist,
-        isVerified: comment?.comment?.author?.is_verified
+        isVerified: comment?.comment?.author?.is_verified,
+        handle: comment?.comment?.author?.name,
+        thumbnails: comment?.comment?.author?.thumbnails
       },
       likeCount: parseShortenedNumber((comment?.comment as CommentView)?.like_count),
       hasReplies: comment?.has_replies,
       replyCount: parseShortenedNumber((comment?.comment as CommentView)?.reply_count),
+      replyContinuation: comment?.comment_replies_data?.contents?.firstOfType(
+        YTNodes.ContinuationItem
+      )?.endpoint?.payload?.token,
       published: {
         date: parseRelativeTime(
           (comment?.comment as CommentView)?.published_time ??
@@ -75,6 +76,10 @@ export const extractComments = (comments: YTNodes.CommentThread[]): Array<VTComm
           (comment?.comment as Comment)?.published?.text
       },
       pinned: comment?.comment?.is_pinned,
+      isEdited: (
+        (comment?.comment as CommentView)?.published_time ??
+        (comment?.comment as Comment)?.published?.text
+      )?.includes('edited'),
       creatorHeart: comment?.comment?.is_hearted,
       channelMember: comment?.comment?.is_member,
       channelOwner: comment?.comment?.author_is_channel_owner,

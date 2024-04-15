@@ -9,6 +9,7 @@ export class VTCommentDto {
   likeCount: number;
   replyCount: number;
   hasReplies?: boolean;
+  isEdited?: boolean;
   replyContinuation?: string;
   creatorReplied?: boolean;
   creatorReplyThumbnail?: Array<VTThumbnailDto>;

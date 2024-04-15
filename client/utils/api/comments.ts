@@ -1,21 +1,21 @@
 export const getComments = (id: string | string[]) => {
   const { apiUrl } = useApiUrl();
 
-  return vtClientFetch<ApiDto<'CommentsResponseDto'>>(`${apiUrl.value}comments/${id}`);
+  return vtClientFetch<ApiDto<'VTCommentsResponseDto'>>(`${apiUrl.value}comments/${id}`);
 };
 
 export const getCommentsContinuation = (id: string | string[], continuation: string) => {
   const { apiUrl } = useApiUrl();
 
-  return vtClientFetch<ApiDto<'CommentsResponseDto'>>(
+  return vtClientFetch<ApiDto<'VTCommentsResponseDto'>>(
     `${apiUrl.value}comments/${id}?continuation=${continuation}`
   );
 };
 
-export const getCommentReplies = (id: string | string[], replyToken: string) => {
+export const getCommentReplies = (replyContinuation: string) => {
   const { apiUrl } = useApiUrl();
 
-  return vtClientFetch<ApiDto<'CommentsResponseDto'>>(
-    `${apiUrl.value}comments/${id}/replies?replyToken=${replyToken}`
+  return vtClientFetch<ApiDto<'VTCommentsReplyResponseDto'>>(
+    `${apiUrl.value}comments/replies?replyContinuation=${replyContinuation}`
   );
 };

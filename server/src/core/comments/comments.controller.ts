@@ -25,9 +25,9 @@ export class CommentsController {
   }
 
   @Header('Cache-Control', 'public, max-age=7200')
-  @Get(':videoId/replies')
   @CacheTTL(7200000)
-  getCommentReplies(@Query('replyToken') replyToken: string): Promise<VTCommentsReplyResponseDto> {
-    return this.commentsService.getCommentReplies(replyToken);
+  @Get('replies')
+  getCommentReplies(@Query('replyContinuation') replyContinuation: string): Promise<VTCommentsReplyResponseDto> {
+    return this.commentsService.getCommentReplies(replyContinuation);
   }
 }
