@@ -39,6 +39,8 @@ export default defineComponent({
           return '#f89c06';
         case 'preview':
           return '#f70000';
+        case 'filler':
+          return '#7300FF';
         default:
           return '#0fca15';
       }

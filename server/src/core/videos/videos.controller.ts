@@ -21,15 +21,22 @@ export class VideosController {
   @CacheTTL(300000)
   @Header('Cache-Control', 'public, max-age=300')
   @Header('Content-Type', 'application/dash+xml')
-  @Get('dash/:id')
+  @Get(':id/dash')
   getDash(@Param('id') id: string): Promise<string> {
     return this.videosService.getDash(id);
   }
 
-  @CacheTTL(18000000)
-  @Header('Cache-Control', 'public, max-age=18000')
-  @Get('dislikes/:id')
+  @CacheTTL(43200000)
+  @Header('Cache-Control', 'public, max-age=43200')
+  @Get(':id/dislikes')
   getDislikes(@Param('id') id: string): Promise<DislikeDto> {
     return this.videosService.getDislikes(id);
+  }
+
+  @CacheTTL(21600000)
+  @Header('Cache-Control', 'public, max-age=21600')
+  @Get(':id/skipSegments')
+  getSkipSegments(@Param('id') id: string): Promise<any> {
+    return this.videosService.getSkipSegments(id);
   }
 }

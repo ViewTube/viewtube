@@ -1,12 +1,13 @@
-import fs from 'fs';
-import path from 'path';
-import { promisify } from 'util';
+import fs from 'node:fs/promises';
+import path from 'node:path';
 import sharp from 'sharp';
+import { createHash } from 'node:crypto';
 import {
   Injectable,
   HttpException,
   ForbiddenException,
-  InternalServerErrorException
+  InternalServerErrorException,
+  NotFoundException
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -18,6 +19,7 @@ import { VTVideoInfoDto } from 'server/mapper/dto/vt-video-info.dto';
 import { vtFetch } from 'server/common/vtFetch';
 import { VideoBasicInfo } from './schemas/video-basic-info.schema';
 import { VideoBasicInfoDto } from './dto/video-basic-info.dto';
+import { type SponsorBlockSegmentsDto } from 'viewtube/shared';
 
 @Injectable()
 export class VideosService {
@@ -28,7 +30,9 @@ export class VideosService {
     private readonly VideoBasicInfoModel: Model<VideoBasicInfo>
   ) {}
 
-  returnYoutubeDislikeUrl = 'https://returnyoutubedislikeapi.com';
+  private returnYoutubeDislikeUrl = 'https://returnyoutubedislikeapi.com';
+
+  private sponsorBlockApiUrl = 'https://sponsor.ajay.app';
 
   async getDash(id: string): Promise<string> {
     const isVideoBlocked = await this.blockedVideoModel.findOne({ videoId: id });
@@ -111,10 +115,13 @@ export class VideosService {
   }
 
   async getDislikes(id: string): Promise<DislikeDto> {
-    const { body } = await vtFetch(`${this.returnYoutubeDislikeUrl}/Votes?videoId=${id}`);
+    const { body } = await vtFetch<DislikeDto & { status?: number }>(
+      `${this.returnYoutubeDislikeUrl}/Votes?videoId=${id}`
+    );
 
     if (body) {
-      const responseObject = (await body.json()) as DislikeDto & { status?: number };
+      const responseObject = await body.json();
+
       if (!isNaN(responseObject.dislikes)) {
         return responseObject;
       } else if (responseObject.status) {
@@ -125,6 +132,35 @@ export class VideosService {
     throw new HttpException('Error fetching dislike information', 503);
   }
 
+  async getSkipSegments(id: string): Promise<any> {
+    if (!id) {
+      throw new HttpException('No video id provided', 400);
+    }
+    const idHash = createHash('sha256').update(id).digest('hex').substring(0, 4);
+
+    const { body, statusCode } = await vtFetch<SponsorBlockSegmentsDto[]>(
+      `${this.sponsorBlockApiUrl}/api/skipSegments/${idHash}`
+    );
+
+    if (body) {
+      const skipSectionsArray = await body.json();
+
+      const skipSections = skipSectionsArray?.find(el => el.videoID === id);
+
+      if (!skipSections) {
+        return {
+          videoID: id,
+          segments: []
+        };
+      }
+
+      if (skipSections) {
+        return skipSections;
+      }
+    }
+    throw new InternalServerErrorException('Error fetching skip segments');
+  }
+
   async saveAuthorImage(imgUrl: string, channelId: string) {
     const arrBufferResponse = await vtFetch(imgUrl);
     const arrBuffer = await arrBufferResponse.body.arrayBuffer();
@@ -132,7 +168,6 @@ export class VideosService {
     if (arrBuffer) {
       try {
         const imgPath = path.join(global.__basedir, `channels/${channelId}.webp`);
-        const appendFile = promisify(fs.appendFile);
 
         const imgBuffer = Buffer.from(arrBuffer);
 
@@ -147,7 +182,7 @@ export class VideosService {
           });
 
         if (success && webpImage) {
-          await appendFile(imgPath, webpImage);
+          await fs.appendFile(imgPath, webpImage);
           return `channels/${channelId}/thumbnail/tiny.webp`;
         }
         return null;
