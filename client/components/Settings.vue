@@ -236,7 +236,7 @@ const videoSpeedArray = ['0', '0.25', '0.5', '0.75', '1', '1.25', '1.5', '1.75',
       </div>
       <div class="settings-number-menu">
         <label for="video-speed-input">Default video speed</label>
-        <div :style="[settingsStore.videoSpeedAsList ? { paddingRight: '335px' } : { paddingRight: '315px' }]" style="display: flex;">
+        <div class="video-speed-checkbox">
           <label for="as-list" style="padding-right: 5px"> (as list ?)</label>
           <CheckBox id="as-list"
                     :value="settingsStore.videoSpeedAsList"
@@ -253,7 +253,7 @@ const videoSpeedArray = ['0', '0.25', '0.5', '0.75', '1', '1.25', '1.5', '1.75',
                step="0.1"
                max="3"
                min="0.1"
-               @change="(e: any) => settingsStore.setDefaultVideoSpeed(parseInt(e.target.value))"
+               @change="(e: any) => settingsStore.setDefaultVideoSpeed(parseFloat(e.target.value))"
         />
         <Dropdown
           v-if="settingsStore.videoSpeedAsList"
@@ -427,6 +427,12 @@ const videoSpeedArray = ['0', '0.25', '0.5', '0.75', '1', '1.25', '1.5', '1.75',
         border: 2px solid var(--theme-color);
       }
     }
+  }
+
+  .video-speed-checkbox {
+    display: flex;
+    flex: 1;
+    margin-left: 5px;
   }
 
   .sponsorblock-options-container {
