@@ -83,7 +83,7 @@ export class YoutubeGrabberHelper {
       channelName = channelMetaData.title;
     }
     const videoTab = YoutubeGrabberHelper.findTab(
-      channelPageDataResponse.contents.twoColumnBrowseResultsRenderer.tabs
+      channelPageDataResponse.contents.twoColumnBrowseResultsRenderer?.tabs
     );
 
     let channelVideoData;
@@ -881,7 +881,7 @@ export class YoutubeGrabberHelper {
   }
 
   static findTab(tabs) {
-    return tabs.find(tab => tab?.tabRenderer?.selected === true);
+    return tabs?.find(tab => tab?.tabRenderer?.selected === true);
   }
 
   static create(httpsAgent) {

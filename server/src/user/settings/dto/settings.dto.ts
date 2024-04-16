@@ -27,7 +27,13 @@ export class SettingsDto {
 
   showHomeSubscriptions: boolean;
 
+  showHomeTrendingVideos: boolean;
+
+  showRecommendedVideos: boolean;
+
   alwaysLoopVideo: boolean;
+
+  hideComments: boolean;
 
   autoplayNextVideo: boolean;
 

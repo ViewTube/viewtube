@@ -112,7 +112,7 @@ const isPlaylist = computed(() => {
 });
 
 const isAutoplaying = computed(() => {
-  return isPlaylist.value || settingsStore.autoplay || route.query.autoplay === 'true';
+  return isPlaylist.value || (settingsStore.autoplay && !settingsStore.showRecommendedVideos) || route.query.autoplay === 'true';
 });
 
 const nextUpVideo = computed(() => {
@@ -236,7 +236,8 @@ watch(
     if (newValue.v !== oldValue.v || newValue.list !== oldValue.list) {
       refresh();
       const videoId = newValue.v as string;
-      loadComments(videoId);
+      if (!settingsStore.hideComments)
+        loadComments(videoId);
     }
   }
 );
@@ -247,7 +248,8 @@ onMounted(() => {
   if (window && window.innerWidth > 700) {
     recommendedOpen.value = true;
   }
-  loadComments();
+  if (!settingsStore.hideComments)
+    loadComments();
   loadDislikes();
   loadPlaylist();
 });
@@ -260,7 +262,7 @@ const onVideoEnded = () => {
     !videoPlayerStore.loop
   ) {
     playlistSectionRef.value.playNextVideo();
-  } else if (settingsStore.autoplayNextVideo && video.value.recommendedVideos) {
+  } else if (settingsStore.autoplayNextVideo && settingsStore.showRecommendedVideos && video.value.recommendedVideos) {
     router.push({
       path: route.fullPath,
       query: { v: video.value.recommendedVideos[0].id, autoplay: 'true' }
@@ -317,7 +319,7 @@ const videoDescription = computed(() => {
     /> -->
     <FlipPlayer v-if="video && !videoPending" :video="video" :start-time="video.initialVideoTime" />
     <div v-if="video && !videoPending" class="video-meta">
-      <div class="recommended-videos-outer mobile">
+      <div v-if="settingsStore.showRecommendedVideos" class="recommended-videos mobile">
         <NextUpVideo v-if="nextUpVideo && settingsStore.autoplayNextVideo" :video="nextUpVideo" />
         <CollapsibleSection :label="'Recommended videos'" :opened="recommendedOpen">
           <RecommendedVideos
@@ -431,8 +433,11 @@ const videoDescription = computed(() => {
           </div>
         </div>
 
-        <div class="comments-description">
-          <div class="video-infobox-description links" v-html="videoDescription" />
+        <div v-if="!settingsStore.hideComments" class="comments-description">
+          <div
+            class="video-infobox-description links"
+            v-html="videoDescription"
+          />
           <SectionTitle :title="`${video.commentCount} Comments`" />
           <Spinner v-if="commentsLoading" />
           <div v-if="video.live" class="comments-error livestream">
@@ -547,7 +552,7 @@ const videoDescription = computed(() => {
       width: 100%;
 
       @media screen and (min-width: $mobile-width) {
-        width: calc(100% - 340px);
+        width: 100%;
         padding: 10px;
       }
 

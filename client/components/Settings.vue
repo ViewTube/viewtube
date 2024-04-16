@@ -186,6 +186,14 @@ const videoQualities = ['144p', '240p', '360p', '720p', '1080p', '1440p', '2160p
         @valuechange="val => settingsStore.setShowHomeSubscriptions(val)"
       />
 
+      <SwitchButton
+        :value="settingsStore.showHomeTrendingVideos"
+        :label="'Show trending videos on home screen'"
+        :disabled="false"
+        :right="true"
+        @valuechange="val => settingsStore.setShowHomeTrendingVideos(val)"
+      />
+
       <h2><VTIcon name="mdi:auto-fix" />Enhancements</h2>
       <SwitchButton
         :value="settingsStore.rewriteYouTubeURLs"
@@ -194,6 +202,22 @@ const videoQualities = ['144p', '240p', '360p', '720p', '1080p', '1440p', '2160p
         :disabled="false"
         :right="true"
         @valuechange="val => settingsStore.setRewriteYouTubeURLs(val)"
+      />
+      <SwitchButton
+        :value="settingsStore.hideComments"
+        :label="'Hide comments'"
+        :small-label="'Do not load and do not show comments on videos'"
+        :disabled="false"
+        :right="true"
+        @valuechange="val => settingsStore.setHideComments(val)"
+      />
+      <SwitchButton
+        :value="settingsStore.showRecommendedVideos"
+        :label="'Show recommended videos on a video page'"
+        :small-label="'Autoplay next video will be ignored for recommended videos.'"
+        :disabled="false"
+        :right="true"
+        @valuechange="val => settingsStore.setShowRecommendedVideos(val)"
       />
 
       <h2><VTIcon name="mdi:television" />Videoplayer</h2>

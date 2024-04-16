@@ -349,7 +349,7 @@ export const videoPlayerSetup = (
             });
           }
         }
-        if ('mediaSession' in navigator && process.client) {
+        if ('mediaSession' in navigator && import.meta.client) {
           const metadata = createMediaMetadata();
           (navigator as any).mediaSession.metadata = metadata;
         }
@@ -416,7 +416,7 @@ export const videoPlayerSetup = (
           }
         }
 
-        if (process.client && 'mediaSession' in navigator) {
+        if (import.meta.client && 'mediaSession' in navigator) {
           const duration = parseFloat(videoRef.value.duration);
           const playbackRate = parseFloat(videoRef.value.playbackRate);
           const position = parseFloat(videoRef.value.currentTime);
@@ -809,7 +809,9 @@ export const videoPlayerSetup = (
   const onRefreshRecommendedQuality = (quality: number) => {
     if (dashHelper.value && dashHelper.value.isFullyInitialized) {
       const maxBitrate = dashHelper.value.getVideoQualityList()[quality];
-      dashHelper.value.setMaxBitrate(maxBitrate.bitrate);
+      if (maxBitrate) {
+        dashHelper.value.setMaxBitrate(maxBitrate.bitrate);
+      }
     }
   };
 
@@ -871,7 +873,7 @@ export const videoPlayerSetup = (
     }
   };
 
-  if (process.client && 'mediaSession' in navigator) {
+  if (import.meta.client && 'mediaSession' in navigator) {
     (navigator as any).mediaSession.setActionHandler('play', () => {
       if (videoRef.value) {
         playerOverlay.thumbnailVisible = false;
@@ -958,7 +960,6 @@ export const videoPlayerSetup = (
         }
       } else if (settingsStore.dashPlaybackEnabled && window.MediaSource) {
         // Using dashjs
-
         let videoPlaybackProxy = `${window.location.origin}/api`;
         if (
           typeof config.public.videoplaybackProxy === 'string' &&

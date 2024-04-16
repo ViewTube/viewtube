@@ -27,6 +27,7 @@ export const useSettingsStore = defineStore(
     const state = toRefs(
       reactive({
         alwaysLoopVideo: false,
+        hideComments: false,
         audioModeDefault: false,
         autoAdjustAudioQuality: true,
         autoAdjustVideoQuality: true,
@@ -40,6 +41,8 @@ export const useSettingsStore = defineStore(
         saveVideoHistory: true,
         settingsSaving: false,
         showHomeSubscriptions: true,
+        showHomeTrendingVideos: true,
+        showRecommendedVideos: true,
         sponsorblockEnabled: true,
         sponsorblockSegmentInteraction: 'ask' as SegmentOption,
         sponsorblockSegmentIntro: 'ask' as SegmentOption,

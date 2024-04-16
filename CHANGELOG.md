@@ -9,11 +9,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Brand new video player (Checkout the wiki: https://viewtube.wiki/features/videoplayer) [#2388]
 
+## [0.15.4]
+
+### Fixed
+
+- Replace comments API [#2772](https://github.com/ViewTube/viewtube/pull/2772)
+- Perform search when clicking on autocomplete suggestion (Thanks @frozenduck) [#2770](https://github.com/ViewTube/viewtube/pull/2770)
+
 ## [0.15.3]
 
 ### Added
 
 - Upgrade to node 20 [#2692](https://github.com/ViewTube/viewtube/pull/2692)
+- Add toggle to turn off comments (Thanks @frozenduck) [#2739](https://github.com/ViewTube/viewtube/pull/2739)
+- Add toggle to turn off trending homepage (Thanks @nargacu83) [#2735](https://github.com/ViewTube/viewtube/pull/2735)
+- Add toggle to turn off recommended videos (Thanks @nargacu83) [#2747](https://github.com/ViewTube/viewtube/pull/2747)
+
+### Fixed
+
+- Fix dash manifest for livestreams [#2741](https://github.com/ViewTube/viewtube/pull/2741)
+- Opt in to import.meta.\* properties (Thanks @danielroe) [#2726](https://github.com/ViewTube/viewtube/pull/2726)
 
 ## [0.15.2]
 
@@ -425,7 +440,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial release
 
 [unreleased]: https://github.com/viewtube/viewtube/compare/v0.16.0...development
-[0.16.0]: https://github.com/viewtube/viewtube/compare/v0.15.3...v0.16.0
+[0.16.0]: https://github.com/viewtube/viewtube/compare/v0.15.4...v0.16.0
+[0.15.4]: https://github.com/viewtube/viewtube/compare/v0.15.3...v0.15.4
 [0.15.3]: https://github.com/viewtube/viewtube/compare/v0.15.2...v0.15.3
 [0.15.2]: https://github.com/viewtube/viewtube/compare/v0.15.1...v0.15.2
 [0.15.1]: https://github.com/viewtube/viewtube/compare/v0.15.0...v0.15.1

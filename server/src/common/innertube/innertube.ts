@@ -16,4 +16,11 @@ if (process.env.VIEWTUBE_YOUTUBE_COOKIE) {
   innertubeOptions.cookie = process.env.VIEWTUBE_YOUTUBE_COOKIE;
 }
 
-export const innertubeClient = () => Innertube.create(innertubeOptions);
+let innerTubeClient: Innertube | null = null;
+
+export const innertubeClient = async () => {
+  if (!innerTubeClient) {
+    innerTubeClient = await Innertube.create(innertubeOptions);
+  }
+  return innerTubeClient;
+};

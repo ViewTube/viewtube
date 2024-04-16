@@ -185,7 +185,7 @@ export interface paths {
   "/api/comments/{videoId}": {
     get: operations["CommentsController_getComments"];
   };
-  "/api/comments/{videoId}/replies": {
+  "/api/comments/replies": {
     get: operations["CommentsController_getCommentReplies"];
   };
   "/api/playlists/{playlistId}": {
@@ -231,7 +231,10 @@ export interface components {
       autoplay: boolean;
       saveVideoHistory: boolean;
       showHomeSubscriptions: boolean;
+      showHomeTrendingVideos: boolean;
+      showRecommendedVideos: boolean;
       alwaysLoopVideo: boolean;
+      hideComments: boolean;
       autoplayNextVideo: boolean;
       audioModeDefault: boolean;
       defaultVideoSpeed: number;
@@ -652,21 +655,44 @@ export interface components {
     HomeFeedDto: {
       videos: components["schemas"]["VTVideoDto"][];
     };
-    CommentDto: {
-      authorThumbnails: components["schemas"]["VTThumbnailDto"][];
-      author: string;
-      authorId: string;
-      publishedText: string;
-      isEdited: boolean;
-      likeCount: number;
-      creatorHeart: boolean;
-      replyToken: string;
-      replyCount: number;
+    VTCommentDto: {
+      id: string;
       content: string;
+      pinned?: boolean;
+      creatorHeart?: boolean;
+      likeCount: number;
+      replyCount: number;
+      hasReplies?: boolean;
+      isEdited?: boolean;
+      replyContinuation?: string;
+      creatorReplied?: boolean;
+      creatorReplyThumbnail?: components["schemas"]["VTThumbnailDto"][];
+      channelOwner?: boolean;
+      channelMember?: boolean;
+      published: {
+        /** Format: date-time */
+        date?: string;
+        text?: string;
+      };
+      author: components["schemas"]["VTAuthorDto"];
     };
-    CommentsResponseDto: {
-      comments: components["schemas"]["CommentDto"][];
-      continuation: string;
+    VTCommentEmojiDto: {
+      name: string;
+      shortcuts: string[];
+      thumbnails: components["schemas"]["VTThumbnailDto"][];
+    };
+    VTCommentsHeaderDto: {
+      commentsCount: number;
+      customEmojis: components["schemas"]["VTCommentEmojiDto"][];
+    };
+    VTCommentsResponseDto: {
+      comments: components["schemas"]["VTCommentDto"][];
+      header: components["schemas"]["VTCommentsHeaderDto"];
+      continuation?: string;
+    };
+    VTCommentsReplyResponseDto: {
+      comments: components["schemas"]["VTCommentDto"][];
+      continuation?: string;
     };
     PlaylistImageDto: {
       url: string | null;
@@ -709,7 +735,7 @@ export interface components {
         channelID?: string;
       };
       items: components["schemas"]["PlaylistItemDto"][];
-      continuation: unknown;
+      continuation: Record<string, unknown> | null;
     };
     ServerSettingsDto: {
       registrationEnabled: boolean;
@@ -1498,8 +1524,9 @@ export interface operations {
   };
   CommentsController_getComments: {
     parameters: {
-      query: {
-        continuation: string;
+      query?: {
+        sortByNewest?: boolean;
+        continuation?: string;
       };
       path: {
         videoId: string;
@@ -1508,7 +1535,7 @@ export interface operations {
     responses: {
       200: {
         content: {
-          "application/json": components["schemas"]["CommentsResponseDto"];
+          "application/json": components["schemas"]["VTCommentsResponseDto"];
         };
       };
     };
@@ -1516,16 +1543,13 @@ export interface operations {
   CommentsController_getCommentReplies: {
     parameters: {
       query: {
-        replyToken: string;
-      };
-      path: {
-        videoId: string;
+        replyContinuation: string;
       };
     };
     responses: {
       200: {
         content: {
-          "application/json": components["schemas"]["CommentsResponseDto"];
+          "application/json": components["schemas"]["VTCommentsReplyResponseDto"];
         };
       };
     };
