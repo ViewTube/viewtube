@@ -24,6 +24,7 @@ export const iconSafelist = [
   'mdi-clipboard-text-time-outline',
   'mdi-close',
   'mdi-closed-caption',
+  'mdi-closed-caption-outline',
   'mdi-cloud-check-outline',
   'mdi-cog',
   'mdi-comment-outline',

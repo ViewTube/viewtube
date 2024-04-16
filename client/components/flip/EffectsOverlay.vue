@@ -6,8 +6,8 @@ const visibleEffects = computed<any>(() => uiState.visibleEffects);
 <template>
   <div class="effects-overlay">
     <FlipEffect
-      v-for="(effect, index) in visibleEffects"
-      :key="index"
+      v-for="effect in visibleEffects"
+      :key="effect.name"
       :name="effect.name"
       :duration="effect.duration"
       :position="effect.position"

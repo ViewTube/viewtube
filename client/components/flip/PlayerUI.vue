@@ -3,8 +3,8 @@ const videoState = inject<VideoState>('videoState');
 const video = inject<ApiDto<'VTVideoInfoDto'>>('video');
 const flipPlayerUIRef = ref<HTMLDivElement | null>(null);
 
-const uiState = useUIState(videoState, flipPlayerUIRef);
 const captionsState = useCaptionsState(video);
+const uiState = useUIState(videoState, flipPlayerUIRef as any, captionsState);
 
 const cursor = computed(() => uiState.cursor.value);
 const visible = computed(() => uiState.visible.value);

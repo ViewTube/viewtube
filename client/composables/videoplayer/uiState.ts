@@ -5,7 +5,11 @@ const UI_TIMEOUT = 3000;
 
 export type UIState = ReturnType<typeof useUIState>;
 
-export const useUIState = (videoState: VideoState, flipPlayerUIRef: Ref<HTMLDivElement>) => {
+export const useUIState = (
+  videoState: VideoState,
+  flipPlayerUIRef: Ref<HTMLDivElement | null>,
+  captionsState: CaptionsState
+) => {
   const popupStore = usePopupStore();
 
   const visible = computed(() => {
@@ -14,6 +18,20 @@ export const useUIState = (videoState: VideoState, flipPlayerUIRef: Ref<HTMLDivE
     }
     return _visible.value;
   });
+
+  const toggleCaptions = () => {
+    if (captionsState.availableCaptionTracks.value?.length > 0) {
+      if (captionsState.currentTrackCode.value) {
+        captionsState.selectCaptionsTrack(null);
+        triggerEffect('toggleCaptions');
+      } else {
+        captionsState.selectCaptionsTrack(
+          captionsState.availableCaptionTracks.value[0].languageCode
+        );
+        triggerEffect('toggleCaptions');
+      }
+    }
+  };
 
   const fullscreen = ref(false);
   const toggleFullscreen = () => {
@@ -31,22 +49,27 @@ export const useUIState = (videoState: VideoState, flipPlayerUIRef: Ref<HTMLDivE
     skipForward: {
       visible: false,
       position: 'right',
-      duration: 300
+      duration: 500
     },
     skipBackward: {
       visible: false,
       position: 'left',
-      duration: 300
+      duration: 500
     },
     volumeUp: {
       visible: false,
       position: 'center',
-      duration: 300
+      duration: 500
     },
     volumeDown: {
       visible: false,
       position: 'center',
-      duration: 300
+      duration: 500
+    },
+    toggleCaptions: {
+      visible: false,
+      position: 'center',
+      duration: 500
     }
   });
   const triggerEffect = (effect: keyof typeof visualEffects) => {
@@ -80,7 +103,12 @@ export const useUIState = (videoState: VideoState, flipPlayerUIRef: Ref<HTMLDivE
     return visibleEffectsArray;
   });
 
-  const { handleKeydown } = useKeydownActions(videoState, toggleFullscreen, triggerEffect);
+  const { handleKeydown } = useKeydownActions(
+    videoState,
+    toggleFullscreen,
+    triggerEffect,
+    toggleCaptions
+  );
 
   onBeforeMount(() => {
     document.addEventListener('fullscreenchange', updateFullscreen);

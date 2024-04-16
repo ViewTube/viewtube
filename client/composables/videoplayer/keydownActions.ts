@@ -14,7 +14,8 @@ interface KeydownAction {
 export const useKeydownActions = (
   videoState: VideoState,
   toggleFullscreen: () => void,
-  triggerEffect: (effect: string) => void
+  triggerEffect: (effect: string) => void,
+  toggleCaptions: () => void
 ) => {
   const popupStore = usePopupStore();
 
@@ -110,8 +111,7 @@ export const useKeydownActions = (
     {
       keys: ['c'],
       action: () => {
-        // TODO: Implement captions
-        console.log('toggle captions');
+        toggleCaptions();
       }
     },
     {

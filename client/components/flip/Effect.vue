@@ -18,6 +18,7 @@ const iconName = computed(() => {
   if (props.name === 'skipBackward') return 'mdi:skip-backward';
   if (props.name === 'volumeUp') return 'mdi:volume-high';
   if (props.name === 'volumeDown') return 'mdi:volume-medium';
+  if (props.name === 'toggleCaptions') return 'mdi:closed-caption-outline';
   return 'mdi:play';
 });
 </script>
