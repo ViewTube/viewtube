@@ -45,6 +45,8 @@ export const useCaptionsState = (video: ApiDto<'VTVideoInfoDto'>) => {
   const getAvailableCaptionTracks = () => {
     const tracks = video.captions;
 
+    if (!tracks) return [];
+
     return tracks.map(track => {
       const downloadedTrack = downloadedCaptionTracks.value[track.languageCode];
 

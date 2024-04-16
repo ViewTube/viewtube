@@ -38,6 +38,9 @@ export class Settings extends Document implements SettingsDto {
   @Prop({ type: String })
   sponsorblockSegmentPreview: segmentOption;
 
+  @Prop({ type: String })
+  sponsorblockSegmentFiller: segmentOption;
+
   @Prop()
   autoplay: boolean;
 

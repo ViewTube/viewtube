@@ -36,6 +36,7 @@ export class SettingsService {
     sponsorblockSegmentPreview: 'ask',
     sponsorblockSegmentSelfpromo: 'ask',
     sponsorblockSegmentSponsor: 'ask',
+    sponsorblockSegmentFiller: 'none',
     theme: 'default',
     rewriteYouTubeURLs: false
   };

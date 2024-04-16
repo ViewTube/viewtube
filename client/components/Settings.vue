@@ -173,6 +173,18 @@ const videoQualities = ['144p', '240p', '360p', '720p', '1080p', '1440p', '2160p
               val => settingsStore.setSponsorblockSegmentPreview(val as SegmentOption)
             "
           />
+          <MultiOptionButton
+            :options="sponsorblockSegmentOptions"
+            :model-value="settingsStore.sponsorblockSegmentFiller"
+            :label="'Filler'"
+            :small-label="'Skips filler and off-topic content'"
+            :right="true"
+            :color-mark="'#7300FF'"
+            class="sponsorblock-option"
+            @update:model-value="
+              val => settingsStore.setSponsorblockSegmentFiller(val as SegmentOption)
+            "
+          />
         </div>
       </div>
 

@@ -394,6 +394,9 @@ export const videoPlayerSetup = (
               case 'preview':
                 segmentOption = settingsStore.sponsorblockSegmentPreview;
                 break;
+              case 'filler':
+                segmentOption = settingsStore.sponsorblockSegmentFiller;
+                break;
               case 'sponsor':
                 segmentOption = settingsStore.sponsorblockSegmentSponsor;
                 break;

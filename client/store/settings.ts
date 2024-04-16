@@ -51,6 +51,7 @@ export const useSettingsStore = defineStore(
         sponsorblockSegmentPreview: 'ask' as SegmentOption,
         sponsorblockSegmentSelfpromo: 'ask' as SegmentOption,
         sponsorblockSegmentSponsor: 'ask' as SegmentOption,
+        sponsorblockSegmentFiller: 'none' as SegmentOption,
         theme: null as ThemeVariant | null,
         defaultTheme: defaultTheme as ThemeVariant,
         rewriteYouTubeURLs: false

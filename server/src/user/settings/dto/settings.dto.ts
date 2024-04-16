@@ -21,6 +21,8 @@ export class SettingsDto {
 
   sponsorblockSegmentPreview: segmentOption;
 
+  sponsorblockSegmentFiller: segmentOption;
+
   autoplay: boolean;
 
   saveVideoHistory: boolean;

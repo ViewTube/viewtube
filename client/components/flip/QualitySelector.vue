@@ -102,7 +102,10 @@ const audioTracksForCurrentVideoTrack = computed(() => {
           @click.stop="videoState.setTrack(track.id)"
         >
           {{ track.videoLabel }}
-          <div v-if="track.hdr" class="hdr-indicator-container">
+          <div
+            v-if="track.hdr?.toLowerCase() === 'pq' || track.hdr?.toLowerCase() === 'hlg'"
+            class="hdr-indicator-container"
+          >
             <div class="hdr-indicator-bg">
               <div class="hdr-indicator-bg-inner">
                 <div class="hdr-indicator">HDR</div>

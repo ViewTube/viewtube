@@ -519,16 +519,6 @@ const videoDescription = computed(() => {
       flex-direction: column;
     }
 
-    &::before {
-      content: '';
-      position: absolute;
-      width: 100%;
-      left: 0;
-      background-color: var(--bgcolor-main);
-      height: 100%;
-      z-index: 400;
-    }
-
     .recommended-videos-outer {
       background-color: var(--bgcolor-main);
       z-index: 400;

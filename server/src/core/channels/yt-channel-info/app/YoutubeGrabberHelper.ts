@@ -839,7 +839,6 @@ export class YoutubeGrabberHelper {
     if (urlAppendix !== null) {
       ajaxUrl += ajaxUrl.endsWith('/') ? urlAppendix : '/' + urlAppendix;
     }
-    console.log(ajaxUrl);
     const channelPageResponse = await this.makeChannelRequest(ajaxUrl);
 
     if ((channelPageResponse as any).error) {

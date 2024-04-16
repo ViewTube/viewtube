@@ -228,6 +228,7 @@ export interface components {
       sponsorblockSegmentSelfpromo: Record<string, never>;
       sponsorblockSegmentMusicOfftopic: Record<string, never>;
       sponsorblockSegmentPreview: Record<string, never>;
+      sponsorblockSegmentFiller: Record<string, never>;
       autoplay: boolean;
       saveVideoHistory: boolean;
       showHomeSubscriptions: boolean;
