@@ -809,7 +809,9 @@ export const videoPlayerSetup = (
   const onRefreshRecommendedQuality = (quality: number) => {
     if (dashHelper.value && dashHelper.value.isFullyInitialized) {
       const maxBitrate = dashHelper.value.getVideoQualityList()[quality];
-      dashHelper.value.setMaxBitrate(maxBitrate.bitrate);
+      if (maxBitrate) {
+        dashHelper.value.setMaxBitrate(maxBitrate.bitrate);
+      }
     }
   };
 
@@ -958,7 +960,6 @@ export const videoPlayerSetup = (
         }
       } else if (settingsStore.dashPlaybackEnabled && window.MediaSource) {
         // Using dashjs
-
         let videoPlaybackProxy = `${window.location.origin}/api`;
         if (
           typeof config.public.videoplaybackProxy === 'string' &&

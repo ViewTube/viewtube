@@ -61,7 +61,6 @@ const onImportFileChange = async (e: any) => {
   const extension = file.name.split('.').pop();
 
   const subscriptions = await getSubscriptionsToImport(file, extension);
-  debugger;
   if (subscriptions?.length > 0) {
     subscriptionsToImport.value = subscriptions;
     page2.value = true;
