@@ -37,6 +37,8 @@ export class SettingsDto {
 
   hideComments: boolean;
 
+  videoSpeedAsList: boolean;
+
   autoplayNextVideo: boolean;
 
   audioModeDefault: boolean;

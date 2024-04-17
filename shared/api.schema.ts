@@ -236,6 +236,7 @@ export interface components {
       showRecommendedVideos: boolean;
       alwaysLoopVideo: boolean;
       hideComments: boolean;
+      videoSpeedAsList: boolean;
       autoplayNextVideo: boolean;
       audioModeDefault: boolean;
       defaultVideoSpeed: number;
