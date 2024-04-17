@@ -12,8 +12,20 @@ const { posAbsolute, topPositionPx } = useHeaderScroll();
 
 <template>
   <div class="header" :class="{ absolute: posAbsolute }">
-    <Logo v-if="route.fullPath !== '/' || ((userStore.isLoggedIn && settingsStore.showHomeSubscriptions) || settingsStore.showHomeTrendingVideos)" />
-    <MainSearchBox v-if="route.fullPath !== '/' || ((userStore.isLoggedIn && settingsStore.showHomeSubscriptions) || settingsStore.showHomeTrendingVideos)" />
+    <Logo
+      v-if="
+        route.fullPath !== '/' ||
+        (userStore.isLoggedIn && settingsStore.showHomeSubscriptions) ||
+        settingsStore.showHomeTrendingVideos
+      "
+    />
+    <MainSearchBox
+      v-if="
+        route.fullPath !== '/' ||
+        (userStore.isLoggedIn && settingsStore.showHomeSubscriptions) ||
+        settingsStore.showHomeTrendingVideos
+      "
+    />
     <UserMenu />
   </div>
 </template>
@@ -33,7 +45,9 @@ const { posAbsolute, topPositionPx } = useHeaderScroll();
   backdrop-filter: blur(10px);
   top: v-bind(topPositionPx);
 
-  transition: box-shadow 300ms $intro-easing, background-color 300ms $intro-easing,
+  transition:
+    box-shadow 300ms $intro-easing,
+    background-color 300ms $intro-easing,
     transform 300ms $dynamic-easing;
 
   &::before {
@@ -53,7 +67,7 @@ const { posAbsolute, topPositionPx } = useHeaderScroll();
   @media screen and (max-width: $mobile-width) {
     .logo-link {
       width: 40px;
-    
+
       .logo {
         width: 0;
       }

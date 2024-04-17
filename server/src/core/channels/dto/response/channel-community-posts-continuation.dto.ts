@@ -1,5 +1,5 @@
-import { ChannelCommunityPostsContinuationResponse } from '../../yt-channel-info/app/types';
-import { ChannelCommunityPostDto } from '../basic/channel-community-post.dto';
+import type { ChannelCommunityPostsContinuationResponse } from '../../yt-channel-info/app/types';
+import type { ChannelCommunityPostDto } from '../basic/channel-community-post.dto';
 
 export class ChannelCommunityPostsContinuationDto
   implements ChannelCommunityPostsContinuationResponse

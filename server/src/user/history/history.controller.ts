@@ -1,20 +1,20 @@
 import {
-  Controller,
-  Req,
-  Get,
-  Query,
-  Post,
-  Param,
   Body,
+  Controller,
   Delete,
-  InternalServerErrorException
+  Get,
+  InternalServerErrorException,
+  Param,
+  Post,
+  Query,
+  Req
 } from '@nestjs/common';
-import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
-import { ViewTubeRequest } from 'server/common/viewtube-request';
-import { HistoryResponseDto } from './dto/history-response.dto';
-import { VideoVisitDto } from './dto/video-visit.dto';
-import { HistoryService } from './history.service';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Private } from 'server/auth/decorators/private.decorator';
+import type { ViewTubeRequest } from 'server/common/viewtube-request';
+import type { HistoryResponseDto } from './dto/history-response.dto';
+import type { VideoVisitDto } from './dto/video-visit.dto';
+import type { HistoryService } from './history.service';
 
 @ApiTags('User')
 @ApiBearerAuth()

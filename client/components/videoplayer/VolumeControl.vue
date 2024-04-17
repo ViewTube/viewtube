@@ -124,7 +124,9 @@ const onMouseDown = () => {
     position: relative;
     height: 100%;
 
-    transition: width 200ms $intro-easing, opacity 200ms $intro-easing;
+    transition:
+      width 200ms $intro-easing,
+      opacity 200ms $intro-easing;
 
     opacity: 0;
     pointer-events: none;
@@ -181,7 +183,9 @@ const onMouseDown = () => {
       top: 50%;
       transform: translate(-50%, -50%);
       left: v-bind('`${volumeValue * 100}%`');
-      transition: height 100ms linear, width 100ms linear;
+      transition:
+        height 100ms linear,
+        width 100ms linear;
       position: absolute;
       pointer-events: none;
     }

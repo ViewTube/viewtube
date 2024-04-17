@@ -1,4 +1,4 @@
-import { Playlist } from '../../yt-channel-info/app/types';
+import type { Playlist } from '../../yt-channel-info/app/types';
 
 export class ChannelPlaylistDto implements Playlist {
   author: string;

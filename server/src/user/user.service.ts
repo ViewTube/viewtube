@@ -1,39 +1,40 @@
-import { Readable } from 'stream';
-import fs from 'fs';
-import path from 'path';
+import type { Logger } from '@nestjs/common';
 import {
-  Injectable,
-  HttpException,
   BadRequestException,
-  NotFoundException,
+  HttpException,
+  Injectable,
   InternalServerErrorException,
-  Logger
+  NotFoundException
 } from '@nestjs/common';
-import { Model } from 'mongoose';
+import type { ConfigService } from '@nestjs/config';
 import { InjectModel } from '@nestjs/mongoose';
-import bcrypt from 'bcryptjs';
-import { UserprofileDto } from 'server/user/dto/userprofile.dto';
-import humanizeDuration from 'humanize-duration';
-import { Common } from 'server/core/common';
-import { ChannelBasicInfoDto } from 'server/core/channels/dto/channel-basic-info.dto';
-import crypto from 'crypto';
-import { FastifyReply } from 'fastify';
 import archiver from 'archiver';
-import { ViewTubeRequest } from 'server/common/viewtube-request';
-import { User } from './schemas/user.schema';
-import { UserDto } from './user.dto';
-import { SettingsService } from './settings/settings.service';
-import { UserprofileDetailsDto } from './dto/userprofile-details.dto';
-import { HistoryService } from './history/history.service';
-import { SubscriptionsService } from './subscriptions/subscriptions.service';
-import { profileImage } from './profile-image';
-import { ConfigService } from '@nestjs/config';
-import { promisify } from 'util';
-import { Session, SessionDocument } from 'server/auth/schemas/session.schema';
+import bcrypt from 'bcryptjs';
+import crypto from 'crypto';
 import dayjs from 'dayjs';
+import type { FastifyReply } from 'fastify';
+import fs from 'fs';
+import humanizeDuration from 'humanize-duration';
+import type { Model } from 'mongoose';
+import path from 'path';
 import { SESSION_EXPIRATION } from 'server/auth/constants/session';
-import { SessionDto } from './dto/session.dto';
+import type { SessionDocument } from 'server/auth/schemas/session.schema';
+import { Session } from 'server/auth/schemas/session.schema';
+import type { ViewTubeRequest } from 'server/common/viewtube-request';
+import type { ChannelBasicInfoDto } from 'server/core/channels/dto/channel-basic-info.dto';
+import { Common } from 'server/core/common';
+import type { UserprofileDto } from 'server/user/dto/userprofile.dto';
 import sharp from 'sharp';
+import type { Readable } from 'stream';
+import { promisify } from 'util';
+import type { SessionDto } from './dto/session.dto';
+import type { UserprofileDetailsDto } from './dto/userprofile-details.dto';
+import type { HistoryService } from './history/history.service';
+import { profileImage } from './profile-image';
+import { User } from './schemas/user.schema';
+import type { SettingsService } from './settings/settings.service';
+import type { SubscriptionsService } from './subscriptions/subscriptions.service';
+import type { UserDto } from './user.dto';
 
 @Injectable()
 export class UserService {

@@ -4,7 +4,7 @@ Permission to use, copy, modify, and/or distribute this software for any
 purpose with or without fee is hereby granted, provided that the above
 copyright notice and this permission notice appear in all copies. */
 
-import axios, { AxiosInstance } from 'axios';
+import axios from 'axios';
 import { ChannelIdType } from './types';
 
 export class YoutubeGrabberHelper {
@@ -449,9 +449,8 @@ export class YoutubeGrabberHelper {
       };
 
       if ('runs' in post.backstagePostThreadRenderer.post.backstagePostRenderer.contentText) {
-        // eslint-disable-next-line no-return-assign
         post.backstagePostThreadRenderer.post.backstagePostRenderer.contentText.runs?.forEach(
-          (element, index) => {
+          (element, _index) => {
             if ('navigationEndpoint' in element) {
               postData.postText += this.extractLinks(element) + ' ';
             } else {
@@ -635,7 +634,7 @@ export class YoutubeGrabberHelper {
     return postData;
   }
 
-  parseMix(obj, channelInfo) {
+  parseMix(obj, _channelInfo) {
     const mix = obj.compactStationRenderer;
     const playlistId = mix.navigationEndpoint.watchEndpoint.playlistId;
     const title = mix.title.simpleText;

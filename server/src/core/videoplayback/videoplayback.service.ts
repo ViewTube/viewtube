@@ -1,6 +1,7 @@
-import { BadRequestException, Injectable, Logger } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { FastifyReply, FastifyRequest } from 'fastify';
+import type { Logger } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
+import type { ConfigService } from '@nestjs/config';
+import type { FastifyReply, FastifyRequest } from 'fastify';
 import { URL } from 'node:url';
 import { vtFetch } from 'server/common/vtFetch';
 

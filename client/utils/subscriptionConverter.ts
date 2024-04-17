@@ -1,5 +1,5 @@
-import X2js from 'x2js';
 import PapaParse from 'papaparse';
+import X2js from 'x2js';
 
 type Subscription = {
   author: string;
@@ -13,7 +13,7 @@ export const convertFromOPMLToJson = (opml: string): Subscription[] => {
   const jsonString: any = x2js.xml2js(opml);
 
   if (jsonString.opml !== undefined) {
-    const channelArray: Object[] = jsonString.opml.body.outline.outline;
+    const channelArray: object[] = jsonString.opml.body.outline.outline;
     const mappedChannelArray = mapOPML(channelArray);
     return mappedChannelArray;
   }
@@ -84,7 +84,7 @@ export const convertJSONToInternal = (json: string): Subscription[] => {
 };
 
 export const mapYTTakeout = (data: any[]): Subscription[] => {
-  return data.map((element: Object) => {
+  return data.map((element: object) => {
     return {
       author: element[2],
       authorId: element[0],
@@ -93,7 +93,7 @@ export const mapYTTakeout = (data: any[]): Subscription[] => {
   });
 };
 
-export const mapOPML = (opml: Object[]): Subscription[] =>
+export const mapOPML = (opml: object[]): Subscription[] =>
   opml.map((row: { _xmlUrl: string; _title: any; _text: any }) => {
     const author = row._title === row._text ? row._title : `${row._title} | ${row._text}`;
     let authorId = new URL(row._xmlUrl).searchParams.get('channel_id');

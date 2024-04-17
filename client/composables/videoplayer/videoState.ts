@@ -1,9 +1,9 @@
-import { useStorage } from '@vueuse/core';
 import {
   shakaAdapter,
   type LabelledTrack,
   type Language
 } from '@/utils/videoplayer/adapters/shakaAdapter';
+import { useStorage } from '@vueuse/core';
 
 export type VideoState = ReturnType<typeof useVideoState>;
 

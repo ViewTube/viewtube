@@ -12,8 +12,7 @@ class ChannelDto {
 }
 
 const emit = defineEmits<{
-  (e: 'done'): void;
-  (e: 'close'): void;
+  (e: 'done' | 'close'): void;
 }>();
 
 const { data: userSubscriptions, refresh } = useGetUserSubscriptionChannels({

@@ -1,23 +1,23 @@
-import { MediaMetadataHelper } from './mediaMetadata';
-import { calculateSeekPercentage, matchSeekProgressPercentage, seekbarFunctions } from './seekbar';
-import { parseChapters } from './chapters';
-import { destroyInstance, initializeHlsStream, isHlsNative, isHlsSupported } from './hlsHelper';
-import { DashHelper } from './dash';
 import { useMessagesStore } from '@/store/messages';
+import { usePlayerVolumeStore } from '@/store/playerVolume';
 import { useSettingsStore } from '@/store/settings';
 import { useUserStore } from '@/store/user';
-import { usePlayerVolumeStore } from '@/store/playerVolume';
 import { useVideoPlayerStore } from '@/store/videoPlayer';
+import { parseChapters } from './chapters';
+import { DashHelper } from './dash';
+import { destroyInstance, initializeHlsStream, isHlsNative, isHlsSupported } from './hlsHelper';
+import { MediaMetadataHelper } from './mediaMetadata';
+import { calculateSeekPercentage, matchSeekProgressPercentage, seekbarFunctions } from './seekbar';
 
 export const videoPlayerSetup = (
   props: {
     video: ApiDto<'VTVideoInfoDto'>;
-    embedded: Boolean;
+    embedded: boolean;
     mini: boolean;
     autoplay: boolean;
     initialVideoTime: number;
   },
-  emit: Function
+  emit: (...params: any) => any
 ) => {
   const settingsStore = useSettingsStore();
   const messagesStore = useMessagesStore();
@@ -932,7 +932,7 @@ export const videoPlayerSetup = (
     playAnimation((val: boolean) => (animations.volumeDown = val));
   };
 
-  const playAnimation = (animFn: Function) => {
+  const playAnimation = (animFn: (...params: any) => any) => {
     animFn(true);
     setTimeout(() => {
       animFn(false);

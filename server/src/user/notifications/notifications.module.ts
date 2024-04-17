@@ -1,4 +1,5 @@
-import { Module, ModuleMetadata } from '@nestjs/common';
+import type { ModuleMetadata } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { NotificationsController } from './notifications.controller';

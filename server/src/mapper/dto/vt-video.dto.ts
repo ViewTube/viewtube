@@ -1,5 +1,5 @@
-import { VTAuthorDto } from './vt-author.dto';
-import { VTThumbnailDto } from './vt-thumbnail.dto';
+import type { VTAuthorDto } from './vt-author.dto';
+import type { VTThumbnailDto } from './vt-thumbnail.dto';
 import { VTVideoCoreDto } from './vt-video-core.dto';
 
 export class VTVideoDto extends VTVideoCoreDto {

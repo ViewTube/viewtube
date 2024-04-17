@@ -1,5 +1,5 @@
-import { PlaylistImageDto } from './playlist-image.dto';
-import { PlaylistItemDto } from './playlist-item.dto';
+import type { PlaylistImageDto } from './playlist-image.dto';
+import type { PlaylistItemDto } from './playlist-item.dto';
 
 type VisibilityType = 'unlisted' | 'everyone';
 
@@ -22,6 +22,6 @@ export class PlaylistResultDto {
     channelID: string;
   };
   items: PlaylistItemDto[];
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   continuation: any | null;
 }

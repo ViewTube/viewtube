@@ -1,4 +1,4 @@
-import { VTShortDto } from '../vt-short.dto';
+import type { VTShortDto } from '../vt-short.dto';
 
 export class VTShortsShelfDto {
   type: 'shorts-shelf';

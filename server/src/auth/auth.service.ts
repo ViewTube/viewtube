@@ -1,17 +1,17 @@
+import type { SerializeOptions } from '@fastify/cookie';
 import { Injectable } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
-import bcrypt from 'bcryptjs';
-import { ConfigService } from '@nestjs/config';
-import { isHttps } from 'viewtube/shared/util';
-import { Model } from 'mongoose';
-import { User } from 'server/user/schemas/user.schema';
+import type { ConfigService } from '@nestjs/config';
+import type { JwtService } from '@nestjs/jwt';
 import { InjectModel } from '@nestjs/mongoose';
-import { FastifyReply } from 'fastify';
-import { setAuthCookies } from './set-auth-cookies';
-import { Session } from './schemas/session.schema';
+import bcrypt from 'bcryptjs';
 import { randomBytes } from 'crypto';
-import { FastifyRequest } from 'fastify/types/request';
-import { SerializeOptions } from '@fastify/cookie';
+import type { FastifyReply } from 'fastify';
+import type { FastifyRequest } from 'fastify/types/request';
+import type { Model } from 'mongoose';
+import { User } from 'server/user/schemas/user.schema';
+import { isHttps } from 'viewtube/shared/util';
+import { Session } from './schemas/session.schema';
+import { setAuthCookies } from './set-auth-cookies';
 
 @Injectable()
 export class AuthService {

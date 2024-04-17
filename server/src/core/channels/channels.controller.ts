@@ -1,21 +1,21 @@
-import { Controller, Get, Param, UseInterceptors, Res, Header, Query } from '@nestjs/common';
 import { CacheInterceptor, CacheTTL } from '@nestjs/cache-manager';
+import { Controller, Get, Header, Param, Query, Res, UseInterceptors } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
-import { FastifyReply } from 'fastify';
-import { ChannelsService } from './channels.service';
-import { ChannelCommunityPostsContinuationDto } from './dto/response/channel-community-posts-continuation.dto';
-import { ChannelCommunityPostsDto } from './dto/response/channel-community-posts.dto';
-import { ChannelHomeDto } from './dto/response/channel-home.dto';
-import { ChannelInfoDto } from './dto/response/channel-info.dto';
-import { ChannelPlaylistsContinuationDto } from './dto/response/channel-playlists-continuation.dto';
-import { ChannelPlaylistsDto } from './dto/response/channel-playlists.dto';
-import { ChannelSearchContinuationDto } from './dto/response/channel-search-continuation.dto';
-import { ChannelSearchDto } from './dto/response/channel-search.dto';
-import { ChannelStatsDto } from './dto/response/channel-stats.dto';
-import { ChannelVideosContinuationDto } from './dto/response/channel-videos-continuation.dto';
-import { ChannelVideosDto } from './dto/response/channel-videos.dto';
-import { RelatedChannelsContinuationDto } from './dto/response/related-channels-continuation.dto';
-import { ChannelInfoErrorDto } from './dto/channel-info-error.dto';
+import type { FastifyReply } from 'fastify';
+import type { ChannelsService } from './channels.service';
+import type { ChannelInfoErrorDto } from './dto/channel-info-error.dto';
+import type { ChannelCommunityPostsContinuationDto } from './dto/response/channel-community-posts-continuation.dto';
+import type { ChannelCommunityPostsDto } from './dto/response/channel-community-posts.dto';
+import type { ChannelHomeDto } from './dto/response/channel-home.dto';
+import type { ChannelInfoDto } from './dto/response/channel-info.dto';
+import type { ChannelPlaylistsContinuationDto } from './dto/response/channel-playlists-continuation.dto';
+import type { ChannelPlaylistsDto } from './dto/response/channel-playlists.dto';
+import type { ChannelSearchContinuationDto } from './dto/response/channel-search-continuation.dto';
+import type { ChannelSearchDto } from './dto/response/channel-search.dto';
+import type { ChannelStatsDto } from './dto/response/channel-stats.dto';
+import type { ChannelVideosContinuationDto } from './dto/response/channel-videos-continuation.dto';
+import type { ChannelVideosDto } from './dto/response/channel-videos.dto';
+import type { RelatedChannelsContinuationDto } from './dto/response/related-channels-continuation.dto';
 
 @ApiTags('Core')
 @Controller('channels')

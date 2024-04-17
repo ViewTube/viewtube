@@ -1,8 +1,7 @@
-import { Document } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { PushNotificationDto } from 'server/user/dto/push-notification.dto';
+import { Document } from 'mongoose';
+import type { PushNotificationDto } from 'server/user/dto/push-notification.dto';
 
-// eslint-disable-next-line no-undef
 @Schema({ timestamps: true, id: false })
 export class PushNotification extends Document implements PushNotificationDto {
   @Prop({ required: true })

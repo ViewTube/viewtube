@@ -1,4 +1,4 @@
-function readPackage(pkg, context) {
+function readPackage(pkg) {
   if (process.env.CI === 'true') {
     delete pkg?.scripts?.prepare;
   }

@@ -1,5 +1,5 @@
-import { ChannelCommunityPostsResponse } from '../../yt-channel-info/app/types';
-import { ChannelCommunityPostDto } from '../basic/channel-community-post.dto';
+import type { ChannelCommunityPostsResponse } from '../../yt-channel-info/app/types';
+import type { ChannelCommunityPostDto } from '../basic/channel-community-post.dto';
 
 export class ChannelCommunityPostsDto implements ChannelCommunityPostsResponse {
   channelIdType: number;

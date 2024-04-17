@@ -1,5 +1,5 @@
-import { ChannelInfoResponse, Playlist } from '../../yt-channel-info/app/types';
-import { ChannelPlaylistDto } from '../basic/channel-playlist.dto';
+import type { ChannelInfoResponse, Playlist } from '../../yt-channel-info/app/types';
+import type { ChannelPlaylistDto } from '../basic/channel-playlist.dto';
 
 export class ChannelPlaylistsDto implements ChannelInfoResponse<Playlist> {
   channelIdType?: number;

@@ -1,5 +1,5 @@
-import { ChannelIdType, ChannelInfoResponse, Video } from '../../yt-channel-info/app/types';
-import { ChannelVideoDto } from '../basic/channel-video.dto';
+import type { ChannelIdType, ChannelInfoResponse, Video } from '../../yt-channel-info/app/types';
+import type { ChannelVideoDto } from '../basic/channel-video.dto';
 
 export class ChannelVideosDto implements ChannelInfoResponse<Video> {
   channelIdType?: ChannelIdType;

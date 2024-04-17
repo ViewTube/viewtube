@@ -1,4 +1,4 @@
-import { VTThumbnailDto } from 'server/mapper/dto/vt-thumbnail.dto';
+import type { VTThumbnailDto } from 'server/mapper/dto/vt-thumbnail.dto';
 
 export class ChannelBasicInfoDto {
   authorId: string;

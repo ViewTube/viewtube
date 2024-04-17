@@ -1,6 +1,6 @@
+import { Injectable, Logger } from '@nestjs/common';
 import cluster from 'cluster';
 import os from 'os';
-import { Injectable, Logger } from '@nestjs/common';
 
 const cpuCount = os.cpus().length;
 

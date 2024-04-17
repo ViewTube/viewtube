@@ -1,4 +1,4 @@
-import { SponsorBlockSegmentDto, SponsorBlockSegmentsDto } from '../../shared';
+import type { SponsorBlockSegmentDto, SponsorBlockSegmentsDto } from '../../shared';
 
 export const useSponsorBlock = () => {
   const { vtFetch } = useVtFetch();

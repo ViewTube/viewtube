@@ -1,8 +1,8 @@
 import { Controller, Get, Req, Res } from '@nestjs/common';
 import { ApiExcludeController } from '@nestjs/swagger';
-import { FastifyReply, FastifyRequest } from 'fastify';
-import { NuxtService } from './nuxt.service';
+import type { FastifyReply, FastifyRequest } from 'fastify';
 import { Public } from 'server/auth/decorators/public.decorator';
+import type { NuxtService } from './nuxt.service';
 
 @Controller()
 @Public()

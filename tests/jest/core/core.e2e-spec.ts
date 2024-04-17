@@ -1,12 +1,12 @@
+import { MongooseModule } from '@nestjs/mongoose';
+import { FastifyAdapter, type NestFastifyApplication } from '@nestjs/platform-fastify';
 import { Test } from '@nestjs/testing';
-import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import { CoreModule } from 'server/core/core.module';
-import { MongooseModule } from '@nestjs/mongoose';
+import { type VTCommentsReplyResponseDto } from 'server/mapper/converter/comments/vt-comments-reply.response.dto';
+import { type VTCommentsResponseDto } from 'server/mapper/converter/comments/vt-comments-response.dto';
+import type ytpl from 'ytpl';
 import { defineIt, getPayloadJson } from '../common/test.helper';
-import ytpl from 'ytpl';
-import { VTCommentsResponseDto } from 'server/mapper/converter/comments/vt-comments-response.dto';
-import { VTCommentsReplyResponseDto } from 'server/mapper/converter/comments/vt-comments-reply.response.dto';
 
 describe('Core', () => {
   let app: NestFastifyApplication;

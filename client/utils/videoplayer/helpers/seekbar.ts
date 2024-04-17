@@ -12,7 +12,7 @@ export const seekbarFunctions = {
       seekbar: any;
       videoRef: any;
       videoElement: any;
-      formatFn: Function;
+      formatFn: (...params: any) => any;
     }
   ) {
     if (playerOverlayVisible.value) {
@@ -32,7 +32,7 @@ export const seekbarFunctions = {
       seekbar,
       videoDuration,
       formatFn
-    }: { seekbar: any; videoDuration: number; formatFn: Function }
+    }: { seekbar: any; videoDuration: number; formatFn: (...params: any) => any }
   ) {
     seekbar.hoverPercentage = calculateSeekPercentage(e.pageX);
     seekbar.hoverTime = formatFn((videoDuration / 100) * seekbar.hoverPercentage);
@@ -50,7 +50,7 @@ export const seekbarFunctions = {
       playerOverlayVisible: Ref<boolean>;
       seekbar: any;
       videoDuration: number;
-      formatFn: Function;
+      formatFn: (...params: any) => any;
     }
   ) {
     if (playerOverlayVisible.value) {

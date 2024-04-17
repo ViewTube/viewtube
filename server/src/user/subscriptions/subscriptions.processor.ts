@@ -6,16 +6,16 @@ import {
   Process,
   Processor
 } from '@nestjs/bull';
+import type { Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Job } from 'bull';
-import { Model } from 'mongoose';
+import type { Job } from 'bull';
+import type { Model } from 'mongoose';
 import { General } from 'server/common/general.schema';
+import type { ChannelBasicInfoDto } from 'server/core/channels/dto/channel-basic-info.dto';
 import { ChannelBasicInfo } from 'server/core/channels/schemas/channel-basic-info.schema';
+import type { VideoBasicInfoDto } from 'server/core/videos/dto/video-basic-info.dto';
 import { VideoBasicInfo } from 'server/core/videos/schemas/video-basic-info.schema';
 import { runSubscriptionsJob } from './subscriptions-job.helper';
-import { Logger } from '@nestjs/common';
-import { ChannelBasicInfoDto } from 'server/core/channels/dto/channel-basic-info.dto';
-import { VideoBasicInfoDto } from 'server/core/videos/dto/video-basic-info.dto';
 
 export interface SubscriptionsQueueParams {
   userSubscriptions: Array<{

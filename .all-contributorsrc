@@ -1,7 +1,5 @@
 {
-  "files": [
-    "README.md"
-  ],
+  "files": ["README.md"],
   "imageSize": 100,
   "commit": false,
   "contributors": [
@@ -10,82 +8,63 @@
       "name": "cyacedev",
       "avatar_url": "https://avatars0.githubusercontent.com/u/46712905?v=4",
       "profile": "https://github.com/cyacedev",
-      "contributions": [
-        "code",
-        "doc"
-      ]
+      "contributions": ["code", "doc"]
     },
     {
       "login": "ckVendrix",
       "name": "Vendrix",
       "avatar_url": "https://avatars2.githubusercontent.com/u/51775140?v=4",
       "profile": "https://github.com/ckVendrix",
-      "contributions": [
-        "code"
-      ]
+      "contributions": ["code"]
     },
     {
       "login": "Mennaruuk",
       "name": "Mennaruuk",
       "avatar_url": "https://avatars.githubusercontent.com/u/52135169?v=4",
       "profile": "https://github.com/Mennaruuk",
-      "contributions": [
-        "doc"
-      ]
+      "contributions": ["doc"]
     },
     {
       "login": "mizzunet",
       "name": "Missu",
       "avatar_url": "https://avatars.githubusercontent.com/u/10193999?v=4",
       "profile": "https://github.com/mizzunet",
-      "contributions": [
-        "doc"
-      ]
+      "contributions": ["doc"]
     },
     {
       "login": "beardeddude",
       "name": "beardeddude",
       "avatar_url": "https://avatars.githubusercontent.com/u/36680638?v=4",
       "profile": "https://github.com/beardeddude",
-      "contributions": [
-        "code"
-      ]
+      "contributions": ["code"]
     },
     {
       "login": "mattfbacon",
       "name": "Matt Fellenz",
       "avatar_url": "https://avatars.githubusercontent.com/u/58113890?v=4",
       "profile": "http://matt.felle.nz",
-      "contributions": [
-        "code"
-      ]
+      "contributions": ["code"]
     },
     {
       "login": "themisir",
       "name": "Misir",
       "avatar_url": "https://avatars.githubusercontent.com/u/29130291?v=4",
       "profile": "http://themisir.com",
-      "contributions": [
-        "code"
-      ]
+      "contributions": ["code"]
     },
     {
       "login": "alvanrahimli",
       "name": "Alvan Rahimli",
       "avatar_url": "https://avatars.githubusercontent.com/u/41202771?v=4",
       "profile": "https://www.rahim.li",
-      "contributions": [
-        "code"
-      ]
+      "contributions": ["code"]
     },
     {
       "login": "chonsser",
       "name": "Dominik Szymański",
       "avatar_url": "https://avatars.githubusercontent.com/u/10325355?v=4",
       "profile": "https://wtf.city",
-      "contributions": [
-        "code"
-      ]
+      "contributions": ["code"]
     }
   ],
   "contributorsPerLine": 7,

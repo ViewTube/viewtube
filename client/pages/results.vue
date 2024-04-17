@@ -1,9 +1,7 @@
 <script setup lang="ts">
 import RelatedSearches from '@/components/search/RelatedSearches.vue';
 import Spinner from '@/components/Spinner.vue';
-import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import Filters from '@/components/search/Filters.vue';
-import SeparatorSmall from '@/components/list/SeparatorSmall.vue';
 import { useMessagesStore } from '@/store/messages';
 
 const VideoEntry = resolveComponent('ListVideoEntry');
@@ -19,9 +17,6 @@ const searchQuery = computed(() => {
   const searchParams = new URLSearchParams(route.query as Record<string, string>);
   return searchParams.get('search_query') || searchParams.get('q');
 });
-const page = ref(0);
-const moreVideosLoading = ref(false);
-const { apiUrl } = useApiUrl();
 
 const { data: searchData, pending, error } = useGetSearchResult();
 

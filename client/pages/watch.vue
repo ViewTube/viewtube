@@ -10,11 +10,9 @@ import CollapsibleSection from '@/components/list/CollapsibleSection.vue';
 import PlaylistSection from '@/components/watch/PlaylistSection.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import SectionTitle from '@/components/SectionTitle.vue';
-import VideoPlayer from '@/components/videoplayer/VideoPlayer.vue';
 import VideoLoadingTemplate from '@/components/watch/VideoLoadingTemplate.vue';
 import { useMessagesStore } from '@/store/messages';
 import { useSettingsStore } from '@/store/settings';
-import { useVideoPlayerStore } from '@/store/videoPlayer';
 import { useLoadingVideoInfoStore } from '@/store/loadingVideoInfo';
 import { useUserStore } from '@/store/user';
 import dayjs from 'dayjs';
@@ -23,7 +21,7 @@ type VideoType = ApiDto<'VTVideoInfoDto'> & { initialVideoTime: number };
 
 const messagesStore = useMessagesStore();
 const settingsStore = useSettingsStore();
-const videoPlayerStore = useVideoPlayerStore();
+// const videoPlayerStore = useVideoPlayerStore();
 const userStore = useUserStore();
 const { apiUrl } = useApiUrl();
 
@@ -40,7 +38,7 @@ const commentsContinuationLink = ref(null);
 const commentsContinuationLoading = ref(false);
 const recommendedOpen = ref(false);
 const shareOpen = ref(false);
-const videoplayerRef = ref<typeof VideoPlayer>(null);
+// const videoplayerRef = ref<typeof VideoPlayer>(null);
 const playlistSectionRef = ref<typeof PlaylistSection>(null);
 
 const dislikeCount = ref(0);
@@ -111,9 +109,9 @@ const isPlaylist = computed(() => {
   return Boolean(route.query && route.query.list);
 });
 
-const isAutoplaying = computed(() => {
-  return isPlaylist.value || (settingsStore.autoplay && !settingsStore.showRecommendedVideos) || route.query.autoplay === 'true';
-});
+// const isAutoplaying = computed(() => {
+//   return isPlaylist.value || (settingsStore.autoplay && !settingsStore.showRecommendedVideos) || route.query.autoplay === 'true';
+// });
 
 const nextUpVideo = computed(() => {
   if (playlist.value) {
@@ -160,20 +158,6 @@ const setTimestamp = (seconds: number) => {
 };
 
 const { createTextLinks } = useCreateTextLinks(setTimestamp);
-
-const getHDUrl = () => {
-  if (video.value.legacyFormats) {
-    const hdVideo = video.value.legacyFormats.find(e => {
-      return e.qualityLabel && e.qualityLabel === '720p';
-    });
-    if (hdVideo) {
-      return hdVideo.url;
-    } else if (video.value.legacyFormats.length > 0) {
-      return video.value.legacyFormats[0].url;
-    }
-  }
-  return '#';
-};
 
 const loadComments = (evtVideoId: string = null) => {
   const videoId = evtVideoId || route.query.v;
@@ -236,8 +220,7 @@ watch(
     if (newValue.v !== oldValue.v || newValue.list !== oldValue.list) {
       refresh();
       const videoId = newValue.v as string;
-      if (!settingsStore.hideComments)
-        loadComments(videoId);
+      if (!settingsStore.hideComments) loadComments(videoId);
     }
   }
 );
@@ -248,27 +231,26 @@ onMounted(() => {
   if (window && window.innerWidth > 700) {
     recommendedOpen.value = true;
   }
-  if (!settingsStore.hideComments)
-    loadComments();
+  if (!settingsStore.hideComments) loadComments();
   loadDislikes();
   loadPlaylist();
 });
 
-const onVideoEnded = () => {
-  if (
-    isPlaylist.value &&
-    playlistSectionRef.value &&
-    !settingsStore.alwaysLoopVideo &&
-    !videoPlayerStore.loop
-  ) {
-    playlistSectionRef.value.playNextVideo();
-  } else if (settingsStore.autoplayNextVideo && settingsStore.showRecommendedVideos && video.value.recommendedVideos) {
-    router.push({
-      path: route.fullPath,
-      query: { v: video.value.recommendedVideos[0].id, autoplay: 'true' }
-    });
-  }
-};
+// const onVideoEnded = () => {
+//   if (
+//     isPlaylist.value &&
+//     playlistSectionRef.value &&
+//     !settingsStore.alwaysLoopVideo &&
+//     !videoPlayerStore.loop
+//   ) {
+//     playlistSectionRef.value.playNextVideo();
+//   } else if (settingsStore.autoplayNextVideo && settingsStore.showRecommendedVideos && video.value.recommendedVideos) {
+//     router.push({
+//       path: route.fullPath,
+//       query: { v: video.value.recommendedVideos[0].id, autoplay: 'true' }
+//     });
+//   }
+// };
 
 const authorToName = author => {
   if (typeof author == 'string') {
@@ -434,10 +416,7 @@ const videoDescription = computed(() => {
         </div>
 
         <div v-if="!settingsStore.hideComments" class="comments-description">
-          <div
-            class="video-infobox-description links"
-            v-html="videoDescription"
-          />
+          <div class="video-infobox-description links" v-html="videoDescription" />
           <SectionTitle :title="`${video.commentCount} Comments`" />
           <Spinner v-if="commentsLoading" />
           <div v-if="video.live" class="comments-error livestream">

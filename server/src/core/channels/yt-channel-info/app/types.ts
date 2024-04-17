@@ -1,4 +1,4 @@
-import { HttpsProxyAgent } from 'https-proxy-agent';
+import type { HttpsProxyAgent } from 'https-proxy-agent';
 
 export enum ChannelIdType {
   Default = 0,

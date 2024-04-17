@@ -1,7 +1,6 @@
 <script setup lang="ts">
 const emit = defineEmits<{
-  (e: 'seek-start'): void;
-  (e: 'seek-end'): void;
+  (e: 'seek-start' | 'seek-end'): void;
 }>();
 const range = defineModel<number>();
 const rangePercentage = computed(() => `${range.value * 100}%`);

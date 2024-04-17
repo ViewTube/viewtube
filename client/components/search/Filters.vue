@@ -4,7 +4,7 @@ defineProps<{
 }>();
 
 const route = useRoute();
-const router = useRouter();
+// const router = useRouter();
 
 const searchValue = ref('');
 
@@ -16,13 +16,13 @@ const refreshQuery = () => {
 
 watch(() => route.query, refreshQuery);
 
-const onFilterApply = (e: { target: HTMLFormElement }) => {
-  const formData = new FormData(e.target);
-  // FormData in URLSearchParams is supported in all major browsers
-  const searchParams = new URLSearchParams(formData as any);
-  const queryString = searchParams.toString();
-  router.push(`/results?${queryString}`);
-};
+// const onFilterApply = (e: { target: HTMLFormElement }) => {
+//   const formData = new FormData(e.target);
+//   // FormData in URLSearchParams is supported in all major browsers
+//   const searchParams = new URLSearchParams(formData as any);
+//   const queryString = searchParams.toString();
+//   router.push(`/results?${queryString}`);
+// };
 
 const getFilterUrl = (filterType: string, filterValue: string): string => {
   const newUrlParams = new URLSearchParams(route.query as any);

@@ -1,6 +1,6 @@
-import { Document } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { ServerSettingsDto } from '../dto/server-settings.dto';
+import { Document } from 'mongoose';
+import type { ServerSettingsDto } from '../dto/server-settings.dto';
 
 @Schema()
 export class ServerSettings extends Document implements ServerSettingsDto {

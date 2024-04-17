@@ -1,7 +1,7 @@
-import { VTVideoInfoDto } from 'server/mapper/dto/vt-video-info.dto';
-import { VideoInfoSourceApproximation } from './video-info-source-approximation';
+import type { VTVideoInfoDto } from 'server/mapper/dto/vt-video-info.dto';
+import { createDashManifestURI } from 'server/mapper/utils/dash-manifest-uri';
+import type { VideoInfoSourceApproximation } from './video-info-source-approximation';
 import {
-  extractVideoId,
   extractAuthor,
   extractCaptions,
   extractCategory,
@@ -13,20 +13,20 @@ import {
   extractFamilyFriendly,
   extractInfoCards,
   extractKeywords,
+  extractLegacyFormats,
   extractLikeCount,
   extractLive,
   extractPreviewThumbnails,
   extractPublished,
   extractRecommendedVideos,
+  extractSubtitle,
   extractThumbnails,
   extractTitle,
   extractUnlisted,
   extractUpcoming,
-  extractViewCount,
-  extractSubtitle,
-  extractLegacyFormats
+  extractVideoId,
+  extractViewCount
 } from './vt-video-info.extractors';
-import { createDashManifestURI } from 'server/mapper/utils/dash-manifest-uri';
 
 type ToVTVideoInfoOptions = {
   dashManifest: string;

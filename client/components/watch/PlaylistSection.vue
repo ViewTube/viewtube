@@ -158,10 +158,11 @@ export default defineComponent({
     };
 
     const toggleQueryParam = (param: string, value: boolean) => {
-      const query = Object.assign({}, route.query);
+      const query = structuredClone(route.query);
       if (value) {
         query[param] = value.toString();
       } else {
+        // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
         delete query[param];
       }
       router.push({

@@ -1,9 +1,9 @@
-import { Controller, Get, Query, Param, UseInterceptors, Header } from '@nestjs/common';
 import { CacheInterceptor, CacheTTL } from '@nestjs/cache-manager';
+import { Controller, Get, Header, Param, Query, UseInterceptors } from '@nestjs/common';
 import { ApiQuery, ApiTags } from '@nestjs/swagger';
-import { CommentsService } from './comments.service';
-import { VTCommentsResponseDto } from '../../mapper/converter/comments/vt-comments-response.dto';
-import { VTCommentsReplyResponseDto } from 'server/mapper/converter/comments/vt-comments-reply.response.dto';
+import type { VTCommentsReplyResponseDto } from 'server/mapper/converter/comments/vt-comments-reply.response.dto';
+import type { VTCommentsResponseDto } from '../../mapper/converter/comments/vt-comments-response.dto';
+import type { CommentsService } from './comments.service';
 
 @ApiTags('Core')
 @UseInterceptors(CacheInterceptor)
@@ -27,7 +27,9 @@ export class CommentsController {
   @Header('Cache-Control', 'public, max-age=7200')
   @CacheTTL(7200000)
   @Get('replies')
-  getCommentReplies(@Query('replyContinuation') replyContinuation: string): Promise<VTCommentsReplyResponseDto> {
+  getCommentReplies(
+    @Query('replyContinuation') replyContinuation: string
+  ): Promise<VTCommentsReplyResponseDto> {
     return this.commentsService.getCommentReplies(replyContinuation);
   }
 }

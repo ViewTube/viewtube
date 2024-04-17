@@ -15,7 +15,7 @@ const autocompleteValues = ref([]);
 const updateSearchValueFromUrl = () => {
   if (route.query.search_query) {
     searchValue.value = route.query.search_query as string;
-    if (process.server) {
+    if (import.meta.server) {
       localSearchValue.value = route.query.search_query as string;
     }
   } else {

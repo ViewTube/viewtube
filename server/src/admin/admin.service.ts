@@ -1,19 +1,19 @@
 import { BadRequestException, Injectable, NotFoundException, StreamableFile } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { join, resolve } from 'path';
-import { readdir, stat } from 'fs/promises';
-import { LogsDto } from './dto/logs.dto';
-import { createReadStream, existsSync } from 'fs';
+import type { ConfigService } from '@nestjs/config';
 import { InjectModel } from '@nestjs/mongoose';
-import { BlockedVideo } from './schemas/blocked-video';
-import { Model } from 'mongoose';
-import { InfoDto } from './dto/info.dto';
-import { vtFetch } from 'server/common/vtFetch';
+import { createReadStream, existsSync } from 'fs';
+import { readdir, stat } from 'fs/promises';
+import type { Model } from 'mongoose';
+import { join, resolve } from 'path';
 import { proxyEnabled } from 'server/common/proxyAgent';
-import { UserprofileDto } from '../user/dto/userprofile.dto';
-import { UserService } from '../user/user.service';
-import { UserDto } from '../user/user.dto';
-import { ServerSettingsDto } from './dto/server-settings.dto';
+import { vtFetch } from 'server/common/vtFetch';
+import type { UserprofileDto } from '../user/dto/userprofile.dto';
+import type { UserDto } from '../user/user.dto';
+import type { UserService } from '../user/user.service';
+import type { InfoDto } from './dto/info.dto';
+import type { LogsDto } from './dto/logs.dto';
+import type { ServerSettingsDto } from './dto/server-settings.dto';
+import { BlockedVideo } from './schemas/blocked-video';
 import { ServerSettings } from './schemas/server-settings';
 
 @Injectable()

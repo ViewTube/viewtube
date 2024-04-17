@@ -1,8 +1,7 @@
-import { Document } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { SettingsDto, segmentOption } from '../dto/settings.dto';
+import { Document } from 'mongoose';
+import type { SettingsDto, segmentOption } from '../dto/settings.dto';
 
-// eslint-disable-next-line no-undef
 @Schema({ timestamps: true })
 export class Settings extends Document implements SettingsDto {
   @Prop()

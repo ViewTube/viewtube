@@ -1,9 +1,9 @@
-import { Controller, Get, Param, UseInterceptors, Header } from '@nestjs/common';
 import { CacheInterceptor, CacheTTL } from '@nestjs/cache-manager';
+import { Controller, Get, Header, Param, UseInterceptors } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { DislikeDto } from 'server/core/videos/dto/dislike.dto';
-import { VideosService } from './videos.service';
-import { VTVideoInfoDto } from 'server/mapper/dto/vt-video-info.dto';
+import type { DislikeDto } from 'server/core/videos/dto/dislike.dto';
+import type { VTVideoInfoDto } from 'server/mapper/dto/vt-video-info.dto';
+import type { VideosService } from './videos.service';
 
 @ApiTags('Core')
 @UseInterceptors(CacheInterceptor)

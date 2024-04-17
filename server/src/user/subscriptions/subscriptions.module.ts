@@ -1,22 +1,23 @@
-import { Logger, Module, ModuleMetadata } from '@nestjs/common';
+import { BullModule } from '@nestjs/bull';
 import { CacheModule } from '@nestjs/cache-manager';
+import type { ModuleMetadata } from '@nestjs/common';
+import { Logger, Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import {
-  VideoBasicInfo,
-  VideoBasicInfoSchema
-} from 'server/core/videos/schemas/video-basic-info.schema';
+import { CacheConfigService } from 'server/cache-config.service';
+import { General, GeneralSchema } from 'server/common/general.schema';
 import {
   ChannelBasicInfo,
   ChannelBasicInfoSchema
 } from 'server/core/channels/schemas/channel-basic-info.schema';
-import { BullModule } from '@nestjs/bull';
-import { CacheConfigService } from 'server/cache-config.service';
-import { General, GeneralSchema } from 'server/common/general.schema';
+import {
+  VideoBasicInfo,
+  VideoBasicInfoSchema
+} from 'server/core/videos/schemas/video-basic-info.schema';
 import { NotificationsModule } from '../notifications/notifications.module';
 import { Subscription, SubscriptionSchema } from './schemas/subscription.schema';
-import { SubscriptionsService } from './subscriptions.service';
 import { SubscriptionsController } from './subscriptions.controller';
 import { SubscriptionsProcessor } from './subscriptions.processor';
+import { SubscriptionsService } from './subscriptions.service';
 
 const moduleMetadata: ModuleMetadata = {
   imports: [

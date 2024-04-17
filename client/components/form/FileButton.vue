@@ -2,7 +2,13 @@
   <label class="button-container">
     <slot />
     <div v-ripple class="label">{{ label }}</div>
-    <input type="file" class="file-button" multiple="false" @change.stop="$emit('change', $event)" :accept="accept" />
+    <input
+      type="file"
+      class="file-button"
+      multiple="false"
+      :accept="accept"
+      @change.stop="$emit('change', $event)"
+    />
   </label>
 </template>
 
@@ -13,7 +19,7 @@ export default defineComponent({
     label: String,
     accept: String
   },
-  emits: {'change': null}
+  emits: { change: null }
 });
 </script>
 

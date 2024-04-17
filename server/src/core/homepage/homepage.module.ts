@@ -1,5 +1,6 @@
-import { Logger, Module, ModuleMetadata } from '@nestjs/common';
 import { CacheModule } from '@nestjs/cache-manager';
+import type { ModuleMetadata } from '@nestjs/common';
+import { Logger, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { CacheConfigService } from 'server/cache-config.service';
 import { HomepageController } from './homepage.controller';

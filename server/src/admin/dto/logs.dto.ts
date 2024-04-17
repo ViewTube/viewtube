@@ -1,4 +1,4 @@
-import { LogFileDto } from './log-file.dto';
+import type { LogFileDto } from './log-file.dto';
 
 export class LogsDto {
   logFiles: Array<LogFileDto>;

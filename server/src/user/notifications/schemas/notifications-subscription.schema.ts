@@ -1,9 +1,8 @@
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import { PushSubscription } from 'web-push';
-import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
-import { NotificationsSubscriptionKeys } from '../dto/notifications-subscription-keys.dto';
+import type { PushSubscription } from 'web-push';
+import type { NotificationsSubscriptionKeys } from '../dto/notifications-subscription-keys.dto';
 
-// eslint-disable-next-line no-undef
 @Schema({ timestamps: true })
 export class NotificationsSubscription extends Document implements PushSubscription {
   @Prop()

@@ -1,4 +1,4 @@
-import { SearchFiltersDto } from './search-filters.dto';
+import type { SearchFiltersDto } from './search-filters.dto';
 
 export class SearchQueryDto {
   q: string;

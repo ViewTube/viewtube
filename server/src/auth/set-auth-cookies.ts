@@ -1,4 +1,4 @@
-import { FastifyReply } from 'fastify';
+import type { FastifyReply } from 'fastify';
 import { JWT_EXPIRATION, SESSION_EXPIRATION } from './constants/session';
 
 type SetAuthCookiesArgs = {

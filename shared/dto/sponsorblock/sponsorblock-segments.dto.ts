@@ -1,4 +1,4 @@
-import { SponsorBlockSegmentDto } from './sponsorblock-segment.dto';
+import { type SponsorBlockSegmentDto } from './sponsorblock-segment.dto';
 
 export class SponsorBlockSegmentsDto {
   hash: string;

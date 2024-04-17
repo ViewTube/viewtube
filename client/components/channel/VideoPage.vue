@@ -22,7 +22,7 @@ const emit = defineEmits<{
     event: 'update:sort',
     value: ChannelVideosSortOptionsType | ChannelPlaylistsSortOptionsType
   ): void;
-  (event: 'load-more', value: void): void;
+  (event: 'load-more'): void;
 }>();
 
 const sortBy = computed<ChannelVideosSortOptionsType | ChannelPlaylistsSortOptionsType>({

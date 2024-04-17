@@ -1,4 +1,4 @@
-import { SettingsDto } from '../settings/dto/settings.dto';
+import type { SettingsDto } from '../settings/dto/settings.dto';
 
 export class UserprofileDto {
   username: string;

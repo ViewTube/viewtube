@@ -20,8 +20,8 @@
     "test": "pnpm --filter=./tests/jest run test",
     "start": "pnpm --filter=./server run start",
     "lint-staged": "prettier --write --ignore-unknown",
-    "lint:client": "pnpm --filter=./client run lint",
-    "lint:server": "pnpm --filter=./server run lint",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "e2e": "pnpm --filter=./tests/cypress run ci:test",
     "format": "prettier --write .",
     "build:metadata": "pnpm --filter=./client run build:metadata",
@@ -35,7 +35,11 @@
   ],
   "devDependencies": {
     "cross-env": "7.0.3",
+    "eslint": "9.0.0",
+    "eslint-plugin-cypress": "^2.15.2",
+    "eslint-plugin-jest": "28.2.0",
     "prettier": "3.2.5",
+    "prettier-plugin-organize-imports": "^3.2.4",
     "typescript": "5.4.5"
   },
   "pnpm": {

@@ -146,18 +146,30 @@ const resetPageLinkPull = () => {
     border-radius: 5px;
     box-shadow: $low-shadow;
     background-color: var(--bgcolor-alt-light);
-    transition: left 300ms $intro-easing, width 300ms $intro-easing, height 150ms $intro-easing,
-      top 150ms $intro-easing, transform 300ms $intro-easing;
+    transition:
+      left 300ms $intro-easing,
+      width 300ms $intro-easing,
+      height 150ms $intro-easing,
+      top 150ms $intro-easing,
+      transform 300ms $intro-easing;
 
     &.pull-left {
       transform: translateX(v-bind('`-${pullLeft * 3}px`'));
-      transition: left 300ms $intro-easing, width 300ms $intro-easing, height 150ms $intro-easing,
-        top 150ms $intro-easing, transform 600ms $intro-easing;
+      transition:
+        left 300ms $intro-easing,
+        width 300ms $intro-easing,
+        height 150ms $intro-easing,
+        top 150ms $intro-easing,
+        transform 600ms $intro-easing;
     }
     &.pull-right {
       transform: translateX(v-bind('`${pullRight * 3}px`'));
-      transition: left 300ms $intro-easing, width 300ms $intro-easing, height 150ms $intro-easing,
-        top 150ms $intro-easing, transform 600ms $intro-easing;
+      transition:
+        left 300ms $intro-easing,
+        width 300ms $intro-easing,
+        height 150ms $intro-easing,
+        top 150ms $intro-easing,
+        transform 600ms $intro-easing;
     }
   }
 }

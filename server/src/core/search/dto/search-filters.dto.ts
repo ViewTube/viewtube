@@ -1,4 +1,4 @@
-import { SearchFilters } from 'youtubei.js';
+import type { SearchFilters } from 'youtubei.js';
 
 export class SearchFiltersDto implements SearchFilters {
   upload_date?: 'all' | 'hour' | 'today' | 'week' | 'month' | 'year';

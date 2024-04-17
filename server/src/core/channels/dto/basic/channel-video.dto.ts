@@ -1,5 +1,5 @@
-import { Video } from '../../yt-channel-info/app/types';
-import { ChannelImageDto } from './channel-image.dto';
+import type { Video } from '../../yt-channel-info/app/types';
+import type { ChannelImageDto } from './channel-image.dto';
 
 export class ChannelVideoDto implements Video {
   author: string;

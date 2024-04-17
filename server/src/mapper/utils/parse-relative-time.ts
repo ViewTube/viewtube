@@ -1,4 +1,5 @@
-import dayjs, { ManipulateType } from 'dayjs';
+import type { ManipulateType } from 'dayjs';
+import dayjs from 'dayjs';
 
 export const parseRelativeTime = (relativeTime: string) => {
   const regex = /(\d+)\s*(seconds?|minutes?|hours?|days?|weeks?|months?|years?)\s*ago/i;

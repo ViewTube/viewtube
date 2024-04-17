@@ -31,7 +31,7 @@ const selectIcon = (newIcon: string) => {
 .icon-switcher {
   display: flex;
   margin: 0 auto;
-  gap: 5px; 
+  gap: 5px;
 
   .switch-icon {
     width: 45px;

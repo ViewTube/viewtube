@@ -120,6 +120,7 @@ const videoDuration = computed(() => {
   } else if (typeof props.video.duration === 'string') {
     return props.video.duration;
   }
+  return 0;
 });
 
 const videoPublished = computed(() => {
@@ -134,6 +135,7 @@ const videoPublished = computed(() => {
   } else if (props.video.uploadedAt) {
     return dayjs(props.video.uploadedAt).fromNow();
   }
+  return 0;
 });
 
 const videoPublishedDate = computed(() => {
@@ -142,6 +144,7 @@ const videoPublishedDate = computed(() => {
   } else if (props.video.published?.seconds) {
     return dayjs(props.video.published.seconds).toString();
   }
+  return 0;
 });
 
 const isVerified = computed(() => {
@@ -172,6 +175,7 @@ const videoViewsText = computed(() => {
   } else if (props.video.views) {
     `${props.video.views.toLocaleString('en-US')} ${props.video.views === 1 ? 'view' : 'views'}`;
   }
+  return '0 views';
 });
 </script>
 

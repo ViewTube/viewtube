@@ -4,13 +4,13 @@ import {
   InternalServerErrorException,
   NotFoundException
 } from '@nestjs/common';
-import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
+import type { Model } from 'mongoose';
 import { VideoBasicInfo } from 'server/core/videos/schemas/video-basic-info.schema';
-import { SettingsService } from '../settings/settings.service';
+import type { SettingsService } from '../settings/settings.service';
+import type { VideoVisitDetailsDto } from './dto/video-visit-details.dto';
+import type { VideoVisitDto } from './dto/video-visit.dto';
 import { History } from './schemas/history.schema';
-import { VideoVisitDetailsDto } from './dto/video-visit-details.dto';
-import { VideoVisitDto } from './dto/video-visit.dto';
 
 @Injectable()
 export class HistoryService {

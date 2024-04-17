@@ -8,7 +8,7 @@ import { useUserStore } from '@/store/user';
 import { useCaptchaStore } from '@/store/captcha';
 
 const props = defineProps<{
-  complete?: Function;
+  complete?: () => void;
 }>();
 
 const route = useRoute();
@@ -90,7 +90,13 @@ captchaStore.getCaptcha();
     <InformationHint class="hint">Usernames are case sensitive</InformationHint>
     <Spinner />
     <form id="register" ref="registerForm" method="post" @submit.prevent="register">
-      <FormInput :id="'username'" v-model="username" :label="'username'" :type="'username'" autofocus />
+      <FormInput
+        :id="'username'"
+        v-model="username"
+        :label="'username'"
+        :type="'username'"
+        autofocus
+      />
       <FormInput :id="'password'" v-model="password" :label="'password'" :type="'password'" />
       <FormInput
         :id="'repeat-password'"

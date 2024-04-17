@@ -1,25 +1,24 @@
-import fs from 'node:fs/promises';
-import path from 'node:path';
-import sharp from 'sharp';
-import { createHash } from 'node:crypto';
 import {
-  Injectable,
-  HttpException,
   ForbiddenException,
-  InternalServerErrorException,
-  NotFoundException
+  HttpException,
+  Injectable,
+  InternalServerErrorException
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import { DislikeDto } from 'server/core/videos/dto/dislike.dto';
+import type { Model } from 'mongoose';
+import { createHash } from 'node:crypto';
+import fs from 'node:fs/promises';
+import path from 'node:path';
 import { BlockedVideo } from 'server/admin/schemas/blocked-video';
 import { innertubeClient } from 'server/common/innertube/innertube';
-import { toVTVideoInfoDto } from 'server/mapper/converter/video-info/vt-video-info.converter';
-import { VTVideoInfoDto } from 'server/mapper/dto/vt-video-info.dto';
 import { vtFetch } from 'server/common/vtFetch';
-import { VideoBasicInfo } from './schemas/video-basic-info.schema';
-import { VideoBasicInfoDto } from './dto/video-basic-info.dto';
+import type { DislikeDto } from 'server/core/videos/dto/dislike.dto';
+import { toVTVideoInfoDto } from 'server/mapper/converter/video-info/vt-video-info.converter';
+import type { VTVideoInfoDto } from 'server/mapper/dto/vt-video-info.dto';
+import sharp from 'sharp';
 import { type SponsorBlockSegmentsDto } from 'viewtube/shared';
+import type { VideoBasicInfoDto } from './dto/video-basic-info.dto';
+import { VideoBasicInfo } from './schemas/video-basic-info.schema';
 
 @Injectable()
 export class VideosService {
@@ -138,7 +137,7 @@ export class VideosService {
     }
     const idHash = createHash('sha256').update(id).digest('hex').substring(0, 4);
 
-    const { body, statusCode } = await vtFetch<SponsorBlockSegmentsDto[]>(
+    const { body } = await vtFetch<SponsorBlockSegmentsDto[]>(
       `${this.sponsorBlockApiUrl}/api/skipSegments/${idHash}`
     );
 

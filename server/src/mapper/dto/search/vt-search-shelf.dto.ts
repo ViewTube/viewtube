@@ -1,4 +1,4 @@
-import { VTSearchVideoResultDto } from './vt-search-video-result.dto';
+import type { VTSearchVideoResultDto } from './vt-search-video-result.dto';
 
 export class VTSearchShelfDto {
   type: 'shelf';

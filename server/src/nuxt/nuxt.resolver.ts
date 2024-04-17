@@ -1,5 +1,5 @@
-import path from 'node:path';
 import { readdir, stat } from 'node:fs/promises';
+import path from 'node:path';
 
 export const resolveNuxtPath = (): string => {
   const basePath = process.env.VIEWTUBE_BASE_DIR;

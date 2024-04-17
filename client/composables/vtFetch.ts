@@ -1,5 +1,5 @@
-import { ofetch } from 'ofetch';
 import { destr } from 'destr';
+import { ofetch } from 'ofetch';
 
 interface ResponseMap {
   blob: Blob;

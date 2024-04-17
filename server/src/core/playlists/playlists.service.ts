@@ -1,6 +1,7 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
-import ytpl, { ContinueResult, Options, Result } from 'ytpl';
-import { PlaylistResultDto } from './dto/playlist-result.dto';
+import type { ContinueResult, Options, Result } from 'ytpl';
+import ytpl from 'ytpl';
+import type { PlaylistResultDto } from './dto/playlist-result.dto';
 
 @Injectable()
 export class PlaylistsService {

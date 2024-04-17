@@ -1,19 +1,19 @@
+import { destr } from 'destr';
+import { socksDispatcher } from 'fetch-socks';
+import type { SocksProxy } from 'socks';
 import undici, {
+  Headers,
+  ProxyAgent,
   type BodyMixin,
   type Dispatcher,
-  Headers,
   type HeadersInit,
-  ProxyAgent,
   type RequestInfo,
   type RequestInit,
   type Response
 } from 'undici';
-import { socksDispatcher } from 'fetch-socks';
-import { SocksProxy } from 'socks';
-import { destr } from 'destr';
-import { UrlObject } from 'url';
+import type BodyReadable from 'undici/types/readable';
+import type { UrlObject } from 'url';
 import { getProxyUrl, proxyEnabled } from './proxyAgent';
-import BodyReadable from 'undici/types/readable';
 
 type VtFetchOptionsType = Omit<RequestOptionsType, 'dispatcher' | 'method' | 'headers'> & {
   useProxy?: boolean;

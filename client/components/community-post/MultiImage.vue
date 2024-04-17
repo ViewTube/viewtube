@@ -19,7 +19,7 @@ const modules = [Navigation];
 
 <template>
   <div class="multi-image">
-    <swiper :modules="modules" :navigation="(true as any)">
+    <swiper :modules="modules" :navigation="true as any">
       <swiper-slide v-for="(image, index) in postImages" :key="index">
         <CommunityPostImage :post-image="image" />
       </swiper-slide>

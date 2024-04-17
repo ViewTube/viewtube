@@ -22,11 +22,9 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   (e: 'loopchange', val: boolean): void;
-  (e: 'speedchange', val: number): void;
+  (e: 'speedchange' | 'videoqualityselect' | 'audioqualityselect', val: number): void;
   (e: 'refreshrecommended', val: any): void;
   (e: 'autoadjustchange'): void;
-  (e: 'videoqualityselect', val: number): void;
-  (e: 'audioqualityselect', val: number): void;
 }>();
 
 const settingsStore = useSettingsStore();
@@ -50,6 +48,7 @@ const smallQualityLabel = computed(() => {
       return `${renderedQuality.width}x${renderedQuality.height}`;
     }
   }
+  return '';
 });
 
 const changeVideoSpeed = (e: any) => {

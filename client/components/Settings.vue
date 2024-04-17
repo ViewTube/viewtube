@@ -19,7 +19,21 @@ const sponsorblockSegmentOptions = reactive([
 ]);
 
 const videoQualities = ['144p', '240p', '360p', '720p', '1080p', '1440p', '2160p'];
-const videoSpeedArray = ['0', '0.25', '0.5', '0.75', '1', '1.25', '1.5', '1.75', '2', '2.25', '2.5', '2.75', '3'];
+const videoSpeedArray = [
+  '0',
+  '0.25',
+  '0.5',
+  '0.75',
+  '1',
+  '1.25',
+  '1.5',
+  '1.75',
+  '2',
+  '2.25',
+  '2.5',
+  '2.75',
+  '3'
+];
 </script>
 
 <template>
@@ -250,30 +264,32 @@ const videoSpeedArray = ['0', '0.25', '0.5', '0.75', '1', '1.25', '1.5', '1.75',
         <label for="video-speed-input">Default video speed</label>
         <div class="video-speed-checkbox">
           <label for="as-list" style="padding-right: 5px"> (as list ?)</label>
-          <CheckBox id="as-list"
-                    :value="settingsStore.videoSpeedAsList"
-                    :label="''"
-                    @valuechange="val => settingsStore.setVideoSpeedAsList(val)"
+          <CheckBox
+            id="as-list"
+            :value="settingsStore.videoSpeedAsList"
+            :label="''"
+            @valuechange="val => settingsStore.setVideoSpeedAsList(val)"
           />
         </div>
-        <input v-if="!settingsStore.videoSpeedAsList"
-               id="video-speed-input"
-               class="settings-number-input"
-               type="number"
-               name="video-speed"
-               :value="settingsStore.defaultVideoSpeed"
-               step="0.1"
-               max="3"
-               min="0.1"
-               @change="(e: any) => settingsStore.setDefaultVideoSpeed(parseFloat(e.target.value))"
+        <input
+          v-if="!settingsStore.videoSpeedAsList"
+          id="video-speed-input"
+          class="settings-number-input"
+          type="number"
+          name="video-speed"
+          :value="settingsStore.defaultVideoSpeed"
+          step="0.1"
+          max="3"
+          min="0.1"
+          @change="(e: any) => settingsStore.setDefaultVideoSpeed(parseFloat(e.target.value))"
         />
         <Dropdown
           v-if="settingsStore.videoSpeedAsList"
           :style="{
-              'margin-top': '-20px',
-              'margin-right': '-20px',
-              'width': '63px'
-            }"
+            'margin-top': '-20px',
+            'margin-right': '-20px',
+            width: '63px'
+          }"
           :values="videoSpeedArray"
           :value="settingsStore.defaultVideoSpeed.toString()"
           @valuechange="val => settingsStore.setDefaultVideoSpeed(val.value)"

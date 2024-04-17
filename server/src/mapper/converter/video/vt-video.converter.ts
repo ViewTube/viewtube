@@ -1,7 +1,7 @@
-import { VideoBasicInfoDto } from 'server/core/videos/dto/video-basic-info.dto';
-import Video from 'youtubei.js/dist/src/parser/classes/Video';
-import { VTVideoDto } from 'server/mapper/dto/vt-video.dto';
+import type { VideoBasicInfoDto } from 'server/core/videos/dto/video-basic-info.dto';
+import type { VTVideoDto } from 'server/mapper/dto/vt-video.dto';
 import { generateVideoThumbnails } from 'server/mapper/utils/video-thumbnails';
+import type Video from 'youtubei.js/dist/src/parser/classes/Video';
 import {
   extractVideoAuthor,
   extractVideoDescription,

@@ -92,7 +92,9 @@ if (!props.options || new Set(props.options).size !== props.options.length) {
       background-color: var(--bgcolor-alt);
       cursor: pointer;
       color: var(--title-color);
-      transition: background-color 300ms $intro-easing, color 300ms $intro-easing;
+      transition:
+        background-color 300ms $intro-easing,
+        color 300ms $intro-easing;
 
       &.selected {
         background-color: transparent;

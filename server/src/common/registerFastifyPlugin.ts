@@ -1,5 +1,5 @@
-import { NestFastifyApplication } from '@nestjs/platform-fastify';
-import {
+import type { NestFastifyApplication } from '@nestjs/platform-fastify';
+import type {
   FastifyInstance,
   FastifyPluginAsync,
   FastifyPluginCallback,

@@ -1,5 +1,5 @@
-import { VTSearchDto } from 'server/mapper/dto/search/vt-search.dto';
-import { YT } from 'youtubei.js';
+import type { VTSearchDto } from 'server/mapper/dto/search/vt-search.dto';
+import type { YT } from 'youtubei.js';
 import {
   extractEstimatedResultCount,
   extractRefinements,
