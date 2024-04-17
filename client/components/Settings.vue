@@ -5,6 +5,7 @@ import MultiOptionButton from '@/components/buttons/MultiOptionButton.vue';
 import Dropdown from '@/components/filter/Dropdown.vue';
 import '@/assets/styles/popup.scss';
 import { type SegmentOption, useSettingsStore } from '@/store/settings';
+import CheckBox from '~/components/form/CheckBox.vue';
 
 defineEmits<{
   (e: 'close'): void;
@@ -18,6 +19,7 @@ const sponsorblockSegmentOptions = reactive([
 ]);
 
 const videoQualities = ['144p', '240p', '360p', '720p', '1080p', '1440p', '2160p'];
+const videoSpeedArray = ['0', '0.25', '0.5', '0.75', '1', '1.25', '1.5', '1.75', '2', '2.25', '2.5', '2.75', '3'];
 </script>
 
 <template>
@@ -232,6 +234,39 @@ const videoQualities = ['144p', '240p', '360p', '720p', '1080p', '1440p', '2160p
           @valuechange="val => settingsStore.setDefaultVideoQuality(val.value)"
         />
       </div>
+      <div class="settings-number-menu">
+        <label for="video-speed-input">Default video speed</label>
+        <div class="video-speed-checkbox">
+          <label for="as-list" style="padding-right: 5px"> (as list ?)</label>
+          <CheckBox id="as-list"
+                    :value="settingsStore.videoSpeedAsList"
+                    :label="''"
+                    @valuechange="val => settingsStore.setVideoSpeedAsList(val)"
+          />
+        </div>
+        <input v-if="!settingsStore.videoSpeedAsList"
+               id="video-speed-input"
+               class="settings-number-input"
+               type="number"
+               name="video-speed"
+               :value="settingsStore.defaultVideoSpeed"
+               step="0.1"
+               max="3"
+               min="0.1"
+               @change="(e: any) => settingsStore.setDefaultVideoSpeed(parseFloat(e.target.value))"
+        />
+        <Dropdown
+          v-if="settingsStore.videoSpeedAsList"
+          :style="{
+              'margin-top': '-20px',
+              'margin-right': '-20px',
+              'width': '63px'
+            }"
+          :values="videoSpeedArray"
+          :value="settingsStore.defaultVideoSpeed.toString()"
+          @valuechange="val => settingsStore.setDefaultVideoSpeed(val.value)"
+        />
+      </div>
       <SwitchButton
         :value="settingsStore.dashPlaybackEnabled"
         :label="'Enable MPEG-DASH'"
@@ -272,20 +307,6 @@ const videoQualities = ['144p', '240p', '360p', '720p', '1080p', '1440p', '2160p
         :right="true"
         @valuechange="val => settingsStore.setAudioModeDefault(val)"
       />
-      <div class="settings-number-menu">
-        <label for="video-speed-input">Default video speed</label>
-        <input
-          id="video-speed-input"
-          class="settings-number-input"
-          type="number"
-          name="video-speed"
-          :value="settingsStore.defaultVideoSpeed"
-          step="0.1"
-          max="3"
-          min="0.1"
-          @change="(e: any) => settingsStore.setDefaultVideoSpeed(parseInt(e.target.value))"
-        />
-      </div>
     </div>
     <div class="settings-overlay popup-overlay" @click.stop="$emit('close')" />
   </div>
@@ -406,6 +427,12 @@ const videoQualities = ['144p', '240p', '360p', '720p', '1080p', '1440p', '2160p
         border: 2px solid var(--theme-color);
       }
     }
+  }
+
+  .video-speed-checkbox {
+    display: flex;
+    flex: 1;
+    margin-left: 5px;
   }
 
   .sponsorblock-options-container {

@@ -28,6 +28,7 @@ export const useSettingsStore = defineStore(
       reactive({
         alwaysLoopVideo: false,
         hideComments: false,
+        videoSpeedAsList: false,
         audioModeDefault: false,
         autoAdjustAudioQuality: true,
         autoAdjustVideoQuality: true,

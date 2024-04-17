@@ -60,6 +60,9 @@ export class Settings extends Document implements SettingsDto {
   hideComments: boolean;
 
   @Prop()
+  videoSpeedAsList: boolean;
+
+  @Prop()
   autoplayNextVideo: boolean;
 
   @Prop()
