@@ -147,6 +147,7 @@ Thanks goes to these wonderful people
     <tr>
       <td align="center" valign="top" width="14.28%"><a href="https://www.rahim.li"><img src="https://avatars.githubusercontent.com/u/41202771?v=4?s=100" width="100px;" alt="Alvan Rahimli"/><br /><sub><b>Alvan Rahimli</b></sub></a><br /><a href="https://github.com/ViewTube/viewtube/commits?author=alvanrahimli" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://wtf.city"><img src="https://avatars.githubusercontent.com/u/10325355?v=4?s=100" width="100px;" alt="Dominik Szymański"/><br /><sub><b>Dominik Szymański</b></sub></a><br /><a href="https://github.com/ViewTube/viewtube/commits?author=chonsser" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://quentinfranchi.com"><img src="https://avatars.githubusercontent.com/u/11914315?v=4?s=100" width="100px;" alt="Quentin Franchi"/><br /><sub><b>Quentin Franchi</b></sub></a><br /><a href="https://github.com/ViewTube/viewtube/commits?author=nargacu83" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/frozenduck"><img src="https://avatars.githubusercontent.com/u/63501031?v=4?s=100" width="100px;" alt="frozenduck"/><br /><sub><b>frozenduck</b></sub></a><br /><a href="https://github.com/ViewTube/viewtube/commits?author=frozenduck" title="Code">💻</a></td>
     </tr>
   </tbody>
