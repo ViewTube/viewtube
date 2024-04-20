@@ -1,5 +1,15 @@
-import { Logger } from '@nestjs/common';
-import { Body, Controller, Delete, Get, Param, Post, Put, Query, Req } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Logger,
+  Param,
+  Post,
+  Put,
+  Query,
+  Req
+} from '@nestjs/common';
 import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { ViewTubeRequest } from 'common/viewtube-request';
 import { Private } from 'server/auth/decorators/private.decorator';

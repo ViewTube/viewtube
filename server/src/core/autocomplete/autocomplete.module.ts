@@ -1,6 +1,5 @@
 import { CacheModule } from '@nestjs/cache-manager';
-import { ModuleMetadata } from '@nestjs/common';
-import { Module } from '@nestjs/common';
+import { Module, ModuleMetadata } from '@nestjs/common';
 import { CacheConfigService } from 'server/cache-config.service';
 import { AutocompleteController } from './autocomplete.controller';
 import { AutocompleteService } from './autocomplete.service';

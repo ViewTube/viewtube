@@ -1,5 +1,13 @@
-import { StreamableFile } from '@nestjs/common';
-import { Body, Controller, Delete, Get, Param, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  StreamableFile,
+  UseGuards
+} from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Private } from 'server/auth/decorators/private.decorator';
 import { AdminGuard } from 'server/auth/guards/admin.guard';

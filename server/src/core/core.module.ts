@@ -1,6 +1,5 @@
 import { CacheModule } from '@nestjs/cache-manager';
-import { ModuleMetadata } from '@nestjs/common';
-import { Logger, Module } from '@nestjs/common';
+import { Logger, Module, ModuleMetadata } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { BlockedVideo, BlockedVideoSchema } from 'server/admin/schemas/blocked-video';

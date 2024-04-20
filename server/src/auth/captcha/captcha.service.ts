@@ -1,4 +1,4 @@
-import { Logger, Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { randomBytes } from 'crypto';
 import miniSVG from 'mini-svg-data-uri';

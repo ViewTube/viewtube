@@ -1,9 +1,9 @@
-import { Logger } from '@nestjs/common';
 import {
   BadRequestException,
   HttpException,
   Injectable,
   InternalServerErrorException,
+  Logger,
   NotFoundException
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
@@ -18,8 +18,7 @@ import humanizeDuration from 'humanize-duration';
 import { Model } from 'mongoose';
 import path from 'path';
 import { SESSION_EXPIRATION } from 'server/auth/constants/session';
-import { SessionDocument } from 'server/auth/schemas/session.schema';
-import { Session } from 'server/auth/schemas/session.schema';
+import { Session, SessionDocument } from 'server/auth/schemas/session.schema';
 import { ViewTubeRequest } from 'server/common/viewtube-request';
 import { ChannelBasicInfoDto } from 'server/core/channels/dto/channel-basic-info.dto';
 import { Common } from 'server/core/common';

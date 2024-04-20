@@ -1,7 +1,6 @@
 import { toVTVideoDto } from 'server/mapper/converter/video/vt-video.converter';
 import { VTVideoDto } from 'server/mapper/dto/vt-video.dto';
-import { IBrowseResponse } from 'youtubei.js';
-import { YTNodes } from 'youtubei.js';
+import { IBrowseResponse, YTNodes } from 'youtubei.js';
 import { TabbedFeed } from 'youtubei.js/dist/src/core/mixins';
 
 export const mapHomeFeed = (homeFeed: TabbedFeed<IBrowseResponse>): Array<VTVideoDto> => {

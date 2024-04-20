@@ -1,5 +1,4 @@
-import { ModuleMetadata } from '@nestjs/common';
-import { Logger, Module } from '@nestjs/common';
+import { Logger, Module, ModuleMetadata } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { CaptchaController } from './captcha.controller';
 import { CaptchaService } from './captcha.service';

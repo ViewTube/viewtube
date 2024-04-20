@@ -1,5 +1,4 @@
-import { RedisOptions } from 'ioredis';
-import Redis from 'ioredis';
+import Redis, { RedisOptions } from 'ioredis';
 import { logger } from './logger';
 
 export const checkRedisConnection = async () => {

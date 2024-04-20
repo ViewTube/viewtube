@@ -1,7 +1,6 @@
 import { BullModule } from '@nestjs/bull';
 import { CacheModule } from '@nestjs/cache-manager';
-import { ModuleMetadata, Type } from '@nestjs/common';
-import { Logger, Module } from '@nestjs/common';
+import { Logger, Module, ModuleMetadata, Type } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { RouterModule } from '@nestjs/core';
 import { MongooseModule } from '@nestjs/mongoose';

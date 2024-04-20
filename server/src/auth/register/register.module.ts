@@ -1,5 +1,4 @@
-import { ModuleMetadata } from '@nestjs/common';
-import { Module } from '@nestjs/common';
+import { Module, ModuleMetadata } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ServerSettings, ServerSettingsSchema } from 'server/admin/schemas/server-settings';
 import { UserModule } from '../../user/user.module';
