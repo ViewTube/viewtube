@@ -45,6 +45,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Prepare .nuxt directory
+        run: pnpm run nuxt:prepare
+
       - name: Generate build metadata
         run: |
           pnpm build:metadata

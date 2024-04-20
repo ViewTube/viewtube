@@ -9,7 +9,8 @@
     "serve": "pnpm run build:metadata && pnpm run prepare:env nuxi dev",
     "dev": "pnpm run serve",
     "build": "cross-env NUXT_BUILD=true nuxi build",
-    "prepare": "cross-env NUXT_BUILD=true nuxi prepare",
+    "prepare": "pnpm run nuxt:prepare",
+    "nuxt:prepare": "cross-env NUXT_BUILD=true nuxi prepare",
     "build:metadata": "node ./buildMetadata.mjs"
   },
   "devDependencies": {

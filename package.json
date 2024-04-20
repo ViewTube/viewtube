@@ -22,6 +22,7 @@
     "lint-staged": "prettier --write --ignore-unknown",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
+    "nuxt:prepare": "pnpm --filter=./client run nuxt:prepare",
     "e2e": "pnpm --filter=./tests/cypress run ci:test",
     "format": "prettier --write .",
     "build:metadata": "pnpm --filter=./client run build:metadata",
