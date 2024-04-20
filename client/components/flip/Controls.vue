@@ -1,10 +1,16 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+defineProps<{
+  uiState: UIState;
+  videoState: VideoState;
+  video: ApiDto<'VTVideoInfoDto'>;
+}>();
+</script>
 
 <template>
   <div class="controls">
-    <FlipTopBar />
-    <FlipSeekbar />
-    <FlipControlButtons />
+    <FlipTopBar :ui-state="uiState" :video="video" />
+    <FlipSeekbar :ui-state="uiState" :video-state="videoState" :video="video" />
+    <FlipControlButtons :ui-state="uiState" :video-state="videoState" />
   </div>
 </template>
 

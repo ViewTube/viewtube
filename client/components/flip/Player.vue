@@ -10,13 +10,11 @@ const startTime = toRef(props, 'startTime');
 const { videoSource } = useVideoSource(videoObj);
 
 const videoState = useVideoState(videoElementRef, videoSource, startTime);
-provide('videoState', readonly(videoState));
-provide('video', readonly(props.video));
 </script>
 
 <template>
   <div class="flip-player">
-    <FlipPlayerUI>
+    <FlipPlayerUI :video-state="videoState" :video="video">
       <video ref="videoElementRef" class="flip-video-element" />
     </FlipPlayerUI>
   </div>

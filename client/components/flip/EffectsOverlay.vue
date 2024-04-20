@@ -1,12 +1,13 @@
 <script setup lang="ts">
-const uiState = inject<UIState>('uiState');
-const visibleEffects = computed<any>(() => uiState.visibleEffects);
+defineProps<{
+  uiState: UIState;
+}>();
 </script>
 
 <template>
   <div class="effects-overlay">
     <FlipEffect
-      v-for="effect in visibleEffects"
+      v-for="effect in uiState.visibleEffects.value"
       :key="effect.name"
       :name="effect.name"
       :duration="effect.duration"

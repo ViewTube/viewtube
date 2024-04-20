@@ -1,15 +1,15 @@
 <script setup lang="ts">
-defineProps<{
+const props = defineProps<{
   hovered: boolean;
+  video: ApiDto<'VTVideoInfoDto'>;
+  videoState: VideoState;
 }>();
-const videoState = inject<VideoState>('videoState');
-const video = inject<ApiDto<'VTVideoInfoDto'>>('video');
 
 const chapters = computed(() => {
-  const videoLength = videoState.video.duration;
+  const videoLength = props.videoState.video.duration;
   const videoLengthMs = videoLength * 1000;
 
-  return video.chapters?.slice(1).map(chapter => ({
+  return props.video.chapters?.slice(1).map(chapter => ({
     ...chapter,
     posLeft: `${(chapter.startMs / videoLengthMs) * 100}%`
   }));

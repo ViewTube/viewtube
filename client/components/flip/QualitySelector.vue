@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import MultiOptionButton from '../buttons/MultiOptionButton.vue';
-
-const videoState = inject<VideoState>('videoState');
+const props = defineProps<{
+  videoState: VideoState;
+}>();
 
 const trackListForCurrentLanguage = computed(() => {
-  const currentLanguage = videoState.video.selectedLanguage;
-  const trackList = videoState.video.trackList[currentLanguage];
+  const currentLanguage = props.videoState.video.selectedLanguage;
+  const trackList = props.videoState.video.trackList[currentLanguage];
   if (!trackList) {
-    return videoState.video.trackList[Object.keys(videoState.video.trackList)[0]];
+    return props.videoState.video.trackList[Object.keys(props.videoState.video.trackList)[0]];
   }
   return trackList;
 });

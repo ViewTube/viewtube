@@ -1,5 +1,7 @@
 <script setup lang="ts">
-const captionsState = inject<CaptionsState>('captionsState');
+defineProps<{
+  captionsState: CaptionsState;
+}>();
 </script>
 
 <template>
@@ -14,9 +16,8 @@ const captionsState = inject<CaptionsState>('captionsState');
         >
           <span>Off</span>
         </div>
-        <!-- prettier-ignore-attribute -->
         <div
-          v-for="(track, index) in (captionsState.availableCaptionTracks as any)"
+          v-for="(track, index) in captionsState.availableCaptionTracks.value"
           :key="index"
           :class="{ selected: track.active }"
           class="selector"

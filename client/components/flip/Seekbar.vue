@@ -1,13 +1,17 @@
 <script setup lang="ts">
 import { getTimestampFromSeconds } from '@/utils/shared';
+import { useSettingsStore } from '~/store/settings';
+const props = defineProps<{
+  videoState: VideoState;
+  uiState: UIState;
+  video: ApiDto<'VTVideoInfoDto'>;
+}>();
 
-const videoState = inject<VideoState>('videoState');
-const uiState = inject<UIState>('uiState');
-const video = inject<ApiDto<'VTVideoInfoDto'>>('video');
+const settingsStore = useSettingsStore();
 
-const _currentTime = ref(videoState.video.currentTime);
+const _currentTime = ref(props.videoState.video.currentTime);
 watch(
-  () => videoState.video.currentTime,
+  () => props.videoState.video.currentTime,
   newVal => {
     if (!seeking.value) {
       _currentTime.value = newVal;
@@ -18,13 +22,14 @@ watch(
 const bufferWidth = computed(
   () =>
     `${
-      ((videoState.video.currentTime + videoState.video.bufferLevel) / videoState.video.duration) *
+      ((props.videoState.video.currentTime + props.videoState.video.bufferLevel) /
+        props.videoState.video.duration) *
       100
     }%`
 );
 
 const currentTimeWidth = computed(
-  () => `${(_currentTime.value / videoState.video.duration) * 100}%`
+  () => `${(_currentTime.value / props.videoState.video.duration) * 100}%`
 );
 
 const seekbarRef = ref<HTMLDivElement | null>(null);
@@ -32,7 +37,7 @@ const seekbarInnerRef = ref<HTMLDivElement | null>(null);
 const seeking = ref(false);
 
 const onPointerDown = (e: PointerEvent) => {
-  uiState.setSeeking(true);
+  props.uiState.setSeeking(true);
   seeking.value = true;
   seekbarRef.value?.setPointerCapture(e.pointerId);
   onPointerMove(e);
@@ -46,7 +51,7 @@ const onPointerMove = (e: PointerEvent) => {
     let percent = x / width;
     if (percent < 0) percent = 0;
     if (percent > 1) percent = 1;
-    const time = videoState.video.duration * percent;
+    const time = props.videoState.video.duration * percent;
     hoveredTime.value = time;
     hoveredTimestamp.value = getTimestampFromSeconds(time);
     hoverPosition.value = percent;
@@ -67,10 +72,10 @@ const onPointerLeave = () => {
 };
 
 const onPointerUp = (e: PointerEvent) => {
-  uiState.setSeeking(false);
+  props.uiState.setSeeking(false);
   seeking.value = false;
   seekbarRef.value?.releasePointerCapture(e.pointerId);
-  videoState.setTime(_currentTime.value);
+  props.videoState.setTime(_currentTime.value);
 };
 
 const hoveredTime = ref(0);
@@ -110,14 +115,21 @@ const getHoverPositionByWidth = (elWidth: number) => {
 };
 
 const currentChapter = computed(() => {
-  if (!video.chapters?.length) return;
+  if (!props.video.chapters?.length || !settingsStore.chapters) return;
 
   const hoveredTimeMs = hoveredTime.value * 1000;
-  return video.chapters.find((chapter, index) => {
+  return props.video.chapters.find((chapter, index) => {
     const startMs = chapter.startMs;
-    const endMs = video.chapters[index + 1]?.startMs ?? videoState.video.duration * 1000;
+    const endMs =
+      props.video.chapters[index + 1]?.startMs ?? props.videoState.video.duration * 1000;
     return startMs < hoveredTimeMs && endMs > hoveredTimeMs;
   });
+});
+
+const currentSponsorBlockSegment = computed(() => {
+  if (!props.uiState.skipSegments.value?.segments || !settingsStore.sponsorblockEnabled) return;
+
+  return props.uiState.getCurrentSegment(hoveredTime.value);
 });
 </script>
 
@@ -136,15 +148,42 @@ const currentChapter = computed(() => {
     <div ref="seekbarInnerRef" class="flip-seekbar">
       <div class="flip-seekbar-buffer seekbar-overlay" />
       <div class="flip-seekbar-progress seekbar-overlay" />
-      <FlipChapters :hovered="seekbarHovered" />
+      <div
+        v-if="uiState.skipSegments.value?.segments && settingsStore.sponsorblockEnabled"
+        class="flip-seekbar-sponsorblock seekbar-overlay"
+      >
+        <FlipSkipSegment
+          v-for="skipSegment in uiState.skipSegments.value.segments"
+          :key="skipSegment.UUID"
+          :segment="skipSegment"
+          :video-duration="videoState.video.duration"
+        />
+      </div>
+      <FlipChapters
+        v-if="settingsStore.chapters"
+        :hovered="seekbarHovered"
+        :video="video"
+        :video-state="videoState"
+      />
       <div class="flip-seekbar-point" />
       <FlipSeekbarPreview
         class="seekbar-preview"
         :hovered-time="hoveredTime"
         :position-x="previewThumbnailPosition"
         :position-y="currentChapter ? '80px' : '59px'"
+        :video="video"
       />
       <ClientOnly>
+        <div
+          v-if="currentSponsorBlockSegment"
+          ref="hoverSponsorBlockSegmentRef"
+          class="flip-hover-sponsorblock flip-hover-element"
+          :style="{
+            transform: `translate3d(${hoverTimestampPosition},0,0)`
+          }"
+        >
+          {{ currentSponsorBlockSegment.category }}
+        </div>
         <div
           v-if="currentChapter"
           ref="hoverChapterRef"
@@ -205,6 +244,10 @@ const currentChapter = computed(() => {
     .flip-seekbar-progress {
       background-color: var(--theme-color);
       width: v-bind(currentTimeWidth);
+    }
+
+    .flip-seekbar-sponsorblock {
+      width: 100%;
     }
 
     .flip-seekbar-point {

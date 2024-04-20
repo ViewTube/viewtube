@@ -1,6 +1,9 @@
 <script setup lang="ts">
-const uiState = inject<UIState>('uiState');
-const videoState = inject<VideoState>('videoState');
+defineProps<{
+  videoState: VideoState;
+  uiState: UIState;
+  captionsState: CaptionsState;
+}>();
 </script>
 
 <template>
@@ -12,7 +15,7 @@ const videoState = inject<VideoState>('videoState');
       </div>
       <div class="flip-setting mobile-only volume-setting">
         <VTIcon class="flip-setting-icon" name="mdi:volume" />
-        <FlipVolume mobile />
+        <FlipVolume mobile :video-state="videoState" :ui-state="uiState" />
       </div>
       <div v-if="videoState.video.languageList?.length > 1" class="flip-setting">
         <VTIcon class="flip-setting-icon" name="mdi:globe" />
@@ -30,8 +33,8 @@ const videoState = inject<VideoState>('videoState');
           </div>
         </ListCollapsibleSection>
       </div>
-      <FlipQualitySelector />
-      <FlipCaptionsSelector />
+      <FlipQualitySelector :video-state="videoState" />
+      <FlipCaptionsSelector :captions-state="captionsState" />
     </div>
   </div>
 </template>

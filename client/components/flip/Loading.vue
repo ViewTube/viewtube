@@ -1,11 +1,13 @@
 <script setup lang="ts">
-const videoState = inject<VideoState>('videoState');
+defineProps<{
+  videoState: VideoState;
+}>();
 </script>
 
 <template>
   <div class="flip-loading">
     <Spinner class="flip-spinner" />
-    <h2 class="flip-loading-text">{{ videoState.bufferMessage }}...</h2>
+    <h2 class="flip-loading-text">{{ videoState.bufferMessage.value }}...</h2>
   </div>
 </template>
 

@@ -1,23 +1,25 @@
 <script setup lang="ts">
 import { getTimestampFromSeconds } from '@/utils/shared';
 
-const videoState = inject<VideoState>('videoState');
-const uiState = inject<UIState>('uiState');
+const props = defineProps<{
+  videoState: VideoState;
+  uiState: UIState;
+}>();
 
 const onPlayPauseClick = () => {
-  if (videoState.video.playing) {
-    videoState.pause();
+  if (props.videoState.video.playing) {
+    props.videoState.pause();
   } else {
-    videoState.play();
+    props.videoState.play();
   }
 };
 
 const onVolumeClick = () => {
-  videoState.setMuted(!videoState.video.muted);
+  props.videoState.setMuted(!props.videoState.video.muted);
 };
 
-const timestampText = computed(() => getTimestampFromSeconds(videoState.video.currentTime));
-const videoLengthText = computed(() => getTimestampFromSeconds(videoState.video.duration));
+const timestampText = computed(() => getTimestampFromSeconds(props.videoState.video.currentTime));
+const videoLengthText = computed(() => getTimestampFromSeconds(props.videoState.video.duration));
 </script>
 
 <template>
@@ -29,7 +31,7 @@ const videoLengthText = computed(() => getTimestampFromSeconds(videoState.video.
       <VTIcon v-else-if="videoState.video.volume < 0.5" name="mdi:volume-low" />
       <VTIcon v-else-if="videoState.video.volume < 1" name="mdi:volume-medium" />
       <VTIcon v-else name="mdi:volume-high" />
-      <FlipVolume />
+      <FlipVolume :video-state="videoState" :ui-state="uiState" />
     </button>
     <div class="control-buttons center-buttons">
       <button class="control-button">
@@ -48,7 +50,7 @@ const videoLengthText = computed(() => getTimestampFromSeconds(videoState.video.
         <VTIcon name="mdi:cog" />
       </button>
       <button class="control-button" @click.stop="uiState.toggleFullscreen">
-        <VTIcon v-if="uiState.fullscreen" name="mdi:arrow-collapse" />
+        <VTIcon v-if="uiState.fullscreen.value" name="mdi:arrow-collapse" />
         <VTIcon v-else name="mdi:arrow-expand" />
       </button>
     </div>

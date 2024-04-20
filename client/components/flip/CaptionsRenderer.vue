@@ -1,10 +1,9 @@
 <script setup lang="ts">
 const props = defineProps<{
   captionsState: CaptionsState;
+  videoState: VideoState;
+  uiState: UIState;
 }>();
-
-const videoState = inject<VideoState>('videoState');
-const uiState = inject<UIState>('uiState');
 
 const selectedCaptionsTrack = computed(() =>
   props.captionsState.availableCaptionTracks.value?.find(
@@ -14,7 +13,7 @@ const selectedCaptionsTrack = computed(() =>
 
 const currentCaption = computed(() => {
   if (!selectedCaptionsTrack.value) return null;
-  const currentTime = videoState.video.currentTime;
+  const currentTime = props.videoState.video.currentTime;
 
   return selectedCaptionsTrack.value.captions
     .filter(

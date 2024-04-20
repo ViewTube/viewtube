@@ -32,7 +32,7 @@ type ParsedCaptionsObject = {
   };
 };
 
-export const useCaptionsState = (video: ApiDto<'VTVideoInfoDto'>) => {
+export const useCaptionsState = (video: Ref<ApiDto<'VTVideoInfoDto'>>) => {
   const { textProxy } = useProxyUrls();
   const { vtFetch } = useVtFetch();
   const messagesStore = useMessagesStore();
@@ -43,7 +43,7 @@ export const useCaptionsState = (video: ApiDto<'VTVideoInfoDto'>) => {
   const availableCaptionTracks = ref<AvailableCaptionTrack[]>();
 
   const getAvailableCaptionTracks = () => {
-    const tracks = video.captions;
+    const tracks = video.value.captions;
 
     if (!tracks) return [];
 
@@ -69,7 +69,7 @@ export const useCaptionsState = (video: ApiDto<'VTVideoInfoDto'>) => {
   );
 
   watch(
-    () => video.captions,
+    () => video.value.captions,
     () => {
       availableCaptionTracks.value = getAvailableCaptionTracks();
     },

@@ -1,24 +1,24 @@
 <script setup lang="ts">
-defineProps<{
+const props = defineProps<{
   mobile?: boolean;
+  videoState: VideoState;
+  uiState: UIState;
 }>();
-const videoState = inject<VideoState>('videoState');
-const uiState = inject<UIState>('uiState');
 
 const onVolumeSeekStart = () => {
-  uiState.setSeeking(true);
+  props.uiState.setSeeking(true);
 };
 const onVolumeSeekStop = () => {
-  uiState.setSeeking(false);
+  props.uiState.setSeeking(false);
 };
 
 const setVolume = (volume: number) => {
   if (volume < 0) volume = 0;
   if (volume > 1) volume = 1;
   if (volume > 0) {
-    videoState.setMuted(false);
+    props.videoState.setMuted(false);
   }
-  videoState.setVolume(volume);
+  props.videoState.setVolume(volume);
 };
 </script>
 

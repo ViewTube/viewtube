@@ -1,11 +1,13 @@
 <script setup lang="ts">
-const video = inject<ApiDto<'VTVideoInfoDto'>>('video');
-const uiState = inject<UIState>('uiState');
+defineProps<{
+  video: ApiDto<'VTVideoInfoDto'>;
+  uiState: UIState;
+}>();
 </script>
 
 <template>
   <div class="flip-top-bar">
-    <div v-if="uiState.fullscreen" class="flip-video-info">
+    <div v-if="uiState.fullscreen.value" class="flip-video-info">
       <span class="video-title">{{ video.title }}</span>
       <span class="video-channel">{{ video.author.name }}</span>
     </div>

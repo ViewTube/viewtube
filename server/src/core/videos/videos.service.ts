@@ -137,8 +137,25 @@ export class VideosService {
     }
     const idHash = createHash('sha256').update(id).digest('hex').substring(0, 4);
 
+    const categories = [
+      'sponsor',
+      'selfpromo',
+      'interaction',
+      'intro',
+      'outro',
+      'preview',
+      'music_offtopic',
+      'filler',
+      'poi_highlight'
+    ];
+
     const { body } = await vtFetch<SponsorBlockSegmentsDto[]>(
-      `${this.sponsorBlockApiUrl}/api/skipSegments/${idHash}`
+      `${this.sponsorBlockApiUrl}/api/skipSegments/${idHash}`,
+      {
+        query: {
+          categories: `["${categories.join('","')}"]`
+        }
+      }
     );
 
     if (body) {

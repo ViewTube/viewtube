@@ -1,16 +1,15 @@
 <script setup lang="ts">
-const videoState = inject<VideoState>('videoState');
-const video = inject<ApiDto<'VTVideoInfoDto'>>('video');
+const props = defineProps<{
+  videoState: VideoState;
+  video: ApiDto<'VTVideoInfoDto'>;
+}>();
 const flipPlayerUIRef = ref<HTMLDivElement | null>(null);
 
-const captionsState = useCaptionsState(video);
-const uiState = useUIState(videoState, flipPlayerUIRef as any, captionsState);
+const captionsState = useCaptionsState(toRef(props, 'video'));
+const uiState = useUIState(props.videoState, toRef(props, 'video'), flipPlayerUIRef, captionsState);
 
 const cursor = computed(() => uiState.cursor.value);
 const visible = computed(() => uiState.visible.value);
-
-provide('uiState', readonly(uiState));
-provide('captionsState', readonly(captionsState));
 </script>
 
 <template>
@@ -26,14 +25,23 @@ provide('captionsState', readonly(captionsState));
     <slot />
     <Spinner v-if="videoState.video.buffering" class="flip-spinner" />
     <transition name="flip-fade">
-      <FlipControls v-if="visible" />
+      <FlipControls v-if="visible" :video-state="videoState" :video="video" :ui-state="uiState" />
     </transition>
-    <FlipEffectsOverlay />
-    <FlipCaptionsRenderer :captions-state="captionsState" />
-    <FlipPoster />
+    <FlipEffectsOverlay :ui-state="uiState" />
+    <FlipCaptionsRenderer
+      :captions-state="captionsState"
+      :video-state="videoState"
+      :ui-state="uiState"
+    />
+    <FlipPoster :video-state="videoState" :video="video" />
     <Teleport :to="uiState.fullscreen.value ? '#flip-player-ui' : 'body'">
       <transition name="flip-settings-transition">
-        <FlipSettings v-if="uiState.settingsOpen.value" />
+        <FlipSettings
+          v-if="uiState.settingsOpen.value"
+          :video-state="videoState"
+          :captions-state="captionsState"
+          :ui-state="uiState"
+        />
       </transition>
     </Teleport>
   </div>

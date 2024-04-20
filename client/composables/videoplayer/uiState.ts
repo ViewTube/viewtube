@@ -1,5 +1,4 @@
 import { usePopupStore } from '@/store/popup';
-import { useKeydownActions } from './keydownActions';
 
 const UI_TIMEOUT = 3000;
 
@@ -7,6 +6,7 @@ export type UIState = ReturnType<typeof useUIState>;
 
 export const useUIState = (
   videoState: VideoState,
+  video: Ref<ApiDto<'VTVideoInfoDto'>>,
   flipPlayerUIRef: Ref<HTMLDivElement | null>,
   captionsState: CaptionsState
 ) => {
@@ -32,6 +32,8 @@ export const useUIState = (
       }
     }
   };
+
+  const { getCurrentSegment, skipSegments } = useSponsorBlockState(video);
 
   const fullscreen = ref(false);
   const toggleFullscreen = () => {
@@ -233,12 +235,14 @@ export const useUIState = (
     fullscreen,
     settingsOpen,
     visibleEffects,
+    skipSegments,
 
     onPointerMove,
     onPointerLeave,
     onPointerDown,
     onPointerUp,
     setSeeking,
+    getCurrentSegment,
 
     toggleFullscreen,
     openSettings,

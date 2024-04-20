@@ -3,9 +3,9 @@ const props = defineProps<{
   hoveredTime: number;
   positionX: string;
   positionY: string;
+  video: ApiDto<'VTVideoInfoDto'>;
 }>();
 const { proxyUrl } = useImgProxy();
-const video = inject<ApiDto<'VTVideoInfoDto'>>('video');
 
 const getPreviewThumbnail = (
   previewThumbnailTemplate: ApiDto<'VTVideoInfoDto'>['previewThumbnails'][number]
@@ -17,7 +17,7 @@ const getPreviewThumbnail = (
   let previewImageUrl = previewThumbnailTemplate.urlTemplate;
   let previewImageNr = 0;
   const thumbnailCountPerImg = previewThumbnailTemplate.columns * previewThumbnailTemplate.rows;
-  let secondsPerThumbnail = video.duration.seconds / thumbnailCountPerImg;
+  let secondsPerThumbnail = props.video.duration.seconds / thumbnailCountPerImg;
 
   if (previewThumbnailTemplate.previewThumbnailCount > 1) {
     secondsPerThumbnail = previewThumbnailTemplate.interval / 1000;
@@ -51,9 +51,9 @@ const getPreviewThumbnail = (
   };
 };
 
-const smallThumbnail = computed(() => getPreviewThumbnail(video.previewThumbnails[0]));
+const smallThumbnail = computed(() => getPreviewThumbnail(props.video.previewThumbnails[0]));
 const largeThumbnail = computed(() =>
-  getPreviewThumbnail(video.previewThumbnails[video.previewThumbnails.length - 1])
+  getPreviewThumbnail(props.video.previewThumbnails[props.video.previewThumbnails.length - 1])
 );
 </script>
 

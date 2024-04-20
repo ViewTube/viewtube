@@ -1,11 +1,13 @@
 <script setup lang="ts">
-const video = inject<ApiDto<'VTVideoInfoDto'>>('video');
-const videoState = inject<VideoState>('videoState');
+const props = defineProps<{
+  videoState: VideoState;
+  video: ApiDto<'VTVideoInfoDto'>;
+}>();
 
 const onPosterClick = () => {
-  if (videoState.video.buffering) return;
-  videoState.setPosterVisible(false);
-  videoState.play();
+  if (props.videoState.video.buffering) return;
+  props.videoState.setPosterVisible(false);
+  props.videoState.play();
 };
 </script>
 
@@ -17,7 +19,7 @@ const onPosterClick = () => {
       @click.stop.prevent="onPosterClick"
     >
       <img :src="video.thumbnails[0].url" class="flip-poster-img" />
-      <FlipLoading v-if="videoState.video.buffering" />
+      <FlipLoading v-if="videoState.video.buffering" :video-state="videoState" />
       <svg
         v-else
         xmlns="http://www.w3.org/2000/svg"

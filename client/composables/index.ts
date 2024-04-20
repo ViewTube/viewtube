@@ -7,6 +7,8 @@ export * from './api/search';
 export * from './api/session';
 export * from './api/user';
 export * from './videoplayer/captionsState';
+export * from './videoplayer/keydownActions';
+export * from './videoplayer/sponsorBlockState';
 export * from './videoplayer/uiState';
 export * from './videoplayer/videoSource';
 export * from './videoplayer/videoState';
