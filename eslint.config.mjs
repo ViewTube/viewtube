@@ -14,6 +14,12 @@ export default withNuxt([
     }
   },
   {
+    files: ['server/**/*'],
+    rules: {
+      '@typescript-eslint/consistent-type-imports': 'off'
+    }
+  },
+  {
     files: ['tests/jest/**/*'],
     plugins: { jest },
     languageOptions: { globals: { ...globals.jest } }

@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { innertubeClient } from 'server/common/innertube/innertube';
 import { toVTCommentsReplyResponseDto } from 'server/mapper/converter/comments/vt-comments-reply.converter';
-import type { VTCommentsReplyResponseDto } from 'server/mapper/converter/comments/vt-comments-reply.response.dto';
-import type { VTCommentsResponseDto } from 'server/mapper/converter/comments/vt-comments-response.dto';
+import { VTCommentsReplyResponseDto } from 'server/mapper/converter/comments/vt-comments-reply.response.dto';
+import { VTCommentsResponseDto } from 'server/mapper/converter/comments/vt-comments-response.dto';
 import { toVTCommentsResponseDto } from 'server/mapper/converter/comments/vt-comments.converter';
 
 import { Proto, YTNodes } from 'youtubei.js';

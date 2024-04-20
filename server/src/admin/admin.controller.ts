@@ -1,14 +1,14 @@
-import type { StreamableFile } from '@nestjs/common';
+import { StreamableFile } from '@nestjs/common';
 import { Body, Controller, Delete, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Private } from 'server/auth/decorators/private.decorator';
 import { AdminGuard } from 'server/auth/guards/admin.guard';
-import type { UserprofileDto } from 'server/user/dto/userprofile.dto';
-import type { UserDto } from 'server/user/user.dto';
-import type { AdminService } from './admin.service';
-import type { InfoDto } from './dto/info.dto';
-import type { LogsDto } from './dto/logs.dto';
-import type { ServerSettingsDto } from './dto/server-settings.dto';
+import { UserprofileDto } from 'server/user/dto/userprofile.dto';
+import { UserDto } from 'server/user/user.dto';
+import { AdminService } from './admin.service';
+import { InfoDto } from './dto/info.dto';
+import { LogsDto } from './dto/logs.dto';
+import { ServerSettingsDto } from './dto/server-settings.dto';
 
 @ApiTags('Admin')
 @UseGuards(AdminGuard)

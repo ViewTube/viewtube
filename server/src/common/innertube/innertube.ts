@@ -1,5 +1,5 @@
 import path from 'path';
-import type { InnertubeConfig } from 'youtubei.js';
+import { InnertubeConfig } from 'youtubei.js';
 import { Innertube, UniversalCache } from 'youtubei.js';
 import { innertubeFetch } from './innertubeFetch';
 

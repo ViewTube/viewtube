@@ -1,14 +1,14 @@
-import type { Logger } from '@nestjs/common';
+import { Logger } from '@nestjs/common';
 import { Body, Controller, Delete, Get, Param, Post, Put, Query, Req } from '@nestjs/common';
 import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
-import type { ViewTubeRequest } from 'common/viewtube-request';
+import { ViewTubeRequest } from 'common/viewtube-request';
 import { Private } from 'server/auth/decorators/private.decorator';
-import type { ChannelBasicInfoDto } from 'server/core/channels/dto/channel-basic-info.dto';
+import { ChannelBasicInfoDto } from 'server/core/channels/dto/channel-basic-info.dto';
 import { Common } from 'server/core/common';
-import type { SubscribedChannelsResponseDto } from './dto/subscribed-channels-response.dto';
-import type { SubscriptionFeedResponseDto } from './dto/subscription-feed-response.dto';
-import type { SubscriptionStatusDto } from './dto/subscription-status.dto';
-import type { SubscriptionsService } from './subscriptions.service';
+import { SubscribedChannelsResponseDto } from './dto/subscribed-channels-response.dto';
+import { SubscriptionFeedResponseDto } from './dto/subscription-feed-response.dto';
+import { SubscriptionStatusDto } from './dto/subscription-status.dto';
+import { SubscriptionsService } from './subscriptions.service';
 
 @ApiTags('User')
 @ApiBearerAuth()

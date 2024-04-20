@@ -1,9 +1,9 @@
 import { CacheInterceptor, CacheTTL } from '@nestjs/cache-manager';
 import { Controller, Get, Header, Param, Query, UseInterceptors } from '@nestjs/common';
 import { ApiQuery, ApiTags } from '@nestjs/swagger';
-import type { VTCommentsReplyResponseDto } from 'server/mapper/converter/comments/vt-comments-reply.response.dto';
-import type { VTCommentsResponseDto } from '../../mapper/converter/comments/vt-comments-response.dto';
-import type { CommentsService } from './comments.service';
+import { VTCommentsReplyResponseDto } from 'server/mapper/converter/comments/vt-comments-reply.response.dto';
+import { VTCommentsResponseDto } from '../../mapper/converter/comments/vt-comments-response.dto';
+import { CommentsService } from './comments.service';
 
 @ApiTags('Core')
 @UseInterceptors(CacheInterceptor)

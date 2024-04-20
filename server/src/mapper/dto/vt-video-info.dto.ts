@@ -1,11 +1,11 @@
-import type { VTEndscreenElementDto } from './endscreen/vt-endscreen-element.dto';
-import type { VTInfoCardDto } from './infocard/vt-info-card.dto';
-import type { VTCaptionTrackDto } from './vt-caption-track.dto';
-import type { VTChapterDto } from './vt-chapter.dto';
-import type { VTLegacyFormatDto } from './vt-legacy-format.dto';
-import type { VTPreviewThumbnailDto } from './vt-preview-thumbnail.dto';
-import type { VTThumbnailDto } from './vt-thumbnail.dto';
-import type { VTVideoDto } from './vt-video.dto';
+import { VTEndscreenElementDto } from './endscreen/vt-endscreen-element.dto';
+import { VTInfoCardDto } from './infocard/vt-info-card.dto';
+import { VTCaptionTrackDto } from './vt-caption-track.dto';
+import { VTChapterDto } from './vt-chapter.dto';
+import { VTLegacyFormatDto } from './vt-legacy-format.dto';
+import { VTPreviewThumbnailDto } from './vt-preview-thumbnail.dto';
+import { VTThumbnailDto } from './vt-thumbnail.dto';
+import { VTVideoDto } from './vt-video.dto';
 
 export class VTVideoInfoDto {
   id: string;

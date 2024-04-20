@@ -1,4 +1,4 @@
-import type { YTNodes } from 'youtubei.js';
+import { YTNodes } from 'youtubei.js';
 import { extractComments, extractHeader } from './vt-comments.extractors';
 
 export const toVTCommentsResponseDto = (

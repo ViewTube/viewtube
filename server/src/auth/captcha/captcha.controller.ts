@@ -1,9 +1,9 @@
 import { Controller, Get } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import type { CaptchaService } from './captcha.service';
+import { CaptchaService } from './captcha.service';
 
 import { Public } from '../decorators/public.decorator';
-import type { CaptchaDto } from './dto/captcha.dto';
+import { CaptchaDto } from './dto/captcha.dto';
 
 @ApiTags('Auth')
 @Controller('auth')

@@ -1,29 +1,29 @@
 import { InjectQueue } from '@nestjs/bull';
-import type { Logger } from '@nestjs/common';
 import {
   HttpException,
   Injectable,
   InternalServerErrorException,
+  Logger,
   NotFoundException
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Cron, CronExpression } from '@nestjs/schedule';
-import type { Queue } from 'bull';
+import { Queue } from 'bull';
 import cluster from 'cluster';
-import type { Model } from 'mongoose';
+import { Model } from 'mongoose';
 import { AppClusterService } from 'server/app-cluster.service';
 import { General } from 'server/common/general.schema';
-import type { Sorting } from 'server/common/sorting.type';
-import type { ChannelBasicInfoDto } from 'server/core/channels/dto/channel-basic-info.dto';
+import { Sorting } from 'server/common/sorting.type';
+import { ChannelBasicInfoDto } from 'server/core/channels/dto/channel-basic-info.dto';
 import { ChannelBasicInfo } from 'server/core/channels/schemas/channel-basic-info.schema';
-import type { VideoBasicInfoDto } from 'server/core/videos/dto/video-basic-info.dto';
+import { VideoBasicInfoDto } from 'server/core/videos/dto/video-basic-info.dto';
 import { VideoBasicInfo } from 'server/core/videos/schemas/video-basic-info.schema';
-import type { NotificationsService } from '../notifications/notifications.service';
-import type { SubscribedChannelsResponseDto } from './dto/subscribed-channels-response.dto';
-import type { SubscriptionFeedResponseDto } from './dto/subscription-feed-response.dto';
-import type { SubscriptionStatusDto } from './dto/subscription-status.dto';
+import { NotificationsService } from '../notifications/notifications.service';
+import { SubscribedChannelsResponseDto } from './dto/subscribed-channels-response.dto';
+import { SubscriptionFeedResponseDto } from './dto/subscription-feed-response.dto';
+import { SubscriptionStatusDto } from './dto/subscription-status.dto';
 import { Subscription } from './schemas/subscription.schema';
-import type { SubscriptionsQueueParams } from './subscriptions.processor';
+import { SubscriptionsQueueParams } from './subscriptions.processor';
 
 @Injectable()
 export class SubscriptionsService {

@@ -11,10 +11,10 @@ import {
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Private } from 'server/auth/decorators/private.decorator';
-import type { ViewTubeRequest } from 'server/common/viewtube-request';
-import type { HistoryResponseDto } from './dto/history-response.dto';
-import type { VideoVisitDto } from './dto/video-visit.dto';
-import type { HistoryService } from './history.service';
+import { ViewTubeRequest } from 'server/common/viewtube-request';
+import { HistoryResponseDto } from './dto/history-response.dto';
+import { VideoVisitDto } from './dto/video-visit.dto';
+import { HistoryService } from './history.service';
 
 @ApiTags('User')
 @ApiBearerAuth()

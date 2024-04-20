@@ -1,4 +1,4 @@
-import type { VideoBasicInfoDto } from 'server/core/videos/dto/video-basic-info.dto';
+import { VideoBasicInfoDto } from 'server/core/videos/dto/video-basic-info.dto';
 
 export class SubscriptionFeedResponseDto {
   videoCount: number;

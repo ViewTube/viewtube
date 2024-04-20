@@ -14,12 +14,12 @@ import {
   StreamableFile
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import type { FastifyReply } from 'fastify';
+import { FastifyReply } from 'fastify';
 import { Private } from 'server/auth/decorators/private.decorator';
-import type { ViewTubeRequest } from 'server/common/viewtube-request';
-import type { UserprofileDto } from 'server/user/dto/userprofile.dto';
-import type { SessionDto } from './dto/session.dto';
-import type { UserprofileDetailsDto } from './dto/userprofile-details.dto';
+import { ViewTubeRequest } from 'server/common/viewtube-request';
+import { UserprofileDto } from 'server/user/dto/userprofile.dto';
+import { SessionDto } from './dto/session.dto';
+import { UserprofileDetailsDto } from './dto/userprofile-details.dto';
 import { UserService } from './user.service';
 
 @ApiTags('User')

@@ -1,7 +1,7 @@
-import type { ChannelInfo } from '../../yt-channel-info/app/types';
-import type { ChannelImageDto } from '../basic/channel-image.dto';
-import type { ChannelLinkDto } from '../basic/channel-link.dto';
-import type { RelatedChannelDto } from '../basic/related-channel.dto';
+import { ChannelInfo } from '../../yt-channel-info/app/types';
+import { ChannelImageDto } from '../basic/channel-image.dto';
+import { ChannelLinkDto } from '../basic/channel-link.dto';
+import { RelatedChannelDto } from '../basic/related-channel.dto';
 
 export class ChannelInfoDto implements Omit<ChannelInfo, 'relatedChannels'> {
   author: string;

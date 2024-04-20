@@ -1,4 +1,4 @@
-import type { ManipulateType } from 'dayjs';
+import { ManipulateType } from 'dayjs';
 import dayjs from 'dayjs';
 
 export const parseRelativeTime = (relativeTime: string) => {

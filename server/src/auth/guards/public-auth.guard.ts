@@ -1,11 +1,11 @@
-import type { CanActivate, ExecutionContext } from '@nestjs/common';
+import { CanActivate, ExecutionContext } from '@nestjs/common';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import type { ConfigService } from '@nestjs/config';
-import type { Reflector } from '@nestjs/core';
-import type { JwtService } from '@nestjs/jwt';
+import { ConfigService } from '@nestjs/config';
+import { Reflector } from '@nestjs/core';
+import { JwtService } from '@nestjs/jwt';
 import { InjectModel } from '@nestjs/mongoose';
-import type { FastifyReply, FastifyRequest } from 'fastify';
-import type { Model } from 'mongoose';
+import { FastifyReply, FastifyRequest } from 'fastify';
+import { Model } from 'mongoose';
 import { isHttps } from 'viewtube/shared';
 import { BYPASS_AUTH_KEY } from '../decorators/bypass-auth.decorator';
 import { IS_PRIVATE_KEY } from '../decorators/private.decorator';

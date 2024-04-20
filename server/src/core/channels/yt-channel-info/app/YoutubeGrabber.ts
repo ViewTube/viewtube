@@ -7,7 +7,7 @@ copyright notice and this permission notice appear in all copies. */
 import { YoutubeGrabberHelper } from './YoutubeGrabberHelper';
 import { YoutubeChannelFetcher } from './fetchers/YoutubeChannelFetcher';
 import { YoutubePlaylistFetcher } from './fetchers/YoutubePlaylistFetcher';
-import type {
+import {
   ChannelCommunityPostsContinuationResponse,
   ChannelCommunityPostsResponse,
   ChannelHomeResponse,

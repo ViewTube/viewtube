@@ -1,7 +1,7 @@
 import { Body, Controller, Post, Req, Res, UnauthorizedException } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import type { FastifyReply, FastifyRequest } from 'fastify';
-import type { AuthService } from './auth.service';
+import { FastifyReply, FastifyRequest } from 'fastify';
+import { AuthService } from './auth.service';
 import { Public } from './decorators/public.decorator';
 
 @ApiTags('Auth')

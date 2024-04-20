@@ -1,15 +1,15 @@
 import dayjs from 'dayjs';
-import type { VTEndscreenChannelDto } from 'server/mapper/dto/endscreen/vt-endscreen-channel.dto';
-import type { VTEndscreenVideoDto } from 'server/mapper/dto/endscreen/vt-endscreen-video.dto';
-import type { VTPlaylistCardContentDto } from 'server/mapper/dto/infocard/vt-playlist-card-content.dto';
-import type { VTSimpleCardContentDto } from 'server/mapper/dto/infocard/vt-simple-card-content.dto';
-import type { VTVideoCardContentDto } from 'server/mapper/dto/infocard/vt-video-card-content.dto';
-import type { VTVideoInfoDto } from 'server/mapper/dto/vt-video-info.dto';
+import { VTEndscreenChannelDto } from 'server/mapper/dto/endscreen/vt-endscreen-channel.dto';
+import { VTEndscreenVideoDto } from 'server/mapper/dto/endscreen/vt-endscreen-video.dto';
+import { VTPlaylistCardContentDto } from 'server/mapper/dto/infocard/vt-playlist-card-content.dto';
+import { VTSimpleCardContentDto } from 'server/mapper/dto/infocard/vt-simple-card-content.dto';
+import { VTVideoCardContentDto } from 'server/mapper/dto/infocard/vt-video-card-content.dto';
+import { VTVideoInfoDto } from 'server/mapper/dto/vt-video-info.dto';
 import { parseRedirectUrl } from 'server/mapper/utils/parse-redirect';
 import { parseRelativeTime } from 'server/mapper/utils/parse-relative-time';
 import { parseShortenedNumber } from 'server/mapper/utils/shortened-number';
 import { getSecondsFromTimestamp, getTimestampFromSeconds } from 'viewtube/shared';
-import type { VideoInfoSourceApproximation } from './video-info-source-approximation';
+import { VideoInfoSourceApproximation } from './video-info-source-approximation';
 
 export const extractVideoId = (videoInfo: VideoInfoSourceApproximation) => {
   return videoInfo?.basic_info?.id;

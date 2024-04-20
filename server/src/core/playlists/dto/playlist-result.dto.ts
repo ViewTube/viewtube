@@ -1,5 +1,5 @@
-import type { PlaylistImageDto } from './playlist-image.dto';
-import type { PlaylistItemDto } from './playlist-item.dto';
+import { PlaylistImageDto } from './playlist-image.dto';
+import { PlaylistItemDto } from './playlist-item.dto';
 
 type VisibilityType = 'unlisted' | 'everyone';
 

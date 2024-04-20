@@ -1,10 +1,10 @@
 import { HttpException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import type { Model } from 'mongoose';
+import { Model } from 'mongoose';
 import { ServerSettings } from 'server/admin/schemas/server-settings';
-import type { UserService } from '../../user/user.service';
-import type { CaptchaService } from '../captcha/captcha.service';
-import type { RegistrationDto } from './dto/registration.dto';
+import { UserService } from '../../user/user.service';
+import { CaptchaService } from '../captcha/captcha.service';
+import { RegistrationDto } from './dto/registration.dto';
 
 @Injectable()
 export class RegisterService {

@@ -1,12 +1,12 @@
 import { BullModule } from '@nestjs/bull';
 import { CacheModule } from '@nestjs/cache-manager';
-import type { ModuleMetadata, Type } from '@nestjs/common';
+import { ModuleMetadata, Type } from '@nestjs/common';
 import { Logger, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { RouterModule } from '@nestjs/core';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ScheduleModule } from '@nestjs/schedule';
-import type { RedisOptions } from 'ioredis';
+import { RedisOptions } from 'ioredis';
 import { AdminModule } from './admin/admin.module';
 import { AuthModule } from './auth/auth.module';
 import { CaptchaModule } from './auth/captcha/captcha.module';

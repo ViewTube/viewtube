@@ -5,19 +5,19 @@ import {
   InternalServerErrorException
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import type { Model } from 'mongoose';
+import { Model } from 'mongoose';
 import { createHash } from 'node:crypto';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { BlockedVideo } from 'server/admin/schemas/blocked-video';
 import { innertubeClient } from 'server/common/innertube/innertube';
 import { vtFetch } from 'server/common/vtFetch';
-import type { DislikeDto } from 'server/core/videos/dto/dislike.dto';
+import { DislikeDto } from 'server/core/videos/dto/dislike.dto';
 import { toVTVideoInfoDto } from 'server/mapper/converter/video-info/vt-video-info.converter';
-import type { VTVideoInfoDto } from 'server/mapper/dto/vt-video-info.dto';
+import { VTVideoInfoDto } from 'server/mapper/dto/vt-video-info.dto';
 import sharp from 'sharp';
 import { type SponsorBlockSegmentsDto } from 'viewtube/shared';
-import type { VideoBasicInfoDto } from './dto/video-basic-info.dto';
+import { VideoBasicInfoDto } from './dto/video-basic-info.dto';
 import { VideoBasicInfo } from './schemas/video-basic-info.schema';
 
 @Injectable()

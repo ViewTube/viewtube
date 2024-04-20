@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import type { FastifyReply, FastifyRequest } from 'fastify';
-import type { NodeListener } from 'h3';
+import { FastifyReply, FastifyRequest } from 'fastify';
+import { NodeListener } from 'h3';
 import { resolveNuxtPath, resolveStaticFileList } from './nuxt.resolver';
 
 const importerFunction = new Function('module', 'return import(module)');

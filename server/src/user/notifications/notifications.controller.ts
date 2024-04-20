@@ -1,10 +1,10 @@
 import { Body, Controller, Post, Req } from '@nestjs/common';
-import type { ConfigService } from '@nestjs/config';
+import { ConfigService } from '@nestjs/config';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Private } from 'server/auth/decorators/private.decorator';
-import type { ViewTubeRequest } from 'server/common/viewtube-request';
+import { ViewTubeRequest } from 'server/common/viewtube-request';
 import webPush from 'web-push';
-import type { NotificationsService } from './notifications.service';
+import { NotificationsService } from './notifications.service';
 
 @ApiTags('User')
 @ApiBearerAuth()

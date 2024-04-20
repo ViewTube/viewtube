@@ -1,4 +1,4 @@
-import type { VideoVisitDetailsDto } from '../history/dto/video-visit-details.dto';
+import { VideoVisitDetailsDto } from '../history/dto/video-visit-details.dto';
 
 export class UserprofileDetailsDto {
   username: string;

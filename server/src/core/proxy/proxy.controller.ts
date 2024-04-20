@@ -1,7 +1,7 @@
 import { Controller, Get, Header, Query, Req, Res } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import type { FastifyReply, FastifyRequest } from 'fastify';
-import type { ProxyService } from './proxy.service';
+import { FastifyReply, FastifyRequest } from 'fastify';
+import { ProxyService } from './proxy.service';
 
 @ApiTags('Core')
 @Controller('proxy')

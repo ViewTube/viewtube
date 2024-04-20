@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import type { SettingsDto, segmentOption } from '../dto/settings.dto';
+import { SettingsDto, segmentOption } from '../dto/settings.dto';
 
 @Schema({ timestamps: true })
 export class Settings extends Document implements SettingsDto {

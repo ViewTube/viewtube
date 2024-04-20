@@ -1,4 +1,4 @@
-import type {
+import {
   CommunityPost,
   ImagePostContent,
   PlaylistPostContent,

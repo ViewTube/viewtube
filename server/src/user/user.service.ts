@@ -1,4 +1,4 @@
-import type { Logger } from '@nestjs/common';
+import { Logger } from '@nestjs/common';
 import {
   BadRequestException,
   HttpException,
@@ -6,35 +6,35 @@ import {
   InternalServerErrorException,
   NotFoundException
 } from '@nestjs/common';
-import type { ConfigService } from '@nestjs/config';
+import { ConfigService } from '@nestjs/config';
 import { InjectModel } from '@nestjs/mongoose';
 import archiver from 'archiver';
 import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
 import dayjs from 'dayjs';
-import type { FastifyReply } from 'fastify';
+import { FastifyReply } from 'fastify';
 import fs from 'fs';
 import humanizeDuration from 'humanize-duration';
-import type { Model } from 'mongoose';
+import { Model } from 'mongoose';
 import path from 'path';
 import { SESSION_EXPIRATION } from 'server/auth/constants/session';
-import type { SessionDocument } from 'server/auth/schemas/session.schema';
+import { SessionDocument } from 'server/auth/schemas/session.schema';
 import { Session } from 'server/auth/schemas/session.schema';
-import type { ViewTubeRequest } from 'server/common/viewtube-request';
-import type { ChannelBasicInfoDto } from 'server/core/channels/dto/channel-basic-info.dto';
+import { ViewTubeRequest } from 'server/common/viewtube-request';
+import { ChannelBasicInfoDto } from 'server/core/channels/dto/channel-basic-info.dto';
 import { Common } from 'server/core/common';
-import type { UserprofileDto } from 'server/user/dto/userprofile.dto';
+import { UserprofileDto } from 'server/user/dto/userprofile.dto';
 import sharp from 'sharp';
-import type { Readable } from 'stream';
+import { Readable } from 'stream';
 import { promisify } from 'util';
-import type { SessionDto } from './dto/session.dto';
-import type { UserprofileDetailsDto } from './dto/userprofile-details.dto';
-import type { HistoryService } from './history/history.service';
+import { SessionDto } from './dto/session.dto';
+import { UserprofileDetailsDto } from './dto/userprofile-details.dto';
+import { HistoryService } from './history/history.service';
 import { profileImage } from './profile-image';
 import { User } from './schemas/user.schema';
-import type { SettingsService } from './settings/settings.service';
-import type { SubscriptionsService } from './subscriptions/subscriptions.service';
-import type { UserDto } from './user.dto';
+import { SettingsService } from './settings/settings.service';
+import { SubscriptionsService } from './subscriptions/subscriptions.service';
+import { UserDto } from './user.dto';
 
 @Injectable()
 export class UserService {

@@ -1,7 +1,7 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import type { Model } from 'mongoose';
-import type { SettingsDto } from './dto/settings.dto';
+import { Model } from 'mongoose';
+import { SettingsDto } from './dto/settings.dto';
 import { Settings } from './schemas/settings.schema';
 
 @Injectable()

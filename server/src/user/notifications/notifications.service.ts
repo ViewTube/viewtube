@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import type { Model } from 'mongoose';
-import type { VideoBasicInfoDto } from 'server/core/videos/dto/video-basic-info.dto';
+import { Model } from 'mongoose';
+import { VideoBasicInfoDto } from 'server/core/videos/dto/video-basic-info.dto';
 import webPush from 'web-push';
 import { NotificationsSubscription } from './schemas/notifications-subscription.schema';
 import { PushNotification } from './schemas/push-notification.schema';

@@ -1,19 +1,19 @@
 import { logger } from 'server/common/logger';
-import type { VTSearchChannelResultDto } from 'server/mapper/dto/search/vt-search-channel-result.dto';
-import type { VTSearchMovieDto } from 'server/mapper/dto/search/vt-search-movie.dto';
-import type { VTSearchPlaylistDto } from 'server/mapper/dto/search/vt-search-playlist.dto';
-import type { VTSearchShelfDto } from 'server/mapper/dto/search/vt-search-shelf.dto';
-import type { VTSearchVideoResultDto } from 'server/mapper/dto/search/vt-search-video-result.dto';
-import type { VTShortsShelfDto } from 'server/mapper/dto/search/vt-shorts-shelf.dto';
-import type { VTShortDto } from 'server/mapper/dto/vt-short.dto';
+import { VTSearchChannelResultDto } from 'server/mapper/dto/search/vt-search-channel-result.dto';
+import { VTSearchMovieDto } from 'server/mapper/dto/search/vt-search-movie.dto';
+import { VTSearchPlaylistDto } from 'server/mapper/dto/search/vt-search-playlist.dto';
+import { VTSearchShelfDto } from 'server/mapper/dto/search/vt-search-shelf.dto';
+import { VTSearchVideoResultDto } from 'server/mapper/dto/search/vt-search-video-result.dto';
+import { VTShortsShelfDto } from 'server/mapper/dto/search/vt-shorts-shelf.dto';
+import { VTShortDto } from 'server/mapper/dto/vt-short.dto';
 import { parseAccessibilityDuration } from 'server/mapper/utils/accessibility-duration';
 import { fixUrl } from 'server/mapper/utils/fix-url';
 import { getHandleFromUrl } from 'server/mapper/utils/handle';
 import { parseRelativeTime } from 'server/mapper/utils/parse-relative-time';
 import { parseShortenedNumber } from 'server/mapper/utils/shortened-number';
 import { getTimestampFromSeconds } from 'viewtube/shared';
-import type { YT } from 'youtubei.js';
-import type { SearchSourceApproximation } from './search-source-approximation';
+import { YT } from 'youtubei.js';
+import { SearchSourceApproximation } from './search-source-approximation';
 
 export const extractSearchResults = (searchResults: SearchSourceApproximation[]) => {
   return searchResults

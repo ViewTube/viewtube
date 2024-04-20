@@ -1,4 +1,4 @@
-import type { PlaylistImageDto } from './playlist-image.dto';
+import { PlaylistImageDto } from './playlist-image.dto';
 
 export class PlaylistItemDto {
   title: string;

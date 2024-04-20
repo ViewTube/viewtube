@@ -1,4 +1,4 @@
-import type { VTThumbnailDto } from './vt-thumbnail.dto';
+import { VTThumbnailDto } from './vt-thumbnail.dto';
 
 export class VTChannelDto {
   id: string;

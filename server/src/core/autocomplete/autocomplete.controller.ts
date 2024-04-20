@@ -2,7 +2,7 @@ import { CacheInterceptor, CacheTTL } from '@nestjs/cache-manager';
 import { Controller, Get, Header, Query, UseInterceptors } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { BypassAuth } from 'server/auth/decorators/bypass-auth.decorator';
-import type { AutocompleteService } from './autocomplete.service';
+import { AutocompleteService } from './autocomplete.service';
 
 @ApiTags('Core')
 @UseInterceptors(CacheInterceptor)

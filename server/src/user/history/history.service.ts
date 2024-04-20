@@ -5,11 +5,11 @@ import {
   NotFoundException
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import type { Model } from 'mongoose';
+import { Model } from 'mongoose';
 import { VideoBasicInfo } from 'server/core/videos/schemas/video-basic-info.schema';
-import type { SettingsService } from '../settings/settings.service';
-import type { VideoVisitDetailsDto } from './dto/video-visit-details.dto';
-import type { VideoVisitDto } from './dto/video-visit.dto';
+import { SettingsService } from '../settings/settings.service';
+import { VideoVisitDetailsDto } from './dto/video-visit-details.dto';
+import { VideoVisitDto } from './dto/video-visit.dto';
 import { History } from './schemas/history.schema';
 
 @Injectable()

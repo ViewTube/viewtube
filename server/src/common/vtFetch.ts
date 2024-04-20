@@ -1,6 +1,6 @@
 import { destr } from 'destr';
 import { socksDispatcher } from 'fetch-socks';
-import type { SocksProxy } from 'socks';
+import { SocksProxy } from 'socks';
 import undici, {
   Headers,
   ProxyAgent,
@@ -11,8 +11,8 @@ import undici, {
   type RequestInit,
   type Response
 } from 'undici';
-import type BodyReadable from 'undici/types/readable';
-import type { UrlObject } from 'url';
+import BodyReadable from 'undici/types/readable';
+import { UrlObject } from 'url';
 import { getProxyUrl, proxyEnabled } from './proxyAgent';
 
 type VtFetchOptionsType = Omit<RequestOptionsType, 'dispatcher' | 'method' | 'headers'> & {

@@ -1,6 +1,6 @@
-import type { VTVideoInfoDto } from 'server/mapper/dto/vt-video-info.dto';
+import { VTVideoInfoDto } from 'server/mapper/dto/vt-video-info.dto';
 import { createDashManifestURI } from 'server/mapper/utils/dash-manifest-uri';
-import type { VideoInfoSourceApproximation } from './video-info-source-approximation';
+import { VideoInfoSourceApproximation } from './video-info-source-approximation';
 import {
   extractAuthor,
   extractCaptions,

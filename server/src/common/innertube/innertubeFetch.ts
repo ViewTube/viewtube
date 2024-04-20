@@ -1,4 +1,4 @@
-import type { ReferrerPolicy, Request, RequestInit } from 'undici';
+import { ReferrerPolicy, Request, RequestInit } from 'undici';
 import { vtFetch } from '../vtFetch';
 
 type InputType = Request & {

@@ -1,4 +1,4 @@
-import type { FastifyRequest } from 'fastify';
+import { FastifyRequest } from 'fastify';
 
 export interface ViewTubeRequest extends FastifyRequest {
   user?: {

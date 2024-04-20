@@ -1,9 +1,9 @@
-import type { VTCommentDto } from 'server/mapper/dto/comments/vt-comment.dto';
-import type { VTCommentsHeaderDto } from 'server/mapper/dto/comments/vt-comments-header.dto';
+import { VTCommentDto } from 'server/mapper/dto/comments/vt-comment.dto';
+import { VTCommentsHeaderDto } from 'server/mapper/dto/comments/vt-comments-header.dto';
 import { parseRelativeTime } from 'server/mapper/utils/parse-relative-time';
 import { parseShortenedNumber } from 'server/mapper/utils/shortened-number';
 import { YTNodes } from 'youtubei.js';
-import type { Comment, CommentView } from 'youtubei.js/dist/src/parser/nodes';
+import { Comment, CommentView } from 'youtubei.js/dist/src/parser/nodes';
 
 export const extractHeader = (header: YTNodes.CommentsHeader): VTCommentsHeaderDto => {
   if (!header) return null;

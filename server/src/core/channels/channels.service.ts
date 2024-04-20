@@ -1,27 +1,27 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import type { FastifyReply } from 'fastify';
+import { FastifyReply } from 'fastify';
 import fs from 'fs';
-import type { Model } from 'mongoose';
+import { Model } from 'mongoose';
 import path from 'path';
 import { General } from 'server/common/general.schema';
 import sharp from 'sharp';
 import { checkParams, throwChannelError } from './channels.helper';
-import type { ChannelCommunityPostsContinuationDto } from './dto/response/channel-community-posts-continuation.dto';
-import type { ChannelCommunityPostsDto } from './dto/response/channel-community-posts.dto';
-import type { ChannelHomeDto } from './dto/response/channel-home.dto';
-import type { ChannelInfoDto } from './dto/response/channel-info.dto';
-import type { ChannelPlaylistsContinuationDto } from './dto/response/channel-playlists-continuation.dto';
-import type { ChannelPlaylistsDto } from './dto/response/channel-playlists.dto';
-import type { ChannelSearchContinuationDto } from './dto/response/channel-search-continuation.dto';
-import type { ChannelSearchDto } from './dto/response/channel-search.dto';
-import type { ChannelStatsDto } from './dto/response/channel-stats.dto';
-import type { ChannelVideosContinuationDto } from './dto/response/channel-videos-continuation.dto';
-import type { ChannelVideosDto } from './dto/response/channel-videos.dto';
-import type { RelatedChannelsContinuationDto } from './dto/response/related-channels-continuation.dto';
-import type { SortType } from './types/sort';
+import { ChannelCommunityPostsContinuationDto } from './dto/response/channel-community-posts-continuation.dto';
+import { ChannelCommunityPostsDto } from './dto/response/channel-community-posts.dto';
+import { ChannelHomeDto } from './dto/response/channel-home.dto';
+import { ChannelInfoDto } from './dto/response/channel-info.dto';
+import { ChannelPlaylistsContinuationDto } from './dto/response/channel-playlists-continuation.dto';
+import { ChannelPlaylistsDto } from './dto/response/channel-playlists.dto';
+import { ChannelSearchContinuationDto } from './dto/response/channel-search-continuation.dto';
+import { ChannelSearchDto } from './dto/response/channel-search.dto';
+import { ChannelStatsDto } from './dto/response/channel-stats.dto';
+import { ChannelVideosContinuationDto } from './dto/response/channel-videos-continuation.dto';
+import { ChannelVideosDto } from './dto/response/channel-videos.dto';
+import { RelatedChannelsContinuationDto } from './dto/response/related-channels-continuation.dto';
+import { SortType } from './types/sort';
 import { YoutubeGrabber } from './yt-channel-info';
-import type { ChannelInfoError } from './yt-channel-info/app/types';
+import { ChannelInfoError } from './yt-channel-info/app/types';
 
 @Injectable()
 export class ChannelsService {

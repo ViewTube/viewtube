@@ -4,7 +4,7 @@ import fs from 'fs';
 import { access, mkdir, readFile, writeFile } from 'fs/promises';
 import path from 'path';
 import { logger } from 'server/common/logger';
-import type { VapidKeys } from 'web-push';
+import { VapidKeys } from 'web-push';
 import { generateVAPIDKeys } from 'web-push';
 
 type ConfigurationType = {

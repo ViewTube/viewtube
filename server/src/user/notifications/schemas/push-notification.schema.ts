@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import type { PushNotificationDto } from 'server/user/dto/push-notification.dto';
+import { PushNotificationDto } from 'server/user/dto/push-notification.dto';
 
 @Schema({ timestamps: true, id: false })
 export class PushNotification extends Document implements PushNotificationDto {

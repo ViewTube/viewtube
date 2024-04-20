@@ -1,4 +1,4 @@
-import type { RelatedChannelDto } from '../basic/related-channel.dto';
+import { RelatedChannelDto } from '../basic/related-channel.dto';
 
 export class RelatedChannelsContinuationDto {
   items: Array<Partial<RelatedChannelDto>>;

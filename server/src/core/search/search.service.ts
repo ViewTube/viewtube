@@ -1,10 +1,9 @@
-import type { Logger } from '@nestjs/common';
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { innertubeClient } from 'server/common/innertube/innertube';
 import { toVTSearchResultDto } from 'server/mapper/converter/search/vt-search-result.converter';
-import type { VTSearchDto } from 'server/mapper/dto/search/vt-search.dto';
-import type { SearchFiltersDto } from './dto/search-filters.dto';
-import type { SearchQueryDto } from './dto/search-query.dto';
+import { VTSearchDto } from 'server/mapper/dto/search/vt-search.dto';
+import { SearchFiltersDto } from './dto/search-filters.dto';
+import { SearchQueryDto } from './dto/search-query.dto';
 
 @Injectable()
 export class SearchService {

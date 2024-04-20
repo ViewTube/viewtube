@@ -1,8 +1,8 @@
 import { Controller, Get, Req, Res } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import type { FastifyReply, FastifyRequest } from 'fastify';
+import { FastifyReply, FastifyRequest } from 'fastify';
 import { BypassAuth } from 'server/auth/decorators/bypass-auth.decorator';
-import type { VideoplaybackService } from './videoplayback.service';
+import { VideoplaybackService } from './videoplayback.service';
 
 @ApiTags('Core')
 @BypassAuth()

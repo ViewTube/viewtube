@@ -1,5 +1,5 @@
-import type { Sorting } from 'server/common/sorting.type';
-import type { VTThumbnailDto } from 'server/mapper/dto/vt-thumbnail.dto';
+import { Sorting } from 'server/common/sorting.type';
+import { VTThumbnailDto } from 'server/mapper/dto/vt-thumbnail.dto';
 
 export class Common {
   public static readonly youtubeVideoUrl: string = 'https://youtube.com/watch?v=';

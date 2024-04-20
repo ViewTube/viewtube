@@ -1,4 +1,4 @@
-import type { VTCommentEmojiDto } from './vt-comment-emoji.dto';
+import { VTCommentEmojiDto } from './vt-comment-emoji.dto';
 
 export class VTCommentsHeaderDto {
   commentsCount: number;

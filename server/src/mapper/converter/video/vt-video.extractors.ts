@@ -1,11 +1,11 @@
-import type { VTThumbnailDto } from 'server/mapper/dto/vt-thumbnail.dto';
-import type { VTVideoDto } from 'server/mapper/dto/vt-video.dto';
+import { VTThumbnailDto } from 'server/mapper/dto/vt-thumbnail.dto';
+import { VTVideoDto } from 'server/mapper/dto/vt-video.dto';
 import { getHandleFromUrl } from 'server/mapper/utils/handle';
 import { parseRelativeTime } from 'server/mapper/utils/parse-relative-time';
 import { parseShortenedNumber } from 'server/mapper/utils/shortened-number';
 import { getSecondsFromTimestamp, getTimestampFromSeconds } from 'viewtube/shared';
-import type Author from 'youtubei.js/dist/src/parser/classes/misc/Author';
-import type { VideoSourceApproximation } from './vt-video.converter';
+import Author from 'youtubei.js/dist/src/parser/classes/misc/Author';
+import { VideoSourceApproximation } from './vt-video.converter';
 
 export const extractVideoId = (video: VideoSourceApproximation): string => {
   if (video.id) {
