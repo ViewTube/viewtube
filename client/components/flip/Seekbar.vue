@@ -81,25 +81,11 @@ const onPointerUp = (e: PointerEvent) => {
 const hoveredTime = ref(0);
 const hoveredTimestamp = ref('00:00');
 const hoverPosition = ref(0);
-const hoverTimestampRef = ref<HTMLDivElement | null>(null);
-const hoverChapterRef = ref<HTMLDivElement | null>(null);
-
-const hoverTimestampPosition = computed(() => {
-  hoverPosition.value;
-  return getHoverPosition(hoverTimestampRef);
-});
 
 const previewThumbnailPosition = computed(() => {
   hoverPosition.value;
   return getHoverPositionByWidth(200);
 });
-
-const hoverChapterPosition = computed(() => getHoverPosition(hoverChapterRef));
-
-const getHoverPosition = (element: Ref<HTMLDivElement>) => {
-  const elWidth = element.value?.getBoundingClientRect().width;
-  return getHoverPositionByWidth(elWidth);
-};
 
 const getHoverPositionByWidth = (elWidth: number) => {
   const rect = seekbarInnerRef.value?.getBoundingClientRect();
@@ -113,24 +99,6 @@ const getHoverPositionByWidth = (elWidth: number) => {
   if (offset > width - hoverWidth) return `${width - hoverWidth}px`;
   return `${offset}px`;
 };
-
-const currentChapter = computed(() => {
-  if (!props.video.chapters?.length || !settingsStore.chapters) return;
-
-  const hoveredTimeMs = hoveredTime.value * 1000;
-  return props.video.chapters.find((chapter, index) => {
-    const startMs = chapter.startMs;
-    const endMs =
-      props.video.chapters[index + 1]?.startMs ?? props.videoState.video.duration * 1000;
-    return startMs < hoveredTimeMs && endMs > hoveredTimeMs;
-  });
-});
-
-const currentSponsorBlockSegment = computed(() => {
-  if (!props.uiState.skipSegments.value?.segments || !settingsStore.sponsorblockEnabled) return;
-
-  return props.uiState.getCurrentSegment(hoveredTime.value);
-});
 </script>
 
 <template>
@@ -169,41 +137,12 @@ const currentSponsorBlockSegment = computed(() => {
       <FlipSeekbarPreview
         class="seekbar-preview"
         :hovered-time="hoveredTime"
+        :hovered-timestamp="hoveredTimestamp"
         :position-x="previewThumbnailPosition"
-        :position-y="currentChapter ? '80px' : '59px'"
+        :video-state="videoState"
+        :ui-state="uiState"
         :video="video"
       />
-      <ClientOnly>
-        <div
-          v-if="currentSponsorBlockSegment"
-          ref="hoverSponsorBlockSegmentRef"
-          class="flip-hover-sponsorblock flip-hover-element"
-          :style="{
-            transform: `translate3d(${hoverTimestampPosition},0,0)`
-          }"
-        >
-          {{ currentSponsorBlockSegment.category }}
-        </div>
-        <div
-          v-if="currentChapter"
-          ref="hoverChapterRef"
-          class="flip-hover-chapter flip-hover-element"
-          :style="{
-            transform: `translate3d(${hoverChapterPosition},0,0)`
-          }"
-        >
-          {{ currentChapter?.title }}
-        </div>
-        <div
-          ref="hoverTimestampRef"
-          class="flip-hover-timestamp flip-hover-element"
-          :style="{
-            transform: `translate3d(${hoverTimestampPosition},0,0)`
-          }"
-        >
-          {{ hoveredTimestamp }}
-        </div>
-      </ClientOnly>
     </div>
   </div>
 </template>
@@ -261,29 +200,6 @@ const currentSponsorBlockSegment = computed(() => {
       transform: scale(0);
       transition: transform 300ms $intro-easing;
     }
-
-    .flip-hover-element {
-      position: absolute;
-      left: 0;
-      background-color: $video-thmb-overlay-bgcolor;
-      color: $video-thmb-overlay-textcolor;
-      padding: 2px 6px;
-      border-radius: 3px;
-      user-select: none;
-      pointer-events: none;
-      opacity: 0;
-      transition: opacity 200ms $intro-easing;
-      font-size: 0.9rem;
-      height: 21px;
-    }
-
-    .flip-hover-timestamp {
-      bottom: 20px;
-    }
-
-    .flip-hover-chapter {
-      bottom: 50px;
-    }
   }
 
   &.flip-seekbar-hovered {
@@ -291,9 +207,6 @@ const currentSponsorBlockSegment = computed(() => {
       opacity: 1;
     }
 
-    .flip-hover-element {
-      opacity: 1;
-    }
     .flip-seekbar-point {
       transform: scale(1);
     }

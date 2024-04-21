@@ -12,12 +12,13 @@ defineEmits<{
 }>();
 
 const settingsStore = useSettingsStore();
-const sponsorblockSegmentOptions = reactive([
+const { getHumanReadableCategory, getSegmentColor } = useSponsorBlockUtils();
+
+const sponsorblockSegmentOptions = [
   { label: 'Skip', value: 'skip' },
   { label: 'Ask', value: 'ask' },
   { label: 'None', value: 'none' }
-]);
-
+];
 const videoQualities = ['144p', '240p', '360p', '720p', '1080p', '1440p', '2160p'];
 const videoSpeedArray = [
   '0',
@@ -108,10 +109,10 @@ const videoSpeedArray = [
           <MultiOptionButton
             :options="sponsorblockSegmentOptions"
             :model-value="settingsStore.sponsorblockSegmentSponsor"
-            :label="'Sponsor'"
+            :label="getHumanReadableCategory('sponsor')"
             :small-label="'Advertisements, promotions and video sponsors'"
             :right="true"
-            :color-mark="'#0fca15'"
+            :color-mark="getSegmentColor('sponsor')"
             class="sponsorblock-option"
             @update:model-value="
               val => settingsStore.setSponsorblockSegmentSponsor(val as SegmentOption)
@@ -120,10 +121,10 @@ const videoSpeedArray = [
           <MultiOptionButton
             :options="sponsorblockSegmentOptions"
             :model-value="settingsStore.sponsorblockSegmentIntro"
-            :label="'Intro'"
+            :label="getHumanReadableCategory('intro')"
             :small-label="'Intro animation, pause, intro sequence'"
             :right="true"
-            :color-mark="'#07faf0'"
+            :color-mark="getSegmentColor('intro')"
             class="sponsorblock-option"
             @update:model-value="
               val => settingsStore.setSponsorblockSegmentIntro(val as SegmentOption)
@@ -132,10 +133,10 @@ const videoSpeedArray = [
           <MultiOptionButton
             :options="sponsorblockSegmentOptions"
             :model-value="settingsStore.sponsorblockSegmentOutro"
-            :label="'Outro'"
+            :label="getHumanReadableCategory('outro')"
             :small-label="'Endcards, credits, outros'"
             :right="true"
-            :color-mark="'#0103e1'"
+            :color-mark="getSegmentColor('outro')"
             class="sponsorblock-option"
             @update:model-value="
               val => settingsStore.setSponsorblockSegmentOutro(val as SegmentOption)
@@ -144,10 +145,10 @@ const videoSpeedArray = [
           <MultiOptionButton
             :options="sponsorblockSegmentOptions"
             :model-value="settingsStore.sponsorblockSegmentInteraction"
-            :label="'Interaction reminder'"
+            :label="getHumanReadableCategory('interaction')"
             :small-label="'Reminder to subscribe, like, follow on social media, etc.'"
             :right="true"
-            :color-mark="'#b711df'"
+            :color-mark="getSegmentColor('interaction')"
             class="sponsorblock-option"
             @update:model-value="
               val => settingsStore.setSponsorblockSegmentInteraction(val as SegmentOption)
@@ -156,10 +157,10 @@ const videoSpeedArray = [
           <MultiOptionButton
             :options="sponsorblockSegmentOptions"
             :model-value="settingsStore.sponsorblockSegmentSelfpromo"
-            :label="'Self promotion'"
+            :label="getHumanReadableCategory('selfpromo')"
             :small-label="'Unpaid promotion, for example donations, merchandise or shoutouts'"
             :right="true"
-            :color-mark="'#fdfb0e'"
+            :color-mark="getSegmentColor('selfpromo')"
             class="sponsorblock-option"
             @update:model-value="
               val => settingsStore.setSponsorblockSegmentSelfpromo(val as SegmentOption)
@@ -168,10 +169,10 @@ const videoSpeedArray = [
           <MultiOptionButton
             :options="sponsorblockSegmentOptions"
             :model-value="settingsStore.sponsorblockSegmentMusicOfftopic"
-            :label="'Non-music section'"
+            :label="getHumanReadableCategory('music_offtopic')"
             :small-label="'Skips non-music sections in music videos'"
             :right="true"
-            :color-mark="'#f89c06'"
+            :color-mark="getSegmentColor('music_offtopic')"
             class="sponsorblock-option"
             @update:model-value="
               val => settingsStore.setSponsorblockSegmentMusicOfftopic(val as SegmentOption)
@@ -180,10 +181,10 @@ const videoSpeedArray = [
           <MultiOptionButton
             :options="sponsorblockSegmentOptions"
             :model-value="settingsStore.sponsorblockSegmentPreview"
-            :label="'Preview'"
+            :label="getHumanReadableCategory('preview')"
             :small-label="'Skips previews and recaps'"
             :right="true"
-            :color-mark="'#f70000'"
+            :color-mark="getSegmentColor('preview')"
             class="sponsorblock-option"
             @update:model-value="
               val => settingsStore.setSponsorblockSegmentPreview(val as SegmentOption)
@@ -192,10 +193,10 @@ const videoSpeedArray = [
           <MultiOptionButton
             :options="sponsorblockSegmentOptions"
             :model-value="settingsStore.sponsorblockSegmentFiller"
-            :label="'Filler'"
+            :label="getHumanReadableCategory('filler')"
             :small-label="'Skips filler and off-topic content'"
             :right="true"
-            :color-mark="'#7300FF'"
+            :color-mark="getSegmentColor('filler')"
             class="sponsorblock-option"
             @update:model-value="
               val => settingsStore.setSponsorblockSegmentFiller(val as SegmentOption)

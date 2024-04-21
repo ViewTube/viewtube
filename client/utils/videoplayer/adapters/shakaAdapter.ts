@@ -70,7 +70,8 @@ export const shakaAdapter = async (options: VideoplaybackAdapterOptions) => {
     },
     manifest: {
       dash: {
-        ignoreMinBufferTime: true
+        ignoreMinBufferTime: true,
+        disableXlinkProcessing: true
       }
     }
   });

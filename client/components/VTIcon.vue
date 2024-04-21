@@ -1,7 +1,15 @@
 <script setup lang="ts">
-const props = defineProps<{
-  name: string;
-}>();
+const props = withDefaults(
+  defineProps<{
+    name: string;
+    width?: string;
+    height?: string;
+  }>(),
+  {
+    width: '1.5rem',
+    height: '1.5rem'
+  }
+);
 
 const iconName = computed((): string => {
   if (!props.name) {
@@ -19,8 +27,8 @@ const iconName = computed((): string => {
 .vt-icon {
   display: inline-block;
   position: relative;
-  width: 1.5em;
-  height: 1.5em;
+  width: v-bind(width);
+  height: v-bind(height);
   font-size: 16px;
 }
 </style>
