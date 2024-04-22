@@ -8,10 +8,13 @@ const props = defineProps<{
   video: ApiDto<'VTVideoInfoDto'>;
   videoState: VideoState;
   uiState: UIState;
+  previewThumbnailWidth: number;
 }>();
 const { proxyUrl } = useImgProxy();
 const { getSegmentState, getHumanReadableCategory, getSegmentColor } = useSponsorBlockUtils();
 const settingsStore = useSettingsStore();
+
+const thumbnailWidthPx = `${props.previewThumbnailWidth}px`;
 
 const getPreviewThumbnail = (
   previewThumbnailTemplate: ApiDto<'VTVideoInfoDto'>['previewThumbnails'][number]
@@ -43,8 +46,7 @@ const getPreviewThumbnail = (
 
   const aspectRatio = previewThumbnailTemplate.width / previewThumbnailTemplate.height;
 
-  const thumbnailWidth = 200;
-  const thumbnailHeight = thumbnailWidth / aspectRatio;
+  const thumbnailHeight = props.previewThumbnailWidth / aspectRatio;
 
   return {
     previewUrl: proxyUrl(previewImageUrl),
@@ -52,7 +54,7 @@ const getPreviewThumbnail = (
     thumbnailRow,
     columns: previewThumbnailTemplate.columns,
     rows: previewThumbnailTemplate.rows,
-    thumbnailWidth,
+    thumbnailWidth: props.previewThumbnailWidth,
     thumbnailHeight
   };
 };
@@ -115,9 +117,9 @@ const currentSponsorBlockSegmentColor = computed(() => {
         class="seekbar-preview-image"
         :style="{
           backgroundImage: `url(${smallThumbnail.previewUrl})`,
-          backgroundPositionX: `-${smallThumbnail.thumbnailColumn * 200}px`,
+          backgroundPositionX: `-${smallThumbnail.thumbnailColumn * smallThumbnail.thumbnailWidth}px`,
           backgroundPositionY: `-${smallThumbnail.thumbnailRow * smallThumbnail.thumbnailHeight}px`,
-          backgroundSize: `${smallThumbnail.columns * 200}px ${
+          backgroundSize: `${smallThumbnail.columns * smallThumbnail.thumbnailWidth}px ${
             smallThumbnail.rows * smallThumbnail.thumbnailHeight
           }px`
         }"
@@ -126,9 +128,9 @@ const currentSponsorBlockSegmentColor = computed(() => {
         class="seekbar-preview-image"
         :style="{
           backgroundImage: `url(${largeThumbnail.previewUrl})`,
-          backgroundPositionX: `-${largeThumbnail.thumbnailColumn * 200}px`,
+          backgroundPositionX: `-${largeThumbnail.thumbnailColumn * largeThumbnail.thumbnailWidth}px`,
           backgroundPositionY: `-${largeThumbnail.thumbnailRow * largeThumbnail.thumbnailHeight}px`,
-          backgroundSize: `${largeThumbnail.columns * 200}px ${
+          backgroundSize: `${largeThumbnail.columns * largeThumbnail.thumbnailWidth}px ${
             largeThumbnail.rows * largeThumbnail.thumbnailHeight
           }px`
         }"
@@ -156,7 +158,7 @@ const currentSponsorBlockSegmentColor = computed(() => {
 .flip-seekbar-preview {
   position: absolute;
   left: 0;
-  width: 200px;
+  width: v-bind(thumbnailWidthPx);
   bottom: 25px;
   background-repeat: no-repeat;
   pointer-events: none;
@@ -169,6 +171,7 @@ const currentSponsorBlockSegmentColor = computed(() => {
   overflow: hidden;
   background-color: var(--bgcolor-main);
   border-radius: 8px;
+  z-index: 10;
 
   .preview-gradient {
     position: absolute;
@@ -177,7 +180,7 @@ const currentSponsorBlockSegmentColor = computed(() => {
     bottom: 0;
     left: 0;
     background-image: linear-gradient(
-      -15deg,
+      -20deg,
       v-bind(currentSponsorBlockSegmentColor),
       rgba(0, 0, 0, 0) 30%
     );
@@ -186,7 +189,7 @@ const currentSponsorBlockSegmentColor = computed(() => {
     z-index: -1;
 
     &.visible {
-      opacity: 0.6;
+      opacity: 0.3;
     }
   }
 
@@ -208,17 +211,22 @@ const currentSponsorBlockSegmentColor = computed(() => {
 
       .chapter-icon {
         margin: auto 0;
+        min-width: 0.9rem;
       }
 
       .sponsorblock-icon {
         width: 0.9rem;
         height: 0.9rem;
+        min-width: 0.9rem;
         margin: auto 0;
         filter: grayscale(1);
       }
 
       .info-text {
         margin: auto 0;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
       }
 
       &.visible {

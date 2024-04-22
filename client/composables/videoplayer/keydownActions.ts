@@ -15,7 +15,8 @@ export const useKeydownActions = (
   videoState: VideoState,
   toggleFullscreen: () => void,
   triggerEffect: (effect: string) => void,
-  toggleCaptions: () => void
+  toggleCaptions: () => void,
+  skipSponsorBlockSegment: () => void
 ) => {
   const popupStore = usePopupStore();
 
@@ -128,6 +129,12 @@ export const useKeydownActions = (
       action: () => {
         // TODO: Implement previous video
         console.log('previous video');
+      }
+    },
+    {
+      keys: ['Enter'],
+      action: () => {
+        skipSponsorBlockSegment();
       }
     }
   ];

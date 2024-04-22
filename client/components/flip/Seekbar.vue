@@ -82,9 +82,16 @@ const hoveredTime = ref(0);
 const hoveredTimestamp = ref('00:00');
 const hoverPosition = ref(0);
 
+const mobileWidth = useMediaQuery('(max-width: 700px)');
+
+const previewThumbnailWidth = computed(() => {
+  if (mobileWidth.value) return 200;
+  return 240;
+});
+
 const previewThumbnailPosition = computed(() => {
   hoverPosition.value;
-  return getHoverPositionByWidth(200);
+  return getHoverPositionByWidth(previewThumbnailWidth.value);
 });
 
 const getHoverPositionByWidth = (elWidth: number) => {
@@ -142,6 +149,7 @@ const getHoverPositionByWidth = (elWidth: number) => {
         :video-state="videoState"
         :ui-state="uiState"
         :video="video"
+        :preview-thumbnail-width="previewThumbnailWidth"
       />
     </div>
   </div>

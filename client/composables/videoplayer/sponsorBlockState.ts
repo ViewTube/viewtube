@@ -9,7 +9,6 @@ export const useSponsorBlockState = (video: Ref<ApiDto<'VTVideoInfoDto'>>) => {
   const settingsStore = useSettingsStore();
 
   const skipSegments = computed(() => {
-    console.log('doin dis');
     return sponsorBlockStore.getSponsorBlockSegment(video.value.id);
   });
 

@@ -45,7 +45,7 @@ const videoLengthText = computed(() => getTimestampFromSeconds(props.videoState.
         <VTIcon name="mdi:skip-next" />
       </button>
     </div>
-    <div class="control-buttons">
+    <div class="control-buttons right">
       <button class="control-button" @click.stop="uiState.openSettings">
         <VTIcon name="mdi:cog" />
       </button>
@@ -60,13 +60,18 @@ const videoLengthText = computed(() => getTimestampFromSeconds(props.videoState.
 
 <style lang="scss" scoped>
 .flip-control-buttons {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 100px 1fr 100px;
   height: 60px;
   padding: 10px 10px 0 10px;
   pointer-events: auto;
   color: #fefefe;
   position: relative;
+
+  @media screen and (max-width: $mobile-width) {
+    height: 50px;
+    padding: 10px 10px 20px 10px;
+  }
 
   .timestamp-text {
     position: absolute;
@@ -79,16 +84,22 @@ const videoLengthText = computed(() => getTimestampFromSeconds(props.videoState.
       left: auto;
       right: 0;
     }
+
+    @media screen and (max-width: $mobile-width) {
+      top: unset;
+      bottom: 0;
+    }
   }
 
   .control-buttons {
     display: flex;
 
     &.center-buttons {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
+      justify-content: center;
+    }
+
+    &.right {
+      justify-content: flex-end;
     }
   }
 

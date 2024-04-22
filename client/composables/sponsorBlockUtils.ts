@@ -48,11 +48,11 @@ export const useSponsorBlockUtils = () => {
   const getSegmentColor = (category: string): string => {
     switch (category) {
       case 'sponsor':
-        return '#0fca15';
+        return '#0ec972';
       case 'intro':
         return '#07faf0';
       case 'outro':
-        return '#0103e1';
+        return '#0073e0';
       case 'interaction':
         return '#b711df';
       case 'selfpromo':
@@ -60,7 +60,7 @@ export const useSponsorBlockUtils = () => {
       case 'music_offtopic':
         return '#f89c06';
       case 'preview':
-        return '#f70000';
+        return '#ef3939';
       case 'filler':
         return '#7300FF';
       default:

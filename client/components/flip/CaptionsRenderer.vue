@@ -24,7 +24,7 @@ const currentCaption = computed(() => {
 </script>
 
 <template>
-  <div class="flip-captions-renderer" :class="{ 'ui-visible': uiState.visible }">
+  <div class="flip-captions-renderer" :class="{ 'ui-visible': uiState.visible.value }">
     <div v-for="(line, index) in currentCaption" :key="index" class="caption-line" v-html="line" />
   </div>
 </template>
@@ -48,6 +48,8 @@ const currentCaption = computed(() => {
     color: #f7f7f7;
     font-size: 2vw;
     white-space: pre;
+    user-select: none;
+    pointer-events: none;
   }
 }
 </style>

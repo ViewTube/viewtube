@@ -9,8 +9,10 @@ defineProps<{
 <template>
   <div class="controls">
     <FlipTopBar :ui-state="uiState" :video="video" />
-    <FlipSeekbar :ui-state="uiState" :video-state="videoState" :video="video" />
-    <FlipControlButtons :ui-state="uiState" :video-state="videoState" />
+    <div class="controls-bottom">
+      <FlipSeekbar :ui-state="uiState" :video-state="videoState" :video="video" />
+      <FlipControlButtons :ui-state="uiState" :video-state="videoState" />
+    </div>
   </div>
 </template>
 
@@ -27,11 +29,20 @@ defineProps<{
   pointer-events: none;
   z-index: 10;
 
+  .controls-bottom {
+    display: flex;
+    flex-direction: column;
+
+    @media screen and (max-width: $mobile-width) {
+      flex-direction: column-reverse;
+    }
+  }
+
   &:after {
     content: '';
     position: absolute;
     width: 100%;
-    height: 100px;
+    height: 120px;
     bottom: -1px;
     left: 0;
     z-index: -1;

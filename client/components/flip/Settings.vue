@@ -8,7 +8,7 @@ defineProps<{
 
 <template>
   <div class="flip-settings-container clickaway-div" @click="uiState.closeSettings">
-    <div class="flip-settings" :class="{ fullscreen: uiState.fullscreen }" @click.stop>
+    <div class="flip-settings" :class="{ fullscreen: uiState.fullscreen.value }" @click.stop>
       <div class="flip-settings-header">
         <p class="flip-settings-title">Player settings</p>
         <VTIcon class="close-icon" name="mdi:close" @click="uiState.closeSettings" />

@@ -9,7 +9,6 @@ const captionsState = useCaptionsState(toRef(props, 'video'));
 const uiState = useUIState(props.videoState, toRef(props, 'video'), flipPlayerUIRef, captionsState);
 
 const cursor = computed(() => uiState.cursor.value);
-const visible = computed(() => uiState.visible.value);
 </script>
 
 <template>
@@ -25,8 +24,14 @@ const visible = computed(() => uiState.visible.value);
     <slot />
     <Spinner v-if="videoState.video.buffering" class="flip-spinner" />
     <transition name="flip-fade">
-      <FlipControls v-if="visible" :video-state="videoState" :video="video" :ui-state="uiState" />
+      <FlipControls
+        v-if="uiState.visible.value"
+        :video-state="videoState"
+        :video="video"
+        :ui-state="uiState"
+      />
     </transition>
+    <FlipSkipButton :ui-state="uiState" :video-state="videoState" />
     <FlipEffectsOverlay :ui-state="uiState" />
     <FlipCaptionsRenderer
       :captions-state="captionsState"

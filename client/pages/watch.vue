@@ -301,7 +301,7 @@ const videoDescription = computed(() => {
     /> -->
     <FlipPlayer v-if="video && !videoPending" :video="video" :start-time="video.initialVideoTime" />
     <div v-if="video && !videoPending" class="video-meta">
-      <div v-if="settingsStore.showRecommendedVideos" class="recommended-videos mobile">
+      <div v-if="settingsStore.showRecommendedVideos" class="recommended-videos-outer mobile">
         <NextUpVideo v-if="nextUpVideo && settingsStore.autoplayNextVideo" :video="nextUpVideo" />
         <CollapsibleSection :label="'Recommended videos'" :opened="recommendedOpen">
           <RecommendedVideos
@@ -499,12 +499,12 @@ const videoDescription = computed(() => {
     }
 
     .recommended-videos-outer {
-      background-color: var(--bgcolor-main);
       z-index: 400;
       padding: 10px;
 
       @media screen and (min-width: $mobile-width) {
-        width: 340px;
+        min-width: 340px;
+        max-width: 340px;
       }
     }
 
@@ -519,6 +519,7 @@ const videoDescription = computed(() => {
       z-index: 400;
       position: relative;
       width: 100%;
+      overflow: hidden;
 
       @media screen and (min-width: $mobile-width) {
         width: 100%;
@@ -635,34 +636,26 @@ const videoDescription = computed(() => {
 
       .video-infobox-channel {
         display: flex;
-        flex-direction: row;
-        align-items: center;
+        flex-direction: column;
         justify-content: space-between;
         width: 100%;
-        margin: 0 auto;
+        gap: 10px;
 
         @media screen and (max-width: $watch-break-width) {
           flex-direction: column;
           align-items: flex-start;
-
-          .infobox-channel {
-            margin: 0 0 20px 0;
-            .infobox-channel-info {
-              .infobox-channel-name {
-                max-width: 65vw !important;
-              }
-            }
-          }
         }
 
         .infobox-channel {
           display: flex;
           flex-direction: row;
           align-items: center;
+          width: 100%;
 
           .infobox-channel-image {
             width: 50px;
             height: 50px;
+            min-width: 50px;
             margin: 0 10px 0 0;
 
             img {
@@ -676,21 +669,24 @@ const videoDescription = computed(() => {
             flex-direction: column;
             justify-content: space-evenly;
             flex-wrap: wrap;
-            margin: 0 20px 0 0;
+            overflow: hidden;
 
             .infobox-channel-name {
               text-decoration: none;
               color: var(--title-color);
               font-family: $default-font;
               font-size: 1.2rem;
-              white-space: nowrap;
-              overflow: hidden;
-              text-overflow: ellipsis;
-              max-width: 45vw;
+              width: 100%;
               display: flex;
               flex-direction: row;
               gap: 5px;
               align-items: center;
+
+              p {
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+              }
 
               .vt-icon {
                 width: 20px;

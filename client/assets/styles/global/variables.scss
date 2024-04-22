@@ -3,7 +3,7 @@ $bottom-overlay-height: 60px;
 $video-seekbar-height: 20px;
 $video-seekbar-line-height: 3px;
 $video-controls-height: $video-seekbar-height - $video-seekbar-line-height;
-$video-player-gradient: linear-gradient(to bottom, #000000da, #0000);
+$video-player-gradient: linear-gradient(to bottom, rgba(0, 0, 0, 0.94), transparent);
 
 $home-offset: 200px;
 

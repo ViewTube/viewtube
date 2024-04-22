@@ -61,6 +61,8 @@ const iconName = computed(() => {
   .effect-icon {
     margin: auto;
     font-size: 2.5rem;
+    width: 3rem;
+    height: 3rem;
   }
 }
 </style>

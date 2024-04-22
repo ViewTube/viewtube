@@ -1,4 +1,5 @@
 import { usePopupStore } from '@/store/popup';
+import { useSettingsStore } from '@/store/settings';
 
 const UI_TIMEOUT = 3000;
 
@@ -11,6 +12,7 @@ export const useUIState = (
   captionsState: CaptionsState
 ) => {
   const popupStore = usePopupStore();
+  const settingsStore = useSettingsStore();
 
   const visible = computed(() => {
     if (_seeking.value || !videoState.video.playing) {
@@ -33,7 +35,21 @@ export const useUIState = (
     }
   };
 
+  const { getSegmentState } = useSponsorBlockUtils();
   const { getCurrentSegment, skipSegments } = useSponsorBlockState(video);
+
+  const skipCurrentSponsorBlockSegment = () => {
+    if (!settingsStore.sponsorblockEnabled) return;
+
+    const currentSegment = getCurrentSegment(videoState.video.currentTime);
+    if (!currentSegment) return;
+
+    const segmentState = getSegmentState(currentSegment.category);
+
+    if (segmentState === 'none') return;
+
+    videoState.setTime(currentSegment.segment[1]);
+  };
 
   const fullscreen = ref(false);
   const toggleFullscreen = () => {
@@ -109,7 +125,8 @@ export const useUIState = (
     videoState,
     toggleFullscreen,
     triggerEffect,
-    toggleCaptions
+    toggleCaptions,
+    skipCurrentSponsorBlockSegment
   );
 
   onBeforeMount(() => {
