@@ -173,30 +173,6 @@ export const videoPlayerSetup = (
     chapters.value = parseChapters(props.video.description, props.video.duration?.seconds);
   }
 
-  const { skipSegments, loadSkipSegments, getCurrentSegment } = useSponsorBlock();
-
-  const sponsorBlockSegments = computed(() => {
-    if (skipSegments.value) {
-      return {
-        hash: skipSegments.value.hash,
-        videoID: skipSegments.value.videoID,
-        segments: skipSegments.value.segments.map(segment => {
-          const startPercentage = (segment.segment[0] / props.video.duration?.seconds) * 100;
-          const endPercentage = (segment.segment[1] / props.video.duration?.seconds) * 100;
-          return {
-            startPercentage,
-            endPercentage,
-            ...segment
-          };
-        })
-      };
-    }
-  });
-
-  if (settingsStore.sponsorblockEnabled) {
-    loadSkipSegments(props.video.id);
-  }
-
   const videoUrl = computed(() => {
     if (props.video !== undefined) {
       return `/watch?v=${props.video.id}`;
@@ -370,54 +346,6 @@ export const videoPlayerSetup = (
 
         videoPlayerStore.setCurrentTime(videoRef.value.currentTime);
         videoPlayerStore.setVideoLength(videoRef.value.duration);
-
-        if (settingsStore.sponsorblockEnabled) {
-          const currentSegment = getCurrentSegment(videoRef.value.currentTime);
-          if (currentSegment) {
-            let segmentOption = 'ask';
-            switch (currentSegment.category) {
-              case 'music_offtopic':
-                segmentOption = settingsStore.sponsorblockSegmentMusicOfftopic;
-                break;
-              case 'interaction':
-                segmentOption = settingsStore.sponsorblockSegmentInteraction;
-                break;
-              case 'intro':
-                segmentOption = settingsStore.sponsorblockSegmentIntro;
-                break;
-              case 'outro':
-                segmentOption = settingsStore.sponsorblockSegmentOutro;
-                break;
-              case 'selfpromo':
-                segmentOption = settingsStore.sponsorblockSegmentSelfpromo;
-                break;
-              case 'preview':
-                segmentOption = settingsStore.sponsorblockSegmentPreview;
-                break;
-              case 'filler':
-                segmentOption = settingsStore.sponsorblockSegmentFiller;
-                break;
-              case 'sponsor':
-                segmentOption = settingsStore.sponsorblockSegmentSponsor;
-                break;
-              default:
-                break;
-            }
-            if (segmentOption && segmentOption === 'skip') {
-              setVideoTime(currentSegment.segment[1]);
-            } else if (segmentOption && segmentOption === 'ask') {
-              skipButton.visible = true;
-              skipButton.skipCategory = currentSegment.category;
-              skipButton.clickFn = () => {
-                setVideoTime(currentSegment.segment[1]);
-
-                skipButton.visible = false;
-              };
-            }
-          } else {
-            skipButton.visible = false;
-          }
-        }
 
         if (import.meta.client && 'mediaSession' in navigator) {
           const duration = parseFloat(videoRef.value.duration);
@@ -1025,7 +953,6 @@ export const videoPlayerSetup = (
     videoPlayerSettingsRef,
     animations,
     chapters,
-    sponsorBlockSegments,
     skipButton,
     selectedVideoQuality,
     selectedAudioQuality,

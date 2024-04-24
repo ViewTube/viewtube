@@ -128,10 +128,6 @@
             @touchmove.prevent="onSeekbarTouchMove"
             @click.prevent.stop="onSeekbarClick"
           />
-          <SponsorBlockSegments
-            v-if="settingsStore.sponsorblockEnabled && sponsorBlockSegments"
-            :segments="sponsorBlockSegments"
-          />
           <div v-if="!settingsStore.chapters || !chapters" class="seekbar-background" />
           <div v-if="settingsStore.chapters && chapters" class="seekbar-background-chapters">
             <div
@@ -335,7 +331,6 @@ import Spinner from '@/components/Spinner.vue';
 import VolumeControl from '@/components/videoplayer/VolumeControl.vue';
 import VideoPlayerSettings from '@/components/videoplayer/VideoPlayerSettings.vue';
 // import SeekbarPreview from '@/components/videoplayer/SeekbarPreview.vue';
-import SponsorBlockSegments from '@/components/videoplayer/SponsorblockSegments.vue';
 
 export default defineComponent({
   name: 'VideoPlayer',
@@ -345,8 +340,7 @@ export default defineComponent({
     VolumeControl,
     VideoPlayerSettings,
     // SeekbarPreview,
-    VideoPlayerAnimations,
-    SponsorBlockSegments
+    VideoPlayerAnimations
   },
   props: {
     video: {
