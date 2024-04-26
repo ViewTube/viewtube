@@ -7,7 +7,7 @@ const props = defineProps<{
   positionX: string;
   video: ApiDto<'VTVideoInfoDto'>;
   videoState: VideoState;
-  uiState: UIState;
+  uiState: UiState;
   previewThumbnailWidth: number;
 }>();
 const { proxyUrl } = useImgProxy();

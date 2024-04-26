@@ -42,6 +42,7 @@ export const rxPlayerAdapter = ({
       switch (state) {
         case PlayerState.STOPPED:
           videoState.playing = false;
+          videoState.buffering = false;
           break;
         case PlayerState.LOADING:
           videoState.buffering = true;
@@ -51,6 +52,7 @@ export const rxPlayerAdapter = ({
           break;
         case PlayerState.PLAYING:
           videoState.playing = true;
+          videoState.buffering = false;
           break;
         case PlayerState.PAUSED:
           videoState.playing = false;
@@ -66,6 +68,7 @@ export const rxPlayerAdapter = ({
           break;
         case PlayerState.ENDED:
           videoState.playing = false;
+          videoState.buffering = false;
           break;
         case PlayerState.RELOADING:
           videoState.buffering = true;
@@ -100,6 +103,8 @@ export const rxPlayerAdapter = ({
       playerInstance.value = createPlayer();
       registerEvents();
       playerInstance.value.setVolume(volumeStorage.value);
+      7;
+      loadVideo();
     }
   });
 
@@ -116,6 +121,12 @@ export const rxPlayerAdapter = ({
       },
       autoPlay: settingsStore.autoplay
     });
+
+    setTimeout(() => {
+      console.log('video', playerInstance.value?.getVideoRepresentation());
+      console.log('audio', playerInstance.value?.getAvailableAudioTracks());
+      console.log('periods', playerInstance.value?.getAvailablePeriods());
+    }, 1000);
   };
 
   const destroy = () => {
@@ -135,6 +146,7 @@ export const rxPlayerAdapter = ({
 
   playerInstance.value = createPlayer();
   registerEvents();
+  loadVideo();
 
   return {
     destroy,

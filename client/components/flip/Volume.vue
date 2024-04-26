@@ -2,7 +2,7 @@
 const props = defineProps<{
   mobile?: boolean;
   videoState: VideoState;
-  uiState: UIState;
+  uiState: UiState;
 }>();
 
 const onVolumeSeekStart = () => {

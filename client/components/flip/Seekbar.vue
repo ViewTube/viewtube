@@ -3,7 +3,7 @@ import { getTimestampFromSeconds } from '@/utils/shared';
 import { useSettingsStore } from '~/store/settings';
 const props = defineProps<{
   videoState: VideoState;
-  uiState: UIState;
+  uiState: UiState;
   video: ApiDto<'VTVideoInfoDto'>;
 }>();
 

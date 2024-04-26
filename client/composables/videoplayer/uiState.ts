@@ -3,7 +3,7 @@ import { useSettingsStore } from '@/store/settings';
 
 const UI_TIMEOUT = 3000;
 
-export type UIState = ReturnType<typeof useUIState>;
+export type UiState = ReturnType<typeof useUIState>;
 
 export const useUIState = (
   videoState: VideoState,
@@ -120,6 +120,12 @@ export const useUIState = (
 
     return visibleEffectsArray;
   });
+
+  const posterVisible = ref(true);
+
+  const hidePoster = () => {
+    posterVisible.value = false;
+  }
 
   const { handleKeydown } = useKeydownActions(
     videoState,
@@ -253,6 +259,7 @@ export const useUIState = (
     settingsOpen,
     visibleEffects,
     skipSegments,
+    posterVisible,
 
     onPointerMove,
     onPointerLeave,
@@ -260,7 +267,8 @@ export const useUIState = (
     onPointerUp,
     setSeeking,
     getCurrentSegment,
-
+    
+    hidePoster,
     toggleFullscreen,
     openSettings,
     closeSettings,

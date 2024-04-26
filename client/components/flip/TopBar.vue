@@ -1,7 +1,7 @@
 <script setup lang="ts">
 defineProps<{
   video: ApiDto<'VTVideoInfoDto'>;
-  uiState: UIState;
+  uiState: UiState;
 }>();
 </script>
 

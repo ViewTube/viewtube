@@ -1,6 +1,6 @@
 <script setup lang="ts">
 defineProps<{
-  uiState: UIState;
+  uiState: UiState;
 }>();
 </script>
 

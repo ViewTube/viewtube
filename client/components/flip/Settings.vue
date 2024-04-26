@@ -1,7 +1,7 @@
 <script setup lang="ts">
 defineProps<{
   videoState: VideoState;
-  uiState: UIState;
+  uiState: UiState;
   captionsState: CaptionsState;
 }>();
 </script>

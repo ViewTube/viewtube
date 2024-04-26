@@ -2,7 +2,7 @@
 import { useSettingsStore } from '@/store/settings';
 
 const props = defineProps<{
-  uiState: UIState;
+  uiState: UiState;
   videoState: VideoState;
 }>();
 

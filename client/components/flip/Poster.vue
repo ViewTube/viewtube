@@ -1,24 +1,25 @@
 <script setup lang="ts">
 const props = defineProps<{
+  uiState: UiState;
   videoState: VideoState;
   video: ApiDto<'VTVideoInfoDto'>;
 }>();
 
 const onPosterClick = () => {
   if (props.videoState.video.buffering) return;
-  props.videoState.setPosterVisible(false);
+  props.uiState.hidePoster();
   props.videoState.play();
 };
+
+const posterThumbnail = computed(() => {
+  return [...(props.video.thumbnails ?? [])]?.sort((a, b) => b.width - a.width)?.[0]?.url ?? '#';
+});
 </script>
 
 <template>
   <transition name="fade">
-    <div
-      v-if="videoState.video.posterVisible"
-      class="flip-poster"
-      @click.stop.prevent="onPosterClick"
-    >
-      <img :src="video.thumbnails[0].url" class="flip-poster-img" />
+    <div v-if="uiState.posterVisible.value" class="flip-poster" @click.stop.prevent="onPosterClick">
+      <img :src="posterThumbnail" class="flip-poster-img" />
       <FlipLoading v-if="videoState.video.buffering" :video-state="videoState" />
       <svg
         v-else

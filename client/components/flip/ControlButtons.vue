@@ -3,7 +3,7 @@ import { getTimestampFromSeconds } from '@/utils/shared';
 
 const props = defineProps<{
   videoState: VideoState;
-  uiState: UIState;
+  uiState: UiState;
 }>();
 
 const onPlayPauseClick = () => {

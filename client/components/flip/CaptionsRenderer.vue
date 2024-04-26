@@ -2,7 +2,7 @@
 const props = defineProps<{
   captionsState: CaptionsState;
   videoState: VideoState;
-  uiState: UIState;
+  uiState: UiState;
 }>();
 
 const selectedCaptionsTrack = computed(() =>
