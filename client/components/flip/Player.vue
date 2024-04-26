@@ -9,7 +9,9 @@ const startTime = toRef(props, 'startTime');
 
 const { videoSource } = useVideoSource(videoObj);
 
-const videoState = useVideoState(videoElementRef, videoSource, startTime);
+const format = ref('dash');
+
+const videoState = useVideoState(videoElementRef, videoSource, format, startTime);
 </script>
 
 <template>

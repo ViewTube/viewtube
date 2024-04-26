@@ -1,10 +1,13 @@
+import type { useSettingsStore } from '@/store/settings';
 import RxPlayer from 'rx-player';
-import { useSettingsStore } from '~/store/settings';
 
 type RxPlayerAdapterOptions = {
   videoElementRef: Ref<HTMLVideoElement>;
   source: Ref<string>;
   startTime?: Ref<number>;
+  settingsStore: ReturnType<typeof useSettingsStore>;
+  videoState: VideoState['video'];
+  volumeStorage: Ref<number>;
 };
 
 enum PlayerState {
@@ -20,13 +23,14 @@ enum PlayerState {
   RELOADING = 'RELOADING'
 }
 
-export const useRxPlayerAdapter = ({
+export const rxPlayerAdapter = ({
   videoElementRef,
   source,
-  startTime
+  startTime,
+  settingsStore,
+  videoState,
+  volumeStorage
 }: RxPlayerAdapterOptions) => {
-  const settingsStore = useSettingsStore();
-
   const createPlayer = () => {
     return new RxPlayer({
       videoElement: videoElementRef.value
@@ -79,25 +83,14 @@ export const useRxPlayerAdapter = ({
       videoState.bufferLevel = position.position + position.bufferGap;
       videoState.speed = position.playbackRate;
     });
+
+    playerInstance.value?.addEventListener('volumeChange', volume => {
+      videoState.volume = volume.volume;
+      videoState.muted = volume.muted;
+    });
   };
 
   const playerInstance = ref<RxPlayer>(createPlayer());
-  const videoState = reactive({
-    playing: false,
-    buffering: true,
-    bufferLevel: 0,
-    currentTime: 0,
-    duration: 0,
-    volume: 1,
-    muted: false,
-    loop: false,
-    speed: 1,
-    trackList: {} as Record<string, LabelledTrack[]>,
-    automaticQuality: true,
-    languageList: [] as Language[],
-    selectedLanguage: 'en',
-    playerError: null as Error | null
-  });
 
   watch(videoElementRef, (newValue, oldValue) => {
     if (newValue !== oldValue) {
@@ -106,10 +99,15 @@ export const useRxPlayerAdapter = ({
 
       playerInstance.value = createPlayer();
       registerEvents();
+      playerInstance.value.setVolume(volumeStorage.value);
     }
   });
 
   watch(source, () => {
+    loadVideo();
+  });
+
+  const loadVideo = () => {
     playerInstance.value?.loadVideo({
       transport: 'dash',
       url: source.value,
@@ -118,10 +116,35 @@ export const useRxPlayerAdapter = ({
       },
       autoPlay: settingsStore.autoplay
     });
-  });
+  };
 
-  onBeforeUnmount(() => {
+  const destroy = () => {
     playerInstance.value?.stop();
     playerInstance.value?.dispose();
-  });
+  };
+  const play = () => playerInstance.value?.play();
+  const pause = () => playerInstance.value?.pause();
+  const setVolume = (volume: number) => playerInstance.value?.setVolume(volume);
+  const setPlaybackRate = (playbackRate: number) =>
+    playerInstance.value?.setPlaybackRate(playbackRate);
+  const setTime = (time: number) => playerInstance.value?.seekTo(time);
+
+  const setLanguage = (_language: string) => {};
+  const setTrack = (_track: number) => {};
+  const setAutoQuality = (_enabled: boolean) => {};
+
+  playerInstance.value = createPlayer();
+  registerEvents();
+
+  return {
+    destroy,
+    play,
+    pause,
+    setVolume,
+    setPlaybackRate,
+    setTime,
+    setLanguage,
+    setTrack,
+    setAutoQuality
+  };
 };

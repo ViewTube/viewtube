@@ -1,17 +1,16 @@
-import {
-  shakaAdapter,
-  type LabelledTrack,
-  type Language
-} from '@/utils/videoplayer/adapters/shakaAdapter';
+import { type LabelledTrack, type Language } from '@/utils/videoplayer/adapters/shakaAdapter';
 import { useStorage } from '@vueuse/core';
+import { useSettingsStore } from '~/store/settings';
 
 export type VideoState = ReturnType<typeof useVideoState>;
 
 export const useVideoState = (
   videoElementRef: Ref<HTMLVideoElement>,
   source: Ref<string>,
+  format: Ref<string>,
   startTime?: Ref<number>
 ) => {
+  const settingsStore = useSettingsStore();
   const volumeStorage = useStorage('volume', 1);
   const route = useRoute();
 
@@ -31,70 +30,29 @@ export const useVideoState = (
     automaticQuality: true,
     languageList: [] as Language[],
     selectedLanguage: 'en',
-    posterVisible: true
+    playerError: null as Error | null
   });
 
-  const adapterInstance = ref<Awaited<ReturnType<typeof shakaAdapter>>>();
+  const adapterInstance = ref<ReturnType<typeof rxPlayerAdapter>>();
 
   const instantiateAdapter = async () => {
-    bufferMessage.value = 'Parsing manifest';
     if (adapterInstance.value) {
       adapterInstance.value.destroy();
       adapterInstance.value = undefined;
     }
 
-    adapterInstance.value = await shakaAdapter({
-      videoRef: videoElementRef,
-      source,
-      startTime
-    });
-
-    bufferMessage.value = 'Registering events';
-
-    adapterInstance.value.onPlaybackStarted(() => {
-      videoState.playing = true;
-      videoState.buffering = false;
-      updateTimeAndDuration();
-    });
-    adapterInstance.value.onPlaybackPaused(() => {
-      videoState.playing = false;
-      updateTimeAndDuration();
-    });
-    adapterInstance.value.onPlaybackTimeUpdated(() => {
-      updateTimeAndDuration();
-    });
-    adapterInstance.value.onBufferLevelUpdated(() => {
-      videoState.bufferLevel = adapterInstance.value?.getBufferLevel() ?? 0;
-    });
-    adapterInstance.value.onWaiting(() => {
-      videoState.buffering = true;
-    });
-    adapterInstance.value.onCanPlay(() => {
-      videoState.buffering = false;
-      updateTimeAndDuration();
-      updateTrackLists();
-      adapterInstance.value.setVolume(volumeStorage.value);
-    });
-    adapterInstance.value.onVolumeChanged(() => {
-      videoState.volume = adapterInstance.value?.getVolume() ?? 1;
-      volumeStorage.value = videoState.volume;
-      videoState.muted = videoElementRef.value.muted;
-    });
-    adapterInstance.value.onPlaybackRateChanged(() => {
-      videoState.speed = adapterInstance.value?.getPlaybackRate() ?? 1;
-    });
-    adapterInstance.value.onLanguageChanged(language => {
-      videoState.selectedLanguage = language;
-      updateTrackLists();
-    });
-    adapterInstance.value.onAutomaticQualityChanged(abrStatus => {
-      const enabled = abrStatus.newStatus;
-      videoState.automaticQuality = enabled;
-      updateTrackLists();
-    });
-    adapterInstance.value.onTracksChanged(() => {
-      updateTrackLists();
-    });
+    if (format.value === 'dash') {
+      adapterInstance.value = rxPlayerAdapter({
+        videoElementRef,
+        source,
+        startTime,
+        settingsStore,
+        videoState,
+        volumeStorage
+      });
+    } else {
+      console.log('live stream');
+    }
   };
 
   onMounted(async () => {
@@ -111,45 +69,6 @@ export const useVideoState = (
     videoAttributeObserver.observe(videoElementRef.value, { attributes: true });
   });
 
-  const updateTimeAndDuration = () => {
-    updateTime();
-    updateDuration();
-  };
-
-  const updateTrackLists = () => {
-    if (adapterInstance.value) {
-      videoState.trackList = adapterInstance.value.getTrackList();
-
-      videoState.languageList = adapterInstance.value.getLanguageList();
-
-      videoState.selectedLanguage = adapterInstance.value
-        .getRawTrackList()
-        .find(track => track.active).language;
-    }
-  };
-
-  const updateTime = () => {
-    if (adapterInstance.value) {
-      const currentTime = adapterInstance.value.getTime();
-      if (isReasonableNumber(currentTime)) {
-        videoState.currentTime = currentTime;
-      } else {
-        videoState.currentTime = 0;
-      }
-    }
-  };
-
-  const updateDuration = () => {
-    if (adapterInstance.value) {
-      const duration = adapterInstance.value.getDuration();
-      if (isReasonableNumber(duration)) {
-        videoState.duration = duration;
-      } else {
-        videoState.duration = 0;
-      }
-    }
-  };
-
   const play = () => adapterInstance.value?.play();
   const pause = () => adapterInstance.value?.pause();
   const setVolume = (volume: number) => adapterInstance.value?.setVolume(volume);
@@ -163,7 +82,6 @@ export const useVideoState = (
   const setLanguage = (language: string) => adapterInstance.value?.setLanguage(language);
   const setTrack = (track: number) => adapterInstance.value?.setTrack(track);
   const setAutoQuality = (enabled: boolean) => adapterInstance.value?.setAutoQuality(enabled);
-  const setPosterVisible = (visible: boolean) => (videoState.posterVisible = visible);
 
   watch(
     () => route.query,
@@ -186,11 +104,6 @@ export const useVideoState = (
     setLoop,
     setLanguage,
     setTrack,
-    setAutoQuality,
-    setPosterVisible
+    setAutoQuality
   };
-};
-
-const isReasonableNumber = (value: number) => {
-  return typeof value === 'number' && !isNaN(value) && value >= 0;
 };
