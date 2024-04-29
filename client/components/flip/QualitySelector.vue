@@ -4,26 +4,31 @@ const props = defineProps<{
   videoState: VideoState;
 }>();
 
-const trackListForCurrentLanguage = computed(() => {
-  const currentLanguage = props.videoState.video.selectedLanguage;
-  const trackList = props.videoState.video.trackList[currentLanguage];
-  if (!trackList) {
-    return props.videoState.video.trackList[Object.keys(props.videoState.video.trackList)[0]];
-  }
-  return trackList;
+const currentVideoTrack = computed(() => {
+  return props.videoState.video.videoTracks?.find(el => el.active);
 });
 
-const currentTrack = computed(() => {
-  return trackListForCurrentLanguage.value?.find(el => el.active);
+const audioRepresentations = computed(() => {
+  return props.videoState.video.audioTracks
+    ?.flatMap(track => {
+      return track.representations.map(rep => ({ ...rep, trackId: track.id }));
+    })
+    .sort((a, b) => a.bitrate - b.bitrate);
 });
 
-const selectedCodec = ref(currentTrack.value?.videoCodec.split('.')[0] || '');
+const currentVideoRepresentation = computed(() => {
+  return props.videoState.video.videoTracks
+    ?.find(el => el.active)
+    ?.representations?.find(el => el.active);
+});
+
+const selectedCodec = ref(currentVideoTrack.value?.codec.split('.')[0] || '');
 
 const availableCodecs = computed(() => {
   return [
     ...new Set(
-      trackListForCurrentLanguage.value.map(el => {
-        return el.videoCodec.split('.')[0];
+      props.videoState.video.videoTracks.map(el => {
+        return el.codec.split('.')[0];
       })
     )
   ].map(el => {
@@ -52,25 +57,14 @@ const translateCodec = (codec: string) => {
   }
 };
 
-const availableTracks = computed(() => {
-  const tracks = trackListForCurrentLanguage.value.filter(el =>
-    el.videoCodec.startsWith(selectedCodec.value)
-  );
-  // Deduplicate tracks by videoId
-  const dedupedTracks = tracks.reduce((acc, track) => {
-    if (!acc.find(el => el.videoId === track.videoId)) {
-      acc.push(track);
-    }
-    return acc;
-  }, []);
-
-  return dedupedTracks;
+const currentVideoRepresentations = computed(() => {
+  return selectedVideoTrack.value?.representations;
 });
 
-const audioTracksForCurrentVideoTrack = computed(() => {
-  return trackListForCurrentLanguage.value
-    .filter(el => el.videoId === currentTrack.value?.videoId)
-    .sort((a, b) => a.audioBandwidth - b.audioBandwidth);
+const selectedVideoTrack = computed(() => {
+  return props.videoState.video.videoTracks.find(
+    el => el.codec.split('.')[0] === selectedCodec.value
+  );
 });
 </script>
 
@@ -81,11 +75,11 @@ const audioTracksForCurrentVideoTrack = computed(() => {
       <div class="selector-list">
         <div
           class="selector auto"
-          :class="{ selected: videoState.video.automaticQuality }"
-          @click.stop="videoState.setAutoQuality(true)"
+          :class="{ selected: videoState.video.automaticVideoQuality }"
+          @click.stop="videoState.setAutoVideoQuality()"
         >
-          Auto<span v-if="videoState.video.automaticQuality" class="auto-label">
-            · {{ currentTrack?.videoLabel }}</span
+          Auto<span v-if="videoState.video.automaticVideoQuality" class="auto-label">
+            · {{ currentVideoRepresentation?.label }}</span
           >
         </div>
         <div class="separator-line" />
@@ -94,19 +88,16 @@ const audioTracksForCurrentVideoTrack = computed(() => {
           <MultiOptionButton v-model="selectedCodec" :options="availableCodecs" />
         </div>
         <div
-          v-for="(track, index) in availableTracks"
+          v-for="(representation, index) in currentVideoRepresentations"
           :key="index"
           :class="{
-            selected: track.videoId === currentTrack.videoId && !videoState.video.automaticQuality
+            selected: representation.active && videoState.video.automaticVideoQuality === false
           }"
           class="selector"
-          @click.stop="videoState.setTrack(track.id)"
+          @click.stop="videoState.setVideoRepresentation(selectedVideoTrack.id, representation.id)"
         >
-          {{ track.videoLabel }}
-          <div
-            v-if="track.hdr?.toLowerCase() === 'pq' || track.hdr?.toLowerCase() === 'hlg'"
-            class="hdr-indicator-container"
-          >
+          {{ representation.label }}
+          <div v-if="representation.hdr" class="hdr-indicator-container">
             <div class="hdr-indicator-bg">
               <div class="hdr-indicator-bg-inner">
                 <div class="hdr-indicator">HDR</div>
@@ -122,13 +113,13 @@ const audioTracksForCurrentVideoTrack = computed(() => {
     <ListCollapsibleSection label="Audio quality">
       <div class="selector-list">
         <div
-          v-for="(track, index) in audioTracksForCurrentVideoTrack"
+          v-for="(representation, index) in audioRepresentations"
           :key="index"
-          :class="{ selected: track.active && !videoState.video.automaticQuality }"
+          :class="{ selected: representation.active }"
           class="selector"
-          @click.stop="videoState.setTrack(track.id)"
+          @click.stop="videoState.setAudioRepresentation(representation.trackId, representation.id)"
         >
-          {{ track.audioLabel }}
+          {{ representation.label }}
         </div>
       </div>
     </ListCollapsibleSection>

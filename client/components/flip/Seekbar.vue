@@ -195,6 +195,7 @@ const getHoverPositionByWidth = (elWidth: number) => {
 
     .flip-seekbar-sponsorblock {
       width: 100%;
+      overflow: hidden;
     }
 
     .flip-seekbar-point {

@@ -1,5 +1,5 @@
-import { type LabelledTrack, type Language } from '@/utils/videoplayer/adapters/shakaAdapter';
 import { useStorage } from '@vueuse/core';
+import type { AudioTrack, Language, VideoTrack } from '~/interfaces/VideoState';
 import { useSettingsStore } from '~/store/settings';
 
 export type VideoState = ReturnType<typeof useVideoState>;
@@ -26,8 +26,10 @@ export const useVideoState = (
     muted: false,
     loop: false,
     speed: 1,
-    trackList: {} as Record<string, LabelledTrack[]>,
-    automaticQuality: true,
+    videoTracks: [] as VideoTrack[],
+    audioTracks: [] as AudioTrack[],
+    automaticVideoQuality: true,
+    automaticAudioQuality: true,
     languageList: [] as Language[],
     selectedLanguage: 'en',
     playerError: null as Error | null
@@ -80,8 +82,12 @@ export const useVideoState = (
     videoElementRef.value.loop = loop;
   };
   const setLanguage = (language: string) => adapterInstance.value?.setLanguage(language);
-  const setTrack = (track: number) => adapterInstance.value?.setTrack(track);
-  const setAutoQuality = (enabled: boolean) => adapterInstance.value?.setAutoQuality(enabled);
+  const setVideoRepresentation = (videoTrackId: string, videoRepresentationId: string) =>
+    adapterInstance.value?.setVideoRepresentation(videoTrackId, videoRepresentationId);
+  const setAudioRepresentation = (audioTrackId: string, audioRepresentationId: string) =>
+    adapterInstance.value?.setAudioRepresentation(audioTrackId, audioRepresentationId);
+  const setAutoVideoQuality = () => adapterInstance.value?.setAutoVideoQuality();
+  const setAutoAudioQuality = () => adapterInstance.value?.setAutoAudioQuality();
 
   watch(
     () => route.query,
@@ -103,7 +109,9 @@ export const useVideoState = (
     setTime,
     setLoop,
     setLanguage,
-    setTrack,
-    setAutoQuality
+    setVideoRepresentation,
+    setAudioRepresentation,
+    setAutoVideoQuality,
+    setAutoAudioQuality
   };
 };
