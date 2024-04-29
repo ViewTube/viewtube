@@ -129,6 +129,7 @@ export const useUIState = (
 
   const { handleKeydown } = useKeydownActions(
     videoState,
+    posterVisible,
     toggleFullscreen,
     triggerEffect,
     toggleCaptions,

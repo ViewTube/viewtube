@@ -13,6 +13,7 @@ interface KeydownAction {
 
 export const useKeydownActions = (
   videoState: VideoState,
+  posterVisible: Ref<boolean>,
   toggleFullscreen: () => void,
   triggerEffect: (effect: string) => void,
   toggleCaptions: () => void,
@@ -25,9 +26,9 @@ export const useKeydownActions = (
       keys: [' ', 'k'],
       allowedOnPoster: true,
       action: () => {
-        if (videoState.video.posterVisible) {
+        if (posterVisible.value) {
           if (!videoState.video.buffering) {
-            videoState.setPosterVisible(false);
+            posterVisible.value = false;
             videoState.play();
           }
         } else {
@@ -152,7 +153,7 @@ export const useKeydownActions = (
 
     if (typeof keydownAction?.action !== 'function') return;
 
-    if (videoState.video.posterVisible && !keydownAction.allowedOnPoster) return;
+    if (posterVisible.value && !keydownAction.allowedOnPoster) return;
 
     if (keydownAction.modifierKeys) {
       const correctModifierKeysPressed = keydownAction.modifierKeys.every(modifierKey => {
@@ -174,8 +175,9 @@ export const useKeydownActions = (
 
   const getFrameTime = () => {
     const currentFramerate =
-      videoState.video.trackList[videoState.video.selectedLanguage]?.find(el => el.active)
-        .frameRate ?? 30;
+      videoState.video.videoTracks
+        ?.find(track => track.active)
+        ?.representations?.find(rep => rep.active)?.frameRate ?? 30;
     const frameTime = 1 / currentFramerate;
     return frameTime;
   };
