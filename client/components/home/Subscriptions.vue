@@ -2,7 +2,9 @@
 
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import VideoEntry from '@/components/list/VideoEntry.vue';
+import { useSettingsStore } from '@/store/settings';
 
+const settingsStore = useSettingsStore();
 const { data: subscriptions, pending: subscriptionsLoading } = useGetUserSubscriptions({
   limit: 20
 });
@@ -10,9 +12,14 @@ const { data: subscriptions, pending: subscriptionsLoading } = useGetUserSubscri
 const showMore = ref(false);
 const displayedSubscriptions = computed(() => {
   if (subscriptions && subscriptions.value.videos) {
+    if (!settingsStore.showHomeTrendingVideos) {
+      return subscriptions.value.videos;
+    }
+
     if (!showMore.value) {
       return subscriptions.value.videos.slice(0, 4);
     }
+
     return subscriptions.value.videos;
   }
   return [];
@@ -33,7 +40,7 @@ const showMoreSubscriptions = (): void => {
       :lazy="true"
     />
   </div>
-  <div v-if="subscriptions?.videos?.length > 0" class="home-show-more">
+  <div v-if="subscriptions?.videos?.length > 0 && settingsStore.showHomeTrendingVideos" class="home-show-more">
     <BadgeButton
       v-if="displayedSubscriptions.length !== subscriptions?.videos?.length"
       :click="showMoreSubscriptions">
