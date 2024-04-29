@@ -15,15 +15,16 @@ describe('Homepage Tests', () => {
       .should('have.prop', 'paused', true)
       .should('have.prop', 'ended', false);
 
-    cy.get('.flip-play-spinner').should('not.exist', { timeout: 120_000 });
+    cy.get('.flip-spinner').should('not.exist', { timeout: 120_000 });
 
     cy.get('.flip-poster').should('exist').trigger('click');
 
     cy.get('.flip-video-element', { timeout: 120_000 })
       .should('have.prop', 'paused', false)
       .should('have.prop', 'readyState', 4)
-      .wait(4000)
-      .trigger('click');
+      .wait(4000);
+
+    cy.get('.flip-player-ui').click();
 
     cy.get('.flip-video-element', { timeout: 10_000 }).should('have.prop', 'paused', true);
   });
