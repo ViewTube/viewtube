@@ -4,6 +4,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { DislikeDto } from 'server/core/videos/dto/dislike.dto';
 import { VTVideoInfoDto } from 'server/mapper/dto/vt-video-info.dto';
 import { VideosService } from './videos.service';
+import { SponsorBlockSegmentsDto } from 'viewtube/shared';
 
 @ApiTags('Core')
 @UseInterceptors(CacheInterceptor)
@@ -36,7 +37,7 @@ export class VideosController {
   @CacheTTL(21600000)
   @Header('Cache-Control', 'public, max-age=21600')
   @Get(':id/skipSegments')
-  getSkipSegments(@Param('id') id: string): Promise<any> {
+  getSkipSegments(@Param('id') id: string): Promise<SponsorBlockSegmentsDto> {
     return this.videosService.getSkipSegments(id);
   }
 }

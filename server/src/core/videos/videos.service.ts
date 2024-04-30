@@ -131,7 +131,7 @@ export class VideosService {
     throw new HttpException('Error fetching dislike information', 503);
   }
 
-  async getSkipSegments(id: string): Promise<any> {
+  async getSkipSegments(id: string): Promise<SponsorBlockSegmentsDto> {
     if (!id) {
       throw new HttpException('No video id provided', 400);
     }
@@ -166,6 +166,7 @@ export class VideosService {
       if (!skipSections) {
         return {
           videoID: id,
+          hash: idHash,
           segments: []
         };
       }
