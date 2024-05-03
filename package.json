@@ -36,9 +36,9 @@
   ],
   "devDependencies": {
     "cross-env": "7.0.3",
-    "eslint": "9.1.1",
-    "eslint-plugin-cypress": "^3.0.1",
-    "eslint-plugin-jest": "28.2.0",
+    "eslint": "9.2.0",
+    "eslint-plugin-cypress": "^3.1.1",
+    "eslint-plugin-jest": "28.5.0",
     "prettier": "3.2.5",
     "prettier-plugin-organize-imports": "^3.2.4",
     "typescript": "5.4.5"
@@ -46,7 +46,7 @@
   "pnpm": {
     "patchedDependencies": {
       "papaparse@5.4.1": "patches/papaparse@5.4.1.patch",
-      "shaka-player@4.7.13": "patches/shaka-player@4.7.13.patch"
+      "shaka-player@4.8.1": "patches/shaka-player@4.8.1.patch"
     },
     "overrides": {
       "has": "npm:@nolyfill/has@latest",

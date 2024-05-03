@@ -1,0 +1,10 @@
+diff --git a/dist/shaka-player.compiled.d.ts b/dist/shaka-player.compiled.d.ts
+index e6dcbc69da69831c5b327d4ca4a28c4a648caf8a..b01abf1c76b4e44254744555002c097b6ad3c7ad 100644
+--- a/dist/shaka-player.compiled.d.ts
++++ b/dist/shaka-player.compiled.d.ts
+@@ -5436,3 +5436,5 @@ declare namespace Windows.Media.Protection {
+     probably = 'Probably' ,
+   }
+ }
++
++export = shaka;
