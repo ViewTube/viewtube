@@ -11,7 +11,7 @@ const { data: subscriptions, pending: subscriptionsLoading } = useGetUserSubscri
 
 const showMore = ref(false);
 const displayedSubscriptions = computed(() => {
-  if (subscriptions && subscriptions.value.videos) {
+  if (subscriptions.value && subscriptions.value.videos) {
     if (!settingsStore.showHomeTrendingVideos) {
       return subscriptions.value.videos;
     }
