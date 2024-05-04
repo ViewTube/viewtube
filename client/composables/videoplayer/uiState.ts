@@ -38,7 +38,7 @@ export const useUIState = (
   const { getSegmentState } = useSponsorBlockUtils();
   const { getCurrentSegment, skipSegments } = useSponsorBlockState(video);
 
-  const skipCurrentSponsorBlockSegment = () => {
+  const skipCurrentSponsorBlockSegment = (skipOnly = false) => {
     if (!settingsStore.sponsorblockEnabled) return;
 
     const currentSegment = getCurrentSegment(videoState.video.currentTime);
@@ -47,9 +47,19 @@ export const useUIState = (
     const segmentState = getSegmentState(currentSegment.category);
 
     if (segmentState === 'none') return;
+    if (skipOnly && segmentState !== 'skip') return;
 
     videoState.setTime(currentSegment.segment[1]);
   };
+
+  watch(
+    () => videoState.video.currentTime,
+    (newValue, oldValue) => {
+      if (newValue !== oldValue) {
+        skipCurrentSponsorBlockSegment(true);
+      }
+    }
+  );
 
   const fullscreen = ref(false);
   const toggleFullscreen = () => {
@@ -125,7 +135,7 @@ export const useUIState = (
 
   const hidePoster = () => {
     posterVisible.value = false;
-  }
+  };
 
   const { handleKeydown } = useKeydownActions(
     videoState,
@@ -268,7 +278,7 @@ export const useUIState = (
     onPointerUp,
     setSeeking,
     getCurrentSegment,
-    
+
     hidePoster,
     toggleFullscreen,
     openSettings,
