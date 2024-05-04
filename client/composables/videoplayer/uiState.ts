@@ -204,14 +204,49 @@ export const useUIState = (
   };
 
   const touchEvent = ref(false);
+
+  const doubleTouchTimeout = ref<number | NodeJS.Timeout>();
+  const doubleTouchPosition = ref({ x: 0, y: 0 });
+
   const onPointerDown = (e: PointerEvent) => {
     if (e.pointerType === 'touch') {
       touchEvent.value = true;
       if (e.target instanceof HTMLVideoElement) {
-        if (!visible.value) {
-          showUI();
+        if (!doubleTouchTimeout.value) {
+          doubleTouchTimeout.value = setTimeout(() => {
+            clearTimeout(doubleTouchTimeout.value);
+            doubleTouchTimeout.value = undefined;
+
+            if (!visible.value) {
+              showUI();
+            } else {
+              hideUI();
+            }
+          }, 250);
+
+          doubleTouchPosition.value = { x: e.clientX, y: e.clientY };
         } else {
-          hideUI();
+          clearTimeout(doubleTouchTimeout.value);
+          doubleTouchTimeout.value = undefined;
+          const distanceX = e.clientX - doubleTouchPosition.value.x;
+          const distanceY = e.clientY - doubleTouchPosition.value.y;
+          if (Math.abs(distanceX) < 50 && Math.abs(distanceY) < 50) {
+            const container = e.target as HTMLVideoElement;
+            const containerRect = container.getBoundingClientRect();
+
+            const leftHalf = e.clientX < containerRect.left + containerRect.width / 2;
+            const rightHalf = e.clientX > containerRect.left + containerRect.width / 2;
+
+            if (leftHalf) {
+              videoState.setTime(videoState.video.currentTime - 10);
+              triggerEffect('skipBackward');
+            }
+
+            if (rightHalf) {
+              videoState.setTime(videoState.video.currentTime + 10);
+              triggerEffect('skipForward');
+            }
+          }
         }
       }
     }

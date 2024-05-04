@@ -59,25 +59,13 @@ const {
   const initialVideoTimeFromQuery = parseInt(route.query.t as string);
   if (initialVideoTimeFromQuery) {
     initialVideoTime = initialVideoTimeFromQuery;
-  }
-
-  // If timestamp is specified via query parameter,
-  // it should override the timestamp from user's history
-  if (!initialVideoTimeFromQuery && userStore.isLoggedIn && settingsStore.saveVideoHistory) {
+  } else if (userStore.isLoggedIn && settingsStore.saveVideoHistory) {
     const videoVisit = await vtFetch<any>(`${apiUrl.value}user/history/${value.id}`, {
       credentials: 'include'
     }).catch((_: any) => {});
 
     if (videoVisit?.progressSeconds > 0) {
       initialVideoTime = videoVisit?.progressSeconds;
-    } else if (userStore.isLoggedIn) {
-      vtFetch(`${apiUrl.value}user/history/${route.query.v}`, {
-        body: {
-          progressSeconds: null,
-          lengthSeconds: value.duration?.seconds
-        },
-        credentials: 'include'
-      }).catch(_ => {});
     }
   }
 

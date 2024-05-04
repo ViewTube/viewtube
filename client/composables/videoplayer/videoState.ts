@@ -1,16 +1,21 @@
 import { useStorage } from '@vueuse/core';
 import type { AudioTrack, Language, VideoTrack } from '~/interfaces/VideoState';
 import { useSettingsStore } from '~/store/settings';
+import { useUserStore } from '~/store/user';
 
 export type VideoState = ReturnType<typeof useVideoState>;
 
 export const useVideoState = (
   videoElementRef: Ref<HTMLVideoElement>,
   source: Ref<string>,
+  video: ApiDto<'VTVideoInfoDto'>,
   format: Ref<string>,
   startTime?: Ref<number>
 ) => {
   const settingsStore = useSettingsStore();
+  const userStore = useUserStore();
+  const { vtFetch } = useVtFetch();
+  const { apiUrl } = useApiUrl();
   const volumeStorage = useStorage('volume', 1);
   const route = useRoute();
 
@@ -59,25 +64,34 @@ export const useVideoState = (
 
   onMounted(async () => {
     await instantiateAdapter();
-    const videoAttributeObserver = new MutationObserver(mutations => {
-      mutations.forEach(mutation => {
-        if (mutation.type === 'attributes') {
-          if (mutation.attributeName === 'loop') {
-            videoState.loop = videoElementRef.value.loop;
+    if (videoElementRef.value instanceof HTMLVideoElement) {
+      const videoAttributeObserver = new MutationObserver(mutations => {
+        mutations.forEach(mutation => {
+          if (mutation.type === 'attributes') {
+            if (mutation.attributeName === 'loop') {
+              videoState.loop = videoElementRef.value.loop;
+            }
           }
-        }
+        });
       });
-    });
-    videoAttributeObserver.observe(videoElementRef.value, { attributes: true });
+      videoAttributeObserver.observe(videoElementRef.value, { attributes: true });
+    }
   });
 
   const play = () => adapterInstance.value?.play();
-  const pause = () => adapterInstance.value?.pause();
+  const pause = () => {
+    adapterInstance.value?.pause();
+    saveVideoPosition();
+  };
   const setVolume = (volume: number) => adapterInstance.value?.setVolume(volume);
   const setMuted = (muted: boolean) => (videoElementRef.value.muted = muted);
   const setPlaybackRate = (playbackRate: number) =>
     adapterInstance.value?.setPlaybackRate(playbackRate);
-  const setTime = (time: number) => adapterInstance.value?.setTime(time);
+  const setTime = async (time: number) => {
+    adapterInstance.value?.setTime(time);
+    await nextTick();
+    saveVideoPosition();
+  };
   const setLoop = (loop: boolean) => {
     videoElementRef.value.loop = loop;
   };
@@ -88,6 +102,30 @@ export const useVideoState = (
     adapterInstance.value?.setAudioRepresentation(audioTrackId, audioRepresentationId);
   const setAutoVideoQuality = () => adapterInstance.value?.setAutoVideoQuality();
   const setAutoAudioQuality = () => adapterInstance.value?.setAutoAudioQuality();
+
+  const saveVideoPosition = () => {
+    if (settingsStore.saveVideoHistory) {
+      if (userStore.isLoggedIn && !video.live) {
+        vtFetch(`${apiUrl.value}user/history/${video.id}`, {
+          method: 'POST',
+          body: {
+            progressSeconds: videoState.currentTime,
+            lengthSeconds: videoState.duration
+          },
+          credentials: 'include'
+        }).catch(_ => {});
+      }
+    }
+  };
+
+  const throttledSaveVideoPosition = useThrottleFn(saveVideoPosition, 5000);
+
+  watch(
+    () => videoState.currentTime,
+    () => {
+      throttledSaveVideoPosition();
+    }
+  );
 
   watch(
     () => route.query,

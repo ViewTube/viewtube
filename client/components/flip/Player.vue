@@ -11,7 +11,7 @@ const { videoSource } = useVideoSource(videoObj);
 
 const format = ref('dash');
 
-const videoState = useVideoState(videoElementRef, videoSource, format, startTime);
+const videoState = useVideoState(videoElementRef, videoSource, props.video, format, startTime);
 </script>
 
 <template>
