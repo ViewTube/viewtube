@@ -1,4 +1,3 @@
-import type { useSettingsStore } from '@/store/settings';
 import RxPlayer from 'rx-player';
 import type { IAvailableAudioTrack, IAvailableVideoTrack } from 'rx-player/types';
 import type { AudioTrack, Language, VideoTrack } from '~/interfaces/VideoState';
@@ -7,9 +6,11 @@ type RxPlayerAdapterOptions = {
   videoElementRef: Ref<HTMLVideoElement>;
   source: Ref<string>;
   startTime?: Ref<number>;
-  settingsStore: ReturnType<typeof useSettingsStore>;
   videoState: VideoState['video'];
   volumeStorage: Ref<number>;
+  videoEnded: () => void;
+  createMessage: (...args: any[]) => void;
+  autoplay?: boolean;
 };
 
 enum PlayerState {
@@ -29,9 +30,11 @@ export const rxPlayerAdapter = ({
   videoElementRef,
   source,
   startTime,
-  settingsStore,
   videoState,
-  volumeStorage
+  volumeStorage,
+  videoEnded,
+  createMessage,
+  autoplay
 }: RxPlayerAdapterOptions) => {
   const createPlayer = () => {
     return new RxPlayer({
@@ -72,6 +75,7 @@ export const rxPlayerAdapter = ({
         case PlayerState.ENDED:
           videoState.playing = false;
           videoState.buffering = false;
+          videoEnded();
           break;
         case PlayerState.RELOADING:
           videoState.buffering = true;
@@ -82,6 +86,16 @@ export const rxPlayerAdapter = ({
     playerInstance?.addEventListener('error', error => {
       console.log('error', error);
       videoState.playerError = error;
+    });
+
+    playerInstance?.addEventListener('warning', warning => {
+      if (warning?.message?.includes('MEDIA_ERR_BLOCKED_AUTOPLAY')) {
+        createMessage({
+          type: 'error',
+          title: 'Autoplay blocked',
+          message: 'Allow autoplay for this website to start the video automatically'
+        });
+      }
     });
 
     playerInstance?.addEventListener('positionUpdate', position => {
@@ -259,7 +273,7 @@ export const rxPlayerAdapter = ({
       startAt: {
         position: startTime?.value || 0
       },
-      autoPlay: settingsStore.autoplay
+      autoPlay: autoplay
     });
   };
 

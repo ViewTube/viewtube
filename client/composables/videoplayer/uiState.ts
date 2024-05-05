@@ -137,6 +137,15 @@ export const useUIState = (
     posterVisible.value = false;
   };
 
+  watch(
+    () => videoState.video.playing,
+    newValue => {
+      if (newValue === true) {
+        posterVisible.value = false;
+      }
+    }
+  );
+
   const { handleKeydown } = useKeydownActions(
     videoState,
     posterVisible,

@@ -2,7 +2,13 @@
 const props = defineProps<{
   video: ApiDto<'VTVideoInfoDto'>;
   startTime?: number;
+  autoplay?: boolean;
 }>();
+
+const emit = defineEmits<{
+  (e: 'videoEnded');
+}>();
+
 const videoElementRef = ref<HTMLVideoElement | null>(null);
 const videoObj = toRef(props, 'video');
 const startTime = toRef(props, 'startTime');
@@ -11,7 +17,15 @@ const { videoSource } = useVideoSource(videoObj);
 
 const format = ref('dash');
 
-const videoState = useVideoState(videoElementRef, videoSource, props.video, format, startTime);
+const videoState = useVideoState(
+  videoElementRef,
+  videoSource,
+  props.video,
+  format,
+  () => emit('videoEnded'),
+  startTime,
+  props.autoplay
+);
 </script>
 
 <template>

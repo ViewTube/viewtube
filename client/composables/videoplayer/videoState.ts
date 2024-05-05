@@ -1,7 +1,9 @@
 import { useStorage } from '@vueuse/core';
 import type { AudioTrack, Language, VideoTrack } from '~/interfaces/VideoState';
+import { useMessagesStore } from '~/store/messages';
 import { useSettingsStore } from '~/store/settings';
 import { useUserStore } from '~/store/user';
+import { useVideoPlayerStore } from '~/store/videoPlayer';
 
 export type VideoState = ReturnType<typeof useVideoState>;
 
@@ -10,10 +12,14 @@ export const useVideoState = (
   source: Ref<string>,
   video: ApiDto<'VTVideoInfoDto'>,
   format: Ref<string>,
-  startTime?: Ref<number>
+  videoEnded: () => void,
+  startTime?: Ref<number>,
+  autoplay?: boolean
 ) => {
   const settingsStore = useSettingsStore();
   const userStore = useUserStore();
+  const videoPlayerStore = useVideoPlayerStore();
+  const messagesStore = useMessagesStore();
   const { vtFetch } = useVtFetch();
   const { apiUrl } = useApiUrl();
   const volumeStorage = useStorage('volume', 1);
@@ -53,9 +59,11 @@ export const useVideoState = (
         videoElementRef,
         source,
         startTime,
-        settingsStore,
         videoState,
-        volumeStorage
+        volumeStorage,
+        createMessage: messagesStore.createMessage,
+        autoplay,
+        videoEnded
       });
     } else {
       console.log('live stream');
@@ -70,6 +78,7 @@ export const useVideoState = (
           if (mutation.type === 'attributes') {
             if (mutation.attributeName === 'loop') {
               videoState.loop = videoElementRef.value.loop;
+              videoPlayerStore.setLoop(videoElementRef.value.loop);
             }
           }
         });
@@ -94,6 +103,7 @@ export const useVideoState = (
   };
   const setLoop = (loop: boolean) => {
     videoElementRef.value.loop = loop;
+    videoPlayerStore.setLoop(loop);
   };
   const setLanguage = (language: string) => adapterInstance.value?.setLanguage(language);
   const setVideoRepresentation = (videoTrackId: string, videoRepresentationId: string) =>
@@ -124,6 +134,8 @@ export const useVideoState = (
     () => videoState.currentTime,
     () => {
       throttledSaveVideoPosition();
+      videoPlayerStore.setCurrentTime(videoState.currentTime);
+      videoPlayerStore.setVideoLength(videoState.duration);
     }
   );
 

@@ -16,12 +16,13 @@ import { useSettingsStore } from '@/store/settings';
 import { useLoadingVideoInfoStore } from '@/store/loadingVideoInfo';
 import { useUserStore } from '@/store/user';
 import dayjs from 'dayjs';
+import { useVideoPlayerStore } from '~/store/videoPlayer';
 
 type VideoType = ApiDto<'VTVideoInfoDto'> & { initialVideoTime: number };
 
 const messagesStore = useMessagesStore();
 const settingsStore = useSettingsStore();
-// const videoPlayerStore = useVideoPlayerStore();
+const videoPlayerStore = useVideoPlayerStore();
 const userStore = useUserStore();
 const { apiUrl } = useApiUrl();
 
@@ -97,9 +98,9 @@ const isPlaylist = computed(() => {
   return Boolean(route.query && route.query.list);
 });
 
-// const isAutoplaying = computed(() => {
-//   return isPlaylist.value || (settingsStore.autoplay && !settingsStore.showRecommendedVideos) || route.query.autoplay === 'true';
-// });
+const isAutoplaying = computed(() => {
+  return isPlaylist.value || settingsStore.autoplay || route.query.autoplay === 'true';
+});
 
 const nextUpVideo = computed(() => {
   if (playlist.value) {
@@ -224,21 +225,25 @@ onMounted(() => {
   loadPlaylist();
 });
 
-// const onVideoEnded = () => {
-//   if (
-//     isPlaylist.value &&
-//     playlistSectionRef.value &&
-//     !settingsStore.alwaysLoopVideo &&
-//     !videoPlayerStore.loop
-//   ) {
-//     playlistSectionRef.value.playNextVideo();
-//   } else if (settingsStore.autoplayNextVideo && settingsStore.showRecommendedVideos && video.value.recommendedVideos) {
-//     router.push({
-//       path: route.fullPath,
-//       query: { v: video.value.recommendedVideos[0].id, autoplay: 'true' }
-//     });
-//   }
-// };
+const onVideoEnded = () => {
+  if (
+    isPlaylist.value &&
+    playlistSectionRef.value &&
+    !settingsStore.alwaysLoopVideo &&
+    !videoPlayerStore.loop
+  ) {
+    playlistSectionRef.value.playNextVideo();
+  } else if (
+    settingsStore.autoplayNextVideo &&
+    settingsStore.showRecommendedVideos &&
+    video.value.recommendedVideos
+  ) {
+    router.push({
+      path: route.fullPath,
+      query: { v: video.value.recommendedVideos[0].id, autoplay: 'true' }
+    });
+  }
+};
 
 const authorToName = author => {
   if (typeof author == 'string') {
@@ -287,7 +292,13 @@ const videoDescription = computed(() => {
       class="video-player-p"
       @video-ended="onVideoEnded"
     /> -->
-    <FlipPlayer v-if="video && !videoPending" :video="video" :start-time="video.initialVideoTime" />
+    <FlipPlayer
+      v-if="video && !videoPending"
+      :video="video"
+      :start-time="video.initialVideoTime"
+      :autoplay="isAutoplaying"
+      @video-ended="onVideoEnded"
+    />
     <div v-if="video && !videoPending" class="video-meta">
       <div v-if="settingsStore.showRecommendedVideos" class="recommended-videos-outer mobile">
         <NextUpVideo v-if="nextUpVideo && settingsStore.autoplayNextVideo" :video="nextUpVideo" />
