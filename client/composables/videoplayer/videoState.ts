@@ -1,9 +1,12 @@
+import { VideoSourceType } from '#imports';
 import { useStorage } from '@vueuse/core';
 import type { AudioTrack, Language, VideoTrack } from '~/interfaces/VideoState';
 import { useMessagesStore } from '~/store/messages';
 import { useSettingsStore } from '~/store/settings';
 import { useUserStore } from '~/store/user';
 import { useVideoPlayerStore } from '~/store/videoPlayer';
+import { rxPlayerAdapter } from '~/utils/videoplayer/adapters/rxPlayerAdapter';
+import { shakaAdapter } from '~/utils/videoplayer/adapters/shakaAdapter';
 
 export type VideoState = ReturnType<typeof useVideoState>;
 
@@ -11,7 +14,7 @@ export const useVideoState = (
   videoElementRef: Ref<HTMLVideoElement>,
   source: Ref<string>,
   video: ApiDto<'VTVideoInfoDto'>,
-  format: Ref<string>,
+  sourceType: Ref<VideoSourceType>,
   videoEnded: () => void,
   startTime?: Ref<number>,
   autoplay?: boolean
@@ -46,7 +49,7 @@ export const useVideoState = (
     playerError: null as Error | null
   });
 
-  const adapterInstance = ref<ReturnType<typeof rxPlayerAdapter>>();
+  const adapterInstance = ref<Awaited<ReturnType<typeof rxPlayerAdapter>>>();
 
   const instantiateAdapter = async () => {
     if (adapterInstance.value) {
@@ -54,8 +57,10 @@ export const useVideoState = (
       adapterInstance.value = undefined;
     }
 
-    if (format.value === 'dash') {
-      adapterInstance.value = rxPlayerAdapter({
+    console.log(sourceType.value)
+
+    if (sourceType.value === VideoSourceType.DASH) {
+      adapterInstance.value = await rxPlayerAdapter({
         videoElementRef,
         source,
         startTime,
@@ -65,8 +70,17 @@ export const useVideoState = (
         autoplay,
         videoEnded
       });
-    } else {
-      console.log('live stream');
+    } else if (sourceType.value === VideoSourceType.HLS) {
+      adapterInstance.value = await shakaAdapter({
+        videoElementRef,
+        source,
+        startTime,
+        videoState,
+        volumeStorage,
+        createMessage: messagesStore.createMessage,
+        autoplay,
+        videoEnded
+      });
     }
   };
 

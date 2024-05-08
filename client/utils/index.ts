@@ -3,4 +3,3 @@ export * from './api/channels';
 export * from './api/comments';
 export * from './api/playlists';
 export * from './api/videos';
-export * from './videoplayer/adapters/rxPlayerAdapter';

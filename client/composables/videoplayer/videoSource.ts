@@ -1,5 +1,8 @@
+import { VideoSourceType } from '#imports';
+
 export const useVideoSource = (video: Ref<ApiDto<'VTVideoInfoDto'>>) => {
   const config = useRuntimeConfig();
+  const { streamProxy } = useProxyUrls();
 
   const videoSource = computed(() => {
     let videoPlaybackProxy = `${window.location.origin}/api`;
@@ -10,15 +13,29 @@ export const useVideoSource = (video: Ref<ApiDto<'VTVideoInfoDto'>>) => {
       videoPlaybackProxy = config.public.videoplaybackProxy;
     }
 
-    const manifest = video.value.dashManifest.replace(
-      /https:\/\/.*?.googlevideo\.com/gi,
-      videoPlaybackProxy
-    );
-    const manifestUrl = 'data:application/dash+xml;charset=utf-8;base64,' + btoa(manifest);
-    return manifestUrl;
+    let source: string = null;
+    let sourceType: VideoSourceType = null;
+
+    if (video.value.live && video.value.hlsManifest) {
+      const googlevideoRegex = /https:\/\/.*?.googlevideo\.com.*?\/index\.m3u8/gi;
+      const hlsManifest = video.value.hlsManifest.replace(googlevideoRegex, match => {
+        return `${window.location.origin}${streamProxy}${encodeURI(match)}`;
+      });
+      console.log(hlsManifest);
+      sourceType = VideoSourceType.HLS;
+      source = 'data:application/x-mpegURL;charset=utf-8;base64,' + btoa(hlsManifest);
+    } else if (video.value.dashManifest) {
+      const googlevideoRegex = /https:\/\/.*?.googlevideo\.com/gi;
+      const manifest = video.value.dashManifest.replace(googlevideoRegex, videoPlaybackProxy);
+      sourceType = VideoSourceType.DASH;
+      source = 'data:application/dash+xml;charset=utf-8;base64,' + btoa(manifest);
+    }
+
+    return { source, sourceType };
   });
 
   return {
-    videoSource
+    source: computed(() => videoSource.value.source),
+    type: computed(() => videoSource.value.sourceType)
   };
 };

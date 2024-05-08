@@ -1,5 +1,4 @@
 import { VTVideoInfoDto } from 'server/mapper/dto/vt-video-info.dto';
-import { createDashManifestURI } from 'server/mapper/utils/dash-manifest-uri';
 import { VideoInfoSourceApproximation } from './video-info-source-approximation';
 import {
   extractAuthor,
@@ -30,10 +29,11 @@ import {
 
 type ToVTVideoInfoOptions = {
   dashManifest: string;
+  hlsManifest: string;
 };
 export const toVTVideoInfoDto = (
   videoInfo: VideoInfoSourceApproximation,
-  { dashManifest }: ToVTVideoInfoOptions
+  { dashManifest, hlsManifest }: ToVTVideoInfoOptions
 ): VTVideoInfoDto => {
   const id = extractVideoId(videoInfo);
   return {
@@ -62,7 +62,6 @@ export const toVTVideoInfoDto = (
     commentCount: extractCommentCount(videoInfo),
     legacyFormats: extractLegacyFormats(videoInfo),
     dashManifest,
-    dashManifestURI: createDashManifestURI(dashManifest),
-    hlsManifestURI: videoInfo.streaming_data?.hls_manifest_url
+    hlsManifest
   };
 };

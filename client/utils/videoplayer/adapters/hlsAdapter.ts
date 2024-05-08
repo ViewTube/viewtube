@@ -1,17 +1,8 @@
-import RxPlayer from 'rx-player';
+import Hls from 'hls.js';
 import type { IAvailableAudioTrack, IAvailableVideoTrack } from 'rx-player/types';
 import type { AudioTrack, Language, VideoTrack } from '~/interfaces/VideoState';
 
-export type RxPlayerAdapterOptions = {
-  videoElementRef: Ref<HTMLVideoElement>;
-  source: Ref<string>;
-  startTime?: Ref<number>;
-  videoState: VideoState['video'];
-  volumeStorage: Ref<number>;
-  videoEnded: () => void;
-  createMessage: (...args: any[]) => void;
-  autoplay?: boolean;
-};
+type HlsAdapterOptions = RxPlayerAdapterOptions;
 
 enum PlayerState {
   STOPPED = 'STOPPED',
@@ -26,7 +17,7 @@ enum PlayerState {
   RELOADING = 'RELOADING'
 }
 
-export const rxPlayerAdapter = async ({
+export const hlsAdapter = ({
   videoElementRef,
   source,
   startTime,
@@ -35,11 +26,9 @@ export const rxPlayerAdapter = async ({
   videoEnded,
   createMessage,
   autoplay
-}: RxPlayerAdapterOptions) => {
+}: HlsAdapterOptions) => {
   const createPlayer = () => {
-    return new RxPlayer({
-      videoElement: videoElementRef.value
-    });
+    return new Hls();
   };
 
   const registerEvents = () => {
@@ -252,12 +241,10 @@ export const rxPlayerAdapter = async ({
 
   watch(videoElementRef, (newValue, oldValue) => {
     if (newValue !== oldValue) {
-      playerInstance?.stop();
-      playerInstance?.dispose();
+      playerInstance?.detachMedia();
 
-      playerInstance = createPlayer();
-      registerEvents();
-      playerInstance.setVolume(volumeStorage.value);
+      playerInstance?.attachMedia(newValue);
+
       loadVideo();
     }
   });
@@ -267,27 +254,29 @@ export const rxPlayerAdapter = async ({
   });
 
   const loadVideo = () => {
-    playerInstance?.loadVideo({
-      transport: 'dash',
-      url: source.value,
-      startAt: {
-        position: startTime?.value || 0
-      },
-      autoPlay: autoplay
-    });
+    playerInstance?.loadSource(source.value);
+    playerInstance?.attachMedia(videoElementRef.value);
   };
 
   const destroy = () => {
-    playerInstance?.stop();
-    playerInstance?.dispose();
+    playerInstance?.stopLoad();
+    playerInstance?.destroy();
   };
-  const play = () => playerInstance?.play();
-  const pause = () => playerInstance?.pause();
-  const setVolume = (volume: number) => playerInstance?.setVolume(volume);
-  const setPlaybackRate = (playbackRate: number) => playerInstance?.setPlaybackRate(playbackRate);
-  const setTime = (time: number) => {
-    playerInstance?.seekTo(time);
+  const play = () => videoElementRef.value?.play();
+  const pause = () => videoElementRef.value?.pause();
+  const setVolume = (volume: number) => {
+    if (videoElementRef.value) {
+      videoElementRef.value.volume = volume;
+      videoState.volume = volume;
+    }
   };
+  const setPlaybackRate = (playbackRate: number) => {
+    if (videoElementRef.value) {
+      videoElementRef.value.playbackRate = playbackRate;
+      videoState.speed = playbackRate;
+    }
+  };
+  const setTime = (time: number) => playerInstance?.;
 
   const setLanguage = (language: string) => {
     const trackId = playerInstance

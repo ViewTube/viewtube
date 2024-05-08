@@ -493,8 +493,7 @@ export interface components {
       commentCount: number;
       legacyFormats: components['schemas']['VTLegacyFormatDto'][];
       dashManifest?: string;
-      dashManifestURI?: string;
-      hlsManifestURI?: string;
+      hlsManifest?: string;
     };
     DislikeDto: {
       id: string;
