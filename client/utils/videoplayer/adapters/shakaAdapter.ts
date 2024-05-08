@@ -1,5 +1,6 @@
 import type { IAvailableAudioTrack, IAvailableVideoTrack } from 'rx-player/types';
 import type { AudioTrack, Language, VideoTrack } from '~/interfaces/VideoState';
+import type { RxPlayerAdapterOptions } from './rxPlayerAdapter';
 
 export type ShakaAdapterOptions = RxPlayerAdapterOptions;
 
@@ -42,6 +43,7 @@ export const shakaAdapter: typeof rxPlayerAdapter = async ({
         }
       }
     });
+    player.attach(videoElementRef.value);
     return player;
   };
 
@@ -111,7 +113,6 @@ export const shakaAdapter: typeof rxPlayerAdapter = async ({
         videoState.playerError = error;
       } else {
         videoState.playerError = new Error('An unknown error occurred');
-        console.log('Shaka error', error);
       }
     });
 
@@ -275,8 +276,6 @@ export const shakaAdapter: typeof rxPlayerAdapter = async ({
       );
   };
 
-  let playerInstance = createPlayer();
-
   watch(videoElementRef, (newValue, oldValue) => {
     if (newValue !== oldValue) {
       playerInstance?.detach();
@@ -352,7 +351,7 @@ export const shakaAdapter: typeof rxPlayerAdapter = async ({
     // videoState.automaticAudioQuality = true;
   };
 
-  playerInstance = createPlayer();
+  let playerInstance = createPlayer();
   registerEvents();
   loadVideo();
 

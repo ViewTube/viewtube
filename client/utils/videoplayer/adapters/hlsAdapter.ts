@@ -28,7 +28,9 @@ export const hlsAdapter = ({
   autoplay
 }: HlsAdapterOptions) => {
   const createPlayer = () => {
-    return new Hls();
+    const player = new Hls();
+    player?.attachMedia(videoElementRef.value);
+    return player;
   };
 
   const registerEvents = () => {
@@ -255,7 +257,6 @@ export const hlsAdapter = ({
 
   const loadVideo = () => {
     playerInstance?.loadSource(source.value);
-    playerInstance?.attachMedia(videoElementRef.value);
   };
 
   const destroy = () => {
@@ -276,7 +277,7 @@ export const hlsAdapter = ({
       videoState.speed = playbackRate;
     }
   };
-  const setTime = (time: number) => playerInstance?.;
+  const setTime = (time: number) => playerInstance;
 
   const setLanguage = (language: string) => {
     const trackId = playerInstance

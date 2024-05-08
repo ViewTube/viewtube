@@ -2,7 +2,7 @@ import { VideoSourceType } from '#imports';
 
 export const useVideoSource = (video: Ref<ApiDto<'VTVideoInfoDto'>>) => {
   const config = useRuntimeConfig();
-  const { streamProxy } = useProxyUrls();
+  const { m3u8Proxy } = useProxyUrls();
 
   const videoSource = computed(() => {
     let videoPlaybackProxy = `${window.location.origin}/api`;
@@ -19,7 +19,7 @@ export const useVideoSource = (video: Ref<ApiDto<'VTVideoInfoDto'>>) => {
     if (video.value.live && video.value.hlsManifest) {
       const googlevideoRegex = /https:\/\/.*?.googlevideo\.com.*?\/index\.m3u8/gi;
       const hlsManifest = video.value.hlsManifest.replace(googlevideoRegex, match => {
-        return `${window.location.origin}${streamProxy}${encodeURI(match)}`;
+        return `${window.location.origin}${m3u8Proxy}${encodeURI(match)}`;
       });
       console.log(hlsManifest);
       sourceType = VideoSourceType.HLS;

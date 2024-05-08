@@ -248,8 +248,6 @@ export const rxPlayerAdapter = async ({
       );
   };
 
-  let playerInstance = createPlayer();
-
   watch(videoElementRef, (newValue, oldValue) => {
     if (newValue !== oldValue) {
       playerInstance?.stop();
@@ -323,7 +321,7 @@ export const rxPlayerAdapter = async ({
     videoState.automaticAudioQuality = true;
   };
 
-  playerInstance = createPlayer();
+  let playerInstance = createPlayer();
   registerEvents();
   loadVideo();
 
