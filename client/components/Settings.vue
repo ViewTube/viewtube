@@ -214,6 +214,14 @@ const videoSpeedArray = ['0', '0.25', '0.5', '0.75', '1', '1.25', '1.5', '1.75',
         @valuechange="val => settingsStore.setHideComments(val)"
       />
       <SwitchButton
+        :value="settingsStore.hideShortsFromSearch"
+        :label="'Hide shorts'"
+        :small-label="'Do not show shorts in search results'"
+        :disabled="false"
+        :right="true"
+        @valuechange="val => settingsStore.setHideShortsFromSearch(val)"
+      />
+      <SwitchButton
         :value="settingsStore.showRecommendedVideos"
         :label="'Show recommended videos on a video page'"
         :small-label="'Autoplay next video will be ignored for recommended videos.'"
