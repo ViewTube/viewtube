@@ -88,6 +88,9 @@ export class Settings extends Document implements SettingsDto {
 
   @Prop()
   rewriteYouTubeURLs: boolean;
+
+  @Prop()
+  hideShortsFromSearch: boolean;
 }
 
 export const SettingsSchema = SchemaFactory.createForClass(Settings);
