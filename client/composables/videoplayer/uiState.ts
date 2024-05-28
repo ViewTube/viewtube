@@ -131,7 +131,7 @@ export const useUIState = (
     return visibleEffectsArray;
   });
 
-  const posterVisible = ref(true);
+  const posterVisible = ref(false);
 
   const hidePoster = () => {
     posterVisible.value = false;

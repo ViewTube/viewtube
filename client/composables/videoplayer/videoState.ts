@@ -5,6 +5,7 @@ import { useMessagesStore } from '~/store/messages';
 import { useSettingsStore } from '~/store/settings';
 import { useUserStore } from '~/store/user';
 import { useVideoPlayerStore } from '~/store/videoPlayer';
+import { hlsAdapter } from '~/utils/videoplayer/adapters/hlsAdapter';
 import { rxPlayerAdapter } from '~/utils/videoplayer/adapters/rxPlayerAdapter';
 import { shakaAdapter } from '~/utils/videoplayer/adapters/shakaAdapter';
 
@@ -71,7 +72,7 @@ export const useVideoState = (
         videoEnded
       });
     } else if (sourceType.value === VideoSourceType.HLS) {
-      adapterInstance.value = await shakaAdapter({
+      adapterInstance.value = await hlsAdapter({
         videoElementRef,
         source,
         startTime,

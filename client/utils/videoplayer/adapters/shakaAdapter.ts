@@ -67,6 +67,10 @@ export const shakaAdapter: typeof rxPlayerAdapter = async ({
       console.log('onstatechange', e);
     });
 
+    videoElementRef.value?.addEventListener('canplay', () => {
+      videoState.buffering = false;
+    });
+
     // playerInstance.playerInstance?.addEventListener('playerStateChange', state => {
     //   switch (state) {
     //     case PlayerState.STOPPED:

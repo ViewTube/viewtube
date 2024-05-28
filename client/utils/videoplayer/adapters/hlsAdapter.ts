@@ -34,98 +34,98 @@ export const hlsAdapter = ({
   };
 
   const registerEvents = () => {
-    playerInstance?.addEventListener('playerStateChange', state => {
-      switch (state) {
-        case PlayerState.STOPPED:
-          videoState.playing = false;
-          videoState.buffering = false;
-          break;
-        case PlayerState.LOADING:
-          videoState.buffering = true;
-          break;
-        case PlayerState.LOADED:
-          videoState.buffering = false;
-          break;
-        case PlayerState.PLAYING:
-          videoState.playing = true;
-          videoState.buffering = false;
-          break;
-        case PlayerState.PAUSED:
-          videoState.playing = false;
-          videoState.buffering = false;
-          break;
-        case PlayerState.BUFFERING:
-          videoState.buffering = true;
-          break;
-        case PlayerState.FREEZING:
-          videoState.buffering = true;
-          break;
-        case PlayerState.SEEKING:
-          videoState.buffering = true;
-          break;
-        case PlayerState.ENDED:
-          videoState.playing = false;
-          videoState.buffering = false;
-          videoEnded();
-          break;
-        case PlayerState.RELOADING:
-          videoState.buffering = true;
-          break;
-      }
-    });
+    // playerInstance?.addEventListener('playerStateChange', state => {
+    //   switch (state) {
+    //     case PlayerState.STOPPED:
+    //       videoState.playing = false;
+    //       videoState.buffering = false;
+    //       break;
+    //     case PlayerState.LOADING:
+    //       videoState.buffering = true;
+    //       break;
+    //     case PlayerState.LOADED:
+    //       videoState.buffering = false;
+    //       break;
+    //     case PlayerState.PLAYING:
+    //       videoState.playing = true;
+    //       videoState.buffering = false;
+    //       break;
+    //     case PlayerState.PAUSED:
+    //       videoState.playing = false;
+    //       videoState.buffering = false;
+    //       break;
+    //     case PlayerState.BUFFERING:
+    //       videoState.buffering = true;
+    //       break;
+    //     case PlayerState.FREEZING:
+    //       videoState.buffering = true;
+    //       break;
+    //     case PlayerState.SEEKING:
+    //       videoState.buffering = true;
+    //       break;
+    //     case PlayerState.ENDED:
+    //       videoState.playing = false;
+    //       videoState.buffering = false;
+    //       videoEnded();
+    //       break;
+    //     case PlayerState.RELOADING:
+    //       videoState.buffering = true;
+    //       break;
+    //   }
+    // });
 
-    playerInstance?.addEventListener('error', error => {
-      console.log('error', error);
-      videoState.playerError = error;
-    });
+    // playerInstance?.addEventListener('error', error => {
+    //   console.log('error', error);
+    //   videoState.playerError = error;
+    // });
 
-    playerInstance?.addEventListener('warning', warning => {
-      if (warning?.message?.includes('MEDIA_ERR_BLOCKED_AUTOPLAY')) {
-        createMessage({
-          type: 'error',
-          title: 'Autoplay blocked',
-          message: 'Allow autoplay for this website to start the video automatically'
-        });
-      }
-    });
+    // playerInstance?.addEventListener('warning', warning => {
+    //   if (warning?.message?.includes('MEDIA_ERR_BLOCKED_AUTOPLAY')) {
+    //     createMessage({
+    //       type: 'error',
+    //       title: 'Autoplay blocked',
+    //       message: 'Allow autoplay for this website to start the video automatically'
+    //     });
+    //   }
+    // });
 
-    playerInstance?.addEventListener('positionUpdate', position => {
-      videoState.currentTime = position.position;
-      videoState.duration = position.duration;
-      videoState.bufferLevel = position.position + position.bufferGap;
-      videoState.speed = position.playbackRate;
-    });
+    // playerInstance?.addEventListener('positionUpdate', position => {
+    //   videoState.currentTime = position.position;
+    //   videoState.duration = position.duration;
+    //   videoState.bufferLevel = position.position + position.bufferGap;
+    //   videoState.speed = position.playbackRate;
+    // });
 
-    playerInstance?.addEventListener('volumeChange', volume => {
-      videoState.volume = volume.volume;
-      videoState.muted = volume.muted;
-    });
+    // playerInstance?.addEventListener('volumeChange', volume => {
+    //   videoState.volume = volume.volume;
+    //   videoState.muted = volume.muted;
+    // });
 
-    playerInstance?.addEventListener('availableVideoTracksChange', videoTracks => {
-      videoState.videoTracks = mapVideoTracks(videoTracks);
-    });
+    // playerInstance?.addEventListener('availableVideoTracksChange', videoTracks => {
+    //   videoState.videoTracks = mapVideoTracks(videoTracks);
+    // });
 
-    playerInstance?.addEventListener('availableAudioTracksChange', audioTracks => {
-      videoState.audioTracks = mapAudioTracks(audioTracks);
-    });
+    // playerInstance?.addEventListener('availableAudioTracksChange', audioTracks => {
+    //   videoState.audioTracks = mapAudioTracks(audioTracks);
+    // });
 
-    playerInstance?.addEventListener('videoTrackChange', () => {
-      refreshTracks();
-    });
+    // playerInstance?.addEventListener('videoTrackChange', () => {
+    //   refreshTracks();
+    // });
 
-    playerInstance?.addEventListener('audioTrackChange', () => {
-      refreshTracks();
-    });
+    // playerInstance?.addEventListener('audioTrackChange', () => {
+    //   refreshTracks();
+    // });
 
-    playerInstance?.addEventListener('videoRepresentationChange', videoRepresentation => {
-      currentVideoRepresentationId.value = videoRepresentation?.id?.toString();
-      refreshTracks();
-    });
+    // playerInstance?.addEventListener('videoRepresentationChange', videoRepresentation => {
+    //   currentVideoRepresentationId.value = videoRepresentation?.id?.toString();
+    //   refreshTracks();
+    // });
 
-    playerInstance?.addEventListener('audioRepresentationChange', audioRepresentation => {
-      currentAudioRepresentationId.value = audioRepresentation?.id?.toString();
-      refreshTracks();
-    });
+    // playerInstance?.addEventListener('audioRepresentationChange', audioRepresentation => {
+    //   currentAudioRepresentationId.value = audioRepresentation?.id?.toString();
+    //   refreshTracks();
+    // });
   };
 
   const currentVideoRepresentationId = ref<string | null>(null);
