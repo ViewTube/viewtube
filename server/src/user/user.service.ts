@@ -100,7 +100,7 @@ export class UserService {
     const sessions = await this.SessionModel.find({ username: request.user?.username }).exec();
 
     return sessions.map(session => ({
-      id: session._id,
+      id: session._id?.toString(),
       deviceName: session.deviceName,
       deviceType: session.deviceType,
       updatedAt: session.updatedAt,
@@ -114,7 +114,7 @@ export class UserService {
     const session = await this.SessionModel.findOne({ refreshToken }).exec();
 
     return {
-      id: session._id,
+      id: session._id?.toString(),
       deviceName: session.deviceName,
       deviceType: session.deviceType,
       updatedAt: session.updatedAt,

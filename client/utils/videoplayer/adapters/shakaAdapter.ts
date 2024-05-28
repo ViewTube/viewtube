@@ -1,6 +1,6 @@
 import type { IAvailableAudioTrack, IAvailableVideoTrack } from 'rx-player/types';
 import type { AudioTrack, Language, VideoTrack } from '~/interfaces/VideoState';
-import type { RxPlayerAdapterOptions } from './rxPlayerAdapter';
+import type { RxPlayerAdapterOptions, rxPlayerAdapter } from './rxPlayerAdapter';
 
 export type ShakaAdapterOptions = RxPlayerAdapterOptions;
 

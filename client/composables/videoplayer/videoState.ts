@@ -7,7 +7,6 @@ import { useUserStore } from '~/store/user';
 import { useVideoPlayerStore } from '~/store/videoPlayer';
 import { hlsAdapter } from '~/utils/videoplayer/adapters/hlsAdapter';
 import { rxPlayerAdapter } from '~/utils/videoplayer/adapters/rxPlayerAdapter';
-import { shakaAdapter } from '~/utils/videoplayer/adapters/shakaAdapter';
 
 export type VideoState = ReturnType<typeof useVideoState>;
 
@@ -58,7 +57,7 @@ export const useVideoState = (
       adapterInstance.value = undefined;
     }
 
-    console.log(sourceType.value)
+    console.log(sourceType.value);
 
     if (sourceType.value === VideoSourceType.DASH) {
       adapterInstance.value = await rxPlayerAdapter({

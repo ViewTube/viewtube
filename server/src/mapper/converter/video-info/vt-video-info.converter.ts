@@ -6,10 +6,12 @@ import {
   extractCategory,
   extractChapters,
   extractCommentCount,
+  extractDashManifestUrl,
   extractDescription,
   extractDuration,
   extractEndscreen,
   extractFamilyFriendly,
+  extractHlsManifestUrl,
   extractInfoCards,
   extractKeywords,
   extractLegacyFormats,
@@ -29,11 +31,10 @@ import {
 
 type ToVTVideoInfoOptions = {
   dashManifest: string;
-  hlsManifest: string;
 };
 export const toVTVideoInfoDto = (
   videoInfo: VideoInfoSourceApproximation,
-  { dashManifest, hlsManifest }: ToVTVideoInfoOptions
+  { dashManifest }: ToVTVideoInfoOptions
 ): VTVideoInfoDto => {
   const id = extractVideoId(videoInfo);
   return {
@@ -61,7 +62,8 @@ export const toVTVideoInfoDto = (
     chapters: extractChapters(videoInfo),
     commentCount: extractCommentCount(videoInfo),
     legacyFormats: extractLegacyFormats(videoInfo),
-    dashManifest,
-    hlsManifest
+    hlsManifestUrl: extractHlsManifestUrl(videoInfo),
+    dashManifestUrl: extractDashManifestUrl(videoInfo),
+    dashManifest
   };
 };

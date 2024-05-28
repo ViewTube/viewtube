@@ -331,6 +331,18 @@ export const extractCommentCount = (
   return parseShortenedNumber(videoInfo?.comments_entry_point_header?.comment_count?.text);
 };
 
+export const extractHlsManifestUrl = (
+  videoInfo: VideoInfoSourceApproximation
+): VTVideoInfoDto['hlsManifestUrl'] => {
+  return videoInfo?.streaming_data?.hls_manifest_url;
+};
+
+export const extractDashManifestUrl = (
+  videoInfo: VideoInfoSourceApproximation
+): VTVideoInfoDto['dashManifest'] => {
+  return videoInfo?.streaming_data?.dash_manifest_url;
+};
+
 export const extractLegacyFormats = (
   videoInfo: VideoInfoSourceApproximation
 ): VTVideoInfoDto['legacyFormats'] => {

@@ -721,7 +721,7 @@ export const videoPlayerSetup = (
     const currentTime = videoRef.value.currentTime;
     saveVideoPosition(currentTime);
     if (props.video.live || (legacyFormats.value[index] as any).isHLS) {
-      await initializeHlsStream(props.video.hlsManifestURI, videoRef.value, streamProxy);
+      await initializeHlsStream(props.video.hlsManifestUrl, videoRef.value, streamProxy);
     } else {
       videoRef.value.src = legacyFormats.value[index].url;
     }
@@ -884,7 +884,7 @@ export const videoPlayerSetup = (
     if (videoRef.value) {
       if (props.video.live || (legacyFormats.value?.[0] as any).isHLS) {
         if (isHlsSupported()) {
-          await initializeHlsStream(props.video.hlsManifestURI, videoRef.value, streamProxy);
+          await initializeHlsStream(props.video.hlsManifestUrl, videoRef.value, streamProxy);
           selectedLegacyQuality.value = 0;
         } else if (isHlsNative(videoRef.value) && !isHlsSupported()) {
           videoRef.value.src = highestLegacyQuality.value;

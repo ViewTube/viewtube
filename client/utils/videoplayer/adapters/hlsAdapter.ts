@@ -1,6 +1,7 @@
 import Hls from 'hls.js';
 import type { IAvailableAudioTrack, IAvailableVideoTrack } from 'rx-player/types';
 import type { AudioTrack, Language, VideoTrack } from '~/interfaces/VideoState';
+import type { RxPlayerAdapterOptions } from './rxPlayerAdapter';
 
 type HlsAdapterOptions = RxPlayerAdapterOptions;
 
@@ -27,116 +28,83 @@ export const hlsAdapter = ({
   createMessage,
   autoplay
 }: HlsAdapterOptions) => {
+  const { streamProxy } = useProxyUrls();
+
   const createPlayer = () => {
-    const player = new Hls();
+    const player = new Hls({
+      enableWorker: true,
+      backBufferLength: 400,
+      maxBufferLength: 90,
+      // liveDurationInfinity: true,
+      lowLatencyMode: true,
+      progressive: true,
+      fetchSetup(context, initParams) {
+        if (!context.url.includes(streamProxy)) {
+          context.url = streamProxy + encodeURI(context.url);
+        }
+        return new Request(context.url, initParams);
+      },
+      xhrSetup(xhr: XMLHttpRequest, url: string) {
+        if (!url.includes(streamProxy)) {
+          xhr.open('GET', streamProxy + encodeURI(url), true);
+        } else {
+          xhr.open('GET', url, true);
+        }
+      }
+    });
     player?.attachMedia(videoElementRef.value);
     return player;
   };
 
   const registerEvents = () => {
-    // playerInstance?.addEventListener('playerStateChange', state => {
-    //   switch (state) {
-    //     case PlayerState.STOPPED:
-    //       videoState.playing = false;
-    //       videoState.buffering = false;
-    //       break;
-    //     case PlayerState.LOADING:
-    //       videoState.buffering = true;
-    //       break;
-    //     case PlayerState.LOADED:
-    //       videoState.buffering = false;
-    //       break;
-    //     case PlayerState.PLAYING:
-    //       videoState.playing = true;
-    //       videoState.buffering = false;
-    //       break;
-    //     case PlayerState.PAUSED:
-    //       videoState.playing = false;
-    //       videoState.buffering = false;
-    //       break;
-    //     case PlayerState.BUFFERING:
-    //       videoState.buffering = true;
-    //       break;
-    //     case PlayerState.FREEZING:
-    //       videoState.buffering = true;
-    //       break;
-    //     case PlayerState.SEEKING:
-    //       videoState.buffering = true;
-    //       break;
-    //     case PlayerState.ENDED:
-    //       videoState.playing = false;
-    //       videoState.buffering = false;
-    //       videoEnded();
-    //       break;
-    //     case PlayerState.RELOADING:
-    //       videoState.buffering = true;
-    //       break;
-    //   }
-    // });
+    videoElementRef.value?.addEventListener('canplay', () => {
+      videoState.buffering = false;
+    });
+    videoElementRef.value?.addEventListener('playing', () => {
+      videoState.playing = true;
+      videoState.buffering = false;
+    });
+    videoElementRef.value?.addEventListener('pause', () => {
+      videoState.playing = false;
+      videoState.buffering = false;
+    });
+    videoElementRef.value?.addEventListener('waiting', () => {
+      videoState.buffering = true;
+    });
+    videoElementRef.value?.addEventListener('ended', () => {
+      videoState.playing = false;
+      videoState.buffering = false;
+      videoEnded();
+    });
 
-    // playerInstance?.addEventListener('error', error => {
-    //   console.log('error', error);
-    //   videoState.playerError = error;
-    // });
+    videoElementRef.value?.addEventListener('timeupdate', () => {
+      console.log(playerInstance?.liveSyncPosition);
+      videoState.currentTime = videoElementRef.value.currentTime;
+      videoState.duration = videoElementRef.value.duration;
+    });
+    videoElementRef.value?.addEventListener('volumechange', () => {
+      videoState.volume = videoElementRef.value.volume;
+      videoState.muted = videoElementRef.value.muted;
+    });
 
-    // playerInstance?.addEventListener('warning', warning => {
-    //   if (warning?.message?.includes('MEDIA_ERR_BLOCKED_AUTOPLAY')) {
-    //     createMessage({
-    //       type: 'error',
-    //       title: 'Autoplay blocked',
-    //       message: 'Allow autoplay for this website to start the video automatically'
-    //     });
-    //   }
-    // });
-
-    // playerInstance?.addEventListener('positionUpdate', position => {
-    //   videoState.currentTime = position.position;
-    //   videoState.duration = position.duration;
-    //   videoState.bufferLevel = position.position + position.bufferGap;
-    //   videoState.speed = position.playbackRate;
-    // });
-
-    // playerInstance?.addEventListener('volumeChange', volume => {
-    //   videoState.volume = volume.volume;
-    //   videoState.muted = volume.muted;
-    // });
-
-    // playerInstance?.addEventListener('availableVideoTracksChange', videoTracks => {
-    //   videoState.videoTracks = mapVideoTracks(videoTracks);
-    // });
-
-    // playerInstance?.addEventListener('availableAudioTracksChange', audioTracks => {
-    //   videoState.audioTracks = mapAudioTracks(audioTracks);
-    // });
-
-    // playerInstance?.addEventListener('videoTrackChange', () => {
-    //   refreshTracks();
-    // });
-
-    // playerInstance?.addEventListener('audioTrackChange', () => {
-    //   refreshTracks();
-    // });
-
-    // playerInstance?.addEventListener('videoRepresentationChange', videoRepresentation => {
-    //   currentVideoRepresentationId.value = videoRepresentation?.id?.toString();
-    //   refreshTracks();
-    // });
-
-    // playerInstance?.addEventListener('audioRepresentationChange', audioRepresentation => {
-    //   currentAudioRepresentationId.value = audioRepresentation?.id?.toString();
-    //   refreshTracks();
-    // });
+    playerInstance?.on(Hls.Events.ERROR, (event, data) => {
+      console.log('error', event, data);
+      videoState.playerError = {
+        message: data.details,
+        name: data.type
+      };
+    });
   };
 
   const currentVideoRepresentationId = ref<string | null>(null);
   const currentAudioRepresentationId = ref<string | null>(null);
 
   const refreshTracks = () => {
-    videoState.videoTracks = mapVideoTracks(playerInstance?.getAvailableVideoTracks());
-    videoState.audioTracks = mapAudioTracks(playerInstance?.getAvailableAudioTracks());
-    videoState.languageList = mapLanguageList(playerInstance?.getAvailableAudioTracks());
-    const currentLanguage = playerInstance?.getAudioTrack()?.language;
-    if (currentLanguage) videoState.selectedLanguage = currentLanguage;
+    // videoState.videoTracks = mapVideoTracks(playerInstance?.getAvailableVideoTracks());
+    // videoState.audioTracks = mapAudioTracks(playerInstance?.getAvailableAudioTracks());
+    // videoState.languageList = mapLanguageList(playerInstance?.getAvailableAudioTracks());
+    // const currentLanguage = playerInstance?.getAudioTrack()?.language;
+    // if (currentLanguage) videoState.selectedLanguage = currentLanguage;
   };
 
   const mapVideoTracks = (videoTracks: IAvailableVideoTrack[]): VideoTrack[] => {
@@ -277,39 +245,42 @@ export const hlsAdapter = ({
       videoState.speed = playbackRate;
     }
   };
-  const setTime = (time: number) => playerInstance;
+  const setTime = (time: number) => {
+    if (videoElementRef.value) {
+      videoElementRef.value.currentTime = time;
+    }
+  };
 
   const setLanguage = (language: string) => {
-    const trackId = playerInstance
-      ?.getAvailableAudioTracks()
-      .find(track => track.language === language)?.id;
-    if (!trackId) return;
-
-    playerInstance?.setAudioTrack({ trackId, switchingMode: 'direct' });
+    // const trackId = playerInstance
+    //   ?.getAvailableAudioTracks()
+    //   .find(track => track.language === language)?.id;
+    // if (!trackId) return;
+    // playerInstance?.setAudioTrack({ trackId, switchingMode: 'direct' });
   };
   const setVideoRepresentation = (videoTrackId: string, videoRepresentationId: string) => {
-    playerInstance?.setVideoTrack({
-      trackId: videoTrackId,
-      switchingMode: 'seamless',
-      lockedRepresentations: [videoRepresentationId]
-    });
+    // playerInstance?.setVideoTrack({
+    //   trackId: videoTrackId,
+    //   switchingMode: 'seamless',
+    //   lockedRepresentations: [videoRepresentationId]
+    // });
     videoState.automaticVideoQuality = false;
     refreshTracks();
   };
   const setAutoVideoQuality = () => {
-    playerInstance?.unlockVideoRepresentations();
+    // playerInstance?.unlockVideoRepresentations();
     videoState.automaticVideoQuality = true;
   };
   const setAudioRepresentation = (audioTrackId: string, audioRepresentationId: string) => {
-    playerInstance?.setAudioTrack({
-      trackId: audioTrackId,
-      switchingMode: 'seamless',
-      lockedRepresentations: [audioRepresentationId]
-    });
+    // playerInstance?.setAudioTrack({
+    //   trackId: audioTrackId,
+    //   switchingMode: 'seamless',
+    //   lockedRepresentations: [audioRepresentationId]
+    // });
     videoState.automaticAudioQuality = false;
   };
   const setAutoAudioQuality = () => {
-    playerInstance?.unlockAudioRepresentations();
+    // playerInstance?.unlockAudioRepresentations();
     videoState.automaticAudioQuality = true;
   };
 

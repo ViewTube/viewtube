@@ -45,14 +45,10 @@ export class VideosService {
 
       let dashManifest: string | null = null;
 
-      if (videoInfo?.streaming_data?.dash_manifest_url) {
-        dashManifest = videoInfo.streaming_data.dash_manifest_url;
-      } else {
-        dashManifest = await videoInfo.toDash((url: URL) => {
-          url.searchParams.append('__host', url.host);
-          return url;
-        });
-      }
+      dashManifest = await videoInfo.toDash((url: URL) => {
+        url.searchParams.append('__host', url.host);
+        return url;
+      });
 
       return dashManifest;
     } catch (error) {
@@ -71,26 +67,16 @@ export class VideosService {
       const videoInfo = await client.getInfo(id);
 
       let dashManifest: string | null = null;
-      let hlsManifest: string | null = null;
 
-      if (videoInfo?.streaming_data?.dash_manifest_url) {
-        const dashResponse = await vtFetch(videoInfo.streaming_data.dash_manifest_url);
-        dashManifest = await dashResponse.body.text();
-      } else {
+      if (!videoInfo.basic_info.is_live) {
         dashManifest = await videoInfo.toDash((url: URL) => {
           url.searchParams.append('__host', url.host);
           return url;
         });
       }
 
-      if (videoInfo?.streaming_data?.hls_manifest_url) {
-        const hlsResponse = await vtFetch(videoInfo.streaming_data.hls_manifest_url);
-        hlsManifest = await hlsResponse.body.text();
-      }
-
       const video = toVTVideoInfoDto(videoInfo as unknown, {
-        dashManifest,
-        hlsManifest
+        dashManifest
       });
 
       const videoBasicInfo: VideoBasicInfoDto = {
