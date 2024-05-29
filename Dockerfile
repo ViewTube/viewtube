@@ -12,7 +12,7 @@ COPY patches ./patches
 
 RUN npm install -g pnpm@9.1.3
 
-RUN pnpm --filter=./server --filter=./client install --frozen-lockfile
+RUN pnpm install --frozen-lockfile
 
 COPY . .
 
