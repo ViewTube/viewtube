@@ -10,7 +10,7 @@ COPY client/package.json ./client/
 COPY shared/package.json ./shared/
 COPY patches ./patches
 
-RUN npm install -g pnpm@8.15.7
+RUN npm install -g pnpm@9.1.3
 
 RUN pnpm --filter=./server --filter=./client install --frozen-lockfile
 

@@ -8,7 +8,7 @@
   "license": "AGPLv3",
   "engines": {
     "node": ">=20.11.0",
-    "pnpm": ">=8.15.0"
+    "pnpm": ">=9.1.0"
   },
   "scripts": {
     "build": "pnpm --filter=* run build",

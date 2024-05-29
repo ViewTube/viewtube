@@ -2,7 +2,7 @@
   "name": "e2e-tests",
   "engines": {
     "node": ">=20.11.0",
-    "pnpm": ">=8.15.0"
+    "pnpm": ">=9.1.3"
   },
   "scripts": {
     "environment:prepare": "cross-env COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker compose -f environment/docker-compose.yml up -d",
