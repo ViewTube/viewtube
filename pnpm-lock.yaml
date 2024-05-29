@@ -8,8 +8,6 @@ overrides:
   has: npm:@nolyfill/has@latest
   side-channel: npm:@nolyfill/side-channel@latest
 
-pnpmfileChecksum: 23prrc2w27kq43hvy2n7ov5eja
-
 patchedDependencies:
   papaparse@5.4.1:
     hash: qkk65lc3l6wlngad3wq4nzv2yi
