@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import type { SponsorBlockSegmentsDto } from '../../shared';
+import type { SponsorBlockSegmentsDto } from '@viewtube/shared';
 
 export const useSponsorBlockStore = defineStore('sponsorBlock', {
   state: () => ({

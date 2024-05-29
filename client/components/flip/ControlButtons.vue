@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { getTimestampFromSeconds } from '@/utils/shared';
+import { getTimestampFromSeconds } from '@viewtube/shared';
 
 const props = defineProps<{
   videoState: VideoState;

@@ -3,6 +3,7 @@ import { type Continuation } from 'ytpl';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import VideoEntry from '@/components/list/VideoEntry.vue';
 import Spinner from '@/components/Spinner.vue';
+import type { ApiDto } from '@viewtube/shared';
 
 import { useMessagesStore } from '~/store/messages';
 

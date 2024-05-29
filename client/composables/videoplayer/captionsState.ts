@@ -1,4 +1,5 @@
 import { useMessagesStore } from '@/store/messages';
+import type { ApiDto } from '@viewtube/shared';
 import X2js from 'x2js';
 
 type Caption = {

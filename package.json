@@ -14,6 +14,7 @@
     "build": "pnpm --filter=* run build",
     "build:server": "pnpm --filter=./server run build",
     "build:client": "pnpm --filter=./client run build",
+    "build:shared": "pnpm --filter=./shared run build",
     "serve:env": "docker compose -f docker-compose.dev.yml up -d",
     "serve:server": "pnpm --filter=./server run serve",
     "serve:client": "pnpm --filter=./client run serve",

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { ApiDto } from '@viewtube/shared';
+
 defineProps<{
   video: ApiDto<'VTVideoInfoDto'>;
   uiState: UiState;

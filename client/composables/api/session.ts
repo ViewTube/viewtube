@@ -1,4 +1,4 @@
-import type { ApiDto } from '@/utils/shared';
+import type { ApiDto } from '@viewtube/shared';
 
 export const useGetSessions = () => {
   const { apiUrl } = useApiUrl();

@@ -3,6 +3,7 @@ import { usePlayerVolumeStore } from '@/store/playerVolume';
 import { useSettingsStore } from '@/store/settings';
 import { useUserStore } from '@/store/user';
 import { useVideoPlayerStore } from '@/store/videoPlayer';
+import type { ApiDto } from '@viewtube/shared';
 import { parseChapters } from './chapters';
 import { DashHelper } from './dash';
 import { destroyInstance, initializeHlsStream, isHlsNative, isHlsSupported } from './hlsHelper';

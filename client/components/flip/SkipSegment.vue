@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { SponsorBlockSegmentDto } from '../../../shared';
+import type { ApiDto } from '@viewtube/shared';
 
 const props = defineProps<{
-  segment: SponsorBlockSegmentDto;
+  segment: ApiDto<'SponsorBlockSegmentDto'>;
   videoDuration: number;
 }>();
 

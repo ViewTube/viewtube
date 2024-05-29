@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useSettingsStore } from '~/store/settings';
+import type { ApiDto } from '@viewtube/shared';
 
 const props = defineProps<{
   hoveredTime: number;

@@ -1,5 +1,6 @@
 import { usePopupStore } from '@/store/popup';
 import { useSettingsStore } from '@/store/settings';
+import type { ApiDto } from '@viewtube/shared';
 
 const UI_TIMEOUT = 3000;
 

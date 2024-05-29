@@ -9,7 +9,10 @@ const config = {
     '^test/(.*)$': '<rootDir>/$1',
     '^viewtube/(.*)$': '<rootDir>/../../$1'
   },
-  setupFilesAfterEnv: ['<rootDir>/jest.setup.redis-mock.js']
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.redis-mock.js'],
+  transform: {
+    '^.+\\.(t|j)s?$': ['@swc/jest']
+  }
 };
 
 module.exports = config;

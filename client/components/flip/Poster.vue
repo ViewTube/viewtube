@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { ApiDto } from '@viewtube/shared';
+
 const props = defineProps<{
   uiState: UiState;
   videoState: VideoState;

@@ -1,4 +1,5 @@
 import { VideoSourceType } from '#imports';
+import type { ApiDto } from '@viewtube/shared';
 import { useStorage } from '@vueuse/core';
 import type { AudioTrack, Language, VideoTrack } from '~/interfaces/VideoState';
 import { useMessagesStore } from '~/store/messages';

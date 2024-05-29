@@ -3,6 +3,7 @@ import VideoEntry from '@/components/list/VideoEntry.vue';
 import PlaylistEntry from '@/components/list/PlaylistEntry.vue';
 import MultiOptionButton from '@/components/buttons/MultiOptionButton.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
+import type { ApiDto } from '@viewtube/shared';
 
 const props = withDefaults(
   defineProps<{

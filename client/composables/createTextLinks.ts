@@ -1,5 +1,5 @@
 import { useSettingsStore } from '@/store/settings';
-import { getSecondsFromTimestamp } from '../../shared';
+import { getSecondsFromTimestamp } from '@viewtube/shared';
 
 // eslint-disable-next-line no-useless-escape
 const urlRegex = /\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|]/gi;

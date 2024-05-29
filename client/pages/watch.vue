@@ -17,6 +17,7 @@ import { useLoadingVideoInfoStore } from '@/store/loadingVideoInfo';
 import { useUserStore } from '@/store/user';
 import dayjs from 'dayjs';
 import { useVideoPlayerStore } from '~/store/videoPlayer';
+import type { ApiDto, ApiErrorDto } from '@viewtube/shared';
 
 type VideoType = ApiDto<'VTVideoInfoDto'> & { initialVideoTime: number };
 

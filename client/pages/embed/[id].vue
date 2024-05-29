@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import VideoPlayer from '@/components/videoplayer/VideoPlayer.vue';
+import type { ApiDto, ApiErrorDto } from '@viewtube/shared';
 
 definePageMeta({
   headless: true

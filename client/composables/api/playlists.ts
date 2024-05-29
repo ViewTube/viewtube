@@ -1,3 +1,5 @@
+import type { ApiDto } from '@viewtube/shared';
+
 type PlaylistType = Omit<ApiDto<'PlaylistResultDto'>, 'visibility'> & {
   visibility: 'unlisted' | 'everyone';
 };

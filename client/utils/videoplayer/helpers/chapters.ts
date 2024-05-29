@@ -1,4 +1,4 @@
-import { getSecondsFromTimestamp } from '../../../../shared';
+import { getSecondsFromTimestamp } from '@viewtube/shared';
 
 export const parseChapters = (description: string, videoLength: number) => {
   if (description.match(/0+:0+/gi)) {

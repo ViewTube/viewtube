@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import humanizeDuration from 'humanize-duration';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
-
+import type { ApiDto } from '@viewtube/shared';
 import { useMessagesStore } from '@/store/messages';
 
 defineProps<{

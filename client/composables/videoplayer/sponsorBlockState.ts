@@ -1,6 +1,6 @@
 import { useSettingsStore } from '@/store/settings';
 import { useSponsorBlockStore } from '@/store/sponsorBlock';
-import type { SponsorBlockSegmentDto, SponsorBlockSegmentsDto } from '../../../shared';
+import type { ApiDto } from '@viewtube/shared';
 
 export const useSponsorBlockState = (video: Ref<ApiDto<'VTVideoInfoDto'>>) => {
   const { vtFetch } = useVtFetch();
@@ -18,7 +18,7 @@ export const useSponsorBlockState = (video: Ref<ApiDto<'VTVideoInfoDto'>>) => {
 
     const url = `${apiUrl.value}videos/${videoId}/skipSegments`;
 
-    vtFetch<SponsorBlockSegmentsDto>(url).then(response => {
+    vtFetch<ApiDto<'SponsorBlockSegmentsDto'>>(url).then(response => {
       if (response?.segments?.length) {
         sponsorBlockStore.addSponsorBlockSegments(response);
       }
@@ -36,7 +36,7 @@ export const useSponsorBlockState = (video: Ref<ApiDto<'VTVideoInfoDto'>>) => {
     }
   );
 
-  const getCurrentSegment = (time: number): SponsorBlockSegmentDto => {
+  const getCurrentSegment = (time: number): ApiDto<'SponsorBlockSegmentDto'> => {
     const segments = skipSegments.value?.segments;
     if (segments && !isNaN(time)) {
       const currentSegment =

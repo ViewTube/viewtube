@@ -1,3 +1,5 @@
+import type { ApiDto } from '@viewtube/shared';
+
 type UserHistoryParams = {
   limit: number;
   start: number;

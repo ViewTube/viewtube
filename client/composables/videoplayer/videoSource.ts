@@ -1,4 +1,5 @@
 import { VideoSourceType } from '#imports';
+import type { ApiDto } from '@viewtube/shared';
 
 export const useVideoSource = (video: Ref<ApiDto<'VTVideoInfoDto'>>) => {
   const config = useRuntimeConfig();

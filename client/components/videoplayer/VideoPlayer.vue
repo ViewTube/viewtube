@@ -331,6 +331,7 @@ import Spinner from '@/components/Spinner.vue';
 import VolumeControl from '@/components/videoplayer/VolumeControl.vue';
 import VideoPlayerSettings from '@/components/videoplayer/VideoPlayerSettings.vue';
 // import SeekbarPreview from '@/components/videoplayer/SeekbarPreview.vue';
+import type { ApiDto } from '@viewtube/shared';
 
 export default defineComponent({
   name: 'VideoPlayer',

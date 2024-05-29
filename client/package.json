@@ -1,12 +1,12 @@
 {
-  "name": "client",
+  "name": "@viewtube/client",
   "engines": {
     "node": ">=20.11.0",
     "pnpm": ">=8.15.0"
   },
   "scripts": {
     "prepare:env": "cross-env API_DEV_PORT=8067 PORT=8066",
-    "serve": "pnpm run build:metadata && pnpm run prepare:env nuxi dev",
+    "serve": "pnpm -w run build:shared && pnpm run build:metadata && pnpm run prepare:env nuxi dev",
     "dev": "pnpm run serve",
     "build": "cross-env NUXT_BUILD=true nuxi build",
     "prepare": "pnpm run nuxt:prepare",
@@ -29,6 +29,7 @@
     "@unocss/preset-icons": "0.60.3",
     "@vueuse/core": "10.10.0",
     "@vueuse/nuxt": "10.10.0",
+    "@viewtube/shared": "workspace:*",
     "consola": "3.2.3",
     "cross-env": "7.0.3",
     "dashjs": "4.7.4",
