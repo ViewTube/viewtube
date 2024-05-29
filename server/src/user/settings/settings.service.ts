@@ -39,7 +39,8 @@ export class SettingsService {
     sponsorblockSegmentSponsor: 'ask',
     sponsorblockSegmentFiller: 'none',
     theme: 'default',
-    rewriteYouTubeURLs: false
+    rewriteYouTubeURLs: false,
+    hideShortsFromSearch: false
   };
 
   async setSettings(settings: Partial<SettingsDto>, username: string): Promise<void> {

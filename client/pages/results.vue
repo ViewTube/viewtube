@@ -3,6 +3,7 @@ import RelatedSearches from '@/components/search/RelatedSearches.vue';
 import Spinner from '@/components/Spinner.vue';
 import Filters from '@/components/search/Filters.vue';
 import { useMessagesStore } from '@/store/messages';
+import { useSettingsStore } from '@/store/settings';
 
 const VideoEntry = resolveComponent('ListVideoEntry');
 const PlaylistEntry = resolveComponent('ListPlaylistEntry');
@@ -12,6 +13,7 @@ const Shelf = resolveComponent('SearchShelf');
 
 const route = useRoute();
 const messagesStore = useMessagesStore();
+const settingsStore = useSettingsStore();
 
 const searchQuery = computed(() => {
   const searchParams = new URLSearchParams(route.query as Record<string, string>);
@@ -54,6 +56,9 @@ watch(error, newValue => {
 });
 
 const getListEntryType = (type: string) => {
+  if (type === 'shorts-shelf' && settingsStore.hideShortsFromSearch)
+    return null;
+
   switch (type) {
     case 'video':
       return VideoEntry;

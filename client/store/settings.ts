@@ -55,7 +55,8 @@ export const useSettingsStore = defineStore(
         sponsorblockSegmentFiller: 'none' as SegmentOption,
         theme: null as ThemeVariant | null,
         defaultTheme: defaultTheme as ThemeVariant,
-        rewriteYouTubeURLs: false
+        rewriteYouTubeURLs: false,
+        hideShortsFromSearch: false
       })
     );
 

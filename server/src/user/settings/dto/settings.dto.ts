@@ -56,4 +56,6 @@ export class SettingsDto {
   dashPlaybackEnabled: boolean;
 
   rewriteYouTubeURLs: boolean;
+
+  hideShortsFromSearch: boolean;
 }
