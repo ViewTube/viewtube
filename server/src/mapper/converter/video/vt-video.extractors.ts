@@ -3,7 +3,7 @@ import { VTVideoDto } from 'server/mapper/dto/vt-video.dto';
 import { getHandleFromUrl } from 'server/mapper/utils/handle';
 import { parseRelativeTime } from 'server/mapper/utils/parse-relative-time';
 import { parseShortenedNumber } from 'server/mapper/utils/shortened-number';
-import { getSecondsFromTimestamp, getTimestampFromSeconds } from 'viewtube/shared';
+import { getSecondsFromTimestamp, getTimestampFromSeconds } from '@viewtube/shared';
 import Author from 'youtubei.js/dist/src/parser/classes/misc/Author';
 import { VideoSourceApproximation } from './vt-video.converter';
 

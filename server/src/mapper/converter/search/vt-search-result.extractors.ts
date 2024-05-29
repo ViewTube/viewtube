@@ -11,7 +11,7 @@ import { fixUrl } from 'server/mapper/utils/fix-url';
 import { getHandleFromUrl } from 'server/mapper/utils/handle';
 import { parseRelativeTime } from 'server/mapper/utils/parse-relative-time';
 import { parseShortenedNumber } from 'server/mapper/utils/shortened-number';
-import { getTimestampFromSeconds } from 'viewtube/shared';
+import { getTimestampFromSeconds } from '@viewtube/shared';
 import { YT } from 'youtubei.js';
 import { SearchSourceApproximation } from './search-source-approximation';
 

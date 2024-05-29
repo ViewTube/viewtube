@@ -5,7 +5,7 @@ import { JwtService } from '@nestjs/jwt';
 import { InjectModel } from '@nestjs/mongoose';
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { Model } from 'mongoose';
-import { isHttps } from 'viewtube/shared';
+import { isHttps } from '@viewtube/shared';
 import { BYPASS_AUTH_KEY } from '../decorators/bypass-auth.decorator';
 import { IS_PRIVATE_KEY } from '../decorators/private.decorator';
 import { IS_PUBLIC_KEY } from '../decorators/public.decorator';

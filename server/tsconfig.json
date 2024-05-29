@@ -17,10 +17,10 @@
     "strictBindCallApply": true,
     "strictNullChecks": false,
     "strictFunctionTypes": false,
+    "skipLibCheck": true,
     "esModuleInterop": true,
     "baseUrl": "./src",
     "paths": {
-      "viewtube/*": ["../../*"],
       "server/*": ["./*"]
     },
     "types": ["node"]

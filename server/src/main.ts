@@ -6,13 +6,13 @@ import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { isHttps } from '@viewtube/shared';
 import cluster from 'cluster';
 import cookieParser from 'cookie-parser';
 import fs from 'fs';
 import { access, mkdir } from 'fs/promises';
 import path from 'path';
 import { ConfigurationService } from 'server/core/configuration/configuration.service';
-import { isHttps } from 'viewtube/shared/index';
 import webPush from 'web-push';
 import { version } from '../../package.json';
 import { AdminService } from './admin/admin.service';
@@ -22,6 +22,7 @@ import { logger } from './common/logger';
 import { ModuleType } from './common/module.type';
 import { checkRedisConnection } from './common/redis.connection';
 import { registerFastifyPlugin } from './common/registerFastifyPlugin';
+import metadata from './metadata';
 import { NuxtService } from './nuxt/nuxt.service';
 
 declare const module: ModuleType;
@@ -135,6 +136,7 @@ const bootstrap = async () => {
     .addBearerAuth()
     .build();
 
+  await SwaggerModule.loadPluginMetadata(metadata);
   const swaggerDocument = SwaggerModule.createDocument(app, documentOptions);
 
   if (process.env.GENERATE_SWAGGER === 'true') {

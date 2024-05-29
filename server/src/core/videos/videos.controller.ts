@@ -3,8 +3,8 @@ import { Controller, Get, Header, Param, UseInterceptors } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger';
 import { DislikeDto } from 'server/core/videos/dto/dislike.dto';
 import { VTVideoInfoDto } from 'server/mapper/dto/vt-video-info.dto';
+import { SponsorBlockSegmentsDto } from './dto/sponsorblock/sponsorblock-segments.dto';
 import { VideosService } from './videos.service';
-import { SponsorBlockSegmentsDto } from 'viewtube/shared';
 
 @ApiTags('Core')
 @UseInterceptors(CacheInterceptor)

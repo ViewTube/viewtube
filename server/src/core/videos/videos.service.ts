@@ -16,7 +16,7 @@ import { DislikeDto } from 'server/core/videos/dto/dislike.dto';
 import { toVTVideoInfoDto } from 'server/mapper/converter/video-info/vt-video-info.converter';
 import { VTVideoInfoDto } from 'server/mapper/dto/vt-video-info.dto';
 import sharp from 'sharp';
-import { type SponsorBlockSegmentsDto } from 'viewtube/shared';
+import { SponsorBlockSegmentsDto } from './dto/sponsorblock/sponsorblock-segments.dto';
 import { VideoBasicInfoDto } from './dto/video-basic-info.dto';
 import { VideoBasicInfo } from './schemas/video-basic-info.schema';
 

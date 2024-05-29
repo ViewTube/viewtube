@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json.schemastore.org/swcrc",
+  "jsc": {
+    "transform": {
+      "legacyDecorator": true,
+      "decoratorMetadata": true
+    }
+  }
+}

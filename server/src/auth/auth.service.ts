@@ -3,13 +3,13 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { InjectModel } from '@nestjs/mongoose';
+import { isHttps } from '@viewtube/shared';
 import bcrypt from 'bcryptjs';
 import { randomBytes } from 'crypto';
 import { FastifyReply } from 'fastify';
 import { FastifyRequest } from 'fastify/types/request';
 import { Model } from 'mongoose';
 import { User } from 'server/user/schemas/user.schema';
-import { isHttps } from 'viewtube/shared/util';
 import { Session } from './schemas/session.schema';
 import { setAuthCookies } from './set-auth-cookies';
 

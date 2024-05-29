@@ -8,7 +8,7 @@ import { VTVideoInfoDto } from 'server/mapper/dto/vt-video-info.dto';
 import { parseRedirectUrl } from 'server/mapper/utils/parse-redirect';
 import { parseRelativeTime } from 'server/mapper/utils/parse-relative-time';
 import { parseShortenedNumber } from 'server/mapper/utils/shortened-number';
-import { getSecondsFromTimestamp, getTimestampFromSeconds } from 'viewtube/shared';
+import { getSecondsFromTimestamp, getTimestampFromSeconds } from '@viewtube/shared';
 import { VideoInfoSourceApproximation } from './video-info-source-approximation';
 
 export const extractVideoId = (videoInfo: VideoInfoSourceApproximation) => {
