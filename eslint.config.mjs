@@ -1,7 +1,7 @@
 // @ts-check
 import cypress from 'eslint-plugin-cypress';
 import jest from 'eslint-plugin-jest';
-import globals from 'globals';
+import globals from 'globals/index.js';
 import withNuxt from './client/.nuxt/eslint.config.mjs';
 
 export default withNuxt([
