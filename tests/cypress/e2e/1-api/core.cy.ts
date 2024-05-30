@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
 import type { ApiDto } from '@viewtube/shared';
 import { apiUrl } from 'support/constants';
 
