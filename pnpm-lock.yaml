@@ -32,6 +32,9 @@ importers:
       eslint-plugin-jest:
         specifier: 28.5.0
         version: 28.5.0(@typescript-eslint/eslint-plugin@7.11.0(eslint@9.3.0)(typescript@5.4.5))(eslint@9.3.0)(jest@29.7.0)(typescript@5.4.5)
+      globals:
+        specifier: 15.3.0
+        version: 15.3.0
       prettier:
         specifier: 3.2.5
         version: 3.2.5
@@ -7030,7 +7033,6 @@ packages:
 
   shaka-player@4.8.1:
     resolution: {integrity: sha512-n+VTi+EZ4YWzGOxDy+yqascA6wNEliPy1jIvbHGxW2Prk8fitUozRffsP7aRbyoFwQekJ3D0P+Ngk7nSQU6IZA==}
-    engines: {node: '>=14'}
 
   sharp@0.33.4:
     resolution: {integrity: sha512-7i/dt5kGl7qR4gwPRD2biwD2/SvBn3O04J77XKFgL2OnZtQw+AG9wnuS/csmu80nPRHLYE9E41fyEiG8nhH6/Q==}
