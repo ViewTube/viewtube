@@ -6,7 +6,6 @@ module.exports = defineConfig({
     openMode: 0
   },
   e2e: {
-    defaultCommandTimeout: 10000,
-    
+    defaultCommandTimeout: 10000
   }
 });

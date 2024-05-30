@@ -56,8 +56,7 @@ watch(error, newValue => {
 });
 
 const getListEntryType = (type: string) => {
-  if (type === 'shorts-shelf' && settingsStore.hideShortsFromSearch)
-    return null;
+  if (type === 'shorts-shelf' && settingsStore.hideShortsFromSearch) return null;
 
   switch (type) {
     case 'video':

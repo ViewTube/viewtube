@@ -1,3 +1,4 @@
+import { getTimestampFromSeconds } from '@viewtube/shared';
 import { logger } from 'server/common/logger';
 import { VTSearchChannelResultDto } from 'server/mapper/dto/search/vt-search-channel-result.dto';
 import { VTSearchMovieDto } from 'server/mapper/dto/search/vt-search-movie.dto';
@@ -11,7 +12,6 @@ import { fixUrl } from 'server/mapper/utils/fix-url';
 import { getHandleFromUrl } from 'server/mapper/utils/handle';
 import { parseRelativeTime } from 'server/mapper/utils/parse-relative-time';
 import { parseShortenedNumber } from 'server/mapper/utils/shortened-number';
-import { getTimestampFromSeconds } from '@viewtube/shared';
 import { YT } from 'youtubei.js';
 import { SearchSourceApproximation } from './search-source-approximation';
 

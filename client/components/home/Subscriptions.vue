@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import VideoEntry from '@/components/list/VideoEntry.vue';
 import { useSettingsStore } from '@/store/settings';
@@ -40,10 +39,14 @@ const showMoreSubscriptions = (): void => {
       :lazy="true"
     />
   </div>
-  <div v-if="subscriptions?.videos?.length > 0 && settingsStore.showHomeTrendingVideos" class="home-show-more">
+  <div
+    v-if="subscriptions?.videos?.length > 0 && settingsStore.showHomeTrendingVideos"
+    class="home-show-more"
+  >
     <BadgeButton
       v-if="displayedSubscriptions.length !== subscriptions?.videos?.length"
-      :click="showMoreSubscriptions">
+      :click="showMoreSubscriptions"
+    >
       <VTIcon name="mdi:reload" />
       <p>Show more</p>
     </BadgeButton>
