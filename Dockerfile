@@ -1,9 +1,7 @@
 FROM node:20-bookworm as build
 WORKDIR /home/build
 
-ENV NUXT_BUILD=true
-
-COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc ./
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 
 COPY server/package.json ./server/
 COPY client/package.json ./client/
@@ -30,11 +28,14 @@ ENV NODE_ENV=production
 COPY --from=build /home/build/package.json ./
 COPY --from=build /home/build/client/package.json ./client/
 COPY --from=build /home/build/server/package.json ./server/
+COPY --from=build /home/build/shared/package.json ./shared/
 
 COPY --from=build /home/build/node_modules ./node_modules
 COPY --from=build /home/build/server/node_modules ./server/node_modules
 
 COPY --from=build /home/build/server/dist ./server/dist/
+
+COPY --from=build /home/build/shared/dist ./shared/dist/
 
 COPY --from=build /home/build/client/.output ./client/.output/
 

@@ -1,6 +1,6 @@
 import { destr } from 'destr';
 import { socksDispatcher } from 'fetch-socks';
-import { SocksProxy } from 'socks';
+import type { SocksProxy } from 'socks';
 import undici, {
   Headers,
   ProxyAgent,

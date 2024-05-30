@@ -1,9 +1,9 @@
+import type { ApiDto } from '@viewtube/shared';
 import { defineStore } from 'pinia';
-import type { SponsorBlockSegmentsDto } from '@viewtube/shared';
 
 export const useSponsorBlockStore = defineStore('sponsorBlock', {
   state: () => ({
-    sponsorBlockCache: [] as SponsorBlockSegmentsDto[]
+    sponsorBlockCache: [] as ApiDto<'SponsorBlockSegmentsDto'>[]
   }),
   getters: {
     getSponsorBlockSegment: state => {
@@ -12,7 +12,7 @@ export const useSponsorBlockStore = defineStore('sponsorBlock', {
     }
   },
   actions: {
-    addSponsorBlockSegments(segments: SponsorBlockSegmentsDto) {
+    addSponsorBlockSegments(segments: ApiDto<'SponsorBlockSegmentsDto'>) {
       this.sponsorBlockCache.push(segments);
     }
   }
