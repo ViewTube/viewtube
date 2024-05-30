@@ -9,8 +9,8 @@
     "serve": "pnpm -w run build:shared && nest start -w",
     "dev": "pnpm run serve",
     "build": "cross-env NODE_ENV=production nest build",
-    "start": "cross-env NODE_ENV=production node ./dist/main.cjs",
-    "gen:swagger": "pnpm run build && cross-env GENERATE_SWAGGER=true node ./dist/main.cjs",
+    "start": "cross-env NODE_ENV=production node ./dist/main.js",
+    "gen:swagger": "pnpm run build && cross-env GENERATE_SWAGGER=true node ./dist/main.js",
     "gen:api": "pnpm run gen:swagger && openapi-typescript swagger-spec.json --output ../shared/src/api.schema.ts && rimraf swagger-spec.json"
   },
   "_moduleAliases": {
