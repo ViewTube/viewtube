@@ -3,6 +3,7 @@
  * Do not make direct changes to the file.
  */
 
+
 export interface paths {
   "/api/auth/login": {
     post: operations["AuthController_login"];
@@ -14,7 +15,7 @@ export interface paths {
     /**
      * Register a new user
      * @description Request a captcha through the /auth/captcha endpoint,
-     *     and pass its token and solution alongside the new user"s credentials.
+     *     and pass its token and solution alongside the new user's credentials.
      */
     post: operations["RegisterController_registerUser"];
   };
@@ -760,6 +761,7 @@ export type $defs = Record<string, never>;
 export type external = Record<string, never>;
 
 export interface operations {
+
   AuthController_login: {
     responses: {
       201: {
@@ -777,7 +779,7 @@ export interface operations {
   /**
    * Register a new user
    * @description Request a captcha through the /auth/captcha endpoint,
-   *     and pass its token and solution alongside the new user"s credentials.
+   *     and pass its token and solution alongside the new user's credentials.
    */
   RegisterController_registerUser: {
     requestBody: {
