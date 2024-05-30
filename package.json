@@ -25,7 +25,7 @@
     "nuxt:prepare": "pnpm --filter=./client run nuxt:prepare",
     "e2e": "pnpm --filter=./tests/cypress run ci:test",
     "format": "prettier --write .",
-    "prepare": "client/scripts/prepare.mjs",
+    "prepare": "node client/scripts/prepare.mjs",
     "build:metadata": "pnpm --filter=./client run build:metadata",
     "fix:prettier": "cp node_modules/prettier/index.cjs node_modules/prettier/index.js"
   },

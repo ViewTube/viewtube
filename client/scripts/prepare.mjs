@@ -1,10 +1,9 @@
-#!/usr/bin/env node
 import { execSync } from 'child_process';
 
 const commands = [
   'pnpm -w run build:shared',
   'pnpm -w run build:metadata',
-  'pnpm --filter=./client run nuxt:prepare'
+  'pnpm -w run nuxt:prepare'
 ];
 
 if (process.env.CI !== 'true') {
