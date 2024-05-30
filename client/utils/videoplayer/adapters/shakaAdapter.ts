@@ -355,7 +355,7 @@ export const shakaAdapter: typeof rxPlayerAdapter = async ({
     // videoState.automaticAudioQuality = true;
   };
 
-  let playerInstance = createPlayer();
+  const playerInstance = createPlayer();
   registerEvents();
   loadVideo();
 

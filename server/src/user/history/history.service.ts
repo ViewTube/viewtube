@@ -64,7 +64,7 @@ export class HistoryService {
             { username, videoHistory: userHistoryArray },
             { upsert: true }
           ).exec();
-        } catch (error) {
+        } catch {
           throw new InternalServerErrorException('Error saving video visit');
         }
       }

@@ -233,7 +233,7 @@ export class UserService {
             .catch(() => {});
 
           reply.type('image/webp').send(webpImage);
-        } catch (error) {
+        } catch {
           throw new InternalServerErrorException('Error getting photo');
         }
       } else {
@@ -291,7 +291,7 @@ export class UserService {
       let hash: string;
       try {
         hash = await bcrypt.hash(user.password, saltRounds);
-      } catch (err) {
+      } catch {
         throw new HttpException('Error registering user', 403);
       }
 
@@ -397,7 +397,7 @@ export class UserService {
         let hash: string;
         try {
           hash = await bcrypt.hash(newPassword, saltRounds);
-        } catch (err) {
+        } catch {
           throw new HttpException('Error changing password', 500);
         }
         userData.password = hash;

@@ -47,7 +47,7 @@ export class SettingsService {
     if (username) {
       try {
         await this.SettingsModel.findOneAndUpdate({ username }, settings, { upsert: true }).exec();
-      } catch (err) {
+      } catch {
         throw new InternalServerErrorException('Error updating settings');
       }
     } else {
@@ -60,7 +60,7 @@ export class SettingsService {
       try {
         const settings = (await this.SettingsModel.findOne({ username }).exec()) || {};
         return this.getCompleteSettingsObject(settings);
-      } catch (err) {
+      } catch {
         throw new InternalServerErrorException('Error retrieving settings');
       }
     }
