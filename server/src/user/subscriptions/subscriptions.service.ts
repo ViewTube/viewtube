@@ -12,7 +12,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { VideoBasicInfo } from 'server/core/videos/schemas/video-basic-info.schema';
 import { ChannelBasicInfo } from 'server/core/channels/schemas/channel-basic-info.schema';
 import { Model } from 'mongoose';
-import { Cron, CronExpression } from '@nestjs/schedule';
+import { SchedulerRegistry } from '@nestjs/schedule';
 import { VideoBasicInfoDto } from 'server/core/videos/dto/video-basic-info.dto';
 import { Sorting } from 'server/common/sorting.type';
 import { ChannelBasicInfoDto } from 'server/core/channels/dto/channel-basic-info.dto';
@@ -39,10 +39,26 @@ export class SubscriptionsService {
     @InjectQueue('subscriptions')
     private subscriptionsQueue: Queue<SubscriptionsQueueParams>,
     private notificationsService: NotificationsService,
-    private readonly logger: Logger
-  ) {}
+    private readonly logger: Logger,
+    private schedulerRegistry: SchedulerRegistry
+  ) {
+    // initialize without blocking
+    void this.initializeSubscriptionTask();
+  }
 
-  @Cron(CronExpression.EVERY_HOUR)
+  async initializeSubscriptionTask() {
+    const timeInMilliseconds = this.getSubscriptionIntervalTime() * 1000 * 60;
+    const interval = setInterval(this.collectSubscriptionsJob, timeInMilliseconds);
+
+    this.collectSubscriptionsJob();
+
+    this.schedulerRegistry.addInterval('collectSubscriptions', interval);
+  }
+
+  private getSubscriptionIntervalTime() {
+    return parseInt(process.env.VIEWTUBE_SUBSCRIPTION_INTERVAL_TIME);
+  }
+
   async collectSubscriptionsJob(): Promise<void> {
     if ((cluster.worker && cluster.worker.id === 1) || !AppClusterService.isClustered) {
       const userSubscriptions = await this.SubscriptionModel.find().lean(true).exec();
@@ -229,10 +245,20 @@ export class SubscriptionsService {
         } catch (error) {
           this.logger.error(error);
         }
-        return { videos: mappedVideos, videoCount, lastRefresh };
+        return {
+          videos: mappedVideos,
+          videoCount,
+          lastRefresh,
+          refreshInterval: this.getSubscriptionIntervalTime()
+        };
       }
     }
-    return { videos: [], videoCount: 0, lastRefresh: null };
+    return {
+      videos: [],
+      videoCount: 0,
+      lastRefresh: null,
+      refreshInterval: this.getSubscriptionIntervalTime()
+    };
   }
 
   async getSubscription(username: string, channelId: string): Promise<SubscriptionStatusDto> {

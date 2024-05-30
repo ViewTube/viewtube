@@ -174,7 +174,14 @@ watch(
 );
 
 const nextRefresh = computed(() => {
-  return 60 - Math.round((Date.now() % 3.6e6) / 6e4);
+  if (lastRefreshTime.value == 0) {
+    return 0;
+  }
+
+  const nextRefreshDate = new Date(lastRefreshTime.value);
+  nextRefreshDate.setMinutes(nextRefreshDate.getMinutes() + subscriptions.value.refreshInterval);
+
+  return Math.round((+nextRefreshDate - Date.now()) / 6e4);
 });
 </script>
 
