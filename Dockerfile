@@ -4,8 +4,9 @@ WORKDIR /home/build
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 
 COPY server/package.json ./server/
-COPY client/package.json ./client/
 COPY shared/package.json ./shared/
+COPY client/package.json ./client/
+COPY client/scripts ./client/scripts
 COPY patches ./patches
 
 RUN npm install -g pnpm@9.1.3
