@@ -16,6 +16,7 @@
     "cross-env": "7.0.3",
     "cypress": "13.10.0",
     "cypress-commands": "3.0.0",
-    "typescript": "5.4.5"
+    "typescript": "5.4.5",
+    "@viewtube/shared": "workspace:*"
   }
 }

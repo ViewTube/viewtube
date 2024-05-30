@@ -1,6 +1,8 @@
+import { baseUrl } from 'support/constants';
+
 describe('Homepage Tests', () => {
   beforeEach(() => {
-    cy.visit('http://localhost:8466/watch?v=Nz9b0oJw69I');
+    cy.visit(`${baseUrl}/watch?v=Nz9b0oJw69I`);
     cy.get('#app[hydrated=true]', { timeout: 10000 });
   });
 

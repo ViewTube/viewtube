@@ -33,7 +33,7 @@ sw.*
 out/
 out/*
 
-data/*
+data
 !/server/data
 output/*
 .vs/*
@@ -56,3 +56,4 @@ client/buildMetadata.json
 **/cache
 generated.txt
 original.txt
+screenshots
