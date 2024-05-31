@@ -86,9 +86,6 @@ export class Settings extends Document implements SettingsDto {
   autoAdjustVideoQuality: boolean;
 
   @Prop()
-  dashPlaybackEnabled: boolean;
-
-  @Prop()
   rewriteYouTubeURLs: boolean;
 
   @Prop()

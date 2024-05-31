@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { getTimestampFromSeconds } from '@viewtube/shared';
+import { getTimestampFromSeconds, type ApiDto } from '@viewtube/shared';
 
 const props = defineProps<{
   videoState: VideoState;
   uiState: UiState;
+  video: ApiDto<'VTVideoInfoDto'>;
 }>();
 
 const onPlayPauseClick = () => {
@@ -18,8 +19,18 @@ const onVolumeClick = () => {
   props.videoState.setMuted(!props.videoState.video.muted);
 };
 
-const timestampText = computed(() => getTimestampFromSeconds(props.videoState.video.currentTime));
-const videoLengthText = computed(() => getTimestampFromSeconds(props.videoState.video.duration));
+const timestampText = computed(() => {
+  if (props.video.live) {
+    return `-${getTimestampFromSeconds(props.videoState.video.duration)}`;
+  }
+  return getTimestampFromSeconds(props.videoState.video.currentTime);
+});
+const videoLengthText = computed(() => {
+  if (props.video.live) {
+    return 'LIVE';
+  }
+  return getTimestampFromSeconds(props.videoState.video.duration);
+});
 </script>
 
 <template>

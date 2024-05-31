@@ -1,6 +1,5 @@
-import Hls from 'hls.js';
-import type { IAvailableAudioTrack, IAvailableVideoTrack } from 'rx-player/types';
-import type { AudioTrack, Language, VideoTrack } from '~/interfaces/VideoState';
+import type { Level } from 'hls.js';
+import type { VideoTrack } from '~/interfaces/VideoState';
 import type { RxPlayerAdapterOptions } from './rxPlayerAdapter';
 
 type HlsAdapterOptions = RxPlayerAdapterOptions;
@@ -18,10 +17,9 @@ enum PlayerState {
   RELOADING = 'RELOADING'
 }
 
-export const hlsAdapter = ({
+export const hlsAdapter = async ({
   videoElementRef,
   source,
-  startTime,
   videoState,
   volumeStorage,
   videoEnded,
@@ -29,6 +27,8 @@ export const hlsAdapter = ({
   autoplay
 }: HlsAdapterOptions) => {
   const { streamProxy } = useProxyUrls();
+
+  const Hls = await import('hls.js').then(module => module.default);
 
   const createPlayer = () => {
     const player = new Hls({
@@ -76,11 +76,32 @@ export const hlsAdapter = ({
       videoState.buffering = false;
       videoEnded();
     });
+    videoElementRef.value?.addEventListener('canplay', async () => {
+      if (autoplay) {
+        try {
+          await videoElementRef.value?.play();
+        } catch {
+          createMessage({
+            type: 'error',
+            title: 'Autoplay blocked',
+            message: 'Allow autoplay for this website to start the video automatically'
+          });
+        }
+      }
+    });
 
     videoElementRef.value?.addEventListener('timeupdate', () => {
-      console.log(playerInstance?.liveSyncPosition);
-      videoState.currentTime = videoElementRef.value.currentTime;
-      videoState.duration = videoElementRef.value.duration;
+      if (videoElementRef.value) {
+        videoState.currentTime = videoElementRef.value?.currentTime;
+        videoState.duration = playerInstance?.liveSyncPosition;
+
+        if (
+          videoElementRef.value?.currentTime >= playerInstance?.liveSyncPosition - 2 &&
+          videoElementRef.value?.playbackRate > 1
+        ) {
+          setPlaybackRate(1);
+        }
+      }
     });
     videoElementRef.value?.addEventListener('volumechange', () => {
       videoState.volume = videoElementRef.value.volume;
@@ -93,35 +114,50 @@ export const hlsAdapter = ({
         message: data.details,
         name: data.type
       };
+      createMessage({
+        type: 'error',
+        title: `Video player error: ${data.details}`,
+        message: data.error.message
+      });
+    });
+
+    playerInstance?.on(Hls.Events.LEVEL_SWITCHING, () => {
+      refreshTracks();
+    });
+    playerInstance?.on(Hls.Events.LEVEL_SWITCHED, () => {
+      refreshTracks();
+    });
+    playerInstance?.on(Hls.Events.LEVEL_UPDATED, () => {
+      refreshTracks();
+    });
+    playerInstance?.on(Hls.Events.LEVEL_LOADING, () => {
+      refreshTracks();
+    });
+    playerInstance?.on(Hls.Events.LEVEL_LOADED, () => {
+      refreshTracks();
     });
   };
 
   const currentVideoRepresentationId = ref<string | null>(null);
-  const currentAudioRepresentationId = ref<string | null>(null);
 
   const refreshTracks = () => {
-    // videoState.videoTracks = mapVideoTracks(playerInstance?.getAvailableVideoTracks());
-    // videoState.audioTracks = mapAudioTracks(playerInstance?.getAvailableAudioTracks());
-    // videoState.languageList = mapLanguageList(playerInstance?.getAvailableAudioTracks());
-    // const currentLanguage = playerInstance?.getAudioTrack()?.language;
-    // if (currentLanguage) videoState.selectedLanguage = currentLanguage;
+    videoState.videoTracks = mapVideoTracks(playerInstance?.levels);
   };
 
-  const mapVideoTracks = (videoTracks: IAvailableVideoTrack[]): VideoTrack[] => {
-    return videoTracks.map(track => {
-      const codecs = track.representations.map(rep => rep.codec);
-      const codec = [...new Set(codecs)].join(', ');
-
-      return {
+  const mapVideoTracks = (levels: Level[]): VideoTrack[] => {
+    const codec = [...new Set(levels?.map(el => el.codecSet))].join(', ');
+    const currentLevel = playerInstance?.currentLevel;
+    currentVideoRepresentationId.value = currentLevel?.toString();
+    return [
+      {
         codec,
-        active: track.active,
-        id: track.id,
-        representations: track.representations?.map(representation => {
-          const frameRateLabel = representation.frameRate > 30 ? representation.frameRate : '';
+        active: true,
+        id: '0',
+        representations: levels.map((level, index) => {
+          let heightLabel = level.height;
+          const frameRateLabel = level.frameRate > 30 ? level.frameRate : '';
 
-          let heightLabel = representation.height;
-
-          switch (representation.width) {
+          switch (level.width) {
             case 3840:
               heightLabel = 2560;
               break;
@@ -148,63 +184,23 @@ export const hlsAdapter = ({
               break;
           }
 
-          const videoLabel = `${heightLabel}p${frameRateLabel} · ${humanizeBitrate(representation.bitrate)}`;
+          const videoLabel = `${heightLabel}p${frameRateLabel} · ${humanizeBitrate(level.bitrate)}`;
 
           return {
-            id: representation.id,
+            id: index.toString(),
             label: videoLabel,
-            bitrate: representation.bitrate,
-            codec: representation.codec,
-            width: representation.width,
-            height: representation.height,
-            frameRate: representation.frameRate,
-            active: currentVideoRepresentationId.value === representation.id,
-            hdr: !!representation.hdrInfo,
-            hdrType: representation.hdrInfo?.eotf
+            bitrate: level.bitrate,
+            codec: level.codecSet,
+            width: level.width,
+            height: heightLabel,
+            frameRate: level.frameRate,
+            active: index === currentLevel,
+            hdr: !!level.attrs?.HDR,
+            hdrType: level.attrs?.HDR
           };
         })
-      };
-    });
-  };
-
-  const mapAudioTracks = (audioTracks: IAvailableAudioTrack[]): AudioTrack[] => {
-    return audioTracks
-      .filter(audioTrack => videoState.selectedLanguage === audioTrack.language)
-      .map(track => {
-        const codecs = track.representations.map(rep => rep.codec);
-        const codec = [...new Set(codecs)].join(', ');
-
-        return {
-          codec,
-          active: track.active,
-          id: track.id,
-          language: track.language,
-          representations: track.representations?.map(representation => {
-            return {
-              id: representation.id?.toString(),
-              label: humanizeBitrate(representation.bitrate),
-              bitrate: representation.bitrate,
-              codec: representation.codec,
-              active: currentAudioRepresentationId.value === representation.id
-            };
-          })
-        };
-      });
-  };
-
-  const mapLanguageList = (audioTracks: IAvailableAudioTrack[]): Language[] => {
-    return audioTracks
-      .map(track => {
-        return {
-          language: track.language,
-          label: track.language,
-          active: track.active
-        };
-      })
-      .sort((a, b) => a.language.localeCompare(b.language))
-      .filter(
-        (language, index, self) => self.findIndex(l => l.language === language.language) === index
-      );
+      }
+    ];
   };
 
   let playerInstance = createPlayer();
@@ -215,6 +211,7 @@ export const hlsAdapter = ({
 
       playerInstance?.attachMedia(newValue);
 
+      newValue.volume = volumeStorage.value;
       loadVideo();
     }
   });
@@ -251,38 +248,23 @@ export const hlsAdapter = ({
     }
   };
 
-  const setLanguage = (language: string) => {
-    // const trackId = playerInstance
-    //   ?.getAvailableAudioTracks()
-    //   .find(track => track.language === language)?.id;
-    // if (!trackId) return;
-    // playerInstance?.setAudioTrack({ trackId, switchingMode: 'direct' });
-  };
+  const setLanguage = (_: string) => {};
+
   const setVideoRepresentation = (videoTrackId: string, videoRepresentationId: string) => {
-    // playerInstance?.setVideoTrack({
-    //   trackId: videoTrackId,
-    //   switchingMode: 'seamless',
-    //   lockedRepresentations: [videoRepresentationId]
-    // });
-    videoState.automaticVideoQuality = false;
-    refreshTracks();
+    if (playerInstance) {
+      playerInstance.currentLevel = parseInt(videoRepresentationId);
+      videoState.automaticVideoQuality = false;
+      refreshTracks();
+    }
   };
   const setAutoVideoQuality = () => {
-    // playerInstance?.unlockVideoRepresentations();
-    videoState.automaticVideoQuality = true;
+    if (playerInstance) {
+      playerInstance.currentLevel = -1;
+      videoState.automaticVideoQuality = true;
+    }
   };
-  const setAudioRepresentation = (audioTrackId: string, audioRepresentationId: string) => {
-    // playerInstance?.setAudioTrack({
-    //   trackId: audioTrackId,
-    //   switchingMode: 'seamless',
-    //   lockedRepresentations: [audioRepresentationId]
-    // });
-    videoState.automaticAudioQuality = false;
-  };
-  const setAutoAudioQuality = () => {
-    // playerInstance?.unlockAudioRepresentations();
-    videoState.automaticAudioQuality = true;
-  };
+  const setAudioRepresentation = (_audioTrackId: string, _audioRepresentationId: string) => {};
+  const setAutoAudioQuality = () => {};
 
   playerInstance = createPlayer();
   registerEvents();

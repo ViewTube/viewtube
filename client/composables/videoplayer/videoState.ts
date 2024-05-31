@@ -58,8 +58,6 @@ export const useVideoState = (
       adapterInstance.value = undefined;
     }
 
-    console.log(sourceType.value);
-
     if (sourceType.value === VideoSourceType.DASH) {
       adapterInstance.value = await rxPlayerAdapter({
         videoElementRef,
@@ -87,6 +85,9 @@ export const useVideoState = (
 
   onMounted(async () => {
     await instantiateAdapter();
+    setLoop(settingsStore.alwaysLoopVideo);
+    setPlaybackRate(settingsStore.defaultVideoSpeed);
+
     if (videoElementRef.value instanceof HTMLVideoElement) {
       const videoAttributeObserver = new MutationObserver(mutations => {
         mutations.forEach(mutation => {

@@ -83,7 +83,7 @@ const selectedVideoTrack = computed(() => {
           >
         </div>
         <div class="separator-line" />
-        <div class="codec-selector">
+        <div v-if="availableCodecs?.length > 1" class="codec-selector">
           <p class="codec-label">Codec</p>
           <MultiOptionButton v-model="selectedCodec" :options="availableCodecs" />
         </div>
@@ -108,7 +108,7 @@ const selectedVideoTrack = computed(() => {
       </div>
     </ListCollapsibleSection>
   </div>
-  <div class="flip-setting">
+  <div v-if="audioRepresentations?.length > 0" class="flip-setting">
     <VTIcon class="flip-setting-icon" name="mdi:high-definition-box" />
     <ListCollapsibleSection label="Audio quality">
       <div class="selector-list">

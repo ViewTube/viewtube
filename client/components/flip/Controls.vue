@@ -13,7 +13,7 @@ defineProps<{
     <FlipTopBar :ui-state="uiState" :video="video" />
     <div class="controls-bottom">
       <FlipSeekbar :ui-state="uiState" :video-state="videoState" :video="video" />
-      <FlipControlButtons :ui-state="uiState" :video-state="videoState" />
+      <FlipControlButtons :ui-state="uiState" :video-state="videoState" :video="video" />
     </div>
   </div>
 </template>

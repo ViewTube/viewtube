@@ -33,6 +33,7 @@ export class VTVideoInfoDto {
   viewCount: number;
   upcoming?: Date;
   live: boolean;
+  watching?: number;
   unlisted: boolean;
   familyFriendly: boolean;
   likeCount: number;

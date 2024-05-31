@@ -34,7 +34,11 @@ defineProps<{
         </ListCollapsibleSection>
       </div>
       <FlipQualitySelector :video-state="videoState" />
-      <FlipCaptionsSelector :captions-state="captionsState" />
+      <FlipCaptionsSelector
+        v-if="captionsState.availableCaptionTracks.value.length > 0"
+        :captions-state="captionsState"
+      />
+      <FlipPlaybackSettings :video-state="videoState" />
     </div>
   </div>
 </template>

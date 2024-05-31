@@ -17,11 +17,6 @@ export const useVideoSource = (video: Ref<ApiDto<'VTVideoInfoDto'>>) => {
     let sourceType: VideoSourceType = null;
 
     if (video.value.live && video.value.hlsManifestUrl) {
-      // const googlevideoRegex = /https:\/\/.*?.googlevideo\.com.*?\/index\.m3u8/gi;
-      // const hlsManifest = video.value.hlsManifest.replace(googlevideoRegex, match => {
-      //   return `${window.location.origin}${m3u8Proxy}${encodeURI(match)}`;
-      // });
-      // console.log(hlsManifest);
       sourceType = VideoSourceType.HLS;
       source = video.value.hlsManifestUrl;
     } else if (video.value.dashManifest) {

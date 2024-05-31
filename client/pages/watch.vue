@@ -283,16 +283,6 @@ const videoDescription = computed(() => {
     <VideoLoadingTemplate v-if="videoPending" />
     <!-- <video v-if="!jsEnabled" controls :src="getHDUrl()" class="nojs-player" /> -->
     <WatchVideoError v-if="videoError" :error="videoError" />
-    <!-- <VideoPlayer
-      v-if="video && !videoPending"
-      :key="video.id"
-      ref="videoplayerRef"
-      :video="video"
-      :initial-video-time="video.initialVideoTime"
-      :autoplay="isAutoplaying"
-      class="video-player-p"
-      @video-ended="onVideoEnded"
-    /> -->
     <FlipPlayer
       v-if="video && !videoPending"
       :video="video"

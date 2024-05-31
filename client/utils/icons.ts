@@ -54,6 +54,7 @@ export const iconSafelist = [
   'mdi-lightbulb',
   'mdi-logout-variant',
   'mdi-magnify',
+  'mdi-mixer-settings-vertical',
   'mdi-monitor',
   'mdi-open-in-new',
   'mdi-pause',

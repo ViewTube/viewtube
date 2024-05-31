@@ -305,14 +305,6 @@ const videoSpeedArray = [
         />
       </div>
       <SwitchButton
-        :value="settingsStore.dashPlaybackEnabled"
-        :label="'Enable MPEG-DASH'"
-        :small-label="'Enable high quality video playback using MPEG-DASH adaptive bitrate streaming'"
-        :disabled="false"
-        :right="true"
-        @valuechange="val => settingsStore.setDashPlaybackEnabled(val)"
-      />
-      <SwitchButton
         :value="settingsStore.autoplay"
         :label="'Autoplay video'"
         :small-label="'Automatically plays video after opening'"

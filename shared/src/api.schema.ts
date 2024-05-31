@@ -253,7 +253,6 @@ export interface components {
       defaultAudioQuality: string;
       autoAdjustAudioQuality: boolean;
       autoAdjustVideoQuality: boolean;
-      dashPlaybackEnabled: boolean;
       rewriteYouTubeURLs: boolean;
       hideShortsFromSearch: boolean;
     };
