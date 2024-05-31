@@ -87,7 +87,7 @@ export class VideosService {
         authorThumbnailUrl: video.author.thumbnails?.[0].url,
         authorVerified: video.author.isVerified,
         description: video.description,
-        likeCount: video.likeCount,
+        likeCount: isNaN(video.likeCount) ? 0 : video.likeCount,
         lengthSeconds: video.duration.seconds,
         lengthString: video.duration.text,
         publishedText: video.published.text,
