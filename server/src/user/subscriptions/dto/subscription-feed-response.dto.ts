@@ -4,4 +4,5 @@ export class SubscriptionFeedResponseDto {
   videoCount: number;
   videos: Array<VideoBasicInfoDto>;
   lastRefresh: Date;
+  refreshInterval: number;
 }
