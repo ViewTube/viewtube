@@ -41,10 +41,7 @@ export class SubscriptionsService {
     private notificationsService: NotificationsService,
     private readonly logger: Logger,
     private schedulerRegistry: SchedulerRegistry
-  ) {
-    // initialize without blocking
-    void this.initializeSubscriptionTask();
-  }
+  ) { }
 
   async initializeSubscriptionTask() {
     const timeInMilliseconds = this.getSubscriptionIntervalTime() * 1000 * 60;
