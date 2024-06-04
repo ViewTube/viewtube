@@ -36,20 +36,20 @@
     "not Edge 18"
   ],
   "devDependencies": {
+    "@typescript-eslint/parser": "8.0.0-alpha.21",
     "cross-env": "7.0.3",
-    "eslint": "9.3.0",
-    "eslint-plugin-cypress": "3.3.0",
+    "eslint": "9.4.0",
     "eslint-flat-config-utils": "0.2.5",
+    "eslint-plugin-cypress": "3.3.0",
     "globals": "15.3.0",
-    "prettier": "3.2.5",
+    "prettier": "3.3.0",
     "prettier-plugin-organize-imports": "3.2.4",
-    "typescript": "5.4.5",
-    "@typescript-eslint/parser": "8.0.0-alpha.21"
+    "typescript": "5.4.5"
   },
   "pnpm": {
     "patchedDependencies": {
       "papaparse@5.4.1": "patches/papaparse@5.4.1.patch",
-      "shaka-player@4.8.1": "patches/shaka-player@4.8.1.patch"
+      "shaka-player@4.9.1": "patches/shaka-player@4.9.1.patch"
     },
     "overrides": {
       "has": "npm:@nolyfill/has@latest",

@@ -10,7 +10,7 @@ export default withNuxt([
       '@typescript-eslint/no-empty-object-type': 'off',
       '@typescript-eslint/no-unused-expressions': 'off',
       '@typescript-eslint/no-unused-vars': [
-        'warn', // or "error"
+        'warn',
         {
           argsIgnorePattern: '^_',
           varsIgnorePattern: '^_',

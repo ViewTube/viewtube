@@ -15,12 +15,12 @@
   },
   "types": "./dist/index.d.ts",
   "devDependencies": {
+    "@types/node": "20.14.1",
+    "stylelint": "16.6.1",
     "typescript": "5.4.5",
     "vite": "5.2.12",
     "vite-plugin-checker": "0.6.4",
     "vite-plugin-dts": "3.9.1",
-    "vite-tsconfig-paths": "4.3.2",
-    "stylelint": "16.6.1",
-    "@types/node": "20.12.13"
+    "vite-tsconfig-paths": "4.3.2"
   }
 }
