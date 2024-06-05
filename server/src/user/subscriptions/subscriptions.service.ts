@@ -45,7 +45,7 @@ export class SubscriptionsService {
 
   async initializeSubscriptionTask() {
     const timeInMilliseconds = this.getSubscriptionIntervalTime() * 1000 * 60;
-    const interval = setInterval(this.collectSubscriptionsJob, timeInMilliseconds);
+    const interval = setInterval(this.collectSubscriptionsJob.bind(this), timeInMilliseconds);
 
     this.collectSubscriptionsJob();
 
