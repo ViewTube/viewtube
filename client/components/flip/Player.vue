@@ -32,7 +32,7 @@ const videoState = useVideoState({
 
 <template>
   <div class="flip-player" :class="{ embed }">
-    <FlipPlayerUI :video-state :video :embed>
+    <FlipPlayerUI :video-state="videoState" :video :embed>
       <video ref="videoElementRef" class="flip-video-element" />
     </FlipPlayerUI>
   </div>

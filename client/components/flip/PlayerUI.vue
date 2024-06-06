@@ -42,7 +42,7 @@ const cursor = computed(() => uiState.cursor.value);
       :video-state="videoState"
       :ui-state="uiState"
     />
-    <FlipPoster :video-state :ui-state :video :embed />
+    <FlipPoster :video-state="videoState" :ui-state="uiState" :video :embed />
     <Teleport :to="uiState.fullscreen.value ? '#flip-player-ui' : 'body'">
       <transition name="flip-settings-transition">
         <FlipSettings
