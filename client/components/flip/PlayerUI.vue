@@ -4,6 +4,7 @@ import type { ApiDto } from '@viewtube/shared';
 const props = defineProps<{
   videoState: VideoState;
   video: ApiDto<'VTVideoInfoDto'>;
+  embed?: boolean;
 }>();
 const flipPlayerUIRef = ref<HTMLDivElement | null>(null);
 
@@ -18,6 +19,7 @@ const cursor = computed(() => uiState.cursor.value);
     id="flip-player-ui"
     ref="flipPlayerUIRef"
     class="flip-player-ui"
+    :class="{ embed }"
     @pointerleave="uiState.onPointerLeave"
     @pointermove="uiState.onPointerMove"
     @pointerdown="uiState.onPointerDown"
@@ -40,7 +42,7 @@ const cursor = computed(() => uiState.cursor.value);
       :video-state="videoState"
       :ui-state="uiState"
     />
-    <FlipPoster :video-state="videoState" :ui-state="uiState" :video="video" />
+    <FlipPoster :video-state :ui-state :video :embed />
     <Teleport :to="uiState.fullscreen.value ? '#flip-player-ui' : 'body'">
       <transition name="flip-settings-transition">
         <FlipSettings
@@ -87,6 +89,11 @@ const cursor = computed(() => uiState.cursor.value);
   background-color: #000;
   position: relative;
   cursor: v-bind(cursor);
+
+  &.embed {
+    max-height: 100%;
+    height: 100%;
+  }
 
   .flip-spinner {
     position: absolute;

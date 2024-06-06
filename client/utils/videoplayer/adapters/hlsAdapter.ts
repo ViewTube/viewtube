@@ -109,16 +109,18 @@ export const hlsAdapter = async ({
     });
 
     playerInstance?.on(Hls.Events.ERROR, (event, data) => {
-      console.log('error', event, data);
-      videoState.playerError = {
-        message: data.details,
-        name: data.type
-      };
-      createMessage({
-        type: 'error',
-        title: `Video player error: ${data.details}`,
-        message: data.error.message
-      });
+      if (!['fragParsingError', 'bufferStalledError'].includes(data.details)) {
+        console.log('error', event, data);
+        videoState.playerError = {
+          message: data.details,
+          name: data.type
+        };
+        createMessage({
+          type: 'error',
+          title: `Video player error: ${data.details}`,
+          message: data.error.message
+        });
+      }
     });
 
     playerInstance?.on(Hls.Events.LEVEL_SWITCHING, () => {
@@ -206,7 +208,7 @@ export const hlsAdapter = async ({
   let playerInstance = createPlayer();
 
   watch(videoElementRef, (newValue, oldValue) => {
-    if (newValue !== oldValue) {
+    if (newValue && newValue !== oldValue) {
       playerInstance?.detachMedia();
 
       playerInstance?.attachMedia(newValue);

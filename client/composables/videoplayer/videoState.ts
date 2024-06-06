@@ -11,15 +11,27 @@ import { rxPlayerAdapter } from '~/utils/videoplayer/adapters/rxPlayerAdapter';
 
 export type VideoState = ReturnType<typeof useVideoState>;
 
-export const useVideoState = (
-  videoElementRef: Ref<HTMLVideoElement>,
-  source: Ref<string>,
-  video: ApiDto<'VTVideoInfoDto'>,
-  sourceType: Ref<VideoSourceType>,
-  videoEnded: () => void,
-  startTime?: Ref<number>,
-  autoplay?: boolean
-) => {
+type VideoStateProps = {
+  videoElementRef: Ref<HTMLVideoElement>;
+  source: Ref<string>;
+  video: ApiDto<'VTVideoInfoDto'>;
+  sourceType: Ref<VideoSourceType>;
+  videoEnded: () => void;
+  startTime?: Ref<number>;
+  autoplay?: boolean;
+  embed?: boolean;
+};
+
+export const useVideoState = ({
+  videoElementRef,
+  source,
+  video,
+  sourceType,
+  videoEnded,
+  startTime,
+  autoplay,
+  embed
+}: VideoStateProps) => {
   const settingsStore = useSettingsStore();
   const userStore = useUserStore();
   const videoPlayerStore = useVideoPlayerStore();
@@ -67,7 +79,8 @@ export const useVideoState = (
         volumeStorage,
         createMessage: messagesStore.createMessage,
         autoplay,
-        videoEnded
+        videoEnded,
+        loop: settingsStore.alwaysLoopVideo
       });
     } else if (sourceType.value === VideoSourceType.HLS) {
       adapterInstance.value = await hlsAdapter({
@@ -130,7 +143,7 @@ export const useVideoState = (
   const setAutoAudioQuality = () => adapterInstance.value?.setAutoAudioQuality();
 
   const saveVideoPosition = () => {
-    if (settingsStore.saveVideoHistory) {
+    if (settingsStore.saveVideoHistory && !embed) {
       if (userStore.isLoggedIn && !video.live) {
         vtFetch(`${apiUrl.value}user/history/${video.id}`, {
           method: 'POST',
@@ -163,6 +176,10 @@ export const useVideoState = (
       }
     }
   );
+
+  onBeforeUnmount(() => {
+    adapterInstance.value?.destroy();
+  });
 
   return {
     video: videoState,

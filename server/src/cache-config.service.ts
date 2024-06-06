@@ -1,13 +1,13 @@
 import { CacheModuleOptions, CacheOptionsFactory, CacheStore } from '@nestjs/cache-manager';
 import { Injectable } from '@nestjs/common';
-import { StoreConfig } from 'cache-manager';
-import { redisStore } from 'cache-manager-redis-yet';
+import type { StoreConfig } from 'cache-manager';
 import { RedisClientOptions } from 'redis';
 
 @Injectable()
 export class CacheConfigService implements CacheOptionsFactory {
   async createCacheOptions(): Promise<CacheModuleOptions> {
     if (process.env.NODE_ENV === 'production') {
+      const { redisStore } = await import('cache-manager-redis-yet');
       const redisOptions: RedisClientOptions & StoreConfig = {
         socket: {
           host: process.env.VIEWTUBE_REDIS_HOST,

@@ -1,16 +1,9 @@
 <script setup lang="ts">
-import MainHeader from '@/components/header/MainHeader.vue';
 import MessageBoxContainer from '@/components/message/MessageBoxContainer.vue';
 import ThemeStyling from '@/components/themes/ThemeStyling.vue';
 import { useSettingsStore } from '@/store/settings';
 
 const settingsStore = useSettingsStore();
-
-const hydrated = ref(false);
-
-onMounted(() => {
-  hydrated.value = true;
-});
 
 useHead({
   titleTemplate: titleChunk => {
@@ -40,9 +33,8 @@ if (appRef.value) {
 </script>
 
 <template>
-  <div id="app" ref="appRef" class="layout" :hydrated="hydrated">
+  <div id="app" ref="appRef" class="layout">
     <ThemeStyling />
-    <MainHeader class="main-header" />
     <slot />
     <MessageBoxContainer />
   </div>
@@ -50,4 +42,12 @@ if (appRef.value) {
 
 <style lang="scss">
 @import 'assets/styles/layout.scss';
+
+html,
+body,
+#__nuxt,
+#app {
+  height: 100%;
+  overflow: hidden;
+}
 </style>

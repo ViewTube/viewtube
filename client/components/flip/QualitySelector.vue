@@ -71,7 +71,7 @@ const selectedVideoTrack = computed(() => {
 <template>
   <div class="flip-setting">
     <VTIcon class="flip-setting-icon" name="mdi:high-definition-box" />
-    <ListCollapsibleSection label="Video quality">
+    <ListCollapsibleSection label="Video quality" opened>
       <div class="selector-list">
         <div
           class="selector auto"

@@ -5,6 +5,7 @@ const props = defineProps<{
   video: ApiDto<'VTVideoInfoDto'>;
   startTime?: number;
   autoplay?: boolean;
+  embed?: boolean;
 }>();
 
 const emit = defineEmits<{
@@ -17,20 +18,21 @@ const startTime = toRef(props, 'startTime');
 
 const { source, type } = useVideoSource(videoObj);
 
-const videoState = useVideoState(
+const videoState = useVideoState({
   videoElementRef,
   source,
-  props.video,
-  type,
-  () => emit('videoEnded'),
+  video: props.video,
+  sourceType: type,
+  videoEnded: () => emit('videoEnded'),
   startTime,
-  props.autoplay
-);
+  autoplay: props.autoplay,
+  embed: props.embed
+});
 </script>
 
 <template>
-  <div class="flip-player">
-    <FlipPlayerUI :video-state="videoState" :video="video">
+  <div class="flip-player" :class="{ embed }">
+    <FlipPlayerUI :video-state :video :embed>
       <video ref="videoElementRef" class="flip-video-element" />
     </FlipPlayerUI>
   </div>
@@ -39,5 +41,13 @@ const videoState = useVideoState(
 <style lang="scss" scoped>
 .flip-player {
   touch-action: none;
+
+  &.embed {
+    height: 100%;
+
+    .flip-video-element {
+      height: 100%;
+    }
+  }
 }
 </style>

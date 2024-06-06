@@ -11,6 +11,7 @@ export type RxPlayerAdapterOptions = {
   videoEnded: () => void;
   createMessage: (...args: any[]) => void;
   autoplay?: boolean;
+  loop?: boolean;
 };
 
 enum PlayerState {
@@ -34,7 +35,8 @@ export const rxPlayerAdapter = async ({
   volumeStorage,
   videoEnded,
   createMessage,
-  autoplay
+  autoplay,
+  loop
 }: RxPlayerAdapterOptions) => {
   const createPlayer = () => {
     return new RxPlayer({
@@ -85,6 +87,11 @@ export const rxPlayerAdapter = async ({
 
     playerInstance?.addEventListener('error', error => {
       console.log('error', error);
+      createMessage({
+        type: 'error',
+        title: 'Video playback error',
+        message: error.message
+      });
       videoState.playerError = error;
     });
 
@@ -249,7 +256,7 @@ export const rxPlayerAdapter = async ({
   };
 
   watch(videoElementRef, (newValue, oldValue) => {
-    if (newValue !== oldValue) {
+    if (newValue && newValue !== oldValue) {
       playerInstance?.stop();
       playerInstance?.dispose();
 
@@ -260,8 +267,10 @@ export const rxPlayerAdapter = async ({
     }
   });
 
-  watch(source, () => {
-    loadVideo();
+  watch(source, (newValue, oldValue) => {
+    if (newValue && newValue !== oldValue) {
+      loadVideo();
+    }
   });
 
   const loadVideo = () => {
@@ -273,6 +282,10 @@ export const rxPlayerAdapter = async ({
       },
       autoPlay: autoplay
     });
+    if (videoElementRef.value) {
+      videoElementRef.value.loop = loop;
+      videoState.loop = loop;
+    }
   };
 
   const destroy = () => {

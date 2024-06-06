@@ -5,6 +5,7 @@ const props = defineProps<{
   uiState: UiState;
   videoState: VideoState;
   video: ApiDto<'VTVideoInfoDto'>;
+  embed?: boolean;
 }>();
 
 const onPosterClick = () => {
@@ -20,7 +21,12 @@ const posterThumbnail = computed(() => {
 
 <template>
   <transition name="fade">
-    <div v-if="uiState.posterVisible.value" class="flip-poster" @click.stop.prevent="onPosterClick">
+    <div
+      v-if="uiState.posterVisible.value"
+      class="flip-poster"
+      :class="{ embed }"
+      @click.stop.prevent="onPosterClick"
+    >
       <img :src="posterThumbnail" class="flip-poster-img" />
       <FlipLoading v-if="videoState.video.buffering" :video-state="videoState" />
       <svg
@@ -62,6 +68,13 @@ const posterThumbnail = computed(() => {
   z-index: 11;
   user-select: none;
   background-color: #000;
+
+  &.embed {
+    
+    .flip-poster-img {
+      object-fit: contain;
+    }
+  }
 
   @keyframes play-icon-animation {
     from {

@@ -45,16 +45,16 @@ const videoLengthText = computed(() => {
       <FlipVolume :video-state="videoState" :ui-state="uiState" />
     </button>
     <div class="control-buttons center-buttons">
-      <button class="control-button">
+      <!-- <button class="control-button">
         <VTIcon name="mdi:skip-previous" />
-      </button>
+      </button> -->
       <button class="control-button play-button" @click.stop="onPlayPauseClick">
         <VTIcon v-if="!videoState.video.playing" name="mdi:play" />
         <VTIcon v-else name="mdi:pause" />
       </button>
-      <button class="control-button">
+      <!-- <button class="control-button">
         <VTIcon name="mdi:skip-next" />
-      </button>
+      </button> -->
     </div>
     <div class="control-buttons right">
       <button class="control-button" @click.stop="uiState.openSettings">
