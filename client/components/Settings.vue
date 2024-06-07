@@ -27,7 +27,7 @@ const isSponsorBlockUrlValid = computed(() => {
       return false;
     }
     return sponsorBlockUrl.value.endsWith("/");
-  } catch (e) {
+  } catch {
     return false;
   }
 });
