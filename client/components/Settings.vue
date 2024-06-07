@@ -18,7 +18,6 @@ const sponsorblockSegmentOptions = reactive([
   { label: 'Ask', value: 'ask' },
   { label: 'None', value: 'none' }
 ]);
-const defaultSponsorBlockUrl = "https://sponsor.ajay.app/";
 const sponsorBlockUrl = ref<string>(settingsStore.sponsorblockUrl);
 
 const isSponsorBlockUrlValid = computed(() => {
