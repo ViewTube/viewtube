@@ -104,6 +104,16 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "patricgruber",
+      "name": "Patric Gruber",
+      "avatar_url": "https://avatars.githubusercontent.com/u/12413072?v=4",
+      "profile": "https://github.com/patricgruber",
+      "contributions": [
+        "code",
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
