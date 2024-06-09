@@ -9,8 +9,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Brand new video player (Checkout the wiki: https://viewtube.wiki/features/videoplayer) [#2388]
 
-## [0.15.4]
-
 ### Fixed
 
 - Replace comments API [#2772](https://github.com/ViewTube/viewtube/pull/2772)
@@ -112,7 +110,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix "window is not defined" when logged in and "Rewrite YouTube URLs" is enabled [#2469](https://github.com/ViewTube/viewtube/pull/2469)
 - Fix certain search terms not working [#2493](https://github.com/ViewTube/viewtube/pull/2493)
 
-## Removed
+### Removed
 
 - Remove unused VIEWTUBE_YOUTUBE_IDENTIFIER environment variable [#2388](https://github.com/ViewTube/viewtube/pull/2388)
 
