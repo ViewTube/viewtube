@@ -4,13 +4,13 @@ import {
   InternalServerErrorException,
   NotFoundException
 } from '@nestjs/common';
-import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 import { VideoBasicInfo } from 'server/core/videos/schemas/video-basic-info.schema';
 import { SettingsService } from '../settings/settings.service';
-import { History } from './schemas/history.schema';
 import { VideoVisitDetailsDto } from './dto/video-visit-details.dto';
 import { VideoVisitDto } from './dto/video-visit.dto';
+import { History } from './schemas/history.schema';
 
 @Injectable()
 export class HistoryService {
@@ -64,7 +64,7 @@ export class HistoryService {
             { username, videoHistory: userHistoryArray },
             { upsert: true }
           ).exec();
-        } catch (error) {
+        } catch {
           throw new InternalServerErrorException('Error saving video visit');
         }
       }

@@ -12,8 +12,7 @@ class ChannelDto {
 }
 
 const emit = defineEmits<{
-  (e: 'done'): void;
-  (e: 'close'): void;
+  (e: 'done' | 'close'): void;
 }>();
 
 const { data: userSubscriptions, refresh } = useGetUserSubscriptionChannels({
@@ -170,8 +169,8 @@ const importSelected = async () => {
           loading
             ? 'Importing subscriptions'
             : page3
-            ? 'Imported subscriptions'
-            : 'Import subscriptions'
+              ? 'Imported subscriptions'
+              : 'Import subscriptions'
         }}
       </h1>
       <div class="pages-container" :class="{ 'page-2': page2 }">

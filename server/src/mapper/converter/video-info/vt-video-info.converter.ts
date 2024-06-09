@@ -1,32 +1,33 @@
 import { VTVideoInfoDto } from 'server/mapper/dto/vt-video-info.dto';
 import { VideoInfoSourceApproximation } from './video-info-source-approximation';
 import {
-  extractVideoId,
   extractAuthor,
   extractCaptions,
   extractCategory,
   extractChapters,
   extractCommentCount,
+  extractDashManifestUrl,
   extractDescription,
   extractDuration,
   extractEndscreen,
   extractFamilyFriendly,
+  extractHlsManifestUrl,
   extractInfoCards,
   extractKeywords,
+  extractLegacyFormats,
   extractLikeCount,
   extractLive,
   extractPreviewThumbnails,
   extractPublished,
   extractRecommendedVideos,
+  extractSubtitle,
   extractThumbnails,
   extractTitle,
   extractUnlisted,
   extractUpcoming,
-  extractViewCount,
-  extractSubtitle,
-  extractLegacyFormats
+  extractVideoId,
+  extractViewCount
 } from './vt-video-info.extractors';
-import { createDashManifestURI } from 'server/mapper/utils/dash-manifest-uri';
 
 type ToVTVideoInfoOptions = {
   dashManifest: string;
@@ -61,8 +62,8 @@ export const toVTVideoInfoDto = (
     chapters: extractChapters(videoInfo),
     commentCount: extractCommentCount(videoInfo),
     legacyFormats: extractLegacyFormats(videoInfo),
-    dashManifest,
-    dashManifestURI: createDashManifestURI(dashManifest),
-    hlsManifestURI: videoInfo.streaming_data?.hls_manifest_url
+    hlsManifestUrl: extractHlsManifestUrl(videoInfo),
+    dashManifestUrl: extractDashManifestUrl(videoInfo),
+    dashManifest
   };
 };

@@ -1,4 +1,4 @@
-import { Swiper } from 'swiper';
+import type { Swiper } from 'swiper';
 
 const pageNames = ['home', 'videos', 'shorts', 'live', 'playlists', 'community', 'channels'];
 

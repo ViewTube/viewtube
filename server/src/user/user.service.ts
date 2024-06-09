@@ -1,39 +1,39 @@
-import { Readable } from 'stream';
-import fs from 'fs';
-import path from 'path';
 import {
-  Injectable,
-  HttpException,
   BadRequestException,
-  NotFoundException,
+  HttpException,
+  Injectable,
   InternalServerErrorException,
-  Logger
+  Logger,
+  NotFoundException
 } from '@nestjs/common';
-import { Model } from 'mongoose';
+import { ConfigService } from '@nestjs/config';
 import { InjectModel } from '@nestjs/mongoose';
-import bcrypt from 'bcryptjs';
-import { UserprofileDto } from 'server/user/dto/userprofile.dto';
-import humanizeDuration from 'humanize-duration';
-import { Common } from 'server/core/common';
-import { ChannelBasicInfoDto } from 'server/core/channels/dto/channel-basic-info.dto';
-import crypto from 'crypto';
-import { FastifyReply } from 'fastify';
 import archiver from 'archiver';
+import bcrypt from 'bcryptjs';
+import crypto from 'crypto';
+import dayjs from 'dayjs';
+import { FastifyReply } from 'fastify';
+import fs from 'fs';
+import humanizeDuration from 'humanize-duration';
+import { Model } from 'mongoose';
+import path from 'path';
+import { SESSION_EXPIRATION } from 'server/auth/constants/session';
+import { Session, SessionDocument } from 'server/auth/schemas/session.schema';
 import { ViewTubeRequest } from 'server/common/viewtube-request';
-import { User } from './schemas/user.schema';
-import { UserDto } from './user.dto';
-import { SettingsService } from './settings/settings.service';
+import { ChannelBasicInfoDto } from 'server/core/channels/dto/channel-basic-info.dto';
+import { Common } from 'server/core/common';
+import { UserprofileDto } from 'server/user/dto/userprofile.dto';
+import sharp from 'sharp';
+import { Readable } from 'stream';
+import { promisify } from 'util';
+import { SessionDto } from './dto/session.dto';
 import { UserprofileDetailsDto } from './dto/userprofile-details.dto';
 import { HistoryService } from './history/history.service';
-import { SubscriptionsService } from './subscriptions/subscriptions.service';
 import { profileImage } from './profile-image';
-import { ConfigService } from '@nestjs/config';
-import { promisify } from 'util';
-import { Session, SessionDocument } from 'server/auth/schemas/session.schema';
-import dayjs from 'dayjs';
-import { SESSION_EXPIRATION } from 'server/auth/constants/session';
-import { SessionDto } from './dto/session.dto';
-import sharp from 'sharp';
+import { User } from './schemas/user.schema';
+import { SettingsService } from './settings/settings.service';
+import { SubscriptionsService } from './subscriptions/subscriptions.service';
+import { UserDto } from './user.dto';
 
 @Injectable()
 export class UserService {
@@ -100,7 +100,7 @@ export class UserService {
     const sessions = await this.SessionModel.find({ username: request.user?.username }).exec();
 
     return sessions.map(session => ({
-      id: session._id,
+      id: session._id?.toString(),
       deviceName: session.deviceName,
       deviceType: session.deviceType,
       updatedAt: session.updatedAt,
@@ -114,7 +114,7 @@ export class UserService {
     const session = await this.SessionModel.findOne({ refreshToken }).exec();
 
     return {
-      id: session._id,
+      id: session._id?.toString(),
       deviceName: session.deviceName,
       deviceType: session.deviceType,
       updatedAt: session.updatedAt,
@@ -233,7 +233,7 @@ export class UserService {
             .catch(() => {});
 
           reply.type('image/webp').send(webpImage);
-        } catch (error) {
+        } catch {
           throw new InternalServerErrorException('Error getting photo');
         }
       } else {
@@ -291,7 +291,7 @@ export class UserService {
       let hash: string;
       try {
         hash = await bcrypt.hash(user.password, saltRounds);
-      } catch (err) {
+      } catch {
         throw new HttpException('Error registering user', 403);
       }
 
@@ -397,7 +397,7 @@ export class UserService {
         let hash: string;
         try {
           hash = await bcrypt.hash(newPassword, saltRounds);
-        } catch (err) {
+        } catch {
           throw new HttpException('Error changing password', 500);
         }
         userData.password = hash;

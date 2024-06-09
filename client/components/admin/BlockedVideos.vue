@@ -67,7 +67,9 @@ const removeVideo = async (videoId: string) => {
       &:hover {
         :deep(.remove-btn) {
           opacity: 1;
-          transition: opacity 200ms 200ms $intro-easing, pointer-events 200ms 200ms $intro-easing;
+          transition:
+            opacity 200ms 200ms $intro-easing,
+            pointer-events 200ms 200ms $intro-easing;
           pointer-events: auto;
         }
       }

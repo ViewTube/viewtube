@@ -1,8 +1,8 @@
-import { Controller, Body, Req, HttpCode, Put, Get } from '@nestjs/common';
-import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
-import { SettingsService } from './settings.service';
-import { SettingsDto } from './dto/settings.dto';
+import { Body, Controller, Get, HttpCode, Put, Req } from '@nestjs/common';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Private } from 'server/auth/decorators/private.decorator';
+import { SettingsDto } from './dto/settings.dto';
+import { SettingsService } from './settings.service';
 
 @ApiTags('User')
 @ApiBearerAuth()

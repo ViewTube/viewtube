@@ -1,10 +1,10 @@
+import { Injectable } from '@nestjs/common';
+import crypto from 'crypto';
 import fs from 'fs';
 import { access, mkdir, readFile, writeFile } from 'fs/promises';
-import crypto from 'crypto';
-import { Injectable, Logger } from '@nestjs/common';
-import { generateVAPIDKeys, VapidKeys } from 'web-push';
 import path from 'path';
 import { logger } from 'server/common/logger';
+import { VapidKeys, generateVAPIDKeys } from 'web-push';
 
 type ConfigurationType = {
   jwtKey?: string;

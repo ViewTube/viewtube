@@ -1,5 +1,5 @@
-import { iconSafelist } from './utils/icons';
 import { devOnly } from './utils/devOnly';
+import { iconSafelist } from './utils/icons';
 
 export default defineNuxtConfig({
   runtimeConfig: {
@@ -42,7 +42,13 @@ export default defineNuxtConfig({
     }
   },
 
-  modules: ['@pinia/nuxt', '@pinia-plugin-persistedstate/nuxt', '@unocss/nuxt', '@vueuse/nuxt'],
+  modules: [
+    '@pinia/nuxt',
+    '@pinia-plugin-persistedstate/nuxt',
+    '@unocss/nuxt',
+    '@vueuse/nuxt',
+    '@nuxt/eslint'
+  ],
 
   unocss: {
     uno: false,

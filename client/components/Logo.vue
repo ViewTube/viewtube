@@ -46,7 +46,9 @@
     margin: auto;
     height: calc(#{$header-height} - 20px);
     transform: scale(0.8) translateY(-2px);
-    transition: clip-path 300ms $intro-easing, transform 300ms linear;
+    transition:
+      clip-path 300ms $intro-easing,
+      transform 300ms linear;
   }
 }
 </style>

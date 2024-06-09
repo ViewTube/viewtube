@@ -1,8 +1,9 @@
-import { Controller, Get, Param, UseInterceptors, Res, Header, Query } from '@nestjs/common';
 import { CacheInterceptor, CacheTTL } from '@nestjs/cache-manager';
+import { Controller, Get, Header, Param, Query, Res, UseInterceptors } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { FastifyReply } from 'fastify';
 import { ChannelsService } from './channels.service';
+import { ChannelInfoErrorDto } from './dto/channel-info-error.dto';
 import { ChannelCommunityPostsContinuationDto } from './dto/response/channel-community-posts-continuation.dto';
 import { ChannelCommunityPostsDto } from './dto/response/channel-community-posts.dto';
 import { ChannelHomeDto } from './dto/response/channel-home.dto';
@@ -15,7 +16,6 @@ import { ChannelStatsDto } from './dto/response/channel-stats.dto';
 import { ChannelVideosContinuationDto } from './dto/response/channel-videos-continuation.dto';
 import { ChannelVideosDto } from './dto/response/channel-videos.dto';
 import { RelatedChannelsContinuationDto } from './dto/response/related-channels-continuation.dto';
-import { ChannelInfoErrorDto } from './dto/channel-info-error.dto';
 
 @ApiTags('Core')
 @Controller('channels')

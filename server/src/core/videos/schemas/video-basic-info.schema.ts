@@ -1,7 +1,7 @@
-import { Document } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { VideoBasicInfoDto } from '../dto/video-basic-info.dto';
+import { Document } from 'mongoose';
 import { VTThumbnailDto } from 'server/mapper/dto/vt-thumbnail.dto';
+import { VideoBasicInfoDto } from '../dto/video-basic-info.dto';
 @Schema({ timestamps: true })
 export class VideoBasicInfo extends Document implements VideoBasicInfoDto {
   @Prop({ index: { unique: true } })

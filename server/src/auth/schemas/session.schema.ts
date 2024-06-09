@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, SchemaTimestampsConfig } from 'mongoose';
+import { Document } from 'mongoose';
 import { SESSION_EXPIRATION } from '../constants/session';
 
 export type SessionDocument = Session & Document & { updatedAt: Date; createdAt: Date };

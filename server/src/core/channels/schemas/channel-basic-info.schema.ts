@@ -1,5 +1,5 @@
-import { Document } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Document } from 'mongoose';
 import { ChannelBasicInfoDto } from 'server/core/channels/dto/channel-basic-info.dto';
 import { VTThumbnailDto } from 'server/mapper/dto/vt-thumbnail.dto';
 

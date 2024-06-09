@@ -134,7 +134,9 @@ const displaySecondDots = computed((): boolean => {
         width: 0;
         overflow: hidden;
         text-align: center;
-        transition: width 300ms $intro-easing, margin 300ms $intro-easing;
+        transition:
+          width 300ms $intro-easing,
+          margin 300ms $intro-easing;
 
         &.display {
           width: 12px;

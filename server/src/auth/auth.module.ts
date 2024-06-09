@@ -1,15 +1,15 @@
 import { Module, ModuleMetadata } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { APP_GUARD } from '@nestjs/core';
 import { JwtModule } from '@nestjs/jwt';
-import { AuthService } from './auth.service';
-import { AuthController } from './auth.controller';
-import { RegisterModule } from './register/register.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from 'server/user/schemas/user.schema';
-import { APP_GUARD } from '@nestjs/core';
-import { PublicAuthGuard } from './guards/public-auth.guard';
-import { Session, SessionSchema } from './schemas/session.schema';
+import { AuthController } from './auth.controller';
+import { AuthService } from './auth.service';
 import { JWT_EXPIRATION } from './constants/session';
+import { PublicAuthGuard } from './guards/public-auth.guard';
+import { RegisterModule } from './register/register.module';
+import { Session, SessionSchema } from './schemas/session.schema';
 
 const moduleMetadata: ModuleMetadata = {
   providers: [

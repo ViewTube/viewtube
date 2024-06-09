@@ -81,7 +81,7 @@ const rangeSelected = computed(() => {
     dateToDelete.value &&
     dateToDelete.value.length === 2 &&
     dateToDelete.value[0] !== null &&
-    dateToDelete[1] !== null
+    dateToDelete.value[1] !== null
   );
 });
 

@@ -5,6 +5,8 @@ export class SettingsDto {
 
   theme: string;
 
+  sponsorblockUrl: string;
+
   sponsorblockEnabled: boolean;
 
   sponsorblockSegmentSponsor: segmentOption;
@@ -20,6 +22,8 @@ export class SettingsDto {
   sponsorblockSegmentMusicOfftopic: segmentOption;
 
   sponsorblockSegmentPreview: segmentOption;
+
+  sponsorblockSegmentFiller: segmentOption;
 
   autoplay: boolean;
 
@@ -50,8 +54,6 @@ export class SettingsDto {
   autoAdjustAudioQuality: boolean;
 
   autoAdjustVideoQuality: boolean;
-
-  dashPlaybackEnabled: boolean;
 
   rewriteYouTubeURLs: boolean;
 

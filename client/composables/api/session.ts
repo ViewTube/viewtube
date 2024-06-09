@@ -1,4 +1,4 @@
-import type { ApiDto } from '@/utils/shared';
+import type { ApiDto } from '@viewtube/shared';
 
 export const useGetSessions = () => {
   const { apiUrl } = useApiUrl();
@@ -47,7 +47,7 @@ export const useRemoveSession = () => {
   const urlPart = `user/sessions`;
 
   const removeSession = async (id: string) => {
-    return vtFetch<void>(`${apiUrl.value}${urlPart}/${id}`, {
+    return vtFetch(`${apiUrl.value}${urlPart}/${id}`, {
       method: 'DELETE'
     });
   };

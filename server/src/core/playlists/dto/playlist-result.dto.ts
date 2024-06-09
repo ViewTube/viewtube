@@ -22,6 +22,6 @@ export class PlaylistResultDto {
     channelID: string;
   };
   items: PlaylistItemDto[];
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   continuation: any | null;
 }

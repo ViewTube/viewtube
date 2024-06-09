@@ -30,3 +30,5 @@ client/.output
 client/.nuxt
 server/node_modules
 server/dist
+shared/node_modules
+shared/dist

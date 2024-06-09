@@ -27,8 +27,8 @@ ViewTube is an alternative YouTube frontend that lets you watch, search and disc
 It's built using [Nuxt](https://nuxt.com/) and [Nest](https://nestjs.com/).
 
 > [!NOTE]
-> You can find the documentation at [viewtube.wiki](https://viewtube.wiki)
-Check [uptime.m-o.dev/status](https://uptime.m-o.dev/status) for updates and downtime status.  
+> You can find the documentation at [viewtube.wiki](https://viewtube.wiki).  
+> Check [uptime.m-o.dev/status](https://uptime.m-o.dev/status) for updates and downtime status.
 
 <h2 align="center">
 <sub>

@@ -1,11 +1,11 @@
 import { VTEndscreenElementDto } from './endscreen/vt-endscreen-element.dto';
+import { VTInfoCardDto } from './infocard/vt-info-card.dto';
+import { VTCaptionTrackDto } from './vt-caption-track.dto';
+import { VTChapterDto } from './vt-chapter.dto';
+import { VTLegacyFormatDto } from './vt-legacy-format.dto';
 import { VTPreviewThumbnailDto } from './vt-preview-thumbnail.dto';
 import { VTThumbnailDto } from './vt-thumbnail.dto';
-import { VTCaptionTrackDto } from './vt-caption-track.dto';
-import { VTInfoCardDto } from './infocard/vt-info-card.dto';
 import { VTVideoDto } from './vt-video.dto';
-import { VTLegacyFormatDto } from './vt-legacy-format.dto';
-import { VTChapterDto } from './vt-chapter.dto';
 
 export class VTVideoInfoDto {
   id: string;
@@ -33,6 +33,7 @@ export class VTVideoInfoDto {
   viewCount: number;
   upcoming?: Date;
   live: boolean;
+  watching?: number;
   unlisted: boolean;
   familyFriendly: boolean;
   likeCount: number;
@@ -50,6 +51,6 @@ export class VTVideoInfoDto {
   commentCount: number;
   legacyFormats: Array<VTLegacyFormatDto>;
   dashManifest?: string;
-  dashManifestURI?: string;
-  hlsManifestURI?: string;
+  hlsManifestUrl?: string;
+  dashManifestUrl?: string;
 }

@@ -1,14 +1,25 @@
 <template>
   <div class="share-options">
     <div class="share-options-container">
-      <ShareOptionEntry class="share-option" option-name="Copy ViewTube Link" :click="shareCopyViewTubeLink">
+      <ShareOptionEntry
+        class="share-option"
+        option-name="Copy ViewTube Link"
+        :click="shareCopyViewTubeLink"
+      >
         <VTIcon name="mdi:content-copy" class="copy-icon" />
       </ShareOptionEntry>
-      <ShareOptionEntry class="share-option" option-name="Copy YouTube Link" :click="shareCopyYouTubeLink">
+      <ShareOptionEntry
+        class="share-option"
+        option-name="Copy YouTube Link"
+        :click="shareCopyYouTubeLink"
+      >
         <VTIcon name="mdi:youtube" class="copy-icon" />
       </ShareOptionEntry>
-      <ShareOptionEntry class="share-option" option-name="Copy ViewTube Link at Current Timestamp"
-                        :click="shareCopyLinkAtCurrentTimestamp">
+      <ShareOptionEntry
+        class="share-option"
+        option-name="Copy ViewTube Link at Current Timestamp"
+        :click="shareCopyLinkAtCurrentTimestamp"
+      >
         <VTIcon name="mdi:clipboard-text-time-outline" class="copy-icon" />
       </ShareOptionEntry>
       <ShareOptionEntry class="share-option" option-name="Open QR-Code" :click="qrOpen">

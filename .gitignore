@@ -33,7 +33,7 @@ sw.*
 out/
 out/*
 
-data/*
+data
 !/server/data
 output/*
 .vs/*
@@ -44,6 +44,7 @@ dump.rdb
 tests/cypress/screenshots
 tests/cypress/videos
 tests/cypress/downloads
+tests/cypress/environment/data
 
 Dockerfile.nodejs-mongodb
 .vscode/.ropeproject/
@@ -55,3 +56,4 @@ client/buildMetadata.json
 **/cache
 generated.txt
 original.txt
+screenshots

@@ -1,9 +1,9 @@
-import { Controller, UseInterceptors, Get, Query, Header } from '@nestjs/common';
 import { CacheInterceptor } from '@nestjs/cache-manager';
+import { Controller, Get, Header, Query, UseInterceptors } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { SearchService } from './search.service';
-import { SearchQueryDto } from './dto/search-query.dto';
 import { VTSearchDto } from 'server/mapper/dto/search/vt-search.dto';
+import { SearchQueryDto } from './dto/search-query.dto';
+import { SearchService } from './search.service';
 
 @ApiTags('Core')
 @Controller('search')

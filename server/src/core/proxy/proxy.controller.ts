@@ -1,11 +1,9 @@
-import { Controller, Get, Query, Header, Res, Req } from '@nestjs/common';
+import { Controller, Get, Header, Query, Req, Res } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { ProxyService } from './proxy.service';
-import { BypassAuth } from 'server/auth/decorators/bypass-auth.decorator';
 
 @ApiTags('Core')
-@BypassAuth()
 @Controller('proxy')
 export class ProxyController {
   constructor(private proxyService: ProxyService) {}
@@ -21,6 +19,13 @@ export class ProxyController {
     await this.proxyService.proxyImage(url, reply, local);
   }
 
+  @Get('text')
+  @Header('Cache-Control', 'public, max-age=86400')
+  @Header('Content-Type', 'text/xml')
+  async proxyText(@Query('url') url: string, @Res() reply: FastifyReply): Promise<void> {
+    await this.proxyService.proxyText(url, reply);
+  }
+
   @Get('stream')
   @Header('Cache-Control', 'public, max-age=7200')
   async proxyStream(
@@ -29,5 +34,11 @@ export class ProxyController {
     @Res() reply: FastifyReply
   ): Promise<void> {
     await this.proxyService.proxyStream(url, request, reply);
+  }
+
+  @Get('m3u8')
+  @Header('Cache-Control', 'public, max-age=7200')
+  async proxyM3u8(@Query('url') url: string, @Query('proxyUrl') proxyUrl: string): Promise<string> {
+    return this.proxyService.proxyM3u8(url, proxyUrl);
   }
 }

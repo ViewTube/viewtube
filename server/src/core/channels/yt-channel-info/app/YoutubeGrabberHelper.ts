@@ -4,7 +4,7 @@ Permission to use, copy, modify, and/or distribute this software for any
 purpose with or without fee is hereby granted, provided that the above
 copyright notice and this permission notice appear in all copies. */
 
-import axios, { AxiosInstance } from 'axios';
+import axios from 'axios';
 import { ChannelIdType } from './types';
 
 export class YoutubeGrabberHelper {
@@ -92,12 +92,14 @@ export class YoutubeGrabberHelper {
     } else if (videoTab && 'sectionListRenderer' in videoTab.tabRenderer.content) {
       const contents =
         videoTab.tabRenderer.content.sectionListRenderer.contents[0].itemSectionRenderer
-          .contents[0];
-      if ('reelShelfRenderer' in contents) {
-        channelVideoData = contents.reelShelfRenderer;
-      }
-      if ('gridRenderer' in contents) {
-        channelVideoData = contents.gridRenderer;
+          ?.contents[0];
+      if (contents) {
+        if ('reelShelfRenderer' in contents) {
+          channelVideoData = contents.reelShelfRenderer;
+        }
+        if ('gridRenderer' in contents) {
+          channelVideoData = contents.gridRenderer;
+        }
       }
     }
     if (typeof channelVideoData === 'undefined') {
@@ -384,6 +386,7 @@ export class YoutubeGrabberHelper {
       contentDataJSON =
         communityTab.tabRenderer.content.sectionListRenderer.contents[0].itemSectionRenderer;
       if (
+        contentDataJSON &&
         'continuationItemRenderer' in contentDataJSON.contents[contentDataJSON.contents.length - 1]
       ) {
         return {
@@ -399,7 +402,7 @@ export class YoutubeGrabberHelper {
       contentDataJSON = { contents: [] };
     }
     return {
-      items: this.createCommunityPostArray(contentDataJSON.contents),
+      items: this.createCommunityPostArray(contentDataJSON?.contents ?? []),
       continuation: null,
       innerTubeApi: null,
       channelIdType: channelIdType
@@ -446,9 +449,8 @@ export class YoutubeGrabberHelper {
       };
 
       if ('runs' in post.backstagePostThreadRenderer.post.backstagePostRenderer.contentText) {
-        // eslint-disable-next-line no-return-assign
         post.backstagePostThreadRenderer.post.backstagePostRenderer.contentText.runs?.forEach(
-          (element, index) => {
+          (element, _index) => {
             if ('navigationEndpoint' in element) {
               postData.postText += this.extractLinks(element) + ' ';
             } else {
@@ -585,7 +587,7 @@ export class YoutubeGrabberHelper {
   }
 
   extractChannelId(browseEndPoint) {
-    const channelLinkSplit = browseEndPoint.commandMetadata.webCommandMetadata.url.split('/');
+    const channelLinkSplit = browseEndPoint?.commandMetadata?.webCommandMetadata.url.split('/');
     return channelLinkSplit[channelLinkSplit.length - 1];
   }
 
@@ -632,7 +634,7 @@ export class YoutubeGrabberHelper {
     return postData;
   }
 
-  parseMix(obj, channelInfo) {
+  parseMix(obj, _channelInfo) {
     const mix = obj.compactStationRenderer;
     const playlistId = mix.navigationEndpoint.watchEndpoint.playlistId;
     const title = mix.title.simpleText;
@@ -732,12 +734,12 @@ export class YoutubeGrabberHelper {
         if ('runs' in shelf.title) {
           const title = shelf.title.runs?.[0];
           if ('navigationEndpoint' in title) {
-            shelfUrl = title.navigationEndpoint.commandMetadata.webCommandMetadata.url;
+            shelfUrl = title.navigationEndpoint.commandMetadata?.webCommandMetadata.url;
           }
           shelfName = title.text;
         } else {
           shelfName = shelf.title.simpleText;
-          shelfUrl = shelf.endpoint.commandMetadata.webCommandMetadata.url;
+          shelfUrl = shelf.endpoint.commandMetadata?.webCommandMetadata.url;
         }
         if (shelfUrl === null) {
           let shelfRenderer;
@@ -827,8 +829,6 @@ export class YoutubeGrabberHelper {
         return this.performCUrlRequest(channelId, urlAppendix);
       case 4:
         return this.performChannelTagRequest(channelId, urlAppendix);
-      case 5:
-        return this.performChannelRequest(channelId, urlAppendix);
       default:
         return this.performChannelPageRequestWithFallbacks(channelId, urlAppendix);
     }
@@ -850,10 +850,8 @@ export class YoutubeGrabberHelper {
     return await this.performChannelUrlRequest(channelId, urlAppendix).catch(async _ => {
       return await this.performChannelTagRequest(channelId, urlAppendix).catch(async _ => {
         return await this.performUserUrlRequest(channelId, urlAppendix).catch(async _ => {
-          return await this.performCUrlRequest(channelId, urlAppendix).catch(async _ => {
-            return await this.performChannelRequest(channelId, urlAppendix).catch(async e => {
-              return Promise.reject(e);
-            });
+          return await this.performCUrlRequest(channelId, urlAppendix).catch(async e => {
+            return Promise.reject(e);
           });
         });
       });

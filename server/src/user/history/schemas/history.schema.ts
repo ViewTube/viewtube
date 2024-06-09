@@ -1,10 +1,9 @@
-import { Document } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { VideoVisitDto } from '../dto/video-visit.dto';
-import { HistoryDto } from '../dto/history.dto';
+import { Document } from 'mongoose';
 
-// eslint-disable-next-line no-undef
+import { HistoryDto } from '../dto/history.dto';
+import { VideoVisitDto } from '../dto/video-visit.dto';
+
 @Schema({ timestamps: true })
 export class History extends Document implements HistoryDto {
   @Prop()

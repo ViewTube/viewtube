@@ -23,6 +23,5 @@ export const validationSchema = Joi.object({
 
   // These are not required for ViewTube to run
   VIEWTUBE_CORS_DOMAIN: Joi.string().optional(),
-  VIEWTUBE_YOUTUBE_COOKIE: Joi.string().optional(),
-  VIEWTUBE_YOUTUBE_IDENTIFIER: Joi.string().optional()
+  VIEWTUBE_YOUTUBE_COOKIE: Joi.string().optional()
 });

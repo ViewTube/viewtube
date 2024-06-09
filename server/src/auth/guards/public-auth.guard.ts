@@ -2,15 +2,15 @@ import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from
 import { ConfigService } from '@nestjs/config';
 import { Reflector } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
-import { IS_PRIVATE_KEY } from '../decorators/private.decorator';
-import { FastifyReply, FastifyRequest } from 'fastify';
-import { isHttps } from 'viewtube/shared';
-import { setAuthCookies } from '../set-auth-cookies';
-import { BYPASS_AUTH_KEY } from '../decorators/bypass-auth.decorator';
 import { InjectModel } from '@nestjs/mongoose';
-import { Session } from '../schemas/session.schema';
+import { isHttps } from '@viewtube/shared';
+import { FastifyReply, FastifyRequest } from 'fastify';
 import { Model } from 'mongoose';
+import { BYPASS_AUTH_KEY } from '../decorators/bypass-auth.decorator';
+import { IS_PRIVATE_KEY } from '../decorators/private.decorator';
 import { IS_PUBLIC_KEY } from '../decorators/public.decorator';
+import { Session } from '../schemas/session.schema';
+import { setAuthCookies } from '../set-auth-cookies';
 
 @Injectable()
 export class PublicAuthGuard implements CanActivate {

@@ -1,8 +1,8 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
-import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-import { Settings } from './schemas/settings.schema';
+import { Model } from 'mongoose';
 import { SettingsDto } from './dto/settings.dto';
+import { Settings } from './schemas/settings.schema';
 
 @Injectable()
 export class SettingsService {
@@ -21,7 +21,6 @@ export class SettingsService {
     autoplay: false,
     autoplayNextVideo: false,
     chapters: true,
-    dashPlaybackEnabled: true,
     defaultAudioQuality: '192kb',
     defaultVideoQuality: '720p',
     defaultVideoSpeed: 1,
@@ -29,6 +28,7 @@ export class SettingsService {
     showHomeSubscriptions: true,
     showHomeTrendingVideos: true,
     showRecommendedVideos: true,
+    sponsorblockUrl: 'https://sponsor.ajay.app/',
     sponsorblockEnabled: true,
     sponsorblockSegmentInteraction: 'ask',
     sponsorblockSegmentIntro: 'ask',
@@ -37,6 +37,7 @@ export class SettingsService {
     sponsorblockSegmentPreview: 'ask',
     sponsorblockSegmentSelfpromo: 'ask',
     sponsorblockSegmentSponsor: 'ask',
+    sponsorblockSegmentFiller: 'none',
     theme: 'default',
     rewriteYouTubeURLs: false,
     hideShortsFromSearch: false
@@ -46,7 +47,7 @@ export class SettingsService {
     if (username) {
       try {
         await this.SettingsModel.findOneAndUpdate({ username }, settings, { upsert: true }).exec();
-      } catch (err) {
+      } catch {
         throw new InternalServerErrorException('Error updating settings');
       }
     } else {
@@ -59,7 +60,7 @@ export class SettingsService {
       try {
         const settings = (await this.SettingsModel.findOne({ username }).exec()) || {};
         return this.getCompleteSettingsObject(settings);
-      } catch (err) {
+      } catch {
         throw new InternalServerErrorException('Error retrieving settings');
       }
     }

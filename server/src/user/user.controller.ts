@@ -1,26 +1,26 @@
 import {
-  Controller,
-  Get,
-  Req,
-  Res,
-  Delete,
-  Body,
   BadRequestException,
-  Post,
-  Param,
-  StreamableFile,
+  Body,
+  Controller,
+  Delete,
+  Get,
   Header,
   HttpCode,
-  Put
+  Param,
+  Post,
+  Put,
+  Req,
+  Res,
+  StreamableFile
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { UserprofileDto } from 'server/user/dto/userprofile.dto';
 import { FastifyReply } from 'fastify';
+import { Private } from 'server/auth/decorators/private.decorator';
 import { ViewTubeRequest } from 'server/common/viewtube-request';
+import { UserprofileDto } from 'server/user/dto/userprofile.dto';
+import { SessionDto } from './dto/session.dto';
 import { UserprofileDetailsDto } from './dto/userprofile-details.dto';
 import { UserService } from './user.service';
-import { Private } from 'server/auth/decorators/private.decorator';
-import { SessionDto } from './dto/session.dto';
 
 @ApiTags('User')
 @ApiBearerAuth()

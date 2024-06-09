@@ -1,6 +1,0 @@
-dist/*
-.nuxt/*
-.output/*
-node_modules/*
-
-public/notifications-sw.js

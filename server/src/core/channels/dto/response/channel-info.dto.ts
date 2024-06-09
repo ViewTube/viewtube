@@ -6,7 +6,8 @@ import { RelatedChannelDto } from '../basic/related-channel.dto';
 export class ChannelInfoDto implements Omit<ChannelInfo, 'relatedChannels'> {
   author: string;
   authorId: string;
-  authorUrl: string;oResponse
+  authorUrl: string;
+  oResponse;
   authorBanners: ChannelImageDto[];
   authorThumbnails: ChannelImageDto[];
   subscriberText: string;

@@ -53,7 +53,7 @@ export class YoutubeChannelFetcher {
     channelId,
     channelIdType,
     tab = 'videos',
-    sortBy = 'newest',
+    _sortBy = 'newest',
     httpAgent = null
   ) {
     const ytGrabHelp = YoutubeGrabberHelper.create(httpAgent);

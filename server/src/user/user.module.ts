@@ -1,16 +1,15 @@
-import { Logger, Module, ModuleMetadata } from '@nestjs/common';
 import { CacheModule } from '@nestjs/cache-manager';
+import { Logger, Module, ModuleMetadata } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { CacheConfigService } from 'server/cache-config.service';
-import { User, UserSchema } from './schemas/user.schema';
-import { UserService } from './user.service';
-import { UserController } from './user.controller';
-import { SubscriptionsModule } from './subscriptions/subscriptions.module';
-import { NotificationsModule } from './notifications/notifications.module';
-import { SettingsModule } from './settings/settings.module';
-import { HistoryModule } from './history/history.module';
-import { AdminModule } from '../admin/admin.module';
 import { Session, SessionSchema } from 'server/auth/schemas/session.schema';
+import { CacheConfigService } from 'server/cache-config.service';
+import { HistoryModule } from './history/history.module';
+import { NotificationsModule } from './notifications/notifications.module';
+import { User, UserSchema } from './schemas/user.schema';
+import { SettingsModule } from './settings/settings.module';
+import { SubscriptionsModule } from './subscriptions/subscriptions.module';
+import { UserController } from './user.controller';
+import { UserService } from './user.service';
 
 const moduleMetadata: ModuleMetadata = {
   imports: [

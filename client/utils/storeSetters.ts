@@ -6,7 +6,10 @@ type SetActionsType<T> = {
 
 type ValueOf<T> = T[keyof T];
 
-export const insertSetters = <T>(state: T, callback?: Function): SetActionsType<T> => {
+export const insertSetters = <T>(
+  state: T,
+  callback?: (...params: any) => any
+): SetActionsType<T> => {
   const setActions: any = {};
 
   for (const [key] of Object.entries(state)) {

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { ApiDto } from '@viewtube/shared';
 export type RelatedChannelsType = ApiDto<'ChannelInfoDto'>['relatedChannels']['items'];
 
 defineProps<{
@@ -26,7 +27,11 @@ const { proxyUrl } = useImgProxy();
         <div class="related-channel-thumbnail">
           <div class="related-channel-thumbnail-image">
             <img
-              :src="proxyUrl((channel as any).thumbnail?.[2]?.url ?? (channel as any).thumbnail?.[1]?.url)"
+              :src="
+                proxyUrl(
+                  (channel as any).thumbnail?.[2]?.url ?? (channel as any).thumbnail?.[1]?.url
+                )
+              "
               :alt="channel.channelName"
             />
           </div>

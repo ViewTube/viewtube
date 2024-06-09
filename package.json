@@ -8,22 +8,24 @@
   "license": "AGPLv3",
   "engines": {
     "node": ">=20.11.0",
-    "pnpm": ">=8.15.0"
+    "pnpm": ">=9.1.0"
   },
   "scripts": {
     "build": "pnpm --filter=* run build",
     "build:server": "pnpm --filter=./server run build",
     "build:client": "pnpm --filter=./client run build",
+    "build:shared": "pnpm --filter=./shared run build",
     "serve:env": "docker compose -f docker-compose.dev.yml up -d",
     "serve:server": "pnpm --filter=./server run serve",
     "serve:client": "pnpm --filter=./client run serve",
-    "test": "pnpm --filter=./tests/jest run test",
     "start": "pnpm --filter=./server run start",
     "lint-staged": "prettier --write --ignore-unknown",
-    "lint:client": "pnpm --filter=./client run lint",
-    "lint:server": "pnpm --filter=./server run lint",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "nuxt:prepare": "pnpm --filter=./client run nuxt:prepare",
     "e2e": "pnpm --filter=./tests/cypress run ci:test",
     "format": "prettier --write .",
+    "prepare": "node client/scripts/prepare.mjs",
     "build:metadata": "pnpm --filter=./client run build:metadata",
     "fix:prettier": "cp node_modules/prettier/index.cjs node_modules/prettier/index.js"
   },
@@ -34,17 +36,27 @@
     "not Edge 18"
   ],
   "devDependencies": {
+    "@typescript-eslint/parser": "8.0.0-alpha.21",
     "cross-env": "7.0.3",
-    "prettier": "3.2.5",
+    "eslint": "9.4.0",
+    "eslint-flat-config-utils": "0.2.5",
+    "eslint-plugin-cypress": "3.3.0",
+    "globals": "15.3.0",
+    "prettier": "3.3.1",
+    "prettier-plugin-organize-imports": "3.2.4",
     "typescript": "5.4.5"
   },
   "pnpm": {
     "patchedDependencies": {
-      "papaparse@5.4.1": "patches/papaparse@5.4.1.patch"
+      "papaparse@5.4.1": "patches/papaparse@5.4.1.patch",
+      "shaka-player@4.9.1": "patches/shaka-player@4.9.1.patch"
     },
     "overrides": {
       "has": "npm:@nolyfill/has@latest",
-      "side-channel": "npm:@nolyfill/side-channel@latest"
+      "side-channel": "npm:@nolyfill/side-channel@latest",
+      "@typescript-eslint/eslint-plugin": "8.0.0-alpha.21",
+      "@typescript-eslint/parser": "8.0.0-alpha.21",
+      "@typescript-eslint/utils": "8.0.0-alpha.21"
     }
   }
 }

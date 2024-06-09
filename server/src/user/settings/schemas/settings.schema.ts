@@ -1,8 +1,7 @@
-import { Document } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Document } from 'mongoose';
 import { SettingsDto, segmentOption } from '../dto/settings.dto';
 
-// eslint-disable-next-line no-undef
 @Schema({ timestamps: true })
 export class Settings extends Document implements SettingsDto {
   @Prop()
@@ -13,6 +12,9 @@ export class Settings extends Document implements SettingsDto {
 
   @Prop()
   theme: string;
+
+  @Prop()
+  sponsorblockUrl: string;
 
   @Prop()
   sponsorblockEnabled: boolean;
@@ -37,6 +39,9 @@ export class Settings extends Document implements SettingsDto {
 
   @Prop({ type: String })
   sponsorblockSegmentPreview: segmentOption;
+
+  @Prop({ type: String })
+  sponsorblockSegmentFiller: segmentOption;
 
   @Prop()
   autoplay: boolean;
@@ -82,9 +87,6 @@ export class Settings extends Document implements SettingsDto {
 
   @Prop()
   autoAdjustVideoQuality: boolean;
-
-  @Prop()
-  dashPlaybackEnabled: boolean;
 
   @Prop()
   rewriteYouTubeURLs: boolean;

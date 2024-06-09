@@ -81,8 +81,6 @@ const { apiUrl } = useApiUrl(true);
 const loadingVideoInfoStore = useLoadingVideoInfoStore();
 const { $formatting: formatting } = useNuxtApp();
 
-const localProxy = '&local=true';
-
 const videoLinkQuery = computed(() => {
   const linkQuery: { v: string; list?: string } = {
     v: props.video.videoId ? props.video.videoId : props.video.id
@@ -100,7 +98,7 @@ const videoThumbnailUrl = computed(() =>
   proxyUrl(
     `${thumbnailTemplate}${
       props.video.videoId ?? props.video.id ?? props.video.videoID
-    }/sddefault.jpg${localProxy}`
+    }/sddefault.jpg`
   )
 );
 
@@ -108,7 +106,7 @@ const videoThumbnailUrlXL = computed(() =>
   proxyUrl(
     `${thumbnailTemplate}${
       props.video.videoId ?? props.video.id ?? props.video.videoID
-    }/hqdefault.jpg${localProxy}`
+    }/hqdefault.jpg`
   )
 );
 
@@ -122,6 +120,7 @@ const videoDuration = computed(() => {
   } else if (typeof props.video.duration === 'string') {
     return props.video.duration;
   }
+  return 0;
 });
 
 const videoPublished = computed(() => {
@@ -136,6 +135,7 @@ const videoPublished = computed(() => {
   } else if (props.video.uploadedAt) {
     return dayjs(props.video.uploadedAt).fromNow();
   }
+  return 0;
 });
 
 const videoPublishedDate = computed(() => {
@@ -144,6 +144,7 @@ const videoPublishedDate = computed(() => {
   } else if (props.video.published?.seconds) {
     return dayjs(props.video.published.seconds).toString();
   }
+  return 0;
 });
 
 const isVerified = computed(() => {
@@ -174,6 +175,7 @@ const videoViewsText = computed(() => {
   } else if (props.video.views) {
     `${props.video.views.toLocaleString('en-US')} ${props.video.views === 1 ? 'view' : 'views'}`;
   }
+  return '0 views';
 });
 </script>
 

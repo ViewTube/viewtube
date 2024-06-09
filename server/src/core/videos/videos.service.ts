@@ -1,23 +1,25 @@
-import fs from 'fs';
-import path from 'path';
-import { promisify } from 'util';
-import sharp from 'sharp';
 import {
-  Injectable,
-  HttpException,
   ForbiddenException,
+  HttpException,
+  Injectable,
   InternalServerErrorException
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { DislikeDto } from 'server/core/videos/dto/dislike.dto';
+import { createHash } from 'node:crypto';
+import fs from 'node:fs/promises';
+import path from 'node:path';
 import { BlockedVideo } from 'server/admin/schemas/blocked-video';
 import { innertubeClient } from 'server/common/innertube/innertube';
+import { vtFetch } from 'server/common/vtFetch';
+import { DislikeDto } from 'server/core/videos/dto/dislike.dto';
 import { toVTVideoInfoDto } from 'server/mapper/converter/video-info/vt-video-info.converter';
 import { VTVideoInfoDto } from 'server/mapper/dto/vt-video-info.dto';
-import { vtFetch } from 'server/common/vtFetch';
-import { VideoBasicInfo } from './schemas/video-basic-info.schema';
+import sharp from 'sharp';
+import { Common } from '../common';
+import { SponsorBlockSegmentsDto } from './dto/sponsorblock/sponsorblock-segments.dto';
 import { VideoBasicInfoDto } from './dto/video-basic-info.dto';
+import { VideoBasicInfo } from './schemas/video-basic-info.schema';
 
 @Injectable()
 export class VideosService {
@@ -28,7 +30,9 @@ export class VideosService {
     private readonly VideoBasicInfoModel: Model<VideoBasicInfo>
   ) {}
 
-  returnYoutubeDislikeUrl = 'https://returnyoutubedislikeapi.com';
+  private returnYoutubeDislikeUrl = 'https://returnyoutubedislikeapi.com';
+
+  private sponsorBlockApiUrl = 'https://sponsor.ajay.app';
 
   async getDash(id: string): Promise<string> {
     const isVideoBlocked = await this.blockedVideoModel.findOne({ videoId: id });
@@ -42,14 +46,10 @@ export class VideosService {
 
       let dashManifest: string | null = null;
 
-      if (videoInfo?.streaming_data?.dash_manifest_url) {
-        dashManifest = videoInfo.streaming_data.dash_manifest_url;
-      } else {
-        dashManifest = await videoInfo.toDash((url: URL) => {
-          url.searchParams.append('__host', url.host);
-          return url;
-        });
-      }
+      dashManifest = await videoInfo.toDash((url: URL) => {
+        url.searchParams.append('__host', url.host);
+        return url;
+      });
 
       return dashManifest;
     } catch (error) {
@@ -69,9 +69,7 @@ export class VideosService {
 
       let dashManifest: string | null = null;
 
-      if (videoInfo?.streaming_data?.dash_manifest_url) {
-        dashManifest = videoInfo.streaming_data.dash_manifest_url;
-      } else {
+      if (!videoInfo.basic_info.is_live) {
         dashManifest = await videoInfo.toDash((url: URL) => {
           url.searchParams.append('__host', url.host);
           return url;
@@ -86,10 +84,10 @@ export class VideosService {
         author: video.author.name,
         authorId: video.author.id,
         authorThumbnails: video.author.thumbnails,
-        authorThumbnailUrl: video.author.thumbnails[0].url,
+        authorThumbnailUrl: video.author.thumbnails?.[0].url,
         authorVerified: video.author.isVerified,
         description: video.description,
-        likeCount: video.likeCount,
+        likeCount: isNaN(video.likeCount) ? 0 : video.likeCount,
         lengthSeconds: video.duration.seconds,
         lengthString: video.duration.text,
         publishedText: video.published.text,
@@ -111,10 +109,13 @@ export class VideosService {
   }
 
   async getDislikes(id: string): Promise<DislikeDto> {
-    const { body } = await vtFetch(`${this.returnYoutubeDislikeUrl}/Votes?videoId=${id}`);
+    const { body } = await vtFetch<DislikeDto & { status?: number }>(
+      `${this.returnYoutubeDislikeUrl}/Votes?videoId=${id}`
+    );
 
     if (body) {
-      const responseObject = (await body.json()) as DislikeDto & { status?: number };
+      const responseObject = await body.json();
+
       if (!isNaN(responseObject.dislikes)) {
         return responseObject;
       } else if (responseObject.status) {
@@ -125,6 +126,59 @@ export class VideosService {
     throw new HttpException('Error fetching dislike information', 503);
   }
 
+  async getSkipSegments(id: string, url?: string): Promise<SponsorBlockSegmentsDto> {
+    if (!id) {
+      throw new HttpException('No video id provided', 400);
+    }
+
+    if (url) {
+      if (!Common.validateExternalUrl(url)) {
+        throw new HttpException('Invalid URL provided', 400);
+      }
+    } else {
+      url = this.sponsorBlockApiUrl;
+    }
+
+    const idHash = createHash('sha256').update(id).digest('hex').substring(0, 4);
+
+    const categories = [
+      'sponsor',
+      'selfpromo',
+      'interaction',
+      'intro',
+      'outro',
+      'preview',
+      'music_offtopic',
+      'filler',
+      'poi_highlight'
+    ];
+
+    const { body } = await vtFetch<SponsorBlockSegmentsDto[]>(`${url}/api/skipSegments/${idHash}`, {
+      query: {
+        categories: `["${categories.join('","')}"]`
+      }
+    });
+
+    if (body) {
+      const skipSectionsArray = await body.json();
+
+      const skipSections = skipSectionsArray?.find(el => el.videoID === id);
+
+      if (!skipSections) {
+        return {
+          videoID: id,
+          hash: idHash,
+          segments: []
+        };
+      }
+
+      if (skipSections) {
+        return skipSections;
+      }
+    }
+    throw new InternalServerErrorException('Error fetching skip segments');
+  }
+
   async saveAuthorImage(imgUrl: string, channelId: string) {
     const arrBufferResponse = await vtFetch(imgUrl);
     const arrBuffer = await arrBufferResponse.body.arrayBuffer();
@@ -132,7 +186,6 @@ export class VideosService {
     if (arrBuffer) {
       try {
         const imgPath = path.join(global.__basedir, `channels/${channelId}.webp`);
-        const appendFile = promisify(fs.appendFile);
 
         const imgBuffer = Buffer.from(arrBuffer);
 
@@ -147,7 +200,7 @@ export class VideosService {
           });
 
         if (success && webpImage) {
-          await appendFile(imgPath, webpImage);
+          await fs.appendFile(imgPath, webpImage);
           return `channels/${channelId}/thumbnail/tiny.webp`;
         }
         return null;

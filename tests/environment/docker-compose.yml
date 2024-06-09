@@ -1,0 +1,36 @@
+services:
+  viewtube-e2e:
+    build:
+      context: ../../
+      cache_from:
+        - mauriceo/viewtube:dev
+        - mauriceo/viewtube:latest
+    ports:
+      - '8466:8466'
+    expose:
+      - 8466
+    volumes:
+      - ./data:/data
+    depends_on:
+      - viewtube-db-e2e
+      - viewtube-redis-e2e
+    networks:
+      - viewtube-local
+    environment:
+      VIEWTUBE_DATABASE_HOST: viewtube-db-e2e
+      VIEWTUBE_REDIS_HOST: viewtube-redis-e2e
+      VIEWTUBE_DATA_DIRECTORY: /data
+      PORT: 8466
+
+  viewtube-db-e2e:
+    image: mongo
+    networks:
+      - viewtube-local
+
+  viewtube-redis-e2e:
+    image: redis
+    networks:
+      - viewtube-local
+
+networks:
+  viewtube-local:

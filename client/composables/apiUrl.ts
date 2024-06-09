@@ -13,7 +13,7 @@ export const useApiUrl = (clientOnly = false) => {
       if (import.meta.server && !clientOnly && process.env.NODE_ENV !== 'production') {
         return devServerApi();
       }
-      return '/api/';
+      return serverApiUrl();
     })
   };
 };

@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "module": "esnext",
+    "target": "esnext",
+    "moduleResolution": "Bundler",
+    "lib": ["esnext", "dom"],
+    "allowJs": true,
+    "esModuleInterop": true,
+    "types": ["cypress-commands", "cypress"],
+    "baseUrl": "cypress"
+  },
+  "include": ["**/*.ts"]
+}

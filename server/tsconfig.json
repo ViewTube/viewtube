@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "module": "ESNext",
-    "target": "ESNext",
+    "module": "esnext",
+    "target": "esnext",
     "moduleResolution": "Node",
     "removeComments": true,
     "lib": ["ESNext", "ES2020", "ESNext.AsyncIterable"],
@@ -17,10 +17,10 @@
     "strictBindCallApply": true,
     "strictNullChecks": false,
     "strictFunctionTypes": false,
+    "skipLibCheck": true,
     "esModuleInterop": true,
     "baseUrl": "./src",
     "paths": {
-      "viewtube/*": ["../../*"],
       "server/*": ["./*"]
     },
     "types": ["node"]

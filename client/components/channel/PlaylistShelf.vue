@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import VideoEntry from '@/components/list/VideoEntry.vue';
+import type { ApiDto } from '@viewtube/shared';
 
 type ShelfType = {
   shelfName: string;
@@ -16,6 +17,7 @@ defineProps<{
 <template>
   <div class="channel-shelf" @touchstart.stop>
     <div v-for="(item, index) in shelf.items" :key="index" class="channel-shelf-item">
+      <!-- prettier-ignore -->
       <VideoEntry v-if="(item as any).type === 'video'" :video="(item as any)" />
     </div>
   </div>

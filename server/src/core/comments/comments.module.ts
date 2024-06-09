@@ -1,9 +1,9 @@
-import { Module, ModuleMetadata } from '@nestjs/common';
 import { CacheModule } from '@nestjs/cache-manager';
+import { Module, ModuleMetadata } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { CacheConfigService } from 'server/cache-config.service';
-import { CommentsService } from './comments.service';
 import { CommentsController } from './comments.controller';
+import { CommentsService } from './comments.service';
 
 const moduleMetadata: ModuleMetadata = {
   providers: [CommentsService],

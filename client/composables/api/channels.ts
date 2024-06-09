@@ -1,3 +1,5 @@
+import type { ApiDto, ApiErrorDto } from '@viewtube/shared';
+
 export const useGetChannelInfo = (id: Ref<string> | string) => {
   const { apiUrl } = useApiUrl();
   const { vtFetch } = useVtFetch();

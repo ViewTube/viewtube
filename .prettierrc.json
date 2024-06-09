@@ -9,5 +9,6 @@
   "endOfLine": "lf",
   "printWidth": 100,
   "vueIndentScriptAndStyle": false,
-  "quoteProps": "as-needed"
+  "quoteProps": "as-needed",
+  "plugins": ["prettier-plugin-organize-imports"]
 }

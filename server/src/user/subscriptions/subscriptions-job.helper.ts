@@ -1,15 +1,15 @@
-import path from 'path';
+import { Job } from 'bull';
+import { XMLParser } from 'fast-xml-parser';
 import fs from 'fs';
+import humanizeDuration from 'humanize-duration';
+import path from 'path';
+import { logger } from 'server/common/logger';
+import { vtFetch } from 'server/common/vtFetch';
 import { ChannelBasicInfoDto } from 'server/core/channels/dto/channel-basic-info.dto';
 import { VideoBasicInfoDto } from 'server/core/videos/dto/video-basic-info.dto';
-import humanizeDuration from 'humanize-duration';
-import { Job } from 'bull';
-import { logger } from 'server/common/logger';
 import { generateVideoThumbnails } from 'server/mapper/utils/video-thumbnails';
 import { SubscriptionsQueueParams } from './subscriptions.processor';
-import { XMLParser } from 'fast-xml-parser';
 import { ChannelFeedType } from './types/channel-feed.type';
-import { vtFetch } from 'server/common/vtFetch';
 
 const xmlParser = new XMLParser({
   ignoreAttributes: false,

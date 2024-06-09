@@ -256,15 +256,6 @@ export default defineComponent({
       }
     };
 
-    watch(
-      () => popupStore.currentPopupName,
-      (newValue: string, oldValue: string): void => {
-        if (newValue && newValue !== oldValue && newValue.length > 0) {
-          popupStore.afterOpenPopup();
-        }
-      }
-    );
-
     onMounted((): void => {
       window.addEventListener('keydown', onEscape);
     });

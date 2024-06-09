@@ -1,7 +1,6 @@
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import { Schema, SchemaFactory, Prop } from '@nestjs/mongoose';
 
-// eslint-disable-next-line no-undef
 @Schema({ timestamps: true })
 export class Subscription extends Document {
   @Prop({ index: { unique: true } })

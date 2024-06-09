@@ -6,7 +6,6 @@ import { vtFetch } from 'server/common/vtFetch';
 export class AutocompleteService {
   private url = 'https://suggestqueries.google.com/complete/search?client=youtube&ds=yt&q=';
 
-  // eslint-disable-next-line prefer-regex-literals
   private responseRegex = new RegExp(/(window\.google\.ac\.h\()(.*)(\))/);
 
   async getAutocompleteResult(query: string): Promise<Array<string>> {

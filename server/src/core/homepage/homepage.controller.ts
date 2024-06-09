@@ -1,5 +1,5 @@
+import { CacheInterceptor, CacheKey, CacheTTL } from '@nestjs/cache-manager';
 import { Controller, Get, Header, UseInterceptors } from '@nestjs/common';
-import { CacheInterceptor, CacheTTL, CacheKey } from '@nestjs/cache-manager';
 import { ApiTags } from '@nestjs/swagger';
 import { HomeFeedDto } from './dto/home-feed.dto';
 import { HomepageService } from './homepage.service';

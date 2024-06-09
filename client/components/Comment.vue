@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import { useMessagesStore } from '@/store/messages';
+import type { ApiDto } from '@viewtube/shared';
 
 const props = defineProps<{
   comment: ApiDto<'VTCommentDto'>;
@@ -13,7 +14,7 @@ const emit = defineEmits<{
 }>();
 
 const messagesStore = useMessagesStore();
-const imgProxy = useImgProxy();
+const { proxyUrl } = useImgProxy();
 const { createTextLinks } = useCreateTextLinks(seconds => {
   emit('setTimestamp', seconds);
 });
@@ -63,6 +64,11 @@ const loadMoreReplies = () => {
       });
     });
 };
+
+const commentContent = computed(() => {
+  const sanitizedComment = sanitizeHtmlString(props.comment.content);
+  return createTextLinks(sanitizedComment);
+});
 </script>
 
 <template>
@@ -70,7 +76,7 @@ const loadMoreReplies = () => {
     <nuxt-link :to="{ path: '/channel/' + comment.author?.id }" class="comment-author-image-link">
       <img
         class="comment-author-image"
-        :src="imgProxy.url + comment.author?.thumbnails?.[0].url"
+        :src="proxyUrl(comment.author?.thumbnails?.[0].url)"
         :alt="`${comment.author?.name} profile picture`"
       />
     </nuxt-link>
@@ -83,7 +89,7 @@ const loadMoreReplies = () => {
       >
         <p class="comment-author-text">{{ comment.author?.name }}</p>
       </nuxt-link>
-      <div class="comment-content links" v-html="createTextLinks(comment.content)" />
+      <div class="comment-content links" v-html="commentContent" />
       <div class="comment-properties">
         <div class="published comment-property">
           <span>{{ comment.published?.text }}</span>

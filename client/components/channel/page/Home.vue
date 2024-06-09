@@ -11,6 +11,17 @@ const channelId = computed(() => getChannelIdFromParam(route.params.id));
 const { data: channelInfo, pending } = useGetChannelInfo(channelId);
 const { data: channelHome, pending: pendingHome } = useGetChannelHome(channelId);
 const { data: channelStats, pending: pendingStats } = useGetChannelStats(channelId);
+
+const hasChannelLinks = computed(() => {
+  return (
+    channelInfo.value?.channelLinks?.primaryLinks?.length ||
+    channelInfo.value?.channelLinks?.secondaryLinks?.length
+  );
+});
+const channelDescription = computed(() => {
+  const sanitizedDescription = sanitizeHtmlString(channelInfo.value?.description);
+  return createTextLinks(sanitizedDescription);
+});
 </script>
 
 <template>
@@ -20,10 +31,14 @@ const { data: channelStats, pending: pendingStats } = useGetChannelStats(channel
     class="channel-home"
   >
     <SectionTitle title="Info" />
-    <pre v-if="channelInfo.description" class="channel-description links" v-html="createTextLinks(channelInfo.description)" />
-    <SectionSubtitle v-if="channelInfo.channelLinks" title="Links" class="channel-links-title" />
+    <pre
+      v-if="channelInfo.description"
+      class="channel-description links"
+      v-html="channelDescription"
+    />
+    <SectionSubtitle v-if="hasChannelLinks" title="Links" class="channel-links-title" />
     <ChannelBannerLinks
-      v-if="channelInfo.channelLinks"
+      v-if="hasChannelLinks"
       :banner-links="{ ...channelInfo?.channelLinks, type: 'links' }"
     />
     <SectionSubtitle v-if="channelInfo.tags" title="Tags" class="channel-tags-title" />

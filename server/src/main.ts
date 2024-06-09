@@ -1,28 +1,29 @@
+import FastifyCookie from '@fastify/cookie';
+import FastifyHelmet from '@fastify/helmet';
+import FastifyMultipart from '@fastify/multipart';
+import fastifyStatic from '@fastify/static';
+import { ConfigService } from '@nestjs/config';
+import { NestFactory } from '@nestjs/core';
+import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { isHttps } from '@viewtube/shared';
+import cluster from 'cluster';
+import cookieParser from 'cookie-parser';
 import fs from 'fs';
 import { access, mkdir } from 'fs/promises';
 import path from 'path';
-import cluster from 'cluster';
-import { NestFactory } from '@nestjs/core';
-import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
-import { ConfigService } from '@nestjs/config';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import fastifyStatic from '@fastify/static';
-import cookieParser from 'cookie-parser';
-import webPush from 'web-push';
-import FastifyCookie from '@fastify/cookie';
-import FastifyMultipart from '@fastify/multipart';
-import FastifyHelmet from '@fastify/helmet';
-import { AppModule } from './app.module';
-import { AppClusterService } from './app-cluster.service';
 import { ConfigurationService } from 'server/core/configuration/configuration.service';
-import { isHttps } from 'viewtube/shared/index';
-import { NuxtService } from './nuxt/nuxt.service';
+import webPush from 'web-push';
 import { version } from '../../package.json';
-import { checkRedisConnection } from './common/redis.connection';
+import { AdminService } from './admin/admin.service';
+import { AppClusterService } from './app-cluster.service';
+import { AppModule } from './app.module';
 import { logger } from './common/logger';
 import { ModuleType } from './common/module.type';
+import { checkRedisConnection } from './common/redis.connection';
 import { registerFastifyPlugin } from './common/registerFastifyPlugin';
-import { AdminService } from './admin/admin.service';
+import metadata from './metadata';
+import { NuxtService } from './nuxt/nuxt.service';
 import { SubscriptionsService } from './user/subscriptions/subscriptions.service';
 
 declare const module: ModuleType;
@@ -50,7 +51,7 @@ const bootstrap = async () => {
   logger.log(`Registration is ${registrationEnabled ? 'enabled' : 'disabled'}`);
   logger.log(`Login is required everywhere: ${global.requireLoginEverywhere}`);
 
-  checkRedisConnection();
+  await checkRedisConnection();
 
   webPush.setVapidDetails(
     'https://github.com/ViewTube/viewtube',
@@ -139,6 +140,7 @@ const bootstrap = async () => {
     .addBearerAuth()
     .build();
 
+  await SwaggerModule.loadPluginMetadata(metadata);
   const swaggerDocument = SwaggerModule.createDocument(app, documentOptions);
 
   if (process.env.GENERATE_SWAGGER === 'true') {
@@ -181,4 +183,9 @@ const runBootstrap = async () => {
   }
 };
 
+process.on('warning', e => {
+  if (process.env.NODE_ENV === 'production') return;
+  logger.warn(e);
+  logger.warn(e.stack);
+});
 runBootstrap();

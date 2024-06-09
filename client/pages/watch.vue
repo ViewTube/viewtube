@@ -10,14 +10,14 @@ import CollapsibleSection from '@/components/list/CollapsibleSection.vue';
 import PlaylistSection from '@/components/watch/PlaylistSection.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import SectionTitle from '@/components/SectionTitle.vue';
-import VideoPlayer from '@/components/videoplayer/VideoPlayer.vue';
 import VideoLoadingTemplate from '@/components/watch/VideoLoadingTemplate.vue';
 import { useMessagesStore } from '@/store/messages';
 import { useSettingsStore } from '@/store/settings';
-import { useVideoPlayerStore } from '@/store/videoPlayer';
 import { useLoadingVideoInfoStore } from '@/store/loadingVideoInfo';
 import { useUserStore } from '@/store/user';
 import dayjs from 'dayjs';
+import { useVideoPlayerStore } from '~/store/videoPlayer';
+import type { ApiDto, ApiErrorDto } from '@viewtube/shared';
 
 type VideoType = ApiDto<'VTVideoInfoDto'> & { initialVideoTime: number };
 
@@ -40,7 +40,7 @@ const commentsContinuationLink = ref(null);
 const commentsContinuationLoading = ref(false);
 const recommendedOpen = ref(false);
 const shareOpen = ref(false);
-const videoplayerRef = ref<typeof VideoPlayer>(null);
+// const videoplayerRef = ref<typeof VideoPlayer>(null);
 const playlistSectionRef = ref<typeof PlaylistSection>(null);
 
 const dislikeCount = ref(0);
@@ -61,25 +61,13 @@ const {
   const initialVideoTimeFromQuery = parseInt(route.query.t as string);
   if (initialVideoTimeFromQuery) {
     initialVideoTime = initialVideoTimeFromQuery;
-  }
-
-  // If timestamp is specified via query parameter,
-  // it should override the timestamp from user's history
-  if (!initialVideoTimeFromQuery && userStore.isLoggedIn && settingsStore.saveVideoHistory) {
+  } else if (userStore.isLoggedIn && settingsStore.saveVideoHistory) {
     const videoVisit = await vtFetch<any>(`${apiUrl.value}user/history/${value.id}`, {
       credentials: 'include'
     }).catch((_: any) => {});
 
     if (videoVisit?.progressSeconds > 0) {
       initialVideoTime = videoVisit?.progressSeconds;
-    } else if (userStore.isLoggedIn) {
-      vtFetch(`${apiUrl.value}user/history/${route.query.v}`, {
-        body: {
-          progressSeconds: null,
-          lengthSeconds: value.duration?.seconds
-        },
-        credentials: 'include'
-      }).catch(_ => {});
     }
   }
 
@@ -112,7 +100,7 @@ const isPlaylist = computed(() => {
 });
 
 const isAutoplaying = computed(() => {
-  return isPlaylist.value || (settingsStore.autoplay && !settingsStore.showRecommendedVideos) || route.query.autoplay === 'true';
+  return isPlaylist.value || settingsStore.autoplay || route.query.autoplay === 'true';
 });
 
 const nextUpVideo = computed(() => {
@@ -156,26 +144,10 @@ const setTimestamp = (seconds: number) => {
     },
     replace: true
   });
-  videoplayerRef.value.setVideoTime(seconds);
-  videoplayerRef.value.play();
   window.scrollTo({ left: 0, top: 0, behavior: 'smooth' });
 };
 
 const { createTextLinks } = useCreateTextLinks(setTimestamp);
-
-const getHDUrl = () => {
-  if (video.value.legacyFormats) {
-    const hdVideo = video.value.legacyFormats.find(e => {
-      return e.qualityLabel && e.qualityLabel === '720p';
-    });
-    if (hdVideo) {
-      return hdVideo.url;
-    } else if (video.value.legacyFormats.length > 0) {
-      return video.value.legacyFormats[0].url;
-    }
-  }
-  return '#';
-};
 
 const loadComments = (evtVideoId: string = null) => {
   const videoId = evtVideoId || route.query.v;
@@ -238,8 +210,7 @@ watch(
     if (newValue.v !== oldValue.v || newValue.list !== oldValue.list) {
       refresh();
       const videoId = newValue.v as string;
-      if (!settingsStore.hideComments)
-        loadComments(videoId);
+      if (!settingsStore.hideComments) loadComments(videoId);
     }
   }
 );
@@ -250,8 +221,7 @@ onMounted(() => {
   if (window && window.innerWidth > 700) {
     recommendedOpen.value = true;
   }
-  if (!settingsStore.hideComments)
-    loadComments();
+  if (!settingsStore.hideComments) loadComments();
   loadDislikes();
   loadPlaylist();
 });
@@ -264,7 +234,11 @@ const onVideoEnded = () => {
     !videoPlayerStore.loop
   ) {
     playlistSectionRef.value.playNextVideo();
-  } else if (settingsStore.autoplayNextVideo && settingsStore.showRecommendedVideos && video.value.recommendedVideos) {
+  } else if (
+    settingsStore.autoplayNextVideo &&
+    settingsStore.showRecommendedVideos &&
+    video.value.recommendedVideos
+  ) {
     router.push({
       path: route.fullPath,
       query: { v: video.value.recommendedVideos[0].id, autoplay: 'true' }
@@ -290,6 +264,13 @@ const watchPageTitle = computed(() => {
   }
   return 'Video Error';
 });
+
+const videoDescription = computed(() => {
+  if (!video.value?.description) return '';
+
+  const sanitizedDescription = sanitizeHtmlString(video.value?.description);
+  return createTextLinks(sanitizedDescription);
+});
 </script>
 
 <template>
@@ -298,23 +279,19 @@ const watchPageTitle = computed(() => {
       :title="watchPageTitle"
       :description="`${video?.description?.substring(0, 100)}`"
       :image="`${video?.author.thumbnails?.[2]?.url}`"
-      :video="`${video?.legacyFormats?.[0]?.url}`"
     />
     <VideoLoadingTemplate v-if="videoPending" />
     <!-- <video v-if="!jsEnabled" controls :src="getHDUrl()" class="nojs-player" /> -->
     <WatchVideoError v-if="videoError" :error="videoError" />
-    <VideoPlayer
+    <FlipPlayer
       v-if="video && !videoPending"
-      :key="video.id"
-      ref="videoplayerRef"
       :video="video"
-      :initial-video-time="video.initialVideoTime"
+      :start-time="video.initialVideoTime"
       :autoplay="isAutoplaying"
-      class="video-player-p"
       @video-ended="onVideoEnded"
     />
     <div v-if="video && !videoPending" class="video-meta">
-      <div v-if="settingsStore.showRecommendedVideos" class="recommended-videos mobile">
+      <div v-if="settingsStore.showRecommendedVideos" class="recommended-videos-outer mobile">
         <NextUpVideo v-if="nextUpVideo && settingsStore.autoplayNextVideo" :video="nextUpVideo" />
         <CollapsibleSection :label="'Recommended videos'" :opened="recommendedOpen">
           <RecommendedVideos
@@ -429,10 +406,7 @@ const watchPageTitle = computed(() => {
         </div>
 
         <div v-if="!settingsStore.hideComments" class="comments-description">
-          <div
-            class="video-infobox-description links"
-            v-html="createTextLinks(video.description)"
-          />
+          <div class="video-infobox-description links" v-html="videoDescription" />
           <SectionTitle :title="`${video.commentCount} Comments`" />
           <Spinner v-if="commentsLoading" />
           <div v-if="video.live" class="comments-error livestream">
@@ -493,10 +467,6 @@ const watchPageTitle = computed(() => {
   width: 100%;
   margin-top: $header-height;
 
-  .videoplayer-placeholder {
-    height: calc(100vh - 170px);
-  }
-
   .nojs-player {
     max-height: calc(100vh - 170px);
     z-index: 11;
@@ -518,23 +488,13 @@ const watchPageTitle = computed(() => {
       flex-direction: column;
     }
 
-    &::before {
-      content: '';
-      position: absolute;
-      width: 100%;
-      left: 0;
-      background-color: var(--bgcolor-main);
-      height: 100%;
+    .recommended-videos-outer {
       z-index: 400;
-    }
-
-    .recommended-videos {
-      background-color: var(--bgcolor-main);
-      z-index: 400;
-      width: 100%;
+      padding: 10px;
 
       @media screen and (min-width: $mobile-width) {
-        width: 340px;
+        min-width: 340px;
+        max-width: 340px;
       }
     }
 
@@ -549,6 +509,7 @@ const watchPageTitle = computed(() => {
       z-index: 400;
       position: relative;
       width: 100%;
+      overflow: hidden;
 
       @media screen and (min-width: $mobile-width) {
         width: 100%;
@@ -647,10 +608,12 @@ const watchPageTitle = computed(() => {
 
           .like-ratio {
             width: 100%;
-            height: 2px;
+            height: 4px;
             background-color: var(--theme-color-alt);
             position: relative;
             margin: 10px 0 0 0;
+            border-radius: 25px;
+            overflow: hidden;
 
             .like-ratio-bar {
               position: absolute;
@@ -663,34 +626,26 @@ const watchPageTitle = computed(() => {
 
       .video-infobox-channel {
         display: flex;
-        flex-direction: row;
-        align-items: center;
+        flex-direction: column;
         justify-content: space-between;
         width: 100%;
-        margin: 0 auto;
+        gap: 10px;
 
         @media screen and (max-width: $watch-break-width) {
           flex-direction: column;
           align-items: flex-start;
-
-          .infobox-channel {
-            margin: 0 0 20px 0;
-            .infobox-channel-info {
-              .infobox-channel-name {
-                max-width: 65vw !important;
-              }
-            }
-          }
         }
 
         .infobox-channel {
           display: flex;
           flex-direction: row;
           align-items: center;
+          width: 100%;
 
           .infobox-channel-image {
             width: 50px;
             height: 50px;
+            min-width: 50px;
             margin: 0 10px 0 0;
 
             img {
@@ -704,21 +659,24 @@ const watchPageTitle = computed(() => {
             flex-direction: column;
             justify-content: space-evenly;
             flex-wrap: wrap;
-            margin: 0 20px 0 0;
+            overflow: hidden;
 
             .infobox-channel-name {
               text-decoration: none;
               color: var(--title-color);
               font-family: $default-font;
               font-size: 1.2rem;
-              white-space: nowrap;
-              overflow: hidden;
-              text-overflow: ellipsis;
-              max-width: 45vw;
+              width: 100%;
               display: flex;
               flex-direction: row;
               gap: 5px;
               align-items: center;
+
+              p {
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+              }
 
               .vt-icon {
                 width: 20px;

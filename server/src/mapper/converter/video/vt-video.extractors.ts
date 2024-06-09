@@ -1,11 +1,11 @@
+import { getSecondsFromTimestamp, getTimestampFromSeconds } from '@viewtube/shared';
 import { VTThumbnailDto } from 'server/mapper/dto/vt-thumbnail.dto';
 import { VTVideoDto } from 'server/mapper/dto/vt-video.dto';
 import { getHandleFromUrl } from 'server/mapper/utils/handle';
-import { getSecondsFromTimestamp, getTimestampFromSeconds } from 'viewtube/shared';
-import Author from 'youtubei.js/dist/src/parser/classes/misc/Author';
-import { VideoSourceApproximation } from './vt-video.converter';
 import { parseRelativeTime } from 'server/mapper/utils/parse-relative-time';
 import { parseShortenedNumber } from 'server/mapper/utils/shortened-number';
+import Author from 'youtubei.js/dist/src/parser/classes/misc/Author';
+import { VideoSourceApproximation } from './vt-video.converter';
 
 export const extractVideoId = (video: VideoSourceApproximation): string => {
   if (video.id) {
@@ -143,8 +143,8 @@ export const extractVideoDescription = (video: VideoSourceApproximation): string
   } else if (video.description_snippet) {
     return video.description_snippet?.text;
   } else if (video.snippets) {
-    const possibleDescription = video.snippets.find(
-      snip => snip.hover_text?.text?.includes('description')
+    const possibleDescription = video.snippets.find(snip =>
+      snip.hover_text?.text?.includes('description')
     );
     if (possibleDescription?.text?.text) {
       return possibleDescription.text.text;

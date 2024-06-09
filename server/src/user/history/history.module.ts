@@ -1,5 +1,5 @@
-import { Module, ModuleMetadata } from '@nestjs/common';
 import { CacheModule } from '@nestjs/cache-manager';
+import { Module, ModuleMetadata } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { CacheConfigService } from 'server/cache-config.service';
@@ -8,8 +8,8 @@ import {
   VideoBasicInfoSchema
 } from 'server/core/videos/schemas/video-basic-info.schema';
 import { SettingsModule } from '../settings/settings.module';
-import { HistoryService } from './history.service';
 import { HistoryController } from './history.controller';
+import { HistoryService } from './history.service';
 import { History, HistorySchema } from './schemas/history.schema';
 
 const moduleMetadata: ModuleMetadata = {

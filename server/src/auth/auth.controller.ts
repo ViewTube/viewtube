@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Res, UnauthorizedException, Req } from '@nestjs/common';
+import { Body, Controller, Post, Req, Res, UnauthorizedException } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { AuthService } from './auth.service';

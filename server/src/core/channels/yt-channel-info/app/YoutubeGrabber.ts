@@ -4,6 +4,9 @@ Permission to use, copy, modify, and/or distribute this software for any
 purpose with or without fee is hereby granted, provided that the above
 copyright notice and this permission notice appear in all copies. */
 
+import { YoutubeGrabberHelper } from './YoutubeGrabberHelper';
+import { YoutubeChannelFetcher } from './fetchers/YoutubeChannelFetcher';
+import { YoutubePlaylistFetcher } from './fetchers/YoutubePlaylistFetcher';
 import {
   ChannelCommunityPostsContinuationResponse,
   ChannelCommunityPostsResponse,
@@ -25,9 +28,6 @@ import {
   RelatedChannel,
   Video
 } from './types';
-import { YoutubeGrabberHelper } from './YoutubeGrabberHelper';
-import { YoutubeChannelFetcher } from './fetchers/YoutubeChannelFetcher';
-import { YoutubePlaylistFetcher } from './fetchers/YoutubePlaylistFetcher';
 
 export class YoutubeGrabber {
   /**
@@ -109,7 +109,7 @@ export class YoutubeGrabber {
     if (channelsTab && 'sectionListRenderer' in (channelsTab?.tabRenderer?.content ?? {})) {
       featuredChannels =
         channelsTab?.tabRenderer?.content?.sectionListRenderer?.contents?.[0]?.itemSectionRenderer
-          .contents?.[0];
+          ?.contents?.[0];
     }
     let relatedChannels = [];
     let relatedChannelsContinuation = null;
@@ -710,7 +710,7 @@ export class YoutubeGrabber {
     if (aboutTab !== undefined) {
       const contents =
         aboutTab?.tabRenderer?.content?.sectionListRenderer?.contents?.[0]?.itemSectionRenderer
-          .contents?.[0];
+          ?.contents?.[0];
       joined = Date?.parse(
         contents?.channelAboutFullMetadataRenderer?.joinedDateText?.runs?.[1]?.text
       );

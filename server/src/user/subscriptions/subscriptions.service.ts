@@ -1,28 +1,28 @@
-import cluster from 'cluster';
-import {
-  Injectable,
-  HttpException,
-  NotFoundException,
-  InternalServerErrorException,
-  Logger
-} from '@nestjs/common';
 import { InjectQueue } from '@nestjs/bull';
-import { Queue } from 'bull';
+import {
+  HttpException,
+  Injectable,
+  InternalServerErrorException,
+  Logger,
+  NotFoundException
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { VideoBasicInfo } from 'server/core/videos/schemas/video-basic-info.schema';
-import { ChannelBasicInfo } from 'server/core/channels/schemas/channel-basic-info.schema';
-import { Model } from 'mongoose';
 import { SchedulerRegistry } from '@nestjs/schedule';
-import { VideoBasicInfoDto } from 'server/core/videos/dto/video-basic-info.dto';
-import { Sorting } from 'server/common/sorting.type';
-import { ChannelBasicInfoDto } from 'server/core/channels/dto/channel-basic-info.dto';
+import { Queue } from 'bull';
+import cluster from 'cluster';
+import { Model } from 'mongoose';
 import { AppClusterService } from 'server/app-cluster.service';
 import { General } from 'server/common/general.schema';
+import { Sorting } from 'server/common/sorting.type';
+import { ChannelBasicInfoDto } from 'server/core/channels/dto/channel-basic-info.dto';
+import { ChannelBasicInfo } from 'server/core/channels/schemas/channel-basic-info.schema';
+import { VideoBasicInfoDto } from 'server/core/videos/dto/video-basic-info.dto';
+import { VideoBasicInfo } from 'server/core/videos/schemas/video-basic-info.schema';
 import { NotificationsService } from '../notifications/notifications.service';
-import { Subscription } from './schemas/subscription.schema';
-import { SubscriptionStatusDto } from './dto/subscription-status.dto';
 import { SubscribedChannelsResponseDto } from './dto/subscribed-channels-response.dto';
 import { SubscriptionFeedResponseDto } from './dto/subscription-feed-response.dto';
+import { SubscriptionStatusDto } from './dto/subscription-status.dto';
+import { Subscription } from './schemas/subscription.schema';
 import { SubscriptionsQueueParams } from './subscriptions.processor';
 
 @Injectable()
@@ -41,7 +41,7 @@ export class SubscriptionsService {
     private notificationsService: NotificationsService,
     private readonly logger: Logger,
     private schedulerRegistry: SchedulerRegistry
-  ) { }
+  ) {}
 
   async initializeSubscriptionTask() {
     const timeInMilliseconds = this.getSubscriptionIntervalTime() * 1000 * 60;

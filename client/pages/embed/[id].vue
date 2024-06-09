@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import VideoPlayer from '@/components/videoplayer/VideoPlayer.vue';
+import type { ApiDto, ApiErrorDto } from '@viewtube/shared';
 
 definePageMeta({
-  headless: true
+  layout: 'embed'
 });
 
 const route = useRoute();
@@ -10,27 +10,44 @@ const route = useRoute();
 const { apiUrl } = useApiUrl();
 const { vtFetch } = useVtFetch();
 
-const { data: video } = useLazyAsyncData<ApiDto<'VTVideoInfoDto'>, ApiErrorDto>(
+const { data: video, pending } = useLazyAsyncData<ApiDto<'VTVideoInfoDto'>, ApiErrorDto>(
   route.params.id.toString(),
   () => vtFetch<ApiDto<'VTVideoInfoDto'>>(`${apiUrl.value}videos/${route.params.id}`)
 );
+
+const authorToName = author => {
+  if (typeof author == 'string') {
+    return author;
+  } else if (typeof author.name == 'string') {
+    return author.name;
+  } else {
+    return 'Unknown Author';
+  }
+};
+
+const watchPageTitle = computed(() => {
+  if (video.value) {
+    return `${video.value.title} :: ${authorToName(video.value.author)}`;
+  } else if (pending.value) {
+    return 'Loading...';
+  }
+  return 'Video Error';
+});
 </script>
 
 <template>
   <div class="embed">
-    <VideoPlayer
-      :video="video"
-      :embedded="true"
-      class="video-player-p"
-      :mini="false"
-      :autoplay="false"
+    <MetaPageHead
+      :title="watchPageTitle"
+      :description="`${video?.description?.substring(0, 100)}`"
+      :image="`${video?.author.thumbnails?.[2]?.url}`"
     />
+    <FlipPlayer v-if="video" :video="video" :embed="true" />
   </div>
 </template>
 
 <style lang="scss" scoped>
 .embed {
-  height: 100vh;
-  width: 100vw;
+  height: 100%;
 }
 </style>

@@ -1,15 +1,17 @@
-import undici, {
-  Dispatcher,
-  Headers,
-  HeadersInit,
-  ProxyAgent,
-  RequestInfo,
-  RequestInit,
-  Response
-} from 'undici';
-import { socksDispatcher } from 'fetch-socks';
-import { SocksProxy } from 'socks';
 import { destr } from 'destr';
+import { socksDispatcher } from 'fetch-socks';
+import type { SocksProxy } from 'socks';
+import undici, {
+  Headers,
+  ProxyAgent,
+  type BodyMixin,
+  type Dispatcher,
+  type HeadersInit,
+  type RequestInfo,
+  type RequestInit,
+  type Response
+} from 'undici';
+import BodyReadable from 'undici/types/readable';
 import { UrlObject } from 'url';
 import { getProxyUrl, proxyEnabled } from './proxyAgent';
 
@@ -29,10 +31,17 @@ type VtFetchRawOptionsType = RequestInit & {
   useProxy?: boolean;
 };
 
+type JsonFnType<T> = () => Promise<T>;
+type ResponseBodyBaseType = BodyReadable & BodyMixin;
+type ResponseBodyType<T> = Omit<ResponseBodyBaseType, 'json'> & { json: JsonFnType<T> };
+type ResponseType<T> = Omit<Dispatcher.ResponseData, 'body'> & {
+  body: ResponseBodyType<T>;
+};
+
 const vtFetch = async <T = any>(
   url: string | URL | UrlObject,
   options: VtFetchOptionsType = {}
-): Promise<Dispatcher.ResponseData> => {
+): Promise<ResponseType<T>> => {
   if (!options) options = {};
 
   const { headers: rawHeaders, ...rawOptions } = options;
@@ -60,7 +69,7 @@ const vtFetch = async <T = any>(
     }
   }
 
-  const response = await undici.request(url, requestOptions);
+  const response = (await undici.request(url, requestOptions)) as ResponseType<T>;
 
   const destrJson = async (): Promise<T> => {
     const data = await response.body.text();

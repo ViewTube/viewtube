@@ -26,9 +26,12 @@ const { data: homeFeedData, error: homeFeedError, pending: homeFeedLoading } = u
     />
 
     <div
-      v-if="!(userStore.isLoggedIn && settingsStore.showHomeSubscriptions) && !settingsStore.showHomeTrendingVideos"
-      class="home-search-container centered">
-
+      v-if="
+        !(userStore.isLoggedIn && settingsStore.showHomeSubscriptions) &&
+        !settingsStore.showHomeTrendingVideos
+      "
+      class="home-search-container centered"
+    >
       <Logo />
       <MainSearchBox />
     </div>
@@ -88,7 +91,7 @@ const { data: homeFeedData, error: homeFeedError, pending: homeFeedLoading } = u
     &.centered {
       top: calc(50% - $header-height);
     }
-    
+
     .logo-link {
       justify-content: center;
       margin: 10px auto;

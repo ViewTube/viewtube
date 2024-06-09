@@ -1,9 +1,117 @@
+<script setup lang="ts">
+const route = useRoute();
+const router = useRouter();
+const { vtFetch } = useVtFetch();
+const { apiUrl } = useApiUrl();
+
+const searchFieldFocused = ref(false);
+const localSearchValue = ref('');
+const searchValue = ref('');
+const autocompleteVisible = ref(false);
+const autocompleteSelectedValue = ref(0);
+const searchFieldRef = ref(null);
+const autocompleteValues = ref([]);
+
+const updateSearchValueFromUrl = () => {
+  if (route.query.search_query) {
+    searchValue.value = route.query.search_query as string;
+    if (import.meta.server) {
+      localSearchValue.value = route.query.search_query as string;
+    }
+  } else {
+    searchValue.value = '';
+  }
+};
+
+const onAutocompleteUpdate = (value: string) => {
+  searchValue.value = value;
+};
+const onSearchFieldChange = (e: any) => {
+  searchValue.value = e.target.value;
+};
+const onSearchFieldFocused = () => {
+  autocompleteVisible.value = true;
+  searchFieldFocused.value = true;
+};
+const onSearchFieldBlur = () => {
+  autocompleteVisible.value = false;
+  searchFieldFocused.value = false;
+};
+const onAutocompleteEnter = () => {
+  searchRedirect(searchValue.value);
+};
+const onSearchFormSubmit = () => {
+  if (
+    searchValue.value &&
+    searchValue.value.length > 0 &&
+    localSearchValue.value &&
+    localSearchValue.value.length > 0
+  ) {
+    searchValue.value = localSearchValue.value;
+    searchRedirect(searchValue.value);
+  }
+};
+
+const onAutocompleteSelectedValueUpdate = (value: number) => {
+  autocompleteSelectedValue.value = value;
+};
+
+const onSearchFieldKeydown = (e: any) => {
+  if (e.key === 'ArrowDown') {
+    if (autocompleteSelectedValue.value + 2 <= autocompleteValues.value.length) {
+      autocompleteSelectedValue.value += 1;
+    } else {
+      autocompleteSelectedValue.value = 0;
+    }
+    localSearchValue.value = autocompleteValues.value[autocompleteSelectedValue.value];
+  } else if (e.key === 'ArrowUp') {
+    if (autocompleteSelectedValue.value - 1 >= 0) {
+      autocompleteSelectedValue.value -= 1;
+    } else {
+      autocompleteSelectedValue.value = autocompleteValues.value.length - 1;
+    }
+    localSearchValue.value = autocompleteValues.value[autocompleteSelectedValue.value];
+  }
+  e.stopPropagation();
+  return true;
+};
+const onSearchButton = () => {
+  if (searchValue.value) {
+    searchRedirect(searchValue.value);
+  }
+};
+const searchRedirect = (searchValue: string) => {
+  router.push(`/results?search_query=${searchValue}`);
+  searchFieldRef.value.blur();
+};
+
+watch(searchValue, async () => {
+  const autocompleteResponse = await vtFetch<[]>(
+    `${apiUrl.value}autocomplete?q=${searchValue.value}`
+  );
+
+  autocompleteValues.value = [searchValue.value].concat(autocompleteResponse);
+});
+
+watch(
+  () => route.query,
+  () => {
+    updateSearchValueFromUrl();
+  }
+);
+
+watch(searchValue, newValue => {
+  localSearchValue.value = newValue;
+});
+
+updateSearchValueFromUrl();
+</script>
+
 <template>
   <div
     class="search-box"
     :class="{
       focused: searchFieldFocused,
-      scrolled: scrollTop,
       'has-text': localSearchValue && localSearchValue.length > 0
     }"
   >
@@ -13,6 +121,7 @@
         ref="searchFieldRef"
         type="text"
         name="search"
+        autocomplete="off"
         :value="localSearchValue"
         @focus="onSearchFieldFocused"
         @blur="onSearchFieldBlur"
@@ -31,137 +140,17 @@
       <VTIcon name="mdi:magnify" />
     </nuxt-link>
     <span class="search-line-bottom line" />
-    <SearchAutoComplete
-      ref="autocompleteRef"
+    <SearchAutocomplete
+      v-if="autocompleteVisible"
       :search-value="searchValue"
+      :selected-value="autocompleteSelectedValue"
+      :autocomplete-values="autocompleteValues"
       @search-value-update="onAutocompleteUpdate"
-      @auto-complete-enter="onAutocompleteEnter"
+      @autocomplete-enter="onAutocompleteEnter"
+      @selected-value-update="onAutocompleteSelectedValueUpdate"
     />
   </div>
 </template>
-
-<script lang="ts">
-import SearchAutoComplete from '@/components/SearchAutoComplete.vue';
-
-export default defineComponent({
-  name: 'MainSearchBox',
-  components: {
-    SearchAutoComplete
-  },
-  props: {
-    scrollTop: { type: Boolean, required: false }
-  },
-  setup() {
-    const route = useRoute();
-    const router = useRouter();
-
-    const searchFieldFocused = ref(false);
-    const localSearchValue = ref('');
-    const searchValue = ref('');
-    const autocompleteRef = ref(null);
-    const searchFieldRef = ref(null);
-
-    const updateSearchValueFromUrl = () => {
-      if (route.query.search_query) {
-        searchValue.value = route.query.search_query as string;
-        if (import.meta.server) {
-          localSearchValue.value = route.query.search_query as string;
-        }
-      } else {
-        searchValue.value = '';
-      }
-    };
-
-    const onAutocompleteUpdate = (value: string) => {
-      searchValue.value = value;
-      onSearchButton();
-    };
-    const onSearchFieldChange = (e: any) => {
-      searchValue.value = e.target.value;
-    };
-    const onSearchFieldFocused = () => {
-      autocompleteRef.value.visible = true;
-      searchFieldFocused.value = true;
-    };
-    const onSearchFieldBlur = () => {
-      autocompleteRef.value.visible = false;
-      searchFieldFocused.value = false;
-    };
-    const onAutocompleteEnter = () => {
-      searchRedirect(searchValue.value);
-    };
-    const onSearchFormSubmit = () => {
-      if (
-        searchValue.value &&
-        searchValue.value.length > 0 &&
-        localSearchValue.value &&
-        localSearchValue.value.length > 0
-      ) {
-        searchValue.value = localSearchValue.value;
-        searchRedirect(searchValue.value);
-      }
-    };
-    const onSearchFieldKeydown = (e: any) => {
-      const autocomplete = autocompleteRef.value;
-      if (e.key === 'ArrowDown') {
-        if (autocomplete.selectedValue + 2 <= autocomplete.autocompleteValues.length) {
-          autocomplete.selectedValue += 1;
-        } else {
-          autocomplete.selectedValue = 0;
-        }
-        localSearchValue.value = autocomplete.autocompleteValues[autocomplete.selectedValue];
-      } else if (e.key === 'ArrowUp') {
-        if (autocomplete.selectedValue - 1 >= 0) {
-          autocomplete.selectedValue -= 1;
-        } else {
-          autocomplete.selectedValue = autocomplete.autocompleteValues.length - 1;
-        }
-        localSearchValue.value = autocomplete.autocompleteValues[autocomplete.selectedValue];
-      }
-      e.stopPropagation();
-      return true;
-    };
-    const onSearchButton = () => {
-      if (searchValue.value) {
-        searchRedirect(searchValue.value);
-      }
-    };
-    const searchRedirect = (searchValue: string) => {
-      router.push(`/results?search_query=${searchValue}`);
-      searchFieldRef.value.blur();
-    };
-
-    watch(
-      () => route.query,
-      () => {
-        updateSearchValueFromUrl();
-      }
-    );
-
-    watch(searchValue, newValue => {
-      localSearchValue.value = newValue;
-    });
-
-    updateSearchValueFromUrl();
-
-    return {
-      searchFieldFocused,
-      localSearchValue,
-      searchValue,
-      autocompleteRef,
-      searchFieldRef,
-      onAutocompleteUpdate,
-      onSearchFieldChange,
-      onSearchFieldFocused,
-      onSearchFieldBlur,
-      onAutocompleteEnter,
-      onSearchFormSubmit,
-      onSearchFieldKeydown,
-      onSearchButton
-    };
-  }
-});
-</script>
 
 <style lang="scss" scoped>
 .search-box {
@@ -177,14 +166,6 @@ export default defineComponent({
   background-color: var(--bgcolor-translucent);
   transition: background-color 300ms $intro-easing;
   z-index: +1;
-
-  &.scrolled {
-    background-color: var(--bgcolor-alt-light);
-
-    .search-btn {
-      color: var(--theme-color);
-    }
-  }
 
   .search-btn {
     text-decoration: none;
@@ -215,12 +196,15 @@ export default defineComponent({
       text-align: center;
       pointer-events: none;
       user-select: none;
-      transition: opacity 300ms $intro-easing, transform 300ms $intro-easing;
+      transition:
+        opacity 300ms $intro-easing,
+        transform 300ms $intro-easing;
       margin: 0 0 0 10px;
       color: var(--subtitle-color-light);
     }
 
     #search {
+      all: unset;
       width: 100%;
       height: 100%;
       border: none;

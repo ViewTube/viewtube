@@ -91,7 +91,9 @@ const onChange = (e: any) => {
     clip-path: polygon(0 0, 0 0, 20px 0, 20px 20px, 0 20px, 0 0);
     background-color: var(--bgcolor-alt);
     display: block;
-    transition: background-color 300ms $intro-easing, clip-path 300ms $intro-easing;
+    transition:
+      background-color 300ms $intro-easing,
+      clip-path 300ms $intro-easing;
 
     .checkbox-background {
       width: 20px;

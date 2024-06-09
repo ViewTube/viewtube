@@ -1,11 +1,11 @@
-import { randomBytes } from 'crypto';
 import { Injectable, Logger } from '@nestjs/common';
-import captcha from 'svg-captcha';
-import miniSVG from 'mini-svg-data-uri';
 import { InjectModel } from '@nestjs/mongoose';
+import { randomBytes } from 'crypto';
+import miniSVG from 'mini-svg-data-uri';
 import { Model } from 'mongoose';
-import { Captcha } from './schemas/captcha.schema';
+import captcha from 'svg-captcha';
 import { CaptchaDto } from './dto/captcha.dto';
+import { Captcha } from './schemas/captcha.schema';
 
 @Injectable()
 export class CaptchaService {

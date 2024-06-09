@@ -3,6 +3,7 @@ import VideoEntry from '@/components/list/VideoEntry.vue';
 import PlaylistEntry from '@/components/list/PlaylistEntry.vue';
 import MultiOptionButton from '@/components/buttons/MultiOptionButton.vue';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
+import type { ApiDto } from '@viewtube/shared';
 
 const props = withDefaults(
   defineProps<{
@@ -22,7 +23,7 @@ const emit = defineEmits<{
     event: 'update:sort',
     value: ChannelVideosSortOptionsType | ChannelPlaylistsSortOptionsType
   ): void;
-  (event: 'load-more', value: void): void;
+  (event: 'load-more'): void;
 }>();
 
 const sortBy = computed<ChannelVideosSortOptionsType | ChannelPlaylistsSortOptionsType>({

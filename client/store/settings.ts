@@ -1,7 +1,7 @@
-import { defineStore } from 'pinia';
 import { useUserStore } from '@/store/user';
-import { type UnwrapNestedRefs } from 'vue';
 import destr from 'destr';
+import { defineStore } from 'pinia';
+import { type UnwrapNestedRefs } from 'vue';
 
 export type SegmentOption = 'skip' | 'ask' | 'none';
 type ThemeVariant = 'default' | 'light' | 'black' | 'green';
@@ -35,7 +35,6 @@ export const useSettingsStore = defineStore(
         autoplay: false,
         autoplayNextVideo: false,
         chapters: true,
-        dashPlaybackEnabled: true,
         defaultAudioQuality: '192kb',
         defaultVideoQuality: '720p',
         defaultVideoSpeed: 1,
@@ -53,6 +52,7 @@ export const useSettingsStore = defineStore(
         sponsorblockSegmentPreview: 'ask' as SegmentOption,
         sponsorblockSegmentSelfpromo: 'ask' as SegmentOption,
         sponsorblockSegmentSponsor: 'ask' as SegmentOption,
+        sponsorblockSegmentFiller: 'none' as SegmentOption,
         theme: null as ThemeVariant | null,
         defaultTheme: defaultTheme as ThemeVariant,
         rewriteYouTubeURLs: false,

@@ -1,5 +1,6 @@
 {
   "prettier.prettierPath": "node_modules/prettier/index.cjs",
   "typescript.tsdk": "node_modules/typescript/lib",
-  "githubPullRequests.ignoredPullRequestBranches": ["development"]
+  "githubPullRequests.ignoredPullRequestBranches": ["development"],
+  "eslint.experimental.useFlatConfig": true
 }

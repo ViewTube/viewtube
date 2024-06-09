@@ -1,9 +1,9 @@
-import { Module, ModuleMetadata, Logger } from '@nestjs/common';
 import { CacheModule } from '@nestjs/cache-manager';
+import { Logger, Module, ModuleMetadata } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { CacheConfigService } from 'server/cache-config.service';
-import { ProxyService } from './proxy.service';
 import { ProxyController } from './proxy.controller';
+import { ProxyService } from './proxy.service';
 
 const moduleMetadata: ModuleMetadata = {
   providers: [ProxyService, Logger],

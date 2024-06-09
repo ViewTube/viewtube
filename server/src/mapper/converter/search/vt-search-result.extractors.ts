@@ -1,19 +1,19 @@
-import { YT } from 'youtubei.js';
-import { SearchSourceApproximation } from './search-source-approximation';
-import { getHandleFromUrl } from 'server/mapper/utils/handle';
-import { parseRelativeTime } from 'server/mapper/utils/parse-relative-time';
-import { VTSearchVideoResultDto } from 'server/mapper/dto/search/vt-search-video-result.dto';
+import { getTimestampFromSeconds } from '@viewtube/shared';
+import { logger } from 'server/common/logger';
 import { VTSearchChannelResultDto } from 'server/mapper/dto/search/vt-search-channel-result.dto';
-import { fixUrl } from 'server/mapper/utils/fix-url';
+import { VTSearchMovieDto } from 'server/mapper/dto/search/vt-search-movie.dto';
+import { VTSearchPlaylistDto } from 'server/mapper/dto/search/vt-search-playlist.dto';
 import { VTSearchShelfDto } from 'server/mapper/dto/search/vt-search-shelf.dto';
+import { VTSearchVideoResultDto } from 'server/mapper/dto/search/vt-search-video-result.dto';
 import { VTShortsShelfDto } from 'server/mapper/dto/search/vt-shorts-shelf.dto';
 import { VTShortDto } from 'server/mapper/dto/vt-short.dto';
-import { parseShortenedNumber } from 'server/mapper/utils/shortened-number';
 import { parseAccessibilityDuration } from 'server/mapper/utils/accessibility-duration';
-import { getTimestampFromSeconds } from 'viewtube/shared';
-import { VTSearchPlaylistDto } from 'server/mapper/dto/search/vt-search-playlist.dto';
-import { VTSearchMovieDto } from 'server/mapper/dto/search/vt-search-movie.dto';
-import { logger } from 'server/common/logger';
+import { fixUrl } from 'server/mapper/utils/fix-url';
+import { getHandleFromUrl } from 'server/mapper/utils/handle';
+import { parseRelativeTime } from 'server/mapper/utils/parse-relative-time';
+import { parseShortenedNumber } from 'server/mapper/utils/shortened-number';
+import { YT } from 'youtubei.js';
+import { SearchSourceApproximation } from './search-source-approximation';
 
 export const extractSearchResults = (searchResults: SearchSourceApproximation[]) => {
   return searchResults

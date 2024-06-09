@@ -1,26 +1,26 @@
-import path from 'path';
-import fs from 'fs';
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import { General } from 'server/common/general.schema';
 import { FastifyReply } from 'fastify';
+import fs from 'fs';
+import { Model } from 'mongoose';
+import path from 'path';
+import { General } from 'server/common/general.schema';
 import sharp from 'sharp';
-import { YoutubeGrabber } from './yt-channel-info';
-import { ChannelHomeDto } from './dto/response/channel-home.dto';
-import { ChannelVideosDto } from './dto/response/channel-videos.dto';
-import { ChannelVideosContinuationDto } from './dto/response/channel-videos-continuation.dto';
 import { checkParams, throwChannelError } from './channels.helper';
-import { ChannelPlaylistsDto } from './dto/response/channel-playlists.dto';
-import { ChannelPlaylistsContinuationDto } from './dto/response/channel-playlists-continuation.dto';
-import { ChannelSearchDto } from './dto/response/channel-search.dto';
-import { ChannelSearchContinuationDto } from './dto/response/channel-search-continuation.dto';
-import { RelatedChannelsContinuationDto } from './dto/response/related-channels-continuation.dto';
-import { ChannelCommunityPostsDto } from './dto/response/channel-community-posts.dto';
 import { ChannelCommunityPostsContinuationDto } from './dto/response/channel-community-posts-continuation.dto';
-import { ChannelStatsDto } from './dto/response/channel-stats.dto';
+import { ChannelCommunityPostsDto } from './dto/response/channel-community-posts.dto';
+import { ChannelHomeDto } from './dto/response/channel-home.dto';
 import { ChannelInfoDto } from './dto/response/channel-info.dto';
+import { ChannelPlaylistsContinuationDto } from './dto/response/channel-playlists-continuation.dto';
+import { ChannelPlaylistsDto } from './dto/response/channel-playlists.dto';
+import { ChannelSearchContinuationDto } from './dto/response/channel-search-continuation.dto';
+import { ChannelSearchDto } from './dto/response/channel-search.dto';
+import { ChannelStatsDto } from './dto/response/channel-stats.dto';
+import { ChannelVideosContinuationDto } from './dto/response/channel-videos-continuation.dto';
+import { ChannelVideosDto } from './dto/response/channel-videos.dto';
+import { RelatedChannelsContinuationDto } from './dto/response/related-channels-continuation.dto';
 import { SortType } from './types/sort';
+import { YoutubeGrabber } from './yt-channel-info';
 import { ChannelInfoError } from './yt-channel-info/app/types';
 
 @Injectable()
@@ -236,9 +236,8 @@ export class ChannelsService {
   }
 
   getTinyThumbnail(reply: FastifyReply, id: string): void {
-    // eslint-disable-next-line dot-notation
     const imgPathWebp = path.join(global.__basedir, `channels/${id}.webp`);
-    // eslint-disable-next-line dot-notation
+
     const imgPathJpg = path.join(global.__basedir, `channels/${id}.jpg`);
 
     const imageTransformer = sharp().resize(36, 36);

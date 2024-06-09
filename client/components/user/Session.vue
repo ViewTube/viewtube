@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import humanizeDuration from 'humanize-duration';
-import { type ApiDto } from '@/utils/shared';
+import { type ApiDto } from '@viewtube/shared';
 import { useMessagesStore } from '~/store/messages';
 import dayjs from 'dayjs';
 

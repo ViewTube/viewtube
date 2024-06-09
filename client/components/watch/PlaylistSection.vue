@@ -72,7 +72,7 @@
       >
         <div class="thumbnail">
           <div class="thumbnail-inner">
-            <img :src="imgProxyUrl + video.thumbnails[3].url" alt="Playlist video thumbnail" />
+            <img :src="proxyUrl(video.thumbnails[3].url)" alt="Playlist video thumbnail" />
           </div>
         </div>
         <div class="info">
@@ -98,7 +98,7 @@ export default defineComponent({
     currentVideoId: String
   },
   setup(props) {
-    const imgProxy = useImgProxy();
+    const { proxyUrl } = useImgProxy();
     const router = useRouter();
     const route = useRoute();
 
@@ -158,10 +158,11 @@ export default defineComponent({
     };
 
     const toggleQueryParam = (param: string, value: boolean) => {
-      const query = Object.assign({}, route.query);
+      const query = structuredClone(route.query);
       if (value) {
         query[param] = value.toString();
       } else {
+        // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
         delete query[param];
       }
       router.push({
@@ -225,7 +226,7 @@ export default defineComponent({
     });
 
     return {
-      imgProxyUrl: imgProxy.url,
+      proxyUrl,
       videoSectionRef,
       getPreviousVideoId,
       getNextVideoId,

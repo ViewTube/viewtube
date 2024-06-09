@@ -5,16 +5,16 @@ const props = defineProps<{
   fallback: string;
 }>();
 
-const imgProxy = useImgProxy();
+const { proxyUrl } = useImgProxy();
 
 const onBannerContextMenu = (e: MouseEvent) => {
   e.preventDefault();
-  window.open(imgProxy.url + props.bannerHqSrc, '_blank');
+  window.open(proxyUrl(props.bannerHqSrc), '_blank');
 };
 
 const fallbackUrl = computed(() => {
   if (props.fallback) {
-    return `url(${imgProxy.url}${props.fallback})`;
+    return `url(${proxyUrl(props.fallback)})`;
   }
   return '';
 });
@@ -22,12 +22,12 @@ const fallbackUrl = computed(() => {
 
 <template>
   <div v-if="src" class="channel-banner" @contextmenu="onBannerContextMenu">
-    <img class="channel-banner-image" :src="imgProxy.url + src" alt="Channel banner" />
+    <img class="channel-banner-image" :src="proxyUrl(src)" alt="Channel banner" />
     <div class="additional-content">
       <a
         v-tippy="'Show full size banner'"
         class="show-btn"
-        :href="imgProxy.url + bannerHqSrc"
+        :href="proxyUrl(bannerHqSrc)"
         target="_blank"
         rel="noreferrer noopener"
         ><VTIcon name="mdi:eye"

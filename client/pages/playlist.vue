@@ -3,13 +3,14 @@ import { type Continuation } from 'ytpl';
 import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import VideoEntry from '@/components/list/VideoEntry.vue';
 import Spinner from '@/components/Spinner.vue';
+import type { ApiDto } from '@viewtube/shared';
 
 import { useMessagesStore } from '~/store/messages';
 
 const messagesStore = useMessagesStore();
 const { apiUrl } = useApiUrl();
 const route = useRoute();
-const imgProxy = useImgProxy();
+const { proxyUrl } = useImgProxy();
 const { vtFetch } = useVtFetch();
 const { createTextLinks } = useCreateTextLinks();
 
@@ -63,6 +64,10 @@ const loadMoreVideos = async () => {
       });
   }
 };
+const playlistDescription = computed(() => {
+  const sanitizedDescription = sanitizeHtmlString(playlist.value?.description);
+  return createTextLinks(sanitizedDescription);
+});
 </script>
 
 <template>
@@ -76,14 +81,14 @@ const loadMoreVideos = async () => {
     <div v-if="playlist" class="thumbnail-banner-container">
       <div
         class="thumbnail-banner"
-        :style="{ 'background-image': `url(${imgProxy.url + playlist.thumbnails[0].url})` }"
+        :style="{ 'background-image': `url(${proxyUrl(playlist.thumbnails[0].url)})` }"
       />
       <div class="gradient-to-color" />
       <div class="playlist-info">
         <nuxt-link :to="`/channel/${playlist.author.channelID}`" class="author-thumbnail-banner">
           <img
             class="author-thumbnail"
-            :src="imgProxy.url + playlist.author.bestAvatar.url"
+            :src="proxyUrl(playlist.author.bestAvatar.url)"
             alt="Author thumbnail"
           />
           <div class="author-info">
@@ -116,7 +121,7 @@ const loadMoreVideos = async () => {
       <pre
         v-if="playlist && playlist.description"
         class="playlist-description links"
-        v-html="createTextLinks(playlist.description)"
+        v-html="playlistDescription"
       />
       <div class="playlist-videos-container">
         <VideoEntry

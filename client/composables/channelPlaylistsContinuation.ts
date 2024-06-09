@@ -1,4 +1,5 @@
 import { useMessagesStore } from '@/store/messages';
+import type { ApiDto } from '@viewtube/shared';
 
 export const useChannelPlaylistsContinuation = <T extends ApiDto<'ChannelPlaylistsDto'>>(
   initialData: Ref<T>

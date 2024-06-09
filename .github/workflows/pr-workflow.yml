@@ -8,7 +8,7 @@ jobs:
   pr-job:
     strategy:
       matrix:
-        command: ['build', 'test', 'lint:client', 'lint:server']
+        command: ['build', 'lint']
 
     name: ${{ matrix.command }}
     timeout-minutes: 60
@@ -26,7 +26,7 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
         with:
-          version: 8
+          version: 9
           run_install: false
 
       - name: Get pnpm store directory
@@ -44,6 +44,9 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+
+      - name: Prepare .nuxt directory
+        run: pnpm run nuxt:prepare
 
       - name: Generate build metadata
         run: |
@@ -68,7 +71,7 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
         with:
-          version: 8
+          version: 9
           run_install: false
 
       - name: Install e2e test dependencies

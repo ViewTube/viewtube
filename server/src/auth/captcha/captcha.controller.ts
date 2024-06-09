@@ -1,9 +1,9 @@
 import { Controller, Get } from '@nestjs/common';
-import { ApiTags, ApiOperation } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CaptchaService } from './captcha.service';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { CaptchaDto } from './dto/captcha.dto';
+
 import { Public } from '../decorators/public.decorator';
+import { CaptchaDto } from './dto/captcha.dto';
 
 @ApiTags('Auth')
 @Controller('auth')

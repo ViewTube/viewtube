@@ -1,9 +1,7 @@
 <script setup lang="ts">
 import RelatedSearches from '@/components/search/RelatedSearches.vue';
 import Spinner from '@/components/Spinner.vue';
-import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import Filters from '@/components/search/Filters.vue';
-import SeparatorSmall from '@/components/list/SeparatorSmall.vue';
 import { useMessagesStore } from '@/store/messages';
 import { useSettingsStore } from '@/store/settings';
 
@@ -21,9 +19,6 @@ const searchQuery = computed(() => {
   const searchParams = new URLSearchParams(route.query as Record<string, string>);
   return searchParams.get('search_query') || searchParams.get('q');
 });
-const page = ref(0);
-const moreVideosLoading = ref(false);
-const { apiUrl } = useApiUrl();
 
 const { data: searchData, pending, error } = useGetSearchResult();
 
@@ -61,8 +56,7 @@ watch(error, newValue => {
 });
 
 const getListEntryType = (type: string) => {
-  if (type === 'shorts-shelf' && settingsStore.hideShortsFromSearch)
-    return null;
+  if (type === 'shorts-shelf' && settingsStore.hideShortsFromSearch) return null;
 
   switch (type) {
     case 'video':
@@ -123,7 +117,7 @@ const getListEntryType = (type: string) => {
 <template>
   <div class="search" :class="{ loading: pending }">
     <MetaPageHead :title="searchQuery" description="Search for videos, channels and playlists" />
-    <Spinner v-if="pending && searchData?.results.lastIndexOf" class="centered search-spinner" />
+    <Spinner v-if="pending" class="centered search-spinner" />
     <Filters :disabled="pending" />
     <p v-if="!pending && searchData" class="result-amount">
       {{ searchData?.estimatedResultCount?.toLocaleString('en-US') ?? 0 }} results

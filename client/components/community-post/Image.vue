@@ -72,7 +72,9 @@ const postImageHeightPx = ref('0px');
       position: relative;
       top: 50%;
       transform: translateY(-50%);
-      transition: top 300ms $intro-easing, transform 300ms $intro-easing;
+      transition:
+        top 300ms $intro-easing,
+        transform 300ms $intro-easing;
       display: block;
     }
 

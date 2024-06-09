@@ -9,6 +9,7 @@ const errorDetails = computed(() => {
   } else if (props.error?.message) {
     return props.error?.message;
   }
+  return 'An error occurred';
 });
 </script>
 

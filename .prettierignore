@@ -12,9 +12,13 @@ client/assets/fonts
 server/data
 server/node_modules
 server/dist
+server/src/metadata.ts
 
 # Shared
 shared/node_modules
+shared/src/api.schema.ts
 
 # Tests
 tests/node_modules
+
+.all-contributorsrc

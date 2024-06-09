@@ -1,4 +1,4 @@
-const sample = {
+const _sample = {
   header: {
     type: 'SearchHeader',
     chip_bar: {

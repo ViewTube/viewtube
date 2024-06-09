@@ -1,3 +1,5 @@
+import type { ApiDto } from '@viewtube/shared';
+
 export const getComments = (id: string | string[]) => {
   const { apiUrl } = useApiUrl();
 

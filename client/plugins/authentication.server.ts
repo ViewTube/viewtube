@@ -1,6 +1,6 @@
 import { useUserStore } from '@/store/user';
-import { type Pinia } from 'pinia';
 import { parseCookies } from 'h3';
+import { type Pinia } from 'pinia';
 
 /**
  * This plugin runs user authentication server-side,
