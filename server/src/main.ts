@@ -24,6 +24,7 @@ import { checkRedisConnection } from './common/redis.connection';
 import { registerFastifyPlugin } from './common/registerFastifyPlugin';
 import metadata from './metadata';
 import { NuxtService } from './nuxt/nuxt.service';
+import { SubscriptionsService } from './user/subscriptions/subscriptions.service';
 
 declare const module: ModuleType;
 
@@ -80,6 +81,9 @@ const bootstrap = async () => {
       await mkdir(profilesDir);
     }
   }
+
+  const subscriptionsService = app.get(SubscriptionsService);
+  void subscriptionsService.initializeSubscriptionTask();
 
   // Disables helment on non-https instances
   if (isHttps()) {

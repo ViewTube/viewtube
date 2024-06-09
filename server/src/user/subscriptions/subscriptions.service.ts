@@ -7,7 +7,7 @@ import {
   NotFoundException
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Cron, CronExpression } from '@nestjs/schedule';
+import { SchedulerRegistry } from '@nestjs/schedule';
 import { Queue } from 'bull';
 import cluster from 'cluster';
 import { Model } from 'mongoose';
@@ -39,10 +39,23 @@ export class SubscriptionsService {
     @InjectQueue('subscriptions')
     private subscriptionsQueue: Queue<SubscriptionsQueueParams>,
     private notificationsService: NotificationsService,
-    private readonly logger: Logger
+    private readonly logger: Logger,
+    private schedulerRegistry: SchedulerRegistry
   ) {}
 
-  @Cron(CronExpression.EVERY_HOUR)
+  async initializeSubscriptionTask() {
+    const timeInMilliseconds = this.getSubscriptionIntervalTime() * 1000 * 60;
+    const interval = setInterval(this.collectSubscriptionsJob.bind(this), timeInMilliseconds);
+
+    this.collectSubscriptionsJob();
+
+    this.schedulerRegistry.addInterval('collectSubscriptions', interval);
+  }
+
+  private getSubscriptionIntervalTime() {
+    return parseInt(process.env.VIEWTUBE_SUBSCRIPTION_INTERVAL_TIME);
+  }
+
   async collectSubscriptionsJob(): Promise<void> {
     if ((cluster.worker && cluster.worker.id === 1) || !AppClusterService.isClustered) {
       const userSubscriptions = await this.SubscriptionModel.find().lean(true).exec();
@@ -229,10 +242,20 @@ export class SubscriptionsService {
         } catch (error) {
           this.logger.error(error);
         }
-        return { videos: mappedVideos, videoCount, lastRefresh };
+        return {
+          videos: mappedVideos,
+          videoCount,
+          lastRefresh,
+          refreshInterval: this.getSubscriptionIntervalTime()
+        };
       }
     }
-    return { videos: [], videoCount: 0, lastRefresh: null };
+    return {
+      videos: [],
+      videoCount: 0,
+      lastRefresh: null,
+      refreshInterval: this.getSubscriptionIntervalTime()
+    };
   }
 
   async getSubscription(username: string, channelId: string): Promise<SubscriptionStatusDto> {

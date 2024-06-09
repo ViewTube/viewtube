@@ -336,6 +336,7 @@ export interface components {
       videos: components["schemas"]["VideoBasicInfoDto"][];
       /** Format: date-time */
       lastRefresh: string;
+      refreshInterval: number;
     };
     SubscriptionStatusDto: {
       channelId: string;
