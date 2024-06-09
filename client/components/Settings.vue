@@ -6,6 +6,7 @@ import Dropdown from '@/components/filter/Dropdown.vue';
 import '@/assets/styles/popup.scss';
 import { type SegmentOption, useSettingsStore } from '@/store/settings';
 import CheckBox from '~/components/form/CheckBox.vue';
+import BadgeButton from './buttons/BadgeButton.vue';
 
 defineEmits<{
   (e: 'close'): void;
@@ -19,22 +20,34 @@ const sponsorblockSegmentOptions = [
   { label: 'Ask', value: 'ask' },
   { label: 'None', value: 'none' }
 ];
+const sponsorBlockUrl = ref<string>(settingsStore.sponsorblockUrl);
+
+const isSponsorBlockUrlValid = computed(() => {
+  try {
+    const url = new URL(sponsorBlockUrl.value);
+    if (url.protocol != "http:" && url.protocol != "https:") {
+      return false;
+    }
+    return sponsorBlockUrl.value.endsWith("/");
+  } catch {
+    return false;
+  }
+});
+
 const videoQualities = ['144p', '240p', '360p', '720p', '1080p', '1440p', '2160p'];
-const videoSpeedArray = [
-  '0',
-  '0.25',
-  '0.5',
-  '0.75',
-  '1',
-  '1.25',
-  '1.5',
-  '1.75',
-  '2',
-  '2.25',
-  '2.5',
-  '2.75',
-  '3'
-];
+const videoSpeedArray = ['0', '0.25', '0.5', '0.75', '1', '1.25', '1.5', '1.75', '2', '2.25', '2.5', '2.75', '3'];
+
+function setSponsorBlockUrl() {
+  if (!isSponsorBlockUrlValid.value) {
+    return;
+  }
+  settingsStore.sponsorblockUrl = sponsorBlockUrl.value;
+}
+
+function resetSponsorBlockUrl() {
+  settingsStore.sponsorblockUrl = "https://sponsor.ajay.app/";
+  sponsorBlockUrl.value = settingsStore.sponsorblockUrl;
+}
 </script>
 
 <template>
@@ -91,12 +104,12 @@ const videoSpeedArray = [
           alt="Sponsorblock icon"
         />Block ads and annoyances
       </h2>
-      <span class="small-label links"
-        >Using
-        <a href="https://sponsor.ajay.app/" target="_blank" rel="noreferrer noopener">
-          https://sponsor.ajay.app/</a
-        ></span
-      >
+      <span class="small-label links">
+        Using
+        <a :href="settingsStore.sponsorblockUrl" target="_blank" rel="noreferrer noopener">
+          {{ settingsStore.sponsorblockUrl }}
+        </a>
+      </span>
       <SwitchButton
         :value="settingsStore.sponsorblockEnabled"
         :label="'Enable SponsorBlock'"
@@ -105,6 +118,22 @@ const videoSpeedArray = [
         @valuechange="val => settingsStore.setSponsorblockEnabled(val)"
       />
       <div class="sponsorblock-options-container">
+        <div class="sponsorblock-options" :class="{ disabled: !settingsStore.sponsorblockEnabled }">
+          <div class="sponsor-block-url-row">
+            <label for="sponsor-block-url">SponsorBlock URL</label>
+            <span class="sponsor-block-url-actions">
+              <input
+                id="sponsor-block-url"
+                v-model="sponsorBlockUrl"
+                class="sponsor-block-url-input"
+                :class="{'invalid-input': !isSponsorBlockUrlValid}"
+                type="text"
+                @change="setSponsorBlockUrl"
+                />
+              <BadgeButton :click="resetSponsorBlockUrl">Reset</BadgeButton>
+            </span>
+          </div>
+        </div>
         <div class="sponsorblock-options" :class="{ disabled: !settingsStore.sponsorblockEnabled }">
           <MultiOptionButton
             :options="sponsorblockSegmentOptions"
@@ -445,19 +474,40 @@ const videoSpeedArray = [
     width: calc(100% - 36px);
     justify-content: space-between;
     margin-top: 20px !important;
+  }
 
-    .settings-number-input {
-      all: unset;
-      border: 2px solid var(--bgcolor-alt-light);
-      width: 50px;
-      padding: 2px 5px;
-      border-radius: 5px;
-      transition: border 300ms $intro-easing;
+  .settings-number-input, .sponsor-block-url-input {
+    all: unset;
+    border: 2px solid var(--bgcolor-alt-light);
+    width: 50px;
+    padding: 2px 5px;
+    border-radius: 5px;
+    transition: border 300ms $intro-easing;
 
-      &:focus {
-        border: 2px solid var(--theme-color);
-      }
+    &:focus {
+      border: 2px solid var(--theme-color);
     }
+  }
+
+  .sponsor-block-url-input {
+    width: 250px;
+  }
+
+  .invalid-input, .invalid-input:focus {
+    border: 2px solid #e00;
+  }
+
+  .sponsor-block-url-actions {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+  }
+
+  .sponsor-block-url-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 1rem;
   }
 
   .video-speed-checkbox {

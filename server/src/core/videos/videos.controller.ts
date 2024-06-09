@@ -1,5 +1,5 @@
 import { CacheInterceptor, CacheTTL } from '@nestjs/cache-manager';
-import { Controller, Get, Header, Param, UseInterceptors } from '@nestjs/common';
+import { Controller, Get, Header, Param, Query, UseInterceptors } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { DislikeDto } from 'server/core/videos/dto/dislike.dto';
 import { VTVideoInfoDto } from 'server/mapper/dto/vt-video-info.dto';
@@ -37,7 +37,7 @@ export class VideosController {
   @CacheTTL(21600000)
   @Header('Cache-Control', 'public, max-age=21600')
   @Get(':id/skipSegments')
-  getSkipSegments(@Param('id') id: string, @Param('url') url?: string): Promise<SponsorBlockSegmentsDto> {
+  getSkipSegments(@Param('id') id: string, @Query('url') url?: string): Promise<SponsorBlockSegmentsDto> {
     return this.videosService.getSkipSegments(id, url);
   }
 }

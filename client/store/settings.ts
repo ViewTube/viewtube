@@ -44,6 +44,7 @@ export const useSettingsStore = defineStore(
         showHomeTrendingVideos: true,
         showRecommendedVideos: true,
         sponsorblockEnabled: true,
+        sponsorblockUrl: 'https://sponsor.ajay.app/',
         sponsorblockSegmentInteraction: 'ask' as SegmentOption,
         sponsorblockSegmentIntro: 'ask' as SegmentOption,
         sponsorblockSegmentMusicOfftopic: 'ask' as SegmentOption,

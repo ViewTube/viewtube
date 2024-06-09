@@ -16,9 +16,11 @@ export const useSponsorBlockState = (video: Ref<ApiDto<'VTVideoInfoDto'>>) => {
     if (!settingsStore.sponsorblockEnabled) return;
     if (skipSegments.value) return;
 
+    const sponsorBlockUrl = settingsStore.sponsorblockUrl;
+
     const url = `${apiUrl.value}videos/${videoId}/skipSegments`;
 
-    vtFetch<ApiDto<'SponsorBlockSegmentsDto'>>(url).then(response => {
+    vtFetch<ApiDto<'SponsorBlockSegmentsDto'>>(url, { query: { url: sponsorBlockUrl } }).then(response => {
       if (response?.segments?.length) {
         sponsorBlockStore.addSponsorBlockSegments(response);
       }
