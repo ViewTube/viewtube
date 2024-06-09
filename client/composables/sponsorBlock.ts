@@ -1,10 +1,11 @@
 import { sha256 } from 'js-sha256';
 import { SponsorBlockSegmentDto, SponsorBlockSegmentsDto } from '../../shared';
-
-const sponsorBlockApiUrl = 'https://sponsor.ajay.app/';
+import { useSettingsStore } from '~/store/settings';
 
 export const useSponsorBlock = () => {
   const { vtFetch } = useVtFetch();
+  const settings = useSettingsStore();
+  const sponsorBlockApi = settings.sponsorblockUrl;
 
   const skipSegments = ref<SponsorBlockSegmentsDto>(null);
 
@@ -14,7 +15,7 @@ export const useSponsorBlock = () => {
     const encodedVideoId = hash.hex();
     const shortHash = encodedVideoId.substring(0, 4);
 
-    const url = `${sponsorBlockApiUrl}api/skipSegments/${shortHash}?categories=["sponsor", "intro", "outro", "interaction", "selfpromo", "music_offtopic", "preview"]`;
+    const url = `${sponsorBlockApi}api/skipSegments/${shortHash}?categories=["sponsor", "intro", "outro", "interaction", "selfpromo", "music_offtopic", "preview"]`;
 
     vtFetch<Array<SponsorBlockSegmentsDto>>(url, { external: true }).then(response => {
       if (response && Array.isArray(response)) {
