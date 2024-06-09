@@ -14,6 +14,9 @@ export class Settings extends Document implements SettingsDto {
   theme: string;
 
   @Prop()
+  sponsorblockUrl: string;
+
+  @Prop()
   sponsorblockEnabled: boolean;
 
   @Prop({ type: String })

@@ -229,6 +229,7 @@ export interface components {
     SettingsDto: {
       chapters: boolean;
       theme: string;
+      sponsorblockUrl: string;
       sponsorblockEnabled: boolean;
       sponsorblockSegmentSponsor: Record<string, never>;
       sponsorblockSegmentIntro: Record<string, never>;

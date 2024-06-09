@@ -5,6 +5,8 @@ export class SettingsDto {
 
   theme: string;
 
+  sponsorblockUrl: string;
+
   sponsorblockEnabled: boolean;
 
   sponsorblockSegmentSponsor: segmentOption;

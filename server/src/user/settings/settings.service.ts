@@ -28,6 +28,7 @@ export class SettingsService {
     showHomeSubscriptions: true,
     showHomeTrendingVideos: true,
     showRecommendedVideos: true,
+    sponsorblockUrl: 'https://sponsor.ajay.app/',
     sponsorblockEnabled: true,
     sponsorblockSegmentInteraction: 'ask',
     sponsorblockSegmentIntro: 'ask',
