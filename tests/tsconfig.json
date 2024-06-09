@@ -6,7 +6,7 @@
     "lib": ["esnext", "dom"],
     "allowJs": true,
     "esModuleInterop": true,
-    "types": ["cypress-commands", "cypress", "node"],
+    "types": ["cypress-commands", "cypress"],
     "baseUrl": "cypress"
   },
   "include": ["**/*.ts"]
