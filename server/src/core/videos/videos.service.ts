@@ -7,7 +7,6 @@ import {
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { createHash } from 'node:crypto';
-import { writeFileSync } from 'node:fs';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { BlockedVideo } from 'server/admin/schemas/blocked-video';
@@ -17,6 +16,7 @@ import { DislikeDto } from 'server/core/videos/dto/dislike.dto';
 import { toVTVideoInfoDto } from 'server/mapper/converter/video-info/vt-video-info.converter';
 import { VTVideoInfoDto } from 'server/mapper/dto/vt-video-info.dto';
 import sharp from 'sharp';
+import { Common } from '../common';
 import { SponsorBlockSegmentsDto } from './dto/sponsorblock/sponsorblock-segments.dto';
 import { VideoBasicInfoDto } from './dto/video-basic-info.dto';
 import { VideoBasicInfo } from './schemas/video-basic-info.schema';
@@ -126,10 +126,19 @@ export class VideosService {
     throw new HttpException('Error fetching dislike information', 503);
   }
 
-  async getSkipSegments(id: string): Promise<SponsorBlockSegmentsDto> {
+  async getSkipSegments(id: string, url?: string): Promise<SponsorBlockSegmentsDto> {
     if (!id) {
       throw new HttpException('No video id provided', 400);
     }
+
+    if (url) {
+      if (!Common.validateExternalUrl(url)) {
+        throw new HttpException('Invalid URL provided', 400);
+      }
+    } else {
+      url = this.sponsorBlockApiUrl;
+    }
+
     const idHash = createHash('sha256').update(id).digest('hex').substring(0, 4);
 
     const categories = [
@@ -144,14 +153,11 @@ export class VideosService {
       'poi_highlight'
     ];
 
-    const { body } = await vtFetch<SponsorBlockSegmentsDto[]>(
-      `${this.sponsorBlockApiUrl}/api/skipSegments/${idHash}`,
-      {
-        query: {
-          categories: `["${categories.join('","')}"]`
-        }
+    const { body } = await vtFetch<SponsorBlockSegmentsDto[]>(`${url}/api/skipSegments/${idHash}`, {
+      query: {
+        categories: `["${categories.join('","')}"]`
       }
-    );
+    });
 
     if (body) {
       const skipSectionsArray = await body.json();

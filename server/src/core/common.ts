@@ -4,6 +4,17 @@ import { VTThumbnailDto } from 'server/mapper/dto/vt-thumbnail.dto';
 export class Common {
   public static readonly youtubeVideoUrl: string = 'https://youtube.com/watch?v=';
 
+  public static validateExternalUrl(url: string): boolean {
+    return (
+      (url && !url.startsWith('http')) ||
+      url.includes('localhost') ||
+      url.includes('0.0.0.0') ||
+      url.includes('127.0.0.1') ||
+      url.includes('::1') ||
+      url.includes('0:0:0:0:0:0:0:1')
+    );
+  }
+
   public static convertSortParams<T>(sort: string): Sorting<T> {
     if (sort.match(/.*:.*.,?/gi)) {
       const sortArray = sort.split(',');
