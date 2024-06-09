@@ -37,7 +37,10 @@ export class VideosController {
   @CacheTTL(21600000)
   @Header('Cache-Control', 'public, max-age=21600')
   @Get(':id/skipSegments')
-  getSkipSegments(@Param('id') id: string, @Query('url') url?: string): Promise<SponsorBlockSegmentsDto> {
+  getSkipSegments(
+    @Param('id') id: string,
+    @Query('url') url?: string
+  ): Promise<SponsorBlockSegmentsDto> {
     return this.videosService.getSkipSegments(id, url);
   }
 }

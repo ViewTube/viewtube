@@ -25,17 +25,31 @@ const sponsorBlockUrl = ref<string>(settingsStore.sponsorblockUrl);
 const isSponsorBlockUrlValid = computed(() => {
   try {
     const url = new URL(sponsorBlockUrl.value);
-    if (url.protocol != "http:" && url.protocol != "https:") {
+    if (url.protocol != 'http:' && url.protocol != 'https:') {
       return false;
     }
-    return sponsorBlockUrl.value.endsWith("/");
+    return sponsorBlockUrl.value.endsWith('/');
   } catch {
     return false;
   }
 });
 
 const videoQualities = ['144p', '240p', '360p', '720p', '1080p', '1440p', '2160p'];
-const videoSpeedArray = ['0', '0.25', '0.5', '0.75', '1', '1.25', '1.5', '1.75', '2', '2.25', '2.5', '2.75', '3'];
+const videoSpeedArray = [
+  '0',
+  '0.25',
+  '0.5',
+  '0.75',
+  '1',
+  '1.25',
+  '1.5',
+  '1.75',
+  '2',
+  '2.25',
+  '2.5',
+  '2.75',
+  '3'
+];
 
 function setSponsorBlockUrl() {
   if (!isSponsorBlockUrlValid.value) {
@@ -45,7 +59,7 @@ function setSponsorBlockUrl() {
 }
 
 function resetSponsorBlockUrl() {
-  settingsStore.sponsorblockUrl = "https://sponsor.ajay.app/";
+  settingsStore.sponsorblockUrl = 'https://sponsor.ajay.app/';
   sponsorBlockUrl.value = settingsStore.sponsorblockUrl;
 }
 </script>
@@ -126,10 +140,10 @@ function resetSponsorBlockUrl() {
                 id="sponsor-block-url"
                 v-model="sponsorBlockUrl"
                 class="sponsor-block-url-input"
-                :class="{'invalid-input': !isSponsorBlockUrlValid}"
+                :class="{ 'invalid-input': !isSponsorBlockUrlValid }"
                 type="text"
                 @change="setSponsorBlockUrl"
-                />
+              />
               <BadgeButton :click="resetSponsorBlockUrl">Reset</BadgeButton>
             </span>
           </div>
@@ -476,7 +490,8 @@ function resetSponsorBlockUrl() {
     margin-top: 20px !important;
   }
 
-  .settings-number-input, .sponsor-block-url-input {
+  .settings-number-input,
+  .sponsor-block-url-input {
     all: unset;
     border: 2px solid var(--bgcolor-alt-light);
     width: 50px;
@@ -493,7 +508,8 @@ function resetSponsorBlockUrl() {
     width: 250px;
   }
 
-  .invalid-input, .invalid-input:focus {
+  .invalid-input,
+  .invalid-input:focus {
     border: 2px solid #e00;
   }
 

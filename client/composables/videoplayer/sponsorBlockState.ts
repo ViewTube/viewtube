@@ -20,11 +20,13 @@ export const useSponsorBlockState = (video: Ref<ApiDto<'VTVideoInfoDto'>>) => {
 
     const url = `${apiUrl.value}videos/${videoId}/skipSegments`;
 
-    vtFetch<ApiDto<'SponsorBlockSegmentsDto'>>(url, { query: { url: sponsorBlockUrl } }).then(response => {
-      if (response?.segments?.length) {
-        sponsorBlockStore.addSponsorBlockSegments(response);
+    vtFetch<ApiDto<'SponsorBlockSegmentsDto'>>(url, { query: { url: sponsorBlockUrl } }).then(
+      response => {
+        if (response?.segments?.length) {
+          sponsorBlockStore.addSponsorBlockSegments(response);
+        }
       }
-    });
+    );
   };
 
   onBeforeMount(() => {

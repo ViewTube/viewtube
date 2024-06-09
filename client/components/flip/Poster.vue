@@ -70,7 +70,6 @@ const posterThumbnail = computed(() => {
   background-color: #000;
 
   &.embed {
-    
     .flip-poster-img {
       object-fit: contain;
     }
