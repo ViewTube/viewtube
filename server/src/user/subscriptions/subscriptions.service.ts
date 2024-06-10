@@ -10,6 +10,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import { SchedulerRegistry } from '@nestjs/schedule';
 import { Queue } from 'bull';
 import cluster from 'cluster';
+import { CronJob } from 'cron';
+import CronTime from 'cron-time-generator';
 import { Model } from 'mongoose';
 import { AppClusterService } from 'server/app-cluster.service';
 import { General } from 'server/common/general.schema';
@@ -44,12 +46,28 @@ export class SubscriptionsService {
   ) {}
 
   async initializeSubscriptionTask() {
-    const timeInMilliseconds = this.getSubscriptionIntervalTime() * 1000 * 60;
-    const interval = setInterval(this.collectSubscriptionsJob.bind(this), timeInMilliseconds);
+    const timeInMinutes = this.getSubscriptionIntervalTime();
+    const cronTime = CronTime.every(timeInMinutes).minutes();
 
-    this.collectSubscriptionsJob();
+    const existingCronJobs = this.schedulerRegistry.getCronJobs();
+    const subscriptionsCronJob = existingCronJobs.get('collectSubscriptions');
 
-    this.schedulerRegistry.addInterval('collectSubscriptions', interval);
+    if (subscriptionsCronJob) {
+      const cronJobTime = subscriptionsCronJob.cronTime.source;
+      if (cronTime.toString() === cronJobTime) {
+        console.log('CronJob already exists with the same time');
+        return;
+      }
+    }
+
+    const job = new CronJob(cronTime, this.collectSubscriptionsJob.bind(this));
+
+    this.schedulerRegistry.addCronJob('collectSubscriptions', job);
+    job.start();
+
+    console.log(
+      `Scheduled subscription job to run every ${timeInMinutes} ${timeInMinutes > 1 ? 'minutes' : 'minute'}`
+    );
   }
 
   private getSubscriptionIntervalTime() {
