@@ -22,7 +22,7 @@ export class SettingsService {
     autoplayNextVideo: false,
     chapters: true,
     defaultAudioQuality: '192kb',
-    defaultVideoQuality: '720p',
+    maxVideoQuality: '1080p',
     defaultVideoSpeed: 1,
     saveVideoHistory: true,
     showHomeSubscriptions: true,

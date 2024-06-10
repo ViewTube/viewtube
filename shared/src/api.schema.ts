@@ -250,7 +250,7 @@ export interface components {
       autoplayNextVideo: boolean;
       audioModeDefault: boolean;
       defaultVideoSpeed: number;
-      defaultVideoQuality: string;
+      maxVideoQuality: string;
       defaultAudioQuality: string;
       autoAdjustAudioQuality: boolean;
       autoAdjustVideoQuality: boolean;

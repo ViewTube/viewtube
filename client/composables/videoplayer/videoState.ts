@@ -76,10 +76,11 @@ export const useVideoState = ({
         source,
         startTime,
         videoState,
-        volumeStorage,
+        defaultVolume: volumeStorage,
         createMessage: messagesStore.createMessage,
         autoplay,
         videoEnded,
+        maximumQuality: settingsStore.maxVideoQuality,
         loop: settingsStore.alwaysLoopVideo
       });
     } else if (sourceType.value === VideoSourceType.HLS) {
@@ -88,10 +89,11 @@ export const useVideoState = ({
         source,
         startTime,
         videoState,
-        volumeStorage,
+        defaultVolume: volumeStorage,
         createMessage: messagesStore.createMessage,
         autoplay,
-        videoEnded
+        videoEnded,
+        maximumQuality: settingsStore.maxVideoQuality
       });
     }
   };
@@ -121,7 +123,10 @@ export const useVideoState = ({
     adapterInstance.value?.pause();
     saveVideoPosition();
   };
-  const setVolume = (volume: number) => adapterInstance.value?.setVolume(volume);
+  const setVolume = (volume: number) => {
+    volumeStorage.value = volume;
+    adapterInstance.value?.setVolume(volume);
+  };
   const setMuted = (muted: boolean) => (videoElementRef.value.muted = muted);
   const setPlaybackRate = (playbackRate: number) =>
     adapterInstance.value?.setPlaybackRate(playbackRate);

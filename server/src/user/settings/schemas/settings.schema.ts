@@ -77,7 +77,7 @@ export class Settings extends Document implements SettingsDto {
   defaultVideoSpeed: number;
 
   @Prop()
-  defaultVideoQuality: string;
+  maxVideoQuality: string;
 
   @Prop()
   defaultAudioQuality: string;

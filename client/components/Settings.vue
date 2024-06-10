@@ -303,13 +303,15 @@ function resetSponsorBlockUrl() {
       <h2><VTIcon name="mdi:television" />Videoplayer</h2>
       <div class="settings-dropdown-menu">
         <div class="quality-label">
-          <label>Default video quality</label>
-          <label class="small-label">If unavailable, the next lower quality will be chosen</label>
+          <label>Maximum video quality</label>
+          <label class="small-label"
+            >The automatic quality adjustment will never go above this setting</label
+          >
         </div>
         <Dropdown
           :values="videoQualities"
-          :value="settingsStore.defaultVideoQuality"
-          @valuechange="val => settingsStore.setDefaultVideoQuality(val.value)"
+          :value="settingsStore.maxVideoQuality"
+          @valuechange="val => settingsStore.setMaxVideoQuality(val.value)"
         />
       </div>
       <div class="settings-number-menu">
