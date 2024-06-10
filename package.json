@@ -48,8 +48,7 @@
   },
   "pnpm": {
     "patchedDependencies": {
-      "papaparse@5.4.1": "patches/papaparse@5.4.1.patch",
-      "shaka-player@4.9.1": "patches/shaka-player@4.9.1.patch"
+      "papaparse@5.4.1": "patches/papaparse@5.4.1.patch"
     },
     "overrides": {
       "has": "npm:@nolyfill/has@latest",
