@@ -330,8 +330,8 @@ importers:
         specifier: 1.6.11
         version: 1.6.11
       youtubei.js:
-        specifier: 9.4.0
-        version: 9.4.0
+        specifier: 10.0.0
+        version: 10.0.0
       ytpl:
         specifier: 2.3.0
         version: 2.3.0
@@ -7755,8 +7755,8 @@ packages:
     resolution: {integrity: sha512-9bnSc/HEW2uRy67wc+T8UwauLuPJVn28jb+GtJY16iiKWyvmYJRXVT4UamsAEGQfPohgr2q4Tq0sQbQlxTfi1g==}
     engines: {node: '>=12.20'}
 
-  youtubei.js@9.4.0:
-    resolution: {integrity: sha512-8plCOZD2WabqWSEgZU3RjzigIIeR7sF028EERJENYrC9xO/6awpLMZfeoE1gNrNEbKcA+bzbMvonqlvBdxGdKg==}
+  youtubei.js@10.0.0:
+    resolution: {integrity: sha512-4Mmguxyw1TK1Co+gbx+41SFR55DR3OzMCdFW8OrSENjAjjOY9RDg7sKFbR+ZLsT3ga9AH1/nq+14KUItT9pPHQ==}
 
   ytpl@2.3.0:
     resolution: {integrity: sha512-Cfw2rxq3PFK6qgWr2Z8gsRefVahEzbn9XEuiJldqdXHE6GhO7kTfEvbZKdfXing1SmgW635uJ/UL2g8r0fvu2Q==}
@@ -16361,7 +16361,7 @@ snapshots:
 
   yocto-queue@1.0.0: {}
 
-  youtubei.js@9.4.0:
+  youtubei.js@10.0.0:
     dependencies:
       jintr: 1.1.0
       tslib: 2.6.3
