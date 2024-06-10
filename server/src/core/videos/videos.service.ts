@@ -131,12 +131,15 @@ export class VideosService {
       throw new HttpException('No video id provided', 400);
     }
 
+    let sponsorBlockUrl = url;
+
     if (url) {
-      if (!Common.validateExternalUrl(url)) {
+      sponsorBlockUrl = decodeURIComponent(url);
+      if (!Common.validateExternalUrl(sponsorBlockUrl)) {
         throw new HttpException('Invalid URL provided', 400);
       }
     } else {
-      url = this.sponsorBlockApiUrl;
+      sponsorBlockUrl = this.sponsorBlockApiUrl;
     }
 
     const idHash = createHash('sha256').update(id).digest('hex').substring(0, 4);
@@ -153,7 +156,7 @@ export class VideosService {
       'poi_highlight'
     ];
 
-    const { body } = await vtFetch<SponsorBlockSegmentsDto[]>(`${url}/api/skipSegments/${idHash}`, {
+    const { body } = await vtFetch<SponsorBlockSegmentsDto[]>(`${sponsorBlockUrl}/api/skipSegments/${idHash}`, {
       query: {
         categories: `["${categories.join('","')}"]`
       }
