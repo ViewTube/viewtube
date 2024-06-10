@@ -15,9 +15,6 @@ patchedDependencies:
   papaparse@5.4.1:
     hash: qkk65lc3l6wlngad3wq4nzv2yi
     path: patches/papaparse@5.4.1.patch
-  shaka-player@4.9.1:
-    hash: aa3vxwwdq7pdgcwv6yddfd2ycy
-    path: patches/shaka-player@4.9.1.patch
 
 importers:
 
@@ -155,9 +152,6 @@ importers:
       sass:
         specifier: 1.77.4
         version: 1.77.4
-      shaka-player:
-        specifier: 4.9.1
-        version: 4.9.1(patch_hash=aa3vxwwdq7pdgcwv6yddfd2ycy)
       swiper:
         specifier: 11.1.4
         version: 11.1.4
@@ -3671,9 +3665,6 @@ packages:
   electron-to-chromium@1.4.796:
     resolution: {integrity: sha512-NglN/xprcM+SHD2XCli4oC6bWe6kHoytcyLKCWXmRL854F0qhPhaYgUswUsglnPxYaNQIg2uMY4BvaomIf3kLA==}
 
-  eme-encryption-scheme-polyfill@2.1.5:
-    resolution: {integrity: sha512-z9BKXV4TCYjmar0wiZLObZ0J8HE13VIg7Zq/iyPWdbEfROtxVXEJalknWKtBR5XNezzy15/zWS964TGbcAWlPg==}
-
   emoji-regex@8.0.0:
     resolution: {integrity: sha512-MSjYzcWNOA0ewAHpz0MxpYFvwg6yjy1NG3xteoqz644VCo/RPgnr1/GGt+ic3iJTzQ8Eu3TdM14SawnVUmGE6A==}
 
@@ -6391,9 +6382,6 @@ packages:
 
   setprototypeof@1.2.0:
     resolution: {integrity: sha512-E5LDX7Wrp85Kil5bhZv46j8jOeboKq5JMmYM3gVGdGH8xFpPWXUMsNrlODCrkoxMEeNi/XZIwuRvY4XNwYMJpw==}
-
-  shaka-player@4.9.1:
-    resolution: {integrity: sha512-+MRHIBS1jMr634K0Q/FRDWpsIW/U3nT+TiGxmmYtcr0hDOcvcSnkJOpR4xXbSqdtif6ihaOJseBFljVlQ8J0lw==}
 
   sharp@0.33.4:
     resolution: {integrity: sha512-7i/dt5kGl7qR4gwPRD2biwD2/SvBn3O04J77XKFgL2OnZtQw+AG9wnuS/csmu80nPRHLYE9E41fyEiG8nhH6/Q==}
@@ -11294,8 +11282,6 @@ snapshots:
 
   electron-to-chromium@1.4.796: {}
 
-  eme-encryption-scheme-polyfill@2.1.5: {}
-
   emoji-regex@8.0.0: {}
 
   emoji-regex@9.2.2: {}
@@ -14352,10 +14338,6 @@ snapshots:
       has-property-descriptors: 1.0.2
 
   setprototypeof@1.2.0: {}
-
-  shaka-player@4.9.1(patch_hash=aa3vxwwdq7pdgcwv6yddfd2ycy):
-    dependencies:
-      eme-encryption-scheme-polyfill: 2.1.5
 
   sharp@0.33.4:
     dependencies:
