@@ -8,7 +8,7 @@ const props = defineProps<{
   embed?: boolean;
 }>();
 
-const { proxyImg } = useImgProxy();
+const { proxyUrl } = useImgProxy();
 
 const onPosterClick = () => {
   if (props.videoState.video.buffering) return;
@@ -19,7 +19,7 @@ const onPosterClick = () => {
 const posterThumbnail = computed(() => {
   const url =
     [...(props.video.thumbnails ?? [])]?.sort((a, b) => b.width - a.width)?.[0]?.url ?? '#';
-  return proxyImg(url);
+  return proxyUrl(url);
 });
 </script>
 
