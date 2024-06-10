@@ -8,6 +8,8 @@ const props = defineProps<{
   embed?: boolean;
 }>();
 
+const { proxyUrl } = useImgProxy();
+
 const onPosterClick = () => {
   if (props.videoState.video.buffering) return;
   props.uiState.hidePoster();
@@ -15,7 +17,9 @@ const onPosterClick = () => {
 };
 
 const posterThumbnail = computed(() => {
-  return [...(props.video.thumbnails ?? [])]?.sort((a, b) => b.width - a.width)?.[0]?.url ?? '#';
+  const url =
+    [...(props.video.thumbnails ?? [])]?.sort((a, b) => b.width - a.width)?.[0]?.url ?? '#';
+  return proxyUrl(url);
 });
 </script>
 

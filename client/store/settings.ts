@@ -36,7 +36,7 @@ export const useSettingsStore = defineStore(
         autoplayNextVideo: false,
         chapters: true,
         defaultAudioQuality: '192kb',
-        defaultVideoQuality: '720p',
+        maxVideoQuality: '1080p',
         defaultVideoSpeed: 1,
         saveVideoHistory: true,
         settingsSaving: false,

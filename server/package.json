@@ -42,6 +42,8 @@
     "class-transformer": "0.5.1",
     "class-validator": "0.14.1",
     "cookie-parser": "1.4.6",
+    "cron": "3.1.7",
+    "cron-time-generator": "2.0.3",
     "dayjs": "1.11.11",
     "destr": "2.0.3",
     "fast-xml-parser": "4.4.0",

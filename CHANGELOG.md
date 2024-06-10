@@ -1,17 +1,19 @@
 # Changelog
 
-This file is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
-
 ## [0.16.0]
 
 ### Added
 
+- Set custom SponsorBlock API URL (Thanks @patricgruber) [#2799]
+- Configurable subscription interval time (Thanks @patricgruber) [#2798]
+- Add option to exclude shorts from search results (Thanks @frozenduck) [#2795]
+- Expandable subscriptions on homepage (Thanks @nargacu83) [#2790]
+- Add option to select playback speed from a list (Thanks @frozenduck) [#2771]
 - Brand new video player (Checkout the wiki: https://viewtube.wiki/features/videoplayer) [#2388]
 
 ### Fixed
 
-- Replace comments API [#2772](https://github.com/ViewTube/viewtube/pull/2772)
+- Rewrite comments API [#2772](https://github.com/ViewTube/viewtube/pull/2772)
 - Perform search when clicking on autocomplete suggestion (Thanks @frozenduck) [#2770](https://github.com/ViewTube/viewtube/pull/2770)
 
 ## [0.15.3]

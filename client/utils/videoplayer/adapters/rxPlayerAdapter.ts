@@ -1,4 +1,3 @@
-import RxPlayer from 'rx-player';
 import type { IAvailableAudioTrack, IAvailableVideoTrack } from 'rx-player/types';
 import type { AudioTrack, Language, VideoTrack } from '~/interfaces/VideoState';
 
@@ -7,11 +6,12 @@ export type RxPlayerAdapterOptions = {
   source: Ref<string>;
   startTime?: Ref<number>;
   videoState: VideoState['video'];
-  volumeStorage: Ref<number>;
+  defaultVolume: Ref<number>;
   videoEnded: () => void;
   createMessage: (...args: any[]) => void;
   autoplay?: boolean;
   loop?: boolean;
+  maximumQuality?: string;
 };
 
 enum PlayerState {
@@ -32,17 +32,32 @@ export const rxPlayerAdapter = async ({
   source,
   startTime,
   videoState,
-  volumeStorage,
+  defaultVolume,
   videoEnded,
   createMessage,
   autoplay,
-  loop
+  loop,
+  maximumQuality
 }: RxPlayerAdapterOptions) => {
-  const createPlayer = () => {
-    return new RxPlayer({
+  // RxPlayer.addFeatures([DASH_WASM]);
+
+  const RxPlayer = await import('rx-player').then(module => module.default);
+  const { DASH_WASM } = await import('rx-player/features');
+  const { EMBEDDED_DASH_WASM, EMBEDDED_WORKER } = await import(
+    'rx-player/experimental/features/embeds'
+  );
+
+  await DASH_WASM.initialize({ wasmUrl: EMBEDDED_DASH_WASM }).catch(() => {});
+
+  const createPlayer = async () => {
+    const player = new RxPlayer({
       videoElement: videoElementRef.value
     });
+    await player.attachWorker({ workerUrl: EMBEDDED_WORKER, dashWasmUrl: EMBEDDED_DASH_WASM });
+    return player;
   };
+
+  const initialLoaded = ref(false);
 
   const registerEvents = () => {
     playerInstance?.addEventListener('playerStateChange', state => {
@@ -56,6 +71,10 @@ export const rxPlayerAdapter = async ({
           break;
         case PlayerState.LOADED:
           videoState.buffering = false;
+          if (!initialLoaded.value) {
+            limitQuality();
+            initialLoaded.value = true;
+          }
           break;
         case PlayerState.PLAYING:
           videoState.playing = true;
@@ -142,6 +161,20 @@ export const rxPlayerAdapter = async ({
       currentAudioRepresentationId.value = audioRepresentation?.id?.toString();
       refreshTracks();
     });
+  };
+
+  const limitQuality = () => {
+    const maxHeight = parseInt(maximumQuality.replace('p', ''));
+
+    const currentTrack = playerInstance?.getVideoTrack();
+
+    const allowedRepresentations = currentTrack.representations.filter(representation => {
+      return representation.height <= maxHeight;
+    });
+
+    playerInstance?.lockVideoRepresentations(
+      allowedRepresentations.map(representation => representation.id)
+    );
   };
 
   const currentVideoRepresentationId = ref<string | null>(null);
@@ -255,24 +288,6 @@ export const rxPlayerAdapter = async ({
       );
   };
 
-  watch(videoElementRef, (newValue, oldValue) => {
-    if (newValue && newValue !== oldValue) {
-      playerInstance?.stop();
-      playerInstance?.dispose();
-
-      playerInstance = createPlayer();
-      registerEvents();
-      playerInstance.setVolume(volumeStorage.value);
-      loadVideo();
-    }
-  });
-
-  watch(source, (newValue, oldValue) => {
-    if (newValue && newValue !== oldValue) {
-      loadVideo();
-    }
-  });
-
   const loadVideo = () => {
     playerInstance?.loadVideo({
       transport: 'dash',
@@ -280,7 +295,12 @@ export const rxPlayerAdapter = async ({
       startAt: {
         position: startTime?.value || 0
       },
-      autoPlay: autoplay
+      autoPlay: autoplay,
+      requestConfig: {
+        segment: {
+          maxRetry: 999
+        }
+      }
     });
     if (videoElementRef.value) {
       videoElementRef.value.loop = loop;
@@ -320,6 +340,7 @@ export const rxPlayerAdapter = async ({
   const setAutoVideoQuality = () => {
     playerInstance?.unlockVideoRepresentations();
     videoState.automaticVideoQuality = true;
+    limitQuality();
   };
   const setAudioRepresentation = (audioTrackId: string, audioRepresentationId: string) => {
     playerInstance?.setAudioTrack({
@@ -334,8 +355,10 @@ export const rxPlayerAdapter = async ({
     videoState.automaticAudioQuality = true;
   };
 
-  let playerInstance = createPlayer();
+  const playerInstance = await createPlayer();
   registerEvents();
+  playerInstance.setVolume(defaultVolume.value);
+  videoState.volume = defaultVolume.value;
   loadVideo();
 
   return {

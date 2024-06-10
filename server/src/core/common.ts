@@ -6,12 +6,15 @@ export class Common {
 
   public static validateExternalUrl(url: string): boolean {
     return (
-      (url && !url.startsWith('http')) ||
-      url.includes('localhost') ||
-      url.includes('0.0.0.0') ||
-      url.includes('127.0.0.1') ||
-      url.includes('::1') ||
-      url.includes('0:0:0:0:0:0:0:1')
+      url &&
+      url.startsWith('http') &&
+      !(
+        url.includes('localhost') ||
+        url.includes('0.0.0.0') ||
+        url.includes('127.0.0.1') ||
+        url.startsWith('::1') ||
+        url.includes('0:0:0:0:0:0:0:1')
+      )
     );
   }
 

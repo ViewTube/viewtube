@@ -4,24 +4,11 @@ import type { RxPlayerAdapterOptions } from './rxPlayerAdapter';
 
 type HlsAdapterOptions = RxPlayerAdapterOptions;
 
-enum PlayerState {
-  STOPPED = 'STOPPED',
-  LOADING = 'LOADING',
-  LOADED = 'LOADED',
-  PLAYING = 'PLAYING',
-  PAUSED = 'PAUSED',
-  BUFFERING = 'BUFFERING',
-  FREEZING = 'FREEZING',
-  SEEKING = 'SEEKING',
-  ENDED = 'ENDED',
-  RELOADING = 'RELOADING'
-}
-
 export const hlsAdapter = async ({
   videoElementRef,
   source,
   videoState,
-  volumeStorage,
+  defaultVolume,
   videoEnded,
   createMessage,
   autoplay
@@ -35,9 +22,24 @@ export const hlsAdapter = async ({
       enableWorker: true,
       backBufferLength: 400,
       maxBufferLength: 90,
-      // liveDurationInfinity: true,
       lowLatencyMode: true,
       progressive: true,
+      fragLoadPolicy: {
+        default: {
+          maxTimeToFirstByteMs: 10000,
+          maxLoadTimeMs: 120000,
+          timeoutRetry: {
+            maxNumRetry: 400,
+            retryDelayMs: 0,
+            maxRetryDelayMs: 0,
+          },
+          errorRetry: {
+            maxNumRetry: 400,
+            retryDelayMs: 1000,
+            maxRetryDelayMs: 8000,
+          },
+        },
+      },
       fetchSetup(context, initParams) {
         if (!context.url.includes(streamProxy)) {
           context.url = streamProxy + encodeURI(context.url);
@@ -205,23 +207,6 @@ export const hlsAdapter = async ({
     ];
   };
 
-  let playerInstance = createPlayer();
-
-  watch(videoElementRef, (newValue, oldValue) => {
-    if (newValue && newValue !== oldValue) {
-      playerInstance?.detachMedia();
-
-      playerInstance?.attachMedia(newValue);
-
-      newValue.volume = volumeStorage.value;
-      loadVideo();
-    }
-  });
-
-  watch(source, () => {
-    loadVideo();
-  });
-
   const loadVideo = () => {
     playerInstance?.loadSource(source.value);
   };
@@ -252,7 +237,7 @@ export const hlsAdapter = async ({
 
   const setLanguage = (_: string) => {};
 
-  const setVideoRepresentation = (videoTrackId: string, videoRepresentationId: string) => {
+  const setVideoRepresentation = (_videoTrackId: string, videoRepresentationId: string) => {
     if (playerInstance) {
       playerInstance.currentLevel = parseInt(videoRepresentationId);
       videoState.automaticVideoQuality = false;
@@ -268,8 +253,9 @@ export const hlsAdapter = async ({
   const setAudioRepresentation = (_audioTrackId: string, _audioRepresentationId: string) => {};
   const setAutoAudioQuality = () => {};
 
-  playerInstance = createPlayer();
+  const playerInstance = createPlayer();
   registerEvents();
+  videoElementRef.value.volume = defaultVolume.value;
   loadVideo();
 
   return {

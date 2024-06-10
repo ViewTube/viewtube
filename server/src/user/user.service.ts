@@ -60,6 +60,12 @@ export class UserService {
       const userSettings = await this.settingsService.getSettings(username);
       const user = await this.UserModel.findOne({ username }).exec();
 
+      if(!user) {
+        throw new NotFoundException({
+          message: 'User not found'
+        });
+      }
+
       const adminUser = this.configService.get('VIEWTUBE_ADMIN_USER');
 
       return {

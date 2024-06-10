@@ -46,6 +46,11 @@ tests/cypress/videos
 tests/cypress/downloads
 tests/cypress/environment/data
 
+tests/screenshots
+tests/videos
+tests/downloads
+tests/environment/data
+
 Dockerfile.nodejs-mongodb
 .vscode/.ropeproject/
 server/config.json

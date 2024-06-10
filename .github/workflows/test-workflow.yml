@@ -27,7 +27,7 @@ jobs:
           run_install: false
 
       - name: Install e2e test dependencies
-        run: pnpm --filter=./tests/cypress install --frozen-lockfile
+        run: pnpm --filter=./tests install --frozen-lockfile
 
       - name: Generate build metadata
         run: |
@@ -43,7 +43,7 @@ jobs:
         if: always()
         with:
           name: e2e-test-results
-          path: ./tests/cypress/cypress/videos/
+          path: ./tests/cypress/videos/
 
       - name: Send test status notification
         if: always()

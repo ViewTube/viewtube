@@ -263,6 +263,12 @@ importers:
       cookie-parser:
         specifier: 1.4.6
         version: 1.4.6
+      cron:
+        specifier: 3.1.7
+        version: 3.1.7
+      cron-time-generator:
+        specifier: 2.0.3
+        version: 2.0.3
       dayjs:
         specifier: 1.11.11
         version: 1.11.11
@@ -3376,6 +3382,9 @@ packages:
     resolution: {integrity: sha512-p0SaNjrHOnQeR8/VnfGbmg9te2kfyYSQ7Sc/j/6DtPL3JQvKxmjO9TSjNFpujqV3vEYYBvNNvXSxzyksBWAx1Q==}
     engines: {node: '>=12.0.0'}
 
+  cron-time-generator@2.0.3:
+    resolution: {integrity: sha512-02Ab5okFEMpcDernEwUXY16hLCryUxATAFGYyzyLymin0xl/udC50LkBFHX+qOeXnwXMRyK+uH4doXzUSpOoQA==}
+
   cron@3.1.7:
     resolution: {integrity: sha512-tlBg7ARsAMQLzgwqVxy8AZl/qlTc5nibqYwtNGoCrd+cV+ugI+tvZC1oT/8dFH8W455YrywGykx/KMmAqOr7Jw==}
 
@@ -6385,7 +6394,6 @@ packages:
 
   shaka-player@4.9.1:
     resolution: {integrity: sha512-+MRHIBS1jMr634K0Q/FRDWpsIW/U3nT+TiGxmmYtcr0hDOcvcSnkJOpR4xXbSqdtif6ihaOJseBFljVlQ8J0lw==}
-    engines: {node: '>=14'}
 
   sharp@0.33.4:
     resolution: {integrity: sha512-7i/dt5kGl7qR4gwPRD2biwD2/SvBn3O04J77XKFgL2OnZtQw+AG9wnuS/csmu80nPRHLYE9E41fyEiG8nhH6/Q==}
@@ -10980,6 +10988,8 @@ snapshots:
   cron-parser@4.9.0:
     dependencies:
       luxon: 3.4.4
+
+  cron-time-generator@2.0.3: {}
 
   cron@3.1.7:
     dependencies:
