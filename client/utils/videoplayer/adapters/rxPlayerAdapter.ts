@@ -172,8 +172,6 @@ export const rxPlayerAdapter = async ({
       return representation.height <= maxHeight;
     });
 
-    console.log(allowedRepresentations);
-
     playerInstance?.lockVideoRepresentations(
       allowedRepresentations.map(representation => representation.id)
     );

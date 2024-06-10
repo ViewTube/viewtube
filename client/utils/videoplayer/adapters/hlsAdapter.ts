@@ -4,19 +4,6 @@ import type { RxPlayerAdapterOptions } from './rxPlayerAdapter';
 
 type HlsAdapterOptions = RxPlayerAdapterOptions;
 
-enum PlayerState {
-  STOPPED = 'STOPPED',
-  LOADING = 'LOADING',
-  LOADED = 'LOADED',
-  PLAYING = 'PLAYING',
-  PAUSED = 'PAUSED',
-  BUFFERING = 'BUFFERING',
-  FREEZING = 'FREEZING',
-  SEEKING = 'SEEKING',
-  ENDED = 'ENDED',
-  RELOADING = 'RELOADING'
-}
-
 export const hlsAdapter = async ({
   videoElementRef,
   source,
