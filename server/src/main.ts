@@ -91,9 +91,9 @@ const bootstrap = async () => {
       contentSecurityPolicy: {
         useDefaults: true,
         directives: {
-          connectSrc: [`'self'`],
-          fontSrc: [`'self'`],
-          imgSrc: [`'self'`]
+          defaultSrc: [`'self'`, `blob:`, `data:`],
+          scriptSrc: [`'self'`, `blob:`, `https: 'unsafe-eval'`, `https: 'unsafe-inline'`],
+          scriptSrcAttr: null
         }
       }
     });
