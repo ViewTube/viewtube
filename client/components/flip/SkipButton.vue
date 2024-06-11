@@ -77,7 +77,7 @@ const currentSponsorBlockSegment = computed(() => {
   transition:
     opacity 300ms $intro-easing,
     transform 300ms $intro-easing;
-
+  user-select: none;
   display: flex;
   flex-direction: column;
 
