@@ -13,10 +13,10 @@
     "test": "pnpm run environment:prepare && pnpm run cy:run"
   },
   "devDependencies": {
+    "@viewtube/shared": "workspace:*",
     "cross-env": "7.0.3",
-    "cypress": "13.10.0",
+    "cypress": "13.11.0",
     "cypress-commands": "3.0.0",
-    "typescript": "5.4.5",
-    "@viewtube/shared": "workspace:*"
+    "typescript": "5.4.5"
   }
 }
