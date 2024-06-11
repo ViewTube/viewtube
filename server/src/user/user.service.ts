@@ -60,7 +60,7 @@ export class UserService {
       const userSettings = await this.settingsService.getSettings(username);
       const user = await this.UserModel.findOne({ username }).exec();
 
-      if(!user) {
+      if (!user) {
         throw new NotFoundException({
           message: 'User not found'
         });

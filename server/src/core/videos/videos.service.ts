@@ -156,11 +156,14 @@ export class VideosService {
       'poi_highlight'
     ];
 
-    const { body } = await vtFetch<SponsorBlockSegmentsDto[]>(`${sponsorBlockUrl}/api/skipSegments/${idHash}`, {
-      query: {
-        categories: `["${categories.join('","')}"]`
+    const { body } = await vtFetch<SponsorBlockSegmentsDto[]>(
+      `${sponsorBlockUrl}/api/skipSegments/${idHash}`,
+      {
+        query: {
+          categories: `["${categories.join('","')}"]`
+        }
       }
-    });
+    );
 
     if (body) {
       const skipSectionsArray = await body.json();
