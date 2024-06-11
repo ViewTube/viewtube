@@ -8,6 +8,7 @@ import { useUserStore } from '~/store/user';
 import { useVideoPlayerStore } from '~/store/videoPlayer';
 import { hlsAdapter } from '~/utils/videoplayer/adapters/hlsAdapter';
 import { rxPlayerAdapter } from '~/utils/videoplayer/adapters/rxPlayerAdapter';
+import { useMediaSession } from './mediaSession';
 
 export type VideoState = ReturnType<typeof useVideoState>;
 
@@ -40,8 +41,6 @@ export const useVideoState = ({
   const { apiUrl } = useApiUrl();
   const volumeStorage = useStorage('volume', 1);
   const route = useRoute();
-
-  const bufferMessage = ref('Instantiating player');
 
   const videoState = reactive({
     playing: false,
@@ -123,6 +122,7 @@ export const useVideoState = ({
     adapterInstance.value?.pause();
     saveVideoPosition();
   };
+  const stop = () => adapterInstance.value?.stop();
   const setVolume = (volume: number) => {
     volumeStorage.value = volume;
     adapterInstance.value?.setVolume(volume);
@@ -148,17 +148,15 @@ export const useVideoState = ({
   const setAutoAudioQuality = () => adapterInstance.value?.setAutoAudioQuality();
 
   const saveVideoPosition = () => {
-    if (settingsStore.saveVideoHistory && !embed) {
-      if (userStore.isLoggedIn && !video.live) {
-        vtFetch(`${apiUrl.value}user/history/${video.id}`, {
-          method: 'POST',
-          body: {
-            progressSeconds: videoState.currentTime,
-            lengthSeconds: videoState.duration
-          },
-          credentials: 'include'
-        }).catch(_ => {});
-      }
+    if (settingsStore.saveVideoHistory && !embed && userStore.isLoggedIn && !video.live) {
+      vtFetch(`${apiUrl.value}user/history/${video.id}`, {
+        method: 'POST',
+        body: {
+          progressSeconds: videoState.currentTime,
+          lengthSeconds: videoState.duration
+        },
+        credentials: 'include'
+      }).catch(_ => {});
     }
   };
 
@@ -186,11 +184,17 @@ export const useVideoState = ({
     adapterInstance.value?.destroy();
   });
 
+  const onNextTrack = () => {
+    videoEnded();
+  };
+
+  useMediaSession({ video, videoState, play, pause, stop, setTime, onNextTrack });
+
   return {
     video: videoState,
-    bufferMessage,
     play,
     pause,
+    stop,
     setVolume,
     setMuted,
     setPlaybackRate,

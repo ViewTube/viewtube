@@ -31,14 +31,14 @@ export const hlsAdapter = async ({
           timeoutRetry: {
             maxNumRetry: 400,
             retryDelayMs: 0,
-            maxRetryDelayMs: 0,
+            maxRetryDelayMs: 0
           },
           errorRetry: {
             maxNumRetry: 400,
             retryDelayMs: 1000,
-            maxRetryDelayMs: 8000,
-          },
-        },
+            maxRetryDelayMs: 8000
+          }
+        }
       },
       fetchSetup(context, initParams) {
         if (!context.url.includes(streamProxy)) {
@@ -217,6 +217,9 @@ export const hlsAdapter = async ({
   };
   const play = () => videoElementRef.value?.play();
   const pause = () => videoElementRef.value?.pause();
+  const stop = () => {
+    videoElementRef.value?.pause();
+  };
   const setVolume = (volume: number) => {
     if (videoElementRef.value) {
       videoElementRef.value.volume = volume;
@@ -262,6 +265,7 @@ export const hlsAdapter = async ({
     destroy,
     play,
     pause,
+    stop,
     setVolume,
     setPlaybackRate,
     setTime,

@@ -113,7 +113,7 @@ const nextUpVideo = computed(() => {
       return playlist.value.items[0];
     }
   }
-  if (video.value) return video.value.recommendedVideos[0];
+  if (video.value) return video.value.recommendedVideos[1];
   return null;
 });
 
@@ -241,7 +241,7 @@ const onVideoEnded = () => {
   ) {
     router.push({
       path: route.fullPath,
-      query: { v: video.value.recommendedVideos[0].id, autoplay: 'true' }
+      query: { v: video.value.recommendedVideos[1].id, autoplay: 'true' }
     });
   }
 };

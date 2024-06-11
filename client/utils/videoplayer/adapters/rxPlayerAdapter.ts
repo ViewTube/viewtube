@@ -47,13 +47,21 @@ export const rxPlayerAdapter = async ({
     'rx-player/experimental/features/embeds'
   );
 
-  await DASH_WASM.initialize({ wasmUrl: EMBEDDED_DASH_WASM }).catch(() => {});
+  try {
+    await DASH_WASM.initialize({ wasmUrl: EMBEDDED_DASH_WASM }).catch(() => {});
+  } catch {
+    // Ignore
+  }
 
   const createPlayer = async () => {
     const player = new RxPlayer({
       videoElement: videoElementRef.value
     });
-    await player.attachWorker({ workerUrl: EMBEDDED_WORKER, dashWasmUrl: EMBEDDED_DASH_WASM });
+    try {
+      await player.attachWorker({ workerUrl: EMBEDDED_WORKER, dashWasmUrl: EMBEDDED_DASH_WASM });
+    } catch {
+      // Ignore
+    }
     return player;
   };
 
@@ -249,8 +257,12 @@ export const rxPlayerAdapter = async ({
   };
 
   const mapAudioTracks = (audioTracks: IAvailableAudioTrack[]): AudioTrack[] => {
+    console.log(audioTracks);
     return audioTracks
-      .filter(audioTrack => videoState.selectedLanguage === audioTrack.language)
+      .filter(audioTrack => {
+        if (videoState.languageList.length <= 1) return true;
+        return videoState.selectedLanguage === audioTrack.language;
+      })
       .map(track => {
         const codecs = track.representations.map(rep => rep.codec);
         const codec = [...new Set(codecs)].join(', ');
@@ -314,6 +326,7 @@ export const rxPlayerAdapter = async ({
   };
   const play = () => playerInstance?.play();
   const pause = () => playerInstance?.pause();
+  const stop = () => playerInstance?.pause();
   const setVolume = (volume: number) => playerInstance?.setVolume(volume);
   const setPlaybackRate = (playbackRate: number) => playerInstance?.setPlaybackRate(playbackRate);
   const setTime = (time: number) => {
@@ -365,6 +378,7 @@ export const rxPlayerAdapter = async ({
     destroy,
     play,
     pause,
+    stop,
     setVolume,
     setPlaybackRate,
     setTime,
