@@ -278,7 +278,7 @@ export const rxPlayerAdapter = async ({
       .map(track => {
         return {
           language: track.language,
-          label: track.language,
+          label: track.label,
           active: track.active
         };
       })
