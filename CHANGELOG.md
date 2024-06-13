@@ -1,15 +1,22 @@
 # Changelog
 
+## [0.16.1]
+
+### Added
+
+- Add environment variable VIEWTUBE_LOCATION to specify location for trending page, etc. [#2829](https://github.com/ViewTube/viewtube/pull/2829)
+- Support device controls for videoplayer (ex. in Notification) [#2823](https://github.com/ViewTube/viewtube/pull/2823)
+
 ## [0.16.0]
 
 ### Added
 
-- Set custom SponsorBlock API URL (Thanks @patricgruber) [#2799]
-- Configurable subscription interval time (Thanks @patricgruber) [#2798]
-- Add option to exclude shorts from search results (Thanks @frozenduck) [#2795]
-- Expandable subscriptions on homepage (Thanks @nargacu83) [#2790]
-- Add option to select playback speed from a list (Thanks @frozenduck) [#2771]
-- Brand new video player (Checkout the wiki: https://viewtube.wiki/features/videoplayer) [#2388]
+- Set custom SponsorBlock API URL (Thanks @patricgruber) [#2799](https://github.com/ViewTube/viewtube/pull/2799)
+- Configurable subscription interval time (Thanks @patricgruber) [#2798](https://github.com/ViewTube/viewtube/pull/2798)
+- Add option to exclude shorts from search results (Thanks @frozenduck) [#2795](https://github.com/ViewTube/viewtube/pull/2795)
+- Expandable subscriptions on homepage (Thanks @nargacu83) [#2790](https://github.com/ViewTube/viewtube/pull/2790)
+- Add option to select playback speed from a list (Thanks @frozenduck) [#2771](https://github.com/ViewTube/viewtube/pull/2771)
+- New video player [#2388](https://github.com/ViewTube/viewtube/pull/2388)
 
 ### Fixed
 
@@ -439,7 +446,8 @@
 
 - Initial release
 
-[unreleased]: https://github.com/viewtube/viewtube/compare/v0.16.0...development
+[unreleased]: https://github.com/viewtube/viewtube/compare/v0.16.1...development
+[0.16.1]: https://github.com/viewtube/viewtube/compare/v0.16.0...v0.16.1
 [0.16.0]: https://github.com/viewtube/viewtube/compare/v0.15.4...v0.16.0
 [0.15.4]: https://github.com/viewtube/viewtube/compare/v0.15.3...v0.15.4
 [0.15.3]: https://github.com/viewtube/viewtube/compare/v0.15.2...v0.15.3

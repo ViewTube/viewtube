@@ -9,8 +9,14 @@ if (process.env.VIEWTUBE_DATA_DIRECTORY) {
 
 const innertubeOptions: InnertubeConfig = {
   cache: new UniversalCache(true, cacheDirectory),
-  fetch: innertubeFetch
+  fetch: innertubeFetch,
+  enable_session_cache: false,
+  lang: 'en'
 };
+
+if (process.env.VIEWTUBE_LOCATION) {
+  innertubeOptions.location = process.env.VIEWTUBE_LOCATION;
+}
 
 if (process.env.VIEWTUBE_YOUTUBE_COOKIE) {
   innertubeOptions.cookie = process.env.VIEWTUBE_YOUTUBE_COOKIE;
