@@ -6,7 +6,7 @@ export const validationSchema = Joi.object({
   VIEWTUBE_SECURE: Joi.boolean().default(false),
 
   VIEWTUBE_ADMIN_USER: Joi.string().optional(),
-
+  VIEWTUBE_LOCATION: Joi.string().optional(),
   VIEWTUBE_SUBSCRIPTION_INTERVAL_TIME: Joi.number().positive().integer().greater(0).default(60),
 
   VIEWTUBE_DATABASE_HOST: Joi.string().default('localhost'),
