@@ -4,7 +4,7 @@
 
 ### Added
 
-- Add environment variable VIEWTUBE_LOCATION to specify location for trending page, etc. [#](https://github.com/ViewTube/viewtube/pull/2823)
+- Add environment variable VIEWTUBE_LOCATION to specify location for trending page, etc. [#2829](https://github.com/ViewTube/viewtube/pull/2829)
 - Support device controls for videoplayer (ex. in Notification) [#2823](https://github.com/ViewTube/viewtube/pull/2823)
 
 ## [0.16.0]
