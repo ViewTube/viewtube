@@ -27,7 +27,7 @@
     "@unocss/nuxt": "0.61.0",
     "@unocss/preset-icons": "0.61.0",
     "@viewtube/shared": "workspace:*",
-    "@vueuse/core": "10.10.1",
+    "@vueuse/core": "10.11.0",
     "@vueuse/nuxt": "10.11.0",
     "consola": "3.2.3",
     "cross-env": "7.0.3",
