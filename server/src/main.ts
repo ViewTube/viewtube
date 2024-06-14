@@ -148,7 +148,7 @@ const bootstrap = async () => {
   app.enableShutdownHooks();
 
   // START
-  await app.listen(port, '0.0.0.0', (err, _address) => {
+  await app.listen(port, '::', (err, _address) => {
     if (err) {
       logger.error(err);
       process.exit(1);
