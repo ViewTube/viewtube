@@ -1,15 +1,19 @@
 import { VTSearchDto } from 'server/mapper/dto/search/vt-search.dto';
-import { YT } from 'youtubei.js';
-import {
-  extractEstimatedResultCount,
-  extractRefinements,
-  extractSearchResults
-} from './vt-search-result.extractors';
+import { SearchSourceApproximation } from './search-source-approximation';
+import { extractSearchResults } from './vt-search-result.extractors';
 
-export const toVTSearchResultDto = (searchResult: YT.Search): VTSearchDto => {
+type SearchResults = {
+  results: SearchSourceApproximation[];
+  estimated_results?: number;
+  refinements?: string[];
+  continuation?: string;
+};
+
+export const toVTSearchResultDto = (searchResult: SearchResults): VTSearchDto => {
   return {
     results: extractSearchResults(searchResult.results),
-    estimatedResultCount: extractEstimatedResultCount(searchResult),
-    refinements: extractRefinements(searchResult)
+    estimatedResultCount: searchResult?.estimated_results,
+    refinements: searchResult?.refinements,
+    continuation: searchResult?.continuation
   };
 };

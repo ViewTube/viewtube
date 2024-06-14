@@ -14,6 +14,6 @@ export class SearchController {
   @Get()
   @Header('Cache-Control', 'public, max-age=1800')
   search(@Query() searchQuery: SearchQueryDto): Promise<VTSearchDto> {
-    return this.searchService.doSearch(searchQuery);
+    return this.searchService.getSearch(searchQuery);
   }
 }

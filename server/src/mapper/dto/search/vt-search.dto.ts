@@ -16,4 +16,5 @@ export class VTSearchDto {
   >;
   estimatedResultCount: number;
   refinements: string[];
+  continuation?: string;
 }
