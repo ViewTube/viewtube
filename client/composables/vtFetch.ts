@@ -1,5 +1,6 @@
 import { destr } from 'destr';
 import { ofetch } from 'ofetch';
+import { withQuery } from 'ufo';
 
 interface ResponseMap {
   blob: Blob;
@@ -63,9 +64,14 @@ export const useVtFetch = () => {
     }
 
     if (import.meta.server && !options?.external && global?.nestApp) {
+      const requestUrl = withQuery(request.toString(), {
+        ...(requestOptions.query ?? {}),
+        ...(requestOptions.params ?? {})
+      });
+
       const response = await global.nestApp.inject({
         method: (requestOptions.method ?? 'GET') as HTTPMethods,
-        url: request.toString(),
+        url: requestUrl,
         headers: requestOptions.headers as Record<string, string>,
         body: requestOptions.body,
         authority: 'nuxtApp'

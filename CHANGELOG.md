@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.16.3]
+
+### Fixed
+
+- Pick up query params for internal requests in vtFetch [#2844](https://github.com/ViewTube/viewtube/pull/2844)
+
 ## [0.16.2]
 
 ### Added
@@ -457,7 +463,8 @@
 
 - Initial release
 
-[unreleased]: https://github.com/viewtube/viewtube/compare/v0.16.2...development
+[unreleased]: https://github.com/viewtube/viewtube/compare/v0.16.3...development
+[0.16.3]: https://github.com/viewtube/viewtube/compare/v0.16.2...v0.16.3
 [0.16.2]: https://github.com/viewtube/viewtube/compare/v0.16.1...v0.16.2
 [0.16.1]: https://github.com/viewtube/viewtube/compare/v0.16.0...v0.16.1
 [0.16.0]: https://github.com/viewtube/viewtube/compare/v0.15.4...v0.16.0
