@@ -1,5 +1,5 @@
+import type { ApiDto } from '@viewtube/shared';
 import { type LocationQuery } from 'vue-router';
-import type { VTSearchDto } from '../../../server/src/mapper/dto/search/vt-search.dto';
 
 export type FilterType = { filterValue: any; filterType?: any; filterName: any };
 
@@ -21,7 +21,7 @@ export const useGetSearchResult = () => {
     `search`,
     async () => {
       const { apiUrl } = useApiUrl();
-      const searchResponse = await vtFetch<VTSearchDto>(`${apiUrl.value}search`, {
+      const searchResponse = await vtFetch<ApiDto<'VTSearchDto'>>(`${apiUrl.value}search`, {
         query: { q: searchQuery.value, filters: searchFilters.value }
       });
 
@@ -33,7 +33,7 @@ export const useGetSearchResult = () => {
   );
 };
 
-const getSearchFilters = (query: LocationQuery) => {
+export const getSearchFilters = (query: LocationQuery) => {
   const searchParams = new URLSearchParams(query as Record<string, string>);
   const filters: Record<string, string> = {};
 

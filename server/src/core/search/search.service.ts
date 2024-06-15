@@ -49,13 +49,23 @@ export class SearchService {
       )
       ?.as(YTNodes.ItemSection).contents;
 
-    const continuationToken = parsedResults.contents_memo
-      ?.getType(YTNodes.ContinuationItem)
-      ?.find(
-        el =>
-          el.type === 'ContinuationItem' &&
-          el.endpoint?.payload?.request === 'CONTINUATION_REQUEST_TYPE_SEARCH'
-      )?.endpoint?.payload?.token;
+    const continuationItems = [
+      parsedResults.contents_memo?.getType(YTNodes.ContinuationItem),
+      parsedResults.continuation_contents_memo?.getType(YTNodes.ContinuationItem),
+      parsedResults.on_response_received_commands_memo?.getType(YTNodes.ContinuationItem),
+      parsedResults.on_response_received_endpoints_memo?.getType(YTNodes.ContinuationItem),
+      parsedResults.on_response_received_actions_memo?.getType(YTNodes.ContinuationItem),
+      parsedResults.sidebar_memo?.getType(YTNodes.ContinuationItem),
+      parsedResults.header_memo?.getType(YTNodes.ContinuationItem)
+    ]
+      .flat()
+      .filter(Boolean);
+
+    const continuationToken = continuationItems?.find(
+      el =>
+        el.type === 'ContinuationItem' &&
+        el.endpoint?.payload?.request === 'CONTINUATION_REQUEST_TYPE_SEARCH'
+    )?.endpoint?.payload?.token;
 
     const searchResults = {
       results,
