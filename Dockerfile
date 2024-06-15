@@ -43,11 +43,11 @@ COPY --from=build /home/build/client/.output ./client/.output/
 RUN \
   --mount=type=cache,target=/var/cache/apt \
   apt-get update \
-  && apt-get install -y --no-install-recommends wget \
+  && apt-get install -y --no-install-recommends curl \
   && rm -rf /var/cache/apt/archives /var/lib/apt/lists/*
 
 ENV VIEWTUBE_BASE_DIR=/home/app
-HEALTHCHECK --interval=30s --timeout=20s --start-period=60s CMD wget --no-verbose --tries=3 --spider http://localhost:8066/ || exit 1
+HEALTHCHECK --interval=30s --timeout=20s --start-period=60s --retries=5 CMD curl --fail http://localhost:8066/ || exit 1
 EXPOSE 8066
 
 CMD ["node", "/home/app/server/dist/main.js"]
