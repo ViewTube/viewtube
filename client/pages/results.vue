@@ -2,8 +2,11 @@
 import RelatedSearches from '@/components/search/RelatedSearches.vue';
 import Spinner from '@/components/Spinner.vue';
 import Filters from '@/components/search/Filters.vue';
+import SeparatorSmall from '@/components/list/SeparatorSmall.vue';
+import BadgeButton from '@/components/buttons/BadgeButton.vue';
 import { useMessagesStore } from '@/store/messages';
 import { useSettingsStore } from '@/store/settings';
+import type { ApiDto } from '@viewtube/shared';
 
 const VideoEntry = resolveComponent('ListVideoEntry');
 const PlaylistEntry = resolveComponent('ListPlaylistEntry');
@@ -14,6 +17,8 @@ const Shelf = resolveComponent('SearchShelf');
 const route = useRoute();
 const messagesStore = useMessagesStore();
 const settingsStore = useSettingsStore();
+const { vtFetch } = useVtFetch();
+const { apiUrl } = useApiUrl();
 
 const searchQuery = computed(() => {
   const searchParams = new URLSearchParams(route.query as Record<string, string>);
@@ -33,16 +38,16 @@ onMounted(() => {
   }
 });
 
-// const additionalResultItems = ref([]);
-// const searchContinuationData = ref<any>(searchData.value?.searchResults.continuation);
+const additionalResultItems = ref([]);
+const searchContinuationData = ref<any>(searchData.value?.continuation);
 
-// watch(
-//   () => searchData.value,
-//   newData => {
-//     // additionalResultItems.value = [];
-//     searchContinuationData.value = newData?.searchResults.continuation;
-//   }
-// );
+watch(
+  () => searchData.value,
+  newData => {
+    additionalResultItems.value = [];
+    searchContinuationData.value = newData?.continuation;
+  }
+);
 
 watch(error, newValue => {
   if (newValue) {
@@ -76,42 +81,46 @@ const getListEntryType = (type: string) => {
   }
 };
 
-// const loadMoreVideos = async () => {
-//   moreVideosLoading.value = true;
-//   page.value += 1;
+const moreVideosLoading = ref(false);
+const page = ref(1);
 
-//   if (searchData.value?.searchResults && searchContinuationData.value) {
-//     try {
-//       const searchContinuation = await vtFetch(
-//         `${apiUrl.value}search/continuation`,
-//         {
-//           method: 'POST',
-//           body: {
-//             continuationData: searchContinuationData.value
-//           }
-//         }
-//       );
+const loadMoreVideos = async () => {
+  moreVideosLoading.value = true;
+  page.value += 1;
 
-//       if (searchContinuation) {
-//         additionalResultItems.value = [...additionalResultItems.value, ...searchContinuation.items];
-//         searchContinuationData.value = searchContinuation.continuation;
-//       }
-//     } catch (error) {
-//       messagesStore.createMessage({
-//         type: 'error',
-//         title: 'Unable to load more results',
-//         message: 'Try again or use a different search term for more results'
-//       });
-//     }
-//   } else {
-//     messagesStore.createMessage({
-//       type: 'error',
-//       title: 'Unable to load more results',
-//       message: 'Use a different search term for more results'
-//     });
-//   }
-//   moreVideosLoading.value = false;
-// };
+  if (searchData.value && searchContinuationData.value) {
+    try {
+      const searchContinuation = await vtFetch<ApiDto<'VTSearchDto'>>(`${apiUrl.value}search`, {
+        query: {
+          q: searchQuery.value,
+          filters: getSearchFilters(route.query),
+          continuationString: searchContinuationData.value
+        }
+      });
+
+      if (searchContinuation) {
+        additionalResultItems.value = [
+          ...additionalResultItems.value,
+          ...searchContinuation.results
+        ];
+        searchContinuationData.value = searchContinuation.continuation;
+      }
+    } catch (error) {
+      messagesStore.createMessage({
+        type: 'error',
+        title: 'Unable to load more results',
+        message: 'Try again or use a different search term for more results'
+      });
+    }
+  } else {
+    messagesStore.createMessage({
+      type: 'error',
+      title: 'Unable to load more results',
+      message: 'Use a different search term for more results'
+    });
+  }
+  moreVideosLoading.value = false;
+};
 </script>
 
 <template>
@@ -144,7 +153,7 @@ const getListEntryType = (type: string) => {
           :lazy="true"
         />
       </div>
-      <!-- <SeparatorSmall v-if="!pending && additionalResultItems.length > 0"
+      <SeparatorSmall v-if="!pending && additionalResultItems.length > 0"
         >More results</SeparatorSmall
       >
       <div v-if="!pending && additionalResultItems.length > 0" class="search-videos-container">
@@ -161,12 +170,12 @@ const getListEntryType = (type: string) => {
           :lazy="true"
         />
       </div>
-      <div class="show-more-btn-container">
+      <div v-if="searchContinuationData" class="show-more-btn-container">
         <BadgeButton :click="loadMoreVideos" :loading="moreVideosLoading">
           <VTIcon name="mdi:reload" />
           <p>Show more</p>
         </BadgeButton>
-      </div> -->
+      </div>
     </div>
   </div>
 </template>
@@ -273,7 +282,7 @@ const getListEntryType = (type: string) => {
   .show-more-btn-container {
     display: flex;
     width: 100%;
-    padding: 0 0 20px 0;
+    padding: 20px 0 20px 0;
 
     > a {
       margin: 0 auto;

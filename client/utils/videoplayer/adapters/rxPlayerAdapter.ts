@@ -41,13 +41,14 @@ export const rxPlayerAdapter = async ({
 }: RxPlayerAdapterOptions) => {
   // RxPlayer.addFeatures([DASH_WASM]);
 
-  const RxPlayer = await import('rx-player').then(module => module.default);
-  const { DASH_WASM } = await import('rx-player/features');
+  const RxPlayer = await import('rx-player/minimal').then(module => module.default);
+  const { DASH, DASH_WASM } = await import('rx-player/features');
   const { EMBEDDED_DASH_WASM, EMBEDDED_WORKER } = await import(
     'rx-player/experimental/features/embeds'
   );
 
   try {
+    RxPlayer.addFeatures([DASH]);
     await DASH_WASM.initialize({ wasmUrl: EMBEDDED_DASH_WASM }).catch(() => {});
   } catch {
     // Ignore
@@ -257,7 +258,6 @@ export const rxPlayerAdapter = async ({
   };
 
   const mapAudioTracks = (audioTracks: IAvailableAudioTrack[]): AudioTrack[] => {
-    console.log(audioTracks);
     return audioTracks
       .filter(audioTrack => {
         if (videoState.languageList.length <= 1) return true;

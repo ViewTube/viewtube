@@ -1,6 +1,8 @@
 import path from 'path';
-import { Innertube, InnertubeConfig, UniversalCache } from 'youtubei.js';
+import { Innertube, InnertubeConfig, Log, UniversalCache } from 'youtubei.js';
 import { innertubeFetch } from './innertubeFetch';
+
+Log.setLevel(Log.Level.ERROR);
 
 let cacheDirectory = './cache';
 if (process.env.VIEWTUBE_DATA_DIRECTORY) {

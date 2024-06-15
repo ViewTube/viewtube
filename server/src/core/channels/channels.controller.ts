@@ -1,6 +1,6 @@
 import { CacheInterceptor, CacheTTL } from '@nestjs/cache-manager';
 import { Controller, Get, Header, Param, Query, Res, UseInterceptors } from '@nestjs/common';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiTags } from '@nestjs/swagger';
 import { FastifyReply } from 'fastify';
 import { ChannelsService } from './channels.service';
 import { ChannelInfoErrorDto } from './dto/channel-info-error.dto';
@@ -38,8 +38,6 @@ export class ChannelsController {
 
   @Header('Cache-Control', 'public, max-age=3600')
   @Get(':id')
-  @ApiResponse({ status: 404 })
-  @ApiResponse({ status: 500 })
   @UseInterceptors(CacheInterceptor)
   @CacheTTL(3600000)
   getChannelInfo(@Param('id') channelId: string): Promise<ChannelInfoDto> {
@@ -48,8 +46,6 @@ export class ChannelsController {
 
   @Header('Cache-Control', 'public, max-age=3600')
   @Get(':id/home')
-  @ApiResponse({ status: 404 })
-  @ApiResponse({ status: 500 })
   @UseInterceptors(CacheInterceptor)
   @CacheTTL(3600000)
   getChannelHome(@Param('id') channelId: string): Promise<ChannelHomeDto> {
@@ -58,8 +54,6 @@ export class ChannelsController {
 
   @Header('Cache-Control', 'public, max-age=3600')
   @Get(':id/videos')
-  @ApiResponse({ status: 404 })
-  @ApiResponse({ status: 500 })
   @UseInterceptors(CacheInterceptor)
   @CacheTTL(3600000)
   getChannelVideos(
@@ -71,8 +65,6 @@ export class ChannelsController {
 
   @Header('Cache-Control', 'public, max-age=3600')
   @Get('videos/continuation')
-  @ApiResponse({ status: 404 })
-  @ApiResponse({ status: 500 })
   @UseInterceptors(CacheInterceptor)
   @CacheTTL(3600000)
   getChannelVideosContinuation(
@@ -85,8 +77,6 @@ export class ChannelsController {
 
   @Header('Cache-Control', 'public, max-age=3600')
   @Get(':id/shorts')
-  @ApiResponse({ status: 404 })
-  @ApiResponse({ status: 500 })
   @UseInterceptors(CacheInterceptor)
   @CacheTTL(3600000)
   getChannelShorts(
@@ -98,8 +88,6 @@ export class ChannelsController {
 
   @Header('Cache-Control', 'public, max-age=3600')
   @Get(':id/livestreams')
-  @ApiResponse({ status: 404 })
-  @ApiResponse({ status: 500 })
   @UseInterceptors(CacheInterceptor)
   @CacheTTL(3600000)
   getChannelLivestreams(
@@ -111,8 +99,6 @@ export class ChannelsController {
 
   @Header('Cache-Control', 'public, max-age=3600')
   @Get(':id/playlists')
-  @ApiResponse({ status: 404 })
-  @ApiResponse({ status: 500 })
   @UseInterceptors(CacheInterceptor)
   @CacheTTL(3600000)
   getChannelPlaylists(@Param('id') channelId: string): Promise<ChannelPlaylistsDto> {
@@ -121,8 +107,6 @@ export class ChannelsController {
 
   @Header('Cache-Control', 'public, max-age=3600')
   @Get('playlists/continuation')
-  @ApiResponse({ status: 404 })
-  @ApiResponse({ status: 500 })
   @UseInterceptors(CacheInterceptor)
   @CacheTTL(3600000)
   getChannelPlaylistsContinuation(
@@ -133,8 +117,6 @@ export class ChannelsController {
 
   @Header('Cache-Control', 'public, max-age=3600')
   @Get(':id/search')
-  @ApiResponse({ status: 404 })
-  @ApiResponse({ status: 500 })
   @UseInterceptors(CacheInterceptor)
   @CacheTTL(3600000)
   searchChannel(
@@ -146,8 +128,6 @@ export class ChannelsController {
 
   @Header('Cache-Control', 'public, max-age=3600')
   @Get('search/continuation')
-  @ApiResponse({ status: 404 })
-  @ApiResponse({ status: 500 })
   @UseInterceptors(CacheInterceptor)
   @CacheTTL(3600000)
   searchChannelContinuation(
@@ -158,8 +138,6 @@ export class ChannelsController {
 
   @Header('Cache-Control', 'public, max-age=3600')
   @Get('relatedchannels/continuation')
-  @ApiResponse({ status: 404 })
-  @ApiResponse({ status: 500 })
   @UseInterceptors(CacheInterceptor)
   @CacheTTL(3600000)
   getRelatedChannelsContinuation(
@@ -170,8 +148,6 @@ export class ChannelsController {
 
   @Header('Cache-Control', 'public, max-age=3600')
   @Get(':id/communityposts')
-  @ApiResponse({ status: 404 })
-  @ApiResponse({ status: 500 })
   @UseInterceptors(CacheInterceptor)
   @CacheTTL(3600000)
   getChannelCommunityPosts(@Param('id') channelId: string): Promise<ChannelCommunityPostsDto> {
@@ -180,8 +156,6 @@ export class ChannelsController {
 
   @Header('Cache-Control', 'public, max-age=3600')
   @Get('communityposts/continuation')
-  @ApiResponse({ status: 404 })
-  @ApiResponse({ status: 500 })
   @UseInterceptors(CacheInterceptor)
   @CacheTTL(3600000)
   getChannelCommunityPostsContinuation(
@@ -193,8 +167,6 @@ export class ChannelsController {
 
   @Header('Cache-Control', 'public, max-age=3600')
   @Get(':id/stats')
-  @ApiResponse({ status: 404 })
-  @ApiResponse({ status: 500 })
   @UseInterceptors(CacheInterceptor)
   @CacheTTL(3600000)
   getChannelStats(@Param('id') channelId: string): Promise<ChannelStatsDto> {

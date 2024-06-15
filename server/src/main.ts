@@ -93,6 +93,7 @@ const bootstrap = async () => {
         directives: {
           defaultSrc: [`'self'`, `blob:`, `data:`],
           scriptSrc: [`'self'`, `blob:`, `https: 'unsafe-eval'`, `https: 'unsafe-inline'`],
+          connectSrc: [`'self'`, '*.viewtube.io'],
           scriptSrcAttr: null
         }
       }

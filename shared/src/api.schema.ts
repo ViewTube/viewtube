@@ -171,9 +171,6 @@ export interface paths {
   "/api/proxy/stream": {
     get: operations["ProxyController_proxyStream"];
   };
-  "/api/proxy/m3u8": {
-    get: operations["ProxyController_proxyM3u8"];
-  };
   "/api/comments/{videoId}": {
     get: operations["CommentsController_getComments"];
   };
@@ -472,6 +469,7 @@ export interface components {
       /** Format: date-time */
       upcoming?: string;
       live: boolean;
+      watching?: number;
       unlisted: boolean;
       familyFriendly: boolean;
       likeCount: number;
@@ -517,6 +515,7 @@ export interface components {
       results: Record<string, never>[];
       estimatedResultCount: number;
       refinements: string[];
+      continuation?: string;
     };
     ChannelImageDto: {
       url: string;
@@ -1158,6 +1157,9 @@ export interface operations {
   };
   VideosController_getSkipSegments: {
     parameters: {
+      query: {
+        url: string;
+      };
       path: {
         id: string;
       };
@@ -1200,6 +1202,7 @@ export interface operations {
         duration?: Record<string, never>;
         sort_by?: Record<string, never>;
         features?: Record<string, never>[];
+        continuationString?: string;
       };
     };
     responses: {
@@ -1246,12 +1249,6 @@ export interface operations {
           "application/json": components["schemas"]["ChannelInfoDto"];
         };
       };
-      404: {
-        content: never;
-      };
-      500: {
-        content: never;
-      };
     };
   };
   ChannelsController_getChannelHome: {
@@ -1265,12 +1262,6 @@ export interface operations {
         content: {
           "application/json": components["schemas"]["ChannelHomeDto"];
         };
-      };
-      404: {
-        content: never;
-      };
-      500: {
-        content: never;
       };
     };
   };
@@ -1289,12 +1280,6 @@ export interface operations {
           "application/json": components["schemas"]["ChannelVideosDto"];
         };
       };
-      404: {
-        content: never;
-      };
-      500: {
-        content: never;
-      };
     };
   };
   ChannelsController_getChannelVideosContinuation: {
@@ -1308,12 +1293,6 @@ export interface operations {
         content: {
           "application/json": components["schemas"]["ChannelVideosContinuationDto"];
         };
-      };
-      404: {
-        content: never;
-      };
-      500: {
-        content: never;
       };
     };
   };
@@ -1332,12 +1311,6 @@ export interface operations {
           "application/json": components["schemas"]["ChannelVideosDto"];
         };
       };
-      404: {
-        content: never;
-      };
-      500: {
-        content: never;
-      };
     };
   };
   ChannelsController_getChannelLivestreams: {
@@ -1355,12 +1328,6 @@ export interface operations {
           "application/json": components["schemas"]["ChannelVideosDto"];
         };
       };
-      404: {
-        content: never;
-      };
-      500: {
-        content: never;
-      };
     };
   };
   ChannelsController_getChannelPlaylists: {
@@ -1375,12 +1342,6 @@ export interface operations {
           "application/json": components["schemas"]["ChannelPlaylistsDto"];
         };
       };
-      404: {
-        content: never;
-      };
-      500: {
-        content: never;
-      };
     };
   };
   ChannelsController_getChannelPlaylistsContinuation: {
@@ -1394,12 +1355,6 @@ export interface operations {
         content: {
           "application/json": components["schemas"]["ChannelPlaylistsContinuationDto"];
         };
-      };
-      404: {
-        content: never;
-      };
-      500: {
-        content: never;
       };
     };
   };
@@ -1418,12 +1373,6 @@ export interface operations {
           "application/json": Record<string, never>;
         };
       };
-      404: {
-        content: never;
-      };
-      500: {
-        content: never;
-      };
     };
   };
   ChannelsController_searchChannelContinuation: {
@@ -1437,12 +1386,6 @@ export interface operations {
         content: {
           "application/json": components["schemas"]["ChannelSearchContinuationDto"];
         };
-      };
-      404: {
-        content: never;
-      };
-      500: {
-        content: never;
       };
     };
   };
@@ -1458,12 +1401,6 @@ export interface operations {
           "application/json": components["schemas"]["RelatedChannelsContinuationDto"];
         };
       };
-      404: {
-        content: never;
-      };
-      500: {
-        content: never;
-      };
     };
   };
   ChannelsController_getChannelCommunityPosts: {
@@ -1477,12 +1414,6 @@ export interface operations {
         content: {
           "application/json": components["schemas"]["ChannelCommunityPostsDto"];
         };
-      };
-      404: {
-        content: never;
-      };
-      500: {
-        content: never;
       };
     };
   };
@@ -1499,12 +1430,6 @@ export interface operations {
           "application/json": components["schemas"]["ChannelCommunityPostsContinuationDto"];
         };
       };
-      404: {
-        content: never;
-      };
-      500: {
-        content: never;
-      };
     };
   };
   ChannelsController_getChannelStats: {
@@ -1518,12 +1443,6 @@ export interface operations {
         content: {
           "application/json": components["schemas"]["ChannelStatsDto"];
         };
-      };
-      404: {
-        content: never;
-      };
-      500: {
-        content: never;
       };
     };
   };
@@ -1570,21 +1489,6 @@ export interface operations {
     responses: {
       200: {
         content: never;
-      };
-    };
-  };
-  ProxyController_proxyM3u8: {
-    parameters: {
-      query: {
-        url: string;
-        proxyUrl: string;
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": string;
-        };
       };
     };
   };
