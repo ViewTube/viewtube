@@ -111,7 +111,11 @@ export const hlsAdapter = async ({
     });
 
     playerInstance?.on(Hls.Events.ERROR, (event, data) => {
-      if (!['fragParsingError', 'bufferStalledError'].includes(data.details)) {
+      if (
+        !['fragParsingError', 'bufferStalledError', 'levelLoadError', 'fragLoadError'].includes(
+          data.details
+        )
+      ) {
         console.log('error', event, data);
         videoState.playerError = {
           message: data.details,

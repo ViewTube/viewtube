@@ -36,9 +36,4 @@ export class ProxyController {
     await this.proxyService.proxyStream(url, request, reply);
   }
 
-  @Get('m3u8')
-  @Header('Cache-Control', 'public, max-age=7200')
-  async proxyM3u8(@Query('url') url: string, @Query('proxyUrl') proxyUrl: string): Promise<string> {
-    return this.proxyService.proxyM3u8(url, proxyUrl);
-  }
 }

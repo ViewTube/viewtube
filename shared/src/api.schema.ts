@@ -171,9 +171,6 @@ export interface paths {
   "/api/proxy/stream": {
     get: operations["ProxyController_proxyStream"];
   };
-  "/api/proxy/m3u8": {
-    get: operations["ProxyController_proxyM3u8"];
-  };
   "/api/comments/{videoId}": {
     get: operations["CommentsController_getComments"];
   };
@@ -472,6 +469,7 @@ export interface components {
       /** Format: date-time */
       upcoming?: string;
       live: boolean;
+      watching?: number;
       unlisted: boolean;
       familyFriendly: boolean;
       likeCount: number;
@@ -517,149 +515,7 @@ export interface components {
       results: Record<string, never>[];
       estimatedResultCount: number;
       refinements: string[];
-    };
-    ChannelImageDto: {
-      url: string;
-      width: number;
-      height: number;
-    };
-    RelatedChannelDto: {
-      channelName?: string;
-      channelId?: string;
-      channelUrl?: string;
-      author: string;
-      authorId: string;
-      authorUrl: string;
-      authorThumbnails: Record<string, never>[];
-      videoCount: number;
-      subscriberText: string;
-      subscriberCount: number;
-      verified: boolean;
-      officialArtist: boolean;
-      officialArist: boolean;
-    };
-    ChannelLinkDto: {
-      url: string;
-      icon: string;
-      title: string;
-    };
-    ChannelInfoDto: {
-      author: string;
-      authorId: string;
-      authorUrl: string;
-      oResponse: Record<string, never>;
-      authorBanners: components["schemas"]["ChannelImageDto"][];
-      authorThumbnails: components["schemas"]["ChannelImageDto"][];
-      subscriberText: string;
-      subscriberCount: number;
-      description: string;
-      isFamilyFriendly: boolean;
-      relatedChannels: {
-        items?: components["schemas"]["RelatedChannelDto"][];
-        continuation?: string | null;
-      };
-      allowedRegions: string[];
-      isVerified: boolean;
-      isOfficialArtist: boolean;
-      tags: string[];
-      channelIdType: number;
-      channelTabs: string[];
-      alertMessage: string;
-      channelLinks: {
-        primaryLinks?: components["schemas"]["ChannelLinkDto"][];
-        secondaryLinks?: components["schemas"]["ChannelLinkDto"][];
-      };
-    };
-    ChannelVideoDto: {
-      author: string;
-      authorId: string;
-      durationText?: string;
-      lengthSeconds?: number;
-      liveNow: boolean;
-      premiere: boolean;
-      premium: boolean;
-      publishedText: string;
-      title: string;
-      type: string;
-      videoId: string;
-      videoThumbnails: components["schemas"]["ChannelImageDto"][] | null;
-      viewCount: number;
-      viewCountText: string;
-    };
-    ChannelHomeItemDto: {
-      shelfName: string;
-      type: Record<string, never>;
-      items: Record<string, never>;
-    };
-    ChannelHomeDto: {
-      featuredVideo: components["schemas"]["ChannelVideoDto"];
-      items: components["schemas"]["ChannelHomeItemDto"][];
-    };
-    ChannelVideosDto: {
-      /** @enum {number} */
-      channelIdType?: 0 | 1 | 2 | 3 | 4 | 5;
-      alertMessage?: string;
-      items?: components["schemas"]["ChannelVideoDto"][];
       continuation?: string;
-    };
-    ChannelVideosContinuationDto: {
-      items?: components["schemas"]["ChannelVideoDto"][];
-      continuation?: string;
-    };
-    ChannelPlaylistDto: {
-      author: string;
-      authorId: string;
-      authorUrl: string;
-      playlistId: string;
-      playlistThumbnail: string;
-      playlistUrl: string;
-      title: string;
-      type: string;
-      videoCount: number;
-    };
-    ChannelPlaylistsDto: {
-      channelIdType?: number;
-      alertMessage?: string;
-      items?: components["schemas"]["ChannelPlaylistDto"][];
-      continuation?: string;
-    };
-    ChannelPlaylistsContinuationDto: {
-      items?: components["schemas"]["ChannelPlaylistDto"][];
-      continuation?: string;
-    };
-    ChannelSearchContinuationDto: {
-      items?: components["schemas"]["ChannelVideoDto"][];
-      continuation?: string;
-    };
-    RelatedChannelsContinuationDto: {
-      items: Record<string, never>[];
-      continuation: string;
-    };
-    ChannelCommunityPostDto: {
-      postText: string;
-      postId: string;
-      author: string;
-      authorThumbnails: string;
-      publishedText: string;
-      voteCount: string;
-      commentCount: string;
-      postContent: Record<string, never>;
-    };
-    ChannelCommunityPostsDto: {
-      channelIdType: number;
-      innerTubeApi: string;
-      items: components["schemas"]["ChannelCommunityPostDto"][];
-      continuation: string;
-    };
-    ChannelCommunityPostsContinuationDto: {
-      innerTubeApi: string;
-      items: components["schemas"]["ChannelCommunityPostDto"][];
-      continuation: string;
-    };
-    ChannelStatsDto: {
-      joinedDate: number;
-      viewCount: number;
-      location: string;
     };
     HomeFeedDto: {
       videos: components["schemas"]["VTVideoDto"][];
@@ -1158,6 +1014,9 @@ export interface operations {
   };
   VideosController_getSkipSegments: {
     parameters: {
+      query: {
+        url: string;
+      };
       path: {
         id: string;
       };
@@ -1200,6 +1059,7 @@ export interface operations {
         duration?: Record<string, never>;
         sort_by?: Record<string, never>;
         features?: Record<string, never>[];
+        continuationString?: string;
       };
     };
     responses: {
@@ -1241,11 +1101,6 @@ export interface operations {
       };
     };
     responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["ChannelInfoDto"];
-        };
-      };
       404: {
         content: never;
       };
@@ -1261,11 +1116,6 @@ export interface operations {
       };
     };
     responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["ChannelHomeDto"];
-        };
-      };
       404: {
         content: never;
       };
@@ -1284,11 +1134,6 @@ export interface operations {
       };
     };
     responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["ChannelVideosDto"];
-        };
-      };
       404: {
         content: never;
       };
@@ -1304,11 +1149,6 @@ export interface operations {
       };
     };
     responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["ChannelVideosContinuationDto"];
-        };
-      };
       404: {
         content: never;
       };
@@ -1327,11 +1167,6 @@ export interface operations {
       };
     };
     responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["ChannelVideosDto"];
-        };
-      };
       404: {
         content: never;
       };
@@ -1350,11 +1185,6 @@ export interface operations {
       };
     };
     responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["ChannelVideosDto"];
-        };
-      };
       404: {
         content: never;
       };
@@ -1370,11 +1200,6 @@ export interface operations {
       };
     };
     responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["ChannelPlaylistsDto"];
-        };
-      };
       404: {
         content: never;
       };
@@ -1390,11 +1215,6 @@ export interface operations {
       };
     };
     responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["ChannelPlaylistsContinuationDto"];
-        };
-      };
       404: {
         content: never;
       };
@@ -1413,11 +1233,6 @@ export interface operations {
       };
     };
     responses: {
-      200: {
-        content: {
-          "application/json": Record<string, never>;
-        };
-      };
       404: {
         content: never;
       };
@@ -1433,11 +1248,6 @@ export interface operations {
       };
     };
     responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["ChannelSearchContinuationDto"];
-        };
-      };
       404: {
         content: never;
       };
@@ -1453,11 +1263,6 @@ export interface operations {
       };
     };
     responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["RelatedChannelsContinuationDto"];
-        };
-      };
       404: {
         content: never;
       };
@@ -1473,11 +1278,6 @@ export interface operations {
       };
     };
     responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["ChannelCommunityPostsDto"];
-        };
-      };
       404: {
         content: never;
       };
@@ -1494,11 +1294,6 @@ export interface operations {
       };
     };
     responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["ChannelCommunityPostsContinuationDto"];
-        };
-      };
       404: {
         content: never;
       };
@@ -1514,11 +1309,6 @@ export interface operations {
       };
     };
     responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["ChannelStatsDto"];
-        };
-      };
       404: {
         content: never;
       };
@@ -1570,21 +1360,6 @@ export interface operations {
     responses: {
       200: {
         content: never;
-      };
-    };
-  };
-  ProxyController_proxyM3u8: {
-    parameters: {
-      query: {
-        url: string;
-        proxyUrl: string;
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": string;
-        };
       };
     };
   };

@@ -20,7 +20,6 @@ export const useVideoSource = (video: Ref<ApiDto<'VTVideoInfoDto'>>) => {
       sourceType = VideoSourceType.HLS;
       source = video.value.hlsManifestUrl;
     } else if (video.value.dashManifest) {
-      const googlevideoRegex = /https:\/\/.*?.googlevideo\.com/gi;
       const manifest = video.value.dashManifest.replace(googlevideoRegex, videoPlaybackProxy);
       sourceType = VideoSourceType.DASH;
       source = 'data:application/dash+xml;charset=utf-8;base64,' + btoa(manifest);

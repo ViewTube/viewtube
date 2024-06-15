@@ -168,6 +168,10 @@ export class VideosService {
     if (body) {
       const skipSectionsArray = await body.json();
 
+      if (!Array.isArray(skipSectionsArray)) {
+        throw new InternalServerErrorException('Error fetching skip segments');
+      }
+
       const skipSections = skipSectionsArray?.find(el => el.videoID === id);
 
       if (!skipSections) {
