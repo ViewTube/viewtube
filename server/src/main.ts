@@ -91,14 +91,8 @@ const bootstrap = async () => {
       contentSecurityPolicy: {
         useDefaults: true,
         directives: {
-          defaultSrc: [`'self'`, `blob:`, `data:`],
-          scriptSrc: [
-            `'self'`,
-            `blob:`,
-            `https: 'unsafe-eval'`,
-            `https: 'unsafe-inline'`,
-            '*.viewtube.io'
-          ],
+          defaultSrc: [`'self'`, `blob:`, `data:`, '*.viewtube.io'],
+          scriptSrc: [`'self'`, `blob:`, `https: 'unsafe-eval'`, `https: 'unsafe-inline'`],
           scriptSrcAttr: null
         }
       }
