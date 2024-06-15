@@ -38,7 +38,7 @@
   "devDependencies": {
     "@typescript-eslint/parser": "8.0.0-alpha.30",
     "cross-env": "7.0.3",
-    "eslint": "9.4.0",
+    "eslint": "9.5.0",
     "eslint-flat-config-utils": "0.2.5",
     "eslint-plugin-cypress": "3.3.0",
     "globals": "15.4.0",
