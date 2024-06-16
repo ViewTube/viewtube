@@ -1,4 +1,8 @@
 export const getSecondsFromTimestamp = (timestamp: string) => {
+  if (!timestamp) {
+    return 0;
+  }
+
   const timeStrings = timestamp.split(':');
   const reverseTimeStrings = timeStrings.reverse();
   let seconds = 0;
@@ -23,6 +27,10 @@ export const getSecondsFromTimestamp = (timestamp: string) => {
  * This function returns a timestamp in the format of HH:MM:SS from a number of seconds.
  */
 export const getTimestampFromSeconds = (seconds: number): string => {
+  if (!seconds) {
+    return '00:00';
+  }
+
   seconds = Math.floor(seconds);
   const hours = Math.floor(seconds / 3600);
   const minutes = Math.floor((seconds - hours * 3600) / 60);
