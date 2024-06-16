@@ -131,6 +131,10 @@ export const extractFamilyFriendly = (videoInfo: VideoInfoSourceApproximation) =
   return !!videoInfo?.basic_info?.is_family_safe;
 };
 
+export const extractAgeRestricted = (videoInfo: VideoInfoSourceApproximation) => {
+  return !!videoInfo?.playability_status?.reason.includes('age');
+};
+
 export const extractLikeCount = (videoInfo: VideoInfoSourceApproximation) => {
   return videoInfo?.basic_info?.like_count;
 };

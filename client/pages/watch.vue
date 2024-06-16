@@ -54,7 +54,9 @@ const {
   pending: videoPending,
   refresh
 } = useLazyAsyncData<VideoType, ApiErrorDto>(route.query.v.toString(), async () => {
-  const value = await vtFetch<ApiDto<'VTVideoInfoDto'>>(`${apiUrl.value}videos/${route.query.v}`);
+  const videoData = await vtFetch<ApiDto<'VTVideoInfoDto'>>(
+    `${apiUrl.value}videos/${route.query.v}`
+  );
 
   let initialVideoTime = 0;
 
@@ -62,7 +64,7 @@ const {
   if (initialVideoTimeFromQuery) {
     initialVideoTime = initialVideoTimeFromQuery;
   } else if (userStore.isLoggedIn && settingsStore.saveVideoHistory) {
-    const videoVisit = await vtFetch<any>(`${apiUrl.value}user/history/${value.id}`, {
+    const videoVisit = await vtFetch<any>(`${apiUrl.value}user/history/${videoData.id}`, {
       credentials: 'include'
     }).catch((_: any) => {});
 
@@ -72,10 +74,18 @@ const {
   }
 
   if (settingsStore.rewriteYouTubeURLs) {
-    value.description = value.description.replace('https://www.youtube.com', '');
+    videoData.description = videoData.description.replace('https://www.youtube.com', '');
   }
 
-  return { ...value, initialVideoTime };
+  if (videoData.ageRestricted) {
+    messagesStore.createMessage({
+      type: 'error',
+      title: 'Age restricted content',
+      message: 'This video is age restricted. Viewing may not be possible.'
+    });
+  }
+
+  return { ...videoData, initialVideoTime };
 });
 
 watch(videoPending, value => {

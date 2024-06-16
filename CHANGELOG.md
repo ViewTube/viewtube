@@ -5,6 +5,7 @@
 ### Added
 
 - Support short URLs (like https://viewtube.io/dQw4w9WgXcQ) [#2846](https://github.com/ViewTube/viewtube/pull/2846)
+- Notify user if video is age restricted [#2847](https://github.com/ViewTube/viewtube/pull/2847)
 
 ### Fixed
 

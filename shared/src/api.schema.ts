@@ -472,6 +472,7 @@ export interface components {
       watching?: number;
       unlisted: boolean;
       familyFriendly: boolean;
+      ageRestricted?: boolean;
       likeCount: number;
       category: string;
       previewThumbnails: components["schemas"]["VTPreviewThumbnailDto"][];
