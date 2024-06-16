@@ -26,7 +26,7 @@ const { posAbsolute, topPositionPx } = useHeaderScroll();
         settingsStore.showHomeTrendingVideos
       "
     />
-    <UserMenu />
+    <HeaderMenu />
   </div>
 </template>
 

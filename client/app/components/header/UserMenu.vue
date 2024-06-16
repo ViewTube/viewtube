@@ -1,673 +1,163 @@
+<script setup lang="ts">
+import { useUserStore } from '~/store/user';
+
+const userStore = useUserStore();
+</script>
+
 <template>
-  <div class="nav">
-    <a
-      v-show="!userAuthenticated"
-      id="login"
-      v-tippy="'Sign in'"
-      :href="`/login${currentPageRef('login')}`"
-      class="tooltip nav-btn main"
-      @click.prevent="onLoginClick"
-      >Sign in</a
-    >
-    <a
-      v-show="!userAuthenticated && registrationEnabled"
-      id="register"
-      v-tippy="'Sign up'"
-      :href="`/register${currentPageRef('register')}`"
-      class="tooltip nav-btn"
-      @click.prevent="onRegisterClick"
-      >Sign up</a
-    >
-    <nuxt-link
-      v-show="$route.name !== 'subscriptions' && userAuthenticated"
-      id="subscriptions"
-      v-tippy="'View your subscriptions'"
-      to="/subscriptions"
-      class="tooltip nav-btn main"
-      >Subscriptions</nuxt-link
-    >
-    <a
-      id="account"
-      v-tippy="'Account'"
-      :class="{ authenticated: userAuthenticated }"
-      href="#"
-      @click.prevent="showAccountMenu"
-    >
-      <div class="user-icon">
-        <VTIcon v-if="!userStore.profileImage" name="mdi:account-circle" />
-        <div
+  <div class="user-menu">
+    <div class="user-account">
+      <div class="user-avatar">
+        <img
           v-if="userStore.profileImage"
-          class="user-image"
-          :style="{ 'background-image': `url(${getProfileImageUrl(userStore.profileImage)})` }"
+          class="user-img"
+          :src="userStore.profileImage"
+          alt="User avatar"
         />
+        <VTIcon v-else class="user-icon" name="mdi:account-circle" />
       </div>
-      <p v-if="userAuthenticated" class="account-name">{{ userStore.username }}</p>
-    </a>
-    <ClientOnly>
-      <Teleport to="body">
-        <div
-          :class="{ visible: loginOpen || registerOpen || accountMenuVisible }"
-          class="clickaway-div"
-          @click="closeAllPopups"
-        />
-        <transition name="fade-down">
-          <Settings v-if="settingsOpen" @close="closeAllPopups" />
-        </transition>
-        <transition name="fade-down">
-          <About v-if="aboutOpen" @close="closeAllPopups" />
-        </transition>
-        <transition name="fade-down">
-          <LoginForm v-if="loginOpen" class="center-popup" :complete="closeAllPopups" />
-        </transition>
-        <transition name="fade-down">
-          <RegisterForm v-if="registerOpen" class="center-popup" :complete="closeAllPopups" />
-        </transition>
-        <transition name="fade-up">
-          <div v-if="accountMenuVisible" class="menu">
-            <div v-show="userAuthenticated" class="account-menu">
-              <div class="account-icon">
-                <VTIcon v-if="!userStore.profileImage" name="mdi:account-circle" />
-                <div
-                  v-if="userStore.profileImage"
-                  class="user-image"
-                  :style="{
-                    'background-image': `url(${getProfileImageUrl(userStore.profileImage)})`
-                  }"
-                />
-              </div>
-              <div class="account-info">
-                <p class="account-name">
-                  Logged in as
-                  {{ userStore.username }}
-                </p>
-                <div class="profile-links" @mouseup="closeAllPopups">
-                  <nuxt-link class="profile-btn" to="/profile">Your profile</nuxt-link>
-                  <nuxt-link v-if="userStore.admin" class="admin-btn" to="/admin">
-                    Admin panel
-                  </nuxt-link>
-                </div>
-              </div>
-            </div>
-            <div class="menu-buttons" :class="{ authenticated: userAuthenticated }">
-              <a
-                v-show="!userAuthenticated"
-                id="login-btn"
-                v-tippy="'Sign in'"
-                :href="`/login${currentPageRef('login')}`"
-                class="ripple tooltip menu-btn account-btn"
-                @click.self.prevent="login"
-              >
-                <div class="menu-btn-content"><VTIcon name="mdi:account-circle" />Sign in</div>
-              </a>
-              <a
-                v-show="!userAuthenticated && registrationEnabled"
-                id="register-btn"
-                v-tippy="'Sign up'"
-                :href="`/register${currentPageRef('register')}`"
-                class="ripple tooltip menu-btn account-btn"
-                @click.self.prevent="register"
-              >
-                <div class="menu-btn-content"><VTIcon name="mdi:account-plus" />Sign up</div>
-              </a>
-              <a
-                v-if="$route.name !== 'subscriptions' && userAuthenticated"
-                id="subscriptions-btn"
-                v-tippy="'View your subscriptions'"
-                href="#"
-                class="ripple tooltip menu-btn"
-                @click.self.prevent="openSubscriptions"
-              >
-                <div class="menu-btn-content">
-                  <VTIcon name="mdi:youtube-subscription" />Subscriptions
-                </div>
-              </a>
-              <a
-                id="settings-btn"
-                v-tippy="'Open settings'"
-                href="#"
-                class="ripple tooltip menu-btn"
-                @mousedown.self.prevent="openSettings"
-              >
-                <div class="menu-btn-content"><VTIcon name="mdi:cog" />Settings</div>
-              </a>
-              <a
-                id="about-btn"
-                v-tippy="'Open about'"
-                href="#"
-                class="ripple tooltip menu-btn"
-                @mousedown.self.prevent="openAbout"
-              >
-                <div class="menu-btn-content"><VTIcon name="mdi:information-outline" />About</div>
-              </a>
-            </div>
-          </div>
-        </transition>
-      </Teleport>
-    </ClientOnly>
+      <div v-if="userStore.isLoggedIn" class="user-info">
+        <div class="user-name">{{ userStore.username }}</div>
+        <div class="user-role">{{ userStore.admin ? 'Admin' : 'User' }}</div>
+      </div>
+      <div v-else class="user-info">
+        <div class="not-logged-in">Not logged in</div>
+      </div>
+    </div>
+    <div class="page-navigation">
+      <nuxt-link v-if="!userStore.isLoggedIn" class="page-link" to="/login">
+        <VTIcon name="mdi:login-variant" />
+        <span>Sign in</span>
+      </nuxt-link>
+      <nuxt-link v-if="!userStore.isLoggedIn" class="page-link" to="/register">
+        <VTIcon name="mdi:register" />
+        <span>Sign up</span>
+      </nuxt-link>
+      <HeaderCategoryHeader v-if="userStore.isLoggedIn">You</HeaderCategoryHeader>
+      <nuxt-link v-if="userStore.isLoggedIn" class="page-link" to="/profile">
+        <VTIcon name="mdi:account" />
+        <span>Profile</span>
+      </nuxt-link>
+      <nuxt-link v-if="userStore.isLoggedIn" class="page-link" to="/subscriptions">
+        <VTIcon name="mdi:youtube-subscription" />
+        <span>Subscriptions</span>
+      </nuxt-link>
+      <nuxt-link v-if="userStore.isLoggedIn" class="page-link" to="/history">
+        <VTIcon name="mdi:history" />
+        <span>History</span>
+      </nuxt-link>
+      <nuxt-link v-if="userStore.isLoggedIn" class="page-link" to="/profile">
+        <VTIcon name="mdi:pencil-box-multiple-outline" />
+        <span>Manage subscriptions</span>
+      </nuxt-link>
+      <HeaderCategoryHeader>Manage</HeaderCategoryHeader>
+      <button class="page-link" to="/settings">
+        <VTIcon name="mdi:cog" /><span>Settings</span>
+      </button>
+      <nuxt-link v-if="userStore.isLoggedIn && userStore.admin" class="page-link" to="/account">
+        <VTIcon name="mdi:administrator" />
+        <span>Admin panel</span>
+      </nuxt-link>
+      <button v-if="userStore.isLoggedIn" class="page-link" to="/logout">
+        <VTIcon name="mdi:logout-variant" />Logout
+      </button>
+      <HeaderCategoryHeader>Other</HeaderCategoryHeader>
+      <button class="page-link" to="/settings">
+        <VTIcon name="mdi:information-outline" /><span>About</span>
+      </button>
+      <button class="page-link" to="/settings">
+        <VTIcon name="mdi:heart" /><span>Donate</span>
+      </button>
+    </div>
   </div>
 </template>
 
-<script lang="ts">
-import LoginForm from '../form/LoginForm.vue';
-import RegisterForm from '../form/RegisterForm.vue';
-import Settings from '~/components/Settings.vue';
-import About from '~/components/About.vue';
-import { useUserStore } from '~/store/user';
-import { usePopupStore } from '~/store/popup';
-
-export default defineComponent({
-  name: 'UserMenu',
-  components: {
-    Settings,
-    About,
-    LoginForm,
-    RegisterForm
-  },
-  setup() {
-    const route = useRoute();
-    const userStore = useUserStore();
-    const popupStore = usePopupStore();
-
-    const { apiUrl } = useApiUrl();
-    const router = useRouter();
-    const { registrationEnabled } = useRegistrationEnabled();
-
-    const accountMenuVisible = ref(false);
-    const settingsOpen = ref(false);
-    const aboutOpen = ref(false);
-    const loginOpen = ref(false);
-    const registerOpen = ref(false);
-
-    const onLoginClick = () => {
-      closeAllPopups();
-      popupStore.setPopupOpen(true);
-      loginOpen.value = true;
-    };
-    const onRegisterClick = () => {
-      closeAllPopups();
-      popupStore.setPopupOpen(true);
-      registerOpen.value = true;
-    };
-
-    const getProfileImageUrl = (url: string): string => {
-      if (url) {
-        const imgUrl = url.replace('/api/', '');
-        return `${apiUrl.value}${imgUrl}`;
-      }
-      return null;
-    };
-
-    const closeAllPopups = () => {
-      registerOpen.value = false;
-      loginOpen.value = false;
-      aboutOpen.value = false;
-      settingsOpen.value = false;
-      accountMenuVisible.value = false;
-      if (popupStore.popupOpen) {
-        popupStore.setPopupOpen(false);
-      }
-    };
-
-    const currentRouteName = computed((): string => {
-      return route.name.toString();
-    });
-
-    const userAuthenticated = computed((): boolean => {
-      return userStore.isLoggedIn;
-    });
-
-    const currentPageRef = (exclude: string) => {
-      if (!route.fullPath.match(new RegExp(`.?${exclude}.?`, 'gi')) && route.fullPath !== '/') {
-        return `?ref=${route.fullPath}`;
-      }
-      return '';
-    };
-    const showAccountMenu = (): void => {
-      closeAllPopups();
-      popupStore.setPopupOpen(true);
-      accountMenuVisible.value = !accountMenuVisible.value;
-    };
-    const openAbout = (): void => {
-      closeAllPopups();
-      popupStore.setPopupOpen(true);
-      aboutOpen.value = true;
-    };
-    const openSettings = (): void => {
-      closeAllPopups();
-      popupStore.setPopupOpen(true);
-      settingsOpen.value = true;
-    };
-    const openSubscriptions = (): void => {
-      router.push('/subscriptions');
-      closeAllPopups();
-    };
-    const login = (): void => {
-      router.push(`/login${currentPageRef('login')}`);
-      closeAllPopups();
-    };
-    const register = (): void => {
-      router.push(`/register${currentPageRef('register')}`);
-      closeAllPopups();
-    };
-
-    const onEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        closeAllPopups();
-      }
-    };
-
-    onMounted((): void => {
-      window.addEventListener('keydown', onEscape);
-    });
-
-    onBeforeUnmount((): void => {
-      window.removeEventListener('keydown', onEscape);
-    });
-
-    return {
-      accountMenuVisible,
-      settingsOpen,
-      aboutOpen,
-      currentRouteName,
-      userAuthenticated,
-      currentPageRef,
-      closeAllPopups,
-      showAccountMenu,
-      openAbout,
-      openSettings,
-      openSubscriptions,
-      getProfileImageUrl,
-      login,
-      register,
-      loginOpen,
-      registerOpen,
-      onLoginClick,
-      onRegisterClick,
-      userStore,
-      registrationEnabled
-    };
-  }
-});
-</script>
-
-<style lang="scss">
-.fade-up-enter-active,
-.fade-up-leave-active {
-  transition:
-    opacity 300ms $intro-easing,
-    transform 300ms $intro-easing;
-}
-.fade-up-enter-to,
-.fade-up-leave-from {
-  opacity: 1;
-  transform: translateY(0);
-}
-.fade-up-enter-from,
-.fade-up-leave-to {
-  opacity: 0;
-  transform: translateY(50px);
-}
-
-.fade-down-enter-active,
-.fade-down-leave-active {
-  transition:
-    transform 200ms $intro-easing,
-    opacity 200ms $intro-easing;
-}
-.fade-down-enter-to,
-.fade-down-leave-from {
-  transform: scale(1);
-  opacity: 1;
-}
-.fade-down-enter-from,
-.fade-down-leave-to {
-  transform: scale(1.1);
-  opacity: 0;
-}
-
-.center-popup {
-  position: absolute !important;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 901;
-
-  &.login-form {
-    max-height: 400px;
-  }
-
-  &.register-form {
-    max-height: 700px;
-  }
-}
-
-.clickaway-div {
+<style lang="scss" scoped>
+.user-menu {
   position: fixed;
-  background-color: #0000008f;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 900;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 300ms $intro-easing;
-
-  &.visible {
-    opacity: 1;
-    pointer-events: all;
-  }
-}
-
-.nav {
-  margin: auto 10px auto 5px;
-  color: var(--theme-color);
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  position: relative;
-  z-index: +1;
-
-  #account {
-    color: var(--subtitle-color-light);
-    &:focus {
-      &::after {
-        box-shadow: none;
-      }
-    }
-
-    &.authenticated {
-      width: auto;
-      border-radius: 3px;
-
-      .account-name {
-        color: var(--theme-color);
-        padding: 0 0 0 4px;
-        @media screen and (max-width: $mobile-width) {
-          display: none;
-        }
-      }
-
-      @media screen and (max-width: $mobile-width) {
-        height: 35px;
-        .user-icon {
-          height: 35px;
-          width: 35px;
-
-          .user-image {
-            height: 35px !important;
-            width: 35px !important;
-          }
-        }
-      }
-
-      .user-icon {
-        .user-image {
-          height: 24px;
-          width: 24px;
-          background-size: cover;
-          background-position: center;
-          background-repeat: no-repeat;
-        }
-
-        .vt-icon {
-          fill: var(--theme-color);
-        }
-      }
-    }
-  }
-
-  a:not(.nav-btn):not(.menu-btn) {
-    text-decoration: none;
-    color: var(--theme-color);
-    transition: color 300ms $intro-easing;
-    margin: 0 6px;
-    display: flex;
-    user-select: none;
-    border-radius: 50%;
-    padding: 3px;
-    width: 24px;
-    height: 24px;
-    order: 99;
-
-    i {
-      margin: auto;
-      height: 100%;
-    }
-  }
-
-  .nav-btn {
-    text-decoration: none;
-    color: var(--theme-color);
-    transition:
-      color 300ms $intro-easing,
-      border 300ms $intro-easing;
-    margin: 0 5px;
-    display: flex;
-    user-select: none;
-    border-radius: 3px;
-    line-height: 100%;
-    text-align: center;
-    padding: 5px 10px;
-    box-sizing: border-box;
-    border: solid 2px transparent;
-    white-space: nowrap;
-
-    &#login {
-      min-width: 75px;
-    }
-
-    @media screen and (max-width: $mobile-width) {
-      display: none;
-    }
-
-    &:hover {
-      border: 2px solid var(--theme-color);
-    }
-
-    &:focus {
-      border: 2px solid var(--theme-color);
-
-      &::after {
-        display: none !important;
-      }
-    }
-  }
-
-  .nav-btn.main {
-    position: relative;
-    border: solid 2px var(--theme-color-translucent);
-    border-radius: 3px;
-
-    &:hover {
-      border: 2px solid var(--theme-color);
-    }
-  }
-
-  #open-in-yt {
-    .yt-logo {
-      width: 100%;
-      fill: #fff;
-
-      .st0 {
-        fill: var(--theme-color);
-      }
-
-      .st1 {
-        fill: var(--header-bgcolor);
-      }
-    }
-  }
-}
-
-.menu {
-  position: fixed;
-  top: $header-height;
-  right: 0;
+  top: $header-height + 15px;
+  right: 20px;
+  width: calc(100% - 40px);
+  max-width: 350px;
+  z-index: 1000;
   background-color: var(--bgcolor-alt);
-  backdrop-filter: blur(15px);
-  margin: 0 20px 0 0;
-  border-radius: 3px;
-  box-shadow: $max-shadow;
-  padding: 10px 0 20px 0;
-  width: 260px;
-  height: auto;
+  border-radius: 12px;
   box-sizing: border-box;
-  z-index: 901;
+  overflow: hidden;
 
   @media screen and (max-width: $mobile-width) {
-    top: 100%;
-    right: 0;
-    left: 0;
-    width: 100%;
-    transform: translate(0, -100%);
+    max-width: 100%;
   }
 
-  .menu-buttons {
+  .user-account {
     display: grid;
-    grid-template-columns: 45% 45%;
-    column-gap: 10%;
-    row-gap: 5%;
-    height: auto;
-    margin: 20px 5% 0 5%;
+    grid-template-columns: 50px 1fr;
+    grid-template-rows: 50px;
+    gap: 10px;
+    background-color: var(--bgcolor-alt);
+    padding: 15px;
+    border-radius: 12px 12px 0 0;
+    transition: background-color 200ms $intro-easing;
 
-    @media screen and (max-width: $mobile-width) {
-      grid-template-columns: 25% 25% 25% 25%;
-      grid-template-rows: 70% !important;
-      column-gap: 0 !important;
-      row-gap: 0 !important;
-      margin: 0 10px !important;
-
-      &:not(.authenticated) {
-        grid-template-columns: 20% 20% 20% 20% 20% !important;
-      }
-
-      .menu-btn {
-        height: 80px !important;
-      }
-    }
-
-    #login-btn,
-    #register-btn {
-      @media screen and (min-width: $mobile-width) {
-        display: none;
-      }
-    }
-
-    a.menu-btn {
-      width: auto;
-      margin: 0;
-      justify-self: center;
-      align-self: stretch;
-      width: 100%;
-      height: 60px;
-      display: flex;
-      border-radius: 3px;
-      transition:
-        box-shadow 300ms $intro-easing,
-        border 300ms $intro-easing;
-      border: 2px solid transparent;
-      box-sizing: border-box;
-
-      &::after {
-        display: none;
-      }
-
-      &:hover,
-      &:active,
-      &:focus {
-        border: 2px solid var(--theme-color);
-      }
-
-      .menu-btn-content {
-        margin: auto;
-        display: flex;
-        flex-direction: column;
-        color: var(--theme-color);
-
-        .vt-icon {
-          margin: auto;
-          width: 28px;
-          height: 28px;
-          background-color: var(--title-color);
-        }
-
-        &.account-btn {
-          display: none;
-
-          @media screen and (max-width: $mobile-width) {
-            display: block;
-          }
-        }
-      }
-    }
-  }
-
-  .account-menu {
-    height: 60px;
-    display: flex;
-    flex-direction: row;
-    padding: 0 0 0 20px;
-    align-items: flex-start;
-
-    .account-icon {
-      margin: 4px 0 0 0;
-      height: 40px;
-      width: 40px;
-      min-width: 42px;
-      min-height: 42px;
-      box-sizing: border-box;
-
-      .user-image {
-        height: 100%;
+    .user-avatar {
+      .user-icon {
         width: 100%;
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
+        height: 100%;
+        color: var(--theme-color);
       }
 
-      .vt-icon {
-        height: 40px;
-        width: 40px;
-        background-color: var(--subtitle-color-light);
+      .user-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
       }
     }
 
-    .account-info {
+    .user-info {
       display: flex;
       flex-direction: column;
-      margin: 0 0 0 0;
-      width: 100%;
 
-      .account-name {
-        margin: 0 0 0 13px;
-        width: 100%;
-        color: var(--title-color);
+      .user-name {
+        font-size: 1.1rem;
+        color: var(--theme-color);
       }
 
-      .profile-links {
-        display: flex;
-        flex-direction: column;
+      .user-role {
+        font-size: 0.8rem;
+        color: var(--subtitle-color-light);
+      }
 
-        .profile-btn,
-        .admin-btn {
-          font-size: 0.9rem;
-          width: 100%;
-          margin: 0 0 0 10px;
+      .not-logged-in {
+        margin: auto 0;
+        color: var(--theme-color);
+      }
+    }
+  }
 
-          &:hover {
-            text-decoration: underline;
-          }
+  .page-navigation {
+    display: flex;
+    flex-direction: column;
 
-          &:focus {
-            &::after {
-              display: none;
-            }
-          }
-        }
+    .page-link {
+      padding: 10px 15px;
+      margin: auto 0;
+      display: flex;
+      gap: 15px;
+      transition: color 200ms $intro-easing;
+      font-size: 0.9rem;
+      cursor: pointer;
+      text-decoration: none;
+      user-select: none;
+      background-color: unset;
+      color: var(--subtitle-color);
+      border: none;
+
+      &:hover {
+        color: var(--theme-color);
+      }
+
+      &:last-child {
+        border-radius: 0 0 12px 12px;
       }
     }
   }
