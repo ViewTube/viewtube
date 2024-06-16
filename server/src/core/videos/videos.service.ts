@@ -70,10 +70,14 @@ export class VideosService {
       let dashManifest: string | null = null;
 
       if (!videoInfo.basic_info.is_live) {
-        dashManifest = await videoInfo.toDash((url: URL) => {
-          url.searchParams.append('__host', url.host);
-          return url;
-        });
+        try {
+          dashManifest = await videoInfo.toDash((url: URL) => {
+            url.searchParams.append('__host', url.host);
+            return url;
+          });
+        } catch {
+          dashManifest = null;
+        }
       }
 
       const video = toVTVideoInfoDto(videoInfo as unknown, {
