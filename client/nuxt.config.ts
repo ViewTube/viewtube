@@ -1,5 +1,5 @@
-import { devOnly } from './utils/devOnly';
-import { iconSafelist } from './utils/icons';
+import { devOnly } from './app/utils/devOnly';
+import { iconSafelist } from './app/utils/icons';
 
 export default defineNuxtConfig({
   runtimeConfig: {
@@ -10,6 +10,10 @@ export default defineNuxtConfig({
       registrationEnabled: true,
       requireLoginEverywhere: false
     }
+  },
+
+  future: {
+    compatibilityVersion: 4,
   },
 
   nitro: {
@@ -27,7 +31,7 @@ export default defineNuxtConfig({
     typeCheck: 'build'
   },
 
-  css: ['@/assets/fonts/expletus.css', '@/assets/fonts/notosans.css', 'tippy.js/dist/tippy.css'],
+  css: ['~/assets/fonts/expletus.css', '~/assets/fonts/notosans.css', 'tippy.js/dist/tippy.css'],
 
   vite: {
     css: {
@@ -35,7 +39,7 @@ export default defineNuxtConfig({
         scss: {
           additionalData: `
            @use "sass:math";
-           @import "@/assets/styles/global/variables.scss";
+           @import "~/assets/styles/global/variables.scss";
           `
         }
       }
