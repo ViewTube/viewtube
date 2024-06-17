@@ -11,10 +11,10 @@
   display: flex;
   flex-direction: row;
   gap: 10px;
-  opacity: 0.9;
+  opacity: 0.8;
 
   .text {
-    color: var(--subtitle-color-light);
+    color: var(--theme-color);
     font-size: 0.8rem;
     margin: auto 0;
   }
@@ -23,7 +23,7 @@
     margin: auto 0;
     width: 100%;
     height: 1px;
-    background-color: var(--subtitle-color-light);
+    background-color: var(--theme-color);
   }
 }
 </style>

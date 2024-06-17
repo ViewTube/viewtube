@@ -1,12 +1,32 @@
 <script setup lang="ts">
 import { useUserStore } from '~/store/user';
 
+const emit = defineEmits<{
+  (event: 'close'): void;
+  (event: 'openPopup', value: string): void;
+}>();
+
 const userStore = useUserStore();
+
+const onNavClick = () => {
+  emit('close');
+};
+
+const openPopup = (popup: string) => {
+  emit('openPopup', popup);
+};
 </script>
 
 <template>
   <div class="user-menu">
     <div class="user-account">
+      <ClientOnly>
+        <div
+          v-if="userStore.profileImage"
+          class="avatar-background"
+          :style="{ 'background-image': `url(${userStore.profileImage})` }"
+        />
+      </ClientOnly>
       <div class="user-avatar">
         <img
           v-if="userStore.profileImage"
@@ -25,65 +45,115 @@ const userStore = useUserStore();
       </div>
     </div>
     <div class="page-navigation">
-      <nuxt-link v-if="!userStore.isLoggedIn" class="page-link" to="/login">
+      <nuxt-link
+        v-if="!userStore.isLoggedIn"
+        class="page-link mobile-only"
+        to="/login"
+        @click="onNavClick"
+      >
         <VTIcon name="mdi:login-variant" />
         <span>Sign in</span>
       </nuxt-link>
-      <nuxt-link v-if="!userStore.isLoggedIn" class="page-link" to="/register">
+      <nuxt-link
+        v-if="!userStore.isLoggedIn"
+        class="page-link mobile-only"
+        to="/register"
+        @click="onNavClick"
+      >
         <VTIcon name="mdi:register" />
         <span>Sign up</span>
       </nuxt-link>
       <HeaderCategoryHeader v-if="userStore.isLoggedIn">You</HeaderCategoryHeader>
-      <nuxt-link v-if="userStore.isLoggedIn" class="page-link" to="/profile">
+      <nuxt-link v-if="userStore.isLoggedIn" class="page-link" to="/profile" @click="onNavClick">
         <VTIcon name="mdi:account" />
         <span>Profile</span>
       </nuxt-link>
-      <nuxt-link v-if="userStore.isLoggedIn" class="page-link" to="/subscriptions">
+      <nuxt-link
+        v-if="userStore.isLoggedIn"
+        class="page-link"
+        to="/subscriptions"
+        @click="onNavClick"
+      >
         <VTIcon name="mdi:youtube-subscription" />
         <span>Subscriptions</span>
       </nuxt-link>
-      <nuxt-link v-if="userStore.isLoggedIn" class="page-link" to="/history">
+      <nuxt-link v-if="userStore.isLoggedIn" class="page-link" to="/history" @click="onNavClick">
         <VTIcon name="mdi:history" />
         <span>History</span>
       </nuxt-link>
-      <nuxt-link v-if="userStore.isLoggedIn" class="page-link" to="/profile">
+      <nuxt-link
+        v-if="userStore.isLoggedIn"
+        class="page-link"
+        to="/subscriptions/manage"
+        @click="onNavClick"
+      >
         <VTIcon name="mdi:pencil-box-multiple-outline" />
         <span>Manage subscriptions</span>
       </nuxt-link>
       <HeaderCategoryHeader>Manage</HeaderCategoryHeader>
-      <button class="page-link" to="/settings">
+      <button class="page-link" data-testid="settings-link" @click="openPopup('settings')">
         <VTIcon name="mdi:cog" /><span>Settings</span>
       </button>
-      <nuxt-link v-if="userStore.isLoggedIn && userStore.admin" class="page-link" to="/account">
+      <nuxt-link
+        v-if="userStore.isLoggedIn && userStore.admin"
+        class="page-link"
+        to="/admin"
+        @click="onNavClick"
+      >
         <VTIcon name="mdi:administrator" />
         <span>Admin panel</span>
       </nuxt-link>
-      <button v-if="userStore.isLoggedIn" class="page-link" to="/logout">
+      <button v-if="userStore.isLoggedIn" class="page-link" @click="openPopup('logout')">
         <VTIcon name="mdi:logout-variant" />Logout
       </button>
       <HeaderCategoryHeader>Other</HeaderCategoryHeader>
-      <button class="page-link" to="/settings">
+      <button class="page-link" @click="openPopup('about')">
         <VTIcon name="mdi:information-outline" /><span>About</span>
       </button>
-      <button class="page-link" to="/settings">
+      <a
+        href="https://github.com/sponsors/ViewTube"
+        rel="noreferrer noopener"
+        target="_blank"
+        class="page-link"
+        @click="onNavClick"
+      >
         <VTIcon name="mdi:heart" /><span>Donate</span>
-      </button>
+      </a>
     </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
+.popup-enter-active,
+.popup-leave-active {
+  transition:
+    opacity 300ms $intro-easing,
+    transform 300ms $intro-easing;
+}
+.popup-enter-to,
+.popup-leave-from {
+  opacity: 1;
+  transform: scale(1);
+}
+.popup-enter-from,
+.popup-leave-to {
+  opacity: 0;
+  transform: scale(1.1);
+}
+
 .user-menu {
   position: fixed;
   top: $header-height + 15px;
   right: 20px;
   width: calc(100% - 40px);
+  max-height: calc(100% - $header-height - 30px);
   max-width: 350px;
   z-index: 1000;
+  padding-bottom: 10px;
   background-color: var(--bgcolor-alt);
-  border-radius: 12px;
+  border-radius: 16px;
   box-sizing: border-box;
-  overflow: hidden;
+  overflow: hidden auto;
 
   @media screen and (max-width: $mobile-width) {
     max-width: 100%;
@@ -91,15 +161,31 @@ const userStore = useUserStore();
 
   .user-account {
     display: grid;
-    grid-template-columns: 50px 1fr;
-    grid-template-rows: 50px;
-    gap: 10px;
-    background-color: var(--bgcolor-alt);
-    padding: 15px;
-    border-radius: 12px 12px 0 0;
+    position: relative;
+    grid-template-columns: 60px 1fr;
+    grid-template-rows: 60px;
+    gap: 15px;
+    background-color: var(--bgcolor-alt-light);
+    padding: 10px;
+    margin: 10px;
+    border-radius: 10px;
     transition: background-color 200ms $intro-easing;
+    overflow: hidden;
+
+    .avatar-background {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      bottom: 0;
+      z-index: 10;
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+      filter: blur(25px) brightness(0.4);
+    }
 
     .user-avatar {
+      z-index: 11;
       .user-icon {
         width: 100%;
         height: 100%;
@@ -116,6 +202,8 @@ const userStore = useUserStore();
     .user-info {
       display: flex;
       flex-direction: column;
+      margin: auto 0;
+      z-index: 11;
 
       .user-name {
         font-size: 1.1rem;
@@ -151,13 +239,16 @@ const userStore = useUserStore();
       background-color: unset;
       color: var(--subtitle-color);
       border: none;
+      line-height: 24px;
+
+      &.mobile-only {
+        @media screen and (min-width: $mobile-width) {
+          display: none;
+        }
+      }
 
       &:hover {
         color: var(--theme-color);
-      }
-
-      &:last-child {
-        border-radius: 0 0 12px 12px;
       }
     }
   }

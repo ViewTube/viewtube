@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import BadgeButton from '~/components/buttons/BadgeButton.vue';
 import LoginForm from '../form/LoginForm.vue';
 import RegisterForm from '../form/RegisterForm.vue';
 import Settings from '~/components/Settings.vue';
@@ -18,6 +19,31 @@ const settingsOpen = ref(false);
 const aboutOpen = ref(false);
 const loginOpen = ref(false);
 const registerOpen = ref(false);
+const logoutOpen = ref(false);
+
+const openPopup = (popup: string) => {
+  closeAllPopups();
+  popupStore.setPopupOpen(true);
+  switch (popup) {
+    case 'settings':
+      settingsOpen.value = true;
+      break;
+    case 'about':
+      aboutOpen.value = true;
+      break;
+    case 'login':
+      loginOpen.value = true;
+      break;
+    case 'register':
+      registerOpen.value = true;
+      break;
+    case 'logout':
+      logoutOpen.value = true;
+      break;
+    default:
+      break;
+  }
+};
 
 const onLoginClick = () => {
   closeAllPopups();
@@ -71,6 +97,16 @@ const onEscape = (e: KeyboardEvent) => {
   }
 };
 
+const logout = () => {
+  userStore.logout();
+  closeAllPopups();
+  logoutOpen.value = false;
+};
+const onLogoutPopupClose = () => {
+  closeAllPopups();
+  logoutOpen.value = false;
+};
+
 onMounted((): void => {
   window.addEventListener('keydown', onEscape);
 });
@@ -117,10 +153,11 @@ onBeforeUnmount((): void => {
     >
       <div class="user-icon">
         <VTIcon v-if="!userStore.profileImage" name="mdi:account-circle" />
+
         <div
           v-if="userStore.profileImage"
           class="user-image"
-          :style="{ 'background-image': `url(${getProfileImageUrl(userStore.profileImage)})` }"
+          :style="{ 'background-image': `url(${userStore.profileImage})` }"
         />
       </div>
       <p v-if="userAuthenticated" class="account-name">{{ userStore.username }}</p>
@@ -145,7 +182,22 @@ onBeforeUnmount((): void => {
           <RegisterForm v-if="registerOpen" class="center-popup" :complete="closeAllPopups" />
         </transition>
         <transition name="fade-top-right">
-          <HeaderUserMenu v-if="accountMenuVisible" @close="closeAllPopups" />
+          <HeaderUserMenu
+            v-if="accountMenuVisible"
+            @close="closeAllPopups"
+            @open-popup="openPopup"
+          />
+        </transition>
+        <transition name="fade-down">
+          <PopupConfirmation
+            v-if="logoutOpen"
+            :title="'Sign out'"
+            :message="'Do you want to sign out?'"
+            @close="onLogoutPopupClose"
+          >
+            <BadgeButton :click="onLogoutPopupClose">Cancel</BadgeButton>
+            <BadgeButton :click="logout">OK</BadgeButton>
+          </PopupConfirmation>
         </transition>
       </Teleport>
     </ClientOnly>
@@ -167,7 +219,7 @@ onBeforeUnmount((): void => {
 .fade-top-right-enter-from,
 .fade-top-right-leave-to {
   opacity: 0;
-  transform: translate3d(10px, -10px, 0) scale(0.9);
+  transform: translate3d(25px, -35px, 0) scale(0.9);
 }
 
 .fade-down-enter-active,
@@ -273,6 +325,7 @@ onBeforeUnmount((): void => {
           background-size: cover;
           background-position: center;
           background-repeat: no-repeat;
+          margin-right: 4px;
         }
 
         .vt-icon {
