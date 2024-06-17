@@ -249,8 +249,8 @@ importers:
         specifier: 5.6.1
         version: 5.6.1
       cache-manager-redis-yet:
-        specifier: 5.1.1
-        version: 5.1.1
+        specifier: 5.1.2
+        version: 5.1.2
       class-transformer:
         specifier: 0.5.1
         version: 0.5.1
@@ -3052,8 +3052,8 @@ packages:
     resolution: {integrity: sha512-qXCd4rh6I07cnDqh8V48/94Tc/WSfj+o3Gn6NZ0aZovS255bUx8O13uKxRFd2eWG0xgsco7+YItQNPaa5E85hg==}
     engines: {node: ^16.14.0 || >=18.0.0}
 
-  cache-manager-redis-yet@5.1.1:
-    resolution: {integrity: sha512-bgc7rDYDeDSeoT8SYmDNgOF2Rdq38n85Y6r4Jt9JpzxzT4/DxVr9yqJfKo+tecXIwy/Z0ltrZ8tF3EgsulQwMw==}
+  cache-manager-redis-yet@5.1.2:
+    resolution: {integrity: sha512-InCnAd2CB8NPfhtCT5CAyPQc5jqPgO/SpCJnA52QZnYhJ6GiZgPQebd8ugEueQuoV2PbuS13YxKR54atqF0AgQ==}
     engines: {node: '>= 18'}
 
   cache-manager@5.6.1:
@@ -10685,7 +10685,7 @@ snapshots:
       tar: 6.2.1
       unique-filename: 3.0.0
 
-  cache-manager-redis-yet@5.1.1:
+  cache-manager-redis-yet@5.1.2:
     dependencies:
       '@redis/bloom': 1.2.0(@redis/client@1.5.16)
       '@redis/client': 1.5.16
