@@ -8,7 +8,7 @@ describe('Settings tests', () => {
 
   it('Settings popup opens and closes properly', () => {
     cy.get('#account').click();
-    cy.get('#settings-btn').should('exist').click();
+    cy.get('button[data-testid=settings-link]').should('exist').click();
     cy.get('.settings.popup').should('exist');
 
     cy.get('.settings.popup .settings-header .settings-title').text().should('eq', 'Settings');
