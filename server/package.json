@@ -61,7 +61,7 @@
     "sharp": "0.33.4",
     "svg-captcha": "1.4.0",
     "tslib": "2.6.3",
-    "undici": "6.19.0",
+    "undici": "6.19.1",
     "web-push": "3.6.7",
     "winston": "3.13.0",
     "winston-daily-rotate-file": "5.0.0",
