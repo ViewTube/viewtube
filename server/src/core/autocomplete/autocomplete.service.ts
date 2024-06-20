@@ -10,7 +10,7 @@ export class AutocompleteService {
 
   async getAutocompleteResult(query: string): Promise<Array<string>> {
     try {
-      const response = await vtFetch(this.url + query);
+      const response = await vtFetch(this.url + query, { useProxy: true });
       const textDecoder = new TextDecoder('latin1');
       const arrayBufferData = await response.body.arrayBuffer();
       const data = textDecoder.decode(arrayBufferData);

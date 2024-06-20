@@ -194,7 +194,7 @@ export class VideosService {
   }
 
   async saveAuthorImage(imgUrl: string, channelId: string) {
-    const arrBufferResponse = await vtFetch(imgUrl);
+    const arrBufferResponse = await vtFetch(imgUrl, { useProxy: true });
     const arrBuffer = await arrBufferResponse.body.arrayBuffer();
 
     if (arrBuffer) {
