@@ -202,7 +202,7 @@ importers:
         version: 8.14.0
       '@nestjs/bull':
         specifier: 10.1.1
-        version: 10.1.1(@nestjs/common@10.3.9(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/core@10.3.9(@nestjs/common@10.3.9(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/websockets@10.3.9)(encoding@0.1.13)(reflect-metadata@0.2.2)(rxjs@7.8.1))(bull@4.13.0)
+        version: 10.1.1(@nestjs/common@10.3.9(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/core@10.3.9(@nestjs/common@10.3.9(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/websockets@10.3.9)(encoding@0.1.13)(reflect-metadata@0.2.2)(rxjs@7.8.1))(bull@4.13.1)
       '@nestjs/cache-manager':
         specifier: 2.2.2
         version: 2.2.2(@nestjs/common@10.3.9(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/core@10.3.9(@nestjs/common@10.3.9(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/websockets@10.3.9)(encoding@0.1.13)(reflect-metadata@0.2.2)(rxjs@7.8.1))(cache-manager@5.6.1)(rxjs@7.8.1)
@@ -243,8 +243,8 @@ importers:
         specifier: 2.4.3
         version: 2.4.3
       bull:
-        specifier: 4.13.0
-        version: 4.13.0
+        specifier: 4.13.1
+        version: 4.13.1
       cache-manager:
         specifier: 5.6.1
         version: 5.6.1
@@ -3022,8 +3022,8 @@ packages:
     resolution: {integrity: sha512-zhaCDicdLuWN5UbN5IMnFqNMhNfo919sH85y2/ea+5Yg9TsTkeZxpL+JLbp6cgYFS4sRLp3YV4S6yDuqVWHYOw==}
     engines: {node: '>=6'}
 
-  bull@4.13.0:
-    resolution: {integrity: sha512-XAAhHeXtW+luEYuid3shGv25ErmsegrVXMukbP7AqNUgRgiTnRnIGdjPyzmHu3/Tjm6jNdODqLHJ12t07fyUrQ==}
+  bull@4.13.1:
+    resolution: {integrity: sha512-UI7oSeBCy5BCU0TRYYQenGseG+Kijq8X9PWf8Z7QEIeXT0YEJZ/7lH5IT4jHVP/rCmU8XoTm5vIc9d6xLo96og==}
     engines: {node: '>=12'}
 
   bundle-name@4.1.0:
@@ -8400,12 +8400,12 @@ snapshots:
       '@nestjs/core': 10.3.9(@nestjs/common@10.3.9(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/websockets@10.3.9)(encoding@0.1.13)(reflect-metadata@0.2.2)(rxjs@7.8.1)
       tslib: 2.6.2
 
-  '@nestjs/bull@10.1.1(@nestjs/common@10.3.9(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/core@10.3.9(@nestjs/common@10.3.9(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/websockets@10.3.9)(encoding@0.1.13)(reflect-metadata@0.2.2)(rxjs@7.8.1))(bull@4.13.0)':
+  '@nestjs/bull@10.1.1(@nestjs/common@10.3.9(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/core@10.3.9(@nestjs/common@10.3.9(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/websockets@10.3.9)(encoding@0.1.13)(reflect-metadata@0.2.2)(rxjs@7.8.1))(bull@4.13.1)':
     dependencies:
       '@nestjs/bull-shared': 10.1.1(@nestjs/common@10.3.9(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/core@10.3.9(@nestjs/common@10.3.9(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/websockets@10.3.9)(encoding@0.1.13)(reflect-metadata@0.2.2)(rxjs@7.8.1))
       '@nestjs/common': 10.3.9(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.2.2)(rxjs@7.8.1)
       '@nestjs/core': 10.3.9(@nestjs/common@10.3.9(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/websockets@10.3.9)(encoding@0.1.13)(reflect-metadata@0.2.2)(rxjs@7.8.1)
-      bull: 4.13.0
+      bull: 4.13.1
       tslib: 2.6.2
 
   '@nestjs/cache-manager@2.2.2(@nestjs/common@10.3.9(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/core@10.3.9(@nestjs/common@10.3.9(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/websockets@10.3.9)(encoding@0.1.13)(reflect-metadata@0.2.2)(rxjs@7.8.1))(cache-manager@5.6.1)(rxjs@7.8.1)':
@@ -10633,7 +10633,7 @@ snapshots:
 
   builtin-modules@3.3.0: {}
 
-  bull@4.13.0:
+  bull@4.13.1:
     dependencies:
       cron-parser: 4.9.0
       get-port: 5.1.1
