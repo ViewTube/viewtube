@@ -73,7 +73,7 @@
     "@nestjs/cli": "10.3.2",
     "@nestjs/websockets": "10.3.9",
     "@swc/cli": "0.3.12",
-    "@swc/core": "1.6.1",
+    "@swc/core": "1.6.3",
     "@types/archiver": "6.0.2",
     "@types/bcryptjs": "2.4.6",
     "@types/cookie-parser": "1.4.7",
