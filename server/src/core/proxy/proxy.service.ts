@@ -27,9 +27,9 @@ export class ProxyService {
     }
   }
 
-  async proxyImage(url: string, reply: FastifyReply, local: boolean): Promise<void> {
+  async proxyImage(url: string, reply: FastifyReply): Promise<void> {
     try {
-      const imageResponse = await vtFetch(url, { useProxy: !local });
+      const imageResponse = await vtFetch(url, { useProxy: true });
 
       imageResponse.body.pipe(reply.raw);
     } catch (error) {

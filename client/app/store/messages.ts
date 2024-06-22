@@ -1,5 +1,5 @@
-import { type MessageType } from '~/types/MessageType';
 import { defineStore } from 'pinia';
+import { type MessageType } from '~/types/MessageType';
 
 export const useMessagesStore = defineStore('messages', {
   state: () => ({
@@ -19,6 +19,9 @@ export const useMessagesStore = defineStore('messages', {
       this.messages.find(m => m.id === id).dismissed = true;
     },
     createMessage(messageData: Omit<MessageType, 'dismissed' | 'id'>) {
+      if (messageData.type === 'info') {
+        messageData.dismissDelay = 5000;
+      }
       this.addMessage({
         ...messageData,
         id: this.allMessages.length + 1,

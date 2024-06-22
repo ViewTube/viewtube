@@ -77,11 +77,11 @@ const {
     videoData.description = videoData.description.replace('https://www.youtube.com', '');
   }
 
-  if (videoData.ageRestricted) {
+  if (videoData.availability?.status !== 'OK') {
     messagesStore.createMessage({
       type: 'error',
-      title: 'Age restricted content',
-      message: 'This video is age restricted. Viewing may not be possible.'
+      title: 'Video is unplayable',
+      message: videoData.availability?.reason ?? 'Unplayable for unknown reason'
     });
   }
 

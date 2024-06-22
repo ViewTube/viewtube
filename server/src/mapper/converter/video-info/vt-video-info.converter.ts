@@ -1,8 +1,8 @@
 import { VTVideoInfoDto } from 'server/mapper/dto/vt-video-info.dto';
 import { VideoInfoSourceApproximation } from './video-info-source-approximation';
 import {
-  extractAgeRestricted,
   extractAuthor,
+  extractAvailability,
   extractCaptions,
   extractCategory,
   extractChapters,
@@ -52,7 +52,7 @@ export const toVTVideoInfoDto = (
     live: extractLive(videoInfo),
     unlisted: extractUnlisted(videoInfo),
     familyFriendly: extractFamilyFriendly(videoInfo),
-    ageRestricted: extractAgeRestricted(videoInfo),
+    availability: extractAvailability(videoInfo),
     likeCount: extractLikeCount(videoInfo),
     category: extractCategory(videoInfo),
     previewThumbnails: extractPreviewThumbnails(videoInfo),

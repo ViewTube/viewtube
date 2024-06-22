@@ -135,6 +135,21 @@ export const extractAgeRestricted = (videoInfo: VideoInfoSourceApproximation) =>
   return !!videoInfo?.playability_status?.reason.includes('age');
 };
 
+export const extractAvailability = (videoInfo: VideoInfoSourceApproximation) => {
+  let playabilityReason = videoInfo?.playability_status?.reason;
+  if ((videoInfo?.playability_status?.error_screen as any)?.subreason) {
+    playabilityReason += ` - ${(videoInfo?.playability_status?.error_screen as any)?.subreason}`;
+  }
+
+  if (playabilityReason.includes('confirm your age')) {
+    playabilityReason = "This video is age-restricted. It can't be played on ViewTube.";
+  }
+  return {
+    status: videoInfo?.playability_status?.status,
+    reason: playabilityReason
+  };
+};
+
 export const extractLikeCount = (videoInfo: VideoInfoSourceApproximation) => {
   return videoInfo?.basic_info?.like_count;
 };

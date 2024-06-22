@@ -36,7 +36,10 @@ export class VTVideoInfoDto {
   watching?: number;
   unlisted: boolean;
   familyFriendly: boolean;
-  ageRestricted?: boolean;
+  availability: {
+    status?: string;
+    reason?: string;
+  };
   likeCount: number;
   category: string;
   previewThumbnails: Array<VTPreviewThumbnailDto>;

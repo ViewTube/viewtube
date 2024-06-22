@@ -23,8 +23,8 @@ export const useMediaSession = ({
   if (navigator && 'mediaSession' in navigator) {
     navigator.mediaSession.metadata = new MediaMetadata({
       title: video.title,
-      artist: video.author.name,
-      artwork: video.thumbnails.map(thumbnail => {
+      artist: video.author?.name,
+      artwork: video.thumbnails?.map(thumbnail => {
         return {
           src: proxyUrl(thumbnail.url),
           sizes: `${thumbnail.width}x${thumbnail.height}`,

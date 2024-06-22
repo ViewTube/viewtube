@@ -82,7 +82,7 @@ describe('Core API tests', () => {
       expect(response.status).to.eq(200);
       expect(response.body.comments).to.be.an('array').that.is.not.empty;
 
-      const commentWithReplies = response.body.comments.find(comment => comment.hasReplies);
+      const commentWithReplies = response.body.comments.find(comment => comment.replyCount > 10);
 
       cy.request<ApiDto<'VTCommentsReplyResponseDto'>>(
         'GET',
