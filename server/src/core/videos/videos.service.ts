@@ -108,7 +108,13 @@ export class VideosService {
 
       return video;
     } catch (error) {
-      throw new InternalServerErrorException(error);
+      if (error?.message) {
+        throw new InternalServerErrorException(error.message);
+      }
+      if (error?.info?.reason) {
+        throw new InternalServerErrorException(error.info.reason);
+      }
+      throw new InternalServerErrorException('Error fetching video information');
     }
   }
 

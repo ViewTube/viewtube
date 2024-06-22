@@ -472,7 +472,10 @@ export interface components {
       watching?: number;
       unlisted: boolean;
       familyFriendly: boolean;
-      ageRestricted?: boolean;
+      availability: {
+        status?: string;
+        reason?: string;
+      };
       likeCount: number;
       category: string;
       previewThumbnails: components["schemas"]["VTPreviewThumbnailDto"][];
@@ -1460,7 +1463,6 @@ export interface operations {
     parameters: {
       query: {
         url: string;
-        local: boolean;
       };
     };
     responses: {

@@ -36,9 +36,9 @@ export class VTVideoInfoDto {
   watching?: number;
   unlisted: boolean;
   familyFriendly: boolean;
-  ageRestricted?: boolean;
-  unavailable?: {
-    // reason
+  availability: {
+    status?: string;
+    reason?: string;
   };
   likeCount: number;
   category: string;

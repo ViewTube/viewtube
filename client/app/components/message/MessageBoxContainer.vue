@@ -7,11 +7,13 @@ const messagesStore = useMessagesStore();
 
 <template>
   <div class="messages-container">
-    <MessageBox
-      v-for="message in messagesStore.visibleMessages"
-      :key="message.id"
-      :message="message"
-    />
+    <ClientOnly>
+      <MessageBox
+        v-for="message in messagesStore.visibleMessages"
+        :key="message.id"
+        :message="message"
+      />
+    </ClientOnly>
   </div>
 </template>
 
