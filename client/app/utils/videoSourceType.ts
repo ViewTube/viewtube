@@ -1,4 +1,5 @@
 export enum VideoSourceType {
-  HLS = 'application/x-mpegURL',
-  DASH = 'application/dash+xml'
+  HLS = 'application/vnd.apple.mpegurl',
+  DASH = 'application/dash+xml',
+  NATIVE = 'native'
 }

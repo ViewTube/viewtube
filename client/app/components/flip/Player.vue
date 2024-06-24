@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { ApiDto } from '@viewtube/shared';
+import { useIsIOS } from '~/composables/videoplayer/isIOS';
 
 const props = defineProps<{
   video: ApiDto<'VTVideoInfoDto'>;
@@ -28,11 +29,12 @@ const videoState = useVideoState({
   autoplay: props.autoplay,
   embed: props.embed
 });
+const { isIOSOnIPhone } = useIsIOS();
 </script>
 
 <template>
   <div class="flip-player" :class="{ embed }">
-    <FlipPlayerUI :video-state="videoState" :video :embed>
+    <FlipPlayerUI :hidden="isIOSOnIPhone" :video-state="videoState" :video :embed>
       <video ref="videoElementRef" class="flip-video-element" />
     </FlipPlayerUI>
   </div>

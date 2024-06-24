@@ -39,28 +39,47 @@ export class ProxyService {
     }
   }
 
-  async proxyStream(url: string, request: FastifyRequest, reply: FastifyReply): Promise<void> {
+  async proxyStream(request: FastifyRequest, reply: FastifyReply): Promise<void> {
+    const originUrl = request.query['originUrl'];
+
+    if (!originUrl) {
+      reply.code(400).send({
+        statusCode: 400,
+        message: `originUrl is required.`,
+        error: 'Bad Request'
+      });
+    }
+
+    const streamProxyUrl = `${originUrl}/api/proxy/stream?originUrl=${encodeURIComponent(originUrl)}`;
+
     try {
       const rawHeaders = request.raw.headers;
       const headers = {
         range: rawHeaders.range,
-        'accept-language': rawHeaders['accept-language'],
         'user-agent': rawHeaders['user-agent'],
         origin: 'https://www.youtube.com'
       };
-      const streamResponse = await vtFetch(url, { headers, useProxy: true });
+
+      const urlToFetch = new URL(request.query['url'] as string);
+
+      const streamResponse = await vtFetch(urlToFetch, { headers, useProxy: true });
 
       if (streamResponse.headers['location']) {
-        if (request.query['originUrl']) {
-          const originUrl = request.query['originUrl'];
-          reply.header(
-            'location',
-            `${originUrl}/api/proxy/stream?originUrl=${originUrl}&url=${streamResponse.headers['location']}`
-          );
-        }
+        reply.header('location', `${streamProxyUrl}&url=${streamResponse.headers['location']}`);
       }
 
-      reply.status(streamResponse.statusCode).send(streamResponse.body);
+      if (urlToFetch.href.endsWith('.m3u8')) {
+        const responseText = await streamResponse.body.text();
+        const rewrittenResponse = responseText.replace(
+          /https:\/\/.*?.googlevideo\.com\/.*?\.m3u8/gi,
+          (match: string) => {
+            return `${streamProxyUrl}&url=${encodeURIComponent(match)}`;
+          }
+        );
+        reply.status(streamResponse.statusCode).send(rewrittenResponse);
+      } else {
+        reply.status(streamResponse.statusCode).send(streamResponse.body);
+      }
     } catch (error) {
       if (this.configService.get('NODE_ENV') !== 'production') {
         this.logger.log(error);
