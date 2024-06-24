@@ -7,6 +7,7 @@ import { useSettingsStore } from '~/store/settings';
 import { useUserStore } from '~/store/user';
 import { useVideoPlayerStore } from '~/store/videoPlayer';
 import { hlsAdapter } from '~/utils/videoplayer/adapters/hlsAdapter';
+import { nativeAdapter } from '~/utils/videoplayer/adapters/nativeAdapter';
 import { rxPlayerAdapter } from '~/utils/videoplayer/adapters/rxPlayerAdapter';
 import { useMediaSession } from './mediaSession';
 
@@ -71,28 +72,40 @@ export const useVideoState = ({
 
     if (sourceType.value === VideoSourceType.DASH) {
       adapterInstance.value = await rxPlayerAdapter({
-        videoElementRef,
+        autoplay,
+        defaultVolume: volumeStorage,
+        loop: settingsStore.alwaysLoopVideo,
+        maximumQuality: settingsStore.maxVideoQuality,
         source,
         startTime,
+        videoElementRef,
         videoState,
-        defaultVolume: volumeStorage,
-        createMessage: messagesStore.createMessage,
-        autoplay,
         videoEnded,
-        maximumQuality: settingsStore.maxVideoQuality,
-        loop: settingsStore.alwaysLoopVideo
+        createMessage: messagesStore.createMessage
       });
     } else if (sourceType.value === VideoSourceType.HLS) {
       adapterInstance.value = await hlsAdapter({
-        videoElementRef,
+        autoplay,
+        defaultVolume: volumeStorage,
+        maximumQuality: settingsStore.maxVideoQuality,
         source,
         startTime,
+        videoElementRef,
         videoState,
-        defaultVolume: volumeStorage,
-        createMessage: messagesStore.createMessage,
-        autoplay,
         videoEnded,
-        maximumQuality: settingsStore.maxVideoQuality
+        createMessage: messagesStore.createMessage
+      });
+    } else if (sourceType.value === VideoSourceType.NATIVE) {
+      adapterInstance.value = await nativeAdapter({
+        autoplay,
+        defaultVolume: volumeStorage,
+        loop: settingsStore.alwaysLoopVideo,
+        source,
+        startTime,
+        videoElementRef,
+        videoState,
+        videoEnded,
+        createMessage: messagesStore.createMessage
       });
     }
   };

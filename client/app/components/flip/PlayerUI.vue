@@ -5,11 +5,19 @@ const props = defineProps<{
   videoState: VideoState;
   video: ApiDto<'VTVideoInfoDto'>;
   embed?: boolean;
+  hidden?: boolean;
 }>();
 const flipPlayerUIRef = ref<HTMLDivElement | null>(null);
 
 const captionsState = useCaptionsState(toRef(props, 'video'));
-const uiState = useUIState(props.videoState, toRef(props, 'video'), flipPlayerUIRef, captionsState);
+const isHidden = toRef(props, 'hidden');
+const uiState = useUIState(
+  props.videoState,
+  toRef(props, 'video'),
+  flipPlayerUIRef,
+  captionsState,
+  isHidden
+);
 
 const cursor = computed(() => uiState.cursor.value);
 </script>
@@ -27,7 +35,7 @@ const cursor = computed(() => uiState.cursor.value);
   >
     <slot />
     <Spinner v-if="videoState.video.buffering" class="flip-spinner" />
-    <transition name="flip-fade">
+    <transition v-show="!hidden" name="flip-fade">
       <FlipControls
         v-if="uiState.visible.value"
         :video-state="videoState"

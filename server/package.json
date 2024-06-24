@@ -87,7 +87,7 @@
     "cross-env": "7.0.3",
     "h3": "1.12.0",
     "hex-rgb": "5.0.0",
-    "openapi-typescript": "6.7.6",
+    "openapi-typescript": "7.0.0",
     "redis": "4.6.14",
     "rimraf": "5.0.7",
     "socks": "2.8.3",

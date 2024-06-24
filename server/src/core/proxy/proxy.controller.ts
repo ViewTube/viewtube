@@ -23,12 +23,7 @@ export class ProxyController {
   }
 
   @Get('stream')
-  @Header('Cache-Control', 'public, max-age=7200')
-  async proxyStream(
-    @Query('url') url: string,
-    @Req() request: FastifyRequest,
-    @Res() reply: FastifyReply
-  ): Promise<void> {
-    await this.proxyService.proxyStream(url, request, reply);
+  async proxyStream(@Req() request: FastifyRequest, @Res() reply: FastifyReply): Promise<void> {
+    await this.proxyService.proxyStream(request, reply);
   }
 }

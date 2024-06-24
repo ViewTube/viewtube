@@ -13,7 +13,7 @@ export const hlsAdapter = async ({
   createMessage,
   autoplay
 }: HlsAdapterOptions) => {
-  const { streamProxy } = useProxyUrls();
+  const { applyStreamProxy } = useProxyUrls();
 
   const Hls = await import('hls.js').then(module => module.default);
 
@@ -38,19 +38,6 @@ export const hlsAdapter = async ({
             retryDelayMs: 1000,
             maxRetryDelayMs: 8000
           }
-        }
-      },
-      fetchSetup(context, initParams) {
-        if (!context.url.includes(streamProxy)) {
-          context.url = streamProxy + encodeURI(context.url);
-        }
-        return new Request(context.url, initParams);
-      },
-      xhrSetup(xhr: XMLHttpRequest, url: string) {
-        if (!url.includes(streamProxy)) {
-          xhr.open('GET', streamProxy + encodeURI(url), true);
-        } else {
-          xhr.open('GET', url, true);
         }
       }
     });
@@ -212,7 +199,8 @@ export const hlsAdapter = async ({
   };
 
   const loadVideo = () => {
-    playerInstance?.loadSource(source.value);
+    const proxiedSource = applyStreamProxy(source.value);
+    playerInstance?.loadSource(proxiedSource);
   };
 
   const destroy = () => {

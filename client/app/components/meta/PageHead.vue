@@ -18,6 +18,8 @@ const props = withDefaults(
   }
 );
 
+const runtimeConfig = useRuntimeConfig();
+
 const safelyReturn = (prop: ConditionalPropType, returnValue: string | null = ''): string => {
   if (
     prop !== null &&
@@ -38,6 +40,8 @@ const descriptionString = computed(() => safelyReturn(props.description));
 const imageString = computed(() => safelyReturn(props.image, null));
 
 const videoString = computed(() => safelyReturn(props.video, null));
+
+useHead(JSON.parse(runtimeConfig.public.additionalMeta));
 </script>
 
 <template>

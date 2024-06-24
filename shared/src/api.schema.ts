@@ -3,1675 +3,3031 @@
  * Do not make direct changes to the file.
  */
 
-
 export interface paths {
-  "/api/auth/login": {
-    post: operations["AuthController_login"];
-  };
-  "/api/auth/logout": {
-    post: operations["AuthController_logout"];
-  };
-  "/api/auth/register": {
-    /**
-     * Register a new user
-     * @description Request a captcha through the /auth/captcha endpoint,
-     *     and pass its token and solution alongside the new user's credentials.
-     */
-    post: operations["RegisterController_registerUser"];
-  };
-  "/api/auth/captcha": {
-    /** Get a captcha */
-    get: operations["CaptchaController_getCaptcha"];
-  };
-  "/api/user/profile": {
-    get: operations["UserController_getProfile"];
-  };
-  "/api/user/profile/details": {
-    get: operations["UserController_getProfileDetails"];
-  };
-  "/api/user/sessions": {
-    get: operations["UserController_getSessions"];
-  };
-  "/api/user/sessions/current": {
-    get: operations["UserController_getCurrentSession"];
-  };
-  "/api/user/sessions/{id}": {
-    put: operations["UserController_updateSession"];
-    delete: operations["UserController_deleteSession"];
-  };
-  "/api/user/export": {
-    get: operations["UserController_getExport"];
-  };
-  "/api/user/profile/image/{username}": {
-    get: operations["UserController_getProfileImage"];
-  };
-  "/api/user/profile/image": {
-    post: operations["UserController_uploadProfileImage"];
-    delete: operations["UserController_deleteProfileImage"];
-  };
-  "/api/user": {
-    delete: operations["UserController_deleteUser"];
-  };
-  "/api/user/profile/password": {
-    post: operations["UserController_changePassword"];
-  };
-  "/api/user/subscriptions/channels": {
-    get: operations["SubscriptionsController_getSubscribedChannels"];
-  };
-  "/api/user/subscriptions/videos": {
-    get: operations["SubscriptionsController_getSubscriptionVideos"];
-  };
-  "/api/user/subscriptions/{channelId}": {
-    get: operations["SubscriptionsController_getSubscription"];
-    put: operations["SubscriptionsController_createSubscription"];
-    delete: operations["SubscriptionsController_deleteSubscription"];
-  };
-  "/api/user/subscriptions/multiple": {
-    post: operations["SubscriptionsController_createMultipleSubscriptions"];
-  };
-  "/api/user/notifications/subscribe": {
-    post: operations["NotificationsController_subscribeToNotifications"];
-  };
-  "/api/user/settings": {
-    get: operations["SettingsController_getSettings"];
-    put: operations["SettingsController_setSettings"];
-  };
-  "/api/user/history": {
-    get: operations["HistoryController_getHistory"];
-    delete: operations["HistoryController_deleteEntireHistory"];
-  };
-  "/api/user/history/{id}": {
-    get: operations["HistoryController_getVideoVisit"];
-    post: operations["HistoryController_setVideoVisit"];
-  };
-  "/api/user/history/{videoId}": {
-    delete: operations["HistoryController_deleteHistoryEntry"];
-  };
-  "/api/user/history/from/{startDate}/to/{endDate}": {
-    delete: operations["HistoryController_deleteHistoryRange"];
-  };
-  "/api/videos/{id}": {
-    get: operations["VideosController_getVideos"];
-  };
-  "/api/videos/{id}/dash": {
-    get: operations["VideosController_getDash"];
-  };
-  "/api/videos/{id}/dislikes": {
-    get: operations["VideosController_getDislikes"];
-  };
-  "/api/videos/{id}/skipSegments": {
-    get: operations["VideosController_getSkipSegments"];
-  };
-  "/api/videoplayback": {
-    get: operations["VideoplaybackController_getVideoplayback"];
-  };
-  "/api/autocomplete": {
-    get: operations["AutocompleteController_getQuery"];
-  };
-  "/api/search": {
-    get: operations["SearchController_search"];
-  };
-  "/api/channels/{id}/thumbnail/tiny.jpg": {
-    get: operations["ChannelsController_getTinyThumbnailJpg"];
-  };
-  "/api/channels/{id}/thumbnail/tiny.webp": {
-    get: operations["ChannelsController_getTinyThumbnailWebp"];
-  };
-  "/api/channels/{id}": {
-    get: operations["ChannelsController_getChannelInfo"];
-  };
-  "/api/channels/{id}/home": {
-    get: operations["ChannelsController_getChannelHome"];
-  };
-  "/api/channels/{id}/videos": {
-    get: operations["ChannelsController_getChannelVideos"];
-  };
-  "/api/channels/videos/continuation": {
-    get: operations["ChannelsController_getChannelVideosContinuation"];
-  };
-  "/api/channels/{id}/shorts": {
-    get: operations["ChannelsController_getChannelShorts"];
-  };
-  "/api/channels/{id}/livestreams": {
-    get: operations["ChannelsController_getChannelLivestreams"];
-  };
-  "/api/channels/{id}/playlists": {
-    get: operations["ChannelsController_getChannelPlaylists"];
-  };
-  "/api/channels/playlists/continuation": {
-    get: operations["ChannelsController_getChannelPlaylistsContinuation"];
-  };
-  "/api/channels/{id}/search": {
-    get: operations["ChannelsController_searchChannel"];
-  };
-  "/api/channels/search/continuation": {
-    get: operations["ChannelsController_searchChannelContinuation"];
-  };
-  "/api/channels/relatedchannels/continuation": {
-    get: operations["ChannelsController_getRelatedChannelsContinuation"];
-  };
-  "/api/channels/{id}/communityposts": {
-    get: operations["ChannelsController_getChannelCommunityPosts"];
-  };
-  "/api/channels/communityposts/continuation": {
-    get: operations["ChannelsController_getChannelCommunityPostsContinuation"];
-  };
-  "/api/channels/{id}/stats": {
-    get: operations["ChannelsController_getChannelStats"];
-  };
-  "/api/homepage/homefeed": {
-    get: operations["HomepageController_getHomeFeed"];
-  };
-  "/api/proxy/image": {
-    get: operations["ProxyController_getQuery"];
-  };
-  "/api/proxy/text": {
-    get: operations["ProxyController_proxyText"];
-  };
-  "/api/proxy/stream": {
-    get: operations["ProxyController_proxyStream"];
-  };
-  "/api/comments/{videoId}": {
-    get: operations["CommentsController_getComments"];
-  };
-  "/api/comments/replies": {
-    get: operations["CommentsController_getCommentReplies"];
-  };
-  "/api/playlists/{playlistId}": {
-    get: operations["PlaylistsController_getPlaylist"];
-  };
-  "/api/playlists/continuation": {
-    get: operations["PlaylistsController_getPlaylistContinuation"];
-  };
-  "/api/admin/info": {
-    get: operations["AdminController_getInfo"];
-  };
-  "/api/admin/server-settings": {
-    get: operations["AdminController_getServerSettings"];
-    post: operations["AdminController_updateServerSettings"];
-  };
-  "/api/admin/logs": {
-    get: operations["AdminController_getLogs"];
-  };
-  "/api/admin/logs/{logFile}": {
-    get: operations["AdminController_downloadLogFile"];
-  };
-  "/api/admin/blocked-videos": {
-    get: operations["AdminController_findAll"];
-    post: operations["AdminController_create"];
-  };
-  "/api/admin/blocked-videos/{id}": {
-    get: operations["AdminController_isVideoBlocked"];
-    delete: operations["AdminController_delete"];
-  };
-  "/api/admin/users": {
-    post: operations["AdminController_createUser"];
-  };
+    "/api/auth/login": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["AuthController_login"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/auth/logout": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["AuthController_logout"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/auth/register": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Register a new user
+         * @description Request a captcha through the /auth/captcha endpoint,
+         *         and pass its token and solution alongside the new user's credentials.
+         */
+        post: operations["RegisterController_registerUser"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/auth/captcha": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get a captcha */
+        get: operations["CaptchaController_getCaptcha"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/user/profile": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["UserController_getProfile"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/user/profile/details": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["UserController_getProfileDetails"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/user/sessions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["UserController_getSessions"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/user/sessions/current": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["UserController_getCurrentSession"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/user/sessions/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: operations["UserController_updateSession"];
+        post?: never;
+        delete: operations["UserController_deleteSession"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/user/export": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["UserController_getExport"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/user/profile/image/{username}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["UserController_getProfileImage"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/user/profile/image": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["UserController_uploadProfileImage"];
+        delete: operations["UserController_deleteProfileImage"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/user": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete: operations["UserController_deleteUser"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/user/profile/password": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["UserController_changePassword"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/user/subscriptions/channels": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["SubscriptionsController_getSubscribedChannels"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/user/subscriptions/videos": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["SubscriptionsController_getSubscriptionVideos"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/user/subscriptions/{channelId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["SubscriptionsController_getSubscription"];
+        put: operations["SubscriptionsController_createSubscription"];
+        post?: never;
+        delete: operations["SubscriptionsController_deleteSubscription"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/user/subscriptions/multiple": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["SubscriptionsController_createMultipleSubscriptions"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/user/notifications/subscribe": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["NotificationsController_subscribeToNotifications"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/user/settings": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["SettingsController_getSettings"];
+        put: operations["SettingsController_setSettings"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/user/history": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["HistoryController_getHistory"];
+        put?: never;
+        post?: never;
+        delete: operations["HistoryController_deleteEntireHistory"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/user/history/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["HistoryController_getVideoVisit"];
+        put?: never;
+        post: operations["HistoryController_setVideoVisit"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/user/history/{videoId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete: operations["HistoryController_deleteHistoryEntry"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/user/history/from/{startDate}/to/{endDate}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete: operations["HistoryController_deleteHistoryRange"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/videos/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["VideosController_getVideos"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/videos/{id}/dash": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["VideosController_getDash"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/videos/{id}/dislikes": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["VideosController_getDislikes"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/videos/{id}/skipSegments": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["VideosController_getSkipSegments"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/videoplayback": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["VideoplaybackController_getVideoplayback"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/autocomplete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["AutocompleteController_getQuery"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/search": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["SearchController_search"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/channels/{id}/thumbnail/tiny.jpg": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["ChannelsController_getTinyThumbnailJpg"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/channels/{id}/thumbnail/tiny.webp": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["ChannelsController_getTinyThumbnailWebp"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/channels/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["ChannelsController_getChannelInfo"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/channels/{id}/home": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["ChannelsController_getChannelHome"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/channels/{id}/videos": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["ChannelsController_getChannelVideos"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/channels/videos/continuation": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["ChannelsController_getChannelVideosContinuation"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/channels/{id}/shorts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["ChannelsController_getChannelShorts"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/channels/{id}/livestreams": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["ChannelsController_getChannelLivestreams"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/channels/{id}/playlists": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["ChannelsController_getChannelPlaylists"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/channels/playlists/continuation": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["ChannelsController_getChannelPlaylistsContinuation"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/channels/{id}/search": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["ChannelsController_searchChannel"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/channels/search/continuation": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["ChannelsController_searchChannelContinuation"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/channels/relatedchannels/continuation": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["ChannelsController_getRelatedChannelsContinuation"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/channels/{id}/communityposts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["ChannelsController_getChannelCommunityPosts"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/channels/communityposts/continuation": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["ChannelsController_getChannelCommunityPostsContinuation"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/channels/{id}/stats": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["ChannelsController_getChannelStats"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/homepage/homefeed": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["HomepageController_getHomeFeed"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/proxy/image": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["ProxyController_getQuery"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/proxy/text": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["ProxyController_proxyText"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/proxy/stream": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["ProxyController_proxyStream"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/comments/{videoId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["CommentsController_getComments"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/comments/replies": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["CommentsController_getCommentReplies"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/playlists/{playlistId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["PlaylistsController_getPlaylist"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/playlists/continuation": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["PlaylistsController_getPlaylistContinuation"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/info": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["AdminController_getInfo"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/server-settings": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["AdminController_getServerSettings"];
+        put?: never;
+        post: operations["AdminController_updateServerSettings"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/logs": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["AdminController_getLogs"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/logs/{logFile}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["AdminController_downloadLogFile"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/blocked-videos": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["AdminController_findAll"];
+        put?: never;
+        post: operations["AdminController_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/blocked-videos/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["AdminController_isVideoBlocked"];
+        put?: never;
+        post?: never;
+        delete: operations["AdminController_delete"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/users": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["AdminController_createUser"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
-
 export type webhooks = Record<string, never>;
-
 export interface components {
-  schemas: {
-    RegistrationDto: {
-      username: string;
-      password: string;
-      captchaToken: string;
-      captchaSolution: string;
+    schemas: {
+        RegistrationDto: {
+            username: string;
+            password: string;
+            captchaToken: string;
+            captchaSolution: string;
+        };
+        CaptchaDto: {
+            token: string;
+            captchaImage: string;
+        };
+        SettingsDto: {
+            chapters: boolean;
+            theme: string;
+            sponsorblockUrl: string;
+            sponsorblockEnabled: boolean;
+            sponsorblockSegmentSponsor: Record<string, never>;
+            sponsorblockSegmentIntro: Record<string, never>;
+            sponsorblockSegmentOutro: Record<string, never>;
+            sponsorblockSegmentInteraction: Record<string, never>;
+            sponsorblockSegmentSelfpromo: Record<string, never>;
+            sponsorblockSegmentMusicOfftopic: Record<string, never>;
+            sponsorblockSegmentPreview: Record<string, never>;
+            sponsorblockSegmentFiller: Record<string, never>;
+            autoplay: boolean;
+            saveVideoHistory: boolean;
+            showHomeSubscriptions: boolean;
+            showHomeTrendingVideos: boolean;
+            showRecommendedVideos: boolean;
+            alwaysLoopVideo: boolean;
+            hideComments: boolean;
+            videoSpeedAsList: boolean;
+            autoplayNextVideo: boolean;
+            audioModeDefault: boolean;
+            defaultVideoSpeed: number;
+            maxVideoQuality: string;
+            defaultAudioQuality: string;
+            autoAdjustAudioQuality: boolean;
+            autoAdjustVideoQuality: boolean;
+            rewriteYouTubeURLs: boolean;
+            hideShortsFromSearch: boolean;
+        };
+        UserprofileDto: {
+            username: string;
+            profileImage: string;
+            settings: components["schemas"]["SettingsDto"];
+            admin?: boolean;
+        };
+        VTThumbnailDto: {
+            quality?: string;
+            url: string;
+            width: number;
+            height: number;
+        };
+        VideoBasicInfoDto: {
+            videoId: string;
+            title: string;
+            published?: number;
+            publishedText: string;
+            author: string;
+            authorId: string;
+            authorVerified?: boolean;
+            authorThumbnails?: components["schemas"]["VTThumbnailDto"][];
+            authorThumbnailUrl?: string;
+            videoThumbnails: components["schemas"]["VTThumbnailDto"][];
+            description?: string;
+            viewCount: number;
+            likeCount?: number;
+            dislikeCount?: number;
+            lengthSeconds?: number;
+            lengthString?: string;
+            live?: boolean;
+        };
+        VideoVisitDetailsDto: {
+            videoDetails: components["schemas"]["VideoBasicInfoDto"];
+            videoId: string;
+            progressSeconds: number;
+            lengthSeconds: number;
+            /** Format: date-time */
+            lastVisit: string;
+        };
+        UserprofileDetailsDto: {
+            username: string;
+            profileImage: string;
+            videoHistory: components["schemas"]["VideoVisitDetailsDto"][];
+            /** Format: date-time */
+            registeredAt: string;
+            totalVideosCount: number;
+            totalTimeString: string;
+            subscribedChannelsCount: number;
+            admin: boolean;
+        };
+        SessionDto: {
+            id: string;
+            deviceName: string;
+            deviceType: string;
+            /** Format: date-time */
+            updatedAt: string;
+            /** Format: date-time */
+            expires: string;
+            current: boolean;
+        };
+        ChannelBasicInfoDto: {
+            authorId: string;
+            author: string;
+            authorUrl?: string;
+            authorThumbnails?: components["schemas"]["VTThumbnailDto"][];
+            authorThumbnailUrl?: string;
+            authorVerified?: boolean;
+            subCount?: number;
+            videoCount?: number;
+            description?: string;
+        };
+        SubscribedChannelsResponseDto: {
+            channels: components["schemas"]["ChannelBasicInfoDto"][];
+            channelCount: number;
+        };
+        SubscriptionFeedResponseDto: {
+            videoCount: number;
+            videos: components["schemas"]["VideoBasicInfoDto"][];
+            /** Format: date-time */
+            lastRefresh: string;
+            refreshInterval: number;
+        };
+        SubscriptionStatusDto: {
+            channelId: string;
+            name?: string;
+            isSubscribed: boolean;
+        };
+        HistoryResponseDto: {
+            videos: components["schemas"]["VideoVisitDetailsDto"][];
+            videoCount: number;
+        };
+        VideoVisitDto: {
+            videoId: string;
+            progressSeconds: number;
+            lengthSeconds: number;
+            /** Format: date-time */
+            lastVisit: string;
+        };
+        VTPreviewThumbnailDto: {
+            urlTemplate: string;
+            width: number;
+            height: number;
+            count: number;
+            interval: number;
+            columns: number;
+            rows: number;
+            previewThumbnailCount: number;
+        };
+        VTEndscreenElementDto: {
+            position: {
+                left?: number;
+                top?: number;
+            };
+            dimensions: {
+                width?: number;
+                aspectRatio?: number;
+            };
+            startMs: number;
+            endMs: number;
+            thumbnails: components["schemas"]["VTThumbnailDto"][];
+        };
+        VTCaptionTrackDto: {
+            baseUrl: string;
+            name: string;
+            languageCode: string;
+        };
+        VTInfoCardDto: {
+            shortName: string;
+            startMs: number;
+            endMs: number;
+            content: Record<string, never>;
+        };
+        VTAuthorDto: {
+            id: string;
+            name: string;
+            thumbnails?: components["schemas"]["VTThumbnailDto"][];
+            isVerified?: boolean;
+            isArtist?: boolean;
+            handle?: string;
+            subscriberCount?: number;
+        };
+        VTVideoDto: {
+            author?: components["schemas"]["VTAuthorDto"];
+            description?: string;
+            thumbnails?: components["schemas"]["VTThumbnailDto"][];
+            richThumbnails?: components["schemas"]["VTThumbnailDto"][];
+            published: {
+                /** Format: date-time */
+                date?: string;
+                text?: string;
+            };
+            viewCount?: number;
+            /** Format: date-time */
+            upcoming?: string;
+            live?: boolean;
+            id: string;
+            title: string;
+            duration: {
+                text?: string;
+                seconds?: number;
+            };
+        };
+        VTChapterDto: {
+            title: string;
+            startMs: number;
+            thumbnails: components["schemas"]["VTThumbnailDto"][];
+        };
+        VTLegacyFormatDto: {
+            mimeType: string;
+            bitrate: number;
+            averageBitrate: number;
+            width: number;
+            height: number;
+            /** Format: date-time */
+            lastModified: string;
+            contentLength: number;
+            quality: string;
+            qualityLabel: string;
+            fps: number;
+            url: string;
+            audioQuality: string;
+            approxDurationMs: number;
+            audioSampleRate: number;
+            audioChannels: number;
+            hasAudio: boolean;
+            hasVideo: boolean;
+        };
+        VTVideoInfoDto: {
+            id: string;
+            title: string;
+            subtitle: string;
+            author: {
+                id?: string;
+                name?: string;
+                thumbnails?: components["schemas"]["VTThumbnailDto"][];
+                isVerified?: boolean;
+                isArtist?: boolean;
+                handle?: string;
+                subscriberCount?: string;
+            };
+            description: string;
+            thumbnails: components["schemas"]["VTThumbnailDto"][];
+            duration: {
+                text?: string;
+                seconds?: number;
+            };
+            published: {
+                /** Format: date-time */
+                date?: string;
+                text?: string;
+            };
+            viewCount: number;
+            /** Format: date-time */
+            upcoming?: string;
+            live: boolean;
+            watching?: number;
+            unlisted: boolean;
+            familyFriendly: boolean;
+            availability: {
+                status?: string;
+                reason?: string;
+            };
+            likeCount: number;
+            category: string;
+            previewThumbnails: components["schemas"]["VTPreviewThumbnailDto"][];
+            endscreen: {
+                elements?: components["schemas"]["VTEndscreenElementDto"][];
+                startMs?: number;
+            };
+            keywords: string[];
+            captions: components["schemas"]["VTCaptionTrackDto"][];
+            infoCards: components["schemas"]["VTInfoCardDto"][];
+            recommendedVideos: components["schemas"]["VTVideoDto"][];
+            chapters: components["schemas"]["VTChapterDto"][];
+            commentCount: number;
+            legacyFormats: components["schemas"]["VTLegacyFormatDto"][];
+            dashManifest?: string;
+            hlsManifestUrl?: string;
+            dashManifestUrl?: string;
+        };
+        DislikeDto: {
+            id: string;
+            dateCreated: string;
+            likes: number;
+            dislikes: number;
+            rating: number;
+            viewCount: number;
+            deleted: boolean;
+        };
+        SponsorBlockSegmentDto: {
+            UUID: string;
+            category: string;
+            segment: number[];
+            videoDuration: number;
+            endPercentage?: number;
+        };
+        SponsorBlockSegmentsDto: {
+            hash: string;
+            segments: components["schemas"]["SponsorBlockSegmentDto"][];
+            videoID: string;
+        };
+        VTSearchDto: {
+            results: Record<string, never>[];
+            estimatedResultCount: number;
+            refinements: string[];
+            continuation?: string;
+        };
+        ChannelImageDto: {
+            url: string;
+            width: number;
+            height: number;
+        };
+        RelatedChannelDto: {
+            channelName?: string;
+            channelId?: string;
+            channelUrl?: string;
+            author: string;
+            authorId: string;
+            authorUrl: string;
+            authorThumbnails: Record<string, never>[];
+            videoCount: number;
+            subscriberText: string;
+            subscriberCount: number;
+            verified: boolean;
+            officialArtist: boolean;
+            officialArist: boolean;
+        };
+        ChannelLinkDto: {
+            url: string;
+            icon: string;
+            title: string;
+        };
+        ChannelInfoDto: {
+            author: string;
+            authorId: string;
+            authorUrl: string;
+            oResponse: Record<string, never>;
+            authorBanners: components["schemas"]["ChannelImageDto"][];
+            authorThumbnails: components["schemas"]["ChannelImageDto"][];
+            subscriberText: string;
+            subscriberCount: number;
+            description: string;
+            isFamilyFriendly: boolean;
+            relatedChannels: {
+                items?: components["schemas"]["RelatedChannelDto"][];
+                continuation?: string | null;
+            };
+            allowedRegions: string[];
+            isVerified: boolean;
+            isOfficialArtist: boolean;
+            tags: string[];
+            channelIdType: number;
+            channelTabs: string[];
+            alertMessage: string;
+            channelLinks: {
+                primaryLinks?: components["schemas"]["ChannelLinkDto"][];
+                secondaryLinks?: components["schemas"]["ChannelLinkDto"][];
+            };
+        };
+        ChannelVideoDto: {
+            author: string;
+            authorId: string;
+            durationText?: string;
+            lengthSeconds?: number;
+            liveNow: boolean;
+            premiere: boolean;
+            premium: boolean;
+            publishedText: string;
+            title: string;
+            type: string;
+            videoId: string;
+            videoThumbnails: components["schemas"]["ChannelImageDto"][] | null;
+            viewCount: number;
+            viewCountText: string;
+        };
+        ChannelHomeItemDto: {
+            shelfName: string;
+            type: Record<string, never>;
+            items: Record<string, never>;
+        };
+        ChannelHomeDto: {
+            featuredVideo: components["schemas"]["ChannelVideoDto"];
+            items: components["schemas"]["ChannelHomeItemDto"][];
+        };
+        ChannelVideosDto: {
+            /** @enum {number} */
+            channelIdType?: 0 | 1 | 2 | 3 | 4 | 5;
+            alertMessage?: string;
+            items?: components["schemas"]["ChannelVideoDto"][];
+            continuation?: string;
+        };
+        ChannelVideosContinuationDto: {
+            items?: components["schemas"]["ChannelVideoDto"][];
+            continuation?: string;
+        };
+        ChannelPlaylistDto: {
+            author: string;
+            authorId: string;
+            authorUrl: string;
+            playlistId: string;
+            playlistThumbnail: string;
+            playlistUrl: string;
+            title: string;
+            type: string;
+            videoCount: number;
+        };
+        ChannelPlaylistsDto: {
+            channelIdType?: number;
+            alertMessage?: string;
+            items?: components["schemas"]["ChannelPlaylistDto"][];
+            continuation?: string;
+        };
+        ChannelPlaylistsContinuationDto: {
+            items?: components["schemas"]["ChannelPlaylistDto"][];
+            continuation?: string;
+        };
+        ChannelSearchContinuationDto: {
+            items?: components["schemas"]["ChannelVideoDto"][];
+            continuation?: string;
+        };
+        RelatedChannelsContinuationDto: {
+            items: Record<string, never>[];
+            continuation: string;
+        };
+        ChannelCommunityPostDto: {
+            postText: string;
+            postId: string;
+            author: string;
+            authorThumbnails: string;
+            publishedText: string;
+            voteCount: string;
+            commentCount: string;
+            postContent: Record<string, never>;
+        };
+        ChannelCommunityPostsDto: {
+            channelIdType: number;
+            innerTubeApi: string;
+            items: components["schemas"]["ChannelCommunityPostDto"][];
+            continuation: string;
+        };
+        ChannelCommunityPostsContinuationDto: {
+            innerTubeApi: string;
+            items: components["schemas"]["ChannelCommunityPostDto"][];
+            continuation: string;
+        };
+        ChannelStatsDto: {
+            joinedDate: number;
+            viewCount: number;
+            location: string;
+        };
+        HomeFeedDto: {
+            videos: components["schemas"]["VTVideoDto"][];
+        };
+        VTCommentDto: {
+            id: string;
+            content: string;
+            pinned?: boolean;
+            creatorHeart?: boolean;
+            likeCount: number;
+            replyCount: number;
+            hasReplies?: boolean;
+            isEdited?: boolean;
+            replyContinuation?: string;
+            creatorReplied?: boolean;
+            creatorReplyThumbnail?: components["schemas"]["VTThumbnailDto"][];
+            channelOwner?: boolean;
+            channelMember?: boolean;
+            published: {
+                /** Format: date-time */
+                date?: string;
+                text?: string;
+            };
+            author: components["schemas"]["VTAuthorDto"];
+        };
+        VTCommentEmojiDto: {
+            name: string;
+            shortcuts: string[];
+            thumbnails: components["schemas"]["VTThumbnailDto"][];
+        };
+        VTCommentsHeaderDto: {
+            commentsCount: number;
+            customEmojis: components["schemas"]["VTCommentEmojiDto"][];
+        };
+        VTCommentsResponseDto: {
+            comments: components["schemas"]["VTCommentDto"][];
+            header: components["schemas"]["VTCommentsHeaderDto"];
+            continuation?: string;
+        };
+        VTCommentsReplyResponseDto: {
+            comments: components["schemas"]["VTCommentDto"][];
+            continuation?: string;
+        };
+        PlaylistImageDto: {
+            url: string | null;
+            width: number;
+            height: number;
+        };
+        PlaylistItemDto: {
+            title: string;
+            index: number;
+            id: string;
+            shortUrl: string;
+            url: string;
+            author: {
+                name?: string;
+                url?: string;
+                channelID?: string;
+            };
+            thumbnails: components["schemas"]["PlaylistImageDto"][];
+            bestThumbnail: components["schemas"]["PlaylistImageDto"];
+            isLive: boolean;
+            duration: string | null;
+            durationSec: number | null;
+        };
+        PlaylistResultDto: {
+            id: string;
+            url: string;
+            title: string;
+            estimatedItemCount: number;
+            views: number;
+            thumbnails: components["schemas"]["PlaylistImageDto"][];
+            bestThumbnail: components["schemas"]["PlaylistImageDto"];
+            lastUpdated: string;
+            description: string | null;
+            visibility: Record<string, never>;
+            author: {
+                name?: string;
+                url?: string;
+                avatars?: components["schemas"]["PlaylistImageDto"][];
+                bestAvatar?: components["schemas"]["PlaylistImageDto"];
+                channelID?: string;
+            };
+            items: components["schemas"]["PlaylistItemDto"][];
+            continuation: Record<string, never>;
+        };
+        InfoDto: {
+            serverIpV4: string;
+            serverIpV6: string;
+            proxyIpV4: string;
+            proxyIpV6: string;
+        };
+        ServerSettingsDto: {
+            registrationEnabled: boolean;
+            requireLoginEverywhere: boolean;
+        };
+        LogFileDto: {
+            name: string;
+            size: number;
+            created: number;
+            lastModified: number;
+        };
+        LogsDto: {
+            logFiles: components["schemas"]["LogFileDto"][];
+            location: string;
+        };
+        UserDto: {
+            username: string;
+            password: string;
+        };
     };
-    CaptchaDto: {
-      token: string;
-      captchaImage: string;
-    };
-    SettingsDto: {
-      chapters: boolean;
-      theme: string;
-      sponsorblockUrl: string;
-      sponsorblockEnabled: boolean;
-      sponsorblockSegmentSponsor: Record<string, never>;
-      sponsorblockSegmentIntro: Record<string, never>;
-      sponsorblockSegmentOutro: Record<string, never>;
-      sponsorblockSegmentInteraction: Record<string, never>;
-      sponsorblockSegmentSelfpromo: Record<string, never>;
-      sponsorblockSegmentMusicOfftopic: Record<string, never>;
-      sponsorblockSegmentPreview: Record<string, never>;
-      sponsorblockSegmentFiller: Record<string, never>;
-      autoplay: boolean;
-      saveVideoHistory: boolean;
-      showHomeSubscriptions: boolean;
-      showHomeTrendingVideos: boolean;
-      showRecommendedVideos: boolean;
-      alwaysLoopVideo: boolean;
-      hideComments: boolean;
-      videoSpeedAsList: boolean;
-      autoplayNextVideo: boolean;
-      audioModeDefault: boolean;
-      defaultVideoSpeed: number;
-      maxVideoQuality: string;
-      defaultAudioQuality: string;
-      autoAdjustAudioQuality: boolean;
-      autoAdjustVideoQuality: boolean;
-      rewriteYouTubeURLs: boolean;
-      hideShortsFromSearch: boolean;
-    };
-    UserprofileDto: {
-      username: string;
-      profileImage: string;
-      settings: components["schemas"]["SettingsDto"];
-      admin?: boolean;
-    };
-    VTThumbnailDto: {
-      quality?: string;
-      url: string;
-      width: number;
-      height: number;
-    };
-    VideoBasicInfoDto: {
-      videoId: string;
-      title: string;
-      published?: number;
-      publishedText: string;
-      author: string;
-      authorId: string;
-      authorVerified?: boolean;
-      authorThumbnails?: components["schemas"]["VTThumbnailDto"][];
-      authorThumbnailUrl?: string;
-      videoThumbnails: components["schemas"]["VTThumbnailDto"][];
-      description?: string;
-      viewCount: number;
-      likeCount?: number;
-      dislikeCount?: number;
-      lengthSeconds?: number;
-      lengthString?: string;
-      live?: boolean;
-    };
-    VideoVisitDetailsDto: {
-      videoDetails: components["schemas"]["VideoBasicInfoDto"];
-      videoId: string;
-      progressSeconds: number;
-      lengthSeconds: number;
-      /** Format: date-time */
-      lastVisit: string;
-    };
-    UserprofileDetailsDto: {
-      username: string;
-      profileImage: string;
-      videoHistory: components["schemas"]["VideoVisitDetailsDto"][];
-      /** Format: date-time */
-      registeredAt: string;
-      totalVideosCount: number;
-      totalTimeString: string;
-      subscribedChannelsCount: number;
-      admin: boolean;
-    };
-    SessionDto: {
-      id: string;
-      deviceName: string;
-      deviceType: string;
-      /** Format: date-time */
-      updatedAt: string;
-      /** Format: date-time */
-      expires: string;
-      current: boolean;
-    };
-    ChannelBasicInfoDto: {
-      authorId: string;
-      author: string;
-      authorUrl?: string;
-      authorThumbnails?: components["schemas"]["VTThumbnailDto"][];
-      authorThumbnailUrl?: string;
-      authorVerified?: boolean;
-      subCount?: number;
-      videoCount?: number;
-      description?: string;
-    };
-    SubscribedChannelsResponseDto: {
-      channels: components["schemas"]["ChannelBasicInfoDto"][];
-      channelCount: number;
-    };
-    SubscriptionFeedResponseDto: {
-      videoCount: number;
-      videos: components["schemas"]["VideoBasicInfoDto"][];
-      /** Format: date-time */
-      lastRefresh: string;
-      refreshInterval: number;
-    };
-    SubscriptionStatusDto: {
-      channelId: string;
-      name?: string;
-      isSubscribed: boolean;
-    };
-    HistoryResponseDto: {
-      videos: components["schemas"]["VideoVisitDetailsDto"][];
-      videoCount: number;
-    };
-    VideoVisitDto: {
-      videoId: string;
-      progressSeconds: number;
-      lengthSeconds: number;
-      /** Format: date-time */
-      lastVisit: string;
-    };
-    VTPreviewThumbnailDto: {
-      urlTemplate: string;
-      width: number;
-      height: number;
-      count: number;
-      interval: number;
-      columns: number;
-      rows: number;
-      previewThumbnailCount: number;
-    };
-    VTEndscreenElementDto: {
-      position: {
-        left?: number;
-        top?: number;
-      };
-      dimensions: {
-        width?: number;
-        aspectRatio?: number;
-      };
-      startMs: number;
-      endMs: number;
-      thumbnails: components["schemas"]["VTThumbnailDto"][];
-    };
-    VTCaptionTrackDto: {
-      baseUrl: string;
-      name: string;
-      languageCode: string;
-    };
-    VTInfoCardDto: {
-      shortName: string;
-      startMs: number;
-      endMs: number;
-      content: Record<string, never>;
-    };
-    VTAuthorDto: {
-      id: string;
-      name: string;
-      thumbnails?: components["schemas"]["VTThumbnailDto"][];
-      isVerified?: boolean;
-      isArtist?: boolean;
-      handle?: string;
-      subscriberCount?: number;
-    };
-    VTVideoDto: {
-      author?: components["schemas"]["VTAuthorDto"];
-      description?: string;
-      thumbnails?: components["schemas"]["VTThumbnailDto"][];
-      richThumbnails?: components["schemas"]["VTThumbnailDto"][];
-      published: {
-        /** Format: date-time */
-        date?: string;
-        text?: string;
-      };
-      viewCount?: number;
-      /** Format: date-time */
-      upcoming?: string;
-      live?: boolean;
-      id: string;
-      title: string;
-      duration: {
-        text?: string;
-        seconds?: number;
-      };
-    };
-    VTChapterDto: {
-      title: string;
-      startMs: number;
-      thumbnails: components["schemas"]["VTThumbnailDto"][];
-    };
-    VTLegacyFormatDto: {
-      mimeType: string;
-      bitrate: number;
-      averageBitrate: number;
-      width: number;
-      height: number;
-      /** Format: date-time */
-      lastModified: string;
-      contentLength: number;
-      quality: string;
-      qualityLabel: string;
-      fps: number;
-      url: string;
-      audioQuality: string;
-      approxDurationMs: number;
-      audioSampleRate: number;
-      audioChannels: number;
-      hasAudio: boolean;
-      hasVideo: boolean;
-    };
-    VTVideoInfoDto: {
-      id: string;
-      title: string;
-      subtitle: string;
-      author: {
-        id?: string;
-        name?: string;
-        thumbnails?: components["schemas"]["VTThumbnailDto"][];
-        isVerified?: boolean;
-        isArtist?: boolean;
-        handle?: string;
-        subscriberCount?: string;
-      };
-      description: string;
-      thumbnails: components["schemas"]["VTThumbnailDto"][];
-      duration: {
-        text?: string;
-        seconds?: number;
-      };
-      published: {
-        /** Format: date-time */
-        date?: string;
-        text?: string;
-      };
-      viewCount: number;
-      /** Format: date-time */
-      upcoming?: string;
-      live: boolean;
-      watching?: number;
-      unlisted: boolean;
-      familyFriendly: boolean;
-      availability: {
-        status?: string;
-        reason?: string;
-      };
-      likeCount: number;
-      category: string;
-      previewThumbnails: components["schemas"]["VTPreviewThumbnailDto"][];
-      endscreen: {
-        elements?: components["schemas"]["VTEndscreenElementDto"][];
-        startMs?: number;
-      };
-      keywords: string[];
-      captions: components["schemas"]["VTCaptionTrackDto"][];
-      infoCards: components["schemas"]["VTInfoCardDto"][];
-      recommendedVideos: components["schemas"]["VTVideoDto"][];
-      chapters: components["schemas"]["VTChapterDto"][];
-      commentCount: number;
-      legacyFormats: components["schemas"]["VTLegacyFormatDto"][];
-      dashManifest?: string;
-      hlsManifestUrl?: string;
-      dashManifestUrl?: string;
-    };
-    DislikeDto: {
-      id: string;
-      dateCreated: string;
-      likes: number;
-      dislikes: number;
-      rating: number;
-      viewCount: number;
-      deleted: boolean;
-    };
-    SponsorBlockSegmentDto: {
-      UUID: string;
-      category: string;
-      segment: number[];
-      videoDuration: number;
-      endPercentage?: number;
-    };
-    SponsorBlockSegmentsDto: {
-      hash: string;
-      segments: components["schemas"]["SponsorBlockSegmentDto"][];
-      videoID: string;
-    };
-    VTSearchDto: {
-      results: Record<string, never>[];
-      estimatedResultCount: number;
-      refinements: string[];
-      continuation?: string;
-    };
-    ChannelImageDto: {
-      url: string;
-      width: number;
-      height: number;
-    };
-    RelatedChannelDto: {
-      channelName?: string;
-      channelId?: string;
-      channelUrl?: string;
-      author: string;
-      authorId: string;
-      authorUrl: string;
-      authorThumbnails: Record<string, never>[];
-      videoCount: number;
-      subscriberText: string;
-      subscriberCount: number;
-      verified: boolean;
-      officialArtist: boolean;
-      officialArist: boolean;
-    };
-    ChannelLinkDto: {
-      url: string;
-      icon: string;
-      title: string;
-    };
-    ChannelInfoDto: {
-      author: string;
-      authorId: string;
-      authorUrl: string;
-      oResponse: Record<string, never>;
-      authorBanners: components["schemas"]["ChannelImageDto"][];
-      authorThumbnails: components["schemas"]["ChannelImageDto"][];
-      subscriberText: string;
-      subscriberCount: number;
-      description: string;
-      isFamilyFriendly: boolean;
-      relatedChannels: {
-        items?: components["schemas"]["RelatedChannelDto"][];
-        continuation?: string | null;
-      };
-      allowedRegions: string[];
-      isVerified: boolean;
-      isOfficialArtist: boolean;
-      tags: string[];
-      channelIdType: number;
-      channelTabs: string[];
-      alertMessage: string;
-      channelLinks: {
-        primaryLinks?: components["schemas"]["ChannelLinkDto"][];
-        secondaryLinks?: components["schemas"]["ChannelLinkDto"][];
-      };
-    };
-    ChannelVideoDto: {
-      author: string;
-      authorId: string;
-      durationText?: string;
-      lengthSeconds?: number;
-      liveNow: boolean;
-      premiere: boolean;
-      premium: boolean;
-      publishedText: string;
-      title: string;
-      type: string;
-      videoId: string;
-      videoThumbnails: components["schemas"]["ChannelImageDto"][] | null;
-      viewCount: number;
-      viewCountText: string;
-    };
-    ChannelHomeItemDto: {
-      shelfName: string;
-      type: Record<string, never>;
-      items: Record<string, never>;
-    };
-    ChannelHomeDto: {
-      featuredVideo: components["schemas"]["ChannelVideoDto"];
-      items: components["schemas"]["ChannelHomeItemDto"][];
-    };
-    ChannelVideosDto: {
-      /** @enum {number} */
-      channelIdType?: 0 | 1 | 2 | 3 | 4 | 5;
-      alertMessage?: string;
-      items?: components["schemas"]["ChannelVideoDto"][];
-      continuation?: string;
-    };
-    ChannelVideosContinuationDto: {
-      items?: components["schemas"]["ChannelVideoDto"][];
-      continuation?: string;
-    };
-    ChannelPlaylistDto: {
-      author: string;
-      authorId: string;
-      authorUrl: string;
-      playlistId: string;
-      playlistThumbnail: string;
-      playlistUrl: string;
-      title: string;
-      type: string;
-      videoCount: number;
-    };
-    ChannelPlaylistsDto: {
-      channelIdType?: number;
-      alertMessage?: string;
-      items?: components["schemas"]["ChannelPlaylistDto"][];
-      continuation?: string;
-    };
-    ChannelPlaylistsContinuationDto: {
-      items?: components["schemas"]["ChannelPlaylistDto"][];
-      continuation?: string;
-    };
-    ChannelSearchContinuationDto: {
-      items?: components["schemas"]["ChannelVideoDto"][];
-      continuation?: string;
-    };
-    RelatedChannelsContinuationDto: {
-      items: Record<string, never>[];
-      continuation: string;
-    };
-    ChannelCommunityPostDto: {
-      postText: string;
-      postId: string;
-      author: string;
-      authorThumbnails: string;
-      publishedText: string;
-      voteCount: string;
-      commentCount: string;
-      postContent: Record<string, never>;
-    };
-    ChannelCommunityPostsDto: {
-      channelIdType: number;
-      innerTubeApi: string;
-      items: components["schemas"]["ChannelCommunityPostDto"][];
-      continuation: string;
-    };
-    ChannelCommunityPostsContinuationDto: {
-      innerTubeApi: string;
-      items: components["schemas"]["ChannelCommunityPostDto"][];
-      continuation: string;
-    };
-    ChannelStatsDto: {
-      joinedDate: number;
-      viewCount: number;
-      location: string;
-    };
-    HomeFeedDto: {
-      videos: components["schemas"]["VTVideoDto"][];
-    };
-    VTCommentDto: {
-      id: string;
-      content: string;
-      pinned?: boolean;
-      creatorHeart?: boolean;
-      likeCount: number;
-      replyCount: number;
-      hasReplies?: boolean;
-      isEdited?: boolean;
-      replyContinuation?: string;
-      creatorReplied?: boolean;
-      creatorReplyThumbnail?: components["schemas"]["VTThumbnailDto"][];
-      channelOwner?: boolean;
-      channelMember?: boolean;
-      published: {
-        /** Format: date-time */
-        date?: string;
-        text?: string;
-      };
-      author: components["schemas"]["VTAuthorDto"];
-    };
-    VTCommentEmojiDto: {
-      name: string;
-      shortcuts: string[];
-      thumbnails: components["schemas"]["VTThumbnailDto"][];
-    };
-    VTCommentsHeaderDto: {
-      commentsCount: number;
-      customEmojis: components["schemas"]["VTCommentEmojiDto"][];
-    };
-    VTCommentsResponseDto: {
-      comments: components["schemas"]["VTCommentDto"][];
-      header: components["schemas"]["VTCommentsHeaderDto"];
-      continuation?: string;
-    };
-    VTCommentsReplyResponseDto: {
-      comments: components["schemas"]["VTCommentDto"][];
-      continuation?: string;
-    };
-    PlaylistImageDto: {
-      url: string | null;
-      width: number;
-      height: number;
-    };
-    PlaylistItemDto: {
-      title: string;
-      index: number;
-      id: string;
-      shortUrl: string;
-      url: string;
-      author: {
-        name?: string;
-        url?: string;
-        channelID?: string;
-      };
-      thumbnails: components["schemas"]["PlaylistImageDto"][];
-      bestThumbnail: components["schemas"]["PlaylistImageDto"];
-      isLive: boolean;
-      duration: string | null;
-      durationSec: number | null;
-    };
-    PlaylistResultDto: {
-      id: string;
-      url: string;
-      title: string;
-      estimatedItemCount: number;
-      views: number;
-      thumbnails: components["schemas"]["PlaylistImageDto"][];
-      bestThumbnail: components["schemas"]["PlaylistImageDto"];
-      lastUpdated: string;
-      description: string | null;
-      visibility: Record<string, never>;
-      author: {
-        name?: string;
-        url?: string;
-        avatars?: components["schemas"]["PlaylistImageDto"][];
-        bestAvatar?: components["schemas"]["PlaylistImageDto"];
-        channelID?: string;
-      };
-      items: components["schemas"]["PlaylistItemDto"][];
-      continuation: Record<string, unknown> | null;
-    };
-    InfoDto: {
-      serverIpV4: string;
-      serverIpV6: string;
-      proxyIpV4: string;
-      proxyIpV6: string;
-    };
-    ServerSettingsDto: {
-      registrationEnabled: boolean;
-      requireLoginEverywhere: boolean;
-    };
-    LogFileDto: {
-      name: string;
-      size: number;
-      created: number;
-      lastModified: number;
-    };
-    LogsDto: {
-      logFiles: components["schemas"]["LogFileDto"][];
-      location: string;
-    };
-    UserDto: {
-      username: string;
-      password: string;
-    };
-  };
-  responses: never;
-  parameters: never;
-  requestBodies: never;
-  headers: never;
-  pathItems: never;
+    responses: never;
+    parameters: never;
+    requestBodies: never;
+    headers: never;
+    pathItems: never;
 }
-
 export type $defs = Record<string, never>;
-
-export type external = Record<string, never>;
-
 export interface operations {
-
-  AuthController_login: {
-    responses: {
-      201: {
-        content: never;
-      };
-    };
-  };
-  AuthController_logout: {
-    responses: {
-      201: {
-        content: never;
-      };
-    };
-  };
-  /**
-   * Register a new user
-   * @description Request a captcha through the /auth/captcha endpoint,
-   *     and pass its token and solution alongside the new user's credentials.
-   */
-  RegisterController_registerUser: {
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["RegistrationDto"];
-      };
-    };
-    responses: {
-      201: {
-        content: {
-          "application/json": Record<string, never>;
+    AuthController_login: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-      };
-    };
-  };
-  /** Get a captcha */
-  CaptchaController_getCaptcha: {
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["CaptchaDto"];
+        requestBody?: never;
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
         };
-      };
     };
-  };
-  UserController_getProfile: {
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["UserprofileDto"];
+    AuthController_logout: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-      };
-    };
-  };
-  UserController_getProfileDetails: {
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["UserprofileDetailsDto"];
+        requestBody?: never;
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
         };
-      };
     };
-  };
-  UserController_getSessions: {
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["SessionDto"][];
+    RegisterController_registerUser: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-      };
-    };
-  };
-  UserController_getCurrentSession: {
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["SessionDto"];
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RegistrationDto"];
+            };
         };
-      };
-    };
-  };
-  UserController_updateSession: {
-    parameters: {
-      path: {
-        id: string;
-      };
-    };
-    responses: {
-      200: {
-        content: never;
-      };
-    };
-  };
-  UserController_deleteSession: {
-    parameters: {
-      path: {
-        id: string;
-      };
-    };
-    responses: {
-      200: {
-        content: never;
-      };
-    };
-  };
-  UserController_getExport: {
-    responses: {
-      200: {
-        content: never;
-      };
-    };
-  };
-  UserController_getProfileImage: {
-    parameters: {
-      path: {
-        username: string;
-      };
-    };
-    responses: {
-      200: {
-        content: never;
-      };
-    };
-  };
-  UserController_uploadProfileImage: {
-    responses: {
-      201: {
-        content: never;
-      };
-    };
-  };
-  UserController_deleteProfileImage: {
-    responses: {
-      200: {
-        content: never;
-      };
-    };
-  };
-  UserController_deleteUser: {
-    responses: {
-      200: {
-        content: never;
-      };
-    };
-  };
-  UserController_changePassword: {
-    responses: {
-      201: {
-        content: never;
-      };
-    };
-  };
-  SubscriptionsController_getSubscribedChannels: {
-    parameters: {
-      query?: {
-        /** @example linu */
-        filter?: string;
-        /** @example author:1,authorVerified:-1 */
-        sort?: string;
-        /** @example 0 */
-        start?: unknown;
-        /** @example 30 */
-        limit?: unknown;
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["SubscribedChannelsResponseDto"];
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": Record<string, never>;
+                };
+            };
         };
-      };
     };
-  };
-  SubscriptionsController_getSubscriptionVideos: {
-    parameters: {
-      query?: {
-        start?: unknown;
-        limit?: unknown;
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["SubscriptionFeedResponseDto"];
+    CaptchaController_getCaptcha: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-      };
-    };
-  };
-  SubscriptionsController_getSubscription: {
-    parameters: {
-      path: {
-        channelId: string;
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["SubscriptionStatusDto"];
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CaptchaDto"];
+                };
+            };
         };
-      };
     };
-  };
-  SubscriptionsController_createSubscription: {
-    parameters: {
-      path: {
-        channelId: string;
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["SubscriptionStatusDto"];
+    UserController_getProfile: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-      };
-    };
-  };
-  SubscriptionsController_deleteSubscription: {
-    parameters: {
-      path: {
-        channelId: string;
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["SubscriptionStatusDto"];
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UserprofileDto"];
+                };
+            };
         };
-      };
     };
-  };
-  SubscriptionsController_createMultipleSubscriptions: {
-    responses: {
-      201: {
-        content: never;
-      };
-    };
-  };
-  NotificationsController_subscribeToNotifications: {
-    responses: {
-      201: {
-        content: never;
-      };
-    };
-  };
-  SettingsController_getSettings: {
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["SettingsDto"];
+    UserController_getProfileDetails: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-      };
-    };
-  };
-  SettingsController_setSettings: {
-    responses: {
-      204: {
-        content: never;
-      };
-    };
-  };
-  HistoryController_getHistory: {
-    parameters: {
-      query: {
-        sort: string;
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["HistoryResponseDto"];
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UserprofileDetailsDto"];
+                };
+            };
         };
-      };
     };
-  };
-  HistoryController_deleteEntireHistory: {
-    responses: {
-      200: {
-        content: never;
-      };
-    };
-  };
-  HistoryController_getVideoVisit: {
-    parameters: {
-      path: {
-        id: string;
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["VideoVisitDto"];
+    UserController_getSessions: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-      };
-    };
-  };
-  HistoryController_setVideoVisit: {
-    parameters: {
-      path: {
-        id: string;
-      };
-    };
-    responses: {
-      201: {
-        content: never;
-      };
-    };
-  };
-  HistoryController_deleteHistoryEntry: {
-    parameters: {
-      path: {
-        videoId: string;
-      };
-    };
-    responses: {
-      200: {
-        content: never;
-      };
-    };
-  };
-  HistoryController_deleteHistoryRange: {
-    parameters: {
-      path: {
-        startDate: string;
-        endDate: string;
-      };
-    };
-    responses: {
-      200: {
-        content: never;
-      };
-    };
-  };
-  VideosController_getVideos: {
-    parameters: {
-      path: {
-        id: string;
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["VTVideoInfoDto"];
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SessionDto"][];
+                };
+            };
         };
-      };
     };
-  };
-  VideosController_getDash: {
-    parameters: {
-      path: {
-        id: string;
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": string;
+    UserController_getCurrentSession: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-      };
-    };
-  };
-  VideosController_getDislikes: {
-    parameters: {
-      path: {
-        id: string;
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["DislikeDto"];
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SessionDto"];
+                };
+            };
         };
-      };
     };
-  };
-  VideosController_getSkipSegments: {
-    parameters: {
-      query: {
-        url: string;
-      };
-      path: {
-        id: string;
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["SponsorBlockSegmentsDto"];
+    UserController_updateSession: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
         };
-      };
-    };
-  };
-  VideoplaybackController_getVideoplayback: {
-    responses: {
-      200: {
-        content: never;
-      };
-    };
-  };
-  AutocompleteController_getQuery: {
-    parameters: {
-      query: {
-        q: string;
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": string[];
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
         };
-      };
     };
-  };
-  SearchController_search: {
-    parameters: {
-      query: {
-        q: string;
-        upload_date?: Record<string, never>;
-        type?: Record<string, never>;
-        duration?: Record<string, never>;
-        sort_by?: Record<string, never>;
-        features?: Record<string, never>[];
-        continuationString?: string;
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["VTSearchDto"];
+    UserController_deleteSession: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
         };
-      };
-    };
-  };
-  ChannelsController_getTinyThumbnailJpg: {
-    parameters: {
-      path: {
-        id: string;
-      };
-    };
-    responses: {
-      200: {
-        content: never;
-      };
-    };
-  };
-  ChannelsController_getTinyThumbnailWebp: {
-    parameters: {
-      path: {
-        id: string;
-      };
-    };
-    responses: {
-      200: {
-        content: never;
-      };
-    };
-  };
-  ChannelsController_getChannelInfo: {
-    parameters: {
-      path: {
-        id: string;
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["ChannelInfoDto"];
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
         };
-      };
     };
-  };
-  ChannelsController_getChannelHome: {
-    parameters: {
-      path: {
-        id: string;
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["ChannelHomeDto"];
+    UserController_getExport: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-      };
-    };
-  };
-  ChannelsController_getChannelVideos: {
-    parameters: {
-      query: {
-        sort: string;
-      };
-      path: {
-        id: string;
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["ChannelVideosDto"];
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
         };
-      };
     };
-  };
-  ChannelsController_getChannelVideosContinuation: {
-    parameters: {
-      query: {
-        continuation: string;
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["ChannelVideosContinuationDto"];
+    UserController_getProfileImage: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                username: string;
+            };
+            cookie?: never;
         };
-      };
-    };
-  };
-  ChannelsController_getChannelShorts: {
-    parameters: {
-      query: {
-        sort: string;
-      };
-      path: {
-        id: string;
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["ChannelVideosDto"];
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
         };
-      };
     };
-  };
-  ChannelsController_getChannelLivestreams: {
-    parameters: {
-      query: {
-        sort: string;
-      };
-      path: {
-        id: string;
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["ChannelVideosDto"];
+    UserController_uploadProfileImage: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-      };
-    };
-  };
-  ChannelsController_getChannelPlaylists: {
-    parameters: {
-      path: {
-        id: string;
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["ChannelPlaylistsDto"];
+        requestBody?: never;
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
         };
-      };
     };
-  };
-  ChannelsController_getChannelPlaylistsContinuation: {
-    parameters: {
-      query: {
-        continuation: string;
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["ChannelPlaylistsContinuationDto"];
+    UserController_deleteProfileImage: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-      };
-    };
-  };
-  ChannelsController_searchChannel: {
-    parameters: {
-      query: {
-        query: string;
-      };
-      path: {
-        id: string;
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": Record<string, never>;
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
         };
-      };
     };
-  };
-  ChannelsController_searchChannelContinuation: {
-    parameters: {
-      query: {
-        continuation: string;
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["ChannelSearchContinuationDto"];
+    UserController_deleteUser: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-      };
-    };
-  };
-  ChannelsController_getRelatedChannelsContinuation: {
-    parameters: {
-      query: {
-        continuation: string;
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["RelatedChannelsContinuationDto"];
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
         };
-      };
     };
-  };
-  ChannelsController_getChannelCommunityPosts: {
-    parameters: {
-      path: {
-        id: string;
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["ChannelCommunityPostsDto"];
+    UserController_changePassword: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-      };
-    };
-  };
-  ChannelsController_getChannelCommunityPostsContinuation: {
-    parameters: {
-      query: {
-        continuation: string;
-        innertube: string;
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["ChannelCommunityPostsContinuationDto"];
+        requestBody?: never;
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
         };
-      };
     };
-  };
-  ChannelsController_getChannelStats: {
-    parameters: {
-      path: {
-        id: string;
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["ChannelStatsDto"];
+    SubscriptionsController_getSubscribedChannels: {
+        parameters: {
+            query?: {
+                /** @example linu */
+                filter?: string;
+                /** @example author:1,authorVerified:-1 */
+                sort?: string;
+                /** @example 0 */
+                start?: unknown;
+                /** @example 30 */
+                limit?: unknown;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-      };
-    };
-  };
-  HomepageController_getHomeFeed: {
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["HomeFeedDto"];
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SubscribedChannelsResponseDto"];
+                };
+            };
         };
-      };
     };
-  };
-  ProxyController_getQuery: {
-    parameters: {
-      query: {
-        url: string;
-      };
-    };
-    responses: {
-      200: {
-        content: never;
-      };
-    };
-  };
-  ProxyController_proxyText: {
-    parameters: {
-      query: {
-        url: string;
-      };
-    };
-    responses: {
-      200: {
-        content: never;
-      };
-    };
-  };
-  ProxyController_proxyStream: {
-    parameters: {
-      query: {
-        url: string;
-      };
-    };
-    responses: {
-      200: {
-        content: never;
-      };
-    };
-  };
-  CommentsController_getComments: {
-    parameters: {
-      query?: {
-        sortByNewest?: boolean;
-        continuation?: string;
-      };
-      path: {
-        videoId: string;
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["VTCommentsResponseDto"];
+    SubscriptionsController_getSubscriptionVideos: {
+        parameters: {
+            query?: {
+                start?: unknown;
+                limit?: unknown;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-      };
-    };
-  };
-  CommentsController_getCommentReplies: {
-    parameters: {
-      query: {
-        replyContinuation: string;
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["VTCommentsReplyResponseDto"];
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SubscriptionFeedResponseDto"];
+                };
+            };
         };
-      };
     };
-  };
-  PlaylistsController_getPlaylist: {
-    parameters: {
-      query: {
-        pages: number;
-      };
-      path: {
-        playlistId: string;
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["PlaylistResultDto"];
+    SubscriptionsController_getSubscription: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                channelId: string;
+            };
+            cookie?: never;
         };
-      };
-    };
-  };
-  PlaylistsController_getPlaylistContinuation: {
-    parameters: {
-      query: {
-        continuationData: string[];
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": Record<string, never>;
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SubscriptionStatusDto"];
+                };
+            };
         };
-      };
     };
-  };
-  AdminController_getInfo: {
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["InfoDto"];
+    SubscriptionsController_createSubscription: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                channelId: string;
+            };
+            cookie?: never;
         };
-      };
-    };
-  };
-  AdminController_getServerSettings: {
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["ServerSettingsDto"];
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SubscriptionStatusDto"];
+                };
+            };
         };
-      };
     };
-  };
-  AdminController_updateServerSettings: {
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["ServerSettingsDto"];
-      };
-    };
-    responses: {
-      201: {
-        content: {
-          "application/json": components["schemas"]["ServerSettingsDto"];
+    SubscriptionsController_deleteSubscription: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                channelId: string;
+            };
+            cookie?: never;
         };
-      };
-    };
-  };
-  AdminController_getLogs: {
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["LogsDto"];
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SubscriptionStatusDto"];
+                };
+            };
         };
-      };
     };
-  };
-  AdminController_downloadLogFile: {
-    parameters: {
-      path: {
-        logFile: string;
-      };
-    };
-    responses: {
-      200: {
-        content: never;
-      };
-    };
-  };
-  AdminController_findAll: {
-    responses: {
-      200: {
-        content: {
-          "application/json": string[];
+    SubscriptionsController_createMultipleSubscriptions: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-      };
-    };
-  };
-  AdminController_create: {
-    requestBody: {
-      content: {
-        "application/json": string;
-      };
-    };
-    responses: {
-      201: {
-        content: {
-          "application/json": string;
+        requestBody?: never;
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
         };
-      };
     };
-  };
-  AdminController_isVideoBlocked: {
-    parameters: {
-      path: {
-        id: string;
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": boolean;
+    NotificationsController_subscribeToNotifications: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-      };
-    };
-  };
-  AdminController_delete: {
-    parameters: {
-      path: {
-        id: string;
-      };
-    };
-    responses: {
-      200: {
-        content: never;
-      };
-    };
-  };
-  AdminController_createUser: {
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["UserDto"];
-      };
-    };
-    responses: {
-      201: {
-        content: {
-          "application/json": components["schemas"]["UserprofileDto"];
+        requestBody?: never;
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
         };
-      };
     };
-  };
+    SettingsController_getSettings: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SettingsDto"];
+                };
+            };
+        };
+    };
+    SettingsController_setSettings: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    HistoryController_getHistory: {
+        parameters: {
+            query: {
+                sort: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HistoryResponseDto"];
+                };
+            };
+        };
+    };
+    HistoryController_deleteEntireHistory: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    HistoryController_getVideoVisit: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VideoVisitDto"];
+                };
+            };
+        };
+    };
+    HistoryController_setVideoVisit: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    HistoryController_deleteHistoryEntry: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                videoId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    HistoryController_deleteHistoryRange: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                startDate: string;
+                endDate: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    VideosController_getVideos: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VTVideoInfoDto"];
+                };
+            };
+        };
+    };
+    VideosController_getDash: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": string;
+                };
+            };
+        };
+    };
+    VideosController_getDislikes: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DislikeDto"];
+                };
+            };
+        };
+    };
+    VideosController_getSkipSegments: {
+        parameters: {
+            query: {
+                url: string;
+            };
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SponsorBlockSegmentsDto"];
+                };
+            };
+        };
+    };
+    VideoplaybackController_getVideoplayback: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AutocompleteController_getQuery: {
+        parameters: {
+            query: {
+                q: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": string[];
+                };
+            };
+        };
+    };
+    SearchController_search: {
+        parameters: {
+            query: {
+                q: string;
+                upload_date?: Record<string, never>;
+                type?: Record<string, never>;
+                duration?: Record<string, never>;
+                sort_by?: Record<string, never>;
+                features?: Record<string, never>[];
+                continuationString?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VTSearchDto"];
+                };
+            };
+        };
+    };
+    ChannelsController_getTinyThumbnailJpg: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    ChannelsController_getTinyThumbnailWebp: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    ChannelsController_getChannelInfo: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ChannelInfoDto"];
+                };
+            };
+        };
+    };
+    ChannelsController_getChannelHome: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ChannelHomeDto"];
+                };
+            };
+        };
+    };
+    ChannelsController_getChannelVideos: {
+        parameters: {
+            query: {
+                sort: string;
+            };
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ChannelVideosDto"];
+                };
+            };
+        };
+    };
+    ChannelsController_getChannelVideosContinuation: {
+        parameters: {
+            query: {
+                continuation: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ChannelVideosContinuationDto"];
+                };
+            };
+        };
+    };
+    ChannelsController_getChannelShorts: {
+        parameters: {
+            query: {
+                sort: string;
+            };
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ChannelVideosDto"];
+                };
+            };
+        };
+    };
+    ChannelsController_getChannelLivestreams: {
+        parameters: {
+            query: {
+                sort: string;
+            };
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ChannelVideosDto"];
+                };
+            };
+        };
+    };
+    ChannelsController_getChannelPlaylists: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ChannelPlaylistsDto"];
+                };
+            };
+        };
+    };
+    ChannelsController_getChannelPlaylistsContinuation: {
+        parameters: {
+            query: {
+                continuation: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ChannelPlaylistsContinuationDto"];
+                };
+            };
+        };
+    };
+    ChannelsController_searchChannel: {
+        parameters: {
+            query: {
+                query: string;
+            };
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": Record<string, never>;
+                };
+            };
+        };
+    };
+    ChannelsController_searchChannelContinuation: {
+        parameters: {
+            query: {
+                continuation: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ChannelSearchContinuationDto"];
+                };
+            };
+        };
+    };
+    ChannelsController_getRelatedChannelsContinuation: {
+        parameters: {
+            query: {
+                continuation: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RelatedChannelsContinuationDto"];
+                };
+            };
+        };
+    };
+    ChannelsController_getChannelCommunityPosts: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ChannelCommunityPostsDto"];
+                };
+            };
+        };
+    };
+    ChannelsController_getChannelCommunityPostsContinuation: {
+        parameters: {
+            query: {
+                continuation: string;
+                innertube: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ChannelCommunityPostsContinuationDto"];
+                };
+            };
+        };
+    };
+    ChannelsController_getChannelStats: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ChannelStatsDto"];
+                };
+            };
+        };
+    };
+    HomepageController_getHomeFeed: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HomeFeedDto"];
+                };
+            };
+        };
+    };
+    ProxyController_getQuery: {
+        parameters: {
+            query: {
+                url: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    ProxyController_proxyText: {
+        parameters: {
+            query: {
+                url: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    ProxyController_proxyStream: {
+        parameters: {
+            query: {
+                url: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    CommentsController_getComments: {
+        parameters: {
+            query?: {
+                sortByNewest?: boolean;
+                continuation?: string;
+            };
+            header?: never;
+            path: {
+                videoId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VTCommentsResponseDto"];
+                };
+            };
+        };
+    };
+    CommentsController_getCommentReplies: {
+        parameters: {
+            query: {
+                replyContinuation: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VTCommentsReplyResponseDto"];
+                };
+            };
+        };
+    };
+    PlaylistsController_getPlaylist: {
+        parameters: {
+            query: {
+                pages: number;
+            };
+            header?: never;
+            path: {
+                playlistId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PlaylistResultDto"];
+                };
+            };
+        };
+    };
+    PlaylistsController_getPlaylistContinuation: {
+        parameters: {
+            query: {
+                continuationData: string[];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": Record<string, never>;
+                };
+            };
+        };
+    };
+    AdminController_getInfo: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["InfoDto"];
+                };
+            };
+        };
+    };
+    AdminController_getServerSettings: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServerSettingsDto"];
+                };
+            };
+        };
+    };
+    AdminController_updateServerSettings: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ServerSettingsDto"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServerSettingsDto"];
+                };
+            };
+        };
+    };
+    AdminController_getLogs: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LogsDto"];
+                };
+            };
+        };
+    };
+    AdminController_downloadLogFile: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                logFile: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AdminController_findAll: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": string[];
+                };
+            };
+        };
+    };
+    AdminController_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": string;
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": string;
+                };
+            };
+        };
+    };
+    AdminController_isVideoBlocked: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": boolean;
+                };
+            };
+        };
+    };
+    AdminController_delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AdminController_createUser: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UserDto"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UserprofileDto"];
+                };
+            };
+        };
+    };
 }

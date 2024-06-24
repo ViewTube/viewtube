@@ -1,6 +1,6 @@
+import type { ApiDto } from '@viewtube/shared';
 import { usePopupStore } from '~/store/popup';
 import { useSettingsStore } from '~/store/settings';
-import type { ApiDto } from '@viewtube/shared';
 
 const UI_TIMEOUT = 3000;
 
@@ -10,7 +10,8 @@ export const useUIState = (
   videoState: VideoState,
   video: Ref<ApiDto<'VTVideoInfoDto'>>,
   flipPlayerUIRef: Ref<HTMLDivElement | null>,
-  captionsState: CaptionsState
+  captionsState: CaptionsState,
+  hidden?: Ref<boolean>
 ) => {
   const popupStore = usePopupStore();
   const settingsStore = useSettingsStore();
@@ -219,6 +220,8 @@ export const useUIState = (
   const doubleTouchPosition = ref({ x: 0, y: 0 });
 
   const onPointerDown = (e: PointerEvent) => {
+    if (hidden?.value) return true;
+
     if (e.pointerType === 'touch') {
       touchEvent.value = true;
       if (e.target instanceof HTMLVideoElement) {
@@ -264,6 +267,8 @@ export const useUIState = (
 
   const pointerMoveTimeout = ref<number | NodeJS.Timeout>();
   const onPointerMove = (e: PointerEvent) => {
+    if (hidden?.value) return true;
+
     clearTimeout(pointerMoveTimeout.value);
     pointerMoveTimeout.value = setTimeout(() => {
       if (e.pointerType === 'mouse' && !touchEvent.value) {
@@ -273,6 +278,8 @@ export const useUIState = (
   };
 
   const onPointerLeave = (e: PointerEvent) => {
+    if (hidden?.value) return true;
+
     clearTimeout(pointerMoveTimeout.value);
     if (e.pointerType === 'mouse' && !touchEvent.value) {
       hideUI();
@@ -286,6 +293,8 @@ export const useUIState = (
   const doubleClickTimeout = ref<number | NodeJS.Timeout>();
 
   const onPointerUp = (e: PointerEvent) => {
+    if (hidden?.value) return true;
+
     if (e.pointerType === 'mouse' && e.target instanceof HTMLVideoElement) {
       if (!doubleClickTimeout.value) {
         doubleClickTimeout.value = setTimeout(() => {

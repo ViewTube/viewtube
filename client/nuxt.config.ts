@@ -8,12 +8,13 @@ export default defineNuxtConfig({
       videoplaybackProxy: '',
       githubHint: false,
       registrationEnabled: true,
-      requireLoginEverywhere: false
+      requireLoginEverywhere: false,
+      additionalMeta: '{}'
     }
   },
 
   future: {
-    compatibilityVersion: 4,
+    compatibilityVersion: 4
   },
 
   nitro: {
