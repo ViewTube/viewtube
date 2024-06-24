@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import destr from 'destr';
+
 type ConditionalPropType = string | undefined | null;
 
 const props = withDefaults(
@@ -41,7 +43,7 @@ const imageString = computed(() => safelyReturn(props.image, null));
 
 const videoString = computed(() => safelyReturn(props.video, null));
 
-useHead(JSON.parse(runtimeConfig.public.additionalMeta));
+useHead(destr(runtimeConfig.public.additionalMeta));
 </script>
 
 <template>
