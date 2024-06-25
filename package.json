@@ -36,7 +36,7 @@
     "not Edge 18"
   ],
   "devDependencies": {
-    "@typescript-eslint/parser": "8.0.0-alpha.30",
+    "@typescript-eslint/parser": "8.0.0-alpha.33",
     "cross-env": "7.0.3",
     "eslint": "9.5.0",
     "eslint-flat-config-utils": "0.2.5",
@@ -53,9 +53,9 @@
     "overrides": {
       "has": "npm:@nolyfill/has@latest",
       "side-channel": "npm:@nolyfill/side-channel@latest",
-      "@typescript-eslint/eslint-plugin": "8.0.0-alpha.30",
-      "@typescript-eslint/parser": "8.0.0-alpha.30",
-      "@typescript-eslint/utils": "8.0.0-alpha.30"
+      "@typescript-eslint/eslint-plugin": "8.0.0-alpha.33",
+      "@typescript-eslint/parser": "8.0.0-alpha.33",
+      "@typescript-eslint/utils": "8.0.0-alpha.33"
     }
   }
 }
