@@ -1202,6 +1202,10 @@ export interface components {
             /** Format: date-time */
             upcoming?: string;
             live?: boolean;
+            userData: {
+                videoLength?: number;
+                watchProgress?: number;
+            };
             id: string;
             title: string;
             duration: {
@@ -2720,9 +2724,7 @@ export interface operations {
     };
     ProxyController_proxyStream: {
         parameters: {
-            query: {
-                url: string;
-            };
+            query?: never;
             header?: never;
             path?: never;
             cookie?: never;

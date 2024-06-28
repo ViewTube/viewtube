@@ -14,4 +14,8 @@ export class VTVideoDto extends VTVideoCoreDto {
   viewCount?: number;
   upcoming?: Date;
   live?: boolean;
+  userData?: {
+    videoLength?: number;
+    watchProgress?: number;
+  };
 }

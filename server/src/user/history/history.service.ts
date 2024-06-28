@@ -7,6 +7,7 @@ import {
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { VideoBasicInfo } from 'server/core/videos/schemas/video-basic-info.schema';
+import { VTVideoDto } from 'server/mapper/dto/vt-video.dto';
 import { SettingsService } from '../settings/settings.service';
 import { VideoVisitDetailsDto } from './dto/video-visit-details.dto';
 import { VideoVisitDto } from './dto/video-visit.dto';
@@ -114,6 +115,57 @@ export class HistoryService {
       totalSeconds: 0,
       totalVideoCount: 0
     };
+  }
+
+  async getHistoryByVideoIds(
+    username: string,
+    videoIds: Array<string>
+  ): Promise<Array<VideoVisitDto>> {
+    if (username) {
+      const historyList = await this.HistoryModel.aggregate([
+        { $match: { username } },
+        {
+          $project: {
+            videoHistory: {
+              $filter: {
+                input: '$videoHistory',
+                as: 'video',
+                cond: { $in: ['$$video.videoId', videoIds] }
+              }
+            }
+          }
+        }
+      ]);
+
+      const history = historyList?.[0];
+
+      if (history?.videoHistory?.length > 0) {
+        return history.videoHistory;
+      }
+    }
+    return [];
+  }
+
+  async enhanceVideoListWithHistory(
+    username: string,
+    videoList: Array<VTVideoDto>
+  ): Promise<Array<VTVideoDto>> {
+    const historyByIds = await this.getHistoryByVideoIds(
+      username,
+      videoList.map(e => e.id)
+    );
+
+    return videoList.map(video => {
+      const enhancedVideo = { ...video };
+      const visit = historyByIds.find(e => e.videoId === video.id);
+      if (visit) {
+        enhancedVideo.userData = {
+          videoLength: visit.lengthSeconds,
+          watchProgress: visit.progressSeconds
+        };
+      }
+      return enhancedVideo;
+    });
   }
 
   async getHistory(

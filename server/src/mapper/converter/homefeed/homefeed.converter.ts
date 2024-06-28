@@ -3,7 +3,7 @@ import { VTVideoDto } from 'server/mapper/dto/vt-video.dto';
 import { IBrowseResponse, YTNodes } from 'youtubei.js';
 import { TabbedFeed } from 'youtubei.js/dist/src/core/mixins';
 
-export const mapHomeFeed = (homeFeed: TabbedFeed<IBrowseResponse>): Array<VTVideoDto> => {
+export const toHomeFeed = (homeFeed: TabbedFeed<IBrowseResponse>): Array<VTVideoDto> => {
   return homeFeed.videos
     .map(item => {
       if (item.type === 'Video') {
