@@ -72,8 +72,8 @@
   "devDependencies": {
     "@nestjs/cli": "10.3.2",
     "@nestjs/websockets": "10.3.9",
-    "@swc/cli": "0.3.14",
-    "@swc/core": "1.6.5",
+    "@swc/cli": "0.4.0",
+    "@swc/core": "1.6.6",
     "@types/archiver": "6.0.2",
     "@types/bcryptjs": "2.4.6",
     "@types/cookie-parser": "1.4.7",
