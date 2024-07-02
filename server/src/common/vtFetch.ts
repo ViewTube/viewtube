@@ -88,13 +88,13 @@ const vtFetchRaw = async (url: RequestInfo, options?: VtFetchRawOptionsType): Pr
     method: options?.method ?? 'GET'
   };
 
-  if (options.useProxy && proxyEnabled()) {
+  if (requestOptions.useProxy && proxyEnabled()) {
     const proxyUrl = getProxyUrl();
     const dispatcher = getDispatcher(proxyUrl);
     requestOptions.dispatcher = dispatcher;
   }
 
-  const response = await undici.fetch(url, options);
+  const response = await undici.fetch(url, requestOptions);
   return response;
 };
 
