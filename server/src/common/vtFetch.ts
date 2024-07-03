@@ -1,9 +1,6 @@
 import { destr } from 'destr';
-import { socksDispatcher } from 'fetch-socks';
-import type { SocksProxy } from 'socks';
 import undici, {
   Headers,
-  ProxyAgent,
   type BodyMixin,
   type Dispatcher,
   type HeadersInit,
@@ -13,7 +10,7 @@ import undici, {
 } from 'undici';
 import BodyReadable from 'undici/types/readable';
 import { UrlObject } from 'url';
-import { getProxyUrl, proxyEnabled } from './proxyAgent';
+import { getDispatcher, getProxyUrl, proxyEnabled } from './proxyAgent';
 
 type VtFetchOptionsType = Omit<RequestOptionsType, 'dispatcher' | 'method' | 'headers'> & {
   useProxy?: boolean;
@@ -51,10 +48,13 @@ const vtFetch = async <T = any>(
     method: (options?.method as Dispatcher.HttpMethod) ?? 'GET'
   };
 
+  let close = () => {};
+
   if (options.useProxy && proxyEnabled()) {
     const proxyUrl = getProxyUrl();
-    const dispatcher = getDispatcher(proxyUrl);
-    requestOptions.dispatcher = dispatcher;
+    const { proxyAgent, done } = getDispatcher(proxyUrl);
+    close = done;
+    requestOptions.dispatcher = proxyAgent;
   }
 
   if (rawHeaders) {
@@ -78,6 +78,8 @@ const vtFetch = async <T = any>(
 
   response.body.json = destrJson;
 
+  close();
+
   return response;
 };
 
@@ -88,72 +90,22 @@ const vtFetchRaw = async (url: RequestInfo, options?: VtFetchRawOptionsType): Pr
     method: options?.method ?? 'GET'
   };
 
+  let close = () => {};
+
   if (requestOptions.useProxy && proxyEnabled()) {
     const proxyUrl = getProxyUrl();
-    const dispatcher = getDispatcher(proxyUrl);
-    requestOptions.dispatcher = dispatcher;
+    const { proxyAgent, done } = getDispatcher(proxyUrl);
+    close = done;
+    requestOptions.dispatcher = proxyAgent;
   }
 
   const response = await undici.fetch(url, requestOptions);
+
+  close();
+
   return response;
 };
 
 vtFetch.rawFetch = vtFetchRaw;
 
 export { vtFetch };
-
-const getDispatcher = (proxyUrl: string) => {
-  if (proxyUrl.match(/^https?:\/\//)) {
-    return new ProxyAgent(proxyUrl);
-  } else if (proxyUrl.startsWith('https://')) {
-    return new ProxyAgent(proxyUrl);
-  } else if (proxyUrl.startsWith('socks')) {
-    const socksProxy = parseSocksURL(proxyUrl);
-    return socksDispatcher(socksProxy);
-  }
-};
-
-function parseSocksURL(url: string): SocksProxy {
-  const socksUrl = new URL(url);
-  let type: SocksProxy['type'] = 5;
-  const host = socksUrl.hostname;
-
-  const port = parseInt(socksUrl.port, 10) || 1080;
-
-  switch (socksUrl.protocol.replace(':', '')) {
-    case 'socks4':
-    case 'socks4a':
-      type = 4;
-      break;
-    case 'socks5':
-    case 'socks':
-    case 'socks5h':
-      type = 5;
-      break;
-    default:
-      type = 5;
-      break;
-  }
-
-  const proxy: SocksProxy = {
-    host,
-    port,
-    type
-  };
-
-  if (socksUrl.username) {
-    Object.defineProperty(proxy, 'userId', {
-      value: decodeURIComponent(socksUrl.username),
-      enumerable: false
-    });
-  }
-
-  if (socksUrl.password != null) {
-    Object.defineProperty(proxy, 'password', {
-      value: decodeURIComponent(socksUrl.password),
-      enumerable: false
-    });
-  }
-
-  return proxy;
-}

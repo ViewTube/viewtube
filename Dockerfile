@@ -43,7 +43,7 @@ COPY --from=build /home/build/client/.output ./client/.output/
 RUN \
   --mount=type=cache,target=/var/cache/apt \
   apt-get update \
-  && apt-get install -y --no-install-recommends curl \
+  && apt-get install -y --no-install-recommends curl ca-certificates \
   && rm -rf /var/cache/apt/archives /var/lib/apt/lists/*
 
 ENV VIEWTUBE_BASE_DIR=/home/app
