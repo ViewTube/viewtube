@@ -66,5 +66,7 @@ export default defineNuxtConfig({
     cookieOptions: {
       sameSite: 'strict'
     }
-  }
+  },
+
+  compatibilityDate: '2024-07-03'
 });

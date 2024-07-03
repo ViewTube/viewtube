@@ -36,15 +36,15 @@
     "not Edge 18"
   ],
   "devDependencies": {
-    "@typescript-eslint/parser": "8.0.0-alpha.34",
+    "@typescript-eslint/parser": "8.0.0-alpha.40",
     "cross-env": "7.0.3",
     "eslint": "9.6.0",
     "eslint-flat-config-utils": "0.2.5",
     "eslint-plugin-cypress": "3.3.0",
-    "globals": "15.6.0",
+    "globals": "15.8.0",
     "prettier": "3.3.2",
-    "prettier-plugin-organize-imports": "3.2.4",
-    "typescript": "5.4.5"
+    "prettier-plugin-organize-imports": "4.0.0",
+    "typescript": "5.5.3"
   },
   "pnpm": {
     "patchedDependencies": {
@@ -53,9 +53,9 @@
     "overrides": {
       "has": "npm:@nolyfill/has@latest",
       "side-channel": "npm:@nolyfill/side-channel@latest",
-      "@typescript-eslint/eslint-plugin": "8.0.0-alpha.34",
-      "@typescript-eslint/parser": "8.0.0-alpha.34",
-      "@typescript-eslint/utils": "8.0.0-alpha.34"
+      "@typescript-eslint/eslint-plugin": "8.0.0-alpha.40",
+      "@typescript-eslint/parser": "8.0.0-alpha.40",
+      "@typescript-eslint/utils": "8.0.0-alpha.40"
     }
   }
 }
