@@ -391,8 +391,8 @@ importers:
         specifier: 5.0.0
         version: 5.0.0
       openapi-typescript:
-        specifier: 7.0.1
-        version: 7.0.1(typescript@5.5.3)
+        specifier: 7.0.2
+        version: 7.0.2(typescript@5.5.3)
       redis:
         specifier: 4.6.15
         version: 4.6.15
@@ -5566,8 +5566,8 @@ packages:
     resolution: {integrity: sha512-c/hfooPx+RBIOPM09GSxABOZhYPblDoyaGhqBkD/59vtpN21jEuWKDlM0KYTvqJVlSYjKs0tBcIdeXKChlSPtw==}
     hasBin: true
 
-  openapi-typescript@7.0.1:
-    resolution: {integrity: sha512-RrjgCRTIpJzJGKZ2Fg7ERuOVXvmLcSAC8KRi165QyueW+0u3HSOpAhZDUpAPNlJ0ubd+bkjFTMWIwoXn0hHbtg==}
+  openapi-typescript@7.0.2:
+    resolution: {integrity: sha512-BBrYEf0YdW31Ernd07cD/qHoalSuiiUQvy+rHvU/1Iz9WbcFpRsIXrnfEnrEuiGTRuKCG6cDQCrxNK/rbwQRLg==}
     hasBin: true
     peerDependencies:
       typescript: ^5.x
@@ -13417,7 +13417,7 @@ snapshots:
       undici: 5.28.4
       yargs-parser: 21.1.1
 
-  openapi-typescript@7.0.1(typescript@5.5.3):
+  openapi-typescript@7.0.2(typescript@5.5.3):
     dependencies:
       '@redocly/openapi-core': 1.17.0(supports-color@9.4.0)
       ansi-colors: 4.1.3
