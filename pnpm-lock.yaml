@@ -114,8 +114,8 @@ importers:
         specifier: 2.0.3
         version: 2.0.3
       hls.js:
-        specifier: 1.5.12
-        version: 1.5.12
+        specifier: 1.5.13
+        version: 1.5.13
       human-number:
         specifier: 2.0.4
         version: 2.0.4
@@ -4493,8 +4493,8 @@ packages:
     resolution: {integrity: sha512-NQO+lgVUCtHxZ792FodgW0zflK+ozS9X9dwGp9XvvmPlH7pyxd588cn24TD3rmPm/N0AIRXF10Otah8yKqGw4w==}
     engines: {node: '>=12'}
 
-  hls.js@1.5.12:
-    resolution: {integrity: sha512-QxBMsawjqIPNfgAzaFFVJu0t8OwOyFXK3cuj9MX5L7byZZL+n9PeJXtIMu2FS0026Dt/hBAz9u2sDLZ4bQdv6w==}
+  hls.js@1.5.13:
+    resolution: {integrity: sha512-xRgKo84nsC7clEvSfIdgn/Tc0NOT+d7vdiL/wvkLO+0k0juc26NRBPPG1SfB8pd5bHXIjMW/F5VM8VYYkOYYdw==}
 
   hookable@5.5.3:
     resolution: {integrity: sha512-Yc+BQe8SvoXH1643Qez1zqLRmbA5rCL+sSmk6TVos0LWVfNIB7PGncdlId77WzLGSIB5KaWgTaNTs2lNVEI6VQ==}
@@ -12211,7 +12211,7 @@ snapshots:
 
   hex-rgb@5.0.0: {}
 
-  hls.js@1.5.12: {}
+  hls.js@1.5.13: {}
 
   hookable@5.5.3: {}
 
