@@ -26,15 +26,9 @@ importers:
       '@typescript-eslint/parser':
         specifier: 8.0.0-alpha.40
         version: 8.0.0-alpha.40(eslint@9.6.0)(typescript@5.5.3)
-      cross-env:
-        specifier: 7.0.3
-        version: 7.0.3
       eslint:
         specifier: 9.6.0
         version: 9.6.0
-      eslint-flat-config-utils:
-        specifier: 0.2.5
-        version: 0.2.5
       eslint-plugin-cypress:
         specifier: 3.3.0
         version: 3.3.0(eslint@9.6.0)
@@ -320,9 +314,6 @@ importers:
       svg-captcha:
         specifier: 1.4.0
         version: 1.4.0
-      tslib:
-        specifier: 2.6.3
-        version: 2.6.3
       undici:
         specifier: 6.19.2
         version: 6.19.2
@@ -335,9 +326,6 @@ importers:
       winston-daily-rotate-file:
         specifier: 5.0.0
         version: 5.0.0(winston@3.13.0)
-      xml-js:
-        specifier: 1.6.11
-        version: 1.6.11
       youtubei.js:
         specifier: 10.0.0
         version: 10.0.0
@@ -369,33 +357,21 @@ importers:
       '@types/humanize-duration':
         specifier: 3.27.4
         version: 3.27.4
-      '@types/mime-types':
-        specifier: 2.1.4
-        version: 2.1.4
       '@types/multer':
         specifier: 1.4.11
         version: 1.4.11
       '@types/node':
         specifier: 20.14.10
         version: 20.14.10
-      '@types/redis-mock':
-        specifier: 0.17.3
-        version: 0.17.3
       '@types/web-push':
         specifier: 3.6.3
         version: 3.6.3
-      '@types/xml2json':
-        specifier: 0.11.6
-        version: 0.11.6
       cross-env:
         specifier: 7.0.3
         version: 7.0.3
       h3:
         specifier: 1.12.0
         version: 1.12.0
-      hex-rgb:
-        specifier: 5.0.0
-        version: 5.0.0
       openapi-typescript:
         specifier: 7.0.2
         version: 7.0.2(typescript@5.5.3)
@@ -2417,9 +2393,6 @@ packages:
   '@types/luxon@3.4.2':
     resolution: {integrity: sha512-TifLZlFudklWlMBfhubvgqTXRzLDI5pCbGa4P8a3wPyUQSW+1xQ5eDsreP9DWHX3tjq1ke96uYG/nwundroWcA==}
 
-  '@types/mime-types@2.1.4':
-    resolution: {integrity: sha512-lfU4b34HOri+kAY5UheuFMWPDOI+OPceBSHZKp69gEyTL/mmJ4cnU6Y/rlme3UL3GyOn6Y42hyIEw0/q8sWx5w==}
-
   '@types/mime@1.3.5':
     resolution: {integrity: sha512-/pyBZWSLD2n0dcHE3hq8s8ZvcETHtEuF+3E7XVt0Ig2nvsVQXdghHVcEkIWjy9A0wKfTn97a/PSDYohKIlnP/w==}
 
@@ -2449,12 +2422,6 @@ packages:
 
   '@types/readdir-glob@1.1.5':
     resolution: {integrity: sha512-raiuEPUYqXu+nvtY2Pe8s8FEmZ3x5yAH4VkLdihcPdalvsHltomrRC9BzuStrJ9yk06470hS0Crw0f1pXqD+Hg==}
-
-  '@types/redis-mock@0.17.3':
-    resolution: {integrity: sha512-1baXyGxRKEDog8p1ReiypODwiST2n3/0pBbgUKEuv9pBXnY6ttRzKATcW5Xz20ZOl9qkKtPIeq20tHgHSdQBAQ==}
-
-  '@types/redis@2.8.32':
-    resolution: {integrity: sha512-7jkMKxcGq9p242exlbsVzuJb57KqHRhNl4dHoQu2Y5v9bCAbtIXXH0R3HleSQW4CTOqpHIYUW3t6tpUj4BVQ+w==}
 
   '@types/resolve@1.20.2':
     resolution: {integrity: sha512-60BCwRFOZCQhDncwQdxxeOEEkbc5dIMccYLwbxsS4TUNeVECQ/pBJ0j09mrHOl/JJvpRPGwO9SvE4nR2Nb/a4Q==}
@@ -2500,9 +2467,6 @@ packages:
 
   '@types/whatwg-url@11.0.5':
     resolution: {integrity: sha512-coYR071JRaHa+xoEvvYqvnIHaVqaYrLPbsufM9BF63HkwI5Lgmy2QR8Q5K/lYDYo5AK82wOvSOS0UsLTpTG7uQ==}
-
-  '@types/xml2json@0.11.6':
-    resolution: {integrity: sha512-OYZ5cB4zctk4JdK1MGdLmeBMdmg+/AClCUspQ6KtQ2vZLJkSpm0XWE9H0vCfCGlXvbqn9CBqIda2dXX2KAE/5w==}
 
   '@types/yauzl@2.10.3':
     resolution: {integrity: sha512-oJoftv0LSuaDZE3Le4DbKX+KS9G36NzOeSap90UIK0yMA/NhKJhqlSGtNDORNRaIbQfzjXDrQa0ytJ6mNRGz/Q==}
@@ -4548,10 +4512,6 @@ packages:
     resolution: {integrity: sha512-g+HZqgfbpXdCkme/Cd/mZkV0aV3BZZZSugecH03kl38m/Kmdx8jKjBikpDj2cr+Iynv4KpYEviojNdTJActJAg==}
     engines: {node: '>=16.0.0'}
 
-  hex-rgb@5.0.0:
-    resolution: {integrity: sha512-NQO+lgVUCtHxZ792FodgW0zflK+ozS9X9dwGp9XvvmPlH7pyxd588cn24TD3rmPm/N0AIRXF10Otah8yKqGw4w==}
-    engines: {node: '>=12'}
-
   hls.js@1.5.13:
     resolution: {integrity: sha512-xRgKo84nsC7clEvSfIdgn/Tc0NOT+d7vdiL/wvkLO+0k0juc26NRBPPG1SfB8pd5bHXIjMW/F5VM8VYYkOYYdw==}
 
@@ -6410,9 +6370,6 @@ packages:
   sax@1.2.1:
     resolution: {integrity: sha512-8I2a3LovHTOpm7NV5yOyO8IHqgVsfK4+UuySrXU8YXkSRX7k6hCV9b3HrkKCr3nMpgj+0bmocaJJWpvp1oc7ZA==}
 
-  sax@1.4.1:
-    resolution: {integrity: sha512-+aWOz7yVScEGoKNd4PA10LZ8sk0A/z5+nXQG5giUO5rprX9jgYsTdov9qCchZiPIZezbZH+jRut8nPodFAX4Jg==}
-
   schema-utils@3.3.0:
     resolution: {integrity: sha512-pN/yOAvcC+5rQ5nERGuwrjLlYvLTbCibnZ1I7B1LaiAz9BRBlE9GMgE/eqV30P7aJQUf7Ddimy/RsbYO/GrVGg==}
     engines: {node: '>= 10.13.0'}
@@ -7497,10 +7454,6 @@ packages:
 
   x2js@3.4.4:
     resolution: {integrity: sha512-yG/ThaBCgnsa3aoMPAe7QwDpcyU4D70hjXC4Y1lZSfD/Tgd0MpE19FnZZRAjekryw0c8cffpOt9zsPEiqktO6Q==}
-
-  xml-js@1.6.11:
-    resolution: {integrity: sha512-7rVi2KMfwfWFl+GpPg6m80IVMWXLRjO+PxTq7V2CDhoGak0wzYzFgUY2m4XJ47OGdXd8eLE8EmwfAmdjw7lC1g==}
-    hasBin: true
 
   xml-name-validator@4.0.0:
     resolution: {integrity: sha512-ICP2e+jsHvAj2E2lIHxa5tjXRlKDJo4IdvPvCXbXQGdzSfmSpNVyIKMvoZHjDY9DP0zV17iI85o90vRFXNccRw==}
@@ -9756,8 +9709,6 @@ snapshots:
 
   '@types/luxon@3.4.2': {}
 
-  '@types/mime-types@2.1.4': {}
-
   '@types/mime@1.3.5': {}
 
   '@types/multer@1.4.11':
@@ -9787,14 +9738,6 @@ snapshots:
   '@types/range-parser@1.2.7': {}
 
   '@types/readdir-glob@1.1.5':
-    dependencies:
-      '@types/node': 20.14.10
-
-  '@types/redis-mock@0.17.3':
-    dependencies:
-      '@types/redis': 2.8.32
-
-  '@types/redis@2.8.32':
     dependencies:
       '@types/node': 20.14.10
 
@@ -9842,10 +9785,6 @@ snapshots:
   '@types/whatwg-url@11.0.5':
     dependencies:
       '@types/webidl-conversions': 7.0.3
-
-  '@types/xml2json@0.11.6':
-    dependencies:
-      '@types/node': 20.14.10
 
   '@types/yauzl@2.10.3':
     dependencies:
@@ -12441,8 +12380,6 @@ snapshots:
 
   helmet@7.1.0: {}
 
-  hex-rgb@5.0.0: {}
-
   hls.js@1.5.13: {}
 
   hookable@5.5.3: {}
@@ -14396,8 +14333,6 @@ snapshots:
 
   sax@1.2.1: {}
 
-  sax@1.4.1: {}
-
   schema-utils@3.3.0:
     dependencies:
       '@types/json-schema': 7.0.15
@@ -15624,10 +15559,6 @@ snapshots:
   x2js@3.4.4:
     dependencies:
       '@xmldom/xmldom': 0.8.10
-
-  xml-js@1.6.11:
-    dependencies:
-      sax: 1.4.1
 
   xml-name-validator@4.0.0: {}
 
