@@ -18,6 +18,8 @@ type ProxyAgentEntry = {
 
 const proxyAgentPool: ProxyAgentEntry[] = [];
 
+const proxyAgentUses = 100;
+
 const getHttpProxyAgent = (proxyUrl: string) => {
   const existingAgent = proxyAgentPool.find(entry => entry.usages < 10 && entry.uri === proxyUrl);
   let proxyAgent: ProxyAgent;
@@ -43,15 +45,13 @@ const getHttpProxyAgent = (proxyUrl: string) => {
     }
 
     for (const [index, entry] of proxyAgentPool.entries()) {
-      if (entry.usages >= 10) {
+      if (entry.usages >= proxyAgentUses) {
         await entry.agent.close();
         proxyAgentPool.splice(index, 1);
         break;
       }
     }
   };
-
-  console.log(proxyAgentPool);
 
   return { proxyAgent, done };
 };

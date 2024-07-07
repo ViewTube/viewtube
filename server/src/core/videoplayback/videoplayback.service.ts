@@ -36,7 +36,8 @@ export class VideoplaybackService {
         'accept-language': rawHeaders['accept-language'],
         'accept-encoding': rawHeaders['accept-encoding'],
         'user-agent': rawHeaders['user-agent'],
-        origin: 'https://www.youtube.com'
+        origin: 'https://www.youtube.com',
+        referer: 'https://www.youtube.com/'
       };
 
       const fetchResponse = await vtFetch(newUrl.toString(), {
