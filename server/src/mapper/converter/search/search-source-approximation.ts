@@ -37,48 +37,48 @@ interface FirstVideo {
   duration: Duration;
 }
 
-export interface Title {
+interface Title {
   runs?: Run[];
   text: string;
 }
 
-export interface Run {
+interface Run {
   text: string;
   bold: boolean;
   italics: boolean;
   strikethrough: boolean;
 }
 
-export interface Snippet {
+interface Snippet {
   text: Text;
   hover_text: HoverText;
 }
 
-export interface Text {
+interface Text {
   runs: Run2[];
   text: string;
 }
 
-export interface Run2 {
+interface Run2 {
   text: string;
   bold: boolean;
   italics: boolean;
   strikethrough: boolean;
 }
 
-export interface HoverText {
+interface HoverText {
   runs: Run3[];
   text: string;
 }
 
-export interface Run3 {
+interface Run3 {
   text: string;
   bold: boolean;
   italics: boolean;
   strikethrough: boolean;
 }
 
-export interface ExpandableMetadata {
+interface ExpandableMetadata {
   type: string;
   header: Header;
   expanded_content: ExpandedContent;
@@ -86,48 +86,48 @@ export interface ExpandableMetadata {
   collapse_button: CollapseButton;
 }
 
-export interface Header {
+interface Header {
   collapsed_title: CollapsedTitle;
   collapsed_thumbnail: CollapsedThumbnail[];
   collapsed_label: CollapsedLabel;
   expanded_title: ExpandedTitle;
 }
 
-export interface CollapsedTitle {
+interface CollapsedTitle {
   text: string;
 }
 
-export interface CollapsedThumbnail {
+interface CollapsedThumbnail {
   url: string;
   width: number;
   height: number;
 }
 
-export interface CollapsedLabel {
+interface CollapsedLabel {
   runs: Run4[];
   text: string;
 }
 
-export interface Run4 {
+interface Run4 {
   text: string;
   bold: boolean;
   italics: boolean;
   strikethrough: boolean;
 }
 
-export interface ExpandedTitle {
+interface ExpandedTitle {
   runs: Run5[];
   text: string;
 }
 
-export interface Run5 {
+interface Run5 {
   text: string;
   bold: boolean;
   italics: boolean;
   strikethrough: boolean;
 }
 
-export interface ExpandedContent {
+interface ExpandedContent {
   type: string;
   cards: Card[];
   header: any;
@@ -135,7 +135,7 @@ export interface ExpandedContent {
   next_button: NextButton;
 }
 
-export interface Card {
+interface Card {
   type: string;
   title: Title2;
   time_description: TimeDescription;
@@ -145,125 +145,125 @@ export interface Card {
   is_highlighted: boolean;
 }
 
-export interface Title2 {
+interface Title2 {
   text: string;
 }
 
-export interface TimeDescription {
+interface TimeDescription {
   text: string;
 }
 
-export interface Thumbnail {
+interface Thumbnail {
   url: string;
   width: number;
   height: number;
 }
 
-export interface OnTapEndpoint {
+interface OnTapEndpoint {
   type: string;
   payload: Payload;
   metadata: Metadata;
 }
 
-export interface Payload {
+interface Payload {
   videoId?: string;
   watchEndpointSupportedOnesieConfig?: WatchEndpointSupportedOnesieConfig;
   startTimeSeconds?: number;
 }
 
-export interface WatchEndpointSupportedOnesieConfig {
+interface WatchEndpointSupportedOnesieConfig {
   html5PlaybackOnesieConfig: Html5PlaybackOnesieConfig;
 }
 
-export interface Html5PlaybackOnesieConfig {
+interface Html5PlaybackOnesieConfig {
   commonConfig: CommonConfig;
 }
 
-export interface CommonConfig {
+interface CommonConfig {
   url: string;
 }
 
-export interface Metadata {
+interface Metadata {
   url?: string;
   page_type?: string;
   api_url?: string;
 }
 
-export interface PreviousButton {
+interface PreviousButton {
   type: string;
   icon_type: string;
   is_disabled: boolean;
   endpoint: Endpoint;
 }
 
-export interface Endpoint {
+interface Endpoint {
   type: string;
   payload: Payload2;
   metadata: Metadata2;
 }
 
-export interface Payload2 {}
+interface Payload2 {}
 
-export interface Metadata2 {}
+interface Metadata2 {}
 
-export interface NextButton {
+interface NextButton {
   type: string;
   icon_type: string;
   is_disabled: boolean;
   endpoint: Endpoint2;
 }
 
-export interface Endpoint2 {
+interface Endpoint2 {
   type: string;
   payload: Payload3;
   metadata: Metadata3;
 }
 
-export interface Payload3 {}
+interface Payload3 {}
 
-export interface Metadata3 {}
+interface Metadata3 {}
 
-export interface ExpandButton {
+interface ExpandButton {
   type: string;
   icon_type: string;
   is_disabled: boolean;
   endpoint: Endpoint3;
 }
 
-export interface Endpoint3 {
+interface Endpoint3 {
   type: string;
   payload: Payload4;
   metadata: Metadata4;
 }
 
-export interface Payload4 {}
+interface Payload4 {}
 
-export interface Metadata4 {}
+interface Metadata4 {}
 
-export interface CollapseButton {
+interface CollapseButton {
   type: string;
   icon_type: string;
   is_disabled: boolean;
   endpoint: Endpoint4;
 }
 
-export interface Endpoint4 {
+interface Endpoint4 {
   type: string;
   payload: Payload5;
   metadata: Metadata5;
 }
 
-export interface Payload5 {}
+interface Payload5 {}
 
-export interface Metadata5 {}
+interface Metadata5 {}
 
-export interface Thumbnail2 {
+interface Thumbnail2 {
   url: string;
   width: number;
   height: number;
 }
 
-export interface ThumbnailOverlay {
+interface ThumbnailOverlay {
   type: string;
   is_toggled?: boolean;
   icon_type?: IconType;
@@ -274,57 +274,57 @@ export interface ThumbnailOverlay {
   style?: string;
 }
 
-export interface IconType {
+interface IconType {
   toggled: string;
   untoggled: string;
 }
 
-export interface Tooltip {
+interface Tooltip {
   toggled: string;
   untoggled: string;
 }
 
-export interface ToggledEndpoint {
+interface ToggledEndpoint {
   type: string;
   payload: Payload6;
   metadata: Metadata6;
 }
 
-export interface Payload6 {
+interface Payload6 {
   playlistId?: string;
   actions?: Action[];
 }
 
-export interface Action {
+interface Action {
   action: string;
   removedVideoId: string;
 }
 
-export interface Metadata6 {
+interface Metadata6 {
   api_url?: string;
   send_post?: boolean;
 }
 
-export interface UntoggledEndpoint {
+interface UntoggledEndpoint {
   type: string;
   payload: Payload7;
   metadata: Metadata7;
 }
 
-export interface Payload7 {
+interface Payload7 {
   signal?: string;
   actions: Action2[];
   playlistId?: string;
 }
 
-export interface Action2 {
+interface Action2 {
   clickTrackingParams?: string;
   addToPlaylistCommand?: AddToPlaylistCommand;
   addedVideoId?: string;
   action?: string;
 }
 
-export interface AddToPlaylistCommand {
+interface AddToPlaylistCommand {
   openMiniplayer: boolean;
   videoId: string;
   listType: string;
@@ -332,38 +332,38 @@ export interface AddToPlaylistCommand {
   videoIds: string[];
 }
 
-export interface OnCreateListCommand {
+interface OnCreateListCommand {
   clickTrackingParams: string;
   commandMetadata: CommandMetadata;
   createPlaylistServiceEndpoint: CreatePlaylistServiceEndpoint;
 }
 
-export interface CommandMetadata {
+interface CommandMetadata {
   webCommandMetadata: WebCommandMetadata;
 }
 
-export interface WebCommandMetadata {
+interface WebCommandMetadata {
   sendPost: boolean;
   apiUrl: string;
 }
 
-export interface CreatePlaylistServiceEndpoint {
+interface CreatePlaylistServiceEndpoint {
   videoIds: string[];
   params: string;
 }
 
-export interface Metadata7 {
+interface Metadata7 {
   send_post: boolean;
   api_url?: string;
 }
 
-export interface RichThumbnail {
+interface RichThumbnail {
   url: string;
   width: number;
   height: number;
 }
 
-export interface Author {
+interface Author {
   id: string;
   name: string;
   thumbnails: Thumbnail3[];
@@ -375,50 +375,50 @@ export interface Author {
   url: string;
 }
 
-export interface Thumbnail3 {
+interface Thumbnail3 {
   url: string;
   width: number;
   height: number;
 }
 
-export interface Endpoint5 {
+interface Endpoint5 {
   type: string;
   payload: Payload8;
   metadata: Metadata8;
 }
 
-export interface Payload8 {
+interface Payload8 {
   browseId: string;
   canonicalBaseUrl: string;
 }
 
-export interface Metadata8 {
+interface Metadata8 {
   url: string;
   page_type: string;
   api_url: string;
 }
 
-export interface Badge {
+interface Badge {
   type: string;
   icon_type: string;
   style: string;
   tooltip: string;
 }
 
-export interface Badge2 {
+interface Badge2 {
   type: string;
   style: string;
   label: string;
   icon_type?: string;
 }
 
-export interface Endpoint6 {
+interface Endpoint6 {
   type: string;
   payload: Payload9;
   metadata: Metadata9;
 }
 
-export interface Payload9 {
+interface Payload9 {
   videoId?: string;
   params?: string;
   playerParams?: string;
@@ -427,65 +427,65 @@ export interface Payload9 {
   canonicalBaseUrl?: string;
 }
 
-export interface WatchEndpointSupportedOnesieConfig2 {
+interface WatchEndpointSupportedOnesieConfig2 {
   html5PlaybackOnesieConfig: Html5PlaybackOnesieConfig2;
 }
 
-export interface Html5PlaybackOnesieConfig2 {
+interface Html5PlaybackOnesieConfig2 {
   commonConfig: CommonConfig2;
 }
 
-export interface CommonConfig2 {
+interface CommonConfig2 {
   url: string;
 }
 
-export interface Metadata9 {
+interface Metadata9 {
   url: string;
   page_type: string;
   api_url: string;
 }
 
-export interface Published {
+interface Published {
   text?: string;
 }
 
-export interface ViewCount {
+interface ViewCount {
   text: string;
   runs?: Run6[];
 }
 
-export interface Run6 {
+interface Run6 {
   text: string;
   bold: boolean;
   italics: boolean;
   strikethrough: boolean;
 }
 
-export interface ShortViewCount {
+interface ShortViewCount {
   text: string;
   runs?: Run7[];
 }
 
-export interface Run7 {
+interface Run7 {
   text: string;
   bold: boolean;
   italics: boolean;
   strikethrough: boolean;
 }
 
-export interface Duration {
+interface Duration {
   text: string;
   seconds?: number;
 }
 
-export interface Menu {
+interface Menu {
   type: string;
   items: Item[];
   top_level_buttons: any[];
   label: string;
 }
 
-export interface Item {
+interface Item {
   type: string;
   text?: string;
   icon_type?: string;
@@ -493,13 +493,13 @@ export interface Item {
   has_separator?: boolean;
 }
 
-export interface Endpoint7 {
+interface Endpoint7 {
   type: string;
   payload: Payload10;
   metadata: Metadata10;
 }
 
-export interface Payload10 {
+interface Payload10 {
   signal?: string;
   actions?: Action3[];
   videoId?: string;
@@ -508,12 +508,12 @@ export interface Payload10 {
   commands?: Command[];
 }
 
-export interface Action3 {
+interface Action3 {
   clickTrackingParams: string;
   addToPlaylistCommand: AddToPlaylistCommand2;
 }
 
-export interface AddToPlaylistCommand2 {
+interface AddToPlaylistCommand2 {
   openMiniplayer: boolean;
   videoId: string;
   listType: string;
@@ -521,76 +521,76 @@ export interface AddToPlaylistCommand2 {
   videoIds: string[];
 }
 
-export interface OnCreateListCommand2 {
+interface OnCreateListCommand2 {
   clickTrackingParams: string;
   commandMetadata: CommandMetadata2;
   createPlaylistServiceEndpoint: CreatePlaylistServiceEndpoint2;
 }
 
-export interface CommandMetadata2 {
+interface CommandMetadata2 {
   webCommandMetadata: WebCommandMetadata2;
 }
 
-export interface WebCommandMetadata2 {
+interface WebCommandMetadata2 {
   sendPost: boolean;
   apiUrl: string;
 }
 
-export interface CreatePlaylistServiceEndpoint2 {
+interface CreatePlaylistServiceEndpoint2 {
   videoIds: string[];
   params: string;
 }
 
-export interface OnAddCommand {
+interface OnAddCommand {
   clickTrackingParams: string;
   getDownloadActionCommand: GetDownloadActionCommand;
 }
 
-export interface GetDownloadActionCommand {
+interface GetDownloadActionCommand {
   videoId: string;
   params: string;
 }
 
-export interface Command {
+interface Command {
   clickTrackingParams: string;
   openPopupAction: OpenPopupAction;
 }
 
-export interface OpenPopupAction {
+interface OpenPopupAction {
   popup: Popup;
   popupType: string;
   beReused: boolean;
 }
 
-export interface Popup {
+interface Popup {
   unifiedSharePanelRenderer: UnifiedSharePanelRenderer;
 }
 
-export interface UnifiedSharePanelRenderer {
+interface UnifiedSharePanelRenderer {
   trackingParams: string;
   showLoadingSpinner: boolean;
 }
 
-export interface Metadata10 {
+interface Metadata10 {
   send_post?: boolean;
   api_url?: string;
 }
 
-export interface SubscriberCount {
+interface SubscriberCount {
   text: string;
 }
 
-export interface VideoCount {
+interface VideoCount {
   text: string;
 }
 
-export interface LongByline {
+interface LongByline {
   runs: Run8[];
   text: string;
   endpoint: Endpoint9;
 }
 
-export interface Run8 {
+interface Run8 {
   text: string;
   bold: boolean;
   italics: boolean;
@@ -598,47 +598,47 @@ export interface Run8 {
   endpoint: Endpoint8;
 }
 
-export interface Endpoint8 {
+interface Endpoint8 {
   type: string;
   payload: Payload11;
   metadata: Metadata11;
 }
 
-export interface Payload11 {
+interface Payload11 {
   browseId: string;
   canonicalBaseUrl: string;
 }
 
-export interface Metadata11 {
+interface Metadata11 {
   url: string;
   page_type: string;
   api_url: string;
 }
 
-export interface Endpoint9 {
+interface Endpoint9 {
   type: string;
   payload: Payload12;
   metadata: Metadata12;
 }
 
-export interface Payload12 {
+interface Payload12 {
   browseId: string;
   canonicalBaseUrl: string;
 }
 
-export interface Metadata12 {
+interface Metadata12 {
   url: string;
   page_type: string;
   api_url: string;
 }
 
-export interface ShortByline {
+interface ShortByline {
   runs: Run9[];
   text: string;
   endpoint: Endpoint11;
 }
 
-export interface Run9 {
+interface Run9 {
   text: string;
   bold: boolean;
   italics: boolean;
@@ -646,104 +646,104 @@ export interface Run9 {
   endpoint: Endpoint10;
 }
 
-export interface Endpoint10 {
+interface Endpoint10 {
   type: string;
   payload: Payload13;
   metadata: Metadata13;
 }
 
-export interface Payload13 {
+interface Payload13 {
   browseId: string;
   canonicalBaseUrl: string;
 }
 
-export interface Metadata13 {
+interface Metadata13 {
   url: string;
   page_type: string;
   api_url: string;
 }
 
-export interface Endpoint11 {
+interface Endpoint11 {
   type: string;
   payload: Payload14;
   metadata: Metadata14;
 }
 
-export interface Payload14 {
+interface Payload14 {
   browseId: string;
   canonicalBaseUrl: string;
 }
 
-export interface Metadata14 {
+interface Metadata14 {
   url: string;
   page_type: string;
   api_url: string;
 }
 
-export interface SubscribeButton {
+interface SubscribeButton {
   type: string;
   text: string;
   is_disabled: boolean;
   endpoint: Endpoint12;
 }
 
-export interface Endpoint12 {
+interface Endpoint12 {
   type: string;
   payload: Payload15;
   metadata: Metadata15;
 }
 
-export interface Payload15 {
+interface Payload15 {
   nextEndpoint: NextEndpoint;
   continueAction: string;
 }
 
-export interface NextEndpoint {
+interface NextEndpoint {
   clickTrackingParams: string;
   commandMetadata: CommandMetadata3;
   searchEndpoint: SearchEndpoint;
 }
 
-export interface CommandMetadata3 {
+interface CommandMetadata3 {
   webCommandMetadata: WebCommandMetadata3;
 }
 
-export interface WebCommandMetadata3 {
+interface WebCommandMetadata3 {
   url: string;
   webPageType: string;
   rootVe: number;
 }
 
-export interface SearchEndpoint {
+interface SearchEndpoint {
   query: string;
   params: string;
 }
 
-export interface Metadata15 {
+interface Metadata15 {
   url: string;
   page_type: string;
 }
 
-export interface DescriptionSnippet {
+interface DescriptionSnippet {
   runs: Run10[];
   text: string;
 }
 
-export interface Run10 {
+interface Run10 {
   text: string;
   bold: boolean;
   italics: boolean;
   strikethrough: boolean;
 }
 
-export interface Content {
+interface Content {
   type: string;
   items: Item2[];
   collapsed_item_count: number;
   collapsed_state_button_text: CollapsedStateButtonText;
 }
 
-export interface Item2 {
+interface Item2 {
   type: string;
   id: string;
   title: Title3;
@@ -765,48 +765,48 @@ export interface Item2 {
   search_video_result_entity_key: string;
 }
 
-export interface Title3 {
+interface Title3 {
   runs: Run11[];
   text: string;
 }
 
-export interface Run11 {
+interface Run11 {
   text: string;
   bold: boolean;
   italics: boolean;
   strikethrough: boolean;
 }
 
-export interface Snippet2 {
+interface Snippet2 {
   text: Text2;
   hover_text: HoverText2;
 }
 
-export interface Text2 {
+interface Text2 {
   runs: Run12[];
   text: string;
 }
 
-export interface Run12 {
+interface Run12 {
   text: string;
   bold: boolean;
   italics: boolean;
   strikethrough: boolean;
 }
 
-export interface HoverText2 {
+interface HoverText2 {
   runs: Run13[];
   text: string;
 }
 
-export interface Run13 {
+interface Run13 {
   text: string;
   bold: boolean;
   italics: boolean;
   strikethrough: boolean;
 }
 
-export interface ExpandableMetadata2 {
+interface ExpandableMetadata2 {
   type: string;
   header: Header2;
   expanded_content: ExpandedContent2;
@@ -814,48 +814,48 @@ export interface ExpandableMetadata2 {
   collapse_button: CollapseButton2;
 }
 
-export interface Header2 {
+interface Header2 {
   collapsed_title: CollapsedTitle2;
   collapsed_thumbnail: CollapsedThumbnail2[];
   collapsed_label: CollapsedLabel2;
   expanded_title: ExpandedTitle2;
 }
 
-export interface CollapsedTitle2 {
+interface CollapsedTitle2 {
   text: string;
 }
 
-export interface CollapsedThumbnail2 {
+interface CollapsedThumbnail2 {
   url: string;
   width: number;
   height: number;
 }
 
-export interface CollapsedLabel2 {
+interface CollapsedLabel2 {
   runs: Run14[];
   text: string;
 }
 
-export interface Run14 {
+interface Run14 {
   text: string;
   bold: boolean;
   italics: boolean;
   strikethrough: boolean;
 }
 
-export interface ExpandedTitle2 {
+interface ExpandedTitle2 {
   runs: Run15[];
   text: string;
 }
 
-export interface Run15 {
+interface Run15 {
   text: string;
   bold: boolean;
   italics: boolean;
   strikethrough: boolean;
 }
 
-export interface ExpandedContent2 {
+interface ExpandedContent2 {
   type: string;
   cards: Card2[];
   header: any;
@@ -863,7 +863,7 @@ export interface ExpandedContent2 {
   next_button: NextButton2;
 }
 
-export interface Card2 {
+interface Card2 {
   type: string;
   title: Title4;
   time_description: TimeDescription2;
@@ -873,185 +873,185 @@ export interface Card2 {
   is_highlighted: boolean;
 }
 
-export interface Title4 {
+interface Title4 {
   text: string;
 }
 
-export interface TimeDescription2 {
+interface TimeDescription2 {
   text: string;
 }
 
-export interface Thumbnail4 {
+interface Thumbnail4 {
   url: string;
   width: number;
   height: number;
 }
 
-export interface OnTapEndpoint2 {
+interface OnTapEndpoint2 {
   type: string;
   payload: Payload16;
   metadata: Metadata16;
 }
 
-export interface Payload16 {
+interface Payload16 {
   videoId?: string;
   watchEndpointSupportedOnesieConfig?: WatchEndpointSupportedOnesieConfig3;
   startTimeSeconds?: number;
   commands?: Command2[];
 }
 
-export interface WatchEndpointSupportedOnesieConfig3 {
+interface WatchEndpointSupportedOnesieConfig3 {
   html5PlaybackOnesieConfig: Html5PlaybackOnesieConfig3;
 }
 
-export interface Html5PlaybackOnesieConfig3 {
+interface Html5PlaybackOnesieConfig3 {
   commonConfig: CommonConfig3;
 }
 
-export interface CommonConfig3 {
+interface CommonConfig3 {
   url: string;
 }
 
-export interface Command2 {
+interface Command2 {
   clickTrackingParams: string;
   commandMetadata?: CommandMetadata4;
   watchEndpoint?: WatchEndpoint;
   entityUpdateCommand?: EntityUpdateCommand;
 }
 
-export interface CommandMetadata4 {
+interface CommandMetadata4 {
   webCommandMetadata: WebCommandMetadata4;
 }
 
-export interface WebCommandMetadata4 {
+interface WebCommandMetadata4 {
   url: string;
   webPageType: string;
   rootVe: number;
 }
 
-export interface WatchEndpoint {
+interface WatchEndpoint {
   videoId: string;
   startTimeSeconds: number;
   watchEndpointSupportedOnesieConfig: WatchEndpointSupportedOnesieConfig4;
 }
 
-export interface WatchEndpointSupportedOnesieConfig4 {
+interface WatchEndpointSupportedOnesieConfig4 {
   html5PlaybackOnesieConfig: Html5PlaybackOnesieConfig4;
 }
 
-export interface Html5PlaybackOnesieConfig4 {
+interface Html5PlaybackOnesieConfig4 {
   commonConfig: CommonConfig4;
 }
 
-export interface CommonConfig4 {
+interface CommonConfig4 {
   url: string;
 }
 
-export interface EntityUpdateCommand {
+interface EntityUpdateCommand {
   entityBatchUpdate: EntityBatchUpdate;
 }
 
-export interface EntityBatchUpdate {
+interface EntityBatchUpdate {
   mutations: Mutation[];
 }
 
-export interface Mutation {
+interface Mutation {
   entityKey: string;
   type: string;
   payload: Payload17;
 }
 
-export interface Payload17 {
+interface Payload17 {
   markersVisibilityOverrideEntity: MarkersVisibilityOverrideEntity;
 }
 
-export interface MarkersVisibilityOverrideEntity {
+interface MarkersVisibilityOverrideEntity {
   key: string;
   videoId: string;
   visibilityOverrideMarkersKey: string[];
 }
 
-export interface Metadata16 {
+interface Metadata16 {
   url?: string;
   page_type?: string;
   api_url?: string;
 }
 
-export interface PreviousButton2 {
+interface PreviousButton2 {
   type: string;
   icon_type: string;
   is_disabled: boolean;
   endpoint: Endpoint13;
 }
 
-export interface Endpoint13 {
+interface Endpoint13 {
   type: string;
   payload: Payload18;
   metadata: Metadata17;
 }
 
-export interface Payload18 {}
+interface Payload18 {}
 
-export interface Metadata17 {}
+interface Metadata17 {}
 
-export interface NextButton2 {
+interface NextButton2 {
   type: string;
   icon_type: string;
   is_disabled: boolean;
   endpoint: Endpoint14;
 }
 
-export interface Endpoint14 {
+interface Endpoint14 {
   type: string;
   payload: Payload19;
   metadata: Metadata18;
 }
 
-export interface Payload19 {}
+interface Payload19 {}
 
-export interface Metadata18 {}
+interface Metadata18 {}
 
-export interface ExpandButton2 {
+interface ExpandButton2 {
   type: string;
   icon_type: string;
   is_disabled: boolean;
   endpoint: Endpoint15;
 }
 
-export interface Endpoint15 {
+interface Endpoint15 {
   type: string;
   payload: Payload20;
   metadata: Metadata19;
 }
 
-export interface Payload20 {}
+interface Payload20 {}
 
-export interface Metadata19 {}
+interface Metadata19 {}
 
-export interface CollapseButton2 {
+interface CollapseButton2 {
   type: string;
   icon_type: string;
   is_disabled: boolean;
   endpoint: Endpoint16;
 }
 
-export interface Endpoint16 {
+interface Endpoint16 {
   type: string;
   payload: Payload21;
   metadata: Metadata20;
 }
 
-export interface Payload21 {}
+interface Payload21 {}
 
-export interface Metadata20 {}
+interface Metadata20 {}
 
-export interface Thumbnail5 {
+interface Thumbnail5 {
   url: string;
   width: number;
   height: number;
 }
 
-export interface ThumbnailOverlay2 {
+interface ThumbnailOverlay2 {
   type: string;
   text: any;
   style?: string;
@@ -1062,57 +1062,57 @@ export interface ThumbnailOverlay2 {
   untoggled_endpoint?: UntoggledEndpoint2;
 }
 
-export interface IconType2 {
+interface IconType2 {
   toggled: string;
   untoggled: string;
 }
 
-export interface Tooltip2 {
+interface Tooltip2 {
   toggled: string;
   untoggled: string;
 }
 
-export interface ToggledEndpoint2 {
+interface ToggledEndpoint2 {
   type: string;
   payload: Payload22;
   metadata: Metadata21;
 }
 
-export interface Payload22 {
+interface Payload22 {
   playlistId?: string;
   actions?: Action4[];
 }
 
-export interface Action4 {
+interface Action4 {
   action: string;
   removedVideoId: string;
 }
 
-export interface Metadata21 {
+interface Metadata21 {
   api_url?: string;
   send_post?: boolean;
 }
 
-export interface UntoggledEndpoint2 {
+interface UntoggledEndpoint2 {
   type: string;
   payload: Payload23;
   metadata: Metadata22;
 }
 
-export interface Payload23 {
+interface Payload23 {
   signal?: string;
   actions: Action5[];
   playlistId?: string;
 }
 
-export interface Action5 {
+interface Action5 {
   clickTrackingParams?: string;
   addToPlaylistCommand?: AddToPlaylistCommand3;
   addedVideoId?: string;
   action?: string;
 }
 
-export interface AddToPlaylistCommand3 {
+interface AddToPlaylistCommand3 {
   openMiniplayer: boolean;
   videoId: string;
   listType: string;
@@ -1120,38 +1120,38 @@ export interface AddToPlaylistCommand3 {
   videoIds: string[];
 }
 
-export interface OnCreateListCommand3 {
+interface OnCreateListCommand3 {
   clickTrackingParams: string;
   commandMetadata: CommandMetadata5;
   createPlaylistServiceEndpoint: CreatePlaylistServiceEndpoint3;
 }
 
-export interface CommandMetadata5 {
+interface CommandMetadata5 {
   webCommandMetadata: WebCommandMetadata5;
 }
 
-export interface WebCommandMetadata5 {
+interface WebCommandMetadata5 {
   sendPost: boolean;
   apiUrl: string;
 }
 
-export interface CreatePlaylistServiceEndpoint3 {
+interface CreatePlaylistServiceEndpoint3 {
   videoIds: string[];
   params: string;
 }
 
-export interface Metadata22 {
+interface Metadata22 {
   send_post: boolean;
   api_url?: string;
 }
 
-export interface RichThumbnail2 {
+interface RichThumbnail2 {
   url: string;
   width: number;
   height: number;
 }
 
-export interface Author2 {
+interface Author2 {
   id: string;
   name: string;
   thumbnails: Thumbnail6[];
@@ -1163,98 +1163,98 @@ export interface Author2 {
   url: string;
 }
 
-export interface Thumbnail6 {
+interface Thumbnail6 {
   url: string;
   width: number;
   height: number;
 }
 
-export interface Endpoint17 {
+interface Endpoint17 {
   type: string;
   payload: Payload24;
   metadata: Metadata23;
 }
 
-export interface Payload24 {
+interface Payload24 {
   browseId: string;
   canonicalBaseUrl: string;
 }
 
-export interface Metadata23 {
+interface Metadata23 {
   url: string;
   page_type: string;
   api_url: string;
 }
 
-export interface Badge3 {
+interface Badge3 {
   type: string;
   icon_type: string;
   style: string;
   tooltip: string;
 }
 
-export interface Badge4 {
+interface Badge4 {
   type: string;
   style: string;
   label: string;
 }
 
-export interface Endpoint18 {
+interface Endpoint18 {
   type: string;
   payload: Payload25;
   metadata: Metadata24;
 }
 
-export interface Payload25 {
+interface Payload25 {
   videoId: string;
   params: string;
   playerParams: string;
   watchEndpointSupportedOnesieConfig: WatchEndpointSupportedOnesieConfig5;
 }
 
-export interface WatchEndpointSupportedOnesieConfig5 {
+interface WatchEndpointSupportedOnesieConfig5 {
   html5PlaybackOnesieConfig: Html5PlaybackOnesieConfig5;
 }
 
-export interface Html5PlaybackOnesieConfig5 {
+interface Html5PlaybackOnesieConfig5 {
   commonConfig: CommonConfig5;
 }
 
-export interface CommonConfig5 {
+interface CommonConfig5 {
   url: string;
 }
 
-export interface Metadata24 {
+interface Metadata24 {
   url: string;
   page_type: string;
   api_url: string;
 }
 
-export interface Published2 {
+interface Published2 {
   text: string;
 }
 
-export interface ViewCount2 {
+interface ViewCount2 {
   text: string;
 }
 
-export interface ShortViewCount2 {
+interface ShortViewCount2 {
   text: string;
 }
 
-export interface Duration2 {
+interface Duration2 {
   text: string;
   seconds: number;
 }
 
-export interface Menu2 {
+interface Menu2 {
   type: string;
   items: Item3[];
   top_level_buttons: any[];
   label: string;
 }
 
-export interface Item3 {
+interface Item3 {
   type: string;
   text?: string;
   icon_type?: string;
@@ -1262,13 +1262,13 @@ export interface Item3 {
   has_separator?: boolean;
 }
 
-export interface Endpoint19 {
+interface Endpoint19 {
   type: string;
   payload: Payload26;
   metadata: Metadata25;
 }
 
-export interface Payload26 {
+interface Payload26 {
   signal?: string;
   actions?: Action6[];
   videoId?: string;
@@ -1277,12 +1277,12 @@ export interface Payload26 {
   commands?: Command3[];
 }
 
-export interface Action6 {
+interface Action6 {
   clickTrackingParams: string;
   addToPlaylistCommand: AddToPlaylistCommand4;
 }
 
-export interface AddToPlaylistCommand4 {
+interface AddToPlaylistCommand4 {
   openMiniplayer: boolean;
   videoId: string;
   listType: string;
@@ -1290,74 +1290,74 @@ export interface AddToPlaylistCommand4 {
   videoIds: string[];
 }
 
-export interface OnCreateListCommand4 {
+interface OnCreateListCommand4 {
   clickTrackingParams: string;
   commandMetadata: CommandMetadata6;
   createPlaylistServiceEndpoint: CreatePlaylistServiceEndpoint4;
 }
 
-export interface CommandMetadata6 {
+interface CommandMetadata6 {
   webCommandMetadata: WebCommandMetadata6;
 }
 
-export interface WebCommandMetadata6 {
+interface WebCommandMetadata6 {
   sendPost: boolean;
   apiUrl: string;
 }
 
-export interface CreatePlaylistServiceEndpoint4 {
+interface CreatePlaylistServiceEndpoint4 {
   videoIds: string[];
   params: string;
 }
 
-export interface OnAddCommand2 {
+interface OnAddCommand2 {
   clickTrackingParams: string;
   getDownloadActionCommand: GetDownloadActionCommand2;
 }
 
-export interface GetDownloadActionCommand2 {
+interface GetDownloadActionCommand2 {
   videoId: string;
   params: string;
 }
 
-export interface Command3 {
+interface Command3 {
   clickTrackingParams: string;
   openPopupAction: OpenPopupAction2;
 }
 
-export interface OpenPopupAction2 {
+interface OpenPopupAction2 {
   popup: Popup2;
   popupType: string;
   beReused: boolean;
 }
 
-export interface Popup2 {
+interface Popup2 {
   unifiedSharePanelRenderer: UnifiedSharePanelRenderer2;
 }
 
-export interface UnifiedSharePanelRenderer2 {
+interface UnifiedSharePanelRenderer2 {
   trackingParams: string;
   showLoadingSpinner: boolean;
 }
 
-export interface Metadata25 {
+interface Metadata25 {
   send_post?: boolean;
   api_url?: string;
 }
 
-export interface CollapsedStateButtonText {
+interface CollapsedStateButtonText {
   runs: Run16[];
   text: string;
 }
 
-export interface Run16 {
+interface Run16 {
   text: string;
   bold: boolean;
   italics: boolean;
   strikethrough: boolean;
 }
 
-export interface Item4 {
+interface Item4 {
   type: string;
   id: string;
   title: Title5;
@@ -1367,27 +1367,27 @@ export interface Item4 {
   accessibility_label: string;
 }
 
-export interface Title5 {
+interface Title5 {
   text: string;
 }
 
-export interface Thumbnail7 {
+interface Thumbnail7 {
   url: string;
   width: number;
   height: number;
 }
 
-export interface Views {
+interface Views {
   text: string;
 }
 
-export interface Endpoint20 {
+interface Endpoint20 {
   type: string;
   payload: Payload27;
   metadata: Metadata26;
 }
 
-export interface Payload27 {
+interface Payload27 {
   videoId: string;
   playerParams: string;
   thumbnail: Thumbnail8;
@@ -1399,41 +1399,41 @@ export interface Payload27 {
   ustreamerConfig: string;
 }
 
-export interface Thumbnail8 {
+interface Thumbnail8 {
   thumbnails: Thumbnail9[];
   isOriginalAspectRatio: boolean;
 }
 
-export interface Thumbnail9 {
+interface Thumbnail9 {
   url: string;
   width: number;
   height: number;
 }
 
-export interface Overlay {
+interface Overlay {
   reelPlayerOverlayRenderer: ReelPlayerOverlayRenderer;
 }
 
-export interface ReelPlayerOverlayRenderer {
+interface ReelPlayerOverlayRenderer {
   style: string;
   trackingParams: string;
   reelPlayerNavigationModel: string;
 }
 
-export interface LoggingContext {
+interface LoggingContext {
   vssLoggingContext: VssLoggingContext;
   qoeLoggingContext: QoeLoggingContext;
 }
 
-export interface VssLoggingContext {
+interface VssLoggingContext {
   serializedContextData: string;
 }
 
-export interface QoeLoggingContext {
+interface QoeLoggingContext {
   serializedContextData: string;
 }
 
-export interface Metadata26 {
+interface Metadata26 {
   url: string;
   page_type: string;
   api_url: string;

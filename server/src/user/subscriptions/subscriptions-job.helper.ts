@@ -122,7 +122,7 @@ const convertStarsToLikesDislikes = ({
   return { likes, dislikes };
 };
 
-export const getChannelFeed = async (
+const getChannelFeed = async (
   channelId: string
 ): Promise<{
   channel: ChannelBasicInfoDto;
