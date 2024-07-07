@@ -12,7 +12,6 @@ import { fixUrl } from 'server/mapper/utils/fix-url';
 import { getHandleFromUrl } from 'server/mapper/utils/handle';
 import { parseRelativeTime } from 'server/mapper/utils/parse-relative-time';
 import { parseShortenedNumber } from 'server/mapper/utils/shortened-number';
-import { YT } from 'youtubei.js';
 import { SearchSourceApproximation } from './search-source-approximation';
 
 export const extractSearchResults = (searchResults: SearchSourceApproximation[]) => {
@@ -172,12 +171,4 @@ const extractSearchChannel = (channel: SearchSourceApproximation) => {
       url: fixUrl(thumbnail.url)
     }))
   } satisfies VTSearchChannelResultDto;
-};
-
-export const extractEstimatedResultCount = (searchResult: YT.Search) => {
-  return searchResult?.estimated_results;
-};
-
-export const extractRefinements = (searchResult: YT.Search) => {
-  return searchResult?.refinements;
 };

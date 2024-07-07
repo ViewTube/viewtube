@@ -1,9 +1,17 @@
 {
   "$schema": "https://unpkg.com/knip@5/schema.json",
   "workspaces": {
+    ".": {
+      "project": ["eslint.config.mjs"]
+    },
     "server": {
       "entry": "src/main.ts",
       "project": ["src/**/*.ts"]
+    },
+    "shared": {
+      "entry": "src/index.ts",
+      "project": ["src/**/*.ts", "!src/api.schema.ts"]
     }
-  }
+  },
+  "ignore": ["client/**"]
 }
