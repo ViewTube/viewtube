@@ -1,4 +1,4 @@
-FROM node:20-bookworm as build
+FROM node:20-bookworm AS build
 WORKDIR /home/build
 
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
@@ -21,7 +21,7 @@ RUN rm -rf node_modules client/node_modules server/node_modules shared/node_modu
 
 RUN CI=true pnpm --filter=./server --filter=./client install --frozen-lockfile --prod
 
-FROM node:20-bookworm-slim as runtime
+FROM node:20-bookworm-slim AS runtime
 WORKDIR /home/app
 
 ENV NODE_ENV=production

@@ -2,6 +2,7 @@ import { CacheModule } from '@nestjs/cache-manager';
 import { Logger, Module, ModuleMetadata } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { CacheConfigService } from 'server/cache-config.service';
+import { HistoryModule } from 'server/user/history/history.module';
 import { HomepageController } from './homepage.controller';
 import { HomepageService } from './homepage.service';
 
@@ -12,7 +13,8 @@ const moduleMetadata: ModuleMetadata = {
     CacheModule.registerAsync({
       useClass: CacheConfigService
     }),
-    ConfigModule.forRoot()
+    ConfigModule.forRoot(),
+    HistoryModule
   ]
 };
 @Module(moduleMetadata)

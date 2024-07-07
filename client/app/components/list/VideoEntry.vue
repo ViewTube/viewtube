@@ -67,6 +67,10 @@ type VideoType = {
       }
     | number;
   uploadedAt?: string;
+  userData?: {
+    videoLength?: number;
+    watchProgress?: number;
+  };
 };
 
 const props = defineProps<{
@@ -119,6 +123,8 @@ const videoDuration = computed(() => {
     return props.video.duration.text;
   } else if (typeof props.video.duration === 'string') {
     return props.video.duration;
+  } else if (props.video.userData?.videoLength) {
+    return formatting.getTimestampFromSeconds(props.video.userData.videoLength);
   }
   return 0;
 });
@@ -311,6 +317,17 @@ const videoViewsText = computed(() => {
         <span class="live-text">Live</span>
       </div>
       <span v-if="videoDuration" class="video-entry-length">{{ videoDuration }}</span>
+      <div
+        v-if="video.userData?.watchProgress && video.userData?.videoLength"
+        class="video-entry-watched"
+      >
+        <div
+          class="watch-progress"
+          :style="{
+            width: `${(video.userData.watchProgress / video.userData.videoLength) * 100}%`
+          }"
+        />
+      </div>
     </nuxt-link>
 
     <div class="video-entry-info">
@@ -556,15 +573,6 @@ const videoViewsText = computed(() => {
       }
     }
 
-    .video-saved-progress {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      height: 3px;
-      background-color: var(--theme-color);
-      max-width: 100%;
-    }
-
     .video-entry-length {
       text-decoration: none;
       color: $video-thmb-overlay-textcolor;
@@ -578,6 +586,20 @@ const videoViewsText = computed(() => {
       border-radius: 4px;
       font-family: $default-font;
       transition: transform 200ms $intro-easing;
+    }
+
+    .video-entry-watched {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background-color: var(--line-color);
+
+      .watch-progress {
+        height: 100%;
+        background-color: var(--theme-color);
+      }
     }
   }
 
