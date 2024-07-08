@@ -38,7 +38,7 @@
   ],
   "devDependencies": {
     "@types/node": "20.14.10",
-    "@typescript-eslint/parser": "8.0.0-alpha.40",
+    "@typescript-eslint/parser": "8.0.0-alpha.41",
     "eslint": "9.6.0",
     "eslint-plugin-cypress": "3.3.0",
     "globals": "15.8.0",
@@ -54,9 +54,9 @@
     "overrides": {
       "has": "npm:@nolyfill/has@latest",
       "side-channel": "npm:@nolyfill/side-channel@latest",
-      "@typescript-eslint/eslint-plugin": "8.0.0-alpha.40",
-      "@typescript-eslint/parser": "8.0.0-alpha.40",
-      "@typescript-eslint/utils": "8.0.0-alpha.40"
+      "@typescript-eslint/eslint-plugin": "8.0.0-alpha.41",
+      "@typescript-eslint/parser": "8.0.0-alpha.41",
+      "@typescript-eslint/utils": "8.0.0-alpha.41"
     }
   }
 }
