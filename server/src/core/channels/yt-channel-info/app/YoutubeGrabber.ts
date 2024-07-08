@@ -99,6 +99,12 @@ export class YoutubeGrabber {
           .topicChannelDetailsRenderer;
       //  = topicChannelDetailsRenderer
     }
+
+    if (!channelHeaderData) {
+      channelHeaderData =
+        channelPageDataResponse?.header?.pageHeaderRenderer?.content?.pageHeaderViewModel;
+    }
+
     const headerTabs = channelPageDataResponse?.contents?.twoColumnBrowseResultsRenderer?.tabs;
     const channelTabs = headerTabs
       .filter(tab => tab?.tabRenderer !== undefined && tab?.tabRenderer !== null)
@@ -151,6 +157,10 @@ export class YoutubeGrabber {
 
     if (typeof channelHeaderData?.banner !== 'undefined') {
       bannerThumbnails = channelHeaderData?.banner?.thumbnails;
+
+      if (!bannerThumbnails) {
+        bannerThumbnails = channelHeaderData?.banner?.imageBannerViewModel?.image?.sources;
+      }
     }
 
     const subscriberSplit = subscriberText?.split(' ');

@@ -60,7 +60,7 @@ const getSocksProxyAgent = (proxyUrl: string) => {
   const socksProxy = parseSocksURL(proxyUrl);
   const socksProxyAgent = socksDispatcher(socksProxy);
   return {
-    proxyAgent: socksDispatcher(socksProxy),
+    proxyAgent: socksProxyAgent,
     done: async () => {
       await socksProxyAgent.close();
     }

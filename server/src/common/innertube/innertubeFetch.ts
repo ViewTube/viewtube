@@ -21,6 +21,8 @@ export const innertubeFetch = async (input: InputType, init?: RequestInit) => {
     url = input.url;
   }
 
+  console.log(url);
+
   return vtFetch.rawFetch(url, {
     ...(typeof input === 'string' ? {} : input),
     ...init,

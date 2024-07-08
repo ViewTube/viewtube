@@ -5,6 +5,7 @@ import fs from 'fs';
 import { Model } from 'mongoose';
 import path from 'path';
 import { General } from 'server/common/general.schema';
+import { innertubeClient } from 'server/common/innertube/innertube';
 import sharp from 'sharp';
 import { checkParams, throwChannelError } from './channels.helper';
 import { ChannelCommunityPostsContinuationDto } from './dto/response/channel-community-posts-continuation.dto';
@@ -30,6 +31,24 @@ export class ChannelsService {
     private readonly GeneralModel: Model<General>
   ) {}
 
+  async resolveId(channelId: string): Promise<string> {
+    if (!checkParams(channelId)) {
+      throw new BadRequestException('Error fetching channel homepage', 'Invalid channelId');
+    }
+    if (channelId.startsWith('UC') && channelId.length === 24) {
+      return channelId;
+    }
+
+    const innertube = await innertubeClient();
+
+    const page = await innertube.resolveURL(`http://youtube.com/${channelId}`);
+    if (page?.payload?.browseId) {
+      return page.payload.browseId;
+    }
+
+    throw new NotFoundException('Channel not found');
+  }
+
   async getChannelHome(channelId: string): Promise<ChannelHomeDto | ChannelInfoError> {
     if (!checkParams(channelId)) {
       throw new BadRequestException('Error fetching channel homepage', 'Invalid channelId');
@@ -43,12 +62,11 @@ export class ChannelsService {
     // }
   }
 
-  getChannelInfo(channelId: string): Promise<ChannelInfoDto | ChannelInfoError> {
-    if (!checkParams(channelId)) {
-      throw new BadRequestException('Error fetching channel info', 'Invalid channelId');
-    }
+  async getChannelInfo(channelId: string): Promise<ChannelInfoDto | ChannelInfoError> {
     try {
-      return YoutubeGrabber.getChannelInfo({ channelId }) as unknown as Promise<ChannelInfoDto>;
+      const id = await this.resolveId(channelId);
+      const innertube = await innertubeClient();
+      return (await innertube.getChannel(id)).getAbout() as any;
     } catch (error) {
       throwChannelError(error, 'Error fetching channel info');
     }
