@@ -144,8 +144,8 @@ importers:
         specifier: 1.5.3
         version: 1.5.3
       rx-player:
-        specifier: 4.0.0
-        version: 4.0.0
+        specifier: 4.1.0
+        version: 4.1.0
       sanitize-html:
         specifier: 2.13.0
         version: 2.13.0
@@ -6142,8 +6142,8 @@ packages:
   run-parallel@1.2.0:
     resolution: {integrity: sha512-5l4VyZR86LZ/lDxZTR6jqL8AFE2S0IFLMP26AbjsLVADxHdhB/c0GUsH+y39UfCi3dzz8OlQuPmnaJOMoDHQBA==}
 
-  rx-player@4.0.0:
-    resolution: {integrity: sha512-Ye36kPOvsGY67DIhkuciYLXI1VCc2i+YOLB5KpnQGt+3+E1igxIqQ3zx6UJjy2yNuhXzXjqKWMFxnxdvqf4+Ng==}
+  rx-player@4.1.0:
+    resolution: {integrity: sha512-RgJ3PNzPo4rZ0sY9crMlOw3IXlNGWC4xCjOppfUSTt47l+ik2IPlqwAslLAfkcAomppNYQ8MHiJow3hLum22HQ==}
 
   rxjs@7.8.1:
     resolution: {integrity: sha512-AA3TVj+0A2iuIoQkWEK/tqFjBq2j+6PO6Y0zJcvzLAFhEFIO3HL0vls9hWLncZbAAbK0mar7oZ4V079I/qPMxg==}
@@ -13844,7 +13844,7 @@ snapshots:
     dependencies:
       queue-microtask: 1.2.3
 
-  rx-player@4.0.0: {}
+  rx-player@4.1.0: {}
 
   rxjs@7.8.1:
     dependencies:
