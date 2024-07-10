@@ -62,7 +62,7 @@
     "svg-captcha": "1.4.0",
     "undici": "6.19.2",
     "web-push": "3.6.7",
-    "winston": "3.13.0",
+    "winston": "3.13.1",
     "winston-daily-rotate-file": "5.0.0",
     "youtubei.js": "10.1.0",
     "ytpl": "2.3.0"
