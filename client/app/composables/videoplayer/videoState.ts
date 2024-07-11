@@ -137,14 +137,9 @@ export const useVideoState = ({
   };
   const stop = () => adapterInstance.value?.stop();
   const setVolume = (volume: number) => {
-    let volumeValue = volume;
-    if (volume < 0) {
-      volumeValue = 0;
-    } else if (volume > 1) {
-      volumeValue = 1;
-    }
-    volumeStorage.value = volumeValue;
-    adapterInstance.value?.setVolume(volumeValue);
+    const clampedVolume = clamp(volume, 0, 1);
+    volumeStorage.value = clampedVolume;
+    adapterInstance.value?.setVolume(clampedVolume);
   };
   const setMuted = (muted: boolean) => (videoElementRef.value.muted = muted);
   const setPlaybackRate = (playbackRate: number) =>
@@ -208,6 +203,16 @@ export const useVideoState = ({
   };
 
   useMediaSession({ video, videoState, play, pause, stop, setTime, onNextTrack });
+
+  function clamp(value: number, min: number, max: number): number {
+    if (value < min) {
+      return min;
+    }
+    if (value > max) {
+      return max;
+    }
+    return value;
+  }
 
   return {
     video: videoState,
