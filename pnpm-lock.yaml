@@ -249,8 +249,8 @@ importers:
         specifier: 5.7.1
         version: 5.7.1
       cache-manager-redis-yet:
-        specifier: 5.1.2
-        version: 5.1.2
+        specifier: 5.1.3
+        version: 5.1.3
       class-transformer:
         specifier: 0.5.1
         version: 0.5.1
@@ -3007,12 +3007,16 @@ packages:
     resolution: {integrity: sha512-b6Ilus+c3RrdDk+JhLKUAQfzzgLEPy6wcXqS7f/xe1EETvsDP6GORG7SFuOs6cID5YkqchW/LXZbX5bc8j7ZcQ==}
     engines: {node: '>=8'}
 
-  cache-manager-redis-yet@5.1.2:
-    resolution: {integrity: sha512-InCnAd2CB8NPfhtCT5CAyPQc5jqPgO/SpCJnA52QZnYhJ6GiZgPQebd8ugEueQuoV2PbuS13YxKR54atqF0AgQ==}
+  cache-manager-redis-yet@5.1.3:
+    resolution: {integrity: sha512-V/IcEBqNQkwlPz/p4AsJLCBFmv3KVasQPSuQZx4ykPCbBm3ybIDoqf6dXuOKaBwIk7CQwoNxTR8HJ5Bssv1iYg==}
     engines: {node: '>= 18'}
 
   cache-manager@5.7.1:
     resolution: {integrity: sha512-dONlk3HCRelyxH9ctcXBgFihKmtSdudc9H0E39pBQeUaNcBJV3vcmcvifRUGqbeKk+uWCQpAts3uvnj+79Ebrg==}
+    engines: {node: '>= 18'}
+
+  cache-manager@5.7.2:
+    resolution: {integrity: sha512-YJ4YL4hCbn2P11vK85eo1W8nF1L9FBnRvqzRmGEy0qwNxojrsKe8U09zvRoQFo1hidbw4wfTsyce8HIo8Pvvyw==}
     engines: {node: '>= 18'}
 
   cacheable-lookup@5.0.4:
@@ -4976,6 +4980,10 @@ packages:
   lru-cache@10.4.0:
     resolution: {integrity: sha512-bfJaPTuEiTYBu+ulDaeQ0F+uLmlfFkMgXj4cbwfuMSjgObGMzb55FMMbDvbRU0fAHZ4sLGkz2mKwcMg8Dvm8Ww==}
     engines: {node: '>=18'}
+
+  lru-cache@11.0.0:
+    resolution: {integrity: sha512-Qv32eSV1RSCfhY3fpPE2GNZ8jgM9X7rdAfemLWqTUxwiyIC4jJ6Sy0fZ8H+oLWevO6i4/bizg7c8d8i6bxrzbA==}
+    engines: {node: 20 || >=22}
 
   lru-cache@4.1.5:
     resolution: {integrity: sha512-sWZlbEP2OsHNkXrMl5GYk/jKk70MBng6UU4YI/qGDYbgf6YbP4EvmqISbXCoJiRKs+1bSpFHVgQxvJ17F2li5g==}
@@ -10379,7 +10387,7 @@ snapshots:
 
   cac@6.7.14: {}
 
-  cache-manager-redis-yet@5.1.2:
+  cache-manager-redis-yet@5.1.3:
     dependencies:
       '@redis/bloom': 1.2.0(@redis/client@1.5.17)
       '@redis/client': 1.5.17
@@ -10387,7 +10395,7 @@ snapshots:
       '@redis/json': 1.0.6(@redis/client@1.5.17)
       '@redis/search': 1.1.6(@redis/client@1.5.17)
       '@redis/time-series': 1.0.5(@redis/client@1.5.17)
-      cache-manager: 5.7.1
+      cache-manager: 5.7.2
       redis: 4.6.15
 
   cache-manager@5.7.1:
@@ -10395,6 +10403,13 @@ snapshots:
       eventemitter3: 5.0.1
       lodash.clonedeep: 4.5.0
       lru-cache: 10.4.0
+      promise-coalesce: 1.1.2
+
+  cache-manager@5.7.2:
+    dependencies:
+      eventemitter3: 5.0.1
+      lodash.clonedeep: 4.5.0
+      lru-cache: 11.0.0
       promise-coalesce: 1.1.2
 
   cacheable-lookup@5.0.4: {}
@@ -12606,6 +12621,8 @@ snapshots:
   lowercase-keys@2.0.0: {}
 
   lru-cache@10.4.0: {}
+
+  lru-cache@11.0.0: {}
 
   lru-cache@4.1.5:
     dependencies:
