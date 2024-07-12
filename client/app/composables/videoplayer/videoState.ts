@@ -137,8 +137,9 @@ export const useVideoState = ({
   };
   const stop = () => adapterInstance.value?.stop();
   const setVolume = (volume: number) => {
-    volumeStorage.value = volume;
-    adapterInstance.value?.setVolume(volume);
+    const clampedVolume = clamp(volume, 0, 1);
+    volumeStorage.value = clampedVolume;
+    adapterInstance.value?.setVolume(clampedVolume);
   };
   const setMuted = (muted: boolean) => (videoElementRef.value.muted = muted);
   const setPlaybackRate = (playbackRate: number) =>
@@ -169,7 +170,7 @@ export const useVideoState = ({
           lengthSeconds: videoState.duration
         },
         credentials: 'include'
-      }).catch(_ => {});
+      }).catch(_ => { });
     }
   };
 
@@ -202,6 +203,16 @@ export const useVideoState = ({
   };
 
   useMediaSession({ video, videoState, play, pause, stop, setTime, onNextTrack });
+
+  function clamp(value: number, min: number, max: number): number {
+    if (value < min) {
+      return min;
+    }
+    if (value > max) {
+      return max;
+    }
+    return value;
+  }
 
   return {
     video: videoState,
