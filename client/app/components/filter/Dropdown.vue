@@ -199,6 +199,9 @@ visible.value = true;
   z-index: 901;
   margin: 0;
 
+  transform: scale(0.8);
+  clip-path: polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%);
+
   @media screen and (max-width: $mobile-width) {
     width: calc(100% - 28px) !important;
     top: 50vh !important;
@@ -228,9 +231,6 @@ visible.value = true;
       pointer-events: auto !important;
     }
   }
-
-  transform: scale(0.8);
-  clip-path: polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%);
 
   &.open {
     clip-path: polygon(-50% -50%, 150% -50%, 150% 150%, -50% 150%);

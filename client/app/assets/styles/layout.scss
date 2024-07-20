@@ -171,10 +171,10 @@ button,
   }
 
   &:focus {
+    outline: none;
     &::after {
       box-shadow: 0 0 0 2px var(--theme-color);
     }
-    outline: none;
   }
 }
 
