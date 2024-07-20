@@ -81,6 +81,7 @@ const { posAbsolute, topPositionPx } = useHeaderScroll();
 
   a {
     outline: 0;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 
     &:hover,
     &:focus,
@@ -89,7 +90,6 @@ const { posAbsolute, topPositionPx } = useHeaderScroll();
       -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
       background-color: transparent;
     }
-    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 
     &:active {
       background-color: transparent !important;

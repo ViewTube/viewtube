@@ -37,13 +37,13 @@
     "not Edge 18"
   ],
   "devDependencies": {
-    "@types/node": "20.14.10",
+    "@types/node": "20.14.11",
     "@typescript-eslint/parser": "8.0.0-alpha.41",
-    "eslint": "9.6.0",
+    "eslint": "9.7.0",
     "eslint-plugin-cypress": "3.3.0",
     "globals": "15.8.0",
-    "knip": "5.24.4",
-    "prettier": "3.3.2",
+    "knip": "5.26.0",
+    "prettier": "3.3.3",
     "prettier-plugin-organize-imports": "4.0.0",
     "typescript": "5.5.3"
   },
