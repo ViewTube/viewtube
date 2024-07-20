@@ -1,15 +1,20 @@
 # Changelog
 
-## [0.16.3]
+## [0.17.0]
 
 ### Added
 
 - Support short URLs (like https://viewtube.io/dQw4w9WgXcQ) [#2846](https://github.com/ViewTube/viewtube/pull/2846)
-- Notify user if video is age restricted [#2847](https://github.com/ViewTube/viewtube/pull/2847)
+- New navigation menu [#2853](https://github.com/ViewTube/viewtube/pull/2853)
+- Notify user of reason for streaming unavailability [#2847](https://github.com/ViewTube/viewtube/pull/2847) and [#2860](https://github.com/ViewTube/viewtube/pull/2860)
+- Show watched progress of videos for trending videos [#2916](https://github.com/ViewTube/viewtube/pull/2916)
+  - Note: This is only for the trending videos for now, but will be available on all pages in the future
+- Add livestream support for iOS (on iPhone) devices [#2875](https://github.com/ViewTube/viewtube/pull/2875)
 
 ### Fixed
 
-- Pick up query params for internal requests in vtFetch [#2844](https://github.com/ViewTube/viewtube/pull/2844)
+- Limit volume to a value between 0 and 1 (Thanks @patricgruber) [#2931](https://github.com/ViewTube/viewtube/pull/2931)
+- Pick up query params for internal requests in vtFetch (This fixes reloading the search page) [#2844](https://github.com/ViewTube/viewtube/pull/2844)
 
 ## [0.16.2]
 
@@ -468,7 +473,8 @@
 
 - Initial release
 
-[unreleased]: https://github.com/viewtube/viewtube/compare/v0.16.3...development
+[unreleased]: https://github.com/viewtube/viewtube/compare/v0.17.0...development
+[0.17.0]: https://github.com/viewtube/viewtube/compare/v0.16.3...v0.17.0
 [0.16.3]: https://github.com/viewtube/viewtube/compare/v0.16.2...v0.16.3
 [0.16.2]: https://github.com/viewtube/viewtube/compare/v0.16.1...v0.16.2
 [0.16.1]: https://github.com/viewtube/viewtube/compare/v0.16.0...v0.16.1
