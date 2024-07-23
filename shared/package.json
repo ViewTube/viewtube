@@ -17,7 +17,7 @@
   "devDependencies": {
     "@types/node": "20.14.11",
     "stylelint": "16.7.0",
-    "typescript": "5.5.3",
+    "typescript": "5.5.4",
     "vite": "5.3.4",
     "vite-plugin-checker": "0.7.2",
     "vite-plugin-dts": "3.9.1",
