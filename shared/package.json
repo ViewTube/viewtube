@@ -15,7 +15,7 @@
   },
   "types": "./dist/index.d.ts",
   "devDependencies": {
-    "@types/node": "20.14.11",
+    "@types/node": "20.14.12",
     "stylelint": "16.7.0",
     "typescript": "5.5.4",
     "vite": "5.3.4",
