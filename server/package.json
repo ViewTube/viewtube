@@ -64,7 +64,7 @@
     "web-push": "3.6.7",
     "winston": "3.13.1",
     "winston-daily-rotate-file": "5.0.0",
-    "youtubei.js": "10.1.0",
+    "youtubei.js": "10.3.0",
     "ytpl": "2.3.0"
   },
   "devDependencies": {
