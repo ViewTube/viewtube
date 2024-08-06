@@ -1,7 +1,3 @@
 export const fixUrl = (url: string) => {
-  if (url.startsWith('//')) {
-    return `https:${url}`;
-  } else {
-    return url;
-  }
+  return url.startsWith('//') ? `https:${url}` : url;
 };

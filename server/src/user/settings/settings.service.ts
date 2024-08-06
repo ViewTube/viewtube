@@ -44,25 +44,25 @@ export class SettingsService {
   };
 
   async setSettings(settings: Partial<SettingsDto>, username: string): Promise<void> {
-    if (username) {
-      try {
-        await this.SettingsModel.findOneAndUpdate({ username }, settings, { upsert: true }).exec();
-      } catch {
-        throw new InternalServerErrorException('Error updating settings');
-      }
-    } else {
+    if (!username) {
       throw new InternalServerErrorException('Error finding user');
+    }
+
+    try {
+      await this.SettingsModel.findOneAndUpdate({ username }, settings, { upsert: true }).exec();
+    } catch {
+      throw new InternalServerErrorException('Error updating settings');
     }
   }
 
   async getSettings(username: string): Promise<SettingsDto> {
-    if (username) {
-      try {
-        const settings = (await this.SettingsModel.findOne({ username }).exec()) || {};
-        return this.getCompleteSettingsObject(settings);
-      } catch {
-        throw new InternalServerErrorException('Error retrieving settings');
-      }
+    if (!username) return;
+
+    try {
+      const settings = (await this.SettingsModel.findOne({ username }).exec()) || {};
+      return this.getCompleteSettingsObject(settings);
+    } catch {
+      throw new InternalServerErrorException('Error retrieving settings');
     }
   }
 

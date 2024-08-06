@@ -159,10 +159,7 @@ export class AdminService {
 
   async isVideoBlocked(videoId: string): Promise<boolean> {
     const blockedVideo = await this.BlockedVideoModel.findOne({ videoId }).exec();
-    if (!blockedVideo) {
-      return false;
-    }
-    return true;
+    return !!blockedVideo;
   }
 
   async blockVideoId(videoId: string): Promise<string> {

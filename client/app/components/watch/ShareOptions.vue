@@ -106,9 +106,8 @@ export default defineComponent({
     const encodedUrl = () => {
       if (import.meta.client) {
         return encodeURIComponent(window.location.href);
-      } else {
-        return '';
       }
+      return '';
     };
 
     return {

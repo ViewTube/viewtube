@@ -10,21 +10,21 @@ export const useChannelVideosContinuation = <T extends ApiDto<'ChannelVideosDto'
   const moreVideosPending = ref(false);
 
   const onLoadMore = async () => {
+    if (!videos.value.continuation) return;
+
     moreVideosPending.value = true;
-    if (videos.value.continuation) {
-      try {
-        const additionalVideos = await getChannelVideosContinuation(videos.value.continuation);
-        videos.value.items = [...videos.value.items, ...additionalVideos.items];
-        videos.value.continuation = additionalVideos.continuation;
-      } catch (error) {
-        messagesStore.createMessage({
-          type: 'error',
-          title: 'Failed to load more videos',
-          message:
-            (error as any).message ??
-            "More videos don't seem to be available, or something went wrong."
-        });
-      }
+    try {
+      const additionalVideos = await getChannelVideosContinuation(videos.value.continuation);
+      videos.value.items = [...videos.value.items, ...additionalVideos.items];
+      videos.value.continuation = additionalVideos.continuation;
+    } catch (error) {
+      messagesStore.createMessage({
+        type: 'error',
+        title: 'Failed to load more videos',
+        message:
+          (error as any).message ??
+          "More videos don't seem to be available, or something went wrong."
+      });
     }
     moreVideosPending.value = false;
   };

@@ -12,9 +12,7 @@ const props = withDefaults(
 );
 
 const iconName = computed((): string => {
-  if (!props.name) {
-    return '';
-  }
+  if (!props.name) return '';
   return `i-${props.name.replace(':', '-')}`;
 });
 </script>

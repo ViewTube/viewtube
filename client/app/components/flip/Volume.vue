@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { clamp } from '@vueuse/core';
+
 const props = defineProps<{
   mobile?: boolean;
   videoState: VideoState;
@@ -13,11 +15,8 @@ const onVolumeSeekStop = () => {
 };
 
 const setVolume = (volume: number) => {
-  if (volume < 0) volume = 0;
-  if (volume > 1) volume = 1;
-  if (volume > 0) {
-    props.videoState.setMuted(false);
-  }
+  volume = clamp(volume, 0, 1);
+  props.videoState.setMuted(volume === 0);
   props.videoState.setVolume(volume);
 };
 </script>

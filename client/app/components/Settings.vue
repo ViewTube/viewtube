@@ -52,15 +52,13 @@ const videoSpeedArray = [
 ];
 
 function setSponsorBlockUrl() {
-  if (!isSponsorBlockUrlValid.value) {
-    return;
+  if (isSponsorBlockUrlValid.value) {
+    settingsStore.sponsorblockUrl = sponsorBlockUrl.value;
   }
-  settingsStore.sponsorblockUrl = sponsorBlockUrl.value;
 }
 
 function resetSponsorBlockUrl() {
-  settingsStore.sponsorblockUrl = 'https://sponsor.ajay.app/';
-  sponsorBlockUrl.value = settingsStore.sponsorblockUrl;
+  settingsStore.sponsorblockUrl = sponsorBlockUrl.value = 'https://sponsor.ajay.app/';
 }
 </script>
 

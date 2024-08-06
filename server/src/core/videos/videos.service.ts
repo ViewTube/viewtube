@@ -76,7 +76,7 @@ export class VideosService {
             return url;
           });
         } catch {
-          dashManifest = null;
+          // Ignore silently
         }
       }
 
@@ -123,17 +123,19 @@ export class VideosService {
       `${this.returnYoutubeDislikeUrl}/Votes?videoId=${id}`
     );
 
-    if (body) {
-      const responseObject = await body.json();
-
-      if (!isNaN(responseObject.dislikes)) {
-        return responseObject;
-      } else if (responseObject.status) {
-        throw new HttpException(responseObject, responseObject.status);
-      }
+    if (!body) {
+      throw new HttpException('Error fetching dislike information', 503);
     }
 
-    throw new HttpException('Error fetching dislike information', 503);
+    const responseObject = await body.json();
+
+    if (!isNaN(responseObject.dislikes)) {
+      return responseObject;
+    }
+    
+    if (responseObject.status) {
+      throw new HttpException(responseObject, responseObject.status);
+    }
   }
 
   async getSkipSegments(id: string, url?: string): Promise<SponsorBlockSegmentsDto> {
@@ -175,58 +177,58 @@ export class VideosService {
       }
     );
 
-    if (body) {
-      const skipSectionsArray = await body.json();
-
-      if (!Array.isArray(skipSectionsArray)) {
-        throw new InternalServerErrorException('Error fetching skip segments');
-      }
-
-      const skipSections = skipSectionsArray?.find(el => el.videoID === id);
-
-      if (!skipSections) {
-        return {
-          videoID: id,
-          hash: idHash,
-          segments: []
-        };
-      }
-
-      if (skipSections) {
-        return skipSections;
-      }
+    if (!body) {
+      throw new InternalServerErrorException('Error fetching skip segments');
     }
-    throw new InternalServerErrorException('Error fetching skip segments');
+
+    const skipSectionsArray = await body.json();
+
+    if (!Array.isArray(skipSectionsArray)) {
+      throw new InternalServerErrorException('Error fetching skip segments');
+    }
+
+    const skipSections = skipSectionsArray?.find(el => el.videoID === id);
+
+    if (skipSections) {
+      return skipSections;
+    }
+
+    return {
+      videoID: id,
+      hash: idHash,
+      segments: []
+    };
   }
 
   async saveAuthorImage(imgUrl: string, channelId: string) {
     const arrBufferResponse = await vtFetch(imgUrl, { useProxy: true });
     const arrBuffer = await arrBufferResponse.body.arrayBuffer();
 
-    if (arrBuffer) {
-      try {
-        const imgPath = path.join(global.__basedir, `channels/${channelId}.webp`);
-
-        const imgBuffer = Buffer.from(arrBuffer);
-
-        let success = true;
-
-        const webpImage = await sharp(imgBuffer)
-          .resize(36)
-          .webp()
-          .toBuffer()
-          .catch(() => {
-            success = false;
-          });
-
-        if (success && webpImage) {
-          await fs.appendFile(imgPath, webpImage);
-          return `channels/${channelId}/thumbnail/tiny.webp`;
-        }
-        return null;
-      } catch {
-        return null;
-      }
+    if (!arrBuffer) {
+      return
     }
+    try {
+      const imgPath = path.join(global.__basedir, `channels/${channelId}.webp`);
+
+      const imgBuffer = Buffer.from(arrBuffer);
+
+      let success = true;
+
+      const webpImage = await sharp(imgBuffer)
+        .resize(36)
+        .webp()
+        .toBuffer()
+        .catch(() => {
+          success = false;
+        });
+
+      if (success && webpImage) {
+        await fs.appendFile(imgPath, webpImage);
+        return `channels/${channelId}/thumbnail/tiny.webp`;
+      }
+    } catch {
+      // Ignore silently
+    }
+    return null;
   }
 }

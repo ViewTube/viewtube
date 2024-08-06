@@ -17,22 +17,23 @@ import { SearchSourceApproximation } from './search-source-approximation';
 export const extractSearchResults = (searchResults: SearchSourceApproximation[]) => {
   return searchResults
     ?.map(result => {
-      if (result.type === 'Video') {
-        return extractSearchVideo(result);
-      } else if (result.type === 'Channel') {
-        return extractSearchChannel(result);
-      } else if (result.type === 'Shelf') {
-        return extractSearchShelf(result);
-      } else if (result.type === 'ReelShelf') {
-        return extractSearchShortsShelf(result);
-      } else if (result.type === 'Playlist') {
-        return extractSearchPlaylist(result);
-      } else if (result.type === 'Movie') {
-        return extractSearchMovie(result);
+      switch (result.type) {
+        case 'Video':
+          return extractSearchVideo(result);
+        case 'Channel':
+          return extractSearchChannel(result);
+        case 'Shelf':
+          return extractSearchShelf(result);
+        case 'ReelShelf':
+          return extractSearchShortsShelf(result);
+        case 'Playlist':
+          return extractSearchPlaylist(result);
+        case 'Movie':
+          return extractSearchMovie(result);
+        default:
+          logger.log(`Unknown search result type ${result.type}`);
+          return null;
       }
-
-      logger.log(`Unknown search result type ${result.type}`);
-      return null;
     })
     .filter(Boolean);
 };

@@ -46,38 +46,32 @@ export const extractAuthor = (
 
 export const extractDescription = (videoInfo: VideoInfoSourceApproximation) => {
   const descriptionParts = videoInfo?.secondary_info?.description?.runs;
-  if (!descriptionParts) {
-    return videoInfo?.basic_info?.short_description;
-  }
+  if (!descriptionParts) return videoInfo?.basic_info?.short_description;
 
-  let descriptionText = '';
-
-  descriptionParts.forEach(part => {
+  return descriptionParts.map(part => {
     if (!part.endpoint) {
-      descriptionText += part.text;
-    } else if (part.endpoint.type === 'NavigationEndpoint') {
-      if (part.endpoint?.payload?.url) {
-        const url = parseRedirectUrl(part.endpoint?.payload?.url);
-        descriptionText += url;
-      } else if (
-        part.endpoint?.metadata?.page_type === 'WEB_PAGE_TYPE_WATCH' &&
-        part.endpoint?.payload?.videoId
-      ) {
-        if (part.endpoint?.payload?.continuePlayback) {
-          descriptionText += part.text;
-        } else {
-          descriptionText += `https://www.youtube.com/watch?v=${part.endpoint?.payload?.videoId}`;
-        }
-      } else if (part.endpoint?.metadata?.page_type === 'WEB_PAGE_TYPE_CHANNEL') {
-        descriptionText += `https://www.youtube.com/channel/${part.endpoint?.payload?.browseId}`;
-      } else {
-        descriptionText += part.text;
-      }
+      return part.text;
     }
-  });
 
-  return descriptionText;
-};
+    const { type, payload, metadata } = part.endpoint;
+
+    if (type === 'NavigationEndpoint') {
+      if (payload?.url) {
+        return parseRedirectUrl(payload.url);
+      }
+
+      if (metadata?.page_type === 'WEB_PAGE_TYPE_WATCH' && payload?.videoId) {
+        return `https://www.youtube.com/watch?v=${payload.videoId}`;
+      }
+
+      if (metadata?.page_type === 'WEB_PAGE_TYPE_CHANNEL') {
+        return `https://www.youtube.com/channel/${payload.browseId}`;
+      }
+
+      return part.text;
+    }
+    }).join('');
+  }
 
 export const extractThumbnails = (
   videoInfo: VideoInfoSourceApproximation
@@ -114,9 +108,7 @@ export const extractViewCount = (videoInfo: VideoInfoSourceApproximation) => {
 };
 
 export const extractUpcoming = (videoInfo: VideoInfoSourceApproximation) => {
-  if (!videoInfo?.basic_info?.is_upcoming) {
-    return null;
-  }
+  if (!videoInfo?.basic_info?.is_upcoming) return null;
 };
 
 export const extractLive = (videoInfo: VideoInfoSourceApproximation) => {
@@ -252,47 +244,49 @@ export const extractInfoCards = (
         endMs: parseInt(card?.cue_ranges?.[0]?.end_card_active_ms)
       };
 
-      if (card?.content?.type === 'VideoInfoCardContent') {
-        return {
-          ...infoCard,
-          content: {
-            type: 'video',
-            id: card?.content?.endpoint?.payload?.videoId,
-            title: card?.content?.title?.text,
-            author: { name: card?.content?.channel_name?.text },
-            thumbnails: card?.content?.video_thumbnails,
-            viewCount: parseShortenedNumber(card?.content?.view_count?.text),
-            duration: {
-              text: card?.content?.duration?.text,
-              seconds: getSecondsFromTimestamp(card?.content?.duration?.text)
-            }
-          } satisfies VTVideoCardContentDto
-        };
-      } else if (card?.content?.type === 'PlaylistInfoCardContent') {
-        return {
-          ...infoCard,
-          content: {
-            type: 'playlist',
-            id: card?.content?.endpoint?.payload?.playlistId,
-            title: card?.content?.title?.text,
-            author: { name: card?.content?.channel_name?.text },
-            firstVideoId: card?.content?.endpoint?.payload?.videoId,
-            videoCount: parseInt(card?.content?.video_count?.text)
-          } satisfies VTPlaylistCardContentDto
-        };
-      } else if (card?.content?.type === 'SimpleCardContent') {
-        return {
-          ...infoCard,
-          content: {
-            type: 'simple',
-            title: card?.teaser?.message?.text,
-            thumbnails: card?.content?.image,
-            displayDomain: card?.content?.display_domain?.text,
-            url: parseRedirectUrl(card?.content?.endpoint?.payload?.url)
-          } satisfies VTSimpleCardContentDto
-        };
+      switch (card?.content?.type) {
+        case 'VideoInfoCardContent':
+          return {
+            ...infoCard,
+            content: {
+              type: 'video',
+              id: card?.content?.endpoint?.payload?.videoId,
+              title: card?.content?.title?.text,
+              author: { name: card?.content?.channel_name?.text },
+              thumbnails: card?.content?.video_thumbnails,
+              viewCount: parseShortenedNumber(card?.content?.view_count?.text),
+              duration: {
+                text: card?.content?.duration?.text,
+                seconds: getSecondsFromTimestamp(card?.content?.duration?.text)
+              }
+            } satisfies VTVideoCardContentDto
+          };
+        case 'PlaylistInfoCardContent':
+          return {
+            ...infoCard,
+            content: {
+              type: 'playlist',
+              id: card?.content?.endpoint?.payload?.playlistId,
+              title: card?.content?.title?.text,
+              author: { name: card?.content?.channel_name?.text },
+              firstVideoId: card?.content?.endpoint?.payload?.videoId,
+              videoCount: parseInt(card?.content?.video_count?.text)
+            } satisfies VTPlaylistCardContentDto
+          };
+        case 'SimpleCardContent':
+          return {
+            ...infoCard,
+            content: {
+              type: 'simple',
+              title: card?.teaser?.message?.text,
+              thumbnails: card?.content?.image,
+              displayDomain: card?.content?.display_domain?.text,
+              url: parseRedirectUrl(card?.content?.endpoint?.payload?.url)
+            } satisfies VTSimpleCardContentDto
+          };
+        default:
+          return;
       }
-      return;
     })
     .filter(el => el);
 };

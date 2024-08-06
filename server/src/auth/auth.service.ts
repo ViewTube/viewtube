@@ -27,18 +27,17 @@ export class AuthService {
   async validateUser(username: string, pw: string) {
     const user = await this.UserModel.findOne({ username }).exec();
 
-    if (user) {
-      try {
-        const comparison = await bcrypt.compare(pw, user.password);
-        if (comparison === true) {
-          const { username, profileImage } = user;
-          return { username, profileImage };
-        }
-      } catch (_) {
-        return null;
+    if (!user) return null;
+
+    try {
+      const comparison = await bcrypt.compare(pw, user.password);
+      if (comparison === true) {
+        const { username, profileImage } = user;
+        return { username, profileImage };
       }
+    } catch (_) {
+      return null;
     }
-    return null;
   }
 
   async logout(reply: FastifyReply, request: FastifyRequest) {

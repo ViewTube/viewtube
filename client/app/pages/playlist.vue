@@ -37,32 +37,32 @@ watch(error, value => {
 });
 
 const loadMoreVideos = async () => {
-  if (playlistContinuation.value) {
-    moreVideosLoading.value = true;
-    await vtFetch<{ items: Array<ApiDto<'PlaylistItemDto'>>; continuation: any }>(
-      `${apiUrl.value}playlists/continuation`,
-      {
-        params: {
-          continuationData: playlistContinuation.value
-        }
+  if (!playlistContinuation.value) return;
+  
+  moreVideosLoading.value = true;
+  await vtFetch<{ items: Array<ApiDto<'PlaylistItemDto'>>; continuation: any }>(
+    `${apiUrl.value}playlists/continuation`,
+    {
+      params: {
+        continuationData: playlistContinuation.value
       }
-    )
-      .then(response => {
-        if (response) {
-          additionalPlaylistItems.value = additionalPlaylistItems.value.concat(response.items);
-          playlistContinuation.value = response.continuation;
-          moreVideosLoading.value = false;
-        }
-      })
-      .catch((_: any) => {
-        messagesStore.createMessage({
-          type: 'error',
-          title: 'Unable to load more results',
-          message: 'Try again or use a different search term for more results'
-        });
+    }
+  )
+    .then(response => {
+      if (response) {
+        additionalPlaylistItems.value = additionalPlaylistItems.value.concat(response.items);
+        playlistContinuation.value = response.continuation;
         moreVideosLoading.value = false;
+      }
+    })
+    .catch((_: any) => {
+      messagesStore.createMessage({
+        type: 'error',
+        title: 'Unable to load more results',
+        message: 'Try again or use a different search term for more results'
       });
-  }
+      moreVideosLoading.value = false;
+    });
 };
 const playlistDescription = computed(() => {
   const sanitizedDescription = sanitizeHtmlString(playlist.value?.description);

@@ -199,19 +199,19 @@ const loadMoreComments = () => {
 };
 
 const loadPlaylist = () => {
-  if (isPlaylist.value) {
-    getPlaylists(route.query.list)
-      .then(response => {
-        playlist.value = response;
-      })
-      .catch(_ => {
-        messagesStore.createMessage({
-          type: 'error',
-          title: 'Error loading playlist',
-          message: 'Playlist may not be available'
-        });
+  if (!isPlaylist.value) return;
+  
+  getPlaylists(route.query.list)
+    .then(response => {
+      playlist.value = response;
+    })
+    .catch(_ => {
+      messagesStore.createMessage({
+        type: 'error',
+        title: 'Error loading playlist',
+        message: 'Playlist may not be available'
       });
-  }
+    });
 };
 
 watch(
@@ -261,9 +261,8 @@ const authorToName = author => {
     return author;
   } else if (typeof author.name == 'string') {
     return author.name;
-  } else {
-    return 'Unknown Author';
   }
+  return 'Unknown Author';
 };
 
 const watchPageTitle = computed(() => {

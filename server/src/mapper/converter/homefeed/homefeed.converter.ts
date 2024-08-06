@@ -5,11 +5,10 @@ import { TabbedFeed } from 'youtubei.js/dist/src/core/mixins';
 
 export const toHomeFeed = (homeFeed: TabbedFeed<IBrowseResponse>): Array<VTVideoDto> => {
   return homeFeed.videos
+    .filter(item => item.type === 'Video')
     .map(item => {
-      if (item.type === 'Video') {
         const original = item.as(YTNodes.Video);
         return toVTVideoDto(original);
-      }
     })
     .filter(item => item);
 };

@@ -19,19 +19,18 @@ export class Common {
   }
 
   public static convertSortParams<T>(sort: string): Sorting<T> {
-    if (sort.match(/.*:.*.,?/gi)) {
-      const sortArray = sort.split(',');
-      const sorting: Sorting<T> = {};
-      sortArray.forEach(el => {
-        if (el.match(/.*:.*./gi)) {
-          const [prop, val] = el.split(':');
-          const propVal = parseInt(val);
-          sorting[prop] = propVal;
-        }
-      });
-      return sorting;
-    }
-    return {};
+    if (!sort.match(/.*:.*.,?/gi)) return {}
+    
+    const sortArray = sort.split(',');
+    const sorting: Sorting<T> = {};
+    sortArray.forEach(el => {
+      if (el.match(/.*:.*./gi)) {
+        const [prop, val] = el.split(':');
+        const propVal = parseInt(val);
+        sorting[prop] = propVal;
+      }
+    });
+    return sorting;
   }
 
   public static removeYoutubeFromUrl(url: string): string {
@@ -41,9 +40,8 @@ export class Common {
         .replace('https://youtube.com', '')
         .replace('http://www.youtube.com', '')
         .replace('http://youtube.com', '');
-    } else {
-      return '#';
     }
+    return '#';
   }
 
   public static getPlaylistIdFromUrl(playlistUrl: string): string {
@@ -79,41 +77,39 @@ export class Common {
     baseUrl: string,
     replaceFn: (arg0: number) => string
   ): Array<any> {
-    if (baseUrl) {
-      return [
-        {
-          url: replaceFn(32),
-          width: 32,
-          height: 32
-        },
-        {
-          url: replaceFn(48),
-          width: 48,
-          height: 48
-        },
-        {
-          url: replaceFn(76),
-          width: 76,
-          height: 76
-        },
-        {
-          url: replaceFn(100),
-          width: 100,
-          height: 100
-        },
-        {
-          url: replaceFn(176),
-          width: 176,
-          height: 176
-        },
-        {
-          url: replaceFn(512),
-          width: 512,
-          height: 512
-        }
-      ];
-    } else {
-      return [];
-    }
+    if (!baseUrl) return [];
+
+    return [
+      {
+        url: replaceFn(32),
+        width: 32,
+        height: 32
+      },
+      {
+        url: replaceFn(48),
+        width: 48,
+        height: 48
+      },
+      {
+        url: replaceFn(76),
+        width: 76,
+        height: 76
+      },
+      {
+        url: replaceFn(100),
+        width: 100,
+        height: 100
+      },
+      {
+        url: replaceFn(176),
+        width: 176,
+        height: 176
+      },
+      {
+        url: replaceFn(512),
+        width: 512,
+        height: 512
+      }
+    ];
   }
 }
