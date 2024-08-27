@@ -12,17 +12,15 @@ const showMore = ref(false);
 const userStore = useUserStore();
 
 const displayedVideos = computed(() => {
-  if (props.videos) {
-    if (!showMore.value) {
-      let videoCount = 12;
-      if (userStore.isLoggedIn && props.short) {
-        videoCount = 8;
-      }
-      return props.videos.slice(0, videoCount);
-    }
-    return props.videos;
+  if (!props.videos) return [];
+  if (showMore.value) return props.videos;
+
+  let videoCount = 12;
+  if (userStore.isLoggedIn && props.short) {
+    videoCount = 8;
   }
-  return [];
+  return props.videos.slice(0, videoCount); 
+  
 });
 
 const showMoreVideos = (): void => {

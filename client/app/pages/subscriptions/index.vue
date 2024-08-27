@@ -24,9 +24,8 @@ const notificationsSupported = ref(true);
 const currentPage = computed(() => {
   if (route.query.page) {
     return parseInt(route.query.page.toString());
-  } else {
-    return 1;
   }
+  return 1;
 });
 
 const {
@@ -79,44 +78,44 @@ const getOrderedVideoSections = (): Array<any> => {
 };
 
 const subscribeToNotifications = (val: any) => {
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.getRegistrations().then(registrations => {
-      const worker = registrations[0];
+  if (!('serviceWorker' in navigator)) return;
 
-      if (val) {
-        worker.pushManager
-          .subscribe({
-            userVisibleOnly: true,
-            applicationServerKey: vapidKey
-          })
-          .then(subscription => {
-            vtFetch(`${apiUrl.value}user/notifications/subscribe`, {
-              method: 'POST',
-              body: subscription,
-              credentials: 'include'
-            }).then(() => {
-              notificationsEnabled.value = true;
-            });
-          })
-          .catch(err => {
-            notificationsEnabled.value = false;
-            notificationsBtnDisabled.value = true;
-            messagesStore.createMessage({
-              type: 'error',
-              title: 'Error subscribing to notifications',
-              message: err.message
-            });
+  navigator.serviceWorker.getRegistrations().then(registrations => {
+    const worker = registrations[0];
+
+    if (val) {
+      worker.pushManager
+        .subscribe({
+          userVisibleOnly: true,
+          applicationServerKey: vapidKey
+        })
+        .then(subscription => {
+          vtFetch(`${apiUrl.value}user/notifications/subscribe`, {
+            method: 'POST',
+            body: subscription,
+            credentials: 'include'
+          }).then(() => {
+            notificationsEnabled.value = true;
           });
-      } else {
-        worker.pushManager.getSubscription().then((subscription: PushSubscription) => {
-          if (subscription) {
-            subscription.unsubscribe();
-          }
+        })
+        .catch(err => {
           notificationsEnabled.value = false;
+          notificationsBtnDisabled.value = true;
+          messagesStore.createMessage({
+            type: 'error',
+            title: 'Error subscribing to notifications',
+            message: err.message
+          });
         });
-      }
-    });
-  }
+    } else {
+      worker.pushManager.getSubscription().then((subscription: PushSubscription) => {
+        if (subscription) {
+          subscription.unsubscribe();
+        }
+        notificationsEnabled.value = false;
+      });
+    }
+  });
 };
 const getNotificationStatus = () => {
   if (notificationsBtnDisabled.value && notificationsEnabled.value) {
@@ -174,9 +173,7 @@ watch(
 );
 
 const nextRefresh = computed(() => {
-  if (lastRefreshTime.value == 0) {
-    return 0;
-  }
+  if (lastRefreshTime.value == 0) return 0;
 
   const nextRefreshDate = new Date(lastRefreshTime.value);
   nextRefreshDate.setMinutes(nextRefreshDate.getMinutes() + subscriptions.value.refreshInterval);

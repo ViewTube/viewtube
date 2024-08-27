@@ -8,46 +8,41 @@ const largestNumber = computed((): number => {
   return props.pageCount;
 });
 const pageCountDisplay = computed((): Array<number> => {
-  if (props.pageCount > 1) {
-    const numArray = [];
-    const halfMaxNum = Math.floor(maxNumber.value / 2);
-    let numStart = null;
-    let numStop = null;
-    if (props.currentPage > 0 && props.currentPage <= halfMaxNum) {
-      // If the selected page is smaller than half the shown numbers, it always starts at 2
-      // [1] (2) (3) (4) (5)
-      numStart = 2;
-    } else if (props.currentPage + halfMaxNum > props.pageCount) {
-      numStart = props.pageCount - maxNumber.value;
-    } else {
-      numStart = props.currentPage - halfMaxNum;
-    }
-    numStart = numStart <= 1 ? 2 : numStart;
-
-    if (
-      props.currentPage > props.pageCount - maxNumber.value &&
-      props.pageCount <= maxNumber.value
-    ) {
-      numStop = props.pageCount;
-    } else if (props.currentPage - numStart < halfMaxNum) {
-      numStop = props.currentPage + maxNumber.value - (props.currentPage - numStart);
-    } else {
-      numStop = props.currentPage + halfMaxNum;
-    }
-    numStop = numStop >= props.pageCount ? props.pageCount : numStop;
-
-    for (let index = numStart; index < numStop; index++) {
-      numArray.push(index);
-    }
-    return numArray;
+  if (props.pageCount <= 1) return [];
+  const numArray = [];
+  const halfMaxNum = Math.floor(maxNumber.value / 2);
+  let numStart = null;
+  let numStop = null;
+  if (props.currentPage > 0 && props.currentPage <= halfMaxNum) {
+    // If the selected page is smaller than half the shown numbers, it always starts at 2
+    // [1] (2) (3) (4) (5)
+    numStart = 2;
+  } else if (props.currentPage + halfMaxNum > props.pageCount) {
+    numStart = props.pageCount - maxNumber.value;
+  } else {
+    numStart = props.currentPage - halfMaxNum;
   }
-  return [];
+  numStart = numStart <= 1 ? 2 : numStart;
+
+  if (
+    props.currentPage > props.pageCount - maxNumber.value &&
+    props.pageCount <= maxNumber.value
+  ) {
+    numStop = props.pageCount;
+  } else if (props.currentPage - numStart < halfMaxNum) {
+    numStop = props.currentPage + maxNumber.value - (props.currentPage - numStart);
+  } else {
+    numStop = props.currentPage + halfMaxNum;
+  }
+  numStop = numStop >= props.pageCount ? props.pageCount : numStop;
+
+  for (let index = numStart; index < numStop; index++) {
+    numArray.push(index);
+  }
+  return numArray;
 });
 const displayFirstDots = computed((): boolean => {
-  if (pageCountDisplay.value[0] > 2) {
-    return true;
-  }
-  return false;
+  return pageCountDisplay.value[0] > 2
 });
 const displaySecondDots = computed((): boolean => {
   return (

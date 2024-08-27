@@ -32,29 +32,29 @@ export class NotificationsService {
     const userSubscriptions = await this.NotificationsSubscriptionModel.find({ username })
       .lean()
       .exec();
-    if (userSubscriptions) {
-      const payload = JSON.stringify(jsonPayload);
+    if (!userSubscriptions) return;
+    
+    const payload = JSON.stringify(jsonPayload);
 
-      userSubscriptions.forEach(subscription => {
-        webPush
-          .sendNotification(subscription, payload)
-          .then(
-            () => {
-              // Ignore silently
-            },
-            reason => {
-              if (reason.statusCode === 410 || reason.statusCode === 404) {
-                this.NotificationsSubscriptionModel.findOneAndDelete({
-                  _id: subscription._id
-                }).exec();
-              }
-            }
-          )
-          .catch(_ => {
+    userSubscriptions.forEach(subscription => {
+      webPush
+        .sendNotification(subscription, payload)
+        .then(
+          () => {
             // Ignore silently
-          });
-      });
-    }
+          },
+          reason => {
+            if (reason.statusCode === 410 || reason.statusCode === 404) {
+              this.NotificationsSubscriptionModel.findOneAndDelete({
+                _id: subscription._id
+              }).exec();
+            }
+          }
+        )
+        .catch(_ => {
+          // Ignore silently
+        });
+    });
   }
 
   async sendMultipleNotifications(
@@ -95,23 +95,23 @@ export class NotificationsService {
   }
 
   async sendVideoNotification(username: string, video: VideoBasicInfoDto): Promise<void> {
-    if (
-      !(await this.PushNotificationModel.exists({
-        username,
-        id: video.videoId
-      }))
-    ) {
-      const notificationPayload = {
-        title: `New video from ${video.author}`,
-        body: `${video.title}\n${video.description}`,
-        video
-      };
-      await new this.PushNotificationModel({
-        id: video.videoId,
-        username,
-        content: notificationPayload
-      }).save();
-      await this.sendNotification(username, notificationPayload);
-    }
+    const notificationExists = await this.PushNotificationModel.exists({
+      username,
+      id: video.videoId
+    });
+
+    if (notificationExists) return;
+
+    const notificationPayload = {
+      title: `New video from ${video.author}`,
+      body: `${video.title}\n${video.description}`,
+      video
+    };
+    await new this.PushNotificationModel({
+      id: video.videoId,
+      username,
+      content: notificationPayload
+    }).save();
+    await this.sendNotification(username, notificationPayload);
   }
 }

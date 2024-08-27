@@ -78,20 +78,20 @@ export const useVtFetch = () => {
       });
 
       return destr(response.body) as MappedType<R, T>;
-    } else {
-      const response = await ofetch.raw(request, requestOptions);
-
-      if (import.meta.server && !options?.external) {
-        const setCookies = response.headers.getSetCookie();
-        if (setCookies) {
-          setCookies.forEach(cookie => {
-            nuxtApp.ssrContext.event.node.res.setHeader('set-cookie', cookie);
-          });
-        }
-      }
-
-      return response._data as MappedType<R, T>;
     }
+    
+    const response = await ofetch.raw(request, requestOptions);
+
+    if (import.meta.server && !options?.external) {
+      const setCookies = response.headers.getSetCookie();
+      if (setCookies) {
+        setCookies.forEach(cookie => {
+          nuxtApp.ssrContext.event.node.res.setHeader('set-cookie', cookie);
+        });
+      }
+    }
+
+    return response._data as MappedType<R, T>;
   };
 
   return { vtFetch };

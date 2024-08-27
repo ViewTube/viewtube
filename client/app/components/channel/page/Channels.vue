@@ -13,26 +13,25 @@ const channelInfo = ref(data);
 const morePending = ref(false);
 
 const loadMore = async () => {
+  if (!channelInfo.value.relatedChannels.continuation) return;
   morePending.value = true;
-  if (channelInfo.value.relatedChannels.continuation) {
-    try {
-      const additionalChannels = await getRelatedChannelsContinuation(
-        channelInfo.value.relatedChannels.continuation
-      );
-      channelInfo.value.relatedChannels.items = [
-        ...(channelInfo.value.relatedChannels.items as any),
-        ...additionalChannels.items
-      ];
-      channelInfo.value.relatedChannels.continuation = additionalChannels.continuation;
-    } catch (error) {
-      messagesStore.createMessage({
-        type: 'error',
-        title: 'Failed to load more channels',
-        message:
-          (error as any).message ??
-          "More channels don't seem to be available, or something went wrong."
-      });
-    }
+  try {
+    const additionalChannels = await getRelatedChannelsContinuation(
+      channelInfo.value.relatedChannels.continuation
+    );
+    channelInfo.value.relatedChannels.items = [
+      ...(channelInfo.value.relatedChannels.items as any),
+      ...additionalChannels.items
+    ];
+    channelInfo.value.relatedChannels.continuation = additionalChannels.continuation;
+  } catch (error) {
+    messagesStore.createMessage({
+      type: 'error',
+      title: 'Failed to load more channels',
+      message:
+        (error as any).message ??
+        "More channels don't seem to be available, or something went wrong."
+    });
   }
   morePending.value = false;
 };

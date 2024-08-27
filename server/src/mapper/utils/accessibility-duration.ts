@@ -3,9 +3,7 @@ export const parseAccessibilityDuration = (accessibilityText: string) => {
     /^.*-\s((?:\d{1,2}\sminutes?)?(?:,\s)?(?:\d{1,2}\sseconds?)?)\s-\splay\svideo$/i
   );
 
-  if (!accessibilityDuration) {
-    return 0;
-  }
+  if (!accessibilityDuration) return 0;
 
   const durationText = accessibilityDuration[1];
 

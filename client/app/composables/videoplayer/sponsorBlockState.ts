@@ -42,14 +42,13 @@ export const useSponsorBlockState = (video: Ref<ApiDto<'VTVideoInfoDto'>>) => {
 
   const getCurrentSegment = (time: number): ApiDto<'SponsorBlockSegmentDto'> => {
     const segments = skipSegments.value?.segments;
-    if (segments && !isNaN(time)) {
-      const currentSegment =
-        segments.find(segment => segment.segment[0] <= time && segment.segment[1] >= time) ?? null;
-      if (currentSegment) {
-        return currentSegment;
-      }
+    if (!segments || isNaN(time)) {
+      return null;
     }
-    return null;
+    
+    const currentSegment =
+      segments.find(segment => segment.segment[0] <= time && segment.segment[1] >= time) ?? null;
+    return currentSegment;
   };
 
   return {

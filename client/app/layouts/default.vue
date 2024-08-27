@@ -29,9 +29,8 @@ const appRef = ref(null);
 const getThemeClass = (): string => {
   if ((process as any).browser) {
     return `theme--${settingsStore.theme}`;
-  } else {
-    return 'theme--default';
   }
+  return 'theme--default';
 };
 
 if (appRef.value) {

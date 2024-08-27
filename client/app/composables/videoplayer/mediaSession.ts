@@ -68,11 +68,7 @@ export const useMediaSession = ({
     watch(
       () => videoState.playing,
       newValue => {
-        if (newValue) {
-          navigator.mediaSession.playbackState = 'playing';
-        } else {
-          navigator.mediaSession.playbackState = 'paused';
-        }
+        navigator.mediaSession.playbackState = newValue ? 'playing' : 'paused';
       }
     );
 

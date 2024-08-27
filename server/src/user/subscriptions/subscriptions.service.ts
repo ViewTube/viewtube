@@ -109,12 +109,11 @@ export class SubscriptionsService {
   async sendUserNotifications(videos: Array<VideoBasicInfoDto>): Promise<void> {
     const users = await this.SubscriptionModel.find().lean().exec();
     const notificationsToSend: Array<{ username: string; videos: Array<VideoBasicInfoDto> }> = [];
+
     videos.forEach(video => {
-      const subscribedUsers = users.filter(u =>
-        u.subscriptions.find(sub => sub.channelId === video.authorId)
-      );
-      if (subscribedUsers) {
-        subscribedUsers.forEach(user => {
+      users
+        .filter(u => u.subscriptions.find(sub => sub.channelId === video.authorId))
+        .forEach(user => {
           const channelSubscription = user.subscriptions.find(e => e.channelId === video.authorId);
           if (
             channelSubscription.createdAt &&
@@ -130,7 +129,6 @@ export class SubscriptionsService {
             }
           }
         });
-      }
     });
     await this.notificationsService.sendMultipleNotifications(notificationsToSend);
   }

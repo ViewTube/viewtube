@@ -1,6 +1,6 @@
 import { VideoSourceType } from '#imports';
 import type { ApiDto } from '@viewtube/shared';
-import { useStorage } from '@vueuse/core';
+import { clamp, useStorage } from '@vueuse/core';
 import type { AudioTrack, Language, VideoTrack } from '~/interfaces/VideoState';
 import { useMessagesStore } from '~/store/messages';
 import { useSettingsStore } from '~/store/settings';
@@ -70,43 +70,47 @@ export const useVideoState = ({
       adapterInstance.value = undefined;
     }
 
-    if (sourceType.value === VideoSourceType.DASH) {
-      adapterInstance.value = await rxPlayerAdapter({
-        autoplay,
-        defaultVolume: volumeStorage,
-        loop: settingsStore.alwaysLoopVideo,
-        maximumQuality: settingsStore.maxVideoQuality,
-        source,
-        startTime,
-        videoElementRef,
-        videoState,
-        videoEnded,
-        createMessage: messagesStore.createMessage
-      });
-    } else if (sourceType.value === VideoSourceType.HLS) {
-      adapterInstance.value = await hlsAdapter({
-        autoplay,
-        defaultVolume: volumeStorage,
-        maximumQuality: settingsStore.maxVideoQuality,
-        source,
-        startTime,
-        videoElementRef,
-        videoState,
-        videoEnded,
-        createMessage: messagesStore.createMessage
-      });
-    } else if (sourceType.value === VideoSourceType.NATIVE) {
-      adapterInstance.value = await nativeAdapter({
-        autoplay,
-        defaultVolume: volumeStorage,
-        loop: settingsStore.alwaysLoopVideo,
-        source,
-        startTime,
-        videoElementRef,
-        videoState,
-        videoEnded,
-        createMessage: messagesStore.createMessage
-      });
+    switch (sourceType.value) {
+      case VideoSourceType.DASH:
+        adapterInstance.value = await rxPlayerAdapter({
+          autoplay,
+          defaultVolume: volumeStorage,
+          loop: settingsStore.alwaysLoopVideo,
+          maximumQuality: settingsStore.maxVideoQuality,
+          source,
+          startTime,
+          videoElementRef,
+          videoState,
+          videoEnded,
+          createMessage: messagesStore.createMessage
+        });
+        break;
+      case VideoSourceType.HLS:
+        adapterInstance.value = await hlsAdapter({
+          autoplay,
+          defaultVolume: volumeStorage,
+          maximumQuality: settingsStore.maxVideoQuality,
+          source,
+          startTime,
+          videoElementRef,
+          videoState,
+          videoEnded,
+          createMessage: messagesStore.createMessage
+        });
+        break;
+      case VideoSourceType.NATIVE:
+        adapterInstance.value = await nativeAdapter({
+          autoplay,
+          defaultVolume: volumeStorage,
+          loop: settingsStore.alwaysLoopVideo,
+          source,
+          startTime,
+          videoElementRef,
+          videoState,
+          videoEnded,
+          createMessage: messagesStore.createMessage
+        });
+        break;
     }
   };
 
@@ -115,19 +119,19 @@ export const useVideoState = ({
     setLoop(settingsStore.alwaysLoopVideo);
     setPlaybackRate(settingsStore.defaultVideoSpeed);
 
-    if (videoElementRef.value instanceof HTMLVideoElement) {
-      const videoAttributeObserver = new MutationObserver(mutations => {
-        mutations.forEach(mutation => {
-          if (mutation.type === 'attributes') {
-            if (mutation.attributeName === 'loop') {
-              videoState.loop = videoElementRef.value.loop;
-              videoPlayerStore.setLoop(videoElementRef.value.loop);
-            }
+    if (!(videoElementRef.value instanceof HTMLVideoElement)) return;
+
+    const videoAttributeObserver = new MutationObserver(mutations => {
+      mutations.forEach(mutation => {
+        if (mutation.type === 'attributes') {
+          if (mutation.attributeName === 'loop') {
+            videoState.loop = videoElementRef.value.loop;
+            videoPlayerStore.setLoop(videoElementRef.value.loop);
           }
-        });
+        }
       });
-      videoAttributeObserver.observe(videoElementRef.value, { attributes: true });
-    }
+    });
+    videoAttributeObserver.observe(videoElementRef.value, { attributes: true });
   });
 
   const play = () => adapterInstance.value?.play();
@@ -203,16 +207,6 @@ export const useVideoState = ({
   };
 
   useMediaSession({ video, videoState, play, pause, stop, setTime, onNextTrack });
-
-  function clamp(value: number, min: number, max: number): number {
-    if (value < min) {
-      return min;
-    }
-    if (value > max) {
-      return max;
-    }
-    return value;
-  }
 
   return {
     video: videoState,

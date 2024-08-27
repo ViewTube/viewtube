@@ -98,9 +98,8 @@ export class UserController {
     const authenticatedUser = request.user.username;
     if (authenticatedUser === username) {
       return this.userService.deleteUserAndData(authenticatedUser);
-    } else {
-      throw new BadRequestException("username doesn't match");
     }
+    throw new BadRequestException("username doesn't match");
   }
 
   @Post('profile/password')

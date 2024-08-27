@@ -20,9 +20,7 @@ const thumbnailWidthPx = `${props.previewThumbnailWidth}px`;
 const getPreviewThumbnail = (
   previewThumbnailTemplate: ApiDto<'VTVideoInfoDto'>['previewThumbnails'][number]
 ) => {
-  if (!previewThumbnailTemplate) {
-    return;
-  }
+  if (!previewThumbnailTemplate) return;
 
   let previewImageUrl = previewThumbnailTemplate.urlTemplate;
   let previewImageNr = 0;

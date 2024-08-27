@@ -17,9 +17,8 @@ const SubscriptionIOOpen = ref(false);
 const currentPage = computed(() => {
   if (route.query.page) {
     return parseInt(route.query.page.toString());
-  } else {
-    return 1;
   }
+  return 1;
 });
 const searchTerm = ref('');
 const searchTermValue = ref('');
@@ -65,22 +64,22 @@ const unsubscribe = (channel: { authorId: any; author: any }): void => {
     method: 'DELETE',
     credentials: 'include'
   }).then(response => {
-    if (!response.isSubscribed) {
-      refresh();
-      messagesStore.createMessage({
-        type: 'error',
-        title: `Unsubscribed from ${channel.author}`,
-        message: 'Click to undo',
-        clickAction: async () => {
-          await vtFetch(`${apiUrl.value}user/subscriptions/${channel.authorId}`, {
-            method: 'PUT',
-            credentials: 'include'
-          }).then(() => {
-            refresh();
-          });
-        }
-      });
-    }
+    if (response.isSubscribed) return;
+    
+    refresh();
+    messagesStore.createMessage({
+      type: 'error',
+      title: `Unsubscribed from ${channel.author}`,
+      message: 'Click to undo',
+      clickAction: async () => {
+        await vtFetch(`${apiUrl.value}user/subscriptions/${channel.authorId}`, {
+          method: 'PUT',
+          credentials: 'include'
+        }).then(() => {
+          refresh();
+        });
+      }
+    });
   });
 };
 

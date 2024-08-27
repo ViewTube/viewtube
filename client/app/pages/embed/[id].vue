@@ -20,9 +20,8 @@ const authorToName = author => {
     return author;
   } else if (typeof author.name == 'string') {
     return author.name;
-  } else {
-    return 'Unknown Author';
   }
+  return 'Unknown Author';
 };
 
 const watchPageTitle = computed(() => {
