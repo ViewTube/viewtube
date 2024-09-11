@@ -1,12 +1,18 @@
 <script setup lang="ts">
-const props = defineProps<{
-  href?: string;
-  click?: () => void;
-  loading?: boolean;
-  internalLink?: boolean;
-  disabled?: boolean;
-  selected?: boolean;
-}>();
+const props = withDefaults(
+  defineProps<{
+    href?: string;
+    click?: () => void;
+    loading?: boolean;
+    internalLink?: boolean;
+    disabled?: boolean;
+    selected?: boolean;
+  }>(),
+  {
+    href: undefined,
+    click: undefined
+  }
+);
 
 const clickFunction = (e: Event): void => {
   if (props.click instanceof Function) {
