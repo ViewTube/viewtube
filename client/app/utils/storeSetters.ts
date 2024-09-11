@@ -1,4 +1,4 @@
-import { type UnwrapRef } from 'vue-demi';
+import type { UnwrapRef } from 'vue-demi';
 
 type SetActionsType<T> = {
   [Key in keyof T & string as `set${Capitalize<Key>}`]: (newValue: UnwrapRef<T[Key]>) => void;

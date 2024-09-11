@@ -89,7 +89,7 @@
 </template>
 
 <script lang="ts">
-import { type Result } from 'ytpl';
+import type { Result } from 'ytpl';
 
 export default defineComponent({
   name: 'PlaylistSection',
