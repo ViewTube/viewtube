@@ -53,10 +53,7 @@
     },
     "overrides": {
       "has": "npm:@nolyfill/has@latest",
-      "side-channel": "npm:@nolyfill/side-channel@latest",
-      "@typescript-eslint/eslint-plugin": "8.0.0-alpha.47",
-      "@typescript-eslint/parser": "8.0.0-alpha.47",
-      "@typescript-eslint/utils": "8.0.0-alpha.47"
+      "side-channel": "npm:@nolyfill/side-channel@latest"
     }
   }
 }
