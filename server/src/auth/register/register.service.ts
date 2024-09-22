@@ -24,17 +24,16 @@ export class RegisterService {
       userRegistration.captchaToken,
       userRegistration.captchaSolution
     );
-    if (captchaVerified) {
-      this.captchaService.deleteCaptcha(userRegistration.captchaToken);
-      return this.userService.create({
-        username: userRegistration.username,
-        password: userRegistration.password
-      });
-    } else {
+    if (!captchaVerified) {
       throw new HttpException(
         'Captcha invalid. Possible causes:\n- Solution is incorrect.\n- Timeout has expired\n- Captcha has been submitted multiple times',
         403
       );
     }
+    this.captchaService.deleteCaptcha(userRegistration.captchaToken);
+    return this.userService.create({
+      username: userRegistration.username,
+      password: userRegistration.password
+    });
   }
 }

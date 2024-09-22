@@ -8,35 +8,34 @@ const { createUser } = useCreateUser();
 const messagesStore = useMessagesStore();
 
 const createUserAdmin = async () => {
-  if (username.value && password.value) {
-    const createdUser = await createUser({
-      username: username.value,
-      password: password.value
-    })
-      .then(
-        res => res,
-        reason => {
-          throw reason;
-        }
-      )
-      .catch(err => {
-        messagesStore.createMessage({
-          type: 'error',
-          title: 'Error creating user',
-          message: err?.data?.message ?? 'Unknown error'
-        });
-      });
-
-    username.value = '';
-    password.value = '';
-
-    if (createdUser) {
+  if (!username.value || !password.value) return;
+  const createdUser = await createUser({
+    username: username.value,
+    password: password.value
+  })
+    .then(
+      res => res,
+      reason => {
+        throw reason;
+      }
+    )
+    .catch(err => {
       messagesStore.createMessage({
-        type: 'info',
-        title: 'User created',
-        message: `User ${createdUser.username} created`
+        type: 'error',
+        title: 'Error creating user',
+        message: err?.data?.message ?? 'Unknown error'
       });
-    }
+    });
+
+  username.value = '';
+  password.value = '';
+
+  if (createdUser) {
+    messagesStore.createMessage({
+      type: 'info',
+      title: 'User created',
+      message: `User ${createdUser.username} created`
+    });
   }
 };
 </script>

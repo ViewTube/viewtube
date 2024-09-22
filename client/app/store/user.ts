@@ -117,21 +117,21 @@ export const useUserStore = defineStore('user', {
           error: 'Registration failed, please try again.'
         };
       }
-      if (registerResult) {
-        try {
-          await this.login(registerResult.username, password);
-        } catch {
-          return {
-            error: 'Registration succeeded, but login failed, please try again.'
-          };
-        }
-        await this.getUser();
-
-        return { username: registerResult.username };
+      if (!registerResult) {
+        return {
+          error: 'Registration failed'
+        };
       }
-      return {
-        error: 'Registration failed'
-      };
+      try {
+        await this.login(registerResult.username, password);
+      } catch {
+        return {
+          error: 'Registration succeeded, but login failed, please try again.'
+        };
+      }
+      await this.getUser();
+
+      return { username: registerResult.username };
     },
 
     async logout() {

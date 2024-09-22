@@ -14,28 +14,27 @@ const morePending = ref(false);
 const communityPosts = ref(data);
 
 const loadMore = async () => {
+  if (!communityPosts.value?.continuation) return;
   morePending.value = true;
-  if (communityPosts.value?.continuation) {
-    try {
-      const additionalCommunityPosts = await getChannelCommunityPostsContinuation(
-        communityPosts.value?.continuation,
-        communityPosts.value?.innerTubeApi
-      );
-      communityPosts.value.items = [
-        ...communityPosts.value.items,
-        ...additionalCommunityPosts.items
-      ];
-      communityPosts.value.continuation = additionalCommunityPosts.continuation;
-      communityPosts.value.innerTubeApi = additionalCommunityPosts.innerTubeApi;
-    } catch (error) {
-      messagesStore.createMessage({
-        type: 'error',
-        title: 'Failed to load more community posts',
-        message:
-          (error as any).message ??
-          "More community posts don't seem to be available, or something went wrong."
-      });
-    }
+  try {
+    const additionalCommunityPosts = await getChannelCommunityPostsContinuation(
+      communityPosts.value?.continuation,
+      communityPosts.value?.innerTubeApi
+    );
+    communityPosts.value.items = [
+      ...communityPosts.value.items,
+      ...additionalCommunityPosts.items
+    ];
+    communityPosts.value.continuation = additionalCommunityPosts.continuation;
+    communityPosts.value.innerTubeApi = additionalCommunityPosts.innerTubeApi;
+  } catch (error) {
+    messagesStore.createMessage({
+      type: 'error',
+      title: 'Failed to load more community posts',
+      message:
+        (error as any).message ??
+        "More community posts don't seem to be available, or something went wrong."
+    });
   }
   morePending.value = false;
 };

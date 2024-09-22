@@ -38,24 +38,24 @@ const currentPage = computed(() => {
 });
 
 const deleteRange = async () => {
-  if (rangeSelected.value) {
-    const firstDate = new Date(dateToDelete.value[0]).valueOf();
-    const secondDate = new Date(dateToDelete.value[1]).valueOf();
-    await vtFetch(`${apiUrl.value}user/history/from/${firstDate}/to/${secondDate}`, {
-      method: 'DELETE',
-      credentials: 'include'
+  if (!rangeSelected.value) return;
+  
+  const firstDate = new Date(dateToDelete.value[0]).valueOf();
+  const secondDate = new Date(dateToDelete.value[1]).valueOf();
+  await vtFetch(`${apiUrl.value}user/history/from/${firstDate}/to/${secondDate}`, {
+    method: 'DELETE',
+    credentials: 'include'
+  })
+    .then(() => {
+      refresh();
     })
-      .then(() => {
-        refresh();
-      })
-      .catch(() => {
-        messagesStore.createMessage({
-          type: 'error',
-          title: 'Error deleting history range',
-          message: 'Try specifying the range again'
-        });
+    .catch(() => {
+      messagesStore.createMessage({
+        type: 'error',
+        title: 'Error deleting history range',
+        message: 'Try specifying the range again'
       });
-  }
+    });
 };
 
 const deleteEntireHistory = async () => {

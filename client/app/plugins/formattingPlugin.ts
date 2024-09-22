@@ -1,3 +1,5 @@
+import { getTimestampFromSeconds } from "@viewtube/shared";
+
 export default defineNuxtPlugin(() => {
   return {
     provide: {
@@ -9,28 +11,7 @@ export default defineNuxtPlugin(() => {
          * @param seconds
          * @returns timestamp
          */
-        getTimestampFromSeconds: (seconds: number): string => {
-          const toDoubleDigit = (i: number) => {
-            let str = i.toString();
-            if (i >= 0 && i < 10) {
-              str = '0' + i;
-            }
-            return str;
-          };
-
-          const hours = Math.floor(seconds / 3600);
-          seconds -= hours * 3600;
-          const minutes = Math.floor(seconds / 60);
-          const timestampMinutes = toDoubleDigit(minutes);
-          seconds -= minutes * 60;
-          const timestampSeconds = toDoubleDigit(Math.floor(seconds));
-          if (hours >= 1) {
-            const timestampHours = toDoubleDigit(Math.floor(hours));
-            return `${timestampHours}:${timestampMinutes}:${timestampSeconds}`;
-          } else {
-            return `${timestampMinutes}:${timestampSeconds}`;
-          }
-        },
+        getTimestampFromSeconds: getTimestampFromSeconds,
         /**
          * Format bytes as human-readable text.
          *

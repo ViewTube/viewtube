@@ -40,8 +40,6 @@ const openPopup = (popup: string) => {
     case 'logout':
       logoutOpen.value = true;
       break;
-    default:
-      break;
   }
 };
 
@@ -57,11 +55,9 @@ const onRegisterClick = () => {
 };
 
 const getProfileImageUrl = (url: string): string => {
-  if (url) {
-    const imgUrl = url.replace('/api/', '');
-    return `${apiUrl.value}${imgUrl}`;
-  }
-  return null;
+  if (!url) return null;
+  const imgUrl = url.replace('/api/', '');
+  return `${apiUrl.value}${imgUrl}`;
 };
 
 const closeAllPopups = () => {

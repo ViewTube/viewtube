@@ -47,20 +47,19 @@ const onPointerDown = (e: PointerEvent) => {
 
 const onPointerMove = (e: PointerEvent) => {
   const rect = seekbarInnerRef.value?.getBoundingClientRect();
-  if (rect) {
-    const x = e.clientX - rect.left;
-    const width = rect.width;
-    let percent = x / width;
-    if (percent < 0) percent = 0;
-    if (percent > 1) percent = 1;
-    const time = props.videoState.video.duration * percent;
-    hoveredTime.value = time;
-    hoveredTimestamp.value = getTimestampFromSeconds(time);
-    hoverPosition.value = percent;
+  if (!rect) return;
+  const x = e.clientX - rect.left;
+  const width = rect.width;
+  let percent = x / width;
+  if (percent < 0) percent = 0;
+  if (percent > 1) percent = 1;
+  const time = props.videoState.video.duration * percent;
+  hoveredTime.value = time;
+  hoveredTimestamp.value = getTimestampFromSeconds(time);
+  hoverPosition.value = percent;
 
-    if (seeking.value) {
-      _currentTime.value = time;
-    }
+  if (seeking.value) {
+    _currentTime.value = time;
   }
 };
 

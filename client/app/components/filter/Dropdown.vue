@@ -23,11 +23,10 @@ type entriesArray = Array<{ name: string; value: string }>;
 const entries = computed((): entriesArray => {
   if (props.values[0].value && props.values[0].name) {
     return props.values;
-  } else {
-    return props.values.map(value => {
-      return { name: value, value };
-    });
   }
+  return props.values.map(value => {
+    return { name: value, value };
+  });
 });
 
 const calculateOffset = (): void => {

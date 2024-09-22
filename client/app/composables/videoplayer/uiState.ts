@@ -222,44 +222,42 @@ export const useUIState = (
   const onPointerDown = (e: PointerEvent) => {
     if (hidden?.value) return true;
 
-    if (e.pointerType === 'touch') {
-      touchEvent.value = true;
-      if (e.target instanceof HTMLVideoElement) {
-        if (!doubleTouchTimeout.value) {
-          doubleTouchTimeout.value = setTimeout(() => {
-            clearTimeout(doubleTouchTimeout.value);
-            doubleTouchTimeout.value = undefined;
+    if (e.pointerType !== 'touch') return;
+    touchEvent.value = true;
+    if (!(e.target instanceof HTMLVideoElement)) return;
+    if (!doubleTouchTimeout.value) {
+      doubleTouchTimeout.value = setTimeout(() => {
+        clearTimeout(doubleTouchTimeout.value);
+        doubleTouchTimeout.value = undefined;
 
-            if (!visible.value) {
-              showUI();
-            } else {
-              hideUI();
-            }
-          }, 250);
-
-          doubleTouchPosition.value = { x: e.clientX, y: e.clientY };
+        if (!visible.value) {
+          showUI();
         } else {
-          clearTimeout(doubleTouchTimeout.value);
-          doubleTouchTimeout.value = undefined;
-          const distanceX = e.clientX - doubleTouchPosition.value.x;
-          const distanceY = e.clientY - doubleTouchPosition.value.y;
-          if (Math.abs(distanceX) < 50 && Math.abs(distanceY) < 50) {
-            const container = e.target as HTMLVideoElement;
-            const containerRect = container.getBoundingClientRect();
+          hideUI();
+        }
+      }, 250);
 
-            const leftHalf = e.clientX < containerRect.left + containerRect.width / 2;
-            const rightHalf = e.clientX > containerRect.left + containerRect.width / 2;
+      doubleTouchPosition.value = { x: e.clientX, y: e.clientY };
+    } else {
+      clearTimeout(doubleTouchTimeout.value);
+      doubleTouchTimeout.value = undefined;
+      const distanceX = e.clientX - doubleTouchPosition.value.x;
+      const distanceY = e.clientY - doubleTouchPosition.value.y;
+      if (Math.abs(distanceX) < 50 && Math.abs(distanceY) < 50) {
+        const container = e.target as HTMLVideoElement;
+        const containerRect = container.getBoundingClientRect();
 
-            if (leftHalf) {
-              videoState.setTime(videoState.video.currentTime - 10);
-              triggerEffect('skipBackward');
-            }
+        const leftHalf = e.clientX < containerRect.left + containerRect.width / 2;
+        const rightHalf = e.clientX > containerRect.left + containerRect.width / 2;
 
-            if (rightHalf) {
-              videoState.setTime(videoState.video.currentTime + 10);
-              triggerEffect('skipForward');
-            }
-          }
+        if (leftHalf) {
+          videoState.setTime(videoState.video.currentTime - 10);
+          triggerEffect('skipBackward');
+        }
+
+        if (rightHalf) {
+          videoState.setTime(videoState.video.currentTime + 10);
+          triggerEffect('skipForward');
         }
       }
     }

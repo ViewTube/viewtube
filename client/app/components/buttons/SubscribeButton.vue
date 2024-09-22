@@ -62,89 +62,82 @@ export default defineComponent({
     });
 
     const loadSubscriptionStatus = (): void => {
-      if (props.channelId && userStore.isLoggedIn) {
-        vtFetch<ApiDto<'SubscriptionStatusDto'>>(
-          `${apiUrl.value}user/subscriptions/${props.channelId}`,
-          {
-            credentials: 'include'
-          }
-        )
-          .then(response => {
-            if (response.isSubscribed) {
-              isSubscribed.value = true;
-            } else {
-              isSubscribed.value = false;
-            }
-            disabled.value = false;
-          })
-          .catch((_: any) => {
-            isSubscribed.value = false;
-            disabled.value = true;
-          });
-      }
+      if (!props.channelId || !userStore.isLoggedIn) return;
+      vtFetch<ApiDto<'SubscriptionStatusDto'>>(
+        `${apiUrl.value}user/subscriptions/${props.channelId}`,
+        {
+          credentials: 'include'
+        }
+      )
+        .then(response => {
+          isSubscribed.value = response.isSubscribed;
+          disabled.value = false;
+        })
+        .catch((_: any) => {
+          isSubscribed.value = false;
+          disabled.value = true;
+        });
     };
     const subscribe = (): void => {
-      if (props.channelId) {
-        disabled.value = true;
-        vtFetch<ApiDto<'SubscriptionStatusDto'>>(
-          `${apiUrl.value}user/subscriptions/${props.channelId}`,
-          {
-            method: 'PUT',
-            credentials: 'include'
-          }
-        )
-          .then(response => {
-            if (response.isSubscribed) {
-              isSubscribed.value = true;
-              messagesStore.createMessage({
-                type: 'info',
-                title: 'Subscribed',
-                message: `Successfully subscribed. Fetching new videos can take some time.`
-              });
-            }
-            disabled.value = false;
-            if (props.small) {
-              expanded.value = false;
-            }
-          })
-          .catch((_: any) => {
+      if (!props.channelId) return;
+      disabled.value = true;
+      vtFetch<ApiDto<'SubscriptionStatusDto'>>(
+        `${apiUrl.value}user/subscriptions/${props.channelId}`,
+        {
+          method: 'PUT',
+          credentials: 'include'
+        }
+      )
+        .then(response => {
+          if (response.isSubscribed) {
+            isSubscribed.value = true;
             messagesStore.createMessage({
-              type: 'error',
-              title: 'Unable to subscribe',
-              message: `You may not be logged in. Try reloading the page.`
+              type: 'info',
+              title: 'Subscribed',
+              message: `Successfully subscribed. Fetching new videos can take some time.`
             });
-            disabled.value = false;
+          }
+          disabled.value = false;
+          if (props.small) {
+            expanded.value = false;
+          }
+        })
+        .catch((_: any) => {
+          messagesStore.createMessage({
+            type: 'error',
+            title: 'Unable to subscribe',
+            message: `You may not be logged in. Try reloading the page.`
           });
-      }
+          disabled.value = false;
+        });
     };
     const unsubscribe = (): void => {
-      if (props.channelId) {
-        disabled.value = true;
-        vtFetch<ApiDto<'SubscriptionStatusDto'>>(
-          `${apiUrl.value}user/subscriptions/${props.channelId}`,
-          {
-            method: 'DELETE',
-            credentials: 'include'
+      if (!props.channelId) return;
+      disabled.value = true;
+      vtFetch<ApiDto<'SubscriptionStatusDto'>>(
+        `${apiUrl.value}user/subscriptions/${props.channelId}`,
+        {
+          method: 'DELETE',
+          credentials: 'include'
+        }
+      )
+        .then(response => {
+          if (!response.isSubscribed) {
+            isSubscribed.value = false;
           }
-        )
-          .then(response => {
-            if (!response.isSubscribed) {
-              isSubscribed.value = false;
-            }
-            disabled.value = false;
-            if (props.small) {
-              expanded.value = false;
-            }
-          })
-          .catch((_: any) => {
-            messagesStore.createMessage({
-              type: 'error',
-              title: 'Unable to unsubscribe',
-              message: `You may not be logged in. Try to reload the page.`
-            });
-            disabled.value = false;
+          disabled.value = false;
+          if (props.small) {
+            expanded.value = false;
+          }
+        })
+        .catch((_: any) => {
+          messagesStore.createMessage({
+            type: 'error',
+            title: 'Unable to unsubscribe',
+            message: `You may not be logged in. Try to reload the page.`
           });
-      }
+          disabled.value = false;
+        });
     };
 
     return {

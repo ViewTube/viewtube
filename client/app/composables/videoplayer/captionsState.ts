@@ -80,40 +80,40 @@ export const useCaptionsState = (video: Ref<ApiDto<'VTVideoInfoDto'>>) => {
   watch(currentTrackCode, async newValue => {
     availableCaptionTracks.value = getAvailableCaptionTracks();
 
-    if (newValue) {
-      try {
-        const track = availableCaptionTracks.value.find(
-          captionTrack => captionTrack.languageCode === newValue
-        );
+    if (!newValue) return
+    
+    try {
+      const track = availableCaptionTracks.value.find(
+        captionTrack => captionTrack.languageCode === newValue
+      );
 
-        if (!downloadedCaptionTracks.value[track.languageCode]) {
-          downloadedCaptionTracks.value[track.languageCode] = {
-            languageCode: track.languageCode,
-            name: track.name,
-            captions: null
-          };
-        }
-
-        const captionUrl = `${textProxy}${encodeURIComponent(track.baseUrl)}`;
-        const captionXml = await vtFetch<string>(captionUrl);
-
-        const x2js = new X2js();
-
-        const captionsObject = x2js.xml2js<ParsedCaptionsObject>(captionXml);
-
-        downloadedCaptionTracks.value[track.languageCode].captions =
-          captionsObject.transcript.text.map(el => ({
-            text: el.__text,
-            duration: parseFloat(el._dur),
-            start: parseFloat(el._start)
-          }));
-      } catch (error: any) {
-        messagesStore.createMessage({
-          type: 'error',
-          title: 'Error loading captions',
-          message: error.message
-        });
+      if (!downloadedCaptionTracks.value[track.languageCode]) {
+        downloadedCaptionTracks.value[track.languageCode] = {
+          languageCode: track.languageCode,
+          name: track.name,
+          captions: null
+        };
       }
+
+      const captionUrl = `${textProxy}${encodeURIComponent(track.baseUrl)}`;
+      const captionXml = await vtFetch<string>(captionUrl);
+
+      const x2js = new X2js();
+
+      const captionsObject = x2js.xml2js<ParsedCaptionsObject>(captionXml);
+
+      downloadedCaptionTracks.value[track.languageCode].captions =
+        captionsObject.transcript.text.map(el => ({
+          text: el.__text,
+          duration: parseFloat(el._dur),
+          start: parseFloat(el._start)
+        }));
+    } catch (error: any) {
+      messagesStore.createMessage({
+        type: 'error',
+        title: 'Error loading captions',
+        message: error.message
+      });
     }
   });
 

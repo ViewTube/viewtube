@@ -5,24 +5,21 @@ import { PlaylistResultDto } from './dto/playlist-result.dto';
 @Injectable()
 export class PlaylistsService {
   async getPlaylist(playlistId: string, pages: number): Promise<PlaylistResultDto> {
-    if (playlistId && ytpl.validateID(playlistId)) {
-      let playlistContent: Result;
+    if (!playlistId || !ytpl.validateID(playlistId)) {
+      throw new InternalServerErrorException('Invalid playlist ID');
+    }
 
-      const ytplOptions: Options = {};
+    const ytplOptions: Options = pages ? { pages } : {};
 
-      if (pages) {
-        ytplOptions.pages = pages;
-      }
-
-      try {
-        playlistContent = await ytpl(playlistId, ytplOptions);
-      } catch (error) {
-        throw new InternalServerErrorException(error);
-      }
+    try {
+      const playlistContent: Result = await ytpl(playlistId, ytplOptions);
       if (playlistContent) {
         return playlistContent;
       }
+    } catch (error) {
+      throw new InternalServerErrorException(error);
     }
+
     throw new InternalServerErrorException('Error fetching playlist');
   }
 

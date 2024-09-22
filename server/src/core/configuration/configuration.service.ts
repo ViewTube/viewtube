@@ -34,14 +34,14 @@ export class ConfigurationService {
 
     const savedJwtKey = savedConfiguration.jwtKey;
 
-    if (envJwtKey && savedJwtKey) {
+    if (envJwtKey) {
       this.jwtKey = envJwtKey;
-    } else if (envJwtKey && !savedJwtKey) {
-      this.jwtKey = envJwtKey;
-      savedConfiguration.jwtKey = envJwtKey;
-    } else if (!envJwtKey && savedJwtKey) {
-      this.jwtKey = savedConfiguration.jwtKey;
-    } else if (!envJwtKey && !savedJwtKey) {
+      if (!savedJwtKey) {
+        savedConfiguration.jwtKey = envJwtKey;
+      }
+    } else if (savedJwtKey) {
+      this.jwtKey = savedJwtKey;
+    } else {
       const newJwtKey = crypto.randomBytes(128).toString('base64');
       this.jwtKey = newJwtKey;
       savedConfiguration.jwtKey = newJwtKey;
@@ -50,26 +50,24 @@ export class ConfigurationService {
     let newVapidKeys: VapidKeys = null;
 
     const savedPublicVapidKey = savedConfiguration.publicVapidKey;
-    if (envPublicVapidKey && savedPublicVapidKey) {
+
+    if (envPublicVapidKey) {
       this.publicVapidKey = envPublicVapidKey;
-    } else if (envPublicVapidKey && !savedPublicVapidKey) {
-      this.publicVapidKey = envPublicVapidKey;
-    } else if (!envPublicVapidKey && savedPublicVapidKey) {
-      this.publicVapidKey = savedConfiguration.publicVapidKey;
-    } else if (!envPublicVapidKey && !savedPublicVapidKey) {
+    } else if (savedPublicVapidKey) {
+      this.publicVapidKey = savedPublicVapidKey;
+    } else {
       newVapidKeys = generateVAPIDKeys();
       this.publicVapidKey = newVapidKeys.publicKey;
       savedConfiguration.publicVapidKey = newVapidKeys.publicKey;
     }
 
     const savedPrivateVapidKey = savedConfiguration.privateVapidKey;
-    if (envPrivateVapidKey && savedPrivateVapidKey) {
+
+    if (envPrivateVapidKey) {
       this.privateVapidKey = envPrivateVapidKey;
-    } else if (envPrivateVapidKey && !savedPrivateVapidKey) {
-      this.privateVapidKey = envPrivateVapidKey;
-    } else if (!envPrivateVapidKey && savedPrivateVapidKey) {
-      this.privateVapidKey = savedConfiguration.privateVapidKey;
-    } else if (!envPrivateVapidKey && !savedPrivateVapidKey) {
+    } else if (savedPrivateVapidKey) {
+      this.privateVapidKey = savedPrivateVapidKey;
+    } else {
       if (!newVapidKeys) {
         newVapidKeys = generateVAPIDKeys();
       }
@@ -87,16 +85,17 @@ export class ConfigurationService {
   static async loadConfiguration(): Promise<ConfigurationType> {
     const configPath = this.getConfigPath();
     if (fs.existsSync(configPath)) {
-      try {
-        const file = await readFile(configPath);
-        const obj = JSON.parse(file.toString());
-        logger.log(`Loaded configuration from ${configPath}`);
-        return obj;
-      } catch {
-        // ignore
-      }
+      return null;
     }
-    return null;
+
+    try {
+      const file = await readFile(configPath);
+      const obj = JSON.parse(file.toString());
+      logger.log(`Loaded configuration from ${configPath}`);
+      return obj;
+    } catch {
+      return null;
+    }
   }
 
   static async saveConfiguration(data: ConfigurationType): Promise<void> {

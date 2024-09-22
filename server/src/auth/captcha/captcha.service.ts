@@ -39,10 +39,7 @@ export class CaptchaService {
       .exec()
       .then(
         (value: Captcha) => {
-          if (value && value.solution === solution) {
-            return true;
-          }
-          return false;
+          return value && value.solution === solution;
         },
         () => {
           return false;

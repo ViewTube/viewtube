@@ -10,18 +10,16 @@ const { data: subscriptions, pending: subscriptionsLoading } = useGetUserSubscri
 
 const showMore = ref(false);
 const displayedSubscriptions = computed(() => {
-  if (subscriptions.value && subscriptions.value.videos) {
-    if (!settingsStore.showHomeTrendingVideos) {
-      return subscriptions.value.videos;
-    }
-
-    if (!showMore.value) {
-      return subscriptions.value.videos.slice(0, 4);
-    }
-
-    return subscriptions.value.videos;
+  const videos = subscriptions.value.videos;
+  if (!subscriptions.value || !videos) {
+    return [];
   }
-  return [];
+
+  if (!settingsStore.showHomeTrendingVideos || !showMore.value) {
+    return videos.slice(0, 4);
+  }
+
+  return videos;
 });
 const showMoreSubscriptions = (): void => {
   showMore.value = true;

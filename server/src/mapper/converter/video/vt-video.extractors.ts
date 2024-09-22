@@ -8,27 +8,19 @@ import Author from 'youtubei.js/dist/src/parser/classes/misc/Author';
 import { VideoSourceApproximation } from './vt-video.converter';
 
 export const extractVideoId = (video: VideoSourceApproximation): string => {
-  if (video.id) {
-    return video.id;
-  } else if (video.videoId) {
-    return video.videoId;
-  } else if (video.videoID) {
-    return video.videoID;
-  }
+  return video.id || video.videoId || video.videoID;
 };
 
-export const extractVideoTitle = (video: VideoSourceApproximation): string => {
-  if (typeof video.title === 'object') {
-    if (video.title) {
-      return (video.title as { text: string }).text;
-    }
-  } else if (typeof video.title === 'string') {
-    return video.title;
-  } else if (video.name) {
-    return video.name;
-  } else {
-    return null;
+export const extractVideoTitle = (video: VideoSourceApproximation): string | null => {
+  if (video.title && typeof video.title === 'object') {
+    return (video.title as { text: string }).text;
   }
+  
+  if (typeof video.title === 'string') {
+    return video.title;
+  }
+  
+  return video.name || null;
 };
 
 export const extractVideoAuthor = (video: VideoSourceApproximation): VTVideoDto['author'] => {
@@ -136,20 +128,10 @@ export const extractVideoAuthor = (video: VideoSourceApproximation): VTVideoDto[
 };
 
 export const extractVideoDescription = (video: VideoSourceApproximation): string => {
-  if (video.description) {
-    return video.description;
-  } else if (video.descriptionHtml) {
-    return video.descriptionHtml;
-  } else if (video.description_snippet) {
-    return video.description_snippet?.text;
-  } else if (video.snippets) {
-    const possibleDescription = video.snippets.find(snip =>
-      snip.hover_text?.text?.includes('description')
-    );
-    if (possibleDescription?.text?.text) {
-      return possibleDescription.text.text;
-    }
-  }
+  return video.description ||
+         video.descriptionHtml ||
+         video.description_snippet?.text ||
+         video.snippets?.find(snip => snip.hover_text?.text?.includes('description'))?.text?.text;
 };
 
 export const extractVideoRichThumbnails = (
@@ -171,6 +153,10 @@ export const extractVideoDuration = (video: VideoSourceApproximation): VTVideoDt
   let seconds: number;
   let text: string;
 
+  if (video.duration) {
+    return video.duration;
+  }
+
   if (video.lengthSeconds || typeof video.lengthSeconds === 'number') {
     seconds = parseInt(video.lengthSeconds.toString());
   } else if (video.lengthString) {
@@ -183,11 +169,6 @@ export const extractVideoDuration = (video: VideoSourceApproximation): VTVideoDt
     text = getTimestampFromSeconds(seconds);
   }
 
-  if (video.duration) {
-    seconds = video.duration.seconds;
-    text = video.duration.text;
-  }
-
   return {
     seconds,
     text
@@ -195,28 +176,17 @@ export const extractVideoDuration = (video: VideoSourceApproximation): VTVideoDt
 };
 
 export const extractVideoPublished = (video: VideoSourceApproximation): VTVideoDto['published'] => {
-  if (video.published) {
+  const publishedText: string = video.published?.text || video.publishedText;
+  if (publishedText) {
     return {
-      date: parseRelativeTime(video.published.text)?.toDate(),
-      text: video.published.text
-    };
-  } else if (video.publishedText) {
-    return {
-      date: parseRelativeTime(video.publishedText)?.toDate(),
-      text: video.publishedText
+      date: parseRelativeTime(publishedText)?.toDate(),
+      text: publishedText
     };
   }
 };
 
 export const extractVideoViewCount = (video: VideoSourceApproximation): number => {
-  let viewCountString: string;
-
-  if (video.viewCount) {
-    viewCountString = video.viewCount;
-  } else if (video.view_count) {
-    viewCountString = video.view_count.text;
-  }
-
+  const viewCountString: string = video.viewCount || video.view_count?.text;
   if (viewCountString) {
     return parseShortenedNumber(viewCountString);
   }
@@ -231,11 +201,15 @@ export const extractVideoUpcoming = (video: VideoSourceApproximation): Date => {
 export const extractVideoLive = (video: VideoSourceApproximation): boolean => {
   if (typeof video.live === 'boolean') {
     return video.live;
-  } else if (typeof video.isLive === 'boolean') {
+  }
+  if (typeof video.isLive === 'boolean') {
     return video.isLive;
-  } else if (typeof video.is_live === 'boolean') {
+  }
+  if (typeof video.is_live === 'boolean') {
     return video.is_live;
-  } else if (video.badges) {
+  }
+  
+  if (video.badges) {
     return video.badges.some(
       badge => badge.label === 'LIVE' || badge.style === 'BADGE_STYLE_TYPE_LIVE_NOW'
     );

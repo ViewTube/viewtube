@@ -57,20 +57,23 @@ const onAutocompleteSelectedValueUpdate = (value: number) => {
 };
 
 const onSearchFieldKeydown = (e: any) => {
-  if (e.key === 'ArrowDown') {
-    if (autocompleteSelectedValue.value + 2 <= autocompleteValues.value.length) {
-      autocompleteSelectedValue.value += 1;
-    } else {
-      autocompleteSelectedValue.value = 0;
-    }
-    localSearchValue.value = autocompleteValues.value[autocompleteSelectedValue.value];
-  } else if (e.key === 'ArrowUp') {
-    if (autocompleteSelectedValue.value - 1 >= 0) {
-      autocompleteSelectedValue.value -= 1;
-    } else {
-      autocompleteSelectedValue.value = autocompleteValues.value.length - 1;
-    }
-    localSearchValue.value = autocompleteValues.value[autocompleteSelectedValue.value];
+  switch (e.key) {
+    case 'ArrowDown':
+      if (autocompleteSelectedValue.value + 2 <= autocompleteValues.value.length) {
+        autocompleteSelectedValue.value += 1;
+      } else {
+        autocompleteSelectedValue.value = 0;
+      }
+      localSearchValue.value = autocompleteValues.value[autocompleteSelectedValue.value];
+      break;
+    case 'ArrowUp':
+      if (autocompleteSelectedValue.value - 1 >= 0) {
+        autocompleteSelectedValue.value -= 1;
+      } else {
+        autocompleteSelectedValue.value = autocompleteValues.value.length - 1;
+      }
+      localSearchValue.value = autocompleteValues.value[autocompleteSelectedValue.value];
+      break;
   }
   e.stopPropagation();
   return true;
