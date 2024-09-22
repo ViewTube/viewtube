@@ -1,6 +1,7 @@
 import path from 'path';
-import { Innertube, InnertubeConfig, Log, UniversalCache } from 'youtubei.js';
+import { Innertube, Log, UniversalCache } from 'youtubei.js';
 import { innertubeFetch } from './innertubeFetch';
+import type { InnerTubeConfig } from 'youtubei.js/dist/src/types';
 
 Log.setLevel(Log.Level.ERROR);
 
@@ -9,7 +10,7 @@ if (process.env.VIEWTUBE_DATA_DIRECTORY) {
   cacheDirectory = path.join(process.env.VIEWTUBE_DATA_DIRECTORY, 'cache');
 }
 
-const innertubeOptions: InnertubeConfig = {
+const innertubeOptions: InnerTubeConfig = {
   cache: new UniversalCache(true, cacheDirectory),
   fetch: innertubeFetch,
   enable_session_cache: false,

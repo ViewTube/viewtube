@@ -1,6 +1,8 @@
 FROM node:20-bookworm AS build
 WORKDIR /home/build
 
+ENV CI=true
+
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 
 COPY server/package.json ./server/
@@ -9,7 +11,7 @@ COPY client/package.json ./client/
 COPY client/scripts ./client/scripts
 COPY patches ./patches
 
-RUN npm install -g pnpm@9.1.3
+RUN npm install -g pnpm@9.10.0
 
 RUN pnpm install --frozen-lockfile
 

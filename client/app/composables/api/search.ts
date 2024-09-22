@@ -1,5 +1,5 @@
 import type { ApiDto } from '@viewtube/shared';
-import { type LocationQuery } from 'vue-router';
+import type { LocationQuery } from 'vue-router';
 
 export type FilterType = { filterValue: any; filterType?: any; filterName: any };
 
