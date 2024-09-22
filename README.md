@@ -150,11 +150,11 @@ Thanks goes to these wonderful people
       <td align="center" valign="top" width="14.28%"><a href="https://quentinfranchi.com"><img src="https://avatars.githubusercontent.com/u/11914315?v=4?s=100" width="100px;" alt="Quentin Franchi"/><br /><sub><b>Quentin Franchi</b></sub></a><br /><a href="https://github.com/ViewTube/viewtube/commits?author=nargacu83" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/frozenduck"><img src="https://avatars.githubusercontent.com/u/63501031?v=4?s=100" width="100px;" alt="frozenduck"/><br /><sub><b>frozenduck</b></sub></a><br /><a href="https://github.com/ViewTube/viewtube/commits?author=frozenduck" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/patricgruber"><img src="https://avatars.githubusercontent.com/u/12413072?v=4?s=100" width="100px;" alt="Patric Gruber"/><br /><sub><b>Patric Gruber</b></sub></a><br /><a href="https://github.com/ViewTube/viewtube/commits?author=patricgruber" title="Code">💻</a> <a href="https://github.com/ViewTube/viewtube/commits?author=patricgruber" title="Documentation">📖</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/JoshuaVandaele"><img src="https://avatars.githubusercontent.com/u/24195176?v=4?s=100" width="100px;" alt="Joshua Vandaële"/><br /><sub><b>Joshua Vandaële</b></sub></a><br /><a href="https://github.com/ViewTube/viewtube/commits?author=JoshuaVandaele" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>
 
 <!-- markdownlint-restore -->
 <!-- prettier-ignore-end -->
-
 <!-- ALL-CONTRIBUTORS-LIST:END -->
