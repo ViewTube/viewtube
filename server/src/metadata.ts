@@ -1,4 +1,4 @@
- 
+/* eslint-disable */
 export default async () => {
     const t = {
         ["./mapper/dto/vt-thumbnail.dto"]: await import("./mapper/dto/vt-thumbnail.dto"),

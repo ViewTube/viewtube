@@ -1,6 +1,8 @@
 FROM node:20-bookworm AS build
 WORKDIR /home/build
 
+ENV CI=true
+
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 
 COPY server/package.json ./server/

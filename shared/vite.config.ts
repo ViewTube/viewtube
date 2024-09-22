@@ -5,7 +5,7 @@ import tsconfigPaths from 'vite-tsconfig-paths';
 
 export default defineConfig({
   plugins: [
-    tsconfigPaths(),
+    tsconfigPaths({ ignoreConfigErrors: true }),
     dts({ insertTypesEntry: true }),
     checker({
       typescript: true
