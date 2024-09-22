@@ -31,7 +31,7 @@
     "@nestjs/mongoose": "10.0.10",
     "@nestjs/platform-fastify": "10.4.1",
     "@nestjs/schedule": "4.1.0",
-    "@nestjs/swagger": "7.4.0",
+    "@nestjs/swagger": "7.4.2",
     "@viewtube/shared": "workspace:*",
     "archiver": "7.0.1",
     "axios": "1.7.7",
