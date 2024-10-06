@@ -3,8 +3,7 @@ import { innertubeClient } from 'server/common/innertube/innertube';
 import { toVTSearchResultDto } from 'server/mapper/converter/search/vt-search-result.converter';
 import { VTSearchDto } from 'server/mapper/dto/search/vt-search.dto';
 import { Endpoints, Parser, YTNodes } from 'youtubei.js';
-import { SearchFilter, SearchFilter_Filters_Duration, SearchFilter_Filters_SearchType, SearchFilter_Filters_UploadDate, SearchFilter_SortBy } from 'youtubei.js/dist/protos/generated/misc/params';
-import { u8ToBase64 } from 'youtubei.js/dist/src/utils/Utils';
+import type { SearchFilter } from 'youtubei.js/dist/protos/generated/misc/params';
 import { SearchFiltersDto } from './dto/search-filters.dto';
 import { SearchQueryDto } from './dto/search-query.dto';
 
@@ -32,6 +31,13 @@ export class SearchService {
     let searchFilters;
     if (searchQuery.filters) {
       const filters = searchQuery.filters;
+      const {
+        SearchFilter_SortBy,
+        SearchFilter_Filters_UploadDate,
+        SearchFilter_Filters_SearchType,
+        SearchFilter_Filters_Duration,
+        SearchFilter
+      } = await import('youtubei.js/dist/protos/generated/misc/params');
       const search_filter: SearchFilter = {};
 
       search_filter.filters = {};
@@ -103,6 +109,10 @@ export class SearchService {
           }
         }
       }
+
+      const u8ToBase64 = await import('youtubei.js/dist/src/utils/Utils.js').then(
+        el => el.u8ToBase64
+      );
 
       searchFilters = encodeURIComponent(u8ToBase64(SearchFilter.encode(search_filter).finish()));
     }
