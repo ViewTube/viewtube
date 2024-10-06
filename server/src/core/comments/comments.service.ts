@@ -6,8 +6,6 @@ import { VTCommentsResponseDto } from 'server/mapper/converter/comments/vt-comme
 import { toVTCommentsResponseDto } from 'server/mapper/converter/comments/vt-comments.converter';
 
 import { YTNodes } from 'youtubei.js';
-import { GetCommentsSectionParams } from 'youtubei.js/dist/protos/generated/misc/params.js';
-import { u8ToBase64 } from 'youtubei.js/dist/src/utils/Utils';
 @Injectable()
 export class CommentsService {
   async getComments(
@@ -32,6 +30,14 @@ export class CommentsService {
         parse: true
       };
     } else {
+      const GetCommentsSectionParams = await import(
+        'youtubei.js/dist/protos/generated/misc/params.js'
+      ).then(el => el.GetCommentsSectionParams);
+
+      const u8ToBase64 = await import('youtubei.js/dist/src/utils/Utils.js').then(
+        el => el.u8ToBase64
+      );
+
       const writer = GetCommentsSectionParams.encode({
         ctx: {
           videoId
