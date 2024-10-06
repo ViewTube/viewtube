@@ -17,7 +17,7 @@
     "server": "dist/server"
   },
   "dependencies": {
-    "@fastify/cookie": "9.4.0",
+    "@fastify/cookie": "10.0.1",
     "@fastify/helmet": "12.0.1",
     "@fastify/multipart": "8.3.0",
     "@fastify/static": "7.0.4",
