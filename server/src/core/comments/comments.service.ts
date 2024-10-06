@@ -5,8 +5,9 @@ import { VTCommentsReplyResponseDto } from 'server/mapper/converter/comments/vt-
 import { VTCommentsResponseDto } from 'server/mapper/converter/comments/vt-comments-response.dto';
 import { toVTCommentsResponseDto } from 'server/mapper/converter/comments/vt-comments.converter';
 
-import { Proto, YTNodes } from 'youtubei.js';
-
+import { YTNodes } from 'youtubei.js';
+import { GetCommentsSectionParams } from 'youtubei.js/dist/protos/generated/misc/params.js';
+import { u8ToBase64 } from 'youtubei.js/dist/src/utils/Utils';
 @Injectable()
 export class CommentsService {
   async getComments(
@@ -15,6 +16,11 @@ export class CommentsService {
     continuationString?: string
   ): Promise<VTCommentsResponseDto> {
     const innertube = await innertubeClient();
+
+    const SORT_OPTIONS = {
+      TOP_COMMENTS: 0,
+      NEWEST_FIRST: 1
+    };
 
     const sortBy = sortByNewest ? 'NEWEST_FIRST' : 'TOP_COMMENTS';
 
@@ -26,10 +32,24 @@ export class CommentsService {
         parse: true
       };
     } else {
+      const writer = GetCommentsSectionParams.encode({
+        ctx: {
+          videoId
+        },
+        unkParam: 6,
+        params: {
+          opts: {
+            videoId,
+            sortBy: SORT_OPTIONS[sortBy],
+            type: 2,
+            commentId: ''
+          },
+          target: 'comments-section'
+        }
+      });
+      const continuation = encodeURIComponent(u8ToBase64(writer.finish()));
       commentParams = {
-        continuation: Proto.encodeCommentsSectionParams(videoId, {
-          sort_by: sortBy
-        }),
+        continuation,
         parse: true
       };
     }

@@ -2,7 +2,9 @@ import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { innertubeClient } from 'server/common/innertube/innertube';
 import { toVTSearchResultDto } from 'server/mapper/converter/search/vt-search-result.converter';
 import { VTSearchDto } from 'server/mapper/dto/search/vt-search.dto';
-import { Endpoints, Parser, Proto, YTNodes } from 'youtubei.js';
+import { Endpoints, Parser, YTNodes } from 'youtubei.js';
+import { SearchFilter, SearchFilter_Filters_Duration, SearchFilter_Filters_SearchType, SearchFilter_Filters_UploadDate, SearchFilter_SortBy } from 'youtubei.js/dist/protos/generated/misc/params';
+import { u8ToBase64 } from 'youtubei.js/dist/src/utils/Utils';
 import { SearchFiltersDto } from './dto/search-filters.dto';
 import { SearchQueryDto } from './dto/search-query.dto';
 
@@ -27,12 +29,90 @@ export class SearchService {
 
     const innertube = await innertubeClient();
 
+    let searchFilters;
+    if (searchQuery.filters) {
+      const filters = searchQuery.filters;
+      const search_filter: SearchFilter = {};
+
+      search_filter.filters = {};
+
+      if (filters.sort_by) {
+        search_filter.sortBy =
+          SearchFilter_SortBy[filters.sort_by.toUpperCase() as keyof typeof SearchFilter_SortBy];
+      }
+
+      if (filters.upload_date) {
+        search_filter.filters.uploadDate =
+          SearchFilter_Filters_UploadDate[
+            filters.upload_date.toUpperCase() as keyof typeof SearchFilter_Filters_UploadDate
+          ];
+      }
+
+      if (filters.type) {
+        search_filter.filters.type =
+          SearchFilter_Filters_SearchType[
+            filters.type.toUpperCase() as keyof typeof SearchFilter_Filters_SearchType
+          ];
+      }
+
+      if (filters.duration) {
+        search_filter.filters.duration =
+          SearchFilter_Filters_Duration[
+            filters.duration.toUpperCase() as keyof typeof SearchFilter_Filters_Duration
+          ];
+      }
+
+      if (filters.features) {
+        for (const feature of filters.features) {
+          switch (feature) {
+            case '360':
+              search_filter.filters.features360 = true;
+              break;
+            case '3d':
+              search_filter.filters.features3d = true;
+              break;
+            case '4k':
+              search_filter.filters.features4k = true;
+              break;
+            case 'creative_commons':
+              search_filter.filters.featuresCreativeCommons = true;
+              break;
+            case 'hd':
+              search_filter.filters.featuresHd = true;
+              break;
+            case 'hdr':
+              search_filter.filters.featuresHdr = true;
+              break;
+            case 'live':
+              search_filter.filters.featuresLive = true;
+              break;
+            case 'location':
+              search_filter.filters.featuresLocation = true;
+              break;
+            case 'purchased':
+              search_filter.filters.featuresPurchased = true;
+              break;
+            case 'subtitles':
+              search_filter.filters.featuresSubtitles = true;
+              break;
+            case 'vr180':
+              search_filter.filters.featuresVr180 = true;
+              break;
+            default:
+              break;
+          }
+        }
+      }
+
+      searchFilters = encodeURIComponent(u8ToBase64(SearchFilter.encode(search_filter).finish()));
+    }
+
     const rawResults = await innertube.actions.execute(
       Endpoints.SearchEndpoint.PATH,
       Endpoints.SearchEndpoint.build({
         continuation: searchQuery.continuationString,
         query: searchQuery.q,
-        params: searchQuery.filters ? Proto.encodeSearchFilters(searchQuery.filters) : undefined
+        params: searchFilters
       })
     );
 
