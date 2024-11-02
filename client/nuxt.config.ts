@@ -49,7 +49,7 @@ export default defineNuxtConfig({
 
   modules: [
     '@pinia/nuxt',
-    '@pinia-plugin-persistedstate/nuxt',
+    'pinia-plugin-persistedstate/nuxt',
     '@unocss/nuxt',
     '@vueuse/nuxt',
     '@nuxt/eslint'
@@ -62,7 +62,7 @@ export default defineNuxtConfig({
     safelist: iconSafelist
   },
 
-  piniaPersistedstate: {
+  piniaPluginPersistedstate: {
     cookieOptions: {
       sameSite: 'strict'
     }
