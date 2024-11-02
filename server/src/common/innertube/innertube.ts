@@ -1,7 +1,7 @@
 import path from 'path';
 import { Innertube, Log, UniversalCache } from 'youtubei.js';
-import { innertubeFetch } from './innertubeFetch';
 import type { InnerTubeConfig } from 'youtubei.js/dist/src/types';
+import { innertubeFetch } from './innertubeFetch';
 
 Log.setLevel(Log.Level.ERROR);
 
@@ -14,6 +14,8 @@ const innertubeOptions: InnerTubeConfig = {
   cache: new UniversalCache(true, cacheDirectory),
   fetch: innertubeFetch,
   enable_session_cache: false,
+  po_token: 'MnT2oOZls03H7faYrUDz5445MMN0Lofx_qyQ6gmd05cTQnpv9Yw3oiJDQ2dmbr4oVC4S6s3-hT8FoHcePU4CTWmWEW3Ndw82ALLyfklkPI4_W6LTLD2t8uMApgldWjqnECzMjUs9WrpZwKgP0YTrb53T63walQ==',
+  visitor_data: 'CgtNR0pqRHVDYVI2Zyjk8pq5BjIKCgJDSBIEGgAgUw%3D%3D',
   lang: 'en'
 };
 

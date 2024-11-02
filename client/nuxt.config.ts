@@ -38,9 +38,11 @@ export default defineNuxtConfig({
     css: {
       preprocessorOptions: {
         scss: {
+          api: 'modern-compiler',
           additionalData: `
            @use "sass:math";
-           @import "~/assets/styles/global/variables.scss";
+           @use "~/assets/styles/global/variables.scss" as variables;
+           @use "~/assets/styles/global/mixins.scss" as mixins;
           `
         }
       }
