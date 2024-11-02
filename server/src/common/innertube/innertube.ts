@@ -25,6 +25,14 @@ if (process.env.VIEWTUBE_YOUTUBE_COOKIE) {
   innertubeOptions.cookie = process.env.VIEWTUBE_YOUTUBE_COOKIE;
 }
 
+if (process.env.VIEWTUBE_PO_TOKEN) {
+  innertubeOptions.po_token = process.env.VIEWTUBE_PO_TOKEN;
+}
+
+if (process.env.VIEWTUBE_VISITOR_DATA) {
+  innertubeOptions.visitor_data = process.env.VIEWTUBE_VISITOR_DATA;
+}
+
 let innerTubeClient: Innertube | null = null;
 let clientCreatedAt: number | null = null;
 
