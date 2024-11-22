@@ -20,7 +20,7 @@
     "@fastify/cookie": "9.4.0",
     "@fastify/helmet": "12.0.1",
     "@fastify/multipart": "8.3.0",
-    "@fastify/static": "7.0.4",
+    "@fastify/static": "8.0.3",
     "@fastify/swagger": "9.1.0",
     "@nestjs/bull": "10.2.1",
     "@nestjs/cache-manager": "2.2.2",
