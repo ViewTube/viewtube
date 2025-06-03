@@ -1,7 +1,10 @@
 import { Request, RequestInit } from 'undici';
 import { vtFetch } from '../vtFetch';
 
-export const innertubeFetch = async (input: string | URL | Request, init?: RequestInit): Promise<Response> => {
+export const innertubeFetch = async (
+  input: string | URL | Request,
+  init?: RequestInit
+): Promise<Response> => {
   if (typeof init !== 'object') {
     init = {};
   }
@@ -16,7 +19,15 @@ export const innertubeFetch = async (input: string | URL | Request, init?: Reque
     url = input.url;
   }
 
-  const method = init?.method ?? (input instanceof Request ? input.method : undefined) ?? 'GET';
+  let method = 'GET';
+
+  if (init?.method) {
+    method = init.method.toUpperCase();
+  } else if (input instanceof Request) {
+    method = input.method.toUpperCase();
+  } else if (init?.body) {
+    method = 'POST';
+  }
 
   return vtFetch.rawFetch(url, {
     ...(typeof input === 'string' ? {} : input),
@@ -25,5 +36,5 @@ export const innertubeFetch = async (input: string | URL | Request, init?: Reque
     headers: init?.headers,
     body: init?.body,
     useProxy: true
-  }) as  Promise<Response>;
+  }) as Promise<Response>;
 };
