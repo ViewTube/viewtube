@@ -130,7 +130,7 @@ export class SearchService {
 
     const contents =
       parsedResults.contents_memo?.getType(YTNodes.SectionList).first().contents ||
-      parsedResults.on_response_received_commands?.first().contents;
+      parsedResults.on_response_received_commands?.first().as(YTNodes.ItemSection).contents;
 
     const results = contents
       .find(

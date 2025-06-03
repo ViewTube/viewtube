@@ -12,7 +12,7 @@ if (process.env.VIEWTUBE_DATA_DIRECTORY) {
 
 const innertubeOptions: InnerTubeConfig = {
   cache: new UniversalCache(true, cacheDirectory),
-  fetch: innertubeFetch,
+  fetch: innertubeFetch as unknown as typeof fetch,
   enable_session_cache: false,
   lang: 'en'
 };

@@ -1,12 +1,7 @@
-import { ReferrerPolicy, Request, RequestInit } from 'undici';
+import { Request, RequestInit } from 'undici';
 import { vtFetch } from '../vtFetch';
 
-type InputType = Request & {
-  method?: string;
-  referrerPolicy?: ReferrerPolicy;
-};
-
-export const innertubeFetch = async (input: InputType, init?: RequestInit) => {
+export const innertubeFetch = async (input: string | URL | Request, init?: RequestInit): Promise<Response> => {
   if (typeof init !== 'object') {
     init = {};
   }
@@ -21,12 +16,14 @@ export const innertubeFetch = async (input: InputType, init?: RequestInit) => {
     url = input.url;
   }
 
+  const method = init?.method ?? (input instanceof Request ? input.method : undefined) ?? 'GET';
+
   return vtFetch.rawFetch(url, {
     ...(typeof input === 'string' ? {} : input),
     ...init,
-    method: init?.method ?? input?.method ?? 'GET',
+    method,
     headers: init?.headers,
     body: init?.body,
     useProxy: true
-  });
+  }) as  Promise<Response>;
 };
