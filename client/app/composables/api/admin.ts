@@ -16,7 +16,7 @@ export const useGetAdminInfo = () => {
   const { apiUrl } = useApiUrl();
   const { vtFetch } = useVtFetch();
 
-  return useLazyAsyncData('admin-info', () => vtFetch(`${apiUrl.value}admin/info`), {
+  return useLazyAsyncData<ApiDto<'InfoDto'>>('admin-info', () => vtFetch(`${apiUrl.value}admin/info`), {
     server: false
   });
 };
