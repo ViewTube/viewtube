@@ -2,7 +2,7 @@ import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { innertubeClient } from 'server/common/innertube/innertube';
 import { toVTSearchResultDto } from 'server/mapper/converter/search/vt-search-result.converter';
 import { VTSearchDto } from 'server/mapper/dto/search/vt-search.dto';
-import { Endpoints, Parser, YTNodes } from 'youtubei.js';
+import { Parser, YTNodes } from 'youtubei.js';
 import type { SearchFilter } from 'youtubei.js/dist/protos/generated/misc/params';
 import { SearchFiltersDto } from './dto/search-filters.dto';
 import { SearchQueryDto } from './dto/search-query.dto';
@@ -117,20 +117,28 @@ export class SearchService {
       searchFilters = encodeURIComponent(u8ToBase64(SearchFilter.encode(search_filter).finish()));
     }
 
-    const rawResults = await innertube.actions.execute(
-      Endpoints.SearchEndpoint.PATH,
-      Endpoints.SearchEndpoint.build({
-        continuation: searchQuery.continuationString,
+    const rawResultsTemp = await innertube.search(searchQuery.q, searchFilters);
+
+    rawResultsTemp.getContinuationData();
+
+    innertube.session;
+
+    const searchEndpoint = new YTNodes.NavigationEndpoint({
+      searchEndpoint: {
         query: searchQuery.q,
         params: searchFilters
-      })
-    );
+      }
+    });
+
+    const rawResults = await searchEndpoint.call(innertube.session.actions, {
+      continuation: searchQuery.continuationString
+    });
 
     const parsedResults = Parser.parseResponse(rawResults.data);
 
     const contents =
       parsedResults.contents_memo?.getType(YTNodes.SectionList).first().contents ||
-      parsedResults.on_response_received_commands?.first().as(YTNodes.ItemSection).contents;
+      parsedResults.on_response_received_commands?.first().as(YTNodes.AppendContinuationItemsAction).contents;
 
     const results = contents
       .find(
