@@ -599,7 +599,7 @@ const logout = async () => {
 
           @for $i from 0 through 3 {
             .action:nth-of-type(#{$i + 1}) {
-              transition-delay: 100ms * variables.$i !important;
+              transition-delay: 100ms * $i !important;
             }
           }
         }

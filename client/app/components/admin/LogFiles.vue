@@ -104,7 +104,7 @@ const selectText = (event: MouseEvent) => {
             }
           }
 
-          @media screen and (max-width: calc($mobile-width - 200px)) {
+          @media screen and (max-width: calc(variables.$mobile-width - 200px)) {
             &.modified {
               display: none;
             }
