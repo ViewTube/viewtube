@@ -83,7 +83,7 @@ const props = defineProps<{
 const { proxyUrl } = useImgProxy();
 const { apiUrl } = useApiUrl(true);
 const loadingVideoInfoStore = useLoadingVideoInfoStore();
-const { $formatting: formatting } = useNuxtApp();
+const { getTimestampFromSeconds } = useFormatting();
 
 const videoLinkQuery = computed(() => {
   const linkQuery: { v: string; list?: string } = {
@@ -116,7 +116,7 @@ const videoThumbnailUrlXL = computed(() =>
 
 const videoDuration = computed(() => {
   if (props.video.lengthSeconds) {
-    return formatting.getTimestampFromSeconds(props.video.lengthSeconds);
+    return getTimestampFromSeconds(props.video.lengthSeconds);
   } else if (props.video.lengthString) {
     return props.video.lengthString;
   } else if (typeof props.video.duration === 'object' && props.video.duration.text !== 'N/A') {
@@ -124,7 +124,7 @@ const videoDuration = computed(() => {
   } else if (typeof props.video.duration === 'string') {
     return props.video.duration;
   } else if (props.video.userData?.videoLength) {
-    return formatting.getTimestampFromSeconds(props.video.userData.videoLength);
+    return getTimestampFromSeconds(props.video.userData.videoLength);
   }
   return 0;
 });
@@ -626,6 +626,7 @@ const videoViewsText = computed(() => {
         text-overflow: ellipsis;
         display: -webkit-box;
         -webkit-line-clamp: 2;
+        line-clamp: 2;
         -webkit-box-orient: vertical;
         color: var(--title-color);
         padding: 8px 0 4px 0;

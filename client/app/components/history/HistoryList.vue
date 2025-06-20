@@ -15,6 +15,7 @@ const messagesStore = useMessagesStore();
 const { apiUrl } = useApiUrl();
 const { proxyUrl } = useImgProxy();
 const { vtFetch } = useVtFetch();
+const { getTimestampFromSeconds } = useFormatting();
 
 const humanizeDateString = (dateString: string): string => {
   const now = new Date();
@@ -72,8 +73,8 @@ const deleteEntry = async (videoId: string) => {
           Last watched: {{ humanizeDateString(video.lastVisit) }} ago
         </div>
         <div class="history-entry-watch-progress">
-          Progress: {{ $formatting.getTimestampFromSeconds(video.progressSeconds) }} of
-          {{ $formatting.getTimestampFromSeconds(video.lengthSeconds) }}
+          Progress: {{ getTimestampFromSeconds(video.progressSeconds) }} of
+          {{ getTimestampFromSeconds(video.lengthSeconds) }}
         </div>
       </div>
       <BadgeButton v-if="deleteOption" class="delete-btn" :click="() => deleteEntry(video.videoId)"

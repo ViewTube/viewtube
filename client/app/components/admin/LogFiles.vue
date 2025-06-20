@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import BadgeButton from '~/components/buttons/BadgeButton.vue';
 import dayjs from 'dayjs';
+import BadgeButton from '~/components/buttons/BadgeButton.vue';
 
 const { data, error, pending, refresh } = useGetLogs();
 
+const { humanizeFileSize } = useFormatting();
 const { apiUrl } = useApiUrl();
 
 const downloadLogFile = (logFileName: string) => {
@@ -42,7 +43,7 @@ const selectText = (event: MouseEvent) => {
           @click="() => downloadLogFile(log.name)"
         >
           <td>{{ log.name }}</td>
-          <td>{{ $formatting.humanizeFileSize(log.size) }}</td>
+          <td>{{ humanizeFileSize(log.size) }}</td>
           <td class="right created">{{ dayjs(log.created).format('YYYY-MM-DD hh:mm') }}</td>
           <td class="right modified">{{ dayjs(log.lastModified).format('YYYY-MM-DD hh:mm') }}</td>
         </tr>
