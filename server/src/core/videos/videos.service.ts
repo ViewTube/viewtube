@@ -46,9 +46,11 @@ export class VideosService {
 
       let dashManifest: string | null = null;
 
-      dashManifest = await videoInfo.toDash((url: URL) => {
-        url.searchParams.append('__host', url.host);
-        return url;
+      dashManifest = await videoInfo.toDash({
+        url_transformer: (url: URL) => {
+          url.searchParams.append('__host', url.host);
+          return url;
+        }
       });
 
       return dashManifest;
@@ -71,9 +73,11 @@ export class VideosService {
 
       if (!videoInfo.basic_info.is_live) {
         try {
-          dashManifest = await videoInfo.toDash((url: URL) => {
-            url.searchParams.append('__host', url.host);
-            return url;
+          dashManifest = await videoInfo.toDash({
+            url_transformer: (url: URL) => {
+              url.searchParams.append('__host', url.host);
+              return url;
+            }
           });
         } catch {
           // Ignore silently
@@ -132,7 +136,7 @@ export class VideosService {
     if (!isNaN(responseObject.dislikes)) {
       return responseObject;
     }
-    
+
     if (responseObject.status) {
       throw new HttpException(responseObject, responseObject.status);
     }
@@ -205,7 +209,7 @@ export class VideosService {
     const arrBuffer = await arrBufferResponse.body.arrayBuffer();
 
     if (!arrBuffer) {
-      return
+      return;
     }
     try {
       const imgPath = path.join(global.__basedir, `channels/${channelId}.webp`);

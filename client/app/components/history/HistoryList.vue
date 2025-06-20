@@ -15,6 +15,7 @@ const messagesStore = useMessagesStore();
 const { apiUrl } = useApiUrl();
 const { proxyUrl } = useImgProxy();
 const { vtFetch } = useVtFetch();
+const { getTimestampFromSeconds } = useFormatting();
 
 const humanizeDateString = (dateString: string): string => {
   const now = new Date();
@@ -72,8 +73,8 @@ const deleteEntry = async (videoId: string) => {
           Last watched: {{ humanizeDateString(video.lastVisit) }} ago
         </div>
         <div class="history-entry-watch-progress">
-          Progress: {{ $formatting.getTimestampFromSeconds(video.progressSeconds) }} of
-          {{ $formatting.getTimestampFromSeconds(video.lengthSeconds) }}
+          Progress: {{ getTimestampFromSeconds(video.progressSeconds) }} of
+          {{ getTimestampFromSeconds(video.lengthSeconds) }}
         </div>
       </div>
       <BadgeButton v-if="deleteOption" class="delete-btn" :click="() => deleteEntry(video.videoId)"
@@ -101,7 +102,7 @@ const deleteEntry = async (videoId: string) => {
       width: 0;
       overflow: hidden;
 
-      @media screen and (max-width: $mobile-width) {
+      @media screen and (max-width: variables.$mobile-width) {
         padding-right: 160px;
         padding-bottom: 90px;
       }
@@ -121,7 +122,7 @@ const deleteEntry = async (videoId: string) => {
 
         .history-entry-progress-line {
           height: 3px;
-          background-image: $theme-color-primary-gradient;
+          background-image: variables.$theme-color-primary-gradient;
           display: block;
         }
       }
@@ -176,7 +177,7 @@ const deleteEntry = async (videoId: string) => {
       opacity: 0;
       pointer-events: none;
       user-select: none;
-      transition: opacity 200ms $intro-easing;
+      transition: opacity 200ms variables.$intro-easing;
     }
   }
 }

@@ -5,22 +5,26 @@
     "build": "vite build"
   },
   "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs",
-      "types": "./dist/index.d.ts",
-      "default": "./dist/index.js"
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.cjs"
+      }
     }
   },
-  "types": "./dist/index.d.ts",
   "devDependencies": {
-    "@types/node": "22.7.4",
-    "stylelint": "16.9.0",
-    "typescript": "5.6.2",
-    "vite": "5.4.8",
-    "vite-plugin-checker": "0.8.0",
-    "vite-plugin-dts": "4.2.3",
-    "vite-tsconfig-paths": "5.0.1"
+    "@types/node": "24.0.3",
+    "stylelint": "16.21.0",
+    "typescript": "5.8.3",
+    "vite": "6.3.5",
+    "vite-plugin-checker": "0.9.3",
+    "vite-plugin-dts": "4.5.4",
+    "vite-tsconfig-paths": "5.1.4"
   }
 }

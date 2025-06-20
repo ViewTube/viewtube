@@ -3,7 +3,6 @@ import { VTCommentsHeaderDto } from 'server/mapper/dto/comments/vt-comments-head
 import { parseRelativeTime } from 'server/mapper/utils/parse-relative-time';
 import { parseShortenedNumber } from 'server/mapper/utils/shortened-number';
 import { YTNodes } from 'youtubei.js';
-import { Comment, CommentView } from 'youtubei.js/dist/src/parser/nodes';
 
 export const extractHeader = (header: YTNodes.CommentsHeader): VTCommentsHeaderDto => {
   if (!header) return null;
@@ -60,26 +59,18 @@ export const extractComments = (comments: YTNodes.CommentThread[]): Array<VTComm
         handle: comment?.comment?.author?.name,
         thumbnails: comment?.comment?.author?.thumbnails
       },
-      likeCount: parseShortenedNumber((comment?.comment as CommentView)?.like_count),
+      likeCount: parseShortenedNumber(comment?.comment?.like_count),
       hasReplies: comment?.has_replies,
-      replyCount: parseShortenedNumber((comment?.comment as CommentView)?.reply_count),
+      replyCount: parseShortenedNumber(comment?.comment?.reply_count),
       replyContinuation: comment?.comment_replies_data?.contents?.firstOfType(
         YTNodes.ContinuationItem
       )?.endpoint?.payload?.token,
       published: {
-        date: parseRelativeTime(
-          (comment?.comment as CommentView)?.published_time ??
-            (comment?.comment as Comment)?.published?.text
-        )?.toDate(),
-        text:
-          (comment?.comment as CommentView)?.published_time ??
-          (comment?.comment as Comment)?.published?.text
+        date: parseRelativeTime(comment?.comment?.published_time)?.toDate(),
+        text: comment?.comment?.published_time
       },
       pinned: comment?.comment?.is_pinned,
-      isEdited: (
-        (comment?.comment as CommentView)?.published_time ??
-        (comment?.comment as Comment)?.published?.text
-      )?.includes('edited'),
+      isEdited: comment?.comment?.published_time?.includes('edited'),
       creatorHeart: comment?.comment?.is_hearted,
       channelMember: comment?.comment?.is_member,
       channelOwner: comment?.comment?.author_is_channel_owner,

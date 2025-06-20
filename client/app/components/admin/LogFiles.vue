@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import BadgeButton from '~/components/buttons/BadgeButton.vue';
 import dayjs from 'dayjs';
+import BadgeButton from '~/components/buttons/BadgeButton.vue';
 
 const { data, error, pending, refresh } = useGetLogs();
 
+const { humanizeFileSize } = useFormatting();
 const { apiUrl } = useApiUrl();
 
 const downloadLogFile = (logFileName: string) => {
@@ -42,7 +43,7 @@ const selectText = (event: MouseEvent) => {
           @click="() => downloadLogFile(log.name)"
         >
           <td>{{ log.name }}</td>
-          <td>{{ $formatting.humanizeFileSize(log.size) }}</td>
+          <td>{{ humanizeFileSize(log.size) }}</td>
           <td class="right created">{{ dayjs(log.created).format('YYYY-MM-DD hh:mm') }}</td>
           <td class="right modified">{{ dayjs(log.lastModified).format('YYYY-MM-DD hh:mm') }}</td>
         </tr>
@@ -98,13 +99,13 @@ const selectText = (event: MouseEvent) => {
         td {
           text-align: left;
 
-          @media screen and (max-width: $mobile-width) {
+          @media screen and (max-width: variables.$mobile-width) {
             &.created {
               display: none;
             }
           }
 
-          @media screen and (max-width: calc($mobile-width - 200px)) {
+          @media screen and (max-width: calc(variables.$mobile-width - 200px)) {
             &.modified {
               display: none;
             }
@@ -133,7 +134,7 @@ const selectText = (event: MouseEvent) => {
 
         td {
           padding: 4px 0;
-          transition: background-color 100ms $intro-easing;
+          transition: background-color 100ms variables.$intro-easing;
 
           &:first-child {
             border-top-left-radius: 5px;

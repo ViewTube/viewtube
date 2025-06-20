@@ -1,5 +1,15 @@
 packages:
-  - 'server'
-  - 'client'
-  - 'shared'
-  - 'tests'
+  - server
+  - client
+  - shared
+  - tests
+onlyBuiltDependencies:
+  - '@nestjs/core'
+  - '@parcel/watcher'
+  - '@scarf/scarf'
+  - '@swc/core'
+  - cypress
+  - esbuild
+  - msgpackr-extract
+  - sharp
+  - unrs-resolver

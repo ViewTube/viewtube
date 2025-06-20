@@ -107,6 +107,7 @@ const extractSearchShelf = (shelf: SearchSourceApproximation) => {
 };
 
 const extractSearchShort = (short: SearchSourceApproximation['items'][0]) => {
+  console.log(short)
   const duration = parseAccessibilityDuration(short.accessibility_label);
   return {
     type: 'short',
