@@ -19,8 +19,8 @@
     }
   },
   "devDependencies": {
-    "@types/node": "22.15.29",
-    "stylelint": "16.20.0",
+    "@types/node": "24.0.3",
+    "stylelint": "16.21.0",
     "typescript": "5.8.3",
     "vite": "6.3.5",
     "vite-plugin-checker": "0.9.3",
