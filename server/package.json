@@ -17,6 +17,7 @@
     "server": "dist/server"
   },
   "dependencies": {
+    "@bufbuild/protobuf": "^2.5.2",
     "@fastify/cookie": "11.0.2",
     "@fastify/helmet": "13.0.1",
     "@fastify/multipart": "9.0.3",

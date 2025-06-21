@@ -1,11 +1,18 @@
 import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { innertubeClient } from 'server/common/innertube/innertube';
+import { u8ToBase64 } from 'server/common/u8ToBase64';
 import { toVTSearchResultDto } from 'server/mapper/converter/search/vt-search-result.converter';
 import { VTSearchDto } from 'server/mapper/dto/search/vt-search.dto';
 import { Parser, YTNodes } from 'youtubei.js';
-import type { SearchFilter } from 'youtubei.js/dist/protos/generated/misc/params';
 import { SearchFiltersDto } from './dto/search-filters.dto';
 import { SearchQueryDto } from './dto/search-query.dto';
+import {
+  SearchFilter,
+  SearchFilter_Filters_Duration,
+  SearchFilter_Filters_SearchType,
+  SearchFilter_Filters_UploadDate,
+  SearchFilter_SortBy
+} from './proto-params';
 
 @Injectable()
 export class SearchService {
@@ -31,13 +38,7 @@ export class SearchService {
     let searchFilters;
     if (searchQuery.filters) {
       const filters = searchQuery.filters;
-      const {
-        SearchFilter_SortBy,
-        SearchFilter_Filters_UploadDate,
-        SearchFilter_Filters_SearchType,
-        SearchFilter_Filters_Duration,
-        SearchFilter
-      } = await import('youtubei.js/dist/protos/generated/misc/params');
+
       const search_filter: SearchFilter = {};
 
       search_filter.filters = {};
@@ -110,10 +111,6 @@ export class SearchService {
         }
       }
 
-      const u8ToBase64 = await import('youtubei.js/dist/src/utils/Utils.js').then(
-        el => el.u8ToBase64
-      );
-
       searchFilters = encodeURIComponent(u8ToBase64(SearchFilter.encode(search_filter).finish()));
     }
 
@@ -138,7 +135,8 @@ export class SearchService {
 
     const contents =
       parsedResults.contents_memo?.getType(YTNodes.SectionList).first().contents ||
-      parsedResults.on_response_received_commands?.first().as(YTNodes.AppendContinuationItemsAction).contents;
+      parsedResults.on_response_received_commands?.first().as(YTNodes.AppendContinuationItemsAction)
+        .contents;
 
     const results = contents
       .find(
