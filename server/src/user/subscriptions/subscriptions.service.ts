@@ -170,8 +170,8 @@ export class SubscriptionsService {
           author: { $regex: `.*${filter}.*`, $options: 'i' }
         })
           .sort(sort)
-          .skip(parseInt(start as any))
-          .limit(parseInt(limit as any))
+          .skip(parseInt(start?.toString()))
+          .limit(parseInt(limit?.toString()))
           .catch(_ => {
             return null;
           });
