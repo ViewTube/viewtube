@@ -12,7 +12,7 @@ import { fixUrl } from 'server/mapper/utils/fix-url';
 import { getHandleFromUrl } from 'server/mapper/utils/handle';
 import { parseRelativeTime } from 'server/mapper/utils/parse-relative-time';
 import { parseShortenedNumber } from 'server/mapper/utils/shortened-number';
-import { SearchSourceApproximation } from './search-source-approximation';
+import { SearchSourceApproximation, ShortsLockupView } from './search-source-approximation';
 
 export const extractSearchResults = (searchResults: SearchSourceApproximation[]) => {
   return searchResults
@@ -106,18 +106,13 @@ const extractSearchShelf = (shelf: SearchSourceApproximation) => {
   } satisfies VTSearchShelfDto;
 };
 
-const extractSearchShort = (short: SearchSourceApproximation['items'][0]) => {
-  const duration = parseAccessibilityDuration(short.accessibility_label);
+const extractSearchShort = (short: ShortsLockupView) => {
   return {
     type: 'short',
-    id: short.id,
-    title: short.title?.text,
-    duration: {
-      seconds: duration,
-      text: getTimestampFromSeconds(duration)
-    },
-    viewCount: parseShortenedNumber(short.views?.text),
-    thumbnails: short.thumbnails
+    id: short?.on_tap_endpoint?.payload?.videoId,
+    title: short?.overlay_metadata?.primary_text?.text,
+    viewCount: parseShortenedNumber(short?.overlay_metadata?.secondary_text?.text),
+    thumbnails: short.thumbnail
   } satisfies VTShortDto;
 };
 

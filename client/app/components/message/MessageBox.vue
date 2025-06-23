@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { MessageType } from '~/types/MessageType';
 import { useMessagesStore } from '~/store/messages';
+import type { MessageType } from '~/types/MessageType';
 
 const props = defineProps<{
   message: MessageType;
@@ -85,6 +85,7 @@ if (props.message.dismissDelay > 0) {
     <h3 class="title" :class="message.type">
       {{ message.title }}
     </h3>
+    <!-- eslint-disable-next-line vue/no-v-html -->
     <pre class="message" v-html="message.message" />
   </div>
 </template>

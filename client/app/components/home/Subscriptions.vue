@@ -10,7 +10,7 @@ const { data: subscriptions, pending: subscriptionsLoading } = useGetUserSubscri
 
 const showMore = ref(false);
 const displayedSubscriptions = computed(() => {
-  const videos = subscriptions.value.videos;
+  const videos = subscriptions.value?.videos;
   if (!subscriptions.value || !videos) {
     return [];
   }

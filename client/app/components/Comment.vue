@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import type { ApiDto } from '@viewtube/shared';
 import BadgeButton from '~/components/buttons/BadgeButton.vue';
 import { useMessagesStore } from '~/store/messages';
-import type { ApiDto } from '@viewtube/shared';
 
 const props = defineProps<{
   comment: ApiDto<'VTCommentDto'>;
@@ -66,8 +66,7 @@ const loadMoreReplies = () => {
 };
 
 const commentContent = computed(() => {
-  const sanitizedComment = sanitizeHtmlString(props.comment.content);
-  return createTextLinks(sanitizedComment);
+  return createTextLinks(props.comment.content);
 });
 </script>
 
@@ -89,6 +88,7 @@ const commentContent = computed(() => {
       >
         <p class="comment-author-text">{{ comment.author?.name }}</p>
       </nuxt-link>
+      <!-- eslint-disable-next-line vue/no-v-html -->
       <div class="comment-content links" v-html="commentContent" />
       <div class="comment-properties">
         <div class="published comment-property">

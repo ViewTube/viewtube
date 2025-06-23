@@ -19,7 +19,7 @@ const currentCaption = computed(() => {
     .filter(
       caption => caption.start <= currentTime && caption.start + caption.duration >= currentTime
     )
-    .map(caption => sanitizeHtmlString(caption.text));
+    .map(caption => caption.text);
 });
 </script>
 

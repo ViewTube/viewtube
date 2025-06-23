@@ -26,7 +26,7 @@ export interface SearchSourceApproximation {
   subscribe_button?: SubscribeButton;
   description_snippet?: DescriptionSnippet;
   content?: Content;
-  items?: Item4[];
+  items?: ShortsLockupView[];
   first_videos?: FirstVideo[];
 }
 
@@ -1365,6 +1365,23 @@ interface Item4 {
   views: Views;
   endpoint: Endpoint20;
   accessibility_label: string;
+}
+
+export interface ShortsLockupView {
+  type: string;
+  entity_id: string;
+  accessibility_text: string;
+  thumbnail: Thumbnail[];
+  overlay_metadata: {
+    primary_text: Text;
+    secondary_text: Text;
+  };
+  on_tap_endpoint: {
+    type: string;
+    payload: {
+      videoId: string;
+    }
+  }
 }
 
 interface Title5 {

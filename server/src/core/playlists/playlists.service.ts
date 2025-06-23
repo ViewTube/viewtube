@@ -1,6 +1,7 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import ytpl, { ContinueResult, Options, Result } from 'ytpl';
 import { PlaylistResultDto } from './dto/playlist-result.dto';
+import { sanitizeHtmlString } from 'server/common/sanitize-html';
 
 @Injectable()
 export class PlaylistsService {
@@ -14,7 +15,10 @@ export class PlaylistsService {
     try {
       const playlistContent: Result = await ytpl(playlistId, ytplOptions);
       if (playlistContent) {
-        return playlistContent;
+        return {
+          ...playlistContent,
+          description: sanitizeHtmlString(playlistContent.description || '')
+        };
       }
     } catch (error) {
       throw new InternalServerErrorException(error);

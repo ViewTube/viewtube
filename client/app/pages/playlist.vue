@@ -1,9 +1,9 @@
 <script setup lang="ts">
+import type { ApiDto } from '@viewtube/shared';
 import type { Continuation } from 'ytpl';
 import BadgeButton from '~/components/buttons/BadgeButton.vue';
 import VideoEntry from '~/components/list/VideoEntry.vue';
 import Spinner from '~/components/Spinner.vue';
-import type { ApiDto } from '@viewtube/shared';
 
 import { useMessagesStore } from '~/store/messages';
 
@@ -38,7 +38,7 @@ watch(error, value => {
 
 const loadMoreVideos = async () => {
   if (!playlistContinuation.value) return;
-  
+
   moreVideosLoading.value = true;
   await vtFetch<{ items: Array<ApiDto<'PlaylistItemDto'>>; continuation: any }>(
     `${apiUrl.value}playlists/continuation`,
@@ -65,8 +65,7 @@ const loadMoreVideos = async () => {
     });
 };
 const playlistDescription = computed(() => {
-  const sanitizedDescription = sanitizeHtmlString(playlist.value?.description);
-  return createTextLinks(sanitizedDescription);
+  return createTextLinks(playlist.value?.description);
 });
 </script>
 
@@ -118,6 +117,7 @@ const playlistDescription = computed(() => {
       </div>
     </div>
     <div v-if="playlist" class="playlist-content-container">
+      <!-- eslint-disable-next-line vue/no-v-html -->
       <pre
         v-if="playlist && playlist.description"
         class="playlist-description links"
