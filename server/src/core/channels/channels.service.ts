@@ -5,6 +5,7 @@ import fs from 'fs';
 import { Model } from 'mongoose';
 import path from 'path';
 import { General } from 'server/common/general.schema';
+import { sanitizeHtmlString } from 'server/common/sanitize-html';
 import sharp from 'sharp';
 import { checkParams, throwChannelError } from './channels.helper';
 import { ChannelCommunityPostsContinuationDto } from './dto/response/channel-community-posts-continuation.dto';
@@ -22,7 +23,6 @@ import { RelatedChannelsContinuationDto } from './dto/response/related-channels-
 import { SortType } from './types/sort';
 import { YoutubeGrabber } from './yt-channel-info';
 import { ChannelInfoError } from './yt-channel-info/app/types';
-import { sanitizeHtmlString } from 'server/common/sanitize-html';
 
 @Injectable()
 export class ChannelsService {
@@ -44,12 +44,22 @@ export class ChannelsService {
     // }
   }
 
-  getChannelInfo(channelId: string): Promise<ChannelInfoDto | ChannelInfoError> {
+  async getChannelInfo(channelId: string): Promise<ChannelInfoDto | ChannelInfoError> {
     if (!checkParams(channelId)) {
       throw new BadRequestException('Error fetching channel info', 'Invalid channelId');
     }
     try {
-      return YoutubeGrabber.getChannelInfo({ channelId }) as unknown as Promise<ChannelInfoDto>;
+      const channelInfo = (await YoutubeGrabber.getChannelInfo({ channelId })) as
+        | ChannelInfoDto
+        | ChannelInfoError;
+      if ('alertMessage' in channelInfo) {
+        return channelInfo;
+      } else {
+        return {
+          ...(channelInfo as ChannelInfoDto),
+          description: sanitizeHtmlString((channelInfo as ChannelInfoDto)?.description)
+        };
+      }
     } catch (error) {
       throwChannelError(error, 'Error fetching channel info');
     }

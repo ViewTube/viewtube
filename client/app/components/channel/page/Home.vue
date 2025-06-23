@@ -19,8 +19,7 @@ const hasChannelLinks = computed(() => {
   );
 });
 const channelDescription = computed(() => {
-  const sanitizedDescription = sanitizeHtmlString(channelInfo.value?.description);
-  return createTextLinks(sanitizedDescription);
+  return createTextLinks(channelInfo.value?.description);
 });
 </script>
 
