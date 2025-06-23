@@ -22,6 +22,7 @@ import { RelatedChannelsContinuationDto } from './dto/response/related-channels-
 import { SortType } from './types/sort';
 import { YoutubeGrabber } from './yt-channel-info';
 import { ChannelInfoError } from './yt-channel-info/app/types';
+import { sanitizeHtmlString } from 'server/common/sanitize-html';
 
 @Injectable()
 export class ChannelsService {
@@ -191,14 +192,24 @@ export class ChannelsService {
     }
   }
 
-  getChannelCommunityPosts(channelId: string): Promise<ChannelCommunityPostsDto> {
+  async getChannelCommunityPosts(channelId: string): Promise<ChannelCommunityPostsDto> {
     if (!checkParams(channelId)) {
       throw new BadRequestException('Error fetching channel community posts', 'Invalid channelId');
     }
     try {
-      return YoutubeGrabber.getChannelCommunityPosts({
+      const communityPosts = (await YoutubeGrabber.getChannelCommunityPosts({
         channelId
-      }) as Promise<ChannelCommunityPostsDto>;
+      })) as ChannelCommunityPostsDto;
+
+      return {
+        ...communityPosts,
+        items: communityPosts.items.map(item => {
+          return {
+            ...item,
+            postText: sanitizeHtmlString(item.postText)
+          };
+        })
+      };
     } catch (error) {
       throwChannelError(error, 'Error fetching channel community posts');
     }

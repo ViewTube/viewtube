@@ -10,6 +10,7 @@ import { parseRedirectUrl } from 'server/mapper/utils/parse-redirect';
 import { parseRelativeTime } from 'server/mapper/utils/parse-relative-time';
 import { parseShortenedNumber } from 'server/mapper/utils/shortened-number';
 import { VideoInfoSourceApproximation } from './video-info-source-approximation';
+import { sanitizeHtmlString } from 'server/common/sanitize-html';
 
 export const extractVideoId = (videoInfo: VideoInfoSourceApproximation) => {
   return videoInfo?.basic_info?.id;
@@ -48,30 +49,34 @@ export const extractDescription = (videoInfo: VideoInfoSourceApproximation) => {
   const descriptionParts = videoInfo?.secondary_info?.description?.runs;
   if (!descriptionParts) return videoInfo?.basic_info?.short_description;
 
-  return descriptionParts.map(part => {
-    if (!part.endpoint) {
-      return part.text;
-    }
-
-    const { type, payload, metadata } = part.endpoint;
-
-    if (type === 'NavigationEndpoint') {
-      if (payload?.url) {
-        return parseRedirectUrl(payload.url);
+  const descriptionText = descriptionParts
+    .map(part => {
+      if (!part.endpoint) {
+        return part.text;
       }
 
-      if (metadata?.page_type === 'WEB_PAGE_TYPE_WATCH' && payload?.videoId) {
-        return `https://www.youtube.com/watch?v=${payload.videoId}`;
-      }
+      const { type, payload, metadata } = part.endpoint;
 
-      if (metadata?.page_type === 'WEB_PAGE_TYPE_CHANNEL') {
-        return `https://www.youtube.com/channel/${payload.browseId}`;
-      }
+      if (type === 'NavigationEndpoint') {
+        if (payload?.url) {
+          return parseRedirectUrl(payload.url);
+        }
 
-      return part.text;
-    }
-    }).join('');
-  }
+        if (metadata?.page_type === 'WEB_PAGE_TYPE_WATCH' && payload?.videoId) {
+          return `https://www.youtube.com/watch?v=${payload.videoId}`;
+        }
+
+        if (metadata?.page_type === 'WEB_PAGE_TYPE_CHANNEL') {
+          return `https://www.youtube.com/channel/${payload.browseId}`;
+        }
+
+        return part.text;
+      }
+    })
+    .join('');
+
+  return sanitizeHtmlString(descriptionText);
+};
 
 export const extractThumbnails = (
   videoInfo: VideoInfoSourceApproximation

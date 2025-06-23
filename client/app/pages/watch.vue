@@ -277,8 +277,7 @@ const watchPageTitle = computed(() => {
 const videoDescription = computed(() => {
   if (!video.value?.description) return '';
 
-  const sanitizedDescription = sanitizeHtmlString(video.value?.description);
-  return createTextLinks(sanitizedDescription);
+  return createTextLinks(video.value?.description);
 });
 </script>
 
@@ -415,6 +414,7 @@ const videoDescription = computed(() => {
         </div>
 
         <div v-if="!settingsStore.hideComments" class="comments-description">
+          <!-- eslint-disable-next-line vue/no-v-html -->
           <div class="video-infobox-description links" v-html="videoDescription" />
           <SectionTitle :title="`${video.commentCount} Comments`" />
           <Spinner v-if="commentsLoading" />

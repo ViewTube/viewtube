@@ -8,8 +8,7 @@ const props = defineProps<{
 const { createTextLinks } = useCreateTextLinks();
 
 const communityPostContent = computed(() => {
-  const sanitizedContent = sanitizeHtmlString(props.communityPost.postText);
-  return createTextLinks(sanitizedContent);
+  return createTextLinks(props.communityPost.postText);
 });
 </script>
 
@@ -17,6 +16,7 @@ const communityPostContent = computed(() => {
   <div class="community-post">
     <p class="creation-time">{{ communityPost.publishedText }} &bull; {{ communityPost.author }}</p>
     <div class="post-text links">
+      <!-- eslint-disable-next-line vue/no-v-html -->
       <pre class="text-pre" v-html="communityPostContent" />
     </div>
     <div v-if="communityPost.postContent" class="post-content">

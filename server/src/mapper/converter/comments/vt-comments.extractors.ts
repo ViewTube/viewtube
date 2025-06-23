@@ -1,6 +1,7 @@
 import { VTCommentDto } from 'server/mapper/dto/comments/vt-comment.dto';
 import { VTCommentsHeaderDto } from 'server/mapper/dto/comments/vt-comments-header.dto';
 import { parseRelativeTime } from 'server/mapper/utils/parse-relative-time';
+import { sanitizeHtmlString } from 'server/common/sanitize-html';
 import { parseShortenedNumber } from 'server/mapper/utils/shortened-number';
 import { YTNodes } from 'youtubei.js';
 
@@ -22,7 +23,7 @@ export const extractCommentViews = (comments: YTNodes.CommentView[]): Array<VTCo
   return comments?.map(comment => {
     return {
       id: comment?.comment_id,
-      content: comment?.content?.text,
+      content: sanitizeHtmlString(comment?.content?.text),
       author: {
         id: comment?.author?.id,
         name: comment?.author?.name,
