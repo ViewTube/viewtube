@@ -126,7 +126,7 @@ const videoDuration = computed(() => {
   } else if (props.video.userData?.videoLength) {
     return getTimestampFromSeconds(props.video.userData.videoLength);
   }
-  return 0;
+  return null;
 });
 
 const videoPublished = computed(() => {
@@ -141,7 +141,7 @@ const videoPublished = computed(() => {
   } else if (props.video.uploadedAt) {
     return dayjs(props.video.uploadedAt).fromNow();
   }
-  return 0;
+  return null;
 });
 
 const videoPublishedDate = computed(() => {
@@ -316,7 +316,7 @@ const videoViewsText = computed(() => {
         </svg>
         <span class="live-text">Live</span>
       </div>
-      <span v-if="videoDuration" class="video-entry-length">{{ videoDuration }}</span>
+      <span v-if="videoDuration !== null" class="video-entry-length">{{ videoDuration }}</span>
       <div
         v-if="video.userData?.watchProgress && video.userData?.videoLength"
         class="video-entry-watched"
@@ -344,7 +344,7 @@ const videoViewsText = computed(() => {
         >
         <div class="video-entry-stats">
           <p class="video-entry-views">{{ videoViewsText }}</p>
-          <p v-tippy="videoPublishedDate" class="video-entry-timestamp">
+          <p v-if="videoPublished !== null" v-tippy="videoPublishedDate" class="video-entry-timestamp">
             {{ videoPublished }}
           </p>
         </div>
