@@ -74,12 +74,13 @@ export class VideosService {
       if (!videoInfo.basic_info.is_live) {
         try {
           dashManifest = await videoInfo.toDash({
-            url_transformer: (url: URL) => {
-              url.searchParams.append('__host', url.host);
-              return url;
+            manifest_options: {
+              is_sabr: true
             }
           });
-        } catch {
+        } catch (error) {
+          console.log('Error fetching DASH manifest for video', id);
+          console.log(error);
           // Ignore silently
         }
       }

@@ -1,4 +1,5 @@
 import { getSecondsFromTimestamp, getTimestampFromSeconds } from '@viewtube/shared';
+import { sanitizeHtmlString } from 'server/common/sanitize-html';
 import { VTThumbnailDto } from 'server/mapper/dto/vt-thumbnail.dto';
 import { VTVideoDto } from 'server/mapper/dto/vt-video.dto';
 import { getHandleFromUrl } from 'server/mapper/utils/handle';
@@ -15,11 +16,11 @@ export const extractVideoTitle = (video: VideoSourceApproximation): string | nul
   if (video.title && typeof video.title === 'object') {
     return (video.title as { text: string }).text;
   }
-  
+
   if (typeof video.title === 'string') {
     return video.title;
   }
-  
+
   return video.name || null;
 };
 
@@ -128,10 +129,14 @@ export const extractVideoAuthor = (video: VideoSourceApproximation): VTVideoDto[
 };
 
 export const extractVideoDescription = (video: VideoSourceApproximation): string => {
-  return video.description ||
-         video.descriptionHtml ||
-         video.description_snippet?.text ||
-         video.snippets?.find(snip => snip.hover_text?.text?.includes('description'))?.text?.text;
+  const description =
+    video.description ||
+    video.descriptionHtml ||
+    video.description_snippet?.text ||
+    video.snippets?.find(snip => snip.hover_text?.text?.includes('description'))?.text?.text ||
+    '';
+
+  return sanitizeHtmlString(description)?.replaceAll('\r', '');
 };
 
 export const extractVideoRichThumbnails = (
@@ -208,7 +213,7 @@ export const extractVideoLive = (video: VideoSourceApproximation): boolean => {
   if (typeof video.is_live === 'boolean') {
     return video.is_live;
   }
-  
+
   if (video.badges) {
     return video.badges.some(
       badge => badge.label === 'LIVE' || badge.style === 'BADGE_STYLE_TYPE_LIVE_NOW'

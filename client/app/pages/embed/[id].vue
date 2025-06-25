@@ -18,7 +18,7 @@ const { data: video, pending } = useLazyAsyncData<ApiDto<'VTVideoInfoDto'>, ApiE
 const authorToName = author => {
   if (typeof author == 'string') {
     return author;
-  } else if (typeof author.name == 'string') {
+  } else if (typeof author?.name == 'string') {
     return author.name;
   }
   return 'Unknown Author';
