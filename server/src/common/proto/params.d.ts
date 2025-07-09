@@ -1,5 +1,5 @@
 import { BinaryReader, BinaryWriter } from "@bufbuild/protobuf/wire";
-export declare const protobufPackage = "misc";
+export const protobufPackage = "misc";
 export interface VisitorData {
     id: string;
     timestamp: number;
@@ -8,7 +8,7 @@ export interface SearchFilter {
     sortBy?: SearchFilter_SortBy | undefined;
     filters?: SearchFilter_Filters | undefined;
 }
-export declare enum SearchFilter_SortBy {
+export enum SearchFilter_SortBy {
     RELEVANCE = 0,
     RATING = 1,
     UPLOAD_DATE = 2,
@@ -32,7 +32,7 @@ export interface SearchFilter_Filters {
     featuresHdr?: boolean | undefined;
     featuresVr180?: boolean | undefined;
 }
-export declare enum SearchFilter_Filters_UploadDate {
+export enum SearchFilter_Filters_UploadDate {
     ANY_DATE = 0,
     HOUR = 1,
     TODAY = 2,
@@ -41,7 +41,7 @@ export declare enum SearchFilter_Filters_UploadDate {
     YEAR = 5,
     UNRECOGNIZED = -1
 }
-export declare enum SearchFilter_Filters_SearchType {
+export enum SearchFilter_Filters_SearchType {
     ANY_TYPE = 0,
     VIDEO = 1,
     CHANNEL = 2,
@@ -49,7 +49,7 @@ export declare enum SearchFilter_Filters_SearchType {
     MOVIE = 4,
     UNRECOGNIZED = -1
 }
-export declare enum SearchFilter_Filters_Duration {
+export enum SearchFilter_Filters_Duration {
     ANY_DURATION = 0,
     SHORT = 1,
     LONG = 2,
@@ -231,50 +231,50 @@ export interface CommunityPostCommentsParam_CommentDataContainer_CommentData {
     postId: string;
     channelId: string;
 }
-export declare const VisitorData: MessageFns<VisitorData>;
-export declare const SearchFilter: MessageFns<SearchFilter>;
-export declare const SearchFilter_Filters: MessageFns<SearchFilter_Filters>;
-export declare const SearchFilter_Filters_MusicSearchType: MessageFns<SearchFilter_Filters_MusicSearchType>;
-export declare const ChannelAnalytics: MessageFns<ChannelAnalytics>;
-export declare const ChannelAnalytics_Params: MessageFns<ChannelAnalytics_Params>;
-export declare const SoundInfoParams: MessageFns<SoundInfoParams>;
-export declare const SoundInfoParams_Sound: MessageFns<SoundInfoParams_Sound>;
-export declare const SoundInfoParams_Sound_Params: MessageFns<SoundInfoParams_Sound_Params>;
-export declare const SoundInfoParams_Sound_Params_Ids: MessageFns<SoundInfoParams_Sound_Params_Ids>;
-export declare const NotificationPreferences: MessageFns<NotificationPreferences>;
-export declare const NotificationPreferences_Preference: MessageFns<NotificationPreferences_Preference>;
-export declare const LiveMessageParams: MessageFns<LiveMessageParams>;
-export declare const LiveMessageParams_Params: MessageFns<LiveMessageParams_Params>;
-export declare const LiveMessageParams_Params_Ids: MessageFns<LiveMessageParams_Params_Ids>;
-export declare const GetCommentsSectionParams: MessageFns<GetCommentsSectionParams>;
-export declare const GetCommentsSectionParams_Context: MessageFns<GetCommentsSectionParams_Context>;
-export declare const GetCommentsSectionParams_Params: MessageFns<GetCommentsSectionParams_Params>;
-export declare const GetCommentsSectionParams_Params_Options: MessageFns<GetCommentsSectionParams_Params_Options>;
-export declare const GetCommentsSectionParams_Params_RepliesOptions: MessageFns<GetCommentsSectionParams_Params_RepliesOptions>;
-export declare const GetCommentsSectionParams_Params_RepliesOptions_UnkOpts: MessageFns<GetCommentsSectionParams_Params_RepliesOptions_UnkOpts>;
-export declare const CreateCommentParams: MessageFns<CreateCommentParams>;
-export declare const CreateCommentParams_Params: MessageFns<CreateCommentParams_Params>;
-export declare const PeformCommentActionParams: MessageFns<PeformCommentActionParams>;
-export declare const PeformCommentActionParams_TranslateCommentParams: MessageFns<PeformCommentActionParams_TranslateCommentParams>;
-export declare const PeformCommentActionParams_TranslateCommentParams_Params: MessageFns<PeformCommentActionParams_TranslateCommentParams_Params>;
-export declare const PeformCommentActionParams_TranslateCommentParams_Params_Comment: MessageFns<PeformCommentActionParams_TranslateCommentParams_Params_Comment>;
-export declare const Hashtag: MessageFns<Hashtag>;
-export declare const Hashtag_Params: MessageFns<Hashtag_Params>;
-export declare const ReelSequence: MessageFns<ReelSequence>;
-export declare const ReelSequence_Params: MessageFns<ReelSequence_Params>;
-export declare const ShortsParam: MessageFns<ShortsParam>;
-export declare const ShortsParam_Field1: MessageFns<ShortsParam_Field1>;
-export declare const NextParams: MessageFns<NextParams>;
-export declare const CommunityPostParams: MessageFns<CommunityPostParams>;
-export declare const CommunityPostParams_Field1: MessageFns<CommunityPostParams_Field1>;
-export declare const CommunityPostParams_Field2: MessageFns<CommunityPostParams_Field2>;
-export declare const CommunityPostCommentsParamContainer: MessageFns<CommunityPostCommentsParamContainer>;
-export declare const CommunityPostCommentsParamContainer_Container: MessageFns<CommunityPostCommentsParamContainer_Container>;
-export declare const CommunityPostCommentsParam: MessageFns<CommunityPostCommentsParam>;
-export declare const CommunityPostCommentsParam_PostContainer: MessageFns<CommunityPostCommentsParam_PostContainer>;
-export declare const CommunityPostCommentsParam_Field2: MessageFns<CommunityPostCommentsParam_Field2>;
-export declare const CommunityPostCommentsParam_CommentDataContainer: MessageFns<CommunityPostCommentsParam_CommentDataContainer>;
-export declare const CommunityPostCommentsParam_CommentDataContainer_CommentData: MessageFns<CommunityPostCommentsParam_CommentDataContainer_CommentData>;
+export const VisitorData: MessageFns<VisitorData>;
+export const SearchFilter: MessageFns<SearchFilter>;
+export const SearchFilter_Filters: MessageFns<SearchFilter_Filters>;
+export const SearchFilter_Filters_MusicSearchType: MessageFns<SearchFilter_Filters_MusicSearchType>;
+export const ChannelAnalytics: MessageFns<ChannelAnalytics>;
+export const ChannelAnalytics_Params: MessageFns<ChannelAnalytics_Params>;
+export const SoundInfoParams: MessageFns<SoundInfoParams>;
+export const SoundInfoParams_Sound: MessageFns<SoundInfoParams_Sound>;
+export const SoundInfoParams_Sound_Params: MessageFns<SoundInfoParams_Sound_Params>;
+export const SoundInfoParams_Sound_Params_Ids: MessageFns<SoundInfoParams_Sound_Params_Ids>;
+export const NotificationPreferences: MessageFns<NotificationPreferences>;
+export const NotificationPreferences_Preference: MessageFns<NotificationPreferences_Preference>;
+export const LiveMessageParams: MessageFns<LiveMessageParams>;
+export const LiveMessageParams_Params: MessageFns<LiveMessageParams_Params>;
+export const LiveMessageParams_Params_Ids: MessageFns<LiveMessageParams_Params_Ids>;
+export const GetCommentsSectionParams: MessageFns<GetCommentsSectionParams>;
+export const GetCommentsSectionParams_Context: MessageFns<GetCommentsSectionParams_Context>;
+export const GetCommentsSectionParams_Params: MessageFns<GetCommentsSectionParams_Params>;
+export const GetCommentsSectionParams_Params_Options: MessageFns<GetCommentsSectionParams_Params_Options>;
+export const GetCommentsSectionParams_Params_RepliesOptions: MessageFns<GetCommentsSectionParams_Params_RepliesOptions>;
+export const GetCommentsSectionParams_Params_RepliesOptions_UnkOpts: MessageFns<GetCommentsSectionParams_Params_RepliesOptions_UnkOpts>;
+export const CreateCommentParams: MessageFns<CreateCommentParams>;
+export const CreateCommentParams_Params: MessageFns<CreateCommentParams_Params>;
+export const PeformCommentActionParams: MessageFns<PeformCommentActionParams>;
+export const PeformCommentActionParams_TranslateCommentParams: MessageFns<PeformCommentActionParams_TranslateCommentParams>;
+export const PeformCommentActionParams_TranslateCommentParams_Params: MessageFns<PeformCommentActionParams_TranslateCommentParams_Params>;
+export const PeformCommentActionParams_TranslateCommentParams_Params_Comment: MessageFns<PeformCommentActionParams_TranslateCommentParams_Params_Comment>;
+export const Hashtag: MessageFns<Hashtag>;
+export const Hashtag_Params: MessageFns<Hashtag_Params>;
+export const ReelSequence: MessageFns<ReelSequence>;
+export const ReelSequence_Params: MessageFns<ReelSequence_Params>;
+export const ShortsParam: MessageFns<ShortsParam>;
+export const ShortsParam_Field1: MessageFns<ShortsParam_Field1>;
+export const NextParams: MessageFns<NextParams>;
+export const CommunityPostParams: MessageFns<CommunityPostParams>;
+export const CommunityPostParams_Field1: MessageFns<CommunityPostParams_Field1>;
+export const CommunityPostParams_Field2: MessageFns<CommunityPostParams_Field2>;
+export const CommunityPostCommentsParamContainer: MessageFns<CommunityPostCommentsParamContainer>;
+export const CommunityPostCommentsParamContainer_Container: MessageFns<CommunityPostCommentsParamContainer_Container>;
+export const CommunityPostCommentsParam: MessageFns<CommunityPostCommentsParam>;
+export const CommunityPostCommentsParam_PostContainer: MessageFns<CommunityPostCommentsParam_PostContainer>;
+export const CommunityPostCommentsParam_Field2: MessageFns<CommunityPostCommentsParam_Field2>;
+export const CommunityPostCommentsParam_CommentDataContainer: MessageFns<CommunityPostCommentsParam_CommentDataContainer>;
+export const CommunityPostCommentsParam_CommentDataContainer_CommentData: MessageFns<CommunityPostCommentsParam_CommentDataContainer_CommentData>;
 export interface MessageFns<T> {
     encode(message: T, writer?: BinaryWriter): BinaryWriter;
     decode(input: BinaryReader | Uint8Array, length?: number): T;

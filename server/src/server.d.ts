@@ -1,6 +1,4 @@
-/* eslint-disable no-var */
-
-declare global {
+global {
   var __basedir: string;
 }
 
