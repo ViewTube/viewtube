@@ -47,10 +47,13 @@ export class VideosService {
       let dashManifest: string | null = null;
 
       dashManifest = await videoInfo.toDash({
-        url_transformer: (url: URL) => {
-          url.searchParams.append('__host', url.host);
-          return url;
+        manifest_options: {
+          is_sabr: true
         }
+        // url_transformer: (url: URL) => {
+        //   url.searchParams.append('__host', url.host);
+        //   return url;
+        // }
       });
 
       return dashManifest;
