@@ -1,19 +1,21 @@
+<script lang="ts" setup>
+const rectCount = ref(5);
+</script>
+
 <template>
   <div class="spinner">
-    <div class="rect rect1" />
-    <div class="rect rect2" />
-    <div class="rect rect3" />
-    <div class="rect rect4" />
-    <div class="rect rect5" />
+    <div v-for="rectNr in rectCount" :key="rectNr" :class="`rect rect${rectNr}`" />
   </div>
 </template>
 
 <style lang="scss">
 $rectangle-width: 8px;
+$rectangle-count: 5;
+$spinner-width: $rectangle-width * $rectangle-count + 2px * ($rectangle-count - 1);
 
 .spinner {
   margin: auto;
-  width: 48px;
+  width: $spinner-width;
   height: 60px;
   text-align: center;
   font-size: 10px;
@@ -25,7 +27,7 @@ $rectangle-width: 8px;
 
   .rect {
     background-image: var(--theme-color-gradient);
-    background-size: $rectangle-width * 5;
+    background-size: $rectangle-count * $rectangle-width;
     height: 100%;
     width: $rectangle-width;
     display: block;
@@ -34,7 +36,7 @@ $rectangle-width: 8px;
     border-radius: 25px;
   }
 
-  @for $r from 1 through 5 {
+  @for $r from 1 through $rectangle-count {
     .rect#{$r} {
       animation-delay: -1.2s + 0.1s * $r;
       background-position: -$rectangle-width * ($r - 1);
