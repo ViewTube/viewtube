@@ -37,7 +37,7 @@
     "@types/sanitize-html": "2.16.0",
     "@viewtube/shared": "workspace:*",
     "archiver": "7.0.1",
-    "axios": "1.10.0",
+    "axios": "1.11.0",
     "bcryptjs": "3.0.2",
     "bull": "4.16.5",
     "cache-manager": "7.0.0",
