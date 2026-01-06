@@ -309,8 +309,8 @@ importers:
         specifier: 1.4.0
         version: 1.4.0
       undici:
-        specifier: 7.10.0
-        version: 7.10.0
+        specifier: 7.18.2
+        version: 7.18.2
       web-push:
         specifier: 3.6.7
         version: 3.6.7
@@ -7248,8 +7248,8 @@ packages:
     resolution: {integrity: sha512-raqeBD6NQK4SkWhQzeYKd1KmIG6dllBOTt55Rmkt4HtI9mwdWtJljnrXjAFUBLTSN67HWrOIZ3EPF4kjUw80Bg==}
     engines: {node: '>=14.0'}
 
-  undici@7.10.0:
-    resolution: {integrity: sha512-u5otvFBOBZvmdjWLVW+5DAc9Nkq8f24g0O9oY7qw2JVIF1VocIFoyz9JFkuVOS2j41AufeO0xnlweJ2RLT8nGw==}
+  undici@7.18.2:
+    resolution: {integrity: sha512-y+8YjDFzWdQlSE9N5nzKMT3g4a5UBX1HKowfdXh0uvAnTaqqwqB92Jt4UXBAeKekDs5IaDKyJFR4X1gYVCgXcw==}
     engines: {node: '>=20.18.1'}
 
   unenv@2.0.0-rc.17:
@@ -12417,7 +12417,7 @@ snapshots:
   fetch-socks@1.3.2:
     dependencies:
       socks: 2.8.5
-      undici: 7.10.0
+      undici: 7.18.2
 
   fflate@0.8.2: {}
 
@@ -15465,7 +15465,7 @@ snapshots:
     dependencies:
       '@fastify/busboy': 2.1.1
 
-  undici@7.10.0: {}
+  undici@7.18.2: {}
 
   unenv@2.0.0-rc.17:
     dependencies:
