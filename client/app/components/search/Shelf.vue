@@ -7,20 +7,10 @@
   </div>
 </template>
 
-<script lang="ts">
-import VideoEntry from '~/components/list/VideoEntry.vue';
-import SectionTitle from '~/components/SectionTitle.vue';
-
-export default defineComponent({
-  name: 'Shelf',
-  components: {
-    VideoEntry,
-    SectionTitle
-  },
-  props: {
-    shelf: Object
-  }
-});
+<script setup lang="ts">
+defineProps<{
+  shelf: Record<string, any>;
+}>();
 </script>
 
 <style lang="scss">

@@ -33,45 +33,25 @@
   </div>
 </template>
 
-<script lang="ts">
-export default defineComponent({
-  name: 'SwitchButton',
-  props: {
-    value: Boolean,
-    label: String,
-    smallLabel: {
-      type: String,
-      required: false,
-      default: null
-    },
-    smallLabelNegative: {
-      type: String,
-      required: false,
-      default: null
-    },
-    disabled: Boolean,
-    right: {
-      type: Boolean,
-      required: false
-    }
-  },
-  setup(_, { emit }) {
-    const onChange = (e: any): void => {
-      emit('valuechange', e.target.checked);
-    };
+<script setup lang="ts">
+defineProps<{
+  value?: boolean;
+  label?: string;
+  smallLabel?: string;
+  smallLabelNegative?: string;
+  disabled?: boolean;
+  right?: boolean;
+}>();
 
-    const ID = (_length = 13) => {
-      return '_' + Math.random().toString(36).substr(2, _length);
-    };
+const emit = defineEmits<{
+  valuechange: [value: boolean];
+}>();
 
-    const randomId = ID();
+const onChange = (e: any): void => {
+  emit('valuechange', e.target.checked);
+};
 
-    return {
-      onChange,
-      randomId
-    };
-  }
-});
+const randomId = '_' + Math.random().toString(36).substr(2, 13);
 </script>
 
 <style lang="scss" scoped>

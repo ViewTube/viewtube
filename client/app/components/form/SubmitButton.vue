@@ -2,13 +2,10 @@
   <input v-ripple type="submit" :value="label" class="submit-button" />
 </template>
 
-<script lang="ts">
-export default defineComponent({
-  name: 'SubmitButton',
-  props: {
-    label: String
-  }
-});
+<script setup lang="ts">
+defineProps<{
+  label?: string;
+}>();
 </script>
 
 <style lang="scss" scoped>

@@ -24,70 +24,55 @@
   </div>
 </template>
 
-<script lang="ts">
-import BadgeButton from '~/components/buttons/BadgeButton.vue';
+<script setup lang="ts">
 import { useMessagesStore } from '~/store/messages';
 
-export default defineComponent({
-  name: 'ErrorPage',
-  components: {
-    BadgeButton
-  },
-  props: {
-    error: Object
-  },
-  setup(props) {
-    const messagesStore = useMessagesStore();
-    const { apiUrl } = useApiUrl();
-    const route = useRoute();
+const props = defineProps<{
+  error: { message: string; detail?: any; statusCode: number };
+}>();
 
-    const possibleSearch = ref(null);
+const messagesStore = useMessagesStore();
+const { apiUrl } = useApiUrl();
+const route = useRoute();
 
-    const copyError = (): void => {
-      if (import.meta.client && 'clipboard' in navigator) {
-        navigator.clipboard.writeText(renderJSON(props.error.detail)).then(() => {
-          messagesStore.createMessage({
-            type: 'info',
-            title: 'Copied error',
-            message: null
-          });
-        });
-      }
-    };
+const possibleSearch = ref(null);
 
-    const retry = (): void => {
-      window.location.reload();
-    };
-    const renderJSON = (json: any): string => {
-      return JSON.stringify(json, replacerFunc(), 2);
-    };
-    const replacerFunc = () => {
-      const visited = new WeakSet();
-      return (_key: any, value: object) => {
-        if (typeof value === 'object' && value !== null) {
-          if (visited.has(value)) {
-            return;
-          }
-          visited.add(value);
-        }
-        return value;
-      };
-    };
-
-    if (props.error.statusCode === 404) {
-      const path = route.path;
-      possibleSearch.value = path.replace('/', '');
-    }
-
-    return {
-      possibleSearch,
-      apiUrl,
-      copyError,
-      retry,
-      renderJSON
-    };
+const copyError = (): void => {
+  if (import.meta.client && 'clipboard' in navigator) {
+    navigator.clipboard.writeText(renderJSON(props.error.detail)).then(() => {
+      messagesStore.createMessage({
+        type: 'info',
+        title: 'Copied error',
+        message: null
+      });
+    });
   }
-});
+};
+
+const retry = (): void => {
+  window.location.reload();
+};
+
+const renderJSON = (json: any): string => {
+  return JSON.stringify(json, replacerFunc(), 2);
+};
+
+const replacerFunc = () => {
+  const visited = new WeakSet();
+  return (_key: any, value: object) => {
+    if (typeof value === 'object' && value !== null) {
+      if (visited.has(value)) {
+        return;
+      }
+      visited.add(value);
+    }
+    return value;
+  };
+};
+
+if (props.error.statusCode === 404) {
+  possibleSearch.value = route.path.replace('/', '');
+}
 </script>
 
 <style lang="scss" scoped>

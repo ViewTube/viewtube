@@ -54,44 +54,36 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { useSettingsStore } from '~/store/settings';
 
-export default defineComponent({
-  name: 'ThemeSelector',
-  setup() {
-    const settingsStore = useSettingsStore();
+const settingsStore = useSettingsStore();
 
-    const onThemeChange = (element: { value: any }) => {
-      settingsStore.setSettingsSaving(true);
+const themes = defaultThemes;
 
-      document.body.classList.add('transition-all');
-      settingsStore.setTheme(element.value);
-      setTimeout(() => {
-        document.body.classList.remove('transition-all');
-        settingsStore.setSettingsSaving(false);
-      }, 300);
-    };
-    const getBorderThemeColor = (theme: { [x: string]: any; value: string }): string => {
-      return theme.value === (settingsStore.theme ?? settingsStore.defaultTheme)
-        ? theme['theme-color']
-        : 'transparent';
-    };
-    const getBorderStyle = (theme: { [x: string]: any; value: string }): string => {
-      if (!settingsStore.theme) {
-        return theme.value === settingsStore.defaultTheme ? 'dashed' : 'solid';
-      }
-      return 'solid';
-    };
+const onThemeChange = (element: { value: any }) => {
+  settingsStore.setSettingsSaving(true);
 
-    return {
-      themes: defaultThemes,
-      onThemeChange,
-      getBorderThemeColor,
-      getBorderStyle
-    };
+  document.body.classList.add('transition-all');
+  settingsStore.setTheme(element.value);
+  setTimeout(() => {
+    document.body.classList.remove('transition-all');
+    settingsStore.setSettingsSaving(false);
+  }, 300);
+};
+
+const getBorderThemeColor = (theme: { [x: string]: any; value: string }): string => {
+  return theme.value === (settingsStore.theme ?? settingsStore.defaultTheme)
+    ? theme['theme-color']
+    : 'transparent';
+};
+
+const getBorderStyle = (theme: { [x: string]: any; value: string }): string => {
+  if (!settingsStore.theme) {
+    return theme.value === settingsStore.defaultTheme ? 'dashed' : 'solid';
   }
-});
+  return 'solid';
+};
 </script>
 
 <style lang="scss" scoped>

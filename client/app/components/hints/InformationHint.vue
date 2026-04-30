@@ -2,11 +2,6 @@
   <div class="information-hint"><slot /><VTIcon name="mdi:information" /></div>
 </template>
 
-<script lang="ts">
-export default defineComponent({
-  name: 'InformationHint'
-});
-</script>
 
 <style lang="scss">
 .information-hint {

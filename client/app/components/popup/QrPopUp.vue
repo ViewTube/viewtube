@@ -9,45 +9,35 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import * as QRCode from 'qrcode';
 import '~/assets/styles/popup.scss';
 
-export default defineComponent({
-  name: 'QrPopUp',
-  setup() {
-    const { currentTheme } = useCurrentTheme();
-    const qrCodeRef = ref(null);
+defineEmits(['close']);
 
-    const url = (): string => {
-      return window?.location.href ?? '';
-    };
-    const getThemePrimaryColor = (): string => {
-      return currentTheme['theme-color'];
-    };
-    const getThemeBackgroundColor = (): string => {
-      return currentTheme['bgcolor-alt'];
-    };
+const { currentTheme } = useCurrentTheme();
+const qrCodeRef = ref(null);
 
-    onMounted(() => {
-      const computedStyle = getComputedStyle(document.documentElement);
-      const themeColor = computedStyle.getPropertyValue('--theme-color').trim();
-      const bgColor = computedStyle.getPropertyValue('--bgcolor-alt').trim();
-      QRCode.toCanvas(
-        qrCodeRef.value,
-        url(),
-        { errorCorrectionLevel: 'H', width: 360, color: { dark: themeColor, light: bgColor } },
-        () => {}
-      );
-    });
+const url = (): string => {
+  return window?.location.href ?? '';
+};
+const getThemePrimaryColor = (): string => {
+  return currentTheme['theme-color'];
+};
+const getThemeBackgroundColor = (): string => {
+  return currentTheme['bgcolor-alt'];
+};
 
-    return {
-      url,
-      getThemePrimaryColor,
-      getThemeBackgroundColor,
-      qrCodeRef
-    };
-  }
+onMounted(() => {
+  const computedStyle = getComputedStyle(document.documentElement);
+  const themeColor = computedStyle.getPropertyValue('--theme-color').trim();
+  const bgColor = computedStyle.getPropertyValue('--bgcolor-alt').trim();
+  QRCode.toCanvas(
+    qrCodeRef.value,
+    url(),
+    { errorCorrectionLevel: 'H', width: 360, color: { dark: themeColor, light: bgColor } },
+    () => {}
+  );
 });
 </script>
 

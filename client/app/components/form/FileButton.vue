@@ -12,15 +12,13 @@
   </label>
 </template>
 
-<script lang="ts">
-export default defineComponent({
-  name: 'FileButton',
-  props: {
-    label: String,
-    accept: String
-  },
-  emits: { change: null }
-});
+<script setup lang="ts">
+defineProps<{
+  label?: string;
+  accept?: string;
+}>();
+
+defineEmits(['change']);
 </script>
 
 <style lang="scss" scoped>
