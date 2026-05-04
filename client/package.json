@@ -25,8 +25,8 @@
     "@unocss/nuxt": "66.6.8",
     "@unocss/preset-icons": "66.6.8",
     "@viewtube/shared": "workspace:*",
-    "@vueuse/core": "14.2.1",
-    "@vueuse/nuxt": "14.2.1",
+    "@vueuse/core": "14.3.0",
+    "@vueuse/nuxt": "14.3.0",
     "consola": "3.4.2",
     "cross-env": "10.1.0",
     "dashjs": "5.1.1",
@@ -52,7 +52,7 @@
     "ufo": "1.6.4",
     "vue": "3.5.33",
     "vue-datepicker-next": "1.0.3",
-    "vue-tsc": "3.2.7",
+    "vue-tsc": "3.2.8",
     "x2js": "3.4.4",
     "ytpl": "2.3.0"
   }

@@ -38,11 +38,11 @@
   ],
   "devDependencies": {
     "@types/node": "25.6.0",
-    "@typescript-eslint/parser": "8.59.1",
-    "eslint": "10.2.1",
+    "@typescript-eslint/parser": "8.59.2",
+    "eslint": "10.3.0",
     "eslint-plugin-cypress": "6.4.0",
-    "globals": "17.5.0",
-    "knip": "6.9.0",
+    "globals": "17.6.0",
+    "knip": "6.11.0",
     "prettier": "3.8.3",
     "prettier-plugin-organize-imports": "4.3.0",
     "typescript": "6.0.3"

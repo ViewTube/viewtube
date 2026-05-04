@@ -30,13 +30,8 @@ export class CommentsService {
         parse: true
       };
     } else {
-      const GetCommentsSectionParams = await import(
-        'youtubei.js/dist/protos/generated/misc/params.js'
-      ).then(el => el.GetCommentsSectionParams);
-
-      const u8ToBase64 = await import('youtubei.js/dist/src/utils/Utils.js').then(
-        el => el.u8ToBase64
-      );
+      // @ts-ignore: internal path not in exports map, but exists at runtime
+      const GetCommentsSectionParams = await import('youtubei.js/dist/protos/generated/misc/params.js').then(el => el.GetCommentsSectionParams);
 
       const writer = GetCommentsSectionParams.encode({
         ctx: {
@@ -53,7 +48,7 @@ export class CommentsService {
           target: 'comments-section'
         }
       });
-      const continuation = encodeURIComponent(u8ToBase64(writer.finish()));
+      const continuation = encodeURIComponent(Buffer.from(writer.finish()).toString('base64'));
       commentParams = {
         continuation,
         parse: true

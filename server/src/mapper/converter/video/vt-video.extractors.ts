@@ -4,7 +4,7 @@ import { VTVideoDto } from 'server/mapper/dto/vt-video.dto';
 import { getHandleFromUrl } from 'server/mapper/utils/handle';
 import { parseRelativeTime } from 'server/mapper/utils/parse-relative-time';
 import { parseShortenedNumber } from 'server/mapper/utils/shortened-number';
-import Author from 'youtubei.js/dist/src/parser/classes/misc/Author';
+import { Misc } from 'youtubei.js';
 import { VideoSourceApproximation } from './vt-video.converter';
 
 export const extractVideoId = (video: VideoSourceApproximation): string => {
@@ -35,7 +35,7 @@ export const extractVideoAuthor = (video: VideoSourceApproximation): VTVideoDto[
     if (typeof video.author === 'string') {
       name = video.author;
     } else if (typeof video.author === 'object') {
-      const authorObj = video.author as Author & { text?: string };
+      const authorObj = video.author as Misc.Author & { text?: string };
       if (authorObj.name) {
         name = authorObj.name;
       } else if (authorObj.text) {

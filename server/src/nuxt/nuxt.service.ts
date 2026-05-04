@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { FastifyReply, FastifyRequest } from 'fastify';
-import type { NodeListener } from 'h3';
+import type { NodeHandler } from 'h3';
 import { resolveNuxtPath, resolveStaticFileList } from './nuxt.resolver';
 
 const importerFunction = new Function('module', 'return import(module)');
 
 @Injectable()
 export class NuxtService {
-  nuxtListener: NodeListener = null;
+  nuxtListener: NodeHandler = null;
   nuxtPath: string = null;
   staticFileList: Array<string> = [];
 
@@ -15,7 +15,7 @@ export class NuxtService {
     this.nuxtListener = await this.importNuxtListener();
   }
 
-  async importNuxtListener(): Promise<NodeListener> {
+  async importNuxtListener(): Promise<NodeHandler> {
     this.nuxtPath = resolveNuxtPath();
     this.staticFileList = await resolveStaticFileList(this.nuxtPath);
     const nuxt = await importerFunction(`file://${this.nuxtPath}/server/index.mjs`);

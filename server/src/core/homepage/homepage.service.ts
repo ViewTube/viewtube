@@ -21,7 +21,7 @@ export class HomepageService {
       if (cachedValue) return cachedValue;
     }
     const client = await innertubeClient();
-    const homeFeed = await client.getTrending();
+    const homeFeed = await client.getHomeFeed();
     const homeFeedLimited = homeFeed.videos.slice(0, 40);
     const homeFeedVideos = toHomeFeed({ videos: homeFeedLimited } as never);
     const enhancedHomeFeed = await this.historyService.enhanceVideoListWithHistory(

@@ -1,6 +1,4 @@
-import type { SearchFilters } from "youtubei.js/dist/src/types";
-
-export class SearchFiltersDto implements SearchFilters {
+export class SearchFiltersDto {
   upload_date?: 'all' | 'hour' | 'today' | 'week' | 'month' | 'year';
   type?: 'all' | 'video' | 'channel' | 'playlist' | 'movie';
   duration?: 'all' | 'short' | 'medium' | 'long';
