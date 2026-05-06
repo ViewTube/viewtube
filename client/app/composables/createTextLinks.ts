@@ -32,6 +32,9 @@ export const useCreateTextLinks = (timestampFn?: TimestampFnType) => {
     applyEventListeners();
   });
 
+  const escapeAttr = (str: string) => str.replace(/&/g, '&amp;').replace(/"/g, '&quot;');
+  const escapeText = (str: string) => str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
   const createTextLinks = (text: string) => {
     if (!text) return '';
     let htmlText = text.replace(urlRegex, match => {
@@ -48,7 +51,7 @@ export const useCreateTextLinks = (timestampFn?: TimestampFnType) => {
         }
       }
 
-      return `<a href="${url}" target="_blank" rel="noreferrer noopener">${match}</a>`;
+      return `<a href="${escapeAttr(url)}" target="_blank" rel="noreferrer noopener">${escapeText(match)}</a>`;
     });
 
     if (typeof timestampFn === 'function') {

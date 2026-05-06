@@ -4,7 +4,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { createReadStream, existsSync } from 'fs';
 import { readdir, stat } from 'fs/promises';
 import { Model } from 'mongoose';
-import { join, resolve } from 'path';
+import { basename, join, resolve } from 'path';
 import { proxyEnabled } from 'server/common/proxyAgent';
 import { vtFetch } from 'server/common/vtFetch';
 import { UserprofileDto } from '../user/dto/userprofile.dto';
@@ -138,7 +138,7 @@ export class AdminService {
       logFolder = resolve(this.configService.get('VIEWTUBE_BASE_DIR'), 'logs');
     }
 
-    const sanitizedLogFile = logFile.replaceAll('..', '').replaceAll('/', '').replaceAll('\\', '');
+    const sanitizedLogFile = basename(logFile);
     const logFilePath = join(logFolder, sanitizedLogFile);
 
     if (!existsSync(logFilePath)) {

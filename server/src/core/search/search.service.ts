@@ -24,7 +24,11 @@ export class SearchService {
     }
 
     if (searchQuery.filters) {
-      searchQuery.filters = JSON.parse(searchQuery.filters.toString());
+      try {
+        searchQuery.filters = JSON.parse(searchQuery.filters.toString());
+      } catch {
+        throw new BadRequestException('Invalid filters parameter');
+      }
     }
 
     if (searchQuery.filters?.features) {
