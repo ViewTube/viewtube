@@ -1,4 +1,4 @@
-FROM node:22-bookworm AS build
+FROM node:24-bookworm AS build
 WORKDIR /home/build
 
 ENV CI=true
@@ -22,7 +22,7 @@ RUN rm -rf node_modules client/node_modules server/node_modules shared/node_modu
 
 RUN CI=true pnpm --filter=./server --filter=./client install --frozen-lockfile --prod
 
-FROM node:22-bookworm-slim AS runtime
+FROM node:24-bookworm-slim AS runtime
 WORKDIR /home/app
 
 ENV NODE_ENV=production

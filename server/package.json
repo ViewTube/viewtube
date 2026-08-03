@@ -79,7 +79,7 @@
     "@types/cookie-parser": "1.4.9",
     "@types/humanize-duration": "3.27.4",
     "@types/multer": "1.4.13",
-    "@types/node": "24.0.3",
+    "@types/node": "24.13.3",
     "@types/web-push": "3.6.4",
     "cross-env": "7.0.3",
     "h3": "1.15.3",
