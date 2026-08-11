@@ -63,7 +63,7 @@
     "sanitize-html": "2.17.0",
     "sharp": "0.34.2",
     "svg-captcha": "1.4.0",
-    "undici": "7.10.0",
+    "undici": "7.24.0",
     "web-push": "3.6.7",
     "winston": "3.17.0",
     "winston-daily-rotate-file": "5.0.0",
