@@ -13,9 +13,6 @@
     "gen:swagger": "pnpm run build && cross-env GENERATE_SWAGGER=true node ./dist/main.js",
     "gen:api": "pnpm run gen:swagger && openapi-typescript swagger-spec.json --output ../shared/src/api.schema.ts && rimraf swagger-spec.json"
   },
-  "_moduleAliases": {
-    "server": "dist/server"
-  },
   "dependencies": {
     "@bufbuild/protobuf": "^2.12.0",
     "@fastify/cookie": "11.0.2",

@@ -13,10 +13,6 @@ export default defineNuxtConfig({
     }
   },
 
-  future: {
-    compatibilityVersion: 4
-  },
-
   nitro: {
     preset: 'node',
     ...devOnly({
@@ -38,7 +34,6 @@ export default defineNuxtConfig({
     css: {
       preprocessorOptions: {
         scss: {
-          api: 'modern-compiler',
           additionalData: `
            @use "sass:math";
            @use "~/assets/styles/global/variables.scss" as variables;
@@ -58,7 +53,6 @@ export default defineNuxtConfig({
   ],
 
   unocss: {
-    uno: false,
     icons: true,
     attributify: false,
     safelist: iconSafelist
