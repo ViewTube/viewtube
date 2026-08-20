@@ -8,7 +8,7 @@ export interface VideoInfoSourceApproximation {
   cards?: Cards;
   primary_info?: PrimaryInfo;
   secondary_info?: SecondaryInfo;
-  watch_next_feed?: WatchNextFeed[];
+  watch_next_feed?: unknown[];
   player_overlays?: PlayerOverlays;
   autoplay?: VideoInfoSourceApproximationAutoplay;
   comments_entry_point_header?: CommentsEntryPointHeader;
@@ -934,57 +934,6 @@ interface Format {
 interface Range {
   start?: number;
   end?: number;
-}
-
-interface WatchNextFeed {
-  type?: string;
-  id?: string;
-  thumbnails?: Thumbnail[];
-  rich_thumbnail?: SuperTitleLink;
-  title?: Header;
-  author?: Author;
-  view_count?: Header;
-  short_view_count?: Header;
-  published?: Header;
-  badges?: WatchNextFeedBadge[];
-  duration?: Duration;
-  thumbnail_overlays?: WatchNextFeedThumbnailOverlay[];
-  endpoint?: WatchNextFeedEndpoint;
-  menu?: Menu;
-}
-
-interface WatchNextFeedBadge {
-  type?: string;
-  style?: string;
-  label?: string;
-}
-
-interface WatchNextFeedEndpoint {
-  type?: string;
-  payload?: MagentaPayload;
-  metadata?: AutoplayVideoMetadata;
-}
-
-interface MagentaPayload {
-  videoId?: string;
-  nofollow?: boolean;
-  watchEndpointSupportedOnesieConfig?: WatchEndpointSupportedOnesieConfig;
-}
-
-interface WatchNextFeedThumbnailOverlay {
-  type?: string;
-  text?: string;
-  style?: string;
-  is_toggled?: null;
-  icon_type?: IconType;
-  tooltip?: IconType;
-  toggled_endpoint?: ToggledEndpoint;
-  untoggled_endpoint?: UntoggledEndpoint;
-}
-
-interface IconType {
-  toggled?: string;
-  untoggled?: string;
 }
 
 interface ToggledEndpoint {

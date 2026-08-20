@@ -15,7 +15,7 @@ const displayedSubscriptions = computed(() => {
     return [];
   }
 
-  if (!settingsStore.showHomeTrendingVideos || !showMore.value) {
+  if (!settingsStore.showHomePopularVideos || !showMore.value) {
     return videos.slice(0, 4);
   }
 
@@ -38,7 +38,7 @@ const showMoreSubscriptions = (): void => {
     />
   </div>
   <div
-    v-if="subscriptions?.videos?.length > 0 && settingsStore.showHomeTrendingVideos"
+    v-if="subscriptions?.videos?.length > 0 && settingsStore.showHomePopularVideos"
     class="home-show-more"
   >
     <BadgeButton

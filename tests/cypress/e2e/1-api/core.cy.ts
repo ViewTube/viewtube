@@ -13,6 +13,20 @@ describe('Core API tests', () => {
     );
   });
 
+  it('GET home feed', () => {
+    cy.request<ApiDto<'HomeFeedDto'>>({
+      method: 'GET',
+      url: `${apiUrl}/homepage/homefeed`
+    }).then(response => {
+      expect(response.status).to.eq(200);
+      expect(response.body.videos).to.be.an('array').that.is.not.empty;
+
+      const [video] = response.body.videos;
+      expect(video.id).to.be.a('string').and.have.length(11);
+      expect(video.title).to.be.a('string').and.not.be.empty;
+    });
+  });
+
   it('GET video with invalid id', () => {
     cy.request<ApiDto<'VTVideoInfoDto'>>({
       method: 'GET',

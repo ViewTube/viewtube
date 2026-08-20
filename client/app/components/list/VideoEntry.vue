@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { useLoadingVideoInfoStore } from '~/store/loadingVideoInfo';
 import dayjs from 'dayjs';
+import { useLoadingVideoInfoStore } from '~/store/loadingVideoInfo';
 
 type VideoType = {
-  author:
+  author?:
     | {
         name?: string;
         channelID?: string;
@@ -344,7 +344,11 @@ const videoViewsText = computed(() => {
         >
         <div class="video-entry-stats">
           <p class="video-entry-views">{{ videoViewsText }}</p>
-          <p v-if="videoPublished !== null" v-tippy="videoPublishedDate" class="video-entry-timestamp">
+          <p
+            v-if="videoPublished !== null"
+            v-tippy="videoPublishedDate"
+            class="video-entry-timestamp"
+          >
             {{ videoPublished }}
           </p>
         </div>

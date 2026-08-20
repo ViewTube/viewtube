@@ -1021,18 +1021,26 @@ export interface components {
             theme: string;
             sponsorblockUrl: string;
             sponsorblockEnabled: boolean;
-            sponsorblockSegmentSponsor: Record<string, never>;
-            sponsorblockSegmentIntro: Record<string, never>;
-            sponsorblockSegmentOutro: Record<string, never>;
-            sponsorblockSegmentInteraction: Record<string, never>;
-            sponsorblockSegmentSelfpromo: Record<string, never>;
-            sponsorblockSegmentMusicOfftopic: Record<string, never>;
-            sponsorblockSegmentPreview: Record<string, never>;
-            sponsorblockSegmentFiller: Record<string, never>;
+            /** @enum {string} */
+            sponsorblockSegmentSponsor: "skip" | "none" | "ask";
+            /** @enum {string} */
+            sponsorblockSegmentIntro: "skip" | "none" | "ask";
+            /** @enum {string} */
+            sponsorblockSegmentOutro: "skip" | "none" | "ask";
+            /** @enum {string} */
+            sponsorblockSegmentInteraction: "skip" | "none" | "ask";
+            /** @enum {string} */
+            sponsorblockSegmentSelfpromo: "skip" | "none" | "ask";
+            /** @enum {string} */
+            sponsorblockSegmentMusicOfftopic: "skip" | "none" | "ask";
+            /** @enum {string} */
+            sponsorblockSegmentPreview: "skip" | "none" | "ask";
+            /** @enum {string} */
+            sponsorblockSegmentFiller: "skip" | "none" | "ask";
             autoplay: boolean;
             saveVideoHistory: boolean;
             showHomeSubscriptions: boolean;
-            showHomeTrendingVideos: boolean;
+            showHomePopularVideos: boolean;
             showRecommendedVideos: boolean;
             alwaysLoopVideo: boolean;
             hideComments: boolean;
@@ -1157,12 +1165,12 @@ export interface components {
         };
         VTEndscreenElementDto: {
             position: {
-                left?: number;
-                top?: number;
+                left: number;
+                top: number;
             };
             dimensions: {
-                width?: number;
-                aspectRatio?: number;
+                width: number;
+                aspectRatio: number;
             };
             startMs: number;
             endMs: number;
@@ -1193,7 +1201,7 @@ export interface components {
             description?: string;
             thumbnails?: components["schemas"]["VTThumbnailDto"][];
             richThumbnails?: components["schemas"]["VTThumbnailDto"][];
-            published: {
+            published?: {
                 /** Format: date-time */
                 date?: string;
                 text?: string;
@@ -1202,15 +1210,15 @@ export interface components {
             /** Format: date-time */
             upcoming?: string;
             live?: boolean;
-            userData: {
+            userData?: {
                 videoLength?: number;
                 watchProgress?: number;
             };
             id: string;
             title: string;
-            duration: {
-                text?: string;
-                seconds?: number;
+            duration?: {
+                text: string;
+                seconds: number;
             };
         };
         VTChapterDto: {
@@ -1243,24 +1251,24 @@ export interface components {
             title: string;
             subtitle: string;
             author: {
-                id?: string;
-                name?: string;
-                thumbnails?: components["schemas"]["VTThumbnailDto"][];
-                isVerified?: boolean;
-                isArtist?: boolean;
-                handle?: string;
-                subscriberCount?: string;
+                id: string;
+                name: string;
+                thumbnails: components["schemas"]["VTThumbnailDto"][];
+                isVerified: boolean;
+                isArtist: boolean;
+                handle: string;
+                subscriberCount: string;
             };
             description: string;
             thumbnails: components["schemas"]["VTThumbnailDto"][];
             duration: {
-                text?: string;
-                seconds?: number;
+                text: string;
+                seconds: number;
             };
             published: {
                 /** Format: date-time */
-                date?: string;
-                text?: string;
+                date: string;
+                text: string;
             };
             viewCount: number;
             /** Format: date-time */
@@ -1277,8 +1285,8 @@ export interface components {
             category: string;
             previewThumbnails: components["schemas"]["VTPreviewThumbnailDto"][];
             endscreen: {
-                elements?: components["schemas"]["VTEndscreenElementDto"][];
-                startMs?: number;
+                elements: components["schemas"]["VTEndscreenElementDto"][];
+                startMs: number;
             };
             keywords: string[];
             captions: components["schemas"]["VTCaptionTrackDto"][];
@@ -1311,6 +1319,17 @@ export interface components {
             hash: string;
             segments: components["schemas"]["SponsorBlockSegmentDto"][];
             videoID: string;
+        };
+        SearchFiltersDto: {
+            /** @enum {string} */
+            upload_date?: "hour" | "month" | "year" | "week" | "all" | "today";
+            /** @enum {string} */
+            type?: "video" | "playlist" | "all" | "channel" | "movie";
+            /** @enum {string} */
+            duration?: "all" | "long" | "medium" | "short";
+            /** @enum {string} */
+            sort_by?: "view_count" | "relevance" | "rating" | "upload_date";
+            features?: ("3d" | "location" | "360" | "live" | "hd" | "subtitles" | "creative_commons" | "purchased" | "4k" | "hdr" | "vr180")[];
         };
         VTSearchDto: {
             results: Record<string, never>[];
@@ -1355,8 +1374,8 @@ export interface components {
             description: string;
             isFamilyFriendly: boolean;
             relatedChannels: {
-                items?: components["schemas"]["RelatedChannelDto"][];
-                continuation?: string | null;
+                items: components["schemas"]["RelatedChannelDto"][];
+                continuation: string | null;
             };
             allowedRegions: string[];
             isVerified: boolean;
@@ -1366,8 +1385,8 @@ export interface components {
             channelTabs: string[];
             alertMessage: string;
             channelLinks: {
-                primaryLinks?: components["schemas"]["ChannelLinkDto"][];
-                secondaryLinks?: components["schemas"]["ChannelLinkDto"][];
+                primaryLinks: components["schemas"]["ChannelLinkDto"][];
+                secondaryLinks: components["schemas"]["ChannelLinkDto"][];
             };
         };
         ChannelVideoDto: {
@@ -1388,7 +1407,8 @@ export interface components {
         };
         ChannelHomeItemDto: {
             shelfName: string;
-            type: Record<string, never>;
+            /** @enum {string} */
+            type: "video" | "videos" | "channels" | "playlist" | "verticalVideoList" | "mix" | "playlists" | "livestreams";
             items: Record<string, never>;
         };
         ChannelHomeDto: {
@@ -1480,8 +1500,8 @@ export interface components {
             channelMember?: boolean;
             published: {
                 /** Format: date-time */
-                date?: string;
-                text?: string;
+                date: string;
+                text: string;
             };
             author: components["schemas"]["VTAuthorDto"];
         };
@@ -1515,9 +1535,9 @@ export interface components {
             shortUrl: string;
             url: string;
             author: {
-                name?: string;
-                url?: string;
-                channelID?: string;
+                name: string;
+                url: string;
+                channelID: string;
             };
             thumbnails: components["schemas"]["PlaylistImageDto"][];
             bestThumbnail: components["schemas"]["PlaylistImageDto"];
@@ -1535,16 +1555,17 @@ export interface components {
             bestThumbnail: components["schemas"]["PlaylistImageDto"];
             lastUpdated: string;
             description: string | null;
-            visibility: Record<string, never>;
+            /** @enum {string} */
+            visibility: "unlisted" | "everyone";
             author: {
-                name?: string;
-                url?: string;
-                avatars?: components["schemas"]["PlaylistImageDto"][];
-                bestAvatar?: components["schemas"]["PlaylistImageDto"];
-                channelID?: string;
+                name: string;
+                url: string;
+                avatars: components["schemas"]["PlaylistImageDto"][];
+                bestAvatar: components["schemas"]["PlaylistImageDto"];
+                channelID: string;
             };
             items: components["schemas"]["PlaylistItemDto"][];
-            continuation: Record<string, never>;
+            continuation: Record<string, never> | null;
         };
         InfoDto: {
             serverIpV4: string;
@@ -1876,13 +1897,9 @@ export interface operations {
     SubscriptionsController_getSubscribedChannels: {
         parameters: {
             query?: {
-                /** @example linu */
                 filter?: string;
-                /** @example author:1,authorVerified:-1 */
                 sort?: string;
-                /** @example 0 */
                 start?: unknown;
-                /** @example 30 */
                 limit?: unknown;
             };
             header?: never;
@@ -2301,11 +2318,7 @@ export interface operations {
         parameters: {
             query: {
                 q: string;
-                upload_date?: Record<string, never>;
-                type?: Record<string, never>;
-                duration?: Record<string, never>;
-                sort_by?: Record<string, never>;
-                features?: Record<string, never>[];
+                filters?: components["schemas"]["SearchFiltersDto"];
                 continuationString?: string;
             };
             header?: never;

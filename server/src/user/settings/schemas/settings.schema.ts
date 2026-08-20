@@ -53,7 +53,7 @@ export class Settings extends Document implements SettingsDto {
   showHomeSubscriptions: boolean;
 
   @Prop()
-  showHomeTrendingVideos: boolean;
+  showHomePopularVideos: boolean;
 
   @Prop()
   showRecommendedVideos: boolean;
