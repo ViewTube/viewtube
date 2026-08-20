@@ -396,9 +396,6 @@ importers:
       vite-plugin-dts:
         specifier: 5.0.3
         version: 5.0.3(@microsoft/api-extractor@7.52.8(@types/node@26.2.0))(@vue/language-core@3.3.10)(esbuild@0.28.0)(rolldown@1.2.5)(rollup@4.60.2)(typescript@6.0.3)(vite@8.2.2)(webpack@5.106.2(esbuild@0.28.0))
-      vite-tsconfig-paths:
-        specifier: 6.1.1
-        version: 6.1.1(typescript@6.0.3)(vite@8.2.2)
 
   tests:
     devDependencies:
@@ -5600,9 +5597,6 @@ packages:
   globjoin@0.1.4:
     resolution: {integrity: sha512-xYfnw62CKG8nLkZBfWbhWwDw02CHty86jfPcc2cr3ZfeuK9ysoVPPEUxf21bAD/rWAgk52SuBrLJlefNy8mvFg==}
 
-  globrex@0.1.2:
-    resolution: {integrity: sha512-uHJgbwAMwNFf5mLst7IWLNg14x1CkeqglJb/K3doi4dw6q2IvAAmM/Y81kevy83wP+Sst+nutFTYOGg3d1lsxg==}
-
   gopd@1.2.0:
     resolution: {integrity: sha512-ZUKRh6/kUFoAiTAtTYPZJ3hw9wNxx+BIBOijnlG9PnrJsCcSjs1wyyD6vJpaYtgnzDrKYRSqf3OO6Rfa93xsRg==}
     engines: {node: '>= 0.4'}
@@ -8177,16 +8171,6 @@ packages:
     peerDependencies:
       typescript: '>=4.8.4'
 
-  tsconfck@3.1.6:
-    resolution: {integrity: sha512-ks6Vjr/jEw0P1gmOVwutM3B7fWxoWBL2KRDb1JfqGVawBmO5UsvmWOQFGHBPl5yxYz4eERr19E6L7NMv+Fej4w==}
-    engines: {node: ^18 || >=20}
-    hasBin: true
-    peerDependencies:
-      typescript: ^5.0.0
-    peerDependenciesMeta:
-      typescript:
-        optional: true
-
   tsconfig-paths-webpack-plugin@4.2.0:
     resolution: {integrity: sha512-zbem3rfRS8BgeNK50Zz5SIQgXzLafiHjOwUAvk/38/o1jHn/V5QAgVUcz884or7WYcPaH3N2CIfUc2u0ul7UcA==}
     engines: {node: '>=10.13.0'}
@@ -8639,11 +8623,6 @@ packages:
     peerDependencies:
       vite: ^6.0.0 || ^7.0.0 || ^8.0.0-0
       vue: ^3.5.0
-
-  vite-tsconfig-paths@6.1.1:
-    resolution: {integrity: sha512-2cihq7zliibCCZ8P9cKJrQBkfgdvcFkOOc3Y02o3GWUDLgqjWsZudaoiuOwO/gzTzy17cS5F7ZPo4bsnS4DGkg==}
-    peerDependencies:
-      vite: '*'
 
   vite@8.2.2:
     resolution: {integrity: sha512-cFKLV/PRgAUlIRm5WjMjJ86jrftzpqcgH+Us+DS8mI3CDNiH30Whrz8uHL3+MOLPAgqbMBAqWdAHAphOAM+z/Q==}
@@ -14869,8 +14848,6 @@ snapshots:
 
   globjoin@0.1.4: {}
 
-  globrex@0.1.2: {}
-
   gopd@1.2.0: {}
 
   got@14.6.6:
@@ -17676,10 +17653,6 @@ snapshots:
     dependencies:
       typescript: 6.0.3
 
-  tsconfck@3.1.6(typescript@6.0.3):
-    optionalDependencies:
-      typescript: 6.0.3
-
   tsconfig-paths-webpack-plugin@4.2.0:
     dependencies:
       chalk: 4.1.2
@@ -18113,16 +18086,6 @@ snapshots:
       source-map-js: 1.2.1
       vite: 8.2.2(@types/node@26.2.0)(@vitejs/devtools@0.5.1(@devframes/json-render@0.9.4(@devframes/hub@0.9.4(crossws@0.4.11(srvx@0.11.22))(devframe@0.9.4(cac@7.0.0)(srvx@0.11.22)))(devframe@0.9.4(cac@7.0.0)(srvx@0.11.22)))(crossws@0.4.11(srvx@0.11.22))(srvx@0.11.22)(vite@8.2.2))(esbuild@0.28.0)(jiti@2.7.0)(sass@1.103.0)(terser@5.46.2)(yaml@2.9.0)
       vue: 3.5.41(typescript@6.0.3)
-
-  vite-tsconfig-paths@6.1.1(typescript@6.0.3)(vite@8.2.2):
-    dependencies:
-      debug: 4.4.3
-      globrex: 0.1.2
-      tsconfck: 3.1.6(typescript@6.0.3)
-      vite: 8.2.2(@types/node@26.2.0)(@vitejs/devtools@0.5.1)(esbuild@0.28.0)(jiti@2.7.0)(sass@1.103.0)(terser@5.46.2)(yaml@2.9.0)
-    transitivePeerDependencies:
-      - supports-color
-      - typescript
 
   vite@8.2.2(@types/node@26.2.0)(@vitejs/devtools@0.5.1(@devframes/json-render@0.9.4(@devframes/hub@0.9.4(crossws@0.4.11(srvx@0.11.22))(devframe@0.9.4(cac@7.0.0)(srvx@0.11.22)))(devframe@0.9.4(cac@7.0.0)(srvx@0.11.22)))(crossws@0.4.11(srvx@0.11.22))(srvx@0.11.22)(vite@8.2.2))(esbuild@0.28.0)(jiti@2.7.0)(sass@1.103.0)(terser@5.46.2)(yaml@2.9.0):
     dependencies:
