@@ -15,7 +15,7 @@
   "devDependencies": {
     "@viewtube/shared": "workspace:*",
     "cross-env": "10.1.0",
-    "cypress": "15.14.2",
+    "cypress": "15.21.0",
     "cypress-commands": "3.0.0",
     "typescript": "6.0.3"
   }

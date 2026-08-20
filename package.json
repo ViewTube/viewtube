@@ -31,19 +31,19 @@
     "fix:prettier": "cp node_modules/prettier/index.cjs node_modules/prettier/index.js"
   },
   "browserslist": [
-    "last 1 version",
+    "last 1 version, not dead",
     "not IE 11",
     "not IE_Mob 11",
     "not Edge 18"
   ],
   "devDependencies": {
-    "@types/node": "25.6.0",
-    "@typescript-eslint/parser": "8.59.2",
-    "eslint": "10.3.0",
-    "eslint-plugin-cypress": "6.4.0",
-    "globals": "17.6.0",
-    "knip": "6.11.0",
-    "prettier": "3.8.3",
+    "@types/node": "26.2.0",
+    "@typescript-eslint/parser": "8.67.0",
+    "eslint": "10.8.1",
+    "eslint-plugin-cypress": "7.0.0",
+    "globals": "17.11.0",
+    "knip": "6.32.2",
+    "prettier": "3.9.6",
     "prettier-plugin-organize-imports": "4.3.0",
     "typescript": "6.0.3"
   }

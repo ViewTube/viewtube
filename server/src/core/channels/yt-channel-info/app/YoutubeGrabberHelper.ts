@@ -215,7 +215,7 @@ export class YoutubeGrabberHelper {
     let viewCountText;
     let lengthSeconds = 0;
     let durationText;
-    let publishedText = '';
+    let publishedText;
     if (typeof obj.richItemRenderer !== 'undefined') {
       if ('videoRenderer' in obj.richItemRenderer.content) {
         video = obj.richItemRenderer.content.videoRenderer;

@@ -48,11 +48,11 @@ export class SubscriptionsProcessor {
     let subscriptionResults: {
       channelResultArray: ChannelBasicInfoDto[];
       videoResultArray: VideoBasicInfoDto[];
-    } = null;
+    };
     try {
       subscriptionResults = await runSubscriptionsJob(uniqueChannelIds, job);
     } catch (error) {
-      throw new Error(error);
+      throw new Error(`Subscriptions job failed: ${error}`, { cause: error });
     }
 
     if (subscriptionResults) {

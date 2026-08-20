@@ -22,7 +22,7 @@ export class CommentsService {
 
     const sortBy = sortByNewest ? 'NEWEST_FIRST' : 'TOP_COMMENTS';
 
-    let commentParams: Record<string, any> = {};
+    let commentParams: Record<string, any>;
 
     if (continuationString) {
       commentParams = {

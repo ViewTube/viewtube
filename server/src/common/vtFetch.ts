@@ -1,14 +1,12 @@
 import { destr } from 'destr';
 import undici, {
   Headers,
-  type BodyMixin,
   type Dispatcher,
   type HeadersInit,
   type RequestInfo,
   type RequestInit,
   type Response
 } from 'undici';
-import BodyReadable from 'undici/types/readable';
 import { UrlObject } from 'url';
 import { getDispatcher, getProxyUrl, proxyEnabled } from './proxyAgent';
 
@@ -29,7 +27,7 @@ type VtFetchRawOptionsType = RequestInit & {
 };
 
 type JsonFnType<T> = () => Promise<T>;
-type ResponseBodyBaseType = BodyReadable & BodyMixin;
+type ResponseBodyBaseType = Dispatcher.ResponseData['body'];
 type ResponseBodyType<T> = Omit<ResponseBodyBaseType, 'json'> & { json: JsonFnType<T> };
 type ResponseType<T> = Omit<Dispatcher.ResponseData, 'body'> & {
   body: ResponseBodyType<T>;

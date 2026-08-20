@@ -6,10 +6,10 @@ packages:
 allowBuilds:
   '@nestjs/core': true
   '@parcel/watcher': true
-  '@scarf/scarf': set this to true or false
+  '@scarf/scarf': false
   '@swc/core': true
   cypress: true
   esbuild: true
-  msgpackr-extract: set this to true or false
+  msgpackr-extract: true
   sharp: true
   unrs-resolver: true
