@@ -63,9 +63,9 @@ export const extractComments = (comments: YTNodes.CommentThread[]): Array<VTComm
       likeCount: parseShortenedNumber(comment?.comment?.like_count),
       hasReplies: comment?.has_replies,
       replyCount: parseShortenedNumber(comment?.comment?.reply_count),
-      replyContinuation: comment?.comment_replies_data?.contents?.firstOfType(
-        YTNodes.ContinuationItem
-      )?.endpoint?.payload?.token,
+      replyContinuation: (
+        comment?.comment_replies_data?.sub_threads ?? comment?.comment_replies_data?.contents
+      )?.firstOfType(YTNodes.ContinuationItem)?.endpoint?.payload?.token,
       published: {
         date: parseRelativeTime(comment?.comment?.published_time)?.toDate(),
         text: comment?.comment?.published_time
