@@ -2,8 +2,8 @@
   "name": "@viewtube/server",
   "main": "dist/main",
   "engines": {
-    "node": ">=22.16.0",
-    "pnpm": ">=10.12"
+    "node": ">=24.14.0",
+    "pnpm": ">=10.33"
   },
   "scripts": {
     "serve": "nest start -w",
