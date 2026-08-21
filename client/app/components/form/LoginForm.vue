@@ -2,7 +2,7 @@
   <div class="login-form" :class="{ loading: loading, wiggle: formWiggle }">
     <h2 class="login-title">Sign in</h2>
     <span class="status-message-display message-display">{{ statusMessage }}</span>
-    <InformationHint class="hint">Usernames are case sensitive</InformationHint>
+    <HintsInformationHint class="hint">Usernames are case sensitive</HintsInformationHint>
     <Spinner />
     <form id="login" method="post" @submit.prevent="login">
       <FormInput
@@ -13,7 +13,7 @@
         autofocus
       />
       <FormInput :id="'password'" v-model="password" :label="'password'" :type="'password'" />
-      <SubmitButton :label="'Sign in'" />
+      <FormSubmitButton :label="'Sign in'" />
     </form>
   </div>
 </template>

@@ -15,6 +15,11 @@ export default defineNuxtConfig({
 
   nitro: {
     preset: 'node',
+    // Nitro replaces `process.env.DEBUG` with the boolean `dev` flag, which breaks
+    // `obug` (bundled via vite-node) as it expects a namespace string.
+    replace: {
+      'process.env.DEBUG': JSON.stringify(process.env.DEBUG ?? '')
+    },
     ...devOnly({
       devProxy: {
         '/api': { target: 'http://0.0.0.0:8067/api', changeOrigin: true }

@@ -18,7 +18,7 @@ const { apiUrl } = useApiUrl();
 const route = useRoute();
 const { vtFetch } = useVtFetch();
 
-const searchTerm = ref<string>(null);
+const searchTerm = ref<string>('');
 const searchTimeout = ref(null);
 const deletePopup = ref(false);
 const dateToDelete = ref<[Date, Date]>(null);

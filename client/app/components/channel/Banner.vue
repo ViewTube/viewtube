@@ -1,8 +1,8 @@
 <script setup lang="ts">
 const props = defineProps<{
-  src: string;
-  bannerHqSrc: string;
-  fallback: string;
+  src?: string;
+  bannerHqSrc?: string;
+  fallback?: string;
 }>();
 
 const { proxyUrl } = useImgProxy();

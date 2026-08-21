@@ -30,7 +30,7 @@
           :label="'Confirm new password'"
           :type="'password'"
         />
-        <SubmitButton :label="'Change password'" />
+        <FormSubmitButton :label="'Change password'" />
       </form>
     </div>
     <div class="popup-overlay" @click.stop="$emit('passwordChangeClose')" />

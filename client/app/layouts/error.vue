@@ -6,12 +6,12 @@
           <img src="~/assets/icon-error.svg" alt="Viewtube broken logo" />
         </div>
         <h2>{{ error.message }}</h2>
-        <BadgeButton :click="retry" class="try-again-btn">Try again</BadgeButton>
+        <ButtonsBadgeButton :click="retry" class="try-again-btn">Try again</ButtonsBadgeButton>
         <p>Api-url: {{ apiUrl }}</p>
         <details v-if="error.detail" class="error-details">
           <summary>Full error</summary>
           <pre class="json" v-html="renderJSON(error.detail)" />
-          <BadgeButton :click="copyError" class="copy-error-btn">Copy</BadgeButton>
+          <ButtonsBadgeButton :click="copyError" class="copy-error-btn">Copy</ButtonsBadgeButton>
         </details>
         <nuxt-link
           v-if="possibleSearch"

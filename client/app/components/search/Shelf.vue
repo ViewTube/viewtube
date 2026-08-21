@@ -2,7 +2,12 @@
   <div class="shelf">
     <SectionTitle :title="shelf.title" />
     <div class="shelf-container">
-      <VideoEntry v-for="video in shelf.items" :key="video.videoId" :video="video" :lazy="true" />
+      <ListVideoEntry
+        v-for="video in shelf.items"
+        :key="video.videoId"
+        :video="video"
+        :lazy="true"
+      />
     </div>
   </div>
 </template>

@@ -2,7 +2,7 @@
   <div class="switch" :class="{ right: right }">
     <div class="switch-container">
       <input
-        :id="`switch-button-${randomId}`"
+        :id="`switch-button-${switchId}`"
         class="switch-button"
         type="checkbox"
         :name="label"
@@ -17,16 +17,16 @@
       </div>
     </div>
     <div v-if="label" class="label-container">
-      <label :for="`switch-button-${randomId}`" class="label">{{ label }}</label>
+      <label :for="`switch-button-${switchId}`" class="label">{{ label }}</label>
 
       <label
         v-if="smallLabel && smallLabelNegative && !value"
-        :for="`switch-button-${randomId}`"
+        :for="`switch-button-${switchId}`"
         class="small-label"
       >
         {{ smallLabelNegative }}
       </label>
-      <label v-else-if="smallLabel" :for="`switch-button-${randomId}`" class="small-label">
+      <label v-else-if="smallLabel" :for="`switch-button-${switchId}`" class="small-label">
         {{ smallLabel }}
       </label>
     </div>
@@ -51,7 +51,7 @@ const onChange = (e: any): void => {
   emit('valuechange', e.target.checked);
 };
 
-const randomId = '_' + Math.random().toString(36).substr(2, 13);
+const switchId = useId();
 </script>
 
 <style lang="scss" scoped>

@@ -1,50 +1,50 @@
 <template>
   <div class="share-options">
     <div class="share-options-container">
-      <ShareOptionEntry
+      <ListShareOptionEntry
         class="share-option"
         option-name="Copy ViewTube Link"
         :click="shareCopyViewTubeLink"
       >
         <VTIcon name="mdi:content-copy" class="copy-icon" />
-      </ShareOptionEntry>
-      <ShareOptionEntry
+      </ListShareOptionEntry>
+      <ListShareOptionEntry
         class="share-option"
         option-name="Copy YouTube Link"
         :click="shareCopyYouTubeLink"
       >
         <VTIcon name="mdi:youtube" class="copy-icon" />
-      </ShareOptionEntry>
-      <ShareOptionEntry
+      </ListShareOptionEntry>
+      <ListShareOptionEntry
         class="share-option"
         option-name="Copy ViewTube Link at Current Timestamp"
         :click="shareCopyLinkAtCurrentTimestamp"
       >
         <VTIcon name="mdi:clipboard-text-time-outline" class="copy-icon" />
-      </ShareOptionEntry>
-      <ShareOptionEntry class="share-option" option-name="Open QR-Code" :click="qrOpen">
+      </ListShareOptionEntry>
+      <ListShareOptionEntry class="share-option" option-name="Open QR-Code" :click="qrOpen">
         <VTIcon name="mdi:qrcode" class="qrcode-icon" />
-      </ShareOptionEntry>
-      <ShareOptionEntry
+      </ListShareOptionEntry>
+      <ListShareOptionEntry
         class="share-option"
         option-name="Save to pocket"
         :click="saveToPocket"
         style="color: #ef4056"
       >
         <img src="~/assets/icons/pocket.svg" alt="Save to pocket icon" />
-      </ShareOptionEntry>
+      </ListShareOptionEntry>
     </div>
     <Teleport to="body">
       <transition name="fade-down">
-        <QrPopUp v-if="qrPopUpOpen" @close="qrClose" />
+        <PopupQrPopUp v-if="qrPopUpOpen" @close="qrClose" />
       </transition>
     </Teleport>
   </div>
 </template>
 
 <script setup lang="ts">
-import { useVideoPlayerStore } from '~/store/videoPlayer';
 import { useMessagesStore } from '~/store/messages';
+import { useVideoPlayerStore } from '~/store/videoPlayer';
 
 const props = defineProps<{
   videoId: string;
