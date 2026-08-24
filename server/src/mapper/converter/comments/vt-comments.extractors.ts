@@ -1,7 +1,7 @@
+import { sanitizeHtmlString } from 'server/common/sanitize-html';
 import { VTCommentDto } from 'server/mapper/dto/comments/vt-comment.dto';
 import { VTCommentsHeaderDto } from 'server/mapper/dto/comments/vt-comments-header.dto';
 import { parseRelativeTime } from 'server/mapper/utils/parse-relative-time';
-import { sanitizeHtmlString } from 'server/common/sanitize-html';
 import { parseShortenedNumber } from 'server/mapper/utils/shortened-number';
 import { YTNodes } from 'youtubei.js';
 

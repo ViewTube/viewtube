@@ -7,12 +7,12 @@ import {
   SearchFilter_Filters_UploadDate,
   SearchFilter_SortBy
 } from 'server/common/proto/params';
+import { u8ToBase64 } from 'server/common/u8ToBase64';
 import { toVTSearchResultDto } from 'server/mapper/converter/search/vt-search-result.converter';
 import { VTSearchDto } from 'server/mapper/dto/search/vt-search.dto';
 import { Parser, YTNodes } from 'youtubei.js';
 import { SearchFiltersDto } from './dto/search-filters.dto';
 import { SearchQueryDto } from './dto/search-query.dto';
-import { u8ToBase64 } from 'server/common/u8ToBase64';
 
 @Injectable()
 export class SearchService {

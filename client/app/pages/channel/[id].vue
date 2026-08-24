@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { Swiper, SwiperSlide } from 'swiper/vue';
 import 'swiper/css';
+import { Swiper, SwiperSlide } from 'swiper/vue';
 
 definePageMeta({
   name: 'channel',

@@ -1,12 +1,12 @@
 <script setup lang="ts">
+import type { ApiDto } from '@viewtube/shared';
+import BadgeButton from '~/components/buttons/BadgeButton.vue';
+import SeparatorSmall from '~/components/list/SeparatorSmall.vue';
+import Filters from '~/components/search/Filters.vue';
 import RelatedSearches from '~/components/search/RelatedSearches.vue';
 import Spinner from '~/components/Spinner.vue';
-import Filters from '~/components/search/Filters.vue';
-import SeparatorSmall from '~/components/list/SeparatorSmall.vue';
-import BadgeButton from '~/components/buttons/BadgeButton.vue';
 import { useMessagesStore } from '~/store/messages';
 import { useSettingsStore } from '~/store/settings';
-import type { ApiDto } from '@viewtube/shared';
 
 const VideoEntry = resolveComponent('ListVideoEntry');
 const PlaylistEntry = resolveComponent('ListPlaylistEntry');

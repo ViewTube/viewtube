@@ -164,7 +164,8 @@ const selectedVideoTrack = computed(() => {
     margin-left: 5px;
     border-radius: 4px;
 
-    background: radial-gradient(
+    background:
+      radial-gradient(
         ellipse farthest-corner at right bottom,
         #fedb37 0%,
         #fdb931 8%,
@@ -201,7 +202,8 @@ const selectedVideoTrack = computed(() => {
     color: var(--bgcolor-alt);
     font-size: 0.8rem;
     font-weight: bold;
-    background: radial-gradient(
+    background:
+      radial-gradient(
         ellipse farthest-corner at right bottom,
         #fedb37 0%,
         #fdb931 8%,

@@ -43,9 +43,8 @@ export const rxPlayerAdapter = async ({
 
   const RxPlayer = await import('rx-player/minimal').then(module => module.default);
   const { DASH, DASH_WASM } = await import('rx-player/features');
-  const { EMBEDDED_DASH_WASM, EMBEDDED_WORKER } = await import(
-    'rx-player/experimental/features/embeds'
-  );
+  const { EMBEDDED_DASH_WASM, EMBEDDED_WORKER } =
+    await import('rx-player/experimental/features/embeds');
 
   try {
     RxPlayer.addFeatures([DASH]);

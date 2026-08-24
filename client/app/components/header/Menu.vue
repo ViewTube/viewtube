@@ -1,11 +1,11 @@
 <script setup lang="ts">
+import About from '~/components/About.vue';
 import BadgeButton from '~/components/buttons/BadgeButton.vue';
+import Settings from '~/components/Settings.vue';
+import { usePopupStore } from '~/store/popup';
+import { useUserStore } from '~/store/user';
 import LoginForm from '../form/LoginForm.vue';
 import RegisterForm from '../form/RegisterForm.vue';
-import Settings from '~/components/Settings.vue';
-import About from '~/components/About.vue';
-import { useUserStore } from '~/store/user';
-import { usePopupStore } from '~/store/popup';
 
 const route = useRoute();
 const userStore = useUserStore();

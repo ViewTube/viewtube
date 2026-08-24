@@ -50,8 +50,7 @@ export class ChannelsService {
     }
     try {
       const channelInfo = (await YoutubeGrabber.getChannelInfo({ channelId })) as
-        | ChannelInfoDto
-        | ChannelInfoError;
+        ChannelInfoDto | ChannelInfoError;
       if ('alertMessage' in channelInfo) {
         return channelInfo;
       } else {

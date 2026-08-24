@@ -2,7 +2,6 @@
   <div class="information-hint"><slot /><VTIcon name="mdi:information" /></div>
 </template>
 
-
 <style lang="scss">
 .information-hint {
   border: 2px solid #4caf4f5e;

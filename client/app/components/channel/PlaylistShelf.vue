@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import VideoEntry from '~/components/list/VideoEntry.vue';
 import type { ApiDto } from '@viewtube/shared';
+import VideoEntry from '~/components/list/VideoEntry.vue';
 
 type ShelfType = {
   shelfName: string;

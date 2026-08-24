@@ -1,6 +1,6 @@
-import { useCaptchaStore } from '~/store/captcha';
 import { defineStore } from 'pinia';
 import { UAParser } from 'ua-parser-js';
+import { useCaptchaStore } from '~/store/captcha';
 import { useSettingsStore } from './settings';
 
 type User = {

@@ -79,7 +79,7 @@ export const useVtFetch = () => {
 
       return destr(response.body) as MappedType<R, T>;
     }
-    
+
     const response = await ofetch.raw(request, requestOptions);
 
     if (import.meta.server && !options?.external) {

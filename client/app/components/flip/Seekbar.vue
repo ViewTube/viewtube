@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import type { ApiDto } from '@viewtube/shared';
 import { getTimestampFromSeconds } from '@viewtube/shared';
 import { useSettingsStore } from '~/store/settings';
-import type { ApiDto } from '@viewtube/shared';
 
 const props = defineProps<{
   videoState: VideoState;

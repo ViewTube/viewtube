@@ -1,235 +1,235 @@
-import { BinaryReader, BinaryWriter } from "@bufbuild/protobuf/wire";
-export declare const protobufPackage = "misc";
+import { BinaryReader, BinaryWriter } from '@bufbuild/protobuf/wire';
+export declare const protobufPackage = 'misc';
 export interface VisitorData {
-    id: string;
-    timestamp: number;
+  id: string;
+  timestamp: number;
 }
 export interface SearchFilter {
-    sortBy?: SearchFilter_SortBy | undefined;
-    filters?: SearchFilter_Filters | undefined;
+  sortBy?: SearchFilter_SortBy | undefined;
+  filters?: SearchFilter_Filters | undefined;
 }
 export declare enum SearchFilter_SortBy {
-    RELEVANCE = 0,
-    RATING = 1,
-    UPLOAD_DATE = 2,
-    VIEW_COUNT = 3,
-    UNRECOGNIZED = -1
+  RELEVANCE = 0,
+  RATING = 1,
+  UPLOAD_DATE = 2,
+  VIEW_COUNT = 3,
+  UNRECOGNIZED = -1
 }
 export interface SearchFilter_Filters {
-    uploadDate?: SearchFilter_Filters_UploadDate | undefined;
-    type?: SearchFilter_Filters_SearchType | undefined;
-    duration?: SearchFilter_Filters_Duration | undefined;
-    musicSearchType?: SearchFilter_Filters_MusicSearchType | undefined;
-    featuresHd?: boolean | undefined;
-    featuresSubtitles?: boolean | undefined;
-    featuresCreativeCommons?: boolean | undefined;
-    features3d?: boolean | undefined;
-    featuresLive?: boolean | undefined;
-    featuresPurchased?: boolean | undefined;
-    features4k?: boolean | undefined;
-    features360?: boolean | undefined;
-    featuresLocation?: boolean | undefined;
-    featuresHdr?: boolean | undefined;
-    featuresVr180?: boolean | undefined;
+  uploadDate?: SearchFilter_Filters_UploadDate | undefined;
+  type?: SearchFilter_Filters_SearchType | undefined;
+  duration?: SearchFilter_Filters_Duration | undefined;
+  musicSearchType?: SearchFilter_Filters_MusicSearchType | undefined;
+  featuresHd?: boolean | undefined;
+  featuresSubtitles?: boolean | undefined;
+  featuresCreativeCommons?: boolean | undefined;
+  features3d?: boolean | undefined;
+  featuresLive?: boolean | undefined;
+  featuresPurchased?: boolean | undefined;
+  features4k?: boolean | undefined;
+  features360?: boolean | undefined;
+  featuresLocation?: boolean | undefined;
+  featuresHdr?: boolean | undefined;
+  featuresVr180?: boolean | undefined;
 }
 export declare enum SearchFilter_Filters_UploadDate {
-    ANY_DATE = 0,
-    HOUR = 1,
-    TODAY = 2,
-    WEEK = 3,
-    MONTH = 4,
-    YEAR = 5,
-    UNRECOGNIZED = -1
+  ANY_DATE = 0,
+  HOUR = 1,
+  TODAY = 2,
+  WEEK = 3,
+  MONTH = 4,
+  YEAR = 5,
+  UNRECOGNIZED = -1
 }
 export declare enum SearchFilter_Filters_SearchType {
-    ANY_TYPE = 0,
-    VIDEO = 1,
-    CHANNEL = 2,
-    PLAYLIST = 3,
-    MOVIE = 4,
-    UNRECOGNIZED = -1
+  ANY_TYPE = 0,
+  VIDEO = 1,
+  CHANNEL = 2,
+  PLAYLIST = 3,
+  MOVIE = 4,
+  UNRECOGNIZED = -1
 }
 export declare enum SearchFilter_Filters_Duration {
-    ANY_DURATION = 0,
-    SHORT = 1,
-    LONG = 2,
-    MEDIUM = 3,
-    UNRECOGNIZED = -1
+  ANY_DURATION = 0,
+  SHORT = 1,
+  LONG = 2,
+  MEDIUM = 3,
+  UNRECOGNIZED = -1
 }
 export interface SearchFilter_Filters_MusicSearchType {
-    song?: boolean | undefined;
-    video?: boolean | undefined;
-    album?: boolean | undefined;
-    artist?: boolean | undefined;
-    playlist?: boolean | undefined;
+  song?: boolean | undefined;
+  video?: boolean | undefined;
+  album?: boolean | undefined;
+  artist?: boolean | undefined;
+  playlist?: boolean | undefined;
 }
 export interface ChannelAnalytics {
-    params: ChannelAnalytics_Params | undefined;
+  params: ChannelAnalytics_Params | undefined;
 }
 export interface ChannelAnalytics_Params {
-    channelId: string;
+  channelId: string;
 }
 export interface SoundInfoParams {
-    sound: SoundInfoParams_Sound | undefined;
+  sound: SoundInfoParams_Sound | undefined;
 }
 export interface SoundInfoParams_Sound {
-    params: SoundInfoParams_Sound_Params | undefined;
+  params: SoundInfoParams_Sound_Params | undefined;
 }
 export interface SoundInfoParams_Sound_Params {
-    ids: SoundInfoParams_Sound_Params_Ids | undefined;
+  ids: SoundInfoParams_Sound_Params_Ids | undefined;
 }
 export interface SoundInfoParams_Sound_Params_Ids {
-    id1: string;
-    id2: string;
-    id3: string;
+  id1: string;
+  id2: string;
+  id3: string;
 }
 export interface NotificationPreferences {
-    channelId: string;
-    prefId: NotificationPreferences_Preference | undefined;
-    number0?: number | undefined;
-    number1?: number | undefined;
+  channelId: string;
+  prefId: NotificationPreferences_Preference | undefined;
+  number0?: number | undefined;
+  number1?: number | undefined;
 }
 export interface NotificationPreferences_Preference {
-    index: number;
+  index: number;
 }
 export interface LiveMessageParams {
-    params: LiveMessageParams_Params | undefined;
-    number0?: number | undefined;
-    number1?: number | undefined;
+  params: LiveMessageParams_Params | undefined;
+  number0?: number | undefined;
+  number1?: number | undefined;
 }
 export interface LiveMessageParams_Params {
-    ids: LiveMessageParams_Params_Ids | undefined;
+  ids: LiveMessageParams_Params_Ids | undefined;
 }
 export interface LiveMessageParams_Params_Ids {
-    channelId: string;
-    videoId: string;
+  channelId: string;
+  videoId: string;
 }
 export interface GetCommentsSectionParams {
-    ctx: GetCommentsSectionParams_Context | undefined;
-    unkParam: number;
-    params: GetCommentsSectionParams_Params | undefined;
+  ctx: GetCommentsSectionParams_Context | undefined;
+  unkParam: number;
+  params: GetCommentsSectionParams_Params | undefined;
 }
 export interface GetCommentsSectionParams_Context {
-    videoId: string;
+  videoId: string;
 }
 export interface GetCommentsSectionParams_Params {
-    unkToken?: string | undefined;
-    opts?: GetCommentsSectionParams_Params_Options | undefined;
-    repliesOpts?: GetCommentsSectionParams_Params_RepliesOptions | undefined;
-    page?: number | undefined;
-    target: string;
+  unkToken?: string | undefined;
+  opts?: GetCommentsSectionParams_Params_Options | undefined;
+  repliesOpts?: GetCommentsSectionParams_Params_RepliesOptions | undefined;
+  page?: number | undefined;
+  target: string;
 }
 export interface GetCommentsSectionParams_Params_Options {
-    videoId: string;
-    sortBy: number;
-    type: number;
-    commentId?: string | undefined;
+  videoId: string;
+  sortBy: number;
+  type: number;
+  commentId?: string | undefined;
 }
 export interface GetCommentsSectionParams_Params_RepliesOptions {
-    commentId: string;
-    unkopts: GetCommentsSectionParams_Params_RepliesOptions_UnkOpts | undefined;
-    channelId?: string | undefined;
-    videoId: string;
-    unkParam1: number;
-    unkParam2: number;
+  commentId: string;
+  unkopts: GetCommentsSectionParams_Params_RepliesOptions_UnkOpts | undefined;
+  channelId?: string | undefined;
+  videoId: string;
+  unkParam1: number;
+  unkParam2: number;
 }
 export interface GetCommentsSectionParams_Params_RepliesOptions_UnkOpts {
-    unkParam: number;
+  unkParam: number;
 }
 export interface CreateCommentParams {
-    videoId: string;
-    params: CreateCommentParams_Params | undefined;
-    number: number;
+  videoId: string;
+  params: CreateCommentParams_Params | undefined;
+  number: number;
 }
 export interface CreateCommentParams_Params {
-    index: number;
+  index: number;
 }
 export interface PeformCommentActionParams {
-    type: number;
-    commentId: string;
-    videoId: string;
-    unkNum?: number | undefined;
-    channelId?: string | undefined;
-    translateCommentParams?: PeformCommentActionParams_TranslateCommentParams | undefined;
+  type: number;
+  commentId: string;
+  videoId: string;
+  unkNum?: number | undefined;
+  channelId?: string | undefined;
+  translateCommentParams?: PeformCommentActionParams_TranslateCommentParams | undefined;
 }
 export interface PeformCommentActionParams_TranslateCommentParams {
-    params: PeformCommentActionParams_TranslateCommentParams_Params | undefined;
-    commentId: string;
-    targetLanguage: string;
+  params: PeformCommentActionParams_TranslateCommentParams_Params | undefined;
+  commentId: string;
+  targetLanguage: string;
 }
 export interface PeformCommentActionParams_TranslateCommentParams_Params {
-    comment: PeformCommentActionParams_TranslateCommentParams_Params_Comment | undefined;
+  comment: PeformCommentActionParams_TranslateCommentParams_Params_Comment | undefined;
 }
 export interface PeformCommentActionParams_TranslateCommentParams_Params_Comment {
-    text: string;
+  text: string;
 }
 export interface Hashtag {
-    params: Hashtag_Params | undefined;
+  params: Hashtag_Params | undefined;
 }
 export interface Hashtag_Params {
-    hashtag: string;
-    type: number;
+  hashtag: string;
+  type: number;
 }
 export interface ReelSequence {
-    shortId: string;
-    params: ReelSequence_Params | undefined;
-    feature2: number;
-    feature3: number;
+  shortId: string;
+  params: ReelSequence_Params | undefined;
+  feature2: number;
+  feature3: number;
 }
 export interface ReelSequence_Params {
-    number: number;
+  number: number;
 }
 export interface ShortsParam {
-    f1?: ShortsParam_Field1 | undefined;
-    p59?: number | undefined;
+  f1?: ShortsParam_Field1 | undefined;
+  p59?: number | undefined;
 }
 export interface ShortsParam_Field1 {
-    p1?: number | undefined;
+  p1?: number | undefined;
 }
 export interface NextParams {
-    videoId: string[];
+  videoId: string[];
 }
 export interface CommunityPostParams {
-    f0: string;
-    f1: CommunityPostParams_Field1 | undefined;
-    f2: CommunityPostParams_Field2 | undefined;
+  f0: string;
+  f1: CommunityPostParams_Field1 | undefined;
+  f2: CommunityPostParams_Field2 | undefined;
 }
 export interface CommunityPostParams_Field1 {
-    postId: string;
+  postId: string;
 }
 export interface CommunityPostParams_Field2 {
-    p1: number;
-    p2: number;
+  p1: number;
+  p2: number;
 }
 export interface CommunityPostCommentsParamContainer {
-    f0: CommunityPostCommentsParamContainer_Container | undefined;
+  f0: CommunityPostCommentsParamContainer_Container | undefined;
 }
 export interface CommunityPostCommentsParamContainer_Container {
-    location: string;
-    protoData: string;
+  location: string;
+  protoData: string;
 }
 export interface CommunityPostCommentsParam {
-    title: string;
-    postContainer: CommunityPostCommentsParam_PostContainer | undefined;
-    f0: CommunityPostCommentsParam_Field2 | undefined;
-    commentDataContainer: CommunityPostCommentsParam_CommentDataContainer | undefined;
+  title: string;
+  postContainer: CommunityPostCommentsParam_PostContainer | undefined;
+  f0: CommunityPostCommentsParam_Field2 | undefined;
+  commentDataContainer: CommunityPostCommentsParam_CommentDataContainer | undefined;
 }
 export interface CommunityPostCommentsParam_PostContainer {
-    postId: string;
+  postId: string;
 }
 export interface CommunityPostCommentsParam_Field2 {
-    f0: number;
-    f1: number;
+  f0: number;
+  f1: number;
 }
 export interface CommunityPostCommentsParam_CommentDataContainer {
-    commentData: CommunityPostCommentsParam_CommentDataContainer_CommentData | undefined;
-    title: string;
+  commentData: CommunityPostCommentsParam_CommentDataContainer_CommentData | undefined;
+  title: string;
 }
 export interface CommunityPostCommentsParam_CommentDataContainer_CommentData {
-    sortBy: number;
-    f0: number;
-    postId: string;
-    channelId: string;
+  sortBy: number;
+  f0: number;
+  postId: string;
+  channelId: string;
 }
 export declare const VisitorData: MessageFns<VisitorData>;
 export declare const SearchFilter: MessageFns<SearchFilter>;
@@ -276,6 +276,6 @@ export declare const CommunityPostCommentsParam_Field2: MessageFns<CommunityPost
 export declare const CommunityPostCommentsParam_CommentDataContainer: MessageFns<CommunityPostCommentsParam_CommentDataContainer>;
 export declare const CommunityPostCommentsParam_CommentDataContainer_CommentData: MessageFns<CommunityPostCommentsParam_CommentDataContainer_CommentData>;
 export interface MessageFns<T> {
-    encode(message: T, writer?: BinaryWriter): BinaryWriter;
-    decode(input: BinaryReader | Uint8Array, length?: number): T;
+  encode(message: T, writer?: BinaryWriter): BinaryWriter;
+  decode(input: BinaryReader | Uint8Array, length?: number): T;
 }

@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import SubscribeButton from '~/components/buttons/SubscribeButton.vue';
-import humanNumber from 'human-number';
 import type { ApiDto } from '@viewtube/shared';
+import humanNumber from 'human-number';
+import SubscribeButton from '~/components/buttons/SubscribeButton.vue';
 
 const props = defineProps<{
   channelInfo: ApiDto<'ChannelInfoDto'>;

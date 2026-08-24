@@ -1,5 +1,5 @@
-import { useSettingsStore } from '~/store/settings';
 import { getSecondsFromTimestamp } from '@viewtube/shared';
+import { useSettingsStore } from '~/store/settings';
 
 // eslint-disable-next-line no-useless-escape
 const urlRegex = /\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|]/gi;
@@ -33,7 +33,8 @@ export const useCreateTextLinks = (timestampFn?: TimestampFnType) => {
   });
 
   const escapeAttr = (str: string) => str.replace(/&/g, '&amp;').replace(/"/g, '&quot;');
-  const escapeText = (str: string) => str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  const escapeText = (str: string) =>
+    str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
   const createTextLinks = (text: string) => {
     if (!text) return '';

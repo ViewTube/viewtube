@@ -1,4 +1,3 @@
-import { getTimestampFromSeconds } from '@viewtube/shared';
 import { logger } from 'server/common/logger';
 import { VTSearchChannelResultDto } from 'server/mapper/dto/search/vt-search-channel-result.dto';
 import { VTSearchMovieDto } from 'server/mapper/dto/search/vt-search-movie.dto';
@@ -7,7 +6,6 @@ import { VTSearchShelfDto } from 'server/mapper/dto/search/vt-search-shelf.dto';
 import { VTSearchVideoResultDto } from 'server/mapper/dto/search/vt-search-video-result.dto';
 import { VTShortsShelfDto } from 'server/mapper/dto/search/vt-shorts-shelf.dto';
 import { VTShortDto } from 'server/mapper/dto/vt-short.dto';
-import { parseAccessibilityDuration } from 'server/mapper/utils/accessibility-duration';
 import { fixUrl } from 'server/mapper/utils/fix-url';
 import { getHandleFromUrl } from 'server/mapper/utils/handle';
 import { parseRelativeTime } from 'server/mapper/utils/parse-relative-time';

@@ -1,5 +1,5 @@
-import { useUserStore } from '~/store/user';
 import type { Pinia } from 'pinia';
+import { useUserStore } from '~/store/user';
 
 export default defineNuxtPlugin(async nuxtApp => {
   const userStore = useUserStore(nuxtApp.$pinia as Pinia);

@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import CheckBox from '~/components/form/CheckBox.vue';
+import '~/assets/styles/popup.scss';
 import BadgeButton from '~/components/buttons/BadgeButton.vue';
+import CheckBox from '~/components/form/CheckBox.vue';
 import FileButton from '~/components/form/FileButton.vue';
 import Spinner from '~/components/Spinner.vue';
-import '~/assets/styles/popup.scss';
 
 class ChannelDto {
   author: string;
@@ -36,16 +36,16 @@ const anySelectedChannel = computed((): boolean => {
   return !(selectedChannels.value.length > 0);
 });
 
-const successfulMergedImports = computed(
-  (): Array<ChannelDto> => getMergedImports(importedSubscriptions.value?.successful)
+const successfulMergedImports = computed((): Array<ChannelDto> =>
+  getMergedImports(importedSubscriptions.value?.successful)
 );
 
-const existingMergedImports = computed(
-  (): Array<ChannelDto> => getMergedImports(importedSubscriptions.value?.existing)
+const existingMergedImports = computed((): Array<ChannelDto> =>
+  getMergedImports(importedSubscriptions.value?.existing)
 );
 
-const failedMergedImports = computed(
-  (): Array<ChannelDto> => getMergedImports(importedSubscriptions.value?.failed)
+const failedMergedImports = computed((): Array<ChannelDto> =>
+  getMergedImports(importedSubscriptions.value?.failed)
 );
 
 const onTryClosePopup = () => {

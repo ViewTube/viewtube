@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import BadgeButton from '~/components/buttons/BadgeButton.vue';
 import { useMessagesStore } from '~/store/messages';
 import RelatedChannels from '../RelatedChannels.vue';
-import BadgeButton from '~/components/buttons/BadgeButton.vue';
 
 const route = useRoute();
 const messagesStore = useMessagesStore();

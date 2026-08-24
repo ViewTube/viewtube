@@ -23,9 +23,9 @@
 </template>
 
 <script setup lang="ts">
+import type { ApiDto } from '@viewtube/shared';
 import { useMessagesStore } from '~/store/messages';
 import { useUserStore } from '~/store/user';
-import type { ApiDto } from '@viewtube/shared';
 
 const props = defineProps<{
   channelId: string;

@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import 'vue-datepicker-next/index.css';
 import SectionTitle from '~/components/SectionTitle.vue';
-import Pagination from '~/components/pagination/Pagination.vue';
-import HistoryList from '~/components/history/HistoryList.vue';
-import BadgeButton from '~/components/buttons/BadgeButton.vue';
 import SmallSearchBox from '~/components/SmallSearchBox.vue';
+import BadgeButton from '~/components/buttons/BadgeButton.vue';
+import HistoryList from '~/components/history/HistoryList.vue';
+import Pagination from '~/components/pagination/Pagination.vue';
 import Confirmation from '~/components/popup/Confirmation.vue';
 import { useMessagesStore } from '~/store/messages';
 import { useSettingsStore } from '~/store/settings';
@@ -39,7 +39,7 @@ const currentPage = computed(() => {
 
 const deleteRange = async () => {
   if (!rangeSelected.value) return;
-  
+
   const firstDate = new Date(dateToDelete.value[0]).valueOf();
   const secondDate = new Date(dateToDelete.value[1]).valueOf();
   await vtFetch(`${apiUrl.value}user/history/from/${firstDate}/to/${secondDate}`, {

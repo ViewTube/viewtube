@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { useMessagesStore } from '~/store/messages';
 import BadgeButton from '~/components/buttons/BadgeButton.vue';
+import { useMessagesStore } from '~/store/messages';
 
 const route = useRoute();
 const messagesStore = useMessagesStore();
@@ -21,10 +21,7 @@ const loadMore = async () => {
       communityPosts.value?.continuation,
       communityPosts.value?.innerTubeApi
     );
-    communityPosts.value.items = [
-      ...communityPosts.value.items,
-      ...additionalCommunityPosts.items
-    ];
+    communityPosts.value.items = [...communityPosts.value.items, ...additionalCommunityPosts.items];
     communityPosts.value.continuation = additionalCommunityPosts.continuation;
     communityPosts.value.innerTubeApi = additionalCommunityPosts.innerTubeApi;
   } catch (error) {

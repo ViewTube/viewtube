@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import VideoEntry from '~/components/list/VideoEntry.vue';
 import BadgeButton from '~/components/buttons/BadgeButton.vue';
+import VideoEntry from '~/components/list/VideoEntry.vue';
 
 const props = defineProps<{
   recommendedVideos: any[];
