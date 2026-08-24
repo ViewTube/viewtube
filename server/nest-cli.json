@@ -2,7 +2,12 @@
   "collection": "@nestjs/schematics",
   "sourceRoot": "./src",
   "compilerOptions": {
-    "builder": "swc",
+    "builder": {
+      "type": "swc",
+      "options": {
+        "stripLeadingPaths": true
+      }
+    },
     "typeCheck": true,
     "plugins": [{ "name": "@nestjs/swagger", "options": { "introspectComments": true } }]
   }

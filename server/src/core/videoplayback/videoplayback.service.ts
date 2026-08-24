@@ -24,6 +24,10 @@ export class VideoplaybackService {
       throw new BadRequestException('__host parameter is required');
     }
 
+    if (!urlHost.endsWith('.googlevideo.com')) {
+      throw new BadRequestException('Invalid __host parameter');
+    }
+
     try {
       const newUrl = new URL(`https://${urlHost}/videoplayback`);
       for (const [key, value] of oldUrl.searchParams as any) {

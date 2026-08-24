@@ -22,133 +22,110 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import type { ApiDto } from '@viewtube/shared';
 import { useMessagesStore } from '~/store/messages';
 import { useUserStore } from '~/store/user';
-import type { ApiDto } from '@viewtube/shared';
 
-export default defineComponent({
-  name: 'SubscribeButton',
-  props: {
-    channelId: {
-      type: String,
-      required: true,
-      default: null
-    },
-    isInitiallySubscribed: { type: Boolean, required: false },
-    small: { type: Boolean, required: false }
-  },
-  setup(props) {
-    const userStore = useUserStore();
-    const messagesStore = useMessagesStore();
-    const { apiUrl } = useApiUrl();
-    const { vtFetch } = useVtFetch();
+const props = defineProps<{
+  channelId: string;
+  isInitiallySubscribed?: boolean;
+  small?: boolean;
+}>();
 
-    const isSubscribed = ref(false);
-    const disabled = ref(true);
-    const expanded = ref(true);
+const userStore = useUserStore();
+const messagesStore = useMessagesStore();
+const { apiUrl } = useApiUrl();
+const { vtFetch } = useVtFetch();
 
-    onMounted(() => {
-      if (props.isInitiallySubscribed) {
+const isSubscribed = ref(false);
+const disabled = ref(true);
+const expanded = ref(true);
+
+onMounted(() => {
+  if (props.isInitiallySubscribed) {
+    isSubscribed.value = true;
+    disabled.value = false;
+  } else {
+    loadSubscriptionStatus();
+  }
+
+  if (props.small) {
+    expanded.value = false;
+  }
+});
+
+const loadSubscriptionStatus = (): void => {
+  if (!props.channelId || !userStore.isLoggedIn) return;
+  vtFetch<ApiDto<'SubscriptionStatusDto'>>(`${apiUrl.value}user/subscriptions/${props.channelId}`, {
+    credentials: 'include'
+  })
+    .then(response => {
+      isSubscribed.value = response.isSubscribed;
+      disabled.value = false;
+    })
+    .catch((_: any) => {
+      isSubscribed.value = false;
+      disabled.value = true;
+    });
+};
+
+const subscribe = (): void => {
+  if (!props.channelId) return;
+  disabled.value = true;
+  vtFetch<ApiDto<'SubscriptionStatusDto'>>(`${apiUrl.value}user/subscriptions/${props.channelId}`, {
+    method: 'PUT',
+    credentials: 'include'
+  })
+    .then(response => {
+      if (response.isSubscribed) {
         isSubscribed.value = true;
-        disabled.value = false;
-      } else {
-        loadSubscriptionStatus();
+        messagesStore.createMessage({
+          type: 'info',
+          title: 'Subscribed',
+          message: `Successfully subscribed. Fetching new videos can take some time.`
+        });
       }
-
+      disabled.value = false;
       if (props.small) {
         expanded.value = false;
       }
+    })
+    .catch((_: any) => {
+      messagesStore.createMessage({
+        type: 'error',
+        title: 'Unable to subscribe',
+        message: `You may not be logged in. Try reloading the page.`
+      });
+      disabled.value = false;
     });
+};
 
-    const loadSubscriptionStatus = (): void => {
-      if (!props.channelId || !userStore.isLoggedIn) return;
-      vtFetch<ApiDto<'SubscriptionStatusDto'>>(
-        `${apiUrl.value}user/subscriptions/${props.channelId}`,
-        {
-          credentials: 'include'
-        }
-      )
-        .then(response => {
-          isSubscribed.value = response.isSubscribed;
-          disabled.value = false;
-        })
-        .catch((_: any) => {
-          isSubscribed.value = false;
-          disabled.value = true;
-        });
-    };
-    const subscribe = (): void => {
-      if (!props.channelId) return;
-      disabled.value = true;
-      vtFetch<ApiDto<'SubscriptionStatusDto'>>(
-        `${apiUrl.value}user/subscriptions/${props.channelId}`,
-        {
-          method: 'PUT',
-          credentials: 'include'
-        }
-      )
-        .then(response => {
-          if (response.isSubscribed) {
-            isSubscribed.value = true;
-            messagesStore.createMessage({
-              type: 'info',
-              title: 'Subscribed',
-              message: `Successfully subscribed. Fetching new videos can take some time.`
-            });
-          }
-          disabled.value = false;
-          if (props.small) {
-            expanded.value = false;
-          }
-        })
-        .catch((_: any) => {
-          messagesStore.createMessage({
-            type: 'error',
-            title: 'Unable to subscribe',
-            message: `You may not be logged in. Try reloading the page.`
-          });
-          disabled.value = false;
-        });
-    };
-    const unsubscribe = (): void => {
-      if (!props.channelId) return;
-      disabled.value = true;
-      vtFetch<ApiDto<'SubscriptionStatusDto'>>(
-        `${apiUrl.value}user/subscriptions/${props.channelId}`,
-        {
-          method: 'DELETE',
-          credentials: 'include'
-        }
-      )
-        .then(response => {
-          if (!response.isSubscribed) {
-            isSubscribed.value = false;
-          }
-          disabled.value = false;
-          if (props.small) {
-            expanded.value = false;
-          }
-        })
-        .catch((_: any) => {
-          messagesStore.createMessage({
-            type: 'error',
-            title: 'Unable to unsubscribe',
-            message: `You may not be logged in. Try to reload the page.`
-          });
-          disabled.value = false;
-        });
-    };
-
-    return {
-      isSubscribed,
-      disabled,
-      expanded,
-      subscribe,
-      unsubscribe
-    };
-  }
-});
+const unsubscribe = (): void => {
+  if (!props.channelId) return;
+  disabled.value = true;
+  vtFetch<ApiDto<'SubscriptionStatusDto'>>(`${apiUrl.value}user/subscriptions/${props.channelId}`, {
+    method: 'DELETE',
+    credentials: 'include'
+  })
+    .then(response => {
+      if (!response.isSubscribed) {
+        isSubscribed.value = false;
+      }
+      disabled.value = false;
+      if (props.small) {
+        expanded.value = false;
+      }
+    })
+    .catch((_: any) => {
+      messagesStore.createMessage({
+        type: 'error',
+        title: 'Unable to unsubscribe',
+        message: `You may not be logged in. Try to reload the page.`
+      });
+      disabled.value = false;
+    });
+};
 </script>
 
 <style lang="scss" scoped>

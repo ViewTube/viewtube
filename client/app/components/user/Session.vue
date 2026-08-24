@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import humanizeDuration from 'humanize-duration';
 import type { ApiDto } from '@viewtube/shared';
-import { useMessagesStore } from '~/store/messages';
 import dayjs from 'dayjs';
+import humanizeDuration from 'humanize-duration';
+import { useMessagesStore } from '~/store/messages';
 
 const props = defineProps<{
   session: ApiDto<'SessionDto'>;

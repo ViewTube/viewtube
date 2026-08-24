@@ -19,8 +19,8 @@ export class Common {
   }
 
   public static convertSortParams<T>(sort: string): Sorting<T> {
-    if (!sort.match(/.*:.*.,?/gi)) return {}
-    
+    if (!sort.match(/.*:.*.,?/gi)) return {};
+
     const sortArray = sort.split(',');
     const sorting: Sorting<T> = {};
     sortArray.forEach(el => {

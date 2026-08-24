@@ -44,26 +44,17 @@
   </div>
 </template>
 
-<script lang="ts">
-export default defineComponent({
-  name: 'MixEntry',
-  props: {
-    mix: Object
-  },
-  setup(props) {
-    const { proxyUrl } = useImgProxy();
+<script setup lang="ts">
+const props = defineProps<{
+  mix: Record<string, any>;
+}>();
 
-    const mixLink = computed((): string => {
-      return `/watch?v=${
-        props.mix.firstVideoId ? props.mix.firstVideoId : props.mix.firstVideo.id
-      }&list=${props.mix.mixId ? props.mix.mixId : props.mix.mixID}&start_radio=1`;
-    });
+const { proxyUrl } = useImgProxy();
 
-    return {
-      proxyUrl,
-      mixLink
-    };
-  }
+const mixLink = computed((): string => {
+  return `/watch?v=${
+    props.mix.firstVideoId ? props.mix.firstVideoId : props.mix.firstVideo.id
+  }&list=${props.mix.mixId ? props.mix.mixId : props.mix.mixID}&start_radio=1`;
 });
 </script>
 

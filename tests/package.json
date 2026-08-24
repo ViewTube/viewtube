@@ -1,8 +1,8 @@
 {
   "name": "e2e-tests",
   "engines": {
-    "node": ">=22.16.0",
-    "pnpm": ">=10.12"
+    "node": ">=26.7",
+    "pnpm": ">=11.23"
   },
   "scripts": {
     "environment:prepare": "cross-env COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker compose -f environment/docker-compose.yml up -d",
@@ -14,9 +14,9 @@
   },
   "devDependencies": {
     "@viewtube/shared": "workspace:*",
-    "cross-env": "7.0.3",
-    "cypress": "14.5.0",
+    "cross-env": "10.1.0",
+    "cypress": "15.21.0",
     "cypress-commands": "3.0.0",
-    "typescript": "5.8.3"
+    "typescript": "6.0.3"
   }
 }

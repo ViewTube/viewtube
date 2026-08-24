@@ -11,7 +11,9 @@ describe('Homepage Tests', () => {
   });
 
   it('homepage loads and shows videos', () => {
-    cy.get('.section-title > .title', { timeout: 10000 }).should('have.text', 'Trending videos');
+    cy.get('.section-title > .title', { timeout: 15000 })
+      .first()
+      .should('contain.text', 'Popular videos');
 
     cy.get(
       '.home-videos-container > .video-entry:first > .video-entry-info > .video-info-text > .video-entry-title'

@@ -1,13 +1,13 @@
 <script setup lang="ts">
+import BadgeButton from '~/components/buttons/BadgeButton.vue';
+import FormInput from '~/components/form/FormInput.vue';
+import PasswordChangeForm from '~/components/form/PasswordChangeForm.vue';
+import HistoryList from '~/components/history/HistoryList.vue';
 import Confirmation from '~/components/popup/Confirmation.vue';
 import SectionTitle from '~/components/SectionTitle.vue';
-import FormInput from '~/components/form/FormInput.vue';
-import BadgeButton from '~/components/buttons/BadgeButton.vue';
-import HistoryList from '~/components/history/HistoryList.vue';
 import { useMessagesStore } from '~/store/messages';
 import { useSettingsStore } from '~/store/settings';
 import { useUserStore } from '~/store/user';
-import PasswordChangeForm from '~/components/form/PasswordChangeForm.vue';
 
 const messagesStore = useMessagesStore();
 const settingsStore = useSettingsStore();

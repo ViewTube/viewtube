@@ -1,7 +1,7 @@
 import { VideoBasicInfoDto } from 'server/core/videos/dto/video-basic-info.dto';
 import { VTVideoDto } from 'server/mapper/dto/vt-video.dto';
 import { generateVideoThumbnails } from 'server/mapper/utils/video-thumbnails';
-import Video from 'youtubei.js/dist/src/parser/classes/Video';
+import { YTNodes } from 'youtubei.js';
 import {
   extractVideoAuthor,
   extractVideoDescription,
@@ -16,7 +16,7 @@ import {
 } from './vt-video.extractors';
 
 export type VideoSourceApproximation = Partial<VideoBasicInfoDto> &
-  Partial<Video> & {
+  Partial<YTNodes.Video> & {
     videoID?: string;
     name?: string;
     authorArtist?: boolean;

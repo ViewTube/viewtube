@@ -1,6 +1,6 @@
+import type { ApiDto } from '@viewtube/shared';
 import { useSettingsStore } from '~/store/settings';
 import { useSponsorBlockStore } from '~/store/sponsorBlock';
-import type { ApiDto } from '@viewtube/shared';
 
 export const useSponsorBlockState = (video: Ref<ApiDto<'VTVideoInfoDto'>>) => {
   const { vtFetch } = useVtFetch();
@@ -45,7 +45,7 @@ export const useSponsorBlockState = (video: Ref<ApiDto<'VTVideoInfoDto'>>) => {
     if (!segments || isNaN(time)) {
       return null;
     }
-    
+
     const currentSegment =
       segments.find(segment => segment.segment[0] <= time && segment.segment[1] >= time) ?? null;
     return currentSegment;

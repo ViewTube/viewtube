@@ -41,7 +41,7 @@ export const useSettingsStore = defineStore(
         saveVideoHistory: true,
         settingsSaving: false,
         showHomeSubscriptions: true,
-        showHomeTrendingVideos: true,
+        showHomePopularVideos: true,
         showRecommendedVideos: true,
         sponsorblockEnabled: true,
         sponsorblockUrl: 'https://sponsor.ajay.app/',
@@ -64,6 +64,7 @@ export const useSettingsStore = defineStore(
 
     const updateSettings = (newSettings: Partial<StateType>) => {
       Object.keys(newSettings).forEach((key: keyof Partial<StateType>) => {
+        if (!state[key]) return;
         state[key].value = newSettings[key];
       });
     };
@@ -97,7 +98,17 @@ export const useSettingsStore = defineStore(
   {
     persist: {
       serializer: {
-        deserialize: destr,
+        deserialize: (value: string) => {
+          const settings = destr<Record<string, unknown>>(value);
+
+          // Settings stored before the rename still use the old key
+          if (settings && typeof settings === 'object' && 'showHomeTrendingVideos' in settings) {
+            settings.showHomePopularVideos ??= settings.showHomeTrendingVideos;
+            delete settings.showHomeTrendingVideos;
+          }
+
+          return settings;
+        },
         serialize: JSON.stringify
       }
     }

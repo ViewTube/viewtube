@@ -2,7 +2,7 @@
   "compilerOptions": {
     "module": "esnext",
     "target": "esnext",
-    "moduleResolution": "Node",
+    "moduleResolution": "bundler",
     "removeComments": true,
     "lib": ["ESNext", "ES2020", "ESNext.AsyncIterable"],
     "emitDecoratorMetadata": true,
@@ -10,6 +10,7 @@
     "allowJs": true,
     "resolveJsonModule": true,
     "sourceMap": true,
+    "rootDir": "./src",
     "outDir": "./dist",
     "strict": false,
     "noImplicitThis": true,
@@ -19,9 +20,9 @@
     "strictFunctionTypes": false,
     "skipLibCheck": true,
     "esModuleInterop": true,
-    "baseUrl": "./src",
     "paths": {
-      "server/*": ["./*"]
+      "server/*": ["./src/*"],
+      "common/*": ["./src/common/*"]
     },
     "types": ["node"]
   },

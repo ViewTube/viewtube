@@ -1,6 +1,6 @@
 import path from 'path';
+import type { Types } from 'youtubei.js';
 import { Innertube, Log, UniversalCache } from 'youtubei.js';
-import type { InnerTubeConfig } from 'youtubei.js/dist/src/types';
 import { innertubeFetch } from './innertubeFetch';
 
 Log.setLevel(Log.Level.ERROR);
@@ -10,11 +10,12 @@ if (process.env.VIEWTUBE_DATA_DIRECTORY) {
   cacheDirectory = path.join(process.env.VIEWTUBE_DATA_DIRECTORY, 'cache');
 }
 
-const innertubeOptions: InnerTubeConfig = {
+const innertubeOptions: Types.InnerTubeConfig = {
   cache: new UniversalCache(true, cacheDirectory),
   fetch: innertubeFetch as unknown as typeof fetch,
   enable_session_cache: false,
-  po_token: 'MnT2oOZls03H7faYrUDz5445MMN0Lofx_qyQ6gmd05cTQnpv9Yw3oiJDQ2dmbr4oVC4S6s3-hT8FoHcePU4CTWmWEW3Ndw82ALLyfklkPI4_W6LTLD2t8uMApgldWjqnECzMjUs9WrpZwKgP0YTrb53T63walQ==',
+  po_token:
+    'MnT2oOZls03H7faYrUDz5445MMN0Lofx_qyQ6gmd05cTQnpv9Yw3oiJDQ2dmbr4oVC4S6s3-hT8FoHcePU4CTWmWEW3Ndw82ALLyfklkPI4_W6LTLD2t8uMApgldWjqnECzMjUs9WrpZwKgP0YTrb53T63walQ==',
   visitor_data: 'CgtNR0pqRHVDYVI2Zyjk8pq5BjIKCgJDSBIEGgAgUw%3D%3D',
   lang: 'en'
 };

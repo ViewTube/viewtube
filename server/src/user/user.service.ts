@@ -8,7 +8,7 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { InjectModel } from '@nestjs/mongoose';
-import archiver from 'archiver';
+import { ZipArchive } from 'archiver';
 import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
 import dayjs from 'dayjs';
@@ -367,7 +367,7 @@ export class UserService {
       const user = await this.UserModel.findOne({ username });
 
       try {
-        const archive = archiver('zip', {
+        const archive = new ZipArchive({
           zlib: { level: 9 }
         });
 

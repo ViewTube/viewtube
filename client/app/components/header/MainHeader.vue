@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import Logo from '~/components/Logo.vue';
 import MainSearchBox from '~/components/MainSearchBox.vue';
-import UserMenu from '~/components/header/UserMenu.vue';
 import { useSettingsStore } from '~/store/settings';
 import { useUserStore } from '~/store/user';
 const settingsStore = useSettingsStore();
@@ -16,14 +15,14 @@ const { posAbsolute, topPositionPx } = useHeaderScroll();
       v-if="
         route.fullPath !== '/' ||
         (userStore.isLoggedIn && settingsStore.showHomeSubscriptions) ||
-        settingsStore.showHomeTrendingVideos
+        settingsStore.showHomePopularVideos
       "
     />
     <MainSearchBox
       v-if="
         route.fullPath !== '/' ||
         (userStore.isLoggedIn && settingsStore.showHomeSubscriptions) ||
-        settingsStore.showHomeTrendingVideos
+        settingsStore.showHomePopularVideos
       "
     />
     <HeaderMenu />

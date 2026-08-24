@@ -33,7 +33,7 @@ export class NotificationsService {
       .lean()
       .exec();
     if (!userSubscriptions) return;
-    
+
     const payload = JSON.stringify(jsonPayload);
 
     userSubscriptions.forEach(subscription => {

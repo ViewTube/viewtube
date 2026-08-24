@@ -174,7 +174,7 @@ export const useVideoState = ({
           lengthSeconds: videoState.duration
         },
         credentials: 'include'
-      }).catch(_ => { });
+      }).catch(_ => {});
     }
   };
 

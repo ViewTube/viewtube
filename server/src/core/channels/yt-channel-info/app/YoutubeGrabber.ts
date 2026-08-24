@@ -245,9 +245,7 @@ export class YoutubeGrabber {
           ?.token;
     }
 
-    let relatedChannels = [];
-
-    relatedChannels = continuationData
+    const relatedChannels = continuationData
       .filter(channel => {
         return typeof channel?.gridChannelRenderer !== 'undefined';
       })

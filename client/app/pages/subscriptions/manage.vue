@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import SectionTitle from '~/components/SectionTitle.vue';
-import Pagination from '~/components/pagination/Pagination.vue';
 import SmallSearchBox from '~/components/SmallSearchBox.vue';
 import BadgeButton from '~/components/buttons/BadgeButton.vue';
+import Pagination from '~/components/pagination/Pagination.vue';
 import SubscriptionIO from '~/components/popup/SubscriptionIO.vue';
 import { useMessagesStore } from '~/store/messages';
 
@@ -65,7 +65,7 @@ const unsubscribe = (channel: { authorId: any; author: any }): void => {
     credentials: 'include'
   }).then(response => {
     if (response.isSubscribed) return;
-    
+
     refresh();
     messagesStore.createMessage({
       type: 'error',

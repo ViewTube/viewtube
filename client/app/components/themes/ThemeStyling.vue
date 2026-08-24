@@ -33,35 +33,25 @@
   </component>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { usePopupStore } from '~/store/popup';
 import { useSettingsStore } from '~/store/settings';
 
-export default defineComponent({
-  name: 'ThemeStyling',
-  setup() {
-    const popupStore = usePopupStore();
-    const { currentTheme } = useCurrentTheme();
-    const settingsStore = useSettingsStore();
+const popupStore = usePopupStore();
+const { currentTheme } = useCurrentTheme();
+const settingsStore = useSettingsStore();
 
-    const clientColorScheme = usePreferredColorScheme();
+const clientColorScheme = usePreferredColorScheme();
 
-    watch(clientColorScheme, newVal => {
-      switch (newVal) {
-        case 'light':
-          settingsStore.defaultTheme = 'light';
-          break;
-        case 'dark':
-        default:
-          settingsStore.defaultTheme = 'default';
-          break;
-      }
-    });
-
-    return {
-      currentTheme,
-      popupStore
-    };
+watch(clientColorScheme, newVal => {
+  switch (newVal) {
+    case 'light':
+      settingsStore.defaultTheme = 'light';
+      break;
+    case 'dark':
+    default:
+      settingsStore.defaultTheme = 'default';
+      break;
   }
 });
 </script>

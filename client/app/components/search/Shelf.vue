@@ -2,25 +2,20 @@
   <div class="shelf">
     <SectionTitle :title="shelf.title" />
     <div class="shelf-container">
-      <VideoEntry v-for="video in shelf.items" :key="video.videoId" :video="video" :lazy="true" />
+      <ListVideoEntry
+        v-for="video in shelf.items"
+        :key="video.videoId"
+        :video="video"
+        :lazy="true"
+      />
     </div>
   </div>
 </template>
 
-<script lang="ts">
-import VideoEntry from '~/components/list/VideoEntry.vue';
-import SectionTitle from '~/components/SectionTitle.vue';
-
-export default defineComponent({
-  name: 'Shelf',
-  components: {
-    VideoEntry,
-    SectionTitle
-  },
-  props: {
-    shelf: Object
-  }
-});
+<script setup lang="ts">
+defineProps<{
+  shelf: Record<string, any>;
+}>();
 </script>
 
 <style lang="scss">

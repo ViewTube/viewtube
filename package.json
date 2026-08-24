@@ -7,8 +7,8 @@
   "version": "0.17.1",
   "license": "AGPLv3",
   "engines": {
-    "node": ">=22.16.0",
-    "pnpm": ">=10.12"
+    "node": ">=26.7",
+    "pnpm": ">=11.23"
   },
   "scripts": {
     "build": "pnpm --filter=* run build",
@@ -31,25 +31,21 @@
     "fix:prettier": "cp node_modules/prettier/index.cjs node_modules/prettier/index.js"
   },
   "browserslist": [
-    "last 1 version",
+    "last 1 version, not dead",
     "not IE 11",
     "not IE_Mob 11",
     "not Edge 18"
   ],
   "devDependencies": {
-    "@types/node": "24.0.3",
-    "@typescript-eslint/parser": "8.35.0",
-    "eslint": "9.29.0",
-    "eslint-plugin-cypress": "5.1.0",
-    "globals": "16.2.0",
-    "knip": "5.61.2",
-    "prettier": "3.6.0",
-    "prettier-plugin-organize-imports": "4.1.0",
-    "typescript": "5.8.3"
+    "@types/node": "26.2.0",
+    "@typescript-eslint/parser": "8.67.0",
+    "eslint": "10.9.0",
+    "eslint-plugin-cypress": "7.0.1",
+    "globals": "17.11.0",
+    "knip": "6.32.2",
+    "prettier": "3.9.6",
+    "prettier-plugin-organize-imports": "4.3.0",
+    "typescript": "6.0.3"
   },
-  "pnpm": {
-    "overrides": {
-      "cron": "4.3.1"
-    }
-  }
+  "packageManager": "pnpm@11.23.0"
 }

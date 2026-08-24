@@ -2,7 +2,7 @@
   <div class="login-form" :class="{ loading: loading, wiggle: formWiggle }">
     <h2 class="login-title">Sign in</h2>
     <span class="status-message-display message-display">{{ statusMessage }}</span>
-    <InformationHint class="hint">Usernames are case sensitive</InformationHint>
+    <HintsInformationHint class="hint">Usernames are case sensitive</HintsInformationHint>
     <Spinner />
     <form id="login" method="post" @submit.prevent="login">
       <FormInput
@@ -13,85 +13,62 @@
         autofocus
       />
       <FormInput :id="'password'" v-model="password" :label="'password'" :type="'password'" />
-      <SubmitButton :label="'Sign in'" />
+      <FormSubmitButton :label="'Sign in'" />
     </form>
   </div>
 </template>
 
-<script lang="ts">
-import InformationHint from '~/components/hints/InformationHint.vue';
-import FormInput from '~/components/form/FormInput.vue';
-import SubmitButton from '~/components/form/SubmitButton.vue';
-import Spinner from '~/components/Spinner.vue';
+<script setup lang="ts">
 import { useMessagesStore } from '~/store/messages';
 import { useUserStore } from '~/store/user';
 
-export default defineComponent({
-  name: 'LoginForm',
-  components: {
-    FormInput,
-    SubmitButton,
-    Spinner,
-    InformationHint
-  },
-  props: {
-    complete: Function
-  },
-  setup(props) {
-    const route = useRoute();
-    const userStore = useUserStore();
-    const messagesStore = useMessagesStore();
-    const router = useRouter();
+const props = defineProps<{
+  complete?: () => void;
+}>();
 
-    const loading = ref(false);
-    const username = ref('');
-    const password = ref('');
-    const statusMessage = ref('');
-    const formWiggle = ref(false);
+const route = useRoute();
+const userStore = useUserStore();
+const messagesStore = useMessagesStore();
+const router = useRouter();
 
-    const login = async (): Promise<void> => {
-      loading.value = true;
+const loading = ref(false);
+const username = ref('');
+const password = ref('');
+const statusMessage = ref('');
+const formWiggle = ref(false);
 
-      const user = await userStore.login(username.value, password.value);
-      if (user && user.success) {
-        messagesStore.createMessage({
-          type: 'info',
-          title: 'Sign in successful',
-          message: `Welcome, ${username.value}`
-        });
-        if (props.complete && typeof props.complete === 'function') {
-          props.complete();
-        } else {
-          router.push((route.query.ref as string) || '/');
-        }
-      } else {
-        loading.value = false;
-        wiggleLoginForm();
-        messagesStore.createMessage({
-          type: 'error',
-          title: 'Sign in failed',
-          message: user ? user.error : ''
-        });
-      }
-    };
+const login = async (): Promise<void> => {
+  loading.value = true;
 
-    const wiggleLoginForm = (): void => {
-      formWiggle.value = true;
-      setTimeout(() => {
-        formWiggle.value = false;
-      }, 600);
-    };
-
-    return {
-      loading,
-      username,
-      password,
-      statusMessage,
-      formWiggle,
-      login
-    };
+  const user = await userStore.login(username.value, password.value);
+  if (user && user.success) {
+    messagesStore.createMessage({
+      type: 'info',
+      title: 'Sign in successful',
+      message: `Welcome, ${username.value}`
+    });
+    if (props.complete && typeof props.complete === 'function') {
+      props.complete();
+    } else {
+      router.push((route.query.ref as string) || '/');
+    }
+  } else {
+    loading.value = false;
+    wiggleLoginForm();
+    messagesStore.createMessage({
+      type: 'error',
+      title: 'Sign in failed',
+      message: user ? user.error : ''
+    });
   }
-});
+};
+
+const wiggleLoginForm = (): void => {
+  formWiggle.value = true;
+  setTimeout(() => {
+    formWiggle.value = false;
+  }, 600);
+};
 </script>
 
 <style lang="scss">

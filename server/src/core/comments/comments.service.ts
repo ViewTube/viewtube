@@ -6,6 +6,7 @@ import { VTCommentsResponseDto } from 'server/mapper/converter/comments/vt-comme
 import { toVTCommentsResponseDto } from 'server/mapper/converter/comments/vt-comments.converter';
 
 import { YTNodes } from 'youtubei.js';
+
 @Injectable()
 export class CommentsService {
   async getComments(
@@ -15,52 +16,18 @@ export class CommentsService {
   ): Promise<VTCommentsResponseDto> {
     const innertube = await innertubeClient();
 
-    const SORT_OPTIONS = {
-      TOP_COMMENTS: 0,
-      NEWEST_FIRST: 1
-    };
-
     const sortBy = sortByNewest ? 'NEWEST_FIRST' : 'TOP_COMMENTS';
 
-    let commentParams: Record<string, any> = {};
+    let commentsResponse: any;
 
     if (continuationString) {
-      commentParams = {
+      commentsResponse = await innertube.actions.execute('next', {
         continuation: continuationString,
         parse: true
-      };
-    } else {
-      const GetCommentsSectionParams = await import(
-        'youtubei.js/dist/protos/generated/misc/params.js'
-      ).then(el => el.GetCommentsSectionParams);
-
-      const u8ToBase64 = await import('youtubei.js/dist/src/utils/Utils.js').then(
-        el => el.u8ToBase64
-      );
-
-      const writer = GetCommentsSectionParams.encode({
-        ctx: {
-          videoId
-        },
-        unkParam: 6,
-        params: {
-          opts: {
-            videoId,
-            sortBy: SORT_OPTIONS[sortBy],
-            type: 2,
-            commentId: ''
-          },
-          target: 'comments-section'
-        }
       });
-      const continuation = encodeURIComponent(u8ToBase64(writer.finish()));
-      commentParams = {
-        continuation,
-        parse: true
-      };
+    } else {
+      commentsResponse = (await innertube.getComments(videoId, sortBy)).page;
     }
-
-    const commentsResponse: any = await innertube.actions.execute('next', commentParams);
 
     const commentsEndpoint = commentsResponse?.on_response_received_endpoints;
 
@@ -106,7 +73,13 @@ export class CommentsService {
         content.type === 'AppendContinuationItemsAction'
     );
 
-    const commentsContents = contentsNode?.contents?.filterType(YTNodes.CommentView);
+    const replyThreads = contentsNode?.contents?.filterType(YTNodes.CommentThread) ?? [];
+    let commentsContents: YTNodes.CommentView[];
+    if (replyThreads.length) {
+      commentsContents = replyThreads.map(thread => thread.comment).filter(Boolean);
+    } else {
+      commentsContents = contentsNode?.contents?.filterType(YTNodes.CommentView);
+    }
 
     const { comments } = toVTCommentsReplyResponseDto(commentsContents);
 

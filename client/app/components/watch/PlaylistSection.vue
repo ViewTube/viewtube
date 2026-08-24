@@ -11,7 +11,7 @@
           :class="{ disabled: currentVideoId === getPreviousVideoId() }"
           :to="{
             path: getFullPath(),
-            query: { ...$route.query, v: getPreviousVideoId() }
+            query: { ...route.query, v: getPreviousVideoId() }
           }"
           class="playlist-action"
         >
@@ -24,7 +24,7 @@
           :class="{ disabled: currentVideoId === getNextVideoId() && !repeatEnabled }"
           :to="{
             path: getFullPath(),
-            query: { ...$route.query, v: getNextVideoId() }
+            query: { ...route.query, v: getNextVideoId() }
           }"
           class="playlist-action"
         >
@@ -65,7 +65,7 @@
         :key="i"
         :to="{
           path: getFullPath(),
-          query: { ...$route.query, v: video.id }
+          query: { ...route.query, v: video.id }
         }"
         class="video"
         :class="{ current: video.id === currentVideoId }"
@@ -88,159 +88,136 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import type { Result } from 'ytpl';
 
-export default defineComponent({
-  name: 'PlaylistSection',
-  props: {
-    playlist: Object as PropType<Result>,
-    currentVideoId: String
-  },
-  setup(props) {
-    const { proxyUrl } = useImgProxy();
-    const router = useRouter();
-    const route = useRoute();
+const props = defineProps<{
+  playlist: Result;
+  currentVideoId?: string;
+}>();
 
-    const videoSectionRef = ref(null);
+const { proxyUrl } = useImgProxy();
+const router = useRouter();
+const route = useRoute();
 
-    const repeatEnabled = ref(false);
-    const shuffleEnabled = ref(false);
-    const reverseEnabled = ref(false);
+const videoSectionRef = ref(null);
 
-    if (route.query.repeat === 'true') {
-      repeatEnabled.value = true;
+const repeatEnabled = ref(false);
+const shuffleEnabled = ref(false);
+const reverseEnabled = ref(false);
+
+if (route.query.repeat === 'true') {
+  repeatEnabled.value = true;
+}
+if (route.query.shuffle === 'true') {
+  shuffleEnabled.value = true;
+}
+if (route.query.reverse === 'true') {
+  reverseEnabled.value = true;
+}
+
+const getPreviousVideoId = (): string => {
+  const currentVideoIndex = props.playlist.items.findIndex(el => el.id === props.currentVideoId);
+  if (currentVideoIndex <= 0) {
+    return props.playlist.items[0].id;
+  }
+  return props.playlist.items[currentVideoIndex - 1].id;
+};
+
+const getNextVideoId = (): string => {
+  const currentVideoIndex = props.playlist.items.findIndex(el => el.id === props.currentVideoId);
+
+  if (currentVideoIndex + 1 === props.playlist.items.length) {
+    if (repeatEnabled.value) {
+      return props.playlist.items[0].id;
     }
-    if (route.query.shuffle === 'true') {
-      shuffleEnabled.value = true;
+    return props.playlist.items[currentVideoIndex].id;
+  }
+  return props.playlist.items[currentVideoIndex + 1].id;
+};
+
+const onRepeatToggle = () => {
+  toggleQueryParam('repeat', !repeatEnabled.value);
+  repeatEnabled.value = !repeatEnabled.value;
+};
+
+const onShuffleToggle = () => {
+  toggleQueryParam('shuffle', !shuffleEnabled.value);
+  shuffleEnabled.value = !shuffleEnabled.value;
+};
+
+const onReverseToggle = () => {
+  toggleQueryParam('reverse', !reverseEnabled.value);
+  reverseEnabled.value = !reverseEnabled.value;
+};
+
+const toggleQueryParam = (param: string, value: boolean) => {
+  const query = structuredClone(route.query);
+  if (value) {
+    query[param] = value.toString();
+  } else {
+    // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
+    delete query[param];
+  }
+  router.push({
+    path: route.path,
+    query,
+    replace: true
+  });
+};
+
+const getFullPath = () => route.fullPath;
+
+const playNextVideo = () => {
+  const currentVideoIndex = props.playlist.items.findIndex(el => el.id === props.currentVideoId);
+
+  let nextVideoId = getNextVideoId();
+
+  if (repeatEnabled.value) {
+    if (currentVideoIndex + 1 === props.playlist.items.length) {
+      nextVideoId = props.playlist.items[0].id;
     }
-    if (route.query.reverse === 'true') {
-      reverseEnabled.value = true;
+  }
+
+  if (reverseEnabled.value) {
+    if (currentVideoIndex - 1 >= 0) {
+      nextVideoId = getPreviousVideoId();
+    } else if (repeatEnabled.value) {
+      nextVideoId = props.playlist.items[props.playlist.items.length - 1].id;
     }
+  }
 
-    const getPreviousVideoId = (): string => {
-      const currentVideoIndex = props.playlist.items.findIndex(
-        el => el.id === props.currentVideoId
-      );
-      if (currentVideoIndex <= 0) {
-        return props.playlist.items[0].id;
-      }
-      return props.playlist.items[currentVideoIndex - 1].id;
-    };
+  if (shuffleEnabled.value) {
+    nextVideoId = getRandomVideoId(currentVideoIndex);
+  }
 
-    const getNextVideoId = (): string => {
-      const currentVideoIndex = props.playlist.items.findIndex(
-        el => el.id === props.currentVideoId
-      );
-
-      if (currentVideoIndex + 1 === props.playlist.items.length) {
-        if (repeatEnabled.value) {
-          return props.playlist.items[0].id;
-        }
-        return props.playlist.items[currentVideoIndex].id;
-      }
-      return props.playlist.items[currentVideoIndex + 1].id;
-    };
-
-    const onRepeatToggle = () => {
-      toggleQueryParam('repeat', !repeatEnabled.value);
-      repeatEnabled.value = !repeatEnabled.value;
-    };
-
-    const onShuffleToggle = () => {
-      toggleQueryParam('shuffle', !shuffleEnabled.value);
-      shuffleEnabled.value = !shuffleEnabled.value;
-    };
-
-    const onReverseToggle = () => {
-      toggleQueryParam('reverse', !reverseEnabled.value);
-      reverseEnabled.value = !reverseEnabled.value;
-    };
-
-    const toggleQueryParam = (param: string, value: boolean) => {
-      const query = structuredClone(route.query);
-      if (value) {
-        query[param] = value.toString();
-      } else {
-        // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
-        delete query[param];
-      }
-      router.push({
-        path: route.path,
-        query,
-        replace: true
-      });
-    };
-
-    const getFullPath = () => route.fullPath;
-
-    const playNextVideo = () => {
-      const currentVideoIndex = props.playlist.items.findIndex(
-        el => el.id === props.currentVideoId
-      );
-
-      let nextVideoId = getNextVideoId();
-
-      if (repeatEnabled.value) {
-        if (currentVideoIndex + 1 === props.playlist.items.length) {
-          nextVideoId = props.playlist.items[0].id;
-        }
-      }
-
-      if (reverseEnabled.value) {
-        if (currentVideoIndex - 1 >= 0) {
-          nextVideoId = getPreviousVideoId();
-        } else if (repeatEnabled.value) {
-          nextVideoId = props.playlist.items[props.playlist.items.length - 1].id;
-        }
-      }
-
-      if (shuffleEnabled.value) {
-        nextVideoId = getRandomVideoId(currentVideoIndex);
-      }
-
-      if (props.playlist.items[currentVideoIndex].id !== nextVideoId) {
-        router.push({
-          path: getFullPath(),
-          query: { ...route.query, v: nextVideoId }
-        });
-      }
-    };
-
-    const getRandomVideoId = (currentIndex: number) => {
-      const randomIndex = Math.floor(Math.random() * props.playlist.items.length);
-      if (randomIndex === currentIndex) {
-        return getRandomVideoId(currentIndex);
-      }
-      return props.playlist.items[randomIndex].id;
-    };
-
-    onMounted(() => {
-      if (videoSectionRef.value) {
-        const selectedEl = videoSectionRef.value.getElementsByClassName('current')[0];
-        if (selectedEl) {
-          const topPos = selectedEl.offsetTop;
-          videoSectionRef.value.scrollTop = topPos < 68 ? topPos : topPos - 68;
-        }
-      }
+  if (props.playlist.items[currentVideoIndex].id !== nextVideoId) {
+    router.push({
+      path: getFullPath(),
+      query: { ...route.query, v: nextVideoId }
     });
+  }
+};
 
-    return {
-      proxyUrl,
-      videoSectionRef,
-      getPreviousVideoId,
-      getNextVideoId,
-      shuffleEnabled,
-      repeatEnabled,
-      reverseEnabled,
-      onRepeatToggle,
-      onShuffleToggle,
-      onReverseToggle,
-      getFullPath,
-      playNextVideo
-    };
+const getRandomVideoId = (currentIndex: number) => {
+  const randomIndex = Math.floor(Math.random() * props.playlist.items.length);
+  if (randomIndex === currentIndex) {
+    return getRandomVideoId(currentIndex);
+  }
+  return props.playlist.items[randomIndex].id;
+};
+
+onMounted(() => {
+  if (videoSectionRef.value) {
+    const selectedEl = videoSectionRef.value.getElementsByClassName('current')[0];
+    if (selectedEl) {
+      const topPos = selectedEl.offsetTop;
+      videoSectionRef.value.scrollTop = topPos < 68 ? topPos : topPos - 68;
+    }
   }
 });
+
+defineExpose({ playNextVideo });
 </script>
 
 <style lang="scss">

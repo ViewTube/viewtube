@@ -3,13 +3,13 @@ packages:
   - client
   - shared
   - tests
-onlyBuiltDependencies:
-  - '@nestjs/core'
-  - '@parcel/watcher'
-  - '@scarf/scarf'
-  - '@swc/core'
-  - cypress
-  - esbuild
-  - msgpackr-extract
-  - sharp
-  - unrs-resolver
+allowBuilds:
+  '@nestjs/core': true
+  '@parcel/watcher': true
+  '@scarf/scarf': false
+  '@swc/core': true
+  cypress: true
+  esbuild: true
+  msgpackr-extract: true
+  sharp: true
+  unrs-resolver: true

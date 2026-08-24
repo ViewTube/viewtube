@@ -1,23 +1,23 @@
 <script setup lang="ts">
+import type { ApiDto, ApiErrorDto } from '@viewtube/shared';
+import dayjs from 'dayjs';
 import type { Result } from 'ytpl';
-import NextUpVideo from '~/components/watch/NextUpVideo.vue';
-import Spinner from '~/components/Spinner.vue';
+import BadgeButton from '~/components/buttons/BadgeButton.vue';
 import SubscribeButton from '~/components/buttons/SubscribeButton.vue';
 import Comment from '~/components/Comment.vue';
+import CollapsibleSection from '~/components/list/CollapsibleSection.vue';
+import SectionTitle from '~/components/SectionTitle.vue';
+import Spinner from '~/components/Spinner.vue';
+import NextUpVideo from '~/components/watch/NextUpVideo.vue';
+import PlaylistSection from '~/components/watch/PlaylistSection.vue';
 import RecommendedVideos from '~/components/watch/RecommendedVideos.vue';
 import ShareOptions from '~/components/watch/ShareOptions.vue';
-import CollapsibleSection from '~/components/list/CollapsibleSection.vue';
-import PlaylistSection from '~/components/watch/PlaylistSection.vue';
-import BadgeButton from '~/components/buttons/BadgeButton.vue';
-import SectionTitle from '~/components/SectionTitle.vue';
 import VideoLoadingTemplate from '~/components/watch/VideoLoadingTemplate.vue';
+import { useLoadingVideoInfoStore } from '~/store/loadingVideoInfo';
 import { useMessagesStore } from '~/store/messages';
 import { useSettingsStore } from '~/store/settings';
-import { useLoadingVideoInfoStore } from '~/store/loadingVideoInfo';
 import { useUserStore } from '~/store/user';
-import dayjs from 'dayjs';
 import { useVideoPlayerStore } from '~/store/videoPlayer';
-import type { ApiDto, ApiErrorDto } from '@viewtube/shared';
 
 type VideoType = ApiDto<'VTVideoInfoDto'> & { initialVideoTime: number };
 
@@ -200,7 +200,7 @@ const loadMoreComments = () => {
 
 const loadPlaylist = () => {
   if (!isPlaylist.value) return;
-  
+
   getPlaylists(route.query.list)
     .then(response => {
       playlist.value = response;

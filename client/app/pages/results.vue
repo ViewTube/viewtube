@@ -1,12 +1,12 @@
 <script setup lang="ts">
+import type { ApiDto } from '@viewtube/shared';
+import BadgeButton from '~/components/buttons/BadgeButton.vue';
+import SeparatorSmall from '~/components/list/SeparatorSmall.vue';
+import Filters from '~/components/search/Filters.vue';
 import RelatedSearches from '~/components/search/RelatedSearches.vue';
 import Spinner from '~/components/Spinner.vue';
-import Filters from '~/components/search/Filters.vue';
-import SeparatorSmall from '~/components/list/SeparatorSmall.vue';
-import BadgeButton from '~/components/buttons/BadgeButton.vue';
 import { useMessagesStore } from '~/store/messages';
 import { useSettingsStore } from '~/store/settings';
-import type { ApiDto } from '@viewtube/shared';
 
 const VideoEntry = resolveComponent('ListVideoEntry');
 const PlaylistEntry = resolveComponent('ListPlaylistEntry');
@@ -39,13 +39,18 @@ onMounted(() => {
 });
 
 const additionalResultItems = ref([]);
-const searchContinuationData = ref<any>(searchData.value?.continuation);
+const continuationOverride = ref<any>(undefined);
+const searchContinuationData = computed(() =>
+  continuationOverride.value === undefined
+    ? searchData.value?.continuation
+    : continuationOverride.value
+);
 
 watch(
   () => searchData.value,
-  newData => {
+  () => {
     additionalResultItems.value = [];
-    searchContinuationData.value = newData?.continuation;
+    continuationOverride.value = undefined;
   }
 );
 
@@ -103,7 +108,7 @@ const loadMoreVideos = async () => {
           ...additionalResultItems.value,
           ...searchContinuation.results
         ];
-        searchContinuationData.value = searchContinuation.continuation;
+        continuationOverride.value = searchContinuation.continuation ?? null;
       }
     } catch (error) {
       messagesStore.createMessage({

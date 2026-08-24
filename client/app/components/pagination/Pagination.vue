@@ -24,10 +24,7 @@ const pageCountDisplay = computed((): Array<number> => {
   }
   numStart = numStart <= 1 ? 2 : numStart;
 
-  if (
-    props.currentPage > props.pageCount - maxNumber.value &&
-    props.pageCount <= maxNumber.value
-  ) {
+  if (props.currentPage > props.pageCount - maxNumber.value && props.pageCount <= maxNumber.value) {
     numStop = props.pageCount;
   } else if (props.currentPage - numStart < halfMaxNum) {
     numStop = props.currentPage + maxNumber.value - (props.currentPage - numStart);
@@ -42,7 +39,7 @@ const pageCountDisplay = computed((): Array<number> => {
   return numArray;
 });
 const displayFirstDots = computed((): boolean => {
-  return pageCountDisplay.value[0] > 2
+  return pageCountDisplay.value[0] > 2;
 });
 const displaySecondDots = computed((): boolean => {
   return (

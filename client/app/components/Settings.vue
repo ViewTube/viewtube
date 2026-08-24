@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import ThemeSelector from '~/components/themes/ThemeSelector.vue';
-import SwitchButton from '~/components/buttons/SwitchButton.vue';
-import MultiOptionButton from '~/components/buttons/MultiOptionButton.vue';
-import Dropdown from '~/components/filter/Dropdown.vue';
 import '~/assets/styles/popup.scss';
-import { type SegmentOption, useSettingsStore } from '~/store/settings';
+import MultiOptionButton from '~/components/buttons/MultiOptionButton.vue';
+import SwitchButton from '~/components/buttons/SwitchButton.vue';
+import Dropdown from '~/components/filter/Dropdown.vue';
 import CheckBox from '~/components/form/CheckBox.vue';
+import ThemeSelector from '~/components/themes/ThemeSelector.vue';
+import { type SegmentOption, useSettingsStore } from '~/store/settings';
 import BadgeButton from './buttons/BadgeButton.vue';
 
 defineEmits<{
@@ -257,11 +257,12 @@ function resetSponsorBlockUrl() {
       />
 
       <SwitchButton
-        :value="settingsStore.showHomeTrendingVideos"
-        :label="'Show trending videos on home screen'"
+        :value="settingsStore.showHomePopularVideos"
+        :label="'Show popular videos on home screen'"
+        :small-label="'A mix of music, gaming, sports, podcasts, live, learning and fashion'"
         :disabled="false"
         :right="true"
-        @valuechange="val => settingsStore.setShowHomeTrendingVideos(val)"
+        @valuechange="val => settingsStore.setShowHomePopularVideos(val)"
       />
 
       <h2><VTIcon name="mdi:auto-fix" />Enhancements</h2>

@@ -35,17 +35,12 @@
   </div>
 </template>
 
-<script lang="ts">
-export default defineComponent({
-  name: 'MovieEntry',
-  props: {
-    movie: Object
-  },
-  setup() {
-    const { proxyUrl } = useImgProxy();
-    return { proxyUrl };
-  }
-});
+<script setup lang="ts">
+defineProps<{
+  movie: Record<string, any>;
+}>();
+
+const { proxyUrl } = useImgProxy();
 </script>
 
 <style lang="scss">

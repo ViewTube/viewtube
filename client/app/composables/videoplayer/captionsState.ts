@@ -1,6 +1,6 @@
-import { useMessagesStore } from '~/store/messages';
 import type { ApiDto } from '@viewtube/shared';
 import X2js from 'x2js';
+import { useMessagesStore } from '~/store/messages';
 
 type Caption = {
   text: string;
@@ -80,8 +80,8 @@ export const useCaptionsState = (video: Ref<ApiDto<'VTVideoInfoDto'>>) => {
   watch(currentTrackCode, async newValue => {
     availableCaptionTracks.value = getAvailableCaptionTracks();
 
-    if (!newValue) return
-    
+    if (!newValue) return;
+
     try {
       const track = availableCaptionTracks.value.find(
         captionTrack => captionTrack.languageCode === newValue

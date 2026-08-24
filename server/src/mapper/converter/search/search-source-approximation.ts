@@ -1380,8 +1380,8 @@ export interface ShortsLockupView {
     type: string;
     payload: {
       videoId: string;
-    }
-  }
+    };
+  };
 }
 
 interface Title5 {

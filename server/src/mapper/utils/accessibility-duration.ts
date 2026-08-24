@@ -1,5 +1,5 @@
 export const parseAccessibilityDuration = (accessibilityText?: string) => {
-  if(!accessibilityText) return 0;
+  if (!accessibilityText) return 0;
   const accessibilityDuration = accessibilityText.match(
     /^.*-\s((?:\d{1,2}\sminutes?)?(?:,\s)?(?:\d{1,2}\sseconds?)?)\s-\splay\svideo$/i
   );

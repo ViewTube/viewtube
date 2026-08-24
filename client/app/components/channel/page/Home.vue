@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import dayjs from 'dayjs';
-import RelatedChannels from '~/components/channel/RelatedChannels.vue';
 import BadgeButton from '~/components/buttons/BadgeButton.vue';
+import RelatedChannels from '~/components/channel/RelatedChannels.vue';
 
 const route = useRoute();
 

@@ -31,7 +31,7 @@ export class SettingsDto {
 
   showHomeSubscriptions: boolean;
 
-  showHomeTrendingVideos: boolean;
+  showHomePopularVideos: boolean;
 
   showRecommendedVideos: boolean;
 

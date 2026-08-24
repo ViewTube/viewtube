@@ -11,21 +11,10 @@
   </div>
 </template>
 
-<script lang="ts">
-import Spinner from '~/components/Spinner.vue';
+<script setup lang="ts">
 import { useLoadingVideoInfoStore } from '~/store/loadingVideoInfo';
 
-export default defineComponent({
-  name: 'VideoLoadingTemplate',
-  components: { Spinner },
-  setup() {
-    const loadingVideoInfoStore = useLoadingVideoInfoStore();
-
-    return {
-      video: loadingVideoInfoStore.video
-    };
-  }
-});
+const { video } = storeToRefs(useLoadingVideoInfoStore());
 </script>
 
 <style lang="scss">

@@ -13,12 +13,13 @@ export default defineNuxtConfig({
     }
   },
 
-  future: {
-    compatibilityVersion: 4
-  },
-
   nitro: {
     preset: 'node',
+    // Nitro replaces `process.env.DEBUG` with the boolean `dev` flag, which breaks
+    // `obug` (bundled via vite-node) as it expects a namespace string.
+    replace: {
+      'process.env.DEBUG': JSON.stringify(process.env.DEBUG ?? '')
+    },
     ...devOnly({
       devProxy: {
         '/api': { target: 'http://0.0.0.0:8067/api', changeOrigin: true }
@@ -38,7 +39,6 @@ export default defineNuxtConfig({
     css: {
       preprocessorOptions: {
         scss: {
-          api: 'modern-compiler',
           additionalData: `
            @use "sass:math";
            @use "~/assets/styles/global/variables.scss" as variables;
@@ -58,7 +58,6 @@ export default defineNuxtConfig({
   ],
 
   unocss: {
-    uno: false,
     icons: true,
     attributify: false,
     safelist: iconSafelist

@@ -1,35 +1,53 @@
 <script setup lang="ts">
-import { useUserStore } from '~/store/user';
-import { useSettingsStore } from '~/store/settings';
 import Logo from '~/components/Logo.vue';
+import { useSettingsStore } from '~/store/settings';
+import { useUserStore } from '~/store/user';
 
 const settingsStore = useSettingsStore();
 const userStore = useUserStore();
 
-const { data: homeFeedData, error: homeFeedError, pending: homeFeedLoading } = useGetHomeFeed();
+const showPopularVideos = computed(() => settingsStore.showHomePopularVideos);
+
+const {
+  data: homeFeedData,
+  error: homeFeedError,
+  pending: homeFeedLoading,
+  execute: loadHomeFeed
+} = useGetHomeFeed(showPopularVideos);
+
+// The feed is only requested when it is actually shown
+watch(showPopularVideos, showVideos => {
+  if (showVideos && !homeFeedData.value) loadHomeFeed();
+});
 </script>
 
 <template>
-  <div class="home" :class="{ loading: homeFeedLoading, error: homeFeedError }">
+  <div
+    class="home"
+    :class="{
+      loading: showPopularVideos && homeFeedLoading,
+      error: showPopularVideos && homeFeedError
+    }"
+  >
     <MetaPageHead
       title="ViewTube :: An alternative YouTube frontend"
       description="An alternative YouTube frontend"
     />
-    <Spinner v-if="homeFeedLoading" class="centered" />
+    <Spinner v-if="showPopularVideos && homeFeedLoading" class="centered" />
     <GithubHint />
-    <ErrorPage v-if="homeFeedError" text="Error loading homepage. The API may not be reachable." />
+    <ErrorPage
+      v-if="showPopularVideos && homeFeedError"
+      text="Error loading homepage. The API may not be reachable."
+    />
     <HomeSubscriptions v-if="userStore.isLoggedIn && settingsStore.showHomeSubscriptions" />
     <HomeVideosContainer
-      v-if="settingsStore.showHomeTrendingVideos && homeFeedData?.videos"
-      :videos="homeFeedData?.videos"
+      v-if="showPopularVideos && !homeFeedLoading && !homeFeedError"
+      :videos="homeFeedData?.videos ?? []"
       :short="settingsStore.showHomeSubscriptions"
     />
 
     <div
-      v-if="
-        !(userStore.isLoggedIn && settingsStore.showHomeSubscriptions) &&
-        !settingsStore.showHomeTrendingVideos
-      "
+      v-if="!(userStore.isLoggedIn && settingsStore.showHomeSubscriptions) && !showPopularVideos"
       class="home-search-container centered"
     >
       <Logo />

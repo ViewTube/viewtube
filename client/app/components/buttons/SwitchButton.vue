@@ -2,7 +2,7 @@
   <div class="switch" :class="{ right: right }">
     <div class="switch-container">
       <input
-        :id="`switch-button-${randomId}`"
+        :id="`switch-button-${switchId}`"
         class="switch-button"
         type="checkbox"
         :name="label"
@@ -17,61 +17,41 @@
       </div>
     </div>
     <div v-if="label" class="label-container">
-      <label :for="`switch-button-${randomId}`" class="label">{{ label }}</label>
+      <label :for="`switch-button-${switchId}`" class="label">{{ label }}</label>
 
       <label
         v-if="smallLabel && smallLabelNegative && !value"
-        :for="`switch-button-${randomId}`"
+        :for="`switch-button-${switchId}`"
         class="small-label"
       >
         {{ smallLabelNegative }}
       </label>
-      <label v-else-if="smallLabel" :for="`switch-button-${randomId}`" class="small-label">
+      <label v-else-if="smallLabel" :for="`switch-button-${switchId}`" class="small-label">
         {{ smallLabel }}
       </label>
     </div>
   </div>
 </template>
 
-<script lang="ts">
-export default defineComponent({
-  name: 'SwitchButton',
-  props: {
-    value: Boolean,
-    label: String,
-    smallLabel: {
-      type: String,
-      required: false,
-      default: null
-    },
-    smallLabelNegative: {
-      type: String,
-      required: false,
-      default: null
-    },
-    disabled: Boolean,
-    right: {
-      type: Boolean,
-      required: false
-    }
-  },
-  setup(_, { emit }) {
-    const onChange = (e: any): void => {
-      emit('valuechange', e.target.checked);
-    };
+<script setup lang="ts">
+defineProps<{
+  value?: boolean;
+  label?: string;
+  smallLabel?: string;
+  smallLabelNegative?: string;
+  disabled?: boolean;
+  right?: boolean;
+}>();
 
-    const ID = (_length = 13) => {
-      return '_' + Math.random().toString(36).substr(2, _length);
-    };
+const emit = defineEmits<{
+  valuechange: [value: boolean];
+}>();
 
-    const randomId = ID();
+const onChange = (e: any): void => {
+  emit('valuechange', e.target.checked);
+};
 
-    return {
-      onChange,
-      randomId
-    };
-  }
-});
+const switchId = useId();
 </script>
 
 <style lang="scss" scoped>

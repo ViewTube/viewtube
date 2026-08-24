@@ -113,7 +113,7 @@ export class ConfigurationService {
       const saveData = JSON.stringify(data);
       await writeFile(configPath, saveData);
     } catch (error) {
-      throw new Error(`Failed to save configuration: ${error}`);
+      throw new Error(`Failed to save configuration: ${error}`, { cause: error });
     }
   }
 

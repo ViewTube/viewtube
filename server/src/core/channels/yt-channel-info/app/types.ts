@@ -29,8 +29,7 @@ export interface ChannelInfoResponse<T> extends ChannelInfoResponseContinuation<
   channelIdType?: ChannelIdType;
 }
 
-export interface ChannelCommunityPostsContinuationResponse
-  extends ChannelInfoResponseContinuation<CommunityPost> {
+export interface ChannelCommunityPostsContinuationResponse extends ChannelInfoResponseContinuation<CommunityPost> {
   innerTubeApi?: string;
 }
 export interface ChannelCommunityPostsResponse extends ChannelCommunityPostsContinuationResponse {

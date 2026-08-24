@@ -79,7 +79,7 @@ export const getDispatcher = (proxyUrl: string) => {
 
 function parseSocksURL(url: string): SocksProxy {
   const socksUrl = new URL(url);
-  let type: SocksProxy['type'] = 5;
+  let type: SocksProxy['type'];
   const host = socksUrl.hostname;
 
   const port = parseInt(socksUrl.port, 10) || 1080;

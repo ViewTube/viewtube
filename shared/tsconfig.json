@@ -15,9 +15,6 @@
     "strictPropertyInitialization": false,
     "esModuleInterop": true,
     "moduleResolution": "Bundler",
-    "paths": {
-      "server/*": ["../server/*"]
-    },
     "types": ["node"]
   },
   "exclude": ["**/dist"]

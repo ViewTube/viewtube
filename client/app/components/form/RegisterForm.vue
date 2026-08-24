@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import FormInput from '~/components/form/FormInput.vue';
-import InformationHint from '~/components/hints/InformationHint.vue';
 import SubmitButton from '~/components/form/SubmitButton.vue';
+import InformationHint from '~/components/hints/InformationHint.vue';
 import Spinner from '~/components/Spinner.vue';
+import { useCaptchaStore } from '~/store/captcha';
 import { useMessagesStore } from '~/store/messages';
 import { useUserStore } from '~/store/user';
-import { useCaptchaStore } from '~/store/captcha';
 
 const props = defineProps<{
   complete?: () => void;

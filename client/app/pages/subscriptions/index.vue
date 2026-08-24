@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import VideoEntry from '~/components/list/VideoEntry.vue';
-import Spinner from '~/components/Spinner.vue';
-import SectionTitle from '~/components/SectionTitle.vue';
-import SwitchButton from '~/components/buttons/SwitchButton.vue';
 import BadgeButton from '~/components/buttons/BadgeButton.vue';
+import SwitchButton from '~/components/buttons/SwitchButton.vue';
+import VideoEntry from '~/components/list/VideoEntry.vue';
 import Pagination from '~/components/pagination/Pagination.vue';
+import SectionTitle from '~/components/SectionTitle.vue';
+import Spinner from '~/components/Spinner.vue';
 import { useMessagesStore } from '~/store/messages';
 import { useUserStore } from '~/store/user';
 

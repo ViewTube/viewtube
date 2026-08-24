@@ -1,6 +1,6 @@
-import { useCaptchaStore } from '~/store/captcha';
 import { defineStore } from 'pinia';
 import { UAParser } from 'ua-parser-js';
+import { useCaptchaStore } from '~/store/captcha';
 import { useSettingsStore } from './settings';
 
 type User = {
@@ -95,7 +95,7 @@ export const useUserStore = defineStore('user', {
       const { apiUrl } = useApiUrl();
       const captchaStore = useCaptchaStore();
       const { vtFetch } = useVtFetch();
-      let registerResult = null;
+      let registerResult;
       try {
         registerResult = await vtFetch(`${apiUrl.value}auth/register`, {
           method: 'POST',

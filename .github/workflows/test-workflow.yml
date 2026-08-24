@@ -9,21 +9,20 @@ jobs:
   e2e:
     name: daily e2e tests
     timeout-minutes: 60
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Node.js PR workflow step ${{ matrix.command }}
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
-          node-version: 22.x
+          node-version: 26.x
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@v6
         with:
-          version: 10
           run_install: false
 
       - name: Install e2e test dependencies
@@ -39,7 +38,7 @@ jobs:
         id: run_tests
 
       - name: Upload e2e test results
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         if: always()
         with:
           name: e2e-test-results
@@ -47,7 +46,7 @@ jobs:
 
       - name: Send test status notification
         if: always()
-        uses: appleboy/telegram-action@master
+        uses: appleboy/telegram-action@v1
         with:
           to: ${{ secrets.TELEGRAM_TO }}
           token: ${{ secrets.TELEGRAM_TOKEN }}

@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { description, version } from '~~/../package.json';
 import BadgeButton from '~/components/buttons/BadgeButton.vue';
+import { description, version } from '~~/../package.json';
 
-import { commit, abbreviated_commit, subject } from '~~/buildMetadata.json';
 import { useMessagesStore } from '~/store/messages';
+import { abbreviated_commit, commit, subject } from '~~/buildMetadata.json';
 
 defineEmits<{
   (e: 'close'): void;

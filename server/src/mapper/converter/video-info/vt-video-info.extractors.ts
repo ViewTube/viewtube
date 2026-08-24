@@ -1,5 +1,7 @@
 import { getSecondsFromTimestamp, getTimestampFromSeconds } from '@viewtube/shared';
 import dayjs from 'dayjs';
+import { sanitizeHtmlString } from 'server/common/sanitize-html';
+import { toVTVideoDtoList } from 'server/mapper/converter/video/vt-video-node.converter';
 import { VTEndscreenChannelDto } from 'server/mapper/dto/endscreen/vt-endscreen-channel.dto';
 import { VTEndscreenVideoDto } from 'server/mapper/dto/endscreen/vt-endscreen-video.dto';
 import { VTPlaylistCardContentDto } from 'server/mapper/dto/infocard/vt-playlist-card-content.dto';
@@ -10,7 +12,6 @@ import { parseRedirectUrl } from 'server/mapper/utils/parse-redirect';
 import { parseRelativeTime } from 'server/mapper/utils/parse-relative-time';
 import { parseShortenedNumber } from 'server/mapper/utils/shortened-number';
 import { VideoInfoSourceApproximation } from './video-info-source-approximation';
-import { sanitizeHtmlString } from 'server/common/sanitize-html';
 
 export const extractVideoId = (videoInfo: VideoInfoSourceApproximation) => {
   return videoInfo?.basic_info?.id;
@@ -299,30 +300,7 @@ export const extractInfoCards = (
 export const extractRecommendedVideos = (
   videoInfo: VideoInfoSourceApproximation
 ): VTVideoInfoDto['recommendedVideos'] => {
-  return videoInfo?.watch_next_feed?.map(video => {
-    return {
-      id: video?.id,
-      title: video?.title?.text,
-      author: {
-        id: video?.author?.id,
-        name: video?.author?.name,
-        thumbnails: video?.author?.thumbnails,
-        isVerified: video?.author?.is_verified,
-        isArtist: video?.author?.is_verified_artist,
-        handle: video?.author?.endpoint?.payload?.canonicalBaseUrl?.replace('/', '')
-      },
-      duration: {
-        text: video?.duration?.text,
-        seconds: video?.duration?.seconds
-      },
-      published: {
-        text: video?.published?.text,
-        date: parseRelativeTime(video?.published?.text)?.toDate()
-      },
-      thumbnails: video?.thumbnails,
-      viewCount: parseShortenedNumber(video?.view_count?.text)
-    };
-  });
+  return toVTVideoDtoList(videoInfo?.watch_next_feed);
 };
 
 export const extractChapters = (

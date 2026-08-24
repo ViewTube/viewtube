@@ -29,21 +29,20 @@ jobs:
       group: ${{ github.workflow }}-${{ github.ref }}
       cancel-in-progress: true
 
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
-          node-version: 22.x
+          node-version: 26.x
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@v6
         with:
-          version: 10
           run_install: false
 
       - name: Generate build metadata
@@ -52,21 +51,21 @@ jobs:
           cat ./client/buildMetadata.json
 
       - name: Setup QEMU
-        uses: docker/setup-qemu-action@v3
+        uses: docker/setup-qemu-action@v4
 
       - name: Setup Docker Buildx
         id: buildx
-        uses: docker/setup-buildx-action@v3
+        uses: docker/setup-buildx-action@v4
 
       - name: Login to Docker Hub
-        uses: docker/login-action@v3
+        uses: docker/login-action@v4
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Docker metadata
         id: metadata
-        uses: docker/metadata-action@v5
+        uses: docker/metadata-action@v6
         with:
           images: mauriceo/viewtube
           tags: |
@@ -76,7 +75,7 @@ jobs:
             type=semver,pattern={{major}},enable=${{ !startsWith(github.ref, 'refs/tags/v0.') }}
 
       - name: Build and push
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           context: .
           platforms: ${{ inputs.architectures }}

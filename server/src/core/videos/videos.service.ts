@@ -147,7 +147,7 @@ export class VideosService {
       throw new HttpException('No video id provided', 400);
     }
 
-    let sponsorBlockUrl = url;
+    let sponsorBlockUrl: string;
 
     if (url) {
       sponsorBlockUrl = decodeURIComponent(url);
