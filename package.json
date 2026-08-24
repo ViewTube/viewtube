@@ -7,8 +7,8 @@
   "version": "0.17.1",
   "license": "AGPLv3",
   "engines": {
-    "node": ">=24.14.0",
-    "pnpm": ">=10.33"
+    "node": ">=26.7",
+    "pnpm": ">=11.23"
   },
   "scripts": {
     "build": "pnpm --filter=* run build",
@@ -47,5 +47,5 @@
     "prettier-plugin-organize-imports": "4.3.0",
     "typescript": "6.0.3"
   },
-  "packageManager": "pnpm@11.23.0+sha512.f00082e5b283a199b74e079da28d155c008fe232f44c8a06ea7ddfa014ecf719fc362f790ecc67b28106ddac2afb24c49a9a079159da560b2ce7d1e98efd11af"
+  "packageManager": "pnpm@11.23.0"
 }

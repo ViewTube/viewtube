@@ -1,8 +1,8 @@
 {
   "name": "@viewtube/client",
   "engines": {
-    "node": ">=24.14.0",
-    "pnpm": ">=10.33"
+    "node": ">=26.7",
+    "pnpm": ">=11.23"
   },
   "scripts": {
     "prepare:env": "cross-env API_DEV_PORT=8067 PORT=8066",
