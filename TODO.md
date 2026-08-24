@@ -24,6 +24,23 @@ models and it shows.
   an unauthenticated bandwidth relay for Google-hosted content, through the operator's configured SOCKS proxy.
 - [ ] **No global `ExceptionFilter`.** For an app whose defining condition is upstream breakage, error handling is
   entirely ad hoc — a single filter would give consistent shapes and one place to log.
+- [ ] **Apply the channels error taxonomy to `videos` and `playlists`.** `core/channels` is being converged on three
+  outcomes: `NotFoundException({ message, description })` for something youtube does not have, `BadGatewayException`
+  for youtube reachable but unusable (a rejected token, a renderer the mapper can no longer read), and
+  `BadRequestException` only for a genuinely malformed argument — with one `channel-errors.ts` owning the shapes,
+  `debug`/`warn`/`error` picked by which of the three is in play, and tab presence asked through youtubei.js's `has_*`
+  getters (`parser/youtube/Channel.js`) instead of inferred from a caught `InnertubeError`. The other two core services
+  predate that and disagree with it in both directions:
+  - `videos.service.ts:114-121` funnels every `getInfo` failure into a 500, so a deleted or private video reports as a
+    server fault, and it copies `error.message` / `error.info.reason` — raw youtubei.js text — into the response body.
+    `:58` passes the error _object_ itself to `InternalServerErrorException`, as do
+    `playlists.service.ts:24` and `:45`.
+  - `playlists.service.ts:10` answers an invalid playlist id with a 500 where 400 belongs, and the fall-through
+    `throw new InternalServerErrorException('Error fetching playlist')` at `:27` and `:53` is really a 404.
+  `playlists` is still on `ytpl` rather than youtubei.js, so only the taxonomy carries over — there is no `has_*`
+  equivalent to probe with, and its catches stay catches. Worth doing alongside the global `ExceptionFilter` above
+  rather than before it: the filter gives one place to log and one response shape, the taxonomy decides which shape
+  each failure earns.
 - [ ] **`proxyStream` trusts the `originUrl` query parameter** and reflects it into rewritten `.m3u8`
   bodies (`server/src/core/proxy/proxy.service.ts`). Only affects the caller's own response, so it is not a live
   vulnerability, but the origin should be derived server-side rather than taken from the client.

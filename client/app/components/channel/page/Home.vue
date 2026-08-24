@@ -15,14 +15,17 @@ const channelLinks = computed(() => channelInfo.value?.links ?? []);
 const channelDescription = computed(() => {
   return createTextLinks(channelInfo.value?.description);
 });
+
+const hasStats = computed(() =>
+  Boolean(
+    channelStats.value?.joinedDate || channelStats.value?.viewCount || channelStats.value?.location
+  )
+);
 </script>
 
 <template>
   <Spinner v-if="pending || pendingHome || pendingStats" />
-  <div
-    v-if="!pending && !pendingHome && !pendingStats && channelInfo && channelHome"
-    class="channel-home"
-  >
+  <div v-if="!pending && !pendingHome && !pendingStats && channelInfo" class="channel-home">
     <SectionTitle title="Info" />
     <pre
       v-if="channelInfo.description"
@@ -45,8 +48,8 @@ const channelDescription = computed(() => {
         </BadgeButton>
       </div>
     </div>
-    <SectionSubtitle v-if="channelStats" title="Stats" class="channel-stats-title" />
-    <div v-if="channelStats" class="channel-stats">
+    <SectionSubtitle v-if="hasStats" title="Stats" class="channel-stats-title" />
+    <div v-if="hasStats" class="channel-stats">
       <div v-if="channelStats.joinedDate">
         Joined
         <span class="highlight">{{ dayjs(channelStats.joinedDate).format('MMMM D, YYYY') }}</span>
@@ -59,12 +62,12 @@ const channelDescription = computed(() => {
         <span class="highlight">{{ channelStats.location }}</span>
       </div>
     </div>
-    <SectionTitle v-if="channelHome.featuredVideo" title="Featured video" />
+    <SectionTitle v-if="channelHome?.featuredVideo" title="Featured video" />
     <ChannelFeaturedVideo
-      v-if="channelHome.featuredVideo"
+      v-if="channelHome?.featuredVideo"
       :featured-video="channelHome.featuredVideo"
     />
-    <div v-for="(shelf, index) in channelHome.shelves" :key="index" class="shelves">
+    <div v-for="(shelf, index) in channelHome?.shelves ?? []" :key="index" class="shelves">
       <SectionTitle :title="shelf.title" />
       <ChannelPlaylistShelf
         v-if="shelf.type === 'videos' || shelf.type === 'shorts'"

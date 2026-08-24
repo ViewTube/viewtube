@@ -20,6 +20,7 @@ import { VTChannelHomeDto } from 'server/mapper/dto/channel/vt-channel-home.dto'
 import { VTChannelPageDto } from 'server/mapper/dto/channel/vt-channel-page.dto';
 import { VTChannelPlaylistsDto } from 'server/mapper/dto/channel/vt-channel-playlists.dto';
 import { VTChannelSearchDto } from 'server/mapper/dto/channel/vt-channel-search.dto';
+import { VTChannelShelfDto } from 'server/mapper/dto/channel/vt-channel-shelf.dto';
 import { VTCommunityPostsDto } from 'server/mapper/dto/channel/vt-community-posts.dto';
 import sharp from 'sharp';
 import { Parser, YTNodes } from 'youtubei.js';
@@ -195,9 +196,16 @@ export class ChannelsService {
     }
 
     const channel = await this.getChannel(channelId);
-    const home = await channel.getHome();
 
-    return toVTChannelHomeDto(home?.current_tab?.content as never);
+    try {
+      const home = await channel.getHome();
+
+      return toVTChannelHomeDto(home?.current_tab?.content as never);
+    } catch (error) {
+      // A channel that never set one up has no home tab at all
+      this.logger.debug(`No home tab for channel ${channelId}: ${error?.message}`);
+      return { shelves: await this.fallbackHomeShelves(channel) };
+    }
   }
 
   async getChannelVideos(
@@ -223,6 +231,25 @@ export class ChannelsService {
     strategy?: ChannelFeedStrategy
   ): Promise<VTChannelFeedDto> {
     return this.getChannelFeed(channelId, 'live', sort, 'all', strategy);
+  }
+
+  /**
+   * Youtube sends a channel without a home tab to its videos instead. Standing in a shelf of them
+   * keeps the tab worth opening, rather than leaving the about info on its own.
+   */
+  private async fallbackHomeShelves(
+    channel: Awaited<ReturnType<typeof this.getChannel>>
+  ): Promise<Array<VTChannelShelfDto>> {
+    try {
+      const videosTab = await channel.getVideos();
+      const videos = this.feedVideosOf(videosTab?.page as unknown as ParsedFeedResponse);
+
+      return videos.length ? [{ title: 'Videos', type: 'videos', videos }] : [];
+    } catch (error) {
+      // A channel with neither tab, e.g. one that only posts to community
+      this.logger.debug(`No videos tab to stand in for the home tab: ${error?.message}`);
+      return [];
+    }
   }
 
   private async getChannelFeed(
