@@ -1,5 +1,5 @@
 /** Channel ids are always `UC` followed by 22 url-safe base64 characters. */
-export const CHANNEL_ID_PATTERN = /^UC[\w-]{22}$/;
+const CHANNEL_ID_PATTERN = /^UC[\w-]{22}$/;
 
 /** Handles are 3-30 characters of letters, digits, underscores, dots and dashes after the `@`. */
 const HANDLE_PATTERN = /^@[\w.-]{3,30}$/;

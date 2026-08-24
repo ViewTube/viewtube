@@ -25,6 +25,7 @@ import { VTCommunityPostsDto } from 'server/mapper/dto/channel/vt-community-post
 import sharp from 'sharp';
 import { Parser, YTNodes } from 'youtubei.js';
 import { extractAvailableFilters, extractFilterToken, extractSortToken } from './channel-chips';
+import { channelNotFound, channelUpstreamFailed, isChannelGone } from './channel-errors';
 import {
   collectFeedNodes,
   extractFeedContinuation,
@@ -41,28 +42,11 @@ const RESOLVED_ID_CACHE_PREFIX = 'channel-id:';
 /** A handle points at the same channel for as long as both exist, so this can be held for a day. */
 const RESOLVED_ID_TTL_MS = 24 * 60 * 60 * 1000;
 
-const isInvalidArgumentError = (error: { info?: unknown }): boolean => {
-  if (typeof error?.info !== 'string') return false;
-
-  try {
-    return JSON.parse(error.info)?.error?.status === 'INVALID_ARGUMENT';
-  } catch {
-    return false;
-  }
-};
-
 @Injectable()
 export class ChannelsService {
   private readonly logger = new Logger(ChannelsService.name);
 
   constructor(@Inject(CACHE_MANAGER) private cacheManager: Cache) {}
-
-  private channelNotFound(): never {
-    throw new NotFoundException({
-      message: 'Channel not found',
-      description: 'No channel exists for that id'
-    });
-  }
 
   /**
    * YouTube addresses one channel by several names — the `UC…` id, an `@handle`, a legacy custom
@@ -73,7 +57,7 @@ export class ChannelsService {
     if (isChannelId(identifier)) return identifier;
 
     const urls = channelResolveUrls(identifier);
-    if (!urls.length) this.channelNotFound();
+    if (!urls.length) channelNotFound('That is not a channel id, handle or custom url');
 
     const cacheKey = `${RESOLVED_ID_CACHE_PREFIX}${identifier}`;
     const cached = await this.cacheManager.get<string>(cacheKey);
@@ -91,12 +75,13 @@ export class ChannelsService {
           return browseId;
         }
       } catch (error) {
-        // An unknown name is a plain request failure here, so a miss is not worth surfacing
+        // Youtube answers a name it does not know with a plain request failure, indistinguishable
+        // from a transport problem, so a single miss is only worth a debug line
         this.logger.debug(`Could not resolve ${url}: ${error?.message}`);
       }
     }
 
-    this.channelNotFound();
+    channelNotFound(`Nothing resolved for ${identifier}`);
   }
 
   private async getChannel(identifier: string) {
@@ -106,12 +91,9 @@ export class ChannelsService {
     try {
       return await innertube.getChannel(channelId);
     } catch (error) {
-      // youtubei.js reports a missing or terminated channel as a typed ChannelError, and an id
-      // YouTube itself rejects as a plain request failure carrying an INVALID_ARGUMENT body
-      if (error?.constructor?.name === 'ChannelError' || isInvalidArgumentError(error)) {
-        throw new NotFoundException({ message: 'Channel not found', description: error?.message });
-      }
-      throw error;
+      if (isChannelGone(error)) channelNotFound(error?.message);
+
+      channelUpstreamFailed('page', error);
     }
   }
 
@@ -150,18 +132,21 @@ export class ChannelsService {
   }
 
   async getChannelInfo(channelId: string): Promise<VTChannelPageDto> {
-    if (!checkParams(channelId)) {
-      throw new BadRequestException('Error fetching channel info', 'Invalid channelId');
-    }
-
     const channel = await this.getChannel(channelId);
 
-    // Topic channels have no about tab; the microformat still carries a description
+    // The about data only enriches this page, so a channel that has none — topic channels, whose
+    // microformat carries the description instead — and one whose about breaks both still get a
+    // usable page rather than a failure
     let about = null;
-    try {
-      about = await this.getAboutMetadata(channel);
-    } catch (error) {
-      this.logger.debug(`No about tab for channel ${channelId}: ${error?.message}`);
+
+    if (channel.has_about) {
+      try {
+        about = await this.getAboutMetadata(channel);
+      } catch (error) {
+        this.logger.warn(`About tab present but unreadable for ${channelId}: ${error?.message}`);
+      }
+    } else {
+      this.logger.debug(`Channel ${channelId} has no about tab`);
     }
 
     const channelPage = toVTChannelPageDto(channel as never, about);
@@ -173,38 +158,39 @@ export class ChannelsService {
   }
 
   async getChannelStats(channelId: string): Promise<VTChannelAboutDto> {
-    if (!checkParams(channelId)) {
-      throw new BadRequestException('Error fetching channel stats', 'Invalid channelId');
-    }
-
     const channel = await this.getChannel(channelId);
 
+    if (!channel.has_about) {
+      this.logger.debug(`Channel ${channelId} has no about tab`);
+      return {};
+    }
+
+    // Unlike on the channel page, the about data is the whole answer here, so breakage cannot be
+    // quietly swallowed into an empty one
     try {
       const about = await this.getAboutMetadata(channel);
       const stats = toVTChannelAboutDto(about);
 
       return { ...stats, description: sanitizeHtmlString(stats.description) };
     } catch (error) {
-      this.logger.debug(`No about tab for channel ${channelId}: ${error?.message}`);
-      return {};
+      channelUpstreamFailed('stats', error);
     }
   }
 
   async getChannelHome(channelId: string): Promise<VTChannelHomeDto> {
-    if (!checkParams(channelId)) {
-      throw new BadRequestException('Error fetching channel homepage', 'Invalid channelId');
-    }
-
     const channel = await this.getChannel(channelId);
+
+    if (!channel.has_home) {
+      this.logger.debug(`Channel ${channelId} has no home tab`);
+      return { shelves: await this.fallbackHomeShelves(channel) };
+    }
 
     try {
       const home = await channel.getHome();
 
       return toVTChannelHomeDto(home?.current_tab?.content as never);
     } catch (error) {
-      // A channel that never set one up has no home tab at all
-      this.logger.debug(`No home tab for channel ${channelId}: ${error?.message}`);
-      return { shelves: await this.fallbackHomeShelves(channel) };
+      channelUpstreamFailed('home', error);
     }
   }
 
@@ -240,14 +226,17 @@ export class ChannelsService {
   private async fallbackHomeShelves(
     channel: Awaited<ReturnType<typeof this.getChannel>>
   ): Promise<Array<VTChannelShelfDto>> {
+    // A channel with neither tab, e.g. one that only posts to community
+    if (!channel.has_videos) return [];
+
+    // Standing in for a tab is already the degraded path, so failing here just costs the shelf
     try {
       const videosTab = await channel.getVideos();
       const videos = this.feedVideosOf(videosTab?.page as unknown as ParsedFeedResponse);
 
       return videos.length ? [{ title: 'Videos', type: 'videos', videos }] : [];
     } catch (error) {
-      // A channel with neither tab, e.g. one that only posts to community
-      this.logger.debug(`No videos tab to stand in for the home tab: ${error?.message}`);
+      this.logger.warn(`Videos tab unreadable while standing in for home: ${error?.message}`);
       return [];
     }
   }
@@ -259,10 +248,6 @@ export class ChannelsService {
     filter: ContentFilterType,
     strategy?: ChannelFeedStrategy
   ): Promise<VTChannelFeedDto> {
-    if (!checkParams(identifier)) {
-      throw new BadRequestException(`Error fetching channel ${tab}`, 'Invalid channelId');
-    }
-
     // The params strategy never touches getChannel, so the id is resolved here too
     const channelId = await this.resolveChannelId(identifier);
 
@@ -282,11 +267,9 @@ export class ChannelsService {
         return feed;
       }
 
+      // The channel is fine; it is the token layout this build assumes that YouTube refused
       if (strategy === 'params') {
-        throw new NotFoundException(
-          `Error fetching channel ${tab}`,
-          'Youtube rejected the generated request'
-        );
+        channelUpstreamFailed(tab, { message: 'YouTube rejected the locally built token' });
       }
 
       this.logger.warn(
@@ -309,7 +292,7 @@ export class ChannelsService {
   ): Promise<VTChannelFeedDto | null> {
     const parsed = await this.browse(buildChannelFeedToken({ channelId, tab, sort, filter }));
 
-    // A token youtube does not accept comes back as a re-render of the whole channel page
+    // A token YouTube does not accept comes back as a re-render of the whole channel page
     if (isRejectedFeedResponse(parsed)) return null;
 
     const videos = this.feedVideosOf(parsed);
@@ -341,6 +324,19 @@ export class ChannelsService {
   ): Promise<VTChannelFeedDto> {
     const channel = await this.getChannel(channelId);
 
+    const hasTab =
+      tab === 'shorts'
+        ? channel.has_shorts
+        : tab === 'live'
+          ? channel.has_live_streams
+          : channel.has_videos;
+
+    // A channel without the tab at all, e.g. no live streams
+    if (!hasTab) {
+      this.logger.debug(`Channel ${channelId} has no ${tab} tab`);
+      return { videos: [], appliedSort: 'newest', appliedFilter: 'all', availableFilters: [] };
+    }
+
     let page: ParsedFeedResponse;
     try {
       const tabResult =
@@ -351,30 +347,45 @@ export class ChannelsService {
             : await channel.getVideos();
       page = tabResult?.page as unknown as ParsedFeedResponse;
     } catch (error) {
-      // A channel without the tab at all, e.g. no live streams
-      this.logger.debug(`No ${tab} tab for channel ${channelId}: ${error?.message}`);
-      return { videos: [], appliedSort: sort, appliedFilter: filter, availableFilters: [] };
+      channelUpstreamFailed(tab, error);
     }
 
     const availableFilters = extractAvailableFilters(page);
 
     let current = page;
 
+    // A chip youtube did not hand out cannot be followed, and reporting the request back as though
+    // it had been would put "sorted by popular" over a newest-first list
+    let appliedFilter: ContentFilterType = 'all';
+    let appliedSort: SortType = 'newest';
+
     if (filter !== 'all') {
       const filterToken = extractFilterToken(current, filter);
-      if (filterToken) current = await this.browse(filterToken);
+
+      if (filterToken) {
+        current = await this.browse(filterToken);
+        appliedFilter = filter;
+      } else {
+        this.logger.warn(`No ${filter} filter chip on ${tab} for ${channelId}`);
+      }
     }
 
     if (sort !== 'newest') {
       const sortToken = extractSortToken(current, sort);
-      if (sortToken) current = await this.browse(sortToken);
+
+      if (sortToken) {
+        current = await this.browse(sortToken);
+        appliedSort = sort;
+      } else {
+        this.logger.warn(`No ${sort} sort chip on ${tab} for ${channelId}`);
+      }
     }
 
     return {
       videos: this.feedVideosOf(current),
       continuation: extractFeedContinuation(current),
-      appliedSort: sort,
-      appliedFilter: filter,
+      appliedSort,
+      appliedFilter,
       availableFilters
     };
   }
@@ -393,11 +404,12 @@ export class ChannelsService {
   }
 
   async getChannelPlaylists(channelId: string): Promise<VTChannelPlaylistsDto> {
-    if (!checkParams(channelId)) {
-      throw new BadRequestException('Error fetching channel playlists', 'Invalid channelId');
-    }
-
     const channel = await this.getChannel(channelId);
+
+    if (!channel.has_playlists) {
+      this.logger.debug(`Channel ${channelId} has no playlists tab`);
+      return { playlists: [] };
+    }
 
     try {
       const playlistsTab = await channel.getPlaylists();
@@ -408,8 +420,7 @@ export class ChannelsService {
         continuation: extractFeedContinuation(page)
       };
     } catch (error) {
-      this.logger.debug(`No playlists tab for channel ${channelId}: ${error?.message}`);
-      return { playlists: [] };
+      channelUpstreamFailed('playlists', error);
     }
   }
 
@@ -436,19 +447,29 @@ export class ChannelsService {
   }
 
   async searchChannel(channelId: string, query: string): Promise<VTChannelSearchDto> {
-    if (!checkParams(channelId, query)) {
-      throw new BadRequestException('Error searching channel', 'Invalid channelId or query');
+    if (!checkParams(query)) {
+      throw new BadRequestException('Error searching channel', 'Invalid query');
     }
 
     const channel = await this.getChannel(channelId);
-    const results = await channel.search(query);
-    const page = results?.page as unknown as ParsedFeedResponse;
 
-    return {
-      videos: this.feedVideosOf(page),
-      playlists: this.playlistsOf(page),
-      continuation: extractFeedContinuation(page)
-    };
+    if (!channel.has_search) {
+      this.logger.debug(`Channel ${channelId} cannot be searched`);
+      return { videos: [], playlists: [] };
+    }
+
+    try {
+      const results = await channel.search(query);
+      const page = results?.page as unknown as ParsedFeedResponse;
+
+      return {
+        videos: this.feedVideosOf(page),
+        playlists: this.playlistsOf(page),
+        continuation: extractFeedContinuation(page)
+      };
+    } catch (error) {
+      channelUpstreamFailed('search', error);
+    }
   }
 
   async searchChannelContinuation(continuation: string): Promise<VTChannelSearchDto> {
@@ -466,11 +487,12 @@ export class ChannelsService {
   }
 
   async getChannelCommunityPosts(channelId: string): Promise<VTCommunityPostsDto> {
-    if (!checkParams(channelId)) {
-      throw new BadRequestException('Error fetching channel community posts', 'Invalid channelId');
-    }
-
     const channel = await this.getChannel(channelId);
+
+    if (!channel.has_community) {
+      this.logger.debug(`Channel ${channelId} has no community tab`);
+      return { posts: [] };
+    }
 
     try {
       const community = await channel.getCommunity();
@@ -481,8 +503,7 @@ export class ChannelsService {
         continuation: extractFeedContinuation(page)
       };
     } catch (error) {
-      this.logger.debug(`No community tab for channel ${channelId}: ${error?.message}`);
-      return { posts: [] };
+      channelUpstreamFailed('community', error);
     }
   }
 
@@ -511,30 +532,28 @@ export class ChannelsService {
   }
 
   getTinyThumbnail(reply: FastifyReply, id: string): void {
-    if (!isChannelId(id)) throw new NotFoundException();
-
-    const imgPathWebp = path.join(global.__basedir, `channels/${id}.webp`);
-
-    const imgPathJpg = path.join(global.__basedir, `channels/${id}.jpg`);
+    // The id is interpolated into a path, so nothing but a channel id may reach it
+    if (!isChannelId(id)) channelNotFound();
 
     const imageTransformer = sharp().resize(36, 36);
 
-    try {
-      const fileStream = fs.createReadStream(imgPathWebp);
-      reply.type('image/webp').send(fileStream.pipe(imageTransformer));
+    // `createReadStream` reports a missing file through an error event rather than by throwing, so
+    // presence has to be checked up front for the 404 below to be reachable at all
+    const candidates: Array<[string, string]> = [
+      [path.join(global.__basedir, `channels/${id}.webp`), 'image/webp'],
+      [path.join(global.__basedir, `channels/${id}.jpg`), 'image/jpeg']
+    ];
+
+    for (const [imgPath, mimeType] of candidates) {
+      if (!fs.existsSync(imgPath)) continue;
+
+      reply.type(mimeType).send(fs.createReadStream(imgPath).pipe(imageTransformer));
       return;
-    } catch {
-      // Error is thrown later
     }
 
-    try {
-      const fileStream = fs.createReadStream(imgPathJpg);
-      reply.type('image/jpeg').send(fileStream.pipe(imageTransformer));
-      return;
-    } catch {
-      // Error is thrown later
-    }
-
-    throw new NotFoundException();
+    throw new NotFoundException({
+      message: 'Thumbnail not found',
+      description: 'No thumbnail is stored for that channel'
+    });
   }
 }
