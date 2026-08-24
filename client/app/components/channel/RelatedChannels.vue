@@ -1,49 +1,38 @@
 <script setup lang="ts">
 import type { ApiDto } from '@viewtube/shared';
-export type RelatedChannelsType = ApiDto<'ChannelInfoDto'>['relatedChannels']['items'];
 
 defineProps<{
-  relatedChannels: {
-    items?: RelatedChannelsType;
-    continuation?: string | null;
-    type: 'channels';
-  };
-  vertical?: boolean;
+  channels: Array<ApiDto<'VTChannelDto'>>;
 }>();
 
 const { proxyUrl } = useImgProxy();
 </script>
 
 <template>
-  <div v-if="relatedChannels?.items" class="related-channels" :class="{ vertical: vertical }">
+  <div v-if="channels?.length" class="related-channels">
     <div class="scroll-container">
       <nuxt-link
-        v-for="channel in relatedChannels?.items"
-        :key="channel.channelId"
+        v-for="channel in channels"
+        :key="channel.id"
         v-ripple
         class="related-channel tooltip"
-        :to="{ path: `/channel/${channel.channelId}` }"
+        :to="{ path: `/channel/${channel.id}` }"
       >
         <div class="related-channel-thumbnail">
           <div class="related-channel-thumbnail-image">
-            <img
-              :src="
-                proxyUrl(
-                  (channel as any).thumbnail?.[2]?.url ?? (channel as any).thumbnail?.[1]?.url
-                )
-              "
-              :alt="channel.channelName"
-            />
+            <img :src="proxyUrl(channel.thumbnails?.[0]?.url)" :alt="channel.name" />
           </div>
         </div>
         <div class="related-channel-info">
-          <div v-tippy="channel.channelName" class="related-channel-title">
+          <div v-tippy="channel.name" class="related-channel-title">
             <p class="related-channel-title-text">
-              {{ channel.channelName }}
+              {{ channel.name }}
             </p>
-            <VTIcon name="mdi:check-decagram" class="verified-icon" />
+            <VTIcon v-if="channel.isVerified" name="mdi:check-decagram" class="verified-icon" />
           </div>
-          <p v-if="channel.subscriberText" class="subscriber-count">{{ channel.subscriberText }}</p>
+          <p v-if="channel.subscribers" class="subscriber-count">
+            {{ channel.subscribers.toLocaleString('en-US') }} subscribers
+          </p>
           <p v-if="channel.videoCount" class="video-count">
             {{ channel.videoCount?.toLocaleString('en-US') }} videos
           </p>
@@ -56,36 +45,23 @@ const { proxyUrl } = useImgProxy();
 <style lang="scss" scoped>
 .related-channels {
   width: 100%;
-  height: 280px;
   max-width: variables.$main-width;
   margin: 5px auto 0 auto;
-  overflow: scroll;
+  // A horizontal strip: scrolling sideways only, and never tall enough to scroll vertically
+  overflow-x: auto;
+  overflow-y: hidden;
   scrollbar-width: thin;
   box-sizing: border-box;
-  position: relative;
-
-  &.vertical {
-    height: 100%;
-
-    .scroll-container {
-      position: initial;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: left;
-      gap: 15px 0;
-    }
-  }
 
   .scroll-container {
     display: flex;
     flex-direction: row;
-    width: auto;
-    position: absolute;
+    align-items: stretch;
+    width: max-content;
     margin: 5px 2px;
 
     .related-channel {
       width: 150px;
-      height: 100%;
       display: flex;
       flex-direction: column;
       overflow: hidden;

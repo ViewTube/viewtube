@@ -4,7 +4,7 @@ import humanNumber from 'human-number';
 import SubscribeButton from '~/components/buttons/SubscribeButton.vue';
 
 const props = defineProps<{
-  channelInfo: ApiDto<'ChannelInfoDto'>;
+  channelInfo: ApiDto<'VTChannelPageDto'>;
   pages: Array<{
     title: string;
     link: string;
@@ -23,27 +23,27 @@ const changePage = (pageName: string) => {
 
 const { proxyUrl } = useImgProxy();
 
-const subscriberCount = computed(() => humanNumber(props.channelInfo?.subscriberCount));
+const subscriberCount = computed(() => humanNumber(props.channelInfo?.subscribers ?? 0));
 </script>
 
 <template>
   <div v-if="channelInfo" class="banner-section">
     <ChannelBanner
       class="channel-banner"
-      :src="channelInfo?.authorBanners?.[3]?.url"
-      :banner-hq-src="channelInfo?.authorBanners?.[channelInfo?.authorBanners?.length - 1]?.url"
-      :fallback="channelInfo?.authorThumbnails?.[2]?.url"
+      :src="channelInfo?.banners?.[2]?.url"
+      :banner-hq-src="channelInfo?.banners?.[0]?.url"
+      :fallback="channelInfo?.thumbnails?.[0]?.url"
     />
     <div class="info">
       <div class="avatar">
-        <img class="avatar-img" :src="proxyUrl(channelInfo?.authorThumbnails?.[2]?.url)" />
+        <img class="avatar-img" :src="proxyUrl(channelInfo?.thumbnails?.[0]?.url)" />
       </div>
       <h3 class="title">
-        {{ channelInfo?.author }}
+        {{ channelInfo?.name }}
       </h3>
       <div class="subscribe">
         <p class="subscribers">{{ subscriberCount }} subscribers</p>
-        <SubscribeButton :channel-id="channelInfo.authorId" />
+        <SubscribeButton :channel-id="channelInfo.id" />
       </div>
       <TabMenu
         class="tab-menu"

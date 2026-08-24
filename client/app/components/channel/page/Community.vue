@@ -8,22 +8,18 @@ const messagesStore = useMessagesStore();
 const channelId = computed(() => getChannelIdFromParam(route.params.id));
 const { data, pending, error } = useGetChannelCommunityPosts(channelId);
 
-const channelInfo = ref(data);
-const morePending = ref(false);
-
 const communityPosts = ref(data);
+const morePending = ref(false);
 
 const loadMore = async () => {
   if (!communityPosts.value?.continuation) return;
   morePending.value = true;
   try {
     const additionalCommunityPosts = await getChannelCommunityPostsContinuation(
-      communityPosts.value?.continuation,
-      communityPosts.value?.innerTubeApi
+      communityPosts.value.continuation
     );
-    communityPosts.value.items = [...communityPosts.value.items, ...additionalCommunityPosts.items];
+    communityPosts.value.posts = [...communityPosts.value.posts, ...additionalCommunityPosts.posts];
     communityPosts.value.continuation = additionalCommunityPosts.continuation;
-    communityPosts.value.innerTubeApi = additionalCommunityPosts.innerTubeApi;
   } catch (error) {
     messagesStore.createMessage({
       type: 'error',
@@ -39,18 +35,18 @@ const loadMore = async () => {
 
 <template>
   <Spinner v-if="pending" />
-  <div v-if="(data as any)?.items.length === 0" class="no-community-posts">
+  <div v-if="!pending && data?.posts?.length === 0" class="no-community-posts">
     <p>This channel has no community posts.</p>
   </div>
-  <div v-if="!pending && data" class="community-posts">
+  <div v-if="!pending && communityPosts?.posts?.length" class="community-posts">
     <CommunityPost
-      v-for="(communityPost, index) in communityPosts.items"
-      :key="index"
+      v-for="communityPost in communityPosts.posts"
+      :key="communityPost.id"
       :community-post="communityPost"
     />
     <div class="show-more">
       <BadgeButton
-        v-if="channelInfo?.continuation"
+        v-if="communityPosts.continuation"
         class="show-more-button"
         :loading="morePending"
         @click.prevent="loadMore"

@@ -9,8 +9,9 @@ export const useGetChannelInfo = (id: Ref<string> | string) => {
     return `${apiUrl.value}channels/${channelId}`;
   });
 
-  return useLazyAsyncData<ApiDto<'ChannelInfoDto'>, ApiErrorDto>(`channel-info-${unref(id)}`, () =>
-    vtFetch(url.value)
+  return useLazyAsyncData<ApiDto<'VTChannelPageDto'>, ApiErrorDto>(
+    `channel-info-${unref(id)}`,
+    () => vtFetch(url.value)
   );
 };
 
@@ -23,8 +24,9 @@ export const useGetChannelHome = (id: Ref<string> | string) => {
     return `${apiUrl.value}channels/${channelId}/home`;
   });
 
-  return useLazyAsyncData<ApiDto<'ChannelHomeDto'>, ApiErrorDto>(`channel-home-${unref(id)}`, () =>
-    vtFetch(url.value)
+  return useLazyAsyncData<ApiDto<'VTChannelHomeDto'>, ApiErrorDto>(
+    `channel-home-${unref(id)}`,
+    () => vtFetch(url.value)
   );
 };
 
@@ -37,7 +39,7 @@ export const useGetChannelStats = (id: Ref<string> | string) => {
     return `${apiUrl.value}channels/${channelId}/stats`;
   });
 
-  return useLazyAsyncData<ApiDto<'ChannelStatsDto'>, ApiErrorDto>(
+  return useLazyAsyncData<ApiDto<'VTChannelAboutDto'>, ApiErrorDto>(
     `channel-stats-${unref(id)}`,
     () => vtFetch(url.value)
   );
@@ -47,7 +49,12 @@ type ChannelVideoOptions = {
   sortBy: Ref<ChannelVideosSortOptionsType>;
 };
 
-export const useGetChannelVideos = (id: Ref<string> | string, options: ChannelVideoOptions) => {
+type ChannelVideosOptions = ChannelVideoOptions & {
+  /** Youtube only offers this on channels with memberships; ViewTube defaults to public. */
+  filter: Ref<ChannelVideosFilterOptionsType>;
+};
+
+export const useGetChannelVideos = (id: Ref<string> | string, options: ChannelVideosOptions) => {
   const { apiUrl } = useApiUrl();
   const { vtFetch } = useVtFetch();
 
@@ -56,10 +63,16 @@ export const useGetChannelVideos = (id: Ref<string> | string, options: ChannelVi
     return `${apiUrl.value}channels/${channelId}/videos`;
   });
 
-  return useLazyAsyncData<ApiDto<'ChannelVideosDto'>, ApiErrorDto>(
+  return useLazyAsyncData<ApiDto<'VTChannelFeedDto'>, ApiErrorDto>(
     `channel-videos-${unref(id)}`,
-    () => vtFetch(`${url.value}?sort=${unref(options.sortBy ?? 'newest')}`),
-    { watch: [options.sortBy] }
+    () =>
+      vtFetch(url.value, {
+        query: {
+          sort: unref(options.sortBy) ?? 'newest',
+          filter: unref(options.filter) ?? 'public'
+        }
+      }),
+    { watch: [options.sortBy, options.filter] }
   );
 };
 
@@ -72,7 +85,7 @@ export const useGetChannelShorts = (id: Ref<string> | string, options: ChannelVi
     return `${apiUrl.value}channels/${channelId}/shorts`;
   });
 
-  return useLazyAsyncData<ApiDto<'ChannelVideosDto'>, ApiErrorDto>(
+  return useLazyAsyncData<ApiDto<'VTChannelFeedDto'>, ApiErrorDto>(
     `channel-shorts-${unref(id)}`,
     () =>
       vtFetch(url.value, {
@@ -96,7 +109,7 @@ export const useGetChannelLivestreams = (
     return `${apiUrl.value}channels/${channelId}/livestreams`;
   });
 
-  return useLazyAsyncData<ApiDto<'ChannelVideosDto'>, ApiErrorDto>(
+  return useLazyAsyncData<ApiDto<'VTChannelFeedDto'>, ApiErrorDto>(
     `channel-livestreams-${unref(id)}`,
     () =>
       vtFetch(url.value, {
@@ -108,14 +121,7 @@ export const useGetChannelLivestreams = (
   );
 };
 
-type ChannelPlaylistOptions = {
-  sortBy: Ref<'last' | 'newest' | 'oldest'>;
-};
-
-export const useGetChannelPlaylists = (
-  id: Ref<string> | string,
-  options: ChannelPlaylistOptions
-) => {
+export const useGetChannelPlaylists = (id: Ref<string> | string) => {
   const { apiUrl } = useApiUrl();
   const { vtFetch } = useVtFetch();
 
@@ -124,15 +130,9 @@ export const useGetChannelPlaylists = (
     return `${apiUrl.value}channels/${channelId}/playlists`;
   });
 
-  return useLazyAsyncData<ApiDto<'ChannelPlaylistsDto'>, ApiErrorDto>(
+  return useLazyAsyncData<ApiDto<'VTChannelPlaylistsDto'>, ApiErrorDto>(
     `channel-playlists-${unref(id)}`,
-    () =>
-      vtFetch(url.value, {
-        query: {
-          sort: unref(options.sortBy) ?? 'last'
-        }
-      }),
-    { watch: [options.sortBy] }
+    () => vtFetch(url.value)
   );
 };
 
@@ -145,7 +145,7 @@ export const useGetChannelCommunityPosts = (id: Ref<string> | string) => {
     return `${apiUrl.value}channels/${channelId}/communityposts`;
   });
 
-  return useLazyAsyncData<ApiDto<'ChannelCommunityPostsDto'>, ApiErrorDto>(
+  return useLazyAsyncData<ApiDto<'VTCommunityPostsDto'>, ApiErrorDto>(
     `channel-community-posts-${unref(id)}`,
     () => vtFetch(url.value)
   );

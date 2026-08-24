@@ -1,20 +1,9 @@
 <script setup lang="ts">
+import type { ApiDto } from '@viewtube/shared';
 import BadgeButton from '../buttons/BadgeButton.vue';
 
 defineProps<{
-  bannerLinks: {
-    primaryLinks?: Array<{
-      url: string;
-      icon: string;
-      title: string;
-    }>;
-    secondaryLinks?: Array<{
-      url: string;
-      icon: string;
-      title: string;
-    }>;
-    type: string;
-  };
+  links: Array<ApiDto<'VTChannelLinkDto'>>;
 }>();
 
 const { proxyUrl } = useImgProxy();
@@ -23,16 +12,13 @@ const { proxyUrl } = useImgProxy();
 <template>
   <div class="banner-links">
     <div class="banner-links-inner">
-      <BadgeButton
-        v-for="(link, index) in [
-          ...(bannerLinks.primaryLinks ?? []),
-          ...(bannerLinks.secondaryLinks ?? [])
-        ]"
-        :key="index"
-        class="banner-link"
-        :href="link.url"
-      >
-        <img v-if="link.icon" :src="proxyUrl(link.icon)" :alt="link.title" class="link-thumbnail" />
+      <BadgeButton v-for="link in links" :key="link.url" class="banner-link" :href="link.url">
+        <img
+          v-if="link.favicons?.length"
+          :src="proxyUrl(link.favicons[link.favicons.length - 1].url)"
+          :alt="link.title"
+          class="link-thumbnail"
+        />
         {{ link.title }}
       </BadgeButton>
     </div>

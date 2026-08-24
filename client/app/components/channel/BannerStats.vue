@@ -2,7 +2,7 @@
 import type { ApiDto } from '@viewtube/shared';
 
 defineProps<{
-  channelInfo: ApiDto<'ChannelInfoDto'>;
+  channelInfo: ApiDto<'VTChannelPageDto'>;
 }>();
 </script>
 
@@ -15,7 +15,7 @@ defineProps<{
       class="family-friendly"
     />
     <VTIcon
-      v-if="channelInfo.isOfficialArtist"
+      v-if="channelInfo.isArtist"
       v-tippy="'Official Artist'"
       name="mdi:account-music-outline"
       class="artist"

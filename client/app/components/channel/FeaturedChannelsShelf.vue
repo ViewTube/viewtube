@@ -1,39 +1,15 @@
 <script setup lang="ts">
-import RelatedChannels, { type RelatedChannelsType } from './RelatedChannels.vue';
-
-type ChannelItemType = {
-  channelName: string;
-  channelId: string;
-  channelUrl: string;
-  thumbnail: Array<{
-    url: string;
-    width: number;
-    height: number;
-  }>;
-  videoCount: string;
-  subscriberText: string;
-  subscriberCount: number;
-  verified: number;
-  officialArtist: number;
-};
-
-type ShelfType = {
-  shelfName: string;
-  shelfUrl: string;
-  type: string;
-  items: Array<ChannelItemType>;
-};
+import type { ApiDto } from '@viewtube/shared';
+import RelatedChannels from './RelatedChannels.vue';
 
 defineProps<{
-  shelf: ShelfType;
+  shelf: ApiDto<'VTChannelShelfDto'>;
 }>();
 </script>
 
 <template>
   <div class="channel-shelf" @touchstart.stop>
-    <RelatedChannels
-      :related-channels="{ items: shelf.items as unknown as RelatedChannelsType, type: 'channels' }"
-    />
+    <RelatedChannels :channels="shelf.channels ?? []" />
   </div>
 </template>
 

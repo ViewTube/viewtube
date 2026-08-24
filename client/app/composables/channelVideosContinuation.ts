@@ -1,22 +1,20 @@
 import type { ApiDto } from '@viewtube/shared';
 import { useMessagesStore } from '~/store/messages';
 
-export const useChannelVideosContinuation = <T extends ApiDto<'ChannelVideosDto'>>(
-  initialData: Ref<T>
-) => {
+export const useChannelVideosContinuation = (initialData: Ref<ApiDto<'VTChannelFeedDto'>>) => {
   const messagesStore = useMessagesStore();
 
-  const videos = ref(initialData);
+  const feed = ref(initialData);
   const moreVideosPending = ref(false);
 
   const onLoadMore = async () => {
-    if (!videos.value.continuation) return;
+    if (!feed.value?.continuation) return;
 
     moreVideosPending.value = true;
     try {
-      const additionalVideos = await getChannelVideosContinuation(videos.value.continuation);
-      videos.value.items = [...videos.value.items, ...additionalVideos.items];
-      videos.value.continuation = additionalVideos.continuation;
+      const additionalVideos = await getChannelVideosContinuation(feed.value.continuation);
+      feed.value.videos = [...feed.value.videos, ...additionalVideos.videos];
+      feed.value.continuation = additionalVideos.continuation;
     } catch (error) {
       messagesStore.createMessage({
         type: 'error',
@@ -30,7 +28,7 @@ export const useChannelVideosContinuation = <T extends ApiDto<'ChannelVideosDto'
   };
 
   return {
-    videos,
+    feed,
     moreVideosPending,
     onLoadMore
   };

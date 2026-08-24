@@ -2,50 +2,52 @@
 import type { ApiDto } from '@viewtube/shared';
 
 const props = defineProps<{
-  communityPost: ApiDto<'ChannelCommunityPostDto'>;
+  communityPost: ApiDto<'VTCommunityPostDto'>;
 }>();
 
 const { createTextLinks } = useCreateTextLinks();
 
 const communityPostContent = computed(() => {
-  return createTextLinks(props.communityPost.postText);
+  return createTextLinks(props.communityPost.text);
 });
 </script>
 
 <template>
   <div class="community-post">
-    <p class="creation-time">{{ communityPost.publishedText }} &bull; {{ communityPost.author }}</p>
+    <p class="creation-time">
+      {{ communityPost.published?.text }} &bull; {{ communityPost.author?.name }}
+    </p>
     <div class="post-text links">
       <!-- eslint-disable-next-line vue/no-v-html -->
       <pre class="text-pre" v-html="communityPostContent" />
     </div>
-    <div v-if="communityPost.postContent" class="post-content">
+    <div v-if="communityPost.attachment" class="post-content">
       <CommunityPostImage
-        v-if="communityPost.postContent.type === 'image'"
-        :post-image="communityPost.postContent.content"
+        v-if="communityPost.attachment.type === 'image'"
+        :post-image="communityPost.attachment.image"
         expandable
       />
       <CommunityPostPoll
-        v-if="communityPost.postContent.type === 'poll'"
-        :post-poll="communityPost.postContent.content"
+        v-if="communityPost.attachment.type === 'poll' || communityPost.attachment.type === 'quiz'"
+        :post-poll="communityPost.attachment.poll"
       />
       <CommunityPostVideo
-        v-if="communityPost.postContent.type === 'video'"
-        :post-video="communityPost.postContent.content"
+        v-if="communityPost.attachment.type === 'video'"
+        :post-video="communityPost.attachment.video"
       />
       <CommunityPostMultiImage
-        v-if="communityPost.postContent.type === 'multiImage'"
-        :post-images="communityPost.postContent.content"
+        v-if="communityPost.attachment.type === 'multiImage'"
+        :post-images="communityPost.attachment.images"
       />
     </div>
     <div class="post-info">
       <div class="info-item">
         <VTIcon name="mdi:thumb-up" />
-        <p>{{ communityPost.voteCount ?? 0 }}</p>
+        <p>{{ communityPost.voteText ?? communityPost.likeCount ?? 0 }}</p>
       </div>
       <div class="info-item">
         <VTIcon name="mdi:comment-outline" />
-        <p class="comments">{{ communityPost.commentCount ?? 0 }}</p>
+        <p class="comments">{{ communityPost.commentText ?? 0 }}</p>
       </div>
     </div>
   </div>

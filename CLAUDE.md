@@ -5,6 +5,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ViewTube is a privacy-friendly YouTube frontend: a Nuxt 4 client and a NestJS server in one pnpm
 workspace, shipped as a single Docker image where Nest serves the built Nuxt app.
 
+See [TODO.md](TODO.md) for known loose ends, and read it before "fixing" something that looks wrong:
+the project began in 2019 as an invidio.us frontend and grew its own scraping layer around 2023, so
+pre-2023 code (notably `core/proxy` and the tsconfig strictness flags) assumes a trusted upstream and
+should be read as legacy to correct rather than as a pattern to imitate.
+
 ## Commands
 
 Node >= 26.7 and pnpm >= 11.23 are required (`packageManager` pins pnpm 11.23.0).
@@ -54,6 +59,17 @@ pnpm --filter=./server run gen:api   # builds server, emits swagger, writes shar
 
 `metadata.ts` is emitted by the `@nestjs/swagger` CLI plugin on `nest build`. Never hand-edit either
 file.
+
+**Stop `pnpm serve:server` before building or regenerating.** `nest start -w` rewrites
+`src/metadata.ts` on every edit and keeps entries for DTOs that have been deleted or renamed, so the
+file fills up with imports of files that no longer exist. The build then fails on those dangling
+imports — and because `metadata.ts` is written after the type-check stage, the build that would have
+repaired it dies first. `tsc` blames `src/metadata.ts` with `TS2307` while your own sources are
+clean; that combination means a watcher is running.
+
+Recovery: stop the dev server, replace `src/metadata.ts` with
+`export default async () => ({ "@nestjs/swagger": { "models": [], "controllers": [] } })`, run
+`gen:api`, restart the dev server.
 
 ## Architecture
 

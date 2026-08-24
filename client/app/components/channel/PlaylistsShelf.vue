@@ -1,34 +1,16 @@
 <script setup lang="ts">
+import type { ApiDto } from '@viewtube/shared';
 import PlaylistEntry from '~/components/list/PlaylistEntry.vue';
 
-type ShelfItemType = {
-  title: string;
-  type: string;
-  playlistThumbnail: string;
-  author: string;
-  authorUrl: string;
-  authorId: string;
-  playlistId: string;
-  playlistUrl: string;
-  videoCount: number;
-};
-
-type ShelfType = {
-  shelfName: string;
-  shelfUrl: string;
-  type: string;
-  items: Array<ShelfItemType>;
-};
-
 defineProps<{
-  shelf: ShelfType;
+  shelf: ApiDto<'VTChannelShelfDto'>;
 }>();
 </script>
 
 <template>
   <div class="channel-shelf" @touchstart.stop>
-    <div v-for="(item, index) in shelf.items" :key="index" class="channel-shelf-item">
-      <PlaylistEntry v-if="item.type === 'playlist'" :playlist="item" />
+    <div v-for="playlist in shelf.playlists ?? []" :key="playlist.id" class="channel-shelf-item">
+      <PlaylistEntry :playlist="playlist" />
     </div>
   </div>
 </template>

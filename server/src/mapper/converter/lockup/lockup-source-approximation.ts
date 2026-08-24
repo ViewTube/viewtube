@@ -4,7 +4,9 @@ type ThumbnailApproximation = Pick<VTThumbnailDto, 'url' | 'width' | 'height'>;
 
 export type LockupBadgeApproximation = {
   text?: string;
+  /** Thumbnail overlay badges use `badge_style`, the metadata row badges use `style`. */
   badge_style?: string;
+  style?: string;
   icon_name?: string;
 };
 
@@ -17,6 +19,14 @@ type LockupOverlayApproximation = {
 type LockupThumbnailApproximation = {
   image?: Array<ThumbnailApproximation>;
   overlays?: Array<LockupOverlayApproximation>;
+  /**
+   * Playlist lockups wrap the thumbnail in a CollectionThumbnailView, which puts the image and
+   * the "6 videos" badge one level deeper than a plain video lockup does.
+   */
+  primary_thumbnail?: {
+    image?: Array<ThumbnailApproximation>;
+    overlays?: Array<LockupOverlayApproximation>;
+  } | null;
 };
 
 type LockupAvatarApproximation = {

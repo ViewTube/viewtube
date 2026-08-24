@@ -2,13 +2,13 @@
 import type { ApiDto } from '@viewtube/shared';
 
 const props = defineProps<{
-  featuredVideo: ApiDto<'ChannelHomeDto'>['featuredVideo'];
+  featuredVideo: ApiDto<'VTVideoDto'>;
 }>();
 
 const { proxyUrl } = useImgProxy();
 
 const placeholderImageSrc = computed(() =>
-  proxyUrl(`https://i.ytimg.com/vi/${props.featuredVideo.videoId}/hqdefault.jpg`)
+  proxyUrl(`https://i.ytimg.com/vi/${props.featuredVideo.id}/hqdefault.jpg`)
 );
 
 const placeholderVisible = ref(true);
@@ -25,16 +25,16 @@ const hidePlaceholder = () => {
           <img class="placeholder-image" :src="placeholderImageSrc" />
           <VTIcon name="mdi:play" class="placeholder-play-btn" />
         </div>
-        <iframe v-else class="video-embed-iframe" :src="`/embed/${featuredVideo?.videoId}`" />
+        <iframe v-else class="video-embed-iframe" :src="`/embed/${featuredVideo?.id}`" />
       </transition>
     </div>
     <div class="video-info">
-      <nuxt-link :to="`/watch?v=${featuredVideo?.videoId}`" class="video-title-link">
+      <nuxt-link :to="`/watch?v=${featuredVideo?.id}`" class="video-title-link">
         <h2 class="video-title">{{ featuredVideo?.title }}</h2>
       </nuxt-link>
-      <p class="video-author">{{ featuredVideo?.author }}</p>
+      <p class="video-author">{{ featuredVideo?.author?.name }}</p>
       <p class="video-viewcount">{{ featuredVideo?.viewCount?.toLocaleString('en-US') }} views</p>
-      <p class="video-published">{{ featuredVideo?.publishedText }}</p>
+      <p class="video-published">{{ featuredVideo?.published?.text }}</p>
     </div>
   </div>
 </template>
