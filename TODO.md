@@ -51,6 +51,33 @@ models and it shows.
   equivalent to probe with, and its catches stay catches. Worth doing alongside the global `ExceptionFilter` above
   rather than before it: the filter gives one place to log and one response shape, the taxonomy decides which shape
   each failure earns.
+- [ ] **Playlist author links point at the playlist, not the channel.**
+  `client/app/components/list/PlaylistEntry.vue:113` picks its link by shape:
+  `typeof playlist.author === 'string'` gives `/channel/{authorId}`, anything else falls through to
+  `/channel/{playlist.id}`. `VTPlaylistDto.author` is now a `VTAuthorDto`, so the second branch always fires and every
+  playlist on the channel home tab links to `/channel/PLxxxxxxxx`, which is a hard 404. Fix is `playlist.author.id`.
+  The Playlists _tab_ is unaffected because it passes `hide-author`, which is also why
+  `tests/cypress/e2e/3-pages/channel.cy.ts` does not catch it — worth a home-shelf assertion once fixed.
+- [ ] **`/channel/<id>/channels` is a dead url.** `'channels'` was dropped from `pageNames`
+  (`client/app/composables/channelPages.ts:3`) and its `swiper-slide` removed, but nothing redirects. An existing link
+  or bookmark leaves `currentPage = 'channels'` and `currentPageIndex = -1`, which is handed to swiper as
+  `:initial-slide="-1"`, and no page component matches — so the channel header renders over an empty body. Falling back
+  to `'home'` when the param is not in `pageNames` fixes it.
+- [ ] **Community reposts are dropped.** `channels.service.ts:528` collects only `YTNodes.BackstagePost`, and
+  `Memo.getType` matches on the exact `static type` string (youtubei.js `parser/helpers.js`). Both `Post` — which
+  subclasses `BackstagePost` — and `SharedPost` carry different type names, so reposts never reach the community tab,
+  and if youtube switches the tab to `postRenderer` wholesale the tab goes silently empty rather than erroring. Pass
+  all three constructors to `collectFeedNodes`.
+- [ ] **The legacy about branch yields `Text` nodes, not strings.** `getAboutMetadata` returns
+  `ChannelAboutFullMetadata` untouched for channels youtube still serves the old way. The field _names_ line up with
+  `AboutChannelView` but the types do not: `description`, `country` and `view_count` are `Text` instances there and
+  plain strings on the new view. So `toVTChannelAboutDto` puts a `Text` object into `description` and `location`,
+  `sanitizeHtmlString` (`server/src/common/sanitize-html.ts`) stringifies it to `"[object Object]"`, and the client
+  renders that as the location. `view_count` survives only by accident, because `parseShortenedNumber` calls
+  `.toString()`. Normalise with `.toString()` on that branch. Not reachable through the e2e fixtures — every channel
+  they use is on the new about view.
+- [ ] **`server/src/common/proxy-allowlist.ts:12` is missing a semicolon** after `imageHostSuffixes`. ASI covers it, so
+  nothing is broken, but `pnpm format` will rewrite the line the moment anyone runs it.
 - [ ] **`proxyStream` trusts the `originUrl` query parameter** and reflects it into rewritten `.m3u8`
   bodies (`server/src/core/proxy/proxy.service.ts`). Only affects the caller's own response, so it is not a live
   vulnerability, but the origin should be derived server-side rather than taken from the client.
