@@ -2,20 +2,20 @@ import { BinaryWriter } from '@bufbuild/protobuf/wire';
 import { ContentFilterType, SortType } from './types/sort';
 
 /**
- * Youtube moved the channel feed sort and the members-only filter into a chip bar whose
+ * YouTube moved the channel feed sort and the members-only filter into a chip bar whose
  * continuation tokens are handed out per response, which is why `youtubei.js`'s `applySort` and
- * `content_type_filters` no longer work (they look for a `SortFilterSubMenu` / a `SectionList`
- * that the chip bar replaced).
+ * `content_type_filters` no longer work. (They look for a `SortFilterSubMenu` / a `SectionList`
+ * that the chip bar replaced.)
  *
  * The tokens are plain protobuf and everything that selects content is static, so they can be
- * built locally instead — one request, rather than fetching the tab first to read a token off it:
+ * built locally. The structure is:
  *
  *   outer { 2: channelId, 3: base64url(inner) }        // field 80226972
  *   inner: 110 > 3 > <tab> > <slot> > { 1: targetId, 3: sort, 4: filter }
  *
- * The tab is expressed as the two nested field numbers, and the sort values are per tab — live
- * streams number theirs differently from videos and shorts. `targetId` identifies the UI element
- * youtube would reload; it is not validated, but the field has to be present.
+ * The tab is expressed as the two nested field numbers, and the sort values are per tab.
+ * `targetId` identifies the UI element YouTube would reload; it is not validated, but the
+ * field has to be present.
  */
 const CONTINUATION_FIELD = 80226972;
 const TARGET_ID = '00000000-0000-0000-0000-000000000000';
@@ -80,7 +80,7 @@ export const buildChannelFeedToken = ({
 
   const outer = new BinaryWriter();
   outer.uint32(18).string(channelId);
-  // Youtube expects the nested message as url-safe base64. Its own tokens percent-encode the
+  // YouTube expects the nested message as url-safe base64. Its own tokens percent-encode the
   // padding, but a wrong pad count is accepted and silently returns the whole channel page
   // instead of the feed, so it is left off entirely.
   outer.uint32(26).string(Buffer.from(inner).toString('base64url'));

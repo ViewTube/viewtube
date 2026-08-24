@@ -1,6 +1,5 @@
 import type { ApiDto } from '@viewtube/shared';
 
-/** Shared by the videos, shorts and livestreams tabs — the token carries the sort and filter. */
 export const getChannelVideosContinuation = (continuation: string) => {
   const { apiUrl } = useApiUrl();
 

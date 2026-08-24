@@ -14,7 +14,7 @@ export type ParsedFeedResponse = {
 
 /**
  * Continuation payloads arrive under a different key depending on which endpoint produced them,
- * so every lookup goes through all of the memos rather than guessing one.
+ * so every lookup goes through all the memos rather than guessing one.
  */
 const memosOf = (parsed: ParsedFeedResponse): Array<NodeMemo> => {
   return [
@@ -40,7 +40,7 @@ export const extractFeedContinuation = (parsed: ParsedFeedResponse): string => {
 };
 
 /**
- * A locally built continuation token that youtube does not accept is not answered with an error.
+ * A locally built continuation token that YouTube does not accept is not answered with an error.
  * It re-renders the whole channel page instead, which arrives as `continuation_contents` full of
  * home-tab shelves. Every accepted feed continuation — first page, later pages, and an empty
  * result alike — comes back as `on_response_received_actions` with no shelves, so the two are

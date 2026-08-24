@@ -42,7 +42,7 @@ export class ProxyService {
       const textResponse = await vtFetch(urlToProxy.href, { useProxy: true });
       textResponse.body.pipe(reply.raw);
     } else {
-      await reply.code(403).send({
+      reply.code(403).send({
         statusCode: 403,
         message: `Url ${url} is not allowed to be proxied.`,
         error: 'Forbidden'
@@ -71,7 +71,7 @@ export class ProxyService {
     const originUrl = request.query['originUrl'];
 
     if (!originUrl) {
-      await reply.code(400).send({
+      reply.code(400).send({
         statusCode: 400,
         message: `originUrl is required.`,
         error: 'Bad Request'
@@ -101,7 +101,7 @@ export class ProxyService {
       const streamResponse = await vtFetch(urlToFetch, { headers, useProxy: true });
 
       if (streamResponse.headers['location']) {
-        await reply.header('location', `${streamProxyUrl}&url=${streamResponse.headers['location']}`);
+        reply.header('location', `${streamProxyUrl}&url=${streamResponse.headers['location']}`);
       }
 
       if (urlToFetch.href.endsWith('.m3u8')) {
@@ -112,9 +112,9 @@ export class ProxyService {
             return `${streamProxyUrl}&url=${encodeURIComponent(match)}`;
           }
         );
-        await reply.status(streamResponse.statusCode).send(rewrittenResponse);
+        reply.status(streamResponse.statusCode).send(rewrittenResponse);
       } else {
-        await reply.status(streamResponse.statusCode).send(streamResponse.body);
+        reply.status(streamResponse.statusCode).send(streamResponse.body);
       }
     } catch (error) {
       this.failUpstream(reply, 'stream', target.url.hostname, error);

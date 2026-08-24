@@ -15,10 +15,6 @@ useHead({
     }
     return `${titleChunk} :: ViewTube`;
   },
-  // The embed fills the viewport and must not scroll, which has to be said on `html` and `body`.
-  // Those sit outside the component, so the rule cannot be `scoped` and is keyed on this class
-  // instead — it exists only while this layout is mounted, and without it the rule applies to
-  // every page whose bundle happens to include this stylesheet.
   htmlAttrs: { class: 'embed-layout' },
   bodyAttrs: { class: 'embed-layout' }
 });

@@ -2,14 +2,6 @@ import { YTNodes } from 'youtubei.js';
 import { collectFeedNodes, ParsedFeedResponse } from './channel-feed';
 import { ContentFilterType, SortType } from './types/sort';
 
-/**
- * Fallback for when a locally built token stops being accepted: read the tokens back off the chip
- * bar the way the web client does. Costs an extra request, since the tab has to be fetched first.
- *
- * The bar comes in two layouts. On a channel without memberships the sorts are chips of their own,
- * each carrying a token. On a channel with memberships the sort collapses into a dropdown whose
- * options live in a sheet, and the freed space holds the "Members only" / "Public" chips.
- */
 const SORT_LABELS: Record<SortType, string> = {
   newest: 'Latest',
   popular: 'Popular',
@@ -76,10 +68,6 @@ export const extractFilterToken = (
   return chipToken(parsed, FILTER_LABELS[filter]);
 };
 
-/**
- * Which filters this channel actually offers, so the client can hide the control where youtube
- * shows none. Only channels with memberships have anything to filter.
- */
 export const extractAvailableFilters = (parsed: ParsedFeedResponse): Array<ContentFilterType> => {
   const labels = chipsOf(parsed).map(chip => chip?.text);
   const available = (Object.keys(FILTER_LABELS) as Array<Exclude<ContentFilterType, 'all'>>).filter(

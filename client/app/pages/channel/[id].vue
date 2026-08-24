@@ -5,7 +5,7 @@ import { Swiper, SwiperSlide } from 'swiper/vue';
 definePageMeta({
   name: 'channel',
   path: '/channel/:id(.*)',
-  alias: ['/:id(@.*)']
+  alias: ['/:id(@.*)', '/c/:id(.*)', '/user/:id(.*)']
 });
 
 const route = useRoute();

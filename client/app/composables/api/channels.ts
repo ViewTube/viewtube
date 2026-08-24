@@ -50,7 +50,6 @@ type ChannelVideoOptions = {
 };
 
 type ChannelVideosOptions = ChannelVideoOptions & {
-  /** Youtube only offers this on channels with memberships; ViewTube defaults to public. */
   filter: Ref<ChannelVideosFilterOptionsType>;
 };
 

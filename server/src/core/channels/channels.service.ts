@@ -1,4 +1,6 @@
-import { BadRequestException, Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import { BadRequestException, Inject, Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { Cache } from 'cache-manager';
 import { FastifyReply } from 'fastify';
 import fs from 'fs';
 import path from 'path';
@@ -29,17 +31,15 @@ import {
   ParsedFeedResponse
 } from './channel-feed';
 import { buildChannelFeedToken, ChannelFeedTab, isFilterableTab } from './channel-feed-params';
+import { channelResolveUrls, isChannelId } from './channel-identifier';
 import { checkParams } from './channels.helper';
 import { ChannelFeedStrategy, ContentFilterType, SortType } from './types/sort';
 
-/** Channel ids are always `UC` followed by 22 url-safe base64 characters. */
-const CHANNEL_ID_PATTERN = /^UC[\w-]{22}$/;
+const RESOLVED_ID_CACHE_PREFIX = 'channel-id:';
 
-/**
- * Youtube answers a browse for an id it cannot parse with a 400 rather than an empty result, which
- * `youtubei.js` surfaces as a generic request failure. Only that specific body means "bad id" — any
- * other failure is an upstream problem and has to keep its 500.
- */
+/** A handle points at the same channel for as long as both exist, so this can be held for a day. */
+const RESOLVED_ID_TTL_MS = 24 * 60 * 60 * 1000;
+
 const isInvalidArgumentError = (error: { info?: unknown }): boolean => {
   if (typeof error?.info !== 'string') return false;
 
@@ -54,6 +54,8 @@ const isInvalidArgumentError = (error: { info?: unknown }): boolean => {
 export class ChannelsService {
   private readonly logger = new Logger(ChannelsService.name);
 
+  constructor(@Inject(CACHE_MANAGER) private cacheManager: Cache) {}
+
   private channelNotFound(): never {
     throw new NotFoundException({
       message: 'Channel not found',
@@ -62,25 +64,49 @@ export class ChannelsService {
   }
 
   /**
-   * An id that cannot belong to a channel is answered without asking youtube, the way
-   * youtube.com answers its own 404 — otherwise every typo costs an upstream request that comes
-   * back as an opaque 400.
+   * YouTube addresses one channel by several names — the `UC…` id, an `@handle`, a legacy custom
+   * url or username — but only the id can be put in a browse token, so everything else is resolved
+   * to one first. The result is cached, since it only changes when the channel itself does.
    */
-  private assertChannelId(channelId: string): void {
-    if (!CHANNEL_ID_PATTERN.test(channelId ?? '')) {
-      this.channelNotFound();
+  private async resolveChannelId(identifier: string): Promise<string> {
+    if (isChannelId(identifier)) return identifier;
+
+    const urls = channelResolveUrls(identifier);
+    if (!urls.length) this.channelNotFound();
+
+    const cacheKey = `${RESOLVED_ID_CACHE_PREFIX}${identifier}`;
+    const cached = await this.cacheManager.get<string>(cacheKey);
+    if (cached) return cached;
+
+    const innertube = await innertubeClient();
+
+    for (const url of urls) {
+      try {
+        const endpoint = await innertube.resolveURL(url);
+        const browseId = endpoint?.payload?.browseId;
+
+        if (isChannelId(browseId)) {
+          await this.cacheManager.set(cacheKey, browseId, RESOLVED_ID_TTL_MS);
+          return browseId;
+        }
+      } catch (error) {
+        // An unknown name is a plain request failure here, so a miss is not worth surfacing
+        this.logger.debug(`Could not resolve ${url}: ${error?.message}`);
+      }
     }
+
+    this.channelNotFound();
   }
 
-  private async getChannel(channelId: string) {
-    this.assertChannelId(channelId);
+  private async getChannel(identifier: string) {
+    const channelId = await this.resolveChannelId(identifier);
 
     const innertube = await innertubeClient();
     try {
       return await innertube.getChannel(channelId);
     } catch (error) {
       // youtubei.js reports a missing or terminated channel as a typed ChannelError, and an id
-      // youtube itself rejects as a plain request failure carrying an INVALID_ARGUMENT body
+      // YouTube itself rejects as a plain request failure carrying an INVALID_ARGUMENT body
       if (error?.constructor?.name === 'ChannelError' || isInvalidArgumentError(error)) {
         throw new NotFoundException({ message: 'Channel not found', description: error?.message });
       }
@@ -89,7 +115,7 @@ export class ChannelsService {
   }
 
   /**
-   * `getAbout` returns the new `AboutChannel` view model or, for channels youtube still serves the
+   * `getAbout` returns the new `AboutChannel` view model or, for channels YouTube still serves the
    * old way, a `ChannelAboutFullMetadata` node whose fields sit at the top level.
    */
   private async getAboutMetadata(channel: Awaited<ReturnType<typeof this.getChannel>>) {
@@ -110,7 +136,7 @@ export class ChannelsService {
 
   /**
    * Feeds are homogeneous in practice — a videos tab is all lockups, a shorts tab all shorts —
-   * so gathering per node type keeps the order youtube sent them in.
+   * so gathering per node type keeps the order YouTube sent them in.
    */
   private feedVideosOf(parsed: ParsedFeedResponse) {
     const nodes = [
@@ -200,18 +226,18 @@ export class ChannelsService {
   }
 
   private async getChannelFeed(
-    channelId: string,
+    identifier: string,
     tab: ChannelFeedTab,
     sort: SortType,
     filter: ContentFilterType,
     strategy?: ChannelFeedStrategy
   ): Promise<VTChannelFeedDto> {
-    if (!checkParams(channelId)) {
+    if (!checkParams(identifier)) {
       throw new BadRequestException(`Error fetching channel ${tab}`, 'Invalid channelId');
     }
 
-    // The params strategy never touches getChannel, so the id is checked here too
-    this.assertChannelId(channelId);
+    // The params strategy never touches getChannel, so the id is resolved here too
+    const channelId = await this.resolveChannelId(identifier);
 
     const appliedFilter = isFilterableTab(tab) ? filter : 'all';
 
@@ -246,7 +272,7 @@ export class ChannelsService {
 
   /**
    * The fast path: one request with a token built from the sort and filter directly.
-   * Returns null when youtube did not honour it, so the caller can fall back.
+   * Returns null when YouTube did not honor it, so the caller can fall back.
    */
   private async getFeedFromParams(
     channelId: string,
@@ -277,7 +303,7 @@ export class ChannelsService {
   }
 
   /**
-   * The fallback: fetch the tab, then follow the chip tokens youtube handed out. Costs an extra
+   * The fallback: fetch the tab, then follow the chip tokens YouTube handed out. Costs an extra
    * request per applied chip, but does not depend on the token layout staying put.
    */
   private async getFeedFromDiscovery(
@@ -458,6 +484,8 @@ export class ChannelsService {
   }
 
   getTinyThumbnail(reply: FastifyReply, id: string): void {
+    if (!isChannelId(id)) throw new NotFoundException();
+
     const imgPathWebp = path.join(global.__basedir, `channels/${id}.webp`);
 
     const imgPathJpg = path.join(global.__basedir, `channels/${id}.jpg`);

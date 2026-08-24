@@ -9,13 +9,9 @@ const baseChannelVideosSortOptions = ['newest', 'oldest', 'popular'] as const;
 export const channelVideosSortOptions = selectSortOptions(baseChannelVideosSortOptions);
 export type ChannelVideosSortOptionsType = (typeof baseChannelVideosSortOptions)[number];
 
-/**
- * Youtube only shows this on channels that have memberships. Public is the default so members-only
- * entries, which cannot be played here, stay out of the listing unless they are asked for.
- */
 const channelVideosFilterLabels = {
-  public: 'Public',
   all: 'All',
+  public: 'Public',
   members: 'Members only'
 } as const;
 export const channelVideosFilterOptions = Object.entries(channelVideosFilterLabels).map(
