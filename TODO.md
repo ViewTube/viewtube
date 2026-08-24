@@ -24,6 +24,16 @@ models and it shows.
   an unauthenticated bandwidth relay for Google-hosted content, through the operator's configured SOCKS proxy.
 - [ ] **No global `ExceptionFilter`.** For an app whose defining condition is upstream breakage, error handling is
   entirely ad hoc — a single filter would give consistent shapes and one place to log.
+- [ ] **SSR turns every api error into fake data.** `useVtFetch`'s in-process branch
+  (`client/app/composables/vtFetch.ts:78`) returns `destr(response.body)` from `nestApp.inject()` without looking at
+  `response.statusCode`, so a 4xx/5xx body is handed back as though it were a successful payload. `useLazyAsyncData`
+  then resolves with `data` set to `{ message, description }` and `error` null, and any `v-if="data"` in the page
+  passes. On a channel that does not exist this renders a full skeleton channel page — fallback banner, tab menu, empty
+  home — instead of an error, which is what
+  `tests/cypress/e2e/3-pages/channel.cy.ts` has an `it.skip` waiting on. The browser path is fine: `ofetch.raw` throws
+  on non-2xx, so this is SSR-only and shows up on first load but not on client-side navigation. The fix is to throw
+  when `statusCode >= 400`, but it changes error behaviour on every SSR-rendered page at once, so it wants doing
+  deliberately — ideally together with the global `ExceptionFilter` above.
 - [ ] **Apply the channels error taxonomy to `videos` and `playlists`.** `core/channels` is being converged on three
   outcomes: `NotFoundException({ message, description })` for something youtube does not have, `BadGatewayException`
   for youtube reachable but unusable (a rejected token, a renderer the mapper can no longer read), and
