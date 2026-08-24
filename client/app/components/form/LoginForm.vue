@@ -23,7 +23,7 @@ import { useMessagesStore } from '~/store/messages';
 import { useUserStore } from '~/store/user';
 
 const props = defineProps<{
-  complete?: Function;
+  complete?: () => void;
 }>();
 
 const route = useRoute();

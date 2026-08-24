@@ -7,7 +7,7 @@
 <script setup lang="ts">
 const props = defineProps<{
   optionName: string;
-  click: Function;
+  click: () => void;
 }>();
 
 const onClick = () => {
@@ -20,14 +20,11 @@ const onClick = () => {
   background-color: var(--bgcolor-alt);
   text-decoration: none;
   color: var(--title-color);
-  margin: 2px 5px 2px 0;
   border-radius: 3px;
-  display: inline-block;
   transition:
     background-color 200ms variables.$intro-easing,
     border 200ms variables.$intro-easing;
   border: 2px solid var(--theme-color-translucent);
-  width: auto;
   white-space: nowrap;
   display: flex;
   flex-direction: column;
