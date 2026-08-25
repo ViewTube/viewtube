@@ -32,7 +32,7 @@ const gridVideoToSource = (node: any): VideoSourceApproximation => {
 };
 
 /**
- * Youtube returns videos as a growing set of node types, feeds mix them freely.
+ * YouTube returns videos as a growing set of node types, feeds mix them freely.
  * Everything that can be shown as a video entry is mapped to a VTVideoDto here.
  */
 export const toVTVideoDtoFromNode = (node: any): VTVideoDto | null => {

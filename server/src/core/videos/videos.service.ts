@@ -1,8 +1,8 @@
 import {
+  BadGatewayException,
+  BadRequestException,
   ForbiddenException,
-  HttpException,
-  Injectable,
-  InternalServerErrorException
+  Injectable
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -16,10 +16,12 @@ import { DislikeDto } from 'server/core/videos/dto/dislike.dto';
 import { toVTVideoInfoDto } from 'server/mapper/converter/video-info/vt-video-info.converter';
 import { VTVideoInfoDto } from 'server/mapper/dto/vt-video-info.dto';
 import sharp from 'sharp';
+import type { Innertube } from 'youtubei.js';
 import { Common } from '../common';
 import { SponsorBlockSegmentsDto } from './dto/sponsorblock/sponsorblock-segments.dto';
 import { VideoBasicInfoDto } from './dto/video-basic-info.dto';
 import { VideoBasicInfo } from './schemas/video-basic-info.schema';
+import { isVideoGone, videoNotFound, videoUpstreamFailed } from './video-errors';
 
 @Injectable()
 export class VideosService {
@@ -55,7 +57,8 @@ export class VideosService {
 
       return dashManifest;
     } catch (error) {
-      throw new InternalServerErrorException(error);
+      if (isVideoGone(error)) videoNotFound();
+      videoUpstreamFailed('dash manifest', error);
     }
   }
 
@@ -65,61 +68,62 @@ export class VideosService {
       throw new ForbiddenException('This video has been blocked for copyright reasons.');
     }
 
+    let videoInfo: Awaited<ReturnType<Innertube['getInfo']>>;
+
     try {
       const client = await innertubeClient();
-      const videoInfo = await client.getInfo(id);
-
-      let dashManifest: string | null = null;
-
-      if (!videoInfo.basic_info.is_live) {
-        try {
-          dashManifest = await videoInfo.toDash({
-            url_transformer: (url: URL) => {
-              url.searchParams.append('__host', url.host);
-              return url;
-            }
-          });
-        } catch {
-          // Ignore silently
-        }
-      }
-
-      const video = toVTVideoInfoDto(videoInfo as unknown, {
-        dashManifest
-      });
-
-      const videoBasicInfo: VideoBasicInfoDto = {
-        author: video.author.name,
-        authorId: video.author.id,
-        authorThumbnails: video.author.thumbnails,
-        authorThumbnailUrl: video.author.thumbnails?.[0].url,
-        authorVerified: video.author.isVerified,
-        description: video.description,
-        likeCount: isNaN(video.likeCount) ? 0 : video.likeCount,
-        lengthSeconds: video.duration.seconds,
-        lengthString: video.duration.text,
-        publishedText: video.published.text,
-        published: video.published.date.getTime(),
-        title: video.title,
-        videoId: video.id,
-        videoThumbnails: video.thumbnails,
-        viewCount: video.viewCount,
-        live: video.live
-      };
-      await this.VideoBasicInfoModel.findOneAndUpdate({ videoId: id }, videoBasicInfo, {
-        upsert: true
-      }).exec();
-
-      return video;
+      videoInfo = await client.getInfo(id);
     } catch (error) {
-      if (error?.message) {
-        throw new InternalServerErrorException(error.message);
-      }
-      if (error?.info?.reason) {
-        throw new InternalServerErrorException(error.info.reason);
-      }
-      throw new InternalServerErrorException('Error fetching video information');
+      if (isVideoGone(error)) videoNotFound();
+      videoUpstreamFailed('information', error);
     }
+
+    let dashManifest: string | null = null;
+
+    if (!videoInfo.basic_info.is_live) {
+      try {
+        dashManifest = await videoInfo.toDash({
+          url_transformer: (url: URL) => {
+            url.searchParams.append('__host', url.host);
+            return url;
+          }
+        });
+      } catch {
+        // Ignore silently
+      }
+    }
+
+    let video: VTVideoInfoDto;
+
+    try {
+      video = toVTVideoInfoDto(videoInfo as unknown, { dashManifest });
+    } catch (error) {
+      videoUpstreamFailed('information', error);
+    }
+
+    const videoBasicInfo: VideoBasicInfoDto = {
+      author: video.author.name,
+      authorId: video.author.id,
+      authorThumbnails: video.author.thumbnails,
+      authorThumbnailUrl: video.author.thumbnails?.[0].url,
+      authorVerified: video.author.isVerified,
+      description: video.description,
+      likeCount: isNaN(video.likeCount) ? 0 : video.likeCount,
+      lengthSeconds: video.duration.seconds,
+      lengthString: video.duration.text,
+      publishedText: video.published.text,
+      published: video.published.date.getTime(),
+      title: video.title,
+      videoId: video.id,
+      videoThumbnails: video.thumbnails,
+      viewCount: video.viewCount,
+      live: video.live
+    };
+    await this.VideoBasicInfoModel.findOneAndUpdate({ videoId: id }, videoBasicInfo, {
+      upsert: true
+    }).exec();
+
+    return video;
   }
 
   async getDislikes(id: string): Promise<DislikeDto> {
@@ -128,7 +132,10 @@ export class VideosService {
     );
 
     if (!body) {
-      throw new HttpException('Error fetching dislike information', 503);
+      throw new BadGatewayException({
+        message: 'Error fetching dislike information',
+        description: 'returnyoutubedislike did not answer'
+      });
     }
 
     const responseObject = await body.json();
@@ -137,14 +144,17 @@ export class VideosService {
       return responseObject;
     }
 
-    if (responseObject.status) {
-      throw new HttpException(responseObject, responseObject.status);
-    }
+    throw new BadGatewayException({
+      message: 'Error fetching dislike information',
+      description: responseObject.status
+        ? `returnyoutubedislike answered with ${responseObject.status}`
+        : 'returnyoutubedislike answered with something unreadable'
+    });
   }
 
   async getSkipSegments(id: string, url?: string): Promise<SponsorBlockSegmentsDto> {
     if (!id) {
-      throw new HttpException('No video id provided', 400);
+      throw new BadRequestException('No video id provided');
     }
 
     let sponsorBlockUrl: string;
@@ -152,7 +162,7 @@ export class VideosService {
     if (url) {
       sponsorBlockUrl = decodeURIComponent(url);
       if (!Common.validateExternalUrl(sponsorBlockUrl)) {
-        throw new HttpException('Invalid URL provided', 400);
+        throw new BadRequestException('Invalid URL provided');
       }
     } else {
       sponsorBlockUrl = this.sponsorBlockApiUrl;
@@ -182,13 +192,19 @@ export class VideosService {
     );
 
     if (!body) {
-      throw new InternalServerErrorException('Error fetching skip segments');
+      throw new BadGatewayException({
+        message: 'Error fetching skip segments',
+        description: 'SponsorBlock did not answer'
+      });
     }
 
     const skipSectionsArray = await body.json();
 
     if (!Array.isArray(skipSectionsArray)) {
-      throw new InternalServerErrorException('Error fetching skip segments');
+      throw new BadGatewayException({
+        message: 'Error fetching skip segments',
+        description: 'SponsorBlock answered with something unreadable'
+      });
     }
 
     const skipSections = skipSectionsArray?.find(el => el.videoID === id);

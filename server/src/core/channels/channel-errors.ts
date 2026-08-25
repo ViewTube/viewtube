@@ -17,7 +17,9 @@ export const channelNotFound = (description = 'No channel exists for that id'): 
 
 /** `operation` names the part being read: `page`, `home`, `playlists`. */
 export const channelUpstreamFailed = (operation: string, error?: { message?: string }): never => {
-  logger.error(`Reading channel ${operation} failed: ${error?.message ?? 'no reason given'}`);
+  // `warn`, not `error`: YouTube being unreadable is expected operation, and it is the severity
+  // `ApiExceptionFilter` gives the 502 this becomes.
+  logger.warn(`Reading channel ${operation} failed: ${error?.message ?? 'no reason given'}`);
 
   throw new BadGatewayException({
     message: `Error reading channel ${operation}`,

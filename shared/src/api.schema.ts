@@ -1383,7 +1383,7 @@ export interface components {
             /** @enum {string} */
             appliedSort?: "newest" | "oldest" | "popular";
             /**
-             * @description Empty when youtube offers no content filter for this channel, which is the case for every
+             * @description Empty when YouTube offers no content filter for this channel, which is the case for every
              *     channel without memberships. The client shows the control only when there is a choice.
              */
             availableFilters?: ("all" | "public" | "members")[];

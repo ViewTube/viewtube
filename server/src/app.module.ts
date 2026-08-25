@@ -2,7 +2,7 @@ import { BullModule } from '@nestjs/bull';
 import { CacheModule } from '@nestjs/cache-manager';
 import { Logger, Module, ModuleMetadata, Type } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { RouterModule } from '@nestjs/core';
+import { APP_FILTER, RouterModule } from '@nestjs/core';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ScheduleModule } from '@nestjs/schedule';
 import { RedisOptions } from 'ioredis';
@@ -11,6 +11,7 @@ import { AuthModule } from './auth/auth.module';
 import { CaptchaModule } from './auth/captcha/captcha.module';
 import { RegisterModule } from './auth/register/register.module';
 import { CacheConfigService } from './cache-config.service';
+import { ApiExceptionFilter } from './common/filters/api-exception.filter';
 import { AutocompleteModule } from './core/autocomplete/autocomplete.module';
 import { ChannelsModule } from './core/channels/channels.module';
 import { CommentsModule } from './core/comments/comments.module';
@@ -104,7 +105,13 @@ const moduleMetadata: ModuleMetadata = {
       ])
     )
   ],
-  providers: [Logger]
+  providers: [
+    Logger,
+    {
+      provide: APP_FILTER,
+      useClass: ApiExceptionFilter
+    }
+  ]
 };
 @Module(moduleMetadata)
 export class AppModule {}

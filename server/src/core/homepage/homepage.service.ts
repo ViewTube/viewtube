@@ -56,7 +56,7 @@ export class HomepageService {
   }
 
   private async buildAndCacheHomeFeed(): Promise<Array<VTVideoDto>> {
-    // Youtube can fail on all sources at once, don't hammer it on every request while it does
+    // YouTube can fail on all sources at once, don't hammer it on every request while it does
     const coolingDown = await this.cacheManager.get(HOME_FEED_COOLDOWN_KEY);
     if (coolingDown) return [];
 
@@ -73,7 +73,7 @@ export class HomepageService {
   }
 
   private async buildHomeFeed(): Promise<{ videos: Array<VTVideoDto>; degraded: boolean }> {
-    // With an account cookie the real home feed works, without one youtube returns nothing
+    // With an account cookie the real home feed works, without one YouTube returns nothing
     if (process.env.VIEWTUBE_YOUTUBE_COOKIE) {
       try {
         const client = await innertubeClient();

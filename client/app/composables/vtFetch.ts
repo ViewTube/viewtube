@@ -1,5 +1,5 @@
 import { destr } from 'destr';
-import { ofetch } from 'ofetch';
+import { createFetchError, ofetch, type FetchContext } from 'ofetch';
 import { withQuery } from 'ufo';
 
 interface ResponseMap {
@@ -77,7 +77,25 @@ export const useVtFetch = () => {
         authority: 'nuxtApp'
       });
 
-      return destr(response.body) as MappedType<R, T>;
+      const data = destr(response.body);
+
+      // `inject` resolves for a 404 the same way it resolves for a 200, so without this an api
+      // error body arrives as data: `useLazyAsyncData` reports no error and the page renders a
+      // skeleton of something that does not exist. `ofetch.raw` throws on the browser path, so the
+      // error has to carry the same fields there — `error.data.message` is what the pages read.
+      if (response.statusCode >= 400) {
+        throw createFetchError({
+          request: requestUrl,
+          options: requestOptions,
+          response: {
+            status: response.statusCode,
+            statusText: response.statusMessage,
+            _data: data
+          }
+        } as unknown as FetchContext);
+      }
+
+      return data as MappedType<R, T>;
     }
 
     const response = await ofetch.raw(request, requestOptions);

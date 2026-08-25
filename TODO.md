@@ -1,56 +1,45 @@
 # TODO
 
-Findings from a code review pass on 2026-08-24, kept here so they survive between sessions. Ordered by whether they can
-hurt someone, not by effort. Nothing here is a rewrite request — the architecture is sound; these are specific loose
-ends.
-
-Where a finding has an archaeological explanation it is noted, because it changes the fix. Much of what looks careless
-is sediment from the migration off invidio.us: the project started 2019-07-18 as an Invidious frontend and grew its own
-scraping layer around 2023 (`mapper/` first appears in
-`✨ Switch to youtube homepage (#1760)`, 2023-02-27). Code written before that boundary assumed a trusted,
-operator-configured upstream. Code written after it assumes YouTube is hostile. The two halves have different threat
-models and it shows.
-
 ## Should fix
 
-- [ ] **`pipe(reply.raw)` probably discards the controller's headers.** All three proxy success paths pipe to
-  `reply.raw`, bypassing Fastify's send lifecycle, so `@Header('Cache-Control', ...)` and
-  `@Header('Content-Type', ...)` on `ProxyController` may never reach the wire. If so, every thumbnail is being
-  refetched instead of browser-cached — worth measuring before optimising anything else about image loading.
 - [ ] **Hardcoded `po_token` and `visitor_data`** in `server/src/common/innertube/innertube.ts`. Session-bound values
   baked into source and shared by every self-hosted instance. They will expire for everyone simultaneously and present
   as a YouTube outage rather than a stale constant. At minimum log loudly when falling back to the built-in values.
 - [ ] **No rate limiting anywhere.** `@nestjs/throttler` is absent. The allowlist closes the SSRF but the proxies remain
-  an unauthenticated bandwidth relay for Google-hosted content, through the operator's configured SOCKS proxy.
-- [ ] **No global `ExceptionFilter`.** For an app whose defining condition is upstream breakage, error handling is
-  entirely ad hoc — a single filter would give consistent shapes and one place to log.
-- [ ] **SSR turns every api error into fake data.** `useVtFetch`'s in-process branch
-  (`client/app/composables/vtFetch.ts:78`) returns `destr(response.body)` from `nestApp.inject()` without looking at
-  `response.statusCode`, so a 4xx/5xx body is handed back as though it were a successful payload. `useLazyAsyncData`
-  then resolves with `data` set to `{ message, description }` and `error` null, and any `v-if="data"` in the page
-  passes. On a channel that does not exist this renders a full skeleton channel page — fallback banner, tab menu, empty
-  home — instead of an error, which is what
-  `tests/cypress/e2e/3-pages/channel.cy.ts` has an `it.skip` waiting on. The browser path is fine: `ofetch.raw` throws
-  on non-2xx, so this is SSR-only and shows up on first load but not on client-side navigation. The fix is to throw
-  when `statusCode >= 400`, but it changes error behaviour on every SSR-rendered page at once, so it wants doing
-  deliberately — ideally together with the global `ExceptionFilter` above.
-- [ ] **Apply the channels error taxonomy to `videos` and `playlists`.** `core/channels` is being converged on three
-  outcomes: `NotFoundException({ message, description })` for something youtube does not have, `BadGatewayException`
-  for youtube reachable but unusable (a rejected token, a renderer the mapper can no longer read), and
-  `BadRequestException` only for a genuinely malformed argument — with one `channel-errors.ts` owning the shapes,
-  `debug`/`warn`/`error` picked by which of the three is in play, and tab presence asked through youtubei.js's `has_*`
-  getters (`parser/youtube/Channel.js`) instead of inferred from a caught `InnertubeError`. The other two core services
-  predate that and disagree with it in both directions:
-  - `videos.service.ts:114-121` funnels every `getInfo` failure into a 500, so a deleted or private video reports as a
-    server fault, and it copies `error.message` / `error.info.reason` — raw youtubei.js text — into the response body.
-    `:58` passes the error _object_ itself to `InternalServerErrorException`, as do
-    `playlists.service.ts:24` and `:45`.
-  - `playlists.service.ts:10` answers an invalid playlist id with a 500 where 400 belongs, and the fall-through
-    `throw new InternalServerErrorException('Error fetching playlist')` at `:27` and `:53` is really a 404.
-  `playlists` is still on `ytpl` rather than youtubei.js, so only the taxonomy carries over — there is no `has_*`
-  equivalent to probe with, and its catches stay catches. Worth doing alongside the global `ExceptionFilter` above
-  rather than before it: the filter gives one place to log and one response shape, the taxonomy decides which shape
-  each failure earns.
+  an unauthenticated bandwidth relay for Google-hosted content, through the operator's configured SOCKS proxy. It is
+  also the only defence against id spam: a request for a video that does not exist costs a full innertube round trip
+  (`videos.service.ts` → `client.getInfo`), and innertube calls are what attract blocks, so the cost is the instance's
+  standing with YouTube rather than its cpu. Caching cannot cover that case — random ids miss every time.
+  **Whatever guard goes in has to exempt the in-process SSR path.** `useVtFetch` reaches the api through
+  `global.nestApp.inject()` (`client/app/composables/vtFetch.ts`), which passes through fastify's routing like any
+  other request but arrives carrying `light-my-request`'s default `127.0.0.1`. Every server-rendered page on the
+  instance would therefore share a single bucket and start 429ing itself under moderate traffic — the failure would
+  look like YouTube breaking, not like a misconfigured limit. The `authority: 'nuxtApp'` already set on those calls is
+  the hook to key the exemption off.
+- [ ] **Nothing validates a video id before asking YouTube.** `/api/videos/zz` spends a full innertube round trip
+  learning that a two-character id cannot exist. Playlists already reject locally — `ytpl.validateID`
+  (`playlists.service.ts:18`) is why an invalid playlist id answers 400 without touching YouTube — and `isChannelId`
+  (`core/channels/channel-identifier.ts:14`) exists for channels, though `getChannelInfo` still resolves a non-id
+  identifier upstream before it can say no. An 11-character charset check on the video route costs nothing, holds no
+  state, and removes both the cheapest form of id spam and a fair amount of accidental traffic.
+- [ ] **Failures are never cached, so every bad id is a fresh upstream call.** `CacheInterceptor` stores only on the
+  success path — `next.handle().pipe(tap(...))`, and `tap`'s next callback does not fire for a thrown exception — so
+  the `@CacheTTL`s on every core controller do nothing for a 404. Since `ApiExceptionFilter` answers errors
+  `no-store`, a shared cache in front of the instance no longer absorbs the repeats either; before it, a channel 404
+  was edge-cacheable for an hour. Worth a short negative cache: 30-60s on 404 only, well under the five minute
+  success TTL so a premiere going live or an unlisted video turning public is not stuck, and no more than ~10s on a
+  502 or an outage outlives itself. This is an optimisation for accidental amplification — a deleted video still
+  linked from a popular page, a crawler — not a defence, because the key space is attacker-controlled and filling
+  redis with it is free; the defence is the rate limiting above. `CacheInterceptor` cannot be reused for it: it needs
+  something that both reads on the way in and writes on the way out, so an interceptor with `catchError` rather than
+  the exception filter, which only ever sees the way out.
+- [ ] **`ytpl` no longer parses YouTube at all, so every playlist is a 502.** Confirmed outside the app:
+  `node -e "require('ytpl')('UUuAXFkgsw1L7xaCfnd5JJOw')"` throws
+  `TypeError: Cannot read properties of undefined (reading 'contents')` from inside
+  `ytpl/lib/main.js` for a playlist that exists. It was invisible before the error taxonomy landed,
+  because `playlists.service.ts` reported it as a 500 with an empty body; it now answers 502 and
+  logs the reason. The library is unmaintained — `core/playlists` wants moving to youtubei.js like
+  `channels` was, which would also give it the `has_*` probes the taxonomy prefers over catching.
 - [ ] **Playlist author links point at the playlist, not the channel.**
   `client/app/components/list/PlaylistEntry.vue:113` picks its link by shape:
   `typeof playlist.author === 'string'` gives `/channel/{authorId}`, anything else falls through to
@@ -66,10 +55,10 @@ models and it shows.
 - [ ] **Community reposts are dropped.** `channels.service.ts:528` collects only `YTNodes.BackstagePost`, and
   `Memo.getType` matches on the exact `static type` string (youtubei.js `parser/helpers.js`). Both `Post` — which
   subclasses `BackstagePost` — and `SharedPost` carry different type names, so reposts never reach the community tab,
-  and if youtube switches the tab to `postRenderer` wholesale the tab goes silently empty rather than erroring. Pass
+  and if YouTube switches the tab to `postRenderer` wholesale the tab goes silently empty rather than erroring. Pass
   all three constructors to `collectFeedNodes`.
 - [ ] **The legacy about branch yields `Text` nodes, not strings.** `getAboutMetadata` returns
-  `ChannelAboutFullMetadata` untouched for channels youtube still serves the old way. The field _names_ line up with
+  `ChannelAboutFullMetadata` untouched for channels YouTube still serves the old way. The field _names_ line up with
   `AboutChannelView` but the types do not: `description`, `country` and `view_count` are `Text` instances there and
   plain strings on the new view. So `toVTChannelAboutDto` puts a `Text` object into `description` and `location`,
   `sanitizeHtmlString` (`server/src/common/sanitize-html.ts`) stringifies it to `"[object Object]"`, and the client
@@ -81,9 +70,8 @@ models and it shows.
 - [ ] **`proxyStream` trusts the `originUrl` query parameter** and reflects it into rewritten `.m3u8`
   bodies (`server/src/core/proxy/proxy.service.ts`). Only affects the caller's own response, so it is not a live
   vulnerability, but the origin should be derived server-side rather than taken from the client.
-- [ ] **`proxyText` has no error handling at all**, now inconsistent with its two neighbours.
 - [ ] **Members-only videos are not handled on the watch page.** `getInfo` on one returns
-  `playability_status.status: "UNPLAYABLE"` with youtube's upsell as the reason ("This video is available to this
+  `playability_status.status: "UNPLAYABLE"` with YouTube's upsell as the reason ("This video is available to this
   channel's members on level: … Join this channel to get access to members-only content and other exclusive perks.").
   `extractAvailability`
   (`server/src/mapper/converter/video-info/vt-video-info.extractors.ts`) passes that string through untouched, and

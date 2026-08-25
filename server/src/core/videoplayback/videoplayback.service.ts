@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, Logger } from '@nestjs/common';
+import { BadGatewayException, BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { URL } from 'node:url';
 import { vtFetch } from 'server/common/vtFetch';
@@ -69,19 +69,11 @@ export class VideoplaybackService {
 
       reply.status(fetchResponse.statusCode).send(fetchResponse.body);
     } catch (error) {
-      // Stream failures are the most user-visible breakage in the app, so they are always logged
-      // and always answered — swallowing them left the request hanging until socket timeout.
       this.logger.error(`Videoplayback proxy failed for ${urlHost}`, error);
-      if (!reply.sent) {
-        reply
-          .code(502)
-          .type('application/json')
-          .send({
-            statusCode: 502,
-            message: `Failed to proxy videoplayback from ${urlHost}`,
-            error: 'Bad Gateway'
-          });
-      }
+      throw new BadGatewayException({
+        message: `Failed to proxy videoplayback from ${urlHost}`,
+        description: 'YouTube could not be reached'
+      });
     }
   }
 }

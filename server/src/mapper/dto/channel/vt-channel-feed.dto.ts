@@ -5,7 +5,7 @@ export class VTChannelFeedDto {
   continuation?: string;
   appliedSort?: 'newest' | 'oldest' | 'popular';
   /**
-   * Empty when youtube offers no content filter for this channel, which is the case for every
+   * Empty when YouTube offers no content filter for this channel, which is the case for every
    * channel without memberships. The client shows the control only when there is a choice.
    */
   availableFilters?: Array<'all' | 'public' | 'members'>;

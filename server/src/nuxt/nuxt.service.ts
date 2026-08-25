@@ -42,7 +42,6 @@ export class NuxtService {
         message: `Cannot ${request.method} ${request.url}`,
         error: 'Not Found'
       });
-      // throw new NotFoundException();
     }
   }
 }

@@ -3,7 +3,7 @@ import { baseUrl } from 'support/constants';
 const channelId = 'UCBJycsmduvYEL83R_U4JriQ';
 const channelName = 'Marques Brownlee';
 
-// Youtube only offers the members/public filter on channels that actually have members-only
+// YouTube only offers the members/public filter on channels that actually have members-only
 // content, which the primary fixture does not
 const membershipChannelId = 'UCXuqSBlHAE6Xw-yeJA0Tunw';
 
@@ -23,7 +23,7 @@ const proxiedImage = '/api/proxy/image?url=';
 
 /**
  * The mapper's failure mode is a rendered entry whose fields are empty, which any existence check
- * passes happily, so each field youtube supplies is checked for actual content. Title, thumbnail
+ * passes happily, so each field YouTube supplies is checked for actual content. Title, thumbnail
  * and view count come with every entry; a duration and an upload date do not, since shorts lockups
  * carry neither and a livestream shows "Live" in place of a duration.
  */
@@ -165,7 +165,7 @@ describe('Channel playlists page', () => {
     });
   });
 
-  // Youtube sends no video count with most playlist lockups on this tab — checked against the raw
+  // YouTube sends no video count with most playlist lockups on this tab — checked against the raw
   // nodes, they arrive with no overlays and no badges at all — so this only asserts that the ones
   // carrying a count render a number rather than an empty badge
   it('renders a video count wherever youtube supplied one', () => {
@@ -192,7 +192,7 @@ describe('Channel community page', () => {
   });
 });
 
-// The url shapes youtube itself hands out; the server resolves each one to the channel id
+// The url shapes YouTube itself hands out; the server resolves each one to the channel id
 describe('Channel url shapes', () => {
   const expectResolvedChannel = () => {
     cy.get('#app[hydrated=true]', { timeout: 10000 });
@@ -219,11 +219,7 @@ describe('Channel url shapes', () => {
     expectResolvedChannel();
   });
 
-  // Skipped because it fails on a real bug rather than a wrong expectation: the SSR branch of
-  // `useVtFetch` returns `nestApp.inject()`'s body without looking at its status code, so the api's
-  // 404 body arrives as data, `useLazyAsyncData` reports no error, and `v-if="channelInfo"` renders
-  // a skeleton channel page. Unskip once that path throws on non-2xx.
-  it.skip('shows an error for a channel that does not exist', () => {
+  it('shows an error for a channel that does not exist', () => {
     cy.visit(`${baseUrl}/channel/UCthisdoesnotexist123456`, { failOnStatusCode: false });
     cy.get('#app[hydrated=true]', { timeout: 10000 });
     cy.get('.banner-section').should('not.exist');

@@ -23,7 +23,7 @@ import {
 
 const playlistContentTypes = ['PLAYLIST', 'ALBUM', 'SHOW'];
 
-/** Shelves youtube puts on the home tab that have no place in a video listing. */
+/** Shelves YouTube puts on the home tab that have no place in a video listing. */
 const ignoredShelfTypes = ['RecognitionShelf', 'ChannelVideoPlayer'];
 
 const shelfItems = (shelf: ChannelShelfApproximation): Array<ChannelShelfItemApproximation> => {

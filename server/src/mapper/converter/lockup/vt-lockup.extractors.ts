@@ -144,7 +144,7 @@ export const extractLockupLive = (lockup: LockupViewApproximation): boolean => {
 };
 
 /**
- * Members-only entries are marked on the metadata row rather than the thumbnail. Youtube omits
+ * Members-only entries are marked on the metadata row rather than the thumbnail. YouTube omits
  * their view count, and they are unplayable without a membership, so callers need to know.
  */
 export const extractLockupMembersOnly = (lockup: LockupViewApproximation): boolean => {
