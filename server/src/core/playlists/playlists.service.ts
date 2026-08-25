@@ -2,15 +2,12 @@ import {
   BadGatewayException,
   BadRequestException,
   Injectable,
-  Logger,
   NotFoundException
 } from '@nestjs/common';
 import { sanitizeHtmlString } from 'server/common/sanitize-html';
 import ytpl, { ContinueResult, Options, Result } from 'ytpl';
 
 import { PlaylistResultDto } from './dto/playlist-result.dto';
-
-const logger = new Logger('PlaylistsService');
 
 @Injectable()
 export class PlaylistsService {
@@ -37,7 +34,6 @@ export class PlaylistsService {
         });
       }
 
-      logger.warn(`Reading playlist ${playlistId} failed: ${error?.message ?? 'no reason given'}`);
       throw new BadGatewayException({
         message: 'Error reading playlist',
         description: 'YouTube did not answer with anything usable'
@@ -51,24 +47,28 @@ export class PlaylistsService {
   }
 
   async continuePlaylist(continuation: Array<any>): Promise<ContinueResult> {
-    if (typeof continuation[2] !== 'string') {
+    if (typeof continuation[2] !== 'string' || typeof continuation[3] !== 'string') {
       throw new BadRequestException('Invalid playlist continuation');
     }
 
-    const continuationArray = [
-      continuation[0],
-      continuation[1],
-      JSON.parse(continuation[2]),
-      JSON.parse(continuation[3])
-    ];
+    let continuationArray: [unknown, unknown, unknown, { limit: number }];
+    try {
+      continuationArray = [
+        continuation[0],
+        continuation[1],
+        JSON.parse(continuation[2]),
+        JSON.parse(continuation[3])
+      ];
+    } catch {
+      throw new BadRequestException('Invalid playlist continuation');
+    }
     continuationArray[3].limit = Infinity;
 
     let playlistContinuation: ContinueResult;
 
     try {
       playlistContinuation = await ytpl.continueReq(continuationArray);
-    } catch (error) {
-      logger.warn(`Continuing a playlist failed: ${error?.message ?? 'no reason given'}`);
+    } catch {
       throw new BadGatewayException({
         message: 'Error reading playlist',
         description: 'YouTube did not answer with anything usable'

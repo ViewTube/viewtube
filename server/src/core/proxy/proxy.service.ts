@@ -149,6 +149,15 @@ export class ProxyService {
 
       const streamResponse = await vtFetch(urlToFetch, { headers, useProxy: true });
 
+      if (streamResponse.statusCode >= 400) {
+        await streamResponse.body.dump();
+        this.failUpstream(
+          'stream',
+          target.url.hostname,
+          `YouTube answered with ${streamResponse.statusCode}`
+        );
+      }
+
       if (streamResponse.headers['location']) {
         reply.header('location', `${streamProxyUrl}&url=${streamResponse.headers['location']}`);
       }

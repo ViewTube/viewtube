@@ -19,7 +19,9 @@ rendered by the client, so keep it short.
   from our own mapper are 502s. A wrong 404 hides breakage — 4xx logs at `debug`, below the log file.
 - **Never `throw new InternalServerErrorException(error)`** — an `Error`'s properties are not
   enumerable, so the client gets `{}`.
-- **Never copy an upstream message into `message`.** Log it instead.
+- **Never copy an upstream message into `message`.** Log it instead — the `*UpstreamFailed` helpers
+  log the raw youtubei.js message at `debug`; the filter logs the request at `warn` (502) or `error`
+  (500). Two lines, two levels, no duplication.
 - **Never write an error onto `reply` by hand**, and don't worry about `@Header('Cache-Control')` —
   the filter replaces it with `no-store`.
 

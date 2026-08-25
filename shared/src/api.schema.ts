@@ -2650,7 +2650,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description The proxied image, streamed verbatim from YouTube. */
+            /** @description The proxied image, streamed from YouTube. */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -2673,7 +2673,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description The proxied timedtext document, streamed verbatim from YouTube. */
+            /** @description The proxied timedtext document, streamed from YouTube. */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -2705,6 +2705,7 @@ export interface operations {
                 };
                 content: {
                     "application/octet-stream": string;
+                    "application/vnd.apple.mpegurl": string;
                 };
             };
         };

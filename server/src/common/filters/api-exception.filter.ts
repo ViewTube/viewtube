@@ -28,7 +28,6 @@ const messageFrom = (value: unknown): string | undefined => {
   return undefined;
 };
 
-
 const toApiError = (exception: unknown): ApiError => {
   if (!(exception instanceof HttpException)) {
     // Never echo an unknown error: it carries raw youtubei.js text and stack traces.
@@ -52,7 +51,6 @@ const toApiError = (exception: unknown): ApiError => {
     typeof description === 'string' ? description : undefined
   );
 };
-
 
 @Catch()
 export class ApiExceptionFilter extends BaseExceptionFilter {

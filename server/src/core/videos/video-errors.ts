@@ -8,7 +8,9 @@ export const videoNotFound = (description = 'No video exists for that id'): neve
 
 /** `operation` names the part being read: `information`, `dash manifest`. */
 export const videoUpstreamFailed = (operation: string, error?: { message?: string }): never => {
-  logger.warn(`Reading video ${operation} failed: ${error?.message ?? 'no reason given'}`);
+  // `debug`, not `warn`: `ApiExceptionFilter` logs the 502 at `warn` with the request url,
+  // and this line carries the specific youtubei.js message that the filter cannot see.
+  logger.debug(`Reading video ${operation} failed: ${error?.message ?? 'no reason given'}`);
 
   throw new BadGatewayException({
     message: `Error reading video ${operation}`,
@@ -18,16 +20,21 @@ export const videoUpstreamFailed = (operation: string, error?: { message?: strin
 
 export const isVideoGone = (error: {
   constructor?: { name?: string };
-  message?: string;
   info?: unknown;
 }): boolean => {
-  if (
-    error?.constructor?.name === 'InnertubeError' &&
-    error?.message === 'This video is unavailable'
-  ) {
-    return true;
+  // MediaInfo throws InnertubeError with `info` set to the playability_status when its
+  // status is 'ERROR' — a deleted, private, or otherwise unplayable video. Other
+  // InnertubeErrors carry different info (a microformat, nothing) and are upstream failures.
+  if (error?.constructor?.name === 'InnertubeError') {
+    return (
+      typeof error.info === 'object' &&
+      error.info !== null &&
+      (error.info as { status?: string }).status === 'ERROR'
+    );
   }
 
+  // An id YouTube itself rejects arrives as a plain request failure carrying an
+  // INVALID_ARGUMENT body, same shape as isChannelGone.
   if (typeof error?.info !== 'string') return false;
 
   try {

@@ -131,6 +131,7 @@ describe('Core API tests', () => {
       expect(response.body.comments).to.be.an('array').that.is.not.empty;
 
       const commentWithReplies = response.body.comments.find(comment => comment.replyCount > 10);
+      expect(commentWithReplies, 'a comment with replies to exist').to.not.be.undefined;
 
       cy.request<ApiDto<'VTCommentsReplyResponseDto'>>(
         'GET',

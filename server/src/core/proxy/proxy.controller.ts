@@ -34,8 +34,12 @@ export class ProxyController {
 
   @Get('stream')
   @ApiOkResponse({
-    description: 'The proxied stream, or an hls manifest rewritten to point back at this endpoint.',
-    content: { 'application/octet-stream': { schema: { type: 'string', format: 'binary' } } }
+    description:
+      'The proxied stream, or an hls manifest rewritten to point back at this endpoint.',
+    content: {
+      'application/octet-stream': { schema: { type: 'string', format: 'binary' } },
+      'application/vnd.apple.mpegurl': { schema: { type: 'string' } }
+    }
   })
   async proxyStream(
     @Query() query: ProxyStreamQueryDto,
