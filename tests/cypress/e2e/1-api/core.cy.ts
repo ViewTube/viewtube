@@ -39,23 +39,59 @@ describe('Core API tests', () => {
 
   it('GET channel', () => {
     const channelId = 'UCBJycsmduvYEL83R_U4JriQ';
-    cy.request<ApiDto<'ChannelInfoDto'>>({
+    cy.request<ApiDto<'VTChannelPageDto'>>({
       method: 'GET',
       url: `${apiUrl}/channels/${channelId}`
     }).then(response => {
       expect(response.status).to.eq(200);
-      expect(response.body.authorId).to.eq(channelId);
+      expect(response.body.id).to.eq(channelId);
+      expect(response.body.name).to.be.a('string').and.not.be.empty;
     });
   });
 
+  // Rejected on the id's shape alone, without asking youtube
   it('GET channel with invalid id', () => {
     const channelId = 'fvkHgvbUko';
-    cy.request<ApiDto<'ChannelInfoDto'>>({
+    cy.request<ApiDto<'VTChannelPageDto'>>({
       method: 'GET',
       url: `${apiUrl}/channels/${channelId}`,
       failOnStatusCode: false
     }).then(response => {
-      expect(response.status).to.eq(500);
+      expect(response.status).to.eq(404);
+    });
+  });
+
+  // Well formed, so it takes youtube to tell us the channel is not there
+  it('GET channel that does not exist', () => {
+    cy.request<ApiDto<'VTChannelPageDto'>>({
+      method: 'GET',
+      url: `${apiUrl}/channels/UCthisdoesnotexist123456`,
+      failOnStatusCode: false
+    }).then(response => {
+      expect(response.status).to.eq(404);
+    });
+  });
+
+  it('GET videos of a channel that does not exist', () => {
+    cy.request<ApiDto<'VTChannelFeedDto'>>({
+      method: 'GET',
+      url: `${apiUrl}/channels/UCthisdoesnotexist123456/videos`,
+      failOnStatusCode: false
+    }).then(response => {
+      expect(response.status).to.eq(404);
+    });
+  });
+
+  it('GET channel videos defaults to public and reports the available filters', () => {
+    const channelId = 'UCBJycsmduvYEL83R_U4JriQ';
+    cy.request<ApiDto<'VTChannelFeedDto'>>({
+      method: 'GET',
+      url: `${apiUrl}/channels/${channelId}/videos`
+    }).then(response => {
+      expect(response.status).to.eq(200);
+      expect(response.body.videos).to.be.an('array').and.not.be.empty;
+      expect(response.body.appliedFilter).to.eq('public');
+      expect(response.body.videos.every(video => !video.isMembersOnly)).to.be.true;
     });
   });
 

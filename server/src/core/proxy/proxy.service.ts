@@ -1,16 +1,39 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import { FastifyReply, FastifyRequest } from 'fastify';
+import {
+  imageHostSuffixes,
+  parseProxyTarget,
+  streamHostSuffixes
+} from 'server/common/proxy-allowlist';
 import { vtFetch } from 'server/common/vtFetch';
 
 @Injectable()
 export class ProxyService {
-  constructor(
-    private configService: ConfigService,
-    private readonly logger: Logger
-  ) {}
+  constructor(private readonly logger: Logger) {}
 
   allowedTextUrls = ['https://www.youtube.com/api/timedtext'];
+
+  private rejectTarget(reply: FastifyReply, endpoint: string, error: string): void {
+    this.logger.warn(`Blocked ${endpoint} proxy request: ${error}`);
+    reply.code(403).type('application/json').send({
+      statusCode: 403,
+      message: error,
+      error: 'Forbidden'
+    });
+  }
+
+  private failUpstream(reply: FastifyReply, endpoint: string, host: string, error: unknown): void {
+    this.logger.error(`${endpoint} proxy failed for ${host}`, error);
+    if (reply.sent) return;
+    reply
+      .code(502)
+      .type('application/json')
+      .send({
+        statusCode: 502,
+        message: `Failed to proxy ${endpoint} from ${host}`,
+        error: 'Bad Gateway'
+      });
+  }
 
   async proxyText(url: string, reply: FastifyReply): Promise<void> {
     const urlToProxy = new URL(url);
@@ -28,14 +51,19 @@ export class ProxyService {
   }
 
   async proxyImage(url: string, reply: FastifyReply): Promise<void> {
+    const target = parseProxyTarget(url, imageHostSuffixes());
+
+    if (target.error) {
+      this.rejectTarget(reply, 'image', target.error);
+      return;
+    }
+
     try {
-      const imageResponse = await vtFetch(url, { useProxy: true });
+      const imageResponse = await vtFetch(target.url.href, { useProxy: true });
 
       imageResponse.body.pipe(reply.raw);
     } catch (error) {
-      if (this.configService.get('NODE_ENV') !== 'production') {
-        this.logger.log(error);
-      }
+      this.failUpstream(reply, 'image', target.url.hostname, error);
     }
   }
 
@@ -48,6 +76,14 @@ export class ProxyService {
         message: `originUrl is required.`,
         error: 'Bad Request'
       });
+      return;
+    }
+
+    const target = parseProxyTarget(request.query['url'] as string, streamHostSuffixes());
+
+    if (target.error) {
+      this.rejectTarget(reply, 'stream', target.error);
+      return;
     }
 
     const streamProxyUrl = `${originUrl}/api/proxy/stream?originUrl=${encodeURIComponent(originUrl)}`;
@@ -60,7 +96,7 @@ export class ProxyService {
         origin: 'https://www.youtube.com'
       };
 
-      const urlToFetch = new URL(request.query['url'] as string);
+      const urlToFetch = target.url;
 
       const streamResponse = await vtFetch(urlToFetch, { headers, useProxy: true });
 
@@ -81,9 +117,7 @@ export class ProxyService {
         reply.status(streamResponse.statusCode).send(streamResponse.body);
       }
     } catch (error) {
-      if (this.configService.get('NODE_ENV') !== 'production') {
-        this.logger.log(error);
-      }
+      this.failUpstream(reply, 'stream', target.url.hostname, error);
     }
   }
 }

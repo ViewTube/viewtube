@@ -22,7 +22,7 @@ export const validationSchema = Joi.object({
   VIEWTUBE_CLUSTERED: Joi.boolean().default(false),
 
   // These are not required for ViewTube to run
-  VIEWTUBE_CORS_DOMAIN: Joi.string().optional(),
+  VIEWTUBE_CORS_ORIGIN: Joi.string().optional(),
   VIEWTUBE_YOUTUBE_COOKIE: Joi.string().optional(),
   VIEWTUBE_PO_TOKEN: Joi.string().optional(),
   VIEWTUBE_VISITOR_DATA: Joi.string().optional()

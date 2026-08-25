@@ -14,7 +14,9 @@ useHead({
       return titleChunk;
     }
     return `${titleChunk} :: ViewTube`;
-  }
+  },
+  htmlAttrs: { class: 'embed-layout' },
+  bodyAttrs: { class: 'embed-layout' }
 });
 
 const appRef = ref(null);
@@ -43,10 +45,10 @@ if (appRef.value) {
 <style lang="scss">
 @use 'assets/styles/layout.scss';
 
-html,
-body,
-#__nuxt,
-#app {
+html.embed-layout,
+body.embed-layout,
+body.embed-layout #__nuxt,
+body.embed-layout #app {
   height: 100%;
   overflow: hidden;
 }

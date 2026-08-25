@@ -1,21 +1,16 @@
 import { CacheInterceptor, CacheTTL } from '@nestjs/cache-manager';
 import { Controller, Get, Header, Param, Query, Res, UseInterceptors } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiQuery, ApiTags } from '@nestjs/swagger';
 import { FastifyReply } from 'fastify';
+import { VTChannelAboutDto } from 'server/mapper/dto/channel/vt-channel-about.dto';
+import { VTChannelFeedDto } from 'server/mapper/dto/channel/vt-channel-feed.dto';
+import { VTChannelHomeDto } from 'server/mapper/dto/channel/vt-channel-home.dto';
+import { VTChannelPageDto } from 'server/mapper/dto/channel/vt-channel-page.dto';
+import { VTChannelPlaylistsDto } from 'server/mapper/dto/channel/vt-channel-playlists.dto';
+import { VTChannelSearchDto } from 'server/mapper/dto/channel/vt-channel-search.dto';
+import { VTCommunityPostsDto } from 'server/mapper/dto/channel/vt-community-posts.dto';
 import { ChannelsService } from './channels.service';
-import { ChannelInfoErrorDto } from './dto/channel-info-error.dto';
-import { ChannelCommunityPostsContinuationDto } from './dto/response/channel-community-posts-continuation.dto';
-import { ChannelCommunityPostsDto } from './dto/response/channel-community-posts.dto';
-import { ChannelHomeDto } from './dto/response/channel-home.dto';
-import { ChannelInfoDto } from './dto/response/channel-info.dto';
-import { ChannelPlaylistsContinuationDto } from './dto/response/channel-playlists-continuation.dto';
-import { ChannelPlaylistsDto } from './dto/response/channel-playlists.dto';
-import { ChannelSearchContinuationDto } from './dto/response/channel-search-continuation.dto';
-import { ChannelSearchDto } from './dto/response/channel-search.dto';
-import { ChannelStatsDto } from './dto/response/channel-stats.dto';
-import { ChannelVideosContinuationDto } from './dto/response/channel-videos-continuation.dto';
-import { ChannelVideosDto } from './dto/response/channel-videos.dto';
-import { RelatedChannelsContinuationDto } from './dto/response/related-channels-continuation.dto';
+import { ChannelFeedStrategy, ContentFilterType, SortType } from './types/sort';
 
 @ApiTags('Core')
 @Controller('channels')
@@ -40,68 +35,78 @@ export class ChannelsController {
   @Get(':id')
   @UseInterceptors(CacheInterceptor)
   @CacheTTL(3600000)
-  getChannelInfo(@Param('id') channelId: string): Promise<ChannelInfoDto> {
-    return this.channelsService.getChannelInfo(channelId) as Promise<ChannelInfoDto>;
+  getChannelInfo(@Param('id') channelId: string): Promise<VTChannelPageDto> {
+    return this.channelsService.getChannelInfo(channelId);
   }
 
   @Header('Cache-Control', 'public, max-age=3600')
   @Get(':id/home')
   @UseInterceptors(CacheInterceptor)
   @CacheTTL(3600000)
-  getChannelHome(@Param('id') channelId: string): Promise<ChannelHomeDto> {
-    return this.channelsService.getChannelHome(channelId) as Promise<ChannelHomeDto>;
+  getChannelHome(@Param('id') channelId: string): Promise<VTChannelHomeDto> {
+    return this.channelsService.getChannelHome(channelId);
   }
 
   @Header('Cache-Control', 'public, max-age=3600')
   @Get(':id/videos')
   @UseInterceptors(CacheInterceptor)
   @CacheTTL(3600000)
+  @ApiQuery({ name: 'sort', required: false, enum: ['newest', 'oldest', 'popular'] })
+  @ApiQuery({ name: 'filter', required: false, enum: ['all', 'public', 'members'] })
+  @ApiQuery({ name: 'strategy', required: false, enum: ['params', 'discover'] })
   getChannelVideos(
     @Param('id') channelId: string,
-    @Query('sort') sortBy: 'newest' | 'oldest' | 'popular'
-  ): Promise<ChannelVideosDto> {
-    return this.channelsService.getChannelVideos(channelId, sortBy);
-  }
-
-  @Header('Cache-Control', 'public, max-age=3600')
-  @Get('videos/continuation')
-  @UseInterceptors(CacheInterceptor)
-  @CacheTTL(3600000)
-  getChannelVideosContinuation(
-    @Query('continuation') continuation: string
-  ): Promise<ChannelVideosContinuationDto> {
-    return this.channelsService.getChannelVideosContinuation(
-      continuation
-    ) as Promise<ChannelVideosContinuationDto>;
+    @Query('sort') sort?: SortType,
+    @Query('filter') filter?: ContentFilterType,
+    @Query('strategy') strategy?: ChannelFeedStrategy
+  ): Promise<VTChannelFeedDto> {
+    return this.channelsService.getChannelVideos(channelId, sort, filter, strategy);
   }
 
   @Header('Cache-Control', 'public, max-age=3600')
   @Get(':id/shorts')
   @UseInterceptors(CacheInterceptor)
   @CacheTTL(3600000)
+  @ApiQuery({ name: 'sort', required: false, enum: ['newest', 'oldest', 'popular'] })
+  @ApiQuery({ name: 'strategy', required: false, enum: ['params', 'discover'] })
   getChannelShorts(
     @Param('id') channelId: string,
-    @Query('sort') sortBy: 'newest'
-  ): Promise<ChannelVideosDto> {
-    return this.channelsService.getChannelShorts(channelId, sortBy);
+    @Query('sort') sort?: SortType,
+    @Query('strategy') strategy?: ChannelFeedStrategy
+  ): Promise<VTChannelFeedDto> {
+    return this.channelsService.getChannelShorts(channelId, sort, strategy);
   }
 
   @Header('Cache-Control', 'public, max-age=3600')
   @Get(':id/livestreams')
   @UseInterceptors(CacheInterceptor)
   @CacheTTL(3600000)
+  @ApiQuery({ name: 'sort', required: false, enum: ['newest', 'oldest', 'popular'] })
+  @ApiQuery({ name: 'strategy', required: false, enum: ['params', 'discover'] })
   getChannelLivestreams(
     @Param('id') channelId: string,
-    @Query('sort') sortBy: 'newest'
-  ): Promise<ChannelVideosDto> {
-    return this.channelsService.getChannelLivestreams(channelId, sortBy);
+    @Query('sort') sort?: SortType,
+    @Query('strategy') strategy?: ChannelFeedStrategy
+  ): Promise<VTChannelFeedDto> {
+    return this.channelsService.getChannelLivestreams(channelId, sort, strategy);
+  }
+
+  /** Shared by the videos, shorts and livestreams tabs — the token carries the sort and filter. */
+  @Header('Cache-Control', 'public, max-age=3600')
+  @Get('videos/continuation')
+  @UseInterceptors(CacheInterceptor)
+  @CacheTTL(3600000)
+  getChannelVideosContinuation(
+    @Query('continuation') continuation: string
+  ): Promise<VTChannelFeedDto> {
+    return this.channelsService.getChannelFeedContinuation(continuation);
   }
 
   @Header('Cache-Control', 'public, max-age=3600')
   @Get(':id/playlists')
   @UseInterceptors(CacheInterceptor)
   @CacheTTL(3600000)
-  getChannelPlaylists(@Param('id') channelId: string): Promise<ChannelPlaylistsDto> {
+  getChannelPlaylists(@Param('id') channelId: string): Promise<VTChannelPlaylistsDto> {
     return this.channelsService.getChannelPlaylists(channelId);
   }
 
@@ -111,7 +116,7 @@ export class ChannelsController {
   @CacheTTL(3600000)
   getChannelPlaylistsContinuation(
     @Query('continuation') continuation: string
-  ): Promise<ChannelPlaylistsContinuationDto> {
+  ): Promise<VTChannelPlaylistsDto> {
     return this.channelsService.getChannelPlaylistsContinuation(continuation);
   }
 
@@ -122,7 +127,7 @@ export class ChannelsController {
   searchChannel(
     @Param('id') channelId: string,
     @Query('query') query: string
-  ): Promise<ChannelSearchDto | ChannelInfoErrorDto> {
+  ): Promise<VTChannelSearchDto> {
     return this.channelsService.searchChannel(channelId, query);
   }
 
@@ -132,25 +137,15 @@ export class ChannelsController {
   @CacheTTL(3600000)
   searchChannelContinuation(
     @Query('continuation') continuation: string
-  ): Promise<ChannelSearchContinuationDto> {
+  ): Promise<VTChannelSearchDto> {
     return this.channelsService.searchChannelContinuation(continuation);
-  }
-
-  @Header('Cache-Control', 'public, max-age=3600')
-  @Get('relatedchannels/continuation')
-  @UseInterceptors(CacheInterceptor)
-  @CacheTTL(3600000)
-  getRelatedChannelsContinuation(
-    @Query('continuation') continuation: string
-  ): Promise<RelatedChannelsContinuationDto> {
-    return this.channelsService.getRelatedChannelsContinuation(continuation);
   }
 
   @Header('Cache-Control', 'public, max-age=3600')
   @Get(':id/communityposts')
   @UseInterceptors(CacheInterceptor)
   @CacheTTL(3600000)
-  getChannelCommunityPosts(@Param('id') channelId: string): Promise<ChannelCommunityPostsDto> {
+  getChannelCommunityPosts(@Param('id') channelId: string): Promise<VTCommunityPostsDto> {
     return this.channelsService.getChannelCommunityPosts(channelId);
   }
 
@@ -159,17 +154,16 @@ export class ChannelsController {
   @UseInterceptors(CacheInterceptor)
   @CacheTTL(3600000)
   getChannelCommunityPostsContinuation(
-    @Query('continuation') continuation: string,
-    @Query('innertube') innerTubeApi: string
-  ): Promise<ChannelCommunityPostsContinuationDto> {
-    return this.channelsService.getChannelCommunityPostsContinuation(continuation, innerTubeApi);
+    @Query('continuation') continuation: string
+  ): Promise<VTCommunityPostsDto> {
+    return this.channelsService.getChannelCommunityPostsContinuation(continuation);
   }
 
   @Header('Cache-Control', 'public, max-age=3600')
   @Get(':id/stats')
   @UseInterceptors(CacheInterceptor)
   @CacheTTL(3600000)
-  getChannelStats(@Param('id') channelId: string): Promise<ChannelStatsDto> {
-    return this.channelsService.getChannelStats(channelId) as Promise<ChannelStatsDto>;
+  getChannelStats(@Param('id') channelId: string): Promise<VTChannelAboutDto> {
+    return this.channelsService.getChannelStats(channelId);
   }
 }

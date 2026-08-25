@@ -1,40 +1,32 @@
 <script setup lang="ts">
+import type { ApiDto } from '@viewtube/shared';
+
 defineProps<{
-  postVideo: {
-    videoId: string;
-    title: string;
-    description: string;
-    publishedText: string;
-    lengthText: string;
-    viewCountText: string;
-    badges: {
-      verified: boolean;
-      officialArtist: boolean;
-    };
-    author: string;
-    authorId: string;
-    thumbnails: Array<{ url: string; width: number; height: number }>;
-  };
+  postVideo: ApiDto<'VTVideoDto'>;
 }>();
 
 const { proxyUrl } = useImgProxy();
 </script>
 
 <template>
-  <nuxt-link class="post-video" :to="`/watch?v=${postVideo.videoId}`">
+  <nuxt-link class="post-video" :to="`/watch?v=${postVideo.id}`">
     <div class="thumbnail">
-      <img class="thumbnail-img" :src="proxyUrl(postVideo.thumbnails[0].url)" />
+      <img
+        class="thumbnail-img"
+        :src="proxyUrl(postVideo.thumbnails?.[2]?.url ?? postVideo.thumbnails?.[0]?.url)"
+      />
     </div>
     <div class="video-info">
       <p v-tippy="postVideo.title" class="title info-element">
         {{ postVideo.title }}
       </p>
-      <p v-tippy="postVideo.author" class="author info-element">
-        {{ postVideo.author }}
-        <VTIcon v-if="postVideo.badges.verified" name="mdi:check-decagram" />
+      <p v-tippy="postVideo.author?.name" class="author info-element">
+        {{ postVideo.author?.name }}
+        <VTIcon v-if="postVideo.author?.isVerified" name="mdi:check-decagram" />
       </p>
       <p class="video-additional-info info-element">
-        {{ postVideo.publishedText }} &bull; {{ postVideo.viewCountText }}
+        {{ postVideo.published?.text }} &bull; {{ postVideo.viewCount?.toLocaleString('en-US') }}
+        views
       </p>
     </div>
   </nuxt-link>

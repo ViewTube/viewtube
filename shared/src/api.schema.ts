@@ -586,22 +586,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/channels/videos/continuation": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["ChannelsController_getChannelVideosContinuation"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/api/channels/{id}/shorts": {
         parameters: {
             query?: never;
@@ -626,6 +610,23 @@ export interface paths {
             cookie?: never;
         };
         get: operations["ChannelsController_getChannelLivestreams"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/channels/videos/continuation": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Shared by the videos, shorts and livestreams tabs — the token carries the sort and filter. */
+        get: operations["ChannelsController_getChannelVideosContinuation"];
         put?: never;
         post?: never;
         delete?: never;
@@ -690,22 +691,6 @@ export interface paths {
             cookie?: never;
         };
         get: operations["ChannelsController_searchChannelContinuation"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/channels/relatedchannels/continuation": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["ChannelsController_getRelatedChannelsContinuation"];
         put?: never;
         post?: never;
         delete?: never;
@@ -1210,6 +1195,7 @@ export interface components {
             /** Format: date-time */
             upcoming?: string;
             live?: boolean;
+            isMembersOnly?: boolean;
             userData?: {
                 videoLength?: number;
                 watchProgress?: number;
@@ -1324,9 +1310,9 @@ export interface components {
             /** @enum {string} */
             upload_date?: "hour" | "month" | "year" | "week" | "all" | "today";
             /** @enum {string} */
-            type?: "video" | "playlist" | "all" | "channel" | "movie";
+            type?: "video" | "channel" | "all" | "playlist" | "movie";
             /** @enum {string} */
-            duration?: "all" | "long" | "medium" | "short";
+            duration?: "long" | "medium" | "all" | "short";
             /** @enum {string} */
             sort_by?: "view_count" | "relevance" | "rating" | "upload_date";
             features?: ("3d" | "location" | "360" | "live" | "hd" | "subtitles" | "creative_commons" | "purchased" | "4k" | "hdr" | "vr180")[];
@@ -1337,149 +1323,122 @@ export interface components {
             refinements: string[];
             continuation?: string;
         };
-        ChannelImageDto: {
-            url: string;
-            width: number;
-            height: number;
-        };
-        RelatedChannelDto: {
-            channelName?: string;
-            channelId?: string;
-            channelUrl?: string;
-            author: string;
-            authorId: string;
-            authorUrl: string;
-            authorThumbnails: Record<string, never>[];
-            videoCount: number;
-            subscriberText: string;
-            subscriberCount: number;
-            verified: boolean;
-            officialArtist: boolean;
-            officialArist: boolean;
-        };
-        ChannelLinkDto: {
-            url: string;
-            icon: string;
+        VTChannelLinkDto: {
             title: string;
+            url: string;
+            favicons?: components["schemas"]["VTThumbnailDto"][];
         };
-        ChannelInfoDto: {
-            author: string;
-            authorId: string;
-            authorUrl: string;
-            oResponse: Record<string, never>;
-            authorBanners: components["schemas"]["ChannelImageDto"][];
-            authorThumbnails: components["schemas"]["ChannelImageDto"][];
-            subscriberText: string;
-            subscriberCount: number;
-            description: string;
-            isFamilyFriendly: boolean;
-            relatedChannels: {
-                items: components["schemas"]["RelatedChannelDto"][];
-                continuation: string | null;
-            };
-            allowedRegions: string[];
-            isVerified: boolean;
-            isOfficialArtist: boolean;
-            tags: string[];
-            channelIdType: number;
-            channelTabs: string[];
-            alertMessage: string;
-            channelLinks: {
-                primaryLinks: components["schemas"]["ChannelLinkDto"][];
-                secondaryLinks: components["schemas"]["ChannelLinkDto"][];
-            };
+        VTChannelPageDto: {
+            banners?: components["schemas"]["VTThumbnailDto"][];
+            subscriberText?: string;
+            isFamilyFriendly?: boolean;
+            tags?: string[];
+            allowedRegions?: string[];
+            links?: components["schemas"]["VTChannelLinkDto"][];
+            tabs?: string[];
+            id: string;
+            name: string;
+            handle?: string;
+            thumbnails?: components["schemas"]["VTThumbnailDto"][];
+            isVerified?: boolean;
+            isArtist?: boolean;
+            subscribers?: number;
+            description?: string;
+            videoCount?: number;
         };
-        ChannelVideoDto: {
-            author: string;
-            authorId: string;
-            durationText?: string;
-            lengthSeconds?: number;
-            liveNow: boolean;
-            premiere: boolean;
-            premium: boolean;
-            publishedText: string;
-            title: string;
+        VTPlaylistDto: {
             type: string;
-            videoId: string;
-            videoThumbnails: components["schemas"]["ChannelImageDto"][] | null;
-            viewCount: number;
-            viewCountText: string;
+            id: string;
+            title: string;
+            thumbnails?: components["schemas"]["VTThumbnailDto"][];
+            author?: components["schemas"]["VTAuthorDto"];
+            videoCount?: number;
         };
-        ChannelHomeItemDto: {
-            shelfName: string;
+        VTChannelDto: {
+            id: string;
+            name: string;
+            handle?: string;
+            thumbnails?: components["schemas"]["VTThumbnailDto"][];
+            isVerified?: boolean;
+            isArtist?: boolean;
+            subscribers?: number;
+            description?: string;
+            videoCount?: number;
+        };
+        VTChannelShelfDto: {
+            title: string;
             /** @enum {string} */
-            type: "video" | "videos" | "channels" | "playlist" | "verticalVideoList" | "mix" | "playlists" | "livestreams";
-            items: Record<string, never>;
+            type: "videos" | "channels" | "shorts" | "playlists";
+            videos?: components["schemas"]["VTVideoDto"][];
+            playlists?: components["schemas"]["VTPlaylistDto"][];
+            channels?: components["schemas"]["VTChannelDto"][];
         };
-        ChannelHomeDto: {
-            featuredVideo: components["schemas"]["ChannelVideoDto"];
-            items: components["schemas"]["ChannelHomeItemDto"][];
+        VTChannelHomeDto: {
+            featuredVideo?: components["schemas"]["VTVideoDto"];
+            shelves: components["schemas"]["VTChannelShelfDto"][];
         };
-        ChannelVideosDto: {
-            /** @enum {number} */
-            channelIdType?: 0 | 1 | 2 | 3 | 4 | 5;
-            alertMessage?: string;
-            items?: components["schemas"]["ChannelVideoDto"][];
+        VTChannelFeedDto: {
+            videos: components["schemas"]["VTVideoDto"][];
+            continuation?: string;
+            /** @enum {string} */
+            appliedSort?: "newest" | "oldest" | "popular";
+            /**
+             * @description Empty when youtube offers no content filter for this channel, which is the case for every
+             *     channel without memberships. The client shows the control only when there is a choice.
+             */
+            availableFilters?: ("all" | "public" | "members")[];
+            /** @enum {string} */
+            appliedFilter?: "all" | "public" | "members";
+        };
+        VTChannelPlaylistsDto: {
+            playlists: components["schemas"]["VTPlaylistDto"][];
             continuation?: string;
         };
-        ChannelVideosContinuationDto: {
-            items?: components["schemas"]["ChannelVideoDto"][];
+        VTChannelSearchDto: {
+            videos: components["schemas"]["VTVideoDto"][];
+            playlists?: components["schemas"]["VTPlaylistDto"][];
             continuation?: string;
         };
-        ChannelPlaylistDto: {
-            author: string;
-            authorId: string;
-            authorUrl: string;
-            playlistId: string;
-            playlistThumbnail: string;
-            playlistUrl: string;
-            title: string;
-            type: string;
-            videoCount: number;
+        VTCommunityPostPollDto: {
+            choices: string[];
+            totalVotesText?: string;
+            /** @description Quizzes are polls with a right answer; absent for an ordinary poll. */
+            correctChoice?: string;
         };
-        ChannelPlaylistsDto: {
-            channelIdType?: number;
-            alertMessage?: string;
-            items?: components["schemas"]["ChannelPlaylistDto"][];
+        VTCommunityPostAttachmentDto: {
+            /** @enum {string} */
+            type: "video" | "image" | "multiImage" | "poll" | "quiz";
+            image?: components["schemas"]["VTThumbnailDto"][];
+            images: components["schemas"]["VTThumbnailDto"][][];
+            poll?: components["schemas"]["VTCommunityPostPollDto"];
+            video?: components["schemas"]["VTVideoDto"];
+        };
+        VTCommunityPostDto: {
+            id: string;
+            text?: string;
+            author?: components["schemas"]["VTAuthorDto"];
+            published?: {
+                text?: string;
+                /** Format: date-time */
+                date?: string;
+            };
+            likeCount?: number;
+            voteText?: string;
+            commentText?: string;
+            attachment?: components["schemas"]["VTCommunityPostAttachmentDto"];
+        };
+        VTCommunityPostsDto: {
+            posts: components["schemas"]["VTCommunityPostDto"][];
             continuation?: string;
         };
-        ChannelPlaylistsContinuationDto: {
-            items?: components["schemas"]["ChannelPlaylistDto"][];
-            continuation?: string;
-        };
-        ChannelSearchContinuationDto: {
-            items?: components["schemas"]["ChannelVideoDto"][];
-            continuation?: string;
-        };
-        RelatedChannelsContinuationDto: {
-            items: Record<string, never>[];
-            continuation: string;
-        };
-        ChannelCommunityPostDto: {
-            postText: string;
-            postId: string;
-            author: string;
-            authorThumbnails: string;
-            publishedText: string;
-            voteCount: string;
-            commentCount: string;
-            postContent: Record<string, never>;
-        };
-        ChannelCommunityPostsDto: {
-            channelIdType: number;
-            innerTubeApi: string;
-            items: components["schemas"]["ChannelCommunityPostDto"][];
-            continuation: string;
-        };
-        ChannelCommunityPostsContinuationDto: {
-            innerTubeApi: string;
-            items: components["schemas"]["ChannelCommunityPostDto"][];
-            continuation: string;
-        };
-        ChannelStatsDto: {
-            joinedDate: number;
-            viewCount: number;
-            location: string;
+        VTChannelAboutDto: {
+            description?: string;
+            joinedDate?: number;
+            viewCount?: number;
+            location?: string;
+            subscribers?: number;
+            videoCount?: number;
+            links?: components["schemas"]["VTChannelLinkDto"][];
         };
         HomeFeedDto: {
             videos: components["schemas"]["VTVideoDto"][];
@@ -2391,7 +2350,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["ChannelInfoDto"];
+                    "application/json": components["schemas"]["VTChannelPageDto"];
                 };
             };
         };
@@ -2412,15 +2371,17 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["ChannelHomeDto"];
+                    "application/json": components["schemas"]["VTChannelHomeDto"];
                 };
             };
         };
     };
     ChannelsController_getChannelVideos: {
         parameters: {
-            query: {
-                sort: string;
+            query?: {
+                strategy?: "params" | "discover";
+                filter?: "all" | "public" | "members";
+                sort?: "newest" | "oldest" | "popular";
             };
             header?: never;
             path: {
@@ -2435,7 +2396,55 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["ChannelVideosDto"];
+                    "application/json": components["schemas"]["VTChannelFeedDto"];
+                };
+            };
+        };
+    };
+    ChannelsController_getChannelShorts: {
+        parameters: {
+            query?: {
+                strategy?: "params" | "discover";
+                sort?: "newest" | "oldest" | "popular";
+            };
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VTChannelFeedDto"];
+                };
+            };
+        };
+    };
+    ChannelsController_getChannelLivestreams: {
+        parameters: {
+            query?: {
+                strategy?: "params" | "discover";
+                sort?: "newest" | "oldest" | "popular";
+            };
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VTChannelFeedDto"];
                 };
             };
         };
@@ -2456,53 +2465,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["ChannelVideosContinuationDto"];
-                };
-            };
-        };
-    };
-    ChannelsController_getChannelShorts: {
-        parameters: {
-            query: {
-                sort: string;
-            };
-            header?: never;
-            path: {
-                id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ChannelVideosDto"];
-                };
-            };
-        };
-    };
-    ChannelsController_getChannelLivestreams: {
-        parameters: {
-            query: {
-                sort: string;
-            };
-            header?: never;
-            path: {
-                id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ChannelVideosDto"];
+                    "application/json": components["schemas"]["VTChannelFeedDto"];
                 };
             };
         };
@@ -2523,7 +2486,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["ChannelPlaylistsDto"];
+                    "application/json": components["schemas"]["VTChannelPlaylistsDto"];
                 };
             };
         };
@@ -2544,7 +2507,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["ChannelPlaylistsContinuationDto"];
+                    "application/json": components["schemas"]["VTChannelPlaylistsDto"];
                 };
             };
         };
@@ -2567,7 +2530,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": Record<string, never>;
+                    "application/json": components["schemas"]["VTChannelSearchDto"];
                 };
             };
         };
@@ -2588,28 +2551,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["ChannelSearchContinuationDto"];
-                };
-            };
-        };
-    };
-    ChannelsController_getRelatedChannelsContinuation: {
-        parameters: {
-            query: {
-                continuation: string;
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["RelatedChannelsContinuationDto"];
+                    "application/json": components["schemas"]["VTChannelSearchDto"];
                 };
             };
         };
@@ -2630,7 +2572,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["ChannelCommunityPostsDto"];
+                    "application/json": components["schemas"]["VTCommunityPostsDto"];
                 };
             };
         };
@@ -2639,7 +2581,6 @@ export interface operations {
         parameters: {
             query: {
                 continuation: string;
-                innertube: string;
             };
             header?: never;
             path?: never;
@@ -2652,7 +2593,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["ChannelCommunityPostsContinuationDto"];
+                    "application/json": components["schemas"]["VTCommunityPostsDto"];
                 };
             };
         };
@@ -2673,7 +2614,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["ChannelStatsDto"];
+                    "application/json": components["schemas"]["VTChannelAboutDto"];
                 };
             };
         };

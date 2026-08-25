@@ -2,23 +2,21 @@
 const route = useRoute();
 
 const channelId = computed(() => getChannelIdFromParam(route.params.id));
-const sortBy = ref<ChannelPlaylistsSortOptionsType>('last');
 
-const { data, pending } = useGetChannelPlaylists(channelId, { sortBy });
+const { data, pending } = useGetChannelPlaylists(channelId);
 
-const { moreVideosPending, onLoadMore, videos } = useChannelPlaylistsContinuation(data);
+const { morePlaylistsPending, onLoadMore, feed } = useChannelPlaylistsContinuation(data);
 </script>
 
 <template>
   <Spinner v-if="pending" />
   <ChannelVideoPage
-    v-if="videos && !pending"
-    v-model:sort="sortBy"
-    :videos="videos"
-    :more-pending="moreVideosPending"
-    :entry-type-name="'Playlists'"
+    v-if="feed && !pending"
+    :entries="feed.playlists"
+    :continuation="feed.continuation"
+    :more-pending="morePlaylistsPending"
     entry-type="playlists"
-    :sort-options="channelPlaylistsSortOptions"
+    entry-type-name="playlists"
     @load-more="onLoadMore"
   />
 </template>

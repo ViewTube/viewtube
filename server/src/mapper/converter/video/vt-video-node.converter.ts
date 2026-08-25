@@ -35,7 +35,7 @@ const gridVideoToSource = (node: any): VideoSourceApproximation => {
  * Youtube returns videos as a growing set of node types, feeds mix them freely.
  * Everything that can be shown as a video entry is mapped to a VTVideoDto here.
  */
-const toVTVideoDtoFromNode = (node: any): VTVideoDto | null => {
+export const toVTVideoDtoFromNode = (node: any): VTVideoDto | null => {
   switch (node?.type) {
     case 'Video':
     case 'CompactVideo':
@@ -47,6 +47,9 @@ const toVTVideoDtoFromNode = (node: any): VTVideoDto | null => {
       return toVTVideoDto(gridVideoToSource(node));
     case 'LockupView':
       return toVTVideoDtoFromLockupView(node);
+    // Channel and home feeds wrap their entries, the entry itself is what carries the video
+    case 'RichItem':
+      return toVTVideoDtoFromNode(node?.content);
     case 'ShortsLockupView':
     case 'ReelItem':
       return toVTVideoDtoFromShortsLockupView(node);

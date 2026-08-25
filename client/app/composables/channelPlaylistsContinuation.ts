@@ -1,21 +1,22 @@
 import type { ApiDto } from '@viewtube/shared';
 import { useMessagesStore } from '~/store/messages';
 
-export const useChannelPlaylistsContinuation = <T extends ApiDto<'ChannelPlaylistsDto'>>(
-  initialData: Ref<T>
+export const useChannelPlaylistsContinuation = (
+  initialData: Ref<ApiDto<'VTChannelPlaylistsDto'>>
 ) => {
   const messagesStore = useMessagesStore();
 
-  const videos = ref(initialData);
-  const moreVideosPending = ref(false);
+  const feed = ref(initialData);
+  const morePlaylistsPending = ref(false);
 
   const onLoadMore = async () => {
-    if (!videos.value.continuation) return;
-    moreVideosPending.value = true;
+    if (!feed.value?.continuation) return;
+
+    morePlaylistsPending.value = true;
     try {
-      const additionalVideos = await getChannelPlaylistsContinuation(videos.value.continuation);
-      videos.value.items = [...videos.value.items, ...additionalVideos.items];
-      videos.value.continuation = additionalVideos.continuation;
+      const additionalPlaylists = await getChannelPlaylistsContinuation(feed.value.continuation);
+      feed.value.playlists = [...feed.value.playlists, ...additionalPlaylists.playlists];
+      feed.value.continuation = additionalPlaylists.continuation;
     } catch (error) {
       messagesStore.createMessage({
         type: 'error',
@@ -25,12 +26,12 @@ export const useChannelPlaylistsContinuation = <T extends ApiDto<'ChannelPlaylis
           "More playlists don't seem to be available, or something went wrong."
       });
     }
-    moreVideosPending.value = false;
+    morePlaylistsPending.value = false;
   };
 
   return {
-    videos,
-    moreVideosPending,
+    feed,
+    morePlaylistsPending,
     onLoadMore
   };
 };

@@ -1,3 +1,4 @@
+import { VTPlaylistDto } from 'server/mapper/dto/vt-playlist.dto';
 import { VTVideoDto } from 'server/mapper/dto/vt-video.dto';
 import { generateVideoThumbnails } from 'server/mapper/utils/video-thumbnails';
 import {
@@ -9,15 +10,19 @@ import {
   extractLockupDuration,
   extractLockupId,
   extractLockupLive,
+  extractLockupMembersOnly,
   extractLockupPublished,
   extractLockupRichThumbnails,
+  extractLockupThumbnails,
   extractLockupTitle,
+  extractLockupVideoCount,
   extractLockupViewCount,
   extractShortsLockupId,
   extractShortsLockupViewCount
 } from './vt-lockup.extractors';
 
 const videoContentTypes = ['UNSPECIFIED', 'VIDEO', 'SHORT', 'MOVIE', 'CLIP', 'PODCAST'];
+const playlistContentTypes = ['PLAYLIST', 'ALBUM', 'SHOW'];
 
 export const toVTVideoDtoFromLockupView = (lockup: LockupViewApproximation): VTVideoDto | null => {
   if (lockup?.content_type && !videoContentTypes.includes(lockup.content_type)) {
@@ -38,7 +43,30 @@ export const toVTVideoDtoFromLockupView = (lockup: LockupViewApproximation): VTV
     duration: extractLockupDuration(lockup),
     published: extractLockupPublished(lockup),
     viewCount: extractLockupViewCount(lockup),
-    live: extractLockupLive(lockup)
+    live: extractLockupLive(lockup),
+    isMembersOnly: extractLockupMembersOnly(lockup)
+  };
+};
+
+export const toVTPlaylistDtoFromLockupView = (
+  lockup: LockupViewApproximation
+): VTPlaylistDto | null => {
+  if (lockup?.content_type && !playlistContentTypes.includes(lockup.content_type)) {
+    return null;
+  }
+
+  const id = extractLockupId(lockup);
+  const title = extractLockupTitle(lockup);
+
+  if (!id || !title) return null;
+
+  return {
+    type: 'playlist',
+    id,
+    title,
+    author: extractLockupAuthor(lockup),
+    thumbnails: extractLockupThumbnails(lockup),
+    videoCount: extractLockupVideoCount(lockup)
   };
 };
 

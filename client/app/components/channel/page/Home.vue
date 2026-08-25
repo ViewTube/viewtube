@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import dayjs from 'dayjs';
 import BadgeButton from '~/components/buttons/BadgeButton.vue';
-import RelatedChannels from '~/components/channel/RelatedChannels.vue';
 
 const route = useRoute();
 
@@ -12,36 +11,31 @@ const { data: channelInfo, pending } = useGetChannelInfo(channelId);
 const { data: channelHome, pending: pendingHome } = useGetChannelHome(channelId);
 const { data: channelStats, pending: pendingStats } = useGetChannelStats(channelId);
 
-const hasChannelLinks = computed(() => {
-  return (
-    channelInfo.value?.channelLinks?.primaryLinks?.length ||
-    channelInfo.value?.channelLinks?.secondaryLinks?.length
-  );
-});
+const channelLinks = computed(() => channelInfo.value?.links ?? []);
 const channelDescription = computed(() => {
   return createTextLinks(channelInfo.value?.description);
 });
+
+const hasStats = computed(() =>
+  Boolean(
+    channelStats.value?.joinedDate || channelStats.value?.viewCount || channelStats.value?.location
+  )
+);
 </script>
 
 <template>
   <Spinner v-if="pending || pendingHome || pendingStats" />
-  <div
-    v-if="!pending && !pendingHome && !pendingStats && channelInfo && channelHome"
-    class="channel-home"
-  >
+  <div v-if="!pending && !pendingHome && !pendingStats && channelInfo" class="channel-home">
     <SectionTitle title="Info" />
     <pre
       v-if="channelInfo.description"
       class="channel-description links"
       v-html="channelDescription"
     />
-    <SectionSubtitle v-if="hasChannelLinks" title="Links" class="channel-links-title" />
-    <ChannelBannerLinks
-      v-if="hasChannelLinks"
-      :banner-links="{ ...channelInfo?.channelLinks, type: 'links' }"
-    />
-    <SectionSubtitle v-if="channelInfo.tags" title="Tags" class="channel-tags-title" />
-    <div v-if="channelInfo.tags" class="channel-tags">
+    <SectionSubtitle v-if="channelLinks.length" title="Links" class="channel-links-title" />
+    <ChannelBannerLinks v-if="channelLinks.length" :links="channelLinks" />
+    <SectionSubtitle v-if="channelInfo.tags?.length" title="Tags" class="channel-tags-title" />
+    <div v-if="channelInfo.tags?.length" class="channel-tags">
       <div class="channel-tags-inner">
         <BadgeButton
           v-for="tag in channelInfo.tags"
@@ -54,31 +48,29 @@ const channelDescription = computed(() => {
         </BadgeButton>
       </div>
     </div>
-    <SectionSubtitle v-if="channelStats" title="Stats" class="channel-stats-title" />
-    <div v-if="channelStats" class="channel-stats">
-      <div>
+    <SectionSubtitle v-if="hasStats" title="Stats" class="channel-stats-title" />
+    <div v-if="hasStats" class="channel-stats">
+      <div v-if="channelStats.joinedDate">
         Joined
-        <span class="highlight">{{ dayjs(channelStats?.joinedDate).format('MMMM D, YYYY') }}</span>
+        <span class="highlight">{{ dayjs(channelStats.joinedDate).format('MMMM D, YYYY') }}</span>
       </div>
-      <div>
-        <span class="highlight">{{ channelStats?.viewCount?.toLocaleString('en-US') }}</span> total
+      <div v-if="channelStats.viewCount">
+        <span class="highlight">{{ channelStats.viewCount.toLocaleString('en-US') }}</span> total
         views
       </div>
+      <div v-if="channelStats.location">
+        <span class="highlight">{{ channelStats.location }}</span>
+      </div>
     </div>
-    <SectionTitle v-if="channelInfo.relatedChannels?.items?.length > 0" title="Related channels" />
-    <RelatedChannels
-      v-if="channelInfo.relatedChannels?.items?.length > 0"
-      :related-channels="{ ...channelInfo.relatedChannels, type: 'channels' }"
-    />
-    <SectionTitle v-if="channelHome.featuredVideo" title="Featured video" />
+    <SectionTitle v-if="channelHome?.featuredVideo" title="Featured video" />
     <ChannelFeaturedVideo
-      v-if="channelHome.featuredVideo"
+      v-if="channelHome?.featuredVideo"
       :featured-video="channelHome.featuredVideo"
     />
-    <div v-for="(shelf, index) in channelHome?.items as any" :key="index" class="shelves">
-      <SectionTitle :title="shelf.shelfName" :link="shelf.shelfUrl" />
+    <div v-for="(shelf, index) in channelHome?.shelves ?? []" :key="index" class="shelves">
+      <SectionTitle :title="shelf.title" />
       <ChannelPlaylistShelf
-        v-if="shelf.type === 'playlist' || shelf.type === 'videos' || shelf.type === 'livestreams'"
+        v-if="shelf.type === 'videos' || shelf.type === 'shorts'"
         :shelf="shelf"
       />
       <ChannelPlaylistsShelf v-else-if="shelf.type === 'playlists'" :shelf="shelf" />

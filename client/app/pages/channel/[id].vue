@@ -5,7 +5,7 @@ import { Swiper, SwiperSlide } from 'swiper/vue';
 definePageMeta({
   name: 'channel',
   path: '/channel/:id(.*)',
-  alias: ['/:id(@.*)']
+  alias: ['/:id(@.*)', '/c/:id(.*)', '/user/:id(.*)']
 });
 
 const route = useRoute();
@@ -31,9 +31,9 @@ const {
   <div class="channel">
     <Spinner v-if="pending && !channelInfo" class="centered" />
     <MetaPageHead
-      :title="`${channelInfo?.author}`"
+      :title="`${channelInfo?.name}`"
       :description="`${channelInfo?.description?.substring(0, 100)}`"
-      :image="`${channelInfo?.authorThumbnails?.[0]?.url}`"
+      :image="`${channelInfo?.thumbnails?.[0]?.url}`"
     />
     <ChannelBannerSection
       v-if="channelInfo"
@@ -49,7 +49,6 @@ const {
       <ChannelPageLive v-if="currentPage === 'live'" />
       <ChannelPagePlaylists v-if="currentPage === 'playlists'" />
       <ChannelPageCommunity v-if="currentPage === 'community'" />
-      <ChannelPageChannels v-if="currentPage === 'channels'" />
     </div>
     <swiper
       v-if="jsEnabled && channelInfo"
@@ -82,10 +81,6 @@ const {
       </swiper-slide>
       <swiper-slide class="channel-page">
         <ChannelPageCommunity v-if="loadedPages.includes('community')" />
-        <Spinner v-else />
-      </swiper-slide>
-      <swiper-slide class="channel-page">
-        <ChannelPageChannels v-if="loadedPages.includes('channels')" />
         <Spinner v-else />
       </swiper-slide>
     </swiper>

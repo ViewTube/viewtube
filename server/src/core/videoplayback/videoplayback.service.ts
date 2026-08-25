@@ -1,15 +1,11 @@
 import { BadRequestException, Injectable, Logger } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { URL } from 'node:url';
 import { vtFetch } from 'server/common/vtFetch';
 
 @Injectable()
 export class VideoplaybackService {
-  constructor(
-    private configService: ConfigService,
-    private readonly logger: Logger
-  ) {}
+  constructor(private readonly logger: Logger) {}
   async proxyStream(request: FastifyRequest, reply: FastifyReply): Promise<void> {
     let requestUrl = request.url;
 
@@ -73,8 +69,18 @@ export class VideoplaybackService {
 
       reply.status(fetchResponse.statusCode).send(fetchResponse.body);
     } catch (error) {
-      if (this.configService.get('NODE_ENV') !== 'production') {
-        this.logger.log(error);
+      // Stream failures are the most user-visible breakage in the app, so they are always logged
+      // and always answered — swallowing them left the request hanging until socket timeout.
+      this.logger.error(`Videoplayback proxy failed for ${urlHost}`, error);
+      if (!reply.sent) {
+        reply
+          .code(502)
+          .type('application/json')
+          .send({
+            statusCode: 502,
+            message: `Failed to proxy videoplayback from ${urlHost}`,
+            error: 'Bad Gateway'
+          });
       }
     }
   }

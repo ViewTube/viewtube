@@ -3,20 +3,17 @@ import type { ApiDto } from '@viewtube/shared';
 export const getChannelVideosContinuation = (continuation: string) => {
   const { apiUrl } = useApiUrl();
 
-  return vtClientFetch<ApiDto<'ChannelVideosContinuationDto'>>(
-    `${apiUrl.value}channels/videos/continuation`,
-    {
-      query: {
-        continuation
-      }
+  return vtClientFetch<ApiDto<'VTChannelFeedDto'>>(`${apiUrl.value}channels/videos/continuation`, {
+    query: {
+      continuation
     }
-  );
+  });
 };
 
 export const getChannelPlaylistsContinuation = (continuation: string) => {
   const { apiUrl } = useApiUrl();
 
-  return vtClientFetch<ApiDto<'ChannelPlaylistsContinuationDto'>>(
+  return vtClientFetch<ApiDto<'VTChannelPlaylistsDto'>>(
     `${apiUrl.value}channels/playlists/continuation`,
     {
       query: {
@@ -26,31 +23,14 @@ export const getChannelPlaylistsContinuation = (continuation: string) => {
   );
 };
 
-export const getRelatedChannelsContinuation = (continuation: string) => {
+export const getChannelCommunityPostsContinuation = (continuation: string) => {
   const { apiUrl } = useApiUrl();
 
-  return vtClientFetch<ApiDto<'RelatedChannelsContinuationDto'>>(
-    `${apiUrl.value}channels/relatedchannels/continuation`,
-    {
-      query: {
-        continuation
-      }
-    }
-  );
-};
-
-export const getChannelCommunityPostsContinuation = (
-  continuation: string,
-  innertubeKey: string
-) => {
-  const { apiUrl } = useApiUrl();
-
-  return vtClientFetch<ApiDto<'ChannelCommunityPostsContinuationDto'>>(
+  return vtClientFetch<ApiDto<'VTCommunityPostsDto'>>(
     `${apiUrl.value}channels/communityposts/continuation`,
     {
       query: {
-        continuation,
-        innertube: innertubeKey
+        continuation
       }
     }
   );

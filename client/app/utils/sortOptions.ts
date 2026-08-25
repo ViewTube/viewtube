@@ -9,9 +9,12 @@ const baseChannelVideosSortOptions = ['newest', 'oldest', 'popular'] as const;
 export const channelVideosSortOptions = selectSortOptions(baseChannelVideosSortOptions);
 export type ChannelVideosSortOptionsType = (typeof baseChannelVideosSortOptions)[number];
 
-const baseChannelPlaylistsSortOptions = ['last', 'oldest', 'newest'] as const;
-export const channelPlaylistsSortOptions = [
-  { value: 'last', label: 'Last updated' },
-  ...selectSortOptions(baseChannelPlaylistsSortOptions).slice(1)
-];
-export type ChannelPlaylistsSortOptionsType = (typeof baseChannelPlaylistsSortOptions)[number];
+const channelVideosFilterLabels = {
+  all: 'All',
+  public: 'Public',
+  members: 'Members only'
+} as const;
+export const channelVideosFilterOptions = Object.entries(channelVideosFilterLabels).map(
+  ([value, label]) => ({ value, label })
+);
+export type ChannelVideosFilterOptionsType = keyof typeof channelVideosFilterLabels;
