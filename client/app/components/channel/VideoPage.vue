@@ -12,7 +12,7 @@ const props = withDefaults(
     sort?: ChannelVideosSortOptionsType;
     sortOptions?: { value: string; label: string }[];
     filter?: ChannelVideosFilterOptionsType;
-    /** Left empty when youtube offers no content filter, which hides the control. */
+    /** Left empty when YouTube offers no content filter, which hides the control. */
     availableFilters?: Array<string>;
     entryTypeName?: string;
     morePending?: boolean;

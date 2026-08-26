@@ -111,7 +111,7 @@ export const extractChannelArtist = (channel: ChannelPageApproximation): boolean
 };
 
 /**
- * Youtube offers ten sizes of every favicon, from 16 to 256, which is several kilobytes of URLs
+ * YouTube offers ten sizes of every favicon, from 16 to 256, which is several kilobytes of URLs
  * per channel for an icon rendered at 24px. Keep the smallest and one big enough for a 2x display.
  */
 const pickFavicons = (favicons: ChannelLinkApproximation['favicon']): Array<VTThumbnailDto> => {
@@ -132,7 +132,7 @@ export const extractChannelLinks = (about: AboutChannelApproximation): Array<VTC
 
       return {
         title: link?.title?.text ?? link?.link?.text,
-        // Youtube wraps every channel link in a redirect, the real target sits in its `q` param
+        // YouTube wraps every channel link in a redirect, the real target sits in its `q` param
         url: parseRedirectUrl(redirectUrl) ?? redirectUrl,
         favicons: pickFavicons(link?.favicon)
       };

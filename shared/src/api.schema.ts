@@ -770,7 +770,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["ProxyController_getQuery"];
+        get: operations["ProxyController_proxyImage"];
         put?: never;
         post?: never;
         delete?: never;
@@ -1383,7 +1383,7 @@ export interface components {
             /** @enum {string} */
             appliedSort?: "newest" | "oldest" | "popular";
             /**
-             * @description Empty when youtube offers no content filter for this channel, which is the case for every
+             * @description Empty when YouTube offers no content filter for this channel, which is the case for every
              *     channel without memberships. The client shows the control only when there is a choice.
              */
             availableFilters?: ("all" | "public" | "members")[];
@@ -2638,9 +2638,10 @@ export interface operations {
             };
         };
     };
-    ProxyController_getQuery: {
+    ProxyController_proxyImage: {
         parameters: {
             query: {
+                /** @description Absolute url of the image to proxy. Only YouTube-owned hosts are allowed. */
                 url: string;
             };
             header?: never;
@@ -2649,17 +2650,21 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description The proxied image, streamed from YouTube. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "image/*": string;
+                };
             };
         };
     };
     ProxyController_proxyText: {
         parameters: {
             query: {
+                /** @description Absolute url of the text document to proxy. Only YouTube's timedtext api is allowed. */
                 url: string;
             };
             header?: never;
@@ -2668,28 +2673,40 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description The proxied timedtext document, streamed from YouTube. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "text/xml": string;
+                };
             };
         };
     };
     ProxyController_proxyStream: {
         parameters: {
-            query?: never;
+            query: {
+                /** @description Absolute url of the stream or manifest to proxy. Only YouTube-owned hosts are allowed. */
+                url: string;
+                /** @description Origin of this instance, used to rewrite the urls inside a proxied hls manifest. */
+                originUrl: string;
+            };
             header?: never;
             path?: never;
             cookie?: never;
         };
         requestBody?: never;
         responses: {
+            /** @description The proxied stream, or an hls manifest rewritten to point back at this endpoint. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "application/octet-stream": string;
+                    "application/vnd.apple.mpegurl": string;
+                };
             };
         };
     };

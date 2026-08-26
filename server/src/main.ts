@@ -127,7 +127,7 @@ const bootstrap = async () => {
   // SWAGGER DOCS
   const documentOptions = new DocumentBuilder()
     .setTitle('ViewTube API')
-    .setDescription('ViewTube, an alternative Youtube frontend.')
+    .setDescription('ViewTube, an alternative YouTube frontend.')
     .setVersion(`Version ${version}`)
     .setLicense('AGPLv3', 'https://raw.githubusercontent.com/viewtube/viewtube/development/LICENSE')
     .addBearerAuth()

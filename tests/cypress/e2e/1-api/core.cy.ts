@@ -49,7 +49,6 @@ describe('Core API tests', () => {
     });
   });
 
-  // Rejected on the id's shape alone, without asking youtube
   it('GET channel with invalid id', () => {
     const channelId = 'fvkHgvbUko';
     cy.request<ApiDto<'VTChannelPageDto'>>({
@@ -61,7 +60,6 @@ describe('Core API tests', () => {
     });
   });
 
-  // Well formed, so it takes youtube to tell us the channel is not there
   it('GET channel that does not exist', () => {
     cy.request<ApiDto<'VTChannelPageDto'>>({
       method: 'GET',
@@ -133,10 +131,11 @@ describe('Core API tests', () => {
       expect(response.body.comments).to.be.an('array').that.is.not.empty;
 
       const commentWithReplies = response.body.comments.find(comment => comment.replyCount > 10);
+      expect(commentWithReplies, 'a comment with replies to exist').to.not.be.undefined;
 
       cy.request<ApiDto<'VTCommentsReplyResponseDto'>>(
         'GET',
-        `${apiUrl}/comments/replies?replyContinuation=${commentWithReplies.replyContinuation}`
+        `${apiUrl}/comments/replies?replyContinuation=${commentWithReplies?.replyContinuation}`
       ).then(repliesResponse => {
         expect(repliesResponse.status).to.eq(200);
         expect(repliesResponse.body.comments).to.be.an('array').that.is.not.empty;

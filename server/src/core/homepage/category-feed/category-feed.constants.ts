@@ -13,7 +13,7 @@ export const MIN_CATEGORY_VIDEOS = 8;
 export const MIN_REAL_HOME_FEED_VIDEOS = 8;
 
 /**
- * Youtube retired the trending page, these topic channels are what is left of the
+ * YouTube retired the trending page, these topic channels are what is left of the
  * category feeds that can be read without an account.
  */
 export const TOPIC_CHANNELS = {

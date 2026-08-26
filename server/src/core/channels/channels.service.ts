@@ -75,7 +75,7 @@ export class ChannelsService {
           return browseId;
         }
       } catch (error) {
-        // Youtube answers a name it does not know with a plain request failure, indistinguishable
+        // YouTube answers a name it does not know with a plain request failure, indistinguishable
         // from a transport problem, so a single miss is only worth a debug line
         this.logger.debug(`Could not resolve ${url}: ${error?.message}`);
       }
@@ -220,7 +220,7 @@ export class ChannelsService {
   }
 
   /**
-   * Youtube sends a channel without a home tab to its videos instead. Standing in a shelf of them
+   * YouTube sends a channel without a home tab to its videos instead. Standing in a shelf of them
    * keeps the tab worth opening, rather than leaving the about info on its own.
    */
   private async fallbackHomeShelves(
@@ -257,7 +257,7 @@ export class ChannelsService {
       const feed = await this.getFeedFromParams(channelId, tab, sort, appliedFilter);
 
       if (feed) {
-        // Youtube answers a well-formed id it does not know with an empty feed rather than an
+        // YouTube answers a well-formed id it does not know with an empty feed rather than an
         // error, which is indistinguishable from a channel that simply has nothing in this tab.
         // Only then is it worth a second request to tell the two apart.
         if (!feed.videos.length && !feed.continuation) {
@@ -354,7 +354,7 @@ export class ChannelsService {
 
     let current = page;
 
-    // A chip youtube did not hand out cannot be followed, and reporting the request back as though
+    // A chip YouTube did not hand out cannot be followed, and reporting the request back as though
     // it had been would put "sorted by popular" over a newest-first list
     let appliedFilter: ContentFilterType = 'all';
     let appliedSort: SortType = 'newest';

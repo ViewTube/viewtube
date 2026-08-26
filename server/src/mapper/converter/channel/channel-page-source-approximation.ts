@@ -5,7 +5,7 @@ type ThumbnailApproximation = Pick<VTThumbnailDto, 'url' | 'width' | 'height'>;
 type TextApproximation = { text?: string } | null;
 
 /**
- * Youtube retired the metadata badges on the channel header and now expresses "verified" and
+ * YouTube retired the metadata badges on the channel header and now expresses "verified" and
  * "official artist" as an icon attached to a run of the title text.
  */
 type TitleAttachmentApproximation = {

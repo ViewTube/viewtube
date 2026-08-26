@@ -23,9 +23,6 @@ ViewTube
   <img src="https://img.shields.io/github/last-commit/viewtube/viewtube" alt="GitHub last commit">
 </p>
 
-> [!WARNING]
-> Project semi-paused at the moment. Read here: [#3002](https://github.com/ViewTube/viewtube/discussions/3002)
-
 ViewTube is an alternative YouTube frontend that lets you watch, search and discover YouTube videos without ads or tracking. It's built to be mobile and desktop friendly, with dark and light themes, and a touch-friendly video player with gestures. You can create an account separately from YouTube, read comments, watch playlists, subscribe to channels and receive push notifications for new uploads.  
 It's built using [Nuxt](https://nuxt.com/) and [Nest](https://nestjs.com/).
 
@@ -47,7 +44,7 @@ Features
 - Dark and light themes
 - Touch friendly video player with gestures
 - Supports loop, speed, autoplay and volume
-- Create an account separately from Youtube
+- Create an account separately from YouTube
 - Read comments
 - Search for videos
 - Watch playlists
@@ -64,12 +61,10 @@ Features
 Where does ViewTube get the data from?
 </h2>
 
-ViewTube does not use the official Youtube API. It instead scrapes the data from the website using a combination of custom built tools and the following open source libraries.
+ViewTube does not use the official YouTube API. It instead scrapes the data from the website using a combination of custom built tools and the following open source libraries.
 
 - [YouTube.js](https://github.com/LuanRT/YouTube.js)
 - [node-ytpl](https://github.com/TimeForANinja/node-ytpl)
-- [yt-comment-scraper](https://github.com/FreeTubeApp/yt-comment-scraper)
-- [yt-channel-info](https://github.com/FreeTubeApp/yt-channel-info)
 
 <h2 align="center">
 <sub>

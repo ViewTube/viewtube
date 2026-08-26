@@ -1,11 +1,27 @@
-import { Injectable, Logger } from '@nestjs/common';
-import { FastifyReply, FastifyRequest } from 'fastify';
+import {
+  BadGatewayException,
+  BadRequestException,
+  ForbiddenException,
+  Injectable,
+  Logger,
+  StreamableFile
+} from '@nestjs/common';
+import { FastifyReply } from 'fastify';
+import { IncomingHttpHeaders } from 'node:http';
 import {
   imageHostSuffixes,
   parseProxyTarget,
   streamHostSuffixes
 } from 'server/common/proxy-allowlist';
 import { vtFetch } from 'server/common/vtFetch';
+import { ProxyStreamQueryDto } from './dto/proxy-stream-query.dto';
+
+type UpstreamResponse = Awaited<ReturnType<typeof vtFetch>>;
+
+const imageContentTypes = ['image/'];
+const xmlContentTypes = ['text/xml', 'application/xml', 'application/ttml+xml'];
+
+const identityEncoding = { 'accept-encoding': 'identity' };
 
 @Injectable()
 export class ProxyService {
@@ -13,86 +29,119 @@ export class ProxyService {
 
   allowedTextUrls = ['https://www.youtube.com/api/timedtext'];
 
-  private rejectTarget(reply: FastifyReply, endpoint: string, error: string): void {
+  private rejectTarget(endpoint: string, error: string): never {
     this.logger.warn(`Blocked ${endpoint} proxy request: ${error}`);
-    reply.code(403).type('application/json').send({
-      statusCode: 403,
-      message: error,
-      error: 'Forbidden'
+    throw new ForbiddenException(error);
+  }
+
+  private failUpstream(endpoint: string, host: string, description: string): never {
+    throw new BadGatewayException({
+      message: `Failed to proxy ${endpoint} from ${host}`,
+      description
     });
   }
 
-  private failUpstream(reply: FastifyReply, endpoint: string, host: string, error: unknown): void {
-    this.logger.error(`${endpoint} proxy failed for ${host}`, error);
-    if (reply.sent) return;
-    reply
-      .code(502)
-      .type('application/json')
-      .send({
-        statusCode: 502,
-        message: `Failed to proxy ${endpoint} from ${host}`,
-        error: 'Bad Gateway'
-      });
+  private toStreamableFile(
+    response: UpstreamResponse,
+    allowedTypes: Array<string>,
+    fallbackType: string
+  ): StreamableFile {
+    const contentType = response.headers['content-type'];
+    const type =
+      typeof contentType === 'string' &&
+      allowedTypes.some(allowed => contentType.startsWith(allowed))
+        ? contentType
+        : fallbackType;
+
+    const contentLength = Number(response.headers['content-length']);
+    const length = Number.isFinite(contentLength) ? contentLength : undefined;
+
+    return new StreamableFile(response.body, { type, ...(length !== undefined ? { length } : {}) });
   }
 
-  async proxyText(url: string, reply: FastifyReply): Promise<void> {
-    const urlToProxy = new URL(url);
+  async proxyText(url: string): Promise<StreamableFile> {
+    let urlToProxy: URL;
 
-    if (this.allowedTextUrls.some(allowedUrl => urlToProxy.href.startsWith(allowedUrl))) {
-      const textResponse = await vtFetch(urlToProxy.href, { useProxy: true });
-      textResponse.body.pipe(reply.raw);
-    } else {
-      reply.code(403).send({
-        statusCode: 403,
-        message: `Url ${url} is not allowed to be proxied.`,
-        error: 'Forbidden'
-      });
+    try {
+      urlToProxy = new URL(url);
+    } catch {
+      throw new BadRequestException('url parameter is not a valid URL');
     }
+
+    if (!this.allowedTextUrls.some(allowedUrl => urlToProxy.href.startsWith(allowedUrl))) {
+      this.rejectTarget('text', `Url ${url} is not allowed to be proxied.`);
+    }
+
+    const textResponse = await vtFetch(urlToProxy.href, {
+      headers: identityEncoding,
+      useProxy: true
+    }).catch(error => {
+      this.logger.error(`Text proxy could not reach ${urlToProxy.hostname}`, error);
+      return this.failUpstream('text', urlToProxy.hostname, 'YouTube could not be reached');
+    });
+
+    if (textResponse.statusCode >= 400) {
+      await textResponse.body.dump();
+      this.failUpstream(
+        'text',
+        urlToProxy.hostname,
+        `YouTube answered with ${textResponse.statusCode}`
+      );
+    }
+
+    return this.toStreamableFile(textResponse, xmlContentTypes, 'text/xml');
   }
 
-  async proxyImage(url: string, reply: FastifyReply): Promise<void> {
+  async proxyImage(url: string): Promise<StreamableFile> {
     const target = parseProxyTarget(url, imageHostSuffixes());
 
     if (target.error) {
-      this.rejectTarget(reply, 'image', target.error);
-      return;
+      this.rejectTarget('image', target.error);
     }
 
-    try {
-      const imageResponse = await vtFetch(target.url.href, { useProxy: true });
+    const imageResponse = await vtFetch(target.url.href, {
+      headers: identityEncoding,
+      useProxy: true
+    }).catch(error => {
+      this.logger.error(`Image proxy could not reach ${target.url.hostname}`, error);
+      return this.failUpstream('image', target.url.hostname, 'YouTube could not be reached');
+    });
 
-      imageResponse.body.pipe(reply.raw);
-    } catch (error) {
-      this.failUpstream(reply, 'image', target.url.hostname, error);
+    if (imageResponse.statusCode >= 400) {
+      await imageResponse.body.dump();
+      this.failUpstream(
+        'image',
+        target.url.hostname,
+        `YouTube answered with ${imageResponse.statusCode}`
+      );
     }
+
+    return this.toStreamableFile(imageResponse, imageContentTypes, 'image/jpeg');
   }
 
-  async proxyStream(request: FastifyRequest, reply: FastifyReply): Promise<void> {
-    const originUrl = request.query['originUrl'];
+  async proxyStream(
+    query: ProxyStreamQueryDto,
+    requestHeaders: IncomingHttpHeaders,
+    reply: FastifyReply
+  ): Promise<StreamableFile | string> {
+    const { originUrl } = query;
 
     if (!originUrl) {
-      reply.code(400).send({
-        statusCode: 400,
-        message: `originUrl is required.`,
-        error: 'Bad Request'
-      });
-      return;
+      throw new BadRequestException('originUrl is required.');
     }
 
-    const target = parseProxyTarget(request.query['url'] as string, streamHostSuffixes());
+    const target = parseProxyTarget(query.url, streamHostSuffixes());
 
     if (target.error) {
-      this.rejectTarget(reply, 'stream', target.error);
-      return;
+      this.rejectTarget('stream', target.error);
     }
 
     const streamProxyUrl = `${originUrl}/api/proxy/stream?originUrl=${encodeURIComponent(originUrl)}`;
 
     try {
-      const rawHeaders = request.raw.headers;
       const headers = {
-        range: rawHeaders.range,
-        'user-agent': rawHeaders['user-agent'],
+        range: requestHeaders.range,
+        'user-agent': requestHeaders['user-agent'],
         origin: 'https://www.youtube.com'
       };
 
@@ -100,24 +149,35 @@ export class ProxyService {
 
       const streamResponse = await vtFetch(urlToFetch, { headers, useProxy: true });
 
+      if (streamResponse.statusCode >= 400) {
+        await streamResponse.body.dump();
+        this.failUpstream(
+          'stream',
+          target.url.hostname,
+          `YouTube answered with ${streamResponse.statusCode}`
+        );
+      }
+
       if (streamResponse.headers['location']) {
         reply.header('location', `${streamProxyUrl}&url=${streamResponse.headers['location']}`);
       }
 
+      reply.status(streamResponse.statusCode);
+
       if (urlToFetch.href.endsWith('.m3u8')) {
         const responseText = await streamResponse.body.text();
-        const rewrittenResponse = responseText.replace(
+        return responseText.replace(
           /https:\/\/.*?.googlevideo\.com\/.*?\.m3u8/gi,
           (match: string) => {
             return `${streamProxyUrl}&url=${encodeURIComponent(match)}`;
           }
         );
-        reply.status(streamResponse.statusCode).send(rewrittenResponse);
-      } else {
-        reply.status(streamResponse.statusCode).send(streamResponse.body);
       }
+
+      return new StreamableFile(streamResponse.body);
     } catch (error) {
-      this.failUpstream(reply, 'stream', target.url.hostname, error);
+      this.logger.error(`Stream proxy failed for ${target.url.hostname}`, error);
+      this.failUpstream('stream', target.url.hostname, 'YouTube could not be reached');
     }
   }
 }

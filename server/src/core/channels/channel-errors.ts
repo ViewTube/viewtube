@@ -17,7 +17,9 @@ export const channelNotFound = (description = 'No channel exists for that id'): 
 
 /** `operation` names the part being read: `page`, `home`, `playlists`. */
 export const channelUpstreamFailed = (operation: string, error?: { message?: string }): never => {
-  logger.error(`Reading channel ${operation} failed: ${error?.message ?? 'no reason given'}`);
+  // `debug`, not `warn`: `ApiExceptionFilter` logs the 502 at `warn` with the request url,
+  // and this line carries the specific youtubei.js message that the filter cannot see.
+  logger.debug(`Reading channel ${operation} failed: ${error?.message ?? 'no reason given'}`);
 
   throw new BadGatewayException({
     message: `Error reading channel ${operation}`,
