@@ -15,6 +15,7 @@ export const useMediaSession = ({
   videoState,
   play,
   pause,
+  stop,
   setTime,
   onNextTrack
 }: MediaSessionProps) => {
@@ -76,7 +77,7 @@ export const useMediaSession = ({
       () => videoState.currentTime,
       () => {
         navigator.mediaSession.setPositionState({
-          duration: videoState.duration,
+          duration: videoState.seekMax,
           playbackRate: videoState.speed,
           position: videoState.currentTime
         });

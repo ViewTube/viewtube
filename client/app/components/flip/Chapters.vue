@@ -8,7 +8,7 @@ const props = defineProps<{
 }>();
 
 const chapters = computed(() => {
-  const videoLength = props.videoState.video.duration;
+  const videoLength = props.videoState.video.seekMax;
   const videoLengthMs = videoLength * 1000;
 
   return props.video.chapters?.slice(1).map(chapter => ({

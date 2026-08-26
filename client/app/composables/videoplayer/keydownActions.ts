@@ -83,7 +83,8 @@ export const useKeydownActions = (
     {
       keyRegex: /^\d$/i,
       action: e => {
-        const skipInterval = videoState.video.duration / 10;
+        if (videoState.video.live) return;
+        const skipInterval = videoState.video.seekMax / 10;
         const skipNumber = parseInt(e.key);
         videoState.setTime(skipInterval * skipNumber);
       }
@@ -91,7 +92,7 @@ export const useKeydownActions = (
     {
       keys: ['End'],
       action: () => {
-        videoState.setTime(videoState.video.duration);
+        videoState.setTime(videoState.video.seekMax);
       }
     },
     {

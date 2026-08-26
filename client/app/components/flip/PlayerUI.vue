@@ -51,6 +51,7 @@ const cursor = computed(() => uiState.cursor.value);
       :ui-state="uiState"
     />
     <FlipPoster :video-state="videoState" :ui-state="uiState" :video :embed />
+    <FlipPlayerErrorOverlay v-if="videoState.video.error?.fatal" :error="videoState.video.error" />
     <Teleport :to="uiState.fullscreen.value ? '#flip-player-ui' : 'body'">
       <transition name="flip-settings-transition">
         <FlipSettings

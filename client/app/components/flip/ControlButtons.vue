@@ -20,13 +20,14 @@ const onVolumeClick = () => {
 };
 
 const timestampText = computed(() => {
-  if (props.video.live) {
-    return `-${getTimestampFromSeconds(props.videoState.video.duration)}`;
+  if (props.videoState.video.live) {
+    const behindEdge = (props.videoState.video.liveEdge ?? 0) - props.videoState.video.currentTime;
+    return `-${getTimestampFromSeconds(Math.max(0, behindEdge))}`;
   }
   return getTimestampFromSeconds(props.videoState.video.currentTime);
 });
 const videoLengthText = computed(() => {
-  if (props.video.live) {
+  if (props.videoState.video.live) {
     return 'LIVE';
   }
   return getTimestampFromSeconds(props.videoState.video.duration);

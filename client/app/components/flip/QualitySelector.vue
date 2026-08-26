@@ -76,7 +76,7 @@ const selectedVideoTrack = computed(() => {
         <div
           class="selector auto"
           :class="{ selected: videoState.video.automaticVideoQuality }"
-          @click.stop="videoState.setAutoVideoQuality()"
+          @click.stop="videoState.setVideoQuality(selectedVideoTrack?.id, null)"
         >
           Auto<span v-if="videoState.video.automaticVideoQuality" class="auto-label">
             · {{ currentVideoRepresentation?.label }}</span
@@ -94,7 +94,7 @@ const selectedVideoTrack = computed(() => {
             selected: representation.active && videoState.video.automaticVideoQuality === false
           }"
           class="selector"
-          @click.stop="videoState.setVideoRepresentation(selectedVideoTrack.id, representation.id)"
+          @click.stop="videoState.setVideoQuality(selectedVideoTrack.id, representation.id)"
         >
           {{ representation.label }}
           <div v-if="representation.hdr" class="hdr-indicator-container">
@@ -117,7 +117,7 @@ const selectedVideoTrack = computed(() => {
           :key="index"
           :class="{ selected: representation.active }"
           class="selector"
-          @click.stop="videoState.setAudioRepresentation(representation.trackId, representation.id)"
+          @click.stop="videoState.setAudioQuality(representation.trackId, representation.id)"
         >
           {{ representation.label }}
         </div>

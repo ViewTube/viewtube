@@ -25,13 +25,13 @@ const bufferWidth = computed(
   () =>
     `${
       ((props.videoState.video.currentTime + props.videoState.video.bufferLevel) /
-        props.videoState.video.duration) *
+        props.videoState.video.seekMax) *
       100
     }%`
 );
 
 const currentTimeWidth = computed(
-  () => `${(_currentTime.value / props.videoState.video.duration) * 100}%`
+  () => `${(_currentTime.value / props.videoState.video.seekMax) * 100}%`
 );
 
 const seekbarRef = ref<HTMLDivElement | null>(null);
@@ -53,7 +53,7 @@ const onPointerMove = (e: PointerEvent) => {
   let percent = x / width;
   if (percent < 0) percent = 0;
   if (percent > 1) percent = 1;
-  const time = props.videoState.video.duration * percent;
+  const time = props.videoState.video.seekMax * percent;
   hoveredTime.value = time;
   hoveredTimestamp.value = getTimestampFromSeconds(time);
   hoverPosition.value = percent;
@@ -132,7 +132,7 @@ const getHoverPositionByWidth = (elWidth: number) => {
           v-for="skipSegment in uiState.skipSegments.value.segments"
           :key="skipSegment.UUID"
           :segment="skipSegment"
-          :video-duration="videoState.video.duration"
+          :video-duration="videoState.video.seekMax"
         />
       </div>
       <FlipChapters

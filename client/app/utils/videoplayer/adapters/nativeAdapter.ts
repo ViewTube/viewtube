@@ -1,152 +1,101 @@
-import { useIsIOS } from '~/composables/videoplayer/isIOS';
-import type { RxPlayerAdapterOptions } from './rxPlayerAdapter';
+import { seekOnLoadedMetadata, useElementState } from '../elementState';
+import type { AdapterContext, PlayerAdapter, PlayerSource } from '../types';
 
-type NativeAdapterOptions = RxPlayerAdapterOptions;
-
-export const nativeAdapter = async ({
-  autoplay,
-  defaultVolume,
-  loop,
-  source,
-  startTime,
-  videoElementRef,
-  videoState,
-  videoEnded,
-  createMessage
-}: NativeAdapterOptions) => {
+export const createNativeAdapter = async (ctx: AdapterContext): Promise<PlayerAdapter> => {
   const { applyStreamProxy } = useProxyUrls();
-  const { isIOSOnIPhone } = useIsIOS();
 
-  const registerEvents = () => {
-    if (isIOSOnIPhone.value) {
-      videoState.buffering = false;
-    } else {
-      videoElementRef.value?.addEventListener('canplay', () => {
-        videoState.buffering = false;
-      });
-      videoElementRef.value?.addEventListener('playing', () => {
-        videoState.playing = true;
-        videoState.buffering = false;
-      });
-      videoElementRef.value?.addEventListener('pause', () => {
-        videoState.playing = false;
-        videoState.buffering = false;
-      });
-      videoElementRef.value?.addEventListener('waiting', () => {
-        videoState.buffering = true;
-      });
-      videoElementRef.value?.addEventListener('ended', () => {
-        videoState.playing = false;
-        videoState.buffering = false;
-        videoEnded();
-      });
-      videoElementRef.value?.addEventListener('canplay', async () => {
-        if (autoplay) {
-          try {
-            await videoElementRef.value?.play();
-          } catch {
-            createMessage({
-              type: 'error',
-              title: 'Autoplay blocked',
-              message: 'Allow autoplay for this website to start the video automatically'
-            });
-          }
-        }
-      });
-
-      videoElementRef.value?.addEventListener('timeupdate', () => {
-        if (videoElementRef.value) {
-          if (
-            !isNaN(videoElementRef.value?.currentTime) &&
-            videoElementRef.value.currentTime >= 0 &&
-            videoElementRef.value.currentTime < Infinity
-          ) {
-            videoState.currentTime = videoElementRef.value?.currentTime;
-          }
-          if (
-            !isNaN(videoElementRef.value?.duration) &&
-            videoElementRef.value.duration >= 0 &&
-            videoElementRef.value.duration < Infinity
-          ) {
-            videoState.duration = videoElementRef.value?.duration;
-          }
-        }
-      });
-    }
-    videoElementRef.value?.addEventListener('volumechange', () => {
-      videoState.volume = videoElementRef.value.volume;
-      videoState.muted = videoElementRef.value.muted;
-    });
-
-    videoElementRef.value?.addEventListener('error', event => {
-      console.log(event, event.error);
-      videoState.playerError = {
-        message: 'Video player error',
-        name: 'error'
-      };
-      createMessage({
+  const cleanupElementState = useElementState(ctx.videoElementRef.value, ctx.state, {
+    onEnded: ctx.onEnded,
+    autoplay: ctx.autoplay,
+    onAutoplayBlocked: () =>
+      ctx.createMessage({
         type: 'error',
-        title: 'Video player error',
-        message: 'There was an error playing the video'
-      });
-    });
-  };
+        title: 'Autoplay blocked',
+        message: 'Allow autoplay for this website to start the video automatically'
+      })
+  });
 
-  const destroy = () => {
-    videoElementRef.value?.pause();
-  };
-  const play = () => videoElementRef.value?.play();
-  const pause = () => videoElementRef.value?.pause();
-  const stop = () => {
-    videoElementRef.value?.pause();
-  };
-  const setVolume = (volume: number) => {
-    if (videoElementRef.value) {
-      videoElementRef.value.volume = volume;
-      videoState.volume = volume;
+  // useElementState leaves duration to the adapter because it is Infinity on live
+  // playlists, which is what the native path is used for. Only finite values are kept.
+  const onTimeUpdate = () => {
+    const element = ctx.videoElementRef.value;
+    if (!element) return;
+
+    if (Number.isFinite(element.duration) && element.duration >= 0) {
+      ctx.state.duration = element.duration;
+      ctx.state.live = false;
+      ctx.state.liveEdge = null;
+      return;
     }
-  };
-  const setPlaybackRate = (playbackRate: number) => {
-    if (videoElementRef.value) {
-      videoElementRef.value.playbackRate = playbackRate;
-      videoState.speed = playbackRate;
-    }
-  };
-  const setTime = (time: number) => {
-    if (videoElementRef.value) {
-      videoElementRef.value.currentTime = time;
-    }
-  };
 
-  const setLanguage = (_: string) => {};
-  const setVideoRepresentation = (_videoTrackId: string, _videoRepresentationId: string) => {};
-  const setAutoVideoQuality = () => {};
-  const setAudioRepresentation = (_audioTrackId: string, _audioRepresentationId: string) => {};
-  const setAutoAudioQuality = () => {};
+    // A live playlist reports an infinite duration; the seekable end is the live edge.
+    // end() throws if queried with no ranges buffered yet.
+    const seekable = element.seekable;
+    if (!seekable || seekable.length === 0) return;
 
-  registerEvents();
-  videoElementRef.value.volume = defaultVolume.value;
-  const sourceElement = document.createElement('source');
-  sourceElement.src = applyStreamProxy(source.value);
-  sourceElement.type = 'application/vnd.apple.mpegurl';
-  videoElementRef.value.appendChild(sourceElement);
-  videoElementRef.value.currentTime = startTime.value;
-  videoElementRef.value.loop = loop;
+    const edge = seekable.end(seekable.length - 1);
+    if (!Number.isFinite(edge)) return;
 
-  // videoState.buffering = false;
+    ctx.state.live = true;
+    ctx.state.liveEdge = edge;
+    ctx.state.duration = edge;
+  };
+  ctx.videoElementRef.value.addEventListener('timeupdate', onTimeUpdate);
+
+  ctx.videoElementRef.value.volume = ctx.defaultVolume.value;
+  ctx.state.volume = ctx.defaultVolume.value;
+
+  const videoEl = () => ctx.videoElementRef.value;
 
   return {
-    destroy,
-    play,
-    pause,
-    stop,
-    setVolume,
-    setPlaybackRate,
-    setTime,
-    setLanguage,
-    setVideoRepresentation,
-    setAutoVideoQuality,
-    setAudioRepresentation,
-    setAutoAudioQuality
+    async load(source: PlayerSource, startTime: number) {
+      if (source.kind !== 'native') {
+        throw new Error(`nativeAdapter received a '${source.kind}' source`);
+      }
+
+      const sourceElement = document.createElement('source');
+      sourceElement.src = applyStreamProxy(source.url);
+      sourceElement.type = 'application/vnd.apple.mpegurl';
+      videoEl().appendChild(sourceElement);
+      videoEl().loop = ctx.loop;
+      ctx.state.loop = ctx.loop;
+
+      seekOnLoadedMetadata(videoEl(), startTime);
+    },
+    play: () => void videoEl()?.play(),
+    pause: () => videoEl()?.pause(),
+    stop: () => videoEl()?.pause(),
+    seekTo: (time: number) => {
+      if (videoEl()) videoEl().currentTime = time;
+    },
+    setVolume: (volume: number) => {
+      if (!videoEl()) return;
+      videoEl().volume = volume;
+      ctx.state.volume = volume;
+    },
+    setMuted: (muted: boolean) => {
+      if (!videoEl()) return;
+      videoEl().muted = muted;
+      ctx.state.muted = muted;
+    },
+    setPlaybackRate: (rate: number) => {
+      if (!videoEl()) return;
+      videoEl().playbackRate = rate;
+      ctx.state.speed = rate;
+    },
+    setLanguage: () => {},
+    setVideoQuality: () => {},
+    setAudioQuality: () => {},
+    destroy: () => {
+      const element = videoEl();
+      cleanupElementState();
+      if (!element) return;
+
+      element.removeEventListener('timeupdate', onTimeUpdate);
+      element.pause();
+      element.querySelectorAll('source').forEach(sourceElement => sourceElement.remove());
+      element.removeAttribute('src');
+      element.load();
+    }
   };
 };

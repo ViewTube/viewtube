@@ -1,270 +1,236 @@
-import type { Level } from 'hls.js';
-import type { VideoTrack } from '~/interfaces/VideoState';
-import type { RxPlayerAdapterOptions } from './rxPlayerAdapter';
+import type { Level, MediaPlaylist } from 'hls.js';
+import { seekOnLoadedMetadata, useElementState } from '../elementState';
+import {
+  mapLanguageList,
+  mapVideoTracks,
+  type EngineAudioTrack,
+  type EngineVideoTrack
+} from '../mappers';
+import type { AdapterContext, PlayerAdapter, PlayerSource } from '../types';
 
-type HlsAdapterOptions = RxPlayerAdapterOptions;
+const TRACK_REFRESH_DEBOUNCE_MS = 250;
+const DEAD_STREAM_ERROR_THRESHOLD = 5;
 
-export const hlsAdapter = async ({
-  videoElementRef,
-  source,
-  videoState,
-  defaultVolume,
-  videoEnded,
-  createMessage,
-  autoplay
-}: HlsAdapterOptions) => {
-  const { applyStreamProxy } = useProxyUrls();
-
+export const createHlsAdapter = async (ctx: AdapterContext): Promise<PlayerAdapter> => {
   const Hls = await import('hls.js').then(module => module.default);
 
-  const createPlayer = () => {
-    const player = new Hls({
-      enableWorker: true,
-      backBufferLength: 400,
-      maxBufferLength: 90,
-      lowLatencyMode: true,
-      progressive: true,
-      fragLoadPolicy: {
-        default: {
-          maxTimeToFirstByteMs: 10000,
-          maxLoadTimeMs: 120000,
-          timeoutRetry: {
-            maxNumRetry: 400,
-            retryDelayMs: 0,
-            maxRetryDelayMs: 0
-          },
-          errorRetry: {
-            maxNumRetry: 400,
-            retryDelayMs: 1000,
-            maxRetryDelayMs: 8000
-          }
-        }
+  const hls = new Hls({
+    enableWorker: true,
+    backBufferLength: 400,
+    maxBufferLength: 90,
+    lowLatencyMode: true,
+    progressive: true,
+    fragLoadPolicy: {
+      default: {
+        maxTimeToFirstByteMs: 10000,
+        maxLoadTimeMs: 120000,
+        timeoutRetry: { maxNumRetry: 400, retryDelayMs: 0, maxRetryDelayMs: 0 },
+        errorRetry: { maxNumRetry: 400, retryDelayMs: 1000, maxRetryDelayMs: 8000 }
       }
-    });
-    player?.attachMedia(videoElementRef.value);
-    return player;
+    }
+  });
+  hls.attachMedia(ctx.videoElementRef.value);
+
+  const { applyStreamProxy } = useProxyUrls();
+
+  const cleanupElementState = useElementState(ctx.videoElementRef.value, ctx.state, {
+    onEnded: ctx.onEnded,
+    autoplay: ctx.autoplay,
+    onAutoplayBlocked: () =>
+      ctx.createMessage({
+        type: 'error',
+        title: 'Autoplay blocked',
+        message: 'Allow autoplay for this website to start the video automatically'
+      })
+  });
+
+  let refreshTimeout: ReturnType<typeof setTimeout> | null = null;
+  let consecutiveFragErrors = 0;
+
+  /**
+   * duration is the adapter's responsibility here: videoEl.duration is Infinity on a live
+   * playlist, and the seekbar, the keyboard seeks and mediaSession all need a finite
+   * number. liveSyncPosition is that number, and it is null until enough of the playlist
+   * has loaded to compute it.
+   */
+  const updateLivePosition = (isLive: boolean) => {
+    ctx.state.live = isLive;
+
+    if (isLive) {
+      const edge = hls.liveSyncPosition;
+      if (Number.isFinite(edge)) {
+        ctx.state.liveEdge = edge;
+        ctx.state.duration = edge;
+      }
+      return;
+    }
+
+    // A live stream that ended gets an ENDLIST tag and becomes a plain VOD playlist.
+    ctx.state.liveEdge = null;
+    const { duration } = ctx.videoElementRef.value ?? {};
+    if (Number.isFinite(duration)) ctx.state.duration = duration;
   };
 
-  const registerEvents = () => {
-    videoElementRef.value?.addEventListener('canplay', () => {
-      videoState.buffering = false;
-    });
-    videoElementRef.value?.addEventListener('playing', () => {
-      videoState.playing = true;
-      videoState.buffering = false;
-    });
-    videoElementRef.value?.addEventListener('pause', () => {
-      videoState.playing = false;
-      videoState.buffering = false;
-    });
-    videoElementRef.value?.addEventListener('waiting', () => {
-      videoState.buffering = true;
-    });
-    videoElementRef.value?.addEventListener('ended', () => {
-      videoState.playing = false;
-      videoState.buffering = false;
-      videoEnded();
-    });
-    videoElementRef.value?.addEventListener('canplay', async () => {
-      if (autoplay) {
-        try {
-          await videoElementRef.value?.play();
-        } catch {
-          createMessage({
-            type: 'error',
-            title: 'Autoplay blocked',
-            message: 'Allow autoplay for this website to start the video automatically'
-          });
-        }
-      }
-    });
+  // hls.js exposes a flat level list rather than tracks, so everything lives on one
+  // synthetic track and the level index doubles as the representation id.
+  const toEngineVideoTracks = (levels: Level[]): EngineVideoTrack[] => [
+    {
+      id: '0',
+      active: true,
+      representations: (levels ?? []).map((level, index) => ({
+        id: index.toString(),
+        bitrate: level.bitrate,
+        codec: level.codecSet,
+        width: level.width,
+        height: level.height,
+        frameRate: level.frameRate,
+        hdr: !!level.attrs?.HDR,
+        hdrType: level.attrs?.HDR
+      }))
+    }
+  ];
 
-    videoElementRef.value?.addEventListener('timeupdate', () => {
-      if (videoElementRef.value) {
-        videoState.currentTime = videoElementRef.value?.currentTime;
-        videoState.duration = playerInstance?.liveSyncPosition;
-
-        if (
-          videoElementRef.value?.currentTime >= playerInstance?.liveSyncPosition - 2 &&
-          videoElementRef.value?.playbackRate > 1
-        ) {
-          setPlaybackRate(1);
-        }
-      }
-    });
-    videoElementRef.value?.addEventListener('volumechange', () => {
-      videoState.volume = videoElementRef.value.volume;
-      videoState.muted = videoElementRef.value.muted;
-    });
-
-    playerInstance?.on(Hls.Events.ERROR, (event, data) => {
-      if (
-        !['fragParsingError', 'bufferStalledError', 'levelLoadError', 'fragLoadError'].includes(
-          data.details
-        )
-      ) {
-        console.log('error', event, data);
-        videoState.playerError = {
-          message: data.details,
-          name: data.type
-        };
-        createMessage({
-          type: 'error',
-          title: `Video player error: ${data.details}`,
-          message: data.error.message
-        });
-      }
-    });
-
-    playerInstance?.on(Hls.Events.LEVEL_SWITCHING, () => {
-      refreshTracks();
-    });
-    playerInstance?.on(Hls.Events.LEVEL_SWITCHED, () => {
-      refreshTracks();
-    });
-    playerInstance?.on(Hls.Events.LEVEL_UPDATED, () => {
-      refreshTracks();
-    });
-    playerInstance?.on(Hls.Events.LEVEL_LOADING, () => {
-      refreshTracks();
-    });
-    playerInstance?.on(Hls.Events.LEVEL_LOADED, () => {
-      refreshTracks();
-    });
-  };
-
-  const currentVideoRepresentationId = ref<string | null>(null);
+  const toEngineAudioTracks = (tracks: MediaPlaylist[]): EngineAudioTrack[] =>
+    (tracks ?? []).map((track, index) => ({
+      id: index.toString(),
+      active: index === hls.audioTrack,
+      language: track.lang ?? track.name,
+      label: track.name,
+      representations: []
+    }));
 
   const refreshTracks = () => {
-    videoState.videoTracks = mapVideoTracks(playerInstance?.levels);
+    ctx.state.videoTracks = mapVideoTracks(
+      toEngineVideoTracks(hls.levels),
+      hls.currentLevel >= 0 ? hls.currentLevel.toString() : null
+    );
+
+    const audioTracks = toEngineAudioTracks(hls.audioTracks);
+    ctx.state.languageList = mapLanguageList(audioTracks);
+    const activeLanguage = audioTracks.find(track => track.active)?.language;
+    if (activeLanguage) ctx.state.selectedLanguage = activeLanguage;
   };
 
-  const mapVideoTracks = (levels: Level[]): VideoTrack[] => {
-    const codec = [...new Set(levels?.map(el => el.codecSet))].join(', ');
-    const currentLevel = playerInstance?.currentLevel;
-    currentVideoRepresentationId.value = currentLevel?.toString();
-    return [
-      {
-        codec,
-        active: true,
-        id: '0',
-        representations: levels.map((level, index) => {
-          let heightLabel = level.height;
-          const frameRateLabel = level.frameRate > 30 ? level.frameRate : '';
-
-          switch (level.width) {
-            case 3840:
-              heightLabel = 2560;
-              break;
-            case 2560:
-              heightLabel = 1440;
-              break;
-            case 1920:
-              heightLabel = 1080;
-              break;
-            case 1280:
-              heightLabel = 720;
-              break;
-            case 854:
-              heightLabel = 480;
-              break;
-            case 640:
-              heightLabel = 360;
-              break;
-            case 426:
-              heightLabel = 240;
-              break;
-            case 256:
-              heightLabel = 144;
-              break;
-          }
-
-          const videoLabel = `${heightLabel}p${frameRateLabel} · ${humanizeBitrate(level.bitrate)}`;
-
-          return {
-            id: index.toString(),
-            label: videoLabel,
-            bitrate: level.bitrate,
-            codec: level.codecSet,
-            width: level.width,
-            height: heightLabel,
-            frameRate: level.frameRate,
-            active: index === currentLevel,
-            hdr: !!level.attrs?.HDR,
-            hdrType: level.attrs?.HDR
-          };
-        })
-      }
-    ];
-  };
-
-  const loadVideo = () => {
-    const proxiedSource = applyStreamProxy(source.value);
-    playerInstance?.loadSource(proxiedSource);
-  };
-
-  const destroy = () => {
-    playerInstance?.stopLoad();
-    playerInstance?.destroy();
-  };
-  const play = () => videoElementRef.value?.play();
-  const pause = () => videoElementRef.value?.pause();
-  const stop = () => {
-    videoElementRef.value?.pause();
-  };
-  const setVolume = (volume: number) => {
-    if (videoElementRef.value) {
-      videoElementRef.value.volume = volume;
-      videoState.volume = volume;
-    }
-  };
-  const setPlaybackRate = (playbackRate: number) => {
-    if (videoElementRef.value) {
-      videoElementRef.value.playbackRate = playbackRate;
-      videoState.speed = playbackRate;
-    }
-  };
-  const setTime = (time: number) => {
-    if (videoElementRef.value) {
-      videoElementRef.value.currentTime = time;
-    }
-  };
-
-  const setLanguage = (_: string) => {};
-
-  const setVideoRepresentation = (_videoTrackId: string, videoRepresentationId: string) => {
-    if (playerInstance) {
-      playerInstance.currentLevel = parseInt(videoRepresentationId);
-      videoState.automaticVideoQuality = false;
+  const scheduleRefresh = () => {
+    if (refreshTimeout) return;
+    refreshTimeout = setTimeout(() => {
+      refreshTimeout = null;
       refreshTracks();
-    }
+    }, TRACK_REFRESH_DEBOUNCE_MS);
   };
-  const setAutoVideoQuality = () => {
-    if (playerInstance) {
-      playerInstance.currentLevel = -1;
-      videoState.automaticVideoQuality = true;
-    }
-  };
-  const setAudioRepresentation = (_audioTrackId: string, _audioRepresentationId: string) => {};
-  const setAutoAudioQuality = () => {};
 
-  const playerInstance = createPlayer();
-  registerEvents();
-  videoElementRef.value.volume = defaultVolume.value;
-  loadVideo();
+  hls.on(Hls.Events.LEVEL_LOADED, (_event, data) => {
+    updateLivePosition(!!data.details?.live);
+    scheduleRefresh();
+  });
+  hls.on(Hls.Events.LEVEL_UPDATED, () => scheduleRefresh());
+  hls.on(Hls.Events.LEVEL_SWITCHED, () => scheduleRefresh());
+  hls.on(Hls.Events.AUDIO_TRACKS_UPDATED, () => scheduleRefresh());
+  hls.on(Hls.Events.AUDIO_TRACK_SWITCHED, () => scheduleRefresh());
+
+  hls.on(Hls.Events.FRAG_LOADED, () => {
+    consecutiveFragErrors = 0;
+    if (ctx.state.live) updateLivePosition(true);
+  });
+
+  hls.on(Hls.Events.ERROR, (event, data) => {
+    if (data.details === 'fragLoadError') {
+      consecutiveFragErrors += 1;
+      if (consecutiveFragErrors >= DEAD_STREAM_ERROR_THRESHOLD && ctx.state.live) {
+        ctx.state.error = {
+          code: 'live-ended',
+          message: 'The live stream is no longer available',
+          fatal: false
+        };
+      }
+      return;
+    }
+
+    if (['fragParsingError', 'bufferStalledError', 'levelLoadError'].includes(data.details)) {
+      return;
+    }
+
+    ctx.state.error = {
+      code: data.details,
+      message: data.error?.message ?? 'Video player error',
+      fatal: !!data.fatal
+    };
+    ctx.createMessage({
+      type: 'error',
+      title: `Video player error: ${data.details}`,
+      message: data.error?.message
+    });
+  });
+
+  ctx.videoElementRef.value.volume = ctx.defaultVolume.value;
+  ctx.state.volume = ctx.defaultVolume.value;
+
+  const videoEl = () => ctx.videoElementRef.value;
+
+  // Watching a live stream from behind can be sped up to catch up; drop back to 1x on
+  // reaching the edge rather than overshooting it.
+  const onTimeUpdate = () => {
+    const element = videoEl();
+    if (!element || !ctx.state.live) return;
+    if (!Number.isFinite(ctx.state.liveEdge)) return;
+
+    if (element.currentTime >= ctx.state.liveEdge - 2 && element.playbackRate > 1) {
+      element.playbackRate = 1;
+      ctx.state.speed = 1;
+    }
+  };
+  ctx.videoElementRef.value.addEventListener('timeupdate', onTimeUpdate);
 
   return {
-    destroy,
-    play,
-    pause,
-    stop,
-    setVolume,
-    setPlaybackRate,
-    setTime,
-    setLanguage,
-    setVideoRepresentation,
-    setAutoVideoQuality,
-    setAudioRepresentation,
-    setAutoAudioQuality
+    async load(source: PlayerSource, startTime: number) {
+      if (source.kind !== 'hls') {
+        throw new Error(`hlsAdapter received a '${source.kind}' source`);
+      }
+
+      consecutiveFragErrors = 0;
+      hls.loadSource(applyStreamProxy(source.url));
+      seekOnLoadedMetadata(videoEl(), startTime);
+    },
+    play: () => void videoEl()?.play(),
+    pause: () => videoEl()?.pause(),
+    stop: () => videoEl()?.pause(),
+    seekTo: (time: number) => {
+      if (videoEl()) videoEl().currentTime = time;
+    },
+    setVolume: (volume: number) => {
+      if (!videoEl()) return;
+      videoEl().volume = volume;
+      ctx.state.volume = volume;
+    },
+    setMuted: (muted: boolean) => {
+      if (!videoEl()) return;
+      videoEl().muted = muted;
+      ctx.state.muted = muted;
+    },
+    setPlaybackRate: (rate: number) => {
+      if (!videoEl()) return;
+      videoEl().playbackRate = rate;
+      ctx.state.speed = rate;
+    },
+    setLanguage: (language: string) => {
+      const index = hls.audioTracks?.findIndex(track => (track.lang ?? track.name) === language);
+      if (index === undefined || index < 0) return;
+      hls.audioTrack = index;
+      ctx.state.selectedLanguage = language;
+    },
+    setVideoQuality: (_trackId: string, representationId: string | null) => {
+      hls.currentLevel = representationId === null ? -1 : parseInt(representationId, 10);
+      ctx.state.automaticVideoQuality = representationId === null;
+      refreshTracks();
+    },
+    setAudioQuality: () => {},
+    destroy: () => {
+      if (refreshTimeout) clearTimeout(refreshTimeout);
+      refreshTimeout = null;
+      ctx.videoElementRef.value?.removeEventListener('timeupdate', onTimeUpdate);
+      cleanupElementState();
+      hls.stopLoad();
+      hls.destroy();
+    }
   };
 };

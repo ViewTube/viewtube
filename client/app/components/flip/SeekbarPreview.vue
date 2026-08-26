@@ -69,8 +69,7 @@ const currentChapter = computed(() => {
   const hoveredTimeMs = props.hoveredTime * 1000;
   return props.video.chapters.find((chapter, index) => {
     const startMs = chapter.startMs;
-    const endMs =
-      props.video.chapters[index + 1]?.startMs ?? props.videoState.video.duration * 1000;
+    const endMs = props.video.chapters[index + 1]?.startMs ?? props.videoState.video.seekMax * 1000;
     return startMs < hoveredTimeMs && endMs > hoveredTimeMs;
   });
 });
