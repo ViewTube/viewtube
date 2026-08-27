@@ -1232,6 +1232,49 @@ export interface components {
             hasAudio: boolean;
             hasVideo: boolean;
         };
+        VTSabrFormatDto: {
+            itag: number;
+            lastModified: string;
+            bitrate: number;
+            approxDurationMs: number;
+            xtags?: string;
+            width?: number;
+            height?: number;
+            contentLength?: number;
+            audioTrackId?: string;
+            mimeType?: string;
+            isDrc?: boolean;
+            quality?: string;
+            qualityLabel?: string;
+            averageBitrate?: number;
+            audioQuality?: string;
+            language?: string;
+            isDubbed?: boolean;
+            isAutoDubbed?: boolean;
+            isDescriptive?: boolean;
+            isSecondary?: boolean;
+            isOriginal?: boolean;
+        };
+        VTSabrClientInfoDto: {
+            /** @description Numeric innertube client id — 1 for WEB. Not the client's name. */
+            clientName: number;
+            clientVersion: string;
+            osName: string;
+            osVersion: string;
+            deviceMake?: string;
+            deviceModel?: string;
+        };
+        VTSabrDto: {
+            /** @description SABR endpoint, host already rewritten to the videoplayback proxy. */
+            streamingUrl: string;
+            /** @description DASH manifest whose BaseURLs are `sabr://` pseudo-URLs, base64 data URI. */
+            dashManifest: string;
+            /** @description base64 `video_playback_ustreamer_config` from the player response. */
+            ustreamerConfig: string;
+            poToken?: string;
+            formats: components["schemas"]["VTSabrFormatDto"][];
+            clientInfo: components["schemas"]["VTSabrClientInfoDto"];
+        };
         VTVideoInfoDto: {
             id: string;
             title: string;
@@ -1282,6 +1325,7 @@ export interface components {
             commentCount: number;
             legacyFormats: components["schemas"]["VTLegacyFormatDto"][];
             dashManifest?: string;
+            sabr?: components["schemas"]["VTSabrDto"];
             hlsManifestUrl?: string;
             dashManifestUrl?: string;
         };
@@ -1308,11 +1352,11 @@ export interface components {
         };
         SearchFiltersDto: {
             /** @enum {string} */
-            upload_date?: "hour" | "month" | "year" | "week" | "all" | "today";
+            upload_date?: "all" | "hour" | "month" | "year" | "week" | "today";
             /** @enum {string} */
-            type?: "video" | "channel" | "all" | "playlist" | "movie";
+            type?: "all" | "video" | "channel" | "playlist" | "movie";
             /** @enum {string} */
-            duration?: "long" | "medium" | "all" | "short";
+            duration?: "all" | "long" | "medium" | "short";
             /** @enum {string} */
             sort_by?: "view_count" | "relevance" | "rating" | "upload_date";
             features?: ("3d" | "location" | "360" | "live" | "hd" | "subtitles" | "creative_commons" | "purchased" | "4k" | "hdr" | "vr180")[];

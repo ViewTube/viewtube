@@ -31,8 +31,9 @@ export class VideoplaybackService {
       }
 
       const rawHeaders = request.raw.headers;
-      const headers = {
-        range: rawHeaders.range,
+      const isSabrRequest = request.raw.method === 'POST';
+
+      const headers: Record<string, string> = {
         'accept-language': rawHeaders['accept-language'],
         'accept-encoding': rawHeaders['accept-encoding'],
         'user-agent': rawHeaders['user-agent'],
@@ -40,19 +41,37 @@ export class VideoplaybackService {
         referer: 'https://www.youtube.com/'
       };
 
+      // A SABR request carries its byte range inside the protobuf body; forwarding a
+      // Range header as well makes YouTube answer with a 206 that the UMP parser cannot
+      // read.
+      if (!isSabrRequest) {
+        headers.range = rawHeaders.range;
+      } else {
+        headers['content-type'] = 'application/x-protobuf';
+      }
+
       const fetchResponse = await vtFetch(newUrl.toString(), {
         method: request.raw.method,
         headers,
+        body: isSabrRequest ? (request.body as Buffer) : undefined,
         useProxy: true
       });
 
-      reply.headers({
-        'content-length': fetchResponse.headers['content-length'],
-        'content-type': fetchResponse.headers['content-type'],
-        'content-disposition': fetchResponse.headers['content-disposition'],
-        'accept-ranges': fetchResponse.headers['accept-ranges'],
-        'content-range': fetchResponse.headers['content-range']
-      });
+      // A SABR response is chunked and carries no content-length. Passing the missing
+      // header through anyway makes Fastify emit an empty `Content-Length`, which is not
+      // valid HTTP — the browser drops the response as ERR_ABORTED before any handler
+      // sees it. Only forward headers YouTube actually sent.
+      const forwarded = [
+        'content-length',
+        'content-type',
+        'content-disposition',
+        'accept-ranges',
+        'content-range'
+      ];
+      for (const header of forwarded) {
+        const value = fetchResponse.headers[header];
+        if (value !== undefined) reply.header(header, value);
+      }
 
       if (fetchResponse.headers['location']) {
         const newLocation = new URL(fetchResponse.headers['location'].toString());

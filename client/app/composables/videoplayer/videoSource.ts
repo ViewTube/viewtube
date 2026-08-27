@@ -1,5 +1,5 @@
 import type { ApiDto } from '@viewtube/shared';
-import { proxyManifest } from '~/utils/videoplayer/proxy';
+import { proxyManifest, rewriteSabrHost, toManifestDataUri } from '~/utils/videoplayer/proxy';
 import { isHlsSupportedNatively } from '~/utils/videoplayer/support';
 import { SSR_SOURCE_REASON, type PlayerSource } from '~/utils/videoplayer/types';
 import { useIsIOS } from './isIOS';
@@ -7,6 +7,8 @@ import { useIsIOS } from './isIOS';
 export const useVideoSource = (video: Ref<ApiDto<'VTVideoInfoDto'>>) => {
   const config = useRuntimeConfig();
   const { isIOSOnIPhone } = useIsIOS();
+  // Hoisted: calling this inside the computed would build a new computed each evaluation.
+  const { videoPlaybackProxy } = useProxyUrls();
 
   // The manifest rewrite targets the proxy *origin* — googlevideoRegex matches the host
   // only, so the segment URL's own /videoplayback path survives. That is a different
@@ -34,7 +36,20 @@ export const useVideoSource = (video: Ref<ApiDto<'VTVideoInfoDto'>>) => {
         : { kind: 'hls', url: currentVideo.hlsManifestUrl };
     }
 
-    // The `sabr` branch lands with SABR_PLAN.md phase 1, which adds the DTO field.
+    // SABR is the only VOD path YouTube still serves; the legacy manifest below is a
+    // fallback for responses that somehow carry one.
+    if (currentVideo.sabr) {
+      return {
+        kind: 'sabr',
+        manifest: toManifestDataUri(currentVideo.sabr.dashManifest),
+        sabr: {
+          streamingUrl: rewriteSabrHost(currentVideo.sabr.streamingUrl, videoPlaybackProxy),
+          formats: currentVideo.sabr.formats,
+          ustreamerConfig: currentVideo.sabr.ustreamerConfig,
+          clientInfo: currentVideo.sabr.clientInfo
+        }
+      };
+    }
 
     if (currentVideo.dashManifest) {
       return {
@@ -46,7 +61,7 @@ export const useVideoSource = (video: Ref<ApiDto<'VTVideoInfoDto'>>) => {
     return {
       kind: 'none',
       reason: currentVideo.live
-        ? 'No HLS manifest for this live stream'
+        ? "Live stream isn't currently playable"
         : 'No playable source for this video'
     };
   });

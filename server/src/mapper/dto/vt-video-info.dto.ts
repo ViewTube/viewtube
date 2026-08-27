@@ -4,6 +4,7 @@ import { VTCaptionTrackDto } from './vt-caption-track.dto';
 import { VTChapterDto } from './vt-chapter.dto';
 import { VTLegacyFormatDto } from './vt-legacy-format.dto';
 import { VTPreviewThumbnailDto } from './vt-preview-thumbnail.dto';
+import { VTSabrDto } from './vt-sabr.dto';
 import { VTThumbnailDto } from './vt-thumbnail.dto';
 import { VTVideoDto } from './vt-video.dto';
 
@@ -55,6 +56,7 @@ export class VTVideoInfoDto {
   commentCount: number;
   legacyFormats: Array<VTLegacyFormatDto>;
   dashManifest?: string;
+  sabr?: VTSabrDto;
   hlsManifestUrl?: string;
   dashManifestUrl?: string;
 }

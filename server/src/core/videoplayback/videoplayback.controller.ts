@@ -1,4 +1,4 @@
-import { Controller, Get, Req, Res } from '@nestjs/common';
+import { Controller, Get, Post, Req, Res } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { BypassAuth } from 'server/auth/decorators/bypass-auth.decorator';
@@ -12,6 +12,12 @@ export class VideoplaybackController {
 
   @Get()
   async getVideoplayback(@Res() reply: FastifyReply, @Req() request: FastifyRequest) {
+    await this.videoplaybackService.proxyStream(request, reply);
+  }
+
+  /** SABR segment requests: a protobuf body in, a UMP stream back. */
+  @Post()
+  async postVideoplayback(@Res() reply: FastifyReply, @Req() request: FastifyRequest) {
     await this.videoplaybackService.proxyStream(request, reply);
   }
 }

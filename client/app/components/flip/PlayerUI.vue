@@ -34,7 +34,10 @@ const cursor = computed(() => uiState.cursor.value);
     @pointerup="uiState.onPointerUp"
   >
     <slot />
-    <Spinner v-if="videoState.video.buffering" class="flip-spinner" />
+    <Spinner
+      v-if="videoState.video.buffering && !videoState.video.error?.fatal"
+      class="flip-spinner"
+    />
     <transition v-show="!hidden" name="flip-fade">
       <FlipControls
         v-if="uiState.visible.value"

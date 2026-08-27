@@ -55,5 +55,9 @@
     "vue-tsc": "3.3.11",
     "x2js": "3.4.4",
     "ytpl": "2.3.0"
+  },
+  "dependencies": {
+    "googlevideo": "4.1.1",
+    "shaka-player": "4.16.2"
   }
 }

@@ -7,14 +7,32 @@ VOD — only a `server_abr_streaming_url` (SABR endpoint). ViewTube's server cal
 `videoInfo.toDash()`, which builds a DASH manifest from those now-missing direct URLs, so
 the manifest is empty/useless and rx-player can't play. VOD playback is broken.
 
-### Livestreams
+### Livestreams — SABR applies here too (measured 2026-08-26)
 
-SABR is VOD-only. Live and post-live-DVR streams still serve standard HLS/DASH manifests
-(`hls_manifest_url` / `dash_manifest_url`). Confirmed by kira's README, LibreTube's SABR
-PR, yt-dlp (SABR-for-live is an experimental off-by-default flag), and youtubei.js
-(refuses to generate DASH for live, points to `hls_manifest_url`).
+**This section previously claimed live was untouched. That is no longer true.** Measured
+directly against YouTube with this repo's innertube config:
 
-**ViewTube's existing `hlsAdapter` / `nativeAdapter` for live stays as-is.**
+| Probe                                                                 | Result                                                                                                                                                               |
+| --------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `hls_manifest_url` / `dash_manifest_url` on a live video              | **empty for every client** — WEB, MWEB, IOS, ANDROID, TV, TV_EMBEDDED, WEB_EMBEDDED                                                                                  |
+| Same, with the hardcoded po_token removed, and with visitor_data only | still empty — not a stale-token problem                                                                                                                              |
+| `adaptive_formats` on a live video                                    | present with `url` fields, but a direct GET returns **403** even with `origin`/`referer`/UA set                                                                      |
+| `videoInfo.toDash()` on a live video                                  | throws: _"Generating DASH manifests for live videos is not supported. Please use the DASH and HLS manifests provided by YouTube"_ — which YouTube no longer provides |
+| `server_abr_streaming_url` on a live video                            | **present**                                                                                                                                                          |
+
+Note a methodology trap: reusing one `Innertube` instance across several `getInfo` calls
+made a TV-client probe return an HLS URL once. With a fresh session per probe it does not
+reproduce. Any future re-test must construct a new client per request.
+
+So live is broken by the same root cause as VOD, and the server cannot fix it by
+extracting a different field — there is no manifest to extract from any client. Live
+needs the SABR path, not a separate HLS path.
+
+**Consequence:** `hlsAdapter` / `nativeAdapter` have no source to play until either
+YouTube restores live manifests or the SABR adapter is extended to live. They are kept
+(the code is cheap and the manifests may return), but nothing currently routes to them.
+Until then the player shows an explicit "No HLS manifest for this live stream" error
+rather than buffering forever.
 
 ### How SABR works
 
@@ -65,19 +83,41 @@ server does ABR, so the client doesn't need to track 20 video qualities:
   UI (`videoState.ts`, `QualitySelector.vue`, `Controls.vue`) is unchanged. Quality
   switching becomes "tell SABR your preference" rather than "switch Shaka representation."
 
-### Fallback ladder (unchanged)
+### Fallback ladder (revised)
 
-`SABR` (VOD, new) → `DASH`/rx-player (VOD when server returns no SABR, e.g. `tv` client)
-→ `HLS`/`NATIVE` (live, untouched).
+`SABR` (VOD **and live**, new) → `DASH`/rx-player (VOD only, when the server returns no
+SABR) → `HLS`/`NATIVE` (only if YouTube starts serving live manifests again; currently
+unreachable).
 
 ## Phases
 
-### Phase 1 — Server DTO
+### Phase 1 — Server DTO (VOD)
 
 - `videos.service.ts`: extract deciphered `server_abr_streaming_url`,
-  `adaptive_formats`, `ustreamer_config`, client context; generate SABR DASH via
-  `toDash({ is_sabr: true, url_transformer })` with `__host` proxy params.
+  `adaptive_formats`, `ustreamer_config`, client context; generate the SABR DASH
+  manifest with `__host` proxy params.
 - Extend `VTVideoInfoDto` with a `sabr` block; `pnpm --filter=./server run gen:api`.
+
+**The `is_sabr` flag goes in `manifest_options`, not at the top level.** In
+youtubei.js 18.0.0 `DashOptions extends StreamingInfoOptions`, so `is_sabr` type-checks
+as a top-level option — but `MediaInfo.toDash` only forwards `url_transformer`,
+`format_filter` and `manifest_options` down to the generator, and `getStreamingInfo`
+reads the flag off that last argument (`StreamingInfo.js:530-531`,
+`options?.is_sabr`). Passing it at the top level type-checks, is silently ignored, and
+then fails with `PlayerError: No valid URL to decipher` — because VOD
+`adaptive_formats` no longer carry a `url` to decipher in the first place.
+
+```ts
+// verified working — 26 representations, 26 sabr:// BaseURLs, correct duration
+const dash = await videoInfo.toDash({
+  url_transformer: (url: URL) => {
+    url.searchParams.append('__host', url.host);
+    return url;
+  },
+  manifest_options: { is_sabr: true }
+});
+// BaseURL entries look like: <BaseURL>sabr://audio?key=140:</BaseURL>
+```
 
 ### Phase 2 — Server proxy
 
@@ -101,10 +141,17 @@ server does ABR, so the client doesn't need to track 20 video qualities:
 
 ### Phase 4 — Routing
 
-- `videoSource.ts`: add `SABR` to `VideoSourceType`; select `SABR` when `video.sabr`
-  present and not live/post-live; keep `HLS`/`NATIVE` for live; fall back to `DASH`
-  (rx-player) when `sabr` absent.
-- `videoState.ts` instantiates `sabrAdapter`.
+The adapter redesign has landed, so this is smaller than originally written:
+`VideoSourceType` is gone, `videoSource.ts` already returns a `PlayerSource` union with a
+`sabr` variant, and `adapters/index.ts` already routes `kind: 'sabr'` (currently to the
+no-op adapter). Phase 4 is now:
+
+- `videoSource.ts`: fill in the `sabr` branch at the marked insertion point — it is
+  reached whenever `video.sabr` is present, ahead of the `dashManifest` fallback.
+- `adapters/index.ts`: point `case 'sabr'` at `createSabrAdapter` instead of
+  `createNoopAdapter`.
+- `videoState.ts` needs no change — `isSameVideoReload()` already treats a `sabr` source
+  swap as a same-video reload that resumes at `state.currentTime`.
 
 ### Phase 5 — PO token (server-provided, reuse)
 
@@ -114,13 +161,56 @@ server does ABR, so the client doesn't need to track 20 video qualities:
 
 ### Phase 6 — Verify
 
-- Manual VOD playthrough (seek, quality hint, language, captions) through the proxy; live
-  stream to confirm HLS untouched.
+- Manual VOD playthrough (seek, quality hint, language, captions) through the proxy.
+- **Not** "live stream to confirm HLS untouched" — live has no HLS to confirm. Until
+  phase 7 lands, the live control is: the player shows the "Live stream isn't currently
+  playable" overlay promptly instead of buffering forever.
 - `pnpm lint`, `pnpm build:shared`, typecheck client+server. Cypress baseline run before
   trusting red/green (specs hit live YouTube).
 
+### Phase 7 — Livestreams
+
+Live is blocked on manifest generation, not on the SABR transport. Measured:
+
+- `toDash()` refuses outright for live (`MediaInfo.js:74`), before any `is_sabr`
+  handling.
+- Bypassing only that guard reaches the generator, which then produces an **empty**
+  manifest: 417 bytes, `type="static"`, **0 representations**, 0 `sabr://` URLs,
+  `mediaPresentationDuration="PTNaNS"`. The generator derives duration and segment info
+  from fields live formats do not carry, so there is nothing for it to emit.
+
+So the SABR endpoint exists for live (`server_abr_streaming_url` is present) but there is
+no manifest to hand Shaka. Three options, in order of preference:
+
+1. **Wait for upstream.** youtubei.js gains live SABR manifest generation, and phase 7
+   becomes a version bump plus removing the `is_live` skip in `videos.service.ts:82`.
+   Cheapest, but not on our schedule.
+2. **Generate the live manifest ourselves.** Build a dynamic DASH manifest from
+   `adaptive_formats` — `type="dynamic"`, `availabilityStartTime`,
+   `minimumUpdatePeriod`, `timeShiftBufferDepth`, `SegmentTemplate` — and let the SABR
+   adapter serve the segments. This is the "custom manifest" work the plan rejected for
+   VOD, and the objection is weaker here because SABR still owns segment fetching; we
+   only own the timeline. Still the largest piece of work in this document.
+3. **Leave live unsupported.** Current state. The player fails honestly and immediately.
+
+Recommended: ship phases 1–6 (VOD) first and re-probe live before committing to option
+2 — YouTube's live rollout is recent and upstream is moving.
+
+**Re-probe procedure** (a fresh `Innertube` per request — reusing one instance across
+calls produced a false positive once, see the Livestreams section):
+
+```ts
+const info = await yt.getInfo(liveId); // any client
+info.streaming_data?.hls_manifest_url; // → non-empty means live HLS is back
+await info.toDash({ manifest_options: { is_sabr: true } }); // → throws while live is unsupported
+```
+
 ## Not changed
 
-- Live HLS path (`hlsAdapter` / `nativeAdapter`).
 - rx-player as the non-SABR VOD fallback.
 - The GET `/api/videoplayback` path for HLS/DASH segment proxying.
+
+`hlsAdapter` / `nativeAdapter` are unchanged in code but are currently unreachable — see
+the Livestreams section. They stay because they are cheap to keep behind the factory and
+they become correct again the moment YouTube serves a live HLS manifest; `videoSource.ts`
+already routes to them on `hlsManifestUrl` being present.

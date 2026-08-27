@@ -4,7 +4,7 @@ import { createHlsAdapter } from './hlsAdapter';
 import { createNativeAdapter } from './nativeAdapter';
 import { createNoopAdapter } from './noopAdapter';
 
-export const createAdapter = (
+export const createAdapter = async (
   source: PlayerSource,
   ctx: AdapterContext
 ): Promise<PlayerAdapter> => {
@@ -15,9 +15,11 @@ export const createAdapter = (
       return createHlsAdapter(ctx);
     case 'native':
       return createNativeAdapter(ctx);
-    case 'sabr':
-      // Lands with SABR_PLAN.md phase 3; nothing produces a sabr source yet.
-      return createNoopAdapter(ctx);
+    case 'sabr': {
+      // Imported lazily so shaka-player only loads for the videos that need it.
+      const { createSabrAdapter } = await import('./sabrAdapter');
+      return createSabrAdapter(ctx, source);
+    }
     case 'none':
       return createNoopAdapter(ctx);
   }

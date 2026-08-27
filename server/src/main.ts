@@ -37,6 +37,25 @@ const bootstrap = async () => {
   });
   global.nestApp = app;
 
+  // SABR posts a protobuf body to /api/videoplayback. Fastify rejects a content type it
+  // has no parser for, so hand these through untouched as a Buffer.
+  const fastify = app.getHttpAdapter().getInstance();
+  const rawBodyParser = (
+    _request: unknown,
+    payload: Buffer,
+    done: (err: Error | null, body?: Buffer) => void
+  ) => done(null, payload);
+  fastify.addContentTypeParser(
+    'application/x-protobuf',
+    { parseAs: 'buffer', bodyLimit: 10 * 1024 * 1024 },
+    rawBodyParser
+  );
+  fastify.addContentTypeParser(
+    'application/octet-stream',
+    { parseAs: 'buffer', bodyLimit: 10 * 1024 * 1024 },
+    rawBodyParser
+  );
+
   const configService = app.get(ConfigService);
   const adminService = app.get(AdminService);
   const serverSettings = await adminService.getServerSettings();

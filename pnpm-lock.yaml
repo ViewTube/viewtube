@@ -37,6 +37,13 @@ importers:
         version: 6.0.3
 
   client:
+    dependencies:
+      googlevideo:
+        specifier: 4.1.1
+        version: 4.1.1
+      shaka-player:
+        specifier: 4.16.2
+        version: 4.16.2
     devDependencies:
       '@iconify-json/mdi':
         specifier: 1.2.3
@@ -5529,6 +5536,9 @@ packages:
   globjoin@0.1.4:
     resolution: {integrity: sha512-xYfnw62CKG8nLkZBfWbhWwDw02CHty86jfPcc2cr3ZfeuK9ysoVPPEUxf21bAD/rWAgk52SuBrLJlefNy8mvFg==}
 
+  googlevideo@4.1.1:
+    resolution: {integrity: sha512-14o64O+CXXlQ1stYZK/+ypCEwZb25lzEuzhbFYYEzf26R+HhBDOR+Dkdk7MKkZ3qXeIjvZfeC0AJlVKjwQCFjw==}
+
   gopd@1.2.0:
     resolution: {integrity: sha512-ZUKRh6/kUFoAiTAtTYPZJ3hw9wNxx+BIBOijnlG9PnrJsCcSjs1wyyD6vJpaYtgnzDrKYRSqf3OO6Rfa93xsRg==}
     engines: {node: '>= 0.4'}
@@ -7597,6 +7607,10 @@ packages:
 
   setprototypeof@1.2.0:
     resolution: {integrity: sha512-E5LDX7Wrp85Kil5bhZv46j8jOeboKq5JMmYM3gVGdGH8xFpPWXUMsNrlODCrkoxMEeNi/XZIwuRvY4XNwYMJpw==}
+
+  shaka-player@4.16.2:
+    resolution: {integrity: sha512-AFswL7ZXT37UceDAsovQXQ3BRGLmPcmdgXgLVJdmHN2mnrYCvTrl7CGg2jeIPxUOHipAeeq33LrDM9uGBlQRVA==}
+    engines: {node: '>=18'}
 
   sharp@0.35.3:
     resolution: {integrity: sha512-ej0zVHuZGHCiABXcNxeYhpRnPNPAcvbG8RMdBAhDAxLKkCRVSpK3Iyu7qbqw3JMzoj0REeM6f3tJLtVwl0023Q==}
@@ -11712,8 +11726,8 @@ snapshots:
 
   '@typescript-eslint/project-service@8.67.0(supports-color@10.2.2)(typescript@6.0.3)':
     dependencies:
-      '@typescript-eslint/tsconfig-utils': 8.67.0(typescript@6.0.3)
-      '@typescript-eslint/types': 8.67.0
+      '@typescript-eslint/tsconfig-utils': 8.68.0(typescript@6.0.3)
+      '@typescript-eslint/types': 8.68.0
       debug: 4.4.3(supports-color@10.2.2)
       typescript: 6.0.3
     transitivePeerDependencies:
@@ -14460,6 +14474,10 @@ snapshots:
 
   globjoin@0.1.4: {}
 
+  googlevideo@4.1.1:
+    dependencies:
+      '@bufbuild/protobuf': 2.14.0
+
   gopd@1.2.0: {}
 
   got@14.6.6:
@@ -16710,6 +16728,8 @@ snapshots:
   set-cookie-parser@2.7.2: {}
 
   setprototypeof@1.2.0: {}
+
+  shaka-player@4.16.2: {}
 
   sharp@0.35.3(@types/node@26.2.0):
     dependencies:

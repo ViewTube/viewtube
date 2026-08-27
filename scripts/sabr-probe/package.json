@@ -1,0 +1,22 @@
+{
+  "name": "sabr-probe",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "description": "Diagnostic: can this network reach YouTube's SABR endpoint at all?",
+  "scripts": {
+    "probe": "node sabr-probe.mjs",
+    "browser": "node browser-probe.mjs",
+    "capture": "node capture-body.mjs",
+    "token": "node token-isolate.mjs",
+    "playback": "node viewtube-playback.mjs",
+    "spike": "node potoken-spike.mjs"
+  },
+  "dependencies": {
+    "bgutils-js": "4.0.3",
+    "googlevideo": "4.1.1",
+    "jsdom": "30.0.1",
+    "puppeteer-core": "24.10.2",
+    "youtubei.js": "18.0.0"
+  }
+}

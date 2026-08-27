@@ -1,9 +1,27 @@
+import vm from 'node:vm';
 import path from 'path';
 import type { Types } from 'youtubei.js';
-import { Innertube, Log, UniversalCache } from 'youtubei.js';
+import { Innertube, Log, Platform, UniversalCache } from 'youtubei.js';
 import { innertubeFetch } from './innertubeFetch';
 
 Log.setLevel(Log.Level.ERROR);
+
+/**
+ * Deciphering playback URLs means running YouTube's obfuscated player JS, and youtubei.js
+ * ships no interpreter — without this every deciphered URL keeps its scrambled `n`
+ * parameter and YouTube answers playback requests with 403.
+ *
+ * The docs suggest `new Function`; `vm.runInNewContext` is used instead so the script
+ * cannot reach this module's scope. It is still YouTube's code running in-process, which
+ * is inherent to deciphering, so it is kept on a short timeout.
+ *
+ * `data.output` is a function *body* and ends in a `return`, which is a syntax error at
+ * the top level of a script — hence the IIFE wrapper. Without it every call throws
+ * "Illegal return statement" and callers that treat deciphering as best-effort silently
+ * fall back to scrambled URLs.
+ */
+Platform.shim.eval = async (data: Types.BuildScriptResult) =>
+  vm.runInNewContext(`(function(){${data.output}})()`, Object.create(null), { timeout: 5000 });
 
 let cacheDirectory = './cache';
 if (process.env.VIEWTUBE_DATA_DIRECTORY) {
@@ -14,9 +32,6 @@ const innertubeOptions: Types.InnerTubeConfig = {
   cache: new UniversalCache(true, cacheDirectory),
   fetch: innertubeFetch as unknown as typeof fetch,
   enable_session_cache: false,
-  po_token:
-    'MnT2oOZls03H7faYrUDz5445MMN0Lofx_qyQ6gmd05cTQnpv9Yw3oiJDQ2dmbr4oVC4S6s3-hT8FoHcePU4CTWmWEW3Ndw82ALLyfklkPI4_W6LTLD2t8uMApgldWjqnECzMjUs9WrpZwKgP0YTrb53T63walQ==',
-  visitor_data: 'CgtNR0pqRHVDYVI2Zyjk8pq5BjIKCgJDSBIEGgAgUw%3D%3D',
   lang: 'en'
 };
 

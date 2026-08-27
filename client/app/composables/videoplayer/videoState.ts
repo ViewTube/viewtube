@@ -127,7 +127,19 @@ export const useVideoState = ({
     // through this path must start at its own resume position, not the previous one's.
     const startAt = isSameVideoReload(newSource) ? videoState.currentTime : (startTime?.value ?? 0);
 
-    await adapter.load(newSource, startAt);
+    try {
+      await adapter.load(newSource, startAt);
+    } catch (error) {
+      if (seq !== loadSeq) return;
+      // An adapter that already described the failure keeps its own message.
+      videoState.error ??= {
+        code: 'load-failed',
+        message: (error as Error)?.message || 'This video could not be loaded.',
+        fatal: true
+      };
+      videoState.buffering = false;
+      return;
+    }
     if (seq !== loadSeq) return;
 
     if (!hasLoadedOnce) {

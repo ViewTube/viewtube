@@ -1,21 +1,45 @@
 import type { AudioTrack, Language, VideoTrack } from '~/interfaces/VideoState';
 import type { MessageType } from '~/types/MessageType';
 
-/**
- * What the SABR adapter needs from the server. The producer (`VTVideoInfoDto.sabr`)
- * arrives with SABR_PLAN.md phase 1; until then nothing constructs a `sabr` source.
- */
+/** Mirrors `VTSabrDto`; fed straight into googlevideo's streaming adapter. */
 export interface SabrSource {
+  /** SABR endpoint, host already rewritten to the videoplayback proxy. */
   streamingUrl: string;
-  formats: unknown[];
+  formats: Array<SabrFormatLike>;
   ustreamerConfig: string;
-  poToken: string;
   clientInfo: {
-    osName: string;
-    osVersion: string;
     clientName: number;
     clientVersion: string;
+    osName: string;
+    osVersion: string;
+    deviceMake?: string;
+    deviceModel?: string;
   };
+}
+
+/** The subset of googlevideo's SabrFormat the server fills in. */
+export interface SabrFormatLike {
+  itag: number;
+  lastModified: string;
+  bitrate: number;
+  approxDurationMs: number;
+  xtags?: string;
+  width?: number;
+  height?: number;
+  contentLength?: number;
+  audioTrackId?: string;
+  mimeType?: string;
+  isDrc?: boolean;
+  quality?: string;
+  qualityLabel?: string;
+  averageBitrate?: number;
+  audioQuality?: string;
+  language?: string;
+  isDubbed?: boolean;
+  isAutoDubbed?: boolean;
+  isDescriptive?: boolean;
+  isSecondary?: boolean;
+  isOriginal?: boolean;
 }
 
 export type PlayerSource =

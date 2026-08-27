@@ -52,7 +52,10 @@ newly-created adapter must be destroyed if it turns out to be superseded.
 ### 4. `destroy()` before `save()` saves position 0
 
 ```ts
-onBeforeUnmount(() => { adapter?.destroy(); save(); });
+onBeforeUnmount(() => {
+  adapter?.destroy();
+  save();
+});
 ```
 
 The plan's own `nativeAdapter.destroy` calls `removeAttribute('src')` + `videoEl.load()`, which
@@ -78,14 +81,14 @@ handler.
 
 The audit only looked at `ControlButtons` and `Seekbar`. `duration` is also read by:
 
-| Location | Effect with `Infinity` |
-| --- | --- |
-| `keydownActions.ts:86` | `skipInterval = Infinity`; number keys → `setTime(Infinity)` |
-| `keydownActions.ts:94` | `End` key → `setTime(Infinity)` |
-| `mediaSession.ts:79` | `setPositionState({ duration: Infinity })` — Chrome rejects non-finite duration; fires on every `timeupdate` |
-| `Seekbar.vue:56` | `time = duration * percent` → `Infinity`; click-to-seek dead |
-| `Seekbar.vue:135`, `Chapters.vue:11`, `SeekbarPreview.vue:73` | NaN/Infinity widths |
-| `videoState.ts:188` | `videoPlayerStore.setVideoLength(Infinity)` |
+| Location                                                      | Effect with `Infinity`                                                                                       |
+| ------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| `keydownActions.ts:86`                                        | `skipInterval = Infinity`; number keys → `setTime(Infinity)`                                                 |
+| `keydownActions.ts:94`                                        | `End` key → `setTime(Infinity)`                                                                              |
+| `mediaSession.ts:79`                                          | `setPositionState({ duration: Infinity })` — Chrome rejects non-finite duration; fires on every `timeupdate` |
+| `Seekbar.vue:56`                                              | `time = duration * percent` → `Infinity`; click-to-seek dead                                                 |
+| `Seekbar.vue:135`, `Chapters.vue:11`, `SeekbarPreview.vue:73` | NaN/Infinity widths                                                                                          |
+| `videoState.ts:188`                                           | `videoPlayerStore.setVideoLength(Infinity)`                                                                  |
 
 Live works today because `duration` is set to the finite `liveSyncPosition` (`hlsAdapter.ts:85`).
 The plan calls this "the current hls.js bug" — it is a hack, but it is load-bearing. The component
@@ -93,7 +96,7 @@ table claiming "2 computeds" in `Seekbar.vue` is wrong; it is 2 computeds + `onP
 child props.
 
 Recommendation: keep `duration` finite and add `live`/`liveEdge` alongside it, or introduce a
-single `seekMax` accessor and route *every* consumer through it.
+single `seekMax` accessor and route _every_ consumer through it.
 
 ### 7. The Seekbar buffer formula carries an existing bug forward unchanged
 
@@ -119,18 +122,17 @@ await adapter.load(src, startTime?.value ?? 0);
 ```
 
 For the SABR `onReloadPlayerResponse` path — the motivating use case for `load()` over
-construct-with-source — this seeks back to the video's *initial* start time mid-playback. Reload
+construct-with-source — this seeks back to the video's _initial_ start time mid-playback. Reload
 must resume at `state.currentTime`. Suggest `load(source, { startTime, resume?: boolean })`, or
 have `videoState` pass `state.currentTime` on any non-first load.
 
 ### 10. `useProxyUrls().videoPlaybackProxy` is not the same string, and swapping it in breaks the manifest
 
 `videoSource.ts:11` builds `${window.location.origin}/api` (no path suffix) because
-`googlevideoRegex` (`utils/googlevideoRegex.ts:1`) matches only the *host* portion —
+`googlevideoRegex` (`utils/googlevideoRegex.ts:1`) matches only the _host_ portion —
 `https://rr5---sn-x.googlevideo.com` → `https://host/api`, leaving the URL's own
 `/videoplayback?...` path intact. `useProxyUrls().videoPlaybackProxy` is `${apiUrl}videoplayback`
-(`composables/proxyUrls.ts:18`). Substituting it yields `/api/videoplayback/videoplayback?...` →
-404. The "single source of truth" cleanup needs the two reconciled first.
+(`composables/proxyUrls.ts:18`). Substituting it yields `/api/videoplayback/videoplayback?...` → 404. The "single source of truth" cleanup needs the two reconciled first.
 
 ### 11. The `videoplaybackProxy` runtime config is silently dropped
 
@@ -190,7 +192,7 @@ it is not test coverage.
   `mappers.ts` / `proxy.ts` needs explicit imports. Moving `humanizeBitrate` there is safe only
   because the two adapters are its sole consumers.
 - `PlayerSource.hls.live` is always `true` given the branch that produces it — dead field.
-- `state.live` is initialized from the DTO *and* written by the adapter; no stated owner.
+- `state.live` is initialized from the DTO _and_ written by the adapter; no stated owner.
 - `Player.vue:25` passes `video` as a plain object, not a `Ref`; the plan's `videoState.ts` uses
   `video.value.live`. Implicit signature change.
 - `load()`'s `if (source.kind !== 'dash') return;` guards fail silently. Since the factory
@@ -242,7 +244,8 @@ Change 2 now says `duration` stays finite, but the hls sketch is untouched:
 
 ```ts
 const cleanup = useElementState(ctx.videoElementRef.value, ctx.state, {
-  onEnded: ctx.onEnded, live: true   // duration stays Infinity, liveEdge from hls
+  onEnded: ctx.onEnded,
+  live: true // duration stays Infinity, liveEdge from hls
 });
 ```
 
@@ -281,7 +284,7 @@ The comment names it explicitly:
 > For reloads (next-up via source watch, SABR `onReloadPlayerResponse`), resume at the
 > current playback position
 
-Next-up is a *different video*. Resuming it at the previous video's `currentTime` is wrong —
+Next-up is a _different video_. Resuming it at the previous video's `currentTime` is wrong —
 it should start at 0, or at that video's own saved resume position. The discriminator must
 be "same video, new source" (SABR reload) vs. "new video", not "have I loaded before".
 
@@ -296,7 +299,7 @@ comment should name only the SABR reload.
 
 ### E. `applyQualityCap` after the manual lock discards the user's selection
 
-`lockVideoRepresentations(arg)` *replaces* the locked set
+`lockVideoRepresentations(arg)` _replaces_ the locked set
 (`rx-player/src/main_thread/api/public_api.ts:2647`). The manual branch locks `[repId]`,
 then `applyQualityCap` locks the whole allowed-height set — so picking 720p silently
 reverts to auto-within-cap. Apply the cap only in the `repId === null` branch.

@@ -1,3 +1,4 @@
+import { VTSabrDto } from 'server/mapper/dto/vt-sabr.dto';
 import { VTVideoInfoDto } from 'server/mapper/dto/vt-video-info.dto';
 import { VideoInfoSourceApproximation } from './video-info-source-approximation';
 import {
@@ -32,10 +33,11 @@ import {
 
 type ToVTVideoInfoOptions = {
   dashManifest: string;
+  sabr?: VTSabrDto;
 };
 export const toVTVideoInfoDto = (
   videoInfo: VideoInfoSourceApproximation,
-  { dashManifest }: ToVTVideoInfoOptions
+  { dashManifest, sabr }: ToVTVideoInfoOptions
 ): VTVideoInfoDto => {
   const id = extractVideoId(videoInfo);
   return {
@@ -66,6 +68,7 @@ export const toVTVideoInfoDto = (
     legacyFormats: extractLegacyFormats(videoInfo),
     hlsManifestUrl: extractHlsManifestUrl(videoInfo),
     dashManifestUrl: extractDashManifestUrl(videoInfo),
-    dashManifest
+    dashManifest,
+    sabr
   };
 };

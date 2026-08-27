@@ -76,10 +76,17 @@ export const useMediaSession = ({
     watch(
       () => videoState.currentTime,
       () => {
+        // The spec rejects the whole call if position exceeds duration, and seekMax
+        // legitimately trails currentTime — it is 0 until the adapter reports a duration,
+        // and on live it tracks an edge the playhead can round past. Clamping keeps the
+        // position honest instead of throwing on short or live videos.
+        const duration = videoState.seekMax;
+        if (!(duration > 0)) return;
+
         navigator.mediaSession.setPositionState({
-          duration: videoState.seekMax,
-          playbackRate: videoState.speed,
-          position: videoState.currentTime
+          duration,
+          playbackRate: videoState.speed > 0 ? videoState.speed : 1,
+          position: Math.min(Math.max(videoState.currentTime, 0), duration)
         });
       }
     );

@@ -14,6 +14,7 @@ import { innertubeClient } from 'server/common/innertube/innertube';
 import { vtFetch } from 'server/common/vtFetch';
 import { DislikeDto } from 'server/core/videos/dto/dislike.dto';
 import { toVTVideoInfoDto } from 'server/mapper/converter/video-info/vt-video-info.converter';
+import { VTSabrDto } from 'server/mapper/dto/vt-sabr.dto';
 import { VTVideoInfoDto } from 'server/mapper/dto/vt-video-info.dto';
 import sharp from 'sharp';
 import type { Innertube } from 'youtubei.js';
@@ -21,6 +22,7 @@ import { Common } from '../common';
 import { SponsorBlockSegmentsDto } from './dto/sponsorblock/sponsorblock-segments.dto';
 import { VideoBasicInfoDto } from './dto/video-basic-info.dto';
 import { VideoBasicInfo } from './schemas/video-basic-info.schema';
+import { buildSabrBlock } from './sabr.builder';
 import { isVideoGone, videoNotFound, videoUpstreamFailed } from './video-errors';
 
 @Injectable()
@@ -69,9 +71,10 @@ export class VideosService {
     }
 
     let videoInfo: Awaited<ReturnType<Innertube['getInfo']>>;
+    let client: Innertube;
 
     try {
-      const client = await innertubeClient();
+      client = await innertubeClient();
       videoInfo = await client.getInfo(id);
     } catch (error) {
       if (isVideoGone(error)) videoNotFound();
@@ -79,24 +82,34 @@ export class VideosService {
     }
 
     let dashManifest: string | null = null;
+    let sabr: VTSabrDto | null = null;
 
+    // Live has neither a manifest nor usable formats — see SABR_PLAN.md phase 7.
     if (!videoInfo.basic_info.is_live) {
       try {
-        dashManifest = await videoInfo.toDash({
-          url_transformer: (url: URL) => {
-            url.searchParams.append('__host', url.host);
-            return url;
-          }
-        });
+        sabr = await buildSabrBlock(videoInfo, client);
       } catch {
-        // Ignore silently
+        // Fall through to the legacy DASH path below.
+      }
+
+      if (!sabr) {
+        try {
+          dashManifest = await videoInfo.toDash({
+            url_transformer: (url: URL) => {
+              url.searchParams.append('__host', url.host);
+              return url;
+            }
+          });
+        } catch {
+          // Ignore silently
+        }
       }
     }
 
     let video: VTVideoInfoDto;
 
     try {
-      video = toVTVideoInfoDto(videoInfo as unknown, { dashManifest });
+      video = toVTVideoInfoDto(videoInfo as unknown, { dashManifest, sabr });
     } catch (error) {
       videoUpstreamFailed('information', error);
     }
