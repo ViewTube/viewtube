@@ -1,10 +1,14 @@
 /**
- * Both current adapters map 3840 to 2560 rather than 2160. That is wrong, but it is
- * what ships today, so it is preserved here to keep this extraction behaviour-neutral.
- * Fixing it is a visible label change and belongs in its own commit.
+ * Quality labels come from the width, not the reported height: YouTube gives a
+ * non-16:9 video its true height (a 1920-wide cinematic crop is 804 tall), which would
+ * label it "804p". Widths are stable, so they name the tier instead.
+ *
+ * Unknown widths fall through to the reported height, which is why only the standard
+ * ladder is listed.
  */
 const HEIGHT_BY_WIDTH: Record<number, number> = {
-  3840: 2560,
+  7680: 4320,
+  3840: 2160,
   2560: 1440,
   1920: 1080,
   1280: 720,

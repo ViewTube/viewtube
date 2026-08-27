@@ -159,6 +159,42 @@ no-op adapter). Phase 4 is now:
 - Implement `onReloadPlayerResponse` → re-fetch `/api/videos/:id` (server re-mints /
   returns fresh token + URL) to handle expiry.
 
+### Phase 5 status (2026-08-27)
+
+- po_token: **not needed**. `scripts/sabr-probe` `npm run spike` gets media with no token at
+  all; `streamProtectionStatus` comes back as 2, not the 3 that signals a rejected session.
+  See `POTOKEN_PLAN.md`.
+- `onReloadPlayerResponse`: **implemented and verified**. `reload-probe.mjs` tags the
+  refetched streaming URL and confirms later segment requests carry the tag while playback
+  continues uninterrupted.
+
+### The `vb` audio variant (fixed 2026-08-27)
+
+Some videos — `Nz9b0oJw69I`, the one `tests/cypress/e2e/3-pages/watch.cy.ts` uses — never
+received a single byte of media, while others played fine. The cause was a naming
+disagreement between the two libraries:
+
+| Library                        | Audio representation id                  |
+| ------------------------------ | ---------------------------------------- |
+| youtubei.js (builds the manifest) | `itag[-audioTrackId][-drc][-vb]`      |
+| googlevideo (resolves the format) | `itag[-audioTrackId][-drc]` — no `vb` |
+
+YouTube now ships a `vb` (voice-boost) audio variant alongside the plain and `drc` ones, so
+itags 140/249/250/251 each appear three times, distinguished only by `xtags`. The manifest
+names one of them `140-vb`; `FormatKeyUtils.getUniqueFormatId` cannot produce that string,
+so the lookup in `sabrPlayerAdapter` returned `undefined`, the SABR request went out with no
+resolved audio format, and YouTube replied with directives and no media indefinitely.
+
+Fixed by carrying `isVb` through `VTSabrFormatDto` and keying the format map with
+`manifestFormatId()`, which mirrors youtubei.js's scheme. Revisit if googlevideo gains its
+own `vb` support — at that point the local helper can go.
+
+**Methodology note.** A hand-rolled "POST the same request repeatedly and see if media
+arrives" probe reported 0 bytes for this video and was taken as proof that YouTube served
+nothing. It reports 0 bytes for `dQw4w9WgXcQ` too, which plays perfectly — the probe never
+echoes the SABR context back, so it models nothing. Any claim of the form "YouTube does not
+serve this" needs a known-good video as a control in the same run.
+
 ### Phase 6 — Verify
 
 - Manual VOD playthrough (seek, quality hint, language, captions) through the proxy.

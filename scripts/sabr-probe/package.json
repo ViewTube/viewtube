@@ -10,7 +10,9 @@
     "capture": "node capture-body.mjs",
     "token": "node token-isolate.mjs",
     "playback": "node viewtube-playback.mjs",
-    "spike": "node potoken-spike.mjs"
+    "spike": "node potoken-spike.mjs",
+    "reload": "node reload-probe.mjs",
+    "controls": "node player-controls.mjs"
   },
   "dependencies": {
     "bgutils-js": "4.0.3",

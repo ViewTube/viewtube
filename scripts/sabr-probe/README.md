@@ -13,7 +13,16 @@ npm run capture    # decode the browser's request, then replay it from node
 npm run token      # is the po_token actually checked?
 npm run spike      # phase 0: does a minted po_token change anything? (it does not)
 npm run playback   # end-to-end: does a video play in ViewTube itself?
+npm run controls   # seek, quality, audio and captions against a live SABR stream
+npm run reload     # does a mid-playback session swap keep playing?
 ```
+
+`controls` and `reload` need both dev servers up. `reload` drives the dev-only
+`window.__vtSabrReload` seam in `sabrAdapter.ts` — YouTube only asks for a real reload
+after hours of playback, so that seam is the sole way to exercise the path. It intercepts
+the refetch and tags the new streaming URL, then asserts later segment requests carry the
+tag; `ei`/`expire` come back identical on a refetch and cannot be used to tell an applied
+swap from an ignored one.
 
 `spike` is the decisive one and needs no dev server. It runs a single BotGuard attestation,
 keeps the minter, and tests the player-request token and the SABR-body token as independent

@@ -15,6 +15,7 @@ export class VTSabrFormatDto {
   audioTrackId?: string;
   mimeType?: string;
   isDrc?: boolean;
+  isVb?: boolean;
   quality?: string;
   qualityLabel?: string;
   averageBitrate?: number;

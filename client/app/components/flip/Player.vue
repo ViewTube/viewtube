@@ -17,11 +17,12 @@ const videoElementRef = ref<HTMLVideoElement | null>(null);
 const videoObj = toRef(props, 'video');
 const startTime = toRef(props, 'startTime');
 
-const { source } = useVideoSource(videoObj);
+const { source, refreshSource } = useVideoSource(videoObj);
 
 const videoState = useVideoState({
   videoElementRef,
   source,
+  refreshSource,
   video: props.video,
   videoEnded: () => emit('videoEnded'),
   startTime,

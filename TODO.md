@@ -1,8 +1,5 @@
 # TODO
 
-- [ ] **[high] Hardcoded `po_token` / `visitor_data`** in `server/src/common/innertube/innertube.ts`.
-  Session-bound values baked into source, shared by every self-hosted instance — they expire for everyone at once
-  and present as a YouTube outage. At minimum log loudly when falling back to the built-in values.
 - [ ] **[high] No rate limiting anywhere.** `@nestjs/throttler` is absent; the proxies are an unauthenticated bandwidth
   relay through the operator's SOCKS proxy. Also the only defence against id spam — a non-existent video id costs a full
   innertube round trip (`videos.service.ts` → `client.getInfo`), and innertube calls are what attract blocks. Caching
@@ -56,6 +53,17 @@
   renders that as the location. `view_count` survives only because `parseShortenedNumber` calls `.toString()`.
   Normalise with `.toString()` on that branch. Not reachable through e2e fixtures — every channel they use is on the
   new about view.
+- [ ] **[high] Captions can't distinguish two tracks that share a language code.** A video with both "English" and
+  "English (auto-generated)" gives both `languageCode: 'en'`, and `captionsState.ts:57` marks a track active with
+  `track.languageCode === currentTrackCode`. Selecting either lights up both in `CaptionsSelector.vue`, and the
+  auto-generated track can never be selected on its own. Wants a unique per-track id rather than the language code —
+  which likely means a field on the DTO, so it is not a one-liner. Reproduces on `dQw4w9WgXcQ`.
+- [ ] **[low] `manifestFormatId` in `sabrPlayerAdapter.ts` is a workaround for a googlevideo gap.** youtubei.js names
+  audio representations `itag[-audioTrackId][-drc][-vb]`; googlevideo's `FormatKeyUtils.getUniqueFormatId` stops at
+  `-drc`. Delete the helper if googlevideo learns about `vb`, rather than letting the two schemes drift.
+- [ ] **[low] Multi-language audio switching is unverified.** `setLanguage()` has never been exercised against a video
+  with real dubbed tracks — every video used in testing has exactly one distinct audio track. The `vb` bug was a
+  multi-audio-variant problem, so this is the likeliest place another one hides.
 - [ ] **[low] `server/src/common/proxy-allowlist.ts:12` is missing a semicolon** after `imageHostSuffixes`. ASI covers
   it so nothing is broken, but `pnpm format` will rewrite the line the moment anyone runs it.
 - [ ] **[low] `proxyStream` trusts the `originUrl` query parameter** and reflects it into rewritten `.m3u8` bodies
@@ -89,13 +97,12 @@
   `client/app/pages/watch.vue` (768), `client/app/components/list/VideoEntry.vue` (653).
 - [ ] **[low] `CHANGELOG.md` has lapsed** — nothing since 0.17.0 (`#2940`) while `package.json` is 0.17.1, and it still
   feeds the release job (`moisout/changelog-create-release`). Either resume it or decide it's retired.
-- [ ] **[scale] Remove the hardcoded `po_token` / `visitor_data`** from `server/src/common/innertube/innertube.ts`.
-  Leftovers from testing the env-var support added for a self-hoster, not intended defaults — but they're the values
-  every instance uses unless overridden, so they ship as a shared fingerprint. Delete them and warn loudly at startup
-  when none are configured.
-  - **Open question that gates everything else: does ViewTube still function with no `po_token` at all?** The answer
-    decides whether a public instance needs a token-generating sidecar or just documentation.
-  - Only relevant to the public instance; doesn't bite a self-hoster.
+- [x] **[scale] ~~Remove the hardcoded `po_token` / `visitor_data`~~** — done 2026-08-27, along with the `[high]`
+  duplicate of the same entry. The gating question, _does ViewTube still function with no `po_token` at all?_, is
+  answered: **yes**. `scripts/sabr-probe` `npm run spike` gets media with no token at all, and
+  `streamProtectionStatus` comes back as 2 rather than the 3 that signals a rejected session. **No token-generating
+  sidecar is needed**; `VIEWTUBE_PO_TOKEN` / `VIEWTUBE_VISITOR_DATA` remain as a manual override. Full working
+  through in `POTOKEN_PLAN.md` — re-run the spike before trusting this, since YouTube is still rolling enforcement out.
 - [ ] **[scale] Record the deployment topology.** The public instance ran the container inside gluetun for VPN
   egress, no proxy. Nothing in the repo says so — not the compose files, not the README, not `env.validation.ts`.
   That knowledge existed only in the operator's head, which makes picking the project back up after a pause needlessly

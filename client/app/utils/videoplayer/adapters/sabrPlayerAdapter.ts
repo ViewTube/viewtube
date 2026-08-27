@@ -13,6 +13,7 @@ import {
   type CacheManager,
   type RequestMetadataManager
 } from 'googlevideo/utils';
+import { rewriteSabrHost } from '../proxy';
 import shaka from 'shaka-player/dist/shaka-player.compiled';
 
 /**
@@ -28,7 +29,31 @@ import shaka from 'shaka-player/dist/shaka-player.compiled';
  * bytes before Shaka ever sees them, and owning the scheme is what makes streaming,
  * progress reporting and segment caching possible while doing that.
  */
+/**
+ * The id a representation carries in the manifest.
+ *
+ * youtubei.js names audio representations `itag[-audioTrackId][-drc][-vb]`, but
+ * googlevideo's `getUniqueFormatId` stops at `-drc` — it has no notion of the `vb`
+ * (voice-boost) variant YouTube now ships on some videos. On those, itag 140/249/250/251
+ * each appear three times and Shaka asks for `140-vb`, which the googlevideo-keyed lookup
+ * misses: the SABR request then goes out with no resolved audio format and YouTube answers
+ * with directives and no media, forever.
+ */
+const manifestFormatId = (format: SabrFormat & { isVb?: boolean }): string => {
+  const base = FormatKeyUtils.getUniqueFormatId(format);
+  return !format.width && format.isVb ? `${base}-vb` : base;
+};
+
 export class ShakaSabrPlayerAdapter implements SabrPlayerAdapter {
+  /**
+   * @param proxyEndpoint - Absolute `/api/videoplayback` URL. Every SABR request is forced
+   *   back through it: after a SABR redirect googlevideo stores the raw googlevideo edge
+   *   URL and issues later requests straight to it, which the browser refuses on CORS.
+   *   Whether a redirect happens at all depends on the edge YouTube hands out, so without
+   *   this playback works on most videos and fails completely on the rest.
+   */
+  constructor(private readonly proxyEndpoint: string) {}
+
   private player: shaka.Player | null = null;
   private requestMetadataManager?: RequestMetadataManager;
   private cacheManager?: CacheManager;
@@ -76,7 +101,7 @@ export class ShakaSabrPlayerAdapter implements SabrPlayerAdapter {
   ): { videoFormat?: SabrFormat; audioFormat?: SabrFormat } {
     const player = this.requirePlayer();
 
-    const activeId = FormatKeyUtils.getUniqueFormatId(activeFormat);
+    const activeId = manifestFormatId(activeFormat);
     const activeVariant = player
       .getVariantTracks()
       .find(
@@ -85,9 +110,7 @@ export class ShakaSabrPlayerAdapter implements SabrPlayerAdapter {
 
     if (!activeVariant) return {};
 
-    const formatsById = new Map(
-      sabrFormats.map(format => [FormatKeyUtils.getUniqueFormatId(format), format])
-    );
+    const formatsById = new Map(sabrFormats.map(format => [manifestFormatId(format), format]));
 
     return {
       videoFormat: activeVariant.originalVideoId
@@ -193,6 +216,21 @@ export class ShakaSabrPlayerAdapter implements SabrPlayerAdapter {
     this.player = null;
   }
 
+  /**
+   * After a SABR redirect googlevideo stores the raw googlevideo edge URL and issues later
+   * requests straight to it, which the browser refuses on CORS. Whether a redirect happens
+   * at all depends on the edge YouTube hands out, so without this playback works on most
+   * videos and fails outright on the rest.
+   */
+  private toProxied(url: string): string {
+    if (!URL.canParse(url, window.location.origin)) return url;
+
+    const target = new URL(url, window.location.origin);
+    if (!target.hostname.endsWith('.googlevideo.com')) return url;
+
+    return rewriteSabrHost(url, this.proxyEndpoint);
+  }
+
   private requirePlayer(): shaka.Player {
     if (!this.player) throw new Error('SABR player adapter used before initialize()');
     return this.player;
@@ -277,7 +315,10 @@ export class ShakaSabrPlayerAdapter implements SabrPlayerAdapter {
         if (cached) return cached;
       }
 
-      const response = await fetch(uri, init);
+      // Proxied here rather than by rewriting `request.uris`: the URI doubles as the key
+      // for googlevideo's request metadata, so changing it upstream makes the lookup above
+      // miss and the response gets treated as a non-SABR one.
+      const response = await fetch(this.toProxied(uri), init);
       headersReceived(headersToObject(response.headers));
 
       // A rejected request still comes back as application/vnd.yt-ump with an empty body;
@@ -412,6 +453,11 @@ export class ShakaSabrPlayerAdapter implements SabrPlayerAdapter {
 
     // A response carrying only a redirect or a context update has no media in it; the
     // streaming adapter reacts to that and reissues the request.
+    //
+    // Deliberately NOT extended to `nextRequestPolicy`/`streamProtectionStatus`: handing
+    // Shaka an empty body for those makes it fail parsing the segment as MP4 (error 3004),
+    // which hides the real reason. Some videos loop on directive-only responses and never
+    // return media — see the note in SABR_PLAN.md.
     const isDirectiveOnly = () =>
       requestMetadata.isSABR &&
       (requestMetadata.streamInfo?.redirect || requestMetadata.streamInfo?.sabrContextUpdate);

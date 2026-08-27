@@ -19,6 +19,7 @@ export type VideoState = ReturnType<typeof useVideoState>;
 type VideoStateProps = {
   videoElementRef: Ref<HTMLVideoElement>;
   source: Ref<PlayerSource>;
+  refreshSource?: () => Promise<PlayerSource | null>;
   video: ApiDto<'VTVideoInfoDto'>;
   videoEnded: () => void;
   startTime?: Ref<number>;
@@ -29,6 +30,7 @@ type VideoStateProps = {
 export const useVideoState = ({
   videoElementRef,
   source,
+  refreshSource,
   video,
   videoEnded,
   startTime,
@@ -111,7 +113,8 @@ export const useVideoState = ({
         autoplay,
         maximumQuality: settingsStore.maxVideoQuality,
         onEnded: videoEnded,
-        createMessage: messagesStore.createMessage
+        createMessage: messagesStore.createMessage,
+        refreshSource
       });
 
       // A newer load started while the adapter was being built.

@@ -30,6 +30,7 @@ export interface SabrFormatLike {
   audioTrackId?: string;
   mimeType?: string;
   isDrc?: boolean;
+  isVb?: boolean;
   quality?: string;
   qualityLabel?: string;
   averageBitrate?: number;
@@ -118,4 +119,10 @@ export interface AdapterContext {
   maximumQuality: string | undefined;
   onEnded: () => void;
   createMessage: (message: Omit<MessageType, 'dismissed' | 'id'>) => void;
+  /**
+   * Fetches a fresh source for the video already playing, without changing which video is
+   * playing. Only the SABR adapter uses it, to answer YouTube's reload request in place —
+   * returning null means "nothing newer available, keep the current session".
+   */
+  refreshSource?: () => Promise<PlayerSource | null>;
 }

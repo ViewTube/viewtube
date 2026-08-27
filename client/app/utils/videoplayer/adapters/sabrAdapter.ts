@@ -71,8 +71,13 @@ export const createSabrAdapter = async (
   const player = new shaka.Player();
   await player.attach(ctx.videoElementRef.value);
 
+  // Without this the SABR path ignores the user's max-quality setting entirely; every
+  // other adapter honours it. Shaka applies the cap to ABR and to manual selection alike.
+  const maxHeight = parseInt(ctx.maximumQuality?.replace('p', '') ?? '', 10);
+
   player.configure({
     abr: { enabled: true },
+    ...(Number.isFinite(maxHeight) ? { restrictions: { maxHeight } } : {}),
     streaming: {
       bufferingGoal: 120,
       rebufferingGoal: 2
@@ -84,14 +89,52 @@ export const createSabrAdapter = async (
     }
   });
 
+  // Already rewritten to our proxy by videoSource; strip the query to get the bare
+  // endpoint the player adapter needs for redirected requests.
+  const proxyEndpoint = (() => {
+    const url = new URL(initialSource.sabr.streamingUrl, window.location.origin);
+    return `${url.origin}${url.pathname}`;
+  })();
+
   const sabr = new SabrStreamingAdapter({
-    playerAdapter: new ShakaSabrPlayerAdapter(),
+    playerAdapter: new ShakaSabrPlayerAdapter(proxyEndpoint),
     clientInfo: initialSource.sabr.clientInfo
   });
 
   // No onMintPoToken: the SABR endpoint does not validate the token on this path
-  // (scripts/sabr-probe verifies it — removing or corrupting it still returns media),
-  // so BotGuard is kept out of the client entirely.
+  // (scripts/sabr-probe's `npm run spike` verifies it — a request with no token at all
+  // still returns media), so BotGuard is kept out of the client entirely.
+
+  const applySource = (source: SabrPlayerSource) => {
+    sabr.setStreamingURL(source.sabr.streamingUrl);
+    sabr.setUstreamerConfig(source.sabr.ustreamerConfig);
+    sabr.setServerAbrFormats(source.sabr.formats as SabrFormat[]);
+  };
+
+  const reloadSession = async () => {
+    if (!ctx.refreshSource) return;
+
+    try {
+      const refreshed = await ctx.refreshSource();
+      if (refreshed?.kind === 'sabr') applySource(refreshed);
+    } catch {
+      // Leave the current session in place; the retry either succeeds anyway or surfaces
+      // as a normal playback error.
+    }
+  };
+
+  // The streaming URL and ustreamer config expire on their own clock (~6h), and YouTube
+  // signals that by asking for a reload rather than by failing. googlevideo awaits this
+  // callback and then retries the same segment request, so swapping the session in place
+  // keeps playback going — reloading Shaka here would rebuffer and lose the position.
+  sabr.onReloadPlayerResponse(reloadSession);
+
+  // Only YouTube can trigger a real reload, and it does so after hours of playback, so
+  // this path has no other way to be exercised. The seam is compiled out of production
+  // builds; `scripts/sabr-probe/reload-probe.mjs` drives it.
+  if (import.meta.dev) {
+    (window as Window & { __vtSabrReload?: () => Promise<void> }).__vtSabrReload = reloadSession;
+  }
 
   sabr.attach(player);
 
@@ -114,7 +157,12 @@ export const createSabrAdapter = async (
     for (const variant of variants) {
       if (!variant.originalVideoId) continue;
 
-      const codec = variant.videoCodec ?? '';
+      // Grouped by codec *family*, not by the full codec string. YouTube hands out a
+      // separate profile per resolution (`av01.0.12M.08`, `av01.0.08M.08`, …) — twelve
+      // strings across three families for a 4K video — and QualitySelector picks the
+      // first track whose family matches, so keying on the full string hides every
+      // resolution outside that one track.
+      const codec = (variant.videoCodec ?? '').split('.')[0];
       const track = byCodec.get(codec) ?? {
         id: codec || 'video',
         active: false,
@@ -171,6 +219,28 @@ export const createSabrAdapter = async (
     return [...byLanguage.values()];
   };
 
+  /**
+   * A Shaka variant is an (audio, video) pair, so selecting one by a single side would
+   * drag along whatever the other side happens to be — picking an audio bitrate would
+   * silently reset the video quality the viewer just chose, and vice versa. Prefer the
+   * variant that keeps the current other side, and only fall back when that pairing does
+   * not exist.
+   */
+  const findVariant = ({ videoId, audioId }: { videoId?: string; audioId?: string }) => {
+    const variants = player.getVariantTracks();
+    const active = variants.find(track => track.active);
+
+    const matches = variants.filter(track =>
+      videoId ? track.originalVideoId === videoId : track.originalAudioId === audioId
+    );
+
+    const keepOther = videoId
+      ? matches.find(track => track.originalAudioId === active?.originalAudioId)
+      : matches.find(track => track.originalVideoId === active?.originalVideoId);
+
+    return keepOther ?? matches[0];
+  };
+
   const refreshTracks = () => {
     const active = player.getVariantTracks().find(variant => variant.active);
 
@@ -214,12 +284,6 @@ export const createSabrAdapter = async (
   ctx.state.liveEdge = null;
 
   const videoEl = () => ctx.videoElementRef.value;
-
-  const applySource = (source: SabrPlayerSource) => {
-    sabr.setStreamingURL(source.sabr.streamingUrl);
-    sabr.setUstreamerConfig(source.sabr.ustreamerConfig);
-    sabr.setServerAbrFormats(source.sabr.formats as SabrFormat[]);
-  };
 
   return {
     async load(source: PlayerSource, startTime: number) {
@@ -283,9 +347,7 @@ export const createSabrAdapter = async (
         player.configure({ abr: { enabled: true } });
         ctx.state.automaticVideoQuality = true;
       } else {
-        const variant = player
-          .getVariantTracks()
-          .find(track => track.originalVideoId === representationId);
+        const variant = findVariant({ videoId: representationId });
         if (variant) {
           player.configure({ abr: { enabled: false } });
           player.selectVariantTrack(variant, true);
@@ -299,9 +361,7 @@ export const createSabrAdapter = async (
         player.configure({ abr: { enabled: true } });
         ctx.state.automaticAudioQuality = true;
       } else {
-        const variant = player
-          .getVariantTracks()
-          .find(track => track.originalAudioId === representationId);
+        const variant = findVariant({ audioId: representationId });
         if (variant) {
           player.configure({ abr: { enabled: false } });
           player.selectVariantTrack(variant, true);

@@ -1,8 +1,27 @@
 import type { ApiDto } from '@viewtube/shared';
+import { getVideoInfo } from '~/utils/api/videos';
 import { proxyManifest, rewriteSabrHost, toManifestDataUri } from '~/utils/videoplayer/proxy';
 import { isHlsSupportedNatively } from '~/utils/videoplayer/support';
 import { SSR_SOURCE_REASON, type PlayerSource } from '~/utils/videoplayer/types';
 import { useIsIOS } from './isIOS';
+
+type SabrBlock = NonNullable<ApiDto<'VTVideoInfoDto'>['sabr']>;
+
+/**
+ * Shared by the reactive source and by the reload path so a refreshed session is built
+ * exactly like the original one — the two drifting apart would only show up as a stall
+ * hours into playback.
+ */
+const buildSabrSource = (sabr: SabrBlock, videoPlaybackProxy: string): PlayerSource => ({
+  kind: 'sabr',
+  manifest: toManifestDataUri(sabr.dashManifest),
+  sabr: {
+    streamingUrl: rewriteSabrHost(sabr.streamingUrl, videoPlaybackProxy),
+    formats: sabr.formats,
+    ustreamerConfig: sabr.ustreamerConfig,
+    clientInfo: sabr.clientInfo
+  }
+});
 
 export const useVideoSource = (video: Ref<ApiDto<'VTVideoInfoDto'>>) => {
   const config = useRuntimeConfig();
@@ -39,16 +58,7 @@ export const useVideoSource = (video: Ref<ApiDto<'VTVideoInfoDto'>>) => {
     // SABR is the only VOD path YouTube still serves; the legacy manifest below is a
     // fallback for responses that somehow carry one.
     if (currentVideo.sabr) {
-      return {
-        kind: 'sabr',
-        manifest: toManifestDataUri(currentVideo.sabr.dashManifest),
-        sabr: {
-          streamingUrl: rewriteSabrHost(currentVideo.sabr.streamingUrl, videoPlaybackProxy),
-          formats: currentVideo.sabr.formats,
-          ustreamerConfig: currentVideo.sabr.ustreamerConfig,
-          clientInfo: currentVideo.sabr.clientInfo
-        }
-      };
+      return buildSabrSource(currentVideo.sabr, videoPlaybackProxy);
     }
 
     if (currentVideo.dashManifest) {
@@ -66,5 +76,20 @@ export const useVideoSource = (video: Ref<ApiDto<'VTVideoInfoDto'>>) => {
     };
   });
 
-  return { source };
+  /**
+   * Fetches a fresh SABR session for the video currently loaded. Returns null when the
+   * server no longer offers a SABR block, which the caller must treat as "keep what you
+   * have" rather than as a new source.
+   */
+  const refreshSource = async (): Promise<PlayerSource | null> => {
+    const id = video.value?.id;
+    if (!id) return null;
+
+    const refreshed = await getVideoInfo(id);
+    if (!refreshed?.sabr) return null;
+
+    return buildSabrSource(refreshed.sabr, videoPlaybackProxy);
+  };
+
+  return { source, refreshSource };
 };

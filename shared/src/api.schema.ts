@@ -467,7 +467,8 @@ export interface paths {
         };
         get: operations["VideoplaybackController_getVideoplayback"];
         put?: never;
-        post?: never;
+        /** SABR segment requests: a protobuf body in, a UMP stream back. */
+        post: operations["VideoplaybackController_postVideoplayback"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1244,6 +1245,7 @@ export interface components {
             audioTrackId?: string;
             mimeType?: string;
             isDrc?: boolean;
+            isVb?: boolean;
             quality?: string;
             qualityLabel?: string;
             averageBitrate?: number;
@@ -2289,6 +2291,23 @@ export interface operations {
         requestBody?: never;
         responses: {
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    VideoplaybackController_postVideoplayback: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            201: {
                 headers: {
                     [name: string]: unknown;
                 };

@@ -82,6 +82,7 @@ const toSabrFormat = (format: any): VTSabrFormatDto => ({
   audioTrackId: format.audio_track?.id,
   mimeType: format.mime_type,
   isDrc: format.is_drc,
+  isVb: format.is_vb,
   quality: format.quality,
   qualityLabel: format.quality_label,
   averageBitrate: format.average_bitrate,
