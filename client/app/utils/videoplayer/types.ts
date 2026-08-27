@@ -1,4 +1,4 @@
-import type { AudioTrack, Language, VideoTrack } from '~/interfaces/VideoState';
+import type { Language, VideoTrack } from '~/interfaces/VideoState';
 import type { MessageType } from '~/types/MessageType';
 
 /** Mirrors `VTSabrDto`; fed straight into googlevideo's streaming adapter. */
@@ -86,11 +86,9 @@ export interface PlayerState {
   /** Owned by the adapter. Seekable edge for live, null for VOD. */
   liveEdge: number | null;
   videoTracks: VideoTrack[];
-  audioTracks: AudioTrack[];
   languageList: Language[];
   selectedLanguage: string;
   automaticVideoQuality: boolean;
-  automaticAudioQuality: boolean;
   error: PlayerError | null;
 }
 
@@ -105,7 +103,6 @@ export interface PlayerAdapter {
   setPlaybackRate(rate: number): void;
   setLanguage(language: string): void;
   setVideoQuality(trackId: string, representationId: string | null): void;
-  setAudioQuality(trackId: string, representationId: string | null): void;
   destroy(): void;
 }
 

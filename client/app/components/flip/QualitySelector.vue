@@ -1,125 +1,60 @@
 <script setup lang="ts">
-import MultiOptionButton from '../buttons/MultiOptionButton.vue';
 const props = defineProps<{
   videoState: VideoState;
 }>();
 
-const currentVideoTrack = computed(() => {
-  return props.videoState.video.videoTracks?.find(el => el.active);
-});
-
-const audioRepresentations = computed(() => {
-  return props.videoState.video.audioTracks
-    ?.flatMap(track => {
-      return track.representations.map(rep => ({ ...rep, trackId: track.id }));
-    })
-    .sort((a, b) => a.bitrate - b.bitrate);
-});
-
-const currentVideoRepresentation = computed(() => {
-  return props.videoState.video.videoTracks
-    ?.find(el => el.active)
-    ?.representations?.find(el => el.active);
-});
-
-const selectedCodec = ref(currentVideoTrack.value?.codec.split('.')[0] || '');
-
-const availableCodecs = computed(() => {
-  return [
-    ...new Set(
-      props.videoState.video.videoTracks.map(el => {
-        return el.codec.split('.')[0];
-      })
+/**
+ * One flat list, highest first.
+ *
+ * There is no codec picker and no separate audio list any more: with SABR the server runs
+ * the ABR and picks the codec and the audio bitrate itself, so those were controls over
+ * something the client does not decide. The adapter already collapses its ladder to one
+ * entry per resolution; flattening here keeps the legacy DASH path — which still reports a
+ * track per codec — rendering in the same single list.
+ */
+const qualities = computed(() =>
+  (props.videoState.video.videoTracks ?? [])
+    .flatMap(track =>
+      track.representations.map(representation => ({ ...representation, trackId: track.id }))
     )
-  ].map(el => {
-    return {
-      value: el?.toString() || '',
-      label: translateCodec(el?.toString()) || ''
-    };
-  });
-});
+    .sort((a, b) => b.height - a.height || b.bitrate - a.bitrate)
+);
 
-const translateCodec = (codec: string) => {
-  switch (codec) {
-    case 'avc1':
-    case 'avc01':
-    case 'avc':
-      return 'H.264';
-    case 'hevc':
-      return 'H.265';
-    case 'av01':
-      return 'AV1';
-    case 'vp09':
-    case 'vp9':
-      return 'VP9';
-    default:
-      return codec;
-  }
-};
-
-const currentVideoRepresentations = computed(() => {
-  return selectedVideoTrack.value?.representations;
-});
-
-const selectedVideoTrack = computed(() => {
-  return props.videoState.video.videoTracks.find(
-    el => el.codec.split('.')[0] === selectedCodec.value
-  );
-});
+const activeQuality = computed(() => qualities.value.find(quality => quality.active));
 </script>
 
 <template>
   <div class="flip-setting">
     <VTIcon class="flip-setting-icon" name="mdi:high-definition-box" />
-    <ListCollapsibleSection label="Video quality" opened>
+    <ListCollapsibleSection label="Quality" opened>
       <div class="selector-list">
         <div
           class="selector auto"
           :class="{ selected: videoState.video.automaticVideoQuality }"
-          @click.stop="videoState.setVideoQuality(selectedVideoTrack?.id, null)"
+          @click.stop="videoState.setVideoQuality(activeQuality?.trackId, null)"
         >
           Auto<span v-if="videoState.video.automaticVideoQuality" class="auto-label">
-            · {{ currentVideoRepresentation?.label }}</span
+            · {{ activeQuality?.label }}</span
           >
         </div>
         <div class="separator-line" />
-        <div v-if="availableCodecs?.length > 1" class="codec-selector">
-          <p class="codec-label">Codec</p>
-          <MultiOptionButton v-model="selectedCodec" :options="availableCodecs" />
-        </div>
         <div
-          v-for="(representation, index) in currentVideoRepresentations"
-          :key="index"
+          v-for="quality in qualities"
+          :key="quality.id"
           :class="{
-            selected: representation.active && videoState.video.automaticVideoQuality === false
+            selected: quality.active && videoState.video.automaticVideoQuality === false
           }"
           class="selector"
-          @click.stop="videoState.setVideoQuality(selectedVideoTrack.id, representation.id)"
+          @click.stop="videoState.setVideoQuality(quality.trackId, quality.id)"
         >
-          {{ representation.label }}
-          <div v-if="representation.hdr" class="hdr-indicator-container">
+          {{ quality.label }}
+          <div v-if="quality.hdr" class="hdr-indicator-container">
             <div class="hdr-indicator-bg">
               <div class="hdr-indicator-bg-inner">
                 <div class="hdr-indicator">HDR</div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-    </ListCollapsibleSection>
-  </div>
-  <div v-if="audioRepresentations?.length > 0" class="flip-setting">
-    <VTIcon class="flip-setting-icon" name="mdi:high-definition-box" />
-    <ListCollapsibleSection label="Audio quality">
-      <div class="selector-list">
-        <div
-          v-for="(representation, index) in audioRepresentations"
-          :key="index"
-          :class="{ selected: representation.active }"
-          class="selector"
-          @click.stop="videoState.setAudioQuality(representation.trackId, representation.id)"
-        >
-          {{ representation.label }}
         </div>
       </div>
     </ListCollapsibleSection>
@@ -132,17 +67,6 @@ const selectedVideoTrack = computed(() => {
   height: 1px;
   background-color: var(--bgcolor-alt-light);
   margin: 14px auto 0 auto;
-}
-.codec-selector {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 10px 0;
-
-  .codec-label {
-    font-size: 0.8rem;
-    padding: 0 0 2px 0;
-  }
 }
 
 .auto-label {

@@ -85,7 +85,6 @@ export const createNativeAdapter = async (ctx: AdapterContext): Promise<PlayerAd
     },
     setLanguage: () => {},
     setVideoQuality: () => {},
-    setAudioQuality: () => {},
     destroy: () => {
       const element = videoEl();
       cleanupElementState();

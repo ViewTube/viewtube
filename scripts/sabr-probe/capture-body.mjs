@@ -129,6 +129,15 @@ console.log(
 console.log('ustreamerConfig len :', decoded.videoPlaybackUstreamerConfig?.length ?? 0);
 console.log('streamerContext:');
 console.log('  poToken bytes     :', ctx.poToken?.length ?? 'ABSENT');
+// Printed websafe-base64 so it can be handed straight to `sabr-download --po-token`:
+// the browser sends a short cold-start token, and whether that is what satisfies the
+// stream-protection gate is testable only by replaying the exact bytes.
+if (ctx.poToken?.length) {
+  console.log(
+    '  poToken           :',
+    Buffer.from(ctx.poToken).toString('base64').replace(/\+/g, '-').replace(/\//g, '_')
+  );
+}
 console.log('  clientInfo        :', JSON.stringify(ctx.clientInfo));
 console.log('  playbackCookie    :', ctx.playbackCookie ? 'present' : 'absent');
 console.log('  sabrContexts      :', ctx.sabrContexts?.length ?? 0);

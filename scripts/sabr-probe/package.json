@@ -12,7 +12,12 @@
     "playback": "node viewtube-playback.mjs",
     "spike": "node potoken-spike.mjs",
     "reload": "node reload-probe.mjs",
-    "controls": "node player-controls.mjs"
+    "trace": "node ump-trace.mjs",
+    "controls": "node player-controls.mjs",
+    "download": "node sabr-download.mjs",
+    "wall": "node wall-trace.mjs",
+    "login": "node login-gate.mjs",
+    "clients": "node client-gate.mjs"
   },
   "dependencies": {
     "bgutils-js": "4.0.3",

@@ -1,11 +1,28 @@
 # PO token implementation plan
 
 > [!IMPORTANT]
-> **Phase 0 ran on 2026-08-27 and falsified this plan's premise. SABR playback now works
-> with no PO token at all.** The 403 was two bugs in our own code, not attestation. The
-> phases below are no longer a fix for anything — they are optional hardening. Read
-> [Phase 0 results](#phase-0-results-2026-08-27) before doing any of it. Everything from
-> "Background" onwards is still accurate as research and is kept for that reason.
+> **Read this before the phase 0 section below, which draws a conclusion that is too
+> strong.** Phase 0 established that the 403 was two bugs in our own code, not attestation
+> — that part holds. It went on to say the PO token "is not currently a gate", and that is
+> wrong: `npm run spike` sends **one** request per case and stops, and YouTube's
+> attestation gate does not close until roughly a minute of media has been served. On
+> videos it marks with `STREAM_PROTECTION_STATUS` 2 the gate is real and playback stops
+> there. See the attestation-gate section of `SABR_PLAN.md`.
+>
+> What is _also_ true, and measured (2026-08-27): a BotGuard-minted token does not open
+> that gate either — session-bound, content-bound, or the 10-byte cold-start token lifted
+> from a real Chromium session all leave the status at 2 and hit the identical wall
+> (`scripts/sabr-probe/sabr-download.mjs --token`). So implementing the phases below is
+> still not a fix for anything _today_; the difference is that the gate exists and is not
+> understood, rather than not existing. Anyone reviving this plan should first find a token
+> that moves `STREAM_PROTECTION_STATUS` from 2 to 1 — that is the cheap, decisive test, and
+> nothing here works without it.
+>
+> A second, separate gate appeared the same day: `getInfo` answering `LOGIN_REQUIRED` /
+> "Sign in to confirm you're not a bot" for most videos from a flagged IP. That one is not
+> a token problem either (`scripts/sabr-probe/login-gate.mjs` shows every token strategy
+> failing identically, and `client-gate.mjs` shows every innertube client failing
+> identically) — it is the address, and it cleared by moving to a different exit.
 
 ## Phase 0 results (2026-08-27)
 
@@ -26,7 +43,14 @@ case                                 cfg    result
 ```
 
 Every case returns 200, **including case 1 with no token at all**, and all five are
-byte-identical. The PO token is not currently a gate on this path.
+byte-identical. The PO token does not gate the _first_ request on this path.
+
+> The original sentence here was "The PO token is not currently a gate on this path", full
+> stop, and that is the error this document's header warns about. Five one-request cases
+> cannot show a token is irrelevant to a session that YouTube cuts off a minute in. On
+> videos flagged with `STREAM_PROTECTION_STATUS` 2 it does gate playback — just not in a
+> way any token measured so far unlocks. `npm run download` is the probe with the right
+> time horizon for this question.
 
 Two incidental confirmations: attestation costs ~200 ms and two mints from the kept minter
 cost **1 ms**, which is the "per-video minting is cheap" claim measured; and the integrity
@@ -38,10 +62,9 @@ Two bugs, both mine, both in code added while building SABR support.
 
 **1. `Platform.shim.eval` threw on every call.** `server/src/common/innertube/innertube.ts`
 ran the player script with `vm.runInNewContext(data.output)`. `data.output` is a function
-*body* ending in `return`, which is a syntax error at the top level of a script — youtubei.js
-documents `new Function(data.output)()` for exactly this reason. Every call threw *"Illegal
-return statement"*, so the SABR URL kept its scrambled `n` parameter and YouTube answered
-403. `sabr.builder.ts` treats deciphering as best-effort and logged a warning, so this
+_body_ ending in `return`, which is a syntax error at the top level of a script — youtubei.js
+documents `new Function(data.output)()` for exactly this reason. Every call threw _"Illegal
+return statement"_, so the SABR URL kept its scrambled `n` parameter and YouTube answered 403. `sabr.builder.ts` treats deciphering as best-effort and logged a warning, so this
 degraded quietly instead of failing loudly. Fixed by wrapping the body in an IIFE, which
 keeps the `vm` sandbox.
 
@@ -51,8 +74,8 @@ about session provenance.
 
 **2. The videoplayback proxy emitted invalid HTTP.** `videoplayback.service.ts` forwarded
 `content-length` unconditionally. A SABR response is chunked and has none, so Fastify
-serialised `undefined` into an *empty* `Content-Length` header. Node's client rejected it
-with *"Response does not match the HTTP/1.1 protocol (Empty Content-Length)"* and Chromium
+serialised `undefined` into an _empty_ `Content-Length` header. Node's client rejected it
+with _"Response does not match the HTTP/1.1 protocol (Empty Content-Length)"_ and Chromium
 dropped it as `net::ERR_ABORTED` before any handler ran — which is why the player showed a
 spinner and no error. The legacy GET path always had a content-length, so this only
 surfaced on SABR. Fixed by forwarding only headers that are actually present.
@@ -89,8 +112,8 @@ PLAYING — SABR works end to end in ViewTube.
 
 SABR playback returned **403** on every segment request, and a field-by-field bisect
 against a real browser capture had ruled out every visible difference in `clientAbrState`,
-`clientInfo` and the format list. The remaining hypothesis was the *provenance of the
-session*, with PO tokens as the mechanism YouTube uses to tell those apart. Phase 0 was
+`clientInfo` and the format list. The remaining hypothesis was the _provenance of the
+session_, with PO tokens as the mechanism YouTube uses to tell those apart. Phase 0 was
 written to test that hypothesis before building on it, and it turned out to be wrong.
 
 ## Background: what a PO token actually is
@@ -101,21 +124,21 @@ DroidGuard on Android, iOSGuard on iOS. Tokens are not portable across platforms
 yt-dlp's guide splits the requirement into three cases:
 
 | Case       | What it covers                                        |
-|------------|-------------------------------------------------------|
+| ---------- | ----------------------------------------------------- |
 | **GVS**    | Google Video Server requests — the actual media bytes |
 | **Player** | Innertube `player` requests that return format URLs   |
 | **Subs**   | Subtitle requests                                     |
 
 And per client (abridged from the guide's enforcement table):
 
-| Client   | PO token required for | Notes                                             |
-| -------- | --------------------- | ------------------------------------------------- |
-| `web`    | Subs, **GVS**         | **Only SABR formats available**                   |
-| `mweb`   | GVS                   |                                                   |
-| `tv`     | not required          | all formats DRM'd without cookies                 |
-| `ios`    | GVS or Player         | account cookies not supported                     |
+| Client | PO token required for | Notes                             |
+| ------ | --------------------- | --------------------------------- |
+| `web`  | Subs, **GVS**         | **Only SABR formats available**   |
+| `mweb` | GVS                   |                                   |
+| `tv`   | not required          | all formats DRM'd without cookies |
+| `ios`  | GVS or Player         | account cookies not supported     |
 
-ViewTube uses `WEB`. That row is exactly our situation: SABR-only *and* GVS token required.
+ViewTube uses `WEB`. That row is exactly our situation: SABR-only _and_ GVS token required.
 The 403 is the documented failure mode.
 
 ### "Does YouTube require a new token per video?"
@@ -143,7 +166,7 @@ important fact for the design, and it is why "per-video tokens" is not a scaling
 ### Two tokens, one integrity token
 
 | Token       | Content binding | Used for                                                                    |
-|-------------|-----------------|-----------------------------------------------------------------------------|
+| ----------- | --------------- | --------------------------------------------------------------------------- |
 | **Session** | `visitorData`   | `Innertube.create({ po_token, visitor_data })` — signs non-SABR stream URLs |
 | **Content** | `videoId`       | the `player` request, and the SABR request body                             |
 
@@ -184,7 +207,7 @@ delegates to `bgutil-ytdlp-pot-provider` (BgUtils, i.e. the same library Invidio
 longer recommended, precisely because of the per-video binding.
 
 **Piped (Kavin / TeamPiped)** — the outlier, and worth reading precisely because it does
-*not* follow the pattern above. Piped-Backend has no BotGuard code at all; it POSTs to a
+_not_ follow the pattern above. Piped-Backend has no BotGuard code at all; it POSTs to a
 separate microservice named by the `BG_HELPER_URL` config key.
 
 That service, [`TeamPiped/bg-helper-server`](https://github.com/TeamPiped/bg-helper-server),
@@ -197,7 +220,7 @@ POST /generate  { visitorData, requestKey }  →  { poToken, visitorData }
 Three things about it matter for us:
 
 - It pins **`bgutils-js@^3.2.0`**, whose API (`BG.Challenge.create` / `BG.PoToken.generate`)
-  runs the *entire attestation* per call and returns a single token. There is no reusable
+  runs the _entire attestation_ per call and returns a single token. There is no reusable
   `WebPoMinter` — that arrived in 4.x. So Piped cannot mint cheaply, and every token costs
   a full BotGuard run.
 - Because of that, it binds to **`visitorData` only**. `BgPoTokenProvider.getWebClientPoToken(String videoId)`
@@ -225,7 +248,7 @@ ViewTube ships as a single Docker image and a second mandatory service would bre
 ### Summary
 
 | Project             | Attestation runs in         | Binding               | Per-video mint          | GVS token |
-|---------------------|-----------------------------|-----------------------|-------------------------|-----------|
+| ------------------- | --------------------------- | --------------------- | ----------------------- | --------- |
 | invidious-companion | Worker + jsdom              | visitorData + videoId | yes, from a kept minter | yes       |
 | NewPipe / PipePipe  | Android WebView             | videoId               | yes                     | yes       |
 | yt-dlp              | plugin (BgUtils or browser) | videoId               | yes                     | yes       |
@@ -257,7 +280,7 @@ One useful confirmation from youtubei.js's source (`core/Player.js:140`):
 
 ```js
 if (url_components.searchParams.get('sabr') !== '1' && this.po_token)
-    url_components.searchParams.set('pot', this.po_token);
+  url_components.searchParams.set('pot', this.po_token);
 ```
 
 For SABR URLs it deliberately does **not** append `pot=`. That is correct: on the SABR
@@ -308,7 +331,7 @@ mostly a refactor rather than new infrastructure:
 - The BotGuard worker fetches through its own profile's dispatcher — which phase 1 already
   requires — so IP coherence is a property of the design rather than something to enforce.
 
-The minter does not need to *live* behind the VPN. Its egress does, and that already works.
+The minter does not need to _live_ behind the VPN. Its egress does, and that already works.
 
 ### Session affinity is the hard part
 
@@ -323,7 +346,7 @@ straight through, it is an arbitrary-proxy selector exposed to the internet.
 
 ### Caveats
 
-- Commercial VPN exits are heavily abused and are frequently *worse* for YouTube than an
+- Commercial VPN exits are heavily abused and are frequently _worse_ for YouTube than an
   ordinary residential connection — bot interstitials and blanket 429s. Datacenter ranges
   are often pre-flagged. Exit quality is something to measure per provider, not a property
   gained by adding a VPN.
@@ -369,7 +392,7 @@ are wasted work.
 Run four variants so the result is interpretable rather than just binary:
 
 | Variant                                    | Purpose                                             |
-|--------------------------------------------|-----------------------------------------------------|
+| ------------------------------------------ | --------------------------------------------------- |
 | no token at all                            | baseline — should reproduce today's 403             |
 | session token only (in `Innertube.create`) | is the player request the gate, or the GVS request? |
 | content token only (in the SABR body)      | is the SABR body the gate?                          |
@@ -407,17 +430,19 @@ new Function(challenge.interpreterJavascript.privateDoNotAccessOrElseSafeScriptW
 const botGuardClient = await BotGuardClient.create({
   program: challenge.program,
   globalName: challenge.globalName,
-  globalObject: globalThis      // note: `globalObject`, not `globalObj` (that is the old 3.x name)
+  globalObject: globalThis // note: `globalObject`, not `globalObj` (that is the old 3.x name)
 });
 
 const webPoSignalOutput = [];
 const botguardResponse = await botGuardClient.snapshot({ webPoSignalOutput });
 
 const res = await fetch(buildURL('GenerateIT', true), {
-  method: 'POST', headers: getHeaders(),
+  method: 'POST',
+  headers: getHeaders(),
   body: JSON.stringify(['O43z0dpjhgX20SCx4KAo', botguardResponse])
 });
-const [integrityToken, estimatedTtlSecs, mintRefreshThreshold, websafeFallbackToken] = await res.json();
+const [integrityToken, estimatedTtlSecs, mintRefreshThreshold, websafeFallbackToken] =
+  await res.json();
 
 const minter = await WebPoMinter.create(
   { integrityToken, estimatedTtlSecs, mintRefreshThreshold, websafeFallbackToken },
@@ -428,7 +453,7 @@ const minter = await WebPoMinter.create(
 Notes:
 
 - `visitorData` comes from a throwaway `Innertube.create({ retrieve_player: false })`
-  inside the worker — the session token must be bound to the *same* visitor data the real
+  inside the worker — the session token must be bound to the _same_ visitor data the real
   client will use, so the worker owns generating it and hands it out.
 - Outbound fetch must go through `common/vtFetch.ts` / `proxyAgent.ts`, or attestation
   bypasses the configured SOCKS/HTTP proxy while playback does not — a subtle way to get a
@@ -469,11 +494,11 @@ SABR request; require a non-403. Reject the new session if it fails and keep the
 
 Config, in `env.validation.ts`:
 
-| Var                          | Default | Meaning                                                        |
-| ---------------------------- | ------- | -------------------------------------------------------------- |
-| `VIEWTUBE_POTOKEN_ENABLED`   | `true`  | master switch                                                   |
-| `VIEWTUBE_PO_TOKEN`          | unset   | manual override — when set **with** `VIEWTUBE_VISITOR_DATA`, skip generation entirely |
-| `VIEWTUBE_VISITOR_DATA`      | unset   | as above                                                        |
+| Var                        | Default | Meaning                                                                               |
+| -------------------------- | ------- | ------------------------------------------------------------------------------------- |
+| `VIEWTUBE_POTOKEN_ENABLED` | `true`  | master switch                                                                         |
+| `VIEWTUBE_PO_TOKEN`        | unset   | manual override — when set **with** `VIEWTUBE_VISITOR_DATA`, skip generation entirely |
+| `VIEWTUBE_VISITOR_DATA`    | unset   | as above                                                                              |
 
 The manual-override path stays because it is how the `youtube-trusted-session-generator`
 workflow and the e2e stack can pin a known-good pair.
@@ -486,7 +511,7 @@ workflow and the e2e stack can pin a known-good pair.
 - Take the pair from `PoTokenService.getSession()` when building the client.
 - The current unconditional 10-minute recreation must not silently re-pair a fresh
   `visitor_data` with a stale token. Simplest correct rule: recreate on the existing timer,
-  but always rebuild from the *current* session pair, and force a recreate when the token
+  but always rebuild from the _current_ session pair, and force a recreate when the token
   generation counter changes.
 
 Verification for this phase is deliberately not about playback: confirm homepage, search,
@@ -507,7 +532,7 @@ in the DTO instead of `client.session.po_token`:
 ```ts
 export const buildSabrBlock = async (videoInfo, client, contentPoToken?: string) => {
   // …
-  return { /* … */ poToken: contentPoToken, /* … */ };
+  return { /* … */ poToken: contentPoToken /* … */ };
 };
 ```
 
@@ -527,8 +552,8 @@ Remember to stop `pnpm serve:server` first (see CLAUDE.md on `metadata.ts`).
 // No onMintPoToken: the SABR endpoint does not validate the token on this path
 ```
 
-That comment was written on the strength of an isolation test that compared *no token*
-against *the stale hardcoded token* — two ways of sending an invalid token, which is why
+That comment was written on the strength of an isolation test that compared _no token_
+against _the stale hardcoded token_ — two ways of sending an invalid token, which is why
 they looked equivalent. It is wrong and must go.
 
 ```ts
@@ -560,16 +585,16 @@ sessions longer than the integrity token TTL.
 
 ## Risks and open questions
 
-| Risk                                                                                    | Mitigation                                                                                   |
-| --------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
-| **The token is not the cause of the 403.** Everything here is contingent on that.        | Phase 0 spike. Cheap, decisive, first.                                                        |
-| jsdom is not browser-shaped enough and BotGuard starts rejecting it                      | Nothing to do preemptively; this is the standing risk every project in this space carries. Keep the manual-override env vars as the escape hatch. |
-| `bgutils-js` is ESM-only and the server compiles to CJS                                  | Low: `youtubei.js` is already ESM-only and works today via Node 26's `require(esm)`. Verify in phase 0 regardless. |
-| jsdom pulls a large dependency tree into the server image                                | Accept; it is what Invidious ships. Measure the image delta and note it.                       |
-| Attestation egress IP differs from playback egress IP                                    | Route the worker's fetch through `common/vtFetch.ts` / `proxyAgent.ts`.                        |
-| Token rotation causes a playback outage                                                  | Build-then-validate-then-swap; never kill the live minter first.                                |
-| BotGuard CPU cost on a small instance                                                    | Once per TTL, in a worker. Negligible if the single-flight guard actually works — test it.      |
-| `estimatedTtlSecs` is unreliable (the guide contradicts itself: "as short as 12 hours" vs "valid for several months") | Do not trust it alone; treat mint/playback failure as the real rotation trigger.                |
+| Risk                                                                                                                  | Mitigation                                                                                                                                        |
+| --------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **The token is not the cause of the 403.** Everything here is contingent on that.                                     | Phase 0 spike. Cheap, decisive, first.                                                                                                            |
+| jsdom is not browser-shaped enough and BotGuard starts rejecting it                                                   | Nothing to do preemptively; this is the standing risk every project in this space carries. Keep the manual-override env vars as the escape hatch. |
+| `bgutils-js` is ESM-only and the server compiles to CJS                                                               | Low: `youtubei.js` is already ESM-only and works today via Node 26's `require(esm)`. Verify in phase 0 regardless.                                |
+| jsdom pulls a large dependency tree into the server image                                                             | Accept; it is what Invidious ships. Measure the image delta and note it.                                                                          |
+| Attestation egress IP differs from playback egress IP                                                                 | Route the worker's fetch through `common/vtFetch.ts` / `proxyAgent.ts`.                                                                           |
+| Token rotation causes a playback outage                                                                               | Build-then-validate-then-swap; never kill the live minter first.                                                                                  |
+| BotGuard CPU cost on a small instance                                                                                 | Once per TTL, in a worker. Negligible if the single-flight guard actually works — test it.                                                        |
+| `estimatedTtlSecs` is unreliable (the guide contradicts itself: "as short as 12 hours" vs "valid for several months") | Do not trust it alone; treat mint/playback failure as the real rotation trigger.                                                                  |
 
 ## Verification checklist
 

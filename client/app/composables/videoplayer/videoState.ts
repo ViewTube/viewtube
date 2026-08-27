@@ -60,11 +60,9 @@ export const useVideoState = ({
     live: !!video.live,
     liveEdge: null,
     videoTracks: [],
-    audioTracks: [],
     languageList: [],
     selectedLanguage: 'en',
     automaticVideoQuality: true,
-    automaticAudioQuality: true,
     error: null
   });
 
@@ -184,8 +182,6 @@ export const useVideoState = ({
   const setLanguage = (language: string) => adapter?.setLanguage(language);
   const setVideoQuality = (videoTrackId: string, videoRepresentationId: string | null) =>
     adapter?.setVideoQuality(videoTrackId, videoRepresentationId);
-  const setAudioQuality = (audioTrackId: string, audioRepresentationId: string | null) =>
-    adapter?.setAudioQuality(audioTrackId, audioRepresentationId);
 
   const shouldSaveVideoPosition = () =>
     settingsStore.saveVideoHistory && !embed && userStore.isLoggedIn && !video.live;
@@ -286,7 +282,6 @@ export const useVideoState = ({
     setTime,
     setLoop,
     setLanguage,
-    setVideoQuality,
-    setAudioQuality
+    setVideoQuality
   };
 };

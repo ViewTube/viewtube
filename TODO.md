@@ -23,7 +23,10 @@
     limiting above.
   - `CacheInterceptor` can't be reused: needs something that reads on the way in and writes on the way out, so an
     interceptor with `catchError` rather than the exception filter (which only sees the way out).
-- [ ] **[high] `ytpl` no longer parses YouTube, so every playlist is a 502.** Confirmed outside the app:
+  - Note the interceptor is `@nestjs/cache-manager`'s, not ours — there is no `CacheInterceptor` in `server/src`, only
+    imports of it. Fixing this means subclassing or replacing it, not editing repo code.
+- [ ] **[high] `ytpl` no longer parses YouTube, so every playlist is a 502.** Still on `ytpl@2.3.0`
+  (`playlists.service.ts:8,15,22,70`); not migrated. Confirmed outside the app:
   `node -e "require('ytpl')('UUuAXFkgsw1L7xaCfnd5JJOw')"` throws
   `TypeError: Cannot read properties of undefined (reading 'contents')` from `ytpl/lib/main.js` for a playlist that
   exists. Was invisible before the error taxonomy landed (reported as 500 with empty body; now 502 with a logged
@@ -58,6 +61,22 @@
   `track.languageCode === currentTrackCode`. Selecting either lights up both in `CaptionsSelector.vue`, and the
   auto-generated track can never be selected on its own. Wants a unique per-track id rather than the language code —
   which likely means a field on the DTO, so it is not a one-liner. Reproduces on `dQw4w9WgXcQ`.
+- [ ] **[high] Attestation-gated videos stop after ~1 minute and cannot currently be resumed.** YouTube marks some
+  videos with `STREAM_PROTECTION_STATUS: 2` from the very first SABR response, serves roughly a minute of media, then
+  answers with policies and no media indefinitely. Measured on `is8UDe2PhKQ` (63.6s) and `Nz9b0oJw69I` (62.6s); videos
+  that play to the end report status 1. Reproduced by googlevideo's own node downloader (`scripts/sabr-probe`
+  `npm run download`), which shares none of our code and reports _"attestation required"_ at the same second — so it
+  is not our request shape, and neither `PLAYBACK_START_POLICY` nor the UMP-stream abort is involved. A BotGuard token
+  bound to the session, one bound to the video, and the browser's own 10-byte cold-start token all leave the status at
+  2. The player now names the cause (`SABR_ATTESTATION_REQUIRED`) instead of showing a generic error, which is where
+  this rests until someone finds what moves the status to 1.
+  - Next lead: `clientAbrState.playbackAuthorization` (with `authorizedFormats`), which the real web player sends and
+    googlevideo does not — visible in `npm run capture`. Bigger work than a token.
+  - Full working through in `SABR_PLAN.md`.
+- [ ] **[low] `/api/videoplayback` logs a 500 for a normal client abort.** The SABR adapter cuts the UMP stream as soon
+  as it has its segment, which reaches the proxy as `AbortError: Request aborted` and is logged by
+  `ApiExceptionFilter` at ERROR level with the full googlevideo URL attached. Routine behaviour filling the log with
+  noise that reads as a server fault; wants recognising as a client disconnect rather than an error.
 - [ ] **[low] `manifestFormatId` in `sabrPlayerAdapter.ts` is a workaround for a googlevideo gap.** youtubei.js names
   audio representations `itag[-audioTrackId][-drc][-vb]`; googlevideo's `FormatKeyUtils.getUniqueFormatId` stops at
   `-drc`. Delete the helper if googlevideo learns about `vb`, rather than letting the two schemes drift.
@@ -79,30 +98,36 @@
   - Channel listing side handled separately: lockups carry
     `metadata.metadata_rows[].badges[]` of `{ text: "Members only", style: "BADGE_MEMBERS_ONLY" }` — same signal the
     watch page could surface on an entry before the click.
+  - While in there: `extractAvailability` calls `playabilityReason.includes('confirm your age')` unguarded
+    (`vt-video-info.extractors.ts:138`), so a non-OK status with no reason string throws.
 - [ ] **[high] `...autocomplete?q=` requests should not be sent.**
 - [ ] **[low] Turn `strictNullChecks` back on.** Off in both `server/tsconfig.json` and `client/tsconfig.json`. Set in
   `🏗️ Switch to a yarn 2 monorepo (#988)`, 2021-10-15 — collateral from a build migration, never a typing decision.
   Pays off most in the extractor layer: `video.id || video.videoId || video.videoID` is exactly what the flag is for.
   Long slog; `mapper/` alone would capture most of the value.
-- [ ] **[low] Drop `| any` from converter signatures**, e.g.
-  `toVTVideoDto = (video: VideoSourceApproximation | any)`. The union collapses to `any` and disables checking at
-  precisely the boundary the ~2400 lines of `*-source-approximation.ts` were written to protect.
+- [ ] **[low] Drop `| any` from a converter signature.** One instance left:
+  `toVTVideoDto = (video: VideoSourceApproximation | any)` (`mapper/converter/video/vt-video.converter.ts:29`). The
+  union collapses to `any` and disables checking at precisely the boundary the ~2400 lines of
+  `*-source-approximation.ts` were written to protect. A one-line fix now that the rest have gone.
+- [ ] **[low] `dashjs` is a dependency nothing imports.** `client/package.json:32` pins `dashjs@5.2.1`; grep over
+  `client/app` finds no import — the DASH path is rx-player (`dashAdapter.ts`). Left over from an earlier player.
+  `knip` does not catch it because the client workspace is excluded (`knip.json`). Drop it, or bring the client into
+  `knip`'s reach so the next one is caught automatically.
 - [ ] **[low] `metadata.ts` churns nondeterministically.** Every `nest build` reorders string-literal union members
   (`["none","skip"]` <-> `["skip","none"]`), so this tracked generated file produces spurious diffs on every build.
   Either sort it post-generation or stop tracking it and generate in CI.
-- [ ] **[wontfix] Vendored `yt-channel-info`** (2149 lines under `server/src/core/channels/yt-channel-info/`) is
-  unowned code inside the tree, outside the `mapper/` conventions and outside `knip`'s reach. Probably the right
-  pragmatic call given upstream's state — just know it's there.
 - [ ] **[low] Largest files, where bugs will be**: `client/app/utils/webVTTParser.ts` (782, hand-rolled),
   `client/app/pages/watch.vue` (768), `client/app/components/list/VideoEntry.vue` (653).
 - [ ] **[low] `CHANGELOG.md` has lapsed** — nothing since 0.17.0 (`#2940`) while `package.json` is 0.17.1, and it still
   feeds the release job (`moisout/changelog-create-release`). Either resume it or decide it's retired.
 - [x] **[scale] ~~Remove the hardcoded `po_token` / `visitor_data`~~** — done 2026-08-27, along with the `[high]`
-  duplicate of the same entry. The gating question, _does ViewTube still function with no `po_token` at all?_, is
-  answered: **yes**. `scripts/sabr-probe` `npm run spike` gets media with no token at all, and
-  `streamProtectionStatus` comes back as 2 rather than the 3 that signals a rejected session. **No token-generating
-  sidecar is needed**; `VIEWTUBE_PO_TOKEN` / `VIEWTUBE_VISITOR_DATA` remain as a manual override. Full working
-  through in `POTOKEN_PLAN.md` — re-run the spike before trusting this, since YouTube is still rolling enforcement out.
+  duplicate of the same entry. `VIEWTUBE_PO_TOKEN` / `VIEWTUBE_VISITOR_DATA` remain as a manual override.
+  - **The "no `po_token` is needed" conclusion first recorded here was wrong**; corrected in the attestation entry
+    above. It rested on `npm run spike`, which sends one request per case, and YouTube's attestation gate does not
+    close until about a minute of media has been served. `streamProtectionStatus: 2` is that gate arming, not the
+    safe value. A token-generating sidecar would still not help today — no token yet tried opens the gate — but the
+    reason is "nobody knows what satisfies it", not "the token is never checked". `POTOKEN_PLAN.md` carries the
+    research with the same correction on it.
 - [ ] **[scale] Record the deployment topology.** The public instance ran the container inside gluetun for VPN
   egress, no proxy. Nothing in the repo says so — not the compose files, not the README, not `env.validation.ts`.
   That knowledge existed only in the operator's head, which makes picking the project back up after a pause needlessly

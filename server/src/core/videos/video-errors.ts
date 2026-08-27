@@ -43,3 +43,28 @@ export const isVideoGone = (error: {
     return false;
   }
 };
+
+/**
+ * YouTube answered the player request with a playability status that carries no video at
+ * all: `basic_info` is empty, so there is nothing to map into a DTO.
+ *
+ * In practice this is `LOGIN_REQUIRED` / "Sign in to confirm you're not a bot", which
+ * YouTube applies per IP once it decides an instance is scraping — the same id plays again
+ * from another address, and neither the video nor the viewer has anything to do with it.
+ * Only `ERROR` throws inside youtubei.js (see `isVideoGone`); every other non-OK status
+ * returns quietly, and without this the half-empty DTO reaches the client and the watch
+ * page renders every field as undefined with no error shown at all.
+ */
+export const videoNotPlayable = (status?: string, reason?: string): never => {
+  logger.debug(
+    `YouTube returned no video data: ${status ?? 'no status'} — ${reason ?? 'no reason'}`
+  );
+
+  throw new BadGatewayException({
+    message: 'YouTube refused to serve this video',
+    description:
+      status === 'LOGIN_REQUIRED'
+        ? 'YouTube is asking this ViewTube server to sign in to prove it is not a bot. This is a limit on the server, not on you, and it usually clears by itself.'
+        : reason || `YouTube answered with ${status ?? 'no playability status'} and no video data`
+  });
+};

@@ -1,5 +1,5 @@
-import type { AudioTrack, Language, VideoTrack } from '~/interfaces/VideoState';
-import { formatVideoQualityLabel, humanizeBitrate } from './format';
+import type { Language, VideoTrack } from '~/interfaces/VideoState';
+import { formatVideoQualityLabel } from './format';
 
 /**
  * Normalised shapes every adapter converts its own library's track types into, so the
@@ -7,6 +7,8 @@ import { formatVideoQualityLabel, humanizeBitrate } from './format';
  */
 export interface EngineVideoRepresentation {
   id: string;
+  /** Overrides the derived label. The SABR adapter names resolution tiers itself. */
+  label?: string;
   bitrate: number;
   codec: string;
   width: number;
@@ -14,12 +16,6 @@ export interface EngineVideoRepresentation {
   frameRate: number;
   hdr: boolean;
   hdrType?: string;
-}
-
-export interface EngineAudioRepresentation {
-  id: string;
-  bitrate: number;
-  codec: string;
 }
 
 export interface EngineVideoTrack {
@@ -33,7 +29,6 @@ export interface EngineAudioTrack {
   active: boolean;
   language: string;
   label: string;
-  representations: EngineAudioRepresentation[];
 }
 
 const joinCodecs = (codecs: string[]): string => [...new Set(codecs)].join(', ');
@@ -48,7 +43,7 @@ export const mapVideoTracks = (
     codec: joinCodecs((track.representations ?? []).map(rep => rep.codec)),
     representations: (track.representations ?? []).map(rep => ({
       id: rep.id,
-      label: formatVideoQualityLabel(rep),
+      label: rep.label ?? formatVideoQualityLabel(rep),
       bitrate: rep.bitrate,
       codec: rep.codec,
       width: rep.width,
@@ -59,35 +54,6 @@ export const mapVideoTracks = (
       hdrType: rep.hdrType
     }))
   }));
-
-/**
- * When several audio languages exist the quality list is restricted to the selected one,
- * otherwise every track is kept. The distinct-language count is derived from `tracks`
- * rather than read back from state, so the result never depends on mapping order.
- */
-export const mapAudioTracks = (
-  tracks: EngineAudioTrack[],
-  activeRepresentationId: string | null,
-  selectedLanguage: string
-): AudioTrack[] => {
-  const languageCount = new Set((tracks ?? []).map(track => track.language)).size;
-
-  return (tracks ?? [])
-    .filter(track => languageCount <= 1 || track.language === selectedLanguage)
-    .map(track => ({
-      id: track.id,
-      active: track.active,
-      language: track.language,
-      codec: joinCodecs((track.representations ?? []).map(rep => rep.codec)),
-      representations: (track.representations ?? []).map(rep => ({
-        id: rep.id,
-        label: humanizeBitrate(rep.bitrate),
-        bitrate: rep.bitrate,
-        codec: rep.codec,
-        active: activeRepresentationId === rep.id
-      }))
-    }));
-};
 
 export const mapLanguageList = (tracks: EngineAudioTrack[]): Language[] =>
   (tracks ?? [])

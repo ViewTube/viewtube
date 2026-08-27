@@ -2,14 +2,15 @@ import { SabrStreamingAdapter } from 'googlevideo/sabr-streaming-adapter';
 import type { SabrFormat } from 'googlevideo/shared-types';
 import shaka from 'shaka-player/dist/shaka-player.compiled';
 import { useElementState } from '../elementState';
+import { normalizeHeight } from '../format';
 import {
-  mapAudioTracks,
   mapLanguageList,
   mapVideoTracks,
   type EngineAudioTrack,
-  type EngineVideoTrack
+  type EngineVideoRepresentation
 } from '../mappers';
 import type { AdapterContext, PlayerAdapter, PlayerSource } from '../types';
+import { SABR_ATTESTATION_REQUIRED, SABR_NO_MEDIA } from './sabrPlayerAdapter';
 
 /**
  * Plays VOD through YouTube's SABR protocol.
@@ -31,6 +32,12 @@ type ShakaErrorDetail = {
 const describeShakaError = (detail?: ShakaErrorDetail): string => {
   const httpStatus = findHttpStatus(detail);
 
+  if (carriesMarker(detail, SABR_ATTESTATION_REQUIRED)) {
+    return 'YouTube stopped sending this video after about a minute because it wants the player to pass a bot check ViewTube cannot pass yet. Other videos are unaffected.';
+  }
+  if (isNoMedia(detail)) {
+    return 'YouTube stopped sending this video’s stream. Reloading the page usually helps.';
+  }
   if (httpStatus === 403) {
     return 'YouTube refused this playback request. Streaming through the SABR protocol is not working yet.';
   }
@@ -41,6 +48,34 @@ const describeShakaError = (detail?: ShakaErrorDetail): string => {
     return 'The video stream could not be loaded.';
   }
   return `The video could not be played (player error ${detail?.code ?? 'unknown'}).`;
+};
+
+/** `recoverableError` in sabrPlayerAdapter puts its message first in the error's data. */
+const isNoMedia = (detail?: ShakaErrorDetail): boolean => carriesMarker(detail, SABR_NO_MEDIA);
+
+/**
+ * Shaka gives up on a segment by raising a *new* fatal error that carries the last
+ * recoverable one inside its data, so the marker is not always at the top level by the
+ * time the viewer's error is raised.
+ */
+const carriesMarker = (
+  detail: ShakaErrorDetail | undefined,
+  marker: string,
+  depth = 0
+): boolean => {
+  if (!detail || depth > 3) return false;
+
+  for (const entry of detail.data ?? []) {
+    if (entry === marker) return true;
+    if (
+      entry &&
+      typeof entry === 'object' &&
+      carriesMarker(entry as ShakaErrorDetail, marker, depth + 1)
+    ) {
+      return true;
+    }
+  }
+  return false;
 };
 
 /** The useful status is nested inside the error's data, sometimes another error deep. */
@@ -79,7 +114,12 @@ export const createSabrAdapter = async (
     abr: { enabled: true },
     ...(Number.isFinite(maxHeight) ? { restrictions: { maxHeight } } : {}),
     streaming: {
-      bufferingGoal: 120,
+      // `NEXT_REQUEST_POLICY` asks for 15s of readahead and the server serves a bounded
+      // amount beyond it, so a large goal just produces requests it declines. 30s is a
+      // compromise between that and rebuffering. It is *not* what stops protected videos
+      // around the one-minute mark — that is the attestation gate, see
+      // SABR_ATTESTATION_REQUIRED.
+      bufferingGoal: 30,
       rebufferingGoal: 2
     },
     manifest: {
@@ -101,9 +141,12 @@ export const createSabrAdapter = async (
     clientInfo: initialSource.sabr.clientInfo
   });
 
-  // No onMintPoToken: the SABR endpoint does not validate the token on this path
-  // (scripts/sabr-probe's `npm run spike` verifies it — a request with no token at all
-  // still returns media), so BotGuard is kept out of the client entirely.
+  // No onMintPoToken. Not because the token is never checked — on videos YouTube marks
+  // with `STREAM_PROTECTION_STATUS` 2 it is, and playback stops about a minute in — but
+  // because no token we can produce satisfies that check: `scripts/sabr-probe`'s
+  // `sabr-download --token` gets the same wall with a BotGuard token, bound to the session
+  // or to the video, as with none. Adding BotGuard to the client would cost a lot and
+  // change nothing until that is solved.
 
   const applySource = (source: SabrPlayerSource) => {
     sabr.setStreamingURL(source.sabr.streamingUrl);
@@ -149,111 +192,137 @@ export const createSabrAdapter = async (
       })
   });
 
-  const toEngineVideoTracks = (): EngineVideoTrack[] => {
-    const variants = player.getVariantTracks();
-    const activeVideoId = variants.find(variant => variant.active)?.originalVideoId;
-    const byCodec = new Map<string, EngineVideoTrack>();
+  /**
+   * The full variant list as the manifest declared it, captured once per load.
+   *
+   * `player.getVariantTracks()` omits variants Shaka has temporarily disabled after a
+   * failed segment, so reading it live made the quality menu lose an entry every time
+   * SABR answered a request with no media, and regain it 30 seconds later. The ladder a
+   * video offers does not change while it plays, so it is read once and only the `active`
+   * flags are refreshed afterwards.
+   */
+  let ladder: shaka.extern.Track[] = [];
 
-    for (const variant of variants) {
+  const tierKey = (variant: shaka.extern.Track) =>
+    `${normalizeHeight(variant.width ?? 0, variant.height ?? 0)}/${Math.round(
+      variant.frameRate ?? 0
+    )}/${variant.hdr ?? ''}`;
+
+  /**
+   * One entry per resolution tier rather than per codec.
+   *
+   * YouTube ships the same resolution in avc1, vp09 and av01, and a separate codec
+   * profile per resolution on top of that — twelve strings for a 4K video. With SABR the
+   * server decides what it actually sends, so the codec is not a meaningful choice for
+   * the viewer; the tier with the highest bitrate stands for the tier.
+   */
+  const videoTiers = (): EngineVideoRepresentation[] => {
+    const byTier = new Map<string, shaka.extern.Track>();
+
+    for (const variant of ladder) {
       if (!variant.originalVideoId) continue;
+      const key = tierKey(variant);
+      const best = byTier.get(key);
+      if (
+        !best ||
+        (variant.videoBandwidth ?? variant.bandwidth) > (best.videoBandwidth ?? best.bandwidth)
+      ) {
+        byTier.set(key, variant);
+      }
+    }
 
-      // Grouped by codec *family*, not by the full codec string. YouTube hands out a
-      // separate profile per resolution (`av01.0.12M.08`, `av01.0.08M.08`, …) — twelve
-      // strings across three families for a 4K video — and QualitySelector picks the
-      // first track whose family matches, so keying on the full string hides every
-      // resolution outside that one track.
-      const codec = (variant.videoCodec ?? '').split('.')[0];
-      const track = byCodec.get(codec) ?? {
-        id: codec || 'video',
-        active: false,
-        representations: []
-      };
-
-      if (!track.representations.some(rep => rep.id === variant.originalVideoId)) {
-        track.representations.push({
+    return [...byTier.values()]
+      .map(variant => {
+        const height = normalizeHeight(variant.width ?? 0, variant.height ?? 0);
+        const frameRate = Math.round(variant.frameRate ?? 0);
+        return {
           id: variant.originalVideoId,
+          label: `${height}p${frameRate > 30 ? frameRate : ''}`,
           bitrate: variant.videoBandwidth ?? variant.bandwidth,
-          codec,
+          codec: (variant.videoCodec ?? '').split('.')[0],
           width: variant.width ?? 0,
-          height: variant.height ?? 0,
-          frameRate: variant.frameRate ?? 0,
+          height,
+          frameRate,
           hdr: variant.hdr === 'PQ' || variant.hdr === 'HLG',
           hdrType: variant.hdr ?? undefined
-        });
-      }
-      if (variant.originalVideoId === activeVideoId) track.active = true;
-      byCodec.set(codec, track);
-    }
-
-    for (const track of byCodec.values()) {
-      track.representations.sort((a, b) => a.bitrate - b.bitrate);
-    }
-    return [...byCodec.values()];
+        };
+      })
+      .sort((a, b) => a.height - b.height || a.bitrate - b.bitrate);
   };
 
   const toEngineAudioTracks = (): EngineAudioTrack[] => {
-    const variants = player.getVariantTracks();
     const byLanguage = new Map<string, EngineAudioTrack>();
 
-    for (const variant of variants) {
+    for (const variant of ladder) {
       if (!variant.originalAudioId) continue;
       const language = variant.language || 'und';
-      const track = byLanguage.get(language) ?? {
+      if (byLanguage.has(language)) continue;
+      byLanguage.set(language, {
         id: language,
         active: false,
         language,
-        label: variant.label || language,
-        representations: []
-      };
-      if (!track.representations.some(rep => rep.id === variant.originalAudioId)) {
-        track.representations.push({
-          id: variant.originalAudioId,
-          bitrate: variant.audioBandwidth ?? variant.bandwidth,
-          codec: variant.audioCodec ?? ''
-        });
-      }
-      if (variant.active) track.active = true;
-      byLanguage.set(language, track);
+        label: variant.label || language
+      });
     }
+
+    const activeLanguage = player.getVariantTracks().find(variant => variant.active)?.language;
+    const active = byLanguage.get(activeLanguage || '');
+    if (active) active.active = true;
 
     return [...byLanguage.values()];
   };
 
   /**
-   * A Shaka variant is an (audio, video) pair, so selecting one by a single side would
-   * drag along whatever the other side happens to be — picking an audio bitrate would
-   * silently reset the video quality the viewer just chose, and vice versa. Prefer the
-   * variant that keeps the current other side, and only fall back when that pairing does
-   * not exist.
+   * A Shaka variant is an (audio, video) pair, so selecting one by its video side alone
+   * would drag along whatever audio happens to come first and reset the viewer's language.
+   * Prefer the pairing that keeps the current audio, and treat the tier — not the exact
+   * representation — as what was asked for, so a momentarily disabled variant still
+   * resolves to the resolution the viewer picked.
    */
-  const findVariant = ({ videoId, audioId }: { videoId?: string; audioId?: string }) => {
-    const variants = player.getVariantTracks();
-    const active = variants.find(track => track.active);
+  const findVideoVariant = (representationId: string) => {
+    const playable = player.getVariantTracks();
+    const active = playable.find(track => track.active);
+    const wanted = ladder.find(variant => variant.originalVideoId === representationId);
 
-    const matches = variants.filter(track =>
-      videoId ? track.originalVideoId === videoId : track.originalAudioId === audioId
+    const candidates = playable.filter(
+      track =>
+        track.originalVideoId === representationId || (wanted && tierKey(track) === tierKey(wanted))
     );
 
-    const keepOther = videoId
-      ? matches.find(track => track.originalAudioId === active?.originalAudioId)
-      : matches.find(track => track.originalVideoId === active?.originalVideoId);
-
-    return keepOther ?? matches[0];
+    return (
+      candidates.find(
+        track =>
+          track.originalVideoId === representationId &&
+          track.originalAudioId === active?.originalAudioId
+      ) ??
+      candidates.find(track => track.originalVideoId === representationId) ??
+      candidates.find(track => track.originalAudioId === active?.originalAudioId) ??
+      candidates[0]
+    );
   };
 
   const refreshTracks = () => {
     const active = player.getVariantTracks().find(variant => variant.active);
+    const tiers = videoTiers();
 
-    ctx.state.videoTracks = mapVideoTracks(toEngineVideoTracks(), active?.originalVideoId ?? null);
+    // The variant playing is one codec of a tier while the menu lists the tier, so the
+    // highlight has to land on the tier's stand-in rather than on an id nothing lists.
+    const activeTier = active
+      ? tiers.find(
+          tier =>
+            tier.height === normalizeHeight(active.width ?? 0, active.height ?? 0) &&
+            tier.frameRate === Math.round(active.frameRate ?? 0)
+        )
+      : undefined;
+
+    ctx.state.videoTracks = mapVideoTracks(
+      [{ id: 'video', active: true, representations: tiers }],
+      activeTier?.id ?? null
+    );
 
     const audioTracks = toEngineAudioTracks();
     ctx.state.languageList = mapLanguageList(audioTracks);
     if (active?.language) ctx.state.selectedLanguage = active.language;
-    ctx.state.audioTracks = mapAudioTracks(
-      audioTracks,
-      active?.originalAudioId ?? null,
-      ctx.state.selectedLanguage
-    );
   };
 
   player.addEventListener('trackschanged', refreshTracks);
@@ -262,16 +331,34 @@ export const createSabrAdapter = async (
 
   player.addEventListener('error', event => {
     const detail = (event as unknown as { detail?: ShakaErrorDetail }).detail;
-    const message = describeShakaError(detail);
 
     // Shaka keeps retrying recoverable errors on its own; only a critical one means
     // playback has actually stopped.
     const fatal = detail?.severity !== 1;
 
-    ctx.state.error = { code: `shaka-${detail?.code ?? 'unknown'}`, message, fatal };
-    if (fatal) ctx.state.buffering = false;
+    // Every one of these used to raise a toast, including the ones Shaka recovers from
+    // without the viewer ever noticing — dozens of "the video stream could not be loaded"
+    // over a minute of playback that was, from the outside, working. A response with no
+    // media in it is not even a failure: the SABR server decides how far ahead it will
+    // serve, and refusing to serve more is how it says "you have enough for now".
+    if (!fatal) {
+      if (import.meta.dev && !isNoMedia(detail)) {
+        console.debug('[sabr] recovered from', detail?.code, detail?.data);
+      }
+      return;
+    }
 
-    ctx.createMessage({ type: 'error', title: 'Video playback error', message });
+    // Only the first one is worth showing. Once playback has stopped Shaka keeps
+    // re-picking variants and failing again, and the error overlay is already up — the
+    // follow-ups only pile toasts on top of a message the viewer has already read.
+    const alreadyReported = !!ctx.state.error?.fatal;
+
+    const message = describeShakaError(detail);
+    ctx.state.error = { code: `shaka-${detail?.code ?? 'unknown'}`, message, fatal };
+    ctx.state.buffering = false;
+    if (!alreadyReported) {
+      ctx.createMessage({ type: 'error', title: 'Video playback error', message });
+    }
   });
 
   player.addEventListener('buffering', event => {
@@ -305,6 +392,10 @@ export const createSabrAdapter = async (
         ctx.createMessage({ type: 'error', title: 'Video playback error', message });
         throw error;
       }
+
+      // Read before playback can disable anything: this is the only point at which
+      // getVariantTracks() is guaranteed to be the manifest's full ladder.
+      ladder = player.getVariantTracks();
 
       if (Number.isFinite(videoEl()?.duration)) ctx.state.duration = videoEl().duration;
       videoEl().loop = ctx.loop;
@@ -341,31 +432,15 @@ export const createSabrAdapter = async (
       refreshTracks();
     },
     setVideoQuality: (_trackId: string, representationId: string | null) => {
-      // The server picks the actual quality, so a manual choice is a preference: pin the
-      // matching variant and let ABR resume when it is cleared.
       if (representationId === null) {
         player.configure({ abr: { enabled: true } });
         ctx.state.automaticVideoQuality = true;
       } else {
-        const variant = findVariant({ videoId: representationId });
+        const variant = findVideoVariant(representationId);
         if (variant) {
           player.configure({ abr: { enabled: false } });
           player.selectVariantTrack(variant, true);
           ctx.state.automaticVideoQuality = false;
-        }
-      }
-      refreshTracks();
-    },
-    setAudioQuality: (_trackId: string, representationId: string | null) => {
-      if (representationId === null) {
-        player.configure({ abr: { enabled: true } });
-        ctx.state.automaticAudioQuality = true;
-      } else {
-        const variant = findVariant({ audioId: representationId });
-        if (variant) {
-          player.configure({ abr: { enabled: false } });
-          player.selectVariantTrack(variant, true);
-          ctx.state.automaticAudioQuality = false;
         }
       }
       refreshTracks();

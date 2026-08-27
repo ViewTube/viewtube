@@ -14,8 +14,6 @@ export interface VideoRepresentation extends Representation {
   hdrType?: string;
 }
 
-export interface AudioRepresentation extends Representation {}
-
 export interface Track {
   id: string;
   active: boolean;
@@ -24,11 +22,6 @@ export interface Track {
 
 export interface VideoTrack extends Track {
   representations: VideoRepresentation[];
-}
-
-export interface AudioTrack extends Track {
-  language: string;
-  representations: AudioRepresentation[];
 }
 
 export type Language = {

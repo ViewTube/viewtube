@@ -11,11 +11,13 @@
  *
  * A bare HTTP 200 is not success: the first response is normally a SABR_REDIRECT, and a
  * 200 can still carry SABR_ERROR inside the UMP body. Both are followed and decoded.
+ *
+ * This measures the FIRST request only. YouTube's attestation gate does not close until
+ * about a minute of media has been served, so a green run here does not mean the token is
+ * irrelevant to playback — `sabr-download.mjs` is the probe for that.
  */
 import vm from 'node:vm';
 
-import { BotGuardClient, getChallenge } from 'bgutils-js/botguard';
-import { WebPoMinter } from 'bgutils-js/webpo';
 import {
   SabrError,
   SabrRedirect,
@@ -25,12 +27,8 @@ import {
 } from 'googlevideo/protos';
 import { CompositeBuffer, UmpReader } from 'googlevideo/ump';
 import { base64ToU8 } from 'googlevideo/utils';
-import { JSDOM } from 'jsdom';
 import { Constants, Innertube, Platform, UniversalCache } from 'youtubei.js';
-
-const BOTGUARD_REQUEST_KEY = 'O43z0dpjhgX20SCx4KAo';
-const GENERATE_IT_URL = 'https://jnn-pa.googleapis.com/$rpc/google.internal.waa.v1.Waa/GenerateIT';
-const GOOG_API_KEY = 'AIzaSyDyT5W0Jh49F30Pqqtyfdf7pDLFKLJoAnw';
+import { attest } from './botguard.mjs';
 
 const args = process.argv.slice(2);
 const argValue = name => {
@@ -45,70 +43,6 @@ const log = (...p) => console.log(...p);
 // scrambled and YouTube 403s regardless of any token.
 Platform.shim.eval = async data =>
   vm.runInNewContext(`(function(){${data.output}})()`, Object.create(null), { timeout: 5000 });
-
-//#region attestation
-const installDom = () => {
-  const dom = new JSDOM('<!DOCTYPE html><html><body></body></html>', {
-    url: 'https://www.youtube.com/',
-    referrer: 'https://www.youtube.com/'
-  });
-  Object.assign(globalThis, {
-    window: dom.window,
-    document: dom.window.document,
-    location: dom.window.location,
-    origin: dom.window.origin
-  });
-  // navigator is getter-only on globalThis, so plain assignment throws.
-  Object.defineProperty(globalThis, 'navigator', {
-    value: dom.window.navigator,
-    configurable: true,
-    writable: true
-  });
-};
-
-const attest = async () => {
-  installDom();
-
-  const challenge = await getChallenge({
-    requestKey: BOTGUARD_REQUEST_KEY,
-    fetchFunction: fetch,
-    useYouTubeAPI: false
-  });
-
-  const interpreter =
-    challenge.interpreterJavascript?.privateDoNotAccessOrElseSafeScriptWrappedValue;
-  if (!interpreter) throw new Error('challenge carried no interpreter');
-  new Function(interpreter)();
-
-  const botGuard = await BotGuardClient.create({
-    program: challenge.program,
-    globalName: challenge.globalName,
-    globalObject: globalThis
-  });
-
-  const webPoSignalOutput = [];
-  const botguardResponse = await botGuard.snapshot({ webPoSignalOutput });
-
-  const response = await fetch(GENERATE_IT_URL, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json+protobuf',
-      'x-goog-api-key': GOOG_API_KEY,
-      'x-user-agent': 'grpc-web-javascript/0.1'
-    },
-    body: JSON.stringify([BOTGUARD_REQUEST_KEY, botguardResponse])
-  });
-
-  const [integrityToken, estimatedTtlSecs, mintRefreshThreshold] = await response.json();
-  if (!integrityToken) throw new Error('no integrity token returned');
-
-  const minter = await WebPoMinter.create(
-    { integrityToken, estimatedTtlSecs, mintRefreshThreshold },
-    webPoSignalOutput
-  );
-  return { minter, estimatedTtlSecs, mintRefreshThreshold };
-};
-//#endregion
 
 //#region SABR request
 const encodeRequest = ({ ustreamerConfig, clientInfo, format, poToken }) =>
@@ -265,12 +199,16 @@ const main = async () => {
 
   const t0 = Date.now();
   const { minter, estimatedTtlSecs, mintRefreshThreshold } = await attest();
-  log(`attestation:  ${Date.now() - t0}ms   ttl=${estimatedTtlSecs}s  refreshThreshold=${mintRefreshThreshold}`);
+  log(
+    `attestation:  ${Date.now() - t0}ms   ttl=${estimatedTtlSecs}s  refreshThreshold=${mintRefreshThreshold}`
+  );
 
   const t1 = Date.now();
   const sessionToken = await minter.mintAsWebsafeString(visitorData);
   const contentToken = await minter.mintAsWebsafeString(videoId);
-  log(`2 mints from the same minter: ${Date.now() - t1}ms  (session ${sessionToken.length}ch, content ${contentToken.length}ch)\n`);
+  log(
+    `2 mints from the same minter: ${Date.now() - t1}ms  (session ${sessionToken.length}ch, content ${contentToken.length}ch)\n`
+  );
 
   const cases = [
     { label: '1 no token anywhere' },

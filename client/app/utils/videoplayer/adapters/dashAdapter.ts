@@ -1,6 +1,5 @@
 import type { IAvailableAudioTrack, IAvailableVideoTrack } from 'rx-player/types';
 import {
-  mapAudioTracks,
   mapLanguageList,
   mapVideoTracks,
   type EngineAudioTrack,
@@ -44,7 +43,6 @@ export const createDashAdapter = async (ctx: AdapterContext): Promise<PlayerAdap
   let hasContent = false;
   let capApplied = false;
   let currentVideoRepresentationId: string | null = null;
-  let currentAudioRepresentationId: string | null = null;
 
   const toEngineVideoTracks = (tracks: IAvailableVideoTrack[]): EngineVideoTrack[] =>
     (tracks ?? []).map(track => ({
@@ -67,12 +65,7 @@ export const createDashAdapter = async (ctx: AdapterContext): Promise<PlayerAdap
       id: track.id,
       active: track.active,
       language: track.language,
-      label: track.label,
-      representations: (track.representations ?? []).map(representation => ({
-        id: representation.id?.toString(),
-        bitrate: representation.bitrate,
-        codec: representation.codec
-      }))
+      label: track.label
     }));
 
   const refreshTracks = () => {
@@ -83,11 +76,6 @@ export const createDashAdapter = async (ctx: AdapterContext): Promise<PlayerAdap
       currentVideoRepresentationId
     );
     ctx.state.languageList = mapLanguageList(audioTracks);
-    ctx.state.audioTracks = mapAudioTracks(
-      audioTracks,
-      currentAudioRepresentationId,
-      ctx.state.selectedLanguage
-    );
 
     const currentLanguage = player.getAudioTrack()?.language;
     if (currentLanguage) ctx.state.selectedLanguage = currentLanguage;
@@ -194,10 +182,7 @@ export const createDashAdapter = async (ctx: AdapterContext): Promise<PlayerAdap
     currentVideoRepresentationId = representation?.id?.toString() ?? null;
     refreshTracks();
   });
-  player.addEventListener('audioRepresentationChange', representation => {
-    currentAudioRepresentationId = representation?.id?.toString() ?? null;
-    refreshTracks();
-  });
+  player.addEventListener('audioRepresentationChange', () => refreshTracks());
 
   player.setVolume(ctx.defaultVolume.value);
   ctx.state.volume = ctx.defaultVolume.value;
@@ -260,17 +245,6 @@ export const createDashAdapter = async (ctx: AdapterContext): Promise<PlayerAdap
       ctx.state.automaticVideoQuality = representationId === null;
 
       if (representationId === null) applyQualityCap();
-      refreshTracks();
-    },
-    setAudioQuality: (trackId: string, representationId: string | null) => {
-      if (!hasContent) return;
-
-      player.setAudioTrack({
-        trackId,
-        switchingMode: 'seamless',
-        lockedRepresentations: representationId ? [representationId] : null
-      });
-      ctx.state.automaticAudioQuality = representationId === null;
       refreshTracks();
     },
     destroy: () => {

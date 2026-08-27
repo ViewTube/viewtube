@@ -95,8 +95,7 @@ export const createHlsAdapter = async (ctx: AdapterContext): Promise<PlayerAdapt
       id: index.toString(),
       active: index === hls.audioTrack,
       language: track.lang ?? track.name,
-      label: track.name,
-      representations: []
+      label: track.name
     }));
 
   const refreshTracks = () => {
@@ -223,7 +222,6 @@ export const createHlsAdapter = async (ctx: AdapterContext): Promise<PlayerAdapt
       ctx.state.automaticVideoQuality = representationId === null;
       refreshTracks();
     },
-    setAudioQuality: () => {},
     destroy: () => {
       if (refreshTimeout) clearTimeout(refreshTimeout);
       refreshTimeout = null;

@@ -13,8 +13,8 @@ import {
   type CacheManager,
   type RequestMetadataManager
 } from 'googlevideo/utils';
-import { rewriteSabrHost } from '../proxy';
 import shaka from 'shaka-player/dist/shaka-player.compiled';
+import { rewriteSabrHost } from '../proxy';
 
 /**
  * Bridges Shaka Player to googlevideo's SABR machinery.
@@ -29,6 +29,27 @@ import shaka from 'shaka-player/dist/shaka-player.compiled';
  * bytes before Shaka ever sees them, and owning the scheme is what makes streaming,
  * progress reporting and segment caching possible while doing that.
  */
+/**
+ * Marker for a SABR response that is well-formed but carries no media, on a stream YouTube
+ * has not flagged for attestation. That is the server declining to serve further ahead for
+ * now and it recovers on its own, so `sabrAdapter` keeps it out of the UI while Shaka sees
+ * a recoverable network error and retries. When the stream *is* flagged, the same shape of
+ * response means something permanent instead — see `SABR_ATTESTATION_REQUIRED`.
+ */
+export const SABR_NO_MEDIA = 'SABR response carried no media';
+
+/**
+ * Marker for the one reason YouTube is known to stop serving media mid-video.
+ *
+ * `STREAM_PROTECTION_STATUS` is 1 for videos that play to the end and 2 from the very
+ * first response for videos that stop after about a minute; once the grace period is up
+ * the server answers with policies and no media, and reports 3 to a client that reads the
+ * whole response. googlevideo's own node downloader hits the same second of the same
+ * videos and calls it "attestation required", so this is YouTube declining the session,
+ * not a defect in the request. A PO token does not currently lift it — see POTOKEN_PLAN.md.
+ */
+export const SABR_ATTESTATION_REQUIRED = 'YouTube requires attestation for this video';
+
 /**
  * The id a representation carries in the manifest.
  *
@@ -60,6 +81,7 @@ export class ShakaSabrPlayerAdapter implements SabrPlayerAdapter {
   private abortController?: AbortController;
   private requestFilter?: shaka.extern.RequestFilter;
   private responseFilter?: shaka.extern.ResponseFilter;
+  private lastActiveVariant?: shaka.extern.Track;
 
   initialize(
     player: shaka.Player,
@@ -95,31 +117,48 @@ export class ShakaSabrPlayerAdapter implements SabrPlayerAdapter {
     return this.requirePlayer().getStats().estimatedBandwidth;
   }
 
+  /**
+   * The pair the server is told the player is using: the format actually being fetched,
+   * plus whatever is playing on the other side.
+   *
+   * The requested format is used verbatim rather than looked up, because the lookup used
+   * to go through `getVariantTracks()`, which hides variants Shaka has temporarily
+   * disabled after a failed segment. Once one segment failed, the next request for that
+   * format resolved to nothing, the server got an empty `preferredVideoFormatIds`, it
+   * answered with directives and no media, and that failed too — each round disabling
+   * another variant until the whole ladder was gone.
+   */
   getActiveTrackFormats(
     activeFormat: SabrFormat,
     sabrFormats: SabrFormat[]
   ): { videoFormat?: SabrFormat; audioFormat?: SabrFormat } {
-    const player = this.requirePlayer();
-
-    const activeId = manifestFormatId(activeFormat);
-    const activeVariant = player
-      .getVariantTracks()
-      .find(
-        track => activeId === (activeFormat.width ? track.originalVideoId : track.originalAudioId)
-      );
-
-    if (!activeVariant) return {};
-
     const formatsById = new Map(sabrFormats.map(format => [manifestFormatId(format), format]));
+    const active = this.activeVariant();
 
-    return {
-      videoFormat: activeVariant.originalVideoId
-        ? formatsById.get(activeVariant.originalVideoId)
-        : undefined,
-      audioFormat: activeVariant.originalAudioId
-        ? formatsById.get(activeVariant.originalAudioId)
-        : undefined
-    };
+    // Reading the other side off the *active* variant, not off the first variant that
+    // happens to pair with the requested one: variants are the cross product of the two
+    // ladders, so the first match's partner is arbitrary. That made an audio request
+    // announce the lowest video format and the concurrent video request announce the real
+    // one, leaving the server's ABR with two contradictory views of one session.
+    const otherSide = (id?: string | null) => (id ? formatsById.get(id) : undefined);
+
+    return activeFormat.width
+      ? { videoFormat: activeFormat, audioFormat: otherSide(active?.originalAudioId) }
+      : { videoFormat: otherSide(active?.originalVideoId), audioFormat: activeFormat };
+  }
+
+  /**
+   * Shaka reports no active variant while one is disabled or mid-switch, so the last known
+   * one stands in — otherwise the pair above loses its other side exactly when playback is
+   * already struggling.
+   */
+  private activeVariant(): shaka.extern.Track | undefined {
+    const current = this.requirePlayer()
+      .getVariantTracks()
+      .find(track => track.active);
+
+    if (current) this.lastActiveVariant = current;
+    return current ?? this.lastActiveVariant;
   }
 
   registerRequestInterceptor(interceptor: RequestFilter): void {
@@ -201,6 +240,7 @@ export class ShakaSabrPlayerAdapter implements SabrPlayerAdapter {
   dispose(): void {
     this.abortController?.abort();
     this.abortController = undefined;
+    this.lastActiveVariant = undefined;
 
     if (!this.player) return;
 
@@ -451,13 +491,25 @@ export class ShakaSabrPlayerAdapter implements SabrPlayerAdapter {
       }
     };
 
+    /**
+     * A response with no media in it is the server declining to serve. Reported as the
+     * protection gate when it says so, because that is the difference the viewer can act
+     * on: the rest of this video is not going to arrive, however long Shaka retries.
+     */
+    const noMediaError = () =>
+      recoverableError(
+        (requestMetadata.streamInfo?.streamProtectionStatus?.status ?? 1) > 1
+          ? SABR_ATTESTATION_REQUIRED
+          : SABR_NO_MEDIA,
+        requestMetadata
+      );
+
     // A response carrying only a redirect or a context update has no media in it; the
     // streaming adapter reacts to that and reissues the request.
     //
     // Deliberately NOT extended to `nextRequestPolicy`/`streamProtectionStatus`: handing
     // Shaka an empty body for those makes it fail parsing the segment as MP4 (error 3004),
-    // which hides the real reason. Some videos loop on directive-only responses and never
-    // return media — see the note in SABR_PLAN.md.
+    // which hides the real reason. Those come back as SABR_NO_MEDIA below instead.
     const isDirectiveOnly = () =>
       requestMetadata.isSABR &&
       (requestMetadata.streamInfo?.redirect || requestMetadata.streamInfo?.sabrContextUpdate);
@@ -483,7 +535,7 @@ export class ShakaSabrPlayerAdapter implements SabrPlayerAdapter {
         return finish(result.data);
       }
       if (isDirectiveOnly()) return finish();
-      throw recoverableError('Empty SABR response with no redirect information', requestMetadata);
+      throw noMediaError();
     }
 
     const reader = response.body.getReader();
@@ -501,7 +553,7 @@ export class ShakaSabrPlayerAdapter implements SabrPlayerAdapter {
 
       if (chunk.done) {
         if (isDirectiveOnly()) return finish();
-        throw recoverableError('Empty SABR response with no redirect information', requestMetadata);
+        throw noMediaError();
       }
 
       const result = await processor.processChunk(chunk.value);
@@ -540,7 +592,7 @@ export class ShakaSabrPlayerAdapter implements SabrPlayerAdapter {
       }
     }
 
-    throw recoverableError('UMP stream aborted before producing a segment', requestMetadata);
+    throw noMediaError();
   }
 }
 

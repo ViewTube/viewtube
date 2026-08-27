@@ -15,6 +15,5 @@ export const createNoopAdapter = async (_ctx: AdapterContext): Promise<PlayerAda
   setPlaybackRate: () => {},
   setLanguage: () => {},
   setVideoQuality: () => {},
-  setAudioQuality: () => {},
   destroy: () => {}
 });

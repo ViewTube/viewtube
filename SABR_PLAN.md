@@ -1,5 +1,10 @@
 # SABR player implementation plan
 
+**Status (2026-08-27).** VOD plays through SABR; phases 1–4 and 6 have landed. Two things
+are open, both YouTube-side rather than ours: videos YouTube flags for attestation stop
+after about a minute (see the attestation-gate section — this is the former "readahead
+wall", and it is not a bug in our request), and live has no manifest to play (phase 7).
+
 ## Background
 
 YouTube's WEB client no longer returns `adaptive_formats` with direct segment URLs for
@@ -30,9 +35,10 @@ needs the SABR path, not a separate HLS path.
 
 **Consequence:** `hlsAdapter` / `nativeAdapter` have no source to play until either
 YouTube restores live manifests or the SABR adapter is extended to live. They are kept
-(the code is cheap and the manifests may return), but nothing currently routes to them.
-Until then the player shows an explicit "No HLS manifest for this live stream" error
-rather than buffering forever.
+(the code is cheap and the manifests may return), and `videoSource.ts:52` still routes to
+them the moment `hlsManifestUrl` comes back. Until then the player shows an explicit
+"Live stream isn't currently playable" error (`videoSource.ts:74`) rather than buffering
+forever.
 
 ### How SABR works
 
@@ -91,7 +97,12 @@ unreachable).
 
 ## Phases
 
-### Phase 1 — Server DTO (VOD)
+Phases 1–4 and 6 have landed; VOD plays through SABR. Phase 5 is not implemented and
+currently cannot be (see its status). Phase 7 (live) is unstarted and still blocked
+upstream. The phase text below is kept because it records _why_ each piece is shaped the
+way it is — several of the decisions cost a day to find.
+
+### Phase 1 — Server DTO (VOD) — **done**
 
 - `videos.service.ts`: extract deciphered `server_abr_streaming_url`,
   `adaptive_formats`, `ustreamer_config`, client context; generate the SABR DASH
@@ -119,13 +130,13 @@ const dash = await videoInfo.toDash({
 // BaseURL entries look like: <BaseURL>sabr://audio?key=140:</BaseURL>
 ```
 
-### Phase 2 — Server proxy
+### Phase 2 — Server proxy — **done**
 
 - `/api/videoplayback`: accept POST + streaming protobuf body, forward to SABR URL,
   stream `application/vnd.yt-ump` back. Keep GET path for HLS/DASH. Rewrite SABR host →
   proxy in the DTO so the client POSTs to the proxy (CORS).
 
-### Phase 3 — Client SABR adapter (Shaka inside)
+### Phase 3 — Client SABR adapter (Shaka inside) — **done**
 
 - Add `shaka-player` + `@luanrt/googlevideo` deps.
 - `sabrAdapter.ts`: owns a Shaka `Player` + `SabrStreamingAdapter`, implements viewtube's
@@ -139,7 +150,7 @@ const dash = await videoInfo.toDash({
   `QualitySelector.vue` and the language picker keep working (quality picker becomes a
   SABR preference hint).
 
-### Phase 4 — Routing
+### Phase 4 — Routing — **done**
 
 The adapter redesign has landed, so this is smaller than originally written:
 `VideoSourceType` is gone, `videoSource.ts` already returns a `PlayerSource` union with a
@@ -153,7 +164,7 @@ no-op adapter). Phase 4 is now:
 - `videoState.ts` needs no change — `isSameVideoReload()` already treats a `sabr` source
   swap as a same-video reload that resumes at `state.currentTime`.
 
-### Phase 5 — PO token (server-provided, reuse)
+### Phase 5 — PO token (server-provided, reuse) — **not implemented, blocked**
 
 - Server ships po_token in the `sabr` block; client reuses it in `streamer_context`.
 - Implement `onReloadPlayerResponse` → re-fetch `/api/videos/:id` (server re-mints /
@@ -161,9 +172,19 @@ no-op adapter). Phase 4 is now:
 
 ### Phase 5 status (2026-08-27)
 
-- po_token: **not needed**. `scripts/sabr-probe` `npm run spike` gets media with no token at
-  all; `streamProtectionStatus` comes back as 2, not the 3 that signals a rejected session.
-  See `POTOKEN_PLAN.md`.
+- po_token: **not implemented, and no token we can mint would help.** An earlier reading of
+  this line said "not needed" because `npm run spike` gets media with no token and
+  `streamProtectionStatus` comes back as 2 rather than 3. That was wrong twice over: the
+  spike measures one request and stops, and **2 is not the safe value** — it is YouTube
+  saying it wants attestation, which it enforces about a minute into playback. Videos that
+  play to the end report 1.
+
+  What is measured (see the attestation-gate section below): a BotGuard token bound to the
+  session, one bound to the video, and the 10-byte cold-start token captured from a real
+  Chromium session all leave the status at 2 and hit the identical cutoff. So shipping a
+  token from the server would be work with no effect until someone finds what actually
+  moves the status to 1. `POTOKEN_PLAN.md` carries the research and the same correction.
+
 - `onReloadPlayerResponse`: **implemented and verified**. `reload-probe.mjs` tags the
   refetched streaming URL and confirms later segment requests carry the tag while playback
   continues uninterrupted.
@@ -174,8 +195,8 @@ Some videos — `Nz9b0oJw69I`, the one `tests/cypress/e2e/3-pages/watch.cy.ts` u
 received a single byte of media, while others played fine. The cause was a naming
 disagreement between the two libraries:
 
-| Library                        | Audio representation id                  |
-| ------------------------------ | ---------------------------------------- |
+| Library                           | Audio representation id               |
+| --------------------------------- | ------------------------------------- |
 | youtubei.js (builds the manifest) | `itag[-audioTrackId][-drc][-vb]`      |
 | googlevideo (resolves the format) | `itag[-audioTrackId][-drc]` — no `vb` |
 
@@ -195,16 +216,120 @@ nothing. It reports 0 bytes for `dQw4w9WgXcQ` too, which plays perfectly — the
 echoes the SABR context back, so it models nothing. Any claim of the form "YouTube does not
 serve this" needs a known-good video as a control in the same run.
 
-### Phase 6 — Verify
+### The error storm and the shrinking quality menu (fixed 2026-08-27)
 
-- Manual VOD playthrough (seek, quality hint, language, captions) through the proxy.
+Playback "worked" but threw dozens of `The video stream could not be loaded.` toasts and
+the quality list lost entries as it went — `is8UDe2PhKQ` produced **82 toasts in 45
+seconds** while the list oscillated between 2 and 6 entries. Four separate causes, all on
+our side of the boundary. Measured with `npm run trace` (`scripts/sabr-probe`).
+
+**1. Every recoverable error raised a toast.** `sabrAdapter`'s `error` listener called
+`createMessage` unconditionally. Shaka reports recoverable errors it then retries and
+recovers from on its own, so most of those toasts described nothing the viewer could see.
+Only fatal errors are surfaced now, and only the first of a run — once the overlay is up,
+Shaka keeps re-picking variants and failing again, and each attempt was adding another
+toast on top of a message already on screen.
+
+**2. Shaka disables a stream on a failed segment, and `getVariantTracks()` hides it.**
+`StreamingEngine.handleStreamingError_` answers a NETWORK error by calling
+`disableStream()`, which sets `variant.disabledUntilTime` on every variant using that
+stream for `streaming.maxDisabledTime` (30s); `StreamUtils.isPlayable` then filters those
+out of `getVariantTracks()`. The adapter rebuilt the menu from that call on every
+`adaptation` event, so the menu was a live readout of Shaka's error state. It now reads
+the ladder once, right after `player.load()`, and refreshes only the `active` flags.
+
+**3. The two tracks announced different preferred formats.** `getActiveTrackFormats`
+resolved the requested format through `getVariantTracks()` and took the _first_ variant
+pairing with it. Variants are the cross product of the two ladders, so that partner is
+arbitrary: an audio request announced `prefV=278` (the lowest video format) while the
+concurrent video request announced `prefV=398`, leaving the server's ABR with two
+contradictory views of one session. Worse, once a variant was disabled the lookup returned
+`{}` and the request went out with no preferred formats at all — which YouTube answers with
+directives and no media, failing that segment too and disabling the next variant. That is
+the loop that ate the quality list. The requested format is now used verbatim and only the
+_other_ side is read off the active variant, with the last known one standing in while
+Shaka reports none.
+
+**4. `bufferingGoal: 120` ran past what the server will serve.** `NEXT_REQUEST_POLICY`
+asks for 15s of readahead (`targetVideoReadaheadMs`), and the server serves a bounded
+amount beyond it, so a 120s goal mostly produced requests it declined — which reaches Shaka
+as a failed segment, feeding causes 1 and 2. `googlevideo`'s own comment in
+`addBufferingInfoToAbrRequest` says as much: _"The SABR server will only send so much
+segments for a given player time."_ Now 30s. Note this is **not** what stops protected
+videos a minute in; that was diagnosed later, see the attestation-gate section below.
+
+After these: `is8UDe2PhKQ`, `Nz9b0oJw69I` and `dQw4w9WgXcQ` all play with **0 toasts**, a
+stable seven-entry quality list, and ABR climbing to 1080p.
+
+### Resolved: the "readahead wall" is YouTube's attestation gate (2026-08-27)
+
+Some videos stopped receiving media at a fixed point — `is8UDe2PhKQ` at 63.6s,
+`Nz9b0oJw69I` at 62.6s — while `dQw4w9WgXcQ` played to the end. The earlier reading of this
+as a readahead or request-shape problem was wrong. It is YouTube declining the session.
+
+**The field that says so is `STREAM_PROTECTION_STATUS`**, which every SABR response
+carries and which nothing was reading:
+
+| video         | status on every response | outcome              |
+| ------------- | ------------------------ | -------------------- |
+| `dQw4w9WgXcQ` | **1** (33/33 responses)  | plays to the end     |
+| `is8UDe2PhKQ` | **2** (77/77 responses)  | media stops at 63.6s |
+
+Status 2 is set from the _first_ response, before a single segment is served, so the
+outcome is decided at session start and no request the client makes changes it. After
+about a minute of media the server answers with policies and no media, and reports **3**
+to a client that reads the whole response.
+
+**The decisive control** is `scripts/sabr-probe/sabr-download.mjs` (`npm run download`),
+which drives googlevideo's own node downloader — no Shaka, no request interceptor, no
+early stream abort, none of our code:
+
+```
+is8UDe2PhKQ  threw after video=63.6s: Cannot proceed with stream: attestation required
+dQw4w9WgXcQ  video=190.4s/358MB audio=179.7s/3.4MB duration=213s
+```
+
+Same second, same videos, independent implementation. That rules out every hypothesis
+about our own request: the `bufferedRanges` cheat, aborting the UMP stream after the first
+segment, `PLAYBACK_START_POLICY`, and `bufferingGoal`.
+
+Two further measurements narrow what the gate wants:
+
+- **Position is irrelevant.** A session that _starts_ at 100s (`wall-trace --start 100`)
+  receives init segments and no media at all. It is not a cap on how far ahead the client
+  reads; it is a budget of media per session.
+- **A PO token does not lift it.** `sabr-download --token session` and `--token content`
+  both hit the same 63.6s, and so does the 10-byte cold-start token captured from a real
+  Chromium session (`capture-body` now prints it). The status stays 2 in all cases — if a
+  token satisfied the gate it would go to 1 on the first response. `visitor_data` binding
+  was verified to survive `Innertube.create`, so this is not a mis-bound token.
+
+**What the player does now.** `SABR_ATTESTATION_REQUIRED` in `sabrPlayerAdapter.ts` is
+raised when a no-media response carries a protection status above 1, and `sabrAdapter`
+turns it into one message naming the real cause instead of "the video stream could not be
+loaded". Measured after the change: `is8UDe2PhKQ` shows exactly one honest error at the
+wall, `dQw4w9WgXcQ` shows none and plays on.
+
+**What is still open** is what actually satisfies attestation for these videos. The
+browser's request carries `clientAbrState.playbackAuthorization` (with `authorizedFormats`)
+and ~45 other fields that googlevideo does not send; that is the next thing to try, and it
+is a bigger piece of work than a token. Until then, protected videos play their first
+minute and then say why they stopped.
+
+### Phase 6 — Verify — **done, with one gap**
+
+- Manual VOD playthrough (seek, quality hint, captions) through the proxy. **Language
+  switching is the gap**: every video used in testing has one distinct audio track, so
+  `setLanguage()` has never run against real dubbed tracks. The `vb` bug below was a
+  multi-audio-variant problem, which makes this the likeliest place another one hides.
+  Tracked in `TODO.md`.
 - **Not** "live stream to confirm HLS untouched" — live has no HLS to confirm. Until
   phase 7 lands, the live control is: the player shows the "Live stream isn't currently
   playable" overlay promptly instead of buffering forever.
 - `pnpm lint`, `pnpm build:shared`, typecheck client+server. Cypress baseline run before
   trusting red/green (specs hit live YouTube).
 
-### Phase 7 — Livestreams
+### Phase 7 — Livestreams — **not started, blocked upstream**
 
 Live is blocked on manifest generation, not on the SABR transport. Measured:
 
@@ -240,6 +365,11 @@ const info = await yt.getInfo(liveId); // any client
 info.streaming_data?.hls_manifest_url; // → non-empty means live HLS is back
 await info.toDash({ manifest_options: { is_sabr: true } }); // → throws while live is unsupported
 ```
+
+Use `getBasicInfo`, not `getInfo`, when probing anything other than WEB:
+`getInfo` also calls `/next`, which parses badly on several clients and throws for reasons
+that say nothing about whether the stream is reachable. That mistake made every non-WEB
+client look broken in one round of `client-gate.mjs`.
 
 ## Not changed
 

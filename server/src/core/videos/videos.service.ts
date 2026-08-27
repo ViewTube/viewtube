@@ -21,9 +21,23 @@ import type { Innertube } from 'youtubei.js';
 import { Common } from '../common';
 import { SponsorBlockSegmentsDto } from './dto/sponsorblock/sponsorblock-segments.dto';
 import { VideoBasicInfoDto } from './dto/video-basic-info.dto';
-import { VideoBasicInfo } from './schemas/video-basic-info.schema';
 import { buildSabrBlock } from './sabr.builder';
-import { isVideoGone, videoNotFound, videoUpstreamFailed } from './video-errors';
+import { VideoBasicInfo } from './schemas/video-basic-info.schema';
+import { isVideoGone, videoNotFound, videoNotPlayable, videoUpstreamFailed } from './video-errors';
+
+/**
+ * A playability status other than `OK` can leave the player response with no video data at
+ * all, which youtubei.js reports by returning an object whose `basic_info` is empty rather
+ * than by throwing. An upcoming premiere is not that case — it has full details and no
+ * stream — so the id, not the status, is what decides.
+ */
+const assertPlayable = (videoInfo: {
+  basic_info?: { id?: string };
+  playability_status?: { status?: string; reason?: string };
+}) => {
+  if (videoInfo.basic_info?.id) return;
+  videoNotPlayable(videoInfo.playability_status?.status, videoInfo.playability_status?.reason);
+};
 
 @Injectable()
 export class VideosService {
@@ -44,20 +58,27 @@ export class VideosService {
       throw new ForbiddenException('This video has been blocked for copyright reasons.');
     }
 
+    let videoInfo: Awaited<ReturnType<Innertube['getBasicInfo']>>;
+
+    // Fetched outside the try below so that `assertPlayable`'s own explanation is not
+    // swallowed by the catch and reported as a generic manifest failure.
     try {
       const client = await innertubeClient();
-      const videoInfo = await client.getBasicInfo(id);
+      videoInfo = await client.getBasicInfo(id);
+    } catch (error) {
+      if (isVideoGone(error)) videoNotFound();
+      videoUpstreamFailed('information', error);
+    }
 
-      let dashManifest: string | null = null;
+    assertPlayable(videoInfo);
 
-      dashManifest = await videoInfo.toDash({
+    try {
+      return await videoInfo.toDash({
         url_transformer: (url: URL) => {
           url.searchParams.append('__host', url.host);
           return url;
         }
       });
-
-      return dashManifest;
     } catch (error) {
       if (isVideoGone(error)) videoNotFound();
       videoUpstreamFailed('dash manifest', error);
@@ -80,6 +101,8 @@ export class VideosService {
       if (isVideoGone(error)) videoNotFound();
       videoUpstreamFailed('information', error);
     }
+
+    assertPlayable(videoInfo);
 
     let dashManifest: string | null = null;
     let sabr: VTSabrDto | null = null;

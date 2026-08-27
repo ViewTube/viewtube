@@ -133,8 +133,15 @@ imports. The split to know: `composables/api/*` are SSR-safe data-fetching compo
 continuations and mutations.
 
 The video player lives in `components/watch/`, with its state decomposed into single-concern
-composables under `composables/videoplayer/` and three interchangeable playback backends in
-`utils/videoplayer/adapters/` (native, hls.js, rx-player) selected at runtime by device support.
+composables under `composables/videoplayer/` and interchangeable playback backends in
+`utils/videoplayer/adapters/`, chosen in `videoSource.ts` from what the DTO carries rather than by
+device support. **SABR (Shaka) is the VOD path** — YouTube stopped putting segment URLs in
+`adaptive_formats`, so the server ships a `sabr` block and the client turns each segment into a
+protobuf POST through `/api/videoplayback`. `dashAdapter` (rx-player) is the fallback when a video
+has a plain manifest; `hlsAdapter` / `nativeAdapter` are live-only and currently unreachable,
+because YouTube serves no live manifest to any client. See [SABR_PLAN.md](SABR_PLAN.md) — including
+its attestation-gate section, which explains why some videos stop playing after about a minute and
+why that is not a bug to fix in the adapter.
 
 Cross-page state lives in Pinia stores in `app/store/`; several persist via
 `pinia-plugin-persistedstate` cookies, which `useVtFetch` forwards on SSR requests.
